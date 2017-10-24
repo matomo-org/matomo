@@ -1,11 +1,9 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s övergivna varukorgar%2$s och %3$s övergivna varor%4$s värda totalt %5$s%6$s.",
         "AveragePageGenerationTime": "Varje sida tog i genomsnitt %1$s att ladda för besökaren.",
         "CalculatedOverNPageViews": "Beräknat på denna besöakrens senaste %1$s sidvisningar.",
         "ClickToViewMoreAboutVisit": "Klicka för mer information om det här besöket",
         "ConvertedNGoals": "Konverteringar %s Mål",
-        "EcommerceSummaryConversions": "%1$s ordrar%2$s för totalt %3$s%4$s, handlade %5$s varor%6$s.",
         "FirstVisit": "Första besöket",
         "GoalType": "Sort",
         "HideMap": "Dölj mapp",
@@ -29,6 +27,7 @@
         "SimpleRealTimeWidget_Message": "%1$s och %2$s dom senaste %3$s.",
         "ViewVisitorProfile": "Ny besöksprofil",
         "VisitedPages": "Besökta sidor",
+        "RevisitedPages": "Sidor visade fler än en gång",
         "VisitorLog": "Besökslogg",
         "VisitorLogDocumentation": "Denna tabell visar de senaste besök inom det valda datumintervallet. %1$s Om datumet inkluderar idag kan du se dina besökare i realtid! %2$s data som visas här är alltid live, oavsett om och hur ofta du använder cron-jobb för arkivering.",
         "VisitorProfile": "Besöksprofil",

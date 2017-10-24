@@ -13,8 +13,5 @@ use Piwik\Piwik;
 
 class PagesPerVisit extends Dimension
 {
-    public function getName()
-    {
-        return Piwik::translate('VisitorInterest_ColumnPagesPerVisit');
-    }
+    protected $nameSingular = 'VisitorInterest_ColumnPagesPerVisit';
 }

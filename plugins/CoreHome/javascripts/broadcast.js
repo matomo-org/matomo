@@ -92,6 +92,7 @@ var broadcast = {
             hash = (''+hash).substr(1);
         }
 
+
         if (hash) {
 
             if (/^popover=/.test(hash)) {
@@ -124,7 +125,7 @@ var broadcast = {
                 popoverParamUpdated = (popoverParam != '');
             }
 
-            if (pageUrlUpdated || broadcast.forceReload) {
+            if (!broadcast.isWidgetizedDashboard() && (pageUrlUpdated || broadcast.forceReload)) {
                 Piwik_Popover.close();
 
                 if (hashUrl != broadcast.currentHashUrl || broadcast.forceReload) {
@@ -159,8 +160,14 @@ var broadcast = {
         } else {
             // start page
             Piwik_Popover.close();
-            $('.pageWrap #content:not(.admin)').empty();
+            if (!broadcast.isWidgetizedDashboard()) {
+                $('.pageWrap #content:not(.admin)').empty();
+            }
         }
+    },
+
+    isWidgetizedDashboard: function() {
+        return broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('moduleToWidgetize') == 'Dashboard';
     },
 
     /**
@@ -304,9 +311,19 @@ var broadcast = {
         // available in global scope
         var currentSearchStr = window.location.search;
         var currentHashStr = broadcast.getHashFromUrl();
+        
+        if (!currentSearchStr) {
+            currentSearchStr = '?';
+        }
+
         var oldUrl = currentSearchStr + currentHashStr;
 
         for (var i = 0; i < params_vals.length; i++) {
+
+            if(params_vals[i].length == 0) {
+                continue; // updating with empty string would destroy some values
+            }
+
             // update both the current search query and hash string
             currentSearchStr = broadcast.updateParamValue(params_vals[i], currentSearchStr);
 
@@ -420,7 +437,9 @@ var broadcast = {
      */
     propagateNewPopoverParameter: function (handlerName, value) {
         // init broadcast if not already done (it is required to make popovers work in widgetize mode)
-        //broadcast.init(true);
+        if (broadcast.isWidgetizedDashboard()) {
+            broadcast.init(true);
+        }
 
         var $location = angular.element(document).injector().get('$location');
 

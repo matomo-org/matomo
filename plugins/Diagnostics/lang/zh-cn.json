@@ -1,0 +1,7 @@
+{
+    "Diagnostics": {
+        "ConfigFileTitle": "配置文件",
+        "HideUnchanged": "如果只想看改变的值可以%1$s，隐藏所有为改变的值%2$s。",
+        "Sections": "部分"
+    }
+}

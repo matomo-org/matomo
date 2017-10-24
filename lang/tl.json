@@ -142,8 +142,6 @@
         "ExceptionMissingFile": "Nawawalang file: %s",
         "ExceptionNonceMismatch": "Hindi ma-verify ang security token sa form na ito.",
         "ExceptionPrivilege": "Hindi mo maaaring i-access ang resource na ito dahil nangangailangan ito ng access ng %s.",
-        "ExceptionPrivilegeAccessWebsite": "Hindi mo maaaring i-access ang resources na ito dahil ito ay nangangailangan ng %s access para sa website id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Hindi mo maaaring i-access ang resources na ito dahil ito ay nangangailangan ng %s access na hindi bababa sa isa.",
         "ExceptionUnableToStartSession": "Hindi masimulan ang session.",
         "ExceptionUndeletableFile": "Hindi matanggal ang %s",
         "ExceptionUnreadableFileDisabledMethod": "Ang configuration file {%1$s} ay hindi mabasa. Maaring hindi pinagana ng iyong host ang %2$s.",

@@ -11,6 +11,7 @@
         "DeleteDataDescription": "Anda dapat mengatur Piwik agar menghapus catatan pengunjung dan\/atau mengatur laporan agar basisdata Anda tetap berukuran kecil.",
         "DeleteDataDescription2": "Bila diinginkan, laporan yang belum diproses tidak akan dihapus, hanya kunjungan, tampilan halaman, dan catatan konversi yang dihapus. Atau, laporan yang belum diproses dapat dihapus dan data tidak dihapus.",
         "DeleteDataInterval": "Hapus data lama setiap",
+        "DeleteOldArchivedReports": "Hapus arsip laporan lama",
         "DeleteLogDescription2": "Ketika Anda mengaktifkan catatan penghapusan otomatis, Anda harus memastikan bahwa semua laporan harian sebelumnya telah diproses, sehingga tidak ada data yang hilang.",
         "DeleteLogInfo": "Catatan tabel berikut akan dihapus: %s",
         "DeleteLogsConfirm": "Anda berkeinginan mengaktifkan penghapusan data catatan. Bila data lama dihapus, dan laporan belum dibuat, Anda tak dapat melihat riwayat data analisis lama. Apakah Anda yakin melakukan ini?",

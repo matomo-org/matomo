@@ -497,27 +497,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return parseInt(maxWidth, 10);
         }
 
-        function removePaddingFromWidth(domElem, labelWidth) {
-            var maxPaddingLeft  = 0;
-            var maxPaddingRight = 0;
+        function removePaddingFromWidth(elem, labelWidth) {
+            var paddingLeft  = elem.css('paddingLeft');
+            paddingLeft      = paddingLeft ? Math.round(parseFloat(paddingLeft)) : 0;
+            var paddingRight = elem.css('paddingRight');
+            paddingRight     = paddingRight ? Math.round(parseFloat(paddingLeft)) : 0;
 
-            $('tbody tr td.label', domElem).each(function (i, node) {
-                $node = $(node);
-
-                var paddingLeft  = $node.css('paddingLeft');
-                paddingLeft      = paddingLeft ? Math.round(parseFloat(paddingLeft)) : 0;
-                var paddingRight = $node.css('paddingRight');
-                paddingRight     = paddingRight ? Math.round(parseFloat(paddingLeft)) : 0;
-
-                if (paddingLeft > maxPaddingLeft) {
-                    maxPaddingLeft = paddingLeft;
-                }
-                if (paddingRight > maxPaddingRight) {
-                    maxPaddingRight = paddingRight;
-                }
-            });
-
-            labelWidth = labelWidth - maxPaddingLeft - maxPaddingRight;
+            labelWidth = labelWidth - paddingLeft - paddingRight;
 
             return labelWidth;
         }
@@ -531,9 +517,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (isTableVisualization) {
             // we do this only for html tables
 
-            var minLabelWidth = 125;
-            var maxLabelWidth = 440;
-
             var tableWidth = getTableWidth(domElem);
             var labelColumnMinWidth = getLabelColumnMinWidth(domElem);
             var labelColumnMaxWidth = getLabelColumnMaxWidth(domElem);
@@ -546,10 +529,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelColumnWidth = labelColumnMaxWidth;
             }
 
-            labelColumnWidth = removePaddingFromWidth(domElem, labelColumnWidth);
-
             if (labelColumnWidth) {
-                $('td.label', domElem).width(labelColumnWidth);
+                $('td.label', domElem).each(function() {
+                    $(this).width(removePaddingFromWidth($(this), labelColumnWidth));
+                });
             }
 
             $('td span.label', domElem).each(function () { self.tooltip($(this)); });
@@ -603,14 +586,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         } else {
             var inReportPage = domElem.parents('.theWidgetContent').first();
             var displayedAsCard = inReportPage.find('> .card > .card-content');
-            if (displayedAsCard.size()) {
+            if (displayedAsCard.length) {
                 $domNodeToSetOverflow = displayedAsCard.first();
             } else {
                 $domNodeToSetOverflow = inReportPage;
             }
         }
 
-        if (!$domNodeToSetOverflow || !$domNodeToSetOverflow.size()) {
+        if (!$domNodeToSetOverflow || !$domNodeToSetOverflow.length) {
             return;
         }
 
@@ -795,7 +778,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         });
 
         var $searchAction = $('.dataTableAction.searchAction', domElem);
-        if (!$searchAction.size()) {
+        if (!$searchAction.length) {
             return;
         }
 
@@ -1353,7 +1336,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $('.dropdownConfigureIcon', domElem).remove();
         }
 
-        if (ul.find('li').size() == 0) {
+        if (!ul.find('li').length) {
             hideConfigurationIcon();
             return;
         }
@@ -1569,57 +1552,55 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         var self = this;
 
         // higlight all columns on hover
-        $('td', domElem).hover(
-            function() {
-
-                if ($(this).hasClass('label')) {
-                    return;
-                }
-
-                var table    = $(this).closest('table');
-                var nthChild = $(this).parent('tr').children().index($(this)) + 1;
-                var rows     = $('> tbody > tr', table);
-
-                if (!maxWidth[nthChild]) {
-                    maxWidth[nthChild] = 0;
-                    rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
-                        var width = $(element).width();
-                        if (width > maxWidth[nthChild]) {
-                            maxWidth[nthChild] = width;
-                        }
-                    });
-                    rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
-                        $(element).css({width: maxWidth[nthChild], display: 'inline-block'});
-                    });
-                }
-
-                if (currentNthChild === nthChild) {
-                    return;
-                }
-
-                currentNthChild = nthChild;
-
-                rows.children("td:nth-child(" + (nthChild) + ")").addClass('highlight');
-                self.repositionRowActions($(this).parent('tr'));
-            },
-            function(event) {
-
-                var table    = $(this).closest('table');
-                var tr       = $(this).parent('tr').children();
-                var nthChild = $(this).parent('tr').children().index($(this));
-                var targetTd = $(event.relatedTarget).closest('td');
-                var nthChildTarget = targetTd.parent('tr').children().index(targetTd);
-
-                if (nthChild == nthChildTarget) {
-                    return;
-                }
-
-                currentNthChild = null;
-
-                var rows     = $('tr', table);
-                rows.find("td:nth-child(" + (nthChild + 1) + ")").removeClass('highlight');
+        $('td', domElem).hover(function() {
+            var $this = $(this);
+            if ($this.hasClass('label')) {
+                return;
             }
-        );
+
+            var table    = $this.closest('table');
+            var nthChild = $this.parent('tr').children().index($(this)) + 1;
+            var rows     = $('> tbody > tr', table);
+
+            if (!maxWidth[nthChild]) {
+                maxWidth[nthChild] = 0;
+                rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
+                    var width = $(element).width();
+                    if (width > maxWidth[nthChild]) {
+                        maxWidth[nthChild] = width;
+                    }
+                });
+                rows.find("td:nth-child(" + (nthChild) + ").column .value").each(function (index, element) {
+                    $(element).css({width: maxWidth[nthChild], display: 'inline-block'});
+                });
+            }
+
+            if (currentNthChild === nthChild) {
+                return;
+            }
+
+            currentNthChild = nthChild;
+
+            rows.children("td:nth-child(" + (nthChild) + ")").addClass('highlight');
+            self.repositionRowActions($this.parent('tr'));
+        }, function(event) {
+            var $this = $(this);
+            var table    = $this.closest('table');
+            var $parentTr = $this.parent('tr');
+            var tr       = $parentTr.children();
+            var nthChild = $parentTr.children().index($this);
+            var targetTd = $(event.relatedTarget).closest('td');
+            var nthChildTarget = targetTd.parent('tr').children().index(targetTd);
+
+            if (nthChild == nthChildTarget) {
+                return;
+            }
+
+            currentNthChild = null;
+
+            var rows = $('tr', table);
+            rows.find("td:nth-child(" + (nthChild + 1) + ")").removeClass('highlight');
+        });
     },
 
     //behaviour for 'nested DataTable' (DataTable loaded on a click on a row)
@@ -1682,7 +1663,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 $(this).toggleClass('expanded');
                 self.repositionRowActions($(this));
             }
-        ).size();
+        ).length;
     },
 
     // tooltip for column documentation
@@ -1712,7 +1693,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 // headline
                 top = top + thPosTop;
 
-                if (th.next().size() == 0) {
+                if (!th.next().length) {
                     left = (-1 * tooltip.outerWidth()) + th.width() +
                         parseInt(th.css('padding-right'), 10);
                 }
@@ -1736,7 +1717,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     canHandleRowEvents: function (domElem) {
-        return domElem.find('table > tbody > tr').size() <= this.maxNumRowsToHandleEvents;
+        return domElem.find('table > tbody > tr').length <= this.maxNumRowsToHandleEvents;
     },
 
     handleRowActions: function (domElem) {
@@ -1775,19 +1756,19 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             var $headline = domElem.prev('h2');
-            if (!$headline.size()) {
+            if (!$headline.length) {
                 return;
             }
 
             var $title = $headline.find('.title:not(.ng-hide)');
-            if ($title.size()) {
+            if ($title.length) {
                 $title.text(relatedReportName);
 
                 var scope = $title.scope();
 
                 if (scope) {
                     var $doc = domElem.find('.reportDocumentation');
-                    if ($doc.size()) {
+                    if ($doc.length) {
                         scope.inlineHelp = $.trim($doc.html());
                     }
                     scope.featureName = $.trim(relatedReportName);
@@ -1866,7 +1847,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleSummaryRow: function (domElem) {
-        var details = _pk_translate('General_LearnMore', [' (<a href="http://piwik.org/faq/how-to/faq_54/" rel="noreferrer"  target="_blank">', '</a>)']);
+        var details = _pk_translate('General_LearnMore', [' (<a href="https://piwik.org/faq/how-to/faq_54/" rel="noreferrer"  target="_blank">', '</a>)']);
 
         domElem.find('tr.summaryRow').each(function () {
             var labelSpan = $(this).find('.label .value');
@@ -1918,23 +1899,44 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             // show actions that are available for the row on hover
             var actionsDom = null;
 
-            tr.hover(function () {
-                    if (actionsDom === null) {
-                        // create dom nodes on the fly
-                        actionsDom = self.createRowActions(availableActionsForReport, tr, actionInstances);
-                        td.prepend(actionsDom);
-                    }
-                    // reposition and show the actions
-                    self.repositionRowActions(tr);
-                    if ($(window).width() >= 600) {
-                        actionsDom.show();
-                    }
-                },
-                function () {
+            var useTouchEvent = false;
+            var listenEvent = 'mouseenter';
+            var userAgent = String(navigator.userAgent).toLowerCase();
+            if (userAgent.match(/(iPod|iPhone|iPad|Android|IEMobile|Windows Phone)/i)) {
+                useTouchEvent = true;
+                listenEvent = 'click';
+            }
+
+            tr.on(listenEvent, function () {
+                if (useTouchEvent && actionsDom && actionsDom.prop('rowActionsVisible')) {
+                    actionsDom.prop('rowActionsVisible', false);
+                    actionsDom.hide();
+                    return;
+                }
+
+                if (actionsDom === null) {
+                    // create dom nodes on the fly
+                    actionsDom = self.createRowActions(availableActionsForReport, tr, actionInstances);
+                    td.prepend(actionsDom);
+                }
+
+                // reposition and show the actions
+                self.repositionRowActions(tr);
+                if ($(window).width() >= 600 || useTouchEvent) {
+                    actionsDom.show();
+                }
+
+                if (useTouchEvent) {
+                    actionsDom.prop('rowActionsVisible', true);
+                }
+            });
+            if (!useTouchEvent) {
+                tr.on('mouseleave', function () {
                     if (actionsDom !== null) {
                         actionsDom.hide();
                     }
                 });
+            }
         });
     },
 

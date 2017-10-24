@@ -334,7 +334,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $field->inlineHelp = Piwik::translate('SitesManager_EcommerceHelp')
                 . '<br />'
                 . Piwik::translate('SitesManager_PiwikOffersEcommerceAnalytics',
-                    array("<a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'>", '</a>'));
+                    array("<a href='https://piwik.org/docs/ecommerce-analytics/' target='_blank'>", '</a>'));
             $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
             $field->availableValues = array(
                 0 => Piwik::translate('SitesManager_NotAnEcommerceSite'),

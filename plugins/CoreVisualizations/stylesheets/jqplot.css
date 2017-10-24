@@ -157,6 +157,12 @@ a.rowevolution-startmulti {
     font-weight: bold;
 }
 
+.rowevolution table.metrics td.text img {
+    max-width: 16px;
+    max-height: 16px;
+    vertical-align: bottom;
+}
+
 .multirowevolution table.metrics td.text {
     padding-top: 8px;
 }
@@ -190,6 +196,7 @@ a.rowevolution-startmulti {
     color: #444;
     margin: 8px 0 0 0;
     padding: 0;
+    display: block;
 }
 
 /**
@@ -204,8 +211,6 @@ a.rowevolution-startmulti {
     height: 16px;
     margin-top: 3px;
     background: url(../../Morpheus/images/chart_line_edit.png) no-repeat center center;
-    overflow: hidden;
-    text-indent: -999px;
 }
 
 .jqplot-seriespicker-popover {
@@ -229,6 +234,7 @@ a.rowevolution-startmulti {
     padding: 0 4px 0 0;
     line-height: 15px;
     vertical-align: middle;
+    white-space: nowrap;
 }
 
 .jqplot-seriespicker-popover p.headline {

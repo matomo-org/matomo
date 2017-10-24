@@ -65,6 +65,10 @@ a#overlayTitle .icon-help {
     color: #255792;
 }
 
+.overlayMainMetrics {
+    padding-bottom: 0 !important;
+}
+
 a#overlaySegmentedVisitorLog,
 a#overlayFullScreen,
 a#overlayRowEvolution,

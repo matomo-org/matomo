@@ -157,6 +157,7 @@ class Config
 
         return array(
             'action_url_category_delimiter' => $general['action_url_category_delimiter'],
+            'action_title_category_delimiter' => $general['action_title_category_delimiter'],
             'autocomplete_min_sites' => $general['autocomplete_min_sites'],
             'datatable_export_range_as_day' => $general['datatable_export_range_as_day'],
             'datatable_row_limits' => $this->getDatatableRowLimits(),
@@ -380,17 +381,25 @@ class Config
         if ($output !== null
             && $output !== false
         ) {
+            $localPath = $this->getLocalPath();
 
             if ($this->doNotWriteConfigInTests) {
                 // simulate whether it would be successful
-                $success = is_writable($this->getLocalPath());
+                $success = is_writable($localPath);
             } else {
-                $success = @file_put_contents($this->getLocalPath(), $output);
+                $success = @file_put_contents($localPath, $output);
             }
 
             if ($success === false) {
                 throw $this->getConfigNotWritableException();
             }
+
+            /**
+             * Triggered when a INI config file is changed on disk.
+             *
+             * @param string $localPath Absolute path to the changed file on the server.
+             */
+            Piwik::postEvent('Core.configFileChanged', [$localPath]);
         }
 
         if ($clear) {

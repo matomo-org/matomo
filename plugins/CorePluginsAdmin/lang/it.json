@@ -50,7 +50,6 @@
         "Status": "Stato",
         "SuccessfullyActicated": "Hai attivato con successo <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Amplia Piwik con Plugin e Temi",
-        "TeaserExtendPiwikByPlugin": "Estendi Piwik %1$sinstallando un nuovo plugin%2$s.",
         "TeaserExtendPiwikByTheme": "Prova un altro aspetto & atmosfera %1$sinstallando un nuovo tema%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Puoi installare automaticamente dei plugins dal Market o %1$scaricare un plugin%2$s in formato .zip.",
         "Theme": "Tema",
@@ -60,7 +59,6 @@
         "UninstallConfirm": "State per disinstallare un plugin %s. Questo verrà completamente rimosso dalla vostra piattaforma e non potrà essere recuperato. Siete sicuri di volerlo fare?",
         "Version": "Versione",
         "ViewAllMarketplacePlugins": "Scopri tutti i plugin del Marketplace",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "Abbiamo disabilitato il plugin %s perché ha delle dipendenze mancanti:",
         "Websites": "Siti web"
     }
 }

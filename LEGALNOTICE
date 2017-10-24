@@ -22,7 +22,7 @@ TRADEMARK
 	Piwik (TM) is an internationally registered trademark.
 
 	The software license does not grant any rights under trademark
-	law for use of the trademark.  Refer to http://piwik.org/trademark/
+	law for use of the trademark.  Refer to https://piwik.org/trademark/
 	for up-to-date trademark licensing information.
 
 *
@@ -36,7 +36,7 @@ TRADEMARK
 CREDITS
 
 	The software consists of contributions made by many individuals.
-	Major contributors are listed in http://piwik.org/the-piwik-team/.
+	Major contributors are listed in https://piwik.org/the-piwik-team/.
 
 	For detailed contribution history, refer to the source, tickets,
 	patches, and Git revision history, available at
@@ -88,20 +88,20 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	License:  Dual-licensed: MIT (Expat) or GPL v2
 
 	Name:  jQuery
-	Link:  http://jquery.com/
+	Link:  https://jquery.com/
 	License:  Dual-licensed: MIT (Expat) or GPL
 	Notes:
 	- GPL version not explicitly stated in source but GPL v2 is in git
 	- includes Sizzle.js - multi-licensed: MIT (Expat), New BSD, or GPL [v2]
 
 	Name:  jQuery UI
-	Link:  http://jqueryui.com/
+	Link:  https://jqueryui.com/
 	License:  Dual-licensed: MIT (Expat) or GPL
 	Notes:
 	- GPL version not explicitly stated in source but GPL v2 is in git
 
 	Name:  jquery.history
-	Link:  http://tkyk.github.com/jquery-history-plugin/
+	Link:  https://tkyk.github.io/jquery-history-plugin/
 	License:  MIT (Expat)
 
 	Name:  jquery.scrollTo
@@ -139,19 +139,19 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	License:  Public domain
 
 	Name:  Archive Tar
-	Link:  http://pear.php.net/package/Archive_Tar
+	Link:  https://pear.php.net/package/Archive_Tar
 	License:  New BSD
 
 	Name:  Event Dispatcher (and Notification)
-	Link:  http://pear.php.net/package/Event_Dispatcher/
+	Link:  https://pear.php.net/package/Event_Dispatcher/
 	License:  New BSD
 
 	Name:  HTML Common2
-	Link:  http://pear.php.net/package/HTML_Common2/
+	Link:  https://pear.php.net/package/HTML_Common2/
 	License:  New BSD
 
 	Name:  HTML QuickForm2
-	Link:  http://pear.php.net/package/HTML_QuickForm2/
+	Link:  https://pear.php.net/package/HTML_QuickForm2/
 	License:  New BSD
 
 	Name:  HTML QuickForm2_Renderer_Smarty
@@ -159,7 +159,7 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	License:  New BSD
 
 	Name:  MaxMindGeoIP
-	Link:  http://dev.maxmind.com/geoip/downloadable#PHP-7
+	Link:  https://dev.maxmind.com/geoip/legacy/downloadable/#PHP-7
 	License:  LGPL
 
 	Name:  PclZip
@@ -169,7 +169,7 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	- GPL version not explicitly stated but tarball contains LGPL v2.1
 
 	Name:  PEAR (base system)
-	Link:  http://pear.php.net/package/PEAR
+	Link:  https://pear.php.net/package/PEAR
 	License:  New BSD
 
 	Name:  PhpSecInfo
@@ -181,15 +181,15 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	License:  GPL
 
 	Name:  Twig
-	Link:  http://twig.sensiolabs.org/
+	Link:  https://twig.symfony.com/
 	License:  BSD
 
 	Name:  TCPDF
-	Link:  http://sourceforge.net/projects/tcpdf
+	Link:  https://sourceforge.net/projects/tcpdf/
 	License:  LGPL v3 or later
 
 	Name:  Zend Framework
-	Link:  http://www.zendframework.com/
+	Link:  https://framework.zend.com/
 	License:  New BSD
 
 	Name: pChart 2.1.4
@@ -245,6 +245,12 @@ THIRD-PARTY CONTENT
 	Notes:
 	- used in Piwik's ExampleUI plugin
 
+	Name:  flag-icon-css - Lipis
+	Link:  https://github.com/lipis/flag-icon-css
+	License:  MIT (Expat)
+	Notes:
+	- used for flag PNGs
+
 	Name: Wine project - tahoma.ttf font
 	Link: http://source.winehq.org/git/wine.git/blob_plain/HEAD:/fonts/tahoma.ttf
 	License: LGPL v2.1
@@ -259,18 +265,18 @@ THIRD-PARTY CONTENT
 	Link: https://www.iconfinder.com/icons/216429/thumbs_up_icon
 	License: Creative Commons (Attribution-Share Alike 3.0 Unported)
 
-    Name: plugins/Insights/images/idea.png
-    Link: https://www.iconfinder.com/icons/6074/brainstorm_bulb_idea_jabber_light_icon
-    License: GPL
-    By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
+	Name: plugins/Insights/images/idea.png
+	Link: https://www.iconfinder.com/icons/6074/brainstorm_bulb_idea_jabber_light_icon
+	License: GPL
+	By: Alessandro Rei - http://www.kde-look.org/usermanager/search.php?username=mentalrey
 
-    Name: Material icons ("icon-info2" "icon-outline" "icon-settings", "icon-form") in plugins/Morpheus/fonts
-    Link: https://design.google.com/icons/
-    License: Apache License Version 2.0
+	Name: Material icons ("icon-info2", "icon-outline", "icon-settings", "icon-form", "icon-play", "icon-pause", "icon-replay", "icon-skip-next", "icon-skip-forward", "icon-stop", "icon-fast-forward", "icon-fast-rewind") in plugins/Morpheus/fonts
+	Link: https://design.google.com/icons/
+	License: Apache License Version 2.0
 
-    Name: IcoMoon - Free icons ("icon-funnel", "icon-lab", "icon-archive") in plugins/Morpheus/fonts
-    Link: https://icomoon.io/#icons-icomoon
-    License: GPL
+	Name: IcoMoon - Free icons ("icon-funnel", "icon-lab", "icon-archive") in plugins/Morpheus/fonts
+	Link: https://icomoon.io/#icons-icomoon
+	License: GPL
 
 Notes:
 - the "New BSD" license refers to either the "Modified BSD" and "Simplified BSD"

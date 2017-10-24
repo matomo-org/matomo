@@ -169,8 +169,6 @@
         "ExceptionDirectoryToDelete": "要刪除的資料夾：%s",
         "ExceptionNonceMismatch": "無法驗證此表單的安全性 Token。",
         "ExceptionPrivilege": "你無法存取這個資源，它必須要有 %s 權限。",
-        "ExceptionPrivilegeAccessWebsite": "你無法存取這個資源，它必須要有網站 ID %d 的 %s 權限。",
-        "ExceptionPrivilegeAtLeastOneWebsite": "你無法存取這個資源，它必須至少要有一個網站的 %s 權限。",
         "ExceptionUnableToStartSession": "無法開始執行。",
         "ExceptionUndeletableFile": "無法刪除 %s",
         "ExceptionUnreadableFileDisabledMethod": "設定檔 {%1$s} 無法讀取。你的主機商可能停用了 %2$s。",
@@ -432,7 +430,6 @@
         "YearsDays": "%1$s 年 %2$s 天",
         "Yes": "是",
         "YouAreCurrentlyUsing": "你正在使用 Piwik %s。",
-        "YouAreViewingDemoShortMessage": "你正在瀏覽 Piwik 範例網站",
         "YouMustBeLoggedIn": "你必須登入才能存取這個功能。",
         "YourChangesHaveBeenSaved": "你的變更已保存。"
     },

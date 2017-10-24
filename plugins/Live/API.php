@@ -47,8 +47,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  */
 class API extends \Piwik\Plugin\API
 {
-    const VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE = 100;
-
     /**
      * @var LoggerInterface
      */
@@ -211,9 +209,10 @@ class API extends \Piwik\Plugin\API
 
         $newSegment = ($segment === false ? '' : $segment . ';') . 'visitorId==' . $visitorId;
 
+        $limit = Config::getInstance()->General['live_visitor_profile_max_visits_to_aggregate'];
+
         $visits = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $newSegment,
-            $offset = 0,
-            $limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE);
+            $offset = 0, $limit);
         $this->addFilterToCleanVisitors($visits, $idSite, $flat = false, $doNotFetchActions = false, $filterNow = true);
 
         if ($visits->getRowsCount() == 0) {
@@ -227,6 +226,8 @@ class API extends \Piwik\Plugin\API
          * Triggered in the Live.getVisitorProfile API method. Plugins can use this event
          * to discover and add extra data to visitor profiles.
          *
+         * This event is deprecated, use [VisitorDetails](/api-reference/Piwik/Plugins/Live/VisitorDetailsAbstract#extendVisitorDetails) classes instead.
+         *
          * For example, if an email address is found in a custom variable, a plugin could load the
          * gravatar for the email and add it to the visitor profile, causing it to display in the
          * visitor profile popup.
@@ -237,6 +238,7 @@ class API extends \Piwik\Plugin\API
          * - **visitorDescription**: Text to be used as the tooltip of the avatar image.
          *
          * @param array &$visitorProfile The unaugmented visitor profile info.
+         * @deprecated
          */
         Piwik::postEvent('Live.getExtraVisitorDetails', array(&$result));
 
@@ -313,16 +315,22 @@ class API extends \Piwik\Plugin\API
 
         $dataTable->$filter(function ($table) use ($idSite, $flat, $doNotFetchActions) {
             /** @var DataTable $table */
-            $actionsLimit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
-
             $visitorFactory = new VisitorFactory();
-            $website        = new Site($idSite);
-            $timezone       = $website->getTimezone();
-            $currency       = $website->getCurrency();
-            $currencies     = APISitesManager::getInstance()->getCurrencySymbols();
 
             // live api is not summable, prevents errors like "Unexpected ECommerce status value"
             $table->deleteRow(DataTable::ID_SUMMARY_ROW);
+
+            $actionsByVisitId = array();
+
+            if (!$doNotFetchActions) {
+                $visitIds = $table->getColumn('idvisit');
+
+                $visitorDetailsManipulators = Visitor::getAllVisitorDetailsInstances();
+
+                foreach ($visitorDetailsManipulators as $instance) {
+                    $instance->provideActionsForVisitIds($actionsByVisitId, $visitIds);
+                }
+            }
 
             foreach ($table->getRows() as $visitorDetailRow) {
                 $visitorDetailsArray = Visitor::cleanVisitorDetails($visitorDetailRow->getColumns());
@@ -330,23 +338,10 @@ class API extends \Piwik\Plugin\API
                 $visitor = $visitorFactory->create($visitorDetailsArray);
                 $visitorDetailsArray = $visitor->getAllVisitorDetails();
 
-                $visitorDetailsArray['siteCurrency'] = $currency;
-                $visitorDetailsArray['siteCurrencySymbol'] = @$currencies[$visitorDetailsArray['siteCurrency']];
-                $visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
-
-                $dateTimeVisit = Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
-                if ($dateTimeVisit) {
-                    $visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized(Date::TIME_FORMAT);
-                    $visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized(Date::DATE_FORMAT_LONG);
-                }
-
-                $dateTimeVisitFirstAction = Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
-                $visitorDetailsArray['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Date::DATE_FORMAT_LONG);
-                $visitorDetailsArray['serverTimePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Date::TIME_FORMAT);
-
                 $visitorDetailsArray['actionDetails'] = array();
                 if (!$doNotFetchActions) {
-                    $visitorDetailsArray = Visitor::enrichVisitorArrayWithActions($visitorDetailsArray, $actionsLimit, $idSite, $timezone);
+                    $bulkFetchedActions  = isset($actionsByVisitId[$visitorDetailsArray['idVisit']]) ? $actionsByVisitId[$visitorDetailsArray['idVisit']] : array();
+                    $visitorDetailsArray = Visitor::enrichVisitorArrayWithActions($visitorDetailsArray, $bulkFetchedActions);
                 }
 
                 if ($flat) {

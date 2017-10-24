@@ -37,9 +37,12 @@
         "NoPluginSettings": "沒有可以可以變更設定的外掛",
         "Origin": "來源",
         "OriginCore": "核心",
+        "OriginOfficial": "官方",
         "OriginThirdParty": "第三方",
         "PluginHomepage": "外掛首頁",
         "PluginNotCompatibleWith": "%1$s 個外掛和 %2$s 不相容。",
+        "PluginNotFound": "無法在伺服器檔案中找到外掛 %1$s。",
+        "PluginNotFoundAlternative": "如果你曾經使用過這個外掛，試著重新上傳或從市集中重新安裝。如果沒用過，點擊移除就能從列表中刪除。",
         "PluginNotWorkingAlternative": "如果你有在使用此外掛，或許可以在市集中發現新版本。如果沒有，可能要移除它。",
         "PluginRequirement": "%1$s 需要 %2$s。",
         "PluginsManagement": "外掛管理",
@@ -50,7 +53,7 @@
         "Status": "狀態",
         "SuccessfullyActicated": "你已成功啟用 <strong>%s<\/strong>。",
         "TeaserExtendPiwik": "用外掛和主題來擴充 Piwik",
-        "TeaserExtendPiwikByPlugin": "%1$s安裝新外掛%2$s來擴展 Piwik。",
+        "TeaserExtendPiwikByPlugin": "%1$s從市集安裝新外掛%2$s來擴展 Piwik，或是%3$s上傳 .zip 格式的外掛%4$s。",
         "TeaserExtendPiwikByTheme": "%1$s安裝新主題%2$s享受不同的視覺體驗。",
         "InstallingNewPluginViaMarketplaceOrUpload": "你可以從市集中安裝外掛或是直接%1$s上傳 .zip 格式%2$s的外掛。",
         "Theme": "主題",
@@ -60,7 +63,7 @@
         "UninstallConfirm": "你將要移除外掛 %s。這個外掛將完全從你的平台中刪除，而且操作無法復原。你確定要繼續？",
         "Version": "版本",
         "ViewAllMarketplacePlugins": "查看市集中的所有外掛",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "我們停用了外掛 %s，因為他遺失了依賴元件：",
+        "WeCouldNotLoadThePluginAsItHasMissingDependencies": "外掛 %1$s 無法載入，因為它遺失了依賴元件：%2$s",
         "Websites": "網站"
     }
 }

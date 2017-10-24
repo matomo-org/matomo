@@ -43,6 +43,7 @@
         };
 
         this.setAccess = function (login, access) {
+          login = String(login);
           login=piwik.helper.escape(piwik.helper.htmlEntities(login));
             if ( $('[data-login="' + login + '"]').find("#"+access).has('.accessGranted').length ){
                 return;
@@ -103,19 +104,22 @@
                 }
             }
 
-            if (this.site.id == 'all') {
+            function onValidate() {
+                launchAjaxRequest(login, access).then(successCallback);
+            }
+
+            if (login == 'anonymous' && access == 'view') {
+                piwikHelper.modalConfirm('#confirmAnonymousAccess', {yes: onValidate})
+            }
+            else if (this.site.id == 'all') {
 
                 //ask confirmation
                 $('#confirm').find('.login').text(login);
 
-                function onValidate() {
-                    launchAjaxRequest(login, access).then(successCallback);
-                }
-
                 piwikHelper.modalConfirm('#confirm', {yes: onValidate})
             }
             else {
-                launchAjaxRequest(login, access).then(successCallback);
+                onValidate();
             }
         }
     }

@@ -1,6 +1,11 @@
 {
     "UserCountryMap": {
+        "Cities": "Şehirler",
+        "Countries": "Ülkeler",
+        "DaysAgo": "%s gün önce",
+        "HoursAgo": "%s saat önce",
         "map": "harita",
+        "MinutesAgo": "%s dakika önce",
         "VisitorMap": "Ziyaretçi Haritası"
     }
 }

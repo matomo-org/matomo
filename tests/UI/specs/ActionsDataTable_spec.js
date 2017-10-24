@@ -8,6 +8,8 @@
  */
 
 describe("ActionsDataTable", function () {
+    this.retries(3);
+    
     this.timeout(0);
 
     var url = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&isFooterExpandedInDashboard=1";
@@ -76,8 +78,10 @@ describe("ActionsDataTable", function () {
     });
 
     it("should open the visitor log segmented by the current row", function (done) {
-        expect.screenshot('segmented_visitor_log').to.be.capture(function (page) {
-            page.click('tr:contains("thankyou") td.label .actionSegmentVisitorLog');
+        expect.screenshot('segmented_visitor_log').to.be.captureSelector('.ui-dialog', function (page) {
+            page.evaluate(function(){
+                $('tr:contains("thankyou") td.label .actionSegmentVisitorLog').click();
+            }, 3000);
         }, done);
     });
 

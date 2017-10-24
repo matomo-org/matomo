@@ -26,7 +26,7 @@
 		<country>xx</country>
 		<country_name>Unknown</country_name>
 		<region_name>Unknown</region_name>
-		<logo>plugins/UserCountry/images/flags/xx.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 	</row>
 	<row>
 		<label>British Columbia, Canada</label>
@@ -55,7 +55,7 @@
 		<country>ca</country>
 		<country_name>Canada</country_name>
 		<region_name>British Columbia</region_name>
-		<logo>plugins/UserCountry/images/flags/ca.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 	</row>
 	<row>
 		<label>Franche-Comte, France</label>
@@ -84,7 +84,7 @@
 		<country>fr</country>
 		<country_name>France</country_name>
 		<region_name>Franche-Comte</region_name>
-		<logo>plugins/UserCountry/images/flags/fr.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
 		<label>Lazio, Italy</label>
@@ -113,10 +113,10 @@
 		<country>it</country>
 		<country_name>Italy</country_name>
 		<region_name>Lazio</region_name>
-		<logo>plugins/UserCountry/images/flags/it.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
 	</row>
 	<row>
-		<label>Unknown, Tibet</label>
+		<label>Xizang, China</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
@@ -137,11 +137,11 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>regionCode==1;countryCode==ti</segment>
-		<region>1</region>
-		<country>ti</country>
-		<country_name>Tibet</country_name>
-		<region_name>Unknown</region_name>
-		<logo>plugins/UserCountry/images/flags/ti.png</logo>
+		<segment>regionCode==14;countryCode==cn</segment>
+		<region>14</region>
+		<country>cn</country>
+		<country_name>China</country_name>
+		<region_name>Xizang</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
 	</row>
 </result>

@@ -16,13 +16,12 @@ use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 
 function getBrandLogo($label)
 {
+    $path = 'plugins/Morpheus/icons/dist/brand/%s.png';
     $label = preg_replace("/[^a-z0-9_-]+/i", "_", $label);
-    $path = dirname(__FILE__) . '/images/brand/' . $label . '.png';
-    if (file_exists($path)) {
-        return 'plugins/DevicesDetection/images/brand/' . $label . '.png';
-    } else {
-        return 'plugins/DevicesDetection/images/brand/Unknown.png';
+    if (!file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($path, $label))) {
+        $label = "unk";
     }
+    return sprintf($path, $label);
 }
 
 function getBrowserFamilyFullName($label)
@@ -155,26 +154,13 @@ function getDeviceTypeLogo($label)
 {
     if (is_numeric($label) && in_array($label, DeviceParser::getAvailableDeviceTypes())) {
         $label = array_search($label, DeviceParser::getAvailableDeviceTypes());
-    }
-
-    $label = strtolower($label);
-
-    $deviceTypeLogos = Array(
-        "desktop"       => "normal.png",
-        "smartphone"    => "smartphone.png",
-        "tablet"        => "tablet.png",
-        "tv"            => "tv.png",
-        "feature phone" => "mobile.png",
-        "console"       => "console.png",
-        "car browser"   => "carbrowser.png",
-        "camera"        => "camera.png");
-
-    if (!array_key_exists($label, $deviceTypeLogos)) {
-        $label = 'unknown.png';
+        $label = strtolower($label);
+        $label = str_replace(' ', '_', $label);
     } else {
-        $label = $deviceTypeLogos[$label];
+        $label = "unknown";
     }
-    $path = 'plugins/DevicesDetection/images/screens/' . $label;
+
+    $path = 'plugins/Morpheus/icons/dist/devices/' . $label . ".png";
     return $path;
 }
 

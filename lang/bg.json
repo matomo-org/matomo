@@ -146,8 +146,6 @@
         "ExceptionMissingFile": "Липсващ файл: %s",
         "ExceptionNonceMismatch": "Не може да се провери кода за сигурност на тази форма.",
         "ExceptionPrivilege": "Нямате достъп до този ресурс, тъй като изисква %s достъп.",
-        "ExceptionPrivilegeAccessWebsite": "Нямате достъп до този ресурс, тъй като изисква %s достъп за следното уеб сайт ID = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Нямате достъп до този ресурс, тъй като изисква %s достъп в продължение на поне една Интернет страница.",
         "ExceptionUnableToStartSession": "Невъзможно е да се стартира сесия.",
         "ExceptionUndeletableFile": "Не мога да изтрия %s",
         "ExceptionUnreadableFileDisabledMethod": "Конфигурационния файл {%1$s} не може да бъде прочетен. Вашият хостинг може да е забранил %2$s.",

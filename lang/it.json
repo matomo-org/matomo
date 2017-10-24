@@ -169,8 +169,6 @@
         "ExceptionDirectoryToDelete": "Cartelle da eliminare: %s",
         "ExceptionNonceMismatch": "Non è possibile verificare il token di sicurezza di questo form.",
         "ExceptionPrivilege": "Non puoi accedere a questa risorsa con un accesso %s.",
-        "ExceptionPrivilegeAccessWebsite": "Non puoi accedere alla risorsa richiesta perché essa richiede un accesso %s per il sito con id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Non puoi accedere alla risorsa richiesta perché essa richiede un accesso %s per almeno un sito web.",
         "ExceptionUnableToStartSession": "Impossibile avviare la sessione.",
         "ExceptionUndeletableFile": "Impossibile cancellare %s",
         "ExceptionUnreadableFileDisabledMethod": "Il file di configurazione {%1$s} non può essere letto. Il tuo host può avere disabilitato %2$s.",
@@ -432,7 +430,6 @@
         "YearsDays": "%1$s anni %2$s giorni",
         "Yes": "Sì",
         "YouAreCurrentlyUsing": "Stai utilizzando Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Stai vedendo una demo di Piwik",
         "YouMustBeLoggedIn": "Devi essere loggato per accedere a questa funzionalità.",
         "YourChangesHaveBeenSaved": "Le impostazioni sono state salvate."
     },

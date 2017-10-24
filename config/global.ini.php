@@ -276,6 +276,20 @@ default_period = day
 ; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
 time_before_today_archive_considered_outdated = 150
 
+; Time in seconds after which an archive will be computed again. This setting is used only for week's statistics.
+; If set to "-1" (default), it will fall back to the UI setting under "General settings" unless enable_general_settings_admin=0
+; is set. In this case it will default to "time_before_today_archive_considered_outdated";
+time_before_week_archive_considered_outdated = -1
+
+; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to monthly archives
+time_before_month_archive_considered_outdated = -1
+
+; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to yearly archives
+time_before_year_archive_considered_outdated = -1
+
+; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to range archives
+time_before_range_archive_considered_outdated = -1
+
 ; This setting is overriden in the UI, under "General Settings".
 ; The default value is to allow browsers to trigger the Piwik archiving process.
 ; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
@@ -339,7 +353,7 @@ login_cookie_name = piwik_auth
 login_cookie_expire = 1209600
 
 ; The path on the server in which the cookie will be available on.
-; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
+; Defaults to empty. See spec in https://curl.haxx.se/rfc/cookie_spec.html
 login_cookie_path =
 
 ; email address that appears as a Sender in the password recovery email
@@ -434,6 +448,10 @@ live_widget_refresh_after_seconds = 5
 ; the widget looks in.
 live_widget_visitor_count_last_minutes = 3
 
+; by default visitor profile will show aggregated information for the last up to 100 visits of a visitor
+; this limit can be adjusted by changing this value
+live_visitor_profile_max_visits_to_aggregate = 100
+
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
 ; the page will automatically refresh every 5 minutes. Set to 0 to disable automatic refresh
 multisites_refresh_after_seconds = 300
@@ -486,7 +504,7 @@ enable_trusted_host_check = 1
 ;trusted_hosts[] = stats.example.com
 
 ; List of Cross-origin resource sharing domains (eg domain or subdomain names) when generating absolute URLs.
-; Described here: http://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+; Described here: https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
 ;
 ; Examples:
 ;cors_domains[] = http://example.com
@@ -544,6 +562,9 @@ enable_plugins_admin = 1
 ; an attacker who gained Super User access could execute custom PHP code in a Piwik plugin.
 enable_plugin_upload = 0
 
+; By setting this option to 0 (e.g. in common.config.ini.php) the installer will be disabled.
+enable_installer = 1
+
 ; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
 enable_geolocation_admin = 1
 
@@ -557,12 +578,18 @@ enable_delete_old_data_settings_admin = 1
 ; - "Email server settings"
 enable_general_settings_admin = 1
 
+; Disabling this will disable features like automatic updates for Piwik,
+; its plugins and components like the GeoIP database, referrer spam blacklist or search engines and social network definitions
+enable_internet_features = 1
+
 ; By setting this option to 0, it will disable the "Auto update" feature
 enable_auto_update = 1
 
 ; By setting this option to 0, no emails will be sent in case of an available core.
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
+
+
 
 ; Comma separated list of plugin names for which console commands should be loaded (applies when Piwik is not installed yet)
 always_load_commands_from_plugin=
@@ -604,7 +631,7 @@ debug = 0
 ; see the log output as well.
 debug_on_demand = 0
 
-; This setting is described in this FAQ: http://piwik.org/faq/how-to/faq_175/
+; This setting is described in this FAQ: https://piwik.org/faq/how-to/faq_175/
 ; Note: generally this should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
 ; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor.
 trust_visitors_cookies = 0
@@ -618,7 +645,7 @@ cookie_name = _pk_uid
 cookie_expire = 33955200;
 
 ; The path on the server in which the cookie will be available on.
-; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
+; Defaults to empty. See spec in https://curl.haxx.se/rfc/cookie_spec.html
 ; This is used for the Ignore cookie, and the third party cookie if use_third_party_id_cookie = 1
 cookie_path =
 

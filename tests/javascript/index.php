@@ -2104,7 +2104,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(77);
+        expect(88);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2127,6 +2127,8 @@ function PiwikTest() {
         equal( typeof tracker.getAttributionCampaignName, 'function', 'getAttributionCampaignName' );
         equal( typeof tracker.getAttributionCampaignKeyword, 'function', 'getAttributionCampaignKeyword' );
         equal( typeof tracker.setTrackerUrl, 'function', 'setTrackerUrl' );
+        equal( typeof tracker.getPiwikUrl, 'function', 'getPiwikUrl' );
+        equal( typeof tracker.getCurrentUrl, 'function', 'getCurrentUrl' );
         equal( typeof tracker.getRequest, 'function', 'getRequest' );
         equal( typeof tracker.addPlugin, 'function', 'addPlugin' );
         equal( typeof tracker.setUserId, 'function', 'setUserId' );
@@ -2150,6 +2152,7 @@ function PiwikTest() {
         equal( typeof tracker.enableCrossDomainLinking, 'function', 'enableCrossDomainLinking' );
         equal( typeof tracker.disableCrossDomainLinking, 'function', 'disableCrossDomainLinking' );
         equal( typeof tracker.isCrossDomainLinkingEnabled, 'function', 'isCrossDomainLinkingEnabled' );
+        equal( typeof tracker.setCrossDomainLinkingTimeout, 'function', 'isCrossDomainLinkingEnabled' );
         equal( typeof tracker.setIgnoreClasses, 'function', 'setIgnoreClasses' );
         equal( typeof tracker.setRequestMethod, 'function', 'setRequestMethod' );
         equal( typeof tracker.setRequestContentType, 'function', 'setRequestContentType' );
@@ -2164,6 +2167,11 @@ function PiwikTest() {
         equal( typeof tracker.setCookieNamePrefix, 'function', 'setCookieNamePrefix' );
         equal( typeof tracker.setCookieDomain, 'function', 'setCookieDomain' );
         equal( typeof tracker.setCookiePath, 'function', 'setCookiePath' );
+        equal( typeof tracker.setSessionCookie, 'function', 'setSessionCookie' );
+        equal( typeof tracker.getCookie, 'function', 'getCookie' );
+        equal( typeof tracker.hasCookies, 'function', 'hasCookies' );
+        equal( typeof tracker.getCookiePath, 'function', 'getCookiePath' );
+        equal( typeof tracker.getSessionCookieTimeout, 'function', 'getSessionCookieTimeout' );
         equal( typeof tracker.setVisitorCookieTimeout, 'function', 'setVisitorCookieTimeout' );
         equal( typeof tracker.setSessionCookieTimeout, 'function', 'setSessionCookieTimeout' );
         equal( typeof tracker.setReferralCookieTimeout, 'function', 'setReferralCookieTimeout' );
@@ -2177,8 +2185,11 @@ function PiwikTest() {
         equal( typeof tracker.setCountPreRendered, 'function', 'setCountPreRendered' );
         equal( typeof tracker.trackGoal, 'function', 'trackGoal' );
         equal( typeof tracker.trackLink, 'function', 'trackLink' );
+        equal( typeof tracker.getNumTrackedPageViews, 'function', 'getNumTrackedPageViews' );
         equal( typeof tracker.trackPageView, 'function', 'trackPageView' );
         equal( typeof tracker.trackRequest, 'function', 'trackRequest' );
+        equal( typeof tracker.disableCookies, 'function', 'disableCookies' );
+        equal( typeof tracker.deleteCookies, 'function', 'deleteCookies' );
         // content
         equal( typeof tracker.trackAllContentImpressions, 'function', 'trackAllContentImpressions' );
         equal( typeof tracker.trackVisibleContentImpressions, 'function', 'trackVisibleContentImpressions' );
@@ -2255,7 +2266,7 @@ function PiwikTest() {
     });
 
     test("Managing multiple trackers", function() {
-        expect(23);
+        expect(25);
 
         var asyncTracker = Piwik.getAsyncTracker();
         var i, tracker;
@@ -2310,6 +2321,10 @@ function PiwikTest() {
         var fetchedTracker = Piwik.getAsyncTracker('customTrackerUrl', '71');
         var createdTracker = fetchedTracker.addTracker(null, 55);
         equal('customTrackerUrl', createdTracker.getTrackerUrl(), 'addTracker() should be default use tracker url of current tracker, not first tracker');
+
+        var createPiwikTracker = Piwik.addTracker('customTrackerUrl2', 59);
+        equal(59, createPiwikTracker.getSiteId(), 'Piwik.addTracker() was created with correct idsite ' + createPiwikTracker.getSiteId());
+        equal('customTrackerUrl2', createPiwikTracker.getTrackerUrl(), 'Piwik.addTracker() was created with correct piwikUrl ' + createPiwikTracker.getTrackerUrl());
 
         asyncTracker.removeAllAsyncTrackersButFirst();
     });
@@ -2513,7 +2528,7 @@ function PiwikTest() {
     });
 
     test("Tracker setDomains(), isSiteHostName(), isSiteHostPath(), and getLinkIfShouldBeProcessed()", function() {
-        expect(165);
+        expect(168);
 
         var tracker = Piwik.getTracker();
         var initialDomains = tracker.getDomains();
@@ -2753,17 +2768,22 @@ function PiwikTest() {
          */
         tracker.setCookiePath(null);
         tracker.setDomains( ['.' + domainAlias + '/tests'] );
-        equal(null, tracker.getConfigCookiePath(), 'should not set a cookie path automatically');
+        equal(null, tracker.getCookiePath(), 'should not set a cookie path automatically');
 
         tracker.setCookiePath(null);
         tracker.setDomains( ['.' + domainAlias + '/tests/javascript'] );
-        equal(null, tracker.getConfigCookiePath(), 'should not set a cookie path automatically');
+        equal(null, tracker.getCookiePath(), 'should not set a cookie path automatically');
 
         tracker.setCookiePath('/path2');
         tracker.setDomains( ['.' + domainAlias + '/tests/javascript', '.' + domainAlias + '/tests'] );
-        equal('/path2', tracker.getConfigCookiePath(), 'should not set a cookie path automatically');
+        equal('/path2', tracker.getCookiePath(), 'should not set a cookie path automatically');
 
         tracker.setCookiePath(null);
+
+        strictEqual(true, tracker.hasCookies());
+        tracker.setSessionCookie('mytest', 'myvalue');
+        equal('myvalue', tracker.getCookie('mytest'));
+        strictEqual(null, tracker.getCookie('34343434343'), 'not existing cookie returns null');
     });
 
     test("Tracker CrossDomainLinking()", function() {
@@ -2793,8 +2813,8 @@ function PiwikTest() {
         var browserId = generateBrowserSpecificId();
 
         strictEqual(true, isSameCrossDomainDevice(String(currentTimestamp) + browserId), "isSameCrossDomainDevice, should return true if browserId is the same and timestamp within 45 seconds" );
-        strictEqual(true, isSameCrossDomainDevice(String(currentTimestamp - 42) + browserId), "isSameCrossDomainDevice, should return true if browserId is the same and timestamp within 45 seconds" );
-        strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp - 48) + browserId), "isSameCrossDomainDevice, should return false if browserId is the same but timestamp is 46+ seconds old" );
+        strictEqual(true, isSameCrossDomainDevice(String(currentTimestamp - 100) + browserId), "isSameCrossDomainDevice, should return true if browserId is the same and timestamp within 45 seconds" );
+        strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp - 183) + browserId), "isSameCrossDomainDevice, should return false if browserId is the same but timestamp is 181+ seconds old" );
         strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp + 2) + browserId), "isSameCrossDomainDevice, should return false if browserId is the same but timestamp was only generated later" );
         strictEqual(false, isSameCrossDomainDevice(String(currentTimestamp)), "isSameCrossDomainDevice, should return false if no device ID given" );
         strictEqual(false, isSameCrossDomainDevice(browserId), "isSameCrossDomainDevice, should return false if no timestamp given" );
@@ -2838,8 +2858,8 @@ function PiwikTest() {
         strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp, 'foobar'), "getVisitorIdFromUrl, should return empty string if visitorId is given but browser ID is not valid" );
         strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp, 'fooba'), "getVisitorIdFromUrl, should return empty string if pk_vid has not 32 character but 31" );
         strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp, '!test,'), "getVisitorIdFromUrl, should return empty string if pk_vid has invalid characters" );
-        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp + 58, browserId), "getVisitorIdFromUrl, should return empty string if visitorId and browser ID is valid but timestamp is in future" );
-        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp - 58, browserId), "getVisitorIdFromUrl, should return empty string if visitorId and browser ID is valid but timestamp was too long ago" );
+        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp + 158, browserId), "getVisitorIdFromUrl, should return empty string if visitorId and browser ID is valid but timestamp is in future" );
+        strictEqual('', makeVisitorIdFromUrl(true, currentTimestamp - 188, browserId), "getVisitorIdFromUrl, should return empty string if visitorId and browser ID is valid but timestamp was too long ago" );
         strictEqual('900d0d1eb6714aa4', makeVisitorIdFromUrl(true, currentTimestamp - 20, browserId), "getVisitorIdFromUrl, should return the visitorId if browser ID is valid and timestamp is only 20 seconds old" );
 
         function makeReplaceHrefForCrossDomainLink(url) {
@@ -2858,11 +2878,11 @@ function PiwikTest() {
         
         tracker.setUserId('test');
         var replacedUrl = makeReplaceHrefForCrossDomainLink('http://www.example.com');
-        ok(replacedUrl.indexOf('http://www.example.com?pk_vid=a94a8fe5ccb19ba614') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
+        ok(replacedUrl.indexOf('http://www.example.com?pk_vid=a94a8fe5ccb19ba61') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
         ok(replacedUrl.indexOf(browserId) > 20, 'replaceHrefForCrossDomainLink, should set browserId if a url is given');
 
         replacedUrl = makeReplaceHrefForCrossDomainLink(makeUrlWithVisitorId(true, currentTimestamp, 'foobar'));
-        ok(replacedUrl.indexOf('http://www.example.com/?pk_vid=a94a8fe5ccb19ba614') === 0, 'replaceHrefForCrossDomainLink, should replace parameters if a URL is given');
+        ok(replacedUrl.indexOf('http://www.example.com/?pk_vid=a94a8fe5ccb19ba61') === 0, 'replaceHrefForCrossDomainLink, should replace parameters if a URL is given');
         ok(replacedUrl.indexOf(browserId) > 20, 'replaceHrefForCrossDomainLink, should replace browserId if a URL is given');
 
 
@@ -2961,6 +2981,15 @@ function PiwikTest() {
             expectedValue = String(Math.random());
         tracker.hook.test._setCookie( cookieName, expectedValue );
         equal( tracker.hook.test._getCookie( cookieName ), expectedValue, 'getCookie(), setCookie()' );
+    });
+
+    test("Tracker setSecureCookie(), isSecureCookie()", function() {
+        expect(1);
+
+        var tracker = Piwik.getTracker();
+
+        tracker.hook.test._setSecureCookie(1);
+        equal( tracker.hook.test._isSecureCookie(), 1);
     });
 
     test("Tracker getCookieName() contains website ID", function() {
@@ -3410,9 +3439,9 @@ function PiwikTest() {
         equal( getPiwikUrlForOverlay('http://www.example.com/piwik.php'), 'http://www.example.com/', 'with piwik.php and no js folder' );
         equal( getPiwikUrlForOverlay('http://www.example.com/master/js/piwik.php'), 'http://www.example.com/master/', 'installed in custom folder and js folder' );
         equal( getPiwikUrlForOverlay('http://www.example.com/master/piwik.php'), 'http://www.example.com/master/', 'installed in custom folder and no js folder' );
-        equal( getPiwikUrlForOverlay('/piwik.php'), '/', 'only piwik.php with leading slash' );
-        equal( getPiwikUrlForOverlay('piwik.php'), '', 'only piwik.php' );
-        equal( getPiwikUrlForOverlay('/piwik.php?version=1234'), '/', 'only piwik.php with leading slash with query' );
+        equal( getPiwikUrlForOverlay('/piwik.php'), toAbsoluteUrl('/'), 'only piwik.php with leading slash' );
+        equal( getPiwikUrlForOverlay('piwik.php'), toAbsoluteUrl(''), 'only piwik.php' );
+        equal( getPiwikUrlForOverlay('/piwik.php?version=1234'), toAbsoluteUrl('/'), 'only piwik.php with leading slash with query' );
     });
 
     function generateAnIframeInDocument() {
@@ -3491,7 +3520,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(142);
+        expect(152);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3512,12 +3541,36 @@ if ($mysql) {
         tracker.setTrackerUrl("piwik.php");
         tracker.setSiteId(1);
 
+        strictEqual(0, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, is zero by default');
+
+        var piwikUrl = location.href;
+        if (piwikUrl.indexOf('?') > 0) {
+            piwikUrl = piwikUrl.substr(0, piwikUrl.indexOf('?'));
+        }
+        equal(tracker.getPiwikUrl(), piwikUrl, "getPiwikUrl, relative tracker url" );
+
+        tracker.setTrackerUrl("http://apache.piwik/piwik.php");
+        equal(tracker.getPiwikUrl(), 'http://apache.piwik/', "getPiwikUrl, in root directory" );
+
+        tracker.setTrackerUrl("http://apache.piwik/tracker.php");
+        equal(tracker.getPiwikUrl(), 'http://apache.piwik/', "getPiwikUrl, with different file name" );
+
+        tracker.setTrackerUrl("http://apache.piwik/tests/javascript/piwik.php?x=1");
+        equal(tracker.getPiwikUrl(), 'http://apache.piwik/tests/javascript/', "getPiwikUrl, with path and query" );
+
+        tracker.setTrackerUrl("http://apache.piwik/js/piwik.php?x=1");
+        equal(tracker.getPiwikUrl(), 'http://apache.piwik/', "getPiwikUrl, when using unminified piwik.js" );
+
+        tracker.setTrackerUrl("piwik.php");
+        
         var thirteenMonths  = 1000 * 60 * 60 * 24 * 393;
         strictEqual(thirteenMonths, tracker.getConfigVisitorCookieTimeout(), 'default visitor timeout should be 13 months');
 
         var actualTimeout   = tracker.getRemainingVisitorCookieTimeout();
         var isAbout13Months = (thirteenMonths + 1000) > actualTimeout && ((thirteenMonths - 6000) < actualTimeout);
         ok(isAbout13Months, 'remaining cookieTimeout should be about the deault tiemout of 13 months (' + thirteenMonths + ') but is ' + actualTimeout);
+
+        equal(tracker.getCurrentUrl(), location.href, "getCurrentUrl, when no custom url set" );
 
         var visitorIdStart = tracker.getVisitorId();
         // need to wait at least 1 second so that the cookie would be different, if it wasnt persisted
@@ -3526,6 +3579,8 @@ if ($mysql) {
         ok( visitorIdStart == visitorIdStart2, "getVisitorId() same when called twice with more than 1 second delay");
         var customUrl = "http://localhost.localdomain/?utm_campaign=YEAH&utm_term=RIGHT!";
         tracker.setCustomUrl(customUrl);
+
+        equal(tracker.getCurrentUrl(), customUrl, "getCurrentUrl, when custom url set" );
 
         tracker.setCustomData({ "token" : getToken() });
         var data = tracker.getCustomData();
@@ -3561,7 +3616,6 @@ if ($mysql) {
         equal(tracker.getCustomDimension(3), "my third value", "deleteCustomDimension verify a value is set for this dimension" );
         tracker.deleteCustomDimension(3);
         equal(tracker.getCustomDimension(3), null, "deleteCustomDimension verify value was removed" );
-
 
         tracker.setCustomVariable(1, "new visit1", 'val1', 'visit');
         tracker.setCustomVariable(5, "new visit5", 'val5');
@@ -3606,6 +3660,8 @@ if ($mysql) {
         referrerTimestamp = Math.round(new Date().getTime() / 1000);
         tracker.trackPageView();
 
+        strictEqual(1, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
+
         var idPageview = tracker.getConfigIdPageView();
         ok(/([0-9a-zA-Z]){6}/.test(idPageview), 'trackPageview, should generate a random pageview id');
 
@@ -3613,6 +3669,7 @@ if ($mysql) {
         equal(tracker.getCustomDimension(2), "", "custom dimensions should not be cleared after a tracked pageview");
 
         tracker.trackPageView("CustomTitleTest", {dimension2: 'my new value', dimension5: 'another dimension'});
+        strictEqual(2, tracker.getNumTrackedPageViews(), 'getNumTrackedPageViews, should increase num pageview counter');
 
         var idPageviewCustomTitle = tracker.getConfigIdPageView();
         ok(idPageviewCustomTitle != idPageview, 'trackPageview, should generate a new random pageview id whenever it is called');

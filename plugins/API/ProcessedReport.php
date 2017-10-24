@@ -14,6 +14,7 @@ use Piwik\Archive\DataTableFactory;
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
@@ -48,6 +49,18 @@ class ProcessedReport
     {
         $reportsMetadata = $this->getReportMetadata($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports);
 
+        $entityNames = StaticContainer::get('entities.idNames');
+        foreach ($entityNames as $entityName) {
+            if ($entityName === 'idGoal' || $entityName === 'idDimension') {
+                continue; // idGoal and idDimension is passed directly but for other entities we need to "workaround" and
+                // check for eg idFoo from GET/POST because we cannot add parameters to API dynamically
+            }
+            $idEntity = Common::getRequestVar($entityName, 0, 'int');
+            if ($idEntity > 0) {
+                $apiParameters[$entityName] = $idEntity;
+            }
+        }
+
         foreach ($reportsMetadata as $report) {
             // See ArchiveProcessor/Aggregator.php - unique visitors are not processed for period != day
             // todo: should use SettingsPiwik::isUniqueVisitorsEnabled instead
@@ -73,6 +86,7 @@ class ProcessedReport
                 }
             }
         }
+
         return false;
     }
 
@@ -363,13 +377,14 @@ class ProcessedReport
 
         list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics, $formatMetrics);
 
-	if (function_exists('mb_substr')) {
+        if (function_exists('mb_substr')) {
             foreach ($columns as &$name) {
                 if (substr($name, 0, 1) === mb_substr($name, 0, 1)) {
-		    $name = ucfirst($name);
-		}
+                    $name = ucfirst($name);
+                }
             }
-	}
+        }
+
         $website = new Site($idSite);
 
         $period = Period\Factory::build($period, $date);

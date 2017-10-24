@@ -42,7 +42,7 @@ class PageSpeedCheck implements Diagnostic
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
         }
 
-        $comment = $this->translator->translate('Installation_SystemCheckPageSpeedWarn', array(
+        $comment = $this->translator->translate('Installation_SystemCheckPageSpeedWarning', array(
             '(eg. Apache, Nginx or IIS)',
         ));
 
@@ -72,9 +72,7 @@ class PageSpeedCheck implements Diagnostic
             // If the test failed, we assume Page speed is not enabled
             return false;
         }
-
-        $headers = $page['headers'];
-
-        return isset($headers['X-Mod-Pagespeed']) || isset($headers['X-Page-Speed']);
+        
+        return isset($page['headers']['X-Mod-Pagespeed']) || isset($page['headers']['X-Page-Speed']);
     }
 }

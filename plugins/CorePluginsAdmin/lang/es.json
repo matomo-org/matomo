@@ -37,6 +37,7 @@
         "NoPluginSettings": "No hay ajustes para este complemento que puedan ser configurados",
         "Origin": "Origen",
         "OriginCore": "Core",
+        "OriginOfficial": "Oficial",
         "OriginThirdParty": "De terceros",
         "PluginHomepage": "Página de internet del complemento",
         "PluginNotCompatibleWith": "%1$s complemento no es compatible con %2$s.",
@@ -50,7 +51,6 @@
         "Status": "Estado",
         "SuccessfullyActicated": "<strong>%s<\/strong> ha sido activado con éxito.",
         "TeaserExtendPiwik": "Amplíe Piwik con complementos y temas",
-        "TeaserExtendPiwikByPlugin": "Amplíe Piwik %1$sinstalando un nuevo complemento%2$s.",
         "TeaserExtendPiwikByTheme": "Disfrute de otra apariencia y estilo %1$sinstalado un nuevo tema%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Puede automáticamente instalar complementos desde el \"Marketplace\" o %1$ssubir un complemento%2$s in formato .zip.",
         "Theme": "Tema",
@@ -60,7 +60,6 @@
         "UninstallConfirm": "Estás a punto de desinstalar el complemento %s. El complemento será completamente eliminado de su plataforma y no será recuperable. ¿Está seguro que desea hacer esto?",
         "Version": "Versión",
         "ViewAllMarketplacePlugins": "Ver todos los complementos del \"Marketplace\"",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "Desactivamos el complemento %s porque le faltan las siguientes dependencias:",
         "Websites": "Sitios de internet"
     }
 }

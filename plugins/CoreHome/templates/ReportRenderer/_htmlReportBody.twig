@@ -53,7 +53,9 @@
                             {% if columnId == 'label' %}
                                 {% if rowMetrics[columnId] is defined %}
                                     {% if rowMetadata.logo is defined %}
-                                        <img width="16px" height="16px" src='{{ currentPath }}{{ rowMetadata.logo }}'>
+                                        <img height="16px" src='{{ currentPath }}{{ rowMetadata.logo }}'
+                                            {%- if 'plugins/Morpheus/icons/dist/flags' in rowMetadata.logo %} style="border: 1px solid lightgray; "{% endif -%}
+                                        >
                                         &nbsp;
                                     {% endif %}
                                     {% if rowMetadata.url is defined %}

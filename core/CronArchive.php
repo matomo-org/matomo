@@ -1275,12 +1275,22 @@ class CronArchive
         // Recommend to disable browser archiving when using this script
         if (Rules::isBrowserTriggerEnabled()) {
             $this->logger->info("- If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings.");
-            $this->logger->info("  See the doc at: http://piwik.org/docs/setup-auto-archiving/");
+            $this->logger->info("  See the doc at: https://piwik.org/docs/setup-auto-archiving/");
         }
         $this->logger->info("- Reports for today will be processed at most every " . $this->todayArchiveTimeToLive
             . " seconds. You can change this value in Piwik UI > Settings > General Settings.");
-        $this->logger->info("- Reports for the current week/month/year will be refreshed at most every "
+
+        $this->logger->info("- Reports for the current week/month/year will be requested at most every "
             . $this->processPeriodsMaximumEverySeconds . " seconds.");
+
+        foreach (array('week', 'month', 'year', 'range') as $period) {
+            $ttl = Rules::getPeriodArchiveTimeToLiveDefault($period);
+
+            if (!empty($ttl) && $ttl !== $this->todayArchiveTimeToLive) {
+                $this->logger->info("- Reports for the current $period will be processed at most every " . $ttl
+                    . " seconds. You can change this value in config/config.ini.php by editing 'time_before_" . $period . "_archive_considered_outdated' in the '[General]' section.");
+            }
+        }
 
         // Try and not request older data we know is already archived
         if ($this->lastSuccessRunTimestamp !== false) {

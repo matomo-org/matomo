@@ -9,15 +9,15 @@
 namespace Piwik\Plugins\DevicePlugins\Columns;
 
 use Piwik\Common;
-use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 
-class PluginGears extends VisitDimension
+class PluginGears extends DevicePluginColumn
 {
     protected $columnName = 'config_gears';
     protected $columnType = 'TINYINT(1) NULL';
+    protected $type = self::TYPE_BOOL;
 
     /**
      * @param Request $request

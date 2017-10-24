@@ -28,25 +28,7 @@
 
             {% include '@Marketplace/licenseform.twig' %}
 
-            <div class="ui-confirm" id="installPluginByUpload">
-                <h2>{{ 'Marketplace_TeaserExtendPiwikByUpload'|translate }}</h2>
-
-                {% if isPluginUploadEnabled %}
-                <p class="description"> {{ 'Marketplace_AllowedUploadFormats'|translate }} </p>
-
-                <form enctype="multipart/form-data" method="post" id="uploadPluginForm"
-                      action="{{ linkTo({'module':'CorePluginsAdmin', 'action':'uploadPlugin', 'nonce': installNonce}) }}">
-                    <input type="file" name="pluginZip">
-                    <br />
-                    <input class="startUpload btn" type="submit" value="{{ 'Marketplace_UploadZipFile'|translate }}">
-                </form>
-                {% else %}
-                    <p class="description"> {{ 'Marketplace_PluginUploadDisabled'|translate|raw }} </p>
-                    <pre>[General]
-enable_plugin_upload = 1</pre>
-                    <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
-                {% endif %}
-            </div>
+            {% include '@Marketplace/uploadPluginDialog.twig' %}
 
             <div class="row marketplaceActions" ng-controller="PiwikMarketplaceController as marketplace">
                 <div piwik-field uicontrol="select" name="plugin_type"
@@ -88,7 +70,7 @@ enable_plugin_upload = 1</pre>
         {% include '@Marketplace/plugin-list.twig' %}
 
         <div class="footer-message center">
-            {{ 'Marketplace_DevelopersLearnHowToDevelopPlugins'|translate('<a href="?module=Proxy&action=redirect&url=http://developer.piwik.org/develop" target="_blank">', '</a>')|raw }}
+            {{ 'Marketplace_DevelopersLearnHowToDevelopPlugins'|translate('<a href="?module=Proxy&action=redirect&url=https://developer.piwik.org/develop" target="_blank">', '</a>')|raw }}
             <br />
             <br />
             <br />

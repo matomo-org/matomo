@@ -45,6 +45,7 @@
         "JSTracking_TrackNoScript": "Track users with JavaScript disabled",
         "JSTracking_VisitorCustomVars": "Track custom variables for this visitor",
         "JSTracking_VisitorCustomVarsDesc": "For example, with variable name \"Type\" and value \"Customer\".",
+        "JSTracking_EndNote": "Note: You can generate a customized tracking code in the %1$sTracking Code%2$s admin section.",
         "JSTrackingIntro1": "You can track visitors to your website many different ways. The recommended way to do it is through JavaScript. To use this method you must make sure every webpage of your website has some JavaScript code, which you can generate here.",
         "JSTrackingIntro2": "Once you have the JavaScript tracking code for your website, copy and paste it to all the pages you want to track with Piwik.",
         "JSTrackingIntro3b": "In most websites, blogs, CMS, etc. you can use a pre-made plugin to do the technical work for you. (See our %1$slist of plugins used to integrate Piwik%2$s.) If no plugin exists you can edit your website templates and add this code to the &lt;/head&gt; tag   which is often defined in a 'header.php', 'header.tpl' or similar template file.",

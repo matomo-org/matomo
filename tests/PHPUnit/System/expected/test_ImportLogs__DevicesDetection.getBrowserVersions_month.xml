@@ -14,7 +14,7 @@
 		<logo>plugins/Morpheus/icons/dist/browsers/RM.png</logo>
 	</row>
 	<row>
-		<label>Epiphany 2.30</label>
+		<label>GNOME Web 2.30</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>1</max_actions>

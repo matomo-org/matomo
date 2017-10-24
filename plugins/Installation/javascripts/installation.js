@@ -15,7 +15,7 @@ $(document).ready(function() {
         var $help = $(help);
         var $row = $help.parents('.row').first();
 
-        if ($row.size()) {
+        if ($row.length) {
             $help.addClass('col s12 m12 l6');
             $row.append($help);
         }

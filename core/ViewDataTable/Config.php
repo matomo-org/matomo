@@ -11,6 +11,7 @@ namespace Piwik\ViewDataTable;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
@@ -82,7 +83,7 @@ use Piwik\Plugin\ReportsProvider;
  *
  * @api
  */
-class Config
+class   Config
 {
     /**
      * The list of ViewDataTable properties that are 'Client Side Properties'.
@@ -110,6 +111,7 @@ class Config
         'show_related_reports',
         'show_limit_control',
         'show_search',
+        'show_export',
         'enable_sort',
         'show_bar_chart',
         'show_pie_chart',
@@ -121,7 +123,6 @@ class Config
         'show_pagination_control',
         'show_offset_information',
         'hide_annotations_view',
-        'export_limit',
         'columns_to_display'
     );
 
@@ -321,6 +322,13 @@ class Config
     public $show_search = true;
 
     /**
+     * Controls whether the export feature under the datatable is shown.
+     *
+     * @api since Piwik 3.2.0
+     */
+    public $show_export = true;
+
+    /**
      * Controls whether the user can sort DataTables by clicking on table column headings.
      */
     public $enable_sort = true;
@@ -364,7 +372,16 @@ class Config
     public $show_ecommerce = false;
 
     /**
+     * Stores an HTML message (if any) to display above the datatable view.
+     *
+     * Attention: Message will be printed raw. Don't forget to escape where needed!
+     */
+    public $show_header_message = false;
+
+    /**
      * Stores an HTML message (if any) to display under the datatable view.
+     *
+     * Attention: Message will be printed raw. Don't forget to escape where needed!
      */
     public $show_footer_message = false;
 
@@ -456,11 +473,14 @@ class Config
     public $hide_annotations_view = true;
 
     /**
-     * The filter_limit query parameter value to use in export links.
+     * Message to show if not data is available for the report
+     * Defaults to `CoreHome_ThereIsNoDataForThisReport` if not set
      *
-     * Defaulted to the value of the `[General] API_datatable_default_limit` INI config option.
+     * Attention: Message will be printed raw. Don't forget to escape where needed!
+     *
+     * @var string
      */
-    public $export_limit = '';
+    public $no_data_message = '';
 
     /**
      * @ignore
@@ -482,7 +502,6 @@ class Config
      */
     public function __construct()
     {
-        $this->export_limit = \Piwik\Config::getInstance()->General['API_datatable_default_limit'];
         $this->translations = array_merge(
             Metrics::getDefaultMetrics(),
             Metrics::getDefaultProcessedMetrics()
@@ -502,6 +521,7 @@ class Config
 
         $this->loadDocumentation();
         $this->setShouldShowPivotBySubtable();
+        $this->setShouldShowFlattener();
     }
 
     /** Load documentation from the API */
@@ -516,13 +536,12 @@ class Config
         }
 
         $apiParameters = array();
-        $idDimension = Common::getRequestVar('idDimension', 0, 'int');
-        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
-        if ($idDimension > 0) {
-            $apiParameters['idDimension'] = $idDimension;
-        }
-        if ($idGoal > 0) {
-            $apiParameters['idGoal'] = $idGoal;
+        $entityNames = StaticContainer::get('entities.idNames');
+        foreach ($entityNames as $entityName) {
+            $idEntity = Common::getRequestVar($entityName, 0, 'int');
+            if ($idEntity > 0) {
+                $apiParameters[$entityName] = $idEntity;
+            }
         }
 
         $report = API::getInstance()->getMetadata($idSite, $this->controllerName, $this->controllerAction, $apiParameters);
@@ -752,6 +771,15 @@ class Config
                 $this->pivot_by_dimension = $subtableDimension->getId();
                 $this->pivot_dimension_name = $subtableDimension->getName();
             }
+        }
+    }
+
+    private function setShouldShowFlattener()
+    {
+        $report = ReportsProvider::factory($this->controllerName, $this->controllerAction);
+
+        if ($report && !$report->supportsFlatten()) {
+            $this->show_flatten_table = false;
         }
     }
 

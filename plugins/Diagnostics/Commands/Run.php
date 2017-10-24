@@ -47,13 +47,13 @@ class Run extends ConsoleCommand
             }
 
             if (count($items) === 1) {
-                $output->writeln($result->getLabel() . ': ' . $this->formatItem($items[0]), OutputInterface::OUTPUT_PLAIN);
+                $output->writeln($result->getLabel() . ': ' . $this->formatItem($items[0]), OutputInterface::OUTPUT_NORMAL);
                 continue;
             }
 
             $output->writeln($result->getLabel() . ':');
             foreach ($items as $item) {
-                $output->writeln("\t- " . $this->formatItem($item), OutputInterface::OUTPUT_PLAIN);
+                $output->writeln("\t- " . $this->formatItem($item), OutputInterface::OUTPUT_NORMAL);
             }
         }
 
@@ -82,7 +82,7 @@ class Run extends ConsoleCommand
             '<%s>%s %s</%s>',
             $tag,
             strtoupper($item->getStatus()),
-            preg_replace('/\<br\s*\/?\>/i', "\n", $item->getComment()),
+            preg_replace('%</?[a-z][a-z0-9]*[^<>]*>%sim', '', preg_replace('/\<br\s*\/?\>/i', "\n", $item->getComment())),
             $tag
         );
     }

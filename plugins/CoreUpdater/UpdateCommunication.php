@@ -30,9 +30,13 @@ class UpdateCommunication
      */
     public function isEnabled()
     {
-        $isEnabled = Config::getInstance()->General['enable_update_communication'];
+        $isEnabled = (bool) Config::getInstance()->General['enable_update_communication'];
 
-        return !empty($isEnabled);
+        if($isEnabled === true && SettingsPiwik::isInternetEnabled() === true){
+            return true;
+        }
+        
+        return false;
     }
 
     /**
@@ -79,9 +83,11 @@ class UpdateCommunication
             $message .= "\n\n";
         }
 
+        $message .= Piwik::translate('CoreUpdater_ReceiveEmailBecauseIsSuperUser', $host); 
+        $message .= "\n\n";
         $message .= Piwik::translate('CoreUpdater_FeedbackRequest');
         $message .= "\n";
-        $message .= 'http://piwik.org/contact/';
+        $message .= 'https://piwik.org/contact/';
 
         $this->sendEmailNotification($subject, $message);
     }
@@ -90,7 +96,7 @@ class UpdateCommunication
     {
         $version = str_replace('.', '-', $version);
 
-        $link = sprintf('http://piwik.org/changelog/piwik-%s/', $version);
+        $link = sprintf('https://piwik.org/changelog/piwik-%s/', $version);
 
         return $link;
     }

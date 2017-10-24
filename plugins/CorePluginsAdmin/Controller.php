@@ -11,7 +11,6 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
@@ -164,7 +163,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
         $view->pluginsInfo = $this->getPluginsInfo($themesOnly);
 
-        $users = Request::processRequest('UsersManager.getUsers');
+        $users = Request::processRequest('UsersManager.getUsers', array('filter_limit' => '-1'));
         $view->otherUsersCount = count($users) - 1;
         $view->themeEnabled = $this->pluginManager->getThemeEnabled()->getPluginName();
 
@@ -183,6 +182,9 @@ class Controller extends Plugin\ControllerAdmin
                 // curl exec connection error (ie. server not connected to internet)
             }
         }
+
+        $view->isPluginUploadEnabled = CorePluginsAdmin::isPluginUploadEnabled();
+        $view->installNonce = Nonce::getNonce(MarketplaceController::INSTALL_NONCE);
 
         return $view;
     }
@@ -247,10 +249,19 @@ class Controller extends Plugin\ControllerAdmin
                     $suffix = "You may uninstall the plugin or manually delete the files in piwik/plugins/$pluginName/";
                 }
 
-                $description = '<strong>'
-                    . $this->translator->translate('CorePluginsAdmin_PluginNotCompatibleWith', array($pluginName, self::getPiwikVersion()))
-                    . '</strong><br/>'
-                    . $suffix;
+                if ($this->pluginManager->isPluginInFilesystem($pluginName)) {
+                    $description = '<strong>'
+                        . $this->translator->translate('CorePluginsAdmin_PluginNotCompatibleWith',
+                            array($pluginName, self::getPiwikVersion()))
+                        . '</strong><br/>'
+                        . $suffix;
+                } else {
+                    $description = '<strong>'
+                        . $this->translator->translate('CorePluginsAdmin_PluginNotFound',
+                            array($pluginName))
+                        . '</strong><br/>'
+                        . $this->translator->translate('CorePluginsAdmin_PluginNotFoundAlternative');
+                }
                 $plugin['info'] = array(
                     'description' => $description,
                     'version'     => $this->translator->translate('General_Unknown'),

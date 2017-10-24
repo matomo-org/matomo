@@ -1,0 +1,17 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "Ecommerce pozwala śledzić kiedy odwiedzający dodają produkty do koszyków oraz kiedy następuje konwersja koszyków na sprzedaż. Pozwala również śledzić produkty i ich kategorie oraz porzucone koszyki.",
+        "Sales": "Sprzedaż",
+        "Order": "Zamówienie",
+        "Orders": "Zamówienia",
+        "SalesBy": "Sprzedaż według %s",
+        "SalesAdjective": "Sprzedaż %s",
+        "NumberOfItems": "Liczba produktów w koszyku",
+        "OrderValue": "Wartość zamówienia",
+        "LifeTimeValue": "Łączna wartość zakupów",
+        "LifeTimeValueDescription": "Całkowita sprzedaż przypisana do tego użytkownika w trakcie wszystkich wizyt: suma sprzedaży dla użytkownika o numerze %s.",
+        "VisitorProfileLTV": "Zakupił na łączną kwotę %1$s.",
+        "VisitorProfileItemsAndOrders": "Zakupiono %1$s przedmiotów w %2$s zamówieniach.",
+        "VisitorProfileAbandonedCartSummary": "Porzucono %1$s koszyków zawierających %2$s przedmiotów o łącznej wartości %3$s."
+    }
+}

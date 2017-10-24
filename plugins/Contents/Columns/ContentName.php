@@ -8,9 +8,11 @@
  */
 namespace Piwik\Plugins\Contents\Columns;
 
-use Piwik\Piwik;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
+use Piwik\Exception\InvalidRequestParameterException;
+use Piwik\Plugins\Contents\Actions\ActionContent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 
@@ -18,19 +20,22 @@ class ContentName extends ActionDimension
 {
     protected $columnName = 'idaction_content_name';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
+    protected $segmentName = 'contentName';
+    protected $nameSingular = 'Contents_ContentName';
+    protected $namePlural = 'Contents_ContentNames';
+    protected $acceptValues = 'The name of a content block, for instance "Ad Sale"';
+    protected $type = self::TYPE_TEXT;
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
-    protected function configureSegments()
+    public function getDbColumnJoin()
     {
-        $segment = new Segment();
-        $segment->setSegment('contentName');
-        $segment->setName('Contents_ContentName');
-        $segment->setAcceptedValues('The name of a content block, for instance "Ad Sale"');
-        $this->addSegment($segment);
+        return new ActionNameJoin();
     }
 
-    public function getName()
+    public function getDbDiscriminator()
     {
-        return Piwik::translate('Contents_ContentName');
+        return new Discriminator('log_action', 'type', $this->getActionId());
     }
 
     public function getActionId()
@@ -40,18 +45,17 @@ class ContentName extends ActionDimension
 
     public function onLookupAction(Request $request, Action $action)
     {
-        $contentName = $request->getParam('c_n');
-
-        if (empty($contentName)) {
+        if (!($action instanceof ActionContent)) {
             return false;
         }
 
+        $contentName = $request->getParam('c_n');
         $contentName = trim($contentName);
 
         if (strlen($contentName) > 0) {
             return $contentName;
         }
 
-        return false;
+        throw new InvalidRequestParameterException('Param `c_n` must not be empty or filled with whitespaces');
     }
 }

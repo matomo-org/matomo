@@ -8,9 +8,10 @@
  */
 namespace Piwik\Plugins\Events\Columns;
 
-use Piwik\Piwik;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Events\Segment;
 use Piwik\Plugins\Events\Actions\ActionEvent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -19,18 +20,21 @@ class EventAction extends ActionDimension
 {
     protected $columnName = 'idaction_event_action';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
+    protected $type = self::TYPE_TEXT;
+    protected $segmentName = 'eventAction';
+    protected $nameSingular = 'Events_EventAction';
+    protected $namePlural = 'Events_EventActions';
+    protected $category = 'Events_Events';
+    protected $sqlFilter = '\Piwik\Tracker\TableLogAction::getIdActionFromSegment';
 
-    protected function configureSegments()
+    public function getDbColumnJoin()
     {
-        $segment = new Segment();
-        $segment->setSegment('eventAction');
-        $segment->setName('Events_EventAction');
-        $this->addSegment($segment);
+        return new ActionNameJoin();
     }
 
-    public function getName()
+    public function getDbDiscriminator()
     {
-        return Piwik::translate('Events_EventAction');
+        return new Discriminator('log_action', 'type', $this->getActionId());
     }
 
     public function getActionId()
@@ -44,13 +48,13 @@ class EventAction extends ActionDimension
             return false;
         }
 
-        $eventAction = $request->getParam('e_a');
+        $eventAction = $action->getEventAction();
         $eventAction = trim($eventAction);
 
         if (strlen($eventAction) > 0) {
             return $eventAction;
         }
 
-        return false;
+        throw new InvalidRequestParameterException('Param `e_a` must not be empty or filled with whitespaces');
     }
 }

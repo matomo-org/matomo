@@ -264,6 +264,11 @@ class Tracker
             TrackerConfig::setConfigValue('enable_fingerprinting_across_websites', 1);
         }
 
+        // Tests can simulate the tracker API maintenance mode
+        if (Common::getRequestVar('forceEnableTrackerMaintenanceMode', false, null, $args) == 1) {
+            TrackerConfig::setConfigValue('record_statistics', 0);
+        }
+
         // Tests can force the use of 3rd party cookie for ID visitor
         if (Common::getRequestVar('forceUseThirdPartyCookie', false, null, $args) == 1) {
             TrackerConfig::setConfigValue('use_third_party_id_cookie', 1);

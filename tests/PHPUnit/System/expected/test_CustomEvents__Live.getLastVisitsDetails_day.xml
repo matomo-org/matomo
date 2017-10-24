@@ -11,17 +11,26 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
+				
 				<pageId>22</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Purchase</eventAction>
+				<bandwidth />
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -32,7 +41,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -53,7 +61,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -68,12 +76,18 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -90,8 +104,12 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
@@ -101,17 +119,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -124,17 +131,26 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
+				
 				<pageId>21</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
+				<bandwidth />
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -145,7 +161,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -166,7 +181,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -181,12 +196,18 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -203,8 +224,12 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
@@ -214,17 +239,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -237,95 +251,119 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
+				
 				<pageId>17</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play50%</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition />
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>18</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play75%</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>420</timeSpent>
 				<timeSpentPretty>7 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition />
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>20</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
-				<eventName>Search query here</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>900</timeSpent>
 				<timeSpentPretty>15 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition />
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Search query here</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
+				
 				<pageId>23</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playEnd</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition />
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url />
 				<pageIdAction />
 				
+				
 				<pageId>24</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>rating</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<eventValue>9.66</eventValue>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>720</timeSpent>
 				<timeSpentPretty>12 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition />
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<eventValue>9.66</eventValue>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/finishedMovie</url>
 				<pageIdAction>27</pageIdAction>
 				
+				
 				<pageId>25</pageId>
 				<eventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventCategory>
 				<eventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventAction>
+				<bandwidth />
+				<interactionPosition />
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventName>
 				<eventValue>9.66</eventValue>
-				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -336,7 +374,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -357,7 +394,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -372,12 +409,18 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>6</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -394,8 +437,12 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
@@ -405,17 +452,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -428,17 +464,26 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
+				
 				<pageId>19</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
+				<bandwidth />
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -449,7 +494,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -470,7 +514,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -485,12 +529,18 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -507,8 +557,12 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
@@ -518,17 +572,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -553,163 +596,187 @@
 				<pageTitle>Welcome!</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>1</pageId>
+				<bandwidth />
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<generationTimeMilliseconds>333</generationTimeMilliseconds>
 				<generationTime>0.33s</generationTime>
 				<interactionPosition>1</interactionPosition>
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
 				<pageIdAction>3</pageIdAction>
+				
 				
 				<pageId>2</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>play</eventAction>
+				<bandwidth />
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<interactionPosition />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
 				<pageIdAction>3</pageIdAction>
+				
 				
 				<pageId>3</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>play25%</eventAction>
+				<bandwidth />
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<interactionPosition />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
 				<pageIdAction>3</pageIdAction>
+				
 				
 				<pageId>4</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>play50%</eventAction>
+				<bandwidth />
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<interactionPosition />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
 				<pageIdAction>3</pageIdAction>
+				
 				
 				<pageId>5</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>play75%</eventAction>
+				<bandwidth />
+				<timeSpent>30</timeSpent>
+				<timeSpentPretty>30s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<interactionPosition />
-				<timeSpent>30</timeSpent>
-				<timeSpentPretty>30s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
 				<pageIdAction>3</pageIdAction>
+				
 				
 				<pageId>6</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>playEnd</eventAction>
+				<bandwidth />
+				<timeSpent>30</timeSpent>
+				<timeSpentPretty>30s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<interactionPosition />
-				<timeSpent>30</timeSpent>
-				<timeSpentPretty>30s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
 				<pageIdAction>3</pageIdAction>
+				
 				
 				<pageId>7</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>rating</eventAction>
+				<bandwidth />
+				<timeSpent>1</timeSpent>
+				<timeSpentPretty>1s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
+				<eventValue>9</eventValue>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<eventValue>9</eventValue>
-				<interactionPosition />
-				<timeSpent>1</timeSpent>
-				<timeSpentPretty>1s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/webradio</url>
 				<pageIdAction>3</pageIdAction>
 				
+				
 				<pageId>8</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>rating</eventAction>
+				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
+				<eventValue>10</eventValue>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<eventValue>10</eventValue>
-				<interactionPosition />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -727,14 +794,17 @@
 				<url />
 				<pageIdAction />
 				
+				
 				<pageId>9</pageId>
 				<eventCategory>CategoryTriggersGoal here</eventCategory>
 				<eventAction>This is an event without a URL</eventAction>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>1499</timeSpent>
 				<timeSpentPretty>24 min 59s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -742,107 +812,134 @@
 				<pageTitle>Movie Theater</pageTitle>
 				<pageIdAction>15</pageIdAction>
 				
+				
 				<pageId>10</pageId>
+				<bandwidth />
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<generationTimeMilliseconds>666</generationTimeMilliseconds>
 				<generationTime>0.67s</generationTime>
 				<interactionPosition>2</interactionPosition>
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>11</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playTrailer</eventAction>
-				<eventName>Princess Mononoke (もののけ姫)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition>2</interactionPosition>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Princess Mononoke (もののけ姫)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>12</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playTrailer</eventAction>
-				<eventName>Ponyo (崖の上のポニョ)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition>2</interactionPosition>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Ponyo (崖の上のポニョ)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>13</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playTrailer</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition>2</interactionPosition>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>14</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>clickBuyNow</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition>2</interactionPosition>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>15</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playStart</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition>2</interactionPosition>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
+				
 				<pageId>16</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play25%</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<bandwidth />
+				<interactionPosition>2</interactionPosition>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -853,7 +950,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -874,7 +970,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -889,12 +985,18 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>14</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -911,8 +1013,12 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
@@ -922,17 +1028,6 @@
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -945,17 +1040,26 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
+				
 				<pageId>45</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Purchase</eventAction>
+				<bandwidth />
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -966,7 +1070,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -987,7 +1090,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -1002,12 +1105,18 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -1024,24 +1133,17 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>director</plugins>
+		<plugins>cookie, director</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
 				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1054,17 +1156,26 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
+				
 				<pageId>44</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
+				<bandwidth />
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -1075,7 +1186,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -1096,7 +1206,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -1111,12 +1221,18 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -1133,24 +1249,17 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>director</plugins>
+		<plugins>cookie, director</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
 				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1163,95 +1272,119 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
+				
 				<pageId>40</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play50%</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition />
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>41</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play75%</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>420</timeSpent>
 				<timeSpentPretty>7 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition />
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>43</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
-				<eventName>Search query here</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>900</timeSpent>
 				<timeSpentPretty>15 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition />
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Search query here</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
+				
 				<pageId>46</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playEnd</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition />
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url />
 				<pageIdAction />
 				
+				
 				<pageId>47</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>rating</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<eventValue>9.66</eventValue>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>720</timeSpent>
 				<timeSpentPretty>12 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition />
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<eventValue>9.66</eventValue>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/finishedMovie</url>
 				<pageIdAction>27</pageIdAction>
 				
+				
 				<pageId>48</pageId>
 				<eventCategory>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventCategory>
 				<eventAction>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventAction>
+				<bandwidth />
+				<interactionPosition />
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</eventName>
 				<eventValue>9.66</eventValue>
-				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -1262,7 +1395,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -1283,7 +1415,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -1298,12 +1430,18 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>6</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -1320,24 +1458,17 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>director</plugins>
+		<plugins>cookie, director</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
 				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1350,17 +1481,26 @@
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
+				
 				<pageId>42</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>Search</eventAction>
+				<bandwidth />
 				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -1371,7 +1511,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -1392,7 +1531,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -1407,12 +1546,18 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -1429,24 +1574,17 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>director</plugins>
+		<plugins>cookie, director</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
 				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1459,149 +1597,170 @@
 				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
 				
+				
 				<pageId>26</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>play</eventAction>
+				<bandwidth />
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<interactionPosition />
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<interactionPosition />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
+				
 				
 				<pageId>27</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>play25%</eventAction>
+				<bandwidth />
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<interactionPosition />
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<interactionPosition />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
+				
 				
 				<pageId>28</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>play50%</eventAction>
+				<bandwidth />
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
+				<interactionPosition />
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<interactionPosition />
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
+				
 				
 				<pageId>29</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>play75%</eventAction>
+				<bandwidth />
+				<timeSpent>30</timeSpent>
+				<timeSpentPretty>30s</timeSpentPretty>
+				<interactionPosition />
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<interactionPosition />
-				<timeSpent>30</timeSpent>
-				<timeSpentPretty>30s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
+				
 				
 				<pageId>30</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>playEnd</eventAction>
+				<bandwidth />
+				<timeSpent>30</timeSpent>
+				<timeSpentPretty>30s</timeSpentPretty>
+				<interactionPosition />
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<interactionPosition />
-				<timeSpent>30</timeSpent>
-				<timeSpentPretty>30s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
+				
 				
 				<pageId>31</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>rating</eventAction>
+				<bandwidth />
+				<timeSpent>1</timeSpent>
+				<timeSpentPretty>1s</timeSpentPretty>
+				<interactionPosition />
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
+				<eventValue>9</eventValue>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<eventValue>9</eventValue>
-				<interactionPosition />
-				<timeSpent>1</timeSpent>
-				<timeSpentPretty>1s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.com/piwik/</url>
 				<pageIdAction>31</pageIdAction>
 				
+				
 				<pageId>32</pageId>
 				<eventCategory>Music</eventCategory>
 				<eventAction>rating</eventAction>
+				<bandwidth />
+				<timeSpent>1499</timeSpent>
+				<timeSpentPretty>24 min 59s</timeSpentPretty>
+				<interactionPosition />
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>La fiancée de l'eau</eventName>
+				<eventValue>10</eventValue>
 				<customVariables>
 					<row>
 						<customVariablePageName1>Page Scope Custom var</customVariablePageName1>
 						<customVariablePageValue1>should not appear in events report</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<eventName>La fiancée de l'eau</eventName>
-				<eventValue>10</eventValue>
-				<interactionPosition />
-				<timeSpent>1499</timeSpent>
-				<timeSpentPretty>24 min 59s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -1609,107 +1768,134 @@
 				<pageTitle>Movie Theater</pageTitle>
 				<pageIdAction>15</pageIdAction>
 				
+				
 				<pageId>33</pageId>
+				<bandwidth />
+				<timeSpent>60</timeSpent>
+				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<generationTimeMilliseconds>666</generationTimeMilliseconds>
 				<generationTime>0.67s</generationTime>
 				<interactionPosition>1</interactionPosition>
-				<timeSpent>60</timeSpent>
-				<timeSpentPretty>1 min 0s</timeSpentPretty>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>34</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playTrailer</eventAction>
-				<eventName>Princess Mononoke (もののけ姫)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition>1</interactionPosition>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Princess Mononoke (もののけ姫)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>35</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playTrailer</eventAction>
-				<eventName>Ponyo (崖の上のポニョ)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition>1</interactionPosition>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Ponyo (崖の上のポニョ)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>36</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playTrailer</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>60</timeSpent>
 				<timeSpentPretty>1 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition>1</interactionPosition>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>37</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>clickBuyNow</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>120</timeSpent>
 				<timeSpentPretty>2 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition>1</interactionPosition>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
+				
 				
 				<pageId>38</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>playStart</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
+				<bandwidth />
 				<timeSpent>1320</timeSpent>
 				<timeSpentPretty>22 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<interactionPosition>1</interactionPosition>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://example.org/movies</url>
 				<pageIdAction>16</pageIdAction>
 				
+				
 				<pageId>39</pageId>
 				<eventCategory>Movie</eventCategory>
 				<eventAction>play25%</eventAction>
-				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
-				<interactionPosition />
-				<icon>plugins/Morpheus/images/event.png</icon>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
 				
+				<icon>plugins/Morpheus/images/event.png</icon>
+				<eventName>Spirited Away (千と千尋の神隠し)</eventName>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -1720,7 +1906,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -1741,7 +1926,7 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
@@ -1756,12 +1941,18 @@
 		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>13</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -1778,23 +1969,16 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>director</plugins>
+		<plugins>cookie, director</plugins>
 		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
 			<row>
 				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
 				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
-		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
-		<totalEcommerceConversions>0</totalEcommerceConversions>
-		<totalEcommerceItems>0</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>0</totalAbandonedCarts>
-		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 	</row>
 </result>

@@ -119,6 +119,9 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'Actions.getPageUrls',
             'Actions.getDownloads',
             'Actions.getDownload',
+
+            // new flag dimensions
+            'UserCountry.getCountry',
         );
 
         $apiNotToCall = array(
@@ -138,6 +141,10 @@ class BackwardsCompatibility1XTest extends SystemTestCase
 
             // we test VisitFrequency explicitly
             'VisitFrequency.get',
+
+            // do not test as label formats have changed
+            'VisitTime.getVisitInformationPerLocalTime',
+            'VisitTime.getVisitInformationPerServerTime',
 
              // the Action.getPageTitles test fails for unknown reason, so skipping it
              // eg. https://travis-ci.org/piwik/piwik/jobs/24449365

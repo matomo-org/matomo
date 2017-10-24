@@ -16,24 +16,6 @@ use Piwik\FrontController;
  */
 class UserLanguage extends \Piwik\Plugin
 {
-    /**
-     * @see Piwik\Plugin::registerEvents
-     */
-    public function registerEvents()
-    {
-        return array(
-            'Live.getAllVisitorDetails'              => 'extendVisitorDetails',
-        );
-    }
-
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $instance = new Visitor($details);
-
-        $visitor['languageCode'] = $instance->getLanguageCode();
-        $visitor['language']     = $instance->getLanguage();
-    }
-
     public function postLoad()
     {
         Piwik::addAction('Template.footerUserCountry', array('Piwik\Plugins\UserLanguage\UserLanguage', 'footerUserCountry'));

@@ -147,8 +147,6 @@
         "ExceptionMissingFile": "Falta fitxer: %s",
         "ExceptionNonceMismatch": "No s'ha pogut verificar el token del formulari.",
         "ExceptionPrivilege": "No podeu accedir a aquest recurs perquè requereix un accés de %s",
-        "ExceptionPrivilegeAccessWebsite": "No podeu accedir a aquest recurs perquè requereix un accés %s per el lloc web id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "No podeu accedir a aquest recurs perquè requereix un accés %s .per al menys un lloc web",
         "ExceptionUnableToStartSession": "No s'ha pogut començar la sessió.",
         "ExceptionUndeletableFile": "No s'ha pogut esborrar %s",
         "ExceptionUnreadableFileDisabledMethod": "El fitxer de configuració {%1$s} no s'ha pogut llegir. El vostre host pot tenir deshabilitat %2$s.",
@@ -366,7 +364,6 @@
         "YearsDays": "%1$s anys %2$s dies",
         "Yes": "Sí",
         "YouAreCurrentlyUsing": "Ara mateix estàs fent servir el Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Ara mateix estàs veient la demostració del Piwik",
         "YouMustBeLoggedIn": "Has d'entrar per accedir a aquesta funcionalitat.",
         "YourChangesHaveBeenSaved": "Els vostres canvis s'han guardat"
     },

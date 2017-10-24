@@ -124,8 +124,6 @@
         "ExceptionMissingFile": "Nedostaje datoteka: %s",
         "ExceptionNonceMismatch": "Nije moguće provjeriti sigurnosnu oznaku obrasca.",
         "ExceptionPrivilege": "Nije moguće pristupiti ovoj funkciji jer zahjeva %s nivo pristupa.",
-        "ExceptionPrivilegeAccessWebsite": "Nije moguće pristupiti ovoj funkciji jer zahjeva %s nivo pristupa za stranicu sa oznakom %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Nije moguće pristupiti ovoj funkciji jer zahjeva %s nivo pristupa za barem jednu web stranicu.",
         "ExceptionUnableToStartSession": "Nije moguće pokrenuti vezu.",
         "ExceptionUndeletableFile": "Nije moguće obrisati %s",
         "ExceptionUnreadableFileDisabledMethod": "Nije moguće pročitati konfiguracijsku datoteku {%1$s}. Moguće je da je vaš poslužitelj isključio %2$s.",

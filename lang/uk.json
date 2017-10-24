@@ -169,8 +169,6 @@
         "ExceptionDirectoryToDelete": "Каталоги для видалення: %s",
         "ExceptionNonceMismatch": "Не можу перевірити елемент безпеки для цієї форми.",
         "ExceptionPrivilege": "Ви не можете мати доступ до цього ресурсу, оскільки він вимагає прав %s.",
-        "ExceptionPrivilegeAccessWebsite": "Ви не можете отримати доступ до цього ресурсу, оскільки необхідні права %s для сайту з id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Ви не можете отримати доступ до цього ресурсу, оскільки необхідні права %s хоча б для одного сайту.",
         "ExceptionUnableToStartSession": "Не вдалося запустити сесію.",
         "ExceptionUndeletableFile": "Неможливо видалити %s",
         "ExceptionUnreadableFileDisabledMethod": "Конфігураційний файл {%1$s} не може бути прочитаний. Можливо, на Вашому хості відключений %2$s.",
@@ -432,7 +430,6 @@
         "YearsDays": "%1$s р. %2$s дн.",
         "Yes": "Так",
         "YouAreCurrentlyUsing": "Ви використовуєте версію Piwik %s.",
-        "YouAreViewingDemoShortMessage": "Ви переглядаєте Piwik в демо режимі",
         "YouMustBeLoggedIn": "Ви повинні зайти на сайт, щоб отримати доступ до цього функціоналу.",
         "YourChangesHaveBeenSaved": "Зміни збережені."
     },

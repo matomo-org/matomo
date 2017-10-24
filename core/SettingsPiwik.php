@@ -235,6 +235,17 @@ class SettingsPiwik
     }
 
     /**
+     * Check if outgoing internet connections are enabled
+     * This is often disable in an intranet environment
+     * 
+     * @return bool
+     */
+    public static function isInternetEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_internet_features'];
+    }
+    
+    /**
      * Detect whether user has enabled auto updates. Please note this config is a bit misleading. It is currently
      * actually used for 2 things: To disable making any connections back to Piwik, and to actually disable the auto
      * update of core and plugins.
@@ -242,7 +253,12 @@ class SettingsPiwik
      */
     public static function isAutoUpdateEnabled()
     {
-        return (bool) Config::getInstance()->General['enable_auto_update'];
+        $enableAutoUpdate = (bool) Config::getInstance()->General['enable_auto_update'];
+        if(self::isInternetEnabled() === true && $enableAutoUpdate === true){
+            return true;
+        }
+        
+        return false;
     }
 
     /**

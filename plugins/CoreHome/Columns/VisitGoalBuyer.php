@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CoreHome\Segment;
@@ -33,19 +34,39 @@ class VisitGoalBuyer extends VisitDimension
 
     protected $columnName = 'visit_goal_buyer';
     protected $columnType = 'TINYINT(1) NULL';
+    protected $segmentName = 'visitEcommerceStatus';
+    protected $nameSingular = 'General_EcommerceVisitStatusDesc';
+    protected $type = self::TYPE_ENUM;
 
-    protected function configureSegments()
+    public function __construct()
     {
         $example = Piwik::translate('General_EcommerceVisitStatusEg', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"');
-        $acceptedValues = implode(", ", self::$visitEcommerceStatus) . '. ' . $example;
+        $this->acceptValues = implode(", ", self::$visitEcommerceStatus) . '. ' . $example;
+    }
 
-        $segment = new Segment();
-        $segment->setSegment('visitEcommerceStatus');
-        $segment->setName('General_EcommerceVisitStatusDesc');
-        $segment->setAcceptedValues($acceptedValues);
-        $segment->setSqlFilterValue(__NAMESPACE__ . '\VisitGoalBuyer::getVisitEcommerceStatus');
+    public function formatValue($value, $idSite, Formatter $formatter)
+    {
+        switch ($value) {
+            case 'ordered':
+            case self::TYPE_BUYER_ORDERED:
+                return Piwik::translate('CoreHome_VisitStatusOrdered');
+            case 'abandonedCart':
+            case self::TYPE_BUYER_OPEN_CART:
+                return Piwik::translate('Goals_AbandonedCart');
+            case 'orderedThenAbandonedCart':
+            case self::TYPE_BUYER_ORDERED_AND_OPEN_CART:
+                return Piwik::translate('CoreHome_VisitStatusOrderedThenAbandoned');
+            case 'none';
+            case self::TYPE_BUYER_NONE:
+                return Piwik::translate('UserCountryMap_None');
+        }
 
-        $this->addSegment($segment);
+        return $value;
+    }
+
+    public function getEnumColumnValues()
+    {
+        return self::$visitEcommerceStatus;
     }
 
     /**
@@ -81,17 +102,6 @@ class VisitGoalBuyer extends VisitDimension
         }
 
         return false;
-    }
-
-    public static function getVisitEcommerceStatus($status)
-    {
-        $id = array_search($status, self::$visitEcommerceStatus);
-
-        if ($id === false) {
-            throw new \Exception("Invalid 'visitEcommerceStatus' segment value $status");
-        }
-
-        return $id;
     }
 
     /**

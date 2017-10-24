@@ -3,6 +3,7 @@
         "GenerateQueries": "%s sorgu çalıştırılmıştır.",
         "GenerateTime": "sayfa %s saniyede oluşturulmuştur.",
         "NbActionsDescription": "Etkinlik sayısı %s (sayfa gösterimi, dosya indirme, dış linkler)",
+        "NbKeywordsDescription": "tekil anahtar kelimeler",
         "VisitsSummary": "Özeri gör",
         "VisitsSummaryDocumentation": "Ziyaretler için genel bakış niteliğindedir.",
         "WidgetLastVisits": "Son ziyaret grafiği",

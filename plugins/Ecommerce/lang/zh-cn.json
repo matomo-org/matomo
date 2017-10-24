@@ -1,0 +1,13 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "电子商务插件可以让您追踪用户何时添加商品到购物车，何时转化为电子商务销售。它也可以追踪产品和产品分类的浏览以及被放弃的购物车信息。",
+        "Sales": "销售",
+        "SalesBy": "由%s销售",
+        "SalesAdjective": "销售%s",
+        "LifeTimeValue": "电商终生价值",
+        "LifeTimeValueDescription": "电子商务总收入由此客户的全部行为而来：访客编码%s的所有电商订单的收入总和。",
+        "VisitorProfileLTV": "生成一个%1$s的终生收入。",
+        "VisitorProfileItemsAndOrders": "在%2$s电商订单中共购买了%1$s个商品。",
+        "VisitorProfileAbandonedCartSummary": "被放弃的%1$s购物车包含了%2$s个商品，总值%3$s。"
+    }
+}

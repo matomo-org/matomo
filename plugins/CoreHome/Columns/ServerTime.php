@@ -9,17 +9,34 @@
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Date;
-use Piwik\Db;
+use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
-use Piwik\Tracker;
+
+require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
 
 class ServerTime extends ActionDimension
 {
     protected $columnName = 'server_time';
     protected $columnType = 'DATETIME NOT NULL';
+    protected $segmentName = 'actionServerHour';
+    protected $sqlSegment = 'HOUR(log_link_visit_action.server_time)';
+    protected $nameSingular = 'VisitTime_ColumnServerHour';
+    protected $type = self::TYPE_DATETIME;
+
+    public function __construct()
+    {
+        $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
+            return range(0, min(23, $maxValuesToReturn));
+        };
+    }
+
+    public function formatValue($value, $idSite, Formatter $formatter)
+    {
+        return \Piwik\Plugins\VisitTime\getTimeLabel($value);
+    }
 
     public function install()
     {

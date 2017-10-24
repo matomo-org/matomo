@@ -24,9 +24,8 @@
 		<nb_conversions>2</nb_conversions>
 		<revenue>43</revenue>
 		<code>fr</code>
-		<logo>plugins/UserCountry/images/flags/fr.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 		<segment>countryCode==fr</segment>
-		<logoWidth>16</logoWidth>
-		<logoHeight>11</logoHeight>
+		<logoHeight>16</logoHeight>
 	</row>
 </result>

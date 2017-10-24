@@ -117,6 +117,8 @@ class Html extends Renderer
             foreach ($row->getMetadata() as $name => $value) {
                 if (is_string($value)) {
                     $value = "'$value'";
+                } else if (is_array($value)) {
+                    $value = var_export($value, true);
                 }
                 $metadata[] = "'$name' => $value";
             }

@@ -8,8 +8,9 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\MetricsList;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -18,14 +19,13 @@ class VisitsCount extends VisitDimension
 {
     protected $columnName = 'visitor_count_visits';
     protected $columnType = 'INT(11) UNSIGNED NOT NULL';
+    protected $segmentName = 'visitCount';
+    protected $nameSingular = 'General_NumberOfVisits';
+    protected $type = self::TYPE_NUMBER;
 
-    protected function configureSegments()
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        $segment = new Segment();
-        $segment->setType(Segment::TYPE_METRIC);
-        $segment->setSegment('visitCount');
-        $segment->setName('General_NumberOfVisits');
-        $this->addSegment($segment);
+        // no metrics for this dimension, it would be rather confusing I think
     }
 
     /**

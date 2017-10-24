@@ -16,18 +16,36 @@
         var model = {
             pages : [],
             findPage: findPage,
+            findPageInCategory: findPageInCategory,
             reloadAllPages : reloadAllPages,
             getAllPages : getAllPages
         };
 
         return model;
 
+        function findPageInCategory(categoryId) {
+            var found = null;
+
+            angular.forEach(model.pages, function (page) {
+                // happens when user switches between sites, in this case check if the same category exists and if so,
+                // select first entry from that category
+                if (!found && page &&
+                    page.category && page.subcategory &&
+                    page.category.id === categoryId && page.subcategory.id) {
+                    found = page;
+                }
+            });
+
+            return found;
+        }
+
         function findPage(categoryId, subcategoryId)
         {
             var found = null;
 
             angular.forEach(model.pages, function (page) {
-                if (page &&
+                if (!found &&
+                    page &&
                     page.category && page.subcategory &&
                     page.category.id === categoryId && ('' + page.subcategory.id) === subcategoryId) {
                     found = page;

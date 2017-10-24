@@ -1,0 +1,8 @@
+{{ action.serverTimePretty }}{% if action.url is defined and action.url|trim|length %}
+
+{{ action.url }}{% endif %}{%- if action.generationTime is defined %}
+
+{{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime|raw }}{% endif %}
+{%- if action.timeSpentPretty is defined %}
+
+{{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif -%}

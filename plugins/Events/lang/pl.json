@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Śledź zdarzenia i pobierz raporty aktywności Twoich odwiedzających,",
         "AvgEventValue": "Średnia wartość zdarzenia: %s",
         "AvgValue": "Średnia wartość",
         "AvgValueDocumentation": "Średnia wszystkich wartości w tym przypadku",
@@ -12,7 +13,9 @@
         "EventNames": "Nazwy zdarzeń",
         "Events": "Zdarzenia",
         "EventsWithValue": "Zdarzenia z wartością",
+        "EventsWithValueDocumentation": "Liczba zdarzeń z ustaloną wartością zdarzenia",
         "EventValue": "Wartość wydarzenia",
+        "EventValueTooltip": "Łączna wartość Zdarzeń jest sumą %1$s wartości zdarzeń %2$s pomiędzy minimum %3$s i maksimum %4$s.",
         "MaxValue": "Wartość maksymalna",
         "MaxValueDocumentation": "Maksymalna wartość dla tego zdarzenia",
         "MinValue": "Minimalna wartość",

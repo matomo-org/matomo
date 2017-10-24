@@ -62,9 +62,6 @@
         _setupControl: function () {
             // focus the popup so it will accept key events
             this.$element.focus();
-
-            // highlight the first visit
-            $('.visitor-profile-visits>li:first-child', this.$element).addClass('visitor-profile-current-visit');
         },
 
         _bindEventCallbacks: function () {
@@ -80,20 +77,30 @@
                 return false;
             });
 
+            $element.on('click', '.visitor-profile-toggle-actions', function (e) {
+                e.preventDefault();
+                $(this).toggleClass('minimized');
+                if ($(this).hasClass('minimized')) {
+                    $('.visitor-profile-actions', $element).slideUp();
+                } else {
+                    $('.visitor-profile-actions', $element).slideDown();
+                }
+                return false;
+            });
+
             $element.on('click', '.visitor-profile-more-info>a', function (e) {
                 e.preventDefault();
                 self._loadMoreVisits();
                 return false;
             });
 
-            $element.on('click', '.visitor-profile-see-more-cvars>a', function (e) {
-                e.preventDefault();
-                $('.visitor-profile-extra-cvars', $element).slideToggle();
-                return false;
+            $element.on('click', '.visitor-profile-visit-title', function () {
+               $('.visitor-profile-visit-details-extended', $(this).parents('li')).slideToggle();
             });
 
-            $element.on('click', '.visitor-profile-visit-title-row', function () {
-                self._loadIndividualVisitDetails($('h2', this));
+            $element.on('click', '.visitor-profile-show-actions', function () {
+                $('.visitor-profile-actions', $(this).parents('li')).slideToggle();
+                return false;
             });
 
             $element.on('click', '.visitor-profile-prev-visitor', function (e) {
@@ -140,10 +147,14 @@
             });
 
             $element.tooltip({
+                items: '[title],.visitorLogIconWithDetails',
                 track: true,
                 show: false,
                 hide: false,
                 content: function() {
+                    if ($(this).hasClass('visitorLogIconWithDetails')) {
+                        return $('<ul>').html($('ul', $(this)).html());
+                    }
                     var title = $(this).attr('title');
                     return $('<a>').text( title ).html().replace(/\n/g, '<br />');
                 },
@@ -207,7 +218,8 @@
                 period: '',
                 date: '',
                 visitorId: $element.attr('data-visitor-id'),
-                filter_offset: $('.visitor-profile-visits>li', $element).length
+                filter_offset: $('.visitor-profile-visits>li', $element).length,
+                start_number: $('.visitor-profile-visits>li:last', $element).data('number') - 1
             }, 'GET');
             ajax.setCallback(function (response) {
                 if (response == "") { // no more visits left
@@ -231,37 +243,6 @@
         _showNoMoreVisitsSpan: function () {
             var noMoreSpan = $('<span/>').text(_pk_translate('Live_NoMoreVisits')).addClass('visitor-profile-no-visits');
             $('.visitor-profile-more-info', this.$element).html(noMoreSpan);
-        },
-
-        _loadIndividualVisitDetails: function ($visitElement) {
-            var self = this,
-                $element = this.$element,
-                visitId = $visitElement.attr('data-idvisit');
-
-            $('.visitor-profile-avatar .loadingPiwik', $element).css('display', 'inline-block');
-            piwikHelper.lazyScrollTo($('.visitor-profile-avatar', $element)[0], 400);
-
-            var ajax = new ajaxHelper();
-            ajax.addParams({
-                module: 'Live',
-                action: 'getSingleVisitSummary',
-                visitId: visitId,
-                idSite: piwik.idSite
-            }, 'GET');
-            ajax.setCallback(function (response) {
-                $('.visitor-profile-avatar .loadingPiwik', $element).hide();
-
-                $('.visitor-profile-current-visit', $element).removeClass('visitor-profile-current-visit');
-                $visitElement.closest('li').addClass('visitor-profile-current-visit');
-
-                var $latestVisitSection = $('.visitor-profile-latest-visit', $element);
-                $latestVisitSection
-                    .html(response)
-                    .parent()
-                    .effect('highlight', {color: '#FFFFCB'}, 1200);
-            });
-            ajax.setFormat('html');
-            ajax.send();
         },
 
         _loadPreviousVisitor: function () {

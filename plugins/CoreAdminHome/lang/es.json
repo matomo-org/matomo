@@ -45,6 +45,7 @@
         "JSTracking_TrackNoScript": "Rastrear usuarios que tengan JavaScript deshabilitado",
         "JSTracking_VisitorCustomVars": "Rastrear variables personalizadas para este visitante",
         "JSTracking_VisitorCustomVarsDesc": "Por ejemplo, con el nombre de variable \"Tipo\" y el valor \"Cliente\".",
+        "JSTracking_EndNote": "Nota: Puedes generar un código de seguimiento personalizado en la sección %1$sCódigo de seguimiento%2$s",
         "JSTrackingIntro1": "Puedes rastrear visitantes hacia su sitio de internet en muchas formas distintas. La forma recomendada de hacerlo es con JavaScript. Para usar este método solo debe asegurarse de que cada página de su sitio de internet tenga algún código JavaScript, el cual puede generar aquí.",
         "JSTrackingIntro2": "Una vez que tenga el código de rastreo JavaScript para su sitio de internet, cópielo y péguelo en todas las páginas que desee rastrear con Piwik.",
         "JSTrackingIntro3b": "En la mayoría de sitios web, blogs, CMS, etc. puedes usar algún plugin predefinido que te ayude con los detalles técnicos. (Ver nuestra %1$slista de plugins usados para integrar Piwik%2$s.) Si no hubiera ningún plugin para tal efecto, siempre puedes editar las plantillas de tu sitio web y añadir este código antes de la etiqueta &lt;\/head&gt; que, normalmente, suele estar definida en el 'header.php', en el 'header.tpl' o una plantilla similar.",

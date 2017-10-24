@@ -59,7 +59,7 @@
             scope.allValues = {};
             angular.forEach(fieldNames, function (name) {
                 var actualField = $('.form-group [name=' + name + ']').first();
-                if (actualField.size()) {
+                if (actualField.length) {
                     scope.allValues[name] = getValueFromElement(actualField);
                     actualField.on('change', function () {
                         scope.allValues[name] = getValueFromElement($(this));

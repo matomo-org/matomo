@@ -5,9 +5,9 @@
         "NbActionsDescription": "%s 次活动",
         "PluginDescription": "报告一般分析指标：参观，独立访问者，动作次数，跳出率等。",
         "VisitsSummary": "访客总表",
-        "VisitsSummaryDocumentation": "这是访客趋势总表。",
+        "VisitsSummaryDocumentation": "这是访客趋势概览。",
         "WidgetLastVisits": "访客趋势图",
-        "WidgetOverviewGraph": "趋势图总表",
-        "WidgetVisits": "访客总表"
+        "WidgetOverviewGraph": "访客概览（带图）",
+        "WidgetVisits": "访客概览"
     }
 }

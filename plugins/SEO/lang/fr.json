@@ -3,7 +3,6 @@
         "PluginDescription": "Ce composant extrait et affiche les indicateurs de SEO : Alexa web ranking, Google Pagerank, le nombre de pages indexées et les rétroliens du site actuellement sélectionné.",
         "AlexaRank": "Notation Alexa",
         "Bing_IndexedPages": "Pages indexées sur Bing",
-        "Dmoz": "Entrées DMOZ",
         "DomainAge": "Âge du domaine",
         "Google_IndexedPages": "Page indexées sur Google",
         "Rank": "Notation",

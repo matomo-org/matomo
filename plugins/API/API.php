@@ -29,6 +29,7 @@ use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
+use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Measurable\Type\TypeManager;
 use Piwik\Version;
@@ -152,6 +153,7 @@ class API extends \Piwik\Plugin\API
         if (empty($idSites)) {
             Piwik::checkUserHasSomeViewAccess();
         } else {
+            $idSites = Site::getIdSitesFromIdSitesString($idSites);
             Piwik::checkUserHasViewAccess($idSites);
         }
 
@@ -433,9 +435,27 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
+        $apiParameters = array();
+        $entityNames = StaticContainer::get('entities.idNames');
+        foreach ($entityNames as $entityName) {
+            if ($entityName === 'idGoal' && $idGoal) {
+                $apiParameters['idGoal'] = $idGoal;
+            } elseif ($entityName === 'idDimension' && $idDimension) {
+                $apiParameters['idDimension'] = $idDimension;
+            } else {
+                // ideally it would get the value from API params but dynamic params is not possible yet in API. If this
+                // method is called eg in Request::processRequest, it could in theory pick up a param from the original request
+                // and not from the API request within the original request.
+                $idEntity = Common::getRequestVar($entityName, 0, 'int');
+                if ($idEntity > 0) {
+                    $apiParameters[$entityName] = $idEntity;
+                }
+            }
+        }
+
         $rowEvolution = new RowEvolution();
         return $rowEvolution->getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $column,
-            $language, $idGoal, $legendAppendMetric, $labelUseAbsoluteUrl, $idDimension);
+            $language, $apiParameters, $legendAppendMetric, $labelUseAbsoluteUrl);
     }
 
     /**

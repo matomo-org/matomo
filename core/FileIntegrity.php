@@ -65,6 +65,7 @@ class FileIntegrity
             '.bowerrc',
             '.phpstorm.meta.php',
             'config/config.ini.php',
+            'config/config.php',
             'config/common.ini.php',
             'config/*.config.ini.php',
             'config/manifest.inc.php',
@@ -72,13 +73,19 @@ class FileIntegrity
             'misc/*.dat.gz',
             'misc/*.bin',
             'misc/user/*png',
+            'misc/user/*js',
             'misc/package',
             'misc/package/WebAppGallery/*.xml',
             'misc/package/WebAppGallery/install.sql',
             'plugins/ImageGraph/fonts/unifont.ttf',
             'vendor/autoload.php',
             'vendor/composer/autoload_real.php',
+            'vendor/szymach/c-pchart/app/*',
             'tmp/*',
+            // Search engine sites verification
+            'google*.html',
+            'BingSiteAuth.xml',
+            'yandex*.html',
             // Files below are not expected but they used to be present in older Piwik versions and may be still here
             // As they are not going to cause any trouble we won't report them as 'File to delete'
             '*.coveralls.yml',
@@ -110,8 +117,14 @@ class FileIntegrity
             $deleteAllAtOnce = array();
             $chunks = array_chunk($directories, 50);
 
+            $command = 'rm -Rf';
+
+            if (SettingsServer::isWindows()) {
+                $command = 'rmdir /s /q';
+            }
+
             foreach ($chunks as $directories) {
-                $deleteAllAtOnce[] = sprintf('rm -Rf %s', implode(' ', $directories));
+                $deleteAllAtOnce[] = sprintf('%s %s', $command, implode(' ', $directories));
             }
 
             $messages[] = Piwik::translate('General_ExceptionUnexpectedDirectory')
@@ -152,8 +165,14 @@ class FileIntegrity
             $deleteAllAtOnce = array();
             $chunks = array_chunk($files, 50);
 
+            $command = 'rm';
+
+            if (SettingsServer::isWindows()) {
+                $command = 'del';
+            }
+
             foreach ($chunks as $files) {
-                $deleteAllAtOnce[] = sprintf('rm %s', implode(' ', $files));
+                $deleteAllAtOnce[] = sprintf('%s %s', $command, implode(' ', $files));
             }
 
             $messages[] = Piwik::translate('General_ExceptionUnexpectedFile')

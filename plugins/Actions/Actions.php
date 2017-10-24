@@ -30,17 +30,9 @@ class Actions extends \Piwik\Plugin
             'ViewDataTable.configure'         => 'configureViewDataTable',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Insights.addReportToOverview'    => 'addReportToInsightsOverview',
-            'Live.getAllVisitorDetails'       => 'extendVisitorDetails',
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
         );
-    }
-
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $visitor['searches'] = $details['visit_total_searches'];
-        $visitor['actions']  = $details['visit_total_actions'];
-        $visitor['interactions']  = $details['visit_total_interactions'];
     }
 
     public function addMetricTranslations(&$translations)

@@ -25,29 +25,31 @@
                             {% endif %}
 
                             <ul class="metadata">
-                                <li>
-                                    {% if plugin.latestVersion %}
-                                        {{ 'CorePluginsAdmin_Version'|translate }}: {{ plugin.latestVersion }}
-                                    {% endif %}
+                                {% if plugin.isBundle is not defined or not plugin.isBundle %}
+                                    <li>
+                                        {% if plugin.latestVersion %}
+                                            {{ 'CorePluginsAdmin_Version'|translate }}: {{ plugin.latestVersion }}
+                                        {% endif %}
 
-                                    {% if plugin.canBeUpdated %}
-                                        <a class="update-available"
-                                            {% if plugin.changelog is defined and plugin.changelog and plugin.changelog.url is defined and plugin.changelog.url %}
-                                                target="_blank" href="{{ plugin.changelog.url|e('html_attr') }}"
-                                            {% else %}
-                                                href="#" piwik-plugin-name="{{ plugin.name }}"
-                                            {% endif %}
-                                           title="{{ 'Marketplace_PluginUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}">
-                                            {{ 'Marketplace_NewVersion'|translate }}</a>
+                                        {% if plugin.canBeUpdated %}
+                                            <a class="update-available"
+                                                {% if plugin.changelog is defined and plugin.changelog and plugin.changelog.url is defined and plugin.changelog.url %}
+                                                    target="_blank" href="{{ plugin.changelog.url|e('html_attr') }}"
+                                                {% else %}
+                                                    href="#" piwik-plugin-name="{{ plugin.name }}"
+                                                {% endif %}
+                                               title="{{ 'Marketplace_PluginUpdateAvailable'|translate(plugin.currentVersion, plugin.latestVersion) }}">
+                                                {{ 'Marketplace_NewVersion'|translate }}</a>
+                                        {% endif %}
+                                    </li>
+                                    {% if plugin.lastUpdated %}
+                                        <li>{{ 'Marketplace_Updated'|translate }}: {{ plugin.lastUpdated }}</li>
                                     {% endif %}
-                                </li>
-                                {% if plugin.lastUpdated %}
-                                    <li>{{ 'Marketplace_Updated'|translate }}: {{ plugin.lastUpdated }}</li>
+                                    {% if plugin.numDownloads %}
+                                        <li>{{ 'General_Downloads'|translate }}: {{ plugin.numDownloads }}</li>
+                                    {% endif %}
+                                    <li>{{ 'Marketplace_Developer'|translate }}: {{ marketplaceMacro.pluginDeveloper(plugin.owner) }}</li>
                                 {% endif %}
-                                {% if plugin.numDownloads %}
-                                    <li>{{ 'General_Downloads'|translate }}: {{ plugin.numDownloads }}</li>
-                                {% endif %}
-                                <li>{{ 'Marketplace_Developer'|translate }}: {{ marketplaceMacro.pluginDeveloper(plugin.owner) }}</li>
                             </ul>
 
                             {% macro moreDetailsLink(plugin) %}

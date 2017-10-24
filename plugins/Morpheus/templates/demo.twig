@@ -274,7 +274,7 @@
                      placeholder="Some text here">
                 </div>
 
-                <div piwik-field uicontrol="text" name="email"
+                <div piwik-field uicontrol="email" name="email"
                      title="Email"
                      inline-help="This is the inline help which provides more information.">
                 </div>
@@ -314,6 +314,9 @@
                      placeholder="Some text here...">
                 </div>
 
+                <div piwik-field uicontrol="url" name="urlText" title="URL" inline-help="URL field">
+                </div>
+
                 <div piwik-field uicontrol="textarea" name="description"
                      title="Description"
                      inline-help="This is a textarea. It automatically gets larger the more text is entered.">
@@ -332,6 +335,14 @@
                      value="1"
                      inline-help="Multi select"
                      options='{1: "0123456789",2:"9876543210",3:"5432109876"}'>
+                </div>
+
+                <div piwik-field uicontrol="expandable-select" name="selectexpand"
+                     title="{{ "{{ view.selectedExpand ? view.selectedExpand : 'Select word' }}"|raw }}"
+                     value="Select value"
+                     inline-help="Expandable select"
+                     ng-model="view.selectedExpand"
+                     options='[{group: "Group 1",key:"1",value:"Hello"}, {group: "Group 1",key:"2",value:"How",tooltip: "Help text"}, {group: "Group 1",key:"3",value:"Are"}, {group: "Group 2",key:"4",value:"You"}]'>
                 </div>
 
                 <div piwik-field uicontrol="checkbox" name="enableFeature"
@@ -375,7 +386,7 @@
           placeholder=&quot;Some text here&quot;&gt;
     &lt;/div&gt;
 
-    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;email&quot;
+    &lt;div piwik-field uicontrol=&quot;email&quot; name=&quot;email&quot;
          title=&quot;Email&quot;
          inline-help=&quot;This is the inline help which provides more information.&quot;&gt;
     &lt;/div&gt;
@@ -415,6 +426,9 @@
          placeholder=&quot;Some text here...&quot;&gt;
     &lt;/div&gt;
 
+    &lt;div piwik-field uicontrol=&quot;url&quot; name=&quot;urlText&quot; title=&quot;URL&quot; inline-help=&quot;URL field&quot;&gt;
+    &lt;/div&gt;
+
     &lt;div piwik-field uicontrol=&quot;textarea&quot; name=&quot;description&quot;
          title=&quot;Description&quot;
          inline-help=&quot;This is a textarea. It automatically gets larger the more text is entered.&quot;&gt;
@@ -435,6 +449,14 @@
          options='{1: &quot;0123456789&quot;,2:&quot;9876543210&quot;,3:&quot;5432109876&quot;}'&gt;
     &lt;/div&gt;
 
+    &lt;div piwik-field uicontrol=&quot;expandable-select&quot; name=&quot;selectexpand&quot;
+         title=&quot;{{ "{{ view.selectedExpand ? view.selectedExpand : 'Select word' }}"|raw }}&quot;
+         value=&quot;Select value&quot;
+         inline-help=&quot;Expandable select&quot;
+         ng-model=&quot;view.selectedExpand&quot;
+         options='[{group: &quot;Group 1&quot;,key:&quot;1&quot;,value:&quot;Hello&quot;}, {group: &quot;Group 1&quot;,key:&quot;2&quot;,value:&quot;How&quot;,tooltip: &quot;Help text&quot;}, {group: &quot;Group 1&quot;,key:&quot;3&quot;,value:&quot;Are&quot;}, {group: &quot;Group 2&quot;,key:&quot;4&quot;,value:&quot;You&quot;}]'&gt;
+    &lt;/div&gt;
+                
     &lt;div piwik-field uicontrol=&quot;checkbox&quot; name=&quot;enableFeature&quot;
          title=&quot;Enable feature&quot;
          introduction=&quot;Radio and checkboxes&quot;
@@ -706,6 +728,13 @@
                         'server-alt',
                         'tag-cloud',
                         'play',
+                        'pause',
+                        'replay',
+                        'stop',
+                        'fast-forward',
+                        'fast-rewind',
+                        'skip-next',
+                        'skip-previous',
                         'sign-in',
                         'sign-out',
                         'settings'

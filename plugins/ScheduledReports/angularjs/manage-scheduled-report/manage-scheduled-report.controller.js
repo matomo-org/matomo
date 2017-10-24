@@ -133,7 +133,7 @@
             apiParameters.reportFormat = this.report['format' + this.report.type];
 
             var period = self.report.period;
-            var hour = adjustHourToTimezone(this.report.hour, timeZoneDifference);
+            var hour = adjustHourToTimezone(this.report.hour, -timeZoneDifference);
 
             var reports = [];
             $('[name=reportsList].' + apiParameters.reportType + ' input:checked').each(function () {

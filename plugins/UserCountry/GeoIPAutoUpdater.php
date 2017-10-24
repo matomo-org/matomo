@@ -268,7 +268,11 @@ class GeoIPAutoUpdater extends Task
             }
 
             $tempFile = GeoIp::getPathForGeoIpDatabase($tempFilename);
-            rename($tempFile, $oldDbFile);
+            if (@rename($tempFile, $oldDbFile) !== true) {
+                //In case the $tempfile cannot be renamed, we copy the file.
+                copy($tempFile, $oldDbFile);
+                unlink($tempFile);
+            }
 
             // delete original archive
             if ($unlink) {
@@ -485,6 +489,7 @@ class GeoIPAutoUpdater extends Task
         if ($ext != 'tar.gz'
             && $ext != 'gz'
             && $ext != 'dat.gz'
+            && $ext != 'mmdb.gz'
         ) {
             throw new \Exception(Piwik::translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
         }

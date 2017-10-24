@@ -170,6 +170,12 @@ class DataTablePostProcessor
     public function applyFlattener($dataTable)
     {
         if (Common::getRequestVar('flat', '0', 'string', $this->request) == '1') {
+            // skip flattening if not supported by report and remove subtables only
+            if ($this->report && !$this->report->supportsFlatten()) {
+                $dataTable->filter('RemoveSubtables');
+                return $dataTable;
+            }
+
             $flattener = new Flattener($this->apiModule, $this->apiMethod, $this->request);
             if (Common::getRequestVar('include_aggregate_rows', '0', 'string', $this->request) == '1') {
                 $flattener->includeAggregateRows();
@@ -391,7 +397,7 @@ class DataTablePostProcessor
         // this is needed because Proxy uses Common::getRequestVar which in turn
         // uses Common::sanitizeInputValue. This causes the > that separates recursive labels
         // to become &gt; and we need to undo that here.
-        $label = str_replace( htmlentities('>'), '>', $label);
+        $label = str_replace( htmlentities('>', ENT_COMPAT | ENT_HTML401, 'UTF-8'), '>', $label);
         return $label;
     }
 

@@ -35,7 +35,7 @@ class PromoServices extends \Piwik\Widget\Widget
     public static function configure(WidgetConfig $config)
     {
         $config->setCategoryId('About Piwik');
-        $config->setName('ProfessionalServices_WidgetProfessionalServicesForPiwik');
+        $config->setName('ProfessionalServices_WidgetPremiumServicesForPiwik');
 
         $advertising = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
         $config->setIsEnabled($advertising->areAdsForProfessionalServicesEnabled());
@@ -49,6 +49,7 @@ class PromoServices extends \Piwik\Widget\Widget
 
         $view->ctaLinkUrl = $promo['url'];
         $view->ctaText = $promo['text'];
+        $view->ctaTitle = $promo['title'];
         $view->ctaLinkTitle = $this->promo->getLinkTitle();
 
         return $view->render();

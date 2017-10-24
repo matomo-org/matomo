@@ -7,19 +7,25 @@
  */
 namespace Piwik\Tests\Integration;
 
+use Piwik\API\Proxy;
 use Piwik\Archive as PiwikArchive;
+use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Plugins\UserLanguage;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Archive\Chunk;
@@ -30,7 +36,14 @@ class Archive extends PiwikArchive
     {
         return parent::get($archiveNames, $archiveDataType, $idSubtable);
     }
+}
 
+class CustomArchiveQueryFactory extends PiwikArchive\ArchiveQueryFactory
+{
+    public function newInstance(\Piwik\Archive\Parameters $params, $forceIndexedBySite, $forceIndexedByDate)
+    {
+        return new Archive($params, $forceIndexedBySite, $forceIndexedByDate);
+    }
 }
 
 /**
@@ -229,6 +242,64 @@ class ArchiveTest extends IntegrationTestCase
         );
     }
 
+    public function testExistingArchivesAreReplaced()
+    {
+        $date = self::$fixture->dateTime;
+        $period = PeriodFactory::makePeriodFromQueryParams('UTC', 'day', $date);
+
+        // request an report to trigger archiving
+        $userLanguageReport = Proxy::getInstance()->call('\\Piwik\\Plugins\\UserLanguage\\API', 'getLanguage', array(
+            'idSite' => 1,
+            'period' => 'day',
+            'date' => $date
+        ));
+
+        $this->assertEquals(1, $userLanguageReport->getRowsCount());
+        $this->assertEquals('UserLanguage_LanguageCode fr', $userLanguageReport->getFirstRow()->getColumn('label'));
+        $this->assertEquals('UserLanguage_LanguageCode fr', $userLanguageReport->getLastRow()->getColumn('label'));
+
+        $parameters = new Parameters(new Site(1), $period, new Segment('', []));
+        $parameters->setRequestedPlugin('UserLanguage');
+
+        $result    = ArchiveSelector::getArchiveIdAndVisits($parameters, $period->getDateStart()->getDateStartUTC());
+        $idArchive = $result ? array_shift($result) : null;
+
+        if (empty($idArchive)) {
+            $this->fail('Archive should be available');
+        }
+
+        // track a new visits now
+        $t = Fixture::getTracker(1, $date, $defaultInit = true);
+        $t->setForceVisitDateTime(Date::factory($date)->addHour(1)->getDatetime());
+        $t->setUrl('http://site.com/index.htm');
+        $t->setBrowserLanguage('pt-br');
+        Fixture::checkResponse($t->doTrackPageView('my_site'));
+
+        $archiveWriter            = new ArchiveWriter($parameters, !!$idArchive);
+        $archiveWriter->idArchive = $idArchive;
+
+        $archiveProcessor = new ArchiveProcessor($parameters, $archiveWriter,
+            new LogAggregator($parameters));
+
+        $archiveProcessor->setNumberOfVisits(1, 1);
+
+        // directly trigger specific archiver for existing archive
+        $archiver = new UserLanguage\Archiver($archiveProcessor);
+        $archiver->aggregateDayReport();
+
+        // report should be updated
+        $userLanguageReport = Proxy::getInstance()->call('\\Piwik\\Plugins\\UserLanguage\\API', 'getLanguage', array(
+            'idSite' => 1,
+            'period' => 'day',
+            'date' => $date
+        ));
+
+        $this->assertEquals(2, $userLanguageReport->getRowsCount());
+        $this->assertEquals('UserLanguage_LanguageCode fr', $userLanguageReport->getFirstRow()->getColumn('label'));
+        $this->assertEquals('UserLanguage_LanguageCode pt', $userLanguageReport->getLastRow()->getColumn('label'));
+    }
+
+
     private function createManyDifferentArchiveBlobs()
     {
         $recordName1 = 'Actions_Actions';
@@ -323,9 +394,20 @@ class ArchiveTest extends IntegrationTestCase
         return $archive->getNumeric('nb_visits');
     }
 
+    /**
+     * @return Archive
+     */
     private function getArchive($period, $day = '2010-03-04,2010-03-07')
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return Archive::build(self::$fixture->idSite, $period, $day);
+    }
+
+    public function provideContainerConfig()
+    {
+        return [
+            PiwikArchive\ArchiveQueryFactory::class => \DI\object(CustomArchiveQueryFactory::class),
+        ];
     }
 }
 

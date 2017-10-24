@@ -36,15 +36,19 @@ function getPathFromUrl($url)
 function getReferrerTypeLabel($label)
 {
     switch ($label) {
+        case 'direct':
         case Common::REFERRER_TYPE_DIRECT_ENTRY:
             $indexTranslation = 'Referrers_DirectEntry';
             break;
+        case 'search':
         case Common::REFERRER_TYPE_SEARCH_ENGINE:
             $indexTranslation = 'Referrers_SearchEngines';
             break;
+        case 'website':
         case Common::REFERRER_TYPE_WEBSITE:
             $indexTranslation = 'Referrers_Websites';
             break;
+        case 'campaign':
         case Common::REFERRER_TYPE_CAMPAIGN:
             $indexTranslation = 'Referrers_Campaigns';
             break;

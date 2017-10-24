@@ -46,6 +46,10 @@ class GetNewPlugins extends Widget
 
         $plugins = $this->marketplaceApiClient->searchForPlugins('', '', Sort::METHOD_LAST_UPDATED, PurchaseType::TYPE_ALL);
 
+        $plugins = array_filter($plugins, function ($plugin) {
+            return empty($plugin['isBundle']);
+        });
+
         return $this->renderTemplate($template, array(
             'plugins' => array_splice($plugins, 0, 3)
         ));

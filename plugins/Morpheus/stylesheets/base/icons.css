@@ -236,7 +236,7 @@
     content: "\e641";
 }
 .icon-play:before {
-    content: "\e643";
+    content: "\e038";
 }
 .icon-visitor-profile:before {
     content: "\e644";
@@ -315,4 +315,25 @@
 }
 .icon-archive:before {
     content: "\e95e";
+}
+.icon-fast-forward:before {
+    content: "\e01f";
+}
+.icon-fast-rewind:before {
+    content: "\e020";
+}
+.icon-pause:before {
+    content: "\e035";
+}
+.icon-replay:before {
+    content: "\e042";
+}
+.icon-skip-next:before {
+    content: "\e044";
+}
+.icon-skip-previous:before {
+    content: "\e045";
+}
+.icon-stop:before {
+    content: "\e047";
 }

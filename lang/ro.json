@@ -143,8 +143,6 @@
         "ExceptionMissingFile": "Fisier lipsa: %s",
         "ExceptionNonceMismatch": "Nu a putut fi verificat token-ul de securitate in acest formular",
         "ExceptionPrivilege": "Nu puteti accesa resursa pentru ca necesita acces la %s",
-        "ExceptionPrivilegeAccessWebsite": "Nu puteti accesa resursa pentru ca necesita acces %s pentru id-ul site-ului %d",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Nu puteti accesa resursa pentru ca necesita acces %s pentru cel putin un site",
         "ExceptionUnableToStartSession": "Sesiunea nu a putut fi pornita",
         "ExceptionUndeletableFile": "Nu s-a putut sterge %s",
         "ExceptionUnreadableFileDisabledMethod": "Fisierul de configurare {%1$s} nu a putut fi citit. Hosting-ul dvs. ar fi putut dezactiva %2$s.",

@@ -20,7 +20,7 @@
 					<latest_2x_beta>Latest beta 2.X (Long Term Support version)</latest_2x_beta>
 				</availableValues>
 				<description />
-				<inlineHelp>While our &lt;a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/participate/development-process/' target='_blank'&gt;development process&lt;/a&gt; includes thousands of automated tests, Beta Testers play a key role in achieving the &quot;No bug policy&quot; in Piwik.&lt;br/&gt;If Piwik is a critical part of your business, we recommend you use the latest stable release. If you use the latest beta and you find a bug or have a suggestion, please &lt;a href='?module=Proxy&amp;action=redirect&amp;url=http%3A%2F%2Fdeveloper.piwik.org%2Fguides%2Fcore-team-workflow%23influencing-piwik-development' target='_blank'&gt;see here&lt;/a&gt;.&lt;br /&gt;LTS (Long Term Support) versions receive only security and bug fixes.</inlineHelp>
+				<inlineHelp>While our &lt;a href='?module=Proxy&amp;action=redirect&amp;url=https://piwik.org/participate/development-process/' target='_blank'&gt;development process&lt;/a&gt; includes thousands of automated tests, Beta Testers play a key role in achieving the &quot;No bug policy&quot; in Piwik.&lt;br/&gt;If Piwik is a critical part of your business, we recommend you use the latest stable release. If you use the latest beta and you find a bug or have a suggestion, please &lt;a href='?module=Proxy&amp;action=redirect&amp;url=https%3A%2F%2Fdeveloper.piwik.org%2Fguides%2Fcore-team-workflow%23influencing-piwik-development' target='_blank'&gt;see here&lt;/a&gt;.&lt;br /&gt;LTS (Long Term Support) versions receive only security and bug fixes.</inlineHelp>
 				<templateFile />
 				<introduction>Release channel</introduction>
 				<condition />
@@ -35,8 +35,8 @@
 				<uiControlAttributes>
 				</uiControlAttributes>
 				<availableValues>
-					<row key="1">Yes</row>
-					<row key="0">No (Default)</row>
+					<row key="1">Yes (Default)</row>
+					<row key="0">No</row>
 				</availableValues>
 				<description />
 				<inlineHelp>An email will be sent to Super Users when there is a new version available for a plugin.</inlineHelp>
@@ -294,7 +294,7 @@ Another line</defaultValue>
 			</row>
 			<row>
 				<name>redisHost</name>
-				<title>Redis host</title>
+				<title>Redis host or unix socket</title>
 				<value>127.0.0.1</value>
 				<defaultValue>127.0.0.1</defaultValue>
 				<type>string</type>
@@ -304,7 +304,7 @@ Another line</defaultValue>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Remote host of the Redis server. Max 500 characters are allowed.</inlineHelp>
+				<inlineHelp>Remote host or unix socket of the Redis server. Max 500 characters are allowed.</inlineHelp>
 				<templateFile />
 				<introduction />
 				<condition />
@@ -321,7 +321,7 @@ Another line</defaultValue>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Port the Redis server is running on. Value should be between 1 and 65535.</inlineHelp>
+				<inlineHelp>Port the Redis server is running on. Value should be between 1 and 65535. Use 0 if you are using unix socket to connect to Redis server.</inlineHelp>
 				<templateFile />
 				<introduction />
 				<condition />

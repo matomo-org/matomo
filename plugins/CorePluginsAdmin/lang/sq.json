@@ -37,9 +37,12 @@
         "NoPluginSettings": "S’ka rregullime shtojce që mund të formësohen",
         "Origin": "Origjina",
         "OriginCore": "Bazë",
+        "OriginOfficial": "Zyrtare",
         "OriginThirdParty": "Prej palësh të treta",
         "PluginHomepage": "Faqe Hyrëse e Shtojcës",
         "PluginNotCompatibleWith": "Shtojca %1$s s’është e përputhshme me %2$s.",
+        "PluginNotFound": "Shtojca %1$s s’u gjet në sistemin e kartelave.",
+        "PluginNotFoundAlternative": "Nëse e keni përdorur këtë shtojcë, provoni ta ringarkoni ose riinstaloni prej Marketplace-it. Nëse jo, klikoni çinstalojeni që të hiqet prej listës.",
         "PluginNotWorkingAlternative": "Nëse e përdorni këtë shtojcë, ndoshta mund të gjeni një version më të ri te Marketplace-i. Nëse jo, mund të donit ta çinstaloni.",
         "PluginRequirement": "%1$s lyp %2$s.",
         "PluginsManagement": "Administrim Shtojcash",
@@ -50,7 +53,7 @@
         "Status": "Gjendje",
         "SuccessfullyActicated": "E aktivizuat me sukses <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Zgjerojeni Piwik-un me Shtojca dhe Tema",
-        "TeaserExtendPiwikByPlugin": "Zgjerojeni Piwik-un përmes %1$sinstalimit të një shtojce të re%2$s.",
+        "TeaserExtendPiwikByPlugin": "Zgjerojeni Piwik-un duke %1$sinstaluar shtojca prej Marketplace-it%2$s ose %3$sduke ngarkuar një shtojcë në formatin .zip%4$s.",
         "TeaserExtendPiwikByTheme": "Shijoni pamje & ndjesi të reja përmes %1$sinstalimit të një teme të re%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Shtojca mund të instaloni vetvetiu që prej Marketplace-it ose %1$sta ngarkoni një shtojcë%2$s në formatin .zip.",
         "Theme": "Temë",
@@ -60,7 +63,7 @@
         "UninstallConfirm": "Ju ndan një hap nga çinstalimi i shtojcës %s. Shtojca do të hiqet plotësisht nga platforma juaj dhe ky veprim s’mund të zhbëhet. Jeni i sigurt se doni të bëhet kështu?",
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Shihni krejt shtojcat e Marketplace-it",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "E çaktivizuam shtojcën %s, ngaqë ka varësi të paplotësuara:",
+        "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Shtojca %1$s s’u ngarkua dot, ngaqë ka varësi të paplotësuara: %2$s",
         "Websites": "Sajte"
     }
 }

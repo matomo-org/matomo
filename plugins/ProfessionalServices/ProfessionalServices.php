@@ -10,6 +10,7 @@ namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Common;
 use Piwik\View;
+use Piwik\Plugin;
 
 class ProfessionalServices extends \Piwik\Plugin
 {
@@ -25,7 +26,10 @@ class ProfessionalServices extends \Piwik\Plugin
             'Template.afterGoalCannotAddNewGoal' => array('function' => 'getGoalOverviewPromo', 'after' => true),
             'Template.endGoalEditTable' => array('function' => 'getGoalFunnelOverviewPromo', 'after' => true),
             'Template.afterEventsReport' => 'getEventsPromo',
+            'Template.afterCampaignsReport' => 'getCampaignsPromo',
             'Template.afterReferrersKeywordsReport' => 'getSearchKeywordsPerformancePromo',
+            'Template.afterOverlaySidebar' => 'getHeatmapPromo',
+            'Template.afterVisitorProfileOverview' => 'getSessionRecordingPromo',
         );
     }
 
@@ -48,7 +52,7 @@ class ProfessionalServices extends \Piwik\Plugin
                 $action = 'promoServices';
             }
 
-            if($action == 'rssPiwikPro') {
+            if ($action == 'rssPiwikPro') {
                 $action = 'rss';
             }
         }
@@ -60,10 +64,29 @@ class ProfessionalServices extends \Piwik\Plugin
         return $isWidget;
     }
 
+    public function getHeatmapPromo(&$out)
+    {
+        if (!$this->shouldShowPromoForPlugin('HeatmapSessionRecording')) {
+            return;
+        }
+
+        $view = new View('@ProfessionalServices/promoHeatmaps');
+        $out .= $view->render();
+    }
+
+    public function getSessionRecordingPromo(&$out)
+    {
+        if (!$this->shouldShowPromoForPlugin('HeatmapSessionRecording')) {
+            return;
+        }
+
+        $view = new View('@ProfessionalServices/promoSessionRecordings');
+        $out .= $view->render();
+    }
+
     public function getSearchKeywordsPerformancePromo(&$out)
     {
-        if(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('SearchEngineKeywordsPerformance')
-            || $this->isRequestForDashboardWidget()) {
+        if (!$this->shouldShowPromoForPlugin('SearchEngineKeywordsPerformance')) {
             return;
         }
 
@@ -73,8 +96,7 @@ class ProfessionalServices extends \Piwik\Plugin
 
     public function getGoalFunnelOverviewPromo(&$out)
     {
-        if(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Funnels')
-            || $this->isRequestForDashboardWidget()) {
+        if (!$this->shouldShowPromoForPlugin('Funnels')) {
             return;
         }
 
@@ -82,11 +104,9 @@ class ProfessionalServices extends \Piwik\Plugin
         $out .= $view->render();
     }
 
-
     public function getGoalOverviewPromo(&$out)
     {
-        if(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('AbTesting')
-            || $this->isRequestForDashboardWidget()) {
+        if (!$this->shouldShowPromoForPlugin('AbTesting')) {
             return;
         }
 
@@ -96,11 +116,34 @@ class ProfessionalServices extends \Piwik\Plugin
 
     public function getEventsPromo(&$out)
     {
-        if($this->isRequestForDashboardWidget()) {
+        if ($this->isRequestForDashboardWidget()) {
             return;
         }
+
         $view = new View('@ProfessionalServices/promoBelowEvents');
-        $view->displayMediaAnalyticsAd = !\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MediaAnalytics');
+        $view->displayMediaAnalyticsAd = !$this->isPluginActivated('MediaAnalytics');
         $out .= $view->render();
     }
+
+    public function getCampaignsPromo(&$out)
+    {
+        if ($this->isRequestForDashboardWidget()) {
+            return;
+        }
+
+        $view = new View('@ProfessionalServices/promoBelowCampaigns');
+        $view->displayMarketingCampaignsReportingAd = !$this->isPluginActivated('MarketingCampaignsReporting');
+        $out .= $view->render();
+    }
+
+    private function shouldShowPromoForPlugin($pluginName)
+    {
+        return !$this->isPluginActivated($pluginName) && !$this->isRequestForDashboardWidget();
+    }
+
+    private function isPluginActivated($pluginName)
+    {
+        return Plugin\Manager::getInstance()->isPluginActivated($pluginName);
+    }
+
 }
