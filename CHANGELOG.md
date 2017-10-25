@@ -7,7 +7,7 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
 ## Piwik 3.2.1
 
 ### New APIs
- * Themes can now customer the header text color using `@theme-color-header-text`
+ * Themes can now customize the header text color using `@theme-color-header-text`
 
 ## Piwik 3.2.0
 
