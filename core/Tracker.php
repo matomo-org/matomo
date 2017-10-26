@@ -9,10 +9,8 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\API\CORSHandler;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
-use Piwik\Config;
 use Piwik\Tracker\Db as TrackerDb;
 use Piwik\Tracker\Db\DbException;
 use Piwik\Tracker\Handler;
@@ -95,9 +93,6 @@ class Tracker
         try {
             $this->init();
             $handler->init($this, $requestSet);
-
-            $corsHandler = new CORSHandler();
-            $corsHandler->handle();
 
             $this->track($handler, $requestSet);
         } catch (Exception $e) {
