@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\ScheduledReports\tests\Unit\ReportEmailGenerator;
 
-
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator\HtmlReportEmailGenerator;
 use Zend_Mime;

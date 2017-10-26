@@ -11,7 +11,6 @@ namespace Piwik\Plugins\ScheduledReports;
 
 use Piwik\Mail;
 use Piwik\Piwik;
-use Piwik\Plugins\UsersManager\Model as UserModel;
 use Piwik\Scheduler\Schedule\Schedule;
 use Zend_Mime;
 

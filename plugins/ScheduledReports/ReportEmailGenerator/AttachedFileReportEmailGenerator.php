@@ -15,6 +15,7 @@ use Piwik\Plugins\ScheduledReports\API;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator;
 use Piwik\SettingsPiwik;
+use Piwik\View;
 use Zend_Mime;
 
 class AttachedFileReportEmailGenerator extends ReportEmailGenerator
@@ -57,26 +58,16 @@ class AttachedFileReportEmailGenerator extends ReportEmailGenerator
 
     private function getMessageBody($reportTitle, $reportDetails)
     {
-        $message = "\n";
-
         $frequency = $this->getReportFrequencyTranslation($reportDetails['period']);
-        $message .= Piwik::translate('ScheduledReports_PleaseFindAttachedFile', [
-            $frequency,
-            $reportTitle,
-        ]);
-        $message .= "\n";
 
-        if (!empty($this->piwikUrl)) {
-            $message .= Piwik::translate('ScheduledReports_SentFromX', $this->piwikUrl);
-        }
-
+        $view = new View('@ScheduledReports\emailMessageBody');
+        $view->piwikUrl = $this->piwikUrl;
+        $view->frequency = $frequency;
+        $view->reportTitle = $reportTitle;
+        $view->reportDetails = $reportDetails;
         if (!empty($reportDetails['idsegment'])) {
-            $segment = API::getSegment($reportDetails['idsegment']);
-            if ($segment != null) {
-                $message .= " " . Piwik::translate('ScheduledReports_SegmentAppliedToReports', $segment['name']);
-            }
+            $view->segment = API::getSegment($reportDetails['idsegment']);
         }
-
-        return $message;
+        return $view->render();
     }
 }

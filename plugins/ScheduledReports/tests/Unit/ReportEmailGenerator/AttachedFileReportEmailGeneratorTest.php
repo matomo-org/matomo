@@ -9,10 +9,8 @@
 
 namespace Piwik\Plugins\ScheduledReports\tests\Unit\ReportEmailGenerator;
 
-
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator\AttachedFileReportEmailGenerator;
-use Zend_Mime;
 
 class AttachedFileReportEmailGeneratorTest extends \PHPUnit_Framework_TestCase
 {
