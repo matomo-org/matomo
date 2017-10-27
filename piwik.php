@@ -13,6 +13,8 @@ use Piwik\Tracker\RequestSet;
 use Piwik\Tracker;
 use Piwik\Tracker\Handler;
 
+@ignore_user_abort(true);
+
 // Note: if you wish to debug the Tracking API please see this documentation:
 // http://developer.piwik.org/api-reference/tracking-api#debugging-the-tracker
 
@@ -27,8 +29,6 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 }
 
 require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
-
-@ignore_user_abort(true);
 
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/Controller.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Exception/NotYetInstalledException.php';
