@@ -573,15 +573,6 @@ class ScheduledReports extends \Piwik\Plugin
         );
     }
 
-    /**
-     * Used in the Report's email content, ie "monthly report"
-     * @ignore
-     */
-    public static function getPeriodToFrequencyAsAdjective()
-    {
-        return array_map(['Piwik', 'translate'], ReportEmailGenerator::$reportFrequencyTranslationByPeriod);
-    }
-
     private function reportAlreadySent($report, Period $period)
     {
         $key = self::OPTION_KEY_LAST_SENT_DATERANGE . $report['idreport'];

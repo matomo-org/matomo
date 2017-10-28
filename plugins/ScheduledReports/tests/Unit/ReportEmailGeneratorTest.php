@@ -113,7 +113,7 @@ Content-Disposition: inline; filename="file2.txt"
         $this->assertEquals('test@testytesterson.com', $mail->getReplyTo());
         $this->assertEquals([
             'From' => [
-                0 => 'ScheduledReports_PiwikReports <noreply@piwik>',
+                0 => 'Piwik Reports <noreply@piwik>',
                 'append' => true,
             ],
             'Subject' => [

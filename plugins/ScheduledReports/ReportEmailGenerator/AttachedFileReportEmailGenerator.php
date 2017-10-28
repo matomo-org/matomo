@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\ScheduledReports\ReportEmailGenerator;
 
 use Piwik\Mail;
-use Piwik\Piwik;
 use Piwik\Plugins\ScheduledReports\API;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator;
@@ -44,8 +43,8 @@ class AttachedFileReportEmailGenerator extends ReportEmailGenerator
 
     protected function configureEmail(Mail $mail, GeneratedReport $report)
     {
-        $message = $this->getMessageBody($report->getReportTitle(), $report->getReportDetails());
-        $mail->setBodyText($message);
+        $message = $this->getMessageBody($report);
+        $mail->setBodyHtml($message);
 
         $mail->createAttachment(
             $report->getContents(),
@@ -56,18 +55,28 @@ class AttachedFileReportEmailGenerator extends ReportEmailGenerator
         );
     }
 
-    private function getMessageBody($reportTitle, $reportDetails)
+    private function getMessageBody(GeneratedReport $report)
     {
-        $frequency = $this->getReportFrequencyTranslation($reportDetails['period']);
+        $reportDetails = $report->getReportDetails();
 
-        $view = new View('@ScheduledReports\emailMessageBody');
-        $view->piwikUrl = $this->piwikUrl;
-        $view->frequency = $frequency;
-        $view->reportTitle = $reportTitle;
-        $view->reportDetails = $reportDetails;
+        $segment = null;
         if (!empty($reportDetails['idsegment'])) {
-            $view->segment = API::getSegment($reportDetails['idsegment']);
+            $segment = API::getSegment($reportDetails['idsegment']);
         }
-        return $view->render();
+
+        $headerView = new View\HtmlReportEmailHeaderView(
+            $report->getReportTitle(),
+            $report->getPrettyDate(),
+            $report->getReportDescription(),
+            [],
+            $segment,
+            $reportDetails['idsite'],
+            $reportDetails['period']
+        );
+        $headerView->isAttachedFile = true;
+
+        $footerView = new View\HtmlEmailFooterView();
+
+        return $headerView->render() . $footerView->render();
     }
 }
