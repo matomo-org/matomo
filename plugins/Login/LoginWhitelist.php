@@ -16,7 +16,6 @@ use Piwik\Piwik;
 
 class LoginWhitelist
 {
-
     public function shouldWhitelistApplyToAPI()
     {
         $general = $this->getGeneralConfig();
@@ -36,11 +35,11 @@ class LoginWhitelist
     public function checkIsWhitelisted($ipString)
     {
         if (!$this->isIpWhitelisted($ipString)) {
-            throw new NoAccessException(Piwik::translate('Login_ExceptionNotWhitelistedIP'));
+            throw new NoAccessException(Piwik::translate('CoreHome_ExceptionNotWhitelistedIP', $ipString));
         }
     }
 
-    protected function isIpWhitelisted($userIpString)
+    public function isIpWhitelisted($userIpString)
     {
         $userIp = NetworkIp::fromStringIP($userIpString);
         $ipsWhitelisted = $this->getWhitelistedLoginIps();

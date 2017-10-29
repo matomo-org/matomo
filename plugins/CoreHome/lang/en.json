@@ -18,6 +18,7 @@
         "DonateCall2": "Piwik needs your continued support to grow and thrive.",
         "DonateCall3": "If you feel that Piwik has added significant value to your business or endeavour, %1$splease consider donating%2$s or %3$spurchasing a premium feature%4$s. Every penny will help.",
         "DonateFormInstructions": "Click on the slider to select an amount, then click subscribe to donate.",
+        "ExceptionNotWhitelistedIP": "You cannot log in as your IP %s is not whitelisted",
         "ExcludeRowsWithLowPopulation": "All rows are shown %s Exclude low population",
         "ExternalHelp": "Help (opens in new tab)",
         "FlattenDataTable": "The report is hierarchical %s Make it flat",

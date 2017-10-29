@@ -29,8 +29,6 @@ class LoginTest extends IntegrationTestCase
      */
     private $auth;
 
-    private $cliMode;
-
     public function setUp()
     {
         parent::setUp();
@@ -43,20 +41,6 @@ class LoginTest extends IntegrationTestCase
         FakeAccess::$superUser = true;
 
         $this->auth = new Auth();
-
-        $this->setLoginWhitelistIps([]);
-        $this->setApplyWhitelistToReportingApi(true);
-
-        $this->cliMode = Common::$isCliMode;
-        Common::$isCliMode = false;
-
-    }
-
-    public function tearDown()
-    {
-        Common::$isCliMode = $this->cliMode;
-        unset($_SERVER['REMOTE_ADDR']);
-        parent::tearDown();
     }
 
     public function test_authenticate_failureNoLoginNoTokenAuth()
@@ -145,45 +129,6 @@ class LoginTest extends IntegrationTestCase
         // API authentication
         $rc = $this->authenticate($login = null, $authToken = 'anonymous');
         $this->assertUserLogin($rc, $login = 'anonymous', $tokenLength = 9);
-    }
-
-    public function test_authenticate_viaTokenAuthAndIPIsWhitelisted()
-    {
-        DbHelper::createAnonymousUser();
-
-        $_SERVER['REMOTE_ADDR'] = '192.168.33.1';
-        $this->setLoginWhitelistIps(['192.168.33.1']);
-
-        // API authentication
-        $rc = $this->authenticate($login = null, $authToken = 'anonymous');
-        $this->assertUserLogin($rc, $login = 'anonymous', $tokenLength = 9);
-    }
-
-    public function test_authenticate_viaTokenAuthAndIPIsNotWhitelistedButStillValidBecauseApiIsNotRestricted()
-    {
-        DbHelper::createAnonymousUser();
-
-        $_SERVER['REMOTE_ADDR'] = '192.168.33.2';
-        $this->setApplyWhitelistToReportingApi(false);
-        $this->setLoginWhitelistIps(['192.168.33.1']);
-
-        // API authentication
-        $rc = $this->authenticate($login = null, $authToken = 'anonymous');
-        $this->assertUserLogin($rc, $login = 'anonymous', $tokenLength = 9);
-    }
-
-    /**
-     * @expectedException \Piwik\NoAccessException
-     * @expectedExceptionMessage Login_ExceptionNotWhitelistedIP
-     */
-    public function test_authenticate_viaTokenAuthButIPIsNotWhitelisted()
-    {
-        DbHelper::createAnonymousUser();
-
-        $_SERVER['REMOTE_ADDR'] = '192.168.33.2';
-        $this->setLoginWhitelistIps(['192.168.33.1']);
-
-        $this->authenticate($login = null, $authToken = 'anonymous');
     }
 
     public function test_authenticate_successAnonymous()
@@ -350,57 +295,6 @@ class LoginTest extends IntegrationTestCase
         $this->assertSuperUserLogin($rc, 'user');
     }
 
-    public function test_authenticate_SuperUserRegularLoginAndIPIsWhitelisted()
-    {
-        $user = $this->_setUpUser();
-        $this->_setUpSuperUserAccessViaDb();
-
-        $_SERVER['REMOTE_ADDR'] = '192.168.33.1';
-        $this->setLoginWhitelistIps(['192.168.33.1']);
-
-        $this->auth->setLogin($user['login']);
-        $this->auth->setPassword($user['password']);
-        $rc = $this->auth->authenticate();
-
-        $this->assertSuperUserLogin($rc, 'user');
-    }
-
-    /**
-     * @expectedException \Piwik\NoAccessException
-     * @expectedExceptionMessage Login_ExceptionNotWhitelistedIP
-     */
-    public function test_authenticate_SuperUserRegularLoginButIPIsNotWhitelisted()
-    {
-        $user = $this->_setUpUser();
-        $this->_setUpSuperUserAccessViaDb();
-
-        $_SERVER['REMOTE_ADDR'] = '192.168.33.2';
-        $this->setLoginWhitelistIps(['192.168.33.1']);
-
-        $this->auth->setLogin($user['login']);
-        $this->auth->setPassword($user['password']);
-        $this->auth->authenticate();
-    }
-
-    /**
-     * @expectedException \Piwik\NoAccessException
-     * @expectedExceptionMessage Login_ExceptionNotWhitelistedIP
-     */
-    public function test_authenticate_SuperUserRegularLoginAndIPIsNotWhitelistedAndStillFailsEvenIfApiIsNotRestricted()
-    {
-        $user = $this->_setUpUser();
-        $this->_setUpSuperUserAccessViaDb();
-
-        $_SERVER['REMOTE_ADDR'] = '192.168.33.2';
-        $this->setApplyWhitelistToReportingApi(false);
-        $this->setLoginWhitelistIps(['192.168.33.1']);
-
-        // API authentication
-        $this->auth->setLogin($user['login']);
-        $this->auth->setPassword($user['password']);
-        $this->auth->authenticate();
-    }
-
     public function test_authenticate_failsWithInvalidPassword()
     {
         $user = $this->_setUpUser();
@@ -471,25 +365,6 @@ class LoginTest extends IntegrationTestCase
         $this->auth->setTokenAuth($tokenAuth);
 
         return $this->auth->authenticate();
-    }
-
-    private function setApplyWhitelistToReportingApi($applyToTracking)
-    {
-        $this->setGeneralConfig('login_whitelist_apply_to_reporting_api_requests', $applyToTracking);
-    }
-
-    private function setLoginWhitelistIps($ips)
-    {
-        $this->setGeneralConfig('login_whitelist_ip', $ips);
-    }
-
-    private function setGeneralConfig($name, $value)
-    {
-        $config = Config::getInstance();
-        $general = $config->General;
-        $general[$name] = $value;
-        $config->General = $general;
-        $config->forceSave();
     }
 
     private function assertFailedLogin(AuthResult $authResult)
