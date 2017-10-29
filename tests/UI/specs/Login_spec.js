@@ -103,4 +103,12 @@ describe("Login", function () {
             page.load(formlessLoginUrl);
         }, done);
     });
+
+    it('should not show login page when ips whitelisted and ip is not matching', function (done) {
+        expect.screenshot('ip_not_whitelisted').to.be.captureSelector('.box', function (page) {
+            testEnvironment.overrideConfig('General', 'login_whitelist_ip', ['199.199.199.199']);
+            testEnvironment.save();
+            page.load('');
+        }, done);
+    });
 });

@@ -13,6 +13,8 @@ use Piwik\Auth\Password;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\IP;
+use Piwik\SettingsServer;
 
 class Auth implements \Piwik\Auth
 {
@@ -30,10 +32,16 @@ class Auth implements \Piwik\Auth
      */
     private $passwordHelper;
 
+    /**
+     * @var LoginWhitelist
+     */
+    private $loginWhitelist;
+
     public function __construct()
     {
         $this->userModel      = new Model();
         $this->passwordHelper = new Password();
+        $this->loginWhitelist = new LoginWhitelist();
     }
 
     /**
@@ -53,11 +61,32 @@ class Auth implements \Piwik\Auth
      */
     public function authenticate()
     {
+        $ipString = IP::getIpFromHeader();
+
         if (!empty($this->hashedPassword)) {
+
+            if ($this->loginWhitelist->shouldCheckWhitelist()) {
+                $this->loginWhitelist->checkIsWhitelisted($ipString);
+            }
+
             return $this->authenticateWithPassword($this->login, $this->getTokenAuthSecret());
         } elseif (is_null($this->login)) {
+
+            if ($this->loginWhitelist->shouldCheckWhitelist()
+                && $this->loginWhitelist->shouldWhitelistApplyToAPI()
+                && !SettingsServer::isTrackerApiRequest()) {
+                // we do not yet validate tracking api requests.
+                $this->loginWhitelist->checkIsWhitelisted($ipString);
+            }
+
             return $this->authenticateWithToken($this->token_auth);
         } elseif (!empty($this->login)) {
+
+            if ($this->loginWhitelist->shouldCheckWhitelist()) {
+                // when authenticating via cookie we still need to check the whitelist.
+                $this->loginWhitelist->checkIsWhitelisted($ipString);
+            }
+
             return $this->authenticateWithTokenOrHashToken($this->token_auth, $this->login);
         }
 

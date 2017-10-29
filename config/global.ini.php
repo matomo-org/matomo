@@ -368,6 +368,20 @@ login_password_recovery_replyto_email_address = "no-reply@{DOMAIN}"
 ; name that appears as a Reply-to in the password recovery email
 login_password_recovery_replyto_email_name = "No-reply"
 
+; When configured, only users from a configured IP can log into your Piwik. You can define one or multiple
+; IPv4, IPv6, and IP ranges. This whitelist also affects API requests unless you disabled it via the setting
+; "login_whitelist_apply_to_reporting_api_requests" below.
+; Note that this feature might not be compatible with all login providers. In case you are using a custom login
+; connector, we recommend to test if the whitelist works for your login plugin.
+; login_whitelist_ip[] =
+
+; By default, if a whitelisted IP address is specified via "login_whitelist_ip[]", the reporting user interface as
+; well as HTTP Reporting API requests will only work for these whitelisted IPs.
+; Set this setting to 0 to allow HTTP Reporting API requests from any IP address.
+; Note that tracking requests can be still authenticated from any IP and neither this setting, nor the
+; "login_whitelist_ip" does restrict authenticated tracking requests.
+login_whitelist_apply_to_reporting_api_requests = 1
+
 ; By default when user logs out they are redirected to Piwik "homepage" usually the Login form.
 ; Uncomment the next line to set a URL to redirect the user to after they log out of Piwik.
 ; login_logout_url = http://...
