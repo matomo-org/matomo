@@ -13,7 +13,6 @@ use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
-use Piwik\Plugins\Login\LoginWhitelist;
 
 /**
  *

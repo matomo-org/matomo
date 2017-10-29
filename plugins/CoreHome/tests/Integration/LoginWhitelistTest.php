@@ -6,12 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Login\tests\Integration;
+namespace Piwik\Plugins\CoreHome\tests\Integration;
 
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\NoAccessException;
-use Piwik\Plugins\Login\LoginWhitelist;
+use Piwik\Plugins\CoreHome\LoginWhitelist;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 

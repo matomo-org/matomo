@@ -30,16 +30,10 @@ class Auth implements \Piwik\Auth
      */
     private $passwordHelper;
 
-    /**
-     * @var LoginWhitelist
-     */
-    private $loginWhitelist;
-
     public function __construct()
     {
         $this->userModel      = new Model();
         $this->passwordHelper = new Password();
-        $this->loginWhitelist = new LoginWhitelist();
     }
 
     /**
@@ -60,13 +54,10 @@ class Auth implements \Piwik\Auth
     public function authenticate()
     {
         if (!empty($this->hashedPassword)) {
-
             return $this->authenticateWithPassword($this->login, $this->getTokenAuthSecret());
         } elseif (is_null($this->login)) {
-
             return $this->authenticateWithToken($this->token_auth);
         } elseif (!empty($this->login)) {
-
             return $this->authenticateWithTokenOrHashToken($this->token_auth, $this->login);
         }
 

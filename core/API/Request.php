@@ -17,7 +17,7 @@ use Piwik\IP;
 use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Plugins\Login\LoginWhitelist;
+use Piwik\Plugins\CoreHome\LoginWhitelist;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;

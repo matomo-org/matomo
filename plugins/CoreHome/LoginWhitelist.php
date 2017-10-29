@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Login;
+namespace Piwik\Plugins\CoreHome;
 
 use Piwik\Common;
 use Piwik\Config;
@@ -14,6 +14,10 @@ use Piwik\Network\IP as NetworkIp;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
 
+/**
+ * This class is in CoreHome since some alternative Login plugins disable the Login plugin and we want to ensure the
+ * feature works for all login plugins.
+ */
 class LoginWhitelist
 {
     public function shouldWhitelistApplyToAPI()

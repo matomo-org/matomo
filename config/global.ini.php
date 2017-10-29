@@ -371,8 +371,6 @@ login_password_recovery_replyto_email_name = "No-reply"
 ; When configured, only users from a configured IP can log into your Piwik. You can define one or multiple
 ; IPv4, IPv6, and IP ranges. This whitelist also affects API requests unless you disabled it via the setting
 ; "login_whitelist_apply_to_reporting_api_requests" below.
-; Note that this feature might not be compatible with all login providers. In case you are using a custom login
-; connector, we recommend to test if the whitelist works for your login plugin.
 ; login_whitelist_ip[] =
 
 ; By default, if a whitelisted IP address is specified via "login_whitelist_ip[]", the reporting user interface as
