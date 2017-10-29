@@ -75,6 +75,18 @@ return array(
 
     'Piwik\EventDispatcher' => DI\object()->constructorParameter('observers', DI\get('observers.global')),
 
+    'login.whitelist.ips' => function (ContainerInterface $c) {
+        /** @var Piwik\Config\ $config */
+        $config = $c->get('Piwik\Config');
+        $general = $config->General;
+
+        $ips = array();
+        if (!empty($general['login_whitelist_ip']) && is_array($general['login_whitelist_ip'])) {
+            $ips = $general['login_whitelist_ip'];
+        }
+        return $ips;
+    },
+
     'Zend_Validate_EmailAddress' => function () {
         return new \Zend_Validate_EmailAddress(array(
             'hostname' => new \Zend_Validate_Hostname(array(

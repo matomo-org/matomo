@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreHome;
 
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Network\IP as NetworkIp;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
@@ -60,10 +61,9 @@ class LoginWhitelist
      */
     protected function getWhitelistedLoginIps()
     {
-        $general = $this->getGeneralConfig();
+        $ips = StaticContainer::get('login.whitelist.ips');
 
-        if (!empty($general['login_whitelist_ip']) && is_array($general['login_whitelist_ip'])) {
-            $ips = $general['login_whitelist_ip'];
+        if (!empty($ips) && is_array($ips)) {
             $ips = array_map(function ($ip) {
                 return trim($ip);
             }, $ips);
