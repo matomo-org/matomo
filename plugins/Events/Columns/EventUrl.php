@@ -16,7 +16,6 @@ use Piwik\Tracker\Action;
 class EventUrl extends ActionDimension
 {
     protected $columnName = 'idaction_url';
-    protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
     protected $segmentName = 'eventUrl';
     protected $nameSingular = 'Events_EventUrl';
     protected $namePlural = 'Events_EventUrls';
