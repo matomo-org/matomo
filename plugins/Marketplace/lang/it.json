@@ -103,6 +103,7 @@
         "Updated": "Aggiornato",
         "UpdatingPlugin": "Aggiornamento di %1$s",
         "UploadZipFile": "Carica file ZIP",
+        "PluginUploadDisabled": "Il caricamento dei plugin è disabilitato nel file di configurazione. Per abilitare questa funzionalità, aggiorna la tua configurazione o contatta l'amministratore.",
         "LicenseKeyExpiresSoon": "La tua chiave di licenza scadrà a breve, si prega di contattare %1$s.",
         "LicenseKeyIsExpired": "La tua chiave di licenza è scaduta, si prega di contattare %1$s.",
         "MultiServerEnvironmentWarning": "Non puoi installare o aggiornare il plugin direttamente perché stai utilizzando Piwik su server multipli. Il plugin può essere installato solo su un server; scarica invece il plugin e mettilo manualmente su tutti i tuoi server.",

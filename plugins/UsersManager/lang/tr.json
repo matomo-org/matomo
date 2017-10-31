@@ -25,6 +25,8 @@
         "ReportDateToLoadByDefault": "Varsayılarak yüklenen rapor tarihi",
         "ReportToLoadByDefault": "Varsayılan rapor yüklendi.",
         "TheLoginScreen": "Giriş ekranı",
+        "TokenAuth": "API Doğrulama Kodu",
+        "TokenRegenerateTitle": "Yeniden oluştur",
         "TypeYourPasswordAgain": "Yeni parolanizi yeniden yazınız",
         "User": "Kullanıcı",
         "UsersManagement": "Kullanıcı Yönetimleri",

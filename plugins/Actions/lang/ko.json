@@ -1,14 +1,18 @@
 {
     "Actions": {
         "ColumnClickedURL": "조회한 URL",
+        "ColumnClickedURLs": "조회한 URL들",
         "ColumnActionURL": "활동 URL",
         "ColumnClicks": "조회수",
         "ColumnClicksDocumentation": "이 링크를 클릭 한 횟수입니다.",
         "ColumnDownloadURL": "다운로드 URL",
+        "ColumnDownloadURLs": "다운로드 URL들",
         "ColumnEntryPageTitle": "진입 페이지 제목",
         "ColumnEntryPageURL": "진입 페이지 URL",
+        "ColumnEntryPageURLs": "진입 페이지 URL들",
         "ColumnExitPageTitle": "이탈 페이지 제목",
         "ColumnExitPageURL": "이탈 페이지 URL",
+        "ColumnExitPageURLs": "이탈 페이지 URL들",
         "ColumnNoResultKeyword": "검색 결과 없음",
         "ColumnPageName": "페이지 이름",
         "ColumnPagesPerSearch": "검색 결과 페이지",
@@ -61,6 +65,7 @@
         "WidgetSearchCategories": "검색 카테고리",
         "WidgetSearchKeywords": "사이트 검색어",
         "WidgetSearchNoResultKeywords": "검색 결과 없음",
-        "ActionType": "활동 종류"
+        "ActionType": "활동 종류",
+        "ActionTypes": "활동 종류들"
     }
 }
