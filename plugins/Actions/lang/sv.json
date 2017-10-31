@@ -2,14 +2,18 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Medel baseras på %1$s träff(ar) %2$s mellan %3$s och %4$s",
         "ColumnClickedURL": "Klickad URL",
+        "ColumnClickedURLs": "Besökta adresser",
         "ColumnActionURL": "Åtgärds-URL",
         "ColumnClicks": "Klick",
         "ColumnClicksDocumentation": "Antalet gånger som denna länk klickades på.",
         "ColumnDownloadURL": "Nedladdnings-URL",
+        "ColumnDownloadURLs": "Nerladdade adresser",
         "ColumnEntryPageTitle": "Målsidans titel",
         "ColumnEntryPageURL": "Målsidans URL",
+        "ColumnEntryPageURLs": "Ingångssidornas adresser",
         "ColumnExitPageTitle": "Avvisningssidans titel",
         "ColumnExitPageURL": "Avvisningssidans URL",
+        "ColumnExitPageURLs": "Utgångssidornas adresser",
         "ColumnNoResultKeyword": "Nyckelord utan resultat",
         "ColumnPageName": "Sidnamn",
         "ColumnPagesPerSearch": "Sökresultatsidor",
@@ -66,6 +70,7 @@
         "WidgetSearchCategories": "Sök kategorier",
         "WidgetSearchKeywords": "Nyckelord från webbplatssökningar",
         "WidgetSearchNoResultKeywords": "Nyckelord utan resultat",
-        "ActionType": "Åtgärdstyp"
+        "ActionType": "Åtgärdstyp",
+        "ActionTypes": "Typer av handlingar"
     }
 }
