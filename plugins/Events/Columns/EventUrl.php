@@ -17,7 +17,7 @@ class EventUrl extends ActionDimension
 {
     protected $columnName = 'idaction_url';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
-    protected $segmentName = 'EventUrl';
+    protected $segmentName = 'eventUrl';
     protected $nameSingular = 'Events_EventUrl';
     protected $namePlural = 'Events_EventUrls';
     protected $type = self::TYPE_URL;
