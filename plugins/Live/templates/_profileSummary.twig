@@ -1,0 +1,40 @@
+{% set pageviewDetails %}
+    {{ visitorData.totalUniquePageViews }} {{ 'General_ColumnUniquePageviews'|translate }}, {{ visitorData.totalRevisitedPages }} {{ 'Actions_RevisitedPages'|translate }}
+{% endset %}
+
+<div class="visitor-profile-summary visitor-profile-resume">
+    <h1>{{ 'General_Summary'|translate }}</h1>
+    <div>
+        {% if visitorData.totalPageViews != visitorData.totalActions %}
+            {% set actionDetails = [] %}
+            {% if visitorData.totalPageViews > 0 %}{% set actionDetails = actionDetails|merge(['<span title="' ~ pageviewDetails ~ '">' ~ visitorData.totalPageViews ~ ' ' ~ 'General_ColumnPageviews'|translate ~ '</span>']) %}{% endif %}
+            {% if visitorData.totalEvents > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalEvents ~ ' ' ~ 'Events_Events'|translate]) %}{% endif %}
+            {% if visitorData.totalDownloads > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalDownloads ~ ' ' ~ 'General_Downloads'|translate]) %}{% endif %}
+            {% if visitorData.totalOutlinks > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalOutlinks ~ ' ' ~ 'General_Outlinks'|translate]) %}{% endif %}
+            {% if visitorData.totalSearches > 0 %}{% set actionDetails = actionDetails|merge([visitorData.totalSearches ~ ' ' ~ 'Actions_ColumnSearches'|translate]) %}{% endif %}
+            <p>{{ 'Live_VisitSummaryWithActionDetails'|translate('<strong>' ~ visitorData.totalVisitDurationPretty ~ '</strong>', '', '', '<strong>' ~ visitorData.totalActions, '</strong>', actionDetails|join(', ') , '<strong>' ~ visitorData.totalVisits, '</strong>')|raw }}</p>
+        {% else %}
+            <p>{{ 'Live_VisitSummary'|translate('<strong>' ~ visitorData.totalVisitDurationPretty ~ '</strong>', '', '', '<strong title="' ~ pageviewDetails ~ '">' ~ visitorData.totalActions,  '</strong>', '<strong>' ~ visitorData.totalVisits, '</strong>')|raw }}</p>
+        {% endif %}
+        {% if visitorData.totalGoalConversions is defined %}
+        <p>{% if visitorData.totalGoalConversions %}<strong>{% endif %}{{ 'Live_ConvertedNGoals'|translate(visitorData.totalGoalConversions) }}{% if visitorData.totalGoalConversions %}</strong>{% endif %}
+        {%- if visitorData.totalGoalConversions %} (
+            {%- for idGoal, totalConversions in visitorData.totalConversionsByGoal -%}
+            {%- set idGoal = idGoal[7:] -%}
+            {%- if not loop.first %}, {% endif -%}{{- totalConversions }} {{ goals[idGoal]['name'] -}}
+            {%- endfor -%}
+        ){% endif %}.</p>
+        {% endif %}
+        {% if visitorData.totalSearches|default(0) %}
+        <p>
+            {{ 'Actions_WidgetSearchKeywords'|translate }}:
+            {%- for entry in visitorData.searches %} <strong title="{% if entry.searches == 1 %}{{ 'Actions_OneSearch'|translate }}{% else %}{{ 'UserCountryMap_Searches'|translate(entry.searches) }}{% endif %}">{{ entry.keyword }}</strong>{% if not loop.last %},{% endif %}{% endfor %}
+        </p>
+        {% endif %}
+        {% if visitorData.averagePageGenerationTime is defined %}
+        <p title="{{ 'Live_CalculatedOverNPageViews'|translate(visitorData.totalPageViewsWithTiming) }}">
+            {{ 'Live_AveragePageGenerationTime'|translate('<strong>' ~ visitorData.averagePageGenerationTime ~ 's</strong>')|raw }}
+        </p>
+        {% endif %}
+    </div>
+</div>

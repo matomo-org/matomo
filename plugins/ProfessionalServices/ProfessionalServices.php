@@ -26,6 +26,7 @@ class ProfessionalServices extends \Piwik\Plugin
             'Template.afterGoalCannotAddNewGoal' => array('function' => 'getGoalOverviewPromo', 'after' => true),
             'Template.endGoalEditTable' => array('function' => 'getGoalFunnelOverviewPromo', 'after' => true),
             'Template.afterEventsReport' => 'getEventsPromo',
+            'Template.afterCampaignsReport' => 'getCampaignsPromo',
             'Template.afterReferrersKeywordsReport' => 'getSearchKeywordsPerformancePromo',
             'Template.afterOverlaySidebar' => 'getHeatmapPromo',
             'Template.afterVisitorProfileOverview' => 'getSessionRecordingPromo',
@@ -121,6 +122,17 @@ class ProfessionalServices extends \Piwik\Plugin
 
         $view = new View('@ProfessionalServices/promoBelowEvents');
         $view->displayMediaAnalyticsAd = !$this->isPluginActivated('MediaAnalytics');
+        $out .= $view->render();
+    }
+
+    public function getCampaignsPromo(&$out)
+    {
+        if ($this->isRequestForDashboardWidget()) {
+            return;
+        }
+
+        $view = new View('@ProfessionalServices/promoBelowCampaigns');
+        $view->displayMarketingCampaignsReportingAd = !$this->isPluginActivated('MarketingCampaignsReporting');
         $out .= $view->render();
     }
 

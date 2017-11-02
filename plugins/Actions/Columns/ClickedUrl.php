@@ -8,24 +8,28 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Piwik;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
+use Piwik\Tracker\Action;
 
 class ClickedUrl extends ActionDimension
 {
-    public function getName()
+    protected $columnName = 'idaction_url';
+    protected $segmentName = 'outlinkUrl';
+    protected $nameSingular = 'Actions_ColumnClickedURL';
+    protected $namePlural = 'Actions_ColumnClickedURLs';
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
+    protected $type = self::TYPE_URL;
+
+    public function getDbColumnJoin()
     {
-        return Piwik::translate('Actions_ColumnClickedURL');
+        return new ActionNameJoin();
     }
 
-    protected function configureSegments()
+    public function getDbDiscriminator()
     {
-        $segment = new Segment();
-        $segment->setSegment('outlinkUrl');
-        $segment->setName('Actions_ColumnClickedURL');
-        $segment->setSqlSegment('log_link_visit_action.idaction_url');
-        $this->addSegment($segment);
+        return new Discriminator('log_action', 'type', Action::TYPE_OUTLINK);
     }
-
 }

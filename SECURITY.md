@@ -7,15 +7,15 @@ The Piwik Security Bug Bounty Program is designed to encourage security research
 
 ## Responsible disclosure by email
 
-If you have found a security issue in Piwik please read [our security notes](http://piwik.org/security/) regarding responsible disclosures.
+If you have found a security issue in Piwik please read [our security notes](https://piwik.org/security/) regarding responsible disclosures.
 
 [Email your Report Vulnerability to the Piwik Security team](mailto:security@piwik.org?subject=Reporting%20Vulnerability%20in%20Piwik)
 
 
 ## Improve your Piwik Server Security 
 
-[Secure Piwik server](http://piwik.org/docs/how-to-secure-piwik/): follow these steps to keep your Piwik data safe.
+[Secure Piwik server](https://piwik.org/docs/how-to-secure-piwik/): follow these steps to keep your Piwik data safe.
 
 ## Security announcements
 
-Please subscribe to [the Changelog](http://piwik.org/changelog/) ([rss feed](http://piwik.org/changelog/feed/)) to be notified of new releases (including security releases).
+Please subscribe to [the Changelog](https://piwik.org/changelog/) ([rss feed](https://piwik.org/changelog/feed/)) to be notified of new releases (including security releases).

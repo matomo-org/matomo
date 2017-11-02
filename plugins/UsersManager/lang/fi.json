@@ -8,8 +8,8 @@
         "AnonymousUserHasViewAccess2": "Analyysiraporttisi ja kävijätietosi ovat julkisia.",
         "ApplyToAllWebsites": "Päivitä kaikille sivuille",
         "ChangeAllConfirm": "Haluatko varmasti antaa käyttäjälle '%s' pääsyn kaikille verkkosivuille?",
-        "ClickHereToDeleteTheCookie": "Paina tästä poistaaksesi cookie",
-        "ClickHereToSetTheCookieOnDomain": "Paina tästä luodaksesi cookie sivulle %s",
+        "ClickHereToDeleteTheCookie": "Paina tästä poistaaksesi evästeen, jolloin Piwik taas seuraa käyntejäsi.",
+        "ClickHereToSetTheCookieOnDomain": "Paina tästä luodaksesi eväste sivulle %s, jonka jälkeen Piwik ei enää seuraa käyntejäsi sivustolla.",
         "ConfirmGrantSuperUserAccess": "Haluatko varmasti antaa käyttäjälle '%s' Superkäyttäjäoikeudet? Varoitus: käyttäjä saa pääsyn kaikille verkkosivuille ja voi suorittaa hallinnollisia toimenpiteitä.",
         "ConfirmProhibitMySuperUserAccess": "%s, haluatko varmasti poistaa omat Superkäyttäjäoikeutesi? Menetät kaikki oikeudet ja pääsyn kaikille verkkosivuille sekä kirjaudut ulos Piwikistä.",
         "DeleteConfirm": "Haluatko varmasti poistaa käyttäjän %s?",
@@ -33,12 +33,13 @@
         "ExceptionYouMustGrantSuperUserAccessFirst": "Ainakin yhdellä käyttäjällä tulee olla Superkäyttäjäoikeudet. Ole hyvä ja anna toiselle käyttäjälle Superkäyttäjäoikeudet ensin.",
         "ExceptionUserHasViewAccessAlready": "Käyttäjällä on jo pääsy sivulle.",
         "ExceptionNoValueForUsernameOrEmail": "Kirjoita käyttäjätunnus tai sähköpostiosoite.",
-        "ExcludeVisitsViaCookie": "Poista käyntiesi seuraaminen cookiella",
+        "ExcludeVisitsViaCookie": "Poista käyntiesi seuraaminen evästeellä",
         "ForAnonymousUsersReportDateToLoadByDefault": "Lataa anonyymeille käyttäjille oletuksena",
         "GiveViewAccessTitle": "Anna olemassaolevalle käyttäjälle oikeus katsoa %s:n raportteja",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Jos haluat vaihtaa salasanan, kirjoita uusi. Muuten jätä tyhjäksi.",
         "InjectedHostCannotChangePwd": "Olet sivulla tällä hetkellä tuntemattoman isännän kautta (%1$s). Et voi vaihtaa salasanaasi ennen kuin tämä ongelma on korjattu.",
         "LastSeen": "Nähty viimeeksi",
+        "MainDescription": "Määritä, keillä käyttäjillä on pääsy sivustojesi analytiikkaan. Voit myös antaa pääsyn kaikkien sivustojen tietoihin kerralla valitsemalla \"Käytä kaikkiin sivustoihin\" sivustovalinnassa.",
         "ManageAccess": "Hallitse oikeuksia",
         "MenuAnonymousUserSettings": "Anonyymin käyttäjän asetukset",
         "MenuUsers": "Käyttäjät",
@@ -65,6 +66,6 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kun käyttäjä ei ole kirjautunut sisään ja käy Piwikissä, heillä on pääsy",
         "YourUsernameCannotBeChanged": "Käyttäjätunnusta ei voi vaihtaa.",
         "YourVisitsAreIgnoredOnDomain": "%1$sPiwik ei seuraa käyntejäsi sivulla %2$s %3$s (Piwikin cookie löytyi selaimestasi).",
-        "YourVisitsAreNotIgnored": "%1$sPiwik seuraa käyntejäsi%2$s (Piwikin cookieta ei löytynyt selaimestasi)."
+        "YourVisitsAreNotIgnored": "%1$sPiwik seuraa käyntejäsi%2$s (Piwikin evästettä ei löytynyt selaimestasi)."
     }
 }

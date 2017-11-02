@@ -9,11 +9,20 @@
 
 namespace Piwik\Plugins\VisitTime;
 
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Piwik;
 
 function getTimeLabel($label)
 {
-    return sprintf(Piwik::translate('Intl_NHoursShort'), $label);
+    $date             = Date::factory(mktime($label));
+    $dateTimeProvider = StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider');
+
+    if ($dateTimeProvider->uses12HourClock()) {
+        return $date->getLocalized(Piwik::translate('Intl_Format_Hour_12'));
+    }
+
+    return $date->getLocalized(Piwik::translate('Intl_Format_Hour_24'));
 }
 
 /**

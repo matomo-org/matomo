@@ -60,7 +60,6 @@
         "UninstallConfirm": "Estás a punto de desinstalar el complemento %s. El complemento será completamente eliminado de su plataforma y no será recuperable. ¿Está seguro que desea hacer esto?",
         "Version": "Versión",
         "ViewAllMarketplacePlugins": "Ver todos los complementos del \"Marketplace\"",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "Desactivamos el complemento %s porque le faltan las siguientes dependencias:",
         "Websites": "Sitios de internet"
     }
 }

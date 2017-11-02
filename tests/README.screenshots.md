@@ -25,7 +25,7 @@ To fix a broken build, follow these steps:
  * In the build output, at the beginning of the test output, there will be a link to a image diff viewer. It will look something
    like this:
 
-       View UI failures (if any) here http://builds-artifacts.piwik.org/ui-tests.master/1837.1/screenshot-diffs/diffviewer.html
+       View UI failures (if any) here https://builds-artifacts.piwik.org/ui-tests.master/1837.1/screenshot-diffs/diffviewer.html
 
    Click on the link in the message.
  * The diff viewer will list links to the generated screenshots for failed tests as well as the expected screenshots and image diffs.

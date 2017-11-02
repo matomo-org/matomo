@@ -11,6 +11,7 @@ namespace Piwik\ViewDataTable;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
@@ -82,7 +83,7 @@ use Piwik\Plugin\ReportsProvider;
  *
  * @api
  */
-class Config
+class   Config
 {
     /**
      * The list of ViewDataTable properties that are 'Client Side Properties'.
@@ -110,6 +111,7 @@ class Config
         'show_related_reports',
         'show_limit_control',
         'show_search',
+        'show_export',
         'enable_sort',
         'show_bar_chart',
         'show_pie_chart',
@@ -320,6 +322,13 @@ class Config
     public $show_search = true;
 
     /**
+     * Controls whether the export feature under the datatable is shown.
+     *
+     * @api since Piwik 3.2.0
+     */
+    public $show_export = true;
+
+    /**
      * Controls whether the user can sort DataTables by clicking on table column headings.
      */
     public $enable_sort = true;
@@ -363,7 +372,16 @@ class Config
     public $show_ecommerce = false;
 
     /**
+     * Stores an HTML message (if any) to display above the datatable view.
+     *
+     * Attention: Message will be printed raw. Don't forget to escape where needed!
+     */
+    public $show_header_message = false;
+
+    /**
      * Stores an HTML message (if any) to display under the datatable view.
+     *
+     * Attention: Message will be printed raw. Don't forget to escape where needed!
      */
     public $show_footer_message = false;
 
@@ -518,13 +536,12 @@ class Config
         }
 
         $apiParameters = array();
-        $idDimension = Common::getRequestVar('idDimension', 0, 'int');
-        $idGoal = Common::getRequestVar('idGoal', 0, 'int');
-        if ($idDimension > 0) {
-            $apiParameters['idDimension'] = $idDimension;
-        }
-        if ($idGoal > 0) {
-            $apiParameters['idGoal'] = $idGoal;
+        $entityNames = StaticContainer::get('entities.idNames');
+        foreach ($entityNames as $entityName) {
+            $idEntity = Common::getRequestVar($entityName, 0, 'int');
+            if ($idEntity > 0) {
+                $apiParameters[$entityName] = $idEntity;
+            }
         }
 
         $report = API::getInstance()->getMetadata($idSite, $this->controllerName, $this->controllerAction, $apiParameters);

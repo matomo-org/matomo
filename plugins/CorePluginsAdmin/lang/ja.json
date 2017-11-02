@@ -41,6 +41,8 @@
         "OriginThirdParty": "サードパーティ",
         "PluginHomepage": "プラグインのホームページ",
         "PluginNotCompatibleWith": "%1$s plugin is not compatible with %2$s.",
+        "PluginNotFound": "プラグイン %1$s はファイルシステム上に見つかりませんでした。",
+        "PluginNotFoundAlternative": "このプラグインを使用していた場合は、マーケットプレイスから再アップロードまたは再インストールしてみてください。 そうでない場合は、アンインストールをクリックしてリストから削除します。",
         "PluginNotWorkingAlternative": "このプラグインを以前から使用している場合、マーケットプレイス上で、より最新のバージョンを見つけることができます。使用していない場合、アンインストールすることをお勧めします。",
         "PluginRequirement": "%1$s requires %2$s.",
         "PluginsManagement": "プラグインの管理",
@@ -51,6 +53,7 @@
         "Status": "状態",
         "SuccessfullyActicated": "<strong> %s <\/strong> の有効化に成功しました。",
         "TeaserExtendPiwik": "Piwik のプラグインとテーマを拡張",
+        "TeaserExtendPiwikByPlugin": "%1$sマーケットプレイスからプラグインをインストール%2$sするか、%3$s.zip形式のプラグインをアップロード%4$sしてPiwikを拡張します。",
         "TeaserExtendPiwikByTheme": "%1$s新しいテーマをインストール%2$s し、別の外観と雰囲気をお楽しみください。",
         "InstallingNewPluginViaMarketplaceOrUpload": "自動的にマーケットプレイスからプラグインをインストールまたは.zip形式のプラグイン %1$s を %2$s アップロードすることができます。",
         "Theme": "テーマ",
@@ -60,7 +63,7 @@
         "UninstallConfirm": "プラグイン %s をアンインストールしようとしています。実行されると、プラグインは完全にプラットフォームから削除され、回復できなくなります。本当にアンインストールを実行してもよろしいですか？",
         "Version": "バージョン",
         "ViewAllMarketplacePlugins": "マーケットプレイスのプラグインをすべて表示",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "依存関係がないため、プラグイン %s を無効にしました：",
+        "WeCouldNotLoadThePluginAsItHasMissingDependencies": "依存関係がないため、プラグイン%1$sをロードできませんでした：%2$s",
         "Websites": "ウェブサイト"
     }
 }

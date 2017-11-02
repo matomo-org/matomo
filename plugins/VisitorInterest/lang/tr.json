@@ -1,5 +1,8 @@
 {
     "VisitorInterest": {
+        "ColumnVisitDuration": "Ziyaret süresi",
+        "NPages": "%s sayfa",
+        "OnePage": "1 sayfa",
         "WidgetLengths": "Ziyaret Süresi"
     }
 }

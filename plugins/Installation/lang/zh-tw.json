@@ -99,7 +99,7 @@
         "SystemCheckOtherExtensions": "其他擴充功能",
         "SystemCheckOtherFunctions": "其他功能",
         "SystemCheckPageSpeedDisabled": "已停用 PageSpeed",
-        "SystemCheckPageSpeedWarn": "我們建議停用伺服器 %s 中的 PageSpeed 模組：已知 PageSpeed 將導致 Piwik 發生多種問題。",
+        "SystemCheckPageSpeedWarning": "我們建議停用伺服器 %s 中的 PageSpeed 模組：已知 PageSpeed 將導致 Piwik 發生多種問題，如：網頁報告損壞、資料列趨勢損壞，和其他難以修復的問題。請將此伺服器中的 mod_pagespeed 停用。",
         "SystemCheckPackHelp": "Piwik 必須使用 pack() 功能才能追蹤訪客。",
         "SystemCheckParseIniFileHelp": "這個內建的功能已被你的主機商停用。Piwik 將嘗試模擬這個功能，但可能會遇到安全限制。追蹤性能也會受到影響。",
         "SystemCheckPdoAndMysqliHelp": "在 GNU\/Linux 伺服器上你可以使用以下選項編譯 PHP：在你的 php.ini 中 %1$s，加入以下幾行內容：%2$s",

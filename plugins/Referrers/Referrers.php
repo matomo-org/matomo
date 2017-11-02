@@ -30,7 +30,6 @@ class Referrers extends \Piwik\Plugin
     {
         return array(
             'Insights.addReportToOverview'      => 'addReportToInsightsOverview',
-            'Live.getAllVisitorDetails'         => 'extendVisitorDetails',
             'Request.getRenamedModuleAndAction' => 'renameDeprecatedModuleAndAction',
             'Tracker.setTrackerCacheGeneral'    => 'setTrackerCacheGeneral'
         );
@@ -49,20 +48,6 @@ class Referrers extends \Piwik\Plugin
         if($module == 'Referers') {
             $module = 'Referrers';
         }
-    }
-
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $instance = new Visitor($details);
-
-        $visitor['referrerType']             = $instance->getReferrerType();
-        $visitor['referrerTypeName']         = $instance->getReferrerTypeName();
-        $visitor['referrerName']             = $instance->getReferrerName();
-        $visitor['referrerKeyword']          = $instance->getKeyword();
-        $visitor['referrerKeywordPosition']  = $instance->getKeywordPosition();
-        $visitor['referrerUrl']              = $instance->getReferrerUrl();
-        $visitor['referrerSearchEngineUrl']  = $instance->getSearchEngineUrl();
-        $visitor['referrerSearchEngineIcon'] = $instance->getSearchEngineIcon();
     }
 
     public function addReportToInsightsOverview(&$reports)

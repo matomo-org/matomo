@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Piwik;
-use Piwik\Plugins\Actions\Segment;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -19,13 +19,21 @@ class EntryPageTitle extends VisitDimension
 {
     protected $columnName = 'visit_entry_idaction_name';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
+    protected $type = self::TYPE_TEXT;
+    protected $segmentName = 'entryPageTitle';
+    protected $nameSingular = 'Actions_ColumnEntryPageTitle';
+    protected $namePlural = 'Actions_WidgetEntryPageTitles';
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
-    protected function configureSegments()
+    public function getDbColumnJoin()
     {
-        $segment = new Segment();
-        $segment->setSegment('entryPageTitle');
-        $segment->setName('Actions_ColumnEntryPageTitle');
-        $this->addSegment($segment);
+        return new ActionNameJoin();
+    }
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator('log_action', 'type', Action::TYPE_PAGE_TITLE);
     }
 
     /**
@@ -43,10 +51,5 @@ class EntryPageTitle extends VisitDimension
         }
 
         return (int) $idActionName;
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('Actions_ColumnEntryPageTitle');
     }
 }

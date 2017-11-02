@@ -49,11 +49,11 @@ class PluginsArchiver
      */
     public static $archivers = array();
 
-    public function __construct(Parameters $params, $isTemporaryArchive)
+    public function __construct(Parameters $params, $isTemporaryArchive, ArchiveWriter $archiveWriter = null)
     {
         $this->params = $params;
         $this->isTemporaryArchive = $isTemporaryArchive;
-        $this->archiveWriter = new ArchiveWriter($this->params, $this->isTemporaryArchive);
+        $this->archiveWriter = $archiveWriter ?: new ArchiveWriter($this->params, $this->isTemporaryArchive);
         $this->archiveWriter->initNewArchive();
 
         $this->logAggregator = new LogAggregator($params);
@@ -147,7 +147,12 @@ class PluginsArchiver
                     );
                 } catch (Exception $e) {
                     $className = get_class($e);
-                    $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e);
+
+                    if ($className === 'PHPUnit_Framework_Exception' || (class_exists('PHPUnit_Framework_Exception', false) &&  is_subclass_of($className, 'PHPUnit_Framework_Exception'))) {
+                        $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e->getFile(), $e->getLine(), $e);
+                    } else {
+                        $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e);
+                    }
 
                     throw $exception;
                 }

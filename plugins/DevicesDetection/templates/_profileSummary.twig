@@ -1,0 +1,21 @@
+{% if visitorData.devices is defined %}
+    <div class="visitor-profile-summary visitor-profile-devices">
+        <h1>{{ 'DevicesDetection_Devices'|translate }}</h1>
+        <div>
+            {%- for entry in visitorData.devices -%}
+                <p>
+                    <img height="16" src="{{ entry.icon }}" />
+                    {% if entry.devices|length == 1 and 'General_Unknown'|translate in entry.devices[0].name %}
+                        <span>{{ 'DevicesDetection_XVisitsFromDevices'|translate('<strong>' ~ entry.count ~ '</strong>', '<strong>' ~ entry.type ~ '</strong>')|raw }}
+                    {% else %}
+                    <span>{{ 'DevicesDetection_XVisitsFromDevices'|translate('<strong>' ~ entry.count ~ '</strong>', '<strong>' ~ entry.type ~ '</strong>')|raw }}:
+                        {% for device in entry.devices -%}
+                            {{ device.name }} ({{ device.count }}x){% if not loop.last %}, {% endif %}
+                        {%- endfor -%}
+                    </span>
+                    {% endif %}
+                </p>
+            {%- endfor -%}
+        </div>
+    </div>
+{% endif %}

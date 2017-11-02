@@ -9,7 +9,9 @@
 namespace Piwik\Plugins\API\tests\Unit;
 
 use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Plugins\API\Renderer\Html;
+use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
 
 /**
  * @group Plugin
@@ -252,6 +254,52 @@ message', $response);
 	<tr>
 		<td>3</td>
 		<td>6</td>
+	</tr>
+</tbody>
+</table>
+', $response);
+    }
+
+    public function test_renderDataTable_shouldRenderDataTableWithComplexMetadata()
+    {
+        $dataTable = new DataTable\Simple();
+        $row = new DataTable\Row();
+        $row->setColumn('nb_visits', 3);
+        $row->setColumn('nb_random', 6);
+        $row->setMetadata('processedRows', [
+            new AverageTimeOnSite(),
+            new \stdClass(),
+            Date::factory('2016-01-01 00:00:00')
+        ]);
+        $dataTable->addRow($row);
+
+        $response = $this->builder->renderDataTable($dataTable);
+
+        $this->assertEquals('<table id="MultiSites_getAll" border="1">
+<thead>
+	<tr>
+		<th>nb_visits</th>
+		<th>nb_random</th>
+		<th>_metadata</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td>3</td>
+		<td>6</td>
+		<td>\'processedRows\' =&gt; array (
+  0 =&gt; 
+  Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite::__set_state(array(
+  )),
+  1 =&gt; 
+  stdClass::__set_state(array(
+  )),
+  2 =&gt; 
+  Piwik\Date::__set_state(array(
+     \'timestamp\' =&gt; 1451606400,
+     \'timezone\' =&gt; \'UTC\',
+  )),
+)</td>
 	</tr>
 </tbody>
 </table>

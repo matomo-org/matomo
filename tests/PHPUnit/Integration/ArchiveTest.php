@@ -25,6 +25,7 @@ use Piwik\Plugins\UserLanguage;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Archive\Chunk;
@@ -35,7 +36,14 @@ class Archive extends PiwikArchive
     {
         return parent::get($archiveNames, $archiveDataType, $idSubtable);
     }
+}
 
+class CustomArchiveQueryFactory extends PiwikArchive\ArchiveQueryFactory
+{
+    public function newInstance(\Piwik\Archive\Parameters $params, $forceIndexedBySite, $forceIndexedByDate)
+    {
+        return new Archive($params, $forceIndexedBySite, $forceIndexedByDate);
+    }
 }
 
 /**
@@ -250,7 +258,7 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals('UserLanguage_LanguageCode fr', $userLanguageReport->getFirstRow()->getColumn('label'));
         $this->assertEquals('UserLanguage_LanguageCode fr', $userLanguageReport->getLastRow()->getColumn('label'));
 
-        $parameters = new Parameters(new Site(1), $period, new Segment('', ''));
+        $parameters = new Parameters(new Site(1), $period, new Segment('', []));
         $parameters->setRequestedPlugin('UserLanguage');
 
         $result    = ArchiveSelector::getArchiveIdAndVisits($parameters, $period->getDateStart()->getDateStartUTC());
@@ -261,12 +269,11 @@ class ArchiveTest extends IntegrationTestCase
         }
 
         // track a new visits now
-        $fixture = self::$fixture;
-        $t = $fixture::getTracker(1, $date, $defaultInit = true);
+        $t = Fixture::getTracker(1, $date, $defaultInit = true);
         $t->setForceVisitDateTime(Date::factory($date)->addHour(1)->getDatetime());
-        $t->setUrl('http://example.org/index.htm');
+        $t->setUrl('http://site.com/index.htm');
         $t->setBrowserLanguage('pt-br');
-        $fixture::checkResponse($t->doTrackPageView('my site'));
+        Fixture::checkResponse($t->doTrackPageView('my_site'));
 
         $archiveWriter            = new ArchiveWriter($parameters, !!$idArchive);
         $archiveWriter->idArchive = $idArchive;
@@ -387,9 +394,20 @@ class ArchiveTest extends IntegrationTestCase
         return $archive->getNumeric('nb_visits');
     }
 
+    /**
+     * @return Archive
+     */
     private function getArchive($period, $day = '2010-03-04,2010-03-07')
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return Archive::build(self::$fixture->idSite, $period, $day);
+    }
+
+    public function provideContainerConfig()
+    {
+        return [
+            PiwikArchive\ArchiveQueryFactory::class => \DI\object(CustomArchiveQueryFactory::class),
+        ];
     }
 }
 

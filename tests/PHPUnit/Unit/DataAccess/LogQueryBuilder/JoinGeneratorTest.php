@@ -97,8 +97,8 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         ));
 
         $expected  = 'log_link_visit_action AS log_link_visit_action ';
-        $expected .= 'LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit ';
-        $expected .= 'LEFT JOIN log_action AS log_action ON (log_link_visit_action.idaction_name = log_action.idaction AND log_link_visit_action.idaction_url = log_action.idaction)';
+        $expected .= 'LEFT JOIN log_action AS log_action ON (log_link_visit_action.idaction_name = log_action.idaction AND log_link_visit_action.idaction_url = log_action.idaction) ';
+        $expected .= 'LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit';
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
@@ -125,8 +125,8 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         ));
 
         $expected  = 'log_visit AS log_visit ';
-        $expected .= 'LEFT JOIN log_conversion AS log_conversion ON log_visit.idvisit2 = log_conversion.idvisit2 ';
-        $expected .= 'LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit';
+        $expected .= 'LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit ';
+        $expected .= 'LEFT JOIN log_conversion AS log_conversion ON log_visit.idvisit2 = log_conversion.idvisit2';
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
@@ -163,8 +163,8 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         ));
 
         $expected  = 'log_link_visit_action AS log_link_visit_action ';
-        $expected .= 'LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit ';
-        $expected .= 'LEFT JOIN log_action AS log_action ON (log_link_visit_action.idaction_name = log_action.idaction AND log_link_visit_action.idaction_url = log_action.idaction)';
+        $expected .= 'LEFT JOIN log_action AS log_action ON (log_link_visit_action.idaction_name = log_action.idaction AND log_link_visit_action.idaction_url = log_action.idaction) ';
+        $expected .= 'LEFT JOIN log_visit AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit';
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
@@ -182,9 +182,9 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         ));
 
         $expected  = 'log_link_visit_action AS log_link_visit_action ';
+        $expected .= 'LEFT JOIN log_action AS log_action ON log_link_visit_action.idaction_url = log_action.idaction ';
         $expected .= 'RIGHT JOIN log_visit AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit ';
-        $expected .= 'RIGHT JOIN log_action AS log_action_r ON log_link_visit_action.idaction_test = log_action_r.idaction ';
-        $expected .= 'LEFT JOIN log_action AS log_action ON log_link_visit_action.idaction_url = log_action.idaction';
+        $expected .= 'RIGHT JOIN log_action AS log_action_r ON log_link_visit_action.idaction_test = log_action_r.idaction';
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
@@ -222,19 +222,97 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         usort($tables, array($generator, 'sortTablesForJoin'));
 
         $expected = array(
-            array('table' => 'log_conversion', 'joinOn' => 'log_conversion.idvisit = log_visit.idvisit'),
             'log_link_visit_action',
             'log_action',
             'log_visit',
             'log_conversion',
             'log_conversion_item',
-            'log_foo_bar'
+            'log_foo_bar',
+            array('table' => 'log_conversion', 'joinOn' => 'log_conversion.idvisit = log_visit.idvisit'),
         );
 
         $this->assertEquals($expected, $tables);
     }
 
-    public function test_sortTablesForJoin_shouldSortTablesWithCustomJoinRequiringEachOther()
+    public function test_sortTablesForJoin_anotherTestMakingSureWorksOhPhp5_5()
+    {
+        $tables = array (
+            1 => 'log_link_visit_action',
+            2 =>
+                array (
+                    'table' => 'log_action',
+                    'tableAlias' => 'log_action_idaction_name',
+                    'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
+                ),
+            3 =>
+                array (
+                    'table' => 'log_action',
+                    'tableAlias' => 'log_action_visit_exit_idaction_name',
+                    'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
+                ),
+        )
+        ;
+
+        $generator = $this->makeGenerator($tables);
+        usort($tables, array($generator, 'sortTablesForJoin'));
+
+        $expected = array(
+            'log_link_visit_action',
+            array (
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_visit_exit_idaction_name',
+                'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
+            ),
+            array (
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_idaction_name',
+                'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
+            ),
+        );
+
+        $this->assertEquals($expected, $tables);
+    }
+
+    public function test_sortTablesForJoin_anotherTest2MakingSureWorksOhPhp5_5()
+    {
+        $tables = array (
+            1 => 'log_link_visit_action',
+            3 =>
+                array (
+                    'table' => 'log_action',
+                    'tableAlias' => 'log_action_visit_exit_idaction_name',
+                    'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
+                ),
+            2 =>
+                array (
+                    'table' => 'log_action',
+                    'tableAlias' => 'log_action_idaction_name',
+                    'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
+                ),
+        )
+        ;
+
+        $generator = $this->makeGenerator($tables);
+        usort($tables, array($generator, 'sortTablesForJoin'));
+
+        $expected = array(
+            'log_link_visit_action',
+            array (
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_idaction_name',
+                'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
+            ),
+            array (
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_visit_exit_idaction_name',
+                'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
+            ),
+        );
+
+        $this->assertEquals($expected, $tables);
+    }
+
+    public function test_sortTablesForJoin_shouldSortTablesWithCustomJoinRequiringEachOther1()
     {
         $tables = array(
             'log_link_visit_action',
@@ -255,6 +333,8 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         usort($tables, array($generator, 'sortTablesForJoin'));
 
         $expected = array(
+            'log_link_visit_action',
+            'log_action',
             array (
                 'table' => 'log_link_visit_action',
                 'tableAlias' => 'log_link_visit_action_foo',
@@ -265,8 +345,6 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
                 'tableAlias' => 'log_action_foo',
                 'joinOn' => 'log_link_visit_action_foo.idaction_url = log_action_foo.idaction',
             ),
-            'log_link_visit_action',
-            'log_action',
         );
 
         $this->assertEquals($expected, $tables);
@@ -289,6 +367,63 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $generator = $this->makeGenerator($tables);
         usort($tables, array($generator, 'sortTablesForJoin'));
+
+        $this->assertEquals($expected, $tables);
+
+        // should still be the same if inverted
+        $tables = array(
+            'log_link_visit_action',
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_foo',
+                'joinOn' => "log_link_visit_action_foo.idaction_url = log_action_foo.idaction"
+            ),
+            'log_action',
+            array(
+                'table' => 'log_link_visit_action',
+                'tableAlias' => 'log_link_visit_action_foo',
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit"
+            ),
+        );
+
+        $generator = $this->makeGenerator($tables);
+        usort($tables, array($generator, 'sortTablesForJoin'));
+
+        $this->assertEquals($expected, $tables);
+    }
+
+    public function test_sortTablesForJoin_shouldSortTablesWithCustomJoinRequiringEachOther2()
+    {
+        $tables = array(
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_visit_entry_idaction_name',
+                'joinOn' => "log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction"
+            ),
+            'log_link_visit_action',
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_idaction_event_action',
+                'joinOn' => "log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction"
+            )
+        );
+
+        $generator = $this->makeGenerator($tables);
+        usort($tables, array($generator, 'sortTablesForJoin'));
+
+        $expected = array(
+            'log_link_visit_action',
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_idaction_event_action',
+                'joinOn' => "log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction"
+            ),
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_visit_entry_idaction_name',
+                'joinOn' => "log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction"
+            )
+        );
 
         $this->assertEquals($expected, $tables);
     }

@@ -1,13 +1,18 @@
 {
     "CoreHome": {
         "CategoryNoData": "Bu kategoride henüz bir veri yok. \"Tüm dağılımlar katılsın\" seçeneğini deneyin.",
+        "ChangeVisualization": "Görselleştirmeyi değiştir",
         "CheckForUpdates": "Güncellemeleri denetle",
         "CheckPiwikOut": "Piwik'e göz atın!",
         "ClickToEditX": "%s ögesini düzenlemek için tıklayın",
+        "ClickToSeeFullInformation": "Bütün bilgileri görmek için tıklayın",
+        "CloseSearch": "Aramayı Kapat",
         "CloseWidgetDirections": "Gereç üzerindeki 'X' simgesine tıklayarak bu gereci kapatabilirsiniz.",
+        "ChooseX": "Seç %1$s",
         "DataForThisReportHasBeenPurged": "Bu raporda bulunan veriler %s aydan eski ve temizlenmiş.",
         "DataTableExcludeAggregateRows": "Tüm satırlar görüntüleniyor %s Gizle",
         "DataTableIncludeAggregateRows": "Tüm satırlar gizlenmiş %s Görüntüle",
+        "DataTableHowToSearch": "Arama yapmak için enter tuşuna basın veya arama simgesine tıkla",
         "Default": "varsayılan",
         "DonateCall1": "Piwik her zaman ücretsiz kullanılabilecek ancak bu durum geliştirmenin ücretsiz olduğu anlamına gelmiyor.",
         "DonateCall2": "Gelişip ilerleyebilmesi için Piwik projesi sürekli desteğinize gerek duyuyor.",
@@ -20,6 +25,8 @@
         "InjectedHostEmailBody": "Merhaba, bugün Piwik'e erişmeye çalıştım ve bilinmeyen host uyarısı ile karşılaştım.",
         "InjectedHostEmailSubject": "Bilinmeyen bir sunucu Piwik'e erişti: %s",
         "InjectedHostWarningIntro": "Şu anda Piwik'e %1$s 'den giriş yapıyorsunuz ama Piwik şu adreste çalışması için ayarlandı: %2$s.",
+        "VisitStatusOrdered": "Düzenli",
+        "MainNavigation": "Ana navigasyon",
         "MakeOneTimeDonation": "Onun yerine bir defalık bağış yapın",
         "Menu": "Menü",
         "PageOf": "%1$s nin %2$s",
@@ -37,7 +44,17 @@
         "ViewAllPiwikVideoTutorials": "Tüm Piwik Yardım Videolarına Bak",
         "WebAnalyticsReports": "Web Analiz Raporları",
         "YouAreUsingTheLatestVersion": "Piwik'in son versiyonunu kullanıyorsunuz!",
+        "NoSuchPage": "Bu sayfa mevcut değil",
+        "SystemSummaryWidget": "Sistem Özeti",
+        "SystemSummaryNWebsites": "%d Web siteleri",
+        "SystemSummaryNSegments": "%d segmentleri",
+        "SystemSummaryNActivatedPlugins": "%d aktiflenmiş eklenti",
+        "SystemSummaryPiwikVersion": "Piwik versiyonu",
+        "SystemSummaryMysqlVersion": "MySQL versiyonu",
+        "SystemSummaryPhpVersion": "PHP versiyonu",
         "Segments": "Bölümler",
-        "ChangeCurrentWebsite": "Bir websitesi seç, mevcut seçilen site: %s"
+        "AdblockIsMaybeUsed": "Bir reklam engelleyicisi kullanıyorsanız, lütfen Piwik'in sorunsuz çalıştığından emin olmak için devre dışı bırakın.",
+        "ChangeCurrentWebsite": "Bir websitesi seç, mevcut seçilen site: %s",
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Gizliliğinize saygı gösteren lider açık istatistikler platformu."
     }
 }

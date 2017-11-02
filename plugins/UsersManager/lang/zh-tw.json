@@ -3,6 +3,7 @@
         "AddUser": "新增使用者",
         "Alias": "別名",
         "AllWebsites": "所有網站",
+        "AnonymousAccessConfirmation": "你將要授予匿名使用者這個網站的「檢視」權限。這代表你的分析報表和你的訪客資訊將會被公開，就算沒登入也可查看。你確定要繼續？",
         "AnonymousUser": "匿名使用者",
         "AnonymousUserHasViewAccess": "注意：使用者 %1$s 有權限 %2$s 存取這個網站。",
         "AnonymousUserHasViewAccess2": "你的分析報表跟你的訪客資訊是可以公開查看的。",

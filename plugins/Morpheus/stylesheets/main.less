@@ -401,17 +401,31 @@ table.dataTable {
           background-color: @color-silver-l95;
         }
 
+        // for third level tables
+        td.cellSubDataTable {
+          table {
+            table {
+            tr td {
+              background: @theme-color-background-contrast !important;
+            }
+            tr:hover td {
+              background: @theme-color-background-contrast !important;
+
+              &:not(.cellSubDataTable) {
+                background-color: @color-silver-l95 !important;
+              }
+            }
+            }
+          }
+        }
+
         .cellSubDataTable td {
           background: @theme-color-background-contrast;
         }
-        .cellSubDataTable tr:hover td {
+        .cellSubDataTable tr:hover td:not(.cellSubDataTable) {
           background-color: @theme-color-background-base;
         }
       }
-    }
-
-    &.dataTableVizVisitorLog {
-
     }
 }
 
@@ -490,163 +504,13 @@ div.sparkline {
     z-index: 1;
 }
 
-.visitor-profile a {
-    color: @theme-color-link;
-    font-weight: normal;
-}
-
-.visitor-profile-info {
-    box-shadow: none !important;
-}
-
-.visitor-profile-latest-visit-loc {
-    display: inline-block;
-    position: absolute;
-    right: 4px;
-    top: -19px;
-}
-
-
-.visitor-profile-more-info > a {
-    color: @theme-color-link;
-    .font-default(12px, 16px);
-}
-
-.visitor-profile-more-info {
-    margin: 5px 0 15px 0;
-}
-
-.visitor-profile-visits-container {
-    padding: 0;
-    margin: 0;
-    li {
-        margin: 0 !important;
-        background: @color-silver-l95;
-        padding: 7px 10px !important;
-        > div {
-            border: 0px !important;
-            margin: 0 !important;
-        }
-    }
-
-    ol.visitor-profile-visits {
-        > li {
-            padding: 0 0 0 !important;
-            span {
-                font-weight: normal;
-                margin-right: 20px;
-            }
-
-            ol {
-                background: @theme-color-background-contrast !important;
-                border-top: 0 !important;
-                li {
-                    background: @theme-color-background-contrast !important;
-                    font-weight: normal;
-                    color: @theme-color-text-lighter;
-                    &:last-child {
-                        border-bottom: 0 !important;
-                        padding-bottom: 20px !important;
-                    }
-                    &:first-child {
-                        padding-top: 20px !important;
-                    }
-                }
-            }
-        }
-    }
-}
-
-.widget .visitor-profile .visitor-profile-info > div > div {
-    min-width: 100% !important;
-}
-
-.visitor-profile {
-    background: none;
-    border: 0;
-    .border-radius(0px);
-    .visitor-profile-info {
-        .border-radius(0px);
-        border: 0px;
-
-        > div {
-            border: 0px !important;
-        }
-
-        .visitor-profile-image-frame {
-            background: none !important;
-        }
-        .visitor-profile-avatar {
-            > div > img {
-                display: none;
-            }
-        }
-    }
-
-
-
-    .visitor-profile-avatar {
-       ul {
-        width: 100% !important;
-           li {
-                display: block;
-                border: 0px;
-                &:first-child {
-                    border: 0px !important;
-                }
-                span {
-                    color: @theme-color-text-lighter;
-                    .font-default(13px, 18px);
-                    padding-left: 0;
-                }
-
-                strong {
-                    color: @theme-color-text;
-                    .font-default(13px, 18px);
-                    font-weight: normal !important;
-                }
-
-                .visitor-profile-os,
-                .visitor-profile-browser {
-                    margin-left: 0;
-                    img {
-                        margin-right: 5px;
-                        vertical-align: middle;
-                    }
-                }
-            }
-        }
-    }
-
-    .visitor-profile-avatar > div:nth-child(2n) {
-        width: 376px;
-    }
-
-    .visitor-profile-latest-visit {
-        .visitor-profile-latest-visit-column {
-            display: inline-block;
-            margin-left: 0;
-        }
-
-        .visitor-profile-latest-visit-column:first-child {
-            width: 50%;
-            margin-right:-4px;
-        }
-
-        .visitor-profile-latest-visit-column:last-child {
-            width: 50%;
-            margin-right:-4px;
-        }
-    }
-}
-
 .annotationView {
     .font-default(10px, 12px);
     text-transform: uppercase;
     color: @theme-color-text;
 }
 
-.datatableFooterMessage {
+.datatableHeaderMessage, .datatableFooterMessage {
     .font-default(13px, 18px);
     color: @color-silver;
     font-weight: normal;

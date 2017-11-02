@@ -17,6 +17,7 @@ class PluginCookie extends DevicePluginColumn
 {
     protected $columnName = 'config_cookie';
     protected $columnType = 'TINYINT(1) NULL';
+    protected $type = self::TYPE_BOOL;
 
     /**
      * @param Request $request

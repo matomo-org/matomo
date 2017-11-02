@@ -8,31 +8,27 @@
  */
 namespace Piwik\Plugins\VisitTime\Columns;
 
-use Piwik\Piwik;
+use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\VisitTime\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
+
+require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
 
 class LocalTime extends VisitDimension
 {
     protected $columnName = 'visitor_localtime';
     protected $columnType = 'TIME NULL';
+    protected $type = self::TYPE_TIME;
+    protected $segmentName = 'visitLocalHour';
+    protected $nameSingular = 'VisitTime_ColumnLocalHour';
+    protected $sqlSegment = 'HOUR(log_visit.visitor_localtime)';
+    protected $acceptValues = '0, 1, 2, 3, ..., 20, 21, 22, 23';
 
-    protected function configureSegments()
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
-        $segment = new Segment();
-        $segment->setSegment('visitLocalHour');
-        $segment->setName('VisitTime_ColumnLocalTime');
-        $segment->setSqlSegment('HOUR(log_visit.visitor_localtime)');
-        $segment->setAcceptedValues('0, 1, 2, 3, ..., 20, 21, 22, 23');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('VisitTime_ColumnLocalTime');
+        return \Piwik\Plugins\VisitTime\getTimeLabel($value);
     }
 
     /**

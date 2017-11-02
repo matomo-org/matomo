@@ -59,7 +59,6 @@
         "UninstallConfirm": "Ви збираєтеся видалити плагін %s. Плагін буде безповоротно видалений з системи. Ви впевнені, що хочете зробити це?",
         "Version": "Версія",
         "ViewAllMarketplacePlugins": "Переглянути всі плагіни Маркету",
-        "WeDeactivatedThePluginAsItHasMissingDependencies": "Ми відключили плагін %s так як він має відсутні залежності:",
         "Websites": "Сайти"
     }
 }

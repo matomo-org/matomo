@@ -98,7 +98,6 @@
         "SystemCheckOtherExtensions": "إضافات أخرى",
         "SystemCheckOtherFunctions": "دوال أخرى",
         "SystemCheckPageSpeedDisabled": "PageSpeed معطَّل",
-        "SystemCheckPageSpeedWarn": "نقترح تعطيل وحدة PageSpeed في خادم الويب %s لديك ، وصلتنا معلومة بأن PageSpeed يسبب عدة مشاكل عند استخدامه مع Piwik",
         "SystemCheckPackHelp": "الدالة pack() مطلوبة ليتمكن Piwik من تتبع الزوار.",
         "SystemCheckParseIniFileHelp": "تم تعطيل الدالة المبنية ضمناً من طرف مزود الخدمة لديك. Piwik سيحاول أن يقلد هذه الدالة ذاتياً ولكنه قد يواجه عدداً من الاعتبارات الأمنية الأخرى. سيتأثر أيضاً أداء عملية التتبع.",
         "SystemCheckPdoAndMysqliHelp": "على ملقم لينوكس يمكنك ضبط PHP بالإعدادات التالية: %1$s في ملف php.ini أضف السطور التالية: %2$s",

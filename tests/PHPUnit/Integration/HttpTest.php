@@ -289,7 +289,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testSocketHttpsWorksWithValidCertificate()
     {
-        $result = Http::sendHttpRequestBy('socket', 'https://divezone.net/', 10);
+        $result = Http::sendHttpRequestBy('socket', 'https://piwik.org/', 10);
         $this->assertNotEmpty($result);
     }
 }

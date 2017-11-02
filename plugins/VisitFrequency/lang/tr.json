@@ -1,11 +1,11 @@
 {
     "VisitFrequency": {
-        "ColumnActionsByReturningVisits": "Geri Gelen Ziyaretlere Göre Eylemler",
+        "ColumnActionsByReturningVisits": "Geri Gelen Ziyaretlere Göre İşlemler",
         "ColumnAverageVisitDurationForReturningVisitors": "Ortalama Geri Gelen Ziyaret Süresi (saniye)",
-        "ColumnAvgActionsPerReturningVisit": "Geri Gelen Ziyaretlerin Ortalama Eylemleri",
+        "ColumnAvgActionsPerReturningVisit": "Geri Gelen Ziyaretlerin Ortalama İşlem Sayısı",
         "ColumnBounceCountForReturningVisits": "Geri Gelen Ziyaretlerin Sekme Sayısı",
         "ColumnBounceRateForReturningVisits": "Geri Gelen Ziyaretlerin Sekme Oranı",
-        "ColumnMaxActionsInReturningVisit": "Bir geri gelen ziyaret için en fazla eylem sayısı",
+        "ColumnMaxActionsInReturningVisit": "Geri gelen bir ziyaret için en fazla işlem sayısı",
         "ColumnNbReturningVisitsConverted": "Dönüştürülmüş geri gelen ziyaret sayısı",
         "ColumnReturningVisits": "Geri Gelen Ziyaretler",
         "ColumnSumVisitLengthReturning": "Geri gelen ziyaretçilerin harcadığı toplam süre (saniye)",

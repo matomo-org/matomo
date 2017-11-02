@@ -91,9 +91,9 @@ Running Piwik %s as Super User
 ---------------------------
 NOTES
 - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings.
-  See the doc at: http://piwik.org/docs/setup-auto-archiving/
+  See the doc at: https://piwik.org/docs/setup-auto-archiving/
 - Reports for today will be processed at most every %s seconds. You can change this value in Piwik UI > Settings > General Settings.
-- Reports for the current week/month/year will be refreshed at most every %s seconds.
+- Reports for the current week/month/year will be requested at most every %s seconds.
 - Will process all 1 websites
 - Limiting segment archiving to following segments:
   * actions>=2;browserCode=FF

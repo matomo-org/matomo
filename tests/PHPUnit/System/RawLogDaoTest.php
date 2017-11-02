@@ -12,6 +12,24 @@ use Piwik\DataAccess\RawLogDao;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
+class CustomRawLogDao extends RawLogDao {
+
+    public function getTableIdColumns()
+    {
+        return parent::getTableIdColumns();
+    }
+
+    public function getIdFieldForLogTable($logTable)
+    {
+        return parent::getIdFieldForLogTable($logTable);
+    }
+
+    public function getMaxIdsInLogTables()
+    {
+        return parent::getMaxIdsInLogTables();
+    }
+}
+
 /**
  * @group Core
  * @group RawLogDao
@@ -20,7 +38,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 class RawLogDaoTest extends SystemTestCase
 {
     /**
-     * @var RawLogDao
+     * @var CustomRawLogDao
      */
     private $dao;
 
@@ -34,7 +52,7 @@ class RawLogDaoTest extends SystemTestCase
             Fixture::createWebsite('2010-00-00 00:00:00');
         }
 
-        $this->dao = new RawLogDao();
+        $this->dao = new CustomRawLogDao();
     }
 
     /**
@@ -46,6 +64,46 @@ class RawLogDaoTest extends SystemTestCase
 
         $hasVisits = $this->dao->hasSiteVisitsBetweenTimeframe($from, $to, $idSite);
         $this->assertSame($expectedHasVisits, $hasVisits);
+    }
+
+    public function test_getIdColumns()
+    {
+        $expected = array(
+            'log_action' => 'idaction',
+            'log_conversion_item' => 'idvisit',
+            'log_conversion' => 'idvisit',
+            'log_link_visit_action' => 'idlink_va',
+            'log_visit' => 'idvisit',
+        );
+        $this->assertSame($expected, $this->dao->getTableIdColumns());
+    }
+
+    public function test_getIdFieldForLogTable()
+    {
+        $this->assertSame('idaction', $this->dao->getIdFieldForLogTable('log_action'));
+        $this->assertSame('idlink_va', $this->dao->getIdFieldForLogTable('log_link_visit_action'));
+        $this->assertSame('idvisit', $this->dao->getIdFieldForLogTable('log_visit'));
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Unknown log table 'log_foobarbaz'
+     */
+    public function test_getIdFieldForLogTable_whenUnknownTable()
+    {
+        $this->dao->getIdFieldForLogTable('log_foobarbaz');
+    }
+
+    public function test_getMaxIdsInLogTables()
+    {
+        $expected = array(
+            'log_action' => '2',
+            'log_conversion_item' => null,
+            'log_conversion' => null,
+            'log_link_visit_action' => '11',
+            'log_visit' => '1',
+        );
+        $this->assertEquals($expected, $this->dao->getMaxIdsInLogTables());
     }
 
     public function getVisitsInTimeFrameData()

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>0h</label>
+		<label>00</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
@@ -41,7 +41,7 @@
 		<segment>visitServerHour==0</segment>
 	</row>
 	<row>
-		<label>1h</label>
+		<label>01</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -53,7 +53,7 @@
 		<segment>visitServerHour==1</segment>
 	</row>
 	<row>
-		<label>2h</label>
+		<label>02</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -65,7 +65,7 @@
 		<segment>visitServerHour==2</segment>
 	</row>
 	<row>
-		<label>3h</label>
+		<label>03</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -77,7 +77,7 @@
 		<segment>visitServerHour==3</segment>
 	</row>
 	<row>
-		<label>4h</label>
+		<label>04</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -89,7 +89,7 @@
 		<segment>visitServerHour==4</segment>
 	</row>
 	<row>
-		<label>5h</label>
+		<label>05</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -101,7 +101,7 @@
 		<segment>visitServerHour==5</segment>
 	</row>
 	<row>
-		<label>6h</label>
+		<label>06</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -113,7 +113,7 @@
 		<segment>visitServerHour==6</segment>
 	</row>
 	<row>
-		<label>7h</label>
+		<label>07</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -125,7 +125,7 @@
 		<segment>visitServerHour==7</segment>
 	</row>
 	<row>
-		<label>8h</label>
+		<label>08</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -137,7 +137,7 @@
 		<segment>visitServerHour==8</segment>
 	</row>
 	<row>
-		<label>9h</label>
+		<label>09</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -149,7 +149,7 @@
 		<segment>visitServerHour==9</segment>
 	</row>
 	<row>
-		<label>10h</label>
+		<label>10</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -161,7 +161,7 @@
 		<segment>visitServerHour==10</segment>
 	</row>
 	<row>
-		<label>11h</label>
+		<label>11</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -173,7 +173,7 @@
 		<segment>visitServerHour==11</segment>
 	</row>
 	<row>
-		<label>12h</label>
+		<label>12</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -185,7 +185,7 @@
 		<segment>visitServerHour==12</segment>
 	</row>
 	<row>
-		<label>13h</label>
+		<label>13</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -197,7 +197,7 @@
 		<segment>visitServerHour==13</segment>
 	</row>
 	<row>
-		<label>14h</label>
+		<label>14</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -209,7 +209,7 @@
 		<segment>visitServerHour==14</segment>
 	</row>
 	<row>
-		<label>15h</label>
+		<label>15</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -221,7 +221,7 @@
 		<segment>visitServerHour==15</segment>
 	</row>
 	<row>
-		<label>16h</label>
+		<label>16</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -233,7 +233,7 @@
 		<segment>visitServerHour==16</segment>
 	</row>
 	<row>
-		<label>17h</label>
+		<label>17</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -245,7 +245,7 @@
 		<segment>visitServerHour==17</segment>
 	</row>
 	<row>
-		<label>18h</label>
+		<label>18</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -257,7 +257,7 @@
 		<segment>visitServerHour==18</segment>
 	</row>
 	<row>
-		<label>19h</label>
+		<label>19</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -269,7 +269,7 @@
 		<segment>visitServerHour==19</segment>
 	</row>
 	<row>
-		<label>20h</label>
+		<label>20</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -281,7 +281,7 @@
 		<segment>visitServerHour==20</segment>
 	</row>
 	<row>
-		<label>21h</label>
+		<label>21</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -293,7 +293,7 @@
 		<segment>visitServerHour==21</segment>
 	</row>
 	<row>
-		<label>22h</label>
+		<label>22</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>
@@ -305,7 +305,7 @@
 		<segment>visitServerHour==22</segment>
 	</row>
 	<row>
-		<label>23h</label>
+		<label>23</label>
 		<nb_uniq_visitors>0</nb_uniq_visitors>
 		<nb_visits>0</nb_visits>
 		<nb_actions>0</nb_actions>

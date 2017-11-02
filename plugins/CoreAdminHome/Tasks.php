@@ -18,6 +18,7 @@ use Piwik\Option;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
 use Psr\Log\LoggerInterface;
+use Piwik\SettingsPiwik;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
@@ -48,7 +49,9 @@ class Tasks extends \Piwik\Plugin\Tasks
         // lowest priority since tables should be optimized after they are modified
         $this->daily('optimizeArchiveTable', null, self::LOWEST_PRIORITY);
 
-        $this->weekly('updateSpammerBlacklist');
+        if(SettingsPiwik::isInternetEnabled() === true){
+            $this->weekly('updateSpammerBlacklist');
+        }
     }
 
     /**

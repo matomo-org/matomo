@@ -77,13 +77,14 @@
                             if (piwikUrl.getSearchParam('widget')) {
                                 $urlParams['widget'] = 'widget';
                             }
-                            if (piwikUrl.getSearchParam('segment')) {
-                                $urlParams['segment'] = 'segment';
-                            }
                         } else {
                             $urlParams = angular.copy($urlParams);
                             delete $urlParams['category'];
                             delete $urlParams['subcategory'];
+                        }
+
+                        if (piwikUrl.getSearchParam('segment')) {
+                            $urlParams['segment'] = 'segment';
                         }
 
                         angular.forEach($urlParams, function (value, key) {
@@ -116,8 +117,8 @@
 
                         httpCanceler = $q.defer();
 
-                        $http.get(url, {timeout: httpCanceler.promise}).success(function(response) {
-                            if (thisChangeId !== changeCounter || !response) {
+                        $http.get(url, {timeout: httpCanceler.promise}).then(function(response) {
+                            if (thisChangeId !== changeCounter || !response.data) {
                                 // another widget was requested meanwhile, ignore this response
                                 return;
                             }
@@ -130,24 +131,23 @@
                             scope.loading = false;
                             scope.loadingFailed = false;
 
-                            currentElement = contentNode.html(response).children();
+                            currentElement = contentNode.html(response.data).children();
 
                             if (scope.widgetName) {
                                 // we need to respect the widget title, which overwrites a possibly set report title
                                 var $title = currentElement.find('> .card-content .card-title');
-                                if ($title.size()) {
+                                if ($title.length) {
                                     $title.text(scope.widgetName);
                                 } else {
                                     $title = currentElement.find('> h2');
-                                    if ($title.size()) {
+                                    if ($title.length) {
                                         $title.text(scope.widgetName);
                                     }
                                 }
                             }
 
                             $compile(currentElement)(newScope);
-
-                        }).error(function () {
+                        })['catch'](function () {
                             if (thisChangeId !== changeCounter) {
                                 // another widget was requested meanwhile, ignore this response
                                 return;

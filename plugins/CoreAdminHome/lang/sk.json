@@ -33,6 +33,8 @@
         "MenuSystem": "Systém",
         "MenuDevelopment": "Vývoj",
         "MenuMeasurables": "Metriky",
+        "OptOutComplete": "Odhlásenie nastavené. Vaše návštevy nebudú sledované nástrojom webovej analýzy.",
+        "OptOutCompleteBis": "Poznámka: ak zmažete cookie, odstránite vylučovací cookie alebo zmeníte počítač alebo prehliadač, budete musieť vykonať procedúru nastavenia odhlásenia znova.",
         "OptOutForYourVisitors": "Odhlásenie pre Vašich návštevníkov",
         "PiwikIsInstalledAt": "Piwik je nainštalovaný na",
         "PersonalPluginSettings": "Osobné nastavenia modulu",
@@ -45,6 +47,10 @@
         "TrackingCode": "Kód sledovania",
         "TrustedHostConfirm": "Ste si istí, že chcete zmeniť dôveryhodné hostname pre Piwik?",
         "UpdateSettings": "Aktualizovať nastavenia",
-        "UseCustomLogo": "Použiť vlastné logo"
+        "UseCustomLogo": "Použiť vlastné logo",
+        "YouAreOptedIn": "Aktuálne ste prihlásený.",
+        "YouAreOptedOut": "Aktuálne ste odhlásený.",
+        "YouMayOptOut": "Zakliknutím v rámčeku nižšie, môžete zakázať uloženie cookie s identifikačným číslom prideleným vášmu počítaču a tým zamedziť prevádzkovateľovi tohto webu zhromažďovať a analyzovať štatistické údaje.",
+        "YouMayOptOutBis": "Ak ste sa rozhodli pre túto možnosť, kliknite prosím na priložený odkaz pre uloženie deaktivačného cookie vo svojom prehliadači."
     }
 }

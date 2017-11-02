@@ -203,6 +203,33 @@ class Segment
     }
 
     /**
+     * @return string
+     * @ignore
+     */
+    public function getSqlFilterValue()
+    {
+        return $this->sqlFilterValue;
+    }
+
+    /**
+     * @return string
+     * @ignore
+     */
+    public function getAcceptValues()
+    {
+        return $this->acceptValues;
+    }
+
+    /**
+     * @return string
+     * @ignore
+     */
+    public function getSqlFilter()
+    {
+        return $this->sqlFilter;
+    }
+
+    /**
      * Set (overwrite) the type of this segment which is usually either a 'dimension' or a 'metric'.
      * @param string $type See constansts TYPE_*
      * @api
@@ -231,6 +258,15 @@ class Segment
     }
 
     /**
+     * @return string
+     * @ignore
+     */
+    public function getCategoryId()
+    {
+        return $this->category;
+    }
+
+    /**
      * Returns the name of this segment as it should appear in segment expressions.
      *
      * @return string
@@ -238,6 +274,15 @@ class Segment
     public function getSegment()
     {
         return $this->segment;
+    }
+
+    /**
+     * @return string
+     * @ignore
+     */
+    public function getSuggestedValuesCallback()
+    {
+        return $this->suggestedValuesCallback;
     }
 
     /**

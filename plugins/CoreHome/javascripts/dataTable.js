@@ -497,27 +497,13 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             return parseInt(maxWidth, 10);
         }
 
-        function removePaddingFromWidth(domElem, labelWidth) {
-            var maxPaddingLeft  = 0;
-            var maxPaddingRight = 0;
+        function removePaddingFromWidth(elem, labelWidth) {
+            var paddingLeft  = elem.css('paddingLeft');
+            paddingLeft      = paddingLeft ? Math.round(parseFloat(paddingLeft)) : 0;
+            var paddingRight = elem.css('paddingRight');
+            paddingRight     = paddingRight ? Math.round(parseFloat(paddingLeft)) : 0;
 
-            $('tbody tr td.label', domElem).each(function (i, node) {
-                $node = $(node);
-
-                var paddingLeft  = $node.css('paddingLeft');
-                paddingLeft      = paddingLeft ? Math.round(parseFloat(paddingLeft)) : 0;
-                var paddingRight = $node.css('paddingRight');
-                paddingRight     = paddingRight ? Math.round(parseFloat(paddingLeft)) : 0;
-
-                if (paddingLeft > maxPaddingLeft) {
-                    maxPaddingLeft = paddingLeft;
-                }
-                if (paddingRight > maxPaddingRight) {
-                    maxPaddingRight = paddingRight;
-                }
-            });
-
-            labelWidth = labelWidth - maxPaddingLeft - maxPaddingRight;
+            labelWidth = labelWidth - paddingLeft - paddingRight;
 
             return labelWidth;
         }
@@ -531,9 +517,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (isTableVisualization) {
             // we do this only for html tables
 
-            var minLabelWidth = 125;
-            var maxLabelWidth = 440;
-
             var tableWidth = getTableWidth(domElem);
             var labelColumnMinWidth = getLabelColumnMinWidth(domElem);
             var labelColumnMaxWidth = getLabelColumnMaxWidth(domElem);
@@ -546,10 +529,10 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 labelColumnWidth = labelColumnMaxWidth;
             }
 
-            labelColumnWidth = removePaddingFromWidth(domElem, labelColumnWidth);
-
             if (labelColumnWidth) {
-                $('td.label', domElem).width(labelColumnWidth);
+                $('td.label', domElem).each(function() {
+                    $(this).width(removePaddingFromWidth($(this), labelColumnWidth));
+                });
             }
 
             $('td span.label', domElem).each(function () { self.tooltip($(this)); });
@@ -603,14 +586,14 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         } else {
             var inReportPage = domElem.parents('.theWidgetContent').first();
             var displayedAsCard = inReportPage.find('> .card > .card-content');
-            if (displayedAsCard.size()) {
+            if (displayedAsCard.length) {
                 $domNodeToSetOverflow = displayedAsCard.first();
             } else {
                 $domNodeToSetOverflow = inReportPage;
             }
         }
 
-        if (!$domNodeToSetOverflow || !$domNodeToSetOverflow.size()) {
+        if (!$domNodeToSetOverflow || !$domNodeToSetOverflow.length) {
             return;
         }
 
@@ -795,7 +778,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         });
 
         var $searchAction = $('.dataTableAction.searchAction', domElem);
-        if (!$searchAction.size()) {
+        if (!$searchAction.length) {
             return;
         }
 
@@ -1353,7 +1336,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             $('.dropdownConfigureIcon', domElem).remove();
         }
 
-        if (ul.find('li').size() == 0) {
+        if (!ul.find('li').length) {
             hideConfigurationIcon();
             return;
         }
@@ -1680,7 +1663,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 $(this).toggleClass('expanded');
                 self.repositionRowActions($(this));
             }
-        ).size();
+        ).length;
     },
 
     // tooltip for column documentation
@@ -1710,7 +1693,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 // headline
                 top = top + thPosTop;
 
-                if (th.next().size() == 0) {
+                if (!th.next().length) {
                     left = (-1 * tooltip.outerWidth()) + th.width() +
                         parseInt(th.css('padding-right'), 10);
                 }
@@ -1734,7 +1717,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     canHandleRowEvents: function (domElem) {
-        return domElem.find('table > tbody > tr').size() <= this.maxNumRowsToHandleEvents;
+        return domElem.find('table > tbody > tr').length <= this.maxNumRowsToHandleEvents;
     },
 
     handleRowActions: function (domElem) {
@@ -1773,19 +1756,19 @@ $.extend(DataTable.prototype, UIControl.prototype, {
             }
 
             var $headline = domElem.prev('h2');
-            if (!$headline.size()) {
+            if (!$headline.length) {
                 return;
             }
 
             var $title = $headline.find('.title:not(.ng-hide)');
-            if ($title.size()) {
+            if ($title.length) {
                 $title.text(relatedReportName);
 
                 var scope = $title.scope();
 
                 if (scope) {
                     var $doc = domElem.find('.reportDocumentation');
-                    if ($doc.size()) {
+                    if ($doc.length) {
                         scope.inlineHelp = $.trim($doc.html());
                     }
                     scope.featureName = $.trim(relatedReportName);
@@ -1864,7 +1847,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
     },
 
     handleSummaryRow: function (domElem) {
-        var details = _pk_translate('General_LearnMore', [' (<a href="http://piwik.org/faq/how-to/faq_54/" rel="noreferrer"  target="_blank">', '</a>)']);
+        var details = _pk_translate('General_LearnMore', [' (<a href="https://piwik.org/faq/how-to/faq_54/" rel="noreferrer"  target="_blank">', '</a>)']);
 
         domElem.find('tr.summaryRow').each(function () {
             var labelSpan = $(this).find('.label .value');

@@ -15,6 +15,27 @@ describe("SegmentSelectorEditorTest", function () {
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
 
+    function selectFieldValue(page, fieldName, textToSelect)
+    {
+        page.execCallback(function () {
+            page.webpage.evaluate(function(fieldName) {
+                $(fieldName + ' input.select-dropdown').click();
+            }, fieldName);
+        });
+        page.execCallback(function () {
+            page.webpage.evaluate(function(fieldName, textToSelect) {
+                $(fieldName + ' .dropdown-content.active li:contains("' + textToSelect + '"):first').click();
+            }, fieldName, textToSelect);
+        });
+    }
+
+    function selectDimension(page, prefixSelector, category, name)
+    {
+        page.click(prefixSelector + ' .metricListBlock .select-wrapper');
+        page.click(prefixSelector + ' .metricListBlock .expandableList h4:contains(' + category + ')');
+        page.click(prefixSelector + ' .metricListBlock .expandableList .secondLevel li:contains(' + name + ')');
+    }
+
     it("should load correctly", function (done) {
         expect.screenshot("0_initial").to.be.captureSelector(selectorsToCapture, function (page) {
             page.load(url);
@@ -38,18 +59,6 @@ describe("SegmentSelectorEditorTest", function () {
     it("should start editing segment name when segment name edit link clicked", function (done) {
         expect.screenshot("3_segment_editor_edit_name").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.segmentEditorPanel .editSegmentName');
-        }, done);
-    });
-
-    it("should expand segment dimension category when category name clicked in segment editor", function (done) {
-        expect.screenshot("4_segment_editor_expanded_dimensions").to.be.captureSelector(selectorsToCapture, function (page) {
-            page.click('.segmentEditorPanel .metric_category:contains(Actions)');
-        }, done);
-    });
-
-    it("should search segment dimensions when text entered in dimension search input", function (done) {
-        expect.screenshot("5_segment_editor_search_dimensions").to.be.captureSelector(selectorsToCapture, function (page) {
-            page.sendKeys('.segmentEditorPanel .segmentSearch', 'page title');
         }, done);
     });
 
@@ -81,10 +90,9 @@ describe("SegmentSelectorEditorTest", function () {
         }, done);
     });
 
-    it("should add new segment expression when segment dimension drag dropped", function (done) {
+    it("should update segment expression when selecting different segment", function (done) {
         expect.screenshot("dimension_drag_drop").to.be.captureSelector(selectorsToCapture, function (page) {
-            page.click('.segmentEditorPanel .metric_category:contains(Actions)');
-            page.dragDrop('.segmentEditorPanel li[data-metric=actionUrl]', '.segmentEditorPanel .ui-droppable');
+            selectDimension(page, '.segmentRow0', 'Actions', 'Action URL');
         }, done);
     });
 
@@ -95,32 +103,40 @@ describe("SegmentSelectorEditorTest", function () {
         }, done);
     });
 
-    it("should add an OR condition when a segment dimension is dragged to the OR placeholder section", function (done) {
+    it("should add an OR condition when clicking on add OR", function (done) {
+        expect.screenshot("add_new_or_condition").to.be.captureSelector(selectorsToCapture, function (page) {
+            page.click('.segmentEditorPanel .segment-add-or');
+        }, done);
+    });
+
+    it("should add an OR condition when a segment dimension is selected in the OR placeholder section", function (done) {
         expect.screenshot("drag_or_condition").to.be.captureSelector(selectorsToCapture, function (page) {
-            page.dragDrop('.segmentEditorPanel li[data-metric=outlinkUrl]', '.segmentEditorPanel .segment-add-or .ui-droppable');
+            selectDimension(page, '.segmentRow0 .segment-row:last', 'Actions', 'Clicked URL');
+        }, done);
+    });
+
+    it("should add an AND condition when clicking on add AND", function (done) {
+        expect.screenshot("add_new_and_condition").to.be.captureSelector(selectorsToCapture, function (page) {
+            page.click('.segmentEditorPanel .segment-add-row');
         }, done);
     });
 
     it("should add an AND condition when a segment dimension is dragged to the AND placeholder section", function (done) {
         expect.screenshot("drag_and_condition").to.be.captureSelector(selectorsToCapture, function (page) {
-            page.dragDrop('.segmentEditorPanel li[data-metric=outlinkUrl]', '.segmentEditorPanel .segment-add-row .ui-droppable');
+            selectDimension(page, '.segmentRow1', 'Actions', 'Clicked URL');
         }, done);
     });
 
     it("should save a new segment and add it to the segment list when the form is filled out and the save button is clicked", function (done) {
         expect.screenshot("saved").to.be.captureSelector(selectorsToCapture, function (page) {
             page.evaluate(function () {
-                $('.metricMatchBlock>select').each(function () {
-                    $(this).val('==');
-                });
-
-                $('.metricValueBlock>input').each(function (index) {
-                    $(this).val('value ' + index);
+                $('.metricValueBlock input').each(function (index) {
+                    $(this).val('value ' + index).change();
                 });
             });
 
             page.sendKeys('input.edit_segment_name', 'new segment');
-            page.click('.segmentEditorPanel .metric_category:contains(Actions)'); // click somewhere else to save new name
+            page.click('.segmentRow0 .segment-or'); // click somewhere else to save new name
 
             page.evaluate(function () {
                 $('button.saveAndApply').click();
@@ -147,18 +163,18 @@ describe("SegmentSelectorEditorTest", function () {
         expect.screenshot("update_confirmation").to.be.captureSelector('.modal.open', function (page) {
             page.click('.segmentEditorPanel .editSegmentName');
             page.evaluate(function () {
-                $('input.edit_segment_name').val('');
+                $('input.edit_segment_name').val('').change();
             });
             page.sendKeys('input.edit_segment_name', 'edited segment');
-            page.click('.segmentEditorPanel .metric_category:contains(Actions)'); // click somewhere else to save new name
+            page.click('.segmentRow0 .segment-or:first'); // click somewhere else to save new name
+
+            selectFieldValue(page, '.segmentRow0 .segment-row:first .metricMatchBlock', 'Is not');
+            selectFieldValue(page, '.segmentRow0 .segment-row:last .metricMatchBlock', 'Is not');
+            selectFieldValue(page, '.segmentRow1 .segment-row .metricMatchBlock', 'Is not');
 
             page.evaluate(function () {
-                $('.metricMatchBlock>select').each(function () {
-                    $(this).val('!=');
-                });
-
-                $('.metricValueBlock>input').each(function (index) {
-                    $(this).val('new value ' + index);
+                $('.metricValueBlock input').each(function (index) {
+                    $(this).val('new value ' + index).change();
                 });
             });
 

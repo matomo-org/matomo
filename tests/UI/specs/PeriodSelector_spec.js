@@ -26,7 +26,9 @@ describe("PeriodSelector", function () {
                 };
 
                 broadcast.propagateNewPage = function () {};
-                $('#ajaxLoadingCalendar').remove();
+
+                // hide ajaxLoadingCalendar via CSS (can't just remove it since it's managed by angular)
+                $('head').append('<style type="text/css">#ajaxLoadingCalendar { display: none !important; }</style>');
             });
         }, done);
     });

@@ -8,31 +8,21 @@
  */
 namespace Piwik\Plugins\UserCountry\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
-use Piwik\Plugins\UserCountry\Segment;
 
 class City extends Base
 {
     protected $columnName = 'location_city';
     protected $columnType = 'varchar(255) DEFAULT NULL';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('city');
-        $segment->setName('UserCountry_City');
-        $segment->setAcceptedValues('Sydney, Sao Paolo, Rome, etc.');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('UserCountry_City');
-    }
+    protected $type = self::TYPE_TEXT;
+    protected $segmentName = 'city';
+    protected $nameSingular = 'UserCountry_City';
+    protected $namePlural = 'UserCountryMap_Cities';
+    protected $acceptValues = 'Sydney, Sao Paolo, Rome, etc.';
+    protected $category = 'UserCountry_VisitLocation';
 
     /**
      * @param Request $request

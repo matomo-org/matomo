@@ -1,0 +1,8 @@
+{
+    "CustomPiwikJs": {
+        "PluginDescription": "Pozwala dowolnej wtyczce rozszerzyć JavaScript'owy plik Śledzenia Piwik'a (piwik.js) i dodawać nowe funkcjonalności i możliwości mierzenia serwisu.",
+        "DiagnosticPiwikJsWritable": "Zapisywalny Traker JavaScript (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "Plik JavaScript'owego trakera Piwik \"\/piwik.js\" nie jest zapisywalny, co oznacza, że inne wtyczki nie mogą rozszerzać trakera. W przyszłości możliwe jest, że nawet niektóre core'owe funkcjonalności mogą nie działać zgodnie z oczekiwaniami.",
+        "DiagnosticPiwikJsMakeWritable": "Sugerujemy uczynić plik Piwik,.js zapisywalnym poprzez wywołanie następującej komendy: %s"
+    }
+}

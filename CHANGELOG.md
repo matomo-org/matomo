@@ -2,13 +2,39 @@
 
 This is the Developer Changelog for Piwik platform developers. All changes in our HTTP API's, Plugins, Themes, SDKs, etc. are listed below.
 
-The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
+The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
-## Piwik 3.0.5
+## Piwik 3.2.0
+
+### New Segments
+* New Segment added: `visitStartServerMinute` for Server time - minute (Start of visit)
+* New Segment added: `visitEndServerMinute` for Server time - minute (End of visit)
+
+
+### New APIs
+* Reports and visualizations can now hide the export icons with a new property `$view->config->show_export`.
+* Reports and visualizations can now show a message above the report with a new property `$view->config->show_header_message`.
+* The following events have been added:
+  * `Metric.addMetrics` Triggered to add new metrics that cannot be picked up automatically by the platform.
+  * `Metric.addComputedMetrics` Triggered to add computed metrics that are not generated automatically
+  * `Metric.filterMetrics` Triggered to filter metrics
+* The following new API classes have been added:
+ * `Piwik\Columns\MetricsList` Holds a list of all available metrics
+ * `Piwik\Columns\ComputedMetricFactory` Can be used to create computed metrics
+ * `Piwik\Columns\DimensionMetricFactory` Can be used to create metrics directly within a dimension
+
+## Piwik 3.1.0
+
+### Breaking Changes
+* The event `Live.getAllVisitorDetails` has been deprecated and will be removed in Piwik 4. Use a `VisitorDetails` class instead (see Live plugin). 
+
+### New Features
+* New method `setSecureCookie` that sets the cookie's secure parameter
 
 ### New APIs
 * The events `ScheduledTasks.shouldExecuteTask`, `ScheduledTasks.execute`, `ScheduledTasks.execute.end` have been added to customize the behaviour of scheduled tasks.
 * A new event `CustomPiwikJs.shouldAddTrackerFile` has been added to let plugins customize which tracker files should be included in piwik.js JavaScript tracker
+* A new event `Login.authenticate.successful` has been added, which is triggered when a user successful signs in
 * A new API class `Piwik\Plugins\CustomPiwikJs\TrackerUpdater` has been added to update the piwik.js JavaScript tracker
 
 ### New commands
@@ -40,7 +66,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 ## Piwik 3.0.2
 
 ### New Features
-* A new SMS provider for sms reports has been added: [ASPSMS.com](http://www.aspsms.com/en/?REF=227830)
+* A new SMS provider for sms reports has been added: [ASPSMS.com](https://www.aspsms.com/en/?REF=227830)
 
 ### New APIs
 * The JavaScript Tracker now supports CrossDomain tracking. The following tracker methods were added for this: `enableCrossDomainLinking`, `disableCrossDomainLinking`, `isCrossDomainLinkingEnabled`
@@ -58,7 +84,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 ## Piwik 3.0.1
 
 ### New APIs
-* Live API responses now return a new field ‘generationTimeMilliseconds’ (the generation time for this page, in milliseconds) which is internally used to process the Average generation time in the [Visitor Profile](http://piwik.org/docs/user-profile/)
+* Live API responses now return a new field ‘generationTimeMilliseconds’ (the generation time for this page, in milliseconds) which is internally used to process the Average generation time in the [Visitor Profile](https://piwik.org/docs/user-profile/)
 * Added new event `MultiSites.filterRowsForTotalsCalculation` to filter which sites will be included in the All Websites Dashboard totals calculation.
 * The method `Piwik\Plugin\Archiver::shouldRunEvenWhenNoVisits()` has been added. By overwriting this method and returning true, a plugin archiver can force the archiving to run even when there was no visit for the website/date/period/segment combination (by default, archivers are skipped when there is no visit).
 
@@ -66,7 +92,7 @@ The Product Changelog at **[piwik.org/changelog](http://piwik.org/changelog)** l
 
 ### New guide
 
-Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration guide](http://developer.piwik.org/guides/migrate-piwik-2-to-3).
+Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration guide](https://developer.piwik.org/guides/migrate-piwik-2-to-3).
 
 ### Breaking Changes
 * When using the Piwik JavaScript Tracking via `_paq.push`, it is now required to configure the tracker (eg calling `setSiteId` and `setTrackerUrl`) before the `piwik.js` JavaScript tracker is loaded to ensure the tracker works correctly. 
@@ -92,23 +118,23 @@ If the tracker is not initialised correctly, the browser console will display th
 * The "User Menu" was removed and should be replaced by "Admin Menu". Change `configureUserMenu(MenuUser $menu)` to `configureAdminMenu(MenuAdmin $menu)` in your `Menu.php`.
 * The method `Piwik\Menu\MenuAbstract::add()` has been removed, use `Piwik\Menu\MenuAbstract::addItem()` instead
 * The method `Piwik\Menu\MenuAdmin::addSettingsItem()` was removed, use  `Piwik\Menu\MenuAdmin::addSystemItem()` instead.
-* A new methd `Piwik\Menu\MenuAdmin::addMeasurablesItem()` was added.
-* The class `Piwik\Plugin\Settings` has been splitted to `Piwik\Settings\Plugin\SystemSettings` and `Piwik\Settings\Plugin\UserSettings`.
+* A new method `Piwik\Menu\MenuAdmin::addMeasurablesItem()` was added.
+* The class `Piwik\Plugin\Settings` has been split to `Piwik\Settings\Plugin\SystemSettings` and `Piwik\Settings\Plugin\UserSettings`.
 * The creation of settings has slightly changed to improve performance. It is now possible to create new settings via the method `$this->makeSetting()` see `Piwik\Plugins\ExampleSettingsPlugin\SystemSettings` for an example.
 * It is no longer possible to define an introduction text for settings.
-* If requesting multipe periods for one report, the keys that define the range are no longer translated. For example before 3.0 an API response may contain: `<result date="From 2010-02-01 to 2010-02-07">` which is now `<result date="2010-02-01,2010-02-07">`.
+* If requesting multiple periods for one report, the keys that define the range are no longer translated. For example before 3.0 an API response may contain: `<result date="From 2010-02-01 to 2010-02-07">` which is now `<result date="2010-02-01,2010-02-07">`.
 * The following deprecated events have been removed as mentioned.
- * `Tracker.existingVisitInformation` Use [dimensions](http://developer.piwik.org/guides/dimensions) instead of using `Tracker` events.
+ * `Tracker.existingVisitInformation` Use [dimensions](https://developer.piwik.org/guides/dimensions) instead of using `Tracker` events.
  * `Tracker.newVisitorInformation`
  * `Tracker.recordAction`
  * `Tracker.recordEcommerceGoal`
  * `Tracker.recordStandardGoals`
- * `API.getSegmentDimensionMetadata` Define segments in [Dimension](http://developer.piwik.org/guides/dimensions) instead
- * `Menu.Admin.addItems` Create a [Menu](http://developer.piwik.org/guides/menus) instead of using `Menu` events
+ * `API.getSegmentDimensionMetadata` Define segments in [Dimension](https://developer.piwik.org/guides/dimensions) instead
+ * `Menu.Admin.addItems` Create a [Menu](https://developer.piwik.org/guides/menus) instead of using `Menu` events
  * `Menu.Reporting.addItems`
  * `Menu.Top.addItems`
- * `ViewDataTable.addViewDataTable` Create a [Visualization](http://developer.piwik.org/guides/visualizing-report-data) instead
- * `ViewDataTable.getDefaultType` Specify the default type in a [Report](http://developer.piwik.org/guides/custom-reports) instead
+ * `ViewDataTable.addViewDataTable` Create a [Visualization](https://developer.piwik.org/guides/visualizing-report-data) instead
+ * `ViewDataTable.getDefaultType` Specify the default type in a [Report](https://developer.piwik.org/guides/custom-reports) instead
  * `Login.authenticate`  Create a custom SessionInitializer instead of using `Login` events
  * `Login.initSession.end`
  * `Login.authenticate.successful`
@@ -120,7 +146,7 @@ If the tracker is not initialised correctly, the browser console will display th
    UserSettings | getPlugin | DevicePlugins | getPlugin
    UserSettings | index | DevicesDetection | software
    UserSettings | getBrowser | DevicesDetection | getBrowsers
-   UserSettings | getBrowserVerions | DevicesDetection | getBrowserVersions
+   UserSettings | getBrowserVersions | DevicesDetection | getBrowserVersions
    UserSettings | getMobileVsDesktop | DevicesDetection | getType
    UserSettings | getOS | DevicesDetection | getOsVersions
    UserSettings | getOSFamily | DevicesDetection | getOsFamilies
@@ -243,9 +269,9 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
  * New segment operators `=^` "Starts with" and `=$` "Ends with" complement the existing segment operators: Contains, Does not contain, Equals, Not equals, Greater than or equal to, Less than or equal to.
  * The JavaScript Tracker method `PiwikTracker.setDomains()` can now handle paths. This means when setting eg `_paq.push(['setDomains, '*.piwik.org/website1'])` all link that goes to the same domain `piwik.org` but to any other path than `website1/*` will be treated as outlink.
  * In Administration > Websites, for each website, there is a checkbox "Only track visits and actions when the action URL starts with one of the above URLs". In Piwik 2.14.0, any action URL starting with one of the Alias URLs or starting with a subdomain of the Alias URL would be tracked. As of Piwik 2.15.0, when this checkbox is enabled, it may track less data: action URLs on an Alias URL subdomain will not be tracked anymore (you must specify each sub-domain as Alias URL).  
- * It is now possible to pass an option `php-cli-options` to the `core:archive` command. The given cli options will be forwarded to the actual PHP command. This allows to for example specifiy a different memory limit for the archiving process like this: `./console core:archive --php-cli-options="-d memory_limit=8G"`
+ * It is now possible to pass an option `php-cli-options` to the `core:archive` command. The given cli options will be forwarded to the actual PHP command. This allows to for example specify a different memory limit for the archiving process like this: `./console core:archive --php-cli-options="-d memory_limit=8G"`
  * New less variable `@theme-color-menu-contrast-textSelected` that lets you specify the color of a selected menu item.
- * in Administration > Diagnostics, there is a new page `Config file` which lets Super User view all config values from `global.ini.php` in the UI, and whether they were overriden in your `config/config.ini.php`
+ * in Administration > Diagnostics, there is a new page `Config file` which lets Super User view all config values from `global.ini.php` in the UI, and whether they were overridden in your `config/config.ini.php`
 
 ### New commands
  * New command `config:set` lets you set INI config options from the command line. This command can be used for convenience or for automation.
@@ -311,7 +337,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * In `piwik.js` we replaced [JSON2](https://github.com/douglascrockford/JSON-js) with [JSON3](https://bestiejs.github.io/json3/) to implement CSP (Content Security Policy) as JSON3 does not use `eval()`. JSON3 will be used if a browser does not provide a native JSON API. We are using `JSON3` in a way that it will not conflict if your website is using `JSON3` as well.
 * The option `branch` of the console command `development:sync-system-test-processed` was removed as it is no longer needed.
 * All numbers in reports will now appear formatted (eg. `1,000,000` instead of `1000000`)
-* Database connections now use `UTF-8` charset explicitely to force UTF-8 data handling
+* Database connections now use `UTF-8` charset explicitly to force UTF-8 data handling
 
 ## Piwik 2.14.0
 
@@ -639,5 +665,5 @@ We are using `@since` annotations in case we are introducing new API's to make i
 ### Internal change
  -->
 
-Find the general Piwik Changelogs for each release at [piwik.org/changelog](http://piwik.org/changelog/)
+Find the general Piwik Changelogs for each release at [piwik.org/changelog](https://piwik.org/changelog/)
  

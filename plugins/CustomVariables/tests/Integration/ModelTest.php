@@ -102,6 +102,26 @@ class ModelTest extends IntegrationTestCase
         $this->assertEquals('Conversion', $this->getConversionScope()->getScopeName());
     }
 
+    public function testGetScopeDescription()
+    {
+        $this->assertEquals('scope page', $this->getPageScope()->getScopeDescription());
+        $this->assertEquals('scope visit', $this->getVisitScope()->getScopeDescription());
+        $this->assertEquals('scope conversion', $this->getConversionScope()->getScopeDescription());
+    }
+
+    public function testGetUnprefixedTableName()
+    {
+        $this->assertEquals('log_link_visit_action', $this->getPageScope()->getUnprefixedTableName());
+        $this->assertEquals('log_visit', $this->getVisitScope()->getUnprefixedTableName());
+        $this->assertEquals('log_conversion', $this->getConversionScope()->getUnprefixedTableName());
+    }
+
+    public function testGetScope()
+    {
+        $this->assertEquals(Model::SCOPE_PAGE, $this->getPageScope()->getScope());
+        $this->assertEquals(Model::SCOPE_VISIT, $this->getVisitScope()->getScope());
+    }
+
     public function test_getCurrentNumCustomVars()
     {
         $this->assertEquals(5, $this->getPageScope()->getCurrentNumCustomVars());

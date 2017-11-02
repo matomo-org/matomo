@@ -8,7 +8,7 @@
 		<name>Page titles</name>
 		<module>Actions</module>
 		<action>getPageTitles</action>
-		<dimension>Page Name</dimension>
+		<dimension>Page Title</dimension>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<metrics>
 			<nb_hits>Pageviews</nb_hits>
@@ -45,7 +45,7 @@
 		<uniqueId>Actions_getPageTitles</uniqueId>
 	</metadata>
 	<columns>
-		<label>Page Name</label>
+		<label>Page Title</label>
 		<nb_hits>Pageviews</nb_hits>
 		<nb_visits>Unique Pageviews</nb_visits>
 		<avg_time_on_page>Avg. time on page</avg_time_on_page>

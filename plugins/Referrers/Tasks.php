@@ -11,13 +11,16 @@ namespace Piwik\Plugins\Referrers;
 
 use Piwik\Http;
 use Piwik\Option;
+use Piwik\SettingsPiwik;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
     public function schedule()
     {
-        $this->weekly('updateSearchEngines');
-        $this->weekly('updateSocials');
+        if(SettingsPiwik::isInternetEnabled() === true){
+            $this->weekly('updateSearchEngines');
+            $this->weekly('updateSocials');
+        }
     }
 
     /**

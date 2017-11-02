@@ -19,7 +19,7 @@ use Piwik\Tracker\Visitor;
 class FakeVisitDimension extends VisitDimension
 {
     protected $columnName  = 'fake_visit_dimension_column';
-    protected $columnType  = 'INTEGER (10) DEFAULT 0';
+    protected $columnType  = 'VARCHAR (255) DEFAULT 0';
     public $requiredFields = array();
 
     public function set($param, $value)
@@ -101,7 +101,7 @@ class VisitDimensionTest extends IntegrationTestCase
     {
         $expected = array(
             'log_visit' => array(
-                "ADD COLUMN `fake_visit_dimension_column` INTEGER (10) DEFAULT 0"
+                "ADD COLUMN `fake_visit_dimension_column` VARCHAR (255) DEFAULT 0"
             )
         );
 
@@ -112,10 +112,10 @@ class VisitDimensionTest extends IntegrationTestCase
     {
         $expected = array(
             'log_visit' => array(
-                "ADD COLUMN `fake_visit_dimension_column` INTEGER (10) DEFAULT 0"
+                "ADD COLUMN `fake_visit_dimension_column` VARCHAR (255) DEFAULT 0"
             ),
             'log_conversion' => array(
-                "ADD COLUMN `fake_visit_dimension_column` INTEGER (10) DEFAULT 0"
+                "ADD COLUMN `fake_visit_dimension_column` VARCHAR (255) DEFAULT 0"
             )
         );
 
@@ -126,49 +126,35 @@ class VisitDimensionTest extends IntegrationTestCase
     {
         $expected = array(
             'log_visit' => array(
-                "MODIFY COLUMN `fake_visit_dimension_column` INTEGER (10) DEFAULT 0"
+                "MODIFY COLUMN `fake_visit_dimension_column` VARCHAR (255) DEFAULT 0"
             )
         );
 
-        $this->assertEquals($expected, $this->dimension->update(array()));
+        $this->assertEquals($expected, $this->dimension->update());
     }
 
     public function test_update_shouldUpdateLogVisitAndAddConversion_IfConversionMethodIsImplementedButNotInstalledYet()
     {
         $expected = array(
             'log_visit' => array(
-                "MODIFY COLUMN `fake_visit_dimension_column` INTEGER (10) DEFAULT 0"
+                "MODIFY COLUMN `fake_visit_dimension_column` VARCHAR (255) DEFAULT 0"
             ),
             'log_conversion' => array(
-                "ADD COLUMN `fake_visit_dimension_column` INTEGER (10) DEFAULT 0"
+                "ADD COLUMN `fake_visit_dimension_column` VARCHAR (255) DEFAULT 0"
             )
         );
 
-        $this->assertEquals($expected, $this->conversionDimension->update(array()));
-    }
-
-    public function test_update_shouldUpdateLogVisitAndConversion_IfConversionMethodIsImplementedAndInstalled()
-    {
-        $expected = array(
-            'log_visit' => array(
-                "MODIFY COLUMN `fake_visit_dimension_column` INTEGER (10) DEFAULT 0"
-            ),
-            'log_conversion' => array(
-                "MODIFY COLUMN `fake_visit_dimension_column` INTEGER (10) DEFAULT 0"
-            )
-        );
-
-        $this->assertEquals($expected, $this->conversionDimension->update(array('fake_visit_dimension_column' => array())));
+        $this->assertEquals($expected, $this->conversionDimension->update());
     }
 
     public function test_getVersion_shouldUseColumnTypeAsVersion()
     {
-        $this->assertEquals('INTEGER (10) DEFAULT 0', $this->dimension->getVersion());
+        $this->assertEquals('VARCHAR (255) DEFAULT 0', $this->dimension->getVersion());
     }
 
     public function test_getVersion_shouldIncludeConversionMethodIntoVersionNumber_ToMakeSureUpdateMethodWillBeTriggeredWhenPluginAddedConversionMethodInNewVersion()
     {
-        $this->assertEquals('INTEGER (10) DEFAULT 01', $this->conversionDimension->getVersion());
+        $this->assertEquals('VARCHAR (255) DEFAULT 01', $this->conversionDimension->getVersion());
     }
 
     public function test_getSegment_ShouldReturnNoSegments_IfNoneConfigured()

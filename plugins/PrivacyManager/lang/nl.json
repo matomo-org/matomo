@@ -2,7 +2,7 @@
     "PrivacyManager": {
         "AnonymizeIpDescription": "Selecteer \"Ja\" als u wilt dat Piwik niet volledige IP-adressen volgt.",
         "AnonymizeIpInlineHelp": "Anonimiseer de laatste byte(s) van IP-adressen van bezoekers om te voldoen aan uw lokale privacywetten\/-richtlijnen.",
-        "AnonymizeIpExtendedHelp": "Als gebruikers uw website bezoeken zal Piwik niet het volledige IP adres (zoals %1$s) gebruiken maar ditt eerst anonimiseren (tot %2$s). IP adres anonimisatie is in sommige landen zoals Duitsland, een van de eisen gesteld in privacy wetten.",
+        "AnonymizeIpExtendedHelp": "Als gebruikers uw website bezoeken zal Piwik niet het volledige IP-adres (zoals %1$s) gebruiken maar dit eerst anonimiseren (tot %2$s). IP-adres anonimisatie is in sommige landen zoals Duitsland, een van de eisen gesteld in privacy wetten.",
         "AnonymizeIpMaskLengtDescription": "Selecteer hoeveel bytes van IP's van de bezoekers moet worden gemaskeerd.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - bijv. %2$s",
         "CannotLockSoDeleteLogActions": "De log_action-tabel zal niet worden geleegd: ken het LOCK TABLES-privilege aan de '%s'-MySQL-gebruiker toe.",

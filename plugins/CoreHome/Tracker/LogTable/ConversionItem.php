@@ -17,9 +17,19 @@ class ConversionItem extends LogTable
         return 'log_conversion_item';
     }
 
+    public function getIdColumn()
+    {
+        return 'idvisit';
+    }
+
     public function getColumnToJoinOnIdVisit()
     {
         return 'idvisit';
     }
-    
+
+    public function getPrimaryKey()
+    {
+        return array('idvisit', 'idorder', 'idaction_sku');
+    }
+
 }

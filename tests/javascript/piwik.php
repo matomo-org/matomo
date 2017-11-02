@@ -80,7 +80,7 @@ function logRequest($db, $uri, $data) {
 }
 
 if (isset($_GET['requests'])) {
-	$token = htmlentities($_GET['requests']);
+	$token = htmlentities($_GET['requests'], ENT_COMPAT | ENT_HTML401, 'UTF-8');
 	$ua = $_SERVER['HTTP_USER_AGENT'];
 
 	echo "<html><head><title>$token</title></head><body>\n";

@@ -214,6 +214,39 @@
                         return flatValues;
                     }
 
+                    if (hasUiControl(field, 'expandable-select')) {
+                        var availableValues = field.availableValues;
+                        var flatValues = [];
+
+                        var groups = {};
+                        angular.forEach(availableValues, function (value) {
+
+                            if (!value.group) {
+                                value.group = '';
+                            }
+
+                            if (!(value.group in groups) || !groups[value.group]) {
+                                groups[value.group] = {values: [], group: value.group}
+                            }
+
+                            var formatted = {key: value.key, value: value.value};
+
+                            if ('tooltip' in value && value.tooltip) {
+                                formatted.tooltip = value.tooltip;
+                            }
+
+                            groups[value.group].values.push(formatted);
+                        });
+
+                        angular.forEach(groups, function (group) {
+                            if (group.values.length) {
+                                flatValues.push(group);
+                            }
+                        });
+
+                        return flatValues;
+                    }
+
                     if (isSelectControl(field)) {
                         var availableValues = field.availableValues;
 
@@ -274,11 +307,16 @@
                         field.defaultValue = defaultValue.join(',');
                     }
 
+                    // convert boolean values since angular 1.6 uses strict equals when determining if a model value
+                    // matches the ng-value of an input.
                     if (field.type === 'boolean') {
-                        if (field.value && field.value > 0 && field.value !== '0') {
-                            field.value = true;
-                        } else {
-                            field.value = false;
+                        var valueIsTruthy = field.value && field.value > 0 && field.value !== '0';
+
+                        // for checkboxes, the value MUST be either true or faluse
+                        if (field.uiControl === 'checkbox') {
+                            field.value = valueIsTruthy;
+                        } else if (field.uiControl === 'radio') {
+                            field.value = valueIsTruthy ? '1' : '0';
                         }
                     }
 

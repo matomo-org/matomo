@@ -17,6 +17,7 @@ class TimeSpentRefAction extends ActionDimension
 {
     protected $columnName = 'time_spent_ref_action';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL';
+    protected $type = self::TYPE_DURATION_S;
 
     public function onNewAction(Request $request, Visitor $visitor, Action $action)
     {

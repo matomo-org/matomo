@@ -29,7 +29,7 @@ if ($minimumPhpInvalid) {
 				<p>Unfortunately it seems your webserver is using PHP version $piwik_currentPHPVersion. </p>
 				<p>Please try to update your PHP version, Piwik is really worth it! Nowadays most web hosts
 				support PHP $piwik_minimumPHPVersion.</p>
-				<p>Also see the FAQ: <a href='http://piwik.org/faq/how-to-install/#faq_77'>My Web host supports PHP4 by default. How can I enable PHP5?</a></p>";
+				<p>Also see the FAQ: <a href='https://piwik.org/faq/how-to-install/#faq_77'>My Web host supports PHP4 by default. How can I enable PHP5?</a></p>";
 } else {
     if (!extension_loaded('session')) {
         $piwik_errorMessage .= "<p><strong>Piwik and Zend_Session require the session extension</strong></p>
@@ -66,9 +66,9 @@ if ($minimumPhpInvalid) {
                     "<br/>" . $composerInstall.
                     " This will initialize composer for Piwik and download libraries we use in vendor/* directory.".
                     "\n\n<br/><br/>Then reload this page to access your analytics reports." .
-                    "\n\n<br/><br/>For more information check out this FAQ: <a href='http://piwik.org/faq/how-to-install/faq_18271/' rel='noreferrer' target='_blank'>How do I use Piwik from the Git repository?</a>." .
+                    "\n\n<br/><br/>For more information check out this FAQ: <a href='https://piwik.org/faq/how-to-install/faq_18271/' rel='noreferrer' target='_blank'>How do I use Piwik from the Git repository?</a>." .
                     "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Piwik release from ".
-                    "<a href='http://builds.piwik.org/piwik.zip'>builds.piwik.org</a>.</p>";
+                    "<a href='https://builds.piwik.org/piwik.zip'>builds.piwik.org</a>.</p>";
     }
 }
 
@@ -133,7 +133,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         if ($optionalTrace) {
-            $optionalTrace = '<h2>Stack trace</h2><pre>' . htmlentities($optionalTrace) . '</pre>';
+            $optionalTrace = '<h2>Stack trace</h2><pre>' . htmlentities($optionalTrace, ENT_COMPAT | ENT_HTML401, 'UTF-8') . '</pre>';
         }
 
         if ($isCli === null) {
@@ -142,10 +142,10 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
 
         if ($optionalLinks) {
             $optionalLinks = '<ul>
-                            <li><a rel="noreferrer" target="_blank" href="http://piwik.org">Piwik.org homepage</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="http://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="http://piwik.org/docs/">Piwik Documentation</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="http://forum.piwik.org/">Piwik Forums</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="https://piwik.org">Piwik.org homepage</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="https://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="https://piwik.org/docs/">Piwik Documentation</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="https://forum.piwik.org/">Piwik Forums</a></li>
                             <li><a rel="noreferrer" target="_blank" href="https://piwik.org/support/?pk_campaign=App_AnErrorOccured&pk_source=Piwik_App&pk_medium=ProfessionalServicesLink">Professional help for Piwik</a></li>
                             </ul>';
         }

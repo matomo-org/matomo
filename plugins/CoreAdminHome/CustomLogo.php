@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Piwik\Config;
 use Piwik\Filesystem;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\SettingsPiwik;
 
@@ -178,17 +179,54 @@ class CustomLogo
     {
         $uploadFieldName = 'customLogo';
 
-        $success = $this->uploadImage($uploadFieldName, self::LOGO_SMALL_HEIGHT, $this->getPathUserLogoSmall());
-        $success = $success && $this->uploadImage($uploadFieldName, self::LOGO_HEIGHT, $this->getPathUserLogo());
+        $smallLogoUserPath = $this->getPathUserLogoSmall();
+        $logoUserPath = $this->getPathUserLogo();
 
-        return $success;
+        $success = $this->uploadImage($uploadFieldName, self::LOGO_SMALL_HEIGHT, $smallLogoUserPath);
+        if (!$success) {
+            return false;
+        }
+
+        $this->postLogoChangeEvent($smallLogoUserPath);
+
+        $success = $this->uploadImage($uploadFieldName, self::LOGO_HEIGHT, $logoUserPath);
+        if (!$success) {
+            return false;
+        }
+
+        $this->postLogoChangeEvent($logoUserPath);
+
+        return true;
+    }
+
+    private function postLogoChangeEvent($imagePath)
+    {
+        $rootPath = Filesystem::getPathToPiwikRoot();
+        $absolutePath = $rootPath . '/' . $imagePath;
+
+        /**
+         * Triggered when a user uploads a custom logo. This event is triggered for
+         * the large logo, for the smaller logo-header.png file, and for the favicon.
+         *
+         * @param string $absolutePath The absolute path to the logo file on the Piwik server.
+         */
+        Piwik::postEvent('CoreAdminHome.customLogoChanged', [$absolutePath]);
     }
 
     public function copyUploadedFaviconToFilesystem()
     {
         $uploadFieldName = 'customFavicon';
 
-        return $this->uploadImage($uploadFieldName, self::FAVICON_HEIGHT, $this->getPathUserFavicon());
+        $faviconUserPath = $this->getPathUserFavicon();
+
+        $success = $this->uploadImage($uploadFieldName, self::FAVICON_HEIGHT, $faviconUserPath);
+        if (!$success) {
+            return false;
+        }
+
+        $this->postLogoChangeEvent($faviconUserPath);
+
+        return true;
     }
 
     private function uploadImage($uploadFieldName, $targetHeight, $userPath)
@@ -237,6 +275,7 @@ class CustomLogo
 
         imagecopyresampled($newImage, $image, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
         imagepng($newImage, PIWIK_DOCUMENT_ROOT . '/' . $userPath, 3);
+
         return true;
     }
 

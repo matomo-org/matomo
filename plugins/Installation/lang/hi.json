@@ -71,7 +71,6 @@
         "SystemCheckOtherExtensions": "अन्य एक्सटेंशन",
         "SystemCheckOtherFunctions": "अन्य फलन",
         "SystemCheckPageSpeedDisabled": "अक्षम लोगों के लिए PageSpeed",
-        "SystemCheckPageSpeedWarn": "हम अपने वेब सर्वर %s में PageSpeed ​​मॉड्यूल को निष्क्रिय करने की सलाह देते हैं: PageSpeed ​​Piwik के साथ कई मुद्दों के कारण की सूचना मिली थी।",
         "SystemCheckPackHelp": "पैक () फलन Piwik में आगंतुकों को ट्रैक करने के लिए आवश्यक है.",
         "SystemCheckParseIniFileHelp": "यह अंतर्निर्मित फलन अपने मेजबान पर निष्क्रिय कर दिया गया. Piwik इस फलन का अनुकरण करने का प्रयास करेंगे लेकिन आगे सुरक्षा प्रतिबंधों का सामना कर सकते. ट्रैकर प्रदर्शन भी प्रभावित हो जाएगा.",
         "SystemCheckPdoAndMysqliHelp": "एक लिनक्स सर्वर पर आप निम्नलिखित विकल्पों के साथ php का संकलन कर सकते हैं:%1$s अपने php.ini में निम्नलिखित लाइनें जोड़ने:%2$s",

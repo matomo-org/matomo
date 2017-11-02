@@ -232,7 +232,27 @@ class Common
             return mb_strtolower($string, 'UTF-8');
         }
 
-        return strtolower($string);
+        // return unchanged string as using `strtolower` might cause unicode problems
+        return $string;
+    }
+
+    /**
+     * Multi-byte strtoupper() - works with UTF-8.
+     *
+     * Calls `mb_strtoupper` if available and falls back to `strtoupper` if not.
+     *
+     * @param string $string
+     * @return string
+     * @api
+     */
+    public static function mb_strtoupper($string)
+    {
+        if (function_exists('mb_strtoupper')) {
+            return mb_strtoupper($string, 'UTF-8');
+        }
+
+        // return unchanged string as using `strtoupper` might cause unicode problems
+        return $string;
     }
 
     /*
@@ -1025,6 +1045,10 @@ class Common
         $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
 
         $countryList = $dataProvider->getCountryList();
+
+        if ($country == 'ti') {
+            $country = 'cn';
+        }
 
         return isset($countryList[$country]) ? $countryList[$country] : 'unk';
     }

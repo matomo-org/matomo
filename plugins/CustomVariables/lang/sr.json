@@ -4,7 +4,6 @@
         "ColumnCustomVariableValue": "Vrednost dodatnog parametra",
         "CustomVariables": "Dodatni parametri",
         "CustomVariablesReportDocumentation": "Ovaj izveštaj sadrži informacije o dodatnim parametrima. Kliknite na ime parametra kako biste videli distribuciju vrednosti. %1$s Za više informacija o dodatnim parametrima pogledajte %2$sCustom Variables na piwik.org%3$s",
-        "PluginDescription": "Dodatni parametri su uređeni parovi (naziv, vrednost) koje možete pomoću JavaScript API-ja da dodelite posetiocima ili bilo kojoj njihovoj akciji. Piwik će onda beležiti koliko ima poseta, stranica i konverzija za svaki od tih parova. Detalje možete videti u logu posetilaca. <br \/>Neophodno za <a href=\"http:\/\/piwik.org\/docs\/ecommerce-analytics\/\">E-commerce analitike<\/a>!",
         "ScopePage": "oblast strana",
         "ScopeVisit": "oblast poseta",
         "ManageDescription": "Ovaj pregled prikazuje sve dodatne parametre i njihovu upotrebu za sajt '%s'. Nazivi su poređani po tome koliko često je koja upotrebljena.",

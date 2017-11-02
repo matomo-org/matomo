@@ -1,6 +1,7 @@
 {
     "PrivacyManager": {
         "AnonymizeIpInlineHelp": "Yerel gizlilik kurallarına uymak için ziyaretçi IP adreslerini gizleyin.",
+        "ClickHereSettings": "%s ayarları için burayı tıklayın.",
         "CurrentDBSize": "Güncel veritabanı boyutu",
         "DeleteOldVisitorLogs": "Eski ziyaretçi kayıtlarını sil",
         "DeleteOldArchivedReports": "Arşivlenen eski raporları sil",
