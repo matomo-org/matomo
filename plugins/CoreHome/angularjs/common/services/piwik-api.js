@@ -168,8 +168,12 @@ var hasBlockedContent = false;
             var request = addAbortMethod(promise, deferred);
 
             allRequests.push(request);
-
-            return request;
+            return request.finally(function() {
+                var index = allRequests.indexOf(request);
+                if (index !== -1) {
+                    allRequests.splice(index, 1);
+                }
+            });
         }
 
         /**
