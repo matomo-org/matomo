@@ -149,6 +149,13 @@ class Response
 
     private function outputTransparentGif()
     {
+        static $didOutput = false;
+        
+        if ($didOutput) {
+            return;
+        }
+        $didOutput = true;
+        
         $transGifBase64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         Common::sendHeader('Content-Type: image/gif');
 
