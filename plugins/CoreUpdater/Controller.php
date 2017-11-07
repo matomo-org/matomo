@@ -23,6 +23,7 @@ use Piwik\Plugin;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Marketplace\Plugins;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Updater as DbUpdater;
 use Piwik\Version;
@@ -277,6 +278,13 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view->new_piwik_version = Version::VERSION;
         $view->commandUpgradePiwik = "php " . Filesystem::getPathToPiwikRoot() . "/console core:update";
+
+        $instanceId = SettingsPiwik::getPiwikInstanceId();
+
+        if ($instanceId) {
+            $view->commandUpgradePiwik .= ' --piwik-domain="' . $instanceId . '"';
+        }
+
         $pluginNamesToUpdate = array();
         $dimensionsToUpdate = array();
         $coreToUpdate = false;
