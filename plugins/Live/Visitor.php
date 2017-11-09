@@ -78,6 +78,20 @@ class Visitor implements VisitorInterface
                 new VisitorDetails() // needs to be first
             ];
 
+            /**
+             * Triggered to add new visitor details that cannot be picked up by the platform automatically.
+             *
+             * **Example**
+             *
+             *     public function addVisitorDetails(&$visitorDetails)
+             *     {
+             *         $visitorDetails[] = new CustomVisitorDetails();
+             *     }
+             *
+             * @param VisitorDetailsAbstract[] $visitorDetails An array of visitorDetails
+             */
+            Piwik::postEvent('Live.addVisitorDetails', array(&$instances));
+
             foreach (self::getAllVisitorDetailsClasses() as $className) {
                 $instance = new $className();
 
@@ -87,6 +101,24 @@ class Visitor implements VisitorInterface
 
                 $instances[] = $instance;
             }
+
+            /**
+             * Triggered to filter / restrict vistor details.
+             *
+             * **Example**
+             *
+             *     public function filterVisitorDetails(&$visitorDetails)
+             *     {
+             *         foreach ($visitorDetails as $index => $visitorDetail) {
+             *              if (strpos(get_class($visitorDetail), 'MyPluginName') !== false) {}
+             *                  unset($visitorDetails[$index]); // remove all visitor details for a specific plugin
+             *              }
+             *         }
+             *     }
+             *
+             * @param VisitorDetailsAbstract[] $visitorDetails An array of visitorDetails
+             */
+            Piwik::postEvent('Live.filterVisitorDetails', array(&$instances));
 
             $cache->save($cacheId, $instances);
         }
