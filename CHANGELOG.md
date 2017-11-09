@@ -9,6 +9,7 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
 ### New Segments
 * New Segment added: `visitStartServerMinute` for Server time - minute (Start of visit)
 * New Segment added: `visitEndServerMinute` for Server time - minute (End of visit)
+* New events added to add and filter visitor details: `Live.addVisitorDetails` and `Live.filterVisitorDetails`
 
 
 ### New APIs
