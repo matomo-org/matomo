@@ -125,21 +125,21 @@
 	</row>
 	<row>
 		<label>08</label>
-		<nb_visits>4</nb_visits>
-		<nb_actions>4</nb_actions>
+		<nb_visits>9</nb_visits>
+		<nb_actions>9</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>4</bounce_count>
+		<bounce_count>9</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>4</nb_conversions>
-				<nb_visits_converted>4</nb_visits_converted>
-				<revenue>20</revenue>
+				<nb_conversions>9</nb_conversions>
+				<nb_visits_converted>9</nb_visits_converted>
+				<revenue>45</revenue>
 			</row>
 		</goals>
-		<nb_conversions>4</nb_conversions>
-		<revenue>20</revenue>
-		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<nb_conversions>9</nb_conversions>
+		<revenue>45</revenue>
+		<sum_daily_nb_uniq_visitors>9</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>visitServerHour==8</segment>

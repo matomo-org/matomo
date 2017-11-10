@@ -141,6 +141,37 @@ class ManySitesImportedLogs extends Fixture
         if ($this->includeApiCustomVarMapping) {
             $this->logIisWithCustomFormat($mapToCustom = true);
         }
+
+        $this->logWithIncludeFilters();
+        $this->logWithExcludeFilters();
+    }
+
+    private function logWithExcludeFilters()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/filter_exclude_logs.log'; # log file
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--enable-testmode'           => false,
+                      '--recorders'                 => '1',
+                      '--recorder-max-payload-size' => '1',
+                      '--exclude-host' => ['filtered1.com', 'www.filtered2.com'],
+                      '--exclude-older-than' => '2012-08-09 08:10:39',
+                      '--exclude-newer-than' => '2012-08-31 00:00:00');
+
+        self::executeLogImporter($logFile, $opts);
+    }
+
+    private function logWithIncludeFilters()
+    {
+        $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/filter_include_logs.log'; # log file
+
+        $opts = array('--idsite'                    => $this->idSite,
+                      '--enable-testmode'           => false,
+                      '--recorders'                 => '1',
+                      '--recorder-max-payload-size' => '1',
+                      '--include-host' => ['included3.com', 'www.included4.com']);
+
+        self::executeLogImporter($logFile, $opts);
     }
 
     private function setupSegments()
