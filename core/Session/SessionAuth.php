@@ -96,7 +96,7 @@ class SessionAuth implements Auth
             return $this->makeAuthFailure();
         }
 
-        $tsPasswordModified = $user['ts_password_modified'];
+        $tsPasswordModified = !empty($user['ts_password_modified']) ? $user['ts_password_modified'] : 0;
         if ($this->isSessionStartedBeforePasswordChange($sessionId, $tsPasswordModified)) {
             // Note: can't use Session::destroy() since Zend prohibits starting a new session
             // after session_destroy() is called.
