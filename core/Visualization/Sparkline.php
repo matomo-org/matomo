@@ -138,6 +138,8 @@ class Sparkline implements ViewInterface
         }
         $sparkline->setLineColorHex($colors['lineColor']);
         $sparkline->setFillColorHex($colors['fillColor']);
+        $sparkline->setMinimumColorHex($colors["minPointColor"]);
+        $sparkline->setMaximumColorHex($colors["maxPointColor"]);
     }
 
     public function render() {
