@@ -11,8 +11,9 @@ namespace Piwik\Tests\Unit\Container;
 use DI\Definition\ValueDefinition;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Container\IniConfigDefinitionSource;
+use PHPUnit\Framework\TestCase;
 
-class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
+class IniConfigDefinitionSourceTest extends TestCase
 {
     /**
      * @test

@@ -10,12 +10,13 @@ namespace Piwik\Tests\Unit\API;
 
 use Piwik\API\ApiRenderer;
 use Piwik\Plugin\Manager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  * @group Only2
  */
-class ApiRendererTest extends \PHPUnit_Framework_TestCase
+class ApiRendererTest extends TestCase
 {
     public function setUp()
     {

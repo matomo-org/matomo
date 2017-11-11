@@ -10,12 +10,13 @@ namespace Piwik\Plugins\Referrers\tests;
 
 use Piwik\Plugins\Referrers\Social;
 use Spyc;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Social
  * @group Plugins
  */
-class SocialTest extends \PHPUnit_Framework_TestCase
+class SocialTest extends TestCase
 {
     public static function setUpBeforeClass()
     {

@@ -12,13 +12,14 @@ use Piwik\DataTable\Renderer;
 use Piwik\Plugins\SEO\API;
 use Exception;
 use Piwik\Tests\Framework\Mock\FakeAccess;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group SEO
  * @group SEOTest
  * @group Plugins
  */
-class SEOTest extends \PHPUnit_Framework_TestCase
+class SEOTest extends TestCase
 {
     public function setUp()
     {

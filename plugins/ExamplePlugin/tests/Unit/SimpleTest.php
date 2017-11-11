@@ -8,18 +8,20 @@
 
 namespace Piwik\Plugins\ExamplePlugin\tests\Unit;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @group ExamplePlugin
  * @group SimpleTest
  * @group Plugins
  */
-class SimpleTest extends \PHPUnit_Framework_TestCase
+class SimpleTest extends TestCase
 {
     public function setUp()
     {
         // set up here if needed
     }
-    
+
     public function tearDown()
     {
         // tear down here if needed

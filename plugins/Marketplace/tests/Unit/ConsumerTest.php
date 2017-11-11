@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Marketplace\tests\Unit;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Service;
 use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as ConsumerBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Marketplace
@@ -17,7 +18,7 @@ use Piwik\Plugins\Marketplace\tests\Framework\Mock\Consumer as ConsumerBuilder;
  * @group Consumer
  * @group Plugins
  */
-class ConsumerTest extends \PHPUnit_Framework_TestCase
+class ConsumerTest extends TestCase
 {
     /**
      * @var Service

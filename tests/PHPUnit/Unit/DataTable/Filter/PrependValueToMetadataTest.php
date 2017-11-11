@@ -10,13 +10,14 @@ namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group PrependValueToMetadataTest
  * @group DataTable
  * @group Filter
  */
-class PrependValueToMetadataTest extends \PHPUnit_Framework_TestCase
+class PrependValueToMetadataTest extends TestCase
 {
     private $filter = 'PrependValueToMetadata';
 

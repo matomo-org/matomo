@@ -12,11 +12,12 @@ use Piwik\DataTable\Filter\RangeCheck;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group DataTableTest
  */
-class DataTable_Filter_RangeCheckTest extends \PHPUnit_Framework_TestCase
+class DataTable_Filter_RangeCheckTest extends TestCase
 {
     public function testRangeCheckNormalDataTable()
     {

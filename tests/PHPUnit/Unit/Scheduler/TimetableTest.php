@@ -12,11 +12,12 @@ use Piwik\Plugin;
 use Piwik\Scheduler\Timetable;
 use Piwik\Tests\Framework\Mock\PiwikOption;
 use ReflectionProperty;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Scheduler
  */
-class TimetableTest extends \PHPUnit_Framework_TestCase
+class TimetableTest extends TestCase
 {
     private $timetable = array(
         'CoreAdminHome.purgeOutdatedArchives' => 1355529607,

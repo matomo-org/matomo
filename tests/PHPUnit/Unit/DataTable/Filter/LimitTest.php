@@ -11,11 +11,12 @@ namespace Piwik\Tests\Unit\DataTable\Filter;
 use Piwik\DataTable\Filter\Limit;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group DataTableTest
  */
-class DataTable_Filter_LimitTest extends \PHPUnit_Framework_TestCase
+class DataTable_Filter_LimitTest extends TestCase
 {
     /**
      * Returns table used for the tests

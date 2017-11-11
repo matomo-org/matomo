@@ -12,11 +12,12 @@ use Piwik\DataAccess\LogQueryBuilder\JoinGenerator;
 use Piwik\DataAccess\LogQueryBuilder\JoinTables;
 use Piwik\Tests\Framework\Mock\Plugin\LogTablesProvider;
 use Piwik\Tracker\Visit;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
+class JoinGeneratorTest extends TestCase
 {
     /**
      * @var JoinGenerator

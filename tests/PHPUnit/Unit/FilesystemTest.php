@@ -11,11 +11,12 @@ namespace Piwik\Tests\Unit;
 use Piwik\Filesystem;
 use Piwik\Tests\Framework\Mock\File;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class FilesystemTest extends \PHPUnit_Framework_TestCase
+class FilesystemTest extends TestCase
 {
     private $testPath;
 

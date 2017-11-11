@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Goals\tests\Unit;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group AppendNameToColumnNamesTest
@@ -17,7 +18,7 @@ use Piwik\DataTable\Row;
  * @group Filter
  * @group Goals
  */
-class AppendNameToColumnNamesTest extends \PHPUnit_Framework_TestCase
+class AppendNameToColumnNamesTest extends TestCase
 {
     private $filter = 'Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames';
 

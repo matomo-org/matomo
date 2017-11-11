@@ -13,11 +13,12 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Plugin\Manager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class ResponseBuilderTest extends \PHPUnit_Framework_TestCase
+class ResponseBuilderTest extends TestCase
 {
     public function setUp()
     {

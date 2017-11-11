@@ -9,12 +9,13 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\Archive\Chunk;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group ChunkTest
  * @group Archive
  */
-class ChunkTest extends \PHPUnit_Framework_TestCase
+class ChunkTest extends TestCase
 {
     /**
      * @var Chunk

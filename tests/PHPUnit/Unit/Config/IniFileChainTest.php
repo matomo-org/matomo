@@ -7,13 +7,13 @@
  */
 namespace Piwik\Tests\Unit\Config;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Piwik\Config\IniFileChain;
 
 /**
  * @group Core
  */
-class IniFileChainTest extends PHPUnit_Framework_TestCase
+class IniFileChainTest extends TestCase
 {
     /**
      * Data provider for testCompareElements

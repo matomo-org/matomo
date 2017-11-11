@@ -21,11 +21,12 @@ use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\NoScripts;
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Writer;
 use Piwik\Translate;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group LanguagesManager
  */
-class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
+class LanguagesManagerTest extends TestCase
 {
     function getTestDataForLanguageFiles()
     {

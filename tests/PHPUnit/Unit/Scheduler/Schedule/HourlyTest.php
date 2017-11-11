@@ -10,11 +10,12 @@ namespace Piwik\Tests\Unit\Scheduler\Schedule;
 
 use Exception;
 use Piwik\Scheduler\Schedule\Hourly;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Scheduler
  */
-class HourlyTest extends \PHPUnit_Framework_TestCase
+class HourlyTest extends TestCase
 {
     private static $_JANUARY_01_1971_09_00_00;
     private static $_JANUARY_01_1971_09_10_00;

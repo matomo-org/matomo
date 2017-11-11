@@ -10,12 +10,13 @@ namespace Piwik\Tests\Unit\Tracker;
 
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestSet;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group RequestSetTest
  * @group Tracker
  */
-class RequestSetTest extends \PHPUnit_Framework_TestCase
+class RequestSetTest extends TestCase
 {
     /**
      * @var TestRequestSet

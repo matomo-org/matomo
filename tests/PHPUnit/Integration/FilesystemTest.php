@@ -10,11 +10,12 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class FilesystemTest extends \PHPUnit_Framework_TestCase
+class FilesystemTest extends TestCase
 {
     public function test_getFileSize_ShouldRecognizeLowerUnits()
     {

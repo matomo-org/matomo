@@ -12,12 +12,13 @@ use Piwik\Tracker\Request;
 use Piwik\Tests\Framework\Mock\Tracker\Handler;
 use Piwik\Tests\Framework\Mock\Tracker\RequestSet;
 use Piwik\Tracker;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group TrackerTest
  * @group Tracker
  */
-class TrackerTest extends \PHPUnit_Framework_TestCase
+class TrackerTest extends TestCase
 {
     /**
      * @var TestTracker

@@ -9,8 +9,9 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\Version;
+use PHPUnit\Framework\TestCase;
 
-class VersionTest extends \PHPUnit_Framework_TestCase
+class VersionTest extends TestCase
 {
     /**
      * @var Version

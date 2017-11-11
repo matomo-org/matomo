@@ -10,13 +10,14 @@ namespace Piwik\Plugins\BulkTracking\tests\Unit;
 
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Tracker\Request;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group BulkTracking
  * @group RequestsTest
  * @group Plugins
  */
-class RequestsTest extends \PHPUnit_Framework_TestCase
+class RequestsTest extends TestCase
 {
     /**
      * @var Requests

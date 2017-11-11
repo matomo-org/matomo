@@ -11,12 +11,13 @@ namespace Piwik\Tests\Integration;
 use Piwik\Container\StaticContainer;
 use Piwik\NumberFormatter;
 use Piwik\Translation\Translator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  * @group NumberFormatter
  */
-class NumberFormatterTest extends \PHPUnit_Framework_TestCase
+class NumberFormatterTest extends TestCase
 {
     /**
      * @var Translator

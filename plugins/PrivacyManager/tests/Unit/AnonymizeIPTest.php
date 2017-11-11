@@ -10,10 +10,11 @@ namespace Piwik\Plugins\PrivacyManager\tests;
 
 use Piwik\Network\IP;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
+use PHPUnit\Framework\TestCase;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/IPAnonymizer.php';
 
-class AnonymizeIPTest extends \PHPUnit_Framework_TestCase
+class AnonymizeIPTest extends TestCase
 {
     // IPv4 addresses and expected results
     public function getipv4Addresses()

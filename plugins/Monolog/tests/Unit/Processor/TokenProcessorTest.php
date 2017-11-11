@@ -9,12 +9,13 @@
 namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
 
 use Piwik\Plugins\Monolog\Processor\TokenProcessor;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Processor\TokenProcessor
  */
-class TokenProcessorTest extends \PHPUnit_Framework_TestCase
+class TokenProcessorTest extends TestCase
 {
     /**
      * @test

@@ -10,12 +10,13 @@ namespace Piwik\Plugins\Monolog\tests\Unit\Formatter;
 
 use DateTime;
 use Piwik\Plugins\Monolog\Formatter\LineMessageFormatter;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Formatter\LineMessageFormatter
  */
-class LineMessageFormatterTest extends \PHPUnit_Framework_TestCase
+class LineMessageFormatterTest extends TestCase
 {
     /**
      * @test

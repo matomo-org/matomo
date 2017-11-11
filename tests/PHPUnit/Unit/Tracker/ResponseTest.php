@@ -13,6 +13,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker\Response;
 use Piwik\Tests\Framework\Mock\Tracker;
 use Exception;
+use PHPUnit\Framework\TestCase;
 
 class TestResponse extends Response {
 
@@ -33,7 +34,7 @@ class TestResponse extends Response {
  * @group Plugins
  * @group Tracker
  */
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends TestCase
 {
     /**
      * @var TestResponse

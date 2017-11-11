@@ -9,11 +9,12 @@
 namespace Piwik\Plugins\LanguagesManager\Test\Unit\TranslationWriter\Filter;
 
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\EmptyTranslations;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group LanguagesManager
  */
-class EmptyTranslationsTest extends \PHPUnit_Framework_TestCase
+class EmptyTranslationsTest extends TestCase
 {
     public function getFilterTestData()
     {

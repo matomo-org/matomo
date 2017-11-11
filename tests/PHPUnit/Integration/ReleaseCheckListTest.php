@@ -19,12 +19,13 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  * @group ReleaseCheckListTest
  */
-class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
+class ReleaseCheckListTest extends TestCase
 {
     private $globalConfig;
 

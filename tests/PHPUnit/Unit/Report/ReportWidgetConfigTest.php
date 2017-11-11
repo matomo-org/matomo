@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Unit\Report;
 
 use Piwik\Report\ReportWidgetConfig;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Widget
@@ -16,7 +17,7 @@ use Piwik\Report\ReportWidgetConfig;
  * @group ReportWidgetConfig
  * @group ReportWidgetConfigTest
  */
-class ReportWidgetConfigTest extends \PHPUnit_Framework_TestCase
+class ReportWidgetConfigTest extends TestCase
 {
     /**
      * @var ReportWidgetConfig

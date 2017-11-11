@@ -11,6 +11,7 @@ namespace Piwik\Plugins\API\tests\Unit;
 use Piwik\DataTable;
 use Piwik\Plugins\API\Renderer\Json;
 use Piwik\Plugins\API\Renderer\Json2;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Plugin
@@ -18,7 +19,7 @@ use Piwik\Plugins\API\Renderer\Json2;
  * @group API_JsonRendererTest
  * @group JsonRenderer
  */
-class JsonRendererTest extends \PHPUnit_Framework_TestCase
+class JsonRendererTest extends TestCase
 {
     /**
      * @var Json

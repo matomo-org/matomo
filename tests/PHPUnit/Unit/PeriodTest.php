@@ -15,11 +15,12 @@ use Piwik\Period\Month;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
 use Piwik\Translation\Translator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class PeriodTest extends \PHPUnit_Framework_TestCase
+class PeriodTest extends TestCase
 {
     public function testGetId()
     {

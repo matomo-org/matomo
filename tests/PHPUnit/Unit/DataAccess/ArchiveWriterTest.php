@@ -12,13 +12,14 @@ use Piwik\Archive\Chunk;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataTable;
 use Piwik\Segment;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group ArchiveWriterTest
  * @group Archive
  * @group Core
  */
-class ArchiveWriterTest extends \PHPUnit_Framework_TestCase
+class ArchiveWriterTest extends TestCase
 {
     private $recordName = 'Actions_Action_url';
 

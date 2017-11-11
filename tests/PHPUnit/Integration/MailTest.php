@@ -9,8 +9,9 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Mail;
+use PHPUnit\Framework\TestCase;
 
-class MailTest extends \PHPUnit_Framework_TestCase
+class MailTest extends TestCase
 {
 
     public function getEmailFilenames()

@@ -13,11 +13,12 @@ use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group DataTableTest
  */
-class DataTable_Renderer_JSONTest extends \PHPUnit_Framework_TestCase
+class DataTable_Renderer_JSONTest extends TestCase
 {
     public function setUp()
     {

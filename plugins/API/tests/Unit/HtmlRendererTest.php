@@ -12,12 +12,13 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Plugins\API\Renderer\Html;
 use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Plugin
  * @group API
  */
-class HtmlRendererTest extends \PHPUnit_Framework_TestCase
+class HtmlRendererTest extends TestCase
 {
     /**
      * @var Html

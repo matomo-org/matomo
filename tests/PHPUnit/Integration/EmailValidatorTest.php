@@ -10,11 +10,12 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Http;
 use Piwik\Piwik;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class EmailValidatorTest extends \PHPUnit_Framework_TestCase
+class EmailValidatorTest extends TestCase
 {
     protected function isValid($email)
     {

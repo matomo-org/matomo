@@ -11,13 +11,14 @@ namespace Piwik\Plugins\Referrers\tests;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Period;
+use PHPUnit\Framework\TestCase;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/Referrers.php';
 
 /**
  * @group Plugin
  */
-class ReferrersTest extends \PHPUnit_Framework_TestCase
+class ReferrersTest extends TestCase
 {
     public function removeUrlProtocolTestData()
     {

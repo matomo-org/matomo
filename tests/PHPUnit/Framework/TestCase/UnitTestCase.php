@@ -10,6 +10,7 @@ namespace Piwik\Tests\Framework\TestCase;
 
 use Piwik\Application\Environment;
 use Piwik\Tests\Framework\Mock\File;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Base class for Unit tests. Use this if you need to use the DI container in tests. It will be created fresh
@@ -19,7 +20,7 @@ use Piwik\Tests\Framework\Mock\File;
  *
  * @since 2.10.0
  */
-abstract class UnitTestCase extends \PHPUnit_Framework_TestCase
+abstract class UnitTestCase extends TestCase
 {
     /**
      * @var Environment

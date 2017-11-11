@@ -7,11 +7,12 @@ use Piwik\DataTable\Manager;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Tests\Framework\Mock\TestConfig;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group DataTableTest
  */
-class Test_DataTable_Map extends \PHPUnit_Framework_TestCase
+class Test_DataTable_Map extends TestCase
 {
     public function setUp()
     {

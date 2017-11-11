@@ -9,11 +9,12 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\BaseFactory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class FactoryTest extends TestCase
 {
     public function testCreatingExistingClassSucceeds()
     {

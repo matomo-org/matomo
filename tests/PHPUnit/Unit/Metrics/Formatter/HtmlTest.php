@@ -11,11 +11,12 @@ use Piwik\Intl\Locale;
 use Piwik\Metrics\Formatter\Html;
 use Piwik\Translate;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class HtmlTest extends \PHPUnit_Framework_TestCase
+class HtmlTest extends TestCase
 {
     /**
      * @var Html

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\CoreUpdater\Test\Unit;
 
 use Piwik\Plugins\CoreUpdater\Model;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group CoreUpdater
@@ -16,7 +17,7 @@ use Piwik\Plugins\CoreUpdater\Model;
  * @group Unit
  * @group Plugins
  */
-class ModelTest extends \PHPUnit_Framework_TestCase
+class ModelTest extends TestCase
 {
     /**
      * @var Model

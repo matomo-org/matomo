@@ -13,10 +13,11 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\SettingsServer;
 use Piwik\Translate;
+use PHPUnit\Framework\TestCase;
 
 /**
  */
-class DateTest extends \PHPUnit_Framework_TestCase
+class DateTest extends TestCase
 {
     /**
      * create today object check that timestamp is correct (midnight)

@@ -10,11 +10,12 @@ namespace Piwik\Plugins\Referrers\tests;
 
 use Piwik\Plugins\Referrers\SearchEngine;
 use Spyc;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group SearchEngine
  */
-class SearchEngineTest extends \PHPUnit_Framework_TestCase
+class SearchEngineTest extends TestCase
 {
     public static function setUpBeforeClass()
     {

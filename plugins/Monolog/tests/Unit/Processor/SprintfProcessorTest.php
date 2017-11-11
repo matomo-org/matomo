@@ -9,12 +9,13 @@
 namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
 
 use Piwik\Plugins\Monolog\Processor\SprintfProcessor;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Processor\SprintfProcessor
  */
-class SprintfProcessorTest extends \PHPUnit_Framework_TestCase
+class SprintfProcessorTest extends TestCase
 {
     /**
      * @test

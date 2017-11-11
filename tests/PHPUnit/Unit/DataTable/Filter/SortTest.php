@@ -11,13 +11,14 @@ namespace Piwik\Tests\Unit\DataTable\Filter;
 use Piwik\DataTable\Filter\Sort;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group DataTableTest
  * @group Core
  * @group sort
  */
-class SortTest extends \PHPUnit_Framework_TestCase
+class SortTest extends TestCase
 {
 
     public function testNormalSortDescending()

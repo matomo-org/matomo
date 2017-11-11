@@ -9,11 +9,12 @@
 namespace Piwik\Plugins\LanguagesManager\Test\Unit\TranslationWriter\Filter;
 
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\ByBaseTranslations;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group LanguagesManager
  */
-class ByBaseTranslationsTest extends \PHPUnit_Framework_TestCase
+class ByBaseTranslationsTest extends TestCase
 {
     public function getFilterTestData()
     {

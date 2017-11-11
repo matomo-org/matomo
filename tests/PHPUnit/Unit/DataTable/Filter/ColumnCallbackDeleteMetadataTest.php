@@ -10,13 +10,14 @@ namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group ColumnCallbackDeleteMetadataTest
  * @group DataTable
  * @group Filter
  */
-class ColumnCallbackDeleteMetadataTest extends \PHPUnit_Framework_TestCase
+class ColumnCallbackDeleteMetadataTest extends TestCase
 {
     private $filter = 'ColumnCallbackDeleteMetadata';
 

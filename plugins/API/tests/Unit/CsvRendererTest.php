@@ -10,12 +10,13 @@ namespace Piwik\Plugins\API\test\Unit;
 
 use Piwik\DataTable;
 use Piwik\Plugins\API\Renderer\Csv;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Plugin
  * @group API
  */
-class CsvRendererTest extends \PHPUnit_Framework_TestCase
+class CsvRendererTest extends TestCase
 {
     /**
      * @var Csv

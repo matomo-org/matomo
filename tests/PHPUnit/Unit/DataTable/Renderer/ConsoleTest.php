@@ -12,11 +12,12 @@ use Piwik\DataTable\Manager;
 use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Console;
 use Piwik\DataTable\Row;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group DataTableTest
  */
-class DataTable_Renderer_ConsoleTest extends \PHPUnit_Framework_TestCase
+class DataTable_Renderer_ConsoleTest extends TestCase
 {
     public function setUp()
     {

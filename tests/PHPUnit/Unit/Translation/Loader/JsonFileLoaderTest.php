@@ -9,11 +9,12 @@
 namespace Piwik\Tests\Unit\Translation\Loader;
 
 use Piwik\Translation\Loader\JsonFileLoader;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Translation
  */
-class JsonFileLoaderTest extends \PHPUnit_Framework_TestCase
+class JsonFileLoaderTest extends TestCase
 {
     public function test_shouldLoadJsonFile()
     {

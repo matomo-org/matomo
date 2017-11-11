@@ -10,8 +10,9 @@ namespace Piwik\Tests\Integration\AssetManager;
 
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAssetMinifier;
+use PHPUnit\Framework\TestCase;
 
-class UIAssetMinifierTest extends \PHPUnit_Framework_TestCase
+class UIAssetMinifierTest extends TestCase
 {
     /**
      * @var UIAssetMinifier

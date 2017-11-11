@@ -9,11 +9,12 @@
 namespace Piwik\Plugins\LanguagesManager\Test\Unit\TranslationWriter\Filter;
 
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\ByParameterCount;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group LanguagesManager
  */
-class ByParameterCountTest extends \PHPUnit_Framework_TestCase
+class ByParameterCountTest extends TestCase
 {
     public function getFilterTestData()
     {

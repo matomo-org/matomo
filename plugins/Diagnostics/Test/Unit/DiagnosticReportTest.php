@@ -10,8 +10,9 @@ namespace Piwik\Plugins\Diagnostics\Test\Unit;
 
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Plugins\Diagnostics\DiagnosticReport;
+use PHPUnit\Framework\TestCase;
 
-class DiagnosticReportTest extends \PHPUnit_Framework_TestCase
+class DiagnosticReportTest extends TestCase
 {
     public function test_shouldComputeErrorAndWarningCount()
     {

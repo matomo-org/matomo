@@ -15,11 +15,12 @@ use Piwik\Scheduler\Timetable;
 use Piwik\Tests\Framework\Mock\PiwikOption;
 use Psr\Log\NullLogger;
 use ReflectionProperty;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Scheduler
  */
-class SchedulerTest extends \PHPUnit_Framework_TestCase
+class SchedulerTest extends TestCase
 {
     private static function getTestTimetable()
     {

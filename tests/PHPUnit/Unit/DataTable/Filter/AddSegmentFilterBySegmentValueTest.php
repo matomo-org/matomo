@@ -15,6 +15,7 @@ use Piwik\Plugins\DevicePlugins\Reports\GetPlugin;
 use Piwik\Plugins\UserCountry\Reports\GetCity;
 use Piwik\Plugins\UserCountry\Reports\GetCountry;
 use Piwik\Plugins\VisitsSummary\Reports\Get;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group AddSegmentBySegmentValueTest
@@ -22,7 +23,7 @@ use Piwik\Plugins\VisitsSummary\Reports\Get;
  * @group Filter
  * @group Core
  */
-class AddSegmentBySegmentValueTest extends \PHPUnit_Framework_TestCase
+class AddSegmentBySegmentValueTest extends TestCase
 {
     private $filter = 'AddSegmentBySegmentValue';
 
