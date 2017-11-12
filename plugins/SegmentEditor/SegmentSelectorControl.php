@@ -94,7 +94,7 @@ class SegmentSelectorControl extends UIControl
 
     private function wouldApplySegment($savedSegment)
     {
-        if (!$this->isBrowserArchivingDisabledForSegments()) {
+        if (Rules::isBrowserArchivingAvailableForSegments()) {
             return true;
         }
 
