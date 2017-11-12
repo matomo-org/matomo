@@ -19,8 +19,8 @@ use Piwik\View\ViewInterface;
  */
 class Sparkline implements ViewInterface
 {
-    const DEFAULT_WIDTH = 100;
-    const DEFAULT_HEIGHT = 25;
+    const DEFAULT_WIDTH = 200;
+    const DEFAULT_HEIGHT = 50;
 
     public static $enableSparklineImages = true;
 
@@ -54,6 +54,9 @@ class Sparkline implements ViewInterface
         $sparkline->setWidth($this->getWidth());
         $sparkline->setHeight($this->getHeight());
         $this->setSparklineColors($sparkline);
+        $sparkline->setLineThickness(3);
+        $sparkline->setDotRadius(10);
+        $sparkline->setTopOffset(5);
 
         $seconds = Piwik::translate('Intl_NSecondsShort');
         $toRemove = array('%', str_replace('%s', '', $seconds));
