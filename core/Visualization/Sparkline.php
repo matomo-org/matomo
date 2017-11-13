@@ -126,11 +126,10 @@ class Sparkline implements ViewInterface
         if (empty($colors)) { // quick fix so row evolution sparklines will have color in widgetize's iframes
             $colors = array(
                 'backgroundColor' => '#ffffff',
-                'lineColor' => '#1388db',
+                'lineColor' => '#d4291f',
                 'minPointColor' => '#ff7f7f',
-                'lastPointColor' => '#55AAFF',
                 'maxPointColor' => '#75BF7C',
-                'fillColor' => '#e6f2fa'
+                'fillColor' => '#fce8e7'
             );
         }
 
