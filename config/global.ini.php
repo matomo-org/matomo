@@ -456,6 +456,10 @@ live_visitor_profile_max_visits_to_aggregate = 100
 ; the page will automatically refresh every 5 minutes. Set to 0 to disable automatic refresh
 multisites_refresh_after_seconds = 300
 
+; by default, an update notification for a new version of Piwik is shown to every user. Set to 1 if only
+; the superusers should see the notification.
+show_update_notification_to_superusers_only = 0
+
 ; Set to 1 if you're using https on your Piwik server and Piwik can't detect it,
 ; e.g., a reverse proxy using https-to-http, or a web server that doesn't
 ; set the HTTPS environment variable.

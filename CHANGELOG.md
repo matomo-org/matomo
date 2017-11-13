@@ -11,7 +11,6 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
 * New Segment added: `visitEndServerMinute` for Server time - minute (End of visit)
 * New events added to add and filter visitor details: `Live.addVisitorDetails` and `Live.filterVisitorDetails`
 
-
 ### New APIs
 * Reports and visualizations can now hide the export icons with a new property `$view->config->show_export`.
 * Reports and visualizations can now show a message above the report with a new property `$view->config->show_header_message`.
@@ -23,6 +22,9 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
  * `Piwik\Columns\MetricsList` Holds a list of all available metrics
  * `Piwik\Columns\ComputedMetricFactory` Can be used to create computed metrics
  * `Piwik\Columns\DimensionMetricFactory` Can be used to create metrics directly within a dimension
+
+### New Features
+* New config.ini.php setting `show_update_notification_to_superusers_only` makes it possible to hide update notifications for all users except of superusers
 
 ## Piwik 3.1.0
 
