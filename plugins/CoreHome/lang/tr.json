@@ -53,6 +53,7 @@
         "SystemSummaryMysqlVersion": "MySQL versiyonu",
         "SystemSummaryPhpVersion": "PHP versiyonu",
         "Segments": "Bölümler",
+        "AdblockIsMaybeUsed": "Bir reklam engelleyicisi kullanıyorsanız, lütfen Piwik'in sorunsuz çalıştığından emin olmak için devre dışı bırakın.",
         "ChangeCurrentWebsite": "Bir websitesi seç, mevcut seçilen site: %s",
         "LeadingAnalyticsPlatformRespectsYourPrivacy": "Gizliliğinize saygı gösteren lider açık istatistikler platformu."
     }

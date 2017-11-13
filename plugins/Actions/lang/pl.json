@@ -58,7 +58,7 @@
         "SiteSearchCategories": "Kategorie (Wyszukiwarka)",
         "SiteSearchKeyword": "Słowo kluczowe (Wyszukiwarka)",
         "SiteSearchKeywords": "Słowa kluczowe (Wyszukiwarka)",
-        "SiteSearchKeywordsDocumentation": "Ten raport jest to lista Słów Kluczowych, które odwiedzający wyszukiwali używając wewnętrznej wyszukiwarki.",
+        "SiteSearchKeywordsDocumentation": "Raport ten przedstawia listę Słów Kluczowych, które odwiedzający wyszukiwali używając wyszukiwarki serwisu.",
         "SiteSearchKeywordsNoResultDocumentation": "Ten raport jest to lista Słów Kluczowych które nie zwróciły żadnych wyników: może algorytm wyszukiwarki może być poprawiony, z może twoi odwiedzający szukają treści jakiej (jeszcze) nie ma na twojej stronie?",
         "SubmenuPagesEntry": "Strony wejść",
         "SubmenuPagesExit": "Strony wyjść",

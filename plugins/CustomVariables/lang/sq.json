@@ -4,7 +4,6 @@
         "ColumnCustomVariableValue": "Vlerë Ndryshoreje Vetjake",
         "CustomVariables": "Ndryshore Vetjake",
         "CustomVariablesReportDocumentation": "Ky raport përmban të dhëna rreth Ndryshoreve tuaja Vetjake. Klikoni mbi një emër ndryshoreje që të shihni shpërndarjen e vlerave. %1$s Për më tepër të dhëna rreth Ndryshoresh Vetjake në përgjithësi, lexoni %2$sdokumentimin e Ndryshoreve Vetjake te piwik.org%3$s",
-        "PluginDescription": "Ndryshoret e Vetjake janë çifte (emër, vlerë) që mund t’ua vini në përshoqërim vizitorëve tuaj apo çfarëdo veprimi prej tyre, duke përdorur API-n për Javascript-in. Piwik-u mandej do të raportojë sa vizita, faqe, shndërrime ka për secilin prej këtyre emrave dhe vlerave vetjake. Ndryshoret Vetjake në hollësi për çdo përdorues dhe veprim i gjeni te Regjistri i Vizitorëve.<br \/>E domosdoshme për përdorim të veçorisë <a href=\"http:\/\/piwik.org\/docs\/ecommerce-analytics\/\">Analiza E-tregti<\/a>!",
         "ScopePage": "faqe me qëllim",
         "ScopeVisit": "vizitë me qëllim",
         "ManageDescription": "Kjo përmbledhje tregon krejt vendet e ndryshoreve vetjake dhe përdorimin e tyre për sajtin '%s'. Emrat brenda secilit vend renditen sipas shpeshtisë së përdorimit të tyre gjithsej.",
