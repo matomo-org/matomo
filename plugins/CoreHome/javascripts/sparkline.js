@@ -9,6 +9,9 @@
 
 var sparklineColorNames = ['backgroundColor', 'lineColor', 'minPointColor', 'maxPointColor', 'lastPointColor', 'fillColor'];
 
+var sparklineDisplayHeight = 25;
+var sparklineDisplayWidth = 100;
+
 piwik.getSparklineColors = function () {
     return piwik.ColorManager.getColors('sparkline-colors', sparklineColorNames);
 };
@@ -30,6 +33,8 @@ piwik.initSparklines = function() {
         if (token_auth.length) {
             appendToSparklineUrl += '&token_auth=' + token_auth;
         }
+        $self.attr('width', sparklineDisplayWidth);
+        $self.attr('height', sparklineDisplayHeight);
         $self.attr('src', $self.attr('data-src') + appendToSparklineUrl);
     });
 };
