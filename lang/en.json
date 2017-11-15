@@ -212,6 +212,7 @@
         "IP": "IP",
         "JsTrackingTag": "JavaScript Tracking Code",
         "Language": "Language",
+        "Last": "Last",
         "LastDays": "Last %s days (including today)",
         "LastDaysShort": "Last %s days",
         "LearnMore": "%1$slearn more%2$s",
