@@ -1,7 +1,15 @@
 {
     "VisitTime": {
         "ColumnLocalTime": "Τοπική ώρα",
+        "ColumnLocalHour": "Τοπική ώρα - ώρα (Έναρξη επίσκεψης)",
+        "ColumnLocalMinute": "Τοπική ώρα - λεπτό (Έναρξη επίσκεψης)",
         "ColumnServerTime": "Χρόνος διακομιστή",
+        "ColumnServerHour": "Ώρα διακομιστή - ώρα",
+        "ColumnVisitEndServerHour": "Ώρα διακομιστή - ώρα (Τέλος επίσκεψης)",
+        "ColumnVisitEndServerMinute": "Ώρα διακομιστή - λεπτό (Τέλος επίσκεψης)",
+        "ColumnVisitStartServerHour": "Ώρα διακομιστή - ώρα (Έναρξη επίσκεψης)",
+        "ColumnVisitStartServerMinute": "Ώρα διακομιστή - λεπτό (Έναρξη επίσκεψης)",
+        "ColumnServerMinute": "Ώρα διακομιστή - λεπτό",
         "DayOfWeek": "Ημέρα της εβδομάδας",
         "LocalTime": "Επισκέψεις ανά τοπική ώρα",
         "NHour": "%sω",

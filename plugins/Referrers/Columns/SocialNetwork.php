@@ -13,8 +13,6 @@ use Piwik\Piwik;
 
 class SocialNetwork extends Dimension
 {
-    public function getName()
-    {
-        return Piwik::translate('Referrers_ColumnSocial');
-    }
+    protected $type = self::TYPE_TEXT;
+    protected $nameSingular = 'Referrers_ColumnSocial';
 }

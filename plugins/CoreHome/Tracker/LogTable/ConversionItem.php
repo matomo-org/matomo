@@ -26,5 +26,10 @@ class ConversionItem extends LogTable
     {
         return 'idvisit';
     }
-    
+
+    public function getPrimaryKey()
+    {
+        return array('idvisit', 'idorder', 'idaction_sku');
+    }
+
 }

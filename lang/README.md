@@ -1,6 +1,6 @@
 ## Contribute
 
-If you want to improve an existing Piwik translation or contribute a new translation, please have a look at our [Transifex project](http://translations.piwik.org).
+If you want to improve an existing Piwik translation or contribute a new translation, please have a look at our [Transifex project](https://translations.piwik.org).
 
 We cannot accept pull requests for translations on GitHub since we manage all translations in this separate system. Translations will automatically be transferred to GitHub from time to time!
 

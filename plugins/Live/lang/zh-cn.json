@@ -26,6 +26,7 @@
         "SimpleRealTimeWidget_Message": "%1$s 和 %2$s 在最近 %3$s。",
         "ViewVisitorProfile": "查看访客资料",
         "VisitedPages": "访问的页面",
+        "RevisitedPages": "被浏览超过一次的页面",
         "VisitorLog": "访客日志",
         "VisitorLogDocumentation": "本表显示所选时间段内最新的访客资料，鼠标移到日期上可以查看上次访问时间，%1$s 如果时间段包含今天，您可以实时查看访客! %2$s 这里显示的数据总是实时的，无论是否使用定时处理任务。",
         "VisitorProfile": "访客资料",

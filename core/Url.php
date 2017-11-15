@@ -461,6 +461,7 @@ class Url
             || strpos($url, 'index.php') === 0
         ) {
             Common::sendResponseCode(302);
+            Common::sendHeader("X-Robots-Tag: noindex");
             Common::sendHeader("Location: $url");
         } else {
             echo "Invalid URL to redirect to.";

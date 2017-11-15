@@ -133,7 +133,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         if ($optionalTrace) {
-            $optionalTrace = '<h2>Stack trace</h2><pre>' . htmlentities($optionalTrace) . '</pre>';
+            $optionalTrace = '<h2>Stack trace</h2><pre>' . htmlentities($optionalTrace, ENT_COMPAT | ENT_HTML401, 'UTF-8') . '</pre>';
         }
 
         if ($isCli === null) {

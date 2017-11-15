@@ -8,7 +8,7 @@
         "ErrorNotLoadingDetailsSSL": "W związku z faktem, że Piwik korzysta z połączenia HTTPS i jest prawdopodobne, że Twój serwis nie korzysta z SSL'a. Spróbuj użyuć Piwik'a na HTTP.",
         "ErrorNotLoadingLink": "Kliknij tu, aby uzyskać więcej podpowiedzi i pomocy",
         "Link": "Odnośnik",
-        "Location": "Położenie",
+        "Location": "Lokalizacja",
         "NoData": "Brak danych dla wybranej strony we wskazanym przedziale czasu.",
         "OneClick": "1 kliknięcie",
         "OpenFullScreen": "Tryb pełnoekranowy (bez paska)",

@@ -3,9 +3,9 @@
  *
  * JavaScript tracking client
  *
- * @link http://piwik.org
+ * @link https://piwik.org
  * @source https://github.com/piwik/piwik/blob/master/js/piwik.js
- * @license http://piwik.org/free-software/bsd/ BSD-3 Clause (also in js/LICENSE.txt)
+ * @license https://piwik.org/free-software/bsd/ BSD-3 Clause (also in js/LICENSE.txt)
  * @license magnet:?xt=urn:btih:c80d50af7d3db9be66a4d0a86db0286e4fd33292&dn=bsd-3-clause.txt BSD-3-Clause
  */
 // NOTE: if you change this above Piwik comment block, you must also change `$byteStart` in js/tracker.php
@@ -1235,7 +1235,7 @@ if (typeof window.Piwik !== 'object') {
                             if (context[f]) {
                                 context[f].apply(context, parameterArray);
                             } else {
-                                var message = 'The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Piwik tracker documentation: http://developer.piwik.org/api-reference/tracking-javascript';
+                                var message = 'The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Piwik tracker documentation: https://developer.piwik.org/api-reference/tracking-javascript';
                                 logConsoleError(message);
 
                                 if (!isPluginTrackerCall) {
@@ -7077,7 +7077,7 @@ if (typeof window.Piwik !== 'object') {
                             delete paq[iterator];
 
                             if (appliedMethods[methodName] > 1) {
-                                logConsoleError('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: http://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
+                                logConsoleError('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: https://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
                             }
 
                             appliedMethods[methodName]++;
@@ -7280,11 +7280,13 @@ if (typeof window.Piwik !== 'object') {
              * @return Tracker
              */
             addTracker: function (piwikUrl, siteId) {
+                var tracker;
                 if (!asyncTrackers.length) {
-                    createFirstTracker(piwikUrl, siteId);
+                    tracker = createFirstTracker(piwikUrl, siteId);
                 } else {
-                    asyncTrackers[0].addTracker(piwikUrl, siteId);
+                    tracker = asyncTrackers[0].addTracker(piwikUrl, siteId);
                 }
+                return tracker;
             },
 
             /**

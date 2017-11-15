@@ -12,12 +12,12 @@
         "VisitsByDaysSinceLast": "Herhalingsbezoek na bepaald aantal dagen",
         "visitsByVisitCount": "Verdeling herhaalbezoeken",
         "VisitsPerDuration": "Aantal bezoeken per bezoeksduur",
-        "VisitsPerNbOfPages": "Pagina's per bezoek",
-        "WidgetLengths": "Lengte bezoek",
+        "VisitsPerNbOfPages": "Bezoeken per aantal pagina's",
+        "WidgetLengths": "Duur van bezoeken",
         "WidgetLengthsDocumentation": "In dit rapport kunt u zien hoeveel bezoeken een bepaalde tijdsduur hadden. Het rapport wordt getoond in de vorm van een tagcloud, vaker voorkomende tijdsduren worden getoond in een groter lettertype.",
         "WidgetPages": "Pagina's per bezoek",
         "WidgetPagesDocumentation": "In dit rapport kunt u zien bij hoeveel bezoeken een bepaald aantal pagina's weren bekeken. Het rapport wordt getoond in de vorm van een tagcloud, vaker voorkomende aantal bekeken pagina's worden getoond in een groter lettertype.",
-        "WidgetVisitsByDaysSinceLast": "Bezoeken per Dagen Sinds Laatste Bezoek",
+        "WidgetVisitsByDaysSinceLast": "Bezoeken per dagen sinds laatste bezoek",
         "WidgetVisitsByDaysSinceLastDocumentation": "In dit rapport kunt u zien hoeveel bezoeken van bezoekers waren, wiens laatste bezoek een bepaald aantal dagen geleden was.",
         "WidgetVisitsByNumDocumentation": "In dit rapport ziet u het aantal bezoeken van bezoekers die uw website tenminste N keer bezochten."
     }

@@ -77,8 +77,6 @@
         "ExceptionMissingFile": "გამოტოვებული ფაილი: %s",
         "ExceptionNonceMismatch": "ამ ფორმაზე უსაფრთხოების მარკერის შემოწმება ვერ მოხერხდა.",
         "ExceptionPrivilege": "თქვენ ვერ ნახავთ ამ რესურს, რადგან ის მოითხოვს %s წვდომას.",
-        "ExceptionPrivilegeAccessWebsite": "თქვენ ვერ ნახავთ ამ რესურს, რადგან ის მოითხოვს %s წვდომას ვებ საიტზე id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "თქვენ ვერ ნახავთ ამ რესურს, რადგან ის მოითხოვს %s წვდომას ერთ ვებ საიტზე მაინც.",
         "ExceptionUndeletableFile": "%s–ის წაშლა ვერ მოხერხდა",
         "ExceptionUnreadableFileDisabledMethod": "კონფიგურაციის ფაილის {%1$s} წაკითხვა ვერ მოხერხდა. შესაძლოა თქვენმა ჰოსტმა გამორთო %2$s.",
         "ExportAsImage": "ექსპორტი სურათის ფორმატში",

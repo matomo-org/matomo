@@ -410,6 +410,7 @@ class Report
         if (empty($restrictToColumns)) {
             $restrictToColumns = array_merge($allMetrics, array_keys($this->getProcessedMetrics()));
         }
+        $restrictToColumns = array_unique($restrictToColumns);
 
         $processedMetricsById = $this->getProcessedMetricsById();
         $metricsSet = array_flip($allMetrics);
@@ -860,7 +861,7 @@ class Report
 
         $result = array();
         foreach ($processedMetrics as $processedMetric) {
-            if ($processedMetric instanceof ProcessedMetric) { // instanceof check for backwards compatibility
+            if ($processedMetric instanceof ProcessedMetric || $processedMetric instanceof ArchivedMetric) { // instanceof check for backwards compatibility
                 $result[$processedMetric->getName()] = $processedMetric;
             }
         }

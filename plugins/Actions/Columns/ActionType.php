@@ -8,9 +8,9 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Piwik;
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\MetricsList;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
 use Piwik\Tracker\Action;
 use Exception;
 
@@ -30,41 +30,27 @@ class ActionType extends ActionDimension
         Action::TYPE_DOWNLOAD => 'downloads'
     );
 
-    /**
-     * The name of the dimension which will be visible for instance in the UI of a related report and in the mobile app.
-     * @return string
-     */
-    public function getName()
+    protected $columnName = 'type';
+    protected $dbTableName = 'log_action';
+    protected $segmentName = 'actionType';
+    protected $type = self::TYPE_ENUM;
+    protected $nameSingular = 'Actions_ActionType';
+    protected $namePlural = 'Actions_ActionTypes';
+    protected $category = 'General_Actions';
+
+    public function __construct()
     {
-        return Piwik::translate('Actions_ActionType');
+        $this->acceptValues = sprintf('A type of action, such as: %s', implode(', ', $this->types));
     }
 
-    protected function configureSegments()
+    public function getEnumColumnValues()
     {
-        $types = $this->types;
-
-        $segment = new Segment();
-        $segment->setSegment('actionType');
-        $segment->setName('Actions_ActionType');
-        $segment->setSqlSegment('log_action.type');
-        $segment->setType(Segment::TYPE_DIMENSION);
-        $segment->setAcceptedValues(sprintf('A type of action, such as: %s', implode(', ', $types)));
-        $segment->setSqlFilter(function ($type) use ($types) {
-            if (array_key_exists($type, $types)) {
-                return $type;
-            }
-
-            $index = array_search(strtolower(trim(urldecode($type))), $types);
-
-            if ($index === false) {
-                throw new Exception("actionType must be one of: " . implode(', ', $types));
-            }
-
-            return $index;
-        });
-        $segment->setSuggestedValuesCallback(function ($idSite, $maxSuggestionsToReturn) use ($types) {
-            return array_slice(array_values($types), 0, $maxSuggestionsToReturn);
-        });
-        $this->addSegment($segment);
+        return $this->types;
     }
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        // do not genereate any metric for this
+    }
+
 }

@@ -13,8 +13,5 @@ use Piwik\Piwik;
 
 class DayOfTheWeek extends Dimension
 {
-    public function getName()
-    {
-        return Piwik::translate('VisitTime_DayOfWeek');
-    }
+    protected $nameSingular = 'VisitTime_DayOfWeek';
 }

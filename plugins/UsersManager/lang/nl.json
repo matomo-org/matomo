@@ -4,7 +4,7 @@
         "Alias": "Alias",
         "AllWebsites": "Alle websites",
         "AnonymousUser": "Anonieme gebruiker",
-        "AnonymousUserHasViewAccess": "Opmerking: de %1$s gebruiker heeft %2$s toegang tot deze website.",
+        "AnonymousUserHasViewAccess": "Opmerking: de %1$s-gebruiker heeft %2$s-toegang tot deze website.",
         "AnonymousUserHasViewAccess2": "Je Analyse rapporten en je bezoekers informatie zijn publiek beschikbaar.",
         "ApplyToAllWebsites": "Op alle websites toepassen",
         "ChangeAllConfirm": "Weet u zeker dat u '%s' toegang tot alle websites wilt geven?",
@@ -15,7 +15,7 @@
         "ConfirmProhibitOtherUsersSuperUserAccess": "Weet je zeker dat je de Super User rechten van '%s' wil verwijderen? De gebruiker zal alle rechten verliezen en toegang tot websites. Zorg ervoor dat na het verwijderen van de rechten, mocht het nodig zijn, de gebruiker rechten te geven voor specifieke websites.",
         "DeleteConfirm": "Weet je zeker dat je de gebruiker %s wilt verwijderen?",
         "Email": "E-mail",
-        "EmailYourAdministrator": "%1$sE-mail de beheerder over dit probleem%2$s.",
+        "EmailYourAdministrator": "%1$sE-mail uw beheerder over dit probleem%2$s.",
         "EnterUsernameOrEmail": "Vul een gebruikersnaam of e-mailadres in",
         "ExceptionAccessValues": "De parameter toegang moet één van de volgede waarden bevatten: [ %s ]",
         "ExceptionAdminAnonymous": "U kunt geen adminrechten toekennen aan de 'anonieme' gebruiker.",
@@ -64,15 +64,15 @@
         "TokenAuth": "API Authenticatie Token",
         "TokenRegenerateLogoutWarning": "Wanneer een nieuwe token wordt aangemaakt wordt eerst uitgelogd en daarna weer ingelogd.",
         "TokenRegenerateTitle": "Opnieuw genereren",
-        "TypeYourPasswordAgain": "Voer uw nieuwe wachtwoord nogmaals in.",
+        "TypeYourPasswordAgain": "Vul uw wachtwoord nogmaals in.",
         "User": "Gebruiker",
-        "UserHasPermission": "%1$s heeft momenteel %2$s toegang tot %3$s.",
+        "UserHasPermission": "%1$s heeft momenteel %2$s-toegang tot %3$s.",
         "UserHasNoPermission": "%1$s heeft momenteel %2$s tot %3$s",
         "UsersManagement": "Gebruikersbeheer",
         "UsersManagementMainDescription": "Creëer nieuwe of actualiseer bestaande gebruikers",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Wanneer gebruikers niet ingelogd zijn en Piwik bezoeken, moeten ze toegang krijgen",
         "YourUsernameCannotBeChanged": "Je gebruikersnaam kan niet worden gewijzigd.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sUw bezoeken worden genegeerd door Piwik op %2$s %3$s (Piwik negeercookie is gevonden in uw browser).",
-        "YourVisitsAreNotIgnored": "%1$sUw bezoeken worden niet genegeerd door Piwik%2$s (Piwik negeercookie is niet gevonden in uw browser)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sUw bezoeken worden door Piwik op %2$s genegeerd %3$s (Piwik-negeercookie is in uw browser gevonden).",
+        "YourVisitsAreNotIgnored": "%1$sUw bezoeken worden niet door Piwik genegeerd%2$s (Piwik-negeercookie is niet in uw browser gevonden)."
     }
 }

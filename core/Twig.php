@@ -373,7 +373,7 @@ class Twig
     {
         $rawSafeDecoded = new Twig_SimpleFilter('rawSafeDecoded', function ($string) {
             $string = str_replace('+', '%2B', $string);
-            $string = str_replace('&nbsp;', html_entity_decode('&nbsp;'), $string);
+            $string = str_replace('&nbsp;', html_entity_decode('&nbsp;', ENT_COMPAT | ENT_HTML401, 'UTF-8'), $string);
 
             $string = SafeDecodeLabel::decodeLabelSafe($string);
 

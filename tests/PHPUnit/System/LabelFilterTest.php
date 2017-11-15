@@ -113,7 +113,7 @@ class LabelFilterTest extends SystemTestCase
         );
         $return[] = array('Referrers.getSearchEngines', $searchEngineTest);
 
-        $searchEngineTest['otherRequestParameters']['label'] = urlencode('Google>' . urlencode(html_entity_decode($keyword)));
+        $searchEngineTest['otherRequestParameters']['label'] = urlencode('Google>' . urlencode(html_entity_decode($keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8')));
         $return[] = array('Referrers.getSearchEngines', $searchEngineTest);
 
         // test the ! operator

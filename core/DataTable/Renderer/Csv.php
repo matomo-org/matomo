@@ -293,7 +293,7 @@ class Csv extends Renderer
      */
     protected function renderHeader()
     {
-        $fileName = 'Piwik ' . Piwik::translate('General_Export');
+        $fileName = Piwik::translate('General_Export');
 
         $period = Common::getRequestVar('period', false);
         $date = Common::getRequestVar('date', false);

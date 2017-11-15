@@ -19,6 +19,8 @@ class InteractionPosition extends ActionDimension
 {
     protected $columnName = 'interaction_position';
     protected $columnType = 'SMALLINT UNSIGNED DEFAULT NULL';
+    protected $nameSingular = 'Actions_ColumnInteractionPosition';
+    protected $type = self::TYPE_NUMBER;
 
     /**
      * @param Request $request
@@ -44,11 +46,6 @@ class InteractionPosition extends ActionDimension
         }
 
         return false;
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('Actions_ColumnInteractionPosition');
     }
 
 }

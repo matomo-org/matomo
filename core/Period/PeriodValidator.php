@@ -36,8 +36,9 @@ class PeriodValidator
     public function getPeriodsAllowedForUI()
     {
         $periodsAllowed = Config::getInstance()->General['enabled_periods_UI'];
-
-        return array_map('trim', explode(',', $periodsAllowed));
+        $periodsAllowed = array_map('trim', explode(',', $periodsAllowed));
+        $periodsAllowed = array_unique($periodsAllowed);
+        return $periodsAllowed;
     }
 
     /**
@@ -46,7 +47,8 @@ class PeriodValidator
     public function getPeriodsAllowedForAPI()
     {
         $periodsAllowed = Config::getInstance()->General['enabled_periods_API'];
-
-        return array_map('trim', explode(',', $periodsAllowed));
+        $periodsAllowed = array_map('trim', explode(',', $periodsAllowed));
+        $periodsAllowed = array_unique($periodsAllowed);
+        return $periodsAllowed;
     }
 }

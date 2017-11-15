@@ -164,6 +164,11 @@ class LogAggregator
         $this->logger = $logger ?: StaticContainer::get('Psr\Log\LoggerInterface');
     }
 
+    public function getSegment()
+    {
+        return $this->segment;
+    }
+
     public function setQueryOriginHint($nameOfOrigiin)
     {
         $this->queryOriginHint = $nameOfOrigiin;
@@ -515,7 +520,7 @@ class LogAggregator
      *
      * @return array
      */
-    protected function getGeneralQueryBindParams()
+    public function getGeneralQueryBindParams()
     {
         $bind = array($this->dateStart->toString(Date::DATE_TIME_FORMAT), $this->dateEnd->toString(Date::DATE_TIME_FORMAT));
         $bind = array_merge($bind, $this->sites);

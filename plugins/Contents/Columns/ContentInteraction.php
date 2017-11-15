@@ -8,9 +8,9 @@
  */
 namespace Piwik\Plugins\Contents\Columns;
 
-use Piwik\Piwik;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
 use Piwik\Plugins\Contents\Actions\ActionContent;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -19,19 +19,22 @@ class ContentInteraction extends ActionDimension
 {
     protected $columnName = 'idaction_content_interaction';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
+    protected $type = self::TYPE_TEXT;
+    protected $acceptValues = 'The type of interaction with the content. For instance "click" or "submit".';
+    protected $segmentName = 'contentInteraction';
+    protected $nameSingular = 'Contents_ContentInteraction';
+    protected $namePlural = 'Contents_ContentInteractions';
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
-    protected function configureSegments()
+    public function getDbColumnJoin()
     {
-        $segment = new Segment();
-        $segment->setSegment('contentInteraction');
-        $segment->setName('Contents_ContentInteraction');
-        $segment->setAcceptedValues('The type of interaction with the content. For instance "click" or "submit".');
-        $this->addSegment($segment);
+        return new ActionNameJoin();
     }
 
-    public function getName()
+    public function getDbDiscriminator()
     {
-        return Piwik::translate('Contents_ContentInteraction');
+        return new Discriminator('log_action', 'type', $this->getActionId());
     }
 
     public function getActionId()

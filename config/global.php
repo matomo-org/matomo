@@ -64,12 +64,56 @@ return array(
         return 'eagercache-' . str_replace(array('.', '-'), '', \Piwik\Version::VERSION) . '-';
     },
 
+    'entities.idNames' => DI\add(array('idGoal', 'idDimension')),
+
     'Psr\Log\LoggerInterface' => DI\object('Psr\Log\NullLogger'),
 
     'Piwik\Translation\Loader\LoaderInterface' => DI\object('Piwik\Translation\Loader\LoaderCache')
         ->constructor(DI\get('Piwik\Translation\Loader\JsonFileLoader')),
 
     'observers.global' => array(),
+
+    'fileintegrity.ignore' => DI\add(array(
+        '*.htaccess',
+        '*web.config',
+        'bootstrap.php',
+        'favicon.ico',
+        'robots.txt',
+        '.bowerrc',
+        '.phpstorm.meta.php',
+        'config/config.ini.php',
+        'config/config.php',
+        'config/common.ini.php',
+        'config/*.config.ini.php',
+        'config/manifest.inc.php',
+        'misc/*.dat',
+        'misc/*.dat.gz',
+        'misc/*.bin',
+        'misc/user/*png',
+        'misc/user/*js',
+        'misc/package',
+        'misc/package/WebAppGallery/*.xml',
+        'misc/package/WebAppGallery/install.sql',
+        'plugins/ImageGraph/fonts/unifont.ttf',
+        'vendor/autoload.php',
+        'vendor/composer/autoload_real.php',
+        'vendor/szymach/c-pchart/app/*',
+        'tmp/*',
+        // Search engine sites verification
+        'google*.html',
+        'BingSiteAuth.xml',
+        'yandex*.html',
+        // Files below are not expected but they used to be present in older Piwik versions and may be still here
+        // As they are not going to cause any trouble we won't report them as 'File to delete'
+        '*.coveralls.yml',
+        '*.scrutinizer.yml',
+        '*.gitignore',
+        '*.gitkeep',
+        '*.gitmodules',
+        '*.gitattributes',
+        '*.bower.json',
+        '*.travis.yml',
+    )),
 
     'Piwik\EventDispatcher' => DI\object()->constructorParameter('observers', DI\get('observers.global')),
 

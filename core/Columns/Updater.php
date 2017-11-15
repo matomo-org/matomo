@@ -123,7 +123,7 @@ class Updater extends \Piwik\Updates
         $allUpdatesToRun = array();
 
         foreach ($this->getVisitDimensions() as $dimension) {
-            $updates         = $this->getUpdatesForDimension($updater, $dimension, 'log_visit.', $visitColumns, $conversionColumns);
+            $updates         = $this->getUpdatesForDimension($updater, $dimension, 'log_visit.', $visitColumns);
             $allUpdatesToRun = $this->mixinUpdates($allUpdatesToRun, $updates);
         }
 
@@ -143,11 +143,9 @@ class Updater extends \Piwik\Updates
     /**
      * @param ActionDimension|ConversionDimension|VisitDimension $dimension
      * @param string $componentPrefix
-     * @param array $existingColumnsInDb
-     * @param array $conversionColumns
      * @return array
      */
-    private function getUpdatesForDimension(PiwikUpdater $updater, $dimension, $componentPrefix, $existingColumnsInDb, $conversionColumns = array())
+    private function getUpdatesForDimension(PiwikUpdater $updater, $dimension, $componentPrefix, $existingColumnsInDb)
     {
         $column = $dimension->getColumnName();
         $componentName = $componentPrefix . $column;
@@ -157,11 +155,7 @@ class Updater extends \Piwik\Updates
         }
 
         if (array_key_exists($column, $existingColumnsInDb)) {
-            if ($dimension instanceof VisitDimension) {
-                $sqlUpdates = $dimension->update($conversionColumns);
-            } else {
-                $sqlUpdates = $dimension->update();
-            }
+            $sqlUpdates = $dimension->update();
         } else {
             $sqlUpdates = $dimension->install();
         }
@@ -218,7 +212,8 @@ class Updater extends \Piwik\Updates
     }
 
     /**
-     * @param ActionDimension|ConversionDimension|VisitDimension $dimension
+     * @param PiwikUpdater $updater
+     * @param Dimension $dimension
      * @param string $componentPrefix
      * @param array $columns
      * @param array $versions

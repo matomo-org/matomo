@@ -86,11 +86,6 @@ $( document ).ready(function() {
 function toggleCalendar(e){
     var calendarOpen = $('.periodSelector').hasClass('expanded');
     
-    $('.periodSelector .ui-datepicker-month').attr('tabindex','4');
-    $('.periodSelector td a').attr('tabindex','4');
-    $('.periodSelector .ui-datepicker-year').attr('tabindex','4');
-    $('.periodSelector .form-radio').attr('tabindex','4');
-
     if(e.which==13){
         if(calendarOpen){
             $('.periodSelector').removeClass('expanded');
