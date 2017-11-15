@@ -6,18 +6,21 @@
         {{ availableTypes.length > 1 ? ('SitesManager_AddMeasurable'|translate) : ('SitesManager_AddSite'|translate) }}
     </a>
 
-    <div class="search" ng-show="adminSites.hasPrev || adminSites.hasNext || adminSites.searchTerm">
+    <div class="search" ng-show="adminSites.hasFirst || adminSites.hasPrev || adminSites.hasNext || adminSites.hasLast || adminSites.searchTerm">
         <input ng-model="adminSites.search" piwik-onenter="adminSites.searchSite(adminSites.search)"
                placeholder="{{ 'Actions_SubmenuSitesearch' | translate }}" type="text">
         <img ng-click="adminSites.searchSite(adminSites.search)" title="{{ 'General_ClickToSearch' | translate }}"
              class="search_ico" src="plugins/Morpheus/images/search_ico.png"/>
     </div>
 
-    <div class="paging" ng-show="adminSites.hasPrev || adminSites.hasNext">
+    <div class="paging" ng-show="adminSites.hasFirst || adminSites.hasPrev || adminSites.hasNext || adminSites.hasLast">
+        <a class="btn first" ng-disabled="!adminSites.hasFirst" ng-click="adminSites.firstPage()">
+            <span style="cursor:pointer;">&#171; {{ 'General_First'|translate }}</span>
+        </a>
         <a class="btn prev" ng-disabled="!adminSites.hasPrev" ng-click="adminSites.previousPage()">
             <span style="cursor:pointer;">&#171; {{ 'General_Previous'|translate }}</span>
         </a>
-        <span class="counter" ng-show="adminSites.hasPrev || adminSites.hasNext">
+        <span class="counter" ng-show="adminSites.hasFirst || adminSites.hasPrev || adminSites.hasNext || adminSites.hasLast">
             <span ng-if="adminSites.searchTerm">
                 {{ 'General_PaginationWithoutTotal'|translate:adminSites.offsetStart:adminSites.offsetEnd }}
             </span>
@@ -27,6 +30,9 @@
         </span>
         <a class="btn next" ng-disabled="!adminSites.hasNext" ng-click="adminSites.nextPage()">
             <span style="cursor:pointer;" class="pointer">{{ 'General_Next'|translate }} &#187;</span>
+        </a>
+        <a class="btn last" ng-disabled="!adminSites.hasLast" ng-click="adminSites.lastPage()">
+            <span style="cursor:pointer;" class="pointer">{{ 'General_Last'|translate }} &#187;</span>
         </a>
     </div>
 

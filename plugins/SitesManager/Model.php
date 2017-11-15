@@ -198,7 +198,7 @@ class Model
      * @param bool $limit
      * @return array
      */
-    public function getSitesFromIds($idSites, $limit = false)
+    public function getSitesFromIds($idSites, $limit = false, $offset = false)
     {
         if (count($idSites) === 0) {
             return array();
@@ -206,6 +206,9 @@ class Model
 
         if ($limit) {
             $limit = "LIMIT " . (int)$limit;
+            if ($offset) {
+                $limit = $limit . " OFFSET " . (int)$offset;
+            }
         } else {
             $limit = '';
         }

@@ -4,9 +4,9 @@
 (function () {
     angular.module('piwikApp').factory('sitesManagerAdminSitesModel', sitesManagerAdminSitesModel);
 
-    sitesManagerAdminSitesModel.$inject = ['piwikApi'];
+    sitesManagerAdminSitesModel.$inject = ['piwikApi', 'sitesManagerAPI'];
 
-    function sitesManagerAdminSitesModel(piwikApi)
+    function sitesManagerAdminSitesModel(piwikApi, sitesManagerAPI)
     {
         var model = {
             sites        : [],
@@ -16,10 +16,14 @@
             currentPage  : 0,
             offsetStart  : 0,
             offsetEnd    : 10,
+            hasFirst     : false,
             hasPrev      : false,
             hasNext      : false,
+            hasLast      : false,            
+            firstPage: firstPage,
             previousPage: previousPage,
             nextPage: nextPage,
+            lastPage: lastPage,
             searchSite: searchSite,
             fetchLimitedSitesWithAdminAccess: fetchLimitedSitesWithAdminAccess
         };
@@ -38,8 +42,10 @@
             var numSites      = sites.length;
             model.offsetStart = model.currentPage * model.pageSize;
             model.offsetEnd   = model.offsetStart + numSites;
+            model.hasFirst    = model.currentPage >= 1;
             model.hasPrev     = model.currentPage >= 1;
             model.hasNext     = numSites === model.pageSize;
+            model.hasLast     = numSites === model.pageSize;
         }
 
         function setCurrentPage(page)
@@ -51,6 +57,12 @@
             model.currentPage = page;
         }
 
+        function firstPage()
+        {
+            setCurrentPage(0);
+            fetchLimitedSitesWithAdminAccess();
+        }
+        
         function previousPage()
         {
             setCurrentPage(model.currentPage - 1);
@@ -63,6 +75,16 @@
             fetchLimitedSitesWithAdminAccess();
         }
 
+        function lastPage()
+        {
+            sitesManagerAPI.getSitesIdWithAdminAccess(function (siteIds) {
+                if (siteIds && siteIds.length) {
+                    setCurrentPage(Math.floor(siteIds.length / model.pageSize));
+                    fetchLimitedSitesWithAdminAccess();
+                }
+            });
+        }
+        
         function searchSite (term)
         {
             model.searchTerm = term;
@@ -84,8 +106,9 @@
             var params = {
                 method: 'SitesManager.getSitesWithAdminAccess',
                 fetchAliasUrls: true,
-                limit: limit + offset, // this is applied in SitesManager.getSitesWithAdminAccess API
-                filter_offset: offset, // filter_offset and filter_limit is applied in response builder
+                limit: limit,   // this is applied in SitesManager.getSitesWithAdminAccess API
+                offset: offset, // this is applied in SitesManager.getSitesWithAdminAccess API
+                filter_offset: 0, // filter_offset and filter_limit is applied in response builder
                 filter_limit: limit
             };
 

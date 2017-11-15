@@ -319,12 +319,12 @@ class API extends \Piwik\Plugin\API
      * @param false|int    $limit
      * @return array for each site, an array of information (idsite, name, main_url, etc.)
      */
-    public function getSitesWithAdminAccess($fetchAliasUrls = false, $pattern = false, $limit = false)
+    public function getSitesWithAdminAccess($fetchAliasUrls = false, $pattern = false, $limit = false, $offset = false)
     {
         $sitesId = $this->getSitesIdWithAdminAccess();
 
         if ($pattern === false) {
-            $sites = $this->getSitesFromIds($sitesId, $limit);
+            $sites = $this->getSitesFromIds($sitesId, $limit, $offset);
         } else {
             $sites = $this->getModel()->getPatternMatchSites($sitesId, $pattern, $limit);
             Site::setSitesFromArray($sites);
@@ -437,9 +437,9 @@ class API extends \Piwik\Plugin\API
      * @param bool $limit
      * @return array
      */
-    private function getSitesFromIds($idSites, $limit = false)
+    private function getSitesFromIds($idSites, $limit = false, $offset = false)
     {
-        $sites = $this->getModel()->getSitesFromIds($idSites, $limit);
+        $sites = $this->getModel()->getSitesFromIds($idSites, $limit, $offset);
 
         Site::setSitesFromArray($sites);
 
