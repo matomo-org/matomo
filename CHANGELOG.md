@@ -31,6 +31,7 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
 
 ### New Features
 * New config.ini.php setting `show_update_notification_to_superusers_only` makes it possible to hide update notifications for all users except of superusers
+* New JavaScript method `piwikHelper.registerShortcut` allows plugins to bind keyboard shortcuts. A summary for available shortcuts will be shown by pressing `?`
 
 ## Piwik 3.1.0
 
