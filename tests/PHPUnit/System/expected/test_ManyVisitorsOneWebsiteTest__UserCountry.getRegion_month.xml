@@ -180,7 +180,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 	<row>
-		<label>London, City of, United Kingdom</label>
+		<label>London, United Kingdom</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
@@ -206,7 +206,7 @@
 		<region>H9</region>
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
-		<region_name>London, City of</region_name>
+		<region_name>London</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 	<row>
