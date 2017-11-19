@@ -83,8 +83,22 @@ $( document ).ready(function() {
 
     $("nav .activateTopMenu").sideNav({
         closeOnClick: true,
-        edge: 'right',
+        edge: 'right'
     });
 
     $('select').material_select();
+
+    Mousetrap.bind('?', function (event) {
+        // don't open if an modal is already shown
+        if (event.altKey || $('.modal.open').length) {
+            return;
+        }
+        if (event.preventDefault) {
+            event.preventDefault();
+        } else {
+            event.returnValue = false; // IE
+        }
+
+        piwikHelper.modalConfirm('#shortcuthelp');
+    });
 });
