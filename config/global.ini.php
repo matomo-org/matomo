@@ -319,11 +319,11 @@ minimum_mysql_version = 4.1
 ; PostgreSQL minimum required version
 minimum_pgsql_version = 8.3
 
-; Minimum advised memory limit in php.ini file (see memory_limit value)
+; Minimum advised memory limit in Mb in php.ini file (see memory_limit value)
 ; Set to "-1" to always use the configured memory_limit value in php.ini file.
 minimum_memory_limit = 128
 
-; Minimum memory limit enforced when archived via ./console core:archive
+; Minimum memory limit in Mb enforced when archived via ./console core:archive
 ; Set to "-1" to always use the configured memory_limit value in php.ini file.
 minimum_memory_limit_when_archiving = 768
 
