@@ -12,6 +12,7 @@ use Piwik\SettingsServer;
 use Piwik\Tracker\RequestSet;
 use Piwik\Tracker;
 use Piwik\Tracker\Handler;
+use Piwik\API\CORSHandler;
 
 @ignore_user_abort(true);
 
@@ -49,6 +50,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Cache.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
+require_once PIWIK_INCLUDE_PATH . '/core/API/CORSHandler.php';
 
 SettingsServer::setIsTrackerApiRequest();
 
@@ -60,6 +62,9 @@ try {
 }
 
 Tracker::loadTrackerEnvironment();
+
+$corsHandler = new CORSHandler();
+$corsHandler->handle();
 
 $tracker    = new Tracker();
 $requestSet = new RequestSet();
