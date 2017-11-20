@@ -942,16 +942,16 @@
         },
         {
             "name": "piwik/piwik-php-tracker",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/piwik-php-tracker.git",
-                "reference": "08deaa8d7ff2627a66aaad5e3a3cce51f7131cef"
+                "reference": "f9a0168c87f01f2d5de95029a1ba0d1fd6c3d5ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/08deaa8d7ff2627a66aaad5e3a3cce51f7131cef",
-                "reference": "08deaa8d7ff2627a66aaad5e3a3cce51f7131cef",
+                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/f9a0168c87f01f2d5de95029a1ba0d1fd6c3d5ab",
+                "reference": "f9a0168c87f01f2d5de95029a1ba0d1fd6c3d5ab",
                 "shasum": ""
             },
             "type": "library",
@@ -978,7 +978,7 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2017-06-08T19:14:40+00:00"
+            "time": "2017-11-09T03:20:23+00:00"
         },
         {
             "name": "piwik/referrer-spam-blacklist",
