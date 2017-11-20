@@ -410,9 +410,9 @@ class FileIntegrity
     {
         $filesToInvestigate = array_merge(
         // all normal files
-            Filesystem::globr('.', '*'),
+            Filesystem::globr(PIWIK_DOCUMENT_ROOT, '*'),
             // all hidden files
-            Filesystem::globr('.', '.*')
+            Filesystem::globr(PIWIK_DOCUMENT_ROOT, '.*')
         );
         return $filesToInvestigate;
     }
