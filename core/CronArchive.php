@@ -1154,7 +1154,7 @@ class CronArchive
         if (count($this->idSitesInvalidatedOldReports) > 0) {
             $ids = ", IDs: " . implode(", ", $this->idSitesInvalidatedOldReports);
             $this->logger->info("- Will process " . count($this->idSitesInvalidatedOldReports)
-                . " other websites because some old data reports have been invalidated (eg. using the Log Import script) "
+                . " other websites because some old data reports have been invalidated (eg. using the Log Import script or the InvalidateReports plugin) "
                 . $ids);
         }
 
