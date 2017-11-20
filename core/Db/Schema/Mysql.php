@@ -81,8 +81,8 @@ class Mysql implements SchemaInterface
                           `setting_name` VARCHAR(255) NOT NULL,
                           `setting_value` LONGTEXT NOT NULL,
                           `user_login` VARCHAR(100) NOT NULL DEFAULT '',
-                          `plugin_setting_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-                              PRIMARY KEY (plugin_setting_id),
+                          `idplugin_setting` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                              PRIMARY KEY (idplugin_setting),
                               INDEX(plugin_name, user_login)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
@@ -92,8 +92,8 @@ class Mysql implements SchemaInterface
                           `plugin_name` VARCHAR(60) NOT NULL,
                           `setting_name` VARCHAR(255) NOT NULL,
                           `setting_value` LONGTEXT NOT NULL,
-                          `site_setting_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-                              PRIMARY KEY (site_setting_id),
+                          `idsite_setting` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                              PRIMARY KEY (idsite_setting),
                               INDEX(idsite, plugin_name)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
@@ -212,8 +212,8 @@ class Mysql implements SchemaInterface
                                   query TEXT NOT NULL,
                                   count INTEGER UNSIGNED NULL,
                                   sum_time_ms FLOAT NULL,
-                                  log_profiling_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                    PRIMARY KEY (log_profiling_id),
+                                  idprofiling BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                    PRIMARY KEY (idprofiling),
                                     UNIQUE KEY query(query(100))
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
