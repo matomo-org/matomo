@@ -1272,7 +1272,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // For each row, get the serialized row
         // If it is associated to a sub table, get the serialized table recursively ;
         // but returns all serialized tables and subtable in an array of 1 dimension
-        // $aSerializedDataTable = array();
         foreach ($this->rows as $id => $row) {
             $subTable = $row->getSubtable();
             if ($subTable) {
