@@ -1277,7 +1277,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             if ($subTable) {
                 $consecutiveSubtableIds[$id] = ++$subtableId;
                 $depth++;
-                $aSerializedDataTable = $subTable->getSerialized($maximumRowsInSubDataTable, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation, $aSerializedDataTable);
+                $subTable->getSerialized($maximumRowsInSubDataTable, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation, $aSerializedDataTable);
                 $depth--;
             } else {
                 $row->removeSubtable();
