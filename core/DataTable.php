@@ -1293,7 +1293,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // we then serialize the rows and store them in the serialized dataTable
         $rows = array();
         foreach ($this->rows as $id => $row) {
-            if (array_key_exists($id, $consecutiveSubtableIds)) {
+            if (isset($consecutiveSubtableIds[$id])) {
                 $backup = $row->subtableId;
                 $row->subtableId = $consecutiveSubtableIds[$id];
                 $rows[$id] = $row->export();
