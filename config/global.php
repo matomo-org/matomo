@@ -21,7 +21,7 @@ return array(
             $instanceId = '';
         }
         
-        $tmp = Config::getInstance()->General['tmp'];
+        $tmp = Config::getInstance()->General['tmp_path'];
         
         return $root . $tmp . $instanceId;
     },
