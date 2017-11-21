@@ -70,7 +70,10 @@ function initializeVisitorActions(elem) {
         });
     });
 
-    $("ol.visitorLog > li:not(.duplicate) .icon-refresh", elem).parents('li').each(function(){
+    $("ol.visitorLog > li:not(.duplicate)", elem).each(function(){
+        if (!$('.icon-refresh', $(this)).length) {
+            return;
+        }
         $(this).attr('origtitle', $(this).attr('title'));
         $(this).attr('title', _pk_translate('Live_ClickToViewAllActions'));
         $(this).click(function(e){
