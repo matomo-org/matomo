@@ -832,9 +832,10 @@ class SegmentTest extends IntegrationTestCase
                             ON log_link_visit_action.idvisit = log_visit.idvisit
                           WHERE (( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
                                 OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 3 )) )
-                                OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 2 )) ) )
+                                OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 2 )) )
+                                OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 10 )) ) )
                         GROUP BY log_visit.idvisit ORDER BY NULL ) AS log_inner",
-            "bind" => array('myTestUrl', 'myTestUrl', 'myTestUrl'));
+            "bind" => array('myTestUrl', 'myTestUrl', 'myTestUrl', 'myTestUrl'));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
