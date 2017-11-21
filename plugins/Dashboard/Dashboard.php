@@ -30,8 +30,16 @@ class Dashboard extends \Piwik\Plugin
             'UsersManager.deleteUser'                => 'deleteDashboardLayout',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Widget.addWidgetConfigs'                => 'addWidgetConfigs',
-            'Category.addSubcategories'              => 'addSubcategories'
+            'Category.addSubcategories'              => 'addSubcategories',
+            'Widgetize.shouldEmbedIframeEmpty'       => 'shouldEmbedIframeEmpty'
         );
+    }
+
+    public function shouldEmbedIframeEmpty(&$shouldEmbedEmpty, $controllerName, $actionName)
+    {
+        if ($controllerName == 'Dashboard' && $actionName == 'index') {
+            $shouldEmbedEmpty = true;
+        }
     }
 
     public function addWidgetConfigs(&$widgets)
