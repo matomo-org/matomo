@@ -12,6 +12,7 @@ use HTML_QuickForm2_DataSource_Array;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Db;
@@ -93,29 +94,10 @@ class PrivacyManager extends Plugin
             && (is_null($dataTable)
                 || (!empty($dataTable) && $dataTable->getRowsCount() == 0))
         ) {
-            // if range, only look at the first date
-            if ($strPeriod == 'range') {
+            $reportDate = self::getReportDate($strPeriod, $strDate);
 
-                $idSite = Common::getRequestVar('idSite', '');
-
-                if (intval($idSite) != 0) {
-                    $site     = new Site($idSite);
-                    $timezone = $site->getTimezone();
-                } else {
-                    $timezone = 'UTC';
-                }
-
-                $period     = new Range('range', $strDate, $timezone);
-                $reportDate = $period->getDateStart();
-
-            } elseif (Period::isMultiplePeriod($strDate, $strPeriod)) {
-
-                // if a multiple period, this function is irrelevant
+            if (empty($reportDate)) {
                 return false;
-
-            }  else {
-                // otherwise, use the date as given
-                $reportDate = Date::factory($strDate);
             }
 
             $reportYear = $reportDate->toString('Y');
@@ -127,6 +109,46 @@ class PrivacyManager extends Plugin
         }
 
         return false;
+    }
+
+    /**
+     * @param DataTable $dataTable
+     * @param int|null $logsOlderThan If set, it is assumed that log deletion is enabled with the given amount of days
+     * @return bool|void
+     */
+    public static function haveLogsBeenPurged($dataTable, $logsOlderThan = null)
+    {
+        if (!empty($dataTable) && $dataTable->getRowsCount() != 0) {
+            return false;
+        }
+
+        if ($logsOlderThan === null) {
+            $settings = PrivacyManager::getPurgeDataSettings();
+
+            if ($settings['delete_logs_enable'] == 0) {
+                return false;
+            }
+
+            $logsOlderThan = $settings['delete_logs_older_than'];
+        }
+
+        $logsOlderThan = (int) $logsOlderThan;
+
+        $strPeriod = Common::getRequestVar('period', false);
+        $strDate   = Common::getRequestVar('date', false);
+
+        if (false === $strPeriod || false === $strDate) {
+            return false;
+        }
+
+        $logsOlderThan = Date::now()->subDay(1 + $logsOlderThan);
+        $reportDate = self::getReportDate($strPeriod, $strDate);
+
+        if (empty($reportDate)) {
+            return false;
+        }
+
+        return $reportDate->isEarlier($logsOlderThan);
     }
 
     /**
@@ -371,6 +393,36 @@ class PrivacyManager extends Plugin
         }
 
         return $result;
+    }
+
+    private static function getReportDate($strPeriod, $strDate)
+    {
+        // if range, only look at the first date
+        if ($strPeriod == 'range') {
+
+            $idSite = Common::getRequestVar('idSite', '');
+
+            if (intval($idSite) != 0) {
+                $site     = new Site($idSite);
+                $timezone = $site->getTimezone();
+            } else {
+                $timezone = 'UTC';
+            }
+
+            $period     = new Range('range', $strDate, $timezone);
+            $reportDate = $period->getDateStart();
+
+        } elseif (Period::isMultiplePeriod($strDate, $strPeriod)) {
+
+            // if a multiple period, this function is irrelevant
+            return false;
+
+        }  else {
+            // otherwise, use the date as given
+            $reportDate = Date::factory($strDate);
+        }
+
+        return $reportDate;
     }
 
     /**
