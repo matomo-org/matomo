@@ -7,13 +7,14 @@
  *
  */
 
-namespace Piwik\Plugins\ScheduledReports\tests\Unit\ReportEmailGenerator;
+namespace Piwik\Plugins\ScheduledReports\tests\Integration\ReportEmailGenerator;
 
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator\HtmlReportEmailGenerator;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Zend_Mime;
 
-class HtmlReportEmailGeneratorTest extends \PHPUnit_Framework_TestCase
+class HtmlReportEmailGeneratorTest extends IntegrationTestCase
 {
     /**
      * @var HtmlReportEmailGenerator

@@ -1,17 +1,24 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Copyright (C) InnoCraft Ltd - All rights reserved.
  *
- * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * NOTICE:  All information contained herein is, and remains the property of InnoCraft Ltd.
+ * The intellectual and technical concepts contained herein are protected by trade secret or copyright law.
+ * Redistribution of this information or reproduction of this material is strictly forbidden
+ * unless prior written permission is obtained from InnoCraft Ltd.
  *
+ * You shall use this code only in accordance with the license agreement obtained from InnoCraft Ltd.
+ *
+ * @link https://www.innocraft.com/
+ * @license For license details see https://www.innocraft.com/license
  */
 
-namespace Piwik\Plugins\ScheduledReports\tests\Unit;
+namespace Piwik\Plugins\ScheduledReports\tests\Integration;
 
 use Piwik\Mail;
 use Piwik\Plugins\ScheduledReports\GeneratedReport;
 use Piwik\Plugins\ScheduledReports\ReportEmailGenerator;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class TestReportEmailGenerator extends ReportEmailGenerator
 {
@@ -21,7 +28,8 @@ class TestReportEmailGenerator extends ReportEmailGenerator
     }
 }
 
-class ReportEmailGeneratorTest extends \PHPUnit_Framework_TestCase
+
+class ReportEmailGeneratorTest extends IntegrationTestCase
 {
     /**
      * @var TestReportEmailGenerator
@@ -113,7 +121,7 @@ Content-Disposition: inline; filename="file2.txt"
         $this->assertEquals('test@testytesterson.com', $mail->getReplyTo());
         $this->assertEquals([
             'From' => [
-                0 => 'Piwik Reports <noreply@piwik>',
+                0 => 'ScheduledReports_PiwikReports <noreply@piwik>',
                 'append' => true,
             ],
             'Subject' => [
