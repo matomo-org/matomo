@@ -155,10 +155,13 @@ class ManySitesImportedLogs extends Fixture
                       '--recorders'                 => '1',
                       '--recorder-max-payload-size' => '1',
                       '--exclude-host' => ['filtered1.com', 'www.filtered2.com'],
-                      '--exclude-older-than' => '2012-08-09 08:10:39',
-                      '--exclude-newer-than' => '2012-08-31 00:00:00');
+                      '--exclude-older-than' => '2012-08-09 08:10:39 +0000',
+                      '--exclude-newer-than' => '2012-08-31 00:00:00 +0000');
 
-        self::executeLogImporter($logFile, $opts);
+        $output = self::executeLogImporter($logFile, $opts);
+        $output = implode("\n", $output);
+
+        $this->assertContains('4 filtered log lines', $output);
     }
 
     private function logWithIncludeFilters()
@@ -171,7 +174,10 @@ class ManySitesImportedLogs extends Fixture
                       '--recorder-max-payload-size' => '1',
                       '--include-host' => ['included3.com', 'www.included4.com']);
 
-        self::executeLogImporter($logFile, $opts);
+        $output = self::executeLogImporter($logFile, $opts);
+        $output = implode("\n", $output);
+
+        $this->assertContains('2 filtered log lines', $output);
     }
 
     private function setupSegments()
@@ -274,7 +280,8 @@ class ManySitesImportedLogs extends Fixture
                       '--password'                  => 'superUserPass',
                       '--recorders'                 => '1',
                       '--recorder-max-payload-size' => '1',
-                      '--replay-tracking'           => false);
+                      '--replay-tracking'           => false,
+                      '--exclude-older-than' => '2012-01-01 08:10:39 +0000');
 
         $opts = array_merge($opts, $additonalOptions);
 
