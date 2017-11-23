@@ -9,6 +9,7 @@
 
 namespace Piwik\Session;
 
+use Piwik\Date;
 use Piwik\IP;
 
 /**
@@ -60,7 +61,7 @@ class SessionFingerprint
     {
         $_SESSION[self::USER_NAME_SESSION_VAR_NAME] = $userName;
         $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME] = [
-            'ts' => $time ?: time(),
+            'ts' => $time ?: Date::now()->getTimestampUTC(),
             'ip' => $ip ?: IP::getIpFromHeader(),
             'ua' => $userAgent ?: $this->getUserAgent(),
         ];
