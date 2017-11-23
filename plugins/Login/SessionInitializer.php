@@ -18,7 +18,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\ProxyHttp;
 use Piwik\Session;
-use Piwik\Session\SessionAuthCookieFactory;
 use Piwik\Session\SessionFingerprint;
 
 /**
@@ -36,11 +35,6 @@ use Piwik\Session\SessionFingerprint;
 class SessionInitializer
 {
     /**
-     * @var SessionAuthCookieFactory
-     */
-    private $sessionCookieFactory;
-
-    /**
      * The UsersManager API instance.
      *
      * @var UsersManagerAPI
@@ -49,14 +43,9 @@ class SessionInitializer
 
     /**
      * @param UsersManagerAPI|null $usersManagerAPI
-     * @param string|null $authCookieName
-     * @param int|null $authCookieValidTime
-     * @param string|null $authCookiePath
      */
-    public function __construct(SessionAuthCookieFactory $sessionCookieFactory = null, $usersManagerAPI = null)
+    public function __construct($usersManagerAPI = null)
     {
-        $this->sessionCookieFactory = $sessionCookieFactory ?: StaticContainer::get(SessionAuthCookieFactory::class);
-
         if (empty($usersManagerAPI)) {
             $usersManagerAPI = UsersManagerAPI::getInstance();
         }
@@ -81,7 +70,7 @@ class SessionInitializer
 
             Piwik::postEvent('Login.authenticate.failed', array($auth->getLogin()));
 
-            $this->processFailedSession($rememberMe);
+            $this->processFailedSession();
         } else {
 
             Piwik::postEvent('Login.authenticate.successful', array($auth->getLogin()));
@@ -132,15 +121,10 @@ class SessionInitializer
     /**
      * Executed when the session could not authenticate.
      *
-     * @param bool $rememberMe Whether the authenticated session should be remembered after
-     *                         the browser is closed or not.
      * @throws Exception always.
      */
-    protected function processFailedSession($rememberMe)
+    protected function processFailedSession()
     {
-        $cookie = $this->sessionCookieFactory->getCookie($rememberMe);
-        $cookie->delete();
-
         throw new Exception(Piwik::translate('Login_LoginPasswordNotCorrect'));
     }
 
@@ -155,12 +139,6 @@ class SessionInitializer
     {
         $sessionIdentifier = new SessionFingerprint();
         $sessionIdentifier->initialize($authResult->getIdentity());
-
-        $cookie = $this->sessionCookieFactory->getCookie($rememberMe);
-        $cookie->clear();
-        $cookie->setSecure(ProxyHttp::isHttps());
-        $cookie->setHttpOnly(true);
-        $cookie->save();
 
         if ($rememberMe) {
             Session::rememberMe(Config::getInstance()->General['login_cookie_expire']);

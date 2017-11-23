@@ -20,7 +20,6 @@ use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session\SessionAuth;
-use Piwik\Session\SessionAuthCookieFactory;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.

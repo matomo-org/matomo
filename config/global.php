@@ -3,7 +3,6 @@
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\NotFoundException;
 use Piwik\Cache\Eager;
-use Piwik\Session\SessionAuthCookieFactory;
 use Piwik\SettingsServer;
 use Piwik\Config;
 
@@ -154,9 +153,4 @@ return array(
 
     'Piwik\Tracker\Settings' => DI\object()
         ->constructorParameter('isSameFingerprintsAcrossWebsites', DI\get('ini.Tracker.enable_fingerprinting_across_websites')),
-
-    SessionAuthCookieFactory::class => DI\object()
-        ->constructorParameter('authCookieName', DI\get('ini.General.login_cookie_name'))
-        ->constructorParameter('authCookieValidTime', DI\get('ini.General.login_cookie_expire'))
-        ->constructorParameter('authCookiePath', DI\get('ini.General.login_cookie_path')),
 );
