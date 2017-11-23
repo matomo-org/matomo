@@ -10,7 +10,6 @@
 namespace Piwik\Session;
 
 use Piwik\Date;
-use Piwik\IP;
 
 /**
  * Manages session information that is used to identify who the session
@@ -18,14 +17,14 @@ use Piwik\IP;
  *
  * Once a session is authenticated using either a user name & password or
  * token auth, some information about the user is stored in the session.
- * This info includes the user name, the user's IP address, the user agent
+ * This info includes the user name and the user agent
  * string of the user's client, and a random session secret.
  *
  * In subsequent requests that use this session, we use the above information
  * to verify that the session is allowed to be used by the person sending the
  * request.
  *
- * This is accomplished by checking the request's IP address & user agent
+ * This is accomplished by checking the request's user agent
  * against what is stored in the session. If it doesn't then this is a
  * session hijacking attempt.
  *
@@ -57,12 +56,11 @@ class SessionFingerprint
         return null;
     }
 
-    public function initialize($userName, $time = null, $ip = null, $userAgent = null)
+    public function initialize($userName, $time = null, $userAgent = null)
     {
         $_SESSION[self::USER_NAME_SESSION_VAR_NAME] = $userName;
         $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME] = [
             'ts' => $time ?: Date::now()->getTimestampUTC(),
-            'ip' => $ip ?: IP::getIpFromHeader(),
             'ua' => $userAgent ?: $this->getUserAgent(),
         ];
     }
@@ -75,7 +73,6 @@ class SessionFingerprint
 
     public function isMatchingCurrentRequest()
     {
-        $requestIp = IP::getIpFromHeader();
         $requestUa = $this->getUserAgent();
 
         $userInfo = $this->getUserInfo();
@@ -83,7 +80,7 @@ class SessionFingerprint
             return false;
         }
 
-        return $userInfo['ip'] == $requestIp && $userInfo['ua'] == $requestUa;
+        return $userInfo['ua'] == $requestUa;
     }
 
     public function getSessionStartTime()

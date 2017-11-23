@@ -57,39 +57,24 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 
     public function test_initialize_SetsSessionVarsToCurrentRequest()
     {
-        $_SERVER['REMOTE_ADDR'] = '55.66.77.88';
         $_SERVER['HTTP_USER_AGENT'] = 'test-user-agent';
         $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
 
         $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
         $this->assertEquals(
-            ['ts' => self::TEST_TIME_VALUE, 'ip' => '55.66.77.88', 'ua' => 'test-user-agent'],
+            ['ts' => self::TEST_TIME_VALUE, 'ua' => 'test-user-agent'],
             $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
         );
     }
 
     public function test_initialize_DoesNotSetUserAgent_IfUserAgentIsNotInHttpRequest()
     {
-        $_SERVER['REMOTE_ADDR'] = '55.66.77.88';
         unset($_SERVER['HTTP_USER_AGENT']);
         $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
 
         $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
         $this->assertEquals(
-            ['ts' => self::TEST_TIME_VALUE, 'ip' => '55.66.77.88', 'ua' => null],
-            $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
-        );
-    }
-
-    public function test_initialize_DoesNotSetIpAddress_IfNoIpAddressInHttpRequest()
-    {
-        unset($_SERVER['REMOTE_ADDR']);
-        $_SERVER['HTTP_USER_AGENT'] = 'test-user-agent';
-        $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
-
-        $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
-        $this->assertEquals(
-            ['ts' => self::TEST_TIME_VALUE, 'ip' => '0.0.0.0', 'ua' => 'test-user-agent'],
+            ['ts' => self::TEST_TIME_VALUE, 'ua' => null],
             $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
         );
     }
@@ -98,14 +83,12 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getTestDataForIsMatchingCurrentRequest
      */
     public function test_isMatchingCurrentRequest_ChecksIfSessionVarsMatchRequest(
-        $sessionIp, $sessionUa, $requestIp, $requestUa, $expectedResult
+        $sessionUa, $requestUa, $expectedResult
     ) {
         $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [
-            'ip' => $sessionIp,
             'ua' => $sessionUa,
         ];
 
-        $_SERVER['REMOTE_ADDR'] = $requestIp;
         $_SERVER['HTTP_USER_AGENT'] = $requestUa;
 
         $this->assertEquals($expectedResult, $this->testInstance->isMatchingCurrentRequest());
@@ -114,17 +97,14 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
     public function getTestDataForIsMatchingCurrentRequest()
     {
         return [
-            ['11.22.33.44', 'test ua', '11.22.33.44', 'test ua', true],
-            ['11.22.33.55', 'test ua', '11.22.33.44', 'test ua', false],
-            ['11.22.33.44', 'nontest ua', '11.22.33.44', 'test ua', false],
-            [null, 'test ua', '11.22.33.44', 'test ua', false],
-            ['11.22.33.44', null, '11.22.33.44', 'test ua', false],
+            ['test ua', 'test ua', true],
+            ['nontest ua', 'test ua', false],
+            [null, 'test ua', false],
         ];
     }
 
     public function test_isMatchingCurrentRequest_ReturnsFalse_IfUserInfoSessionVarDoesNotExist()
     {
-        $_SERVER['REMOTE_ADDR'] = '11.22.33.44';
         $_SERVER['HTTP_USER_AGENT'] = 'test-ua';
 
         $this->assertEquals(false, $this->testInstance->isMatchingCurrentRequest());
@@ -133,7 +113,6 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
     public function test_isMatchingCurrentRequest_ReturnsFalse_IfRequestDetailsDoNotExist()
     {
         $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [
-            'ip' => '11.22.33.44',
             'ua' => 'test-ua',
         ];
 
