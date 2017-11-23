@@ -26,6 +26,8 @@ use Exception;
  */
 class UsersManagerTest extends IntegrationTestCase
 {
+    const DATETIME_REGEX = '/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/';
+
     /**
      * @var API
      */
@@ -74,7 +76,18 @@ class UsersManagerTest extends IntegrationTestCase
         if (is_null($newAlias)) {
             $newAlias = $user['alias'];
         }
+
         $userAfter = $this->api->getUser($user["login"]);
+
+        $this->assertArrayHasKey('date_registered', $userAfter);
+        $this->assertRegExp(self::DATETIME_REGEX, $userAfter['date_registered']);
+
+        $this->assertArrayHasKey('ts_password_modified', $userAfter);
+        $this->assertRegExp(self::DATETIME_REGEX, $userAfter['date_registered']);
+
+        $this->assertArrayHasKey('password', $userAfter);
+        $this->assertNotEmpty($userAfter['password']);
+
         unset($userAfter['date_registered']);
         unset($userAfter['ts_password_modified']);
         unset($userAfter['password']);
