@@ -95,10 +95,27 @@ class SessionAuthTest extends IntegrationTestCase
         $this->initializeSession(self::TEST_UA, self::TEST_OTHER_USER);
         $this->initializeRequest(self::TEST_UA);
 
-        $sessionAuth = new SessionAuth(new MockUsersModel());
+        $sessionAuth = new SessionAuth(new MockUsersModel([
+            'login' => 'wronguser',
+        ]));
         $result = $sessionAuth->authenticate();
 
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    public function test_authenticate_ReturnsSuccess_IfUserDataHasNoPasswordModifiedTimestamp()
+    {
+        $this->initializeSession(self::TEST_UA, self::TEST_OTHER_USER);
+        $this->initializeRequest(self::TEST_UA);
+
+        $usersModel = new UsersModel();
+        $user = $usersModel->getUser(self::TEST_OTHER_USER);
+        unset($user['ts_password_modified']);
+
+        $sessionAuth = new SessionAuth(new MockUsersModel($user));
+        $result = $sessionAuth->authenticate();
+
+        $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
     }
 
     private function initializeRequest($userAgent)
@@ -136,10 +153,19 @@ class SessionAuthTest extends IntegrationTestCase
 
 class MockUsersModel extends UsersModel
 {
+    /**
+     * @var array
+     */
+    private $userData;
+
+    public function __construct(array $userData)
+    {
+        parent::__construct();
+        $this->userData = $userData;
+    }
+
     public function getUser($userLogin)
     {
-        return [
-            'login' => 'wronguser',
-        ];
+        return $this->userData;
     }
 }

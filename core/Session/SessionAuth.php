@@ -97,7 +97,7 @@ class SessionAuth implements Auth
             return $this->makeAuthFailure();
         }
 
-        $tsPasswordModified = !empty($user['ts_password_modified']) ? $user['ts_password_modified'] : 0;
+        $tsPasswordModified = !empty($user['ts_password_modified']) ? $user['ts_password_modified'] : null;
         if ($this->isSessionStartedBeforePasswordChange($sessionFingerprint, $tsPasswordModified)) {
             $this->destroyCurrentSession($sessionFingerprint);
             return $this->makeAuthFailure();
@@ -108,6 +108,11 @@ class SessionAuth implements Auth
 
     private function isSessionStartedBeforePasswordChange(SessionFingerprint $sessionFingerprint, $tsPasswordModified)
     {
+        // sanity check, make sure users can still login if the ts_password_modified column does not exist
+        if ($tsPasswordModified === null) {
+            return false;
+        }
+
         // if the session start time doesn't exist for some reason, log the user out
         $sessionStartTime = $sessionFingerprint->getSessionStartTime();
         if (empty($sessionStartTime)) {
