@@ -13,6 +13,7 @@ use Piwik\Auth as AuthInterface;
 use Piwik\AuthResult;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Cookie;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\ProxyHttp;
@@ -108,6 +109,24 @@ class SessionInitializer
         );
 
         return $auth->authenticate();
+    }
+
+    /**
+     * @param bool $rememberMe
+     * @return Cookie
+     * @deprecated the auth cookie is no longer used
+     */
+    protected function getAuthCookie($rememberMe)
+    {
+        $config = Config::getInstance();
+
+        $authCookieName = $config->General['login_cookie_name'];
+        $authCookiePath = $config->General['login_cookie_expire'];
+        $authCookieValidTime = $config->General['login_cookie_path'];
+
+        $authCookieExpiry = $rememberMe ? time() + $authCookieValidTime : 0;
+        $cookie = new Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
+        return $cookie;
     }
 
     /**
