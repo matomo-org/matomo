@@ -16,6 +16,7 @@ use Piwik\Session\SessionFingerprint;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 class SessionAuthTest extends IntegrationTestCase
 {
@@ -99,6 +100,17 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEmpty($_SESSION);
     }
 
+    public function test_authenticate_ReturnsFailure_IfUsersModelReturnsIncorrectUser()
+    {
+        $this->initializeSession(self::TEST_IP, self::TEST_UA, self::TEST_OTHER_USER);
+        $this->initializeRequest(self::TEST_IP, self::TEST_UA);
+
+        $sessionAuth = new SessionAuth(new MockUsersModel());
+        $result = $sessionAuth->authenticate();
+
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
     private function initializeRequest($ip, $userAgent)
     {
         $_SERVER['REMOTE_ADDR'] = $ip;
@@ -129,6 +141,16 @@ class SessionAuthTest extends IntegrationTestCase
         return [
             SessionAuth::class => \DI\object()
                 ->constructorParameter('shouldDestroySession', false),
+        ];
+    }
+}
+
+class MockUsersModel extends UsersModel
+{
+    public function getUser($userLogin)
+    {
+        return [
+            'login' => 'wronguser',
         ];
     }
 }

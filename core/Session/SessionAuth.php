@@ -29,8 +29,14 @@ class SessionAuth implements Auth
      */
     private $shouldDestroySession;
 
-    public function __construct($shouldDestroySession = true)
+    /**
+     * @var UsersModel
+     */
+    private $userModel;
+
+    public function __construct(UsersModel $userModel = null, $shouldDestroySession = true)
     {
+        $this->userModel = $userModel ?: new UsersModel();
         $this->shouldDestroySession = $shouldDestroySession;
     }
 
@@ -72,7 +78,7 @@ class SessionAuth implements Auth
     public function authenticate()
     {
         $sessionFingerprint = new SessionFingerprint();
-        $userModel = new UsersModel();
+        $userModel = $this->userModel;
 
         $userForSession = $sessionFingerprint->getUser();
         if (empty($userForSession)) {
@@ -80,7 +86,9 @@ class SessionAuth implements Auth
         }
 
         $user = $userModel->getUser($userForSession);
-        if (empty($user)) {
+        if (empty($user)
+            || $user['login'] !== $userForSession // sanity check in case there's a bug in getUser()
+        ) {
             return $this->makeAuthFailure();
         }
 
