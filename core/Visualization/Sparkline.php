@@ -51,11 +51,12 @@ class Sparkline implements ViewInterface
     public function main() {
 
         $sparkline = new \Davaxi\Sparkline();
-        $sparkline->setWidth($this->getWidth());
-        $sparkline->setHeight($this->getHeight());
+        $sparkline->setWidth($this->getWidth() - 10);
+        $sparkline->setHeight($this->getHeight() - 10);
         $this->setSparklineColors($sparkline);
         $sparkline->setLineThickness(3);
-        $sparkline->setDotRadius(10);
+        $sparkline->setDotRadius(5);
+        $sparkline->setPadding(5);
         $sparkline->setTopOffset(5);
 
         $seconds = Piwik::translate('Intl_NSecondsShort');
@@ -126,22 +127,34 @@ class Sparkline implements ViewInterface
         if (empty($colors)) { // quick fix so row evolution sparklines will have color in widgetize's iframes
             $colors = array(
                 'backgroundColor' => '#ffffff',
-                'lineColor' => '#d4291f',
+                'lineColor' => '#162C4A',
                 'minPointColor' => '#ff7f7f',
                 'maxPointColor' => '#75BF7C',
+                'lastPointColor' => '#55AAFF',
                 'fillColor' => '#fce8e7'
             );
         }
 
-        if ($colors['backgroundColor'] and strtolower($colors['backgroundColor']) !== '#ffffff') {
+        if (strtolower($colors['backgroundColor']) !== '#ffffff') {
             $sparkline->setBackgroundColorHex($colors['backgroundColor']);
         } else {
             $sparkline->deactivateBackgroundColor();
         }
         $sparkline->setLineColorHex($colors['lineColor']);
-        $sparkline->setFillColorHex($colors['fillColor']);
-        $sparkline->setMinimumColorHex($colors["minPointColor"]);
-        $sparkline->setMaximumColorHex($colors["maxPointColor"]);
+        if (strtolower($colors['fillColor'] !== "#ffffff")) {
+            $sparkline->setFillColorHex($colors['fillColor']);
+        } else {
+            $sparkline->deactivateFillColor();
+        }
+        if (strtolower($colors['minPointColor'] !== "#ffffff")) {
+            $sparkline->setMinimumColorHex($colors['minPointColor']);
+        }
+        if (strtolower($colors['maxPointColor'] !== "#ffffff")) {
+            $sparkline->setMaximumColorHex($colors['maxPointColor']);
+        }
+        if (strtolower($colors['lastPointColor'] !== "#ffffff")) {
+            $sparkline->setLastPointColorHex($colors['lastPointColor']);
+        }
     }
 
     public function render() {

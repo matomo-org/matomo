@@ -7,7 +7,7 @@
 
 (function ($) {
 
-var sparklineColorNames = ['backgroundColor', 'lineColor', 'minPointColor', 'maxPointColor', 'fillColor'];
+var sparklineColorNames = ['backgroundColor', 'lineColor', 'minPointColor', 'maxPointColor', 'lastPointColor', 'fillColor'];
 
 var sparklineDisplayHeight = 25;
 var sparklineDisplayWidth = 100;

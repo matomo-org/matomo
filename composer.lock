@@ -3228,6 +3228,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "davaxi/sparkline": 20,
         "facebook/xhprof": 20
     },
     "prefer-stable": false,
