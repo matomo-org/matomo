@@ -666,7 +666,7 @@ class API extends \Piwik\Plugin\API
         $segmentsNeedActionsInfo = array('visitConvertedGoalId',
             'pageUrl', 'pageTitle', 'siteSearchKeyword',
             'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
-            'outlinkUrl', 'downloadUrl'
+            'outlinkUrl', 'downloadUrl', 'eventUrl'
         );
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
         $isEventSegment = stripos($segmentName, 'event') !== false;
