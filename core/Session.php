@@ -158,4 +158,9 @@ class Session extends Zend_Session
     {
         parent::writeClose();
     }
+
+    public static function isSessionStarted()
+    {
+        return self::$sessionStarted;
+    }
 }

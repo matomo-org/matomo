@@ -379,11 +379,7 @@ class FrontController extends Singleton
             $action = Common::getRequestVar('action', false);
         }
 
-        if (SettingsPiwik::isPiwikInstalled()
-            && ($module !== 'API' || ($action && $action !== 'index'))
-        ) {
-            Session::start();
-
+        if (Session::isSessionStarted()) {
             $this->closeSessionEarlyForFasterUI();
         }
 
@@ -588,12 +584,15 @@ class FrontController extends Singleton
 
     private function makeAuthenticator()
     {
-        // if the session cookie exists in this request, validate the session instead of trying to
-        // authenticate the request.
-        $sessionAuthCookieFactory = StaticContainer::get(SessionAuthCookieFactory::class);
-        if ($sessionAuthCookieFactory->isCookieInRequest()) {
-            Session::start();
+        $module = Common::getRequestVar('module', self::DEFAULT_MODULE, 'string');
+        $action = Common::getRequestVar('action', false);
 
+        // the session must be started before using the session authenticator,
+        // so we do it here, if this is not an API request.
+        if (SettingsPiwik::isPiwikInstalled()
+            && ($module !== 'API' || ($action && $action !== 'index'))
+        ) {
+            Session::start();
             return StaticContainer::get(SessionAuth::class);
         }
 
