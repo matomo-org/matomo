@@ -275,17 +275,28 @@ class ManySitesImportedLogs extends Fixture
     private function replayLogFile($additonalOptions = array())
     {
         $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_replay.log';
+        $logFileWithHost = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_replay_host.log';
 
         $opts = array('--login'                     => 'superUserLogin',
                       '--password'                  => 'superUserPass',
                       '--recorders'                 => '1',
                       '--recorder-max-payload-size' => '1',
                       '--replay-tracking'           => false,
-                      '--exclude-older-than' => '2012-01-01 08:10:39 +0000');
+                      '--exclude-older-than' => '2012-01-01 08:10:39 +0000',
+                      '--exclude-host' => ['excluded.com']);
 
         $opts = array_merge($opts, $additonalOptions);
 
-        self::executeLogImporter($logFile, $opts);
+        $output = self::executeLogImporter($logFile, $opts);
+        $output = implode("\n", $output);
+
+        $this->assertContains('1 filtered log lines', $output);
+
+        // test that correct logs are excluded when the host is in the log file
+        $output = self::executeLogImporter($logFileWithHost, $opts);
+        $output = implode("\n", $output);
+
+        $this->assertContains('2 filtered log lines', $output);
     }
 
     /**
