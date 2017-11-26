@@ -111,6 +111,26 @@ class API extends \Piwik\Plugin\API
     public function getModel($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable('DevicesDetection_models', $idSite, $period, $date, $segment);
+
+        $dataTable->filter(function (DataTable $table) {
+            foreach ($table->getRowsWithoutSummaryRow() as $row) {
+
+                $label = $row->getColumn('label');
+
+                if (strpos($label, ';') !== false) {
+                    list($brand, $model) = explode(';', $label, 2);
+                    $brand = getDeviceBrandLabel($brand);
+                } else {
+                    $brand = null;
+                    $model = $label;
+                }
+
+                $segment = sprintf('deviceBrand==%s;deviceModel==%s', urlencode($brand), urlencode($model));
+
+                $row->setMetadata('segment', $segment);
+            }
+        });
+
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getModelName'));
         return $dataTable;
     }
