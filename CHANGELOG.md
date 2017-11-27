@@ -9,6 +9,7 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
 ### New APIs
  * Themes can now customize the header text color using `@theme-color-header-text`
  * New event `Widgetize.shouldEmbedIframeEmpty` added so plugins can optionally define the output of the widgetized HTML themselves
+ * New events added to add and filter visitor details: `Live.addProfileSummaries` and `Live.filterProfileSummaries`
 
 ## Piwik 3.2.0
 
