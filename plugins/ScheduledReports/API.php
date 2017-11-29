@@ -26,10 +26,8 @@ use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\ReportRenderer;
 use Piwik\Site;
-use Piwik\Tracker;
 use Piwik\Translate;
 use Piwik\Translation\Translator;
-use Piwik\Url;
 use Psr\Log\LoggerInterface;
 
 /**

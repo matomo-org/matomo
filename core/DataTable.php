@@ -1227,6 +1227,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @param int $maximumRowsInDataTable If not null, defines the maximum number of rows allowed in the serialized DataTable.
      * @param int $maximumRowsInSubDataTable If not null, defines the maximum number of rows allowed in serialized subtables.
      * @param string $columnToSortByBeforeTruncation The column to sort by before truncating, eg, `Metrics::INDEX_NB_VISITS`.
+     * @param array $aSerializedDataTable Will contain all the output arrays
      * @return array The array of serialized DataTables:
      *
      *                   array(
@@ -1244,7 +1245,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     public function getSerialized($maximumRowsInDataTable = null,
                                   $maximumRowsInSubDataTable = null,
-                                  $columnToSortByBeforeTruncation = null)
+                                  $columnToSortByBeforeTruncation = null,
+                                  &$aSerializedDataTable = array())
     {
         static $depth = 0;
         // make sure subtableIds are consecutive from 1 to N
@@ -1270,13 +1272,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // For each row, get the serialized row
         // If it is associated to a sub table, get the serialized table recursively ;
         // but returns all serialized tables and subtable in an array of 1 dimension
-        $aSerializedDataTable = array();
         foreach ($this->rows as $id => $row) {
             $subTable = $row->getSubtable();
             if ($subTable) {
                 $consecutiveSubtableIds[$id] = ++$subtableId;
                 $depth++;
-                $aSerializedDataTable = $aSerializedDataTable + $subTable->getSerialized($maximumRowsInSubDataTable, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
+                $subTable->getSerialized($maximumRowsInSubDataTable, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation, $aSerializedDataTable);
                 $depth--;
             } else {
                 $row->removeSubtable();
@@ -1292,7 +1293,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         // we then serialize the rows and store them in the serialized dataTable
         $rows = array();
         foreach ($this->rows as $id => $row) {
-            if (array_key_exists($id, $consecutiveSubtableIds)) {
+            if (isset($consecutiveSubtableIds[$id])) {
                 $backup = $row->subtableId;
                 $row->subtableId = $consecutiveSubtableIds[$id];
                 $rows[$id] = $row->export();

@@ -4,12 +4,19 @@ This is the Developer Changelog for Piwik platform developers. All changes in ou
 
 The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Piwik 3.2.1
+
+### New APIs
+ * Themes can now customize the header text color using `@theme-color-header-text`
+ * New event `Widgetize.shouldEmbedIframeEmpty` added so plugins can optionally define the output of the widgetized HTML themselves
+ * New events added to add and filter visitor details: `Live.addProfileSummaries` and `Live.filterProfileSummaries`
+
 ## Piwik 3.2.0
 
 ### New Segments
 * New Segment added: `visitStartServerMinute` for Server time - minute (Start of visit)
 * New Segment added: `visitEndServerMinute` for Server time - minute (End of visit)
-
+* New events added to add and filter visitor details: `Live.addVisitorDetails` and `Live.filterVisitorDetails`
 
 ### New APIs
 * Reports and visualizations can now hide the export icons with a new property `$view->config->show_export`.
@@ -22,6 +29,9 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
  * `Piwik\Columns\MetricsList` Holds a list of all available metrics
  * `Piwik\Columns\ComputedMetricFactory` Can be used to create computed metrics
  * `Piwik\Columns\DimensionMetricFactory` Can be used to create metrics directly within a dimension
+
+### New Features
+* New config.ini.php setting `show_update_notification_to_superusers_only` makes it possible to hide update notifications for all users except of superusers
 
 ## Piwik 3.1.0
 
