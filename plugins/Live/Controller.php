@@ -228,10 +228,41 @@ class Controller extends \Piwik\Plugin\Controller
         if (!$cache->contains($cacheId)) {
             $instances = [];
 
+            /**
+             * Triggered to add new live profile summaries.
+             *
+             * **Example**
+             *
+             *     public function addProfileSummary(&$profileSummaries)
+             *     {
+             *         $profileSummaries[] = new MyCustomProfileSummary();
+             *     }
+             *
+             * @param ProfileSummaryAbstract[] $profileSummaries An array of profile summaries
+             */
+            Piwik::postEvent('Live.addProfileSummaries', array(&$instances));
+
             foreach (self::getAllProfileSummaryClasses() as $className) {
-                $instance = new $className();
-                $instances[] = $instance;
+                $instances[] = new $className();
             }
+
+            /**
+             * Triggered to filter / restrict profile summaries.
+             *
+             * **Example**
+             *
+             *     public function filterProfileSummary(&$profileSummaries)
+             *     {
+             *         foreach ($profileSummaries as $index => $profileSummary) {
+             *              if ($profileSummary->getId() === 'myid') {}
+             *                  unset($profileSummaries[$index]); // remove all summaries having this ID
+             *              }
+             *         }
+             *     }
+             *
+             * @param ProfileSummaryAbstract[] $profileSummaries An array of profile summaries
+             */
+            Piwik::postEvent('Live.filterProfileSummaries', array(&$instances));
 
             $cache->save($cacheId, $instances);
         }

@@ -38,7 +38,11 @@
     </h2>
 
     <p style='{{styleParagraph}}{{fontStyle}}'>
+        {% if isAttachedFile is defined and isAttachedFile %}
+        {{ 'ScheduledReports_PleaseFindAttachedFile'|translate(frequency, reportTitle) }}
+        {% else %}
         {{'ScheduledReports_PleaseFindBelow'|translate(period,reportTitle)}}
+        {% endif %}
         <br />{{ description }}
         <br />{{ 'General_DateRange'|translate }} {{ prettyDate }}
         <br />{{ 'ScheduledReports_SentFromX'|translate(piwikUrl) }}
