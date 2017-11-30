@@ -8,6 +8,9 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
+use CpChart\Chart\Data;
+use Piwik\DataTable;
+use Piwik\Date;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -18,6 +21,8 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class PrivacyManagerTest extends IntegrationTestCase
 {
+    const DELETE_LOGS_OLDER_THAN = 270;
+
     /**
      * @var PrivacyManager
      */
@@ -29,8 +34,15 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         $this->manager = new PrivacyManager();
         \Piwik\Option::set('delete_logs_enable', 1);
-        \Piwik\Option::set('delete_logs_older_than', 270);
+        \Piwik\Option::set('delete_logs_older_than', self::DELETE_LOGS_OLDER_THAN);
         \Piwik\Option::set('delete_reports_keep_week_reports', 1);
+    }
+
+    public function tearDown()
+    {
+        unset($_GET['date']);
+        unset($_GET['period']);
+        parent::tearDown();
     }
 
     public function test_getPurgeDataSettings_shouldUseOnlyConfigValuesIfUIisDisabled()
@@ -51,10 +63,78 @@ class PrivacyManagerTest extends IntegrationTestCase
         $expected = $this->getDefaultPurgeSettings();
 
         $expected['delete_logs_enable'] = 1;
-        $expected['delete_logs_older_than'] = 270;
+        $expected['delete_logs_older_than'] = self::DELETE_LOGS_OLDER_THAN;
         $expected['delete_reports_keep_week_reports'] = 1;
 
         $this->assertEquals($expected, $settings);
+    }
+
+    public function test_haveLogsBeenPurged_whenDateIsRecent()
+    {
+        $this->setUIEnabled(true);
+        $_GET['date'] = Date::now()->subDay(self::DELETE_LOGS_OLDER_THAN - 2)->toString();
+        $_GET['period'] = 'date';
+
+        $this->assertFalse(PrivacyManager::haveLogsBeenPurged($dataTable = null));
+    }
+
+    public function test_haveLogsBeenPurged_whenDateIsPastLogDeleteAndNoDataTableIsGiven()
+    {
+        $this->setUIEnabled(true);
+        $_GET['date'] = Date::now()->subDay(self::DELETE_LOGS_OLDER_THAN + 2)->toString();
+        $_GET['period'] = 'date';
+
+        $this->assertTrue(PrivacyManager::haveLogsBeenPurged($dataTable = null));
+    }
+
+    public function test_haveLogsBeenPurged_whenDateIsPastLogDeleteButLogsAreDisabled()
+    {
+        $this->setUIEnabled(true);
+        \Piwik\Option::set('delete_logs_enable', 0);
+
+        $_GET['date'] = Date::now()->subDay(self::DELETE_LOGS_OLDER_THAN + 1000)->toString();
+        $_GET['period'] = 'date';
+
+        $this->assertFalse(PrivacyManager::haveLogsBeenPurged($dataTable = null));
+    }
+
+    public function test_haveLogsBeenPurged_whenDateIsPastLogDeleteShouldNotBeDeletedIfDataTableHasData()
+    {
+        $this->setUIEnabled(true);
+        $_GET['date'] = Date::now()->subDay(self::DELETE_LOGS_OLDER_THAN + 2)->toString();
+        $_GET['period'] = 'date';
+
+        $dataTable = DataTable::makeFromSimpleArray(array(
+            array('label' => 'myLabel'),
+            array('label' => 'my2ndLabel'),
+        ));
+        $this->assertFalse(PrivacyManager::haveLogsBeenPurged($dataTable));
+    }
+
+    public function test_haveLogsBeenPurged_whenDateIsPastLogDeleteShouldBeDeletedIfDataTableHasNoData()
+    {
+        $this->setUIEnabled(true);
+        $_GET['date'] = Date::now()->subDay(self::DELETE_LOGS_OLDER_THAN + 2)->toString();
+        $_GET['period'] = 'date';
+
+        $dataTable = new DataTable();
+        $this->assertTrue(PrivacyManager::haveLogsBeenPurged($dataTable));
+    }
+
+    public function test_haveLogsBeenPurged_whenPassingManualLogDeletionDateValue_shouldAssumeLogDeletionIsEnabled()
+    {
+        $this->setUIEnabled(true);
+        \Piwik\Option::set('delete_logs_enable', 0);
+
+        $_GET['date'] = Date::now()->subDay(498)->toString();
+        $_GET['period'] = 'date';
+
+        $this->assertFalse(PrivacyManager::haveLogsBeenPurged($dataTable = null, $days = 500));
+
+        $_GET['date'] = Date::now()->subDay(502)->toString();
+        $_GET['period'] = 'date';
+
+        $this->assertTrue(PrivacyManager::haveLogsBeenPurged($dataTable = null, $days = 500));
     }
 
     private function setUIEnabled($enabled)
