@@ -180,7 +180,7 @@ class TableLogAction
             $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE type = ' . $actionType . ' )';
         } else {
             $actionType = self::guessActionTypeFromSegment($segmentName);
-            if ($actionType == Action::TYPE_PAGE_URL) {
+            if ($actionType == Action::TYPE_PAGE_URL || $segmentName == 'eventUrl') {
                 // for urls trim protocol and www because it is not recorded in the db
                 $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
             }
