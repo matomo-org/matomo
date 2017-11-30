@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\CoreHome;
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\MetricsList;
+use Piwik\IP;
+use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 
@@ -34,8 +36,25 @@ class CoreHome extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.filterMergedJavaScripts'   => 'filterMergedJavaScripts',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Metric.addComputedMetrics'              => 'addComputedMetrics'
+            'Metric.addComputedMetrics'              => 'addComputedMetrics',
+            'Request.initAuthenticationObject' => 'initAuthenticationObject',
         );
+    }
+
+    public function initAuthenticationObject()
+    {
+        $isApi = Piwik::getModule() === 'API' && (Piwik::getAction() == '' || Piwik::getAction() == 'index');
+
+        if ($isApi) {
+            // will be checked in API itself to make sure we return an API response in the proper format.
+            return;
+        }
+
+        $whitelist = new LoginWhitelist();
+        if ($whitelist->shouldCheckWhitelist()) {
+            $ip = IP::getIpFromHeader();
+            $whitelist->checkIsWhitelisted($ip);
+        }
     }
 
     public function addComputedMetrics(MetricsList $list, ComputedMetricFactory $computedMetricFactory)
