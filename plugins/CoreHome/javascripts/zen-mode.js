@@ -14,7 +14,7 @@ $(function () {
             }
         }
 
-        Mousetrap.bind('z', function (event) {
+        piwikHelper.registerShortcut('z', _pk_translate('CoreHome_ShortcutZenMode'), function (event) {
             if (event.altKey) {
                 return;
             }

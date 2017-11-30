@@ -7,9 +7,12 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
 ## Piwik 3.2.1
 
 ### New APIs
+
+### New Features
  * Themes can now customize the header text color using `@theme-color-header-text`
  * New event `Widgetize.shouldEmbedIframeEmpty` added so plugins can optionally define the output of the widgetized HTML themselves
  * New events added to add and filter visitor details: `Live.addProfileSummaries` and `Live.filterProfileSummaries`
+ * New JavaScript method `piwikHelper.registerShortcut` allows plugins to bind keyboard shortcuts. A summary for available shortcuts will be shown by pressing `?`
 
 ## Piwik 3.2.0
 

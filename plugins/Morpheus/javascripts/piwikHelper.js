@@ -464,14 +464,28 @@ var piwikHelper = {
      * @param {string} textareaContent
      * @return {string}
      */
-    getApiFormatTextarea: function (textareaContent)
-    {
-        if(typeof textareaContent == 'undefined') {
+    getApiFormatTextarea: function (textareaContent) {
+        if (typeof textareaContent == 'undefined') {
             return '';
         }
         return textareaContent.trim().split("\n").join(',');
-    }
+    },
 
+    shortcuts: {},
+
+    /**
+     * Register a shortcut
+     *
+     * @param {string} key key-stroke to be registered for this shortcut
+     * @param {string } description  description to be shown in summary
+     * @param callback method called when pressing the key
+     */
+    registerShortcut: function(key, description, callback) {
+
+        piwikHelper.shortcuts[key] = description;
+
+        Mousetrap.bind(key, callback);
+    }
 };
 
 String.prototype.trim = function() {
