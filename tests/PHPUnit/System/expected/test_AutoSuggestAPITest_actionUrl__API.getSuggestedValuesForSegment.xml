@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<row>http://piwik.net/grue/lair</row>
 	<row>http://piwik.net/space/quest/iv</row>
-	<row>http://example-outlink.org/1.html</row>
+	<row>http://piwik.net/grue/lair</row>
 	<row>http://example.org/path/file1.zip</row>
 	<row>http://example.org/path/file0.zip</row>
+	<row>http://example-outlink.org/1.html</row>
 	<row>http://example-outlink.org/0.html</row>
-	<row>http://example.org/path/file2.zip</row>
-	<row>http://example.org/path/file3.zip</row>
 	<row>http://example-outlink.org/3.html</row>
+	<row>http://example.org/path/file3.zip</row>
 	<row>http://example-outlink.org/2.html</row>
-	<row>http://example.org/path/file4.zip</row>
-	<row>http://example.org/path/file5.zip</row>
-	<row>http://example.org/path/file8.zip</row>
-	<row>http://example-outlink.org/6.html</row>
+	<row>http://example.org/path/file2.zip</row>
 	<row>http://example-outlink.org/7.html</row>
-	<row>http://example-outlink.org/5.html</row>
-	<row>http://example-outlink.org/4.html</row>
-	<row>http://example.org/path/file7.zip</row>
 	<row>http://example-outlink.org/8.html</row>
+	<row>http://example.org/path/file4.zip</row>
+	<row>http://example-outlink.org/6.html</row>
 	<row>http://example.org/path/file6.zip</row>
+	<row>http://example-outlink.org/4.html</row>
+	<row>http://example-outlink.org/5.html</row>
+	<row>http://example.org/path/file8.zip</row>
+	<row>http://example.org/path/file7.zip</row>
+	<row>http://example.org/path/file5.zip</row>
 </result>

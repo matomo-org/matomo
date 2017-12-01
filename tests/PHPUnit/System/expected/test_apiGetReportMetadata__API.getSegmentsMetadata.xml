@@ -460,6 +460,7 @@
 			<row>pageUrl</row>
 			<row>downloadUrl</row>
 			<row>outlinkUrl</row>
+			<row>eventUrl</row>
 		</unionOfSegments>
 	</row>
 	<row>
@@ -575,6 +576,13 @@
 		<category>Events</category>
 		<name>Event Name</name>
 		<segment>eventName</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Events</category>
+		<name>Event URL</name>
+		<segment>eventUrl</segment>
+		<acceptedValues>The URL must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
