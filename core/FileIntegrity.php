@@ -170,7 +170,8 @@ class FileIntegrity
         $directoriesFoundButNotExpected = array();
 
         foreach (self::getPathsToInvestigate() as $file) {
-            $file = substr($file, 2); // remove starting characters ./ to match format in manifest.inc.php
+            $file = substr($file, strlen(PIWIK_DOCUMENT_ROOT)); // remove piwik path to match format in manifest.inc.php
+            $file = ltrim($file, DIRECTORY_SEPARATOR);
             $directory = dirname($file);
 
             if(in_array($directory, $directoriesInManifest)) {
@@ -208,7 +209,8 @@ class FileIntegrity
             if (is_dir($file)) {
                 continue;
             }
-            $file = substr($file, 2); // remove starting characters ./ to match format in manifest.inc.php
+            $file = substr($file, strlen(PIWIK_DOCUMENT_ROOT)); // remove piwik path to match format in manifest.inc.php
+            $file = ltrim($file, DIRECTORY_SEPARATOR);
 
             if (self::isFileFromPluginNotInManifest($file, $pluginsInManifest)) {
                 continue;
