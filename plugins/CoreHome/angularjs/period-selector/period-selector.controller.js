@@ -84,9 +84,13 @@
             vm.periodValue = strPeriod;
             vm.selectedPeriod = strPeriod;
 
+            vm.dateValue = vm.startRangeDate = vm.endRangeDate = null;
+
             if (strPeriod === 'range') {
                 var period = piwikPeriods.get(strPeriod).parse(strDate);
                 vm.dateValue = period.startDate;
+                vm.startRangeDate = formatDate(period.startDate);
+                vm.endRangeDate = formatDate(period.endDate);
             } else {
                 vm.dateValue = piwikPeriods.parseDate(strDate);
                 setRangeStartEndFromPeriod(strPeriod, strDate);

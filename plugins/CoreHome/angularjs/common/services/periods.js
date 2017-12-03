@@ -181,8 +181,8 @@
             dates = getLastNRange(strDate.substring(4), 0);
         } else {
             var parts = strDate.split(',');
-            dates[0] = $.datepicker.parseDate('yy-mm-dd', parts[0]);
-            dates[1] = $.datepicker.parseDate('yy-mm-dd', parts[1]);
+            dates[0] = parseDate(parts[0]);
+            dates[1] = parseDate(parts[1]);
         }
 
         return new RangePeriod(dates[0], dates[1]);
@@ -280,7 +280,13 @@
             return yesterday;
         }
 
-        return $.datepicker.parseDate('yy-mm-dd', strDate);
+        try {
+            return $.datepicker.parseDate('yy-mm-dd', strDate);
+        } catch (err) {
+            // angular swallows this error, so manual console log here
+            console.error(err.message || err);
+            throw err;
+        }
     }
 
     function getToday() {
