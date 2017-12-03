@@ -85,11 +85,8 @@
             vm.selectedPeriod = strPeriod;
 
             if (strPeriod === 'range') {
-                var parts = strDate.split(',');
-                vm.startRangeDate = parts[0];
-                vm.endRangeDate = parts[1];
-
-                vm.dateValue = piwikPeriods.parseDate(parts[0]);
+                var period = piwikPeriods.get(strPeriod).parse(strDate);
+                vm.dateValue = period.startDate;
             } else {
                 vm.dateValue = piwikPeriods.parseDate(strDate);
                 setRangeStartEndFromPeriod(strPeriod, strDate);
@@ -118,7 +115,11 @@
                 date = formatDate(vm.dateValue);
             }
 
-            return piwikPeriods.parse(vm.periodValue, date).getPrettyString();
+            try {
+                return piwikPeriods.parse(vm.periodValue, date).getPrettyString();
+            } catch (e) {
+                return _pk_translate('General_Error');
+            }
         }
 
         function changeViewedPeriod(period) {
