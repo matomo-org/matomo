@@ -31,6 +31,16 @@
 
             piwik.period = period;
 
+            var dateRange = piwikPeriods.parse(period, date).getDateRange();
+            piwik.startDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[0]);
+            piwik.endDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
+
+            // do not set anything to previous7/last7, as piwik frontend code does not
+            // expect those values.
+            if (piwik.period === 'range') {
+                date = piwik.startDateString + ',' + piwik.endDateString;
+            }
+
             if (date && date.indexOf(',') > -1) {
                 var dateParts = date.split(',');
                 if (dateParts[1]) {
@@ -41,10 +51,6 @@
             } else {
                 piwik.currentDateString = date;
             }
-
-            var dateRange = piwikPeriods.parse(period, date).getDateRange();
-            piwik.startDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[0]);
-            piwik.endDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
         }
 
         function isValidPeriod(periodStr, dateStr) {
