@@ -37,8 +37,7 @@
         vm.$onChanges = $onChanges;
         vm.onRangeChange = onRangeChange;
         vm.isApplyEnabled = isApplyEnabled;
-
-        init();
+        vm.$onInit = init;
 
         function init() {
             vm.updateSelectedValuesFromHash();
