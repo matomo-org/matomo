@@ -173,11 +173,34 @@
     }
 
     RangePeriod.parse = function parseRangePeriod(strDate) {
-        var parts = strDate.split(',');
-        var start = $.datepicker.parseDate('yy-mm-dd', parts[0]);
-        var end = $.datepicker.parseDate('yy-mm-dd', parts[1]);
+        var dates = [];
 
-        return new RangePeriod(start, end);
+        if (/^previous/.test(strDate)) {
+            dates = getLastNRange(strDate.substring(8), 1);
+        } else if (/^last/.test(strDate)) {
+            dates = getLastNRange(strDate.substring(4), 0);
+        } else {
+            var parts = strDate.split(',');
+            dates[0] = parseDate(parts[0]);
+            dates[1] = parseDate(parts[1]);
+        }
+
+        return new RangePeriod(dates[0], dates[1]);
+
+        function getLastNRange(strAmount, extraDaysStart) {
+            var nAmount = Math.max(parseInt(strAmount) - 1, 0);
+            if (isNaN(nAmount)) {
+                throw new Error('Invalid range date: ' + strDate);
+            }
+
+            var endDate = getToday();
+            endDate.setDate(endDate.getDate() - extraDaysStart);
+
+            var startDate = new Date(endDate.getTime());
+            startDate.setDate(startDate.getDate() - nAmount);
+
+            return [startDate, endDate];
+        }
     };
 
     RangePeriod.getDisplayText = function () {
@@ -257,7 +280,13 @@
             return yesterday;
         }
 
-        return $.datepicker.parseDate('yy-mm-dd', strDate);
+        try {
+            return $.datepicker.parseDate('yy-mm-dd', strDate);
+        } catch (err) {
+            // angular swallows this error, so manual console log here
+            console.error(err.message || err);
+            throw err;
+        }
     }
 
     function getToday() {

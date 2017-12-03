@@ -37,8 +37,7 @@
         vm.$onChanges = $onChanges;
         vm.onRangeChange = onRangeChange;
         vm.isApplyEnabled = isApplyEnabled;
-
-        init();
+        vm.$onInit = init;
 
         function init() {
             vm.updateSelectedValuesFromHash();
@@ -85,12 +84,13 @@
             vm.periodValue = strPeriod;
             vm.selectedPeriod = strPeriod;
 
-            if (strPeriod === 'range') {
-                var parts = strDate.split(',');
-                vm.startRangeDate = parts[0];
-                vm.endRangeDate = parts[1];
+            vm.dateValue = vm.startRangeDate = vm.endRangeDate = null;
 
-                vm.dateValue = piwikPeriods.parseDate(parts[0]);
+            if (strPeriod === 'range') {
+                var period = piwikPeriods.get(strPeriod).parse(strDate);
+                vm.dateValue = period.startDate;
+                vm.startRangeDate = formatDate(period.startDate);
+                vm.endRangeDate = formatDate(period.endDate);
             } else {
                 vm.dateValue = piwikPeriods.parseDate(strDate);
                 setRangeStartEndFromPeriod(strPeriod, strDate);
@@ -119,7 +119,11 @@
                 date = formatDate(vm.dateValue);
             }
 
-            return piwikPeriods.parse(vm.periodValue, date).getPrettyString();
+            try {
+                return piwikPeriods.parse(vm.periodValue, date).getPrettyString();
+            } catch (e) {
+                return _pk_translate('General_Error');
+            }
         }
 
         function changeViewedPeriod(period) {

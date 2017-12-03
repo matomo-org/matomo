@@ -19,9 +19,7 @@
             var date = piwik.broadcast.getValueFromHash('date');
             var period = piwik.broadcast.getValueFromHash('period');
 
-            if (!piwikPeriods.isRecognizedPeriod(period)
-                || !isValidDateStr(date)
-            ) {
+            if (!isValidPeriod(period, date)) {
                 // invalid data in URL
                 return;
             }
@@ -49,14 +47,9 @@
             piwik.endDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
         }
 
-        function isValidDateStr(dateStr) {
-            if (dateStr.indexOf(',') !== -1) {
-                var dateParts = dateStr.split(',');
-                return isValidDateStr(dateParts[0]) && isValidDateStr(dateParts[1]);
-            }
-
+        function isValidPeriod(periodStr, dateStr) {
             try {
-                piwikPeriods.parseDate(dateStr);
+                piwikPeriods.get(periodStr).parse(dateStr);
                 return true;
             } catch (e) {
                 return false;
