@@ -42,6 +42,7 @@
         "PluginHomepage": "Plugin Hemsida",
         "PluginNotCompatibleWith": "%1$s plugin är inte kompatibelt med %2$s.",
         "PluginNotFound": "Insticksprogrammet %1$s hittades inte i filsystemet.",
+        "PluginNotFoundAlternative": "Om du har använt denna plugin, försök att ladda upp den igen eller installera igen från marknadsplatsen. Om inte så klicka på avinstallera för att ta bort den från listan.",
         "PluginNotWorkingAlternative": "Om du använt det här pluginet, kanske du kan hitta en nyare version i vår butik. Om inte så kanske du vill avinstallera det.",
         "PluginRequirement": "%1$s kräver %2$s",
         "PluginsManagement": "Pluginhantering",
@@ -52,6 +53,8 @@
         "Status": "Status",
         "SuccessfullyActicated": "Du har nu aktiverat <strong>%s<\/strong>.",
         "TeaserExtendPiwik": "Få ut mer av Piwik med plugin och teman",
+        "TeaserExtendPiwikByPlugin": "Utöka Piwik genom att %1$sinstallera plugins från marknadsplatsen%2$s eller %3$sladda upp i zipformat%4$s.",
+        "TeaserExtendPiwikByTheme": "Njut av ett nytt utseende genom att%1$sinstallera ett nytt tema%2$s.",
         "InstallingNewPluginViaMarketplaceOrUpload": "Du kan automatiskt installera plugin från Butiken eller %1$sladda upp en plugin%2$s i .zip format.",
         "Theme": "Tema",
         "Themes": "Teman",
@@ -59,6 +62,7 @@
         "ThemesManagement": "Hantera teman",
         "UninstallConfirm": "Du är påväg att avinstallera ett plugin %s. Pluginet kommer att tas bort helt från din plattform och du kommer inte kunna återställa det. Är du säker på att du vill göra det?",
         "Version": "Version",
+        "ViewAllMarketplacePlugins": "Visa alla plugins på marknadsplatsen",
         "WeCouldNotLoadThePluginAsItHasMissingDependencies": "Insticksprogrammet %1$s kan inte startas eftersom följande viktiga filer saknas: %2$s",
         "Websites": "Webbsidor"
     }

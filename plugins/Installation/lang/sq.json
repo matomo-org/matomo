@@ -99,6 +99,7 @@
         "SystemCheckOtherExtensions": "Zgjerime të tjera",
         "SystemCheckOtherFunctions": "Funksione të tjerë",
         "SystemCheckPageSpeedDisabled": "PageSpeed e çaktivizuar",
+        "SystemCheckPageSpeedWarning": "Këshillojmë të çaktivizohet moduli PageSpeed te shërbyesi juaj web %s: PageSpeed është raportuar si shkaktare e disa problemeve me Piwik-un, të tilla si: raporte të dëmtuar për Faqet, Evolucion Rreshtash të dëmtuar, dhe të tjera probleme me të cilët është e vështirë të merresh. Ju lutemi, çaktivizojeni mod_pagespeed në këtë shërbyes.",
         "SystemCheckPackHelp": "Që të ndiqen vizitorët me Piwik-un, funksioni pack() është i domosdoshëm.",
         "SystemCheckParseIniFileHelp": "Ky funksion i trupëzuar është i çaktivizuar te streha juaj. Piwik-u do të përpiqet ta emulojë këtë funksion por mund të hasë kufizime të mëtejshme sigurie. Nga kjo do të preket edhe punimi i ndjekësit.",
         "SystemCheckPdoAndMysqliHelp": "Në një shërbyes Linux mund ta përpiloni php-në me mundësitë vijuese: %1$s te php.ini juaj, shtoni rreshtat vijues: %2$s",

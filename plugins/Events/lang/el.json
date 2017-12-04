@@ -11,6 +11,8 @@
         "EventCategory": "Κατηγορία Συμβάντος",
         "EventName": "Όνομα Συμβάντος",
         "EventNames": "Ονόματα Συμβάντος",
+        "EventUrl": "URL συμβάντος",
+        "EventUrls": "URL συμβάντων",
         "Events": "Συμβάντα",
         "EventsWithValue": "Γεγονότα με τιμή",
         "EventsWithValueDocumentation": "Αριθμός γεγονότων στα οποία έχει οριστεί μια τιμή",

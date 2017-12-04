@@ -23,6 +23,8 @@
         "HappyAnalysing": "Mutlu incelemeler!",
         "Installation": "Yükleme",
         "InstallationStatus": "Yükleme durumu",
+        "InsufficientPrivilegesHelp": "Bu ayrıcalıkları, phpMyAdmin gibi bir araç kullanarak veya doğru SQL sorgularını yürüterek ekle'yebilirsiniz. Bunları nasıl yapacağınızı bilmiyorsanız, lütfen sistem yetkilinizden bu ayrıcalıkları sizin için vermesini isteyin.",
+        "InsufficientPrivilegesMain": "Veritabanı yok (veya oluşturulamadı) veya belirtilen Kullanıcı yetersiz ayrıcalıklara sahip. Veritabanı kullanıcı'sının aşağıdaki ayrıcalıklara sahip olması gerekir: %s",
         "InvalidStateError": "Hata: Piwik zaten kurulmuş. %1$s Geri dön %2$s Piwik%3$s.",
         "LargePiwikInstances": "Büyük Piwik örnekleri için yardım",
         "Legend": "Gösterge",

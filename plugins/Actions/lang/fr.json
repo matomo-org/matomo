@@ -2,14 +2,18 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Moyenne basée sur %1$s entrée(s) %2$s entre %3$s et %4$s",
         "ColumnClickedURL": "URL cliquées",
+        "ColumnClickedURLs": "URL's cliquées",
         "ColumnActionURL": "URL d'action",
         "ColumnClicks": "Clics",
         "ColumnClicksDocumentation": "Nombre de clics sur ce lien.",
         "ColumnDownloadURL": "URL de téléchargement",
+        "ColumnDownloadURLs": "URL's téléchargées",
         "ColumnEntryPageTitle": "Titre de la page d'entrée",
         "ColumnEntryPageURL": "URL de la page d'entrée",
+        "ColumnEntryPageURLs": "URL's de page d'entrée",
         "ColumnExitPageTitle": "Titre de la page de sortie",
         "ColumnExitPageURL": "URL de la page de sortie",
+        "ColumnExitPageURLs": "URL's de page de sortie",
         "ColumnNoResultKeyword": "Mots-clés sans résultats de recherche",
         "ColumnPageName": "Titre de la page",
         "ColumnPagesPerSearch": "Pages des résultats de la recherche",
@@ -49,7 +53,10 @@
         "SiteSearchCategories2": "Par exemple, les sites d'e-commerce ont généralement une sélection de la catégorie afin que les visiteurs puissent affiner leurs recherches aux produits d'une catégories définie.",
         "SiteSearchFollowingPagesDoc": "Quand les visiteurs recherchent sur votre site web, ils sont à la recherche d'une page, d'un produit, d'un contenu ou service en particulier. Ce rapport liste les pages qui ont été le plus cliquées après une recherche interne. En d'autres termes, la liste des pages les plus recherchées par des visiteurs déjà sur votre site.",
         "SiteSearchIntro": "Effectuer un suivi des recherches que les visiteurs font sur votre site web est une manière très efficace d'en apprendre plus sur ce que votre audience recherche, cela peut aider à trouver des idées pour du nouveau contenu, un nouveau produit e-commerce dont des clients potentiels pourraient être à la recherche, et de manière générale pour améliorer l'expérience utilisateurs de votre site web.",
+        "SiteSearchCategory": "Catégories (recherche du site)",
+        "SiteSearchCategories": "Catégories (recherche du site)",
         "SiteSearchKeyword": "Mot-clé (recherche du site)",
+        "SiteSearchKeywords": "Mots clefs (recherche du site)",
         "SiteSearchKeywordsDocumentation": "Ce rapport liste les mots-clés recherchés dans votre moteur de recherche interne.",
         "SiteSearchKeywordsNoResultDocumentation": "Ce rapport liste les mots-clés de recherche qui n'ont retourné aucun résultat: peut-être est-il possible d'améliorer l'algorithme de recherche, ou peut-être que vos visiteurs cherchent du contenu qui n'est pas (encore) sur votre site web ?",
         "SubmenuPagesEntry": "Pages d'entrée",
@@ -66,6 +73,7 @@
         "WidgetSearchCategories": "Catégories de recherche",
         "WidgetSearchKeywords": "Mot-clés recherchés sur le site",
         "WidgetSearchNoResultKeywords": "Mots-clés sans résultats",
-        "ActionType": "Type d'action"
+        "ActionType": "Type d'action",
+        "ActionTypes": "Types d'action"
     }
 }

@@ -38,6 +38,7 @@
         "ColumnActionsPerVisit": "Händelser per besök",
         "ColumnActionsPerVisitDocumentation": "Det genomsnittliga antalet händelser (sidvisningar, webbplatssökningar, nedladdningar eller utlänkar) som utfördes under besöken.",
         "ColumnAverageGenerationTime": "Genomsnittlig tid för generering",
+        "ColumnViewsWithGenerationTime": "Sidvisningar med skapandetid",
         "ColumnAverageGenerationTimeDocumentation": "Den genomsnittliga tiden det tog att ladda sidan. Det här mätvärdet inkluderar tiden som det tar servern att ladda sidan, plus tiden det tar för servern att visa sidan för besökaren. En låg genomsnittstid här betyder att sidan är snabb!",
         "ColumnAverageTimeOnPage": "Genomsnittlig tid på sidan",
         "ColumnAverageTimeOnPageDocumentation": "Den genomsnittliga tid som besökaren tillbringade på denna sida (bara sidan, inte hela webbplatsen).",

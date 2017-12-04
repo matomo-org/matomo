@@ -33,6 +33,7 @@
         "TopVisitedPages": "Najczęściej odwiedzane strony",
         "VisitorLog": "Log odwiedzających",
         "VisitorLogDocumentation": "Ta tabela prezentuje ostatnie wizyty w wybranym przedziale czasowym. Przesuwając wskaźnik nad wybraną datę wizyty, możesz określić czas ostatniej wizyty odwiedzającego. %1$s Jeśli przedział zawiera dzień dzisiejszy, możesz obserwować odwiedzających w czasie rzeczywistym! %2$s Dane tu wyświetlane są zawsze na żywo, bez względu na to jak często używasz cron'a archiwizującego.",
+        "VisitorLogNoDataMessagePurged": "Najprawdopodobniej dane zostały wykasowane, ponieważ aktywne jest zaplanowane czyszczenie starych logów odwiedzin, a poszukiwana data to ponad %s dni wstecz. Super Użytkownik może zmienić to ustawienia w panelu Zarządzanie > Prywatność.",
         "VisitorProfile": "Profil odwiedzającego",
         "VisitorsInRealTime": "Odwiedzający w czasie rzeczywistym",
         "VisitorsLastVisit": "Ostatnia wizyta tego gościa była %s dni temu.",

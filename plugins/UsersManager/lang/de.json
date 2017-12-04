@@ -3,6 +3,7 @@
         "AddUser": "Einen neuen Benutzer hinzufügen",
         "Alias": "Alias",
         "AllWebsites": "Alle Websites",
+        "AnonymousAccessConfirmation": "Sie sind dabei, anonymen Besuchern Ansichtszugriff für diese Webseite zuzusichern. Das bedeutet, Ihre analytischen Berichte und Ihre Besucherinformationen werden für alle öffentlich sichtbar sein, auch ohne Anmeldung. Sind Sie sicher, dass Sie fortfahren wollen?",
         "AnonymousUser": "Anonymer Nutzer",
         "AnonymousUserHasViewAccess": "Hinweis: Der Benutzer %1$s hat %2$s Zugriff auf diese Website.",
         "AnonymousUserHasViewAccess2": "Ihre Analytiks-Berichte und Besucherinformationen sind öffentlich einsehbar.",

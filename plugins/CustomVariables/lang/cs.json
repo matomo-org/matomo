@@ -6,6 +6,7 @@
         "CustomVariablesReportDocumentation": "Toto hlášení obsahuje informace o vašich vlastních proměnných. Klikněte na proměnnou pro zobrazení distribuce hodnot. %1$s Pro více informací si přečtěte %2$sdokumentaci o vlastních proměnných na piwik.org%3$s",
         "ScopePage": "rozsah stránky",
         "ScopeVisit": "rozsah návštěvy",
+        "ScopeConversion": "rozsah konverze",
         "ManageDescription": "Tento přehled zobrazuje všechny sloty vlastních proměnných a jejich využití pro stránku '%s'. Jména v každém ze slotů jsou seřazena dle jejich celkového využití.",
         "ScopeX": "Rozsah %s",
         "Index": "Index",
