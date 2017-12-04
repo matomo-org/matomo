@@ -39,7 +39,7 @@ class Controller extends \Piwik\Plugin\Controller
     protected $auth;
 
     /**
-     * @var SessionInitializer
+     * @var \Piwik\Session\SessionInitializer
      */
     protected $sessionInitializer;
 
@@ -65,7 +65,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->auth = $auth;
 
         if (empty($sessionInitializer)) {
-            $sessionInitializer = new SessionInitializer();
+            $sessionInitializer = new \Piwik\Session\SessionInitializer();
         }
         $this->sessionInitializer = $sessionInitializer;
     }

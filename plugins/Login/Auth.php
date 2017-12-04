@@ -102,7 +102,7 @@ class Auth implements \Piwik\Auth
 
         if (!empty($user['token_auth'])
             // authenticate either with the token or the "hash token"
-            && ((SessionInitializer::getHashTokenAuth($login, $user['token_auth']) === $token)
+            && ((\Piwik\Session\SessionInitializer::getHashTokenAuth($login, $user['token_auth']) === $token)
                 || $user['token_auth'] === $token)
         ) {
             return $this->authenticationSuccess($user);

@@ -12,24 +12,19 @@ use Exception;
 use Piwik\Auth as AuthInterface;
 use Piwik\AuthResult;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
+use Piwik\Db;
+use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\ProxyHttp;
 use Piwik\Session;
-use Piwik\Session\SessionFingerprint;
 
 /**
- * Initializes authenticated sessions using an Auth implementation.
+ * This SessionInitializer is no longer used, but is kept for backwards compatibility.
+ * Session management no longer uses the piwik_auth cookie.
  *
- * If a user is authenticated, a browser cookie is created so the user will be remembered
- * until the cookie is destroyed.
- *
- * Plugins can override SessionInitializer behavior by extending this class and
- * overriding methods. In order for these changes to have effect, however, an instance of
- * the derived class must be used by the Login/Controller.
- *
+ * @deprecated
  * @api
  */
 class SessionInitializer
@@ -42,14 +37,61 @@ class SessionInitializer
     private $usersManagerAPI;
 
     /**
-     * @param UsersManagerAPI|null $usersManagerAPI
+     * The authenticated session cookie's name. Defaults to the value of the `[General] login_cookie_name`
+     * INI config option.
+     *
+     * @var string
      */
-    public function __construct($usersManagerAPI = null)
+    private $authCookieName;
+
+    /**
+     * The time in seconds before the authenticated session cookie expires. Only used if `$rememberMe`
+     * is true in the {@link initSession()} call.
+     *
+     * Defaults to the value of the `[General] login_cookie_expire` INI config option.
+     *
+     * @var string
+     */
+    private $authCookieValidTime;
+
+    /**
+     * The path for the authenticated session cookie. Defaults to the value of the `[General] login_cookie_path`
+     * INI config option.
+     *
+     * @var string
+     */
+    private $authCookiePath;
+
+    /**
+     * Constructor.
+     *
+     * @param UsersManagerAPI|null $usersManagerAPI
+     * @param string|null $authCookieName
+     * @param int|null $authCookieValidTime
+     * @param string|null $authCookiePath
+     */
+    public function __construct($usersManagerAPI = null, $authCookieName = null, $authCookieValidTime = null,
+                                $authCookiePath = null)
     {
         if (empty($usersManagerAPI)) {
             $usersManagerAPI = UsersManagerAPI::getInstance();
         }
         $this->usersManagerAPI = $usersManagerAPI;
+
+        if (empty($authCookieName)) {
+            $authCookieName = Config::getInstance()->General['login_cookie_name'];
+        }
+        $this->authCookieName = $authCookieName;
+
+        if (empty($authCookieValidTime)) {
+            $authCookieValidTime = Config::getInstance()->General['login_cookie_expire'];
+        }
+        $this->authCookieValidTime = $authCookieValidTime;
+
+        if (empty($authCookiePath)) {
+            $authCookiePath = Config::getInstance()->General['login_cookie_path'];
+        }
+        $this->authCookiePath = $authCookiePath;
     }
 
     /**
@@ -70,7 +112,7 @@ class SessionInitializer
 
             Piwik::postEvent('Login.authenticate.failed', array($auth->getLogin()));
 
-            $this->processFailedSession();
+            $this->processFailedSession($rememberMe);
         } else {
 
             Piwik::postEvent('Login.authenticate.successful', array($auth->getLogin()));
@@ -101,30 +143,32 @@ class SessionInitializer
     }
 
     /**
-     * @param bool $rememberMe
+     * Returns a Cookie instance that manages the browser cookie used to store session
+     * information.
+     *
+     * @param bool $rememberMe Whether the authenticated session should be remembered after
+     *                         the browser is closed or not.
      * @return Cookie
-     * @deprecated the auth cookie is no longer used
      */
     protected function getAuthCookie($rememberMe)
     {
-        $config = Config::getInstance();
-
-        $authCookieName = $config->General['login_cookie_name'];
-        $authCookiePath = $config->General['login_cookie_expire'];
-        $authCookieValidTime = $config->General['login_cookie_path'];
-
-        $authCookieExpiry = $rememberMe ? time() + $authCookieValidTime : 0;
-        $cookie = new Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
+        $authCookieExpiry = $rememberMe ? time() + $this->authCookieValidTime : 0;
+        $cookie = new Cookie($this->authCookieName, $authCookieExpiry, $this->authCookiePath);
         return $cookie;
     }
 
     /**
      * Executed when the session could not authenticate.
      *
+     * @param bool $rememberMe Whether the authenticated session should be remembered after
+     *                         the browser is closed or not.
      * @throws Exception always.
      */
-    protected function processFailedSession()
+    protected function processFailedSession($rememberMe)
     {
+        $cookie = $this->getAuthCookie($rememberMe);
+        $cookie->delete();
+
         throw new Exception(Piwik::translate('Login_LoginPasswordNotCorrect'));
     }
 
@@ -137,12 +181,14 @@ class SessionInitializer
      */
     protected function processSuccessfulSession(AuthResult $authResult, $rememberMe)
     {
-        $sessionIdentifier = new SessionFingerprint();
-        $sessionIdentifier->initialize($authResult->getIdentity());
+        $cookie = $this->getAuthCookie($rememberMe);
+        $cookie->set('login', $authResult->getIdentity());
+        $cookie->set('token_auth', $this->getHashTokenAuth($authResult->getIdentity(), $authResult->getTokenAuth()));
+        $cookie->setSecure(ProxyHttp::isHttps());
+        $cookie->setHttpOnly(true);
+        $cookie->save();
 
-        if ($rememberMe) {
-            Session::rememberMe(Config::getInstance()->General['login_cookie_expire']);
-        }
+        return $cookie;
     }
 
     protected function regenerateSessionId()
@@ -156,7 +202,6 @@ class SessionInitializer
      * @param string $login user login
      * @param string $token_auth authentication token
      * @return string hashed authentication token
-     * @deprecated
      */
     public static function getHashTokenAuth($login, $token_auth)
     {
