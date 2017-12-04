@@ -636,6 +636,9 @@ abstract class Controller
         $view->startDate = $dateStart;
         $view->endDate = $dateEnd;
 
+        $timezoneOffsetInHours = Date::getTimezoneOffset($siteTimezone);
+        $view->timezoneOffset = $timezoneOffsetInHours;
+
         $language = LanguagesManager::getLanguageForSession();
         $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
 

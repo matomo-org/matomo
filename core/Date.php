@@ -363,6 +363,23 @@ class Date
     }
 
     /**
+     * Returns the offset of a timezone in hours.
+     *
+     * @param string $timezone
+     * @return int
+     * @throws \Exception if $timezone is invalid.
+     * @ignore
+     */
+    public static function getTimezoneOffset($timezone)
+    {
+        $utcDate = self::factory('today', 'UTC');
+        $tzDate = self::factory('today', $timezone);
+
+        $diff = $tzDate->getTimestamp() - $utcDate->getTimestamp();
+        return $diff / 3600;
+    }
+
+    /**
      * Returns `true` if the current date is older than the given `$date`.
      *
      * @param Date $date

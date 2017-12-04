@@ -290,8 +290,15 @@
     }
 
     function getToday() {
-        var date = new Date();
-        date.setHours(0);
+        var date = new Date(Date.now());
+
+        // undo browser timezone
+        date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+
+        // apply piwik site timezone (if it exists)
+        date.setHours(piwik.timezoneOffset || 0);
+
+        // get rid of minutes/seconds/etc.
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);

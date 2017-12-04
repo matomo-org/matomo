@@ -3,6 +3,7 @@
     piwik.token_auth = "{{ token_auth }}";
     piwik.piwik_url = "{{ piwikUrl }}";
     piwik.cacheBuster = "{{ cacheBuster }}";
+    {% if timezoneOffset is defined %}piwik.timezoneOffset = {{ timezoneOffset }};{% endif %}
 
     piwik.numbers = {
         patternNumber: "{{ 'Intl_NumberFormatNumber'|translate }}",

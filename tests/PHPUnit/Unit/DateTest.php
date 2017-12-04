@@ -386,4 +386,24 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($shouldBe, $date->getLocalized(Date::TIME_FORMAT));
         Translate::reset();
     }
+
+    /**
+     * @dataProvider getTestDataForGetTimezoneOffset
+     */
+    public function test_getTimezoneOffset_ReturnsCorrectOffsetInHours($timezone, $expectedOffset)
+    {
+        $offset = Date::getTimezoneOffset($timezone);
+        $this->assertEquals($expectedOffset, $offset);
+    }
+
+    public function getTestDataForGetTimezoneOffset()
+    {
+        return [
+            ['UTC', 0],
+            ['America/Los_Angeles', -8],
+            ['America/New_York', -5],
+            ['UTC+11', 11],
+            ['Europe/Rome', 1],
+        ];
+    }
 }
