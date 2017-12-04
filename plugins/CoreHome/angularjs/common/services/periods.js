@@ -274,7 +274,10 @@
             return getToday();
         }
 
-        if (strDate === 'yesterday') {
+        if (strDate === 'yesterday'
+            // note: ignoring the 'same time' part since the frontend doesn't care about the time
+            || strDate === 'yesterdaySameTime'
+        ) {
             var yesterday = getToday();
             yesterday.setDate(yesterday.getDate() - 1);
             return yesterday;
