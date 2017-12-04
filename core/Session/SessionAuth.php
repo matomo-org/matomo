@@ -154,7 +154,9 @@ class SessionAuth implements Auth
 
     private function destroyCurrentSession(SessionFingerprint $sessionFingerprint)
     {
-        // Note: can't use Session::destroy() since Zend prohibits starting a new session
+        // Note: Piwik will attempt to create another session in the LoginController
+        // when rendering the login form (the nonce for the form is stored in the session).
+        // So we can't use Session::destroy() since Zend prohibits starting a new session
         // after session_destroy() is called. Instead we clear the session fingerprint for
         // the existing session and generate a new session. Both the old session &
         // new session should have no stored data.
