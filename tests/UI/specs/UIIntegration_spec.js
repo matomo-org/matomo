@@ -622,19 +622,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    // CustomAlerts plugin TODO: move to CustomAlerts plugin
-    it('should load the custom alerts list correctly', function (done) {
-        expect.screenshot('customalerts_list').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + generalParams + "&module=CustomAlerts&action=index&idSite=1&period=day&date=yesterday&tests_hide_piwik_version=1");
-        }, done);
-    });
-
-    it('should load the triggered custom alerts list correctly', function (done) {
-        expect.screenshot('customalerts_list_triggered').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + generalParams + "&module=CustomAlerts&action=historyTriggeredAlerts&idSite=1&period=day&date=yesterday&tests_hide_piwik_version=1");
-        }, done);
-    });
-
     // top bar pages
     it('should load the widgets listing page correctly', function (done) {
         expect.screenshot('widgets_listing').to.be.captureSelector('.pageWrap', function (page) {
