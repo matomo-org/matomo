@@ -3,6 +3,7 @@
         "AddUser": "Aggiungi un nuovo utente",
         "Alias": "Alias",
         "AllWebsites": "Tutti i siti",
+        "AnonymousAccessConfirmation": "Stai per garantire all'utente anonimo l'accesso in 'lettura' a questo sito web. Ciò significa che i tuoi report delle statistiche e le informazioni sui visitatori saranno pubblicamente visibili da tutti anche senza un login. Sei sicuro di voler procedere?",
         "AnonymousUser": "Utente anonimo",
         "AnonymousUserHasViewAccess": "Nota: l'utente %1$s ha un accesso %2$s a questo sito.",
         "AnonymousUserHasViewAccess2": "I tuoi report statistici e le informazioni sui tuoi visitatori sono visibili pubblicamente.",

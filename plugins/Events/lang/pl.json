@@ -11,6 +11,8 @@
         "EventCategory": "Kategoria zdarzenia",
         "EventName": "Nazwa wydarzenia",
         "EventNames": "Nazwy zdarzeń",
+        "EventUrl": "Adres wydarzenia",
+        "EventUrls": "Adresy wydarzenia",
         "Events": "Zdarzenia",
         "EventsWithValue": "Zdarzenia z wartością",
         "EventsWithValueDocumentation": "Liczba zdarzeń z ustaloną wartością zdarzenia",

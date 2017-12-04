@@ -3,6 +3,7 @@
         "AddUser": "Shtoni përdorues të ri",
         "Alias": "Alias",
         "AllWebsites": "Tërë sajtet",
+        "AnonymousAccessConfirmation": "Ju ndan një hap nga akordimi përdoruesit anonim hyrje 'parjesh' në këtë sajt. Kjo do të thotë që raportet tuaja analitike dhe të dhënat e vizitorëve tuaj do të mund të shihen publikisht nga cilido, madje edhe pa kredenciale hyrjeje. Jeni i sigurt se doni të vazhdohet?",
         "AnonymousUser": "Përdorues anonim",
         "AnonymousUserHasViewAccess": "Shënim: përdoruesi %1$s ka hyrje %2$s te ky sajt.",
         "AnonymousUserHasViewAccess2": "Raportet analitike dhe të dhënat e vizitorëve tuaj janë të dukshme publikisht.",

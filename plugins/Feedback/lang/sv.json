@@ -19,9 +19,15 @@
         "ViewUserGuides": "Lär dig att konfigurera Piwik och hur man på ett effektivt sätt analyserar data med våra %1$sanvändarguider%2$s",
         "CommunityHelp": "Community Hjälp",
         "ProfessionalHelp": "Professionell hjälp",
+        "ProfessionalServicesIntro": "Vårt globala nätverk av professionella Piwik-konsulter stöttar de kunder som själva driftar sina Piwik-installationer på egen infrastruktur.",
         "ProfessionalServicesOfferIntro": "Vilka tjänster kan du dra nytta av?",
         "ProfessionalServicesReviewPiwikSetup": "En utvärdering av din Piwikinstallation",
+        "ProfessionalServicesOptimizationMaintenance": "Piwik optimerings-tjänster och applikationsdrift.",
         "ProfessionalServicesPhoneEmailSupport": "Support via telefon och e-post",
+        "ProfessionalServicesTraining": "Utbildning för användare, tekniker och utvecklare.",
+        "ProfessionalServicesPremiumFeatures": "Premium-funktioner",
+        "ProfessionalServicesCustomDevelopment": "Utvecklingstjänster",
+        "ProfessionalServicesAnalystConsulting": "Analystjänster",
         "ContactUs": "Kontakta oss",
         "VisitTheForums": "Besök %1$s forumet%2$s och få hjälp av Piwik-användare"
     }

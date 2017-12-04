@@ -17,7 +17,7 @@
         "DeleteOldArchivedReports": "Fshi raporte të arkivuar të vjetër",
         "DeleteLogDescription2": "Kur aktivizoni fshirjen e vetvetishme të regjistrimeve, duhet të siguroheni që janë përpunuar krejt raportet e ditës së mëparshme, që të mos humbni të dhëna.",
         "DeleteLogInfo": "Regjistrimet nga tabelat vijuese do të fshihen: %s",
-        "DeleteLogsConfirm": "Ju ndan një hap nga aktivizimi i fshirjes së të dhënave të regjistrave. Nëse hiqen të dhëna regjistrash të vjetër, dhe s’janë krijuar ende raporte, nuk do të jeni në gjendje të shihni të dhëna statistikore të së kaluarës. Jeni i sigurt se doni të bëhet kjo?",
+        "DeleteLogsConfirm": "Ju ndan një hap nga aktivizimi i fshirjes së të dhënave të regjistrave. Nëse hiqen të dhëna regjistrash të vjetër, dhe s’janë krijuar ende raporte, nuk do të jeni në gjendje të shihni të dhëna statistikore të dikurshme. Jeni i sigurt se doni të bëhet kjo?",
         "DeleteLogsOlderThan": "Fshi regjistrime më të vjetër se",
         "DeleteMaxRows": "Numër maksimum rreshtash për t’u fshirë njëherazi:",
         "DeleteMaxRowsNoLimit": "pa kufi",

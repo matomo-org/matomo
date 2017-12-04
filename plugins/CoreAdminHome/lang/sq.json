@@ -27,6 +27,7 @@
         "JSTracking_CodeNoteBeforeClosingHead": "Bëni të mundur që ky kod të gjendet në çdo faqe të sajtit tuaj. Këshillojmë ta ngjitni mu para etiketës mbyllëse %1$s.",
         "JSTracking_CustomCampaignQueryParam": "Përdorni emra vetjakë parametrash kërkese për emra & fjalëkyçe të fushatës",
         "JSTracking_CrossDomain": "Si parazgjedhje, ID-ja e vizitorit që identifikon një vizitor unik depozitohet në cookies shfletuesi nga pala e interesuar, të cilat mund të lexohen vetëm nga faqe të së njëjtës përkatësi. Aktivizimi i lidhjes nga përkatësia në përkatësi ju lejon të ndiqni krejt veprimet dhe parjet e faqeve të një vizitori të dhënë për të njëjtën vizitë edhe kur ai sheh faqe në disa përkatësi. Kurdo që një përdorues klikon mbi një lidhje te një nga URL-të alias të sajtit tuaj, do të shtohet një parametër URL-je pk_vid që jep ID-në e Vizitorit.",
+        "JSTracking_CrossDomain_NeedsMultipleDomains": "Që të mund të përdorni lidhje ndërpërkatësore, duhet të përcaktoni më shumë se një emër përkatësie (URL-ra) për sajtin tuaj.",
         "JSTracking_CustomCampaignQueryParamDesc": "Shënim: %1$sPiwik-u do të zbulojë vetvetiu parametra Google Analytics.%2$s",
         "JSTracking_DisableCookies": "Çaktivizo krejt cookie-t e ndjekjeve",
         "JSTracking_DisableCookiesDesc": "Çaktivizon krejt cookie-t Piwik. Cookie-t ekzistuese Piwik për këtë sajt do të fshihen me parjen pasuese të faqeve.",
