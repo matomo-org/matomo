@@ -774,16 +774,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.9.0",
+            "version": "3.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/piwik/device-detector.git",
-                "reference": "88fe6919e63c71cbe831990215fa76a9f4d797b5"
+                "reference": "caf2d15349caffd94a8cfe46edf4061fbc99f70b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/88fe6919e63c71cbe831990215fa76a9f4d797b5",
-                "reference": "88fe6919e63c71cbe831990215fa76a9f4d797b5",
+                "url": "https://api.github.com/repos/piwik/device-detector/zipball/caf2d15349caffd94a8cfe46edf4061fbc99f70b",
+                "reference": "caf2d15349caffd94a8cfe46edf4061fbc99f70b",
                 "shasum": ""
             },
             "require": {
@@ -793,7 +793,7 @@
             "require-dev": {
                 "fabpot/php-cs-fixer": "~1.7",
                 "matthiasmullie/scrapbook": "@stable",
-                "phpunit/phpunit": "4.1.*",
+                "phpunit/phpunit": "^4.8.36",
                 "psr/cache": "^1.0",
                 "psr/simple-cache": "^1.0"
             },
@@ -824,7 +824,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2017-10-30T17:47:32+00:00"
+            "time": "2017-12-04T09:56:31+00:00"
         },
         {
             "name": "piwik/ini",
