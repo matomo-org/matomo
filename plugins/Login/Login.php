@@ -15,7 +15,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\FrontController;
 use Piwik\Piwik;
-use Piwik\Session;
 
 /**
  *

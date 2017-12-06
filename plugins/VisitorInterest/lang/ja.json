@@ -19,6 +19,6 @@
         "WidgetPagesDocumentation": "ある特定のページビュー数毎にどれだけのビジットがあったかを示すリポートです。初期状態はタグクラウド表示で、ビジットの多いページビュー数ほど大きなフォントで表示されます。",
         "WidgetVisitsByDaysSinceLast": "前回の訪問からの日数",
         "WidgetVisitsByDaysSinceLastDocumentation": "ある特定の日数以前に最後の訪問をしたビジターの数を示すリポートです。",
-        "WidgetVisitsByNumDocumentation": "N回目の訪問をしたビジット数を示すリポートです。すなわち少なくともN回ウェブサイトを訪問したビジターです。"
+        "WidgetVisitsByNumDocumentation": "N 回目の訪問をしたビジット数を示すリポートです。すなわち少なくとも N 回ウェブサイトを訪問したビジターです。"
     }
 }

@@ -13,9 +13,11 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Exception\PluginDeactivatedException;
+use Piwik\IP;
 use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugins\CoreHome\LoginWhitelist;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;
@@ -215,6 +217,16 @@ class Request
         $shouldReloadAuth = false;
 
         try {
+
+            // IP check is needed here as we cannot listen to API.Request.authenticate as it would then not return proper API format response.
+            // We can also not do it by listening to API.Request.dispatch as by then the user is already authenticated and we want to make sure
+            // to not expose any information in case the IP is not whitelisted.
+            $whitelist = new LoginWhitelist();
+            if ($whitelist->shouldCheckWhitelist() && $whitelist->shouldWhitelistApplyToAPI()) {
+                $ip = IP::getIpFromHeader();
+                $whitelist->checkIsWhitelisted($ip);
+            }
+
             // read parameters
             $moduleMethod = Common::getRequestVar('method', null, 'string', $this->request);
 

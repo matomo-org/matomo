@@ -1154,7 +1154,7 @@ class CronArchive
         if (count($this->idSitesInvalidatedOldReports) > 0) {
             $ids = ", IDs: " . implode(", ", $this->idSitesInvalidatedOldReports);
             $this->logger->info("- Will process " . count($this->idSitesInvalidatedOldReports)
-                . " other websites because some old data reports have been invalidated (eg. using the Log Import script) "
+                . " other websites because some old data reports have been invalidated (eg. using the Log Import script or the InvalidateReports plugin) "
                 . $ids);
         }
 
@@ -1275,7 +1275,7 @@ class CronArchive
         // Recommend to disable browser archiving when using this script
         if (Rules::isBrowserTriggerEnabled()) {
             $this->logger->info("- If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings.");
-            $this->logger->info("  See the doc at: http://piwik.org/docs/setup-auto-archiving/");
+            $this->logger->info("  See the doc at: https://piwik.org/docs/setup-auto-archiving/");
         }
         $this->logger->info("- Reports for today will be processed at most every " . $this->todayArchiveTimeToLive
             . " seconds. You can change this value in Piwik UI > Settings > General Settings.");

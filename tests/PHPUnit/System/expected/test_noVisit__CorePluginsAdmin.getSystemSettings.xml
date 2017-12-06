@@ -20,7 +20,7 @@
 					<latest_2x_beta>Latest beta 2.X (Long Term Support version)</latest_2x_beta>
 				</availableValues>
 				<description />
-				<inlineHelp>While our &lt;a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/participate/development-process/' target='_blank'&gt;development process&lt;/a&gt; includes thousands of automated tests, Beta Testers play a key role in achieving the &quot;No bug policy&quot; in Piwik.&lt;br/&gt;If Piwik is a critical part of your business, we recommend you use the latest stable release. If you use the latest beta and you find a bug or have a suggestion, please &lt;a href='?module=Proxy&amp;action=redirect&amp;url=http%3A%2F%2Fdeveloper.piwik.org%2Fguides%2Fcore-team-workflow%23influencing-piwik-development' target='_blank'&gt;see here&lt;/a&gt;.&lt;br /&gt;LTS (Long Term Support) versions receive only security and bug fixes.</inlineHelp>
+				<inlineHelp>While our &lt;a href='?module=Proxy&amp;action=redirect&amp;url=https://piwik.org/participate/development-process/' target='_blank'&gt;development process&lt;/a&gt; includes thousands of automated tests, Beta Testers play a key role in achieving the &quot;No bug policy&quot; in Piwik.&lt;br/&gt;If Piwik is a critical part of your business, we recommend you use the latest stable release. If you use the latest beta and you find a bug or have a suggestion, please &lt;a href='?module=Proxy&amp;action=redirect&amp;url=https%3A%2F%2Fdeveloper.piwik.org%2Fguides%2Fcore-team-workflow%23influencing-piwik-development' target='_blank'&gt;see here&lt;/a&gt;.&lt;br /&gt;LTS (Long Term Support) versions receive only security and bug fixes.</inlineHelp>
 				<templateFile />
 				<introduction>Release channel</introduction>
 				<condition />

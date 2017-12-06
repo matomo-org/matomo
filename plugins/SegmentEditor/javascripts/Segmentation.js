@@ -7,7 +7,7 @@
 
 Segmentation = (function($) {
 
-    Mousetrap.bind('s', function (event) {
+    piwikHelper.registerShortcut('s', _pk_translate('CoreHome_ShortcutSegmentSelector'), function (event) {
         if (event.altKey) {
             return;
         }

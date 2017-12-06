@@ -114,8 +114,6 @@
         "ExceptionMissingFile": "Manglar fil: %s",
         "ExceptionNonceMismatch": "Kunne ikkje stadfesta tryggleiksteiknet for dette skjemaet.",
         "ExceptionPrivilege": "Du kan ikkje nå denne ressursen, av di den krev '%s' tilgang.",
-        "ExceptionPrivilegeAccessWebsite": "Du kan ikkje nå denne ressursen, av di den krev '%s' tilgang for nettstaden med id = %d.",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Du kan ikkje nå denne ressursen, av di den krev '%s' tilgang for minst ein nettstad.",
         "ExceptionUnableToStartSession": "Kunne ikkje starta økt.",
         "ExceptionUndeletableFile": "Kunne ikkje sletta %s",
         "ExceptionUnreadableFileDisabledMethod": "Kunne ikkje lesa konfigurasjonsfila {%1$s}. Verten din har kanskje skrudd av %2$s.",

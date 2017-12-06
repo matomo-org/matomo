@@ -38,7 +38,7 @@
             '#' + piwik.helper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
         };
 
-        Mousetrap.bind('w', function(event) {
+        piwikHelper.registerShortcut('w', _pk_translate('CoreHome_ShortcutWebsiteSelector'), function(event) {
             if (event.altKey) {
                 return;
             }

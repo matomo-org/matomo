@@ -45,7 +45,7 @@
         "JSTracking_TrackNoScript": "Suivre les utilisateurs qui n'ont pas activé JavaScript",
         "JSTracking_VisitorCustomVars": "Effectuer le suivi des variables personnalisées pour ce visiteur",
         "JSTracking_VisitorCustomVarsDesc": "Par exemple, avec une variable nommée \"type\" et la valeur \"client\".",
-        "JSTracking_EndNote": "Note : vous pouvez générer un code de suivit personnalisé dans la section d'administration %1$sCode de suivit%2$s.",
+        "JSTracking_EndNote": "Note : vous pouvez générer un code de suivi personnalisé dans la section d'administration %1$sCode de suivi%2$s.",
         "JSTrackingIntro1": "Vous pouvez suivre les visiteurs de votre site web de manières variées. La manière recommandée est celle via JavaScript. Pour utiliser cette méthode assurez vous simplement que chaque page web du site a un certain code JavaScript que vous pouvez générer ici.",
         "JSTrackingIntro2": "Une fois que vous avez le code de suivi JavaScript pour votre site web, copiez-collez le sur toutes les pages dont vous voulez effectuer le suivi avec Piwik.",
         "JSTrackingIntro3b": "Sur la plupart des sites web, blogs, CMS etc., vous pouvez utiliser un composant existant qui va gérer les aspects techniques pour vous. (Voir notre %1$slist de composants utilisés pour intégrer Piwik%2$s.) Si aucun composant n'existe vous pouvez modifier le modèle de votre site web et ajouter ce code avant le tag &lt;\/head&gt; qui est souvent définit dans 'header.php', 'header.tpl' ou un fichier similaire de modèle.",

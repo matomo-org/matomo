@@ -314,6 +314,7 @@
             var self = this;
             this.element.dialog({
                 title: '',
+                dialogClass: 'widgetoverlay',
                 modal: true,
                 width: width,
                 position: ['center', 'center'],

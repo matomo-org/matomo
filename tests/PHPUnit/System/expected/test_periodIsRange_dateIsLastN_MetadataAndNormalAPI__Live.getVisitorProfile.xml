@@ -309,7 +309,8 @@
 		</row>
 	</visitedPages>
 	<devices>
-		<Desktop>
+		<row>
+			<type>Desktop</type>
 			<count>2</count>
 			<icon>plugins/Morpheus/icons/dist/devices/desktop.png</icon>
 			<devices>
@@ -318,7 +319,7 @@
 					<count>2</count>
 				</row>
 			</devices>
-		</Desktop>
+		</row>
 	</devices>
 	<continents>
 		<row>

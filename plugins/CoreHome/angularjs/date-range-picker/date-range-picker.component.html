@@ -1,0 +1,58 @@
+<div id="calendarRangeFrom">
+    <h6>
+        {{ 'General_DateRangeFrom'|translate }}
+        <input
+            type="text"
+            id="inputCalendarFrom"
+            name="inputCalendarFrom"
+            class="browser-default"
+            ng-class="{invalid: $ctrl.startDateInvalid}"
+            ng-model="$ctrl.startDate"
+            ng-change="$ctrl.onRangeInputChanged('from')"
+            ng-keyup="$ctrl.handleEnterPress($event)"
+        />
+    </h6>
+
+    <div
+        id="calendarFrom"
+        piwik-date-picker
+        view-date="$ctrl.startDate"
+        selected-date-start="$ctrl.fromPickerSelectedDates[0]"
+        selected-date-end="$ctrl.fromPickerSelectedDates[1]"
+        highlighted-date-start="$ctrl.fromPickerHighlightedDates[0]"
+        highlighted-date-end="$ctrl.fromPickerHighlightedDates[1]"
+        date-select="$ctrl.setStartRangeDate(date)"
+        cell-hover="$ctrl.fromPickerHighlightedDates = $ctrl.getNewHighlightedDates(date, $cell)"
+        cell-hover-leave="$ctrl.fromPickerHighlightedDates = null"
+    >
+    </div>
+</div>
+<div id="calendarRangeTo">
+    <h6>
+        {{ 'General_DateRangeTo'|translate }}
+        <input
+            type="text"
+            id="inputCalendarTo"
+            name="inputCalendarTo"
+            class="browser-default"
+            ng-class="{invalid: $ctrl.endDateInvalid}"
+            ng-model="$ctrl.endDate"
+            ng-change="$ctrl.onRangeInputChanged('to')"
+            ng-keyup="$ctrl.handleEnterPress($event)"
+        />
+    </h6>
+
+    <div
+        id="calendarTo"
+        piwik-date-picker
+        view-date="$ctrl.endDate"
+        selected-date-start="$ctrl.toPickerSelectedDates[0]"
+        selected-date-end="$ctrl.toPickerSelectedDates[1]"
+        highlighted-date-start="$ctrl.toPickerHighlightedDates[0]"
+        highlighted-date-end="$ctrl.toPickerHighlightedDates[1]"
+        date-select="$ctrl.setEndRangeDate(date)"
+        cell-hover="$ctrl.toPickerHighlightedDates = $ctrl.getNewHighlightedDates(date, $cell)"
+        cell-hover-leave="$ctrl.toPickerHighlightedDates = null"
+    >
+    </div>
+</div>

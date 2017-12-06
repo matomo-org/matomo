@@ -26,7 +26,7 @@ INFO [2017-01-22 00:03:37] - Will invalidate archived reports for 2012-08-15 for
 INFO [2017-01-22 00:03:37] - Will invalidate archived reports for 2012-09-30 for following websites ids: 1
 INFO [2017-01-22 00:03:37] - Will invalidate archived reports for 2014-03-12 for following websites ids: 1,3
 INFO [2017-01-22 00:03:37] - Will invalidate archived reports for 2014-03-13 for following websites ids: 1,3
-INFO [2017-01-22 00:03:37] - Will process 3 other websites because some old data reports have been invalidated (eg. using the Log Import script) , IDs: 1, 2, 3
+INFO [2017-01-22 00:03:37] - Will process 3 other websites because some old data reports have been invalidated (eg. using the Log Import script or the InvalidateReports plugin) , IDs: 1, 2, 3
 INFO [2017-01-22 00:03:37] ---------------------------
 INFO [2017-01-22 00:03:37] START
 INFO [2017-01-22 00:03:37] Starting Piwik reports archiving...

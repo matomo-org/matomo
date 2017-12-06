@@ -2,8 +2,12 @@
     "Ecommerce": {
         "PluginDescription": "E-tregtia ju lejon të ndiqni se kur përdoruesit shtojnë produkte në shporta, dhe kur ato shndërrohen në shitje e-tregtie. Ajo ndjek gjithashtu parje produktesh dhe kategorish produktesh apo shporta të braktisura.",
         "Sales": "Shitje",
+        "Order": "Porosi",
+        "Orders": "Porosi",
         "SalesBy": "Shitje nga %s",
         "SalesAdjective": "Shitje %s",
+        "NumberOfItems": "Numër Artikujsh në Shportë",
+        "OrderValue": "Vlerë porosie",
         "LifeTimeValue": "Vlerë E-tregti Gjatë Ekzistencës",
         "LifeTimeValueDescription": "Të ardhura e-tregtie gjithsej atribuar këtij përdoruesi përmes krejt vizitave: shuma e të ardhurave për krejt porositë E-tregti për ID Vizitori %s.",
         "VisitorProfileLTV": "Prodhoi Të ardhura Gjatë Ekzistencës sa %1$s.",

@@ -99,6 +99,7 @@
         "SystemCheckOtherExtensions": "Ostatní rozšíření",
         "SystemCheckOtherFunctions": "Ostatní funkce",
         "SystemCheckPageSpeedDisabled": "PageSpeed zakázán",
+        "SystemCheckPageSpeedWarning": "Doporučujeme na vašem webovém server vypnout modul PageSpeed %s: O PageSpeed bylo hlášeno, že způsobuje několik problémů s Piwikem, jako například:rozbité přehledy stránek, rozbité vývoje v rádcích a další problémy, které se těžko odstraňují. Prosím zakažte mod_pagespeed na tomto serveru.",
         "SystemCheckPackHelp": "Funkce pack() je nutná ke sledování návštěvnosti v Piwiku.",
         "SystemCheckParseIniFileHelp": "Tato vestavěná funkce byla na vašem hostiteli zakázána. Piwik se pokusí tuto funkci emulovat, ale můžete zaznamenat další bezpečnostní omezení. Výkonnost trackeru bude také omezena.",
         "SystemCheckPdoAndMysqliHelp": "Na GNU\/Linux systému můžete zkompilovat PHP s následujícími volbami: %1$s Přidejte následující řádky do php.ini: %2$s",

@@ -117,7 +117,7 @@
                             rows_to_display: rows
                         };
 
-                        var tableNode = $('#' + this.dataTableId);
+                        var tableNode = $('#' + self.dataTableId);
                         UI.DataTable.prototype.notifyWidgetParametersChange(tableNode, params);
                     }
                 }

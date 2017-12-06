@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta name="robots" content="noindex,nofollow">
@@ -21,6 +22,7 @@
                 text-decoration: underline;
             }
         </style>
+        <title>A fatal error occurred</title>
     </head>
     <body>
 
@@ -30,11 +32,11 @@
 
         {% if isAllowedToTroubleshootAsSuperUser or not isAnonymousUser %}
             <p>
-                The following error just broke Piwik{% if showVersion %} (v{{ piwikVersion }}){%  endif %}:
-                <pre>{{ lastError.message }}</pre>
-                in
-                <pre>{{ lastError.file }} line {{ lastError.line }}</pre>
+                The following error just broke Piwik{% if showVersion %} (v{{ piwikVersion }}){% endif %}:
             </p>
+            <pre>{{ lastError.message }}</pre>
+            <p>in</p>
+            <pre>{{ lastError.file }} line {{ lastError.line }}</pre>
 
             <hr>
             <h3>Troubleshooting</h3>

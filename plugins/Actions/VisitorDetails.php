@@ -100,6 +100,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     private function shouldHandleAction($action) {
         $actionTypesToHandle = array(
             Action::TYPE_PAGE_URL,
+            Action::TYPE_PAGE_TITLE,
             Action::TYPE_SITE_SEARCH,
             Action::TYPE_EVENT,
             Action::TYPE_OUTLINK,
@@ -165,6 +166,7 @@ class VisitorDetails extends VisitorDetailsAbstract
                 $action['icon'] = 'plugins/Morpheus/images/search_ico.png';
                 break;
             case Action::TYPE_PAGE_URL:
+            case Action::TYPE_PAGE_TITLE:
             case '':
                 $action['type'] = 'action';
                 $action['icon'] = null;

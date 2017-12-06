@@ -101,8 +101,6 @@
         "ExceptionMissingFile": "Trūksta failo: %s",
         "ExceptionNonceMismatch": "Negalima patikrinti šios formos saugos rakto.",
         "ExceptionPrivilege": "Negalite pasiekti šių resursų, nes tam reikia %s teisių.",
-        "ExceptionPrivilegeAccessWebsite": "Negalite pasiekti šių resursų, nes tam reikia %s teisių svetainei id = %d..",
-        "ExceptionPrivilegeAtLeastOneWebsite": "Negalite pasiekti šių resursų, nes tam reikia %s teisių mažiausiai vienai svetainei.",
         "ExceptionUnableToStartSession": "Nepavyko pradėti sesijos",
         "ExceptionUndeletableFile": "Nepavyko ištrinti %s",
         "ExceptionUnreadableFileDisabledMethod": "{%1$s} konfigūracijos failas nenuskaitytas. Jūsų stotis gali būti išjungusi %2$s.",

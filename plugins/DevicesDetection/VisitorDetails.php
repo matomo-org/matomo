@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
@@ -151,13 +152,15 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function finalizeProfile($visits, &$profile)
     {
         $devices = $this->devices;
-        uksort($this->devices, function($a, $b) use ($devices) {
+        uksort($this->devices, function ($a, $b) use ($devices) {
             $cmp = strcmp($devices[$b]['count'], $devices[$a]['count']);
             if (0 == $cmp) {
                 $cmp = strcmp($a, $b);
             }
             return $cmp;
         });
+
+        $devices = [];
 
         foreach ($this->devices as $type => $devicesData) {
             $typeDevices = [];
@@ -167,9 +170,14 @@ class VisitorDetails extends VisitorDetailsAbstract
                     'count' => $count
                 ];
             }
-            $this->devices[$type]['devices'] = $typeDevices;
+            $devices[] = [
+                'type'    => $type,
+                'count'   => $devicesData['count'],
+                'icon'    => $devicesData['icon'],
+                'devices' => $typeDevices,
+            ];
         }
 
-        $profile['devices'] = $this->devices;
+        $profile['devices'] = $devices;
     }
 }

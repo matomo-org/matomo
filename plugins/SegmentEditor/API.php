@@ -17,7 +17,7 @@ use Piwik\Config;
 use Piwik\Segment;
 
 /**
- * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.a
+ * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.
  *
  * @method static \Piwik\Plugins\SegmentEditor\API getInstance()
  */

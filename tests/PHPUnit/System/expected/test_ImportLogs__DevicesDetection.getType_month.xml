@@ -2,21 +2,21 @@
 <result>
 	<row>
 		<label>Desktop</label>
-		<nb_visits>31</nb_visits>
-		<nb_actions>36</nb_actions>
+		<nb_visits>36</nb_visits>
+		<nb_actions>41</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>549</sum_visit_length>
-		<bounce_count>27</bounce_count>
+		<bounce_count>32</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>30</nb_conversions>
-				<nb_visits_converted>30</nb_visits_converted>
-				<revenue>150</revenue>
+				<nb_conversions>35</nb_conversions>
+				<nb_visits_converted>35</nb_visits_converted>
+				<revenue>175</revenue>
 			</row>
 		</goals>
-		<nb_conversions>30</nb_conversions>
-		<revenue>150</revenue>
-		<sum_daily_nb_uniq_visitors>29</sum_daily_nb_uniq_visitors>
+		<nb_conversions>35</nb_conversions>
+		<revenue>175</revenue>
+		<sum_daily_nb_uniq_visitors>34</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>2</sum_daily_nb_users>
 		<segment>deviceType==desktop</segment>
 		<logo>plugins/Morpheus/icons/dist/devices/desktop.png</logo>

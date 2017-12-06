@@ -241,6 +241,7 @@ class View implements ViewInterface
             $this->userIsAnonymous = Piwik::isUserIsAnonymous();
             $this->userIsSuperUser = Piwik::hasUserSuperUserAccess();
             $this->latest_version_available = UpdateCheck::isNewestVersionAvailable();
+            $this->showUpdateNotificationToUser = !SettingsPiwik::isShowUpdateNotificationToSuperUsersOnlyEnabled() || Piwik::hasUserSuperUserAccess();
             $this->disableLink = Common::getRequestVar('disableLink', 0, 'int');
             $this->isWidget = Common::getRequestVar('widget', 0, 'int');
             $this->isMultiServerEnvironment = SettingsPiwik::isMultiServerEnvironment();

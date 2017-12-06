@@ -2266,7 +2266,7 @@ function PiwikTest() {
     });
 
     test("Managing multiple trackers", function() {
-        expect(23);
+        expect(25);
 
         var asyncTracker = Piwik.getAsyncTracker();
         var i, tracker;
@@ -2321,6 +2321,10 @@ function PiwikTest() {
         var fetchedTracker = Piwik.getAsyncTracker('customTrackerUrl', '71');
         var createdTracker = fetchedTracker.addTracker(null, 55);
         equal('customTrackerUrl', createdTracker.getTrackerUrl(), 'addTracker() should be default use tracker url of current tracker, not first tracker');
+
+        var createPiwikTracker = Piwik.addTracker('customTrackerUrl2', 59);
+        equal(59, createPiwikTracker.getSiteId(), 'Piwik.addTracker() was created with correct idsite ' + createPiwikTracker.getSiteId());
+        equal('customTrackerUrl2', createPiwikTracker.getTrackerUrl(), 'Piwik.addTracker() was created with correct piwikUrl ' + createPiwikTracker.getTrackerUrl());
 
         asyncTracker.removeAllAsyncTrackersButFirst();
     });

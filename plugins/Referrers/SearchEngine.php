@@ -485,7 +485,7 @@ class SearchEngine extends Singleton
     public function getBackLinkFromUrlAndKeyword($url, $keyword)
     {
         if ($keyword === API::LABEL_KEYWORD_NOT_DEFINED) {
-            return 'http://piwik.org/faq/general/#faq_144';
+            return 'https://piwik.org/faq/general/#faq_144';
         }
         $keyword = urlencode($keyword);
         $keyword = str_replace(urlencode('+'), urlencode(' '), $keyword);

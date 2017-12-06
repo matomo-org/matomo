@@ -20,10 +20,13 @@
         "dataTableLabelTypes": "タイプ",
         "Device": "デバイス",
         "DeviceBrand": "デバイスのブランド",
+        "DeviceBrands": "デバイスブランド",
         "DeviceDetection": "デバイス検出",
         "DeviceModel": "デバイスのモデル",
+        "DeviceModels": "デバイスモデル",
         "DevicesDetection": "ビジターのデバイス",
         "DeviceType": "デバイスタイプ",
+        "DeviceTypes": "デバイスタイプ",
         "FeaturePhone": "携帯電話",
         "OperatingSystemFamilies": "オペレーティングシステムファミリー",
         "OperatingSystemFamily": "オペレーティングシステムファミリー",
@@ -38,6 +41,7 @@
         "Phablet": "ファブレット",
         "TV": "TV",
         "UserAgent": "ユーザーエージェント",
+        "XVisitsFromDevices": "%2$s デバイスからの %1$s ビジット",
         "WidgetBrowsers": "ブラウザ",
         "WidgetBrowsersDocumentation": "ビジターがどのブラウザを使っているかについてのリポートです。各ブラウザのバージョンは別途記載されています。"
     }

@@ -9,6 +9,7 @@
 
 namespace Piwik;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CustomPiwikJs\Exception\AccessDeniedException;
 use Piwik\Plugins\CustomPiwikJs\TrackerUpdater;
 
@@ -56,47 +57,7 @@ class FileIntegrity
 
     protected static function getFilesNotInManifestButExpectedAnyway()
     {
-        return array(
-            '*.htaccess',
-            '*web.config',
-            'bootstrap.php',
-            'favicon.ico',
-            'robots.txt',
-            '.bowerrc',
-            '.phpstorm.meta.php',
-            'config/config.ini.php',
-            'config/config.php',
-            'config/common.ini.php',
-            'config/*.config.ini.php',
-            'config/manifest.inc.php',
-            'misc/*.dat',
-            'misc/*.dat.gz',
-            'misc/*.bin',
-            'misc/user/*png',
-            'misc/user/*js',
-            'misc/package',
-            'misc/package/WebAppGallery/*.xml',
-            'misc/package/WebAppGallery/install.sql',
-            'plugins/ImageGraph/fonts/unifont.ttf',
-            'vendor/autoload.php',
-            'vendor/composer/autoload_real.php',
-            'vendor/szymach/c-pchart/app/*',
-            'tmp/*',
-            // Search engine sites verification
-            'google*.html',
-            'BingSiteAuth.xml',
-            'yandex*.html',
-            // Files below are not expected but they used to be present in older Piwik versions and may be still here
-            // As they are not going to cause any trouble we won't report them as 'File to delete'
-            '*.coveralls.yml',
-            '*.scrutinizer.yml',
-            '*.gitignore',
-            '*.gitkeep',
-            '*.gitmodules',
-            '*.gitattributes',
-            '*.bower.json',
-            '*.travis.yml',
-        );
+        return StaticContainer::get('fileintegrity.ignore');
     }
 
     protected static function getMessagesDirectoriesFoundButNotExpected($messages)
@@ -209,7 +170,8 @@ class FileIntegrity
         $directoriesFoundButNotExpected = array();
 
         foreach (self::getPathsToInvestigate() as $file) {
-            $file = substr($file, 2); // remove starting characters ./ to match format in manifest.inc.php
+            $file = substr($file, strlen(PIWIK_DOCUMENT_ROOT)); // remove piwik path to match format in manifest.inc.php
+            $file = ltrim($file, DIRECTORY_SEPARATOR);
             $directory = dirname($file);
 
             if(in_array($directory, $directoriesInManifest)) {
@@ -247,7 +209,8 @@ class FileIntegrity
             if (is_dir($file)) {
                 continue;
             }
-            $file = substr($file, 2); // remove starting characters ./ to match format in manifest.inc.php
+            $file = substr($file, strlen(PIWIK_DOCUMENT_ROOT)); // remove piwik path to match format in manifest.inc.php
+            $file = ltrim($file, DIRECTORY_SEPARATOR);
 
             if (self::isFileFromPluginNotInManifest($file, $pluginsInManifest)) {
                 continue;
@@ -449,9 +412,9 @@ class FileIntegrity
     {
         $filesToInvestigate = array_merge(
         // all normal files
-            Filesystem::globr('.', '*'),
+            Filesystem::globr(PIWIK_DOCUMENT_ROOT, '*'),
             // all hidden files
-            Filesystem::globr('.', '.*')
+            Filesystem::globr(PIWIK_DOCUMENT_ROOT, '.*')
         );
         return $filesToInvestigate;
     }

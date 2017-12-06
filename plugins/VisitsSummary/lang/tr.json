@@ -1,8 +1,13 @@
 {
     "VisitsSummary": {
+        "AverageVisitDuration": "ortalama ziyaret süresi",
         "GenerateQueries": "%s sorgu çalıştırılmıştır.",
         "GenerateTime": "sayfa %s saniyede oluşturulmuştur.",
-        "NbActionsDescription": "Etkinlik sayısı %s (sayfa gösterimi, dosya indirme, dış linkler)",
+        "NbActionsDescription": "%s işlem",
+        "NbActionsPerVisit": "bir ziyaretteki işlemler (sayfa görüntüleme, indirme, giden bağlantılar ve site içi aramalar)",
+        "NbKeywordsDescription": "tekil anahtar kelimeler",
+        "NbPageviewsDescription": "Sayfa gösterimleri",
+        "PluginDescription": "Bu rapor, ziyaretler, tekil ziyaretçiler, işlem sayısı, geri dönüş oranı gibi genel istatistik ölçütlerini içerir.",
         "VisitsSummary": "Özeri gör",
         "VisitsSummaryDocumentation": "Ziyaretler için genel bakış niteliğindedir.",
         "WidgetLastVisits": "Son ziyaret grafiği",

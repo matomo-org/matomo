@@ -204,6 +204,12 @@ class VisitsWithAllActionsAndDevices extends Fixture
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.4)->getDatetime());
         $t->addEcommerceItem('F4NCYX', 'fancy product', 'software', $price = 40, $qty = 3);
         self::checkResponse($t->doTrackEcommerceCartUpdate(120));
+
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.6)->getDatetime());
+        $t->setUrl('');
+        $t->setGenerationTime(156);
+        $t->setDebugStringAppend('bw_bytes=1254');
+        self::checkResponse($t->doTrackPageView('Action without url'));
     }
 
     private function trackDeviceVisit(\PiwikTracker $t, $dateTime, $useragent)

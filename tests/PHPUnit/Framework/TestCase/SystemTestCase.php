@@ -316,6 +316,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             $processedResponse->save($processedFilePath);
         }
 
+        $response = $processedResponse->getResponseText();
+        if (strpos($response, '<?xml') === 0) {
+            $this->assertValidXML($response);
+        }
+
         try {
             $expectedResponse = Response::loadFromFile($expectedFilePath, $options, $requestParams);
         } catch (Exception $ex) {
@@ -331,6 +336,22 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         }
 
         $this->printApiTestFailures();
+    }
+
+    protected function assertValidXML($xml)
+    {
+        libxml_use_internal_errors(true);
+        $sxe = simplexml_load_string($xml);
+
+        if ($sxe === false) {
+            $errors = [];
+            foreach (libxml_get_errors() as $error) {
+                $errors[] = trim($error->message) . ' @' . $error->line . ':' . $error->column;
+            }
+            static::fail('Response is no valid xml: ' . implode("\n", $errors));
+        }
+
+        libxml_clear_errors();
     }
 
     /**
@@ -359,6 +380,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $processedResponse = Response::loadFromApi($params, $requestUrl);
         if (empty($compareAgainst)) {
             $processedResponse->save($processedFilePath);
+        }
+
+        $response = $processedResponse->getResponseText();
+        if (strpos($response, '<?xml') === 0) {
+            $this->assertValidXML($response);
         }
 
         $_GET = $originalGET;

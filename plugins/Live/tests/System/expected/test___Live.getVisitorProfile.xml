@@ -1210,7 +1210,8 @@
 		</row>
 	</visitedPages>
 	<devices>
-		<Unknown>
+		<row>
+			<type>Unknown</type>
 			<count>30</count>
 			<icon>plugins/Morpheus/icons/dist/devices/unknown.png</icon>
 			<devices>
@@ -1219,8 +1220,9 @@
 					<count>30</count>
 				</row>
 			</devices>
-		</Unknown>
-		<Desktop>
+		</row>
+		<row>
+			<type>Desktop</type>
 			<count>1</count>
 			<icon>plugins/Morpheus/icons/dist/devices/desktop.png</icon>
 			<devices>
@@ -1229,7 +1231,7 @@
 					<count>1</count>
 				</row>
 			</devices>
-		</Desktop>
+		</row>
 	</devices>
 	<continents>
 		<row>

@@ -78,9 +78,10 @@ describe("ActionsDataTable", function () {
     });
 
     it("should open the visitor log segmented by the current row", function (done) {
-        expect.screenshot('segmented_visitor_log').to.be.capture(function (page) {
-            page.click('tr:contains("thankyou") td.label .actionSegmentVisitorLog');
-            page.wait(1000);
+        expect.screenshot('segmented_visitor_log').to.be.captureSelector('.ui-dialog', function (page) {
+            page.evaluate(function(){
+                $('tr:contains("thankyou") td.label .actionSegmentVisitorLog').click();
+            }, 3000);
         }, done);
     });
 
