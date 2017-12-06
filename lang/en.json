@@ -106,7 +106,7 @@
         "ComputedMetricCountWithValueDocumentation": "The number of entries that have a value set for %s",
         "ConfigFileIsNotWritable": "The Piwik configuration file %1$s is not writable, some of your changes might not be saved. %2$s Please change permissions of the config file to make it writable.",
         "Continue": "Continue",
-        "ContinueToPiwik": "Continue to Piwik",
+        "ContinueToPiwik": "Upgrade and continue to Piwik",
         "CurrentlyUsingUnsecureHttp": "You are currently using Piwik over unsecure HTTP, which can be risky. We recommend you set up Piwik to use SSL (HTTPS) for improved security.",
         "CreatedByUser": "created by %s",
         "CurrentMonth": "Current Month",
