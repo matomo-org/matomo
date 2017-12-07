@@ -106,6 +106,18 @@ class Flattener extends DataTableManipulator
     (Row $row, $rowId, DataTable $dataTable, $level, $dimensionName,
                                 $labelPrefix = '', $parentLogo = false)
     {
+        $dimensions = $dataTable->getMetadata('dimensions');
+
+        if (empty($dimensions)) {
+            $dimensions = [];
+        }
+
+        if (!in_array($dimensionName, $dimensions)) {
+            $dimensions[] = $dimensionName;
+        }
+
+        $dataTable->setMetadata('dimensions', $dimensions);
+
         $origLabel = $label = $row->getColumn('label');
 
         if ($label !== false) {
