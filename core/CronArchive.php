@@ -289,7 +289,7 @@ class CronArchive
      */
     public function main()
     {
-        if ($this->isMaintenanceModeEnabled() == 1) {
+        if ($this->isMaintenanceModeEnabled()) {
             $this->logger->info("Archiving won't run because maintenance mode is enabled");
             return;
         }
@@ -367,7 +367,7 @@ class CronArchive
 
         do {
 
-            if ($this->isMaintenanceModeEnabled() == 1) {
+            if ($this->isMaintenanceModeEnabled()) {
                 $this->logger->info("Archiving will stop now because maintenance mode is enabled");
                 return;
             }
