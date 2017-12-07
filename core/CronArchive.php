@@ -279,11 +279,21 @@ class CronArchive
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
     }
 
+    private function isMaintenanceModeEnabled()
+    {
+        return Config::getInstance()->General['maintenance_mode'] == 1;
+    }
+
     /**
      * Initializes and runs the cron archiver.
      */
     public function main()
     {
+        if ($this->isMaintenanceModeEnabled()) {
+            $this->logger->info("Archiving won't run because maintenance mode is enabled");
+            return;
+        }
+
         $self = $this;
         Access::doAsSuperUser(function () use ($self) {
             $self->init();
@@ -356,6 +366,12 @@ class CronArchive
         $this->logger->info("Starting Piwik reports archiving...");
 
         do {
+
+            if ($this->isMaintenanceModeEnabled()) {
+                $this->logger->info("Archiving will stop now because maintenance mode is enabled");
+                return;
+            }
+
             $idSite = $this->websites->getNextSiteId();
 
             if (null === $idSite) {
