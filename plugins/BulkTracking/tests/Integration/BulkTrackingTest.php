@@ -92,7 +92,7 @@ class BulkTrackingTest extends BulkTrackingTestCase
         $handler = null;
         $this->bulk->setHandlerIfBulkRequest($handler);
 
-        $this->assertTrue($handler instanceof Handler);
+        $this->assertInstanceOf(Handler::class, $handler);
     }
 
     public function test_setHandlerIfBulkRequest_shouldNotSetAHandler_IfOneIsAlreadySetEvenIfItIsABulkRequest()
@@ -124,14 +124,14 @@ class BulkTrackingTest extends BulkTrackingTestCase
 
         $handler = DefaultHandler\Factory::make();
 
-        $this->assertTrue($handler instanceof Handler);
+        $this->assertInstanceOf(Handler::class, $handler);
     }
 
     public function test_registerEvents_shouldListenToNewTrackerEventAndNotCreateBulkHandler_IfNotBulkRequest()
     {
         $handler = DefaultHandler\Factory::make();
 
-        $this->assertTrue($handler instanceof DefaultHandler);
+        $this->assertInstanceOf(DefaultHandler::class, $handler);
     }
 
     public function test_registerEvents_shouldListenToInitRequestSetEventAndInit_IfBulkRequest()

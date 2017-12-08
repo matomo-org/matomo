@@ -100,7 +100,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->addSubcategories(array('myid' => 'myname', 'myid2' => 'myname2'));
 
         $subcategory = $this->category->getSubcategory('myid2');
-        $this->assertTrue($subcategory instanceof Subcategory);
+        $this->assertInstanceOf(Subcategory::class, $subcategory);
         $this->assertSame('myname2', $subcategory->getName());
     }
 

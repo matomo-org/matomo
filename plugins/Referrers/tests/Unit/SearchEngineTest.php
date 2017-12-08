@@ -50,28 +50,28 @@ class SearchEngineTest extends \PHPUnit_Framework_TestCase
         $searchEngines = array();
         foreach (SearchEngine::getInstance()->getDefinitions() as $host => $info) {
             if (isset($info['backlink']) && $info['backlink'] !== false) {
-                $this->assertTrue(strrpos($info['backlink'], "{k}") !== false, $host . " search URL is not defined correctly, must contain the macro {k}");
+                $this->assertContains("{k}", $info['backlink'], $host . " search URL is not defined correctly, must contain the macro {k}");
             }
 
             if (!array_key_exists($info['name'], $searchEngines)) {
                 $searchEngines[$info['name']] = true;
 
-                $this->assertTrue(strpos($host, '{}') === false, $host . " search URL is the master record and should not contain {}");
+                $this->assertNotContains('{}', $host, $host . " search URL is the master record and should not contain {}");
             }
 
             if (isset($info['charsets']) && $info['charsets'] !== false) {
                 $this->assertTrue(is_array($info['charsets']) || is_string($info['charsets']), $host . ' charsets must be either a string or an array');
 
                 if (is_string($info['charsets'])) {
-                    $this->assertTrue(trim($info['charsets']) !== '', $host . ' charsets cannot be an empty string');
-                    $this->assertTrue(strpos($info['charsets'], ' ') === false, $host . ' charsets cannot contain spaces');
+                    $this->assertNotSame('', trim($info['charsets']), $host . ' charsets cannot be an empty string');
+                    $this->assertNotContains(' ', $info['charsets'], $host . ' charsets cannot contain spaces');
 
                 }
 
                 if (is_array($info['charsets'])) {
-                    $this->assertTrue(count($info['charsets']) > 0, $host . ' charsets cannot be an empty array');
-                    $this->assertTrue(strpos(serialize($info['charsets']), '""') === false, $host . ' charsets in array cannot be empty stringss');
-                    $this->assertTrue(strpos(serialize($info['charsets']), ' ') === false, $host . ' charsets in array cannot contain spaces');
+                    $this->assertGreaterThan(0, count($info['charsets']), $host . ' charsets cannot be an empty array');
+                    $this->assertNotContains('""', serialize($info['charsets']), $host . ' charsets in array cannot be empty stringss');
+                    $this->assertNotContains(' ', serialize($info['charsets']), $host . ' charsets in array cannot contain spaces');
                 }
             }
         }
@@ -141,7 +141,7 @@ class SearchEngineTest extends \PHPUnit_Framework_TestCase
         if (!array_key_exists($searchEngine['name'], $searchEngines)) {
             $searchEngines[$searchEngine['name']] = $url;
 
-            $this->assertTrue(in_array($name['host'] . '.png', $favicons), $name['host']);
+            $this->assertContains($name['host'] . '.png', $favicons, $name['host']);
         }
     }
 
@@ -167,7 +167,7 @@ class SearchEngineTest extends \PHPUnit_Framework_TestCase
             }
 
             $host = substr($name, 0, -4);
-            $this->assertTrue(array_key_exists($host, $searchEngines), $host);
+            $this->assertArrayHasKey($host, $searchEngines, $host);
         }
     }
 }

@@ -34,12 +34,12 @@ class FactoryTest extends IntegrationTestCase
 
     public function test_db_holdsDatabaseFactory()
     {
-        $this->assertTrue($this->factory->db instanceof DbFactory);
+        $this->assertInstanceOf(DbFactory::class, $this->factory->db);
     }
 
     public function test_plugin_holdsPluginFactory()
     {
-        $this->assertTrue($this->factory->plugin instanceof PluginFactory);
+        $this->assertInstanceOf(PluginFactory::class, $this->factory->plugin);
     }
 
 }

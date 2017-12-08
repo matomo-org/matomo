@@ -23,7 +23,7 @@ class SystemSettingsTest extends BaseSettingsTestCase
 
     public function test_weAreWorkingWithSystemSettings()
     {
-        $this->assertTrue($this->settings instanceof SystemSettings);
+        $this->assertInstanceOf(SystemSettings::class, $this->settings);
     }
 
     public function test_constructor_getPluginName_canDetectPluginNameAutomatically()
@@ -37,7 +37,7 @@ class SystemSettingsTest extends BaseSettingsTestCase
     {
         $setting = $this->makeSetting('myName');
 
-        $this->assertTrue($setting instanceof SystemSetting);
+        $this->assertInstanceOf(SystemSetting::class, $setting);
     }
 
 }

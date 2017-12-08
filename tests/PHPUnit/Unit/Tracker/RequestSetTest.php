@@ -103,10 +103,10 @@ class RequestSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->buildRequest(2), $setRequests[2]);
         $this->assertEquals($this->buildRequest(6), $setRequests[4]);
 
-        $this->assertTrue($setRequests[1] instanceof Request);
+        $this->assertInstanceOf(Request::class, $setRequests[1]);
         $this->assertEquals(array('idsite' => 9), $setRequests[1]->getParams());
 
-        $this->assertTrue($setRequests[3] instanceof Request);
+        $this->assertInstanceOf(Request::class, $setRequests[3]);
         $this->assertEquals(array('idsite' => 3), $setRequests[3]->getParams());
 
         $this->assertCount(5, $setRequests);
@@ -224,7 +224,7 @@ class RequestSetTest extends \PHPUnit_Framework_TestCase
     {
         $serverBackup = $_SERVER;
         $cookieBackup = $_COOKIE;
-        
+
         $this->requestSet->setEnvironment($this->getFakeEnvironment());
         $this->requestSet->restoreEnvironment();
 
@@ -266,7 +266,7 @@ class RequestSetTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedRequests, $state['requests']);
         $this->assertEquals('mytoken', $state['tokenAuth']);
-        $this->assertTrue(is_numeric($state['time']));
+        $this->assertInternalType('numeric', $state['time']);
         $this->assertEquals(array('server' => $_SERVER, 'cookie' => $_COOKIE), $state['env']);
     }
 

@@ -115,7 +115,7 @@ class OptionTest extends IntegrationTestCase
 
         // insert guard - to test unescaped underscore
         Option::set('adefaultReport', '0', true);
-        $this->assertTrue(Option::get('adefaultReport') === '0');
+        $this->assertSame('0', Option::get('adefaultReport'));
 
         // populate table, expect '1'
         Option::set('anonymous_defaultReport', '1', true);

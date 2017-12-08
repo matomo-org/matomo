@@ -27,13 +27,13 @@ class ControllerTest extends SystemTestCase
     public function test_getAllWithGroups()
     {
         $sites = $this->requestGetAllWithGroups(array('filter_limit' => 20));
-        $this->assertTrue(is_string($sites));
+        $this->assertInternalType('string', $sites);
 
         $sites = json_decode($sites, true);
 
         // as limit is 20 make sure it returns all 15 sites but we do not check for all the detailed sites info,
         // this is tested in other tests. We only check for first site.
-        $this->assertSame(15, count($sites['sites']));
+        $this->assertCount(15, $sites['sites']);
         $this->assertEquals(array(
             'label' => 'Site 1',
             'nb_visits' => '2',
@@ -70,7 +70,7 @@ class ControllerTest extends SystemTestCase
         $sites = $this->requestGetAllWithGroups(array('filter_limit' => 5));
         $sites = json_decode($sites, true);
 
-        $this->assertSame(5, count($sites['sites']));
+        $this->assertCount(5, $sites['sites']);
         $this->assertSame(15, $sites['numSites']);
         $this->assertReturnedSitesEquals(array(1, 2, 3, 4, 5), $sites);
     }
@@ -80,7 +80,7 @@ class ControllerTest extends SystemTestCase
         $sites = $this->requestGetAllWithGroups(array('filter_limit' => 5, 'filter_offset' => 4));
         $sites = json_decode($sites, true);
 
-        $this->assertSame(5, count($sites['sites']));
+        $this->assertCount(5, $sites['sites']);
         $this->assertSame(15, $sites['numSites']);
         $this->assertReturnedSitesEquals(array(5, 6, 7, 8, 9), $sites);
     }
@@ -91,7 +91,7 @@ class ControllerTest extends SystemTestCase
         $sites = $this->requestGetAllWithGroups(array('filter_limit' => 5, 'pattern' => $pattern));
         $sites = json_decode($sites, true);
 
-        $this->assertSame(5, count($sites['sites']));
+        $this->assertCount(5, $sites['sites']);
         $this->assertSame(1 + 6, $sites['numSites']); // Site 1 + Site10-15
         $this->assertReturnedSitesEquals(array(1, 10, 11, 12, 13), $sites);
     }

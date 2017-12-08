@@ -63,8 +63,8 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $updater = $this->makeUpdater();
         $fromFile = $updater->getFromFile();
         $toFile = $updater->getToFile();
-        $this->assertTrue($fromFile instanceof File);
-        $this->assertTrue($toFile instanceof File);
+        $this->assertInstanceOf(File::class, $fromFile);
+        $this->assertInstanceOf(File::class, $toFile);
 
         $this->assertSame(basename(TrackerUpdater::ORIGINAL_PIWIK_JS), $fromFile->getName());
         $this->assertSame(basename(TrackerUpdater::TARGET_PIWIK_JS), $toFile->getName());
@@ -135,7 +135,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $updater = $this->makeUpdater(null, $targetFile);
         $content = $updater->getCurrentTrackerFileContent();
 
-        $this->assertSame(file_get_contents($targetFile), $content);
+        $this->assertStringEqualsFile($targetFile, $content);
     }
 
     public function test_getUpdatedTrackerFileContent_returnsGeneratedPiwikJsWithMergedTrackerFiles_WhenTheyExist()
@@ -177,7 +177,7 @@ var myArray = [];
         $updater->setTrackerFiles(new PluginTrackerFilesMock(array()));
         $content = $updater->getUpdatedTrackerFileContent();
 
-        $this->assertSame(file_get_contents($source), $content);
+        $this->assertStringEqualsFile($source, $content);
     }
 
     public function test_update_shouldNotThrowAnError_IfTargetFileIsNotWritable()
@@ -198,7 +198,7 @@ var myArray = [];
         // mock that does not find any files . therefore there is nothing to di
         $updater->update();
 
-        $this->assertSame(file_get_contents($source), file_get_contents($target));
+        $this->assertFileEquals($source, $target);
         $this->assertNull($this->piwikJsChangedEventPath);
     }
 

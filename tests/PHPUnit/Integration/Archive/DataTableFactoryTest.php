@@ -93,11 +93,11 @@ class DataTableFactoryTest extends IntegrationTestCase
 
         $map = $factory->makeMerged($index, $indices);
 
-        $this->assertTrue($map instanceof DataTable\Map);
+        $this->assertInstanceOf(DataTable\Map::class, $map);
         $this->assertRowCountEquals(2, $map);
 
         foreach ($map->getDataTables() as $label => $table) {
-            $this->assertTrue(in_array($label, array($this->date1, $this->date2)));
+            $this->assertContains($label, array($this->date1, $this->date2));
             $this->assertTableIsDataTableSimpleInstance($table);
             $this->assertRowCountEquals(1, $table);
             $this->assertRowEquals($this->defaultRow, $this->site1, $table->getFirstRow());
@@ -120,7 +120,7 @@ class DataTableFactoryTest extends IntegrationTestCase
 
         $map = $factory->makeMerged($index, $indices);
 
-        $this->assertTrue($map instanceof DataTable\Map);
+        $this->assertInstanceOf(DataTable\Map::class, $map);
         $this->assertRowCountEquals(2, $map);
 
         foreach ($map->getDataTables() as $label => $table) {
@@ -209,12 +209,12 @@ class DataTableFactoryTest extends IntegrationTestCase
 
         $map = $factory->makeMerged($index, $indices);
 
-        $this->assertTrue($map instanceof DataTable\Map);
+        $this->assertInstanceOf(DataTable\Map::class, $map);
         $this->assertRowCountEquals(2, $map);
         $this->assertSame('date', $map->getKeyName());
 
         foreach ($map->getDataTables() as $label => $table) {
-            $this->assertTrue(in_array($label, array($this->date1, $this->date2)));
+            $this->assertContains($label, array($this->date1, $this->date2));
             $this->assertTableIsDataTableInstance($table);
             $this->assertRowCountEquals(2, $table);
             $this->assertTableMetadataEquals($label, $table);
@@ -248,11 +248,11 @@ class DataTableFactoryTest extends IntegrationTestCase
 
         $map = $factory->makeMerged($index, $indices);
 
-        $this->assertTrue($map instanceof DataTable\Map);
+        $this->assertInstanceOf(DataTable\Map::class, $map);
         $this->assertRowCountEquals(2, $map);
 
         foreach ($map->getDataTables() as $label => $table) {
-            $this->assertTrue(in_array($label, array($this->date1, $this->date2)));
+            $this->assertContains($label, array($this->date1, $this->date2));
             $this->assertTableIsDataTableInstance($table);
             $this->assertRowCountEquals(2, $table);
             $this->assertTableMetadataEquals($label, $table);
@@ -282,7 +282,7 @@ class DataTableFactoryTest extends IntegrationTestCase
         $period = $dataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
 
         $this->assertFalse($dataTable->getMetadata(DataTableFactory::TABLE_METADATA_SITE_INDEX));
-        $this->assertTrue($period instanceof Period);
+        $this->assertInstanceOf(Period::class, $period);
         $this->assertSame($expectedPeriod, $period->toString());
     }
 
@@ -305,13 +305,13 @@ class DataTableFactoryTest extends IntegrationTestCase
 
     private function assertTableIsDataTableInstance($table)
     {
-        $this->assertTrue($table instanceof DataTable);
-        $this->assertFalse($table instanceof DataTable\Simple);
+        $this->assertInstanceOf(DataTable::class, $table);
+        $this->assertNotInstanceOf(DataTable\Simple::class, $table);
     }
 
     private function assertTableIsDataTableSimpleInstance($table)
     {
-        $this->assertTrue($table instanceof DataTable\Simple);
+        $this->assertInstanceOf(DataTable\Simple::class, $table);
     }
 
     private function createFactory($resultIndices)

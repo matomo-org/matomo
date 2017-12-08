@@ -57,7 +57,7 @@ class PluginTrackerFilesTest extends IntegrationTestCase
         $foundFiles = $trackerFiles->find();
 
         $this->assertCount(1, $foundFiles);
-        $this->assertTrue(isset($foundFiles['CustomPiwikJs']));
+        $this->assertArrayHasKey('CustomPiwikJs', $foundFiles);
         $this->assertEquals('tracker.min.js', $foundFiles['CustomPiwikJs']->getName());
     }
 
@@ -68,7 +68,7 @@ class PluginTrackerFilesTest extends IntegrationTestCase
         $foundFiles = $trackerFiles->find();
 
         $this->assertCount(1, $foundFiles);
-        $this->assertTrue(isset($foundFiles['CustomPiwikJs']));
+        $this->assertArrayHasKey('CustomPiwikJs', $foundFiles);
         $this->assertEquals('tracker.js', $foundFiles['CustomPiwikJs']->getName());
     }
 
@@ -78,8 +78,8 @@ class PluginTrackerFilesTest extends IntegrationTestCase
         $foundFiles = $trackerFiles->find();
 
         $this->assertCount(2, $foundFiles);
-        $this->assertTrue(isset($foundFiles['CustomPiwikJs']));
-        $this->assertTrue(isset($foundFiles['Goals']));
+        $this->assertArrayHasKey('CustomPiwikJs', $foundFiles);
+        $this->assertArrayHasKey('Goals', $foundFiles);
         $this->assertEquals('tracker.js', $foundFiles['CustomPiwikJs']->getName());
         $this->assertEquals('tracker.min.js', $foundFiles['Goals']->getName());
     }
@@ -98,8 +98,8 @@ class PluginTrackerFilesTest extends IntegrationTestCase
 
         $foundFiles = $trackerFiles->find();
         $this->assertCount(1, $foundFiles);
-        $this->assertTrue(isset($foundFiles['CustomPiwikJs']));
-        $this->assertFalse(isset($foundFiles['Goals']));
+        $this->assertArrayHasKey('CustomPiwikJs', $foundFiles);
+        $this->assertArrayNotHasKey('Goals', $foundFiles);
     }
 
     public function test_find_shouldNotReturnATrackerFile_IfPluginIsNotActivatedOrLoaded()
@@ -108,14 +108,14 @@ class PluginTrackerFilesTest extends IntegrationTestCase
         $foundFiles = $trackerFiles->find();
 
         $this->assertCount(1, $foundFiles);
-        $this->assertTrue(isset($foundFiles['Goals']));
+        $this->assertArrayHasKey('Goals', $foundFiles);
         $this->assertEquals('tracker.min.js', $foundFiles['Goals']->getName());
 
         $trackerFiles = new CustomPluginTrackerFiles('Goals', 'MyNotExistingPlugin');
         $foundFiles = $trackerFiles->find();
 
         $this->assertCount(1, $foundFiles);
-        $this->assertTrue(isset($foundFiles['Goals']));
+        $this->assertArrayHasKey('Goals', $foundFiles);
         $this->assertEquals('tracker.js', $foundFiles['Goals']->getName());
     }
 

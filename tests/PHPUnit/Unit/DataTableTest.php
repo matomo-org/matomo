@@ -69,13 +69,13 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
         // normal row
         $idToDelete = 1;
-        $this->assertEquals(2, count($table->getRowFromId($idToDelete)->getColumns()));
+        $this->assertCount(2, $table->getRowFromId($idToDelete)->getColumns());
         $table->deleteRow($idToDelete);
         $this->assertFalse($table->getRowFromId($idToDelete));
 
         // summary row special case
         $idToDelete = DataTable::ID_SUMMARY_ROW;
-        $this->assertEquals(2, count($table->getRowFromId($idToDelete)->getColumns()));
+        $this->assertCount(2, $table->getRowFromId($idToDelete)->getColumns());
         $table->deleteRow($idToDelete);
         $this->assertFalse($table->getRowFromId($idToDelete));
     }
@@ -329,8 +329,8 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
         $table = DataTable::fromSerializedArray($table);
         $row1  = $table->getFirstRow();
-        $this->assertTrue($row1 instanceof \Piwik\DataTable\Row);
-        $this->assertFalse($row1 instanceof \Piwik\DataTable\Row\DataTableSummaryRow); // we convert summary rows to Row instances
+        $this->assertInstanceOf(\Piwik\DataTable\Row::class, $row1);
+        $this->assertNotInstanceOf(\Piwik\DataTable\Row\DataTableSummaryRow::class, $row1); // we convert summary rows to Row instances
 
         $this->assertEquals($label, $row1->getColumn('label'));
         $this->assertEquals($column2, $row1->getColumn(2));
@@ -656,7 +656,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         // make sure the rows subtableId were updated as well.
         foreach ($tables as $index => $serializedRows) {
             $rows = unserialize($serializedRows);
-            $this->assertTrue(is_array($rows));
+            $this->assertInternalType('array', $rows);
 
             if (0 === $index) {
                 // root table, make sure correct amount of rows are in subtables
@@ -664,7 +664,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
             }
 
             foreach ($rows as $row) {
-                $this->assertTrue(is_array($row));
+                $this->assertInternalType('array', $row);
 
                 $subtableId = $row[Row::DATATABLE_ASSOCIATED];
 
@@ -972,7 +972,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $serializedStrings = $table2->getSerialized();
 
         // both the main table and the sub table are serialized
-        $this->assertEquals(sizeof($serializedStrings), 2);
+        $this->assertCount(2, $serializedStrings);
 
         // the serialized string references the id subtable
         $unserialized = unserialize($serializedStrings[0]);
@@ -987,7 +987,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $serializedStrings = $table2->getSerialized();
 
         // - the serialized table does NOT contain the sub table
-        $this->assertEquals(sizeof($serializedStrings), 1); // main table only is serialized
+        $this->assertCount(1, $serializedStrings); // main table only is serialized
         $unserialized = unserialize($serializedStrings[0]);
 
         // - the serialized string does NOT contain the id subtable (the row was cleaned up as expected)

@@ -52,10 +52,10 @@ class WidgetsListTest extends IntegrationTestCase
             'About Piwik' => 10,
         );
         // number of main categories
-        $this->assertEquals(count($numberOfWidgets), count($widgetsPerCategory));
+        $this->assertCount(count($numberOfWidgets), $widgetsPerCategory);
 
         foreach ($numberOfWidgets as $category => $widgetCount) {
-            $this->assertEquals($widgetCount, count($widgetsPerCategory[$category]), sprintf("Widget: %s", $category));
+            $this->assertCount($widgetCount, $widgetsPerCategory[$category], sprintf("Widget: %s", $category));
         }
     }
 
@@ -83,7 +83,7 @@ class WidgetsListTest extends IntegrationTestCase
         $_GET['idSite'] = 1;
 
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
-        $this->assertEquals($initialGoalsWidgets, count($perCategory['Goals_Goals']));
+        $this->assertCount($initialGoalsWidgets, $perCategory['Goals_Goals']);
 
 
         API::getInstance()->addGoal(1, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
@@ -91,8 +91,8 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(10, count($perCategory));
-        $this->assertEquals($initialGoalsWidgets + 2, count($perCategory['Goals_Goals'])); // make sure widgets for that goal were added
+        $this->assertCount(10, $perCategory);
+        $this->assertCount($initialGoalsWidgets + 2, $perCategory['Goals_Goals']); // make sure widgets for that goal were added
     }
 
     public function testGetWithGoalsAndEcommerce()
@@ -105,7 +105,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(11, count($perCategory));
+        $this->assertCount(11, $perCategory);
 
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
@@ -114,7 +114,7 @@ class WidgetsListTest extends IntegrationTestCase
         );
 
         foreach ($numberOfWidgets as $category => $widgetCount) {
-            $this->assertEquals($widgetCount, count($perCategory[$category]));
+            $this->assertCount($widgetCount, $perCategory[$category]);
         }
     }
 

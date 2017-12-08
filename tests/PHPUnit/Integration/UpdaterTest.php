@@ -24,7 +24,7 @@ class UpdaterTest extends IntegrationTestCase
         $updater->markComponentSuccessfullyUpdated('testpluginUpdates', '0.4');
         $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile(array('testpluginUpdates' => '0.5'));
 
-        $this->assertEquals(1, count($componentsWithUpdateFile));
+        $this->assertCount(1, $componentsWithUpdateFile);
 
         $result = $updater->updateComponents($componentsWithUpdateFile);
 
@@ -38,7 +38,7 @@ class UpdaterTest extends IntegrationTestCase
         $updater = new Updater(PIWIK_INCLUDE_PATH . '/tests/resources/Updater/core/');
         $updater->markComponentSuccessfullyUpdated('core', '0.1');
         $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile(array('core' => '0.3'));
-        $this->assertEquals(1, count($componentsWithUpdateFile));
+        $this->assertCount(1, $componentsWithUpdateFile);
     }
 
     public function testUpdaterChecksGivenPluginVersionAndDetectsMultipleUpdateFileInOrder()
@@ -47,9 +47,9 @@ class UpdaterTest extends IntegrationTestCase
         $updater->markComponentSuccessfullyUpdated('testpluginUpdates', '0.1beta');
         $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile(array('testpluginUpdates' => '0.1'));
 
-        $this->assertEquals(1, count($componentsWithUpdateFile));
+        $this->assertCount(1, $componentsWithUpdateFile);
         $updateFiles = $componentsWithUpdateFile['testpluginUpdates'];
-        $this->assertEquals(2, count($updateFiles));
+        $this->assertCount(2, $updateFiles);
 
         $path = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/testpluginUpdates/';
         $expectedInOrder = array(
@@ -73,7 +73,7 @@ class UpdaterTest extends IntegrationTestCase
             'testpluginUpdates' => '0.1',
             'core' => '0.3'
         ));
-        $this->assertEquals(2, count($componentsWithUpdateFile));
+        $this->assertCount(2, $componentsWithUpdateFile);
         reset($componentsWithUpdateFile);
         $this->assertEquals('core', key($componentsWithUpdateFile));
     }

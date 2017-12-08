@@ -60,7 +60,7 @@ class ReportWidgetFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $config = $this->factory->createContainerWidget('myId');
 
-        $this->assertTrue($config instanceof WidgetContainerConfig);
+        $this->assertInstanceOf(WidgetContainerConfig::class, $config);
         $this->assertSame('myId', $config->getId());
         $this->assertSame('Goals_Goals', $config->getCategoryId());
         $this->assertSame('General_Overview', $config->getSubcategoryId());
@@ -71,7 +71,7 @@ class ReportWidgetFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $config = $this->factory->createWidget();
 
-        $this->assertTrue($config instanceof ReportWidgetConfig);
+        $this->assertInstanceOf(ReportWidgetConfig::class, $config);
         $this->assertSame('Report_MyCustomReportName', $config->getName());
         $this->assertSame('Goals_Goals', $config->getCategoryId());
         $this->assertSame('General_Overview', $config->getSubcategoryId());
@@ -91,7 +91,7 @@ class ReportWidgetFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $config = $this->factory->createCustomWidget('customAction');
 
-        $this->assertTrue($config instanceof ReportWidgetConfig);
+        $this->assertInstanceOf(ReportWidgetConfig::class, $config);
         $this->assertSame('Report_MyCustomReportName', $config->getName());
         $this->assertSame('Goals_Goals', $config->getCategoryId());
         $this->assertSame('General_Overview', $config->getSubcategoryId());

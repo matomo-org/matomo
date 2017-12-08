@@ -419,8 +419,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         if(!is_string($response)) {
             $response = json_encode($response);
         }
-        self::assertTrue(stripos($response, 'error') === false, "error in $response");
-        self::assertTrue(stripos($response, 'exception') === false, "exception in $response");
+        self::assertFalse(stripos($response, 'error'), "error in $response");
+        self::assertFalse(stripos($response, 'exception'), "exception in $response");
     }
 
     protected static function getProcessedAndExpectedDirs()

@@ -102,7 +102,7 @@ class Test_DataTable_Map extends \PHPUnit_Framework_TestCase
 
         // check that the first sub-DataTable is a DataTable with 4 rows
         $subDataTable1 = $result->getTable('subDataTable1');
-        $this->assertTrue($subDataTable1 instanceof DataTable);
+        $this->assertInstanceOf(DataTable::class, $subDataTable1);
         $this->assertEquals(4, $subDataTable1->getRowsCount());
 
         // check that the first two rows of the first sub-table have 'subArray1' as the label
@@ -115,7 +115,7 @@ class Test_DataTable_Map extends \PHPUnit_Framework_TestCase
 
         // check that the second sub-DataTable is a DataTable with 4 rows
         $subDataTable2 = $result->getTable('subDataTable2');
-        $this->assertTrue($subDataTable2 instanceof DataTable);
+        $this->assertInstanceOf(DataTable::class, $subDataTable2);
         $this->assertEquals(4, $subDataTable2->getRowsCount());
 
         // check that the first two rows of the second sub-table have 'subArray1' as the label

@@ -35,7 +35,7 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
             }
         }
         $minimumTlds = 1200;
-        $this->assertGreaterThan( $minimumTlds, count($tlds), "expected to download at least $minimumTlds domain names");
+        $this->assertGreaterThan($minimumTlds, count($tlds), "expected to download at least $minimumTlds domain names");
         return $tlds;
     }
 

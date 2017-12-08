@@ -73,7 +73,7 @@ class FileTest extends IntegrationTestCase
         }
         $this->assertTrue(is_writable(dirname($path)));
         $this->assertFalse(is_writable($path));
-        $this->assertTrue(file_exists($path));
+        $this->assertFileExists($path);
         return $file;
     }
 

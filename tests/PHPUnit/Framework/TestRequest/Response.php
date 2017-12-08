@@ -209,7 +209,7 @@ class Response
         if (!is_array($fieldsToRemove)) {
             $fieldsToRemove = array();
         }
-        
+
         foreach ($fieldsToRemove as $xml) {
             $input = $this->removeXmlElement($input, $xml);
         }
@@ -227,7 +227,7 @@ class Response
 
         // check we didn't delete the whole string
         if ($testNotSmallAfter && $input != $oldInput) {
-            $this->assertTrue(strlen($input) > 100);
+            $this->assertGreaterThan(100, strlen($input));
         }
         return $input;
     }

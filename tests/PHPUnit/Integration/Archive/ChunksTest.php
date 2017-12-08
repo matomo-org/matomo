@@ -81,7 +81,7 @@ class ChunksTest extends IntegrationTestCase
         // verify the subtables were actually splitted into chunks
         foreach ($archiveRows as $row) {
             $value = unserialize(gzuncompress($row['value']));
-            $this->assertTrue(is_array($value));
+            $this->assertInternalType('array', $value);
             if ($row['name'] == $recordName) {
                 $this->assertCount($numSubtablesToGenerate, $value); // 1053 rows
             } elseif ($row['name'] == $recordName . '_chunk_1000_1099') {

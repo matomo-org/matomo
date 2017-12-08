@@ -70,7 +70,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         $visitorId = $t->getVisitorId();
-        self::assertTrue(strlen($visitorId) == 16);
+        self::assertEquals(16, strlen($visitorId));
 
         $this->testFirstPartyCookies($t);
 
@@ -80,7 +80,7 @@ class SomeVisitsCustomVariablesCampaignsNotHeuristics extends Fixture
 
         // Make sure the ID is different at first
         $visitorId2 = $t2->getVisitorId();
-        self::assertTrue($visitorId != $visitorId2);
+        self::assertNotEquals($visitorId, $visitorId2);
 
         // Then force the visitor ID
         $t2->setVisitorId($visitorId);

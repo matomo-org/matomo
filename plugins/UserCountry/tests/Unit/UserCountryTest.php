@@ -161,13 +161,13 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
     {
         $geoIpDir = PIWIK_INCLUDE_PATH . '/tests/lib/geoip-files';
 
-        $this->assertFalse(file_exists($geoIpDir . '/GeoIPCity.dat.broken'));
+        $this->assertFileNotExists($geoIpDir . '/GeoIPCity.dat.broken');
 
-        $this->assertFalse(file_exists($geoIpDir . '/GeoIPISP.dat'));
-        $this->assertTrue(file_exists($geoIpDir . '/GeoIPISP.dat.broken'));
+        $this->assertFileNotExists($geoIpDir . '/GeoIPISP.dat');
+        $this->assertFileExists($geoIpDir . '/GeoIPISP.dat.broken');
 
-        $this->assertFalse(file_exists($geoIpDir . '/GeoIPOrg.dat'));
-        $this->assertTrue(file_exists($geoIpDir . '/GeoIPOrg.dat.broken'));
+        $this->assertFileNotExists($geoIpDir . '/GeoIPOrg.dat');
+        $this->assertFileExists($geoIpDir . '/GeoIPOrg.dat.broken');
     }
 }
 

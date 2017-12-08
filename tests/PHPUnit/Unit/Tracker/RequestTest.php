@@ -457,7 +457,7 @@ class RequestTest extends UnitTestCase
     {
         $cookie = $this->request->makeThirdPartyCookieUID();
 
-        $this->assertTrue($cookie instanceof Cookie);
+        $this->assertInstanceOf(Cookie::class, $cookie);
     }
 
     public function test_makeThirdPartyCookie_ShouldPreconfigureTheCookieInstance()

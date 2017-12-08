@@ -501,14 +501,14 @@ class SegmentTest extends IntegrationTestCase
                     log_action.name as url,
                     sum(log_link_visit_action.time_spent) as `13`,
                     sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
-             FROM $logLinkVisitActionTable AS log_link_visit_action 
-             LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_url = log_action.idaction 
-             LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit 
-             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_foo ON log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit 
-             LEFT JOIN $logActionTable AS log_action_foo ON log_link_visit_action_foo.idaction_url = log_action_foo.idaction 
-             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_bar ON log_link_visit_action.idvisit = log_link_visit_action_bar.idvisit 
-             LEFT JOIN $logActionTable AS log_action_bar ON log_link_visit_action_bar.idaction_url = log_action_bar.idaction 
-             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_baz ON log_link_visit_action.idvisit = log_link_visit_action_baz.idvisit 
+             FROM $logLinkVisitActionTable AS log_link_visit_action
+             LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_url = log_action.idaction
+             LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
+             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_foo ON log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit
+             LEFT JOIN $logActionTable AS log_action_foo ON log_link_visit_action_foo.idaction_url = log_action_foo.idaction
+             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_bar ON log_link_visit_action.idvisit = log_link_visit_action_bar.idvisit
+             LEFT JOIN $logActionTable AS log_action_bar ON log_link_visit_action_bar.idaction_url = log_action_bar.idaction
+             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_baz ON log_link_visit_action.idvisit = log_link_visit_action_baz.idvisit
              LEFT JOIN $logActionTable AS log_action_baz ON log_link_visit_action_baz.idaction_url = log_action_baz.idaction
              WHERE ( log_link_visit_action.server_time >= ?
                  AND log_link_visit_action.server_time <= ?
@@ -553,8 +553,8 @@ class SegmentTest extends IntegrationTestCase
                     log_action.name as url,
                     sum(log_link_visit_action.time_spent) as `13`,
                     sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
-             FROM $logLinkVisitActionTable AS log_link_visit_action 
-             LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit 
+             FROM $logLinkVisitActionTable AS log_link_visit_action
+             LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
              LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_name = log_action.idaction
              WHERE ( log_link_visit_action.server_time >= ?
                  AND log_link_visit_action.server_time <= ?
@@ -716,9 +716,9 @@ class SegmentTest extends IntegrationTestCase
                     actionAlias.name as url,
                     sum(log_link_visit_action.time_spent) as `13`,
                     sum(case visitAlias.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
-             FROM $logLinkVisitActionTable AS log_link_visit_action 
-             LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_url = log_action.idaction 
-             LEFT JOIN $logVisitTable AS visitAlias ON visitAlias.idvisit = log_link_visit_action.idvisit 
+             FROM $logLinkVisitActionTable AS log_link_visit_action
+             LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_url = log_action.idaction
+             LEFT JOIN $logVisitTable AS visitAlias ON visitAlias.idvisit = log_link_visit_action.idvisit
              LEFT JOIN $logActionTable AS actionAlias ON log_link_visit_action.idaction_url = actionAlias.idaction
              WHERE ( log_link_visit_action.server_time >= ?
                  AND log_link_visit_action.server_time <= ?
@@ -964,16 +964,16 @@ class SegmentTest extends IntegrationTestCase
 
         $expected = array(
             "sql"  => "
-                SELECT log_inner.name AS 'EntryPageTitle', log_inner.name02fd90a35677a359ea5611a4bc456a6f AS 'EventAction', count(distinct log_inner.idvisit) AS 'nb_uniq_visits', count(distinct log_inner.idvisitor) AS 'nb_uniq_visitors', sum(case log_inner.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) AS 'bounce_count', sum(log_inner.visit_total_actions) AS 'sum_actions', sum(log_inner.visit_goal_converted) AS 'sum_visit_goal_converted' 
-                FROM ( 
-                  SELECT log_action_visit_entry_idaction_name.name, log_action_idaction_event_action.name as name02fd90a35677a359ea5611a4bc456a6f, log_visit.idvisit, log_visit.idvisitor, log_visit.visit_total_actions, log_visit.visit_goal_converted 
-                  FROM $logVisitTable AS log_visit 
-                  LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
-                  LEFT JOIN $logActionTable AS log_action_visit_entry_idaction_name ON log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction 
+                SELECT log_inner.name AS 'EntryPageTitle', log_inner.name02fd90a35677a359ea5611a4bc456a6f AS 'EventAction', count(distinct log_inner.idvisit) AS 'nb_uniq_visits', count(distinct log_inner.idvisitor) AS 'nb_uniq_visitors', sum(case log_inner.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) AS 'bounce_count', sum(log_inner.visit_total_actions) AS 'sum_actions', sum(log_inner.visit_goal_converted) AS 'sum_visit_goal_converted'
+                FROM (
+                  SELECT log_action_visit_entry_idaction_name.name, log_action_idaction_event_action.name as name02fd90a35677a359ea5611a4bc456a6f, log_visit.idvisit, log_visit.idvisitor, log_visit.visit_total_actions, log_visit.visit_goal_converted
+                  FROM $logVisitTable AS log_visit
+                  LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                  LEFT JOIN $logActionTable AS log_action_visit_entry_idaction_name ON log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction
                   LEFT JOIN $logActionTable AS log_action_idaction_event_action ON log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction
-                  ORDER BY nb_uniq_visits, log_action_idaction_event_action.name LIMIT 0, 33 ) 
-                AS log_inner 
-                GROUP BY log_inner.name, log_inner.name02fd90a35677a359ea5611a4bc456a6f 
+                  ORDER BY nb_uniq_visits, log_action_idaction_event_action.name LIMIT 0, 33 )
+                AS log_inner
+                GROUP BY log_inner.name, log_inner.name02fd90a35677a359ea5611a4bc456a6f
                 ORDER BY nb_uniq_visits, log_inner.name02fd90a35677a359ea5611a4bc456a6f",
             "bind" => array(1));
 
@@ -1016,15 +1016,15 @@ class SegmentTest extends IntegrationTestCase
                   sum(log_inner.time_spent) as `13`,
                   sum(case log_inner.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
 			FROM
-				
+
         (
-            
+
 			SELECT
-				log_link_visit_action.idvisit, 
-log_visit.idvisit as idvisit5d489886e80b4258a9407b219a4e2811, 
-log_visit.idvisitor, 
-log_action.name, 
-log_link_visit_action.time_spent, 
+				log_link_visit_action.idvisit,
+log_visit.idvisit as idvisit5d489886e80b4258a9407b219a4e2811,
+log_visit.idvisitor,
+log_action.name,
+log_link_visit_action.time_spent,
 log_visit.visit_total_actions
 			FROM
 				log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
@@ -1306,7 +1306,7 @@ log_visit.visit_total_actions
             ));
 
         $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
-        $this->assertTrue( empty($cache->isEnabled) );
+        $this->assertEmpty($cache->isEnabled);
         $this->assertCacheWasHit($hit = 0);
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
@@ -1376,7 +1376,7 @@ log_visit.visit_total_actions
             ));
 
         $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
-        $this->assertTrue( !empty($cache->isEnabled) );
+        $this->assertNotEmpty($cache->isEnabled);
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
@@ -1445,7 +1445,7 @@ log_visit.visit_total_actions
             ));
 
         $cache = StaticContainer::get('Piwik\Tracker\TableLogAction\Cache');
-        $this->assertTrue( !empty($cache->isEnabled) );
+        $this->assertNotEmpty($cache->isEnabled);
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }

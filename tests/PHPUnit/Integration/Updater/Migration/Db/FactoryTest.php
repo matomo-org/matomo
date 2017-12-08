@@ -46,7 +46,7 @@ class FactoryTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-        
+
         $this->testTablePrefixed = Common::prefixTable($this->testTable);
         $this->factory = new Factory();
     }
@@ -55,7 +55,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->sql();
 
-        $this->assertTrue($migration instanceof Sql);
+        $this->assertInstanceOf(Sql::class, $migration);
     }
 
     public function test_sql_forwardsQueryAndErrorCode()
@@ -70,7 +70,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->boundSql();
 
-        $this->assertTrue($migration instanceof BoundSql);
+        $this->assertInstanceOf(BoundSql::class, $migration);
     }
 
     public function test_boundSql_forwardsParameters()
@@ -85,7 +85,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->createTable();
 
-        $this->assertTrue($migration instanceof CreateTable);
+        $this->assertInstanceOf(CreateTable::class, $migration);
     }
 
     public function test_createTable_forwardsParameters()
@@ -108,7 +108,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->factory->dropTable($this->testTable);
 
-        $this->assertTrue($migration instanceof DropTable);
+        $this->assertInstanceOf(DropTable::class, $migration);
     }
 
     public function test_dropTable_forwardsParameters()
@@ -123,7 +123,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->dropColumn();
 
-        $this->assertTrue($migration instanceof DropColumn);
+        $this->assertInstanceOf(DropColumn::class, $migration);
     }
 
     public function test_dropColumn_forwardsParameters()
@@ -146,7 +146,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->addColumn(null);
 
-        $this->assertTrue($migration instanceof AddColumn);
+        $this->assertInstanceOf(AddColumn::class, $migration);
     }
 
     public function test_addColumn_forwardsParameters_noLastColumn()
@@ -161,7 +161,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->addColumns(null);
 
-        $this->assertTrue($migration instanceof AddColumns);
+        $this->assertInstanceOf(AddColumns::class, $migration);
     }
 
     public function test_addColumns_forwardsParameters()
@@ -184,7 +184,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->changeColumn();
 
-        $this->assertTrue($migration instanceof ChangeColumn);
+        $this->assertInstanceOf(ChangeColumn::class, $migration);
     }
 
     public function test_changeColumn_forwardsParameters()
@@ -199,7 +199,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->changeColumnType();
 
-        $this->assertTrue($migration instanceof ChangeColumnType);
+        $this->assertInstanceOf(ChangeColumnType::class, $migration);
     }
 
     public function test_changeColumnType_forwardsParameters()
@@ -214,7 +214,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->changeColumnTypes();
 
-        $this->assertTrue($migration instanceof ChangeColumnTypes);
+        $this->assertInstanceOf(ChangeColumnTypes::class, $migration);
     }
 
     public function test_changeColumnTypes_forwardsParameters()
@@ -229,7 +229,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->addIndex();
 
-        $this->assertTrue($migration instanceof AddIndex);
+        $this->assertInstanceOf(AddIndex::class, $migration);
     }
 
     public function test_addIndex_forwardsParameters_generatesIndexNameAutomatically()
@@ -252,7 +252,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->addUniqueKey();
 
-        $this->assertTrue($migration instanceof AddUniqueKey);
+        $this->assertInstanceOf(AddUniqueKey::class, $migration);
     }
 
     public function test_addUniqueKey_forwardsParameters_generatesIndexNameAutomatically()
@@ -275,7 +275,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->dropIndex();
 
-        $this->assertTrue($migration instanceof DropIndex);
+        $this->assertInstanceOf(DropIndex::class, $migration);
     }
 
     public function test_addIndex_forwardsParameters()
@@ -290,7 +290,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->addPrimaryKey();
 
-        $this->assertTrue($migration instanceof AddPrimaryKey);
+        $this->assertInstanceOf(AddPrimaryKey::class, $migration);
     }
 
     public function test_addPrimaryKey_forwardsParameters()
@@ -305,7 +305,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->insert();
 
-        $this->assertTrue($migration instanceof Insert);
+        $this->assertInstanceOf(Insert::class, $migration);
     }
 
     public function test_insert_forwardsParameters()
@@ -319,7 +319,7 @@ class FactoryTest extends IntegrationTestCase
     public function test_batchInsert_returnsBatchInsertInstance()
     {
         $migration = $this->batchInsert();
-        $this->assertTrue($migration instanceof BatchInsert);
+        $this->assertInstanceOf(BatchInsert::class, $migration);
     }
 
     public function test_batchInsert_forwardsParameters()

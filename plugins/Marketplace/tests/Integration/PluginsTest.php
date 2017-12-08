@@ -333,9 +333,9 @@ class PluginsTest extends IntegrationTestCase
             if ($name === 'SecurityInfo') {
                 $this->assertTrue($plugin['isFree']);
                 $this->assertFalse($plugin['isPaid']);
-                $this->assertTrue(in_array($plugin['isInstalled'], array(true, false), true));
+                $this->assertContains($plugin['isInstalled'], array(true, false));
                 $this->assertFalse($plugin['isInvalid']);
-                $this->assertTrue(isset($plugin['canBeUpdated']));
+                $this->assertArrayHasKey('canBeUpdated', $plugin);
                 $this->assertSame(array(), $plugin['missingRequirements']);
                 $this->assertSame(Plugin\Manager::getInstance()->isPluginActivated('SecurityInfo'), $plugin['isActivated']);
             } elseif ($name === 'SimplePageBuilder') {
@@ -350,7 +350,7 @@ class PluginsTest extends IntegrationTestCase
             }
         }
     }
-    
+
     public function test_getAllPaidPlugins_shouldFetchOnlyPaidPlugins()
     {
         $this->plugins->getAllPaidPlugins();

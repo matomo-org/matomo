@@ -48,7 +48,7 @@ class ReleaseChannelsTest extends IntegrationTestCase
         $this->assertCount(4, $channels);
 
         foreach ($channels as $channel) {
-            $this->assertTrue($channel instanceof ReleaseChannel);
+            $this->assertInstanceOf(ReleaseChannel::class, $channel);
         }
     }
 

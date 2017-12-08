@@ -37,7 +37,7 @@ class FactoryTest extends IntegrationTestCase
     {
         $migration = $this->factory->activate($this->pluginName);
 
-        $this->assertTrue($migration instanceof Activate);
+        $this->assertInstanceOf(Activate::class, $migration);
     }
 
     public function test_sql_forwardsQueryAndErrorCode()

@@ -48,7 +48,7 @@ class PiwikTest extends IntegrationTestCase
      */
     public function testIsNumericValid($toTest)
     {
-        $this->assertTrue(is_numeric($toTest), $toTest . " not valid but should!");
+        $this->assertInternalType('numeric', $toTest, $toTest . " not valid but should!");
     }
 
     /**
@@ -70,7 +70,7 @@ class PiwikTest extends IntegrationTestCase
      */
     public function testIsNumericNotValid($toTest)
     {
-        $this->assertFalse(is_numeric($toTest), $toTest . " valid but shouldn't!");
+        $this->assertNotInternalType('numeric', $toTest, $toTest . " valid but shouldn't!");
     }
 
     public function testSecureDiv()

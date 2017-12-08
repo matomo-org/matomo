@@ -247,7 +247,7 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
         curl_close($curlHandle);
 
         // Tests response content, it has to be equal to the test file. If not equal, double compression occurred
-        $this->assertEquals($fullResponse, file_get_contents(TEST_FILE_LOCATION));
+        $this->assertStringEqualsFile(TEST_FILE_LOCATION, $fullResponse);
     }
 
     /**
@@ -272,7 +272,7 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
         curl_close($curlHandle);
 
         // Tests response content, it has to be equal to the test file
-        $this->assertEquals($fullResponse, file_get_contents(TEST_FILE_LOCATION));
+        $this->assertStringEqualsFile(TEST_FILE_LOCATION, $fullResponse);
 
         // Tests deflate compression has been used
         $deflateFileLocation = $this->getCompressedFileLocation() . ".deflate";
@@ -306,7 +306,7 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
         curl_close($curlHandle);
 
         // Tests response content, it has to be equal to the test file
-        $this->assertEquals($fullResponse, file_get_contents(TEST_FILE_LOCATION));
+        $this->assertStringEqualsFile(TEST_FILE_LOCATION, $fullResponse);
 
         // Tests gzip compression has been used
         $gzipFileLocation = $this->getCompressedFileLocation() . ".gz";
@@ -416,8 +416,8 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
         clearstatcache();
 
         // check no compressed files created
-        $this->assertFalse(file_exists($this->getCompressedFileLocation() . ".deflate"));
-        $this->assertFalse(file_exists($this->getCompressedFileLocation() . ".gz"));
+        $this->assertFileNotExists($this->getCompressedFileLocation() . ".deflate");
+        $this->assertFileNotExists($this->getCompressedFileLocation() . ".gz");
 
         // check $partialResponse
         $this->assertEquals(PARTIAL_BYTE_END - PARTIAL_BYTE_START, $responseInfo["size_download"]);
@@ -479,7 +479,7 @@ class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
         $this->assertFileNotExists($this->getCompressedFileLocation() . ".gz");
 
         // check $fullResponse
-        $this->assertEquals(file_get_contents(TEST_FILE_LOCATION), $fullResponse);
+        $this->assertStringEqualsFile(TEST_FILE_LOCATION, $fullResponse);
 
         $this->removeCompressedFiles();
     }

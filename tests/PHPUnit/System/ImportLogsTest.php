@@ -120,13 +120,13 @@ class ImportLogsTest extends SystemTestCase
 
         // make sure sites aren't created twice
         $piwikDotNet = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.net');
-        $this->assertEquals(1, count($piwikDotNet));
+        $this->assertCount(1, $piwikDotNet);
 
         $anothersiteDotCom = API::getInstance()->getSitesIdFromSiteUrl('http://anothersite.com');
-        $this->assertEquals(1, count($anothersiteDotCom));
+        $this->assertCount(1, $anothersiteDotCom);
 
         $whateverDotCom = API::getInstance()->getSitesIdFromSiteUrl('http://whatever.com');
-        $this->assertEquals(1, count($whateverDotCom));
+        $this->assertCount(1, $whateverDotCom);
 
         // make sure invalid requests are reported correctly
         $this->assertContains('The Piwik tracker identified 2 invalid requests on lines: 10, 11', $output);

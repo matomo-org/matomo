@@ -118,7 +118,7 @@ class JoinTablesTest extends \PHPUnit_Framework_TestCase
     public function test_getLogTable_shouldReturnInstanceOfLogTable_IfTableExists()
     {
         $visit = $this->tables->getLogTable('log_visit');
-        $this->assertFalse($visit instanceof Visit);
+        $this->assertNotInstanceOf(Visit::class, $visit);
     }
 
     public function test_getLogTable_shouldReturnNull_IfLogTableDoesNotExist()

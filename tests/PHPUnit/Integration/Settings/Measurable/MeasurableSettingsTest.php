@@ -35,7 +35,7 @@ class MeasurableSettingsTest extends BaseSettingsTestCase
 
     public function test_weAreWorkingWithMeasurableSettings()
     {
-        $this->assertTrue($this->settings instanceof MeasurableSettings);
+        $this->assertInstanceOf(MeasurableSettings::class, $this->settings);
     }
 
     public function test_constructor_getPluginName_canDetectPluginNameAutomatically()
@@ -50,7 +50,7 @@ class MeasurableSettingsTest extends BaseSettingsTestCase
     {
         $setting = $this->makeSetting('myName');
 
-        $this->assertTrue($setting instanceof MeasurableSetting);
+        $this->assertInstanceOf(MeasurableSetting::class, $setting);
     }
 
 }
