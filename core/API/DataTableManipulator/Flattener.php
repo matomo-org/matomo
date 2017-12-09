@@ -69,8 +69,11 @@ class Flattener extends DataTableManipulator
         $dataTable->filter('ReplaceColumnNames');
 
         $report        = ReportsProvider::factory($this->apiModule, $this->apiMethod);
-        $dimension     = $report->getDimension();
-        $dimensionName = $dimension ? str_replace('.', '_', $dimension->getId()) : 'label1';
+        if (!empty($report)) {
+            $dimension = $report->getDimension();
+        }
+
+        $dimensionName = !empty($dimension) ? str_replace('.', '_', $dimension->getId()) : 'label1';
 
         $this->flattenDataTableInto($dataTable, $newDataTable, $dimensionName);
 
