@@ -118,6 +118,11 @@ class HtmlTable extends Visualization
                     }
                 });
 
+                # replace original label column with first dimension
+                $firstDimension = array_shift($dimensions);
+                $this->dataTable->filter('ColumnDelete', array('label'));
+                $this->dataTable->filter('ReplaceColumnNames', array(array($firstDimension => 'label')));
+
                 if (empty($this->config->columns_to_display)) {
                     $columns = $this->dataTable->getColumns();
                     $hasNbVisits       = in_array('nb_visits', $columns);
@@ -131,6 +136,7 @@ class HtmlTable extends Visualization
                     unset($this->config->columns_to_display[$label]);
                 }
                 $this->config->columns_to_display = array_merge($dimensions, $this->config->columns_to_display);
+                array_unshift($this->config->columns_to_display, 'label');
             }
         }
 
