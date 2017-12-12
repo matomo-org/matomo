@@ -46,7 +46,7 @@ class GetCustomVariables extends Base
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getFooterMessageExplanationMissingMetrics()
     {
@@ -60,7 +60,18 @@ class GetCustomVariables extends Base
 
         $messageEnd = Piwik::translate('CustomVariables_MetricsNotAvailableForPageScope', array("'page'", '\'-\''));
 
-        return $messageStart . ' ' . $messageEnd;
+        $message = $messageStart . ' ' . $messageEnd;
+
+        if (!$this->isSubtableReport) {
+            // no footer message for subtables
+            $out = '';
+            Piwik::postEvent('Template.afterCustomVariablesReport', array(&$out));
+            if (!empty($message)) {
+                $message .= $out;
+            }
+        }
+
+        return $message;
     }
 
     /**
