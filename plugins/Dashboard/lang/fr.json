@@ -7,8 +7,8 @@
         "CreateNewDashboard": "Créer un nouveau tableau de bord",
         "Dashboard": "Tableau de bord",
         "DashboardCopied": "Tableau de bord actuel copié avec succès vers l'utilisateur sélectionné.",
-        "DashboardEmptyNotification": "Votre tableau de bord ne contient aucun gadget. COmmencez par ajouter quelques gadgets ou réinitialisez le tableau de bord à la selection de gadgets par défaut.",
-        "DashboardName": "Nom du tableau de bord:",
+        "DashboardEmptyNotification": "Votre tableau de bord ne contient aucun gadget. Commencez par ajouter quelques gadgets ou réinitialisez le tableau de bord à la sélection de gadgets par défaut.",
+        "DashboardName": "Nom du tableau de bord :",
         "DashboardOf": "Tableau de bord de %s",
         "DefaultDashboard": "Tableau de bord par défaut - Utilisant la sélection de gadgets par défaut et la disposition des colonnes.",
         "DeleteWidgetConfirm": "Êtes-vous sûr de vouloir supprimer ce widget du tableau de bord?",
@@ -28,9 +28,9 @@
         "SelectDashboardLayout": "Veuillez sélectionner votre nouvelle mise en page pour le tableau de bord",
         "SelectWidget": "Sélectionnez le widget à ajouter au tableau de bord",
         "SetAsDefaultWidgets": "Définir comme sélection de gadgets par défaut",
-        "SetAsDefaultWidgetsConfirm": "Êtes vous sûr(e) de vouloir définir la sélection de gadgets actuelle et la disposition actuelle du tableau de bord comme modèle par défaut?",
+        "SetAsDefaultWidgetsConfirm": "Êtes vous sûr(e) de vouloir définir la sélection de gadgets actuelle et la disposition actuelle du tableau de bord comme modèle par défaut ?",
         "SetAsDefaultWidgetsConfirmHelp": "Cette sélection de gadgets et cette disposition du tableau de bord seront utilisées à chaque création de tableau de bord par n'importe quel utilisateur ou quand la fonctionnalité \"%s\" est utilisée.",
-        "TopLinkTooltip": "Afficher les rapport de statistiques web pour %s.",
+        "TopLinkTooltip": "Afficher les rapports de statistiques web pour %s.",
         "WidgetNotFound": "Widget introuvable",
         "WidgetPreview": "Prévisualisation du Widget"
     }
