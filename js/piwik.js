@@ -986,7 +986,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     discardHashTag,
-    setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, isSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
+    setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, setGenerationTimeMs,
@@ -3105,6 +3105,9 @@ if (typeof window.Piwik !== 'object') {
                 // Default is user agent defined.
                 configCookiePath,
 
+                // Whether to use "Secure" cookies that only work over SSL
+                configCookieIsSecure = false,
+
                 // First-party cookies are disabled
                 configCookiesDisabled = false,
 
@@ -3202,9 +3205,7 @@ if (typeof window.Piwik !== 'object') {
                 // pageview was already tracked or not
                 numTrackedPageviews = 0,
 
-                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
-
-                secureCookie = false;
+                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
 
             // Document title
             try {
@@ -3216,7 +3217,7 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Set cookie value
              */
-            function setCookie(cookieName, value, msToExpire, path, domain) {
+            function setCookie(cookieName, value, msToExpire, path, domain, isSecure) {
                 if (configCookiesDisabled) {
                     return;
                 }
@@ -3233,21 +3234,7 @@ if (typeof window.Piwik !== 'object') {
                     (msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
-                    (secureCookie ? ';secure' : '');
-            }
-
-            /*
-             * Set cookie secure flag
-             */
-            function setSecureCookie(value) {
-                secureCookie = !!value;
-            }
-
-            /**
-             * Get secure cookie flag value
-             */
-            function isSecureCookie() {
-                return secureCookie;
+                    (isSecure ? ';secure' : '');
             }
 
             /*
@@ -3998,7 +3985,7 @@ if (typeof window.Piwik !== 'object') {
                     visitorIdCookieValues.lastVisitTs + '.' +
                     visitorIdCookieValues.lastEcommerceOrderTs;
 
-                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain);
+                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure);
             }
 
             /*
@@ -4107,7 +4094,7 @@ if (typeof window.Piwik !== 'object') {
              * Creates the session cookie
              */
             function setSessionCookie() {
-                setCookie(getCookieName('ses'), '*', configSessionCookieTimeout, configCookiePath, configCookieDomain);
+                setCookie(getCookieName('ses'), '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure);
             }
 
             function generateUniqueId() {
@@ -6414,6 +6401,17 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Enable the Secure cookie flag on all first party cookies.
+             * This should be used when your website is only available under HTTPS
+             * so that all tracking cookies are always sent over secure connection.
+             *
+             * @param bool
+             */
+            this.setSecureCookie = function (enable) {
+                configCookieIsSecure = enable;
+            };
+
+            /**
              * Disables all cookies from being set
              *
              * Existing cookies will be deleted on the next call to track
@@ -7095,7 +7093,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking', 'setSecureCookie'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
