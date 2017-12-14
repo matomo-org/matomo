@@ -543,7 +543,7 @@ enable_custom_logo_check = 1
 ; absolute path to the chroot environment. eg. '/path/to/piwik/chrooted/'
 absolute_chroot_path =
 
-; The path on the server in which temporary files are stored.
+; The path (relative to the Piwik directory) in which Piwik temporary files are stored.
 ; Defaults to ./tmp (the tmp/ folder inside the Piwik directory)
 tmp_path = "/tmp"
 
