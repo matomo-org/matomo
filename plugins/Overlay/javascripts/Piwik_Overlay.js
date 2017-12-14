@@ -270,14 +270,19 @@ var Piwik_Overlay = (function () {
                 currentLocation = getOverlayLocationFromHash(locationParts[1]);
             }
 
-            var newLocation = Overlay_Helper.encodeFrameUrl(currentUrl);
+            var newFrameLocation = Overlay_Helper.encodeFrameUrl(currentUrl);
 
-            if (newLocation != currentLocation) {
+            if (newFrameLocation != currentLocation) {
                 updateComesFromInsideFrame = true;
-                // put the current iframe url in the main url to enable refresh and deep linking.
-                // use disableHistory=true to make sure that the back and forward buttons can be
-                // used on the iframe (which in turn notifies the parent about the location change)
-                broadcast.propagateAjax('l=' + newLocation, true);
+
+                // available in global scope
+                var currentHashStr = broadcast.getHash();
+
+                currentHashStr = broadcast.updateParamValue('l=' + newFrameLocation, currentHashStr);
+
+                var newLocation = window.location.href.split('#')[0] + '#?' + currentHashStr;
+                // window.location.replace changes the current url without pushing it on the browser's history stack
+                window.location.replace(newLocation);
             } else {
                 // happens when the url is changed by hand or when the l parameter is there on page load
                 loadSidebar(currentUrl);

@@ -185,7 +185,6 @@ var broadcast = {
     },
 
     /**
-     * ONLY USED BY OVERLAY
      * propagateAjax -- update hash values then make ajax calls.
      *    example :
      *       1) <a href="javascript:broadcast.propagateAjax('module=Referrers&action=getKeywords')">View keywords report</a>
@@ -194,6 +193,8 @@ var broadcast = {
      * Will propagate your new value into the current hash string and make ajax calls.
      *
      * NOTE: this method will only make ajax call and replacing main content.
+     *
+     * @deprecated in 3.2.2, will be removed in Piwik 4.
      *
      * @param {string} ajaxUrl  querystring with parameters to be updated
      * @param {boolean} [disableHistory]  the hash change won't be available in the browser history
@@ -291,8 +292,6 @@ var broadcast = {
      * Example:
      *         1) We want to update idSite to both search query and hash then reload the page,
      *         2) update period to both search query and hash then reload page.
-     *
-     * ** If you'd like to make ajax call with new values then use propagateAjax ** *
      *
      * Expecting:
      *         str = "param1=newVal1&param2=newVal2";
