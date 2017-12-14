@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Diagnostics\Commands;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResultItem;
@@ -63,6 +64,10 @@ class Run extends ConsoleCommand
         if ($report->hasErrors()) {
             $output->writeln(sprintf('<error>%d errors detected</error>', $report->getErrorCount()));
             return 1;
+        }
+
+        if(!$report->hasWarnings() && !$report->hasErrors()) {
+            $output->writeln(sprintf('<info>%s</info>', Piwik::translate('Installation_SystemCheckSummaryNoProblems')));
         }
 
         return 0;
