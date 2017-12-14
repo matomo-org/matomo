@@ -194,12 +194,15 @@ class Visualization extends ViewDataTable
         } catch (NoAccessException $e) {
             throw $e;
         } catch (\Exception $e) {
-            Log::error("Failed to get data from API: " . $e->getMessage() . "\n" . $e->getTraceAsString());
-
+            $logMessage = "Failed to get data from API: " . $e->getMessage();
             $message = $e->getMessage();
+
             if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+                $logMessage .= "\n" . $e->getTraceAsString();
                 $message .= "\n" . $e->getTraceAsString();
             }
+
+            Log::error($logMessage);
 
             $loadingError = array('message' => $message);
         }
