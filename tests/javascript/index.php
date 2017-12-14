@@ -2104,7 +2104,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(88);
+        expect(89);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2168,6 +2168,7 @@ function PiwikTest() {
         equal( typeof tracker.setCookieDomain, 'function', 'setCookieDomain' );
         equal( typeof tracker.setCookiePath, 'function', 'setCookiePath' );
         equal( typeof tracker.setSessionCookie, 'function', 'setSessionCookie' );
+        equal( typeof tracker.setSecureCookie, 'function', 'setSecureCookie' );
         equal( typeof tracker.getCookie, 'function', 'getCookie' );
         equal( typeof tracker.hasCookies, 'function', 'hasCookies' );
         equal( typeof tracker.getCookiePath, 'function', 'getCookiePath' );
@@ -2981,15 +2982,6 @@ function PiwikTest() {
             expectedValue = String(Math.random());
         tracker.hook.test._setCookie( cookieName, expectedValue );
         equal( tracker.hook.test._getCookie( cookieName ), expectedValue, 'getCookie(), setCookie()' );
-    });
-
-    test("Tracker setSecureCookie(), isSecureCookie()", function() {
-        expect(1);
-
-        var tracker = Piwik.getTracker();
-
-        tracker.hook.test._setSecureCookie(1);
-        equal( tracker.hook.test._isSecureCookie(), 1);
     });
 
     test("Tracker getCookieName() contains website ID", function() {
