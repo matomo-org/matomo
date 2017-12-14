@@ -31,6 +31,13 @@ class API extends \Piwik\Plugin\API
         $dataTable = $archive->getDataTable(Archiver::PROVIDER_RECORD_NAME);
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', __NAMESPACE__ . '\getHostnameUrl'));
         $dataTable->filter('GroupBy', array('label', __NAMESPACE__ . '\getPrettyProviderName'));
+        $dataTable->filter('AddSegmentValue', array(function ($label) {
+            if ($label === Piwik::translate('General_Unknown')) {
+                return '';
+            }
+
+            return $label;
+        }));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
         return $dataTable;
