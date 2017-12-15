@@ -4,7 +4,6 @@ use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\NotFoundException;
 use Piwik\Cache\Eager;
 use Piwik\SettingsServer;
-use Piwik\Config;
 
 return array(
 
@@ -20,10 +19,8 @@ return array(
         } else {
             $instanceId = '';
         }
-        
-        $tmp = Config::getInstance()->General['tmp_path'];
-        
-        return $root . $tmp . $instanceId;
+
+        return $root . '/tmp' . $instanceId;
     },
 
     'path.cache' => DI\string('{path.tmp}/cache/tracker/'),
