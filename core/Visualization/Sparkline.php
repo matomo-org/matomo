@@ -51,13 +51,6 @@ class Sparkline implements ViewInterface
     public function main() {
 
         $sparkline = new \Davaxi\Sparkline();
-        $sparkline->setWidth($this->getWidth() - 10);
-        $sparkline->setHeight($this->getHeight() - 10);
-        $this->setSparklineColors($sparkline);
-        $sparkline->setLineThickness(3);
-        $sparkline->setDotRadius(5);
-        $sparkline->setPadding(5);
-        $sparkline->setTopOffset(5);
 
         $seconds = Piwik::translate('Intl_NSecondsShort');
         $toRemove = array('%', str_replace('%s', '', $seconds));
@@ -73,6 +66,13 @@ class Sparkline implements ViewInterface
             $values[] = $value;
         }
         $sparkline->setData($values);
+
+        $sparkline->setWidth($this->getWidth());
+        $sparkline->setHeight($this->getHeight());
+        $this->setSparklineColors($sparkline);
+        $sparkline->setLineThickness(3);
+        $sparkline->setPadding('5');
+
         $this->sparkline = $sparkline;
     }
 
@@ -147,13 +147,13 @@ class Sparkline implements ViewInterface
             $sparkline->deactivateFillColor();
         }
         if (strtolower($colors['minPointColor'] !== "#ffffff")) {
-            $sparkline->setMinimumColorHex($colors['minPointColor']);
+            $sparkline->addPoint("minimum", 5, $colors['minPointColor']);
         }
         if (strtolower($colors['maxPointColor'] !== "#ffffff")) {
-            $sparkline->setMaximumColorHex($colors['maxPointColor']);
+            $sparkline->addPoint("maximum", 5, $colors['maxPointColor']);
         }
         if (strtolower($colors['lastPointColor'] !== "#ffffff")) {
-            $sparkline->setLastPointColorHex($colors['lastPointColor']);
+            $sparkline->addPoint("last", 5, $colors['lastPointColor']);
         }
     }
 
