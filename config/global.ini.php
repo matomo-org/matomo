@@ -135,7 +135,6 @@ enabled = 0
 disable_merged_assets = 0
 
 [General]
-
 ; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Piwik instances
 ; if you set it to 1 and want the Unique Visitors to be re-processed for reports in the past, drop all piwik_archive_* tables
@@ -572,6 +571,10 @@ enable_custom_logo_check = 1
 ; Mysql will try to load the chrooted path (which is incomplete). To prevent an error, here you can specify the
 ; absolute path to the chroot environment. eg. '/path/to/piwik/chrooted/'
 absolute_chroot_path =
+
+; The path (relative to the Piwik directory) in which Piwik temporary files are stored.
+; Defaults to ./tmp (the tmp/ folder inside the Piwik directory)
+tmp_path = "/tmp"
 
 ; In some rare cases it may be useful to explicitely tell Piwik not to use LOAD DATA INFILE
 ; This may for example be useful when doing Mysql AWS replication
