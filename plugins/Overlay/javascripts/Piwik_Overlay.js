@@ -186,26 +186,19 @@ var Piwik_Overlay = (function () {
             }, 50);
 
             // handle window resize
-            // we manipulate broadcast.pageload because it unbinds all resize events on window
-            var originalPageload = broadcast.pageload;
-            broadcast.pageload = function (hash) {
-                originalPageload(hash);
-                $(window).resize(function () {
-                    adjustDimensions();
-                });
-            };
             $(window).resize(function () {
                 adjustDimensions();
             });
 
-            // handle hash change
-            broadcast.loadAjaxContent = hashChangeCallback;
+            angular.element(document).injector().invoke(function ($rootScope) {
+                $rootScope.$on('$locationChangeSuccess', function () {
+                    hashChangeCallback(broadcast.getHash());
+                });
 
-            broadcast._isInit = false;
-            broadcast.init();
+                hashChangeCallback(broadcast.getHash());
+            });
 
             if (window.location.href.split('#').length == 1) {
-                // if there's no hash, broadcast won't trigger the callback - we have to do it here
                 hashChangeCallback('');
             }
 
@@ -277,6 +270,10 @@ var Piwik_Overlay = (function () {
 
                 // available in global scope
                 var currentHashStr = broadcast.getHash();
+
+                if (currentHashStr.charAt(0) == '?') {
+                    currentHashStr = currentHashStr.substr(1);
+                }
 
                 currentHashStr = broadcast.updateParamValue('l=' + newFrameLocation, currentHashStr);
 
