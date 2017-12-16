@@ -20,9 +20,12 @@ return array(
         } else {
             $instanceId = '';
         }
-        
-        $tmp = Config::getInstance()->General['tmp_path'];
-        
+
+        /** @var Piwik\Config\ $config */
+        $config = $c->get('Piwik\Config');
+        $general = $config->General;
+        $tmp = empty($general['tmp_path']) ? '/tmp' : $general['tmp_path'];
+
         return $root . $tmp . $instanceId;
     },
 
