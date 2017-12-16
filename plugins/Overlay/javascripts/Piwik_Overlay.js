@@ -140,6 +140,10 @@ var Piwik_Overlay = (function () {
         var location = getOverlayLocationFromHash(urlHash);
         location = Overlay_Helper.decodeFrameUrl(location);
 
+        if (location == iframeCurrentPageNormalized) {
+            return;
+        }
+
         if (!updateComesFromInsideFrame) {
             var iframeUrl = iframeSrcBase;
             if (location) {
