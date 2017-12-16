@@ -446,10 +446,6 @@ var broadcast = {
      *                       handler.
      */
     propagateNewPopoverParameter: function (handlerName, value) {
-        // init broadcast if not already done (it is required to make popovers work in widgetize mode)
-        if (broadcast.isWidgetizedDashboard()) {
-            broadcast.init(true);
-        }
 
         var $location = angular.element(document).injector().get('$location');
 
