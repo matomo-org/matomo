@@ -104,6 +104,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
+		<name>Device model</name>
+		<segment>deviceModel</segment>
+		<acceptedValues>iPad, Nexus 5, Galaxy S5, Fire TV, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
 		<name>Device type</name>
 		<segment>deviceType</segment>
 		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser, smart display, camera, portable media player, phablet</acceptedValues>

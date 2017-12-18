@@ -18,6 +18,7 @@
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>62.26</revenue>
+		<segment>deviceBrand==Unknown;deviceModel==</segment>
 	</row>
 	<row>
 		<label>Apple - iPad</label>
@@ -37,6 +38,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>42.26</revenue>
+		<segment>deviceBrand==Apple;deviceModel==iPad</segment>
 	</row>
 	<row>
 		<label>Apple - iPhone 5S</label>
@@ -56,6 +58,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>10</revenue>
+		<segment>deviceBrand==Apple;deviceModel==iPhone+5S</segment>
 	</row>
 	<row>
 		<label>HTC - Butterfly</label>
@@ -75,6 +78,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>42.26</revenue>
+		<segment>deviceBrand==HTC;deviceModel==Butterfly</segment>
 	</row>
 	<row>
 		<label>Philips - Blu-ray Player (BDP5600)</label>
@@ -86,6 +90,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>deviceBrand==Philips;deviceModel==Blu-ray+Player+%28BDP5600%29</segment>
 	</row>
 	<row>
 		<label>Samsung - GALAXY Tab 3 8.0&quot; WiFi</label>
@@ -97,6 +102,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>deviceBrand==Samsung;deviceModel==GALAXY+Tab+3+8.0%22+WiFi</segment>
 	</row>
 	<row>
 		<label>ViewSonic - ViewPad 7e</label>
@@ -116,5 +122,6 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>10</revenue>
+		<segment>deviceBrand==ViewSonic;deviceModel==ViewPad+7e</segment>
 	</row>
 </result>
