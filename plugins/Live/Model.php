@@ -40,7 +40,10 @@ class Model
     {
         list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder);
 
-        return Db::fetchAll($sql, $bind);
+        $visits = Db::fetchAll($sql, $bind);
+        $rowCount = Db::fetchOne('SELECT FOUND_ROWS()');
+
+        return [$rowCount, $visits];
     }
 
     /**
@@ -274,7 +277,7 @@ class Model
         // 1) when a visitor converts 2 goals
         // 2) when an Action Segment is used, the inner query will return one row per action, but we want one row per visit
         $sql = "
-			SELECT sub.* FROM (
+			SELECT SQL_CALC_FOUND_ROWS sub.* FROM (
 				" . $innerQuery['sql'] . "
 			) AS sub
 			GROUP BY sub.idvisit

@@ -5,6 +5,9 @@
 <div class="visitor-profile-summary visitor-profile-resume">
     <h1>{{ 'General_Summary'|translate }}</h1>
     <div>
+        {% if visitorData.totalVisitCount > visitorData.totalVisits %}
+            <p>{{ 'Live_LimitedSummary'|translate('<strong>' ~ visitorData.totalVisits, '</strong>', '<strong>' ~ visitorData.totalVisitCount, '</strong>')|raw }}</p>
+        {% endif %}
         {% if visitorData.totalPageViews != visitorData.totalActions %}
             {% set actionDetails = [] %}
             {% if visitorData.totalPageViews > 0 %}{% set actionDetails = actionDetails|merge(['<span title="' ~ pageviewDetails ~ '">' ~ visitorData.totalPageViews ~ ' ' ~ 'General_ColumnPageviews'|translate ~ '</span>']) %}{% endif %}
