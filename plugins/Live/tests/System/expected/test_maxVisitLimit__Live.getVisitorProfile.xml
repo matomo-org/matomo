@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	
-	<hasMoreVisits>0</hasMoreVisits>
-	<totalVisits>31</totalVisits>
+	<hasMoreVisits>1</hasMoreVisits>
+	<totalVisits>20</totalVisits>
 	<totalVisitDuration>0</totalVisitDuration>
-	<totalActions>31</totalActions>
+	<totalActions>20</totalActions>
 	<totalOutlinks>0</totalOutlinks>
 	<totalDownloads>0</totalDownloads>
 	<totalSearches>0</totalSearches>
-	<totalPageViews>31</totalPageViews>
+	<totalPageViews>20</totalPageViews>
 	<totalUniquePageViews>4</totalUniquePageViews>
 	<totalRevisitedPages>4</totalRevisitedPages>
 	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
@@ -83,7 +83,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel>Unknown</deviceModel>
+			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -199,7 +199,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel>Unknown</deviceModel>
+			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -315,7 +315,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel>Unknown</deviceModel>
+			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -431,7 +431,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel>Unknown</deviceModel>
+			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -547,7 +547,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel>Unknown</deviceModel>
+			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -663,7 +663,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel>Unknown</deviceModel>
+			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -779,7 +779,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel>Unknown</deviceModel>
+			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -895,7 +895,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel>Unknown</deviceModel>
+			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1011,7 +1011,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel>Unknown</deviceModel>
+			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1127,7 +1127,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel>Unknown</deviceModel>
+			<deviceModel />
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1204,68 +1204,46 @@
 	<visitsAggregated>10</visitsAggregated>
 	<visitedPages>
 		<row>
+			<url>http://example.org/my/dir/page3</url>
+			<count>5</count>
+		</row>
+		<row>
 			<url>http://example.org/my/dir/page0</url>
-			<count>8</count>
+			<count>5</count>
 		</row>
 		<row>
 			<url>http://example.org/my/dir/page1</url>
-			<count>8</count>
+			<count>5</count>
 		</row>
 		<row>
 			<url>http://example.org/my/dir/page2</url>
-			<count>8</count>
-		</row>
-		<row>
-			<url>http://example.org/my/dir/page3</url>
-			<count>7</count>
+			<count>5</count>
 		</row>
 	</visitedPages>
 	<devices>
 		<row>
 			<type>Unknown</type>
-			<count>30</count>
+			<count>20</count>
 			<icon>plugins/Morpheus/icons/dist/devices/unknown.png</icon>
 			<devices>
 				<row>
 					<name>Unknown</name>
-					<count>30</count>
-				</row>
-			</devices>
-		</row>
-		<row>
-			<type>Desktop</type>
-			<count>1</count>
-			<icon>plugins/Morpheus/icons/dist/devices/desktop.png</icon>
-			<devices>
-				<row>
-					<name>Generic Desktop</name>
-					<count>1</count>
+					<count>20</count>
 				</row>
 			</devices>
 		</row>
 	</devices>
 	<continents>
 		<row>
-			<continent>eur</continent>
-			<nb_visits>1</nb_visits>
-			<prettyName>Europe</prettyName>
-		</row>
-		<row>
 			<continent>unk</continent>
-			<nb_visits>30</nb_visits>
+			<nb_visits>20</nb_visits>
 			<prettyName>Unknown</prettyName>
 		</row>
 	</continents>
 	<countries>
 		<row>
-			<country>fr</country>
-			<nb_visits>1</nb_visits>
-			<flag>plugins/Morpheus/icons/dist/flags/fr.png</flag>
-			<prettyName>France</prettyName>
-		</row>
-		<row>
 			<country>xx</country>
-			<nb_visits>30</nb_visits>
+			<nb_visits>20</nb_visits>
 			<flag>plugins/Morpheus/icons/dist/flags/xx.png</flag>
 			<prettyName>Unknown</prettyName>
 		</row>

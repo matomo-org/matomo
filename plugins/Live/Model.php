@@ -32,14 +32,31 @@ class Model
      * @param $visitorId
      * @param $minTimestamp
      * @param $filterSortOrder
+     * @param $checkforMoreEntries
      * @return array
      * @throws Exception
      */
-    public function queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder)
+    public function queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, $checkforMoreEntries = false)
     {
+        // to check for more entries increase the limit by one, but cut off the last entry before returning the result
+        if ($checkforMoreEntries) {
+            $limit++;
+        }
+
         list($sql, $bind) = $this->makeLogVisitsQueryString($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder);
 
-        return Db::fetchAll($sql, $bind);
+        $visits = Db::fetchAll($sql, $bind);
+
+        if ($checkforMoreEntries) {
+            if (count($visits) == $limit) {
+                array_pop($visits);
+                return [$visits, true];
+            }
+
+            return [$visits, false];
+        }
+
+        return $visits;
     }
 
     /**
