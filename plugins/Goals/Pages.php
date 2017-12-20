@@ -263,9 +263,7 @@ class Pages
 
         if ($idGoal === '') {
             // if no idGoal, use 0 for overview. Must be string! Otherwise Piwik_View_HtmlTable_Goals fails.
-            $customParams['idGoal'] = '0';
-        } else {
-            $customParams['idGoal'] = $idGoal;
+            $idGoal = '0';
         }
 
         $translationHelper = new TranslationHelper();
@@ -292,6 +290,12 @@ class Pages
                     $params = array_merge($customParams, $report['parameters']);
                 } else {
                     $params = $customParams;
+                }
+
+                if (isset($report['viewDataTable']) && $report['viewDataTable'] == 'tableGoals') {
+                    $params['showGoalMetricsFor'] = $idGoal;
+                } else {
+                    $params['idGoal'] = $idGoal;
                 }
 
                 $widget = $this->createWidgetForReport($report['module'], $report['action']);
