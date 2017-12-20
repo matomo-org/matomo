@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	
+	<totalVisitCount>31</totalVisitCount>
 	<totalVisits>31</totalVisits>
 	<totalVisitDuration>0</totalVisitDuration>
 	<totalActions>31</totalActions>
