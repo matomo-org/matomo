@@ -143,14 +143,22 @@
 
                 element.on('click', function () {
 
+                    Piwik_Popover.showLoading('Export', null, '600');
+                    Piwik_Popover.setTitle(_pk_translate('General_Export') + ' ' + scope.reportTitle);
+
                     scope.availableReportFormats = JSON.parse(scope.reportFormats);
 
-                    var elem = angular.element('<span ng-include="\'plugins/CoreHome/angularjs/report-export/reportexport.popover.html?cb=' + piwik.cacheBuster + '\'" id="reportExport"></span>');
-                    $document.find('body').eq(0).append(elem);
-                    $compile(elem)(scope);
+                    var elem = $document.find('#reportExport').eq(0);
+
+                    if (!elem.length) {
+                        elem = angular.element('<span ng-include="\'plugins/CoreHome/angularjs/report-export/reportexport.popover.html?cb=' + piwik.cacheBuster + '\'" id="reportExport"></span>');
+                        $document.find('body').eq(0).append(elem);
+                    }
 
                     $timeout(function(){
-                        piwikHelper.modalConfirm('#reportExport');
+                        $compile(elem)(scope, function(compiled) {
+                            Piwik_Popover.setContent(compiled);
+                        });
                     }, 100);
                 });
             }

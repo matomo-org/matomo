@@ -54,7 +54,7 @@
                 {% set formats = formats|merge({"RSS": "RSS"}) %}
             {% endif %}
 
-            <a class='dataTableAction activateExportSelection' piwik-report-export
+            <a class="dataTableAction activateExportSelection" piwik-report-export
                report-title="{{ properties.title|e('html_attr') }}" request-params="{{ requestParams|e('html_attr') }}"
                api-method="{{ properties.apiMethodToRequestDataTable }}" report-formats="{{ formats|json_encode|e('html_attr') }}"
                href='javascript:;' title="{{ 'General_ExportThisReport'|translate|e('html_attr') }}"
