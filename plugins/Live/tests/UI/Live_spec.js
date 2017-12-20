@@ -19,6 +19,12 @@ describe("Live", function () {
         }, done);
     });
 
+    it('should expand grouped actions', function (done) {
+        expect.screenshot('visitor_log_expand_actions').to.be.captureSelector('.dataTableVizVisitorLog .card.row:first-child', function (page) {
+            page.click('.dataTableVizVisitorLog .repeat.icon-refresh');
+        }, done);
+    });
+
     it('should show visitor profile', function (done) {
         expect.screenshot('visitor_profile').to.be.captureSelector('.ui-dialog', function (page) {
             page.evaluate(function(){

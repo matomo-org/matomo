@@ -41,6 +41,7 @@ class Live extends \Piwik\Plugin
         $jsFiles[] = "libs/bower_components/visibilityjs/lib/visibility.core.js";
         $jsFiles[] = "plugins/Live/javascripts/live.js";
         $jsFiles[] = "plugins/Live/javascripts/SegmentedVisitorLog.js";
+        $jsFiles[] = "plugins/Live/javascripts/visitorActions.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorProfile.js";
         $jsFiles[] = "plugins/Live/javascripts/visitorLog.js";
         $jsFiles[] = "plugins/Live/javascripts/rowaction.js";
@@ -49,6 +50,7 @@ class Live extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "Live_VisitorProfile";
+        $translationKeys[] = "Live_ClickToViewAllActions";
         $translationKeys[] = "Live_NoMoreVisits";
         $translationKeys[] = "Live_ShowMap";
         $translationKeys[] = "Live_HideMap";
