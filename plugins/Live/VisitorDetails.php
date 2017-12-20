@@ -182,8 +182,8 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $rows                        = $visits->getRows();
         $profile['userId']           = $visits->getLastRow()->getColumn('userId');
-        $profile['firstVisit']       = $this->getVisitorProfileVisitSummary(end($rows));
-        $profile['lastVisit']        = $this->getVisitorProfileVisitSummary(reset($rows));
+        $profile['firstVisit']       = $this->getVisitorProfileVisitSummary($profile['visit_first']);
+        $profile['lastVisit']        = $this->getVisitorProfileVisitSummary($profile['visit_last']);
         $profile['visitsAggregated'] = count($rows);
     }
 

@@ -35,7 +35,9 @@ class VisitorProfile
     {
         $visitorDetailsManipulators = Visitor::getAllVisitorDetailsInstances();
 
-        $this->profile['visitorId'] = $visitorId;
+        $this->profile['visitorId']       = $visitorId;
+        $this->profile['visit_first']     = $visits->getLastRow();
+        $this->profile['visit_last']      = $visits->getFirstRow();
 
         foreach ($visitorDetailsManipulators as $instance) {
             $instance->initProfile($visits, $this->profile);
@@ -63,6 +65,8 @@ class VisitorProfile
         foreach ($visitorDetailsManipulators as $instance) {
             $instance->finalizeProfile($visits, $this->profile);
         }
+
+        unset($this->profile['visit_first'], $this->profile['visit_last']);
 
         return $this->profile;
     }
