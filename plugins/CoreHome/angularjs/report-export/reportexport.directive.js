@@ -143,8 +143,7 @@
 
                 element.on('click', function () {
 
-                    Piwik_Popover.showLoading('Export', null, '600');
-                    Piwik_Popover.setTitle(_pk_translate('General_Export') + ' ' + scope.reportTitle);
+                    var popover = Piwik_Popover.showLoading('Export');
 
                     scope.availableReportFormats = JSON.parse(scope.reportFormats);
 
@@ -152,14 +151,16 @@
 
                     if (!elem.length) {
                         elem = angular.element('<span ng-include="\'plugins/CoreHome/angularjs/report-export/reportexport.popover.html?cb=' + piwik.cacheBuster + '\'" id="reportExport"></span>');
-                        $document.find('body').eq(0).append(elem);
                     }
 
-                    $timeout(function(){
-                        $compile(elem)(scope, function(compiled) {
-                            Piwik_Popover.setContent(compiled);
-                        });
-                    }, 100);
+                    $compile(elem)(scope, function (compiled){
+                        Piwik_Popover.setTitle(_pk_translate('General_Export') + ' ' + scope.reportTitle);
+                        Piwik_Popover.setContent(compiled);
+
+                        $timeout(function(){
+                            popover.dialog({position: ['center', 'center']});
+                        }, 100);
+                    });
                 });
             }
         };
