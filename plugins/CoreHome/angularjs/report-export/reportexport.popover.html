@@ -2,21 +2,38 @@
 
     <div class="col l6">
         <div piwik-field uicontrol="radio" name="format"
-             title="Export format"
-             value="CSV"
+             title="{{ 'CoreHome_ExportFormat'|translate }}"
              ng-model="$parent.reportFormat"
              full-width="true"
-             options="availableReportFormats">
+             value="XML"
+             options="availableReportFormats[$parent.reportType]">
         </div>
     </div>
 
     <div class="col l6">
-        <div piwik-field uicontrol="number" name="filter_limit"
-             title="Row limit"
-             min="-1"
-             ng-model="$parent.reportLimit"
+        <div piwik-field uicontrol="radio" name="filter_type"
+             title="{{ 'CoreHome_ReportType'|translate }}"
+             value="default"
+             ng-model="$parent.reportType"
              full-width="true"
-             value="100">
+             options="availableReportTypes">
+        </div>
+
+        <div class="filter_limit">
+            <div piwik-field uicontrol="radio" name="filter_limit_all"
+                 title="{{ 'CoreHome_RowLimit'|translate }}"
+                 ng-model="$parent.reportLimitAll"
+                 full-width="false"
+                 value="yes"
+                 options="limitAllOptions">
+            </div>
+            <div piwik-field uicontrol="number" name="filter_limit"
+                 min="1"
+                 ng-model="$parent.reportLimit"
+                 full-width="false"
+                 ng-show="$parent.reportLimitAll == 'no'"
+                 value="100">
+            </div>
         </div>
     </div>
 

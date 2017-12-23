@@ -30,9 +30,16 @@
                 scope.processExport = function() {
 
                     var dataTable = element.parents('[data-report]').data('uiControlObject');
+
                     var format = scope.reportFormat;
+
+                    if (!format) {
+                        return;
+                    }
+
                     var method = scope.apiMethod;
-                    var limit  = scope.reportLimit;
+                    var limit  = scope.reportLimitAll == 'yes' ? -1 : scope.reportLimit;
+                    var type   = scope.reportType;
                     var params = scope.requestParams;
 
                     if (params && typeof params == String) {
@@ -56,10 +63,6 @@
                     var period = dataTable.param.period;
 
                     var formatsUseDayNotRange = piwik.config.datatable_export_range_as_day.toLowerCase();
-                    if (!format) {
-                        // eg export as image has no format
-                        return;
-                    }
 
                     if (formatsUseDayNotRange.indexOf(format.toLowerCase()) != -1
                         && dataTable.param.period == 'range') {
@@ -72,9 +75,18 @@
                         period = 'day';
                     }
 
-                    var str = 'index.php?module=API'
-                        + '&method=' + method
-                        + '&format=' + format
+                    var str = 'index.php?module=API';
+
+                    if (type == 'processed') {
+                        var apiParams = method.split('.');
+                        str += '&method=API.getProcessedReport';
+                        str += '&apiModule=' + apiParams[0];
+                        str += '&apiAction=' + apiParams[1];
+                    } else {
+                        str += '&method=' + method;
+                    }
+
+                    str += '&format=' + format
                         + '&idSite=' + dataTable.param.idSite
                         + '&period=' + period
                         + '&date=' + param_date
@@ -144,8 +156,32 @@
                 element.on('click', function () {
 
                     var popover = Piwik_Popover.showLoading('Export');
+                    var formats = JSON.parse(scope.reportFormats);
 
-                    scope.availableReportFormats = JSON.parse(scope.reportFormats);
+                    scope.reportType = 'default';
+                    scope.reportLimitAll = 'yes';
+
+                    scope.availableReportFormats = {
+                        default: formats,
+                        processed: {
+                            'XML': formats['XML'],
+                            'JSON': formats['JSON']
+                        }
+                    };
+                    scope.availableReportTypes = {
+                        default: _pk_translate('CoreHome_StandardReport'),
+                        processed: _pk_translate('CoreHome_ReportWithMetadata')
+                    };
+                    scope.limitAllOptions = {
+                        yes: _pk_translate('General_All'),
+                        no: _pk_translate('CoreHome_CustomLimit')
+                    };
+
+                    scope.$watch('reportType', function (newVal, oldVal) {
+                        if (!scope.availableReportFormats[newVal].hasOwnProperty(scope.reportFormat)) {
+                            scope.reportFormat = 'XML';
+                        }
+                    }, true);
 
                     var elem = $document.find('#reportExport').eq(0);
 
