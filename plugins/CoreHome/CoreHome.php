@@ -419,7 +419,9 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ReportType';
         $translationKeys[] = 'CoreHome_RowLimit';
         $translationKeys[] = 'CoreHome_ExportFormat';
+        $translationKeys[] = 'CoreHome_FlattenReport';
         $translationKeys[] = 'CoreHome_CustomLimit';
+        $translationKeys[] = 'CoreHome_ExpandSubtables';
         $translationKeys[] = 'CoreHome_HomeShortcut';
         $translationKeys[] = 'CoreHome_PageUpShortcutDescription';
         $translationKeys[] = 'CoreHome_EndShortcut';

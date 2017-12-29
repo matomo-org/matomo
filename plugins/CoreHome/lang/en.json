@@ -93,7 +93,9 @@
         "RowLimit": "Row limit",
         "CustomLimit": "Custom limit",
         "ExportFormat": "Export format",
+        "ExpandSubtables": "Expand subtables",
         "StandardReport": "Standard report",
+        "FlattenReport": "Flatten report",
         "ReportWithMetadata": "Report with metadata"
     }
 }
