@@ -11,9 +11,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikReportExport', piwikReportExport);
 
-    piwikReportExport.$inject = ['$document', 'piwik', '$compile', '$timeout'];
+    piwikReportExport.$inject = ['$document', 'piwik', '$compile', '$timeout', '$location'];
 
-    function piwikReportExport($document, piwik, $compile, $timeout){
+    function piwikReportExport($document, piwik, $compile, $timeout, $location){
 
         return {
             restrict: 'A',
@@ -25,11 +25,12 @@
             },
             link: function(scope, element, attr) {
 
+                var popoverParamBackup;
+
                 scope.processExport = function() {
 
-                    var dataTable = element.parents('[data-report]').data('uiControlObject');
-
-                    var format = scope.reportFormat;
+                    var dataTable = scope.dataTable;
+                    var format    = scope.reportFormat;
 
                     if (!format) {
                         return;
@@ -46,11 +47,11 @@
                         params = {};
                     }
 
-                    var segment = dataTable.param.segment;
-                    var label = dataTable.param.label;
-                    var idGoal = dataTable.param.idGoal;
+                    var segment     = dataTable.param.segment;
+                    var label       = dataTable.param.label;
+                    var idGoal      = dataTable.param.idGoal;
                     var idDimension = dataTable.param.idDimension;
-                    var param_date = dataTable.param.date;
+                    var param_date  = dataTable.param.date;
 
                     if (format == 'RSS') {
                         param_date = 'last10';
@@ -150,18 +151,18 @@
 
                 element.on('click', function () {
 
-                    var dataTable = element.parents('[data-report]').data('uiControlObject');
-                    var popover = Piwik_Popover.showLoading('Export');
-                    var formats = JSON.parse(scope.reportFormats);
+                    popoverParamBackup = broadcast.getValueFromHash('popover');
 
-                    console.log(dataTable);
+                    var dataTable = scope.dataTable = element.parents('[data-report]').data('uiControlObject');
+                    var popover   = Piwik_Popover.showLoading('Export');
+                    var formats   = JSON.parse(scope.reportFormats);
 
-                    scope.reportType = 'default';
-                    scope.reportLimit = dataTable.param.filter_limit > 0 ? dataTable.param.filter_limit : 100;
+                    scope.reportType     = 'default';
+                    scope.reportLimit    = dataTable.param.filter_limit > 0 ? dataTable.param.filter_limit : 100;
                     scope.reportLimitAll = dataTable.param.filter_limit == -1 ? 'yes' : 'no';
-                    scope.optionFlat = dataTable.param.flat;
+                    scope.optionFlat     = dataTable.param.flat;
                     scope.optionExpanded = 1;
-                    scope.hasSubtables = dataTable.param.flat == 1 || dataTable.numberOfSubtables > 0;
+                    scope.hasSubtables   = dataTable.param.flat == 1 || dataTable.numberOfSubtables > 0;
 
                     scope.availableReportFormats = {
                         default: formats,
@@ -194,6 +195,18 @@
                     $compile(elem)(scope, function (compiled){
                         Piwik_Popover.setTitle(_pk_translate('General_Export') + ' ' + scope.reportTitle);
                         Piwik_Popover.setContent(compiled);
+
+                        if (popoverParamBackup != '') {
+                            Piwik_Popover.onClose(function(){
+                                $timeout(function(){
+                                    $location.search('popover', popoverParamBackup);
+
+                                    $timeout(function () {
+                                        angular.element(document).injector().get('$rootScope').$apply();
+                                    }, 10);
+                                }, 100);
+                            });
+                        }
 
                         $timeout(function(){
                             popover.dialog({position: ['center', 'center']});
