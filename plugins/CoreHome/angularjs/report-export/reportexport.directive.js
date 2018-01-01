@@ -11,9 +11,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikReportExport', piwikReportExport);
 
-    piwikReportExport.$inject = ['$document', 'piwik', '$compile', '$timeout', '$location'];
+    piwikReportExport.$inject = ['$document', 'piwik', '$compile', '$timeout', '$location', '$httpParamSerializerJQLike'];
 
-    function piwikReportExport($document, piwik, $compile, $timeout, $location){
+    function piwikReportExport($document, piwik, $compile, $timeout, $location, $httpParamSerializerJQLike){
 
         return {
             restrict: 'A',
@@ -41,7 +41,7 @@
                     var type   = scope.reportType;
                     var params = scope.requestParams;
 
-                    if (params && typeof params == String) {
+                    if (params && typeof params == "string") {
                         params = JSON.parse(params)
                     } else {
                         params = {};
@@ -74,79 +74,88 @@
                         period = 'day';
                     }
 
-                    var str = 'index.php?module=API';
+                    var exportUrlParams = {
+                        module: 'API'
+                    };
 
                     if (type == 'processed') {
                         var apiParams = method.split('.');
-                        str += '&method=API.getProcessedReport';
-                        str += '&apiModule=' + apiParams[0];
-                        str += '&apiAction=' + apiParams[1];
+                        exportUrlParams.method = 'API.getProcessedReport';
+                        exportUrlParams.apiModule = apiParams[0];
+                        exportUrlParams.apiAction = apiParams[1];
                     } else {
-                        str += '&method=' + method;
+                        exportUrlParams.method = method;
                     }
 
-                    str += '&format=' + format
-                        + '&idSite=' + dataTable.param.idSite
-                        + '&period=' + period
-                        + '&date=' + param_date
-                        + ( typeof dataTable.param.filter_pattern != "undefined" ? '&filter_pattern=' + dataTable.param.filter_pattern : '')
-                        + ( typeof dataTable.param.filter_pattern_recursive != "undefined" ? '&filter_pattern_recursive=' + dataTable.param.filter_pattern_recursive : '');
+                    exportUrlParams.format = format;
+                    exportUrlParams.idSite = dataTable.param.idSite;
+                    exportUrlParams.period = period;
+                    exportUrlParams.date = param_date;
+
+                    if (typeof dataTable.param.filter_pattern != "undefined") {
+                        exportUrlParams.filter_pattern = dataTable.param.filter_pattern;
+                    }
+
+                    if (typeof dataTable.param.filter_pattern_recursive != "undefined") {
+                        exportUrlParams.filter_pattern_recursive = dataTable.param.filter_pattern_recursive;
+                    }
 
                     if ($.isPlainObject(params)) {
                         $.each(params, function (index, param) {
-                            str += '&' + index + '=' + encodeURIComponent(param);
+                            exportUrlParams[index] = param;
                         });
                     }
 
                     if (scope.optionFlat) {
-                        str += '&flat=1';
+                        exportUrlParams.flat = 1;
                         if (typeof dataTable.param.include_aggregate_rows != "undefined" && dataTable.param.include_aggregate_rows == '1') {
-                            str += '&include_aggregate_rows=1';
+                            exportUrlParams.include_aggregate_rows = 1;
                         }
                     }
 
                     if (!scope.optionFlat && scope.optionExpanded) {
-                        str += '&expanded=1';
+                        exportUrlParams.expanded = 1;
                     }
 
                     if (dataTable.param.pivotBy) {
-                        str += '&pivotBy=' + dataTable.param.pivotBy + '&pivotByColumnLimit=20';
+                        exportUrlParams.pivotBy = dataTable.param.pivotBy;
+                        exportUrlParams.pivotByColumnLimit = 20;
+
                         if (dataTable.props.pivot_by_column) {
-                            str += '&pivotByColumn=' + dataTable.props.pivot_by_column;
+                            exportUrlParams.pivotByColumn = dataTable.props.pivot_by_column;
                         }
                     }
                     if (format == 'CSV' || format == 'TSV' || format == 'RSS') {
-                        str += '&translateColumnNames=1&language=' + piwik.language;
+                        exportUrlParams.translateColumnNames = 1;
+                        exportUrlParams.language = piwik.language;
                     }
                     if (typeof segment != 'undefined') {
-                        str += '&segment=' + segment;
+                        exportUrlParams.segment = segment;
                     }
                     // Export Goals specific reports
                     if (typeof idGoal != 'undefined'
                         && idGoal != '-1') {
-                        str += '&idGoal=' + idGoal;
+                        exportUrlParams.idGoal = idGoal;
                     }
                     // Export Dimension specific reports
                     if (typeof idDimension != 'undefined'
                         && idDimension != '-1') {
-                        str += '&idDimension=' + idDimension;
+                        exportUrlParams.idDimension = idDimension;
                     }
                     if (label) {
                         label = label.split(',');
 
                         if (label.length > 1) {
-                            for (var i = 0; i != label.length; ++i) {
-                                str += '&label[]=' + encodeURIComponent(label[i]);
-                            }
+                            exportUrlParams.label = label;
                         } else {
-                            str += '&label=' + encodeURIComponent(label[0]);
+                            exportUrlParams.label = encodeURIComponent(label[0]);
                         }
                     }
 
-                    var url = str + '&token_auth=' + piwik.token_auth;
-                    url += '&filter_limit=' + limit;
+                    exportUrlParams.token_auth = piwik.token_auth;
+                    exportUrlParams.filter_limit = limit;
 
-                    window.open(url);
+                    window.open('index.php?' + $httpParamSerializerJQLike(exportUrlParams));
                 };
 
                 element.on('click', function () {
