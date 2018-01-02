@@ -19,7 +19,7 @@
         {% if visitorData.totalGoalConversions is defined %}
         <p>{% if visitorData.totalGoalConversions %}<strong>{% endif %}{{ 'Live_ConvertedNGoals'|translate(visitorData.totalGoalConversions) }}{% if visitorData.totalGoalConversions %}</strong>{% endif %}
         {%- if visitorData.totalGoalConversions %} (
-            {%- for idGoal, totalConversions in visitorData.totalConversionsByGoal -%}
+            {%- for idGoal, totalConversions in visitorData.totalConversionsByGoal if idGoal in goals -%}
             {%- set idGoal = idGoal[7:] -%}
             {%- if not loop.first %}, {% endif -%}{{- totalConversions }} {{ goals[idGoal]['name'] -}}
             {%- endfor -%}
