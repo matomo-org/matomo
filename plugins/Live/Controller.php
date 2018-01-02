@@ -71,18 +71,23 @@ class Controller extends \Piwik\Plugin\Controller
     {
         return $this->renderReport('getLastVisitsDetails');
     }
-
+    
     public function getLastVisitsStart()
     {
+        Piwik::checkUserHasViewAccess($this->idSite);
+
         // hack, ensure we load today's visits by default
         $_GET['date'] = 'today';
         \Piwik\Period\Factory::checkPeriodIsEnabled('day');
         $_GET['period'] = 'day';
 
         $view = new View('@Live/getLastVisitsStart');
-        $view->idSite = $this->idSite;
+        $view->idSite = (int) $this->idSite;
         $api = new Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");
         $visitors = $api->process();
+        if (!empty($visitors['result']) && $visitors['result'] === 'error' && !empty($visitors['message'])) {
+            throw new \Exception($visitors['message']);
+        }
         $view->visitors = $visitors;
 
         return $this->render($view);
