@@ -15,6 +15,8 @@ use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserLanguage/functions.php';
+
 class Language extends VisitDimension
 {
     protected $columnName = 'location_browser_lang';
