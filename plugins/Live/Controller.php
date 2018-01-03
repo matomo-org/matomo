@@ -33,6 +33,8 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function widget()
     {
+        Piwik::checkUserHasViewAccess($idSite);
+        
         $view = new View('@Live/index');
         $view->idSite = $this->idSite;
         $view = $this->setCounters($view);
@@ -44,6 +46,8 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function ajaxTotalVisitors()
     {
+        Piwik::checkUserHasViewAccess($idSite);
+        
         $view = new View('@Live/ajaxTotalVisitors');
         $view = $this->setCounters($view);
         $view->idSite = $this->idSite;
@@ -59,6 +63,8 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function indexVisitorLog()
     {
+        Piwik::checkUserHasViewAccess($idSite);
+        
         $view = new View('@Live/indexVisitorLog.twig');
         $view->visitorLog = $this->renderReport('getLastVisitsDetails');
         return $view->render();
@@ -114,10 +120,17 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $idSite = Common::getRequestVar('idSite', null, 'int');
 
+        Piwik::checkUserHasViewAccess($idSite);
+        $visitorData = Request::processRequest('Live.getVisitorProfile');
+
+        if (empty($visitorData)) {
+            throw new \Exception('Visitor could not be found'); // for example when URL parameter is not set
+        }
+        
         $view = new View('@Live/getVisitorProfilePopup.twig');
         $view->idSite = $idSite;
         $view->goals = APIGoals::getInstance()->getGoals($idSite);
-        $view->visitorData = Request::processRequest('Live.getVisitorProfile');
+        $view->visitorData = $visitorData;
         $view->exportLink = $this->getVisitorProfileExportLink();
 
         $this->setWidgetizedVisitorProfileUrl($view);
@@ -147,6 +160,8 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getVisitList()
     {
+        Piwik::checkUserHasViewAccess($this->idSite);
+        
         $filterLimit = Common::getRequestVar('filter_offset', 0, 'int');
         $startCounter = Common::getRequestVar('start_number', 0, 'int');
         $limit = Config::getInstance()->General['live_visitor_profile_max_visits_to_aggregate'];
