@@ -33,7 +33,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function widget()
     {
-        Piwik::checkUserHasViewAccess($idSite);
+        Piwik::checkUserHasViewAccess($this->idSite);
         
         $view = new View('@Live/index');
         $view->idSite = $this->idSite;
@@ -46,7 +46,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function ajaxTotalVisitors()
     {
-        Piwik::checkUserHasViewAccess($idSite);
+        Piwik::checkUserHasViewAccess($this->idSite);
         
         $view = new View('@Live/ajaxTotalVisitors');
         $view = $this->setCounters($view);
@@ -63,7 +63,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function indexVisitorLog()
     {
-        Piwik::checkUserHasViewAccess($idSite);
+        Piwik::checkUserHasViewAccess($this->idSite);
         
         $view = new View('@Live/indexVisitorLog.twig');
         $view->visitorLog = $this->renderReport('getLastVisitsDetails');
