@@ -118,9 +118,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getVisitorProfilePopup()
     {
-        $idSite = Common::getRequestVar('idSite', null, 'int');
-
-        Piwik::checkUserHasViewAccess($idSite);
+        Piwik::checkUserHasViewAccess($this->idSite);
         $visitorData = Request::processRequest('Live.getVisitorProfile');
 
         if (empty($visitorData)) {
@@ -128,8 +126,8 @@ class Controller extends \Piwik\Plugin\Controller
         }
         
         $view = new View('@Live/getVisitorProfilePopup.twig');
-        $view->idSite = $idSite;
-        $view->goals = APIGoals::getInstance()->getGoals($idSite);
+        $view->idSite = $this->idSite;
+        $view->goals = APIGoals::getInstance()->getGoals($this->idSite);
         $view->visitorData = $visitorData;
         $view->exportLink = $this->getVisitorProfileExportLink();
 
