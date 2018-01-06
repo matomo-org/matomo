@@ -10,7 +10,9 @@
 describe("Menus", function () {
     this.timeout(0);
 
-    var generalParams = 'idSite=1&period=year&date=2012-08-09',
+    this.fixture = "Piwik\\Tests\\Fixtures\\ThreeGoalsOnePageview";
+
+    var generalParams = 'idSite=1&period=year&date=2009-01-04',
         urlBase = 'module=CoreHome&action=index&' + generalParams
         ;
 
