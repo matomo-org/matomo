@@ -19,6 +19,8 @@ class DeviceModel extends Base
     protected $type = self::TYPE_TEXT;
     protected $nameSingular = 'DevicesDetection_DeviceModel';
     protected $namePlural = 'DevicesDetection_DeviceModels';
+    protected $segmentName = 'deviceModel';
+    protected $acceptValues = 'iPad, Nexus 5, Galaxy S5, Fire TV, etc.';
 
     /**
      * @param Request $request
