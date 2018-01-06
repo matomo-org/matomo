@@ -52,4 +52,15 @@ describe("Menus", function () {
             openMenuItem(page, 'Manage');
         }, done);
     });
+
+    // top menu on mobile
+    it('should load the admin reporting menu correctly', function (done) {
+        expect.screenshot('mobile_top').to.be.capture(function (page) {
+            page.setViewportSize(768, 512);
+            page.load("?" + generalParams + "&module=CoreAdminHome&action=index");
+            page.evaluate(function(){
+                $('.activateTopMenu').click();
+            }, 250);
+        }, done);
+    });
 });
