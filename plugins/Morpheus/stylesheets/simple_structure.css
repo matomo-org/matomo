@@ -12,6 +12,7 @@ body#simple  {
     font-size: 12px;
     background-color: #37474f !important;
     padding: 15px 0;
+	height: 40px;
 }
 #simple .logo a {
 	color: #888;
