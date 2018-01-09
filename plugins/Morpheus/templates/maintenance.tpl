@@ -10,7 +10,7 @@
 <body id="simple">
 
 <div class="logo">
-	<img title="Piwik" alt="Piwik" src="%logoUrl%" />
+	<img title="Piwik" alt="Piwik" style="height: 40px;" src="%logoUrl%" />
 	<br/>
 	<a href='https://piwik.org/'>%piwikTitle%</a>
 </div>

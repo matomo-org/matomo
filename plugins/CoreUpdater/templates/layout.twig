@@ -21,6 +21,7 @@
 <div class="logo">
     {% if hasSVGLogo %}
         <img src='{{ logoSVG }}' tabindex="3"
+             style="height: 40px;"
              alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik"
              class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" />
     {% else %}
