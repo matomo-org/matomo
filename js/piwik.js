@@ -1,5 +1,5 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Piwik3 - free/libre analytics platform
  *
  * JavaScript tracking client
  *
@@ -8,7 +8,7 @@
  * @license https://piwik.org/free-software/bsd/ BSD-3 Clause (also in js/LICENSE.txt)
  * @license magnet:?xt=urn:btih:c80d50af7d3db9be66a4d0a86db0286e4fd33292&dn=bsd-3-clause.txt BSD-3-Clause
  */
-// NOTE: if you change this above Piwik comment block, you must also change `$byteStart` in js/tracker.php
+// NOTE: if you change this above Piwik3 comment block, you must also change `$byteStart` in js/tracker.php
 
 // Refer to README.md for build instructions when minifying this file for distribution.
 
@@ -956,7 +956,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*global window */
 /*global unescape */
 /*global ActiveXObject */
-/*members Piwik, encodeURIComponent, decodeURIComponent, getElementsByTagName,
+/*members Piwik3, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
@@ -986,7 +986,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     discardHashTag,
-    setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, isSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
+    setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, setGenerationTimeMs,
@@ -1028,9 +1028,9 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst
  */
-/*global _paq:true */
+/*global _paq3:true */
 /*members push */
-/*global Piwik:true */
+/*global Piwik3:true */
 /*members addPlugin, getTracker, getAsyncTracker, getAsyncTrackers, addTracker, trigger, on, off, retryMissedPluginCalls,
           DOM, onLoad, onReady, isNodeVisible, isOrWasNodeVisible, JSON */
 /*global Piwik_Overlay_Client */
@@ -1043,13 +1043,13 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*members log */
 
 // asynchronous tracker (or proxy)
-if (typeof _paq !== 'object') {
-    _paq = [];
+if (typeof _paq3 !== 'object') {
+    _paq3 = [];
 }
 
-// Piwik singleton and namespace
-if (typeof window.Piwik !== 'object') {
-    window.Piwik = (function () {
+// Piwik3 singleton and namespace
+if (typeof window.Piwik3 !== 'object') {
+    window.Piwik3 = (function () {
         'use strict';
 
         /************************************************************
@@ -1087,8 +1087,8 @@ if (typeof window.Piwik !== 'object') {
             /* iterator */
             iterator,
 
-            /* local Piwik */
-            Piwik,
+            /* local Piwik3 */
+            Piwik3,
 
             missedPluginTrackerCalls = [];
 
@@ -1204,12 +1204,12 @@ if (typeof window.Piwik !== 'object') {
                     context = fParts[0];
                     f = fParts[1];
 
-                    if ('object' === typeof Piwik[context] && 'function' === typeof Piwik[context][f]) {
-                        Piwik[context][f].apply(Piwik[context], parameterArray);
+                    if ('object' === typeof Piwik3[context] && 'function' === typeof Piwik3[context][f]) {
+                        Piwik3[context][f].apply(Piwik3[context], parameterArray);
                     } else if (trackerCall) {
                         // we try to call that method again later as the plugin might not be loaded yet
-                        // a plugin can call "Piwik.retryMissedPluginCalls();" once it has been loaded and then the
-                        // method call to "Piwik[context][f]" may be executed
+                        // a plugin can call "Piwik3.retryMissedPluginCalls();" once it has been loaded and then the
+                        // method call to "Piwik3[context][f]" may be executed
                         missedPluginTrackerCalls.push(trackerCall);
                     }
 
@@ -1235,7 +1235,7 @@ if (typeof window.Piwik !== 'object') {
                             if (context[f]) {
                                 context[f].apply(context, parameterArray);
                             } else {
-                                var message = 'The method \'' + f + '\' was not found in "_paq" variable.  Please have a look at the Piwik tracker documentation: https://developer.piwik.org/api-reference/tracking-javascript';
+                                var message = 'The method \'' + f + '\' was not found in "_paq3" variable.  Please have a look at the Piwik3 tracker documentation: https://developer.piwik.org/api-reference/tracking-javascript';
                                 logConsoleError(message);
 
                                 if (!isPluginTrackerCall) {
@@ -1912,129 +1912,12 @@ if (typeof window.Piwik !== 'object') {
          * Element Visiblility
          ************************************************************/
 
-        /**
-         * Author: Jason Farrell
-         * Author URI: http://useallfive.com/
-         *
-         * Description: Checks if a DOM element is truly visible.
-         * Package URL: https://github.com/UseAllFive/true-visibility
-         * License: MIT (https://github.com/UseAllFive/true-visibility/blob/master/LICENSE.txt)
-         */
         function isVisible(node) {
-
             if (!node) {
                 return false;
             }
 
-            //-- Cross browser method to get style properties:
-            function _getStyle(el, property) {
-                if (windowAlias.getComputedStyle) {
-                    return documentAlias.defaultView.getComputedStyle(el,null)[property];
-                }
-                if (el.currentStyle) {
-                    return el.currentStyle[property];
-                }
-            }
-
-            function _elementInDocument(element) {
-                element = element.parentNode;
-
-                while (element) {
-                    if (element === documentAlias) {
-                        return true;
-                    }
-                    element = element.parentNode;
-                }
-                return false;
-            }
-
-            /**
-             * Checks if a DOM element is visible. Takes into
-             * consideration its parents and overflow.
-             *
-             * @param (el)      the DOM element to check if is visible
-             *
-             * These params are optional that are sent in recursively,
-             * you typically won't use these:
-             *
-             * @param (t)       Top corner position number
-             * @param (r)       Right corner position number
-             * @param (b)       Bottom corner position number
-             * @param (l)       Left corner position number
-             * @param (w)       Element width number
-             * @param (h)       Element height number
-             */
-            function _isVisible(el, t, r, b, l, w, h) {
-                var p = el.parentNode,
-                    VISIBLE_PADDING = 1; // has to be visible at least one px of the element
-
-                if (!_elementInDocument(el)) {
-                    return false;
-                }
-
-                //-- Return true for document node
-                if (9 === p.nodeType) {
-                    return true;
-                }
-
-                //-- Return false if our element is invisible
-                if (
-                    '0' === _getStyle(el, 'opacity') ||
-                    'none' === _getStyle(el, 'display') ||
-                    'hidden' === _getStyle(el, 'visibility')
-                ) {
-                    return false;
-                }
-
-                if (!isDefined(t) ||
-                        !isDefined(r) ||
-                        !isDefined(b) ||
-                        !isDefined(l) ||
-                        !isDefined(w) ||
-                        !isDefined(h)) {
-                    t = el.offsetTop;
-                    l = el.offsetLeft;
-                    b = t + el.offsetHeight;
-                    r = l + el.offsetWidth;
-                    w = el.offsetWidth;
-                    h = el.offsetHeight;
-                }
-
-                if (node === el && (0 === h || 0 === w) && 'hidden' === _getStyle(el, 'overflow')) {
-                    return false;
-                }
-
-                //-- If we have a parent, let's continue:
-                if (p) {
-                    //-- Check if the parent can hide its children.
-                    if (('hidden' === _getStyle(p, 'overflow') || 'scroll' === _getStyle(p, 'overflow'))) {
-                        //-- Only check if the offset is different for the parent
-                        if (
-                            //-- If the target element is to the right of the parent elm
-                        l + VISIBLE_PADDING > p.offsetWidth + p.scrollLeft ||
-                            //-- If the target element is to the left of the parent elm
-                        l + w - VISIBLE_PADDING < p.scrollLeft ||
-                            //-- If the target element is under the parent elm
-                        t + VISIBLE_PADDING > p.offsetHeight + p.scrollTop ||
-                            //-- If the target element is above the parent elm
-                        t + h - VISIBLE_PADDING < p.scrollTop
-                        ) {
-                            //-- Our target element is out of bounds:
-                            return false;
-                        }
-                    }
-                    //-- Add the offset parent's left/top coords to our element's offset:
-                    if (el.offsetParent === p) {
-                        l += p.offsetLeft;
-                        t += p.offsetTop;
-                    }
-                    //-- Let's recursively check upwards:
-                    return _isVisible(p, t, r, b, l, w, h);
-                }
-                return true;
-            }
-
-            return _isVisible(node);
+            return node.offsetParent !== null;
         }
 
         /************************************************************
@@ -2371,10 +2254,10 @@ if (typeof window.Piwik !== 'object') {
 
             findContentNodes: function ()
             {
-
                 var cssSelector  = '.' + this.CONTENT_CLASS;
                 var attrSelector = '[' + this.CONTENT_ATTR + ']';
                 var contentNodes = query.findMultiple([cssSelector, attrSelector]);
+                // var contentNodes = query.findMultiple([cssSelector]);
 
                 return contentNodes;
             },
@@ -2669,11 +2552,59 @@ if (typeof window.Piwik !== 'object') {
                     ((rect.top  < docHeight) || wasVisible) // rect.top < 0 we assume user has seen all the ones that are above the current viewport
                 );
             },
+            colors: [
+                "#888",
+                "tomato",
+                "lightgreen",
+                "yellow",
+                "orange"
+            ],
+            getRandomInt: function (min, max) {
+                return Math.floor(Math.random() * (max - min)) + min;
+            },
+            isElementInViewport: function (el) {
+                var rect = el.getBoundingClientRect();
+
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+                );
+            },
+
+           /**
+            * Вкллючен ли режим подсветки аналитики
+            * Если включен элементы будут подсвечиваться
+            * @returns {Boolean}
+            */
+            isAnalyticsMode: function () {
+                var pageData = window.Sports.pageData || {};
+                // uncoment next line and refresh the page and look what happens
+                // return true;
+                return pageData['highlight-piwik-analytics-mode'];
+            },
+           /**
+            * Меняет цвет фона элемента если он просмотрен
+            */
+            triggerDisplayVisibility: function(node) {
+                if (node.alreadyViewed === true) {
+                    node.style.transition = 'all 0.7s';
+                    var timeout = this.getRandomInt(100, 400);
+                    setTimeout(function () {
+                        node.style.backgroundColor = this.colors[Math.floor(Math.random()*this.colors.length)];
+                    }.bind(this), timeout);
+                }
+            },
             isNodeVisible: function (node)
             {
-                var isItVisible  = isVisible(node);
-                var isInViewport = this.isOrWasNodeInViewport(node);
-                return isItVisible && isInViewport;
+                if (isVisible(node)) {
+                    node.alreadyViewed = this.isElementInViewport(node);
+                }
+                if (node.alreadyViewed && this.isAnalyticsMode()) {
+                    this.triggerDisplayVisibility(node);
+                }
+                return node.alreadyViewed;
             },
             buildInteractionRequestParams: function (interaction, name, piece, target)
             {
@@ -2879,7 +2810,7 @@ if (typeof window.Piwik !== 'object') {
                 trackerUrl = trackerUrl.slice(0, lastSlash + includeLastSlash);
             }
 
-            // if eg http://www.example.com/js/ => http://www.example.com/ (when not minified Piwik JS loaded)
+            // if eg http://www.example.com/js/ => http://www.example.com/ (when not minified Piwik3 JS loaded)
             if (stringEndsWith(trackerUrl, '/js/')) {
                 trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'js/'.length);
             }
@@ -2978,7 +2909,7 @@ if (typeof window.Piwik !== 'object') {
          ************************************************************/
 
         /*
-         * Piwik Tracker class
+         * Piwik3 Tracker class
          *
          * trackerUrl and trackerSiteId are optional arguments to the constructor
          *
@@ -3105,6 +3036,9 @@ if (typeof window.Piwik !== 'object') {
                 // Default is user agent defined.
                 configCookiePath,
 
+                // Whether to use "Secure" cookies that only work over SSL
+                configCookieIsSecure = false,
+
                 // First-party cookies are disabled
                 configCookiesDisabled = false,
 
@@ -3176,11 +3110,11 @@ if (typeof window.Piwik !== 'object') {
                 heartBeatSetUp = false,
 
                 // bool used to detect whether this browser window had focus at least once. So far we cannot really
-                // detect this 100% correct for an iframe so whenever Piwik is loaded inside an iframe we presume
+                // detect this 100% correct for an iframe so whenever Piwik3 is loaded inside an iframe we presume
                 // the window had focus at least once.
                 hadWindowFocusAtLeastOnce = isInsideAnIframe(),
 
-                // Timestamp of last tracker request sent to Piwik
+                // Timestamp of last tracker request sent to Piwik3
                 lastTrackerRequestTime = null,
 
                 // Handle to the current heart beat timeout
@@ -3202,9 +3136,7 @@ if (typeof window.Piwik !== 'object') {
                 // pageview was already tracked or not
                 numTrackedPageviews = 0,
 
-                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
-
-                secureCookie = false;
+                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
 
             // Document title
             try {
@@ -3216,7 +3148,7 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Set cookie value
              */
-            function setCookie(cookieName, value, msToExpire, path, domain) {
+            function setCookie(cookieName, value, msToExpire, path, domain, isSecure) {
                 if (configCookiesDisabled) {
                     return;
                 }
@@ -3233,21 +3165,7 @@ if (typeof window.Piwik !== 'object') {
                     (msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
-                    (secureCookie ? ';secure' : '');
-            }
-
-            /*
-             * Set cookie secure flag
-             */
-            function setSecureCookie(value) {
-                secureCookie = !!value;
-            }
-
-            /**
-             * Get secure cookie flag value
-             */
-            function isSecureCookie() {
-                return secureCookie;
+                    (isSecure ? ';secure' : '');
             }
 
             /*
@@ -3273,7 +3191,7 @@ if (typeof window.Piwik !== 'object') {
             function purify(url) {
                 var targetPattern;
 
-                // we need to remove this parameter here, they wouldn't be removed in Piwik tracker otherwise eg
+                // we need to remove this parameter here, they wouldn't be removed in Piwik3 tracker otherwise eg
                 // for outlinks or referrers
                 url = removeUrlParameter(url, configVisitorIdUrlParameter);
 
@@ -3485,7 +3403,7 @@ if (typeof window.Piwik !== 'object') {
             }
 
             /*
-             * Send image request to Piwik server using GET.
+             * Send image request to Piwik3 server using GET.
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
             function getImage(request, callback) {
@@ -3501,7 +3419,7 @@ if (typeof window.Piwik !== 'object') {
             }
 
             /*
-             * POST request to Piwik server using XMLHttpRequest.
+             * POST request to Piwik3 server using XMLHttpRequest.
              */
             function sendXmlHttpRequest(request, callback, fallbackToGet) {
                 if (!isDefined(fallbackToGet) || null === fallbackToGet) {
@@ -3998,7 +3916,7 @@ if (typeof window.Piwik !== 'object') {
                     visitorIdCookieValues.lastVisitTs + '.' +
                     visitorIdCookieValues.lastEcommerceOrderTs;
 
-                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain);
+                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure);
             }
 
             /*
@@ -4107,7 +4025,7 @@ if (typeof window.Piwik !== 'object') {
              * Creates the session cookie
              */
             function setSessionCookie() {
-                setCookie(getCookieName('ses'), '*', configSessionCookieTimeout, configCookiePath, configCookieDomain);
+                setCookie(getCookieName('ses'), '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure);
             }
 
             function generateUniqueId() {
@@ -4162,7 +4080,7 @@ if (typeof window.Piwik !== 'object') {
 
                 // send charset if document charset is not utf-8. sometimes encoding
                 // of urls will be the same as this and not utf-8, which will cause problems
-                // do not send charset if it is utf8 since it's assumed by default in Piwik
+                // do not send charset if it is utf8 since it's assumed by default in Piwik3
                 var charSet = documentAlias.characterSet || documentAlias.charset;
 
                 if (!charSet || charSet.toLowerCase() === 'utf-8') {
@@ -4917,11 +4835,18 @@ if (typeof window.Piwik !== 'object') {
                 return buildContentImpressionsRequests(contents, contentNodes);
             }
 
+
+
+
             /*
              * Log currently visible content pieces
              */
             function getCurrentlyVisibleContentImpressionsRequestsIfNotTrackedYet(contentNodes)
             {
+                contentNodes = contentNodes.filter(function (item) {
+                    return !item.alreadyViewed;
+                });
+
                 if (!contentNodes || !contentNodes.length) {
                     return [];
                 }
@@ -4929,11 +4854,13 @@ if (typeof window.Piwik !== 'object') {
                 var index;
 
                 for (index = 0; index < contentNodes.length; index++) {
-                    if (!content.isNodeVisible(contentNodes[index])) {
+                    var node = contentNodes[index];
+                    if (!content.isNodeVisible(node)) {
                         contentNodes.splice(index, 1);
                         index--;
                     }
                 }
+
 
                 if (!contentNodes || !contentNodes.length) {
                     return [];
@@ -5664,7 +5591,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Specify the Piwik tracking URL
+             * Specify the Piwik3 tracking URL
              *
              * @param string trackerUrl
              */
@@ -5673,7 +5600,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Returns the Piwik tracking URL
+             * Returns the Piwik3 tracking URL
              * @returns string
              */
             this.getTrackerUrl = function () {
@@ -5681,7 +5608,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Returns the Piwik server URL.
+             * Returns the Piwik3 server URL.
              *
              * @returns string
              */
@@ -5814,7 +5741,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Returns the query string for the current HTTP Tracking API request.
-             * Piwik would prepend the hostname and path to Piwik: http://example.org/piwik/piwik.php?
+             * Piwik3 would prepend the hostname and path to Piwik3: http://example.org/piwik/piwik.php?
              * prior to sending the request.
              *
              * @param request eg. "param=value&param2=value2"
@@ -6064,7 +5991,7 @@ if (typeof window.Piwik !== 'object') {
              * it automatically if there was any other host specifying any path like
              * "['example.com', 'example2.com/test']". In this case we would also not add the current
              * domain "example.org" automatically as the "path" feature is used. As soon as someone uses the path
-             * feature, for Piwik JS Tracker to work correctly in all cases, one needs to specify all hosts
+             * feature, for Piwik3 JS Tracker to work correctly in all cases, one needs to specify all hosts
              * manually.
              *
              * @param string|array hostsAlias
@@ -6108,7 +6035,7 @@ if (typeof window.Piwik !== 'object') {
              * current timestamp and the last 6 characters are an id based on the userAgent to identify the users device).
              * This way the current visitorId is forwarded to the page of the different domain.
              *
-             * On the different domain, the Piwik tracker will recognize the set visitorId from the URL parameter and
+             * On the different domain, the Piwik3 tracker will recognize the set visitorId from the URL parameter and
              * reuse this parameter if the page was loaded within 45 seconds. If cross domain linking was not enabled,
              * it would create a new visit on that page because we wouldn't be able to access the previously created
              * cookie. By enabling cross domain linking you can track several different domains into one website and
@@ -6212,7 +6139,7 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
-             * Set the URL of the Piwik API. It is used for Page Overlay.
+             * Set the URL of the Piwik3 API. It is used for Page Overlay.
              * This method should only be called when the API URL differs from the tracker URL.
              *
              * @param string apiUrl
@@ -6261,7 +6188,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Strip hash tag (or anchor) from URL
-             * Note: this can be done in the Piwik>Settings>Websites on a per-website basis
+             * Note: this can be done in the Piwik3>Settings>Websites on a per-website basis
              *
              * @deprecated
              * @param bool enableFilter
@@ -6414,6 +6341,17 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Enable the Secure cookie flag on all first party cookies.
+             * This should be used when your website is only available under HTTPS
+             * so that all tracking cookies are always sent over secure connection.
+             *
+             * @param bool
+             */
+            this.setSecureCookie = function (enable) {
+                configCookieIsSecure = enable;
+            };
+
+            /**
              * Disables all cookies from being set
              *
              * Existing cookies will be deleted on the next call to track
@@ -6452,7 +6390,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Add click listener to a specific link element.
-             * When clicked, Piwik will log the click automatically.
+             * When clicked, Piwik3 will log the click automatically.
              *
              * @param DOMElement element
              * @param bool enable If false, do not use pseudo click-handler (middle click + context menu)
@@ -6465,7 +6403,7 @@ if (typeof window.Piwik !== 'object') {
              * Install link tracker.
              *
              * If you change the DOM of your website or web application you need to make sure to call this method
-             * again so Piwik can detect links that were added newly.
+             * again so Piwik3 can detect links that were added newly.
              *
              * The default behaviour is to use actual click events. However, some browsers
              * (e.g., Firefox, Opera, and Konqueror) don't generate click events for the middle mouse button.
@@ -6513,7 +6451,7 @@ if (typeof window.Piwik !== 'object') {
              *
              * Make sure not to overwrite the window.onerror handler after enabling the JS error
              * tracking as the error tracking won't work otherwise. To capture all JS errors we
-             * recommend to include the Piwik JavaScript tracker in the HTML as early as possible.
+             * recommend to include the Piwik3 JavaScript tracker in the HTML as early as possible.
              * If possible directly in <head></head> before loading any other JavaScript.
              */
             this.enableJSErrorTracking = function () {
@@ -6581,7 +6519,7 @@ if (typeof window.Piwik !== 'object') {
              */
             this.disableHeartBeatTimer = function () {
                 heartBeatDown();
-                
+
                 if (configHeartBeatDelay || heartBeatSetUp) {
                     if (windowAlias.removeEventListener) {
                         windowAlias.removeEventListener('focus', heartBeatOnFocus, true);
@@ -6939,13 +6877,13 @@ if (typeof window.Piwik !== 'object') {
              *
              * On a category page, you can set the parameter category, and set the other parameters to empty string or false
              *
-             * Tracking Product/Category page views will allow Piwik to report on Product & Categories
+             * Tracking Product/Category page views will allow Piwik3 to report on Product & Categories
              * conversion rates (Conversion rate = Ecommerce orders containing this product or category / Visits to the product or category)
              *
              * @param string sku Item's SKU code being viewed
              * @param string name Item's Name being viewed
              * @param string category Category page being viewed. On an Item's page, this is the item's category
-             * @param float price Item's display price, not use in standard Piwik reports, but output in API product reports.
+             * @param float price Item's display price, not use in standard Piwik3 reports, but output in API product reports.
              */
             this.setEcommerceView = function (sku, name, category, price) {
                 if (!isDefined(category) || !category.length) {
@@ -6998,13 +6936,13 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Tracks an Ecommerce order.
              * If the Ecommerce order contains items (products), you must call first the addEcommerceItem() for each item in the order.
-             * All revenues (grandTotal, subTotal, tax, shipping, discount) will be individually summed and reported in Piwik reports.
+             * All revenues (grandTotal, subTotal, tax, shipping, discount) will be individually summed and reported in Piwik3 reports.
              * Parameters orderId and grandTotal are required. For others, you can set to false if you don't need to specify them.
              * After calling this method, items added to the cart will be removed from this JavaScript object.
              *
              * @param string|int orderId (required) Unique Order ID.
              *                   This will be used to count this order only once in the event the order page is reloaded several times.
-             *                   orderId must be unique for each transaction, even on different days, or the transaction will not be recorded by Piwik.
+             *                   orderId must be unique for each transaction, even on different days, or the transaction will not be recorded by Piwik3.
              * @param float grandTotal (required) Grand Total revenue of the transaction (including tax, shipping, etc.)
              * @param float subTotal (optional) Sub total amount, typically the sum of items prices for all items in this order (before Tax and Shipping costs are applied)
              * @param float tax (optional) Tax amount for this order
@@ -7029,7 +6967,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * Sends a tracking request with custom request parameters.
-             * Piwik will prepend the hostname and path to Piwik, as well as all other needed tracking request
+             * Piwik3 will prepend the hostname and path to Piwik3, as well as all other needed tracking request
              * parameters prior to sending the request. Useful eg if you track custom dimensions via a plugin.
              *
              * @param request eg. "param=value&param2=value2"
@@ -7044,7 +6982,7 @@ if (typeof window.Piwik !== 'object') {
                 });
             };
 
-            Piwik.trigger('TrackerSetup', [this]);
+            Piwik3.trigger('TrackerSetup', [this]);
         }
 
         function TrackerProxy() {
@@ -7079,7 +7017,7 @@ if (typeof window.Piwik !== 'object') {
                             delete paq[iterator];
 
                             if (appliedMethods[methodName] > 1) {
-                                logConsoleError('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: https://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
+                                logConsoleError('The method ' + methodName + ' is registered more than once in "_paq3" variable. Only the last call has an effect. Please have a look at the multiple Piwik3 trackers documentation: https://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
                             }
 
                             appliedMethods[methodName]++;
@@ -7095,35 +7033,35 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking', 'setSecureCookie'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
             var tracker = new Tracker(piwikUrl, siteId);
             asyncTrackers.push(tracker);
 
-            _paq = applyMethodsInOrder(_paq, applyFirst);
+            _paq3 = applyMethodsInOrder(_paq3, applyFirst);
 
             // apply the queue of actions
-            for (iterator = 0; iterator < _paq.length; iterator++) {
-                if (_paq[iterator]) {
-                    apply(_paq[iterator]);
+            for (iterator = 0; iterator < _paq3.length; iterator++) {
+                if (_paq3[iterator]) {
+                    apply(_paq3[iterator]);
                 }
             }
 
             // replace initialization array with proxy object
-            _paq = new TrackerProxy();
+            _paq3 = new TrackerProxy();
 
             return tracker;
         }
 
         /************************************************************
          * Proxy object
-         * - this allows the caller to continue push()'ing to _paq
+         * - this allows the caller to continue push()'ing to _paq3
          *   after the Tracker has been initialized and loaded
          ************************************************************/
 
-        // initialize the Piwik singleton
+        // initialize the Piwik3 singleton
         addEventListener(windowAlias, 'beforeunload', beforeUnloadHandler, false);
 
         Date.prototype.getTimeAlias = Date.prototype.getTime;
@@ -7132,7 +7070,7 @@ if (typeof window.Piwik !== 'object') {
          * Public data and methods
          ************************************************************/
 
-        Piwik = {
+        Piwik3 = {
             initialized: false,
 
             JSON: JSON_PIWIK,
@@ -7337,11 +7275,11 @@ if (typeof window.Piwik !== 'object') {
             },
 
             /**
-             * When calling plugin methods via "_paq.push(['...'])" and the plugin is loaded separately because
+             * When calling plugin methods via "_paq3.push(['...'])" and the plugin is loaded separately because
              * piwik.js is not writable then there is a chance that first piwik.js is loaded and later the plugin.
-             * In this case we would have already executed all "_paq.push" methods and they would not have succeeded
+             * In this case we would have already executed all "_paq3.push" methods and they would not have succeeded
              * because the plugin will be loaded only later. In this case, once a plugin is loaded, it should call
-             * "Piwik.retryMissedPluginCalls()" so they will be executed after all.
+             * "Piwik3.retryMissedPluginCalls()" so they will be executed after all.
              *
              * @param string piwikUrl
              * @param int|string siteId
@@ -7357,12 +7295,12 @@ if (typeof window.Piwik !== 'object') {
             }
         };
 
-        // Expose Piwik as an AMD module
+        // Expose Piwik3 as an AMD module
         if (typeof define === 'function' && define.amd) {
-            define('piwik', [], function () { return Piwik; });
+            define('piwik', [], function () { return Piwik3; });
         }
 
-        return Piwik;
+        return Piwik3;
     }());
 }
 
@@ -7373,16 +7311,16 @@ if (typeof window.Piwik !== 'object') {
 
     function hasPaqConfiguration()
     {
-        if ('object' !== typeof _paq) {
+        if ('object' !== typeof _paq3) {
             return false;
         }
         // needed to write it this way for jslint
-        var lengthType = typeof _paq.length;
+        var lengthType = typeof _paq3.length;
         if ('undefined' === lengthType) {
             return false;
         }
 
-        return !!_paq.length;
+        return !!_paq3.length;
     }
 
     if (window
@@ -7400,25 +7338,25 @@ if (typeof window.Piwik !== 'object') {
         window.piwikAsyncInit();
     }
 
-    if (!window.Piwik.getAsyncTrackers().length) {
+    if (!window.Piwik3.getAsyncTrackers().length) {
         // we only create an initial tracker when no other async tracker has been created yet in piwikAsyncInit()
         if (hasPaqConfiguration()) {
-            // we only create an initial tracker if there is a configuration for it via _paq. Otherwise
-            // Piwik.getAsyncTrackers() would return unconfigured trackers
-            window.Piwik.addTracker();
+            // we only create an initial tracker if there is a configuration for it via _paq3. Otherwise
+            // Piwik3.getAsyncTrackers() would return unconfigured trackers
+            window.Piwik3.addTracker();
         } else {
-            _paq = {push: function (args) {
+            _paq3 = {push: function (args) {
                 // needed to write it this way for jslint
                 var consoleType = typeof console;
                 if (consoleType !== 'undefined' && console && console.error) {
-                    console.error('_paq.push() was used but Piwik tracker was not initialized before the piwik.js file was loaded. Make sure to configure the tracker via _paq.push before loading piwik.js. Alternatively, you can create a tracker via Piwik.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
+                    console.error('_paq3.push() was used but Piwik3 tracker was not initialized before the piwik.js file was loaded. Make sure to configure the tracker via _paq3.push before loading piwik.js. Alternatively, you can create a tracker via Piwik3.addTracker() manually and then use _paq3.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
                 }
             }};
         }
     }
 
-    window.Piwik.trigger('PiwikInitialized', []);
-    window.Piwik.initialized = true;
+    window.Piwik3.trigger('PiwikInitialized', []);
+    window.Piwik3.initialized = true;
 }());
 
 
@@ -7426,7 +7364,7 @@ if (typeof window.Piwik !== 'object') {
 (function () {
     var jsTrackerType = (typeof AnalyticsTracker);
     if (jsTrackerType === 'undefined') {
-        AnalyticsTracker = window.Piwik;
+        AnalyticsTracker = window.Piwik3;
     }
 }());
 /*jslint sloppy: false */
@@ -7437,7 +7375,7 @@ if (typeof window.Piwik !== 'object') {
  ************************************************************/
 
 /*
- * Piwik globals
+ * Piwik3 globals
  *
  *   var piwik_install_tracker, piwik_tracker_pause, piwik_download_extensions, piwik_hosts_alias, piwik_ignore_classes;
  */
@@ -7468,13 +7406,13 @@ if (typeof piwik_log !== 'function') {
 
         // instantiate the tracker
         var option,
-            piwikTracker = window.Piwik.getTracker(piwikUrl, siteId);
+            piwikTracker = window.Piwik3.getTracker(piwikUrl, siteId);
 
         // initialize tracker
         piwikTracker.setDocumentTitle(documentTitle);
         piwikTracker.setCustomData(customData);
 
-        // handle Piwik globals
+        // handle Piwik3 globals
         option = getOption('tracker_pause');
 
         if (option) {
