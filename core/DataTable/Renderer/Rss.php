@@ -112,7 +112,7 @@ class Rss extends Renderer
         $header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <rss version=\"2.0\">
   <channel>
-    <title>piwik statistics - RSS</title>
+    <title>matomo statistics - RSS</title>
     <link>https://matomo.org</link>
     <description>Matomo RSS feed</description>
     <pubDate>$generationDate</pubDate>

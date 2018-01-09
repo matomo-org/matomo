@@ -43,7 +43,7 @@ class ManagerTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage Setting parameters translations is not allowed. Please report this bug to the Piwik team.
+     * @expectedExceptionMessage Setting parameters translations is not allowed. Please report this bug to the Matomo team.
      */
     public function test_setViewDataTableParameters_inConfigProperty_shouldOnlyAllowOverridableParams()
     {
@@ -60,7 +60,7 @@ class ManagerTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage Setting parameters filters is not allowed. Please report this bug to the Piwik team.
+     * @expectedExceptionMessage Setting parameters filters is not allowed. Please report this bug to the Matomo team.
      */
     public function test_setViewDataTableParameters_inConfigProperty_shouldOnlyAllowOverridableParams_bis()
     {
@@ -77,7 +77,7 @@ class ManagerTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage Setting parameters apiMethodToRequestDataTable is not allowed. Please report this bug to the Piwik team.
+     * @expectedExceptionMessage Setting parameters apiMethodToRequestDataTable is not allowed. Please report this bug to the Matomo team.
      */
     public function test_setViewDataTableParameters_inRequestConfigProperty_shouldOnlyAllowOverridableParams()
     {

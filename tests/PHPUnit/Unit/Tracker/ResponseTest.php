@@ -65,7 +65,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
         $content = $this->response->getOutput();
 
-        $this->assertContains('<title>Piwik &rsaquo; Error</title>', $content);
+        $this->assertContains('<title>Matomo &rsaquo; Error</title>', $content);
         $this->assertContains('<p>My Custom Message', $content);
     }
 
@@ -127,17 +127,17 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $tracker->setCountOfLoggedRequests(0);
         $this->response->outputResponse($tracker);
 
-        $this->assertEquals("This resource is part of Piwik. Keep full control of your data with the leading free and open source <a href='https://piwik.org' target='_blank'>digital analytics platform</a> for web and mobile.",
+        $this->assertEquals("This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank'>digital analytics platform</a> for web and mobile.",
             $this->response->getOutput());
     }
 
     public function test_getMessageFromException_ShouldNotOutputAnyDetails_IfErrorContainsDbCredentials()
     {
         $message = $this->response->getMessageFromException(new Exception('Test Message', 1044));
-        $this->assertStringStartsWith("Error while connecting to the Piwik database", $message);
+        $this->assertStringStartsWith("Error while connecting to the Matomo database", $message);
 
         $message = $this->response->getMessageFromException(new Exception('Test Message', 42000));
-        $this->assertStringStartsWith("Error while connecting to the Piwik database", $message);
+        $this->assertStringStartsWith("Error while connecting to the Matomo database", $message);
     }
 
     public function test_getMessageFromException_ShouldReturnMessageAndTrace_InCaseIsCli()
