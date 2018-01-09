@@ -84,7 +84,7 @@ class FormDatabaseSetup extends QuickForm2
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
                                                                        'host'          => '127.0.0.1',
                                                                        'type'          => $defaultDatabaseType,
-                                                                       'tables_prefix' => 'piwik_',
+                                                                       'tables_prefix' => 'matomo_',
                                                                   )));
     }
 
