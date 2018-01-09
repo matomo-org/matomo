@@ -50,31 +50,31 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	and subject to their respective licenses.
 
 	Name:  javascriptCode.tpl - tracking tag to embed in your web pages
-	Link:  https://github.com/piwik/piwik/blob/master/core/Tracker/javascriptTag.tpl
+	Link:  https://github.com/matomo-org/piwik/blob/master/core/Tracker/javascriptTag.tpl
 	License:  Public Domain
 
 	Name:  jquery.truncate
-	Link:  https://github.com/piwik/piwik/blob/master/libs/jquery/truncate/
+	Link:  https://github.com/matomo-org/piwik/blob/master/libs/jquery/truncate/
 	License:  New BSD
 
 	Name:  piwik.js - JavaScript tracker
-	Link:  https://github.com/piwik/piwik/blob/master/js/piwik.js
+	Link:  https://github.com/matomo-org/piwik/blob/master/js/piwik.js
 	License:  New BSD
 
 	Name:  PiwikTracker - server-side tracker (PHP)
-	Link: https://github.com/piwik/piwik/blob/master/libs/PiwikTracker/
+	Link: https://github.com/matomo-org/piwik/blob/master/libs/PiwikTracker/
 	License:  New BSD
 
 	Name:  DeviceDetector
-	Link:  https://github.com/piwik/device-detector
+	Link:  https://github.com/matomo-org/device-detector
 	License:  LGPL
 
 	Name:  Piwik/Decompress
-	Link:  https://github.com/piwik/component-decompress
+	Link:  https://github.com/matomo-org/component-decompress
 	License:  LGPL v3.0
 
 	Name:  Piwik/Network
-	Link:  https://github.com/piwik/component-network
+	Link:  https://github.com/matomo-org/component-network
 	License:  LGPL v3.0
 
 

@@ -9,8 +9,8 @@ Please read the recommendations on writing a good [bug report](https://developer
 
 ## How to suggest improvements to translations?
 
-You can help improve translations in Piwik, please read [contribute to translations](https://github.com/matomo-org/piwik/blob/master/lang/README.md).
+You can help improve translations in Matomo, please read [contribute to translations](https://github.com/matomo-org/piwik/blob/master/lang/README.md).
 
 ## How to submit code improvements via pull requests?
 
-You can help contribute to Piwik codebase via Pull Requests, see [Contributing to Piwik core](https://developer.matomo.org/guides/contributing-to-piwik-core)
+You can help contribute to Matomo codebase via Pull Requests, see [Contributing to Matomo core](https://developer.matomo.org/guides/contributing-to-piwik-core)

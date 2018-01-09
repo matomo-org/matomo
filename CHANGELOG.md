@@ -280,7 +280,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
  * New segment `actionUrl` lets you segment any action that matches a given URL, whether they are Pageviews, Site searches, Contents, Downloads or Events.
  * New segment `deviceBrand` lets you restrict your users to those using a particular device brand such as Apple, Samsung, LG, Google, Nokia, Sony, Lenovo, Alcatel, etc. View the [complete list of device brands.](http://developer.matomo.org/api-reference/segmentation)
  * New segment operators `=^` "Starts with" and `=$` "Ends with" complement the existing segment operators: Contains, Does not contain, Equals, Not equals, Greater than or equal to, Less than or equal to.
- * The JavaScript Tracker method `PiwikTracker.setDomains()` can now handle paths. This means when setting eg `_paq.push(['setDomains, '*.piwik.org/website1'])` all link that goes to the same domain `piwik.org` but to any other path than `website1/*` will be treated as outlink.
+ * The JavaScript Tracker method `PiwikTracker.setDomains()` can now handle paths. This means when setting eg `_paq.push(['setDomains, '*.matomo.org/website1'])` all link that goes to the same domain `matomo.org` but to any other path than `website1/*` will be treated as outlink.
  * In Administration > Websites, for each website, there is a checkbox "Only track visits and actions when the action URL starts with one of the above URLs". In Piwik 2.14.0, any action URL starting with one of the Alias URLs or starting with a subdomain of the Alias URL would be tracked. As of Piwik 2.15.0, when this checkbox is enabled, it may track less data: action URLs on an Alias URL subdomain will not be tracked anymore (you must specify each sub-domain as Alias URL).  
  * It is now possible to pass an option `php-cli-options` to the `core:archive` command. The given cli options will be forwarded to the actual PHP command. This allows to for example specify a different memory limit for the archiving process like this: `./console core:archive --php-cli-options="-d memory_limit=8G"`
  * New less variable `@theme-color-menu-contrast-textSelected` that lets you specify the color of a selected menu item.
@@ -293,7 +293,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
  * `UsersManager.*` API calls: when an API request specifies a `token_auth` of a user with `admin` permission, the returned dataset will not include all usernames as previously, API will now only return usernames for users with `view` or `admin` permission to website(s) viewable by this `token_auth`. 
  * When generating a new plugin skeleton via `generate:plugin` command, plugin name must now contain only letters and numbers.
  * JavaScript Tracker tests no longer require `SQLite`. The existing MySQL configuration for tests is used now. In order to run the tests make sure Piwik is installed and `[database_tests]` is configured in `config/config.ini.php`.
- * The definitions for search engine and social network detection have been moved from bundled data files to a separate package (see [https://github.com/piwik/searchengine-and-social-list](https://github.com/piwik/searchengine-and-social-list)).
+ * The definitions for search engine and social network detection have been moved from bundled data files to a separate package (see [https://github.com/matomo-org/searchengine-and-social-list](https://github.com/matomo-org/searchengine-and-social-list)).
  * In [UI screenshot tests](https://developer.matomo.org/guides/tests-ui), a test environment `configOverride` setting should be no longer overwritten. Instead new values should be added to the existing `configOverride` array in PHP or JavaScript. For example instead of `testEnvironment.configOverride = {group: {name: 1}}` use `testEnvironment.overrideConfig('group', 'name', '1')`.
 
 ### New APIs
@@ -356,7 +356,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 
 ### Breaking Changes
 * The `UserSettings` API has been removed. The API was deprecated in earlier versions. Use `DevicesDetection`, `Resolution` and `DevicePlugins` API instead.
-* Many translations have been moved to the new Intl plugin. Most of them will still work, but please update their usage. See https://github.com/piwik/piwik/pull/8101 for a full list 
+* Many translations have been moved to the new Intl plugin. Most of them will still work, but please update their usage. See https://github.com/matomo-org/piwik/pull/8101 for a full list 
 
 ### New features 
 * The JavaScript Tracker does now track outlinks and downloads if a user opens the context menu if the `enabled` parameter of the `enableLinkTracking()` method is set to `true`. To use this new feature use `tracker.enableLinkTracking(true)` or `_paq.push(['enableLinkTracking', true]);`. This is not industry standard and is vulnerable to false positives since not every user will select "Open in a new tab" when the context menu is shown. Most users will do though and it will lead to more accurate results in most cases.
@@ -397,7 +397,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 
 ### Internal changes
 
-* The referrer spam filter has moved from the `referrer_urls_spam` INI option (in `global.ini.php`) to a separate package (see [https://github.com/piwik/referrer-spam-blacklist](https://github.com/piwik/referrer-spam-blacklist)).
+* The referrer spam filter has moved from the `referrer_urls_spam` INI option (in `global.ini.php`) to a separate package (see [https://github.com/matomo-org/referrer-spam-blacklist](https://github.com/matomo-org/referrer-spam-blacklist)).
 
 ## Piwik 2.12.0
 
@@ -464,14 +464,14 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * During UI tests we do now add a CSS class to the HTML element called `uiTest`. This allows you do hide content when screenshots are captured.
 
 ### New commands
-* A new command (core:fix-duplicate-log-actions) has been added which can be used to remove duplicate actions and correct references to them in other tables. Duplicates were caused by this bug: [#6436](https://github.com/piwik/piwik/issues/6436)
+* A new command (core:fix-duplicate-log-actions) has been added which can be used to remove duplicate actions and correct references to them in other tables. Duplicates were caused by this bug: [#6436](https://github.com/matomo-org/piwik/issues/6436)
 
 ### Library updates
 * Updated AngularJS from 1.2.26 to 1.2.28
 * Updated piwik/device-detector from 2.8 to 3.0
 
 ### Internal change
-* UI specs were moved from `tests/PHPUnit/UI` to `tests/UI`. We also moved the UI specs directly into the Piwik repository meaning the [piwik-ui-tests](https://github.com/piwik/piwik-ui-tests) repository contains only the expected screenshots from now on.
+* UI specs were moved from `tests/PHPUnit/UI` to `tests/UI`. We also moved the UI specs directly into the Piwik repository meaning the [piwik-ui-tests](https://github.com/matomo-org/piwik-ui-tests) repository contains only the expected screenshots from now on.
 * There is a new command `development:sync-system-test-processed` for core developers that allows you to copy processed test results from travis to your local dev environment.
 
 ## Piwik 2.10.0
@@ -491,7 +491,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 ### Library updates
 * We added the `symfony/var-dumper` library allowing you to better print any arbitrary PHP variable via `dump($var1, $var2, ...)`.
 * Piwik now uses [Monolog](https://github.com/Seldaek/monolog) as a logger.
-* The tracker proxy (previously in `misc/proxy-hide-piwik-url/`) has been moved to a separate repository: [https://github.com/piwik/tracker-proxy](https://github.com/piwik/tracker-proxy).
+* The tracker proxy (previously in `misc/proxy-hide-piwik-url/`) has been moved to a separate repository: [https://github.com/matomo-org/tracker-proxy](https://github.com/matomo-org/tracker-proxy).
 
 ### Deprecations
 * Some duplicate reports from UserSettings plugin have been removed. Widget URLs for those reports will still work till May 1st 2015. Please update those to the new reports of DevicesDetection plugin.
@@ -527,11 +527,11 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * The command `php console core:update` does no longer have a parameter `--dry-run`. A dry run is now executed by default followed by a question whether one actually wants to execute the updates. To skip this confirmation step one can use the `--yes` option.
 
 ### Deprecations
-* Most methods of `Piwik\IP` have been deprecated in favor of the new [piwik/network](https://github.com/piwik/component-network) component.
+* Most methods of `Piwik\IP` have been deprecated in favor of the new [piwik/network](https://github.com/matomo-org/component-network) component.
 * The file `tests/PHPUnit/phpunit.xml` is no longer needed in order to run tests and we suggest to delete it. The test configuration is now done automatically if possible. In case the tests do no longer work check out the `[tests]` section in `config/global.ini.php`
 
 ### Library updates
-* Code for manipulating IP addresses has been moved to a separate standalone component: [piwik/network](https://github.com/piwik/component-network). Backward compatibility is kept in Piwik core.
+* Code for manipulating IP addresses has been moved to a separate standalone component: [piwik/network](https://github.com/matomo-org/component-network). Backward compatibility is kept in Piwik core.
 
 ## Piwik 2.8.2
 
@@ -548,7 +548,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
   * The following methods have been added: setPassword, setPasswordHash, getTokenAuthSecret and getLogin.
   * Clarifying semantics of each method and what they must support and can support.
   * **Read the documentation for the [Auth interface](http://developer.matomo.org/2.x/api-reference/Piwik/Auth) to learn more.**
-* The `Piwik\Unzip\*` classes have been extracted out of the Piwik repository into a separate component named [Decompress](https://github.com/piwik/component-decompress).
+* The `Piwik\Unzip\*` classes have been extracted out of the Piwik repository into a separate component named [Decompress](https://github.com/matomo-org/component-decompress).
   * `Piwik\Unzip` has not moved, it is kept for backward compatibility. If you have been using that class, you don't need to change anything.
   * The `Piwik\Unzip\*` classes (Tar, PclZip, Gzip, ZipArchive) have moved to the `Piwik\Decompress\*` namespace (inside the new repository).
   * `Piwik\Unzip\UncompressInterface` has been moved and renamed to `Piwik\Decompress\DecompressInterface` (inside the new repository).
@@ -579,14 +579,14 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 ## Piwik 2.7.0
 
 ### Reporting APIs
-* Several APIs will now expose a new metric `nb_users` which measures the number of unique users when a [User ID](http://piwik.org/docs/user-id/) is set.
-* New APIs have been added for [Content Tracking](http://piwik.org/docs/content-tracking/) feature: Contents.getContentNames, Contents.getContentPieces
+* Several APIs will now expose a new metric `nb_users` which measures the number of unique users when a [User ID](http://matomo.org/docs/user-id/) is set.
+* New APIs have been added for [Content Tracking](https://matomo.org/docs/content-tracking/) feature: Contents.getContentNames, Contents.getContentPieces
 
 ### Deprecations
-* The `Piwik\Menu\MenuAbstract::add()` method is deprecated in favor of `addItem()`. Read more about this here: [#6140](https://github.com/piwik/piwik/issues/6140). We do not plan to remove the deprecated method before Piwik 3.0.
+* The `Piwik\Menu\MenuAbstract::add()` method is deprecated in favor of `addItem()`. Read more about this here: [#6140](https://github.com/matomo-org/piwik/issues/6140). We do not plan to remove the deprecated method before Piwik 3.0.
 
 ### New APIs
-* It is now easier to generate the URL for a menu item see [#6140](https://github.com/piwik/piwik/issues/6140), [urlForDefaultAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlfordefaultaction), [urlForAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlforaction), [urlForModuleAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlformoduleaction)
+* It is now easier to generate the URL for a menu item see [#6140](https://github.com/matomo-org/piwik/issues/6140), [urlForDefaultAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlfordefaultaction), [urlForAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlforaction), [urlForModuleAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlformoduleaction)
 
 ### New commands
 * `core:clear-caches` Lets you easily delete all caches. This command can be useful for instance after updating Piwik files manually.
@@ -616,8 +616,8 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * The [settings](http://developer.matomo.org/guides/piwik-configuration) API will receive the actual entered value and will no longer convert characters like `&` to `&amp;`. If you still want this behavior - for instance to prevent XSS - you can define a filter by setting the `transform` property like this:
   `$setting->transform = function ($value) { return Common::sanitizeInputValue($value); }`
 * Config setting `disable_merged_assets` moved from `Debug` section to `Development`. The updater will automatically change the section for you.
-* `API.getRowEvolution` will throw an exception if a report is requested that does not have a dimension, for instance `VisitsSummary.get`. This is a fix as an invalid format was returned before see [#5951](https://github.com/piwik/piwik/issues/5951)
-* `MultiSites.getAll` returns from now on always an array of websites. In the past it returned a single object and it didn't contain all properties in case only one website was found which was a bug see [#5987](https://github.com/piwik/piwik/issues/5987)
+* `API.getRowEvolution` will throw an exception if a report is requested that does not have a dimension, for instance `VisitsSummary.get`. This is a fix as an invalid format was returned before see [#5951](https://github.com/matomo-org/piwik/issues/5951)
+* `MultiSites.getAll` returns from now on always an array of websites. In the past it returned a single object and it didn't contain all properties in case only one website was found which was a bug see [#5987](https://github.com/matomo-org/piwik/issues/5987)
 
 ### Deprecations
 The following events are considered as deprecated and the new structure should be used in the future. We have not scheduled when those events will be removed but probably in Piwik 3.0 which is not scheduled yet and won't be soon. New features will be added only to the new classes.
@@ -666,7 +666,7 @@ We are using `@since` annotations in case we are introducing new API's to make i
 * `development:disable` lets you disable the development mode 
 
 <!--
-## Template: Piwik version number
+## Template: Matomo version number
 
 ### Breaking Changes
 ### Deprecations
@@ -678,5 +678,5 @@ We are using `@since` annotations in case we are introducing new API's to make i
 ### Internal change
  -->
 
-Find the general Piwik Changelogs for each release at [piwik.org/changelog](https://matomo.org/changelog/)
+Find the general Matomo Changelogs for each release at [matomo.org/changelog](https://matomo.org/changelog/)
  
