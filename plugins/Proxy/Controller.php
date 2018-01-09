@@ -119,6 +119,10 @@ class Controller extends \Piwik\Plugin\Controller
             return true;
         }
 
+        if (preg_match('~^http://(qa\.|demo\.|dev\.|forum\.)?matomo.org([#?/]|$)~', $url)) {
+            return true;
+        }
+
         // Allow clockworksms domain
         if (strpos($url, 'http://www.clockworksms.com/') === 0) {
             return true;

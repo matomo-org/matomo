@@ -50,7 +50,7 @@ class ReleaseChannelTest extends IntegrationTestCase
 
     public function test_getDownloadUrlWithoutScheme_shouldReturnUrlWithVersionNumberButWithoutScheme()
     {
-        $this->assertSame('://builds.piwik.org/piwik-2.15.0-b5.zip', $this->channel->getDownloadUrlWithoutScheme('2.15.0-b5'));
+        $this->assertSame('://builds.matomo.org/piwik-2.15.0-b5.zip', $this->channel->getDownloadUrlWithoutScheme('2.15.0-b5'));
     }
 
     public function test_getUrlToCheckForLatestAvailableVersion()

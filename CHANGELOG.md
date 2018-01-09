@@ -1,8 +1,8 @@
-# Piwik Platform Changelog
+# Matomo Platform Changelog
 
-This is the Developer Changelog for Piwik platform developers. All changes in our HTTP API's, Plugins, Themes, SDKs, etc. are listed below.
+This is the Developer Changelog for Matomo platform developers. All changes in our HTTP API's, Plugins, Themes, SDKs, etc. are listed below.
 
-The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** lets you see more details about any Piwik release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
+The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
 ## Piwik 3.2.1
 
@@ -97,7 +97,7 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
 ## Piwik 3.0.1
 
 ### New APIs
-* Live API responses now return a new field ‘generationTimeMilliseconds’ (the generation time for this page, in milliseconds) which is internally used to process the Average generation time in the [Visitor Profile](https://piwik.org/docs/user-profile/)
+* Live API responses now return a new field ‘generationTimeMilliseconds’ (the generation time for this page, in milliseconds) which is internally used to process the Average generation time in the [Visitor Profile](https://matomo.org/docs/user-profile/)
 * Added new event `MultiSites.filterRowsForTotalsCalculation` to filter which sites will be included in the All Websites Dashboard totals calculation.
 * The method `Piwik\Plugin\Archiver::shouldRunEvenWhenNoVisits()` has been added. By overwriting this method and returning true, a plugin archiver can force the archiving to run even when there was no visit for the website/date/period/segment combination (by default, archivers are skipped when there is no visit).
 
@@ -105,7 +105,7 @@ The Product Changelog at **[piwik.org/changelog](https://piwik.org/changelog)** 
 
 ### New guide
 
-Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration guide](https://developer.piwik.org/guides/migrate-piwik-2-to-3).
+Read more about migrating a plugin from Piwik 2.X to Piwik 3 in [our Migration guide](https://developer.matomo.org/guides/migrate-piwik-2-to-3).
 
 ### Breaking Changes
 * When using the Piwik JavaScript Tracking via `_paq.push`, it is now required to configure the tracker (eg calling `setSiteId` and `setTrackerUrl`) before the `piwik.js` JavaScript tracker is loaded to ensure the tracker works correctly. 
@@ -137,17 +137,17 @@ If the tracker is not initialised correctly, the browser console will display th
 * It is no longer possible to define an introduction text for settings.
 * If requesting multiple periods for one report, the keys that define the range are no longer translated. For example before 3.0 an API response may contain: `<result date="From 2010-02-01 to 2010-02-07">` which is now `<result date="2010-02-01,2010-02-07">`.
 * The following deprecated events have been removed as mentioned.
- * `Tracker.existingVisitInformation` Use [dimensions](https://developer.piwik.org/guides/dimensions) instead of using `Tracker` events.
+ * `Tracker.existingVisitInformation` Use [dimensions](https://developer.matomo.org/guides/dimensions) instead of using `Tracker` events.
  * `Tracker.newVisitorInformation`
  * `Tracker.recordAction`
  * `Tracker.recordEcommerceGoal`
  * `Tracker.recordStandardGoals`
- * `API.getSegmentDimensionMetadata` Define segments in [Dimension](https://developer.piwik.org/guides/dimensions) instead
- * `Menu.Admin.addItems` Create a [Menu](https://developer.piwik.org/guides/menus) instead of using `Menu` events
+ * `API.getSegmentDimensionMetadata` Define segments in [Dimension](https://developer.matomo.org/guides/dimensions) instead
+ * `Menu.Admin.addItems` Create a [Menu](https://developer.matomo.org/guides/menus) instead of using `Menu` events
  * `Menu.Reporting.addItems`
  * `Menu.Top.addItems`
- * `ViewDataTable.addViewDataTable` Create a [Visualization](https://developer.piwik.org/guides/visualizing-report-data) instead
- * `ViewDataTable.getDefaultType` Specify the default type in a [Report](https://developer.piwik.org/guides/custom-reports) instead
+ * `ViewDataTable.addViewDataTable` Create a [Visualization](https://developer.matomo.org/guides/visualizing-report-data) instead
+ * `ViewDataTable.getDefaultType` Specify the default type in a [Report](https://developer.matomo.org/guides/custom-reports) instead
  * `Login.authenticate`  Create a custom SessionInitializer instead of using `Login` events
  * `Login.initSession.end`
  * `Login.authenticate.successful`
@@ -170,7 +170,7 @@ If the tracker is not initialised correctly, the browser console will display th
    UserSettings | getLanguageCode | UserLanguage | getLanguageCode
 
 
-Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration guide](https://developer.piwik.org/guides/migrate-piwik-2-to-3).
+Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration guide](https://developer.matomo.org/guides/migrate-piwik-2-to-3).
 
 ### Deprecations
 * The method `Piwik\Updates::getMigrationQueries()` has been deprecated and renamed to `getMigrations()`. It is still supported to use the method, but the method will be removed in Piwik 4.0.0
@@ -199,7 +199,7 @@ Read more about migrating a plugin from Piwik 2.X to Piwik 3 on our [Migration g
  * `PluginManager.pluginUninstalled` triggered after a plugin was uninstalled
  * `Updater.componentInstalled` triggered after a component was installed
  * `Updater.componentUninstalled` triggered after a component was uninstalled
-* New HTTP Tracking API parameter `pv_id` which accepts a six character unique ID that identifies which actions were performed on a specific page view. Read more about it in the [HTTP Tracking API](https://developer.piwik.org/api-reference/tracking-api);
+* New HTTP Tracking API parameter `pv_id` which accepts a six character unique ID that identifies which actions were performed on a specific page view. Read more about it in the [HTTP Tracking API](https://developer.matomo.org/api-reference/tracking-api);
 * New event `Segment.addSegments` that lets you add segments.
 * New Piwik JavaScript Tracker method `disableHeartBeatTimer()` to disable the heartbeat timer if it was previously enabled.
 * The `SitesManager.getJavascriptTag` has a new option `getJavascriptTag` to enable the tracking of users that have JavaScript disabled
@@ -234,7 +234,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 ## Piwik 2.16.2
 
 ### New APIs
- * Multiple JavaScript trackers can now be created easily via `_paq.push(['addTracker', piwikUrl, piwikSiteId])`. All tracking requests will be then sent to all added Piwik trackers. [Learn more.](http://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers)
+ * Multiple JavaScript trackers can now be created easily via `_paq.push(['addTracker', piwikUrl, piwikSiteId])`. All tracking requests will be then sent to all added Piwik trackers. [Learn more.](http://developer.matomo.org/guides/tracking-javascript-guide#multiple-piwik-trackers)
  * It is possible to get an asynchronously created tracker instance (`addTracker`) via the method `Piwik.getAsyncTracker(optionalPiwikUrl, optionalPiwikSiteId)`. This allows you to get the tracker instance and to send different tracking requests to this Piwik instance and to configure it differently than other tracker instances.
  * Added a new API method `Goals.getGoal($idSite, $idGoal)` to fetch a single goal.
  
@@ -243,7 +243,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
  * `piwik.js`, if you call the method `setDomains` note that that the behavior has slightly changed. The current page domain (hostname) will now be added automatically if none of the given host alias passed as a parameter to `setDomains` contain a path and if no host alias is already given for the current host alias. 
  Say you are on "example.org" and set `hostAlias = ['example.com', 'example.org/test']` then the current "example.org" domain will not be added as there is already a more restrictive hostAlias 'example.org/test' given. 
  We also do not add the current page domain (hostname) automatically if there was any other host specifying any path such as `['example.com', 'example2.com/test']`. 
- In this case we also do not add the current page domain "example.org" automatically as the "path" feature is used. As soon as someone uses the path feature, for Piwik JS Tracker to work correctly in all cases, one needs to specify all hosts manually. [Learn more.](http://developer.piwik.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains)
+ In this case we also do not add the current page domain "example.org" automatically as the "path" feature is used. As soon as someone uses the path feature, for Piwik JS Tracker to work correctly in all cases, one needs to specify all hosts manually. [Learn more.](http://developer.matomo.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains)
  * `piwik.js`: after an ecommerce order is tracked using `trackEcommerceOrder`, the items in the cart will now be removed from the JavaScript object. Calling `trackEcommerceCartUpdate` will not remove the items in the cart.   
 
 
@@ -251,7 +251,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 
 ### New features
  * New method `setIsWritableByCurrentUser` for `SystemSetting` to change the writable permission for certain system settings via DI.
- * JS Tracker: `setDomains` function now supports page wildcards matching eg. `example.com/index*` which can be useful when [tracking a group of pages within a domain in a separate website in Piwik](http://developer.piwik.org/guides/tracking-javascript-guide#tracking-a-group-of-pages-in-a-separate-website)
+ * JS Tracker: `setDomains` function now supports page wildcards matching eg. `example.com/index*` which can be useful when [tracking a group of pages within a domain in a separate website in Piwik](http://developer.matomo.org/guides/tracking-javascript-guide#tracking-a-group-of-pages-in-a-separate-website)
  * To customise the list of URL query parameters to be removed from your URLs, you can now define and overwrite  `url_query_parameter_to_exclude_from_url` INI setting in your `config.ini.php` file. By default, the following query string parameters will be removed: `gclid, fb_xd_fragment, fb_comment_id, phpsessid, jsessionid, sessionid, aspsessionid, doing_wp_cron, sid`.
 
 ### Deprecations
@@ -259,14 +259,14 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
  * `SettingsServer::isApache()` 
 
 ### New guides
-  * JavaScript Tracker: [Measuring domains and/or sub-domains](http://developer.piwik.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains)
+  * JavaScript Tracker: [Measuring domains and/or sub-domains](http://developer.matomo.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains)
   
 ### Breaking Changes
  * Reporting API: when a cell value in a CSV or TSV (excel) data export starts with a character `=`, `-` or `+`, Piwik will now prefix the value with `'` to ensure that it is displayed correctly in Excel or OpenOffice/LibreOffice.   
  
 ### Internal change
  * Tracking API: by default, when tracking a Page URL, Piwik will now remove the URL query string parameter `sid` if it is found. 
- * In the JavaScript tracker, the function `setDomains` will not anymore attempt to set a cookie path. Learn more about [configuring the tracker correctly](http://developer.piwik.org/guides/tracking-javascript-guide#tracking-one-domain) when tracking one or several domains and/or paths.
+ * In the JavaScript tracker, the function `setDomains` will not anymore attempt to set a cookie path. Learn more about [configuring the tracker correctly](http://developer.matomo.org/guides/tracking-javascript-guide#tracking-one-domain) when tracking one or several domains and/or paths.
 
 ## Piwik 2.16.1
 
@@ -278,7 +278,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 ### New features
  * New segment `actionType` lets you segment all actions of a given type, eg. `actionType==events` or `actionType==downloads`. Action types values are: `pageviews`, `contents`, `sitesearches`, `events`, `outlinks`, `downloads`
  * New segment `actionUrl` lets you segment any action that matches a given URL, whether they are Pageviews, Site searches, Contents, Downloads or Events.
- * New segment `deviceBrand` lets you restrict your users to those using a particular device brand such as Apple, Samsung, LG, Google, Nokia, Sony, Lenovo, Alcatel, etc. View the [complete list of device brands.](http://developer.piwik.org/api-reference/segmentation)
+ * New segment `deviceBrand` lets you restrict your users to those using a particular device brand such as Apple, Samsung, LG, Google, Nokia, Sony, Lenovo, Alcatel, etc. View the [complete list of device brands.](http://developer.matomo.org/api-reference/segmentation)
  * New segment operators `=^` "Starts with" and `=$` "Ends with" complement the existing segment operators: Contains, Does not contain, Equals, Not equals, Greater than or equal to, Less than or equal to.
  * The JavaScript Tracker method `PiwikTracker.setDomains()` can now handle paths. This means when setting eg `_paq.push(['setDomains, '*.piwik.org/website1'])` all link that goes to the same domain `piwik.org` but to any other path than `website1/*` will be treated as outlink.
  * In Administration > Websites, for each website, there is a checkbox "Only track visits and actions when the action URL starts with one of the above URLs". In Piwik 2.14.0, any action URL starting with one of the Alias URLs or starting with a subdomain of the Alias URL would be tracked. As of Piwik 2.15.0, when this checkbox is enabled, it may track less data: action URLs on an Alias URL subdomain will not be tracked anymore (you must specify each sub-domain as Alias URL).  
@@ -294,7 +294,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
  * When generating a new plugin skeleton via `generate:plugin` command, plugin name must now contain only letters and numbers.
  * JavaScript Tracker tests no longer require `SQLite`. The existing MySQL configuration for tests is used now. In order to run the tests make sure Piwik is installed and `[database_tests]` is configured in `config/config.ini.php`.
  * The definitions for search engine and social network detection have been moved from bundled data files to a separate package (see [https://github.com/piwik/searchengine-and-social-list](https://github.com/piwik/searchengine-and-social-list)).
- * In [UI screenshot tests](https://developer.piwik.org/guides/tests-ui), a test environment `configOverride` setting should be no longer overwritten. Instead new values should be added to the existing `configOverride` array in PHP or JavaScript. For example instead of `testEnvironment.configOverride = {group: {name: 1}}` use `testEnvironment.overrideConfig('group', 'name', '1')`.
+ * In [UI screenshot tests](https://developer.matomo.org/guides/tests-ui), a test environment `configOverride` setting should be no longer overwritten. Instead new values should be added to the existing `configOverride` array in PHP or JavaScript. For example instead of `testEnvironment.configOverride = {group: {name: 1}}` use `testEnvironment.overrideConfig('group', 'name', '1')`.
 
 ### New APIs
  * Add your own SMS/Text provider by creating a new class in the `SMSProvider` directory of your plugin. The class has to extend `Piwik\Plugins\MobileMessaging\SMSProvider` and implement the required methods.
@@ -309,7 +309,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 ### New commands
  *  New command `diagnostics:analyze-archive-table` that analyzes archive tables
  *  New command `database:optimize-archive-tables` to optimize archive tables and possibly save disk space (even if on InnoDB)
- *  New Command `core:invalidate-report-data` to invalidate archive data (w/ period cascading) ([FAQ](https://piwik.org/faq/how-to/faq_155/))
+ *  New Command `core:invalidate-report-data` to invalidate archive data (w/ period cascading) ([FAQ](https://matomo.org/faq/how-to/faq_155/))
 
 ### New APIs and features
 * Piwik 2.15.0 is now mostly compatible with PHP7. 
@@ -318,7 +318,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * The new method `Piwik\Menu\MenuAbstract::registerMenuIcon()` can be used to define an icon for a menu category to replace the default arrow icon.
 * New event `CronArchive.getIdSitesNotUsingTracker` that allows you to set a list of idSites that do not use the Tracker API to make sure we archive these sites if needed.
 * New events `CronArchive.init.start` which is triggered when the CLI archiver starts and `CronArchive.end` when the archiver ended.
-* Piwik tracker can now be configured with strict Content Security Policy ([CSP FAQ](https://piwik.org/faq/general/faq_20904/)).
+* Piwik tracker can now be configured with strict Content Security Policy ([CSP FAQ](https://matomo.org/faq/general/faq_20904/)).
 * Super Users can choose whether to use the latest stable release or latest Long Term Support release. 
 
 ### Breaking Changes
@@ -332,7 +332,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * The following HTTP API methods have been deprecated and will be removed in Piwik 3.0:
  * `SitesManager.getSitesIdWithVisits` 
  * `API.getLastDate` 
-* The following events have been deprecated and will be removed in Piwik 3.0. Use [dimensions](http://developer.piwik.org/guides/dimensions) instead.
+* The following events have been deprecated and will be removed in Piwik 3.0. Use [dimensions](https://developer.matomo.org/guides/dimensions) instead.
  * `Tracker.existingVisitInformation`
  * `Tracker.getVisitFieldsToPersist`
  * `Tracker.newConversionInformation`
@@ -484,7 +484,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
   * `Log.formatFileMessage`
   * `Log.formatDatabaseMessage`
   * `Log.formatScreenMessage`
-  * These events have been removed as Piwik now uses the Monolog logging library. [Learn more.](http://developer.piwik.org/guides/logging)
+  * These events have been removed as Piwik now uses the Monolog logging library. [Learn more.](http://developer.matomo.org/guides/logging)
 * The event `Log.getAvailableWriters` has been removed: to add custom log backends, you now need to configure Monolog handlers
 * The INI options `log_only_when_cli` and `log_only_when_debug_parameter` have been removed
 
@@ -515,7 +515,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * The HTTP Tracker API does now respond with a HTTP 400 instead of a HTTP 500 in case an invalid `idsite` is used
 
 ### New APIs
-* New URL parameter `send_image=0` in the [HTTP Tracking API](http://developer.piwik.org/api-reference/tracking-api) to receive a HTTP 204 response code instead of a GIF image. This improves performance and can fix errors if images are not allowed to be obtained directly (eg Chrome Apps).
+* New URL parameter `send_image=0` in the [HTTP Tracking API](http://developer.matomo.org/api-reference/tracking-api) to receive a HTTP 204 response code instead of a GIF image. This improves performance and can fix errors if images are not allowed to be obtained directly (eg Chrome Apps).
 
 ### New commands
 * `core:plugin list` lists all plugins currently activated in Piwik.
@@ -523,7 +523,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 ## Piwik 2.9.0
 
 ### Breaking Changes
-* Development related [console commands](http://developer.piwik.org/guides/piwik-on-the-command-line) are only available if the development mode is enabled. To enable the development mode execute `./console development:enable`.
+* Development related [console commands](http://developer.matomo.org/guides/piwik-on-the-command-line) are only available if the development mode is enabled. To enable the development mode execute `./console development:enable`.
 * The command `php console core:update` does no longer have a parameter `--dry-run`. A dry run is now executed by default followed by a question whether one actually wants to execute the updates. To skip this confirmation step one can use the `--yes` option.
 
 ### Deprecations
@@ -547,7 +547,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
     If your Auth implementation implements its own session logic you will have to extend and override SessionInitializer.
   * The following methods have been added: setPassword, setPasswordHash, getTokenAuthSecret and getLogin.
   * Clarifying semantics of each method and what they must support and can support.
-  * **Read the documentation for the [Auth interface](http://developer.piwik.org/2.x/api-reference/Piwik/Auth) to learn more.**
+  * **Read the documentation for the [Auth interface](http://developer.matomo.org/2.x/api-reference/Piwik/Auth) to learn more.**
 * The `Piwik\Unzip\*` classes have been extracted out of the Piwik repository into a separate component named [Decompress](https://github.com/piwik/component-decompress).
   * `Piwik\Unzip` has not moved, it is kept for backward compatibility. If you have been using that class, you don't need to change anything.
   * The `Piwik\Unzip\*` classes (Tar, PclZip, Gzip, ZipArchive) have moved to the `Piwik\Decompress\*` namespace (inside the new repository).
@@ -564,7 +564,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * The class `\Piwik\Tests\OverrideLogin` is deprecated and will be removed from February 6ths 2015. Use `\Piwik\Framework\Framework\OverrideLogin` instead.
 
 ### New API Features
-* The pivotBy and related query parameters can be used to pivot reports by another dimension. Read more about the new query parameters [here](http://developer.piwik.org/api-reference/reporting-api#optional-api-parameters).
+* The pivotBy and related query parameters can be used to pivot reports by another dimension. Read more about the new query parameters [here](http://developer.matomo.org/api-reference/reporting-api#optional-api-parameters).
 
 ### Library updates
 * Updated AngularJS from 1.2.13 to 1.2.25
@@ -586,7 +586,7 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 * The `Piwik\Menu\MenuAbstract::add()` method is deprecated in favor of `addItem()`. Read more about this here: [#6140](https://github.com/piwik/piwik/issues/6140). We do not plan to remove the deprecated method before Piwik 3.0.
 
 ### New APIs
-* It is now easier to generate the URL for a menu item see [#6140](https://github.com/piwik/piwik/issues/6140), [urlForDefaultAction()](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Menu#urlfordefaultaction), [urlForAction()](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Menu#urlforaction), [urlForModuleAction()](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Menu#urlformoduleaction)
+* It is now easier to generate the URL for a menu item see [#6140](https://github.com/piwik/piwik/issues/6140), [urlForDefaultAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlfordefaultaction), [urlForAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlforaction), [urlForModuleAction()](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Menu#urlformoduleaction)
 
 ### New commands
 * `core:clear-caches` Lets you easily delete all caches. This command can be useful for instance after updating Piwik files manually.
@@ -612,8 +612,8 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 ## Piwik 2.5.0
 
 ### Breaking Changes
-* Javascript Tracking API: if you are using `getCustomVariable` function to access custom variables values that were set on previous page views, you now must also call `storeCustomVariablesInCookie` before the first call to `trackPageView`. Read more about [Javascript Tracking here](http://developer.piwik.org/api-reference/tracking-javascript).
-* The [settings](http://developer.piwik.org/guides/piwik-configuration) API will receive the actual entered value and will no longer convert characters like `&` to `&amp;`. If you still want this behavior - for instance to prevent XSS - you can define a filter by setting the `transform` property like this:
+* Javascript Tracking API: if you are using `getCustomVariable` function to access custom variables values that were set on previous page views, you now must also call `storeCustomVariablesInCookie` before the first call to `trackPageView`. Read more about [Javascript Tracking here](http://developer.matomo.org/api-reference/tracking-javascript).
+* The [settings](http://developer.matomo.org/guides/piwik-configuration) API will receive the actual entered value and will no longer convert characters like `&` to `&amp;`. If you still want this behavior - for instance to prevent XSS - you can define a filter by setting the `transform` property like this:
   `$setting->transform = function ($value) { return Common::sanitizeInputValue($value); }`
 * Config setting `disable_merged_assets` moved from `Debug` section to `Development`. The updater will automatically change the section for you.
 * `API.getRowEvolution` will throw an exception if a report is requested that does not have a dimension, for instance `VisitsSummary.get`. This is a fix as an invalid format was returned before see [#5951](https://github.com/piwik/piwik/issues/5951)
@@ -622,40 +622,40 @@ The folder containing expected screenshots was renamed from `expected-ui-screens
 ### Deprecations
 The following events are considered as deprecated and the new structure should be used in the future. We have not scheduled when those events will be removed but probably in Piwik 3.0 which is not scheduled yet and won't be soon. New features will be added only to the new classes.
 
-* `API.getReportMetadata`, `API.getSegmentDimensionMetadata`, `Goals.getReportsWithGoalMetrics`, `ViewDataTable.configure`, `ViewDataTable.getDefaultType`: use [Report](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Report) class instead to define new reports. There is an updated guide as well [Part1](http://developer.piwik.org/guides/getting-started-part-1)
-* `WidgetsList.addWidgets`: use [Widgets](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Widgets) class instead to define new widgets
-* `Menu.Admin.addItems`, `Menu.Reporting.addItems`, `Menu.Top.addItems`: use [Menu](http://developer.piwik.org/api-reference/Piwik/Plugin/Menu) class instead
-* `TaskScheduler.getScheduledTasks`: use [Tasks](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Tasks) class instead to define new tasks
-* `Tracker.recordEcommerceGoal`, `Tracker.recordStandardGoals`, `Tracker.newConversionInformation`: use [Conversion Dimension](http://developer.piwik.org/api-reference/Piwik/Plugin/Dimension/ConversionDimension) class instead
-* `Tracker.existingVisitInformation`, `Tracker.newVisitorInformation`, `Tracker.getVisitFieldsToPersist`: use [Visit Dimension](http://developer.piwik.org/api-reference/Piwik/Plugin/Dimension/VisitDimension) class instead
+* `API.getReportMetadata`, `API.getSegmentDimensionMetadata`, `Goals.getReportsWithGoalMetrics`, `ViewDataTable.configure`, `ViewDataTable.getDefaultType`: use [Report](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Report) class instead to define new reports. There is an updated guide as well [Part1](http://developer.matomo.org/guides/getting-started-part-1)
+* `WidgetsList.addWidgets`: use [Widgets](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Widgets) class instead to define new widgets
+* `Menu.Admin.addItems`, `Menu.Reporting.addItems`, `Menu.Top.addItems`: use [Menu](http://developer.matomo.org/api-reference/Piwik/Plugin/Menu) class instead
+* `TaskScheduler.getScheduledTasks`: use [Tasks](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Tasks) class instead to define new tasks
+* `Tracker.recordEcommerceGoal`, `Tracker.recordStandardGoals`, `Tracker.newConversionInformation`: use [Conversion Dimension](http://developer.matomo.org/api-reference/Piwik/Plugin/Dimension/ConversionDimension) class instead
+* `Tracker.existingVisitInformation`, `Tracker.newVisitorInformation`, `Tracker.getVisitFieldsToPersist`: use [Visit Dimension](http://developer.matomo.org/api-reference/Piwik/Plugin/Dimension/VisitDimension) class instead
 * `ViewDataTable.addViewDataTable`: This event is no longer needed. Visualizations are automatically discovered if they are placed within a `Visualizations` directory inside the plugin.
 
 ### New features
 
 #### Translation search
-As a plugin developer you might want to reuse existing translation keys. You can now find all available translations and translation keys by opening the page "Settings => Development:Translation search" in your Piwik installation. Read more about [internationalization](http://developer.piwik.org/guides/internationalization) here.
+As a plugin developer you might want to reuse existing translation keys. You can now find all available translations and translation keys by opening the page "Settings => Development:Translation search" in your Piwik installation. Read more about [internationalization](http://developer.matomo.org/guides/internationalization) here.
 
 #### Reporting API
 It is now possible to use the `filter_sort_column` parameter when requesting `Live.getLastVisitDetails`. For instance `&filter_sort_column=visitCount`. 
 
 #### @since annotation
-We are using `@since` annotations in case we are introducing new API's to make it easy to see in which Piwik version a new method was added. This information is now displayed in the [Classes API-Reference](http://developer.piwik.org/api-reference/classes). 
+We are using `@since` annotations in case we are introducing new API's to make it easy to see in which Piwik version a new method was added. This information is now displayed in the [Classes API-Reference](http://developer.matomo.org/api-reference/classes). 
 
 ### New APIs
-* [Report](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Report) to add a new report
-* [Action Dimension](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Dimension/ActionDimension) to add a dimension that tracks action related information
-* [Visit Dimension](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Dimension/VisitDimension) to add a dimension that tracks visit related information
-* [Conversion Dimension](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Dimension/ConversionDimension) to add a dimension that tracks conversion related information
-* [Dimension](http://developer.piwik.org/2.x/api-reference/Piwik/Columns/Dimension) to add a basic non tracking dimension that can be used in `Reports`
-* [Widgets](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Widgets) to add or modfiy widgets
+* [Report](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Report) to add a new report
+* [Action Dimension](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Dimension/ActionDimension) to add a dimension that tracks action related information
+* [Visit Dimension](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Dimension/VisitDimension) to add a dimension that tracks visit related information
+* [Conversion Dimension](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Dimension/ConversionDimension) to add a dimension that tracks conversion related information
+* [Dimension](http://developer.matomo.org/2.x/api-reference/Piwik/Columns/Dimension) to add a basic non tracking dimension that can be used in `Reports`
+* [Widgets](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Widgets) to add or modfiy widgets
 * These Menu classes got new methods that make it easier to add new items to a specific section
-  * [MenuAdmin](http://developer.piwik.org/2.x/api-reference/Piwik/Menu/MenuAdmin) to add or modify admin menu items. 
-  * [MenuReporting](http://developer.piwik.org/2.x/api-reference/Piwik/Menu/MenuReporting) to add or modify reporting menu items
-  * [MenuUser](http://developer.piwik.org/2.x/api-reference/Piwik/Menu/MenuUser) to add or modify user menu items
-* [Tasks](http://developer.piwik.org/2.x/api-reference/Piwik/Plugin/Tasks) to add scheduled tasks
+  * [MenuAdmin](http://developer.matomo.org/2.x/api-reference/Piwik/Menu/MenuAdmin) to add or modify admin menu items. 
+  * [MenuReporting](http://developer.matomo.org/2.x/api-reference/Piwik/Menu/MenuReporting) to add or modify reporting menu items
+  * [MenuUser](http://developer.matomo.org/2.x/api-reference/Piwik/Menu/MenuUser) to add or modify user menu items
+* [Tasks](http://developer.matomo.org/2.x/api-reference/Piwik/Plugin/Tasks) to add scheduled tasks
 
 ### New commands
-* `generate:theme` lets you easily generate a new theme and customize colors, see the [Theming guide](http://developer.piwik.org/guides/theming)
+* `generate:theme` lets you easily generate a new theme and customize colors, see the [Theming guide](http://developer.matomo.org/guides/theming)
 * `generate:update` lets you generate an update file
 * `generate:report` lets you generate a report
 * `generate:dimension` lets you enhance the tracking by adding new dimensions
@@ -678,5 +678,5 @@ We are using `@since` annotations in case we are introducing new API's to make i
 ### Internal change
  -->
 
-Find the general Piwik Changelogs for each release at [piwik.org/changelog](https://piwik.org/changelog/)
+Find the general Piwik Changelogs for each release at [piwik.org/changelog](https://matomo.org/changelog/)
  

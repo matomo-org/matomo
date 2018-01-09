@@ -77,12 +77,12 @@ CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
 {$rootUrl}index.php?module=CoreUpdater&action=newVersionAvailable
 
 CoreUpdater_ViewVersionChangelog
-https://piwik.org/changelog/piwik-33-0-0/
+https://matomo.org/changelog/piwik-33-0-0/
 
 CoreUpdater_ReceiveEmailBecauseIsSuperUser
 
 CoreUpdater_FeedbackRequest
-https://piwik.org/contact/";
+https://matomo.org/contact/";
 
         $this->assertEmailForVersion('33.0.0', $message);
     }
@@ -100,7 +100,7 @@ CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
 CoreUpdater_ReceiveEmailBecauseIsSuperUser
 
 CoreUpdater_FeedbackRequest
-https://piwik.org/contact/";
+https://matomo.org/contact/";
 
         $this->assertEmailForVersion('33.0.0-b1', $message);
     }

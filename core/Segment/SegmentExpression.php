@@ -218,7 +218,7 @@ class SegmentExpression
             } else {
                 // it is not expected to reach this code path
                 throw new Exception("Unexpected match type $matchType for your segment. " .
-                    "Please report this issue to the Piwik team with the segment you are using.");
+                    "Please report this issue to the Matomo team with the segment you are using.");
             }
 
             return array($sqlExpression, $value = null);

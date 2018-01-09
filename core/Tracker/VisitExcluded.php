@@ -249,7 +249,7 @@ class VisitExcluded
     protected function isIgnoreCookieFound()
     {
         if (IgnoreCookie::isIgnoreCookieFound()) {
-            Common::printDebug('Piwik ignore cookie was found, visit not tracked.');
+            Common::printDebug('Matomo ignore cookie was found, visit not tracked.');
             return true;
         }
 

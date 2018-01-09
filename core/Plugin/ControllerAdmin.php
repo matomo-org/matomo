@@ -156,7 +156,7 @@ abstract class ControllerAdmin extends Controller
         $message .= " ";
 
         $message .= Piwik::translate('General_ReadThisToLearnMore',
-            array('<a rel="noreferrer" target="_blank" href="https://piwik.org/faq/how-to/faq_91/">', '</a>')
+            array('<a rel="noreferrer" target="_blank" href="https://matomo.org/faq/how-to/faq_91/">', '</a>')
           );
 
         $notification = new Notification($message);
@@ -190,8 +190,8 @@ abstract class ControllerAdmin extends Controller
         if (empty($isEacceleratorUsed)) {
             return;
         }
-        $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Piwik.
-            We have disabled eAccelerator, which might affect the performance of Piwik.
+        $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Matomo.
+            We have disabled eAccelerator, which might affect the performance of Matomo.
             Read the %srelated ticket%s for more information and how to fix this problem.",
             '<a rel="noreferrer" target="_blank" href="https://github.com/piwik/piwik/issues/4439">', '</a>');
 
@@ -362,7 +362,7 @@ abstract class ControllerAdmin extends Controller
 
     protected static function getPiwikVersion()
     {
-        return "Piwik " . Version::VERSION;
+        return "Matomo " . Version::VERSION;
     }
 
     private static function isPhpVersionAtLeast55()

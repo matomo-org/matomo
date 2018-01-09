@@ -1,8 +1,8 @@
-# Piwik - piwik.org
+# Matomo (formerly Piwik) - matomo.org
 
-[![Latest Stable Version](https://poser.pugx.org/piwik/piwik/v/stable)](https://piwik.org/download/)
+[![Latest Stable Version](https://poser.pugx.org/piwik/piwik/v/stable)](https://matomo.org/download/)
 [![Latest Unstable Version](https://poser.pugx.org/piwik/piwik/v/unstable)](https://packagist.org/packages/piwik/piwik)
-[![License](https://poser.pugx.org/piwik/piwik/license)](https://piwik.org/free-software/)
+[![License](https://poser.pugx.org/piwik/piwik/license)](https://matomo.org/free-software/)
 
 ## Code Status
 
@@ -41,7 +41,7 @@ Piwik is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](mi
   * PHP extension pdo and pdo_mysql, or the MySQLi extension.
   * Piwik is OS / server independent
 
-See https://piwik.org/docs/requirements/
+See https://matomo.org/docs/requirements/
 
 ## Install
 
@@ -51,7 +51,7 @@ See https://piwik.org/docs/requirements/
   * Add the given javascript code to your pages
   * (You may also generate fake data to experiment, by enabling the plugin VisitorGenerator)
 
-See https://piwik.org/docs/installation/
+See https://matomo.org/docs/installation/
 
 ## Free trial 
 
@@ -59,20 +59,20 @@ If you do not have a server or don't want to host yourself you can use our Piwik
 
 ## Online Demo
 
-Check out the online demo for Piwik at [demo.piwik.org](https://demo.piwik.org/)
+Check out the online demo for Piwik at [demo.matomo.org](https://demo.matomo.org/)
 
 ## Changelog
 
-For the list of all tickets closed in the current and past releases, see https://piwik.org/changelog/. For the list of technical changes in the Piwik platform, see [https://developer.piwik.org/changelog](https://developer.piwik.org/changelog).
+For the list of all tickets closed in the current and past releases, see https://matomo.org/changelog/. For the list of technical changes in the Piwik platform, see [https://developer.matomo.org/changelog](https://developer.matomo.org/changelog).
 
 ## Get involved!
 
 We believe in liberating Web Analytics, providing a free platform for simple and advanced analytics. Piwik was built by dozens of people like you,
-and we need your help to make Piwik better… Why not participate in a useful project today? [Learn how you can contribute to Piwik.](https://piwik.org/get-involved)
+and we need your help to make Piwik better… Why not participate in a useful project today? [Learn how you can contribute to Piwik.](https://matomo.org/get-involved)
 
 ## Quality Assurance
 
-The Piwik project uses an ever-expanding comprehensive set of thousands of unit tests and hundreds of automated integration tests, system tests, JavaScript tests, and screenshot UI tests, running on a continuous integration server as part of its software quality assurance. [Learn more](https://piwik.org/qa/)
+The Piwik project uses an ever-expanding comprehensive set of thousands of unit tests and hundreds of automated integration tests, system tests, JavaScript tests, and screenshot UI tests, running on a continuous integration server as part of its software quality assurance. [Learn more](https://matomo.org/qa/)
 
 We use [BrowserStack.com](https://www.browserstack.com/) testing tool to help check the Piwik user interface is compatible with many browsers.
 
@@ -81,21 +81,21 @@ We use [BrowserStack.com](https://www.browserstack.com/) testing tool to help ch
 
 Security is a top priority at Piwik. As potential issues are discovered, we validate, patch and release fixes as quickly as we can. We have a security bug bounty program in place that rewards researchers for finding security issues and disclosing them to us. 
 
-[Learn more](https://piwik.org/security/)
+[Learn more](https://matomo.org/security/)
 
 ## Support for Piwik
 
-For **Free support**, post a message in our community forums: [forum.piwik.org](https://forum.piwik.org/)
+For **Free support**, post a message in our community forums: [forum.matomo.org](https://forum.matomo.org/)
 
-For **Professional paid support**, send a message to our network of Piwik professionals: [piwik.org/support](https://piwik.org/contact/)  
+For **Professional paid support**, send a message to our network of Piwik professionals: [matomo.org/support](https://matomo.org/contact/)  
 
 ## Contact
 
-Website: [piwik.org](https://piwik.org)
+Website: [matomo.org](https://matomo.org)
 
-About us: [piwik.org/team/](https://piwik.org/team/)
+About us: [matomo.org/team/](https://matomo.org/team/)
 
-Contact us: [piwik.org/contact/](https://piwik.org/contact/)
+Contact us: [matomo.org/contact/](https://matomo.org/contact/)
 
 
 ## More information
@@ -119,4 +119,4 @@ What makes Piwik unique from the competition:
   * Advanced Web Analytics capabilities such as Ecommerce Tracking, Goal tracking, Campaign tracking,
     Custom Variables, Email Reports, Custom Segment Editor, Geo Location, Real time maps, and more!
 
-Documentation and more info on https://piwik.org
+Documentation and more info on https://matomo.org

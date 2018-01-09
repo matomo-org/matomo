@@ -11,7 +11,7 @@
     <div class="content" style="text-align:left;">
 
         {% set helpMessage %}
-            {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=https://piwik.org/faq/">','</a>','</li><li>')|raw }}
+            {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=https://matomo.org/faq/">','</a>','</li><li>')|raw }}
         {% endset %}
 
         {% if coreError %}
@@ -61,7 +61,7 @@
                 {% endif %}
 
                 <h2>{{ 'CoreUpdater_NeedHelpUpgrading'|translate }}</h2>
-                <p>{{ 'CoreUpdater_NeedHelpUpgradingText'|translate("<a rel='noreferrer' target='_blank' href='https://piwik.org/support/upgrading-piwik/'>", "</a>")|raw }}</p>
+                <p>{{ 'CoreUpdater_NeedHelpUpgradingText'|translate("<a rel='noreferrer' target='_blank' href='https://matomo.org/support/upgrading-piwik/'>", "</a>")|raw }}</p>
 
                 <h2>{{ 'CoreUpdater_ReadyToGo'|translate }}</h2>
                 <p>{{ 'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate }}</p>

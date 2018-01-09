@@ -40,6 +40,6 @@ abstract class ReleaseChannel extends BaseReleaseChannel
 
     public function getDownloadUrlWithoutScheme($version)
     {
-        return sprintf('://builds.piwik.org/piwik-%s.zip', $version);
+        return sprintf('://builds.matomo.org/piwik-%s.zip', $version);
     }
 }

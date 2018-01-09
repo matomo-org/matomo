@@ -225,7 +225,7 @@ class Config
 
         $filename = $hostConfig['file'];
         if (!Filesystem::isValidFilename($filename)) {
-            throw new Exception('Piwik domain is not a valid looking hostname (' . $filename . ').');
+            throw new Exception('Matomo domain is not a valid looking hostname (' . $filename . ').');
         }
 
         $pathLocal = $hostConfig['path'];
@@ -359,7 +359,7 @@ class Config
         $chain = $this->settings->getIniFileChain();
 
         $header = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n";
-        $header .= "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
+        $header .= "; file automatically generated or modified by Matomo; you can manually override the default values in global.ini.php by redefining them in this file.\n";
         return $chain->dumpChanges($header);
     }
 

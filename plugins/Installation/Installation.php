@@ -64,7 +64,7 @@ class Installation extends \Piwik\Plugin
         $general = Config::getInstance()->General;
 
         if (!SettingsPiwik::isPiwikInstalled() && !$general['enable_installer']) {
-            throw new \Exception('Piwik is not set up yet');
+            throw new \Exception('Matomo is not set up yet');
         }
 
         if (empty($general['installation_in_progress'])) {

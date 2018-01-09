@@ -363,7 +363,7 @@ class CronArchive
         $timer = new Timer;
 
         $this->logSection("START");
-        $this->logger->info("Starting Piwik reports archiving...");
+        $this->logger->info("Starting Matomo reports archiving...");
 
         do {
 
@@ -996,7 +996,7 @@ class CronArchive
             if($this->makeCliMulti()->supportsAsync()) {
                 $message .= " For more information and the error message please check in your PHP CLI error log file. As this core:archive command triggers PHP processes over the CLI, you can find where PHP CLI logs are stored by running this command: php -i | grep error_log";
             } else {
-                $message .= " For more information and the error message please check your web server's error Log file. As this core:archive command triggers PHP processes over HTTP, you can find the error message in your Piwik's web server error logs. ";
+                $message .= " For more information and the error message please check your web server's error Log file. As this core:archive command triggers PHP processes over HTTP, you can find the error message in your Matomo's web server error logs. ";
             }
         } else {
             $message .= "Response was '$response'";
@@ -1281,7 +1281,7 @@ class CronArchive
     private function logInitInfo()
     {
         $this->logSection("INIT");
-        $this->logger->info("Running Piwik " . Version::VERSION . " as Super User");
+        $this->logger->info("Running Matomo " . Version::VERSION . " as Super User");
     }
 
     private function logArchiveTimeoutInfo()
@@ -1290,11 +1290,11 @@ class CronArchive
 
         // Recommend to disable browser archiving when using this script
         if (Rules::isBrowserTriggerEnabled()) {
-            $this->logger->info("- If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings.");
-            $this->logger->info("  See the doc at: https://piwik.org/docs/setup-auto-archiving/");
+            $this->logger->info("- If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.");
+            $this->logger->info("  See the doc at: https://matomo.org/docs/setup-auto-archiving/");
         }
         $this->logger->info("- Reports for today will be processed at most every " . $this->todayArchiveTimeToLive
-            . " seconds. You can change this value in Piwik UI > Settings > General Settings.");
+            . " seconds. You can change this value in Matomo UI > Settings > General Settings.");
 
         $this->logger->info("- Reports for the current week/month/year will be requested at most every "
             . $this->processPeriodsMaximumEverySeconds . " seconds.");
@@ -1335,7 +1335,7 @@ class CronArchive
 
         $this->logger->info("WARNING: Automatically increasing --force-timeout-for-periods from {$this->forceTimeoutPeriod} to "
             . $this->todayArchiveTimeToLive
-            . " to match the cache timeout for Today's report specified in Piwik UI > Settings > General Settings");
+            . " to match the cache timeout for Today's report specified in Matomo UI > Settings > General Settings");
 
         return $this->todayArchiveTimeToLive;
     }

@@ -55,7 +55,7 @@ class Advertising
      */
     public function getPromoUrlForProfessionalServices($campaignMedium, $campaignContent = '')
     {
-        $url = 'https://piwik.org/support/?';
+        $url = 'https://matomo.org/support/?';
 
         $campaign = $this->getCampaignParametersForPromoUrl(
             $name = self::CAMPAIGN_NAME_PROFESSIONAL_SERVICES,
