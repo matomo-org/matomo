@@ -2257,7 +2257,6 @@ if (typeof window.Piwik3 !== 'object') {
                 var cssSelector  = '.' + this.CONTENT_CLASS;
                 var attrSelector = '[' + this.CONTENT_ATTR + ']';
                 var contentNodes = query.findMultiple([cssSelector, attrSelector]);
-                // var contentNodes = query.findMultiple([cssSelector]);
 
                 return contentNodes;
             },
