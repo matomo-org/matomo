@@ -37,7 +37,7 @@
             <br />
         {% elseif latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous %}
             {% set updateSubject = 'General_NewUpdatePiwikX'|translate(latest_version_available)|e('url') %}
-            {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=https://matomo.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=https://piwik.org/changelog/' target='_blank'>" ~ latest_version_available ~ "</a>", "<a href='mailto:" ~ superUserEmails ~ "?subject=" ~ updateSubject ~ "'>", "</a>")|raw }}
+            {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=https://matomo.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=https://matomo.org/changelog/' target='_blank'>" ~ latest_version_available ~ "</a>", "<a href='mailto:" ~ superUserEmails ~ "?subject=" ~ updateSubject ~ "'>", "</a>")|raw }}
             <br />
         {% endif %}
 

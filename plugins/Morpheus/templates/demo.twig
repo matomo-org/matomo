@@ -1,6 +1,6 @@
 {% extends 'layout.twig' %}
 
-{% set title %}Piwik UI demo{% endset %}
+{% set title %}Matomo UI demo{% endset %}
 
 {% block head %}
     {{ parent() }}
@@ -66,7 +66,7 @@
 
         <h1>{{ title }}</h1>
         <p>
-            This page is intended to show all the UI components and styles available to use in Piwik.
+            This page is intended to show all the UI components and styles available to use in Matomo.
         </p>
 
         <h2>Grid system</h2>
@@ -365,7 +365,7 @@
                 </div>
 
                 <div piwik-field uicontrol="site" name="currentsite"
-                     introduction="Piwik specific form fields"
+                     introduction="Matomo specific form fields"
                      title="Select a website">
                 </div>
 
@@ -477,7 +477,7 @@
     &lt;/div&gt;
 
     &lt;div piwik-field uicontrol=&quot;site&quot; name=&quot;currentsite&quot;
-         introduction=&quot;Piwik specific form fields&quot;
+         introduction=&quot;Matomo specific form fields&quot;
          title=&quot;Select a website&quot;&gt;
     &lt;/div&gt;
 
@@ -509,10 +509,10 @@
 
         <div class="demo">
             <p>Or you can display a code block:</p>
-            <pre piwik-select-on-focus>&lt;!-- Piwik --&gt;
+            <pre piwik-select-on-focus>&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
 &lt;/script&gt;
-&lt;!-- End Piwik Code --&gt;</pre>
+&lt;!-- End Matomo Code --&gt;</pre>
         </div>
         <div class="demo-code">
             &lt;pre piwik-select-on-focus&gt;...&lt;/pre&gt;
