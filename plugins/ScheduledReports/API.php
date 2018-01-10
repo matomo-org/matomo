@@ -38,7 +38,7 @@ use Psr\Log\LoggerInterface;
  *
  * You can also get the list of all existing reports via "getReports", create new reports via "addReport",
  * or manage existing reports with "updateReport" and "deleteReport".
- * See also the documentation about <a href='http://piwik.org/docs/email-reports/' rel='noreferrer' target='_blank'>Scheduled Email reports</a> in Piwik.
+ * See also the documentation about <a href='http://matomo.org/docs/email-reports/' rel='noreferrer' target='_blank'>Scheduled Email reports</a> in Matomo.
  *
  * @method static \Piwik\Plugins\ScheduledReports\API getInstance()
  */
@@ -584,7 +584,7 @@ class API extends \Piwik\Plugin\API
          *                           scheduled report.
          * @param string $reportSubject A string describing what's in the scheduled
          *                              report.
-         * @param string $reportTitle The scheduled report's given title (given by a Piwik user).
+         * @param string $reportTitle The scheduled report's given title (given by a Matomo user).
          * @param array $additionalFiles The list of additional files that should be
          *                               sent with this report.
          * @param \Piwik\Period $period The period for which the report has been generated.
@@ -788,13 +788,13 @@ class API extends \Piwik\Plugin\API
 
         /**
          * TODO: change this event so it returns a list of API methods instead of report metadata arrays.
-         * Triggered when gathering the list of Piwik reports that can be used with a certain
+         * Triggered when gathering the list of Matomo reports that can be used with a certain
          * transport medium.
          *
          * Plugins that provide their own transport mediums should use this
-         * event to list the Piwik reports that their backend supports.
+         * event to list the Matomo reports that their backend supports.
          *
-         * @param array &$availableReportMetadata An array containg report metadata for each supported
+         * @param array &$availableReportMetadata An array containing report metadata for each supported
          *                                        report.
          * @param string $reportType A string ID describing how the report is sent, eg,
          *                           `'sms'` or `'email'`.
@@ -817,14 +817,14 @@ class API extends \Piwik\Plugin\API
 
         /**
          * Triggered when we're determining if a scheduled report transport medium can
-         * handle sending multiple Piwik reports in one scheduled report or not.
+         * handle sending multiple Matomo reports in one scheduled report or not.
          *
          * Plugins that provide their own transport mediums should use this
-         * event to specify whether their backend can send more than one Piwik report
+         * event to specify whether their backend can send more than one Matomo report
          * at a time.
          *
          * @param bool &$allowMultipleReports Whether the backend type can handle multiple
-         *                                    Piwik reports or not.
+         *                                    Matomo reports or not.
          * @param string $reportType A string ID describing how the report is sent, eg,
          *                           `'sms'` or `'email'`.
          */

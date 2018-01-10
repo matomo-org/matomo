@@ -151,7 +151,7 @@ class API extends \Piwik\Plugin\API
         $output = $invalidationResult->makeOutputLogs();
         if ($invalidDates) {
             $output[] = 'Warning: some of the Dates to invalidate were invalid: ' .
-                implode(", ", $invalidDates) . ". Piwik simply ignored those and proceeded with the others.";
+                implode(", ", $invalidDates) . ". Matomo simply ignored those and proceeded with the others.";
         }
 
         Site::clearCache(); // TODO: is this needed? it shouldn't be needed...

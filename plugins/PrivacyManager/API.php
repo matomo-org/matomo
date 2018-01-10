@@ -140,7 +140,7 @@ class API extends \Piwik\Plugin\API
     private function checkDataPurgeAdminSettingsIsEnabled()
     {
         if (!Controller::isDataPurgeSettingsEnabled()) {
-            throw new \Exception("Configuring deleting log data and report data has been disabled by Piwik admins.");
+            throw new \Exception("Configuring deleting log data and report data has been disabled by Matomo admins.");
         }
     }
 }
