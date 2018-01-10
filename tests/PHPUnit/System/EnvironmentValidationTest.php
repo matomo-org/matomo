@@ -135,7 +135,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function assertInstallationProcessStarted($output)
     {
-        $this->assertContains('<title>Piwik '. Version::VERSION .' &rsaquo; Installation</title>', $output);
+        $this->assertContains('<title>Matomo '. Version::VERSION .' &rsaquo; Installation</title>', $output);
     }
 
     private function simulateAbsentConfigFile($fileName)

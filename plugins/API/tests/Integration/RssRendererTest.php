@@ -152,7 +152,7 @@ class RssRendererTest extends IntegrationTestCase
 <rss version="2.0">
   <channel>
     <title>matomo statistics - RSS</title>
-    <link>http://matomo.org</link>
+    <link>https://matomo.org</link>
     <description>Matomo RSS feed</description>
     
     <generator>matomo</generator>

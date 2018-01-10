@@ -43,7 +43,7 @@ class Advertising
      */
     public function areAdsForProfessionalServicesEnabled()
     {
-        return $this->isAdsEnabledInConfig($this->config->General);
+        return self::isAdsEnabledInConfig($this->config->General);
     }
 
     /**

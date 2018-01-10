@@ -634,7 +634,7 @@ pivot_by_filter_enable_fetch_by_segment = 0
 pivot_by_filter_default_column_limit = 10
 
 ; If set to 0 it will disable advertisements for providers of Professional Support for Matomo.
-matomo_professional_support_ads_enabled = 1
+piwik_professional_support_ads_enabled = 1
 
 [Tracker]
 
