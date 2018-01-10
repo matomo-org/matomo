@@ -180,7 +180,7 @@ class WidgetTest extends SystemTestCase
                         'action' => 'rssChangelog',
                     ),
             ),array (
-                'name' => 'Piwik.org Blog',
+                'name' => 'Matomo.org Blog',
                 'uniqueId' => 'widgetRssWidgetrssPiwik',
                 'parameters' =>
                     array (
@@ -1349,7 +1349,7 @@ class WidgetTest extends SystemTestCase
                         ),
                 ),
                 array (
-                    'name' => 'Piwik.org Blog',
+                    'name' => 'Matomo.org Blog',
                     'uniqueId' => 'widgetRssWidgetrssPiwik',
                     'parameters' =>
                         array (
