@@ -393,7 +393,7 @@ class SettingsPiwik
         $hasError = false !== strpos($fetched, PAGE_TITLE_WHEN_ERROR);
 
         if ($hasError || $expectedStringNotFound) {
-            throw new Exception("\nPiwik should be running at: "
+            throw new Exception("\nMatomo should be running at: "
                 . $piwikServerUrl
                 . " but this URL returned an unexpected response: '"
                 . $fetched . "'\n\n");

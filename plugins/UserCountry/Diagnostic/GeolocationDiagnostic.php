@@ -50,12 +50,12 @@ class GeolocationDiagnostic implements Diagnostic
         if ($isProviderInstalled) {
             $comment = $this->translator->translate('UserCountry_GeoIpLocationProviderNotRecomnended') . ' ';
             $comment .= $this->translator->translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2', array(
-                '<a href="https://piwik.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>'
+                '<a href="https://matomo.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>'
             ));
         } else {
             $comment = $this->translator->translate('UserCountry_DefaultLocationProviderDesc1') . ' ';
             $comment .= $this->translator->translate('UserCountry_DefaultLocationProviderDesc2', array(
-                '<a href="https://piwik.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>'
+                '<a href="https://matomo.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>'
             ));
         }
 

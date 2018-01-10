@@ -403,7 +403,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $form = new FormDefaultSettings();
 
         /**
-         * Triggered on initialization of the form to customize default Piwik settings (at the end of the installation process).
+         * Triggered on initialization of the form to customize default Matomo settings (at the end of the installation process).
          *
          * @param \Piwik\Plugins\Installation\FormDefaultSettings $form
          */
@@ -414,7 +414,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($form->validate()) {
             try {
                 /**
-                 * Triggered on submission of the form to customize default Piwik settings (at the end of the installation process).
+                 * Triggered on submission of the form to customize default Matomo settings (at the end of the installation process).
                  *
                  * @param \Piwik\Plugins\Installation\FormDefaultSettings $form
                  */
@@ -451,7 +451,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * This controller action renders an admin tab that runs the installation
      * system check, so people can see if there are any issues w/ their running
-     * Piwik installation.
+     * Matomo installation.
      *
      * This admin tab is only viewable by the Super User.
      */

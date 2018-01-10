@@ -5,7 +5,7 @@ piwik.cacheBuster = "5da0272c4b354bd1ec3a2e24e6049984";
 piwik.userLogin = "root";
 piwik.idSite = "1";
 piwik.siteName = "Example\x20Site";
-piwik.siteMainUrl = "http\x3A\x2F\x2Fdeveloper.piwik.org";
+piwik.siteMainUrl = "http\x3A\x2F\x2Fdeveloper.matomo.org";
 piwik.period = "day";
 piwik.currentDateString = "2014-03-28";
 piwik.startDateString = "2014-03-28";
@@ -33,7 +33,7 @@ var piwikUsageTracking = {
     visitorCustomVariables: [
         {id: 1, name: 'Access', value: 'user'}
     ],
-    trackingDomain: 'http://demo.piwik.org',
+    trackingDomain: 'http://demo.matomo.org',
     exampleDomain: 'http://example.com'
 };
 

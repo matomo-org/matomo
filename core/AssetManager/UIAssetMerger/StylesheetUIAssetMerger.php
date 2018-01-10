@@ -114,7 +114,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     protected function getPreamble()
     {
         return $this->getCacheBusterValue() . "\n"
-        . "/* Piwik CSS file is compiled with Less. You may be interested in writing a custom Theme for Piwik! */\n";
+        . "/* Matomo CSS file is compiled with Less. You may be interested in writing a custom Theme for Matomo! */\n";
     }
 
     protected function postEvent(&$mergedContent)

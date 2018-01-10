@@ -30,7 +30,7 @@ class GetSystemCheck extends Widget
 
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('About Piwik');
+        $config->setCategoryId('About Matomo');
         $config->setName('Installation_SystemCheck');
         $config->setOrder(16);
 

@@ -50,7 +50,7 @@ class ReleaseChannelTest extends IntegrationTestCase
 
     public function test_getDownloadUrlWithoutScheme_shouldReturnUrlWithVersionNumberButWithoutScheme()
     {
-        $this->assertSame('://builds.piwik.org/piwik-2.15.0-b5.zip', $this->channel->getDownloadUrlWithoutScheme('2.15.0-b5'));
+        $this->assertSame('://builds.matomo.org/piwik-2.15.0-b5.zip', $this->channel->getDownloadUrlWithoutScheme('2.15.0-b5'));
     }
 
     public function test_getUrlToCheckForLatestAvailableVersion()
@@ -62,7 +62,7 @@ class ReleaseChannelTest extends IntegrationTestCase
 
         $urlToCheck = $this->channel->getUrlToCheckForLatestAvailableVersion();
 
-        $this->assertStringStartsWith("http://api.piwik.org/1.0/getLatestVersion/?piwik_version=$version&php_version=$phpVersion&mysql_version=$mysqlVersion&release_channel=my_channel&url=$url&trigger=&timezone=", $urlToCheck);
+        $this->assertStringStartsWith("http://api.matomo.org/1.0/getLatestVersion/?piwik_version=$version&php_version=$phpVersion&mysql_version=$mysqlVersion&release_channel=my_channel&url=$url&trigger=&timezone=", $urlToCheck);
     }
 
     public function test_doesPreferStable()

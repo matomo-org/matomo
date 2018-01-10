@@ -72,7 +72,7 @@ class GenerateAngularDirective extends GenerateAngularConstructBase
             sprintf('In <comment>%1$s/%2$s.php</comment> you should now require the JS files', $pluginPath, $pluginName),
             sprintf('<comment>%1$s%2$s</comment>, <comment>%1$s%3$s</comment>', $pluginPath, $js1, $js2),
             sprintf('and the less file <comment>%1$s%2$s</comment>.', $pluginPath, $less1),
-            'If you are not familiar with this have a look at <comment>https://developer.piwik.org/guides/working-with-piwiks-ui</comment>'
+            'If you are not familiar with this have a look at <comment>https://developer.matomo.org/guides/working-with-piwiks-ui</comment>'
         ));
     }
 }
