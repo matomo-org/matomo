@@ -137,7 +137,7 @@ disable_merged_assets = 0
 [General]
 ; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Matomo instances
-; if you set it to 1 and want the Unique Visitors to be re-processed for reports in the past, drop all piwik_archive_* tables
+; if you set it to 1 and want the Unique Visitors to be re-processed for reports in the past, drop all matomo_archive_* tables
 ; it is recommended to always enable Unique Visitors and Unique Users processing for 'day' periods
 enable_processing_unique_visitors_day = 1
 enable_processing_unique_visitors_week = 1
@@ -359,7 +359,7 @@ login_cookie_path =
 ; if specified, {DOMAIN} will be replaced by the current Matomo domain
 login_password_recovery_email_address = "password-recovery@{DOMAIN}"
 ; name that appears as a Sender in the password recovery email
-login_password_recovery_email_name = Piwik
+login_password_recovery_email_name = Matomo
 
 ; email address that appears as a Reply-to in the password recovery email
 ; if specified, {DOMAIN} will be replaced by the current Matomo domain
