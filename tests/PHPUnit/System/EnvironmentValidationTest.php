@@ -57,7 +57,7 @@ class EnvironmentValidationTest extends SystemTestCase
         $this->simulateAbsentConfigFile('config.ini.php');
 
         $output = $this->triggerPiwikFrom('tracker');
-        $this->assertContains('As Piwik is not installed yet, the Tracking API cannot proceed and will exit without error.', $output);
+        $this->assertContains('As Matomo is not installed yet, the Tracking API cannot proceed and will exit without error.', $output);
     }
 
     public function test_NoLocalConfigFile_TriggersError_inConsole()
