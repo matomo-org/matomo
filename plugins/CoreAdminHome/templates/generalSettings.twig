@@ -112,7 +112,8 @@
                 <div piwik-field uicontrol="text" name="mailUsername"
                      ng-model="mailSettings.mailUsername"
                      title="{{ 'General_SmtpUsername'|translate|e('html_attr') }}"
-                     value="{{ mail.username }}" inline-help="{{ 'General_OnlyEnterIfRequired'|translate|e('html_attr') }}">
+                     value="{{ mail.username }}" inline-help="{{ 'General_OnlyEnterIfRequired'|translate|e('html_attr') }}"
+                     autocomplete="off">
                 </div>
 
                 {% set help -%}
@@ -124,7 +125,8 @@
                      ng-model="mailSettings.mailPassword"
                      ng-change="mailSettings.passwordChanged = true"
                      title="{{ 'General_SmtpPassword'|translate|e('html_attr') }}"
-                     value="{{ mail.password ? '******' }}" inline-help="{{ help|e('html_attr') }}">
+                     value="{{ mail.password ? '******' }}" inline-help="{{ help|e('html_attr') }}"
+                     autocomplete="off">
                 </div>
 
                 <div piwik-field uicontrol="select" name="mailEncryption"
