@@ -43,7 +43,7 @@
         "SentToMe": "Skicka rapport till mig",
         "TableOfContent": "Rapportlista",
         "ThereIsNoReportToManage": "Det finns ingen rapport att hantera för webbplatsen %s",
-        "TopLinkTooltip": "Skapa e-postrapporter för att få statistik från Piwik skickat till din e-post eller dina kunders adresser automatiskt!",
+        "TopLinkTooltip": "Skapa e-postrapporter för att få statistik från Matomo skickat till din e-post eller dina kunders adresser automatiskt!",
         "TopOfReport": "Tillbaka till toppen",
         "UpdateReport": "Uppdatera rapport",
         "WeeklyScheduleHelp": "Veckans schema: rapporten kommer att skickas ut den första måndagen i varje vecka."

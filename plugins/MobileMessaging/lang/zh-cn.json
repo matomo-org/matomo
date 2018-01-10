@@ -4,13 +4,13 @@
         "MobileReport_AdditionalPhoneNumbers": "通过访问，您可以添加多个电话号码",
         "MobileReport_MobileMessagingSettingsLink": "手机短信设置页",
         "MobileReport_NoPhoneNumbers": "激活至少一个电话号码，请访问",
-        "MultiSites_Must_Be_Activated": "要生成网站统计的短信报表，请启用 Piwik 中的 MultiSites 插件。",
+        "MultiSites_Must_Be_Activated": "要生成网站统计的短信报表，请启用 Matomo 中的 MultiSites 插件。",
         "PhoneNumbers": "电话号码",
         "PluginDescription": "创建并下载自定义短信报表，每天、每周或每月发到您的手机。",
         "Settings_APIKey": "API Key",
         "Settings_CountryCode": "国家代码",
-        "Settings_CredentialNotProvided": "请设置上面的 Piwik 短信帐号，然后才能创建和管理电话号码。",
-        "Settings_CredentialNotProvidedByAdmin": "请联系管理员设置 Piwik 短信帐号后，才能创建和管理电话号码。",
+        "Settings_CredentialNotProvided": "请设置上面的 Matomo 短信帐号，然后才能创建和管理电话号码。",
+        "Settings_CredentialNotProvidedByAdmin": "请联系管理员设置 Matomo 短信帐号后，才能创建和管理电话号码。",
         "Settings_CredentialProvided": "您的 %s 短信 API 帐号已设定!",
         "Settings_DeleteAccountConfirm": "您确定想要删除这个短信账号吗？",
         "Settings_InvalidActivationCode": "号码输入无效，请重试。",
@@ -34,6 +34,6 @@
         "SMS_Content_Too_Long": "[太长]",
         "TopLinkTooltip": "设置网站分析报表发送到邮箱或者手机!",
         "TopMenu": "邮件和短信报表",
-        "VerificationText": "代码为 %1$s。要验证电话号码及接收 Piwik 短信报表，请复制本代码到 Piwik > %2$s > %3$s 的表格中。"
+        "VerificationText": "代码为 %1$s。要验证电话号码及接收 Piwik 短信报表，请复制本代码到 Matomo > %2$s > %3$s 的表格中。"
     }
 }

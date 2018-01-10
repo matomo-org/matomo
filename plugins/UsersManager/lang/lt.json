@@ -7,10 +7,10 @@
         "AnonymousUserHasViewAccess2": "Jūsų analitikos ataskaitos ir jūsų naudotojų informacija yra viešai matoma.",
         "ApplyToAllWebsites": "Taikyti visoms svetainėms",
         "ChangeAllConfirm": "Ar tikrai norite suteikti \"%s\" prieigą prie visų svetainių?",
-        "ClickHereToDeleteTheCookie": "Spauskite čia, kad ištrintumėte slapuką ir Piwik stebėtų Jūsų apsilankymus",
-        "ClickHereToSetTheCookieOnDomain": "Spauskite čia, kad sukurtumėte slapuką, kuris neleis Piwik sekti Jūsų apsilankymų %s",
+        "ClickHereToDeleteTheCookie": "Spauskite čia, kad ištrintumėte slapuką ir Matomo stebėtų Jūsų apsilankymus",
+        "ClickHereToSetTheCookieOnDomain": "Spauskite čia, kad sukurtumėte slapuką, kuris neleis Matomo sekti Jūsų apsilankymų %s",
         "ConfirmGrantSuperUserAccess": "Ar tikrai norite suteikti \"%s\" Super naudotojo prieigą? Įspėjimas: naudotojoas turės prieigą prie visų svetainių ir galės atlikti valdymo užduotis.",
-        "ConfirmProhibitMySuperUserAccess": "%s, ar tikrai norite pašalinti savo paties Super naudotojo prieigą? Jūs prarasite visus leidimus ir prieigą prie visų svetainių bei būsite atjungti nuo Piwik.",
+        "ConfirmProhibitMySuperUserAccess": "%s, ar tikrai norite pašalinti savo paties Super naudotojo prieigą? Jūs prarasite visus leidimus ir prieigą prie visų svetainių bei būsite atjungti nuo Matomo.",
         "DeleteConfirm": "Ar tikrai norite pašalinti naudotoją %s?",
         "Email": "El. paštas",
         "ExceptionAccessValues": "Parametras access privalo turėti vieną iš šių reikšmių: [ %s ]",
@@ -43,9 +43,9 @@
         "User": "Naudotojas",
         "UsersManagement": "Naudotojų valdymas",
         "UsersManagementMainDescription": "Kurkite naujus naudotojus arba keiskite jau esančius. Po to aukščiau galite parinkti jiems leidimus.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kai naudotojai neprisijungę apsilanko Piwik, jie turi pasiekti",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kai naudotojai neprisijungę apsilanko Matomo, jie turi pasiekti",
         "YourUsernameCannotBeChanged": "Jūsų naudotojo vardas negali būti pakeistas.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sJūsų apsilankymai yra ignoruojami Piwik %2$s %3$s (Piwik ignoravimo slapukas buvo aptiktas Jūsų naršyklėje).",
-        "YourVisitsAreNotIgnored": "%1$sJūsų apsilankymai nėra ignoruojami Piwik%2$s (Piwik ignoravimo slapukas jūsų naršyklėje nebuvo aptiktas)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sJūsų apsilankymai yra ignoruojami Piwik %2$s %3$s (Matomo ignoravimo slapukas buvo aptiktas Jūsų naršyklėje).",
+        "YourVisitsAreNotIgnored": "%1$sJūsų apsilankymai nėra ignoruojami Piwik%2$s (Matomo ignoravimo slapukas jūsų naršyklėje nebuvo aptiktas)."
     }
 }

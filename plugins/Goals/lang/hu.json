@@ -14,7 +14,7 @@
         "Conversions": "%s konverzió",
         "ConversionsOverview": "Konverziók áttekintése",
         "DefaultRevenue": "A célhoz rendelt alapértelmezett bevétel a következő:",
-        "DefaultRevenueHelp": "Például egy látogató által elküldött kapcsolatfelvételi űrlap 1000 forintnak megfelelő értéket jelenthet átlagosan. A Piwik segít annak megértésében, hogy az egyes látogatói szegmensek hogyan teljesítenek ennek fényében.",
+        "DefaultRevenueHelp": "Például egy látogató által elküldött kapcsolatfelvételi űrlap 1000 forintnak megfelelő értéket jelenthet átlagosan. A Matomo segít annak megértésében, hogy az egyes látogatói szegmensek hogyan teljesítenek ennek fényében.",
         "DeleteGoalConfirm": "Biztosan törölni szeretnéd a %s elnevezésű célt?",
         "Download": "letöltenek egy fájlt",
         "ExceptionInvalidMatchingString": "Ha a pontos egyezést választja, akkor a sztringnek egy %1$s kezdetű URL-nek kell lennie, mint pl. %2$s.",

@@ -4,14 +4,14 @@
         "MobileReport_AdditionalPhoneNumbers": "Puede agregar más números telefónicos accediendo",
         "MobileReport_MobileMessagingSettingsLink": "página de configuraciones de mensajería móvil",
         "MobileReport_NoPhoneNumbers": "Por favor, active al menos un número telefónico accediendo",
-        "MultiSites_Must_Be_Activated": "Para generar mensajes de texto (SMS) de las estadísticas de su sitio, por favor, habilite la extensión MultiSites en Piwik.",
+        "MultiSites_Must_Be_Activated": "Para generar mensajes de texto (SMS) de las estadísticas de su sitio, por favor, habilite la extensión MultiSites en Matomo.",
         "PhoneNumbers": "Números telefónicos",
         "PluginDescription": "Cree informes personalizados y descárguelos vía SMS a su teléfono móvil de forma diaria, semanal o mensual.",
         "Settings_APIKey": "Clave API",
         "Settings_CountryCode": "Código de país",
         "Settings_SelectCountry": "Seleccionar país",
-        "Settings_CredentialNotProvided": "Antes de crear y administrar los números telefónicos, por favor conecte Piwik con su cuenta SMS.",
-        "Settings_CredentialNotProvidedByAdmin": "Antes que pueda crear y administrar números telefónicos, consulte con su administrador para conectar Piwik con una cuenta SMS.",
+        "Settings_CredentialNotProvided": "Antes de crear y administrar los números telefónicos, por favor conecte Matomo con su cuenta SMS.",
+        "Settings_CredentialNotProvidedByAdmin": "Antes que pueda crear y administrar números telefónicos, consulte con su administrador para conectar Matomo con una cuenta SMS.",
         "Settings_CredentialProvided": "Su %s cuenta API SMS está correctamente configurada!",
         "Settings_CredentialInvalid": "Tu cuenta de SMS API %1$s está configurada, sin embargo, se produjo un error mientras se intentaban recibir los créditos disponibles.",
         "Settings_DeleteAccountConfirm": "¿Está seguro que desea borrar esta cuenta SMS?",
@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Obtenga informes analíticos de su sitio de internet enviados a su casilla de correo electrónico o su teléfono móvil.",
         "TopMenu": "Informes por correo electrónico & SMS",
         "UserKey": "Clave de usuario",
-        "VerificationText": "El código es %1$s. Para validar su número de teléfono y recibir los informes Piwik vía mensaje de texto (SMS), por favor, copie este código en el formulario accesible vía Piwik > %2$s > %3$s."
+        "VerificationText": "El código es %1$s. Para validar su número de teléfono y recibir los informes Piwik vía mensaje de texto (SMS), por favor, copie este código en el formulario accesible vía Matomo > %2$s > %3$s."
     }
 }

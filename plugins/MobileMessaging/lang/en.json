@@ -4,14 +4,14 @@
         "MobileReport_AdditionalPhoneNumbers": "You can add more phone numbers by accessing",
         "MobileReport_MobileMessagingSettingsLink": "the Mobile Messaging settings page",
         "MobileReport_NoPhoneNumbers": "Please activate at least one phone number by accessing",
-        "MultiSites_Must_Be_Activated": "To generate SMS texts of your website stats, please enable the MultiSites plugin in Piwik.",
+        "MultiSites_Must_Be_Activated": "To generate SMS texts of your website stats, please enable the MultiSites plugin in Matomo.",
         "PhoneNumbers": "Phone Numbers",
         "PluginDescription": "Create and download custom SMS reports and have them sent to your mobile on a daily, weekly or monthly basis.",
         "Settings_APIKey": "API Key",
         "Settings_CountryCode": "Country Code",
         "Settings_SelectCountry": "Select country",
-        "Settings_CredentialNotProvided": "Before you can create and manage phone numbers, please connect Piwik to your SMS Account above.",
-        "Settings_CredentialNotProvidedByAdmin": "Before you can create and manage phone numbers, please ask your administrator to connect Piwik to an SMS Account.",
+        "Settings_CredentialNotProvided": "Before you can create and manage phone numbers, please connect Matomo to your SMS Account above.",
+        "Settings_CredentialNotProvidedByAdmin": "Before you can create and manage phone numbers, please ask your administrator to connect Matomo to an SMS Account.",
         "Settings_CredentialProvided": "Your %s SMS API account is correctly configured!",
         "Settings_CredentialInvalid": "Your %1$s SMS API account is configured, but an error occurred while trying to receive the available credits.",
         "Settings_DeleteAccountConfirm": "Are you sure you want to delete this SMS account?",
@@ -28,7 +28,7 @@
         "Settings_PhoneNumbers_Add": "Add a new Phone Number",
         "Settings_PhoneNumbers_CountryCode_Help": "If you do not know the phone country code, look for your country here.",
         "Settings_PhoneNumbers_Help": "Before receiving SMS (text messages) reports on a phone, the phone number must be entered below.",
-        "Settings_PhoneNumbers_HelpAdd": "When you click \"Add\", a SMS containing a code will be sent to the phone. The user receiving the code should then login to Piwik, click on Settings, then click on Mobile Messaging. After entering the code, the user will be able to receive text reports on their phone.",
+        "Settings_PhoneNumbers_HelpAdd": "When you click \"Add\", a SMS containing a code will be sent to the phone. The user receiving the code should then login to Matomo, click on Settings, then click on Mobile Messaging. After entering the code, the user will be able to receive text reports on their phone.",
         "Settings_PleaseSignUp": "To create SMS reports and receive short text messages with your websites' stats on your mobile phone, please sign up with the SMS API and enter your information below.",
         "Settings_SMSAPIAccount": "Manage SMS API Account",
         "Settings_SMSProvider": "SMS Provider",
@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Get Web Analytics Reports delivered to your email inbox or your mobile phone.",
         "TopMenu": "Email & SMS Reports",
         "UserKey": "Userkey",
-        "VerificationText": "Code is %1$s. To validate your phone number and receive Piwik SMS reports please copy this code in the form accessible via Piwik > %2$s > %3$s."
+        "VerificationText": "Code is %1$s. To validate your phone number and receive Matomo SMS reports please copy this code in the form accessible via Matomo > %2$s > %3$s."
     }
 }

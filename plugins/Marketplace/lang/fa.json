@@ -14,7 +14,7 @@
         "InstallingPlugin": "نصب %s",
         "LastCommitTime": "(آخرین ارسال %s)",
         "LastUpdated": "آخرین بروزرسانی",
-        "NotAllowedToBrowseMarketplaceThemes": "شما می توانید لیستی از زمینه های قابل نصب را مشاهده نمایید ، با این زمینه ها می توانید ظاهر Piwik را به دلخواه تغییر دهید. لطفا با مدیر خود تماس بگیرید تا آن را برای شما نصب نماید.",
+        "NotAllowedToBrowseMarketplaceThemes": "شما می توانید لیستی از زمینه های قابل نصب را مشاهده نمایید ، با این زمینه ها می توانید ظاهر Matomo را به دلخواه تغییر دهید. لطفا با مدیر خود تماس بگیرید تا آن را برای شما نصب نماید.",
         "NoPluginsFound": "افزونه ای یافت نشد",
         "NoThemesFound": "قالبی یافت نشد",
         "NumDownloadsLatestVersion": "آخرین نسخه: %s دانلودها",
@@ -34,7 +34,7 @@
         "StepThemeSuccessfullyUpdated": "شما این زمینه را با موفقیت به روز رسانی نمودید %1$s %2$s.",
         "SubscriptionType": "نوع",
         "Support": "پشتیبانی",
-        "TeaserExtendPiwikByUpload": "گسترش دهید Piwik را با آپلود کردن فایل زیپ",
+        "TeaserExtendPiwikByUpload": "گسترش دهید Matomo را با آپلود کردن فایل زیپ",
         "Updated": "بروزرسانی شد",
         "UploadZipFile": "بارگذاری فایل زیپ",
         "ViewRepositoryChangelog": "مشاهده تغییرات"

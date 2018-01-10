@@ -20,7 +20,7 @@
         "MustBeLoggedIn": "Kailangang naka-log in upang gumawa at mag-iskedyul ng mga pasadyang ulat",
         "NoRecipients": "Wala pang makakatanggap sa ulat na ito",
         "Pagination": "Pahina %1$s ng %2$s",
-        "PiwikReports": "Mga ulat ng Piwik",
+        "PiwikReports": "Mga ulat ng Matomo",
         "PleaseFindBelow": "Mangyaring hanapin sa ibaba ang iyong %1$s ulat para sa %2$s.",
         "ReportFormat": "Report Format",
         "ReportIncludeNWebsites": "Ang ulat ay may kasamang pangunahing sukatan para sa lahat ng website na hindi bababa sa isang pagbisite (mula sa %s website hanggang sa kasalukuyan)",
@@ -36,7 +36,7 @@
         "SentToMe": "Ipadala sa akin",
         "TableOfContent": "Listahan ng ulat",
         "ThereIsNoReportToManage": "Walang ulat upang pamahalaan ang %s website",
-        "TopLinkTooltip": "Gumawa ng ulat sa email upang makuha ang Piwik stats na awtomatikong pinadala sa iyong email o sa iyong customer address.",
+        "TopLinkTooltip": "Gumawa ng ulat sa email upang makuha ang Matomo stats na awtomatikong pinadala sa iyong email o sa iyong customer address.",
         "TopOfReport": "Bumalik sa taas",
         "UpdateReport": "I-update ang Ulat",
         "WeeklyScheduleHelp": "Lingguhang iskedyul: ang ulat ay ipapadala sa Lunes bawat linggo."

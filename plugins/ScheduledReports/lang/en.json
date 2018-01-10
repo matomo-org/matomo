@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "You must be logged in to create and schedule custom reports.",
         "NoRecipients": "This report has no recipients",
         "Pagination": "Page %1$s of %2$s",
-        "PiwikReports": "Piwik Reports",
+        "PiwikReports": "Matomo Reports",
         "PleaseFindAttachedFile": "Please find your %1$s report for %2$s in the attached file.",
         "SentFromX": "Sent from %s.",
         "PleaseFindBelow": "Please find below your %1$s report for %2$s.",
@@ -43,7 +43,7 @@
         "SentToMe": "Send to me",
         "TableOfContent": "Report list",
         "ThereIsNoReportToManage": "There is no report to manage for website %s",
-        "TopLinkTooltip": "Create Email Reports to get Piwik stats delivered to your email or your customers' address automatically!",
+        "TopLinkTooltip": "Create Email Reports to get Matomo stats delivered to your email or your customers' address automatically!",
         "TopOfReport": "Back to top",
         "UpdateReport": "Update Report",
         "WeeklyScheduleHelp": "Weekly schedule: report will be sent on Monday of each week."

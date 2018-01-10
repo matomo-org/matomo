@@ -41,7 +41,7 @@
         "SentToMe": "Send til meg",
         "TableOfContent": "Rapportliste",
         "ThereIsNoReportToManage": "Det er ingen rapporter å administrere for nettstedet %s",
-        "TopLinkTooltip": "Lag e-postrapporter for å få Piwik-statistikk levert til din eller andres e-post automatisk!",
+        "TopLinkTooltip": "Lag e-postrapporter for å få Matomo-statistikk levert til din eller andres e-post automatisk!",
         "TopOfReport": "Tilbake til toppen",
         "UpdateReport": "Oppdater rapport",
         "WeeklyScheduleHelp": "Ukeplan: Rapportene blir sendt første mandag i hver uke."

@@ -1,7 +1,7 @@
 {
     "CustomPiwikJs": {
         "DiagnosticPiwikJsWritable": "Schrijfbare JavaScript-tracker (\"\/piwik.js\")",
-        "DiagnosticPiwikJsNotWritable": "De Piwik JavaScript tracking bestand \"\/piwik.js\" is niet bewerkbaar. Wat betekent dat andere plugins de JavaScript tracker niet kunnen uitbreiden. In de toekomst zullen zelfs sommige basis functionaliteiten wellicht anders werken.",
-        "DiagnosticPiwikJsMakeWritable": "We adviseren Piwik.js beschrijfbaar te maken door het uitvoeren van het volgende commando: %s"
+        "DiagnosticPiwikJsNotWritable": "De Matomo JavaScript tracking bestand \"\/piwik.js\" is niet bewerkbaar. Wat betekent dat andere plugins de JavaScript tracker niet kunnen uitbreiden. In de toekomst zullen zelfs sommige basis functionaliteiten wellicht anders werken.",
+        "DiagnosticPiwikJsMakeWritable": "We adviseren piwik.js beschrijfbaar te maken door het uitvoeren van het volgende commando: %s"
     }
 }

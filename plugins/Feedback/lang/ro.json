@@ -7,14 +7,14 @@
         "PrivacyClaim": "Piwik respecta %1$sintimitatea%2$s Dvs. si va acorda control total pentru toate datele.",
         "RateFeatureLeaveMessageDislike": "Ne pare rau sa aflam ca nu va place! Va rugam semnalati-ne cum putem imbunatati.",
         "RateFeatureLeaveMessageLike": "Ne bucuram ca va place! Va rugam semnaati-ne ce va place mai mult sau daca aveti o cerinta pentru o functionalitate noua.",
-        "RateFeatureSendFeedbackInformation": "Platforma Dvs. Piwik ne va trimite noua (echipa Piwik) un email (incluzand adresa Dvs de email) pentru ca noi sa putem intra in contact cu Dvs daca aveti vreo intrebare.",
+        "RateFeatureSendFeedbackInformation": "Platforma Dvs. Piwik ne va trimite noua (echipa Matomo) un email (incluzand adresa Dvs de email) pentru ca noi sa putem intra in contact cu Dvs daca aveti vreo intrebare.",
         "RateFeatureThankYouTitle": "Iti multumim pentru ca ai evaluat '%s'!",
         "RateFeatureTitle": "Va place functionalitatea '%s' ? Va rugam evaluati si lasati un comentariu",
         "SendFeedback": "Trimite Feedback",
-        "ThankYou": "Va multumim pentru ca ne ajutati sa facem Piwik mai bun!",
+        "ThankYou": "Va multumim pentru ca ne ajutati sa facem Matomo mai bun!",
         "TopLinkTooltip": "Transmiteti-ne parerea Dvs sau cereti Support Profesional.",
         "ViewAnswersToFAQ": "Vedeti raspunsurile la %1$sIntrebari Frecvente(FAQ)%2$s",
-        "ViewUserGuides": "Invata cum sa configurezi Piwik si cum sa analizezi datele eficient cu %1$sghidurile de utilizare%2$s",
-        "VisitTheForums": "Vizitati %1$s Forumurile%2$s si primiti ajutor de la comunitatea de utilizatori Piwik."
+        "ViewUserGuides": "Invata cum sa configurezi Matomo si cum sa analizezi datele eficient cu %1$sghidurile de utilizare%2$s",
+        "VisitTheForums": "Vizitati %1$s Forumurile%2$s si primiti ajutor de la comunitatea de utilizatori Matomo."
     }
 }

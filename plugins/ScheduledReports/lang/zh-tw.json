@@ -43,7 +43,7 @@
         "SentToMe": "寄給我自己",
         "TableOfContent": "報表列表",
         "ThereIsNoReportToManage": "%s 中沒有任何報表可管理",
-        "TopLinkTooltip": "建立報表信件讓 Piwik 統計資料自動送達你或你客戶的信箱！",
+        "TopLinkTooltip": "建立報表信件讓 Matomo 統計資料自動送達你或你客戶的信箱！",
         "TopOfReport": "回到頂端",
         "UpdateReport": "更新報表",
         "WeeklyScheduleHelp": "每週排程：報表將會在每週星一寄送。"

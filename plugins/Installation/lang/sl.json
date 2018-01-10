@@ -1,7 +1,7 @@
 {
     "Installation": {
         "Congratulations": "Čestitamo",
-        "CongratulationsHelp": "<p>Čestitamo! Namestitev Piwik-a je končana.<\/p><p>Poskrbite, da bo JavaScript sledilna koda integrirana v željene strani<\/p>",
+        "CongratulationsHelp": "<p>Čestitamo! Namestitev Matomo-a je končana.<\/p><p>Poskrbite, da bo JavaScript sledilna koda integrirana v željene strani<\/p>",
         "DatabaseServerVersion": "Verzija strežnika podatkovne baze",
         "DatabaseSetupDatabaseName": "ime podatkovne baze",
         "DatabaseSetupLogin": "vpis",

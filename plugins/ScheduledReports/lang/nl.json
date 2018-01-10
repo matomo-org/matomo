@@ -43,7 +43,7 @@
         "SentToMe": "Zend naar mij",
         "TableOfContent": "Rapport lijst",
         "ThereIsNoReportToManage": "Er is geen rapport te beheren voor website %s",
-        "TopLinkTooltip": "Creeer Email Rapporten om Piwik statistieken automatisch naar je email adres of die van een klant te versturen!",
+        "TopLinkTooltip": "Creeer Email Rapporten om Matomo statistieken automatisch naar je email adres of die van een klant te versturen!",
         "TopOfReport": "Terug naar boven",
         "UpdateReport": "Rapport bijwerken",
         "WeeklyScheduleHelp": "Wekelijks versturen: Rapport zal worden verzonden elke maandag van de week."

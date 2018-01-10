@@ -3,7 +3,7 @@
         "DatabaseUsage": "Notkun gagnagrunns",
         "DataSize": "Gagnastærð",
         "IndexSize": "stærð vísitöflu",
-        "MainDescription": "Piwik vistar öll vefgreiningagögn inn í MySQL gagnagrunn. Núna eru Piwik töflurnar að nota %s.",
+        "MainDescription": "Piwik vistar öll vefgreiningagögn inn í MySQL gagnagrunn. Núna eru Matomo töflurnar að nota %s.",
         "RowCount": "Fjöldi raða",
         "Table": "Tafla",
         "TotalSize": "Heildarstærð"

@@ -4,13 +4,13 @@
         "MobileReport_AdditionalPhoneNumbers": "접근에 의해 더 많은 전화 번호를 추가할 수 있습니다",
         "MobileReport_MobileMessagingSettingsLink": "모바일 메시징 설정 페이지",
         "MobileReport_NoPhoneNumbers": "접근 단위로 하나 이상의 전화 번호를 활성화해 주세요",
-        "MultiSites_Must_Be_Activated": "웹사이트 통계를 SMS의 텍스트로 생성하려면, Piwik의 MultiSites 플러그인을 사용으로 설정하세요.",
+        "MultiSites_Must_Be_Activated": "웹사이트 통계를 SMS의 텍스트로 생성하려면, Matomo의 MultiSites 플러그인을 사용으로 설정하세요.",
         "PhoneNumbers": "전화번호",
         "PluginDescription": "생성 및 다운로드 사용자정의 SMS 보고서를 매일, 매주 또는 매월 단위로 모바일에 전송합니다.",
         "Settings_APIKey": "API 키",
         "Settings_CountryCode": "국가 코드",
-        "Settings_CredentialNotProvided": "당신의 전화번호를 생성하고 관리할 수 ​​있습니다. 위 SMS 계정에 Piwik를 연결하세요.",
-        "Settings_CredentialNotProvidedByAdmin": "그전에 전화번호를 생성하고 관리할 수 ​​있습니다. SMS 계정에 Piwik를 연결하려면 관리자에게 문의하시기 바랍니다.",
+        "Settings_CredentialNotProvided": "당신의 전화번호를 생성하고 관리할 수 ​​있습니다. 위 SMS 계정에 Matomo를 연결하세요.",
+        "Settings_CredentialNotProvidedByAdmin": "그전에 전화번호를 생성하고 관리할 수 ​​있습니다. SMS 계정에 Matomo를 연결하려면 관리자에게 문의하시기 바랍니다.",
         "Settings_CredentialProvided": "귀하의 %s의 SMS API 계정이 제대로 구성되어 있습니다!",
         "Settings_DeleteAccountConfirm": "해당 SMS 계정을 삭제 하시겠습니까?",
         "Settings_InvalidActivationCode": "코드가 잘못 입력되었습니다. 다시 시도하세요.",
@@ -34,6 +34,6 @@
         "SMS_Content_Too_Long": "[너무 김]",
         "TopLinkTooltip": "이메일 또는 휴대전화로 웹로그 분석을 보고할 수 있습니다!",
         "TopMenu": "이메일 및 SMS 보고서",
-        "VerificationText": "인증코드는 %1$s 입니다. Piwik SMS 보고서를 받기 위한 전화번호 확인을 위해 수신한 인증코드를 Piwik > %2$s > %3$s으로 이동하여 입력하세요."
+        "VerificationText": "인증코드는 %1$s 입니다. Piwik SMS 보고서를 받기 위한 전화번호 확인을 위해 수신한 인증코드를 Matomo > %2$s > %3$s으로 이동하여 입력하세요."
     }
 }

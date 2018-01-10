@@ -10,7 +10,7 @@
         "Email": "E-post",
         "ExceptionAdminAnonymous": "Sa ei saa anda 'admin' õiguseid 'anonymous' kasutajale.",
         "ExceptionDeleteDoesNotExist": "Kasutajat nimega '%s' ei eksisteeri seepärast ei saa teda ka kustutada.",
-        "ExceptionEditAnonymous": "Anonüümset kasutajat ei saa muuta ega kustutada. Piwik kasutab seda määratlemaks kasutajat, kes ei ole veel sisse loginud. Näiteks, saad teha statistika lubada 'view' statistikat õigused 'anonymous' kasutajale.",
+        "ExceptionEditAnonymous": "Anonüümset kasutajat ei saa muuta ega kustutada. Matomo kasutab seda määratlemaks kasutajat, kes ei ole veel sisse loginud. Näiteks, saad teha statistika lubada 'view' statistikat õigused 'anonymous' kasutajale.",
         "ExceptionEmailExists": "Sellise e-mailiga '%s' kasutaja on olemas.",
         "ExceptionInvalidEmail": "Emaili aadress ei ole õiges formaadis.",
         "ExceptionUserDoesNotExist": "Kasutaja '%s' puudub.",
@@ -20,7 +20,7 @@
         "MenuAnonymousUserSettings": "Tundmatu kasutaja seaded",
         "MenuUsers": "Kasutajaid",
         "MenuUserSettings": "Kasutaja seaded",
-        "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Märkus: Sa ei saa antud sätteid muuta, kuna puuduvad veebilehed, millele oleks anonüümne ligipääs Piwikus lubatud.",
+        "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Märkus: Sa ei saa antud sätteid muuta, kuna puuduvad veebilehed, millele oleks anonüümne ligipääs Matomous lubatud.",
         "NoUsersExist": "Hetkel puuduvad teised kasutajad.",
         "PrivAdmin": "Haldaja",
         "PrivNone": "Ligipääs puudub",
@@ -35,6 +35,6 @@
         "UsersManagement": "Kasutajate haldamine",
         "UsersManagementMainDescription": "Loo uusi kasutajakontosid või uuenda olemasolevaid. Saad seada nende õigused ülalpool.",
         "YourUsernameCannotBeChanged": "Sinu kasutajanime ei saa muuta.",
-        "YourVisitsAreNotIgnored": "%1$sPiwik ei arva sinu külastusi statistikast välja%2$s (ignoreerimiseks vajalikku küpsist ei leitud sirvikust)."
+        "YourVisitsAreNotIgnored": "%1$sMatomo ei arva sinu külastusi statistikast välja%2$s (ignoreerimiseks vajalikku küpsist ei leitud sirvikust)."
     }
 }

@@ -16,7 +16,7 @@
         "SegmentDisplayedAllWebsites": "alle websteder",
         "SegmentDisplayedThisWebsiteOnly": "kun dette websted",
         "SegmentNotApplied": "Segment '%s' anvendes ikke",
-        "SegmentNotAppliedMessage": "Du beder om data til brugerdefineret segment '%s', Piwik konfigurationen forhindrer tidstro behandling af rapporter pga ydeevne grunde.",
+        "SegmentNotAppliedMessage": "Du beder om data til brugerdefineret segment '%s', Matomo konfigurationen forhindrer tidstro behandling af rapporter pga ydeevne grunde.",
         "ThisSegmentIsVisibleTo": "Segmentet er synligt for:",
         "VisibleToAllUsers": "Alle brugere",
         "VisibleToMe": "mig",

@@ -1,11 +1,11 @@
 {
     "Login": {
         "ConfirmationLinkSent": "Te email-i juaj u dërgua një lidhje ripohimi. Kontrolloni email-in tuaj dhe vizitoni atë lidhje që të autorizoni kërkesën tuaj për ndryshim të fjalëkalimit.",
-        "ContactAdmin": "Arsye e mundshme: streha juaj mund të ketë çaktivizuar funksionin mail(). <br \/>Ju lutemi, lidhuni me përgjegjësin e Piwik-ut tuaj.",
+        "ContactAdmin": "Arsye e mundshme: streha juaj mund të ketë çaktivizuar funksionin mail(). <br \/>Ju lutemi, lidhuni me përgjegjësin e Matomo-ut tuaj.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Një përdorues me të drejta Superpërdoruesi s’mund të bëjë mirëfilltësimin e vetes duke përdorur mekanizmin '%s'.",
         "ExceptionPasswordMD5HashExpected": "Parametri i fjalëkalimit pritet të jetë një hash MD5 fjalëkalimi.",
         "InvalidNonceOrHeadersOrReferrer": "Siguria e formularit dështoi. Ju lutemi, ringarkoni formularin dhe kontrolloni nëse janë të aktivizuara \"cookie\"-et tuaja. Nëse përdorni një shërbyes ndërmjetës, duhet ta formësoni %1$s Piwik-un që të pranojë krye ndërmjetësi%2$s i cili përcjell krye Strehe. Kontrolloni gjithashtu që kryet e Sjellësit dërgohen saktë.",
-        "InvalidNonceSSLMisconfigured": "Po ashtu, mund %1$sta detyroni Piwik-un të përdorë një lidhje të sigurt%2$s: te kartela juaj %3$s rregulloni %4$s nën ndarjen %5$s",
+        "InvalidNonceSSLMisconfigured": "Po ashtu, mund %1$sta detyroni Matomo-un të përdorë një lidhje të sigurt%2$s: te kartela juaj %3$s rregulloni %4$s nën ndarjen %5$s",
         "InvalidOrExpiredToken": "Elementi është i pavlefshëm ose ka skaduar.",
         "InvalidUsernameEmail": "Emër përdoruesi dhe\/ose adresë email e pavlefshme.",
         "LogIn": "Hyni",
@@ -13,7 +13,7 @@
         "LoginPasswordNotCorrect": "Ndërthurje e gabuar Emri përdoruesi dhe fjalëkalimi.",
         "LostYourPassword": "Humbët fjalëkalimin tuaj?",
         "ChangeYourPassword": "Ndryshoni fjalëkalimin tuaj",
-        "MailPasswordChangeBody": "Njatjeta %1$s,\n\nPrej %2$s ka ardhur një kërkesë për ricaktim fjalëkalimi. Për ripohim të këtij ndryshimi fjalëkalimi, që të mund hyni me kredenciale të reja, vizitoni lidhjen vijuese:\n\n%3$s\n\nKujdes: Ndryshimi i fjalëkalimit do të sjellë edhe ndryshimin e token_auth tuaj. token_auth tuaj të ri mund ta shihni te faqja e rregullimeve tuaja.\n\nNëse token_auth tuaj për API e përdorni në ndonjë aplikacion të jashtëm ose për arkivim, sigurohuni që ta përditësoni token_auth atje, përndryshe kërkesat te API do të dështojnë.\n\nShënim: kjo lidhje do të skadojë pas 24 orësh.\n\nDhe faleminderit që përdorni Piwik-un!",
+        "MailPasswordChangeBody": "Njatjeta %1$s,\n\nPrej %2$s ka ardhur një kërkesë për ricaktim fjalëkalimi. Për ripohim të këtij ndryshimi fjalëkalimi, që të mund hyni me kredenciale të reja, vizitoni lidhjen vijuese:\n\n%3$s\n\nKujdes: Ndryshimi i fjalëkalimit do të sjellë edhe ndryshimin e token_auth tuaj. token_auth tuaj të ri mund ta shihni te faqja e rregullimeve tuaja.\n\nNëse token_auth tuaj për API e përdorni në ndonjë aplikacion të jashtëm ose për arkivim, sigurohuni që ta përditësoni token_auth atje, përndryshe kërkesat te API do të dështojnë.\n\nShënim: kjo lidhje do të skadojë pas 24 orësh.\n\nDhe faleminderit që përdorni Matomo-un!",
         "MailTopicPasswordChange": "Ripohoni Ndryshimin e Fjalëkalimit",
         "NewPassword": "Fjalëkalim i ri",
         "NewPasswordRepeat": "Fjalëkalim i ri (përsëriteni)",

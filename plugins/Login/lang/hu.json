@@ -1,10 +1,10 @@
 {
     "Login": {
         "ConfirmationLinkSent": "A megerősítő link továbbításra került postafiókjába. Kérjük ellenőrizze e-mailjeit és kattintson a linkre a jelszóváltoztatás megerősítéséhez.",
-        "ContactAdmin": "Lehetséges ok: talán a szolgáltatód tiltja a mail() funkciót. <br \/> Kérjük, lépj kapcsolatba a Piwik adminisztrátoroddal.",
+        "ContactAdmin": "Lehetséges ok: talán a szolgáltatód tiltja a mail() funkciót. <br \/> Kérjük, lépj kapcsolatba a Matomo adminisztrátoroddal.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Egy felhasználó, akor Szuper felhasználó szinttel rendelkezik, nem használhatja a %s belépési mechanizmust.",
         "ExceptionPasswordMD5HashExpected": "A jelszóparaméternek egyeznie kellene a jelszó MD5 hash értékével.",
-        "InvalidNonceOrHeadersOrReferrer": "Űrlap biztonsági probléma. Kérjük töltse újra az űrlapot és ellenőrizze, hogy a sütik engedélyezve vannak-e. Amennyiben proxy szervert használ, akkor engedélyezni kell %1$s a Piwik-nek, hogy elfogadja a proxy fejléceket %2$s, amelyek visszamutatnak a hoszt fejlécére. Ezen felül ellenőrizze, hogy a Hivatkozó fejléc helyesen lett-e elküldve.",
+        "InvalidNonceOrHeadersOrReferrer": "Űrlap biztonsági probléma. Kérjük töltse újra az űrlapot és ellenőrizze, hogy a sütik engedélyezve vannak-e. Amennyiben proxy szervert használ, akkor engedélyezni kell %1$s a Matomo-nek, hogy elfogadja a proxy fejléceket %2$s, amelyek visszamutatnak a hoszt fejlécére. Ezen felül ellenőrizze, hogy a Hivatkozó fejléc helyesen lett-e elküldve.",
         "InvalidOrExpiredToken": "A kód érvénytelen vagy lejárt.",
         "InvalidUsernameEmail": "Helytelen felhasználói név és\/vagy e-mail cím",
         "LogIn": "Bejelentkezés",

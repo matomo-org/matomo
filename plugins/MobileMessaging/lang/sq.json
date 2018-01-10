@@ -4,14 +4,14 @@
         "MobileReport_AdditionalPhoneNumbers": "Mund të shtoni më tepër numra telefoni duke hyrë te",
         "MobileReport_MobileMessagingSettingsLink": "faqja e rregullimeve për Mesazhe Celulari",
         "MobileReport_NoPhoneNumbers": "Ju lutemi, aktivizoni të paktën një numër telefoni duke hyrë te",
-        "MultiSites_Must_Be_Activated": "Që të prodhohen tekste SMS për statistikat e sajtit tuaj, ju lutemi, aktivizoni shtojcën MultiSajte te Piwik-u.",
+        "MultiSites_Must_Be_Activated": "Që të prodhohen tekste SMS për statistikat e sajtit tuaj, ju lutemi, aktivizoni shtojcën MultiSajte te Matomo-u.",
         "PhoneNumbers": "Numra Telefonash",
         "PluginDescription": "Krijoni dhe shkarkoni raporte vetjake SMS dhe bëni që të dërgohen te celulari juaj përditë, çdo javë ose çdo muaj.",
         "Settings_APIKey": "Kyç API-sh",
         "Settings_CountryCode": "Kod Vendi",
         "Settings_SelectCountry": "Përzgjidhni vend",
-        "Settings_CredentialNotProvided": "Përpara se të mund të krijoni dhe administroni numra telefoni, ju lutemi, lidheni Piwik-un me Llogarinë tuaj SMS më sipër.",
-        "Settings_CredentialNotProvidedByAdmin": "Përpara se të mund të krijoni dhe administroni numra telefoni, ju lutemi, kërkojini përgjegjësit të instalimit tuaj të lidhë Piwik-un me një Llogari SMS.",
+        "Settings_CredentialNotProvided": "Përpara se të mund të krijoni dhe administroni numra telefoni, ju lutemi, lidheni Matomo-un me Llogarinë tuaj SMS më sipër.",
+        "Settings_CredentialNotProvidedByAdmin": "Përpara se të mund të krijoni dhe administroni numra telefoni, ju lutemi, kërkojini përgjegjësit të instalimit tuaj të lidhë Matomo-un me një Llogari SMS.",
         "Settings_CredentialProvided": "API juaj %s është e formësuar saktë!",
         "Settings_CredentialInvalid": "Llogaria juaj API SMS %1$s është formësuar, por ndodhi një gabim teksa provohej të merrej krediti që zotëroni.",
         "Settings_DeleteAccountConfirm": "Jeni i sigurt se doni të fshihet kjo llogari SMS?",
@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Merrni Raporte Analizash Web drejt e te email-i ose celulari juaj.",
         "TopMenu": "Raporte me Email & SMS",
         "UserKey": "Kyç përdoruesi",
-        "VerificationText": "Kodi është %1$s. Që të vleftësohet numri i telefonit tuaj dhe të merrni raporte Piwik me SMS, ju lutemi, kopjojeni këtë kot te formulari përkatës përmes Piwik-ut > %2$s > %3$s."
+        "VerificationText": "Kodi është %1$s. Që të vleftësohet numri i telefonit tuaj dhe të merrni raporte Piwik me SMS, ju lutemi, kopjojeni këtë kot te formulari përkatës përmes Matomo-ut > %2$s > %3$s."
     }
 }

@@ -19,7 +19,7 @@
         "DistinctCountries": "%s دولة بارزة",
         "DownloadingDb": "سحب %s",
         "DownloadNewDatabasesEvery": "تحديث قاعدة البيانات كلّ",
-        "FoundApacheModules": "وجد Piwik بريمجات Apache التالية",
+        "FoundApacheModules": "وجد Matomo بريمجات Apache التالية",
         "FromDifferentCities": "مدن مختلفة",
         "GeoIPCannotFindMbstringExtension": "لم أجد دالة %1$s . فضلاً تأكد من أن إضافة %2$s مثبتة ومحمّلة في الذاكرة.",
         "GeoIPDatabases": "قواعد بيانات GeoIP",

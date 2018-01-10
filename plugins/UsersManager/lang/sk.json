@@ -10,7 +10,7 @@
         "ExceptionAccessValues": "Parameter prístupu musí mať jednu z nasledujúcich hodnôt: [ %s ]",
         "ExceptionAdminAnonymous": "Nemôžete priradiť prístup 'admin' pre používateľa 'anonymous'.",
         "ExceptionDeleteDoesNotExist": "Používateľ '%s' neexistuje a preto nemôže byť odstránený.",
-        "ExceptionEditAnonymous": "Anonymný používateľ nemôže byť odstránený alebo upravený. Piwik ho používa na definovanie používateľa, ktorý sa ešte prihlásil. Anonymného používateľa môžete použiť na zverejnenie svojich štatistík, a to priradeným mu práv na prezeranie.",
+        "ExceptionEditAnonymous": "Anonymný používateľ nemôže byť odstránený alebo upravený. Matomo ho používa na definovanie používateľa, ktorý sa ešte prihlásil. Anonymného používateľa môžete použiť na zverejnenie svojich štatistík, a to priradeným mu práv na prezeranie.",
         "ExceptionEmailExists": "Používateľ s e-mailom '%s' už existuje.",
         "ExceptionInvalidEmail": "E-mailová adresa nemá platný formát.",
         "ExceptionUserDoesNotExist": "Používateľ '%s' neexistuje.",

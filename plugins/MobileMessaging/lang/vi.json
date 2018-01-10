@@ -4,13 +4,13 @@
         "MobileReport_AdditionalPhoneNumbers": "Bạn có thể thêm nhiều số điện thoại bằng cách truy cập",
         "MobileReport_MobileMessagingSettingsLink": "Trang cài đặt tin nhắn di động",
         "MobileReport_NoPhoneNumbers": "Hãy kích hoạt ít nhất một số điện thoại bằng cách truy cập",
-        "MultiSites_Must_Be_Activated": "Để tạo ra các văn bản tin nhắn SMS về số liệu thống kê trang web của bạn, vui lòng kích hoạt MultiSites plugin trong Piwik.",
+        "MultiSites_Must_Be_Activated": "Để tạo ra các văn bản tin nhắn SMS về số liệu thống kê trang web của bạn, vui lòng kích hoạt MultiSites plugin trong Matomo.",
         "PhoneNumbers": "Các số điện thoại của bạn",
         "PluginDescription": "Tạo ra và tải về báo cáo tin nhắn SMS tùy chỉnh và họ đã gửi đến điện thoại của bạn theo hàng ngày, hàng tuần hoặc hàng tháng.",
         "Settings_APIKey": "Khóa API",
         "Settings_CountryCode": "Mã quốc gia",
-        "Settings_CredentialNotProvided": "Trước khi bạn có thể tạo và quản lý các số điện thoại, hãy kết nối Piwik với tài khoản SMS của bạn ở trên.",
-        "Settings_CredentialNotProvidedByAdmin": "Trước khi bạn có thể tạo và quản lý các số điện thoại, xin vui lòng yêu cầu quản trị của bạn kết nối Piwik vào Tài khoản SMS.",
+        "Settings_CredentialNotProvided": "Trước khi bạn có thể tạo và quản lý các số điện thoại, hãy kết nối Matomo với tài khoản SMS của bạn ở trên.",
+        "Settings_CredentialNotProvidedByAdmin": "Trước khi bạn có thể tạo và quản lý các số điện thoại, xin vui lòng yêu cầu quản trị của bạn kết nối Matomo vào Tài khoản SMS.",
         "Settings_CredentialProvided": "Tài khoản API SMS %s của bạn đã được cấu hình chính xác!",
         "Settings_DeleteAccountConfirm": "Bạn có chắc chắn muốn xóa tài khoản SMS này?",
         "Settings_InvalidActivationCode": "Mã nhập vào không hợp lệ, hãy thử lại.",
@@ -34,6 +34,6 @@
         "SMS_Content_Too_Long": "[quá lâu]",
         "TopLinkTooltip": "Nhận các báo cáo Web Analytics đã được gửi đến hộp thư email của bạn hoặc điện thoại di động của bạn!",
         "TopMenu": "Các báo cáo Email & SMS",
-        "VerificationText": "Mã số là %1$s. Để xác nhận số điện thoại của bạn và nhận được báo cáo SMS Piwik hãy sao chép mã này trong mẫu truy cập thông qua Piwik > %2$s> %3$s."
+        "VerificationText": "Mã số là %1$s. Để xác nhận số điện thoại của bạn và nhận được báo cáo SMS Piwik hãy sao chép mã này trong mẫu truy cập thông qua Matomo > %2$s> %3$s."
     }
 }

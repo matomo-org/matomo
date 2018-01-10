@@ -9,7 +9,7 @@
         "ExceptionAccessValues": "access parametroak ondorengo balioetako bat izan behar du: [ %s ]",
         "ExceptionAdminAnonymous": "Ezin diozu 'admin' atzipena eman 'anonymous' erabiltzaileari.",
         "ExceptionDeleteDoesNotExist": "'%s' erabiltzailea ez dago beraz ezin da ezabatu.",
-        "ExceptionEditAnonymous": "anonymous erabiltzailea ezin da editatu edo ezabatu. Saioa hasi gabeko erabiltzaileak definitzeko erabiltzen du Piwik-ek. Adibidez, estatistikak publiko egiteko 'ikusi' atzipena eman besterik ez duzu 'anonymous' erabiltzailearentzat.",
+        "ExceptionEditAnonymous": "anonymous erabiltzailea ezin da editatu edo ezabatu. Saioa hasi gabeko erabiltzaileak definitzeko erabiltzen du Matomo-ek. Adibidez, estatistikak publiko egiteko 'ikusi' atzipena eman besterik ez duzu 'anonymous' erabiltzailearentzat.",
         "ExceptionEmailExists": "'%s' helbide elektronikoa duen erabiltzailea badago.",
         "ExceptionInvalidEmail": "Helbide elektronikoaren formatua baliogabea da.",
         "ExceptionUserDoesNotExist": "'%s' erabiltzailea ez dago.",

@@ -3,7 +3,7 @@
         "AnonymizeIpMaskLength": "%1$s byte(s) – f.eks. %2$s",
         "ClickHereSettings": "Klikk her for å få tilgang til %s-innstillingene.",
         "CurrentDBSize": "Nåværende databasestørrelse",
-        "DeleteDataDescription": "Du kan sette opp Piwik til å regelmessig slette gamle besøkslogger og\/eller behandlede rapporter for å holde databasen din liten.",
+        "DeleteDataDescription": "Du kan sette opp Matomo til å regelmessig slette gamle besøkslogger og\/eller behandlede rapporter for å holde databasen din liten.",
         "DeleteDataInterval": "Slett gammel data hver",
         "DeleteOldVisitorLogs": "Slett gamle besøkslogger",
         "DeleteOldArchivedReports": "Slett gamle arkiverte rapporter",

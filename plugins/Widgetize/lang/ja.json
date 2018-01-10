@@ -1,7 +1,7 @@
 {
     "Widgetize": {
         "OpenInNewWindow": "新しいウィンドウで開く",
-        "PluginDescription": "単純な埋め込み HTML タグを使用して Web サイトやアプリで任意の Piwik のレポートを表示します。",
+        "PluginDescription": "単純な埋め込み HTML タグを使用して Web サイトやアプリで任意の Matomo のレポートを表示します。",
         "TopLinkTooltip": "Piwik レポートをウィジェットとしてエクスポートし、ダッシュボードを iframe としてご利用のアプリケーションに埋め込んでください。"
     }
 }
