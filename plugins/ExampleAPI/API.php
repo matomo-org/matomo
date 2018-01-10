@@ -21,14 +21,25 @@ use Piwik\Version;
  */
 class API extends \Piwik\Plugin\API
 {
+
     /**
      * Get Matomo version
      * @return string
      */
-    public function getPiwikVersion()
+    public function getMatomoVersion()
     {
         Piwik::checkUserHasSomeViewAccess();
         return Version::VERSION;
+    }
+
+    /**
+     * Get Matomo version
+     * @return string
+     * @deprecated
+     */
+    public function getPiwikVersion()
+    {
+        return $this->getMatomoVersion();
     }
 
     /**
