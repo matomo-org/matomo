@@ -9,13 +9,13 @@
         "ExcludeRowsWithLowPopulation": "Es mostren totes les files %s No mostris la població inferior",
         "FlattenDataTable": "L'informe es jeràrquic %s Feu-lo pla.",
         "IncludeRowsWithLowPopulation": "No es mostren les files amb polbació inferior %s Mostra totes les files",
-        "InjectedHostEmailBody": "Hola, He provat d'accedir al Piwik avui i m'he trobat amb l'avís de nom de la màquina desconegut.",
+        "InjectedHostEmailBody": "Hola, He provat d'accedir al Matomo avui i m'he trobat amb l'avís de nom de la màquina desconegut.",
         "InjectedHostEmailSubject": "S'ha accedit al piwik amb un nom de màquina desconegut: %s",
-        "InjectedHostNonSuperUserWarning": "%1$sClick here to access Piwik safely%2$s i eliminar aaquest avíst. Potse també voldreu contractar amb l'administrador del vostre Piwik i notificar-li aquesta incidència (%3$sclick here to email%4$s).",
-        "InjectedHostSuperUserWarning": "Pot ser que el Piwik estigui mal configurat (per exemple, si el Piwik s'ha mogut a un nou servidor o URL). Podeu %1$sfer click aquí i afegir %2$s com el nom de la màquina vàlid (si hi confieu)%3$s, o bé %4$s fer click aquí %5$s per accedir al piwik de forma segura%6$s.",
-        "InjectedHostWarningIntro": "Esteu accedint al Piwik desde %1$s, però el Piwik està configurat per escoltar a l'adreça: %2$s.",
-        "JavascriptDisabled": "S'ha de tenir el Javascript activat per vistualitzar la vista estàndar del Piwik.<br\/> No obstant això, sembla que el Javascript esta deshabilitat or no està suportat pel vostre navegador<br\/> Per utilitzar la vista estàndarc, activeu el Javascript canviant les opcions del navegador i %1$storneu-ho a probar%2$s.<br \/>",
-        "NoPrivilegesAskPiwikAdmin": "Esteu identificat com a '%1$s' però sembla que no teniu cap permís establert al Piwik. %2$s Pregunteu al vostre administrador de Piwik (feu click per enviar un email)%3$s que us dongui access per veure un lloc web.",
+        "InjectedHostNonSuperUserWarning": "%1$sClick here to access Piwik safely%2$s i eliminar aaquest avíst. Potse també voldreu contractar amb l'administrador del vostre Matomo i notificar-li aquesta incidència (%3$sclick here to email%4$s).",
+        "InjectedHostSuperUserWarning": "Pot ser que el Piwik estigui mal configurat (per exemple, si el Matomo s'ha mogut a un nou servidor o URL). Podeu %1$sfer click aquí i afegir %2$s com el nom de la màquina vàlid (si hi confieu)%3$s, o bé %4$s fer click aquí %5$s per accedir al piwik de forma segura%6$s.",
+        "InjectedHostWarningIntro": "Esteu accedint al Piwik desde %1$s, però el Matomo està configurat per escoltar a l'adreça: %2$s.",
+        "JavascriptDisabled": "S'ha de tenir el Javascript activat per vistualitzar la vista estàndar del Matomo.<br\/> No obstant això, sembla que el Javascript esta deshabilitat or no està suportat pel vostre navegador<br\/> Per utilitzar la vista estàndarc, activeu el Javascript canviant les opcions del navegador i %1$storneu-ho a probar%2$s.<br \/>",
+        "NoPrivilegesAskPiwikAdmin": "Esteu identificat com a '%1$s' però sembla que no teniu cap permís establert al Piwik. %2$s Pregunteu al vostre administrador de Matomo (feu click per enviar un email)%3$s que us dongui access per veure un lloc web.",
         "PageOf": "%1$s de %2$s",
         "PeriodRange": "Rang",
         "ReportGeneratedOn": "Informe generat el %s",
@@ -24,6 +24,6 @@
         "ThereIsNoDataForThisReport": "No hi ha informació per aquest informe.",
         "UnFlattenDataTable": "Aquest informe es pla %s Feu-lo jeràrquic",
         "WebAnalyticsReports": "Informe d'analítica web",
-        "YouAreUsingTheLatestVersion": "Esteu fent servir l'última versió de Piwik!"
+        "YouAreUsingTheLatestVersion": "Esteu fent servir l'última versió de Matomo!"
     }
 }

@@ -4,14 +4,14 @@
         "MobileReport_AdditionalPhoneNumbers": "Více telefonních čísel můžete přidat přejitím na",
         "MobileReport_MobileMessagingSettingsLink": "Stránka nastavení mobilních zpráv",
         "MobileReport_NoPhoneNumbers": "Prosím aktivujte aspoň jedno telefonní číslo přejitím na",
-        "MultiSites_Must_Be_Activated": "Pro vytváření SMS zpráv se statistikami povolte v Piwiku plugin MultiSites.",
+        "MultiSites_Must_Be_Activated": "Pro vytváření SMS zpráv se statistikami povolte v Matomou plugin MultiSites.",
         "PhoneNumbers": "Telefonní čísla",
         "PluginDescription": "Vytvářejte a stahujte vlastní SMS hlášení a nechte si je zasílat do svého telefonu denně, týdně nebo měsíčně.",
         "Settings_APIKey": "Klíč k API",
         "Settings_CountryCode": "Kód země",
         "Settings_SelectCountry": "Vybrat zemi",
-        "Settings_CredentialNotProvided": "Než budete moci vytvářet a spravovat telefonní čísla, musíte připojit Piwik ke svému SMS účtu výše.",
-        "Settings_CredentialNotProvidedByAdmin": "Než budete moci vytvářet a spravovat telefonní čísla, požádejte svého administrátora, aby připojil Piwik k SMS účtu.",
+        "Settings_CredentialNotProvided": "Než budete moci vytvářet a spravovat telefonní čísla, musíte připojit Matomo ke svému SMS účtu výše.",
+        "Settings_CredentialNotProvidedByAdmin": "Než budete moci vytvářet a spravovat telefonní čísla, požádejte svého administrátora, aby připojil Matomo k SMS účtu.",
         "Settings_CredentialProvided": "Váš %s SMS API účet je nastaven správně!",
         "Settings_CredentialInvalid": "Váš %1$s účet pro SMS je nastaven, ale při získávání dostupných kreditů došlo k chybě.",
         "Settings_DeleteAccountConfirm": "Opravdu chcete odstranit tento SMS účet?",
@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Nechte si webové analýzy zasílat na email nebo na svůj mobilní telefon.",
         "TopMenu": "Email a SMS hlášení",
         "UserKey": "Userkey",
-        "VerificationText": "Kód je %1$s. Pro ověření vašeh otelefonního čísla tento kód zkopírujte do formuláře přístupného na Piwik > %2$s > %3$s."
+        "VerificationText": "Kód je %1$s. Pro ověření vašeh otelefonního čísla tento kód zkopírujte do formuláře přístupného na Matomo > %2$s > %3$s."
     }
 }

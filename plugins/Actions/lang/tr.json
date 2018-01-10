@@ -33,7 +33,7 @@
         "ColumnIdPageview": "Sayfa Görüntüleme Kodu",
         "ColumnInteractionPosition": "Etkileşim Konumu",
         "ActionsInVisit": "Ziyaret Sırasındaki İşlemler",
-        "DownloadsReportDocumentation": "Bu rapor, ziyaretçilerinizin indirdiği dosyalar hakkında bilgi içerir. %s indirme bağlantısına tıklandığında Piwik indirme sayısını arttırır. İndirmenin tamamlanıp tamamlanmadığı Piwik tarafından bilinmez.",
+        "DownloadsReportDocumentation": "Bu rapor, ziyaretçilerinizin indirdiği dosyalar hakkında bilgi içerir. %s indirme bağlantısına tıklandığında Matomo indirme sayısını arttırır. İndirmenin tamamlanıp tamamlanmadığı Matomo tarafından bilinmez.",
         "EntryPagesReportDocumentation": "Bu rapor, belirtilen zaman aralığında kullanılan giriş sayfaları hakkında bilgi içerir. Bir giriş sayfası, kullanıcının ziyaretine başladığı ilk sayfadır. %s giriş adresleri bir klasör yapısı biçiminde görüntülenir.",
         "EntryPageTitles": "Giriş sayfası başlıkları",
         "EntryPageTitlesReportDocumentation": "Bu rapor, belirtilen zaman aralığında kullanılan giriş sayfalarının başlıkları hakkında bilgi içerir.",

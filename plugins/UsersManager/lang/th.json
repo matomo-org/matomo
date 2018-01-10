@@ -4,14 +4,14 @@
         "Alias": "นามแฝง",
         "AllWebsites": "เว็บไซต์ทั้งหมด",
         "ApplyToAllWebsites": "กระทำกับเว็บไซต์ทั้งหมด",
-        "ClickHereToDeleteTheCookie": "คลิกที่นี่เพื่อลบคุกกี้ และมี Piwik ติดตามเข้าชมของคุณ",
-        "ClickHereToSetTheCookieOnDomain": "คลิกที่นี่เพื่อตั้งค่าคุกกี้ ที่จะไม่รวมการเข้าชมของคุณบนเว็บไซต์ที่ถูกติดตาม โดย Piwik บน %s",
+        "ClickHereToDeleteTheCookie": "คลิกที่นี่เพื่อลบคุกกี้ และมี Matomo ติดตามเข้าชมของคุณ",
+        "ClickHereToSetTheCookieOnDomain": "คลิกที่นี่เพื่อตั้งค่าคุกกี้ ที่จะไม่รวมการเข้าชมของคุณบนเว็บไซต์ที่ถูกติดตาม โดย Matomo บน %s",
         "DeleteConfirm": "คุณแน่ใจหรือไม่ที่จะลบผู้ใช้ %s ?",
         "Email": "อีเมล์",
         "ExceptionAccessValues": "พารามิเตอร์เข้าถึงต้องมีหนึ่งค่าต่อไปนี้: [ %s ]",
         "ExceptionAdminAnonymous": "คุณไม่สามารถให้สิทธิ์ 'admin' การเข้าถึงแก่ผู้ใช้ 'anonymous' ได้",
         "ExceptionDeleteDoesNotExist": "ผู้ใช้ '%s' ไม่มีในระบบ ดังนั้นจึงไม่สามารถลบได้",
-        "ExceptionEditAnonymous": "ผู้ใช้งานที่ไม่ระบุชื่อไม่สามารถแก้ไขหรือลบได้ มันถูกใช้งานโดย Piwik เพื่อระบุผู้ใช้ที่ไม่ได้เข้าสู่ระบบยัง ตัวอย่างเช่น คุณสามารถอนุญาตให้ผู้ใช้งานทั่วไปสามารถดูสถิติของเว็บคุณได้",
+        "ExceptionEditAnonymous": "ผู้ใช้งานที่ไม่ระบุชื่อไม่สามารถแก้ไขหรือลบได้ มันถูกใช้งานโดย Matomo เพื่อระบุผู้ใช้ที่ไม่ได้เข้าสู่ระบบยัง ตัวอย่างเช่น คุณสามารถอนุญาตให้ผู้ใช้งานทั่วไปสามารถดูสถิติของเว็บคุณได้",
         "ExceptionEmailExists": "ผู้ใช้มีอีเมล์ '%s' อยู่แล้ว",
         "ExceptionInvalidEmail": "รูปแบบของอีเมล์ไม่ถูกต้อง",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth คือต้องการรหัสผ่านแบบ MD5-hashed (มีความยาว 32 อักขระ) กรุณาเรียกใช้ฟังก์ชัน md5() ซึ่งจะมีรหัสผ่านก่อนที่จะเรียกวิธีการนี้",
@@ -33,9 +33,9 @@
         "User": "ผู้ใช้",
         "UsersManagement": "การจัดการผู้ใช้",
         "UsersManagementMainDescription": "สร้างผู้ใช้ใหม่หรืออัพเดตผู้ใช้ที่มีอยู่ จากนั้นคุณสามารถกำหนดสิทธิ์ของพวกเขาได้",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "เมื่อผู้ใช้เข้าสู่ระบบและเข้าชม Piwik พวกเขาควรจะเข้าถึงได้",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "เมื่อผู้ใช้เข้าสู่ระบบและเข้าชม Matomo พวกเขาควรจะเข้าถึงได้",
         "YourUsernameCannotBeChanged": "ชื่อผู้ใช้ของคุณไม่สามารถเปลี่ยนแปลงได้",
-        "YourVisitsAreIgnoredOnDomain": "%1$s ผู้เข้าชมของคุณจะถูกละเว้น โดย Piwik บน %2$s %3$s (Piwik ละเว้นการที่พบคุกกี้ในเบราว์เซอร์ของคุณ)",
-        "YourVisitsAreNotIgnored": "%1$s ผู้เข้าชมของคุณจะถูกละเว้นโดย Piwik %2$s (Piwik ละเว้นไม่พบคุกกี้ในเบราว์เซอร์ของคุณ)"
+        "YourVisitsAreIgnoredOnDomain": "%1$s ผู้เข้าชมของคุณจะถูกละเว้น โดย Piwik บน %2$s %3$s (Matomo ละเว้นการที่พบคุกกี้ในเบราว์เซอร์ของคุณ)",
+        "YourVisitsAreNotIgnored": "%1$s ผู้เข้าชมของคุณจะถูกละเว้นโดย Piwik %2$s (Matomo ละเว้นไม่พบคุกกี้ในเบราว์เซอร์ของคุณ)"
     }
 }

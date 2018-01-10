@@ -1,7 +1,7 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Ayar Dosyası",
-        "ConfigFileIntroduction": "Piwik ayarları bu bölümde görülebilir. Piwik yazılımını yük dengeleme yapılan bir ortamda kullanıyorsanız sayfadaki bilgiler yüklendiği sunucuya göre değişiklik gösterebilir. %1$s dosyasındaki örnek dosyada belirtilen değerlere göre değiştirilmiş olan satırlar farklı art alan renginde görüntülenir.",
+        "ConfigFileIntroduction": "Piwik ayarları bu bölümde görülebilir. Matomo yazılımını yük dengeleme yapılan bir ortamda kullanıyorsanız sayfadaki bilgiler yüklendiği sunucuya göre değişiklik gösterebilir. %1$s dosyasındaki örnek dosyada belirtilen değerlere göre değiştirilmiş olan satırlar farklı art alan renginde görüntülenir.",
         "HideUnchanged": "Yalnız değiştirilmiş değerlerin görüntülenmesi için %1$sdeğiştirilmemiş tüm değerleri gizleyin%2$s.",
         "Sections": "Bölümler"
     }

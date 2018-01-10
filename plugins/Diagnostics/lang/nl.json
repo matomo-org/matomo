@@ -1,7 +1,7 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Configuratiebestand",
-        "ConfigFileIntroduction": "Hier kan je de Piwik configuratie bekijken. Wanneer de Piwik omgeving in load balanced omgeving draait kan het overzicht anders zijn wanneer deze vanaf een andere server wordt opgestart. Rijen met andere achtergrond kleur zijn gewijzigde configuratie waarden die bijvoorbeeld speciaal zijn voor in het %1$s bestand.",
+        "ConfigFileIntroduction": "Hier kan je de Piwik configuratie bekijken. Wanneer de Matomo omgeving in load balanced omgeving draait kan het overzicht anders zijn wanneer deze vanaf een andere server wordt opgestart. Rijen met andere achtergrond kleur zijn gewijzigde configuratie waarden die bijvoorbeeld speciaal zijn voor in het %1$s bestand.",
         "HideUnchanged": "Wanneer je alleen de gewijzigde waarden wil zien %1$sverberg alle ongewijzigde waarden%2$s.",
         "Sections": "Secties"
     }

@@ -5,7 +5,7 @@
         "Domain": "Domínio",
         "ErrorNotLoading": "A sessão de sobreposição de página (Page Overlay) ainda não pode ser exibida.",
         "ErrorNotLoadingDetails": "Talvez a página carregada no lado direito não tem o código JS de rastreamento. Neste caso, tente iniciar sobreposição para uma página diferente das páginas do relatório.",
-        "ErrorNotLoadingDetailsSSL": "Desde que você está usando Piwik sobre https, a causa mais provável é que o seu site não suporta SSL. Tente usar Piwik sobre http.",
+        "ErrorNotLoadingDetailsSSL": "Desde que você está usando Piwik sobre https, a causa mais provável é que o seu site não suporta SSL. Tente usar Matomo sobre http.",
         "ErrorNotLoadingLink": "Clique aqui para obter mais dicas para solução de problemas",
         "Link": "Link",
         "Location": "Localização",

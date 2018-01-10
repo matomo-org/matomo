@@ -1,7 +1,7 @@
 {
     "CustomPiwikJs": {
         "DiagnosticPiwikJsWritable": "Доступний для запису JavaScript трекер (\"\/piwik.js\")",
-        "DiagnosticPiwikJsNotWritable": "Файл Piwik JavaScript трекеру \"\/piwik.js\" недоступний для запису, що означає, що інші плагіни не можуть використовувати JavaScript треккер. У майбутньому навіть деякі основні функції можуть не працювати, як очікується.",
-        "DiagnosticPiwikJsMakeWritable": "Ми рекомендуємо Piwik.js зробити доступним для запису, виконавши команду: %s"
+        "DiagnosticPiwikJsNotWritable": "Файл Matomo JavaScript трекеру \"\/piwik.js\" недоступний для запису, що означає, що інші плагіни не можуть використовувати JavaScript треккер. У майбутньому навіть деякі основні функції можуть не працювати, як очікується.",
+        "DiagnosticPiwikJsMakeWritable": "Ми рекомендуємо piwik.js зробити доступним для запису, виконавши команду: %s"
     }
 }

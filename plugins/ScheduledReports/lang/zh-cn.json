@@ -43,7 +43,7 @@
         "SentToMe": "寄给我",
         "TableOfContent": "报表列表",
         "ThereIsNoReportToManage": "网站%s没有报表",
-        "TopLinkTooltip": "创建报表邮件让 Piwik 自动将统计资料发到您或者客户的邮箱中！",
+        "TopLinkTooltip": "创建报表邮件让 Matomo 自动将统计资料发到您或者客户的邮箱中！",
         "TopOfReport": "回到顶部",
         "UpdateReport": "更新报表",
         "WeeklyScheduleHelp": "每周计划: 报表将会在每周的星期一寄出。"

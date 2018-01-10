@@ -2,7 +2,7 @@
     "SitesManager": {
         "AddSite": "Pridėti naują svetainę",
         "AdvancedTimezoneSupportNotFound": "Išplėstas laiko juostų palaikymas nerastas Jūsų PHP (palaikoma nuo PHP>=5.2). Jūs vis tiek galite pasirinkti rankinį UTC padengimą.",
-        "AliasUrlHelp": "Rekomenduojama, nors ir nebūtina, nurodyti įvarius URLs, kuriais lankytojai pasiekia šią svetainę. Alternatyvių vardų URLs svetainei nebus atvaizduojama Šaltiniai > Svetainių ataskaitos. Nebūtina nurodyti URL su ar be 'www', kadangi Piwik automatiškai palaiko abu.",
+        "AliasUrlHelp": "Rekomenduojama, nors ir nebūtina, nurodyti įvarius URLs, kuriais lankytojai pasiekia šią svetainę. Alternatyvių vardų URLs svetainei nebus atvaizduojama Šaltiniai > Svetainių ataskaitos. Nebūtina nurodyti URL su ar be 'www', kadangi Matomo automatiškai palaiko abu.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Laiko juostos pakeitimas įtakos tik vėlesnius duomenis ir neįtakos ankstesnių.",
         "ChooseCityInSameTimezoneAsYou": "Pasirinkite miestą toje pačioje laiko juostoje kaip ir Jūs.",
         "Currency": "Valiuta",

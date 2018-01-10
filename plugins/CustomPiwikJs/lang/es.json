@@ -2,7 +2,7 @@
     "CustomPiwikJs": {
         "PluginDescription": "Permite a cualquier plugin extender el fichero de seguimiento por javascript (piwik.js) y añadir nuevas funcionalidades y capacidades de medida del sitio web",
         "DiagnosticPiwikJsWritable": "Archivo de seguimiento Javascript modificable (\"\/piwik.js\")",
-        "DiagnosticPiwikJsNotWritable": "El archivo de seguimiento JavaScript de Piwik \"\/piwik.js\" no se puede modificar lo que significa que otros complementos no pueden mejorarlo. En el futuro, incluso algunas de las características básicas podrían no funcionar como se espera.",
-        "DiagnosticPiwikJsMakeWritable": "Recomendamos Piwik.js modificable mediante la ejecución de este comando: %s"
+        "DiagnosticPiwikJsNotWritable": "El archivo de seguimiento JavaScript de Matomo \"\/piwik.js\" no se puede modificar lo que significa que otros complementos no pueden mejorarlo. En el futuro, incluso algunas de las características básicas podrían no funcionar como se espera.",
+        "DiagnosticPiwikJsMakeWritable": "Recomendamos piwik.js modificable mediante la ejecución de este comando: %s"
     }
 }

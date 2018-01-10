@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "this website only",
         "SegmentIsDisplayedForWebsite": "and processed for",
         "SegmentNotApplied": "Segment '%s' not applied",
-        "SegmentNotAppliedMessage": "You are requesting data for the Custom Segment '%s', this Piwik configuration currently prevents real time processing of reports for performance reasons.",
+        "SegmentNotAppliedMessage": "You are requesting data for the Custom Segment '%s', this Matomo configuration currently prevents real time processing of reports for performance reasons.",
         "SelectSegmentOfVisits": "Select a segment of visits:",
         "ThisSegmentIsVisibleTo": "This segment is visible to:",
         "VisibleToAllUsers": "all users",

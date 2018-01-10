@@ -28,7 +28,7 @@
         "ColumnUniqueOutlinks": "Jedinečné externí odkazy",
         "ColumnIdPageview": "ID zobrazení stránky",
         "ColumnInteractionPosition": "Pozice interakce",
-        "DownloadsReportDocumentation": "V tomto hlášení můžete vidět soubory, které byly staženy. %s Které Piwik počítá jako stažené jsou jen ty, na které bylo kliknuto. Bez ohledu na to, jestli bylo stažení dokončeno nebo přerušeno. To Piwik neumí zjistit.",
+        "DownloadsReportDocumentation": "V tomto hlášení můžete vidět soubory, které byly staženy. %s Které Matomo počítá jako stažené jsou jen ty, na které bylo kliknuto. Bez ohledu na to, jestli bylo stažení dokončeno nebo přerušeno. To Matomo neumí zjistit.",
         "EntryPagesReportDocumentation": "Toto hlášení obsahuje informace o vstupních stránkách, které byly za dané časové období použity. Vstupní stránka je první stránka, kterou uživatel navštíví. %s URL jsou zobrazeny ve složkové struktuře.",
         "EntryPageTitles": "Titulky vstupních stránek",
         "EntryPageTitlesReportDocumentation": "Toto hlášení obsahuje informace o titulcích vstupních stránek, které byly použity v daném období.",

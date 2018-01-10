@@ -43,7 +43,7 @@
         "SentToMe": "自分宛に送信",
         "TableOfContent": "リポート一覧",
         "ThereIsNoReportToManage": "ウェブサイト %s にはリポートがありません。",
-        "TopLinkTooltip": "あなたの E メールまたは顧客のアドレスに自動的に Piwik 統計情報を届けるには、E メールレポートを作成してください。",
+        "TopLinkTooltip": "あなたの E メールまたは顧客のアドレスに自動的に Matomo 統計情報を届けるには、E メールレポートを作成してください。",
         "TopOfReport": "トップへ戻る",
         "UpdateReport": "リポートの更新",
         "WeeklyScheduleHelp": "週間スケジュール： リポートは毎週月曜日に送信されます。"

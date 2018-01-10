@@ -28,7 +28,7 @@
         "ColumnUniqueOutlinks": "Unikke udgående links",
         "ColumnIdPageview": "Sidevisning ID",
         "ColumnInteractionPosition": "Position for Interaktion",
-        "DownloadsReportDocumentation": "Rapporten viser, hvilke filer dine besøgende har hentet. %s Hvad Piwik tæller som en filhentning, er klikket på et link. Hvorvidt overførelsen er afsluttet eller ej ved Piwik ikke.",
+        "DownloadsReportDocumentation": "Rapporten viser, hvilke filer dine besøgende har hentet. %s Hvad Matomo tæller som en filhentning, er klikket på et link. Hvorvidt overførelsen er afsluttet eller ej ved Matomo ikke.",
         "EntryPageTitles": "Indgangssidetitler",
         "EntryPageTitlesReportDocumentation": "Rapporten indeholder oplysninger om titlerne på indgangssider, der blev brugt i den angivne periode.",
         "ExitPageTitles": "Udgangssidetitler",

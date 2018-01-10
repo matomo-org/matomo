@@ -1,10 +1,10 @@
 {
     "Login": {
         "ConfirmationLinkSent": "Et bekræftelselink er blevet sendt til din indbakke. Tjek din e-mail og besøg dette link for at godkende ændringen af din adgangskode.",
-        "ContactAdmin": "Mulig årsag: udbyderen har måske deaktiveret mail()-funktionen. <br \/>Kontakt Piwik administrator.",
+        "ContactAdmin": "Mulig årsag: udbyderen har måske deaktiveret mail()-funktionen. <br \/>Kontakt Matomo administrator.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "En bruger med superbruger adgang kan ikke godkendes ved hjælp af '%s' mekanisme.",
         "ExceptionPasswordMD5HashExpected": "Adgangskode parameteren forventes at være en MD5 hash af adgangskoden.",
-        "InvalidNonceOrHeadersOrReferrer": "Formularsikkerhed fejlede. Genindlæs formularen og kontroller, at dine cookies er aktiveret. Hvis du bruger en proxyserver, skal du %1$s konfigurere Piwik til at acceptere proxyheaderen%2$s, der videresender hostheaderen. Kontroller også, at din Referer header er sendt korrekt",
+        "InvalidNonceOrHeadersOrReferrer": "Formularsikkerhed fejlede. Genindlæs formularen og kontroller, at dine cookies er aktiveret. Hvis du bruger en proxyserver, skal du %1$s konfigurere Matomo til at acceptere proxyheaderen%2$s, der videresender hostheaderen. Kontroller også, at din Referer header er sendt korrekt",
         "InvalidOrExpiredToken": "Nøglen er forkert eller udløbet",
         "InvalidUsernameEmail": "Fejl i brugernavn og\/eller e-mail-adresse.",
         "LogIn": "Log på",

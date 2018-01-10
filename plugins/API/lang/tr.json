@@ -1,16 +1,16 @@
 {
     "API": {
         "ChangeTokenHint": "Bu kodu değiştirmek isterseniz %1$skişisel ayarlar sayfanıza%2$s gidin.",
-        "GenerateVisits": "Bugün için bir veri yoksa %1$s uygulama ekini kullanarak biraz veri oluşturabilirsiniz. %2$s uygulama ekini etkinleştirin. Ardından Piwik Yönetim bölümünden 'Ziyaretçi Üreteci' menüsüne tıklayın.",
+        "GenerateVisits": "Bugün için bir veri yoksa %1$s uygulama ekini kullanarak biraz veri oluşturabilirsiniz. %2$s uygulama ekini etkinleştirin. Ardından Matomo Yönetim bölümünden 'Ziyaretçi Üreteci' menüsüne tıklayın.",
         "KeepTokenSecret": "Bu token_auth kodu kullanıcı adı ve parolanız kadar gizlidir. %1$s kimseyle paylaşmayın%2$s!",
         "LoadedAPIs": "%s API yazılımı yüklendi",
-        "MoreInformation": "Piwik API yazılımı hakkında ayrıntılı bilgi almak için lütfen %1$s Piwik API Kullanımı %2$s ve %3$s Piwik API Referansı %4$s belgelerine bakın.",
-        "PluginDescription": "Tüm Piwik verilerine temel API kullanılarak erişilebilir. Bu uygulama eki web istatistiği verilerini xml, json, php, csv ve benzer şekillerde çağırabilen web hizmetinin başlangıç noktasıdır.",
+        "MoreInformation": "Matomo API yazılımı hakkında ayrıntılı bilgi almak için lütfen %1$s Matomo API Kullanımı %2$s ve %3$s Matomo API Referansı %4$s belgelerine bakın.",
+        "PluginDescription": "Tüm Matomo verilerine temel API kullanılarak erişilebilir. Bu uygulama eki web istatistiği verilerini xml, json, php, csv ve benzer şekillerde çağırabilen web hizmetinin başlangıç noktasıdır.",
         "ReportingApiReference": "Rapor API Referansı",
         "TopLinkTooltip": "Web istatistiği verilerine json, xml ve benzer yöntemlerle Temel API üzerinden erişilmesini sağlar.",
         "UserAuthentication": "Kullanıcı kimlik doğrulaması",
         "UsingTokenAuth": "Bir betik, zamanlanmış görev vb içerisinden %1$s veri almak isterseniz, %2$s kimlik doğrulaması gerektiren API bağlantılarına %3$s parametresini eklemelisiniz.",
         "Glossary": "Sözlük",
-        "LearnAboutCommonlyUsedTerms": "Piwik Analytics:%1$s ve%2$s üzerinde yaygın kullanılan terimler hakkında bilgi alın.."
+        "LearnAboutCommonlyUsedTerms": "Matomo Analytics:%1$s ve%2$s üzerinde yaygın kullanılan terimler hakkında bilgi alın.."
     }
 }

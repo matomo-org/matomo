@@ -4,14 +4,14 @@
         "MobileReport_AdditionalPhoneNumbers": "Vous pouvez ajouter plus de numéro de téléphone en accédant à",
         "MobileReport_MobileMessagingSettingsLink": "la page des paramètres mobiles",
         "MobileReport_NoPhoneNumbers": "Veuillez activer au moins un des numéros de téléphone en accédant à",
-        "MultiSites_Must_Be_Activated": "Pour générer des textes SMS de vos statistiques web, veuillez activer le module multisites dans Piwik.",
+        "MultiSites_Must_Be_Activated": "Pour générer des textes SMS de vos statistiques web, veuillez activer le module multisites dans Matomo.",
         "PhoneNumbers": "Numéros de téléphone",
         "PluginDescription": "Créez et téléchargez des rapports par SMS personnalisés et recevez les sur votre mobile sur une base quotidienne, hebdomadaire ou mensuelle.",
         "Settings_APIKey": "Clé API",
         "Settings_CountryCode": "Code pays",
         "Settings_SelectCountry": "Sélectionnez un pays",
-        "Settings_CredentialNotProvided": "Avant de pouvoir créer et gérer les numéros de téléphone veuillez connecter Piwik à votre compte SMS ci-dessus.",
-        "Settings_CredentialNotProvidedByAdmin": "Avant de pouvoir créer et gérer vos numéros de téléphone, veuille demander à votre administrateur de connecter Piwik à un compte SMS.",
+        "Settings_CredentialNotProvided": "Avant de pouvoir créer et gérer les numéros de téléphone veuillez connecter Matomo à votre compte SMS ci-dessus.",
+        "Settings_CredentialNotProvidedByAdmin": "Avant de pouvoir créer et gérer vos numéros de téléphone, veuille demander à votre administrateur de connecter Matomo à un compte SMS.",
         "Settings_CredentialProvided": "Votre compte d'API SMS %s est correctement configuré!",
         "Settings_CredentialInvalid": "Votre compte d'API SMS %1$s est configuré, mais une erreur est survenue lors de la consultation du crédit disponible.",
         "Settings_DeleteAccountConfirm": "Êtes vous sûr(e) de vouloir supprimer ce compte SMS?",
@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Recevez vos rapports d'analyse web dans votre boite de courriels ou sur votre téléphone mobile!",
         "TopMenu": "Rapports Email & SMS",
         "UserKey": "Clef utilisateur",
-        "VerificationText": "Le code est %1$s. Pour valider votre numéro de téléphone et recevoir les rapports SMS de Piwik veuillez copier ce code dans le formulaire accessible via Piwik > %2$s > %3$s."
+        "VerificationText": "Le code est %1$s. Pour valider votre numéro de téléphone et recevoir les rapports SMS de Piwik veuillez copier ce code dans le formulaire accessible via Matomo > %2$s > %3$s."
     }
 }

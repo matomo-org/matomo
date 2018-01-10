@@ -4,14 +4,14 @@
         "MobileReport_AdditionalPhoneNumbers": "Anda dapat menambah nomor telepon dengan mengakses",
         "MobileReport_MobileMessagingSettingsLink": "halaman pengaturan Pesan Bergerak",
         "MobileReport_NoPhoneNumbers": "Harap aktifkan sekurangnya satu nomor telepon dengan mengakses",
-        "MultiSites_Must_Be_Activated": "Untuk membangkitkan teks SMS untuk statistik situs Anda, harap mengaktifkan pengaya MultiSitus di Piwik.",
+        "MultiSites_Must_Be_Activated": "Untuk membangkitkan teks SMS untuk statistik situs Anda, harap mengaktifkan pengaya MultiSitus di Matomo.",
         "PhoneNumbers": "Nomor Telepon",
         "PluginDescription": "Buat dan unduh laporan SMS tersesuaikan dan kirimkan ke perangkat bergerak Anda secara harian, mingguan, atau bulanan.",
         "Settings_APIKey": "Kunci API",
         "Settings_CountryCode": "Kode Negara",
         "Settings_SelectCountry": "Pilih negara",
-        "Settings_CredentialNotProvided": "Sebelum Anda dapat membuat dan mengelola nomor telepon, harap menghubungkan Piwik dengan Akun SMS Anda di atas.",
-        "Settings_CredentialNotProvidedByAdmin": "Sebelum Anda dapat membuat dan mengelola nomor telepon, harap tanyakan pengelola Anda untuk menghubungkan Piwik kepada sebuah Akun SMS.",
+        "Settings_CredentialNotProvided": "Sebelum Anda dapat membuat dan mengelola nomor telepon, harap menghubungkan Matomo dengan Akun SMS Anda di atas.",
+        "Settings_CredentialNotProvidedByAdmin": "Sebelum Anda dapat membuat dan mengelola nomor telepon, harap tanyakan pengelola Anda untuk menghubungkan Matomo kepada sebuah Akun SMS.",
         "Settings_CredentialProvided": "API SMS %s Anda berhasil diatur!",
         "Settings_DeleteAccountConfirm": "Apakah Anda yahkin ingin menghapus akun SMS ini?",
         "Settings_InvalidActivationCode": "Kode yang dimasukkan tidak sahih, harap coba lagi.",
@@ -35,6 +35,6 @@
         "SMS_Content_Too_Long": "[terlalu panjang]",
         "TopLinkTooltip": "Dapatkan Laporan Analitis Ramatraya dikirim ke kotak masuk surel atau telepon seluler Anda!",
         "TopMenu": "Laporan Surel & SMS",
-        "VerificationText": "Kode adalah %1$s. Untuk mengesahkan nomor telepon Anda dan memperoleh laporan SMS Piwik, harap menyalin kode ini di borang yang daoat diraih melalui Piwik > %2$s > %3$s."
+        "VerificationText": "Kode adalah %1$s. Untuk mengesahkan nomor telepon Anda dan memperoleh laporan SMS Piwik, harap menyalin kode ini di borang yang daoat diraih melalui Matomo > %2$s > %3$s."
     }
 }

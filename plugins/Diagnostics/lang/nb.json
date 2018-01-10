@@ -1,7 +1,7 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Konfigurasjonsfil",
-        "ConfigFileIntroduction": "Her kan du se konfigurasjonen til Piwik. Hvis du kjører Piwik i et lastbalansert servermiljø, kan denne siden se ulik ut avhengig av hvilken server siden lastes fra. Rader med ulik bakgrunnsfarge er endrede konfigurasjonsverdier som er spesifisert i for eksempel %1$s.",
+        "ConfigFileIntroduction": "Her kan du se konfigurasjonen til Piwik. Hvis du kjører Matomo i et lastbalansert servermiljø, kan denne siden se ulik ut avhengig av hvilken server siden lastes fra. Rader med ulik bakgrunnsfarge er endrede konfigurasjonsverdier som er spesifisert i for eksempel %1$s.",
         "HideUnchanged": "Hvis du kun vil se de endrede verdiene, kan du %1$sskjule alle uendrede verdier%2$s.",
         "Sections": "Seksjoner"
     }

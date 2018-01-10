@@ -4,13 +4,13 @@
         "MobileReport_AdditionalPhoneNumbers": "Poţi adîuga mai multe numele de telefon accesând",
         "MobileReport_MobileMessagingSettingsLink": "Pagina setări mesage mobile",
         "MobileReport_NoPhoneNumbers": "Vă rugăm să activați cel puțin un număr de telefon accesand",
-        "MultiSites_Must_Be_Activated": "Pentru a genera texte SMS de statistici pe site-ul dvs., vă rugăm să activați plugin MultiSites în Piwik.",
+        "MultiSites_Must_Be_Activated": "Pentru a genera texte SMS de statistici pe site-ul dvs., vă rugăm să activați plugin MultiSites în Matomo.",
         "PhoneNumbers": "Numere de telefon",
         "PluginDescription": "Creati și descărcati rapoarte SMS personalizate și le puteti trimite pe telefonul mobil o bază de zi , săptămânal sau lunar.",
         "Settings_APIKey": "Cheie API",
         "Settings_CountryCode": "Codul ţării",
-        "Settings_CredentialNotProvided": "Înainte de a putea crea și gestiona numerele de telefon, vă rugăm să vă conectați la contul dvs. SMS Piwik de mai sus.",
-        "Settings_CredentialNotProvidedByAdmin": "Înainte de a putea crea și gestiona numerele de telefon, vă rugăm să întrebați administratorul dvs. pentru a conecta Piwik la un cont SMS.",
+        "Settings_CredentialNotProvided": "Înainte de a putea crea și gestiona numerele de telefon, vă rugăm să vă conectați la contul dvs. SMS Matomo de mai sus.",
+        "Settings_CredentialNotProvidedByAdmin": "Înainte de a putea crea și gestiona numerele de telefon, vă rugăm să întrebați administratorul dvs. pentru a conecta Matomo la un cont SMS.",
         "Settings_CredentialProvided": "Contul tau de %s SMS API este corect configurat!",
         "Settings_DeleteAccountConfirm": "Sigur doriţi să ştergeţi acest cont SMS ?",
         "Settings_InvalidActivationCode": "Codul introdus nu a fost valabil, vă rugăm să încercați din nou.",
@@ -34,6 +34,6 @@
         "SMS_Content_Too_Long": "[prea lung]",
         "TopLinkTooltip": "Web Analytics Rapoarte livrate pe email-ul sau telefonul mobil!",
         "TopMenu": "Email & SMS Rapoarte",
-        "VerificationText": "Codul este de %1$s. Pentru a valida numărul dvs. de telefon și pentru a primi rapoarte SMS Piwik vă rugăm să copiați acest cod în formă accesibilă prin intermediul Piwik > %2$s > %3$s."
+        "VerificationText": "Codul este de %1$s. Pentru a valida numărul dvs. de telefon și pentru a primi rapoarte SMS Piwik vă rugăm să copiați acest cod în formă accesibilă prin intermediul Matomo > %2$s > %3$s."
     }
 }

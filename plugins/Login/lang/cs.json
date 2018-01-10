@@ -1,11 +1,11 @@
 {
     "Login": {
         "ConfirmationLinkSent": "Do schránky vám byl odeslán potvrzovací email. Pro potvrzení požadavku na změnu hesla navštivte odkaz uvedený v emailu.",
-        "ContactAdmin": "Možná příčina: Váš hosting zakázal funkci mail(). <br \/>Kontaktujte prosím svého administrátora Piwiku.",
+        "ContactAdmin": "Možná příčina: Váš hosting zakázal funkci mail(). <br \/>Kontaktujte prosím svého administrátora Matomou.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Uživatel se super-uživatelským přístupem nemůže být ověřen mechanismem %s.",
         "ExceptionPasswordMD5HashExpected": "Parametr hesla je očekáván jako MD5 hash hesla",
-        "InvalidNonceOrHeadersOrReferrer": "Zabezpečení formuláře selhalo. Prosím obnovte formulář a zkontrolujte, že máte povolené cookies. Pokud používáte proxy server, %1$smusíte nakonfigurovat Piwik aby přijímal proxy hlavičku%2$s, která přeposílá hlavičku hosta. Zkontrolujte také, že je správně posílána hlavička referrer.",
-        "InvalidNonceSSLMisconfigured": "Můžete také %1$s přinutit Piwik používat zabezpečené připojení%2$s: ve svém konfiguračním souboru %3$s nastavte %4$s pod sekci %5$s",
+        "InvalidNonceOrHeadersOrReferrer": "Zabezpečení formuláře selhalo. Prosím obnovte formulář a zkontrolujte, že máte povolené cookies. Pokud používáte proxy server, %1$smusíte nakonfigurovat Matomo aby přijímal proxy hlavičku%2$s, která přeposílá hlavičku hosta. Zkontrolujte také, že je správně posílána hlavička referrer.",
+        "InvalidNonceSSLMisconfigured": "Můžete také %1$s přinutit Matomo používat zabezpečené připojení%2$s: ve svém konfiguračním souboru %3$s nastavte %4$s pod sekci %5$s",
         "InvalidOrExpiredToken": "Klíč je neplatný, nebo vypršel",
         "InvalidUsernameEmail": "Neplatné uživatelské jméno a\/nebo emailová adresa",
         "LogIn": "Přihlásit",
@@ -13,7 +13,7 @@
         "LoginPasswordNotCorrect": "Chybná kombinace uživatelského jména a hesla.",
         "LostYourPassword": "Zapomněli jste vaše heslo?",
         "ChangeYourPassword": "Změnit své heslo",
-        "MailPasswordChangeBody": "Ahoj %1$s,\n\nz %2$s byl přijat požadavek na reset hesla. Abyste se mohli přihlásit s novými přihlašovacími údaji, navštivte následující odkaz:\n\n%3$s\n\nUpozornění: Změna hesla rovněž změní váš token_auth. Váš nový token_auth naleznete na stránce s vaším nastavením\n\nPokud používáte váš token_auth v externích aplikacích nebo pro archivaci, nezapomeňte h změnit, jinak API požadavky selžou\n\nPoznámka: tento odkaz vyprší za 24 hodin.\n\nA děkujeme, že používáte Piwik!",
+        "MailPasswordChangeBody": "Ahoj %1$s,\n\nz %2$s byl přijat požadavek na reset hesla. Abyste se mohli přihlásit s novými přihlašovacími údaji, navštivte následující odkaz:\n\n%3$s\n\nUpozornění: Změna hesla rovněž změní váš token_auth. Váš nový token_auth naleznete na stránce s vaším nastavením\n\nPokud používáte váš token_auth v externích aplikacích nebo pro archivaci, nezapomeňte h změnit, jinak API požadavky selžou\n\nPoznámka: tento odkaz vyprší za 24 hodin.\n\nA děkujeme, že používáte Matomo!",
         "MailTopicPasswordChange": "Potvrďte změnu hesla",
         "NewPassword": "Nové heslo",
         "NewPasswordRepeat": "Nové heslo (opakovat)",

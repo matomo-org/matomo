@@ -162,7 +162,7 @@
                                         <p>{{ 'CorePluginsAdmin_ConsiderDonatingCreatorOf'|translate("<b>" ~ name ~ "</b>")|raw }}</p>
                                         <div class="donation-links">
                                             {% if plugin.info.donate.paypal is defined and plugin.info.donate.paypal %}
-                                                <a class="donation-link paypal" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&item_name=Piwik%20Plugin%20{{ name|escape('url') }}&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted&business={{ plugin.info.donate.paypal|escape('url') }}"><img src="plugins/CorePluginsAdmin/images/paypal_donate.png" height="30"/></a>
+                                                <a class="donation-link paypal" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&item_name=Matomo%20Plugin%20{{ name|escape('url') }}&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted&business={{ plugin.info.donate.paypal|escape('url') }}"><img src="plugins/CorePluginsAdmin/images/paypal_donate.png" height="30"/></a>
                                             {% endif %}
                                             {% if plugin.info.donate.flattr is defined and plugin.info.donate.flattr %}
                                                 <a class="donation-link flattr" target="_blank" href="{{ plugin.info.donate.flattr }}"><img class="alignnone" title="Flattr" alt="" src="plugins/CorePluginsAdmin/images/flattr.png" height="29" /></a>

@@ -15,7 +15,7 @@
         "UsageDetails": "%1$s besøk og %2$s handlinger siden dette nettstedet ble laget.",
         "CreatingCustomVariableTakesTime": "Å lage en ny luke for en egendefinert variabel kan ta lang tid avhengig av størrelsen på databasen din. Derfor er det kun mulig å gjøre dette via en kommando som må kjøres fra kommandolinjen.",
         "CurrentAvailableCustomVariables": "Nå kan du bruke opp til %s egendefinerte variabler per nettsted.",
-        "ToCreateCustomVarExecute": "For å lage en ny luke for en egendefinert variabel, skriv inn følgende kommando i din Piwik-installasjon:",
+        "ToCreateCustomVarExecute": "For å lage en ny luke for en egendefinert variabel, skriv inn følgende kommando i din Matomo-installasjon:",
         "SlotsReportIsGeneratedOverTime": "Data for denne rapporten vil bli synlige over tid. Det kan ta en dag eller to før du kan se data, og noen uker før rapportene er helt nøyaktige.",
         "MetricsAreOnlyAvailableForVisitScope": "Merk: %1$s-måltall er kun tilgjengelige for egendefinerte variabler som gjelder %2$s.",
         "MetricsNotAvailableForPageScope": "For egendefinerte variabler som gjelder %1$s, er kolonneverdien for disse måltallene %2$s"

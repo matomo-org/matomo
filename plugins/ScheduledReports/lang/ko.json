@@ -42,7 +42,7 @@
         "SentToMe": "나에게 보내기",
         "TableOfContent": "보고서 목록",
         "ThereIsNoReportToManage": "웹사이트 %s에 보고서가 없습니다.",
-        "TopLinkTooltip": "이메일 보고서를 만들어 Piwik 통계를 당신의 이메일로 전달하거나 고객의 주소에 자동으로 전달하세요!",
+        "TopLinkTooltip": "이메일 보고서를 만들어 Matomo 통계를 당신의 이메일로 전달하거나 고객의 주소에 자동으로 전달하세요!",
         "TopOfReport": "맨 위로",
         "UpdateReport": "보고서 갱신",
         "WeeklyScheduleHelp": "주간 일정: 보고서는 매주 월요일에 발송됩니다."

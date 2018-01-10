@@ -43,7 +43,7 @@
         "SentToMe": "An mich senden",
         "TableOfContent": "Liste der Berichte",
         "ThereIsNoReportToManage": "Es gibt keine Berichte für die Website %s",
-        "TopLinkTooltip": "Erstellen Sie E-Mailberichte, um Piwik Statistiken automatisch an Ihre E-Mailadresse oder die eines Kunden zu senden!",
+        "TopLinkTooltip": "Erstellen Sie E-Mailberichte, um Matomo Statistiken automatisch an Ihre E-Mailadresse oder die eines Kunden zu senden!",
         "TopOfReport": "Zurück zum Anfang",
         "UpdateReport": "Bericht ändern",
         "WeeklyScheduleHelp": "Wöchentlich: Bericht wird jede Woche montags verschickt."

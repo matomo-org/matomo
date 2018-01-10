@@ -33,7 +33,7 @@
         "ColumnIdPageview": "Pageview ID",
         "ColumnInteractionPosition": "Interaktionsplats",
         "ActionsInVisit": "Aktiviteter under besök",
-        "DownloadsReportDocumentation": "I denna rapport kan du se vilka filer som besökarna har laddat ner. %s Vad Piwik räknar som en nedladdning är klicket på en nedladdningslänk. Oavsett om nedladdningen slutfördes eller inte.",
+        "DownloadsReportDocumentation": "I denna rapport kan du se vilka filer som besökarna har laddat ner. %s Vad Matomo räknar som en nedladdning är klicket på en nedladdningslänk. Oavsett om nedladdningen slutfördes eller inte.",
         "EntryPagesReportDocumentation": "Denna rapport innehåller information om ingångssidor som användes under perioden. En ingångssida är den första sida en användare landar på under sitt besök. %s Ingångs-URL:er visas i en katalogstruktur.",
         "EntryPageTitles": "Målsidors titel",
         "EntryPageTitlesReportDocumentation": "Den här rapporten innehåller information om sidtitlar för målsidorna som använts under den valda perioden.",

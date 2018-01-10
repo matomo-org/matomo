@@ -655,7 +655,7 @@ class Http
     /**
      * Downloads the next chunk of a specific file. The next chunk's byte range
      * is determined by the existing file's size and the expected file size, which
-     * is stored in the piwik_option table before starting a download. The expected
+     * is stored in the option table before starting a download. The expected
      * file size is obtained through a `HEAD` HTTP request.
      *
      * _Note: this function uses the **Range** HTTP header to accomplish downloading in

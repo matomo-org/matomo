@@ -1,7 +1,7 @@
 {
     "Login": {
         "ConfirmationLinkSent": "Potrditveno sporočilo je bilo poslano na vaš elektronski naslov. Poglejte elektronsko pošto in sledite povezavi v njem, da potrdite zahtevo za spremembo vašega gesla.",
-        "ContactAdmin": "Možen razlog: na strežniku je onemogočena mail() funkcija. <br \/>Prosimo, obrnite se na vašega Piwik administratorja.",
+        "ContactAdmin": "Možen razlog: na strežniku je onemogočena mail() funkcija. <br \/>Prosimo, obrnite se na vašega Matomo administratorja.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Uporabnik z vlogo \"Super User\" se ne more prijaviti z uporabo mehanizma '%s'.",
         "InvalidOrExpiredToken": "Žeton je neveljaven ali pa je potekel.",
         "InvalidUsernameEmail": "Napačno uporabniško ime ali e-mail naslov.",

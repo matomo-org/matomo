@@ -2,7 +2,7 @@
     "Installation": {
         "ConfirmDeleteExistingTables": "Er du sikker på at du vil sletta tabellane: %s frå databasen? ÅTVARING: DEI KAN IKKJE BLI GJENOPPRETTA!",
         "Congratulations": "Gratulerer",
-        "CongratulationsHelp": "<p>Gratulerer! Piwik-installasjon er ferdig.<\/p><p>Sjå til at JavaScript-koden er lagt til på sidene dine, og vent på dine fyrste vitjarar!<\/p>",
+        "CongratulationsHelp": "<p>Gratulerer! Matomo-installasjon er ferdig.<\/p><p>Sjå til at JavaScript-koden er lagt til på sidene dine, og vent på dine fyrste vitjarar!<\/p>",
         "DatabaseCreation": "Databaseoppretting",
         "DatabaseErrorConnect": "Feil under tilkopling til databasetenar",
         "DatabaseServerVersion": "Databasetenarversjon",
@@ -13,10 +13,10 @@
         "DatabaseSetupServer": "databasetenar",
         "DatabaseSetupTablePrefix": "tabellprefiks",
         "Extension": "utviding",
-        "GoBackAndDefinePrefix": "Gå attende og vel ein prefiks for Piwik-tabellane",
+        "GoBackAndDefinePrefix": "Gå attende og vel ein prefiks for Matomo-tabellane",
         "Installation": "Installasjon",
         "InstallationStatus": "Installasjonstatus",
-        "LargePiwikInstances": "Hjelp for større Piwik-installasjonar",
+        "LargePiwikInstances": "Hjelp for større Matomo-installasjonar",
         "Optional": "Valfri",
         "PasswordDoNotMatch": "Passorda samsvarer ikkje",
         "PercentDone": "%s %% Ferdig",
@@ -29,13 +29,13 @@
         "SuperUser": "Superbrukar",
         "SuperUserSetupSuccess": "Superbrukar vart oppretta!",
         "SystemCheck": "Systemsjekk",
-        "SystemCheckAutoUpdateHelp": "Merk: Eittklikksoppdateringa til Piwik krev skrivetilgang til Piwik-katalogen og innhaldet der.",
+        "SystemCheckAutoUpdateHelp": "Merk: Eittklikksoppdateringa til Piwik krev skrivetilgang til Matomo-katalogen og innhaldet der.",
         "SystemCheckDatabaseHelp": "Piwik krev anten mysqli-utvidinga eller båe utvidingane PDO og pdo_mysql.",
         "SystemCheckError": "Det skjedde ein feil - du må retta på den før du kan halda fram",
         "SystemCheckExtensions": "Andre påkravde utvidingar",
         "SystemCheckFileIntegrity": "Filintegritet",
         "SystemCheckFunctions": "Påkravde funksjonar",
-        "SystemCheckGDHelp": "Gnistlinjene (små bilete) og biletgrafane (i e-postrapportar og i mobilappen til Piwik) vil ikkje fungera.",
+        "SystemCheckGDHelp": "Gnistlinjene (små bilete) og biletgrafane (i e-postrapportar og i mobilappen til Matomo) vil ikkje fungera.",
         "SystemCheckIconvHelp": "Du må konfigurera og byggja PHP med \"iconv\"-støtte påslegen, --with-iconv.",
         "SystemCheckMailHelp": "Attendemeldingar og 'Tapt Passord'-meldingar vil ikkje sendast uten mail().",
         "SystemCheckMemoryLimit": "Minnegrense",
@@ -65,8 +65,8 @@
         "TablesFound": "Dei føljande tabellane vart funnen i databasen",
         "TablesReuse": "Nytt dei eksisterande tabellane",
         "TablesWarningHelp": "Du må velja om du vil nytta dei eksisterande tabellane slik dei er, eller å sletta dei og starta på nytt.",
-        "TablesWithSameNamesFound": "Nokre %1$s tabellar i databasen din %2$s hev dei same namna som dei tabellane Piwik prøvar å lage",
+        "TablesWithSameNamesFound": "Nokre %1$s tabellar i databasen din %2$s hev dei same namna som dei tabellane Matomo prøvar å lage",
         "Welcome": "Velkommen!",
-        "WelcomeHelp": "<p>Piwik er ein nettstatistikkprogramvare med open kjeldekode, som gjer det enkelt å henta ut informasjonen du ønskjer om dine vitjarar.<\/p><p>Denne prosessen er delt opp i %s enkle steg, og tek omkring 5 minuttar.<\/p>"
+        "WelcomeHelp": "<p>Matomo er ein nettstatistikkprogramvare med open kjeldekode, som gjer det enkelt å henta ut informasjonen du ønskjer om dine vitjarar.<\/p><p>Denne prosessen er delt opp i %s enkle steg, og tek omkring 5 minuttar.<\/p>"
     }
 }

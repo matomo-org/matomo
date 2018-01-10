@@ -4,7 +4,7 @@
         "Alias": "اللقب",
         "AllWebsites": "كافة المواقع",
         "ApplyToAllWebsites": "تطبيق على كافة المواقع",
-        "ClickHereToDeleteTheCookie": "انقر هنا لحذف الكوكيز وليتتبع Piwik زياراتك",
+        "ClickHereToDeleteTheCookie": "انقر هنا لحذف الكوكيز وليتتبع Matomo زياراتك",
         "DeleteConfirm": "هل ترغب حقاً في حذف المستخدم %s؟",
         "Email": "البريد الإلكتروني",
         "ExceptionAccessValues": "بارامتيرات الوصول يجب أن تتضمن أحد القيم التالية: [%s]",
@@ -33,9 +33,9 @@
         "User": "المستخدم",
         "UsersManagement": "إدارة المستخدمين",
         "UsersManagementMainDescription": "أنشئ متسخدم جديد أو قم بتحديث مستخدم قائم. يمكنك أن تضبط صلاحياتهم بالأعلى.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "عندما لا يسجل المستخدمون دخولهم ويزورون Piwik،فسيمكنهم الوصول إلى",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "عندما لا يسجل المستخدمون دخولهم ويزورون Matomo،فسيمكنهم الوصول إلى",
         "YourUsernameCannotBeChanged": "لا يمكن تغيير اسم المستخدم الخاص بك.",
-        "YourVisitsAreIgnoredOnDomain": "%1$s زياراتك يتم تجاهلها في Piwik%2$s %3$s(تم العثور على كوكيز التجاهل في متصفحك).",
-        "YourVisitsAreNotIgnored": "%1$s لا يتم تجاهل زياراتك في Piwik%2$s (كوكيز التجاهل غير موجودة في متصفحك)."
+        "YourVisitsAreIgnoredOnDomain": "%1$s زياراتك يتم تجاهلها في Matomo%2$s %3$s(تم العثور على كوكيز التجاهل في متصفحك).",
+        "YourVisitsAreNotIgnored": "%1$s لا يتم تجاهل زياراتك في Matomo%2$s (كوكيز التجاهل غير موجودة في متصفحك)."
     }
 }

@@ -1,6 +1,6 @@
 {
     "PrivacyManager": {
-        "AnonymizeIpDescription": "如果希望 Piwik 不要统计完整的 IP 地址，请选择 \"是\"",
+        "AnonymizeIpDescription": "如果希望 Matomo 不要统计完整的 IP 地址，请选择 \"是\"",
         "AnonymizeIpInlineHelp": "隐藏访客IP位址最后一个字符以符合您当地的隐私条例\/政策。",
         "AnonymizeIpMaskLengtDescription": "隐藏的访客IP的字节数",
         "AnonymizeIpMaskLength": "%1$s 字节 - 例如 %2$s",
@@ -8,7 +8,7 @@
         "CurrentDBSize": "当前数据库大小",
         "DBPurged": "数据库清理完成。",
         "DeleteBothConfirm": "您正要启用日志数据删除和报表数据删除。您将不能再查看旧的分析数据。您确认要这么做吗？",
-        "DeleteDataDescription": "您可以设置 Piwik 定期删除旧的访问日志、报表来减小数据库的大小。",
+        "DeleteDataDescription": "您可以设置 Matomo 定期删除旧的访问日志、报表来减小数据库的大小。",
         "DeleteDataDescription2": "可以不删除预处理的报表，只有访客人数、访问次数和目标转化的日志数据会被删除。或者，可以删除预处理报表而保留日志数据。",
         "DeleteDataInterval": "删除旧的数据时间间隔",
         "DeleteLogDescription2": "如果启用自动日志删除，您必须确认所有旧的日报表已经处理，这样就不会丢失数据。",
@@ -48,7 +48,7 @@
         "PurgingData": "清理数据...",
         "ReportsDataSavedEstimate": "数据库大小",
         "SaveSettingsBeforePurge": "您修改了数据删除选项，请保存后再开始删除。",
-        "Teaser": "在本页面可以设置 Piwik 符合现有的隐私保护法规: %1$s 隐藏访客的 IP 地址%2$s, %3$s 自动从数据库删除旧的访问日志%4$s, 并且 %5$s 在网站提供主动退出机制%6$s。",
+        "Teaser": "在本页面可以设置 Matomo 符合现有的隐私保护法规: %1$s 隐藏访客的 IP 地址%2$s, %3$s 自动从数据库删除旧的访问日志%4$s, 并且 %5$s 在网站提供主动退出机制%6$s。",
         "TeaserHeadline": "隐私设置",
         "UseAnonymizedIpForVisitEnrichment": "当使访问更加丰富时也使用匿名IP地址。",
         "UseAnonymizedIpForVisitEnrichmentNote": "例如通过IP和提供商的Geo定位等插件提供了关于访问者的更多数据。在默认情况下，这些插件都使用匿名IP地址。如果你选择“NO”，那么将使用非匿名的整个IP地址，从而可以得到更准确的数据，但是透露了更多的私有信息。",

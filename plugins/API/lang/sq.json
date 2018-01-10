@@ -1,16 +1,16 @@
 {
     "API": {
         "ChangeTokenHint": "Nëse doni ta ndryshoni këtë token, ju lutemi, shkoni te %1$sfaqja juaj e rregullimeve personale%2$s.",
-        "GenerateVisits": "Nëse nuk keni të dhëna për ditën e sotme, mund të prodhonit ca të dhëna duke përdorur shtojcën %1$s. Shtojcën %2$s mund ta aktivizoni, mandej klikoni mbi menunë 'Gjenerator Vizitorësh' te pjesa Përgjegjës Piwik-u.",
+        "GenerateVisits": "Nëse nuk keni të dhëna për ditën e sotme, mund të prodhonit ca të dhëna duke përdorur shtojcën %1$s. Shtojcën %2$s mund ta aktivizoni, mandej klikoni mbi menunë 'Gjenerator Vizitorësh' te pjesa Përgjegjës Matomo-u.",
         "KeepTokenSecret": "Ky token_auth është po aq i fshehtë sa të dhënat tuaja për hyrjen dhe fjalëkalimi juaj, %1$s mos ia jepni kujt%2$s!",
         "LoadedAPIs": "U ngarkua me sukses API %s",
-        "MoreInformation": "Për më tepër të dhëna rreth API-ve të Piwik-ut, ju lutemi, hidhini një sy %1$s Hyrje në API-t e Piwik-ut %2$s dhe %3$s Referencë API-sh Piwik-u %4$s.",
-        "PluginDescription": "Në Piwik krejt të dhënat janë të passhme përmes API-sh të thjeshta. Kjo shtojcë është pika e hyrjes për një shërbim web, të cilin mund ta vini në punë për të patur të dhënat tuaja të Analizave Web në format xml, json, php, csv, etj.",
+        "MoreInformation": "Për më tepër të dhëna rreth API-ve të Matomo-ut, ju lutemi, hidhini një sy %1$s Hyrje në API-t e Matomo-ut %2$s dhe %3$s Referencë API-sh Matomo-u %4$s.",
+        "PluginDescription": "Në Matomo krejt të dhënat janë të passhme përmes API-sh të thjeshta. Kjo shtojcë është pika e hyrjes për një shërbim web, të cilin mund ta vini në punë për të patur të dhënat tuaja të Analizave Web në format xml, json, php, csv, etj.",
         "ReportingApiReference": "Referencë API Raportimesh",
         "TopLinkTooltip": "Hyni programatikisht te të dhënat tuaja të Analizave Web përmes një API-je të thjeshtë json, xml, etj.",
         "UserAuthentication": "Mirëfilltësim përdoruesi",
         "UsingTokenAuth": "Nëse doni të %1$s kërkoni të dhëna brenda një programthi, një crontab-i, etj. %2$s lypset të shtoni parametrin %3$s te URL-të për thirrje API që lypin mirëfilltësim.",
         "Glossary": "Fjalorth",
-        "LearnAboutCommonlyUsedTerms": "Mësoni rreth termave që përdoren zakonisht, për të përfituar maksimumin prej Analizave Piwik: %1$s dhe %2$s."
+        "LearnAboutCommonlyUsedTerms": "Mësoni rreth termave që përdoren zakonisht, për të përfituar maksimumin prej Analizave Matomo: %1$s dhe %2$s."
     }
 }

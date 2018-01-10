@@ -6,8 +6,8 @@
         "AnonymousUser": "Utilizador anónimo",
         "AnonymousUserHasViewAccess": "Nota: o utilizador %1$s tem %2$s acessos a este website.",
         "ApplyToAllWebsites": "Aplicar a todos os websites",
-        "ClickHereToDeleteTheCookie": "Clique aqui para eliminar o cookie e permitir a Piwik monitorizar as suas visitas.",
-        "ClickHereToSetTheCookieOnDomain": "Clique aqui para definir um cookie que excluirá todas as suas visitas de serem monitorizadas por Piwik em %s",
+        "ClickHereToDeleteTheCookie": "Clique aqui para eliminar o cookie e permitir a Matomo monitorizar as suas visitas.",
+        "ClickHereToSetTheCookieOnDomain": "Clique aqui para definir um cookie que excluirá todas as suas visitas de serem monitorizadas por Matomo em %s",
         "DeleteConfirm": "Tem a certeza que deseja eliminar o utilizador %s?",
         "Email": "Email",
         "ExceptionAccessValues": "O parâmetro de acesso deve conter um dos seguinte valores: [ %s ]",
@@ -38,9 +38,9 @@
         "User": "Utilizador",
         "UsersManagement": "Gestor de Utilizadores",
         "UsersManagementMainDescription": "Criar novos utilizadores ou actualizar utilizadores existentes. Depois pode definir as permissões deles acima.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quando utilizadores não entraram e visitam Piwik, devem poder aceder a",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quando utilizadores não entraram e visitam Matomo, devem poder aceder a",
         "YourUsernameCannotBeChanged": "O seu nome de utilizador não pode ser alterado.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sAs suas visitas são ignoradas por Piwik em %2$s %3$s (o cookie Piwik de ignorar foi encontrado no seu navegador).",
-        "YourVisitsAreNotIgnored": "%1$sAs suas visitas não são ignoradas por Piwik%2$s (o cookie Piwik de ignorar não foi encontrado no seu navegador)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sAs suas visitas são ignoradas por Piwik em %2$s %3$s (o cookie Matomo de ignorar foi encontrado no seu navegador).",
+        "YourVisitsAreNotIgnored": "%1$sAs suas visitas não são ignoradas por Piwik%2$s (o cookie Matomo de ignorar não foi encontrado no seu navegador)."
     }
 }

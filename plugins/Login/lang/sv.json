@@ -1,11 +1,11 @@
 {
     "Login": {
         "ConfirmationLinkSent": "En länk för bekräftelse har skickats till dig. Kontrollera din e-post och besök länken för att fullfölja begäran att ändra ditt lösenord.",
-        "ContactAdmin": "Möjlig orsak: din värd kan ha inaktiverat mail() funktionen. <br\/>Kontakta din Piwik administratör.",
+        "ContactAdmin": "Möjlig orsak: din värd kan ha inaktiverat mail() funktionen. <br\/>Kontakta din Matomo administratör.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "En användare med Superanvändaråtkomst kan inte bli autensieras vid användande av '%s' mekanism.",
         "ExceptionPasswordMD5HashExpected": "Lösenordsparametern förväntas bli en MD5-hash av lösenordet.",
-        "InvalidNonceOrHeadersOrReferrer": "Formulärets säkerhet misslyckades. Vänligen ladda formuläret och kontrollera att cookies är aktiverade. Om du använder en proxyserver måste du %1$s konfigurera Piwik att acceptera proxy huvuden %2$s som överför Host-huvuden. Kontrollera också att din Referer header skickas korrekt.",
-        "InvalidNonceSSLMisconfigured": "Du kan även %1$s kräva att Piwik använder en säker anslutning%2$s: för att göra detta konfigurerar du din konfigurationsfil %3$s med %4$s nedan sektioner%5$s",
+        "InvalidNonceOrHeadersOrReferrer": "Formulärets säkerhet misslyckades. Vänligen ladda formuläret och kontrollera att cookies är aktiverade. Om du använder en proxyserver måste du %1$s konfigurera Matomo att acceptera proxy huvuden %2$s som överför Host-huvuden. Kontrollera också att din Referer header skickas korrekt.",
+        "InvalidNonceSSLMisconfigured": "Du kan även %1$s kräva att Matomo använder en säker anslutning%2$s: för att göra detta konfigurerar du din konfigurationsfil %3$s med %4$s nedan sektioner%5$s",
         "InvalidOrExpiredToken": "Lösenordsbevis är felaktigt eller har utgått.",
         "InvalidUsernameEmail": "Felaktigt användarnamn och\/eller e-postadress",
         "LogIn": "Logga in",
@@ -13,7 +13,7 @@
         "LoginPasswordNotCorrect": "Användarnamn & Lösenord är inte korrekta",
         "LostYourPassword": "Glömt ditt lösenord?",
         "ChangeYourPassword": "Ändra ditt lösenord",
-        "MailPasswordChangeBody": "Hej %1$s,\n\nEn begäran om återställning av ditt lösenord togs emot från %2$s. För att bekräfta ändringen av lösenordet, vänligen gå till följande länk:\n\n%3$s\n\nNotering: Genom att ändra ditt lösenord så ändras även token_auth. Du kan ta reda på ditt nya token_auth på sidan för inställningar.\n\nOm du använder din API token_auth i några externa applikationer eller för arkivering kontrollera så att du har uppdaterat din token_auth annars är risken att anrop till API't misslyckas.\n\nNotering: denna länk kommer att sluta fungera efter 24 timmar.\n\nTack för att du använder dig av Piwik!",
+        "MailPasswordChangeBody": "Hej %1$s,\n\nEn begäran om återställning av ditt lösenord togs emot från %2$s. För att bekräfta ändringen av lösenordet, vänligen gå till följande länk:\n\n%3$s\n\nNotering: Genom att ändra ditt lösenord så ändras även token_auth. Du kan ta reda på ditt nya token_auth på sidan för inställningar.\n\nOm du använder din API token_auth i några externa applikationer eller för arkivering kontrollera så att du har uppdaterat din token_auth annars är risken att anrop till API't misslyckas.\n\nNotering: denna länk kommer att sluta fungera efter 24 timmar.\n\nTack för att du använder dig av Matomo!",
         "MailTopicPasswordChange": "Bekräfta byte av lösenord",
         "NewPassword": "Nytt lösenord",
         "NewPasswordRepeat": "Nytt lösenord (upprepa)",

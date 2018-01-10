@@ -5,21 +5,21 @@
         "IWantTo": "Eu quero:",
         "LearnWaysToParticipate": "Aprenda sobre todas as maneiras que você pode %1$s participar %2$s",
         "ManuallySendEmailTo": "Por favor envie manualmente sua mensagem para",
-        "PluginDescription": "Envie seu Feedback para a Equipe Piwik. Compartilhe as suas ideias e sugestões para tornar Piwik a melhor plataforma de análise do mundo!",
+        "PluginDescription": "Envie seu Feedback para a Equipe Piwik. Compartilhe as suas ideias e sugestões para tornar Matomo a melhor plataforma de análise do mundo!",
         "PrivacyClaim": "Piwik respeita sua %1$sprivacy%2$s e lhe dá controle total de seus dados.",
         "RateFeatureLeaveMessageDislike": "Lamentamos saber que você não gosta! Por favor, diga-nos como podemos melhorar.",
         "RateFeatureLeaveMessageLike": "Estamos felizes por você gostar! Por favor, diga-nos o que você mais gosta ou se tem um pedido de função.",
-        "RateFeatureSendFeedbackInformation": "Sua plataforma Piwik irá enviar-nos (equipe Piwik) um e-mail (incluindo o seu endereço de e-mail) para que possamos entrar em contato com você, caso você tenha alguma dúvida.",
+        "RateFeatureSendFeedbackInformation": "Sua plataforma Piwik irá enviar-nos (equipe Matomo) um e-mail (incluindo o seu endereço de e-mail) para que possamos entrar em contato com você, caso você tenha alguma dúvida.",
         "RateFeatureThankYouTitle": "Obrigado por avaliar '%s'!",
         "RateFeatureTitle": "Você gosta da função '%s'? Por favor, classifique e deixe um comentário",
         "SendFeedback": "Envie FeedBack",
-        "ThankYou": "Obrigado por nos ajudar a fazer o Piwik melhor!",
+        "ThankYou": "Obrigado por nos ajudar a fazer o Matomo melhor!",
         "TopLinkTooltip": "Diga-nos o que você pensa, ou suporte.",
         "ViewAnswersToFAQ": "Ver respostas para %1$sPerguntas Frequentes%2$s",
-        "ViewUserGuides": "Saiba como configurar o Piwik e como efetivamente analisar seus dados com o nosso %1$sguias do usuário%2$s",
+        "ViewUserGuides": "Saiba como configurar o Matomo e como efetivamente analisar seus dados com o nosso %1$sguias do usuário%2$s",
         "CommunityHelp": "Ajuda da Comunidade",
         "ProfessionalHelp": "Suporte Profissional",
         "ContactUs": "Contato",
-        "VisitTheForums": "Visite o %1$s Fóruns%2$s e obtenha ajuda da comunidade de usuários Piwik"
+        "VisitTheForums": "Visite o %1$s Fóruns%2$s e obtenha ajuda da comunidade de usuários Matomo"
     }
 }

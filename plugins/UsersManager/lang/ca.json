@@ -4,15 +4,15 @@
         "Alias": "Àlies",
         "AllWebsites": "Tots els llocs",
         "ApplyToAllWebsites": "Aplica a tots els llocs",
-        "ClickHereToDeleteTheCookie": "Feu click aquí per eliminar la galeta i permetre al Piwik rastrejar les vostres visites.",
-        "ClickHereToSetTheCookieOnDomain": "Feu click aquí per guardar una galeta que exclourà les vostres visitis al Piwik de %s",
+        "ClickHereToDeleteTheCookie": "Feu click aquí per eliminar la galeta i permetre al Matomo rastrejar les vostres visites.",
+        "ClickHereToSetTheCookieOnDomain": "Feu click aquí per guardar una galeta que exclourà les vostres visitis al Matomo de %s",
         "DeleteConfirm": "Esteu segur que voleu eliminar l'usuari %s?",
         "Email": "Correu-e",
         "EmailYourAdministrator": "%1$sEnvieu un email al vostre administrador explicant el problema%2$s.",
         "ExceptionAccessValues": "El paràmetre permisos ha de tenir un dels següents valors: [ %s ]",
         "ExceptionAdminAnonymous": "No podeu donar permisos d'administració a l'usuari 'anonymous' (anònim).",
         "ExceptionDeleteDoesNotExist": "L'usuari '%s' no existeix i, per tant, no es pot esborrar.",
-        "ExceptionEditAnonymous": "L'usuari anònim no es pot editar o esborrar. El Piwik el fa servir per als usuaris que no han iniciat encara la sessió. Per exemple, podeu fer públiques les vostres estadístiques garantint el permís 'vista' a l'usuari 'anonymous' (anònim).",
+        "ExceptionEditAnonymous": "L'usuari anònim no es pot editar o esborrar. El Matomo el fa servir per als usuaris que no han iniciat encara la sessió. Per exemple, podeu fer públiques les vostres estadístiques garantint el permís 'vista' a l'usuari 'anonymous' (anònim).",
         "ExceptionEmailExists": "La direcció de correu-e '%s' ja està en un altre compte.",
         "ExceptionInvalidEmail": "La direcció de correu-e no té un format vàlid.",
         "ExceptionUserDoesNotExist": "L'usuari '%s' no existeix.",
@@ -36,9 +36,9 @@
         "User": "Usuari",
         "UsersManagement": "Gestiona els usuaris",
         "UsersManagementMainDescription": "Creeu nous usuaris o actualitzeu els existents. Podeu configurar els seus permisos a dalt.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quan un usuari no esta identificat i visita el Piwik, han d'accedir",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quan un usuari no esta identificat i visita el Matomo, han d'accedir",
         "YourUsernameCannotBeChanged": "No es pot canviar el vostre nom d'usuari",
-        "YourVisitsAreIgnoredOnDomain": "%1$sLes vostres visites són ignorades pel Piwik %2$s %3$s (la galeta d'ignorància del Piwik s'ha trobat al vostre navegador).",
-        "YourVisitsAreNotIgnored": "%1$sLes vostres visites no són ignorades pel Piwik%2$s (la galeta d'ignorància del Piwik no s'ha trobat al vostre navegador)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sLes vostres visites són ignorades pel Piwik %2$s %3$s (la galeta d'ignorància del Matomo s'ha trobat al vostre navegador).",
+        "YourVisitsAreNotIgnored": "%1$sLes vostres visites no són ignorades pel Piwik%2$s (la galeta d'ignorància del Matomo no s'ha trobat al vostre navegador)."
     }
 }

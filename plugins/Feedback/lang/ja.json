@@ -5,11 +5,11 @@
         "IWantTo": "あなたの希望：",
         "LearnWaysToParticipate": "あなたが参加できるすべての方法を%1$s学んでください%2$s",
         "ManuallySendEmailTo": "あなたのメッセージを手作業で次のアドレスへ送ってください：",
-        "PluginDescription": "Piwik チームにフィードバックをお送りください。あなたのアイデアや提案をシェアすることで、Piwik を世界で最高のアナリティックス・プラットフォームにしましょう。",
+        "PluginDescription": "Piwik チームにフィードバックをお送りください。あなたのアイデアや提案をシェアすることで、Matomo を世界で最高のアナリティックス・プラットフォームにしましょう。",
         "PrivacyClaim": "Piwik は あなたの %1$sプライバシー%2$s を尊重します。あなたのデータに関する全ての管理はあなたにお任せします。",
         "RateFeatureLeaveMessageDislike": "好きではない とのこと、非常に残念です。ぜひどのように改善すべきかお知らせください。",
         "RateFeatureLeaveMessageLike": "気に入った　とのこと、とても嬉しいです ! ぜひあなたの最も気に入った内容や今後のリクエストをお知らせください。",
-        "RateFeatureSendFeedbackInformation": "Piwikプラットフォームは私たち ( Piwikチーム ) に電子メール ( あなたの電子メールアドレスを含む ) を送信しますので、質問があれば連絡を取ることができます。",
+        "RateFeatureSendFeedbackInformation": "Piwikプラットフォームは私たち ( Matomoチーム ) に電子メール ( あなたの電子メールアドレスを含む ) を送信しますので、質問があれば連絡を取ることができます。",
         "RateFeatureThankYouTitle": "'%s' の評価をありがとう！",
         "RateFeatureTitle": "'%s' の機能は好きですか ? ぜひ評価コメントを残してください。",
         "SendFeedback": "フィードバックを送信",
@@ -19,7 +19,7 @@
         "ViewUserGuides": "Piwik の設定方法と、効果的なデータ分析方法は、%1$s user guides %2$s をご確認ください。",
         "CommunityHelp": "コミュニティヘルプ",
         "ProfessionalHelp": "プロフェッショナルヘルプ",
-        "ProfessionalServicesIntro": "世界的なネットワークである我々 Piwik のプロコンサルタントは、独自のインフラストラクチャで Piwik をホストするクライアントをサポートします。",
+        "ProfessionalServicesIntro": "世界的なネットワークである我々 Piwik のプロコンサルタントは、独自のインフラストラクチャで Matomo をホストするクライアントをサポートします。",
         "ProfessionalServicesOfferIntro": "どのようなサービスを利用できますか？",
         "ProfessionalServicesReviewPiwikSetup": "Piwik セットアップのレビュー",
         "ProfessionalServicesOptimizationMaintenance": "Piwik 最適化および保守サービス",
@@ -29,6 +29,6 @@
         "ProfessionalServicesCustomDevelopment": "カスタム開発サービス",
         "ProfessionalServicesAnalystConsulting": "アナリストコンサルティングサービス",
         "ContactUs": "お問い合わせ",
-        "VisitTheForums": "%1$s フォーラム %2$s にアクセスし、Piwik ユーザーのコミュニティから助けを得る"
+        "VisitTheForums": "%1$s フォーラム %2$s にアクセスし、Matomo ユーザーのコミュニティから助けを得る"
     }
 }

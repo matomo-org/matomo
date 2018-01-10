@@ -420,8 +420,8 @@ function setupContentTrackingFixture(name, targetNode) {
   <div id="clickDiv"></div>
  </div>
  <map name="map">
-     <area id="area1" shape="rect" coords="0,0,10,10" href="img.jpg" alt="Piwik">
-     <area shape="circle" coords="10,10,10,20" href="img2.jpg" alt="Piwik2">
+     <area id="area1" shape="rect" coords="0,0,10,10" href="img.jpg" alt="Matomo">
+     <area shape="circle" coords="10,10,10,20" href="img2.jpg" alt="Matomo2">
  </map>
 
  <ol id="qunit-tests"></ol>

@@ -7,8 +7,8 @@
         "AnonymousUserHasViewAccess": "Lưu ý: Người dùng %1$s có truy cập %2$s đến website này.",
         "AnonymousUserHasViewAccess2": "Các báo cáo phân tích của bạn và thông tin các khách truy cập của bạn là công khai có thể xem được.",
         "ApplyToAllWebsites": "Áp dụng cho tất cả các website",
-        "ClickHereToDeleteTheCookie": "Click vào đây để xóa các cookie và đã Piwik theo dõi truy cập của bạn",
-        "ClickHereToSetTheCookieOnDomain": "Click vào đây để thiết lập một cookie sẽ loại trừ các lượt truy cập của bạn trên các trang web được theo dõi bởi Piwik trên %s",
+        "ClickHereToDeleteTheCookie": "Click vào đây để xóa các cookie và đã Matomo theo dõi truy cập của bạn",
+        "ClickHereToSetTheCookieOnDomain": "Click vào đây để thiết lập một cookie sẽ loại trừ các lượt truy cập của bạn trên các trang web được theo dõi bởi Matomo trên %s",
         "DeleteConfirm": "Bạn có chắc chắn muốn xóa người dùng %s?",
         "Email": "Email",
         "EmailYourAdministrator": "%1$s E-mail tới quản trị viên của bạn về vấn đề này %2$s.",
@@ -16,7 +16,7 @@
         "ExceptionAccessValues": "Tham số truy cập phải có một trong các giá trị sau: [%s]",
         "ExceptionAdminAnonymous": "Bạn không thể cấp quyền truy cập \"quản trị\" cho người sử dụng 'ẩn danh'.",
         "ExceptionDeleteDoesNotExist": "Người dùng '%s' không tồn tại do đó nó không thể bị xóa.",
-        "ExceptionEditAnonymous": "Người dùng ẩn danh không thể chỉnh sửa hoặc xóa. Nó được sử dụng bởi Piwik để xác định một người dùng đã không đăng nhập lúc này. Ví dụ, bạn có thể làm cho số liệu thống kê công cộng(public) của bạn bằng cách cho phép truy cập \"xem\" đến người dùng 'ẩn danh'.",
+        "ExceptionEditAnonymous": "Người dùng ẩn danh không thể chỉnh sửa hoặc xóa. Nó được sử dụng bởi Matomo để xác định một người dùng đã không đăng nhập lúc này. Ví dụ, bạn có thể làm cho số liệu thống kê công cộng(public) của bạn bằng cách cho phép truy cập \"xem\" đến người dùng 'ẩn danh'.",
         "ExceptionEmailExists": "Người dùng với email '%s' đã tồn tại.",
         "ExceptionInvalidEmail": "Email không có một định dạng hợp lệ.",
         "ExceptionLoginExists": "Tên người dùng '%s' đã tồn tại sẵn.",
@@ -47,9 +47,9 @@
         "User": "Người dùng",
         "UsersManagement": "Quản lý người dùng",
         "UsersManagementMainDescription": "Tạo người dùng mới hoặc cập nhật các người dùng hiện tại. Sau đó bạn có thể thiết lập quyền của họ.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Khi người dùng không đăng nhập và thăm Piwik, họ nên truy cập",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Khi người dùng không đăng nhập và thăm Matomo, họ nên truy cập",
         "YourUsernameCannotBeChanged": "Tên đăng nhập của bạn không thể thay đổi.",
-        "YourVisitsAreIgnoredOnDomain": "%1$s lượt truy cập của bạn sẽ được bỏ qua bởi Piwik trên %2$s %3$s (cookie Piwik bỏ qua đã được tìm thấy trong trình duyệt của bạn).",
-        "YourVisitsAreNotIgnored": "%1$s lượt truy cập của bạn không được bỏ qua bởi Piwik %2$s (cookie Piwik bỏ qua đã không tìm thấy trong trình duyệt của bạn)."
+        "YourVisitsAreIgnoredOnDomain": "%1$s lượt truy cập của bạn sẽ được bỏ qua bởi Piwik trên %2$s %3$s (cookie Matomo bỏ qua đã được tìm thấy trong trình duyệt của bạn).",
+        "YourVisitsAreNotIgnored": "%1$s lượt truy cập của bạn không được bỏ qua bởi Piwik %2$s (cookie Matomo bỏ qua đã không tìm thấy trong trình duyệt của bạn)."
     }
 }

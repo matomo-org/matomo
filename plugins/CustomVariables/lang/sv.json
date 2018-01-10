@@ -15,7 +15,7 @@
         "UsageDetails": "%1$s besök och %2$s händelser sedan webbplatsen skapandet av denna webbplats.",
         "CreatingCustomVariableTakesTime": "Att skapa en ny anpassad variabel kan ta lång tid beroende på storleken på din databas. Därför är det bara möjligt att göra detta via ett kommando som måste köras genom kommandoraden.",
         "CurrentAvailableCustomVariables": "För tillfället kan du använda upp till %s anpassade variabler per webbsida.",
-        "ToCreateCustomVarExecute": "För att skapa en ny anpassad variabel använd följande kommando i din Piwik miljö:",
+        "ToCreateCustomVarExecute": "För att skapa en ny anpassad variabel använd följande kommando i din Matomo miljö:",
         "SlotsReportIsGeneratedOverTime": "Data för den här rapporten kommer att samlas in allt eftersom. Det kan ta en dag eller två innan du ser någon data och ett par veckor innan rapporten är helt tillförlitlig.",
         "MetricsAreOnlyAvailableForVisitScope": "Notering: %1$s mätvärden finns endast tillgängliga för Anpassade Variabler av omfattningen %2$s.",
         "MetricsNotAvailableForPageScope": "För Anpassade Variabler av omfattningen %1$s är kolumnvärdet för dessa mätvärden %2$s"

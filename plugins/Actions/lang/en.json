@@ -33,7 +33,7 @@
         "ColumnIdPageview": "Pageview ID",
         "ColumnInteractionPosition": "Interaction Position",
         "ActionsInVisit": "Actions In Visit",
-        "DownloadsReportDocumentation": "In this report, you can see which files your visitors have downloaded. %s What Piwik counts as a download is the click on a download link. Whether the download was completed or not isn't known to Piwik.",
+        "DownloadsReportDocumentation": "In this report, you can see which files your visitors have downloaded. %s What Matomo counts as a download is the click on a download link. Whether the download was completed or not isn't known to Matomo.",
         "EntryPagesReportDocumentation": "This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during their visit. %s The entry URLs are displayed as a folder structure.",
         "EntryPageTitles": "Entry page titles",
         "EntryPageTitlesReportDocumentation": "This report contains information about the titles of entry pages that were used during the specified period.",

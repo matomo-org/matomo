@@ -1,6 +1,6 @@
 {
     "CustomPiwikJs": {
-        "PluginDescription": "Låter alla plugins utöka Piwiks trackfil (piwik.js) med ny funktionalitet och webbplatsmätningsmöjligheter.",
+        "PluginDescription": "Låter alla plugins utöka Matomos trackfil (piwik.js) med ny funktionalitet och webbplatsmätningsmöjligheter.",
         "DiagnosticPiwikJsWritable": "Skrivbar javskript-tracker (\"\/piwik.js\")",
         "DiagnosticPiwikJsNotWritable": "Piwiks javaskriptbaserade trackingfil \"\/piwik.js\" är inte ksrivbar vilket innebär att andra plugins inte kan utöka den. Det är möjligt att framtida funktionalitet i Piwik också kan påverkas.",
         "DiagnosticPiwikJsMakeWritable": "Vi rekommenderar att göra piwik.js skrivbar genom att köra detta kommando: %s"

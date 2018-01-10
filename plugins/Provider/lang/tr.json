@@ -2,7 +2,7 @@
     "Provider": {
         "ColumnProvider": "Hizmet Sağlayıcı",
         "PluginDescription": "Ziyaretçilerin İnternet hizmetini aldıkları Hizmet Sağlayıcılarını raporlar.",
-        "ProviderReportDocumentation": "Bu rapor ziyaretçilerinin İnternet üzerine ulaşmak için kullandığı hizmet sağlayıcısını görüntüler. Ayrıntılı bilgi almak için hizmet sağlayıcı adına tıklayın. %s Ziyaretçinin hizmet sağlayıcısı Piwik tarafından belirlenemez ise IP adresi görüntülenir.",
+        "ProviderReportDocumentation": "Bu rapor ziyaretçilerinin İnternet üzerine ulaşmak için kullandığı hizmet sağlayıcısını görüntüler. Ayrıntılı bilgi almak için hizmet sağlayıcı adına tıklayın. %s Ziyaretçinin hizmet sağlayıcısı Matomo tarafından belirlenemez ise IP adresi görüntülenir.",
         "WidgetProviders": "Hizmet Sağlayıcılar",
         "ProviderReportFooter": "Bilinmeyen sağlayıcılar IP adresine bakılamadığı anlamına gelir."
     }

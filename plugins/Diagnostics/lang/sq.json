@@ -1,7 +1,7 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Kartelë formësimesh",
-        "ConfigFileIntroduction": "Këtu mund të shihni formësimin e Piwik-ut. Nëse Piwik-un e xhironi në një mjedis me ngarkesë të balancuar, faqja mund të jetë ndryshe, varet se nga cili shërbyes ngarkohet faqja. Rreshtat me një ngjyrë tjetër për sfondin përfaqësojnë vlera formësimi që janë dhënë si shembull te kartela %1$s.",
+        "ConfigFileIntroduction": "Këtu mund të shihni formësimin e Piwik-ut. Nëse Matomo-un e xhironi në një mjedis me ngarkesë të balancuar, faqja mund të jetë ndryshe, varet se nga cili shërbyes ngarkohet faqja. Rreshtat me një ngjyrë tjetër për sfondin përfaqësojnë vlera formësimi që janë dhënë si shembull te kartela %1$s.",
         "HideUnchanged": "Nëse dëshironi të shihni vetëm vlerat e ndryshuara, mund të %1$sfshihni krejt vlerat e pandryshuara%2$s.",
         "Sections": "Ndarje"
     }
