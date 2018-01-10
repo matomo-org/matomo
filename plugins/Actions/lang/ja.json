@@ -33,7 +33,7 @@
         "ColumnIdPageview": "ページビューID",
         "ColumnInteractionPosition": "インタラクションポジション",
         "ActionsInVisit": "ビジット単位のアクション数",
-        "DownloadsReportDocumentation": "ビジターがどのファイルをダウンロードしたかについてのレポートです。%s Piwikはダウンロードリンクのクリック数をカウントします。ダウンロードが完了したかどうかは判別できません。",
+        "DownloadsReportDocumentation": "ビジターがどのファイルをダウンロードしたかについてのレポートです。%s Matomoはダウンロードリンクのクリック数をカウントします。ダウンロードが完了したかどうかは判別できません。",
         "EntryPagesReportDocumentation": "このレポートには、指定した期間中に使用されたエントリーのページに関する情報が含まれています。 エントリーページは、ユーザーが訪問中に見る最初のページです。%s エントリ URL は、フォルダ構造として表示されます。",
         "EntryPageTitles": "入口ページタイトル",
         "EntryPageTitlesReportDocumentation": "これは期間中の入口ページタイトルについてのレポートです。",

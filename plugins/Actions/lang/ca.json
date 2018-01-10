@@ -24,7 +24,7 @@
         "ColumnUniqueClicksDocumentation": "EL nombre de visites que han fet click en aquest enllaç. Si l'enllaç s'ha clicat més d'una vegada durant una visita només es conta un.",
         "ColumnUniqueDownloads": "Descàrregues úniques",
         "ColumnUniqueOutlinks": "Enllaços de sortida únics",
-        "DownloadsReportDocumentation": "En aquest informe podeu observar quins fitxers han descarrregats els visitants. %s El Piwik només té constància dels clicks als enllaços de descarga, desconeix si la descàrrega s'ha completat o no.",
+        "DownloadsReportDocumentation": "En aquest informe podeu observar quins fitxers han descarrregats els visitants. %s El Matomo només té constància dels clicks als enllaços de descarga, desconeix si la descàrrega s'ha completat o no.",
         "EntryPageTitles": "Títols de les pàgines d'entrada",
         "EntryPageTitlesReportDocumentation": "Aquest informe conté la informació sobre els títols de les pàgines d'entrada que s'han utilitzat durant el període especificat.",
         "ExitPageTitles": "Títols de les pàgines de sortida",

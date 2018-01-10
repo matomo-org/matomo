@@ -30,7 +30,7 @@
         "ColumnUniqueOutlinks": "不重复退出链接数",
         "ColumnIdPageview": "页面浏览 ID",
         "ColumnInteractionPosition": "互动位置",
-        "DownloadsReportDocumentation": "在这份报表中，您可以看到用户下载了那些文件。%s Piwik 计算的是下载链接的点击数量，至于文件是否下载完成 Piwik 无法知道。",
+        "DownloadsReportDocumentation": "在这份报表中，您可以看到用户下载了那些文件。%s Matomo 计算的是下载链接的点击数量，至于文件是否下载完成 Matomo 无法知道。",
         "EntryPagesReportDocumentation": "此报表包含在指定时间段内的进入页面的相关信息。进入页面是指用户进入网站时访问的第一个页面。%s进入页面的网址以文件夹结构展示。",
         "EntryPageTitles": "进入页面标题",
         "EntryPageTitlesReportDocumentation": "此报表包含指定时间段内的进入页面的标题信息。",

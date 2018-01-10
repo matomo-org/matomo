@@ -30,7 +30,7 @@
         "ColumnUniqueDownloads": "Uniikit lataukset",
         "ColumnUniqueOutlinks": "Yksilölliset lähtevät linkit",
         "ColumnIdPageview": "Sivukatselun ID",
-        "DownloadsReportDocumentation": "Tässä raportissa näet, mitä tiedostoja kävijät ovat ladanneet. %s Piwik laskee lataukseksi latauslinkin klikkaamisen. Piwik ei tiedä, valmistuiko lataus.",
+        "DownloadsReportDocumentation": "Tässä raportissa näet, mitä tiedostoja kävijät ovat ladanneet. %s Matomo laskee lataukseksi latauslinkin klikkaamisen. Matomo ei tiedä, valmistuiko lataus.",
         "EntryPageTitles": "Saapumissivujen otsikot",
         "EntryPageTitlesReportDocumentation": "Tämä raportti sisältää tietoa saapumissivujen otsikoista annetulla aikavälillä.",
         "ExitPageTitles": "Lähtösivujen otsikot",

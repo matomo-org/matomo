@@ -33,7 +33,7 @@
         "ColumnIdPageview": "ID Pagina vista",
         "ColumnInteractionPosition": "Posizione Interazione",
         "ActionsInVisit": "Azioni su Visita",
-        "DownloadsReportDocumentation": "In questo report è possibile vedere quali file sono stati scaricati dai tuoi visitatori. %s Ciò che Piwik conta come download è il click su un link per il download. Se il download è stato completato o meno, non è noto a Piwik.",
+        "DownloadsReportDocumentation": "In questo report è possibile vedere quali file sono stati scaricati dai tuoi visitatori. %s Ciò che Matomo conta come download è il click su un link per il download. Se il download è stato completato o meno, non è noto a Matomo.",
         "EntryPagesReportDocumentation": "Questo report contiene le informazioni sulle pagine di ingresso utilizzate nel periodo di tempo definito. Una pagina di ingresso è la prima pagina che un utente vede durante la sua visita. %s Le URL di ingresso vengono visualizzate come una struttura a cartelle.",
         "EntryPageTitles": "Titoli delle pagine in entrata",
         "EntryPageTitlesReportDocumentation": "Questo report contiene informazioni sui titoli delle pagine di ingresso che sono state utilizzate durante il periodo specificato.",

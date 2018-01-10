@@ -33,7 +33,7 @@
         "ColumnIdPageview": "ID Parjeje Faqeje",
         "ColumnInteractionPosition": "Pozicion Ndërveprimi",
         "ActionsInVisit": "Veprime Në Vizitë",
-        "DownloadsReportDocumentation": "Në këtë raport, mund të shihni cilat kartela kanë shkarkuar vizitorët tuaj. %s Ato çka Piwik-u numëron si shkarkim është çdo klikim mbi një lidhje shkarkimi. Por Piwik-u s’mund ta dijë a u plotësua apo jo shkarkimi.",
+        "DownloadsReportDocumentation": "Në këtë raport, mund të shihni cilat kartela kanë shkarkuar vizitorët tuaj. %s Ato çka Matomo-u numëron si shkarkim është çdo klikim mbi një lidhje shkarkimi. Por Matomo-u s’mund ta dijë a u plotësua apo jo shkarkimi.",
         "EntryPagesReportDocumentation": "Ky raport përmban të dhëna rreth faqesh hyrjesh që janë përdorur gjatë një periudhe të caktuar. Faqe hyrjeje është faqja e parë që sheh një vizitor gjatë vizitës së tij. %s URL-të e hyrjeve shfaqen sipas një strukture dosjeje.",
         "EntryPageTitles": "Tituj faqesh hyrje",
         "EntryPageTitlesReportDocumentation": "Ky raport përmban të dhëna rreth titujsh faqesh hyrje që janë përdorur gjatë periudhës së dhënë.",
