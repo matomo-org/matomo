@@ -41,7 +41,7 @@
         "EstimatedSpaceSaved": "Espace libéré estimé",
         "GeolocationAnonymizeIpNote": "Note : La géolocalisation aura à peu près les mêmes résultats avec 1 octet rendu anonyme. Avec 2 octets ou plus, elle sera inexacte.",
         "GetPurgeEstimate": "Obtenir l'estimation de la purge",
-        "KeepBasicMetrics": "COnserver les métriques de base (visites, pages vues, taux de rebond, objectif, conversions, conversions ecommerce, etc.)",
+        "KeepBasicMetrics": "Conserver les métriques de base (visites, pages vues, taux de rebond, objectif, conversions, conversions ecommerce, etc.)",
         "KeepDataFor": "Conserver toutes les données pour",
         "KeepReportSegments": "Pour les données conservées précédemment, conserver aussi les rapports",
         "LastDelete": "La dernière suppression était le",

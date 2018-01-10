@@ -13,6 +13,13 @@
         "TopLinkTooltip": "Kerro meille mitä ajattelet, tai osta tukipalveluita (englanniksi).",
         "CommunityHelp": "Yhteisön apu",
         "ProfessionalHelp": "Ammattilaisapu",
+        "ProfessionalServicesOfferIntro": "Mistä palveluista on hyötyä sinulle?",
+        "ProfessionalServicesOptimizationMaintenance": "Piwikin optimointi- ja ylläpitopalvelut",
+        "ProfessionalServicesPhoneEmailSupport": "Puhelin- ja sähköpostituki",
+        "ProfessionalServicesTraining": "Käyttäjä- tekninen- ja kehittäjäkoulutus",
+        "ProfessionalServicesPremiumFeatures": "Premium-ominaisuudet",
+        "ProfessionalServicesCustomDevelopment": "Kustomoidut kehityspalvelut",
+        "ProfessionalServicesAnalystConsulting": "Analytiikan konsultointipalvelut",
         "ContactUs": "Ota yhteyttä"
     }
 }

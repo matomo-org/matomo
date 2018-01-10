@@ -20,10 +20,13 @@
         "dataTableLabelTypes": "Tür",
         "Device": "Aygıt",
         "DeviceBrand": "Aygıt markası",
+        "DeviceBrands": "Aygıt markaları",
         "DeviceDetection": "Aygıt algılama",
         "DeviceModel": "Aygıt modeli",
+        "DeviceModels": "Aygıt modelleri",
         "DevicesDetection": "Ziyaretçi Aygıtları",
         "DeviceType": "Aygıt türü",
+        "DeviceTypes": "Aygıt türleri",
         "FeaturePhone": "Özellikli telefon",
         "OperatingSystemFamilies": "İşletim Sistemi Aileleri",
         "OperatingSystemFamily": "İşletim Sistemi Ailesi",
@@ -38,6 +41,7 @@
         "Phablet": "Phablet",
         "TV": "TV",
         "UserAgent": "User-Agent",
+        "XVisitsFromDevices": "%2$s aygıttan %1$s ziyaret",
         "WidgetBrowsers": "Ziyaretçi Tarayıcısı",
         "WidgetBrowsersDocumentation": "Bu rapor ziyaretçilerinizin kullandığı tarayıcı türlerini kapsar. Tarayıcı sürümleri ayrı ayrı listelenmiştir."
     }

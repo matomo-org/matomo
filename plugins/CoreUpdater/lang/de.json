@@ -54,7 +54,7 @@
         "UnpackingTheUpdate": "Aktualisierung wird entpackt",
         "UpdateAutomatically": "Aktualisierung automatisch ausführen",
         "UpdateHasBeenCancelledExplanation": "Die Piwik Ein-Klick-Aktualisierung wurde abgebrochen. Wenn die oben stehende Fehlermeldung nicht behoben werden kann, sollten Sie Piwik manuell aktualisieren. %1$s Bitte lesen Sie die %2$sDokumentation zur Aktualisierung%3$s, um die Einzelheiten zu erfahren!",
-        "UpdateTitle": "Aktualisierung",
+        "UpdateTitle": "Aktualisieren",
         "UpdatingPluginXToVersionY": "Aktualisiere Plugin %1$s auf Version %2$s",
         "UpdateSuccessTitle": "Piwik wurde erfolgreich aktualisiert!",
         "UpdateErrorTitle": "Aktualisierungsfehler",

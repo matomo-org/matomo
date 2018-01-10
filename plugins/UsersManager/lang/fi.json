@@ -59,6 +59,8 @@
         "SuperUserAccessManagementMainDescription": "Superkäyttäjillä on korkeimmat oikeudet. He voivat suorittaa kaikkia ylläpidollisia toimenpiteitä, kuten lisätä uusia verkkosivuja seurantaan, lisätä käyttäjiä, muuttaa käyttäjien oikeuksia, aktivoida ja poistaa liitännäisiä käytöstä ja asentaa uusia liitännäisiä kauppatorilta.",
         "TheLoginScreen": "Kirjautumisikkuna",
         "ThereAreCurrentlyNRegisteredUsers": "Piwikissä on nyt %s rekisteröitynyttä käyttäjää.",
+        "TokenAuth": "API:n autentikointiavain",
+        "TokenRegenerateTitle": "Luo uudelleen",
         "TypeYourPasswordAgain": "Kirjoita uusi salasana uudelleen.",
         "User": "Käyttäjä",
         "UsersManagement": "Käyttäjien hallinta",

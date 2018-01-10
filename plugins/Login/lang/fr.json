@@ -20,7 +20,7 @@
         "PasswordChanged": "Votre mot de passe a été modifié",
         "PasswordRepeat": "Mot de passe (répétez)",
         "PasswordsDoNotMatch": "Les mots de passe ne correspondent pas.",
-        "PluginDescription": "Fournit une authentification via nom d'utilisateur et mot de passe ainsi qu'une fonctionnalité de réinitialisation. La méthode d'authentification peut être changée en utilisant un autre composant d'identification comme LoginLdap disponible de le Marché.",
+        "PluginDescription": "Fournit une authentification via nom d'utilisateur et mot de passe ainsi qu'une fonctionnalité de réinitialisation. La méthode d'authentification peut être changée en utilisant un autre composant d'identification comme LoginLdap disponible depuis le Marché.",
         "RememberMe": "Se souvenir de moi"
     }
 }

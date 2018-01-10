@@ -87,6 +87,7 @@
         "PluginDescription": "Skapa mål och se detaljerade rapporter för målkonverteringar: utveckling över tid, intäkt per besök, konverteringar per hänvisningskälla, nyckelord med mera.",
         "ProductCategory": "Produktkategori",
         "ProductName": "Produktnamn",
+        "ProductNames": "Produktnamn",
         "Products": "Produkter",
         "ProductSKU": "Produktvariant",
         "ReturningVisitorsConversionRateIs": "Återkommande besökares omvandlingsgrad är %s",

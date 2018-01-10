@@ -38,6 +38,7 @@
         "ColumnActionsPerVisit": "Veprime për Vizitë",
         "ColumnActionsPerVisitDocumentation": "Numri mesatar i veprimeve (parje faqesh, shkarkime ose klikime lidhjesh për jashtë) që janë kryer gjatë vizitave.",
         "ColumnAverageGenerationTime": "Kohë mesatare krijimi",
+        "ColumnViewsWithGenerationTime": "Parje Faqesh me kohë prodhimi",
         "ColumnAverageGenerationTimeDocumentation": "Koha mesatare që u desh për krijimin e faqes. Kjo vlerë përfshin kohën që iu desh shërbyesit të prodhojë faqen web, plus kohën që iu desh vizitorit të shkarkojë përgjigjen nga shërbyesi. Një 'Kohë mesatare krijimi' e ulët nënkupton një sajt më të shpejtë për vizitorët tuaj!",
         "ColumnAverageTimeOnPage": "Kohë mesatarisht në faqe",
         "ColumnAverageTimeOnPageDocumentation": "Sasia mesatare e kohës që vizitorët harxhuan në këtë faqe (vetëm te faqja, jo në krejt sajtin).",

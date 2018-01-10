@@ -1,7 +1,15 @@
 {
     "VisitTime": {
         "ColumnLocalTime": "Yerel saat",
+        "ColumnLocalHour": "Yerel saat - saat (Ziyaret başlangıcı)",
+        "ColumnLocalMinute": "Yerel saat - dakika (Ziyaret başlangıcı)",
         "ColumnServerTime": "Sunucu saati",
+        "ColumnServerHour": "Sunucu saati - saat",
+        "ColumnVisitEndServerHour": "Sunucu saati - saat (Ziyaret bitişi)",
+        "ColumnVisitEndServerMinute": "Sunucu saati - dakika (Ziyaret bitişi)",
+        "ColumnVisitStartServerHour": "Sunucu saati - saat (Ziyaret başlangıcı)",
+        "ColumnVisitStartServerMinute": "Sunucu saati - dakika (Ziyaret başlangıcı)",
+        "ColumnServerMinute": "Sunucu saati - dakika",
         "DayOfWeek": "Haftanın günü",
         "LocalTime": "Yerel saat başına ziyaretler",
         "NHour": "%sh",
@@ -11,6 +19,8 @@
         "VisitsByDayOfWeek": "Haftanın Günlerine Göre Ziyaretler",
         "WidgetByDayOfWeekDocumentation": "Bu çizelge sitenize haftanın günlerinde yapılan ziyaret sayılarını görüntüler.",
         "WidgetLocalTime": "Yerel Saate Göre Ziyaretler",
-        "WidgetServerTime": "Sunucu Saatine Göre Ziyaretler"
+        "WidgetLocalTimeDocumentation": "Bu çizelgede ziyaret süresince %1$sziyaretçinin saat diliminde%2$s saatin kaç olduğu görüntülenir.",
+        "WidgetServerTime": "Sunucu Saatine Göre Ziyaretler",
+        "WidgetServerTimeDocumentation": "Bu çizelgede ziyaret süresince %1$ssunucunun saat diliminde%2$s saatin kaç olduğu görüntülenir."
     }
 }
