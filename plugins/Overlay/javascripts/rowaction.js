@@ -49,7 +49,7 @@ DataTable_RowActions_Overlay.prototype.onClick = function (actionA, tr, e) {
         }
 
         if (link) {
-            var href = Overlay_Helper.getOverlayLink(this.dataTable.param.idSite, 'month', 'today', segment, link);
+            var href = Overlay_Helper.getOverlayLink(this.dataTable.param.idSite, piwik.period, piwik.currentDateString, segment, link);
 
             actionA.attr({
                 target: '_blank',
