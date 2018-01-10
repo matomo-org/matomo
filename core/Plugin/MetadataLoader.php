@@ -83,7 +83,7 @@ class MetadataLoader
         return array(
             'description'      => $descriptionKey,
             'homepage'         => 'https://matomo.org/',
-            'authors'          => array(array('name' => 'Piwik', 'homepage'  => 'https://matomo.org/')),
+            'authors'          => array(array('name' => 'Matomo', 'homepage'  => 'https://matomo.org/')),
             'license'          => 'GPL v3+',
             'version'          => Version::VERSION,
             'theme'            => false,

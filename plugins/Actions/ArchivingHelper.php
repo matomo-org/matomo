@@ -427,7 +427,7 @@ class ArchivingHelper
      *  we explode link http://piwik.org/some/path into an array( 'some', 'path' );
      *
      * for action names:
-     *   we explode name 'Piwik / Category 1 / Category 2' into an array('Piwik', 'Category 1', 'Category 2');
+     *   we explode name 'Piwik / Category 1 / Category 2' into an array('Matomo', 'Category 1', 'Category 2');
      *
      * @param string $name action name
      * @param int $type action type
