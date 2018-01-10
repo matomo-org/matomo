@@ -1,13 +1,14 @@
 {
-  "name": "Piwik",
+  "name": "Matomo",
   "main": "piwik.js",
-  "homepage": "https://piwik.org",
+  "homepage": "https://matomo.org",
   "authors": [
-    "Piwik.org <hello@piwik.org>"
+    "Matomo.org <hello@matomo.org>"
   ],
   "description": "the leading free/libre analytics platform",
   "private": true,
   "keywords": [
+    "matomo",
     "piwik",
     "web",
     "analytics"

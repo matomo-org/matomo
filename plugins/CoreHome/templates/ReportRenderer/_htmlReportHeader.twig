@@ -20,7 +20,7 @@
               {% if isCustomLogo and logoHeader %}
                 <img src="{{ logoHeader }}" height="20px" width="auto" />
               {% else %}
-                  <img src="{{ piwikUrl }}/plugins/Morpheus/images/logo-email.png" height="20px" width="auto" alt="Piwik, {{ 'General_OpenSourceWebAnalytics'|translate }}" />
+                  <img src="{{ piwikUrl }}/plugins/Morpheus/images/logo-email.png" height="20px" width="auto" alt="Matomo, {{ 'General_OpenSourceWebAnalytics'|translate }}" />
               {% endif %}
           </a>
       </td>
@@ -50,7 +50,7 @@
 
     {% if displaySegment %}
         <p style="{{styleParagraph}}{{fontStyle}}">
-            {{ 'ScheduledReports_CustomVisitorSegment'|translate("Piwik") }} {{ segmentName }}
+            {{ 'ScheduledReports_CustomVisitorSegment' }} {{ segmentName }}
         </p>
     {% endif %}
 

@@ -669,8 +669,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             page.evaluate(function () {
                 $('.enrichedHeadline .title').each(function () {
-                    if ($(this).text().indexOf("Piwik") !== -1) {
-                        var replace = $(this).text().replace(/Piwik\s*\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, 'Piwik');
+                    if ($(this).text().indexOf("Matomo") !== -1) {
+                        var replace = $(this).text().replace(/Matomo\s*\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, 'Matomo');
                         $(this).text(replace);
                     }
                 });

@@ -4,10 +4,10 @@
     >
     {% if hasSVGLogo %}
         <img src='{{ logoSVG }}' tabindex="3"
-             alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik"
+             alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo"
              class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" />
     {% else %}
-        <img src='{{ logoHeader }}' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik" />
+        <img src='{{ logoHeader }}' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo" />
     {% endif %}
 </a>
 </span>

@@ -1,6 +1,6 @@
 {
     "name": "ExampleUI",
-    "description": "Piwik Platform showcase: how to display data tables, graphs, and the UI framework.",
+    "description": "Matomo Platform showcase: how to display data tables, graphs, and the UI framework.",
     "version": "1.0.1",
     "keywords": [
         "example",
@@ -13,12 +13,12 @@
     "license": "GPL v3+",
     "authors": [
         {
-            "name": "Piwik",
-            "email": "hello@piwik.org",
-            "homepage": "http:\/\/piwik.org"
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "http:\/\/matomo.org"
         }
     ],
     "require": {
-        "piwik": ">=2.13.1"
+        "piwik": ">=3.3.0"
     }
 }
