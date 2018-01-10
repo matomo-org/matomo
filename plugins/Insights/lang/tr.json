@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "DatePeriodCombinationNotSupported": "Bu tarih ve zaman aralığı kombinasyonu için görünüş üretilemez.",
         "DayComparedToPreviousDay": "önceki gün",
         "DayComparedToPreviousWeek": "bir önceki haftanın aynı günü",
         "DayComparedToPreviousYear": "bir önceki yılın aynı günü",

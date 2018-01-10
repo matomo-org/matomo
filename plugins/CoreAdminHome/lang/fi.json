@@ -68,6 +68,7 @@
         "PluginSettings": "Lisäosan asetukset",
         "PluginSettingsIntro": "Täällä voit muuttaa kolmannen osapuolen liitännäisten asetuksia:",
         "PluginSettingsValueNotAllowed": "Arvo kentälle \"%1$s\" liitännäisessä \"%2$s\" ei ole sallittu",
+        "PluginSettingsSaveFailed": "Lisäosien asetusten tallentaminen epäonnistui",
         "PluginSettingsSaveSuccess": "Lisäosan asetukset päivitetty.",
         "SettingsSaveSuccess": "Asetukset päivitetty.",
         "SendPluginUpdateCommunication": "Lähetä sähköpostia, kun lisäosiin on saatavissa päivityksiä",

@@ -1,5 +1,6 @@
 {
     "Events": {
+        "PluginDescription": "Seuraa tapahtumia ja saa raportteja kävijöidesi toimista.",
         "AvgEventValue": "Keskimääräinen tapahtuman arvo on %s",
         "AvgValue": "Keskiarvo",
         "AvgValueDocumentation": "Kaikkien arvojen keskiarvo tälle tapahtumalle",
@@ -10,6 +11,8 @@
         "EventCategory": "Tapahtuman kategoria",
         "EventName": "Tapahtuman nimi",
         "EventNames": "Tapahtuman nimet",
+        "EventUrl": "Tapahtuman osoite",
+        "EventUrls": "Tapahtuman osoitteet",
         "Events": "Tapahtumat",
         "EventsWithValue": "Tapahtumat joilla on arvo",
         "EventValue": "Tapahtuman arvo",

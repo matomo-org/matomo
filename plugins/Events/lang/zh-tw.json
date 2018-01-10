@@ -11,6 +11,8 @@
         "EventCategory": "事件類別",
         "EventName": "事件標籤",
         "EventNames": "事件標籤",
+        "EventUrl": "事件網址",
+        "EventUrls": "事件網址",
         "Events": "事件",
         "EventsWithValue": "含有值的事件",
         "EventsWithValueDocumentation": "有設定值的事件數量",

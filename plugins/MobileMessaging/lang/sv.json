@@ -13,6 +13,7 @@
         "Settings_CredentialNotProvidedByAdmin": "Innan du kan skapa och hantera telefonnummer, var snäll och fråga din administratör om han eller hon kan koppla Piwik till ett SMS konto",
         "Settings_CredentialProvided": "Dina %s SMS API konton är korrekt konfigurerade!",
         "Settings_DeleteAccountConfirm": "Är du säker på att du vill radera detta SMS-konto?",
+        "Settings_EnterActivationCode": "Ange aktiveringskod",
         "Settings_InvalidActivationCode": "Koden var inte giltig, var god försök igen.",
         "Settings_LetUsersManageAPICredential": "Tillåt användare att hantera sina egna SMS API referenser",
         "Settings_LetUsersManageAPICredential_No_Help": "Alla användare har möjlighet att ta emot SMS rapporter och kommer kunna använda ditt kontos krediter.",

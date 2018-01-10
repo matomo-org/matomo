@@ -11,6 +11,8 @@
         "EventCategory": "Kategori Akti",
         "EventName": "Emër Akti",
         "EventNames": "Emra Aktesh",
+        "EventUrl": "URLAkti",
+        "EventUrls": "ULR-ra Aktesh",
         "Events": "Akte",
         "EventsWithValue": "Akte me një vlerë",
         "EventsWithValueDocumentation": "Numër aktesh për të cilat është caktuar një vlerë Akti",
