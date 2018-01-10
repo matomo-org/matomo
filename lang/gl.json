@@ -1,6 +1,6 @@
 {
     "General": {
-        "AboutPiwikX": "Acerca de Piwik %s",
+        "AboutPiwikX": "Acerca de Matomo %s",
         "Action": "Acción",
         "Actions": "Accións",
         "Add": "Engadir",
@@ -11,7 +11,7 @@
         "API": "API",
         "AveragePrice": "Prezo medio",
         "AverageQuantity": "Cantidade media",
-        "BackToPiwik": "Voltar a Piwik",
+        "BackToPiwik": "Voltar a Matomo",
         "Cancel": "Cancelar",
         "ChangePassword": "Cambiar o contrasinal",
         "ClickHere": "Prema aquí para máis información.",
@@ -80,7 +80,7 @@
         "Name": "Nome",
         "NbActions": "Numero de Accións",
         "Never": "Nunca",
-        "NewUpdatePiwikX": "Nova Actualización: Piwik %s",
+        "NewUpdatePiwikX": "Nova Actualización: Matomo %s",
         "NewVisitor": "Nova Visita",
         "Next": "Seguinte",
         "No": "Non",

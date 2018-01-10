@@ -9,7 +9,7 @@
         "AllWebsitesDashboard": "সকল ওয়েবসাইটের ড্যাশবোর্ড",
         "And": "এবং",
         "API": "এপিআই",
-        "BackToPiwik": "Piwik এ ফিরে যান",
+        "BackToPiwik": "Matomo এ ফিরে যান",
         "Cancel": "বাতিল করুন",
         "ChangePassword": "পাসওয়ার্ড পরিবর্তন",
         "Close": "বন্ধ করুন",
@@ -71,11 +71,11 @@
         "Weekly": "সাপ্তাহিক"
     },
     "Mobile": {
-        "AboutPiwikMobile": "Piwik মোবাাইল সম্পর্কে",
+        "AboutPiwikMobile": "Matomo মোবাাইল সম্পর্কে",
         "Account": "অ্যাকাউন্ট",
         "Accounts": "অ্যাকাউন্টস",
         "AddAccount": "অ্যাকাউন্ট যোগ করুন",
-        "AddPiwikDemo": "Piwik ডেমো যোগ করুন",
+        "AddPiwikDemo": "Matomo ডেমো যোগ করুন",
         "EmailUs": "অামাদের মেইল করুন",
         "EnableGraphsLabel": "গ্রাফ",
         "HowtoDeleteAnAccount": "অ্যাকাউন্ট রিমুভ করতে প্রেস করে ধরে রাখুন"
