@@ -10,7 +10,9 @@
 describe("Menus", function () {
     this.timeout(0);
 
-    var generalParams = 'idSite=1&period=year&date=2012-08-09',
+    this.fixture = "Piwik\\Tests\\Fixtures\\ThreeGoalsOnePageview";
+
+    var generalParams = 'idSite=1&period=year&date=2009-01-04',
         urlBase = 'module=CoreHome&action=index&' + generalParams
         ;
 
@@ -48,6 +50,17 @@ describe("Menus", function () {
     it('should change the admin page correctly when an admin menu item is clicked', function (done) {
         expect.screenshot('admin_changed').to.be.captureSelector('#secondNavBar', function (page) {
             openMenuItem(page, 'Manage');
+        }, done);
+    });
+
+    // top menu on mobile
+    it('should load the admin reporting menu correctly', function (done) {
+        expect.screenshot('mobile_top').to.be.capture(function (page) {
+            page.setViewportSize(768, 512);
+            page.load("?" + generalParams + "&module=CoreAdminHome&action=index");
+            page.evaluate(function(){
+                $('.activateTopMenu').click();
+            }, 250);
         }, done);
     });
 });
