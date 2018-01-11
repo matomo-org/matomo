@@ -20,7 +20,7 @@ class API
     protected $password = '';
     protected $projectSlug = '';
 
-    public function __construct($username, $password, $project = 'piwik')
+    public function __construct($username, $password, $project = 'matomo')
     {
         $this->username = $username;
         $this->password = $password;

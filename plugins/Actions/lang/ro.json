@@ -2,6 +2,7 @@
     "Actions": {
         "AvgGenerationTimeTooltip": "Media bazata pe %1$s hit(uri) %2$s intre %3$s si %4$s",
         "ColumnClickedURL": "URL-uri accesate",
+        "ColumnActionURL": "Acţiuni URL",
         "ColumnClicks": "Click-uri",
         "ColumnClicksDocumentation": "Numărul de ori link-ul a fost click-uit.",
         "ColumnDownloadURL": "URL Descărcare",
@@ -24,7 +25,7 @@
         "ColumnUniqueClicksDocumentation": "Numărul de vizite ce a presupus un click pe acest link. Dacă un link a fost click-uit de mai multe ori în timpul unei vizite, este numărat o dată.",
         "ColumnUniqueDownloads": "Descărcări Unice",
         "ColumnUniqueOutlinks": "Outlink-uri Unice",
-        "DownloadsReportDocumentation": "În acest raport, poţi vedea ce fişiere au fost descărcate de vizitatorii tăi. %s Ceea ce Piwik socoteşte ca fiind o descărcare este un click pe un link de descărcare. Dacă a fost terminată sau nu nu este cunoscut de către Piwik.",
+        "DownloadsReportDocumentation": "În acest raport, poţi vedea ce fişiere au fost descărcate de vizitatorii tăi. %s Ceea ce Matomo socoteşte ca fiind o descărcare este un click pe un link de descărcare. Dacă a fost terminată sau nu nu este cunoscut de către Matomo.",
         "EntryPageTitles": "Titlurile paginilor de intrare",
         "EntryPageTitlesReportDocumentation": "Acest raport conţine informaţii despre titlurile paginilor de intrare ce au fost folosite în timpul perioadei specificate.",
         "ExitPageTitles": "Titlurile paginilor de ieşire",

@@ -15,7 +15,7 @@
         "UsageDetails": "本站建立开始共计有%1$s访问记录和%2$s 笔互动记录。",
         "CreatingCustomVariableTakesTime": "创建新的自定义变量根据你的数据库的大小可能需要很长的时间。因此，这是唯一可能经由其需要在命令行上执行的命令来做到这一点。",
         "CurrentAvailableCustomVariables": "目前你可以在每个站点里使用高达 %s条自定义变量。",
-        "ToCreateCustomVarExecute": "要创建新的自定义变量，您可以在您的Piwik安装中执行以下命令：",
+        "ToCreateCustomVarExecute": "要创建新的自定义变量，您可以在您的Matomo安装中执行以下命令：",
         "SlotsReportIsGeneratedOverTime": "本报告的数据将随着时间的推移被填充。这可能需要一两天看到任何数据，并在几个星期之前，该报告是完全准确的。",
         "MetricsAreOnlyAvailableForVisitScope": "注意：自定义变量%1$s只能用于 %2$s范围。",
         "MetricsNotAvailableForPageScope": "自定义变量%1$s的列值范围为%2$s"

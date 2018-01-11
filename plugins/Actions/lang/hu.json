@@ -20,7 +20,7 @@
         "ColumnUniqueClicks": "Egyedi kattintások",
         "ColumnUniqueDownloads": "Egyedi letöltések",
         "ColumnUniqueOutlinks": "Egyedi kimenő linkek",
-        "DownloadsReportDocumentation": "Ez a jelentés azt mutatja, hogy a látogatók melyik fájlokat töltötték le. %s A Piwik a letöltési linkekre való kattintást számolja letöltésnek. Arról, hogy a letöltés valóban befejeződött-e, a Piwik nem tud.",
+        "DownloadsReportDocumentation": "Ez a jelentés azt mutatja, hogy a látogatók melyik fájlokat töltötték le. %s A Matomo a letöltési linkekre való kattintást számolja letöltésnek. Arról, hogy a letöltés valóban befejeződött-e, a Matomo nem tud.",
         "EntryPageTitles": "Üres weblap címek",
         "EntryPageTitlesReportDocumentation": "Ez a jelentés az adott idő alatt felmerült belépési oldalak címeit és statisztikáit foglalja össze.",
         "ExitPageTitles": "Kilépő oldal név",

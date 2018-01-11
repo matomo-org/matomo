@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "endast denna webbsida",
         "SegmentIsDisplayedForWebsite": "och behandlas för",
         "SegmentNotApplied": "Segment '%s' tillämpas inte",
-        "SegmentNotAppliedMessage": "Du begär data för det Anpassade Segmentet '%s', denna Piwik konfiguration förhindrar realtidsbearbetning av rapporter pga prestandaskäl.",
+        "SegmentNotAppliedMessage": "Du begär data för det Anpassade Segmentet '%s', denna Matomo konfiguration förhindrar realtidsbearbetning av rapporter pga prestandaskäl.",
         "SelectSegmentOfVisits": "Välj ett segment av besök:",
         "ThisSegmentIsVisibleTo": "Det här segmentet är synligt för:",
         "VisibleToAllUsers": "alla användare",

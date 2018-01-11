@@ -1,5 +1,6 @@
 {
     "Live": {
+        "ClickToViewAllActions": "Bu grubun tüm işlem ayrıntılarını görüntülemek için tıklayın",
         "ConvertedNGoals": "Dönüştürülen %s Hedef",
         "FirstVisit": "İlk ziyaret",
         "GoalType": "Tür",
@@ -25,7 +26,7 @@
         "VisitorProfile": "Ziyaretçi Profili",
         "VisitorsInRealTime": "Gerçek Zamanlı Ziyaretçiler",
         "VisitorsLastVisit": "Bu ziyaretçi %s gün önce ziyaret etmiş",
-        "RowActionTooltipTitle": "Bölüm ziyaretçi loglarını aç",
+        "RowActionTooltipTitle": "Dilimlere ayrılmış ziyaretçi günlüğünü aç",
         "OnClickPause": "%s başladı. Durdurmak için basın.",
         "OnClickStart": "%s durduruldu. Başlatmak için basın."
     }

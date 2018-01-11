@@ -24,10 +24,10 @@
         "PiwikIsInstalledAt": "Piwik on paigaldatud",
         "TrackAGoal": "Kogu infot eesmärgi kohta",
         "TrackingCode": "Jälgimiskood",
-        "TrustedHostSettings": "Usaldatud Piwiku server",
+        "TrustedHostSettings": "Usaldatud Matomou server",
         "UpdateSettings": "Uuenda seadeid",
         "UseCustomLogo": "Kasuta enda logo",
-        "ValidPiwikHostname": "Kehtiv Piwiku server (IP\/host)",
+        "ValidPiwikHostname": "Kehtiv Matomou server (IP\/host)",
         "WithOptionalRevenue": "koos valikulise tuluga",
         "YouAreOptedIn": "Sa oled valikus sees.",
         "YouAreOptedOut": "Sa oled valikust väljas."

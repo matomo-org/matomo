@@ -1,6 +1,6 @@
 {
     "Login": {
-        "ContactAdmin": "Galima priežastis: Jūsų pagr. kompiuteryje (serveryje) gali būti išjungta mail() funkcija.<br \/>Prašome susisiekti su savo Piwik administratoriumi.",
+        "ContactAdmin": "Galima priežastis: Jūsų pagr. kompiuteryje (serveryje) gali būti išjungta mail() funkcija.<br \/>Prašome susisiekti su savo Matomo administratoriumi.",
         "InvalidOrExpiredToken": "Netinkamas arba pasibaigęs talonas",
         "InvalidUsernameEmail": "Netinkamas naudotojo vardas ir\/arba el. pašto adresas",
         "LogIn": "Prisijungti",

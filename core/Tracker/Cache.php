@@ -145,7 +145,7 @@ class Cache
          *
          * Data that is used during tracking but is expensive to compute/query should be
          * cached to keep tracking efficient. One example of such data are options
-         * that are stored in the piwik_option table. Querying data for each tracking
+         * that are stored in the option table. Querying data for each tracking
          * request means an extra unnecessary database query for each visitor action. Using
          * a cache solves this problem.
          *

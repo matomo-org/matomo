@@ -54,7 +54,7 @@ class Row extends \ArrayObject
      * @param array $row An array with the following structure:
      *
      *                       array(
-     *                           Row::COLUMNS => array('label' => 'Piwik',
+     *                           Row::COLUMNS => array('label' => 'Matomo',
      *                                                 'column1' => 42,
      *                                                 'visits' => 657,
      *                                                 'time_spent' => 155744),

@@ -65,7 +65,7 @@
 		<settings>
 			<row>
 				<name>userTrackingEnabled</name>
-				<title>Piwik usage tracking enabled</title>
+				<title>Matomo usage tracking enabled</title>
 				<value>1</value>
 				<defaultValue>1</defaultValue>
 				<type>boolean</type>

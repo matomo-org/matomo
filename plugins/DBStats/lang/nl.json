@@ -5,7 +5,7 @@
         "DBSize": "DB grootte",
         "EstimatedSize": "Geschatte grootte",
         "IndexSize": "Index grootte",
-        "LearnMore": "Voor meer informatie over de manier waarop Piwik de data verwerkt en over de werking van Piwik in combinatie met middelgrote en grote website's, zie de documentatie %s.",
+        "LearnMore": "Voor meer informatie over de manier waarop Piwik de data verwerkt en over de werking van Matomo in combinatie met middelgrote en grote website's, zie de documentatie %s.",
         "MainDescription": "Piwik slaat alle analysedata op in een MySQL database. Momenteel is de omvang van deze database %s.",
         "MetricDataByYear": "Metric tabellen per jaar",
         "MetricTables": "Metric tabellen",

@@ -1,11 +1,11 @@
 {
     "Login": {
         "ConfirmationLinkSent": "Un lien de confirmation a été envoyé à votre courriel. Vérifiez votre courriel et cliquez sur le lien pour autoriser votre demande de changement de mot de passe.",
-        "ContactAdmin": "Raison possible : Votre hébergeur peut avoir désactivé la fonction mail(). <br \/> Veuillez contacter votre administrateur Piwik.",
+        "ContactAdmin": "Raison possible : Votre hébergeur peut avoir désactivé la fonction mail(). <br \/> Veuillez contacter votre administrateur Matomo.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un utilisateur avec un accès super utilisateur ne peut être authentifié en utilisant le mécanisme '%s'.",
         "ExceptionPasswordMD5HashExpected": "Le paramètre mot de passe doit être le hash MD5 du mot de passe.",
-        "InvalidNonceOrHeadersOrReferrer": "La sécurité du formulaire a échoué. Veuillez recharger le formulaire et vérifier que vos cookies sont activés. Si vous utilisez un serveur proxy, vous devez %1$s configurer Piwik pour accepter les en-têtes du proxy %2$s qui relaient les en-têtes de l'hôte. Vérifiez aussi que l'en-tête de votre référent est correctement transmis.",
-        "InvalidNonceSSLMisconfigured": "Aussi, vous devriez %1$s forcer Piwik à utiliser une connexion sécurisée%2$s : dans votre fichier de configuration %3$s définissez %4$s la section ci-dessous %5$s",
+        "InvalidNonceOrHeadersOrReferrer": "La sécurité du formulaire a échoué. Veuillez recharger le formulaire et vérifier que vos cookies sont activés. Si vous utilisez un serveur proxy, vous devez %1$s configurer Matomo pour accepter les en-têtes du proxy %2$s qui relaient les en-têtes de l'hôte. Vérifiez aussi que l'en-tête de votre référent est correctement transmis.",
+        "InvalidNonceSSLMisconfigured": "Aussi, vous devriez %1$s forcer Matomo à utiliser une connexion sécurisée%2$s : dans votre fichier de configuration %3$s définissez %4$s la section ci-dessous %5$s",
         "InvalidOrExpiredToken": "La clef est invalide ou a expiré",
         "InvalidUsernameEmail": "Nom d'utilisateur et\/ou courriel invalide.",
         "LogIn": "Connexion",
@@ -13,14 +13,14 @@
         "LoginPasswordNotCorrect": "Mot de passe et nom d'utilisateur incorrects.",
         "LostYourPassword": "Mot de passe perdu ?",
         "ChangeYourPassword": "Changer de mot de passe",
-        "MailPasswordChangeBody": "Bonjour %1$s,\n\nUne demande de réinitialisation de mot de passe a été reçue depuis %2$s. Pour confirmer le changement de mot de passe afin de pouvoir vous authentifier avec vos nouveaux identifiants, cliquez sur le lien suivant :\n\n%3$s\n\nAttention: modifier le mot de passe va aussi changer votre token_auth. vous pourrez obtenir votre nouveau token_auth sur votre page de paramètres.\n\nSi vous utilisez votre token_auth d'API avec n'importe quelle application externe ou pour de l'archivage, assurez-vous de mettre à jour le token_auth ou bien les requêtes vers l'API vont échouer.\n\nNote : ce jeton expirera dans 24 heures.\n\nMerci d'utiliser Piwik !",
+        "MailPasswordChangeBody": "Bonjour %1$s,\n\nUne demande de réinitialisation de mot de passe a été reçue depuis %2$s. Pour confirmer le changement de mot de passe afin de pouvoir vous authentifier avec vos nouveaux identifiants, cliquez sur le lien suivant :\n\n%3$s\n\nAttention: modifier le mot de passe va aussi changer votre token_auth. vous pourrez obtenir votre nouveau token_auth sur votre page de paramètres.\n\nSi vous utilisez votre token_auth d'API avec n'importe quelle application externe ou pour de l'archivage, assurez-vous de mettre à jour le token_auth ou bien les requêtes vers l'API vont échouer.\n\nNote : ce jeton expirera dans 24 heures.\n\nMerci d'utiliser Matomo !",
         "MailTopicPasswordChange": "Confirmer le changement de mot de passe",
         "NewPassword": "Nouveau mot de passe",
         "NewPasswordRepeat": "Nouveau mot de passe (à nouveau)",
         "PasswordChanged": "Votre mot de passe a été modifié",
         "PasswordRepeat": "Mot de passe (répétez)",
         "PasswordsDoNotMatch": "Les mots de passe ne correspondent pas.",
-        "PluginDescription": "Fournit une authentification via nom d'utilisateur et mot de passe ainsi qu'une fonctionnalité de réinitialisation. La méthode d'authentification peut être changée en utilisant un autre composant d'identification comme LoginLdap disponible de le Marché.",
+        "PluginDescription": "Fournit une authentification via nom d'utilisateur et mot de passe ainsi qu'une fonctionnalité de réinitialisation. La méthode d'authentification peut être changée en utilisant un autre composant d'identification comme LoginLdap disponible depuis le Marché.",
         "RememberMe": "Se souvenir de moi"
     }
 }

@@ -78,7 +78,7 @@ class Rss extends Renderer
 		<guid>$thisPiwikUrl</guid>
 		<link>$thisPiwikUrl</link>
 		<title>$title</title>
-		<author>http://piwik.org</author>
+		<author>https://matomo.org</author>
 		<description>";
 
             $out .= Common::sanitizeInputValue($this->renderDataTable($subtable));
@@ -112,11 +112,11 @@ class Rss extends Renderer
         $header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <rss version=\"2.0\">
   <channel>
-    <title>piwik statistics - RSS</title>
-    <link>http://piwik.org</link>
-    <description>Piwik RSS feed</description>
+    <title>matomo statistics - RSS</title>
+    <link>https://matomo.org</link>
+    <description>Matomo RSS feed</description>
     <pubDate>$generationDate</pubDate>
-    <generator>piwik</generator>
+    <generator>matomo</generator>
     <language>en</language>
     <lastBuildDate>$generationDate</lastBuildDate>";
         return $header;

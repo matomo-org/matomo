@@ -1,11 +1,11 @@
 {
     "Login": {
         "ConfirmationLinkSent": "Potwierdzenie zostało wysłane na skrzynkę odbiorczą. Sprawdź swój e-mail i odwiedzić link do autoryzacji żądania zmiany hasła.",
-        "ContactAdmin": "Prawdopodobny powód: twój host mógł wyłączyć działanie funkcji mail(). <br \/>Skontaktuj się w tej sprawie ze swoim administratorem statystyk Piwik.",
+        "ContactAdmin": "Prawdopodobny powód: twój host mógł wyłączyć działanie funkcji mail(). <br \/>Skontaktuj się w tej sprawie ze swoim administratorem statystyk Matomo.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Użytkownik o uprawnieniach Super Użytkownika nie może być autoryzowany przy pomocy mechanizmu '%s'.",
         "ExceptionPasswordMD5HashExpected": "Oczekiwanym parametrem hasła jest hash z MD5 uzyskany z hasła.",
-        "InvalidNonceOrHeadersOrReferrer": "Błąd zabezpieczeń formularza. Proszę przeładować stronę z formularzem i upewnić się, że obsługa ciasteczek jest włączona. Jeśli korzystasz z serwera proxy, należy %1$s skonfigurować Piwik, tak aby akceptował nagłówek serwera proxy%2$s, który przekazuje nagłówek serwera docelowego. Ponadto sprawdź, czy naglówek Referrer jest poprawnie wysyłany.",
-        "InvalidNonceSSLMisconfigured": "Możesz także %1$s wymusić na Piwik'u korzystanie z bezpiecznego połączenia%2$s: w pliku konfiguracyjnym %3$s ustaw %4$s poniżej sekcji %5$s",
+        "InvalidNonceOrHeadersOrReferrer": "Błąd zabezpieczeń formularza. Proszę przeładować stronę z formularzem i upewnić się, że obsługa ciasteczek jest włączona. Jeśli korzystasz z serwera proxy, należy %1$s skonfigurować Matomo, tak aby akceptował nagłówek serwera proxy%2$s, który przekazuje nagłówek serwera docelowego. Ponadto sprawdź, czy naglówek Referrer jest poprawnie wysyłany.",
+        "InvalidNonceSSLMisconfigured": "Możesz także %1$s wymusić na Matomo'u korzystanie z bezpiecznego połączenia%2$s: w pliku konfiguracyjnym %3$s ustaw %4$s poniżej sekcji %5$s",
         "InvalidOrExpiredToken": "Token jest błędny lub już wygasł.",
         "InvalidUsernameEmail": "Błędna nazwa użytkownika i\/lub adres e-mail",
         "LogIn": "Zaloguj się",
@@ -13,7 +13,7 @@
         "LoginPasswordNotCorrect": "Nazwa użytkownika i hasło nie są poprawne.",
         "LostYourPassword": "Nie pamiętasz hasła?",
         "ChangeYourPassword": "Zmień swoje hasło",
-        "MailPasswordChangeBody": "Cześć %1$s,\n\notrzymaliśmy żądanie resetu hasła od %2$s. Aby potwierdzić zmianę Twojego hasła i móc zalogować się przy pomocy nowych danych, kliknij w ten odnośnik:\n\n%3$s\n\nUwaga: Zmiana hasła powoduje zmianę token_auth. Nowy token znajdziesz na stronie ze swoimi ustawieniami.\n\nJeśli token_auth służy Ci do zasilania zewnętrznych aplikacji lub do archiwizacji, pamiętaj o jego aktualizacji. W przeciwnym przypadku wywołania API nie powiodą się.\n\nNotka: przesłany link wygaśnie w ciągu 24 godzin.\n\nI dzięki za korzystanie z Piwik'a!",
+        "MailPasswordChangeBody": "Cześć %1$s,\n\notrzymaliśmy żądanie resetu hasła od %2$s. Aby potwierdzić zmianę Twojego hasła i móc zalogować się przy pomocy nowych danych, kliknij w ten odnośnik:\n\n%3$s\n\nUwaga: Zmiana hasła powoduje zmianę token_auth. Nowy token znajdziesz na stronie ze swoimi ustawieniami.\n\nJeśli token_auth służy Ci do zasilania zewnętrznych aplikacji lub do archiwizacji, pamiętaj o jego aktualizacji. W przeciwnym przypadku wywołania API nie powiodą się.\n\nNotka: przesłany link wygaśnie w ciągu 24 godzin.\n\nI dzięki za korzystanie z Matomo'a!",
         "MailTopicPasswordChange": "Zatwierdź zmianę hasła",
         "NewPassword": "Nowe hasło",
         "NewPasswordRepeat": "Nowe hasło (powtórz)",

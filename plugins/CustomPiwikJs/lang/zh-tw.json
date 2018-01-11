@@ -1,8 +1,8 @@
 {
     "CustomPiwikJs": {
-        "PluginDescription": "允許任何外掛擴展 Piwik JavaScript 追蹤檔案（piwik.js）來增加新功能和網站衡量能力。",
+        "PluginDescription": "允許任何外掛擴展 Matomo JavaScript 追蹤檔案（piwik.js）來增加新功能和網站衡量能力。",
         "DiagnosticPiwikJsWritable": "可寫的 JavaScript 追蹤（\/piwik.js）",
         "DiagnosticPiwikJsNotWritable": "Piwik 的 JavaScript 追蹤檔案「\/piwik.js」不可寫入，這代表其他外掛無法擴展 JavaScript 追蹤。未來甚至有些核心功能會無法正常運作。",
-        "DiagnosticPiwikJsMakeWritable": "我們推薦讓 Piwik.js 可寫入，請執行此指令：%s"
+        "DiagnosticPiwikJsMakeWritable": "我們推薦讓 piwik.js 可寫入，請執行此指令：%s"
     }
 }

@@ -22,5 +22,6 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>43</revenue>
+		<segment>deviceBrand==Unknown;deviceModel==</segment>
 	</row>
 </result>

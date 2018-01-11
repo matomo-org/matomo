@@ -4,13 +4,13 @@
         "MobileReport_AdditionalPhoneNumbers": "Du kan tilføje flere telefonnumre ved at åbne",
         "MobileReport_MobileMessagingSettingsLink": "Mobil besked indstillinger",
         "MobileReport_NoPhoneNumbers": "Aktiver mindst ét telefonnummer ved at besøge",
-        "MultiSites_Must_Be_Activated": "For at generere SMS beskeder med dine website statistik, skal du aktivere MultiSites udvidelsesmodulet i Piwik.",
+        "MultiSites_Must_Be_Activated": "For at generere SMS beskeder med dine website statistik, skal du aktivere MultiSites udvidelsesmodulet i Matomo.",
         "PhoneNumbers": "Telefonnumre",
         "PluginDescription": "Opret og hent brugerdefinerede SMS rapporter og få dem sendt til din mobiltelefon på en daglig, ugentlig eller månedlig basis.",
         "Settings_APIKey": "API nøgle",
         "Settings_CountryCode": "Landekode",
-        "Settings_CredentialNotProvided": "Før du kan oprette og administrere telefonnumre, skal du tilslutte Piwik til din SMS-konto ovenfor.",
-        "Settings_CredentialNotProvidedByAdmin": "Før du kan oprette og administrere telefonnumre, skal du bede din administrator om at forbinde Piwik til en SMS-konto.",
+        "Settings_CredentialNotProvided": "Før du kan oprette og administrere telefonnumre, skal du tilslutte Matomo til din SMS-konto ovenfor.",
+        "Settings_CredentialNotProvidedByAdmin": "Før du kan oprette og administrere telefonnumre, skal du bede din administrator om at forbinde Matomo til en SMS-konto.",
         "Settings_CredentialProvided": "Din %s SMS API-konto er korrekt konfigureret!",
         "Settings_DeleteAccountConfirm": "Er du sikker på, at du vil slette denne SMS konto?",
         "Settings_InvalidActivationCode": "Indtastet kode var ikke gyldig, prøv igen.",
@@ -34,6 +34,6 @@
         "SMS_Content_Too_Long": "[for lang]",
         "TopLinkTooltip": "Få web analyse rapporter leveret til din indbakke eller din mobiltelefon!",
         "TopMenu": "Email & SMS rapporter",
-        "VerificationText": "Koden er %1$s. For at validere dit telefonnummer og modtage Piwik SMS rapporter, kopierer koden til formularen tilgængelig på Piwik > %2$s > %3$s."
+        "VerificationText": "Koden er %1$s. For at validere dit telefonnummer og modtage Piwik SMS rapporter, kopierer koden til formularen tilgængelig på Matomo > %2$s > %3$s."
     }
 }

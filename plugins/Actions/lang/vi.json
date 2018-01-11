@@ -25,7 +25,7 @@
         "ColumnUniqueClicksDocumentation": "Số lần truy cập liên quan đến một click chuột vào liên kết này. Nếu một liên kết đã được click nhiều lần trong một lần truy cập, nó chỉ được tính một lần.",
         "ColumnUniqueDownloads": "Lượt tải về duy nhất",
         "ColumnUniqueOutlinks": "Đường link bên ngoài",
-        "DownloadsReportDocumentation": "Trong báo cáo này, bạn có thể thấy những file nào khách truy cập đã download. %s Cái gì mà Piwik tính như một tải về là một click trên một liên kết tải về. Cho dù tải về đã được hoàn thành hoặc không được biết đến Piwik.",
+        "DownloadsReportDocumentation": "Trong báo cáo này, bạn có thể thấy những file nào khách truy cập đã download. %s Cái gì mà Matomo tính như một tải về là một click trên một liên kết tải về. Cho dù tải về đã được hoàn thành hoặc không được biết đến Matomo.",
         "EntryPageTitles": "Tiêu đề trang khởi đầu",
         "EntryPageTitlesReportDocumentation": "Báo cáo này chứa thông tin về các tiêu đề của các trang đến đã được sử dụng trong một thời hạn quy định.",
         "ExitPageTitles": "Tiêu đề trang rời đi",

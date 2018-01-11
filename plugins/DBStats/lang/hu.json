@@ -3,8 +3,8 @@
         "DatabaseUsage": "Adatbázis-használat",
         "DataSize": "Adatméret",
         "IndexSize": "Indexméret",
-        "LearnMore": "Ha többet szeretnél megtudni arról, hogyan dolgozza fel a Piwik az adatokat, és hogyan lehet mindezt hatékonyan megoldani közepes és nagyobb forgalommal rendelkező weboldalak esetén is, olvasd el a vonatkozó dokumentációt: %s",
-        "MainDescription": "A Piwik egy MySQL adatbázisban tárolja a webanalitikai adatokat. Jelenleg a Piwik táblák a következőket használják: %s.",
+        "LearnMore": "Ha többet szeretnél megtudni arról, hogyan dolgozza fel a Matomo az adatokat, és hogyan lehet mindezt hatékonyan megoldani közepes és nagyobb forgalommal rendelkező weboldalak esetén is, olvasd el a vonatkozó dokumentációt: %s",
+        "MainDescription": "A Piwik egy MySQL adatbázisban tárolja a webanalitikai adatokat. Jelenleg a Matomo táblák a következőket használják: %s.",
         "RowCount": "Sorok száma",
         "Table": "Táblázat",
         "TotalSize": "Teljes méret"

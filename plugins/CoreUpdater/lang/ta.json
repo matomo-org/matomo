@@ -17,7 +17,7 @@
         "InstallingTheLatestVersion": "தற்போதைய புதிய பதிப்பு நிறுவப்படுகிறது.",
         "MajorUpdateWarning1": "இது ஒரு முக்கிய புதுப்பிப்பு! இதனை முடிக்க எப்பொழுதும் ஆகும் நேரத்தை விட சற்று அதிக நேரம் பிடிக்கக்கூடும்.",
         "MajorUpdateWarning2": "நீண்ட நிறுவல்களுக்கு பின்வரும் விசேட அறிவுரைகள் முக்கியமானவை:",
-        "NoteForLargePiwikInstances": "பெறும் Piwik நிறுவல்களுக்கான முக்கிய குறிப்புக்கள்",
+        "NoteForLargePiwikInstances": "பெறும் Matomo நிறுவல்களுக்கான முக்கிய குறிப்புக்கள்",
         "PiwikHasBeenSuccessfullyUpgraded": "பிவிக் வெற்றிகரமாக புதுப்பிக்கப்பட்டுள்ளது!",
         "PiwikUpdatedSuccessfully": "பிவிக் வெற்றிகரமாக புதுபிக்கப்பட்டது!",
         "PiwikWillBeUpgradedFromVersionXToVersionY": "பிவிக் தரவுத்தளமானது பதிப்பு %1$s இல் இருந்து %2$s க்கு மேம்படுத்தப்படும்.",

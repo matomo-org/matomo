@@ -4,7 +4,7 @@
         "ClicksFromXLinks": "%2$s リンクの 1 つからの%1$s クリック",
         "Domain": "ドメイン",
         "ErrorNotLoading": "ページオーバーレイ・セッションがまだ開始されていません。",
-        "ErrorNotLoadingDetails": "右側にロードされたページには、Piwik 追跡コードがありません。ページレポートとは異なるページで、オーバーレイの起動をお試しください。",
+        "ErrorNotLoadingDetails": "右側にロードされたページには、Matomo 追跡コードがありません。ページレポートとは異なるページで、オーバーレイの起動をお試しください。",
         "ErrorNotLoadingDetailsSSL": "Piwik を https 経由で利用していますが、お使いのパソコンが SSL をサポートしていないことが原因として考えられます。http 経由でのご利用をお試しください。",
         "ErrorNotLoadingLink": "トラブルシューティングのためのヒントは、こちらをクリック",
         "Link": "リンク",

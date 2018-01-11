@@ -14,7 +14,7 @@
 
 <div piwik-content-block
      content-title="{{ title|e('html_attr') }}"
-     help-url="https://piwik.org/docs/tracking-api/"
+     help-url="https://matomo.org/docs/tracking-api/"
      rate="{{ 'CoreAdminHome_TrackingCode'|translate|e('html_attr') }}">
 
     <div id="js-code-options" ng-controller="JsTrackingCodeController as jsTrackingCode">
@@ -22,11 +22,11 @@
         <p>
             {{ 'CoreAdminHome_JSTrackingIntro1'|translate }}
             <br/><br/>
-            {{ 'CoreAdminHome_JSTrackingIntro2'|translate }} {{ 'CoreAdminHome_JSTrackingIntro3b'|translate('<a href="https://piwik.org/integrate/" rel="noreferrer"  target="_blank">','</a>')|raw }}
+            {{ 'CoreAdminHome_JSTrackingIntro2'|translate }} {{ 'CoreAdminHome_JSTrackingIntro3b'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer"  target="_blank">','</a>')|raw }}
             <br/><br/>
             {{ 'CoreAdminHome_JSTrackingIntro4'|translate('<a href="#image-tracking-link">','</a>')|raw }}
             <br/><br/>
-            {{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a rel="noreferrer"  target="_blank" href="https://piwik.org/docs/javascript-tracking/">','</a>')|raw }}
+            {{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a rel="noreferrer"  target="_blank" href="https://matomo.org/docs/javascript-tracking/">','</a>')|raw }}
         </p>
 
         <div piwik-field uicontrol="site" name="js-tracker-website"
@@ -42,7 +42,7 @@
             {# track across all subdomains #}
             <div id="jsTrackAllSubdomainsInlineHelp" class="inline-help-node">
                 {{ 'CoreAdminHome_JSTracking_MergeSubdomainsDesc'|translate("x.<span class='current-site-host'></span>","y.<span class='current-site-host'></span>")|raw }}
-                {{ 'General_LearnMore'|translate(' (<a href="https://developer.piwik.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains" rel="noreferrer"  target="_blank">', '</a>)')|raw }}
+                {{ 'General_LearnMore'|translate(' (<a href="https://developer.matomo.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains" rel="noreferrer"  target="_blank">', '</a>)')|raw }}
             </div>
 
             <div piwik-field uicontrol="checkbox" name="javascript-tracking-all-subdomains"
@@ -185,7 +185,7 @@
 
                 {# custom campaign name/keyword query params #}
                 <div id="jsTrackCampaignParamsInlineHelp" class="inline-help-node">
-                    {{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc'|translate('<a href="https://piwik.org/faq/general/#faq_119" rel="noreferrer"  target="_blank">','</a>')|raw }}
+                    {{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc'|translate('<a href="https://matomo.org/faq/general/#faq_119" rel="noreferrer"  target="_blank">','</a>')|raw }}
                 </div>
 
                 <div piwik-field uicontrol="checkbox" name="custom-campaign-query-params-check"
@@ -247,7 +247,7 @@
             {{ 'CoreAdminHome_ImageTrackingIntro1'|translate }} {{ 'CoreAdminHome_ImageTrackingIntro2'|translate("<code>&lt;noscript&gt;&lt;/noscript&gt;</code>")|raw }}
         </p>
         <p>
-            {{ 'CoreAdminHome_ImageTrackingIntro3'|translate('<a href="https://piwik.org/docs/tracking-api/reference/" rel="noreferrer"  target="_blank">','</a>')|raw }}
+            {{ 'CoreAdminHome_ImageTrackingIntro3'|translate('<a href="https://matomo.org/docs/tracking-api/reference/" rel="noreferrer"  target="_blank">','</a>')|raw }}
         </p>
 
         {# website #}
@@ -316,7 +316,7 @@
 
 <div piwik-content-block content-title="{{ 'CoreAdminHome_ImportingServerLogs'|translate|e('html_attr') }}">
     <p>
-        {{ 'CoreAdminHome_ImportingServerLogsDesc'|translate('<a href="https://piwik.org/log-analytics/" rel="noreferrer"  target="_blank">','</a>')|raw }}
+        {{ 'CoreAdminHome_ImportingServerLogsDesc'|translate('<a href="https://matomo.org/log-analytics/" rel="noreferrer"  target="_blank">','</a>')|raw }}
     </p>
 </div>
 {% endblock %}

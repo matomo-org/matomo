@@ -25,7 +25,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 /**
- * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='http://piwik.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>,
+ * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='http://matomo.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>,
  * you will be able to request visits filtered by any criteria.
  *
  * The method "getLastVisitsDetails" will return extensive data for each visit, which includes: server time, visitId, visitorId,
@@ -37,12 +37,12 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  * browser, type of screen, resolution, supported browser plugins (flash, java, silverlight, pdf, etc.), various dates & times format to make
  * it easier for API users... and more!
  *
- * With the parameter <a href='http://piwik.org/docs/analytics-api/segmentation/' rel='noreferrer' target='_blank'>'&segment='</a> you can filter the
+ * With the parameter <a href='http://matomo.org/docs/analytics-api/segmentation/' rel='noreferrer' target='_blank'>'&segment='</a> you can filter the
  * returned visits by any criteria (visitor IP, visitor ID, country, keyword used, time of day, etc.).
  *
  * The method "getCounters" is used to return a simple counter: visits, number of actions, number of converted visits, in the last N minutes.
  *
- * See also the documentation about <a href='http://piwik.org/docs/real-time/' rel='noreferrer' target='_blank'>Real time widget and visitor level reports</a> in Piwik.
+ * See also the documentation about <a href='http://matomo.org/docs/real-time/' rel='noreferrer' target='_blank'>Real time widget and visitor level reports</a> in Matomo.
  * @method static \Piwik\Plugins\Live\API getInstance()
  */
 class API extends \Piwik\Plugin\API

@@ -1,10 +1,10 @@
 {
     "Login": {
         "ConfirmationLinkSent": "Ang link na upang ma-konpirma ang iyong detalye ay ipinadala na sa iyong inbox. Tignan ang iyong e-mail at bisitahin ang link na ito upang masagawa ang iyong hiling na baguhin ang iyong password.",
-        "ContactAdmin": "Mga posibleng dahilan: maaaring hindi pinagana ng iyong host ang function mail (). <br \/> Mangyaring makipag-ugnay sa iyong Piwik administrator.",
+        "ContactAdmin": "Mga posibleng dahilan: maaaring hindi pinagana ng iyong host ang function mail (). <br \/> Mangyaring makipag-ugnay sa iyong Matomo administrator.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Ang isang user na may Super-access ay hindi maaaring e-authenticate gamit ang '%s' mechanism.",
         "ExceptionPasswordMD5HashExpected": "Ang parameter ng password ay inaasahan na maging isang MD5 hash ng password.",
-        "InvalidNonceOrHeadersOrReferrer": "Form security failed. Mangyaring i-reload ang form at suriin kung ang iyong cookies ay gumagana. Kung ikaw ay gumagamit ng proxy server dapat mong %1$s i-configure ang Piwik upang makatanggap ng proxy header %2$s para ma e-forward sa host header. At dapat mong e-check ang iyong Referrer header kung ito ay napadala ng tama.",
+        "InvalidNonceOrHeadersOrReferrer": "Form security failed. Mangyaring i-reload ang form at suriin kung ang iyong cookies ay gumagana. Kung ikaw ay gumagamit ng proxy server dapat mong %1$s i-configure ang Matomo upang makatanggap ng proxy header %2$s para ma e-forward sa host header. At dapat mong e-check ang iyong Referrer header kung ito ay napadala ng tama.",
         "InvalidOrExpiredToken": "Ang token ay hindi wasto o nag-expire.",
         "InvalidUsernameEmail": "Di-wasto ang username o e-mail address.",
         "LogIn": "Mag-sign in",

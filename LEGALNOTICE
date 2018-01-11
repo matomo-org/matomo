@@ -1,6 +1,6 @@
 COPYRIGHT
 
-	Piwik - free/libre analytics platform
+	Matomo - free/libre analytics platform
 
 	The software package is:
 
@@ -12,17 +12,17 @@ COPYRIGHT
 
 SOFTWARE LICENSE
 
-	The free software license of Piwik is GNU General Public License v3
+	The free software license of Matomo is GNU General Public License v3
 	or later.  A copy of GNU GPL v3 should have been included in this
 	software package in misc/gpl-3.0.txt.
 
 
 TRADEMARK
 
-	Piwik (TM) is an internationally registered trademark.
+	Matomo (TM) is an internationally registered trademark.
 
 	The software license does not grant any rights under trademark
-	law for use of the trademark.  Refer to https://piwik.org/trademark/
+	law for use of the trademark.  Refer to https://matomo.org/trademark/
 	for up-to-date trademark licensing information.
 
 *
@@ -36,12 +36,12 @@ TRADEMARK
 CREDITS
 
 	The software consists of contributions made by many individuals.
-	Major contributors are listed in https://piwik.org/the-piwik-team/.
+	Major contributors are listed in https://matomo.org/the-piwik-team/.
 
 	For detailed contribution history, refer to the source, tickets,
 	patches, and Git revision history, available at
-	https://github.com/piwik/piwik/issues
-	https://github.com/piwik/piwik
+	https://github.com/matomo-org/piwik/issues
+	https://github.com/matomo-org/piwik
 
 
 SEPARATELY LICENSED COMPONENTS AND LIBRARIES
@@ -50,31 +50,31 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	and subject to their respective licenses.
 
 	Name:  javascriptCode.tpl - tracking tag to embed in your web pages
-	Link:  https://github.com/piwik/piwik/blob/master/core/Tracker/javascriptTag.tpl
+	Link:  https://github.com/matomo-org/piwik/blob/master/core/Tracker/javascriptTag.tpl
 	License:  Public Domain
 
 	Name:  jquery.truncate
-	Link:  https://github.com/piwik/piwik/blob/master/libs/jquery/truncate/
+	Link:  https://github.com/matomo-org/piwik/blob/master/libs/jquery/truncate/
 	License:  New BSD
 
 	Name:  piwik.js - JavaScript tracker
-	Link:  https://github.com/piwik/piwik/blob/master/js/piwik.js
+	Link:  https://github.com/matomo-org/piwik/blob/master/js/piwik.js
 	License:  New BSD
 
 	Name:  PiwikTracker - server-side tracker (PHP)
-	Link: https://github.com/piwik/piwik/blob/master/libs/PiwikTracker/
+	Link: https://github.com/matomo-org/piwik/blob/master/libs/PiwikTracker/
 	License:  New BSD
 
 	Name:  DeviceDetector
-	Link:  https://github.com/piwik/device-detector
+	Link:  https://github.com/matomo-org/device-detector
 	License:  LGPL
 
 	Name:  Piwik/Decompress
-	Link:  https://github.com/piwik/component-decompress
+	Link:  https://github.com/matomo-org/component-decompress
 	License:  LGPL v3.0
 
 	Name:  Piwik/Network
-	Link:  https://github.com/piwik/component-network
+	Link:  https://github.com/matomo-org/component-network
 	License:  LGPL v3.0
 
 
@@ -243,7 +243,7 @@ THIRD-PARTY CONTENT
 	Link:  http://www.iconspedia.com/icon/neptune-4672.html
 	License:  Free for non-commercial use
 	Notes:
-	- used in Piwik's ExampleUI plugin
+	- used in Matomo's ExampleUI plugin
 
 	Name:  flag-icon-css - Lipis
 	Link:  https://github.com/lipis/flag-icon-css

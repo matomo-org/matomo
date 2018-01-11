@@ -4,7 +4,7 @@
         "ContactAdmin": "Motiv posibil: gazda ta poate avea dezactivata functia email . <br\/>Contactati adminstratorul.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un utilizator cu acces la Super utilizator nu poate fi autentificat folosind '%s' mecanismul.",
         "ExceptionPasswordMD5HashExpected": "Parametrul parolei este aşteptat să fie un hash MD5 al parolei.",
-        "InvalidNonceOrHeadersOrReferrer": "Formular de securitate nereusit. Vă rugăm să reîncărcați formularul și verificați dacă modulele cookie sunt activate. Dacă utilizați un server proxy, trebuie să configurati %1$s Piwik pentru a accepta antetul proxy %2$s care transmite antetul Host. De asemenea, verificați dacă antetul dvs. Referrer este trimis corect.",
+        "InvalidNonceOrHeadersOrReferrer": "Formular de securitate nereusit. Vă rugăm să reîncărcați formularul și verificați dacă modulele cookie sunt activate. Dacă utilizați un server proxy, trebuie să configurati %1$s Matomo pentru a accepta antetul proxy %2$s care transmite antetul Host. De asemenea, verificați dacă antetul dvs. Referrer este trimis corect.",
         "InvalidOrExpiredToken": "Jetonul este invalid sau expirat.",
         "InvalidUsernameEmail": "Nume sau adresa email invalidă.",
         "LogIn": "Intrare",

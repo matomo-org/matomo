@@ -24,7 +24,7 @@ use Piwik\Segment\SegmentExpression;
 class TableLogAction
 {
     /**
-     * This function will find the idaction from the lookup table piwik_log_action,
+     * This function will find the idaction from the lookup table log_action,
      * given an Action name, type, and an optional URL Prefix.
      *
      * This is used to record Page URLs, Page Titles, Ecommerce items SKUs, item names, item categories

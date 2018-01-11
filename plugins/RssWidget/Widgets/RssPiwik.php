@@ -16,8 +16,8 @@ class RssPiwik extends \Piwik\Widget\Widget
 {
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('About Piwik');
-        $config->setName('Piwik.org Blog');
+        $config->setCategoryId('About Matomo');
+        $config->setName('Matomo.org Blog');
     }
 
     public function render()

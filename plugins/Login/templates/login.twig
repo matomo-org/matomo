@@ -30,12 +30,12 @@
             <span id="logo" class="brand-logo center">
 
                 {% if isCustomLogo == false %}
-                    <a href="https://piwik.org" title="{{ linkTitle }}">
+                    <a href="https://matomo.org" title="{{ linkTitle }}">
                 {% endif %}
                 {% if hasSVGLogo %}
-                    <img src='{{ logoSVG }}' class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" title="{{ linkTitle }}" alt="Piwik"/>
+                    <img src='{{ logoSVG }}' class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" title="{{ linkTitle }}" alt="Matomo"/>
                 {% else %}
-                    <img src='{{ logoLarge }}' title="{{ linkTitle }}" alt="Piwik" />
+                    <img src='{{ logoLarge }}' title="{{ linkTitle }}" alt="Matomo" />
                 {% endif %}
 
                 {% if isCustomLogo == false %}
@@ -114,7 +114,7 @@
 
                     {% if isCustomLogo %}
                         <p id="piwik">
-                            <i><a href="https://piwik.org/" rel="noreferrer"  target="_blank">{{ linkTitle }}</a></i>
+                            <i><a href="https://matomo.org/" rel="noreferrer"  target="_blank">{{ linkTitle }}</a></i>
                         </p>
                     {% endif %}
 

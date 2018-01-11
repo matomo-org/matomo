@@ -163,7 +163,7 @@ class ReportsProvider
              */
             Piwik::postEvent('Report.filterReports', array(&$instances));
 
-            usort($instances, array($this, 'sort'));
+            @usort($instances, array($this, 'sort'));
 
             $cache->save($cacheId, $instances);
         }

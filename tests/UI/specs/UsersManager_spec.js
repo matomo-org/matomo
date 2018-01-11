@@ -101,10 +101,10 @@ describe("UsersManager", function () {
     });
 
     it("should ask for confirmation when all sites selected", function (done) {
-        assertScreenshotEquals("adminuser_all_users_confirmation", done, function (page) {
+        expect.screenshot("adminuser_all_users_confirmation").to.be.captureSelector('.modal.open', function (page) {
             openGiveAccessForm(page);
             setLoginOrEmailForGiveAccessForm(page, 'login5@example.com');
             submitGiveAccessForm(page);
-        });
+        }, done);
     });
 });

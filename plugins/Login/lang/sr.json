@@ -1,11 +1,11 @@
 {
     "Login": {
         "ConfirmationLinkSent": "Link sa potvrdom je poslat na vašu elektronsku adresu. Proverite elektronsku poštu i posetite link kako biste potvrdili zahtev za promenom lozinke.",
-        "ContactAdmin": "Moguć razlog: vaš hosting provajder je možda onemogućio mail() funkciju. <br \/>Molimo vas da kontaktirate vašeg Piwik administratora.",
+        "ContactAdmin": "Moguć razlog: vaš hosting provajder je možda onemogućio mail() funkciju. <br \/>Molimo vas da kontaktirate vašeg Matomo administratora.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Korisnik sa superkorisničkim nivoom pristupa ne može biti autentifikovan korišćenjem mehanizma '%s'.",
         "ExceptionPasswordMD5HashExpected": "Parametar za lozinku bi trebalo da bude MD5 hash lozinke.",
-        "InvalidNonceOrHeadersOrReferrer": "Problem sa sigurnošću. Molimo vas da proverite da li su kolačići (cookies) omogućeni i da ponovo učitate stranicu. Ukoliko se nalazite iza proxy servera, morate %1$s podesiti Piwik da prihvata proxy zaglavlje%2$s koje prosleđuje zaglavlje servera. Takođe, proverite da li je referer zaglavlje poslato kako treba.",
-        "InvalidNonceSSLMisconfigured": "Takođe možete %1$s naterati Piwik da koristi bezbednu konekciju%2$s: u datoteci sa podešavanjima %3$s postavite %4$s u sekciji %5$s",
+        "InvalidNonceOrHeadersOrReferrer": "Problem sa sigurnošću. Molimo vas da proverite da li su kolačići (cookies) omogućeni i da ponovo učitate stranicu. Ukoliko se nalazite iza proxy servera, morate %1$s podesiti Matomo da prihvata proxy zaglavlje%2$s koje prosleđuje zaglavlje servera. Takođe, proverite da li je referer zaglavlje poslato kako treba.",
+        "InvalidNonceSSLMisconfigured": "Takođe možete %1$s naterati Matomo da koristi bezbednu konekciju%2$s: u datoteci sa podešavanjima %3$s postavite %4$s u sekciji %5$s",
         "InvalidOrExpiredToken": "Token ili nije validan ili je istekao.",
         "InvalidUsernameEmail": "Pogrešno korisničko ime i\/ili elektronska adresa",
         "LogIn": "Prijavljivanje",
@@ -13,7 +13,7 @@
         "LoginPasswordNotCorrect": "Korisničko ime i lozinka nisu ispravni",
         "LostYourPassword": "Zaboravili ste lozinku?",
         "ChangeYourPassword": "Promenite vašu lozinku",
-        "MailPasswordChangeBody": "Pozdrav %1$s,\n\nSa %2$s je poslat zahtev za resetovanje lozinke. Ukoliko želite da potvrdite promenu lozinke kako biste mogli da se ponovo prijavite na sistem, otvorite sledeći link:\n\n%3$s\n\nPažnja: promenom lozinke menjate i vaš token_auth. Novi token_auth možete da nađete na vašoj stranici sa podešavanjima.\n\nUkoliko koristite API token_auth u nekoj od eksternih aplikacija ili za arhiviranje, pobrinite se da ga ažurirate jer, u protivnom, API zahtevi neće funkcionisati .\n\nOvaj link važi 24 sata.\n\nI hvala što koristite Piwik ;-)",
+        "MailPasswordChangeBody": "Pozdrav %1$s,\n\nSa %2$s je poslat zahtev za resetovanje lozinke. Ukoliko želite da potvrdite promenu lozinke kako biste mogli da se ponovo prijavite na sistem, otvorite sledeći link:\n\n%3$s\n\nPažnja: promenom lozinke menjate i vaš token_auth. Novi token_auth možete da nađete na vašoj stranici sa podešavanjima.\n\nUkoliko koristite API token_auth u nekoj od eksternih aplikacija ili za arhiviranje, pobrinite se da ga ažurirate jer, u protivnom, API zahtevi neće funkcionisati .\n\nOvaj link važi 24 sata.\n\nI hvala što koristite Matomo ;-)",
         "MailTopicPasswordChange": "Potvrdite promenu lozinke",
         "NewPassword": "Nova lozinka",
         "NewPasswordRepeat": "Ponovite novu lozinku",

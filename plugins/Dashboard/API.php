@@ -10,7 +10,7 @@ namespace Piwik\Plugins\Dashboard;
 use Piwik\Piwik;
 
 /**
- * This API is the <a href='http://piwik.org/docs/analytics-api/reference/' rel='noreferrer' target='_blank'>Dashboard API</a>: it gives information about dashboards.
+ * This API is the <a href='http://matomo.org/docs/analytics-api/reference/' rel='noreferrer' target='_blank'>Dashboard API</a>: it gives information about dashboards.
  *
  * @method static \Piwik\Plugins\Dashboard\API getInstance()
  */

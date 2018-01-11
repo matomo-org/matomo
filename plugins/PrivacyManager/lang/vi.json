@@ -8,7 +8,7 @@
         "CurrentDBSize": "Kích thước cơ sở dữ liệu hiện tại",
         "DBPurged": "Loại bỏ DB.",
         "DeleteBothConfirm": "Bạn muốn kích hoạt cả hai bản ghi dữ liệu xóa và báo cáo xóa dữ liệu. Điều này sẽ vĩnh viễn loại bỏ khả năng của bạn để xem dữ liệu phân tích cũ. Bạn có chắc bạn muốn làm điều này?",
-        "DeleteDataDescription": "Bạn có thể cấu hình Piwik thường xuyên xóa các bản ghi khách truy cập cũ và\/hoặc xử lý báo cáo để giữ cho kích thước cơ sở dữ liệu của bạn nhỏ.",
+        "DeleteDataDescription": "Bạn có thể cấu hình Matomo thường xuyên xóa các bản ghi khách truy cập cũ và\/hoặc xử lý báo cáo để giữ cho kích thước cơ sở dữ liệu của bạn nhỏ.",
         "DeleteDataDescription2": "Nếu muốn, các báo cáo tiền xử lý sẽ không bị xóa, chỉ truy cập, xem trang và dữ liệu bản ghi chuyển đổi sẽ bị xóa. Hoặc, các báo cáo tiền xử lý có thể được xóa và dữ liệu bản ghi có thể được lưu giữ.",
         "DeleteDataInterval": "Xóa mọi dữ liệu cũ",
         "DeleteLogDescription2": "Khi bạn kích hoạt xóa bản ghi tự động, bạn phải đảm bảo rằng tất cả các báo cáo hàng ngày trước đây đã được xử lý, do đó không có dữ liệu bị mất.",

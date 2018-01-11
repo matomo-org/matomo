@@ -3,13 +3,13 @@
         "CategoryNoData": "ไม่มีข้อมูลในประเภทนี้ พยายาม \"รวมประชากรทั้งหมด\"",
         "CheckForUpdates": "ตรวจสอบชุดอัพเดท",
         "Default": "ค่าเริ่มต้น",
-        "JavascriptDisabled": "ต้องเปิดใช้งาน JavaScript เพื่อให้คุณสามารถใช้ Piwik ในมุมมองมาตรฐาน <br \/>อย่างไรก็ตามเหมือน JavaScript ของคุณถูกปิดการใช้งาน หรือไม่ได้รับการสนับสนุนโดยเบราว์เซอร์ของคุณ <br \/>เมื่อต้องการใช้มุมมองมาตรฐาน ให้เปิดใช้ JavaScript โดยการเปลี่ยนแปลงตัวเลือกเบราว์เซอร์ของคุณแล้ว %1$s ลองใหม่ %2$s.<br \/>",
+        "JavascriptDisabled": "ต้องเปิดใช้งาน JavaScript เพื่อให้คุณสามารถใช้ Matomo ในมุมมองมาตรฐาน <br \/>อย่างไรก็ตามเหมือน JavaScript ของคุณถูกปิดการใช้งาน หรือไม่ได้รับการสนับสนุนโดยเบราว์เซอร์ของคุณ <br \/>เมื่อต้องการใช้มุมมองมาตรฐาน ให้เปิดใช้ JavaScript โดยการเปลี่ยนแปลงตัวเลือกเบราว์เซอร์ของคุณแล้ว %1$s ลองใหม่ %2$s.<br \/>",
         "PageOf": "%1$s ของ %2$s",
         "ShowJSCode": "แสดงรหัส JavaScript เมื่อต้องการแทรก",
-        "SupportPiwik": "สนับสนุน Piwik!",
+        "SupportPiwik": "สนับสนุน Matomo!",
         "ThereIsNoDataForThisReport": "ไม่มีข้อมูลสำหรับรายงานนี้",
-        "ViewAllPiwikVideoTutorials": "ดูคลิปวีดีโอสอน Piwik ทั้งหมด",
+        "ViewAllPiwikVideoTutorials": "ดูคลิปวีดีโอสอน Matomo ทั้งหมด",
         "WebAnalyticsReports": "รายงานการวิเคราะห์เว็บไซต์",
-        "YouAreUsingTheLatestVersion": "คุณกำลังใช้งานรุ่นล่าสุดของ Piwik!"
+        "YouAreUsingTheLatestVersion": "คุณกำลังใช้งานรุ่นล่าสุดของ Matomo!"
     }
 }

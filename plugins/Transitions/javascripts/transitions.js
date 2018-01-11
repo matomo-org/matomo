@@ -188,7 +188,7 @@ Piwik_Transitions.prototype.showPopover = function () {
     var self = this;
 
     this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
-    Piwik_Popover.addHelpButton('https://piwik.org/docs/transitions');
+    Piwik_Popover.addHelpButton('https://matomo.org/docs/transitions');
 
     var bothLoaded = function () {
         Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);

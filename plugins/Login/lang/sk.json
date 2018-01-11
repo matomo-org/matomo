@@ -1,10 +1,10 @@
 {
     "Login": {
         "ConfirmationLinkSent": "Potvrdzovací odkaz bol zaslaný na váš e-mail. Skontrolujte si došlú poštu a navštívte tento odkaz pre autorizovanie požiadavky pre zmenu hesla.",
-        "ContactAdmin": "Možné dôvody: Váš server ma zakázanú funkciu mail(). <br \/>Skontaktujte svojho administrátora Piwik.",
+        "ContactAdmin": "Možné dôvody: Váš server ma zakázanú funkciu mail(). <br \/>Skontaktujte svojho administrátora Matomo.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Používateľ s prístupom Super Používateľ nemôže byť autorizovaný pomocou '%s' mechanizmu.",
         "ExceptionPasswordMD5HashExpected": "Parameter hesla je očakávaný ako MD5 hash hesla.",
-        "InvalidNonceOrHeadersOrReferrer": "Bezpečnosť formuláru zlyhala. Prosím znovu načítajte formulár a overte, že cookies sú aktivované. Ak používate proxy server, musíte %1$s konfigurovať Piwik aby akceptoval proxy hlavičku%2$s ktorá presmerúva hlavičku Hostiteľa. Tiež skontrolujte, že hlavička Referrer je poslaná správne.",
+        "InvalidNonceOrHeadersOrReferrer": "Bezpečnosť formuláru zlyhala. Prosím znovu načítajte formulár a overte, že cookies sú aktivované. Ak používate proxy server, musíte %1$s konfigurovať Matomo aby akceptoval proxy hlavičku%2$s ktorá presmerúva hlavičku Hostiteľa. Tiež skontrolujte, že hlavička Referrer je poslaná správne.",
         "InvalidOrExpiredToken": "Token je neplatný alebo už vypršal.",
         "InvalidUsernameEmail": "Neplatné meno používateľa alebo e-mailová adresa",
         "LogIn": "Prihlásiť sa",

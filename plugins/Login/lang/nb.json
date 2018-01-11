@@ -1,11 +1,11 @@
 {
     "Login": {
         "ConfirmationLinkSent": "En bekreftelseslenke har blitt sendt til din innboks. Sjekk din e-post og besøk denne lenken for å autorisere din forespørsel om å endre passord.",
-        "ContactAdmin": "Mulig grunn: Din tjener har kanskje deaktivert mail()-funksjonen. <br \/>Kontakt din Piwik administrator.",
+        "ContactAdmin": "Mulig grunn: Din tjener har kanskje deaktivert mail()-funksjonen. <br \/>Kontakt din Matomo administrator.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "En bruker med superbrukertilgang kan ikke autentiseres med «%s»-mekanismen.",
         "ExceptionPasswordMD5HashExpected": "Passordparameteret er forventet å være en MD5-hash av passordet.",
-        "InvalidNonceOrHeadersOrReferrer": "Skjemasikkerhet feilet. Vennligst last inn skjemaet på nytt og sjekk at datakapsler er aktivert. Hvis du bruker en proxy-server må du %1$s konfigurere Piwik til å akseptere proxy-headere %2$s som sender videre Host-headeren. Sjekk også at Referrer-headeren sendes uten feil.",
-        "InvalidNonceSSLMisconfigured": "I tillegg kan du %1$s tvinge Piwik til å bruke en sikker tilkobling%2$s: i din config-fil %3$s sett %4$s under seksjonen %5$s",
+        "InvalidNonceOrHeadersOrReferrer": "Skjemasikkerhet feilet. Vennligst last inn skjemaet på nytt og sjekk at datakapsler er aktivert. Hvis du bruker en proxy-server må du %1$s konfigurere Matomo til å akseptere proxy-headere %2$s som sender videre Host-headeren. Sjekk også at Referrer-headeren sendes uten feil.",
+        "InvalidNonceSSLMisconfigured": "I tillegg kan du %1$s tvinge Matomo til å bruke en sikker tilkobling%2$s: i din config-fil %3$s sett %4$s under seksjonen %5$s",
         "InvalidOrExpiredToken": "Autentiseringsnøkkelen er ugyldig eller har utløpt.",
         "InvalidUsernameEmail": "Feil brukernavn og\/eller epost-adresse.",
         "LogIn": "Logg inn",

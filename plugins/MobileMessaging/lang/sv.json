@@ -4,15 +4,16 @@
         "MobileReport_AdditionalPhoneNumbers": "Du kan lägga till flera telefonnummer genom att ge dem tillgång",
         "MobileReport_MobileMessagingSettingsLink": "Sidan för Mobila meddelanden",
         "MobileReport_NoPhoneNumbers": "Aktivera minst ett telefonnummer genom att ge åtkomst",
-        "MultiSites_Must_Be_Activated": "För att få SMS med din webbsidas status, var snäll och tillåt pluginet för MultiplaSidor i Piwik.",
+        "MultiSites_Must_Be_Activated": "För att få SMS med din webbsidas status, var snäll och tillåt pluginet för MultiplaSidor i Matomo.",
         "PhoneNumbers": "Telefonnummer",
         "PluginDescription": "Skapa och ladda ner ett anpassade SMS rapporter och få dem skickade till din mobil dagligen, en gång i veckan eller en gång i månaden.",
         "Settings_APIKey": "API-nyckel",
         "Settings_CountryCode": "Landskod",
-        "Settings_CredentialNotProvided": "Innan du kan skapa och hantera telefonnummer, var snäll och koppa Piwik till ditt SMS konto här ovan.",
-        "Settings_CredentialNotProvidedByAdmin": "Innan du kan skapa och hantera telefonnummer, var snäll och fråga din administratör om han eller hon kan koppla Piwik till ett SMS konto",
+        "Settings_CredentialNotProvided": "Innan du kan skapa och hantera telefonnummer, var snäll och koppa Matomo till ditt SMS konto här ovan.",
+        "Settings_CredentialNotProvidedByAdmin": "Innan du kan skapa och hantera telefonnummer, var snäll och fråga din administratör om han eller hon kan koppla Matomo till ett SMS konto",
         "Settings_CredentialProvided": "Dina %s SMS API konton är korrekt konfigurerade!",
         "Settings_DeleteAccountConfirm": "Är du säker på att du vill radera detta SMS-konto?",
+        "Settings_EnterActivationCode": "Ange aktiveringskod",
         "Settings_InvalidActivationCode": "Koden var inte giltig, var god försök igen.",
         "Settings_LetUsersManageAPICredential": "Tillåt användare att hantera sina egna SMS API referenser",
         "Settings_LetUsersManageAPICredential_No_Help": "Alla användare har möjlighet att ta emot SMS rapporter och kommer kunna använda ditt kontos krediter.",
@@ -34,6 +35,6 @@
         "SMS_Content_Too_Long": "[för långt]",
         "TopLinkTooltip": "Få Webb Analysrapporter levererade till din mail inkorg eller din mobiltelefon",
         "TopMenu": "E-post och SMS-rapporter",
-        "VerificationText": "Koden är %1$s. För att verifiera ditt telefonnummer och få Piwiks SMS rapporter ber vi dig kopiera den här koden i formuläret för åtkomlighet via Piwik > %2$s > %3$s."
+        "VerificationText": "Koden är %1$s. För att verifiera ditt telefonnummer och få Piwiks SMS rapporter ber vi dig kopiera den här koden i formuläret för åtkomlighet via Matomo > %2$s > %3$s."
     }
 }

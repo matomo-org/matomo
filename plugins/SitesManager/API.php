@@ -34,10 +34,10 @@ use Piwik\Url;
 use Piwik\UrlHelper;
 
 /**
- * The SitesManager API gives you full control on Websites in Piwik (create, update and delete), and many methods to retrieve websites based on various attributes.
+ * The SitesManager API gives you full control on Websites in Matomo (create, update and delete), and many methods to retrieve websites based on various attributes.
  *
  * This API lets you create websites via "addSite", update existing websites via "updateSite" and delete websites via "deleteSite".
- * When creating websites, it can be useful to access internal codes used by Piwik for currencies via "getCurrencyList", or timezones via "getTimezonesList".
+ * When creating websites, it can be useful to access internal codes used by Matomo for currencies via "getCurrencyList", or timezones via "getTimezonesList".
  *
  * There are also many ways to request a list of websites: from the website ID via "getSiteFromId" or the site URL via "getSitesIdFromSiteUrl".
  * Often, the most useful technique is to list all websites that are known to a current user, based on the token_auth, via
@@ -46,7 +46,7 @@ use Piwik\UrlHelper;
  * Some methods will affect all websites globally: "setGlobalExcludedIps" will set the list of IPs to be excluded on all websites,
  * "setGlobalExcludedQueryParameters" will set the list of URL parameters to remove from URLs for all websites.
  * The existing values can be fetched via "getExcludedIpsGlobal" and "getExcludedQueryParametersGlobal".
- * See also the documentation about <a href='http://piwik.org/docs/manage-websites/' rel='noreferrer' target='_blank'>Managing Websites</a> in Piwik.
+ * See also the documentation about <a href='http://matomo.org/docs/manage-websites/' rel='noreferrer' target='_blank'>Managing Websites</a> in Matomo.
  * @method static \Piwik\Plugins\SitesManager\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -86,7 +86,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the javascript tag for the given idSite.
-     * This tag must be included on every page to be tracked by Piwik
+     * This tag must be included on every page to be tracked by Matomo
      *
      * @param int $idSite
      * @param string $piwikUrl
@@ -135,7 +135,7 @@ class API extends \Piwik\Plugin\API
      * Returns image link tracking code for a given site with specified options.
      *
      * @param int $idSite The ID to generate tracking code for.
-     * @param string $piwikUrl The domain and URL path to the Piwik installation.
+     * @param string $piwikUrl The domain and URL path to the Matomo installation.
      * @param int $idGoal An ID for a goal to trigger a conversion for.
      * @param int $revenue The revenue of the goal conversion. Only used if $idGoal is supplied.
      * @return string The HTML tracking code.
@@ -160,17 +160,17 @@ class API extends \Piwik\Plugin\API
          * this event to customise the image tracking code that is displayed to the
          * user.
          *
-         * @param string &$piwikHost The domain and URL path to the Piwik installation, eg,
+         * @param string &$piwikHost The domain and URL path to the Matomo installation, eg,
          *                           `'examplepiwik.com/path/to/piwik'`.
          * @param array &$urlParams The query parameters used in the <img> element's src
-         *                          URL. See Piwik's image tracking docs for more info.
+         *                          URL. See Matomo's image tracking docs for more info.
          */
         Piwik::postEvent('SitesManager.getImageTrackingCode', array(&$piwikUrl, &$urlParams));
 
         $piwikUrl = (ProxyHttp::isHttps() ? "https://" : "http://") . $piwikUrl . '/piwik.php';
-        return "<!-- Piwik Image Tracker-->
+        return "<!-- Matomo Image Tracker-->
 <img src=\"$piwikUrl?" . Url::getQueryStringFromParameters($urlParams) . "\" style=\"border:0\" alt=\"\" />
-<!-- End Piwik -->";
+<!-- End Matomo -->";
     }
 
     /**
@@ -278,7 +278,7 @@ class API extends \Piwik\Plugin\API
         try {
             return $this->getSitesId();
         } catch (Exception $e) {
-            // can be called before Piwik tables are created so return empty
+            // can be called before Matomo tables are created so return empty
             return array();
         }
     }
@@ -289,7 +289,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param bool|int $timestamp
      * @return array The list of website IDs
-     * @deprecated since 2.15 This method will be removed in Piwik 3.0, there is no replacement.
+     * @deprecated since 2.15 This method will be removed in Matomo 3.0, there is no replacement.
      */
     public function getSitesIdWithVisits($timestamp = false)
     {
@@ -725,7 +725,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Delete a website from the database, given its Id. The method deletes the actual site as well as some associated
      * data. However, it does not delete any logs or archives that belong to this website. You can delete logs and
-     * archives for a site manually as described in this FAQ: http://piwik.org/faq/how-to/faq_73/ .
+     * archives for a site manually as described in this FAQ: http://matomo.org/faq/how-to/faq_73/ .
      *
      * Requires Super User access.
      *

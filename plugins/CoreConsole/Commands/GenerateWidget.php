@@ -49,7 +49,7 @@ class GenerateWidget extends GeneratePluginBase
         $replace        = array('ExamplePlugin'   => $pluginName,
                                 'MyExampleWidget' => $widgetClass,
                                 'Example Widget Name' => $this->makeTranslationIfPossible($pluginName, $widgetName),
-                                'About Piwik' => $category);
+                                'About Matomo' => $category);
         $whitelistFiles = array('/Widgets', '/Widgets/MyExampleWidget.php');
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);

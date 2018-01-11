@@ -23,7 +23,7 @@ use Piwik\Plugins\MobileMessaging\SMSProvider;
 class API extends \Piwik\Plugin\API
 {
     const VERIFICATION_CODE_LENGTH = 5;
-    const SMS_FROM = 'Piwik';
+    const SMS_FROM = 'Matomo';
 
     /**
      * determine if SMS API credential are available for the current user

@@ -1,6 +1,6 @@
 {
     "Login": {
-        "ContactAdmin": "Mulig grunn: tenaren din hev slått av mail() funksjonen. <br \/>Kontakt din Piwik administrator.",
+        "ContactAdmin": "Mulig grunn: tenaren din hev slått av mail() funksjonen. <br \/>Kontakt din Matomo administrator.",
         "InvalidUsernameEmail": "Ugyldig brukarnamn og\/eller epost-adresse",
         "LogIn": "Logg på",
         "LoginOrEmail": "Brukarnamn eller epost",

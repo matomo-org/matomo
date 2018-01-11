@@ -207,7 +207,7 @@ class CreatePull extends TranslationBase
                  -u '.$username.' \
                  --data "{\"title\":\"[automatic translation update] '.$title.'\",\"body\":\"'.$message.'\",\"head\":\"translationupdates\",\"base\":\"' . self::GIT_BASE_BRANCH . '\"}" \
                  -H "Accept: application/json" \
-                 https://api.github.com/repos/piwik/piwik/pulls');
+                 https://api.github.com/repos/matomo-org/piwik/pulls');
 
             switch ($returnCode) {
                 case 401:

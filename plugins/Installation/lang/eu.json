@@ -2,7 +2,7 @@
     "Installation": {
         "ConfirmDeleteExistingTables": "Ziur zaude ondorengo taulak: %s datu-basetik ezabatu nahi dituzula? OHARRA: TAULA HAUETAKO DATUAK EZINGO DIRA BERRESKURATU!",
         "Congratulations": "Zorionak",
-        "CongratulationsHelp": "<p>Zorionak! Zure Piwik instalazioa osatu da.<\/p><p>Egiaztatu JavaScript kodea zure orrietan txertatuta dagoela eta ondoren itxaron lehenengo bisitei!<\/p>",
+        "CongratulationsHelp": "<p>Zorionak! Zure Matomo instalazioa osatu da.<\/p><p>Egiaztatu JavaScript kodea zure orrietan txertatuta dagoela eta ondoren itxaron lehenengo bisitei!<\/p>",
         "DatabaseCreation": "Datu-basea sortzea",
         "DatabaseErrorConnect": "Errorea datu-basearen zerbitzariarekin konektatzen saiatzean",
         "DatabaseServerVersion": "Datu-basearen zerbitzariaren bertsioa",
@@ -13,10 +13,10 @@
         "DatabaseSetupServer": "datu-basearen zerbitzaria",
         "DatabaseSetupTablePrefix": "taularen aurrizkia",
         "Extension": "hedapena",
-        "GoBackAndDefinePrefix": "Zoaz atzera eta definitu aurrizki bat Piwik-en taulentzat",
+        "GoBackAndDefinePrefix": "Zoaz atzera eta definitu aurrizki bat Matomo-en taulentzat",
         "Installation": "Instalazioa",
         "InstallationStatus": "Instalazioaren egoera",
-        "LargePiwikInstances": "Laguntza Piwik-en instalazio handientzat",
+        "LargePiwikInstances": "Laguntza Matomo-en instalazio handientzat",
         "Legend": "Legenda",
         "Optional": "Aukerazkoa",
         "PasswordDoNotMatch": "pasahitzak ez datoz bat",
@@ -50,12 +50,12 @@
         "Tables": "Taulak sortzen",
         "TablesCreatedSuccess": "Taulak ondo sortu dira!",
         "TablesDelete": "Ezabatu atzemandako taulak",
-        "TablesDeletedSuccess": "Aurretik zeuden Piwik taulak ondo ezabatu dira",
+        "TablesDeletedSuccess": "Aurretik zeuden Matomo taulak ondo ezabatu dira",
         "TablesFound": "Ondorengo taulak aurkitu dira datu-basean",
         "TablesReuse": "Berrerabili dauden taulak",
         "TablesWarningHelp": "Aukeratu dagoen datu-baseko taulak berrerabiltzea edo hautatu instalazio garbia dauden datuak datu-basetik ezabatzeko.",
-        "TablesWithSameNamesFound": "Zure %1$s datu-baseko zenbait taulek %2$s Piwik sortzen saiatzen ari den taulen izen berak dituzte",
+        "TablesWithSameNamesFound": "Zure %1$s datu-baseko zenbait taulek %2$s Matomo sortzen saiatzen ari den taulen izen berak dituzte",
         "Welcome": "Ongi etorri!",
-        "WelcomeHelp": "<p>Piwik kode irekiko web analitiken softwarea da, zure bisitariengandik nahi duzun informazioa erraz eskuratzeko.<\/p><p>Prozesu hau %s urrats errazetan dago banatuta eta bost minutu inguru hartuko ditu.<\/p>"
+        "WelcomeHelp": "<p>Matomo kode irekiko web analitiken softwarea da, zure bisitariengandik nahi duzun informazioa erraz eskuratzeko.<\/p><p>Prozesu hau %s urrats errazetan dago banatuta eta bost minutu inguru hartuko ditu.<\/p>"
     }
 }

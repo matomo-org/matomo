@@ -24,7 +24,7 @@
         "ColumnUniqueClicksDocumentation": "Ang bilang ng pagbisita na nakapaloob sa pag-click sa link na ito. Kung ang isang link ay na-click ng maraming beses sa panahon ng isang pagbisita, ito ay binibilang lamang nang isang beses.",
         "ColumnUniqueDownloads": "Natatanging mga Download",
         "ColumnUniqueOutlinks": "Natatanging mga Outlink",
-        "DownloadsReportDocumentation": "Sa ulat na ito, maaari mong makita kung aling mga file ang i-dinownload ng iyong mga bisita . %s Ang binibilang ng Piwik bilang download ay ang pag-click sa download link. Kung ang pag-download ay natapos o hindi ito ay hindi na nalalaman ng Piwik.",
+        "DownloadsReportDocumentation": "Sa ulat na ito, maaari mong makita kung aling mga file ang i-dinownload ng iyong mga bisita . %s Ang binibilang ng Matomo bilang download ay ang pag-click sa download link. Kung ang pag-download ay natapos o hindi ito ay hindi na nalalaman ng Matomo.",
         "EntryPageTitles": "Mga pamagat ng entry page",
         "EntryPageTitlesReportDocumentation": "Ang ulat na ito ay naglalaman ng impormasyon tungkol sa mga pamagat ng mga 'entry page' na ginamit sa tinukoy na panahon.",
         "ExitPageTitles": "Mga pamagat ng exit page",

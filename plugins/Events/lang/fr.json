@@ -1,6 +1,6 @@
 {
     "Events": {
-        "PluginDescription": "Suivez les évènements et obtenez des rapports sur l'activité de vous visiteurs.",
+        "PluginDescription": "Suivez les évènements et obtenez des rapports sur l'activité de vos visiteurs.",
         "AvgEventValue": "La valeur moyenne de l'évènement est : %s",
         "AvgValue": "Valeur moyenne",
         "AvgValueDocumentation": "Moyenne de toutes les valeurs pour cet évènement",

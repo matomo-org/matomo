@@ -3,8 +3,8 @@
         "DatabaseUsage": "Datu-basearen erabilera",
         "DataSize": "Datuen tamaina",
         "IndexSize": "Indizearen tamaina",
-        "LearnMore": "Piwik-ek datuak nola prozesatzen dituen eta Piwik trafiko ertain eta handikjo webguneetarako nola moldatu jakiteko, emaiozu begirada dokumentazioari: %s.",
-        "MainDescription": "Zure web analitiken datu guztiak MySQL datu-basean biltegiratzen ari da Piwik. Une honetan Piwik-en taulek tamaina hau hartzen dute: %s.",
+        "LearnMore": "Piwik-ek datuak nola prozesatzen dituen eta Matomo trafiko ertain eta handikjo webguneetarako nola moldatu jakiteko, emaiozu begirada dokumentazioari: %s.",
+        "MainDescription": "Zure web analitiken datu guztiak MySQL datu-basean biltegiratzen ari da Piwik. Une honetan Matomo-en taulek tamaina hau hartzen dute: %s.",
         "RowCount": "Errenkada kopurua",
         "Table": "Taula",
         "TotalSize": "Tamaina osoa"

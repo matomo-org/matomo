@@ -21,11 +21,11 @@ use Piwik\Piwik;
 /**
  * The Referrers API lets you access reports about Websites, Search engines, Keywords, Campaigns used to access your website.
  *
- * For example, "getKeywords" returns all search engine keywords (with <a href='http://piwik.org/docs/analytics-api/reference/#toc-metric-definitions' rel='noreferrer' target='_blank'>general analytics metrics</a> for each keyword), "getWebsites" returns referrer websites (along with the full Referrer URL if the parameter &expanded=1 is set).
+ * For example, "getKeywords" returns all search engine keywords (with <a href='http://matomo.org/docs/analytics-api/reference/#toc-metric-definitions' rel='noreferrer' target='_blank'>general analytics metrics</a> for each keyword), "getWebsites" returns referrer websites (along with the full Referrer URL if the parameter &expanded=1 is set).
  * "getReferrerType" returns the Referrer overview report. "getCampaigns" returns the list of all campaigns (and all campaign keywords if the parameter &expanded=1 is set).
  *
  * The methods "getKeywordsForPageUrl" and "getKeywordsForPageTitle" are used to output the top keywords used to find a page.
- * Check out the widget <a href='http://demo.piwik.org/index.php?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&actionToWidgetize=getKeywordsForPage&idSite=7&period=day&date=2011-02-15&disableLink=1' rel='noreferrer' target='_blank'>"Top keywords used to find this page"</a> that you can easily re-use on your website.
+ * Check out the widget <a href='http://demo.matomo.org/index.php?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&actionToWidgetize=getKeywordsForPage&idSite=7&period=day&date=2011-02-15&disableLink=1' rel='noreferrer' target='_blank'>"Top keywords used to find this page"</a> that you can easily re-use on your website.
  * @method static \Piwik\Plugins\Referrers\API getInstance()
  */
 class API extends \Piwik\Plugin\API

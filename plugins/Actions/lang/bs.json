@@ -24,7 +24,7 @@
         "ColumnUniqueClicksDocumentation": "Broj posjeta koji su umiješan sa klikom na ovaj link. Ako je link kliknut više puta prilikom posjete, uračunat je samo jednom.",
         "ColumnUniqueDownloads": "Jedinstveni downloadi",
         "ColumnUniqueOutlinks": "Jedinstveni izlazni linkovi",
-        "DownloadsReportDocumentation": "U ovom izvještaju možete vidjeti koje fajlove je posjetioc skinuo. %s je šta Piwik računa kao download je klik na download link. Da li je download kompletiran, Piwik ne zna.",
+        "DownloadsReportDocumentation": "U ovom izvještaju možete vidjeti koje fajlove je posjetioc skinuo. %s je šta Matomo računa kao download je klik na download link. Da li je download kompletiran, Matomo ne zna.",
         "EntryPageTitles": "Naslovi ulaznih stranica",
         "EntryPageTitlesReportDocumentation": "Ovaj izvještaj sadrži informacije o naslovima ulaznih stranica koje su korištene prilikom specifičnog vremena.",
         "ExitPageTitles": "Naslovi izlaznih stranica",

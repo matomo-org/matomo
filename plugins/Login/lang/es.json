@@ -1,11 +1,11 @@
 {
     "Login": {
         "ConfirmationLinkSent": "Un enlace de confirmación ha sido enviado a su casilla de correo. Verifique su correo electrónico y siga ese enlace para autorizar su solicitud de cambio de contraseña.",
-        "ContactAdmin": "Posible razón: su servicio de alojamiento puede tener deshabilitado la función mail(). <br \/>Por favor contáctese con su administrador de Piwik.",
+        "ContactAdmin": "Posible razón: su servicio de alojamiento puede tener deshabilitado la función mail(). <br \/>Por favor contáctese con su administrador de Matomo.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un usuario con acceso Super Usuario no puede ser autenticado usando el mecanismo '%s'.",
         "ExceptionPasswordMD5HashExpected": "Se espera que el parámetro contraseña sea un hash MD5 de la contraseña.",
-        "InvalidNonceOrHeadersOrReferrer": "La seguridad del formulario falló. Por favor cargue nuevamente el formulario y compruebe que sus cookies están habilitadas. Si usa un proxy, debe %1$s configurar Piwik para aceptar la cabecera proxy%2$s que precede a la cabecera Host. Compruebe también que su cabecera Referrer se envía correctamente.",
-        "InvalidNonceSSLMisconfigured": "También, puede %1$s forzar a Piwik a usar una conexión segura%2$s: en su archivo de configuración %3$s establezca %4$s bajo la sección %5$s.",
+        "InvalidNonceOrHeadersOrReferrer": "La seguridad del formulario falló. Por favor cargue nuevamente el formulario y compruebe que sus cookies están habilitadas. Si usa un proxy, debe %1$s configurar Matomo para aceptar la cabecera proxy%2$s que precede a la cabecera Host. Compruebe también que su cabecera Referrer se envía correctamente.",
+        "InvalidNonceSSLMisconfigured": "También, puede %1$s forzar a Matomo a usar una conexión segura%2$s: en su archivo de configuración %3$s establezca %4$s bajo la sección %5$s.",
         "InvalidOrExpiredToken": "El Token no es válido o ha caducado",
         "InvalidUsernameEmail": "Nombre de usuario y\/o correo electrónico incorrectos.",
         "LogIn": "Iniciar sesión",
@@ -13,7 +13,7 @@
         "LoginPasswordNotCorrect": "Usuario y contraseña incorrectos.",
         "LostYourPassword": "¿Olvidó la contraseña?",
         "ChangeYourPassword": "Cambiar su contraseña",
-        "MailPasswordChangeBody": "Hola %1$s,\n\nUna solicitud de reestablecimiento de contraseña fue recibida desde %2$s. Para confirmar este cambio de contraseña para iniciar sesión con sus nuevas credenciales, visite el siguiente enlace:\n\n%3$s\n\nAtención: Cambiar su contraseña hará también que cambie su token_auth. Puede verificarlo en su página de ajustes.\n\nSi está utilizando su API token_auth en cualquier aplicación externa o a solo fines de archivado, asegúrese de actualizar su token_auth en tanto que cualquier petición a la API generá un error.\n\nNota: este enlace caducará transcurridas 24 horas.\n\nGracias por usar Piwik!",
+        "MailPasswordChangeBody": "Hola %1$s,\n\nUna solicitud de reestablecimiento de contraseña fue recibida desde %2$s. Para confirmar este cambio de contraseña para iniciar sesión con sus nuevas credenciales, visite el siguiente enlace:\n\n%3$s\n\nAtención: Cambiar su contraseña hará también que cambie su token_auth. Puede verificarlo en su página de ajustes.\n\nSi está utilizando su API token_auth en cualquier aplicación externa o a solo fines de archivado, asegúrese de actualizar su token_auth en tanto que cualquier petición a la API generá un error.\n\nNota: este enlace caducará transcurridas 24 horas.\n\nGracias por usar Matomo!",
         "MailTopicPasswordChange": "Confirma el cambio de contraseña",
         "NewPassword": "Nueva contraseña",
         "NewPasswordRepeat": "Nueva contraseña (repetir)",

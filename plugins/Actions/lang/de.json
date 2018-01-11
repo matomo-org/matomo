@@ -33,7 +33,7 @@
         "ColumnIdPageview": "Seitenansicht-ID",
         "ColumnInteractionPosition": "Interaktionsposition",
         "ActionsInVisit": "Aktionen beim Besuch",
-        "DownloadsReportDocumentation": "In diesem Bericht sehen Sie, welche Dateien Ihre Besucher heruntergeladen haben. %s Als Download wird in Piwik der Klick auf einen Downloadlink gewertet. Ob der Download abgeschlossen wurde oder nicht, ist Piwik nicht bekannt.",
+        "DownloadsReportDocumentation": "In diesem Bericht sehen Sie, welche Dateien Ihre Besucher heruntergeladen haben. %s Als Download wird in Matomo der Klick auf einen Downloadlink gewertet. Ob der Download abgeschlossen wurde oder nicht, ist Matomo nicht bekannt.",
         "EntryPagesReportDocumentation": "Dieser Bericht enthält Informationen über die Einstiegsseiten im gewählten Zeitraum. Die Einstiegsseite ist die erste Seite, die während eines Besuches aufgerufen wird. %s Die URLs werden als Ordnerstruktur angezeigt.",
         "EntryPageTitles": "Titel der Einstiegsseite",
         "EntryPageTitlesReportDocumentation": "Dieser Bericht enthält Informationen über die Titel der Einstiegsseiten, die im angeforderten Zeitraum verwendet wurden.",

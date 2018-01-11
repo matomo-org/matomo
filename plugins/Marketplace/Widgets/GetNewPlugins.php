@@ -29,7 +29,7 @@ class GetNewPlugins extends Widget
 
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('About Piwik');
+        $config->setCategoryId('About Matomo');
         $config->setName('Latest Marketplace Updates');
         $config->setOrder(19);
     }

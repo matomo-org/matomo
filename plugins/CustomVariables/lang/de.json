@@ -4,7 +4,7 @@
         "ColumnCustomVariableValue": "Wert der benutzerdefinierten Variable",
         "CustomVariables": "Benutzerdefinierte Variablen",
         "CustomVariablesReportDocumentation": "Dieser Bericht enthält Informationen über Ihre benutzerdefinierten Variablen. Klicken Sie auf einen Variablennamen, um die Verteilung der Werte zu sehen. %1$s Für mehr Informationen über benutzerdefinierte Variablen, lesen Sie die %2$sDokumentation auf piwik.org%3$s",
-        "PluginDescription": "Benutzerdefinierte Variablen sind (Name, Wert)-Paare, welche Sie mit Hilfe der Javascript API für Besucher oder deren Aktionen zuweisen können. Piwik wird dann Besuche, Seiten, Konversionen für jede dieser benutzerdefinierten Namen und Werte protokollieren. Die detaillierten benutzerdefinierten Variablen lassen sich für jeden Benutzer und jede Aktion im Visitor Log anzeigen.<br \/>Benötigt, um das<a href=\"https:\/\/piwik.org\/docs\/ecommerce-analytics\/\">Ecommerce Analytics<\/a> Feature einsetzen zu können!",
+        "PluginDescription": "Benutzerdefinierte Variablen sind (Name, Wert)-Paare, welche Sie mit Hilfe der Javascript API für Besucher oder deren Aktionen zuweisen können. Matomo wird dann Besuche, Seiten, Konversionen für jede dieser benutzerdefinierten Namen und Werte protokollieren. Die detaillierten benutzerdefinierten Variablen lassen sich für jeden Benutzer und jede Aktion im Visitor Log anzeigen.<br \/>Benötigt, um das<a href=\"https:\/\/piwik.org\/docs\/ecommerce-analytics\/\">Ecommerce Analytics<\/a> Feature einsetzen zu können!",
         "ScopePage": "Anwendungsbereich Seite",
         "ScopeVisit": "Anwendungsbereich Besuch",
         "ScopeConversion": "Anwendungsbereichkonversion",
@@ -17,7 +17,7 @@
         "UsageDetails": "%1$s Besuche und %2$s Aktionen seit der Erstellung dieser Website.",
         "CreatingCustomVariableTakesTime": "Neue benutzerdefinierte Variablen zu erstellen kann viel Zeit beanspruchen, abhängig von der Größe Ihrer Datenbank. Deshalb ist dieser Vorgang nur über Kommandozeilen verfügbar.",
         "CurrentAvailableCustomVariables": "Aktuell können Sie bis zu %s benutzerdefinierte Variablen pro Seite einsetzen.",
-        "ToCreateCustomVarExecute": "Um eine neue benutzerdefinierte Variable zu erstellen, führen Sie in Ihrer Piwik Installation folgende Befehle aus:",
+        "ToCreateCustomVarExecute": "Um eine neue benutzerdefinierte Variable zu erstellen, führen Sie in Ihrer Matomo Installation folgende Befehle aus:",
         "SlotsReportIsGeneratedOverTime": "Daten für diesen Bericht werden periodisch veröffentlicht. Es mag ein oder zwei Tage dauern, bis Daten sichtbar sind und einige Wochen bis der Bericht vollständig aussagekräftig ist.",
         "MetricsAreOnlyAvailableForVisitScope": "Hinweis: Die Metriken %1$s sind nur für benutzerdefinierte Variablen mit Geltungsbereich %2$s verfügbar.",
         "MetricsNotAvailableForPageScope": "Für benutzerdefinierte Variablen mit Geltungsbereich %1$s ist der Wert für diese Metriken %2$s."

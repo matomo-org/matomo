@@ -5,7 +5,7 @@
         "Domain": "Doména",
         "ErrorNotLoading": "Sezení překryvu stránky nemohlo být zatím spuštěno.",
         "ErrorNotLoadingDetails": "Možná nemá načtená stránka na pravé straně sledovací kód. V tomto případě zkuste spustit překryv pro jinou stránku z hlášení stránek.",
-        "ErrorNotLoadingDetailsSSL": "Protože používáte Piwik přes HTTPS, nejpravděpodobnější je, že stránky nepodporují SSL. Zkuste přistoupit k Piwiku přes HTTP.",
+        "ErrorNotLoadingDetailsSSL": "Protože používáte Piwik přes HTTPS, nejpravděpodobnější je, že stránky nepodporují SSL. Zkuste přistoupit k Matomou přes HTTP.",
         "ErrorNotLoadingLink": "Klikněte zde pro více tipů k řešení problémů",
         "Link": "Odkaz",
         "Location": "Umístění",

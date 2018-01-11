@@ -49,7 +49,7 @@
 
     {% else %}
         {% if isSuperUser %}
-            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntro'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://piwik.org/recommends/premium-plugins/'>", "</a>")|raw }}
+            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntro'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/recommends/premium-plugins/'>", "</a>")|raw }}
 
             <br/>
 
@@ -60,7 +60,7 @@
             <div piwik-activity-indicator loading="licenseController.isUpdating"></div>
 
         {% else %}
-            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://piwik.org/recommends/premium-plugins/'>", "</a>")|raw }}
+            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/recommends/premium-plugins/'>", "</a>")|raw }}
         {% endif %}
 
     {% endif %}

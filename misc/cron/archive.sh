@@ -32,7 +32,7 @@ PIWIK_PATH="$PIWIK_CRON_FOLDER"/../../console
 
 CONSOLE_CMD="$PHP_BIN -q $PIWIK_PATH core:archive --url=http://example.org"
 
-MESSAGE="\n\n WARNING: this script archive.sh is DEPRECATED! \n\nPlease update your cron as explained in the documentation: https://piwik.org/docs/setup-auto-archiving/ \n\n"
+MESSAGE="\n\n WARNING: this script archive.sh is DEPRECATED! \n\nPlease update your cron as explained in the documentation: https://matomo.org/docs/setup-auto-archiving/ \n\n"
 
 echo $MESSAGE;
 

@@ -1,8 +1,17 @@
 {
     "Ecommerce": {
-        "PluginDescription": "E-ticaret kullanıcıların ürünleri sepete atmalarının ve satın almalarının izlenmesini sağlar. Ayrıca ürün, ürün kategorileri görünümü ve iptal edilen sepetleri de izler.",
+        "PluginDescription": "E-ticaret kullanıcılarının ürünleri sepete ekleme ve satın alma işlemlerinin izlenmesini sağlar. Ayrıca ürün, ürün kategorileri görünümü ve terk edilen sepetleri de izler.",
         "Sales": "Satışlar",
+        "Order": "Sipariş",
+        "Orders": "Sipariş",
         "SalesBy": "%s bazında satışlar",
-        "SalesAdjective": "Satışlar %s"
+        "SalesAdjective": "Satışlar %s",
+        "NumberOfItems": "Sepetteki Öge Sayısı",
+        "OrderValue": "Sipariş değeri",
+        "LifeTimeValue": "Ömür Boyu E-ticaret Değeri",
+        "LifeTimeValueDescription": "Bu müşterinin tüm ziyaretlerinden elde edilen toplam e-ticaret geliri. %s ziyaretçi kodu için tüm e-ticaret siparişleri gelirlerinin toplamı.",
+        "VisitorProfileLTV": "%1$s tarafından ömür boyunca elde edilen gelir.",
+        "VisitorProfileItemsAndOrders": "%2$s e-ticaret siparişi ile %1$s öge satın almış.",
+        "VisitorProfileAbandonedCartSummary": "%3$s değerindeki %2$s ögeyi içeren %1$s sepet terk edilmiş."
     }
 }

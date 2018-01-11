@@ -31,7 +31,7 @@ class GetPremiumFeatures extends Widget
 
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('About Piwik');
+        $config->setCategoryId('About Matomo');
         $config->setName(Piwik::translate('Marketplace_PaidPlugins'));
         $config->setOrder(20);
     }

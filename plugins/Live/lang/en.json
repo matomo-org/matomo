@@ -3,6 +3,7 @@
         "AveragePageGenerationTime": "Each page took on average %1$s to load for this visitor.",
         "CalculatedOverNPageViews": "Calculated using this visitor's last %1$s page views.",
         "ClickToViewMoreAboutVisit": "Click to view more information about this visit",
+        "ClickToViewAllActions": "Click to view all actions of this group in detail",
         "ConvertedNGoals": "Converted %s Goals",
         "FirstVisit": "First visit",
         "GoalType": "Type",

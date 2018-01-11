@@ -2,7 +2,7 @@
     "PrivacyManager": {
         "AnonymizeIpDescription": "Vælg \"Ja\", hvis Piwik ikke skal spore fuldt kvalificerede IP-adresser.",
         "AnonymizeIpInlineHelp": "Anonymiser besøgendes IP-adresser for at efterkomme den lokale lovgivning om privatlivets fred\/retningslinjer.",
-        "AnonymizeIpExtendedHelp": "Når brugerne besøger hjemmesiden, vil Piwik ikke bruge den fulde IP-adresse (f.eks %1$s), men i stedet vil Piwik anonymisere det først (til %2$s). IP-adresse anonymisering er et af de krav, som lovgivningen om privatlivets fred i visse lande som fx. Tyskland.",
+        "AnonymizeIpExtendedHelp": "Når brugerne besøger hjemmesiden, vil Piwik ikke bruge den fulde IP-adresse (f.eks %1$s), men i stedet vil Matomo anonymisere det først (til %2$s). IP-adresse anonymisering er et af de krav, som lovgivningen om privatlivets fred i visse lande som fx. Tyskland.",
         "AnonymizeIpMaskLengtDescription": "Vælg hvor mange bytes af de besøgendes IP-adresser der skal maskeres.",
         "AnonymizeIpMaskLength": "%1$s bytes - f.eks %2$s",
         "ClickHereSettings": "Klik her for at få adgang til %s indstillinger.",
@@ -50,7 +50,7 @@
         "ReportsDataSavedEstimate": "Database størrelse",
         "SaveSettingsBeforePurge": "Indstillinger for datasletning er ændret. Gem før oprydning.",
         "SeeAlsoOurOfficialGuidePrivacy": "Se også vores officielle vejledning: %1$sWeb Analytics Privacy%2$s",
-        "Teaser": "Tilpas Piwik til at beskytte personlige oplysninger i overensstemmelse med gældende lovgivning, ved at: %1$s anonymisere den besøgendes IP%2$s, %3$s automatisk fjerne gamle besøgs logfiler fra databasen%4$s og %5$s giver en frameld mekanisme til hjemmesiden%6$s.",
+        "Teaser": "Tilpas Matomo til at beskytte personlige oplysninger i overensstemmelse med gældende lovgivning, ved at: %1$s anonymisere den besøgendes IP%2$s, %3$s automatisk fjerne gamle besøgs logfiler fra databasen%4$s og %5$s giver en frameld mekanisme til hjemmesiden%6$s.",
         "TeaserHeadline": "Privatlivsindstillinger",
         "UseAnonymizedIpForVisitEnrichment": "Brug også anonymiseret IP-adresser, når beriger besøg.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Programudvidelser som Geo Location via IP og udbyder forbedrer besøgendes metadata. Som standard bruger disse udvidelsesmoduler anonyme IP-adresser. Hvis du vælger 'Nej', så vil den ikke-anonymiseret fulde IP-adresse blive brugt i stedet for, hvilket resulterer i mindre privatliv, men bedre data nøjagtighed.",

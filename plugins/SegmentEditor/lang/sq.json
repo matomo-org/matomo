@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "vetëm këtë sajt",
         "SegmentIsDisplayedForWebsite": "dhe përpunuar për",
         "SegmentNotApplied": "S’u zbatua segmenti '%s'",
-        "SegmentNotAppliedMessage": "Po kërkoni të dhëna për Segmentin Vetjak '%s', ky formësim i Piwik-ut e pengon përpunimin e atypëratyshëm të raporteve, për arsye funksionimi.",
+        "SegmentNotAppliedMessage": "Po kërkoni të dhëna për Segmentin Vetjak '%s', ky formësim i Matomo-ut e pengon përpunimin e atypëratyshëm të raporteve, për arsye funksionimi.",
         "SelectSegmentOfVisits": "Përzgjidhni një segment vizitash",
         "ThisSegmentIsVisibleTo": "Ky segment është i dukshëm për:",
         "VisibleToAllUsers": "krejt përdoruesit",
