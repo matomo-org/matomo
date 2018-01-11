@@ -36,7 +36,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $doNotTrack = true, $disableCookies = false, $trackNoScript = true,
             $crossDomain = true);
 
-        $expected = "&lt;!-- Piwik --&gt;
+        $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
   var _paq = _paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
@@ -63,7 +63,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   })();
 &lt;/script&gt;
 &lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;//piwik-server/piwik/piwik.php?idsite=1&amp;rec=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
-&lt;!-- End Piwik Code --&gt;
+&lt;!-- End Matomo Code --&gt;
 ";
 
         $this->assertEquals($expected, $jsTag);
@@ -75,7 +75,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $jsTag = $generator->generate($idSite = 1, $piwikUrl = 'http://localhost/piwik');
 
-        $expected = "&lt;!-- Piwik --&gt;
+        $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
   var _paq = _paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
@@ -89,7 +89,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
-&lt;!-- End Piwik Code --&gt;
+&lt;!-- End Matomo Code --&gt;
 ";
 
         $this->assertEquals($expected, $jsTag);
@@ -113,7 +113,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $customCampaignNameQueryParam = "campaignKey", $customCampaignKeywordParam = "keywordKey",
             $doNotTrack = true);
 
-        $expected = "&lt;!-- Piwik --&gt;
+        $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
   var _paq = _paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
@@ -136,7 +136,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
-&lt;!-- End Piwik Code --&gt;
+&lt;!-- End Matomo Code --&gt;
 ";
 
         $this->assertEquals($expected, $jsTag);
@@ -160,7 +160,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $customCampaignNameQueryParam = "campaignKey", $customCampaignKeywordParam = "keywordKey",
             $doNotTrack = true);
 
-        $expected = "&lt;!-- Piwik --&gt;
+        $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
   var _paq = _paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
@@ -184,7 +184,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
-&lt;!-- End Piwik Code --&gt;
+&lt;!-- End Matomo Code --&gt;
 ";
 
         $this->assertEquals($expected, $jsTag);
@@ -204,7 +204,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
         $jsTag = $generator->generate($idSite = 1, $piwikUrl = 'http://localhost/piwik',
             $mergeSubdomains = true, $groupPageTitlesByDomain = true, $mergeAliasUrls = true);
 
-        $expected = "&lt;!-- Piwik --&gt;
+        $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
   var _paq = _paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
@@ -219,7 +219,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   })();
 &lt;/script&gt;
 &lt;script type='text/javascript' src=&quot;//localhost/piwik/piwik.js&quot;&gt;&lt;/script&gt;
-&lt;!-- End Piwik Code --&gt;
+&lt;!-- End Matomo Code --&gt;
 ";
 
         $this->assertEquals($expected, $jsTag);
@@ -241,7 +241,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
             $customCampaignKeywordParam = 'abc"def'
         );
 
-        $expected = '&lt;!-- Piwik --&gt;
+        $expected = '&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
   var _paq = _paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
@@ -262,7 +262,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'piwik.js\'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
-&lt;!-- End Piwik Code --&gt;
+&lt;!-- End Matomo Code --&gt;
 ';
 
         $this->assertEquals($expected, $jsTag);
