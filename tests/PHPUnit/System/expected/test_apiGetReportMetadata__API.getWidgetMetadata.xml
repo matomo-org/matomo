@@ -3231,7 +3231,7 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Piwik Changelog</name>
+		<name>Matomo Changelog</name>
 		<category>
 			<id>About Matomo</id>
 			<name>About Matomo</name>
@@ -3383,7 +3383,7 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Support Piwik!</name>
+		<name>Support Matomo!</name>
 		<category>
 			<id>About Matomo</id>
 			<name>About Matomo</name>

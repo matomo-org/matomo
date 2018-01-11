@@ -124,7 +124,7 @@ class WidgetTest extends SystemTestCase
                         'containerId' => 'VisitOverviewWithGraph',
                     ),
             ),array (
-                'name' => 'Support Piwik!',
+                'name' => 'Support Matomo!',
                 'uniqueId' => 'widgetCoreHomegetDonateForm',
                 'parameters' =>
                     array (
@@ -172,7 +172,7 @@ class WidgetTest extends SystemTestCase
                         'action' => 'getRank',
                     ),
             ),array (
-                'name' => 'Piwik Changelog',
+                'name' => 'Matomo Changelog',
                 'uniqueId' => 'widgetRssWidgetrssChangelog',
                 'parameters' =>
                     array (
@@ -1331,7 +1331,7 @@ class WidgetTest extends SystemTestCase
                         ),
                 ),
                 array (
-                    'name' => 'Support Piwik!',
+                    'name' => 'Support Matomo!',
                     'uniqueId' => 'widgetCoreHomegetDonateForm',
                     'parameters' =>
                         array (
@@ -1358,7 +1358,7 @@ class WidgetTest extends SystemTestCase
                         ),
                 ),
                 array (
-                    'name' => 'Piwik Changelog',
+                    'name' => 'Matomo Changelog',
                     'uniqueId' => 'widgetRssWidgetrssChangelog',
                     'parameters' =>
                         array (
