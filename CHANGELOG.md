@@ -6,6 +6,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 3.3.0
 
+Piwik is now Matomo. Read more about this change in the [official announcement](https://matomo.org/blog/2018/01/piwik-is-now-matomo).
+
 ### New APIs
 
 * New HTTP API `API.getMatomoVersion` was introduced. The previous HTTP API `API.getPiwikVersion` will still work but will now be hidden from the API reference page.
