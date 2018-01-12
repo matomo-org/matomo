@@ -3364,7 +3364,7 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Premium Features &amp; Services for Piwik</name>
+		<name>Premium Features &amp; Services for Matomo</name>
 		<category>
 			<id>About Matomo</id>
 			<name>About Matomo</name>
@@ -3421,7 +3421,7 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Piwik.org Blog</name>
+		<name>Matomo.org Blog</name>
 		<category>
 			<id>About Matomo</id>
 			<name>About Matomo</name>
