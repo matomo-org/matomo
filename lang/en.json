@@ -320,7 +320,7 @@
         "Password": "Password",
         "Period": "Period",
         "Piechart": "Piechart",
-        "PiwikIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s is a collaborative project brought to you by the %7$sMatomo team%8$s members as well as many other contributors around the globe. <br/> If you're a fan of Matomo, you can help: find out %3$sHow to participate in Matomo%4$s, or %5$sdonate now%6$s to help fund the next great Matomo release!",
+        "PiwikIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s, formerly known as Piwik, is a collaborative project brought to you by the %7$sMatomo team%8$s members as well as many other contributors around the globe. <br/> If you're a fan of Matomo, you can help: find out %3$sHow to participate in Matomo%4$s, or %5$sdonate now%6$s to help fund the next great Matomo release!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s is available. Please notify the %2$sMatomo administrator%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s is available. %2$sPlease update now!%3$s (see %4$schanges%5$s).",
         "PleaseContactYourPiwikAdministrator": "Please contact your Matomo administrator.",
