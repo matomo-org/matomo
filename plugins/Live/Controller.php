@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Live;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Url;
@@ -120,7 +121,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $summaryEntries = array();
 
-        $profileSummaries = Live::getAllProfileSummaryInstances();
+        $profileSummaries = StaticContainer::get('Piwik\Plugins\Live\ProfileSummaryProvider')->getAllInstances();
         foreach ($profileSummaries as $profileSummary) {
             $profileSummary->setProfile($view->visitorData);
             $summaryEntries[] = [$profileSummary->getOrder(), $profileSummary->render()];
