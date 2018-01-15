@@ -6,7 +6,7 @@
 
 ## Code Status
 
-[![Build Status](https://travis-ci.org/piwik/piwik.svg?branch=master)](https://travis-ci.org/piwik/piwik/branches)
+[![Build Status](https://travis-ci.org/matomo-org/matomo.svg?branch=master)](https://travis-ci.org/matomo-org/matomo/branches)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/piwik/piwik.svg)](https://scrutinizer-ci.com/g/piwik/piwik?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master "Unit tests code coverage. Does not include coverage of integration tests, system tests or UI screenshot tests.")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Percentage of issues still open")

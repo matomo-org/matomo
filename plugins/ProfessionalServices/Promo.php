@@ -38,7 +38,7 @@ class Promo
                 'campaignContent' => 'mediaAnalytics',
                 'title' => 'Media Analytics',
                 'url' => 'https://matomo.org/recommends/media-analytics-website',
-                'text' => 'Ever wondered how people interact and engage with videos or audios on your website? Well now you can, and it integrates perfectly into your Piwik.',
+                'text' => 'Ever wondered how people interact and engage with videos or audios on your website? Well now you can, and it integrates perfectly into your Matomo.',
             ),
             array(
                 'campaignContent' => 'mediaAnalytics',
@@ -60,7 +60,7 @@ class Promo
                 'campaignContent' => 'funnels',
                 'title' => 'Funnels',
                 'url' => 'https://matomo.org/recommends/conversion-funnels',
-                'text' => 'Increase your conversions, sales and revenue by understanding your conversion funnels and where your visitors drop off with Funnels for Piwik.'
+                'text' => 'Increase your conversions, sales and revenue by understanding your conversion funnels and where your visitors drop off with Funnels for Matomo.'
             ),
 
             // Piwik training
@@ -68,14 +68,14 @@ class Promo
                 'campaignContent' => 'userTraining',
                 'title' => 'Training',
                 'url' => 'https://matomo.org/training/?pk_campaign=' . Advertising::CAMPAIGN_NAME_PROFESSIONAL_SERVICES . '&pk_source=Piwik_App',
-                'text' => 'Want to know how to use all the exciting features in Piwik? Try a User training to be up to speed with working with Piwik.'
+                'text' => 'Want to know how to use all the exciting features in Matomo? Try a User training to be up to speed with working with Matomo.'
             ),
             // Keywords performance
             array(
                 'campaignContent' => 'searchKeywords',
                 'title' => 'Search Keywords',
                 'url' => 'https://matomo.org/recommends/search-keywords-performance/',
-                'text' => 'Which queries caused your website to appear in search results? Improve your SEO efforts and monitor your position and performance for each Keyword directly in your Piwik reports.',
+                'text' => 'Which queries caused your website to appear in search results? Improve your SEO efforts and monitor your position and performance for each Keyword directly in your Matomo reports.',
             ),
             // Roll-Up Reporting
             array(
@@ -89,20 +89,20 @@ class Promo
                 'campaignContent' => 'whiteLabel',
                 'title' => 'White Label',
                 'url' => 'https://matomo.org/recommends/white-label/',
-                'text' => 'Did you know you can give your clients access to their analytics reports where all Piwik-branded widgets are removed? Try the White Label product!',
+                'text' => 'Did you know you can give your clients access to their analytics reports where all Matomo-branded widgets are removed? Try the White Label product!',
             ),
             // Enterprise
             array(
                 'campaignContent' => 'bringEnterpriseLevel',
                 'title' => 'Enterprise',
                 'url' => 'https://matomo.org/recommends/enterprise/',
-                'text' => 'Bring your analytics to enterprise level. Upgrade your Piwik platform and receive access to numerous premium features and assistance from experts.'
+                'text' => 'Bring your analytics to enterprise level. Upgrade your Matomo platform and receive access to numerous premium features and assistance from experts.'
             ),
             array(
                 'campaignContent' => 'slowingDown',
                 'title' => 'Enterprise',
                 'url' => 'https://matomo.org/recommends/enterprise/',
-                'text' => 'Is your Piwik slowing down? Piwik experts can help with your server setup!'
+                'text' => 'Is your Matomo slowing down? Matomo experts can help with your server setup!'
             ),
             array(
                 'campaignContent' => 'discoverPower',

@@ -1452,7 +1452,7 @@
 		<module>Actions</module>
 		<action>getDownloads</action>
 		<dimension>Download URL</dimension>
-		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Piwik counts as a download is the click on a download link. Whether the download was completed or not isn't known to Piwik.</documentation>
+		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Matomo counts as a download is the click on a download link. Whether the download was completed or not isn't known to Matomo.</documentation>
 		<metrics>
 			<nb_visits>Unique Downloads</nb_visits>
 			<nb_hits>Downloads</nb_hits>
