@@ -23,7 +23,7 @@ class RssChangelog extends \Piwik\Widget\Widget
     public function render()
     {
         try {
-            $rss = new RssRenderer('http://feeds.feedburner.com/PiwikReleases');
+            $rss = new RssRenderer('https://feeds.feedburner.com/PiwikReleases');
             $rss->setCountPosts(1);
             $rss->showDescription(true);
             $rss->showContent(false);

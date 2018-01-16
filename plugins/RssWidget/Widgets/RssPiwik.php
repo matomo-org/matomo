@@ -23,7 +23,7 @@ class RssPiwik extends \Piwik\Widget\Widget
     public function render()
     {
         try {
-            $rss = new RssRenderer('http://feeds.feedburner.com/Piwik');
+            $rss = new RssRenderer('https://feeds.feedburner.com/Piwik');
             $rss->showDescription(true);
 
             return $rss->get();
