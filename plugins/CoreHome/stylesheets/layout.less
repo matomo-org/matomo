@@ -98,10 +98,19 @@ nav {
     margin-left: 224px;
   }
 
-  #root>.top_controls {
-    margin-left:15px;
-    margin-right:15px;
+  &>.top_controls {
+
+    .icon-arrowdown:before{
+      padding: 15px 0 0 400px;
+      display: inline-block;
+    }
+    .icon-arrowup:before{
+      padding: 15px 0 0 400px;
+      display: inline-block;
+    }
   }
+
+
 
   @media all and (max-width: 992px) {
     .pageWrap {
@@ -414,4 +423,3 @@ nav {
     margin-bottom: -20px !important;
   }
 }
-
