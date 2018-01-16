@@ -35,7 +35,7 @@
         "GlobalListExcludedUserAgents_Desc": "If the visitor's user agent string contains any of the strings you specify, the visitor will be excluded from Matomo.",
         "GlobalSettings": "Global settings",
         "GlobalWebsitesSettings": "Global websites settings",
-        "HelpExcludedIps": "Enter the list of IPs, one per line, that you wish to exclude from being tracked by Matomo. You can use wildcards, eg. %1$s or %2$s",
+        "HelpExcludedIpAddresses": "Enter the list of IPs, one per line, that you wish to exclude from being tracked by Matomo. You can use CIDR notation eg. %1$s or you can use wildcards, eg. %2$s or %3$s",
         "JsTrackingTagHelp": "Here is the JavaScript Tracking code to include on all your pages",
         "KeepURLFragments": "Page URL fragments tracking",
         "KeepURLFragmentsHelp": "If the checkbox below is unchecked, Page URL fragments (everything after the %1$s) will be removed when tracking: %2$s will be tracked as %3$s",
