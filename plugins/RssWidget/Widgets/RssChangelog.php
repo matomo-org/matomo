@@ -31,7 +31,7 @@ class RssChangelog extends \Piwik\Widget\Widget
     public function render()
     {   
         try {
-            return $this->common('https://sdiouvasdfoiasndcop.com');
+            return $this->common('https://feeds.feedburner.com/PiwikReleases');
         } catch (\Exception $e) {
             try {
             return $this->common('http://feeds.feedburner.com/PiwikReleases');
