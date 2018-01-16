@@ -14,7 +14,7 @@
     <form id="userSettingsTable" piwik-form ng-controller="PersonalSettingsController as personalSettings">
 
         <div piwik-field uicontrol="text" name="username"
-             title="{{ 'General_Username'|translate|e('html_attr') }}"
+             title="{{ 'Login_LoginOrEmail'|translate|e('html_attr') }}"
              value="{{ userLogin }}" disabled="true"
              ng-model="personalSettings.username"
              inline-help="{{ 'UsersManager_YourUsernameCannotBeChanged'|translate|e('html_attr') }}">
