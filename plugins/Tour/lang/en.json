@@ -8,6 +8,7 @@
         "DefineGoal": "Define a goal",
         "EmbedTrackingCode": "Embed tracking code",
         "CompletionTitle": "Well done!",
+        "GettingStarted": "Getting Started",
         "CompletionMessage": "You have completed all the steps. Give yourself a pat on the back.",
         "Part1Title": "Welcome to the Matomo family. This is a widget within your dashboard to help you become a Matomo guru. You can skip any step or completely remove the widget when you hover the widget title. Only you as a \"Super User\" can see this widget."
     }

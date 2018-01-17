@@ -9,16 +9,16 @@
 namespace Piwik\Plugins\Tour\tests\System;
 
 use Piwik\Plugins\Tour\Dao\DataFinder;
-use Piwik\Plugins\Tour\Engagement\Part1;
+use Piwik\Plugins\Tour\Engagement\Steps;
 use Piwik\Plugins\Tour\tests\Fixtures\SimpleFixtureTrackFewVisits;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * @group Tour
- * @group Part1Test
+ * @group StepsTest
  * @group Plugins
  */
-class Part1Test extends SystemTestCase
+class StepsTest extends SystemTestCase
 {
     /**
      * @var SimpleFixtureTrackFewVisits
@@ -26,7 +26,7 @@ class Part1Test extends SystemTestCase
     public static $fixture = null; // initialized below class definition
 
     /**
-     * @var Part1
+     * @var Steps
      */
     private $part1;
 
@@ -34,7 +34,7 @@ class Part1Test extends SystemTestCase
     {
         parent::setUp();
 
-        $this->part1 = new Part1(new DataFinder());
+        $this->part1 = new Steps(new DataFinder());
     }
 
     public function test_getSteps()
@@ -111,7 +111,7 @@ class Part1Test extends SystemTestCase
         $steps = $this->part1->getSteps();
 
         $this->assertFalse($steps[1]['skipped']);
-        Part1::skipStep($steps[1]['key']);
+        Steps::skipStep($steps[1]['key']);
 
         $this->part1->clearCache();
 
@@ -131,4 +131,4 @@ class Part1Test extends SystemTestCase
 
 }
 
-Part1Test::$fixture = new SimpleFixtureTrackFewVisits();
+StepsTest::$fixture = new SimpleFixtureTrackFewVisits();

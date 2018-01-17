@@ -11,22 +11,20 @@ namespace Piwik\Plugins\Tour\Engagement;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\Tour\Dao\DataFinder;
+use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 
-class Part1 extends BasePart
+class Steps
 {
     /**
      * @var DataFinder
      */
     private $finder;
 
+    private static $settings = null;
+
     public function __construct(DataFinder $dataFinder)
     {
         $this->finder = $dataFinder;
-    }
-
-    public function getDescription()
-    {
-        return Piwik::translate('Tour_Part1Title');
     }
 
     public function getSteps()
@@ -44,6 +42,40 @@ class Part1 extends BasePart
         }
 
         return $steps;
+    }
+
+    private function getSettings()
+    {
+        if (!isset(self::$settings)) {
+            $pluginSettings = new PluginSettingsTable('Tour', $login = '');
+            self::$settings = $pluginSettings->load();
+        }
+
+        return self::$settings;
+    }
+
+    public function clearCache()
+    {
+        self::$settings = null;
+    }
+
+    protected function isSkipped($key)
+    {
+        $settings = $this->getSettings();
+
+        if (!empty($settings[$key . '_skipped'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function skipStep($key)
+    {
+        $pluginSettings = new PluginSettingsTable('Tour', $login = '');
+        $settings = $pluginSettings->load();
+        $settings[$key . '_skipped'] = '1';
+        $pluginSettings->save($settings);
     }
 
     protected function getStep1()

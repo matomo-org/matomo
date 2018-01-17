@@ -9,20 +9,19 @@
 namespace Piwik\Plugins\Tour;
 
 use Piwik\Common;
-use Piwik\Plugins\Tour\Engagement\BasePart;
-use Piwik\Plugins\Tour\Engagement\Parts;
+use Piwik\Plugins\Tour\Engagement\Steps;
 
 class Controller extends \Piwik\Plugin\Controller
 {
 
     /**
-     * @var Parts
+     * @var Steps
      */
-    private $parts;
+    private $steps;
 
-    public function __construct(Parts $parts)
+    public function __construct(Steps $parts)
     {
-        $this->parts = $parts;
+        $this->steps = $parts;
         parent::__construct();
     }
 
@@ -30,12 +29,10 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $key = Common::getRequestVar('key', '', 'string');
 
-        foreach ($this->parts->getAllParts() as $part) {
-            foreach ($part->getSteps() as $step) {
-                if ($step['key'] === $key) {
-                    // we make sure to change it only if it is a valid key
-                    BasePart::skipStep($key);
-                }
+        foreach ($this->steps->getSteps() as $step) {
+            if ($step['key'] === $key) {
+                // we make sure to change it only if it is a valid key
+                Steps::skipStep($key);
             }
         }
 

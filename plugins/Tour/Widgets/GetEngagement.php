@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Tour\Widgets;
 
 use Piwik\Plugins\Tour\Engagement\Parts;
+use Piwik\Plugins\Tour\Engagement\Steps;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Piwik;
@@ -16,17 +17,17 @@ use Piwik\Piwik;
 class GetEngagement extends Widget
 {
     /**
-     * @var Parts
+     * @var Steps
      */
-    private $parts;
+    private $steps;
 
     /**
      * GetEngagement constructor.
-     * @param Parts $parts
+     * @param Steps $steps
      */
-    public function __construct(Parts $parts)
+    public function __construct(Steps $steps)
     {
-        $this->parts = $parts;
+        $this->steps = $steps;
     }
 
     public static function configure(WidgetConfig $config)
@@ -42,17 +43,32 @@ class GetEngagement extends Widget
 
     public function render()
     {
-        $part = $this->parts->getCurrentPart();
+        $numCompletedWithoutInterruption = 0;
 
-        if (empty($part)) {
+        $steps = $this->steps->getSteps();
+
+        $done = true;
+        foreach ($steps as $step) {
+            if (!$step['done'] && !$step['skipped']) {
+                $done = false;
+            } else if ($done) {
+                // as soon as some step was not completed, we need to make sure to show that page.
+                $numCompletedWithoutInterruption++;
+            }
+        }
+
+        if ($done) {
             return '<p class="widgetBody tourEngagement"><strong class="completed">' . Piwik::translate('Tour_CompletionTitle') .'</strong> ' . Piwik::translate('Tour_CompletionMessage') . '<br /><br /></p>';
         }
 
-        $steps = $part->getSteps();
+        $numStepsToShowPerPage = 5;
+        $page = floor($numCompletedWithoutInterruption / $numStepsToShowPerPage);
+        $startSteps = $numStepsToShowPerPage * $page;
+        $steps = array_slice($steps, $startSteps, $numStepsToShowPerPage);
 
         return $this->renderTemplate('engagement', array(
             'steps' => $steps,
-            'description' => $part->getDescription()
+            'description' => Piwik::translate('Tour_Part1Title')
         ));
     }
 
