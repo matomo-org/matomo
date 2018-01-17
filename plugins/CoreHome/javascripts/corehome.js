@@ -111,6 +111,10 @@ $( document ).ready(function() {
             }
         });
 
+        list.append($('<dt />').text("home").css('width','auto'));
+        list.append($('<dd />').text("to get to the top of the page (Fn + Left arrow on Mac)"));
+        list.append($('<dt />').text("end").css('width','auto'));
+        list.append($('<dd />').text("to get to the bottom of the page (Fn + Right arrow on Mac)"));
         piwikHelper.modalConfirm('#shortcuthelp');
     });
 });
