@@ -1,0 +1,18 @@
+<div class="widgetBody tourEngagement">
+    <p>
+        {{ description }}
+    </p>
+
+    <ul>
+    {% for step in steps %}
+        <li class="tourStep {{ step.key }}">{% if step.done or step.skipped %}
+                <span class="icon-ok" title="Done"></span>
+            {% else %}
+                <a href="javascript:void 0;" onclick="tourEngagement.skipStep('{{ step.key }}')" title="Skip this step"><span class="icon-hide"></span></a>
+            {% endif %}
+            <a href="{{ linkTo(step.link) }}{% if step.linkHash is defined %}#{{ step.linkHash }}{% endif %}" target="_self">{{ step.name }}</a></li>
+    {% endfor %}
+    </ul>
+    <br />
+    <br />
+</div>
