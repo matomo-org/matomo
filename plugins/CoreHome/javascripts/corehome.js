@@ -111,10 +111,24 @@ $( document ).ready(function() {
             }
         });
 
-        list.append($('<dt />').text("home").css('width','auto'));
-        list.append($('<dd />').text("to get to the top of the page (Fn + Left arrow on Mac)"));
-        list.append($('<dt />').text("end").css('width','auto'));
-        list.append($('<dd />').text("to get to the bottom of the page (Fn + Right arrow on Mac)"));
+        var isMac = navigator.userAgent.indexOf('Mac OS X') != -1;
+
+        if (isMac) {
+            list.append($('<dt />').text(_pk_translate("CoreHome_MacPageUp")).css('width','auto'));
+        } else {
+            list.append($('<dt />').text(_pk_translate("CoreHome_HomeShortcut")).css('width','auto'));
+        }
+
+        list.append($('<dd />').text(_pk_translate('CoreHome_PageUpShortcutDescription')));
+
+        if (isMac) {
+            list.append($('<dt />').text(_pk_translate("CoreHome_MacPageDown")).css('width','auto'));
+        } else {
+            list.append($('<dt />').text(_pk_translate("CoreHome_EndShortcut")).css('width','auto'));
+        }
+
+        list.append($('<dd />').text(_pk_translate('CoreHome_PageDownShortcutDescription')));
+
         piwikHelper.modalConfirm('#shortcuthelp');
     });
 });
