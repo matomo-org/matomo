@@ -292,16 +292,30 @@ nav {
 
 #root {
   .top_controls {
-
     visibility: hidden;
     opacity: 0;
     z-index: 45;
+    padding-left: 19px;
+
+    @media screen and (max-width: 600px){
+      visibility: hidden;
+      opacity: 0;
+      z-index: 45;
+      padding-left: 0;
+    }
 
     .quick-access {
       z-index: 1000;
       position: absolute;
       width: 208px;
-      margin-left: 16px;
+      margin-left: 0;
+
+      @media screen and (max-width: 600px){
+        z-index: 1000;
+        position: absolute;
+        width: 208px;
+        margin-left: 16px;
+      }
 
       .dropdown {
         width: 209px;
@@ -361,7 +375,7 @@ nav {
   }
 }
 
-.widgetize {
+.widgetsize {
   width: auto;
 }
 
@@ -414,4 +428,3 @@ nav {
     margin-bottom: -20px !important;
   }
 }
-
