@@ -78,7 +78,7 @@
 				</uiControlAttributes>
 				<availableValues />
 				<description />
-				<inlineHelp>Enter the list of IPs, one per line, that you wish to exclude from being tracked by Matomo. You can use CIDR notation eg. 192.168.100.14/24 or you can use wildcards, eg. 1.2.3.* or 1.2.*.*&lt;br /&gt;&lt;br /&gt;Your current IP address is &lt;i&gt;127.0.0.1&lt;/i&gt;</inlineHelp>
+				<inlineHelp>Enter the list of IPs, one per line, that you wish to exclude from being tracked by Matomo. You can use CIDR notation eg. 1.2.3.4/24 or you can use wildcards, eg. 1.2.3.* or 1.2.*.*&lt;br /&gt;&lt;br /&gt;Your current IP address is &lt;i&gt;127.0.0.1&lt;/i&gt;</inlineHelp>
 				<templateFile />
 				<introduction />
 				<condition />
