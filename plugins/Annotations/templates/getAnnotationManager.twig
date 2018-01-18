@@ -17,14 +17,16 @@
     </div>
 
     <div class="annotation-controls">
+
         {% if canUserAddNotes %}
-        <button class="add-annotation">
+        <a class="add-annotation">
           <span class="icon-add"></span>
           {{ 'Annotations_CreateNewAnnotation'|translate }}
-        </button>
+        </a>
         {% elseif userLogin == 'anonymous' %}
             <a href="index.php?module=Login">{{ 'Annotations_LoginToAnnotate'|translate }}</a>
         {% endif %}
+
     </div>
 
 </div>
