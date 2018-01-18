@@ -100,13 +100,15 @@ nav {
 
   &>.top_controls {
 
-    .icon-arrowdown:before, .icon-arrowup:before{
+    .icon-arrowup:before, .icon-arrowdown:before{
       padding: 15px 0 0 0px;
       display: inline-block;
+
+      @media screen and (max-width: 600px){
+        display: none;
+      }
     }
   }
-
-
 
   @media all and (max-width: 992px) {
     .pageWrap {
