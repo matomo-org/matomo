@@ -6,12 +6,12 @@
             <p>
                 <span>
                 Font Color:
-                <input type="color" ng-model="optOutCustomizer.fontColor">
+                <input type="color" ng-model="optOutCustomizer.fontColor" ng-change="optOutCustomizer.onUpdate()">
                 </span>
 
                 <span>
                 Background Color:
-                <input type="color" ng-model="optOutCustomizer.backgroundColor">
+                <input type="color" ng-model="optOutCustomizer.backgroundColor" ng-change="optOutCustomizer.onUpdate()">
                 </span>
 
                 <span>
@@ -20,14 +20,25 @@
                 </span>
 
                 <span>
+                        <select class="browser-default" ng-model="optOutCustomizer.fontSizeUnit" ng-change="optOutCustomizer.updateFontSize()">
+                                <option value="px">px</option>
+                                <option value="pt">pt</option>
+                                <option value="em">em</option>
+                                <option value="rem">rem</option>
+                                <option value="%">%</option>
+                        </select>
+                </span>
+
+                <span>
                 Font Family:
-                <input id=FontFamilyInput type="text" ng-model="optOutCustomizer.fontFamily">
+                <input id=FontFamilyInput type="text" ng-model="optOutCustomizer.fontFamily" ng-change="optOutCustomizer.onUpdate()">
                 </span>
                 
             </p>
         </div>
     </p>
-    <pre piwik-select-on-focus>&lt;iframe style="border: 0; height: 200px; width: 600px;" src="{{ optOutCustomizer.piwikUrl }}index.php?module=CoreAdminHome&action=optOut&language={{ optOutCustomizer.language }}&backgroundColor={{ optOutCustomizer.backgroundColor.substr(1) }}&fontColor={{ optOutCustomizer.fontColor.substr(1) }}&fontSize={{ optOutCustomizer.fontSizeWithUnit }}&fontFamily={{ optOutCustomizer.fontFamily }}"></iframe></pre>
-    <p ng-bind-html="'CoreAdminHome_OptOutExplanationBis'|translate:'&lt;a  href=\'' + optOutCustomizer.piwikUrl + 'index.php?module=CoreAdminHome&action=optOut&language=' + optOutCustomizer.language + '&backgroundColor=' + optOutCustomizer.backgroundColor.substr(1) + '&fontColor=' + optOutCustomizer.fontColor.substr(1) + '&fontSize=' + optOutCustomizer.fontSizeWithUnit + '&fontFamily=' + optOutCustomizer.fontFamily + '\' rel=\'noreferrer\' target=\'_blank\'>':'&lt/a>'">
+    <pre piwik-select-on-focus>&lt;iframe style="border: 0; height: 200px; width: 600px;" src="{{ optOutCustomizer.iframeUrl }}"></iframe></pre>
+    <p ng-bind-html="'CoreAdminHome_OptOutExplanationBis'|translate:'&lt;a  href=\'' + optOutCustomizer.iframeUrl + '\' rel=\'noreferrer\' target=\'_blank\'>':'&lt/a>'">
     </p>
+    <iframe ng-src="{{ optOutCustomizer.iframeUrl }}">
 </div>

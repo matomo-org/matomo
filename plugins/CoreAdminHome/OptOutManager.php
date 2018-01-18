@@ -235,7 +235,7 @@ class OptOutManager
             }
         }
 
-        if ($cssfontsize && (preg_match("/^[0-9]+[\.]?[0-9]*(px|pt|em)$/", $cssfontsize))) {
+        if ($cssfontsize && (preg_match("/^[0-9]+[\.]?[0-9]*(px|pt|em|rem|%)$/", $cssfontsize))) {
             $cssbody .= 'font-size: ' . $cssfontsize . '; '; 
         } else if ($cssfontsize) {
             throw new \Exception("The URL parameter fontSize value of '$cssfontsize' is not valid. Expected value is for example '15pt', '1.2em' or '13px'.\n");
