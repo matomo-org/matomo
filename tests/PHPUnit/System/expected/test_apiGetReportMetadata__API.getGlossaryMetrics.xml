@@ -71,6 +71,16 @@
 		<documentation>Number of visits that started on this page.</documentation>
 	</row>
 	<row>
+		<name>Event value</name>
+		<id>sum_event_value</id>
+		<documentation>The sum of event values</documentation>
+	</row>
+	<row>
+		<name>Events</name>
+		<id>nb_events</id>
+		<documentation>Total number of events</documentation>
+	</row>
+	<row>
 		<name>Events with a value</name>
 		<id>nb_events_with_value</id>
 		<documentation>Number of events where an Event value was set</documentation>
@@ -96,12 +106,12 @@
 		<documentation>The ratio of content impressions to interactions.</documentation>
 	</row>
 	<row>
-		<name>Maximum value</name>
+		<name>Maximum Event value</name>
 		<id>max_event_value</id>
 		<documentation>The maximum value for this event</documentation>
 	</row>
 	<row>
-		<name>Minimum value</name>
+		<name>Minimum Event value</name>
 		<id>min_event_value</id>
 		<documentation>The minimum value for this event</documentation>
 	</row>
@@ -109,6 +119,11 @@
 		<name>Outlinks</name>
 		<id>nb_outlinks</id>
 		<documentation>The number of times this link was clicked.</documentation>
+	</row>
+	<row>
+		<name>Pageviews</name>
+		<id>nb_hits</id>
+		<documentation>The number of times this page was visited.</documentation>
 	</row>
 	<row>
 		<name>Pageviews</name>
@@ -134,21 +149,6 @@
 		<name>The average of all values for this event</name>
 		<id>avg_event_value</id>
 		<documentation>The average of all values for this event</documentation>
-	</row>
-	<row>
-		<name>Total Pageviews</name>
-		<id>nb_hits</id>
-		<documentation>The number of times this page was visited.</documentation>
-	</row>
-	<row>
-		<name>Total events</name>
-		<id>nb_events</id>
-		<documentation>Total number of events</documentation>
-	</row>
-	<row>
-		<name>Total value</name>
-		<id>sum_event_value</id>
-		<documentation>The sum of event values</documentation>
 	</row>
 	<row>
 		<name>Unique Clicks (Actions)</name>

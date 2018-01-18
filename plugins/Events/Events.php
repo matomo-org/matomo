@@ -45,8 +45,8 @@ class Events extends \Piwik\Plugin
     public function getMetricDocumentation()
     {
         $documentation = array(
-            'nb_events'            => 'Events_EventsDocumentation',
-            'sum_event_value'      => 'Events_EventValueDocumentation',
+            'nb_events'            => 'Events_TotalEventsDocumentation',
+            'sum_event_value'      => 'Events_TotalValueDocumentation',
             'min_event_value'      => 'Events_MinValueDocumentation',
             'max_event_value'      => 'Events_MaxValueDocumentation',
             'avg_event_value'      => 'Events_AvgValueDocumentation',
