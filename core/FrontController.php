@@ -452,7 +452,7 @@ class FrontController extends Singleton
         if ($recordStatistics) {
           $trackMessage = 'Your analytics data will continue to be tracked as normal.';
         } else {
-          $trackMessage = 'Data tracking has been disabled until maintenance mode has been turned off.';
+          $trackMessage = 'While the maintenance mode is active, data tracking is disabled.';
         }
 
         $page = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/maintenance.tpl');
