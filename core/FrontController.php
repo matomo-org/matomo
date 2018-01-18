@@ -446,10 +446,22 @@ class FrontController extends Singleton
         } catch (Exception $ex) {
         }
 
+        $recordStatistics = Config::getInstance()->Tracker['record_statistics'];
+        $trackMessage = '';
+
+        if ($recordStatistics) {
+          $trackMessage = 'Your analytics data will continue to be tracked as normal.';
+        } else {
+          $trackMessage = 'Data tracking has been disabled until maintenance mode has been turned off.';
+        }
+
         $page = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/maintenance.tpl');
         $page = str_replace('%logoUrl%', $logoUrl, $page);
         $page = str_replace('%faviconUrl%', $faviconUrl, $page);
         $page = str_replace('%piwikTitle%', Piwik::getRandomTitle(), $page);
+
+        $page = str_replace('%trackMessage%', $trackMessage, $page);
+
         echo $page;
         exit;
     }
