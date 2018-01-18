@@ -1,4 +1,4 @@
-# Piwik SimpleTableVisualizationExample Plugin
+# Matomo SimpleTableVisualizationExample Plugin
 
 ## Description
 

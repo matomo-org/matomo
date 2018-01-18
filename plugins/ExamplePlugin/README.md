@@ -1,4 +1,4 @@
-# Piwik ExamplePlugin Plugin
+# Matomo ExamplePlugin Plugin
 
 ## Description
 
