@@ -67,4 +67,3 @@ php_errors.log
 /misc/vagrant
 /.vagrant
 /plugins/.gitignore
-iframe.html
