@@ -1,0 +1,33 @@
+<div class="optOutCustomizer">
+    <p>
+    {{ 'CoreAdminHome_OptOutExplanation'|translate }}
+    <h3>Opt-Out iframe Customizer</h3>
+        <div>
+            <p>
+                <span>
+                Font Color:
+                <input type="color" ng-model="optOutCustomizer.fontColor">
+                </span>
+
+                <span>
+                Background Color:
+                <input type="color" ng-model="optOutCustomizer.backgroundColor">
+                </span>
+
+                <span>
+                Font Size:
+                <input id=FontSizeInput type="number" min="1" max="100" ng-model="optOutCustomizer.fontSize" ng-change="optOutCustomizer.updateFontSize()">
+                </span>
+
+                <span>
+                Font Family:
+                <input id=FontFamilyInput type="text" ng-model="optOutCustomizer.fontFamily">
+                </span>
+                
+            </p>
+        </div>
+    </p>
+    <pre piwik-select-on-focus>&lt;iframe style="border: 0; height: 200px; width: 600px;" src="{{ optOutCustomizer.piwikUrl }}index.php?module=CoreAdminHome&action=optOut&language={{ optOutCustomizer.language }}&backgroundColor={{ optOutCustomizer.backgroundColor.substr(1) }}&fontColor={{ optOutCustomizer.fontColor.substr(1) }}&fontSize={{ optOutCustomizer.fontSizeWithUnit }}&fontFamily={{ optOutCustomizer.fontFamily }}"></iframe></pre>
+    <p ng-bind-html="'CoreAdminHome_OptOutExplanationBis'|translate:'&lt;a  href=\'' + optOutCustomizer.piwikUrl + 'index.php?module=CoreAdminHome&action=optOut&language=' + optOutCustomizer.language + '&backgroundColor=' + optOutCustomizer.backgroundColor.substr(1) + '&fontColor=' + optOutCustomizer.fontColor.substr(1) + '&fontSize=' + optOutCustomizer.fontSizeWithUnit + '&fontFamily=' + optOutCustomizer.fontFamily + '\' rel=\'noreferrer\' target=\'_blank\'>':'&lt/a>'">
+    </p>
+</div>
