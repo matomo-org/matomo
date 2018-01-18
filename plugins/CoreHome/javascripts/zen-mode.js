@@ -1,20 +1,22 @@
 $(function () {
 
-  $('.icon-arrowup').click( function(event) {
-    Mousetrap.trigger('z');
-    $(this).toggleClass('icon-arrowdown').toggleClass('icon-arrowup');
-  });
-
     angular.element(document).injector().invoke(handleZenMode);
 
     function handleZenMode ($rootElement, $cookies) {
         var zenMode = !!parseInt($cookies.get('zenMode'), 10);
+        var iconSwitcher = $('.top_controls .icon-arrowup');
+
+        iconSwitcher.click(function(event) {
+           Mousetrap.trigger('z')
+        });
 
         function updateZenMode() {
             if (zenMode) {
                 $('body').addClass('zenMode');
+                iconSwitcher.addClass('icon-arrowdown').removeClass('icon-arrowup');
             } else {
                 $('body').removeClass('zenMode');
+                iconSwitcher.removeClass('icon-arrowdown').addClass('icon-arrowup');
             }
         }
 
