@@ -406,5 +406,13 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ShortcutCalendar';
         $translationKeys[] = 'CoreHome_ShortcutSearch';
         $translationKeys[] = 'CoreHome_ShortcutHelp';
+        $translationKeys[] = 'CoreHome_HomeShortcut';
+        $translationKeys[] = 'CoreHome_PageUpShortcutDescription';
+        $translationKeys[] = 'CoreHome_EndShortcut';
+        $translationKeys[] = 'CoreHome_PageDownShortcutDescription';
+
+        $translationKeys[] = 'CoreHome_MacPageUp';
+        $translationKeys[] = 'CoreHome_MacPageDown';
+
     }
 }
