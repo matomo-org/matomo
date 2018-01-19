@@ -90,7 +90,7 @@ nav {
 #root {
 
   .pageWrap {
-    padding-left: 19px;
+    padding-left: 16px;
     padding-right: 16px;
   }
 
@@ -124,7 +124,7 @@ nav {
       .piwikTopControl {
         position: static !important;
         float: none;
-        margin: 0 23px 10px 20px !important;
+        margin: 0 23px 10px 17px !important;
         display: block !important;
       }
 
@@ -299,16 +299,30 @@ nav {
 
 #root {
   .top_controls {
-
     visibility: hidden;
     opacity: 0;
     z-index: 45;
+    padding-left: 16px;
+
+    @media screen and (max-width: 600px){
+      visibility: hidden;
+      opacity: 0;
+      z-index: 45;
+      padding-left: 0;
+    }
 
     .quick-access {
       z-index: 1000;
       position: absolute;
       width: 208px;
-      margin-left: 16px;
+      margin-left: 0;
+
+      @media screen and (max-width: 600px){
+        z-index: 1000;
+        position: absolute;
+        width: 208px;
+        margin-left: 16px;
+      }
 
       .dropdown {
         width: 209px;
@@ -347,7 +361,7 @@ nav {
       display: inline-block;
       float: none;
       position: relative;
-      margin-right: 16px;
+      margin-right: 12px;
       vertical-align: top;
       font-size: 11px;
     }
