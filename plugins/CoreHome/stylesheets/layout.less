@@ -98,9 +98,16 @@ nav {
     margin-left: 224px;
   }
 
-  #root>.top_controls {
-    margin-left:15px;
-    margin-right:15px;
+    &>.top_controls {
+      .icon-arrowup:before, .icon-arrowdown:before {
+      padding: 17px 0 0 0px;
+      display: inline-block;
+      cursor: pointer;
+
+      @media screen and (max-width: 600px) {
+        display: none;
+      }
+    }
   }
 
   @media all and (max-width: 992px) {
