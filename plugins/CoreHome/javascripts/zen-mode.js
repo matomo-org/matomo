@@ -14,9 +14,11 @@ $(function () {
             if (zenMode) {
                 $('body').addClass('zenMode');
                 iconSwitcher.addClass('icon-arrowdown').removeClass('icon-arrowup');
+                iconSwitcher.prop('title', _pk_translate('CoreHome_ExitZenMode'));
             } else {
                 $('body').removeClass('zenMode');
                 iconSwitcher.removeClass('icon-arrowdown').addClass('icon-arrowup');
+                iconSwitcher.prop('title', _pk_translate('CoreHome_EnterZenMode'));
             }
         }
 
