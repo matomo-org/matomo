@@ -67,7 +67,7 @@
         "OptOutCompleteBis": "Note that if you clear your cookies, delete the opt-out cookie, or if you change computers or Web browsers, you will need to perform the opt-out procedure again.",
         "OptOutDntFound": "You are not being tracked since your browser is reporting that you do not want to. This is a setting of your browser so you won't be able to opt-in until you disable the 'Do Not Track' feature.",
         "OptOutExplanation": "Matomo is dedicated to providing privacy on the Internet. To provide your visitors with the choice of opting-out of Matomo Web Analytics, you can add the following HTML code on one of your website page, for example in a Privacy Policy page.",
-        "OptOutExplanationBis": "This code will display an Iframe containing a link for your visitors to opt-out of Matomo by setting an opt-out cookie in their browsers. %1$s Click here%2$s to view the content that will be displayed by the iFrame.",
+        "OptOutExplanationIntro": "This code will display an Iframe containing a link for your visitors to opt-out of Matomo by setting an opt-out cookie in their browsers. See below (or %1$s click here%2$s) to view the content that will be displayed by the iFrame.",
         "OptOutForYourVisitors": "Matomo opt-out for your visitors",
         "PiwikIsInstalledAt": "Matomo is installed at",
         "PersonalPluginSettings": "Personal Plugin Settings",
