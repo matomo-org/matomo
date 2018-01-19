@@ -1,7 +1,10 @@
 <div class="optOutCustomizer">
     <p>
-    {{ 'CoreAdminHome_OptOutExplanation'|translate }}
-    <h3>Opt-Out iframe Customizer</h3>
+        {{ 'CoreAdminHome_OptOutExplanation'|translate }}
+        <span ng-bind-html="'General_ReadThisToLearnMore'|translate:'&lt;a rel=\'noreferrer\' target=\'_blank\' href=\'https://matomo.org/faq/how-to/faq_25918/\'>':'&lt;/a>'"></span>
+    </p>
+
+    <h3>Customize the Opt-out iframe</h3>
         <div>
             <p>
                 <span>
@@ -37,8 +40,13 @@
             </p>
         </div>
     </p>
-    <pre piwik-select-on-focus>&lt;iframe style="border: 0; height: 200px; width: 600px;" src="{{ optOutCustomizer.iframeUrl }}"></iframe></pre>
-    <p ng-bind-html="'CoreAdminHome_OptOutExplanationBis'|translate:'&lt;a  href=\'' + optOutCustomizer.iframeUrl + '\' rel=\'noreferrer\' target=\'_blank\'>':'&lt/a>'">
+    <h3>HTML code to embed on your website</h3>
+    <pre piwik-select-on-focus>&lt;iframe
+        style="border: 0; height: 200px; width: 600px;"
+        src="{{ optOutCustomizer.iframeUrl }}"
+        ></iframe></pre>
+    <p ng-bind-html="'CoreAdminHome_OptOutExplanationIntro'|translate:'&lt;a  href=\'' + optOutCustomizer.iframeUrl + '\' rel=\'noreferrer\' target=\'_blank\'>':'&lt/a>'">
     </p>
-    <iframe ng-src="{{ optOutCustomizer.iframeUrl }}">
+    <h3>Preview of the Opt-out as it will appear on your website</h3>
+    <iframe ng-src="{{ optOutCustomizer.iframeUrl }}"  style="border: 0; height: 200px; width: 600px;" >
 </div>
