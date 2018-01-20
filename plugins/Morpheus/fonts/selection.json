@@ -2842,8 +2842,8 @@
   ],
   "height": 1024,
   "metadata": {
-    "name": "piwik",
-    "url": "http://piwik.org"
+    "name": "matomo",
+    "url": "https://matomo.org"
   },
   "preferences": {
     "showGlyphs": true,
@@ -2853,11 +2853,11 @@
     "fontPref": {
       "prefix": "icon-",
       "metadata": {
-        "fontFamily": "piwik",
+        "fontFamily": "matomo",
         "majorVersion": 1,
         "minorVersion": 0,
-        "fontURL": "http://piwik.org",
-        "description": "Piwik"
+        "fontURL": "https://matomo.org",
+        "description": "Matomo"
       },
       "metrics": {
         "emSize": 1024,

@@ -4,6 +4,11 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.3.1
+
+### Breaking Changes
+`piwik` font is deprecated and will be removed in Matomo 4.0. Please use new `matomo` font instead
+
 ## Matomo 3.3.0
 
 Piwik is now Matomo. Read more about this change in the [official announcement](https://matomo.org/blog/2018/01/piwik-is-now-matomo).
