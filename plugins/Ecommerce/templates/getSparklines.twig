@@ -1,33 +1,44 @@
 <div class="card"><div class="card-content">
 <div id='leftcolumn' style="clear:both;{% if not isWidget %}width:33%;'{% endif %}">
     <div class="sparkline">{{ sparkline(urlSparklineConversions) }}
-        <strong>{{ nb_conversions|number }}</strong>
-        {{ 'General_EcommerceOrders'|translate }}
-        <img src='plugins/Morpheus/images/ecommerceOrder.png'>
+	<div>
+            <strong>{{ nb_conversions|number }}</strong>
+            {{ 'General_EcommerceOrders'|translate }}
+            <img src='plugins/Morpheus/images/ecommerceOrder.png'>
 
-        {% if goalAllowMultipleConversionsPerVisit is defined and goalAllowMultipleConversionsPerVisit %}
-            ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>")|raw }})
-        {% endif %}
+            {% if goalAllowMultipleConversionsPerVisit is defined and goalAllowMultipleConversionsPerVisit %}
+                ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>")|raw }})
+            {% endif %}
+	</div>
     </div>
 
     <div class="sparkline">
         {{ sparkline(urlSparklineRevenue) }}
-        {% set revenue=revenue|money(idSite) %}
-        <strong>{{ revenue|raw }}</strong> {{ 'General_TotalRevenue'|translate }}
+	<div>
+            {% set revenue=revenue|money(idSite) %}
+            <strong>{{ revenue|raw }}</strong> {{ 'General_TotalRevenue'|translate }}
+	</div>
     </div>
 
     <div class="sparkline">{{ sparkline(urlSparklineAverageOrderValue) }}
-        <strong>{{ avg_order_revenue|money(idSite)|raw }}</strong>
-        {{ 'General_AverageOrderValue'|translate }}
+	<div>
+            <strong>{{ avg_order_revenue|money(idSite)|raw }}</strong>
+            {{ 'General_AverageOrderValue'|translate }}
+	</div>
     </div>
 </div>
 <div id='leftcolumn' {% if not isWidget %}style='width:33%;'{% endif %}>
     <div class="sparkline">{{ sparkline(urlSparklineConversionRate) }}
-        {% set ecommerceOrdersText %}{{ 'General_EcommerceOrders'|translate }}{% endset %}
-        {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate|percent~"</strong> "~ecommerceOrdersText)|raw }}
+	<div>
+            {% set ecommerceOrdersText %}{{ 'General_EcommerceOrders'|translate }}{% endset %}
+            {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate|percent~"</strong> "~ecommerceOrdersText)|raw }}
+	</div>
     </div>
     <div class="sparkline">{{ sparkline(urlSparklinePurchasedProducts) }}
-    <strong>{{ items|number }}</strong> {{ 'General_PurchasedProducts'|translate }}</div>
+	<div>
+    	    <strong>{{ items|number }}</strong> {{ 'General_PurchasedProducts'|translate }}
+	</div>
+    </div>
 </div>
 <div id='rightcolumn' {% if not isWidget %}style='width:30%;'{% endif %}>
     <div>
@@ -36,21 +47,27 @@
 
     <div class="sparkline">
         {{ sparkline(cart_urlSparklineConversions) }}
-        {% set ecommerceAbandonedCartsText %}{{ 'Goals_AbandonedCart'|translate }}{% endset %}
-        <strong>{{ cart_nb_conversions|number }}</strong> {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
+	<div>
+            {% set ecommerceAbandonedCartsText %}{{ 'Goals_AbandonedCart'|translate }}{% endset %}
+            <strong>{{ cart_nb_conversions|number }}</strong> {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
+	</div>
     </div>
 
     <div class="sparkline">
         {{ sparkline(cart_urlSparklineRevenue) }}
-        {% set revenue %}{{ cart_revenue|money(idSite)|raw }}{% endset %}
-        {% set revenueText %}{{ 'General_ColumnRevenue'|translate }}{% endset %}
-        <strong>{{ revenue }}</strong> {{ 'Goals_LeftInCart'|translate(revenueText) }}
+	<div>
+            {% set revenue %}{{ cart_revenue|money(idSite)|raw }}{% endset %}
+            {% set revenueText %}{{ 'General_ColumnRevenue'|translate }}{% endset %}
+            <strong>{{ revenue }}</strong> {{ 'Goals_LeftInCart'|translate(revenueText) }}
+	</div>
     </div>
 
     <div class="sparkline">
         {{ sparkline(cart_urlSparklineConversionRate) }}
-        <strong>{{ cart_conversion_rate|percent }}</strong>
-        {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
+	<div>
+            <strong>{{ cart_conversion_rate|percent }}</strong>
+            {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
+	</div>
     </div>
 </div>
 <div style="clear: left;"></div>

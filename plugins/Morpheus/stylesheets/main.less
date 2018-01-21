@@ -466,7 +466,20 @@ div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns, di
 }
 
 div.sparkline {
-    display: block;
+    display: -ms-flexbox;
+    -ms-box-orient: horizontal;
+    -ms-box-pack: center;
+
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: flex;
+
+    -webkit-justify-content: space-around;
+    -moz-justify-content: space-around;
+    -ms-justify-content: space-around;
+    justify-content: space-around;
+    
     border-bottom: 0;
     margin-bottom: 10px;
     &.linked {
@@ -476,6 +489,10 @@ div.sparkline {
             border-bottom: 1px dashed #c3c3c3;
         }
     }
+}
+
+div.sparkline script+div {
+    margin: 1px 0 0 1px;
 }
 
 .widgetpreview-base li.widgetpreview-choosen {
