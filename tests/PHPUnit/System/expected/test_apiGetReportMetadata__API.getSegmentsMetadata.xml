@@ -27,6 +27,13 @@
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
+		<name>Events</name>
+		<segment>events</segment>
+		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visitors</category>
 		<name>Local time - minute (Start of visit)</name>
 		<segment>visitLocalMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 67, 57, 58, 59</acceptedValues>
@@ -50,13 +57,6 @@
 		<category>Visitors</category>
 		<name>Number of visits</name>
 		<segment>visitCount</segment>
-	</row>
-	<row>
-		<type>metric</type>
-		<category>Visitors</category>
-		<name>Total events</name>
-		<segment>events</segment>
-		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
 	</row>
 	<row>
 		<type>metric</type>

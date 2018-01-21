@@ -106,10 +106,20 @@ $( document ).ready(function() {
 
         jQuery.each(keys, function(i, key) {
             if (piwikHelper.shortcuts.hasOwnProperty(key)) {
-                list.append($('<dt />').text(key));
+                list.append($('<dt />').append($('<kbd />').text(key)));
                 list.append($('<dd />').text(piwikHelper.shortcuts[key]));
             }
         });
+
+        var isMac = navigator.userAgent.indexOf('Mac OS X') != -1;
+
+        list.append($('<dt />').append($('<kbd />').text(_pk_translate(isMac ? "CoreHome_MacPageUp" : "CoreHome_HomeShortcut"))));
+
+        list.append($('<dd />').text(_pk_translate('CoreHome_PageUpShortcutDescription')));
+
+        list.append($('<dt />').append($('<kbd />').text(_pk_translate(isMac ? "CoreHome_MacPageDown" : "CoreHome_EndShortcut"))));
+
+        list.append($('<dd />').text(_pk_translate('CoreHome_PageDownShortcutDescription')));
 
         piwikHelper.modalConfirm('#shortcuthelp');
     });

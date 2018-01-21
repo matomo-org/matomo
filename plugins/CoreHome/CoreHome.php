@@ -400,11 +400,21 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_DoubleClickToChangePeriod';
         $translationKeys[] = 'General_Apply';
         $translationKeys[] = 'General_Period';
+        $translationKeys[] = 'CoreHome_EnterZenMode';
+        $translationKeys[] = 'CoreHome_ExitZenMode';
         $translationKeys[] = 'CoreHome_ShortcutZenMode';
         $translationKeys[] = 'CoreHome_ShortcutSegmentSelector';
         $translationKeys[] = 'CoreHome_ShortcutWebsiteSelector';
         $translationKeys[] = 'CoreHome_ShortcutCalendar';
         $translationKeys[] = 'CoreHome_ShortcutSearch';
         $translationKeys[] = 'CoreHome_ShortcutHelp';
+        $translationKeys[] = 'CoreHome_HomeShortcut';
+        $translationKeys[] = 'CoreHome_PageUpShortcutDescription';
+        $translationKeys[] = 'CoreHome_EndShortcut';
+        $translationKeys[] = 'CoreHome_PageDownShortcutDescription';
+
+        $translationKeys[] = 'CoreHome_MacPageUp';
+        $translationKeys[] = 'CoreHome_MacPageDown';
+
     }
 }

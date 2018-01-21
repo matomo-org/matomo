@@ -18,10 +18,14 @@
         "DonateCall2": "Matomo needs your continued support to grow and thrive.",
         "DonateCall3": "If you feel that Matomo has added significant value to your business or endeavour, %1$splease consider donating%2$s or %3$spurchasing a premium feature%4$s. Every penny will help.",
         "DonateFormInstructions": "Click on the slider to select an amount, then click subscribe to donate.",
+        "EndShortcut": "End",
+        "EnterZenMode": "Enter Zen mode (hide the menus)",
+        "ExitZenMode": "Exit Zen mode (show the menus)",
         "ExceptionNotWhitelistedIP": "You cannot use this Matomo as your IP %s is not whitelisted",
         "ExcludeRowsWithLowPopulation": "All rows are shown %s Exclude low population",
         "ExternalHelp": "Help (opens in new tab)",
         "FlattenDataTable": "The report is hierarchical %s Make it flat",
+        "HomeShortcut": "Home",
         "HowMuchIsPiwikWorth": "How much is Matomo worth to you?",
         "IncludeRowsWithLowPopulation": "Rows with low population are hidden %s Show all rows",
         "InjectedHostEmailBody": "Hello, I tried to access Matomo today and encountered the unknown hostname warning.",
@@ -66,6 +70,8 @@
         "ClickRowToExpandOrContract": "Click this row to expand or contract the subtable.",
         "UndoPivotBySubtable": "This report has been pivoted %s Undo pivot",
         "NoSuchPage": "This page does not exist",
+        "PageUpShortcutDescription": "to get to the top of the page",
+        "PageDownShortcutDescription": "to get to the bottom of the page",
         "PivotBySubtable": "This report is not pivoted %1$s Pivot by %2$s",
         "SystemSummaryWidget": "System Summary",
         "SystemSummaryNWebsites": "%d websites",
@@ -80,6 +86,9 @@
         "OneClickUpdateNotPossibleAsMultiServerEnvironment": "The one-click update is not available as you are using Matomo with multiple servers. Please download the latest version from %1$s to proceed.",
         "AdblockIsMaybeUsed": "In case you are using an ad blocker, please disable it for this site to make sure Matomo works without any issues.",
         "ChangeCurrentWebsite": "Choose a website, currently selected website: %s",
-        "LeadingAnalyticsPlatformRespectsYourPrivacy": "The leading open analytics platform that respects your privacy."
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "The leading open analytics platform that respects your privacy.",
+
+        "MacPageUp": "Fn + Left arrow",
+        "MacPageDown": "Fn + Right arrow"
     }
 }

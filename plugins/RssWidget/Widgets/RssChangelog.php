@@ -20,20 +20,25 @@ class RssChangelog extends \Piwik\Widget\Widget
         $config->setName('Matomo Changelog');
     }
 
+    private function getFeed($URL) {
+        $rss = new RssRenderer($URL);
+        $rss->setCountPosts(1);
+        $rss->showDescription(true);
+        $rss->showContent(false);
+        return $rss->get();
+    }
+
     public function render()
-    {
+    {   
         try {
-            $rss = new RssRenderer('http://feeds.feedburner.com/PiwikReleases');
-            $rss->setCountPosts(1);
-            $rss->showDescription(true);
-            $rss->showContent(false);
-
-            return $rss->get();
-
+            return $this->getFeed('https://feeds.feedburner.com/PiwikReleases');
         } catch (\Exception $e) {
-
-            return $this->error($e);
-        }
+            try {
+            return $this->getFeed('http://feeds.feedburner.com/PiwikReleases');
+            } catch (\Exception $e) {
+                return $this->error($e);
+            }
+        }  
     }
 
     /**

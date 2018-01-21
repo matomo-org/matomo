@@ -10,10 +10,10 @@
 		<action>getAction</action>
 		<dimension>Event Action</dimension>
 		<metrics>
-			<nb_events>Total events</nb_events>
-			<sum_event_value>Total value</sum_event_value>
-			<min_event_value>Minimum value</min_event_value>
-			<max_event_value>Maximum value</max_event_value>
+			<nb_events>Events</nb_events>
+			<sum_event_value>Event value</sum_event_value>
+			<min_event_value>Minimum Event value</min_event_value>
+			<max_event_value>Maximum Event value</max_event_value>
 			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
@@ -34,10 +34,10 @@
 	</metadata>
 	<columns>
 		<label>Event Action</label>
-		<nb_events>Total events</nb_events>
-		<sum_event_value>Total value</sum_event_value>
-		<min_event_value>Minimum value</min_event_value>
-		<max_event_value>Maximum value</max_event_value>
+		<nb_events>Events</nb_events>
+		<sum_event_value>Event value</sum_event_value>
+		<min_event_value>Minimum Event value</min_event_value>
+		<max_event_value>Maximum Event value</max_event_value>
 		<nb_events_with_value>Events with a value</nb_events_with_value>
 		<avg_event_value>The average of all values for this event</avg_event_value>
 	</columns>

@@ -369,7 +369,7 @@ class Visit implements VisitInterface
         }
 
         $idSite = $this->request->getIdSite();
-        $idVisit = (int)$this->visitProperties->getProperty('idvisit');
+        $idVisit = $this->visitProperties->getProperty('idvisit');
 
         $wasInserted = $this->getModel()->updateVisit($idSite, $idVisit, $valuesToUpdate);
 

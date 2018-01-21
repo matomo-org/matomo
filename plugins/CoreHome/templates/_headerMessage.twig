@@ -5,8 +5,8 @@
 
 {% set updateCheck %}
     <span id="updateCheckLinkContainer">
-                {{ 'CoreHome_CheckForUpdates'|translate }}
         <span class="icon icon-fixed icon-reload"></span>
+                {{ 'CoreHome_CheckForUpdates'|translate }}
     </span>
 {% endset %}
 
@@ -45,5 +45,8 @@
     </div>
 </div>
 
+<span class="icon icon-arrowup"></span>
 <div style="clear:right"></div>
+{% else %}
+<span class="icon icon-arrowup"></span>
 {% endif %}

@@ -248,6 +248,12 @@ var piwikHelper = {
             delete options.fixedFooter;
         }
 
+        if (options && !options.ready) {
+            options.ready = function () {
+                $(".modal.open a").focus();
+            };
+        }
+
         domElem.show();
         $content.openModal(options);
     },

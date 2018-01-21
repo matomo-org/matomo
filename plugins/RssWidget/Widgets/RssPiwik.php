@@ -20,18 +20,23 @@ class RssPiwik extends \Piwik\Widget\Widget
         $config->setName('Matomo.org Blog');
     }
 
+    private function getFeed($URL){
+        $rss = new RssRenderer($URL);
+        $rss->showDescription(true);
+        return $rss->get();
+    }
+
     public function render()
     {
         try {
-            $rss = new RssRenderer('http://feeds.feedburner.com/Piwik');
-            $rss->showDescription(true);
-
-            return $rss->get();
-
+            return $this->getFeed('https://feeds.feedburner.com/Piwik');
         } catch (\Exception $e) {
-
-            return $this->error($e);
-        }
+            try {
+                return $this->getFeed('http://feeds.feedburner.com/Piwik');
+            } catch (\Exception $e) {
+                return $this->error($e);
+            }
+        }  
     }
 
     /**
