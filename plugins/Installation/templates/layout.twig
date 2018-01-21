@@ -11,8 +11,16 @@
     <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.png"/>
 </head>
 <body ng-app="app" id="installation">
-
 <div class="container">
+    <div id="should-get-hidden"
+         style="color: red;margin-left: 16px;margin-bottom: 16px;font-weight:bold;font-size: 20px">
+        <p class="should-get-hidden-by-js">
+            {{ 'CoreHome_JsDidntLoad'|translate }}
+        </p>
+        <p class="should-get-hidden-by-css">
+            {{ 'CoreHome_CssDidntLoad'|translate }}
+        </p>
+    </div>
 
     <div class="header">
         <div class="logo">
@@ -71,6 +79,6 @@
     </div>
 
 </div>
-
+{% include "@CoreHome/_adblockDetect.twig" %}
 </body>
 </html>
