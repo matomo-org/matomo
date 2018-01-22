@@ -172,7 +172,7 @@ class PrivacyManager extends Plugin
     {
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
         $translationKeys[] = 'CoreAdminHome_OptOutExplanation';
-        $translationKeys[] = 'CoreAdminHome_OptOutExplanationBis';
+        $translationKeys[] = 'CoreAdminHome_OptOutExplanationIntro';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
