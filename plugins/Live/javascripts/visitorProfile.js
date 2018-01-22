@@ -188,6 +188,7 @@
             loading.show();
 
             var ajax = new ajaxHelper();
+            ajax.removeDefaultParameter('segment');
             ajax.addParams({
                 module: 'Live',
                 action: 'getVisitList',
