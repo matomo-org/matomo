@@ -6,7 +6,18 @@
         Enter a search term to find translations and their corresponding keys:
     </p>
 
-    <input type="text" placeholder="Search for English translation" title="Search for English translation. Max 1000 results will be shown." ng-model="translationSearch.searchTerm" style="width:271px">
+    <div piwik-field uicontrol="text" name="alias"
+         inline-help="Search for English translation. Max 1000 results will be shown."
+         ng-model="translationSearch.searchTerm"
+         placeholder="Search for English translation">
+    </div>
+
+    <div piwik-field uicontrol="select" name="translationSearch.compareLanguage"
+         inline-help="Optionally select a language to compare the English language with."
+         ng-model="translationSearch.compareLanguage"
+         ng-change="translationSearch.doCompareLanguage()"
+         options='translationSearch.languages'>
+    </div>
 
     <br />
     <br />
@@ -18,12 +29,14 @@
             <tr>
                 <th style="width:250px;">Key</th>
                 <th>English translation</th>
+                <th ng-show="translationSearch.compareLanguage && translationSearch.compareTranslations">Compare translation</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="translation in translationSearch.existingTranslations | filter:translationSearch.searchTerm | limitTo: 1000">
                 <td>{{ translation.label }}</td>
                 <td>{{ translation.value }}</td>
+                <td ng-show="translationSearch.compareLanguage && translationSearch.compareTranslations">{{ translationSearch.compareTranslations[translation.label] }}</td>
             </tr>
         </tbody>
     </table>
