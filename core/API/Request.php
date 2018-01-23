@@ -232,7 +232,7 @@ class Request
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
             list($module, $method) = self::getRenamedModuleAndAction($module, $method);
-            
+
             PluginManager::getInstance()->checkIsPluginActivated($module);
 
             $apiClassName = self::getClassNameAPI($module);
