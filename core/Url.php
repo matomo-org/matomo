@@ -150,7 +150,7 @@ class Url
             }
 
             // strip path_info
-            if ($removePathInfo && isset($_SERVER['PATH_INFO'])) {
+            if ($removePathInfo && !empty($_SERVER['PATH_INFO'])) {
                 $url = substr($url, 0, -strlen($_SERVER['PATH_INFO']));
             }
         }
