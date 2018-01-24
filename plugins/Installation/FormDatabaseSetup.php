@@ -96,7 +96,7 @@ class FormDatabaseSetup extends QuickForm2
      */
     public function createDatabaseObject()
     {
-        $dbname = $this->getSubmitValue('dbname');
+        $dbname = trim($this->getSubmitValue('dbname'));
         if (empty($dbname)) // disallow database object creation w/ no selected database
         {
             throw new Exception("No database name");
@@ -106,11 +106,11 @@ class FormDatabaseSetup extends QuickForm2
         $port = Adapter::getDefaultPortForAdapter($adapter);
 
         $dbInfos = array(
-            'host'          => $this->getSubmitValue('host'),
-            'username'      => $this->getSubmitValue('username'),
-            'password'      => $this->getSubmitValue('password'),
+            'host'          => trim($this->getSubmitValue('host')),
+            'username'      => trim($this->getSubmitValue('username')),
+            'password'      => trim($this->getSubmitValue('password')),
             'dbname'        => $dbname,
-            'tables_prefix' => $this->getSubmitValue('tables_prefix'),
+            'tables_prefix' => trim($this->getSubmitValue('tables_prefix')),
             'adapter'       => $adapter,
             'port'          => $port,
             'schema'        => Config::getInstance()->database['schema'],
