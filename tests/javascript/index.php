@@ -2131,7 +2131,7 @@ function PiwikTest() {
         equal( typeof tracker.getCurrentUrl, 'function', 'getCurrentUrl' );
         equal( typeof tracker.getRequest, 'function', 'getRequest' );
         equal( typeof tracker.addPlugin, 'function', 'addPlugin' );
-        equal( typeof tracker.setNewVisitorId, 'function', 'setNewVisitorId' );
+        equal( typeof tracker.resetUserId, 'function', 'resetUserId' );
         equal( typeof tracker.setUserId, 'function', 'setUserId' );
         equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
         equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
@@ -3171,7 +3171,7 @@ function PiwikTest() {
 
 
         // Verify that when resetting the User ID, it also changes the Visitor ID
-        tracker.setUserId(false);
+        tracker.resetUserId();
         ok(tracker.getVisitorId().length == 16, "after resetting user id, visitor ID should still be 16 chars, got: " + tracker.getVisitorId());
         notEqual(tracker.getVisitorId(), visitorId, "after resetting user id, visitor ID should be different ("+ tracker.getVisitorId() +")");
         tracker.trackPageView("Track some data to write the cookies...");
