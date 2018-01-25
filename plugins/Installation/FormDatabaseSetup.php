@@ -107,8 +107,8 @@ class FormDatabaseSetup extends QuickForm2
 
         $dbInfos = array(
             'host'          => trim($this->getSubmitValue('host')),
-            'username'      => trim($this->getSubmitValue('username')),
-            'password'      => trim($this->getSubmitValue('password')),
+            'username'      => $this->getSubmitValue('username'),
+            'password'      => $this->getSubmitValue('password'),
             'dbname'        => $dbname,
             'tables_prefix' => trim($this->getSubmitValue('tables_prefix')),
             'adapter'       => $adapter,
