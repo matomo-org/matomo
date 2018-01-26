@@ -9,6 +9,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### Breaking Changes
 `piwik` font is deprecated and will be removed in Matomo 4.0. Please use new `matomo` font instead
 
+### New APIs
+* A new JavaScript tracker method `resetUserId` has been added to allow clearing user and visitor id.
+
 ## Matomo 3.3.0
 
 Piwik is now Matomo. Read more about this change in the [official announcement](https://matomo.org/blog/2018/01/piwik-is-now-matomo).
