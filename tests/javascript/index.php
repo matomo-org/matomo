@@ -2104,7 +2104,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(89);
+        expect(90);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -3105,7 +3105,7 @@ function PiwikTest() {
     }
 
     test("User ID and Visitor UUID", function() {
-        expect(25);
+        expect(26);
         deleteCookies();
 
         var userIdString = 'userid@mydomain.org';
@@ -3172,6 +3172,7 @@ function PiwikTest() {
 
         // Verify that when resetting the User ID, it also changes the Visitor ID
         tracker.resetUserId();
+        equal(userId, tracker.getUserId(), "after reset, user ID is set to empty string");
         ok(tracker.getVisitorId().length == 16, "after resetting user id, visitor ID should still be 16 chars, got: " + tracker.getVisitorId());
         notEqual(tracker.getVisitorId(), visitorId, "after resetting user id, visitor ID should be different ("+ tracker.getVisitorId() +")");
         tracker.trackPageView("Track some data to write the cookies...");
