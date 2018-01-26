@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>2</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<actionDetails>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		<serverDate>2018-01-25</serverDate>
+		<visitServerHour>1</visitServerHour>
+		<lastActionTimestamp>1516842360</lastActionTimestamp>
+		<lastActionDateTime>2018-01-25 01:06:00</lastActionDateTime>
+		<serverTimestamp>1516842360</serverTimestamp>
+		<firstActionTimestamp>1516842000</firstActionTimestamp>
+		<serverTimePretty>01:06:00</serverTimePretty>
+		<serverDatePretty>Thursday, January 25, 2018</serverDatePretty>
+		<serverDatePrettyFirstAction>Thursday, January 25, 2018</serverDatePrettyFirstAction>
+		<serverTimePrettyFirstAction>01:00:00</serverTimePrettyFirstAction>
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>361</visitDuration>
+		<visitDurationPretty>6 min 1s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>campaign</referrerType>
+		<referrerTypeName>Campaigns</referrerTypeName>
+		<referrerName>campaign name - yeah!</referrerName>
+		<referrerKeyword>campaign keyword - right...</referrerKeyword>
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>XP</operatingSystemVersion>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.0</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+			<row>
+				<customVariableName1>VisitorType</customVariableName1>
+				<customVariableValue1>LoggedOut</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</customVariableName2>
+				<customVariableValue2>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</customVariableValue2>
+			</row>
+		</customVariables>
+		<resolution>1111x222</resolution>
+		<plugins>cookie, flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+	</row>
+</result>
