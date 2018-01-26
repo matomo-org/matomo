@@ -50,7 +50,6 @@
         "OptOutComplete": "Dezabonare completa; vizitele tale pe acest site nu vor fi contorizate de tool-ul de Web Analytics.",
         "OptOutCompleteBis": "Aminteste-ti ca daca dai clear la cookie-uri, stergi cookie-ul de dezabonare sau daca schimbi calculatoarele sau browserele web, tot vei fi nevoit sa te dezabonezi iarasi.",
         "OptOutExplanation": "Piwik este dedicat sa furnizeze intimitate\/privacy pe Internet. Pentru a lasa vizitatorilor tai optiunea de dezabonare de la Matomo Web Analytics, poti adauga urmatorul cod HTML pe una dintre paginile siteului tau, de exemplu pe pagina de Privacy Policy.",
-        "OptOutExplanationBis": "Acest cod va afisa un Iframe ce va contine un link pentru ca vizitatorii tai sa se poata dezabona de la Matomo setand un cookie de dezabonare in browserele lor. %1$s Click aici%2$s pentru a vedea continutul care va fi afisat de iFrame.",
         "OptOutForYourVisitors": "Dezabonare Matomo pentru vizitatorii tai",
         "PiwikIsInstalledAt": "Piwik este instalat în",
         "PluginSettingChangeNotAllowed": "Nu iti este permis sa schimbi valoarea setarii \"%1$s\" in plugin \"%2$s\"",

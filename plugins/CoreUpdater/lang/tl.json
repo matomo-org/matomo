@@ -52,7 +52,6 @@
         "WarningMessages": "Mga babala mensahe:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Awtomatiko naming idineactivate ang mga sumusunod na plugin: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Maaari mong awtomatikong i-update sa bersyon %s o i-download ang package at mano-manong i-install ito:",
-        "YouMustDownloadPackageOrFixPermissions": "Ang piwik ay hindi magawang palitan ang iyong kasaluyang installation. Maari mong ayusin ang directory\/file permissions. o mag-download ng package at i-install ang version %s ng manu-mano.",
         "YourDatabaseIsOutOfDate": "Ang iyong Matomo database ay out-of-date at dapat mo na itong e-upgrade bago ka makatuloy sa susunod na proseso."
     }
 }

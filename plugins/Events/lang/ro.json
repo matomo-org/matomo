@@ -13,18 +13,14 @@
         "Events": "Evenimente",
         "EventsWithValue": "Evenimente cu valoare",
         "EventsWithValueDocumentation": "Numărul de evenimente în care a fost stabilit o valoare Eveniment",
-        "EventValue": "Valoarea Evenimentului",
         "EventValueTooltip": "Valoarea totală Eveniment este suma de %1$s valoare evenimente %2$s între minim %3$s și maxim de %4$s.",
-        "MaxValue": "Valoarea maxima",
         "MaxValueDocumentation": "Valoarea maxima pentru acest eveniment",
-        "MinValue": "Valoarea minima",
         "MinValueDocumentation": "Valoarea minima pentru acest eveniment",
         "SecondaryDimension": "Dimensiunea secundara este %s.",
         "SwitchToSecondaryDimension": "Trece la %s",
         "TopEvents": "Top Evenimente",
         "TotalEvents": "Totalul evenimentelor",
         "TotalEventsDocumentation": "Numarul total al evenimentelor",
-        "TotalValue": "Valoarea totala",
         "TotalValueDocumentation": "suma valorilor evenimentelor",
         "ViewEvents": "Vezi Evenimente"
     }

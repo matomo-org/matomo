@@ -34,7 +34,7 @@
         "GeoIPImplHasAccessTo": "この GeoIP 実装は、次の種類のデータベースへのアクセスを含みます。",
         "GeoIPIncorrectDatabaseFormat": "ご利用の GeoIP データベースは、壊れている可能性があり、正しいフォーマットを持っていないようです。バイナリバージョンを使用し、別のコピーへ交換してください。",
         "GeoIpLocationProviderDesc_Pecl1": "正確に効率的にビジターの位置を決定するため、この位置情報プロバイダーは、GeoIP データベースと PECL モジュールを使用します。",
-        "GeoIpLocationProviderDesc_Pecl2": "このプロバイダーは 制限がないため、Matomo が推奨するプロバイダーの一つです。",
+        "GeoIpLocationProviderDesc_Pecl2": "このプロバイダーは 制限がないため、Piwik が推奨するプロバイダーの一つです。",
         "GeoIpLocationProviderDesc_Php1": "サーバー設定 (共有ホスティングが理想です!) が必要ないため、この位置情報プロバイダーは非常に簡単にインストールできます。ビジターの位置情報を正確に決定するために、GeoIP データベースと MaxMind の PHP API を使用します。",
         "GeoIpLocationProviderDesc_Php2": "ウェブサイトのトラフィックが多い場合、位置情報プロバイダーの動作が非常に重く感じられるかもしれません。そのような場合は、%1$sPECL 拡張モジュール%2$s または %3$sサーバーモジュール %4$sをインストールすることをお勧めします。",
         "GeoIpLocationProviderDesc_ServerBased1": "このロケーションプロバイダーは、HTTP サーバーにインストールされている GeoIP モジュールを使用します。 このプロバイダは高速で正確ですが、%1$s通常のブラウザトラッキングでのみ使用できます。%2$s",

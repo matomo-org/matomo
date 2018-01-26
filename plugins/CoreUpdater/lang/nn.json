@@ -40,7 +40,6 @@
         "WarningMessages": "Åtvaringar:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Me slo automatisk av føljande innstikk: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Du kan oppdatera til versjon %s automatisk, eller lasta ned og installera pakka manuelt:",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik kan ikkje overskriva den gjeldande installasjonen. Du kan anten fikse katalog\/filtilgangen, eller lasta ned pakken og installera versjon %s manuelt:",
         "YourDatabaseIsOutOfDate": "Piwik-databasa di er gamal, og må bli oppgradert før du kan halda fram."
     }
 }

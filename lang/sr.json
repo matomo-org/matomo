@@ -294,7 +294,6 @@
         "Password": "Lozinka",
         "Period": "Period",
         "Piechart": "Grafikon",
-        "PiwikIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s je saradnički projekat %7$sMatomo tim%8$s članova kao i mnogih drugih učesnika širom sveta. <br\/> Ukoliko ste Matomo fan, možete da pomognete: pogledajte %3$sKako da učestvujete u Matomo-u%4$s, ili %5$sizvršite donaciju%6$s kako biste pomogli razvoju sledećeg Matomo izdanja!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s je izašao. Obavestite %2$sMatomo administratora%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Objavljen je Matomo %1$s. %2$s Molimo Vas da izvršite nadogradnju!%3$s (pogledajte %4$spromene%5$s).",
         "PleaseContactYourPiwikAdministrator": "Molimo vas da kontaktirate vašeg Matomo administratora.",

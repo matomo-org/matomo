@@ -1,10 +1,9 @@
 {
     "Installation": {
         "CollaborativeProject": "Piwik is een samenwerkingsproject, met liefde gebouwd door mensen van over de hele wereld.",
-        "ConfigurationHelp": "Uw Matomo configuratie bestand is waarschijnlijk niet correct geconfigureerd. U kunt ofwel config\/config.ini.php verwijderen en de installatie vervolgen of de toegangsgegevens voor de database corrigeren.",
+        "ConfigurationHelp": "Jouw Matomo configuratie lijkt verkeerd geconfigureerd. Je kunt ofwel het bestand config\/config.ini.php verwijderen en verder gaan, of de database connectie instellingen aanpassen.",
         "ConfirmDeleteExistingTables": "Bent u zeker dat u de tabellen wilt verwijderen: %s uit uw datbase? WAARSCHUWING: DATA VAN DEZE TABELLEN KAN NIET WORDEN HERSTELD!",
         "Congratulations": "Gefeliciteerd",
-        "CongratulationsHelp": "<p>Gefeliciteerd! Uw Matomo installatie is voltooid.<\/p><p>Controleer of de javascript code geplaatst is op uw pagina's, en wacht op de eerste bezoekers!<\/p>",
         "DatabaseAbilities": "Mogelijkheden database",
         "DatabaseCreation": "Aanmaken database",
         "DatabaseErrorConnect": "Fout opgetreden bij het maken van een verbinding met de database server.",
@@ -45,7 +44,6 @@
         "PasswordRepeat": "Wachtwoord (herhalen)",
         "PercentDone": "%s %% klaar",
         "ProfessionalServicesAdTitle": "Geavanceerde analytics & diensten",
-        "ProfessionalServicesfessionalServicesAdText": "Ons netwerk van experts kan uw organisatie helpen om de volledige kracht van Matomo analytics te benutten.",
         "ProfessionalServicesfessionalDiscoverHow": "Kom meer te weten over %1$saanvullende producten en diensten%2$s voor Matomo en hoe u uw conversies en omzet kunt laten groeien.",
         "PleaseFixTheFollowingErrors": "Los de volgende problemen op",
         "DefaultSettings": "Standaard Matomo instellingen",
@@ -126,7 +124,6 @@
         "SystemCheckCronArchiveProcessCLI": "Processen beheren via CLI",
         "SystemCheckPhpSetting": "Om een kritiek probleem te vermijden moet je de volgende instelling plaatsen in je php.ini bestand: %s",
         "SystemCheckUpdateHttps": "Bijwerken via HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Piwik kan geen gebruik maken van HTTPS om up te daten. Het zal gebruik maken van de onveilige HTTP update. Controleer dat CURL of allow_url_fopen is ondersteund en dat de PHP openssl extensie is geïnstalleerd: http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/.",
         "NotSupported": "niet ondersteund",
         "Tables": "Tabellen aanmaken",
         "TablesCreatedSuccess": "Tabellen met succes aangemaakt!",
@@ -140,7 +137,6 @@
         "Timezone": "Tijdzone website",
         "WeHopeYouWillEnjoyPiwik": "We hopen dat je evenveel plezier hebt in het gebruiken van Matomo als dat wij hebben in het ontwikkelen.",
         "Welcome": "Welkom!",
-        "WelcomeHelp": "<p>Matomo is een open source web analytics software pakket die u op simpele wijze de gegevens van uw bezoekers presenteert.<\/p><p>Dit proces is opgedeeld in %s simpele stappen welke ongeveer 5 minuten in beslag nemen.<\/p>",
         "WelcomeToCommunity": "Welkom bij de Matomo-gemeenschap!",
         "CannotConnectToDb": "Kan geen verbinding met de database maken",
         "CannotConnectToDbResolvingExplanation": "Dit kan een tijdelijk probleem zijn, probeer de %1$spagina te vernieuwen%2$s. Contacteer je Matomo administrator indien het probleem blijft."

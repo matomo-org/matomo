@@ -74,8 +74,7 @@
         "VerifyingUnpackedFiles": "Provera otpakovanih datoteka",
         "WarningMessages": "Poruka upozorenja:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Automatski smo deaktivirali sledeće dodatke: %s",
-        "YouCanUpgradeAutomaticallyOrDownloadPackage": "Možete izvršiti automatsku nadogradnju na verziju %s ili preuzeti poslednju verziju Matomo-a i izvršiti ručnu nadogradnju",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik nije u stanju da prebriše trenutnu instalaciju. Možete ili da popravite dozvole nad datotekama i direktorijumima ili da preuzmete paket sa Interneta i instalirate verziju %s ručno:",
+        "YouCanUpgradeAutomaticallyOrDownloadPackage": "Možete izvršiti automatsku nadogradnju na verziju %s ili preuzeti poslednju verziju Piwik-a i izvršiti ručnu nadogradnju",
         "YourDatabaseIsOutOfDate": "Piwik baza podataka je zastarela i mora biti nadograđena pre nego što nastavite.",
         "ViewVersionChangelog": "Prikaži zapis promena za ovu verziju:",
         "ReceiveEmailBecauseIsSuperUser": "Dobili ste ovaj mejl zato što ste superkorisnik Matomo-a na %s"

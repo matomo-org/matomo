@@ -294,7 +294,6 @@
         "Password": "Пароль",
         "Period": "Період",
         "Piechart": "Кругова діаграма",
-        "PiwikIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s це спільний проект привів до вас %7$s команди Matomo %8$s членів, а також багато інших учасників по всьому світу. <br\/> Якщо ви шанувальник Matomo, ви можете допомогти: дізнатеся %3$sЯк взяти участь в Matomo%4$s, чи %5$sпожертвуйте прямо зараз%6$s щоб допомогти фінансувати наступний великий реліз Matomo!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "Доступний %1$s. Будь ласка повідомте %2$sадміністратору Matomo%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s доступний для завантаження. %2$s Будь ласка, оновіться!%3$s (див. %4$s зміни%5$s).",
         "PleaseContactYourPiwikAdministrator": "Будь ласка, зверніться до адміністратора Matomo.",

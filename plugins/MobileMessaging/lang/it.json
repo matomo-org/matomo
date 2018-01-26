@@ -28,7 +28,6 @@
         "Settings_PhoneNumbers_Add": "Aggiungi Numero Telefonico",
         "Settings_PhoneNumbers_CountryCode_Help": "Se desideri sapere il prefisso internazionale, cerca qui il tuo paese.",
         "Settings_PhoneNumbers_Help": "Prima di ricevere SMS (messaggi di testo) su un telefono, bisogna inserirne qui sotto il numero.",
-        "Settings_PhoneNumbers_HelpAdd": "Quando clicchi si \"Aggiungi\", un SMS contenente un codice verrà inviato al telefono. L'utente che riceve il codice deve accedere a Piwik, cliccare su Impostazioni, poi cliccare su Messaggeria Mobile. Dopo avere inserito il codice, l'utente potrà ricevere i report testuali sul suo telefono.",
         "Settings_PleaseSignUp": "Per creare SMS e ricevere brevi messaggi di testo con le statistiche dei tuoi siti web sul tuo cellulare, si prega di registrarsi con l'API SMS e immettere le informazioni qui di seguito.",
         "Settings_SMSAPIAccount": "Gestisci Account SMS API",
         "Settings_SMSProvider": "Gestore SMS",

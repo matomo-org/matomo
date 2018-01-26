@@ -41,7 +41,6 @@
         "WarningMessages": "Папярэджанні:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Наступныя плагіны аўтаматычна дэактываваны: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Вы можаце абнавіцца да версіі %s аўтаматычна ці запампаваць усталявальны пакет і ўручную ўсталяваць яго:",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik не можа перазапісаць бягучыя ўсталёўкі. Вы можаце выправіць правы доступу да файлаў\/каталогаў або загрузіць і ўсталяваць пакет %s ўручную:",
         "YourDatabaseIsOutOfDate": "Тэрмін дзеяння Вашай Matomo базы мінуў, Вам трэба яе абнавіць для працягу."
     }
 }

@@ -44,7 +44,6 @@
         "WarningMessages": "پیام های هشدار:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "ما به طور خودکار این افزونه ها را غیر فعال کردیم: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "شما می توانید به طور خودکار به نسخه ی %s بروزرسانی کنید یا بسته را دانلود و دستی نصب کنید:",
-        "YouMustDownloadPackageOrFixPermissions": "پیویک قادر به دوباره نویسی سیستم نصب شده کنونی نمی باشد. شما می توانید اجازه ی دسترسی فابل\/پوشه مربوطه را تغییر دهید یا بسته را دانلود و نسخه ی %s را دستی نصب نمایید:",
         "YourDatabaseIsOutOfDate": "پایگاه داده پیویک شما از رده خارج است و قبل از ادامه باید ارتقا یابد."
     }
 }

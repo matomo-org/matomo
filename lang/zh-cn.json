@@ -302,7 +302,6 @@
         "Password": "密码",
         "Period": "统计时间",
         "Piechart": "圆饼图",
-        "PiwikIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$s Matomo %2$s 是由 %7$s Matomo 团队 %8$s 的成员以及全球许多其他贡献者赞助商的合作项目。<br\/>如果你是 Matomo 的粉丝，你可以帮助我们：找到 %3$s 怎样参与 Matomo 项目 %4$s，或者 %5$s 捐赠 %6$s 以便维持 下一个Matomo版本的开发。",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s可用。请通知%2$sMatomo管理员%3$s。",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s 已经发布。 %2$s 请立即更新！%3$s (查看 %4$s 与%5$s 的差异)。",
         "PleaseContactYourPiwikAdministrator": "请联系您的 Matomo 管理员",

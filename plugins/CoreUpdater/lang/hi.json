@@ -44,7 +44,6 @@
         "WarningMessages": "चेतावनी संदेश:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "हमने स्वचालित रूप से निम्नलिखित प्लगिन निष्क्रिय किया: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "आप स्वतः संस्करण %s के लिए अद्यतन या पैकेज को डाउनलोड और स्वयं इसे स्थापित कर सकते हैं:",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik अपने मौजूदा स्थापना अधिलेखित करने में असमर्थ है. आप या तो निर्देशिका \/ फाइल अनुमति , या पैकेज को डाउनलोड करने और मैन्युअल %s संस्करण स्थापित कर सकते हैं:",
         "YourDatabaseIsOutOfDate": "आपकी Matomo डेटाबेस अप्रचलित है, और जारी रखने से पहले अपग्रेड किया जाना चाहिए."
     }
 }

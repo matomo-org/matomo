@@ -35,7 +35,6 @@
         "GlobalListExcludedUserAgents_Desc": "Pokud řetězec uživatelského agenta obsahuje některý ze zadaných řetězců, tento návštěvník bude vyloučen z Matomou.",
         "GlobalSettings": "Obecná nastavení",
         "GlobalWebsitesSettings": "Nastavení globálních webových stránek",
-        "HelpExcludedIps": "Zatejte seznam IP adrese, jednu na řádek, které chcete vynechat ze záznamů Matomou. Můžete použít zástupné znaky např. %1$s nebo %2$s",
         "JsTrackingTagHelp": "Zde je JavaScriptový zaznamenávací tag pro vložení na všechny vaše stránky",
         "KeepURLFragments": "Sledování URL fragmentů stránek",
         "KeepURLFragmentsHelp": "Pokud je pole níže odškrtnuté, bude při sledování z URL fragment (všechno po znaku %1$s) odstraněn: %2$s bude zaznamenáno jako %3$s",

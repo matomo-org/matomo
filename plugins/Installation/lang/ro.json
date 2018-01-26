@@ -1,10 +1,8 @@
 {
     "Installation": {
         "CollaborativeProject": "Piwik este un proiect colaborativ, construit cu dragoste de oameni de pe tot mapamondul.",
-        "ConfigurationHelp": "Fisierul de configurare Matomo pare să fie configurat greșit. Puteți fie să eliminați config \/ config.ini.php și reluati instalarea, sau a se corecta setările de conexiune de date.",
         "ConfirmDeleteExistingTables": "Sigur doriți să ștergeți tabelele: %s din baza de date? AVERTISMENT: DATELE DIN ACESTE TABELE NU POT FI RECUPERATE",
         "Congratulations": "Felicitari",
-        "CongratulationsHelp": "<p> Felicitări! Instalarea Matomo este completă. <\/P> Asigurați-vă că codul JavaScript este înscris pe paginile dvs., și așteptați primi vizitatori! <\/P>",
         "DatabaseAbilities": "Abilități baze de date",
         "DatabaseCreation": "Creare bază de date",
         "DatabaseErrorConnect": "Eroare în timp ce se încearcă conectarea la serverul de baze de date",
@@ -111,7 +109,6 @@
         "TablesWithSameNamesFound": "Unele %1$s tabele din baza de date %2$s au aceleași nume ca tabelele Matomo care se încercarca a se crea",
         "WeHopeYouWillEnjoyPiwik": "Sperăm că vă veți bucura de utilizarea Matomo la fel de mult cum ne bucurăm de ceea ce face.",
         "Welcome": "Bine ai venit!",
-        "WelcomeHelp": "<p> Matomo este un software de analiză de web open source care îl face ușor pentru a obține informațiile pe care doriți de la vizitatori. <\/p> Acest proces este împărțită în %s pași simpli și va dura aproximativ 5 minute. <\/p>",
         "WelcomeToCommunity": "Bine ai venit în comunitatea Matomo!"
     }
 }

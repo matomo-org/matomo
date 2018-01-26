@@ -39,7 +39,6 @@
         "OptOutComplete": "차단 완료; 당신의 방문한 이 웹사이트는 이제 웹 분석 도구에 기록되지 않습니다.",
         "OptOutCompleteBis": "Cookie를 삭제하여 차단 Cookie를 삭제하거나 컴퓨터 또는 브라우저를 변경 한 경우는 차단 절차를 다시 수행해야 한다는 점 유의하세요.",
         "OptOutExplanation": "Piwik은 인터넷에서 개인 정보 제공에 최선을 다하고 있습니다. 방문자에 Matomo 웹 분석의 차단 옵션을 제공하기 위해 웹 사이트의 1페이지 (개인 정보 보호 정책 페이지 등)에 다음 HTML 코드를 추가 할 수 있습니다.",
-        "OptOutExplanationBis": "HTML 코드는 방문자의 브라우저에 차단 Cookie를 설정하는 Matomo 차단 링크를 ​​포함 iFrame을 표시합니다. iFrame에서 표시되는 내용을 표시하려면 %1$s여기를 클릭%2$s합니다.",
         "OptOutForYourVisitors": "방문자의 Matomo 차단",
         "PiwikIsInstalledAt": "Piwik가 설치되어 있습니다",
         "PersonalPluginSettings": "나만의 플러그인 설정",

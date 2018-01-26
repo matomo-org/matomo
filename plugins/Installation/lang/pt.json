@@ -1,9 +1,7 @@
 {
     "Installation": {
-        "ConfigurationHelp": "O seu ficheiro de configuração Matomo parece estar mal configurado. Pode remover config\/config.ini.php e continuar a instalação, ou corrigir as definições da ligação à base de dados.",
         "ConfirmDeleteExistingTables": "Tem a certeza que deseja eliminar as tabelas: %s da sua base de dados? AVISO: DADOS DESTAS TABELAS NÃO PODEM SER RECUPERADOS!",
         "Congratulations": "Parabéns",
-        "CongratulationsHelp": "<p>Parabéns! A sua instalação do Matomo foi completada.<\/p><p>Certifique-se que colocou o código javascript em todas as suas páginas, e aguarde pelos seus primeiros visitantes!<\/p>",
         "DatabaseCreation": "Criação da base de dados",
         "DatabaseErrorConnect": "Erro ao tentar ligar ao servidor da base de dados",
         "DatabaseServerVersion": "Versão do servidor de base de dados",
@@ -17,7 +15,7 @@
         "GoBackAndDefinePrefix": "Retroceder e definir um Prefixo para as Tabelas Matomo",
         "Installation": "Instalação",
         "InstallationStatus": "Estado da Instalação",
-        "LargePiwikInstances": "Ajuda para grandes instâncias Matomo",
+        "LargePiwikInstances": "Ajuda para grandes instâncias Piwik",
         "Legend": "Legenda",
         "Optional": "Opcional",
         "PasswordDoNotMatch": "palavras-passe não coincidem",
@@ -77,7 +75,6 @@
         "TablesReuse": "Reutilizar as tabelas existentes",
         "TablesWarningHelp": "Escolha reutilizar as tabelas existentes ou seleccione uma instalação nova para eliminar os dados existentes da base de dados.",
         "TablesWithSameNamesFound": "Algumas %1$s tabelas na sua base de dados %2$s têm o mesmo nome que as tabelas que Matomo está a tentar criar",
-        "Welcome": "Bem vindo!",
-        "WelcomeHelp": "<p>Matomo é um analisador de tráfego open source que torna fácil obter informações sobre os seus visitantes.<\/p><p>Este processo divide-se em %s passos fáceis e demora por volta de 5 minutos.<\/p>"
+        "Welcome": "Bem vindo!"
     }
 }

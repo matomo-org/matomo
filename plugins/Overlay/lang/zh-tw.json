@@ -5,7 +5,7 @@
         "Domain": "域名",
         "ErrorNotLoading": "網頁覆蓋功能尚無法執行。",
         "ErrorNotLoadingDetails": "可能是右邊讀取的頁面沒有 Matomo 追蹤程式碼。在這種情況下，試著在頁面報表內的不同頁面中執行頁面覆蓋。",
-        "ErrorNotLoadingDetailsSSL": "你正透過 https 使用 Piwik，最可能的原因是你的網站不支援 SSL。試著透過 http 使用 Matomo。",
+        "ErrorNotLoadingDetailsSSL": "你正透過 https 使用 Matomo，最可能的原因是你的網站不支援 SSL。試著透過 http 使用 Matomo。",
         "ErrorNotLoadingLink": "點擊這裡取得更多問題排除技巧",
         "Link": "連結",
         "Location": "位置",

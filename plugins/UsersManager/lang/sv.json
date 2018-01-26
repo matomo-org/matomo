@@ -22,7 +22,7 @@
         "ExceptionAdminAnonymous": "Du kan inte bevilja 'admin' tillgång för \"anonyma\" användare.",
         "ExceptionDeleteDoesNotExist": "Användaren '%s' finns inte och kan därför inte tas bort.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Att radera användare '%s' är inte möjligt.",
-        "ExceptionEditAnonymous": "Den anonyma användaren kan inte redigeras eller tas bort. Den används av Matomo för att definiera en användare som inte har loggat in ännu. Till exempel kan du göra din statistik publik genom att bevilja \"Visa\" tillgång till \"anonyma\" användare.",
+        "ExceptionEditAnonymous": "Den anonyma användaren kan inte redigeras eller tas bort. Den används av Matomo för att definiera en användare som inte har loggat in ännu. Till exempel kan du göra din statistik publik genom att bevilja \\\"Visa\\\" tillgång till \\\"anonyma\\\" användare.",
         "ExceptionEmailExists": "Användaren med e-postadressen '%s' finns redan.",
         "ExceptionInvalidEmail": "E-postadressen har inte ett giltigt format.",
         "ExceptionInvalidLoginFormat": "Användarnamnet måste vara mellan %1$s och %2$s tecken långt och får endast innehålla bokstäver, siffror och tecknen _ - . @ +",

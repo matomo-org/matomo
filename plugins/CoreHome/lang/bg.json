@@ -40,6 +40,7 @@
         "UnFlattenDataTable": "Този доклад е плосък %s Направете го йерархичен",
         "ViewAllPiwikVideoTutorials": "Виж всички Matomo помощни клипове",
         "WebAnalyticsReports": "Уеб Анализи Доклади",
-        "YouAreUsingTheLatestVersion": "Вие използвате последна версия на Matomo!"
+        "YouAreUsingTheLatestVersion": "Вие използвате последна версия на Matomo!",
+        "SystemSummaryPhpVersion": "PHP версия"
     }
 }

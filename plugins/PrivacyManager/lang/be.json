@@ -1,6 +1,5 @@
 {
     "PrivacyManager": {
-        "AnonymizeIpDescription": "Абярыце \"Так\", калі вы хочаце, каб Piwik не адсочваў поўны IP-адрас.",
         "AnonymizeIpInlineHelp": "Схаваць апошні байт(ы) IP-адрасоў наведвальнікаў, каб выканаць вашы мясцовыя законы кіруючых органаў.",
         "AnonymizeIpMaskLengtDescription": "Выбраць, колькі байтаў IP-адрасоў наведвальнікаў павінны быць схаваныя.",
         "AnonymizeIpMaskLength": "%1$s байт(ы) - напр., %2$s",

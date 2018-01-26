@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "你必須登入以建立或排程自定報表。",
         "NoRecipients": "這份報表沒有收件人",
         "Pagination": "第 %1$s 頁，共 %2$s 頁",
-        "PiwikReports": "Piwik 報表",
+        "PiwikReports": "Matomo 報表",
         "PleaseFindAttachedFile": "請從附件檔中確認你 %2$s 的 %1$s。",
         "SentFromX": "寄送自 %s。",
         "PleaseFindBelow": "請從下方確認你 %2$s 的 %1$s。",

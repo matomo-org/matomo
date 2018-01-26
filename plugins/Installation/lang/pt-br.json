@@ -1,10 +1,8 @@
 {
     "Installation": {
         "CollaborativeProject": "Piwik é um projeto colaborativo, construído com amor por pessoas de todo o mundo.",
-        "ConfigurationHelp": "Seu arquivo de configuração Matomo parece estar desconfigurado. Você pode ou remover config\/config.ini.php e fechar a instalação, ou corrigir as configurações de conexão com banco de dados.",
         "ConfirmDeleteExistingTables": "Tem certeza que quer apagar as tabelas: %s do seu banco de dados? AVISO: DADOS DESTAS TABELAS NÃO PODERÃO SER RECUPERADOS!",
         "Congratulations": "Parabéns",
-        "CongratulationsHelp": "<p>Parabéns! A sua instalação do Matomo está completa.<\/p><p>Certifique-se de ter colocado o código JavaScript em todas as suas páginas, e aguarde os seus primeiros visitantes!<\/p>",
         "DatabaseAbilities": "Capacidades de banco de dados",
         "DatabaseCreation": "Criação do banco de dados",
         "DatabaseErrorConnect": "Erro enquanto tentando conectar ao servidor do banco de dados",
@@ -29,7 +27,7 @@
         "JsTagArchivingHelp1": "Para sites de médio e alto tráfego existem certas otimizações que devem ser feitas para ajudar o Matomo a funcionar mais rápido (como %1$sconfigurar auto-arquivamento%2$s).",
         "JSTracking_EndNote": "Nota: Após o processo de instalação, você pode gerar um código de rastreamento personalizado nas configurações de %1$sCódigo de rastreamento%2$s .",
         "JSTracking_Intro": "Para acompanhar o seu tráfego na web com Matomo você precisa ter certeza de algum código extra é adicionado a cada uma de suas páginas.",
-        "LargePiwikInstances": "Ajuda para instancias Matomo grandes",
+        "LargePiwikInstances": "Ajuda para instancias Piwik grandes",
         "Legend": "Legenda",
         "LoadDataInfileRecommended": "Se o servidor Matomo rastreia sites de alto tráfego (ex.:> 100.000 páginas por mês), recomendamos para tentar corrigir este problema.",
         "LoadDataInfileUnavailableHelp": "Usando %1$s vai acelerar bastante o processo de arquivamento do Piwik. Para torná-lo disponível para Matomo, tente atualizar seu PHP e MySQL e verifique se o usuário do banco de dados tem o privilégio %2$s.",
@@ -119,7 +117,6 @@
         "SystemCheckCronArchiveProcessCLI": "Gerenciar processos via CLI",
         "SystemCheckPhpSetting": "Para evitar algum problema crítico, você deve definir o seguinte em seu arquivo php.ini: %s",
         "SystemCheckUpdateHttps": "Atualização por HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Piwik não pode utilizar HTTPS para atualizar, pois vai cair de volta para a atualização HTTP insegura. Verifique se CURL ou allow_url_fopen é suportada e que a extensão PHP openssl está instalada: http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/.",
         "NotSupported": "não suportado",
         "Tables": "Criando as tabelas",
         "TablesCreatedSuccess": "Tabelas criadas com sucesso!",
@@ -133,7 +130,6 @@
         "Timezone": "fuso horário do website",
         "WeHopeYouWillEnjoyPiwik": "Esperamos que você goste de usar Matomo tanto quanto nós de tê-lo feito.",
         "Welcome": "Bem vindo!",
-        "WelcomeHelp": "<p>Matomo é um analisador de tráfego open source que torna fácil obter informações sobre os seus visitantes.<\/p><p>Este processo é dividido em %s passos fáceis e irá demorar por volta de 5 minutos.<\/p>",
         "WelcomeToCommunity": "Bem-vindo à comunidade Matomo!",
         "CannotConnectToDb": "Não foi possível conectar com o banco de dados",
         "CannotConnectToDbResolvingExplanation": "Isso pode ser um problema temporário, tente %1$srecarregar a página%2$s. Se o problema persistir, por favor contacte o administrador do Matomo."

@@ -16,7 +16,7 @@
         "ExceptionAccessValues": "Tham số truy cập phải có một trong các giá trị sau: [%s]",
         "ExceptionAdminAnonymous": "Bạn không thể cấp quyền truy cập \"quản trị\" cho người sử dụng 'ẩn danh'.",
         "ExceptionDeleteDoesNotExist": "Người dùng '%s' không tồn tại do đó nó không thể bị xóa.",
-        "ExceptionEditAnonymous": "Người dùng ẩn danh không thể chỉnh sửa hoặc xóa. Nó được sử dụng bởi Matomo để xác định một người dùng đã không đăng nhập lúc này. Ví dụ, bạn có thể làm cho số liệu thống kê công cộng(public) của bạn bằng cách cho phép truy cập \"xem\" đến người dùng 'ẩn danh'.",
+        "ExceptionEditAnonymous": "Người dùng ẩn danh không thể chỉnh sửa hoặc xóa. Nó được sử dụng bởi Matomo để xác định một người dùng đã không đăng nhập lúc này. Ví dụ, bạn có thể làm cho số liệu thống kê công cộng(public) của bạn bằng cách cho phép truy cập \\\"xem\\\" đến người dùng 'ẩn danh'.",
         "ExceptionEmailExists": "Người dùng với email '%s' đã tồn tại.",
         "ExceptionInvalidEmail": "Email không có một định dạng hợp lệ.",
         "ExceptionLoginExists": "Tên người dùng '%s' đã tồn tại sẵn.",

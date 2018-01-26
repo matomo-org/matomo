@@ -1,10 +1,8 @@
 {
     "Installation": {
         "CollaborativeProject": "Piwik è un progetto in collaborazione, costruito con amore da persone di tutto il mondo.",
-        "ConfigurationHelp": "Il tuo file di configurazione di Matomo sembra essere configurato male. Puoi rimuovere il file config\/config.ini.php e ricominciare l'installazione, o correggere i dati di connessione al database.",
         "ConfirmDeleteExistingTables": "Sei sicuro di voler cancellare le tabelle %s dal tuo database? ATTENZIONE: I DATI NON POTRANNO ESSERE RECUPERATI!",
         "Congratulations": "Congratulazioni",
-        "CongratulationsHelp": "<p>Congratulazioni! L'installazione di Matomo è stata completata.<\/p><p>Assicurati che il codice JavaScript sia inserito in tutte le pagine del sito e aspetta i tuoi primi visitatori!<\/p>",
         "DatabaseAbilities": "Capacità del database",
         "DatabaseCreation": "Creazione del database",
         "DatabaseErrorConnect": "Errore durante la connessione al server del database",
@@ -29,7 +27,7 @@
         "JsTagArchivingHelp1": "Per i siti con un traffico medio-alto ci sono alcune ottimizzazioni che andrebbero fatte per aiutare Matomo a girare più velocemente (come %1$simpostare l'autoarchiviazione%2$s).",
         "JSTracking_EndNote": "Nota: dopo l'installazione, è possibile generare un codice personalizzato di tracking nella sezione di amministrazione%1$s Codice Tracking%2$s.",
         "JSTracking_Intro": "Per tracciare il tuo traffico web devi assicurarti che sia stato aggiunto a tutte le pagine del codice aggiuntivo.",
-        "LargePiwikInstances": "Aiuto per grandi installazioni di Matomo",
+        "LargePiwikInstances": "Aiuto per grandi installazioni di Piwik",
         "Legend": "Legenda",
         "LoadDataInfileRecommended": "Se il server di Matomo tiene traccia di siti web ad alto traffico (es.> 100.000 pagine al mese), si consiglia di provare a risolvere questo problema.",
         "LoadDataInfileUnavailableHelp": "L'utilizzo di %1$s accelera notevolmente il processo di archiviazione di Piwik. Per renderlo disponibile a Matomo, prova ad aggiornare il tuo software PHP & MySQL e assicurati che la tua utenza del database abbia i privilegi %2$s.",
@@ -45,7 +43,6 @@
         "PasswordRepeat": "Password (ripeti)",
         "PercentDone": "%s %% Fatto",
         "ProfessionalServicesAdTitle": "Analisi Avanzate e Servizi",
-        "ProfessionalServicesfessionalServicesAdText": "La nostra rete di esperti può aiutare la tua organizzione a sbloccare l'intera potenza delle analisi di Matomo.",
         "ProfessionalServicesfessionalDiscoverHow": "Impara altro sui %1$sprodotti supplementari e i servizi%2$s di Matomo e come su come incrementare conversioni e ricavi.",
         "PleaseFixTheFollowingErrors": "Per favore, risolvi i seguenti errori",
         "DefaultSettings": "Impostazioni predefinite di Matomo",
@@ -126,7 +123,6 @@
         "SystemCheckCronArchiveProcessCLI": "Gestione processi tramite CLI",
         "SystemCheckPhpSetting": "Per prevenire alcuni problemi critici, devi impostare ciò che segue nel php.ini: %s",
         "SystemCheckUpdateHttps": "Aggiorna tramite HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Piwik non riesce a utilizzare HTTPS per l'aggiornamento e torna all'aggiornamento non sicuro HTTP. Verifica che CURL o allow_url_fopen siano supportati e che sia installata l'estensione PHP openssl: http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/.",
         "NotSupported": "non supportato",
         "Tables": "Sto creando le tabelle",
         "TablesCreatedSuccess": "Tabelle create con successo!",
@@ -140,7 +136,6 @@
         "Timezone": "Fuso orario del sito web",
         "WeHopeYouWillEnjoyPiwik": "Noi speriamo che tu gradirai utilizzare Matomo come a noi piace realizzarlo.",
         "Welcome": "Benvenuto!",
-        "WelcomeHelp": "<p>Matomo è un software open source che ti permette di analizzare facilmente le informazioni dei visitatori che visitano i tuoi siti web.<\/p><p>Questa procedura si divide in %s semplici passaggi e si completa nel giro di 5 minuti.<\/p>",
         "WelcomeToCommunity": "Benevenuto nella comunità di Matomo!",
         "CannotConnectToDb": "Impossibile connettersi al database",
         "CannotConnectToDbResolvingExplanation": "Potrebbe trattarsi di un problema temporaneo, prova a %1$sricaricare la pagina%2$s. Se il problema persiste, contatta il tuo amministratore di Matomo."

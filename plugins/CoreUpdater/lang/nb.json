@@ -11,7 +11,7 @@
         "ErrorDIYHelp": "Hvis du er en avansert bruker og oppdager en feil i databaseoppgraderingen:",
         "ErrorDIYHelp_1": "identifiser og fiks kilden til problemet (f.eks. memory_limit eller max_execution_time)",
         "ErrorDIYHelp_2": "kjør de gjenstående forespørslene i oppdateringen som feilet",
-        "ErrorDIYHelp_3": "manuelt oppdater \"option\"-tabellen i din Piwik-database; sett verdien av version_core til versjonen for den oppdateringen som feilet",
+        "ErrorDIYHelp_3": "manuelt oppdater \\\"option\\\"-tabellen i din Piwik-database; sett verdien av version_core til versjonen for den oppdateringen som feilet",
         "ErrorDIYHelp_4": "start oppdateringen på nytt (enten i nettleseren eller på kommandolinja) for å fortsette med de gjenstående oppdateringene",
         "ErrorDIYHelp_5": "rapporter problemet (og løsningen) slik at Matomo kan bli forbedret",
         "ErrorDuringPluginsUpdates": "Feil under oppdatering av tillegg:",
@@ -72,7 +72,6 @@
         "WarningMessages": "Advarsler:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Følgende tillegg ble (automatisk) slått av: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Du kan oppdatere til versjon %s automatisk eller laste ned pakken og installere manuelt.",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik klarte ikke skrive over din nåværende installasjon. Du kan enten fikse mappe\/filrettighetene eller laste ned pakken og installere versjon %s manuelt:",
         "YourDatabaseIsOutOfDate": "Piwik-databasen din er utdatert og må oppgraderes før du kan fortsette.",
         "ViewVersionChangelog": "Se på endringsloggen for denne versjonen:"
     }

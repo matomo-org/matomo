@@ -3,6 +3,7 @@
         "AveragePageGenerationTime": "Jede Seite benötigte im Durchschnitt %1$s um bei diesem Besucher zu laden.",
         "CalculatedOverNPageViews": "Berechnet mithilfe der letzten %1$s Seitenansichten dieses Besuchers.",
         "ClickToViewMoreAboutVisit": "Klicken Sie um nähere Informationen zu diesem Besuch zu sehen",
+        "ClickToViewAllActions": "Klicken Sie um alle Aktionen dieser Gruppe im Detail zu sehen",
         "ConvertedNGoals": "%s Ziele konvertiert",
         "FirstVisit": "Erster Besuch",
         "GoalType": "Typ",
