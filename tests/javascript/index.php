@@ -3172,7 +3172,7 @@ function PiwikTest() {
 
         // Verify that when resetting the User ID, it also changes the Visitor ID
         tracker.resetUserId();
-        equal(userId, tracker.getUserId(), "after reset, user ID is set to empty string");
+        equal('', tracker.getUserId(), "after reset, user ID is set to empty string");
         ok(tracker.getVisitorId().length == 16, "after resetting user id, visitor ID should still be 16 chars, got: " + tracker.getVisitorId());
         notEqual(tracker.getVisitorId(), visitorId, "after resetting user id, visitor ID should be different ("+ tracker.getVisitorId() +")");
         tracker.trackPageView("Track some data to write the cookies...");
