@@ -6,6 +6,7 @@
         "PageOf": "%1$s з %2$s",
         "ShowJSCode": "Паказаць Java-код для ўстаўкі",
         "ThereIsNoDataForThisReport": "Няма дадзеных для гэтай справаздачы.",
-        "WebAnalyticsReports": "Справаздачы Вэб-Аналітыкі"
+        "WebAnalyticsReports": "Справаздачы Вэб-Аналітыкі",
+        "SystemSummaryPhpVersion": "Версія PHP"
     }
 }

@@ -75,7 +75,6 @@
         "WarningMessages": "Hlášky upozornění:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Automaticky jsme zakázali následující zásuvné moduly: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Můžete aktualizovat na verzi %s automaticky, nebo si stáhněte balíček a nainstalujte jej manuálně:",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik nemůže přepsat Vaši stávající instalaci. Můžete buď opravit oprávnění k adresářům\/souborům, nebo stáhnout balíček a nainstalovat verzi %s ručně",
         "YourDatabaseIsOutOfDate": "Vaše databáze Matomou je zastaralá a musí být aktualizována, než budete pokračovat.",
         "ViewVersionChangelog": "Zobrazit protokol změn této verze:",
         "ReceiveEmailBecauseIsSuperUser": "Tento e-mail dostáváte, protože jste super uživatel Matomou na: %s"

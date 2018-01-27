@@ -1,10 +1,8 @@
 {
     "Installation": {
         "CollaborativeProject": "Ang Matomo ay mga pinagsama-samang mga proyekto na binuo na may pag-ibig sa pamamagitan ng mga tao mula sa buong mundo.",
-        "ConfigurationHelp": "Ang iyong Matomo configuration file ay mukhang hindi tama. Maari mong tanggalin ang config\/config.ini.php at ipagpatuloy ang pag-iinstall o itama ang database connection settings.",
         "ConfirmDeleteExistingTables": "Sigurado ka bang gusto mong tanggaling ang mga table na ito: %s mula sa iyong database? BABALA: ANG MGA DATUS MULA SA MGA TABLES NA ITO AY HINDI NA MAIBABALIK!",
         "Congratulations": "Congratulations",
-        "CongratulationsHelp": "Binabati ka namin! Ang pag-iinstall mo sa Matomo ay tapos na<\/P><p>Tiyakin na ang iyong JavaScript code ay nailagay sa mga tamang pahina at maghintay na lamang para sa iyong unang bisita! <\/ p>",
         "DatabaseAbilities": "kakayahan ng database",
         "DatabaseCreation": "Pag-gawa ng database",
         "DatabaseErrorConnect": "Nagkaroon ng error habang sinusubukang kumonekta sa server ng database",
@@ -109,7 +107,6 @@
         "TablesWithSameNamesFound": "Ang i-iilang %1$s mga table sa iyong database ng %2$s ay may kaparehong pangalan tulad ng mga tables sa Matomo na sinusubukang gawin.",
         "WeHopeYouWillEnjoyPiwik": "Umaasa kaming masiyahan ka sa paggamit ng Matomo kagaya ng aming kasiyahan sa paggawa nito.",
         "Welcome": "Maligayang Pagdating!",
-        "WelcomeHelp": "<p>Piwi ay isang libreng web analytics software na ginagawang madali ang pagkuha ng impormasyon sa iyong mga bisita. <\/p> <p> Ang prosesong ito ay nakabahagi sa %s easy steps at uma-aabot lamang ng 5 minutes.<\/p>",
         "WelcomeToCommunity": "Maligayang pagdating sa komunidad Matomo!",
         "CannotConnectToDb": "Hindi makakonekta sa database",
         "CannotConnectToDbResolvingExplanation": "Itoy ay maaring panandaliang isyu subukan na %1$s e-refresh ang pahina %2$s. Kung patuloy pa rin ang ganitong problema mangyarin makipag-ugnayan sa iyong Matomo administrator."

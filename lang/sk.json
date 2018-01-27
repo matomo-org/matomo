@@ -294,7 +294,6 @@
         "Password": "Heslo",
         "Period": "Obdobie",
         "Piechart": "Koláčový graf",
-        "PiwikIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s je spoločný projekt, ktorý Vám prinášajú %8$s členovia %7$sMatomo tímu spolu s mnohými prispievateľmi z celého sveta. Ak ste fanúšikom Matomou, tak môžete pomôcť: vyzistiť %3$s ako participovať na Matomou%4$s, alebo %5$s prispieť finančne%6$s pre podporu dalšieho skvelého vydania Matomou!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s je dostupné. Prosím informujte %2$sMatomo administrátora%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s je k dispozícií. %2$s Prosím vykonajte aktualizáciu!%3$s (pozrieť %4$s zmeny%5$s).",
         "PleaseContactYourPiwikAdministrator": "Prosím kontaktujte svojho Matomo administrátora.",

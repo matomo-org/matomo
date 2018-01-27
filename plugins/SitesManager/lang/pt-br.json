@@ -35,7 +35,6 @@
         "GlobalListExcludedUserAgents_Desc": "Se a seqüência de user agent do visitante tiver qualquer uma das seqüências que você especificar, o visitante será excluído do Matomo.",
         "GlobalSettings": "Configurações globais",
         "GlobalWebsitesSettings": "Configurações globais de websites",
-        "HelpExcludedIps": "Entre com a lista de IPs, um por linha, que você deseja excluir por ter sido rastreado pelo Matomo. Você pode usar wildcards, ex: %1$s ou %2$s",
         "JsTrackingTagHelp": "Aqui está a tag de rastreamento JavaScript a ser incluída em todas as suas páginas",
         "KeepURLFragments": "Rastreamento de fragmentos de URL",
         "KeepURLFragmentsHelp": "Se a caixa abaixo estiver desmarcada, fragmentos de URL da página (tudo após o %1$s) será removido ao rastrear:%2$s serão rastreadas como %3$s",

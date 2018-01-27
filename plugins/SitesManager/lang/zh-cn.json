@@ -35,7 +35,6 @@
         "GlobalListExcludedUserAgents_Desc": "如果访客的用户代理字串包含指定的字符，访问将不被 Matomo 统计。",
         "GlobalSettings": "全局设置",
         "GlobalWebsitesSettings": "全局参数",
-        "HelpExcludedIps": "输入IP列表，一行一个，使 Matomo 不跟踪特定IP位址。您也可以使用通配符, 例如 %1$s 或 %2$s",
         "JsTrackingTagHelp": "这是要加入所有网页的 JavaScript 跟踪代码",
         "KeepURLFragments": "网址标签跟踪",
         "KeepURLFragmentsHelp": "如果没有选中下面的复选框，网址标签 (%1$s 后面的所有内容) 将被删除: %2$s 将统计为 %3$s",

@@ -311,7 +311,6 @@
         "Password": "Salasana",
         "Period": "Aikaväli",
         "Piechart": "Ympyräkaavio",
-        "PiwikIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s is yhteisöllinen projekti johon osallistuvat %7$sMatomo tiimin%8$s jäsenet samoin kuin monet muut auttajat ympäri maailman. <br\/> Jos pidät Matomoistä voi auttaa: %3$sOsallistu Matomo-yhteisöön%4$s, tai %5$slahjoita nyt%6$s rahoittaaksesi seuraavaa Matomo-julkaisua.",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s on saatavissa. Ole hyvä ja ilmoita %2$sMatomo ylläpitäjälle%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s on saatavilla. %2$s Päivitä nyt!%3$s (katso %4$s muutokset%5$s).",
         "PleaseContactYourPiwikAdministrator": "Ota yhteyttä Matomo-ylläpitääjäsi.",

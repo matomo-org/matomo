@@ -320,7 +320,6 @@
         "Password": "パスワード",
         "Period": "期間",
         "Piechart": "円グラフ",
-        "PiwikIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s は %7$sMatomo チームメンバー%8$sだけでなく世界中の多くの貢献者によってもたらされた共同プロジェクトです。 <br\/> Matomo のファンなら、%3$sMatomo への参加方法を見つけたり%4$s、%5$s今すぐ Matomo の次の素晴らしいリリースに資金を援助%6$s したりできます。",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s が利用可能です。%2$sMatomo 管理者%3$s に連絡してください。",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s が利用可能です。 %2$s今すぐアップデートしてください！%3$s（%4$s変更点%5$sを参照）。",
         "PleaseContactYourPiwikAdministrator": "Matomo 管理者に連絡してください。",

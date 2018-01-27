@@ -24,7 +24,6 @@
         "InjectedHostNonSuperUserWarning": "%1$sKlik di sini untuk mengkases Piwik secara aman%2$s dan menghapus peringatan ini. Anda juga dapat menghubungi pengelola Matomo Anda dan memberi tahu tentang permasalahan ini (%3$sklik di sini untuk surel%4$s).",
         "InjectedHostSuperUserWarning": "Piwik mungkin salah konfigurasi (sebagai contoh, bila Piwik baru saja dipindah ke peladen atau URL baru). Anda dapat memilih %1$sklik di sini dan menambah%2$s sebagai nama inang Piwik sahih (bila Anda mempercayai ini)%3$s, atau %4$sklik di sini dan menuju %5$s akses Matomo secara aman%6$s.",
         "InjectedHostWarningIntro": "Sekarang Anda mengakses Piwik dari %1$s, tetapi Matomo telah diatur untuk berjalan di alamat ini: %2$s.",
-        "JavascriptDisabled": "JavaScript harus diaktifkan untuk melihat Matomo di tampilan standar. <br \/>Namun, tampaknya JavaScript dimatikan atau tidak didukung oleh peramban Anda. <br \/>Untuk menggunakan tampilan standar, aktifkan JavaScript dengan mengubah pengaturab peramban Anda, lalu %1$scoba lagi%2$s. <br \/>",
         "MakeOneTimeDonation": "Buat satu kali sumbangan saja.",
         "Menu": "Menu",
         "NoPrivilegesAskPiwikAdmin": "Anda masuk sebagai '%1$s' tetapi sepertinya Anda tidak memiliki izin apapun di Piwik. %2$s Tanyakan kepada pengelola Matomo Anda (klik untuk kirim surel)%3$s untuk memberikan akses 'Lihat' ke situs.",
@@ -32,7 +31,6 @@
         "PeriodRange": "Rentang",
         "ReportGeneratedOn": "Laporan dibuat dalam %s",
         "ReportGeneratedXAgo": "Laporan dibuat %s lalu",
-        "SharePiwikLong": "Hai! Saya baru saja menemukan sebuah kepingan luar biasa perangkat lunak sumber terbuka: Piwik!\n\nMatomo memungkinkan kamu untuk melacak pengunjung situs kamu secara gratis. Kamu harus segera melihatnya!",
         "SharePiwikShort": "Piwik! Analisis ramatraya sumber terbuka dan gratis. Miliki sendiri data Anda.",
         "ShareThis": "Bagi ini",
         "ShowJSCode": "Tampilkan kode JavaScript untuk disisipkan",
@@ -43,6 +41,7 @@
         "UnFlattenDataTable": "Laporan ditampilkan tetap %s Buat berurutan",
         "ViewAllPiwikVideoTutorials": "Tampilkan seluruh Video Tutorial Matomo",
         "WebAnalyticsReports": "Laporan Analisis Web",
-        "YouAreUsingTheLatestVersion": "Anda menggunakan versi termutakhir Matomo!"
+        "YouAreUsingTheLatestVersion": "Anda menggunakan versi termutakhir Matomo!",
+        "SystemSummaryPhpVersion": "Versi PHP"
     }
 }

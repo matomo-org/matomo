@@ -1,10 +1,8 @@
 {
     "Installation": {
         "CollaborativeProject": "Piwik on yhteistyöprojekti, jonka parissa ovat työskennelleet ihmiset ympäri maailmaa suurella sydämellä.",
-        "ConfigurationHelp": "Piwikin asetustiedosto on luotu väärin. Voit joko poistaa tiedoston config\/config.ini.php ja käyttää asennusohjelmaa uudelleen tai korjata tietokannan asetukset.",
         "ConfirmDeleteExistingTables": "Haluatko varmasti poistaa seuraavat taulut tietokannasta: %s? VAROITUS: TAULUJEN TIETOJA EI VOI PALAUTTAA EIKÄ POISTAMISTA VOI KUMOTA!",
         "Congratulations": "Onnittelut",
-        "CongratulationsHelp": "<p>Onnittelut! Matomoin asennus on valmis.<\/p><p>Varmista, että JavaScript-koodi on lisätty sivuille, ja odota ensimmäisiä vierailijoita!<\/p>",
         "DatabaseAbilities": "Tietokannan toiminnot",
         "DatabaseCreation": "Tietokannan luominen",
         "DatabaseErrorConnect": "Virhe tietokantayhteyden avaamisessa",
@@ -127,7 +125,6 @@
         "Timezone": "Verkkosivun aikavyöhyke",
         "WeHopeYouWillEnjoyPiwik": "Toivomme että nautit Matomoin käytöstä yhtä paljon kuin me nautimme sen luomisesta!",
         "Welcome": "Tervetuloa!",
-        "WelcomeHelp": "<p>Matomo on vapaan lähdekoodin verkkosivujen analysointityökalu, joka tekee kävijöiden tietojen keräämisen ja analysoinnin helpoksi.<\/p><p>Tämä prosessi on jaettu %s helppoon osaan ja vie aikaa noin viisi minuuttia.<\/p>",
         "WelcomeToCommunity": "Tervetuloa Matomo-yhteisöön!",
         "CannotConnectToDb": "Tietokantaan yhdistäminen epäonnistui"
     }

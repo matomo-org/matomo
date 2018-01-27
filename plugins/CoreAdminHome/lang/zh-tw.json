@@ -52,7 +52,7 @@
         "JSTrackingIntro3b": "多數的網站、部落格、CMS 等等。你可以使用一個預製的外掛來幫你做技術性的工作。（查看%1$s用來整合 Matomo 的外掛列表%2$s。）如果沒有看到你想要的外掛，你可以直接編輯網站的模板，並將程式碼貼到 &lt;\/head&gt; 標籤之前，通常出現在「header.php」、「header.tpl」等類似的模板檔案中。",
         "JSTrackingIntro4": "如果你不想透過 JavaScript 來追蹤訪客，%1$s在下方產生圖片追蹤連結%2$s。",
         "JSTrackingIntro5": "如果你不只是想追蹤網頁訪問，可以查看%1$sMatomo Javascript 追蹤說明文件%2$s中的功能列表。可以透過這功能來追蹤目標、自訂變數、電子商務訂單、遺棄的購物車等等。",
-        "LogoNotWriteableInstruction": "要使用你的自訂標誌取代 Piwik 預設標誌，請給予此資料夾寫入權限：%1$s Matomo 需要寫入權限才能將你的標誌儲存為檔案 %2$s。",
+        "LogoNotWriteableInstruction": "要使用你的自訂標誌取代 Matomo 預設標誌，請給予此資料夾寫入權限：%1$s Matomo 需要寫入權限才能將你的標誌儲存為檔案 %2$s。",
         "FileUploadDisabled": "PHP 配置中並未啟用上傳檔案。要上傳你的自訂標誌前請先設定 php.ini 中的 %s 後重新啟動伺服器。",
         "LogoUploadFailed": "無法處理上傳的檔案。請檢查該檔案是否為有效格式。",
         "LogoUpload": "選擇標誌上傳",
@@ -66,10 +66,10 @@
         "OptOutComplete": "已選擇退出追蹤。你在此網站的的訪問紀錄將不會被追蹤。",
         "OptOutCompleteBis": "注意：若你清除了瀏覽器的 cookies、刪除了退出追蹤的 cookie 或是你更換電腦或瀏覽器，你將需要重新執行選擇推出的動作。",
         "OptOutDntFound": "你的瀏覽器已回報你不想被追蹤，因此你已經不會被追蹤。這是瀏覽器中的設定，所以你會一直不被追蹤直到你關閉了不追蹤（Do Not Track）功能。",
-        "OptOutExplanation": "Piwik 致力於在提供網路中的隱私權。要讓你的訪客選擇推出 Matomo 追蹤，你可以在你的網頁中加入以下的 HTML 代碼，例如在隱私權政策網頁。",
-        "OptOutExplanationBis": "這個程式碼將以頁框顯示，裡面有個連結可以在訪客的瀏覽器中設定 cookie 以退出 Matomo 追蹤。%1$s點擊這裡%2$s查看將於頁框中顯示的網頁內容。",
+        "OptOutExplanation": "Matomo 致力於在提供網路中的隱私權。要讓你的訪客選擇推出 Matomo 追蹤，你可以在你的網頁中加入以下的 HTML 代碼，例如在隱私權政策網頁。",
+        "OptOutExplanationIntro": "這個程式碼將以頁框顯示，裡面有個連結可以在訪客的瀏覽器中設定 cookie 以退出 Matomo 追蹤。在下方（或%1$s點擊這裡%2$s）查看將於頁框中顯示的網頁內容。",
         "OptOutForYourVisitors": "讓你的訪客選擇退出 Matomo 追蹤",
-        "PiwikIsInstalledAt": "Piwik 安裝於",
+        "PiwikIsInstalledAt": "Matomo 安裝於",
         "PersonalPluginSettings": "個人外掛設定",
         "PluginSettingChangeNotAllowed": "你無法修改外掛「%2$s」中的設定「%1$s」",
         "PluginSettingReadNotAllowed": "你無法讀取外掛「%2$s」中的設定「%1$s」",
@@ -97,7 +97,7 @@
         "YouMayOptOut": "你可以選擇不要有以電腦來設定的獨特追蹤 cookie 識別號碼來避免被此網站所收集的資料聚合和分析。",
         "YouMayOptOutBis": "要做出選擇，請取消勾選以下選項來接收一個選擇退出追蹤的 cookie。",
         "OptingYouOut": "正在設定退出追蹤，請稍後...",
-        "ProtocolNotDetectedCorrectly": "你目前正以 SSL 安全連線（https）查看 Piwik，但 Matomo 只從伺服器中偵測到非安全的連線。",
+        "ProtocolNotDetectedCorrectly": "你目前正以 SSL 安全連線（https）查看 Matomo，但 Matomo 只從伺服器中偵測到非安全的連線。",
         "ProtocolNotDetectedCorrectlySolution": "要確保 Matomo 透過 HTTPS 安全請求並供應你內容，你可以編輯 %1$s 檔案中的 Proxy 設定或是在 %3$s 區塊下方增加 %2$s。%4$s了解更多%5$s"
     }
 }

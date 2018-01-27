@@ -4,7 +4,6 @@
         "EventAction": "Hành động sự kiện",
         "EventCategory": "Danh mục sự kiện",
         "EventName": "Tên sự kiện",
-        "Events": "Các sự kiện",
-        "EventValue": "Giá trị sự kiện"
+        "Events": "Các sự kiện"
     }
 }

@@ -24,7 +24,6 @@
         "GlobalListExcludedIps": "Lista global de IPs Excluídos",
         "GlobalListExcludedQueryParameters": "Lista global de parâmetros de consulta de endereços para excluir",
         "GlobalWebsitesSettings": "Definições globais de websites",
-        "HelpExcludedIps": "Introduza a lista de IPs, um por linha, que deseja excluir da monitorização do Matomo. Pode usar curingas, por ex. %1$s ou %2$s",
         "JsTrackingTagHelp": "Aqui está a tag de Monitorização Javascript para incluir em todas as suas páginas",
         "ListOfIpsToBeExcludedOnAllWebsites": "Os IPs abaixo serão excluídos de ser monitorizados em todos os websites.",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "Os parâmetros de consulta de endereços abaixo serão excluídos dos endereços de todos os websites.",

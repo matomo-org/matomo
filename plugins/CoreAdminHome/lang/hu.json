@@ -59,7 +59,6 @@
         "OptOutCompleteBis": "Megjegyzés: abban az esetben, ha a követést tiltó süti törlődik, más számítógépről vagy böngészőből látogatja meg a weboldalt, a követést ismét le kell tiltania.",
         "OptOutDntFound": "Ön nem lekövethető, mert a böngészője azt jelzni, hogy ön ezt nem kívánta. Ez az állapot nem fog addig változni, amíg le nem tiltja a 'Do Not Track' funkciót.",
         "OptOutExplanation": "A Matomo tiszteletben tartja a magánéletet Internet. Annak érdekében, hogy látogatóinak lehetősége legyen a követés kikapcsolására, helyezze el az alábbi HTML kódot például egy Adatvédelmi Tájékoztató oldalon.",
-        "OptOutExplanationBis": "Az alábbi kód egy Iframet tartalmazó link, ahol a látogatók ki tudják kapcsolni a követést. Ehhez a Matomo egy követést letiltő sütit helyez el a böngészőben. %1$s Kattintson ide%2$s az iFrame tartalmának megtekintéséhez.",
         "OptOutForYourVisitors": "Piwik követés letiltása látogatók által",
         "PiwikIsInstalledAt": "Piwik telepítve itt:",
         "PersonalPluginSettings": "Személyes bővítmény beállítások",

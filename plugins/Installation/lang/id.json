@@ -1,10 +1,8 @@
 {
     "Installation": {
         "CollaborativeProject": "Piwik merupakan proyek kolaborasi yang dibangun dengan cinta oleh orang-orang di seluruh dunia.",
-        "ConfigurationHelp": "Tampaknya berkas konfigurasi Matomo Anda terdapat kesalahan. Anda dapat menghapus config\/config.ini.php dan melanjutkan instalasi, atau memperbaiki pengaturan sambungan basisdata.",
         "ConfirmDeleteExistingTables": "Apakan Anda yakin menghapus tabel: %s dari basisdata Anda? PERINGATAN: DATA DALAM TABEL TERSEBUT TAK DAPAT DIKEMBALIKAN!",
         "Congratulations": "Selesai",
-        "CongratulationsHelp": "<p>Selamat! Instalasi Matomo selesai.<\/p><p>Pastikan kode JavaScript Anda telah dimasukkan pada halaman Anda, lalu tunggu pengunjung pertama Anda!<\/p>",
         "DatabaseAbilities": "Kemampuan Basisdata",
         "DatabaseCreation": "Pembuatan basisdata",
         "DatabaseErrorConnect": "Galat ketika coba sambungan ke peladen basisdata",
@@ -29,7 +27,7 @@
         "JsTagArchivingHelp1": "Untuk kunjungan situs menengah dan tinggi terdapat beberapa optimasi yang haris dibuat untuk membantu Matomo berjalan lebih cepat (seperti %1$smengatur pengarsipan-otomatis%2$s).",
         "JSTracking_EndNote": "Catatan: Setelah proses pemasangan, Anda dapat membangkitkan kode pelacakan tersesuaikan di bidang %1$sKode Pelacakan%2$s dalam halaman pengelola.",
         "JSTracking_Intro": "Untuk melacak lalu lintas ramatraya menggunakan Matomo, Anda harus menambah beberapa kode tambahan untuk setiap halaman situs Anda.",
-        "LargePiwikInstances": "Bantuan perihal Matomo besar",
+        "LargePiwikInstances": "Bantuan perihal Piwik besar",
         "Legend": "Legenda",
         "LoadDataInfileRecommended": "Bila peladen Matomo Anda melacak lalu lintas situs yang tinggi (misal > 100.000 halaman tiap bulan), kami menyarankan memperbaiki masalah ini.",
         "LoadDataInfileUnavailableHelp": "Menggunakan %1$s akan meningkatkan kecapatan pengarsipan Piwik. Untuk menjadikan ini tersedia untkuk Matomo, silakan memperbarui perangkat lunak PHP & MySQL Anda dan pastikan pengguna basisdata Anda memiliki hak %2$s.",
@@ -103,7 +101,6 @@
         "TablesReuse": "Gunakan ulang tabel saat ini",
         "TablesWarningHelp": "Di antara pilihan menggunakan ulang tabel yang telah ada atau memilih instalasi bersih untuk menghapus seluruh data yang ada dalam basisdata.",
         "TablesWithSameNamesFound": "Beberapa tabel %1$s dalam basisdata Anda %2$s memiliki beberapa nama dengan nama tabel yang akan dibuat oleh Matomo",
-        "Welcome": "Selamat Datang!",
-        "WelcomeHelp": "<p>Matomo merupakan piranti lunak analisa ramatraya yang memudahkan Anda mendapatkan informasi yang diinginkan dari pengunjung.<\/p><p>Proses ini dibagi menjadi %s langkah mudah dan membutuhkan sekitar 5 menit.<\/p>"
+        "Welcome": "Selamat Datang!"
     }
 }

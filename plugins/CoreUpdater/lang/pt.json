@@ -41,7 +41,6 @@
         "WarningMessages": "Avisos:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Os seguintes plugins foram desactivados automaticamente: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Pode actualizar para a versão %s automaticamente ou transferir o pacote e instalá-lo manualmente:",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik não consegue substituir a sua instalação actual. Pode tentar corrigir as permissões dos directórios\/ficheiros, ou transferir o pacote e instalar a versão %s manualmente:",
         "YourDatabaseIsOutOfDate": "A sua base de dados Matomo está desactualizada, e tem que ser actualizada antes de continuar."
     }
 }

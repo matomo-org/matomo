@@ -41,7 +41,6 @@
         "WarningMessages": "ข้อความเตือน",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "เราจะยกเลิกการทำงานของปลั๊กอิน: %s อัตโนมัติ",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "คุณสามารถอัพเดตเป็นเวอร์ชั่น %s ได้อัตโนมัติ หรือ ดาวน์โหลดไฟลล์แล้วติดตั้งภายหลัง",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik ไม่สามารถเขียนทับการติดตั้งปัจจุบันของคุณได้ ซึ่งคุณสามารถเลือกทำอย่างใดอย่างหนึ่ง ในการแก้ไขสิทธิ์ของไดเรกทอรี\/แฟ้ม หรือดาวน์โหลดแพคเกจและติดตั้งเวอร์ชัน %s ด้วยตนเอง:",
         "YourDatabaseIsOutOfDate": "ฐานข้อมูล Matomo ของคุณ ล้าสมัย และต้องถูกอัพเกรดก่อนที่คุณสามารถดำเนินการต่อไป"
     }
 }

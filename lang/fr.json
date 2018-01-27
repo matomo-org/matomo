@@ -320,7 +320,6 @@
         "Password": "Mot de passe",
         "Period": "Période",
         "Piechart": "Camembert",
-        "PiwikIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s est un projet collaboratif réalisé pour vous par les membres de %7$sl'équipe Matomo%8$s ainsi que de nombreux autres contributeurs du monde entier.<br \/> Si vous êtes fan de Matomo, vous pouvez aider : trouvez %3$scomment participer à Matomo%4$s, ou %5$sdonnez maintenant%6$s pour aider à financer la prochaine version de Matomo !",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s est disponible. Veuillez informer %2$sl'administrateur Matomo%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s est maintenant disponible. %2$s Merci de mettre à jour!%3$s (voir %4$s les modifications%5$s).",
         "PleaseContactYourPiwikAdministrator": "Merci de contacter votre administrateur Matomo.",

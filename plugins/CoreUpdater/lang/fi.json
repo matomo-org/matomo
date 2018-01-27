@@ -59,7 +59,6 @@
         "WarningMessages": "Varoitusviestit:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Seuraavat lisäosat on automaattisesti poistettu käytöstä: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Voit päivittää versioon %s automaattisesti tai ladata paketin ja asentaa sen manuaalisesti:",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik ei voi ylikirjoittaa nykyistä asennusta. Voit joko korjata hakemistojen\/tiedostojen oikeudet tai ladata paketin ja asentaa version %s itse:",
         "YourDatabaseIsOutOfDate": "Piwikin tietokanta on vanhentunut ja se tulee päivittää ennen jatkamista.",
         "ViewVersionChangelog": "katso muutostiedot tälle versiolle:"
     }

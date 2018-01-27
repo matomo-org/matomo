@@ -1,9 +1,7 @@
 {
     "Installation": {
-        "ConfigurationHelp": "Úgy tűnik, a Matomo konfigurációs fájl hibás. Törölheted a config\/config.ini.php fájlt — újrakezdve a telepítést, vagy kijavíthatod az adatbázis-kapcsolathoz szükséges beállításokat.",
         "ConfirmDeleteExistingTables": "Biztos vagy benne, hogy törölni akarod a %s táblákat az adatbázisból? FIGYELEM: A TÖRÖLT TÁBLÁK ADATAI NEM ÁLLÍTHATÓK VISSZA!",
         "Congratulations": "Gratulálunk",
-        "CongratulationsHelp": "<p>Gratulálunk! A Matomo telepítése kész!<\/p><p>Bizonyosodj meg róla, hogy a JavaScript követőkód beillesztésre került minden weblapba. Ebben az esetben nincs más hátra, mint várnod az első látogatókat!<\/p>",
         "DatabaseCreation": "Adatbázis létrehozása",
         "DatabaseErrorConnect": "Hiba lépett fel az adatbázishoz történő csatlakozáskor.",
         "DatabaseServerVersion": "Adatbázisszerver verziója",
@@ -13,6 +11,7 @@
         "DatabaseSetupLogin": "felhasználó",
         "DatabaseSetupServer": "Adatbázisszerver",
         "DatabaseSetupTablePrefix": "táblanév előtagja",
+        "Email": "E-mail cím",
         "Extension": "kiterjesztés",
         "GoBackAndDefinePrefix": "Lépj vissza, és add meg a Matomo táblák nevének előtagját!",
         "Installation": "Telepítés",
@@ -20,6 +19,7 @@
         "LargePiwikInstances": "Súgó nagyobb weboldalakra telepítéshez",
         "Legend": "Magyarázó felirat",
         "Optional": "Opcionális",
+        "Password": "Jelszó",
         "PasswordDoNotMatch": "jelszó nem egyezik",
         "PercentDone": "%s %% kész",
         "PleaseFixTheFollowingErrors": "Kérjük, javítsd a következő hibákat",
@@ -44,7 +44,7 @@
         "SystemCheckGzcompressHelp": "Engedélyezned kell a zlib kiterjesztést és a gzcompress funkciót.",
         "SystemCheckGzuncompressHelp": "Engedélyezned kell a zlib kiterjesztést és a gzuncompress funkciót.",
         "SystemCheckIconvHelp": "Konfigurálni és rebuildelni kell a PHP-t az \"iconv\" támogatás engedélyezésével: --with-iconv",
-        "SystemCheckMailHelp": "A Matomo fejlesztőknek szóló visszajelzés és az elveszett jelszó pótlása céljából generált e-mail üzenetek nem lesznek elküldve a mail() nélkül.",
+        "SystemCheckMailHelp": "A Piwik fejlesztőknek szóló visszajelzés és az elveszett jelszó pótlása céljából generált e-mail üzenetek nem lesznek elküldve a mail() nélkül.",
         "SystemCheckMbstring": "mbstring",
         "SystemCheckMemoryLimit": "Memória limit",
         "SystemCheckMemoryLimitHelp": "Egy nagy forgalmú weboldalon az archiválási folyamathoz több memória kell, mint a jelenleg engedélyezett. Ha szükséges, változtasd meg a memory_limit direktívát a php.ini fájlodban.",
@@ -77,7 +77,6 @@
         "TablesReuse": "Meglévő táblák felhasználása",
         "TablesWarningHelp": "Dönts a meglévő adatbázis táblák újrafelhasználása mellett vagy válaszd az teljes újratelepítést az adatbázisban található korábbi adatok törlésével.",
         "TablesWithSameNamesFound": "Néhány táblának (%1$s) az adatbázisodban (%2$s) ugyanaz a neve, mint amilyet a Matomo próbál létrehozni.",
-        "Welcome": "Üdvözöllek!",
-        "WelcomeHelp": "<p>A Matomo egy nyílt forráskódú webanalitikai szoftver, mellyel könnyedén juthatsz információkhoz weboldalad látogatottságáról.<\/p><p>A telepítési folyamat %s egyszerű lépésből áll és kb. 5 percet vesz igénybe.<\/p>"
+        "Welcome": "Üdvözöllek!"
     }
 }

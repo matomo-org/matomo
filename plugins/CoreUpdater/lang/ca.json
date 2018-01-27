@@ -35,7 +35,7 @@
         "UnpackingTheUpdate": "S'està desempacant l'actualització",
         "UpdateAutomatically": "Actualitza automàticament",
         "UpdateHasBeenCancelledExplanation": "L'actualització en un clic del Piwik ha estat cancel·lada. Si no podeu arreglar l'error de més amunt, us recomanem que actualitzeu el Matomo manualment. %1$s Si us plau, mireu-vos la %2$sDocumentació d'actualització (en anglès)%3$s per a començar!",
-        "UpdateTitle": "Actualització del Matomo",
+        "UpdateTitle": "Actualització del Piwik",
         "UpdateSuccessTitle": "El Matomo s'ha actualitzat amb èxit!",
         "UpgradeComplete": "S'ha actualitzat amb èxit!",
         "UpgradePiwik": "Actualitza el Matomo",
@@ -43,7 +43,6 @@
         "WarningMessages": "Avisos:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "S'han desactivat automàticament els connectors següents: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Podeu actualitzar a la versió %s automàticament o baixar-vos el paquet i instal·lar-lo manualment.",
-        "YouMustDownloadPackageOrFixPermissions": "El Matomo no pot sobrescriure la instal·lació actual. Podeu corregir els permisos dels fitxers\/directoris o descarregar el paquet i instal·lar la versió %s manualment:",
         "YourDatabaseIsOutOfDate": "La base de dades del Matomo és antiga i cal actualitzar-la abans de continuar."
     }
 }

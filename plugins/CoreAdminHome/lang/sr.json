@@ -66,7 +66,6 @@
         "OptOutCompleteBis": "Imajte na umu da ako obrišete kolačiće ili promenite računar ili brauzer, da ćete morati ponovo da prođete kroz ovu proceduru.",
         "OptOutDntFound": "Vaše akcije se ne beleže pošto vaš brauzer kaže da vi to ne želite. U pitanju je podešavanje u vašem brauzeru tako da nećete moći da se prijavite sve dok ne isključite 'Nemoj da me pratiš' opciju.",
         "OptOutExplanation": "Piwik poštuje privatnost na Internetu. Kako biste omogućili vašim posetiocima da budu izuzeti iz Matomo analize, dodajte sledeći HTML kod na neku od stranica vaše sajta, na primer u polisu privatnosti",
-        "OptOutExplanationBis": "Ovaj tag će prikazati iframe element koji sadrži link za vaše posetioce koji žele da budu izuzeti iz Matomo analize tako što će imati specijalan opt-out kolačić u svom brauzeru. %1$s Kliknite ovde%2$s kako biste videli sadržaj iframe elementa.",
         "OptOutForYourVisitors": "Piwik opt-out za vaše posetioce",
         "PiwikIsInstalledAt": "Piwik je instaliran",
         "PersonalPluginSettings": "Lična podešavanja dodataka",

@@ -51,7 +51,6 @@
         "WarningMessages": "Mesaj avertisment:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Au fost dezactivate următoarele pluginuri: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Poţi actualiza versiunea %s automat sau o poţi instala manual:",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik nu a putut sa suprascrie instalarea curenta. Puteti fixa permisiunile directorului\/fisierului, sau downloadati pachetul si instalati versiunea %s manual:",
         "YourDatabaseIsOutOfDate": "Baza ta de date este expirata, si trebuie actualizata inainte de a continua."
     }
 }

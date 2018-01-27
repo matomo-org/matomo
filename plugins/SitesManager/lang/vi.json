@@ -33,7 +33,6 @@
         "GlobalListExcludedUserAgents": "Danh sách tổng quát của các đại lý cần loại bỏ",
         "GlobalListExcludedUserAgents_Desc": "Nếu chuỗi đại lý của khách truy cập chứa bất kỳ chuỗi bạn chỉ định, khách truy cập sẽ được loại bỏ khỏi Matomo.",
         "GlobalWebsitesSettings": "Thiết lập các trang web tổng quát",
-        "HelpExcludedIps": "Nhập danh sách các IP, mỗi danh sách một dòng, mà bạn muốn loại bỏ khỏi bị theo dõi bởi Matomo. Bạn có thể sử dụng ký tự đại diện, ví dụ như. %1$s hoặc %2$s",
         "JsTrackingTagHelp": "Ở đây là mã Theo dõi JavaScript cho tất cả các trang của bạn",
         "KeepURLFragments": "Theo dõi các phân đoạn URL trang",
         "KeepURLFragmentsHelp": "Nếu hộp chọn dưới đây không được đánh dấu, các phân đoạn trang URL (tất cả mọi thứ sau khi %1$s) sẽ được loại bỏ khi theo dõi: %2$s sẽ được theo dõi như %3$s",

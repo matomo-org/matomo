@@ -5,7 +5,6 @@
         "Default": "ברירת מחדל",
         "DonateCall1": "תמיד השימוש ב-Matomo לא יעלה לך דבר, אך זה לא אומר שלהכין אותו לא עולה לנו כסף",
         "HowMuchIsPiwikWorth": "כמה Matomo שווה עבורך?",
-        "JavascriptDisabled": "-בכדי לצפות בMatomo חובה להפעיל JavaScript.<br\/>בכל מקרה, נראה כי הJavaScript מנוטרל או לא נתמך על יד הדפדפן שלך.<br\/>בכדי לצפות בצורה סטנדרטית, יש להפעיל את הJavaScript על ידי שינוי הגדרות הדפדפן, ולאחר מכן %1$sלנסות שוב%2$s.<br\/>",
         "MakeOneTimeDonation": "במקום,בצע תרומה חד-פעמית",
         "PageOf": "%1$s מתוך %2$s",
         "PeriodRange": "טווח",
@@ -14,6 +13,7 @@
         "SupportPiwik": "תמיכה ב-Matomo!",
         "ThereIsNoDataForThisReport": "אין מידע להצגה עבור הדוח",
         "ViewAllPiwikVideoTutorials": "צפייה בכל סרטי ההדרכה של Matomo",
-        "WebAnalyticsReports": "דוחות פעילות"
+        "WebAnalyticsReports": "דוחות פעילות",
+        "SystemSummaryPhpVersion": "גרסת PHP"
     }
 }

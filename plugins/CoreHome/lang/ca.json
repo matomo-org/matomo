@@ -24,6 +24,7 @@
         "ThereIsNoDataForThisReport": "No hi ha informació per aquest informe.",
         "UnFlattenDataTable": "Aquest informe es pla %s Feu-lo jeràrquic",
         "WebAnalyticsReports": "Informe d'analítica web",
-        "YouAreUsingTheLatestVersion": "Esteu fent servir l'última versió de Matomo!"
+        "YouAreUsingTheLatestVersion": "Esteu fent servir l'última versió de Matomo!",
+        "SystemSummaryPhpVersion": "Versió del PHP"
     }
 }

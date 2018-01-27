@@ -294,7 +294,6 @@
         "Password": "Sandi",
         "Period": "Periode",
         "Piechart": "Bagan Lingkaran",
-        "PiwikIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s adalah proyek kolaboratif yang dibawa oleh anggota %7$s tim Matomo %8$s serta kontributor lainnya di seluruh dunia. <br\/> Jika Anda penggemar Matomo, Anda dapat membantu: mencari tahu %3$s Bagaimana berpartisipasi dalam Matomo %4$s, atau %5$s donasi sekarang %6$s untuk membantu mendanai rilis Matomo yang hebat berikutnya!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s telah tersedia. Silakan beritahu %2$s administrator Matomo %3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s tersedia. %2$sSilakan memperbarui sekarang!%3$s (lihat %4$sperubahan%5$s).",
         "PleaseContactYourPiwikAdministrator": "Silakan hubungi administrator Matomo Anda.",

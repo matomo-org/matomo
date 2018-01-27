@@ -66,7 +66,6 @@
         "OptOutCompleteBis": "注意：如果您清空了浏览器的 Cookies、删除了退出追踪的 Cookie 或是您更换了电脑或浏览器，您需要重新执行选择退出追踪的操作。",
         "OptOutDntFound": "您的访问没有被记录，因为您的浏览器禁止追踪（Do Not Track）。这是您的浏览器的设置，所以除非您关闭禁止追踪，否则无法记录、追踪您的访问。",
         "OptOutExplanation": "Piwik 致力于互联网隐私保护。要让您的访客可以选择退出 Matomo 网页分析追踪，您可以在类似隐私保护的某个网页上添加以下 HTML 代码。",
-        "OptOutExplanationBis": "此代码将显示为一个包含链接的页框（Iframe），里面的链接供访客在浏览器中设置 Cookie 以选择退出追踪。%1$s点击这里%2$s查看将在页框里显示的内容。",
         "OptOutForYourVisitors": "访客选择退出 Matomo 追踪",
         "PiwikIsInstalledAt": "Piwik 安装在",
         "PersonalPluginSettings": "个人插件设置",

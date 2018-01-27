@@ -14,7 +14,7 @@
         "OpenFullScreen": "Tryb pełnoekranowy (bez paska)",
         "Overlay": "Nakładka Strony",
         "PluginDescription": "Oglądaj dane analityczne jako Nakładkę na Twoją stronę. Zobacz liczbę kliknięć wszystkich odwiedzających w poszczególne odnośniki. Notka: Wymaga włączenia wtyczki Transitions.",
-        "RedirectUrlError": "Próbujesz otworzyć Nakładkę Strony dla adresu \"%1$s\". %2$s Żadna z domen skonfigurowanych w Piwik'u nie pasuje do odnośnika.",
+        "RedirectUrlError": "Próbujesz otworzyć Nakładkę Strony dla adresu \"%1$s\". %2$s Żadna ze skonfigurowanych w Matomo domen nie pasuje do wskazanego adresu.",
         "RedirectUrlErrorAdmin": "Możesz dodać domenę jako dodatkowy adres URL %1$sw ustawieniach%2$s.",
         "RedirectUrlErrorUser": "Zwrócić się do administratora, aby dodać domenę jako dodatkowy URL."
     }

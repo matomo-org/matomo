@@ -53,7 +53,7 @@
         "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "L'aggiornamento del Database potrebbe richiedere qualche istante, attendere.",
         "UnpackingTheUpdate": "Sto decomprimendo gli aggiornamenti",
         "UpdateAutomatically": "Aggiorna automaticamente",
-        "UpdateHasBeenCancelledExplanation": "Il \"Piwik One Click Update\" è stato annullato. Se non riesci a sistemare il problema che ha causato il messaggio di errore indicato, è consigliabile aggiornare Piwik manualmente. %1$s Controlla la %2$sDocumentazione di aggiornamento%3$s per iniziare!",
+        "UpdateHasBeenCancelledExplanation": "Il \\\"Piwik One Click Update\\\" è stato annullato. Se non riesci a sistemare il problema che ha causato il messaggio di errore indicato, è consigliabile aggiornare Piwik manualmente. %1$s Controlla la %2$sDocumentazione di aggiornamento%3$s per iniziare!",
         "UpdateTitle": "Aggiorna",
         "UpdatingPluginXToVersionY": "Aggiornamento del plugin %1$s alla versione %2$s",
         "UpdateSuccessTitle": "Piwik è stato aggiornato con successo!",
@@ -75,7 +75,6 @@
         "WarningMessages": "Messaggi di Allerta:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Saranno disattivati in automatico i seguenti plugin: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Puoi aggiornare alla versione %s in automatico o scaricare il pacchetto e installarlo manualmente:",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik non è in grado di sovrascrivere l'installazione corrente. Tu puoi o correggere i permessi alle cartelle\/file, o scaricare il pacchetto e installare la versione %s manualmente:",
         "YourDatabaseIsOutOfDate": "Il tuo Database Matomo è obsoleto e deve essere aggiornato prima di continuare.",
         "ViewVersionChangelog": "Guarda il changelog per questa versione:",
         "ReceiveEmailBecauseIsSuperUser": "Hai ricevuto questa email perché sei un Super User di Matomo su: %s"
