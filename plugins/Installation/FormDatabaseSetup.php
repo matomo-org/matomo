@@ -105,12 +105,15 @@ class FormDatabaseSetup extends QuickForm2
         $adapter = $this->getSubmitValue('adapter');
         $port = Adapter::getDefaultPortForAdapter($adapter);
 
+        $host = $this->getSubmitValue('host');
+        $tables_prefix = $this->getSubmitValue('tables_prefix');
+        
         $dbInfos = array(
-            'host'          => trim($this->getSubmitValue('host')),
+            'host'          => (is_null($host)) ? $host : trim($host),
             'username'      => $this->getSubmitValue('username'),
             'password'      => $this->getSubmitValue('password'),
             'dbname'        => $dbname,
-            'tables_prefix' => trim($this->getSubmitValue('tables_prefix')),
+            'tables_prefix' => (is_null($tables_prefix)) ? $tables_prefix : trim($tables_prefix),
             'adapter'       => $adapter,
             'port'          => $port,
             'schema'        => Config::getInstance()->database['schema'],
