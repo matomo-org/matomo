@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "82f53e2d85d7df7c7ce8871bb9ae0c7e",
+    "content-hash": "09fe6cb3a6b305cd0013ee7cb97e4635",
     "packages": [
         {
             "name": "composer/semver",
@@ -209,6 +209,28 @@
             "description": "lessphp is a compiler for LESS written in PHP.",
             "homepage": "http://leafo.net/lessphp/",
             "time": "2014-11-24T18:39:20+00:00"
+        },
+        {
+            "name": "matomo/referrer-spam-blacklist",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matomo-org/referrer-spam-blacklist.git",
+                "reference": "fdad7e12ad33a98e085c44255f3b208dca3e66ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matomo-org/referrer-spam-blacklist/zipball/fdad7e12ad33a98e085c44255f3b208dca3e66ea",
+                "reference": "fdad7e12ad33a98e085c44255f3b208dca3e66ea",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Public Domain"
+            ],
+            "description": "Community-contributed list of referrer spammers",
+            "time": "2018-01-29T17:33:37+00:00"
         },
         {
             "name": "matomo/searchengine-and-social-list",
@@ -952,28 +974,6 @@
                 "tracker"
             ],
             "time": "2017-11-09T03:20:23+00:00"
-        },
-        {
-            "name": "piwik/referrer-spam-blacklist",
-            "version": "1.0.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/piwik/referrer-spam-blacklist.git",
-                "reference": "ad7c2296d5bac58c5bea771f355dc49dd4fc8141"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/piwik/referrer-spam-blacklist/zipball/ad7c2296d5bac58c5bea771f355dc49dd4fc8141",
-                "reference": "ad7c2296d5bac58c5bea771f355dc49dd4fc8141",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Public Domain"
-            ],
-            "description": "Community-contributed list of referrer spammers",
-            "time": "2017-03-28T04:31:29+00:00"
         },
         {
             "name": "psr/container",
