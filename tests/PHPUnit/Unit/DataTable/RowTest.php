@@ -10,11 +10,12 @@ namespace Piwik\Tests\Unit\DataTable;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group DataTableTest
  */
-class RowTest extends \PHPUnit_Framework_TestCase
+class RowTest extends TestCase
 {
     /**
      * @var Row

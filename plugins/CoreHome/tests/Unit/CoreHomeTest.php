@@ -9,13 +9,14 @@
 namespace Piwik\Plugins\CoreHome\tests\Unit;
 
 use Piwik\Plugins\CoreHome\CoreHome;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group CoreHome
  * @group CoreHomeTest
  * @group Plugins
  */
-class CoreHomeTest extends \PHPUnit_Framework_TestCase
+class CoreHomeTest extends TestCase
 {
     /**
      * @var CoreHome

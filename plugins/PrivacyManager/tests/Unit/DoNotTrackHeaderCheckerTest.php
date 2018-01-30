@@ -11,12 +11,13 @@ namespace Piwik\Plugins\PrivacyManager\tests;
 
 use Piwik\Plugins\PrivacyManager\Config;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class DoNotTrackHeaderCheckerTest
  * @group DoNotTrackHeaderCheckerTest
  */
-class DoNotTrackHeaderCheckerTest extends \PHPUnit_Framework_TestCase
+class DoNotTrackHeaderCheckerTest extends TestCase
 {
     public function setUp()
     {
@@ -162,4 +163,3 @@ class DoNotTrackHeaderCheckerTest extends \PHPUnit_Framework_TestCase
         $_SERVER['HTTP_DNT'] = '1';
     }
 }
- 

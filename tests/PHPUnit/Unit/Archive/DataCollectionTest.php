@@ -11,12 +11,13 @@ namespace Piwik\Tests\Unit;
 use Piwik\Archive\DataCollection;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Period;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group DataCollectionTest
  * @group Archive
  */
-class DataCollectionTest extends \PHPUnit_Framework_TestCase
+class DataCollectionTest extends TestCase
 {
     private $site1 = 1;
     private $site2 = 2;

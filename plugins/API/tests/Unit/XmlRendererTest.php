@@ -10,12 +10,13 @@ namespace Piwik\Plugins\API\tests\Unit;
 
 use Piwik\DataTable;
 use Piwik\Plugins\API\Renderer\Xml;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Plugin
  * @group API
  */
-class XmlRendererTest extends \PHPUnit_Framework_TestCase
+class XmlRendererTest extends TestCase
 {
     /**
      * @var Xml

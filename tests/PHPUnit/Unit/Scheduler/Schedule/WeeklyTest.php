@@ -10,11 +10,12 @@ namespace Piwik\Tests\Unit\Scheduler\Schedule;
 
 use Exception;
 use Piwik\Scheduler\Schedule\Weekly;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Scheduler
  */
-class WeeklyTest extends \PHPUnit_Framework_TestCase
+class WeeklyTest extends TestCase
 {
     public static $_JANUARY_01_1971_09_10_00; // initialized below class declaration
     public static $_JANUARY_04_1971_00_00_00;

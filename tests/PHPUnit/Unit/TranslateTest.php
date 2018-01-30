@@ -9,11 +9,12 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\Translate;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Translation
  */
-class TranslateTest extends \PHPUnit_Framework_TestCase
+class TranslateTest extends TestCase
 {
     /**
      * Dataprovider for testClean

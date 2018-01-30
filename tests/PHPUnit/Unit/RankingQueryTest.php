@@ -9,8 +9,9 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\RankingQuery;
+use PHPUnit\Framework\TestCase;
 
-class RankingQueryTest extends \PHPUnit_Framework_TestCase
+class RankingQueryTest extends TestCase
 {
     /**
      * @group Core

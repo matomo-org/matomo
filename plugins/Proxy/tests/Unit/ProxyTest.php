@@ -9,13 +9,14 @@
 namespace Piwik\Plugins\Proxy\tests\Unit;
 
 use Piwik\Plugins\Proxy\Controller;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Proxy
  * @group ProxyTest
  * @group Plugins
  */
-class ProxyTest extends \PHPUnit_Framework_TestCase
+class ProxyTest extends TestCase
 {
     public function getAcceptableRemoteUrls()
     {
@@ -45,4 +46,3 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, Controller::isPiwikUrl($url));
     }
 }
-

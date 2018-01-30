@@ -11,11 +11,12 @@ namespace Piwik\Tests\Unit\DataTable\Filter;
 use Piwik\DataTable\Filter\ExcludeLowPopulation;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group DataTableTest
  */
-class DataTable_Filter_ExcludeLowPopulationTest extends \PHPUnit_Framework_TestCase
+class DataTable_Filter_ExcludeLowPopulationTest extends TestCase
 {
     protected function getTestDataTable()
     {

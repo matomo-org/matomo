@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Insights\tests;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Abstract class because it avoids it being picked up as a test case
@@ -19,7 +20,7 @@ use Piwik\DataTable\Row;
  * @group Unit
  * @group Core
  */
-abstract class BaseUnitTest extends \PHPUnit_Framework_TestCase
+abstract class BaseUnitTest extends TestCase
 {
     /**
      * @var DataTable

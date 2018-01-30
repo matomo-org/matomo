@@ -19,6 +19,7 @@ use Exception;
 use Piwik\ProxyHttp;
 use Piwik\SettingsServer;
 use Piwik\Tests\Framework\Fixture;
+use PHPUnit\Framework\TestCase;
 
 define("TEST_FILE_LOCATION", realpath(dirname(__FILE__) . "/../../resources/lipsum.txt"));
 define("TEST_FILE_CONTENT_TYPE", "text/plain");
@@ -47,7 +48,7 @@ define("PARTIAL_BYTE_START", 1204);
 define("PARTIAL_BYTE_END", 14724);
 
 // If the static file server has not been requested, the standard unit test case class is defined
-class ServeStaticFileTest extends \PHPUnit_Framework_TestCase
+class ServeStaticFileTest extends TestCase
 {
     public function tearDown()
     {

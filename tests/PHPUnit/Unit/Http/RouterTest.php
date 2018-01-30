@@ -9,11 +9,12 @@
 namespace Piwik\Tests\Unit\Http;
 
 use Piwik\Http\Router;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class RouterTest extends \PHPUnit_Framework_TestCase
+class RouterTest extends TestCase
 {
     /**
      * @dataProvider urlProvider

@@ -11,8 +11,9 @@ namespace Piwik\Tests\Unit;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\UrlHelper;
 use Spyc;
+use PHPUnit\Framework\TestCase;
 
-class UrlHelperTest extends \PHPUnit_Framework_TestCase
+class UrlHelperTest extends TestCase
 {
     /**
      * Dataprovider for testIsUrl

@@ -10,12 +10,13 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Config;
 use Piwik\Url;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @backupGlobals enabled
  * @group Core
  */
-class UrlTest extends \PHPUnit_Framework_TestCase
+class UrlTest extends TestCase
 {
     public function testAllMethods()
     {

@@ -11,12 +11,13 @@ namespace Piwik\Tests\Unit;
 use Piwik\Date;
 use Piwik\Version;
 use ReflectionClass;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group DeprecatedMethodsTest
  * @group Core
  */
-class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
+class DeprecatedMethodsTest extends TestCase
 {
     public function test_deprecations()
     {

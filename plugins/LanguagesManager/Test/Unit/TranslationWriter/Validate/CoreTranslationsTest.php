@@ -9,11 +9,12 @@
 namespace Piwik\Plugins\LanguagesManager\Test\Unit\TranslationWriter\Validate;
 
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group LanguagesManager
  */
-class CoreTranslationsTest extends \PHPUnit_Framework_TestCase
+class CoreTranslationsTest extends TestCase
 {
     public function getFilterTestDataValid()
     {

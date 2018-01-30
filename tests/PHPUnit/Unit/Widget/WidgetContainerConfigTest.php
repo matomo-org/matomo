@@ -10,13 +10,14 @@ namespace Piwik\Tests\Unit\Widget;
 
 use Piwik\Widget\WidgetConfig;
 use Piwik\Widget\WidgetContainerConfig;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Widget
  * @group WidgetContainerConfig
  * @group WidgetContainerConfigTest
  */
-class WidgetContainerConfigTest extends \PHPUnit_Framework_TestCase
+class WidgetContainerConfigTest extends TestCase
 {
     /**
      * @var WidgetContainerConfig

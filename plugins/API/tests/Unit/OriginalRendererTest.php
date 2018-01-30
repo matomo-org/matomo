@@ -10,12 +10,13 @@ namespace Piwik\Plugins\API\tests\Unit;
 
 use Piwik\DataTable;
 use Piwik\Plugins\API\Renderer\Original;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Plugin
  * @group API
  */
-class OriginalRendererTest extends \PHPUnit_Framework_TestCase
+class OriginalRendererTest extends TestCase
 {
     /**
      * @var Original

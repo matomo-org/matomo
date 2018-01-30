@@ -9,8 +9,9 @@
 namespace Piwik\Tests\Unit\Period;
 
 use Piwik\Translate;
+use PHPUnit\Framework\TestCase;
 
-abstract class BasePeriodTest extends \PHPUnit_Framework_TestCase
+abstract class BasePeriodTest extends TestCase
 {
     public function setUp()
     {

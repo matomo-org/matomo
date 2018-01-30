@@ -10,11 +10,12 @@ namespace Piwik\Tests\Unit\Scheduler;
 
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Scheduler\Task;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Scheduler
  */
-class TaskTest extends \PHPUnit_Framework_TestCase
+class TaskTest extends TestCase
 {
     public function testGetClassName()
     {

@@ -12,12 +12,13 @@ use Piwik\Plugins\SegmentEditor\SegmentQueryDecorator;
 use Piwik\Plugins\SegmentEditor\Services\StoredSegmentService;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Tests\Framework\Mock\Plugin\LogTablesProvider;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group SegmentEditor
  * @group SegmentEditor_Unit
  */
-class SegmentQueryDecoratorTest extends \PHPUnit_Framework_TestCase
+class SegmentQueryDecoratorTest extends TestCase
 {
     public static $storedSegments = array(
         array('definition' => 'countryCode==abc', 'idsegment' => 1),

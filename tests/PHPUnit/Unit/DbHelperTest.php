@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\DbHelper;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class DbHelperTest
@@ -16,7 +17,7 @@ use Piwik\DbHelper;
  * @group Core
  * @group Core_Unit
  */
-class DbHelperTest extends \PHPUnit_Framework_TestCase
+class DbHelperTest extends TestCase
 {
 
     /**

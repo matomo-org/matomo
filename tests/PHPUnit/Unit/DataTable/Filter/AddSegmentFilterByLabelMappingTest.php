@@ -10,13 +10,14 @@ namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group AddSegmentByLabelMappingTest
  * @group DataTable
  * @group Filter
  */
-class AddSegmentByLabelMappingTest extends \PHPUnit_Framework_TestCase
+class AddSegmentByLabelMappingTest extends TestCase
 {
     private $filter = 'AddSegmentByLabelMapping';
 

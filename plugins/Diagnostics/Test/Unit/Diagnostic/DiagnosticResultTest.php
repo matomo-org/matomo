@@ -10,8 +10,9 @@ namespace Piwik\Plugins\Diagnostics\Test\Unit\Diagnostic;
 
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResultItem;
+use PHPUnit\Framework\TestCase;
 
-class DiagnosticResultTest extends \PHPUnit_Framework_TestCase
+class DiagnosticResultTest extends TestCase
 {
     public function test_getStatus_shouldReturnTheWorstStatus()
     {

@@ -10,11 +10,12 @@ namespace Piwik\Tests\Unit\CronArchive;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\CronArchive\SegmentArchivingRequestUrlProvider;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class SegmentArchivingRequestUrlProviderTest extends \PHPUnit_Framework_TestCase
+class SegmentArchivingRequestUrlProviderTest extends TestCase
 {
     const TEST_NOW = '2015-03-01';
 

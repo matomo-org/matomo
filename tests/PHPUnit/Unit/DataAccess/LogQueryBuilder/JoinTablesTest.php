@@ -11,11 +11,12 @@ namespace Piwik\Tests\Unit\DataAccess;
 use Piwik\DataAccess\LogQueryBuilder\JoinTables;
 use Piwik\Tests\Framework\Mock\Plugin\LogTablesProvider;
 use Piwik\Tracker\Visit;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class JoinTablesTest extends \PHPUnit_Framework_TestCase
+class JoinTablesTest extends TestCase
 {
     /**
      * @var JoinTables

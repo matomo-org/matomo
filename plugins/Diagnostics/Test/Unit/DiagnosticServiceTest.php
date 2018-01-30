@@ -13,8 +13,9 @@ use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\Diagnostics\Test\Mock\DiagnosticWithError;
 use Piwik\Plugins\Diagnostics\Test\Mock\DiagnosticWithSuccess;
 use Piwik\Plugins\Diagnostics\Test\Mock\DiagnosticWithWarning;
+use PHPUnit\Framework\TestCase;
 
-class DiagnosticServiceTest extends \PHPUnit_Framework_TestCase
+class DiagnosticServiceTest extends TestCase
 {
     public function test_runDiagnostics()
     {

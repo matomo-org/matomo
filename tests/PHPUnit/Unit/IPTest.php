@@ -12,11 +12,12 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Config;
 use Piwik\IP;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class IPTest extends \PHPUnit_Framework_TestCase
+class IPTest extends TestCase
 {
     /**
      * Dataprovider for long2ip test

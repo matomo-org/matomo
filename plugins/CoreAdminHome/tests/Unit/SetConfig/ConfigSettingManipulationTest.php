@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreAdminHome\tests\Unit\Commands\SetConfig;
 
 use Piwik\Config;
 use Piwik\Plugins\CoreAdminHome\Commands\SetConfig\ConfigSettingManipulation;
+use PHPUnit\Framework\TestCase;
 
 // phpunit mocks can't return references, so we need a manual one
 class DumbMockConfig extends \Piwik\Config
@@ -44,7 +45,7 @@ class DumbMockConfig extends \Piwik\Config
  * @group CoreAdminHome
  * @group CoreAdminHome_Unit
  */
-class ConfigSettingManipulationTest extends \PHPUnit_Framework_TestCase
+class ConfigSettingManipulationTest extends TestCase
 {
     /**
      * @var Config

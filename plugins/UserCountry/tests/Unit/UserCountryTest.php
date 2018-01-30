@@ -15,11 +15,12 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Exception;
+use PHPUnit\Framework\TestCase;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/UserCountry.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
-class UserCountryTest extends \PHPUnit_Framework_TestCase
+class UserCountryTest extends TestCase
 {
     /**
      * @group Plugins

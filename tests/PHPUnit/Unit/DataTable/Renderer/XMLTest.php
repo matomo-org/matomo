@@ -13,11 +13,12 @@ use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Xml;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group DataTableTest
  */
-class DataTable_Renderer_XMLTest extends \PHPUnit_Framework_TestCase
+class DataTable_Renderer_XMLTest extends TestCase
 {
     public function setUp()
     {

@@ -9,11 +9,12 @@
 namespace Piwik\Tests\Unit\DataAccess;
 
 use Piwik\DataAccess\ArchiveTableCreator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class ArchiveTableCreatorTest extends \PHPUnit_Framework_TestCase
+class ArchiveTableCreatorTest extends TestCase
 {
     private $tables;
 

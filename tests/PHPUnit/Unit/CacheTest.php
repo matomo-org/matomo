@@ -9,11 +9,12 @@
 namespace Piwik\Tests\Unit;
 
 use Piwik\Cache;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Cache
  */
-class CacheTest extends \PHPUnit_Framework_TestCase
+class CacheTest extends TestCase
 {
     public function test_getLazyCache_shouldCreateAnInstanceOfLazy()
     {

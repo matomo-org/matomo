@@ -9,11 +9,12 @@
 namespace Piwik\Tests\Unit\Translation\Loader;
 
 use Piwik\Translation\Loader\DevelopmentLoader;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Translation
  */
-class DevelopmentLoaderTest extends \PHPUnit_Framework_TestCase
+class DevelopmentLoaderTest extends TestCase
 {
     private $translations = array(
         'General' => array(

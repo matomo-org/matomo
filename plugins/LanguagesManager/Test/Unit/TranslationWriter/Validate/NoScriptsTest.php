@@ -9,11 +9,12 @@
 namespace Piwik\Plugins\LanguagesManager\Test\Unit\TranslationWriter\Validate;
 
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\NoScripts;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group LanguagesManager
  */
-class NoScriptsTest extends \PHPUnit_Framework_TestCase
+class NoScriptsTest extends TestCase
 {
     public function getFilterTestDataValid()
     {

@@ -9,11 +9,12 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Console;
 use Piwik\Version;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Console
  */
-class ConsoleTest extends \PHPUnit_Framework_TestCase
+class ConsoleTest extends TestCase
 {
     public function testIsApplicationNameAndVersionCorrect()
     {

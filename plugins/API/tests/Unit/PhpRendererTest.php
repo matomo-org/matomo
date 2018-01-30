@@ -10,13 +10,14 @@ namespace Piwik\Plugins\API\tests\Unit;
 
 use Piwik\DataTable;
 use Piwik\Plugins\API\Renderer\Php;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Plugin
  * @group API
  * @group PhpRendererTest
  */
-class PhpRendererTest extends \PHPUnit_Framework_TestCase
+class PhpRendererTest extends TestCase
 {
     /**
      * @var Php

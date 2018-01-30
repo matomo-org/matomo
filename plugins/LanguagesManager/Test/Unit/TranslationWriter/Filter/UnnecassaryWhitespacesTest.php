@@ -9,11 +9,12 @@
 namespace Piwik\Plugins\LanguagesManager\Test\Unit\TranslationWriter\Filter;
 
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\UnnecassaryWhitespaces;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group LanguagesManager
  */
-class UnnecassaryWhitepsacesTest extends \PHPUnit_Framework_TestCase
+class UnnecassaryWhitepsacesTest extends TestCase
 {
     public function getFilterTestData()
     {

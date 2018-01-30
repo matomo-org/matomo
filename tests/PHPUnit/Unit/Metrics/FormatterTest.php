@@ -11,11 +11,12 @@ use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
 use Piwik\Translate;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class FormatterTest extends \PHPUnit_Framework_TestCase
+class FormatterTest extends TestCase
 {
     /**
      * @var Formatter

@@ -10,12 +10,13 @@ namespace Piwik\Tests\Unit\Translation\Loader;
 
 use Piwik\Translation\Loader\JsonFileLoader;
 use Piwik\Translation\Translator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Translation
  * @group langfiles
  */
-class FilesTest extends \PHPUnit_Framework_TestCase
+class FilesTest extends TestCase
 {
     /**
      * @dataProvider getTranslationFiles

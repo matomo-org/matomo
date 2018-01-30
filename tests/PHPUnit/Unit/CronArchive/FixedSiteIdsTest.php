@@ -9,11 +9,12 @@
 namespace Piwik\Tests\Unit\CronArchive;
 
 use Piwik\CronArchive\FixedSiteIds;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class FixedSiteIdsTest extends \PHPUnit_Framework_TestCase
+class FixedSiteIdsTest extends TestCase
 {
     /**
      * @var FixedSiteIds

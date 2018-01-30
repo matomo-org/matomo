@@ -14,13 +14,14 @@ use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Timer;
 use Symfony\Component\VarDumper\Cloner\Data;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group DataTableTest
  * @group DataTable
  * @group Core
  */
-class DataTableTest extends \PHPUnit_Framework_TestCase
+class DataTableTest extends TestCase
 {
     public function testApplyFilter()
     {

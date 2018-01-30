@@ -7,7 +7,9 @@
  */
 
 namespace Piwik\Plugins\CoreVisualizations\tests\Unit;
+
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group CoreVisualizations
@@ -15,7 +17,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines\Config;
  * @group Sparklines
  * @group Plugins
  */
-class SparklinesConfigTest extends \PHPUnit_Framework_TestCase
+class SparklinesConfigTest extends TestCase
 {
     /**
      * @var Config

@@ -10,12 +10,13 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Http;
 use Piwik\Tests\Framework\Fixture;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  * @group HttpTest
  */
-class HttpTest extends \PHPUnit_Framework_TestCase
+class HttpTest extends TestCase
 {
     /**
      * Dataprovider for testFetchRemoteFile

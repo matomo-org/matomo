@@ -10,13 +10,14 @@ namespace Piwik\Tests\Core\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group PrependSegmentTest
  * @group DataTable
  * @group Filter
  */
-class PrependSegmentTest extends \PHPUnit_Framework_TestCase
+class PrependSegmentTest extends TestCase
 {
     private $filter = 'PrependSegment';
 

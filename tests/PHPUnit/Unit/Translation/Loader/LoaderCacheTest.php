@@ -11,11 +11,12 @@ namespace Piwik\Tests\Unit\Translation\Loader;
 use Piwik\Cache\Backend\ArrayCache;
 use Piwik\Cache\Lazy;
 use Piwik\Translation\Loader\LoaderCache;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Translation
  */
-class LoaderCacheTest extends \PHPUnit_Framework_TestCase
+class LoaderCacheTest extends TestCase
 {
     public function test_shouldNotLoad_ifInCache()
     {

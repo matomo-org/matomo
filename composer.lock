@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "39dbe45e9a9ada455d5b38be7e6f5fad",
+    "content-hash": "ad5cceb0b52579ce46dbee0e0c718115",
     "packages": [
         {
             "name": "composer/semver",
@@ -1633,7 +1633,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2015-02-26 14:37:51"
+            "time": "2015-02-26T14:37:51+00:00"
         },
         {
             "name": "guzzle/guzzle",

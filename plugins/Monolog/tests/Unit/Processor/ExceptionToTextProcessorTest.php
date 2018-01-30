@@ -10,12 +10,13 @@ namespace Piwik\Plugins\Monolog\tests\Unit\Processor;
 
 use Piwik\Log;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Log
  * @covers \Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor
  */
-class ExceptionToTextProcessorTest extends \PHPUnit_Framework_TestCase
+class ExceptionToTextProcessorTest extends TestCase
 {
     /**
      * @test
@@ -47,7 +48,7 @@ class ExceptionToTextProcessorTest extends \PHPUnit_Framework_TestCase
         $result = $processor($record);
 
         $expected = array(
-            'message' => __FILE__ . "(40): Hello world\n[stack trace]",
+            'message' => __FILE__ . "(41): Hello world\n[stack trace]",
             'context' => array(
                 'exception' => $exception,
             ),

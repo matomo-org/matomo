@@ -9,7 +9,7 @@
 namespace Piwik\Tests\Unit;
 
 use Exception;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
@@ -19,7 +19,7 @@ use Piwik\Intl\Data\Provider\RegionDataProvider;
  * @backupGlobals enabled
  * @group Common
  */
-class CommonTest extends PHPUnit_Framework_TestCase
+class CommonTest extends TestCase
 {
     /**
      * Dataprovider for testSanitizeInputValues

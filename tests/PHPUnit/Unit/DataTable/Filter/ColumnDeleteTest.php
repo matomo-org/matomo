@@ -10,8 +10,9 @@ namespace Piwik\Tests\Unit\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use PHPUnit\Framework\TestCase;
 
-class ColumnDeleteTest extends \PHPUnit_Framework_TestCase
+class ColumnDeleteTest extends TestCase
 {
     private $filter = 'ColumnDelete';
 
@@ -161,4 +162,3 @@ class ColumnDeleteTest extends \PHPUnit_Framework_TestCase
     }
 
 }
-

@@ -18,6 +18,7 @@ use Piwik\Plugins\CoreHome\CoreHome;
 use Piwik\Report\ReportWidgetConfig;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Widget\WidgetContainerConfig;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Widget
@@ -25,7 +26,7 @@ use Piwik\Widget\WidgetContainerConfig;
  * @group WidgetMetadata
  * @group WidgetMetadataTest
  */
-class WidgetMetadataTest extends \PHPUnit_Framework_TestCase
+class WidgetMetadataTest extends TestCase
 {
     /**
      * @var WidgetMetadata

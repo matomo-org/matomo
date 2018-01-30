@@ -11,6 +11,7 @@ namespace Piwik\Plugins\PrivacyManager\tests\Unit;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tracker\Action;
 use Piwik\Translate;
+use PHPUnit\Framework\TestCase;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/Actions/Actions.php';
 
@@ -19,7 +20,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Actions/Actions.php';
  * @group ArchiverTest
  * @group Plugins
  */
-class ArchiverTests extends \PHPUnit_Framework_TestCase
+class ArchiverTests extends TestCase
 {
     public function setUp()
     {
@@ -127,4 +128,3 @@ class ArchiverTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $processed);
     }
 }
-

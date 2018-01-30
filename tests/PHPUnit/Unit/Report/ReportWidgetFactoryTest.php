@@ -13,6 +13,7 @@ use Piwik\Report\ReportWidgetConfig;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Widget\WidgetContainerConfig;
+use PHPUnit\Framework\TestCase;
 
 class GetBasicReport extends Report
 {
@@ -42,7 +43,7 @@ class GetBasicReport extends Report
  * @group ReportWidgetFactory
  * @group ReportWidgetFactoryTest
  */
-class ReportWidgetFactoryTest extends \PHPUnit_Framework_TestCase
+class ReportWidgetFactoryTest extends TestCase
 {
     /**
      * @var ReportWidgetFactory

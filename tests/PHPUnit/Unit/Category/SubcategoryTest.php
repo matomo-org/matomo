@@ -10,13 +10,14 @@ namespace Piwik\Tests\Unit\Category;
 
 use Piwik\Cache;
 use Piwik\Category\Subcategory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Category
  * @group Subcategory
  * @group SubcategoryTest
  */
-class SubcategoryTest extends \PHPUnit_Framework_TestCase
+class SubcategoryTest extends TestCase
 {
     /**
      * @var Subcategory

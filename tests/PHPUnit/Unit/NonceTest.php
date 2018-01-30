@@ -10,11 +10,12 @@ namespace Piwik\Tests\Unit;
 
 use Piwik\Config;
 use Piwik\Nonce;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @backupGlobals enabled
  */
-class NonceTest extends \PHPUnit_Framework_TestCase
+class NonceTest extends TestCase
 {
     /**
      * Dataprovider for acceptable origins test

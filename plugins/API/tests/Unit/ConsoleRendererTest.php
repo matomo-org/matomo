@@ -12,12 +12,13 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Plugins\API\Renderer\Console;
 use Piwik\Plugins\CoreHome\Columns\Metrics\AverageTimeOnSite;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Plugin
  * @group API
  */
-class ConsoleRendererTest extends \PHPUnit_Framework_TestCase
+class ConsoleRendererTest extends TestCase
 {
     /**
      * @var Console

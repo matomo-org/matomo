@@ -8,7 +8,7 @@
 
 namespace Piwik\Tests\Unit;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Config;
 use Piwik\Tests\Framework\Mock\TestConfig;
@@ -52,7 +52,7 @@ class DumpConfigTestMockConfig extends Config
 /**
  * @group Core
  */
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class ConfigTest extends TestCase
 {
     public function testUserConfigOverwritesSectionGlobalConfigValue()
     {
@@ -398,7 +398,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
         $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
         $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
-        
+
         $config = new Config(new GlobalSettingsProvider($globalFile, $userFile, $commonFile));
 
         $configCategory = $config->getFromGlobalConfig('Category');
@@ -406,25 +406,25 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value2', $configCategory['key2']);
         $this->assertEquals(array('key1' => 'value1', 'key2' => 'value2'), $configCategory);
     }
-    
+
     public function testFromCommonConfig()
     {
         $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
         $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
         $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
-    
+
         $config = new Config(new GlobalSettingsProvider($globalFile, $userFile, $commonFile));
 
         $configCategory = $config->getFromCommonConfig('Category');
         $this->assertEquals(array('key2' => 'valueCommon', 'key3' => '${@piwik(crash))}'), $configCategory);
     }
-    
+
     public function testFromLocalConfig()
     {
         $userFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/config.ini.php';
         $globalFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/global.ini.php';
         $commonFile = PIWIK_INCLUDE_PATH . '/tests/resources/Config/common.config.ini.php';
-    
+
         $config = new Config(new GlobalSettingsProvider($globalFile, $userFile, $commonFile));
 
         $configCategory = $config->getFromLocalConfig('Category');

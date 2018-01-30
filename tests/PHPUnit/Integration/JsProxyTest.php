@@ -10,11 +10,12 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Core
  */
-class JsProxyTest extends \PHPUnit_Framework_TestCase
+class JsProxyTest extends TestCase
 {
     public function testPiwikJs()
     {

@@ -9,11 +9,12 @@
 namespace Piwik\Plugins\LanguagesManager\Test\Unit\TranslationWriter\Filter;
 
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\EncodedEntities;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group LanguagesManager
  */
-class EncodedEntitiesTest extends \PHPUnit_Framework_TestCase
+class EncodedEntitiesTest extends TestCase
 {
     public function getFilterTestData()
     {
