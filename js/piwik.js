@@ -974,7 +974,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     exec,
     res, width, height,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    initialized, hook, getHook, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
+    initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
@@ -5715,6 +5715,14 @@ if (typeof window.Piwik !== 'object') {
              */
             this.setSiteId = function (siteId) {
                 setSiteId(siteId);
+            };
+
+            /**
+             * Clears the User ID and generates a new visitor id.
+             */
+            this.resetUserId = function() {
+                configUserId = '';
+                visitorUUID = generateRandomUuid();
             };
 
             /**
