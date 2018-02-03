@@ -111,8 +111,7 @@
 
         name: actionName,
 
-        dataTableIcon: 'plugins/Live/images/visitorlog.png',
-        dataTableIconHover: 'plugins/Live/images/visitorlog-hover.png',
+        dataTableIcon: 'icon-visitor-profile',
 
         order: 30,
 

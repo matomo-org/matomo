@@ -101,8 +101,7 @@ DataTable_RowActions_Registry.register({
 
     name: 'Transitions',
 
-    dataTableIcon: 'plugins/Transitions/images/transitions_icon.png',
-    dataTableIconHover: 'plugins/Transitions/images/transitions_icon_hover.png',
+    dataTableIcon: 'icon-transition',
 
     order: 20,
 
