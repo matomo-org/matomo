@@ -9,6 +9,10 @@
 {% endif %}{% if visitInfo.getColumn('latitude') or visitInfo.getColumn('longitude') %}{{ visitInfo.getColumn('location') }}
 GPS (lat/long): {{ visitInfo.getColumn('latitude') }},{{ visitInfo.getColumn('longitude') }}{% endif %}">
     IP: {{ visitInfo.getColumn('visitIp') }}
+    <br />
+    <span><img width="16" class="flag" src="{{ visitInfo.countryFlag }}"/>&nbsp;
+    {% if visitInfo.city is not empty %}{{ visitInfo.city }}{% else %}{{ visitInfo.country }}{% endif %}</span>
+
     {% if visitInfo.getColumn('userId') is not empty %}<br/><br/>{{ visitInfo.getColumn('userId')|raw }}{% endif %}
 </span>{% endif %}
 {% if isWidget %}
