@@ -12,7 +12,6 @@ use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Metrics\Formatter;
-use function Piwik\Plugins\VisitTime\translateMonth;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/VisitTime/functions.php';
 
@@ -39,6 +38,6 @@ class VisitLastActionMonth extends VisitDimension
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {
-        return translateMonth($value);
+        return \Piwik\Plugins\VisitTime\translateMonth($value);
     }
 }
