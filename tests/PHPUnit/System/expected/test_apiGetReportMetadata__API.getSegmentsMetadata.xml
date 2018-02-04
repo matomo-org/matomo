@@ -27,6 +27,13 @@
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
+		<name>Events</name>
+		<segment>events</segment>
+		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visitors</category>
 		<name>Local time - minute (Start of visit)</name>
 		<segment>visitLocalMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 67, 57, 58, 59</acceptedValues>
@@ -50,13 +57,6 @@
 		<category>Visitors</category>
 		<name>Number of visits</name>
 		<segment>visitCount</segment>
-	</row>
-	<row>
-		<type>metric</type>
-		<category>Visitors</category>
-		<name>Total events</name>
-		<segment>events</segment>
-		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
 	</row>
 	<row>
 		<type>metric</type>
@@ -146,6 +146,27 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
+		<name>Server time - date (End of visit)</name>
+		<segment>visitEndServerDate</segment>
+		<acceptedValues>2018-12-31, 2018-03-20, ...</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - day of month (End of visit)</name>
+		<segment>visitEndServerDayOfMonth</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 29, 30, 31</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - day of year (End of visit)</name>
+		<segment>visitEndServerDayOfYear</segment>
+		<acceptedValues>1, 2, 3, 4, ..., 365, 366</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
 		<name>Server time - hour (End of visit)</name>
 		<segment>visitServerHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
@@ -170,6 +191,41 @@
 		<name>Server time - minute (Start of visit)</name>
 		<segment>visitStartServerMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - month (End of visit)</name>
+		<segment>visitEndServerMonth</segment>
+		<acceptedValues>1, 2, 3, ..., 11, 12</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - quarter (End of visit)</name>
+		<segment>visitEndServerQuarter</segment>
+		<acceptedValues>1, 2, 3, 4</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - second (End of visit)</name>
+		<segment>visitEndServerSecond</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 58, 59</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - week of year (End of visit)</name>
+		<segment>visitEndServerWeekOfYear</segment>
+		<acceptedValues>1, 2, 3, 4, ..., 51, 52, 53</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - year (End of visit)</name>
+		<segment>visitEndServerYear</segment>
+		<acceptedValues>2016, 2017, 2018, ..., 9998, 9999</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -214,6 +270,13 @@
 		<name>Visit type</name>
 		<segment>visitorType</segment>
 		<acceptedValues>new, returning, returningCustomer. For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain &quot;&amp;segment=visitorType==returning,visitorType==returningCustomer&quot;</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>VisitTime_ColumnVisitEndServerWeek</name>
+		<segment>visitEndServerDayOfWeek</segment>
+		<acceptedValues>1, 2, 3, 4, 5, 6, 7</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
