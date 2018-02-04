@@ -26,7 +26,11 @@ class VisitLastActionDate extends VisitDimension
     public function __construct()
     {
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
-            $date = Date::now();
+            if (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE) {
+                $date = Date::factory('2018-02-02');
+            } else {
+                $date = Date::now();
+            }
             $return = array($date->toString());
             for ($i = 0; $i < $maxValuesToReturn; $i++) {
                 $date = $date->subDay(1);
