@@ -1090,7 +1090,9 @@ if (typeof window.Piwik !== 'object') {
             /* local Piwik */
             Piwik,
 
-            missedPluginTrackerCalls = [];
+            missedPluginTrackerCalls = [],
+
+            isPageUnloading = false;
 
         /************************************************************
          * Private methods
@@ -1391,6 +1393,7 @@ if (typeof window.Piwik !== 'object') {
          */
         function beforeUnloadHandler() {
             var now;
+            isPageUnloading = true;
 
             executePluginMethod('unload');
             /*
@@ -3476,15 +3479,29 @@ if (typeof window.Piwik !== 'object') {
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
             function getImage(request, callback) {
-                var image = new Image(1, 1);
+                // make sure to actually load an image so callback gets invoked
+                request = request.replace("send_image=0","send_image=1");
 
+                var image = new Image(1, 1);
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
                     if (typeof callback === 'function') { callback(); }
                 };
-                // make sure to actually load an image so callback gets invoked
-                request = request.replace("send_image=0","send_image=1");
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
+            }
+
+            function supportsSendBeacon()
+            {
+                return 'object' === typeof navigator
+                    && 'function' === typeof navigator.sendBeacon
+                    && 'function' === typeof Blob;
+            }
+
+            function sendPostRequestViaSendBeacon(request)
+            {
+                var headers = {type: 'application/x-www-form-urlencoded; charset=UTF-8'};
+                var blob = new Blob([request], headers);
+                navigator.sendBeacon(configTrackerUrl, blob);
             }
 
             /*
@@ -3493,6 +3510,11 @@ if (typeof window.Piwik !== 'object') {
             function sendXmlHttpRequest(request, callback, fallbackToGet) {
                 if (!isDefined(fallbackToGet) || null === fallbackToGet) {
                     fallbackToGet = true;
+                }
+
+                if ((isPageUnloading || !fallbackToGet) && supportsSendBeacon()) {
+                    sendPostRequestViaSendBeacon(request);
+                    return;
                 }
 
                 try {
@@ -3510,7 +3532,11 @@ if (typeof window.Piwik !== 'object') {
                     // fallback on error
                     xhr.onreadystatechange = function () {
                         if (this.readyState === 4 && !(this.status >= 200 && this.status < 300) && fallbackToGet) {
-                            getImage(request, callback);
+                            if (isPageUnloading && supportsSendBeacon()) {
+                                sendPostRequestViaSendBeacon(request);
+                            } else {
+                                getImage(request, callback);
+                            }
                         } else {
                             if (this.readyState === 4 && (typeof callback === 'function')) { callback(); }
                         }
@@ -3521,8 +3547,12 @@ if (typeof window.Piwik !== 'object') {
                     xhr.send(request);
                 } catch (e) {
                     if (fallbackToGet) {
-                        // fallback
-                        getImage(request, callback);
+                        if (isPageUnloading && supportsSendBeacon()) {
+                            sendPostRequestViaSendBeacon(request);
+                        } else {
+                            // fallback
+                            getImage(request, callback);
+                        }
                     }
                 }
             }
