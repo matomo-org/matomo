@@ -14,18 +14,14 @@
         "Events": "Події",
         "EventsWithValue": "Події зі значенням",
         "EventsWithValueDocumentation": "Кількість подій, де було встановлено значення для Події",
-        "EventValue": "Значення події",
         "EventValueTooltip": "Загальні значення подій дорівнюють сумі %1$s значенням (подій) %2$s між мінімумом %3$s і максимумом %4$s.",
-        "MaxValue": "Максимальне значення",
         "MaxValueDocumentation": "Максимальна значення для цієї події",
-        "MinValue": "Мінімальне значення",
         "MinValueDocumentation": "Мінімальне значення для цієї події",
         "SecondaryDimension": "Вторичний вимір %s.",
         "SwitchToSecondaryDimension": "Переключитися на %s",
         "TopEvents": "Топ подій",
         "TotalEvents": "Усього подій",
         "TotalEventsDocumentation": "Загальна кількість подій",
-        "TotalValue": "Загальне значення",
         "TotalValueDocumentation": "Сума значень подій",
         "ViewEvents": "Перегляд подій"
     }

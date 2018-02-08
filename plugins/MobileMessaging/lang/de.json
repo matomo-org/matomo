@@ -28,7 +28,7 @@
         "Settings_PhoneNumbers_Add": "Neue Telefonnummer hinzufügen",
         "Settings_PhoneNumbers_CountryCode_Help": "Falls Sie die Ländervorwahl nicht wissen, suchen Sie hier Ihr Land.",
         "Settings_PhoneNumbers_Help": "Bevor Sie SMS (Textnachrichten) auf dem Telefon empfangen können, müssen Sie unten die Telefonnummer eingeben.",
-        "Settings_PhoneNumbers_HelpAdd": "Wenn Sie auf \"Hinzufügen\" klicken wird eine SMS mit einem Code an Ihr Telefon versendet. Wenn Sie den Code empfangen loggen Sie sich bitte in Piwik ein, klicken auf Einstellungen und danach Mobile Messaging. Nach dem Eingeben des Codes können Sie Textberichte auf diesem Telefon empfangen.",
+        "Settings_PhoneNumbers_HelpAdd": "Wenn Sie auf \"Hinzufügen\" klicken wird eine SMS mit einem Code ans Telefon versendet. Der Benutzer,der den Code empfängt, sollte sich dann in Mamoto einloggen, auf Einstellungen und danach auf Mobile Messaging klicken. Nach dem Eingeben des Codes kann der Benutzer Textberichte auf diesem Telefon empfangen.",
         "Settings_PleaseSignUp": "Um SMS Berichte zu erstellen und Textnachrichten mit Ihren Statistiken auf Ihrem Mobiltelefon empfangen zu können, registrieren Sie sich unterhalb für die SMS API.",
         "Settings_SMSAPIAccount": "SMS-API Zugang verwalten",
         "Settings_SMSProvider": "SMS-Anbieter",

@@ -19,6 +19,8 @@
         "DonateCall3": "If you feel that Matomo has added significant value to your business or endeavour, %1$splease consider donating%2$s or %3$spurchasing a premium feature%4$s. Every penny will help.",
         "DonateFormInstructions": "Click on the slider to select an amount, then click subscribe to donate.",
         "EndShortcut": "End",
+        "EnterZenMode": "Enter Zen mode (hide the menus)",
+        "ExitZenMode": "Exit Zen mode (show the menus)",
         "ExceptionNotWhitelistedIP": "You cannot use this Matomo as your IP %s is not whitelisted",
         "ExcludeRowsWithLowPopulation": "All rows are shown %s Exclude low population",
         "ExternalHelp": "Help (opens in new tab)",

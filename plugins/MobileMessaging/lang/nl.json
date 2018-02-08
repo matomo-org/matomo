@@ -27,7 +27,6 @@
         "Settings_PhoneNumbers_Add": "Nieuw telefoonnummer toevoegen",
         "Settings_PhoneNumbers_CountryCode_Help": "Weet je de landcode voor belen niet, kijk dan hier.",
         "Settings_PhoneNumbers_Help": "Voordat je SMS rapporten op een telefoon kunt ontvangen, moet het telefoonnummer hieronder worden ingegeven.",
-        "Settings_PhoneNumbers_HelpAdd": "Wanneer je klikt op \"Add\", een SMS met een code zal naar de telefoon verstuurd worden. De gebruiker die de code ontvangt moet daarna inloggen in Piwik, klik op instellingen en daarna op Mobile Messaging. Na het invoeren van de code zal de gebruiker in staat zijn om tekst rapportages te ontvangen op zijn\/haar telefoon.",
         "Settings_PleaseSignUp": "Om SMS rapporten aan te maken en SMS berichten met je website statistieken te ontvangen op je mobiele telefoon,gelieve in te loggen met de SMS API en je informatie hieronder in te vullen.",
         "Settings_SMSAPIAccount": "Beheer SMS API account",
         "Settings_SMSProvider": "SMS provider",

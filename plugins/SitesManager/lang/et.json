@@ -28,6 +28,7 @@
         "TrackingSiteSearch": "Lehe sisemisest otsingust andmete kogumine",
         "TrackingTags": "Jälgimiskood lehele %s",
         "Urls": "URL-id",
+        "Type": "Tüüp",
         "UTCTimeIs": "UTC aeg on %s.",
         "WebsitesManagement": "Veebilehe haldamine"
     }

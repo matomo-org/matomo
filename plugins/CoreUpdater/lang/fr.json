@@ -65,7 +65,7 @@
         "CloudHosting": "Hébergement Cloud",
         "Updating": "Mise à jour en cours",
         "UpdateUsingHttpsFailed": "Le téléchargement de la dernière version de Matomo via une connexion HTTPS sécurisée a échoué pour la raison suivante :",
-        "UpdateUsingHttpsFailedHelp": "Pourquoi est-ce que ça a échoué? Le téléchargement de la dernière version de Matomo (via une connexion sécurisée HTTPS) peut échouer pour des raisons variées, par exemple à cause d'une erreur réseau, d'un réseau lent ou une mauvaise configuration système. Notez que cela pourrait aussi signifier que votre serveur est la cible d'une attaque de type \"homme du milieu\" et que quelqu'un essaie de remplacer la mise à jour avec une version malveillante de Piwik.",
+        "UpdateUsingHttpsFailedHelp": "Pourquoi est-ce que ça a échoué? Le téléchargement de la dernière version de Matomo (via une connexion sécurisée HTTPS) peut échouer pour des raisons variées, par exemple à cause d'une erreur réseau, d'un réseau lent ou une mauvaise configuration système. Notez que cela pourrait aussi signifier que votre serveur est la cible d'une attaque de type \\\"homme du milieu\\\" et que quelqu'un essaie de remplacer la mise à jour avec une version malveillante de Piwik.",
         "UpdateUsingHttpsFailedHelpWhatToDo": "Il est recommandé de réessayer le téléchargement en utilisant une connexion HTTPS sécurisée car cela empèche les attaques du type \"homme du milieu\" (MITM).",
         "UsingHttps": "en utilisant une connexion sécurisée HTTPS (recommandé)",
         "UsingHttp": "en utilisant une connexion HTTP non sécurisée",
@@ -75,7 +75,7 @@
         "WarningMessages": "Messages d'avertissement :",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Nous avons automatiquement désactivé les plugins suivants : %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Vous pouvez mettre à jour vers la version %s automatiquement ou télécharger l'archive et l'installer manuellement :",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik ne peut pas écraser votre installation courante. Vous pouvez soit corriger les permissions du répertoire\/fichier, soit télécharger le package et installer la version %s manuellement:",
+        "YouMustDownloadPackageOrFixPermissions": "Matomo ne peut pas écraser votre installation courante. Vous pouvez soit corriger les permissions du répertoire\/fichier, soit télécharger le package et installer la version %s manuellement:",
         "YourDatabaseIsOutOfDate": "Votre base de données est expirée et doit être mise à jour avant de pouvoir continuer.",
         "ViewVersionChangelog": "Voir les changements pour cette version :",
         "ReceiveEmailBecauseIsSuperUser": "Vous recevez ce courriel car vous êtes un super utilisateur de l'installation Matomo à l'adresse: %s"

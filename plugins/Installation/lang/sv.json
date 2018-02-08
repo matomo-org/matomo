@@ -1,10 +1,8 @@
 {
     "Installation": {
         "CollaborativeProject": "Piwik är ett projekt som arbetats fram av människor från hela världen, med samma mål och mycket kärlek!",
-        "ConfigurationHelp": "Din Matomo konfigurationsfil verkar vara felkonfigurerad. Du kan antingen ta bort config \/ config.ini.php och återuppta installationen, eller korrigera inställningarna för databasanslutningen.",
         "ConfirmDeleteExistingTables": "Är du säker på att du vill ta bort tabellerna: %s från din databas? Varning: Data från dessa tabeller kommer inte kunna återskapas!",
         "Congratulations": "Grattis",
-        "CongratulationsHelp": "<p>Grattis! Din installation av Matomo är klar.<\/p><p>Se till att din JavaScript-kod lagts in på dina sidor, och vänta på dina första besökare!<\/p>",
         "DatabaseAbilities": "Databasförmågor",
         "DatabaseCreation": "Databas skapas",
         "DatabaseErrorConnect": "Fel uppstod när anslutningsförsök till databasservern gjordes.",
@@ -29,7 +27,7 @@
         "JsTagArchivingHelp1": "För medium och högtraffikerade webbsidor finns det specifika optimeringar som bör göras för att hjälpa Matomo att bli snabbare (exempel på sådana är %1$sinställningar och automatisk-akrivering%2$s).",
         "JSTracking_EndNote": "Observera: Efter installationen, kommer du kunna skräddarsy din spårningskod i %1$sSpårnings Kod%2$s admin delen.",
         "JSTracking_Intro": "För att spåra din trafik med hjälp av Matomo behöver du lägga till extrakod på var och en av dina webbsidor.",
-        "LargePiwikInstances": "Hjälp för stora Matomo-instanser",
+        "LargePiwikInstances": "Hjälp för stora Piwik-instanser",
         "Legend": "Legend",
         "LoadDataInfileRecommended": "Om din Matomoserver spårar webbplatser med hög trafik (t.ex. > 100.000 sidor per månad), så rekommenderar vi att du försöker åtgärda följande problem.",
         "LoadDataInfileUnavailableHelp": "Användande av %1$s kommer at snabba upp Piwik's arkiveringsprocess markant. Försök att uppdatera PHP & MySQL samt kontrollera att databasanvändaren har behörigheten %2$s för att göra det tillgänglit för Matomo.",
@@ -45,7 +43,6 @@
         "PasswordRepeat": "Lösenord (bekräfta)",
         "PercentDone": "%s %% Klar",
         "ProfessionalServicesAdTitle": "Avancerad analys & tjänster",
-        "ProfessionalServicesfessionalServicesAdText": "Vårt nätverk av experter kan hjälpa din organisation att ta tillvara alla möjligheter i Matomo.",
         "ProfessionalServicesfessionalDiscoverHow": "Lär dig mer om %1$sytterligare produkter och tjänster%2$still för Matomo och hur du kan öka konvertering och intäkter.",
         "PleaseFixTheFollowingErrors": "Vänligen fixa följande fel",
         "DefaultSettings": "Grundinställningar för Matomo",
@@ -126,7 +123,6 @@
         "SystemCheckCronArchiveProcessCLI": "Hantering av processer via CLI",
         "SystemCheckPhpSetting": "För att det inte ska uppstå problem måste du ställa in följande i din php.ini-fil: %s",
         "SystemCheckUpdateHttps": "Uppdatera över HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Piwik kan inte använda HTTPS för att uppdatera och kommer att köra på en osäker HTTP uppdatering. Kontrollera att du har stöd för CURL eller allow_url_fopen och att openssl PHP-tilläget är installerat: http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/.",
         "NotSupported": "stöds inte",
         "Tables": "Skapar tabellerna",
         "TablesCreatedSuccess": "Tabeller skapades utan problem!",
@@ -140,7 +136,6 @@
         "Timezone": "Webbplatsens tidszon",
         "WeHopeYouWillEnjoyPiwik": "Vi hoppas att du kommer tycka om att använda Matomo lika mycket som vi tyckte om att skapa det!",
         "Welcome": "Välkommen!",
-        "WelcomeHelp": "<p>Matomo är ett open source webbanalysprogram som gör det enkelt att få den information du vill ha från dina besökare.<\/p><p>Denna process är uppdelad i %s enkla steg och tar ca 5 minuter.<\/p>",
         "WelcomeToCommunity": "Välkommen till Matomos gemenskap!",
         "CannotConnectToDb": "Kan inte ansluta till databasen",
         "CannotConnectToDbResolvingExplanation": "Det här kan vara ett tillfälligt problem, försök att %1$shämta sidan igen%2$s. Kontakta din piwikadministratör om problemet kvarstår."

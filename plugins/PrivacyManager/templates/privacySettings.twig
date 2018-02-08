@@ -309,14 +309,8 @@
 <div piwik-content-block
      id="optOutAnchor"
      content-title="{{ 'CoreAdminHome_OptOutForYourVisitors'|translate|e('html_attr') }}">
-    <p>
-        {{ 'CoreAdminHome_OptOutExplanation'|translate }}
-        {% set optOutUrl %}{{ piwikUrl }}index.php?module=CoreAdminHome&action=optOut&language={{ language }}{% endset %}
-        {% set iframeOptOut %}<iframe style="border: 0; height: 200px; width: 600px;" src="{{ optOutUrl }}"></iframe>{% endset %}
-    </p>
-    <pre piwik-select-on-focus>{{ iframeOptOut|e('html') }}</pre>
-    <p>
-        {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' rel='noreferrer' target='_blank'>","</a>")|raw }}
-    </p>
+    <div piwik-opt-out-customizer piwikurl="{{ piwikUrl }}" language="{{ language }}">
+    
+    </div>
 </div>
 {% endblock %}

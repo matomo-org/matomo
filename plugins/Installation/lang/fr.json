@@ -1,7 +1,7 @@
 {
     "Installation": {
         "CollaborativeProject": "Piwik est un projet collaboratif, construit avec amour par des personnes du monde entier.",
-        "ConfigurationHelp": "Votre configuration de Matomo semble être erronée. Vous pouvez ou bien supprimer config\/config.inc.php et reprendre l'installation ou corriger les paramètres de connexion.",
+        "ConfigurationHelp": "Votre fichier de configuration Matomo a l'air d'être mal configuré. Vous pouvez soit supprimer config\/config.ini et continuer l'installation ou corriger les paramètres de connexion à la base de données.",
         "ConfirmDeleteExistingTables": "Êtes vous sûr de vouloir supprimer les tables %s de votre base de données ? ATTENTION : LES DONNÉES SERONT DÉFINITIVEMENT PERDUES !",
         "Congratulations": "Félicitations",
         "CongratulationsHelp": "<p>Félicitations ! Votre installation de Matomo est terminée.<\/p><p>Assurez-vous que le code JavaScript est présent sur toutes vos pages et attendez vos premiers visiteurs !<\/p>",
@@ -29,7 +29,7 @@
         "JsTagArchivingHelp1": "Pour les sites à moyen et fort trafic il existe des optimisations qui pourraient être mises en place pour aider Matomo à s'exécuter plus rapidement (comme %1$smettre en place l'auto-archivage%2$s).",
         "JSTracking_EndNote": "Note : après le processus d'installation, vous pouvez générer un code de suivi personnalisé depuis la section d'administration %1$sCode de Suivi%2$s.",
         "JSTracking_Intro": "Pour effectuer le suivi du trafic web avec Matomo vous devez vous assurer que du code supplémentaire est ajouté sur toutes vos pages.",
-        "LargePiwikInstances": "Aide pour les instances de Matomo volumineuses",
+        "LargePiwikInstances": "Aide pour les instances de Piwik volumineuses",
         "Legend": "Légendes",
         "LoadDataInfileRecommended": "Si votre serveur Matomo traque des sites à grand trafic, (ex > 100 000 pages par mois), nous recommandons d'essayer de résoudre ce problème.",
         "LoadDataInfileUnavailableHelp": "L'utilisation de %1$s va grandement accélérer la vitesse du processus d'archivage de Piwik. Pour le rendre disponible à Matomo, essayez de mettre à jour PHP & MySQL et assurez vous que votre utilisateur MySQL a les privilèges de %2$s.",
@@ -126,7 +126,7 @@
         "SystemCheckCronArchiveProcessCLI": "Gestion des processus via la ligne de commande",
         "SystemCheckPhpSetting": "Pour éviter certaines erreurs critique, vous devez définir les entrées suivantes dans votre fichier php.ini : %s",
         "SystemCheckUpdateHttps": "Mettre à jour via HTTPS",
-        "SystemCheckUpdateHttpsNotSupported": "Piwik ne peut pas utiliser du HTTPS pour se mettre à jour, il va rétrograder vers une mise à jour utilisant du HTTP non sécurisé. Vérifiez que CURL ou allow_url_fopen est supporté et que l'extesion PHP openssl est installée: http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/",
+        "SystemCheckUpdateHttpsNotSupported": "Matomo ne peut pas utiliser du HTTPS pour se mettre à jour, il va rétrograder vers une mise à jour utilisant du HTTP non sécurisé. Vérifiez que CURL ou allow_url_fopen est supporté et que l'extesion PHP openssl est installée: http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/",
         "NotSupported": "non supporté",
         "Tables": "Création des tables",
         "TablesCreatedSuccess": "Tables créées avec succès !",

@@ -158,6 +158,7 @@ class PrivacyManager extends Plugin
     {
         return array(
             'AssetManager.getJavaScriptFiles'         => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'         => 'getStylesheetFiles',
             'Tracker.setTrackerCacheGeneral'          => 'setTrackerCacheGeneral',
             'Tracker.isExcludedVisit'                 => array($this->dntChecker, 'checkHeaderInTracker'),
             'Tracker.setVisitorIp'                    => array($this->ipAnonymizer, 'setVisitorIpAddress'),
@@ -170,6 +171,8 @@ class PrivacyManager extends Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
+        $translationKeys[] = 'CoreAdminHome_OptOutExplanation';
+        $translationKeys[] = 'CoreAdminHome_OptOutExplanationIntro';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
@@ -186,6 +189,13 @@ class PrivacyManager extends Plugin
         $jsFiles[] = "plugins/PrivacyManager/angularjs/do-not-track-preference/do-not-track-preference.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-logs/delete-old-logs.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-reports/delete-old-reports.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.js";
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.less";
     }
 
     /**

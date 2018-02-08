@@ -51,7 +51,6 @@
         "OptOutComplete": "Jangan-Lacak selesai. Bila Anda mengunjungi situs ini, Anda tidak akan terekam oleh perangkat Analisis Ramatraya.",
         "OptOutCompleteBis": "Perhatikan bahwa jika Anda menghapus kuki Anda, menghapus kuki Jangan-Lacak, atau jika Anda mengganti komputer atau peramban ramatraya, Anda perlu melakukan prosedur Jangan-Lacak lagi.",
         "OptOutExplanation": "Piwik berdedikasi untuk menyediakan privasi Internet. Agar pengunjung Anda memiliki pilihan untuk tidak terekam oleh Analisis Ramatraya Matomo, Anda dapat menambahkan kode HTML di salah satu halaman situs Anda, misalnya di halaman Kebijakan Privasi.",
-        "OptOutExplanationBis": "Kode ini akan menampilkan bingkai pendam yang mengandung tautan untuk pengunjung agar Matomo tidak merekam dengan mengatur kuki Jangan-Lacak di peramban pengunjung. %1$sKlik di sini%2$s untuk melihat isi yang ditampilkan oleh bingkai pendam.",
         "OptOutForYourVisitors": "Piwik Jangan-Lacakan untuk Pengunjung",
         "PiwikIsInstalledAt": "Piwik terpasang di",
         "StableReleases": "Bila Matomo merupakan hal yang penting dalam usaha Anda, kami menyarankan Anda menggunakan rilis stabil terkini. \tBila Anda menggunakan beta terkini dan Anda menemukan sebuah kutu atau sebuah sarah, harap %1$slihat di sini%2$s.",

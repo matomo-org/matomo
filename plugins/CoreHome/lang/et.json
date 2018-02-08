@@ -28,6 +28,7 @@
         "WebAnalyticsReports": "Veebi analüüsi raportid",
         "YouAreUsingTheLatestVersion": "Kasutad uusimat Matomou versiooni!",
         "SystemSummaryWidget": "Süsteemi kokkuvõte",
-        "SystemSummaryNWebsites": "%d veebilehte"
+        "SystemSummaryNWebsites": "%d veebilehte",
+        "SystemSummaryPhpVersion": "PHP versioon"
     }
 }

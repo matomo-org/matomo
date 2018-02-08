@@ -11,7 +11,7 @@
         "ErrorDIYHelp": "Jei Jūs esate patyręs vartotojas ir susidūrėte su problema atnaujinant duombazę:",
         "ErrorDIYHelp_1": "nustatykite ir pakoreguokite problemos šaltinį (pvz., memory_limit arba max_execution_time)",
         "ErrorDIYHelp_2": "paleiskite likusias užklausas nepavykusiame naujinime",
-        "ErrorDIYHelp_3": "rankiniu būdu papildykite `option` lentelę Matomo duombazėje, nustatydami version_core reikšmę į nepavykusio naujinimo versijos numerį",
+        "ErrorDIYHelp_3": "rankiniu būdu papildykite `option` lentelę Matomo duomenų bazėje, nustatydami version_core reikšmę į nepavykusio naujinimo versijos numerį",
         "ErrorDIYHelp_4": "paleiskite naujinimo procesą iš naujo (naršyklėje arba iš komandinės eilutės) ir pratęskite likusius atnaujinimus",
         "ErrorDIYHelp_5": "praneškite apie problemą (ir sprendimą), kad Matomo būtų patobulintas",
         "ErrorDuringPluginsUpdates": "Klaida atnaujinant papildinius:",
@@ -48,8 +48,7 @@
         "VerifyingUnpackedFiles": "Tikrinami išskleisti failai",
         "WarningMessages": "Įspėjamieji pranešimai:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Automatiškai pasyvinome šiuos papildinius: %s",
-        "YouCanUpgradeAutomaticallyOrDownloadPackage": "Galite atnaujinti iki %s versijos automatiškai arba atsisiųsti paketą ir atnaujinti Matomo rankiniu būdu:",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik negali perrašyti Jūsų dabartinio diegimo. Galite arba pataisyti katalogo\/failo teises, arba atsisiųsti paketą ir įdiegti šią versiją %s rankiniu būdu:",
+        "YouCanUpgradeAutomaticallyOrDownloadPackage": "Galite atnaujinti iki %s versijos automatiškai arba atsisiųsti paketą ir atnaujinti Piwik rankiniu būdu:",
         "YourDatabaseIsOutOfDate": "Norint tęsti, reikia atnaujinti Matomo duombazę",
         "ViewVersionChangelog": "Rodyti šios versijos keitinių žurnalą:"
     }

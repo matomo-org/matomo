@@ -66,7 +66,6 @@
         "OptOutCompleteBis": "Observera att om du rensar cookies, tar bort cookien för exkludering eller om du byter dator eller webbläsare måste du utföra exkluderingen igen.",
         "OptOutDntFound": "Du spåras inte eftersom din webbläsare rapporterar att du inte vill det. Detta är en inställning i webbläsaren så du kan inte delta för än du avaktiverat 'Do Not Track'.",
         "OptOutExplanation": "Piwik är dedikerat till att erbjuda personlig integritet på Internet. För att ge dina besökare möjligheten att välja om de ska exkluderas från Matomos webbanalys, kan du lägga till följande HTML-kod på någon av din webbplats sidor, t.ex. på en sida om sekretesspolicy.",
-        "OptOutExplanationBis": "Denna kod kommer att visas i en iFrame som innehåller en länk så att dina besökare kan välja bort Matomo genom att sätta en cookie i sina webbläsare. %1$s Klicka här för%2$s att visa innehållet som kommer att visas i iFrame'n.",
         "OptOutForYourVisitors": "Exkludera spårning för dina besökare",
         "PiwikIsInstalledAt": "Piwik är installerat på",
         "PersonalPluginSettings": "Personliga plugininställningar",

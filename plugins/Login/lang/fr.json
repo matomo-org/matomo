@@ -1,7 +1,7 @@
 {
     "Login": {
         "ConfirmationLinkSent": "Un lien de confirmation a été envoyé à votre courriel. Vérifiez votre courriel et cliquez sur le lien pour autoriser votre demande de changement de mot de passe.",
-        "ContactAdmin": "Raison possible : Votre hébergeur peut avoir désactivé la fonction mail(). <br \/> Veuillez contacter votre administrateur Matomo.",
+        "ContactAdmin": "Raison potentielle : Votre hébergeur peut avoir désactivé la fonction mail(). <br \/>Veuillez contacter votre administrateur Matomo.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un utilisateur avec un accès super utilisateur ne peut être authentifié en utilisant le mécanisme '%s'.",
         "ExceptionPasswordMD5HashExpected": "Le paramètre mot de passe doit être le hash MD5 du mot de passe.",
         "InvalidNonceOrHeadersOrReferrer": "La sécurité du formulaire a échoué. Veuillez recharger le formulaire et vérifier que vos cookies sont activés. Si vous utilisez un serveur proxy, vous devez %1$s configurer Matomo pour accepter les en-têtes du proxy %2$s qui relaient les en-têtes de l'hôte. Vérifiez aussi que l'en-tête de votre référent est correctement transmis.",
@@ -9,7 +9,6 @@
         "InvalidOrExpiredToken": "La clef est invalide ou a expiré",
         "InvalidUsernameEmail": "Nom d'utilisateur et\/ou courriel invalide.",
         "LogIn": "Connexion",
-        "LoginOrEmail": "Nom d'utilisateur ou courriel",
         "LoginPasswordNotCorrect": "Mot de passe et nom d'utilisateur incorrects.",
         "LostYourPassword": "Mot de passe perdu ?",
         "ChangeYourPassword": "Changer de mot de passe",

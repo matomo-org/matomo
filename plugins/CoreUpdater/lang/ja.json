@@ -75,7 +75,6 @@
         "WarningMessages": "警告メッセージ：",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "次のプラグインを自動的に無効化しました： %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "自動的にバージョン %s にアップデートするか、パッケージをダウンロードして手作業でインストールすることができます：",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik が現在のインストールに上書きすることができません。 ディレクトリ／ファイルのパーミッションを修正するか、パッケージをダウンロードして手作業でバージョン %s をインストールすることができます：",
         "YourDatabaseIsOutOfDate": "Piwik データベースが古いため、継続する前にアップグレードが必要です。",
         "ViewVersionChangelog": "このバージョンでの変更履歴を表示するには：",
         "ReceiveEmailBecauseIsSuperUser": "この電子メールは、あなたが Matomo のスーパーユーザーであるために受け取りました：%s"

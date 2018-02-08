@@ -14,7 +14,6 @@
         "OpenFullScreen": "Siirry koko näytön tilaan (ei sivupalkkia)",
         "Overlay": "Sivun leijuke",
         "PluginDescription": "Näe analytiikkatietosi omalla verkkosivullasi. Katso kuinka monta kertaa käyttäjät ovat klikanneet linkkejäsi. Huom.: \"Transitions\"-lisäosan täytyy olla käytössä.",
-        "RedirectUrlError": "Yrität avata sivun leijuketta URL:lle \"%1$s\". %2$s mikän Piwikin asetuksien domain ei vastaa linkkiä.",
         "RedirectUrlErrorAdmin": "Voit lisätä domainin ylimääräisenä URL:nä %1$sasetuksissa%2$s.",
         "RedirectUrlErrorUser": "Pyydä ylläpitää lisäämään domain ylimääräisenä verkkosivuna."
     }

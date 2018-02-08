@@ -160,7 +160,6 @@ a.rowevolution-startmulti {
 .rowevolution table.metrics td.text img {
     max-width: 16px;
     max-height: 16px;
-    vertical-align: bottom;
 }
 
 .multirowevolution table.metrics td.text {

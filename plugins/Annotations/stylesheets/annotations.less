@@ -15,7 +15,7 @@
 
 .annotation-manager {
     text-align: left;
-    margin-top: 5px;
+    margin-top: 30px;
 
   .new-annotation-row {
     height: 145px;
@@ -39,10 +39,19 @@
   }
 }
 
+span.annotation {
+  display: block;
+  font-size: 20px;
+  color: black;
+  font-style: normal;
+  text-align: left;
+  padding-left: 10px;
+}
+
 .annotations-header {
     display: inline-block;
     width: 128px;
-    text-align: right;
+    text-align: left;
     font-size: 12px;
     font-style: italic;
     margin-bottom: 8px;
@@ -52,16 +61,24 @@
 
 .annotation-controls {
     display: inline-block;
-    margin-left: 132px;
+    margin:0;
+    padding: 50px 0px 10px 10px;
+    color: transparent;
 }
 
+.annotation-controls a:hover {
+    text-decoration: underline;
+}
+
+
 .annotation-controls>a {
-    font-size: 11px;
-    font-style: italic;
-    color: @theme-color-text-lighter;
+    font-size:14px;
+    font-style: normal;
+    color: black;
     cursor: pointer;
     padding: 3px 0 6px 0;
     display: inline-block;
+    margin:0;
 }
 
 .annotation-controls>a:hover {
@@ -74,15 +91,17 @@
 
 .annotation-list table {
     width: 100%;
+
 }
 
 .annotation-list-range {
-    display: inline-block;
-    font-size: 12px;
+    display: block;
+    font-size: 15px;
     font-style: italic;
     color: @theme-color-text-lighter;
     vertical-align: top;
     margin: 0 0 8px 8px;
+    padding-bottom: 20px;
 }
 
 .empty-annotation-list, .annotation-list .loadingPiwik {
@@ -94,15 +113,16 @@
 }
 
 .annotation-meta {
-    width: 128px;
-    text-align: right;
+    width: 159px;
+    text-align: left;
     vertical-align: top;
     font-size: 14px;
+    padding-top: 10px;
 }
 
 .annotation-user {
-    font-style: italic;
-    font-size: 11px;
+    font-style: normal;
+    font-size: 13px;
     color: @theme-color-text-light;
 }
 
@@ -113,7 +133,7 @@
 
 .annotation-period {
     display: inline-block;
-    font-style: italic;
+    font-style: normal;
     margin: 0 8px 8px 8px;
     vertical-align: top;
 }
@@ -127,6 +147,7 @@
 
 .annotation-enter-edit-mode {
     cursor: pointer;
+    font-size: 15px;
 }
 
 .annotation-edit, .new-annotation-edit {
@@ -147,15 +168,15 @@
 }
 
 .delete-annotation {
-    font-size: 12px;
-    font-style: italic;
-    color: red;
+    font-size: 15px;
+    color: #666666;
     text-decoration: none;
-    display: inline-block;
+    display: NONE;
 }
 
 .delete-annotation:hover {
-    text-decoration: underline;
+    color: #cc3300;
+    text-decoration: none;
 }
 
 .annotation-manager .submit {
@@ -163,9 +184,11 @@
 }
 
 .edit-annotation {
-    font-size: 10px;
-    color: @theme-color-text-lighter;
+    font-size: 13px;
+    color: black;
     font-style: italic;
+    padding: 6px 5px;
+    margin-top: -5px;
 }
 
 .edit-annotation:hover {
@@ -201,4 +224,20 @@
     background: white;
     border: 1px solid #e4e5e4;
     border-radius: 4px;
+}
+
+a.add-annotation {
+  margin: 0;
+}
+
+td.padding {
+  padding: 1px 5px 6px 5px;
+}
+
+td.wider {
+  width: 80px;
+}
+
+a.font   {
+  font-size: 14px;
 }

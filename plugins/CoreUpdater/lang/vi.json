@@ -9,7 +9,7 @@
         "ErrorDIYHelp": "Nếu bạn là người dùng thông thạo hệ thống (advanced user) và gặp phải lỗi trong quá trình cập nhật:",
         "ErrorDIYHelp_1": "phát hiện nguyên nhân và sửa lại (ví dụ memory_limit hay max_execution_time)",
         "ErrorDIYHelp_2": "thực thi các truy vấn còn lại mà không thành công trong phần cập nhật",
-        "ErrorDIYHelp_3": "chỉnh sửa trực tiếp trên table \"option\" trong cơ sở dữ liệu Piwik của bạn, thiết lập giá trị của version_core thành \"phiên bản mà bạn cập nhật không thành công\".",
+        "ErrorDIYHelp_3": "chỉnh sửa trực tiếp trên table \\\"option\\\" trong cơ sở dữ liệu Piwik của bạn, thiết lập giá trị của version_core thành \\\"phiên bản mà bạn cập nhật không thành công\\\".",
         "ErrorDIYHelp_4": "chạy lại phần updater (qua trình duyệt hoặc chế độ dòng lệnh) để chạy tiếp các phần chưa cập nhật xong",
         "ErrorDIYHelp_5": "báo cáo lỗi này (và giải pháp) để Matomo có thể trở nên tốt hơn với người dùng",
         "ErrorDuringPluginsUpdates": "Lỗi trong quá trình cập nhật plugin:",
@@ -43,7 +43,6 @@
         "WarningMessages": "Cảnh báo:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Chúng tôi tự động tắt các plugin sau: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Bạn có thể cập nhật tự động phiên bản %s hoặc tải về gói cập nhật và tự cài dặt.",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik không thể ghi đè lên các file cài đặt sẵn có. Bạn có thể sửa lại permission của file\/thư mục, hoặc tải về gói cài đặt và tự cài đặt phiên bản %s.",
         "YourDatabaseIsOutOfDate": "Cơ sở dữ liệu Matomo của bạn đã lỗi thời, và phải được nâng cấp trước khi bạn có thể tiếp tục."
     }
 }

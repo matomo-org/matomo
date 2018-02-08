@@ -2,7 +2,7 @@
     "SitesManager": {
         "AddSite": "Adauga un site",
         "AdvancedTimezoneSupportNotFound": "Suportul avansat de fus orar nu a fost găsit în PHP-ul (susținută în PHP> = 5.2). Puteți alege în continuare o UTC manual de offset.",
-        "AliasUrlHelp": "Este recomandat, dar nu este necesar, pentru a specifica diferite URL-uri, câte unul pe linie, pe care vizitatorii tai il folosesc pentru a accesa acest site. Alias ​​URL-uri pentru un site web nu va apărea în referenți> raport website. Rețineți că nu este necesar să se specifice URL-uri cu și fără \"www\" ca Piwik le consideră automat pe ambele.",
+        "AliasUrlHelp": "Este recomandat, dar nu este necesar, pentru a specifica diferite URL-uri, câte unul pe linie, pe care vizitatorii tai il folosesc pentru a accesa acest site. Alias ​​URL-uri pentru un site web nu va apărea în referenți> raport website. Rețineți că nu este necesar să se specifice URL-uri cu și fără \\\"www\\\" ca Piwik le consideră automat pe ambele.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Modificarea fusului orar va afecta numai datele de acum incolo , și nu se va aplica retroactiv.",
         "ChooseCityInSameTimezoneAsYou": "Selectează un oraş din fusul tău orar.",
         "Currency": "Unitate monetară",
@@ -33,7 +33,6 @@
         "GlobalListExcludedUserAgents": "Lista globală de agentii utilizator pentru a ii exclude",
         "GlobalListExcludedUserAgents_Desc": "Dacă un sir de agenti utilizatori vizitatorii conține oricare dintre șirurile specificate, vizitatorul va fi exclus din Matomo.",
         "GlobalWebsitesSettings": "Setările la nivel mondial ale websit-urilor",
-        "HelpExcludedIps": "Introduceți lista de IP-uri, câte unul pe linie, pe care doriți să excludeți de la urmărită de către Matomo. Aveți posibilitatea să utilizați metacaractere, de ex. %1$s or %2$s",
         "JsTrackingTagHelp": "Aici este codul JavaScript de urmărire pentru a il include pe toate paginile dvs.",
         "KeepURLFragments": "Fragmente de pagină URL de urmărire",
         "KeepURLFragmentsHelp": "În cazul în care caseta de selectare de mai jos nu este bifata, fragmente din URL-ul paginii (tot dupa %1$s) vor fi eliminate atunci când urmărirea:%2$s vor fi urmărite ca %3$s",

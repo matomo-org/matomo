@@ -22,7 +22,6 @@
         "GlobalListExcludedIps": "รายชื่อส่วนกลางของ IPs ที่ถูกแยกออก",
         "GlobalListExcludedQueryParameters": "รายชื่อส่วนกลางของ URL คิวรีของพารามิเตอร์ถูกแยกออก",
         "GlobalWebsitesSettings": "ตั้งค่าเว็บไซต์ส่วนกลาง",
-        "HelpExcludedIps": "ป้อนรายการของ IPs อย่างใดอย่างหนึ่งสำหรับแต่ละบรรทัด ที่คุณต้องการแยกออกจากการถูกติดตามโดย Matomo คุณสามารถใช้อักขระตัวแทนน เช่น %1$s หรือ %2$s",
         "JsTrackingTagHelp": "นี่คือ JavaScript Tracking Tag ที่ต้องใส่ไว้ทุกหน้าในเว็บของคุณ",
         "ListOfIpsToBeExcludedOnAllWebsites": "IPs ด้านล่างจะถูกแยกออกจากการถูกติดตามบนเว็บไซต์ทั้งหมด",
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "คิวรีของพารามิเตอร์แบบ URLs ด้านล่างจะถูกแยกออกจาก URLs บนเว็บไซต์ทั้งหมด",

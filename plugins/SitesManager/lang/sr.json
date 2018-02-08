@@ -35,7 +35,6 @@
         "GlobalListExcludedUserAgents_Desc": "Ukoliko naziv korisničkog agenta sadrži makar jednu od ovih reči, posetioc će biti isključen iz praćenja.",
         "GlobalSettings": "Globalna podešavanja",
         "GlobalWebsitesSettings": "Globalna podešavanja za sajtove",
-        "HelpExcludedIps": "Navedite listu IP adresa, jednu po liniji, koje želite da izuzmete iz Matomo analize. Možete koristiti i džokere poput %1$s i %2$s",
         "JsTrackingTagHelp": "Ovo je JavaScript kod koji je potrebno da postavite na sve stranice vašeg sajta",
         "KeepURLFragments": "Zadrži URL fragmente",
         "KeepURLFragmentsHelp": "Ukoliko ova kućica nije štiklirana, URL fragemnti (sve posle %1$s) će biti uklonjeno prilikom praćenja pa će tako %2$s biti tretirano kao %3$s.",

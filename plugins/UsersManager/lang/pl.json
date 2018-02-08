@@ -12,7 +12,7 @@
         "ClickHereToDeleteTheCookie": "kliknij tutaj by skasować ciasteczko cookie i umożliwić dla Matomo śledzenie twoich wizyt na stronie",
         "ClickHereToSetTheCookieOnDomain": "Kliknij tutaj by ustawić ciasteczko cookie, które będzie wykluczało zliczanie twoich wizyt na stronie, gdy Matomo będzie je śledził na %s",
         "ConfirmGrantSuperUserAccess": "Czy na pewno chcesz przyznać użytkownikowi '%s' dostęp Super Użytkownika? OSTRZEŻENIE: użytkownik ten uzyska dostęp do wszystkich serwisów i będzie mógł wykonywać zadania administratorskie.",
-        "ConfirmProhibitMySuperUserAccess": "%s, czy na pewno chcesz usunąć przypisane do Twojego konta uprawnienia Super Użytkownika? Stracisz wszystkie uprawnienia i dostęp do wszystkich serwisów i zostaniesz wylogowany\/a z Matomo'a.",
+        "ConfirmProhibitMySuperUserAccess": "%s, czy na pewno chcesz usunąć przypisane do Twojego konta uprawnienia Super Użytkownika? Stracisz wszystkie uprawnienia i dostęp do wszystkich serwisów i zostaniesz wylogowany\\\/a z Matomo'a.",
         "ConfirmProhibitOtherUsersSuperUserAccess": "Czy na pewno chcesz usunąć uprawnienia Super Użytkownika '%s'? Użytkownik ten straci wszystkie uprawnienia i dostęp do wszystkich serwisów. Upewnij się, że przydzielisz mu później dostęp do wybranych serwisów jeśli to konieczne.",
         "DeleteConfirm": "Czy na pewno chcesz skasować konto użytkownika %s?",
         "Email": "E-mail",

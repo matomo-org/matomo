@@ -19,8 +19,8 @@
         "VisitsByDayOfWeek": "以星期幾查看",
         "WidgetByDayOfWeekDocumentation": "這個圖表顯示你網站每星期接收的訪問數。",
         "WidgetLocalTime": "依訪客端時間記錄的訪問次數",
-        "WidgetLocalTimeDocumentation": "這個圖片顯示當訪客瀏覽時，%1$s訪客端的時間%2$s是幾點。",
+        "WidgetLocalTimeDocumentation": "這個圖表顯示當訪客瀏覽時，%1$s訪客端的時間%2$s是幾點。",
         "WidgetServerTime": "依伺服器時間記錄的訪問次數",
-        "WidgetServerTimeDocumentation": "這個圖片顯示當訪客瀏覽時，%1$s伺服器的時間%2$s是幾點。"
+        "WidgetServerTimeDocumentation": "這個圖表顯示當訪客瀏覽時，%1$s伺服器的時間%2$s是幾點。"
     }
 }

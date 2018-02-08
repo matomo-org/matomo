@@ -1,3 +1,5 @@
+/* piwik font is deprecated, please use matomo instead */
+/* @todo remove piwik font in Matomo 4.0 */
 @font-face {
     font-family: 'piwik';
     src: url('plugins/Morpheus/fonts/piwik.woff?43xrdb') format('woff');
@@ -5,8 +7,15 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'matomo';
+    src: url('plugins/Morpheus/fonts/matomo.woff?43xrdb') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 [class^="icon-"], [class*=" icon-"] {
-    font-family: 'piwik' !important;
+    font-family: 'matomo' !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -336,4 +345,11 @@
 }
 .icon-stop:before {
     content: "\e047";
+}
+
+.icon-arrowup:before {
+    content: "\f102";
+}
+.icon-arrowdown:before {
+    content: "\f103";
 }

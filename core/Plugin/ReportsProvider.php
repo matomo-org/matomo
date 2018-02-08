@@ -102,7 +102,7 @@ class ReportsProvider
                 $mapApiToReport[$key] = get_class($report);
             }
 
-            $cache->save($lazyCacheId, $mapApiToReport);
+            $cache->save($lazyCacheId, $mapApiToReport, $lifeTime = 3600);
         }
 
         return $mapApiToReport;

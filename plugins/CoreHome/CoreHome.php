@@ -383,6 +383,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_YourChangesHaveBeenSaved';
         $translationKeys[] = 'General_LearnMore';
         $translationKeys[] = 'General_ChooseDate';
+        $translationKeys[] = 'General_ReadThisToLearnMore';
         $translationKeys[] = 'CoreHome_UndoPivotBySubtable';
         $translationKeys[] = 'CoreHome_PivotBySubtable';
         $translationKeys[] = 'General_LearnMore';
@@ -400,6 +401,8 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_DoubleClickToChangePeriod';
         $translationKeys[] = 'General_Apply';
         $translationKeys[] = 'General_Period';
+        $translationKeys[] = 'CoreHome_EnterZenMode';
+        $translationKeys[] = 'CoreHome_ExitZenMode';
         $translationKeys[] = 'CoreHome_ShortcutZenMode';
         $translationKeys[] = 'CoreHome_ShortcutSegmentSelector';
         $translationKeys[] = 'CoreHome_ShortcutWebsiteSelector';

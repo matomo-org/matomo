@@ -1,10 +1,8 @@
 {
     "Installation": {
         "CollaborativeProject": "Piwik je spoločný projekt, postavený s láskou ľuďmi z celého sveta.",
-        "ConfigurationHelp": "Zdá sa, ze váš konfiguračný súbor pre Matomo je zle nastavený. Buď odstráňte config\/config.ini.php a pokračujte v inštalácii, alebo v ňom opravte nastavenia pre pripojenie k databáze.",
         "ConfirmDeleteExistingTables": "Ste si istý, že chcete zmazať tabuľky: %s z Vašej databázy? VAROVANIE: DÁTA Z TÝCHTO TABULIEK NEBUDE MOŽNÉ OBNOVIŤ!",
         "Congratulations": "Blahoželanie",
-        "CongratulationsHelp": "<p>Blahoželáme Vám! Inštalácia Matomo je dokončená.<\/p><p>Uistite sa, že Váš javascript kód je vložený od Vašich stránok a počkajte si na prvých návštevníkov!<\/p>",
         "DatabaseAbilities": "Schopnosti databázy",
         "DatabaseCreation": "Vytváranie databázy",
         "DatabaseErrorConnect": "Chyba pri pokuse o spojenie s databázovým serverom",
@@ -81,7 +79,6 @@
         "TablesWithSameNamesFound": "Niektoré %1$s tabuľky vo vašej databáze %2$s majú rovnaké názvy, ako sa snaží vytvoriť Matomo",
         "Timezone": "Časové pásmo webovej stránky",
         "Welcome": "Vitajte!",
-        "WelcomeHelp": "<p>Matomo je open source projekt analýzy webstránok, ktorý zjednodušuje získavanie informácií o Vašich návštevníkoch.<\/p><p>Tento proces je rozdelený do %s jednoduchých krokov a bude trvať asi 5 minút.<\/p>",
         "WelcomeToCommunity": "Vitajte v Matomo komunite",
         "CannotConnectToDb": "Nie je možné sa pripojiť k databáze"
     }

@@ -41,7 +41,6 @@
         "WarningMessages": "הודעה אזהרה:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "הפעלנו באופן אוטומטי את התוספים הבאים: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "ניתן לשדרג לגירסה %s באופן אוטומטי או להוריד חבילה ולהתקינה באופן ידני:",
-        "YouMustDownloadPackageOrFixPermissions": "Piwik לא מצליחה לשכתב את ההתקנה הנוכחית. ניתן לתקן את הרשאות התיקיה\/קובץ או להוריד את החבילה ולהתקין את גירסה %s באופן ידני:",
         "YourDatabaseIsOutOfDate": "מסד הנתונים של הMatomo שלך לא בתוקף, חובה לשדרג אותו לפני שנמשיך."
     }
 }
