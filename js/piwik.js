@@ -956,6 +956,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*global window */
 /*global unescape */
 /*global ActiveXObject */
+/*global Blob */
 /*members Piwik, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
@@ -965,7 +966,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
     responseEnd, event, which, button, srcElement, type, target,
     parentNode, tagName, hostname, className,
-    userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
+    userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
@@ -3490,18 +3491,30 @@ if (typeof window.Piwik !== 'object') {
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
 
-            function supportsSendBeacon()
-            {
-                return 'object' === typeof navigator
-                    && 'function' === typeof navigator.sendBeacon
-                    && 'function' === typeof Blob;
-            }
-
             function sendPostRequestViaSendBeacon(request)
             {
+                var supportsSendBeacon = 'object' === typeof navigatorAlias
+                    && 'function' === typeof navigatorAlias.sendBeacon
+                    && 'function' === typeof Blob;
+
+                if (!supportsSendBeacon) {
+                    return false;
+                }
+
                 var headers = {type: 'application/x-www-form-urlencoded; charset=UTF-8'};
-                var blob = new Blob([request], headers);
-                navigator.sendBeacon(configTrackerUrl, blob);
+                var success = false;
+
+                try {
+                    var blob = new Blob([request], headers);
+                    success = navigator.sendBeacon(configTrackerUrl, blob);
+                    // returns true if the user agent is able to successfully queue the data for transfer,
+                    // Otherwise it returns false and we need to try the regular way
+
+                } catch (e) {
+                    return false;
+                }
+
+                return success;
             }
 
             /*
@@ -3512,8 +3525,7 @@ if (typeof window.Piwik !== 'object') {
                     fallbackToGet = true;
                 }
 
-                if ((isPageUnloading || !fallbackToGet) && supportsSendBeacon()) {
-                    sendPostRequestViaSendBeacon(request);
+                if (isPageUnloading && sendPostRequestViaSendBeacon(request)) {
                     return;
                 }
 
@@ -3531,10 +3543,10 @@ if (typeof window.Piwik !== 'object') {
 
                     // fallback on error
                     xhr.onreadystatechange = function () {
-                        if (this.readyState === 4 && !(this.status >= 200 && this.status < 300) && fallbackToGet) {
-                            if (isPageUnloading && supportsSendBeacon()) {
-                                sendPostRequestViaSendBeacon(request);
-                            } else {
+                        if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
+                            var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
+
+                            if (!sentViaBeacon && fallbackToGet) {
                                 getImage(request, callback);
                             }
                         } else {
@@ -3546,13 +3558,9 @@ if (typeof window.Piwik !== 'object') {
 
                     xhr.send(request);
                 } catch (e) {
-                    if (fallbackToGet) {
-                        if (isPageUnloading && supportsSendBeacon()) {
-                            sendPostRequestViaSendBeacon(request);
-                        } else {
-                            // fallback
-                            getImage(request, callback);
-                        }
+                    var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
+                    if (!sentViaBeacon && fallbackToGet) {
+                        getImage(request, callback);
                     }
                 }
             }
@@ -3686,6 +3694,7 @@ if (typeof window.Piwik !== 'object') {
             function sendRequest(request, delay, callback) {
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
+
                         if (configRequestMethod === 'POST' || String(request).length > 2000) {
                             sendXmlHttpRequest(request, callback);
                         } else {
