@@ -19,7 +19,7 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 class Php extends GeoIp
 {
     const ID = 'geoip_php';
-    const TITLE = 'GeoIP (Php)';
+    const TITLE = 'GeoIP Legacy (Php)';
 
     /**
      * The GeoIP database instances used. This array will contain at most three

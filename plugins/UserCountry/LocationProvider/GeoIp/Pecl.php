@@ -21,7 +21,7 @@ use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 class Pecl extends GeoIp
 {
     const ID = 'geoip_pecl';
-    const TITLE = 'GeoIP (PECL)';
+    const TITLE = 'GeoIP Legacy (PECL)';
 
     /**
      * For tests.

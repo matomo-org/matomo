@@ -25,7 +25,7 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 class ServerBased extends GeoIp
 {
     const ID = 'geoip_serverbased';
-    const TITLE = 'GeoIP (%s)';
+    const TITLE = 'GeoIP Legacy (%s)';
     const TEST_SERVER_VAR = 'GEOIP_ADDR';
     const TEST_SERVER_VAR_ALT = 'GEOIP_COUNTRY_CODE';
     const TEST_SERVER_VAR_ALT_IPV6 = 'GEOIP_COUNTRY_CODE_V6';
