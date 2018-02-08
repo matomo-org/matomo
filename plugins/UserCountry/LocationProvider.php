@@ -118,6 +118,19 @@ abstract class LocationProvider
     abstract public function isWorking();
 
     /**
+     * Returns information about this location provider. Contains an id, title & description:
+     *
+     * array(
+     *     'id' => 'geoip_php',
+     *     'title' => '...',
+     *     'description' => '...'
+     * );
+     *
+     * @return array
+     */
+    abstract public function getInfo();
+
+    /**
      * Returns an array mapping location result keys w/ bool values indicating whether
      * that information is supported by this provider. If it is not supported, that means
      * this provider either cannot get this information, or is not configured to get it.
