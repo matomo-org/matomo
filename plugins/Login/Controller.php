@@ -121,7 +121,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    protected function getLoginFromLoginOrEmail($loginOrEmail)
+    private function getLoginFromLoginOrEmail($loginOrEmail)
     {
         $model = new UsersModel();
         if (!$model->userExists($loginOrEmail)) {
