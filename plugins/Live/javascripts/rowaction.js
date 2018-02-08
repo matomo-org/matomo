@@ -21,7 +21,7 @@
     function getDataTableFromApiMethod(apiMethod)
     {
         var div = $(require('piwik/UI').DataTable.getDataTableByReport(apiMethod));
-        if (div.size() > 0 && div.data('uiControlObject')) {
+        if (div.length && div.data('uiControlObject')) {
             return div.data('uiControlObject');
         }
     }
@@ -78,6 +78,13 @@
         if (this.dataTable.param.date && this.dataTable.param.period) {
             extraParams = {date: this.dataTable.param.date, period: this.dataTable.param.period};
         }
+
+        $.each(this.dataTable.param, function (index, value) {
+            // we automatically add fields like idDimension, idGoal etc.
+            if (index !== 'idSite' && index.indexOf('id') === 0 && $.isNumeric(value)) {
+                extraParams[index] = value;
+            }
+        });
 
         this.openPopover(apiMethod, segment, extraParams);
     };

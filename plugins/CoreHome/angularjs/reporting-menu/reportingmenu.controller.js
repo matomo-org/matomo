@@ -120,6 +120,27 @@
             }
         });
 
+        $rootScope.$on('updateReportingMenu', function () {
+            menuModel.reloadMenuItems().then(function (menu) {
+                var $search = $location.search();
+                var category    = $search.category;
+                var subcategory = $search.subcategory;
+                // we need to make sure to select same categories again
+                if (category && subcategory) {
+                    var found = menuModel.findSubcategory(category, subcategory);
+                    if (found) {
+                        enterSubcategory(found.category, found.subcategory, found.subsubcategory);
+                    }
+                }
+            });
+            if ('object' === typeof widgetsHelper && widgetsHelper.availableWidgets) {
+                // lets also update widgetslist so will be easier to update list of available widgets in dashboard selector
+                // immediately
+                delete widgetsHelper.availableWidgets;
+                widgetsHelper.getAvailableWidgets();
+            }
+        });
+
         $rootScope.$on('$locationChangeSuccess', function () {
             var $search = $location.search();
             var category    = $search.category;

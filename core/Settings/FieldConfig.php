@@ -27,6 +27,16 @@ class FieldConfig
     const UI_CONTROL_TEXT = 'text';
 
     /**
+     * Shows an email text field. To use this field assign it to the `$uiControl` property.
+     */
+    const UI_CONTROL_EMAIL = 'email';
+
+    /**
+     * Shows a URL text field. To use this field assign it to the `$uiControl` property.
+     */
+    const UI_CONTROL_URL = 'url';
+
+    /**
      * Shows a text area. To use this field assign it to the `$uiControl` property.
      */
     const UI_CONTROL_TEXTAREA = 'textarea';
@@ -51,6 +61,12 @@ class FieldConfig
      * Shows a select field. To use this field assign it to the `$uiControl` property.
      */
     const UI_CONTROL_SINGLE_SELECT = 'select';
+
+    /**
+     * Shows an expandable select field which is useful when each selectable value belongs to a group.
+     * To use this field assign it to the `$uiControl` property.
+     */
+    const UI_CONTROL_SINGLE_EXPANDABLE_SELECT = 'expandable-select';
 
     /**
      * Generates a hidden form field. To use this field assign it to the `$uiControl` property.
@@ -90,6 +106,14 @@ class FieldConfig
      * @var string
      */
     public $uiControl = null;
+
+    /**
+     * Defines a custom template file for a UI control. This file should render a UI control and expose the value in a
+     * "formField.value" angular model. For an example see "plugins/CorePluginsAdmin/angularjs/form-field/field-text.html"
+     *
+     * @var string
+     */
+    public $customUiControlTemplateFile = '';
 
     /**
      * Name-value mapping of HTML attributes that will be added HTML form control, eg,

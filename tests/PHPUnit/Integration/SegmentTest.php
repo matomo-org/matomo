@@ -131,6 +131,7 @@ class SegmentTest extends IntegrationTestCase
 
         $segment = new Segment($segment, $idSites = array());
         $sql = $segment->getSelectQuery($select, $from, false);
+        $this->assertQueryDoesNotFail($sql);
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($sql));
 
@@ -152,6 +153,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $expected = array(
             "sql"  => "
@@ -179,6 +181,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $expected = array(
             "sql"  => "
@@ -207,6 +210,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $expected = array(
             "sql"  => "
@@ -243,6 +247,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $expected = array(
             "sql"  => "
@@ -271,6 +276,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $expected = array(
             "sql"  => "
@@ -299,6 +305,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $expected = array(
             "sql"  => "
@@ -334,6 +341,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $expected = array(
             "sql"  => "
@@ -361,6 +369,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $expected = array(
             "sql"  => "
@@ -401,6 +410,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $logVisitTable = Common::prefixTable('log_visit');
         $logActionTable = Common::prefixTable('log_action');
@@ -426,7 +436,90 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
-    public function test_getSelectQuery_whenJoinLogLinkVisitActionOnActionOnVisit_WithSameTableAliasButDifferentJoin()
+    public function test_getSelectQuery_whenJoiningManyCustomTablesItShouldKeepTheOrderAsDefined()
+    {
+        $actionType = 3;
+        $idSite = 1;
+        $select = 'log_link_visit_action.custom_dimension_1,
+                  log_action.name as url,
+                  sum(log_link_visit_action.time_spent) as `13`,
+                  sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`';
+        $from  = array(
+            'log_link_visit_action',
+            'log_visit',
+            array(
+                'table' => 'log_link_visit_action',
+                'tableAlias' => 'log_link_visit_action_foo',
+                'joinOn' => 'log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit',
+            ),
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_foo',
+                'joinOn' => 'log_link_visit_action_foo.idaction_url = log_action_foo.idaction',
+            ),
+            array(
+                'table' => 'log_link_visit_action',
+                'tableAlias' => 'log_link_visit_action_bar',
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_bar.idvisit"
+            ),
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_bar',
+                'joinOn' => "log_link_visit_action_bar.idaction_url = log_action_bar.idaction"
+            ),
+            array(
+                'table' => 'log_link_visit_action',
+                'tableAlias' => 'log_link_visit_action_baz',
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_baz.idvisit"
+            ),
+            array(
+                'table' => 'log_action',
+                'tableAlias' => 'log_action_baz',
+                'joinOn' => "log_link_visit_action_baz.idaction_url = log_action_baz.idaction"
+            ),
+            'log_action',
+        );
+
+        $where = 'log_link_visit_action.server_time >= ?
+                  AND log_link_visit_action.server_time <= ?
+                  AND log_link_visit_action.idsite = ?';
+        $bind = array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite);
+
+        $segment = 'actionType==' . $actionType;
+        $segment = new Segment($segment, $idSites = array());
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
+
+        $logActionTable = Common::prefixTable('log_action');
+        $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+        $logVisitTable = Common::prefixTable('log_visit');
+
+        $expected = array(
+            "sql"  => "
+             SELECT log_link_visit_action.custom_dimension_1,
+                    log_action.name as url,
+                    sum(log_link_visit_action.time_spent) as `13`,
+                    sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
+             FROM $logLinkVisitActionTable AS log_link_visit_action 
+             LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_url = log_action.idaction 
+             LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit 
+             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_foo ON log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit 
+             LEFT JOIN $logActionTable AS log_action_foo ON log_link_visit_action_foo.idaction_url = log_action_foo.idaction 
+             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_bar ON log_link_visit_action.idvisit = log_link_visit_action_bar.idvisit 
+             LEFT JOIN $logActionTable AS log_action_bar ON log_link_visit_action_bar.idaction_url = log_action_bar.idaction 
+             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_baz ON log_link_visit_action.idvisit = log_link_visit_action_baz.idvisit 
+             LEFT JOIN $logActionTable AS log_action_baz ON log_link_visit_action_baz.idaction_url = log_action_baz.idaction
+             WHERE ( log_link_visit_action.server_time >= ?
+                 AND log_link_visit_action.server_time <= ?
+                 AND log_link_visit_action.idsite = ? )
+                 AND ( log_action.type = ? )",
+            "bind" => array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite, $actionType));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function test_getSelectQuery_whenJoinLogLinkVisitActionOnActionOnVisit_WithNoTableAliasButDifferentJoin()
     {
         $actionType = 3;
         $idSite = 1;
@@ -448,6 +541,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $logVisitTable = Common::prefixTable('log_visit');
         $logActionTable = Common::prefixTable('log_action');
@@ -459,11 +553,9 @@ class SegmentTest extends IntegrationTestCase
                     log_action.name as url,
                     sum(log_link_visit_action.time_spent) as `13`,
                     sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
-             FROM $logLinkVisitActionTable AS log_link_visit_action
-                  LEFT JOIN $logVisitTable AS log_visit
-                       ON log_visit.idvisit = log_link_visit_action.idvisit
-                  LEFT JOIN $logActionTable AS log_action
-                       ON (log_link_visit_action.idaction_name = log_action.idaction AND log_link_visit_action.idaction_url = log_action.idaction)
+             FROM $logLinkVisitActionTable AS log_link_visit_action 
+             LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit 
+             LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_name = log_action.idaction
              WHERE ( log_link_visit_action.server_time >= ?
                  AND log_link_visit_action.server_time <= ?
                  AND log_link_visit_action.idsite = ? )
@@ -488,6 +580,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $expected = array(
             "sql"  => "
@@ -519,6 +612,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $expected = array(
             "sql"  => "
@@ -564,6 +658,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $logVisitTable = Common::prefixTable('log_visit');
         $logActionTable = Common::prefixTable('log_action');
@@ -610,24 +705,21 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $logVisitTable = Common::prefixTable('log_visit');
         $logActionTable = Common::prefixTable('log_action');
         $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
-
         $expected = array(
             "sql"  => "
              SELECT log_link_visit_action.custom_dimension_1,
                     actionAlias.name as url,
                     sum(log_link_visit_action.time_spent) as `13`,
                     sum(case visitAlias.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
-             FROM $logLinkVisitActionTable AS log_link_visit_action
-                  LEFT JOIN $logVisitTable AS visitAlias
-                       ON visitAlias.idvisit = log_link_visit_action.idvisit
-                  LEFT JOIN $logActionTable AS actionAlias
-                       ON log_link_visit_action.idaction_url = actionAlias.idaction
-                  LEFT JOIN $logActionTable AS log_action
-                       ON log_link_visit_action.idaction_url = log_action.idaction
+             FROM $logLinkVisitActionTable AS log_link_visit_action 
+             LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_url = log_action.idaction 
+             LEFT JOIN $logVisitTable AS visitAlias ON visitAlias.idvisit = log_link_visit_action.idvisit 
+             LEFT JOIN $logActionTable AS actionAlias ON log_link_visit_action.idaction_url = actionAlias.idaction
              WHERE ( log_link_visit_action.server_time >= ?
                  AND log_link_visit_action.server_time <= ?
                  AND log_link_visit_action.idsite = ? )
@@ -635,6 +727,12 @@ class SegmentTest extends IntegrationTestCase
             "bind" => array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite, $actionType));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    private function assertQueryDoesNotFail($query)
+    {
+        Db::fetchAll($query['sql'], $query['bind']);
+        $this->assertTrue(true);
     }
 
     public function test_getSelectQuery_whenJoinLogLinkVisitActionOnAction()
@@ -734,9 +832,10 @@ class SegmentTest extends IntegrationTestCase
                             ON log_link_visit_action.idvisit = log_visit.idvisit
                           WHERE (( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) )
                                 OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 3 )) )
-                                OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 2 )) ) )
+                                OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 2 )) )
+                                OR ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 10 )) ) )
                         GROUP BY log_visit.idvisit ORDER BY NULL ) AS log_inner",
-            "bind" => array('myTestUrl', 'myTestUrl', 'myTestUrl'));
+            "bind" => array('myTestUrl', 'myTestUrl', 'myTestUrl', 'myTestUrl'));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
@@ -843,6 +942,103 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    public function test_getSelectQuery_whenLimit_withCustomJoinsAndSameColumns()
+    {
+        $select = "log_action_visit_entry_idaction_name.name AS 'EntryPageTitle', log_action_idaction_event_action.name AS 'EventAction', count(distinct log_visit.idvisit) AS 'nb_uniq_visits', count(distinct log_visit.idvisitor) AS 'nb_uniq_visitors', sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) AS 'bounce_count', sum(log_visit.visit_total_actions) AS 'sum_actions', sum(log_visit.visit_goal_converted) AS 'sum_visit_goal_converted'";
+        $from = array('log_visit', array('table' => 'log_action', 'tableAlias' => 'log_action_visit_entry_idaction_name', 'joinOn' => 'log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction'), 'log_link_visit_action', array('table' => 'log_action', 'tableAlias' => 'log_action_idaction_event_action', 'joinOn' => 'log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction'));
+        $where = '';
+        $bind = array(1);
+
+        $segment = '';
+        $segment = new Segment($segment, $idSites = array());
+
+        $orderBy = 'nb_uniq_visits, log_action_idaction_event_action.name';
+        $groupBy = 'log_action_visit_entry_idaction_name.name, log_action_idaction_event_action.name';
+        $limit = 33;
+
+        $logVisitTable = Common::prefixTable('log_visit');
+        $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
+        $logActionTable = Common::prefixTable('log_action');
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit);
+
+        $expected = array(
+            "sql"  => "
+                SELECT log_inner.name AS 'EntryPageTitle', log_inner.name02fd90a35677a359ea5611a4bc456a6f AS 'EventAction', count(distinct log_inner.idvisit) AS 'nb_uniq_visits', count(distinct log_inner.idvisitor) AS 'nb_uniq_visitors', sum(case log_inner.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) AS 'bounce_count', sum(log_inner.visit_total_actions) AS 'sum_actions', sum(log_inner.visit_goal_converted) AS 'sum_visit_goal_converted' 
+                FROM ( 
+                  SELECT log_action_visit_entry_idaction_name.name, log_action_idaction_event_action.name as name02fd90a35677a359ea5611a4bc456a6f, log_visit.idvisit, log_visit.idvisitor, log_visit.visit_total_actions, log_visit.visit_goal_converted 
+                  FROM $logVisitTable AS log_visit 
+                  LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit 
+                  LEFT JOIN $logActionTable AS log_action_visit_entry_idaction_name ON log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction 
+                  LEFT JOIN $logActionTable AS log_action_idaction_event_action ON log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction
+                  ORDER BY nb_uniq_visits, log_action_idaction_event_action.name LIMIT 0, 33 ) 
+                AS log_inner 
+                GROUP BY log_inner.name, log_inner.name02fd90a35677a359ea5611a4bc456a6f 
+                ORDER BY nb_uniq_visits, log_inner.name02fd90a35677a359ea5611a4bc456a6f",
+            "bind" => array(1));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
+    public function test_getSelectQuery_whenLimit_withCustomJoinsAndSameColumnsAndSimilarColumns()
+    {
+        $select = 'log_link_visit_action.idvisit,
+                   log_visit.idvisit,
+                   count(log_visit.idvisit) as numvisits,
+                   count(distinct log_visit.idvisit ) as numvisitors,
+                   log_visit.idvisitor,
+                  log_action.name as url,
+                  sum(log_link_visit_action.time_spent) as `13`,
+                  sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`';
+        $from = array('log_visit', 'log_link_visit_action');
+        $where = '';
+        $bind = array(1);
+
+        $segment = '';
+        $segment = new Segment($segment, $idSites = array());
+
+        $orderBy = 'url, log_visit.idvisit';
+        $groupBy = 'log_visit.idvisit, log_visit.idvisit , log_visit.idvisitor, log_visit.idvisitor , log_link_visit_action.idvisit';
+        $limit = 33;
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy, $limit);
+
+        // should have replaced some idvisit columns but not idvisitor column
+        $expected = array(
+            "sql"  => "
+                SELECT
+				log_inner.idvisit,
+                   log_inner.idvisit5d489886e80b4258a9407b219a4e2811,
+                   count(log_inner.idvisit5d489886e80b4258a9407b219a4e2811) as numvisits,
+                   count(distinct log_inner.idvisit5d489886e80b4258a9407b219a4e2811 ) as numvisitors,
+                   log_inner.idvisitor,
+                  log_inner.name as url,
+                  sum(log_inner.time_spent) as `13`,
+                  sum(case log_inner.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
+			FROM
+				
+        (
+            
+			SELECT
+				log_link_visit_action.idvisit, 
+log_visit.idvisit as idvisit5d489886e80b4258a9407b219a4e2811, 
+log_visit.idvisitor, 
+log_action.name, 
+log_link_visit_action.time_spent, 
+log_visit.visit_total_actions
+			FROM
+				log_visit AS log_visit LEFT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+			ORDER BY
+				url, log_visit.idvisit LIMIT 0, 33
+        ) AS log_inner
+			GROUP BY
+				log_inner.idvisit5d489886e80b4258a9407b219a4e2811, log_inner.idvisit5d489886e80b4258a9407b219a4e2811 , log_inner.idvisitor, log_inner.idvisitor , log_inner.idvisit
+			ORDER BY
+				url, log_inner.idvisit5d489886e80b4258a9407b219a4e2811",
+            "bind" => array(1));
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
 
     public function test_getSelectQuery_whenLimitAndOffset_outerQueryShouldNotHaveOffset()
     {
@@ -1223,6 +1419,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
 
         $expected = array(
             "sql"  => "
@@ -1284,6 +1481,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy = false, $groupBy);
+        $this->assertQueryDoesNotFail($query);
 
         $logConversionTable = Common::prefixTable('log_conversion');
         $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
@@ -1329,6 +1527,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy = false, $groupBy);
+        $this->assertQueryDoesNotFail($query);
 
         $logConversionTable = Common::prefixTable('log_conversion');
         $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');
@@ -1377,6 +1576,7 @@ class SegmentTest extends IntegrationTestCase
         $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind, $orderBy = false, $groupBy);
+        $this->assertQueryDoesNotFail($query);
 
         $logConversionTable = Common::prefixTable('log_conversion');
         $logLinkVisitActionTable = Common::prefixTable('log_link_visit_action');

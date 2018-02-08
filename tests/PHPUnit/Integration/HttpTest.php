@@ -55,6 +55,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertGreaterThan(0, filesize($destinationPath));
     }
 
+    public function testBuildQuery()
+    {
+        $this->assertEquals('', Http::buildQuery(array()));
+        $this->assertEquals('test=foo', Http::buildQuery(array('test' => 'foo')));
+        $this->assertEquals('test=foo&bar=baz', Http::buildQuery(array('test' => 'foo', 'bar' => 'baz')));
+    }
+
     /**
      * @dataProvider getMethodsToTest
      */
@@ -222,20 +229,52 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getMethodsToTest
      */
+    public function testHttpCustomHeaders($method)
+    {
+        $result = Http::sendHttpRequestBy(
+            $method,
+            Fixture::getRootUrl() . 'tests/PHPUnit/Integration/Http/AdditionalHeaders.php',
+            30,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = false,
+            $httpMethod = 'POST',
+            $httpUsername = '',
+            $httpPassword = '',
+            array(),
+            array('CustomHeader: customdata')
+        );
+
+        $this->assertEquals('customdata', $result);
+    }
+
+    /**
+     * @dataProvider getMethodsToTest
+     */
     public function testHttpsWorksWithValidCertificate($method)
     {
-        $result = Http::sendHttpRequestBy($method, 'https://builds.piwik.org/LATEST', 10);
+        $result = Http::sendHttpRequestBy($method, 'https://builds.matomo.org/LATEST', 10);
 
         $this->assertStringMatchesFormat('%d.%d.%d', $result);
     }
 
     /**
+     * erroe message can be:
+     *      curl_exec: server certificate verification failed. CAfile: /home/travis/build/piwik/piwik/core/DataFiles/cacert.pem CRLfile: none. Hostname requested was: self-signed.badssl.com
+     * or
+     *      curl_exec: SSL certificate problem: self signed certificate. Hostname requested was: self-signed.badssl.com
      * @expectedException \Exception
-     * @expectedExceptionMessage curl_exec: SSL
+     * @expectedExceptionMessageRegExp /curl_exec: .*certificate.* /
      */
     public function testCurlHttpsFailsWithInvalidCertificate()
     {
-        Http::sendHttpRequestBy('curl', 'https://www.virtual-drums.com', 10);
+        // use a domain from https://badssl.com/
+        Http::sendHttpRequestBy('curl', 'https://self-signed.badssl.com/', 10);
     }
 
     /**
@@ -244,15 +283,13 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testFopenHttpsFailsWithInvalidCertificate()
     {
-        Http::sendHttpRequestBy('fopen', 'https://www.virtual-drums.com', 10);
+        // use a domain from https://badssl.com/
+        Http::sendHttpRequestBy('fopen', 'https://self-signed.badssl.com/', 10);
     }
 
-    /**
-     * We check that HTTPS is not supported with the "socket" method
-     */
-    public function testSocketHttpsWorksEvenWithInvalidCertificate()
+    public function testSocketHttpsWorksWithValidCertificate()
     {
-        $result = Http::sendHttpRequestBy('socket', 'https://divezone.net', 10);
+        $result = Http::sendHttpRequestBy('socket', 'https://piwik.org/', 10);
         $this->assertNotEmpty($result);
     }
 }

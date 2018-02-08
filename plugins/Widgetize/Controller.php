@@ -8,9 +8,9 @@
  */
 namespace Piwik\Plugins\Widgetize;
 
-use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\FrontController;
+use Piwik\Piwik;
 use Piwik\View;
 
 /**
@@ -27,7 +27,6 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function iframe()
     {
-        Request::reloadAuthUsingTokenAuth();
         $this->init();
 
         $controllerName = Common::getRequestVar('moduleToWidgetize');
@@ -37,7 +36,29 @@ class Controller extends \Piwik\Plugin\Controller
             throw new \Exception("Widgetizing API requests is not supported for security reasons. Please change query parameter 'moduleToWidgetize'.");
         }
 
-        if ($controllerName == 'Dashboard' && $actionName == 'index') {
+        $shouldEmbedEmpty = false;
+
+        /**
+         * Triggered to detect whether a widgetized report should be wrapped in the widgetized HTML or whether only
+         * the rendered output of the controller/action should be printed. Set `$shouldEmbedEmpty` to `true` if
+         * your widget renders the full HTML itself.
+         *
+         * **Example**
+         *
+         *     public function embedIframeEmpty(&$shouldEmbedEmpty, $controllerName, $actionName)
+         *     {
+         *         if ($controllerName == 'Dashboard' && $actionName == 'index') {
+         *             $shouldEmbedEmpty = true;
+         *         }
+         *     }
+         *
+         * @param string &$shouldEmbedEmpty Defines whether the iframe should be embedded empty or wrapped within the widgetized html.
+         * @param string $controllerName    The name of the controller that will be executed.
+         * @param string $actionName        The name of the action within the controller that will be executed.
+         */
+        Piwik::postEvent('Widgetize.shouldEmbedIframeEmpty', array(&$shouldEmbedEmpty, $controllerName, $actionName));
+
+        if ($shouldEmbedEmpty) {
             $view = new View('@Widgetize/iframe_empty');
         } else {
             $view = new View('@Widgetize/iframe');

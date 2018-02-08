@@ -2,18 +2,18 @@
 <result>
 	<row>
 		<label>Page Name not defined</label>
-		<nb_visits>29</nb_visits>
-		<nb_hits>39</nb_hits>
+		<nb_visits>34</nb_visits>
+		<nb_hits>44</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
 		<nb_hits_with_time_generation>17</nb_hits_with_time_generation>
 		<min_time_generation>0.001</min_time_generation>
 		<max_time_generation>1.324</max_time_generation>
-		<sum_bandwidth>82027</sum_bandwidth>
-		<nb_hits_with_bandwidth>25</nb_hits_with_bandwidth>
+		<sum_bandwidth>99897</sum_bandwidth>
+		<nb_hits_with_bandwidth>30</nb_hits_with_bandwidth>
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
-		<sum_daily_nb_uniq_visitors>28</sum_daily_nb_uniq_visitors>
-		<avg_bandwidth>3281</avg_bandwidth>
+		<sum_daily_nb_uniq_visitors>33</sum_daily_nb_uniq_visitors>
+		<avg_bandwidth>3329</avg_bandwidth>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>

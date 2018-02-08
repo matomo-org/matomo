@@ -15,7 +15,6 @@ use Piwik\Columns\Dimension;
 use Piwik\Config;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
-use Piwik\Db;
 use Piwik\EventDispatcher;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Filesystem;
@@ -26,10 +25,8 @@ use Piwik\Plugin;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Session;
 use Piwik\Settings\Storage as SettingsStorage;
 use Piwik\Theme;
-use Piwik\Tracker;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
 
@@ -206,7 +203,7 @@ class Manager
      */
     private function updatePluginsConfig($pluginsToLoad)
     {
-        $pluginsToLoad = $this->pluginList->sortPlugins($pluginsToLoad);
+        $pluginsToLoad = $this->pluginList->sortPluginsAndRespectDependencies($pluginsToLoad);
         $section = PiwikConfig::getInstance()->Plugins;
         $section['Plugins'] = $pluginsToLoad;
         PiwikConfig::getInstance()->Plugins = $section;
@@ -396,7 +393,7 @@ class Manager
     public function uninstallPlugin($pluginName)
     {
         if ($this->isPluginLoaded($pluginName)) {
-            throw new \Exception("To uninstall the plugin $pluginName, first disable it in Piwik > Settings > Plugins");
+            throw new \Exception("To uninstall the plugin $pluginName, first disable it in Matomo > Settings > Plugins");
         }
         $this->loadAllPluginsAndGetTheirInfo();
 
@@ -502,7 +499,7 @@ class Manager
         Piwik::postEvent('PluginManager.pluginActivated', array($pluginName));
     }
 
-    protected function isPluginInFilesystem($pluginName)
+    public function isPluginInFilesystem($pluginName)
     {
         $existingPlugins = $this->readPluginsDirectory();
         $isPluginInFilesystem = array_search($pluginName, $existingPlugins) !== false;
@@ -554,13 +551,14 @@ class Manager
         throw new \Exception('Theme not found : ' . $themeName);
     }
 
-    public function getNumberOfActivatedPlugins()
+    public function getNumberOfActivatedPluginsExcludingAlwaysActivated()
     {
         $counter = 0;
 
         $pluginNames = $this->getLoadedPluginsName();
         foreach ($pluginNames as $pluginName) {
-            if ($this->isPluginActivated($pluginName)) {
+            if ($this->isPluginActivated($pluginName)
+                && !$this->isPluginAlwaysActivated($pluginName)) {
                 $counter++;
             }
         }
@@ -837,37 +835,56 @@ class Manager
     {
         $pluginsToPostPendingEventsTo = array();
         foreach ($this->pluginsToLoad as $pluginName) {
-            if (!$this->isPluginLoaded($pluginName)
-                && !$this->isPluginThirdPartyAndBogus($pluginName)
-            ) {
-                $newPlugin = $this->loadPlugin($pluginName);
-                if ($newPlugin === null) {
-                    continue;
-                }
-
-                if ($newPlugin->hasMissingDependencies()) {
-                    $this->deactivatePlugin($pluginName);
-
-                    // at this state we do not know yet whether current user has super user access. We do not even know
-                    // if someone is actually logged in.
-                    $message  = Piwik::translate('CorePluginsAdmin_WeDeactivatedThePluginAsItHasMissingDependencies', array($pluginName, $newPlugin->getMissingDependenciesAsString()));
-                    $message .= ' ';
-                    $message .= Piwik::translate('General_PleaseContactYourPiwikAdministrator');
-
-                    $notification = new Notification($message);
-                    $notification->context = Notification::CONTEXT_ERROR;
-                    Notification\Manager::notify('PluginManager_PluginDeactivated', $notification);
-                    continue;
-                }
-
-                $pluginsToPostPendingEventsTo[] = $newPlugin;
-            }
+            $pluginsToPostPendingEventsTo = $this->reloadActivatedPlugin($pluginName, $pluginsToPostPendingEventsTo);
         }
 
         // post pending events after all plugins are successfully loaded
         foreach ($pluginsToPostPendingEventsTo as $plugin) {
             EventDispatcher::getInstance()->postPendingEventsTo($plugin);
         }
+    }
+
+    private function reloadActivatedPlugin($pluginName, $pluginsToPostPendingEventsTo)
+    {
+        if ($this->isPluginLoaded($pluginName) || $this->isPluginThirdPartyAndBogus($pluginName)) {
+            return $pluginsToPostPendingEventsTo;
+        }
+
+        $newPlugin = $this->loadPlugin($pluginName);
+
+        if ($newPlugin === null) {
+            return $pluginsToPostPendingEventsTo;
+        }
+
+        $requirements = $newPlugin->getMissingDependencies();
+
+        if (!empty($requirements)) {
+            foreach ($requirements as $requirement) {
+                $possiblePluginName = $requirement['requirement'];
+                if (in_array($possiblePluginName, $this->pluginsToLoad, $strict = true)) {
+                    $pluginsToPostPendingEventsTo = $this->reloadActivatedPlugin($possiblePluginName, $pluginsToPostPendingEventsTo);
+                }
+            }
+        }
+
+        if ($newPlugin->hasMissingDependencies()) {
+            $this->unloadPluginFromMemory($pluginName);
+
+            // at this state we do not know yet whether current user has super user access. We do not even know
+            // if someone is actually logged in.
+            $message  = Piwik::translate('CorePluginsAdmin_WeCouldNotLoadThePluginAsItHasMissingDependencies', array($pluginName, $newPlugin->getMissingDependenciesAsString()));
+            $message .= ' ';
+            $message .= Piwik::translate('General_PleaseContactYourPiwikAdministrator');
+
+            $notification = new Notification($message);
+            $notification->context = Notification::CONTEXT_ERROR;
+            Notification\Manager::notify('PluginManager_PluginUnloaded', $notification);
+            return $pluginsToPostPendingEventsTo;
+        }
+
+        $pluginsToPostPendingEventsTo[] = $newPlugin;
+
+        return $pluginsToPostPendingEventsTo;
     }
 
     public function getIgnoredBogusPlugins()
@@ -1062,11 +1079,10 @@ class Manager
         $missingPlugins = array();
 
         $plugins = $this->pluginList->getActivatedPlugins();
+
         foreach ($plugins as $pluginName) {
             // if a plugin is listed in the config, but is not loaded, it does not exist in the folder
-            if (!self::getInstance()->isPluginLoaded($pluginName)
-                && !$this->isPluginBogus($pluginName)
-            ) {
+            if (!$this->isPluginLoaded($pluginName) && !$this->isPluginBogus($pluginName) ) {
                 $missingPlugins[] = $pluginName;
             }
         }

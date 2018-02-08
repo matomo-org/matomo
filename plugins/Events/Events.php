@@ -27,14 +27,9 @@ class Events extends \Piwik\Plugin
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'ViewDataTable.configure'   => 'configureViewDataTable',
-            'Live.getAllVisitorDetails' => 'extendVisitorDetails',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
         );
-    }
-
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $visitor['events'] = $details['visit_total_events'];
     }
 
     public function addMetricTranslations(&$translations)
@@ -64,8 +59,8 @@ class Events extends \Piwik\Plugin
     public function getMetricTranslations()
     {
         $metrics = array(
-            'nb_events'            => 'Events_TotalEvents',
-            'sum_event_value'      => 'Events_TotalValue',
+            'nb_events'            => 'Events_Events',
+            'sum_event_value'      => 'Events_EventValue',
             'min_event_value'      => 'Events_MinValue',
             'max_event_value'      => 'Events_MaxValue',
             'avg_event_value'      => 'Events_AvgValue',
@@ -264,5 +259,16 @@ class Events extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/Events/stylesheets/datatable.less";
+    }
+
+    public function provideActionDimensionFields(&$fields, &$joins)
+    {
+        $fields[] = 'log_action_event_category.type AS eventType';
+        $fields[] = 'log_action_event_category.name AS eventCategory';
+        $fields[] = 'log_action_event_action.name as eventAction';
+        $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_event_action
+					ON  log_link_visit_action.idaction_event_action = log_action_event_action.idaction';
+        $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_event_category
+					ON  log_link_visit_action.idaction_event_category = log_action_event_category.idaction';
     }
 }

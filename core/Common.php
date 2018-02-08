@@ -232,7 +232,27 @@ class Common
             return mb_strtolower($string, 'UTF-8');
         }
 
-        return strtolower($string);
+        // return unchanged string as using `strtolower` might cause unicode problems
+        return $string;
+    }
+
+    /**
+     * Multi-byte strtoupper() - works with UTF-8.
+     *
+     * Calls `mb_strtoupper` if available and falls back to `strtoupper` if not.
+     *
+     * @param string $string
+     * @return string
+     * @api
+     */
+    public static function mb_strtoupper($string)
+    {
+        if (function_exists('mb_strtoupper')) {
+            return mb_strtoupper($string, 'UTF-8');
+        }
+
+        // return unchanged string as using `strtoupper` might cause unicode problems
+        return $string;
     }
 
     /*
@@ -504,17 +524,54 @@ class Common
      */
 
     /**
+     * Generates a random integer
+     *
+     * @param int $min
+     * @param null|int $max Defaults to max int value
+     * @return int|null
+     */
+    public static function getRandomInt($min = 0, $max = null)
+    {
+        $rand = null;
+
+        if (function_exists('random_int')) {
+            try {
+                if (!isset($max)) {
+                    $max = PHP_INT_MAX;
+                }
+                $rand = random_int($min, $max);
+            } catch (Exception $e) {
+                // If none of the crypto sources are available, an Exception will be thrown.
+                $rand = null;
+            }
+        }
+
+        if (!isset($rand)) {
+            if (function_exists('mt_rand')) {
+                if (!isset($max)) {
+                    $max = mt_getrandmax();
+                }
+                $rand = mt_rand($min, $max);
+            } else {
+                if (!isset($max)) {
+                    $max = getrandmax();
+                }
+
+                $rand = rand($min, $max);
+            }
+        }
+
+        return $rand;
+    }
+
+    /**
      * Returns a 32 characters long uniq ID
      *
      * @return string 32 chars
      */
     public static function generateUniqId()
     {
-        if (function_exists('mt_rand')) {
-            $rand = mt_rand();
-        } else {
-            $rand = rand();
-        }
+        $rand = self::getRandomInt();
 
         return md5(uniqid($rand, true));
     }
@@ -558,7 +615,7 @@ class Common
         $str   = '';
 
         for ($i = 0; $i < $length; $i++) {
-            $rand_key = mt_rand(0, strlen($chars) - 1);
+            $rand_key = self::getRandomInt(0, strlen($chars) - 1);
             $str .= substr($chars, $rand_key, 1);
         }
 
@@ -988,6 +1045,10 @@ class Common
         $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
 
         $countryList = $dataProvider->getCountryList();
+
+        if ($country == 'ti') {
+            $country = 'cn';
+        }
 
         return isset($countryList[$country]) ? $countryList[$country] : 'unk';
     }

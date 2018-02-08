@@ -92,6 +92,7 @@ var broadcast = {
             hash = (''+hash).substr(1);
         }
 
+
         if (hash) {
 
             if (/^popover=/.test(hash)) {
@@ -124,7 +125,7 @@ var broadcast = {
                 popoverParamUpdated = (popoverParam != '');
             }
 
-            if (pageUrlUpdated || broadcast.forceReload) {
+            if (!broadcast.isWidgetizedDashboard() && (pageUrlUpdated || broadcast.forceReload)) {
                 Piwik_Popover.close();
 
                 if (hashUrl != broadcast.currentHashUrl || broadcast.forceReload) {
@@ -159,8 +160,14 @@ var broadcast = {
         } else {
             // start page
             Piwik_Popover.close();
-            $('.pageWrap #content:not(.admin)').empty();
+            if (!broadcast.isWidgetizedDashboard()) {
+                $('.pageWrap #content:not(.admin)').empty();
+            }
         }
+    },
+
+    isWidgetizedDashboard: function() {
+        return broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('moduleToWidgetize') == 'Dashboard';
     },
 
     /**
@@ -205,7 +212,11 @@ var broadcast = {
         // if the module is not 'Goals', we specifically unset the 'idGoal' parameter
         // this is to ensure that the URLs are clean (and that clicks on graphs work as expected - they are broken with the extra parameter)
         var action = broadcast.getParamValue('action', currentHashStr);
-        if (action != 'goalReport' && action != 'ecommerceReport' && action != 'products' && action != 'sales') {
+        if (action != 'goalReport'
+            && action != 'ecommerceReport'
+            && action != 'products'
+            && action != 'sales'
+            && (''+ ajaxUrl).indexOf('&idGoal=') === -1) {
             currentHashStr = broadcast.updateParamValue('idGoal=', currentHashStr);
         }
         // unset idDashboard if use doesn't display a dashboard
@@ -233,20 +244,16 @@ var broadcast = {
     },
 
     /**
-     * propagateAjax -- update hash values then make ajax calls.
-     *    example :
-     *       1) <a href="javascript:broadcast.propagateAjax('module=Referrers&action=getKeywords')">View keywords report</a>
-     *       2) Main menu li also goes through this function.
+     * Returns the current hash with updated parameters that were provided in ajaxUrl
      *
-     * Will propagate your new value into the current hash string and make ajax calls.
+     * Parameters like idGoal and idDashboard will be automatically reset if the won't be relevant anymore
      *
-     * NOTE: this method will only make ajax call and replacing main content.
+     * NOTE: this method does not issue any ajax call, but returns the hash instead
      *
      * @param {string} ajaxUrl  querystring with parameters to be updated
-     * @param {boolean} [disableHistory]  the hash change won't be available in the browser history
-     * @return {void}
+     * @return {string} current hash with updated parameters
      */
-    buildReportingUrl: function (ajaxUrl, disableHistory) {
+    buildReportingUrl: function (ajaxUrl) {
 
         // available in global scope
         var currentHashStr = broadcast.getHash();
@@ -304,9 +311,19 @@ var broadcast = {
         // available in global scope
         var currentSearchStr = window.location.search;
         var currentHashStr = broadcast.getHashFromUrl();
+        
+        if (!currentSearchStr) {
+            currentSearchStr = '?';
+        }
+
         var oldUrl = currentSearchStr + currentHashStr;
 
         for (var i = 0; i < params_vals.length; i++) {
+
+            if(params_vals[i].length == 0) {
+                continue; // updating with empty string would destroy some values
+            }
+
             // update both the current search query and hash string
             currentSearchStr = broadcast.updateParamValue(params_vals[i], currentSearchStr);
 
@@ -333,6 +350,15 @@ var broadcast = {
 
         // Now load the new page.
         var newUrl = currentSearchStr + currentHashStr;
+
+        var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+        if ($rootScope) {
+            $rootScope.$on('$locationChangeStart', function (event) {
+                if (event) {
+                    event.preventDefault();
+                }
+            })
+        }
 
         if (oldUrl == newUrl) {
             window.location.reload();
@@ -411,7 +437,9 @@ var broadcast = {
      */
     propagateNewPopoverParameter: function (handlerName, value) {
         // init broadcast if not already done (it is required to make popovers work in widgetize mode)
-        //broadcast.init(true);
+        if (broadcast.isWidgetizedDashboard()) {
+            broadcast.init(true);
+        }
 
         var $location = angular.element(document).injector().get('$location');
 

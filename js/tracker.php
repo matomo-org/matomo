@@ -45,10 +45,16 @@ $byteStart = $byteEnd = false;
 if (!defined("PIWIK_KEEP_JS_TRACKER_COMMENT")
     || !PIWIK_KEEP_JS_TRACKER_COMMENT
 ) {
-    $byteStart = 369; // length of comment header in bytes
+    $byteStart = 371; // length of comment header in bytes
 }
 
-$environment = new \Piwik\Application\Environment(null);
+class Validator {
+    public function validate() {}
+}
+$validator = new Validator();
+$environment = new \Piwik\Application\Environment(null, array(
+    'Piwik\Application\Kernel\EnvironmentValidator' => $validator
+));
 $environment->init();
 
 ProxyHttp::serverStaticFile($file, "application/javascript; charset=UTF-8", $daysExpireFarFuture, $byteStart, $byteEnd);

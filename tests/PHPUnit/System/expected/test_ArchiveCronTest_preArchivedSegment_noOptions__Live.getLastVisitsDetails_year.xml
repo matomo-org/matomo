@@ -12,18 +12,23 @@
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
 				
+				
 				<pageId>70</pageId>
+				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<generationTimeMilliseconds>123</generationTimeMilliseconds>
+				<generationTime>0.12s</generationTime>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTime>0.12s</generationTime>
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -42,18 +47,23 @@
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
 				
+				
 				<pageId>74</pageId>
+				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<generationTimeMilliseconds>120</generationTimeMilliseconds>
+				<generationTime>0.12s</generationTime>
+				<interactionPosition>5</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTime>0.12s</generationTime>
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -61,56 +71,71 @@
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
 				
+				
 				<pageId>78</pageId>
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
-					</row>
-				</customVariables>
-				<generationTime>0.02s</generationTime>
+				<bandwidth />
 				<timeSpent>52</timeSpent>
 				<timeSpentPretty>52s</timeSpentPretty>
+				<generationTimeMilliseconds>23</generationTimeMilliseconds>
+				<generationTime>0.02s</generationTime>
+				<interactionPosition>9</interactionPosition>
 				<icon />
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/faq/</url>
 				<pageTitle />
 				<pageIdAction>2</pageIdAction>
+				
 				
 				<pageId>71</pageId>
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
-					</row>
-				</customVariables>
-				<generationTime>0.23s</generationTime>
+				<bandwidth />
 				<timeSpent>50</timeSpent>
 				<timeSpentPretty>50s</timeSpentPretty>
+				<generationTimeMilliseconds>234</generationTimeMilliseconds>
+				<generationTime>0.23s</generationTime>
+				<interactionPosition>2</interactionPosition>
 				<icon />
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/faq/</url>
 				<pageTitle />
 				<pageIdAction>2</pageIdAction>
+				
 				
 				<pageId>75</pageId>
+				<bandwidth />
+				<timeSpent>49</timeSpent>
+				<timeSpentPretty>49s</timeSpentPretty>
+				<generationTimeMilliseconds>294</generationTimeMilliseconds>
+				<generationTime>0.29s</generationTime>
+				<interactionPosition>6</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTime>0.29s</generationTime>
-				<timeSpent>49</timeSpent>
-				<timeSpentPretty>49s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -118,37 +143,47 @@
 				<pageTitle />
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>79</pageId>
+				<bandwidth />
+				<timeSpent>26</timeSpent>
+				<timeSpentPretty>26s</timeSpentPretty>
+				<generationTimeMilliseconds>237</generationTimeMilliseconds>
+				<generationTime>0.24s</generationTime>
+				<interactionPosition>10</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTime>0.24s</generationTime>
-				<timeSpent>26</timeSpent>
-				<timeSpentPretty>26s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/blog/category/community/</url>
 				<pageTitle />
 				<pageIdAction>3</pageIdAction>
+				
 				
 				<pageId>72</pageId>
+				<bandwidth />
+				<timeSpent>26</timeSpent>
+				<timeSpentPretty>26s</timeSpentPretty>
+				<generationTimeMilliseconds>1324</generationTimeMilliseconds>
+				<generationTime>1.32s</generationTime>
+				<interactionPosition>3</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTime>1.32s</generationTime>
-				<timeSpent>26</timeSpent>
-				<timeSpentPretty>26s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -156,37 +191,47 @@
 				<pageTitle />
 				<pageIdAction>3</pageIdAction>
 				
+				
 				<pageId>76</pageId>
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>200</customVariablePageValue1>
-					</row>
-				</customVariables>
-				<generationTime>0.62s</generationTime>
+				<bandwidth />
 				<timeSpent>7</timeSpent>
 				<timeSpentPretty>7s</timeSpentPretty>
+				<generationTimeMilliseconds>624</generationTimeMilliseconds>
+				<generationTime>0.62s</generationTime>
+				<interactionPosition>7</interactionPosition>
 				<icon />
 				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://piwik.net/docs/manage-websites/</url>
 				<pageTitle />
 				<pageIdAction>4</pageIdAction>
+				
 				
 				<pageId>73</pageId>
+				<bandwidth />
+				<timeSpent>8</timeSpent>
+				<timeSpentPretty>8s</timeSpentPretty>
+				<generationTimeMilliseconds>543</generationTimeMilliseconds>
+				<generationTime>0.54s</generationTime>
+				<interactionPosition>4</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTime>0.54s</generationTime>
-				<timeSpent>8</timeSpent>
-				<timeSpentPretty>8s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -194,21 +239,32 @@
 				<pageTitle />
 				<pageIdAction>4</pageIdAction>
 				
+				
 				<pageId>77</pageId>
+				<bandwidth />
+				<generationTimeMilliseconds>343</generationTimeMilliseconds>
+				<generationTime>0.34s</generationTime>
+				<interactionPosition>8</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<generationTime>0.34s</generationTime>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -219,7 +275,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -228,6 +283,7 @@
 		<visitDurationPretty>54s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>10</actions>
+		<interactions>10</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -239,27 +295,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
 		<operatingSystemCode>UNK</operatingSystemCode>
 		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -272,11 +334,123 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>62</idVisit>
+		<visitIp>175.41.191.47</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>84</goalPageId>
+				
+				<url>http://www.notdatefiltered.com/blog/category/meta/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://www.notdatefiltered.com/blog/category/meta/</url>
+				<pageTitle />
+				<pageIdAction>60</pageIdAction>
+				
+				
+				<pageId>84</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
 		
 		
 		
 		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Mac 10.6</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.6</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>RockMelt 0.9</browser>
+		<browserName>RockMelt</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
+		<browserCode>RM</browserCode>
+		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Singapore</country>
+		<countryCode>sg</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/sg.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Singapore</location>
+		<visitLocalTime>08:10:38</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -301,7 +475,12 @@
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>29</pageIdAction>
 				
+				
 				<pageId>30</pageId>
+				<bandwidth>43</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -316,13 +495,18 @@
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>43 B</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -333,7 +517,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -342,6 +525,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>website</referrerType>
 		<referrerTypeName>Websites</referrerTypeName>
 		<referrerName>piwik.org</referrerName>
@@ -353,27 +537,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 6.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>6.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -388,22 +578,21 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -428,20 +617,30 @@
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
 				
+				
 				<pageId>28</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -452,7 +651,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -461,6 +659,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -472,27 +671,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -509,11 +714,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -538,20 +738,30 @@
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
 				
+				
 				<pageId>29</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -562,7 +772,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -571,6 +780,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -582,27 +792,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>South Korea</country>
 		<countryCode>kr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/kr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/kr.png</countryFlag>
 		<region>Seoul-t'ukpyolsi</region>
 		<regionCode>11</regionCode>
 		<city>Seoul</city>
@@ -619,11 +835,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -637,17 +848,21 @@
 				<pageTitle>301/URL = http%3A%2F%2Fpiwik.net%2Fmoved-permanently</pageTitle>
 				<pageIdAction>25</pageIdAction>
 				
+				
 				<pageId>26</pageId>
+				<bandwidth>3574</bandwidth>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>301</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -666,20 +881,30 @@
 				<pageTitle>307/URL = http%3A%2F%2Fpiwik.net%2Ftemp-redirect</pageTitle>
 				<pageIdAction>27</pageIdAction>
 				
+				
 				<pageId>27</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>2</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>307</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -690,7 +915,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -699,6 +923,7 @@
 		<visitDurationPretty>3 min 2s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>2</actions>
+		<interactions>2</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -710,27 +935,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -747,11 +978,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -765,17 +991,21 @@
 				<pageTitle />
 				<pageIdAction>21</pageIdAction>
 				
+				
 				<pageId>23</pageId>
+				<bandwidth>3574</bandwidth>
+				<timeSpent>61</timeSpent>
+				<timeSpentPretty>1 min 1s</timeSpentPretty>
+				<interactionPosition />
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<timeSpent>61</timeSpent>
-				<timeSpentPretty>1 min 1s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/download.png</icon>
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>download</type>
@@ -783,17 +1013,21 @@
 				<pageTitle />
 				<pageIdAction>22</pageIdAction>
 				
+				
 				<pageId>24</pageId>
+				<bandwidth>3574</bandwidth>
+				<timeSpent>61</timeSpent>
+				<timeSpentPretty>1 min 1s</timeSpentPretty>
+				<interactionPosition />
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<timeSpent>61</timeSpent>
-				<timeSpentPretty>1 min 1s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/download.png</icon>
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 			<row>
 				<type>download</type>
@@ -801,20 +1035,30 @@
 				<pageTitle />
 				<pageIdAction>23</pageIdAction>
 				
+				
 				<pageId>25</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition />
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon>plugins/Morpheus/images/download.png</icon>
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -825,7 +1069,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -834,6 +1077,7 @@
 		<visitDurationPretty>2 min 3s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>3</actions>
+		<interactions>0</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -845,27 +1089,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -882,11 +1132,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -911,20 +1156,30 @@
 				<pageTitle />
 				<pageIdAction>5</pageIdAction>
 				
+				
 				<pageId>22</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -935,7 +1190,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -944,6 +1198,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -955,27 +1210,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemName>Bot</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
 		<operatingSystemCode>BOT</operatingSystemCode>
 		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>Virginia</region>
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
@@ -992,11 +1253,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1021,20 +1277,30 @@
 				<pageTitle>500/URL = http%3A%2F%2Fpiwik.net%2Fto-an-error</pageTitle>
 				<pageIdAction>20</pageIdAction>
 				
+				
 				<pageId>21</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>500</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -1045,7 +1311,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -1054,6 +1319,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1065,27 +1331,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>7</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>Virginia</region>
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
@@ -1102,11 +1374,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -1120,20 +1387,30 @@
 				<pageTitle />
 				<pageIdAction>16</pageIdAction>
 				
+				
 				<pageId>18</pageId>
+				<bandwidth>4324023</bandwidth>
+				<interactionPosition />
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon>plugins/Morpheus/images/download.png</icon>
-				
+				<bandwidth_pretty>4.1 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -1144,7 +1421,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -1153,6 +1429,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>0</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1164,27 +1441,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
 		<operatingSystemCode>UNK</operatingSystemCode>
 		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browser>Unknown</browser>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Oceania</continent>
 		<continentCode>oce</continentCode>
 		<country>Australia</country>
 		<countryCode>au</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/au.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/au.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -1201,120 +1484,5 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>20</idVisit>
-		<visitIp>175.41.192.41</visitIp>
-		
-		<actionDetails>
-			<row>
-				<type>goal</type>
-				<goalName>all</goalName>
-				<goalId>1</goalId>
-				<revenue>5</revenue>
-				<goalPageId>20</goalPageId>
-				
-				<url>http://piwik.net/this/is/not/the/page/i/am/looking/for/</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
-				<type>action</type>
-				<url>http://piwik.net/this/is/not/the/page/i/am/looking/for/</url>
-				<pageTitle>404/URL = http%3A%2F%2Fpiwik.net%2Fthis%2Fis%2Fnot%2Fthe%2Fpage%2Fi%2Fam%2Flooking%2Ffor%2F</pageTitle>
-				<pageIdAction>18</pageIdAction>
-				
-				<pageId>20</pageId>
-				<customVariables>
-					<row>
-						<customVariablePageName1>HTTP-code</customVariablePageName1>
-						<customVariablePageValue1>404</customVariablePageValue1>
-					</row>
-				</customVariables>
-				<icon />
-				
-			</row>
-		</actionDetails>
-		<goalConversions>1</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
-		<visitCount>1</visitCount>
-		
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
-		<referrerType>direct</referrerType>
-		<referrerTypeName>Direct Entry</referrerTypeName>
-		<referrerName />
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<languageCode />
-		<language>Unknown</language>
-		<deviceType>Smartphone</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
-		<deviceBrand>HTC</deviceBrand>
-		<deviceModel>Vision</deviceModel>
-		<operatingSystem>Android 2.3</operatingSystem>
-		<operatingSystemName>Android</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
-		<operatingSystemCode>AND</operatingSystemCode>
-		<operatingSystemVersion>2.3</operatingSystemVersion>
-		<browserFamily>WebKit</browserFamily>
-		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>Android Browser</browser>
-		<browserName>Android Browser</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/AN.gif</browserIcon>
-		<browserCode>AN</browserCode>
-		<browserVersion />
-		<events>0</events>
-		<continent>Asia</continent>
-		<continentCode>asi</continentCode>
-		<country>Japan</country>
-		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>Japan</location>
-		<visitLocalTime>16:11:30</visitLocalTime>
-		<visitLocalHour>16</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<customVariables>
-			<row>
-				<customVariableName1>Not-Bot</customVariableName1>
-				<customVariableValue1>Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; HTC Vision Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1</customVariableValue1>
-			</row>
-		</customVariables>
-		<resolution>unknown</resolution>
-		<plugins />
-		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 </result>

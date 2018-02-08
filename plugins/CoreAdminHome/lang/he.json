@@ -13,11 +13,12 @@
         "LogoUpload": "בחירת קובץ לוגו",
         "MenuDiagnostic": "אבחון",
         "MenuGeneralSettings": "הגדרות כלליות",
-        "OptOutForYourVisitors": "התחמקות מ-Piwik עבור גולשיך",
+        "MenuMeasurables": "מדידים",
+        "OptOutForYourVisitors": "התחמקות מ-Matomo עבור גולשיך",
         "PiwikIsInstalledAt": "Piwik מותקן ב",
         "TrackAGoal": "עקיבה אחר יעד",
         "TrackingCode": "קוד מעקב",
-        "TrustedHostSettings": "מארח מהימן ע״י Piwik",
+        "TrustedHostSettings": "מארח מהימן ע״י Matomo",
         "UseCustomLogo": "להשתמש בלוגו מותאם אישית"
     }
 }

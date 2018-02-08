@@ -12,6 +12,7 @@ use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Version;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -30,14 +31,14 @@ class Console extends Application
     {
         $this->setServerArgsIfPhpCgi();
 
-        parent::__construct();
+        parent::__construct('Piwik', Version::VERSION);
 
         $this->environment = $environment;
 
         $option = new InputOption('piwik-domain',
             null,
             InputOption::VALUE_OPTIONAL,
-            'Piwik URL (protocol and domain) eg. "http://piwik.example.org"'
+            'Matomo URL (protocol and domain) eg. "http://matomo.example.org"'
         );
 
         $this->getDefinition()->addOption($option);
@@ -209,6 +210,23 @@ class Console extends Application
         $commands = array(
             'Piwik\CliMulti\RequestCommand'
         );
+
+        $commandsFromPluginsMarkedInConfig = $this->getCommandsFromPluginsMarkedInConfig();
+        $commands = array_merge($commands, $commandsFromPluginsMarkedInConfig);
+
+        return $commands;
+    }
+
+    private function getCommandsFromPluginsMarkedInConfig()
+    {
+        $plugins = Config::getInstance()->General['always_load_commands_from_plugin'];
+        $plugins = explode(',', $plugins);
+
+        $commands = array();
+        foreach($plugins as $plugin) {
+            $instance = new Plugin($plugin);
+            $commands = array_merge($commands, $instance->findMultipleComponents('Commands', 'Piwik\\Plugin\\ConsoleCommand'));
+        }
         return $commands;
     }
 }

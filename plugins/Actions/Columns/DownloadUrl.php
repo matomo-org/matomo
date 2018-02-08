@@ -8,24 +8,28 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Piwik;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
+use Piwik\Tracker\Action;
 
 class DownloadUrl extends ActionDimension
 {
-    public function getName()
+    protected $segmentName = 'downloadUrl';
+    protected $nameSingular = 'Actions_ColumnDownloadURL';
+    protected $namePlural = 'Actions_ColumnDownloadURLs';
+    protected $columnName = 'idaction_url';
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
+    protected $type = self::TYPE_URL;
+
+    public function getDbColumnJoin()
     {
-        return Piwik::translate('Actions_ColumnDownloadURL');
+        return new ActionNameJoin();
     }
 
-    protected function configureSegments()
+    public function getDbDiscriminator()
     {
-        $segment = new Segment();
-        $segment->setSegment('downloadUrl');
-        $segment->setName('Actions_ColumnDownloadURL');
-        $segment->setSqlSegment('log_link_visit_action.idaction_url');
-        $this->addSegment($segment);
+        return new Discriminator('log_action', 'type', Action::TYPE_DOWNLOAD);
     }
-
 }

@@ -2,6 +2,6 @@
     "WebsiteMeasurable": {
         "Website": "網站",
         "Websites": "網站",
-        "WebsiteDescription": "一個包含數個網頁的網站通常提供單一網路域名。"
+        "WebsiteDescription": "由不同網頁所組成的網站通常來自單一網域。"
     }
 }

@@ -12,7 +12,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Http\ControllerResolver;
 use Piwik\Piwik;
 use Piwik\Plugins\API;
-use Piwik\Plugins\Goals;
 use Piwik\Plugins\Widgetize\tests\Fixtures\WidgetizeFixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Widget\WidgetsList;
@@ -125,7 +124,7 @@ class WidgetTest extends SystemTestCase
                         'containerId' => 'VisitOverviewWithGraph',
                     ),
             ),array (
-                'name' => 'Support Piwik!',
+                'name' => 'Support Matomo!',
                 'uniqueId' => 'widgetCoreHomegetDonateForm',
                 'parameters' =>
                     array (
@@ -173,7 +172,7 @@ class WidgetTest extends SystemTestCase
                         'action' => 'getRank',
                     ),
             ),array (
-                'name' => 'Piwik Changelog',
+                'name' => 'Matomo Changelog',
                 'uniqueId' => 'widgetRssWidgetrssChangelog',
                 'parameters' =>
                     array (
@@ -181,7 +180,7 @@ class WidgetTest extends SystemTestCase
                         'action' => 'rssChangelog',
                     ),
             ),array (
-                'name' => 'Piwik.org Blog',
+                'name' => 'Matomo.org Blog',
                 'uniqueId' => 'widgetRssWidgetrssPiwik',
                 'parameters' =>
                     array (
@@ -993,6 +992,14 @@ class WidgetTest extends SystemTestCase
                         'action' => 'getNewPlugins',
                     ),
             ), array (
+                'name' => 'Premium Features',
+                'uniqueId' => 'widgetMarketplacegetPremiumFeatures',
+                'parameters' =>
+                    array (
+                        'module' => 'Marketplace',
+                        'action' => 'getPremiumFeatures',
+                    ),
+            ), array (
                 'name' => 'System Check',
                 'uniqueId' => 'widgetInstallationgetSystemCheck',
                 'parameters' =>
@@ -1324,7 +1331,7 @@ class WidgetTest extends SystemTestCase
                         ),
                 ),
                 array (
-                    'name' => 'Support Piwik!',
+                    'name' => 'Support Matomo!',
                     'uniqueId' => 'widgetCoreHomegetDonateForm',
                     'parameters' =>
                         array (
@@ -1342,7 +1349,7 @@ class WidgetTest extends SystemTestCase
                         ),
                 ),
                 array (
-                    'name' => 'Piwik.org Blog',
+                    'name' => 'Matomo.org Blog',
                     'uniqueId' => 'widgetRssWidgetrssPiwik',
                     'parameters' =>
                         array (
@@ -1351,7 +1358,7 @@ class WidgetTest extends SystemTestCase
                         ),
                 ),
                 array (
-                    'name' => 'Piwik Changelog',
+                    'name' => 'Matomo Changelog',
                     'uniqueId' => 'widgetRssWidgetrssChangelog',
                     'parameters' =>
                         array (

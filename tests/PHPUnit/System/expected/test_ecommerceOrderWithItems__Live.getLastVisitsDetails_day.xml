@@ -12,7 +12,14 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>11</pageId>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -31,10 +38,7 @@
 						<customVariablePageValue5 />
 					</row>
 				</customVariables>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -42,7 +46,14 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>12</pageId>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -61,10 +72,7 @@
 						<customVariablePageValue5 />
 					</row>
 				</customVariables>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -72,7 +80,14 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>13</pageId>
+				<bandwidth />
+				<timeSpent>361</timeSpent>
+				<timeSpentPretty>6 min 1s</timeSpentPretty>
+				<interactionPosition>3</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -87,10 +102,7 @@
 						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<timeSpent>361</timeSpent>
-				<timeSpentPretty>6 min 1s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
@@ -120,7 +132,7 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.gif</icon>
+				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -131,21 +143,27 @@
 		
 		
 		
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>2</visitCount>
-		
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.gif</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceAbandonedCart.png</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>721</visitDuration>
 		<visitDurationPretty>12 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>3</actions>
+		<interactions>3</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -157,27 +175,33 @@
 		<languageCode>pl</languageCode>
 		<language>Polish</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>4</totalEcommerceConversions>
+		<totalEcommerceItems>12</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>3</totalAbandonedCarts>
+		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Poland</country>
 		<countryCode>pl</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/pl.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/pl.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -202,22 +226,21 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -231,17 +254,21 @@
 				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>5</pageId>
+				<bandwidth />
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -249,17 +276,21 @@
 				<pageTitle>Looking at Electronics &amp; Cameras page again</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>6</pageId>
+				<bandwidth />
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName5>_pkc</customVariablePageName5>
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -267,7 +298,14 @@
 				<pageTitle>Looking at product page</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>7</pageId>
+				<bandwidth />
+				<timeSpent>720</timeSpent>
+				<timeSpentPretty>12 min 0s</timeSpentPretty>
+				<interactionPosition>3</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -286,10 +324,7 @@
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<timeSpent>720</timeSpent>
-				<timeSpentPretty>12 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>ecommerceOrder</type>
@@ -317,7 +352,7 @@
 						<quantity>6</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Morpheus/images/ecommerceOrder.gif</icon>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
 				
 			</row>
 			<row>
@@ -346,7 +381,7 @@
 						<quantity>1</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Morpheus/images/ecommerceOrder.gif</icon>
+				<icon>plugins/Morpheus/images/ecommerceOrder.png</icon>
 				
 			</row>
 			<row>
@@ -355,7 +390,14 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>8</pageId>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>4</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -374,10 +416,7 @@
 						<customVariablePageValue5 />
 					</row>
 				</customVariables>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -385,7 +424,14 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>9</pageId>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>5</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -404,10 +450,7 @@
 						<customVariablePageValue5 />
 					</row>
 				</customVariables>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -415,7 +458,14 @@
 				<pageTitle>View product left in cart</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>10</pageId>
+				<bandwidth />
+				<timeSpent>361</timeSpent>
+				<timeSpentPretty>6 min 1s</timeSpentPretty>
+				<interactionPosition>6</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -430,10 +480,7 @@
 						<customVariablePageValue5>Category TWO LEFT in cart</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<timeSpent>361</timeSpent>
-				<timeSpentPretty>6 min 1s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>ecommerceAbandonedCart</type>
@@ -463,7 +510,7 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
-				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.gif</icon>
+				<icon>plugins/Morpheus/images/ecommerceAbandonedCart.png</icon>
 				
 			</row>
 		</actionDetails>
@@ -474,21 +521,27 @@
 		
 		
 		
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>2</visitCount>
-		
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Morpheus/images/ecommerceOrder.png</visitEcommerceStatusIcon>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<visitDuration>3961</visitDuration>
 		<visitDurationPretty>1 hours 6 min</visitDurationPretty>
 		<searches>0</searches>
 		<actions>6</actions>
+		<interactions>6</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -500,27 +553,33 @@
 		<languageCode>pl</languageCode>
 		<language>Polish</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>4</totalEcommerceConversions>
+		<totalEcommerceItems>12</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>3</totalAbandonedCarts>
+		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Poland</country>
 		<countryCode>pl</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/pl.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/pl.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -545,22 +604,21 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -585,7 +643,14 @@
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>1</pageId>
+				<bandwidth />
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -604,10 +669,7 @@
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -615,7 +677,14 @@
 				<pageTitle>Another Product page</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>2</pageId>
+				<bandwidth />
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -634,10 +703,7 @@
 						<customVariablePageValue5>Electronics &amp; Cameras</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -645,7 +711,14 @@
 				<pageTitle>Another Product page with no category</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>3</pageId>
+				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<interactionPosition>3</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>_pkp</customVariablePageName2>
@@ -664,10 +737,7 @@
 						<customVariablePageValue5 />
 					</row>
 				</customVariables>
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
@@ -675,7 +745,12 @@
 				<pageTitle>Another Product page with multiple categories</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>4</pageId>
+				<bandwidth />
+				<interactionPosition>4</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName3>_pks</customVariablePageName3>
@@ -690,13 +765,18 @@
 						<customVariablePageValue5>[&quot;Multiple Category 1&quot;,&quot;&quot;,0,&quot;Multiple Category 2&quot;,&quot;Electronics &amp; Cameras&quot;,&quot;Multiple Category 4&quot;,&quot;Multiple Category 5&quot;,&quot;SHOULD NOT BE REPORTEDSSSSSSSSSSSSSSssssssssssssssssssssssssssstttttttttttttttttt</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -707,7 +787,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -716,6 +795,7 @@
 		<visitDurationPretty>12 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
+		<interactions>4</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -727,27 +807,33 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>13351.11</totalEcommerceRevenue>
+		<totalEcommerceConversions>4</totalEcommerceConversions>
+		<totalEcommerceItems>12</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>7530.33</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>3</totalAbandonedCarts>
+		<totalAbandonedCartsItems>12</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -768,21 +854,20 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
 	</row>
 </result>

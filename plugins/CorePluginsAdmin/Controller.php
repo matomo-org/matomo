@@ -22,6 +22,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\Marketplace\Controller as MarketplaceController;
 use Piwik\Plugins\Marketplace\Plugins;
+use Piwik\SettingsPiwik;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\Version;
@@ -85,6 +86,10 @@ class Controller extends Plugin\ControllerAdmin
     {
         static::dieIfPluginsAdminIsDisabled();
         Piwik::checkUserHasSuperUserAccess();
+
+        if (!CorePluginsAdmin::isPluginUploadEnabled()) {
+            throw new \Exception('Plugin upload disabled by config');
+        }
 
         $nonce = Common::getRequestVar('nonce', null, 'string');
 
@@ -158,7 +163,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
         $view->pluginsInfo = $this->getPluginsInfo($themesOnly);
 
-        $users = Request::processRequest('UsersManager.getUsers');
+        $users = Request::processRequest('UsersManager.getUsers', array('filter_limit' => '-1'));
         $view->otherUsersCount = count($users) - 1;
         $view->themeEnabled = $this->pluginManager->getThemeEnabled()->getPluginName();
 
@@ -177,6 +182,9 @@ class Controller extends Plugin\ControllerAdmin
                 // curl exec connection error (ie. server not connected to internet)
             }
         }
+
+        $view->isPluginUploadEnabled = CorePluginsAdmin::isPluginUploadEnabled();
+        $view->installNonce = Nonce::getNonce(MarketplaceController::INSTALL_NONCE);
 
         return $view;
     }
@@ -217,6 +225,16 @@ class Controller extends Plugin\ControllerAdmin
         foreach ($plugins as $pluginName => &$plugin) {
 
             $plugin['isCorePlugin'] = $this->pluginManager->isPluginBundledWithCore($pluginName);
+            $plugin['isOfficialPlugin'] = false;
+
+            if (isset($plugin['info']) && isset($plugin['info']['authors'])) {
+                foreach ($plugin['info']['authors'] as $author) {
+                    if (in_array(strtolower($author['name']), array('piwik', 'innocraft', 'matomo', 'matomo-org'))) {
+                        $plugin['isOfficialPlugin'] = true;
+                        break;
+                    }
+                }
+            }
 
             if (!empty($plugin['info']['description'])) {
                 $plugin['info']['description'] = $this->translator->translate($plugin['info']['description']);
@@ -231,10 +249,19 @@ class Controller extends Plugin\ControllerAdmin
                     $suffix = "You may uninstall the plugin or manually delete the files in piwik/plugins/$pluginName/";
                 }
 
-                $description = '<strong>'
-                    . $this->translator->translate('CorePluginsAdmin_PluginNotCompatibleWith', array($pluginName, self::getPiwikVersion()))
-                    . '</strong><br/>'
-                    . $suffix;
+                if ($this->pluginManager->isPluginInFilesystem($pluginName)) {
+                    $description = '<strong>'
+                        . $this->translator->translate('CorePluginsAdmin_PluginNotCompatibleWith',
+                            array($pluginName, self::getPiwikVersion()))
+                        . '</strong><br/>'
+                        . $suffix;
+                } else {
+                    $description = '<strong>'
+                        . $this->translator->translate('CorePluginsAdmin_PluginNotFound',
+                            array($pluginName))
+                        . '</strong><br/>'
+                        . $this->translator->translate('CorePluginsAdmin_PluginNotFoundAlternative');
+                }
                 $plugin['info'] = array(
                     'description' => $description,
                     'version'     => $this->translator->translate('General_Unknown'),
@@ -267,7 +294,9 @@ class Controller extends Plugin\ControllerAdmin
 
     public function safemode($lastError = array())
     {
-        ob_clean();
+        if (ob_get_length()) {
+            ob_clean();
+        }
         
         $this->tryToRepairPiwik();
 
@@ -296,21 +325,26 @@ class Controller extends Plugin\ControllerAdmin
             return $message;
         }
 
-        if (Common::isPhpCliMode()) { // TODO: I can't find how this will ever get called / safeMode is never set for Console
+        if (Common::isPhpCliMode()) {
             throw new Exception("Error: " . var_export($lastError, true));
         }
-
         $view = new View('@CorePluginsAdmin/safemode');
         $view->lastError   = $lastError;
+        $view->isAllowedToTroubleshootAsSuperUser = $this->isAllowedToTroubleshootAsSuperUser();
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
         $view->isAnonymousUser = Piwik::isUserIsAnonymous();
         $view->plugins         = $this->pluginManager->loadAllPluginsAndGetTheirInfo();
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
+        $view->deactivateIAmSuperUserSalt = Common::getRequestVar('i_am_super_user', '', 'string');
         $view->uninstallNonce  = Nonce::getNonce(static::UNINSTALL_NONCE);
         $view->emailSuperUser  = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
         $view->piwikVersion    = Version::VERSION;
         $view->showVersion     = !Common::getRequestVar('tests_hide_piwik_version', 0);
         $view->pluginCausesIssue = '';
+
+        // When the CSS merger in StylesheetUIAssetMerger throws an exception, safe mode is displayed.
+        // This flag prevents an infinite loop where safemode would try to re-generate the cache buster which requires CSS merger..
+        $view->disableCacheBuster();
 
         if (!empty($lastError['file'])) {
             preg_match('/piwik\/plugins\/(.*)\//', $lastError['file'], $matches);
@@ -367,11 +401,13 @@ class Controller extends Plugin\ControllerAdmin
 
     public function deactivate($redirectAfter = true)
     {
-        $pluginName = $this->initPluginModification(static::DEACTIVATE_NONCE);
-        $this->dieIfPluginsAdminIsDisabled();
-
-        $this->pluginManager->deactivatePlugin($pluginName);
-        $this->redirectAfterModification($redirectAfter);
+        if($this->isAllowedToTroubleshootAsSuperUser()) {
+            Piwik::doAsSuperUser(function() use ($redirectAfter) {
+                $this->doDeactivatePlugin($redirectAfter);
+            });
+        } else {
+            $this->doDeactivatePlugin($redirectAfter);
+        }
     }
 
     public function uninstall($redirectAfter = true)
@@ -453,6 +489,36 @@ class Controller extends Plugin\ControllerAdmin
         try {
             Filesystem::deleteAllCacheOnUpdate();
         } catch (Exception $e) {}
+    }
+
+    /**
+     * Let Super User troubleshoot in safe mode, even when Login is broken, with this special trick
+     *
+     * @return bool
+     * @throws Exception
+     */
+    protected function isAllowedToTroubleshootAsSuperUser()
+    {
+        $isAllowedToTroubleshootAsSuperUser = false;
+        $salt = SettingsPiwik::getSalt();
+        if (!empty($salt)) {
+            $saltFromRequest = Common::getRequestVar('i_am_super_user', '', 'string');
+            $isAllowedToTroubleshootAsSuperUser = ($salt == $saltFromRequest);
+        }
+        return $isAllowedToTroubleshootAsSuperUser;
+    }
+
+    /**
+     * @param $redirectAfter
+     * @throws Exception
+     */
+    protected function doDeactivatePlugin($redirectAfter)
+    {
+        $pluginName = $this->initPluginModification(static::DEACTIVATE_NONCE);
+        $this->dieIfPluginsAdminIsDisabled();
+
+        $this->pluginManager->deactivatePlugin($pluginName);
+        $this->redirectAfterModification($redirectAfter);
     }
 
 }

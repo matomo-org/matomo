@@ -7,7 +7,7 @@
        href='{% if row.getMetadata('url')|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.getMetadata('url')|rawSafeDecoded }}'>
     {% if not row.getMetadata('logo') %}
         <img class="link" width="10" height="9"
-             src="plugins/Morpheus/images/link.gif"/>
+             src="plugins/Morpheus/images/link.png"/>
     {% endif %}
 {% endif %}
 
@@ -45,12 +45,11 @@
     {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.getMetadata(properties.tooltip_metadata_name) }}"{% endif %}>
         {{ piwik.logoHtml(row.getMetadata(), row.getColumn('label')) }}
         {% if row.getMetadata('html_label_prefix') %}<span class='label-prefix'>{{ row.getMetadata('html_label_prefix') | raw }}&nbsp;</span>{% endif -%}
-        {%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}
 {% endif %}<span class="value">
-    {%- if row.getColumn(column) or (column=='label' and row.getColumn(column) is same as("0")) %}{% if column=='label' %}{{- row.getColumn(column)|rawSafeDecoded -}}{% else %}{{- row.getColumn(column)|number(2,0)|raw -}}{% endif %}
+    {%- if row.getColumn(column) or (column=='label' and row.getColumn(column) is same as("0")) %}{% if column=='label' %}{{- row.getColumn(column)|rawSafeDecoded -}}{% else %}{% if row.getMetadata('html_column_' ~ column ~ '_prefix') %}<span class='column-prefix'>{{ row.getMetadata('html_column_' ~ column ~ '_prefix') | raw }}</span>{% endif -%}{{- row.getColumn(column)|number(2,0)|rawSafeDecoded -}}{% if row.getMetadata('html_column_' ~ column ~ '_suffix') %}<span class='column-suffix'>{{ row.getMetadata('html_column_' ~ column ~ '_suffix') | raw }}</span>{% endif -%}{% endif %}
     {%- else -%}-
     {%- endif -%}</span>
-{% if column=='label' %}</span>{% endif %}
+{% if column=='label' %}{%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}</span>{% endif %}
 {% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
     </a>
 {% endif %}

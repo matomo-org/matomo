@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\CustomPiwikJs;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Log;
 use Piwik\Plugin;
 
@@ -23,14 +24,17 @@ class CustomPiwikJs extends Plugin
             'PluginManager.pluginInstalled' => 'updateTracker',
             'PluginManager.pluginUninstalled' => 'updateTracker',
             'Updater.componentUpdated' => 'updateTracker',
+            'Controller.CoreHome.checkForUpdates.end' => 'updateTracker'
         );
     }
 
     public function updateTracker()
     {
         try {
-            $trackerUpdater = new TrackerUpdater();
-            $trackerUpdater->update();
+            if (Plugin\Manager::getInstance()->isPluginActivated('CustomPiwikJs')) {
+                $trackerUpdater = StaticContainer::get('Piwik\Plugins\CustomPiwikJs\TrackerUpdater');
+                $trackerUpdater->update();
+            }
         } catch (\Exception $e) {
             Log::error('There was an error while updating the javascript tracker: ' . $e->getMessage());
         }

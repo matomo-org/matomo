@@ -62,7 +62,7 @@ class DomainAge implements MetricsProvider
         }
 
         return array(
-            new Metric('domain-age', 'SEO_DomainAge', $value, 'plugins/SEO/images/whois.png')
+            new Metric('domain-age', 'SEO_DomainAge', $value, 'plugins/Morpheus/icons/dist/SEO/whois.png')
         );
     }
 
@@ -74,7 +74,7 @@ class DomainAge implements MetricsProvider
      */
     private function getAgeArchiveOrg($domain)
     {
-        $data = $this->getUrl('http://wayback.archive.org/web/*/' . urlencode($domain));
+        $data = $this->getUrl('https://wayback.archive.org/web/*/' . urlencode($domain));
         preg_match('#<a href=\"([^>]*)' . preg_quote($domain) . '/\">([^<]*)<\/a>#', $data, $p);
         if (!empty($p[2])) {
             $value = strtotime($p[2]);
@@ -94,7 +94,7 @@ class DomainAge implements MetricsProvider
      */
     private function getAgeWhoIs($domain)
     {
-        $data = $this->getUrl('http://www.who.is/whois/' . urlencode($domain));
+        $data = $this->getUrl('https://www.who.is/whois/' . urlencode($domain));
         preg_match('#(?:Creation Date|Created On|created|Registered on)\.*:\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
         if (!empty($p[1])) {
             $value = strtotime(trim($p[1]));
@@ -114,7 +114,7 @@ class DomainAge implements MetricsProvider
      */
     private function getAgeWhoisCom($domain)
     {
-        $data = $this->getUrl('http://www.whois.com/whois/' . urlencode($domain));
+        $data = $this->getUrl('https://www.whois.com/whois/' . urlencode($domain));
         preg_match('#(?:Creation Date|Created On|created):\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
         if (!empty($p[1])) {
             $value = strtotime(trim($p[1]));
@@ -129,10 +129,21 @@ class DomainAge implements MetricsProvider
     private function getUrl($url)
     {
         try {
-            return str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
+            return $this->getHttpResponse($url);
+        } catch (\Exception $e) {
+        }
+
+        $httpUrl = str_replace('https://', 'http://', $url);
+        try {
+            return $this->getHttpResponse($httpUrl);
         } catch (\Exception $e) {
             $this->logger->warning('Error while getting SEO stats (domain age): {message}', array('message' => $e->getMessage()));
             return '';
         }
+    }
+
+    private function getHttpResponse($url)
+    {
+        return str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
     }
 }

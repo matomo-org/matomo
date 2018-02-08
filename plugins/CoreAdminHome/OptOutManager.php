@@ -198,6 +198,8 @@ class OptOutManager
             'language' => $lang,
             'setCookieInNewWindow' => 1
         ), false);
+        
+        $this->addStylesheet($this->optOutStyling());
 
         $this->view = new View("@CoreAdminHome/optOut");
         $this->view->setXFrameOptions('allow');
@@ -215,6 +217,46 @@ class OptOutManager
         return $this->view;
     }
 
+    private function optOutStyling()
+    {
+        $cssfontsize = Common::getRequestVar('fontSize', false, 'string');
+        $cssfontcolour = Common::getRequestVar('fontColor', false, 'string');
+        $cssfontfamily = Common::getRequestVar('fontFamily', false, 'string');
+        $cssbackgroundcolor = Common::getRequestVar('backgroundColor', false, 'string');
+        $cssbody = 'body { ';
+
+        $hexstrings = array(
+            'fontColor' => $cssfontcolour, 
+            'backgroundColor' => $cssbackgroundcolor
+        );
+        foreach ($hexstrings as $key => $testcase) {
+            if ($testcase && !(ctype_xdigit($testcase) && in_array(strlen($testcase),array(3,6), true))) {
+                throw new \Exception("The URL parameter $key value of '$testcase' is not valid. Expected value is for example 'ffffff' or 'fff'.\n");
+            }
+        }
+
+        if ($cssfontsize && (preg_match("/^[0-9]+[\.]?[0-9]*(px|pt|em|rem|%)$/", $cssfontsize))) {
+            $cssbody .= 'font-size: ' . $cssfontsize . '; '; 
+        } else if ($cssfontsize) {
+            throw new \Exception("The URL parameter fontSize value of '$cssfontsize' is not valid. Expected value is for example '15pt', '1.2em' or '13px'.\n");
+        }
+
+        if ($cssfontfamily && (preg_match("/^[a-zA-Z-\ ,]+$/", $cssfontfamily))) {
+            $cssbody .= 'font-family: ' . $cssfontfamily . '; ';
+        } else if ($cssfontfamily) {
+            throw new \Exception("The URL parameter fontFamily value of '$cssfontfamily' is not valid. Expected value is for example 'sans-serif' or 'Monaco, monospace'.\n");
+        }
+
+        if ($cssfontcolour) {
+            $cssbody .= 'color: #' . $cssfontcolour . '; ';
+        }
+        if ($cssbackgroundcolor) {
+            $cssbody .= 'background-color: #' . $cssbackgroundcolor . '; ';
+        }
+
+        $cssbody .= '}';
+        return $cssbody;
+    }
     /**
      * @return DoNotTrackHeaderChecker
      */

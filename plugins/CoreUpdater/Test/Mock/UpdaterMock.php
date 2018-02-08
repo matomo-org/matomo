@@ -36,7 +36,7 @@ class UpdaterMock extends Updater
 
     public function getArchiveUrl($version, $https = true)
     {
-        return 'http://builds.piwik.org/piwik.zip';
+        return 'http://builds.matomo.org/piwik.zip';
     }
 
     public function updatePiwik($https = true)

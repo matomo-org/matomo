@@ -17,6 +17,11 @@ class Action extends LogTable
         return 'log_action';
     }
 
+    public function getIdColumn()
+    {
+        return 'idaction';
+    }
+
     public function getColumnToJoinOnIdAction()
     {
         return 'idaction';
@@ -27,4 +32,8 @@ class Action extends LogTable
         return 'log_link_visit_action';
     }
 
+    public function getPrimaryKey()
+    {
+        return array('idaction');
+    }
 }

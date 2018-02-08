@@ -4,14 +4,14 @@
         "Alias": "Felhasználói név",
         "AllWebsites": "Összes weboldal",
         "ApplyToAllWebsites": "Alkalmazás minden weboldalra",
-        "ClickHereToDeleteTheCookie": "Kattints ide a szűrés érdekében lementett süti törléséhez, hogy a továbbiakban a Piwik regisztrálja látogatásaid.",
+        "ClickHereToDeleteTheCookie": "Kattints ide a szűrés érdekében lementett süti törléséhez, hogy a továbbiakban a Matomo regisztrálja látogatásaid.",
         "ClickHereToSetTheCookieOnDomain": "Kattints ide egy, a %s weboldalon történő látogatásaid kiszűréséhez szükséges süti böngésződben történő elmentéséhez.",
         "DeleteConfirm": "Biztosan törölni akarod a következő felhasználót: %s?",
         "Email": "E-mail cím",
         "ExceptionAccessValues": "A belépési paraméternek meg kell felelnie a következő értékek egyikének: [ %s ]",
         "ExceptionAdminAnonymous": "Nem adhatsz 'adminisztrációs' jogosultságot 'névtelen' felhasználónak.",
         "ExceptionDeleteDoesNotExist": "'%s' felhasználó nem létezik, ezért nem törölhető!",
-        "ExceptionEditAnonymous": "'Névtelen' felhasználó nem szerkeszthető vagy törölhető. Ezt a Piwik használja a be nem lépett felhasználók azonosítására. Nyilvánossá teheted például statisztikáidat, ha 'megtekintési' jogosultságot adsz a 'névtelen' felhasználók számára.",
+        "ExceptionEditAnonymous": "'Névtelen' felhasználó nem szerkeszthető vagy törölhető. Ezt a Matomo használja a be nem lépett felhasználók azonosítására. Nyilvánossá teheted például statisztikáidat, ha 'megtekintési' jogosultságot adsz a 'névtelen' felhasználók számára.",
         "ExceptionEmailExists": "'%s' e-mail címmel már létezik felhasználó.",
         "ExceptionInvalidEmail": "Az e-mail cím nem megfelelő formátumú",
         "ExceptionPasswordMD5HashExpected": "Az UsersManager.getTokenAuth funkció MD5-hashed jelszót vár (32 karakter hosszúságban). Kérjük, alkalmazd a md5() funkciót a jelszón, mielőtt meghívod ezt a metódust.",
@@ -33,9 +33,9 @@
         "User": "Felhasználó",
         "UsersManagement": "Felhasználókezelés",
         "UsersManagementMainDescription": "Új felhasználó hozzáadása, vagy a meglévők beállítása. Feljebb beállíthatod a jogosultságaikat.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Amikor a felhasználók nincsenek belépve a Piwik-be és így keresik fel a Piwik-et, akkor a következőhöz férjenek hozzá:",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Amikor a felhasználók nincsenek belépve a Piwik-be és így keresik fel a Matomo-et, akkor a következőhöz férjenek hozzá:",
         "YourUsernameCannotBeChanged": "Felhasználói nevedet nem lehet megváltoztatni",
-        "YourVisitsAreIgnoredOnDomain": "%1$sLátogatásaidat nem veszi figyelembe a Piwik itt: %2$s %3$s (a Piwik megfelelő sütijét megtaláltuk a böngésződben lementve).",
-        "YourVisitsAreNotIgnored": "%1$sLátogatásaid nem kerültek ignorálásra a Piwik által%2$s (Az ehhez szükséges süti nem volt megtalálható a böngésződben.)"
+        "YourVisitsAreIgnoredOnDomain": "%1$sLátogatásaidat nem veszi figyelembe a Piwik itt: %2$s %3$s (a Matomo megfelelő sütijét megtaláltuk a böngésződben lementve).",
+        "YourVisitsAreNotIgnored": "%1$sLátogatásaid nem kerültek ignorálásra a Matomo által%2$s (Az ehhez szükséges süti nem volt megtalálható a böngésződben.)"
     }
 }

@@ -33,13 +33,13 @@ abstract class ReleaseChannel extends BaseReleaseChannel
 
         $url = Config::getInstance()->General['api_service_url']
             . '/1.0/getLatestVersion/'
-            . '?' . http_build_query($parameters, '', '&');
+            . '?' . Http::buildQuery($parameters);
 
         return $url;
     }
 
     public function getDownloadUrlWithoutScheme($version)
     {
-        return sprintf('://builds.piwik.org/piwik-%s.zip', $version);
+        return sprintf('://builds.matomo.org/piwik-%s.zip', $version);
     }
 }

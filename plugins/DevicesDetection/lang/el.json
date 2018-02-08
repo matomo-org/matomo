@@ -20,10 +20,13 @@
         "dataTableLabelTypes": "Τύπος",
         "Device": "Συσκευή",
         "DeviceBrand": "Μάρκα συσκευής",
+        "DeviceBrands": "Μάρκες συσκευής",
         "DeviceDetection": "Εντοπισμός συσκευής",
         "DeviceModel": "Μοντέλο συσκευής",
+        "DeviceModels": "Μοντέλα συσκευής",
         "DevicesDetection": "Συσκευές επισκεπτών",
         "DeviceType": "Τύπος συσκευής",
+        "DeviceTypes": "Τύποι συσκευής",
         "FeaturePhone": "Τηλέφωνο",
         "OperatingSystemFamilies": "Οικογένειες Λειτουργικών Συστημάτων",
         "OperatingSystemFamily": "Οικογένεια Λειτουργικού Συστήματος",
@@ -38,6 +41,7 @@
         "Phablet": "Phablet",
         "TV": "Τηλεόραση",
         "UserAgent": "Πρόγραμμα πελάτη χρήστη",
+        "XVisitsFromDevices": "%1$s επισκέψεις από %2$s συσκευές",
         "WidgetBrowsers": "Φυλλομετρητές επισκεπτών",
         "WidgetBrowsersDocumentation": "Αυτή η αναφορά περιέχει πληροφορίες για το φυλλομετρητή που χρησιμοποιούσαν οι επισκέπτες. Κάθε έκδοση φυλλομετρητή κατατάσσεται διαφορετικά."
     }

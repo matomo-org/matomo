@@ -13,6 +13,7 @@ use lessc;
 use Piwik\AssetManager\UIAsset;
 use Piwik\AssetManager\UIAssetMerger;
 use Piwik\Common;
+use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Piwik;
 
 class StylesheetUIAssetMerger extends UIAssetMerger
@@ -37,11 +38,15 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     protected function getMergedAssets()
     {
         // note: we're using setImportDir on purpose (not addImportDir)
-        $this->lessCompiler->setImportDir(PIWIK_USER_PATH);
+        $this->lessCompiler->setImportDir(PIWIK_DOCUMENT_ROOT);
         $concatenatedAssets = $this->getConcatenatedAssets();
 
         $this->lessCompiler->setFormatter('classic');
-        $compiled = $this->lessCompiler->compile($concatenatedAssets);
+        try {
+            $compiled = $this->lessCompiler->compile($concatenatedAssets);
+        } catch(\Exception $e) {
+            throw new StylesheetLessCompileException($e->getMessage());
+        }
 
         foreach ($this->cssAssetsToReplace as $asset) {
             // to fix #10173
@@ -109,7 +114,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     protected function getPreamble()
     {
         return $this->getCacheBusterValue() . "\n"
-        . "/* Piwik CSS file is compiled with Less. You may be interested in writing a custom Theme for Piwik! */\n";
+        . "/* Matomo CSS file is compiled with Less. You may be interested in writing a custom Theme for Matomo! */\n";
     }
 
     protected function postEvent(&$mergedContent)
@@ -178,7 +183,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         $baseDirectory = dirname($uiAsset->getRelativeLocation());
 
         return function ($matches) use ($baseDirectory) {
-            $absolutePath = PIWIK_USER_PATH . "/$baseDirectory/" . $matches[2];
+            $absolutePath = PIWIK_DOCUMENT_ROOT . "/$baseDirectory/" . $matches[2];
 
             // Allow to import extension less file
             if (strpos($matches[2], '.') === false) {

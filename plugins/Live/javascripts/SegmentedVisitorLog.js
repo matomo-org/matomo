@@ -3,7 +3,7 @@ var SegmentedVisitorLog = function() {
     function getDataTableFromApiMethod(apiMethod)
     {
         var div = $(require('piwik/UI').DataTable.getDataTableByReport(apiMethod));
-        if (div.size() > 0 && div.data('uiControlObject')) {
+        if (div.length && div.data('uiControlObject')) {
             return div.data('uiControlObject');
         }
     }
@@ -107,7 +107,7 @@ var SegmentedVisitorLog = function() {
             var title = box.find('h2[piwik-enriched-headline]');
             var defaultTitle = title.text();
 
-            if (title.size() > 0) {
+            if (title.length) {
                 title.remove();
             }
 

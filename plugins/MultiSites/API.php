@@ -24,7 +24,7 @@ use Piwik\SettingsPiwik;
 use Piwik\Site;
 
 /**
- * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Piwik.
+ * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Matomo.
  * @method static \Piwik\Plugins\MultiSites\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -160,10 +160,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Same as getAll but for a unique Piwik site
+     * Same as getAll but for a unique Matomo site
      * @see Piwik\Plugins\MultiSites\API::getAll()
      *
-     * @param int $idSite Id of the Piwik site
+     * @param int $idSite Id of the Matomo site
      * @param string $period The period type to get data for.
      * @param string $date The date(s) to get data for.
      * @param bool|string $segment The segments to get data for.
@@ -285,7 +285,7 @@ class API extends \Piwik\Plugin\API
         // ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
         if ($multipleWebsitesRequested
             // We don't delete the 0 visits row, if "Enhanced" mode is on.
-            && !$enhanced
+            && !$enhanced && (empty($showColumns) || in_array(self::NB_VISITS_METRIC, $showColumns))
         ) {
             $dataTable->filter(
                 'ColumnCallbackDeleteRow',
@@ -440,7 +440,11 @@ class API extends \Piwik\Plugin\API
                 $totals[$label] = 0;
             }
 
-            foreach ($dataTable->getRows() as $row) {
+            $rows = $dataTable->getRows();
+
+            $rows = $this->filterRowsForTotalsCalculation($rows);
+
+            foreach ($rows as $row) {
                 foreach ($apiMetrics as $totalMetadataName => $recordName) {
                     $totals[$totalMetadataName] += $row->getColumn($recordName);
                 }
@@ -462,12 +466,43 @@ class API extends \Piwik\Plugin\API
             $total  = 0;
             $metric = 'nb_visits';
 
-            foreach ($pastTable->getRows() as $row) {
+            $rows = $pastTable->getRows();
+            $rows = $this->filterRowsForTotalsCalculation($rows);
+
+            foreach ($rows as $row) {
                 $total += $row->getColumn($metric);
             }
 
             $dataTable->setMetadata(self::getTotalMetadataName($metric . '_lastdate'), $total);
         }
+    }
+
+    /**
+     * @param Row[] $rows
+     * @return mixed
+     */
+    private function filterRowsForTotalsCalculation($rows)
+    {
+        /**
+         * Triggered to filter / restrict which rows should be included in the MultiSites (All Websites Dashboard)
+         * totals calculation
+         *
+         * **Example**
+         *
+         *     public function filterMultiSitesRows(&$rows)
+         *     {
+         *         foreach ($rows as $index => $row) {
+         *             if ($row->getColumn('label') === 5) {
+         *                 unset($rows[$index]); // remove idSite 5 from totals
+         *             }
+         *         }
+         *     }
+         *
+         * @param Row[] &$rows An array containing rows, one row for each site. The label columns equals the idSite.
+         */
+        Piwik::postEvent('MultiSites.filterRowsForTotalsCalculation', array(&$rows));
+
+        return $rows;
     }
 
     private static function getTotalMetadataName($name)

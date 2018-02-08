@@ -12,17 +12,226 @@
 				<pageTitle>Ads</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>1</pageId>
-				<generationTime>0.33s</generationTime>
+				<bandwidth />
 				<timeSpent>271</timeSpent>
 				<timeSpentPretty>4 min 31s</timeSpentPretty>
+				<generationTimeMilliseconds>333</generationTimeMilliseconds>
+				<generationTime>0.33s</generationTime>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>2</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece>Unknown</contentPiece>
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>3</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece />
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>120</timeSpentRef>
+				<pageId>4</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece>/path/ad.jpg</contentPiece>
+				<contentTarget>http://www.example.com</contentTarget>
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>5</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece>/path/ad2.jpg</contentPiece>
+				<contentTarget>http://www.example.com</contentTarget>
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>6</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece>/path/ad.jpg</contentPiece>
+				<contentTarget>http://www.example.com</contentTarget>
+				<contentInteraction>submit</contentInteraction>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>60</timeSpentRef>
+				<pageId>7</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click to download Piwik now</contentPiece>
+				<contentTarget>http://piwik.org/download</contentTarget>
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>8</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click NOW</contentPiece>
+				<contentTarget>http://piwik.org/</contentTarget>
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>9</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click to download Piwik now</contentPiece>
+				<contentTarget>http://piwik.org/download</contentTarget>
+				<contentInteraction>click</contentInteraction>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>10</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click NOW</contentPiece>
+				<contentTarget>http://piwik.org/download</contentTarget>
+				<contentInteraction>click</contentInteraction>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>60</timeSpentRef>
+				<pageId>11</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click to download Piwik now</contentPiece>
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>30</timeSpentRef>
+				<pageId>12</pageId>
+				<contentName>Video Ad</contentName>
+				<contentPiece>movie.mov</contentPiece>
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -33,7 +242,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -42,6 +250,7 @@
 		<visitDurationPretty>4 min 31s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -53,27 +262,33 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -86,22 +301,21 @@
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -115,17 +329,226 @@
 				<pageTitle>Ads</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>13</pageId>
-				<generationTime>0.33s</generationTime>
+				<bandwidth />
 				<timeSpent>271</timeSpent>
 				<timeSpentPretty>4 min 31s</timeSpentPretty>
+				<generationTimeMilliseconds>333</generationTimeMilliseconds>
+				<generationTime>0.33s</generationTime>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>14</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece>Unknown</contentPiece>
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>15</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece />
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>120</timeSpentRef>
+				<pageId>16</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece>/path/ad.jpg</contentPiece>
+				<contentTarget>http://www.example.com</contentTarget>
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>17</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece>/path/ad2.jpg</contentPiece>
+				<contentTarget>http://www.example.com</contentTarget>
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>18</pageId>
+				<contentName>ImageAd</contentName>
+				<contentPiece>/path/ad.jpg</contentPiece>
+				<contentTarget>http://www.example.com</contentTarget>
+				<contentInteraction>submit</contentInteraction>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>60</timeSpentRef>
+				<pageId>19</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click to download Piwik now</contentPiece>
+				<contentTarget>http://piwik.org/download</contentTarget>
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>20</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click NOW</contentPiece>
+				<contentTarget>http://piwik.org/</contentTarget>
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>21</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click to download Piwik now</contentPiece>
+				<contentTarget>http://piwik.org/download</contentTarget>
+				<contentInteraction>click</contentInteraction>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>0</timeSpentRef>
+				<pageId>22</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click NOW</contentPiece>
+				<contentTarget>http://piwik.org/download</contentTarget>
+				<contentInteraction>click</contentInteraction>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>60</timeSpentRef>
+				<pageId>23</pageId>
+				<contentName>Text Ad</contentName>
+				<contentPiece>Click to download Piwik now</contentPiece>
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>13</type>
+				<url>http://www.example.org/page</url>
+				<pageTitle />
+				<pageIdAction>3</pageIdAction>
+				
+				
+				<timeSpentRef>30</timeSpentRef>
+				<pageId>24</pageId>
+				<contentName>Video Ad</contentName>
+				<contentPiece>movie.mov</contentPiece>
+				<contentTarget />
+				<contentInteraction />
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -136,7 +559,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -145,6 +567,7 @@
 		<visitDurationPretty>4 min 31s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -156,27 +579,33 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -189,17 +618,16 @@
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>director</plugins>
+		<plugins>cookie, director</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/director.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/director.png</pluginIcon>
 				<pluginName>director</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
 	</row>
 </result>

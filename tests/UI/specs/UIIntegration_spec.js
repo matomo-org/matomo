@@ -62,6 +62,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it("should load dashboard3 correctly", function (done) {
+        this.retries(3);
         expect.screenshot("dashboard3").to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
         }, done);
@@ -80,6 +81,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    // shortcuts help
+    it("should show shortcut help", function (done) {
+        expect.screenshot("shortcuts").to.be.captureSelector('.modal.open', function (page) {
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
+            page.sendKeys('body', '?', 100);
+        }, done);
+    });
+
     // visitors pages
     it('should load visitors > overview page correctly', function (done) {
         expect.screenshot("visitors_overview").to.be.captureSelector('.pageWrap', function (page) {
@@ -94,20 +103,20 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    // random failure here! the 'processed' screenshot displayed in UI test viewer is actually the next processed screenshot
-    //it('should load visitors > visitor log page correctly', function (done) {
-    //    expect.screenshot("visitors_visitorlog").to.be.skippedOnAbort();
-    //    expect.screenshot("visitors_visitorlog").to.be.captureSelector('.pageWrap', function (page) {
-    //        page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog");
-    //    }, done);
-    //});
-    //
-    //it('should load visitors with site search > visitor log page correctly', function (done) {
-    //    expect.screenshot("visitors_with_site_search_visitorlog").to.be.skippedOnAbort();
-    //    expect.screenshot("visitors_with_site_search_visitorlog").to.be.captureSelector('.pageWrap', function (page) {
-    //        page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog&period=day&date=2012-01-11");
-    //    }, done);
-    //});
+    // skipped as phantom seems to crash at this test sometimes
+    it.skip('should load visitors > visitor log page correctly', function (done) {
+        expect.screenshot("visitors_visitorlog").to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog");
+        }, done);
+    });
+
+    // this test often fails for unknown reasons? 
+    // the visitor log with site search is also currently tested in plugins/Live/tests/UI/expected-ui-screenshots/Live_visitor_log.png
+    it.skip('should load visitors with site search > visitor log page correctly', function (done) {
+        expect.screenshot("visitors_with_site_search_visitorlog").to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog&period=day&date=2012-01-11");
+        }, done);
+    });
 
     it('should load the visitors > devices page correctly', function (done) {
         expect.screenshot("visitors_devices").to.be.captureSelector('.pageWrap', function (page) {
@@ -150,6 +159,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=UserCountryMap_RealTimeMap"
                     + "&showDateTime=0&realtimeWindow=last2&changeVisitAlpha=0&enableAnimation=0&doNotRefreshVisits=1"
                     + "&removeOldVisits=0");
+            page.mouseMove('circle');
+            page.evaluate(function(){
+                $('.ui-tooltip:visible .rel-time').data('actiontime', Math.floor(new Date((new Date()).getTime()-(4*3600*24000))/1000));
+            });
         }, done);
     });
 
@@ -363,12 +376,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // widgetize
     it('should load the widgetized visitor log correctly', function (done) {
+        this.retries(3);
         expect.screenshot('widgetize_visitor_log').to.be.capture(function (page) {
             expect.screenshot("widgetize_visitor_log").to.be.skippedOnAbort();
             page.load("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=Live&actionToWidgetize=getVisitorLog");
             page.evaluate(function () {
                 $('.expandDataTableFooterDrawer').click();
-            });
+            }, 3000);
         }, done);
     });
 
@@ -376,11 +390,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         this.retries(3);
         expect.screenshot('widgetize_allwebsites').to.be.capture(function (page) {
             page.load("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=MultiSites&actionToWidgetize=standalone");
+            page.wait(1000);
         }, done);
     });
 
     it('should widgetize the ecommerce log correctly', function (done) {
-        expect.screenshot("widgetize_ecommercelog").to.be.skippedOnAbort();
+        this.retries(3);
         expect.screenshot('widgetize_ecommercelog').to.be.capture(function (page) {
             page.load("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=Ecommerce&actionToWidgetize=getEcommerceLog&filter_limit=-1");
         }, done);
@@ -393,9 +408,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should not display API response in the content', function (done) {
-        expect.screenshot('menu_apidisallowed').to.be.captureSelector('#content', function (page) {
-            page.load("?" + urlBase + "#?" + generalParams + "&module=API&action=SitesManager.getImageTrackingCode");
+    it('should not display API response in the content and redirect to dashboard instead', function (done) {
+        expect.page().contains('#dashboardWidgetsArea', /*'menu_apidisallowed',*/ function (page) {
+            var url = "?" + urlBase + "#?" + generalParams + "&module=API&action=SitesManager.getImageTrackingCode";
+            page.load(url, 2000);
         }, done);
     });
 
@@ -407,9 +423,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it('should load the ecommerce log page', function (done) {
-        expect.screenshot("ecommerce_log").to.be.skippedOnAbort();
+        this.retries(3);
         expect.screenshot('ecommerce_log').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog");
+        }, done);
+    });
+
+    it('should load the ecommerce log page with segment', function (done) {
+        this.retries(3);
+        expect.screenshot('ecommerce_log_segmented').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + urlBase + "&segment=countryCode%3D%3DUS#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog&segment=countryCode%3D%3DUS");
         }, done);
     });
 
@@ -499,6 +522,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should switch the SMS provider correctly', function (done) {
+        expect.screenshot('admin_settings_mobilemessaging_provider').to.be.captureSelector('.pageWrap', function (page) {
+            page.evaluate(function() {
+                $('[name=smsProviders] ul li:nth-child(2)').click();
+            }, 150);
+        }, done);
+    });
+
     it('should load the themes admin page correctly', function (done) {
         expect.screenshot('admin_themes').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CorePluginsAdmin&action=themes");
@@ -547,6 +578,30 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect.screenshot('fatal_error_safemode').to.be.capture(function (page) {
             page.load("?" + generalParams + "&module=CorePluginsAdmin&action=safemode&idSite=1&period=day&date=yesterday&activated"
                     + "&error_message=" + message + "&error_file=" + file + "&error_line=" + line + "&tests_hide_piwik_version=1");
+            page.evaluate(function () {
+                var elements = document.querySelectorAll('table tr td:nth-child(2)');
+                for (var i in elements) {
+                    if (elements.hasOwnProperty(i) && elements[i].innerText.match(/^[0-9]\.[0-9]\.[0-9]$/)) {
+                        elements[i].innerText = '3.0.0'
+                    }
+                }
+            });
+        }, done);
+    });
+
+    // invalid site parameter
+    it('should show login form for non super user if invalid idsite given', function (done) {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        expect.screenshot('invalid_idsite').to.be.capture(function (page) {
+            page.load("?module=CoreHome&action=index&idSite=10006&period=week&date=2017-06-04");
+        }, done);
+    });
+
+    it('should show error for super user if invalid idsite given', function (done) {
+        expect.screenshot('invalid_idsite_superuser').to.be.capture(function (page) {
+            page.load("?module=CoreHome&action=index&idSite=10006&period=week&date=2017-06-04");
         }, done);
     });
 
@@ -564,19 +619,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
         expect.screenshot('db_connect_error').to.be.capture(function (page) {
             page.load("");
-        }, done);
-    });
-
-    // CustomAlerts plugin TODO: move to CustomAlerts plugin
-    it('should load the custom alerts list correctly', function (done) {
-        expect.screenshot('customalerts_list').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + generalParams + "&module=CustomAlerts&action=index&idSite=1&period=day&date=yesterday&tests_hide_piwik_version=1");
-        }, done);
-    });
-
-    it('should load the triggered custom alerts list correctly', function (done) {
-        expect.screenshot('customalerts_list_triggered').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + generalParams + "&module=CustomAlerts&action=historyTriggeredAlerts&idSite=1&period=day&date=yesterday&tests_hide_piwik_version=1");
         }, done);
     });
 
@@ -602,9 +644,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should load the API listing page correctly', function (done) {
         expect.screenshot('api_listing').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=API&action=listAllAPI");
-            page.evaluate(function () { // remove token_auth since it can change on each test run
-                $('span#token_auth>strong').text('dummytokenauth');
-            });
         }, done);
     });
 
@@ -629,9 +668,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load("?" + generalParams + "&module=Feedback&action=index");
 
             page.evaluate(function () {
-                $('.enrichedHeadline span').each(function () {
-                    if ($(this).text().indexOf("Piwik") !== -1) {
-                        var replace = $(this).text().replace(/Piwik\s*\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, 'Piwik');
+                $('.enrichedHeadline .title').each(function () {
+                    if ($(this).text().indexOf("Matomo") !== -1) {
+                        var replace = $(this).text().replace(/Matomo\s*\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, 'Matomo');
                         $(this).text(replace);
                     }
                 });
@@ -687,59 +726,53 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // extra segment tests
     it('should load the row evolution page correctly when a segment is selected', function (done) {
-        var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?module=CustomVariables&action=menuGetCustomVariables&idSite=1&period=year&date=2012-01-13";
-        expect.page(url).contains('.ui-dialog > .ui-dialog-content > div.rowevolution:visible', 'segmented_rowevolution', function (page) {
+        this.retries(3);
+        expect.page().contains('.ui-dialog > .ui-dialog-content > div.rowevolution:visible', /*'segmented_rowevolution',*/ function (page) {
+            var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
+            page.load(url, 1000);
             page.click('.segmentationTitle');
-            page.click('.segname:contains(From Europe)');
+            page.click('.segname:contains(From Europe)', 1000);
 
             page.mouseMove('table.dataTable tbody tr:first-child');
             page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
             page.click('a.actionRowEvolution:visible');
-            page.wait(1000);
+            page.wait(2000);
 
         }, done);
     });
 
     it('should load the segmented visitor log correctly when a segment is selected', function (done) {
         this.retries(3);
-
-        expect.screenshot("segmented_visitorlog").to.be.skippedOnAbort();
-        
-        var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
-        expect.page(url).contains('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog:visible', 'segmented_visitorlog', function (page) {
-            page.wait(1000);
-            page.click('.segmentationTitle');
-            page.wait(500);
-            page.click('.segname:contains(From Europe)');
-            page.wait(500);
+        expect.screenshot('segmented_visitorlog').to.be.captureSelector('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog', function (page) {
+            var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
+            page.load(url, 1000);
+            page.evaluate(function(){
+                $('.segmentationTitle').click();
+                $('.segname:contains(From Europe)').click();
+            }, 5000);
             page.mouseMove('table.dataTable tbody tr:first-child');
-            page.wait(500);
-            page.mouseMove('a.actionSegmentVisitorLog:visible'); // necessary to get popover to display
-            page.wait(500);
-            page.click('a.actionSegmentVisitorLog:visible');
-            page.wait(1000);
-
+            page.evaluate(function(){
+                var visitorLogLinkSelector = 'table.dataTable tbody tr:first-child a.actionSegmentVisitorLog';
+                $(visitorLogLinkSelector).click();
+            }, 2000);
         }, done);
     });
 
     it('should not apply current segmented when opening visitor log', function (done) {
         this.retries(3);
 
-        var url = "?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=Live&actionToWidgetize=getVisitorLog&segment=visitCount==2&enableAnimation=0";
-
         delete testEnvironment.queryParamOverride.visitorId;
         testEnvironment.save();
 
         expect.screenshot("visitor_profile_not_segmented").to.be.similar(0.002).to.capture(function (page) {
-            page.load(url);
+            var url = "?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=Live&actionToWidgetize=getVisitorLog&segment=visitCount==2&enableAnimation=0";
+            page.load(url, 1000);
 
             page.evaluate(function () {
                 $('.visitor-log-visitor-profile-link').first().click();
-            });
+            }, 500);
 
-            page.wait(1000);
+            page.wait(2000);
         }, done);
     });
-
-
 });

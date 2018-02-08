@@ -2,15 +2,20 @@
     "DBStats": {
         "DatabaseUsage": "Stopień wykorzystania bazy danych",
         "DataSize": "Rozmiar danych",
-        "DBSize": "rozmiar DB",
+        "DBSize": "rozmiar bazy",
         "EstimatedSize": "szacunkowa wielkość",
         "IndexSize": "Rozmiar indeksu",
-        "LearnMore": "Aby dowiedzieć się więcej o tym, jak Piwik przetwarza dane i jak konfigurować go do pracy z serwisami o średnim i wysokim ruchu na stronach, sprawdź dokumentację %s.",
+        "LearnMore": "Aby dowiedzieć się więcej o tym, jak Matomo przetwarza dane i jak konfigurować go do pracy z serwisami o średnim i wysokim ruchu na stronach, sprawdź dokumentację %s.",
         "MainDescription": "Piwik przechowuje wszystkie dane analityki statystycznej stron w bazie danych MySQL serwera. Obecnie jego tabele zajmują %s.",
+        "MetricDataByYear": "Metryka Tabele wg Roku",
+        "MetricTables": "Metryka Tabele",
         "OtherTables": "Inne Tabele",
+        "PluginDescription": "Dostarcza szczegółowych raportów dotyczących wykorzystania bazy MySQL. Dostępne dla Super Użytkownika w sekcji Diagnostyka",
         "ReportDataByYear": "Raport Tabele według roku",
+        "ReportTables": "Raport Tabele",
         "RowCount": "Liczba wierszy",
         "Table": "Tabela",
-        "TotalSize": "Całkowity rozmiar"
+        "TotalSize": "Całkowity rozmiar",
+        "TrackerTables": "Tabele trakera"
     }
 }

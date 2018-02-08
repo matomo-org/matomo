@@ -41,7 +41,7 @@ class GeolocationDiagnostic implements Diagnostic
         $currentProviderId = LocationProvider::getCurrentProviderId();
         $allProviders = LocationProvider::getAllProviderInfo();
         $isRecommendedProvider = in_array($currentProviderId, array(LocationProvider\GeoIp\Php::ID, $currentProviderId == LocationProvider\GeoIp\Pecl::ID));
-        $isProviderInstalled = ($allProviders[$currentProviderId]['status'] == LocationProvider::INSTALLED);
+        $isProviderInstalled = (isset($allProviders[$currentProviderId]['status']) && $allProviders[$currentProviderId]['status'] == LocationProvider::INSTALLED);
 
         if ($isRecommendedProvider && $isProviderInstalled) {
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
@@ -50,12 +50,12 @@ class GeolocationDiagnostic implements Diagnostic
         if ($isProviderInstalled) {
             $comment = $this->translator->translate('UserCountry_GeoIpLocationProviderNotRecomnended') . ' ';
             $comment .= $this->translator->translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2', array(
-                '<a href="http://piwik.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>'
+                '<a href="https://matomo.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>'
             ));
         } else {
             $comment = $this->translator->translate('UserCountry_DefaultLocationProviderDesc1') . ' ';
             $comment .= $this->translator->translate('UserCountry_DefaultLocationProviderDesc2', array(
-                '<a href="http://piwik.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>'
+                '<a href="https://matomo.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>'
             ));
         }
 

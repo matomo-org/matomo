@@ -125,12 +125,12 @@
                 /* move widget icons into datatable top actions
                 var $buttons = currentWidget.find('.buttons .button');
                 var $controls = currentWidget.find('.dataTableControls .dataTableAction').first();
-                if ($buttons.size() && $controls.size()) {
+                if ($buttons.length && $controls.length) {
                     $buttons.find('.button').addClass('dataTableAction');
                     $buttons.insertBefore($controls);
                 }*/
 
-                if (currentWidget.parents('body').size()) {
+                if (currentWidget.parents('body').length) {
                     // there might be race conditions, eg widget might be just refreshed while whole dashboard is also
                     // removed from DOM
                     piwikHelper.compileAngularComponents($widgetContent);
@@ -314,6 +314,7 @@
             var self = this;
             this.element.dialog({
                 title: '',
+                dialogClass: 'widgetoverlay',
                 modal: true,
                 width: width,
                 position: ['center', 'center'],

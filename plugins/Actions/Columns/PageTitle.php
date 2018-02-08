@@ -8,26 +8,29 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Piwik;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
+use Piwik\Tracker\Action;
 
 class PageTitle extends ActionDimension
 {
     protected $columnName = 'idaction_name';
     protected $columnType = 'INTEGER(10) UNSIGNED';
+    protected $type = self::TYPE_TEXT;
+    protected $segmentName = 'pageTitle';
+    protected $nameSingular = 'Goals_PageTitle';
+    protected $namePlural = 'Actions_WidgetPageTitles';
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
-    protected function configureSegments()
+    public function getDbColumnJoin()
     {
-        $segment = new Segment();
-        $segment->setSegment('pageTitle');
-        $segment->setName('Actions_ColumnPageName');
-        $this->addSegment($segment);
+        return new ActionNameJoin();
     }
 
-    public function getName()
+    public function getDbDiscriminator()
     {
-        return Piwik::translate('Actions_ColumnPageName');
+        return new Discriminator('log_action', 'type', Action::TYPE_PAGE_TITLE);
     }
-
 }

@@ -247,8 +247,9 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         // configure selectable columns
-        // todo: should use SettingsPiwik::isUniqueVisitorsEnabled
-        if (Common::getRequestVar('period', false) == 'day') {
+        $period = Common::getRequestVar('period', false);
+
+        if (SettingsPiwik::isUniqueVisitorsEnabled($period)) {
             $selectable = array('nb_visits', 'nb_uniq_visitors', 'nb_users', 'nb_actions');
         } else {
             $selectable = array('nb_visits', 'nb_actions');
@@ -379,7 +380,7 @@ function DisplayTopKeywords($url = "")
 	}
 
 	// Display the list in HTML
-	$url = htmlspecialchars($url, ENT_QUOTES);
+	$url = htmlspecialchars($url, ENT_QUOTES, \'UTF-8\');
 	$output = "<h2>Top Keywords for <a href=\'$url\'>$url</a></h2><ul>";
 	foreach($keywords as $keyword) {
 		$output .= "<li>". $keyword . "</li>";
@@ -410,14 +411,14 @@ function DisplayTopKeywords($url = "")
             $api = $api . "&url=" . urlencode($url);
             $keywords = @json_decode(file_get_contents($api), $assoc = true);
             Common::sendHeader('Content-Type: text/html; charset=utf-8', true);
-            if ($keywords === false || isset($keywords["result"])) {
+            if ($keywords === false || isset($keywords["result"]) || !is_array($keywords)) {
                 // DEBUG ONLY: uncomment for troubleshooting an empty output (the URL output reveals the token_auth)
                 //echo "Error while fetching the <a href=\'".$api."\'>Top Keywords from Piwik</a>";
                 return;
             }
 
             // Display the list in HTML
-            $url = htmlspecialchars($url, ENT_QUOTES);
+            $url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
             $output = "<h2>Top Keywords for <a href=\'$url\'>$url</a></h2><ul>";
             foreach ($keywords as $keyword) {
                 $output .= "<li>" . $keyword . "</li>";
@@ -433,7 +434,7 @@ function DisplayTopKeywords($url = "")
 
         echo "</div><br/>
 		<p style='padding: 0 12px;'>Here is the PHP function that you can paste in your pages:</P>
-		<textarea style='padding: 0 12px;height:auto;width:auto;margin-left:12px;' cols=60 rows=8>&lt;?php\n" . htmlspecialchars($code) . "\n DisplayTopKeywords();</textarea>
+		<textarea style='padding: 0 12px;height:auto;width:auto;margin-left:12px;' cols=60 rows=8>&lt;?php\n" . htmlspecialchars($code, ENT_COMPAT | ENT_HTML401, 'UTF-8') . "\n DisplayTopKeywords();</textarea>
 		";
 
         echo "

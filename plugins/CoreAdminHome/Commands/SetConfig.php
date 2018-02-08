@@ -34,20 +34,23 @@ You can set config values two ways, via --section, --key, --value or by command 
 To use --section, --key, --value, simply supply those options. You can only set one setting this way, and you cannot
 append to arrays.
 
-To use arguments, supply one or more arguments in the following format: Section.config_setting_name=\"value\"
-'Section' is the name of the section, 'config_setting_name' the name of the setting and 'value' is the value.
-NOTE: 'value' must be JSON encoded, so Section.config_setting_name=\"value\" would work but
-Section.config_setting_name=value would not.
+To use arguments, supply one or more arguments in the following format:
+$ ./console config:set 'Section.config_setting_name=\"value\"'
+'Section' is the name of the section,
+'config_setting_name' the name of the setting and
+'value' is the value.
 
-To append to an array setting, supply an argument like this: Section.config_setting_name[]=\"value to append\"
+NOTE: 'value' must be JSON encoded, so 'Section.config_setting_name=\"value\"' would work but 'Section.config_setting_name=value' would not.
 
-To reset an array setting, supply an argument like this: Section.config_setting_name=[]
+To append to an array setting, supply an argument like this:
+$ ./console config:set 'Section.config_setting_name[]=\"value to append\"'
+
+To reset an array setting, supply an argument like this:
+$ ./console config:set 'Section.config_setting_name=[]'
+
 Resetting an array will not work if the array has default values in global.ini.php (such as, [log] log_writers).
 In this case the values in global.ini.php will be used, since there is no way to explicitly set an
 array setting to empty in INI config.
-
-Use the --piwik-domain option to specify which instance to modify.
-
 ");
     }
 
@@ -73,12 +76,12 @@ Use the --piwik-domain option to specify which instance to modify.
         foreach ($manipulations as $manipulation) {
             $manipulation->manipulate($config);
 
-            $output->writeln("<info>Setting [{$manipulation->getSectionName()}] {$manipulation->getName()} = {$manipulation->getValueString()}</info>");
+            $output->write("<info>Setting [{$manipulation->getSectionName()}] {$manipulation->getName()} = {$manipulation->getValueString()}...</info>");
+            $output->writeln("<info> done.</info>");
         }
 
         $config->forceSave();
 
-        $this->writeSuccessMessage($output, array("Done."));
     }
 
     /**

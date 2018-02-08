@@ -12,11 +12,15 @@
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
+				
 				<pageId>46</pageId>
+				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -34,18 +38,22 @@
 				<url />
 				<pageIdAction />
 				
+				
 				<pageId>47</pageId>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
+				<interactionPosition>2</interactionPosition>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
 				<customVariables>
 					<row>
 						<customVariablePageName4>Search Category</customVariablePageName4>
 						<customVariablePageValue4>CAT</customVariablePageValue4>
 					</row>
 				</customVariables>
-				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<timeSpent>180</timeSpent>
-				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/search_ico.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -64,11 +72,15 @@
 				<pageTitle />
 				<pageIdAction>47</pageIdAction>
 				
+				
 				<pageId>48</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>outlink</type>
@@ -76,24 +88,32 @@
 				<pageTitle />
 				<pageIdAction>48</pageIdAction>
 				
+				
 				<pageId>49</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/link.gif</icon>
+				<interactionPosition>2</interactionPosition>
+				<icon>plugins/Morpheus/images/link.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>8</pageIdAction>
 				
+				
 				<pageId>50</pageId>
 				<eventCategory>Cat8</eventCategory>
 				<eventAction>Action8</eventAction>
+				<bandwidth />
+				<interactionPosition>2</interactionPosition>
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Name8</eventName>
 				<eventValue>353.678</eventValue>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -103,13 +123,18 @@
 		
 		
 		
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
@@ -118,6 +143,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>1</searches>
 		<actions>5</actions>
+		<interactions>2</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -129,27 +155,33 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -170,22 +202,21 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -210,7 +241,12 @@
 				<pageTitle>It's &lt;script&gt; pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>45</pageId>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName2>Cvar 2 PAGE name</customVariablePageName2>
@@ -221,8 +257,7 @@
 						<customVariablePageValue5>Cvar5 PAGE value is 8</customVariablePageValue5>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -232,13 +267,18 @@
 		
 		
 		
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>101</daysSinceFirstVisit>
@@ -247,6 +287,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -258,27 +299,33 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -299,22 +346,21 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -328,11 +374,15 @@
 				<pageTitle>Space Quest XII</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
+				
 				<pageId>41</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -362,11 +412,15 @@
 				<pageTitle />
 				<pageIdAction>42</pageIdAction>
 				
+				
 				<pageId>42</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>outlink</type>
@@ -374,24 +428,32 @@
 				<pageTitle />
 				<pageIdAction>43</pageIdAction>
 				
+				
 				<pageId>43</pageId>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
-				<icon>plugins/Morpheus/images/link.gif</icon>
+				<interactionPosition>1</interactionPosition>
+				<icon>plugins/Morpheus/images/link.png</icon>
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>event</type>
 				<url>http://piwik.net/space/quest/iv</url>
 				<pageIdAction>8</pageIdAction>
 				
+				
 				<pageId>44</pageId>
 				<eventCategory>Cat7</eventCategory>
 				<eventAction>Action7</eventAction>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				
+				<icon>plugins/Morpheus/images/event.png</icon>
 				<eventName>Name7</eventName>
 				<eventValue>352.678</eventValue>
-				<icon>plugins/Morpheus/images/event.png</icon>
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>2</goalConversions>
@@ -401,13 +463,18 @@
 		
 		
 		
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>5</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>100</daysSinceFirstVisit>
@@ -416,6 +483,7 @@
 		<visitDurationPretty>27 min 1s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -427,27 +495,33 @@
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>1</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>Macedonia</country>
 		<countryCode>mk</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
 		<region>Miravci</region>
 		<regionCode>66</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -468,21 +542,20 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
 	</row>
 </result>

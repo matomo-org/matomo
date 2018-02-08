@@ -101,7 +101,7 @@ class TrackerResponseTest extends SystemTestCase
         $url = Fixture::getTrackerUrl();
         $this->assertResponseCode(200, $url);
 
-        $expected = "This resource is part of Piwik. Keep full control of your data with the leading free and open source <a href='https://piwik.org' target='_blank'>digital analytics platform</a> for web and mobile.";
+        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank'>digital analytics platform</a> for web and mobile.";
         $this->assertHttpResponseText($expected, $url);
     }
 
@@ -110,8 +110,18 @@ class TrackerResponseTest extends SystemTestCase
         $url = Fixture::getTrackerUrl();
         $this->assertResponseCode(400, $url . '?rec=1');
 
-        $expected = "This resource is part of Piwik. Keep full control of your data with the leading free and open source <a href='https://piwik.org' target='_blank'>digital analytics platform</a> for web and mobile.";
+        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank'>digital analytics platform</a> for web and mobile.";
         $this->assertHttpResponseText($expected, $url);
+    }
+
+
+    public function test_response_ShouldReturnPiwikMessageWithHttp503_InCaseOfMaintenanceMode()
+    {
+        $url = $this->tracker->getUrlTrackPageView('Test');
+        $this->assertResponseCode(200, $url);
+
+        $url = $url . "&forceEnableTrackerMaintenanceMode=1";
+        $this->assertResponseCode(503, $url);
     }
 
 }

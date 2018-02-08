@@ -63,7 +63,7 @@
         "Country_CW": "Curaçao",
         "Country_CX": "Christmaseiland",
         "Country_CY": "Cyprus",
-        "Country_CZ": "Tsjechië",
+        "Country_CZ": "Tsjechische Republiek",
         "Country_DE": "Duitsland",
         "Country_DJ": "Djibouti",
         "Country_DK": "Denemarken",
@@ -131,7 +131,7 @@
         "Country_KP": "Noord-Korea",
         "Country_KR": "Zuid-Korea",
         "Country_KW": "Koeweit",
-        "Country_KY": "Caymaneilanden",
+        "Country_KY": "Kaaimaneilanden",
         "Country_KZ": "Kazachstan",
         "Country_LA": "Laos",
         "Country_LB": "Libanon",
@@ -305,6 +305,8 @@
         "Format_Date_Day_Month": "E d MMM",
         "Format_Date_Long": "EEEE d MMMM y",
         "Format_Date_Short": "d MMM y",
+        "Format_Hour_12": "h a",
+        "Format_Hour_24": "HH",
         "Format_Interval_Long_D": "d–d MMMM y",
         "Format_Interval_Long_M": "d MMMM – d MMMM y",
         "Format_Interval_Long_Y": "d MMMM y – d MMMM y",
@@ -581,7 +583,7 @@
         "Time_AM": "a.m.",
         "Time_PM": "p.m.",
         "Today": "Vandaag",
-        "Year_Short": "jr.",
+        "Year_Short": "jr",
         "Yesterday": "Gisteren"
     }
 }

@@ -9,9 +9,12 @@
 namespace Piwik\Plugins\Live\Visualizations;
 
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugin\Visualization;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\View;
 
 /**
@@ -46,6 +49,17 @@ class VisitorLog extends Visualization
 
         $this->requestConfig->disable_generic_filters = true;
         $this->requestConfig->filter_sort_column      = false;
+
+        $view = $this;
+        $this->config->filters[] = function (DataTable $table) use ($view) {
+            if (Plugin\Manager::getInstance()->isPluginActivated('PrivacyManager') && PrivacyManager::haveLogsBeenPurged($table)) {
+                $settings = PrivacyManager::getPurgeDataSettings();
+                if (!empty($settings['delete_logs_older_than'])) {
+                    $numDaysDelete = $settings['delete_logs_older_than'];
+                    $view->config->no_data_message = Piwik::translate('CoreHome_ThereIsNoDataForThisReport') .  ' ' . Piwik::translate('Live_VisitorLogNoDataMessagePurged', $numDaysDelete);
+                }
+            }
+        };
     }
 
     public function afterGenericFiltersAreAppliedToLoadedDataTable()

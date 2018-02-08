@@ -8,7 +8,7 @@
            type="radio"
            id="{{ formField.name + radioModel.key }}"
            name="{{ formField.name }}"
-           ng-disabled="radioModel.disabled"
+           ng-disabled="radioModel.disabled || formField.disabled"
            piwik-attributes="{{formField.uiControlAttributes}}"
     >
     <label for="{{ formField.name + radioModel.key }}">{{ radioModel.value }}

@@ -10,18 +10,22 @@
 {% block content %}
 
 <div class="api-list">
-    <div piwik-content-block content-title="{{ title|e('html_attr') }}" rate="true">
+    <div piwik-content-block content-title="{{ title }}" rate="true">
         <p>{{ 'API_PluginDescription'|translate }}</p>
 
         <p>
-            {{ 'API_MoreInformation'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api'>","</a>","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api/reference'>","</a>")|raw }}
+            {{ 'API_MoreInformation'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/docs/analytics-api'>","</a>","<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/docs/analytics-api/reference'>","</a>")|raw }}
         </p>
     </div>
     <div piwik-content-block content-title="{{ 'API_UserAuthentication'|translate|e('html_attr') }}">
         <p>
             {{ 'API_UsingTokenAuth'|translate('','',"")|raw }}<br/>
-            <pre piwik-select-on-focus id='token_auth'>&amp;token_auth=<strong>{{ token_auth }}</strong></pre><br/>
-            {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}
+            <pre piwik-select-on-focus id='token_auth'>&amp;token_auth=<strong piwik-show-sensitive-data="{{ token_auth }}" data-click-element-selector="#token_auth"></strong></pre><br/>
+            {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}<br />
+            {{ 'API_ChangeTokenHint'|translate('<a href="' ~ linkTo({
+                'module': 'UsersManager',
+                'action': 'userSettings',
+            }) ~ '">', '</a>')|raw }}
         </p>
     </div>
     {{ list_api_methods_with_links|raw }}

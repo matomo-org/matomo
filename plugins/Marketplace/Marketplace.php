@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Marketplace;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin;
 
 class Marketplace extends \Piwik\Plugin
@@ -21,7 +22,14 @@ class Marketplace extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Controller.CoreHome.checkForUpdates' => 'checkForUpdates',
         );
+    }
+
+    public function checkForUpdates()
+    {
+        $marketplace = StaticContainer::get('Piwik\Plugins\Marketplace\Api\Client');
+        $marketplace->clearAllCacheEntries();
     }
 
     public function getStylesheetFiles(&$stylesheets)

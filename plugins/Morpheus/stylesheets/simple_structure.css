@@ -4,19 +4,21 @@ body {
 }
 body#simple  {
     background: #fff;
+    margin: 0;
 }
 #simple .logo {
     color: #888;
     text-align: center;
     font-size: 12px;
-    margin-top: 30px;
+    background-color: #37474f !important;
+    padding: 15px 0;
 }
 #simple .logo a {
 	color: #888;
 	text-decoration: none;
 }
 #simple .box {
-    border-radius: 2px;	
+    border-radius: 2px;
     border: solid 1px #ccc;
     max-width: 780px;
     margin: 30px auto 60px auto;
@@ -74,6 +76,10 @@ body#simple  {
 }
 #simple .box .content h2:first-child {
 	margin-top: 0;
+}
+
+#simple .box .content blockquote {
+	word-wrap: break-word;
 }
 
 #simple .box .footer {

@@ -1,16 +1,16 @@
 {
     "name": "ExampleVisualization",
     "version": "0.1.0",
-    "description": "Piwik Platform showcase: how to create a new custom data visualization.",
+    "description": "Matomo Platform showcase: how to create a new custom data visualization.",
     "theme": false,
     "license": "GPL v3+",
     "keywords": ["SimpleTable"],
-    "homepage": "http://piwik.org",
+    "homepage": "https://matomo.org",
     "authors": [
         {
-            "name": "The Piwik Team",
-            "email": "hello@piwik.org",
-            "homepage": "http://piwik.org"
+            "name": "The Matomo Team",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org"
         }
     ]
 }

@@ -83,6 +83,14 @@
                         }
                     });
 
+                    scope.$watch('formField.uiControlAttributes.disabled', function (val, oldVal) {
+                        if (val !== oldVal) {
+                            $timeout(function () {
+                                $select.material_select();
+                            });
+                        }
+                    });
+
                 } else if (hasUiControl(field, 'textarea')) {
                     element.find('textarea').trigger('autoresize');
                     scope.$watch('formField.value', function (val, oldVal) {
@@ -140,7 +148,7 @@
 
         function getTemplate(field) {
             var control = field.uiControl;
-            if (control === 'password') {
+            if (control === 'password' || control === 'url' || control === 'search' || control === 'email') {
                 control = 'text'; // we use same template for text and password both
             }
 
@@ -206,6 +214,39 @@
                         return flatValues;
                     }
 
+                    if (hasUiControl(field, 'expandable-select')) {
+                        var availableValues = field.availableValues;
+                        var flatValues = [];
+
+                        var groups = {};
+                        angular.forEach(availableValues, function (value) {
+
+                            if (!value.group) {
+                                value.group = '';
+                            }
+
+                            if (!(value.group in groups) || !groups[value.group]) {
+                                groups[value.group] = {values: [], group: value.group}
+                            }
+
+                            var formatted = {key: value.key, value: value.value};
+
+                            if ('tooltip' in value && value.tooltip) {
+                                formatted.tooltip = value.tooltip;
+                            }
+
+                            groups[value.group].values.push(formatted);
+                        });
+
+                        angular.forEach(groups, function (group) {
+                            if (group.values.length) {
+                                flatValues.push(group);
+                            }
+                        });
+
+                        return flatValues;
+                    }
+
                     if (isSelectControl(field)) {
                         var availableValues = field.availableValues;
 
@@ -236,24 +277,54 @@
                     return field.availableValues;
                 }
 
-                return function (scope, element, attrs) {
-                    var field = scope.piwikFormField;
+                function formatPrettyDefaultValue(defaultValue, availableOptions) {
 
-                    if (angular.isArray(field.defaultValue)) {
-                        field.defaultValue = field.defaultValue.join(',');
+                    if (!angular.isArray(availableOptions)) {
+                        return defaultValue;
                     }
 
+                    var prettyValues = [];
+
+                    if (!angular.isArray(defaultValue)) {
+                        defaultValue = [defaultValue];
+                    }
+
+                    angular.forEach(availableOptions, function (value, key) {
+                        if (defaultValue.indexOf(value.key) !== -1) {
+                            prettyValues.push(value.value);
+                        }
+                    });
+
+                    return prettyValues.join(', ');
+                }
+
+                return function (scope, element, attrs) {
+                    var field = scope.piwikFormField;
+                    var defaultValue = field.defaultValue;
+
+
+                    if (angular.isArray(field.defaultValue)) {
+                        field.defaultValue = defaultValue.join(',');
+                    }
+
+                    // convert boolean values since angular 1.6 uses strict equals when determining if a model value
+                    // matches the ng-value of an input.
                     if (field.type === 'boolean') {
-                        if (field.value && field.value > 0 && field.value !== '0') {
-                            field.value = true;
-                        } else {
-                            field.value = false;
+                        var valueIsTruthy = field.value && field.value > 0 && field.value !== '0';
+
+                        // for checkboxes, the value MUST be either true or faluse
+                        if (field.uiControl === 'checkbox') {
+                            field.value = valueIsTruthy;
+                        } else if (field.uiControl === 'radio') {
+                            field.value = valueIsTruthy ? '1' : '0';
                         }
                     }
 
                     // we are setting availableOptions and not availableValues again. Otherwise when watching the scope
                     // availableValues and in the watch change availableValues could trigger lots of more watch events
                     field.availableOptions = formatAvailableValues(field);
+
+                    field.defaultValuePretty = formatPrettyDefaultValue(defaultValue, field.availableOptions);
 
                     field.showField = true;
 

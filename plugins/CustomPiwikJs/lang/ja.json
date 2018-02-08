@@ -1,0 +1,7 @@
+{
+    "CustomPiwikJs": {
+        "PluginDescription": "任意のプラグインが Matomo JavaScript トラッキングファイル ( piwik.js ) を拡張し、新しい機能とウェブサイトの測定機能を追加できるようにします。",
+        "DiagnosticPiwikJsWritable": "書き込み可能な JavaScript トラッカー ( \"\/piwik.js\" )",
+        "DiagnosticPiwikJsMakeWritable": "次のコマンドを実行して書き込み可能な piwik.js を使用することをお勧めします：%s"
+    }
+}

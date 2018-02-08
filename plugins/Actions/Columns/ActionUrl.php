@@ -14,17 +14,14 @@ use Piwik\Plugins\Actions\Segment;
 
 class ActionUrl extends ActionDimension
 {
-    public function getName()
-    {
-        return Piwik::translate('Actions_ColumnActionURL');
-    }
+    protected $nameSingular = 'Actions_ColumnActionURL';
 
     protected function configureSegments()
     {
         $segment = new Segment();
         $segment->setSegment('actionUrl');
         $segment->setName('Actions_ColumnActionURL');
-        $segment->setUnionOfSegments(array('pageUrl', 'downloadUrl', 'outlinkUrl'));
+        $segment->setUnionOfSegments(array('pageUrl', 'downloadUrl', 'outlinkUrl', 'eventUrl'));
 
         $this->addSegment($segment);
     }

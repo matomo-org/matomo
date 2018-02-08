@@ -11,6 +11,7 @@ namespace Piwik\Plugins\DevicePlugins\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\DevicePlugins\Columns\Plugin;
+use Piwik\Plugins\DevicePlugins\DevicePlugins;
 
 class GetPlugin extends Base
 {
@@ -48,7 +49,7 @@ class GetPlugin extends Base
 
         $view->requestConfig->filter_sort_column = 'nb_visits_percentage';
         $view->requestConfig->filter_sort_order  = 'desc';
-        $view->requestConfig->filter_limit       = 10;
+        $view->requestConfig->filter_limit       = count(DevicePlugins::getAllPluginColumns());
     }
 
 }

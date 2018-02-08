@@ -8,11 +8,16 @@
 
 namespace Piwik\Plugins\CustomPiwikJs;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CustomPiwikJs\TrackingCode\PiwikJsManipulator;
 use Piwik\Plugins\CustomPiwikJs\TrackingCode\PluginTrackerFiles;
+use Piwik\Piwik;
 
 /**
- * Updates the Javascript file containing the Tracker.
+ * Updates the Piwik JavaScript Tracker "piwik.js" in case plugins extend the tracker.
+ *
+ * Usage:
+ * StaticContainer::get('Piwik\Plugins\CustomPiwikJs\TrackerUpdater')->update();
  */
 class TrackerUpdater
 {
@@ -46,9 +51,35 @@ class TrackerUpdater
             $toFile = PIWIK_DOCUMENT_ROOT . self::TARGET_PIWIK_JS;
         }
 
-        $this->fromFile = new File($fromFile);
-        $this->toFile = new File($toFile);
-        $this->trackerFiles = new PluginTrackerFiles();
+        $this->setFromFile($fromFile);
+        $this->setToFile($toFile);
+        $this->trackerFiles = StaticContainer::get('Piwik\Plugins\CustomPiwikJs\TrackingCode\PluginTrackerFiles');
+    }
+
+    public function setFromFile($fromFile)
+    {
+        if (is_string($fromFile)) {
+            $fromFile = new File($fromFile);
+        }
+        $this->fromFile = $fromFile;
+    }
+
+    public function getFromFile()
+    {
+        return $this->fromFile;
+    }
+
+    public function setToFile($toFile)
+    {
+        if (is_string($toFile)) {
+            $toFile = new File($toFile);
+        }
+        $this->toFile = $toFile;
+    }
+
+    public function getToFile()
+    {
+        return $this->toFile;
     }
 
     public function setTrackerFiles(PluginTrackerFiles $trackerFiles)
@@ -56,6 +87,12 @@ class TrackerUpdater
         $this->trackerFiles = $trackerFiles;
     }
 
+    /**
+     * Checks whether the Piwik JavaScript tracker file "piwik.js" is writable.
+     * @throws \Exception In case the piwik.js file is not writable.
+     *
+     * @api
+     */
     public function checkWillSucceed()
     {
         $this->fromFile->checkReadable();
@@ -75,6 +112,15 @@ class TrackerUpdater
         return $newContent;
     }
 
+    /**
+     * Updates / re-generates the Piwik JavaScript tracker "piwik.js".
+     *
+     * It may not be possible to update the "piwik.js" tracker file if the file is not writable. It won't throw
+     * an exception in such a case and instead just to nothing. To check if the update would succeed, call
+     * {@link checkWillSucceed()}.
+     *
+     * @api
+     */
     public function update()
     {
         if (!$this->toFile->hasWriteAccess() || !$this->fromFile->hasReadAccess()) {
@@ -85,6 +131,13 @@ class TrackerUpdater
 
         if ($newContent !== $this->getCurrentTrackerFileContent()) {
             $this->toFile->save($newContent);
+
+            /**
+             * Triggered after the tracker JavaScript content (the content of the piwik.js file) is changed.
+             *
+             * @param string $absolutePath The path to the new piwik.js file.
+             */
+            Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$this->toFile->getPath()]);
         }
     }
 }

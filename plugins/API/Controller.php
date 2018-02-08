@@ -16,6 +16,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Url;
+use Piwik\UrlHelper;
 use Piwik\View;
 
 /**
@@ -48,8 +49,14 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function listAllMethods()
     {
+        Piwik::checkUserHasSomeViewAccess();
+
         $ApiDocumentation = new DocumentationGenerator();
-        return $ApiDocumentation->getAllInterfaceString($outputExampleUrls = true, $prefixUrls = Common::getRequestVar('prefixUrl', ''));
+        $prefixUrls = Common::getRequestVar('prefixUrl', 'https://demo.matomo.org/', 'string');
+        if (!UrlHelper::isLookLikeUrl($prefixUrls) || strpos($prefixUrls, 'http') !== 0) {
+            $prefixUrls = '';
+        }
+        return $ApiDocumentation->getApiDocumentationAsStringForDeveloperReference($outputExampleUrls = true, $prefixUrls);
     }
 
     public function listAllAPI()
@@ -59,7 +66,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $ApiDocumentation = new DocumentationGenerator();
         $view->countLoadedAPI = Proxy::getInstance()->getCountRegisteredClasses();
-        $view->list_api_methods_with_links = $ApiDocumentation->getAllInterfaceString();
+        $view->list_api_methods_with_links = $ApiDocumentation->getApiDocumentationAsString();
         return $view->render();
     }
 
@@ -146,8 +153,8 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasSomeViewAccess();
 
         return $this->renderTemplate('glossary', array(
-            'reports' => Request::processRequest('API', array('method' => 'API.getGlossaryReports')),
-            'metrics' => Request::processRequest('API', array('method' => 'API.getGlossaryMetrics')),
+            'reports' => Request::processRequest('API', array('method' => 'API.getGlossaryReports', 'filter_limit' => -1)),
+            'metrics' => Request::processRequest('API', array('method' => 'API.getGlossaryMetrics', 'filter_limit' => -1)),
         ));
     }
 }

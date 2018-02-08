@@ -136,6 +136,14 @@ class RankingQuery
     }
 
     /**
+     * @return array
+     */
+    public function getLabelColumns()
+    {
+        return $this->labelColumns;
+    }
+
+    /**
      * Add a column that has be added to the outer queries.
      *
      * @param $column

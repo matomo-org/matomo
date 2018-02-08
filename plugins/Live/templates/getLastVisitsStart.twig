@@ -9,7 +9,7 @@
                 <span style="display:none;" class="serverTimestamp">{{ visitor.serverTimestamp|raw }}</span>
                 {{ postEvent('Live.visitorLogWidgetViewBeforeVisitInfo', visitor) }}
                 {% set year = visitor.serverTimestamp|date('Y') %}
-                {{ visitor.serverDatePretty|replace({(year): ' '}) }} - {{ visitor.serverTimePretty }} {% if visitor.visitDuration > 0 %}({{ visitor.visitDurationPretty|raw }}){% endif %}
+                <span class="realTimeWidget_datetime">{{ visitor.serverDatePretty|replace({(year): ' '}) }} - {{ visitor.serverTimePretty }} {% if visitor.visitDuration > 0 %}({{ visitor.visitDurationPretty|raw }}){% endif %}</span>
                 {% if visitor.visitorId|default(false) is not empty %}
                   &nbsp;  <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.userId is not empty %}{{ visitor.userId|raw }}{% endif %}" data-visitor-id="{{ visitor.visitorId }}">
                         {% if visitor.userId is not empty %}<br/>{% endif %}
@@ -19,9 +19,9 @@
                 {% endif %}
                 <br />
 
-                {% if visitor.countryFlag is defined %}&nbsp;<img src="{{ visitor.countryFlag }}" title="{{ visitor.location|e('html_attr') }}, {{ 'Provider_ColumnProvider'|translate }} {% if visitor.providerName is defined %}{{ visitor.providerName }}{% endif %}"/>{% endif %}
-                {% if visitor.browserIcon is defined %}&nbsp;<img src="{{ visitor.browserIcon }}" title="{{ visitor.browser|e('html_attr') }}{% if visitor.plugins is defined %}, {{ 'General_Plugins'|translate }}: {{ visitor.plugins }}{% endif %}"/>{% endif %}
-                {% if visitor.operatingSystemIcon is defined %}&nbsp;<img src="{{ visitor.operatingSystemIcon }}" title="{{ visitor.operatingSystem }}{% if visitor.resolution is defined %}, {{ visitor.resolution }}{% endif %}"/>{% endif %}
+                {% if visitor.countryFlag is defined %}&nbsp;<img height="16px" src="{{ visitor.countryFlag }}" title="{{ visitor.location|e('html_attr') }}, {{ 'Provider_ColumnProvider'|translate }} {% if visitor.providerName is defined %}{{ visitor.providerName }}{% endif %}"/>{% endif %}
+                {% if visitor.browserIcon is defined %}&nbsp;<img width="16px" height="16px" src="{{ visitor.browserIcon }}" title="{{ visitor.browser|e('html_attr') }}{% if visitor.plugins is defined %}, {{ 'General_Plugins'|translate }}: {{ visitor.plugins }}{% endif %}"/>{% endif %}
+                {% if visitor.operatingSystemIcon is defined %}&nbsp;<img width="16px" height="16px" src="{{ visitor.operatingSystemIcon }}" title="{{ visitor.operatingSystem }}{% if visitor.resolution is defined %}, {{ visitor.resolution }}{% endif %}"/>{% endif %}
                 &nbsp;
                 {% if visitor.visitConverted %}
                 <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.goalConversions) }}"
@@ -125,7 +125,10 @@
                             {% if col >= 9 %}
                                 {% set col = 0 %}
                             {% endif %}
+			    
+                            {% if action.url is defined %}
                             <a href="{{ action.url }}" target="_blank">
+                            {% endif %}
                                 {% if action.type == 'action' %}
 {# white spacing matters as Chrome tooltip display whitespaces #}
 {% set title %}
@@ -137,18 +140,21 @@
                                     <img src="plugins/Live/images/file{{ col }}.png" title="{{- title -}}"/>
                                 {% elseif action.type == 'outlink' or action.type == 'download' %}
                                     <img class='iconPadding' src="{{ action.icon }}"
-                                         title="{{ action.url }} - {{ action.serverTimePretty }}"/>
+                                         title="{% if action.url is defined %}{{ action.url }} - {% endif %}{{ action.serverTimePretty }}"/>
                                 {% elseif action.type == 'search' %}
                                     <img class='iconPadding' src="{{ action.icon }}"
                                          title="{{ 'Actions_SubmenuSitesearch'|translate }}: {{ action.siteSearchKeyword }} - {{ action.serverTimePretty }}"/>
                                 {% elseif action.eventCategory|default(false) is not empty %}
                                     <img  class="iconPadding" src='{{ action.icon }}'
                                         title="{{ 'Events_Event'|translate }} {{ action.eventCategory }} - {{ action.eventAction }} {% if action.eventName is defined %}- {{ action.eventName }}{% endif %} {% if action.eventValue is defined %}- {{ action.eventValue }}{% endif %}"/>
-                                {% else %}
+                                {% elseif action.type == 'goal' or action.type == constant('Piwik\\Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER') or
+                                          action.type == constant('Piwik\\Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART') %}
                                     <img class='iconPadding' src="{{ action.icon }}"
                                          title="{{ action.goalName }} - {% if action.revenue > 0 %}{{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite)|raw }} - {% endif %} {{ action.serverTimePretty }}"/>
                                 {% endif %}
+                            {% if action.url is defined %}
                             </a>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}

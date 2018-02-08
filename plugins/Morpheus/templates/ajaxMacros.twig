@@ -26,12 +26,12 @@
             <br /><br />
             {{ 'General_NeedMoreHelp'|translate }}
 
-            <a rel="noreferrer" target="_blank" href="https://piwik.org/faq/troubleshooting/faq_19489/">{{ 'General_Faq'|translate }}</a> –
-            <a rel="noreferrer" target="_blank" href="http://forum.piwik.org/">{{ 'Feedback_CommunityHelp'|translate }}</a>
+            <a rel="noreferrer" target="_blank" href="https://matomo.org/faq/troubleshooting/faq_19489/">{{ 'General_Faq'|translate }}</a> –
+            <a rel="noreferrer" target="_blank" href="https://forum.matomo.org/">{{ 'Feedback_CommunityHelp'|translate }}</a>
 
             {%- if areAdsForProfessionalServicesEnabled %}
                 –
-                {% set supportUrl = 'https://piwik.org/support/?pk_campaign=Help&pk_medium=AjaxError&pk_content=' ~ currentModule ~ '&pk_source=Piwik_App' %}
+                {% set supportUrl = 'https://matomo.org/support/?pk_campaign=Help&pk_medium=AjaxError&pk_content=' ~ currentModule ~ '&pk_source=Piwik_App' %}
                 <a rel="noreferrer" target="_blank" href="{{ supportUrl|e('html_attr') }}">{{ 'Feedback_ProfessionalHelp'|translate }}</a>
             {%- endif %}.
         </div>

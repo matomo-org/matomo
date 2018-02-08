@@ -88,6 +88,17 @@ class JoinTablesTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($result);
     }
 
+    public function test_hasJoinedTableManually_shouldReturnFalse_IfTableOrJoinHasCustomJoin()
+    {
+        $this->tables = $this->makeTables(array(
+            'log_visit',
+            array('table' => 'log_conversion', 'join' => 'right JOIN', 'joinOn' => 'log_conversion.idvisit = log_visit.idvisit'),
+            'log_action'));
+
+        $result = $this->tables->hasJoinedTableManually('log_conversion', 'log_conversion.idvisit = log_visit.idvisit');
+        $this->assertFalse($result);
+    }
+
     public function test_hasAddedTableManually_shouldReturnTrue_IfTableWasAddedManually()
     {
         $result = $this->tables->hasAddedTableManually('log_conversion');
@@ -136,6 +147,17 @@ class JoinTablesTest extends \PHPUnit_Framework_TestCase
         });
 
         $expected = array('log_conversion', 'log_action', 'log_conversion_item', 'log_visit');
+        $this->assertEquals($expected, $tables->getTables());
+    }
+
+    public function test_sort_ifAllReturn0_ThenSortByGivenOrder()
+    {
+        $tables = $this->makeTables(array('log_conversion', 'log_visit', 'log_action', 'log_conversion_item'));
+        $tables->sort(function($a, $b) {
+            return 0;
+        });
+
+        $expected = array('log_conversion', 'log_visit', 'log_action', 'log_conversion_item');
         $this->assertEquals($expected, $tables->getTables());
     }
 

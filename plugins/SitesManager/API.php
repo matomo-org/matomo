@@ -13,8 +13,6 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Db;
-use Piwik\Metrics\Formatter;
 use Piwik\Network\IPUtils;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -36,10 +34,10 @@ use Piwik\Url;
 use Piwik\UrlHelper;
 
 /**
- * The SitesManager API gives you full control on Websites in Piwik (create, update and delete), and many methods to retrieve websites based on various attributes.
+ * The SitesManager API gives you full control on Websites in Matomo (create, update and delete), and many methods to retrieve websites based on various attributes.
  *
  * This API lets you create websites via "addSite", update existing websites via "updateSite" and delete websites via "deleteSite".
- * When creating websites, it can be useful to access internal codes used by Piwik for currencies via "getCurrencyList", or timezones via "getTimezonesList".
+ * When creating websites, it can be useful to access internal codes used by Matomo for currencies via "getCurrencyList", or timezones via "getTimezonesList".
  *
  * There are also many ways to request a list of websites: from the website ID via "getSiteFromId" or the site URL via "getSitesIdFromSiteUrl".
  * Often, the most useful technique is to list all websites that are known to a current user, based on the token_auth, via
@@ -48,7 +46,7 @@ use Piwik\UrlHelper;
  * Some methods will affect all websites globally: "setGlobalExcludedIps" will set the list of IPs to be excluded on all websites,
  * "setGlobalExcludedQueryParameters" will set the list of URL parameters to remove from URLs for all websites.
  * The existing values can be fetched via "getExcludedIpsGlobal" and "getExcludedQueryParametersGlobal".
- * See also the documentation about <a href='http://piwik.org/docs/manage-websites/' rel='noreferrer' target='_blank'>Managing Websites</a> in Piwik.
+ * See also the documentation about <a href='http://matomo.org/docs/manage-websites/' rel='noreferrer' target='_blank'>Managing Websites</a> in Matomo.
  * @method static \Piwik\Plugins\SitesManager\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -74,15 +72,21 @@ class API extends \Piwik\Plugin\API
      */
     private $settingsMetadata;
 
-    public function __construct(SettingsProvider $provider, SettingsMetadata $settingsMetadata)
+    /**
+     * @var Type\TypeManager
+     */
+    private $typeManager;
+
+    public function __construct(SettingsProvider $provider, SettingsMetadata $settingsMetadata, Type\TypeManager $typeManager)
     {
         $this->settingsProvider = $provider;
         $this->settingsMetadata = $settingsMetadata;
+        $this->typeManager = $typeManager;
     }
 
     /**
      * Returns the javascript tag for the given idSite.
-     * This tag must be included on every page to be tracked by Piwik
+     * This tag must be included on every page to be tracked by Matomo
      *
      * @param int $idSite
      * @param string $piwikUrl
@@ -95,12 +99,14 @@ class API extends \Piwik\Plugin\API
      * @param bool $customCampaignKeywordParam
      * @param bool $doNotTrack
      * @param bool $disableCookies
+     * @param bool $trackNoScript
      * @return string The Javascript tag ready to be included on the HTML pages
      */
     public function getJavascriptTag($idSite, $piwikUrl = '', $mergeSubdomains = false, $groupPageTitlesByDomain = false,
                                      $mergeAliasUrls = false, $visitorCustomVariables = false, $pageCustomVariables = false,
                                      $customCampaignNameQueryParam = false, $customCampaignKeywordParam = false,
-                                     $doNotTrack = false, $disableCookies = false)
+                                     $doNotTrack = false, $disableCookies = false, $trackNoScript = false,
+                                     $crossDomain = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -120,7 +126,7 @@ class API extends \Piwik\Plugin\API
         $code = $generator->generate($idSite, $piwikUrl, $mergeSubdomains, $groupPageTitlesByDomain,
                                      $mergeAliasUrls, $visitorCustomVariables, $pageCustomVariables,
                                      $customCampaignNameQueryParam, $customCampaignKeywordParam,
-                                     $doNotTrack, $disableCookies);
+                                     $doNotTrack, $disableCookies, $trackNoScript, $crossDomain);
         $code = str_replace(array('<br>', '<br />', '<br/>'), '', $code);
         return $code;
     }
@@ -129,7 +135,7 @@ class API extends \Piwik\Plugin\API
      * Returns image link tracking code for a given site with specified options.
      *
      * @param int $idSite The ID to generate tracking code for.
-     * @param string $piwikUrl The domain and URL path to the Piwik installation.
+     * @param string $piwikUrl The domain and URL path to the Matomo installation.
      * @param int $idGoal An ID for a goal to trigger a conversion for.
      * @param int $revenue The revenue of the goal conversion. Only used if $idGoal is supplied.
      * @return string The HTML tracking code.
@@ -154,17 +160,17 @@ class API extends \Piwik\Plugin\API
          * this event to customise the image tracking code that is displayed to the
          * user.
          *
-         * @param string &$piwikHost The domain and URL path to the Piwik installation, eg,
+         * @param string &$piwikHost The domain and URL path to the Matomo installation, eg,
          *                           `'examplepiwik.com/path/to/piwik'`.
          * @param array &$urlParams The query parameters used in the <img> element's src
-         *                          URL. See Piwik's image tracking docs for more info.
+         *                          URL. See Matomo's image tracking docs for more info.
          */
         Piwik::postEvent('SitesManager.getImageTrackingCode', array(&$piwikUrl, &$urlParams));
 
         $piwikUrl = (ProxyHttp::isHttps() ? "https://" : "http://") . $piwikUrl . '/piwik.php';
-        return "<!-- Piwik Image Tracker-->
+        return "<!-- Matomo Image Tracker-->
 <img src=\"$piwikUrl?" . Url::getQueryStringFromParameters($urlParams) . "\" style=\"border:0\" alt=\"\" />
-<!-- End Piwik -->";
+<!-- End Matomo -->";
     }
 
     /**
@@ -272,7 +278,7 @@ class API extends \Piwik\Plugin\API
         try {
             return $this->getSitesId();
         } catch (Exception $e) {
-            // can be called before Piwik tables are created so return empty
+            // can be called before Matomo tables are created so return empty
             return array();
         }
     }
@@ -283,7 +289,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param bool|int $timestamp
      * @return array The list of website IDs
-     * @deprecated since 2.15 This method will be removed in Piwik 3.0, there is no replacement.
+     * @deprecated since 2.15 This method will be removed in Matomo 3.0, there is no replacement.
      */
     public function getSitesIdWithVisits($timestamp = false)
     {
@@ -554,40 +560,22 @@ class API extends \Piwik\Plugin\API
 
         $this->checkName($siteName);
 
-        if (empty($settingValues)) {
+        if (!isset($settingValues)) {
             $settingValues = array();
         }
 
-        if (isset($urls)) {
-            $settingValues = $this->setSettingValue('urls', $urls, $settingValues);
-        }
-        if (isset($ecommerce)) {
-            $settingValues = $this->setSettingValue('ecommerce', $ecommerce, $settingValues);
-        }
-        if (isset($siteSearch)) {
-            $settingValues = $this->setSettingValue('sitesearch', $siteSearch, $settingValues);
-        }
-        if (isset($searchKeywordParameters)) {
-            $settingValues = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters), $settingValues);
-        }
-        if (isset($searchCategoryParameters)) {
-            $settingValues = $this->setSettingValue('sitesearch_category_parameters', explode(',', $searchCategoryParameters), $settingValues);
-        }
-        if (isset($keepURLFragments)) {
-            $settingValues = $this->setSettingValue('keep_url_fragment', $keepURLFragments, $settingValues);
-        }
-        if (isset($excludeUnknownUrls)) {
-            $settingValues = $this->setSettingValue('exclude_unknown_urls', $excludeUnknownUrls, $settingValues);
-        }
-        if (isset($excludedIps)) {
-            $settingValues = $this->setSettingValue('excluded_ips', explode(',', $excludedIps), $settingValues);
-        }
-        if (isset($excludedQueryParameters)) {
-            $settingValues = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters), $settingValues);
-        }
-        if (isset($excludedUserAgents)) {
-            $settingValues = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents), $settingValues);
-        }
+        $coreProperties = array();
+        $coreProperties = $this->setSettingValue('urls', $urls, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('ecommerce', $ecommerce, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('group', $group, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch', $siteSearch, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch_category_parameters', explode(',', $searchCategoryParameters), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('keep_url_fragment', $keepURLFragments, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('exclude_unknown_urls', $excludeUnknownUrls, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_ips', explode(',', $excludedIps), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents), $coreProperties, $settingValues);
 
         $timezone = trim($timezone);
         if (empty($timezone)) {
@@ -619,7 +607,12 @@ class API extends \Piwik\Plugin\API
             $bind['group'] = "";
         }
 
-        $allSettings = $this->setAndValidateMeasurableSettings(0, $bind['type'], $settingValues);
+        $allSettings = $this->setAndValidateMeasurableSettings(0, 'website', $coreProperties);
+
+        // any setting specified in setting values will overwrite other setting
+        if (!empty($settingValues)) {
+            $this->setAndValidateMeasurableSettings(0, $bind['type'], $settingValues);
+        }
 
         foreach ($allSettings as $settings) {
             foreach ($settings->getSettingsWritableByCurrentUser() as $setting) {
@@ -639,7 +632,12 @@ class API extends \Piwik\Plugin\API
 
         $idSite = $this->getModel()->createSite($bind);
 
-        $this->saveMeasurableSettings($idSite, $bind['type'], $settingValues);
+        if (!empty($coreProperties)) {
+            $this->saveMeasurableSettings($idSite, 'website', $coreProperties);
+        }
+        if (!empty($settingValues)) {
+            $this->saveMeasurableSettings($idSite, $bind['type'], $settingValues);
+        }
 
         // we reload the access list which doesn't yet take in consideration this new website
         Access::getInstance()->reloadAccess();
@@ -656,27 +654,34 @@ class API extends \Piwik\Plugin\API
         return (int) $idSite;
     }
 
-    private function setSettingValue($fieldName, $value, $settingValues)
+    private function setSettingValue($fieldName, $value, $coreProperties, $settingValues)
     {
         $pluginName = 'WebsiteMeasurable';
-        if (empty($settingValues[$pluginName])) {
-            $settingValues[$pluginName] = array();
-        }
 
-        $found = false;
-        foreach ($settingValues[$pluginName] as $key => $setting) {
-            if ($setting['name'] === $fieldName) {
-                $setting['value'] = $value;
-                $found = true;
-                break;
+        if (isset($value)) {
+
+            if (empty($coreProperties[$pluginName])) {
+                $coreProperties[$pluginName] = array();
+            }
+
+            $coreProperties[$pluginName][] = array('name' => $fieldName, 'value' => $value);
+
+        } elseif (!empty($settingValues[$pluginName])) {
+            // we check if the value is defined in the setting values instead
+            foreach ($settingValues[$pluginName] as $key => $setting) {
+                if ($setting['name'] === $fieldName) {
+
+                    if (empty($coreProperties[$pluginName])) {
+                        $coreProperties[$pluginName] = array();
+                    }
+
+                    $coreProperties[$pluginName][] = array('name' => $fieldName, 'value' => $setting['value']);
+                    return $coreProperties;
+                }
             }
         }
 
-        if (!$found) {
-            $settingValues[$pluginName][] = array('name' => $fieldName, 'value' => $value);
-        }
-
-        return $settingValues;
+        return $coreProperties;
     }
 
     public function getSiteSettings($idSite)
@@ -720,7 +725,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Delete a website from the database, given its Id. The method deletes the actual site as well as some associated
      * data. However, it does not delete any logs or archives that belong to this website. You can delete logs and
-     * archives for a site manually as described in this FAQ: http://piwik.org/faq/how-to/faq_73/ .
+     * archives for a site manually as described in this FAQ: http://matomo.org/faq/how-to/faq_73/ .
      *
      * Requires Super User access.
      *
@@ -1205,40 +1210,25 @@ class API extends \Piwik\Plugin\API
             $bind['name'] = $siteName;
         }
 
-        if (empty($settingValues)) {
+        if (!isset($settingValues)) {
             $settingValues = array();
         }
 
-        if (isset($urls)) {
-            $settingValues = $this->setSettingValue('urls', $urls, $settingValues);
+        if (empty($coreProperties)) {
+            $coreProperties = array();
         }
-        if (isset($ecommerce)) {
-            $settingValues = $this->setSettingValue('ecommerce', $ecommerce, $settingValues);
-        }
-        if (isset($siteSearch)) {
-            $settingValues = $this->setSettingValue('sitesearch', $siteSearch, $settingValues);
-        }
-        if (isset($searchKeywordParameters)) {
-            $settingValues = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters), $settingValues);
-        }
-        if (isset($searchCategoryParameters)) {
-            $settingValues = $this->setSettingValue('sitesearch_category_parameters', explode(',', $searchCategoryParameters), $settingValues);
-        }
-        if (isset($keepURLFragments)) {
-            $settingValues = $this->setSettingValue('keep_url_fragment', $keepURLFragments, $settingValues);
-        }
-        if (isset($excludeUnknownUrls)) {
-            $settingValues = $this->setSettingValue('exclude_unknown_urls', $excludeUnknownUrls, $settingValues);
-        }
-        if (isset($excludedIps)) {
-            $settingValues = $this->setSettingValue('excluded_ips', explode(',', $excludedIps), $settingValues);
-        }
-        if (isset($excludedQueryParameters)) {
-            $settingValues = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters), $settingValues);
-        }
-        if (isset($excludedUserAgents)) {
-            $settingValues = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents), $settingValues);
-        }
+
+        $coreProperties = $this->setSettingValue('urls', $urls, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('group', $group, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('ecommerce', $ecommerce, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch', $siteSearch, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('sitesearch_category_parameters', explode(',', $searchCategoryParameters), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('keep_url_fragment', $keepURLFragments, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('exclude_unknown_urls', $excludeUnknownUrls, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_ips', explode(',', $excludedIps), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents), $coreProperties, $settingValues);
 
         if (isset($currency)) {
             $currency = trim($currency);
@@ -1263,12 +1253,20 @@ class API extends \Piwik\Plugin\API
             $bind['type'] = $this->checkAndReturnType($type);
         }
 
+        if (!empty($coreProperties)) {
+            $this->setAndValidateMeasurableSettings($idSite, $idType = 'website', $coreProperties);
+        }
+
         if (!empty($settingValues)) {
             $this->setAndValidateMeasurableSettings($idSite, $idType = null, $settingValues);
         }
 
         if (!empty($bind)) {
             $this->getModel()->updateSite($bind, $idSite);
+        }
+
+        if (!empty($coreProperties)) {
+            $this->saveMeasurableSettings($idSite, $idType = 'website', $coreProperties);
         }
 
         if (!empty($settingValues)) {

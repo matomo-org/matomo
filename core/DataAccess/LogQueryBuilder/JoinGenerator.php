@@ -62,6 +62,38 @@ class JoinGenerator
                 }
             }
         }
+
+        foreach ($this->tables as $index => $table) {
+            if (is_array($table)) {
+                if (!isset($table['tableAlias'])) {
+                    $tableName = $table['table'];
+                    $numTables = count($this->tables);
+                    for ($j = $index + 1; $j < $numTables; $j++) {
+                        if (!isset($this->tables[$j])) {
+                            continue;
+                        }
+
+                        $tableOther = $this->tables[$j];
+                        if (is_string($tableOther) && $tableOther === $tableName) {
+                            unset($this->tables[$j]);
+                        }
+                    }
+                }
+            } elseif (is_string($table)) {
+                $numTables = count($this->tables);
+
+                for ($j = $index + 1; $j < $numTables; $j++) {
+                    if (isset($this->tables[$j]) && is_array($this->tables[$j]) && !isset($this->tables[$j]['tableAlias'])) {
+                        $tableOther = $this->tables[$j];
+                        if ($table === $tableOther['table']) {
+                            $message = sprintf('Please reorganize the joined tables as the table %s in %s cannot be joined correctly. We recommend to join tables with arrays first. %s', $table, json_encode($this->tables), json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10)));
+                            throw new Exception($message);
+                        }
+                    }
+
+                }
+            }
+        }
     }
 
     /**
@@ -81,7 +113,19 @@ class JoinGenerator
 
                 // join condition provided
                 $alias = isset($table['tableAlias']) ? $table['tableAlias'] : $table['table'];
-                $this->joinString .= " LEFT JOIN " . Common::prefixTable($table['table']) . " AS " . $alias
+
+                if (isset($table['join'])) {
+                    $this->joinString .= ' ' . $table['join'];
+                } else {
+                    $this->joinString .= ' LEFT JOIN';
+                }
+
+                if (!isset($table['joinOn']) && $this->tables->getLogTable($table['table']) && !empty($availableLogTables)) {
+                    $logTable = $this->tables->getLogTable($table['table']);
+                    $table['joinOn'] = $this->findJoinCriteriasForTables($logTable, $availableLogTables);
+                }
+
+                $this->joinString .= ' ' . Common::prefixTable($table['table']) . " AS " . $alias
                                    . " ON " . $table['joinOn'];
                 continue;
             }
@@ -127,7 +171,7 @@ class JoinGenerator
      *                       to be joined
      * @throws Exception if table cannot be joined for segmentation
      */
-    protected function findJoinCriteriasForTables(LogTable $logTable, $availableLogTables)
+    public function findJoinCriteriasForTables(LogTable $logTable, $availableLogTables)
     {
         $join = null;
         $alternativeJoin = null;
@@ -228,15 +272,37 @@ class JoinGenerator
         );
 
         if (is_array($tA) && is_array($tB)) {
+            $tAName = '';
+            if (isset($tA['tableAlias'])) {
+                $tAName = $tA['tableAlias'];
+            } elseif (isset($tA['table'])) {
+                $tAName = $tA['table'];
+            }
+
+            $tBName = '';
+            if (isset($tB['tableAlias'])) {
+                $tBName = $tB['tableAlias'];
+            } elseif (isset($tB['table'])) {
+                $tBName = $tB['table'];
+            }
+
+            if ($tBName && isset($tA['joinOn']) && strpos($tA['joinOn'], $tBName) !== false) {
+                return 1;
+            }
+
+            if ($tAName && isset($tB['joinOn']) && strpos($tB['joinOn'], $tAName) !== false) {
+                return -1;
+            }
+
             return 0;
         }
 
         if (is_array($tA)) {
-            return -1;
+            return 1;
         }
 
         if (is_array($tB)) {
-            return 1;
+            return -1;
         }
 
         if (isset($coreSort[$tA])) {

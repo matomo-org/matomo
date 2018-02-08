@@ -5,7 +5,7 @@
         "DBSize": "Datenbankgröße",
         "EstimatedSize": "Erwartete Größe",
         "IndexSize": "Indexgröße",
-        "LearnMore": "Um mehr darüber zu erfahren, wie Piwik Daten verarbeitet und wie Sie Piwik auf stark besuchten Websites einsetzen können, lesen Sie die Dokumentation unter %s.",
+        "LearnMore": "Um mehr darüber zu erfahren, wie Piwik Daten verarbeitet und wie Sie Matomo auf stark besuchten Websites einsetzen können, lesen Sie die Dokumentation unter %s.",
         "MainDescription": "Piwik speichert sämtliche Webanalyse-Daten in der MySQL-Datenbank. Aktuell belegter Speicherplatz %s.",
         "MetricDataByYear": "Metriktabellen pro Jahr",
         "MetricTables": "Metriktabellen",

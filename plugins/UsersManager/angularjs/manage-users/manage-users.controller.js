@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('ManageUsersController', ManageUsersController);
 
-    ManageUsersController.$inject = ['piwik', 'piwikApi', '$timeout'];
+    ManageUsersController.$inject = ['piwik', 'piwikApi', '$timeout', '$rootScope'];
 
-    function ManageUsersController(piwik, piwikApi, $timeout) {
+    function ManageUsersController(piwik, piwikApi, $timeout, $rootScope) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
 
         var self = this;
@@ -124,19 +124,21 @@
                     })
                 ).prepend($('<input type="submit" class="btn updateuser"  value="' + _pk_translate('General_Save') + '" />')
                 .click(function () {
-                    var onValidate = function () {
-                        sendUpdateUserAJAX($('tr#' + idRow));
-                    };
-                    if ($('tr#' + idRow).find('input#password').val() != '-') {
-                        piwikHelper.modalConfirm('#confirmPasswordChange', {yes: onValidate});
-                    } else {
-                        onValidate();
-                    }
+                    var $tr = $('tr#' + idRow);
+
+                    sendUpdateUserAJAX($tr);
                 })
             );
         }
         
         this.createUser = function () {
+
+            var parameters = {isAllowed: true};
+            $rootScope.$emit('UsersManager.initAddUser', parameters);
+            if (parameters && !parameters.isAllowed) {
+                return;
+            }
+
             this.showCreateUser = false;
 
             var numberOfRows = $('table#users')[0].rows.length;
@@ -161,6 +163,7 @@
                 piwikHelper.hideAjaxError();
                 $(this).parents('tr').remove();
                 $('.add-user').toggle();
+                self.showCreateUser = true;
             });
         };
 
@@ -176,6 +179,29 @@
             }});
         };
 
+        this.regenerateUserTokenAuth = function (userLogin) {
+            var parameters = { userLogin: userLogin };
+            var confirm = '#confirmTokenRegenerate';
+
+            if (userLogin == piwik.userLogin) {
+                confirm = '#confirmTokenRegenerateSelf';
+            }
+
+            piwikHelper.modalConfirm(confirm, {yes: function () {
+                setIsLoading();
+
+                piwikApi.post({
+                    module: 'API',
+                    method: 'UsersManager.regenerateTokenAuth'
+                }, parameters).then(function () {
+                    piwik.helper.redirect();
+                    self.isLoading = false;
+                }, function () {
+                    self.isLoading = false;
+                });
+            }});
+        };
+
         $(document).ready(function () {
             var alreadyEdited = [];
             // when click on edituser, the cells become editable
@@ -183,8 +209,9 @@
             // Show the token_auth
             $('.token_auth').click(function () {
                 var token = $(this).data('token');
-                if ($(this).text() != token) {
-                    $(this).text(token);
+
+                if ($('.token_auth_content', this).text() != token) {
+                    $('.token_auth_content', this).text(token);
                 }
             });
         });

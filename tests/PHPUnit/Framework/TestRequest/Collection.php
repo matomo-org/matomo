@@ -42,6 +42,7 @@ class Collection
         'Annotations',
         'SegmentEditor',
         'UserCountry.getLocationFromIP',
+        'UserCountry.getCountryCodeMapping',
         'Dashboard',
         'ExamplePluginTemplate',
         'CustomAlerts',
@@ -332,9 +333,13 @@ class Collection
 
             $this->apiToCall = $apiToCall;
 
-            if (!in_array('UserCountry.getLocationFromIP', $apiToCall)) {
-                $this->apiNotToCall = array('API.getPiwikVersion',
-                                            'UserCountry.getLocationFromIP');
+            if (!in_array('UserCountry.getLocationFromIP', $apiToCall) &&
+                !in_array('UserCountry.getCountryCodeMapping', $apiToCall)) {
+                $this->apiNotToCall = array(
+                                            'API.getMatomoVersion',
+                                            'API.getPiwikVersion',
+                                            'UserCountry.getLocationFromIP',
+                                            'UserCountry.getCountryCodeMapping');
             } else {
                 $this->apiNotToCall = array();
             }

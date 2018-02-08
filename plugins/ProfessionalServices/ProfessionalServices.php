@@ -9,19 +9,27 @@
 namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Common;
+use Piwik\View;
+use Piwik\Plugin;
 
 class ProfessionalServices extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Request.getRenamedModuleAndAction' => 'renameProfessionalServicesModule',
-            'Template.afterGoalConversionOverviewReport' => 'getGoalOverviewPromo',
+            'Template.afterGoalConversionOverviewReport' => array('function' => 'getGoalOverviewPromo', 'after' => true),
+            'Template.afterGoalCannotAddNewGoal' => array('function' => 'getGoalOverviewPromo', 'after' => true),
+            'Template.endGoalEditTable' => array('function' => 'getGoalFunnelOverviewPromo', 'after' => true),
             'Template.afterEventsReport' => 'getEventsPromo',
+            'Template.afterCampaignsReport' => 'getCampaignsPromo',
+            'Template.afterReferrersKeywordsReport' => 'getSearchKeywordsPerformancePromo',
+            'Template.afterOverlaySidebar' => 'getHeatmapPromo',
+            'Template.afterVisitorProfileOverview' => 'getSessionRecordingPromo',
         );
     }
 
@@ -44,7 +52,7 @@ class ProfessionalServices extends \Piwik\Plugin
                 $action = 'promoServices';
             }
 
-            if($action == 'rssPiwikPro') {
+            if ($action == 'rssPiwikPro') {
                 $action = 'rss';
             }
         }
@@ -56,33 +64,86 @@ class ProfessionalServices extends \Piwik\Plugin
         return $isWidget;
     }
 
-    public function getGoalOverviewPromo(&$out)
+    public function getHeatmapPromo(&$out)
     {
-        if(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('AbTesting')
-            || $this->isRequestForDashboardWidget()) {
+        if (!$this->shouldShowPromoForPlugin('HeatmapSessionRecording')) {
             return;
         }
 
-        $out .= '
-            <p style="margin-top:3em" class=" alert-info alert">Did you know?
-                With <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/ab-testing-learn-more/">A/B Testing for Piwik</a> you can immediately increase conversions and sales by creating different versions of a page to see which grows your business.
-            </p>
-            ';
+        $view = new View('@ProfessionalServices/promoHeatmaps');
+        $out .= $view->render();
+    }
+
+    public function getSessionRecordingPromo(&$out)
+    {
+        if (!$this->shouldShowPromoForPlugin('HeatmapSessionRecording')) {
+            return;
+        }
+
+        $view = new View('@ProfessionalServices/promoSessionRecordings');
+        $out .= $view->render();
+    }
+
+    public function getSearchKeywordsPerformancePromo(&$out)
+    {
+        if (!$this->shouldShowPromoForPlugin('SearchEngineKeywordsPerformance')) {
+            return;
+        }
+
+        $view = new View('@ProfessionalServices/promoSearchKeywords');
+        $out .= $view->render();
+    }
+
+    public function getGoalFunnelOverviewPromo(&$out)
+    {
+        if (!$this->shouldShowPromoForPlugin('Funnels')) {
+            return;
+        }
+
+        $view = new View('@ProfessionalServices/promoFunnel');
+        $out .= $view->render();
+    }
+
+    public function getGoalOverviewPromo(&$out)
+    {
+        if (!$this->shouldShowPromoForPlugin('AbTesting')) {
+            return;
+        }
+
+        $view = new View('@ProfessionalServices/promoExperiments.twig');
+        $out .= $view->render();
     }
 
     public function getEventsPromo(&$out)
     {
-        if($this->isRequestForDashboardWidget()) {
+        if ($this->isRequestForDashboardWidget()) {
             return;
         }
-        $inlineAd = '';
-        if(!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MediaAnalytics')) {
-            $inlineAd = '<br/>When you publish videos or audios, <a target="_blank" rel="noreferrer" href="https://piwik.org/recommends/media-analytics-website">Media Analytics gives deep insights into your audience</a> and how they watch your videos or listens to your music.';
-        }
-        $out .= '<p style="margin-top:3em" class=" alert-info alert">Did you know?
-                <br/>Using Events you can measure any user interaction and gain amazing insights into your audience. <a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/docs/event-tracking/">Learn more</a>.
-              <br/> To measure blocks of content such as image galleries, listings or ads: use <a target="_blank" href="?module=Proxy&action=redirect&url=http://developer.piwik.org/guides/content-tracking">Content Tracking</a> and see exactly which content is viewed and clicked.
-              ' . $inlineAd . '
-            </p>';
+
+        $view = new View('@ProfessionalServices/promoBelowEvents');
+        $view->displayMediaAnalyticsAd = !$this->isPluginActivated('MediaAnalytics');
+        $out .= $view->render();
     }
+
+    public function getCampaignsPromo(&$out)
+    {
+        if ($this->isRequestForDashboardWidget()) {
+            return;
+        }
+
+        $view = new View('@ProfessionalServices/promoBelowCampaigns');
+        $view->displayMarketingCampaignsReportingAd = !$this->isPluginActivated('MarketingCampaignsReporting');
+        $out .= $view->render();
+    }
+
+    private function shouldShowPromoForPlugin($pluginName)
+    {
+        return !$this->isPluginActivated($pluginName) && !$this->isRequestForDashboardWidget();
+    }
+
+    private function isPluginActivated($pluginName)
+    {
+        return Plugin\Manager::getInstance()->isPluginActivated($pluginName);
+    }
+
 }

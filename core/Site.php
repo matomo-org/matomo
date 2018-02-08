@@ -55,18 +55,33 @@ class Site
      */
     protected static $infoSites = array();
 
+    private $site = array();
+
     /**
      * Constructor.
      *
      * @param int $idsite The ID of the site we want data for.
+     * @throws UnexpectedWebsiteFoundException
      */
     public function __construct($idsite)
     {
-        $this->id = (int)$idsite;
-        if (!isset(self::$infoSites[$this->id])) {
+        $this->id = (int) $idsite;
+
+        if (!empty(self::$infoSites[$this->id])) {
+            $site = self::$infoSites[$this->id];
+        } else {
             $site = API::getInstance()->getSiteFromId($this->id);
-            self::setSiteFromArray($this->id, $site);
+
+            if (empty($site)) {
+                throw new UnexpectedWebsiteFoundException('The requested website id = ' . (int)$this->id . ' couldn\'t be found');
+            }
         }
+
+        $sites = array(&$site);
+        self::triggerSetSitesEvent($sites);
+        self::setSiteFromArray($this->id, $site);
+
+        $this->site = $site;
     }
 
     /**
@@ -249,19 +264,11 @@ class Site
      */
     protected function get($name)
     {
-        if (!isset(self::$infoSites[$this->id])) {
-            $site = API::getInstance()->getSiteFromId($this->id);
-
-            if (empty($site)) {
-                throw new UnexpectedWebsiteFoundException('The requested website id = ' . (int)$this->id . ' couldn\'t be found');
-            }
-
-            self::setSiteFromArray($this->id, $site);
+        if (isset($this->site[$name])) {
+            return $this->site[$name];
         }
-        if (!isset(self::$infoSites[$this->id][$name])) {
-            throw new Exception("The property $name could not be found on the website ID " . (int)$this->id);
-        }
-        return self::$infoSites[$this->id][$name];
+
+        throw new Exception("The property $name could not be found on the website ID " . (int)$this->id);
     }
 
     /**

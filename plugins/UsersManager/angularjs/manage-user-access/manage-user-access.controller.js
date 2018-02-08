@@ -43,13 +43,33 @@
         };
 
         this.setAccess = function (login, access) {
-    
+          login = String(login);
+          login=piwik.helper.escape(piwik.helper.htmlEntities(login));
+            if ( $('[data-login="' + login + '"]').find("#"+access).has('.accessGranted').length ){
+                return;
+            }
             // callback called when the ajax request Update the user permissions is successful
             function successCallback(response) {
                 var mainDiv = $('[data-login="' + login + '"]');
-                mainDiv.find('.accessGranted')
-                    .attr("src", "plugins/UsersManager/images/no-access.png")
+                var grantedDiv = mainDiv.find('.accessGranted');
+                var currentSite = $(".sites_autocomplete").attr("sitename");
+                currentSite = piwik.helper.escape(piwik.helper.htmlEntities(currentSite));
+
+                grantedDiv.attr("src", "plugins/UsersManager/images/no-access.png")
                     .attr("class", "updateAccess")
+                    .attr("title", function(){
+                      var access = grantedDiv.parents('[id]').attr('id');
+                      if (access =="noaccess"){
+                        return _pk_translate('UsersManager_RemoveUserAccess', [login,currentSite])
+                      }
+                      else if (access =="view") {
+                        return _pk_translate('UsersManager_GiveUserAccess', [login,_pk_translate('UsersManager_PrivView'),currentSite]);
+                      }
+                      else if (access =="admin") {
+                        return _pk_translate('UsersManager_GiveUserAccess', [login,_pk_translate('UsersManager_PrivAdmin'),currentSite]);
+                      }
+                    })
+                    .off('click')
                     .click(function () {
                         var access = $(this).parent().attr('id')
                         self.setAccess(login, access);
@@ -58,7 +78,14 @@
                 mainDiv.find('#' + access + ' img')
                     .attr('src', "plugins/UsersManager/images/ok.png")
                     .attr('class', "accessGranted")
-                ;
+                    .attr("title",function(){
+                      if(access=="noaccess"){
+                        return _pk_translate('UsersManager_UserHasNoPermission', [login,_pk_translate('UsersManager_PrivNone'),currentSite]);
+                      }else {
+                        return _pk_translate('UsersManager_UserHasPermission', [login,access,currentSite]);
+                      }}
+                  )
+                  ;
 
                 var UI = require('piwik/UI');
                 var notification = new UI.Notification();
@@ -77,19 +104,22 @@
                 }
             }
 
-            if (this.site.id == 'all') {
+            function onValidate() {
+                launchAjaxRequest(login, access).then(successCallback);
+            }
+
+            if (login == 'anonymous' && access == 'view') {
+                piwikHelper.modalConfirm('#confirmAnonymousAccess', {yes: onValidate})
+            }
+            else if (this.site.id == 'all') {
 
                 //ask confirmation
                 $('#confirm').find('.login').text(login);
 
-                function onValidate() {
-                    launchAjaxRequest(login, access).then(successCallback);
-                }
-
                 piwikHelper.modalConfirm('#confirm', {yes: onValidate})
             }
             else {
-                launchAjaxRequest(login, access).then(successCallback);
+                onValidate();
             }
         }
     }

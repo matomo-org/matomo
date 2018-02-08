@@ -23,22 +23,24 @@ class DeactivatePlugin extends ConsoleCommand
     {
         $this->setName('plugin:deactivate');
         $this->setDescription('Deactivate a plugin.');
-        $this->addArgument('plugin', InputArgument::REQUIRED, 'The plugin name.');
+        $this->addArgument('plugin', InputArgument::IS_ARRAY, 'The plugin name you want to activate. Multiple plugin names can be specified separated by a space.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pluginManager = Manager::getInstance();
 
-        $plugin = $input->getArgument('plugin');
+        $plugins = $input->getArgument('plugin');
 
-        if (!$pluginManager->isPluginActivated($plugin)) {
-            $output->writeln('<comment>The plugin is already deactivated.</comment>');
-            return;
+        foreach ($plugins as $plugin) {
+            if (!$pluginManager->isPluginActivated($plugin)) {
+                $output->writeln(sprintf('<comment>The plugin %s is already deactivated.</comment>', $plugin));
+                continue;
+            }
+
+            $pluginManager->deactivatePlugin($plugin);
+
+            $output->writeln("Deactivated plugin <info>$plugin</info>");
         }
-
-        $pluginManager->deactivatePlugin($plugin);
-
-        $output->writeln("Deactivated plugin <info>$plugin</info>");
     }
 }

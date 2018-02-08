@@ -23,20 +23,30 @@
 				<pageTitle />
 				<pageIdAction>9</pageIdAction>
 				
+				
 				<pageId>9</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -47,7 +57,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -56,6 +65,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -67,27 +77,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.8</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.8</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Chrome 19.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>19.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -100,11 +116,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -129,20 +140,30 @@
 				<pageTitle />
 				<pageIdAction>8</pageIdAction>
 				
+				
 				<pageId>8</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -153,7 +174,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -162,6 +182,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -173,27 +194,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemName>GNU/Linux</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemVersion />
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 6.0</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>6.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -206,11 +233,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -235,20 +257,30 @@
 				<pageTitle />
 				<pageIdAction>7</pageIdAction>
 				
+				
 				<pageId>7</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -259,7 +291,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -268,6 +299,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -279,27 +311,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemName>GNU/Linux</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Chrome 19.0</browser>
 		<browserName>Chrome</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/CH.png</browserIcon>
 		<browserCode>CH</browserCode>
 		<browserVersion>19.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>Virginia</region>
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
@@ -312,11 +350,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -341,20 +374,30 @@
 				<pageTitle />
 				<pageIdAction>6</pageIdAction>
 				
+				
 				<pageId>6</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -365,7 +408,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -374,6 +416,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -385,27 +428,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemName>GNU/Linux</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>Epiphany 2.30</browser>
-		<browserName>Epiphany</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/EP.gif</browserIcon>
+		<browser>GNOME Web 2.30</browser>
+		<browserName>GNOME Web</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>Virginia</region>
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
@@ -418,11 +467,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -447,20 +491,30 @@
 				<pageTitle />
 				<pageIdAction>5</pageIdAction>
 				
+				
 				<pageId>5</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -471,7 +525,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -480,6 +533,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -491,27 +545,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>7</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 9.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>9.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>North America</continent>
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/us.png</countryFlag>
 		<region>Virginia</region>
 		<regionCode>VA</regionCode>
 		<city>Ashburn</city>
@@ -524,11 +584,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -553,20 +608,30 @@
 				<pageTitle />
 				<pageIdAction>4</pageIdAction>
 				
+				
 				<pageId>4</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -577,7 +642,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -586,6 +650,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -597,27 +662,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemName>GNU/Linux</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemVersion />
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 6.0</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>6.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -630,11 +701,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -659,20 +725,30 @@
 				<pageTitle />
 				<pageIdAction>3</pageIdAction>
 				
+				
 				<pageId>3</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -683,7 +759,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -692,6 +767,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -703,27 +779,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemName>GNU/Linux</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/LIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
 		<operatingSystemCode>LIN</operatingSystemCode>
 		<operatingSystemVersion />
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
-		<browser>Epiphany 2.30</browser>
-		<browserName>Epiphany</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/EP.gif</browserIcon>
+		<browser>GNOME Web 2.30</browser>
+		<browserName>GNOME Web</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/EP.png</browserIcon>
 		<browserCode>EP</browserCode>
 		<browserVersion>2.30</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -736,11 +818,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -765,20 +842,30 @@
 				<pageTitle />
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>2</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -789,7 +876,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -798,6 +884,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -809,27 +896,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/smartphone.png</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>HTC</deviceBrand>
 		<deviceModel>Vision</deviceModel>
 		<operatingSystem>Android 2.3</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/AND.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>
 		<operatingSystemCode>AND</operatingSystemCode>
 		<operatingSystemVersion>2.3</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>Android Browser</browser>
 		<browserName>Android Browser</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/AN.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/AN.png</browserIcon>
 		<browserCode>AN</browserCode>
 		<browserVersion />
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -842,16 +935,11 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>1</idVisit>
-		<visitIp>175.41.192.40</visitIp>
+		<idVisit>59</idVisit>
+		<visitIp>175.41.193.46</visitIp>
 		
 		<actionDetails>
 			<row>
@@ -859,32 +947,42 @@
 				<goalName>all</goalName>
 				<goalId>1</goalId>
 				<revenue>5</revenue>
-				<goalPageId>1</goalPageId>
+				<goalPageId>81</goalPageId>
 				
-				<url>http://piwik.net/blog/category/meta/</url>
+				<url>http://www.included4.com/blog/category/meta/</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				
 			</row>
 			<row>
 				<type>action</type>
-				<url>http://piwik.net/blog/category/meta/</url>
+				<url>http://www.included4.com/blog/category/meta/</url>
 				<pageTitle />
-				<pageIdAction>1</pageIdAction>
+				<pageIdAction>57</pageIdAction>
 				
-				<pageId>1</pageId>
+				
+				<pageId>81</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -895,7 +993,6 @@
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -904,6 +1001,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -915,32 +1013,38 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/MAC.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
 		<operatingSystemCode>MAC</operatingSystemCode>
 		<operatingSystemVersion>10.6</operatingSystemVersion>
 		<browserFamily>WebKit</browserFamily>
 		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
 		<browser>RockMelt 0.9</browser>
 		<browserName>RockMelt</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/CH.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
 		<browserCode>RM</browserCode>
 		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Asia</continent>
 		<continentCode>asi</continentCode>
 		<country>Japan</country>
 		<countryCode>jp</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/jp.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
 		<location>Japan</location>
-		<visitLocalTime>08:10:38</visitLocalTime>
+		<visitLocalTime>08:10:39</visitLocalTime>
 		<visitLocalHour>8</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<customVariables>
@@ -948,10 +1052,122 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>61</idVisit>
+		<visitIp>175.41.191.46</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<goalId>1</goalId>
+				<revenue>5</revenue>
+				<goalPageId>83</goalPageId>
+				
+				<url>http://www.included2.com/blog/category/meta/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://www.included2.com/blog/category/meta/</url>
+				<pageTitle />
+				<pageIdAction>59</pageIdAction>
+				
+				
+				<pageId>83</pageId>
+				<bandwidth>3574</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<bandwidth_pretty>3.5 K</bandwidth_pretty>
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
 		
 		
 		
 		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Mac 10.6</operatingSystem>
+		<operatingSystemName>Mac</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
+		<operatingSystemCode>MAC</operatingSystemCode>
+		<operatingSystemVersion>10.6</operatingSystemVersion>
+		<browserFamily>WebKit</browserFamily>
+		<browserFamilyDescription>WebKit (Safari, Chrome)</browserFamilyDescription>
+		<browser>RockMelt 0.9</browser>
+		<browserName>RockMelt</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/RM.png</browserIcon>
+		<browserCode>RM</browserCode>
+		<browserVersion>0.9</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Asia</continent>
+		<continentCode>asi</continentCode>
+		<country>Singapore</country>
+		<countryCode>sg</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/sg.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Singapore</location>
+		<visitLocalTime>08:10:39</visitLocalTime>
+		<visitLocalHour>8</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
 	</row>
 </result>

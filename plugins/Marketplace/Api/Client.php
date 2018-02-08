@@ -12,6 +12,7 @@ use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
+use Piwik\Http;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Environment;
 use Piwik\Plugins\Marketplace\Api\Service;
@@ -166,7 +167,8 @@ class Client
         foreach ($plugins as $plugin) {
             $pluginName = $plugin->getPluginName();
             if (!$this->pluginManager->isPluginBundledWithCore($pluginName)) {
-                $params[] = array('name' => $plugin->getPluginName(), 'version' => $plugin->getVersion());
+                $isActivated = $this->pluginManager->isPluginActivated($pluginName);
+                $params[] = array('name' => $plugin->getPluginName(), 'version' => $plugin->getVersion(), 'activated' => (int) $isActivated);
             }
         }
 
@@ -272,7 +274,7 @@ class Client
         $params['num_users'] = $this->environment->getNumUsers();
         $params['num_websites'] = $this->environment->getNumWebsites();
 
-        $query = http_build_query($params);
+        $query = Http::buildQuery($params);
         $cacheId = $this->getCacheKey($action, $query);
 
         $result = $this->cache->fetch($cacheId);

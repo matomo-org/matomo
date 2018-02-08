@@ -22,7 +22,7 @@ class Urls extends \Piwik\Settings\Measurable\MeasurableProperty
     {
         $name = 'urls';
         $pluginName = 'WebsiteMeasurable';
-        $defaultValue = array('http://siteUrl.com/', 'http://siteUrl2.com/');
+        $defaultValue = array();
         $type = FieldConfig::TYPE_ARRAY;
 
         parent::__construct($name, $defaultValue, $type, $pluginName, $idSite);
@@ -38,7 +38,11 @@ class Urls extends \Piwik\Settings\Measurable\MeasurableProperty
         $config->title = Piwik::translate('SitesManager_Urls');
         $config->inlineHelp = Piwik::translate('SitesManager_AliasUrlHelp');
         $config->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
-        $config->uiControlAttributes = array('cols' => '25', 'rows' => '3');
+        $config->uiControlAttributes = array(
+          'cols' => '25',
+          'rows' => '3',
+          'placeholder' => "https://siteUrl.com/                                                 https://siteUrl2.com/",
+        );
 
         $self = $this;
         $config->validate = function ($urls) use ($self) {

@@ -120,6 +120,14 @@ class Report
     protected $hasGoalMetrics = false;
 
     /**
+     * Set this property to false in case your report can't/shouldn't be flattened.
+     * In this case, flattener won't be applied even if parameter is provided in a request
+     * @var bool
+     * @api
+     */
+    protected $supportsFlatten = true;
+
+    /**
      * Set it to boolean `true` if your report always returns a constant count of rows, for instance always 24 rows
      * for 1-24 hours.
      * @var bool
@@ -310,6 +318,26 @@ class Report
     }
 
     /**
+     *
+     * Processing a uniqueId for each report, can be used by UIs as a key to match a given report
+     * @return string
+     */
+    public function getId()
+    {
+        $params = $this->getParameters();
+
+        $paramsKey = $this->getModule() . '.' . $this->getAction();
+
+        if (!empty($params)) {
+            foreach ($params as $key => $value) {
+                $paramsKey .= '_' . $key . '--' . $value;
+            }
+        }
+
+        return $paramsKey;
+    }
+
+    /**
      * lets you add any amount of widgets for this report. If a report defines a {@link $categoryId} and a
      * {@link $subcategoryId} a widget will be generated automatically.
      *
@@ -382,6 +410,7 @@ class Report
         if (empty($restrictToColumns)) {
             $restrictToColumns = array_merge($allMetrics, array_keys($this->getProcessedMetrics()));
         }
+        $restrictToColumns = array_unique($restrictToColumns);
 
         $processedMetricsById = $this->getProcessedMetricsById();
         $metricsSet = array_flip($allMetrics);
@@ -429,8 +458,22 @@ class Report
     }
 
     /**
+     * Use this method to register metrics to process report totals.
+     *
+     * When a metric is registered, it will process the report total values and as a result show percentage values
+     * in the HTML Table reporting visualization.
+     *
+     * @return string[]  metricId => metricColumn, if the report has only column names and no IDs, it should return
+     *                   metricColumn => metricColumn, eg array('13' => 'nb_pageviews') or array('mymetric' => 'mymetric')
+     */
+    public function getMetricNamesToProcessReportTotals()
+    {
+        return array();
+    }
+
+    /**
      * Returns an array of metric documentations and their corresponding translations. Eg
-     * `array('nb_visits' => 'If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after...')`.
+     * `array('nb_visits' => 'If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after...')`.
      * By default the given {@link $metrics} are used and their corresponding translations are looked up automatically.
      * If there is a metric documentation not found, you should add the default metric documentation translation for
      * this metric using the {@hook Metrics.getDefaultMetricDocumentationTranslations} event. If you want to overwrite
@@ -477,6 +520,15 @@ class Report
     public function hasGoalMetrics()
     {
         return $this->hasGoalMetrics;
+    }
+
+    /**
+     * @return bool
+     * @ignore
+     */
+    public function supportsFlatten()
+    {
+        return $this->supportsFlatten;
     }
 
     /**
@@ -809,7 +861,7 @@ class Report
 
         $result = array();
         foreach ($processedMetrics as $processedMetric) {
-            if ($processedMetric instanceof ProcessedMetric) { // instanceof check for backwards compatibility
+            if ($processedMetric instanceof ProcessedMetric || $processedMetric instanceof ArchivedMetric) { // instanceof check for backwards compatibility
                 $result[$processedMetric->getName()] = $processedMetric;
             }
         }

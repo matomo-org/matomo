@@ -12,22 +12,23 @@ use Exception;
 use Piwik\AssetManager;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
 use Piwik\Filechecks;
+use Piwik\FileIntegrity;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugin;
+use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Marketplace\Plugins;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Updater as DbUpdater;
 use Piwik\Version;
-use Piwik\View\OneClickDone;
 use Piwik\View;
+use Piwik\View\OneClickDone;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -277,6 +278,13 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view->new_piwik_version = Version::VERSION;
         $view->commandUpgradePiwik = "php " . Filesystem::getPathToPiwikRoot() . "/console core:update";
+
+        $instanceId = SettingsPiwik::getPiwikInstanceId();
+
+        if ($instanceId) {
+            $view->commandUpgradePiwik .= ' --piwik-domain="' . $instanceId . '"';
+        }
+
         $pluginNamesToUpdate = array();
         $dimensionsToUpdate = array();
         $coreToUpdate = false;
@@ -306,12 +314,13 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         // check file integrity
-        $integrityInfo = Filechecks::getFileIntegrityInformation();
-        if (isset($integrityInfo[1])) {
-            if ($integrityInfo[0] == false) {
-                $this->warningMessages[] = Piwik::translate('General_FileIntegrityWarningExplanation');
-            }
-            $this->warningMessages = array_merge($this->warningMessages, array_slice($integrityInfo, 1));
+        list($success, $messages) = FileIntegrity::getFileIntegrityInformation();
+
+        if (!$success) {
+            $this->warningMessages[] = Piwik::translate('General_FileIntegrityWarning');
+        }
+        if (count($messages) > 0) {
+            $this->warningMessages = array_merge($this->warningMessages, $messages);
         }
         Filesystem::deleteAllCacheOnUpdate();
 

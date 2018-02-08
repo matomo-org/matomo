@@ -124,17 +124,27 @@ describe("Dashboard", function () {
             page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
             page.click('.widgetpreview-categorylist>li:contains(Live!)');
 
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Times):first');
-            page.click('.widgetpreview-categorylist>li:contains(Times):first');
+            page.mouseMove('.widgetpreview-categorylist>li:contains(Actions):first');
+            page.click('.widgetpreview-categorylist>li:contains(Actions):first');
 
-            page.mouseMove('.widgetpreview-widgetlist>li:contains(Visits per local time)');
-            page.click('.widgetpreview-widgetlist>li:contains(Visits per local time)');
+            page.mouseMove('.widgetpreview-widgetlist>li:contains(Pages):first');
+            page.click('.widgetpreview-widgetlist>li:contains(Pages):first');
+        }, done);
+    });
+
+    it("should open row evolution", function (done) {
+        expect.screenshot("rowevolution").to.be.captureSelector('.ui-dialog:visible', function (page) {
+            page.mouseMove('#widgetActionsgetPageUrls table.dataTable tbody tr:contains(thankyou) td:first-child', 100);
+            page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
+            page.click('a.actionRowEvolution:visible', 2000);
         }, done);
     });
 
     it("should remove widget when remove widget icon is clicked", function (done) {
         expect.screenshot("widget_move_removed").to.be.capture(function (page) {
-            var widget = '[id="widgetVisitTimegetVisitInformationPerLocalTime"]';
+            page.click('.ui-dialog-titlebar-close:visible'); // close row evolution
+
+            var widget = '[id="widgetActionsgetPageUrls"]';
 
             page.mouseMove(widget + ' .widgetTop');
             page.click(widget + ' .button#close');
@@ -182,10 +192,16 @@ describe("Dashboard", function () {
     });
 
     it("should reset dashboard when reset dashboard process completed", function (done) {
+        this.retries(3);
         expect.screenshot("reset").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=resetDashboard]');
             page.click('.modal.open .modal-footer a:contains(Yes)', 4000);
+            page.evaluate(function(){
+                $('#widgetReferrersgetReferrerType').hide();
+                $('#widgetReferrersgetReferrerType').offsetHeight;
+                $('#widgetReferrersgetReferrerType').show();
+            }, 100);
             page.mouseMove('.dashboard-manager');
         }, done);
     });
@@ -202,7 +218,7 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it.skip("should not fail when default widget selection changed", function (done) {
+    it("should not fail when default widget selection changed", function (done) {
         expect.screenshot("default_widget_selection_changed").to.be.capture(function (page) {
             page.load(url);
             page.click('.dashboard-manager .title');
@@ -211,15 +227,41 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it.skip("should create new dashboard with new default widget selection when create dashboard process completed", function (done) {
+    it("should create new dashboard with new default widget selection when create dashboard process completed", function (done) {
         expect.screenshot("create_new").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=createDashboard]');
             page.sendKeys('#createDashboardName:visible', 'newdash2');
             page.click('.modal.open .modal-footer a:contains(Ok)');
-            // toggle map widget to prevent failures
-            page.mouseMove('#widgetUserCountryMapvisitorMap .widgetTop', 3000);
-            page.click('#widgetUserCountryMapvisitorMap #minimise');
+        }, done);
+    });
+
+    it("should load segmented dashboard", function (done) {
+
+        removeAllExtraDashboards(function(){});
+
+        expect.screenshot("segmented").to.be.capture(function (page) {
+            page.load(url + '&segment=' + encodeURIComponent("browserCode==FF"), 5000);
+        }, done);
+    });
+
+    it("should load correctly with token_auth", function (done) {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        expect.screenshot("loaded_token_auth").to.be.capture(function (page) {
+            var tokenAuth = "9ad1de7f8b329ab919d854c556f860c1";
+            page.load(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth, 5000);
+        }, done);
+    });
+
+    it("should fail to load with invalid token_auth", function (done) {
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        expect.screenshot("invalid_token_auth").to.be.capture(function (page) {
+            var tokenAuth = "anyInvalidToken";
+            page.load(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth, 5000);
         }, done);
     });
 

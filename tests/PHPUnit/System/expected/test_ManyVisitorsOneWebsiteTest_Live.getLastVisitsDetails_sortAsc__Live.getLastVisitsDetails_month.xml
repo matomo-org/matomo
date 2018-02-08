@@ -75,7 +75,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -95,11 +95,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -107,11 +107,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -196,7 +196,7 @@
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region>Franche-Comte</region>
 		<regionCode>A6</regionCode>
 		<city>Besançon</city>
@@ -216,11 +216,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -228,11 +228,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -317,7 +317,7 @@
 		<continentCode>amn</continentCode>
 		<country>Canada</country>
 		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ca.png</countryFlag>
 		<region>British Columbia</region>
 		<regionCode>BC</regionCode>
 		<city>Vancouver</city>
@@ -337,11 +337,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -349,11 +349,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -438,7 +438,7 @@
 		<continentCode>eur</continentCode>
 		<country>Italy</country>
 		<countryCode>it</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/it.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/it.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -458,11 +458,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -470,11 +470,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -590,7 +590,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
 		<regionCode>P3</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -610,11 +610,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -622,11 +622,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -742,7 +742,7 @@
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region>Franche-Comte</region>
 		<regionCode>A6</regionCode>
 		<city>Besançon</city>
@@ -762,11 +762,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -774,11 +774,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
@@ -886,7 +886,7 @@
 		<continentCode>amn</continentCode>
 		<country>Canada</country>
 		<countryCode>ca</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/ca.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/ca.png</countryFlag>
 		<region>British Columbia</region>
 		<regionCode>BC</regionCode>
 		<city>Vancouver</city>
@@ -906,11 +906,11 @@
 		<referrerSearchEngineIcon />
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemCode>UNK</operatingSystemCode>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
 		<browserFamily>unknown</browserFamily>
 		<browserFamilyDescription>Unknown</browserFamilyDescription>
 		<browserName>Unknown</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion>UNK</browserVersion>
 		<deviceType>Desktop</deviceType>
@@ -918,11 +918,11 @@
 		<plugins>flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>

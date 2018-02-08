@@ -10,9 +10,7 @@
 <body id="simple">
 
 <div class="logo">
-	<img title="Piwik" alt="Piwik" src="%logoUrl%"/>
-	<br/>
-	<a href='http://piwik.org/'>free/libre analytics platform</a>
+	<img title="Matomo" alt="Matomo" style="height: 40px;" src="%logoUrl%"/>
 </div>
 
 <div class="box">

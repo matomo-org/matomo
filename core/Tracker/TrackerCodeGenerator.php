@@ -31,6 +31,7 @@ class TrackerCodeGenerator
      * @param string $customCampaignKeywordParam
      * @param bool $doNotTrack
      * @param bool $disableCookies
+     * @param bool $trackNoScript
      * @return string Javascript code.
      */
     public function generate(
@@ -44,7 +45,9 @@ class TrackerCodeGenerator
         $customCampaignNameQueryParam = null,
         $customCampaignKeywordParam = null,
         $doNotTrack = false,
-        $disableCookies = false
+        $disableCookies = false,
+        $trackNoScript = false,
+        $crossDomain = false
     ) {
         // changes made to this code should be mirrored in plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js var generateJsCode
 
@@ -60,9 +63,18 @@ class TrackerCodeGenerator
         if ($groupPageTitlesByDomain) {
             $options .= '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);' . "\n";
         }
+        if ($crossDomain) {
+            // When enabling cross domain, we also need to call `setDomains`
+            $mergeAliasUrls = true;
+        }
         if ($mergeSubdomains || $mergeAliasUrls) {
             $options .= $this->getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls);
         }
+
+        if ($crossDomain) {
+            $options .= '  _paq.push(["enableCrossDomainLinking"]);' . "\n";
+        }
+
         $maxCustomVars = CustomVariables::getNumUsableCustomVariables();
 
         if ($visitorCustomVariables && count($visitorCustomVariables) > 0) {
@@ -120,7 +132,8 @@ class TrackerCodeGenerator
             'options'                 => $options,
             'optionsBeforeTrackerUrl' => $optionsBeforeTrackerUrl,
             'protocol'                => '//',
-            'loadAsync'               => true
+            'loadAsync'               => true,
+            'trackNoScript'           => $trackNoScript
         );
         $parameters = compact('mergeSubdomains', 'groupPageTitlesByDomain', 'mergeAliasUrls', 'visitorCustomVariables',
             'pageCustomVariables', 'customCampaignNameQueryParam', 'customCampaignKeywordParam',
@@ -156,13 +169,14 @@ class TrackerCodeGenerator
             $setTrackerUrl = 'var u=((document.location.protocol === "https:") ? "https://{$httpsPiwikUrl}/" : "http://{$piwikUrl}/");';
             $codeImpl['httpsPiwikUrl'] = rtrim($codeImpl['httpsPiwikUrl'], "/");
         }
-        $codeImpl = array('setTrackerUrl' => htmlentities($setTrackerUrl)) + $codeImpl;
+        $codeImpl = array('setTrackerUrl' => htmlentities($setTrackerUrl, ENT_COMPAT | ENT_HTML401, 'UTF-8')) + $codeImpl;
 
         $view = new View('@Morpheus/javascriptCode');
         $view->disableCacheBuster();
         $view->loadAsync = $codeImpl['loadAsync'];
+        $view->trackNoScript = $codeImpl['trackNoScript'];
         $jsCode = $view->render();
-        $jsCode = htmlentities($jsCode);
+        $jsCode = htmlentities($jsCode, ENT_COMPAT | ENT_HTML401, 'UTF-8');
 
         foreach ($codeImpl as $keyToReplace => $replaceWith) {
             $jsCode = str_replace('{$' . $keyToReplace . '}', $replaceWith, $jsCode);

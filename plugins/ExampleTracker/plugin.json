@@ -1,11 +1,11 @@
 {
  "name": "ExampleTracker",
  "version": "0.1.0",
- "description": "Piwik Platform showcase: how to track additional custom data creating new database table columns.",
+ "description": "Matomo Platform showcase: how to track additional custom data creating new database table columns.",
  "theme": false,
  "authors": [
      {
-         "name": "Piwik",
+         "name": "Matomo",
          "email": "",
          "homepage": ""
      }

@@ -1,7 +1,7 @@
 {
     "DevicesDetection": {
         "BrowserEngine": "Moteur de rendu HTML",
-        "BrowserEngineDocumentation": "Ce rapport affiche les navigateurs de vos visiteurs divisés par moteurs. %s L'information la plus importante pour des développeurs web est quelle sorte de moteur de rendu utilisent les visiteurs. Les labels contiennent le nom du moteur suivit par le navigateur le plus commun utilisant ce moteur entre parenthèses.",
+        "BrowserEngineDocumentation": "Ce rapport affiche les navigateurs de vos visiteurs divisés par moteurs. %s L'information la plus importante pour des développeurs web est quelle sorte de moteur de rendu utilisent les visiteurs. Les labels contiennent le nom du moteur suivi par le navigateur le plus commun utilisant ce moteur entre parenthèses.",
         "BrowserEngines": "Moteurs de rendu HTML",
         "BrowserFamily": "Famille de navigateurs",
         "Browsers": "Navigateurs",
@@ -20,10 +20,13 @@
         "dataTableLabelTypes": "Type",
         "Device": "Périphérique",
         "DeviceBrand": "Marque du périphérique",
+        "DeviceBrands": "Marques de périphérique",
         "DeviceDetection": "Détection du périphérique",
         "DeviceModel": "Modèle du périphérique",
+        "DeviceModels": "Modèles de périphérique",
         "DevicesDetection": "Périphériques du visiteur",
         "DeviceType": "Type du périphérique",
+        "DeviceTypes": "Types de périphérique",
         "FeaturePhone": "Fonctionnalité téléphone",
         "OperatingSystemFamilies": "Familles de systèmes d'exploitations",
         "OperatingSystemFamily": "Famille de systèmes d'exploitations",
@@ -38,6 +41,7 @@
         "Phablet": "Phablette",
         "TV": "TV",
         "UserAgent": "Agent Utilisateur (User-Agent)",
+        "XVisitsFromDevices": "%1$svisites de %2$spériphériques",
         "WidgetBrowsers": "Navigateurs du visiteur",
         "WidgetBrowsersDocumentation": "Ce rapport contient des informations à propos de quel type de navigateur vos visiteurs utilisent. Chaque version du navigateur est listée séparément."
     }

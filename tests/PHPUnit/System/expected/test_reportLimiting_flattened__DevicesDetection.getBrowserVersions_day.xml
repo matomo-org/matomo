@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Unknown</label>
+		<label>Others</label>
 		<nb_uniq_visitors>9</nb_uniq_visitors>
 		<nb_visits>45</nb_visits>
 		<nb_actions>45</nb_actions>
@@ -10,7 +10,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>45</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<logo>plugins/DevicesDetection/images/browsers/UNK.gif</logo>
+		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
 	</row>
 	<row>
 		<label>Firefox 6.0</label>
@@ -23,7 +23,7 @@
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>browserCode==FF;browserVersion==6.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/FF.gif</logo>
+		<logo>plugins/Morpheus/icons/dist/browsers/FF.png</logo>
 	</row>
 	<row>
 		<label>Internet Explorer 9.0</label>
@@ -36,6 +36,6 @@
 		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>browserCode==IE;browserVersion==9.0</segment>
-		<logo>plugins/DevicesDetection/images/browsers/IE.gif</logo>
+		<logo>plugins/Morpheus/icons/dist/browsers/IE.png</logo>
 	</row>
 </result>

@@ -13,8 +13,6 @@ use Piwik\Piwik;
 
 class SearchCategory extends Dimension
 {
-    public function getName()
-    {
-        return Piwik::translate('Actions_ColumnSearchCategory');
-    }
+    protected $type = self::TYPE_TEXT;
+    protected $nameSingular = 'Actions_ColumnSearchCategory';
 }

@@ -81,6 +81,9 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'update');
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updates', 'getMigrationQueries');
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Updater', 'executeMigrationQueries');
+
+        // THIS IS A REMINDER FOR PIWIK 4: We need to rename getColumnType() to getDbColumnType() and $columnType to $dbColumnType
+        $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Columns\Dimension', 'getType');
     }
 
 

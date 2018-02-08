@@ -24,7 +24,7 @@ class GetSiteSearchKeywords extends SiteSearchBase
         $this->dimension     = new Keyword();
         $this->name          = Piwik::translate('Actions_WidgetSearchKeywords');
         $this->documentation = Piwik::translate('Actions_SiteSearchKeywordsDocumentation') . '<br/><br/>' . Piwik::translate('Actions_SiteSearchIntro') . '<br/><br/>'
-                             . '<a href="http://piwik.org/docs/site-search/" rel="noreferrer"  target="_blank">' . Piwik::translate('Actions_LearnMoreAboutSiteSearchLink') . '</a>';
+                             . '<a href="https://matomo.org/docs/site-search/" rel="noreferrer"  target="_blank">' . Piwik::translate('Actions_LearnMoreAboutSiteSearchLink') . '</a>';
         $this->metrics       = array('nb_visits', 'nb_pages_per_search');
         $this->processedMetrics = array(
             new AverageTimeOnPage(),

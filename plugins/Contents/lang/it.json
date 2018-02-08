@@ -2,8 +2,8 @@
     "Contents": {
         "PluginDescription": "Il tracciamento di contenuto e banner ti consente di misurare le prestazioni (visite, clicks, CTR) di ciascuna porzione di contenuto delle tue pagine (Banner ad, immagini, ogni elemento).",
         "Impressions": "Impressioni",
-        "Interactions": "Interazioni",
-        "Interaction": "Interazione",
+        "ContentInteraction": "Interazione Contenuto",
+        "ContentInteractions": "Interazioni Contenuto",
         "InteractionRate": "Rapporto di Interazioni",
         "ContentName": "Nome Contenuto",
         "ContentPiece": "Pezzo del Contenuto",

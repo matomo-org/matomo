@@ -48,7 +48,22 @@ class JoinTables extends \ArrayObject
 
     public function hasJoinedTable($tableName)
     {
-        return in_array($tableName, $this->getTables());
+        $tables = in_array($tableName, $this->getTables());
+        if ($tables) {
+            return true;
+        }
+
+        foreach ($this as $table) {
+            if (is_array($table)) {
+                if (!isset($table['tableAlias']) && $table['table'] === $table) {
+                    return true;
+                } elseif (isset($table['tableAlias']) && $table['tableAlias'] === $table) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public function hasJoinedTableManually($tableToFind, $joinToFind)
@@ -58,6 +73,7 @@ class JoinTables extends \ArrayObject
                 && !empty($table['table'])
                 && $table['table'] === $tableToFind
                 && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableToFind)
+                && (!isset($table['join']) || strtolower($table['join']) === 'left join')
                 && isset($table['joinOn']) && $table['joinOn'] === $joinToFind) {
                 return true;
             }
@@ -77,6 +93,7 @@ class JoinTables extends \ArrayObject
             if (is_array($table)
                 && !empty($table['table'])
                 && $table['table'] === $tableNameToFind
+                && (!isset($table['join']) || strtolower($table['join']) === 'left join')
                 && (!isset($table['tableAlias']) || $table['tableAlias'] === $tableNameToFind)) {
                 return $index;
             }
@@ -97,7 +114,17 @@ class JoinTables extends \ArrayObject
 
         // we need to make sure first table always comes first, only sort tables after the first table
         $firstTable = array_shift($tables);
-        usort($tables, $cmpFunction);
+        usort($tables, function ($ta, $tb) use ($tables, $cmpFunction) {
+            $return = call_user_func($cmpFunction, $ta, $tb);
+            if ($return === 0) {
+                $indexA = array_search($ta, $tables);
+                $indexB = array_search($tb, $tables);
+
+                return $indexA - $indexB;
+            }
+
+            return $return;
+        });
         array_unshift($tables, $firstTable);
 
         $this->exchangeArray($tables);

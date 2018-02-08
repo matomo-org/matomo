@@ -80,7 +80,7 @@ class SetTranslations extends TranslationBase
         $translationWriter->addFilter(new EmptyTranslations());
         $translationWriter->addFilter(new ByParameterCount($baseTranslations));
         $translationWriter->addFilter(new UnnecassaryWhitespaces($baseTranslations));
-        $translationWriter->addFilter(new EncodedEntities());
+        $translationWriter->addFilter(new EncodedEntities($baseTranslations));
 
         $translationData = file_get_contents($filename);
         $translations = json_decode($translationData, true);

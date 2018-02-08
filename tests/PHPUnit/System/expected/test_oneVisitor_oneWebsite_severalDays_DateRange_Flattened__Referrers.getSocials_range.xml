@@ -11,7 +11,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://facebook.com/whatever</url>
-		<logo>plugins/Referrers/images/socials/facebook.com.png</logo>
+		<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
 	</row>
 	<row>
 		<label>Facebook - fb.me/?q=sdlfjs&amp;n=slfjsd</label>
@@ -24,7 +24,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://fb.me/?q=sdlfjs&amp;n=slfjsd</url>
-		<logo>plugins/Referrers/images/socials/facebook.com.png</logo>
+		<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
 	</row>
 	<row>
 		<label>Facebook - www.facebook.com/another/path</label>
@@ -37,7 +37,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://www.facebook.com/another/path</url>
-		<logo>plugins/Referrers/images/socials/facebook.com.png</logo>
+		<logo>plugins/Morpheus/icons/dist/socials/facebook.com.png</logo>
 	</row>
 	<row>
 		<label>Flickr - www.flickr.com</label>
@@ -50,7 +50,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://www.flickr.com</url>
-		<logo>plugins/Referrers/images/socials/flickr.com.png</logo>
+		<logo>plugins/Morpheus/icons/dist/socials/flickr.com.png</logo>
 	</row>
 	<row>
 		<label>Mixi - mixi.jp</label>
@@ -63,7 +63,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://mixi.jp</url>
-		<logo>plugins/Referrers/images/socials/mixi.jp.png</logo>
+		<logo>plugins/Morpheus/icons/dist/socials/mixi.jp.png</logo>
 	</row>
 	<row>
 		<label>Skyrock - skyrock.com</label>
@@ -76,7 +76,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://skyrock.com</url>
-		<logo>plugins/Referrers/images/socials/skyrock.com.png</logo>
+		<logo>plugins/Morpheus/icons/dist/socials/skyrock.com.png</logo>
 	</row>
 	<row>
 		<label>Twitter - t.co/id/?y=dsfs</label>
@@ -89,7 +89,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://t.co/id/?y=dsfs</url>
-		<logo>plugins/Referrers/images/socials/twitter.com.png</logo>
+		<logo>plugins/Morpheus/icons/dist/socials/twitter.com.png</logo>
 	</row>
 	<row>
 		<label>Twitter - twitter.com/whatever2</label>
@@ -102,7 +102,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://twitter.com/whatever2</url>
-		<logo>plugins/Referrers/images/socials/twitter.com.png</logo>
+		<logo>plugins/Morpheus/icons/dist/socials/twitter.com.png</logo>
 	</row>
 	<row>
 		<label>Twitter - www.twitter.com/index?a=2334</label>
@@ -115,7 +115,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://www.twitter.com/index?a=2334</url>
-		<logo>plugins/Referrers/images/socials/twitter.com.png</logo>
+		<logo>plugins/Morpheus/icons/dist/socials/twitter.com.png</logo>
 	</row>
 	<row>
 		<label>Xanga - xanga.com</label>
@@ -128,6 +128,6 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<url>http://xanga.com</url>
-		<logo>plugins/Referrers/images/socials/xanga.com.png</logo>
+		<logo>plugins/Morpheus/icons/dist/socials/xanga.com.png</logo>
 	</row>
 </result>

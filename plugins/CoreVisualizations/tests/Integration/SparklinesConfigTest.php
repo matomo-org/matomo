@@ -47,6 +47,17 @@ class SparklinesConfigTest extends IntegrationTestCase
         parent::tearDown();
     }
 
+    public function test_areSparklinesLinkable_byDefaultSparklinesAreLinkable()
+    {
+        $this->assertTrue($this->config->areSparklinesLinkable());
+    }
+
+    public function test_setNotLinkableWithAnyEvolutionGraph_areSparklinesLinkable_sparklinesCanBeMadeNotLinkable()
+    {
+        $this->config->setNotLinkableWithAnyEvolutionGraph();
+        $this->assertFalse($this->config->areSparklinesLinkable());
+    }
+
     public function test_addSparkline_shouldAddAMinimalSparklineWithOneValueAndUseDefaultOrder()
     {
         $this->config->addSparkline($this->sparklineParams(), $value = 10, $description = 'Visits');

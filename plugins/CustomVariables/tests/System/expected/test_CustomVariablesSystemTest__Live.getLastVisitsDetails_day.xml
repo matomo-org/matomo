@@ -23,7 +23,12 @@
 				<pageTitle>Profile page</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>1</pageId>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
 				<customVariables>
 					<row>
 						<customVariablePageName1>Name_PAGE_1</customVariablePageName1>
@@ -58,8 +63,7 @@
 						<customVariablePageValue8>Val_PAGE8</customVariablePageValue8>
 					</row>
 				</customVariables>
-				<icon />
-				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>
@@ -84,38 +88,45 @@
 		<visitDurationPretty>4s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
 		<referrerName>Google</referrerName>
 		<referrerKeyword>this keyword should be ranked</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://www.google.com/search?q=this+keyword+should+be+ranked</referrerUrl>
+		<referrerUrl>http://www.google.com/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CB4QFjAA&amp;url=http://piwik.org/&amp;rct=j&amp;q=this keyword should be ranked&amp;ei=V8WfTePkKKLfiALrpZWGAw&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;sig2=BvKAdCtNixsmfNWXjsNyMw</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
-		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>XP</operatingSystemVersion>
 		<browserFamily>Gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browser>Firefox 3.6</browser>
 		<browserName>Firefox</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0.00</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0.00</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -160,21 +171,20 @@
 			</row>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
 	</row>
 </result>

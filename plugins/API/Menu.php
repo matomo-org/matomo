@@ -56,7 +56,7 @@ class Menu extends \Piwik\Plugin\Menu
 
         if (!empty($parsedOS['short_name']) && in_array($parsedOS['short_name'], array(self::DD_SHORT_NAME_ANDROID, self::DD_SHORT_NAME_IOS))) {
 
-            $url = $this->urlForModuleAction('Proxy', 'redirect', array('url' => 'http://piwik.org/mobile/'));
+            $url = $this->urlForModuleAction('Proxy', 'redirect', array('url' => 'https://matomo.org/mobile/'));
 
             if ($url) {
                 $menu->addItem('Piwik Mobile App', null, $url, 4);

@@ -9,6 +9,7 @@ namespace Piwik\Plugins\Login;
 
 use Exception;
 use Piwik\Access;
+use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\IP;
@@ -25,7 +26,7 @@ use Piwik\Url;
  *
  * The process to reset a password is as follows:
  *
- * 1. The user chooses to reset a password. He/she enters a new password
+ * 1. The user chooses to reset a password. They enter a new password
  *    and submits it to Piwik.
  * 2. PasswordResetter will store the hash of the password in the Option table.
  *    This is done by {@link initiatePasswordResetProcess()}.
@@ -59,6 +60,11 @@ use Piwik\Url;
  */
 class PasswordResetter
 {
+    /**
+     * @var Password
+     */
+    protected $passwordHelper;
+
     /**
      * @var UsersManagerAPI
      */
@@ -104,9 +110,10 @@ class PasswordResetter
      * @param string|null $confirmPasswordAction
      * @param string|null $emailFromName
      * @param string|null $emailFromAddress
+     * @param Password $passwordHelper
      */
     public function __construct($usersManagerApi = null, $confirmPasswordModule = null, $confirmPasswordAction = null,
-                                $emailFromName = null, $emailFromAddress = null)
+                                $emailFromName = null, $emailFromAddress = null, $passwordHelper = null)
     {
         if (empty($usersManagerApi)) {
             $usersManagerApi = UsersManagerAPI::getInstance();
@@ -130,6 +137,11 @@ class PasswordResetter
             $emailFromAddress = Config::getInstance()->General['login_password_recovery_email_address'];
         }
         $this->emailFromAddress = $emailFromAddress;
+
+        if (empty($passwordHelper)) {
+            $passwordHelper = new Password();
+        }
+        $this->passwordHelper = $passwordHelper;
     }
 
     /**
@@ -383,7 +395,11 @@ class PasswordResetter
      */
     protected function checkPasswordHash($passwordHash)
     {
-        UsersManager::checkPasswordHash($passwordHash, Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
+        $hashInfo = $this->passwordHelper->info($passwordHash);
+
+        if (!isset($hashInfo['algo']) || 0 >= $hashInfo['algo']) {
+            throw new Exception(Piwik::translate('Login_ExceptionPasswordMD5HashExpected'));
+        }
     }
 
     /**
@@ -436,7 +452,7 @@ class PasswordResetter
     private function savePasswordResetInfo($login, $newPassword)
     {
         $optionName = $this->getPasswordResetInfoOptionName($login);
-        $optionData = UsersManager::getPasswordHash($newPassword);
+        $optionData = $this->passwordHelper->hash(UsersManager::getPasswordHash($newPassword));
 
         Option::set($optionName, $optionData);
     }

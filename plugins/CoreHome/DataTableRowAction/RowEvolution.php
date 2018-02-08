@@ -130,7 +130,7 @@ class RowEvolution
         $metricsText = Piwik::translate('RowEvolution_AvailableMetrics');
         $popoverTitle = '';
         if ($this->rowLabel) {
-            $icon = $this->rowIcon ? '<img src="' . $this->rowIcon . '" alt="">' : '';
+            $icon = $this->rowIcon ? '<img height="16px" src="' . $this->rowIcon . '" alt="">' : '';
             $metricsText = sprintf(Piwik::translate('RowEvolution_MetricsFor'), $this->dimension . ': ' . $icon . ' ' . $this->rowLabel);
             $popoverTitle = $icon . ' ' . $this->rowLabel;
         }

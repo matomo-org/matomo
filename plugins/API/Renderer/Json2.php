@@ -31,3 +31,4 @@ class Json2 extends Json
         return $result;
     }
 }
+

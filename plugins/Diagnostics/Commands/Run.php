@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Diagnostics\Commands;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResultItem;
@@ -47,13 +48,13 @@ class Run extends ConsoleCommand
             }
 
             if (count($items) === 1) {
-                $output->writeln($result->getLabel() . ': ' . $this->formatItem($items[0]), OutputInterface::OUTPUT_PLAIN);
+                $output->writeln($result->getLabel() . ': ' . $this->formatItem($items[0]), OutputInterface::OUTPUT_NORMAL);
                 continue;
             }
 
             $output->writeln($result->getLabel() . ':');
             foreach ($items as $item) {
-                $output->writeln("\t- " . $this->formatItem($item), OutputInterface::OUTPUT_PLAIN);
+                $output->writeln("\t- " . $this->formatItem($item), OutputInterface::OUTPUT_NORMAL);
             }
         }
 
@@ -63,6 +64,10 @@ class Run extends ConsoleCommand
         if ($report->hasErrors()) {
             $output->writeln(sprintf('<error>%d errors detected</error>', $report->getErrorCount()));
             return 1;
+        }
+
+        if(!$report->hasWarnings() && !$report->hasErrors()) {
+            $output->writeln(sprintf('<info>%s</info>', Piwik::translate('Installation_SystemCheckSummaryNoProblems')));
         }
 
         return 0;
@@ -82,7 +87,7 @@ class Run extends ConsoleCommand
             '<%s>%s %s</%s>',
             $tag,
             strtoupper($item->getStatus()),
-            preg_replace('/\<br\s*\/?\>/i', "\n", $item->getComment()),
+            preg_replace('%</?[a-z][a-z0-9]*[^<>]*>%sim', '', preg_replace('/\<br\s*\/?\>/i', "\n", $item->getComment())),
             $tag
         );
     }

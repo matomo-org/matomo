@@ -16,7 +16,7 @@
 			<ecommerce_revenue>Product Revenue</ecommerce_revenue>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
 		</metricsDocumentation>
@@ -49,7 +49,7 @@
 			<ecommerce_revenue>Product Revenue</ecommerce_revenue>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
 		</metricsDocumentation>
@@ -80,8 +80,8 @@
 			<max_actions>Maximum actions in one visit</max_actions>
 		</metrics>
 		<metricsDocumentation>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
@@ -111,7 +111,7 @@
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
@@ -135,7 +135,7 @@
 		<module>CustomVariables</module>
 		<action>getCustomVariables</action>
 		<dimension>Custom Variable name</dimension>
-		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;http://piwik.org/docs/custom-variables/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -143,8 +143,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -183,8 +183,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -222,8 +222,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -261,8 +261,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -300,8 +300,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -332,7 +332,7 @@
 		<name>Operating System versions</name>
 		<module>DevicesDetection</module>
 		<action>getOsVersions</action>
-		<dimension>Operating System versions</dimension>
+		<dimension>Operating system version</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -340,8 +340,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -381,8 +381,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -421,8 +421,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -462,8 +462,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -502,8 +502,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -543,8 +543,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -574,7 +574,7 @@
 			<nb_visits>Visits</nb_visits>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 		</metricsDocumentation>
 		<processedMetrics>
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
@@ -597,8 +597,8 @@
 			<nb_actions>Actions</nb_actions>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
@@ -635,8 +635,8 @@
 			<nb_actions>Actions</nb_actions>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
@@ -673,8 +673,8 @@
 			<nb_actions>Actions</nb_actions>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
@@ -711,8 +711,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -751,8 +751,8 @@
 			<nb_actions>Actions</nb_actions>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
@@ -789,8 +789,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -827,7 +827,7 @@
 			<nb_visits>Visits</nb_visits>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 		</metricsDocumentation>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerVisitDuration&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
@@ -845,7 +845,7 @@
 			<nb_visits>Visits</nb_visits>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 		</metricsDocumentation>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerPage&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
@@ -863,7 +863,7 @@
 			<nb_visits>Visits</nb_visits>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 		</metricsDocumentation>
 		<processedMetrics>
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
@@ -884,7 +884,7 @@
 			<nb_visits>Visits</nb_visits>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 		</metricsDocumentation>
 		<constantRowsCount>1</constantRowsCount>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByDaysSinceLast&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
@@ -918,7 +918,7 @@
 		<name>Visits per local time</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerLocalTime</action>
-		<dimension>Local time</dimension>
+		<dimension>Local time - hour (Start of visit)</dimension>
 		<documentation>This graph shows what time it was in the &lt;strong&gt; visitors' time zones &lt;/strong&gt; during their visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -927,8 +927,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -959,7 +959,7 @@
 		<name>Visits per server time</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
-		<dimension>Server time</dimension>
+		<dimension>Server time - hour (End of visit)</dimension>
 		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -968,8 +968,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -1008,8 +1008,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -1118,7 +1118,7 @@
 		<module>Actions</module>
 		<action>getEntryPageUrls</action>
 		<dimension>Entry Page URL</dimension>
-		<documentation>This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during his visit. &lt;br /&gt; The entry URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<documentation>This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during their visit. &lt;br /&gt; The entry URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<entry_nb_visits>Entrances</entry_nb_visits>
 			<entry_bounce_count>Bounces</entry_bounce_count>
@@ -1191,7 +1191,7 @@
 		<module>Actions</module>
 		<action>getExitPageUrls</action>
 		<dimension>Exit Page URL</dimension>
-		<documentation>This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during his visit. &lt;br /&gt; The exit URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<documentation>This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during their visit. &lt;br /&gt; The exit URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<exit_nb_visits>Exits</exit_nb_visits>
 			<nb_visits>Unique Pageviews</nb_visits>
@@ -1265,7 +1265,7 @@
 		<name>Page titles</name>
 		<module>Actions</module>
 		<action>getPageTitles</action>
-		<dimension>Page Name</dimension>
+		<dimension>Page Title</dimension>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<metrics>
 			<nb_hits>Pageviews</nb_hits>
@@ -1309,7 +1309,7 @@
 		<module>Actions</module>
 		<action>getSiteSearchKeywords</action>
 		<dimension>Keyword</dimension>
-		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;http://piwik.org/docs/site-search/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
+		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;https://matomo.org/docs/site-search/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
 		<metrics>
 			<nb_visits>Searches</nb_visits>
 			<nb_pages_per_search>Search Results pages</nb_pages_per_search>
@@ -1336,7 +1336,7 @@
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
-			<nb_hits>Total Pageviews</nb_hits>
+			<nb_hits>Pageviews</nb_hits>
 		</metrics>
 		<metricsDocumentation>
 			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
@@ -1385,7 +1385,7 @@
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
-			<nb_hits>Total Pageviews</nb_hits>
+			<nb_hits>Pageviews</nb_hits>
 		</metrics>
 		<metricsDocumentation>
 			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
@@ -1452,7 +1452,7 @@
 		<module>Actions</module>
 		<action>getDownloads</action>
 		<dimension>Download URL</dimension>
-		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Piwik counts as a download is the click on a download link. Whether the download was completed or not isn't known to Piwik.</documentation>
+		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Matomo counts as a download is the click on a download link. Whether the download was completed or not isn't known to Matomo.</documentation>
 		<metrics>
 			<nb_visits>Unique Downloads</nb_visits>
 			<nb_hits>Downloads</nb_hits>
@@ -1474,10 +1474,10 @@
 		<action>getCategory</action>
 		<dimension>Event Category</dimension>
 		<metrics>
-			<nb_events>Total events</nb_events>
-			<sum_event_value>Total value</sum_event_value>
-			<min_event_value>Minimum value</min_event_value>
-			<max_event_value>Maximum value</max_event_value>
+			<nb_events>Events</nb_events>
+			<sum_event_value>Event value</sum_event_value>
+			<min_event_value>Minimum Event value</min_event_value>
+			<max_event_value>Maximum Event value</max_event_value>
 			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
@@ -1504,10 +1504,10 @@
 		<action>getAction</action>
 		<dimension>Event Action</dimension>
 		<metrics>
-			<nb_events>Total events</nb_events>
-			<sum_event_value>Total value</sum_event_value>
-			<min_event_value>Minimum value</min_event_value>
-			<max_event_value>Maximum value</max_event_value>
+			<nb_events>Events</nb_events>
+			<sum_event_value>Event value</sum_event_value>
+			<min_event_value>Minimum Event value</min_event_value>
+			<max_event_value>Maximum Event value</max_event_value>
 			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
@@ -1534,10 +1534,10 @@
 		<action>getName</action>
 		<dimension>Event Name</dimension>
 		<metrics>
-			<nb_events>Total events</nb_events>
-			<sum_event_value>Total value</sum_event_value>
-			<min_event_value>Minimum value</min_event_value>
-			<max_event_value>Maximum value</max_event_value>
+			<nb_events>Events</nb_events>
+			<sum_event_value>Event value</sum_event_value>
+			<min_event_value>Minimum Event value</min_event_value>
+			<max_event_value>Maximum Event value</max_event_value>
 			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
@@ -1565,7 +1565,7 @@
 		<dimension>Content Name</dimension>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>
-			<nb_interactions>Interactions</nb_interactions>
+			<nb_interactions>Content Interactions</nb_interactions>
 		</metrics>
 		<metricsDocumentation>
 			<nb_impressions>The number of times a content block, such as a banner or an ad, was displayed on a page.</nb_impressions>
@@ -1589,7 +1589,7 @@
 		<dimension>Content Piece</dimension>
 		<metrics>
 			<nb_impressions>Impressions</nb_impressions>
-			<nb_interactions>Interactions</nb_interactions>
+			<nb_interactions>Content Interactions</nb_interactions>
 		</metrics>
 		<metricsDocumentation>
 			<nb_impressions>The number of times a content block, such as a banner or an ad, was displayed on a page.</nb_impressions>
@@ -1611,7 +1611,7 @@
 		<module>Referrers</module>
 		<action>getReferrerType</action>
 		<dimension>Referrer Type</dimension>
-		<documentation>This table contains information about the distribution of the referrer types.&lt;br /&gt;&lt;b&gt;Direct Entry:&lt;/b&gt; A visitor has entered the URL in his browser and started browsing on your website - he entered the website directly.&lt;br /&gt;&lt;b&gt;Search Engines:&lt;/b&gt; A visitor was referred to your website by a search engine. &lt;br /&gt; See the &quot;Search Engines &amp; Keywords&quot; report for more details.&lt;br /&gt;&lt;b&gt;Websites:&lt;/b&gt; The visitor followed a link on another website that led to your site. &lt;br /&gt; See the &quot;Websites &amp; Social&quot; report for more details.&lt;br /&gt;&lt;b&gt;Campaigns:&lt;/b&gt; Visitors that came to your website as the result of a campaign. &lt;br /&gt; See the &quot;Campaigns&quot; report for more details.</documentation>
+		<documentation>This table contains information about the distribution of the referrer types.&lt;br /&gt;&lt;b&gt;Direct Entry:&lt;/b&gt; A visitor has entered the URL in their browser and started browsing on your website - they entered the website directly.&lt;br /&gt;&lt;b&gt;Search Engines:&lt;/b&gt; A visitor was referred to your website by a search engine. &lt;br /&gt; See the &quot;Search Engines &amp; Keywords&quot; report for more details.&lt;br /&gt;&lt;b&gt;Websites:&lt;/b&gt; The visitor followed a link on another website that led to your site. &lt;br /&gt; See the &quot;Websites &amp; Social&quot; report for more details.&lt;br /&gt;&lt;b&gt;Campaigns:&lt;/b&gt; Visitors that came to your website as the result of a campaign. &lt;br /&gt; See the &quot;Campaigns&quot; report for more details.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1619,8 +1619,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -1660,8 +1660,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -1693,8 +1693,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -1734,8 +1734,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -1775,8 +1775,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -1816,8 +1816,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -1843,7 +1843,7 @@
 		<module>Referrers</module>
 		<action>getCampaigns</action>
 		<dimension>Campaign</dimension>
-		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;http://piwik.org/docs/tracking-campaigns/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;campaigns documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;https://matomo.org/docs/tracking-campaigns/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;campaigns documentation on piwik.org&lt;/a&gt;</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1851,8 +1851,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -2298,8 +2298,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -2329,8 +2329,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -2361,8 +2361,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -2393,8 +2393,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
@@ -2451,8 +2451,8 @@
 			<nb_outlinks>The number of times this link was clicked.</nb_outlinks>
 			<nb_uniq_outlinks>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_outlinks>
 			<nb_searches>The number of visits that searched for this keyword on your website's search engine.</nb_searches>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>

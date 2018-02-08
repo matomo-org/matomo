@@ -84,11 +84,11 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             };
 
             $field->inlineHelp = Piwik::translate('CoreAdminHome_DevelopmentProcess',
-                                                  array("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/development-process/' target='_blank'>",
+                                                  array("<a href='?module=Proxy&action=redirect&url=https://matomo.org/participate/development-process/' target='_blank'>",
                                                         "</a>"))
                             . Piwik::translate('<br/>')
                             . Piwik::translate('CoreAdminHome_StableReleases',
-                                               array("<a href='?module=Proxy&action=redirect&url=http%3A%2F%2Fdeveloper.piwik.org%2Fguides%2Fcore-team-workflow%23influencing-piwik-development' target='_blank'>",
+                                               array("<a href='?module=Proxy&action=redirect&url=https%3A%2F%2Fdeveloper.matomo.org%2Fguides%2Fcore-team-workflow%23influencing-piwik-development' target='_blank'>",
                                                      "</a>"))
                             . Piwik::translate('<br />')
                             . Piwik::translate('CoreAdminHome_LtsReleases');
@@ -100,8 +100,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         return $this->makeSetting('enable_plugin_update_communication', $default = true, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->introduction = Piwik::translate('CoreAdminHome_SendPluginUpdateCommunication');
             $field->uiControl = FieldConfig::UI_CONTROL_RADIO;
-            $field->availableValues = array('1' => Piwik::translate('General_Yes'),
-                                            '0' => sprintf('%s (%s)', Piwik::translate('General_No'), Piwik::translate('General_Default')));
+            $field->availableValues = array('1' => sprintf('%s (%s)', Piwik::translate('General_Yes'), Piwik::translate('General_Default')),
+                                            '0' => Piwik::translate('General_No'));
             $field->inlineHelp = Piwik::translate('CoreAdminHome_SendPluginUpdateCommunicationHelp');
         });
     }

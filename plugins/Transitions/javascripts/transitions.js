@@ -62,7 +62,11 @@ DataTable_RowActions_Transitions.prototype.performAction = function (label, tr, 
         var labelPart = labelParts[i].replace('@', '');
         labelParts[i] = $.trim(decodeURIComponent(labelPart));
     }
-    label = labelParts.join(piwik.config.action_url_category_delimiter);
+    var delimiter = piwik.config.action_url_category_delimiter;
+    if(this.dataTable.param.action.indexOf('PageTitles') !== false) {
+        delimiter = piwik.config.action_title_category_delimiter;
+    }
+    label = labelParts.join(delimiter);
     this.openPopover('title:' + label);
 };
 
@@ -184,7 +188,7 @@ Piwik_Transitions.prototype.showPopover = function () {
     var self = this;
 
     this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
-    Piwik_Popover.addHelpButton('http://piwik.org/docs/transitions');
+    Piwik_Popover.addHelpButton('https://matomo.org/docs/transitions');
 
     var bothLoaded = function () {
         Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);
@@ -1571,7 +1575,7 @@ Piwik_Transitions_Util = {
      */
     replacePlaceholderInHtml: function (container, value, spanClass) {
         var span = container.find('span');
-        if (span.size() == 0) {
+        if (!span.length) {
             var html = container.html().replace(/%s/, '<span></span>');
             span = container.html(html).find('span');
             if (!spanClass) {

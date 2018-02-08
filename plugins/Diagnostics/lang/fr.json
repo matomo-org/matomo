@@ -1,7 +1,7 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Fichier de configuration",
-        "ConfigFileIntroduction": "Ici vous pouvez visualiser la configuration de Piwik. Si vous exécutez Piwik depuis un environnement où la charge est répartie, la page peut être différente dépedamment du serveur depuis lequel la page est chargée. Les lignes avec une couleur de fond différentes représentent les valeurs de configuration modifiées qui sont spécifiées par exemple dans le fichier %1$s.",
+        "ConfigFileIntroduction": "Ici vous pouvez visualiser la configuration de Piwik. Si vous exécutez Matomo depuis un environnement où la charge est répartie, la page peut être différente en fonction du serveur depuis lequel la page est chargée. Les lignes avec une couleur de fond différentes représentent les valeurs de configuration modifiées qui sont spécifiées par exemple dans le fichier %1$s.",
         "HideUnchanged": "Si vous souhaitez afficher uniquement les valeurs modifiées, vous pouvez cliquer sur %1$smasquer toutes les valeurs inchangées%2$s.",
         "Sections": "Sections"
     }

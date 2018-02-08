@@ -9,9 +9,10 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
-use Piwik\Db;
+use Piwik\API\Request;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\SettingsPiwik;
 
 /**
@@ -23,7 +24,7 @@ class UsersManager extends \Piwik\Plugin
     const PASSWORD_MIN_LENGTH = 6;
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -34,8 +35,21 @@ class UsersManager extends \Piwik\Plugin
             'Tracker.Cache.getSiteAttributes'        => 'recordAdminUsersInCache',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Platform.initialized'                   => 'onPlatformInitialized',
+            'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'CronArchive.getTokenAuth'               => 'getCronArchiveTokenAuth'
         );
+    }
+
+    public function addSystemSummaryItems(&$systemSummary)
+    {
+        $userLogins = Request::processRequest('UsersManager.getUsersLogin', array('filter_limit' => '-1'));
+
+        $numUsers = count($userLogins);
+        if (in_array('anonymous', $userLogins)) {
+            $numUsers--;
+        }
+
+        $systemSummary[] = new SystemSummary\Item($key = 'users', Piwik::translate('General_NUsers', $numUsers), $value = null, array('module' => 'UsersManager', 'action' => 'index'), $icon = 'icon-user', $order = 5);
     }
 
     public function onPlatformInitialized()
@@ -56,7 +70,14 @@ class UsersManager extends \Piwik\Plugin
     public function recordAdminUsersInCache(&$attributes, $idSite)
     {
         // add the 'hosts' entry in the website array
-        $users = API::getInstance()->getUsersWithSiteAccess($idSite, 'admin');
+        $model = new Model();
+        $logins = $model->getUsersLoginWithSiteAccess($idSite, 'admin');
+
+        if (empty($logins)) {
+            return;
+        }
+
+        $users = $model->getUsers($logins);
 
         $tokens = array();
         foreach ($users as $user) {
@@ -87,7 +108,7 @@ class UsersManager extends \Piwik\Plugin
     /**
      * Return list of plug-in specific JavaScript files to be imported by the asset manager
      *
-     * @see Piwik\AssetManager
+     * @see \Piwik\AssetManager
      */
     public function getJsFiles(&$jsFiles)
     {
@@ -184,5 +205,12 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "UsersManager_ConfirmProhibitMySuperUserAccess";
         $translationKeys[] = "UsersManager_ExceptionUserHasViewAccessAlready";
         $translationKeys[] = "UsersManager_ExceptionNoValueForUsernameOrEmail";
+        $translationKeys[] = "UsersManager_GiveUserAccess";
+        $translationKeys[] = "UsersManager_PrivAdmin";
+        $translationKeys[] = "UsersManager_PrivView";
+        $translationKeys[] = "UsersManager_RemoveUserAccess";
+        $translationKeys[] = "UsersManager_UserHasPermission";
+        $translationKeys[] = "UsersManager_UserHasNoPermission";
+        $translationKeys[] = "UsersManager_PrivNone";
     }
 }

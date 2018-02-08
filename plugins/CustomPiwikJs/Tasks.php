@@ -8,6 +8,8 @@
 
 namespace Piwik\Plugins\CustomPiwikJs;
 
+use Piwik\Container\StaticContainer;
+
 class Tasks extends \Piwik\Plugin\Tasks
 {
     public function schedule()
@@ -17,7 +19,7 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function updateTracker()
     {
-        $updater = new TrackerUpdater();
+        $updater = StaticContainer::get('Piwik\Plugins\CustomPiwikJs\TrackerUpdater');
         $updater->update();
     }
 }

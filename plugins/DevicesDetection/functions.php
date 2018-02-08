@@ -16,13 +16,12 @@ use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 
 function getBrandLogo($label)
 {
+    $path = 'plugins/Morpheus/icons/dist/brand/%s.png';
     $label = preg_replace("/[^a-z0-9_-]+/i", "_", $label);
-    $path = dirname(__FILE__) . '/images/brand/' . $label . '.ico';
-    if (file_exists($path)) {
-        return 'plugins/DevicesDetection/images/brand/' . $label . '.ico';
-    } else {
-        return 'plugins/DevicesDetection/images/brand/Unknown.ico';
+    if (!file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($path, $label))) {
+        $label = "unk";
     }
+    return sprintf($path, $label);
 }
 
 function getBrowserFamilyFullName($label)
@@ -80,7 +79,7 @@ function getBrowserName($label)
  */
 function getBrowserLogo($short)
 {
-    $path = 'plugins/DevicesDetection/images/browsers/%s.gif';
+    $path = 'plugins/Morpheus/icons/dist/browsers/%s.png';
 
     // If name is given instead of short code, try to find matching shortcode
     if (strlen($short) > 2) {
@@ -155,26 +154,13 @@ function getDeviceTypeLogo($label)
 {
     if (is_numeric($label) && in_array($label, DeviceParser::getAvailableDeviceTypes())) {
         $label = array_search($label, DeviceParser::getAvailableDeviceTypes());
-    }
-
-    $label = strtolower($label);
-
-    $deviceTypeLogos = Array(
-        "desktop"       => "normal.gif",
-        "smartphone"    => "smartphone.png",
-        "tablet"        => "tablet.png",
-        "tv"            => "tv.png",
-        "feature phone" => "mobile.gif",
-        "console"       => "console.gif",
-        "car browser"   => "carbrowser.png",
-        "camera"        => "camera.png");
-
-    if (!array_key_exists($label, $deviceTypeLogos)) {
-        $label = 'unknown.gif';
+        $label = strtolower($label);
+        $label = str_replace(' ', '_', $label);
     } else {
-        $label = $deviceTypeLogos[$label];
+        $label = "unknown";
     }
-    $path = 'plugins/DevicesDetection/images/screens/' . $label;
+
+    $path = 'plugins/Morpheus/icons/dist/devices/' . $label . ".png";
     return $path;
 }
 
@@ -282,7 +268,7 @@ function _mapLegacyOsShortCodes($shortCode)
  */
 function getOsLogo($short)
 {
-    $path = 'plugins/DevicesDetection/images/os/%s.gif';
+    $path = 'plugins/Morpheus/icons/dist/os/%s.png';
 
     $short = _mapLegacyOsShortCodes($short);
 

@@ -32,6 +32,11 @@ ul.ulGoalTopElements li {
     list-style-type: circle;
 }
 
+ul.ulGoalTopElements img {
+    border: 1px solid lightgray;
+    box-sizing: content-box;
+}
+
 .ulGoalTopElements a {
     text-decoration: none;
     color: #0033CC;

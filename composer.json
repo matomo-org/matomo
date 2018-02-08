@@ -2,21 +2,21 @@
     "name": "piwik/piwik",
     "type": "application",
     "description": "the leading free/libre analytics platform",
-    "keywords": ["piwik","web","analytics"],
-    "homepage": "http://piwik.org",
+    "keywords": ["piwik","matomo","web","analytics"],
+    "homepage": "https://matomo.org",
     "license": "GPL-3.0+",
     "authors": [
         {
-            "name": "The Piwik Team",
-            "email": "hello@piwik.org",
-            "homepage": "http://piwik.org/the-piwik-team/"
+            "name": "The Matomo Team",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org/team/"
         }
     ],
     "support": {
-        "forum": "http://forum.piwik.org/",
-        "issues": "https://github.com/piwik/piwik/issues",
-        "wiki": "https://github.com/piwik/piwik/wiki",
-        "source": "https://github.com/piwik/piwik"
+        "forum": "https://forum.matomo.org/",
+        "issues": "https://github.com/matomo-org/piwik/issues",
+        "wiki": "https://github.com/matomo-org/piwik/wiki",
+        "source": "https://github.com/matomo-org/piwik"
     },
     "config":{
         "platform": {
@@ -45,7 +45,8 @@
         "piwik/searchengine-and-social-list": "~1.0",
         "tecnickcom/tcpdf": "~6.0",
         "piwik/piwik-php-tracker": "^1.0",
-        "composer/semver": "~1.3.0"
+        "composer/semver": "~1.3.0",
+        "szymach/c-pchart": "^2.0"
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",

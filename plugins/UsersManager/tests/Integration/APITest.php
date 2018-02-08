@@ -8,9 +8,11 @@
 
 namespace Piwik\Plugins\UsersManager\tests;
 
+use Piwik\Auth\Password;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -184,9 +186,12 @@ class APITest extends IntegrationTestCase
 
         $user = $this->api->getUser($this->login);
 
-        $this->assertSame('14a88b9d2f52c55b5fbcf9c5d9c11875', $user['password']);
         $this->assertSame('email@example.com', $user['email']);
         $this->assertSame('newAlias', $user['alias']);
+
+        $passwordHelper = new Password();
+
+        $this->assertTrue($passwordHelper->verify(UsersManager::getPasswordHash('newPassword'), $user['password']));
     }
 
     public function test_getSitesAccessFromUser_forSuperUser()

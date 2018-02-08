@@ -7,7 +7,7 @@
         $(function () {
 
             var piwikWidget = $('[piwik-widget][containerid={{ containerId|e('js') }}]');
-            var isExportedAsWidget = $('body > .widget').size();
+            var isExportedAsWidget = $('body > .widget').length;
 
             if (!isExportedAsWidget) {
                 angular.element(document).injector().invoke(function($compile) {

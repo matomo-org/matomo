@@ -9,10 +9,8 @@
 
 namespace Piwik\Plugins\ImageGraph\StaticGraph;
 
+use CpChart\Chart\Pie;
 use Piwik\Plugins\ImageGraph\StaticGraph;
-use pPie;
-
-require_once PIWIK_INCLUDE_PATH . "/libs/pChart/class/pPie.class.php";
 
 /**
  *
@@ -26,7 +24,7 @@ abstract class PieGraph extends StaticGraph
     const SLICE_COLOR_KEY = "SLICE_COLOR";
 
     /**
-     * @var pPie
+     * @var Pie
      */
     protected $pieChart;
     protected $xPosition;
@@ -57,7 +55,7 @@ abstract class PieGraph extends StaticGraph
             $radius = ($this->height / 2) - self::RADIUS_MARGIN;
         }
 
-        $this->pieChart = new pPie($this->pImage, $this->pData);
+        $this->pieChart = new Pie($this->pImage, $this->pData);
 
         $numberOfSlices = count($this->abscissaSeries);
         $numberOfAvailableColors = count($this->colors);
@@ -89,7 +87,7 @@ abstract class PieGraph extends StaticGraph
      * it uses a threshold to determine if an abscissa value should be drawn on the PIE
      * discarded abscissa values are summed in the 'other' abscissa value
      *
-     * if this process is not perform, pChart will draw pie slices that are too small to see
+     * if this process is not perform, CpChart will draw pie slices that are too small to see
      */
     private function truncateSmallValues()
     {

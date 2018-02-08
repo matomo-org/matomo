@@ -13,12 +13,11 @@ use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Plugin\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
-use Piwik\Tracker;
 use Piwik\Plugin;
 use Exception;
 
@@ -39,38 +38,9 @@ abstract class VisitDimension extends Dimension
 {
     const INSTALLER_PREFIX = 'log_visit.';
 
-    private $tableName = 'log_visit';
+    protected $dbTableName = 'log_visit';
+    protected $category = 'General_Visitors';
 
-    /**
-     * Installs the visit dimension in case it is not installed yet. The installation is already implemented based on
-     * the {@link $columnName} and {@link $columnType}. If you want to perform additional actions beside adding the
-     * column to the database - for instance adding an index - you can overwrite this method. We recommend to call
-     * this parent method to get the minimum required actions and then add further custom actions since this makes sure
-     * the column will be installed correctly. We also recommend to change the default install behavior only if really
-     * needed. FYI: We do not directly execute those alter table statements here as we group them together with several
-     * other alter table statements do execute those changes in one step which results in a faster installation. The
-     * column will be added to the `log_visit` MySQL table.
-     *
-     * Example:
-     * ```
-    public function install()
-    {
-        $changes = parent::install();
-        $changes['log_visit'][] = "ADD INDEX index_idsite_servertime ( idsite, server_time )";
-
-        return $changes;
-    }
-    ```
-     *
-     * @return array An array containing the table name as key and an array of MySQL alter table statements that should
-     *               be executed on the given table. Example:
-     * ```
-    array(
-        'log_visit' => array("ADD COLUMN `$this->columnName` $this->columnType", "ADD INDEX ...")
-    );
-    ```
-     * @api
-     */
     public function install()
     {
         if (empty($this->columnType) || empty($this->columnName)) {
@@ -78,7 +48,7 @@ abstract class VisitDimension extends Dimension
         }
 
         $changes = array(
-            $this->tableName => array("ADD COLUMN `$this->columnName` $this->columnType")
+            $this->dbTableName => array("ADD COLUMN `$this->columnName` $this->columnType")
         );
 
         if ($this->isHandlingLogConversion()) {
@@ -90,19 +60,20 @@ abstract class VisitDimension extends Dimension
 
     /**
      * @see ActionDimension::update()
-     * @param array $conversionColumns An array of currently installed columns in the conversion table.
      * @return array
      * @ignore
      */
-    public function update($conversionColumns)
+    public function update()
     {
         if (!$this->columnType) {
             return array();
         }
 
+        $conversionColumns = DbHelper::getTableColumns(Common::prefixTable('log_conversion'));
+
         $changes = array();
 
-        $changes[$this->tableName] = array("MODIFY COLUMN `$this->columnName` $this->columnType");
+        $changes[$this->dbTableName] = array("MODIFY COLUMN `$this->columnName` $this->columnType");
 
         $handlingConversion  = $this->isHandlingLogConversion();
         $hasConversionColumn = array_key_exists($this->columnName, $conversionColumns);
@@ -119,7 +90,6 @@ abstract class VisitDimension extends Dimension
     }
 
     /**
-     * @see ActionDimension::getVersion()
      * @return string
      * @ignore
      */
@@ -152,7 +122,7 @@ abstract class VisitDimension extends Dimension
         }
 
         try {
-            $sql = "ALTER TABLE `" . Common::prefixTable($this->tableName) . "` DROP COLUMN `$this->columnName`";
+            $sql = "ALTER TABLE `" . Common::prefixTable($this->dbTableName) . "` DROP COLUMN `$this->columnName`";
             Db::exec($sql);
         } catch (Exception $e) {
             if (!Db::get()->isErrNo($e, '1091')) {
@@ -172,23 +142,6 @@ abstract class VisitDimension extends Dimension
                 throw $e;
             }
         }
-    }
-
-    /**
-     * Adds a new segment. It automatically sets the SQL segment depending on the column name in case none is set
-     * already.
-     * @see \Piwik\Columns\Dimension::addSegment()
-     * @param Segment $segment
-     * @api
-     */
-    protected function addSegment(Segment $segment)
-    {
-        $sqlSegment = $segment->getSqlSegment();
-        if (!empty($this->columnName) && empty($sqlSegment)) {
-            $segment->setSqlSegment('log_visit.' . $this->columnName);
-        }
-
-        parent::addSegment($segment);
     }
 
     /**

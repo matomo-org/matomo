@@ -16,7 +16,7 @@
         "SegmentDisplayedAllWebsites": "toate siturile web",
         "SegmentDisplayedThisWebsiteOnly": "numai acest site web",
         "SegmentNotApplied": "Segmentul '%s' nu se aplica",
-        "SegmentNotAppliedMessage": "Vi se solicită date pentru segmentul personalizat '%s', această configurație Piwik împiedică în prezent prelucrarea în timp real a rapoartelor pentru motive de performanță.",
+        "SegmentNotAppliedMessage": "Vi se solicită date pentru segmentul personalizat '%s', această configurație Matomo împiedică în prezent prelucrarea în timp real a rapoartelor pentru motive de performanță.",
         "ThisSegmentIsVisibleTo": "Acest segment este vizibil către:",
         "VisibleToAllUsers": "tuturor utilizatorilor",
         "VisibleToMe": "mie",

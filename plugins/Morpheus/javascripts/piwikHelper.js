@@ -108,17 +108,31 @@ var piwikHelper = {
      * compiling of angular components manually.
      *
      * @param selector
+     * @param {object} options
+     * @param {object} options.scope if supplied, a new isolate scope is created as the parent scope of the
+     *                               compiled angular components. The properties in this object are
+     *                               added to the new scope.
      */
-    compileAngularComponents: function (selector) {
+    compileAngularComponents: function (selector, options) {
+        options = options || {};
+
         var $element = $(selector);
 
         if (!$element.length) {
-
             return;
         }
 
         angular.element(document).injector().invoke(function($compile) {
             var scope = angular.element($element).scope();
+            if (!scope) {
+                return;
+            }
+
+            if (options.scope) {
+                scope = scope.$new(true);
+                $.extend(scope, options.scope);
+            }
+
             $compile($element)(scope);
         });
     },
@@ -232,6 +246,12 @@ var piwikHelper = {
         if (options && options.fixedFooter) {
             $content.addClass('modal-fixed-footer');
             delete options.fixedFooter;
+        }
+
+        if (options && !options.ready) {
+            options.ready = function () {
+                $(".modal.open a").focus();
+            };
         }
 
         domElem.show();
@@ -430,7 +450,7 @@ var piwikHelper = {
     lazyScrollTo: function(elem, time, forceScroll)
     {
         var $elem = $(elem);
-        if (!$elem.size()) {
+        if (!$elem.length) {
             return;
         }
 
@@ -450,14 +470,28 @@ var piwikHelper = {
      * @param {string} textareaContent
      * @return {string}
      */
-    getApiFormatTextarea: function (textareaContent)
-    {
-        if(typeof textareaContent == 'undefined') {
+    getApiFormatTextarea: function (textareaContent) {
+        if (typeof textareaContent == 'undefined') {
             return '';
         }
         return textareaContent.trim().split("\n").join(',');
-    }
+    },
 
+    shortcuts: {},
+
+    /**
+     * Register a shortcut
+     *
+     * @param {string} key key-stroke to be registered for this shortcut
+     * @param {string } description  description to be shown in summary
+     * @param callback method called when pressing the key
+     */
+    registerShortcut: function(key, description, callback) {
+
+        piwikHelper.shortcuts[key] = description;
+
+        Mousetrap.bind(key, callback);
+    }
 };
 
 String.prototype.trim = function() {

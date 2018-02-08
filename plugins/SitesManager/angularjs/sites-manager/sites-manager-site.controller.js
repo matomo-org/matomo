@@ -171,7 +171,6 @@
 
         var initNewSite = function() {
             $scope.site.editMode = true;
-            $scope.site.name = "Name";
             $scope.site.timezone = $scope.globalSettings.defaultTimezone;
             $scope.site.currency = $scope.globalSettings.defaultCurrency;
 

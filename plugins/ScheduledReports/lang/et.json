@@ -1,5 +1,6 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "Kuvamise seaded",
         "AggregateReportsFormat_GraphsOnly": "Kuva ainult graafikud (tabelid puuduvad)",
         "AggregateReportsFormat_TablesAndGraphs": "Kuva tabelid ja graafikud kõikidele raportitele",
         "AggregateReportsFormat_TablesOnly": "(vaikimisi) Kuva raportite tabelid (ja olulistele mõõdikutele ka graafikud)",
@@ -14,7 +15,6 @@
         "FrontPage": "Esileht",
         "Pagination": "Lehekülg %1$s \/ %2$s",
         "PiwikReports": "Piwiku raportid",
-        "PleaseFindAttachedFile": "Manusest leiad oma %1$s raporti %2$s jaoks.",
         "ReportFormat": "Raporti formaat",
         "ReportIncludeNWebsites": "Antud raport sisaldab põhimõõdikuid kõikide veebilehtede kohta, millel on vähemalt üks külastus (%s veebilehest, mis on kokku saadaval).",
         "ReportSent": "Raport saadetud",

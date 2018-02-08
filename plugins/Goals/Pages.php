@@ -46,7 +46,7 @@ class Pages
         $config->forceViewDataTable(Evolution::ID);
         $config->setSubcategoryId($subcategory);
         $config->setAction('getEvolutionGraph');
-        $config->setOrder(++$this->orderId);
+        $config->setOrder(5);
         $config->setIsNotWidgetizable();
         $widgets[] = $config;
 
@@ -54,7 +54,7 @@ class Pages
         $config->forceViewDataTable(Sparklines::ID);
         $config->setSubcategoryId($subcategory);
         $config->setName('');
-        $config->setOrder(++$this->orderId);
+        $config->setOrder(15);
         $config->setIsNotWidgetizable();
         $widgets[] = $config;
 
@@ -67,7 +67,7 @@ class Pages
             $config->setSubcategoryId($subcategory);
             $config->forceViewDataTable(Sparklines::ID);
             $config->setParameters(array('idGoal' => $goal['idgoal']));
-            $config->setOrder(++$this->orderId);
+            $config->setOrder(25);
             $config->setIsNotWidgetizable();
             $config->addParameters(array('allow_multiple' => (int) $goal['allow_multiple'], 'only_summary' => '1'));
             $widgets[] = $config;
@@ -78,7 +78,7 @@ class Pages
         $config = $this->factory->createContainerWidget('Goals');
         $config->setSubcategoryId($subcategory);
         $config->setName('Goals_ConversionsOverviewBy');
-        $config->setOrder(++$this->orderId);
+        $config->setOrder(35);
         $config->setIsNotWidgetizable();
         $this->buildGoalByDimensionView('', $config);
         $config->setMiddlewareParameters(array(
@@ -104,7 +104,7 @@ class Pages
         $config->setCategoryId($category);
         $config->setSubcategoryId($subcategory);
         $config->setAction('getEvolutionGraph');
-        $config->setOrder(++$this->orderId);
+        $config->setOrder(5);
         $config->setIsNotWidgetizable();
         $config->setParameters(array('idGoal' => $idGoal));
         $widgets[] = $config;
@@ -117,7 +117,7 @@ class Pages
         $config->setModule('Ecommerce');
         $config->setAction('getSparklines');
         $config->setParameters(array('idGoal' => $idGoal));
-        $config->setOrder(++$this->orderId);
+        $config->setOrder(15);
         $config->setIsNotWidgetizable();
         $widgets[] = $config;
 
@@ -127,7 +127,7 @@ class Pages
         $config->setSubcategoryId($idGoal);
         $config->setName('Goals_ConversionsOverview');
         $config->setParameters(array('idGoal' => $idGoal));
-        $config->setOrder(++$this->orderId);
+        $config->setOrder(25);
         $config->setIsNotWidgetizable();
         $config->setMiddlewareParameters(array(
             'module' => 'Goals',
@@ -154,7 +154,7 @@ class Pages
         $config->setSubcategoryId($subcategory);
         $config->setName('');
         $config->setParameters(array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
-        $config->setOrder(++$this->orderId);
+        $config->setOrder(5);
         $config->setIsNotWidgetizable();
         $this->buildGoalByDimensionView(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER, $config);
 
@@ -178,7 +178,7 @@ class Pages
         $config->forceViewDataTable(Evolution::ID);
         $config->setAction('getEvolutionGraph');
         $config->setParameters($params);
-        $config->setOrder(++$this->orderId);
+        $config->setOrder(5);
         $config->setIsNotWidgetizable();
         $widgets[] = $config;
 
@@ -188,8 +188,7 @@ class Pages
         $config->forceViewDataTable(Sparklines::ID);
         $config->setParameters($params);
         $config->addParameters(array('allow_multiple' => (int) $goal['allow_multiple']));
-        $config->setOrder(++$this->orderId);
-        $config->setIsNotWidgetizable();
+        $config->setOrder(15);
         $config->setIsNotWidgetizable();
         $widgets[] = $config;
 
@@ -198,7 +197,7 @@ class Pages
         $config->setSubcategoryId($idGoal);
         $config->setName('Goals_ConversionsOverview');
         $config->setParameters($params);
-        $config->setOrder(++$this->orderId);
+        $config->setOrder(25);
         $config->setIsNotWidgetizable();
         $config->setMiddlewareParameters(array(
             'module' => 'Goals',
@@ -215,7 +214,7 @@ class Pages
         $config->setName(Piwik::translate('Goals_GoalConversionsBy', array($name)));
         $config->setSubcategoryId($idGoal);
         $config->setParameters(array());
-        $config->setOrder(++$this->orderId);
+        $config->setOrder(35);
         $config->setIsNotWidgetizable();
         $config->setMiddlewareParameters(array(
             'module' => 'Goals',
@@ -303,7 +302,11 @@ class Pages
                 $widget->setCategoryId($categoryText);
                 $widget->setSubcategoryId($categoryText);
                 $widget->setOrder($order);
-                $widget->setIsNotWidgetizable();
+                if ($ecommerce) {
+                    $widget->setIsWidgetizable();
+                } else {
+                    $widget->setIsNotWidgetizable();
+                }
 
                 if (!empty($report['viewDataTable'])) {
                     $widget->forceViewDataTable($report['viewDataTable']);

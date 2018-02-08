@@ -38,7 +38,9 @@
                     name: dashboard ? dashboard.name : ''
                 });
 
-            $('#columnPreview').find('>div').each(function () {
+            var divElements = $('#columnPreview').find('>div');
+
+            divElements.each(function () {
                 var width = [];
                 $('div', this).each(function () {
                     width.push(this.className.replace(/width-/, ''));
@@ -46,8 +48,9 @@
                 $(this).attr('layout', width.join('-'));
             });
 
-            $('#columnPreview').find('>div').on('click', function () {
-                $('#columnPreview').find('>div').removeClass('choosen');
+            divElements.off('click.renderDashboard');
+            divElements.on('click.renderDashboard', function () {
+                divElements.removeClass('choosen');
                 $(this).addClass('choosen');
             });
         }
@@ -93,7 +96,8 @@
 
                 function onLocationChange(event, newUrl, oldUrl)
                 {
-                   if (newUrl !== oldUrl && newUrl.indexOf('category=Dashboard_Dashboard') === -1) {
+                   if (broadcast.getValueFromUrl('module') != 'Widgetize' && newUrl !== oldUrl &&
+                       newUrl.indexOf('category=Dashboard_Dashboard') === -1) {
                        // we remove the dashboard only if we no longer show a dashboard.
                        clearDashboard();
                    }

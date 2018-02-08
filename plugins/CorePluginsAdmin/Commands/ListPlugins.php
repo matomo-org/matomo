@@ -12,6 +12,7 @@ use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugin\Manager;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -23,6 +24,7 @@ class ListPlugins extends ConsoleCommand
     {
         $this->setName('plugin:list');
         $this->setDescription('List installed plugins.');
+        $this->addOption('filter-plugin', null, InputOption::VALUE_OPTIONAL, 'If given, prints only plugins that contain this term.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -30,6 +32,14 @@ class ListPlugins extends ConsoleCommand
         $pluginManager = Manager::getInstance();
 
         $plugins = $pluginManager->getInstalledPluginsName();
+
+        $pluginFilter = $input->getOption('filter-plugin');
+
+        if (!empty($pluginFilter)) {
+            $plugins = array_filter($plugins, function ($pluginName) use ($pluginFilter) {
+                return strpos($pluginName, $pluginFilter) !== false;
+            });
+        }
 
         $plugins = array_map(function ($plugin) use ($pluginManager) {
             return array(

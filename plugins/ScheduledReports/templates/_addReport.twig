@@ -8,7 +8,7 @@
         <div piwik-field uicontrol="text" name="website"
              title="{{ 'General_Website'|translate|e('html_attr') }}"
              disabled="true"
-             value="{{ siteName|raw }}">
+             value="{{ siteName|rawSafeDecoded }}">
         </div>
 
         <div piwik-field uicontrol="textarea" name="report_description"

@@ -525,7 +525,7 @@ abstract class ViewDataTable implements ViewInterface
         $nonOverridableParams = $this->getNonOverridableParams($overrideParams);
         if(count($nonOverridableParams) > 0) {
             throw new \Exception(sprintf(
-                "Setting parameters %s is not allowed. Please report this bug to the Piwik team.",
+                "Setting parameters %s is not allowed. Please report this bug to the Matomo team.",
                 implode(" and ", $nonOverridableParams)
             ));
         }

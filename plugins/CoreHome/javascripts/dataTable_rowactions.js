@@ -79,7 +79,7 @@ DataTable_RowActions_Registry.register({
             // we look for the data table instance in the dom
             var report = param.split(':')[0];
             var div = $(require('piwik/UI').DataTable.getDataTableByReport(report));
-            if (div.size() > 0 && div.data('uiControlObject')) {
+            if (div.length && div.data('uiControlObject')) {
                 dataTable = div.data('uiControlObject');
                 if (typeof dataTable.rowEvolutionActionInstance != 'undefined') {
                     return dataTable.rowEvolutionActionInstance;
@@ -184,7 +184,7 @@ DataTable_RowAction.prototype.trigger = function (tr, e, subTableLabel) {
             // .prev(.levelX) does not work for some reason => do it "by hand"
             var findLevel = 'level' + (level - 1);
             var ptr = tr;
-            while ((ptr = ptr.prev()).size() > 0) {
+            while ((ptr = ptr.prev()).length) {
                 if (!ptr.hasClass(findLevel) || ptr.hasClass('nodata')) {
                     continue;
                 }
@@ -288,6 +288,13 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
         label = this.multiEvolutionRows.join(',');
     }
 
+    $.each(this.dataTable.param, function (index, value) {
+        // we automatically add fields like idDimension, idGoal etc.
+        if (index !== 'idSite' && index.indexOf('id') === 0 && $.isNumeric(value)) {
+            extraParams[index] = value;
+        }
+    });
+
     // check if abandonedCarts is in the dataTable params and if so, propagate to row evolution request
     if (this.dataTable.param.abandonedCarts !== undefined) {
         extraParams['abandonedCarts'] = this.dataTable.param.abandonedCarts;
@@ -353,7 +360,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
 
         // use the popover title returned from the server
         var title = box.find('div.popover-title');
-        if (title.size() > 0) {
+        if (title.length) {
             Piwik_Popover.setTitle(title.html());
             title.remove();
         }

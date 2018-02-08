@@ -17,8 +17,18 @@ class Conversion extends LogTable
         return 'log_conversion';
     }
 
+    public function getIdColumn()
+    {
+        return 'idvisit';
+    }
+
     public function getColumnToJoinOnIdVisit()
     {
         return 'idvisit';
+    }
+
+    public function getPrimaryKey()
+    {
+        return array('idvisit', 'idgoal', 'buster');
     }
 }

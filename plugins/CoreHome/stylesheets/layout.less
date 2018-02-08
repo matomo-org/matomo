@@ -47,6 +47,8 @@ nav {
   }
 
   ul a {
+    color: @theme-color-header-text;
+
     &:hover {
       text-decoration: none;
     }
@@ -88,7 +90,7 @@ nav {
 #root {
 
   .pageWrap {
-    padding-left: 19px;
+    padding-left: 16px;
     padding-right: 16px;
   }
 
@@ -96,9 +98,16 @@ nav {
     margin-left: 224px;
   }
 
-  #root>.top_controls {
-    margin-left:15px;
-    margin-right:15px;
+    &>.top_controls {
+      .icon-arrowup:before, .icon-arrowdown:before {
+      padding: 17px 0 0 0px;
+      display: inline-block;
+      cursor: pointer;
+
+      @media screen and (max-width: 600px) {
+        display: none;
+      }
+    }
   }
 
   @media all and (max-width: 992px) {
@@ -112,11 +121,10 @@ nav {
     .top_controls {
       height: auto;
 
-      .isPiwikDemo,
       .piwikTopControl {
         position: static !important;
         float: none;
-        margin: 0 23px 10px 20px !important;
+        margin: 0 23px 10px 17px !important;
         display: block !important;
       }
 
@@ -134,10 +142,6 @@ nav {
         .icon-search {
           left: 30px;
         }
-      }
-
-      .isPiwikDemo {
-        margin-top: 8px;
       }
     }
   }
@@ -173,6 +177,7 @@ nav {
           padding: 12px 21px 12px 19px;
           color: @theme-color-menu-contrast-text;
           decoration: none !important;
+          word-wrap: break-word;
           word-break: break-word;
 
           &:hover, &:focus {
@@ -294,16 +299,30 @@ nav {
 
 #root {
   .top_controls {
-
     visibility: hidden;
     opacity: 0;
     z-index: 45;
+    padding-left: 16px;
+
+    @media screen and (max-width: 600px){
+      visibility: hidden;
+      opacity: 0;
+      z-index: 45;
+      padding-left: 0;
+    }
 
     .quick-access {
       z-index: 1000;
       position: absolute;
       width: 208px;
-      margin-left: 16px;
+      margin-left: 0;
+
+      @media screen and (max-width: 600px){
+        z-index: 1000;
+        position: absolute;
+        width: 208px;
+        margin-left: 16px;
+      }
 
       .dropdown {
         width: 209px;
@@ -317,7 +336,8 @@ nav {
         border: 0;
         margin: 0;
         box-sizing: border-box;
-        border-radius: 2px !important
+        border-radius: 2px !important;
+        box-shadow: none!important;
       }
     }
 
@@ -341,7 +361,7 @@ nav {
       display: inline-block;
       float: none;
       position: relative;
-      margin-right: 16px;
+      margin-right: 12px;
       vertical-align: top;
       font-size: 11px;
     }
@@ -364,4 +384,54 @@ nav {
 
 .widgetize {
   width: auto;
+}
+
+@media print {
+
+  #secondNavBar{
+    display: none;
+  }
+
+  nav .icon-menu-hamburger, nav .icon-more-verti{
+    display: none;
+  }
+
+  nav ul a{
+    display: none;
+  }
+
+  #root, #standalone {
+    .dashboard-manager{
+      display: none !important;
+      visibility: hidden !important;
+    }
+  }
+
+  #root{
+    #secondNavBar + .pageWrap {
+      margin-left: 0px;
+    }
+
+    .top_controls{
+      .quick-access {
+      display: none !important;
+      }
+    }
+  }
+
+  .dataTableAction{
+    display: none !important;
+  }
+
+  .select-dropdown, .caret{
+    display: none !important;
+  }
+
+  .dataTable td .ratio{
+    margin-right: 4px;
+    visibility: visible;
+  }
+  .dataTableFooterNavigation > .row{
+    margin-bottom: -20px !important;
+  }
 }

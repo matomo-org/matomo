@@ -1,9 +1,10 @@
 {
     "Installation": {
         "Congratulations": "Noraboa!",
-        "CongratulationsHelp": "<p>Noraboa! A instalación de Piwik foi completada.<\/p><p>Asegúrese de inserir o código Javascript en todas as páxinas, e agora, agarde aos primeiros visitantes!<\/p>",
+        "Email": "Enderezo electrónico",
         "Installation": "Instalación",
         "InstallationStatus": "Estado da instalación",
+        "Password": "Contrasinal",
         "PercentDone": "%s %%Hecho",
         "SetupWebsite": "Configurar unha páxina web",
         "SetupWebsiteError": "Houbo un erro ao engadir o sitio",
@@ -24,7 +25,6 @@
         "TablesFound": "As seguintes táboas atopáronse na base de datos",
         "TablesReuse": "Reutilizar as táboas xa existentes",
         "TablesWarningHelp": "Ou ben optar pola reutilización de táboas de bases de datos existentes ou seleccionar unha instalación limpa para eliminar todos os datos existentes na base de datos.",
-        "Welcome": "Benvido!",
-        "WelcomeHelp": "<p>Piwik é unha aplicación de código aberto de estatísticas que che permitirá recompilar información sobre o teu sitio facilmente.<\/p><p>Este proceso divídese en %s pasos sinxelos que levarán uns 5 minutos.<\/p>"
+        "Welcome": "Benvido!"
     }
 }

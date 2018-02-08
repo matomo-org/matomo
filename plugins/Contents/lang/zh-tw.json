@@ -1,0 +1,20 @@
+{
+    "Contents": {
+        "PluginDescription": "追蹤內容和橫幅讓你衡量網頁中任何區塊內容（橫幅廣告、圖片、任何項目）的表現（瀏覽數、點擊數、CTR）。",
+        "Impressions": "曝光",
+        "ContentImpression": "內容曝光",
+        "ContentInteraction": "內容互動",
+        "ContentInteractions": "內容互動",
+        "InteractionRate": "互動率",
+        "ContentName": "內容名稱",
+        "ContentNames": "內容名稱",
+        "ContentPiece": "內容區塊",
+        "ContentPieces": "內容區塊",
+        "ContentTarget": "內容目標",
+        "ContentTargets": "內容目標",
+        "Contents": "內容",
+        "InteractionsMetricDocumentation": "內容區塊的互動次數（例如「點擊」橫幅或廣告）。",
+        "ImpressionsMetricDocumentation": "內容區塊（例如橫幅或廣告）的展示次數。",
+        "InteractionRateMetricDocumentation": "內容曝光及互動的比率。"
+    }
+}

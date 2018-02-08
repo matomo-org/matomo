@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Marketplace\Widgets;
 
 use Piwik\Common;
 use Piwik\Plugins\Marketplace\Api\Client;
+use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 use Piwik\Widget\Widget;
 use Piwik\Widget\WidgetConfig;
@@ -28,7 +29,7 @@ class GetNewPlugins extends Widget
 
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('About Piwik');
+        $config->setCategoryId('About Matomo');
         $config->setName('Latest Marketplace Updates');
         $config->setOrder(19);
     }
@@ -43,7 +44,11 @@ class GetNewPlugins extends Widget
             $template = 'getNewPlugins';
         }
 
-        $plugins = $this->marketplaceApiClient->searchForPlugins('', '', Sort::METHOD_LAST_UPDATED, '');
+        $plugins = $this->marketplaceApiClient->searchForPlugins('', '', Sort::METHOD_LAST_UPDATED, PurchaseType::TYPE_ALL);
+
+        $plugins = array_filter($plugins, function ($plugin) {
+            return empty($plugin['isBundle']);
+        });
 
         return $this->renderTemplate($template, array(
             'plugins' => array_splice($plugins, 0, 3)

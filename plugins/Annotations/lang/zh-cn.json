@@ -1,22 +1,22 @@
 {
     "Annotations": {
-        "AddAnnotationsFor": "为%s添加备注",
-        "AnnotationOnDate": "在%1$s的备注:%2$s",
+        "AddAnnotationsFor": "给%s添加备注……",
+        "AnnotationOnDate": "%1$s的备注：%2$s",
         "Annotations": "备注",
-        "ClickToDelete": "点击删除备注",
-        "ClickToEdit": "点击编辑本备注。",
-        "ClickToEditOrAdd": "点击编辑备注或新增备注",
-        "ClickToStarOrUnstar": "点击为本备注增加或取消星标。",
-        "CreateNewAnnotation": "新增备注",
-        "EnterAnnotationText": "输入备注……",
-        "HideAnnotationsFor": "为%s隐藏备注",
-        "IconDesc": "查看本时间段内的备注",
-        "IconDescHideNotes": "隐藏本时间段的备注。",
-        "InlineQuickHelp": "您可以添加备注用于记录特别事件，(例如新的博客文章，或者网站重新设计)，用于保存数据分析或其他重要的东西。",
-        "LoginToAnnotate": "请登录后添加备注。",
+        "ClickToDelete": "点击删除此备注。",
+        "ClickToEdit": "点击编辑此备注。",
+        "ClickToEditOrAdd": "点击编辑或新增备注。",
+        "ClickToStarOrUnstar": "点击为此备注增加或取消星标。",
+        "CreateNewAnnotation": "新增备注……",
+        "EnterAnnotationText": "输入您的记录……",
+        "HideAnnotationsFor": "隐藏%s的备注……",
+        "IconDesc": "查看此时间段内的备注。",
+        "IconDescHideNotes": "隐藏此时间段内的备注。",
+        "InlineQuickHelp": "您可以添加备注用于记录特别事件（例如新的博客文章，或者网站重新设计），保存您的数据分析或任何您觉得重要的事情。",
+        "LoginToAnnotate": "登录以添加备注。",
         "NoAnnotations": "该时间段内没有备注。",
-        "PluginDescription": "可以添加说明文字到不同的日期，记录网站的修改，保存关于数据的分析或者与同事分享想法。通过备注资料，就能记住为什么数据是这样的。",
-        "ViewAndAddAnnotations": "为%s查看和添加备注",
-        "YouCannotModifyThisNote": "您不能修改这个备注。此备注不是您创建的或您没有管理员赋予的权限。"
+        "PluginDescription": "可以添加说明文字到不同的日期来标记您网站的修改，保存您关于数据的分析并与同事分享您的想法。通过备注资料，您能确保记住为什么您的数据看起来是这样的。",
+        "ViewAndAddAnnotations": "查看并添加%s的备注……",
+        "YouCannotModifyThisNote": "您无法修改此备注，因为这个备注不是您创建的，并且您也没有此网站的管理员权限。"
     }
 }

@@ -12,6 +12,7 @@ use Piwik\Application\Environment;
 use Piwik\Archive;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Auth;
+use Piwik\Auth\Password;
 use Piwik\Cache\Backend\File;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
@@ -76,8 +77,8 @@ use ReflectionClass;
 class Fixture extends \PHPUnit_Framework_Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
-    const IMAGES_GENERATED_FOR_PHP = '5.5';
-    const IMAGES_GENERATED_FOR_GD = '2.1.1';
+    const IMAGES_GENERATED_FOR_PHP = '5.6';
+    const IMAGES_GENERATED_FOR_GD = '2.1.0';
     const DEFAULT_SITE_NAME = 'Piwik test';
 
     const ADMIN_USER_LOGIN = 'superUserLogin';
@@ -663,34 +664,38 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function getTokenAuth()
     {
-        return APIUsersManager::getInstance()->getTokenAuth(
-            self::ADMIN_USER_LOGIN,
-            UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD)
-        );
+        $model = new \Piwik\Plugins\UsersManager\Model();
+        $user  = $model->getUser(self::ADMIN_USER_LOGIN);
+
+        return $user['token_auth'];
     }
 
     public static function createSuperUser($removeExisting = true)
     {
-        $login = self::ADMIN_USER_LOGIN;
-        $password = UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD);
-        $token = self::getTokenAuth();
+        $passwordHelper = new Password();
+
+        $login    = self::ADMIN_USER_LOGIN;
+        $password = $passwordHelper->hash(UsersManager::getPasswordHash(self::ADMIN_USER_PASSWORD));
+        $token    = APIUsersManager::getInstance()->createTokenAuth($login);
 
         $model = new \Piwik\Plugins\UsersManager\Model();
+        $user  = $model->getUser($login);
+
         if ($removeExisting) {
             $model->deleteUserOnly($login);
         }
 
-        $user = $model->getUser($login);
-
-        if (empty($user)) {
+        if (!empty($user) && !$removeExisting) {
+            $token = $user['token_auth'];
+        }
+        if (empty($user) || $removeExisting) {
             $model->addUser($login, $password, 'hello@example.org', $login, $token, Date::now()->getDatetime());
         } else {
             $model->updateUser($login, $password, 'hello@example.org', $login, $token);
         }
 
-        if (empty($user['superuser_access'])) {
-            $model->setSuperUserAccess($login, true);
-        }
+        $setSuperUser = empty($user) || !empty($user['superuser_access']);
+        $model->setSuperUserAccess($login, $setSuperUser);
 
         return $model->getUserByTokenAuth($token);
     }
@@ -789,6 +794,10 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function canImagesBeIncludedInScheduledReports()
     {
+        if(!function_exists('gd_info')) {
+            echo "GD is not installed so cannot run these tests. please enable GD in PHP!\n";
+            return false;
+        }
         $gdInfo = gd_info();
         return
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&

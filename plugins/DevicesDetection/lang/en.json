@@ -20,10 +20,13 @@
         "dataTableLabelTypes": "Type",
         "Device": "Device",
         "DeviceBrand": "Device brand",
+        "DeviceBrands": "Device brands",
         "DeviceDetection": "Device detection",
         "DeviceModel": "Device model",
+        "DeviceModels": "Device models",
         "DevicesDetection": "Visitor Devices",
         "DeviceType": "Device type",
+        "DeviceTypes": "Device types",
         "FeaturePhone": "Feature phone",
         "OperatingSystemFamilies": "Operating System families",
         "OperatingSystemFamily": "Operating system family",
@@ -38,6 +41,7 @@
         "Phablet": "Phablet",
         "TV": "Tv",
         "UserAgent": "User-Agent",
+        "XVisitsFromDevices": "%1$s visits from %2$s devices",
         "WidgetBrowsers": "Visitor Browser",
         "WidgetBrowsersDocumentation": "This report contains information about what kind of browser your visitors were using. Each browser version is listed separately."
     }

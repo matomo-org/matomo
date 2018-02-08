@@ -12,7 +12,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 	</row>
 	<row>
-		<label>othersite10.com/-1</label>
+		<label>othersite10.com/ - Others</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -23,7 +23,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 	</row>
 	<row>
-		<label>othersite11.com/-1</label>
+		<label>othersite11.com/ - Others</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -34,7 +34,7 @@
 		<avg_bandwidth>0</avg_bandwidth>
 	</row>
 	<row>
-		<label>othersite12.com/-1</label>
+		<label>othersite12.com/ - Others</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>0</sum_time_spent>

@@ -212,10 +212,15 @@ class View implements ViewInterface
         return isset($this->templateVars[$name]);
     }
 
+    /** @var Twig */
+    static $twigCached = null;
+
     private function initializeTwig()
     {
-        $piwikTwig = new Twig();
-        $this->twig = $piwikTwig->getTwigEnvironment();
+        if (empty(static::$twigCached)) {
+            static::$twigCached = new Twig();
+        }
+        $this->twig = static::$twigCached->getTwigEnvironment();
     }
 
     /**
@@ -236,6 +241,7 @@ class View implements ViewInterface
             $this->userIsAnonymous = Piwik::isUserIsAnonymous();
             $this->userIsSuperUser = Piwik::hasUserSuperUserAccess();
             $this->latest_version_available = UpdateCheck::isNewestVersionAvailable();
+            $this->showUpdateNotificationToUser = !SettingsPiwik::isShowUpdateNotificationToSuperUsersOnlyEnabled() || Piwik::hasUserSuperUserAccess();
             $this->disableLink = Common::getRequestVar('disableLink', 0, 'int');
             $this->isWidget = Common::getRequestVar('widget', 0, 'int');
             $this->isMultiServerEnvironment = SettingsPiwik::isMultiServerEnvironment();
@@ -265,7 +271,9 @@ class View implements ViewInterface
         Common::sendHeader('Content-Type: ' . $this->contentType);
         // always sending this header, sometimes empty, to ensure that Dashboard embed loads
         // - when calling sendHeader() multiple times, the last one prevails
-        Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
+        if(!empty($this->xFrameOptions)) {
+            Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
+        }
 
         return $this->renderTwigTemplate();
     }
@@ -356,6 +364,7 @@ class View implements ViewInterface
      */
     public function setXFrameOptions($option = 'deny')
     {
+
         if ($option === 'deny' || $option === 'sameorigin') {
             $this->xFrameOptions = $option;
         }

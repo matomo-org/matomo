@@ -49,11 +49,11 @@ class PluginsArchiver
      */
     public static $archivers = array();
 
-    public function __construct(Parameters $params, $isTemporaryArchive)
+    public function __construct(Parameters $params, $isTemporaryArchive, ArchiveWriter $archiveWriter = null)
     {
         $this->params = $params;
         $this->isTemporaryArchive = $isTemporaryArchive;
-        $this->archiveWriter = new ArchiveWriter($this->params, $this->isTemporaryArchive);
+        $this->archiveWriter = $archiveWriter ?: new ArchiveWriter($this->params, $this->isTemporaryArchive);
         $this->archiveWriter->initNewArchive();
 
         $this->logAggregator = new LogAggregator($params);
@@ -94,14 +94,14 @@ class PluginsArchiver
      * Instantiates the Archiver class in each plugin that defines it,
      * and triggers Aggregation processing on these plugins.
      */
-    public function callAggregateAllPlugins($visits, $visitsConverted)
+    public function callAggregateAllPlugins($visits, $visitsConverted, $forceArchivingWithoutVisits = false)
     {
         Log::debug("PluginsArchiver::%s: Initializing archiving process for all plugins [visits = %s, visits converted = %s]",
             __FUNCTION__, $visits, $visitsConverted);
 
         $this->archiveProcessor->setNumberOfVisits($visits, $visitsConverted);
 
-        $archivers = $this->getPluginArchivers();
+        $archivers = static::getPluginArchivers();
 
         foreach ($archivers as $pluginName => $archiverClass) {
             // We clean up below all tables created during this function call (and recursive calls)
@@ -111,7 +111,12 @@ class PluginsArchiver
             $archiver = $this->makeNewArchiverObject($archiverClass, $pluginName);
 
             if (!$archiver->isEnabled()) {
-                Log::debug("PluginsArchiver::%s: Skipping archiving for plugin '%s'.", __FUNCTION__, $pluginName);
+                Log::debug("PluginsArchiver::%s: Skipping archiving for plugin '%s' (disabled).", __FUNCTION__, $pluginName);
+                continue;
+            }
+
+            if (!$forceArchivingWithoutVisits && !$visits && !$archiver->shouldRunEvenWhenNoVisits()) {
+                Log::debug("PluginsArchiver::%s: Skipping archiving for plugin '%s' (no visits).", __FUNCTION__, $pluginName);
                 continue;
             }
 
@@ -133,15 +138,21 @@ class PluginsArchiver
 
                     $this->logAggregator->setQueryOriginHint('');
 
-                    Log::debug("PluginsArchiver::%s: %s while archiving %s reports for plugin '%s'.",
+                    Log::debug("PluginsArchiver::%s: %s while archiving %s reports for plugin '%s' %s.",
                         __FUNCTION__,
                         $timer->getMemoryLeak(),
                         $this->params->getPeriod()->getLabel(),
-                        $pluginName
+                        $pluginName,
+                        $this->params->getSegment() ? sprintf("(for segment = '%s')", $this->params->getSegment()->getString()) : ''
                     );
                 } catch (Exception $e) {
                     $className = get_class($e);
-                    $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e);
+
+                    if ($className === 'PHPUnit_Framework_Exception' || (class_exists('PHPUnit_Framework_Exception', false) &&  is_subclass_of($className, 'PHPUnit_Framework_Exception'))) {
+                        $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e->getFile(), $e->getLine(), $e);
+                    } else {
+                        $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e);
+                    }
 
                     throw $exception;
                 }
@@ -162,11 +173,27 @@ class PluginsArchiver
     }
 
     /**
+     * Returns if any plugin archiver archives without visits
+     */
+    public static function doesAnyPluginArchiveWithoutVisits()
+    {
+        $archivers = static::getPluginArchivers();
+
+        foreach ($archivers as $pluginName => $archiverClass) {
+            if ($archiverClass::shouldRunEvenWhenNoVisits()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Loads Archiver class from any plugin that defines one.
      *
      * @return \Piwik\Plugin\Archiver[]
      */
-    protected function getPluginArchivers()
+    protected static function getPluginArchivers()
     {
         if (empty(static::$archivers)) {
             $pluginNames = \Piwik\Plugin\Manager::getInstance()->getActivatedPlugins();

@@ -14,21 +14,32 @@ use Piwik\Piwik;
 use Piwik\Version;
 
 /**
- * The ExampleAPI is useful to developers building a custom Piwik plugin.
+ * The ExampleAPI is useful to developers building a custom Matomo plugin.
  *
  * Please see the <a href='https://github.com/piwik/piwik/blob/master/plugins/ExampleAPI/API.php' rel='noreferrer' target='_blank'>source code in in the file plugins/ExampleAPI/API.php</a> for more documentation.
  * @method static \Piwik\Plugins\ExampleAPI\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
+
     /**
-     * Get Piwik version
+     * Get Matomo version
      * @return string
      */
-    public function getPiwikVersion()
+    public function getMatomoVersion()
     {
         Piwik::checkUserHasSomeViewAccess();
         return Version::VERSION;
+    }
+
+    /**
+     * Get Matomo version
+     * @return string
+     * @deprecated
+     */
+    public function getPiwikVersion()
+    {
+        return $this->getMatomoVersion();
     }
 
     /**
@@ -46,7 +57,7 @@ class API extends \Piwik\Plugin\API
      * If used internally, the data structure can be returned untouched by using
      * the API parameter 'format=original'
      *
-     * @return MagicObject Will return a standard Piwik error when called from the Web APIs
+     * @return MagicObject Will return a standard Matomo error when called from the Web APIs
      */
     public function getObject()
     {

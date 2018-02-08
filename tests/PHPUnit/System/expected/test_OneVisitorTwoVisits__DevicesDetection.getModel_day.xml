@@ -9,18 +9,19 @@
 		<sum_visit_length>1621</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<goals>
-			<row idgoal='2'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>1</revenue>
-			</row>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
 				<nb_visits_converted>1</nb_visits_converted>
 				<revenue>42</revenue>
 			</row>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>1</revenue>
+			</row>
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>43</revenue>
+		<segment>deviceBrand==Unknown;deviceModel==</segment>
 	</row>
 </result>

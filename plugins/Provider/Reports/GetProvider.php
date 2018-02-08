@@ -44,7 +44,7 @@ class GetProvider extends Report
         if (! Common::getRequestVar('disableLink', 0, 'int')) {
             $message .= ' ' . Piwik::translate(
                     'General_SeeThisFaq',
-                    array('<a href="http://piwik.org/faq/general/faq_52/" rel="noreferrer"  target="_blank">', '</a>')
+                    array('<a href="https://matomo.org/faq/general/faq_52/" rel="noreferrer"  target="_blank">', '</a>')
                 );
         }
         $view->config->show_footer_message = $message;

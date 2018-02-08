@@ -48,7 +48,7 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
     {
         return array(
             'nb_hits_following_search' => Piwik::translate('General_ColumnViewedAfterSearch'),
-            'nb_hits'                  => Piwik::translate('General_ColumnTotalPageviews'),
+            'nb_hits'                  => Piwik::translate('General_ColumnPageviews'),
         );
     }
 

@@ -12,16 +12,10 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Date;
-use Piwik\Db;
-use Piwik\Metrics\Formatter;
-use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Segment;
 use Piwik\Site;
-use Piwik\Tracker;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -31,7 +25,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 /**
- * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='http://piwik.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>,
+ * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='http://matomo.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>,
  * you will be able to request visits filtered by any criteria.
  *
  * The method "getLastVisitsDetails" will return extensive data for each visit, which includes: server time, visitId, visitorId,
@@ -43,18 +37,16 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  * browser, type of screen, resolution, supported browser plugins (flash, java, silverlight, pdf, etc.), various dates & times format to make
  * it easier for API users... and more!
  *
- * With the parameter <a href='http://piwik.org/docs/analytics-api/segmentation/' rel='noreferrer' target='_blank'>'&segment='</a> you can filter the
+ * With the parameter <a href='http://matomo.org/docs/analytics-api/segmentation/' rel='noreferrer' target='_blank'>'&segment='</a> you can filter the
  * returned visits by any criteria (visitor IP, visitor ID, country, keyword used, time of day, etc.).
  *
  * The method "getCounters" is used to return a simple counter: visits, number of actions, number of converted visits, in the last N minutes.
  *
- * See also the documentation about <a href='http://piwik.org/docs/real-time/' rel='noreferrer' target='_blank'>Real time widget and visitor level reports</a> in Piwik.
+ * See also the documentation about <a href='http://matomo.org/docs/real-time/' rel='noreferrer' target='_blank'>Real time widget and visitor level reports</a> in Matomo.
  * @method static \Piwik\Plugins\Live\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
-    const VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE = 100;
-
     /**
      * @var LoggerInterface
      */
@@ -193,7 +185,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns an array describing a visitor using her last visits (uses a maximum of 100).
+     * Returns an array describing a visitor using their last visits (uses a maximum of 100).
      *
      * @param int $idSite Site ID
      * @param bool|false|string $visitorId The ID of the visitor whose profile to retrieve.
@@ -217,9 +209,10 @@ class API extends \Piwik\Plugin\API
 
         $newSegment = ($segment === false ? '' : $segment . ';') . 'visitorId==' . $visitorId;
 
+        $limit = Config::getInstance()->General['live_visitor_profile_max_visits_to_aggregate'];
+
         $visits = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $newSegment,
-            $offset = 0,
-            $limit = self::VISITOR_PROFILE_MAX_VISITS_TO_AGGREGATE);
+            $offset = 0, $limit);
         $this->addFilterToCleanVisitors($visits, $idSite, $flat = false, $doNotFetchActions = false, $filterNow = true);
 
         if ($visits->getRowsCount() == 0) {
@@ -233,6 +226,8 @@ class API extends \Piwik\Plugin\API
          * Triggered in the Live.getVisitorProfile API method. Plugins can use this event
          * to discover and add extra data to visitor profiles.
          *
+         * This event is deprecated, use [VisitorDetails](/api-reference/Piwik/Plugins/Live/VisitorDetailsAbstract#extendVisitorDetails) classes instead.
+         *
          * For example, if an email address is found in a custom variable, a plugin could load the
          * gravatar for the email and add it to the visitor profile, causing it to display in the
          * visitor profile popup.
@@ -243,6 +238,7 @@ class API extends \Piwik\Plugin\API
          * - **visitorDescription**: Text to be used as the tooltip of the avatar image.
          *
          * @param array &$visitorProfile The unaugmented visitor profile info.
+         * @deprecated
          */
         Piwik::postEvent('Live.getExtraVisitorDetails', array(&$result));
 
@@ -319,16 +315,22 @@ class API extends \Piwik\Plugin\API
 
         $dataTable->$filter(function ($table) use ($idSite, $flat, $doNotFetchActions) {
             /** @var DataTable $table */
-            $actionsLimit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
-
             $visitorFactory = new VisitorFactory();
-            $website        = new Site($idSite);
-            $timezone       = $website->getTimezone();
-            $currency       = $website->getCurrency();
-            $currencies     = APISitesManager::getInstance()->getCurrencySymbols();
 
             // live api is not summable, prevents errors like "Unexpected ECommerce status value"
             $table->deleteRow(DataTable::ID_SUMMARY_ROW);
+
+            $actionsByVisitId = array();
+
+            if (!$doNotFetchActions) {
+                $visitIds = $table->getColumn('idvisit');
+
+                $visitorDetailsManipulators = Visitor::getAllVisitorDetailsInstances();
+
+                foreach ($visitorDetailsManipulators as $instance) {
+                    $instance->provideActionsForVisitIds($actionsByVisitId, $visitIds);
+                }
+            }
 
             foreach ($table->getRows() as $visitorDetailRow) {
                 $visitorDetailsArray = Visitor::cleanVisitorDetails($visitorDetailRow->getColumns());
@@ -336,23 +338,10 @@ class API extends \Piwik\Plugin\API
                 $visitor = $visitorFactory->create($visitorDetailsArray);
                 $visitorDetailsArray = $visitor->getAllVisitorDetails();
 
-                $visitorDetailsArray['siteCurrency'] = $currency;
-                $visitorDetailsArray['siteCurrencySymbol'] = @$currencies[$visitorDetailsArray['siteCurrency']];
-                $visitorDetailsArray['serverTimestamp'] = $visitorDetailsArray['lastActionTimestamp'];
-
-                $dateTimeVisit = Date::factory($visitorDetailsArray['lastActionTimestamp'], $timezone);
-                if ($dateTimeVisit) {
-                    $visitorDetailsArray['serverTimePretty'] = $dateTimeVisit->getLocalized(Date::TIME_FORMAT);
-                    $visitorDetailsArray['serverDatePretty'] = $dateTimeVisit->getLocalized(Date::DATE_FORMAT_LONG);
-                }
-
-                $dateTimeVisitFirstAction = Date::factory($visitorDetailsArray['firstActionTimestamp'], $timezone);
-                $visitorDetailsArray['serverDatePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Date::DATE_FORMAT_LONG);
-                $visitorDetailsArray['serverTimePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized(Date::TIME_FORMAT);
-
                 $visitorDetailsArray['actionDetails'] = array();
                 if (!$doNotFetchActions) {
-                    $visitorDetailsArray = Visitor::enrichVisitorArrayWithActions($visitorDetailsArray, $actionsLimit, $timezone);
+                    $bulkFetchedActions  = isset($actionsByVisitId[$visitorDetailsArray['idVisit']]) ? $actionsByVisitId[$visitorDetailsArray['idVisit']] : array();
+                    $visitorDetailsArray = Visitor::enrichVisitorArrayWithActions($visitorDetailsArray, $bulkFetchedActions);
                 }
 
                 if ($flat) {

@@ -22,7 +22,6 @@
         "NoRecipients": "Denne rapport har ingen modtagere",
         "Pagination": "Side %1$s af %2$s",
         "PiwikReports": "Piwik rapporter",
-        "PleaseFindAttachedFile": "Vedlagt i vedhæftede fil din %1$s rapport for %2$s.",
         "PleaseFindBelow": "Find rapporten nedenfor %1$s for %2$s.",
         "ReportFormat": "Rapport format",
         "ReportIncludeNWebsites": "Rapporten indeholder de vigtigste nøgletal for alle hjemmesider, der har mindst ét ​​besøg (fra %s hjemmesider der pt er tilgængelige).",
@@ -38,7 +37,7 @@
         "SentToMe": "Send til mig",
         "TableOfContent": "Rapport liste",
         "ThereIsNoReportToManage": "Ingen rapporter at administrere for hjemmesiden %s",
-        "TopLinkTooltip": "Opret e-mail-rapporter for at få Piwik statistik leveret til din e-mail eller dine kunders adresse automatisk!",
+        "TopLinkTooltip": "Opret e-mail-rapporter for at få Matomo statistik leveret til din e-mail eller dine kunders adresse automatisk!",
         "TopOfReport": "Tilbage til toppen",
         "UpdateReport": "Opdater rapport",
         "WeeklyScheduleHelp": "Ugentlig tidsplan: Rapporten vil blive sendt hver uge om mandagen."

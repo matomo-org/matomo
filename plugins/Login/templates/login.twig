@@ -8,16 +8,6 @@
     {{ parent() }}
 
     <script type="text/javascript" src="libs/bower_components/jquery-placeholder/jquery.placeholder.js"></script>
-    <script type="text/javascript" src="libs/jquery/jquery.smartbanner.js"></script>
-    <link rel="stylesheet" type="text/css" href="libs/jquery/stylesheets/jquery.smartbanner.css" />
-
-    <script type="text/javascript">
-        $(function () {
-            $('#form_login').focus();
-            $('input').placeholder();
-            $.smartbanner({title: "Piwik Mobile 2", author: "Piwik team", hideOnInstall: false, layer: true, icon: "plugins/CoreHome/images/googleplay.png"});
-        });
-    </script>
 {% endblock %}
 
 {% set title %}{{ 'Login_LogIn'|translate }}{% endset %}
@@ -40,12 +30,12 @@
             <span id="logo" class="brand-logo center">
 
                 {% if isCustomLogo == false %}
-                    <a href="http://piwik.org" title="{{ linkTitle }}">
+                    <a href="https://matomo.org" title="{{ linkTitle }}">
                 {% endif %}
                 {% if hasSVGLogo %}
-                    <img src='{{ logoSVG }}' class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" title="{{ linkTitle }}" alt="Piwik"/>
+                    <img src='{{ logoSVG }}' class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" title="{{ linkTitle }}" alt="Matomo"/>
                 {% else %}
-                    <img src='{{ logoLarge }}' title="{{ linkTitle }}" alt="Piwik" />
+                    <img src='{{ logoLarge }}' title="{{ linkTitle }}" alt="Matomo" />
                 {% endif %}
 
                 {% if isCustomLogo == false %}
@@ -88,8 +78,9 @@
                         <div class="row">
                             <div class="col s12 input-field">
                                 <input type="text" name="form_login" placeholder="" id="login_form_login" class="input" value="" size="20"
+                                       autocorrect="off" autocapitalize="none"
                                        tabindex="10" autofocus="autofocus"/>
-                                <label for="login_form_login"><i class="icon-user icon"></i> {{ 'General_Username'|translate }}</label>
+                                <label for="login_form_login"><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
                             </div>
                         </div>
 
@@ -97,6 +88,7 @@
                             <div class="col s12 input-field">
                                 <input type="hidden" name="form_nonce" id="login_form_nonce" value="{{ nonce }}"/>
                                 <input type="password" placeholder="" name="form_password" id="login_form_password" class="input" value="" size="20"
+                                       autocorrect="off" autocapitalize="none"
                                        tabindex="20" />
                                 <label for="login_form_password"><i class="icon-locked icon"></i> {{ 'General_Password'|translate }}</label>
                             </div>
@@ -122,7 +114,7 @@
 
                     {% if isCustomLogo %}
                         <p id="piwik">
-                            <i><a href="http://piwik.org/" rel="noreferrer"  target="_blank">{{ linkTitle }}</a></i>
+                            <i><a href="https://matomo.org/" rel="noreferrer"  target="_blank">{{ linkTitle }}</a></i>
                         </p>
                     {% endif %}
 
@@ -141,22 +133,25 @@
                             <div class="col s12 input-field">
                                 <input type="hidden" name="form_nonce" id="reset_form_nonce" value="{{ nonce }}"/>
                                 <input type="text" placeholder="" name="form_login" id="reset_form_login" class="input" value="" size="20"
+                                       autocorrect="off" autocapitalize="none"
                                        tabindex="10"/>
-                                <label for="reset_form_login">{{ 'Login_LoginOrEmail'|translate }}</label>
+                                <label for="reset_form_login"><i class="icon-user icon"></i> {{ 'Login_LoginOrEmail'|translate }}</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12 input-field">
                                 <input type="password" placeholder="" name="form_password" id="reset_form_password" class="input" value="" size="20"
+                                       autocorrect="off" autocapitalize="none"
                                        tabindex="20" autocomplete="off"/>
-                                <label for="reset_form_password">{{ 'Login_NewPassword'|translate }}</label>
+                                <label for="reset_form_password"><i class="icon-locked icon"></i> {{ 'Login_NewPassword'|translate }}</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col s12 input-field">
                                 <input type="password" placeholder="" name="form_password_bis" id="reset_form_password_bis" class="input" value=""
+                                       autocorrect="off" autocapitalize="none"
                                        size="20" tabindex="30" autocomplete="off"/>
-                                <label for="reset_form_password_bis">{{ 'Login_NewPasswordRepeat'|translate }}</label>
+                                <label for="reset_form_password_bis"><i class="icon-locked icon"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
                             </div>
                         </div>
 

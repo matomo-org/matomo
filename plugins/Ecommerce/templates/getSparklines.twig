@@ -3,7 +3,7 @@
     <div class="sparkline">{{ sparkline(urlSparklineConversions) }}
         <strong>{{ nb_conversions|number }}</strong>
         {{ 'General_EcommerceOrders'|translate }}
-        <img src='plugins/Morpheus/images/ecommerceOrder.gif'>
+        <img src='plugins/Morpheus/images/ecommerceOrder.png'>
 
         {% if goalAllowMultipleConversionsPerVisit is defined and goalAllowMultipleConversionsPerVisit %}
             ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>")|raw }})
@@ -31,7 +31,7 @@
 </div>
 <div id='rightcolumn' {% if not isWidget %}style='width:30%;'{% endif %}>
     <div>
-        <img src='plugins/Morpheus/images/ecommerceAbandonedCart.gif'> {{ 'General_AbandonedCarts'|translate }}
+        <img src='plugins/Morpheus/images/ecommerceAbandonedCart.png'> {{ 'General_AbandonedCarts'|translate }}
     </div>
 
     <div class="sparkline">

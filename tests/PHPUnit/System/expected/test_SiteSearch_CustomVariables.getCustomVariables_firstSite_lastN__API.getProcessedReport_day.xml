@@ -9,7 +9,7 @@
 		<module>CustomVariables</module>
 		<action>getCustomVariables</action>
 		<dimension>Custom Variable name</dimension>
-		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;http://piwik.org/docs/custom-variables/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -17,8 +17,8 @@
 			<nb_users>Users</nb_users>
 		</metrics>
 		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</nb_uniq_visitors>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
 			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
 			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>

@@ -1,5 +1,6 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "这个插件提供了访客地图和实时地图的小工具。注意：需要激活UserCountry插件。",
         "AndNOthers": "和 %s 其它",
         "Cities": "城市",
         "Countries": "国家",
@@ -17,6 +18,8 @@
         "ShowingVisits": "最后访客地理位置",
         "Unlocated": "<b>%s<\/b> %p 的访问来自 %c 无法定位地理位置。",
         "VisitorMap": "访客地图",
-        "WorldWide": "全世界"
+        "WorldWide": "全世界",
+        "WithUnknownRegion": "%s未知区域",
+        "WithUnknownCity": "%s未知城市"
     }
 }

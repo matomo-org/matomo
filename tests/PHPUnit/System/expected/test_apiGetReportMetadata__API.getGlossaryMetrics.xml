@@ -51,6 +51,11 @@
 		<documentation>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</documentation>
 	</row>
 	<row>
+		<name>Content Interactions</name>
+		<id>nb_interactions</id>
+		<documentation>The number of times a content block was interacted with (eg, a 'click' on a banner or ad).</documentation>
+	</row>
+	<row>
 		<name>Conversion Rate</name>
 		<id>conversion_rate</id>
 		<documentation>The percentage of visits that triggered a goal conversion.</documentation>
@@ -64,6 +69,16 @@
 		<name>Entrances</name>
 		<id>entry_nb_visits</id>
 		<documentation>Number of visits that started on this page.</documentation>
+	</row>
+	<row>
+		<name>Event value</name>
+		<id>sum_event_value</id>
+		<documentation>The sum of event values</documentation>
+	</row>
+	<row>
+		<name>Events</name>
+		<id>nb_events</id>
+		<documentation>Total number of events</documentation>
 	</row>
 	<row>
 		<name>Events with a value</name>
@@ -91,17 +106,12 @@
 		<documentation>The ratio of content impressions to interactions.</documentation>
 	</row>
 	<row>
-		<name>Interactions</name>
-		<id>nb_interactions</id>
-		<documentation>The number of times a content block was interacted with (eg, a 'click' on a banner or ad).</documentation>
-	</row>
-	<row>
-		<name>Maximum value</name>
+		<name>Maximum Event value</name>
 		<id>max_event_value</id>
 		<documentation>The maximum value for this event</documentation>
 	</row>
 	<row>
-		<name>Minimum value</name>
+		<name>Minimum Event value</name>
 		<id>min_event_value</id>
 		<documentation>The minimum value for this event</documentation>
 	</row>
@@ -109,6 +119,11 @@
 		<name>Outlinks</name>
 		<id>nb_outlinks</id>
 		<documentation>The number of times this link was clicked.</documentation>
+	</row>
+	<row>
+		<name>Pageviews</name>
+		<id>nb_hits</id>
+		<documentation>The number of times this page was visited.</documentation>
 	</row>
 	<row>
 		<name>Pageviews</name>
@@ -134,21 +149,6 @@
 		<name>The average of all values for this event</name>
 		<id>avg_event_value</id>
 		<documentation>The average of all values for this event</documentation>
-	</row>
-	<row>
-		<name>Total Pageviews</name>
-		<id>nb_hits</id>
-		<documentation>The number of times this page was visited.</documentation>
-	</row>
-	<row>
-		<name>Total events</name>
-		<id>nb_events</id>
-		<documentation>Total number of events</documentation>
-	</row>
-	<row>
-		<name>Total value</name>
-		<id>sum_event_value</id>
-		<documentation>The sum of event values</documentation>
 	</row>
 	<row>
 		<name>Unique Clicks (Actions)</name>
@@ -183,7 +183,7 @@
 	<row>
 		<name>Unique visitors</name>
 		<id>nb_uniq_visitors</id>
-		<documentation>The number of unduplicated visitors coming to your website. Every user is only counted once, even if he visits the website multiple times a day.</documentation>
+		<documentation>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</documentation>
 	</row>
 	<row>
 		<name>Users</name>
@@ -193,6 +193,6 @@
 	<row>
 		<name>Visits</name>
 		<id>nb_visits</id>
-		<documentation>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</documentation>
+		<documentation>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</documentation>
 	</row>
 </result>

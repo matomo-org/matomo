@@ -1,0 +1,27 @@
+{
+    "Marketplace": {
+        "ActivateLicenseKey": "Diaktifkan",
+        "ActionActivatePlugin": "Aktivasi plugin",
+        "ActionActivateTheme": "Aktivasi tema",
+        "ActionInstall": "Instal",
+        "AddToCart": "Tambah ke keranjang",
+        "BackToMarketplace": "Kembali ke pasar",
+        "BrowseMarketplace": "Ramban Pasar",
+        "ByXDevelopers": "oleh %s pengembang",
+        "CannotInstall": "Tidak dapat menginstal",
+        "CannotUpdate": "Tidak dapat memperbarui",
+        "ClickToCompletePurchase": "Klik untuk menyelesaikan pembelian.",
+        "CurrentNumPiwikUsers": "Piwik Anda saat ini memiliki %1$s pengguna terdaftar.",
+        "Developer": "Pengembang",
+        "Marketplace": "Pasar",
+        "InstallingPlugin": "Menginstal %s",
+        "LastUpdated": "Terakhir diperbarui",
+        "License": "Lisensi",
+        "LicenseKey": "Kunci Lisensi",
+        "LicenseKeyDeletedSuccess": "Kunci lisensi berhasil dihapus.",
+        "LicenseExpired": "Lisensi telah kadaluwarsa",
+        "PluginKeywords": "Kata Kunci",
+        "PluginVersionInfo": "%1$s dari %2$s",
+        "SubscriptionType": "Jenis"
+    }
+}

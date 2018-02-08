@@ -11,11 +11,6 @@
 
 language: php
 
-php:
-  - 5.6
-  - 5.5
-#  - hhvm
-
 services:
   - redis-server
 
@@ -31,21 +26,11 @@ addons:
       - realpath
       - lftp
 
+git:
+  lfs_skip_smudge: true
+
 # Separate different test suites
 env:
-  matrix:
-    # PDO Mysql
-    - TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
-    # Javascript tests
-    - TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
-    # All tests after another
-    - TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-first-half-only"
-    - TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-second-half-only"
-    - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
-    - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
   global:
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR
     - SKIP_INSTALL_MYSQL_56=1
@@ -54,39 +39,45 @@ env:
 
 matrix:
   fast_finish: true
-  exclude:
-    # Run test suites separately only on PHP 5.6 with PDO
-    - php: 5.5
+  include:
+    # PDO Mysql
+    - php: 5.6
       env: TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.5
+      sudo: required
+    - php: 5.6
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
-    - php: 5.5
+      sudo: required
+    - php: 5.6
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
-    # run UI tests on PHP 5.5 only
+      sudo: false
+    # Javascript tests
     - php: 5.6
-      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
-    - php: 5.6
-      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
-    # run all tests not on PHP 5.6 and run MySQLI tests only on 5.6
-    - php: 5.5
-      env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-first-half-only"
-    - php: 5.5
-      env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-second-half-only"
-    # Javascript tests need to run only on one PHP version
-    - php: 5.5
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
-    # AngularJS tests need to run only on one PHP version
-    - php: 5.5
+      sudo: false
+    - php: 5.6
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
+      sudo: false
+    # All tests after another
+    - php: 5.6
+      env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-first-half-only"
+      sudo: required
+    - php: 5.6
+      env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-second-half-only"
+      sudo: required
+    # UITests use a specific version because the default 5.5 (== 5.5.38) is missing FreeType support
+    - php: 5.5.33
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-first-half-only"
+      sudo: false
+    - php: 5.5.33
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL UITEST_EXTRA_OPTIONS="--run-second-half-only"
+      sudo: false
 
-sudo: required
+dist: trusty
 
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
 before_install:
-  # do not use the Zend allocator on PHP 5.3 since it will randomly segfault after program execution
-  - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
-  - ./tests/travis/install_git_lfs.sh
+  - . ./tests/travis/install_git_lfs.sh
 
 install:
   - git fetch -q
@@ -95,9 +86,6 @@ install:
   - '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
 
   - ./tests/travis/configure_git.sh
-
-  # disable tls for php 5.3 as openssl isn't available
-  - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && composer config -g -- disable-tls true || true'
 
   # travis now complains about this failing 9 times out of 10, so removing it
   #- travis_retry composer self-update
@@ -115,12 +103,7 @@ before_script:
   - echo "opcache.enable=0" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # make tmpfs and run MySQL on it for reasonnable performance
-  - sudo mkdir /mnt/ramdisk
-  - sudo mount -t tmpfs -o size=1024m tmpfs /mnt/ramdisk
-  - sudo stop mysql
-  - sudo mv /var/lib/mysql /mnt/ramdisk
-  - sudo ln -s /mnt/ramdisk/mysql /var/lib/mysql
-  - sudo start mysql
+  - ./tests/travis/setup_mysql_tmpfs.sh
 
   # print out mysql information
   - mysql --version
@@ -145,7 +128,7 @@ before_script:
 
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
-  - if [[ "$TRAVIS_PHP_VERSION" != 5.3* ]]; then ./tests/travis/install_phantomjs.sh; export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH; fi
+  - ./tests/travis/install_phantomjs.sh; export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH;
 
   - cd tests/PHPUnit
 
@@ -169,6 +152,8 @@ after_success:
 cache:
   directories:
     - "travis_phantomjs"
+
+
 
 
 

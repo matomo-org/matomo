@@ -2,6 +2,7 @@
     "VisitTime": {
         "ColumnServerTime": "Vrijeme servera",
         "LocalTime": "Posjete po lokalnom vremenu",
+        "NHour": "%s h",
         "WidgetServerTime": "Posjete po vremenu servera"
     }
 }

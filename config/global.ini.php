@@ -1,7 +1,7 @@
 ; <?php exit; ?> DO NOT REMOVE THIS LINE
 ; If you want to change some of these default values, the best practise is to override
 ; them in your configuration file in config/config.ini.php. If you directly edit this file,
-; you will lose your changes when you upgrade Piwik.
+; you will lose your changes when you upgrade Matomo.
 ; For example if you want to override action_title_category_delimiter,
 ; edit config/config.ini.php and add the following:
 ; [General]
@@ -37,9 +37,9 @@ ssl_ca_path =
 ssl_cipher =
 ; Database SSL Options END
 
-; if charset is set to utf8, Piwik will ensure that it is storing its data using UTF8 charset.
+; if charset is set to utf8, Matomo will ensure that it is storing its data using UTF8 charset.
 ; it will add a sql query SET at each page view.
-; Piwik should work correctly without this setting but we recommend to have a charset set.
+; Matomo should work correctly without this setting but we recommend to have a charset set.
 charset = utf8
 
 [database_tests]
@@ -62,7 +62,7 @@ ssl_cipher =
 
 [tests]
 ; needed in order to run tests.
-; if Piwik is available at http://localhost/dev/piwik/ replace @REQUEST_URI@ with /dev/piwik/
+; if Matomo is available at http://localhost/dev/matomo/ replace @REQUEST_URI@ with /dev/matomo/
 ; note: the REQUEST_URI should not contain "plugins" or "tests" in the PATH
 http_host   = localhost
 remote_addr = "127.0.0.1"
@@ -98,7 +98,7 @@ logger_file_path = tmp/logs/piwik.log
 ; 'array' will cache data only during one request
 ; 'null' will not cache anything at all
 ; 'file' will cache on the filesystem
-; 'redis' will cache on a Redis server, use this if you are running Piwik with multiple servers. Further configuration in [RedisCache] is needed
+; 'redis' will cache on a Redis server, use this if you are running Matomo with multiple servers. Further configuration in [RedisCache] is needed
 ; 'chained' will chain multiple cache backends. Further configuration in [ChainedCache] is needed
 backend = chained
 
@@ -153,14 +153,13 @@ enabled = 0
 
 ; if set to 1, javascript files will be included individually and neither merged nor minified.
 ; this option must be set to 1 when adding, removing or modifying javascript files
-; Note that for quick debugging, instead of using below setting, you can add `&disable_merged_assets=1` to the Piwik URL
+; Note that for quick debugging, instead of using below setting, you can add `&disable_merged_assets=1` to the Matomo URL
 disable_merged_assets = 0
 
 [General]
-
 ; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
-; year and range periods are disabled by default, to ensure optimal performance for high traffic Piwik instances
-; if you set it to 1 and want the Unique Visitors to be re-processed for reports in the past, drop all piwik_archive_* tables
+; year and range periods are disabled by default, to ensure optimal performance for high traffic Matomo instances
+; if you set it to 1 and want the Unique Visitors to be re-processed for reports in the past, drop all matomo_archive_* tables
 ; it is recommended to always enable Unique Visitors and Unique Users processing for 'day' periods
 enable_processing_unique_visitors_day = 1
 enable_processing_unique_visitors_week = 1
@@ -173,7 +172,7 @@ enable_processing_unique_visitors_range = 0
 ; would still only be counted as one. only relevant when using plugins that group sites together
 enable_processing_unique_visitors_multiple_sites = 0
 
-; The list of periods that are available in the Piwik calendar
+; The list of periods that are available in the Matomo calendar
 ; Example use case: custom date range requests are processed in real time,
 ; so they may take a few minutes on very high traffic website: you may remove "range" below to disable this period
 enabled_periods_UI = "day,week,month,year,range"
@@ -187,7 +186,7 @@ segments_subquery_cache_limit  = 100000
 ; TTL: Time to live for cache files, in seconds. Default to 60 minutes
 segments_subquery_cache_ttl  = 3600
 
-; when set to 1, all requests to Piwik will return a maintenance message without connecting to the DB
+; when set to 1, all requests to Matomo will return a maintenance message without connecting to the DB
 ; this is useful when upgrading using the shell command, to prevent other users from accessing the UI while Upgrade is in progress
 maintenance_mode = 0
 
@@ -205,7 +204,7 @@ action_title_category_delimiter = /
 
 ; the maximum url category depth to track. if this is set to 2, then a url such as
 ; "example.com/blog/development/first-post" would be treated as "example.com/blog/development".
-; this setting is used mainly to limit the amount of data that is stored by Piwik.
+; this setting is used mainly to limit the amount of data that is stored by Matomo.
 action_category_level_limit = 10
 
 ; minimum number of websites to run autocompleter
@@ -239,7 +238,7 @@ browser_archiving_disabled_enforce = 0
 enable_create_realtime_segments = 1
 
 ; Whether to enable the "Suggest values for segment" in the Segment Editor panel.
-; Set this to 0 in case your Piwik database is very big, and suggested values may not appear in time
+; Set this to 0 in case your Matomo database is very big, and suggested values may not appear in time
 enable_segment_suggested_values = 1
 
 ; By default, any user with a "view" access for a website can create segment assigned to this website.
@@ -250,7 +249,7 @@ adding_segment_requires_access = "view"
 
 ; Whether it is allowed for users to add segments that affect all websites or not. If there are many websites
 ; this admin option can be used to prevent users from performing an action that will have a major impact
-; on Piwik performance.
+; on Matomo performance.
 allow_adding_segments_for_all_websites = 1
 
 ; When archiving segments for the first time, this determines the oldest date that will be archived.
@@ -266,7 +265,7 @@ process_new_segments_from = "beginning_of_time"
 ; it is useful to have an actual string to write in the UI
 action_default_name = index
 
-; default language to use in Piwik
+; default language to use in Matomo
 default_language = en
 
 ; default number of elements in the datatable
@@ -288,7 +287,7 @@ API_datatable_default_limit = 100
 datatable_export_range_as_day = "rss"
 
 ; This setting is overridden in the UI, under "User Settings".
-; The date and period loaded by Piwik uses the defaults below. Possible values: yesterday, today.
+; The date and period loaded by Matomo uses the defaults below. Possible values: yesterday, today.
 default_day = yesterday
 ; Possible values: day, week, month, year.
 default_period = day
@@ -298,24 +297,38 @@ default_period = day
 ; This setting is only used if it hasn't been overriden via the UI yet, or if enable_general_settings_admin=0
 time_before_today_archive_considered_outdated = 150
 
+; Time in seconds after which an archive will be computed again. This setting is used only for week's statistics.
+; If set to "-1" (default), it will fall back to the UI setting under "General settings" unless enable_general_settings_admin=0
+; is set. In this case it will default to "time_before_today_archive_considered_outdated";
+time_before_week_archive_considered_outdated = -1
+
+; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to monthly archives
+time_before_month_archive_considered_outdated = -1
+
+; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to yearly archives
+time_before_year_archive_considered_outdated = -1
+
+; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to range archives
+time_before_range_archive_considered_outdated = -1
+
 ; This setting is overriden in the UI, under "General Settings".
-; The default value is to allow browsers to trigger the Piwik archiving process.
+; The default value is to allow browsers to trigger the Matomo archiving process.
 ; This setting is only used if it hasn't been overridden via the UI yet, or if enable_general_settings_admin=0
 enable_browser_archiving_triggering = 1
 
-; By default, Piwik will force archiving of range periods from browser requests, even if enable_browser_archiving_triggering
+; By default, Matomo will force archiving of range periods from browser requests, even if enable_browser_archiving_triggering
 ; is set to 0. This can sometimes create too much of a demand on system resources. Setting this option to 0 and
 ; disabling browser trigger archiving will make sure ranges are not archived on browser request. Since the cron
 ; archiver does not archive any custom date ranges, you must either disable range (using enabled_periods_API and enabled_periods_UI)
 ; or make sure the date ranges users' want to see will be processed somehow.
 archiving_range_force_on_browser_request = 1
 
-; By default Piwik runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
-; If your Piwik tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
+; By default Matomo runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
+; If your Matomo tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
 ; so you can disable these special queries here:
 enable_sql_optimize_queries = 1
 
-; By default Piwik is purging complete date range archives to free spaces after deleting some data.
+; By default Matomo is purging complete date range archives to free spaces after deleting some data.
 ; If you are pre-processing custom ranges using CLI task to make them easily available in UI,
 ; you can prevent this action from happening by setting this parameter to value bigger than 1
 purge_date_range_archives_after_X_days = 1
@@ -327,30 +340,30 @@ minimum_mysql_version = 4.1
 ; PostgreSQL minimum required version
 minimum_pgsql_version = 8.3
 
-; Minimum advised memory limit in php.ini file (see memory_limit value)
+; Minimum advised memory limit in Mb in php.ini file (see memory_limit value)
 ; Set to "-1" to always use the configured memory_limit value in php.ini file.
 minimum_memory_limit = 128
 
-; Minimum memory limit enforced when archived via ./console core:archive
+; Minimum memory limit in Mb enforced when archived via ./console core:archive
 ; Set to "-1" to always use the configured memory_limit value in php.ini file.
 minimum_memory_limit_when_archiving = 768
 
-; Piwik will check that usernames and password have a minimum length, and will check that characters are "allowed"
-; This can be disabled, if for example you wish to import an existing User database in Piwik and your rules are less restrictive
+; Matomo will check that usernames and password have a minimum length, and will check that characters are "allowed"
+; This can be disabled, if for example you wish to import an existing User database in Matomo and your rules are less restrictive
 disable_checks_usernames_attributes = 0
 
-; Piwik will use the configured hash algorithm where possible.
+; Matomo will use the configured hash algorithm where possible.
 ; For legacy data, fallback or non-security scenarios, we use md5.
 hash_algorithm = whirlpool
 
-; by default, Piwik uses PHP's built-in file-based session save handler with lock files.
+; by default, Matomo uses PHP's built-in file-based session save handler with lock files.
 ; For clusters, use dbtable.
 session_save_handler = files
 
-; If set to 1, Piwik will automatically redirect all http:// requests to https://
-; If SSL / https is not correctly configured on the server, this will break Piwik
+; If set to 1, Matomo will automatically redirect all http:// requests to https://
+; If SSL / https is not correctly configured on the server, this will break Matomo
 ; If you set this to 1, and your SSL configuration breaks later on, you can always edit this back to 0
-; it is recommended for security reasons to always use Piwik over https
+; it is recommended for security reasons to always use Matomo over https
 force_ssl = 0
 
 ; login cookie name
@@ -361,23 +374,40 @@ login_cookie_name = piwik_auth
 login_cookie_expire = 1209600
 
 ; The path on the server in which the cookie will be available on.
-; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
+; Defaults to empty. See spec in https://curl.haxx.se/rfc/cookie_spec.html
 login_cookie_path =
 
 ; email address that appears as a Sender in the password recovery email
-; if specified, {DOMAIN} will be replaced by the current Piwik domain
+; if specified, {DOMAIN} will be replaced by the current Matomo domain
 login_password_recovery_email_address = "password-recovery@{DOMAIN}"
 ; name that appears as a Sender in the password recovery email
-login_password_recovery_email_name = Piwik
+login_password_recovery_email_name = Matomo
 
 ; email address that appears as a Reply-to in the password recovery email
-; if specified, {DOMAIN} will be replaced by the current Piwik domain
+; if specified, {DOMAIN} will be replaced by the current Matomo domain
 login_password_recovery_replyto_email_address = "no-reply@{DOMAIN}"
 ; name that appears as a Reply-to in the password recovery email
 login_password_recovery_replyto_email_name = "No-reply"
 
-; By default when user logs out he is redirected to Piwik "homepage" usually the Login form.
-; Uncomment the next line to set a URL to redirect the user to after he logs out of Piwik.
+; When configured, only users from a configured IP can log into your Matomo. You can define one or multiple
+; IPv4, IPv6, and IP ranges. This whitelist also affects API requests unless you disabled it via the setting
+; "login_whitelist_apply_to_reporting_api_requests" below. Note that neither this setting, nor the
+; "login_whitelist_apply_to_reporting_api_requests" restricts authenticated tracking requests (tracking requests
+; with a "token_auth" URL parameter).
+;
+; Examples:
+; login_whitelist_ip[] = 204.93.240.*
+; login_whitelist_ip[] = 204.93.177.0/24
+; login_whitelist_ip[] = 199.27.128.0/21
+; login_whitelist_ip[] = 2001:db8::/48
+
+; By default, if a whitelisted IP address is specified via "login_whitelist_ip[]", the reporting user interface as
+; well as HTTP Reporting API requests will only work for these whitelisted IPs.
+; Set this setting to "0" to allow HTTP Reporting API requests from any IP address.
+login_whitelist_apply_to_reporting_api_requests = 1
+
+; By default when user logs out they are redirected to Matomo "homepage" usually the Login form.
+; Uncomment the next line to set a URL to redirect the user to after they log out of Matomo.
 ; login_logout_url = http://...
 
 ; Set to 1 to disable the framebuster on standard Non-widgets pages (a click-jacking countermeasure).
@@ -399,7 +429,7 @@ noreply_email_name = ""
 
 ; feedback email address;
 ; when testing, use your own email address or "nobody"
-feedback_email_address = "feedback@piwik.org"
+feedback_email_address = "feedback@matomo.org"
 
 ; using to set reply_to in reports e-mail to login of report creator
 scheduled_reports_replyto_is_user_email_and_alias = 0
@@ -409,7 +439,7 @@ scheduled_reports_replyto_is_user_email_and_alias = 0
 ; 23 rows table fits in one portrait page
 scheduled_reports_truncate = 23
 
-; during archiving, Piwik will limit the number of results recorded, for performance reasons
+; during archiving, Matomo will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referrers tables (keywords, search engines, campaigns, etc.)
 datatable_archiving_maximum_rows_referrers = 1000
 ; maximum number of rows for any of the Referrers subtable (search engines by keyword, keyword by campaign, etc.)
@@ -456,23 +486,31 @@ live_widget_refresh_after_seconds = 5
 ; the widget looks in.
 live_widget_visitor_count_last_minutes = 3
 
+; by default visitor profile will show aggregated information for the last up to 100 visits of a visitor
+; this limit can be adjusted by changing this value
+live_visitor_profile_max_visits_to_aggregate = 100
+
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
 ; the page will automatically refresh every 5 minutes. Set to 0 to disable automatic refresh
 multisites_refresh_after_seconds = 300
 
-; Set to 1 if you're using https on your Piwik server and Piwik can't detect it,
+; by default, an update notification for a new version of Matomo is shown to every user. Set to 1 if only
+; the superusers should see the notification.
+show_update_notification_to_superusers_only = 0
+
+; Set to 1 if you're using https on your Matomo server and Matomo can't detect it,
 ; e.g., a reverse proxy using https-to-http, or a web server that doesn't
 ; set the HTTPS environment variable.
 assume_secure_protocol = 0
 
-; Set to 1 if you're using more than one server for your Piwik installation. For example if you are using Piwik in a
+; Set to 1 if you're using more than one server for your Matomo installation. For example if you are using Matomo in a
 ; load balanced environment, if you have configured failover or if you're just using multiple servers in general.
 ; By enabling this flag we will for example not allow the installation of a plugin via the UI as a plugin would be only
 ; installed on one server or a config one change would be only made on one server instead of all servers.
 multi_server_environment = 0
 
 ; List of proxy headers for client IP addresses
-; Piwik will determine the user IP by extracting the first IP address found in this proxy header.
+; Matomo will determine the user IP by extracting the first IP address found in this proxy header.
 ;
 ; CloudFlare (CF-Connecting-IP)
 ;proxy_client_headers[] = HTTP_CF_CONNECTING_IP
@@ -497,7 +535,11 @@ multi_server_environment = 0
 ;proxy_ips[] = 199.27.128.0/21
 ;proxy_ips[] = 173.245.48.0/20
 
-; Whether to enable trusted host checking. This can be disabled if you're running Piwik
+; Set to 1 if you're using a proxy which is rewriting the URI.
+; By enabling this flag the header HTTP_X_FORWARDED_URI will be considered for the current script name.
+proxy_uri_header = 0
+
+; Whether to enable trusted host checking. This can be disabled if you're running Matomo
 ; on several URLs and do not wish to constantly edit the trusted host list.
 enable_trusted_host_check = 1
 
@@ -508,7 +550,7 @@ enable_trusted_host_check = 1
 ;trusted_hosts[] = stats.example.com
 
 ; List of Cross-origin resource sharing domains (eg domain or subdomain names) when generating absolute URLs.
-; Described here: http://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+; Described here: https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
 ;
 ; Examples:
 ;cors_domains[] = http://example.com
@@ -517,19 +559,19 @@ enable_trusted_host_check = 1
 ; Or you may allow cross domain requests for all domains with:
 ;cors_domains[] = *
 
-; If you use this Piwik instance over multiple hostnames, Piwik will need to know
-; a unique instance_id for this instance, so that Piwik can serve the right custom logo and tmp/* assets,
-; independently of the hostname Piwik is currently running under.
+; If you use this Matomo instance over multiple hostnames, Matomo will need to know
+; a unique instance_id for this instance, so that Matomo can serve the right custom logo and tmp/* assets,
+; independently of the hostname Matomo is currently running under.
 ; instance_id = stats.example.com
 
-; The API server is an essential part of the Piwik infrastructure/ecosystem to
-; provide services to Piwik installations, e.g., getLatestVersion and
+; The API server is an essential part of the Matomo infrastructure/ecosystem to
+; provide services to Matomo installations, e.g., getLatestVersion and
 ; subscribeNewsletter.
-api_service_url = http://api.piwik.org
+api_service_url = http://api.matomo.org
 
 ; When the ImageGraph plugin is activated, report metadata have an additional entry : 'imageGraphUrl'.
 ; This entry can be used to request a static graph for the requested report.
-; When requesting report metadata with $period=range, Piwik needs to translate it to multiple periods for evolution graphs.
+; When requesting report metadata with $period=range, Matomo needs to translate it to multiple periods for evolution graphs.
 ; eg. $period=range&date=previous10 becomes $period=day&date=previous10. Use this setting to override the $period value.
 graphs_default_period_to_plot_when_period_range = day
 
@@ -549,10 +591,14 @@ enable_custom_logo_check = 1
 
 ; If php is running in a chroot environment, when trying to import CSV files with createTableFromCSVFile(),
 ; Mysql will try to load the chrooted path (which is incomplete). To prevent an error, here you can specify the
-; absolute path to the chroot environment. eg. '/path/to/piwik/chrooted/'
+; absolute path to the chroot environment. eg. '/path/to/matomo/chrooted/'
 absolute_chroot_path =
 
-; In some rare cases it may be useful to explicitely tell Piwik not to use LOAD DATA INFILE
+; The path (relative to the Matomo directory) in which Matomo temporary files are stored.
+; Defaults to ./tmp (the tmp/ folder inside the Matomo directory)
+tmp_path = "/tmp"
+
+; In some rare cases it may be useful to explicitely tell Matomo not to use LOAD DATA INFILE
 ; This may for example be useful when doing Mysql AWS replication
 enable_load_data_infile = 1
 
@@ -560,6 +606,14 @@ enable_load_data_infile = 1
 ; - links to Enable/Disable/Uninstall plugins will be hidden and disabled
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
 enable_plugins_admin = 1
+
+; By setting this option to 1, it will be possible for Super Users to upload Matomo plugin ZIP archives directly in Matomo Administration.
+; Enabling this opens a remote code execution vulnerability where
+; an attacker who gained Super User access could execute custom PHP code in a Matomo plugin.
+enable_plugin_upload = 0
+
+; By setting this option to 0 (e.g. in common.config.ini.php) the installer will be disabled.
+enable_installer = 1
 
 ; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
 enable_geolocation_admin = 1
@@ -574,12 +628,21 @@ enable_delete_old_data_settings_admin = 1
 ; - "Email server settings"
 enable_general_settings_admin = 1
 
+; Disabling this will disable features like automatic updates for Matomo,
+; its plugins and components like the GeoIP database, referrer spam blacklist or search engines and social network definitions
+enable_internet_features = 1
+
 ; By setting this option to 0, it will disable the "Auto update" feature
 enable_auto_update = 1
 
 ; By setting this option to 0, no emails will be sent in case of an available core.
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
+
+
+
+; Comma separated list of plugin names for which console commands should be loaded (applies when Matomo is not installed yet)
+always_load_commands_from_plugin=
 
 ; This controls whether the pivotBy query parameter can be used with any dimension or just subtable
 ; dimensions. If set to 1, it will fetch a report with a segment for each row of the table being pivoted.
@@ -592,19 +655,19 @@ pivot_by_filter_enable_fetch_by_segment = 0
 ; on a per-request basis;
 pivot_by_filter_default_column_limit = 10
 
-; If set to 0 it will disable advertisements for providers of Professional Support for Piwik.
+; If set to 0 it will disable advertisements for providers of Professional Support for Matomo.
 piwik_professional_support_ads_enabled = 1
 
 [Tracker]
 
-; Piwik uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Piwik,
-; Piwik will create for this user a fingerprint that will be different across the multiple websites.
+; Matomo uses "Privacy by default" model. When one of your users visit multiple of your websites tracked in this Matomo,
+; Matomo will create for this user a fingerprint that will be different across the multiple websites.
 ; If you want to track unique users across websites (for example when using the InterSites plugin) you may set this setting to 1.
 ; Note: setting this to 0 increases your users' privacy.
 enable_fingerprinting_across_websites = 0
 
-; Piwik uses first party cookies by default. If set to 1,
-; the visit ID cookie will be set on the Piwik server domain as well
+; Matomo uses first party cookies by default. If set to 1,
+; the visit ID cookie will be set on the Matomo server domain as well
 ; this is useful when you want to do cross websites analysis
 use_third_party_id_cookie = 0
 
@@ -618,7 +681,7 @@ debug = 0
 ; see the log output as well.
 debug_on_demand = 0
 
-; This setting is described in this FAQ: http://piwik.org/faq/how-to/faq_175/
+; This setting is described in this FAQ: https://matomo.org/faq/how-to/faq_175/
 ; Note: generally this should only be set to 1 in an intranet setting, where most users have the same configuration (browsers, OS)
 ; and the same IP. If left to 0 in this setting, all visitors will be counted as one single visitor.
 trust_visitors_cookies = 0
@@ -627,12 +690,12 @@ trust_visitors_cookies = 0
 ; This is used only if use_third_party_id_cookie = 1
 cookie_name = _pk_uid
 
-; by default, the Piwik tracking cookie expires in 13 months (365 + 28 days)
+; by default, the Matomo tracking cookie expires in 13 months (365 + 28 days)
 ; This is used only if use_third_party_id_cookie = 1
 cookie_expire = 33955200;
 
 ; The path on the server in which the cookie will be available on.
-; Defaults to empty. See spec in http://curl.haxx.se/rfc/cookie_spec.html
+; Defaults to empty. See spec in https://curl.haxx.se/rfc/cookie_spec.html
 ; This is used for the Ignore cookie, and the third party cookie if use_third_party_id_cookie = 1
 cookie_path =
 
@@ -640,7 +703,7 @@ cookie_path =
 record_statistics = 1
 
 ; length of a visit in seconds. If a visitor comes back on the website visit_standard_length seconds
-; after his last page view, it will be recorded as a new visit. In case you are using the Piwik JavaScript tracker to
+; after their last page view, it will be recorded as a new visit. In case you are using the Matomo JavaScript tracker to
 ; calculate the visit count correctly, make sure to call the method "setSessionCookieTimeout" eg
 ; `_paq.push(['setSessionCookieTimeout', timeoutInSeconds=1800])`
 visit_standard_length = 1800
@@ -655,17 +718,17 @@ window_look_back_for_visitor = 0
 default_time_one_page_visit = 0
 
 ; Comma separated list of URL query string variable names that will be removed from your tracked URLs
-; By default, Piwik will remove the most common parameters which are known to change often (eg. session ID parameters)
-url_query_parameter_to_exclude_from_url = "gclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid"
+; By default, Matomo will remove the most common parameters which are known to change often (eg. session ID parameters)
+url_query_parameter_to_exclude_from_url = "gclid,fb_xd_fragment,fb_comment_id,phpsessid,jsessionid,sessionid,aspsessionid,doing_wp_cron,sid,pk_vid"
 
-; if set to 1, Piwik attempts a "best guess" at the visitor's country of
+; if set to 1, Matomo attempts a "best guess" at the visitor's country of
 ; origin when the preferred language tag omits region information.
 ; The mapping is defined in core/DataFiles/LanguageToCountry.php,
 enable_language_to_country_guess = 1
 
 ; When the `./console core:archive` cron hasn't been setup, we still need to regularly run some maintenance tasks.
 ; Visits to the Tracker will try to trigger Scheduled Tasks (eg. scheduled PDF/HTML reports by email).
-; Scheduled tasks will only run if 'Enable Piwik Archiving from Browser' is enabled in the General Settings.
+; Scheduled tasks will only run if 'Enable Matomo Archiving from Browser' is enabled in the General Settings.
 ; Tasks run once every hour maximum, they might not run every hour if traffic is low.
 ; Set to 0 to disable Scheduled tasks completely.
 scheduled_tasks_min_interval = 3600
@@ -694,7 +757,7 @@ create_new_visit_when_campaign_changes = 1
 ; absent before, but is present now.
 create_new_visit_when_website_referrer_changes = 0
 
-; ONLY CHANGE THIS VALUE WHEN YOU DO NOT USE PIWIK ARCHIVING, SINCE THIS COULD CAUSE PARTIALLY MISSING ARCHIVE DATA
+; ONLY CHANGE THIS VALUE WHEN YOU DO NOT USE MATOMO ARCHIVING, SINCE THIS COULD CAUSE PARTIALLY MISSING ARCHIVE DATA
 ; Whether to force a new visit at midnight for every visitor. Default 1.
 create_new_visit_after_midnight = 1
 
@@ -712,12 +775,17 @@ bulk_requests_require_authentication = 0
 ; This greatly increases performance of Log Analytics and in general any Bulk Tracking API requests.
 bulk_requests_use_transaction = 1
 
-; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER
-; !!! Security risk: if set to 0, it would allow anyone to push data to Piwik with custom dates in the past/future and even with fake IPs!
+; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE MATOMO SERVER
+; !!! Security risk: if set to 0, it would allow anyone to push data to Matomo with custom dates in the past/future and even with fake IPs!
 ; When using the Tracking API, to override either the datetime and/or the visitor IP,
 ; token_auth with an "admin" access is required. If you set this setting to 0, the token_auth will not be required anymore.
-; DO NOT USE THIS SETTING ON PUBLIC PIWIK SERVERS
+; DO NOT USE THIS SETTING ON PUBLIC MATOMO SERVERS
 tracking_requests_require_authentication = 1
+
+; By default, Matomo accepts only tracking requests for up to 1 day in the past. For tracking requests with a custom date
+; date is older than 1 day, Matomo requires an authenticated tracking requests. By setting this config to another value
+; You can change how far back Matomo will track your requests without authentication. The configured value is in seconds.
+tracking_requests_require_authentication_when_custom_timestamp_newer_than = 86400;
 
 [Segments]
 ; Reports with segmentation in API requests are processed in real time.
@@ -772,7 +840,7 @@ username = ; Proxy username: optional; if specified, password is mandatory
 password = ; Proxy password: optional; if specified, username is mandatory
 
 [Plugins]
-; list of plugins (in order they will be loaded) that are activated by default in the Piwik platform
+; list of plugins (in order they will be loaded) that are activated by default in the Matomo platform
 Plugins[] = CorePluginsAdmin
 Plugins[] = CoreAdminHome
 Plugins[] = CoreHome
@@ -848,7 +916,7 @@ PluginsInstalled[] = Intl
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
 ; index.php?module=API&method=API.getSettings
-; This can be used to expose values from Piwik, to control for example a Mobile app tracking
+; This can be used to expose values from Matomo, to control for example a Mobile app tracking
 SDK_batch_size = 10
 SDK_interval_value = 30
 

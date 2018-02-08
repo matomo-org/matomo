@@ -1,0 +1,8 @@
+{
+    "Diagnostics": {
+        "ConfigFileTitle": "Plik konfiguracyjny",
+        "ConfigFileIntroduction": "Tu możesz zobaczyć konfigurację Piwik'a. Jeśli Matomo został uruchomiony na środowisku z load balancer'em strona może wyświetlać różne dane w zależności od serwera, który ją wygenerował. Rzędy z innym kolorem tła zawierają inne dane niż te zawarte w przykładowym %1$s pliku.",
+        "HideUnchanged": "W celu zobaczenia tylko zmienionych wartości %1$sukryj niezmienione wartości%2$s.",
+        "Sections": "Sekcje"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "CustomPiwikJs": {
+        "PluginDescription": "Pozwala dowolnej wtyczce rozszerzyć JavaScript'owy plik Śledzenia Matomo (piwik.js) i dodać nowe funkcjonalności i możliwości mierzenia serwisu.",
+        "DiagnosticPiwikJsWritable": "Zapisywalny Traker JavaScript (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "Matomo nie ma uprawnień do zapisu w JavaScript'owym pliku \"\/piwik.js\", co oznacza, że pozostałe wtyczki nie mają możliwości rozszerzenia trakera. W przyszłości ta sytuacja może także dotyczyć podstawowych funkcjonalności aplikacji.",
+        "DiagnosticPiwikJsMakeWritable": "Sugerujemy uczynić plik piwik.js zapisywalnym poprzez wywołanie następującej komendy: %s"
+    }
+}

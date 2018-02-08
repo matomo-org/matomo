@@ -20,7 +20,7 @@ class GetKeywordsFromCampaignId extends Base
         $this->dimension     = new Keyword();
         $this->name          = Piwik::translate('Referrers_Campaigns');
         $this->documentation = Piwik::translate('Referrers_CampaignsReportDocumentation',
-                               array('<br />', '<a href="http://piwik.org/docs/tracking-campaigns/" rel="noreferrer"  target="_blank">', '</a>'));
+                               array('<br />', '<a href="https://matomo.org/docs/tracking-campaigns/" rel="noreferrer"  target="_blank">', '</a>'));
         $this->isSubtableReport = true;
         $this->order = 10;
     }

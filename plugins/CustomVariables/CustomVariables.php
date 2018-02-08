@@ -20,10 +20,11 @@ class CustomVariables extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'Live.getAllVisitorDetails'       => 'extendVisitorDetails',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
+            'Dimension.addDimensions' => 'addDimensions',
+            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
         );
     }
 
@@ -37,22 +38,22 @@ class CustomVariables extends \Piwik\Plugin
         Model::uninstall();
     }
 
-    public function extendVisitorDetails(&$visitor, $details)
+    public function addDimensions(&$instances)
     {
-        $customVariables = array();
+        foreach (Model::getScopes() as $scope) {
+            $model = new Model($scope);
+            try {
+                $highestIndex = $model->getHighestCustomVarIndex();
+            } catch (\Exception $e) {
+                continue; // ignore error for tests to work as this might be executed before Piwik tables are installed
+            }
 
-        $maxCustomVariables = self::getNumUsableCustomVariables();
-
-        for ($i = 1; $i <= $maxCustomVariables; $i++) {
-            if (!empty($details['custom_var_k' . $i])) {
-                $customVariables[$i] = array(
-                    'customVariableName' .  $i => $details['custom_var_k' . $i],
-                    'customVariableValue' . $i => $details['custom_var_v' . $i],
-                );
+            foreach (range(1, $highestIndex) as $index) {
+                $custom = new CustomDimension();
+                $custom->initCustomDimension($index, $model);
+                $instances[] = $custom;
             }
         }
-
-        $visitor['customVariables'] = $customVariables;
     }
 
     /**
@@ -136,4 +137,13 @@ class CustomVariables extends \Piwik\Plugin
         $jsFiles[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.directive.js";
     }
 
+    public function provideActionDimensionFields(&$fields, &$joins)
+    {
+        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
+
+        for ($i = 1; $i <= $maxCustomVariables; $i++) {
+            $fields[] = 'custom_var_k' . $i;
+            $fields[] = 'custom_var_v' . $i;
+        }
+    }
 }

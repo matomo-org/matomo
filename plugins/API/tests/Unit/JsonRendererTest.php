@@ -356,9 +356,6 @@ class JsonRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertNoJsonError($actual);
     }
 
-    /**
-     * backwards compatibility test
-     */
     public function test_oldJson_renderArray_ShouldConvertSingleDimensionalAssociativeArray()
     {
         $input = array(

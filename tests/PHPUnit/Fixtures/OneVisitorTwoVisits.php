@@ -13,6 +13,7 @@ use Piwik\Db;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tracker\Cache;
 
 /**
  * This fixture adds one website and tracks two visits by one visitor.
@@ -84,7 +85,11 @@ class OneVisitorTwoVisits extends Fixture
             APISitesManager::getInstance()->setSiteSpecificUserAgentExcludeEnabled(false);
         }
 
+        self::createSuperUser();
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
+
+        Cache::clearCacheGeneral();
+        Cache::regenerateCacheWebsiteAttributes(array($idSite));
 
         if ($this->useThirdPartyCookies) {
             $t->DEBUG_APPEND_URL = '&forceUseThirdPartyCookie=1';
@@ -202,5 +207,13 @@ class OneVisitorTwoVisits extends Fixture
         self::checkResponse($t->doTrackPageView('Checkout/Purchasing...'));
         // -
         // End of second visit
+    }
+
+    /**
+     * @return string
+     */
+    public static function getValueForHideColumns()
+    {
+        return 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth';
     }
 }

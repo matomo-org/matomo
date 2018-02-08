@@ -1,5 +1,6 @@
 {
     "CoreAdminHome": {
+        "AddNewTrustedHost": "Lisa uus usaldusväärne host",
         "Administration": "Administreerimine",
         "ArchivingSettings": "Arhiveerimise seaded",
         "BrandingSettings": "Brändingu seaded",
@@ -17,14 +18,16 @@
         "LogoUpload": "Vali üleslaadimiseks Logo",
         "MenuDiagnostic": "Diagnostika",
         "MenuGeneralSettings": "Põhiseaded",
+        "MenuSystem": "Süsteem",
+        "MenuDevelopment": "Arendamine",
         "OptOutForYourVisitors": "Piwiku külastajate väljaarvamine",
         "PiwikIsInstalledAt": "Piwik on paigaldatud",
         "TrackAGoal": "Kogu infot eesmärgi kohta",
         "TrackingCode": "Jälgimiskood",
-        "TrustedHostSettings": "Usaldatud Piwiku server",
+        "TrustedHostSettings": "Usaldatud Matomou server",
         "UpdateSettings": "Uuenda seadeid",
         "UseCustomLogo": "Kasuta enda logo",
-        "ValidPiwikHostname": "Kehtiv Piwiku server (IP\/host)",
+        "ValidPiwikHostname": "Kehtiv Matomou server (IP\/host)",
         "WithOptionalRevenue": "koos valikulise tuluga",
         "YouAreOptedIn": "Sa oled valikus sees.",
         "YouAreOptedOut": "Sa oled valikust väljas."

@@ -53,7 +53,7 @@ class ArchivingHelper
                 unset($row[PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT]);
             }
 
-            if (in_array($row['type'], array(Action::TYPE_CONTENT, Action::TYPE_EVENT))) {
+            if (in_array($row['type'], array(Action::TYPE_CONTENT, Action::TYPE_EVENT, Action::TYPE_EVENT_NAME, Action::TYPE_CONTENT_PIECE, Action::TYPE_CONTENT_TARGET))) {
                 continue;
             }
 
@@ -427,7 +427,7 @@ class ArchivingHelper
      *  we explode link http://piwik.org/some/path into an array( 'some', 'path' );
      *
      * for action names:
-     *   we explode name 'Piwik / Category 1 / Category 2' into an array('Piwik', 'Category 1', 'Category 2');
+     *   we explode name 'Piwik / Category 1 / Category 2' into an array('Matomo', 'Category 1', 'Category 2');
      *
      * @param string $name action name
      * @param int $type action type

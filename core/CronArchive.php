@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archiver\Request;
 use Piwik\Container\StaticContainer;
@@ -278,11 +279,21 @@ class CronArchive
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
     }
 
+    private function isMaintenanceModeEnabled()
+    {
+        return Config::getInstance()->General['maintenance_mode'] == 1;
+    }
+
     /**
      * Initializes and runs the cron archiver.
      */
     public function main()
     {
+        if ($this->isMaintenanceModeEnabled()) {
+            $this->logger->info("Archiving won't run because maintenance mode is enabled");
+            return;
+        }
+
         $self = $this;
         Access::doAsSuperUser(function () use ($self) {
             $self->init();
@@ -352,9 +363,15 @@ class CronArchive
         $timer = new Timer;
 
         $this->logSection("START");
-        $this->logger->info("Starting Piwik reports archiving...");
+        $this->logger->info("Starting Matomo reports archiving...");
 
         do {
+
+            if ($this->isMaintenanceModeEnabled()) {
+                $this->logger->info("Archiving will stop now because maintenance mode is enabled");
+                return;
+            }
+
             $idSite = $this->websites->getNextSiteId();
 
             if (null === $idSite) {
@@ -816,9 +833,11 @@ class CronArchive
         $this->requests++;
         $this->processed++;
 
+        $shouldArchiveWithoutVisits = PluginsArchiver::doesAnyPluginArchiveWithoutVisits();
+
         // If there is no visit today and we don't need to process this website, we can skip remaining archives
         if (
-            0 == $visitsToday
+            0 == $visitsToday && !$shouldArchiveWithoutVisits
             && !$shouldArchivePeriods
         ) {
             $this->logger->info("Skipped website id $idSite, no visit today, " . $timerWebsite->__toString());
@@ -827,7 +846,7 @@ class CronArchive
             return false;
         }
 
-        if (0 == $visitsLastDays
+        if (0 == $visitsLastDays && !$shouldArchiveWithoutVisits
             && !$shouldArchivePeriods
             && $this->shouldArchiveAllSites
         ) {
@@ -977,7 +996,7 @@ class CronArchive
             if($this->makeCliMulti()->supportsAsync()) {
                 $message .= " For more information and the error message please check in your PHP CLI error log file. As this core:archive command triggers PHP processes over the CLI, you can find where PHP CLI logs are stored by running this command: php -i | grep error_log";
             } else {
-                $message .= " For more information and the error message please check your web server's error Log file. As this core:archive command triggers PHP processes over HTTP, you can find the error message in your Piwik's web server error logs. ";
+                $message .= " For more information and the error message please check your web server's error Log file. As this core:archive command triggers PHP processes over HTTP, you can find the error message in your Matomo's web server error logs. ";
             }
         } else {
             $message .= "Response was '$response'";
@@ -1014,7 +1033,7 @@ class CronArchive
     private function checkResponse($response, $url)
     {
         if (empty($response)
-            || stripos($response, 'error')
+            || stripos($response, 'error') !== false
         ) {
             return $this->logNetworkError($url, $response);
         }
@@ -1151,7 +1170,7 @@ class CronArchive
         if (count($this->idSitesInvalidatedOldReports) > 0) {
             $ids = ", IDs: " . implode(", ", $this->idSitesInvalidatedOldReports);
             $this->logger->info("- Will process " . count($this->idSitesInvalidatedOldReports)
-                . " other websites because some old data reports have been invalidated (eg. using the Log Import script) "
+                . " other websites because some old data reports have been invalidated (eg. using the Log Import script or the InvalidateReports plugin) "
                 . $ids);
         }
 
@@ -1262,7 +1281,7 @@ class CronArchive
     private function logInitInfo()
     {
         $this->logSection("INIT");
-        $this->logger->info("Running Piwik " . Version::VERSION . " as Super User");
+        $this->logger->info("Running Matomo " . Version::VERSION . " as Super User");
     }
 
     private function logArchiveTimeoutInfo()
@@ -1271,13 +1290,23 @@ class CronArchive
 
         // Recommend to disable browser archiving when using this script
         if (Rules::isBrowserTriggerEnabled()) {
-            $this->logger->info("- If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings.");
-            $this->logger->info("  See the doc at: http://piwik.org/docs/setup-auto-archiving/");
+            $this->logger->info("- If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.");
+            $this->logger->info("  See the doc at: https://matomo.org/docs/setup-auto-archiving/");
         }
         $this->logger->info("- Reports for today will be processed at most every " . $this->todayArchiveTimeToLive
-            . " seconds. You can change this value in Piwik UI > Settings > General Settings.");
-        $this->logger->info("- Reports for the current week/month/year will be refreshed at most every "
+            . " seconds. You can change this value in Matomo UI > Settings > General Settings.");
+
+        $this->logger->info("- Reports for the current week/month/year will be requested at most every "
             . $this->processPeriodsMaximumEverySeconds . " seconds.");
+
+        foreach (array('week', 'month', 'year', 'range') as $period) {
+            $ttl = Rules::getPeriodArchiveTimeToLiveDefault($period);
+
+            if (!empty($ttl) && $ttl !== $this->todayArchiveTimeToLive) {
+                $this->logger->info("- Reports for the current $period will be processed at most every " . $ttl
+                    . " seconds. You can change this value in config/config.ini.php by editing 'time_before_" . $period . "_archive_considered_outdated' in the '[General]' section.");
+            }
+        }
 
         // Try and not request older data we know is already archived
         if ($this->lastSuccessRunTimestamp !== false) {
@@ -1306,7 +1335,7 @@ class CronArchive
 
         $this->logger->info("WARNING: Automatically increasing --force-timeout-for-periods from {$this->forceTimeoutPeriod} to "
             . $this->todayArchiveTimeToLive
-            . " to match the cache timeout for Today's report specified in Piwik UI > Settings > General Settings");
+            . " to match the cache timeout for Today's report specified in Matomo UI > Settings > General Settings");
 
         return $this->todayArchiveTimeToLive;
     }
@@ -1609,7 +1638,7 @@ class CronArchive
                 // If user selected one particular website ID
                 $idSites = array($userPreferences[APIUsersManager::PREFERENCE_DEFAULT_REPORT]);
             } else {
-                // If user selected "All websites"  or some other random value, we pre-process all websites that he has access to
+                // If user selected "All websites" or some other random value, we pre-process all websites that they have access to
                 $idSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess($userLogin);
             }
 

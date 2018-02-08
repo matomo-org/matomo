@@ -4,15 +4,14 @@
         "ClicksFromXLinks": "%1$s i-click mula sa isa sa %2$s links.",
         "Domain": "Domain",
         "ErrorNotLoading": "Ang sesyon ng Page Overlay ay hindi pa mailunsad.",
-        "ErrorNotLoadingDetails": "Marahil ang pahina na naload sa kanan ay walang Piwik tracker code. Sa ganitong sitwasyon subukan mong e-launch ang overlay sa ibat-ibang pahina na nang-galing sa ulat ng mga pahina.",
-        "ErrorNotLoadingDetailsSSL": "Dahil ginagamit mo ang https sa Piwik ang pinakapang-karaniwang dahilan ay ang iyong website ay hindi suportado ang SSL. Subukang gamitin ang http sa Piwik.",
+        "ErrorNotLoadingDetails": "Marahil ang pahina na naload sa kanan ay walang Matomo tracker code. Sa ganitong sitwasyon subukan mong e-launch ang overlay sa ibat-ibang pahina na nang-galing sa ulat ng mga pahina.",
+        "ErrorNotLoadingDetailsSSL": "Dahil ginagamit mo ang https sa Piwik ang pinakapang-karaniwang dahilan ay ang iyong website ay hindi suportado ang SSL. Subukang gamitin ang http sa Matomo.",
         "ErrorNotLoadingLink": "I-click dito upang makakuha ng maraming tip sa pag-totroubleshoot.",
         "Link": "Link",
         "Location": "Lokasyon",
         "NoData": "Walang datos para sa pahinang ito sa napiling panahon.",
         "OpenFullScreen": "Mag full screen (walang sidebar)",
         "Overlay": "Page Overlay",
-        "RedirectUrlError": "Sinusubukan mo upang buksan ang Overlay ng Pahina para sa URL na \"%1$s\". %2$s Wala sa mga domains ng Piwik settings ang tugma sa link",
         "RedirectUrlErrorAdmin": "Maaari mong idagdag ang domain na karagdagang URL %1$s sa mga setting ng %2$s.",
         "RedirectUrlErrorUser": "Tanungin ang iyong administrator upang idagdag ang domain bilang isang karagdagang URL."
     }

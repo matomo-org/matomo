@@ -84,7 +84,7 @@ class Translator
         }
 
         if (count($args) == 0) {
-            return $translationId;
+            return str_replace('%%', '%', $translationId);
         }
         return vsprintf($translationId, $args);
     }
@@ -194,7 +194,7 @@ class Translator
     public function reset()
     {
         $this->currentLanguage = $this->getDefaultLanguage();
-        $this->directories = array();
+        $this->directories = array(PIWIK_INCLUDE_PATH . '/lang');
         $this->translations = array();
     }
 

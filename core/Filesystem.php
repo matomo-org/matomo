@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Cache as PiwikCache;
 
@@ -30,6 +31,12 @@ class Filesystem
         TrackerCache::deleteTrackerCache();
         PiwikCache::flushAll();
         self::clearPhpCaches();
+        
+        $pluginManager = Plugin\Manager::getInstance();
+        $plugins = $pluginManager->getLoadedPlugins();
+        foreach ($plugins as $plugin) {
+            $plugin->reloadPluginInformation();
+        }
     }
 
     /**

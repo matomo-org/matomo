@@ -11,6 +11,7 @@ namespace Piwik\Plugin;
 use Exception;
 use Piwik\Piwik;
 use Piwik\Version;
+use Piwik\Plugin;
 
 /**
  * @see core/Version.php
@@ -81,8 +82,8 @@ class MetadataLoader
         $descriptionKey = $this->pluginName . '_PluginDescription';
         return array(
             'description'      => $descriptionKey,
-            'homepage'         => 'http://piwik.org/',
-            'authors'          => array(array('name' => 'Piwik', 'homepage'  => 'http://piwik.org/')),
+            'homepage'         => 'https://matomo.org/',
+            'authors'          => array(array('name' => 'Matomo', 'homepage'  => 'https://matomo.org/')),
             'license'          => 'GPL v3+',
             'version'          => Version::VERSION,
             'theme'            => false,
@@ -90,10 +91,20 @@ class MetadataLoader
         );
     }
 
-    private function loadPluginInfoJson()
+    /**
+     * It is important that this method works without using anything from DI
+     * @return array|mixed
+     */
+    public function loadPluginInfoJson()
+    {
+        $path = $this->getPathToPluginJson();
+        return $this->loadJsonMetadata($path);
+    }
+
+    public function getPathToPluginJson()
     {
         $path = $this->getPathToPluginFolder() . '/' . self::PLUGIN_JSON_FILENAME;
-        return $this->loadJsonMetadata($path);
+        return $path;
     }
 
     private function loadJsonMetadata($path)

@@ -144,7 +144,7 @@ class CliMultiTest extends SystemTestCase
     {
         $this->cliMulti->runAsSuperUser();
         $response = $this->cliMulti->request(array($this->completeUrl('')));
-        $this->assertStringStartsWith('Error in Piwik: Error: no website was found', $response[0]);
+        $this->assertContains('Error: no website was found', $response[0]);
     }
 
     public function test_request_shouldBeAbleToRenderARegularPageInPiwik()
@@ -156,7 +156,7 @@ class CliMultiTest extends SystemTestCase
         $response = $this->cliMulti->request($urls);
 
         $message = "Response was: " . substr( implode("\n\n", $response), 0, 4000);
-        $this->assertTrue(false !== strpos($response[0], '<meta name="generator" content="Piwik - free/libre analytics platform"/>'), $message);
+        $this->assertTrue(false !== strpos($response[0], '<meta name="generator" content="Matomo - free/libre analytics platform"/>'), $message);
         $this->assertTrue(false !== strpos($response[0], 'Widgetize the full dashboard'). $message);
     }
 

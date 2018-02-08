@@ -17,21 +17,28 @@
 
         var self = this;
         this.isLoading = false;
+        this.passwordChanged = false;
 
         this.save = function () {
 
             this.isLoading = true;
 
-            piwikApi.withTokenInUrl();
-            piwikApi.post({module: 'CoreAdminHome', action: 'setMailSettings'}, {
+            var mailSettings = {
                 mailUseSmtp: this.enabled ? '1' : '0',
                 mailPort: this.mailPort,
                 mailHost: this.mailHost,
                 mailType: this.mailType,
                 mailUsername: this.mailUsername,
-                mailPassword: this.mailPassword,
-                mailEncryption: this.mailEncryption,
-            }).then(function (success) {
+                mailEncryption: this.mailEncryption
+            };
+
+            if (this.passwordChanged) {
+                mailSettings.mailPassword = this.mailPassword;
+            }
+
+            piwikApi.withTokenInUrl();
+            piwikApi.post({module: 'CoreAdminHome', action: 'setMailSettings'}, mailSettings)
+                .then(function (success) {
 
                 self.isLoading = false;
 

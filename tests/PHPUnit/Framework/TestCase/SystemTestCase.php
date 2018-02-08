@@ -121,7 +121,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     {
         if (!Fixture::canImagesBeIncludedInScheduledReports()) {
             $this->markTestSkipped(
-                'Scheduled reports generated during integration tests will not contain the image graphs. ' .
+                '(This should not occur on Travis CI server as we expect these tests to run there). Scheduled reports generated during integration tests will not contain the image graphs. ' .
                     'For tests to generate images, use a machine with the following specifications : ' .
                     'OS = '.Fixture::IMAGES_GENERATED_ONLY_FOR_OS.', PHP = '.Fixture::IMAGES_GENERATED_FOR_PHP .
                     ' and GD = ' . Fixture::IMAGES_GENERATED_FOR_GD
@@ -316,6 +316,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
             $processedResponse->save($processedFilePath);
         }
 
+        $response = $processedResponse->getResponseText();
+        if (strpos($response, '<?xml') === 0) {
+            $this->assertValidXML($response);
+        }
+
         try {
             $expectedResponse = Response::loadFromFile($expectedFilePath, $options, $requestParams);
         } catch (Exception $ex) {
@@ -331,6 +336,22 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         }
 
         $this->printApiTestFailures();
+    }
+
+    protected function assertValidXML($xml)
+    {
+        libxml_use_internal_errors(true);
+        $sxe = simplexml_load_string($xml);
+
+        if ($sxe === false) {
+            $errors = [];
+            foreach (libxml_get_errors() as $error) {
+                $errors[] = trim($error->message) . ' @' . $error->line . ':' . $error->column;
+            }
+            static::fail('Response is no valid xml: ' . implode("\n", $errors));
+        }
+
+        libxml_clear_errors();
     }
 
     /**
@@ -359,6 +380,11 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $processedResponse = Response::loadFromApi($params, $requestUrl);
         if (empty($compareAgainst)) {
             $processedResponse->save($processedFilePath);
+        }
+
+        $response = $processedResponse->getResponseText();
+        if (strpos($response, '<?xml') === 0) {
+            $this->assertValidXML($response);
         }
 
         $_GET = $originalGET;
@@ -633,28 +659,39 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                 continue;
             }
 
-            $rowsSql = array();
-            $bind = array();
             foreach ($rows as $row) {
+                $rowsSql = array();
+                $bind = array();
+
                 $values = array();
                 foreach ($row as $value) {
                     if (is_null($value)) {
                         $values[] = 'NULL';
-                    } else if (is_numeric($value)) {
-                        $values[] = $value;
-                    } else if (!ctype_print($value)) {
-                        $values[] = "x'" . bin2hex($value) . "'";
                     } else {
-                        $values[] = "?";
-                        $bind[] = $value;
+                        $isNumeric = preg_match('/^[1-9][0-9]*$/', $value);
+                        if ($isNumeric) {
+                            $values[] = $value;
+                        } else if (!ctype_print($value)) {
+                            $values[] = "x'" . bin2hex($value) . "'";
+                        } else {
+                            $values[] = "?";
+                            $bind[] = $value;
+                        }
                     }
                 }
 
                 $rowsSql[] = "(" . implode(',', $values) . ")";
+
+                $sql = "INSERT INTO `$table` VALUES " . implode(',', $rowsSql);
+                try {
+                    Db::query($sql, $bind);
+                } catch( Exception $e) {
+                    throw new Exception("error while inserting $sql into $table the data. SQl data: " . var_export($sql, true) . ", Bind array: " . var_export($bind, true) . ". Erorr was -> " . $e->getMessage());
+                }
+
             }
 
-            $sql = "INSERT INTO `$table` VALUES " . implode(',', $rowsSql);
-            Db::query($sql, $bind);
+
         }
     }
 

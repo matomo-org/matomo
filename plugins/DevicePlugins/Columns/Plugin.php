@@ -13,8 +13,5 @@ use Piwik\Piwik;
 
 class Plugin extends Dimension
 {
-    public function getName()
-    {
-        return Piwik::translate('General_Plugin');
-    }
+    protected $nameSingular = 'General_Plugin';
 }

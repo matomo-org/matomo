@@ -47,6 +47,10 @@ var hasBlockedContent = false;
             return getParams && getParams['module'] === 'API' && getParams['method'];
         }
 
+        function isWidgetizedRequest() {
+            return (broadcast.getValueFromUrl('module') == 'Widgetize');
+        }
+
         function reset () {
             getParams  = {};
             postParams = {};
@@ -164,8 +168,12 @@ var hasBlockedContent = false;
             var request = addAbortMethod(promise, deferred);
 
             allRequests.push(request);
-
-            return request;
+            return request.finally(function() {
+                var index = allRequests.indexOf(request);
+                if (index !== -1) {
+                    allRequests.splice(index, 1);
+                }
+            });
         }
 
         /**
@@ -176,7 +184,7 @@ var hasBlockedContent = false;
          * @private
          */
         function getPostParams (params) {
-            if (isRequestToApiMethod()) {
+            if (isRequestToApiMethod() || isWidgetizedRequest()) {
                 params.token_auth = piwik.token_auth;
             }
 
@@ -210,7 +218,7 @@ var hasBlockedContent = false;
             }
 
             for (var key in defaultParams) {
-                if (!getParamsToMixin[key] && !postParams[key] && defaultParams[key]) {
+                if (!(key in getParamsToMixin) && !(key in postParams) && defaultParams[key]) {
                     getParamsToMixin[key] = defaultParams[key];
                 }
             }
@@ -252,7 +260,7 @@ var hasBlockedContent = false;
                 getParams.format = 'JSON2';
             }
 
-            addParams(getParams, 'GET');
+            addParams(getParams);
 
             var promise = send(options);
 
@@ -270,6 +278,12 @@ var hasBlockedContent = false;
             }
 
             return fetch(getParams, options);
+        }
+
+        function addPostParams(_postParams_) {
+            if (_postParams_) {
+                angular.merge(postParams, _postParams_);
+            }
         }
 
         /**
@@ -319,6 +333,7 @@ var hasBlockedContent = false;
             bulkFetch: bulkFetch,
             post: post,
             fetch: fetch,
+            addPostParams: addPostParams,
             /**
              * @deprecated
              */

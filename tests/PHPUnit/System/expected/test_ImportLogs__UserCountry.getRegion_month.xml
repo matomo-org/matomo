@@ -2,28 +2,28 @@
 <result>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>31</nb_visits>
-		<nb_actions>38</nb_actions>
+		<nb_visits>36</nb_visits>
+		<nb_actions>43</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>551</sum_visit_length>
-		<bounce_count>26</bounce_count>
+		<bounce_count>31</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>27</nb_conversions>
-				<nb_visits_converted>27</nb_visits_converted>
-				<revenue>135</revenue>
+				<nb_conversions>32</nb_conversions>
+				<nb_visits_converted>32</nb_visits_converted>
+				<revenue>160</revenue>
 			</row>
 		</goals>
-		<nb_conversions>27</nb_conversions>
-		<revenue>135</revenue>
-		<sum_daily_nb_uniq_visitors>29</sum_daily_nb_uniq_visitors>
+		<nb_conversions>32</nb_conversions>
+		<revenue>160</revenue>
+		<sum_daily_nb_uniq_visitors>34</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<nb_visits_converted>0</nb_visits_converted>
 		<region>xx</region>
 		<country>xx</country>
 		<country_name>Unknown</country_name>
 		<region_name>Unknown</region_name>
-		<logo>plugins/UserCountry/images/flags/xx.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
 	</row>
 	<row>
 		<label>Virginia, United States</label>
@@ -48,7 +48,7 @@
 		<country>us</country>
 		<country_name>United States</country_name>
 		<region_name>Virginia</region_name>
-		<logo>plugins/UserCountry/images/flags/us.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 	</row>
 	<row>
 		<label>New Jersey, United States</label>
@@ -73,7 +73,7 @@
 		<country>us</country>
 		<country_name>United States</country_name>
 		<region_name>New Jersey</region_name>
-		<logo>plugins/UserCountry/images/flags/us.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 	</row>
 	<row>
 		<label>Nunavut, Canada</label>
@@ -98,7 +98,7 @@
 		<country>ca</country>
 		<country_name>Canada</country_name>
 		<region_name>Nunavut</region_name>
-		<logo>plugins/UserCountry/images/flags/ca.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 	</row>
 	<row>
 		<label>Seoul-t'ukpyolsi, South Korea</label>
@@ -123,6 +123,6 @@
 		<country>kr</country>
 		<country_name>South Korea</country_name>
 		<region_name>Seoul-t'ukpyolsi</region_name>
-		<logo>plugins/UserCountry/images/flags/kr.png</logo>
+		<logo>plugins/Morpheus/icons/dist/flags/kr.png</logo>
 	</row>
 </result>

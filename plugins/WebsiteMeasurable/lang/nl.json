@@ -2,6 +2,6 @@
     "WebsiteMeasurable": {
         "Website": "Website",
         "Websites": "Websites",
-        "WebsiteDescription": "Een website bestaat uit webpagina's die normaal geserveerd worden vanaf een enkel web domein."
+        "WebsiteDescription": "Een website bestaat normaal uit webpagina's die vanaf een enkel webdomein worden geserveerd."
     }
 }

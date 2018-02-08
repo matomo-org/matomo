@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\WebsiteMeasurable;
 use Piwik\IP;
+use Piwik\Measurable\Type\TypeManager;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -16,7 +17,6 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\Plugins\SitesManager;
 use Exception;
-use Piwik\Url;
 
 /**
  * Defines Settings for ExampleSettingsPlugin.
@@ -74,16 +74,43 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
      */
     private $pluginManager;
 
-    public function __construct(SitesManager\API $api, Plugin\Manager $pluginManager, $idSite, $idMeasurableType)
+    /**
+     * @var TypeManager
+     */
+    private $typeManager;
+
+    /**
+     * @var bool
+     */
+    private $unsetSiteSearchKeywords = false;
+
+    public function __construct(SitesManager\API $api, Plugin\Manager $pluginManager, TypeManager $typeManager, $idSite, $idMeasurableType)
     {
         $this->sitesManagerApi = $api;
         $this->pluginManager = $pluginManager;
+        $this->typeManager = $typeManager;
 
         parent::__construct($idSite, $idMeasurableType);
     }
 
+    protected function shouldShowSettingsForType($type)
+    {
+        $isWebsite = $type === Type::ID;
+
+        if ($isWebsite) {
+            return true;
+        }
+
+        // if no such type exists, we default to website properties
+        return !$this->typeManager->isExistingType($type);
+    }
+
     protected function init()
     {
+        if (!$this->shouldShowSettingsForType($this->idMeasurableType)) {
+            return;
+        }
+
         $this->urls = new Urls($this->idSite);
         $this->addSetting($this->urls);
 
@@ -101,7 +128,8 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         $this->siteSearchKeywords = $this->makeSiteSearchKeywords();
 
         $siteSearchKeywords = $this->siteSearchKeywords->getValue();
-        $this->useDefaultSiteSearchParams->setDefaultValue(empty($siteSearchKeywords));
+        $areSiteSearchKeywordsEmpty = empty($siteSearchKeywords) || (is_array($siteSearchKeywords) && implode("", $siteSearchKeywords) == "");
+        $this->useDefaultSiteSearchParams->setDefaultValue($areSiteSearchKeywordsEmpty);
 
         $this->siteSearchCategory = $this->makeSiteSearchCategory($this->pluginManager);
         /**
@@ -148,11 +176,15 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $ip = IP::getIpFromHeader();
 
             $field->title = Piwik::translate('SitesManager_ExcludedIps');
-            $field->inlineHelp = Piwik::translate('SitesManager_HelpExcludedIps', array('1.2.3.*', '1.2.*.*'))
+            $field->inlineHelp = Piwik::translate('SitesManager_HelpExcludedIpAddresses', array('1.2.3.4/24', '1.2.3.*', '1.2.*.*'))
                 . '<br /><br />'
                 . Piwik::translate('SitesManager_YourCurrentIpAddressIs', array('<i>' . $ip . '</i>'));
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
-            $field->uiControlAttributes = array('cols' => '20', 'rows' => '4');
+            $field->uiControlAttributes = array(
+              'cols' => '20',
+              'rows' => '4',
+              'placeholder' => $ip,
+            );
 
             $field->validate = function ($value) {
                 if (!empty($value)) {
@@ -183,7 +215,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
         $self = $this;
         return $this->makeProperty('excluded_parameters', $default = array(), FieldConfig::TYPE_ARRAY, function (FieldConfig $field) use ($self) {
             $field->title = Piwik::translate('SitesManager_ExcludedParameters');
-            $field->inlineHelp = Piwik::translate('SitesManager_ListOfQueryParametersToExclude')
+            $field->inlineHelp = Piwik::translate('SitesManager_ListOfQueryParametersToExclude', "/^sess.*|.*[dD]ate$/")
                 . '<br /><br />'
                 . Piwik::translate('SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters', array('phpsessid, sessionid, ...'));
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
@@ -227,7 +259,8 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
     private function makeUseDefaultSiteSearchParams(SitesManager\API $sitesManagerApi)
     {
-        return $this->makeSetting('use_default_site_search_params', $default = true, FieldConfig::TYPE_BOOL, function (FieldConfig $field) use ($sitesManagerApi) {
+        $settings = $this;
+        return $this->makeSetting('use_default_site_search_params', $default = true, FieldConfig::TYPE_BOOL, function (FieldConfig $field) use ($sitesManagerApi, $settings) {
 
             if (Piwik::hasUserSuperUserAccess()) {
                 $title = Piwik::translate('SitesManager_SearchUseDefault', array("<a href='#globalSettings'>","</a>"));
@@ -254,19 +287,29 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $field->description .= Piwik::translate('SitesManager_SearchCategoryLabel');
             $field->description .= ': ';
             $field->description .= $searchCategoryGlobal;
-            $field->transform = function () {
-                return null;// never actually save a value for this
+            $field->transform = function ($value) use ($settings) {
+                if ($value) {
+                    $settings->unsetSiteSearchKeywords = true;
+                }
+                return null; // never actually save a value for this
             };
         });
     }
 
     private function makeSiteSearchKeywords()
     {
-        return $this->makeProperty('sitesearch_keyword_parameters', $default = array(), FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
+        $settings = $this;
+        return $this->makeProperty('sitesearch_keyword_parameters', $default = array(), FieldConfig::TYPE_ARRAY, function (FieldConfig $field) use ($settings) {
             $field->title = Piwik::translate('SitesManager_SearchKeywordLabel');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
             $field->inlineHelp = Piwik::translate('SitesManager_SearchKeywordParametersDesc');
-            $field->condition = Piwik::translate('sitesearch && !use_default_site_search_params');
+            $field->condition = 'sitesearch && !use_default_site_search_params';
+            $field->transform = function ($value) use ($settings) {
+                if ($settings->unsetSiteSearchKeywords) {
+                    return '';
+                }
+                return $value;
+            };
         });
     }
 
@@ -291,7 +334,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $field->inlineHelp = Piwik::translate('SitesManager_EcommerceHelp')
                 . '<br />'
                 . Piwik::translate('SitesManager_PiwikOffersEcommerceAnalytics',
-                    array("<a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'>", '</a>'));
+                    array("<a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'>", '</a>'));
             $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
             $field->availableValues = array(
                 0 => Piwik::translate('SitesManager_NotAnEcommerceSite'),

@@ -34,7 +34,7 @@
         "DaysToConv": "Các ngày chuyển đổi",
         "DefaultGoalConvertedOncePerVisit": "(mặc định) chỉ tiêu chỉ được chuyển đổi một lần với mỗi lần truy cập",
         "DefaultRevenue": "Chỉ tiêu doanh thu mặc định là",
-        "DefaultRevenueHelp": "Lấy ví dụ, một form contact được gửi bởi một người truy cập có thể trị giá trung bình $10. Piwik sẽ giúp bạn hiểu từng phần đoạn đối với người truy cập trang web của bạn.",
+        "DefaultRevenueHelp": "Lấy ví dụ, một form contact được gửi bởi một người truy cập có thể trị giá trung bình $10. Matomo sẽ giúp bạn hiểu từng phần đoạn đối với người truy cập trang web của bạn.",
         "DeleteGoalConfirm": "Bạn có chắc chắn muốn xóa chỉ tiêu này %s?",
         "DocumentationRevenueGeneratedByProductSales": "Tiêu thụ sản phẩm. Không bao gồm thuế, vận chuyển và chiết khấu.",
         "Download": "Tải một file",

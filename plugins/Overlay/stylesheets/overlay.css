@@ -27,7 +27,7 @@ a#overlayTitle .icon-help {
 
 #overlayDateRangeSelection {
     padding: 0 0 0 25px;
-    background: url(../../Morpheus/images/icon-calendar.gif) 2px center no-repeat;
+    background: url(../../Morpheus/images/icon-calendar.png) 2px center no-repeat;
     margin: 20px 10px;
 }
 
@@ -63,6 +63,10 @@ a#overlayTitle .icon-help {
     font-size: 15px;
     margin: 0 0 8px 0;
     color: #255792;
+}
+
+.overlayMainMetrics {
+    padding-bottom: 0 !important;
 }
 
 a#overlaySegmentedVisitorLog,
@@ -107,6 +111,20 @@ a#overlayTransitions:hover {
     margin-left: 220px;
     position: absolute;
     top: 0;
+}
+
+#root > nav {
+    width: 240px;
+    overflow: hidden;
+}
+
+#root > nav > .nav-wrapper > * {
+    display: none;
+}
+
+#root > nav > .nav-wrapper > .accessibility-skip-to-content,
+#root > nav > .nav-wrapper > #logo {
+    display: block;
 }
 
 #overlayIframe {

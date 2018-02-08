@@ -16,6 +16,7 @@
 				<availableValues />
 				<description>If enabled, the value will be automatically refreshed depending on the specified interval</description>
 				<inlineHelp />
+				<templateFile />
 				<introduction />
 				<condition />
 			</row>
@@ -32,6 +33,7 @@
 				<availableValues />
 				<description>Defines how often the value should be updated</description>
 				<inlineHelp>Enter a number which is &gt;= 15</inlineHelp>
+				<templateFile />
 				<introduction />
 				<condition />
 			</row>
@@ -51,6 +53,7 @@
 				</availableValues>
 				<description>Pick your favourite color</description>
 				<inlineHelp />
+				<templateFile />
 				<introduction />
 				<condition />
 			</row>
@@ -62,7 +65,7 @@
 		<settings>
 			<row>
 				<name>userTrackingEnabled</name>
-				<title>Piwik usage tracking enabled</title>
+				<title>Matomo usage tracking enabled</title>
 				<value>1</value>
 				<defaultValue>1</defaultValue>
 				<type>boolean</type>
@@ -72,6 +75,7 @@
 				<availableValues />
 				<description>If enabled, anonymous usage data will be tracked. For example which pages are viewed and which reports are used most often. For more information contact your system administrator.</description>
 				<inlineHelp />
+				<templateFile />
 				<introduction />
 				<condition />
 			</row>

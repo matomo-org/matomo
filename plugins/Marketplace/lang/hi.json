@@ -1,0 +1,20 @@
+{
+    "Marketplace": {
+        "ActivateLicenseKey": "सक्रिय करें",
+        "ActionActivatePlugin": "प्लगइन सक्रिय",
+        "ActionActivateTheme": "विषय को सक्रिय करें",
+        "ActionInstall": "स्थापित करें",
+        "AllowedUploadFormats": "आप इस पेज के माध्यम से ज़िप प्रारूप में एक प्लगइन या विषय अपलोड कर सकते हैं ।",
+        "Authors": "लेखक",
+        "BackToMarketplace": "वापस बाज़ार में",
+        "ByXDevelopers": "%s के डेवलपर्स द्वारा",
+        "FeaturedPlugin": "विशेष रुप से प्लगइन",
+        "PluginKeywords": "खोजशब्द",
+        "PluginVersionInfo": "%1$s से %2$s",
+        "SubscriptionType": "प्रकार",
+        "Support": "सहयोग",
+        "Updated": "अद्यतन",
+        "UploadZipFile": "ZIP फ़ाइल अपलोड करें",
+        "ViewRepositoryChangelog": "परिवर्तन देखें"
+    }
+}

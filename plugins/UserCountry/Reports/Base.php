@@ -54,7 +54,7 @@ abstract class Base extends \Piwik\Plugin\Report
                                 '</a>'));
                 } else {
                     $footerMessage .= ' ' . Piwik::translate('UserCountry_ToGeolocateOldVisits',
-                            array('<a rel="noreferrer"  target="_blank" href="http://piwik.org/faq/how-to/#faq_167">', '</a>'));
+                            array('<a rel="noreferrer"  target="_blank" href="https://matomo.org/faq/how-to/#faq_167">', '</a>'));
                 }
 
                 $view->config->show_footer_message = $footerMessage;

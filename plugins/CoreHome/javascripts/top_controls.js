@@ -48,16 +48,6 @@ function initTopControls() {
             $('.top_controls').css('opacity', '1');
         }
 
-        var header = $('#header_message.isPiwikDemo');
-        if (header.length) {
-            // make sure isPiwikDemo message is always fully visible, move it to the right if needed
-            var lastSelector = $('.top_controls .piwikTopControl:last');
-
-            var overlap = getOverlap(header[0], lastSelector[0]);
-            if (header[0] !== lastSelector[0] && overlap !== 0) {
-                header.css('right', (Math.abs(overlap) + 18) * -1);
-            }
-        }
     }
 }
 
@@ -96,11 +86,6 @@ $( document ).ready(function() {
 function toggleCalendar(e){
     var calendarOpen = $('.periodSelector').hasClass('expanded');
     
-    $('.periodSelector .ui-datepicker-month').attr('tabindex','4');
-    $('.periodSelector td a').attr('tabindex','4');
-    $('.periodSelector .ui-datepicker-year').attr('tabindex','4');
-    $('.periodSelector .form-radio').attr('tabindex','4');
-
     if(e.which==13){
         if(calendarOpen){
             $('.periodSelector').removeClass('expanded');

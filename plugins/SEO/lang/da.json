@@ -1,8 +1,8 @@
 {
     "SEO": {
+        "PluginDescription": "Denne programtilføjelse udtrækker og viser SEO måleværdier: Alexa webranking, Google Pagerank, antallet af indexerede sider, og linker tilbage til den nuværende webside.",
         "AlexaRank": "Alexa rang",
         "Bing_IndexedPages": "Bing indekserede sider",
-        "Dmoz": "DMOZ angivelser",
         "DomainAge": "Domæne alder",
         "Google_IndexedPages": "Google indekserede sider",
         "Rank": "Rang",

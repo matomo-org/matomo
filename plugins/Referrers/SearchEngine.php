@@ -460,11 +460,11 @@ class SearchEngine extends Singleton
      *
      * @param string $url
      * @return string path
-     * @see plugins/Referrers/images/searchEnginges/
+     * @see plugins/Morpheus/icons/dist/searchEnginges/
      */
     public function getLogoFromUrl($url)
     {
-        $pathInPiwik  = 'plugins/Referrers/images/searchEngines/%s.png';
+        $pathInPiwik  = 'plugins/Morpheus/icons/dist/searchEngines/%s.png';
         $pathWithCode = sprintf($pathInPiwik, $this->getHostFromUrl($url));
         $absolutePath = PIWIK_INCLUDE_PATH . '/' . $pathWithCode;
         if (file_exists($absolutePath)) {
@@ -485,7 +485,7 @@ class SearchEngine extends Singleton
     public function getBackLinkFromUrlAndKeyword($url, $keyword)
     {
         if ($keyword === API::LABEL_KEYWORD_NOT_DEFINED) {
-            return 'http://piwik.org/faq/general/#faq_144';
+            return 'https://matomo.org/faq/general/#faq_144';
         }
         $keyword = urlencode($keyword);
         $keyword = str_replace(urlencode('+'), urlencode(' '), $keyword);

@@ -10,8 +10,8 @@ namespace Piwik\Plugins\VisitTime\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\CoreHome\Columns\VisitLastActionTime;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
-use Piwik\Plugins\VisitTime\Columns\ServerTime;
 
 class GetVisitInformationPerServerTime extends Base
 {
@@ -21,7 +21,7 @@ class GetVisitInformationPerServerTime extends Base
     protected function init()
     {
         parent::init();
-        $this->dimension     = new ServerTime();
+        $this->dimension     = new VisitLastActionTime();
         $this->name          = Piwik::translate('VisitTime_ServerTime');
         $this->documentation = Piwik::translate('VisitTime_WidgetServerTimeDocumentation', array('<strong>', '</strong>'));
         $this->constantRowsCount = true;
@@ -38,7 +38,7 @@ class GetVisitInformationPerServerTime extends Base
         $view->requestConfig->filter_limit = 24;
         $view->requestConfig->request_parameters_to_modify['hideFutureHoursWhenToday'] = 1;
 
-        $view->config->addTranslation('label', $this->dimension->getName());
+        $view->config->addTranslation('label', Piwik::translate('VisitTime_ColumnServerHour'));
 
         if ($view->isViewDataTableId(Graph::ID)) {
             $view->config->max_graph_elements = false;

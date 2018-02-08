@@ -1,7 +1,15 @@
 {
     "VisitTime": {
         "ColumnLocalTime": "Kohë vendore",
+        "ColumnLocalHour": "Koha vendore - orë (Fillim i vizitës)",
+        "ColumnLocalMinute": "Koha vendore - minutë (Fillim i vizitës)",
         "ColumnServerTime": "Kohë shërbyesi",
+        "ColumnServerHour": "Kohë shërbyesi - orë",
+        "ColumnVisitEndServerHour": "Kohë shërbyesi - orë (Fund i vizitës)",
+        "ColumnVisitEndServerMinute": "Kohë shërbyesi - minutë (Fund i vizitës)",
+        "ColumnVisitStartServerHour": "Kohë shërbyesi - orë (Fillim i vizitës)",
+        "ColumnVisitStartServerMinute": "Kohë shërbyesi - minutë (Fillim i vizitës)",
+        "ColumnServerMinute": "Kohë shërbyesi - minutë",
         "DayOfWeek": "Ditë e javës",
         "LocalTime": "Vizita sipas kohës vendore",
         "NHour": "%sh",

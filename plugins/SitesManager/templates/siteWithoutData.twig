@@ -14,7 +14,7 @@
                 interval: 1000,
                 onUpdate: function () {
                     // reload page as soon as a visit was detected
-                    document.location.reload();
+                    broadcast.propagateNewPage('date=today');
                 },
                 dataUrlParams: {
                     module: 'Live',
@@ -41,7 +41,15 @@
             {{ 'SitesManager_SiteWithoutDataSetupGoals'|translate('<a href="' ~ linkTo({
                 'module': 'Goals',
                 'action': 'manage',
-            }) ~ '">', "</a>")|raw }}
+            }) ~ '">', "</a>",
+            '<a href="https://matomo.org/features/" rel="noreferrer" target="_blank">', "</a>",
+            '<a href="https://matomo.org/docs/" rel="noreferrer" target="_blank">', "</a>",
+            '<a href="https://matomo.org/faq/" rel="noreferrer" target="_blank">', "</a>")|raw }}
+
+            <br />
+            <br />
+            <a href="{{ linkTo({module: 'SitesManager', action: 'ignoreNoDataMessage'}) }}"
+               class="btn ignoreSitesWithoutData">{{ 'SitesManager_SiteWithoutDataIgnoreMessage'|translate }}</a>
         </p>
 
         {{ trackingHelp|raw }}

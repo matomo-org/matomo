@@ -146,7 +146,7 @@ class API extends \Piwik\Plugin\API
         if (!SettingsPiwik::isUniqueVisitorsEnabled($period)) {
             throw new \Exception(
                 "The metric " . $metric . " is not enabled for the requested period. " .
-                "Please see this FAQ: http://piwik.org/faq/how-to/faq_113/"
+                "Please see this FAQ: https://matomo.org/faq/how-to/faq_113/"
             );
         }
     }

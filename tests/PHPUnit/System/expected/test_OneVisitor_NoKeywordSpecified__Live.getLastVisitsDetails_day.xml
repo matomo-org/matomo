@@ -12,14 +12,24 @@
 				<pageTitle />
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>2</pageId>
+				<bandwidth />
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -30,7 +40,6 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -39,38 +48,45 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Moteurs de recherche</referrerTypeName>
 		<referrerName>Google</referrerName>
 		<referrerKeyword>&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded</referrerKeyword>
 		<referrerKeywordPosition>4</referrerKeywordPosition>
-		<referrerUrl>http://www.google.com.vn/search?q=%3C%3E%26%5C%22the+pdo+extension+is+required+for+this+adapter+but+the+extension+is+not+loaded</referrerUrl>
+		<referrerUrl>http://www.google.com.vn/url?sa=t&amp;rct=j&amp;q=%3C%3E%26%5C%22the%20pdo%20extension%20is%20required%20for%20this%20adapter%20but%20the%20extension%20is%20not%20loaded&amp;source=web&amp;cd=4&amp;ved=0FjAD&amp;url=http%3A%2F%2Fforum.piwik.org%2Fread.php%3F2%2C1011&amp;ei=y-HHAQ&amp;usg=AFQjCN2-nt5_GgDeg&amp;cad=rja</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
-		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<languageCode>fr</languageCode>
 		<language>Français</language>
 		<deviceType>Inconnu</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Inconnu</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemName>Bot</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
 		<operatingSystemCode>BOT</operatingSystemCode>
 		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<browser>Inconnu</browser>
 		<browserName>Inconnu</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -83,22 +99,21 @@
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -112,11 +127,15 @@
 				<pageTitle>incredible title! (Page URL contains a HTML entity)</pageTitle>
 				<pageIdAction>2</pageIdAction>
 				
+				
 				<pageId>1</pageId>
+				<bandwidth />
 				<timeSpent>1084</timeSpent>
 				<timeSpentPretty>18 min 4s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -137,13 +156,18 @@
 		
 		
 		
+		
+		
+		
+		
+		
+		
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 		<visitCount>1</visitCount>
-		
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -152,38 +176,45 @@
 		<visitDurationPretty>18 min 4s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Moteurs de recherche</referrerTypeName>
 		<referrerName>Google</referrerName>
 		<referrerKeyword>Mot-clé indéfini</referrerKeyword>
 		<referrerKeywordPosition>1</referrerKeywordPosition>
-		<referrerUrl>http://piwik.org/faq/general/#faq_144</referrerUrl>
+		<referrerUrl>http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CC&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=&amp;usg=</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
-		<referrerSearchEngineIcon>plugins/Referrers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<languageCode>fr</languageCode>
 		<language>Français</language>
 		<deviceType>Inconnu</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/unknown.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Inconnu</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemName>Bot</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/UNK.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
 		<operatingSystemCode>BOT</operatingSystemCode>
 		<operatingSystemVersion>UNK</operatingSystemVersion>
 		<browserFamily />
 		<browserFamilyDescription>Inconnu</browserFamilyDescription>
 		<browser>Inconnu</browser>
 		<browserName>Inconnu</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/UNK.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/UNK.png</browserIcon>
 		<browserCode>UNK</browserCode>
 		<browserVersion />
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Europe</continent>
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -196,21 +227,20 @@
 		<customVariables>
 		</customVariables>
 		<resolution>1024x768</resolution>
-		<plugins>flash, java</plugins>
+		<plugins>cookie, flash, java</plugins>
 		<pluginsIcons>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 				<pluginName>flash</pluginName>
 			</row>
 			<row>
-				<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 				<pluginName>java</pluginName>
 			</row>
 		</pluginsIcons>
-		
-		
-		
-		
-		
 	</row>
 </result>

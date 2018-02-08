@@ -10,16 +10,20 @@
 				<url>http://piwik.net/</url>
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
+				
 				<serverTimePretty>Apr 7, 2013 10:00:00</serverTimePretty>
 				<pageId>1</pageId>
+				<bandwidth>9625</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				<timestamp>1365328800</timestamp>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				<timestamp>1365328800</timestamp>
+				<bandwidth_pretty>9.4 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -29,13 +33,18 @@
 		<visitServerHour>10</visitServerHour>
 		<lastActionTimestamp>1365328800</lastActionTimestamp>
 		<lastActionDateTime>2013-04-07 10:00:00</lastActionDateTime>
+		<serverTimestamp>1365328800</serverTimestamp>
+		<firstActionTimestamp>1365328800</firstActionTimestamp>
+		<serverTimePretty>10:00:00</serverTimePretty>
+		<serverDatePretty>Sunday, April 7, 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Sunday, April 7, 2013</serverDatePrettyFirstAction>
+		<serverTimePrettyFirstAction>10:00:00</serverTimePrettyFirstAction>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		<firstActionTimestamp>1365328800</firstActionTimestamp>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -44,6 +53,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -55,27 +65,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 7.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>7.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -90,11 +106,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		<serverTimestamp>1365328800</serverTimestamp>
-		<serverTimePretty>10:00:00</serverTimePretty>
-		<serverDatePretty>Sunday, April 7, 2013</serverDatePretty>
-		<serverDatePrettyFirstAction>Sunday, April 7, 2013</serverDatePrettyFirstAction>
-		<serverTimePrettyFirstAction>10:00:00</serverTimePrettyFirstAction>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -106,16 +117,20 @@
 				<url>http://piwik.net/</url>
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
+				
 				<serverTimePretty>Apr 6, 2013 11:00:00</serverTimePretty>
 				<pageId>2</pageId>
+				<bandwidth>9625</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				<timestamp>1365246000</timestamp>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				<timestamp>1365246000</timestamp>
+				<bandwidth_pretty>9.4 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -125,13 +140,18 @@
 		<visitServerHour>11</visitServerHour>
 		<lastActionTimestamp>1365246000</lastActionTimestamp>
 		<lastActionDateTime>2013-04-06 11:00:00</lastActionDateTime>
+		<serverTimestamp>1365246000</serverTimestamp>
+		<firstActionTimestamp>1365246000</firstActionTimestamp>
+		<serverTimePretty>11:00:00</serverTimePretty>
+		<serverDatePretty>Saturday, April 6, 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Saturday, April 6, 2013</serverDatePrettyFirstAction>
+		<serverTimePrettyFirstAction>11:00:00</serverTimePrettyFirstAction>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		<firstActionTimestamp>1365246000</firstActionTimestamp>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -140,6 +160,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -151,27 +172,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 7.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>7.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -186,11 +213,6 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		<serverTimestamp>1365246000</serverTimestamp>
-		<serverTimePretty>11:00:00</serverTimePretty>
-		<serverDatePretty>Saturday, April 6, 2013</serverDatePretty>
-		<serverDatePrettyFirstAction>Saturday, April 6, 2013</serverDatePrettyFirstAction>
-		<serverTimePrettyFirstAction>11:00:00</serverTimePrettyFirstAction>
 	</row>
 	<row>
 		<idSite>1</idSite>
@@ -202,16 +224,20 @@
 				<url>http://piwik.net/</url>
 				<pageTitle />
 				<pageIdAction>1</pageIdAction>
+				
 				<serverTimePretty>Apr 5, 2013 12:00:00</serverTimePretty>
 				<pageId>3</pageId>
+				<bandwidth>9625</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				<timestamp>1365163200</timestamp>
 				<customVariables>
 					<row>
 						<customVariablePageName1>HTTP-code</customVariablePageName1>
 						<customVariablePageValue1>200</customVariablePageValue1>
 					</row>
 				</customVariables>
-				<icon />
-				<timestamp>1365163200</timestamp>
+				<bandwidth_pretty>9.4 K</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<goalConversions>0</goalConversions>
@@ -221,13 +247,18 @@
 		<visitServerHour>12</visitServerHour>
 		<lastActionTimestamp>1365163200</lastActionTimestamp>
 		<lastActionDateTime>2013-04-05 12:00:00</lastActionDateTime>
+		<serverTimestamp>1365163200</serverTimestamp>
+		<firstActionTimestamp>1365163200</firstActionTimestamp>
+		<serverTimePretty>12:00:00</serverTimePretty>
+		<serverDatePretty>Friday, April 5, 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Friday, April 5, 2013</serverDatePrettyFirstAction>
+		<serverTimePrettyFirstAction>12:00:00</serverTimePrettyFirstAction>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitCount>1</visitCount>
-		<firstActionTimestamp>1365163200</firstActionTimestamp>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -236,6 +267,7 @@
 		<visitDurationPretty>0s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>1</actions>
+		<interactions>1</interactions>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -247,27 +279,33 @@
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
 		<deviceModel />
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 		<operatingSystemCode>WIN</operatingSystemCode>
 		<operatingSystemVersion>Vista</operatingSystemVersion>
 		<browserFamily>Trident</browserFamily>
 		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
 		<browser>Internet Explorer 7.0</browser>
 		<browserName>Internet Explorer</browserName>
-		<browserIcon>plugins/DevicesDetection/images/browsers/IE.gif</browserIcon>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
 		<browserCode>IE</browserCode>
 		<browserVersion>7.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 		<events>0</events>
 		<continent>Unknown</continent>
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -282,10 +320,5 @@
 		<resolution>unknown</resolution>
 		<plugins />
 		<pluginsIcons />
-		<serverTimestamp>1365163200</serverTimestamp>
-		<serverTimePretty>12:00:00</serverTimePretty>
-		<serverDatePretty>Friday, April 5, 2013</serverDatePretty>
-		<serverDatePrettyFirstAction>Friday, April 5, 2013</serverDatePrettyFirstAction>
-		<serverTimePrettyFirstAction>12:00:00</serverTimePrettyFirstAction>
 	</row>
 </result>

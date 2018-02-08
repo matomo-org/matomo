@@ -128,8 +128,16 @@ class Url
     {
         $url = '';
 
+        // insert extra path info if proxy_uri_header is set and enabled
+        if (isset(Config::getInstance()->General['proxy_uri_header'])
+            && Config::getInstance()->General['proxy_uri_header'] == 1
+            && !empty($_SERVER['HTTP_X_FORWARDED_URI'])
+        ) {
+            $url .= $_SERVER['HTTP_X_FORWARDED_URI'];
+        }
+
         if (!empty($_SERVER['REQUEST_URI'])) {
-            $url = $_SERVER['REQUEST_URI'];
+            $url .= $_SERVER['REQUEST_URI'];
 
             // strip http://host (Apache+Rails anomaly)
             if (preg_match('~^https?://[^/]+($|/.*)~D', $url, $matches)) {
@@ -142,7 +150,7 @@ class Url
             }
 
             // strip path_info
-            if ($removePathInfo && isset($_SERVER['PATH_INFO'])) {
+            if ($removePathInfo && !empty($_SERVER['PATH_INFO'])) {
                 $url = substr($url, 0, -strlen($_SERVER['PATH_INFO']));
             }
         }
@@ -461,13 +469,14 @@ class Url
             || strpos($url, 'index.php') === 0
         ) {
             Common::sendResponseCode(302);
+            Common::sendHeader("X-Robots-Tag: noindex");
             Common::sendHeader("Location: $url");
         } else {
             echo "Invalid URL to redirect to.";
         }
 
         if (Common::isPhpCliMode()) {
-            throw new Exception("If you were using a browser, Piwik would redirect you to this URL: $url \n\n");
+            throw new Exception("If you were using a browser, Matomo would redirect you to this URL: $url \n\n");
         }
     }
 
@@ -598,7 +607,7 @@ class Url
     public static function getHostSanitized($host)
     {
         if (!class_exists("Piwik\\Network\\IPUtils")) {
-            throw new Exception("Piwik\\Network\\IPUtils could not be found, maybe you are using Piwik from git and need to update Composer. $ php composer.phar update");
+            throw new Exception("Piwik\\Network\\IPUtils could not be found, maybe you are using Matomo from git and need to update Composer. $ php composer.phar update");
         }
         return IPUtils::sanitizeIp($host);
     }

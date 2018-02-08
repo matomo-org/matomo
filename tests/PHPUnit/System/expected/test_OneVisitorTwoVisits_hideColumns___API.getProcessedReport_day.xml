@@ -8,7 +8,7 @@
 		<name>Page titles</name>
 		<module>Actions</module>
 		<action>getPageTitles</action>
-		<dimension>Page Name</dimension>
+		<dimension>Page Title</dimension>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<metricsDocumentation>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
@@ -34,7 +34,7 @@
 		<uniqueId>Actions_getPageTitles</uniqueId>
 	</metadata>
 	<columns>
-		<label>Page Name</label>
+		<label>Page Title</label>
 		<exit_rate>Exit rate</exit_rate>
 	</columns>
 	<reportData>

@@ -65,6 +65,16 @@ class DateTimeFormatProvider
     }
 
     /**
+     * Returns if time is present as 12 hour clock (eg am/pm)
+     *
+     * @return bool
+     */
+    public function uses12HourClock()
+    {
+        return false;
+    }
+
+    /**
      * Returns interval format pattern for the given format type
      *
      * @param bool $short  whether to return short or long format pattern

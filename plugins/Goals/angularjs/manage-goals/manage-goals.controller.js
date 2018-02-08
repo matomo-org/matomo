@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('ManageGoalsController', ManageGoalsController);
 
-    ManageGoalsController.$inject = ['piwik', 'piwikApi', '$timeout', '$location', 'reportingMenuModel'];
+    ManageGoalsController.$inject = ['piwik', 'piwikApi', '$timeout', '$location', 'reportingMenuModel', '$rootScope'];
 
-    function ManageGoalsController(piwik, piwikApi, $timeout, $location, reportingMenuModel) {
+    function ManageGoalsController(piwik, piwikApi, $timeout, $location, reportingMenuModel, $rootScope) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
 
         var self = this;
@@ -28,6 +28,8 @@
         }
 
         function initGoalForm(goalMethodAPI, submitText, goalName, description, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, goalId) {
+
+            $rootScope.$emit('Goals.beforeInitGoalForm', goalMethodAPI, goalId);
 
             self.goal = {};
             self.goal.name = goalName;
@@ -100,6 +102,19 @@
             parameters.idGoal = this.goal.goalId;
             parameters.method = this.goal.apiMethod;
 
+            var isCreate = parameters.method === 'Goals.addGoal';
+            var isUpdate = parameters.method === 'Goals.updateGoal';
+
+            if (isUpdate) {
+                $rootScope.$emit('Goals.beforeUpdateGoal', parameters, piwikApi);
+            } else if (isCreate) {
+                $rootScope.$emit('Goals.beforeAddGoal', parameters, piwikApi);
+            }
+
+            if (parameters && 'undefined' !== typeof parameters.cancelRequest && parameters.cancelRequest) {
+                return;
+            }
+
             this.isLoading = true;
 
             piwikApi.fetch(parameters).then(function () {
@@ -129,6 +144,8 @@
         }
 
         this.showListOfReports = function (shouldScrollToTop) {
+            $rootScope.$emit('Goals.cancelForm');
+
             this.showGoalList = true;
             this.showEditGoal = false;
             scrollToTop();
@@ -140,6 +157,13 @@
         };
 
         this.createGoal = function () {
+
+            var parameters = {isAllowed: true};
+            $rootScope.$emit('Goals.initAddGoal', parameters);
+            if (parameters && !parameters.isAllowed) {
+                return;
+            }
+
             this.showAddEditForm();
             initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal'), '', '', 'url', '', 'contains', /*caseSensitive = */false, /*allowMultiple = */'0', '0');
             scrollToTop();

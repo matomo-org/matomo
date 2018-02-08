@@ -10,7 +10,7 @@
         "ColumnWebsite": "Hjemmeside",
         "ColumnWebsitePage": "Websted side",
         "DirectEntry": "Direkte træf",
-        "DirectEntryDocumentation": "En besøgende har indtastet URL-adressen i browseren og gik direkte til hjemmesiden. Den besøgende kom direkte ind på hjemmesiden.",
+        "DirectEntryDocumentation": "En besøgende har skrevet URL'en i sin browser og er startet med at browse på din webside - de er tilgået websiden direkte.",
         "Distinct": "Forskellige kilder efter kildetype",
         "DistinctCampaigns": "forskellige kampagner",
         "DistinctKeywords": "forskellige søgeord",

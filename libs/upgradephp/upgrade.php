@@ -702,3 +702,20 @@ if (!function_exists('dump')) {
 
     }
 }
+
+/**
+ * Need to catch that PHP7 error object on php5
+ */
+if( !class_exists('\Error')) {
+	class Error {
+
+	}
+}
+
+if(!function_exists('fnmatch')) {
+
+	function fnmatch($pattern, $string) {
+		return preg_match("#^".strtr(preg_quote($pattern, '#'), array('\*' => '.*', '\?' => '.'))."$#i", $string);
+	} // end
+
+} // end if

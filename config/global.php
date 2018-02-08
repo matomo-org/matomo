@@ -4,6 +4,7 @@ use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\NotFoundException;
 use Piwik\Cache\Eager;
 use Piwik\SettingsServer;
+use Piwik\Config;
 
 return array(
 
@@ -20,7 +21,12 @@ return array(
             $instanceId = '';
         }
 
-        return $root . '/tmp' . $instanceId;
+        /** @var Piwik\Config\ $config */
+        $config = $c->get('Piwik\Config');
+        $general = $config->General;
+        $tmp = empty($general['tmp_path']) ? '/tmp' : $general['tmp_path'];
+
+        return $root . $tmp . $instanceId;
     },
 
     'path.cache' => DI\string('{path.tmp}/cache/tracker/'),
@@ -64,6 +70,8 @@ return array(
         return 'eagercache-' . str_replace(array('.', '-'), '', \Piwik\Version::VERSION) . '-';
     },
 
+    'entities.idNames' => DI\add(array('idGoal', 'idDimension')),
+
     'Psr\Log\LoggerInterface' => DI\object('Psr\Log\NullLogger'),
 
     'Piwik\Translation\Loader\LoaderInterface' => DI\object('Piwik\Translation\Loader\LoaderCache')
@@ -71,7 +79,61 @@ return array(
 
     'observers.global' => array(),
 
+    'fileintegrity.ignore' => DI\add(array(
+        '*.htaccess',
+        '*web.config',
+        'bootstrap.php',
+        'favicon.ico',
+        'robots.txt',
+        '.bowerrc',
+        '.phpstorm.meta.php',
+        'config/config.ini.php',
+        'config/config.php',
+        'config/common.ini.php',
+        'config/*.config.ini.php',
+        'config/manifest.inc.php',
+        'misc/*.dat',
+        'misc/*.dat.gz',
+        'misc/*.bin',
+        'misc/user/*png',
+        'misc/user/*js',
+        'misc/package',
+        'misc/package/WebAppGallery/*.xml',
+        'misc/package/WebAppGallery/install.sql',
+        'plugins/ImageGraph/fonts/unifont.ttf',
+        'vendor/autoload.php',
+        'vendor/composer/autoload_real.php',
+        'vendor/szymach/c-pchart/app/*',
+        'tmp/*',
+        // Search engine sites verification
+        'google*.html',
+        'BingSiteAuth.xml',
+        'yandex*.html',
+        // Files below are not expected but they used to be present in older Piwik versions and may be still here
+        // As they are not going to cause any trouble we won't report them as 'File to delete'
+        '*.coveralls.yml',
+        '*.scrutinizer.yml',
+        '*.gitignore',
+        '*.gitkeep',
+        '*.gitmodules',
+        '*.gitattributes',
+        '*.bower.json',
+        '*.travis.yml',
+    )),
+
     'Piwik\EventDispatcher' => DI\object()->constructorParameter('observers', DI\get('observers.global')),
+
+    'login.whitelist.ips' => function (ContainerInterface $c) {
+        /** @var Piwik\Config\ $config */
+        $config = $c->get('Piwik\Config');
+        $general = $config->General;
+
+        $ips = array();
+        if (!empty($general['login_whitelist_ip']) && is_array($general['login_whitelist_ip'])) {
+            $ips = $general['login_whitelist_ip'];
+        }
+        return $ips;
+    },
 
     'Zend_Validate_EmailAddress' => function () {
         return new \Zend_Validate_EmailAddress(array(
@@ -88,5 +150,4 @@ return array(
 
     'Piwik\Tracker\Settings' => DI\object()
         ->constructorParameter('isSameFingerprintsAcrossWebsites', DI\get('ini.Tracker.enable_fingerprinting_across_websites')),
-
 );

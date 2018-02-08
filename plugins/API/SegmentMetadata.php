@@ -8,12 +8,19 @@
  */
 namespace Piwik\Plugins\API;
 
+use Piwik\Category\CategoryList;
 use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 use Piwik\Plugin\Segment;
 
 class SegmentMetadata
 {
+    /**
+     * Map of category name to order
+     * @var array
+     */
+    private $categoryOrder = array();
+
     public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $isAuthenticatedWithViewAccess)
     {
         $segments = array();
@@ -55,9 +62,21 @@ class SegmentMetadata
             $segments[] = $segment->toArray();
         }
 
+        $categoryList = CategoryList::get();
+
         foreach ($segments as &$segment) {
+            $categoryId = $segment['category'];
             $segment['name'] = Piwik::translate($segment['name']);
-            $segment['category'] = Piwik::translate($segment['category']);
+            $segment['category'] = Piwik::translate($categoryId);
+
+            if (!isset($this->categoryOrder[$segment['category']])) {
+                $category = $categoryList->getCategory($categoryId);
+                if (!empty($category)) {
+                    $this->categoryOrder[$segment['category']] = $category->getOrder();
+                } else {
+                    $this->categoryOrder[$segment['category']] = 999;
+                }
+            }
 
             if ($_hideImplementationData) {
                 unset($segment['sqlFilter']);
@@ -81,12 +100,25 @@ class SegmentMetadata
     {
         $customVarCategory = Piwik::translate('CustomVariables_CustomVariables');
 
-        $columns = array('type', 'category', 'name', 'segment');
+        $columns = array('category', 'type', 'name', 'segment');
 
         foreach ($columns as $column) {
             // Keep segments ordered alphabetically inside categories..
             $type = -1;
-            if ($column == 'name') $type = 1;
+            if ($column == 'name') {
+                $type = 1;
+            }
+
+            if ($column === 'category') {
+                $idOrder1 = $this->categoryOrder[$row1[$column]];
+                $idOrder2 = $this->categoryOrder[$row2[$column]];
+
+                if ($idOrder1 === $idOrder2) {
+                    continue;
+                }
+
+                return $idOrder1 > $idOrder2 ? 1 : -1;
+            }
 
             $compare = $type * strcmp($row1[$column], $row2[$column]);
 

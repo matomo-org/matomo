@@ -9,7 +9,9 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\Config;
-use Piwik\Db;
+use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
+use Piwik\Plugins\CoreHome\SystemSummary;
 
 /**
  */
@@ -26,8 +28,17 @@ class SegmentEditor extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'            => 'getJsFiles',
             'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
             'Template.nextToCalendar'                    => 'getSegmentEditorHtml',
+            'System.addSystemSummaryItems'               => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
         );
+    }
+
+    public function addSystemSummaryItems(&$systemSummary)
+    {
+        $storedSegments = StaticContainer::get('Piwik\Plugins\SegmentEditor\Services\StoredSegmentService');
+        $segments = $storedSegments->getAllSegmentsAndIgnoreVisibility();
+        $numSegments = count($segments);
+        $systemSummary[] = new SystemSummary\Item($key = 'segments', Piwik::translate('CoreHome_SystemSummaryNSegments', $numSegments), $value = null, $url = null, $icon = 'icon-segment', $order = 6);
     }
 
     function getSegmentEditorHtml(&$out)
@@ -68,11 +79,15 @@ class SegmentEditor extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/SegmentEditor/javascripts/Segmentation.js";
+        $jsFiles[] = "plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator-model.js";
+        $jsFiles[] = "plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator.controller.js";
+        $jsFiles[] = "plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/SegmentEditor/stylesheets/segmentation.less";
+        $stylesheets[] = "plugins/SegmentEditor/angularjs/segment-generator/segmentgenerator.directive.less";
     }
 
     /**
@@ -92,5 +107,20 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_SharedWithYou';
         $translationKeys[] = 'SegmentEditor_ChooseASegment';
         $translationKeys[] = 'SegmentEditor_CurrentlySelectedSegment';
+        $translationKeys[] = 'SegmentEditor_OperatorAND';
+        $translationKeys[] = 'SegmentEditor_OperatorOR';
+        $translationKeys[] = 'SegmentEditor_AddANDorORCondition';
+        $translationKeys[] = 'General_OperationEquals';
+        $translationKeys[] = 'General_OperationNotEquals';
+        $translationKeys[] = 'General_OperationAtMost';
+        $translationKeys[] = 'General_OperationAtLeast';
+        $translationKeys[] = 'General_OperationLessThan';
+        $translationKeys[] = 'General_OperationGreaterThan';
+        $translationKeys[] = 'General_OperationIs';
+        $translationKeys[] = 'General_OperationIsNot';
+        $translationKeys[] = 'General_OperationContains';
+        $translationKeys[] = 'General_OperationDoesNotContain';
+        $translationKeys[] = 'General_OperationStartsWith';
+        $translationKeys[] = 'General_OperationEndsWith';
     }
 }

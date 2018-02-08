@@ -1,57 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
+	
 	<totalVisits>2</totalVisits>
 	<totalVisitDuration>361</totalVisitDuration>
 	<totalActions>2</totalActions>
-	<totalEvents>0</totalEvents>
 	<totalOutlinks>1</totalOutlinks>
 	<totalDownloads>0</totalDownloads>
 	<totalSearches>0</totalSearches>
 	<totalPageViews>1</totalPageViews>
+	<totalUniquePageViews>1</totalUniquePageViews>
+	<totalRevisitedPages>0</totalRevisitedPages>
 	<totalPageViewsWithTiming>0</totalPageViewsWithTiming>
+	<searches>
+	</searches>
 	<totalGoalConversions>1</totalGoalConversions>
 	<totalConversionsByGoal>
 		<row idgoal="1">1</row>
 	</totalConversionsByGoal>
+	<totalEvents>0</totalEvents>
 	<hasLatLong>0</hasLatLong>
 	<totalRevenueByGoal>
 		<row idgoal="1">1000</row>
 	</totalRevenueByGoal>
-	<searches>
-	</searches>
-	<continents>
-		<row>
-			<continent>eur</continent>
-			<nb_visits>2</nb_visits>
-			<prettyName>Europe</prettyName>
-		</row>
-	</continents>
-	<countries>
-		<row>
-			<country>fr</country>
-			<nb_visits>2</nb_visits>
-			<flag>plugins/UserCountry/images/flags/fr.png</flag>
-			<prettyName>France</prettyName>
-		</row>
-	</countries>
-	<totalVisitDurationPretty>6 min 1s</totalVisitDurationPretty>
-	<firstVisit>
-		
-		
-		
-		<referrerType>campaign</referrerType>
-		<referralSummary>Campaign: campaign name - yeah! - campaign keyword - right...</referralSummary>
-	</firstVisit>
-	<lastVisit>
-		
-		
-		
-		<referrerType>campaign</referrerType>
-		<referralSummary>Campaign: campaign name - yeah! - campaign keyword - right...</referralSummary>
-	</lastVisit>
-	<visitsAggregated>2</visitsAggregated>
-	
-	
 	<lastVisits>
 		<row>
 			<idSite>1</idSite>
@@ -65,14 +35,24 @@
 					<pageTitle />
 					<pageIdAction>6</pageIdAction>
 					
-					<pageId>5</pageId>
-					<icon>plugins/Morpheus/images/link.gif</icon>
 					
+					<pageId>5</pageId>
+					<bandwidth />
+					<interactionPosition />
+					<icon>plugins/Morpheus/images/link.png</icon>
+					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
 			</actionDetails>
 			<goalConversions>0</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -83,7 +63,6 @@
 			<visitConverted>0</visitConverted>
 			<visitConvertedIcon />
 			<visitCount>1</visitCount>
-			
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -92,6 +71,7 @@
 			<visitDurationPretty>0s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>0</interactions>
 			<referrerType>campaign</referrerType>
 			<referrerTypeName>Campaigns</referrerTypeName>
 			<referrerName>campaign name - yeah!</referrerName>
@@ -103,27 +83,33 @@
 			<languageCode>fr</languageCode>
 			<language>French</language>
 			<deviceType>Desktop</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Windows XP</operatingSystem>
 			<operatingSystemName>Windows</operatingSystemName>
-			<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 			<operatingSystemCode>WIN</operatingSystemCode>
 			<operatingSystemVersion>XP</operatingSystemVersion>
 			<browserFamily>Gecko</browserFamily>
 			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 			<browser>Firefox 3.0</browser>
 			<browserName>Firefox</browserName>
-			<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+			<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 			<browserCode>FF</browserCode>
 			<browserVersion>3.0</browserVersion>
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Europe</continent>
 			<continentCode>eur</continentCode>
 			<country>France</country>
 			<countryCode>fr</countryCode>
-			<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+			<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 			<region />
 			<regionCode />
 			<city />
@@ -144,22 +130,21 @@
 				</row>
 			</customVariables>
 			<resolution>1111x222</resolution>
-			<plugins>flash, java</plugins>
+			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
 				<row>
-					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+					<pluginName>cookie</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 					<pluginName>flash</pluginName>
 				</row>
 				<row>
-					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			
-			
-			
-			
-			
 		</row>
 		<row>
 			<idSite>1</idSite>
@@ -184,14 +169,24 @@
 					<pageTitle>Homepage</pageTitle>
 					<pageIdAction>2</pageIdAction>
 					
+					
 					<pageId>4</pageId>
+					<bandwidth />
+					<interactionPosition>1</interactionPosition>
 					<icon />
 					
+					<bandwidth_pretty>0 M</bandwidth_pretty>
 				</row>
 			</actionDetails>
 			<goalConversions>1</goalConversions>
 			<siteCurrency>USD</siteCurrency>
 			<siteCurrencySymbol>$</siteCurrencySymbol>
+			
+			
+			
+			
+			
+			
 			
 			
 			
@@ -202,7 +197,6 @@
 			<visitConverted>1</visitConverted>
 			<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
 			<visitCount>1</visitCount>
-			
 			<visitEcommerceStatus>none</visitEcommerceStatus>
 			<visitEcommerceStatusIcon />
 			<daysSinceFirstVisit>0</daysSinceFirstVisit>
@@ -211,6 +205,7 @@
 			<visitDurationPretty>6 min 1s</visitDurationPretty>
 			<searches>0</searches>
 			<actions>1</actions>
+			<interactions>1</interactions>
 			<referrerType>campaign</referrerType>
 			<referrerTypeName>Campaigns</referrerTypeName>
 			<referrerName>campaign name - yeah!</referrerName>
@@ -222,27 +217,33 @@
 			<languageCode>fr</languageCode>
 			<language>French</language>
 			<deviceType>Desktop</deviceType>
-			<deviceTypeIcon>plugins/DevicesDetection/images/screens/normal.gif</deviceTypeIcon>
+			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
 			<deviceModel />
 			<operatingSystem>Windows XP</operatingSystem>
 			<operatingSystemName>Windows</operatingSystemName>
-			<operatingSystemIcon>plugins/DevicesDetection/images/os/WIN.gif</operatingSystemIcon>
+			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
 			<operatingSystemCode>WIN</operatingSystemCode>
 			<operatingSystemVersion>XP</operatingSystemVersion>
 			<browserFamily>Gecko</browserFamily>
 			<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 			<browser>Firefox 3.0</browser>
 			<browserName>Firefox</browserName>
-			<browserIcon>plugins/DevicesDetection/images/browsers/FF.gif</browserIcon>
+			<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
 			<browserCode>FF</browserCode>
 			<browserVersion>3.0</browserVersion>
+			<totalEcommerceRevenue>0</totalEcommerceRevenue>
+			<totalEcommerceConversions>0</totalEcommerceConversions>
+			<totalEcommerceItems>0</totalEcommerceItems>
+			<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+			<totalAbandonedCarts>0</totalAbandonedCarts>
+			<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
 			<events>0</events>
 			<continent>Europe</continent>
 			<continentCode>eur</continentCode>
 			<country>France</country>
 			<countryCode>fr</countryCode>
-			<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
+			<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
 			<region />
 			<regionCode />
 			<city />
@@ -263,23 +264,98 @@
 				</row>
 			</customVariables>
 			<resolution>1111x222</resolution>
-			<plugins>flash, java</plugins>
+			<plugins>cookie, flash, java</plugins>
 			<pluginsIcons>
 				<row>
-					<pluginIcon>plugins/DevicePlugins/images/plugins/flash.gif</pluginIcon>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+					<pluginName>cookie</pluginName>
+				</row>
+				<row>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
 					<pluginName>flash</pluginName>
 				</row>
 				<row>
-					<pluginIcon>plugins/DevicePlugins/images/plugins/java.gif</pluginIcon>
+					<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
 					<pluginName>java</pluginName>
 				</row>
 			</pluginsIcons>
-			
-			
-			
-			
-			
 		</row>
 	</lastVisits>
+	
+	
+	<totalVisitDurationPretty>6 min 1s</totalVisitDurationPretty>
 	<userId>0</userId>
+	<firstVisit>
+		
+		
+		
+		<referrerType>campaign</referrerType>
+		<referrerUrl />
+		<referralSummary>Campaign: campaign name - yeah! - campaign keyword - right...</referralSummary>
+	</firstVisit>
+	<lastVisit>
+		
+		
+		
+		<referrerType>campaign</referrerType>
+		<referrerUrl />
+		<referralSummary>Campaign: campaign name - yeah! - campaign keyword - right...</referralSummary>
+	</lastVisit>
+	<visitsAggregated>2</visitsAggregated>
+	<visitedPages>
+		<row>
+			<url>http://example.org/homepage</url>
+			<count>1</count>
+		</row>
+	</visitedPages>
+	<devices>
+		<row>
+			<type>Desktop</type>
+			<count>2</count>
+			<icon>plugins/Morpheus/icons/dist/devices/desktop.png</icon>
+			<devices>
+				<row>
+					<name>Unknown</name>
+					<count>2</count>
+				</row>
+			</devices>
+		</row>
+	</devices>
+	<continents>
+		<row>
+			<continent>eur</continent>
+			<nb_visits>2</nb_visits>
+			<prettyName>Europe</prettyName>
+		</row>
+	</continents>
+	<countries>
+		<row>
+			<country>fr</country>
+			<nb_visits>2</nb_visits>
+			<flag>plugins/Morpheus/icons/dist/flags/fr.png</flag>
+			<prettyName>France</prettyName>
+		</row>
+	</countries>
+	<customVariables>
+		<visit>
+			<row>
+				<name>VisitorType</name>
+				<values>
+					<row>
+						<value>LoggedOut</value>
+						<count>2</count>
+					</row>
+				</values>
+			</row>
+			<row>
+				<name>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</name>
+				<values>
+					<row>
+						<value>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</value>
+						<count>2</count>
+					</row>
+				</values>
+			</row>
+		</visit>
+	</customVariables>
 </result>

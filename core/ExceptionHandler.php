@@ -67,7 +67,13 @@ class ExceptionHandler
     {
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
-        echo self::getErrorResponse($exception);
+        try {
+            echo self::getErrorResponse($exception);
+        } catch(Exception $e) {
+            // When there are failures while generating the HTML error response itself,
+            // we simply print out the error message instead.
+            echo $exception->getMessage();
+        }
 
         exit(1);
     }
@@ -93,12 +99,16 @@ class ExceptionHandler
             $message = Common::sanitizeInputValue($message);
         }
 
-        $logo = new CustomLogo();
 
-        $logoHeaderUrl = false;
-        $logoFaviconUrl = false;
+        $logoHeaderUrl = 'plugins/Morpheus/images/logo.svg';
+        $logoFaviconUrl = 'plugins/CoreHome/images/favicon.png';
         try {
-            $logoHeaderUrl = $logo->getHeaderLogoUrl();
+            $logo = new CustomLogo();
+            if ($logo->hasSVGLogo()) {
+                $logoHeaderUrl = $logo->getSVGLogoUrl();
+            } else {
+                $logoHeaderUrl = $logo->getHeaderLogoUrl();
+            }
             $logoFaviconUrl = $logo->getPathUserFavicon();
         } catch (Exception $ex) {
             try {

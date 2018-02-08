@@ -217,7 +217,7 @@ class Pecl extends GeoIp
     {
         $desc = Piwik::translate('UserCountry_GeoIpLocationProviderDesc_Pecl1') . '<br/><br/>'
             . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_Pecl2');
-        $installDocs = '<a rel="noreferrer"  target="_blank" href="http://piwik.org/faq/how-to/#faq_164">'
+        $installDocs = '<a rel="noreferrer"  target="_blank" href="https://matomo.org/faq/how-to/#faq_164">'
             . Piwik::translate('UserCountry_HowToInstallGeoIpPecl')
             . '</a>';
 

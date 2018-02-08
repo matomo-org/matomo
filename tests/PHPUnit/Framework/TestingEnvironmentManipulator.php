@@ -213,15 +213,34 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                 Plugin::getPluginNameFromNamespace(get_called_class())
             )
         );
+
         foreach ($extraPlugins as $pluginName) {
             if (empty($pluginName)) {
                 continue;
             }
 
-            if (in_array($pluginName, $plugins)) {
-                continue;
-            }
+            $plugins = $this->getPluginAndRequiredPlugins($pluginName, $plugins);
+        }
 
+        return $plugins;
+    }
+
+    private function getPluginAndRequiredPlugins($pluginName, $plugins)
+    {
+        $pluginLoader = new Plugin\MetadataLoader($pluginName);
+        $pluginJson = $pluginLoader->loadPluginInfoJson();
+
+        if (!empty($pluginJson['require'])) {
+            foreach ($pluginJson['require'] as $possiblePluginName => $requiredVersion) {
+
+                $pluginLoader2 = new Plugin\MetadataLoader($possiblePluginName);
+                if (file_exists($pluginLoader2->getPathToPluginJson())) {
+                    $plugins = $this->getPluginAndRequiredPlugins($possiblePluginName, $plugins);
+                }
+            }
+        }
+
+        if (!in_array($pluginName, $plugins)) {
             $plugins[] = $pluginName;
         }
 

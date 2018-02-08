@@ -11,6 +11,7 @@ namespace Piwik\Tests\Integration\Settings;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Settings\FieldConfig;
+use Piwik\Settings\Setting;
 
 /**
  * @group PluginSettings
@@ -122,4 +123,41 @@ class BaseSettingsTestCase extends IntegrationTestCase
         return $this->settings->makeSetting($name, $default = '', $type, function () {});
     }
 
+    public function test_addSetting_shouldAddNewSetting()
+    {
+        $settingName = 'testSetting';
+        $setting  = $this->buildSetting($settingName);
+        $settings = $this->createSettingsInstance();
+
+        $this->assertEmpty($settings->getSetting($settingName));
+
+        $settings->addSetting($setting);
+
+        $this->assertSame($setting, $settings->getSetting($settingName));
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage "testSetting" does already exist
+     */
+    public function test_addSetting_throwsException_IfSameSettingAddedTwice()
+    {
+        $settingName = 'testSetting';
+        $setting  = $this->buildSetting($settingName);
+        $settings = $this->createSettingsInstance();
+
+        $settings->addSetting($setting);
+        $settings->addSetting($setting);
+    }
+
+    private function buildSetting($name, $type = null, $default = '')
+    {
+        if (!isset($type)) {
+            $type = FieldConfig::TYPE_STRING;
+        }
+
+        $userSetting = new Setting($name, $default, $type, 'MyPluginName');
+
+        return $userSetting;
+    }
 }

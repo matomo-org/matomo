@@ -1,12 +1,12 @@
 {
     "MobileMessaging": {
         "MobileReport_NoPhoneNumbers": "Siusplau, activeu com a mínim un numbre de telèfon per accedir.",
-        "MultiSites_Must_Be_Activated": "Per generar SMS de les vostres estadístiques web, siusplau activeu la extensió MultiSites de Piwik.",
+        "MultiSites_Must_Be_Activated": "Per generar SMS de les vostres estadístiques web, siusplau activeu la extensió MultiSites de Matomo.",
         "PhoneNumbers": "Nombres de telèfon",
         "PluginDescription": "Crea i descarrega informes personalitzats per SMS i envieu-los al vostre mobil de forma diària, semanal o mensual.",
         "Settings_APIKey": "Clau API",
         "Settings_CountryCode": "Codi de país",
-        "Settings_CredentialNotProvided": "Abans de crear i gestionar els vostres nombres de telèfon, siusplau conecteu el Piwik a la vostra compta de SMS.",
+        "Settings_CredentialNotProvided": "Abans de crear i gestionar els vostres nombres de telèfon, siusplau conecteu el Matomo a la vostra compta de SMS.",
         "Settings_CredentialProvided": "La vostra compta de la API de SMS %s ha estat configurada correctament!",
         "Settings_DeleteAccountConfirm": "Esteu segurs d'esborrar aquest compte de SMS?",
         "Settings_InvalidActivationCode": "El codi introduït és invàlid, sisplau torneu-ho a probar.",

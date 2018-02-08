@@ -1,0 +1,86 @@
+<div
+    piwik-expand-on-click
+    class="periodSelector piwikSelector"
+>
+    <a
+        id="date"
+        class="title"
+        title="{{ 'General_ChooseDate'|translate:periodSelector.getCurrentlyViewingText() }}"
+        tabindex="-1"
+    >
+        <span class="icon icon-calendar"></span>
+        {{ periodSelector.getCurrentlyViewingText() }}
+    </a>
+    <div id="periodMore" class="dropdown">
+        <table>
+            <tr>
+                <td>
+                    <piwik-date-range-picker
+                        ng-show="periodSelector.selectedPeriod === 'range'"
+                        class="period-range"
+                        start-date="periodSelector.startRangeDate"
+                        end-date="periodSelector.endRangeDate"
+                        range-change="periodSelector.onRangeChange(start, end)"
+                        submit="periodSelector.onApplyClicked()"
+                    >
+                    </piwik-date-range-picker>
+                    <div
+                        class="period-date"
+                        ng-show="periodSelector.selectedPeriod !== 'range'"
+                    >
+                        <piwik-period-date-picker
+                            id="datepicker"
+                            period="periodSelector.selectedPeriod"
+                            date="periodSelector.periodValue === periodSelector.selectedPeriod ? periodSelector.dateValue : null"
+                            select="periodSelector.setPiwikPeriodAndDate(periodSelector.selectedPeriod, date)"
+                        >
+                        </piwik-period-date-picker>
+                    </div>
+                </td>
+                <td>
+                    <div class="period-type">
+                        <h6>{{ 'General_Period'|translate }}</h6>
+                        <div id="otherPeriods">
+                            <p ng-repeat="period in periodSelector.periods">
+                                <input
+                                    type="radio"
+                                    name="period"
+                                    ng-attr-id="period_id_{{ period }}"
+                                    ng-model="periodSelector.selectedPeriod"
+                                    ng-value="period"
+                                    ng-change="periodSelector.selectedPeriod = period"
+                                    ng-dblclick="periodSelector.changeViewedPeriod(period)"
+                                />
+
+                                <label
+                                    ng-attr-for="period_id_{{ period }}"
+                                    ng-attr-title="{{ period === periodSelector.periodValue ? '' : ('General_DoubleClickToChangePeriod'|translate) }}"
+                                    ng-class="{'selected-period-label': period === periodSelector.selectedPeriod}"
+                                    ng-dblclick="periodSelector.changeViewedPeriod(period)"
+                                >
+                                    {{ periodSelector.getPeriodDisplayText(period) }}
+                                </label>
+                            </p>
+                        </div>
+                        <input
+                            type="submit"
+                            value="{{ 'General_Apply'|translate }}"
+                            id="calendarApply"
+                            class="btn"
+                            ng-click="periodSelector.onApplyClicked()"
+                            ng-disabled="!periodSelector.isApplyEnabled()"
+                        />
+                        <div id="ajaxLoadingCalendar" ng-if="periodSelector.isLoadingNewPage">
+                            <div class="loadingPiwik">
+                                <img src="plugins/Morpheus/images/loading-blue.gif" alt="{{ 'General_LoadingData'|translate }}" />{{ 'General_LoadingData'|translate }}
+                            </div>
+                            <div class="loadingSegment">
+                                {{ 'SegmentEditor_LoadingSegmentedDataMayTakeSomeTime'|translate }}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

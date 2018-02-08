@@ -4,6 +4,7 @@
         "AddNewGoal": "Bæta nýju markmiði við",
         "AddNewGoalOrEditExistingGoal": "%1$sAdd a new Goal%2$s eða %3$sEdit%4$s núverandi Markmiðum",
         "CaseSensitive": "Skiptir máli hvort það eru hástafir eða lágstafir",
+        "CategoryTextReferrers_Referrers": "Sendendur",
         "ClickOutlink": "Smella á slóð fyrir utan vefinn",
         "ColumnConversions": "Umbreytingar",
         "Contains": "inniheldur %s",

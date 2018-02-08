@@ -7,10 +7,10 @@
 {% if isSuperUser %}
 
 <div piwik-content-intro>
-    <h2 piwik-enriched-headline help-url="http://piwik.org/docs/privacy/">{{ title }}</h2>
+    <h2 piwik-enriched-headline help-url="https://matomo.org/docs/privacy/">{{ title }}</h2>
 
     <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
-        {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<a href="http://piwik.org/privacy/" rel="noreferrer"  target="_blank">','</a>')|raw }}</p>
+        {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<a href="https://matomo.org/privacy/" rel="noreferrer"  target="_blank">','</a>')|raw }}</p>
 </div>
 
 <div piwik-content-block
@@ -94,7 +94,7 @@
 
                 <div class="alert alert-warning" style="width: 50%;">
                     {{ 'PrivacyManager_DeleteLogDescription2'|translate|raw }}
-                    <a href="http://piwik.org/faq/general/#faq_125" rel="noreferrer"  target="_blank">
+                    <a href="https://matomo.org/faq/general/#faq_125" rel="noreferrer"  target="_blank">
                         {{ 'General_ClickHere'|translate }}
                     </a>
                 </div>
@@ -309,14 +309,8 @@
 <div piwik-content-block
      id="optOutAnchor"
      content-title="{{ 'CoreAdminHome_OptOutForYourVisitors'|translate|e('html_attr') }}">
-    <p>
-        {{ 'CoreAdminHome_OptOutExplanation'|translate }}
-        {% set optOutUrl %}{{ piwikUrl }}index.php?module=CoreAdminHome&action=optOut&language={{ language }}{% endset %}
-        {% set iframeOptOut %}<iframe style="border: 0; height: 200px; width: 600px;" src="{{ optOutUrl }}"></iframe>{% endset %}
-    </p>
-    <pre piwik-select-on-focus>{{ iframeOptOut|e('html') }}</pre>
-    <p>
-        {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' rel='noreferrer' target='_blank'>","</a>")|raw }}
-    </p>
+    <div piwik-opt-out-customizer piwikurl="{{ piwikUrl }}" language="{{ language }}">
+    
+    </div>
 </div>
 {% endblock %}

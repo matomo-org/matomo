@@ -133,6 +133,7 @@ class Http
      * @param string $httpUsername HTTP Auth username
      * @param string $httpPassword HTTP Auth password
      * @param array|string $requestBody If $httpMethod is 'POST' this may accept an array of variables or a string that needs to be posted
+     * @param array $additionalHeaders List of additional headers to set for the request
      *
      * @throws Exception
      * @return bool  true (or string/array) on success; false on HTTP response error code (1xx or 4xx)
@@ -152,7 +153,8 @@ class Http
         $httpMethod = 'GET',
         $httpUsername = null,
         $httpPassword = null,
-        $requestBody = null
+        $requestBody = null,
+        $additionalHeaders = array()
     ) {
         if ($followDepth > 5) {
             throw new Exception('Too many redirects (' . $followDepth . ')');
@@ -162,7 +164,7 @@ class Http
         $fileLength = 0;
 
         if (!empty($requestBody) && is_array($requestBody)) {
-            $requestBody = http_build_query($requestBody);
+            $requestBody = self::buildQuery($requestBody);
         }
 
         // Piwik services behave like a proxy, so we should act like one.
@@ -211,7 +213,7 @@ class Http
                 throw new Exception('Invalid protocol/scheme: ' . $url['scheme']);
             }
             $host = $url['host'];
-            $port = isset($url['port']) ? $url['port'] : 80;
+            $port = isset($url['port']) ? $url['port'] : ('https' == $url['scheme'] ? 443 : 80);
             $path = isset($url['path']) ? $url['path'] : '/';
             if (isset($url['query'])) {
                 $path .= '?' . $url['query'];
@@ -239,6 +241,10 @@ class Http
                 $connectHost = $host;
                 $connectPort = $port;
                 $requestHeader = "$httpMethod $path HTTP/$httpVer\r\n";
+
+                if ('https' == $url['scheme']) {
+                    $connectHost = 'ssl://' . $connectHost;
+                }
             }
 
             // connection attempt
@@ -256,7 +262,7 @@ class Http
 
             // send HTTP request header
             $requestHeader .=
-                "Host: $host" . ($port != 80 ? ':' . $port : '') . "\r\n"
+                "Host: $host" . ($port != 80 && ('https' == $url['scheme'] && $port != 443) ? ':' . $port : '') . "\r\n"
                 . ($httpAuth ? $httpAuth : '')
                 . ($proxyAuth ? $proxyAuth : '')
                 . 'User-Agent: ' . $userAgent . "\r\n"
@@ -264,6 +270,7 @@ class Http
                 . $xff . "\r\n"
                 . $via . "\r\n"
                 . $rangeHeader
+                . (!empty($additionalHeaders) ? implode("\r\n", $additionalHeaders) . "\r\n" : '')
                 . "Connection: close\r\n";
             fwrite($fsock, $requestHeader);
 
@@ -358,7 +365,9 @@ class Http
                         $getExtendedInfo,
                         $httpMethod,
                         $httpUsername,
-                        $httpPassword
+                        $httpPassword,
+                        $requestBody,
+                        $additionalHeaders
                     );
                 }
 
@@ -427,6 +436,7 @@ class Http
                             . ($acceptLanguage ? $acceptLanguage . "\r\n" : '')
                             . $xff . "\r\n"
                             . $via . "\r\n"
+                            . (!empty($additionalHeaders) ? implode("\r\n", $additionalHeaders) . "\r\n" : '')
                             . $rangeHeader,
                         'max_redirects' => 5, // PHP 5.1.0
                         'timeout'       => $timeout, // PHP 5.2.1
@@ -504,12 +514,12 @@ class Http
                 // curl options (sorted oldest to newest)
                 CURLOPT_URL            => $aUrl,
                 CURLOPT_USERAGENT      => $userAgent,
-                CURLOPT_HTTPHEADER     => array(
+                CURLOPT_HTTPHEADER     => array_merge(array(
                     $xff,
                     $via,
                     $rangeHeader,
                     $acceptLanguage
-                ),
+                ), $additionalHeaders),
                 // only get header info if not saving directly to file
                 CURLOPT_HEADER         => is_resource($file) ? false : true,
                 CURLOPT_CONNECTTIMEOUT => $timeout,
@@ -629,6 +639,11 @@ class Http
         }
     }
 
+    public static function buildQuery($params)
+    {
+        return http_build_query($params, '', '&');
+    }
+
     private static function buildHeadersForPost($requestBody)
     {
         $postHeader  = "Content-Type: application/x-www-form-urlencoded\r\n";
@@ -640,7 +655,7 @@ class Http
     /**
      * Downloads the next chunk of a specific file. The next chunk's byte range
      * is determined by the existing file's size and the expected file size, which
-     * is stored in the piwik_option table before starting a download. The expected
+     * is stored in the option table before starting a download. The expected
      * file size is obtained through a `HEAD` HTTP request.
      *
      * _Note: this function uses the **Range** HTTP header to accomplish downloading in
@@ -787,9 +802,7 @@ class Http
      */
     public static function configCurlCertificate(&$ch)
     {
-        if (file_exists(PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem')) {
-            @curl_setopt($ch, CURLOPT_CAINFO, PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem');
-        }
+        @curl_setopt($ch, CURLOPT_CAINFO, PIWIK_INCLUDE_PATH . '/core/DataFiles/cacert.pem');
     }
 
     public static function getUserAgent()

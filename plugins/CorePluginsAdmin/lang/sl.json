@@ -1,6 +1,5 @@
 {
     "CorePluginsAdmin": {
-        "ActionInstall": "Namesti",
         "ActionUninstall": "Odstrani",
         "Activate": "Omogoči",
         "Activated": "Omogočeno",
@@ -10,12 +9,10 @@
         "Deactivate": "Onemogoči",
         "Inactive": "Neaktivno",
         "LicenseHomepage": "Spletna stran licence",
-        "PluginsExtendPiwik": "Vtičniki razširjajo Piwik-ovo funkcionalnost.",
+        "PluginsExtendPiwik": "Vtičniki razširjajo Matomo-ovo funkcionalnost.",
         "OncePluginIsInstalledYouMayActivateHere": "Ko je vtičnik enkrat nameščen, ga lahko tukaj aktivirate oziroma deaktivirate.",
         "PluginHomepage": "Spletna stran vtičnika",
-        "PluginKeywords": "Ključne Besede",
         "PluginsManagement": "Urejanje Vtičnikov",
-        "PluginVersionInfo": "%1$s from %2$s",
         "Status": "Status",
         "Version": "Različica",
         "Websites": "Spletne strani"
