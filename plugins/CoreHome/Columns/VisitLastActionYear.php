@@ -25,7 +25,7 @@ class VisitLastActionYear extends VisitDimension
     public function __construct()
     {
         $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
-            return range(2016, min(2036, $maxValuesToReturn));
+            return range(2016, 2016 + $maxValuesToReturn);
         };
     }
 
