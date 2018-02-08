@@ -3529,40 +3529,58 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
-                try {
-                    // we use the progid Microsoft.XMLHTTP because
-                    // IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
-                    // is pinned to MSXML2.XMLHTTP.3.0
-                    var xhr = windowAlias.XMLHttpRequest
-                        ? new windowAlias.XMLHttpRequest()
-                        : windowAlias.ActiveXObject
-                        ? new ActiveXObject('Microsoft.XMLHTTP')
-                        : null;
+                setTimeout(function () {
+                    // we execute it with a little delay in case the unload event occurred just after sending this request
+                    // this is to avoid the following behaviour: Eg on form submit a tracking request is sent via POST
+                    // in this method. Then a few ms later the browser wants to navigate to the new page and the unload
+                    // event occurrs and the browser cancels the just triggered POST request. This causes or fallback
+                    // method to be triggered and we execute the same request again (either as fallbackGet or sendBeacon).
+                    // The problem is that we do not know whether the inital POST request was already fully transferred
+                    // to the server or not when the onreadystatechange callback is executed and we might execute the
+                    // same request a second time. To avoid this, we delay the actual execution of this POST request just
+                    // by 50ms which gives it usually enough time to detect the unload event in most cases.
 
-                    xhr.open('POST', configTrackerUrl, true);
-
-                    // fallback on error
-                    xhr.onreadystatechange = function () {
-                        if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
-                            var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
-
-                            if (!sentViaBeacon && fallbackToGet) {
-                                getImage(request, callback);
-                            }
-                        } else {
-                            if (this.readyState === 4 && (typeof callback === 'function')) { callback(); }
-                        }
-                    };
-
-                    xhr.setRequestHeader('Content-Type', configRequestContentType);
-
-                    xhr.send(request);
-                } catch (e) {
-                    var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
-                    if (!sentViaBeacon && fallbackToGet) {
-                        getImage(request, callback);
+                    if (isPageUnloading && sendPostRequestViaSendBeacon(request)) {
+                        return;
                     }
-                }
+                    var sentViaBeacon;
+
+                    try {
+                        // we use the progid Microsoft.XMLHTTP because
+                        // IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
+                        // is pinned to MSXML2.XMLHTTP.3.0
+                        var xhr = windowAlias.XMLHttpRequest
+                            ? new windowAlias.XMLHttpRequest()
+                            : windowAlias.ActiveXObject
+                                ? new ActiveXObject('Microsoft.XMLHTTP')
+                                : null;
+
+                        xhr.open('POST', configTrackerUrl, true);
+
+                        // fallback on error
+                        xhr.onreadystatechange = function () {
+                            if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
+                                var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
+
+                                if (!sentViaBeacon && fallbackToGet) {
+                                    getImage(request, callback);
+                                }
+                            } else {
+                                if (this.readyState === 4 && (typeof callback === 'function')) { callback(); }
+                            }
+                        };
+
+                        xhr.setRequestHeader('Content-Type', configRequestContentType);
+
+                        xhr.send(request);
+                    } catch (e) {
+                        sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
+                        if (!sentViaBeacon && fallbackToGet) {
+                            getImage(request, callback);
+                        }
+                    }
+                }, 50);
+
             }
 
             function setExpireDateTime(delay) {
