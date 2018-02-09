@@ -11,6 +11,7 @@ namespace Piwik\Plugins\UserCountry\LocationProvider;
 use Exception;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\UserCountry\GeoIPLegacyAutoUpdater;
 use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
@@ -102,6 +103,8 @@ abstract class GeoIp2 extends LocationProvider
 
         if (empty($switched)) {
             Option::set(self::SWITCH_TO_GEOIP2_OPTION_NAME, time());
+            // remove auto updating for legacy database
+            GeoIPLegacyAutoUpdater::clearOptions();
         }
     }
 

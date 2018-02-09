@@ -311,6 +311,17 @@ class GeoIPLegacyAutoUpdater extends Task
     }
 
     /**
+     * Removes all options to disable any configured automatic updates
+     */
+    public static function clearOptions()
+    {
+        foreach (self::$urlOptions as $optionKey => $optionName) {
+            Option::delete($optionName);
+        }
+        Option::delete(self::SCHEDULE_PERIOD_OPTION_NAME);
+    }
+
+    /**
      * Sets the options used by this class based on the elements in $options.
      *
      * The following elements of $options are used:
