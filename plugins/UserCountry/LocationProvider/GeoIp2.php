@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UserCountry\LocationProvider;
 
 use Exception;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 
@@ -89,6 +90,18 @@ abstract class GeoIp2 extends LocationProvider
             return true;
         } catch (Exception $ex) {
             return $ex->getMessage();
+        }
+    }
+
+    /**
+     * Remember time when switched to any GeoIP 2 provider, so we are able to convert data stored before
+     */
+    public function activate()
+    {
+        $switched = Option::get(self::SWITCH_TO_GEOIP2_OPTION_NAME);
+
+        if (empty($switched)) {
+            Option::set(self::SWITCH_TO_GEOIP2_OPTION_NAME, time());
         }
     }
 

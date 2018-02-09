@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UserCountry\LocationProvider;
 
 use Exception;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 
@@ -123,6 +124,21 @@ abstract class GeoIp extends LocationProvider
         } catch (Exception $ex) {
             return $ex->getMessage();
         }
+    }
+
+    /**
+     * Disables all GeoIP Legacy providers if user switched to GeoIP 2
+     *
+     * @return bool
+     */
+    public function isDisabled()
+    {
+        $switched = Option::get(self::SWITCH_TO_GEOIP2_OPTION_NAME);
+        if (!empty($switched)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
