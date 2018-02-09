@@ -290,27 +290,6 @@ class GeoIPLegacyAutoUpdater extends Task
     }
 
     /**
-     * Sets the options used by this class based on query parameter values.
-     *
-     * See setUpdaterOptions for query params used.
-     */
-    public static function setUpdaterOptionsFromUrl()
-    {
-        $options = array(
-            'loc'    => Common::getRequestVar('loc_db', false, 'string'),
-            'isp'    => Common::getRequestVar('isp_db', false, 'string'),
-            'org'    => Common::getRequestVar('org_db', false, 'string'),
-            'period' => Common::getRequestVar('period', false, 'string'),
-        );
-
-        foreach (self::$urlOptions as $optionKey => $optionName) {
-            $options[$optionKey] = Common::unsanitizeInputValue($options[$optionKey]); // URLs should not be sanitized
-        }
-
-        self::setUpdaterOptions($options);
-    }
-
-    /**
      * Removes all options to disable any configured automatic updates
      */
     public static function clearOptions()
@@ -319,54 +298,6 @@ class GeoIPLegacyAutoUpdater extends Task
             Option::delete($optionName);
         }
         Option::delete(self::SCHEDULE_PERIOD_OPTION_NAME);
-    }
-
-    /**
-     * Sets the options used by this class based on the elements in $options.
-     *
-     * The following elements of $options are used:
-     *   'loc' - URL for location database.
-     *   'isp' - URL for ISP database.
-     *   'org' - URL for Organization database.
-     *   'period' - 'weekly' or 'monthly'. When to run the updates.
-     *
-     * @param array $options
-     * @throws Exception
-     */
-    public static function setUpdaterOptions($options)
-    {
-        // set url options
-        foreach (self::$urlOptions as $optionKey => $optionName) {
-            if (!isset($options[$optionKey])) {
-                continue;
-            }
-
-            $url = $options[$optionKey];
-            $url = self::removeDateFromUrl($url);
-
-            Option::set($optionName, $url);
-        }
-
-        // set period option
-        if (!empty($options['period'])) {
-            $period = $options['period'];
-
-            if ($period != self::SCHEDULE_PERIOD_MONTHLY
-                && $period != self::SCHEDULE_PERIOD_WEEKLY
-            ) {
-                throw new Exception(Piwik::translate(
-                    'UserCountry_InvalidGeoIPUpdatePeriod',
-                    array("'$period'", "'" . self::SCHEDULE_PERIOD_MONTHLY . "', '" . self::SCHEDULE_PERIOD_WEEKLY . "'")
-                ));
-            }
-
-            Option::set(self::SCHEDULE_PERIOD_OPTION_NAME, $period);
-
-            /** @var Scheduler $scheduler */
-            $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
-
-            $scheduler->rescheduleTask(new GeoIPLegacyAutoUpdater());
-        }
     }
 
     /**
