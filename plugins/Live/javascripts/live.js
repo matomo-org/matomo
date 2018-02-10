@@ -94,7 +94,7 @@
                     }
                 }
             });
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         },
 
         /**

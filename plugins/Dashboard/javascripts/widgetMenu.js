@@ -89,7 +89,7 @@ widgetsHelper.getAvailableWidgets = function (callback) {
             }
             $('#loadingError').show();
         });
-        ajaxRequest.send(true);
+        ajaxRequest.send();
     }
 
     if (callback) {
@@ -155,7 +155,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
         ajaxRequest.setErrorCallback(onWidgetErrorCallback);
     }
     ajaxRequest.setFormat('html');
-    ajaxRequest.send(false);
+    ajaxRequest.send();
     return ajaxRequest;
 };
 

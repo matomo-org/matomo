@@ -87,7 +87,7 @@ var Piwik_Overlay = (function () {
             $errorNotLoading.show();
         });
         ajaxRequest.setFormat('html');
-        ajaxRequest.send(false);
+        ajaxRequest.send();
     }
 
     /** Adjust the dimensions of the iframe */

@@ -58,7 +58,7 @@
                 });
             });
             ajaxRequest.setFormat('html');
-            ajaxRequest.send(false);
+            ajaxRequest.send();
 
             return false;
         });
