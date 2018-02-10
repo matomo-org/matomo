@@ -109,6 +109,9 @@ return array(
         'google*.html',
         'BingSiteAuth.xml',
         'yandex*.html',
+        // common files on shared hosters
+        'php.ini',
+        '.user.ini',
         // Files below are not expected but they used to be present in older Piwik versions and may be still here
         // As they are not going to cause any trouble we won't report them as 'File to delete'
         '*.coveralls.yml',
