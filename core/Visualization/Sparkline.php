@@ -22,7 +22,6 @@ class Sparkline implements ViewInterface
     const DEFAULT_WIDTH = 200;
     const DEFAULT_HEIGHT = 50;
 
-    public static $enableSparklineImages = true;
 
     /**
      * Width of the sparkline
@@ -158,9 +157,7 @@ class Sparkline implements ViewInterface
     }
 
     public function render() {
-        if (self::$enableSparklineImages) {
-            $this->sparkline->display();
-        }
+        $this->sparkline->display();
         $this->sparkline->destroy();
     }
 }
