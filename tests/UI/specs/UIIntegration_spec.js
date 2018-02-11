@@ -160,10 +160,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.load("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=UserCountryMap_RealTimeMap"
                     + "&showDateTime=0&realtimeWindow=last2&changeVisitAlpha=0&enableAnimation=0&doNotRefreshVisits=1"
                     + "&removeOldVisits=0");
-            page.mouseMove('circle');
+            page.mouseMove('circle', 100);
             page.evaluate(function(){
                 $('.ui-tooltip:visible .rel-time').data('actiontime', Math.floor(new Date((new Date()).getTime()-(4*3600*24000))/1000));
-            });
+            }, 100);
         }, done);
     });
 
@@ -179,10 +179,10 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect.screenshot('actions_pages_tooltip_help').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
             page.mouseMove('[piwik-enriched-headline]');
-            page.click(".helpIcon");
             page.evaluate(function () {
+                $('.helpIcon').click();
                 $('.helpDate:visible').hide();
-            });
+            }, 100);
         }, done);
     });
 
