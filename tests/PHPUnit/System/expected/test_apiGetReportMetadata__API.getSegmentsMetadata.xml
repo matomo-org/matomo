@@ -160,6 +160,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
+		<name>Server time - day of week (End of visit)</name>
+		<segment>visitEndServerDayOfWeek</segment>
+		<acceptedValues>1, 2, 3, 4, 5, 6, 7</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
 		<name>Server time - day of year (End of visit)</name>
 		<segment>visitEndServerDayOfYear</segment>
 		<acceptedValues>1, 2, 3, 4, ..., 365, 366</acceptedValues>
@@ -270,13 +277,6 @@
 		<name>Visit type</name>
 		<segment>visitorType</segment>
 		<acceptedValues>new, returning, returningCustomer. For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain &quot;&amp;segment=visitorType==returning,visitorType==returningCustomer&quot;</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visitors</category>
-		<name>VisitTime_ColumnVisitEndServerWeek</name>
-		<segment>visitEndServerDayOfWeek</segment>
-		<acceptedValues>1, 2, 3, 4, 5, 6, 7</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
