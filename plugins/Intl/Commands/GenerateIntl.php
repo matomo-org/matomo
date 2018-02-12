@@ -105,6 +105,8 @@ class GenerateIntl extends ConsoleCommand
 
             file_put_contents(sprintf($writePath, $langCode), json_encode($translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         }
+
+        $output->writeln('Intl data was recreated. You need to execute `translation:generate-region-data` to enrich it with the region names');
     }
 
     protected function getEnglishLanguageName($code)
