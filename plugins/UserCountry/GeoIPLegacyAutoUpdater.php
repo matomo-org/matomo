@@ -63,6 +63,12 @@ class GeoIPLegacyAutoUpdater extends Task
      */
     public function __construct()
     {
+        $updateUrl = Option::get(self::LOC_URL_OPTION_NAME);
+
+        if (time() > mktime(0, 0, 0, 5, 1, 2018) && strpos($updateUrl, 'GeoLiteCity') !== false) {
+            return; // Do not perform an update for GeoLiteCity after May 2018, as database won't be updated anymore
+        }
+
         $schedulePeriodStr = self::getSchedulePeriod();
 
         // created the scheduledtime instance, also, since GeoIP updates are done on tuesdays,
