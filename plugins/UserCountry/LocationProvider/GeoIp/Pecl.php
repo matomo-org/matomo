@@ -258,7 +258,7 @@ class Pecl extends GeoIp
                      'description'   => $desc,
                      'install_docs'  => $installDocs,
                      'extra_message' => $extraMessage,
-                     'order'         => 3);
+                     'order'         => 11);
     }
 
     /**

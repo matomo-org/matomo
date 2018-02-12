@@ -251,7 +251,7 @@ class ServerBased extends GeoIp
         return array('id'            => self::ID,
                      'title'         => $title,
                      'description'   => $desc,
-                     'order'         => 4,
+                     'order'         => 12,
                      'install_docs'  => $installDocs,
                      'extra_message' => $extraMessage);
     }
