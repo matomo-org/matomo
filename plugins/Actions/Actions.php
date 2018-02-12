@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Actions;
 
 use Piwik\Site;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Tracker\Action;
 
 /**
  * Actions plugin
@@ -32,6 +33,7 @@ class Actions extends \Piwik\Plugin
             'Insights.addReportToOverview'    => 'addReportToInsightsOverview',
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
+            'Actions.addActionTypes' => 'addActionTypes'
         );
     }
 
@@ -89,6 +91,18 @@ class Actions extends \Piwik\Plugin
     {
         $jsFiles[] = "plugins/Actions/javascripts/actionsDataTable.js";
         $jsFiles[] = "plugins/Actions/javascripts/rowactions.js";
+    }
+
+    public function addActionTypes(&$types)
+    {
+        $types += array(
+            Action::TYPE_PAGE_URL => 'pageviews',
+            Action::TYPE_CONTENT => 'contents',
+            Action::TYPE_SITE_SEARCH => 'sitesearches',
+            Action::TYPE_EVENT => 'events',
+            Action::TYPE_OUTLINK => 'outlinks',
+            Action::TYPE_DOWNLOAD => 'downloads'
+        );
     }
 
     public function isSiteSearchEnabled($idSites, $idSite)
