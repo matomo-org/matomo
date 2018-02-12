@@ -45,10 +45,6 @@
 
             this.isLoading = true;
             
-            var parent = $(this).closest('p'),
-                loading = $('.loadingPiwik', parent),
-                ajaxSuccess = $('.success', parent);
-
             piwikApi.withTokenInUrl();
             piwikApi.fetch({
                 method: 'UserCountry.setLocationProvider',
