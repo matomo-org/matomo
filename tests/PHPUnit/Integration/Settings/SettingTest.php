@@ -16,6 +16,9 @@ use Piwik\Settings\Storage\Backend;
 use Exception;
 use Piwik\Tests\Framework\Mock\Settings\FakeBackend;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Validators\CharacterLength;
+use Piwik\Validators\NotEmpty;
+use Piwik\Validators\NumberRange;
 
 
 /**
@@ -162,6 +165,51 @@ class SettingTest extends IntegrationTestCase
         }
 
         $this->fail('An expected exception has not been thrown');
+    }
+
+    public function test_setValue_shouldExecuteValidators()
+    {
+        $setting = $this->makeSetting('myname');
+        $config = $setting->configureField();
+        $config->validators[] = new NotEmpty();
+        $config->validators[] = new NumberRange(5, 10);
+
+        // valid values
+        $setting->setValue('7');
+        $setting->setValue('8.5');
+
+        try {
+            $setting->setValue('1invalid');
+            $this->fail('An expected exception has not been thrown');
+        } catch (Exception $e) {
+            $this->assertContains('General_ValidatorErrorNotANumber', $e->getMessage());
+        }
+
+        try {
+            $setting->setValue('3');
+            $this->fail('An expected exception has not been thrown');
+        } catch (Exception $e) {
+            $this->assertContains('General_ValidatorErrorNumberTooLow', $e->getMessage());
+        }
+
+        try {
+            $setting->setValue('');
+            $this->fail('An expected exception has not been thrown');
+        } catch (Exception $e) {
+            $this->assertContains('General_ValidatorErrorEmptyValue', $e->getMessage());
+        }
+    }
+
+    public function test_setValue_shouldMixinHtmlAttributes()
+    {
+        $configure = function (FieldConfig $config) {
+            $config->validators[] = new NotEmpty();
+            $config->validators[] = new CharacterLength(null, 10);
+        };
+        $setting = $this->makeSetting('myname', FieldConfig::TYPE_STRING, $default = '', $configure);
+
+        $expected = array('required' => 'required', 'maxlength' => 10);
+        $this->assertEquals($expected, $setting->configureField()->uiControlAttributes);
     }
 
     public function getNumericTypes()

@@ -10,6 +10,7 @@ namespace Piwik\Plugins\ExampleSettingsPlugin;
 
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
+use Piwik\Validators\NotEmpty;
 
 /**
  * Defines Settings for ExampleSettingsPlugin.
@@ -55,6 +56,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
             $field->availableValues = array('nb_visits' => 'Visits', 'nb_actions' => 'Actions', 'visitors' => 'Visitors');
             $field->description = 'Choose the metric that should be displayed in the browser tab';
+            $field->validators[] = new NotEmpty();
         });
     }
 
@@ -78,6 +80,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->title = 'Description for value';
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
             $field->description = 'This description will be displayed next to the value';
+            $field->validators[] = new NotEmpty();
         });
     }
 

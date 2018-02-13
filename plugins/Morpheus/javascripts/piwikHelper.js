@@ -109,8 +109,8 @@ var piwikHelper = {
      *
      * @param selector
      * @param {object} options
-     * @param {object} options.scope if supplied, a new isolate scope is created as the parent scope of the
-     *                               compiled angular components. The properties in this object are
+     * @param {object} options.scope if supplied, the given scope will be used when compiling the template.
+     * @param {object} options.params if supplied, the properties in this object are
      *                               added to the new scope.
      */
     compileAngularComponents: function (selector, options) {
@@ -122,15 +122,19 @@ var piwikHelper = {
             return;
         }
 
-        angular.element(document).injector().invoke(function($compile) {
-            var scope = angular.element($element).scope();
+        angular.element(document).injector().invoke(function($compile, $rootScope) {
+            var scope = null;
+            if (options.scope) {
+                scope = options.scope;
+            } else {
+                scope = angular.element($element).scope();
+            }
             if (!scope) {
-                return;
+                scope = $rootScope.$new(true);
             }
 
             if (options.scope) {
-                scope = scope.$new(true);
-                $.extend(scope, options.scope);
+                $.extend(scope, options.params);
             }
 
             $compile($element)(scope);

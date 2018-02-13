@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Settings;
+use Piwik\Validators\BaseValidator;
 
 /**
  * Lets you configure a form field.
@@ -229,5 +230,10 @@ class FieldConfig
      * @var string
      */
     public $condition;
+
+    /**
+     * @var BaseValidator[]
+     */
+    public $validators = [];
 
 }

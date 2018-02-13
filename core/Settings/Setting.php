@@ -158,6 +158,16 @@ class Setting
 
             $this->setUiControlIfNeeded($this->config);
             $this->checkType($this->config);
+            if (empty($this->config->availableValues) && in_array($this->type, array(FieldConfig::TYPE_FLOAT, FieldConfig::TYPE_INT, FieldConfig::TYPE_STRING))) {
+                foreach ($this->config->validators as $validator) {
+                    $attributes = $validator->getHtmlAttributes();
+                    foreach ($attributes as $name => $attribute) {
+                        if (!isset($this->config->uiControlAttributes[$name])) {
+                            $this->config->uiControlAttributes[$name] = $attribute;
+                        }
+                    }
+                }
+            }
         }
 
         return $this->config;
@@ -236,6 +246,19 @@ class Setting
     private function validateValue($value)
     {
         $config = $this->configureField();
+
+        if (!empty($config->validators)) {
+            foreach ($config->validators as $validator) {
+
+                try {
+                    $validator->validate($value);
+                } catch (\Piwik\Validators\Exception $e) {
+                    $errorMsg = strip_tags($config->title) . ': ' . $e->getMessage();
+
+                    throw new \Piwik\Validators\Exception($errorMsg, $e->getCode(), $e);
+                }
+            }
+        }
 
         if ($config->validate && $config->validate instanceof \Closure) {
             call_user_func($config->validate, $value, $this);
