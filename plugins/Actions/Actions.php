@@ -95,14 +95,30 @@ class Actions extends \Piwik\Plugin
 
     public function addActionTypes(&$types)
     {
-        $types += array(
-            Action::TYPE_PAGE_URL => 'pageviews',
-            Action::TYPE_CONTENT => 'contents',
-            Action::TYPE_SITE_SEARCH => 'sitesearches',
-            Action::TYPE_EVENT => 'events',
-            Action::TYPE_OUTLINK => 'outlinks',
-            Action::TYPE_DOWNLOAD => 'downloads'
-        );
+        $types[] = [
+            'id' => Action::TYPE_PAGE_URL,
+            'name' => 'pageviews'
+        ];
+        $types[] = [
+            'id' => Action::TYPE_CONTENT,
+            'name' => 'contents'
+        ];
+        $types[] = [
+            'id' => Action::TYPE_SITE_SEARCH,
+            'name' => 'sitesearches'
+        ];
+        $types[] = [
+            'id' => Action::TYPE_EVENT,
+            'name' => 'events'
+        ];
+        $types[] = [
+            'id' => Action::TYPE_OUTLINK,
+            'name' => 'outlinks'
+        ];
+        $types[] = [
+            'id' => Action::TYPE_DOWNLOAD,
+            'name' => 'downloads'
+        ];
     }
 
     public function isSiteSearchEnabled($idSites, $idSite)

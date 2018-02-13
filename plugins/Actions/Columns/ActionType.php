@@ -10,9 +10,9 @@ namespace Piwik\Plugins\Actions\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
 use Piwik\Columns\MetricsList;
+use Piwik\Development;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Tracker\Action;
 use Exception;
 
 /**
@@ -37,7 +37,7 @@ class ActionType extends ActionDimension
 
     public function getEnumColumnValues()
     {
-        $types = [];
+        $availableTypes = [];
         /**
          * Triggered to determine the available action types
          *
@@ -46,16 +46,30 @@ class ActionType extends ActionDimension
          *
          * **Example**
          *
-         * public function addActionTypes(&$types)
+         * public function addActionTypes(&$availableTypes)
          * {
-         *     $types += array(
-         *         76 => 'media_play'
+         *     $availableTypes[] = array(
+         *         'id' => 76,
+         *         'name' => 'media_play'
          *      );
          * }
          *
-         * @param array $types
+         * @param array $availableTypes
          */
-        Piwik::postEvent('Actions.addActionTypes', [&$types]);
+        Piwik::postEvent('Actions.addActionTypes', [&$availableTypes]);
+
+        $types = [];
+
+        foreach ($availableTypes as $type) {
+            if (empty($type['id']) || empty($type['name'])) {
+                throw new Exception("Invalid action added with event `Actions.addActionTypes`: " . var_export($type, true));
+            }
+            if (Development::isEnabled() && array_key_exists($type['id'], $types)) {
+                throw new Exception(sprintf("Action '%s' with id %s couldn't be added, as '%s' was already added for this id", $type['name'], $type['id'], $types[$type['id']]));
+            }
+            $types[$type['id']] = $type['name'];
+        }
+
         return $types;
     }
 
