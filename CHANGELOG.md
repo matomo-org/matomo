@@ -11,6 +11,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New APIs
 * A new JavaScript tracker method `resetUserId` has been added to allow clearing user and visitor id.
+* A new event `Actions.addActionTypes` has been added, to allow plugins to add their custom action types.
 
 ## Matomo 3.3.0
 
