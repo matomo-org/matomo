@@ -108,12 +108,12 @@ PageRenderer.prototype.selectMainFrame = function (waitTime) {
 };
 
 PageRenderer.prototype.reload = function (waitTime) {
-    waitTime = waitTime ? waitTime : 750;
+    waitTime = waitTime ? waitTime : 1000;
     this.queuedEvents.push([this._reload, waitTime]);
 };
 
 PageRenderer.prototype.load = function (url, waitTime) {
-    waitTime = waitTime ? waitTime : 750;
+    waitTime = waitTime ? waitTime : 1000;
     this.queuedEvents.push([this._load, waitTime, url]);
 };
 
