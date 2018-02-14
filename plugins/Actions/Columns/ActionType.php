@@ -32,7 +32,7 @@ class ActionType extends ActionDimension
 
     public function __construct()
     {
-        $this->acceptValues = 'A type of action, such as: pageviews, contents, events, outlinks';
+        $this->acceptValues = 'A type of action, such as: pageviews, contents, sitesearches, events, outlinks, downloads';
     }
 
     public function getEnumColumnValues()
