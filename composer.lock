@@ -234,25 +234,28 @@
         },
         {
             "name": "matomo/searchengine-and-social-list",
-            "version": "1.4",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "e204de3e68e750bfdace0469f1ade74f416024fb"
+                "reference": "7f0bd9f27196885544813d5c847142c9f411f9ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/e204de3e68e750bfdace0469f1ade74f416024fb",
-                "reference": "e204de3e68e750bfdace0469f1ade74f416024fb",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/7f0bd9f27196885544813d5c847142c9f411f9ab",
+                "reference": "7f0bd9f27196885544813d5c847142c9f411f9ab",
                 "shasum": ""
+            },
+            "replace": {
+                "piwik/searchengine-and-social-list": "*"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "Public Domain"
+                "CC0-1.0"
             ],
             "description": "Search engine and social network definitions used by Matomo (formerly Piwik)",
-            "time": "2018-01-29T16:36:29+00:00"
+            "time": "2018-01-29T18:13:08+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -766,7 +769,7 @@
             ],
             "authors": [
                 {
-                    "name": "The Matomo Team",
+                    "name": "The Piwik Team",
                     "email": "hello@piwik.org",
                     "homepage": "http://piwik.org/the-piwik-team/"
                 }
@@ -778,6 +781,7 @@
                 "file",
                 "redis"
             ],
+            "abandoned": "matomo/cache",
             "time": "2016-11-15T02:33:06+00:00"
         },
         {
@@ -785,12 +789,12 @@
             "version": "1.2.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/piwik/component-decompress.git",
+                "url": "https://github.com/matomo-org/component-decompress.git",
                 "reference": "15088059c38378939db8a3490b67b569797a6a3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-decompress/zipball/15088059c38378939db8a3490b67b569797a6a3a",
+                "url": "https://api.github.com/repos/matomo-org/component-decompress/zipball/15088059c38378939db8a3490b67b569797a6a3a",
                 "reference": "15088059c38378939db8a3490b67b569797a6a3a",
                 "shasum": ""
             },
@@ -814,6 +818,7 @@
             "license": [
                 "LGPL-3.0"
             ],
+            "abandoned": "matomo/decompress",
             "time": "2017-07-14T10:45:10+00:00"
         },
         {
@@ -821,12 +826,12 @@
             "version": "3.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/piwik/device-detector.git",
+                "url": "https://github.com/matomo-org/device-detector.git",
                 "reference": "caf2d15349caffd94a8cfe46edf4061fbc99f70b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/device-detector/zipball/caf2d15349caffd94a8cfe46edf4061fbc99f70b",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/caf2d15349caffd94a8cfe46edf4061fbc99f70b",
                 "reference": "caf2d15349caffd94a8cfe46edf4061fbc99f70b",
                 "shasum": ""
             },
@@ -856,7 +861,7 @@
             ],
             "authors": [
                 {
-                    "name": "The Matomo Team",
+                    "name": "The Piwik Team",
                     "email": "hello@piwik.org",
                     "homepage": "http://piwik.org/the-piwik-team/"
                 }
@@ -901,6 +906,7 @@
             "license": [
                 "LGPL-3.0"
             ],
+            "abandoned": "matomo/ini",
             "time": "2016-01-14T21:13:33+00:00"
         },
         {
@@ -961,12 +967,12 @@
             ],
             "authors": [
                 {
-                    "name": "The Matomo Team",
+                    "name": "The Piwik Team",
                     "email": "hello@piwik.org",
                     "homepage": "http://piwik.org/the-piwik-team/"
                 }
             ],
-            "description": "PHP Client for Matomo Analytics Tracking API",
+            "description": "PHP Client for Piwik Analytics Tracking API",
             "homepage": "http://piwik.org",
             "keywords": [
                 "analytics",
@@ -1633,7 +1639,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2015-02-26 14:37:51"
+            "time": "2015-02-26T14:37:51+00:00"
         },
         {
             "name": "guzzle/guzzle",
