@@ -32,7 +32,7 @@ class ActionType extends ActionDimension
 
     public function __construct()
     {
-        $this->acceptValues = sprintf('A type of action, such as: %s', implode(', ', $this->getEnumColumnValues()));
+        $this->acceptValues = 'A type of action, such as: pageviews, contents, events, outlinks';
     }
 
     public function getEnumColumnValues()
