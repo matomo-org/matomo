@@ -103,7 +103,6 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('1990-01-01'),
-            array('1990-01-01,today'),
             array(3434),
         );
     }
