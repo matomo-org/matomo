@@ -84,9 +84,26 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
             array('today,last7'),
             array('2013-01-01,last7'),
             array('today,2013-01-01'),
-            array('1990-01-01'),
             array('1990-01-0111'),
             array('foobar'),
+        );
+    }
+    
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage is a date before first website was online. Try date that's after
+     * @dataProvider getInvalidDatesBeforeFirstWebsite
+     */
+    public function testValidate_InvalidDatesBeforeFirstWebsite($invalidDatesBeforeFirstWebsite)
+    {
+        Period::checkDateFormat($invalidDatesBeforeFirstWebsite);
+    }
+    
+    public function getInvalidDatesBeforeFirstWebsite()
+    {
+        return array(
+            array('1990-01-01'),
+            array('1990-01-01,today'),
             array(3434),
         );
     }
