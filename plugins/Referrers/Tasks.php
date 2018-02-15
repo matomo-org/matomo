@@ -42,7 +42,7 @@ class Tasks extends \Piwik\Plugin\Tasks
     /**
      * Update the social definitions
      *
-     * @see https://github.com/piwik/searchengine-and-social-list
+     * @see https://github.com/matomo-org/searchengine-and-social-list
      */
     public function updateSocials()
     {
