@@ -58,21 +58,20 @@ class ManyVisitsWithGeoIP extends Fixture
     public function setUp()
     {
         $this->setUpWebsitesAndGoals();
-        self::downloadGeoIpDbs();
 
         $this->setMockLocationProvider();
         $this->trackVisits(9, false);
 
-        $this->setLocationProvider('GeoLite2-City.mmdb');
+        $this->setLocationProvider('GeoIP2-City.mmdb');
         $this->trackVisits(2, true, $useLocal = false);
         $this->trackVisits(4, true, $useLocal = false, $doBulk = true);
 
-        $this->setLocationProvider('GeoLite2-Country.mmdb');
+        $this->setLocationProvider('GeoIP2-Country.mmdb');
         $this->trackVisits(2, true);
 
         $this->trackOtherVisits();
 
-        $this->setLocationProvider('GeoLite2-City.mmdb');
+        $this->setLocationProvider('GeoIP2-City.mmdb');
     }
 
     public function tearDown()

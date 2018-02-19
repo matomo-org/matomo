@@ -58,7 +58,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
             Db::query($sql);
         }
 
-        self::$fixture->setLocationProvider('GeoLite2-City.mmdb');
+        self::$fixture->setLocationProvider('GeoIP2-City.mmdb');
     }
 
     /**

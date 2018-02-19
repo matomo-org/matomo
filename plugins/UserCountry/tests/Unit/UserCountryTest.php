@@ -74,7 +74,7 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGeoIpLegacyUpdaterRedundantChecks()
     {
-        GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        GeoIp::$geoIPDatabaseDir = 'tmp/geoip-files';
         LocationProvider::$providers = null;
 
         // create empty ISP & Org files
@@ -100,7 +100,7 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGeoIp2UpdaterRedundantChecks()
     {
-        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        GeoIp2::$geoIPDatabaseDir = 'tmp/geoip-files';
         LocationProvider::$providers = null;
 
         // create empty ISP & Org files
@@ -171,13 +171,15 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        @mkdir(PIWIK_INCLUDE_PATH . '/tmp/geoip-files');
         // empty
     }
 
     public function tearDown()
     {
-        $geoIpDirPath = PIWIK_INCLUDE_PATH . '/tests/lib/geoip-files';
-        $filesToRemove = array('GeoIPISP.dat.broken', 'GeoIPOrg.dat.broken', 'GeoIPISP.dat', 'GeoIPOrg.dat', 'GeoIP2-ISP.mmdb', 'GeoIP2-ISP.mmdb.broken');
+        $geoIpDirPath = PIWIK_INCLUDE_PATH . '/tmp/geoip-files';
+        $filesToRemove = array('GeoIPISP.dat.broken', 'GeoIPOrg.dat.broken', 'GeoIPISP.dat', 'GeoIPOrg.dat',
+                               'GeoIP2-City.mmdb', 'GeoIP2-City.mmdb.broken', 'GeoIP2-ISP.mmdb', 'GeoIP2-ISP.mmdb.broken');
 
         foreach ($filesToRemove as $name) {
             $path = $geoIpDirPath . '/' . $name;
@@ -185,11 +187,13 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
                 @unlink($path);
             }
         }
+
+        @rmdir($geoIpDirPath);
     }
 
     private function createEmptyISPOrgLegacyFiles()
     {
-        $geoIpDir = PIWIK_INCLUDE_PATH . '/tests/lib/geoip-files';
+        $geoIpDir = PIWIK_INCLUDE_PATH . '/tmp/geoip-files';
 
         $fd = fopen($geoIpDir . '/GeoIPISP.dat', 'w');
         fclose($fd);
@@ -200,7 +204,7 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
 
     private function checkBrokenGeoIPLegacyState()
     {
-        $geoIpDir = PIWIK_INCLUDE_PATH . '/tests/lib/geoip-files';
+        $geoIpDir = PIWIK_INCLUDE_PATH . '/tmp/geoip-files';
 
         $this->assertFalse(file_exists($geoIpDir . '/GeoIPCity.dat.broken'));
 
@@ -213,7 +217,7 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
 
     private function createEmptyGeoIp2ISPFiles()
     {
-        $geoIpDir = PIWIK_INCLUDE_PATH . '/tests/lib/geoip-files';
+        $geoIpDir = PIWIK_INCLUDE_PATH . '/tmp/geoip-files';
 
         $fd = fopen($geoIpDir . '/GeoIP2-ISP.mmdb', 'w');
         fclose($fd);
@@ -221,7 +225,7 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
 
     private function checkBrokenGeoIP2State()
     {
-        $geoIpDir = PIWIK_INCLUDE_PATH . '/tests/lib/geoip-files';
+        $geoIpDir = PIWIK_INCLUDE_PATH . '/tmp/geoip-files';
 
         $this->assertFalse(file_exists($geoIpDir . '/GeoIP2-City.mmdb.broken'));
 
