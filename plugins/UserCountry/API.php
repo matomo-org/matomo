@@ -279,7 +279,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Set the location provider
      *
-     * @param string $providerId  The ID of the provider to use  eg 'default', 'geoip_php', ...
+     * @param string $providerId  The ID of the provider to use  eg 'default', 'geoip2_php', ...
      * @throws Exception if ID is invalid
      */
     public function setLocationProvider($providerId)

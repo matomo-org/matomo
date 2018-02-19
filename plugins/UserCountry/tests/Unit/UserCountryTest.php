@@ -10,38 +10,33 @@ namespace Piwik\Plugins\UserCountry\tests\Unit;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
-use Piwik\Plugins\UserCountry\GeoIPAutoUpdater;
+use Piwik\Plugins\UserCountry\GeoIP2AutoUpdater;
+use Piwik\Plugins\UserCountry\GeoIPLegacyAutoUpdater;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
-use Piwik\Plugins\UserCountry;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Exception;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/UserCountry.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
+/**
+ * @group Plugins
+ */
 class UserCountryTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @group Plugins
-     */
     public function testGetFlagFromCode()
     {
         $flag = \Piwik\Plugins\UserCountry\getFlagFromCode("us");
         $this->assertEquals(basename($flag), "us.png");
     }
 
-    /**
-     * @group Plugins
-     */
     public function testGetFlagFromInvalidCode()
     {
         $flag = \Piwik\Plugins\UserCountry\getFlagFromCode("foo");
         $this->assertEquals(basename($flag), "xx.png");
     }
 
-    /**
-     * @group Plugins
-     */
     public function testFlagsAndContinents()
     {
         /** @var RegionDataProvider $dataProvider */
@@ -76,43 +71,65 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test that redundant checks work.
-     *
-     * @group Plugins
      */
-    public function testGeoIpUpdaterRedundantChecks()
+    public function testGeoIpLegacyUpdaterRedundantChecks()
     {
         GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::$providers = null;
 
         // create empty ISP & Org files
-        $this->createEmptyISPOrgFiles();
+        $this->createEmptyISPOrgLegacyFiles();
 
         // run redundant checks
-        $updater = new Piwik_UserCountry_GeoIPAutoUpdater_publictest();
+        $updater = new Piwik_UserCountry_GeoIPLegacyAutoUpdater_publictest();
         $updater->performRedundantDbChecks();
 
         // check that files are renamed correctly
-        $this->checkBrokenGeoIPState();
+        $this->checkBrokenGeoIPLegacyState();
 
         // create empty files again & run checks again
-        $this->createEmptyISPOrgFiles();
+        $this->createEmptyISPOrgLegacyFiles();
         $updater->performRedundantDbChecks();
 
         // check that w/ broken files already there, redundant checks still work correctly
-        $this->checkBrokenGeoIPState();
+        $this->checkBrokenGeoIPLegacyState();
     }
 
     /**
-     * @group Plugins
-     *
-     * @dataProvider getInvalidGeoIpUrlsToTest
+     * Test that redundant checks work.
      */
-    public function testGeoIpDownloadInvalidUrl($url)
+    public function testGeoIp2UpdaterRedundantChecks()
+    {
+        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        LocationProvider::$providers = null;
+
+        // create empty ISP & Org files
+        $this->createEmptyGeoIp2ISPFiles();
+
+        // run redundant checks
+        $updater = new Piwik_UserCountry_GeoIP2AutoUpdater_publictest();
+        $updater->performRedundantDbChecks();
+
+        // check that files are renamed correctly
+        $this->checkBrokenGeoIP2State();
+
+        // create empty files again & run checks again
+        $this->createEmptyGeoIp2ISPFiles();
+        $updater->performRedundantDbChecks();
+
+        // check that w/ broken files already there, redundant checks still work correctly
+        $this->checkBrokenGeoIP2State();
+    }
+
+    /**
+     * @dataProvider getInvalidGeoIpLegacyUrlsToTest
+     */
+    public function testGeoIpLegacyDownloadInvalidUrl($url)
     {
         // unset translations, otherwise Exception message will be translated
         StaticContainer::get('Piwik\Translation\Translator')->reset();
 
-        $updater = new Piwik_UserCountry_GeoIPAutoUpdater_publictest();
+        $updater = new Piwik_UserCountry_GeoIPLegacyAutoUpdater_publictest();
         try {
             $updater->downloadFile('loc', $url);
             $this->fail("Downloading invalid url succeeded!");
@@ -121,11 +138,35 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function getInvalidGeoIpUrlsToTest()
+    public function getInvalidGeoIpLegacyUrlsToTest()
     {
         return array(array("http://localhost/tests/resources/geoip.tar"),
                      array("http://localhost/tests/resources/geoip.tar.bz2"),
                      array("http://localhost/tests/resources/geoip.dat"));
+    }
+
+    /**
+     * @dataProvider getInvalidGeoIp2UrlsToTest
+     */
+    public function testGeoIp2DownloadInvalidUrl($url)
+    {
+        // unset translations, otherwise Exception message will be translated
+        StaticContainer::get('Piwik\Translation\Translator')->reset();
+
+        $updater = new Piwik_UserCountry_GeoIP2AutoUpdater_publictest();
+        try {
+            $updater->downloadFile('loc', $url);
+            $this->fail("Downloading invalid url succeeded!");
+        } catch (Exception $ex) {
+            $this->assertEquals("UserCountry_UnsupportedArchiveType", $ex->getMessage());
+        }
+    }
+
+    public function getInvalidGeoIp2UrlsToTest()
+    {
+        return array(array("http://localhost/tests/resources/GeoIP2-City.tar"),
+                     array("http://localhost/tests/resources/GeoIP2-City.tar.bz2"),
+                     array("http://localhost/tests/resources/GeoIP2-City.mmdb"));
     }
 
     public function setUp()
@@ -146,7 +187,7 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    private function createEmptyISPOrgFiles()
+    private function createEmptyISPOrgLegacyFiles()
     {
         $geoIpDir = PIWIK_INCLUDE_PATH . '/tests/lib/geoip-files';
 
@@ -157,7 +198,7 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
         fclose($fd);
     }
 
-    private function checkBrokenGeoIPState()
+    private function checkBrokenGeoIPLegacyState()
     {
         $geoIpDir = PIWIK_INCLUDE_PATH . '/tests/lib/geoip-files';
 
@@ -169,9 +210,46 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(file_exists($geoIpDir . '/GeoIPOrg.dat'));
         $this->assertTrue(file_exists($geoIpDir . '/GeoIPOrg.dat.broken'));
     }
+
+    private function createEmptyGeoIp2ISPFiles()
+    {
+        $geoIpDir = PIWIK_INCLUDE_PATH . '/tests/lib/geoip-files';
+
+        $fd = fopen($geoIpDir . '/GeoIP2-ISP.mmdb', 'w');
+        fclose($fd);
+    }
+
+    private function checkBrokenGeoIP2State()
+    {
+        $geoIpDir = PIWIK_INCLUDE_PATH . '/tests/lib/geoip-files';
+
+        $this->assertFalse(file_exists($geoIpDir . '/GeoIP2-City.mmdb.broken'));
+
+        $this->assertFalse(file_exists($geoIpDir . '/GeoIP2-ISP.mmdb'));
+        $this->assertTrue(file_exists($geoIpDir . '/GeoIP2-ISP.mmdb.broken'));
+    }
 }
 
-class Piwik_UserCountry_GeoIPAutoUpdater_publictest extends GeoIPAutoUpdater
+class Piwik_UserCountry_GeoIPLegacyAutoUpdater_publictest extends GeoIPLegacyAutoUpdater
+{
+    public function __construct()
+    {
+        // empty
+    }
+
+    // during tests do not call the Log::error or they will be displayed in the output
+    public function performRedundantDbChecks($logErrors = false)
+    {
+        parent::performRedundantDbChecks($logErrors);
+    }
+
+    public function downloadFile($type, $url)
+    {
+        parent::downloadFile($type, $url);
+    }
+}
+
+class Piwik_UserCountry_GeoIP2AutoUpdater_publictest extends GeoIP2AutoUpdater
 {
     public function __construct()
     {
