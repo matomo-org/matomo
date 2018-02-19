@@ -109,7 +109,7 @@ class GeoIP2AutoUpdater extends Task
     }
 
     /**
-     * Downloads a GeoIP 2 database archive, extracts the .dat file and overwrites the existing
+     * Downloads a GeoIP 2 database archive, extracts the .mmdb file and overwrites the existing
      * old database.
      *
      * If something happens that causes the download to fail, no exception is thrown, but
@@ -176,7 +176,7 @@ class GeoIP2AutoUpdater extends Task
 
         // extract file
         if (substr($path, -7, 7) == '.tar.gz') {
-            // find the .dat file in the tar archive
+            // find the .mmdb file in the tar archive
             $unzip = Unzip::factory('tar.gz', $path);
             $content = $unzip->listContent();
 
@@ -198,7 +198,7 @@ class GeoIP2AutoUpdater extends Task
                     array($dbFilename, "'$path'")));
             }
 
-            // extract JUST the .dat file
+            // extract JUST the .mmdb file
             $unzipped = $unzip->extractInString($datFile);
 
             if (empty($unzipped)) {
@@ -239,17 +239,16 @@ class GeoIP2AutoUpdater extends Task
 
             $phpProvider = new Php($customDbNames);
 
-            $location = self::getTestLocationCatchPhpErrors($phpProvider);
+            try {
+                $location = $phpProvider->getLocation(array('ip' => GeoIp2::TEST_IP));
+            } catch (\Exception $e) {
+                Log::info("GeoIP2AutoUpdater: Encountered exception when testing newly downloaded" .
+                    " GeoIP 2 database: %s", $e->getMessage());
 
-            if (empty($location)
-                || self::$unzipPhpError !== null
-            ) {
-                if (self::$unzipPhpError !== null) {
-                    list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
-                    Log::info("GeoIP2AutoUpdater: Encountered PHP error when testing newly downloaded" .
-                        " GeoIP 2 database: %s: %s on line %s of %s.", $errno, $errstr, $errline, $errfile);
-                }
+                throw new Exception(Piwik::translate('UserCountry_ThisUrlIsNotAValidGeoIPDB'));
+            }
 
+            if (empty($location)) {
                 throw new Exception(Piwik::translate('UserCountry_ThisUrlIsNotAValidGeoIPDB'));
             }
 
@@ -485,29 +484,6 @@ class GeoIP2AutoUpdater extends Task
     }
 
     /**
-     * Tests a location provider using a test IP address and catches PHP errors
-     * (ie, notices) if they occur. PHP error information is held in self::$unzipPhpError.
-     *
-     * @param LocationProvider $provider The provider to test.
-     * @return array|false $location The result of geolocation. False if no location
-     *                               can be found.
-     */
-    private static function getTestLocationCatchPhpErrors($provider)
-    {
-        // note: in most cases where this will fail, the error will usually be a PHP fatal error/notice.
-        // in order to delete the files in such a case (which can be caused by a man-in-the-middle attack)
-        // we need to catch them, so we set a new error handler.
-        self::$unzipPhpError = null;
-        set_error_handler(array('Piwik\Plugins\UserCountry\GeoIP2AutoUpdater', 'catchGeoIPError'));
-
-        $location = $provider->getLocation(array('ip' => GeoIp2::TEST_IP));
-
-        restore_error_handler();
-
-        return $location;
-    }
-
-    /**
      * Utility function that checks if geolocation works with each installed database,
      * and if one or more doesn't, they are renamed to make sure tracking will work.
      * This is a safety measure used to make sure tracking isn't affected if strange
@@ -535,13 +511,12 @@ class GeoIP2AutoUpdater extends Task
             $provider = new Php($customNames);
 
             // test the provider. on error, we rename the broken DB.
-            self::getTestLocationCatchPhpErrors($provider);
-            if (self::$unzipPhpError !== null) {
-                list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
-
+            try {
+                $location = $provider->getLocation(array('ip' => GeoIp2::TEST_IP));
+            } catch (\Exception $e) {
                 if($logErrors) {
-                    Log::error("GeoIP2AutoUpdater: Encountered PHP error when performing redundant tests on GeoIP "
-                        . "%s database: %s: %s on line %s of %s.", $type, $errno, $errstr, $errline, $errfile);
+                    Log::error("GeoIP2AutoUpdater: Encountered exception when performing redundant tests on GeoIP2 "
+                        . "%s database: %s: %s", $type, $e->getMessage());
                 }
 
                 // get the current filename for the DB and an available new one to rename it to

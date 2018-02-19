@@ -2,25 +2,25 @@
 <result>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>22</nb_visits>
-		<nb_actions>61</nb_actions>
+		<nb_visits>20</nb_visits>
+		<nb_actions>56</nb_actions>
 		<max_actions>5</max_actions>
-		<bounce_count>11</bounce_count>
+		<bounce_count>10</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>22</nb_conversions>
-				<nb_visits_converted>22</nb_visits_converted>
-				<revenue>110</revenue>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>100</revenue>
 			</row>
 			<row idgoal='2'>
-				<nb_conversions>11</nb_conversions>
-				<nb_visits_converted>11</nb_visits_converted>
-				<revenue>55</revenue>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>50</revenue>
 			</row>
 		</goals>
-		<nb_conversions>33</nb_conversions>
-		<revenue>165</revenue>
-		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
+		<nb_conversions>30</nb_conversions>
+		<revenue>150</revenue>
+		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<region>xx</region>
 		<country>xx</country>
@@ -58,7 +58,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 	</row>
 	<row>
-		<label>Franche-Comte, France</label>
+		<label>Bourgogne-Franche-Comte, France</label>
 		<nb_visits>3</nb_visits>
 		<nb_actions>7</nb_actions>
 		<max_actions>5</max_actions>
@@ -79,44 +79,15 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>regionCode==A6;countryCode==fr</segment>
-		<region>A6</region>
+		<segment>regionCode==BFC;countryCode==fr</segment>
+		<region>BFC</region>
 		<country>fr</country>
 		<country_name>France</country_name>
-		<region_name>Franche-Comte</region_name>
+		<region_name>Bourgogne-Franche-Comte</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
-		<label>Lazio, Italy</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>6</nb_actions>
-		<max_actions>5</max_actions>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>2</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
-				<revenue>10</revenue>
-			</row>
-			<row idgoal='2'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>3</nb_conversions>
-		<revenue>15</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>regionCode==07;countryCode==it</segment>
-		<region>07</region>
-		<country>it</country>
-		<country_name>Italy</country_name>
-		<region_name>Lazio</region_name>
-		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
-	</row>
-	<row>
-		<label>Xizang, China</label>
+		<label>Central Java, Indonesia</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
@@ -137,11 +108,69 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>regionCode==14;countryCode==cn</segment>
-		<region>14</region>
+		<segment>regionCode==JT;countryCode==id</segment>
+		<region>JT</region>
+		<country>id</country>
+		<country_name>Indonesia</country_name>
+		<region_name>Central Java</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/id.png</logo>
+	</row>
+	<row>
+		<label>Latium, Italy</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>6</nb_actions>
+		<max_actions>5</max_actions>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>3</nb_conversions>
+		<revenue>15</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>regionCode==62;countryCode==it</segment>
+		<region>62</region>
+		<country>it</country>
+		<country_name>Italy</country_name>
+		<region_name>Latium</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
+	</row>
+	<row>
+		<label>Tibet, China</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>5</nb_actions>
+		<max_actions>4</max_actions>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>3</nb_conversions>
+		<revenue>15</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>regionCode==XZ;countryCode==cn</segment>
+		<region>XZ</region>
 		<country>cn</country>
 		<country_name>China</country_name>
-		<region_name>Xizang</region_name>
+		<region_name>Tibet</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
 	</row>
 </result>

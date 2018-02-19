@@ -177,7 +177,7 @@ class UserCountryTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $geoIpDirPath = PIWIK_INCLUDE_PATH . '/tests/lib/geoip-files';
-        $filesToRemove = array('GeoIPISP.dat.broken', 'GeoIPOrg.dat.broken', 'GeoIPISP.dat', 'GeoIPOrg.dat');
+        $filesToRemove = array('GeoIPISP.dat.broken', 'GeoIPOrg.dat.broken', 'GeoIPISP.dat', 'GeoIPOrg.dat', 'GeoIP2-ISP.mmdb', 'GeoIP2-ISP.mmdb.broken');
 
         foreach ($filesToRemove as $name) {
             $path = $geoIpDirPath . '/' . $name;

@@ -805,14 +805,16 @@ class Fixture extends \PHPUnit_Framework_Assert
             strpos( $gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD) !== false;
     }
 
-    public static $geoIpDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoIP.dat.gz';
-    public static $geoLiteCityDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoLiteCity.dat.gz';
+    //public static $geoIpDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoIP.dat.gz';
+    public static $geoIpDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoLite2-Country.tar.gz';
+    //public static $geoLiteCityDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoLiteCity.dat.gz';
+    public static $geoLiteCityDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoLite2-City.tar.gz';
 
     public static function downloadGeoIpDbs()
     {
         $geoIpOutputDir = PIWIK_INCLUDE_PATH . '/tests/lib/geoip-files';
-        self::downloadAndUnzip(self::$geoIpDbUrl, $geoIpOutputDir, 'GeoIP.dat');
-        self::downloadAndUnzip(self::$geoLiteCityDbUrl, $geoIpOutputDir, 'GeoIPCity.dat');
+        self::downloadAndUnzip(self::$geoIpDbUrl, $geoIpOutputDir, 'GeoLite2-Country.mmdb');
+        self::downloadAndUnzip(self::$geoLiteCityDbUrl, $geoIpOutputDir, 'GeoLite2-City.mmdb');
     }
 
     public static function downloadAndUnzip($url, $outputDir, $filename)
@@ -824,7 +826,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         $deflatedOut = $outputDir . '/' . $filename;
-        $outfileName = $deflatedOut . '.gz';
+        $outfileName = $deflatedOut . '.tar.gz';
 
         if (file_exists($deflatedOut)) {
             $filesize = filesize($deflatedOut);

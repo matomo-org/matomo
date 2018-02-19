@@ -88,43 +88,45 @@ class Php extends GeoIp2
 
         $result = [];
         $reader = $this->getGeoIpInstance('loc');
-        try {
-            switch ($reader->metadata()->databaseType) {
-                case 'GeoLite2-Country':
-                case 'GeoIP2-Country':
-                    $lookupResult                     = $reader->country($ip);
-                    $result[self::CONTINENT_NAME_KEY] = $lookupResult->continent->name;
-                    $result[self::CONTINENT_CODE_KEY] = strtoupper($lookupResult->continent->code);
-                    $result[self::COUNTRY_CODE_KEY]   = strtoupper($lookupResult->country->isoCode);
-                    $result[self::COUNTRY_NAME_KEY]   = $lookupResult->country->name;
-                    break;
-                case 'GeoIP2-Enterprise':
-                case 'GeoLite2-City':
-                case 'GeoIP2-City':
-                    if ($reader->metadata()->databaseType === 'GeoIP2-Enterprise') {
-                        $lookupResult                 = $reader->enterprise($ip);
-                    } else {
-                        $lookupResult                 = $reader->city($ip);
-                    }
-                    $result[self::CONTINENT_NAME_KEY] = $lookupResult->continent->name;
-                    $result[self::CONTINENT_CODE_KEY] = strtoupper($lookupResult->continent->code);
-                    $result[self::COUNTRY_CODE_KEY]   = strtoupper($lookupResult->country->isoCode);
-                    $result[self::COUNTRY_NAME_KEY]   = $lookupResult->country->name;
-                    $result[self::CITY_NAME_KEY]      = $lookupResult->city->name;
-                    $result[self::LATITUDE_KEY]       = $lookupResult->location->latitude;
-                    $result[self::LONGITUDE_KEY]      = $lookupResult->location->longitude;
-                    $result[self::POSTAL_CODE_KEY]    = $lookupResult->postal->code;
-                    if (isset($lookupResult->subdivisions[0])) {
-                        $result[self::REGION_CODE_KEY] = strtoupper($lookupResult->subdivisions[0]->isoCode);
-                        $result[self::REGION_NAME_KEY] = $lookupResult->subdivisions[0]->name;
-                    }
-                    break;
-                default: // unknown database type log warning
-                    Log::warning("Found unrecognized database type: %s", $reader->metadata()->databaseType);
-                    break;
+        if ($reader) {
+            try {
+                switch ($reader->metadata()->databaseType) {
+                    case 'GeoLite2-Country':
+                    case 'GeoIP2-Country':
+                        $lookupResult                     = $reader->country($ip);
+                        $result[self::CONTINENT_NAME_KEY] = $lookupResult->continent->name;
+                        $result[self::CONTINENT_CODE_KEY] = strtoupper($lookupResult->continent->code);
+                        $result[self::COUNTRY_CODE_KEY]   = strtoupper($lookupResult->country->isoCode);
+                        $result[self::COUNTRY_NAME_KEY]   = $lookupResult->country->name;
+                        break;
+                    case 'GeoIP2-Enterprise':
+                    case 'GeoLite2-City':
+                    case 'GeoIP2-City':
+                        if ($reader->metadata()->databaseType === 'GeoIP2-Enterprise') {
+                            $lookupResult = $reader->enterprise($ip);
+                        } else {
+                            $lookupResult = $reader->city($ip);
+                        }
+                        $result[self::CONTINENT_NAME_KEY] = $lookupResult->continent->name;
+                        $result[self::CONTINENT_CODE_KEY] = strtoupper($lookupResult->continent->code);
+                        $result[self::COUNTRY_CODE_KEY]   = strtoupper($lookupResult->country->isoCode);
+                        $result[self::COUNTRY_NAME_KEY]   = $lookupResult->country->name;
+                        $result[self::CITY_NAME_KEY]      = $lookupResult->city->name;
+                        $result[self::LATITUDE_KEY]       = $lookupResult->location->latitude;
+                        $result[self::LONGITUDE_KEY]      = $lookupResult->location->longitude;
+                        $result[self::POSTAL_CODE_KEY]    = $lookupResult->postal->code;
+                        if (isset($lookupResult->subdivisions[0])) {
+                            $result[self::REGION_CODE_KEY] = strtoupper($lookupResult->subdivisions[0]->isoCode);
+                            $result[self::REGION_NAME_KEY] = $lookupResult->subdivisions[0]->name;
+                        }
+                        break;
+                    default: // unknown database type log warning
+                        Log::warning("Found unrecognized database type: %s", $reader->metadata()->databaseType);
+                        break;
+                }
+            } catch (AddressNotFoundException $e) {
+                // ignore - do nothing
             }
-        } catch (AddressNotFoundException $e) {
-            // ignore - do nothing
         }
 
         // NOTE: ISP & ORG require commercial dbs to test.

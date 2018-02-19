@@ -122,7 +122,7 @@ abstract class LocationProvider
      * Returns information about this location provider. Contains an id, title & description:
      *
      * array(
-     *     'id' => 'geoip_php',
+     *     'id' => 'geoip2php',
      *     'title' => '...',
      *     'description' => '...'
      * );
@@ -231,10 +231,10 @@ abstract class LocationProvider
      *
      * An example result:
      * array(
-     *     'geoip_php' => array('id' => 'geoip_php',
+     *     'geoip2php' => array('id' => 'geoip2php',
      *                          'title' => '...',
      *                          'desc' => '...',
-     *                          'status' => GeoIp::BROKEN,
+     *                          'status' => GeoIp2::BROKEN,
      *                          'statusMessage' => '...',
      *                          'location' => '...')
      *     'geoip_serverbased' => array(...)

@@ -57,7 +57,7 @@ class UITestFixture extends SqlDump
         );
 
         // for proper geolocation
-        LocationProvider::setCurrentProvider(LocationProvider\GeoIp\Php::ID);
+        LocationProvider::setCurrentProvider(LocationProvider\GeoIp2\Php::ID);
         IPAnonymizer::deactivate();
 
         $this->addOverlayVisits();

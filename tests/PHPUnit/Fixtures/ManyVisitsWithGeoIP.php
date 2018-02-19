@@ -10,7 +10,7 @@ namespace Piwik\Tests\Fixtures;
 use Piwik\Cache;
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
 use Exception;
@@ -25,7 +25,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvide
  */
 class ManyVisitsWithGeoIP extends Fixture
 {
-    const GEOIP_IMPL_TO_TEST = 'geoip_php';
+    const GEOIP_IMPL_TO_TEST = 'geoip2php';
 
     public $idSite = 1;
     public $dateTime = '2010-01-03 11:22:33';
@@ -34,11 +34,11 @@ class ManyVisitsWithGeoIP extends Fixture
         '194.57.91.215', // in Besançon, FR (unicode city name)
         '::ffff:137.82.130.49', // in British Columbia (mapped ipv4)
         '137.82.130.0', // anonymization tests
-        '137.82.0.0',
-        '2001:db8:85a3:0:0:8a2e:370:7334', // ipv6
+        '137.82.0.0', //
+        '2001:db8:85a3:0:0:8a2e:370:7334', // ipv6 in US (without region or city)
         '113.62.1.1', // in Lhasa, Tibet
         '151.100.101.92', // in Rome, Italy (using country DB, so only Italy will show)
-        '103.29.196.229', // in Indonesia (Bali), (only Indonesia will show up)
+        '103.29.196.229', // in Indonesia, Central Java (Bali)
     );
 
     public $userAgents = array(
@@ -63,16 +63,16 @@ class ManyVisitsWithGeoIP extends Fixture
         $this->setMockLocationProvider();
         $this->trackVisits(9, false);
 
-        $this->setLocationProvider('GeoIPCity.dat');
+        $this->setLocationProvider('GeoLite2-City.mmdb');
         $this->trackVisits(2, true, $useLocal = false);
         $this->trackVisits(4, true, $useLocal = false, $doBulk = true);
 
-        $this->setLocationProvider('GeoIP.dat');
+        $this->setLocationProvider('GeoLite2-Country.mmdb');
         $this->trackVisits(2, true);
 
         $this->trackOtherVisits();
 
-        $this->setLocationProvider('GeoIPCity.dat');
+        $this->setLocationProvider('GeoLite2-City.mmdb');
     }
 
     public function tearDown()
@@ -240,8 +240,8 @@ class ManyVisitsWithGeoIP extends Fixture
 
     public function setLocationProvider($file)
     {
-        GeoIp::$dbNames['loc'] = array($file);
-        GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        GeoIp2::$dbNames['loc'] = array($file);
+        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::$providers = null;
         LocationProvider::setCurrentProvider(self::GEOIP_IMPL_TO_TEST);
 
@@ -249,9 +249,9 @@ class ManyVisitsWithGeoIP extends Fixture
             throw new Exception("Failed to set the current location provider to '" . self::GEOIP_IMPL_TO_TEST . "'.");
         }
 
-        $possibleFiles = GeoIp::$dbNames['loc'];
-        if (GeoIp::getPathToGeoIpDatabase($possibleFiles) === false) {
-            throw new Exception("The GeoIP location provider cannot find the '$file' file! Tests will fail.");
+        $possibleFiles = GeoIp2::$dbNames['loc'];
+        if (GeoIp2::getPathToGeoIpDatabase($possibleFiles) === false) {
+            throw new Exception("The GeoIP2 location provider cannot find the '$file' file! Tests will fail.");
         }
     }
 
@@ -276,10 +276,10 @@ class ManyVisitsWithGeoIP extends Fixture
             self::makeLocation('Stratford-upon-Avon', 'G5', 'gb', $lat = null, $long = null, $isp = 'awesomeisp.com'),
 
             // different country, diff region, same city
-            self::makeLocation('Stratford-upon-Avon', '66', 'ru'),
+            self::makeLocation('Stratford-upon-Avon', 'SPE', 'ru'),
 
             // different country, diff region (same as last), different city
-            self::makeLocation('Hluboká nad Vltavou', '66', 'ru'),
+            self::makeLocation('Hluboká nad Vltavou', 'SPE', 'ru'),
 
             // different country, diff region (same as last), same city
             self::makeLocation('Stratford-upon-Avon', '66', 'mk'),

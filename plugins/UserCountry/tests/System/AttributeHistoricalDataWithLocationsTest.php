@@ -58,7 +58,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
             Db::query($sql);
         }
 
-        self::$fixture->setLocationProvider('GeoIPCity.dat');
+        self::$fixture->setLocationProvider('GeoLite2-City.mmdb');
     }
 
     /**
@@ -82,7 +82,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
     public function testExecute_ShouldReturnEmptyWorkingProcessLogs_IfThereIsNoData()
     {
         $this->assertRegExp(
-            '/Re-attribution for date range: 2014-06-01 to 2014-06-06. 0 visits to process with provider "geoip_php"./',
+            '/Re-attribution for date range: 2014-06-01 to 2014-06-06. 0 visits to process with provider "geoip2php"./',
             $this->executeCommand('2014-06-01,2014-06-06')
         );
     }
@@ -92,7 +92,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
         $result = $this->executeCommand('2010-01-03,2010-06-03');
 
         $this->assertContains(
-            'Re-attribution for date range: 2010-01-03 to 2010-06-03. 35 visits to process with provider "geoip_php".',
+            'Re-attribution for date range: 2010-01-03 to 2010-06-03. 35 visits to process with provider "geoip2php".',
             $result
         );
 

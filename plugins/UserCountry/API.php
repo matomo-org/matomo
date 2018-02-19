@@ -209,7 +209,7 @@ class API extends \Piwik\Plugin\API
         $dataTable->filter('MetadataCallbackAddMetadata',
             array('country', 'country_name', __NAMESPACE__ . '\countryTranslate', $applyToSummaryRow = false));
 
-        $getRegionName = '\\Piwik\\Plugins\\UserCountry\\LocationProvider\\GeoIp::getRegionNameFromCodes';
+        $getRegionName = '\\Piwik\\Plugins\\UserCountry\\getRegionNameFromCodes';
         $dataTable->filter('MetadataCallbackAddMetadata', array(
                                                                array('country', 'region'), 'region_name', $getRegionName, $applyToSummaryRow = false));
 
