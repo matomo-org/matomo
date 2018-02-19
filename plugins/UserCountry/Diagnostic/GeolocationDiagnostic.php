@@ -40,11 +40,18 @@ class GeolocationDiagnostic implements Diagnostic
 
         $currentProviderId = LocationProvider::getCurrentProviderId();
         $allProviders = LocationProvider::getAllProviderInfo();
-        $isRecommendedProvider = in_array($currentProviderId, array(LocationProvider\GeoIp\Php::ID, $currentProviderId == LocationProvider\GeoIp\Pecl::ID));
+        $isRecommendedProvider = in_array($currentProviderId, array(LocationProvider\GeoIp2\Php::ID));
         $isProviderInstalled = (isset($allProviders[$currentProviderId]['status']) && $allProviders[$currentProviderId]['status'] == LocationProvider::INSTALLED);
 
         if ($isRecommendedProvider && $isProviderInstalled) {
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
+        }
+
+        $isGeoIPLegacyProvider = LocationProvider::getCurrentProvider() instanceof LocationProvider\GeoIp;
+
+        if ($isGeoIPLegacyProvider && $isProviderInstalled) {
+            $discontinuedWarning = '<div>Support of GeoIP Legacy location providers has been deprecated and will be removed in Matomo 4.</div><strong>Please switch to GeoIP 2 soon!</strong>';
+            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $discontinuedWarning));
         }
 
         if ($isProviderInstalled) {
