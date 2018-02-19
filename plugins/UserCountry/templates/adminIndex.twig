@@ -97,6 +97,35 @@
 
 </div>
 </div>
+
+{% if isGeoIpLegacyUsed %}
+<div piwik-content-block content-title="Automatic Updates for GeoIP Legacy">
+
+    <p>Setting up automatic updates for GeoIP Legacy is no longer supported.</p>
+
+    <div class="notification system notification-warning">
+        {% if 'GeoLite' in geoIPLegacyLocUrl %}
+            <div>Maxmind announced to discontinue updates to the GeoLite Legacy databases as of April 1, 2018.</div>
+        {% endif %}
+        <strong>Please consider switching to GeoIP 2 soon! GeoIP Legacy Support will be removed in next major release</strong>
+    </div>
+
+    {% if geoIPLegacyLocUrl or geoIPLegacyIspUrl or geoIPLegacyOrgUrl %}
+        <h3>GeoIP Legacy Auto Update</h3>
+
+        <p>Your previous configuration for automatic updates for GeoIP legacy databases is still up and running. It will be automatically disabled and removed after switching to GeoIP2.</p>
+
+        <p>Below you can find the current configuration:</p>
+
+        {% if geoIPLegacyLocUrl %}<p>{{ 'UserCountry_LocationDatabase'|translate|e('html_attr') }}: {{ geoIPLegacyLocUrl }}</p>{% endif %}
+        {% if geoIPLegacyIspUrl %}<p>{{ 'UserCountry_ISPDatabase'|translate|e('html_attr') }}: {{ geoIPLegacyIspUrl }}</p>{% endif %}
+        {% if geoIPLegacyOrgUrl %}<p>{{ 'UserCountry_OrgDatabase'|translate|e('html_attr') }}: {{ geoIPLegacyOrgUrl }}</p>{% endif %}
+        {% if geoIPLegacyUpdatePeriod %}<p>{{ 'UserCountry_DownloadNewDatabasesEvery'|translate|e('html_attr') }}: {{ geoIPLegacyUpdatePeriod }}</p>{% endif %}
+
+    {% endif %}
+</div>
+{% endif %}
+
 <div piwik-content-block
      content-title="{% if not geoIPDatabasesInstalled %}{{ 'UserCountry_GeoIPDatabases'|translate|e('html_attr') }}{% else %}{{ 'UserCountry_SetupAutomaticUpdatesOfGeoIP'|translate|e('html_attr') }}{% endif %}"
      id="geoip-db-mangement">

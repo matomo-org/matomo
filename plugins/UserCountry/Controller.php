@@ -63,8 +63,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // if using either the Apache or Nginx module, they are working and there are no databases
         // in misc, then the databases are located outside of Piwik, so we cannot update them
         $view->showGeoIPUpdateSection = true;
-        // @todo when server based providers are implemented
-        
+
+        // Get GeoIPLegacy Update information to show them
+        $urls = GeoIPLegacyAutoUpdater::getConfiguredUrls();
+
+        $view->isGeoIpLegacyUsed = LocationProvider::getCurrentProvider() instanceof GeoIp;
+        $view->geoIPLegacyLocUrl = $urls['loc'];
+        $view->geoIPLegacyIspUrl = $urls['isp'];
+        $view->geoIPLegacyOrgUrl = $urls['org'];
+        $view->geoIPLegacyUpdatePeriod = GeoIPLegacyAutoUpdater::getSchedulePeriod();
+
         $this->setUpdaterManageVars($view);
         $this->setBasicVariablesView($view);
         $this->setBasicVariablesAdminView($view);
