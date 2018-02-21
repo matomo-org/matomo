@@ -146,7 +146,7 @@ abstract class GeoIp2 extends LocationProvider
         static $result = null;
         if (is_null($result)) {
             $expected = array(self::COUNTRY_CODE_KEY => 'FR',
-                              self::REGION_CODE_KEY  => 'BFC',
+                              self::REGION_CODE_KEY  => '25',
                               self::CITY_NAME_KEY    => 'Besançon');
             $result = array(self::TEST_IP, $expected);
         }

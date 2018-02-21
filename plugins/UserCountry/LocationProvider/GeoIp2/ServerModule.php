@@ -35,7 +35,6 @@ class ServerModule extends GeoIp2
         parent::COUNTRY_NAME_KEY => 'MM_COUNTRY_NAME',
         parent::REGION_CODE_KEY  => 'MM_REGION_CODE',
         parent::REGION_NAME_KEY  => 'MM_REGION_NAME',
-        parent::AREA_CODE_KEY    => 'MM_AREA_CODE',
         parent::LATITUDE_KEY     => 'MM_LATITUDE',
         parent::LONGITUDE_KEY    => 'MM_LONGITUDE',
         parent::POSTAL_CODE_KEY  => 'MM_POSTAL_CODE',
@@ -119,7 +118,6 @@ class ServerModule extends GeoIp2
 
         $result[self::REGION_CODE_KEY] = array_key_exists(self::getGeoIpServerVars(self::REGION_CODE_KEY), $_SERVER);
         $result[self::REGION_NAME_KEY] = array_key_exists(self::getGeoIpServerVars(self::REGION_NAME_KEY), $_SERVER);
-        $result[self::AREA_CODE_KEY] = array_key_exists(self::getGeoIpServerVars(self::AREA_CODE_KEY), $_SERVER);
         $result[self::LATITUDE_KEY] = array_key_exists(self::getGeoIpServerVars(self::LATITUDE_KEY), $_SERVER);
         $result[self::LONGITUDE_KEY] = array_key_exists(self::getGeoIpServerVars(self::LONGITUDE_KEY), $_SERVER);
         $result[self::POSTAL_CODE_KEY] = array_key_exists(self::getGeoIpServerVars(self::POSTAL_CODE_KEY), $_SERVER);

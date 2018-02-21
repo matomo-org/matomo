@@ -115,9 +115,11 @@ class Php extends GeoIp2
                         $result[self::LATITUDE_KEY]       = $lookupResult->location->latitude;
                         $result[self::LONGITUDE_KEY]      = $lookupResult->location->longitude;
                         $result[self::POSTAL_CODE_KEY]    = $lookupResult->postal->code;
-                        if (isset($lookupResult->subdivisions[0])) {
-                            $result[self::REGION_CODE_KEY] = strtoupper($lookupResult->subdivisions[0]->isoCode);
-                            $result[self::REGION_NAME_KEY] = $lookupResult->subdivisions[0]->name;
+                        if (is_array($lookupResult->subdivisions) && count($lookupResult->subdivisions) > 0) {
+                            $subdivisions = $lookupResult->subdivisions;
+                            $subdivision = end($subdivisions);
+                            $result[self::REGION_CODE_KEY] = strtoupper($subdivision->isoCode);
+                            $result[self::REGION_NAME_KEY] = $subdivision->name;
                         }
                         break;
                     default: // unknown database type log warning
@@ -199,7 +201,6 @@ class Php extends GeoIp2
                     $result[self::REGION_CODE_KEY] = true;
                     $result[self::REGION_NAME_KEY] = true;
                     $result[self::CITY_NAME_KEY] = true;
-                    $result[self::AREA_CODE_KEY] = true;
                     $result[self::POSTAL_CODE_KEY] = true;
                     $result[self::LATITUDE_KEY] = true; // will be removed from GeoLite2-City in 2019
                     $result[self::LONGITUDE_KEY] = true; // will be removed from GeoLite2-City in 2019
