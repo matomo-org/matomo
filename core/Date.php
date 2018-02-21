@@ -145,8 +145,8 @@ class Date
         }
         $timestamp = $date->getTimestamp();
     
-        $dateOfFirstWebsite = new self(self::FIRST_WEBSITE_TIMESTAMP);
-        if ($date->isEarlier($dateOfFirstWebsite)) {
+        if ($timestamp < self::FIRST_WEBSITE_TIMESTAMP) {
+            $dateOfFirstWebsite = new self(self::FIRST_WEBSITE_TIMESTAMP);
             $message = Piwik::translate('General_ExceptionInvalidDateBeforeFirstWebsite', array(
                 $date->toString(),
                 $dateOfFirstWebsite->getLocalized(self::DATE_FORMAT_SHORT),
