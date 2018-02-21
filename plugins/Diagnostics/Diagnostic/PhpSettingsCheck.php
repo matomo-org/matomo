@@ -18,6 +18,11 @@ class PhpSettingsCheck implements Diagnostic
      * @var Translator
      */
     private $translator;
+    
+    /**
+     * @var array[]
+     */
+    private $requiredSettings = array();
 
     public function __construct(Translator $translator)
     {
@@ -29,13 +34,12 @@ class PhpSettingsCheck implements Diagnostic
         $label = $this->translator->translate('Installation_SystemCheckSettings');
 
         $result = new DiagnosticResult($label);
-
+        
+        /**
+         * @var PhpSettingsCheckService $setting
+         */
         foreach ($this->getRequiredSettings() as $setting) {
-            list($settingName, $requiredValue) = explode('=', $setting);
-
-            $currentValue = (int) ini_get($settingName);
-
-            if ($currentValue != $requiredValue) {
+            if (!$setting->check()) {
                 $status = DiagnosticResult::STATUS_ERROR;
                 $comment = sprintf(
                     '%s <br/><br/><em>%s</em><br/><em>%s</em><br/>',
@@ -55,23 +59,23 @@ class PhpSettingsCheck implements Diagnostic
     }
 
     /**
-     * @return string[]
+     * @return array[]
      */
     private function getRequiredSettings()
     {
-        $requiredSettings = array(
-            // setting = required value
-            // Note: value must be an integer only
-            'session.auto_start=0',
-        );
+        $this->addRequiredSetting(new PhpSettingsCheckService('session.auto_start', 0));
+        
+        $maxExecutionTime = new PhpSettingsCheckService('max_execution_time', 0);
+        $maxExecutionTime->addRequiredValue(30, '>=');
+        $this->addRequiredSetting($maxExecutionTime);
 
         if ($this->isPhpVersionAtLeast56() && ! defined("HHVM_VERSION") && !$this->isPhpVersionAtLeast70()) {
             // always_populate_raw_post_data must be -1
             // removed in PHP 7
-            $requiredSettings[] = 'always_populate_raw_post_data=-1';
+            $this->addRequiredSetting(new PhpSettingsCheckService('always_populate_raw_post_data', -1));
         }
-
-        return $requiredSettings;
+        
+        return $this->requiredSettings;
     }
 
     private function isPhpVersionAtLeast56()
@@ -82,5 +86,11 @@ class PhpSettingsCheck implements Diagnostic
     private function isPhpVersionAtLeast70()
     {
         return version_compare(PHP_VERSION, '7.0.0-dev', '>=');
+    }
+    
+    private function addRequiredSetting(PhpSettingsCheckService $checkRequiredValues){
+        $this->requiredSettings[] = $checkRequiredValues;
+        
+        return $this;
     }
 }
