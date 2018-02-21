@@ -18,11 +18,6 @@ class PhpSettingsCheck implements Diagnostic
      * @var Translator
      */
     private $translator;
-    
-    /**
-     * @var array[]
-     */
-    private $requiredSettings = array();
 
     public function __construct(Translator $translator)
     {
@@ -35,9 +30,6 @@ class PhpSettingsCheck implements Diagnostic
 
         $result = new DiagnosticResult($label);
         
-        /**
-         * @var PhpSettingsCheckService $setting
-         */
         foreach ($this->getRequiredSettings() as $setting) {
             if (!$setting->check()) {
                 $status = DiagnosticResult::STATUS_ERROR;
@@ -59,23 +51,23 @@ class PhpSettingsCheck implements Diagnostic
     }
 
     /**
-     * @return array[]
+     * @return PhpSettingsCheckService[]
      */
     private function getRequiredSettings()
     {
-        $this->addRequiredSetting(new PhpSettingsCheckService('session.auto_start', 0));
+        $requiredSettings[] = new PhpSettingsCheckService('session.auto_start', 0);
         
         $maxExecutionTime = new PhpSettingsCheckService('max_execution_time', 0);
         $maxExecutionTime->addRequiredValue(30, '>=');
-        $this->addRequiredSetting($maxExecutionTime);
+        $requiredSettings[] = $maxExecutionTime;
 
         if ($this->isPhpVersionAtLeast56() && ! defined("HHVM_VERSION") && !$this->isPhpVersionAtLeast70()) {
             // always_populate_raw_post_data must be -1
             // removed in PHP 7
-            $this->addRequiredSetting(new PhpSettingsCheckService('always_populate_raw_post_data', -1));
+            $requiredSettings[] = new PhpSettingsCheckService('always_populate_raw_post_data', -1);
         }
         
-        return $this->requiredSettings;
+        return $requiredSettings;
     }
 
     private function isPhpVersionAtLeast56()
@@ -88,9 +80,4 @@ class PhpSettingsCheck implements Diagnostic
         return version_compare(PHP_VERSION, '7.0.0-dev', '>=');
     }
     
-    private function addRequiredSetting(PhpSettingsCheckService $checkRequiredValues){
-        $this->requiredSettings[] = $checkRequiredValues;
-        
-        return $this;
-    }
 }
