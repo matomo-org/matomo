@@ -152,6 +152,18 @@ class CreateRegionData extends ConsoleCommand
             $regions[$key] = $region['subdivision_1_name'];
         }
 
+        $regiondata = DB::fetchAll("SELECT DISTINCT country_iso_code, subdivision_2_iso_code, subdivision_2_name 
+                                   FROM geoip2locations 
+                                   WHERE subdivision_2_iso_code != '' and subdivision_2_name != '' 
+                                   ORDER BY country_iso_code, subdivision_2_iso_code;");
+
+        foreach ($regiondata as $region) {
+            $key = strtoupper($region['country_iso_code'].'_'.$region['subdivision_2_iso_code']);
+            $regions[$key] = $region['subdivision_2_name'];
+        }
+
+        ksort($regions);
+
         return $regions;
     }
 
