@@ -13,6 +13,9 @@ use Piwik\Piwik;
 
 class NumberRange extends BaseValidator
 {
+    const MAX_SMALL_INT_UNSIGNED = 65535;
+    const MAX_MEDIUM_INT_UNSIGNED = 16777215;
+
     /**
      * @var null|int
      */
@@ -35,6 +38,10 @@ class NumberRange extends BaseValidator
 
     public function validate($value)
     {
+        if ($value === false || $value === null || $value === '') {
+            // we allow this value. if it is supposed to be not empty, please use NotEmpty validator on top
+            return;
+        }
         if (!is_numeric($value)) {
             throw new Exception(Piwik::translate('General_ValidatorErrorNotANumber'));
         }

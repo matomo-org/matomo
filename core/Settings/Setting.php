@@ -158,16 +158,6 @@ class Setting
 
             $this->setUiControlIfNeeded($this->config);
             $this->checkType($this->config);
-            if (empty($this->config->availableValues) && in_array($this->type, array(FieldConfig::TYPE_FLOAT, FieldConfig::TYPE_INT, FieldConfig::TYPE_STRING))) {
-                foreach ($this->config->validators as $validator) {
-                    $attributes = $validator->getHtmlAttributes();
-                    foreach ($attributes as $name => $attribute) {
-                        if (!isset($this->config->uiControlAttributes[$name])) {
-                            $this->config->uiControlAttributes[$name] = $attribute;
-                        }
-                    }
-                }
-            }
         }
 
         return $this->config;

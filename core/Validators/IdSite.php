@@ -9,12 +9,14 @@
 
 namespace Piwik\Validators;
 
-class NotEmpty extends BaseValidator
+use Piwik\Piwik;
+use Piwik\Site;
+use Piwik\UrlHelper;
+
+class IdSite extends BaseValidator
 {
     public function validate($value)
     {
-        if (empty($value)) {
-            throw new Exception('General_ValidatorErrorEmptyValue');
-        }
+        new Site($value);
     }
 }

@@ -13,6 +13,7 @@ use Piwik\Validators\NotEmpty;
 /**
  * @group Validator
  * @group NotEmpty
+ * @group NotEmptyTest
  */
 class NotEmptyTest extends \PHPUnit_Framework_TestCase
 {

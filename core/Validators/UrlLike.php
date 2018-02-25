@@ -9,12 +9,15 @@
 
 namespace Piwik\Validators;
 
-class NotEmpty extends BaseValidator
+use Piwik\Piwik;
+use Piwik\UrlHelper;
+
+class UrlLike extends BaseValidator
 {
     public function validate($value)
     {
-        if (empty($value)) {
-            throw new Exception('General_ValidatorErrorEmptyValue');
+        if (!UrlHelper::isLookLikeUrl($value)) {
+            throw new Exception(Piwik::translate('ValidatorErrorNotUrlLike', $value));
         }
     }
 }

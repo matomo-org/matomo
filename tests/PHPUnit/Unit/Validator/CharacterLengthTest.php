@@ -12,8 +12,8 @@ use Piwik\Validators\CharacterLength;
 
 /**
  * @group Validator
- * @group NumberRange
- * @group NumberRangeTest
+ * @group CharacterLength
+ * @group CharacterLengthTest
  */
 class CharacterLengthTest extends \PHPUnit_Framework_TestCase
 {
@@ -53,39 +53,10 @@ class CharacterLengthTest extends \PHPUnit_Framework_TestCase
         $this->validate('mytestfoobar', 5, 8);
     }
 
-    public function test_getHtmlAttributes_noMinNoMax()
-    {
-        $expected = array();
-        $this->assertEquals($expected, $this->getHtmlAttributes());
-    }
-
-    public function test_getHtmlAttributes_NoMax()
-    {
-        $expected = array('maxlength' => 10);
-        $this->assertEquals($expected, $this->getHtmlAttributes(null, 10));
-    }
-
-    public function test_getHtmlAttributes_NoMin()
-    {
-        $expected = array('pattern' => '.{15,}');
-        $this->assertEquals($expected, $this->getHtmlAttributes(15));
-    }
-
-    public function test_getHtmlAttributes_WithMinAndMax()
-    {
-        $expected = array('pattern' => '.{15,20}');
-        $this->assertEquals($expected, $this->getHtmlAttributes(15, 20));
-    }
-
     private function validate($value, $min = null, $max = null)
     {
         $validator = new CharacterLength($min, $max);
         $validator->validate($value);
     }
 
-    private function getHtmlAttributes($min = null, $max = null)
-    {
-        $validator = new CharacterLength($min, $max);
-        return $validator->getHtmlAttributes();
-    }
 }

@@ -252,6 +252,11 @@ var piwikHelper = {
             delete options.fixedFooter;
         }
 
+        if (options && options.extraWide) {
+            $content.addClass('modal-extra-wide');
+            delete options.extraWide;
+        }
+
         if (options && !options.ready) {
             options.ready = function () {
                 $(".modal.open a").focus();

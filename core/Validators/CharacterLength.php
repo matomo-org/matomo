@@ -38,29 +38,6 @@ class CharacterLength extends BaseValidator
         }
     }
 
-    public function getHtmlAttributes()
-    {
-        if (!isset($this->min) && !isset($this->max)) {
-            return array();
-        }
-
-        if (!isset($this->min) && $this->max) {
-            return array(
-                'maxlength' => $this->max
-            );
-        }
-
-        $pattern = '.{' . $this->min . ',';
-        if (isset($this->max)) {
-            $pattern .= $this->max;
-        }
-        $pattern .= '}';
-
-        return array(
-            'pattern' => $pattern
-        );
-    }
-
     public function validate($value)
     {
         if (is_array($value) || is_object($value) || is_resource($value)) {
