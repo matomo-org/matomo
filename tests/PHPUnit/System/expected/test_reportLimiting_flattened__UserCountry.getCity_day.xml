@@ -22,16 +22,16 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>city==Melbourne;regionCode==07;countryCode==au</segment>
+		<segment>city==Melbourne;regionCode==VIC;countryCode==au</segment>
 		<city_name>Melbourne</city_name>
-		<region>07</region>
+		<region>VIC</region>
 		<country>au</country>
 		<country_name>Australia</country_name>
 		<region_name>Victoria</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/au.png</logo>
 	</row>
 	<row>
-		<label>Nice, Provence-Alpes-Cote d'Azur, France</label>
+		<label>Nice, Provence-Alpes-Côte d'Azur, France</label>
 		<nb_uniq_visitors>4</nb_uniq_visitors>
 		<nb_visits>20</nb_visits>
 		<nb_actions>20</nb_actions>
@@ -40,12 +40,12 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>city==Nice;regionCode==B8;countryCode==fr</segment>
+		<segment>city==Nice;regionCode==PAC;countryCode==fr</segment>
 		<city_name>Nice</city_name>
-		<region>B8</region>
+		<region>PAC</region>
 		<country>fr</country>
 		<country_name>France</country_name>
-		<region_name>Provence-Alpes-Cote d'Azur</region_name>
+		<region_name>Provence-Alpes-Côte d'Azur</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 </result>

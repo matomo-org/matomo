@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Provence-Alpes-Cote d'Azur, France</label>
+		<label>Ontario, Canada</label>
 		<nb_uniq_visitors>4</nb_uniq_visitors>
 		<nb_visits>20</nb_visits>
 		<nb_actions>20</nb_actions>
@@ -10,15 +10,15 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>regionCode==B8;countryCode==fr</segment>
-		<region>B8</region>
-		<country>fr</country>
-		<country_name>France</country_name>
-		<region_name>Provence-Alpes-Cote d'Azur</region_name>
-		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
+		<segment>regionCode==ON;countryCode==ca</segment>
+		<region>ON</region>
+		<country>ca</country>
+		<country_name>Canada</country_name>
+		<region_name>Ontario</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 	</row>
 	<row>
-		<label>Victoria, Australia</label>
+		<label>Provence-Alpes-Côte d'Azur, France</label>
 		<nb_uniq_visitors>4</nb_uniq_visitors>
 		<nb_visits>20</nb_visits>
 		<nb_actions>20</nb_actions>
@@ -27,12 +27,12 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>20</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<segment>regionCode==07;countryCode==au</segment>
-		<region>07</region>
-		<country>au</country>
-		<country_name>Australia</country_name>
-		<region_name>Victoria</region_name>
-		<logo>plugins/Morpheus/icons/dist/flags/au.png</logo>
+		<segment>regionCode==PAC;countryCode==fr</segment>
+		<region>PAC</region>
+		<country>fr</country>
+		<country_name>France</country_name>
+		<region_name>Provence-Alpes-Côte d'Azur</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
 		<label>Others</label>

@@ -230,6 +230,34 @@
     }
   },
   {
+    "::1.2.3.0/120": {
+      "continent": {
+        "code": "OC",
+        "geoname_id": 2077456,
+        "names": {
+          "de": "Ozeanien",
+          "en": "Oceania"
+        }
+      },
+      "country": {
+        "geoname_id": 2077456,
+        "iso_code": "AU",
+        "names": {
+          "de": "Australien",
+          "en": "Australia"
+        }
+      },
+      "registered_country": {
+        "geoname_id": 2077456,
+        "iso_code": "AU",
+        "names": {
+          "de": "Australien",
+          "en": "Australia"
+        }
+      }
+    }
+  },
+  {
     "::1.2.4.0/120": {
       "continent": {
         "code": "AS",
@@ -276,7 +304,7 @@
     }
   },
   {
-    "2001:db8:85a3:0:0:8a2e:370:7334/128": {
+    "2003:f6:93bf:26f:9ec7:a6ff:fe29:27df/128": {
       "continent": {
         "code": "NA",
         "geoname_id": 6255149,
@@ -368,7 +396,7 @@
     }
   },
   {
-    "::72.44.32.10/128": {
+    "::72.44.32.10/127": {
       "continent": {
         "code": "NA",
         "geoname_id": 6255149,
@@ -460,7 +488,7 @@
     }
   },
   {
-    "::50.112.0.0/120": {
+    "::50.112.0.0/112": {
       "continent": {
         "code": "NA",
         "geoname_id": 6255149,
@@ -920,7 +948,7 @@
     }
   },
   {
-    "::176.41.226.15/128": {
+    "::176.41.226.0/120": {
       "continent": {
         "code": "AS",
         "geoname_id": 6255147,
@@ -1197,6 +1225,98 @@
   },
   {
     "::50.244.17.130/128": {
+      "continent": {
+        "code": "NA",
+        "geoname_id": 6255149,
+        "names": {
+          "de": "Nordamerika",
+          "en": "North America",
+          "es": "Norteamérica",
+          "fr": "Amérique du Nord",
+          "ja": "北アメリカ",
+          "pt-BR": "América do Norte",
+          "ru": "Северная Америка",
+          "zh-CN": "北美洲"
+        }
+      },
+      "country": {
+        "geoname_id": 6252001,
+        "iso_code": "US",
+        "names": {
+          "de": "USA",
+          "en": "United States",
+          "es": "Estados Unidos",
+          "fr": "États-Unis",
+          "ja": "アメリカ合衆国",
+          "pt-BR": "Estados Unidos",
+          "ru": "США",
+          "zh-CN": "美国"
+        }
+      },
+      "registered_country": {
+        "geoname_id": 6252001,
+        "iso_code": "US",
+        "names": {
+          "de": "USA",
+          "en": "United States",
+          "es": "Estados Unidos",
+          "fr": "États-Unis",
+          "ja": "アメリカ合衆国",
+          "pt-BR": "Estados Unidos",
+          "ru": "США",
+          "zh-CN": "美国"
+        }
+      }
+    }
+  },
+  {
+    "::173.5.0.0/112": {
+      "continent": {
+        "code": "NA",
+        "geoname_id": 6255149,
+        "names": {
+          "de": "Nordamerika",
+          "en": "North America",
+          "es": "Norteamérica",
+          "fr": "Amérique du Nord",
+          "ja": "北アメリカ",
+          "pt-BR": "América do Norte",
+          "ru": "Северная Америка",
+          "zh-CN": "北美洲"
+        }
+      },
+      "country": {
+        "geoname_id": 6252001,
+        "iso_code": "US",
+        "names": {
+          "de": "USA",
+          "en": "United States",
+          "es": "Estados Unidos",
+          "fr": "États-Unis",
+          "ja": "アメリカ合衆国",
+          "pt-BR": "Estados Unidos",
+          "ru": "США",
+          "zh-CN": "美国"
+        }
+      },
+      "registered_country": {
+        "geoname_id": 6252001,
+        "iso_code": "US",
+        "names": {
+          "de": "USA",
+          "en": "United States",
+          "es": "Estados Unidos",
+          "fr": "États-Unis",
+          "ja": "アメリカ合衆国",
+          "pt-BR": "Estados Unidos",
+          "ru": "США",
+          "zh-CN": "美国"
+        }
+      }
+    }
+  },
+  {
+    "::70.95.0.0/112": {
       "continent": {
         "code": "NA",
         "geoname_id": 6255149,

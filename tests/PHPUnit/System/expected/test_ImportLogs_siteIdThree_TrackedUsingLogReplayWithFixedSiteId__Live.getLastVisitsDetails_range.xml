@@ -656,10 +656,10 @@
 		<country>Belgium</country>
 		<countryCode>be</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/be.png</countryFlag>
-		<region>Limburg</region>
-		<regionCode>05</regionCode>
+		<region>Limburg Province</region>
+		<regionCode>VLI</regionCode>
 		<city>Maaseik</city>
-		<location>Maaseik, Limburg, Belgium</location>
+		<location>Maaseik, Limburg Province, Belgium</location>
 		<latitude>51.100000</latitude>
 		<longitude>5.800000</longitude>
 		<visitLocalTime>01:34:24</visitLocalTime>
@@ -933,7 +933,7 @@
 		<countryCode>jp</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/jp.png</countryFlag>
 		<region>Kanagawa</region>
-		<regionCode>19</regionCode>
+		<regionCode>14</regionCode>
 		<city>Nihon'odori</city>
 		<location>Nihon'odori, Kanagawa, Japan</location>
 		<latitude>35.450000</latitude>
@@ -1063,10 +1063,10 @@
 		<country>Germany</country>
 		<countryCode>de</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/de.png</countryFlag>
-		<region>Nordrhein-Westfalen</region>
-		<regionCode>07</regionCode>
+		<region>North Rhine-Westphalia</region>
+		<regionCode>NW</regionCode>
 		<city>Weilerswist</city>
-		<location>Weilerswist, Nordrhein-Westfalen, Germany</location>
+		<location>Weilerswist, North Rhine-Westphalia, Germany</location>
 		<latitude>50.767000</latitude>
 		<longitude>6.833000</longitude>
 		<visitLocalTime>01:33:31</visitLocalTime>
@@ -1187,7 +1187,7 @@
 		<countryCode>de</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/de.png</countryFlag>
 		<region>Rheinland-Pfalz</region>
-		<regionCode>08</regionCode>
+		<regionCode>RP</regionCode>
 		<city>Mainz</city>
 		<location>Mainz, Rheinland-Pfalz, Germany</location>
 		<latitude>50</latitude>
@@ -1375,10 +1375,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>Moscow City</region>
-		<regionCode>48</regionCode>
+		<region>Moscow</region>
+		<regionCode>MOW</regionCode>
 		<city>Moscow</city>
-		<location>Moscow, Moscow City, Russia</location>
+		<location>Moscow, Moscow, Russia</location>
 		<latitude>55.752000</latitude>
 		<longitude>37.616000</longitude>
 		<visitLocalTime>04:28:18</visitLocalTime>
@@ -1637,10 +1637,10 @@
 		<country>Belgium</country>
 		<countryCode>be</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/be.png</countryFlag>
-		<region>Limburg</region>
-		<regionCode>05</regionCode>
+		<region>Limburg Province</region>
+		<regionCode>VLI</regionCode>
 		<city>Maaseik</city>
-		<location>Maaseik, Limburg, Belgium</location>
+		<location>Maaseik, Limburg Province, Belgium</location>
 		<latitude>51.100000</latitude>
 		<longitude>5.800000</longitude>
 		<visitLocalTime>01:34:18</visitLocalTime>

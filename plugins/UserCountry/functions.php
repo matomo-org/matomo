@@ -134,7 +134,8 @@ function getRegionNameFromCodes($countryCode, $regionCode)
     }
 
     $translationKey = sprintf('Intl_Region_%s_%s', strtoupper($countryCode), strtoupper($regionCode));
-    return Piwik::translate($translationKey);
+    $translation = Piwik::translate($translationKey);
+    return $translation == $translationKey ? Piwik::translate('General_Unknown') : $translation;
 }
 
 /**

@@ -131,8 +131,8 @@
       },
       "location": {
         "accuracy_radius": 5,
-        "latitude": 49.4635,
-        "longitude": -122.822,
+        "latitude": 49.25,
+        "longitude": -123.133,
         "time_zone": "America\/Vancouver"
       },
       "postal": {
@@ -247,6 +247,12 @@
   },
   {
     "::151.100.101.92/128": {
+      "city": {
+        "geoname_id": 3169070,
+        "names": {
+          "de": "Rome"
+        }
+      },
       "continent": {
         "code": "EU",
         "geoname_id": 6255148,
@@ -277,8 +283,8 @@
       },
       "location": {
         "accuracy_radius": 500,
-        "latitude": 43.1479,
-        "longitude": 12.1097,
+        "latitude": 41.9,
+        "longitude": 12.483,
         "time_zone": "Europe\/Rome"
       },
       "registered_country": {
@@ -294,17 +300,27 @@
           "ru": "Италия",
           "zh-CN": "意大利"
         }
-      }
+      },
+      "subdivisions": [
+        {
+          "geoname_id": 3174976,
+          "iso_code": "62",
+          "names": {
+            "de": "Latium",
+            "en": "Latium",
+            "es": "Lacio",
+            "fr": "Latium",
+            "ja": "ラツィオ州",
+            "pt-BR": "Lácio",
+            "ru": "Лацио",
+            "zh-CN": "拉齐奥"
+          }
+        }
+      ]
     }
   },
   {
     "::103.29.196.229/128": {
-      "city": {
-        "geoname_id": 6748399,
-        "names": {
-          "en": "Jimbaran"
-        }
-      },
       "continent": {
         "code": "AS",
         "geoname_id": 6255147,
@@ -334,9 +350,9 @@
         }
       },
       "location": {
-        "accuracy_radius": 1000,
-        "latitude": -6.7947,
-        "longitude": 110.9926,
+        "accuracy_radius": 5000,
+        "latitude": -5.001,
+        "longitude": 119.998,
         "time_zone": "Asia\/Jakarta"
       },
       "registered_country": {
@@ -352,20 +368,40 @@
           "ru": "Индонезия",
           "zh-CN": "印度尼西亚"
         }
-      },
-      "subdivisions": [
-        {
-          "geoname_id": 1642669,
-          "iso_code": "JT",
-          "names": {
-            "de": "Jawa Tengah",
-            "en": "Central Java",
-            "fr": "Java central",
-            "pt-BR": "Java Central",
-            "zh-CN": "中爪哇省"
-          }
+      }
+    }
+  },
+  {
+    "::1.2.3.0/120": {
+      "continent": {
+        "code": "OC",
+        "geoname_id": 2077456,
+        "names": {
+          "de": "Ozeanien",
+          "en": "Oceania"
         }
-      ]
+      },
+      "country": {
+        "geoname_id": 2077456,
+        "iso_code": "AU",
+        "names": {
+          "de": "Australien",
+          "en": "Australia"
+        }
+      },
+      "location": {
+        "accuracy_radius": 50,
+        "latitude": -27.0,
+        "longitude": 133.0
+      },
+      "registered_country": {
+        "geoname_id": 2077456,
+        "iso_code": "AU",
+        "names": {
+          "de": "Australien",
+          "en": "Australia"
+        }
+      }
     }
   },
   {
@@ -400,8 +436,8 @@
       },
       "location": {
         "accuracy_radius": 50,
-        "latitude": 34.7725,
-        "longitude": 113.7266
+        "latitude": 35.0,
+        "longitude": 105.0
       },
       "registered_country": {
         "geoname_id": 1814991,
@@ -420,7 +456,7 @@
     }
   },
   {
-    "2001:db8:85a3:0:0:8a2e:370:7334/128": {
+    "2003:f6:93bf:26f:9ec7:a6ff:fe29:27df/128": {
       "continent": {
         "code": "NA",
         "geoname_id": 6255149,
@@ -451,9 +487,8 @@
       },
       "location": {
         "accuracy_radius": 5000,
-        "latitude": 41.1271,
-        "longitude": -73.4416,
-        "metro_code": 501,
+        "latitude": 38.00,
+        "longitude": -97.00,
         "time_zone": "America\/New_York"
       },
       "registered_country": {
@@ -474,19 +509,6 @@
   },
   {
     "::175.41.192.0/120": {
-      "city": {
-        "geoname_id": 1850147,
-        "names": {
-          "de": "Tokio",
-          "en": "Tokyo",
-          "es": "Tokio",
-          "fr": "Tokyo",
-          "ja": "東京",
-          "pt-BR": "Tóquio",
-          "ru": "Токио",
-          "zh-CN": "东京"
-        }
-      },
       "continent": {
         "code": "AS",
         "geoname_id": 6255147,
@@ -517,12 +539,9 @@
       },
       "location": {
         "accuracy_radius": 500,
-        "latitude": 35.685,
-        "longitude": 139.7514,
+        "latitude": 36.00,
+        "longitude": 137.9998,
         "time_zone": "Asia\/Tokyo"
-      },
-      "postal": {
-        "code": "102-0082"
       },
       "registered_country": {
         "geoname_id": 1861060,
@@ -537,22 +556,11 @@
           "ru": "Япония",
           "zh-CN": "日本"
         }
-      },
-      "subdivisions": [
-        {
-          "geoname_id": 1850144,
-          "iso_code": "13",
-          "names": {
-            "en": "Tokyo",
-            "fr": "Préfecture de Tokyo",
-            "ja": "東京都"
-          }
-        }
-      ]
+      }
     }
   },
   {
-    "::72.44.32.10/128": {
+    "::72.44.32.10/127": {
       "city": {
         "geoname_id": 4744870,
         "names": {
@@ -590,8 +598,8 @@
       },
       "location": {
         "accuracy_radius": 1000,
-        "latitude": 39.0481,
-        "longitude": -77.4728,
+        "latitude": 39.044,
+        "longitude": -77.488,
         "metro_code": 511,
         "time_zone": "America\/New_York"
       },
@@ -630,18 +638,6 @@
   },
   {
     "::177.71.128.21/128": {
-      "city": {
-        "geoname_id": 3448439,
-        "names": {
-          "de": "São Paulo",
-          "en": "São Paulo",
-          "es": "São Paulo",
-          "fr": "São Paulo",
-          "ja": "サンパウロ",
-          "pt-BR": "São Paulo",
-          "ru": "Сан-Паулу"
-        }
-      },
       "continent": {
         "code": "SA",
         "geoname_id": 6255150,
@@ -672,8 +668,8 @@
       },
       "location": {
         "accuracy_radius": 1000,
-        "latitude": -23.5733,
-        "longitude": -46.6417,
+        "latitude": -10.00,
+        "longitude": -55.00,
         "time_zone": "America\/Sao_Paulo"
       },
       "registered_country": {
@@ -689,27 +685,15 @@
           "ru": "Бразилия",
           "zh-CN": "巴西"
         }
-      },
-      "subdivisions": [
-        {
-          "geoname_id": 3448433,
-          "iso_code": "SP",
-          "names": {
-            "en": "Sao Paulo",
-            "es": "São Paulo",
-            "pt-BR": "São Paulo"
-          }
-        }
-      ]
+      }
     }
   },
   {
-    "::50.112.0.0/120": {
+    "::50.112.0.0/112": {
       "city": {
         "geoname_id": 5714964,
         "names": {
-          "en": "Boardman",
-          "ru": "Бордман"
+          "en": "San Jose"
         }
       },
       "continent": {
@@ -747,9 +731,6 @@
         "metro_code": 810,
         "time_zone": "America\/Los_Angeles"
       },
-      "postal": {
-        "code": "97818"
-      },
       "registered_country": {
         "geoname_id": 6252001,
         "iso_code": "US",
@@ -766,17 +747,17 @@
       },
       "subdivisions": [
         {
-          "geoname_id": 5744337,
-          "iso_code": "OR",
+          "geoname_id": 5332921,
+          "iso_code": "CA",
           "names": {
-            "de": "Oregon",
-            "en": "Oregon",
-            "es": "Oregón",
-            "fr": "Oregon",
-            "ja": "オレゴン州",
-            "pt-BR": "Oregão",
-            "ru": "Орегон",
-            "zh-CN": "俄勒冈州"
+            "de": "Kalifornien",
+            "en": "California",
+            "es": "California",
+            "fr": "Californie",
+            "ja": "カリフォルニア州",
+            "pt-BR": "Califórnia",
+            "ru": "Калифорния",
+            "zh-CN": "加利福尼亚州"
           }
         }
       ]
@@ -784,6 +765,12 @@
   },
   {
     "::95.81.66.139/128": {
+      "city": {
+        "geoname_id": 113646,
+        "names": {
+          "en": "Tabriz"
+        }
+      },
       "continent": {
         "code": "AS",
         "geoname_id": 6255147,
@@ -814,8 +801,8 @@
       },
       "location": {
         "accuracy_radius": 50,
-        "latitude": 35.6961,
-        "longitude": 51.4231,
+        "latitude": 38.08,
+        "longitude": 46.292,
         "time_zone": "Asia\/Tehran"
       },
       "registered_country": {
@@ -831,7 +818,17 @@
           "ru": "Иран",
           "zh-CN": "伊朗伊斯兰共和国"
         }
-      }
+      },
+      "subdivisions": [
+        {
+          "geoname_id": 142549,
+          "iso_code": "01",
+          "names": {
+            "en": "East Azerbaijan",
+            "es": "Azerbaiyán Oriental"
+          }
+        }
+      ]
     }
   },
   {
@@ -878,13 +875,13 @@
       },
       "location": {
         "accuracy_radius": 10,
-        "latitude": 31.6436,
-        "longitude": -106.2745,
+        "latitude": 31.796,
+        "longitude": -106.376,
         "metro_code": 765,
         "time_zone": "America\/Denver"
       },
       "postal": {
-        "code": "79927"
+        "code": "79925"
       },
       "registered_country": {
         "geoname_id": 6252001,
@@ -918,19 +915,6 @@
   },
   {
     "::79.125.0.21/128": {
-      "city": {
-        "geoname_id": 2964574,
-        "names": {
-          "de": "Dublin",
-          "en": "Dublin",
-          "es": "Dublín",
-          "fr": "Dublin",
-          "ja": "ダブリン",
-          "pt-BR": "Dublin",
-          "ru": "Дублин",
-          "zh-CN": "都柏林"
-        }
-      },
       "continent": {
         "code": "EU",
         "geoname_id": 6255148,
@@ -961,8 +945,8 @@
       },
       "location": {
         "accuracy_radius": 200,
-        "latitude": 53.3389,
-        "longitude": -6.2595,
+        "latitude": 53.0,
+        "longitude": -8.0,
         "time_zone": "Europe\/Dublin"
       },
       "registered_country": {
@@ -978,23 +962,17 @@
           "ru": "Ирландия",
           "zh-CN": "爱尔兰"
         }
-      },
-      "subdivisions": [
-        {
-          "geoname_id": 7521314,
-          "iso_code": "L",
-          "names": {
-            "en": "Leinster",
-            "fr": "Leinster",
-            "ja": "レンスター",
-            "ru": "Ленстер"
-          }
-        }
-      ]
+      }
     }
   },
   {
     "::123.45.67.89/128": {
+      "city": {
+        "geoname_id": 5913601,
+        "names": {
+          "en": "Seoul"
+        }
+      },
       "continent": {
         "code": "AS",
         "geoname_id": 6255147,
@@ -1025,8 +1003,8 @@
       },
       "location": {
         "accuracy_radius": 200,
-        "latitude": 37.5112,
-        "longitude": 126.9741,
+        "latitude": 37.599,
+        "longitude": 126.978,
         "time_zone": "Asia\/Seoul"
       },
       "registered_country": {
@@ -1042,15 +1020,26 @@
           "ru": "Южная Корея",
           "zh-CN": "大韩民国"
         }
-      }
+      },
+      "subdivisions": [
+        {
+          "geoname_id": 1835848,
+          "iso_code": "11",
+          "names": {
+            "en": "Seoul",
+            "ja": "ソウル特別市",
+            "zh-CN": "首尔特别市"
+          }
+        }
+      ]
     }
   },
   {
     "::72.45.67.32/128": {
       "city": {
-        "geoname_id": 5913601,
+        "geoname_id": 5979345,
         "names": {
-          "en": "Calmar"
+          "en": "Igloolik"
         }
       },
       "continent": {
@@ -1083,8 +1072,8 @@
       },
       "location": {
         "accuracy_radius": 100,
-        "latitude": 53.25,
-        "longitude": -113.7833,
+        "latitude": 69.4,
+        "longitude": -81.8,
         "time_zone": "America\/Edmonton"
       },
       "registered_country": {
@@ -1103,14 +1092,14 @@
       },
       "subdivisions": [
         {
-          "geoname_id": 5883102,
-          "iso_code": "AB",
+          "geoname_id": 589632,
+          "iso_code": "NU",
           "names": {
-            "en": "Alberta",
-            "fr": "Alberta",
-            "ja": "アルバータ州",
-            "ru": "Альберта",
-            "zh-CN": "艾伯塔"
+            "en": "Nunavut",
+            "fr": "Nunavut",
+            "ja": "ヌナブト準州",
+            "pt-BR": "Nunavute",
+            "ru": "Нунавут"
           }
         }
       ]
@@ -1119,9 +1108,9 @@
   {
     "::73.77.55.45/128": {
       "city": {
-        "geoname_id": 4705692,
+        "geoname_id": 4503136,
         "names": {
-          "en": "League City"
+          "en": "Mount Laurel"
         }
       },
       "continent": {
@@ -1154,13 +1143,12 @@
       },
       "location": {
         "accuracy_radius": 1,
-        "latitude": 29.5075,
-        "longitude": -95.0895,
-        "metro_code": 618,
+        "latitude": 39.957,
+        "longitude": -74.916,
         "time_zone": "America\/Chicago"
       },
       "postal": {
-        "code": "77573"
+        "code": "08054"
       },
       "registered_country": {
         "geoname_id": 6252001,
@@ -1178,15 +1166,16 @@
       },
       "subdivisions": [
         {
-          "geoname_id": 4736286,
-          "iso_code": "TX",
+          "geoname_id": 5101760,
+          "iso_code": "NJ",
           "names": {
-            "en": "Texas",
-            "es": "Texas",
-            "fr": "Texas",
-            "ja": "テキサス州",
-            "ru": "Техас",
-            "zh-CN": "德克萨斯州"
+            "en": "New Jersey",
+            "es": "Nueva Jersey",
+            "fr": "New Jersey",
+            "ja": "ニュージャージー州",
+            "pt-BR": "Nova Jérsia",
+            "ru": "Нью-Джерси",
+            "zh-CN": "新泽西州"
           }
         }
       ]
@@ -1272,16 +1261,9 @@
   {
     "::84.194.72.21/128": {
       "city": {
-        "geoname_id": 2796491,
+        "geoname_id": 2791964,
         "names": {
-          "de": "Hasselt",
-          "en": "Hasselt",
-          "es": "Hasselt",
-          "fr": "Hasselt",
-          "ja": "ハッセルト",
-          "pt-BR": "Hasselt",
-          "ru": "Хасселт",
-          "zh-CN": "哈瑟尔特"
+          "en": "Maaseik"
         }
       },
       "continent": {
@@ -1314,8 +1296,8 @@
       },
       "location": {
         "accuracy_radius": 10,
-        "latitude": 50.9333,
-        "longitude": 5.3333,
+        "latitude": 51.100,
+        "longitude": 5.80,
         "time_zone": "Europe\/Brussels"
       },
       "postal": {
@@ -1441,11 +1423,11 @@
     }
   },
   {
-    "::176.41.226.15/128": {
+    "::176.41.226.0/120": {
       "city": {
-        "geoname_id": 7927202,
+        "geoname_id": 745003,
         "names": {
-          "en": "Aksemsettin"
+          "en": "Esentepe"
         }
       },
       "continent": {
@@ -1478,8 +1460,8 @@
       },
       "location": {
         "accuracy_radius": 500,
-        "latitude": 39.9025,
-        "longitude": 32.9373,
+        "latitude": 40.979,
+        "longitude": 40.415,
         "time_zone": "Europe\/Istanbul"
       },
       "registered_country": {
@@ -1498,15 +1480,10 @@
       },
       "subdivisions": [
         {
-          "geoname_id": 323784,
-          "iso_code": "06",
+          "geoname_id": 740481,
+          "iso_code": "53",
           "names": {
-            "de": "Ankara",
-            "en": "Ankara",
-            "es": "Provincia de Ankara",
-            "fr": "Ankara",
-            "pt-BR": "Ancara",
-            "zh-CN": "安卡拉省"
+            "en": "Rize"
           }
         }
       ]
@@ -1517,7 +1494,8 @@
       "city": {
         "geoname_id": 3207706,
         "names": {
-          "en": "Fischbach-Oberraden"
+          "de": "Mainz",
+          "en": "Mainz"
         }
       },
       "continent": {
@@ -1551,11 +1529,8 @@
       "location": {
         "accuracy_radius": 200,
         "latitude": 50,
-        "longitude": 6.3333,
+        "longitude": 8.2711,
         "time_zone": "Europe\/Berlin"
-      },
-      "postal": {
-        "code": "54675"
       },
       "registered_country": {
         "geoname_id": 2921044,
@@ -1592,12 +1567,10 @@
   {
     "::206.190.75.8/128": {
       "city": {
-        "geoname_id": 5351515,
+        "geoname_id": 4899012,
         "names": {
-          "de": "Garden Grove",
-          "en": "Garden Grove",
-          "ja": "ガーデングローブ",
-          "ru": "Гарден-Гров"
+          "de": "Lake Forest",
+          "en": "Lake Forest"
         }
       },
       "continent": {
@@ -1630,13 +1603,13 @@
       },
       "location": {
         "accuracy_radius": 20,
-        "latitude": 33.7545,
-        "longitude": -117.9464,
+        "latitude": 33.645,
+        "longitude": -117.679,
         "metro_code": 803,
         "time_zone": "America\/Los_Angeles"
       },
       "postal": {
-        "code": "92843"
+        "code": "92630"
       },
       "registered_country": {
         "geoname_id": 6252001,
@@ -1672,6 +1645,13 @@
   },
   {
     "::80.136.160.65/128": {
+      "city": {
+        "geoname_id": 2812522,
+        "names": {
+          "de": "Weilerswist",
+          "en": "Weilerswist"
+        }
+      },
       "continent": {
         "code": "EU",
         "geoname_id": 6255148,
@@ -1702,8 +1682,8 @@
       },
       "location": {
         "accuracy_radius": 200,
-        "latitude": 51.2993,
-        "longitude": 9.491
+        "latitude": 50.7671,
+        "longitude": 6.8329
       },
       "registered_country": {
         "geoname_id": 2921044,
@@ -1718,22 +1698,24 @@
           "ru": "Германия",
           "zh-CN": "德国"
         }
-      }
+      },
+      "subdivisions": [
+        {
+          "geoname_id": 2861876,
+          "iso_code": "NW",
+          "names": {
+            "en": "North Rhine-Westphalia"
+          }
+        }
+      ]
     }
   },
   {
     "::219.101.46.222/128": {
       "city": {
-        "geoname_id": 1850147,
+        "geoname_id": 1855444,
         "names": {
-          "de": "Tokio",
-          "en": "Tokyo",
-          "es": "Tokio",
-          "fr": "Tokyo",
-          "ja": "東京",
-          "pt-BR": "Tóquio",
-          "ru": "Токио",
-          "zh-CN": "东京"
+          "en": "Nihon'odori"
         }
       },
       "continent": {
@@ -1766,8 +1748,8 @@
       },
       "location": {
         "accuracy_radius": 20,
-        "latitude": 35.685,
-        "longitude": 139.7514,
+        "latitude": 35.45,
+        "longitude": 139.65,
         "time_zone": "Asia\/Tokyo"
       },
       "postal": {
@@ -1789,12 +1771,10 @@
       },
       "subdivisions": [
         {
-          "geoname_id": 1850144,
-          "iso_code": "13",
+          "geoname_id": 1860291,
+          "iso_code": "14",
           "names": {
-            "en": "Tokyo",
-            "fr": "Préfecture de Tokyo",
-            "ja": "東京都"
+            "en": "Kanagawa"
           }
         }
       ]
@@ -1887,19 +1867,6 @@
   },
   {
     "::50.244.17.130/128": {
-      "city": {
-        "geoname_id": 4887398,
-        "names": {
-          "de": "Chicago",
-          "en": "Chicago",
-          "es": "Chicago",
-          "fr": "Chicago",
-          "ja": "シカゴ",
-          "pt-BR": "Chicago",
-          "ru": "Чикаго",
-          "zh-CN": "芝加哥"
-        }
-      },
       "continent": {
         "code": "NA",
         "geoname_id": 6255149,
@@ -1929,14 +1896,10 @@
         }
       },
       "location": {
-        "accuracy_radius": 50,
-        "latitude": 41.8632,
-        "longitude": -87.6198,
-        "metro_code": 602,
+        "accuracy_radius": 500,
+        "latitude": 38.0,
+        "longitude": -97.0,
         "time_zone": "America\/Chicago"
-      },
-      "postal": {
-        "code": "60605"
       },
       "registered_country": {
         "geoname_id": 6252001,
@@ -1951,22 +1914,111 @@
           "ru": "США",
           "zh-CN": "美国"
         }
-      },
-      "subdivisions": [
-        {
-          "geoname_id": 4896861,
-          "iso_code": "IL",
-          "names": {
-            "en": "Illinois",
-            "es": "Illinois",
-            "fr": "Illinois",
-            "ja": "イリノイ州",
-            "pt-BR": "Ilinóis",
-            "ru": "Иллинойс",
-            "zh-CN": "伊利诺伊州"
-          }
+      }
+    }
+  },
+  {
+    "::173.5.0.0/112": {
+      "continent": {
+        "code": "NA",
+        "geoname_id": 6255149,
+        "names": {
+          "de": "Nordamerika",
+          "en": "North America",
+          "es": "Norteamérica",
+          "fr": "Amérique du Nord",
+          "ja": "北アメリカ",
+          "pt-BR": "América do Norte",
+          "ru": "Северная Америка",
+          "zh-CN": "北美洲"
         }
-      ]
+      },
+      "country": {
+        "geoname_id": 6252001,
+        "iso_code": "US",
+        "names": {
+          "de": "USA",
+          "en": "United States",
+          "es": "Estados Unidos",
+          "fr": "États-Unis",
+          "ja": "アメリカ合衆国",
+          "pt-BR": "Estados Unidos",
+          "ru": "США",
+          "zh-CN": "美国"
+        }
+      },
+      "location": {
+        "accuracy_radius": 500,
+        "latitude": 38.0,
+        "longitude": -97.0,
+        "time_zone": "America\/Chicago"
+      },
+      "registered_country": {
+        "geoname_id": 6252001,
+        "iso_code": "US",
+        "names": {
+          "de": "USA",
+          "en": "United States",
+          "es": "Estados Unidos",
+          "fr": "États-Unis",
+          "ja": "アメリカ合衆国",
+          "pt-BR": "Estados Unidos",
+          "ru": "США",
+          "zh-CN": "美国"
+        }
+      }
+    }
+  },
+  {
+    "::70.95.0.0/112": {
+      "continent": {
+        "code": "NA",
+        "geoname_id": 6255149,
+        "names": {
+          "de": "Nordamerika",
+          "en": "North America",
+          "es": "Norteamérica",
+          "fr": "Amérique du Nord",
+          "ja": "北アメリカ",
+          "pt-BR": "América do Norte",
+          "ru": "Северная Америка",
+          "zh-CN": "北美洲"
+        }
+      },
+      "country": {
+        "geoname_id": 6252001,
+        "iso_code": "US",
+        "names": {
+          "de": "USA",
+          "en": "United States",
+          "es": "Estados Unidos",
+          "fr": "États-Unis",
+          "ja": "アメリカ合衆国",
+          "pt-BR": "Estados Unidos",
+          "ru": "США",
+          "zh-CN": "美国"
+        }
+      },
+      "location": {
+        "accuracy_radius": 500,
+        "latitude": 38.0,
+        "longitude": -97.0,
+        "time_zone": "America\/Chicago"
+      },
+      "registered_country": {
+        "geoname_id": 6252001,
+        "iso_code": "US",
+        "names": {
+          "de": "USA",
+          "en": "United States",
+          "es": "Estados Unidos",
+          "fr": "États-Unis",
+          "ja": "アメリカ合衆国",
+          "pt-BR": "Estados Unidos",
+          "ru": "США",
+          "zh-CN": "美国"
+        }
+      }
     }
   },
   {
@@ -2000,9 +2052,9 @@
         }
       },
       "location": {
-        "accuracy_radius": 200,
-        "latitude": 51.2993,
-        "longitude": 9.491
+        "accuracy_radius": 2000,
+        "latitude": 51.0,
+        "longitude": 9.0
       },
       "registered_country": {
         "geoname_id": 2921044,
@@ -2023,16 +2075,12 @@
   {
     "::174.97.139.63/128": {
       "city": {
-        "geoname_id": 5263045,
+        "geoname_id": 4487042,
         "names": {
-          "de": "Milwaukee",
-          "en": "Milwaukee",
-          "es": "Milwaukee",
-          "fr": "Milwaukee",
-          "ja": "ミルウォーキー",
-          "pt-BR": "Milwaukee",
-          "ru": "Милуоки",
-          "zh-CN": "密尔沃基"
+          "de": "Raleigh",
+          "en": "Raleigh",
+          "es": "Raleigh",
+          "fr": "Raleigh"
         }
       },
       "continent": {
@@ -2065,13 +2113,10 @@
       },
       "location": {
         "accuracy_radius": 1,
-        "latitude": 43.0202,
-        "longitude": -87.9256,
+        "latitude": 35.772,
+        "longitude": -78.639,
         "metro_code": 617,
         "time_zone": "America\/Chicago"
-      },
-      "postal": {
-        "code": "53204"
       },
       "registered_country": {
         "geoname_id": 6252001,
@@ -2089,15 +2134,16 @@
       },
       "subdivisions": [
         {
-          "geoname_id": 5279468,
-          "iso_code": "WI",
+          "geoname_id": 5332921,
+          "iso_code": "NC",
           "names": {
-            "en": "Wisconsin",
-            "es": "Wisconsin",
-            "fr": "Wisconsin",
-            "ja": "ウィスコンシン州",
-            "ru": "Висконсин",
-            "zh-CN": "威斯康辛州"
+            "en": "North Carolina",
+            "es": "Carolina del Norte",
+            "fr": "Caroline du Nord",
+            "ja": "ノースカロライナ州",
+            "pt-BR": "Carolina do Norte",
+            "ru": "Северная Каролина",
+            "zh-CN": "北卡罗来纳州"
           }
         }
       ]
@@ -2106,16 +2152,13 @@
   {
     "::24.125.31.147/128": {
       "city": {
-        "geoname_id": 4180439,
+        "geoname_id": 4772566,
         "names": {
-          "de": "Atlanta",
-          "en": "Atlanta",
-          "es": "Atlanta",
-          "fr": "Atlanta",
-          "ja": "アトランタ",
-          "pt-BR": "Atlanta",
-          "ru": "Атланта",
-          "zh-CN": "亚特兰大"
+          "de": "Mechanicsville",
+          "en": "Mechanicsville",
+          "es": "Mechanicsville",
+          "fr": "Mechanicsville",
+          "pt-BR": "Mechanicsville"
         }
       },
       "continent": {
@@ -2147,14 +2190,14 @@
         }
       },
       "location": {
-        "accuracy_radius": 20,
-        "latitude": 33.793,
-        "longitude": -84.4432,
+        "accuracy_radius": 200,
+        "latitude": 37.613,
+        "longitude": -77.256,
         "metro_code": 524,
         "time_zone": "America\/New_York"
       },
       "postal": {
-        "code": "30318"
+        "code": "23111"
       },
       "registered_country": {
         "geoname_id": 6252001,
@@ -2172,16 +2215,12 @@
       },
       "subdivisions": [
         {
-          "geoname_id": 4197000,
-          "iso_code": "GA",
+          "geoname_id": 6254928,
+          "iso_code": "VA",
           "names": {
-            "en": "Georgia",
-            "es": "Georgia",
-            "fr": "Géorgie",
-            "ja": "ジョージア州",
-            "pt-BR": "Geórgia",
-            "ru": "Джорджия",
-            "zh-CN": "乔治亚"
+            "en": "Virginia",
+            "es": "Virginia",
+            "fr": "Virginia"
           }
         }
       ]
@@ -2189,19 +2228,6 @@
   },
   {
     "::175.41.191.0/120": {
-      "city": {
-        "geoname_id": 1880252,
-        "names": {
-          "de": "Singapur",
-          "en": "Singapore",
-          "es": "Singapur",
-          "fr": "Singapour",
-          "ja": "シンガポール",
-          "pt-BR": "Singapura",
-          "ru": "Сингапур",
-          "zh-CN": "新加坡"
-        }
-      },
       "continent": {
         "code": "AS",
         "geoname_id": 6255147,
@@ -2231,9 +2257,9 @@
         }
       },
       "location": {
-        "accuracy_radius": 50,
-        "latitude": 1.2855,
-        "longitude": 103.8565,
+        "accuracy_radius": 500,
+        "latitude": 1.367,
+        "longitude": 103.8002,
         "time_zone": "Asia\/Singapore"
       },
       "registered_country": {
@@ -2249,35 +2275,11 @@
           "ru": "Сингапур",
           "zh-CN": "新加坡"
         }
-      },
-      "subdivisions": [
-        {
-          "geoname_id": 7535954,
-          "iso_code": "01",
-          "names": {
-            "en": "Central Singapore Community Development Council",
-            "fr": "Centre",
-            "ja": "シンガポール中央社会開発協議会"
-          }
-        }
-      ]
+      }
     }
   },
   {
     "::175.41.193.0/120": {
-      "city": {
-        "geoname_id": 1850147,
-        "names": {
-          "de": "Tokio",
-          "en": "Tokyo",
-          "es": "Tokio",
-          "fr": "Tokyo",
-          "ja": "東京",
-          "pt-BR": "Tóquio",
-          "ru": "Токио",
-          "zh-CN": "东京"
-        }
-      },
       "continent": {
         "code": "AS",
         "geoname_id": 6255147,
@@ -2307,13 +2309,10 @@
         }
       },
       "location": {
-        "accuracy_radius": 500,
-        "latitude": 35.685,
-        "longitude": 139.7514,
+        "accuracy_radius": 5000,
+        "latitude": 35.0,
+        "longitude": 138.0,
         "time_zone": "Asia\/Tokyo"
-      },
-      "postal": {
-        "code": "102-0082"
       },
       "registered_country": {
         "geoname_id": 1861060,
@@ -2328,18 +2327,7 @@
           "ru": "Япония",
           "zh-CN": "日本"
         }
-      },
-      "subdivisions": [
-        {
-          "geoname_id": 1850144,
-          "iso_code": "13",
-          "names": {
-            "en": "Tokyo",
-            "fr": "Préfecture de Tokyo",
-            "ja": "東京都"
-          }
-        }
-      ]
+      }
     }
   }
 ]

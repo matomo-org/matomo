@@ -1,6 +1,172 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<pluginName>UserCountry</pluginName>
+		<title>Configuration for server variables used by GeoIP 2 server modules</title>
+		<settings>
+			<row>
+				<name>geoip2var_country_code</name>
+				<title>Server variable for &lt;strong&gt;country code&lt;/strong&gt;</title>
+				<value>MM_COUNTRY_CODE</value>
+				<defaultValue>MM_COUNTRY_CODE</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>geoip2var_country_name</name>
+				<title>Server variable for &lt;strong&gt;country name&lt;/strong&gt;</title>
+				<value>MM_COUNTRY_NAME</value>
+				<defaultValue>MM_COUNTRY_NAME</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>geoip2var_region_code</name>
+				<title>Server variable for &lt;strong&gt;region code&lt;/strong&gt;</title>
+				<value>MM_REGION_CODE</value>
+				<defaultValue>MM_REGION_CODE</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>geoip2var_region_name</name>
+				<title>Server variable for &lt;strong&gt;region name&lt;/strong&gt;</title>
+				<value>MM_REGION_NAME</value>
+				<defaultValue>MM_REGION_NAME</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>geoip2var_lat</name>
+				<title>Server variable for &lt;strong&gt;lat&lt;/strong&gt;</title>
+				<value>MM_LATITUDE</value>
+				<defaultValue>MM_LATITUDE</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>geoip2var_long</name>
+				<title>Server variable for &lt;strong&gt;long&lt;/strong&gt;</title>
+				<value>MM_LONGITUDE</value>
+				<defaultValue>MM_LONGITUDE</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>geoip2var_postal_code</name>
+				<title>Server variable for &lt;strong&gt;postal code&lt;/strong&gt;</title>
+				<value>MM_POSTAL_CODE</value>
+				<defaultValue>MM_POSTAL_CODE</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>geoip2var_city_name</name>
+				<title>Server variable for &lt;strong&gt;city name&lt;/strong&gt;</title>
+				<value>MM_CITY_NAME</value>
+				<defaultValue>MM_CITY_NAME</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>geoip2var_isp</name>
+				<title>Server variable for &lt;strong&gt;isp&lt;/strong&gt;</title>
+				<value>MM_ISP</value>
+				<defaultValue>MM_ISP</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>geoip2var_org</name>
+				<title>Server variable for &lt;strong&gt;org&lt;/strong&gt;</title>
+				<value>MM_ORG</value>
+				<defaultValue>MM_ORG</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+		</settings>
+	</row>
+	<row>
 		<pluginName>CoreUpdater</pluginName>
 		<title>Update settings</title>
 		<settings>

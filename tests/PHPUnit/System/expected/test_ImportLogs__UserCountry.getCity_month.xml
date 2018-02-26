@@ -112,7 +112,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/us.png</logo>
 	</row>
 	<row>
-		<label>Seoul, Seoul-t'ukpyolsi, South Korea</label>
+		<label>Seoul, Seoul, South Korea</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>
@@ -136,7 +136,7 @@
 		<region>11</region>
 		<country>kr</country>
 		<country_name>South Korea</country_name>
-		<region_name>Seoul-t'ukpyolsi</region_name>
+		<region_name>Seoul</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/kr.png</logo>
 	</row>
 </result>

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<continent_name>Europe</continent_name>
+		<continent_code>EU</continent_code>
 		<country_code>FR</country_code>
-		<region_code>A6</region_code>
+		<country_name>France</country_name>
 		<city_name>Besançon</city_name>
-		<area_code />
 		<lat>47.249</lat>
 		<long>6.018</long>
-		<postal_code />
-		<continent_code>eur</continent_code>
-		<continent_name>Europe</continent_name>
-		<country_name>France</country_name>
-		<region_name>Franche-Comte</region_name>
+		<postal_code>25000</postal_code>
+		<region_code>25</region_code>
+		<region_name>Doubs</region_name>
 		<ip>194.57.91.215</ip>
 	</row>
 </result>
