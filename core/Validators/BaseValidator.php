@@ -12,10 +12,7 @@ namespace Piwik\Validators;
 abstract class BaseValidator
 {
 
-    public function validate($value)
-    {
-
-    }
+    abstract public function validate($value);
 
     /**
      * @param string $name The name/description of the field you want to validate the value for.

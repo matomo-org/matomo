@@ -9,12 +9,14 @@
 
 namespace Piwik\Validators;
 
+use Piwik\Piwik;
+
 class NotEmpty extends BaseValidator
 {
     public function validate($value)
     {
         if (empty($value)) {
-            throw new Exception('General_ValidatorErrorEmptyValue');
+            throw new Exception(Piwik::translate('General_ValidatorErrorEmptyValue'));
         }
     }
 }
