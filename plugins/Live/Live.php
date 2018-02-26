@@ -8,6 +8,11 @@
  */
 namespace Piwik\Plugins\Live;
 
+use Piwik\Cache;
+use Piwik\CacheId;
+use Piwik\API\Request;
+use Piwik\Common;
+
 /**
  *
  */
@@ -113,5 +118,38 @@ class Live extends \Piwik\Plugin
         foreach ($visitorDetailsInstances as $instance) {
             $renderedDetails .= $instance->renderIcons($visitorDetails);
         }
+    }
+
+    /**
+     * Returns the segment for the most recent visitor id
+     *
+     * This method uses the transient cache to ensure it returns always the same id within one request
+     * as `Request::processRequest('Live.getMostRecentVisitorId')` might return different ids on each call
+     *
+     * @return mixed|string
+     */
+    public static function getSegmentWithVisitorId()
+    {
+        $cache   = Cache::getTransientCache();
+        $cacheId = 'segmentWithVisitorId';
+
+        if ($cache->contains($cacheId)) {
+            return $cache->fetch($cacheId);
+        }
+
+        $segment = Request::getRawSegmentFromRequest();
+        if (!empty($segment)) {
+            $segment = urldecode($segment) . ';';
+        }
+
+        $idVisitor = Common::getRequestVar('visitorId', false);
+        if ($idVisitor === false) {
+            $idVisitor = Request::processRequest('Live.getMostRecentVisitorId');
+        }
+
+        $result = urlencode($segment . 'visitorId==' . $idVisitor);
+        $cache->save($cacheId, $result);
+
+        return $result;
     }
 }
