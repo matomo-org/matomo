@@ -27,7 +27,7 @@ describe("Dashboard", function () {
                 }
 
                 console.log("Removing dashboard ID = " + dashboards[i].iddashboard);
-                testEnvironment.callController("Dashboard.removeDashboard", {idDashboard: dashboards[i].iddashboard}, function () {
+                testEnvironment.callApi("Dashboard.removeDashboard", {idDashboard: dashboards[i].iddashboard}, function () {
                     removeDashboard(i + 1);
                 });
             };
