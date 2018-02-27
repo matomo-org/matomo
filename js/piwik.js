@@ -3506,7 +3506,7 @@ if (typeof window.Piwik !== 'object') {
 
                 try {
                     var blob = new Blob([request], headers);
-                    success = navigator.sendBeacon(configTrackerUrl, blob);
+                    success = navigatorAlias.sendBeacon(configTrackerUrl, blob);
                     // returns true if the user agent is able to successfully queue the data for transfer,
                     // Otherwise it returns false and we need to try the regular way
 
