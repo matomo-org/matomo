@@ -202,9 +202,9 @@ class ApiTest extends IntegrationTestCase
         }
 
         $idReport = self::addReport(self::getMonthlyEmailReportData($this->idSite));
-        $this->assertEquals(1, count(APIScheduledReports::getInstance()->getReports()));
+        $this->assertCount(1, APIScheduledReports::getInstance()->getReports());
         APIScheduledReports::getInstance()->deleteReport($idReport);
-        $this->assertEquals(0, count(APIScheduledReports::getInstance()->getReports()));
+        $this->assertCount(0, APIScheduledReports::getInstance()->getReports());
     }
 
     /**

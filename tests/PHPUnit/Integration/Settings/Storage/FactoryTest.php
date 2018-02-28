@@ -42,10 +42,10 @@ class FactoryTest extends IntegrationTestCase
     public function test_getPluginStorage_shouldReturnStorageWithPluginBackend()
     {
         $storage = $this->factory->getPluginStorage('PluginName', $login = 'user5');
-        $this->assertTrue($storage instanceof Storage);
+        $this->assertInstanceOf(Storage::class, $storage);
 
         $backend = $storage->getBackend();
-        $this->assertTrue($backend instanceof PluginSettingsTable);
+        $this->assertInstanceOf(PluginSettingsTable::class, $backend);
         $this->assertSame('PluginSettings_PluginName_User_user5', $backend->getStorageId());
     }
 
@@ -55,16 +55,16 @@ class FactoryTest extends IntegrationTestCase
         $storage = $this->factory->getPluginStorage('pluginName', 'userlogin');
         SettingsServer::setIsNotTrackerApiRequest();
 
-        $this->assertTrue($storage->getBackend() instanceof Cache);
+        $this->assertInstanceOf(Cache::class, $storage->getBackend());
     }
 
     public function test_getMeasurableSettingsStorage_shouldReturnStorageWithMeasurableSettingsBackend()
     {
         $storage = $this->factory->getMeasurableSettingsStorage($idSite = 4, 'PluginNameFoo');
-        $this->assertTrue($storage instanceof Storage);
+        $this->assertInstanceOf(Storage::class, $storage);
 
         $backend = $storage->getBackend();
-        $this->assertTrue($backend instanceof MeasurableSettingsTable);
+        $this->assertInstanceOf(MeasurableSettingsTable::class, $backend);
         $this->assertSame('MeasurableSettings_4_PluginNameFoo', $backend->getStorageId());
     }
 
@@ -74,26 +74,26 @@ class FactoryTest extends IntegrationTestCase
         $storage = $this->factory->getMeasurableSettingsStorage($idSite = 4, 'PluginNameFoo');
         SettingsServer::setIsNotTrackerApiRequest();
 
-        $this->assertTrue($storage->getBackend() instanceof Cache);
+        $this->assertInstanceOf(Cache::class, $storage->getBackend());
     }
 
     public function test_getMeasurableSettingsStorage_shouldReturnNonPersistentStorageWhenEmptySiteIsGiven()
     {
         $storage = $this->factory->getMeasurableSettingsStorage($idSite = 0, 'PluginNameFoo');
-        $this->assertTrue($storage instanceof Storage);
+        $this->assertInstanceOf(Storage::class, $storage);
 
         $backend = $storage->getBackend();
-        $this->assertTrue($backend instanceof NullBackend);
+        $this->assertInstanceOf(NullBackend::class, $backend);
         $this->assertSame('measurableSettings0#PluginNameFoo#nonpersistent', $backend->getStorageId());
     }
 
     public function test_getSitesTable_shouldReturnStorageWithSitesTableBackend()
     {
         $storage = $this->factory->getSitesTable($idSite = 3);
-        $this->assertTrue($storage instanceof Storage);
+        $this->assertInstanceOf(Storage::class, $storage);
 
         $backend = $storage->getBackend();
-        $this->assertTrue($backend instanceof SitesTable);
+        $this->assertInstanceOf(SitesTable::class, $backend);
         $this->assertSame('SitesTable_3', $backend->getStorageId());
     }
 
@@ -103,26 +103,26 @@ class FactoryTest extends IntegrationTestCase
         $storage = $this->factory->getSitesTable($idSite = 3);
         SettingsServer::setIsNotTrackerApiRequest();
 
-        $this->assertTrue($storage->getBackend() instanceof Cache);
+        $this->assertInstanceOf(Cache::class, $storage->getBackend());
     }
 
     public function test_getSitesTable_shouldReturnNonPersistentStorageWhenEmptySiteIsGiven()
     {
         $storage = $this->factory->getSitesTable($idSite = 0);
-        $this->assertTrue($storage instanceof Storage);
+        $this->assertInstanceOf(Storage::class, $storage);
 
         $backend = $storage->getBackend();
-        $this->assertTrue($backend instanceof NullBackend);
+        $this->assertInstanceOf(NullBackend::class, $backend);
         $this->assertSame('sitesTable#0#nonpersistent', $backend->getStorageId());
     }
 
     public function test_getNonPersistentStorage_shouldReturnStorageWithNullBackend()
     {
         $storage = $this->factory->getNonPersistentStorage('myKey');
-        $this->assertTrue($storage instanceof Storage);
+        $this->assertInstanceOf(Storage::class, $storage);
 
         $backend = $storage->getBackend();
-        $this->assertTrue($backend instanceof NullBackend);
+        $this->assertInstanceOf(NullBackend::class, $backend);
         $this->assertSame('myKey', $backend->getStorageId());
     }
 
@@ -132,7 +132,7 @@ class FactoryTest extends IntegrationTestCase
         $storage = $this->factory->getNonPersistentStorage('anykey');
         SettingsServer::setIsNotTrackerApiRequest();
 
-        $this->assertTrue($storage->getBackend() instanceof NullBackend);
+        $this->assertInstanceOf(NullBackend::class, $storage->getBackend());
     }
 
     public function test_getNonPersistentStorage_shouldNotUseCache()
@@ -149,7 +149,7 @@ class FactoryTest extends IntegrationTestCase
         $backend = new NullBackend('test');
         $storage = $this->factory->makeStorage($backend);
 
-        $this->assertTrue($storage instanceof Storage);
+        $this->assertInstanceOf(Storage::class, $storage);
 
         $this->assertSame($backend, $storage->getBackend());
     }

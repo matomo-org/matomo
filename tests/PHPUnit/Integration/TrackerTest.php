@@ -49,15 +49,15 @@ class TrackerTest extends IntegrationTestCase
     public function tearDown()
     {
         $this->restoreConfigFile();
-        
+
         if($this->tracker) {
             $this->tracker->disconnectDatabase();
         }
-        
+
         if (array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS)) {
             unset($GLOBALS['PIWIK_TRACKER_DEBUG']);
         }
-        
+
         parent::tearDown();
     }
 
@@ -89,7 +89,7 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_loadTrackerEnvironment_shouldSetGlobalsDebugVar_WhichShouldBeDisabledByDefault()
     {
-        $this->assertTrue(!array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS));
+        $this->assertArrayNotHasKey('PIWIK_TRACKER_DEBUG', $GLOBALS);
 
         Tracker::loadTrackerEnvironment();
 
@@ -98,7 +98,7 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_loadTrackerEnvironment_shouldSetGlobalsDebugVar()
     {
-        $this->assertTrue(!array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS));
+        $this->assertArrayNotHasKey('PIWIK_TRACKER_DEBUG', $GLOBALS);
 
         $oldConfig = Tracker\TrackerConfig::getConfigValue('debug');
         Tracker\TrackerConfig::setConfigValue('debug', 1);
@@ -113,7 +113,7 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_loadTrackerEnvironment_shouldEnableTrackerMode()
     {
-        $this->assertTrue(!array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS));
+        $this->assertArrayNotHasKey('PIWIK_TRACKER_DEBUG', $GLOBALS);
 
         $this->assertFalse(SettingsServer::isTrackerApiRequest());
 
@@ -124,7 +124,7 @@ class TrackerTest extends IntegrationTestCase
 
     public function test_loadTrackerEnvironment_shouldNotThrow_whenConfigNotFound()
     {
-        $this->assertTrue(!array_key_exists('PIWIK_TRACKER_DEBUG', $GLOBALS));
+        $this->assertArrayNotHasKey('PIWIK_TRACKER_DEBUG', $GLOBALS);
 
         $this->assertFalse(SettingsServer::isTrackerApiRequest());
 
@@ -137,7 +137,7 @@ class TrackerTest extends IntegrationTestCase
         Tracker::loadTrackerEnvironment();
 
         $this->assertTrue(SettingsServer::isTrackerApiRequest());
-        
+
         //always reset on the test itself
         $this->restoreConfigFile();
     }
@@ -410,7 +410,7 @@ class TrackerTest extends IntegrationTestCase
     {
         rename($this->getLocalConfigPath(), $this->getLocalConfigPathMoved());
     }
-    
+
     protected function restoreConfigFile()
     {
         if(file_exists($this->getLocalConfigPathMoved())){

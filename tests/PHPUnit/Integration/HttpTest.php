@@ -36,7 +36,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNotNull(Http::getTransportMethod());
         $result = Http::sendHttpRequestBy($method, Fixture::getRootUrl() . 'piwik.js', 30);
-        $this->assertTrue(strpos($result, 'Piwik') !== false);
+        $this->assertContains('Piwik', $result);
     }
 
     public function testFetchApiLatestVersion()
@@ -88,7 +88,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(206, $result['status']);
         $this->assertTrue(isset($result['headers']['Content-Range']));
         $this->assertEquals('bytes 10-20/', substr($result['headers']['Content-Range'], 0, 12));
-        $this->assertTrue(in_array($result['headers']['Content-Type'], array('application/x-javascript', 'application/javascript')));
+        $this->assertContains($result['headers']['Content-Type'], array('application/x-javascript', 'application/javascript'));
     }
 
     /**
@@ -119,8 +119,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(200, $result['status']);
 
         $this->assertTrue(isset($result['headers']['Content-Length']), "Content-Length header not set!");
-        $this->assertTrue(is_numeric($result['headers']['Content-Length']), "Content-Length header not numeric!");
-        $this->assertTrue(in_array($result['headers']['Content-Type'], array('application/zip', 'application/x-zip-compressed')));
+        $this->assertInternalType('numeric', $result['headers']['Content-Length'], "Content-Length header not numeric!");
+        $this->assertContains($result['headers']['Content-Type'], array('application/zip', 'application/x-zip-compressed'));
     }
 
     /**

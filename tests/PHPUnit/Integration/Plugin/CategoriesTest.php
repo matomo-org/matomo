@@ -52,7 +52,7 @@ class CategoriesTest extends IntegrationTestCase
         $this->assertGreaterThanOrEqual(4, count($categories));
 
         foreach ($categories as $category) {
-            $this->assertTrue($category instanceof Category);
+            $this->assertInstanceOf(Category::class, $category);
         }
     }
 
@@ -72,7 +72,7 @@ class CategoriesTest extends IntegrationTestCase
         $this->assertGreaterThanOrEqual(10, count($subcategories));
 
         foreach ($subcategories as $subcategory) {
-            $this->assertTrue($subcategory instanceof Subcategory);
+            $this->assertInstanceOf(Subcategory::class, $subcategory);
             $this->assertNotEmpty($subcategory->getId());
         }
     }

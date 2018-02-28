@@ -60,7 +60,7 @@ class SettingsProviderTest extends IntegrationTestCase
     {
         $settings = $this->settings->getSystemSettings($this->examplePlugin);
 
-        $this->assertTrue($settings instanceof SystemSettings);
+        $this->assertInstanceOf(SystemSettings::class, $settings);
         $this->assertSame($this->examplePlugin, $settings->getPluginName());
     }
 
@@ -89,7 +89,7 @@ class SettingsProviderTest extends IntegrationTestCase
         $this->assertArrayHasKey('QueuedTracking', $settings);
 
         foreach ($settings as $setting) {
-            $this->assertTrue($setting instanceof SystemSettings);
+            $this->assertInstanceOf(SystemSettings::class, $setting);
         }
     }
 
@@ -97,7 +97,7 @@ class SettingsProviderTest extends IntegrationTestCase
     {
         $settings = $this->settings->getUserSettings($this->examplePlugin);
 
-        $this->assertTrue($settings instanceof UserSettings);
+        $this->assertInstanceOf(UserSettings::class, $settings);
         $this->assertSame($this->examplePlugin, $settings->getPluginName());
     }
 
@@ -124,7 +124,7 @@ class SettingsProviderTest extends IntegrationTestCase
         $this->assertArrayHasKey($this->examplePlugin, $settings);
 
         foreach ($settings as $setting) {
-            $this->assertTrue($setting instanceof UserSettings);
+            $this->assertInstanceOf(UserSettings::class, $setting);
         }
     }
 
@@ -132,7 +132,7 @@ class SettingsProviderTest extends IntegrationTestCase
     {
         $settings = $this->settings->getMeasurableSettings($this->examplePlugin, $idSite = 1, $idType = null);
 
-        $this->assertTrue($settings instanceof MeasurableSettings);
+        $this->assertInstanceOf(MeasurableSettings::class, $settings);
         $this->assertSame($this->examplePlugin, $settings->getPluginName());
     }
 
@@ -158,7 +158,7 @@ class SettingsProviderTest extends IntegrationTestCase
         $this->assertArrayHasKey($this->examplePlugin, $settings);
 
         foreach ($settings as $setting) {
-            $this->assertTrue($setting instanceof MeasurableSettings);
+            $this->assertInstanceOf(MeasurableSettings::class, $setting);
         }
     }
 

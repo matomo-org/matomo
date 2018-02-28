@@ -196,7 +196,7 @@ class LogTest extends IntegrationTestCase
         }
 
         if ($backend == 'file') {
-            $this->assertTrue(file_exists(self::getLogFileLocation()));
+            $this->assertFileExists(self::getLogFileLocation());
 
             $fileContents = file_get_contents(self::getLogFileLocation());
             $fileContents = $this->removePathsFromBacktrace($fileContents);
@@ -229,7 +229,7 @@ class LogTest extends IntegrationTestCase
     private function checkNoMessagesLogged($backend)
     {
         if ($backend == 'file') {
-            $this->assertFalse(file_exists(self::getLogFileLocation()));
+            $this->assertFileNotExists(self::getLogFileLocation());
         } else if ($backend == 'database') {
             $this->assertEquals(0, Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('logger_message')));
         }

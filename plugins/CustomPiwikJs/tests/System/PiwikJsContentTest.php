@@ -25,7 +25,7 @@ class PiwikJsContentTest extends SystemTestCase
         $piwikMin = PIWIK_DOCUMENT_ROOT . TrackerUpdater::ORIGINAL_PIWIK_JS;
         $piwikJs = PIWIK_DOCUMENT_ROOT . TrackerUpdater::TARGET_PIWIK_JS;
 
-        $this->assertSame(file_get_contents($piwikMin), file_get_contents($piwikJs));
+        $this->assertFileEquals($piwikMin, $piwikJs);
     }
 
     public function test_piwikJsContainsHook()

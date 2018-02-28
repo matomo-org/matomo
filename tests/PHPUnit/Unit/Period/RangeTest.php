@@ -191,8 +191,8 @@ class RangeTest extends BasePeriodTest
             )
         );
 
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
-        $this->assertEquals(count($correct), $range2->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
+        $this->assertCount($range2->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
         $this->assertEquals($correct, $range2->toString());
         $this->assertEquals('2007-12-17,2008-01-06' , $range2->getRangeString());
@@ -234,7 +234,7 @@ class RangeTest extends BasePeriodTest
                 11 => '2007-12-01',
             ),
         );
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
         $this->assertEquals('2006-01-01,2007-12-31', $range->getRangeString());
     }
@@ -329,7 +329,7 @@ class RangeTest extends BasePeriodTest
             ),
         );
 
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
         $this->assertEquals('2006-12-01,2007-01-31', $range->getRangeString());
     }
@@ -663,7 +663,7 @@ class RangeTest extends BasePeriodTest
                 '2008-01-06',
             )
         );
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 
@@ -676,7 +676,7 @@ class RangeTest extends BasePeriodTest
             '2013-10-30'
         );
 
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 
@@ -690,7 +690,7 @@ class RangeTest extends BasePeriodTest
             '2013-10-31'
         );
 
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 
@@ -707,7 +707,7 @@ class RangeTest extends BasePeriodTest
             '2013-11-03',
         );
 
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 
@@ -741,7 +741,7 @@ class RangeTest extends BasePeriodTest
                 '2008-01-02',
                 '2008-01-03',
             );
-            $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+            $this->assertCount($range->getNumberOfSubperiods(), $correct);
             $this->assertEquals($correct, $range->toString());
         }
     }
@@ -755,7 +755,7 @@ class RangeTest extends BasePeriodTest
             '2007-12-31',
             '2008-01-01',
         );
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 
@@ -774,7 +774,7 @@ class RangeTest extends BasePeriodTest
                 '2008-01-06',
             )
         );
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 
@@ -795,7 +795,7 @@ class RangeTest extends BasePeriodTest
             '2008-01-07',
             '2008-01-08',
         );
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 
@@ -826,7 +826,7 @@ class RangeTest extends BasePeriodTest
                 '2008-01-06',
             ),
         );
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 
@@ -896,7 +896,7 @@ class RangeTest extends BasePeriodTest
             "2011-11-01",
             "2011-11-02",
         );
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 
@@ -1020,7 +1020,7 @@ class RangeTest extends BasePeriodTest
                 "2011-10-17",
             );
 
-            $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+            $this->assertCount($range->getNumberOfSubperiods(), $correct);
             $this->assertEquals($correct, $range->toString());
         }
     }
@@ -1068,7 +1068,7 @@ class RangeTest extends BasePeriodTest
                 "2011-09-29",
                 "2011-09-30",
             ));
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 
@@ -1128,7 +1128,7 @@ class RangeTest extends BasePeriodTest
                 "2011-08-30",
                 "2011-08-31",
             ));
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 
@@ -1156,7 +1156,7 @@ class RangeTest extends BasePeriodTest
             '2008-01-02',
             '2008-01-03',
         );
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 
@@ -1169,7 +1169,7 @@ class RangeTest extends BasePeriodTest
             '2008-01-01',
             '2008-01-02',
         );
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 
@@ -1181,7 +1181,7 @@ class RangeTest extends BasePeriodTest
             date('Y-m-d', time() - 86400 * 2),
             date('Y-m-d', time() - 86400 * 1),
         );
-        $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertCount($range->getNumberOfSubperiods(), $correct);
         $this->assertEquals($correct, $range->toString());
     }
 

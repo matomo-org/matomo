@@ -138,7 +138,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         // Check the index.php has "backtrace disabled"
         $content = file_get_contents(PIWIK_INCLUDE_PATH . "/index.php");
         $expected = "define('PIWIK_PRINT_ERROR_BACKTRACE', false);";
-        $this->assertTrue( false !== strpos($content, $expected), 'index.php should contain: ' . $expected);
+        $this->assertContains($expected, $content, 'index.php should contain: ' . $expected);
     }
 
     private function _checkEqual($key, $valueExpected)
@@ -162,7 +162,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             }
 
             $content = file_get_contents($file);
-            $this->assertFalse(strpos($content, $patternFailIfFound), 'found in ' . $file);
+            $this->assertNotContains($patternFailIfFound, $content, 'found in ' . $file);
         }
     }
 
@@ -266,12 +266,12 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     public function testProfilingDisabledInProduction()
     {
         require_once 'Tracker/Db.php';
-        $this->assertTrue(\Piwik\Tracker\Db::isProfilingEnabled() === false, 'SQL profiler should be disabled in production! See Db::$profiling');
+        $this->assertFalse(\Piwik\Tracker\Db::isProfilingEnabled(), 'SQL profiler should be disabled in production! See Db::$profiling');
     }
 
     public function testPiwikTrackerDebugIsOff()
     {
-        $this->assertTrue(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']));
+        $this->assertArrayNotHasKey('PIWIK_TRACKER_DEBUG', $GLOBALS);
         $this->assertEquals(0, $this->globalConfig['Tracker']['debug']);
 
         $tracker = new Tracker();
@@ -361,7 +361,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             $chmod = substr(decoct(fileperms($pathToTest)), -3);
             $valid = array('777', '775', '755');
             $command = "find $pluginsPath -type d -exec chmod 755 {} +";
-            $this->assertTrue(in_array($chmod, $valid),
+            $this->assertContains($chmod, $valid,
                     "Some directories within plugins/ are not chmod 755 \n\nGot: $chmod for : $pathToTest \n\n".
                     "Run this command to set all directories to 755: \n$command\n");;
         }
@@ -399,7 +399,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
             $enabled = in_array($pluginName, $pluginsBundledWithPiwik);
 
-            $this->assertTrue( $enabled + $disabled === 1,
+            $this->assertSame(1, $enabled + $disabled,
                 "Plugin $pluginName should be either enabled (in global.ini.php) or disabled (in Piwik\\Plugin\\Manager).
                 It is currently (enabled=".(int)$enabled. ", disabled=" . (int)$disabled . ")"
             );
@@ -435,13 +435,13 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
                 // expect CRLF
                 if (preg_match('/\.(bat|ps1)$/', $file)) {
                     $contents = str_replace("\r\n", '', $contents);
-                    $this->assertTrue(strpos($contents, "\n") === false, 'Incorrect line endings in ' . $file);
+                    $this->assertNotContains("\n", $contents, 'Incorrect line endings in ' . $file);
                 } else {
                     // expect native
                     $hasWindowsEOL = strpos($contents, "\r\n");
 
                     // overwrite translations files with incorrect line endings
-                    $this->assertTrue($hasWindowsEOL === false, 'Incorrect line endings \r\n found in ' . $file);
+                    $this->assertFalse($hasWindowsEOL, 'Incorrect line endings \r\n found in ' . $file);
                 }
             }
         }
@@ -454,10 +454,10 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $pattern = '/\x5b\x5c{2}.*\x5c{2}[\x22\x27]/';
         $contents = file_get_contents(PIWIK_DOCUMENT_ROOT . '/js/piwik.js');
 
-        $this->assertTrue(preg_match($pattern, $contents) == 0);
+        $this->assertEquals(0, preg_match($pattern, $contents));
 
         $contents = file_get_contents(PIWIK_DOCUMENT_ROOT . '/piwik.js');
-        $this->assertTrue(preg_match($pattern, $contents) == 0);
+        $this->assertEquals(0, preg_match($pattern, $contents));
     }
 
     public function test_piwikJs_minified_isUpToDate()

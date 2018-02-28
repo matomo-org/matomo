@@ -60,7 +60,7 @@ class ServiceTest extends IntegrationTestCase
     {
         $this->service->returnFixture('v2.0_consumer-access_token-consumer1_paid2_custom1.json');
         $consumer = $this->service->fetch('consumer', array());
-        $this->assertTrue(is_array($consumer));
+        $this->assertInternalType('array', $consumer);
         $this->assertNotEmpty($consumer);
     }
 

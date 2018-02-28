@@ -19,7 +19,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cache = Cache::getLazyCache();
 
-        $this->assertTrue($cache instanceof Cache\Lazy);
+        $this->assertInstanceOf(Cache\Lazy::class, $cache);
     }
 
     public function test_getLazyCache_shouldAlwaysReturnTheSameInstance()
@@ -34,7 +34,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cache = Cache::getEagerCache();
 
-        $this->assertTrue($cache instanceof Cache\Eager);
+        $this->assertInstanceOf(Cache\Eager::class, $cache);
     }
 
     public function test_getEagerCache_shouldAlwaysReturnTheSameInstance()
@@ -49,7 +49,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cache = Cache::getTransientCache();
 
-        $this->assertTrue($cache instanceof Cache\Transient);
+        $this->assertInstanceOf(Cache\Transient::class, $cache);
     }
 
     public function test_getTransientCache_shouldAlwaysReturnTheSameInstance()

@@ -34,7 +34,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
         /** @var ValueDefinition $definition */
         $definition = $definitionSource->getDefinition('ini.foo');
 
-        $this->assertTrue($definition instanceof ValueDefinition);
+        $this->assertInstanceOf(ValueDefinition::class, $definition);
         $this->assertEquals('ini.foo', $definition->getName());
         $this->assertSame(array(), $definition->getValue());
     }
@@ -75,7 +75,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
         /** @var ValueDefinition $definition */
         $definition = $definitionSource->getDefinition('ini.General');
 
-        $this->assertTrue($definition instanceof ValueDefinition);
+        $this->assertInstanceOf(ValueDefinition::class, $definition);
         $this->assertEquals('ini.General', $definition->getName());
         $this->assertInternalType('array', $definition->getValue());
         $this->assertEquals(array('foo' => 'bar'), $definition->getValue());
@@ -97,7 +97,7 @@ class IniConfigDefinitionSourceTest extends \PHPUnit_Framework_TestCase
         /** @var ValueDefinition $definition */
         $definition = $definitionSource->getDefinition('ini.General.foo');
 
-        $this->assertTrue($definition instanceof ValueDefinition);
+        $this->assertInstanceOf(ValueDefinition::class, $definition);
         $this->assertEquals('ini.General.foo', $definition->getName());
         $this->assertEquals('bar', $definition->getValue());
     }

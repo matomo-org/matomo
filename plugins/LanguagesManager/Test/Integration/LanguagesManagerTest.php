@@ -200,22 +200,22 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
             $name = $translations['Intl']['EnglishLanguageName'];
 
             if ($language != 'en') {
-                $this->assertFalse($name == 'English', "for $language");
+                $this->assertNotEquals('English', $name, "for $language");
             }
 
             $languageCode = substr($language, 0, 2);
-            $this->assertTrue(isset($languagesReference[$languageCode]));
+            $this->assertArrayHasKey($languageCode, $languagesReference);
             $names = $languagesReference[$languageCode];
 
             if (isset($languagesReference[$language])) {
                 if (is_array($names)) {
-                    $this->assertTrue(in_array($name, $names), "$language: failed because $name not a known language name");
+                    $this->assertContains($name, $names, "$language: failed because $name not a known language name");
                 } else {
-                    $this->assertTrue($name == $names, "$language: failed because $name == $names");
+                    $this->assertEquals($name, $names, "$language: failed because $name == $names");
                 }
             } else {
                 if (is_array($names)) {
-                    $this->assertTrue(strpos($name, $names[0]) !== false);
+                    $this->assertContains($names[0], $name);
                 } else {
                     $this->fail("$language: expected an array of language names");
                 }
@@ -234,9 +234,9 @@ class LanguagesManagerTest extends \PHPUnit_Framework_TestCase
         $languageDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\LanguageDataProvider');
 
         $languages = $languageDataProvider->getLanguageList();
-        $this->assertTrue(count($languages) > 0);
+        $this->assertGreaterThan(0, count($languages));
         foreach ($languages as $langCode => $langs) {
-            $this->assertTrue(strlen($langCode) == 2, "$langCode length = 2");
+            $this->assertEquals(2, strlen($langCode), "$langCode length = 2");
             $this->assertTrue(is_array($langs) && count($langs) >= 1, "$langCode array(names) >= 1");
         }
     }

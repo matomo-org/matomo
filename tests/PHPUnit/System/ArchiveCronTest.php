@@ -166,7 +166,7 @@ class ArchiveCronTest extends SystemTestCase
 
         try {
             $this->assertTrue(is_readable($expectedOutputFile));
-            $this->assertEquals(file_get_contents($expectedOutputFile), $output);
+            $this->assertStringEqualsFile($expectedOutputFile, $output);
         } catch (Exception $ex) {
             $this->comparisonFailures[] = $ex;
         }

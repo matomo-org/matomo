@@ -69,7 +69,7 @@ class ServiceTest extends SystemTestCase
         $service = $this->buildService();
         $response = $service->fetch('plugins', array());
 
-        $this->assertTrue(is_array($response));
+        $this->assertInternalType('array', $response);
         $this->assertArrayHasKey('plugins', $response);
         $this->assertGreaterThanOrEqual(30, count($response['plugins']));
         foreach ($response['plugins'] as $plugin) {

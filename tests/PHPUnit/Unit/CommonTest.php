@@ -232,16 +232,16 @@ class CommonTest extends PHPUnit_Framework_TestCase
         switch ($type) {
             case 'int':
             case 'integer':
-                $this->assertTrue(is_int($return));
+                $this->assertInternalType('int', $return);
                 break;
             case 'float':
-                $this->assertTrue(is_float($return));
+                $this->assertInternalType('float', $return);
                 break;
             case 'string':
-                $this->assertTrue(is_string($return));
+                $this->assertInternalType('string', $return);
                 break;
             case 'array':
-                $this->assertTrue(is_array($return));
+                $this->assertInternalType('array', $return);
                 break;
         }
     }

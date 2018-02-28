@@ -93,9 +93,9 @@ class SomeVisitsAllConversions extends Fixture
         // Update & set to not allow multiple
         $goals = API::getInstance()->getGoals($idSite);
         $goal = $goals[$idGoal_OneConversionPerVisit];
-        self::assertTrue($goal['allow_multiple'] == 0);
+        self::assertEquals(0, $goal['allow_multiple']);
         API::getInstance()->updateGoal($idSite, $idGoal_OneConversionPerVisit, $goal['name'], @$goal['match_attribute'], @$goal['pattern'], @$goal['pattern_type'], @$goal['case_sensitive'], $goal['revenue'], $goal['allow_multiple'] = 1);
-        self::assertTrue($goal['allow_multiple'] == 1);
+        self::assertEquals(1, $goal['allow_multiple']);
 
         // 1st goal should Now be tracked
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.61)->getDatetime());

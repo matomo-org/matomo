@@ -54,8 +54,8 @@ class CategoryListTest extends IntegrationTestCase
     {
         $list = CategoryList::get();
 
-        $this->assertTrue(5 < count($list->getCategory('General_Actions')->getSubcategories()));
-        $this->assertTrue(5 < count($list->getCategory('General_Visitors')->getSubcategories()));
+        $this->assertGreaterThan(5, count($list->getCategory('General_Actions')->getSubcategories()));
+        $this->assertGreaterThan(5, count($list->getCategory('General_Visitors')->getSubcategories()));
         $this->assertTrue($list->getCategory('General_Actions')->hasSubcategory('General_Pages'));
     }
 

@@ -169,7 +169,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals(date('Y-m-d'), date('Y-m-d', strtotime($siteInfo['ts_created'])));
 
         $siteUrls = API::getInstance()->getSiteUrlsFromId($idsite);
-        $this->assertEquals(1, count($siteUrls));
+        $this->assertCount(1, $siteUrls);
     }
 
     /**
@@ -770,19 +770,19 @@ class ApiTest extends IntegrationTestCase
 
         // Also test that the group was set to empty, and is searchable
         $websites = API::getInstance()->getSitesFromGroup('');
-        $this->assertEquals(1, count($websites));
+        $this->assertCount(1, $websites);
 
         // the Update doesn't change the group field
         API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl);
         $websites = API::getInstance()->getSitesFromGroup('');
-        $this->assertEquals(1, count($websites));
+        $this->assertCount(1, $websites);
 
         // Updating the group to something
         $group = 'something';
         API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ss = true, $ss_kwd = null, $ss_cat = '', $ips = null, $parametersExclude = null, $timezone = null, $currency = null, $group);
 
         $websites = API::getInstance()->getSitesFromGroup($group);
-        $this->assertEquals(1, count($websites));
+        $this->assertCount(1, $websites);
         $this->assertEquals(date('Y-m-d'), date('Y-m-d', strtotime($websites[0]['ts_created'])));
 
         // Updating the group to nothing
@@ -790,7 +790,7 @@ class ApiTest extends IntegrationTestCase
         $type = 'mobileAppTest';
         API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ss = false, $ss_kwd = '', $ss_cat = null, $ips = null, $parametersExclude = null, $timezone = null, $currency = null, $group, $startDate = '2010-01-01', $excludedUserAgent = null, $keepUrlFragment = 1, $type);
         $websites = API::getInstance()->getSitesFromGroup($group);
-        $this->assertEquals(1, count($websites));
+        $this->assertCount(1, $websites);
         $this->assertEquals('2010-01-01', date('Y-m-d', strtotime($websites[0]['ts_created'])));
 
         // Test setting the website type
@@ -838,7 +838,7 @@ class ApiTest extends IntegrationTestCase
             $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group, $startDate = '2011-01-01');
 
         $websites = API::getInstance()->getSitesFromGroup($group);
-        $this->assertEquals(1, count($websites));
+        $this->assertCount(1, $websites);
 
         $newurls = array("http://piwiknew2.com",
                          "http://piwiknew2.net",
@@ -852,11 +852,11 @@ class ApiTest extends IntegrationTestCase
 
         // no result for the group before update
         $websites = API::getInstance()->getSitesFromGroup($group);
-        $this->assertEquals(0, count($websites));
+        $this->assertCount(0, $websites);
 
         // Testing that the group was updated properly (and testing that the group value is trimmed before inserted/searched)
         $websites = API::getInstance()->getSitesFromGroup($groupAfter . ' ');
-        $this->assertEquals(1, count($websites));
+        $this->assertCount(1, $websites);
         $this->assertEquals('2011-01-01', date('Y-m-d', strtotime($websites[0]['ts_created'])));
 
         // Test fetch website groups
@@ -1148,16 +1148,16 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("site3", array("http://piwik.com", "http://piwik.org"));
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.org');
-        $this->assertTrue(count($idsites) == 1);
+        $this->assertCount(1, $idsites);
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://www.piwik.org');
-        $this->assertTrue(count($idsites) == 1);
+        $this->assertCount(1, $idsites);
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.net');
-        $this->assertTrue(count($idsites) == 2);
+        $this->assertCount(2, $idsites);
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
-        $this->assertTrue(count($idsites) == 3);
+        $this->assertCount(3, $idsites);
     }
 
     public function test_getSitesIdFromSiteUrl_MatchesBothHttpAndHttpsUrls_AsSuperUser()
@@ -1185,28 +1185,28 @@ class ApiTest extends IntegrationTestCase
     private function assert_getSitesIdFromSiteUrl_matchesBothHttpAndHttpsUrls()
     {
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.org');
-        $this->assertTrue(count($idsites) == 1);
+        $this->assertCount(1, $idsites);
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('piwik.org');
-        $this->assertTrue(count($idsites) == 1);
+        $this->assertCount(1, $idsites);
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('https://www.piwik.org');
-        $this->assertTrue(count($idsites) == 1);
+        $this->assertCount(1, $idsites);
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('https://example.com');
-        $this->assertTrue(count($idsites) == 1);
+        $this->assertCount(1, $idsites);
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl("fb://special-url");
-        $this->assertTrue(count($idsites) == 1);
+        $this->assertCount(1, $idsites);
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('https://random-example.com');
-        $this->assertTrue(count($idsites) == 0);
+        $this->assertCount(0, $idsites);
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('not-found.piwik.org');
-        $this->assertTrue(count($idsites) == 0);
+        $this->assertCount(0, $idsites);
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('piwik.org/not-found/');
-        $this->assertTrue(count($idsites) == 0);
+        $this->assertCount(0, $idsites);
     }
 
     public function test_getSitesIdFromSiteUrl_AsUser()
@@ -1233,13 +1233,13 @@ class ApiTest extends IntegrationTestCase
 
         $this->assertFalse(Piwik::hasUserSuperUserAccess());
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
-        $this->assertEquals(1, count($idsites));
+        $this->assertCount(1, $idsites);
 
         // testing URL normalization
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://www.piwik.com');
-        $this->assertEquals(1, count($idsites));
+        $this->assertCount(1, $idsites);
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.net');
-        $this->assertEquals(1, count($idsites));
+        $this->assertCount(1, $idsites);
 
         FakeAccess::$superUser = false;
         FakeAccess::$identity = 'user2';
@@ -1247,7 +1247,7 @@ class ApiTest extends IntegrationTestCase
         FakeAccess::setIdSitesAdmin(array(3));
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
-        $this->assertEquals(2, count($idsites));
+        $this->assertCount(2, $idsites);
 
         FakeAccess::$superUser = false;
         FakeAccess::$identity = 'user3';
@@ -1255,10 +1255,10 @@ class ApiTest extends IntegrationTestCase
         FakeAccess::setIdSitesAdmin(array(3));
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
-        $this->assertEquals(3, count($idsites));
+        $this->assertCount(3, $idsites);
 
         $idsites = API::getInstance()->getSitesIdFromSiteUrl('https://www.piwik.com');
-        $this->assertEquals(3, count($idsites));
+        $this->assertCount(3, $idsites);
     }
 
     public function test_getSitesFromTimezones_ReturnsCorrectIdSites()

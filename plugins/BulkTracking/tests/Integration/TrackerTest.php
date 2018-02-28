@@ -58,7 +58,7 @@ class TrackerTest extends BulkTrackingTestCase
     public function test_main_shouldUseBulkHandler()
     {
         $handler = $this->getHandler();
-        $this->assertTrue($handler instanceof Handler);
+        $this->assertInstanceOf(Handler::class, $handler);
     }
 
     public function test_main_shouldReturnBulkTrackingResponse()

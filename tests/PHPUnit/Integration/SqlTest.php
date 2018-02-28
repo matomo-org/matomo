@@ -37,12 +37,12 @@ class SqlTest extends IntegrationTestCase
     public function testOptimize()
     {
         // make sure optimizing myisam tables works
-        $this->assertTrue(Db::optimizeTables(array('table1', 'table2')) !== false);
+        $this->assertNotFalse(Db::optimizeTables(array('table1', 'table2')));
 
         // make sure optimizing both myisam & innodb results in optimizations
-        $this->assertTrue(Db::optimizeTables(array('table1', 'table2', 'table3', 'table4')) !== false);
+        $this->assertNotFalse(Db::optimizeTables(array('table1', 'table2', 'table3', 'table4')));
 
         // make sure innodb tables are skipped
-        $this->assertTrue(Db::optimizeTables(array('table3', 'table4')) === false);
+        $this->assertFalse(Db::optimizeTables(array('table3', 'table4')));
     }
 }

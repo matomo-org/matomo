@@ -684,15 +684,15 @@ class UsersManagerTest extends IntegrationTestCase
 
         // Test getUsersWithSiteAccess
         $users = $this->api->getUsersWithSiteAccess($id1, $access = 'view');
-        $this->assertEquals(1, count($users));
+        $this->assertCount(1, $users);
         $this->assertEquals('user1', $users[0]['login']);
         $users = $this->api->getUsersWithSiteAccess($id2, $access = 'view');
-        $this->assertEquals(2, count($users));
+        $this->assertCount(2, $users);
         $users = $this->api->getUsersWithSiteAccess($id1, $access = 'admin');
-        $this->assertEquals(1, count($users));
+        $this->assertCount(1, $users);
         $this->assertEquals('user2', $users[0]['login']);
         $users = $this->api->getUsersWithSiteAccess($id3, $access = 'admin');
-        $this->assertEquals(0, count($users));
+        $this->assertCount(0, $users);
     }
 
     /**

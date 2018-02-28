@@ -53,7 +53,7 @@ class WidgetsProviderTest extends IntegrationTestCase
         $this->assertGreaterThanOrEqual(3, count($configs));
 
         foreach ($configs as $config) {
-            $this->assertTrue($config instanceof WidgetContainerConfig);
+            $this->assertInstanceOf(WidgetContainerConfig::class, $config);
         }
     }
 
@@ -64,8 +64,8 @@ class WidgetsProviderTest extends IntegrationTestCase
         $this->assertGreaterThanOrEqual(10, count($configs));
 
         foreach ($configs as $config) {
-            $this->assertTrue($config instanceof WidgetConfig);
-            $this->assertFalse($config instanceof WidgetContainerConfig);
+            $this->assertInstanceOf(WidgetConfig::class, $config);
+            $this->assertNotInstanceOf(WidgetContainerConfig::class, $config);
         }
     }
 

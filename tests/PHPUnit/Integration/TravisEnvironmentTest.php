@@ -25,7 +25,7 @@ class TravisEnvironmentTest extends IntegrationTestCase
             return;
         }
 
-        $this->assertTrue(in_array($mysqlAdapter, array('PDO_MYSQL', 'PDO\MYSQL', 'MYSQLI')));
+        $this->assertContains($mysqlAdapter, array('PDO_MYSQL', 'PDO\MYSQL', 'MYSQLI'));
 
         $db = Db::get();
 

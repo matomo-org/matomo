@@ -89,7 +89,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertEquals(1, $this->getCountOfConversions());
 
         $conversionItems = $this->getConversionItems();
-        $this->assertEquals(3, count($conversionItems));
+        $this->assertCount(3, $conversionItems);
 
         $this->assertActionEquals('"scarysku', $conversionItems[0]['idaction_sku']);
         $this->assertActionEquals('superscarymovie"', $conversionItems[0]['idaction_name']);
@@ -117,7 +117,7 @@ class TrackerTest extends IntegrationTestCase
         $this->assertEquals(1, $this->getCountOfConversions());
 
         $conversionItems = $this->getConversionItems();
-        $this->assertEquals(1, count($conversionItems));
+        $this->assertCount(1, $conversionItems);
 
         $this->assertActionEquals('"scarysku&', $conversionItems[0]['idaction_sku']);
         $this->assertActionEquals('superscarymovie\'', $conversionItems[0]['idaction_name']);
@@ -133,7 +133,7 @@ class TrackerTest extends IntegrationTestCase
         Fixture::checkResponse($response);
 
         $this->assertEquals(1, $this->getCountOfConversions());
-        $this->assertEquals(0, count($this->getConversionItems()));
+        $this->assertCount(0, $this->getConversionItems());
     }
 
     public function test_trackingEcommerceOrder_DoesNotFail_WhenNonArrayUsedWithEcommerceItemsParam()
@@ -145,7 +145,7 @@ class TrackerTest extends IntegrationTestCase
         Fixture::checkResponse($response);
 
         $this->assertEquals(0, $this->getCountOfConversions());
-        $this->assertEquals(0, count($this->getConversionItems()));
+        $this->assertCount(0, $this->getConversionItems());
     }
 
     public function test_trackingWithLangParameter_ForwardsLangParameter_ToDefaultLocationProvider()
