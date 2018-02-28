@@ -7084,7 +7084,8 @@ if (typeof window.Piwik !== 'object') {
                             apply(paq[iterator]);
                             delete paq[iterator];
 
-                            if (appliedMethods[methodName] > 1) {
+                            if (appliedMethods[methodName] > 1
+                                && methodName !== "addTracker") {
                                 logConsoleError('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: https://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
                             }
 
