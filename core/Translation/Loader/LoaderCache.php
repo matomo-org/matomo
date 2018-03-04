@@ -8,7 +8,7 @@
 
 namespace Piwik\Translation\Loader;
 
-use Piwik\Cache;
+use Matomo\Cache;
 
 /**
  * Caches the translations loaded by another loader.

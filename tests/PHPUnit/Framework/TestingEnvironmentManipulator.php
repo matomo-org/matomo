@@ -98,7 +98,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             \Piwik\Profiler::setupProfilerXHProf($mainRun = false, $setupDuringTracking = true);
         }
 
-        \Piwik\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
+        \Matomo\Cache\Backend\File::$invalidateOpCacheBeforeRead = true;
     }
 
     public function onEnvironmentBootstrapped()

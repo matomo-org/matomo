@@ -280,7 +280,6 @@ class FrontController extends Singleton
             }
 
             Log::debug($exception);
-
             /**
              * Triggered when Piwik cannot connect to the database.
              *

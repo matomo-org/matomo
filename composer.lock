@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "09fe6cb3a6b305cd0013ee7cb97e4635",
+    "content-hash": "cf282f530d9f7a29b9e0461a7fffcc16",
     "packages": [
         {
             "name": "composer/semver",
@@ -101,16 +101,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "v1.6.1",
+            "version": "v1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "b6f544a20f4807e81f7044d31e679ccbb1866dc3"
+                "reference": "eb152c5100571c7a45470ff2a35095ab3f3b900b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/b6f544a20f4807e81f7044d31e679ccbb1866dc3",
-                "reference": "b6f544a20f4807e81f7044d31e679ccbb1866dc3",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/eb152c5100571c7a45470ff2a35095ab3f3b900b",
+                "reference": "eb152c5100571c7a45470ff2a35095ab3f3b900b",
                 "shasum": ""
             },
             "require": {
@@ -167,7 +167,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2016-10-29T11:16:17+00:00"
+            "time": "2017-07-22T12:49:21+00:00"
         },
         {
             "name": "leafo/lessphp",
@@ -209,6 +209,61 @@
             "description": "lessphp is a compiler for LESS written in PHP.",
             "homepage": "http://leafo.net/lessphp/",
             "time": "2014-11-24T18:39:20+00:00"
+        },
+        {
+            "name": "matomo/cache",
+            "version": "dev-small-mods",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matomo-org/component-cache.git",
+                "reference": "4ae0db14f780d8491a64ddfa8267e98dd95c6b54"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/4ae0db14f780d8491a64ddfa8267e98dd95c6b54",
+                "reference": "4ae0db14f780d8491a64ddfa8267e98dd95c6b54",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/cache": "~1.4",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Matomo\\Cache\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\Matomo\\Cache\\": "tests/"
+                }
+            },
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "The Matomo Team",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org/the-matomo-team/"
+                }
+            ],
+            "description": "PHP caching library based on Doctrine cache",
+            "keywords": [
+                "array",
+                "cache",
+                "file",
+                "redis"
+            ],
+            "support": {
+                "source": "https://github.com/matomo-org/component-cache/tree/small-mods",
+                "issues": "https://github.com/matomo-org/component-cache/issues"
+            },
+            "time": "2018-03-04T20:50:49+00:00"
         },
         {
             "name": "matomo/referrer-spam-blacklist",
@@ -735,54 +790,6 @@
                 "reflection"
             ],
             "time": "2015-11-29T10:34:25+00:00"
-        },
-        {
-            "name": "piwik/cache",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/piwik/component-cache.git",
-                "reference": "5f6652574440d9886741918a1e4dc1c555820501"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-cache/zipball/5f6652574440d9886741918a1e4dc1c555820501",
-                "reference": "5f6652574440d9886741918a1e4dc1c555820501",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/cache": "~1.4",
-                "php": ">=5.5.9"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Piwik\\Cache\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "The Piwik Team",
-                    "email": "hello@piwik.org",
-                    "homepage": "http://piwik.org/the-piwik-team/"
-                }
-            ],
-            "description": "PHP caching library based on Doctrine cache",
-            "keywords": [
-                "array",
-                "cache",
-                "file",
-                "redis"
-            ],
-            "abandoned": "matomo/cache",
-            "time": "2016-11-15T02:33:06+00:00"
         },
         {
             "name": "piwik/decompress",
@@ -2956,6 +2963,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "matomo/cache": 20,
         "facebook/xhprof": 20
     },
     "prefer-stable": false,

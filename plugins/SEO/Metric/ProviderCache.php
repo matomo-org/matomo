@@ -21,7 +21,7 @@ class ProviderCache implements MetricsProvider
     private $provider;
 
     /**
-     * @var Cache\Lazy
+     * @var \Matomo\Cache\Lazy
      */
     private $cache;
 
