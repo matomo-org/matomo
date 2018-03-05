@@ -8,6 +8,9 @@
 
 namespace Piwik\Tests\Unit;
 
+use Matomo\Cache\Eager;
+use Matomo\Cache\Lazy;
+use Matomo\Cache\Transient;
 use Piwik\Cache;
 
 /**
@@ -19,7 +22,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cache = Cache::getLazyCache();
 
-        $this->assertTrue($cache instanceof Cache\Lazy);
+        $this->assertTrue($cache instanceof Lazy);
     }
 
     public function test_getLazyCache_shouldAlwaysReturnTheSameInstance()
@@ -34,7 +37,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cache = Cache::getEagerCache();
 
-        $this->assertTrue($cache instanceof Cache\Eager);
+        $this->assertTrue($cache instanceof Eager);
     }
 
     public function test_getEagerCache_shouldAlwaysReturnTheSameInstance()
@@ -49,7 +52,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $cache = Cache::getTransientCache();
 
-        $this->assertTrue($cache instanceof Cache\Transient);
+        $this->assertTrue($cache instanceof Transient);
     }
 
     public function test_getTransientCache_shouldAlwaysReturnTheSameInstance()

@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\Marketplace\Plugins;
 
-use Piwik\Cache;
+use Matomo\Cache;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Api\Client;

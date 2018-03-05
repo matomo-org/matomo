@@ -84,6 +84,8 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
 
         // THIS IS A REMINDER FOR PIWIK 4: We need to rename getColumnType() to getDbColumnType() and $columnType to $dbColumnType
         $this->assertDeprecatedMethodIsRemovedInPiwik4('Piwik\Columns\Dimension', 'getType');
+
+        $this->assertDeprecatedClassIsRemovedInPiwik4('Piwik\Cache\Backend\File');
     }
 
 
@@ -129,6 +131,11 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($classExists, $errorMessage);
     }
 
+    private function assertDeprecatedClassIsRemovedInPiwik4($className)
+    {
+        $this->assertDeprecatedClassIsRemovedInPiwikVersion('4.0.0-b1', $className);
+    }
+
     private function assertDeprecatedMethodIsRemovedInPiwik3b1($className, $method)
     {
         $this->assertDeprecatedMethodIsRemovedInPiwikVersion('3.0.0-b1', $className, $method);
@@ -160,5 +167,20 @@ class DeprecatedMethodsTest extends \PHPUnit_Framework_TestCase
 
         $errorMessage = $className . '::' . $method . ' should be removed as the method is deprecated but it is not.';
         $this->assertFalse($methodExists, $errorMessage);
+    }
+
+    private function assertDeprecatedClassIsRemovedInPiwikVersion($piwikVersion, $className)
+    {
+        $version = Version::VERSION;
+        $classExists = class_exists($className);
+
+        if (-1 === version_compare($version, $piwikVersion)) {
+            $errorMessage = $className . ' should still exists until ' . $piwikVersion . ' although it is deprecated.';
+            $this->assertTrue($classExists, $errorMessage);
+            return;
+        }
+
+        $errorMessage = $className . ' should be removed as the class is deprecated but it is not.';
+        $this->assertFalse($classExists, $errorMessage);
     }
 }

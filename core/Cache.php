@@ -8,7 +8,11 @@
  */
 namespace Piwik;
 
-use Piwik\Cache\Backend;
+use Matomo\Cache\Backend;
+use Matomo\Cache\Eager;
+use Matomo\Cache\Lazy;
+use Matomo\Cache\Transient;
+use Piwik\Cache\BackendAdapter;
 use Piwik\Container\StaticContainer;
 
 class Cache
@@ -20,22 +24,22 @@ class Cache
      * an entry from the cache it will fetch the entry. Cache entries might be persisted but not necessarily. It
      * depends on the configured backend.
      *
-     * @return Cache\Lazy
+     * @return \Matomo\Cache\Lazy
      */
     public static function getLazyCache()
     {
-        return StaticContainer::get('Piwik\Cache\Lazy');
+        return StaticContainer::get(Lazy::class);
     }
 
     /**
      * This class is used to cache any data during one request. It won't be persisted between requests and it can
      * cache all kind of data, even objects or resources. This cache is very fast.
      *
-     * @return Cache\Transient
+     * @return \Matomo\Cache\Transient
      */
     public static function getTransientCache()
     {
-        return StaticContainer::get('Piwik\Cache\Transient');
+        return StaticContainer::get(Transient::class);
     }
 
     /**
@@ -49,11 +53,11 @@ class Cache
      * All cache entries it contains have the same life time. For fast performance it won't validate any cache ids.
      * It is not possible to cache any objects using this cache.
      *
-     * @return Cache\Eager
+     * @return \Matomo\Cache\Eager
      */
     public static function getEagerCache()
     {
-        return StaticContainer::get('Piwik\Cache\Eager');
+        return StaticContainer::get(Eager::class);
     }
 
     public static function flushAll()
@@ -65,11 +69,11 @@ class Cache
 
     /**
      * @param $type
-     * @return Cache\Backend
+     * @return Backend
      */
     public static function buildBackend($type)
     {
-        $factory = new Cache\Backend\Factory();
+        $factory = new Backend\Factory();
         $options = self::getOptions($type);
 
         $backend = $factory->buildBackend($type, $options);
