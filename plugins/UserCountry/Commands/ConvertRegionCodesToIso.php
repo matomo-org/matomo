@@ -1,0 +1,112 @@
+<?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ */
+namespace Piwik\Plugins\UserCountry\Commands;
+
+use Piwik\Common;
+use Piwik\Db;
+use Piwik\DbHelper;
+use Piwik\Option;
+use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugins\UserCountry\LocationProvider;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp2;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class ConvertRegionCodesToIso extends ConsoleCommand
+{
+    const OPTION_NAME = 'regioncodes_converted';
+    const MAPPING_TABLE_NAME = 'fips2iso';
+
+    protected function configure()
+    {
+        $this->setName('usercountry:convert-region-codes');
+        $this->setDescription("Convert region codes saved by GeoIP legacy provider to GeoIP2.");
+    }
+
+    public function isEnabled()
+    {
+        return (LocationProvider::getCurrentProvider() instanceof GeoIp2);
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return void|int
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        // chick if option is set to disable second run
+        if (Option::get(self::OPTION_NAME)) {
+            $output->writeln('Converting region codes already done.');
+            return;
+        }
+
+        $output->setDecorated(true);
+
+        $output->write('Creating mapping table in database');
+
+        DbHelper::createTable(self::MAPPING_TABLE_NAME,
+            "`country_code` VARCHAR(2) NOT NULL,
+                           `fips_code` VARCHAR(2) NOT NULL,
+                           `iso_code` VARCHAR(4) NULL DEFAULT NULL,
+                           PRIMARY KEY (`country_code`, `fips_code`)");
+
+        $output->writeln(' <fg=green>✓</>');
+
+        $mappings = require_once __DIR__ . '/../data/regionMapping.php';
+
+        $output->write('Inserting mapping data ');
+
+        $counter = 0;
+        foreach ($mappings as $country => $regionMapping) {
+            foreach ($regionMapping as $fips => $iso) {
+                Db::query('INSERT INTO `'.Common::prefixTable(self::MAPPING_TABLE_NAME).'` VALUES (?, ?, ?)', [$country, $fips, $iso]);
+                $counter++;
+                if ($counter%50 == 0) {
+                    $output->write('.');
+                }
+            }
+        }
+
+        // remove all entries where no change has to be done.
+        Db::query('DELETE FROM `'.Common::prefixTable(self::MAPPING_TABLE_NAME).'` WHERE `fips_code` = `iso_code`');
+
+        $output->writeln(' <fg=green>✓</>');
+
+        $output->writeln('Updating Matomo log tables:');
+
+        $activationTime = Option::get(GeoIp2::SWITCH_TO_GEOIP2_OPTION_NAME);
+        $activationDateTime = date('Y-m-d H:i:s', $activationTime);
+
+        $query = "UPDATE %s INNER JOIN %s ON location_country = country_code AND location_region = fips_code SET location_region = iso_code
+                  WHERE `%s` < ?";
+
+        $logTables = ['log_visit' => 'visit_first_action_time', 'log_conversion' => 'server_time'];
+
+        foreach ($logTables as $logTable => $dateField) {
+            $output->write('- Updating ' . $logTable);
+
+            $sql = sprintf($query, Common::prefixTable($logTable), Common::prefixTable(self::MAPPING_TABLE_NAME), $dateField);
+            Db::query($sql, $activationDateTime);
+
+            $output->writeln(' <fg=green>✓</>');
+        }
+
+        $output->write('Removing mapping table from database ');
+        Db::dropTables(Common::prefixTable(self::MAPPING_TABLE_NAME));
+        $output->writeln(' <fg=green>✓</>');
+
+        // save option to prevent a second run
+        Option::set(self::OPTION_NAME, true);
+
+        $output->writeln('All region codes converted.');
+    }
+
+
+}
