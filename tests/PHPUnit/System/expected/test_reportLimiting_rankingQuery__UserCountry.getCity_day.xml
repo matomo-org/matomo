@@ -19,7 +19,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/au.png</logo>
 	</row>
 	<row>
-		<label>Nice, Provence-Alpes-Côte d'Azur, France</label>
+		<label>Nice, Provence-Alpes-Côte-d’Azur, France</label>
 		<nb_uniq_visitors>4</nb_uniq_visitors>
 		<nb_visits>20</nb_visits>
 		<nb_actions>20</nb_actions>
@@ -33,7 +33,7 @@
 		<region>PAC</region>
 		<country>fr</country>
 		<country_name>France</country_name>
-		<region_name>Provence-Alpes-Côte d'Azur</region_name>
+		<region_name>Provence-Alpes-Côte-d’Azur</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>

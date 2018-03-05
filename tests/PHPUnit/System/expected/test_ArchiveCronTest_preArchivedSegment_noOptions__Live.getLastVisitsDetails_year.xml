@@ -819,10 +819,10 @@
 		<country>South Korea</country>
 		<countryCode>kr</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/kr.png</countryFlag>
-		<region>Seoul</region>
+		<region>Seoul Teugbyeolsi</region>
 		<regionCode>11</regionCode>
 		<city>Seoul</city>
-		<location>Seoul, Seoul, South Korea</location>
+		<location>Seoul, Seoul Teugbyeolsi, South Korea</location>
 		<visitLocalTime>20:15:41</visitLocalTime>
 		<visitLocalHour>20</visitLocalHour>
 		<daysSinceLastVisit>0</daysSinceLastVisit>

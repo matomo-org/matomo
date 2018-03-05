@@ -131,7 +131,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
-		<label>Hluboká nad Vltavou, St.-Petersburg, Russia</label>
+		<label>Hluboká nad Vltavou, Sankt-Peterburg, Russia</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>6</nb_actions>
 		<max_actions>5</max_actions>
@@ -158,11 +158,11 @@
 		<region>SPE</region>
 		<country>ru</country>
 		<country_name>Russia</country_name>
-		<region_name>St.-Petersburg</region_name>
+		<region_name>Sankt-Peterburg</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
 	</row>
 	<row>
-		<label>Lhasa, Tibet, China</label>
+		<label>Lhasa, Xizang, China</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
@@ -191,11 +191,11 @@
 		<region>XZ</region>
 		<country>cn</country>
 		<country_name>China</country_name>
-		<region_name>Tibet</region_name>
+		<region_name>Xizang</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
 	</row>
 	<row>
-		<label>London, City of London, United Kingdom</label>
+		<label>London, London, City of, United Kingdom</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
@@ -222,7 +222,7 @@
 		<region>LND</region>
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
-		<region_name>City of London</region_name>
+		<region_name>London, City of</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 	<row>
@@ -319,7 +319,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/gb.png</logo>
 	</row>
 	<row>
-		<label>Stratford-upon-Avon, St.-Petersburg, Russia</label>
+		<label>Stratford-upon-Avon, Sankt-Peterburg, Russia</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
@@ -346,7 +346,7 @@
 		<region>SPE</region>
 		<country>ru</country>
 		<country_name>Russia</country_name>
-		<region_name>St.-Petersburg</region_name>
+		<region_name>Sankt-Peterburg</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/ru.png</logo>
 	</row>
 	<row>

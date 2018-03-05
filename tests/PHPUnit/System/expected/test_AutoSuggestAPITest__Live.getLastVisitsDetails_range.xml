@@ -1010,10 +1010,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>St.-Petersburg</region>
+		<region>Sankt-Peterburg</region>
 		<regionCode>SPE</regionCode>
 		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, St.-Petersburg, Russia</location>
+		<location>Hluboká nad Vltavou, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -1154,10 +1154,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>St.-Petersburg</region>
+		<region>Sankt-Peterburg</region>
 		<regionCode>SPE</regionCode>
 		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, St.-Petersburg, Russia</location>
+		<location>Hluboká nad Vltavou, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -1350,10 +1350,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>St.-Petersburg</region>
+		<region>Sankt-Peterburg</region>
 		<regionCode>SPE</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, St.-Petersburg, Russia</location>
+		<location>Stratford-upon-Avon, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -1494,10 +1494,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>St.-Petersburg</region>
+		<region>Sankt-Peterburg</region>
 		<regionCode>SPE</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, St.-Petersburg, Russia</location>
+		<location>Stratford-upon-Avon, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -2052,10 +2052,10 @@
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
-		<region>City of London</region>
+		<region>London, City of</region>
 		<regionCode>LND</regionCode>
 		<city>London</city>
-		<location>London, City of London, United Kingdom</location>
+		<location>London, London, City of, United Kingdom</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -2248,10 +2248,10 @@
 		<country>China</country>
 		<countryCode>cn</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
-		<region>Tibet</region>
+		<region>Xizang</region>
 		<regionCode>XZ</regionCode>
 		<city>Lhasa</city>
-		<location>Lhasa, Tibet, China</location>
+		<location>Lhasa, Xizang, China</location>
 		<latitude>29.650000</latitude>
 		<longitude>91.100000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -2384,10 +2384,10 @@
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
-		<region>City of London</region>
+		<region>London, City of</region>
 		<regionCode>LND</regionCode>
 		<city>London</city>
-		<location>London, City of London, United Kingdom</location>
+		<location>London, London, City of, United Kingdom</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -2528,10 +2528,10 @@
 		<country>China</country>
 		<countryCode>cn</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
-		<region>Tibet</region>
+		<region>Xizang</region>
 		<regionCode>XZ</regionCode>
 		<city>Lhasa</city>
-		<location>Lhasa, Tibet, China</location>
+		<location>Lhasa, Xizang, China</location>
 		<latitude>29.650000</latitude>
 		<longitude>91.100000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>

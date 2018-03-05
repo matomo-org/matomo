@@ -326,10 +326,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>St.-Petersburg</region>
+		<region>Sankt-Peterburg</region>
 		<regionCode>SPE</regionCode>
 		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, St.-Petersburg, Russia</location>
+		<location>Hluboká nad Vltavou, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -470,10 +470,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>St.-Petersburg</region>
+		<region>Sankt-Peterburg</region>
 		<regionCode>SPE</regionCode>
 		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, St.-Petersburg, Russia</location>
+		<location>Hluboká nad Vltavou, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
