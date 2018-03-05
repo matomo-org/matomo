@@ -12,6 +12,7 @@ namespace Piwik\Plugins\UserCountry;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp2;
 use Piwik\Tracker\Visit;
 
 /**
@@ -133,9 +134,7 @@ function getRegionNameFromCodes($countryCode, $regionCode)
         return GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
     }
 
-    $translationKey = sprintf('Intl_Region_%s_%s', strtoupper($countryCode), strtoupper($regionCode));
-    $translation = Piwik::translate($translationKey);
-    return $translation == $translationKey ? Piwik::translate('General_Unknown') : $translation;
+    return GeoIp2::getRegionNameFromCodes($countryCode, $regionCode);
 }
 
 /**

@@ -27,6 +27,13 @@ abstract class GeoIp2 extends LocationProvider
     public static $geoIPDatabaseDir = 'misc';
 
     /**
+     * Cached region name array. Data is from geoipregionvars.php.
+     *
+     * @var array
+     */
+    private static $regionNames = null;
+
+    /**
      * Stores possible database file names categorized by the type of information
      * GeoIP databases hold.
      *
@@ -181,5 +188,41 @@ abstract class GeoIp2 extends LocationProvider
             }
         }
         return false;
+    }
+
+
+    /**
+     * Returns a region name for a country code + region code.
+     *
+     * @param string $countryCode
+     * @param string $regionCode
+     * @return string The region name or 'Unknown' (translated).
+     */
+    public static function getRegionNameFromCodes($countryCode, $regionCode)
+    {
+        $regionNames = self::getRegionNames();
+
+        $countryCode = strtoupper($countryCode);
+        $regionCode = strtoupper($regionCode);
+
+        if (isset($regionNames[$countryCode.'-'.$regionCode])) {
+            return $regionNames[$countryCode.'-'.$regionCode];
+        } else {
+            return Piwik::translate('General_Unknown');
+        }
+    }
+
+    /**
+     * Returns an array of region names mapped by country code & region code.
+     *
+     * @return array
+     */
+    public static function getRegionNames()
+    {
+        if (is_null(self::$regionNames)) {
+            self::$regionNames = require_once __DIR__ . '/../data/IsoRegionNames.php';
+        }
+
+        return self::$regionNames;
     }
 }
