@@ -362,6 +362,9 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public static function clearSession()
     {
+        $sessionFingerprint = new Session\SessionFingerprint();
+        $sessionFingerprint->clear();
+
         $authCookieName = Config::getInstance()->General['login_cookie_name'];
         $cookie = new Cookie($authCookieName);
         $cookie->delete();
