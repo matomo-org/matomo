@@ -347,8 +347,19 @@ class FrontController extends Singleton
             SettingsPiwik::getPiwikUrl();
         }
 
-        $authAdapter = $this->makeAuthenticator();
-        Access::getInstance()->reloadAccess($authAdapter);
+        $loggedIn = false;
+
+        // try authenticating w/ session first...
+        $sessionAuth = $this->makeSessionAuthenticator();
+        if ($sessionAuth) {
+            $loggedIn = Access::getInstance()->reloadAccess($sessionAuth);
+        }
+
+        // ... if session auth fails try normal auth (which will login the anonymous user)
+        if (!$loggedIn) {
+            $authAdapter = $this->makeAuthenticator();
+            Access::getInstance()->reloadAccess($authAdapter);
+        }
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
@@ -581,7 +592,7 @@ class FrontController extends Singleton
         }
     }
 
-    private function makeAuthenticator()
+    private function makeSessionAuthenticator()
     {
         $module = Common::getRequestVar('module', self::DEFAULT_MODULE, 'string');
         $action = Common::getRequestVar('action', false);
@@ -595,6 +606,11 @@ class FrontController extends Singleton
             return StaticContainer::get(SessionAuth::class);
         }
 
+        return null;
+    }
+
+    private function makeAuthenticator()
+    {
         /**
          * Triggered before the user is authenticated, when the global authentication object
          * should be created.
