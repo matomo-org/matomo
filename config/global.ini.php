@@ -677,6 +677,11 @@ cookie_expire = 33955200;
 ; This is used for the Ignore cookie, and the third party cookie if use_third_party_id_cookie = 1
 cookie_path =
 
+; The domain on the server in which the cookie will be available on.
+; Defaults to empty. See spec in https://curl.haxx.se/rfc/cookie_spec.html
+; This is used for the third party cookie if use_third_party_id_cookie = 1
+cookie_domain =
+
 ; set to 0 if you want to stop tracking the visitors. Useful if you need to stop all the connections on the DB.
 record_statistics = 1
 

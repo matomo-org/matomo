@@ -629,7 +629,14 @@ class Request
             $this->getCookieName(),
             $this->getCookieExpire(),
             $this->getCookiePath());
+       
+        $domain = $this->getCookieDomain();
+        if (!empty($domain)) {
+            $cookie->setDomain($domain);
+        }
+            
         Common::printDebug($cookie);
+        
         return $cookie;
     }
 
@@ -646,6 +653,11 @@ class Request
     protected function getCookiePath()
     {
         return TrackerConfig::getConfigValue('cookie_path');
+    }
+
+    protected function getCookieDomain()
+    {
+        return TrackerConfig::getConfigValue('cookie_domain');
     }
 
     /**
