@@ -78,6 +78,7 @@ class Cloud extends Visualization
         }
 
         $this->assignTemplateVar('labelMetadata', $labelMetadata);
+        $this->assignTemplateVar('cloudColumn', $columnToDisplay);
         $this->assignTemplateVar('cloudValues', $cloudValues);
     }
 
