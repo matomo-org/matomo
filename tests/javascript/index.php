@@ -77,6 +77,14 @@ testTrackPageViewAsync();
  <script src="piwiktest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
  <link rel="stylesheet" href="jash/Jash.css" type="text/css" media="screen" />
+
+    <?php
+    include_once $root . '/core/Filesystem.php';
+    $files = \Piwik\Filesystem::globr($root . '/plugins/*/tests/javascript', 'head.php');
+    foreach ($files as $file) {
+        include_once $file;
+    }
+    ?>
 <style>
     .assertSize {
         height: 1px;
@@ -113,7 +121,7 @@ function _e(id){
  }
 
 function _s(selector) { // select node within content test scope
- $nodes = $('#contenttest ' + selector);
+ var $nodes = $('#contenttest ' + selector);
  if ($nodes.length) {
      return $nodes[0];
  } else {

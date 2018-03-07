@@ -16,6 +16,10 @@ class DateTime extends BaseValidator
 {
     public function validate($value)
     {
+        if ($value === null || $value === false || $value === '') {
+            return;
+        }
+
         if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})Z?$/', $value)) {
             throw new Exception(Piwik::translate('General_ValidatorErrorInvalidDateTimeFormat', array($value, 'YYYY-MM-DD HH:MM:SS')));
         }

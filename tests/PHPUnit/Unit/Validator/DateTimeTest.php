@@ -25,6 +25,12 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->validate('2014-05-06T10:13:14Z');
     }
 
+    public function test_validate_successValueMayBeEmpty()
+    {
+        $this->validate(false);
+        $this->validate('');
+    }
+
     /**
      * @dataProvider getWrongFormat
      * @expectedException \Piwik\Validators\Exception
@@ -46,6 +52,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             array('10:13:14 2014-05-06'),
             array('1577873410'),
             array('foo'),
+            array('0'),
         );
     }
 
