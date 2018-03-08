@@ -354,6 +354,16 @@ function deleteCookies() {
     }
 }
 
+function mockDateMethods() {
+    var oldGetTime = Date.prototype.getTime;
+    Date.prototype.getTime = function getTime() {
+        if (mockNowValue) {
+            return mockNowValue;
+        }
+        return oldGetTime.apply(this, [].slice.call(arguments));
+    };
+}
+
 var contentTestHtml = {};
 
  function removeContentTrackingFixture()
@@ -442,15 +452,17 @@ function setupContentTrackingFixture(name, targetNode) {
      })();
  }
 
+var mockNowValue = null;
 var hasLoaded = false;
 function PiwikTest() {
     hasLoaded = true;
 
     module('externals');
 
-
     // Delete cookies to prevent cookie store from impacting tests
     deleteCookies();
+
+    mockDateMethods();
 
     test("JSLint", function() {
         expect(1);
@@ -602,9 +614,11 @@ function PiwikTest() {
 
     module("core", {
         setup: function () {
+            mockNowValue = null;
             Piwik.getTracker().clearTrackedContentImpressions();
         },
         teardown: function () {
+            mockNowValue = null;
             $('#other #content').remove();
         }
     });
@@ -2104,7 +2118,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(90);
+        expect(91);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2154,6 +2168,7 @@ function PiwikTest() {
         equal( typeof tracker.disableCrossDomainLinking, 'function', 'disableCrossDomainLinking' );
         equal( typeof tracker.isCrossDomainLinkingEnabled, 'function', 'isCrossDomainLinkingEnabled' );
         equal( typeof tracker.setCrossDomainLinkingTimeout, 'function', 'isCrossDomainLinkingEnabled' );
+        equal( typeof tracker.getCrossDomainLinkingUrlParameter, 'function', 'getCrossDomainLinkingUrlParameter');
         equal( typeof tracker.setIgnoreClasses, 'function', 'setIgnoreClasses' );
         equal( typeof tracker.setRequestMethod, 'function', 'setRequestMethod' );
         equal( typeof tracker.setRequestContentType, 'function', 'setRequestContentType' );
@@ -2207,7 +2222,14 @@ function PiwikTest() {
         equal( typeof tracker.trackEcommerceCartUpdate, 'function', 'trackEcommerceCartUpdate' );
     });
 
-    module("API and internals");
+    module("API and internals", {
+        setup: function () {
+            mockNowValue = null;
+        },
+        teardown: function () {
+            mockNowValue = null;
+        },
+    });
 
     test("Tracker is_a functions", function() {
         expect(22);
@@ -2789,7 +2811,7 @@ function PiwikTest() {
     });
 
     test("Tracker CrossDomainLinking()", function() {
-        expect(55);
+        expect(57);
 
         var tracker = Piwik.getTracker();
 
@@ -2877,7 +2899,7 @@ function PiwikTest() {
         strictEqual('', makeReplaceHrefForCrossDomainLink(''), 'replaceHrefForCrossDomainLink, should not change URL if nothing is set');
         strictEqual(tracker.getTrackerUrl(), makeReplaceHrefForCrossDomainLink(tracker.getTrackerUrl()), 'replaceHrefForCrossDomainLink, should not change URL if href is a tracker URL');
         strictEqual(tracker.getTrackerUrl(), makeReplaceHrefForCrossDomainLink(tracker.getTrackerUrl()), 'replaceHrefForCrossDomainLink, should not change URL if href is a tracker URL');
-        
+
         tracker.setUserId('test');
         var replacedUrl = makeReplaceHrefForCrossDomainLink('http://www.example.com');
         ok(replacedUrl.indexOf('http://www.example.com?pk_vid=a94a8fe5ccb19ba61') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
@@ -2927,6 +2949,14 @@ function PiwikTest() {
         strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('http://' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, if outlink starting with http:// but not going to same website');
         strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('https://' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, if outlink starting with https:// but not going to same website');
 
+        // getCrossDomainLinkingUrlParameter() tests
+        mockNowValue = 1520391713308;
+        browserId = generateBrowserSpecificId();
+        var expectedCrossDomainParam = 'pk_vid=a94a8fe5ccb19ba6' + Math.floor(mockNowValue / 1000) + browserId;
+        equal(expectedCrossDomainParam, tracker.getCrossDomainLinkingUrlParameter());
+
+        // sanity check (test that getCrossDomainLinkingUrlParameter() uses the same value as makeReplaceHrefForCrossDomainLink)
+        equal('http://www.example.com?' + expectedCrossDomainParam, makeReplaceHrefForCrossDomainLink('http://www.example.com'));
     });
 
     test("Tracker getClassesRegExp()", function() {
@@ -3502,6 +3532,7 @@ if ($mysql) {
 
     module("request", {
         setup: function () {
+            mockNowValue = null;
             ok(true, "request.setup");
 
             deleteCookies();
@@ -3509,6 +3540,7 @@ if ($mysql) {
             ok(document.cookie === "", "deleteCookies");
         },
         teardown: function () {
+            mockNowValue = null;
             ok(true, "request.teardown");
         }
     });
