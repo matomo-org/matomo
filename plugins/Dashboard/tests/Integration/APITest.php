@@ -62,8 +62,7 @@ class APITest extends IntegrationTestCase
         $dashboards = $this->model->getAllDashboardsForUser('eva');
         $this->assertEmpty($dashboards);
 
-        $layout ='[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
-        $this->api->createNewDashboardForUser('eva', 'name', $layout);
+        $this->api->createNewDashboardForUser('eva', 'name', $addDefaultWidgets = true);
 
         $dashboards = $this->model->getAllDashboardsForUser('eva');
         $this->assertCount(1, $dashboards);
@@ -71,11 +70,9 @@ class APITest extends IntegrationTestCase
 
     public function testCreateNewDashboardForOtherUser()
     {
-        $layout ='[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
-
         $dashboards = $this->model->getAllDashboardsForUser('eva');
         $this->assertEmpty($dashboards);
-        $this->api->createNewDashboardForUser('eva', 'name', $layout);
+        $this->api->createNewDashboardForUser('eva', 'name', $addDefaultWidgets = true);
 
         $dashboards = $this->model->getAllDashboardsForUser('eva');
         $this->assertCount(1, $dashboards);
@@ -115,11 +112,9 @@ class APITest extends IntegrationTestCase
         $dashboards = $this->model->getAllDashboardsForUser('eva');
         $this->assertEmpty($dashboards);
 
-        $layout ='[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
-
         // first dashboard can't be removed
-        $this->api->createNewDashboardForUser('eva', 'name', $layout);
-        $id = $this->api->createNewDashboardForUser('eva', 'new name', $layout);
+        $this->api->createNewDashboardForUser('eva', 'name', $addDefaultWidgets = true);
+        $id = $this->api->createNewDashboardForUser('eva', 'new name', $addDefaultWidgets = true);
 
         $dashboards = $this->model->getAllDashboardsForUser('eva');
         $this->assertCount(2, $dashboards);
@@ -135,11 +130,9 @@ class APITest extends IntegrationTestCase
         $dashboards = $this->model->getAllDashboardsForUser('eva');
         $this->assertEmpty($dashboards);
 
-        $layout ='[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
-
         // first dashboard can't be removed
-        $this->api->createNewDashboardForUser('eva', 'name', $layout);
-        $id = $this->api->createNewDashboardForUser('eva', 'new name', $layout);
+        $this->api->createNewDashboardForUser('eva', 'name', $addDefaultWidgets = true);
+        $id = $this->api->createNewDashboardForUser('eva', 'new name', $addDefaultWidgets = true);
 
         $dashboards = $this->model->getAllDashboardsForUser('eva');
         $this->assertCount(2, $dashboards);
