@@ -71,6 +71,11 @@ class API extends \Piwik\Plugin\API
      *
      * Note: Only a super user is able to remove dashboards for other users
      *
+     * Also note: It is allowed to delete the first dashboard for a user, BUT
+     * that will cause buggy behavior if a new dashboard is not immediately added.
+     * Deleting the first dashboard (with ID = 1) should only be done for automation
+     * purposes.
+     *
      * @param int $idDashboard id of the dashboard to be removed
      * @param string $login  Login of the dashboard user [defaults to current user]
      */
@@ -80,9 +85,7 @@ class API extends \Piwik\Plugin\API
 
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
 
-        if ($idDashboard != 1) {
-            $this->model->deleteDashboardForUser($idDashboard, $login);
-        }
+        $this->model->deleteDashboardForUser($idDashboard, $login);
     }
 
     /**

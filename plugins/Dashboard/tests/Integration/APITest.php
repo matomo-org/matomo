@@ -112,7 +112,7 @@ class APITest extends IntegrationTestCase
         $dashboards = $this->model->getAllDashboardsForUser('eva');
         $this->assertEmpty($dashboards);
 
-        // first dashboard can't be removed
+        // first dashboard shouldn't be removed
         $this->api->createNewDashboardForUser('eva', 'name', $addDefaultWidgets = true);
         $id = $this->api->createNewDashboardForUser('eva', 'new name', $addDefaultWidgets = true);
 
@@ -130,7 +130,7 @@ class APITest extends IntegrationTestCase
         $dashboards = $this->model->getAllDashboardsForUser('eva');
         $this->assertEmpty($dashboards);
 
-        // first dashboard can't be removed
+        // first dashboard shouldn't be removed
         $this->api->createNewDashboardForUser('eva', 'name', $addDefaultWidgets = true);
         $id = $this->api->createNewDashboardForUser('eva', 'new name', $addDefaultWidgets = true);
 
@@ -141,6 +141,24 @@ class APITest extends IntegrationTestCase
 
         $dashboards = $this->model->getAllDashboardsForUser('eva');
         $this->assertCount(1, $dashboards);
+    }
+
+    public function testRemoveDashboardAllowsRemovingFirst()
+    {
+        $dashboards = $this->model->getAllDashboardsForUser('eva');
+        $this->assertEmpty($dashboards);
+
+        // we allow removing first dashboard for an automation use case, so tested here
+        // but if another dashboard isn't immediately added, it can cause problems.
+        $id = $this->api->createNewDashboardForUser('eva', 'name', $addDefaultWidgets = true);
+
+        $dashboards = $this->model->getAllDashboardsForUser('eva');
+        $this->assertCount(1, $dashboards);
+
+        $this->api->removeDashboard($id, 'eva');
+
+        $dashboards = $this->model->getAllDashboardsForUser('eva');
+        $this->assertEmpty($dashboards);
     }
 
     public function provideContainerConfig()
