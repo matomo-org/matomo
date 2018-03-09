@@ -67,6 +67,12 @@ class API extends \Piwik\Plugin\API
      */
     private $processedReport;
 
+    /**
+     * For Testing purpose only
+     * @var int
+     */
+    public static $_autoSuggestLookBack = 60;
+
     public function __construct(SettingsProvider $settingsProvider, ProcessedReport $processedReport)
     {
         $this->settingsProvider = $settingsProvider;
@@ -602,7 +608,7 @@ class API extends \Piwik\Plugin\API
 
     private function getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn)
     {
-        $startDate = Date::now()->subDay(60)->toString();
+        $startDate = Date::now()->subDay(self::$_autoSuggestLookBack)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
         &idSite=$idSite
         &period=range
@@ -738,7 +744,7 @@ class Plugin extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
