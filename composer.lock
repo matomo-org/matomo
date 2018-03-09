@@ -738,16 +738,16 @@
         },
         {
             "name": "piwik/cache",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/piwik/component-cache.git",
-                "reference": "5f6652574440d9886741918a1e4dc1c555820501"
+                "url": "https://github.com/matomo-org/component-cache.git",
+                "reference": "0dcaaba79735bc2d60b72f020f6371eca633b578"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/component-cache/zipball/5f6652574440d9886741918a1e4dc1c555820501",
-                "reference": "5f6652574440d9886741918a1e4dc1c555820501",
+                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/0dcaaba79735bc2d60b72f020f6371eca633b578",
+                "reference": "0dcaaba79735bc2d60b72f020f6371eca633b578",
                 "shasum": ""
             },
             "require": {
@@ -782,7 +782,7 @@
                 "redis"
             ],
             "abandoned": "matomo/cache",
-            "time": "2016-11-15T02:33:06+00:00"
+            "time": "2018-03-05T02:55:54+00:00"
         },
         {
             "name": "piwik/decompress",
