@@ -17,10 +17,12 @@ use Piwik\Piwik;
 class API extends \Piwik\Plugin\API
 {
     private $dashboard = null;
+    private $model     = null;
 
-    public function __construct(Dashboard $dashboard)
+    public function __construct(Dashboard $dashboard, Model $model)
     {
         $this->dashboard = $dashboard;
+        $this->model     = $model;
     }
 
     /**
@@ -38,6 +40,94 @@ class API extends \Piwik\Plugin\API
         }
 
         return $dashboards;
+    }
+
+
+    /**
+     * Creates a new dashboard for the given login
+     *
+     * Note: Only a super user is able to create dashboards for other users
+     *
+     * @param string $login login of the user that dashboard should be created for
+     * @param string $dashboardName name of the new dashboard
+     * @param bool $addDefaultWidgets  whether to add the current default widget collection or not
+     * @return int|string
+     */
+    public function createNewDashboardForUser($login, $dashboardName = '', $addDefaultWidgets = true)
+    {
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
+
+        $layout = '{}';
+
+        if ($addDefaultWidgets) {
+            $layout = $this->dashboard->getDefaultLayout();
+        }
+
+        return $this->model->createNewDashboardForUser($login, $dashboardName, $layout);
+    }
+
+    /**
+     * Removes a dashboard according to given dashboard id and login
+     *
+     * Note: Only a super user is able to remove dashboards for other users
+     *
+     * @param int $idDashboard id of the dashboard to be removed
+     * @param string $login  Login of the dashboard user [defaults to current user]
+     */
+    public function removeDashboard($idDashboard, $login='')
+    {
+        $login = $login ? $login : Piwik::getCurrentUserLogin();
+
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
+
+        if ($idDashboard != 1) {
+            $this->model->deleteDashboardForUser($idDashboard, $login);
+        }
+    }
+
+    /**
+     * Copy a dashboard of current user to another user
+     *
+     * Note: current user needs super user access
+     *
+     * @param int $idDashboard Id of the dashboard that should be copied
+     * @param string $copyToUser User the dashboard should be copied to
+     * @param string $dashboardName Name of the new dashboard (defaults to 'Dashboard of {user}')
+     * @return int id of the new dashboard
+     * @throws \Exception if an error occurs, or dashboard can't be found
+     */
+    public function copyDashboardToUser($idDashboard, $copyToUser, $dashboardName = '')
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $login  = Piwik::getCurrentUserLogin();
+        $layout = $this->dashboard->getLayoutForUser($login, $idDashboard);
+
+        if ($layout !== false) {
+            return $this->model->createNewDashboardForUser($copyToUser, $dashboardName, $layout);
+        }
+
+        throw new \Exception('Dashboard not found');
+    }
+
+    /**
+     * Resets a dashboard to the default widget configuration
+     *
+     * Note: Only a super user is able to reset dashboards for other users
+
+     * @param int $idDashboard dashboard id
+     * @param string $login user the dashboard belongs
+     *
+     */
+    public function resetDashboardLayout($idDashboard, $login='')
+    {
+        $login = $login ? $login : Piwik::getCurrentUserLogin();
+
+        Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
+
+        $layout = $this->dashboard->getDefaultLayout();
+
+        $this->model->updateLayoutForUser($login, $idDashboard, $layout);
     }
 
     /**
