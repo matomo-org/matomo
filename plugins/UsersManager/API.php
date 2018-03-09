@@ -436,6 +436,7 @@ class API extends \Piwik\Plugin\API
      */
     public function addUser($userLogin, $password, $email, $alias = false, $_isPasswordHashed = false)
     {
+	$email = mb_convert_encoding($email, "UTF-8", "HTML-ENTITIES");
         Piwik::checkUserHasSuperUserAccess();
 
         $this->checkLogin($userLogin);
