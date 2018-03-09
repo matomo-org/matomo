@@ -214,8 +214,7 @@ class AutoSuggestAPITest extends SystemTestCase
     }
 }
 
-$year = date('m') > 1 ? date('Y') : (date('Y') - 1);
-$date = mktime(0, 0, 0, 1, 1, $year);
+$date = mktime(0, 0, 0, 1, 1, 2018);
 
 $lookBack = ceil((time() - $date) / 86400);
 
