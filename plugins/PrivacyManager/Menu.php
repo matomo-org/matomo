@@ -22,7 +22,7 @@ class Menu extends \Piwik\Plugin\Menu
                                  $this->urlForAction('privacySettings'),
                                  $order = 5);
             $menu->addItem($category, 'GDPR Overview', $this->urlForAction('gdprOverview'), 10);
-            $menu->addItem($category, 'PrivacyManager_ManageRights', $this->urlForAction('gdprManageRights'), 15);
+            $menu->addItem($category, 'PrivacyManager_ManageGdpr', $this->urlForAction('gdprManageRights'), 15);
         }
     }
 }
