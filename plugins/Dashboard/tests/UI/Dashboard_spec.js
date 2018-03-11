@@ -7,7 +7,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// TODO: should move this & dashboard manager test to Dashboard plugin
 describe("Dashboard", function () {
     this.timeout(0);
 
@@ -237,12 +236,11 @@ describe("Dashboard", function () {
     });
 
     it("should load segmented dashboard", function (done) {
-
-        removeAllExtraDashboards(function(){});
-
-        expect.screenshot("segmented").to.be.capture(function (page) {
-            page.load(url + '&segment=' + encodeURIComponent("browserCode==FF"), 5000);
-        }, done);
+        removeAllExtraDashboards(function(){
+            expect.screenshot("segmented").to.be.capture(function (page) {
+                page.load(url + '&segment=' + encodeURIComponent("browserCode==FF"), 5000);
+            }, done);
+        });
     });
 
     it("should load correctly with token_auth", function (done) {
