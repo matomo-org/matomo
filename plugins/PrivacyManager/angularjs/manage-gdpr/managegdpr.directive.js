@@ -17,10 +17,7 @@
     function matomoManageGdpr(piwik){
         return {
             restrict: 'A',
-            scope: {
-                defaultEmailSubject: '=',
-                defaultEmailMessage: '='
-            },
+            scope: {},
             templateUrl: 'plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.html?cb=' + piwik.cacheBuster,
             controller: 'ManageGdprController',
             controllerAs: 'manageGdpr',

@@ -182,7 +182,8 @@ class Gdpr
                 foreach ($result[$index] as $rowColumn => $rowValue) {
                     if (isset($dimensionPerCol[$rowColumn])) {
                         $result[$index][$rowColumn] = $dimensionPerCol[$rowColumn]->formatValue($rowValue, $result[$index]['idsite'], new Formatter());
-                    } else {
+                    } else if (!empty($rowValue)) {
+                        // we try to auto detect uncompressed values so plugins have to do less themselves. makes it a bit slower but should be fine
                         $testValue = @gzuncompress($rowValue);
                         if ($testValue !== false) {
                             $result[$index][$rowColumn] = $testValue;

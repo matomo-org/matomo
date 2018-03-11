@@ -82,9 +82,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        return $this->renderTemplate('gdprManageRights',
-            array('defaultSubject' => 'Export of ...', 'defaultMessage' => 'This is your data ...')
-        );
+        return $this->renderTemplate('gdprManageRights');
     }
 
     /**

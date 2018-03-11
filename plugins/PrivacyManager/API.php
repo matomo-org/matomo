@@ -54,39 +54,6 @@ class API extends \Piwik\Plugin\API
         return $this->gdpr->deleteDataSubjects($visits);
     }
 
-    public function emailDataSubjectExport($visits, $emailAddress, $subject, $message)
-    {
-        Piwik::checkUserHasSomeAdminAccess();
-
-        if (!Piwik::isValidEmailString($emailAddress)) {
-            throw new \Exception('Invalid email address');
-        }
-
-        $result = Request::processRequest('PrivacyManager.exportDataSubjects',
-            array(
-            'format' => 'json',
-            'visits' => $visits,
-            'filter_limit' => '-1')
-        );
-        if (empty($result)) {
-            throw new \Exception('No data was exported');
-        }
-
-        $mail = new Mail();
-        $mail->setDefaultFromPiwik();
-        $mail->addTo($emailAddress);
-        $mail->setSubject($subject);
-        $mail->setBodyText($message);
-        $mail->addAttachment($mail->createAttachment($result,
-            'application/json',
-            \Zend_Mime::DISPOSITION_ATTACHMENT,
-            \Zend_Mime::ENCODING_BASE64,
-            'export.json'));
-        $mail->send();
-
-        return $result;
-    }
-
     public function exportDataSubjects($visits)
     {
         Piwik::checkUserHasSomeAdminAccess();

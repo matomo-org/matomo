@@ -108,12 +108,6 @@
         </table>
 
         <div piwik-save-button
-             onconfirm="manageGdpr.emailDataSubject()"
-             disabled="!manageGdpr.hasActiveDataSubjects()"
-             value="Email selected visits to user">
-        </div>
-
-        <div piwik-save-button
              onconfirm="manageGdpr.exportDataSubject()"
              disabled="!manageGdpr.hasActiveDataSubjects()"
              value="Export selected visits">
@@ -125,19 +119,6 @@
         </div>
     </div>
 
-    <div class="ui-confirm" id="emailDataSubject">
-        <h2>Send the result of the data subject export to the following email address </h2>
-        <div piwik-field uicontrol="email" ng-model="manageGdpr.emailAddress" name="email" title="E-Mail" full-width="true"></div>
-        <div piwik-field uicontrol="text" ng-model="manageGdpr.emailSubject" name="subject" title="Subject" full-width="true"></div>
-
-        <div piwik-field uicontrol="textarea" name="message"
-             full-width="true"
-             ng-model="manageGdpr.emailMessage"
-             title="Message">
-        </div>
-        <input role="yes" type="button" value="Send"/>
-        <input role="no" type="button" value="{{ 'General_Cancel'|translate }}"/>
-    </div>
     <div class="ui-confirm" id="confirmDeleteDataSubject">
         <h2>Are you sure you want to delete the selected visits? This action cannot be undone. </h2>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>

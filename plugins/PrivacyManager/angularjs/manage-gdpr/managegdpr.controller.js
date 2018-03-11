@@ -19,15 +19,16 @@
         this.dataSubjects = [];
         this.toggleAll = true;
         this.hasSearched = false;
-        this.emailAddress = '';
-        this.emailSubject = $scope.defaultEmailSubject;
-        this.emailMessage = $scope.defaultEmailMessage;
 
         function showSuccessNotification(message)
         {
             var UI = require('piwik/UI');
             var notification = new UI.Notification();
             notification.show(message, {context: 'success', id: 'manageGdpr'});
+
+            $timeout(function () {
+                notification.scrollToNotification();
+            }, 200);
         }
 
         this.toggleActivateAll = function () {
@@ -40,35 +41,6 @@
         this.hasActiveDataSubjects = function()
         {
             return !!this.getActivatedDataSubjects().length;
-        };
-
-        this.emailDataSubject = function () {
-            var visitsToDelete = this.getActivatedDataSubjects();
-            if (!visitsToDelete || !visitsToDelete.length) {
-                return;
-            }
-
-            piwik.helper.modalConfirm('#emailDataSubject', {yes: function () {
-                if (!self.emailAddress) {
-                    return;
-                }
-                piwikApi.post({
-                    module: 'API',
-                    method: 'PrivacyManager.emailDataSubjectExport',
-                    filter_limit: -1,
-                }, {visits: visitsToDelete,
-                    emailAddress: self.emailAddress,
-                    subject: self.emailSubject,
-                    message: self.emailMessage}).then(function () {
-
-                    showSuccessNotification('Email was successfully sent');
-                    $timeout(function () {
-                        notification.scrollToNotification();
-                    }, 200);
-                });
-                self.emailAddress = '';
-                // we keep subject and message the same, only clear email
-            }});
         };
 
         this.getActivatedDataSubjects = function () {
@@ -163,6 +135,19 @@
             this.dataSubjects = [];
             this.isLoading = true;
             this.toggleAll = true;
+
+            function addDatePadding(number)
+            {
+                if (number < 10) {
+                    return '0' + number;
+                }
+                return number;
+            }
+
+            var now = new Date();
+            var dateString = (now.getFullYear() + 2) + '-' + addDatePadding(now.getMonth() + 1) + '-' + addDatePadding(now.getDay());
+            // we are adding two years to make sure to also capture some requests in the future as we fetch data across
+            // different sites and different timezone and want to avoid missing any possible requests
 
             piwikApi.fetch({
                 idSite: this.site.id,
