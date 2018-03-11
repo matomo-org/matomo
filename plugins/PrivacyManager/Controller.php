@@ -71,6 +71,22 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $settings;
     }
 
+    public function gdprOverview()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        return $this->renderTemplate('gdprOverview');
+    }
+
+    public function gdprManageRights()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        return $this->renderTemplate('gdprManageRights',
+            array('defaultSubject' => 'Export of ...', 'defaultMessage' => 'This is your data ...')
+        );
+    }
+
     /**
      * Echo's an HTML chunk describing the current database size, and the estimated space
      * savings after the scheduled data purge is run.

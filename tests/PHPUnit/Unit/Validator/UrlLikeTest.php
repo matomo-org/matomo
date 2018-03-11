@@ -29,24 +29,24 @@ class UrlLikeTest extends \PHPUnit_Framework_TestCase
     public function getValidUrls()
     {
         return [
-            array('http://piwik.org', true),
-            array('http://www.piwik.org', true),
-            array('https://piwik.org', true),
-            array('https://piwik.org/dir/dir2/?oeajkgea7aega=&ge=a', true),
-            array('ftp://www.pi-wik.org', true),
-            array('news://www.pi-wik.org', true),
-            array('https://www.tëteâ.org', true),
-            array('http://汉语/漢語.cn', true), //chinese
+            array('http://piwik.org'),
+            array('http://www.piwik.org'),
+            array('https://piwik.org'),
+            array('https://piwik.org/dir/dir2/?oeajkgea7aega=&ge=a'),
+            array('ftp://www.pi-wik.org'),
+            array('news://www.pi-wik.org'),
+            array('https://www.tëteâ.org'),
+            array('http://汉语/漢語.cn'), //chinese
 
-            array('rtp://whatever.com', true),
-            array('testhttp://test.com', true),
-            array('cylon://3.hmn', true),
-            array('://something.com', true),
+            array('rtp://whatever.com'),
+            array('testhttp://test.com'),
+            array('cylon://3.hmn'),
+            array('://something.com'),
 
             // valid network-path reference RFC3986
-            array('//piwik.org', true),
-            array('//piwik/hello?world=test&test', true),
-            array('//piwik.org/hello?world=test&test', true),
+            array('//piwik.org'),
+            array('//piwik/hello?world=test&test'),
+            array('//piwik.org/hello?world=test&test'),
         ];
     }
 

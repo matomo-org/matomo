@@ -8,10 +8,21 @@
 
 namespace Piwik\Plugins\PrivacyManager;
 
+use Piwik\API\Request;
+use Piwik\Columns\Dimension;
+use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Db;
+use Piwik\DbHelper;
+use Piwik\Mail;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
+use Piwik\Plugins\PrivacyManager\Model\Gdpr;
+use Piwik\Segment;
+use Piwik\Tracker\LogTable;
 
 /**
  * API for plugin PrivacyManager
@@ -20,6 +31,74 @@ use Piwik\Config as PiwikConfig;
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * @var Gdpr
+     */
+    private $gdpr;
+
+    public function __construct(Gdpr $gdpr)
+    {
+        $this->gdpr = $gdpr;
+    }
+
+    public function deleteDataSubjects($visits)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $idSites = array();
+        foreach ($visits as $visit) {
+            $idSites[] = $visit['idSite'];
+        }
+        Piwik::checkUserHasAdminAccess($idSites);
+
+        return $this->gdpr->deleteDataSubjects($visits);
+    }
+
+    public function emailDataSubjectExport($visits, $emailAddress, $subject, $message)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        if (!Piwik::isValidEmailString($emailAddress)) {
+            throw new \Exception('Invalid email address');
+        }
+
+        $result = Request::processRequest('PrivacyManager.exportDataSubjects',
+            array(
+            'format' => 'json',
+            'visits' => $visits,
+            'filter_limit' => '-1')
+        );
+        if (empty($result)) {
+            throw new \Exception('No data was exported');
+        }
+
+        $mail = new Mail();
+        $mail->setDefaultFromPiwik();
+        $mail->addTo($emailAddress);
+        $mail->setSubject($subject);
+        $mail->setBodyText($message);
+        $mail->addAttachment($mail->createAttachment($result,
+            'application/json',
+            \Zend_Mime::DISPOSITION_ATTACHMENT,
+            \Zend_Mime::ENCODING_BASE64,
+            'export.json'));
+        $mail->send();
+
+        return $result;
+    }
+
+    public function exportDataSubjects($visits)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $idSites = array();
+        foreach ($visits as $visit) {
+            $idSites[] = $visit['idSite'];
+        }
+        Piwik::checkUserHasAdminAccess($idSites);
+
+        return $this->gdpr->exportDataSubjects($visits);
+    }
 
     /**
      * @internal

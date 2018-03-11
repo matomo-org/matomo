@@ -1,0 +1,146 @@
+<div class="manageGdpr">
+    <div piwik-content-block content-title="Manage GDPR Rights">
+        <p>
+            Here you can manage various GDPR rights. In case you do not know what GDPR is, have a look at the <a href="{{ linkTo({module: 'PrivacyManager', action: 'gdprOverview'}) }}">Overview</a> page.
+            <br /><br />
+            In case you are searching for example a data subject by Visit IP to exercise the right of erasure or right to be forgotten, you may want to include additional visits of that visitor
+            by clicking on the visitorId. The IP of a visitor typically changes on many visits and therefore you would not find all visits.
+            <br /><br />
+            If you are trying to export the data for a data subject by IP address please be aware that the same IP address may be assigned to different visitors and is therefore not really
+            recommended to be used as a filter as you might be sending personal data from a different data subject to another data subject. Always make sure the visitor who wants to exercise the
+            right of access is actually the visitor he claims to be. In most cases, the only reliable source for this is using the <a rel="noreferrer noopener" href="https://matomo.org/docs/user-id/">UserId</a> feature
+        </p>
+        <h3>Search for a data subject</h3>
+
+        <div class="form-group row">
+            <div class="col s12 input-field">
+                <div>
+                    <label for="gdprsite" class="siteSelectorLabel">Select a website</label>
+                    <div piwik-siteselector
+                         class="sites_autocomplete"
+                         ng-model="manageGdpr.site"
+                         id="gdprsite"
+                         show-all-sites-item="true"
+                         switch-site-on-select="false"
+                         show-selected-site="true"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row segmentFilterGroup">
+            <div class="col s12">
+                <div>
+                    <label style="margin: 8px 0;display: inline-block;">Find data subjects by</label>
+                    <div piwik-segment-generator
+                         idsite="manageGdpr.site.id"
+                         ng-model="manageGdpr.segment_filter"></div>
+                </div>
+            </div>
+        </div>
+
+        <div piwik-save-button
+             onconfirm="manageGdpr.findDataSubjects()"
+             disabled="!manageGdpr.segment_filter"
+             value="Find matching data subjects"
+             saving="manageGdpr.isLoading">
+        </div>
+    </div>
+
+    <div ng-show="!manageGdpr.dataSubjects.length && manageGdpr.hasSearched">
+        <h2>No data subjects found</h2>
+    </div>
+    <div ng-show="manageGdpr.dataSubjects.length">
+
+        <h2>Matching data subjects</h2>
+        <p>These visits match the selected criteria.
+            In case you are exporting the data to exercise the right of access please make sure the selected visits are actually performed by the data subject you want to export the data for.
+            <br />
+            <br />
+            When deleting data to exercise the right of erasure keep in mind that any data that will be deleted for this data subject might still be included in previously generated reports.
+            As many reports are aggregated this is in most cases not a problem unless you have for example URLs, Page Titles, Custom Variables or Custom Dimensions that include personal data. In this case
+            you may want to consider to <a href="https://matomo.org/faq/how-to/faq_155/" target="_blank" rel="noreferrer noopener">invalidate reports</a> after deleting these visits.
+
+            <br /><br />
+            The found results include all visits without any time restriction and include today.
+        </p>
+        <table piwik-content-table>
+            <thead>
+            <tr>
+                <th class="checkInclude">
+                    <div piwik-field uicontrol="checkbox" name="activateAll"
+                         ng-model="manageGdpr.toggleAll"
+                         ng-change="manageGdpr.toggleActivateAll()"
+                         full-width="true">
+                    </div>
+                </th><th>Site</th>
+                <th>Visit ID</th>
+                <th>Visitor ID</th>
+                <th>Visitor IP</th>
+                <th>User ID</th>
+                <th>Info</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(index, dataSubject) in manageGdpr.dataSubjects">
+                    <td class="checkInclude">
+                        <div piwik-field uicontrol="checkbox" name="subject{{dataSubject.idVisit}}"
+                             ng-model="manageGdpr.dataSubjects[index].dataSubjectActive"
+                             full-width="true">
+                        </div>
+                    </td>
+                    <td class="site">{{ dataSubject.siteName }} (ID {{dataSubject.idSite}})</td>
+                    <td class="visitId">{{ dataSubject.idVisit }}</td>
+                    <td class="visitorId"><a ng-click="manageGdpr.addFilter('visitorId', dataSubject.visitorId)" title="Click to add this visitorID to the search">{{ dataSubject.visitorId }}</a></td>
+                    <td class="visitorIp"><a ng-click="manageGdpr.addFilter('visitIp', dataSubject.visitIp)" title="Click to add this visitorIP to the search">{{ dataSubject.visitIp }}</a></td>
+                    <td class="userId"><a ng-click="manageGdpr.addFilter('userId', dataSubject.userId)" title="Click to add this userID to the search">{{ dataSubject.userId }}</a></td>
+                    <td>
+                        <span title="{{ dataSubject.deviceType }} {{ dataSubject.deviceModel }}"><img height="16" ng-src="{{ dataSubject.deviceTypeIcon }}"></span>
+                        <span title="{{ dataSubject.operatingSystem }}"><img height="16" ng-src="{{ dataSubject.operatingSystemIcon }}"></span>
+                        <span title="{{ dataSubject.browser }} {{ dataSubject.browserFamilyDescription }}"><img height="16" ng-src="{{ dataSubject.browserIcon }}"></span>
+                        <span title="{{ dataSubject.country }} {{ dataSubject.region }}"><img height="16" ng-src="{{ dataSubject.countryFlag }}"></span>
+                    </td>
+                    <td><a class="visitorLogTooltip" title="View visitor profile" ng-click="manageGdpr.showProfile(dataSubject.visitorId, dataSubject.idSite)">
+                    <img src="plugins/Live/images/visitorProfileLaunch.png"> <span>View visitor profile</span>
+                </a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div piwik-save-button
+             onconfirm="manageGdpr.emailDataSubject()"
+             disabled="!manageGdpr.hasActiveDataSubjects()"
+             value="Email selected visits to user">
+        </div>
+
+        <div piwik-save-button
+             onconfirm="manageGdpr.exportDataSubject()"
+             disabled="!manageGdpr.hasActiveDataSubjects()"
+             value="Export selected visits">
+        </div>
+        <div piwik-save-button
+             onconfirm="manageGdpr.deleteDataSubject()"
+             disabled="!manageGdpr.hasActiveDataSubjects() || manageGdpr.isDeleting"
+             value="Delete selected visits">
+        </div>
+    </div>
+
+    <div class="ui-confirm" id="emailDataSubject">
+        <h2>Send the result of the data subject export to the following email address </h2>
+        <div piwik-field uicontrol="email" ng-model="manageGdpr.emailAddress" name="email" title="E-Mail" full-width="true"></div>
+        <div piwik-field uicontrol="text" ng-model="manageGdpr.emailSubject" name="subject" title="Subject" full-width="true"></div>
+
+        <div piwik-field uicontrol="textarea" name="message"
+             full-width="true"
+             ng-model="manageGdpr.emailMessage"
+             title="Message">
+        </div>
+        <input role="yes" type="button" value="Send"/>
+        <input role="no" type="button" value="{{ 'General_Cancel'|translate }}"/>
+    </div>
+    <div class="ui-confirm" id="confirmDeleteDataSubject">
+        <h2>Are you sure you want to delete the selected visits? This action cannot be undone. </h2>
+        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+    </div>
+</div>

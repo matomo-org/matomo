@@ -40,6 +40,8 @@
         "EstimatedDBSizeAfterPurge": "Estimated database size after purge",
         "EstimatedSpaceSaved": "Estimated space saved",
         "GeolocationAnonymizeIpNote": "Note: Geolocation will have approximately the same results with 1 byte anonymized. With 2 bytes or more, Geolocation will be inaccurate.",
+        "GDPR": "GDPR",
+        "ManageRights": "Manage Rights",
         "GetPurgeEstimate": "Get purge estimate",
         "KeepBasicMetrics": "Keep basic metrics (visits, page views, bounce rate, goal conversions, ecommerce conversions, etc.)",
         "KeepDataFor": "Keep all data for",

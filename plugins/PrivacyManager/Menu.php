@@ -16,9 +16,13 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureAdminMenu(MenuAdmin $menu)
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
-            $menu->addSystemItem('PrivacyManager_MenuPrivacySettings',
+            $category = 'PrivacyManager_MenuPrivacySettings';
+            $menu->addItem($category, null, array(), 2);
+            $menu->addItem($category, 'General_Settings',
                                  $this->urlForAction('privacySettings'),
-                                 $order = 25);
+                                 $order = 5);
+            $menu->addItem($category, 'GDPR Overview', $this->urlForAction('gdprOverview'), 10);
+            $menu->addItem($category, 'PrivacyManager_ManageRights', $this->urlForAction('gdprManageRights'), 15);
         }
     }
 }

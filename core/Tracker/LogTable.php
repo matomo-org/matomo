@@ -56,6 +56,16 @@ abstract class LogTable {
     }
 
     /**
+     * If a table can neither be joined via idVisit nor idAction, it should be given away to join with other tables
+     * so eventually the log table can be joined via idvisit through a different table join.
+     * @return array
+     */
+    public function getWaysToJoinTable()
+    {
+        return array();
+    }
+
+    /**
      * Defines whether this table should be joined via a subselect. Return true if a complex join is needed. (eg when
      * having visits and needing actions, or when having visits and needing conversions, or vice versa).
      * @return bool
