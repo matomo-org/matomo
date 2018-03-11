@@ -82,14 +82,14 @@
             </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="(index, dataSubject) in manageGdpr.dataSubjects">
+                <tr ng-repeat="(index, dataSubject) in manageGdpr.dataSubjects" title="Last action: {{ dataSubject.lastActionDateTime }}">
                     <td class="checkInclude">
                         <div piwik-field uicontrol="checkbox" name="subject{{dataSubject.idVisit}}"
                              ng-model="manageGdpr.dataSubjects[index].dataSubjectActive"
                              full-width="true">
                         </div>
                     </td>
-                    <td class="site">{{ dataSubject.siteName }} (ID {{dataSubject.idSite}})</td>
+                    <td class="site" title="(ID {{dataSubject.idSite}})">{{ dataSubject.siteName }}</td>
                     <td class="visitId">{{ dataSubject.idVisit }}</td>
                     <td class="visitorId"><a ng-click="manageGdpr.addFilter('visitorId', dataSubject.visitorId)" title="Click to add this visitorID to the search">{{ dataSubject.visitorId }}</a></td>
                     <td class="visitorIp"><a ng-click="manageGdpr.addFilter('visitIp', dataSubject.visitIp)" title="Click to add this visitorIP to the search">{{ dataSubject.visitIp }}</a></td>
