@@ -199,6 +199,7 @@ class PrivacyManager extends Plugin
     {
         $stylesheets[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.less";
         $stylesheets[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.less";
+        $stylesheets[] = "plugins/PrivacyManager/stylesheets/gdprOverview.less";
     }
 
     /**

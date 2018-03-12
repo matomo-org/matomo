@@ -3,20 +3,43 @@
 {% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
 
 {% block content %}
-    <div piwik-content-block content-title="GDPR Overview">
-        <p>GDPR is a new eoruopean law that applies from 25th May 2018. It applies to all companies ...
-            it gives these rights...
-        </p>
-        <h3>Who does it affect?</h3>
-        <p>It affects every company that...</p>
-        <h3>Where do I get more information?</h3>
-        <p>It affects every company that...</p>
-        <h3>Can I configure Matomo to not track personal data so GDPR doesn't affect me?</h3>
-        <p>Anonymize ...</p>
-        <h3>Which rights does a user have?</h3>
-        <h4>1. Rights to access data</h4>
+    <div piwik-content-block content-title="GDPR Overview" class="gdprOverview">
         <p>
-            Your visitors can..
+            The General Data Protection Regulation (GDPR) is a regulation which strengthen and unify data protection for all individuals
+            within the European Union (EU). It allows EU citizens to better control their personal data. GDPR modernises and unifies rules allowing businesses to reduce red tape and to benefit from greater consumer trust.
         </p>
+        <h3>Who is concerned by GDPR?</h3>
+        <p>Almost all structures dealing with EU citizens data wherever they are located are concerned by GDPR.
+            The few exemptions are listed under <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" target="_blank" rel="noreferrer noopener">article 2 of the GDPR</a>.</p>
+        <h3>What is a personal data under GDPR?</h3>
+        <p>Any information relating to an identified or identifiable natural person. An identifiable natural person
+            is one who can be identified, directly or indirectly, in particular by reference to an identifier such as a name,
+            an identification number, location data, an online identifier...</p>
+        <h3>Where can I get more information about GDPR?</h3>
+        <p>The official GDPR text is available at <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" target="_blank" rel="noreferrer noopener">https://eur-lex.europa.eu/eli/reg/2016/679/oj</a>. As it is interpretation may be difficult,
+            we strongly advise you to refer to your local privacy commissioner.</p>
+        <h3>How can I be GDPR compliant with Matomo Analytics?</h3>
+        <p>By default, Matomo is GDPR compliant as it is not collecting any personal data.
+<br /><br />
+            However, by changing the default settings and/or adding specific tracking code, you may collect personal data, for example:
+            IP addresses, E-commerce order ID, User ID, custom dimensions... You might be also tracking personal data for example as part of URLs or page/screen titles depending on your website or mobile app.
+<br />
+            If your are processing EU citizens personal data through Matomo, you will need to fulfill the obligations listed below:
+
+        </p><ul>
+            <li>Document your use of Matomo within your information asset register.</li>
+            <li>Make sure that you are inserting our opt-out feature on all pages collecting personal data.</li>
+            <li>Is your business currently registered to an Privacy Commissioner Office?</li>
+            <li>Did you clearly informed your visitors on your privacy policy page about their different rights and that you are using Matomo?</li>
+            <li>Did you include Matomo within your data protection policy and security policy?</li>
+            <li>If you are using a cloud provider for Matomo, did you sign up a contract with them?</li>
+            <li>Do you have appropriate action plans in place to mitigate any risks to your Matomo data?</li>
+            <li>Are you 100% sure that you are collecting only the necessary information within Matomo?</li>
+            <li>If data collected by Matomo is highly sensitive, did you perform a DPIA?</li>
+            <li>Do people know in your company that you are using Matomo and what is it for?</li>
+            <li>If your Matomo data are stored outside of EU, did you check that it ensures a good level of protection of individuals according to GDPR?</li>
+            <li>Is Matomo part of your data breach notification process?</li>
+        </ul>
+
     </div>
 {% endblock %}
