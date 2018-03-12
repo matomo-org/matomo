@@ -2308,7 +2308,7 @@ return [
         '86' => '66', // Resen
         '87' => '67', // Rosoman
         '88' => '50', // Rostusa  [city in Mavrovo i Rostuša]
-        '89' => '', // Samokov  [city in Sofia]
+        '89' => '', // Samokov  [city in Sofia]   ?????????????????????
         '90' => '85', // Saraj  [now in Skopje]
         '91' => '76', // Sipkovica  [city in Tetovo]
         '92' => '70', // Sopiste
@@ -2381,49 +2381,80 @@ return [
         '10' => '8',
     ],
     'MM' => [
-        '01' => '16',
-        '02' => '14',
-        '03' => '07',
-        '05' => '13',
-        '06' => '12',
-        '08' => '04',
-        '10' => '01',
-        '12' => '05',
-        '13' => '15',
-        '17' => '06',
+        '01' => '16', // Rakhine State
+        '02' => '14', // Chin State
+        '03' => '07', // Irrawaddy
+        '04' => '11', // Kachin State
+        '05' => '13', // Karan State
+        '06' => '12', // Kayah State
+        '08' => '04', // Mandalay
+        '10' => '01', // Sagaing
+        '11' => '17', // Shan State
+        '12' => '05', // Tenasserim
+        '13' => '15', // Mon State
+        '17' => '06', // Yangon
+
+        // invalid codes  [used by maxmind]
+        '07' => '03', // Magwe
+        '09' => '02', // Pegu
+        '14' => '06', // Rangoon
+
+        // valid codes  [not used by maxmind]
+        '15' => '03', // Magway Division
+        '16' => '02', // Bago Division
     ],
     'MN' => [
-        '01' => '073',
-        '02' => '069',
-        '03' => '071',
-        '06' => '061',
-        '07' => '063',
-        '08' => '059',
-        '09' => '057',
-        '10' => '065',
-        '11' => '039',
-        '12' => '043',
-        '13' => '041',
-        '14' => '053',
-        '15' => '055',
-        '16' => '049',
-        '17' => '051',
-        '18' => '047',
-        '19' => '046',
-        '20' => '1',
-        '21' => '067',
-        '24' => '064',
+        '01' => '073', // Arhangay
+        '02' => '069', // Bayanhongor
+        '03' => '071', // Bayan-Olgiy
+        '06' => '061', // Dornod
+        '07' => '063', // Dornogovi
+        '08' => '059', // Dundgovi
+        '09' => '057', // Dzavhan
+        '10' => '065', // Govi-Altay
+        '11' => '039', // Hentiy
+        '12' => '043', // Hovd
+        '13' => '041', // Hovsgol
+        '14' => '053', // Omnogovi
+        '15' => '055', // Ovorhangay
+        '16' => '049', // Selenge
+        '17' => '051', // Suhbaatar
+        '18' => '047', // Tov
+        '19' => '046', // Uvs
+        '20' => '1', // Ulaanbaatar
+        '21' => '067', // Bulgan
+        '23' => '037', // Darhan-Uul
+        '24' => '064', // Govisumber
+        '25' => '035', // Orhon
+
+        // invalid codes  [used by maxmind]
+        '05' => '037', // Darhan
+        '22' => '035', // Erdenet  [city in Orkhon]
+    ],
+    'MO' => [
+        // No ISO codes assigned for Macau
+        '01' => '', // Ilhas
+        '02' => '', // Macau
     ],
     'MR' => [
         '01' => '01',
+        '02' => '02',
         '03' => '03',
         '04' => '04',
         '05' => '05',
         '06' => '06',
+        '07' => '07',
+        '08' => '08',
         '09' => '09',
         '10' => '10',
         '11' => '11',
         '12' => '12',
+    ],
+    'MS' => [
+        // No ISO codes assigned for Montserrat
+        '01' => '',
+        '02' => '',
+        '03' => '',
     ],
     'MU' => [
         '12' => 'BL',
@@ -2440,9 +2471,12 @@ return [
         '23' => 'RO',
     ],
     'MV' => [
+        '01' => '01',
         '05' => '05',
+        '30' => '02',
         '31' => '20',
         '32' => '17',
+        '33' => '14',
         '34' => '27',
         '35' => '28',
         '36' => '07',
@@ -2456,11 +2490,36 @@ return [
         '44' => '13',
         '45' => '24',
         '46' => '08',
+        '47' => '04',
     ],
     'MW' => [
-        '11' => 'LI',
-        '13' => 'MC',
-        '24' => 'BL',
+        '02' => 'CK', // Chikwawa
+        '03' => 'CR', // Chiradzulu
+        '04' => 'CT', // Chitipa
+        '05' => 'TH', // Thyolo
+        '06' => 'DE', // Dedza
+        '07' => 'DO', // Dowa
+        '08' => 'KR', // Karonga
+        '09' => 'KS', // Kasungu
+        '11' => 'LI', // Lilongwe
+        '12' => 'MG', // Mangochi
+        '13' => 'MC', // Mchinji
+        '15' => 'MZ', // Mzimba
+        '16' => 'NU', // Ntcheu
+        '17' => 'NB', // Nkhata Bay
+        '18' => 'NK', // Nkhotakota
+        '19' => 'NS', // Nsanje
+        '20' => 'NI', // Ntchisi
+        '21' => 'RU', // Rumphi
+        '22' => 'SA', // Salima
+        '23' => 'ZO', // Zomba
+        '24' => 'BL', // Blantyre
+        '25' => 'MW', // Mwanza
+        '26' => 'BA', // Balaka
+        '27' => 'LK', // Likoma
+        '28' => 'MH', // Machinga
+        '29' => 'MU', // Mulanje
+        '30' => 'PH', // Phalombe
     ],
     'MX' => [
         '01' => 'AGU',
@@ -2478,6 +2537,7 @@ return [
         '13' => 'HID',
         '14' => 'JAL',
         '15' => 'MEX',
+        '16' => 'MIC',
         '17' => 'MOR',
         '18' => 'NAY',
         '19' => 'NLE',
