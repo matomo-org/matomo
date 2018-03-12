@@ -14,6 +14,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Log;
 use Piwik\Option;
@@ -149,7 +150,7 @@ class GeoIP2AutoUpdater extends Task
         Log::info("GeoIP2AutoUpdater: successfully downloaded '%s'", $url);
 
         try {
-            self::unzipDownloadedFile($zippedOutputPath, $unlink = true);
+            self::unzipDownloadedFile($zippedOutputPath, $dbType, $unlink = true);
         } catch (Exception $ex) {
             throw new Exception("GeoIP2AutoUpdater: failed to unzip '$zippedOutputPath' after "
                 . "downloading " . "'$url': " . $ex->getMessage());
@@ -165,54 +166,22 @@ class GeoIP2AutoUpdater extends Task
      * @param bool $unlink Whether to unlink archive or not.
      * @throws Exception
      */
-    public static function unzipDownloadedFile($path, $unlink = false)
+    public static function unzipDownloadedFile($path, $dbType, $unlink = false)
     {
-        $parts = explode('.', basename($path));
-        $filenameStart = $parts[0];
-
-        $dbFilename = $filenameStart . '.mmdb';
-        $tempFilename = $filenameStart . '.mmdb.new';
-        $outputPath = GeoIp2::getPathForGeoIpDatabase($tempFilename);
+        $tempPath = GeoIp2::getPathForGeoIpDatabase('update/');
 
         // extract file
         if (substr($path, -7, 7) == '.tar.gz') {
-            // find the .mmdb file in the tar archive
             $unzip = Unzip::factory('tar.gz', $path);
-            $content = $unzip->listContent();
+            $success = $unzip->extract($tempPath);
 
-            if (empty($content)) {
-                throw new Exception(Piwik::translate('UserCountry_CannotListContent',
-                    array("'$path'", $unzip->errorInfo())));
-            }
-
-            $datFile = null;
-            foreach ($content as $info) {
-                $archivedPath = $info['filename'];
-                if (basename($archivedPath) === $dbFilename) {
-                    $datFile = $archivedPath;
-                }
-            }
-
-            if ($datFile === null) {
-                throw new Exception(Piwik::translate('UserCountry_CannotFindGeoIPDatabaseInArchive',
-                    array($dbFilename, "'$path'")));
-            }
-
-            // extract JUST the .mmdb file
-            $unzipped = $unzip->extractInString($datFile);
-
-            if (empty($unzipped)) {
+            if ($success !== true) {
                 throw new Exception(Piwik::translate('UserCountry_CannotUnzipDatFile',
                     array("'$path'", $unzip->errorInfo())));
             }
-
-            // write unzipped to file
-            $fd = fopen($outputPath, 'wb');
-            fwrite($fd, $unzipped);
-            fclose($fd);
         } else if (substr($path, -3, 3) == '.gz') {
             $unzip = Unzip::factory('gz', $path);
-            $success = $unzip->extract($outputPath);
+            $success = $unzip->extract($tempPath);
 
             if ($success !== true) {
                 throw new Exception(Piwik::translate('UserCountry_CannotUnzipDatFile',
@@ -224,10 +193,22 @@ class GeoIP2AutoUpdater extends Task
         }
 
         try {
+            $extractedFiles = glob($tempPath . '*/*');
+
+            foreach ($extractedFiles as $extractedFile) {
+                $filename = basename($extractedFile);
+                if (in_array($filename, GeoIp2::$dbNames[$dbType])) {
+                    $dbFilename = $filename;
+                    $tempFilename = $filename . '.new';
+                    $outputPath = GeoIp2::getPathForGeoIpDatabase($tempFilename);
+                    @rename($extractedFile, $outputPath);
+                    Filesystem::unlinkRecursive($tempPath, true);
+                    break;
+                }
+            }
+
             // test that the new archive is a valid GeoIP 2 database
-            $dbType = GeoIp2::getGeoIPDatabaseTypeFromFilename($dbFilename);
-            if ($dbType === false) // sanity check
-            {
+            if (empty($dbFilename) || false === GeoIp2::getGeoIPDatabaseTypeFromFilename($dbFilename)) {
                 throw new Exception("Unexpected GeoIP 2 archive file name '$path'.");
             }
 

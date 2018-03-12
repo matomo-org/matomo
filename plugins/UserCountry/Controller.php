@@ -122,7 +122,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 // if the file is done
                 if ($result['current_size'] >= $result['expected_file_size']) {
-                    GeoIP2AutoUpdater::unzipDownloadedFile($outputPath, $unlink = true);
+                    GeoIP2AutoUpdater::unzipDownloadedFile($outputPath, 'loc', $unlink = true);
+
 
                     // setup the auto updater
                     GeoIP2AutoUpdater::setUpdaterOptions(array(
@@ -270,7 +271,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 // if the file is done
                 if ($result['current_size'] >= $result['expected_file_size']) {
-                    GeoIP2AutoUpdater::unzipDownloadedFile($outputPath, $unlink = true);
+                    GeoIP2AutoUpdater::unzipDownloadedFile($outputPath, $key, $unlink = true);
 
                     $info = $this->getNextMissingDbUrlInfo();
                     if ($info !== false) {
