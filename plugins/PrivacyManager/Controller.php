@@ -74,8 +74,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function gdprOverview()
     {
         Piwik::checkUserHasSomeAdminAccess();
+        $language = LanguagesManager::getLanguageCodeForCurrentUser();
 
-        return $this->renderTemplate('gdprOverview');
+        return $this->renderTemplate('gdprOverview', array(
+            'language' => $language
+        ));
     }
 
     public function gdprManageRights()
