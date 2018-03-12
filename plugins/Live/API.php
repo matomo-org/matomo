@@ -72,6 +72,14 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $model = new Model();
 
+        if (is_string($showColumns)) {
+            $showColumns = explode(',', $showColumns);
+        }
+
+        if (is_string($hideColumns)) {
+            $hideColumns = explode(',', $hideColumns);
+        }
+
         $counters = array();
 
         $hasVisits = true;

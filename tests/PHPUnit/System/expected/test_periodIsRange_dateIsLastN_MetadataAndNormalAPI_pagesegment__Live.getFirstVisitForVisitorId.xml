@@ -10,16 +10,7 @@
 		<goalConversions>1</goalConversions>
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
-		<serverDate>2018-01-25</serverDate>
 		<visitServerHour>1</visitServerHour>
-		<lastActionTimestamp>1516842360</lastActionTimestamp>
-		<lastActionDateTime>2018-01-25 01:06:00</lastActionDateTime>
-		<serverTimestamp>1516842360</serverTimestamp>
-		<firstActionTimestamp>1516842000</firstActionTimestamp>
-		<serverTimePretty>01:06:00</serverTimePretty>
-		<serverDatePretty>Thursday, January 25, 2018</serverDatePretty>
-		<serverDatePrettyFirstAction>Thursday, January 25, 2018</serverDatePrettyFirstAction>
-		<serverTimePrettyFirstAction>01:00:00</serverTimePrettyFirstAction>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
