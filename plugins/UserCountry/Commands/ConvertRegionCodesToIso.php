@@ -84,6 +84,9 @@ class ConvertRegionCodesToIso extends ConsoleCommand
         $activationTime = Option::get(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME);
         $activationDateTime = date('Y-m-d H:i:s', $activationTime);
 
+        // fix country and region of tibet so it wil be updated correctly afterwards
+        $tibetFixQuery = 'UPDATE %s SET location_country = "cn", location_region = "14" WHERE location_country = "ti"';
+
         $query = "UPDATE %s INNER JOIN %s ON location_country = country_code AND location_region = fips_code SET location_region = iso_code
                   WHERE `%s` < ?";
 
@@ -91,6 +94,8 @@ class ConvertRegionCodesToIso extends ConsoleCommand
 
         foreach ($logTables as $logTable => $dateField) {
             $output->write('- Updating ' . $logTable);
+
+            Db::query(sprintf($tibetFixQuery, Common::prefixTable($logTable)));
 
             $sql = sprintf($query, Common::prefixTable($logTable), Common::prefixTable(self::MAPPING_TABLE_NAME), $dateField);
             Db::query($sql, $activationDateTime);

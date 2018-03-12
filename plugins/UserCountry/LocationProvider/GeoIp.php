@@ -184,7 +184,7 @@ abstract class GeoIp extends LocationProvider
         if (is_null($result)) {
             // TODO: what happens when IP changes? should we get this information from piwik.org?
             $expected = array(self::COUNTRY_CODE_KEY => 'FR',
-                              self::REGION_CODE_KEY  => 'A6',
+                              self::REGION_CODE_KEY  => 'I',
                               self::CITY_NAME_KEY    => 'Besançon');
             $result = array(self::TEST_IP, $expected);
         }
