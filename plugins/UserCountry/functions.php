@@ -130,10 +130,6 @@ function getRegionName($label)
 
 function getRegionNameFromCodes($countryCode, $regionCode)
 {
-    if (LocationProvider::getCurrentProvider() instanceof GeoIp) {
-        return GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
-    }
-
     return GeoIp2::getRegionNameFromCodes($countryCode, $regionCode);
 }
 
