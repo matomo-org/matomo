@@ -34,7 +34,7 @@ class ManyVisitsWithGeoIP extends Fixture
         '194.57.91.215', // in Besançon, FR (unicode city name)
         '::ffff:137.82.130.49', // in British Columbia (mapped ipv4)
         '137.82.130.0', // anonymization tests
-        '137.82.0.0', //
+        '137.82.0.0',
         '2003:f6:93bf:26f:9ec7:a6ff:fe29:27df', // ipv6 in US (without region or city)
         '113.62.1.1', // in Lhasa, Tibet
         '151.100.101.92', // in Rome, Italy (using country DB, so only Italy will show)

@@ -50,7 +50,7 @@ class GeolocationDiagnostic implements Diagnostic
         $isGeoIPLegacyProvider = LocationProvider::getCurrentProvider() instanceof LocationProvider\GeoIp;
 
         if ($isGeoIPLegacyProvider && $isProviderInstalled) {
-            $discontinuedWarning = '<div>Support of GeoIP Legacy location providers has been deprecated and will be removed in Matomo 4.</div><strong>Please switch to GeoIP 2 soon!</strong>';
+            $discontinuedWarning = '<div>Support of GeoIP Legacy location providers has been deprecated and will be removed in one of the next major releases.</div><strong>Please switch to GeoIP 2 soon!</strong>';
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $discontinuedWarning));
         }
 

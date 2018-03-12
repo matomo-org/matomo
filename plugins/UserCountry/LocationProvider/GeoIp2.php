@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\UserCountry\LocationProvider;
 
 use Exception;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\GeoIPLegacyAutoUpdater;
 use Piwik\Plugins\UserCountry\LocationProvider;

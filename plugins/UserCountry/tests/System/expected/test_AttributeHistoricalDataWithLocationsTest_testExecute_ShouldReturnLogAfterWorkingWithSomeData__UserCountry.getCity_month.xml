@@ -2,25 +2,25 @@
 <result>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>20</nb_visits>
-		<nb_actions>56</nb_actions>
+		<nb_visits>22</nb_visits>
+		<nb_actions>61</nb_actions>
 		<max_actions>5</max_actions>
-		<bounce_count>10</bounce_count>
+		<bounce_count>11</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>20</nb_conversions>
-				<nb_visits_converted>20</nb_visits_converted>
-				<revenue>100</revenue>
+				<nb_conversions>22</nb_conversions>
+				<nb_visits_converted>22</nb_visits_converted>
+				<revenue>110</revenue>
 			</row>
 			<row idgoal='2'>
-				<nb_conversions>10</nb_conversions>
-				<nb_visits_converted>10</nb_visits_converted>
-				<revenue>50</revenue>
+				<nb_conversions>11</nb_conversions>
+				<nb_visits_converted>11</nb_visits_converted>
+				<revenue>55</revenue>
 			</row>
 		</goals>
-		<nb_conversions>30</nb_conversions>
-		<revenue>150</revenue>
-		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+		<nb_conversions>33</nb_conversions>
+		<revenue>165</revenue>
+		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<city_name>Unknown</city_name>
 		<city>xx</city>
@@ -52,8 +52,8 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<lat>49.464</lat>
-		<long>-122.822</long>
+		<lat>49.25</lat>
+		<long>-123.133</long>
 		<segment>city==Vancouver;regionCode==BC;countryCode==ca</segment>
 		<city_name>Vancouver</city_name>
 		<region>BC</region>
@@ -63,7 +63,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 	</row>
 	<row>
-		<label>Besançon, Bourgogne-Franche-Comte, France</label>
+		<label>Besançon, Doubs, France</label>
 		<nb_visits>3</nb_visits>
 		<nb_actions>7</nb_actions>
 		<max_actions>5</max_actions>
@@ -86,48 +86,16 @@
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<lat>47.249</lat>
 		<long>6.018</long>
-		<segment>city==Besan%C3%A7on;regionCode==BFC;countryCode==fr</segment>
+		<segment>city==Besan%C3%A7on;regionCode==25;countryCode==fr</segment>
 		<city_name>Besançon</city_name>
-		<region>BFC</region>
+		<region>25</region>
 		<country>fr</country>
 		<country_name>France</country_name>
-		<region_name>Bourgogne-Franche-Comte</region_name>
+		<region_name>Doubs</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
-		<label>Jimbaran, Central Java, Indonesia</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>5</nb_actions>
-		<max_actions>4</max_actions>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>2</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
-				<revenue>10</revenue>
-			</row>
-			<row idgoal='2'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>3</nb_conversions>
-		<revenue>15</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<lat>-6.795</lat>
-		<long>110.993</long>
-		<segment>city==Jimbaran;regionCode==JT;countryCode==id</segment>
-		<city_name>Jimbaran</city_name>
-		<region>JT</region>
-		<country>id</country>
-		<country_name>Indonesia</country_name>
-		<region_name>Central Java</region_name>
-		<logo>plugins/Morpheus/icons/dist/flags/id.png</logo>
-	</row>
-	<row>
-		<label>Lhasa, Tibet, China</label>
+		<label>Lhasa, Xizang, China</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>5</nb_actions>
 		<max_actions>4</max_actions>
@@ -155,11 +123,11 @@
 		<region>XZ</region>
 		<country>cn</country>
 		<country_name>China</country_name>
-		<region_name>Tibet</region_name>
+		<region_name>Xizang</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
 	</row>
 	<row>
-		<label>Rome, Latium, Italy</label>
+		<label>Rome, Lazio, Italy</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>6</nb_actions>
 		<max_actions>5</max_actions>
@@ -187,7 +155,7 @@
 		<region>62</region>
 		<country>it</country>
 		<country_name>Italy</country_name>
-		<region_name>Latium</region_name>
+		<region_name>Lazio</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/it.png</logo>
 	</row>
 </result>

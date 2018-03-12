@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\UserCountry\LocationProvider;
 
 use Exception;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 
@@ -36,13 +35,6 @@ abstract class GeoIp extends LocationProvider
         'isp' => array('GeoIPISP.dat'),
         'org' => array('GeoIPOrg.dat'),
     );
-
-    /**
-     * Cached region name array. Data is from geoipregionvars.php.
-     *
-     * @var array
-     */
-    private static $regionNames = null;
 
     /**
      * Attempts to fill in some missing information in a GeoIP location.
@@ -232,9 +224,13 @@ abstract class GeoIp extends LocationProvider
      */
     public static function convertRegionCodeToIso($countryCode, $fipsRegionCode)
     {
-        $isoRegionCode = '';
+        static $mapping;
 
-        $mapping = include __DIR__ . '/../data/regionMapping.php';
+        if(empty($mapping)) {
+            $mapping = include __DIR__ . '/../data/regionMapping.php';
+        }
+
+        $isoRegionCode = '';
 
         if (!empty($mapping[$countryCode][$fipsRegionCode])) {
             $isoRegionCode = $mapping[$countryCode][$fipsRegionCode];

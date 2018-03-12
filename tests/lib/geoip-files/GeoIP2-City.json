@@ -250,7 +250,8 @@
       "city": {
         "geoname_id": 3169070,
         "names": {
-          "de": "Rome"
+          "de": "Rom",
+          "en": "Rome"
         }
       },
       "continent": {
