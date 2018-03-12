@@ -46,10 +46,14 @@ class GenerateIsoRegions extends ConsoleCommand
 
 
             foreach ($regionData as $region) {
-                $regionCode = $region['code'];
+                list($countryCode, $regionCode) = explode('-', $region['code']);
                 $regionName = $region['name'];
 
-                $allRegions[$regionCode] = $regionName;
+                if (!array_key_exists($countryCode, $allRegions)) {
+                    $allRegions[$countryCode] = [];
+                }
+
+                $allRegions[$countryCode][$regionCode] = $regionName;
             }
 
         } catch (\Exception $e) {

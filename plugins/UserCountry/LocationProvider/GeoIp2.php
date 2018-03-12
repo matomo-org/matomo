@@ -205,8 +205,8 @@ abstract class GeoIp2 extends LocationProvider
         $countryCode = strtoupper($countryCode);
         $regionCode = strtoupper($regionCode);
 
-        if (isset($regionNames[$countryCode.'-'.$regionCode])) {
-            return $regionNames[$countryCode.'-'.$regionCode];
+        if (isset($regionNames[$countryCode][$regionCode])) {
+            return $regionNames[$countryCode][$regionCode];
         } else {
             return Piwik::translate('General_Unknown');
         }
