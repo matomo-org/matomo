@@ -26,7 +26,7 @@ class ConvertRegionCodesToIso extends ConsoleCommand
     protected function configure()
     {
         $this->setName('usercountry:convert-region-codes');
-        $this->setDescription("Convert region codes saved by GeoIP legacy provider to GeoIP2.");
+        $this->setDescription("Convert FIPS region codes saved by GeoIP legacy provider to ISO.");
     }
 
     public function isEnabled()
@@ -81,7 +81,7 @@ class ConvertRegionCodesToIso extends ConsoleCommand
 
         $output->writeln('Updating Matomo log tables:');
 
-        $activationTime = Option::get(GeoIp2::SWITCH_TO_GEOIP2_OPTION_NAME);
+        $activationTime = Option::get(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME);
         $activationDateTime = date('Y-m-d H:i:s', $activationTime);
 
         $query = "UPDATE %s INNER JOIN %s ON location_country = country_code AND location_region = fips_code SET location_region = iso_code

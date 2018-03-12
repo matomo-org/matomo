@@ -23,6 +23,7 @@ abstract class GeoIp2 extends LocationProvider
     /* For testing, use: 'http://piwik-team.s3.amazonaws.com/GeoLite2-City.tar.gz' */
     const GEO_LITE_URL = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz';
     const TEST_IP = '194.57.91.215';
+    const SWITCH_TO_ISO_REGIONS_OPTION_NAME = 'usercountry.switchtoisoregions';
 
     public static $geoIPDatabaseDir = 'misc';
 
@@ -106,13 +107,8 @@ abstract class GeoIp2 extends LocationProvider
      */
     public function activate()
     {
-        $switched = Option::get(self::SWITCH_TO_GEOIP2_OPTION_NAME);
-
-        if (empty($switched)) {
-            Option::set(self::SWITCH_TO_GEOIP2_OPTION_NAME, time());
-            // remove auto updating for legacy database
-            GeoIPLegacyAutoUpdater::clearOptions();
-        }
+        // remove auto updating for legacy database
+        GeoIPLegacyAutoUpdater::clearOptions();
     }
 
     /**

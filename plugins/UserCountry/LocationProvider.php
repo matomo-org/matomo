@@ -37,7 +37,6 @@ abstract class LocationProvider
     const BROKEN = 2;
 
     const CURRENT_PROVIDER_OPTION_NAME = 'usercountry.location_provider';
-    const SWITCH_TO_GEOIP2_OPTION_NAME = 'usercountry.switchtogeoip2';
 
     const GEOGRAPHIC_COORD_PRECISION = 3;
 
@@ -145,16 +144,6 @@ abstract class LocationProvider
     abstract public function getSupportedLocationInfo();
 
     /**
-     * Returns true if this provider should be listed.
-     *
-     * @return bool
-     */
-    public function isDisabled()
-    {
-        return false;
-    }
-
-    /**
      * Method called when a provider gets activated.
      */
     public function activate()
@@ -248,10 +237,6 @@ abstract class LocationProvider
     {
         $allInfo = array();
         foreach (self::getAllProviders() as $provider) {
-
-            if ($provider->isDisabled()) {
-                continue;
-            }
 
             $info = $provider->getInfo();
 
