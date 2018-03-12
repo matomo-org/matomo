@@ -49,6 +49,12 @@ abstract class GeoIp extends LocationProvider
     {
         parent::completeLocationResult($location);
 
+        $invalidCountryCodes = ['AP', 'EU', 'A1', 'A2'];
+
+        if (in_array($location[self::COUNTRY_CODE_KEY], $invalidCountryCodes)) {
+            $location[self::COUNTRY_CODE_KEY] = '';
+        }
+
         if (!empty($location[self::REGION_CODE_KEY])
             && !empty($location[self::COUNTRY_CODE_KEY])
         ) {

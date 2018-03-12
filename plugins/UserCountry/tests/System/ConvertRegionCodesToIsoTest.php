@@ -114,6 +114,8 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         self::trackVisit('bm', '04'); // should become empty, as not mappable
         self::trackVisit('gb', 'C5'); // should become empty, as not mappable
         self::trackVisit('jm', '10'); // should become 14
+        self::trackVisit('ti', '1'); // should become cn / xz
+        self::trackVisit('eu', ''); // should become `unknown` as country code is invalid
 
         self::trackVisitAfterSwitch('jm', '10');
 
@@ -129,12 +131,10 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         );
 
         // we need to manually reload the translations since they get reset for some reason in IntegrationTestCase::tearDown();
-        // if we do not load translations, a DataTable\Map containing multiple periods will contain only one DataTable having
-        // the label `General_DateRangeFromTo` instead of many like `From 2010-01-04 to 2010-01-11`, ' `From 2010-01-11 to 2010-01-18`
-        // As those data tables would all have the same prettyfied period label they would overwrite each other.
         Translate::loadAllTranslations();
 
         $this->assertApiResponseEqualsExpected("UserCountry.getRegion", $queryParams);
+        $this->assertApiResponseEqualsExpected("UserCountry.getCountry", $queryParams);
     }
 
     /**

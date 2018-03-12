@@ -87,6 +87,9 @@ class ConvertRegionCodesToIso extends ConsoleCommand
         // fix country and region of tibet so it wil be updated correctly afterwards
         $tibetFixQuery = 'UPDATE %s SET location_country = "cn", location_region = "14" WHERE location_country = "ti"';
 
+        // replace invalid country codes used by GeoIP Legacy
+        $fixInvalidCountriesQuery = 'UPDATE %s SET location_country = "" WHERE location_country IN("AP", "EU", "A1", "A2")';
+
         $query = "UPDATE %s INNER JOIN %s ON location_country = country_code AND location_region = fips_code SET location_region = iso_code
                   WHERE `%s` < ?";
 
@@ -96,6 +99,7 @@ class ConvertRegionCodesToIso extends ConsoleCommand
             $output->write('- Updating ' . $logTable);
 
             Db::query(sprintf($tibetFixQuery, Common::prefixTable($logTable)));
+            Db::query(sprintf($fixInvalidCountriesQuery, Common::prefixTable($logTable)));
 
             $sql = sprintf($query, Common::prefixTable($logTable), Common::prefixTable(self::MAPPING_TABLE_NAME), $dateField);
             Db::query($sql, $activationDateTime);
