@@ -294,7 +294,11 @@ abstract class LocationProvider
      */
     public static function getCurrentProviderId()
     {
-        $optionValue = Option::get(self::CURRENT_PROVIDER_OPTION_NAME);
+        try {
+            $optionValue = Option::get(self::CURRENT_PROVIDER_OPTION_NAME);
+        } catch (\Exception $e) {
+            $optionValue = false;
+        }
         return $optionValue === false ? DefaultProvider::ID : $optionValue;
     }
 

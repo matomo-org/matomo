@@ -43,6 +43,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         self::$idSite = Fixture::createWebsite('2016-01-01');
         Fixture::createSuperUser(true);
 
+        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::$providers = null;
         LocationProvider::setCurrentProvider('geoip2php');
     }

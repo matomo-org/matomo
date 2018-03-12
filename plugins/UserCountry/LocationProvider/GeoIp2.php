@@ -107,7 +107,11 @@ abstract class GeoIp2 extends LocationProvider
     public function activate()
     {
         // remove auto updating for legacy database
-        GeoIPLegacyAutoUpdater::clearOptions();
+        try {
+            GeoIPLegacyAutoUpdater::clearOptions();
+        } catch (Exception $e) {
+            // might fail in tests if database wasn't already initialized
+        }
     }
 
     /**
