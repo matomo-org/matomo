@@ -57,14 +57,11 @@ abstract class GeoIp extends LocationProvider
     {
         parent::completeLocationResult($location);
 
-        // set region name if region code is set
-        if (empty($location[self::REGION_NAME_KEY])
-            && !empty($location[self::REGION_CODE_KEY])
+        if (!empty($location[self::REGION_CODE_KEY])
             && !empty($location[self::COUNTRY_CODE_KEY])
         ) {
-            $countryCode = $location[self::COUNTRY_CODE_KEY];
-            $regionCode = (string)$location[self::REGION_CODE_KEY];
-            $location[self::REGION_NAME_KEY] = self::getRegionNameFromCodes($countryCode, $regionCode);
+            $location[self::REGION_CODE_KEY] = self::convertRegionCodeToIso($location[self::COUNTRY_CODE_KEY], $location[self::REGION_CODE_KEY]);
+            $location[self::REGION_NAME_KEY] = self::getRegionNameFromCodes($location[self::COUNTRY_CODE_KEY], $location[self::REGION_CODE_KEY]);
         }
     }
 
@@ -150,22 +147,7 @@ abstract class GeoIp extends LocationProvider
      */
     public static function getRegionNameFromCodes($countryCode, $regionCode)
     {
-        $regionNames = self::getRegionNames();
-
-        $countryCode = strtoupper($countryCode);
-        $regionCode = strtoupper($regionCode);
-
-        // ensure tibet is shown as region of china
-        if ($countryCode == 'TI' && $regionCode == '1') {
-            $regionCode = '14';
-            $countryCode = 'CN';
-        }
-
-        if (isset($regionNames[$countryCode][$regionCode])) {
-            return $regionNames[$countryCode][$regionCode];
-        } else {
-            return Piwik::translate('General_Unknown');
-        }
+        return GeoIp2::getRegionNameFromCodes($countryCode, $regionCode);
     }
 
     /**
@@ -175,13 +157,7 @@ abstract class GeoIp extends LocationProvider
      */
     public static function getRegionNames()
     {
-        if (is_null(self::$regionNames)) {
-            $GEOIP_REGION_NAME = array();
-            require_once PIWIK_INCLUDE_PATH . '/libs/MaxMindGeoIP/geoipregionvars.php';
-            self::$regionNames = $GEOIP_REGION_NAME;
-        }
-
-        return self::$regionNames;
+        return GeoIp2::getRegionNames();
     }
 
     /**
@@ -260,5 +236,25 @@ abstract class GeoIp extends LocationProvider
             }
         }
         return false;
+    }
+
+    /**
+     * Converts an old FIPS region code to ISO
+     *
+     * @param string $countryCode
+     * @param string $fipsRegionCode
+     * @return string
+     */
+    public static function convertRegionCodeToIso($countryCode, $fipsRegionCode)
+    {
+        $isoRegionCode = '';
+
+        $mapping = include __DIR__ . '/../data/regionMapping.php';
+
+        if (!empty($mapping[$countryCode][$fipsRegionCode])) {
+            $isoRegionCode = $mapping[$countryCode][$fipsRegionCode];
+        }
+
+        return $isoRegionCode;
     }
 }

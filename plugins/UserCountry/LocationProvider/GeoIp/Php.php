@@ -368,7 +368,6 @@ class Php extends GeoIp
     {
         if (empty($this->geoIpCache[$key])) {
             // make sure region names are loaded & saved first
-            parent::getRegionNames();
             require_once PIWIK_INCLUDE_PATH . '/libs/MaxMindGeoIP/geoipcity.inc';
 
             $pathToDb = self::getPathToGeoIpDatabase($this->customDbNames[$key]);

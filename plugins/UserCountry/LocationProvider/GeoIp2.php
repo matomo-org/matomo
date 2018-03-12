@@ -190,7 +190,6 @@ abstract class GeoIp2 extends LocationProvider
         return false;
     }
 
-
     /**
      * Returns a region name for a country code + region code.
      *
