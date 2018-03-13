@@ -59,12 +59,12 @@ class SomeVisitsAllConversions extends Fixture
         }
 
         if (!self::goalExists($idSite = 1, $idGoal = 4)) {
-            API::getInstance()->addGoal($this->idSite, 'category event', 'event_category', 'The_Category', 'exact', true);
+            API::getInstance()->addGoal($this->idSite, 'category event', 'event_category', 'The_Category', 'exact', true, false, false, 'categorydesc');
         }
 
         if (!self::goalExists($idSite = 1, $idGoal = 5)) {
             // including a few characters that are HTML entitiable
-            API::getInstance()->addGoal($this->idSite, 'name event', 'event_name', '<the_\'"name>', 'exact');
+            API::getInstance()->addGoal($this->idSite, 'name event', 'event_name', '<the_\'"name>', 'exact', false, false, false, 'eventdesc');
         }
     }
 
