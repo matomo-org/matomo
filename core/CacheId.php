@@ -35,6 +35,9 @@ class CacheId
 
             $idSites = self::getIdSiteList('idSites');
             $cacheId .= self::idSiteListCacheKey($idSites);
+
+            $idSites = self::getIdSiteList('idsite'); // tracker param
+            $cacheId .= self::idSiteListCacheKey($idSites);
         } else {
             $cacheId .= self::idSiteListCacheKey($idSites);
         }

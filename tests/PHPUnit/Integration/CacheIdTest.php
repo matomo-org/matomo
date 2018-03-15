@@ -98,6 +98,14 @@ class CacheIdTest extends IntegrationTestCase
                 [],
                 'key',
             ],
+            [
+                ['idSite' => '3,4,5', 'idsite' => '9,13,15'],
+                'key-3_4_5-9_13_15',
+            ],
+            [
+                ['idSite' => '3,4,5', 'idSites' => '1', 'idsite' => '9,13,15'],
+                'key-3_4_5-1-9_13_15',
+            ],
         ];
     }
 }
