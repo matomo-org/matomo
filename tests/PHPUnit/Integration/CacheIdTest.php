@@ -10,6 +10,7 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\CacheId;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker;
 use Piwik\Translate;
 
 /**
@@ -130,6 +131,95 @@ class CacheIdTest extends IntegrationTestCase
                 ['idSite' => '1,2', 'idSites' => '9,9', 'idsite' => '12,13'],
                 ['idSite' => '4,5', 'idSites' => '9,8', 'idsite' => '14,15'],
                 'key-1_2_4_5-8_9-12_13_14_15',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getTestDataForOverwriteIdSiteForCache
+     */
+    public function test_overwriteIdSiteForCache_shouldModifySuperGlobalsCorrectly(
+        $originalGet, $originalPost, $inTrackerMode, $idSite, $expectedChangedGet, $expectedChangedPost)
+    {
+        $originalTrackerMode = Tracker::$initTrackerMode;
+        try {
+            Tracker::$initTrackerMode = $inTrackerMode;
+
+            $_GET = $originalGet;
+            $_POST = $originalPost;
+
+            CacheId::overwriteIdSiteForCache($idSite, function () use ($expectedChangedGet, $expectedChangedPost) {
+                $this->assertEquals($expectedChangedGet, $_GET);
+                $this->assertEquals($expectedChangedPost, $expectedChangedPost);
+            });
+
+            // make sure GET/POST revert correctly
+            $this->assertEquals($originalGet, $_GET);
+            $this->assertEquals($originalPost, $_POST);
+        } finally {
+            Tracker::$initTrackerMode = $originalTrackerMode;
+        }
+    }
+
+    public function getTestDataForOverwriteIdSiteForCache()
+    {
+        return [
+            // all get, no post
+            [
+                ['idSite' => '1', 'idSites' => '2,3', 'idsite' => '4'],
+                [],
+                false,
+                '5',
+                ['idSite' => '5', 'idsite' => '4'],
+                ['idSite' => '5'],
+            ],
+
+            // all post, no get
+            [
+                [],
+                ['idSite' => '1', 'idSites' => '2,3', 'idsite' => '4'],
+                false,
+                '5',
+                ['idSite' => '5'],
+                ['idSite' => '5', 'idsite' => '4'],
+            ],
+
+            // post + get, no idSites
+            [
+                ['idSite' => '1', 'idsite' => '3'],
+                ['idSite' => '2', 'idsite' => '4'],
+                false,
+                '5',
+                ['idSite' => '5', 'idsite' => '3'],
+                ['idSite' => '5', 'idsite' => '4'],
+            ],
+
+            // post + get, tracker mode
+            [
+                ['idSite' => '1', 'idsite' => '4'],
+                ['idSite' => '1', 'idsite' => '6'],
+                true,
+                '5',
+                ['idSite' => '5', 'idsite' => '5'],
+                ['idSite' => '5', 'idsite' => '5'],
+            ],
+
+            // no variables set before
+            [
+                [],
+                [],
+                false,
+                '5',
+                ['idSite' => '5'],
+                ['idSite' => '5'],
+            ],
+            [
+                [],
+                [],
+                true,
+                '5',
+                ['idSite' => '5', 'idsite' => '5'],
+                ['idSite' => '5', 'idsite' => '5'],
             ],
         ];
     }

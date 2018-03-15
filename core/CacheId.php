@@ -98,8 +98,15 @@ class CacheId
         $originalGetIdSites = isset($_GET['idSites']) ? $_GET['idSites'] : null;
         $originalPostIdSites = isset($_POST['idSites']) ? $_POST['idSites'] : null;
 
+        $originalTrackerGetIdSite = isset($_GET['idsite']) ? $_GET['idsite'] : null;
+        $originalTrackerPostIdSite = isset($_POST['idsite']) ? $_POST['idsite'] : null;
+
         try {
             $_GET['idSite'] = $_POST['idSite'] = $idSite;
+
+            if (Tracker::$initTrackerMode) {
+                $_GET['idsite'] = $_POST['idsite'] = $idSite;
+            }
 
             // idSites is a deprecated query param that is still in use. since it is deprecated and new
             // supported code shouldn't rely on it, we can (more) safely unset it here, since we are just
@@ -110,21 +117,21 @@ class CacheId
 
             return $callback();
         } finally {
-            if ($originalGetIdSite !== null) {
-                $_GET['idSite'] = $originalGetIdSite;
-            }
+            self::resetIdSiteParam($_GET, 'idSite', $originalGetIdSite);
+            self::resetIdSiteParam($_POST, 'idSite', $originalPostIdSite);
+            self::resetIdSiteParam($_GET, 'idSites', $originalGetIdSites);
+            self::resetIdSiteParam($_POST, 'idSites', $originalPostIdSites);
+            self::resetIdSiteParam($_GET, 'idsite', $originalTrackerGetIdSite);
+            self::resetIdSiteParam($_POST, 'idsite', $originalTrackerPostIdSite);
+        }
+    }
 
-            if ($originalPostIdSite !== null) {
-                $_POST['idSite'] = $originalPostIdSite;
-            }
-
-            if ($originalGetIdSites !== null) {
-                $_GET['idSites'] = $originalGetIdSites;
-            }
-
-            if ($originalPostIdSites !== null) {
-                $_GET['idSites'] = $originalPostIdSites;
-            }
+    private static function resetIdSiteParam(&$superGlobal, $paramName, $originalValue)
+    {
+        if ($originalValue !== null) {
+            $superGlobal[$paramName] = $originalValue;
+        } else {
+            unset($superGlobal[$paramName]);
         }
     }
 }
