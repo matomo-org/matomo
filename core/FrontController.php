@@ -332,8 +332,8 @@ class FrontController extends Singleton
 
         $this->throwIfPiwikVersionIsOlderThanDBSchema();
 
-        $module = Common::getRequestVar('module', false, 'string');
-        $action = Common::getRequestVar('action', false);
+        $module = Piwik::getModule();
+        $action = Piwik::getAction();
 
         if (empty($module)
             || empty($action)
