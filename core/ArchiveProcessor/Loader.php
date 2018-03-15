@@ -65,8 +65,8 @@ class Loader
 
     public function prepareArchive($pluginName)
     {
-        CacheId::overwriteIdSiteForCache($this->params->getSite()->getId(), function () use ($pluginName) {
-            $this->prepareArchiveImpl($pluginName);
+        return CacheId::overwriteIdSiteForCache($this->params->getSite()->getId(), function () use ($pluginName) {
+            return $this->prepareArchiveImpl($pluginName);
         });
     }
 
