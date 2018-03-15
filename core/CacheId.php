@@ -47,16 +47,20 @@ class CacheId
 
     private static function getIdSiteList($queryParamName)
     {
-        $idSiteParam = Common::getRequestVar($queryParamName, false);
-        if ($idSiteParam === false) {
+        if (empty($_GET[$queryParamName])
+            && empty($_POST[$queryParamName])
+        ) {
             return [];
         }
 
-        $idSiteParam = explode(',', $idSiteParam);
-        $idSiteParam = array_map('intval', $idSiteParam);
-        $idSiteParam = array_unique($idSiteParam);
-        sort($idSiteParam);
-        return $idSiteParam;
+        $idSiteGetParam = empty($_GET[$queryParamName]) ? [] : explode(',', $_GET[$queryParamName]);
+        $idSitePostParam = empty($_POST[$queryParamName]) ? [] : explode(',', $_POST[$queryParamName]);
+
+        $idSiteList = array_merge($idSiteGetParam, $idSitePostParam);
+        $idSiteList = array_map('intval', $idSiteList);
+        $idSiteList = array_unique($idSiteList);
+        sort($idSiteList);
+        return $idSiteList;
     }
 
     private static function idSiteListCacheKey($idSites)
