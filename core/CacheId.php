@@ -26,4 +26,46 @@ class CacheId
 
         return $cacheId;
     }
+
+    public static function siteAware($cacheId, array $idSites = null)
+    {
+        if ($idSites === null) {
+            $idSites = self::getIdSiteList('idSite');
+            $cacheId .= self::idSiteListCacheKey($idSites);
+
+            $idSites = self::getIdSiteList('idSites');
+            $cacheId .= self::idSiteListCacheKey($idSites);
+        } else {
+            $cacheId .= self::idSiteListCacheKey($idSites);
+        }
+
+        return $cacheId;
+    }
+
+    private static function getIdSiteList($queryParamName)
+    {
+        $idSiteParam = Common::getRequestVar($queryParamName, false);
+        if ($idSiteParam === false) {
+            return [];
+        }
+
+        $idSiteParam = explode(',', $idSiteParam);
+        $idSiteParam = array_map('intval', $idSiteParam);
+        $idSiteParam = array_unique($idSiteParam);
+        sort($idSiteParam);
+        return $idSiteParam;
+    }
+
+    private static function idSiteListCacheKey($idSites)
+    {
+        if (empty($idSites)) {
+            return '';
+        }
+
+        if (count($idSites) <= 5) {
+            return '-' . implode('_', $idSites); // we keep the cache key readable when possible
+        } else {
+            return '-' . md5(implode('_', $idSites)); // we need to shorten it
+        }
+    }
 }

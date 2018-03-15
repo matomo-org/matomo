@@ -10,6 +10,7 @@ namespace Piwik\ArchiveProcessor;
 
 use Piwik\Archive;
 use Piwik\Cache;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Date;
@@ -63,20 +64,37 @@ class Loader
 
     public function prepareArchive($pluginName)
     {
-        $this->params->setRequestedPlugin($pluginName);
+        // temporarily set the idSite query parameter so archiving will end up using
+        // the correct site aware caches
+        $originalGetIdSite = isset($_GET['idSite']) ? $_GET['idSite'] : null;
+        $originalPostIdSite = isset($_POST['idSite']) ? $_POST['idSite'] : null;
 
-        list($idArchive, $visits, $visitsConverted) = $this->loadExistingArchiveIdFromDb();
-        if (!empty($idArchive)) {
-            return $idArchive;
+        try {
+            $_GET['idSite'] = $_POST['idSite'] = $this->params->getSite()->getId();
+
+            $this->params->setRequestedPlugin($pluginName);
+
+            list($idArchive, $visits, $visitsConverted) = $this->loadExistingArchiveIdFromDb();
+            if (!empty($idArchive)) {
+                return $idArchive;
+            }
+
+            list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+            list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+
+            if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
+                return $idArchive;
+            }
+            return false;
+        } finally {
+            if ($originalGetIdSite !== null) {
+                $_GET['idSite'] = $originalGetIdSite;
+            }
+
+            if ($originalPostIdSite !== null) {
+                $_POST['idSite'] = $originalPostIdSite;
+            }
         }
-
-        list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-        list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
-
-        if ($this->isThereSomeVisits($visits) || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()) {
-            return $idArchive;
-        }
-        return false;
     }
 
     /**
