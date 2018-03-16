@@ -53,8 +53,17 @@ class CacheId
             return [];
         }
 
-        $idSiteGetParam = empty($_GET[$queryParamName]) ? [] : explode(',', $_GET[$queryParamName]);
-        $idSitePostParam = empty($_POST[$queryParamName]) ? [] : explode(',', $_POST[$queryParamName]);
+        $idSiteGetParam = [];
+        if (!empty($_GET[$queryParamName])) {
+            $value = $_GET[$queryParamName];
+            $idSiteGetParam = is_array($value) ? $value : explode(',', $value);
+        }
+
+        $idSitePostParam = [];
+        if (!empty($_POST[$queryParamName])) {
+            $value = $_POST[$queryParamName];
+            $idSitePostParam = is_array($value) ? $value : explode(',', $value);
+        }
 
         $idSiteList = array_merge($idSiteGetParam, $idSitePostParam);
         $idSiteList = array_map('intval', $idSiteList);

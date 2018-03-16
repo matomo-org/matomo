@@ -10,7 +10,6 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\CacheId;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Tracker;
 use Piwik\Translate;
 
 /**
@@ -130,6 +129,14 @@ class CacheIdTest extends IntegrationTestCase
             [
                 ['idSite' => '1,2', 'idSites' => '9,9', 'idsite' => '12,13'],
                 ['idSite' => '4,5', 'idSites' => '9,8', 'idsite' => '14,15'],
+                'key-1_2_4_5-8_9-12_13_14_15',
+            ],
+
+            // must support $_GET/$_POST values being arrays and not strings
+            // because of, eg, SegmentList::findSegment
+            [
+                ['idSite' => ['1', '2'], 'idSites' => ['9', '9'], 'idsite' => ['12', '13']],
+                ['idSite' => ['4', '5'], 'idSites' => ['9', '8'], 'idsite' => ['14', '15']],
                 'key-1_2_4_5-8_9-12_13_14_15',
             ],
         ];
