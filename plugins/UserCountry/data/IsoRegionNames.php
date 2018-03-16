@@ -5397,7 +5397,7 @@ return array (
   array (
     'EC' => 'Eastern Cape',
     'FS' => 'Free State',
-    'GP' => 'Gauteng',
+    'GT' => 'Gauteng',
     'LP' => 'Limpopo',
     'MP' => 'Mpumalanga',
     'NC' => 'Northern Cape',
