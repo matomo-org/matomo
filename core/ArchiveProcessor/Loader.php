@@ -13,6 +13,7 @@ use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Context;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\Date;
 use Piwik\Period;
@@ -65,7 +66,7 @@ class Loader
 
     public function prepareArchive($pluginName)
     {
-        return CacheId::overwriteIdSiteForCache($this->params->getSite()->getId(), function () use ($pluginName) {
+        return Context::changeIdSite($this->params->getSite()->getId(), function () use ($pluginName) {
             return $this->prepareArchiveImpl($pluginName);
         });
     }
