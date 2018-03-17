@@ -94,7 +94,7 @@ class SomeVisitsAllConversions extends Fixture
         $goals = API::getInstance()->getGoals($idSite);
         $goal = $goals[$idGoal_OneConversionPerVisit];
         self::assertTrue($goal['allow_multiple'] == 0);
-        API::getInstance()->updateGoal($idSite, $idGoal_OneConversionPerVisit, $goal['name'], @$goal['match_attribute'], @$goal['pattern'], @$goal['pattern_type'], @$goal['case_sensitive'], $goal['revenue'], $goal['allow_multiple'] = 1);
+        API::getInstance()->updateGoal($idSite, $idGoal_OneConversionPerVisit, $goal['name'], @$goal['match_attribute'], @$goal['pattern'], @$goal['pattern_type'], @$goal['case_sensitive'], $goal['revenue'], $goal['allow_multiple'] = 1, $goal['description']);
         self::assertTrue($goal['allow_multiple'] == 1);
 
         // 1st goal should Now be tracked
