@@ -72,7 +72,10 @@ var hasBlockedContent = false;
                     id: 'ajaxHelper',
                     placeat: options.placeat
                 });
-                notification.scrollToNotification();
+                setTimeout(function () {
+                    // give some time for angular to render it
+                    notification.scrollToNotification();
+                }, 100);
             }
         }
 
