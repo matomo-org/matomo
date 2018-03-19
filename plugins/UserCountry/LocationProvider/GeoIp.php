@@ -49,16 +49,11 @@ abstract class GeoIp extends LocationProvider
     {
         parent::completeLocationResult($location);
 
-        $invalidCountryCodes = ['AP', 'EU', 'A1', 'A2'];
-
-        if (in_array($location[self::COUNTRY_CODE_KEY], $invalidCountryCodes)) {
-            $location[self::COUNTRY_CODE_KEY] = '';
-        }
+        list($location[self::COUNTRY_CODE_KEY], $location[self::REGION_CODE_KEY]) = self::convertRegionCodeToIso($location[self::COUNTRY_CODE_KEY], $location[self::REGION_CODE_KEY]);
 
         if (!empty($location[self::REGION_CODE_KEY])
             && !empty($location[self::COUNTRY_CODE_KEY])
         ) {
-            $location[self::REGION_CODE_KEY] = self::convertRegionCodeToIso($location[self::COUNTRY_CODE_KEY], $location[self::REGION_CODE_KEY]);
             $location[self::REGION_NAME_KEY] = self::getRegionNameFromCodes($location[self::COUNTRY_CODE_KEY], $location[self::REGION_CODE_KEY]);
         }
     }
@@ -226,9 +221,10 @@ abstract class GeoIp extends LocationProvider
      *
      * @param string $countryCode
      * @param string $fipsRegionCode
-     * @return string
+     * @param bool $returnOriginalIfNotFound  return given region code if no mapping was found
+     * @return array
      */
-    public static function convertRegionCodeToIso($countryCode, $fipsRegionCode)
+    public static function convertRegionCodeToIso($countryCode, $fipsRegionCode, $returnOriginalIfNotFound = false)
     {
         static $mapping;
 
@@ -236,12 +232,27 @@ abstract class GeoIp extends LocationProvider
             $mapping = include __DIR__ . '/../data/regionMapping.php';
         }
 
-        $isoRegionCode = '';
+        $countryCode = strtoupper($countryCode);
 
-        if (!empty($mapping[$countryCode][$fipsRegionCode])) {
+        if (empty($countryCode) || in_array($countryCode, ['EU', 'AP', 'A1', 'A2'])) {
+            return ['', ''];
+        }
+
+        if (in_array($countryCode, ['US', 'CA'])) { // US and CA always haven been iso codes
+            return [$countryCode, $fipsRegionCode];
+        }
+
+        if ($countryCode == 'TI') {
+            $countryCode = 'CN';
+            $fipsRegionCode = '14';
+        }
+
+        $isoRegionCode = $returnOriginalIfNotFound ? $fipsRegionCode : '';
+
+        if (!empty($fipsRegionCode) && !empty($mapping[$countryCode][$fipsRegionCode])) {
             $isoRegionCode = $mapping[$countryCode][$fipsRegionCode];
         }
 
-        return $isoRegionCode;
+        return [$countryCode, $isoRegionCode];
     }
 }
