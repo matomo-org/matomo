@@ -77,7 +77,7 @@
         "UsersManagementMainDescription": "Cree nuevos usuarios o actualice los actuales. Luego puede configurar sus permisos.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Cuando los usuarios no están identificados y visitan Matomo, deberían poder acceder",
         "YourUsernameCannotBeChanged": "Su nombre de usuario no puede ser cambiado.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sTus visitas son ignoradas por Piwik en %2$s %3$s (la cookie de ignorar a Matomo fue encontrada en su navegador).",
-        "YourVisitsAreNotIgnored": "%1$sTus visitas no son ignoradas por Piwik%2$s (la cookie de ignorar a Matomo no fue encontrada en su navegador)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sTus visitas son ignoradas por Matomo en %2$s %3$s (la cookie de ignorar a Matomo fue encontrada en su navegador).",
+        "YourVisitsAreNotIgnored": "%1$sTus visitas no son ignoradas por Matomo%2$s (la cookie de ignorar a Matomo no fue encontrada en su navegador)."
     }
 }

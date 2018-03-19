@@ -34,6 +34,6 @@
         "SMS_Content_Too_Long": "[masyadong mahaba]",
         "TopLinkTooltip": "Kumuha ng Ulat para sa Web Analytics na mai-hahatid sa iyong email inbox o sa iyong mobile phone.",
         "TopMenu": "Mga ulat ng Email at SMS",
-        "VerificationText": "Ang code ay %1$s. Upang mapatunayan ang iyong numero at makatanggap ng Piwik SMS mangyaring kopyahin ang code na ito sa form sa pamamagitan ng Matomo >%2$s >%3$s"
+        "VerificationText": "Ang code ay %1$s. Upang mapatunayan ang iyong numero at makatanggap ng Matomo SMS mangyaring kopyahin ang code na ito sa form sa pamamagitan ng Matomo >%2$s >%3$s"
     }
 }

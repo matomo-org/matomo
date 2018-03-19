@@ -78,7 +78,7 @@
         "UsersManagementMainDescription": "Utworzenie nowych użytkowników lub aktualizacja istniejących. Ponadto możesz ustawić im poziom uprawnień.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kiedy użytkownicy nie są zalogowani i odwiedzają Matomo, powinny wyświetlić się",
         "YourUsernameCannotBeChanged": "Twoja nazwa użytkownika nie może być zmieniona.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sTwoje odwiedziny są ignorowane przez Piwik na %2$s %3$s (Matomo zignoruje ciasteczka cookie które znajdzie w twojej przeglądarce).",
-        "YourVisitsAreNotIgnored": "%1$sTwoje odwiedziny nie będą ignorowane przez Piwik%2$s (Matomo nie odnalazł właściwego dla wykluczenia ciasteczka cookie w twojej przeglądarce)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sTwoje odwiedziny są ignorowane przez Matomo na %2$s %3$s (Matomo zignoruje ciasteczka cookie które znajdzie w twojej przeglądarce).",
+        "YourVisitsAreNotIgnored": "%1$sTwoje odwiedziny nie będą ignorowane przez Matomo%2$s (Matomo nie odnalazł właściwego dla wykluczenia ciasteczka cookie w twojej przeglądarce)."
     }
 }

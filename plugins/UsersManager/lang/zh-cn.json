@@ -45,7 +45,7 @@
         "UsersManagementMainDescription": "添加用户或修改用户，然后在上面设定权限。",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "如果访客没有登录，访问 Matomo 时打开",
         "YourUsernameCannotBeChanged": "不能修改用户名。",
-        "YourVisitsAreIgnoredOnDomain": "%1$s您的访问记录已在 %2$s %3$s 被 Piwik 忽略(在您的浏览器找到 Matomo 拒绝 cookie)",
-        "YourVisitsAreNotIgnored": "%1$s您的访问记录沒有被 Piwik 忽略%2$s (您的浏览器中没有 Matomo 忽略 cookie)"
+        "YourVisitsAreIgnoredOnDomain": "%1$s您的访问记录已在 %2$s %3$s 被 Matomo 忽略(在您的浏览器找到 Matomo 拒绝 cookie)",
+        "YourVisitsAreNotIgnored": "%1$s您的访问记录沒有被 Matomo 忽略%2$s (您的浏览器中没有 Matomo 忽略 cookie)"
     }
 }

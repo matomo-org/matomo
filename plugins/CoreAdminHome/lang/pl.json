@@ -9,7 +9,7 @@
         "ClickHereToOptOut": "Kliknij tutaj by wyłączyć analizę.",
         "CustomLogoFeedbackInfo": "Jeśli dostosujesz logo Matomo, może będziesz także chciał ukryć %1$s odnośnik w górnym menu. Aby to zrobić możesz wyłączyć plugin Feedback na stronie %2$sZarządzaj wtyczkami%3$s.",
         "CustomLogoHelpText": "Można dostosować logo Matomo, które będzie wyświetlane w interfejsie użytkownika i w raportach e-mail.",
-        "DevelopmentProcess": "Podczas gdy %1$sproces rozwoju%2$s składa się z tysięcy testów automatycznych, Beta Testerzy odgrywają kluczową rolę w osiągnięciu \"polityki braku błędów\" w Piwik'u.",
+        "DevelopmentProcess": "Podczas gdy %1$sproces rozwoju%2$s składa się z tysięcy testów automatycznych, Beta Testerzy odgrywają kluczową rolę w osiągnięciu \"polityki braku błędów\" w Matomo'u.",
         "EmailServerSettings": "Konfiguracja serwera poczty",
         "ForBetaTestersOnly": "Tylko dla beta testerów",
         "ImageTracking": "Obrazek Śledziący",

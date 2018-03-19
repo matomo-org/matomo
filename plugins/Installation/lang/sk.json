@@ -1,6 +1,6 @@
 {
     "Installation": {
-        "CollaborativeProject": "Piwik je spoločný projekt, postavený s láskou ľuďmi z celého sveta.",
+        "CollaborativeProject": "Matomo je spoločný projekt, postavený s láskou ľuďmi z celého sveta.",
         "ConfirmDeleteExistingTables": "Ste si istý, že chcete zmazať tabuľky: %s z Vašej databázy? VAROVANIE: DÁTA Z TÝCHTO TABULIEK NEBUDE MOŽNÉ OBNOVIŤ!",
         "Congratulations": "Blahoželanie",
         "DatabaseAbilities": "Schopnosti databázy",
@@ -29,7 +29,7 @@
         "PercentDone": "%s %% Dokončené",
         "PleaseFixTheFollowingErrors": "Prosím opravte nasledovné chyby",
         "DefaultSettings": "Štandardné Matomo nastavania",
-        "Requirements": "Piwik požiadavky",
+        "Requirements": "Matomo požiadavky",
         "RestartWebServer": "Po vykonaní tejto zmeny reštartuje Váš webový server.",
         "SeeBelowForMoreInfo": "Pozrite nižšie pre viac informácií.",
         "SetupWebsite": "Nastavenie webstránky",
@@ -62,7 +62,7 @@
         "SystemCheckPageSpeedDisabled": "PageSpeed deaktivovaný",
         "SystemCheckPhp": "PHP verzia",
         "SystemCheckTimeLimitHelp": "Na webstránkach s vysokou premávkou bude spúšťanie archivačného procesu trvať dlhšie, než je to aktuálne povolené.<br \/> Pozrite si direktívu max_execution_time vo vašom php.ini súbore, ak je to potrebné.",
-        "SystemCheckWarning": "Piwik bude fungovať normálne, ale niektoré vlastnosti budú chýbať.",
+        "SystemCheckWarning": "Matomo bude fungovať normálne, ale niektoré vlastnosti budú chýbať.",
         "SystemCheckWriteDirs": "Priečinky s prístupom na zápis",
         "SystemCheckWriteDirsHelp": "Na vyriešenie problém v Linuxe skúste napísať nasledovné príkazy",
         "SystemCheckZlibHelp": "Je potrebné nastaviť a rebuild PHP s aktivovanou podporou \"zlib\", --with-zlib",
