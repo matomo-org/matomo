@@ -20,10 +20,40 @@ return [
         '07' => 'UQ',
     ],
     'AF' => [
-        '11' => 'HER',
-        '13' => 'KAB',
-        '23' => 'KAN',
-        '28' => 'ZAB',
+        '01' => 'BDS', // Badakhshan
+        '02' => 'BDG', // Badghis
+        '03' => 'BGL', // Baghlan
+        '05' => 'BAM', // Bamian
+        '06' => 'FRA', // Farah
+        '07' => 'FYB', // Faryab
+        '08' => 'GHA', // Ghazni
+        '09' => 'GHO', // Ghowr
+        '10' => 'HEL', // Helmand
+        '11' => 'HER', // Herat
+        '13' => 'KAB', // Kabol
+        '14' => 'KAP', // Kapisa
+        '17' => 'LOG', // Lowgar
+        '18' => 'NAN', // Nangarhar
+        '19' => 'NIM', // Nimruz
+        '23' => 'KAN', // Kandahar
+        '24' => 'KDZ', // Kondoz
+        '26' => 'TAK', // Takhar
+        '27' => 'WAR', // Vardak
+        '28' => 'ZAB', // Zabol
+        '29' => 'PKA', // Paktika
+        '30' => 'BAL', // Balkh
+        '31' => 'JOW', // Jowzjan
+        '32' => 'SAM', // Samangan
+        '33' => 'SAR', // Sar-e Pol
+        '34' => 'KNR', // Konar
+        '35' => 'LAG', // Laghman
+        '36' => 'PIA', // Paktia
+        '37' => 'KHO', // Khowst
+        '38' => 'NUR', // Nurestan
+        '39' => 'URU', // Oruzgan
+        '40' => 'PAR', // Parvan
+        '41' => 'DAY', // Daykondi
+        '42' => 'PAN', // Panjshir
     ],
     'AG' => [
         '01' => '10',
@@ -40,9 +70,12 @@ return [
         '41' => '09',
         '42' => '02',
         '43' => '03',
+        '44' => '04',
         '45' => '05',
         '46' => '06',
+        '47' => '07',
         '48' => '08',
+        '49' => '10',
         '50' => '11',
         '51' => '12',
     ],
@@ -65,6 +98,7 @@ return [
         '03' => 'CAB',
         '04' => 'CCU',
         '05' => 'CNO',
+        '06' => 'CUS',
         '07' => 'CNN',
         '08' => 'HUA',
         '09' => 'HUI',
@@ -126,23 +160,84 @@ return [
         '08' => 'WA',
     ],
     'AZ' => [
-        '05' => 'AGA',
-        '09' => 'BA',
-        '44' => 'QUS',
-        '47' => 'SAK',
-        '54' => 'SM',
-        '62' => 'GYG',
-
-        // City Şuşa used to have SS, but was deleted in 2011. See https://en.wikipedia.org/wiki/ISO_3166-2:AZ#Changes
-        // Now maps to region Şuşa [SUS]
-        '56' => 'SUS'
+        '01' => 'ABS', // Abseron
+        '02' => 'AGC', // Agcabadi
+        '03' => 'AGM', // Agdam
+        '04' => 'AGS', // Agdas
+        '05' => 'AGA', // Agstafa
+        '06' => 'AGU', // Agsu
+        '07' => '', // Ali Bayramli
+        '08' => 'AST', // Astara
+        '09' => 'BA', // Baki
+        '10' => 'BAL', // Balakan
+        '11' => 'BAR', // Barda
+        '12' => 'BEY', // Beylaqan
+        '13' => 'BIL', // Bilasuvar
+        '14' => 'CAB', // Cabrayil
+        '15' => 'CAL', // Calilabad
+        '16' => 'DAS', // Daskasan
+        '17' => '', // Davaci
+        '18' => 'FUZ', // Fuzuli
+        '19' => 'GAD', // Gadabay
+        '20' => 'GA', // Ganca
+        '21' => 'GOR', // Goranboy
+        '22' => 'GOY', // Goycay
+        '23' => 'HAC', // Haciqabul
+        '24' => 'IMI', // Imisli
+        '25' => 'ISM', // Ismayilli
+        '26' => 'KAL', // Kalbacar
+        '27' => 'KUR', // Kurdamir
+        '28' => 'LAC', // Lacin
+        '29' => 'LAN', // Lankaran
+        '30' => 'LA', // Lankaran city
+        '31' => 'LER', // Lerik
+        '32' => 'MAS', // Masalli
+        '33' => 'MI', // Mingacevir
+        '34' => 'NA', // Naftalan
+        '35' => 'NV', // Naxcivan
+        '36' => 'NEF', // Neftcala
+        '37' => 'OGU', // Oguz
+        '38' => 'QAB', // Qabala
+        '39' => 'QAX', // Qax
+        '40' => 'QAZ', // Qazax
+        '41' => 'QOB', // Qobustan
+        '42' => 'QBA', // Quba
+        '43' => 'QBI', // Qubadli
+        '44' => 'QUS', // Qusar
+        '45' => 'SAT', // Saatli
+        '46' => 'SAB', // Sabirabad
+        '47' => 'SAK', // Saki
+        '48' => 'SA', // Saki
+        '49' => 'SAL', // Salyan
+        '50' => 'SMI', // Samaxi
+        '51' => 'SKR', // Samkir
+        '52' => 'SMX', // Samux
+        '53' => 'SIY', // Siyazan
+        '54' => 'SM', // Sumqayit
+        '55' => 'SUS', // Susa
+        '56' => 'SUS', // Susa  City Şuşa used to have SS, but was deleted in 2011. See https://en.wikipedia.org/wiki/ISO_3166-2:AZ#Changes. Now maps to region Şuşa [SUS]
+        '57' => 'TAR', // Tartar
+        '58' => 'TOV', // Tovuz
+        '59' => 'UCA', // Ucar
+        '60' => 'XAC', // Xacmaz
+        '61' => 'XA', // Xankandi
+        '62' => 'GYG', // Xanlar
+        '63' => 'XIZ', // Xizi
+        '64' => 'XCI', // Xocali
+        '65' => 'XVD', // Xocavand
+        '66' => 'YAR', // Yardimli
+        '67' => 'YEV', // Yevlax
+        '68' => 'YE', // Yevlax
+        '69' => 'ZAN', // Zangilan
+        '70' => 'ZAQ', // Zaqatala
+        '71' => 'ZAR', // Zardab
     ],
     'BA' => [
         '01' => 'BIH',
         '02' => 'SRP',
 
-        // Brčko distrikt was added in 2010. See https://en.wikipedia.org/wiki/ISO_3166-2:BA#Changes
-        '03' => 'BRC'
+        // invalid codes  [used by maxmind]
+        '03' => 'BRC' //  Brčko distrikt was added in 2010. See https://en.wikipedia.org/wiki/ISO_3166-2:BA#Changes
     ],
     'BB' => [
         '01' => '01',
@@ -153,15 +248,20 @@ return [
         '06' => '06',
         '07' => '07',
         '08' => '08',
+        '09' => '09',
         '10' => '10',
         '11' => '11',
     ],
     'BD' => [
         '81' => 'C',
+        '82' => 'D',
         '83' => 'E',
+        '84' => 'B',
+        '85' => 'A',
+        '86' => 'G',
 
-        // Rangpur added in 2011. See https://en.wikipedia.org/wiki/ISO_3166-2:BD#Changes
-        '87' => 'F'
+        // invalid codes  [used by maxmind]
+        '87' => 'F' // Rangpur added in 2011. See https://en.wikipedia.org/wiki/ISO_3166-2:BD#Changes
     ],
     'BE' => [
         '01' => 'VAN',
@@ -181,19 +281,51 @@ return [
         '14' => 'WAL'  // Wallonia
     ],
     'BF' => [
-        '15' => 'BAM',
-        '19' => 'BLK',
-        '42' => 'TAP',
-        '47' => 'BAZ',
-        '48' => 'BGR',
-        '49' => 'BLG',
-        '51' => 'HOU',
-        '53' => 'KAD',
-        '55' => 'COM',
-        '63' => 'MOU',
-        '68' => 'OUB',
-        '71' => 'SEN',
-        '76' => 'YAT',
+        '15' => 'BAM', // Bam
+        '19' => 'BLK', // Boulkiemde
+        '20' => 'GAN', // Ganzourgou
+        '21' => 'GNA', // Gnagna
+        '28' => 'KOT', // Kouritenga
+        '33' => 'OUD', // Oudalan
+        '34' => 'PAS', // Passore
+        '36' => 'SNG', // Sanguie
+        '40' => 'SOM', // Soum
+        '42' => 'TAP', // Tapoa
+        '44' => 'ZOU', // Zoundweogo
+        '45' => 'BAL', // Bale
+        '46' => 'BAN', // Banwa
+        '47' => 'BAZ', // Bazega
+        '48' => 'BGR', // Bougouriba
+        '49' => 'BLG', // Boulgou
+        '50' => 'GOU', // Gourma
+        '51' => 'HOU', // Houet
+        '52' => 'IOB', // Ioba
+        '53' => 'KAD', // Kadiogo
+        '54' => 'KEN', // Kenedougou
+        '55' => 'COM', // Komoe
+        '56' => 'KMD', // Komondjari
+        '57' => 'KMP', // Kompienga
+        '58' => 'KOS', // Kossi
+        '59' => 'KOP', // Koulpelogo
+        '60' => 'KOW', // Kourweogo
+        '61' => 'LER', // Leraba
+        '62' => 'LOR', // Loroum
+        '63' => 'MOU', // Mouhoun
+        '64' => 'NAM', // Namentenga
+        '65' => 'NAO', // Naouri
+        '66' => 'NAY', // Nayala
+        '67' => 'NOU', // Noumbiel
+        '68' => 'OUB', // Oubritenga
+        '69' => 'PON', // Poni
+        '70' => 'SMT', // Sanmatenga
+        '71' => 'SEN', // Seno
+        '72' => 'SIS', // Sissili
+        '73' => 'SOR', // Sourou
+        '74' => 'TUI', // Tuy
+        '75' => 'YAG', // Yagha
+        '76' => 'YAT', // Yatenga
+        '77' => 'ZIR', // Ziro
+        '78' => 'ZON', // Zondoma
     ],
     'BG' => [
         '38' => '01',
@@ -229,40 +361,25 @@ return [
         '33' => '12'
     ],
     'BH' => [
+        '01' => '15', // Al Hadd => Muharraq Governorate (https://en.wikipedia.org/wiki/Al_Hidd)
+        '02' => '13', // Al Manamah => Capital Governorate (https://en.wikipedia.org/wiki/Manama)
+        '05' => '', // Jidd Hafs => Capital and Northern Governorate 13/17 (https://en.wikipedia.org/wiki/Jidhafs)
+        '06' => '', // Sitrah  => Capital and Southern Governorate 13/14 (https://en.wikipedia.org/wiki/Sitra)
+        '08' => '', // Al Mintaqah al Gharbiyah => Northern and Southern Governorate 17/14 (https://en.wikipedia.org/wiki/Western_Region,_Bahrain)
+        '09' => '14', // Mintaqat Juzur Hawar => Southern Governorate (https://en.wikipedia.org/wiki/Hawar_Islands)
+        '10' => '17', // Al Mintaqah ash Shamaliyah => Northern Governorate (https://en.wikipedia.org/wiki/Northern_Region,_Bahrain)
+        '11' => '', // Al Mintaqah al Wusta => Capital and Northern Governorates 13/17 (https://en.wikipedia.org/wiki/Central_Region,_Bahrain)
+        '12' => '14', // Madīnat ٰĪsá => seems to be Southern Governorate based on the maps shown on wikipedia (https://en.wikipedia.org/wiki/Isa_Town)
+        '13' => '14', // Ar Rifa => Southern Governorates (https://en.wikipedia.org/wiki/Rifa_and_Southern_Region,_Bahrain)
+        '14' => '17', // Madinat Hamad => Northern Governorate (https://en.wikipedia.org/wiki/Hamad_Town)
         '15' => '15',
         '16' => '13',
         '17' => '14',
         '18' => '17',
-
-        // manual mapping
-        '01' => '15',
-        // Al Hadd => Muharraq Governorate (https://en.wikipedia.org/wiki/Al_Hidd)
-        '02' => '13',
-        // Al Manamah => Capital Governorate (https://en.wikipedia.org/wiki/Manama)
-        '05' => '',
-        // Jidd Hafs => Capital and Northern Governorate 13/17 (https://en.wikipedia.org/wiki/Jidhafs)
-        '06' => '',
-        // Sitrah  => Capital and Southern Governorate 13/14 (https://en.wikipedia.org/wiki/Sitra)
-        '08' => '',
-        // Al Mintaqah al Gharbiyah => Northern and Southern Governorate 17/14 (https://en.wikipedia.org/wiki/Western_Region,_Bahrain)
-        '09' => '14',
-        // Mintaqat Juzur Hawar => Southern Governorate (https://en.wikipedia.org/wiki/Hawar_Islands)
-        '10' => '17',
-        // Al Mintaqah ash Shamaliyah => Northern Governorate (https://en.wikipedia.org/wiki/Northern_Region,_Bahrain)
-        '11' => '',
-        // Al Mintaqah al Wusta => Capital and Northern Governorates 13/17 (https://en.wikipedia.org/wiki/Central_Region,_Bahrain)
-        '12' => '14',
-        // Madīnat ٰĪsá => seems to be Southern Governorate based on the maps shown on wikipedia (https://en.wikipedia.org/wiki/Isa_Town)
-        '13' => '14',
-        // Ar Rifa => Southern Governorates (https://en.wikipedia.org/wiki/Rifa_and_Southern_Region,_Bahrain)
-        '14' => '17',
-        // Madinat Hamad => Northern Governorate (https://en.wikipedia.org/wiki/Hamad_Town)
-
-        // mapped to 16 in wikidata, but region 16 has been removed in 2015. See https://en.wikipedia.org/wiki/ISO_3166-2:BH#Changes
-        '19' => '',
-        // seems to be Southern and Northern Governorate 14/17 based on the maps shown on wikipedia (https://en.wikipedia.org/wiki/Isa_Town)
+        '19' => '', // seems to be Southern and Northern Governorate 14/17 based on the maps shown on wikipedia (https://en.wikipedia.org/wiki/Isa_Town)
     ],
     'BI' => [
+        '02' => '', // Bujumbura was splitted into Bujumbura Mairie (BM) and Bujumbura Rural (BL) in 2010
         '09' => 'BB',
         '10' => 'BR',
         '11' => 'CA',
@@ -278,9 +395,6 @@ return [
         '21' => 'RY',
         '22' => 'MU',
         '23' => 'MW',
-
-        // Bujumbura was splitted into Bujumbura Mairie (BM) and Bujumbura Rural (BL) in 2010
-        '02' => ''
     ],
     'BJ' => [
         '07' => 'AL',
@@ -315,32 +429,20 @@ return [
         // They used the codes for Benin (which has BN as FIPS country code) and replaced those codes available for Brunei
 
         // valid codes
-        '08' => 'BE',
-        // Belait
-        '09' => 'BM',
-        // Brunei and Muara
-        '10' => 'TE',
-        // Temburong
-        '15' => 'TU',
-        // Tutong
+        '08' => 'BE', // Belait
+        '09' => 'BM', // Brunei and Muara
+        '10' => 'TE', // Temburong
+        '15' => 'TU', // Tutong
 
         // invalid codes that should not occur
-        '07' => '',
-        // Alibori
-        '11' => '',
-        // Collines
-        '12' => '',
-        // Kouffo
-        '13' => '',
-        // Donga
-        '14' => '',
-        // Littoral
-        '16' => '',
-        // Oueme
-        '17' => '',
-        // Plateau
-        '18' => '',
-        // Zou
+        '07' => '', // Alibori
+        '11' => '', // Collines
+        '12' => '', // Kouffo
+        '13' => '', // Donga
+        '14' => '', // Littoral
+        '16' => '', // Oueme
+        '17' => '', // Plateau
+        '18' => '', // Zou
     ],
     'BO' => [
         '01' => 'H',
@@ -383,18 +485,27 @@ return [
         '31' => 'TO',
     ],
     'BS' => [
-        '05' => 'BI',
-        '06' => 'CI',
-        '10' => 'EX',
-        '13' => 'IN',
-        '15' => 'LI',
-        '18' => 'RI',
-        '22' => 'HI',
-        '25' => 'FP',
-
+        '05' => 'BI', // Bimini
+        '06' => 'CI', // Cat Island
+        '10' => 'EX', // Exuma
+        '13' => 'IN', // Inagua
+        '15' => 'LI', // Long Island
         '16' => 'MG', // Mayaguana
-        '28' => 'HT', // mapped to GT by wikidata, but removed in 2010 - now HT according to geonames (http://www.geonames.org/maps/google_26.758_-77.325.html)
-        '23' => '',   // New Providence deleted in 2011 - without replacement (https://en.wikipedia.org/wiki/ISO_3166-2:BS#Changes)
+        '18' => 'RI', // Ragged Island
+        '22' => 'HI', // Harbour Island
+        '23' => '', // New Providence deleted in 2011 - without replacement (https://en.wikipedia.org/wiki/ISO_3166-2:BS#Changes)
+        '24' => '', // Acklins and Crooked Islands  [now two seperate codes AK & CK]
+        '25' => 'FP', // Freeport
+        '26' => 'CS', // Fresh Creek  [is now roughly Central Andros]
+        '27' => 'CE', // Governor's Harbour  [is now roughly Central Eleuthera]
+        '28' => 'HT', // Green Turtle Cay - mapped to GT by wikidata, but removed in 2010 - now HT according to geonames (http://www.geonames.org/maps/google_26.758_-77.325.html)
+        '29' => 'EG', // High Rock  [is now roughly East Grand Bahama]
+        '30' => 'SA', // Kemps Bay  [now in South Andros]
+        '31' => '', // Marsh Harbour
+        '32' => '', // Nichollstown and Berry Islands
+        '33' => 'SE', // Rock Sound  [is now roughly South Eleuthera]
+        '34' => '', // Sandy Point
+        '35' => '', // San Salvador and Rum Cay  [now two seperate codes SS & RC]
     ],
     'BT' => [
         '05' => '33',
@@ -408,11 +519,11 @@ return [
         '13' => '11',
         '14' => '43',
         '15' => '23',
+        '16' => '14', // Samtse
         '17' => '45',
+        '18' => '34', // Zhemgang
         '19' => '41',
         '20' => '15',
-
-        // mapped based on their names (https://en.wikipedia.org/wiki/ISO_3166-2:BT)
         '21' => '32', // Tongsa
         '22' => '24', // Wangdi Phodrang
     ],
@@ -423,6 +534,7 @@ return [
         '05' => 'KL',
         '06' => 'KW',
         '08' => 'NE',
+        '09' => 'SE',
         '10' => 'SO',
         '11' => 'NW',
     ],
@@ -441,17 +553,22 @@ return [
         '03' => 'CZL',
         '04' => 'OW',
         '05' => 'SC',
+        '06' => 'TOL',
     ],
     'CD' => [
-        '04' => 'KE',
-        '06' => 'KN',
-        '08' => 'BC',
-        '10' => 'MA',
-        '11' => 'NK',
-        '12' => 'SK',
+        '01' => '', // Bandundu  [split up]
+        '02' => 'EQ', // Equateur
+        '04' => 'KE', // Kasai-Oriental
+        '05' => '', // Katanga  [split up]
+        '06' => 'KN', // Kinshasa
+        '08' => 'BC', // Bas-Congo
+        '09' => '', // Orientale  [split up]
+        '10' => 'MA', // Maniema
+        '11' => 'NK', // Nord-Kivu
+        '12' => 'SK', // Sud-Kivu
 
-        // mapped based on their names (https://en.wikipedia.org/wiki/ISO_3166-2:CD)
-        '02' => 'EQ' // Equateur
+        // valid codes  [not used by maxmind]
+        '03' => '', // Kasaï-Occidental  [split up]
     ],
     'CF' => [
         '01' => 'BB',
@@ -467,6 +584,7 @@ return [
         '12' => 'AC',
         '13' => 'OP',
         '14' => 'VK',
+        '15' => 'KB',
         '16' => 'SE',
         '17' => 'MP',
         '18' => 'BGF',
@@ -513,12 +631,25 @@ return [
         '26' => 'JU',
     ],
     'CI' => [
-        '76' => '09',
-        '77' => '10',
-        '82' => '01',
-        '87' => '03',
-        '90' => '04',
-        '92' => 'ZZ',
+        '74' => 'LG', // Agneby  [now part of Lagunes]
+        '75' => 'WR', // Bafing  [now part of Woroba]
+        '76' => 'BS', // Bas-Sassandra
+        '77' => 'DN', // Denguele
+        '78' => 'MG', // Dix-Huit Montagnes
+        '79' => 'GD', // Fromager  [now part of Gôh-Djiboua]
+        '80' => 'SM', // Haut-Sassandra
+        '81' => 'LC', // Lacs
+        '82' => 'LG', // Lagunes
+        '83' => 'SM', // Marahoue
+        '84' => 'MG', // Moyen-Cavally  [now part of Montagnes]
+        '85' => 'CM', // Moyen-Comoe  [now part of Comoé]
+        '86' => 'LC', // N'zi-Comoe  [now part of Lacs]
+        '87' => 'SV', // Savanes
+        '88' => '', // Sud-Bandama  [spit up]
+        '89' => 'CM', // Sud-Comoe
+        '90' => 'VB', // Vallee du Bandama
+        '91' => 'WR', // Worodougou  [now part of Woroba]
+        '92' => 'ZZ', // Zanzan
     ],
     'CL' => [
         '01' => 'VS',
@@ -542,12 +673,14 @@ return [
         '13' => 'TA', // Tarapaca
     ],
     'CM' => [
+        '04' => 'ES',
         '05' => 'LT',
         '07' => 'NW',
         '08' => 'OU',
         '09' => 'SW',
         '10' => 'AD',
         '11' => 'CE',
+        '12' => 'EN',
         '13' => 'NO',
         '14' => 'SU',
     ],
@@ -629,15 +762,21 @@ return [
         '08' => 'SJ',
     ],
     'CU' => [
-        '01' => '01',
-        '03' => '04',
-        '05' => '09',
-        '07' => '08',
-        '12' => '11',
-        '16' => '05',
-
-        // Ciudad de la Habana was splitted in 2011 into 15 & 16 (https://en.wikipedia.org/wiki/ISO_3166-2:CU)
-        '02' => ''
+        '01' => '01', // Pinar del Rio
+        '02' => '', // Ciudad de la Habana was splitted in 2011 into 15 & 16 (https://en.wikipedia.org/wiki/ISO_3166-2:CU)
+        '03' => '04', // Matanzas
+        '04' => '99', // Isla de la Juventud
+        '05' => '09', // Camaguey
+        '07' => '08', // Ciego de Avila
+        '08' => '06', // Cienfuegos
+        '09' => '12', // Granma
+        '10' => '14', // Guantanamo
+        '11' => '03', // La Habana
+        '12' => '11', // Holguin
+        '13' => '10', // Las Tunas
+        '14' => '07', // Sancti Spiritus
+        '15' => '13', // Santiago de Cuba
+        '16' => '05', // Villa Clara
     ],
     'CV' => [
         '01' => 'BV',
@@ -646,6 +785,7 @@ return [
         '05' => 'PA',
         '07' => 'RG',
         '08' => 'SL',
+        '10' => '', // Sao Nicolau was splitted in 2005 into Ribeira Brava (BR) & Tarrafal de São Nicolau (TS) (https://en.wikipedia.org/wiki/ISO_3166-2:CV)
         '11' => 'SV',
         '13' => 'MO',
         '14' => 'PR',
@@ -655,9 +795,6 @@ return [
         '18' => 'SF',
         '19' => 'SM',
         '20' => 'TA',
-
-        // Sao Nicolau was splitted in 2005 into Ribeira Brava (BR) & Tarrafal de São Nicolau (TS) (https://en.wikipedia.org/wiki/ISO_3166-2:CV)
-        '10' => ''
     ],
     'CY' => [
         '01' => '04',
@@ -673,9 +810,11 @@ return [
         '79' => '31',
         '80' => '63',
         '81' => '41',
+        '82' => '52',
         '83' => '51',
         '84' => '71',
         '85' => '80',
+        '86' => '53',
         '87' => '32',
         '88' => '20',
         '89' => '42',
@@ -700,9 +839,12 @@ return [
         '16' => 'BE',
     ],
     'DJ' => [
+        '01' => 'AS',
         '04' => 'OB',
+        '05' => 'TA',
         '06' => 'DI',
         '07' => 'DJ',
+        '08' => 'AR',
     ],
     'DK' => [
         '17' => '84',
@@ -728,6 +870,7 @@ return [
         '02' => '03',
         '03' => '04',
         '04' => '05',
+        '05' => '01', // Distrito Nacional
         '06' => '06',
         '08' => '09',
         '09' => '10',
@@ -737,6 +880,7 @@ return [
         '14' => '14',
         '15' => '15',
         '16' => '16',
+        '17' => '17', // Peravia
         '18' => '18',
         '19' => '19',
         '20' => '20',
@@ -756,10 +900,6 @@ return [
         '35' => '17',
         '36' => '31',
         '37' => '32',
-
-        // mapped based on their names (https://en.wikipedia.org/wiki/ISO_3166-2:DO)
-        '05' => '01', // Distrito Nacional
-        '17' => '17', // Peravia
     ],
     'DZ' => [
         '01' => '16',
@@ -833,6 +973,7 @@ return [
         '20' => 'Z',
         '22' => 'U',
         '23' => 'N',
+        '24' => 'D',
     ],
     'EE' => [
         '01' => '37',
@@ -851,19 +992,13 @@ return [
         '20' => '84',
         '21' => '86',
 
-        // Those codes are not listed (mapped based on https://en.wikipedia.org/wiki/Municipalities_of_Estonia#Former_municipalities)
-        '06' => '44',
-        // Kohtla-Jarve is part of Ida-Viru
-        '09' => '44',
-        // Narva is part of Ida-Viru
-        '10' => '67',
-        // Parnu
-        '15' => '44',
-        // Sillamae is part of Ida-Viru
-        '16' => '37',
-        // Tallinn is part of Harju
-        '17' => '78',
-        // Tartu
+        // invalid codes [used by maxmind] (mapped based on https://en.wikipedia.org/wiki/Municipalities_of_Estonia#Former_municipalities)
+        '06' => '44', // Kohtla-Jarve is part of Ida-Viru
+        '09' => '44', // Narva is part of Ida-Viru
+        '10' => '67', // Parnu
+        '15' => '44', // Sillamae is part of Ida-Viru
+        '16' => '37', // Tallinn is part of Harju
+        '17' => '78', // Tartu
     ],
     'EG' => [
         '01' => 'DK',
@@ -878,11 +1013,13 @@ return [
         '10' => 'MN',
         '11' => 'C',
         '12' => 'KB',
+        '13' => 'WAD',
         '14' => 'SHR',
         '15' => 'SUZ',
         '16' => 'ASN',
         '17' => 'AST',
         '18' => 'BNS',
+        '19' => 'PTS',
         '20' => 'DT',
         '21' => 'KFS',
         '22' => 'MT',
@@ -891,14 +1028,14 @@ return [
         '26' => 'JS',
         '27' => 'SIN',
 
-        // mapped based on their names (https://en.wikipedia.org/wiki/ISO_3166-2:EG)
-        '19' => 'PTS', // Bur Sa'id
+        // invalid codes  [used by maxmind]
         '28' => 'LX', // Al Uqsur
     ],
     'ER' => [
         '01' => 'AN',
         '02' => 'DU',
         '03' => 'DK',
+        '04' => 'GB',
         '05' => 'MA',
         '06' => 'SK',
     ],
@@ -945,6 +1082,8 @@ return [
     ],
     'FJ' => [
         '01' => 'C',
+        '02' => 'E',
+        '03' => 'N',
         '04' => 'R',
         '05' => 'W',
     ],
@@ -973,7 +1112,10 @@ return [
         'C1' => 'GES', // Alsace
     ],
     'FM' => [
-        '04' => 'YAP',
+        '01' => 'KSA', // Kosrae
+        '02' => 'PNI', // Pohnpei
+        '03' => 'TRK', // Chuuk
+        '04' => 'YAP', // Yap
     ],
     'GA' => [
         '01' => '1',
@@ -991,6 +1133,7 @@ return [
         'A2' => 'BNE',
         'A3' => 'BNS',
         'A4' => 'BAS',
+        'A5' => '', // Bedfordshire  [split up]
         'A6' => 'BEX',
         'A7' => 'BIR',
         'A8' => 'BBD',
@@ -1008,6 +1151,7 @@ return [
         'C2' => 'CLD',
         'C3' => 'CAM',
         'C4' => 'CMD',
+        'C5' => '', // Cheshire  [split up]
         'C6' => 'CON',
         'C7' => 'COV',
         'C8' => 'CRY',
@@ -1134,17 +1278,32 @@ return [
         'Q3' => 'WLV',
         'Q4' => 'WOR',
         'Q5' => 'YOR',
-        'Q7' => 'ARD',
-        'Q9' => 'BLA',
+        'Q6' => 'ANN',
+        'Q7' => 'AND',
+        'Q8' => 'ABC', // Armagh  [merged into Armagh, Banbridge and Craigavon]
+        'Q9' => 'MEA',
         'R1' => 'CCG', // Ballymoney  [merged into Causeway Coast and Glens]
         'R2' => 'ABC', // Banbridge  [merged into Armagh, Banbridge and Craigavon]
         'R3' => 'BFS',
-        'R4' => 'CKF',
-        'R6' => 'CLR',
-        'R7' => 'CKT',
-        'S6' => 'DRY',
-        'S8' => 'MYL',
-        'S9' => 'NYM',
+        'R4' => 'MEA',
+        'R5' => 'LBC', // Castlereagh  [merged into Lisburn and Castlereagh]
+        'R6' => 'CCG',
+        'R7' => 'MUL',
+        'R8' => 'ABC', // Craigavon  [merged into Armagh, Banbridge and Craigavon]
+        'R9' => 'NMD', // Down  [merged into Newry, Mourne and Down]
+        'S1' => 'MUL', // Dungannon and South Tyrone  [merged into Mid-Ulster]
+        'S2' => 'FMO', // Fermanagh
+        'S3' => 'MEA', // Larne  [merged into Mid and East Antrim]
+        'S4' => 'CCG', // Limavady  [merged into Causeway Coast and Glens]
+        'S5' => 'LBC', // Lisburn
+        'S6' => 'DRS',
+        'S7' => 'MUL', // Magherafelt  [merged into Mid-Ulster]
+        'S8' => 'CCG',
+        'S9' => 'NMD',
+        'T1' => 'ANN', // Newtownabbey  [merged into Antrim and Newtownabbey]
+        'T2' => 'AND', // North Down  [merged into  North Down and Ards]
+        'T3' => 'FMO', // Omagh
+        'T4' => 'DRS', // Strabane
         'T5' => 'ABE',
         'T6' => 'ABD',
         'T7' => 'ANS',
@@ -1200,12 +1359,8 @@ return [
         'Z3' => 'VGL',
         'Z4' => 'WRX',
 
-        // Subdivisions were splitted up in 2010 (https://en.wikipedia.org/wiki/ISO_3166-2:GB)
-        'A5' => '', // Bedfordshire
-        'C5' => '', // Cheshire
-        'Z5' => '', // Bedfordshire
-
-        // incorrect FIPS codes (mapped based on names)
+        // invalid codes [used by maxmind] (mapped based on names)
+        'Z5' => '', // Bedfordshire  [split up]
         'Z6' => 'CBF', // Central Bedfordshire
         'Z7' => 'CHE', // Cheshire East
         'Z8' => 'CHW', // Cheshire West and Chester
@@ -1314,17 +1469,40 @@ return [
         '07' => 'N',
     ],
     'GN' => [
-        '03' => 'BK',
-        '04' => 'C',
-        '05' => 'DB',
-        '09' => 'FA',
-        '10' => 'FO',
-        '12' => 'GA',
-        '23' => 'MM',
-        '32' => 'KA',
-        '34' => 'LA',
-        '36' => 'LO',
-        '38' => 'NZ',
+        '01' => 'BE', // Beyla
+        '02' => 'BF', // Boffa
+        '03' => 'BK', // Boke
+        '04' => 'C', // Conakry
+        '05' => 'DB', // Dabola
+        '06' => 'DL', // Dalaba
+        '07' => 'DI', // Dinguiraye
+        '09' => 'FA', // Faranah
+        '10' => 'FO', // Forecariah
+        '11' => 'FR', // Fria
+        '12' => 'GA', // Gaoual
+        '13' => 'GU', // Gueckedou
+        '15' => 'KE', // Kerouane
+        '16' => 'KD', // Kindia
+        '17' => 'KS', // Kissidougou
+        '18' => 'KN', // Koundara
+        '19' => 'KO', // Kouroussa
+        '21' => 'MC', // Macenta
+        '22' => 'ML', // Mali
+        '23' => 'MM', // Mamou
+        '25' => 'PI', // Pita
+        '27' => 'TE', // Telimele
+        '28' => 'TO', // Tougue
+        '29' => 'YO', // Yomou
+        '30' => 'CO', // Coyah
+        '31' => 'DU', // Dubreka
+        '32' => 'KA', // Kankan
+        '33' => 'KB', // Koubia
+        '34' => 'LA', // Labe
+        '35' => 'LE', // Lelouma
+        '36' => 'LO', // Lola
+        '37' => 'MD', // Mandiana
+        '38' => 'NZ', // Nzerekore
+        '39' => 'SI', // Siguiri
     ],
     'GQ' => [
         '03' => 'AN',
@@ -1394,9 +1572,11 @@ return [
         '02' => 'BV',
         '03' => 'CM',
         '04' => 'CQ',
+        '05' => 'PR',
         '06' => 'ES',
         '07' => 'GU',
         '08' => 'HU',
+        '09' => 'IZ',
         '10' => 'JA',
         '11' => 'JU',
         '12' => 'PE',
@@ -1426,7 +1606,10 @@ return [
         '10' => 'BA',
         '11' => 'CU',
         '12' => 'DE',
+        '13' => 'EB',
         '14' => 'ES',
+        '15' => 'MA',
+        '16' => 'PM',
         '17' => 'PT',
         '18' => 'UD',
         '19' => 'UT',
@@ -1441,9 +1624,11 @@ return [
         '07' => 'EP',
         '08' => 'FM',
         '09' => 'GD',
+        '10' => 'IN',
         '11' => 'IB',
         '12' => 'LP',
         '13' => 'LE',
+        '14' => 'OC',
         '15' => 'OL',
         '16' => 'SB',
         '17' => 'VA',
@@ -1473,9 +1658,11 @@ return [
         '21' => '21',
     ],
     'HT' => [
+        '03' => 'NO',
         '06' => 'AR',
         '07' => 'CE',
         '09' => 'ND',
+        '10' => 'NE',
         '11' => 'OU',
         '12' => 'SD',
         '13' => 'SE',
@@ -1483,26 +1670,49 @@ return [
         '15' => 'NI',
     ],
     'HU' => [
-        '01' => 'BK',
-        '02' => 'BA',
-        '03' => 'BE',
-        '04' => 'BZ',
-        '05' => 'BU',
-        '06' => 'CS',
-        '08' => 'FE',
-        '09' => 'GS',
-        '10' => 'HB',
-        '11' => 'HE',
-        '12' => 'KE',
-        '14' => 'NO',
-        '16' => 'PE',
-        '17' => 'SO',
-        '18' => 'SZ',
-        '20' => 'JN',
-        '21' => 'TO',
-        '22' => 'VA',
-        '23' => 'VE',
-        '24' => 'ZA',
+        '01' => 'BK', // Bacs-Kiskun
+        '02' => 'BA', // Baranya
+        '03' => 'BE', // Bekes
+        '04' => 'BZ', // Borsod-Abauj-Zemplen
+        '05' => 'BU', // Budapest
+        '06' => 'CS', // Csongrad
+        '07' => 'DE', // Debrecen
+        '08' => 'FE', // Fejer
+        '09' => 'GS', // Gyor-Moson-Sopron
+        '10' => 'HB', // Hajdu-Bihar
+        '11' => 'HE', // Heves
+        '12' => 'KE', // Komarom-Esztergom
+        '13' => 'MI', // Miskolc
+        '14' => 'NO', // Nograd
+        '15' => 'PS', // Pecs
+        '16' => 'PE', // Pest
+        '17' => 'SO', // Somogy
+        '18' => 'SZ', // Szabolcs-Szatmar-Bereg
+        '19' => 'SD', // Szeged
+        '20' => 'JN', // Jasz-Nagykun-Szolnok
+        '21' => 'TO', // Tolna
+        '22' => 'VA', // Vas
+        '23' => 'VE', // Veszprem
+        '24' => 'ZA', // Zala
+        '25' => 'GY', // Gyor
+        '26' => 'BC', // Bekescsaba
+        '27' => 'DU', // Dunaujvaros
+        '28' => 'EG', // Eger
+        '29' => 'HV', // Hodmezovasarhely
+        '30' => 'KV', // Kaposvar
+        '31' => 'KM', // Kecskemet
+        '32' => 'NK', // Nagykanizsa
+        '33' => 'NY', // Nyiregyhaza
+        '34' => 'SN', // Sopron
+        '35' => 'SF', // Szekesfehervar
+        '36' => 'SK', // Szolnok
+        '37' => 'SH', // Szombathely
+        '38' => 'TB', // Tatabanya
+        '39' => 'VE', // Veszprem
+        '40' => 'ZE', // Zalaegerszeg
+        '41' => 'ST', // Salgotarjan
+        '42' => 'SS', // Szekszard
+        '43' => 'ER', // Erd
     ],
     'ID' => [
         '01' => 'AC',
@@ -1621,6 +1831,8 @@ return [
         '06' => 'BB',
         '07' => 'BG',
         '08' => 'DA',
+        '09' => 'DQ',
+        '10' => 'DI',
         '11' => 'AR',
         '12' => 'KA',
         '13' => 'KI',
@@ -1663,6 +1875,17 @@ return [
         '42' => '30', // Khorāsān-e Razavī Province
         '43' => '31', // Khorāsān-e Razavī Province
         '44' => '32', // Alborz Province
+
+        // invalid codes  [used by maxmind]
+        '12' => '15', // Kerman
+        '17' => '21', // Mazandaran
+        '18' => '12', // Semnan Province
+        '19' => '22', // Markazi
+        '21' => '11', // Zanjan
+        '24' => '22', // Markazi
+        '27' => '11', // Zanjan
+        '30' => '', // Khorasan  [split up]
+        '31' => '25', // Yazd
     ],
     'IS' => [
         // codes contained in maxmind file, but actually no valid FIPS codes anymore
@@ -1799,10 +2022,15 @@ return [
         '47' => '47',
     ],
     'KE' => [
-        '01' => '200',
-        '02' => '300',
-        '03' => '400',
-        '07' => '600',
+        // completely reorganized in 2014
+        '01' => '',
+        '02' => '',
+        '03' => '',
+        '05' => '',
+        '06' => '',
+        '07' => '',
+        '08' => '',
+        '09' => '',
     ],
     'KG' => [
         '01' => 'GB', // Bishkek
@@ -1833,13 +2061,13 @@ return [
         '18' => '20',
         '19' => '21',
         '22' => '12',
+        '23' => '16',
         '25' => '1',
         '28' => '18',
         '29' => '2',
         '30' => '24',
 
-        // invalid codes still included in maxminds codes
-        // mapped based on the names
+        // invalid codes [used by maxmind] (mapped based on the names)
         '01' => '2', // Batdambang
         '06' => '7', // Kampot
         '11' => '12', // Phnum Penh
@@ -1860,6 +2088,7 @@ return [
         '01' => '01',
         '02' => '02',
         '03' => '03',
+        '04' => '04',
         '05' => '05',
         '06' => '06',
         '07' => '07',
@@ -1952,7 +2181,7 @@ return [
         '14' => 'XI',
         '17' => 'LP',
 
-        // valid codes, not listed by maxmind
+        // valid codes [not used by maxmind]
         '18' => 'PH', // Phôngsali Province
         '19' => 'SL', // Salavan Province
         '20' => 'SV', // Savannakhét Province
@@ -1963,8 +2192,7 @@ return [
         '26' => 'XE', // Xékong Province
         '27' => 'VI', // Vientiane Province
 
-        // invalid codes listed by maxmind
-        // mapeed based on the names
+        // invalid codes [used by maxmind] (mapped based on the names)
         '04' => 'KH', //Khammouan
         '05' => 'LM', //Louang Namtha
         '08' => 'PH', //Phongsali
@@ -1982,13 +2210,14 @@ return [
         '10' => 'AK',
         '11' => 'BH',
 
-        // invalid codes listed by maxmind
+        // invalid codes [used by maxmind]
         '01' => 'BI', // Beqaa
         '02' => 'JA', // Al Janub
         '03' => 'AS', // Liban-Nord
     ],
     'LC' => [
         '01' => '01',
+        '02' => '', // [split up]
         '03' => '02',
         '04' => '03',
         '05' => '05',
@@ -1997,6 +2226,7 @@ return [
         '08' => '08',
         '09' => '10',
         '10' => '11',
+        '11' => '', // [split up]
     ],
     'LI' => [
         '01' => '01',
@@ -2092,16 +2322,22 @@ return [
         '19' => 'K',
     ],
     'LT' => [
+        '56' => 'AL',
         '57' => 'KU',
         '58' => 'KL',
+        '59' => 'MR',
         '60' => 'PN',
         '61' => 'SA',
         '62' => 'TA',
         '63' => 'TE',
+        '64' => 'UT',
         '65' => 'VL',
     ],
     'LU' => [
-        '03' => 'L',
+        // completely reorganized in 2015
+        '01' => '',
+        '02' => '',
+        '03' => '',
     ],
     'LV' => [
         // mapping based on the names on wikipedia
@@ -2154,7 +2390,7 @@ return [
         '49' => 'JA', // Al Jabal al Akhdar
         '50' => 'MB', // Al Khums  [seems to be part of Al Marqab]
         '51' => 'NQ', // An Nuqat al Khams
-        '52' => 'WB', // Awbari  [part of Wadi al Hayaa]
+        '52' => 'WD', // Awbari  [part of Wadi al Hayaa]
         '53' => 'ZA', // Az Zawiyah
         '54' => 'BA', // Banghazi
         '55' => 'DR', // Darnah
@@ -2169,14 +2405,19 @@ return [
     'MA' => [
         '45' => '08',
         '46' => '05',
+        '47' => '11',
         '48' => '06',
         '49' => '07',
         '50' => '09',
         '51' => '10',
         '52' => '02',
+        '53' => '14',
         '54' => '04',
+        '55' => '13',
+        '56' => '12',
         '57' => '01',
         '58' => '03',
+        '59' => '15',
     ],
     'MC' => [
         // there are no fips codes for Monaco
@@ -3005,7 +3246,7 @@ return [
         'G3' => 'BOH', // Tagbilaran  [city in Bohol]
         'G4' => 'MSC', // Tangub  [city in Misamis Occidental]
         'G5' => 'CEB', // Toledo  [city in Cebu]
-        'G6' => 'CEV', // Trece Martires  [city in Cavite]
+        'G6' => 'CAV', // Trece Martires  [city in Cavite]
         'G7' => 'ZAS', // Zamboanga  [city in Zamboanga del Sur]
         'G8' => 'AUR', // Aurora
         'H2' => 'QUE', // Quezon
@@ -3064,8 +3305,9 @@ return [
         '87' => 'ZP',
     ],
     'PS' => [
-        'GZ' => 'GZZ', // Gaza
-        'WE' => 'WBK', // West Bank
+        // completely new regions
+        'GZ' => '', // Gaza
+        'WE' => '', // West Bank
     ],
     'PT' => [
         '02' => '01',
@@ -3755,6 +3997,9 @@ return [
         '02' => 'LU',
         '03' => 'MA',
         '04' => 'SH',
+
+        // screwed up code, that seems to be from Seychelles
+        '05' => '', // Praslin
     ],
     'TD' => [
         '01' => 'BA',
