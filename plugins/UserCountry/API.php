@@ -257,7 +257,7 @@ class API extends \Piwik\Plugin\API
         $timeOfSwitch = Option::get(LocationProvider\GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME);
 
         if (empty($timeOfSwitch)) {
-            return false;
+            return true; // if option was not set, assume new install without any fips codes in use
         }
 
         $dateOfSwitch = Date::factory((int)$timeOfSwitch);
