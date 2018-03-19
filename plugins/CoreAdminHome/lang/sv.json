@@ -51,7 +51,7 @@
         "JSTrackingIntro3b": "I de flesta webbplatser, CS-verktyg mm. kan du använda en färdig plugin för att göra den tekniska anpassningen åt dig. (se vår %1$slista över plugin för att integrera Matomo%2$s.) Om du inte hittar någon plugin kan du redigera den webbplats mallar och lägga till koden till &lt;\/head&gt;-tagen. Den finns ofta i 'header.php', 'header.tpl' eller liknande filer.",
         "JSTrackingIntro4": "Om du inte vill använda JavaScript för att spåra besökare, %1$sgenerera en bild spårningslänk nedan%2$s.",
         "JSTrackingIntro5": "Om du vill göra mer än att spåra antal sedda sidor, titta på %1$sMatomos lista av dokumentation för Javascripts Spårning%2$s, där hittar du en lista med tillgängliga funktioner. Använd dessa funktioner för att spåra mål, skräddarsy variabler, e-handel, övergivna korgar med mera.",
-        "LogoNotWriteableInstruction": "Om du vill använda din egen logotyp istället för Piwiks logotyp, se till så att det finns skrivrättigheter till denna katalog: %1$s. Matomo behöver skrivrättighet för dina logotyper som lagras i filerna %2$s.",
+        "LogoNotWriteableInstruction": "Om du vill använda din egen logotyp istället för Matomos logotyp, se till så att det finns skrivrättigheter till denna katalog: %1$s. Matomo behöver skrivrättighet för dina logotyper som lagras i filerna %2$s.",
         "FileUploadDisabled": "Uppladdning av filer är inte aktiverat i din PHP-konfiguration. För att ladda upp din egen logo, sätt %s i php.ini och starta om din webbläsare.",
         "LogoUploadFailed": "Den uppladdade filen kunde inte behandlats. Var snäll och kontrollera om filen är i giltigt format.",
         "LogoUpload": "Välj en logotyp att ladda upp",
@@ -65,9 +65,9 @@
         "OptOutComplete": "Exkludering utförd; dina besök på denna webbplatsen kommer inte att spåras av webbanalys-verktyget.",
         "OptOutCompleteBis": "Observera att om du rensar cookies, tar bort cookien för exkludering eller om du byter dator eller webbläsare måste du utföra exkluderingen igen.",
         "OptOutDntFound": "Du spåras inte eftersom din webbläsare rapporterar att du inte vill det. Detta är en inställning i webbläsaren så du kan inte delta för än du avaktiverat 'Do Not Track'.",
-        "OptOutExplanation": "Piwik är dedikerat till att erbjuda personlig integritet på Internet. För att ge dina besökare möjligheten att välja om de ska exkluderas från Matomos webbanalys, kan du lägga till följande HTML-kod på någon av din webbplats sidor, t.ex. på en sida om sekretesspolicy.",
+        "OptOutExplanation": "Matomo är dedikerat till att erbjuda personlig integritet på Internet. För att ge dina besökare möjligheten att välja om de ska exkluderas från Matomos webbanalys, kan du lägga till följande HTML-kod på någon av din webbplats sidor, t.ex. på en sida om sekretesspolicy.",
         "OptOutForYourVisitors": "Exkludera spårning för dina besökare",
-        "PiwikIsInstalledAt": "Piwik är installerat på",
+        "PiwikIsInstalledAt": "Matomo är installerat på",
         "PersonalPluginSettings": "Personliga plugininställningar",
         "PluginSettingChangeNotAllowed": "Det är inte tillåtet att ändra värdet i inställningar för \"%1$s\" i plugin \"\"%2$s\"",
         "PluginSettingReadNotAllowed": "Du har inte rättighet att läsa värdet för inställningen \"%1$s\" i tillägget \"%2$s\"",
@@ -95,7 +95,7 @@
         "YouMayOptOut": "Du kan välja att inte ha ett unikt identifieringsnummer i en cookie tilldelad till din dator för att undvika analys av uppgifter som samlats in på denna webbplats.",
         "YouMayOptOutBis": "För att göra det valet, vänligen klicka nedan för att lagra en cookie för exkludering.",
         "OptingYouOut": "Undantar dig, vänligen vänta...",
-        "ProtocolNotDetectedCorrectly": "Du använder just nu Piwik över en säker SSL-anslutning (via HTTPS), men Matomo kan bara upptäcka en osäker anslutning på servern.",
+        "ProtocolNotDetectedCorrectly": "Du använder just nu Matomo över en säker SSL-anslutning (via HTTPS), men Matomo kan bara upptäcka en osäker anslutning på servern.",
         "ProtocolNotDetectedCorrectlySolution": "För att säkerställa att Matomo gör förfrågningar och visar ditt innehållet säkert så görs detta över HTTPS, du kan ändra detta i filen %1$s och antingen konfigurera dina proxyinställningar eller lägga till raden %2$s nedanför sektionen %3$s. %4$sLäs mer%5$s"
     }
 }

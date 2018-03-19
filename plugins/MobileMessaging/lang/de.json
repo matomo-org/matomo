@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Erhalten Sie Webanalytik Berichte direkt in Ihren E-Mail Posteingang oder auf Ihr Mobiltelefon!",
         "TopMenu": "E-Mail & SMS Berichte",
         "UserKey": "Userkey",
-        "VerificationText": "Der Code lautet %1$s. Um Ihre Telefonnummer zu validieren und Piwik SMS Berichte zu erhalten kopieren Sie bitte diesen Code in das Formular unter Matomo > %2$s > %3$s."
+        "VerificationText": "Der Code lautet %1$s. Um Ihre Telefonnummer zu validieren und Matomo SMS Berichte zu erhalten kopieren Sie bitte diesen Code in das Formular unter Matomo > %2$s > %3$s."
     }
 }

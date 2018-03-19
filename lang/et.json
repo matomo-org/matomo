@@ -318,7 +318,7 @@
     },
     "Mobile": {
         "AboutPiwikMobile": "Rohkem infot Matomo mobiilis kohta",
-        "AccessUrlLabel": "Piwiku paigalduse URL",
+        "AccessUrlLabel": "Matomo paigalduse URL",
         "Account": "Konto",
         "Accounts": "Kontod",
         "AddAccount": "Lisa konto",
@@ -344,7 +344,7 @@
         "NetworkErrorWithStatusCodeShort": "Võrgu viga %s",
         "NetworkNotReachable": "Võrk pole kättesaadav",
         "NoDataShort": "Andmed puuduvad",
-        "NoPiwikAccount": "Piwiku konto puudub?",
+        "NoPiwikAccount": "Matomo konto puudub?",
         "NoReportsShort": "Raporteid ei leitud",
         "NoVisitorFound": "Külastajaid ei leitud",
         "NoVisitorsShort": "Külastajad puuduvad",

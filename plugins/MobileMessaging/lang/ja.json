@@ -42,6 +42,6 @@
         "TopLinkTooltip": "E メール受信箱または携帯電話に届けられたウェブ解析レポートを取得する",
         "TopMenu": "Eメール & SMS レポート",
         "UserKey": "ユーザーキー",
-        "VerificationText": "コードは %1$sです。電話番号を検証または Piwik SMS レポートを受け取るには、Matomo > %2$s > %3$s 経由でアクセスできるフォームでこのコードをコピーしてくださ"
+        "VerificationText": "コードは %1$sです。電話番号を検証または Matomo SMS レポートを受け取るには、Matomo > %2$s > %3$s 経由でアクセスできるフォームでこのコードをコピーしてくださ"
     }
 }

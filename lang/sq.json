@@ -173,6 +173,7 @@
         "ExceptionInvalidAggregateReportsFormat": "Formati '%1$s' për raporte të grumbulluar s’është i vlefshëm. Provoni më mirë ndonjë nga vijuesit: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Jetëgjatësia e arkivës për sot duhet të jetë një numër sekondash më i madh se zero",
         "ExceptionInvalidDateFormat": "Formati i datës duhet të jetë: %1$s ose çfarëdo fjalëkyçi që funksioni %2$s e mbulon (për më tepër të dhëna, shihni %3$s)",
+        "ExceptionInvalidDateBeforeFirstWebsite": "Data '%1$s' bie përpara se sajti i parë të qe në internet. Provoni një datë që bie pas %2$s (vulë kohore %3$s).",
         "ExceptionInvalidDateRange": "Data '%1$s' s’është interval i saktë datash. Ky do të duhej të kishte formatin vijues: %2$s.",
         "ExceptionInvalidPeriod": "Nuk mbulohet periudha '%1$s'. Provoni më mirë ndonjë nga vijueset: %2$s",
         "ExceptionInvalidRendererFormat": "Formati '%1$s' për vizatuesin s’është i vlefshëm. Provoni më mirë ndonjë nga vijuesit: %2$s.",
