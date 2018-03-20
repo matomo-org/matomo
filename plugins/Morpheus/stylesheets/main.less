@@ -474,6 +474,9 @@ div.sparkline {
     display: -moz-flex;
     display: -ms-flex;
     display: flex;
+   
+    -ms-flex: 1 1 auto;
+    flex: 1;
 
     -webkit-justify-content: space-around;
     -moz-justify-content: space-around;
@@ -489,6 +492,13 @@ div.sparkline {
             border-bottom: 1px dashed #c3c3c3;
         }
     }
+}
+
+div.sparkline img {
+    -webkit-flex-shrink: 0;
+    -moz-flex-shrink: 0;
+    -ms-flex-shrink: 0;
+    flex-shrink: 0;
 }
 
 div.sparkline script+div {
