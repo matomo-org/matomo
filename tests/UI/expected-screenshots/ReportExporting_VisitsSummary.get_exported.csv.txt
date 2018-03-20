@@ -1,2 +1,2 @@
 Date,Visits,Actions,Visits with Conversions,Bounces,Total time spent by visitors (in seconds),Maximum actions in one visit,Bounce Rate,Actions per Visit,Avg. Visit Duration (in seconds)
-2012,298,603,236,210,89687,20,70%,2,5 min 1s
+2012,308,636,242,213,96659,20,69%,2.1,5 min 14s
