@@ -353,3 +353,6 @@
 .icon-arrowdown:before {
     content: "\f103";
 }
+.icon-audio:before {
+    content: "\e050";
+}

@@ -2838,6 +2838,33 @@
       "setIdx": 4,
       "setId": 9,
       "iconIdx": 232
+    },
+    {
+      "icon": {
+        "paths": [
+          "M598 138c172 38 298 192 298 374s-126 336-298 374v-88c124-36 212-150 212-286s-88-250-212-286v-88zM704 512c0 76-42 140-106 172v-344c64 32 106 96 106 172zM128 384h170l214-214v684l-214-214h-170v-256z"
+        ],
+        "attrs": [],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "tags": [
+          "volume_up"
+        ],
+        "defaultCode": 57424,
+        "grid": 24
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "volume_up",
+        "id": 820,
+        "order": 2,
+        "prevSize": 24,
+        "code": 57424,
+        "name": "audio"
+      },
+      "setIdx": 0,
+      "setId": 7,
+      "iconIdx": 820
     }
   ],
   "height": 1024,
