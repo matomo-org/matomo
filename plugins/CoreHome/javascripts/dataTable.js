@@ -242,13 +242,18 @@ $.extend(DataTable.prototype, UIControl.prototype, {
 
         var container = $('#' + self.workingDivId + ' .piwik-graph');
 
+        var ajaxRequest = new ajaxHelper();
+
+        if (self.param.totalRows) {
+            ajaxRequest.addParams({'totalRows': self.param.totalRows}, 'post');
+            delete self.param.totalRows;
+        }
+
         var params = {};
         for (var key in self.param) {
             if (typeof self.param[key] != "undefined" && self.param[key] != '')
                 params[key] = self.param[key];
         }
-
-        var ajaxRequest = new ajaxHelper();
 
         ajaxRequest.addParams(params, 'get');
         ajaxRequest.withTokenInUrl();
