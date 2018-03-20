@@ -28,8 +28,10 @@ describe("ActionsDataTable", function () {
 
     it("should load subtables correctly when row clicked", function (done) {
         expect.screenshot('subtables_loaded').to.be.capture(function (page) {
-            page.click('tr.subDataTable:first');
-            page.click('tr.subDataTable:eq(2)');
+            page.evaluate(function(){
+               $('tr.subDataTable:first').click();
+               $('tr.subDataTable:eq(2)').click();
+            });
         }, done);
     });
 
