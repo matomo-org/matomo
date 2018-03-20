@@ -309,6 +309,10 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
+        if (empty($visitorId)) {
+            return new DataTable();
+        }
+
         $model = new Model();
         $data = $model->queryLogVisits($idSite, false, false, false, 0, 1, $visitorId, false, 'ASC');
         $dataTable = $this->makeVisitorTableFromArray($data);
