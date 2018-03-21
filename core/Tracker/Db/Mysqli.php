@@ -27,6 +27,14 @@ class Mysqli extends Db
     protected $charset;
     protected $activeTransaction = false;
 
+    protected $enable_ssl;
+    protected $ssl_key;
+    protected $ssl_cert;
+    protected $ssl_ca;
+    protected $ssl_ca_path;
+    protected $ssl_cipher;
+    protected $ssl_no_verify;
+
     /**
      * Builds the DB object
      *
@@ -52,6 +60,17 @@ class Mysqli extends Db
         $this->username = $dbInfo['username'];
         $this->password = $dbInfo['password'];
         $this->charset = isset($dbInfo['charset']) ? $dbInfo['charset'] : null;
+
+
+        $this->enable_ssl = $dbInfo['enable_ssl'];
+        $this->ssl_key = $dbInfo['ssl_key'];
+        $this->ssl_cert = $dbInfo['ssl_cert'];
+        $this->ssl_ca = $dbInfo['ssl_ca'];
+        $this->ssl_ca_path = $dbInfo['ssl_ca_path'];
+        $this->ssl_cipher = $dbInfo['ssl_cipher'];
+        $this->ssl_no_verify = $dbInfo['ssl_no_verify'];
+    
+
     }
 
     /**
@@ -75,11 +94,22 @@ class Mysqli extends Db
 
         $this->connection = mysqli_init();
 
+
+        if($this->enable_ssl){
+            $this->connection.ssl_init($this->ssl_key, $this->ssl_cert, $this->ssl_ca, $this->ssl_ca_path, $this->ssl_cipher);
+        }
+
         // Make sure MySQL returns all matched rows on update queries including
         // rows that actually didn't have to be updated because the values didn't
         // change. This matches common behaviour among other database systems.
         // See #6296 why this is important in tracker
         $flags = MYSQLI_CLIENT_FOUND_ROWS;
+        if ($this ->enable_ssl){
+            $flags = $flags | MYSQLI_CLIENT_SSL;
+        }
+        if ($this->ssl_no_verify && defined('MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT')){
+            $flags = $flags | MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+        }
         mysqli_real_connect($this->connection, $this->host, $this->username, $this->password, $this->dbname, $this->port, $this->socket, $flags);
         if (!$this->connection || mysqli_connect_errno()) {
             throw new DbException("Connect failed: " . mysqli_connect_error());
