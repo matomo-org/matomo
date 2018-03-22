@@ -7,6 +7,8 @@
  *
  */
 namespace Piwik\Plugins\RssWidget;
+use Piwik\Plugins\RssWidget\Widgets\RssChangelog;
+use Piwik\Plugins\RssWidget\Widgets\RssPiwik;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
 
@@ -16,7 +18,7 @@ use Piwik\Widget\WidgetsList;
 class RssWidget extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -45,8 +47,8 @@ class RssWidget extends \Piwik\Plugin
     public function filterWidgets($list)
     {
         if (!SettingsPiwik::isInternetEnabled()) {
-            $list->remove('About Matomo', 'Matomo Changelog');
-            $list->remove('About Matomo', 'Matomo.org Blog');
+            $list->remove(RssChangelog::getCategory(), RssChangelog::getName());
+            $list->remove(RssPiwik::getCategory(), RssPiwik::getName());
         }
     }
 }

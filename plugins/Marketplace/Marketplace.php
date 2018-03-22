@@ -11,6 +11,8 @@ namespace Piwik\Plugins\Marketplace;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\Marketplace\Widgets\GetNewPlugins;
+use Piwik\Plugins\Marketplace\Widgets\GetPremiumFeatures;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
 
@@ -65,8 +67,8 @@ class Marketplace extends \Piwik\Plugin
     public function filterWidgets($list)
     {
         if (!SettingsPiwik::isInternetEnabled()) {
-            $list->remove('About Piwik', Piwik::translate('Marketplace_PaidPlugins'));
-            $list->remove('About Piwik', 'Latest Marketplace Updates');
+            $list->remove(GetPremiumFeatures::getCategory(), GetPremiumFeatures::getName());
+            $list->remove(GetNewPlugins::getCategory(), GetNewPlugins::getName());
         }
     }
 
