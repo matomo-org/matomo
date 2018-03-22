@@ -107,8 +107,21 @@
             $notificationNode.css(options.style);
         }
 
+        var defaultPlaceAt = '#notificationContainer';
+        var method = 'append';
+        if (options.placeat) {
+            defaultPlaceAt = options.placeat;
+        } else {
+            var modalSelector = '.modal.open .modal-content';
+            var modalOpen = $(modalSelector);
+            if (modalOpen.length) {
+                defaultPlaceAt = modalSelector;
+                method = 'prepend';
+            }
+        }
+
         $notificationNode = $notificationNode.hide();
-        $(options.placeat || '#notificationContainer').append($notificationNode);
+        $(defaultPlaceAt)[method]($notificationNode);
 
         if (false === options.animate) {
             $notificationNode.show();
