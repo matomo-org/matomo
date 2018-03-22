@@ -956,6 +956,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*global window */
 /*global unescape */
 /*global ActiveXObject */
+/*global Blob */
 /*members Piwik, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
@@ -965,7 +966,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
     responseEnd, event, which, button, srcElement, type, target,
     parentNode, tagName, hostname, className,
-    userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
+    userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
@@ -1090,7 +1091,9 @@ if (typeof window.Piwik !== 'object') {
             /* local Piwik */
             Piwik,
 
-            missedPluginTrackerCalls = [];
+            missedPluginTrackerCalls = [],
+
+            isPageUnloading = false;
 
         /************************************************************
          * Private methods
@@ -1391,6 +1394,7 @@ if (typeof window.Piwik !== 'object') {
          */
         function beforeUnloadHandler() {
             var now;
+            isPageUnloading = true;
 
             executePluginMethod('unload');
             /*
@@ -3476,15 +3480,41 @@ if (typeof window.Piwik !== 'object') {
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
             function getImage(request, callback) {
-                var image = new Image(1, 1);
+                // make sure to actually load an image so callback gets invoked
+                request = request.replace("send_image=0","send_image=1");
 
+                var image = new Image(1, 1);
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
                     if (typeof callback === 'function') { callback(); }
                 };
-                // make sure to actually load an image so callback gets invoked
-                request = request.replace("send_image=0","send_image=1");
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
+            }
+
+            function sendPostRequestViaSendBeacon(request)
+            {
+                var supportsSendBeacon = 'object' === typeof navigatorAlias
+                    && 'function' === typeof navigatorAlias.sendBeacon
+                    && 'function' === typeof Blob;
+
+                if (!supportsSendBeacon) {
+                    return false;
+                }
+
+                var headers = {type: 'application/x-www-form-urlencoded; charset=UTF-8'};
+                var success = false;
+
+                try {
+                    var blob = new Blob([request], headers);
+                    success = navigatorAlias.sendBeacon(configTrackerUrl, blob);
+                    // returns true if the user agent is able to successfully queue the data for transfer,
+                    // Otherwise it returns false and we need to try the regular way
+
+                } catch (e) {
+                    return false;
+                }
+
+                return success;
             }
 
             /*
@@ -3495,36 +3525,62 @@ if (typeof window.Piwik !== 'object') {
                     fallbackToGet = true;
                 }
 
-                try {
-                    // we use the progid Microsoft.XMLHTTP because
-                    // IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
-                    // is pinned to MSXML2.XMLHTTP.3.0
-                    var xhr = windowAlias.XMLHttpRequest
-                        ? new windowAlias.XMLHttpRequest()
-                        : windowAlias.ActiveXObject
-                        ? new ActiveXObject('Microsoft.XMLHTTP')
-                        : null;
-
-                    xhr.open('POST', configTrackerUrl, true);
-
-                    // fallback on error
-                    xhr.onreadystatechange = function () {
-                        if (this.readyState === 4 && !(this.status >= 200 && this.status < 300) && fallbackToGet) {
-                            getImage(request, callback);
-                        } else {
-                            if (this.readyState === 4 && (typeof callback === 'function')) { callback(); }
-                        }
-                    };
-
-                    xhr.setRequestHeader('Content-Type', configRequestContentType);
-
-                    xhr.send(request);
-                } catch (e) {
-                    if (fallbackToGet) {
-                        // fallback
-                        getImage(request, callback);
-                    }
+                if (isPageUnloading && sendPostRequestViaSendBeacon(request)) {
+                    return;
                 }
+
+                setTimeout(function () {
+                    // we execute it with a little delay in case the unload event occurred just after sending this request
+                    // this is to avoid the following behaviour: Eg on form submit a tracking request is sent via POST
+                    // in this method. Then a few ms later the browser wants to navigate to the new page and the unload
+                    // event occurrs and the browser cancels the just triggered POST request. This causes or fallback
+                    // method to be triggered and we execute the same request again (either as fallbackGet or sendBeacon).
+                    // The problem is that we do not know whether the inital POST request was already fully transferred
+                    // to the server or not when the onreadystatechange callback is executed and we might execute the
+                    // same request a second time. To avoid this, we delay the actual execution of this POST request just
+                    // by 50ms which gives it usually enough time to detect the unload event in most cases.
+
+                    if (isPageUnloading && sendPostRequestViaSendBeacon(request)) {
+                        return;
+                    }
+                    var sentViaBeacon;
+
+                    try {
+                        // we use the progid Microsoft.XMLHTTP because
+                        // IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
+                        // is pinned to MSXML2.XMLHTTP.3.0
+                        var xhr = windowAlias.XMLHttpRequest
+                            ? new windowAlias.XMLHttpRequest()
+                            : windowAlias.ActiveXObject
+                                ? new ActiveXObject('Microsoft.XMLHTTP')
+                                : null;
+
+                        xhr.open('POST', configTrackerUrl, true);
+
+                        // fallback on error
+                        xhr.onreadystatechange = function () {
+                            if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
+                                var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
+
+                                if (!sentViaBeacon && fallbackToGet) {
+                                    getImage(request, callback);
+                                }
+                            } else {
+                                if (this.readyState === 4 && (typeof callback === 'function')) { callback(); }
+                            }
+                        };
+
+                        xhr.setRequestHeader('Content-Type', configRequestContentType);
+
+                        xhr.send(request);
+                    } catch (e) {
+                        sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
+                        if (!sentViaBeacon && fallbackToGet) {
+                            getImage(request, callback);
+                        }
+                    }
+                }, 50);
+
             }
 
             function setExpireDateTime(delay) {
@@ -3656,6 +3712,7 @@ if (typeof window.Piwik !== 'object') {
             function sendRequest(request, delay, callback) {
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
+
                         if (configRequestMethod === 'POST' || String(request).length > 2000) {
                             sendXmlHttpRequest(request, callback);
                         } else {
