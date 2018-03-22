@@ -9,7 +9,6 @@ use Piwik\Translation\Translator;
 
 /**
  * Check if Piwik is connected with database through ssl.
- * TODO: link to piwik FAQ into comment
  */
 class DbOverSSLCheck implements Diagnostic
 {
@@ -56,7 +55,7 @@ class DbOverSSLCheck implements Diagnostic
             }
         }
 
-        $comment .= '<br />' . '<a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/"> FAQ on piwik.org</a>'; // TODO: change link to piwik FAQ how to set up ssl connection
+        $comment .= '<br />' . '<a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/"> FAQ on piwik.org</a>';
 
         return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
     }
