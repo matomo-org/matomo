@@ -45,8 +45,8 @@ class RssWidget extends \Piwik\Plugin
     public function filterWidgets($list)
     {
         if (!SettingsPiwik::isInternetEnabled()) {
-            $list->remove('About Piwik', 'Piwik Changelog');
-            $list->remove('About Piwik', 'Piwik.org Blog');
+            $list->remove('About Matomo', 'Matomo Changelog');
+            $list->remove('About Matomo', 'Matomo.org Blog');
         }
     }
 }
