@@ -320,7 +320,7 @@
         "SmtpServerAddress": "Địa chỉ máy chủ SMTP",
         "SmtpUsername": "Tên truy cập SMTP",
         "Source": "Mã nguồn",
-        "StatisticsAreNotRecorded": "Việc theo dõi khách truy cập piwik hiện bị vô hiệu! Kích hoạt lại việc theo dõi bằng cách thiết lập record_statistics = 1 trong tập tin config\/config.ini.php của bạn.",
+        "StatisticsAreNotRecorded": "Việc theo dõi khách truy cập Matomo hiện bị vô hiệu! Kích hoạt lại việc theo dõi bằng cách thiết lập record_statistics = 1 trong tập tin config\/config.ini.php của bạn.",
         "Subtotal": "Subtotal",
         "Summary": "Tóm tắt",
         "Table": "Bảng",

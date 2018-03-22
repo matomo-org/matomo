@@ -33,7 +33,7 @@
         "NoWebsites": "Não tem nenhum website para administrar.",
         "OnlyOneSiteAtTime": "Você só pode editar um site de cada vez. Por favor, Salvar ou Cancelar as modificações atuais para o website %s.",
         "PiwikOffersEcommerceAnalytics": "O Matomo permite a análise e relatórios avançados de rastreamento de Comércio Electrónico . Saiba mais sobre %1$s Rastreamento de Comércio Electrónico %2$s.",
-        "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik exclui automaticamente parâmetros comuns de sessões (%s).",
+        "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Matomo exclui automaticamente parâmetros comuns de sessões (%s).",
         "SelectACity": "Seleccione uma cidade",
         "SelectDefaultCurrency": "Pode seleccionar a moeda para ser pré-definida em websites novos.",
         "SelectDefaultTimezone": "Pode seleccionar o fuso horário para ser pré-definido em websites novos.",

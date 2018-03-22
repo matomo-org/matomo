@@ -37,7 +37,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 9999;
+    z-index: 999999;
     width: 36px;
     height: 21px;
     text-align: left;
@@ -59,7 +59,7 @@
 }
 
 .PIS_LinkTag.PIS_Highlighted {
-    z-index: 10002;
+    z-index: 1000002;
 }
 
 .PIS_LinkTag.PIS_Highlighted span {
@@ -100,7 +100,7 @@
 .PIS_LinkHighlightBoxText,
 .PIS_LinkHighlightBoxLeft {
     position: absolute;
-    z-index: 10001;
+    z-index: 1000001;
     overflow: hidden;
     width: 2px;
     height: 2px;
@@ -122,7 +122,7 @@
 #PIS_StatusBar {
     padding: 10px 0;
     position: fixed;
-    z-index: 10020;
+    z-index: 1000020;
     bottom: 0;
     right: 0;
     border-top: 1px solid #ccc;

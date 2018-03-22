@@ -180,10 +180,10 @@ Another line</defaultValue>
 				<uiControlAttributes>
 				</uiControlAttributes>
 				<availableValues />
-				<description>If specified, anonymized usage data will be sent to the specified site in this Matomo.</description>
+				<description>If specified, anonymized usage data will be sent to the specified site in this Matomo. This lets you analyze how you and your colleagues are using Matomo.</description>
 				<inlineHelp />
 				<templateFile />
-				<introduction>Send anonymize usage data to this Matomo</introduction>
+				<introduction>Send usage data to this Matomo</introduction>
 				<condition />
 			</row>
 			<row>
@@ -216,7 +216,7 @@ Another line</defaultValue>
 				<description />
 				<inlineHelp />
 				<templateFile />
-				<introduction>Send anonymize usage data to a custom Matomo</introduction>
+				<introduction>Send usage data to a custom Matomo</introduction>
 				<condition />
 			</row>
 			<row>

@@ -21,7 +21,7 @@
         "MustBeLoggedIn": "Du skal være logget på for at oprette og planlægge brugerdefinerede rapporter.",
         "NoRecipients": "Denne rapport har ingen modtagere",
         "Pagination": "Side %1$s af %2$s",
-        "PiwikReports": "Piwik rapporter",
+        "PiwikReports": "Matomo rapporter",
         "PleaseFindBelow": "Find rapporten nedenfor %1$s for %2$s.",
         "ReportFormat": "Rapport format",
         "ReportIncludeNWebsites": "Rapporten indeholder de vigtigste nøgletal for alle hjemmesider, der har mindst ét ​​besøg (fra %s hjemmesider der pt er tilgængelige).",

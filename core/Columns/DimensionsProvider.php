@@ -30,7 +30,7 @@ class DimensionsProvider
 
     private static function getMapOfNameToDimension()
     {
-        $cacheId = CacheId::pluginAware('DimensionFactoryMap');
+        $cacheId = CacheId::siteAware(CacheId::pluginAware('DimensionFactoryMap'));
 
         $cache = PiwikCache::getTransientCache();
         if ($cache->contains($cacheId)) {

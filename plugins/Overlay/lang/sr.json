@@ -5,7 +5,7 @@
         "Domain": "Domen",
         "ErrorNotLoading": "Nije moguće pokrenuti sesiju za ovaj prikaz.",
         "ErrorNotLoadingDetails": "Možda stranica koja se učitala sa desne strane nema Matomo kod za praćenje. U tom slučaju, pokušajte da otvorite prikaz neke druge stranice sa izveštajem.",
-        "ErrorNotLoadingDetailsSSL": "S obzirom na to da koristite Piwik preko HTTPS-a, najverovatnije je da vaš sajt ne podržava SSL. Pokušajte da koristite Matomo preko HTTP-a.",
+        "ErrorNotLoadingDetailsSSL": "S obzirom na to da koristite Matomo preko HTTPS-a, najverovatnije je da vaš sajt ne podržava SSL. Pokušajte da koristite Matomo preko HTTP-a.",
         "ErrorNotLoadingLink": "Kliknite ovde za više saveta za rešavanje problema",
         "Link": "Link",
         "Location": "Lokacija",

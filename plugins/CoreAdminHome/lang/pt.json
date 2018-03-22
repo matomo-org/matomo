@@ -31,7 +31,7 @@
         "OptOutCompleteBis": "Note que se você apagar os cookies, apagar o cookie de opt-out, ou se você mudar de computador ou navegadores Web, vai precisar de realizar o procedimento de opt-out novamente.",
         "OptOutExplanation": "O Matomo, você pode adicionar o seguinte código HTML em uma das páginas do seu site, por exemplo, numa página de Política de Privacidade.",
         "OptOutForYourVisitors": "opt-out do Matomo para os seus visitantes",
-        "PiwikIsInstalledAt": "Piwik encontra-se instalado em",
+        "PiwikIsInstalledAt": "Matomo encontra-se instalado em",
         "PluginSettingChangeNotAllowed": "Não lhe é permitido alterar o valor da definição \"%1$s\" no plugin \"%2$s\"",
         "PluginSettingReadNotAllowed": "Não lhe é permitido ler o valor da definição \"%1$s\" no plugin \"%2$s\"",
         "PluginSettingsIntro": "Aqui pode alterar as definições dos seguintes plugins de terceiros:",

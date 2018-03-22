@@ -295,7 +295,7 @@
         "Period": "Período",
         "Piechart": "Gráfico circular",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s está disponível. Por favor notifique o %2$sadministrator Matomo%3$s.",
-        "PiwikXIsAvailablePleaseUpdateNow": "Piwiki %1$s está disponível. %2$s Por favor atualize agora!%3$s (veja %4$sas mudanças%5$s).",
+        "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s está disponível. %2$s Por favor atualize agora!%3$s (veja %4$sas mudanças%5$s).",
         "PleaseContactYourPiwikAdministrator": "Por favor, contate o administrador do Matomo.",
         "PleaseSpecifyValue": "Por favor, especifique um valor para '%s'.",
         "PleaseUpdatePiwik": "Por favor atualize o seu Matomo",
