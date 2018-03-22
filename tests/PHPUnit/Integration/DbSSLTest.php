@@ -24,7 +24,7 @@ class DbSSLTest extends IntegrationTestCase
             $cipher = Db::fetchRow("show status like 'Ssl_cipher'");
             $this->assertNotEmpty($cipher['Value']);
         } else {
-            $this->isTrue(true);
+            $this->markTestSkipped(true);
         }
     }
 }
