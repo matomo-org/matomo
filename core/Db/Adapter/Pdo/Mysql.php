@@ -51,6 +51,11 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
             if (!empty($config['ssl_cipher'])) {
                 $config['driver_options'][PDO::MYSQL_ATTR_SSL_CIPHER] = $config['ssl_cipher'];
             }
+            if (!empty($config['ssl_no_verify'])
+                && defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')
+            ) {
+                $config['driver_options'][PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
+            }
         }
         parent::__construct($config);
     }

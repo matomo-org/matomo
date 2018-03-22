@@ -46,6 +46,9 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
             if (!empty($config['ssl_cipher'])) {
                 $config['driver_options']['ssl_cipher'] = $config['ssl_cipher'];
             }
+            if (!empty($config['ssl_no_verify'])) {
+                $config['driver_options']['ssl_no_verify'] = $config['ssl_no_verify'];
+            }
         }
 
         parent::__construct($config);

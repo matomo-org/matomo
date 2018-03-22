@@ -35,6 +35,9 @@ ssl_key =
 ssl_ca_path =
 ; List of one or more ciphers for SSL encryption, in OpenSSL format (optional)
 ssl_cipher =
+; Whether to skip verification of self signed certificates (optional, only supported
+; w/ specific PHP versions, and is mostly for testing purposes)
+ssl_no_verify =
 ; Database SSL Options END
 
 ; if charset is set to utf8, Matomo will ensure that it is storing its data using UTF8 charset.
@@ -59,6 +62,7 @@ ssl_cert =
 ssl_key =
 ssl_ca_path =
 ssl_cipher =
+ssl_no_verify = 1
 
 [tests]
 ; needed in order to run tests.
