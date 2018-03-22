@@ -14,6 +14,8 @@
         </a>
 
         <div id="overlayDateRangeSelection">
+
+            <span class="icon icon-calendar"></span>
             <select id="overlayDateRangeSelect" name="overlayDateRangeSelect">
                 <option value="day;today">{{ 'Intl_Today'|translate }}</option>
                 <option value="day;yesterday">{{ 'Intl_Yesterday'|translate }}</option>
@@ -49,9 +51,9 @@
 
         <div id="overlaySidebar"></div>
 
-        <a id="overlayRowEvolution">{{ 'General_RowEvolutionRowActionTooltipTitle'|translate }}</a>
-        <a id="overlayTransitions">{{ 'General_TransitionsRowActionTooltipTitle'|translate }}</a>
-        <a id="overlaySegmentedVisitorLog">{{ 'Live_RowActionTooltipTitle'|translate }}</a>
+        <a id="overlayRowEvolution"><span class="icon icon-evolution"></span>{{ 'General_RowEvolutionRowActionTooltipTitle'|translate }}</a>
+        <a id="overlayTransitions"><span class="icon icon-transition"></span>{{ 'General_TransitionsRowActionTooltipTitle'|translate }}</a>
+        <a id="overlaySegmentedVisitorLog"><span class="icon icon-visitor-profile"></span>{{ 'Live_RowActionTooltipTitle'|translate }}</a>
 
         {{ postEvent('Template.afterOverlaySidebar') }}
     </div>

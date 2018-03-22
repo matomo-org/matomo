@@ -58,7 +58,7 @@
         "SuperUserAccessManagementGrantMore": "Voit antaa toisille Matomoin käyttäjille Superkäyttäjäoikeudet täältä. Käytä tätä toimintoa harkiten.",
         "SuperUserAccessManagementMainDescription": "Superkäyttäjillä on korkeimmat oikeudet. He voivat suorittaa kaikkia ylläpidollisia toimenpiteitä, kuten lisätä uusia verkkosivuja seurantaan, lisätä käyttäjiä, muuttaa käyttäjien oikeuksia, aktivoida ja poistaa liitännäisiä käytöstä ja asentaa uusia liitännäisiä kauppatorilta.",
         "TheLoginScreen": "Kirjautumisikkuna",
-        "ThereAreCurrentlyNRegisteredUsers": "Piwikissä on nyt %s rekisteröitynyttä käyttäjää.",
+        "ThereAreCurrentlyNRegisteredUsers": "Matomo on nyt %s rekisteröitynyttä käyttäjää.",
         "TokenAuth": "API:n autentikointiavain",
         "TokenRegenerateTitle": "Luo uudelleen",
         "TypeYourPasswordAgain": "Kirjoita uusi salasana uudelleen.",
@@ -67,7 +67,7 @@
         "UsersManagementMainDescription": "Lisää uusia käyttäjiä tai päivitä olemassaolevia. Voit asettaa oikeudet alla.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kun käyttäjä ei ole kirjautunut sisään ja käy Matomoissä, heillä on pääsy",
         "YourUsernameCannotBeChanged": "Käyttäjätunnusta ei voi vaihtaa.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sPiwik ei seuraa käyntejäsi sivulla %2$s %3$s (Matomoin cookie löytyi selaimestasi).",
-        "YourVisitsAreNotIgnored": "%1$sPiwik seuraa käyntejäsi%2$s (Matomoin evästettä ei löytynyt selaimestasi)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sMatomo ei seuraa käyntejäsi sivulla %2$s %3$s (Matomoin cookie löytyi selaimestasi).",
+        "YourVisitsAreNotIgnored": "%1$sMatomo seuraa käyntejäsi%2$s (Matomoin evästettä ei löytynyt selaimestasi)."
     }
 }

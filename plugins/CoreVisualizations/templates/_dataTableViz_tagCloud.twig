@@ -1,4 +1,3 @@
-{% set cloudColumn = properties.columns_to_display[1] %}
 <div class="tagCloud">
 {% for word,value in cloudValues %}
     <span title="{{ value.word|rawSafeDecoded }} ({{ value.value }} {{ properties.translations[cloudColumn]|default(cloudColumn) }})" class="word size{{ value.size }}

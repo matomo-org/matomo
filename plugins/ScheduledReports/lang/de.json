@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "Sie müssen angemeldet sein, um Berichte anlegen und versenden zu können.",
         "NoRecipients": "Dieser Bericht hat keine Empfänger",
         "Pagination": "Seite %1$s von %2$s",
-        "PiwikReports": "Piwik-Berichte",
+        "PiwikReports": "Matomo-Berichte",
         "PleaseFindAttachedFile": "Sie finden Ihren %1$s Bericht für %2$s in der angehängten Datei.",
         "SentFromX": "Gesendet von %s",
         "PleaseFindBelow": "Unterhalb befindet sich der Bericht (Intervall: %1$s) für %2$s.",

@@ -117,7 +117,7 @@ class ReportsProvider
     public function getAllReports()
     {
         $reports = $this->getAllReportClasses();
-        $cacheId = CacheId::languageAware('Reports' . md5(implode('', $reports)));
+        $cacheId = CacheId::siteAware(CacheId::languageAware('Reports' . md5(implode('', $reports))));
         $cache   = PiwikCache::getTransientCache();
 
         if (!$cache->contains($cacheId)) {

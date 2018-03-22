@@ -857,6 +857,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * Returns the array of Rows.
+     * Internal logic in Matomo core should avoid using this method as it is time and memory consuming when being
+     * executed thousands of times. The alternative is to use {@link getRowsWithoutSummaryRow()} + get the summary
+     * row manually.
      *
      * @return Row[]
      */
@@ -1048,7 +1051,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     public function __sleep()
     {
-        return array('rows', 'summaryRow');
+        return array('rows', 'summaryRow', 'metadata');
     }
 
     /**

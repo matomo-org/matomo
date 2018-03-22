@@ -992,7 +992,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
-    enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout,
+    enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, trackSiteSearch, trackEvent,
@@ -5131,6 +5131,13 @@ if (typeof window.Piwik !== 'object') {
                 callback();
             }
 
+            function getCrossDomainVisitorId()
+            {
+                var visitorId = getValuesFromVisitorIdCookie().uuid;
+                var deviceId = makeCrossDomainDeviceId();
+                return visitorId + deviceId;
+            }
+
             function replaceHrefForCrossDomainLink(element)
             {
                 if (!element) {
@@ -5157,10 +5164,9 @@ if (typeof window.Piwik !== 'object') {
                     link += '?';
                 }
 
-                var visitorId = getValuesFromVisitorIdCookie().uuid;
-                var deviceId = makeCrossDomainDeviceId();
+                var crossDomainVisitorId = getCrossDomainVisitorId();
 
-                link = addUrlParameter(link, configVisitorIdUrlParameter, visitorId + deviceId);
+                link = addUrlParameter(link, configVisitorIdUrlParameter, crossDomainVisitorId);
 
                 query.setAnyAttribute(element, 'href', link);
             }
@@ -6200,6 +6206,23 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Returns the query parameter appended to link URLs so cross domain visits
+             * can be detected.
+             *
+             * If your application creates links dynamically, then you'll have to add this
+             * query parameter manually to those links (since the JavaScript tracker cannot
+             * detect when those links are added).
+             *
+             * Eg:
+             *
+             * var url = 'http://myotherdomain.com/?' + piwikTracker.getCrossDomainLinkingUrlParameter();
+             * $element.append('<a href="' + url + '"/>');
+             */
+            this.getCrossDomainLinkingUrlParameter = function () {
+                return encodeWrapper(configVisitorIdUrlParameter) + '=' + encodeWrapper(getCrossDomainVisitorId());
+            };
+
+            /**
              * Set array of classes to be ignored if present in link
              *
              * @param string|array ignoreClasses
@@ -7141,7 +7164,8 @@ if (typeof window.Piwik !== 'object') {
                             apply(paq[iterator]);
                             delete paq[iterator];
 
-                            if (appliedMethods[methodName] > 1) {
+                            if (appliedMethods[methodName] > 1
+                                && methodName !== "addTracker") {
                                 logConsoleError('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: https://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
                             }
 

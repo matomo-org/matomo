@@ -13,7 +13,7 @@
         "PasswordDoNotMatch": "gesli se ne ujemata",
         "PercentDone": "%s %% Končano",
         "PleaseFixTheFollowingErrors": "Prosimo, odpravite sledeče napake",
-        "Requirements": "Piwik-ovi minimalni pogoji",
+        "Requirements": "Matomo-ovi minimalni pogoji",
         "SetupWebsite": "Nastavite spletno stran",
         "SetupWebsiteError": "Med dodajanjem spletne strani je prišlo do napake.",
         "SetupWebsiteSetupSuccess": "Spletna stran %s je bila uspešno ustvarjena!",

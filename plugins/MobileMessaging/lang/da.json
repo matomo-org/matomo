@@ -34,6 +34,6 @@
         "SMS_Content_Too_Long": "[for lang]",
         "TopLinkTooltip": "Få web analyse rapporter leveret til din indbakke eller din mobiltelefon!",
         "TopMenu": "Email & SMS rapporter",
-        "VerificationText": "Koden er %1$s. For at validere dit telefonnummer og modtage Piwik SMS rapporter, kopierer koden til formularen tilgængelig på Matomo > %2$s > %3$s."
+        "VerificationText": "Koden er %1$s. For at validere dit telefonnummer og modtage Matomo SMS rapporter, kopierer koden til formularen tilgængelig på Matomo > %2$s > %3$s."
     }
 }

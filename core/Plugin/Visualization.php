@@ -11,6 +11,7 @@ namespace Piwik\Plugin;
 
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Proxy;
+use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -262,6 +263,8 @@ class Visualization extends ViewDataTable
 
         $module = $this->requestConfig->getApiModuleToRequest();
         $method = $this->requestConfig->getApiMethodToRequest();
+
+        list($module, $method) = Request::getRenamedModuleAndAction($module, $method);
 
         PluginManager::getInstance()->checkIsPluginActivated($module);
 

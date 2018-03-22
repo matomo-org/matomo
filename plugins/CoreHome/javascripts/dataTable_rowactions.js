@@ -59,8 +59,7 @@ DataTable_RowActions_Registry.register({
 
     name: 'RowEvolution',
 
-    dataTableIcon: 'plugins/Morpheus/images/row_evolution.png',
-    dataTableIconHover: 'plugins/Morpheus/images/row_evolution_hover.png',
+    dataTableIcon: 'icon-evolution',
 
     order: 50,
 

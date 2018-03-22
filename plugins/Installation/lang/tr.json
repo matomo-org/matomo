@@ -38,7 +38,7 @@
         "NfsFilesystemWarningSuffixInstall": "NFS üzerinde dosya temelli oturumların kullanılması çok yavaş olur. Bu nedenle Matomo veritabanı temelli oturumlar kullanacak. Çok sayıda pano kullanıcınız varsa veritabanı sunucunuzun en fazla eş zamanlı istemci bağlantısı sayısını arttırmanız gerekebilir.",
         "NoConfigFileFound": "Bir Matomo sayfasına erişmeye çalışıyorsunuz ancak Matomo yapılandırma dosyası bulunamadı.",
         "YouMayInstallPiwikNow": "Şimdi %1$sMatomo kurulumuna başlayabilirsiniz%2$s",
-        "IfPiwikInstalledBeforeTablesCanBeKept": "Daha önce Matomo uygulamasını yüklediyseniz ve veritabanınızda bazı Piwik dosyaları bulunuyorsa endişelenmeyin. Aynı tabloları kullanarak var olan verilerinizi kullanabilirsiniz!",
+        "IfPiwikInstalledBeforeTablesCanBeKept": "Daha önce Matomo uygulamasını yüklediyseniz ve veritabanınızda bazı Matomo dosyaları bulunuyorsa endişelenmeyin. Aynı tabloları kullanarak var olan verilerinizi kullanabilirsiniz!",
         "Optional": "İsteğe Bağlı",
         "Password": "Parola",
         "PasswordDoNotMatch": "Parola ve onayı aynı değil.",

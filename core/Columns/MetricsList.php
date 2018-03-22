@@ -9,6 +9,7 @@
 namespace Piwik\Columns;
 
 use Piwik\Cache;
+use Piwik\CacheId;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Metric;
@@ -92,17 +93,7 @@ class MetricsList
     public static function get()
     {
         $cache = Cache::getTransientCache();
-        $cacheKey = 'MetricsList';
-
-        foreach (array('idsite', 'idSite') as $param) {
-            if (!empty($_GET[$param]) && is_numeric($_GET[$param])) {
-                $cacheKey .= $cacheKey . '_' . $_GET[$param];
-            }
-
-            if (!empty($_POST[$param]) && is_numeric($_POST[$param])) {
-                $cacheKey .= $cacheKey . '_' . $_POST[$param];
-            }
-        }
+        $cacheKey = CacheId::siteAware('MetricsList');
 
         if ($cache->contains($cacheKey)) {
             return $cache->fetch($cacheKey);
