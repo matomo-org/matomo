@@ -212,38 +212,41 @@
         },
         {
             "name": "matomo/referrer-spam-blacklist",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/referrer-spam-blacklist.git",
-                "reference": "fdad7e12ad33a98e085c44255f3b208dca3e66ea"
+                "reference": "aeadc82fa18636f6e578d36cdfb709f2a85f440d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/referrer-spam-blacklist/zipball/fdad7e12ad33a98e085c44255f3b208dca3e66ea",
-                "reference": "fdad7e12ad33a98e085c44255f3b208dca3e66ea",
+                "url": "https://api.github.com/repos/matomo-org/referrer-spam-blacklist/zipball/aeadc82fa18636f6e578d36cdfb709f2a85f440d",
+                "reference": "aeadc82fa18636f6e578d36cdfb709f2a85f440d",
                 "shasum": ""
+            },
+            "replace": {
+                "piwik/referrer-spam-blacklist": "*"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "Public Domain"
+                "CC0-1.0"
             ],
             "description": "Community-contributed list of referrer spammers",
-            "time": "2018-01-29T17:33:37+00:00"
+            "time": "2018-01-29T18:12:41+00:00"
         },
         {
             "name": "matomo/searchengine-and-social-list",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "7f0bd9f27196885544813d5c847142c9f411f9ab"
+                "reference": "70d35969cbd5812f015db251988080c579327814"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/7f0bd9f27196885544813d5c847142c9f411f9ab",
-                "reference": "7f0bd9f27196885544813d5c847142c9f411f9ab",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/70d35969cbd5812f015db251988080c579327814",
+                "reference": "70d35969cbd5812f015db251988080c579327814",
                 "shasum": ""
             },
             "replace": {
@@ -255,7 +258,7 @@
                 "CC0-1.0"
             ],
             "description": "Search engine and social network definitions used by Matomo (formerly Piwik)",
-            "time": "2018-01-29T18:13:08+00:00"
+            "time": "2018-02-20T14:04:26+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -823,16 +826,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.9.1",
+            "version": "3.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "caf2d15349caffd94a8cfe46edf4061fbc99f70b"
+                "reference": "76a9e32ac6842239ac66a3877079cbfb84f29789"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/caf2d15349caffd94a8cfe46edf4061fbc99f70b",
-                "reference": "caf2d15349caffd94a8cfe46edf4061fbc99f70b",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/76a9e32ac6842239ac66a3877079cbfb84f29789",
+                "reference": "76a9e32ac6842239ac66a3877079cbfb84f29789",
                 "shasum": ""
             },
             "require": {
@@ -857,23 +860,23 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-3.0+"
+                "LGPL-3.0-or-later"
             ],
             "authors": [
                 {
-                    "name": "The Piwik Team",
-                    "email": "hello@piwik.org",
-                    "homepage": "http://piwik.org/the-piwik-team/"
+                    "name": "The Matomo Team",
+                    "email": "hello@matomo.org",
+                    "homepage": "https://matomo.org/team/"
                 }
             ],
             "description": "The Universal Device Detection library, that parses User Agents and detects devices (desktop, tablet, mobile, tv, cars, console, etc.), clients (browsers, media players, mobile apps, feed readers, libraries, etc), operating systems, devices, brands and models.",
-            "homepage": "http://piwik.org",
+            "homepage": "https://matomo.org",
             "keywords": [
                 "devicedetection",
                 "parser",
                 "useragent"
             ],
-            "time": "2017-12-04T09:56:31+00:00"
+            "time": "2018-03-23T15:19:45+00:00"
         },
         {
             "name": "piwik/ini",
@@ -967,12 +970,12 @@
             ],
             "authors": [
                 {
-                    "name": "The Piwik Team",
+                    "name": "The Matomo Team",
                     "email": "hello@piwik.org",
                     "homepage": "http://piwik.org/the-piwik-team/"
                 }
             ],
-            "description": "PHP Client for Piwik Analytics Tracking API",
+            "description": "PHP Client for Matomo Analytics Tracking API",
             "homepage": "http://piwik.org",
             "keywords": [
                 "analytics",
@@ -1639,7 +1642,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2015-02-26T14:37:51+00:00"
+            "time": "2015-02-26 14:37:51"
         },
         {
             "name": "guzzle/guzzle",
