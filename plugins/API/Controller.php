@@ -78,12 +78,6 @@ class Controller extends \Piwik\Plugin\Controller
         $customVariables = 0;
         $lastCategory = array();
         foreach ($segments as $segment) {
-            // Eg. Event Value is a metric, not in the Visit metric category,
-            // we make sure it is displayed along with the Events dimensions
-            if ($segment['type'] == 'metric' && $segment['category'] != Piwik::translate('General_Visit')) {
-                $segment['type'] = 'dimension';
-            }
-
             $onlyDisplay = array('customVariableName1', 'customVariableName2',
                                  'customVariableValue1', 'customVariableValue2',
                                  'customVariablePageName1', 'customVariablePageValue1');
