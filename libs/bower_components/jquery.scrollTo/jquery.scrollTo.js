@@ -39,8 +39,9 @@
 						return elem;
 
 				var doc = (elem.contentWindow || elem).document || elem.ownerDocument || elem;
+				var isWebkit = /webkit/i.test(navigator.userAgent) && !/chrom/i.test(navigator.userAgent);
 
-				return /webkit/i.test(navigator.userAgent) || doc.compatMode == 'BackCompat' ?
+				return isWebkit || doc.compatMode == 'BackCompat' ?
 					doc.body :
 					doc.documentElement;
 			});
