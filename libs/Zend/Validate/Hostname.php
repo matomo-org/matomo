@@ -2355,7 +2355,9 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
                         // Check each domain part
                         $checked = false;
                         foreach($regexChars as $regexKey => $regexChar) {
-                            $status = preg_match($regexChar, $domainPart);
+                            // workaround for: preg_match(): Compilation failed: regular expression is too large
+                            $pattern = strlen($regexChar) < 256 ? $regexChar : self::VALID_UNICODE_DOMAIN;
+                            $status = preg_match($pattern, $domainPart);
                             if ($status > 0) {
                                 $length = 63;
                                 if (array_key_exists($this->_tld, $this->_idnLength)
