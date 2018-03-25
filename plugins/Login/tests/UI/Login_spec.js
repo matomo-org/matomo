@@ -106,7 +106,7 @@ describe("Login", function () {
     });
 
     it("should login successfully when formless login used", function (done) {
-        expect.page("").contains('#dashboard', 'formless_login', function (page) {
+        expect.page("").contains('#dashboard', /*'formless_login',*/ function (page) {
             page.click("nav .right .icon-sign-out");
             page.load(formlessLoginUrl);
         }, done);
