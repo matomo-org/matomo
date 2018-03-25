@@ -84,6 +84,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     // shortcuts help
     it("should show shortcut help", function (done) {
         expect.screenshot("shortcuts").to.be.captureSelector('.modal.open', function (page) {
+            page.userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
             page.load("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
             page.sendKeys('body', '?', 100);
         }, done);
