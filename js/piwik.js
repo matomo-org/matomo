@@ -7135,7 +7135,7 @@ if (typeof window.Piwik !== 'object') {
                     requestType = typeof consentRequestsQueue[i];
                     if (requestType === 'string') {
                         sendRequest(consentRequestsQueue[i], configTrackerPause);
-                    } else {
+                    } else if (requestType === 'object') {
                         sendBulkRequest(consentRequestsQueue[i], configTrackerPause);
                     }
                 }
