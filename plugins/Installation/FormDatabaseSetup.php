@@ -82,7 +82,7 @@ class FormDatabaseSetup extends QuickForm2
 
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
-                                                                       'host'          => '127.0.0.1',
+                                                                       'host'          => 'localhost',
                                                                        'type'          => $defaultDatabaseType,
                                                                        'tables_prefix' => 'matomo_',
                                                                   )));
