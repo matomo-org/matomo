@@ -1,16 +1,16 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * Installation screenshot tests.
+ * CoreUpdater screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("CoreUpdaterCode", function () {
     this.timeout(0);
 
-    this.fixture = "Piwik\\Plugins\\CoreUpdater\\Test\\Fixtures\\FailUpdateHttpsFixture";
+    this.fixture = "Piwik\\Plugins\\CoreUpdater\\tests\\Fixtures\\FailUpdateHttpsFixture";
 
     var url = "?module=CoreUpdater&action=newVersionAvailable";
 

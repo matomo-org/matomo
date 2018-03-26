@@ -5,7 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Plugins\CoreUpdater\Test\Integration\Commands;
+namespace Piwik\Plugins\CoreUpdater\tests\Integration\Commands;
 
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;

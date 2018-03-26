@@ -1,16 +1,16 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * Installation screenshot tests.
+ * CoreUpdater screenshot tests.
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 describe("CoreUpdaterDb", function () {
     this.timeout(0);
 
-    this.fixture = "Piwik\\Plugins\\CoreUpdater\\Test\\Fixtures\\DbUpdaterTestFixture";
+    this.fixture = "Piwik\\Plugins\\CoreUpdater\\tests\\Fixtures\\DbUpdaterTestFixture";
 
     before(function () {
         testEnvironment.tablesPrefix = 'piwik_';
