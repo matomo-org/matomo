@@ -6,21 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\LanguagesManager\Test\Unit\TranslationWriter\Filter;
+namespace Piwik\Plugins\LanguagesManager\tests\Unit\TranslationWriter\Filter;
 
-use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\ByParameterCount;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\EncodedEntities;
 
 /**
  * @group LanguagesManager
  */
-class ByParameterCountTest extends \PHPUnit_Framework_TestCase
+class EncodedEntitiesTest extends \PHPUnit_Framework_TestCase
 {
     public function getFilterTestData()
     {
         return array(
             // empty stays empty - nothing to filter
             array(
-                array(),
                 array(),
                 array(),
                 array()
@@ -30,11 +29,12 @@ class ByParameterCountTest extends \PHPUnit_Framework_TestCase
                 array(
                     'test' => array()
                 ),
-                array(),
-                array(),
+                array(
+                    'test' => array()
+                ),
                 array(),
             ),
-            // value with %s will be removed, as it isn't there in base
+            // no entites - nothing to filter
             array(
                 array(
                     'test' => array(
@@ -44,64 +44,57 @@ class ByParameterCountTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     'test' => array(
-                        'key' => 'value',
+                        'key' => 'val%sue',
+                        'test' => 'test'
                     )
                 ),
                 array(),
-                array(
-                    'test' => array(
-                        'key' => 'val%sue',
-                    )
-                ),
             ),
-            // no change if placeholder count is the same
+            // entities needs to be decodded
             array(
                 array(
                     'test' => array(
-                        'test' => 'te%sst'
+                        'test' => 'te&amp;st'
                     )
                 ),
                 array(
                     'test' => array(
-                        'test' => 'test%s'
+                        'test' => 'te&st'
                     )
                 ),
                 array(
                     'test' => array(
-                        'test' => 'te%sst'
+                        'test' => 'te&amp;st'
                     )
                 ),
-                array()
             ),
-            // missing placeholder will be removed
             array(
                 array(
                     'empty' => array(
-                        'test' => 't%1$sest'
+                        'test' => 't&uuml;sest'
                     ),
                     'test' => array(
                         'test' => '%1$stest',
-                        'empty' => '     ',
+                        'empty' => '&tilde;',
                     )
                 ),
                 array(
                     'empty' => array(
-                        'test' => 'test%1$s'
+                        'test' => 'tüsest'
                     ),
                     'test' => array(
-                        'test' => '%1$stest%2$s',
+                        'test' => '%1$stest',
+                        'empty' => '˜',
                     )
                 ),
                 array(
                     'empty' => array(
-                        'test' => 't%1$sest'
+                        'test' => 't&uuml;sest'
                     ),
-                ),
-                array(
                     'test' => array(
-                        'test' => '%1$stest',
+                        'empty' => '&tilde;',
                     )
-                )
+                ),
             ),
         );
     }
@@ -110,12 +103,11 @@ class ByParameterCountTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getFilterTestData
      * @group Core
      */
-    public function testFilter($translations, $baseTranslations, $expected, $filteredData)
+    public function testFilter($translations, $expected, $filteredData)
     {
-        $filter = new ByParameterCount($baseTranslations);
+        $filter = new EncodedEntities();
         $result = $filter->filter($translations);
-        $message = sprintf("got %s but expected %s", var_export($result, true), var_export($expected, true));
-        $this->assertEquals($expected, $result, $message);
+        $this->assertEquals($expected, $result);
         $this->assertEquals($filteredData, $filter->getFilteredData());
     }
 }

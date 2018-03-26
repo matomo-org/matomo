@@ -6,11 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Diagnostics\Test\Integration\Commands;
+namespace Piwik\Plugins\Diagnostics\tests\Integration\Commands;
 
 use Piwik\Application\Kernel\GlobalSettingsProvider;
 use Piwik\Ini\IniReader;
-use Piwik\Piwik;
 use Piwik\Plugins\Diagnostics\ConfigReader;
 use Piwik\Plugins\ExampleSettingsPlugin\SystemSettings;
 use Piwik\Settings\FieldConfig;

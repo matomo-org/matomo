@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\LanguagesManager\Test\Integration;
+namespace Piwik\Plugins\LanguagesManager\tests\Integration;
 
 use Piwik\Cache;
 use Piwik\Container\StaticContainer;

@@ -6,20 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\LanguagesManager\Test\Unit\TranslationWriter\Filter;
+namespace Piwik\Plugins\LanguagesManager\tests\Unit\TranslationWriter\Filter;
 
-use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\EncodedEntities;
+use Piwik\Plugins\LanguagesManager\TranslationWriter\Filter\ByParameterCount;
 
 /**
  * @group LanguagesManager
  */
-class EncodedEntitiesTest extends \PHPUnit_Framework_TestCase
+class ByParameterCountTest extends \PHPUnit_Framework_TestCase
 {
     public function getFilterTestData()
     {
         return array(
             // empty stays empty - nothing to filter
             array(
+                array(),
                 array(),
                 array(),
                 array()
@@ -29,12 +30,11 @@ class EncodedEntitiesTest extends \PHPUnit_Framework_TestCase
                 array(
                     'test' => array()
                 ),
-                array(
-                    'test' => array()
-                ),
+                array(),
+                array(),
                 array(),
             ),
-            // no entites - nothing to filter
+            // value with %s will be removed, as it isn't there in base
             array(
                 array(
                     'test' => array(
@@ -44,57 +44,64 @@ class EncodedEntitiesTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     'test' => array(
-                        'key' => 'val%sue',
-                        'test' => 'test'
+                        'key' => 'value',
                     )
                 ),
                 array(),
-            ),
-            // entities needs to be decodded
-            array(
                 array(
                     'test' => array(
-                        'test' => 'te&amp;st'
-                    )
-                ),
-                array(
-                    'test' => array(
-                        'test' => 'te&st'
-                    )
-                ),
-                array(
-                    'test' => array(
-                        'test' => 'te&amp;st'
+                        'key' => 'val%sue',
                     )
                 ),
             ),
+            // no change if placeholder count is the same
+            array(
+                array(
+                    'test' => array(
+                        'test' => 'te%sst'
+                    )
+                ),
+                array(
+                    'test' => array(
+                        'test' => 'test%s'
+                    )
+                ),
+                array(
+                    'test' => array(
+                        'test' => 'te%sst'
+                    )
+                ),
+                array()
+            ),
+            // missing placeholder will be removed
             array(
                 array(
                     'empty' => array(
-                        'test' => 't&uuml;sest'
+                        'test' => 't%1$sest'
                     ),
                     'test' => array(
                         'test' => '%1$stest',
-                        'empty' => '&tilde;',
+                        'empty' => '     ',
                     )
                 ),
                 array(
                     'empty' => array(
-                        'test' => 'tüsest'
+                        'test' => 'test%1$s'
                     ),
                     'test' => array(
-                        'test' => '%1$stest',
-                        'empty' => '˜',
+                        'test' => '%1$stest%2$s',
                     )
                 ),
                 array(
                     'empty' => array(
-                        'test' => 't&uuml;sest'
+                        'test' => 't%1$sest'
                     ),
-                    'test' => array(
-                        'empty' => '&tilde;',
-                    )
                 ),
+                array(
+                    'test' => array(
+                        'test' => '%1$stest',
+                    )
+                )
             ),
         );
     }
@@ -103,11 +110,12 @@ class EncodedEntitiesTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getFilterTestData
      * @group Core
      */
-    public function testFilter($translations, $expected, $filteredData)
+    public function testFilter($translations, $baseTranslations, $expected, $filteredData)
     {
-        $filter = new EncodedEntities();
+        $filter = new ByParameterCount($baseTranslations);
         $result = $filter->filter($translations);
-        $this->assertEquals($expected, $result);
+        $message = sprintf("got %s but expected %s", var_export($result, true), var_export($expected, true));
+        $this->assertEquals($expected, $result, $message);
         $this->assertEquals($filteredData, $filter->getFilteredData());
     }
 }

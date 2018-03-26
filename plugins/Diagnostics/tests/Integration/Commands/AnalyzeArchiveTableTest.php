@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Diagnostics\Test\Integration\Commands;
+namespace Piwik\Plugins\Diagnostics\tests\Integration\Commands;
 
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 use Piwik\Tests\Framework\TestCase\ConsoleCommandTestCase;

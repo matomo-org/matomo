@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\LanguagesManager\Test\Unit\TranslationWriter\Validate;
+namespace Piwik\Plugins\LanguagesManager\tests\Unit\TranslationWriter\Validate;
 
 use Piwik\Plugins\LanguagesManager\TranslationWriter\Validate\CoreTranslations;
 
