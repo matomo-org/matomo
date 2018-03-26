@@ -668,11 +668,11 @@ class ProcessedReport
                 $rowMetadata = $row->getMetadata();
                 $idSubDataTable = $row->getIdSubDataTable();
 
-                // Create a row metadata only if there are metadata to insert
-                if (count($rowMetadata) > 0 || !is_null($idSubDataTable)) {
-                    $metadataRow = new Row();
-                    $rowsMetadata->addRow($metadataRow);
+                // always add a metadata row - even if empty, so the number of rows and metadata are equal and can be matched directly
+                $metadataRow = new Row();
+                $rowsMetadata->addRow($metadataRow);
 
+                if (count($rowMetadata) > 0 || !is_null($idSubDataTable)) {
                     foreach ($rowMetadata as $metadataKey => $metadataValue) {
                         $metadataRow->addColumn($metadataKey, $metadataValue);
                     }
