@@ -53,9 +53,9 @@ class AnonymizeRawData extends ConsoleCommand
         $anonymizeIp = $input->getOption('anonymize-ip');
         $anonymizeLocation = $input->getOption('anonymize-location');
 
-        $scheduledLogDataAnonymizer = StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\ScheduledLogDataAnonymization');
+        $logDataAnonymizations = StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations');
 
-        list($startDate, $endDate) = $scheduledLogDataAnonymizer->getStartAndEndDate($date);
+        list($startDate, $endDate) = $logDataAnonymizations->getStartAndEndDate($date);
         $output->writeln(sprintf('Start date is "%s", end date is "%s"', $startDate, $endDate));
 
         if (($anonymizeIp || $anonymizeLocation) && !$this->confirmAnonymize($input, $output, 'anonymize visit IP and/or location', $startDate, $endDate)) {
@@ -72,11 +72,11 @@ class AnonymizeRawData extends ConsoleCommand
             $output->writeln('<info>SKIPPING unset log_link_visit_action columns.</info>');
         }
 
-        $scheduledLogDataAnonymizer->setCallbackOnOutput(function ($message) use ($output) {
+        $logDataAnonymizations->setCallbackOnOutput(function ($message) use ($output) {
             $output->writeln($message);
         });
-        $index = $scheduledLogDataAnonymizer->scheduleEntry('Command line', $idSites, $date, $anonymizeIp, $anonymizeLocation, $visitColumnsToUnset, $linkVisitActionColumns, $isStarted = true);
-        $scheduledLogDataAnonymizer->executeScheduledEntry($index);
+        $index = $logDataAnonymizations->scheduleEntry('Command line', $idSites, $date, $anonymizeIp, $anonymizeLocation, $visitColumnsToUnset, $linkVisitActionColumns, $isStarted = true);
+        $logDataAnonymizations->executeScheduledEntry($index);
 
         $output->writeln('Done');
     }

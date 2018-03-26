@@ -11,8 +11,9 @@ namespace Piwik\Plugins\PrivacyManager\Model;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Period\Factory as PeriodFactory;
+use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 
-class ScheduledLogDataAnonymization
+class LogDataAnonymizations
 {
     const LOG_DATA_ANONYMIZATION = "PrivacyManager.logDataAnonymization";
 

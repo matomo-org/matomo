@@ -8,19 +8,19 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
-use Piwik\Plugins\PrivacyManager\Model\ScheduledLogDataAnonymization;
+use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
 
     /**
-     * @var ScheduledLogDataAnonymization
+     * @var LogDataAnonymizations
      */
-    private $scheduledLogDataAnonymization;
+    private $logDataAnonymizations;
 
-    public function __construct(ScheduledLogDataAnonymization $scheduledLogDataAnonymization)
+    public function __construct(LogDataAnonymizations $logDataAnonymizations)
     {
-        $this->scheduledLogDataAnonymization = $scheduledLogDataAnonymization;
+        $this->logDataAnonymizations = $logDataAnonymizations;
     }
 
     public function schedule()
@@ -32,14 +32,14 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function anonymizePastData()
     {
-        $schedules = $this->scheduledLogDataAnonymization->getAllEntries();
+        $schedules = $this->logDataAnonymizations->getAllEntries();
 
         foreach ($schedules as $index => $schedule) {
             if (empty($schedule['isStarted']) && empty($schedule['isFinished'])) {
                 // during one task run we want to start executing max one entry because this may take a lot of time.
                 // this also simplifies logic here to not having to run in a do/while loop and re-fetching getAllSchedules()
                 // after executing this entry etc.
-                $this->scheduledLogDataAnonymization->executeScheduledEntry($index);
+                $this->logDataAnonymizations->executeScheduledEntry($index);
                 return;
             }
         }

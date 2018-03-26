@@ -83,11 +83,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserHasSomeAdminAccess();
         $language = LanguagesManager::getLanguageCodeForCurrentUser();
 
-        $scheduledLogDataAnonymizer = StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\ScheduledLogDataAnonymization');
+        $logDataAnonymizations = StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations');
 
         return $this->renderTemplate('gdprTools', array(
             'language' => $language,
-            'anonymizations' => $scheduledLogDataAnonymizer->getAllEntries()
+            'anonymizations' => $logDataAnonymizations->getAllEntries()
         ));
     }
 

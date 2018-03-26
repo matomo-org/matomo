@@ -8,24 +8,12 @@
 
 namespace Piwik\Plugins\PrivacyManager;
 
-use Piwik\API\Request;
-use Piwik\Columns\Dimension;
-use Piwik\Common;
-use Piwik\Container\StaticContainer;
-use Piwik\DataTable;
-use Piwik\DataTable\Row;
-use Piwik\Db;
-use Piwik\DbHelper;
-use Piwik\Mail;
-use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugins\PrivacyManager\Model\Gdpr;
-use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizer;
-use Piwik\Plugins\PrivacyManager\Model\ScheduledLogDataAnonymization;
-use Piwik\Segment;
+use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
+use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Site;
-use Piwik\Tracker\LogTable;
 
 /**
  * API for plugin PrivacyManager
@@ -40,19 +28,19 @@ class API extends \Piwik\Plugin\API
     private $gdpr;
 
     /**
-     * @var ScheduledLogDataAnonymization
+     * @var LogDataAnonymizations
      */
-    private $scheduledLogDataAnonymization;
+    private $logDataAnonymizations;
 
     /**
      * @var LogDataAnonymizer
      */
     private $logDataAnonymizer;
 
-    public function __construct(Gdpr $gdpr, ScheduledLogDataAnonymization $scheduledLogDataAnonymization, LogDataAnonymizer $logDataAnonymizer)
+    public function __construct(Gdpr $gdpr, LogDataAnonymizations $logDataAnonymizations, LogDataAnonymizer $logDataAnonymizer)
     {
         $this->gdpr = $gdpr;
-        $this->scheduledLogDataAnonymization = $scheduledLogDataAnonymization;
+        $this->logDataAnonymizations = $logDataAnonymizations;
         $this->logDataAnonymizer = $logDataAnonymizer;
     }
 
@@ -92,7 +80,7 @@ class API extends \Piwik\Plugin\API
             $idSites = Site::getIdSitesFromIdSitesString($idSites);
         }
         $requester = Piwik::getCurrentUserLogin();
-        $this->scheduledLogDataAnonymization->scheduleEntry($requester, $idSites, $date, $anonymizeIp, $anonymizeLocation, $unsetVisitColumns, $unsetLinkVisitActionColumns);
+        $this->logDataAnonymizations->scheduleEntry($requester, $idSites, $date, $anonymizeIp, $anonymizeLocation, $unsetVisitColumns, $unsetLinkVisitActionColumns);
     }
 
     public function getAvailableVisitColumnsToAnonymize()
