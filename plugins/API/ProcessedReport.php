@@ -617,6 +617,8 @@ class ProcessedReport
 
         $formatter = new Formatter();
 
+        $hasNonEmptyRowData = false;
+
         foreach ($simpleDataTable->getRows() as $row) {
             $rowMetrics = $row->getColumns();
 
@@ -673,6 +675,8 @@ class ProcessedReport
                 $rowsMetadata->addRow($metadataRow);
 
                 if (count($rowMetadata) > 0 || !is_null($idSubDataTable)) {
+                    $hasNonEmptyRowData = true;
+
                     foreach ($rowMetadata as $metadataKey => $metadataValue) {
                         $metadataRow->addColumn($metadataKey, $metadataValue);
                     }
@@ -682,6 +686,11 @@ class ProcessedReport
                     }
                 }
             }
+        }
+
+        // reset $rowsMetadata to empty DataTable if no row had metadata
+        if ($hasNonEmptyRowData === false) {
+            $rowsMetadata = new DataTable();
         }
 
         return array(
