@@ -41,7 +41,7 @@
         "GiveViewAccessTitle": "Povolí existujícímu uživateli zobrazování hlášení pro %s",
         "GiveViewAccessInstructions": "Pro přiřazení práv k zobrazení %s existujícímu uživateli, zadejte jeho uživatelské jméno nebo emailovou adresu",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Pokud chcete změnit heslo, zapiště jej. Jinak jej nevyplňujte.",
-        "InjectedHostCannotChangePwd": "Aktuálně navštěvujete Piwik s neznámým hostitelem %1$s. Dokud tento problém nevyřešíte, nemůžete změnit heslo.",
+        "InjectedHostCannotChangePwd": "Aktuálně navštěvujete Matomo s neznámým hostitelem %1$s. Dokud tento problém nevyřešíte, nemůžete změnit heslo.",
         "LastSeen": "Naposledy spatřen",
         "MainDescription": "Rozhodněte, kteří uživatelé mají přístup k vašim webům. Můžete také povolit přístup ke všem webům najednou volbou \"Použít na všechny weby\" z výběru webů.",
         "ManageAccess": "Správa přístupu",

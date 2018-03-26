@@ -33,7 +33,7 @@ The js/ folder contains:
 
 * piwik.js is minified using YUICompressor 2.4.7.
   To install YUICompressor run:
-
+ 
   ```bash
   $ cd /path/to/piwik/js/
   $ wget https://github.com/downloads/yui/yuicompressor/yuicompressor-2.4.7.zip

@@ -332,10 +332,13 @@ class FrontController extends Singleton
 
         $this->throwIfPiwikVersionIsOlderThanDBSchema();
 
-        if (empty($_GET['module'])
-            || empty($_GET['action'])
-            || $_GET['module'] !== 'Installation'
-            || !in_array($_GET['action'], array('getInstallationCss', 'getInstallationJs'))) {
+        $module = Piwik::getModule();
+        $action = Piwik::getAction();
+
+        if (empty($module)
+            || empty($action)
+            || $module !== 'Installation'
+            || !in_array($action, array('getInstallationCss', 'getInstallationJs'))) {
             \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
         }
 

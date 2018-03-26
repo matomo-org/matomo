@@ -11,7 +11,7 @@
         "CannotInstall": "Tidak dapat menginstal",
         "CannotUpdate": "Tidak dapat memperbarui",
         "ClickToCompletePurchase": "Klik untuk menyelesaikan pembelian.",
-        "CurrentNumPiwikUsers": "Piwik Anda saat ini memiliki %1$s pengguna terdaftar.",
+        "CurrentNumPiwikUsers": "Matomo Anda saat ini memiliki %1$s pengguna terdaftar.",
         "Developer": "Pengembang",
         "Marketplace": "Pasar",
         "InstallingPlugin": "Menginstal %s",

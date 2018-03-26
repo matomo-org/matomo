@@ -49,7 +49,7 @@
         "UsersManagementMainDescription": "Tạo người dùng mới hoặc cập nhật các người dùng hiện tại. Sau đó bạn có thể thiết lập quyền của họ.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Khi người dùng không đăng nhập và thăm Matomo, họ nên truy cập",
         "YourUsernameCannotBeChanged": "Tên đăng nhập của bạn không thể thay đổi.",
-        "YourVisitsAreIgnoredOnDomain": "%1$s lượt truy cập của bạn sẽ được bỏ qua bởi Piwik trên %2$s %3$s (cookie Matomo bỏ qua đã được tìm thấy trong trình duyệt của bạn).",
-        "YourVisitsAreNotIgnored": "%1$s lượt truy cập của bạn không được bỏ qua bởi Piwik %2$s (cookie Matomo bỏ qua đã không tìm thấy trong trình duyệt của bạn)."
+        "YourVisitsAreIgnoredOnDomain": "%1$s lượt truy cập của bạn sẽ được bỏ qua bởi Matomo trên %2$s %3$s (cookie Matomo bỏ qua đã được tìm thấy trong trình duyệt của bạn).",
+        "YourVisitsAreNotIgnored": "%1$s lượt truy cập của bạn không được bỏ qua bởi Matomo %2$s (cookie Matomo bỏ qua đã không tìm thấy trong trình duyệt của bạn)."
     }
 }

@@ -132,6 +132,7 @@
                         || hasUiControl(field, 'textarea')
                         || hasUiControl(field, 'password')
                         || hasUiControl(field, 'email')
+                        || hasUiControl(field, 'number')
                         || hasUiControl(field, 'url')
                         || hasUiControl(field, 'search')) {
                     Materialize.updateTextFields();

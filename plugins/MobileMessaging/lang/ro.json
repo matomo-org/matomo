@@ -34,6 +34,6 @@
         "SMS_Content_Too_Long": "[prea lung]",
         "TopLinkTooltip": "Web Analytics Rapoarte livrate pe email-ul sau telefonul mobil!",
         "TopMenu": "Email & SMS Rapoarte",
-        "VerificationText": "Codul este de %1$s. Pentru a valida numărul dvs. de telefon și pentru a primi rapoarte SMS Piwik vă rugăm să copiați acest cod în formă accesibilă prin intermediul Matomo > %2$s > %3$s."
+        "VerificationText": "Codul este de %1$s. Pentru a valida numărul dvs. de telefon și pentru a primi rapoarte SMS Matomo vă rugăm să copiați acest cod în formă accesibilă prin intermediul Matomo > %2$s > %3$s."
     }
 }

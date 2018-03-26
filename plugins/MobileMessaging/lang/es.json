@@ -42,6 +42,6 @@
         "TopLinkTooltip": "Obtenga informes analíticos de su sitio de internet enviados a su casilla de correo electrónico o su teléfono móvil.",
         "TopMenu": "Informes por correo electrónico & SMS",
         "UserKey": "Clave de usuario",
-        "VerificationText": "El código es %1$s. Para validar su número de teléfono y recibir los informes Piwik vía mensaje de texto (SMS), por favor, copie este código en el formulario accesible vía Matomo > %2$s > %3$s."
+        "VerificationText": "El código es %1$s. Para validar su número de teléfono y recibir los informes Matomo vía mensaje de texto (SMS), por favor, copie este código en el formulario accesible vía Matomo > %2$s > %3$s."
     }
 }

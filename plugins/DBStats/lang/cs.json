@@ -6,7 +6,7 @@
         "EstimatedSize": "Odhadovaná velikost",
         "IndexSize": "Velikost indexu",
         "LearnMore": "Abyste lépe zjistili, jak Matomo zpracovává data a jak jej nastavit pro weby se středním a velkým provozem, podívejte se do dokumentace %s.",
-        "MainDescription": "Piwik ukládá všechna vaše data webové analýzy v MySQL databázi. Nyní tabulky Matomou využívají %s.",
+        "MainDescription": "Matomo ukládá všechna vaše data webové analýzy v MySQL databázi. Nyní tabulky Matomou využívají %s.",
         "MetricDataByYear": "Tabulky měření za rok",
         "MetricTables": "Tabulky měření",
         "OtherTables": "Ostatní tabulky",

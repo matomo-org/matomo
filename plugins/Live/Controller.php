@@ -9,14 +9,11 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\API\Request;
-use Piwik\Cache;
-use Piwik\CacheId;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\Plugins\Live\ProfileSummary\ProfileSummaryAbstract;
 use Piwik\Url;
 use Piwik\View;
 
@@ -39,7 +36,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->idSite = $this->idSite;
         $view = $this->setCounters($view);
         $view->liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
-        $view->visitors = $this->getLastVisitsStart($fetchPlease = true);
+        $view->visitors = $this->getLastVisitsStart();
         $view->liveTokenAuth = Piwik::getCurrentUserTokenAuth();
         return $this->render($view);
     }
@@ -135,7 +132,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $summaryEntries = array();
 
-        $profileSummaries = self::getAllProfileSummaryInstances();
+        $profileSummaries = StaticContainer::get('Piwik\Plugins\Live\ProfileSummaryProvider')->getAllInstances();
         foreach ($profileSummaries as $profileSummary) {
             $profileSummary->setProfile($view->visitorData);
             $summaryEntries[] = [$profileSummary->getOrder(), $profileSummary->render()];
@@ -165,11 +162,11 @@ class Controller extends \Piwik\Plugin\Controller
         $limit = Config::getInstance()->General['live_visitor_profile_max_visits_to_aggregate'];
 
         if ($startCounter >= $limit) {
-            return; // do not return more visits than configured for profile
+            return ''; // do not return more visits than configured for profile
         }
 
         $nextVisits = Request::processRequest('Live.getLastVisitsDetails', array(
-                                                                                'segment'                 => self::getSegmentWithVisitorId(),
+                                                                                'segment'                 => Live::getSegmentWithVisitorId(),
                                                                                 'filter_limit'            => VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,
                                                                                 'filter_offset'           => $filterLimit,
                                                                                 'period'                  => false,
@@ -179,7 +176,7 @@ class Controller extends \Piwik\Plugin\Controller
         $idSite = Common::getRequestVar('idSite', null, 'int');
 
         if (empty($nextVisits)) {
-            return;
+            return '';
         }
 
         $view = new View('@Live/getVisitList.twig');
@@ -210,92 +207,5 @@ class Controller extends \Piwik\Plugin\Controller
                                                                                           'actionToWidgetize' => 'getVisitorProfilePopup'
                                                                                      ));
         }
-    }
-
-    public static function getSegmentWithVisitorId()
-    {
-        static $cached = null;
-        if ($cached === null) {
-            $segment = Request::getRawSegmentFromRequest();
-            if (!empty($segment)) {
-                $segment = urldecode($segment) . ';';
-            }
-
-            $idVisitor = Common::getRequestVar('visitorId', false);
-            if ($idVisitor === false) {
-                $idVisitor = Request::processRequest('Live.getMostRecentVisitorId');
-            }
-
-            $cached = urlencode($segment . 'visitorId==' . $idVisitor);
-        }
-        return $cached;
-    }
-
-
-    /**
-     * Returns all available profile summaries
-     *
-     * @return ProfileSummaryAbstract[]
-     * @throws \Exception
-     */
-    public static function getAllProfileSummaryInstances()
-    {
-        $cacheId = CacheId::pluginAware('ProfileSummaries');
-        $cache   = Cache::getTransientCache();
-
-        if (!$cache->contains($cacheId)) {
-            $instances = [];
-
-            /**
-             * Triggered to add new live profile summaries.
-             *
-             * **Example**
-             *
-             *     public function addProfileSummary(&$profileSummaries)
-             *     {
-             *         $profileSummaries[] = new MyCustomProfileSummary();
-             *     }
-             *
-             * @param ProfileSummaryAbstract[] $profileSummaries An array of profile summaries
-             */
-            Piwik::postEvent('Live.addProfileSummaries', array(&$instances));
-
-            foreach (self::getAllProfileSummaryClasses() as $className) {
-                $instances[] = new $className();
-            }
-
-            /**
-             * Triggered to filter / restrict profile summaries.
-             *
-             * **Example**
-             *
-             *     public function filterProfileSummary(&$profileSummaries)
-             *     {
-             *         foreach ($profileSummaries as $index => $profileSummary) {
-             *              if ($profileSummary->getId() === 'myid') {}
-             *                  unset($profileSummaries[$index]); // remove all summaries having this ID
-             *              }
-             *         }
-             *     }
-             *
-             * @param ProfileSummaryAbstract[] $profileSummaries An array of profile summaries
-             */
-            Piwik::postEvent('Live.filterProfileSummaries', array(&$instances));
-
-            $cache->save($cacheId, $instances);
-        }
-
-        return $cache->fetch($cacheId);
-    }
-
-    /**
-     * Returns class names of all VisitorDetails classes.
-     *
-     * @return string[]
-     * @api
-     */
-    protected static function getAllProfileSummaryClasses()
-    {
-        return Plugin\Manager::getInstance()->findMultipleComponents('ProfileSummary', 'Piwik\Plugins\Live\ProfileSummary\ProfileSummaryAbstract');
     }
 }

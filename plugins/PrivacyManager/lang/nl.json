@@ -30,7 +30,7 @@
         "DeleteDataSettings": "Verwijder oude bezoekerslogboeken en rapporten",
         "DoNotTrack_Description": "Volg-me-niet is een technologie en een privacybeleid dat gebruikers de mogelijkheid van een opt-out biedt, voor websites die ze niet zelf bezoeken, inclusief analytics services, advertising networks en social platforms.",
         "DoNotTrack_Disable": "Volg-me-niet-ondersteuning uitschakelen",
-        "DoNotTrack_DisabledMoreInfo": "We adviseren om de privacy van bezoekers te respecteren en de \"volg-me-niet\" ondersteuning in Piwik te activeren.",
+        "DoNotTrack_DisabledMoreInfo": "We adviseren om de privacy van bezoekers te respecteren en de \"volg-me-niet\" ondersteuning in Matomo te activeren.",
         "DoNotTrack_Enable": "Volg-me-niet-ondersteuning inschakelen",
         "DoNotTrack_Enabled": "Momenteel respecteer u de privacy van uw gebruikers, bravo!",
         "DoNotTrack_SupportDNTPreference": "Ondersteun volg-me-niet-voorkeur",

@@ -1,7 +1,7 @@
 {
     "PrivacyManager": {
         "AnonymizeIpInlineHelp": "Anonimize o último byte do endereço IP dos visitantes para obedecer suas leis\/guias locais de privacidade.",
-        "AnonymizeIpExtendedHelp": "Quando usuários visitarem o seu site, Piwik não vai usar o endereço de IP completo (como %1$s), pelo contrário, Matomo vai anonimizá-los primeiro (para %2$s). Anonimização de endereço de IP é um dos requisitos estabelecidos pelas leis de privacidade em alguns países como a Alemanha.",
+        "AnonymizeIpExtendedHelp": "Quando usuários visitarem o seu site, Matomo não vai usar o endereço de IP completo (como %1$s), pelo contrário, Matomo vai anonimizá-los primeiro (para %2$s). Anonimização de endereço de IP é um dos requisitos estabelecidos pelas leis de privacidade em alguns países como a Alemanha.",
         "AnonymizeIpMaskLengtDescription": "Selecione quantos bytes de IPs dos visitantes deve ser mascarado.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - e.g. %2$s",
         "ClickHereSettings": "Clique aqui para acessar as configurações do %s.",

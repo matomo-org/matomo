@@ -58,7 +58,7 @@ class LocationSummary extends ProfileSummaryAbstract
         $params = array(
             'module'             => 'UserCountryMap',
             'action'             => 'realtimeMap',
-            'segment'            => Live\Controller::getSegmentWithVisitorId(),
+            'segment'            => Live\Live::getSegmentWithVisitorId(),
             'visitorId'          => false,
             'changeVisitAlpha'   => 0,
             'removeOldVisits'    => 0,

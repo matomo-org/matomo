@@ -20,7 +20,7 @@
         "MustBeLoggedIn": "Sinun täytyy olla kirjautuneena sisään ennen kustomoitujen raporttien luomista ja ajastamista.",
         "NoRecipients": "Tällä raportilla ei ole vastaanottajia",
         "Pagination": "Sivu %1$s\/%2$s",
-        "PiwikReports": "Piwikin raportit",
+        "PiwikReports": "Matomo raportit",
         "PleaseFindBelow": "Alla on raporttisi %1$s sivulle %2$s.",
         "ReportFormat": "Raportin muoto",
         "ReportIncludeNWebsites": "Tämä raportti sisältää tärkeimmät metriikat kaikilta sivuilta, joilla oli vähintään yksi käynti (%s sivusta)",
