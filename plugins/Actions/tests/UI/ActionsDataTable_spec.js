@@ -8,8 +8,6 @@
  */
 
 describe("ActionsDataTable", function () {
-    this.retries(3);
-
     this.timeout(0);
 
     var url = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&isFooterExpandedInDashboard=1";
