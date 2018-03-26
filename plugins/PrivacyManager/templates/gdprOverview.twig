@@ -3,22 +3,30 @@
 {% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
 
 {% block content %}
-    <div piwik-content-block content-title="GDPR Overview" class="gdprOverview">
+<div class="gdprOverview">
+    <div piwik-content-intro>
+        <h2>GDPR Overview</h2>
         <p>
             The General Data Protection Regulation (GDPR) is a regulation which strengthen and unify data protection for all individuals
             within the European Union (EU). It allows EU citizens to better control their personal data. GDPR modernises and unifies rules allowing businesses to reduce red tape and to benefit from greater consumer trust.
         </p>
-        <h3>Who is concerned by GDPR?</h3>
+    </div>
+
+    <div piwik-content-block content-title="Who is concerned by GDPR?">
+        <h3></h3>
         <p>Almost all structures dealing with EU citizens data wherever they are located are concerned by GDPR.
             The few exemptions are listed under <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" target="_blank" rel="noreferrer noopener">article 2 of the GDPR</a>.</p>
-        <h3>What is a personal data under GDPR?</h3>
+    </div>
+    <div piwik-content-block content-title="What is a personal data under GDPR?">
         <p>Any information relating to an identified or identifiable natural person. An identifiable natural person
             is one who can be identified, directly or indirectly, in particular by reference to an identifier such as a name,
             an identification number, location data, an online identifier...</p>
-        <h3>Where can I get more information about GDPR?</h3>
+    </div>
+    <div piwik-content-block content-title="Where can I get more information about GDPR?">
         <p>The official GDPR text is available at <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" target="_blank" rel="noreferrer noopener">https://eur-lex.europa.eu/eli/reg/2016/679/oj</a>. As it is interpretation may be difficult,
             we strongly advise you to refer to your local privacy commissioner.</p>
-        <h3>How can I be GDPR compliant with Matomo Analytics?</h3>
+    </div>
+    <div piwik-content-block content-title="How can I be GDPR compliant with Matomo Analytics?">
         <p>By default, Matomo is GDPR compliant as it is not collecting any personal data.
 <br /><br />
             However, by changing the default settings and/or adding specific tracking code, you may collect personal data, for example:
@@ -43,4 +51,5 @@
             <li>Is Matomo part of your data breach notification process?</li>
         </ul>
     </div>
+</div>
 {% endblock %}
