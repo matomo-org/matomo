@@ -8,13 +8,12 @@
 
 namespace Piwik\Plugins\PrivacyManager\Commands;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Piwik\Period\Factory as PeriodFactory;
 
 class AnonymizeRawData extends ConsoleCommand
 {
@@ -54,51 +53,31 @@ class AnonymizeRawData extends ConsoleCommand
         $anonymizeIp = $input->getOption('anonymize-ip');
         $anonymizeLocation = $input->getOption('anonymize-location');
 
-        if (strpos($date, ',') === false) {
-            $period = PeriodFactory::build('day', $date);
-        } else {
-            $period = PeriodFactory::build('range', $date);
-        }
-        $startDate = $period->getDateTimeStart()->getDatetime();
-        $endDate = $period->getDateTimeEnd()->getDatetime();
+        $scheduledLogDataAnonymizer = StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\ScheduledLogDataAnonymization');
+
+        list($startDate, $endDate) = $scheduledLogDataAnonymizer->getStartAndEndDate($date);
         $output->writeln(sprintf('Start date is "%s", end date is "%s"', $startDate, $endDate));
 
-        $logDataAnonymizer = new LogDataAnonymizer();
-
-        if ($anonymizeIp || $anonymizeLocation) {
-            if ($this->confirmAnonymize($input, $output, 'anonymize visit IP and/or location', $startDate, $endDate)) {
-                $output->writeln('Anonymizing visit IP and/or location. This may take a long time.');
-                $numAnonymized = $logDataAnonymizer->anonymizeVisitInformation($idSites, $startDate, $endDate, $anonymizeIp, $anonymizeLocation);
-                $output->writeln(sprintf('<info>Amount of log_visit rows that were anonymized: %s</info>', $numAnonymized));
-            } else {
-                $output->writeln('<info>SKIPPING anonymizing IP and/or location.</info>');
-            }
-        } else {
-            $output->writeln('<info>Neither IP nor Location will be anonymized.</info>');
+        if (($anonymizeIp || $anonymizeLocation) && !$this->confirmAnonymize($input, $output, 'anonymize visit IP and/or location', $startDate, $endDate)) {
+            $anonymizeIp = false;
+            $anonymizeLocation = false;
+            $output->writeln('<info>SKIPPING anonymizing IP and/or location.</info>');
+        }
+        if (!empty($visitColumnsToUnset) && !$this->confirmAnonymize($input, $output, 'unset the log_visit columns "' . implode(', ', $visitColumnsToUnset) . '"', $startDate, $endDate)) {
+            $visitColumnsToUnset = false;
+            $output->writeln('<info>SKIPPING unset log_visit columns.</info>');
+        }
+        if (!empty($linkVisitActionColumns) && !$this->confirmAnonymize($input, $output, 'unset the log_link_visit_action columns "' . implode(', ', $linkVisitActionColumns) . '"', $startDate, $endDate)) {
+            $linkVisitActionColumns = false;
+            $output->writeln('<info>SKIPPING unset log_link_visit_action columns.</info>');
         }
 
-        if (!empty($visitColumnsToUnset)) {
-            if ($this->confirmAnonymize($input, $output, 'unset the log_visit columns "' . implode(', ', $visitColumnsToUnset) . '"', $startDate, $endDate)) {
-                $output->writeln('Starting to unset log_visit columns. This may take a long time.');
-                $numColumnsUnset = $logDataAnonymizer->unsetLogVisitTableColumns($idSites, $startDate, $endDate, $visitColumnsToUnset);
-                $output->writeln(sprintf('<info>Amount of log_visit rows that were updated: %s</info>', $numColumnsUnset));
-            } else {
-                $output->writeln('<info>SKIPPING unset log_visit columns.</info>');
-            }
-        } else {
-            $output->writeln('<info>No column in log_visit will be unset.</info>');
-        }
-
-        if (!empty($linkVisitActionColumns)) {
-            if ($this->confirmAnonymize($input, $output, 'unset the log_link_visit_action columns "' . implode(', ', $linkVisitActionColumns) . '"', $startDate, $endDate)) {
-                $output->writeln('Starting to unset log_link_visit_action columns. This may take a long time.');
-                $numColumnsUnset = $logDataAnonymizer->unsetLogLinkVisitActionColumns($idSites, $startDate, $endDate, $visitColumnsToUnset);
-                $output->writeln(sprintf('<info>Amount of log_link_visit_action rows that were updated: %s</info>', $numColumnsUnset));
-            } else {
-                $output->writeln('<info>SKIPPING unset log_link_visit_action columns.</info>');
-            }
-        } else {
-            $output->writeln('<info>No column in log_link_visit_action will be unset.</info>');
+        if ($linkVisitActionColumns || $visitColumnsToUnset || $anonymizeLocation || $anonymizeIp) {
+            $scheduledLogDataAnonymizer->setCallbackOnOutput(function ($message) use ($output) {
+                $output->writeln($message);
+            });
+            $index = $scheduledLogDataAnonymizer->scheduleEntry('Command line', $idSites, $date, $anonymizeIp, $anonymizeLocation, $visitColumnsToUnset, $linkVisitActionColumns, $isStarted = true);
+            $scheduledLogDataAnonymizer->executeScheduledEntry($index);
         }
 
         $output->writeln('Done');

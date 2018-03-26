@@ -123,6 +123,32 @@ class LogDataAnonymizer
         return $this->unsetLogTableColumns('log_link_visit_action', 'server_time', $idSites, $startDate, $endDate, $columns);
     }
 
+    public function checkAllVisitColumns($visitColumns)
+    {
+        $this->areAllColumnsValid('log_visit', $visitColumns);
+    }
+
+    public function checkAllLinkVisitActionColumns($linkVisitActionColumns)
+    {
+        $this->areAllColumnsValid('log_link_visit_action', $linkVisitActionColumns);
+    }
+
+    private function areAllColumnsValid($table, $columns)
+    {
+        if (empty($columns)) {
+            return;
+        }
+
+        $table = Common::prefixTable($table);
+        $logTableFields = $this->getAvailableColumnsWithDefaultValue($table);
+
+        foreach ($columns as $column) {
+            if (!array_key_exists($column, $logTableFields)) {
+                throw new Exception(sprintf('The column "%s" seems to not exist in %s or cannot be unset. Use one of %s', $column, $table, implode(', ', array_keys($logTableFields))));
+            }
+        }
+    }
+
     private function unsetLogTableColumns($table, $dateColumn, $idSites, $startDate, $endDate, $columns)
     {
         if (empty($columns)) {
@@ -153,7 +179,7 @@ class LogDataAnonymizer
         $bind[] = $startDate;
         $bind[] = $endDate;
 
-        $sql = sprintf('UPDATE %s SET %s WHERE idsite in (%s) and %s >= ? and %s <= ?', $table, $col, $idSites, $dateColumn);
+        $sql = sprintf('UPDATE %s SET %s WHERE idsite in (%s) and %s >= ? and %s <= ?', $table, $col, $idSites, $dateColumn, $dateColumn);
         return Db::query($sql, $bind)->rowCount();
     }
 
