@@ -1,0 +1,61 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
+
+{% block content %}
+    <div piwik-content-block content-title="How do I embed the Matomo opt out to fulfill the right to remove consent?">
+        <div piwik-opt-out-customizer piwikurl="{{ piwikUrl }}" language="{{ language }}">
+
+        </div>
+    </div>
+
+    <div piwik-content-block content-title="Anonymize previously tracked raw data">
+        <p>If you have tracked personal data such as the full visitor IP, you may
+             want to anonymize this data now in case you do not have consent for this data.
+        </p>
+
+        {% if isSuperUser %}
+            <div matomo-anonymize-log-data></div>
+        {% else %}
+            <p>Only a user with Super User access can anonymize previously tracked raw data.</p>
+        {% endif %}
+
+        <br />
+        <h3>Previous log data anonymizations</h3>
+        <table piwik-content-table>
+            <thead>
+            <tr>
+                <th>Requester</th>
+                <th>Affected ID Sites</th>
+                <th>Affected date</th>
+                <th>Anonymize IP</th>
+                <th>Anonymize Location</th>
+                <th>Visit Columns</th>
+                <th>Link Visit Action Columns</th>
+                <th>Status</th>
+            </tr></thead>
+            <tbody>
+            {% for entry in anonymizations %}
+                <tr>
+                    <td>{{ entry.requester }}</td>
+                    <td>{% if entry.idsites is empty or entry.idsites == 'all' %}All sites{% else %}{{ entry.idsites|join(', ') }}{% endif %}</td>
+                    <td>{{ entry.date }}</td>
+                    <td>{% if entry.anonymizeIp %}<span class="icon-ok"></span>{% else %}-{% endif %}</td>
+                    <td>{% if entry.anonymizeLocation %}<span class="icon-ok"></span>{% else %}-{% endif %}</td>
+                    <td>{{ entry.unsetVisitColumns|join(', ') }}</td>
+                    <td>{{ entry.unsetLinkVisitActionColumns|join(', ') }}</td>
+                    <td>
+                        {% if not entry.isStarted %}
+                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduledOn|default('') }}."></span> Scheduled
+                        {% elseif entry.isStarted and not entry.isFinished %}
+                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduledOn|default('') }}. Job Start Date: {{ entry.startDate }}. Current Output: {{ entry.output }}"></span> In progress
+                        {% else %}
+                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduledOn|default('') }}. Job Start Date: {{ entry.startDate }}. Job End Date: {{ entry.finishDate }}. Output: {{ entry.output }}"></span> Done
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

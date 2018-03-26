@@ -22,7 +22,7 @@ use Exception;
 class LogDataAnonymizer
 {
     const NUM_ROWS_UPDATE_AT_ONCE = 10000;
-    const LOG_VISIT_COLUMNS_BLACKLISTED = array('idvisit', 'idvisitor', 'idsite', 'visit_last_action_time', 'config_id', 'location_ip', 'idlink_va', 'server_time');
+    const COLUMNS_BLACKLISTED = array('idvisit', 'idvisitor', 'idsite', 'visit_last_action_time', 'config_id', 'location_ip', 'idlink_va', 'server_time', 'idgoal', 'buster', 'idorder');
 
     /**
      * @var string
@@ -118,6 +118,23 @@ class LogDataAnonymizer
         return $this->unsetLogTableColumns('log_visit', 'visit_last_action_time', $idSites, $startDate, $endDate, $columns);
     }
 
+    public function unsetLogConversionTableColumns($idSites, $startDate, $endDate, $visitColumns)
+    {
+        $columnsToUnset = array();
+
+        $table = 'log_conversion';
+        $logTableFields = $this->getAvailableColumnsWithDefaultValue(Common::prefixTable($table));
+        foreach ($visitColumns as $column) {
+            // we do not fail if a specified column does not exist here as this is applied to visit columns
+            // and some visit columns may not exist in log_conversion. We do not want to fail in this case
+            if (array_key_exists($column, $logTableFields)) {
+                $columnsToUnset[] = $column;
+            }
+        }
+
+        return $this->unsetLogTableColumns($table, 'server_time', $idSites, $startDate, $endDate, $columnsToUnset);
+    }
+
     public function unsetLogLinkVisitActionColumns($idSites, $startDate, $endDate, $columns)
     {
         return $this->unsetLogTableColumns('log_link_visit_action', 'server_time', $idSites, $startDate, $endDate, $columns);
@@ -131,6 +148,16 @@ class LogDataAnonymizer
     public function checkAllLinkVisitActionColumns($linkVisitActionColumns)
     {
         $this->areAllColumnsValid('log_link_visit_action', $linkVisitActionColumns);
+    }
+
+    public function getAvailableVisitColumnsToAnonymize()
+    {
+        return $this->getAvailableColumnsWithDefaultValue(Common::prefixTable('log_visit'));
+    }
+
+    public function getAvailableLinkVisitActionColumnsToAnonymize()
+    {
+        return $this->getAvailableColumnsWithDefaultValue(Common::prefixTable('log_link_visit_action'));
     }
 
     private function areAllColumnsValid($table, $columns)
@@ -196,7 +223,7 @@ class LogDataAnonymizer
         $columns = DbHelper::getTableColumns($table);
         $values = array();
         foreach ($columns as $column => $config) {
-            if (in_array($column, self::LOG_VISIT_COLUMNS_BLACKLISTED, true)) {
+            if (in_array($column, self::COLUMNS_BLACKLISTED, true)) {
                 continue;
             } elseif (strtoupper($config['Null']) === 'NO' && $config['Default'] === null) {
                 // we cannot unset this column as it may result in an error or random data

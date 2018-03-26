@@ -14,7 +14,7 @@
         var self = this;
         this.isLoading = false;
         this.isDeleting = false;
-        this.site = {id: 'all', name: 'All Websitees'};
+        this.site = {id: 'all', name: 'All Websites'};
         this.segment_filter = 'userId==';
         this.dataSubjects = [];
         this.toggleAll = true;

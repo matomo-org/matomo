@@ -21,7 +21,10 @@ use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugins\PrivacyManager\Model\Gdpr;
+use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizer;
+use Piwik\Plugins\PrivacyManager\Model\ScheduledLogDataAnonymization;
 use Piwik\Segment;
+use Piwik\Site;
 use Piwik\Tracker\LogTable;
 
 /**
@@ -36,9 +39,21 @@ class API extends \Piwik\Plugin\API
      */
     private $gdpr;
 
-    public function __construct(Gdpr $gdpr)
+    /**
+     * @var ScheduledLogDataAnonymization
+     */
+    private $scheduledLogDataAnonymization;
+
+    /**
+     * @var LogDataAnonymizer
+     */
+    private $logDataAnonymizer;
+
+    public function __construct(Gdpr $gdpr, ScheduledLogDataAnonymization $scheduledLogDataAnonymization, LogDataAnonymizer $logDataAnonymizer)
     {
         $this->gdpr = $gdpr;
+        $this->scheduledLogDataAnonymization = $scheduledLogDataAnonymization;
+        $this->logDataAnonymizer = $logDataAnonymizer;
     }
 
     public function deleteDataSubjects($visits)
@@ -65,6 +80,51 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasAdminAccess($idSites);
 
         return $this->gdpr->exportDataSubjects($visits);
+    }
+
+    public function anonymizeSomeRawData($idSites, $date, $anonymizeIp = false, $anonymizeLocation = false, $unsetVisitColumns = [], $unsetLinkVisitActionColumns = [])
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        if ($idSites === 'all' || empty($idSites)) {
+            $idSites = false; // all websites
+        } else {
+            $idSites = Site::getIdSitesFromIdSitesString($idSites);
+        }
+        $requester = Piwik::getCurrentUserLogin();
+        $this->scheduledLogDataAnonymization->scheduleEntry($requester, $idSites, $date, $anonymizeIp, $anonymizeLocation, $unsetVisitColumns, $unsetLinkVisitActionColumns);
+    }
+
+    public function getAvailableVisitColumnsToAnonymize()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $columns = $this->logDataAnonymizer->getAvailableVisitColumnsToAnonymize();
+        $formatted = array();
+        foreach ($columns as $column => $default) {
+            $formatted[] = array(
+                'column_name' => $column,
+                'default_value' => $default
+            );
+        }
+
+        return $formatted;
+    }
+
+    public function getAvailableLinkVisitActionColumnsToAnonymize()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $columns = $this->logDataAnonymizer->getAvailableLinkVisitActionColumnsToAnonymize();
+        $formatted = array();
+        foreach ($columns as $column => $default) {
+            $formatted[] = array(
+                'column_name' => $column,
+                'default_value' => $default
+            );
+        }
+
+        return $formatted;
     }
 
     /**

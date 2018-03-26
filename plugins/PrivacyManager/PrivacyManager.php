@@ -193,6 +193,8 @@ class PrivacyManager extends Plugin
         $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -200,6 +202,7 @@ class PrivacyManager extends Plugin
         $stylesheets[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.less";
         $stylesheets[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.less";
         $stylesheets[] = "plugins/PrivacyManager/stylesheets/gdprOverview.less";
+        $stylesheets[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.less";
     }
 
     /**

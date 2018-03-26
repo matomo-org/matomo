@@ -74,10 +74,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function gdprOverview()
     {
         Piwik::checkUserHasSomeAdminAccess();
+
+        return $this->renderTemplate('gdprOverview');
+    }
+
+    public function gdprTools()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
         $language = LanguagesManager::getLanguageCodeForCurrentUser();
 
-        return $this->renderTemplate('gdprOverview', array(
-            'language' => $language
+        $scheduledLogDataAnonymizer = StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\ScheduledLogDataAnonymization');
+
+        return $this->renderTemplate('gdprTools', array(
+            'language' => $language,
+            'anonymizations' => $scheduledLogDataAnonymizer->getAllEntries()
         ));
     }
 

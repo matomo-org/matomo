@@ -31,7 +31,7 @@ class ScheduledLogDataAnonymization
         $this->logDataAnonymizer = $logDataAnonymizer;
     }
 
-    public function getAllSchedules()
+    public function getAllEntries()
     {
         Option::clearCachedOption(self::LOG_DATA_ANONYMIZATION); // we make sure to always fetch latest entry
         $optionData = Option::get(self::LOG_DATA_ANONYMIZATION);
@@ -49,6 +49,7 @@ class ScheduledLogDataAnonymization
         if (empty($date)) {
             throw new \Exception('No date specified');
         }
+        list($startDate, $endDate) = $this->getStartAndEndDate($date); // make sure valid date
         if (!empty($unsetVisitColumns)) {
             $this->logDataAnonymizer->checkAllVisitColumns($unsetVisitColumns);
         } else {
@@ -59,23 +60,25 @@ class ScheduledLogDataAnonymization
         } else {
             $unsetLinkVisitActionColumns = array();
         }
+        if (!$anonymizeIp && !$anonymizeLocation && empty($unsetVisitColumns) && empty($unsetLinkVisitActionColumns)) {
+            throw new \Exception('Nothing is selected to be anonymized');
+        }
 
-        $schedules = $this->getAllSchedules();
+        $schedules = $this->getAllEntries();
         $schedules[] = array(
             'idsites' => $idSites,
             'date' => $date,
-            'params' => array(
-                'anonymizeIp' => !empty($anonymizeIp) ? true : false,
-                'anonymizeLocation' => !empty($anonymizeLocation) ? true : false,
-                'unsetVisitColumns' => $unsetVisitColumns,
-                'unsetLinkVisitActionColumns' => $unsetLinkVisitActionColumns,
-            ),
+            'anonymizeIp' => !empty($anonymizeIp) ? true : false,
+            'anonymizeLocation' => !empty($anonymizeLocation) ? true : false,
+            'unsetVisitColumns' => $unsetVisitColumns,
+            'unsetLinkVisitActionColumns' => $unsetLinkVisitActionColumns,
             'output' => '',
+            'scheduledOn' => Date::now()->getDatetime(),
             'isStarted' => $isStarted,
             'startDate' => null,
             'isFinished' => false,
             'finishDate' => null,
-            'requestedBy' => $requester,
+            'requester' => $requester,
         );
         $this->setSchedules($schedules);
         return count($schedules) - 1;
@@ -83,7 +86,7 @@ class ScheduledLogDataAnonymization
 
     private function updateEntryAtIndex($index, $field, $value)
     {
-        $schedules = $this->getAllSchedules();
+        $schedules = $this->getAllEntries();
         if (isset($schedules[$index])) {
             $schedules[$index][$field] = $value;
             $this->setSchedules($schedules);
@@ -124,7 +127,7 @@ class ScheduledLogDataAnonymization
 
     public function executeScheduledEntry($index)
     {
-        $schedules = $this->getAllSchedules();
+        $schedules = $this->getAllEntries();
         $schedule = $schedules[$index];
 
         $this->updateEntryAtIndex($index, 'isStarted', true);
@@ -132,7 +135,6 @@ class ScheduledLogDataAnonymization
 
         $logDataAnonymizer = new LogDataAnonymizer();
 
-        $params = $schedule['params'];
         $idSites = $schedule['idsites'];
 
         list($startDate, $endDate) = $this->getStartAndEndDate($schedule['date']);
@@ -146,30 +148,38 @@ class ScheduledLogDataAnonymization
 
         $this->appendToOutput($index, $schedule, sprintf("Applying this to visits between '%s' and '%s'.", $startDate, $endDate));
 
-        if ($params['anonymizeIp'] || $params['anonymizeLocation']) {
+        if ($schedule['anonymizeIp'] || $schedule['anonymizeLocation']) {
             $this->appendToOutput($index, $schedule, 'Starting to anonymize visit information.');
             try {
-                $numAnonymized = $logDataAnonymizer->anonymizeVisitInformation($idSites, $startDate, $endDate, $params['anonymizeIp'], $params['anonymizeLocation']);
+                $numAnonymized = $logDataAnonymizer->anonymizeVisitInformation($idSites, $startDate, $endDate, $schedule['anonymizeIp'], $schedule['anonymizeLocation']);
                 $this->appendToOutput($index, $schedule, 'Number of anonymized IP and/or location: ' . $numAnonymized);
             } catch (\Exception $e) {
                 $this->appendToOutput($index, $schedule, 'Failed to anonymize IP and/or location:' . $e->getMessage());
             }
         }
 
-        if (!empty($params['unsetVisitColumns'])) {
+        if (!empty($schedule['unsetVisitColumns'])) {
             try {
                 $this->appendToOutput($index, $schedule, 'Starting to unset log_visit table entries.');
-                $numColumnsUnset = $logDataAnonymizer->unsetLogVisitTableColumns($idSites, $startDate, $endDate, $params['unsetVisitColumns']);
+                $numColumnsUnset = $logDataAnonymizer->unsetLogVisitTableColumns($idSites, $startDate, $endDate, $schedule['unsetVisitColumns']);
                 $this->appendToOutput($index, $schedule, 'Number of unset log_visit table entries: ' . $numColumnsUnset);
             } catch (\Exception $e) {
                 $this->appendToOutput($index, $schedule, 'Failed to unset log_visit table entries:' . $e->getMessage());
             }
+
+            try {
+                $this->appendToOutput($index, $schedule, 'Starting to unset log_conversion table entries (if possible).');
+                $numColumnsUnset = $logDataAnonymizer->unsetLogConversionTableColumns($idSites, $startDate, $endDate, $schedule['unsetVisitColumns']);
+                $this->appendToOutput($index, $schedule, 'Number of unset log_conversion table entries: ' . $numColumnsUnset);
+            } catch (\Exception $e) {
+                $this->appendToOutput($index, $schedule, 'Failed to unset log_conversion table entries:' . $e->getMessage());
+            }
         }
 
-        if (!empty($params['unsetLinkVisitActionColumns'])) {
+        if (!empty($schedule['unsetLinkVisitActionColumns'])) {
             try {
                 $this->appendToOutput($index, $schedule, 'Starting to unset log_link_visit_action table entries.');
-                $numColumnsUnset = $logDataAnonymizer->unsetLogLinkVisitActionColumns($idSites, $startDate, $endDate, $params['unsetLinkVisitActionColumns']);
+                $numColumnsUnset = $logDataAnonymizer->unsetLogLinkVisitActionColumns($idSites, $startDate, $endDate, $schedule['unsetLinkVisitActionColumns']);
                 $this->appendToOutput($index, $schedule, 'Number of unset log_link_visit_action table entries: ' . $numColumnsUnset);
             } catch (\Exception $e) {
                 $this->appendToOutput($index, $schedule, 'Failed to unset log_link_visit_action table entries:' . $e->getMessage());

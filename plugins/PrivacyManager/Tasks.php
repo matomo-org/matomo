@@ -32,7 +32,7 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function anonymizePastData()
     {
-        $schedules = $this->scheduledLogDataAnonymization->getAllSchedules();
+        $schedules = $this->scheduledLogDataAnonymization->getAllEntries();
 
         foreach ($schedules as $index => $schedule) {
             if (empty($schedule['isStarted']) && empty($schedule['isFinished'])) {
