@@ -1,6 +1,6 @@
 {
     "name": "ExampleTheme",
-    "description": "Piwik Platform showcase: example of how to create a simple Theme.",
+    "description": "Matomo Platform showcase: example of how to create a simple Theme.",
     "version": "0.1.0",
     "theme": true,
     "require": {

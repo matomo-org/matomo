@@ -13,9 +13,11 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Exception\PluginDeactivatedException;
+use Piwik\IP;
 use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugins\CoreHome\LoginWhitelist;
 use Piwik\SettingsServer;
 use Piwik\Url;
 use Piwik\UrlHelper;
@@ -205,8 +207,13 @@ class Request
         // read the format requested for the output data
         $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $this->request));
 
+        $disablePostProcessing = $this->shouldDisablePostProcessing();
+
         // create the response
         $response = new ResponseBuilder($outputFormat, $this->request);
+        if ($disablePostProcessing) {
+            $response->disableDataTablePostProcessor();
+        }
 
         $corsHandler = new CORSHandler();
         $corsHandler->handle();
@@ -215,12 +222,22 @@ class Request
         $shouldReloadAuth = false;
 
         try {
+
+            // IP check is needed here as we cannot listen to API.Request.authenticate as it would then not return proper API format response.
+            // We can also not do it by listening to API.Request.dispatch as by then the user is already authenticated and we want to make sure
+            // to not expose any information in case the IP is not whitelisted.
+            $whitelist = new LoginWhitelist();
+            if ($whitelist->shouldCheckWhitelist() && $whitelist->shouldWhitelistApplyToAPI()) {
+                $ip = IP::getIpFromHeader();
+                $whitelist->checkIsWhitelisted($ip);
+            }
+
             // read parameters
             $moduleMethod = Common::getRequestVar('method', null, 'string', $this->request);
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
             list($module, $method) = self::getRenamedModuleAndAction($module, $method);
-            
+
             PluginManager::getInstance()->checkIsPluginActivated($module);
 
             $apiClassName = self::getClassNameAPI($module);
@@ -510,5 +527,25 @@ class Request
     private static function getDefaultRequest()
     {
         return $_GET + $_POST;
+    }
+
+    private function shouldDisablePostProcessing()
+    {
+        $shouldDisable = false;
+
+        /**
+         * After an API method returns a value, the value is post processed (eg, rows are sorted
+         * based on the `filter_sort_column` query parameter, rows are truncated based on the
+         * `filter_limit`/`filter_offset` parameters, amongst other things).
+         *
+         * If you're creating a plugin that needs to disable post processing entirely for
+         * certain requests, use this event.
+         *
+         * @param bool &$shouldDisable Set this to true to disable datatable post processing for a request.
+         * @param array $request The request parameters.
+         */
+        Piwik::postEvent('Request.shouldDisablePostProcessing', [&$shouldDisable, $this->request]);
+
+        return $shouldDisable;
     }
 }

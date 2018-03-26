@@ -258,7 +258,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testHttpsWorksWithValidCertificate($method)
     {
-        $result = Http::sendHttpRequestBy($method, 'https://builds.piwik.org/LATEST', 10);
+        $result = Http::sendHttpRequestBy($method, 'https://builds.matomo.org/LATEST', 10);
 
         $this->assertStringMatchesFormat('%d.%d.%d', $result);
     }

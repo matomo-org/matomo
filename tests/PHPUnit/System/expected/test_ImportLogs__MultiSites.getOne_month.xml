@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<nb_visits>39</nb_visits>
-	<nb_actions>46</nb_actions>
+	<nb_visits>44</nb_visits>
+	<nb_actions>51</nb_actions>
 	<visits_evolution>100%</visits_evolution>
 	<actions_evolution>100%</actions_evolution>
 	<pageviews_evolution>100%</pageviews_evolution>
 	<revenue_evolution>100%</revenue_evolution>
-	<nb_pageviews>40</nb_pageviews>
-	<revenue>175</revenue>
+	<nb_pageviews>45</nb_pageviews>
+	<revenue>200</revenue>
 </result>

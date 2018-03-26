@@ -194,13 +194,14 @@ var piwikHelper = {
 
     /**
      * Displays a Modal dialog. Text will be taken from the DOM node domSelector.
-     * Given callback handles will be mapped to the buttons having a role attriute
+     * Given callback handles will be mapped to the buttons having a role attribute
      *
      * Dialog will be closed when a button is clicked and callback handle will be
      * called, if one was given for the clicked role
      *
      * @param {string} domSelector   domSelector for modal window
      * @param {object} handles       callback functions for available roles
+     * @param {object} options       options for modal
      * @return {void}
      */
     modalConfirm: function(domSelector, handles, options)
@@ -246,6 +247,12 @@ var piwikHelper = {
         if (options && options.fixedFooter) {
             $content.addClass('modal-fixed-footer');
             delete options.fixedFooter;
+        }
+
+        if (options && !options.ready) {
+            options.ready = function () {
+                $(".modal.open a").focus();
+            };
         }
 
         domElem.show();
@@ -464,14 +471,28 @@ var piwikHelper = {
      * @param {string} textareaContent
      * @return {string}
      */
-    getApiFormatTextarea: function (textareaContent)
-    {
-        if(typeof textareaContent == 'undefined') {
+    getApiFormatTextarea: function (textareaContent) {
+        if (typeof textareaContent == 'undefined') {
             return '';
         }
         return textareaContent.trim().split("\n").join(',');
-    }
+    },
 
+    shortcuts: {},
+
+    /**
+     * Register a shortcut
+     *
+     * @param {string} key key-stroke to be registered for this shortcut
+     * @param {string } description  description to be shown in summary
+     * @param callback method called when pressing the key
+     */
+    registerShortcut: function(key, description, callback) {
+
+        piwikHelper.shortcuts[key] = description;
+
+        Mousetrap.bind(key, callback);
+    }
 };
 
 String.prototype.trim = function() {

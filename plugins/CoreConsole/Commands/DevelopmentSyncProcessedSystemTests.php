@@ -50,7 +50,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
         }
 
         $filename = sprintf('system.%s.tar.bz2', $buildNumber);
-        $urlBase  = sprintf('https://builds-artifacts.piwik.org/piwik/piwik/%s', $filename);
+        $urlBase  = sprintf('https://builds-artifacts.matomo.org/matomo-org/matomo/%s', $filename);
         $tests    = Http::sendHttpRequest($urlBase, $timeout = 120);
 
         $tarFile = $tmpDir . $filename;

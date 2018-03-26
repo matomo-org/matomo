@@ -3214,8 +3214,8 @@
 	<row>
 		<name>Premium Features</name>
 		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
 			<order>99</order>
 			<icon />
 		</category>
@@ -3231,10 +3231,10 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Piwik Changelog</name>
+		<name>Matomo Changelog</name>
 		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
 			<order>99</order>
 			<icon />
 		</category>
@@ -3252,8 +3252,8 @@
 	<row>
 		<name>Example Widget Name</name>
 		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
 			<order>99</order>
 			<icon />
 		</category>
@@ -3309,8 +3309,8 @@
 	<row>
 		<name>System Summary</name>
 		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
 			<order>99</order>
 			<icon />
 		</category>
@@ -3328,8 +3328,8 @@
 	<row>
 		<name>Latest Marketplace Updates</name>
 		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
 			<order>99</order>
 			<icon />
 		</category>
@@ -3347,8 +3347,8 @@
 	<row>
 		<name>Welcome!</name>
 		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
 			<order>99</order>
 			<icon />
 		</category>
@@ -3364,10 +3364,10 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Premium Features &amp; Services for Piwik</name>
+		<name>Premium Features &amp; Services for Matomo</name>
 		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
 			<order>99</order>
 			<icon />
 		</category>
@@ -3383,10 +3383,10 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Support Piwik!</name>
+		<name>Support Matomo!</name>
 		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
 			<order>99</order>
 			<icon />
 		</category>
@@ -3421,10 +3421,10 @@
 		<isWide>0</isWide>
 	</row>
 	<row>
-		<name>Piwik.org Blog</name>
+		<name>Matomo.org Blog</name>
 		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
 			<order>99</order>
 			<icon />
 		</category>
@@ -3461,8 +3461,8 @@
 	<row>
 		<name>System Check</name>
 		<category>
-			<id>About Piwik</id>
-			<name>About Piwik</name>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
 			<order>99</order>
 			<icon />
 		</category>

@@ -28,7 +28,7 @@
         "ColumnUniqueOutlinks": "Enlaces externos únicos",
         "ColumnIdPageview": "ID Páginas vistas",
         "ColumnInteractionPosition": "Posición de la interacción",
-        "DownloadsReportDocumentation": "En este informe, puede ver que archivos han descargado sus visitantes. %s Lo que Piwik cuenta como descarga es el clic en un enlace de descarga. Si la descarga fue completada o no, Piwik no puede saberlo.",
+        "DownloadsReportDocumentation": "En este informe, puede ver que archivos han descargado sus visitantes. %s Lo que Matomo cuenta como descarga es el clic en un enlace de descarga. Si la descarga fue completada o no, Matomo no puede saberlo.",
         "EntryPagesReportDocumentation": "Este informe contiene información acerca de las páginas de entrada que fueron usadas durante el periodo de tiempo especificado. Una página de entrada es la primera página que un usuario ve durante su visita. %s Las URL de entrada se muestran como una estructura jerárquica de carpetas.",
         "EntryPageTitles": "Títulos de páginas de entrada",
         "EntryPageTitlesReportDocumentation": "Este informe contiene información sobre los títulos de las páginas de entrada que han sido utilizadas durante el período especificado.",

@@ -43,7 +43,7 @@ class Advertising
      */
     public function areAdsForProfessionalServicesEnabled()
     {
-        return $this->isAdsEnabledInConfig($this->config->General);
+        return self::isAdsEnabledInConfig($this->config->General);
     }
 
     /**
@@ -55,7 +55,7 @@ class Advertising
      */
     public function getPromoUrlForProfessionalServices($campaignMedium, $campaignContent = '')
     {
-        $url = 'https://piwik.org/support/?';
+        $url = 'https://matomo.org/support/?';
 
         $campaign = $this->getCampaignParametersForPromoUrl(
             $name = self::CAMPAIGN_NAME_PROFESSIONAL_SERVICES,

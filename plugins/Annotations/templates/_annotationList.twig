@@ -5,18 +5,23 @@
     {% endif %}
 
     <table>
+
+
         {% for annotation in annotations %}
             {% include "@Annotations/_annotation.twig" %}
         {% endfor %}
+
+
         <tr class="new-annotation-row" style="display:none;" data-date="{{ selectedDate }}">
             <td class="annotation-meta">
                 <div class="annotation-star">&nbsp;</div>
                 <div class="annotation-period-edit">
-                    <a href="#">{{ selectedDate }}</a>
+                    <a href="#" class="font">{{ selectedDate }}</a>
 
                     <div class="datepicker" style="display:none;"/>
                 </div>
             </td>
+            <td class="annotation-user-cell"><span class="annotation-user">{{ userLogin }}</span></td>
             <td class="annotation-value">
                 <div class="input-field">
                     <input type="text" value=""
@@ -26,7 +31,6 @@
                 <input type="button" class="btn new-annotation-save" value="{{ 'General_Save'|translate }}"/>
                 <input type="button" class="btn new-annotation-cancel" value="{{ 'General_Cancel'|translate }}"/>
             </td>
-            <td class="annotation-user-cell"><span class="annotation-user">{{ userLogin }}</span></td>
         </tr>
     </table>
 

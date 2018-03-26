@@ -60,7 +60,7 @@ class SegmentSelectorControl extends UIControl
             $segmentsByCategory[$segment['category']][] = $segment;
         }
 
-        $this->createRealTimeSegmentsIsEnabled = Config::getInstance()->General['enable_create_realtime_segments'];
+        $this->createRealTimeSegmentsIsEnabled = $this->isCreatingRealTimeSegmentsEnabled();
         $this->segmentsByCategory   = $segmentsByCategory;
         $this->nameOfCurrentSegment = '';
         $this->isSegmentNotAppliedBecauseBrowserArchivingIsDisabled = 0;
@@ -94,9 +94,7 @@ class SegmentSelectorControl extends UIControl
 
     private function wouldApplySegment($savedSegment)
     {
-        $isBrowserArchivingDisabled = Config::getInstance()->General['browser_archiving_disabled_enforce'];
-
-        if (!$isBrowserArchivingDisabled) {
+        if (Rules::isBrowserArchivingAvailableForSegments()) {
             return true;
         }
 
@@ -133,4 +131,15 @@ class SegmentSelectorControl extends UIControl
         }
         return $translations;
     }
+
+    protected function isCreatingRealTimeSegmentsEnabled()
+    {
+        // when browser archiving is disabled for segments, we force new segments to be created as pre-processed
+        if(!Rules::isBrowserArchivingAvailableForSegments()) {
+            return false;
+        }
+
+        return (bool) Config::getInstance()->General['enable_create_realtime_segments'];
+    }
+
 }

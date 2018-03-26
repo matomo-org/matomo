@@ -27,6 +27,13 @@
 	<row>
 		<type>metric</type>
 		<category>Visitors</category>
+		<name>Events</name>
+		<segment>events</segment>
+		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visitors</category>
 		<name>Local time - minute (Start of visit)</name>
 		<segment>visitLocalMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 67, 57, 58, 59</acceptedValues>
@@ -50,13 +57,6 @@
 		<category>Visitors</category>
 		<name>Number of visits</name>
 		<segment>visitCount</segment>
-	</row>
-	<row>
-		<type>metric</type>
-		<category>Visitors</category>
-		<name>Total events</name>
-		<segment>events</segment>
-		<acceptedValues>To select all visits who triggered an Event, use: &amp;segment=events&gt;0</acceptedValues>
 	</row>
 	<row>
 		<type>metric</type>
@@ -99,7 +99,14 @@
 		<category>Visitors</category>
 		<name>Device brand</name>
 		<segment>deviceBrand</segment>
-		<acceptedValues>3Q, 4Good, Acer, Ainol, Airness, Airties, Alcatel, Allview, Altech UEC, Amazon, Amoi, Apple, Archos, Arnova, ARRIS, Asus, Audiovox, Avvio, Axxion, BangOlufsen, Barnes &amp; Noble, BBK, Becker, Beetel, BenQ, BenQ-Siemens, Bird, Blackview, Blaupunkt, Blu, Bmobile, Boway, bq, Bravis, Brondi, Bush, Capitel, Captiva, Carrefour, Casio, Cat, Celkon, Changhong, Cherry Mobile, China Mobile, CnM, Coby Kyros, Compal, Compaq, ConCorde, Coolpad, Cowon, CreNova, Cricket, Crius Mea, Crosscall, Cube, CUBOT, Cyrus, Danew, Datang, Dbtel, Dell, Denver, Desay, DEXP, Dicam, Digma, DMM, DNS, DoCoMo, Doogee, Doov, Dopod, Dune HD, E-Boda, Easypix, EBEST, ECS, Elephone, Energy Sistem, Ericsson, Ericy, Eton, eTouch, Evertek, Evolveo, Explay, Ezio, Ezze, Fairphone, Fly, Foxconn, Freetel, Fujitsu, Garmin-Asus, Gateway, Gemini, Gigabyte, Gigaset, Gionee, GOCLEVER, Goly, Google, Gradiente, Grundig, Haier, Hasee, Hi-Level, Hisense, Homtom, Hosin, HP, HTC, Huawei, Humax, Hyrican, Hyundai, i-Joy, i-mate, i-mobile, iBall, iBerry, IconBIT, Ikea, iKoMo, iNew, Infinix, Inkti, Innostream, INQ, Intek, Intex, Inverto, iOcean, iTel, JAY-Tech, Jiayu, Jolla, K-Touch, Karbonn, Kazam, KDDI, Kiano, Kingsun, Komu, Konka, Konrow, Koobee, KOPO, Koridy, KT-Tech, Kumai, Kyocera, Landvo, Lanix, Lava, LCT, LeEco, Lenco, Lenovo, Le Pan, Lexibook, LG, Lingwin, Loewe, Logicom, LYF, M.T.T., Majestic, Manta Multimedia, Mecer, Mediacom, MediaTek, Medion, MEEG, Meizu, Memup, Metz, MEU, MicroMax, Microsoft, Mio, Mitsubishi, MIXC, MLLED, Mobistel, Modecom, Mofut, Motorola, Mpman, MSI, MyPhone, NEC, Neffos, Netgear, Newgen, Nexian, NextBook, NGM, Nikon, Nintendo, Noain, Nokia, Nomi, Nous, Nvidia, O2, Odys, Onda, OnePlus, OPPO, Opsson, Orange, Ouki, OUYA, Overmax, Oysters, Palm, Panasonic, Pantech, PEAQ, Pentagram, Philips, phoneOne, Pioneer, Ployer, Point of View, Polaroid, PolyPad, Pomp, Positivo, PPTV, Prestigio, ProScan, PULID, Qilive, QMobile, Qtek, Quechua, Ramos, RCA Tablets, Readboy, Rikomagic, RIM, Roku, Rover, Sagem, Samsung, Sanyo, Sega, Selevision, Sencor, Sendo, Senseit, SFR, Sharp, Siemens, Skyworth, Smart, Smartfren, Smartisan, Softbank, Sony, Sony Ericsson, Spice, Star, Stonex, Storex, Sumvision, SunVan, SuperSonic, Supra, Symphony, T-Mobile, TB Touch, TCL, TechniSat, TechnoTrend, Tecno Mobile, Telefunken, Telenor, Telit, Tesco, Tesla, teXet, ThL, Thomson, TIANYU, TiPhone, Tolino, Toplux, Toshiba, TrekStor, Trevi, Tunisie Telecom, Turbo-X, TVC, UMIDIGI, Uniscope, Unknown, Unowhy, UTStarcom, Vastking, Vertu, Vestel, Videocon, Videoweb, ViewSonic, Vitelcom, Vivo, Vizio, VK Mobile, Vodafone, Voto, Voxtel, Walton, Web TV, WellcoM, Wexler, Wiko, Wileyfox, Wolder, Wolfgang, Wonu, Woxter, Xiaomi, Xolo, Yarvik, Ytone, Yuandao, Yusun, Zeemi, Zen, Zonda, Zopo, ZTE</acceptedValues>
+		<acceptedValues>3Q, 4Good, Acer, Ainol, Airness, Airties, Alcatel, Allview, Altech UEC, Amazon, Amoi, Apple, Archos, Arnova, ARRIS, Asus, Audiovox, Avvio, Axxion, Azumi Mobile, BangOlufsen, Barnes &amp; Noble, BBK, Becker, Beetel, BenQ, BenQ-Siemens, BGH, Bird, Bitel, Blackview, Blaupunkt, Blu, Bmobile, Boway, bq, Bravis, Brondi, Bush, Capitel, Captiva, Carrefour, Casio, Cat, Celkon, Changhong, Cherry Mobile, China Mobile, CnM, Coby Kyros, Compal, Compaq, ConCorde, Condor, Coolpad, Cowon, CreNova, Cricket, Crius Mea, Crosscall, Cube, CUBOT, Cyrus, Danew, Datang, Dbtel, Dell, Denver, Desay, DEXP, Dicam, Digma, DMM, DNS, DoCoMo, Doogee, Doov, Dopod, Doro, Dune HD, E-Boda, Easypix, EBEST, ECS, EKO, Elephone, Energy Sistem, Ericsson, Ericy, Eton, eTouch, Evertek, Evolveo, Explay, Ezio, Ezze, Fairphone, Fly, Foxconn, Freetel, Fujitsu, Garmin-Asus, Gateway, Gemini, Gigabyte, Gigaset, Gionee, GOCLEVER, Goly, Google, Gradiente, Grundig, Haier, Hasee, Hi-Level, Hisense, Homtom, Hosin, HP, HTC, Huawei, Humax, Hyrican, Hyundai, i-Joy, i-mate, i-mobile, iBall, iBerry, IconBIT, Ikea, iKoMo, iNew, Infinix, Inkti, Innostream, INQ, Intek, Intex, Inverto, iOcean, iTel, JAY-Tech, Jiayu, Jolla, K-Touch, Karbonn, Kazam, KDDI, Kiano, Kingsun, Komu, Konka, Konrow, Koobee, KOPO, Koridy, KT-Tech, Kumai, Kyocera, Landvo, Lanix, Lava, LCT, LeEco, Lenco, Lenovo, Le Pan, Lexand, Lexibook, LG, Lingwin, Loewe, Logicom, LYF, M.T.T., Majestic, Manta Multimedia, Mecer, Mediacom, MediaTek, Medion, MEEG, Meizu, Memup, Metz, MEU, MicroMax, Microsoft, Mio, Mitsubishi, MIXC, MLLED, Mobistel, Modecom, Mofut, Motorola, Mpman, MSI, MyPhone, NEC, Neffos, Netgear, Newgen, Nexian, NextBook, NGM, Nikon, Nintendo, Noain, Noblex, Nokia, Nomi, Nous, Nvidia, O2, Odys, Onda, OnePlus, OPPO, Opsson, Orange, Ouki, OUYA, Overmax, Oysters, Palm, Panasonic, Pantech, PEAQ, Pentagram, Philips, phoneOne, Pioneer, Ployer, Point of View, Polaroid, PolyPad, Pomp, Positivo, PPTV, Prestigio, ProScan, PULID, Qilive, QMobile, Qtek, Quechua, Ramos, RCA Tablets, Readboy, Rikomagic, RIM, Roku, Rover, Sagem, Samsung, Sanyo, Sega, Selevision, Sencor, Sendo, Senseit, SFR, Sharp, Siemens, Skyworth, Smart, Smartfren, Smartisan, Softbank, Sony, Sony Ericsson, Spice, Star, STK, Stonex, Storex, Sumvision, SunVan, SuperSonic, Supra, Symphony, T-Mobile, TB Touch, TCL, TechniSat, TechnoTrend, Teclast, Tecno Mobile, Telefunken, Telenor, Telit, Tesco, Tesla, teXet, ThL, Thomson, TIANYU, TiPhone, Tolino, Toplux, Toshiba, TrekStor, Trevi, Tunisie Telecom, Turbo-X, TVC, Ulefone, UMIDIGI, Uniscope, Unknown, Unowhy, UTStarcom, Vastking, Vertu, Verykool, Vestel, Videocon, Videoweb, ViewSonic, Vitelcom, Vivo, Vizio, VK Mobile, Vodafone, Voto, Voxtel, Walton, Web TV, WellcoM, Wexler, Wiko, Wileyfox, Wolder, Wolfgang, Wonu, Woxter, Xiaomi, Xolo, Yarvik, Ytone, Yuandao, Yusun, Zeemi, Zen, Zonda, Zopo, ZTE</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Device model</name>
+		<segment>deviceModel</segment>
+		<acceptedValues>iPad, Nexus 5, Galaxy S5, Fire TV, etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -139,6 +146,34 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
+		<name>Server time - date (End of visit)</name>
+		<segment>visitEndServerDate</segment>
+		<acceptedValues>2018-12-31, 2018-03-20, ...</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - day of month (End of visit)</name>
+		<segment>visitEndServerDayOfMonth</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 29, 30, 31</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - day of week (End of visit)</name>
+		<segment>visitEndServerDayOfWeek</segment>
+		<acceptedValues>1, 2, 3, 4, 5, 6, 7</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - day of year (End of visit)</name>
+		<segment>visitEndServerDayOfYear</segment>
+		<acceptedValues>1, 2, 3, 4, ..., 365, 366</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
 		<name>Server time - hour (End of visit)</name>
 		<segment>visitServerHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
@@ -163,6 +198,41 @@
 		<name>Server time - minute (Start of visit)</name>
 		<segment>visitStartServerMinute</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - month (End of visit)</name>
+		<segment>visitEndServerMonth</segment>
+		<acceptedValues>1, 2, 3, ..., 11, 12</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - quarter (End of visit)</name>
+		<segment>visitEndServerQuarter</segment>
+		<acceptedValues>1, 2, 3, 4</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - second (End of visit)</name>
+		<segment>visitEndServerSecond</segment>
+		<acceptedValues>0, 1, 2, 3, ..., 58, 59</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - week of year (End of visit)</name>
+		<segment>visitEndServerWeekOfYear</segment>
+		<acceptedValues>1, 2, 3, 4, ..., 51, 52, 53</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
+		<name>Server time - year (End of visit)</name>
+		<segment>visitEndServerYear</segment>
+		<acceptedValues>2016, 2017, 2018, ..., 9998, 9999</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -460,6 +530,7 @@
 			<row>pageUrl</row>
 			<row>downloadUrl</row>
 			<row>outlinkUrl</row>
+			<row>eventUrl</row>
 		</unionOfSegments>
 	</row>
 	<row>
@@ -575,6 +646,13 @@
 		<category>Events</category>
 		<name>Event Name</name>
 		<segment>eventName</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Events</category>
+		<name>Event URL</name>
+		<segment>eventUrl</segment>
+		<acceptedValues>The URL must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

@@ -15,7 +15,7 @@
         "SaveAndApply": "I-save at I-apply",
         "SegmentDisplayedThisWebsiteOnly": "ang website na ito lamang",
         "SegmentNotApplied": "Hindi nai-apply ang Segment '%s'",
-        "SegmentNotAppliedMessage": "Ikaw ay humihiling ng data para sa Custom Segment '%s' Ang kasalukuyang configuration ng Piwik ay pinipigilan ang real time processing na ulat para hindi maapektuhan ang performance nito",
+        "SegmentNotAppliedMessage": "Ikaw ay humihiling ng data para sa Custom Segment '%s' Ang kasalukuyang configuration ng Matomo ay pinipigilan ang real time processing na ulat para hindi maapektuhan ang performance nito",
         "ThisSegmentIsVisibleTo": "Ang segment na ito ay makikita sa:",
         "VisibleToAllUsers": "lahat ng mga user",
         "VisibleToMe": "ako",

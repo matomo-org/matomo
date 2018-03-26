@@ -2,21 +2,21 @@
     "name": "piwik/piwik",
     "type": "application",
     "description": "the leading free/libre analytics platform",
-    "keywords": ["piwik","web","analytics"],
-    "homepage": "https://piwik.org",
+    "keywords": ["piwik","matomo","web","analytics"],
+    "homepage": "https://matomo.org",
     "license": "GPL-3.0+",
     "authors": [
         {
-            "name": "The Piwik Team",
-            "email": "hello@piwik.org",
-            "homepage": "https://piwik.org/team/"
+            "name": "The Matomo Team",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org/team/"
         }
     ],
     "support": {
-        "forum": "https://forum.piwik.org/",
-        "issues": "https://github.com/piwik/piwik/issues",
-        "wiki": "https://github.com/piwik/piwik/wiki",
-        "source": "https://github.com/piwik/piwik"
+        "forum": "https://forum.matomo.org/",
+        "issues": "https://github.com/matomo-org/piwik/issues",
+        "wiki": "https://github.com/matomo-org/piwik/wiki",
+        "source": "https://github.com/matomo-org/piwik"
     },
     "config":{
         "platform": {
@@ -41,8 +41,8 @@
         "symfony/monolog-bridge": "~2.6.0",
         "symfony/event-dispatcher": "~2.6.0",
         "pear/pear_exception": "~1.0.0",
-        "piwik/referrer-spam-blacklist": "~1.0",
-        "piwik/searchengine-and-social-list": "~1.0",
+        "matomo/referrer-spam-blacklist": "~1.0",
+        "matomo/searchengine-and-social-list": "~1.0",
         "tecnickcom/tcpdf": "~6.0",
         "piwik/piwik-php-tracker": "^1.0",
         "composer/semver": "~1.3.0",

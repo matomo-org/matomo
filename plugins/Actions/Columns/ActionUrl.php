@@ -21,7 +21,7 @@ class ActionUrl extends ActionDimension
         $segment = new Segment();
         $segment->setSegment('actionUrl');
         $segment->setName('Actions_ColumnActionURL');
-        $segment->setUnionOfSegments(array('pageUrl', 'downloadUrl', 'outlinkUrl'));
+        $segment->setUnionOfSegments(array('pageUrl', 'downloadUrl', 'outlinkUrl', 'eventUrl'));
 
         $this->addSegment($segment);
     }

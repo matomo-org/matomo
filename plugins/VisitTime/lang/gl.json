@@ -1,6 +1,7 @@
 {
     "VisitTime": {
         "LocalTime": "Visitas por hora local",
+        "NHour": "%s h",
         "ServerTime": "Visitas por hora do servidor",
         "SubmenuTimes": "Tempos",
         "WidgetLocalTime": "Visitas por hora local",

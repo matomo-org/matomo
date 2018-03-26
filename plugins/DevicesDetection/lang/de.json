@@ -20,10 +20,13 @@
         "dataTableLabelTypes": "Typ",
         "Device": "Gerät",
         "DeviceBrand": "Gerätemarke",
+        "DeviceBrands": "Gerätemarken",
         "DeviceDetection": "Geräteerkennung",
         "DeviceModel": "Gerätemodell",
+        "DeviceModels": "Gerätemodelle",
         "DevicesDetection": "Geräte der Besucher",
         "DeviceType": "Gerätetyp",
+        "DeviceTypes": "Gerätetypen",
         "FeaturePhone": "Feature-Phone",
         "OperatingSystemFamilies": "Betriebssystem-Familien",
         "OperatingSystemFamily": "Betriebssystem-Familie",
@@ -38,6 +41,7 @@
         "Phablet": "Phablet",
         "TV": "TV",
         "UserAgent": "User-Agent",
+        "XVisitsFromDevices": "%1$s Besuche von %2$s Geräten",
         "WidgetBrowsers": "Besucher-Browser",
         "WidgetBrowsersDocumentation": "Dieser Bericht enthält Informationen über die Browser Ihrer Besucher. Jede Version eines Browsers wird separat aufgelistet."
     }

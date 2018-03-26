@@ -81,6 +81,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    // shortcuts help
+    it("should show shortcut help", function (done) {
+        expect.screenshot("shortcuts").to.be.captureSelector('.modal.open', function (page) {
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
+            page.sendKeys('body', '?', 100);
+        }, done);
+    });
+
     // visitors pages
     it('should load visitors > overview page correctly', function (done) {
         expect.screenshot("visitors_overview").to.be.captureSelector('.pageWrap', function (page) {
@@ -614,19 +622,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    // CustomAlerts plugin TODO: move to CustomAlerts plugin
-    it('should load the custom alerts list correctly', function (done) {
-        expect.screenshot('customalerts_list').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + generalParams + "&module=CustomAlerts&action=index&idSite=1&period=day&date=yesterday&tests_hide_piwik_version=1");
-        }, done);
-    });
-
-    it('should load the triggered custom alerts list correctly', function (done) {
-        expect.screenshot('customalerts_list_triggered').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + generalParams + "&module=CustomAlerts&action=historyTriggeredAlerts&idSite=1&period=day&date=yesterday&tests_hide_piwik_version=1");
-        }, done);
-    });
-
     // top bar pages
     it('should load the widgets listing page correctly', function (done) {
         expect.screenshot('widgets_listing').to.be.captureSelector('.pageWrap', function (page) {
@@ -674,8 +669,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             page.evaluate(function () {
                 $('.enrichedHeadline .title').each(function () {
-                    if ($(this).text().indexOf("Piwik") !== -1) {
-                        var replace = $(this).text().replace(/Piwik\s*\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, 'Piwik');
+                    if ($(this).text().indexOf("Matomo") !== -1) {
+                        var replace = $(this).text().replace(/Matomo\s*\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, 'Matomo');
                         $(this).text(replace);
                     }
                 });

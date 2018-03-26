@@ -7,12 +7,12 @@
                 {%- block pageTitle -%}
                     {%- if title is defined %}{{ title }} - {% endif %}
                     {%- if categoryTitle is defined %}{{ categoryTitle }} - {% endif %}
-                    Piwik
+                    Matomo
                 {%- endblock -%}
             </title>
             <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1"/>
             <meta name="viewport" content="initial-scale=1.0"/>
-            <meta name="generator" content="Piwik - free/libre analytics platform"/>
+            <meta name="generator" content="Matomo - free/libre analytics platform"/>
             <meta name="description" content="{% block pageDescription %}{% endblock %}"/>
             <meta name="apple-itunes-app" content="app-id=737216887" />
             {% block meta %}
@@ -21,6 +21,7 @@
 
             {% include "@CoreHome/_favicon.twig" %}
             {% include "@CoreHome/_applePinnedTabIcon.twig" %}
+            <meta name="theme-color" content="#37474f">
             {% include "_jsGlobalVariables.twig" %}
             {% include "_jsCssIncludes.twig" %}
 
@@ -41,6 +42,8 @@
         </div>
 
         <div piwik-popover-handler></div>
+
+        {% include "@CoreHome/_shortcuts.twig" %}
 
     {% endblock %}
 

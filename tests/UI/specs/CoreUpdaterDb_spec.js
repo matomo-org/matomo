@@ -17,6 +17,13 @@ describe("CoreUpdaterDb", function () {
         testEnvironment.save();
     });
 
+    after(function () {
+        if (testEnvironment.configOverride.General) {
+            delete testEnvironment.configOverride.General;
+            testEnvironment.save();
+        }
+    });
+
     function apiUpgradeTest(format) {
         it("should start the updater when an old version of Piwik is detected in the DB with format " + format, function (done) {
             expect.file('CoreUpdater.API.ErrorMessage' + format + '.txt').to.be.pageContents(function (page) {
@@ -31,6 +38,23 @@ describe("CoreUpdaterDb", function () {
 
     it("should start the updater when an old version of Piwik is detected in the DB", function (done) {
         expect.screenshot("main").to.be.capture(function (page) {
+            page.load("");
+            page.evaluate(function () {
+                $('p').each(function () {
+                    var replace = $(this).html().replace(/(?!1\.0)\d+\.\d+(\.\d+)?([\-a-z]*\d+)?/g, '');
+                    $(this).html(replace);
+                });
+            });
+        }, done);
+    });
+
+    it("should show instance id in updating screen", function (done) {
+        expect.screenshot("main_instance").to.be.capture(function (page) {
+            testEnvironment.configOverride.General = {
+                instance_id: 'custom.instance'
+            };
+            testEnvironment.save();
+
             page.load("");
             page.evaluate(function () {
                 $('p').each(function () {

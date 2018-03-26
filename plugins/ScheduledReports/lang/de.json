@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "Sie müssen angemeldet sein, um Berichte anlegen und versenden zu können.",
         "NoRecipients": "Dieser Bericht hat keine Empfänger",
         "Pagination": "Seite %1$s von %2$s",
-        "PiwikReports": "Piwik-Berichte",
+        "PiwikReports": "Matomo-Berichte",
         "PleaseFindAttachedFile": "Sie finden Ihren %1$s Bericht für %2$s in der angehängten Datei.",
         "SentFromX": "Gesendet von %s",
         "PleaseFindBelow": "Unterhalb befindet sich der Bericht (Intervall: %1$s) für %2$s.",
@@ -43,7 +43,7 @@
         "SentToMe": "An mich senden",
         "TableOfContent": "Liste der Berichte",
         "ThereIsNoReportToManage": "Es gibt keine Berichte für die Website %s",
-        "TopLinkTooltip": "Erstellen Sie E-Mailberichte, um Piwik Statistiken automatisch an Ihre E-Mailadresse oder die eines Kunden zu senden!",
+        "TopLinkTooltip": "Erstellen Sie E-Mailberichte, um Matomo Statistiken automatisch an Ihre E-Mailadresse oder die eines Kunden zu senden!",
         "TopOfReport": "Zurück zum Anfang",
         "UpdateReport": "Bericht ändern",
         "WeeklyScheduleHelp": "Wöchentlich: Bericht wird jede Woche montags verschickt."

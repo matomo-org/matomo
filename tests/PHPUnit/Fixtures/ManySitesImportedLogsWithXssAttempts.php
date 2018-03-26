@@ -50,7 +50,7 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
             APIGoals::getInstance()->addGoal(
-                $this->idSite, self::makeXssContent("goal name"), 'url', 'http', 'contains', false, 5);
+                $this->idSite, self::makeXssContent("goal name"), 'url', 'http', 'contains', false, 5, false, self::makeXssContent("goal description"));
         }
 
         if (!self::siteCreated($idSite = 2)) {

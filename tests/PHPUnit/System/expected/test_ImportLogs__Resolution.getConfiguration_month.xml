@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>Mac / RockMelt / unknown</label>
-		<nb_visits>6</nb_visits>
-		<nb_actions>9</nb_actions>
+		<nb_visits>11</nb_visits>
+		<nb_actions>14</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>4</bounce_count>
-		<nb_visits_converted>5</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
+		<bounce_count>9</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 	</row>
 	<row>

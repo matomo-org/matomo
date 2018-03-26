@@ -15,6 +15,6 @@ class PluginDeactivatedException extends \Exception
 {
     public function __construct($module)
     {
-        parent::__construct("The plugin $module is not enabled. You can activate the plugin on Settings > Plugins page in Piwik.");
+        parent::__construct("The plugin $module is not enabled. You can activate the plugin on Settings > Plugins page in Matomo.");
     }
 }

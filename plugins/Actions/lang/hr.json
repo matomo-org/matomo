@@ -23,7 +23,7 @@
         "ColumnUniqueClicksDocumentation": "Broj posjeta koje su obuhvaćale klik na ovaj link. U slučaju da je link korišten više puta, brojan je samo jednom.",
         "ColumnUniqueDownloads": "Jedinstvena preuzimanja",
         "ColumnUniqueOutlinks": "Unikatni odlazni linkovi",
-        "DownloadsReportDocumentation": "U ovom izvješću možete vidjeti popis datoteka koje su vaši posjetitelji preuzeli. %s Piwik kao download broji klik na poveznicu za download i ne može znati je li pri tom datoteka zaista u potpunosti preuzeta.",
+        "DownloadsReportDocumentation": "U ovom izvješću možete vidjeti popis datoteka koje su vaši posjetitelji preuzeli. %s Matomo kao download broji klik na poveznicu za download i ne može znati je li pri tom datoteka zaista u potpunosti preuzeta.",
         "EntryPageTitles": "Naslovi dolazih stranica",
         "EntryPageTitlesReportDocumentation": "Ovo izvješće sadrži informacije o naslovima korištenih dolaznih stranica unutar određenog razdoblja.",
         "ExitPageTitles": "Naslovi odlaznih stranica",

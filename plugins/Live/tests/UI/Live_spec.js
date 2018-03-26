@@ -12,10 +12,23 @@ describe("Live", function () {
 
     this.fixture = "Piwik\\Plugins\\Live\\tests\\Fixtures\\VisitsWithAllActionsAndDevices";
 
+    after(function () {
+        if (testEnvironment.configOverride.Deletelogs) {
+            delete testEnvironment.configOverride.Deletelogs;
+            testEnvironment.save();
+        }
+    });
+
     it('should show visitor log', function (done) {
         expect.screenshot('visitor_log').to.be.captureSelector('.reporting-page', function (page) {
             page.load("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
             page.wait(4000);
+        }, done);
+    });
+
+    it('should expand grouped actions', function (done) {
+        expect.screenshot('visitor_log_expand_actions').to.be.captureSelector('.dataTableVizVisitorLog .card.row:first-child', function (page) {
+            page.click('.dataTableVizVisitorLog .repeat.icon-refresh');
         }, done);
     });
 
@@ -53,6 +66,18 @@ describe("Live", function () {
     it('should show action tooltip', function (done) {
         expect.screenshot('visitor_profile_action_tooltip').to.be.captureSelector('.ui-tooltip:visible', function (page) {
             page.mouseMove('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child', 200);
+        }, done);
+    });
+
+    it('should show visitor log purge message when purged and no data', function (done) {
+        expect.screenshot('visitor_log_purged').to.be.captureSelector('.reporting-page', function (page) {
+
+            testEnvironment.overrideConfig('Deletelogs', 'delete_logs_enable', 1);
+            testEnvironment.overrideConfig('Deletelogs', 'delete_logs_older_than', 4000);
+            testEnvironment.save();
+
+            page.load("?module=CoreHome&action=index&idSite=1&period=year&date=2005-01-03#?idSite=1&period=year&date=2005-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
+            page.wait(4000);
         }, done);
     });
 });

@@ -148,7 +148,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function getDumpConfigData()
     {
         $header = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n" .
-            "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
+            "; file automatically generated or modified by Matomo; you can manually override the default values in global.ini.php by redefining them in this file.\n";
 
         return array(
             // Test name, array(

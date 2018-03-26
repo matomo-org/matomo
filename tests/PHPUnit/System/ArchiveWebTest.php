@@ -64,7 +64,7 @@ class ArchiveWebTest extends SystemTestCase
 
     private function assertWebArchivingDone($output, $checkArchivedSite = true)
     {
-        $this->assertContains('Starting Piwik reports archiving...', $output);
+        $this->assertContains('Starting Matomo reports archiving...', $output);
         if ($checkArchivedSite) {
             $this->assertContains('Archived website id = 1', $output);
         }

@@ -37,6 +37,12 @@ class Filesystem
         foreach ($plugins as $plugin) {
             $plugin->reloadPluginInformation();
         }
+
+        /**
+         * Triggered after all non-memory caches are cleared (eg, via the cache:clear
+         * command).
+         */
+        Piwik::postEvent('Filesystem.allCachesCleared');
     }
 
     /**

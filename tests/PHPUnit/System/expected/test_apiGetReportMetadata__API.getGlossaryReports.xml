@@ -18,7 +18,7 @@
 	</row>
 	<row>
 		<name>Campaigns (Referrers)</name>
-		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;https://piwik.org/docs/tracking-campaigns/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;campaigns documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;https://matomo.org/docs/tracking-campaigns/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;campaigns documentation on piwik.org&lt;/a&gt;</documentation>
 	</row>
 	<row>
 		<name>City (Visitors)</name>
@@ -38,11 +38,11 @@
 	</row>
 	<row>
 		<name>Custom Variables (Visitors)</name>
-		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://piwik.org/docs/custom-variables/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
 	</row>
 	<row>
 		<name>Downloads (Actions)</name>
-		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Piwik counts as a download is the click on a download link. Whether the download was completed or not isn't known to Piwik.</documentation>
+		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Matomo counts as a download is the click on a download link. Whether the download was completed or not isn't known to Matomo.</documentation>
 	</row>
 	<row>
 		<name>Entry page titles (Actions)</name>
@@ -114,7 +114,7 @@
 	</row>
 	<row>
 		<name>Site Search Keywords (Actions)</name>
-		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;https://piwik.org/docs/site-search/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
+		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;https://matomo.org/docs/site-search/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
 	</row>
 	<row>
 		<name>Social Networks (Referrers)</name>

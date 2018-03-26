@@ -16,6 +16,7 @@ use Piwik\Cookie;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\Model AS UsersModel;
 use Piwik\QuickForm2;
 use Piwik\Session;
 use Piwik\Url;
@@ -95,7 +96,9 @@ class Controller extends \Piwik\Plugin\Controller
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
             if (Nonce::verifyNonce('Login.login', $nonce)) {
-                $login = $form->getSubmitValue('form_login');
+                $loginOrEmail = $form->getSubmitValue('form_login');
+                $login = $this->getLoginFromLoginOrEmail($loginOrEmail);
+
                 $password = $form->getSubmitValue('form_password');
                 $rememberMe = $form->getSubmitValue('form_rememberme') == '1';
                 try {
@@ -116,6 +119,19 @@ class Controller extends \Piwik\Plugin\Controller
         self::setHostValidationVariablesView($view);
 
         return $view->render();
+    }
+
+    private function getLoginFromLoginOrEmail($loginOrEmail)
+    {
+        $model = new UsersModel();
+        if (!$model->userExists($loginOrEmail)) {
+            $user = $model->getUserByEmail($loginOrEmail);
+            if (!empty($user)) {
+                return $user['login'];
+            }
+        }
+
+        return $loginOrEmail;
     }
 
     /**
@@ -215,7 +231,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     protected function getMessageExceptionNoAccess()
     {
-        $message = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a href="?module=Proxy&action=redirect&url=' . urlencode('https://piwik.org/faq/how-to-install/#faq_98') . '" target="_blank">', '</a>'));
+        $message = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a href="?module=Proxy&action=redirect&url=' . urlencode('https://matomo.org/faq/how-to-install/#faq_98') . '" target="_blank">', '</a>'));
 
         $message .= $this->getMessageExceptionNoAccessWhenInsecureConnectionMayBeUsed();
 
@@ -234,7 +250,7 @@ class Controller extends \Piwik\Plugin\Controller
         if(Url::isSecureConnectionAssumedByPiwikButNotForcedYet()) {
             $message = '<br/><br/>' . Piwik::translate('Login_InvalidNonceSSLMisconfigured',
                     array(
-                        '<a href="?module=Proxy&action=redirect&url=' . urlencode('<a href="https://piwik.org/faq/how-to/faq_91/">') . '">',
+                        '<a href="?module=Proxy&action=redirect&url=' . urlencode('<a href="https://matomo.org/faq/how-to/faq_91/">') . '">',
                         '</a>',
                         'config/config.ini.php',
                         '<pre>force_ssl=1</pre>',

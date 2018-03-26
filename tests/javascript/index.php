@@ -354,6 +354,16 @@ function deleteCookies() {
     }
 }
 
+function mockDateMethods() {
+    var oldGetTime = Date.prototype.getTime;
+    Date.prototype.getTime = function getTime() {
+        if (mockNowValue) {
+            return mockNowValue;
+        }
+        return oldGetTime.apply(this, [].slice.call(arguments));
+    };
+}
+
 var contentTestHtml = {};
 
  function removeContentTrackingFixture()
@@ -420,8 +430,8 @@ function setupContentTrackingFixture(name, targetNode) {
   <div id="clickDiv"></div>
  </div>
  <map name="map">
-     <area id="area1" shape="rect" coords="0,0,10,10" href="img.jpg" alt="Piwik">
-     <area shape="circle" coords="10,10,10,20" href="img2.jpg" alt="Piwik2">
+     <area id="area1" shape="rect" coords="0,0,10,10" href="img.jpg" alt="Matomo">
+     <area shape="circle" coords="10,10,10,20" href="img2.jpg" alt="Matomo2">
  </map>
 
  <ol id="qunit-tests"></ol>
@@ -442,15 +452,17 @@ function setupContentTrackingFixture(name, targetNode) {
      })();
  }
 
+var mockNowValue = null;
 var hasLoaded = false;
 function PiwikTest() {
     hasLoaded = true;
 
     module('externals');
 
-
     // Delete cookies to prevent cookie store from impacting tests
     deleteCookies();
+
+    mockDateMethods();
 
     test("JSLint", function() {
         expect(1);
@@ -602,9 +614,11 @@ function PiwikTest() {
 
     module("core", {
         setup: function () {
+            mockNowValue = null;
             Piwik.getTracker().clearTrackedContentImpressions();
         },
         teardown: function () {
+            mockNowValue = null;
             $('#other #content').remove();
         }
     });
@@ -2104,7 +2118,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(88);
+        expect(91);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2131,6 +2145,7 @@ function PiwikTest() {
         equal( typeof tracker.getCurrentUrl, 'function', 'getCurrentUrl' );
         equal( typeof tracker.getRequest, 'function', 'getRequest' );
         equal( typeof tracker.addPlugin, 'function', 'addPlugin' );
+        equal( typeof tracker.resetUserId, 'function', 'resetUserId' );
         equal( typeof tracker.setUserId, 'function', 'setUserId' );
         equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
         equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
@@ -2153,6 +2168,7 @@ function PiwikTest() {
         equal( typeof tracker.disableCrossDomainLinking, 'function', 'disableCrossDomainLinking' );
         equal( typeof tracker.isCrossDomainLinkingEnabled, 'function', 'isCrossDomainLinkingEnabled' );
         equal( typeof tracker.setCrossDomainLinkingTimeout, 'function', 'isCrossDomainLinkingEnabled' );
+        equal( typeof tracker.getCrossDomainLinkingUrlParameter, 'function', 'getCrossDomainLinkingUrlParameter');
         equal( typeof tracker.setIgnoreClasses, 'function', 'setIgnoreClasses' );
         equal( typeof tracker.setRequestMethod, 'function', 'setRequestMethod' );
         equal( typeof tracker.setRequestContentType, 'function', 'setRequestContentType' );
@@ -2168,6 +2184,7 @@ function PiwikTest() {
         equal( typeof tracker.setCookieDomain, 'function', 'setCookieDomain' );
         equal( typeof tracker.setCookiePath, 'function', 'setCookiePath' );
         equal( typeof tracker.setSessionCookie, 'function', 'setSessionCookie' );
+        equal( typeof tracker.setSecureCookie, 'function', 'setSecureCookie' );
         equal( typeof tracker.getCookie, 'function', 'getCookie' );
         equal( typeof tracker.hasCookies, 'function', 'hasCookies' );
         equal( typeof tracker.getCookiePath, 'function', 'getCookiePath' );
@@ -2205,7 +2222,14 @@ function PiwikTest() {
         equal( typeof tracker.trackEcommerceCartUpdate, 'function', 'trackEcommerceCartUpdate' );
     });
 
-    module("API and internals");
+    module("API and internals", {
+        setup: function () {
+            mockNowValue = null;
+        },
+        teardown: function () {
+            mockNowValue = null;
+        },
+    });
 
     test("Tracker is_a functions", function() {
         expect(22);
@@ -2787,7 +2811,7 @@ function PiwikTest() {
     });
 
     test("Tracker CrossDomainLinking()", function() {
-        expect(55);
+        expect(57);
 
         var tracker = Piwik.getTracker();
 
@@ -2875,7 +2899,7 @@ function PiwikTest() {
         strictEqual('', makeReplaceHrefForCrossDomainLink(''), 'replaceHrefForCrossDomainLink, should not change URL if nothing is set');
         strictEqual(tracker.getTrackerUrl(), makeReplaceHrefForCrossDomainLink(tracker.getTrackerUrl()), 'replaceHrefForCrossDomainLink, should not change URL if href is a tracker URL');
         strictEqual(tracker.getTrackerUrl(), makeReplaceHrefForCrossDomainLink(tracker.getTrackerUrl()), 'replaceHrefForCrossDomainLink, should not change URL if href is a tracker URL');
-        
+
         tracker.setUserId('test');
         var replacedUrl = makeReplaceHrefForCrossDomainLink('http://www.example.com');
         ok(replacedUrl.indexOf('http://www.example.com?pk_vid=a94a8fe5ccb19ba61') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
@@ -2925,6 +2949,14 @@ function PiwikTest() {
         strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('http://' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, if outlink starting with http:// but not going to same website');
         strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('https://' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, if outlink starting with https:// but not going to same website');
 
+        // getCrossDomainLinkingUrlParameter() tests
+        mockNowValue = 1520391713308;
+        browserId = generateBrowserSpecificId();
+        var expectedCrossDomainParam = 'pk_vid=a94a8fe5ccb19ba6' + Math.floor(mockNowValue / 1000) + browserId;
+        equal(expectedCrossDomainParam, tracker.getCrossDomainLinkingUrlParameter());
+
+        // sanity check (test that getCrossDomainLinkingUrlParameter() uses the same value as makeReplaceHrefForCrossDomainLink)
+        equal('http://www.example.com?' + expectedCrossDomainParam, makeReplaceHrefForCrossDomainLink('http://www.example.com'));
     });
 
     test("Tracker getClassesRegExp()", function() {
@@ -2981,15 +3013,6 @@ function PiwikTest() {
             expectedValue = String(Math.random());
         tracker.hook.test._setCookie( cookieName, expectedValue );
         equal( tracker.hook.test._getCookie( cookieName ), expectedValue, 'getCookie(), setCookie()' );
-    });
-
-    test("Tracker setSecureCookie(), isSecureCookie()", function() {
-        expect(1);
-
-        var tracker = Piwik.getTracker();
-
-        tracker.hook.test._setSecureCookie(1);
-        equal( tracker.hook.test._isSecureCookie(), 1);
     });
 
     test("Tracker getCookieName() contains website ID", function() {
@@ -3112,7 +3135,7 @@ function PiwikTest() {
     }
 
     test("User ID and Visitor UUID", function() {
-        expect(23);
+        expect(26);
         deleteCookies();
 
         var userIdString = 'userid@mydomain.org';
@@ -3178,12 +3201,13 @@ function PiwikTest() {
 
 
         // Verify that when resetting the User ID, it also changes the Visitor ID
-        tracker.setUserId(false);
-        ok(getVisitorIdFromCookie(tracker).length == 16, "after setting empty user id, visitor ID from cookie should still be 16 chars, got: " + getVisitorIdFromCookie(tracker));
-        equal(getVisitorIdFromCookie(tracker), visitorId, "after setting empty user id, visitor ID from cookie should be the same as previously ("+ visitorId +")");
+        tracker.resetUserId();
+        equal(tracker.getUserId(), '', "after reset, user ID is set to empty string");
+        ok(tracker.getVisitorId().length == 16, "after resetting user id, visitor ID should still be 16 chars, got: " + tracker.getVisitorId());
+        notEqual(tracker.getVisitorId(), visitorId, "after resetting user id, visitor ID should be different ("+ tracker.getVisitorId() +")");
         tracker.trackPageView("Track some data to write the cookies...");
-        // Currently it does not work to setUserId(false)
-//        notEqual(getVisitorIdFromCookie(tracker), visitorId, "after setting empty user id, visitor ID from cookie should different ("+ visitorId +")");
+        ok(getVisitorIdFromCookie(tracker).length == 16, "after resetting user id, visitor ID from cookie should still be 16 chars, got: " + getVisitorIdFromCookie(tracker));
+        notEqual(getVisitorIdFromCookie(tracker), visitorId, "after resetting user id, visitor ID from cookie should be different ("+ getVisitorIdFromCookie(tracker) +")");
 
     });
 
@@ -3508,6 +3532,7 @@ if ($mysql) {
 
     module("request", {
         setup: function () {
+            mockNowValue = null;
             ok(true, "request.setup");
 
             deleteCookies();
@@ -3515,6 +3540,7 @@ if ($mysql) {
             ok(document.cookie === "", "deleteCookies");
         },
         teardown: function () {
+            mockNowValue = null;
             ok(true, "request.teardown");
         }
     });

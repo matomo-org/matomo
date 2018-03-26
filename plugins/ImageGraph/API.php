@@ -20,15 +20,15 @@ use Piwik\SettingsServer;
 use Piwik\Translate;
 
 /**
- * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Piwik report.
+ * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Matomo report.
  * Supported graph types are: line plot, 2D/3D pie chart and vertical bar chart.
  *
  * A few notes about some of the parameters available:<br/>
  * - $graphType defines the type of graph plotted, accepted values are: 'evolution', 'verticalBar', 'pie' and '3dPie'<br/>
- * - $colors accepts a comma delimited list of colors that will overwrite the default Piwik colors <br/>
+ * - $colors accepts a comma delimited list of colors that will overwrite the default Matomo colors <br/>
  * - you can also customize the width, height, font size, metric being plotted (in case the data contains multiple columns/metrics).
  *
- * See also <a href='http://piwik.org/docs/analytics-api/metadata/#toc-static-image-graphs'>How to embed static Image Graphs?</a> for more information.
+ * See also <a href='http://matomo.org/docs/analytics-api/metadata/#toc-static-image-graphs'>How to embed static Image Graphs?</a> for more information.
  *
  * @method static \Piwik\Plugins\ImageGraph\API getInstance()
  */
@@ -130,7 +130,7 @@ class API extends \Piwik\Plugin\API
 
         // Health check - should we also test for GD2 only?
         if (!SettingsServer::isGdExtensionEnabled()) {
-            throw new Exception('Error: To create graphs in Piwik, please enable GD php extension (with Freetype support) in php.ini,
+            throw new Exception('Error: To create graphs in Matomo, please enable GD php extension (with Freetype support) in php.ini,
             and restart your web server.');
         }
 

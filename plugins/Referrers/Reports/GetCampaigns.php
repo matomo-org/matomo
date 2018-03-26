@@ -21,7 +21,7 @@ class GetCampaigns extends Base
         $this->dimension     = new Campaign();
         $this->name          = Piwik::translate('Referrers_Campaigns');
         $this->documentation = Piwik::translate('Referrers_CampaignsReportDocumentation',
-                               array('<br />', '<a href="https://piwik.org/docs/tracking-campaigns/" rel="noreferrer"  target="_blank">', '</a>'));
+                               array('<br />', '<a href="https://matomo.org/docs/tracking-campaigns/" rel="noreferrer"  target="_blank">', '</a>'));
         $this->actionToLoadSubTables = 'getKeywordsFromCampaignId';
         $this->hasGoalMetrics = true;
         $this->order = 9;

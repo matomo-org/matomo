@@ -53,9 +53,17 @@ describe("Login", function () {
         }, done);
     });
 
+    it("login with email and password should work", function (done) {
+        expect.current_page.contains("#dashboard", function (page) {
+            page.sendKeys("#login_form_login", "hello@example.org");
+            page.sendKeys("#login_form_password", "superUserPass");
+            page.click("#login_form_submit");
+        }, done);
+    });
+
     it("should display password reset form when forgot password link clicked", function (done) {
         expect.screenshot("forgot_password").to.be.capture(function (page) {
-            page.reload();
+            page.click("nav .right .icon-sign-out");
             page.click("a#login_form_nav");
         }, done);
     });
@@ -101,6 +109,14 @@ describe("Login", function () {
         expect.page("").contains('#dashboard', 'formless_login', function (page) {
             page.click("nav .right .icon-sign-out");
             page.load(formlessLoginUrl);
+        }, done);
+    });
+
+    it('should not show login page when ips whitelisted and ip is not matching', function (done) {
+        expect.screenshot('ip_not_whitelisted').to.be.captureSelector('.box', function (page) {
+            testEnvironment.overrideConfig('General', 'login_whitelist_ip', ['199.199.199.199']);
+            testEnvironment.save();
+            page.load('');
         }, done);
     });
 });

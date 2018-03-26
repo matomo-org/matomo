@@ -25,11 +25,11 @@ use Twig_SimpleTest;
 
 function piwik_filter_truncate($string, $size)
 {
-    if (strlen($string) < $size) {
+    if (Common::mb_strlen(html_entity_decode($string)) <= $size) {
         return $string;
     } else {
-        $array = str_split($string, $size);
-        return array_shift($array) . "...";
+        preg_match('/^(&(?:[a-z\d]+|#\d+|#x[a-f\d]+);|.){'.$size.'}/i', $string, $shortenString);
+        return reset($shortenString) . "...";
     }
 }
 
@@ -313,7 +313,7 @@ class Twig
     {
         $themeLoader = new Twig_Loader_Filesystem(array(
                                                        sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, \Piwik\Plugin\Manager::DEFAULT_THEME)
-                                                  ));
+                                                  ), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
 
         return $themeLoader;
     }
@@ -330,7 +330,7 @@ class Twig
         }
         $themeLoader = new Twig_Loader_Filesystem(array(
                                                        sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName())
-                                                  ));
+                                                  ), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
 
         return $themeLoader;
     }

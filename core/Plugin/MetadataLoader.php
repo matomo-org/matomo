@@ -82,8 +82,8 @@ class MetadataLoader
         $descriptionKey = $this->pluginName . '_PluginDescription';
         return array(
             'description'      => $descriptionKey,
-            'homepage'         => 'https://piwik.org/',
-            'authors'          => array(array('name' => 'Piwik', 'homepage'  => 'https://piwik.org/')),
+            'homepage'         => 'https://matomo.org/',
+            'authors'          => array(array('name' => 'Matomo', 'homepage'  => 'https://matomo.org/')),
             'license'          => 'GPL v3+',
             'version'          => Version::VERSION,
             'theme'            => false,

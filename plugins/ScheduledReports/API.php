@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Context;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Development;
@@ -26,10 +27,8 @@ use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\ReportRenderer;
 use Piwik\Site;
-use Piwik\Tracker;
 use Piwik\Translate;
 use Piwik\Translation\Translator;
-use Piwik\Url;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -40,7 +39,7 @@ use Psr\Log\LoggerInterface;
  *
  * You can also get the list of all existing reports via "getReports", create new reports via "addReport",
  * or manage existing reports with "updateReport" and "deleteReport".
- * See also the documentation about <a href='http://piwik.org/docs/email-reports/' rel='noreferrer' target='_blank'>Scheduled Email reports</a> in Piwik.
+ * See also the documentation about <a href='http://matomo.org/docs/email-reports/' rel='noreferrer' target='_blank'>Scheduled Email reports</a> in Matomo.
  *
  * @method static \Piwik\Plugins\ScheduledReports\API getInstance()
  */
@@ -546,77 +545,80 @@ class API extends \Piwik\Plugin\API
             $date = Date::now()->subPeriod(1, $report['period'])->toString();
         }
 
-        $language = \Piwik\Plugins\LanguagesManager\API::getInstance()->getLanguageForUser($report['login']);
+        Context::changeIdSite($report['idsite'], function () use ($report, $idReport, $period, $date, $force) {
 
-        // generate report
-        list($outputFilename, $prettyDate, $reportSubject, $reportTitle, $additionalFiles) =
-            $this->generateReport(
-                $idReport,
-                $date,
-                $language,
-                self::OUTPUT_SAVE_ON_DISK,
-                $report['period']
+            $language = \Piwik\Plugins\LanguagesManager\API::getInstance()->getLanguageForUser($report['login']);
+
+            // generate report
+            list($outputFilename, $prettyDate, $reportSubject, $reportTitle, $additionalFiles) =
+                $this->generateReport(
+                    $idReport,
+                    $date,
+                    $language,
+                    self::OUTPUT_SAVE_ON_DISK,
+                    $report['period']
+                );
+
+            if (!file_exists($outputFilename)) {
+                throw new Exception("The report file wasn't found in $outputFilename");
+            }
+
+            $contents = file_get_contents($outputFilename);
+
+            if (empty($contents)) {
+                Log::warning("Scheduled report file '%s' exists but is empty!", $outputFilename);
+            }
+
+            /**
+             * Triggered when sending scheduled reports.
+             *
+             * Plugins that provide new scheduled report transport mediums should use this event to
+             * send the scheduled report.
+             *
+             * @param string $reportType A string ID describing how the report is sent, eg,
+             *                           `'sms'` or `'email'`.
+             * @param array $report An array describing the scheduled report that is being
+             *                      generated.
+             * @param string $contents The contents of the scheduled report that was generated
+             *                         and now should be sent.
+             * @param string $filename The path to the file where the scheduled report has
+             *                         been saved.
+             * @param string $prettyDate A prettified date string for the data within the
+             *                           scheduled report.
+             * @param string $reportSubject A string describing what's in the scheduled
+             *                              report.
+             * @param string $reportTitle The scheduled report's given title (given by a Matomo user).
+             * @param array $additionalFiles The list of additional files that should be
+             *                               sent with this report.
+             * @param \Piwik\Period $period The period for which the report has been generated.
+             * @param boolean $force A report can only be sent once per period. Setting this to true
+             *                       will force to send the report even if it has already been sent.
+             */
+            Piwik::postEvent(
+                self::SEND_REPORT_EVENT,
+                array(
+                    $report['type'],
+                    $report,
+                    $contents,
+                    $filename = basename($outputFilename),
+                    $prettyDate,
+                    $reportSubject,
+                    $reportTitle,
+                    $additionalFiles,
+                    \Piwik\Period\Factory::build($report['period'], $date),
+                    $force
+                )
             );
 
-        if (!file_exists($outputFilename)) {
-            throw new Exception("The report file wasn't found in $outputFilename");
-        }
+            // Update flag in DB
+            $now = Date::now()->getDatetime();
+            $this->getModel()->updateReport($report['idreport'], array('ts_last_sent' => $now));
 
-        $contents = file_get_contents($outputFilename);
-
-        if (empty($contents)) {
-            Log::warning("Scheduled report file '%s' exists but is empty!", $outputFilename);
-        }
-
-        /**
-         * Triggered when sending scheduled reports.
-         *
-         * Plugins that provide new scheduled report transport mediums should use this event to
-         * send the scheduled report.
-         *
-         * @param string $reportType A string ID describing how the report is sent, eg,
-         *                           `'sms'` or `'email'`.
-         * @param array $report An array describing the scheduled report that is being
-         *                      generated.
-         * @param string $contents The contents of the scheduled report that was generated
-         *                         and now should be sent.
-         * @param string $filename The path to the file where the scheduled report has
-         *                         been saved.
-         * @param string $prettyDate A prettified date string for the data within the
-         *                           scheduled report.
-         * @param string $reportSubject A string describing what's in the scheduled
-         *                              report.
-         * @param string $reportTitle The scheduled report's given title (given by a Piwik user).
-         * @param array $additionalFiles The list of additional files that should be
-         *                               sent with this report.
-         * @param \Piwik\Period $period The period for which the report has been generated.
-         * @param boolean $force A report can only be sent once per period. Setting this to true
-         *                       will force to send the report even if it has already been sent.
-         */
-        Piwik::postEvent(
-            self::SEND_REPORT_EVENT,
-            array(
-                $report['type'],
-                $report,
-                $contents,
-                $filename = basename($outputFilename),
-                $prettyDate,
-                $reportSubject,
-                $reportTitle,
-                $additionalFiles,
-                \Piwik\Period\Factory::build($report['period'], $date),
-                $force
-            )
-        );
-
-        // Update flag in DB
-        $now = Date::now()->getDatetime();
-        $this->getModel()->updateReport($report['idreport'], array('ts_last_sent' => $now));
-
-        if (!Development::isEnabled()) {
-            @chmod($outputFilename, 0600);
-            Filesystem::deleteFileIfExists($outputFilename);
-        }
+            if (!Development::isEnabled()) {
+                @chmod($outputFilename, 0600);
+                Filesystem::deleteFileIfExists($outputFilename);
+            }
+        });
     }
 
     private function getModel()
@@ -790,13 +792,13 @@ class API extends \Piwik\Plugin\API
 
         /**
          * TODO: change this event so it returns a list of API methods instead of report metadata arrays.
-         * Triggered when gathering the list of Piwik reports that can be used with a certain
+         * Triggered when gathering the list of Matomo reports that can be used with a certain
          * transport medium.
          *
          * Plugins that provide their own transport mediums should use this
-         * event to list the Piwik reports that their backend supports.
+         * event to list the Matomo reports that their backend supports.
          *
-         * @param array &$availableReportMetadata An array containg report metadata for each supported
+         * @param array &$availableReportMetadata An array containing report metadata for each supported
          *                                        report.
          * @param string $reportType A string ID describing how the report is sent, eg,
          *                           `'sms'` or `'email'`.
@@ -819,14 +821,14 @@ class API extends \Piwik\Plugin\API
 
         /**
          * Triggered when we're determining if a scheduled report transport medium can
-         * handle sending multiple Piwik reports in one scheduled report or not.
+         * handle sending multiple Matomo reports in one scheduled report or not.
          *
          * Plugins that provide their own transport mediums should use this
-         * event to specify whether their backend can send more than one Piwik report
+         * event to specify whether their backend can send more than one Matomo report
          * at a time.
          *
          * @param bool &$allowMultipleReports Whether the backend type can handle multiple
-         *                                    Piwik reports or not.
+         *                                    Matomo reports or not.
          * @param string $reportType A string ID describing how the report is sent, eg,
          *                           `'sms'` or `'email'`.
          */

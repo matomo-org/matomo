@@ -1,0 +1,5 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "Kirjoitettava Javascript-seuranta (\"\/piwik.js\")"
+    }
+}

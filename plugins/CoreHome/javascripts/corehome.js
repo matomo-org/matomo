@@ -76,15 +76,51 @@
 
 
 $( document ).ready(function() {
-   $('.accessibility-skip-to-content').click(function(e){
+    $('.accessibility-skip-to-content').click(function(e){
         $('a[name="main"]').attr('tabindex', -1).focus();
         $(window).scrollTo($('a[name="main"]'));
     });
 
     $("nav .activateTopMenu").sideNav({
         closeOnClick: true,
-        edge: 'right',
+        edge: 'right'
     });
 
     $('select').material_select();
+
+    piwikHelper.registerShortcut('?', _pk_translate('CoreHome_ShortcutHelp') , function (event) {
+        // don't open if an modal is already shown
+        if (event.altKey || $('.modal.open').length) {
+            return;
+        }
+        if (event.preventDefault) {
+            event.preventDefault();
+        } else {
+            event.returnValue = false; // IE
+        }
+
+        var list = $('#shortcuthelp dl');
+        list.empty();
+
+        var keys = Object.keys(piwikHelper.shortcuts).sort();
+
+        jQuery.each(keys, function(i, key) {
+            if (piwikHelper.shortcuts.hasOwnProperty(key)) {
+                list.append($('<dt />').append($('<kbd />').text(key)));
+                list.append($('<dd />').text(piwikHelper.shortcuts[key]));
+            }
+        });
+
+        var isMac = navigator.userAgent.indexOf('Mac OS X') != -1;
+
+        list.append($('<dt />').append($('<kbd />').text(_pk_translate(isMac ? "CoreHome_MacPageUp" : "CoreHome_HomeShortcut"))));
+
+        list.append($('<dd />').text(_pk_translate('CoreHome_PageUpShortcutDescription')));
+
+        list.append($('<dt />').append($('<kbd />').text(_pk_translate(isMac ? "CoreHome_MacPageDown" : "CoreHome_EndShortcut"))));
+
+        list.append($('<dd />').text(_pk_translate('CoreHome_PageDownShortcutDescription')));
+
+        piwikHelper.modalConfirm('#shortcuthelp');
+    });
 });

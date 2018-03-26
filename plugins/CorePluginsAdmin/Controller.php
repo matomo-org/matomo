@@ -229,7 +229,7 @@ class Controller extends Plugin\ControllerAdmin
 
             if (isset($plugin['info']) && isset($plugin['info']['authors'])) {
                 foreach ($plugin['info']['authors'] as $author) {
-                    if (in_array(strtolower($author['name']), array('piwik', 'innocraft'))) {
+                    if (in_array(strtolower($author['name']), array('piwik', 'innocraft', 'matomo', 'matomo-org'))) {
                         $plugin['isOfficialPlugin'] = true;
                         break;
                     }

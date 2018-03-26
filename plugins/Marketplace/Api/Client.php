@@ -167,7 +167,8 @@ class Client
         foreach ($plugins as $plugin) {
             $pluginName = $plugin->getPluginName();
             if (!$this->pluginManager->isPluginBundledWithCore($pluginName)) {
-                $params[] = array('name' => $plugin->getPluginName(), 'version' => $plugin->getVersion());
+                $isActivated = $this->pluginManager->isPluginActivated($pluginName);
+                $params[] = array('name' => $plugin->getPluginName(), 'version' => $plugin->getVersion(), 'activated' => (int) $isActivated);
             }
         }
 

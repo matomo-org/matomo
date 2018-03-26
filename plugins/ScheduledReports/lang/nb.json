@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "Du må være logget inn for å lage og planlegge tilpassede rapporter.",
         "NoRecipients": "Denne rapporten har ingen mottakere",
         "Pagination": "Side %1$s av %2$s",
-        "PiwikReports": "Piwik-rapporter",
+        "PiwikReports": "Matomo-rapporter",
         "SentFromX": "Sendt fra %s.",
         "PleaseFindBelow": "Nedenfor finner du din %1$s rapport for %2$s.",
         "PluginDescription": "Lag tilpassede rapporter og planlegg dem slik at de kan sendes på e-post daglig, ukentlig eller månedlig til én eller flere personer. Flere rapportformater er støttet (html, pdf, csv, bilder).",
@@ -41,7 +41,7 @@
         "SentToMe": "Send til meg",
         "TableOfContent": "Rapportliste",
         "ThereIsNoReportToManage": "Det er ingen rapporter å administrere for nettstedet %s",
-        "TopLinkTooltip": "Lag e-postrapporter for å få Piwik-statistikk levert til din eller andres e-post automatisk!",
+        "TopLinkTooltip": "Lag e-postrapporter for å få Matomo-statistikk levert til din eller andres e-post automatisk!",
         "TopOfReport": "Tilbake til toppen",
         "UpdateReport": "Oppdater rapport",
         "WeeklyScheduleHelp": "Ukeplan: Rapportene blir sendt første mandag i hver uke."

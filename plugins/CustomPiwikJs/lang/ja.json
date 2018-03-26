@@ -1,8 +1,7 @@
 {
     "CustomPiwikJs": {
-        "PluginDescription": "任意のプラグインがPiwik JavaScriptトラッキングファイル ( piwik.js ) を拡張し、新しい機能とウェブサイトの測定機能を追加できるようにします。",
-        "DiagnosticPiwikJsWritable": "書き込み可能なJavaScript トラッカー ( \"\/piwik.js\" )",
-        "DiagnosticPiwikJsNotWritable": "Piwik JavaScript トラッカーファイル \"\/piwik.js\" は書き込み可能ではありません。これは、他のプラグインがJavaScript トラッカーを拡張できないことを意味します。将来的には、一部のコア機能も期待どおりに機能しない可能性があります。",
-        "DiagnosticPiwikJsMakeWritable": "次のコマンドを実行して書き込み可能な Piwik.js を使用することをお勧めします：%s"
+        "PluginDescription": "任意のプラグインが Matomo JavaScript トラッキングファイル ( piwik.js ) を拡張し、新しい機能とウェブサイトの測定機能を追加できるようにします。",
+        "DiagnosticPiwikJsWritable": "書き込み可能な JavaScript トラッカー ( \"\/piwik.js\" )",
+        "DiagnosticPiwikJsMakeWritable": "次のコマンドを実行して書き込み可能な piwik.js を使用することをお勧めします：%s"
     }
 }

@@ -28,7 +28,7 @@
         "ColumnUniqueOutlinks": "Tautan Luar Unik",
         "ColumnIdPageview": "ID Tampilan Halaman",
         "ColumnInteractionPosition": "Posisi Interaksi",
-        "DownloadsReportDocumentation": "Dalam laporan ini, Anda dapat melihat berkas yang diunduh oleh pengunjung. %s Apa yang Piwik hitung adalah yang mengeklik tautan unduhan. Namun, bila unduhan sudah lengkap atau belum Piwik tidak mengetahuinya.",
+        "DownloadsReportDocumentation": "Dalam laporan ini, Anda dapat melihat berkas yang diunduh oleh pengunjung. %s Apa yang Matomo hitung adalah yang mengeklik tautan unduhan. Namun, bila unduhan sudah lengkap atau belum Matomo tidak mengetahuinya.",
         "EntryPagesReportDocumentation": "Laporan ini berisi informasi tentang halaman masuk yang digunakan selama periode yang ditentukan. Halaman masuk adalah halaman pertama yang dilihat pengguna selama kunjungan mereka. %s URL entri ditampilkan sebagai struktur folder.",
         "EntryPageTitles": "Judul halaman masuk",
         "EntryPageTitlesReportDocumentation": "Laporan ini mengandung informasi tentang judul halaman masuk yang digunakan selama rentang waktu tertentu.",

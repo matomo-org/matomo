@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "jedynie ten portal",
         "SegmentIsDisplayedForWebsite": "i przetwarzane dla",
         "SegmentNotApplied": "Grupa '%s' nie nałożona",
-        "SegmentNotAppliedMessage": "Próbujesz pobrać dane Skonfigurowanej przez Ciebie Grupy '%s', konfiguracja tego Piwik'a zapobiega przetwarzaniu ich w czasie rzeczywistym ze względu na wydajność.",
+        "SegmentNotAppliedMessage": "Próbujesz pobrać dane Skonfigurowanej przez Ciebie Grupy '%s', konfiguracja tego Matomo'a zapobiega przetwarzaniu ich w czasie rzeczywistym ze względu na wydajność.",
         "SelectSegmentOfVisits": "Wybierz grupę odwiedzających:",
         "ThisSegmentIsVisibleTo": "Ta grupa widoczna jest dla:",
         "VisibleToAllUsers": "wszystkich użytkowników",

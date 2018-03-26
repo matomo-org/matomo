@@ -174,7 +174,7 @@ class PageUrl
         }
 
         if (!empty($parsedUrl['host'])) {
-            $parsedUrl['host'] = Common::mb_strtolower($parsedUrl['host'], 'UTF-8');
+            $parsedUrl['host'] = Common::mb_strtolower($parsedUrl['host']);
         }
 
         if (!empty($parsedUrl['fragment'])) {

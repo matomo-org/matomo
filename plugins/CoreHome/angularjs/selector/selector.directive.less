@@ -7,7 +7,7 @@
     .font-default(11px, 12px);
     display: inline-block;
     width: 100%;
-    padding: 11px 19px 10px;
+    padding: 10px 15px 11px 13px;
     white-space: nowrap;
     cursor: pointer;
     text-transform: uppercase;
@@ -15,7 +15,7 @@
     color: @theme-color-text;
 
     &.activityIndicator {
-      background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat right 9px;
+      background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat 9px 9px;
 
       .icon {
         visibility: hidden;
@@ -23,7 +23,7 @@
     }
 
     .icon {
-      padding-left: 6px;
+      padding-right: 6px;
       display: inline-block;
       vertical-align: top;
 
@@ -33,7 +33,7 @@
     }
 
     .icon:not(.icon-fixed) {
-      float: right;
+      float: left;
       &:after {
         clear:right;
         content: ' ';

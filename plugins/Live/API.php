@@ -25,7 +25,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Live/Visitor.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 /**
- * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='http://piwik.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>,
+ * The Live! API lets you access complete visit level information about your visitors. Combined with the power of <a href='http://matomo.org/docs/analytics-api/segmentation/' target='_blank'>Segmentation</a>,
  * you will be able to request visits filtered by any criteria.
  *
  * The method "getLastVisitsDetails" will return extensive data for each visit, which includes: server time, visitId, visitorId,
@@ -37,12 +37,12 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  * browser, type of screen, resolution, supported browser plugins (flash, java, silverlight, pdf, etc.), various dates & times format to make
  * it easier for API users... and more!
  *
- * With the parameter <a href='http://piwik.org/docs/analytics-api/segmentation/' rel='noreferrer' target='_blank'>'&segment='</a> you can filter the
+ * With the parameter <a href='http://matomo.org/docs/analytics-api/segmentation/' rel='noreferrer' target='_blank'>'&segment='</a> you can filter the
  * returned visits by any criteria (visitor IP, visitor ID, country, keyword used, time of day, etc.).
  *
  * The method "getCounters" is used to return a simple counter: visits, number of actions, number of converted visits, in the last N minutes.
  *
- * See also the documentation about <a href='http://piwik.org/docs/real-time/' rel='noreferrer' target='_blank'>Real time widget and visitor level reports</a> in Piwik.
+ * See also the documentation about <a href='http://matomo.org/docs/real-time/' rel='noreferrer' target='_blank'>Real time widget and visitor level reports</a> in Matomo.
  * @method static \Piwik\Plugins\Live\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -71,6 +71,14 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
         $model = new Model();
+
+        if (is_string($showColumns)) {
+            $showColumns = explode(',', $showColumns);
+        }
+
+        if (is_string($hideColumns)) {
+            $hideColumns = explode(',', $hideColumns);
+        }
 
         $counters = array();
 
@@ -207,12 +215,10 @@ class API extends \Piwik\Plugin\API
             $visitorId = $this->getMostRecentVisitorId($idSite, $segment);
         }
 
-        $newSegment = ($segment === false ? '' : $segment . ';') . 'visitorId==' . $visitorId;
-
         $limit = Config::getInstance()->General['live_visitor_profile_max_visits_to_aggregate'];
 
-        $visits = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $newSegment,
-            $offset = 0, $limit);
+        $visits = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $segment,
+            $offset = 0, $limit, false, false, $visitorId);
         $this->addFilterToCleanVisitors($visits, $idSite, $flat = false, $doNotFetchActions = false, $filterNow = true);
 
         if ($visits->getRowsCount() == 0) {
@@ -287,6 +293,32 @@ class API extends \Piwik\Plugin\API
         $visitor        = $visitorFactory->create($visitDetails);
 
         return $visitor->getVisitorId();
+    }
+
+    /**
+     * Returns the very first visit for the given visitorId
+     *
+     * @internal
+     *
+     * @param $idSite
+     * @param $visitorId
+     *
+     * @return DataTable
+     */
+    public function getFirstVisitForVisitorId($idSite, $visitorId)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        if (empty($visitorId)) {
+            return new DataTable();
+        }
+
+        $model = new Model();
+        $data = $model->queryLogVisits($idSite, false, false, false, 0, 1, $visitorId, false, 'ASC');
+        $dataTable = $this->makeVisitorTableFromArray($data);
+        $this->addFilterToCleanVisitors($dataTable, $idSite, false, true);
+
+        return $dataTable;
     }
 
     /**
@@ -380,6 +412,4 @@ class API extends \Piwik\Plugin\API
 
         return $dataTable;
     }
-
-
 }

@@ -20,7 +20,7 @@
 					<latest_2x_beta>Latest beta 2.X (Long Term Support version)</latest_2x_beta>
 				</availableValues>
 				<description />
-				<inlineHelp>While our &lt;a href='?module=Proxy&amp;action=redirect&amp;url=https://piwik.org/participate/development-process/' target='_blank'&gt;development process&lt;/a&gt; includes thousands of automated tests, Beta Testers play a key role in achieving the &quot;No bug policy&quot; in Piwik.&lt;br/&gt;If Piwik is a critical part of your business, we recommend you use the latest stable release. If you use the latest beta and you find a bug or have a suggestion, please &lt;a href='?module=Proxy&amp;action=redirect&amp;url=https%3A%2F%2Fdeveloper.piwik.org%2Fguides%2Fcore-team-workflow%23influencing-piwik-development' target='_blank'&gt;see here&lt;/a&gt;.&lt;br /&gt;LTS (Long Term Support) versions receive only security and bug fixes.</inlineHelp>
+				<inlineHelp>While our &lt;a href='?module=Proxy&amp;action=redirect&amp;url=https://matomo.org/participate/development-process/' target='_blank'&gt;development process&lt;/a&gt; includes thousands of automated tests, Beta Testers play a key role in achieving the &quot;No bug policy&quot; in Matomo.&lt;br/&gt;If Matomo is a critical part of your business, we recommend you use the latest stable release. If you use the latest beta and you find a bug or have a suggestion, please &lt;a href='?module=Proxy&amp;action=redirect&amp;url=https%3A%2F%2Fdeveloper.matomo.org%2Fguides%2Fcore-team-workflow%23influencing-piwik-development' target='_blank'&gt;see here&lt;/a&gt;.&lt;br /&gt;LTS (Long Term Support) versions receive only security and bug fixes.</inlineHelp>
 				<templateFile />
 				<introduction>Release channel</introduction>
 				<condition />
@@ -156,7 +156,7 @@ Another line</defaultValue>
 			</row>
 			<row>
 				<name>trackToPiwik</name>
-				<title>Send usage data to Piwik.org</title>
+				<title>Send usage data to Matomo.org</title>
 				<value>0</value>
 				<defaultValue>1</defaultValue>
 				<type>boolean</type>
@@ -164,10 +164,10 @@ Another line</defaultValue>
 				<uiControlAttributes>
 				</uiControlAttributes>
 				<availableValues />
-				<description>If enabled, anonymized usage data will be sent to demo-anonymous.piwik.org and the tracked data can be viewed there (the data is public). The collected data is used to improve Piwik. Thank you for making Piwik better!</description>
+				<description>If enabled, anonymized usage data will be sent to demo-anonymous.matomo.org and the tracked data can be viewed there (the data is public). The collected data is used to improve Matomo. Thank you for making Matomo better!</description>
 				<inlineHelp />
 				<templateFile />
-				<introduction>Send anonmyized usage data to the creators of Piwik</introduction>
+				<introduction>Send anonmyized usage data to the creators of Matomo</introduction>
 				<condition />
 			</row>
 			<row>
@@ -180,10 +180,10 @@ Another line</defaultValue>
 				<uiControlAttributes>
 				</uiControlAttributes>
 				<availableValues />
-				<description>If specified, anonymized usage data will be sent to the specified site in this Piwik.</description>
+				<description>If specified, anonymized usage data will be sent to the specified site in this Matomo. This lets you analyze how you and your colleagues are using Matomo.</description>
 				<inlineHelp />
 				<templateFile />
-				<introduction>Send anonymize usage data to this Piwik</introduction>
+				<introduction>Send usage data to this Matomo</introduction>
 				<condition />
 			</row>
 			<row>
@@ -204,19 +204,19 @@ Another line</defaultValue>
 			</row>
 			<row>
 				<name>customSiteUrl</name>
-				<title>Piwik Url</title>
+				<title>Matomo Url</title>
 				<value />
 				<defaultValue />
 				<type>string</type>
 				<uiControl>text</uiControl>
 				<uiControlAttributes>
-					<placeHolder>eg. http://example.com/piwik</placeHolder>
+					<placeHolder>eg. http://example.com/matomo</placeHolder>
 				</uiControlAttributes>
 				<availableValues />
 				<description />
 				<inlineHelp />
 				<templateFile />
-				<introduction>Send anonymize usage data to a custom Piwik</introduction>
+				<introduction>Send usage data to a custom Matomo</introduction>
 				<condition />
 			</row>
 			<row>
@@ -230,7 +230,7 @@ Another line</defaultValue>
 					<placeHolder>eg. &quot;2&quot;</placeHolder>
 				</uiControlAttributes>
 				<availableValues />
-				<description>If a URL and Site Id is specified, usage data will be sent to the custom Piwik instance.</description>
+				<description>If a URL and Site Id is specified, usage data will be sent to the custom Matomo instance.</description>
 				<inlineHelp />
 				<templateFile />
 				<introduction />

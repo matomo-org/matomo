@@ -23,7 +23,7 @@
         "ColumnUniqueClicksDocumentation": "O número de visitas que envolveu um clique neste link. Se um link foi clicado várias vezes durante uma visita, só é contado uma vez.",
         "ColumnUniqueDownloads": "Transferências Únicas",
         "ColumnUniqueOutlinks": "Links de saída únicos",
-        "DownloadsReportDocumentation": "Neste relatório, você pode ver quais os arquivos que os visitantes têm feito download.%s O que o Piwik entende como um download é clicar num link de download. Se o download foi concluído ou não, não é conhecido pelo Piwik.",
+        "DownloadsReportDocumentation": "Neste relatório, você pode ver quais os arquivos que os visitantes têm feito download.%s O que o Matomo entende como um download é clicar num link de download. Se o download foi concluído ou não, não é conhecido pelo Matomo.",
         "EntryPageTitles": "Títulos das páginas de entrada",
         "EntryPageTitlesReportDocumentation": "Este relatório contém informações sobre os títulos das páginas de entrada que foram usados ​​durante o período especificado.",
         "ExitPageTitles": "Títulos das páginas de saída",

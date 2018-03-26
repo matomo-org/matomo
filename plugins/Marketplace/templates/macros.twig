@@ -1,6 +1,6 @@
 
 {% macro pluginDeveloper(owner) %}
-    {% if 'piwik' == owner %}<img title="Piwik" alt="Piwik" style="padding-bottom:2px;height:11px;" src="plugins/Morpheus/images/logo-marketplace.png"/>{% else %}{{ owner }}{% endif %}
+    {% if 'piwik' == owner or 'matomo-org' == owner %}<img title="Matomo" alt="Matomo" style="padding-bottom:2px;height:11px;" src="plugins/Morpheus/images/logo-marketplace.png"/>{% else %}{{ owner }}{% endif %}
 {% endmacro %}
 
 {% macro featuredIcon(align='') %}

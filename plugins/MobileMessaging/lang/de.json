@@ -4,14 +4,14 @@
         "MobileReport_AdditionalPhoneNumbers": "Sie können weitere Telefonnummern hinzufügen auf",
         "MobileReport_MobileMessagingSettingsLink": "der Mobile Messaging Einstellungsseite",
         "MobileReport_NoPhoneNumbers": "Bitte aktivieren Sie mindestens eine Telefonnummer auf",
-        "MultiSites_Must_Be_Activated": "Um SMS-Berichte über Ihre Website-Statistiken generieren zu können, aktivieren Sie das MultiSites-Plugin in Piwik.",
+        "MultiSites_Must_Be_Activated": "Um SMS-Berichte über Ihre Website-Statistiken generieren zu können, aktivieren Sie das MultiSites-Plugin in Matomo.",
         "PhoneNumbers": "Telefonnummern",
         "PluginDescription": "Erstellen Sie eigene SMS-Berichte, laden Sie diese herunter und lassen Sie diese täglich, wöchentlich oder monatlich auf Ihr Handy senden.",
         "Settings_APIKey": "API Schlüssel",
         "Settings_CountryCode": "Ländervorwahl",
         "Settings_SelectCountry": "Land auswählen",
-        "Settings_CredentialNotProvided": "Bevor Sie Telefonnummern erstellen und verwalten können, verbinden Sie bitte Piwik mit Ihrem SMS Konto oberhalb.",
-        "Settings_CredentialNotProvidedByAdmin": "Bevor Sie Telefonnummern anlegen und verwalten können, bitten Sie Ihren Administrator darum Piwik mit einem SMS-Account zu verknüpfen.",
+        "Settings_CredentialNotProvided": "Bevor Sie Telefonnummern erstellen und verwalten können, verbinden Sie bitte Matomo mit Ihrem SMS Konto oberhalb.",
+        "Settings_CredentialNotProvidedByAdmin": "Bevor Sie Telefonnummern anlegen und verwalten können, bitten Sie Ihren Administrator darum Matomo mit einem SMS-Account zu verknüpfen.",
         "Settings_CredentialProvided": "Ihr %s SMS-API Zugang ist korrekt konfiguriert.",
         "Settings_CredentialInvalid": "Ihr %1$s SMS API Account ist konfiguriert, jedoch ist ein Fehler beim Abrufen des verfügbaren Guthabens aufgetreten.",
         "Settings_DeleteAccountConfirm": "Sind Sie sicher, dass Sie das SMS Konto löschen möchten?",
@@ -28,7 +28,7 @@
         "Settings_PhoneNumbers_Add": "Neue Telefonnummer hinzufügen",
         "Settings_PhoneNumbers_CountryCode_Help": "Falls Sie die Ländervorwahl nicht wissen, suchen Sie hier Ihr Land.",
         "Settings_PhoneNumbers_Help": "Bevor Sie SMS (Textnachrichten) auf dem Telefon empfangen können, müssen Sie unten die Telefonnummer eingeben.",
-        "Settings_PhoneNumbers_HelpAdd": "Wenn Sie auf \"Hinzufügen\" klicken wird eine SMS mit einem Code an Ihr Telefon versendet. Wenn Sie den Code empfangen loggen Sie sich bitte in Piwik ein, klicken auf Einstellungen und danach Mobile Messaging. Nach dem Eingeben des Codes können Sie Textberichte auf diesem Telefon empfangen.",
+        "Settings_PhoneNumbers_HelpAdd": "Wenn Sie auf \"Hinzufügen\" klicken wird eine SMS mit einem Code ans Telefon versendet. Der Benutzer,der den Code empfängt, sollte sich dann in Mamoto einloggen, auf Einstellungen und danach auf Mobile Messaging klicken. Nach dem Eingeben des Codes kann der Benutzer Textberichte auf diesem Telefon empfangen.",
         "Settings_PleaseSignUp": "Um SMS Berichte zu erstellen und Textnachrichten mit Ihren Statistiken auf Ihrem Mobiltelefon empfangen zu können, registrieren Sie sich unterhalb für die SMS API.",
         "Settings_SMSAPIAccount": "SMS-API Zugang verwalten",
         "Settings_SMSProvider": "SMS-Anbieter",
@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Erhalten Sie Webanalytik Berichte direkt in Ihren E-Mail Posteingang oder auf Ihr Mobiltelefon!",
         "TopMenu": "E-Mail & SMS Berichte",
         "UserKey": "Userkey",
-        "VerificationText": "Der Code lautet %1$s. Um Ihre Telefonnummer zu validieren und Piwik SMS Berichte zu erhalten kopieren Sie bitte diesen Code in das Formular unter Piwik > %2$s > %3$s."
+        "VerificationText": "Der Code lautet %1$s. Um Ihre Telefonnummer zu validieren und Matomo SMS Berichte zu erhalten kopieren Sie bitte diesen Code in das Formular unter Matomo > %2$s > %3$s."
     }
 }

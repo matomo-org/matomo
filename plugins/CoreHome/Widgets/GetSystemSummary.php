@@ -38,7 +38,7 @@ class GetSystemSummary extends Widget
 
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('About Piwik');
+        $config->setCategoryId('About Matomo');
         $config->setName('CoreHome_SystemSummaryWidget');
         $config->setOrder(15);
         $config->setIsEnabled(Piwik::hasUserSuperUserAccess());
@@ -66,8 +66,8 @@ class GetSystemSummary extends Widget
         Piwik::postEvent('System.addSystemSummaryItems', array(&$systemSummary));
 
         $systemSummary[] = new Item($key = 'piwik-version', Piwik::translate('CoreHome_SystemSummaryPiwikVersion'), Version::VERSION, $url = null, $icon = '', $order = 21);
-        $systemSummary[] = new Item($key = 'php-version', Piwik::translate('CoreHome_SystemSummaryMysqlVersion'), $mysqlVersion, $url = null, $icon = '', $order = 22);
-        $systemSummary[] = new Item($key = 'mysql-version', Piwik::translate('CoreHome_SystemSummaryPhpVersion'), phpversion(), $url = null, $icon = '', $order = 23);
+        $systemSummary[] = new Item($key = 'mysql-version', Piwik::translate('CoreHome_SystemSummaryMysqlVersion'), $mysqlVersion, $url = null, $icon = '', $order = 22);
+        $systemSummary[] = new Item($key = 'php-version', Piwik::translate('CoreHome_SystemSummaryPhpVersion'), phpversion(), $url = null, $icon = '', $order = 23);
 
         $systemSummary = array_filter($systemSummary);
         usort($systemSummary, function ($itemA, $itemB) {

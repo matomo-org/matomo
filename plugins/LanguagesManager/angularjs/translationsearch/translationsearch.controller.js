@@ -11,21 +11,58 @@
 
     function TranslationSearchController(piwikApi) {
 
-        var vm = this;
-        vm.existingTranslations = [];
-
-        fetchTranslations();
-
-        function fetchTranslations() {
+        function fetchTranslations(languageCode) {
             piwikApi.fetch({
                 method: 'LanguagesManager.getTranslationsForLanguage',
                 filter_limit: -1,
-                languageCode: 'en'
+                languageCode: languageCode
             }).then(function (response) {
                 if (response) {
-                    vm.existingTranslations = response;
+                    if (languageCode === 'en') {
+                        vm.existingTranslations = response;
+                    } else {
+                        vm.compareTranslations = {};
+                        angular.forEach(response, function (translation) {
+                            vm.compareTranslations[translation.label] = translation.value;
+                        });
+                    }
                 }
             });
         }
+
+        function fetchLanguages() {
+            piwikApi.fetch({
+                method: 'LanguagesManager.getAvailableLanguagesInfo',
+                filter_limit: -1
+            }).then(function (languages) {
+                vm.languages = [{key: '', value: 'None'}];
+                if (languages) {
+                    angular.forEach(languages, function (language) {
+                        if (language.code === 'en') {
+                            return;
+                        }
+                        vm.languages.push({key: language.code, value: language.name});
+                    });
+                }
+            });
+        }
+
+        var vm = this;
+        vm.compareTranslations = null;
+        vm.existingTranslations = [];
+        vm.languages = [];
+        vm.compareLanguage = '';
+
+        this.doCompareLanguage = function () {
+            if (vm.compareLanguage) {
+                vm.compareTranslations = null;
+                fetchTranslations(vm.compareLanguage);
+            }
+        };
+
+        fetchTranslations('en');
+
+        fetchLanguages();
+
     }
 })();

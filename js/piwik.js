@@ -956,6 +956,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*global window */
 /*global unescape */
 /*global ActiveXObject */
+/*global Blob */
 /*members Piwik, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
@@ -965,7 +966,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,
     responseEnd, event, which, button, srcElement, type, target,
     parentNode, tagName, hostname, className,
-    userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
+    userAgent, cookieEnabled, sendBeacon, platform, mimeTypes, enabledPlugin, javaEnabled,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
     toLowerCase, toUpperCase, charAt, indexOf, lastIndexOf, split, slice,
@@ -974,7 +975,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     exec,
     res, width, height,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    initialized, hook, getHook, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
+    initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
@@ -986,12 +987,12 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     discardHashTag,
-    setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, isSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
+    setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
     disablePerformanceTracking, setGenerationTimeMs,
     doNotTrack, setDoNotTrack, msDoNotTrack, getValuesFromVisitorIdCookie,
-    enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout,
+    enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, trackSiteSearch, trackEvent,
@@ -1090,7 +1091,9 @@ if (typeof window.Piwik !== 'object') {
             /* local Piwik */
             Piwik,
 
-            missedPluginTrackerCalls = [];
+            missedPluginTrackerCalls = [],
+
+            isPageUnloading = false;
 
         /************************************************************
          * Private methods
@@ -1391,6 +1394,7 @@ if (typeof window.Piwik !== 'object') {
          */
         function beforeUnloadHandler() {
             var now;
+            isPageUnloading = true;
 
             executePluginMethod('unload');
             /*
@@ -3105,6 +3109,9 @@ if (typeof window.Piwik !== 'object') {
                 // Default is user agent defined.
                 configCookiePath,
 
+                // Whether to use "Secure" cookies that only work over SSL
+                configCookieIsSecure = false,
+
                 // First-party cookies are disabled
                 configCookiesDisabled = false,
 
@@ -3202,9 +3209,7 @@ if (typeof window.Piwik !== 'object') {
                 // pageview was already tracked or not
                 numTrackedPageviews = 0,
 
-                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
-
-                secureCookie = false;
+                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
 
             // Document title
             try {
@@ -3216,7 +3221,7 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Set cookie value
              */
-            function setCookie(cookieName, value, msToExpire, path, domain) {
+            function setCookie(cookieName, value, msToExpire, path, domain, isSecure) {
                 if (configCookiesDisabled) {
                     return;
                 }
@@ -3233,21 +3238,7 @@ if (typeof window.Piwik !== 'object') {
                     (msToExpire ? ';expires=' + expiryDate.toGMTString() : '') +
                     ';path=' + (path || '/') +
                     (domain ? ';domain=' + domain : '') +
-                    (secureCookie ? ';secure' : '');
-            }
-
-            /*
-             * Set cookie secure flag
-             */
-            function setSecureCookie(value) {
-                secureCookie = !!value;
-            }
-
-            /**
-             * Get secure cookie flag value
-             */
-            function isSecureCookie() {
-                return secureCookie;
+                    (isSecure ? ';secure' : '');
             }
 
             /*
@@ -3489,15 +3480,41 @@ if (typeof window.Piwik !== 'object') {
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
             function getImage(request, callback) {
-                var image = new Image(1, 1);
+                // make sure to actually load an image so callback gets invoked
+                request = request.replace("send_image=0","send_image=1");
 
+                var image = new Image(1, 1);
                 image.onload = function () {
                     iterator = 0; // To avoid JSLint warning of empty block
                     if (typeof callback === 'function') { callback(); }
                 };
-                // make sure to actually load an image so callback gets invoked
-                request = request.replace("send_image=0","send_image=1");
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
+            }
+
+            function sendPostRequestViaSendBeacon(request)
+            {
+                var supportsSendBeacon = 'object' === typeof navigatorAlias
+                    && 'function' === typeof navigatorAlias.sendBeacon
+                    && 'function' === typeof Blob;
+
+                if (!supportsSendBeacon) {
+                    return false;
+                }
+
+                var headers = {type: 'application/x-www-form-urlencoded; charset=UTF-8'};
+                var success = false;
+
+                try {
+                    var blob = new Blob([request], headers);
+                    success = navigatorAlias.sendBeacon(configTrackerUrl, blob);
+                    // returns true if the user agent is able to successfully queue the data for transfer,
+                    // Otherwise it returns false and we need to try the regular way
+
+                } catch (e) {
+                    return false;
+                }
+
+                return success;
             }
 
             /*
@@ -3508,36 +3525,62 @@ if (typeof window.Piwik !== 'object') {
                     fallbackToGet = true;
                 }
 
-                try {
-                    // we use the progid Microsoft.XMLHTTP because
-                    // IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
-                    // is pinned to MSXML2.XMLHTTP.3.0
-                    var xhr = windowAlias.XMLHttpRequest
-                        ? new windowAlias.XMLHttpRequest()
-                        : windowAlias.ActiveXObject
-                        ? new ActiveXObject('Microsoft.XMLHTTP')
-                        : null;
-
-                    xhr.open('POST', configTrackerUrl, true);
-
-                    // fallback on error
-                    xhr.onreadystatechange = function () {
-                        if (this.readyState === 4 && !(this.status >= 200 && this.status < 300) && fallbackToGet) {
-                            getImage(request, callback);
-                        } else {
-                            if (this.readyState === 4 && (typeof callback === 'function')) { callback(); }
-                        }
-                    };
-
-                    xhr.setRequestHeader('Content-Type', configRequestContentType);
-
-                    xhr.send(request);
-                } catch (e) {
-                    if (fallbackToGet) {
-                        // fallback
-                        getImage(request, callback);
-                    }
+                if (isPageUnloading && sendPostRequestViaSendBeacon(request)) {
+                    return;
                 }
+
+                setTimeout(function () {
+                    // we execute it with a little delay in case the unload event occurred just after sending this request
+                    // this is to avoid the following behaviour: Eg on form submit a tracking request is sent via POST
+                    // in this method. Then a few ms later the browser wants to navigate to the new page and the unload
+                    // event occurrs and the browser cancels the just triggered POST request. This causes or fallback
+                    // method to be triggered and we execute the same request again (either as fallbackGet or sendBeacon).
+                    // The problem is that we do not know whether the inital POST request was already fully transferred
+                    // to the server or not when the onreadystatechange callback is executed and we might execute the
+                    // same request a second time. To avoid this, we delay the actual execution of this POST request just
+                    // by 50ms which gives it usually enough time to detect the unload event in most cases.
+
+                    if (isPageUnloading && sendPostRequestViaSendBeacon(request)) {
+                        return;
+                    }
+                    var sentViaBeacon;
+
+                    try {
+                        // we use the progid Microsoft.XMLHTTP because
+                        // IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
+                        // is pinned to MSXML2.XMLHTTP.3.0
+                        var xhr = windowAlias.XMLHttpRequest
+                            ? new windowAlias.XMLHttpRequest()
+                            : windowAlias.ActiveXObject
+                                ? new ActiveXObject('Microsoft.XMLHTTP')
+                                : null;
+
+                        xhr.open('POST', configTrackerUrl, true);
+
+                        // fallback on error
+                        xhr.onreadystatechange = function () {
+                            if (this.readyState === 4 && !(this.status >= 200 && this.status < 300)) {
+                                var sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
+
+                                if (!sentViaBeacon && fallbackToGet) {
+                                    getImage(request, callback);
+                                }
+                            } else {
+                                if (this.readyState === 4 && (typeof callback === 'function')) { callback(); }
+                            }
+                        };
+
+                        xhr.setRequestHeader('Content-Type', configRequestContentType);
+
+                        xhr.send(request);
+                    } catch (e) {
+                        sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
+                        if (!sentViaBeacon && fallbackToGet) {
+                            getImage(request, callback);
+                        }
+                    }
+                }, 50);
+
             }
 
             function setExpireDateTime(delay) {
@@ -3669,6 +3712,7 @@ if (typeof window.Piwik !== 'object') {
             function sendRequest(request, delay, callback) {
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
+
                         if (configRequestMethod === 'POST' || String(request).length > 2000) {
                             sendXmlHttpRequest(request, callback);
                         } else {
@@ -3998,7 +4042,7 @@ if (typeof window.Piwik !== 'object') {
                     visitorIdCookieValues.lastVisitTs + '.' +
                     visitorIdCookieValues.lastEcommerceOrderTs;
 
-                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain);
+                setCookie(getCookieName('id'), cookieValue, getRemainingVisitorCookieTimeout(), configCookiePath, configCookieDomain, configCookieIsSecure);
             }
 
             /*
@@ -4107,7 +4151,7 @@ if (typeof window.Piwik !== 'object') {
              * Creates the session cookie
              */
             function setSessionCookie() {
-                setCookie(getCookieName('ses'), '*', configSessionCookieTimeout, configCookiePath, configCookieDomain);
+                setCookie(getCookieName('ses'), '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, configCookieIsSecure);
             }
 
             function generateUniqueId() {
@@ -5087,6 +5131,13 @@ if (typeof window.Piwik !== 'object') {
                 callback();
             }
 
+            function getCrossDomainVisitorId()
+            {
+                var visitorId = getValuesFromVisitorIdCookie().uuid;
+                var deviceId = makeCrossDomainDeviceId();
+                return visitorId + deviceId;
+            }
+
             function replaceHrefForCrossDomainLink(element)
             {
                 if (!element) {
@@ -5113,10 +5164,9 @@ if (typeof window.Piwik !== 'object') {
                     link += '?';
                 }
 
-                var visitorId = getValuesFromVisitorIdCookie().uuid;
-                var deviceId = makeCrossDomainDeviceId();
+                var crossDomainVisitorId = getCrossDomainVisitorId();
 
-                link = addUrlParameter(link, configVisitorIdUrlParameter, visitorId + deviceId);
+                link = addUrlParameter(link, configVisitorIdUrlParameter, crossDomainVisitorId);
 
                 query.setAnyAttribute(element, 'href', link);
             }
@@ -5456,7 +5506,9 @@ if (typeof window.Piwik !== 'object') {
 
                     // Safari and Opera
                     // IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
-                    if (typeof navigator.javaEnabled !== 'unknown' &&
+                    // on Edge navigator.javaEnabled() always returns `true`, so ignore it
+                    if (!((new RegExp('Edge[ /](\\d+[\\.\\d]+)')).test(navigatorAlias.userAgent)) &&
+                            typeof navigator.javaEnabled !== 'unknown' &&
                             isDefined(navigatorAlias.javaEnabled) &&
                             navigatorAlias.javaEnabled()) {
                         browserFeatures.java = '1';
@@ -5726,6 +5778,14 @@ if (typeof window.Piwik !== 'object') {
              */
             this.setSiteId = function (siteId) {
                 setSiteId(siteId);
+            };
+
+            /**
+             * Clears the User ID and generates a new visitor id.
+             */
+            this.resetUserId = function() {
+                configUserId = '';
+                visitorUUID = generateRandomUuid();
             };
 
             /**
@@ -6146,6 +6206,23 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Returns the query parameter appended to link URLs so cross domain visits
+             * can be detected.
+             *
+             * If your application creates links dynamically, then you'll have to add this
+             * query parameter manually to those links (since the JavaScript tracker cannot
+             * detect when those links are added).
+             *
+             * Eg:
+             *
+             * var url = 'http://myotherdomain.com/?' + piwikTracker.getCrossDomainLinkingUrlParameter();
+             * $element.append('<a href="' + url + '"/>');
+             */
+            this.getCrossDomainLinkingUrlParameter = function () {
+                return encodeWrapper(configVisitorIdUrlParameter) + '=' + encodeWrapper(getCrossDomainVisitorId());
+            };
+
+            /**
              * Set array of classes to be ignored if present in link
              *
              * @param string|array ignoreClasses
@@ -6409,6 +6486,17 @@ if (typeof window.Piwik !== 'object') {
              */
             this.setConversionAttributionFirstReferrer = function (enable) {
                 configConversionAttributionFirstReferrer = enable;
+            };
+
+            /**
+             * Enable the Secure cookie flag on all first party cookies.
+             * This should be used when your website is only available under HTTPS
+             * so that all tracking cookies are always sent over secure connection.
+             *
+             * @param bool
+             */
+            this.setSecureCookie = function (enable) {
+                configCookieIsSecure = enable;
             };
 
             /**
@@ -7076,7 +7164,8 @@ if (typeof window.Piwik !== 'object') {
                             apply(paq[iterator]);
                             delete paq[iterator];
 
-                            if (appliedMethods[methodName] > 1) {
+                            if (appliedMethods[methodName] > 1
+                                && methodName !== "addTracker") {
                                 logConsoleError('The method ' + methodName + ' is registered more than once in "_paq" variable. Only the last call has an effect. Please have a look at the multiple Piwik trackers documentation: https://developer.piwik.org/guides/tracking-javascript-guide#multiple-piwik-trackers');
                             }
 
@@ -7093,7 +7182,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking', 'setSecureCookie'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
 
         function createFirstTracker(piwikUrl, siteId)
         {

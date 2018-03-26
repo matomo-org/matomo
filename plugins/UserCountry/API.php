@@ -160,6 +160,25 @@ class API extends \Piwik\Plugin\API
 
         $separator = Archiver::LOCATION_SEPARATOR;
         $unk = Visit::UNKNOWN_CODE;
+        
+        // show visits from "1|ti" cities to "14|cn"
+        $dataTables = [$dataTable];
+
+        if ($dataTable instanceof DataTable\Map) {
+            $dataTables = $dataTable->getDataTables();
+        }
+
+        foreach ($dataTables as $dt) {
+            $dt->filter('GroupBy', array(
+                'label',
+                function ($label) {
+                    if (substr($label, -5) == '|1|ti') {
+                        return substr($label, 0, -5) . '|14|cn';
+                    }
+                    return $label;
+                }
+            ));
+        }
 
         // split the label and put the elements into the 'city_name', 'region', 'country',
         // 'lat' & 'long' metadata fields

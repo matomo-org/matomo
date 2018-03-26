@@ -9,6 +9,8 @@
 namespace Piwik\Plugins\CoreHome;
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\MetricsList;
+use Piwik\IP;
+use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 
@@ -34,8 +36,25 @@ class CoreHome extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.filterMergedJavaScripts'   => 'filterMergedJavaScripts',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Metric.addComputedMetrics'              => 'addComputedMetrics'
+            'Metric.addComputedMetrics'              => 'addComputedMetrics',
+            'Request.initAuthenticationObject' => 'initAuthenticationObject',
         );
+    }
+
+    public function initAuthenticationObject()
+    {
+        $isApi = Piwik::getModule() === 'API' && (Piwik::getAction() == '' || Piwik::getAction() == 'index');
+
+        if ($isApi) {
+            // will be checked in API itself to make sure we return an API response in the proper format.
+            return;
+        }
+
+        $whitelist = new LoginWhitelist();
+        if ($whitelist->shouldCheckWhitelist()) {
+            $ip = IP::getIpFromHeader();
+            $whitelist->checkIsWhitelisted($ip);
+        }
     }
 
     public function addComputedMetrics(MetricsList $list, ComputedMetricFactory $computedMetricFactory)
@@ -90,6 +109,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/selector/selector.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/report-export/reportexport.popover.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/date-range-picker/date-range-picker.component.less";
@@ -172,6 +192,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/dropdown-button.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/select-on-focus.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/side-nav.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/string-to-number.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";
@@ -209,6 +230,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/widget/widget.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/popover-handler/popover-handler.directive.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/report-export/reportexport.directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage-model.js";
@@ -260,6 +283,7 @@ class CoreHome extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
+        $translationKeys[] = 'General_Export';
         $translationKeys[] = 'General_InvalidDateRange';
         $translationKeys[] = 'General_Loading';
         $translationKeys[] = 'General_Show';
@@ -359,10 +383,12 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Delete';
         $translationKeys[] = 'General_Default';
         $translationKeys[] = 'General_LoadingData';
+        $translationKeys[] = 'General_Error';
         $translationKeys[] = 'General_ErrorRequest';
         $translationKeys[] = 'General_YourChangesHaveBeenSaved';
         $translationKeys[] = 'General_LearnMore';
         $translationKeys[] = 'General_ChooseDate';
+        $translationKeys[] = 'General_ReadThisToLearnMore';
         $translationKeys[] = 'CoreHome_UndoPivotBySubtable';
         $translationKeys[] = 'CoreHome_PivotBySubtable';
         $translationKeys[] = 'General_LearnMore';
@@ -380,5 +406,28 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_DoubleClickToChangePeriod';
         $translationKeys[] = 'General_Apply';
         $translationKeys[] = 'General_Period';
+        $translationKeys[] = 'CoreHome_EnterZenMode';
+        $translationKeys[] = 'CoreHome_ExitZenMode';
+        $translationKeys[] = 'CoreHome_ShortcutZenMode';
+        $translationKeys[] = 'CoreHome_ShortcutSegmentSelector';
+        $translationKeys[] = 'CoreHome_ShortcutWebsiteSelector';
+        $translationKeys[] = 'CoreHome_ShortcutCalendar';
+        $translationKeys[] = 'CoreHome_ShortcutSearch';
+        $translationKeys[] = 'CoreHome_ShortcutHelp';
+        $translationKeys[] = 'CoreHome_StandardReport';
+        $translationKeys[] = 'CoreHome_ReportWithMetadata';
+        $translationKeys[] = 'CoreHome_ReportType';
+        $translationKeys[] = 'CoreHome_RowLimit';
+        $translationKeys[] = 'CoreHome_ExportFormat';
+        $translationKeys[] = 'CoreHome_FlattenReport';
+        $translationKeys[] = 'CoreHome_CustomLimit';
+        $translationKeys[] = 'CoreHome_ExpandSubtables';
+        $translationKeys[] = 'CoreHome_HomeShortcut';
+        $translationKeys[] = 'CoreHome_PageUpShortcutDescription';
+        $translationKeys[] = 'CoreHome_EndShortcut';
+        $translationKeys[] = 'CoreHome_PageDownShortcutDescription';
+        $translationKeys[] = 'CoreHome_MacPageUp';
+        $translationKeys[] = 'CoreHome_MacPageDown';
+
     }
 }

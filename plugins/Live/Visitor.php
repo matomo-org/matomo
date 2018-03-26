@@ -221,6 +221,7 @@ class Visitor implements VisitorInterface
             $flattenForActionType = array(
                 'outlink' => 'outlinkUrl',
                 'download' => 'downloadUrl',
+                'event' => 'eventUrl',
                 'action' => 'pageUrl'
             );
             foreach($flattenForActionType as $actionType => $flattenedKeyPrefix) {

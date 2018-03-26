@@ -259,7 +259,7 @@
                     }
                 };
 
-                Mousetrap.bind('f', function(event) {
+                piwikHelper.registerShortcut('f', _pk_translate('CoreHome_ShortcutSearch'), function(event) {
                     if (event.altKey) {
                         return;
                     }

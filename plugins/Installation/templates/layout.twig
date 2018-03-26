@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="robots" content="noindex,nofollow">
-    <title>Piwik {{ piwikVersion }} &rsaquo; {{ 'Installation_Installation'|translate }}</title>
+    <title>Matomo {{ piwikVersion }} &rsaquo; {{ 'Installation_Installation'|translate }}</title>
 
     <link rel="stylesheet" type="text/css" href="index.php?module=Installation&action=getInstallationCss"/>
     <script type="text/javascript" src="index.php?module=Installation&action=getInstallationJs"></script>
@@ -11,12 +11,11 @@
     <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.png"/>
 </head>
 <body ng-app="app" id="installation">
-
 <div class="container">
 
     <div class="header">
         <div class="logo">
-            <img title="Piwik {{ piwikVersion }} - {{ 'General_OpenSourceWebAnalytics'|translate|escape('html_attr') }}" src="plugins/Morpheus/images/logo.png"/>
+            <img title="Matomo {{ piwikVersion }} - {{ 'General_OpenSourceWebAnalytics'|translate|escape('html_attr') }}" src="plugins/Morpheus/images/logo.png"/>
             <p>{{ 'General_OpenSourceWebAnalytics'|translate }}</p>
         </div>
         <div class="language-selector">
@@ -72,5 +71,15 @@
 
 </div>
 
+<div id="should-get-hidden"
+     style="color: red;margin-left: 16px;margin-bottom: 16px;font-weight:bold;font-size: 20px">
+    <p class="should-get-hidden-by-js">
+        {{ 'CoreHome_JsDidntLoad'|translate }}
+    </p>
+    <p class="should-get-hidden-by-css">
+        {{ 'CoreHome_CssDidntLoad'|translate }}
+    </p>
+</div>
+{% include "@CoreHome/_adblockDetect.twig" %}
 </body>
 </html>

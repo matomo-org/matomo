@@ -1,7 +1,6 @@
 {
     "Installation": {
         "Congratulations": "Čestitamo",
-        "CongratulationsHelp": "<p>Čestitamo! Namestitev Piwik-a je končana.<\/p><p>Poskrbite, da bo JavaScript sledilna koda integrirana v željene strani<\/p>",
         "DatabaseServerVersion": "Verzija strežnika podatkovne baze",
         "DatabaseSetupDatabaseName": "ime podatkovne baze",
         "DatabaseSetupLogin": "vpis",
@@ -14,7 +13,7 @@
         "PasswordDoNotMatch": "gesli se ne ujemata",
         "PercentDone": "%s %% Končano",
         "PleaseFixTheFollowingErrors": "Prosimo, odpravite sledeče napake",
-        "Requirements": "Piwik-ovi minimalni pogoji",
+        "Requirements": "Matomo-ovi minimalni pogoji",
         "SetupWebsite": "Nastavite spletno stran",
         "SetupWebsiteError": "Med dodajanjem spletne strani je prišlo do napake.",
         "SetupWebsiteSetupSuccess": "Spletna stran %s je bila uspešno ustvarjena!",

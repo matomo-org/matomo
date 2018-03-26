@@ -28,7 +28,7 @@
         "ColumnUniqueOutlinks": "Jedinečné externí odkazy",
         "ColumnIdPageview": "ID zobrazení stránky",
         "ColumnInteractionPosition": "Pozice interakce",
-        "DownloadsReportDocumentation": "V tomto hlášení můžete vidět soubory, které byly staženy. %s Které Piwik počítá jako stažené jsou jen ty, na které bylo kliknuto. Bez ohledu na to, jestli bylo stažení dokončeno nebo přerušeno. To Piwik neumí zjistit.",
+        "DownloadsReportDocumentation": "V tomto hlášení můžete vidět soubory, které byly staženy. %s Které Matomo počítá jako stažené jsou jen ty, na které bylo kliknuto. Bez ohledu na to, jestli bylo stažení dokončeno nebo přerušeno. To Matomo neumí zjistit.",
         "EntryPagesReportDocumentation": "Toto hlášení obsahuje informace o vstupních stránkách, které byly za dané časové období použity. Vstupní stránka je první stránka, kterou uživatel navštíví. %s URL jsou zobrazeny ve složkové struktuře.",
         "EntryPageTitles": "Titulky vstupních stránek",
         "EntryPageTitlesReportDocumentation": "Toto hlášení obsahuje informace o titulcích vstupních stránek, které byly použity v daném období.",
@@ -43,11 +43,15 @@
         "PageTitlesReportDocumentation": "Toto hlášení obsahuje informace o titulcích navštívených stránek. %1$s Titulek je HTML tag %2$s, který většina prohlížečů zobrazuje v titulku okna.",
         "PageUrls": "URL stránky",
         "PluginDescription": "Podává hlášení o zobrazení a titulcích stránek. Umožňuje měřit váš interní vyhledávač. Automaticky sleduje kliky na externí odkazy a soubory ke stažení.",
+        "RevisitedPages": "Stránky navštívené více než jednou",
         "SiteSearchCategories1": "Toto hlášení shrnuje kategorie, které návštěvníci vybrali při vyhledávání na stránkách.",
         "SiteSearchCategories2": "Například elektronické obchody mívají filtr kategorií, aby mohli uzákazníci zvolit, ve které kategorii bude provedeno hledání.",
         "SiteSearchFollowingPagesDoc": "Když návštěvníci hledají na vašich stránkách, snaží se nalézt určitou stránku, obsah, produkt, nebo službu. Toto hlášení zobrazuje stránky, na které bylo klikáno nejčastěji po interním vyhledávání. Jinak řečeno, jedná se o stránky, které byly nejvíce hledány návštěvníky, kteří už byli na vašich stránkách.",
         "SiteSearchIntro": "Sledování vyhledávání na vašich stránkách je velmi efektivní způsob, jak se dozvědět více o tom, co vaši návštěvníci na stránkách hledají, jaký obsah by je mohl zajímat, jaké produkty by si mohli chtít koupit, a jak jim obecně zpříjemnit pobyt na vašich stránkách.",
+        "SiteSearchCategory": "Kategorie (Vyhledávání na webu)",
+        "SiteSearchCategories": "Kategorie (Vyhledávání na webu)",
         "SiteSearchKeyword": "Klíčová slova (Vyhledávání)",
+        "SiteSearchKeywords": "Klíčová slova (vyhledávání na webu)",
         "SiteSearchKeywordsDocumentation": "Toto hlášení shrnuje klíčová slova, která byla použita návštěvníky při hledání pomocí interního vyhledávače.",
         "SiteSearchKeywordsNoResultDocumentation": "Toto hlášení shrnuje klíčová slova, pro která nebyl vrácen žádný výsledek. Možná by bylo možné vylepšit vyhledávací algoritmus, nebo návštěvníci hledají něco, co (zatím) není na vašich stránkách?",
         "SubmenuPagesEntry": "Vstupní stránky",
@@ -64,6 +68,7 @@
         "WidgetSearchCategories": "Vyhledávání kategorií",
         "WidgetSearchKeywords": "Klíčová slova hledané stránky",
         "WidgetSearchNoResultKeywords": "Hledaná Klíčová slova bez výsledku hledání",
-        "ActionType": "Typ akce"
+        "ActionType": "Typ akce",
+        "ActionTypes": "Typy akcí"
     }
 }

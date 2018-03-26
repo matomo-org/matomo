@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="robots" content="noindex,nofollow">
-    <meta name="generator" content="Piwik Analytics">
+    <meta name="generator" content="Matomo Analytics">
 </head>
 
 <body style="{{fontStyle}} line-height: 24px; margin:0 auto; max-width:1000px; background-color:rgb(255, 255, 255);box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.75);">
@@ -18,9 +18,9 @@
       <td>
           <a style="font-size:16px;padding:0 15px;color:#ffffff;height: 22px;display: inline-block;vertical-align: inherit;" rel="noreferrer" target="_blank" href="{{ piwikUrl }}" style="lineheight:17px">
               {% if isCustomLogo and logoHeader %}
-                <img src="{{ logoHeader }}" height="20px" width="auto" alt="Piwik, {{ 'General_OpenSourceWebAnalytics'|translate }}" />
+                <img src="{{ logoHeader }}" height="20px" width="auto" />
               {% else %}
-                  <img src="{{ piwikUrl }}/plugins/Morpheus/images/logo-email.png" height="20px" width="auto" alt="Piwik, {{ 'General_OpenSourceWebAnalytics'|translate }}" />
+                  <img src="{{ piwikUrl }}/plugins/Morpheus/images/logo-email.png" height="20px" width="auto" alt="Matomo, {{ 'General_OpenSourceWebAnalytics'|translate }}" />
               {% endif %}
           </a>
       </td>
@@ -38,7 +38,11 @@
     </h2>
 
     <p style='{{styleParagraph}}{{fontStyle}}'>
+        {% if isAttachedFile is defined and isAttachedFile %}
+        {{ 'ScheduledReports_PleaseFindAttachedFile'|translate(frequency, reportTitle) }}
+        {% else %}
         {{'ScheduledReports_PleaseFindBelow'|translate(period,reportTitle)}}
+        {% endif %}
         <br />{{ description }}
         <br />{{ 'General_DateRange'|translate }} {{ prettyDate }}
         <br />{{ 'ScheduledReports_SentFromX'|translate(piwikUrl) }}
@@ -46,7 +50,7 @@
 
     {% if displaySegment %}
         <p style="{{styleParagraph}}{{fontStyle}}">
-            {{ 'ScheduledReports_CustomVisitorSegment'|translate("Piwik") }} {{ segmentName }}
+            {{ 'ScheduledReports_CustomVisitorSegment' }} {{ segmentName }}
         </p>
     {% endif %}
 

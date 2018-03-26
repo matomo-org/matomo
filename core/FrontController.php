@@ -88,7 +88,7 @@ class FrontController extends Singleton
             $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
         } catch(Exception $e) {
             // may fail in safe mode (eg. global.ini.php not found)
-            $message = sprintf("Piwik encoutered an error: %s (which lead to: %s)", $lastError['message'], $e->getMessage());
+            $message = sprintf("Matomo encoutered an error: %s (which lead to: %s)", $lastError['message'], $e->getMessage());
         }
 
         return $message;
@@ -332,10 +332,13 @@ class FrontController extends Singleton
 
         $this->throwIfPiwikVersionIsOlderThanDBSchema();
 
-        if (empty($_GET['module'])
-            || empty($_GET['action'])
-            || $_GET['module'] !== 'Installation'
-            || !in_array($_GET['action'], array('getInstallationCss', 'getInstallationJs'))) {
+        $module = Piwik::getModule();
+        $action = Piwik::getAction();
+
+        if (empty($module)
+            || empty($action)
+            || $module !== 'Installation'
+            || !in_array($action, array('getInstallationCss', 'getInstallationJs'))) {
             \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
         }
 
@@ -446,10 +449,22 @@ class FrontController extends Singleton
         } catch (Exception $ex) {
         }
 
+        $recordStatistics = Config::getInstance()->Tracker['record_statistics'];
+        $trackMessage = '';
+
+        if ($recordStatistics) {
+          $trackMessage = 'Your analytics data will continue to be tracked as normal.';
+        } else {
+          $trackMessage = 'While the maintenance mode is active, data tracking is disabled.';
+        }
+
         $page = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Morpheus/templates/maintenance.tpl');
         $page = str_replace('%logoUrl%', $logoUrl, $page);
         $page = str_replace('%faviconUrl%', $faviconUrl, $page);
         $page = str_replace('%piwikTitle%', Piwik::getRandomTitle(), $page);
+
+        $page = str_replace('%trackMessage%', $trackMessage, $page);
+
         echo $page;
         exit;
     }

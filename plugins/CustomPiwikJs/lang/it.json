@@ -1,8 +1,7 @@
 {
     "CustomPiwikJs": {
-        "PluginDescription": "Consente a ogni plugin di espandersi al file di Tracciamento JavaScript di Piwik (piwik.js) e aggiungere nuove funzionalità e capacità di misura al sito web.",
+        "PluginDescription": "Consente a ogni plugin di espandere il file di Tracciamento JavaScript di Matomo (piwik.js) e di aggiungere nuove funzionalità e capacità di misura al sito web.",
         "DiagnosticPiwikJsWritable": "Tracker JavaScript Scrivibile (\"\/piwik.js\")",
-        "DiagnosticPiwikJsNotWritable": "Il file traclker Piwik JavaScript non è scrivibile. Ciò significa che altri plugin non possono espandere il tracker JavaScript. In futuro persino alcune funzioni di base potrebbero non funzionare come ci si aspetta.",
-        "DiagnosticPiwikJsMakeWritable": "Ci raccomandiamo di rendere scrivibile Piwik.js con l'esecuzione di questo comando: %s"
+        "DiagnosticPiwikJsMakeWritable": "Ci raccomandiamo di rendere scrivibile piwik.js con l'esecuzione di questo comando: %s"
     }
 }

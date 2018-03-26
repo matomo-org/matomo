@@ -1,9 +1,9 @@
 {
     "Provider": {
-        "ColumnProvider": "Sağlayıcı",
-        "PluginDescription": "Ziyaretçilerin İnternet Servis Sağlayıcılarını raporla",
-        "ProviderReportDocumentation": "Bu rapor ziyaretçilerinin internete ulaşmakta hangi internet servis sağlayıcısının kullandığını gösterir. Daha detaylı bilgi almak için sağlayıcı ismine tıklayabilrsin. Eğer Piwik ziyaretçi servis sağlayıcısını bulamazsa IP olarak listeler %s.",
-        "WidgetProviders": "Sağlayıcılar",
-        "ProviderReportFooter": "Bilinmeyen sağlayıcı demek IP adresi bulunamamış demektir"
+        "ColumnProvider": "Hizmet Sağlayıcı",
+        "PluginDescription": "Bu raporda ziyaretçilerin İnternet hizmeti aldığı Hizmet Sağlayıcı bilgileri bulunur.",
+        "ProviderReportDocumentation": "Bu raporda ziyaretçilerinizin web sitenize hangi İnternet Hizmeti Sağlayıcıları üzerinden eriştiğini ile ilgili bilgiler bulunur. Bir hizmet sağlayıcının adına tıklayarak ayrıntılı bilgi alabilirsiniz. %s Matomo bir ziyaretçinin hizmet sağlayıcısını belirleyemediğinde IP adresini görüntüler.",
+        "WidgetProviders": "Hizmet Sağlayıcılar",
+        "ProviderReportFooter": "Bilinmeyen sağlayıcılar IP adresine bakılamadığı anlamına gelir."
     }
 }

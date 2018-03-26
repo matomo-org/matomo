@@ -34,7 +34,7 @@
         "DaysToConv": "Zile pana la Conversie",
         "DefaultGoalConvertedOncePerVisit": "(implicit) Obiectivul poate fi convertit doar o dată la fiecare vizită",
         "DefaultRevenue": "Scopul implicit al veniturilor este",
-        "DefaultRevenueHelp": "De exemplu, un formular de contact trimis de către un vizitator ar putea fi în valoare de 10 dolari, în medie. Piwik va ajuta să înțelegeți cât de bine segmentele de vizitatori sunt performante.",
+        "DefaultRevenueHelp": "De exemplu, un formular de contact trimis de către un vizitator ar putea fi în valoare de 10 dolari, în medie. Matomo va ajuta să înțelegeți cât de bine segmentele de vizitatori sunt performante.",
         "DeleteGoalConfirm": "Eşti sigur că doreşti să ştergi ţinta %s?",
         "DocumentationRevenueGeneratedByProductSales": "Vanzarile de produse. Sunt excluse taxele, costurile de livrare si discounturile",
         "Download": "Descarcă un fişier",

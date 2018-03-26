@@ -1,6 +1,6 @@
 {% extends 'layout.twig' %}
 
-{% set title %}Piwik UI demo{% endset %}
+{% set title %}Matomo UI demo{% endset %}
 
 {% block head %}
     {{ parent() }}
@@ -66,7 +66,7 @@
 
         <h1>{{ title }}</h1>
         <p>
-            This page is intended to show all the UI components and styles available to use in Piwik.
+            This page is intended to show all the UI components and styles available to use in Matomo.
         </p>
 
         <h2>Grid system</h2>
@@ -365,7 +365,7 @@
                 </div>
 
                 <div piwik-field uicontrol="site" name="currentsite"
-                     introduction="Piwik specific form fields"
+                     introduction="Matomo specific form fields"
                      title="Select a website">
                 </div>
 
@@ -477,7 +477,7 @@
     &lt;/div&gt;
 
     &lt;div piwik-field uicontrol=&quot;site&quot; name=&quot;currentsite&quot;
-         introduction=&quot;Piwik specific form fields&quot;
+         introduction=&quot;Matomo specific form fields&quot;
          title=&quot;Select a website&quot;&gt;
     &lt;/div&gt;
 
@@ -509,10 +509,10 @@
 
         <div class="demo">
             <p>Or you can display a code block:</p>
-            <pre piwik-select-on-focus>&lt;!-- Piwik --&gt;
+            <pre piwik-select-on-focus>&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
 &lt;/script&gt;
-&lt;!-- End Piwik Code --&gt;</pre>
+&lt;!-- End Matomo Code --&gt;</pre>
         </div>
         <div class="demo-code">
             &lt;pre piwik-select-on-focus&gt;...&lt;/pre&gt;
@@ -571,12 +571,12 @@
         <h2>Content blocks</h2>
 
         <div class="demo">
-            <div piwik-content-block content-title="My title" help-url="https://piwik.org">
+            <div piwik-content-block content-title="My title" help-url="https://matomo.org">
                 <p>My text goes is in here</p>
             </div>
         </div>
         <div class="demo-code">
-            <pre>&lt;div piwik-content-block content-title=&quot;My title&quot; help-url=&quot;https://piwik.org&quot;&gt;
+            <pre>&lt;div piwik-content-block content-title=&quot;My title&quot; help-url=&quot;https://matomo.org&quot;&gt;
     &lt;p&gt;My text goes is in here&lt;/p&gt;
 &lt;/div&gt;</pre>
         </div>
@@ -584,7 +584,7 @@
         <h3>Content Table</h3>
 
         <div class="demo">
-            <div piwik-content-block content-title="My title" help-url="https://piwik.org">
+            <div piwik-content-block content-title="My title" help-url="https://matomo.org">
                 <p>My intro text is here</p>
                 <table piwik-content-table>
                     <thead><tr><th>Column 1</th><th>Column 2</th></tr></thead>
@@ -596,7 +596,7 @@
             </div>
         </div>
         <div class="demo-code">
-            <pre>&lt;div piwik-content-block content-title=&quot;My title&quot; help-url=&quot;https://piwik.org&quot;&gt;
+            <pre>&lt;div piwik-content-block content-title=&quot;My title&quot; help-url=&quot;https://matomo.org&quot;&gt;
     &lt;p&gt;My intro text is here&lt;/p&gt;
     &lt;table piwik-content-table&gt;
         &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Column 1&lt;/th&gt;&lt;th&gt;Column 2&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
@@ -651,7 +651,9 @@
                         'search',
                         'menu-hamburger',
                         'more-horiz',
-                        'more-verti'
+                        'more-verti',
+                        'arrowup',
+                        'arrowdown'
                     ],
                     'Window-Widget': [
                         'minimise',
@@ -660,7 +662,7 @@
                         'maximise',
                         'newtab',
                         'refresh',
-                        'reload',
+                        'reload'
                     ],
                     'Reports': [
                         'table',
@@ -669,43 +671,46 @@
                         'chart-pie',
                         'chart-line',
                         'chart-line-details',
+                        'evolution',
                         'funnel',
                         'form',
+                        'transition',
+                        'overlay',
                         'lab'
                     ],
                     'Users': [
                         'user',
                         'user-add',
                         'users',
-                        'alien',
+                        'alien'
                     ],
                     'Date-picker': [
-                        'calendar',
+                        'calendar'
                     ],
                     'Annotations': [
-                        'annotation',
+                        'annotation'
                     ],
                     'E-commerce': [
                         'ecommerce-order',
-                        'ecommerce-abandoned-cart',
+                        'ecommerce-abandoned-cart'
                     ],
                     'Goals': [
-                        'goal',
+                        'goal'
                     ],
                     'Insights': [
-                        'insights',
+                        'insights'
                     ],
                     'Segments': [
-                        'segment',
+                        'segment'
                     ],
                     'Visitors': [
-                        'visitor-profile',
+                        'visitor-profile'
                     ],
                     'Lock': [
                         'locked',
                         'locked-2',
                         'locked-3',
-                        'locked-4',
+                        'locked-4'
                     ],
                     'Other': [
                         'configure',
@@ -727,6 +732,7 @@
                         'server',
                         'server-alt',
                         'tag-cloud',
+                        'audio',
                         'play',
                         'pause',
                         'replay',
@@ -738,7 +744,7 @@
                         'sign-in',
                         'sign-out',
                         'settings'
-                    ],
+                    ]
                 };
 
                 var iconsDiv = $('#icons');

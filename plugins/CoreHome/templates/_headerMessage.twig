@@ -1,12 +1,12 @@
 {# testing, remove test_ from var names #}
 {% set test_latest_version_available="4.0.0" %}
-{% set test_piwikUrl='http://demo.piwik.org/' %}
-{% set isPiwikDemo %}{{ piwikUrl == 'http://demo.piwik.org/' or piwikUrl == 'https://demo.piwik.org/' }}{% endset %}
+{% set test_piwikUrl='https://demo.matomo.org/' %}
+{% set isPiwikDemo %}{{ piwikUrl == 'http://demo.matomo.org/' or piwikUrl == 'https://demo.matomo.org/' }}{% endset %}
 
 {% set updateCheck %}
     <span id="updateCheckLinkContainer">
-                {{ 'CoreHome_CheckForUpdates'|translate }}
         <span class="icon icon-fixed icon-reload"></span>
+                {{ 'CoreHome_CheckForUpdates'|translate }}
     </span>
 {% endset %}
 
@@ -30,14 +30,14 @@
     <div class="dropdown positionInViewport">
         {% if latest_version_available and isSuperUser %}
             {% if isMultiServerEnvironment %}
-                {{ 'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment'|translate("<a rel='noreferrer' href='https://builds.piwik.org/piwik-" ~ latest_version_available ~ ".zip'>","</a>")|raw }}
+                {{ 'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment'|translate("<a rel='noreferrer' href='https://builds.matomo.org/piwik-" ~ latest_version_available ~ ".zip'>","</a>")|raw }}
             {% else %}
-                {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=https://piwik.org/changelog/' target='_blank'>","</a>")|raw }}
+                {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=https://matomo.org/changelog/' target='_blank'>","</a>")|raw }}
             {% endif %}
             <br />
         {% elseif latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous %}
             {% set updateSubject = 'General_NewUpdatePiwikX'|translate(latest_version_available)|e('url') %}
-            {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=https://piwik.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=https://piwik.org/changelog/' target='_blank'>" ~ latest_version_available ~ "</a>", "<a href='mailto:" ~ superUserEmails ~ "?subject=" ~ updateSubject ~ "'>", "</a>")|raw }}
+            {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=https://matomo.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=https://matomo.org/changelog/' target='_blank'>" ~ latest_version_available ~ "</a>", "<a href='mailto:" ~ superUserEmails ~ "?subject=" ~ updateSubject ~ "'>", "</a>")|raw }}
             <br />
         {% endif %}
 
@@ -45,5 +45,8 @@
     </div>
 </div>
 
+<span class="icon icon-arrowup"></span>
 <div style="clear:right"></div>
+{% else %}
+<span class="icon icon-arrowup"></span>
 {% endif %}

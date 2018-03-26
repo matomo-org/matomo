@@ -4,14 +4,14 @@
         "MobileReport_AdditionalPhoneNumbers": "Dodaj więcej numerów telefonów odwiedzając",
         "MobileReport_MobileMessagingSettingsLink": "stronę ustawień Powiadomień Mobilnych",
         "MobileReport_NoPhoneNumbers": "Proszę aktywuj przynajmniej jeden numer telefonu odwiedzając",
-        "MultiSites_Must_Be_Activated": "W celu otrzymywania SMS'em statystyk Twoich serwisów, włącz w Piwik'u wtyczkę MultiSites.",
+        "MultiSites_Must_Be_Activated": "W celu otrzymywania SMS'em statystyk Twoich serwisów, włącz w Matomo'u wtyczkę MultiSites.",
         "PhoneNumbers": "Numery telefonów",
         "PluginDescription": "Twórz i pobieraj dopasowane raporty SMS, które będą do Ciebie wysyłane codziennie, co tydzień lub co miesiąc.",
         "Settings_APIKey": "Klucz API",
         "Settings_CountryCode": "Kod Państwa",
         "Settings_SelectCountry": "Wybierz kraj",
-        "Settings_CredentialNotProvided": "Zanim zaczniesz tworzyć i zarządzać numerami telefonów, proszę połącz Piwik'a z widocznym powyżej kontem SMS.",
-        "Settings_CredentialNotProvidedByAdmin": "Zanim zaczniesz tworzyć i zarządzać numerami telefonów, poproś swojego administratora o połączenie Piwik'a z kontem SMS.",
+        "Settings_CredentialNotProvided": "Zanim zaczniesz tworzyć i zarządzać numerami telefonów, proszę połącz Matomo'a z widocznym powyżej kontem SMS.",
+        "Settings_CredentialNotProvidedByAdmin": "Zanim zaczniesz tworzyć i zarządzać numerami telefonów, poproś swojego administratora o połączenie Matomo'a z kontem SMS.",
         "Settings_CredentialProvided": "Twoje konto API SMS %s zostało skonfigurowane!",
         "Settings_CredentialInvalid": "Twoje konto API SMS %1$sjest skonfigurowane, jednakże pojawił się błąd podczas próby pobrania dostępnych kredytów.",
         "Settings_DeleteAccountConfirm": "Czy na pewno chcesz skasować to konto SMS?",
@@ -28,7 +28,7 @@
         "Settings_PhoneNumbers_Add": "Dodaj nowy numer telefonu",
         "Settings_PhoneNumbers_CountryCode_Help": "Jeśli nie znasz numeru kierunkowego swojego kraju, poszukaj go tu.",
         "Settings_PhoneNumbers_Help": "Zanim zaczniesz otrzymywać raporty SMS'em (wiadomość tekstowa), numer Twojego telefonu musi zostać wprowadzony poniżej.",
-        "Settings_PhoneNumbers_HelpAdd": "Gdy klikniesz na \"Dodaj\", SMS z kodem aktywacyjnym zostanie wysłany na skonfigurowany numer. Użytkownik, który go otrzyma powinien zalogować się do Piwik'a, kliknąć na Zarządzanie, następnie Powiadomienia Mobilne. Po wprowadzeniu kodu, użytkownik będzie mógł odbierać na swoim telefonie raporty tekstowe.",
+        "Settings_PhoneNumbers_HelpAdd": "Po kliknięciu \"Dodaj\", SMS zawierający kod zostanie wysłany na telefon. Użytkownik odbierający kod powinien zalogować się do Matomo, kliknąć w Ustawienia, potem kliknąć na Powiadomienia Mobilne. Po wprowadzeniu kodu użytkownik będzie miał możliwość odbioru raportów na telefonie.",
         "Settings_PleaseSignUp": "Aby stworzyć raport SMS i otrzymywać statystyki swoich serwisów w postaci wiadomości tekstowych, proszę wpisz poniżej dane dotyczące API SMS.",
         "Settings_SMSAPIAccount": "Zarządzaj kontem SMS API",
         "Settings_SMSProvider": "Dostawca usługi SMS",
@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Spraw aby Raporty z analizą serwisów internetowych były dostarczane do Twojej skrzynki odbiorczej lub na Twoją komórkę.",
         "TopMenu": "Raporty e-mail & SMS",
         "UserKey": "Klucz użytkownika",
-        "VerificationText": "Kod to %1$s. W celu weryfikacji Twojego numeru telefonu i umożliwienia odbioru raportów Piwik przez SMS proszę skopiuj ten kod do formularza dostępnego w Piwik'u > %2$s > %3$s."
+        "VerificationText": "Kod to %1$s. W celu weryfikacji Twojego numeru telefonu i umożliwienia odbioru raportów Matomo przez SMS proszę skopiuj ten kod do formularza dostępnego w Matomo'u > %2$s > %3$s."
     }
 }

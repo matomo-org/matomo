@@ -1,6 +1,6 @@
 {
   "name": "ExamplePlugin",
-  "description": "Piwik Platform showcase: how to create widgets, menus, scheduled tasks, a custom archiver, plugin tests, and a AngularJS component.",
+  "description": "Matomo Platform showcase: how to create widgets, menus, scheduled tasks, a custom archiver, plugin tests, and an AngularJS component.",
   "version": "0.1.0",
   "theme": false,
   "require": {
@@ -8,7 +8,7 @@
   },
   "authors": [
     {
-      "name": "Piwik",
+      "name": "Matomo",
       "email": "",
       "homepage": ""
     }

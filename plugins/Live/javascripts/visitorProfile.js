@@ -137,31 +137,7 @@
                 }
             });
 
-            var tooltipIsOpened = false;
-
-            $('a', $element).on('focus', function () {
-                // see https://github.com/piwik/piwik/issues/4099
-                if (tooltipIsOpened) {
-                    $element.tooltip('close');
-                }
-            });
-
-            $element.tooltip({
-                items: '[title],.visitorLogIconWithDetails',
-                track: true,
-                show: false,
-                hide: false,
-                content: function() {
-                    if ($(this).hasClass('visitorLogIconWithDetails')) {
-                        return $('<ul>').html($('ul', $(this)).html());
-                    }
-                    var title = $(this).attr('title');
-                    return $('<a>').text( title ).html().replace(/\n/g, '<br />');
-                },
-                tooltipClass: 'small',
-                open: function() { tooltipIsOpened = true; },
-                close: function() { tooltipIsOpened = false; }
-            });
+            initializeVisitorActions($element);
         },
 
         toggleMap: function () {
@@ -212,6 +188,7 @@
             loading.show();
 
             var ajax = new ajaxHelper();
+            ajax.removeDefaultParameter('segment');
             ajax.addParams({
                 module: 'Live',
                 action: 'getVisitList',

@@ -101,8 +101,7 @@ DataTable_RowActions_Registry.register({
 
     name: 'Transitions',
 
-    dataTableIcon: 'plugins/Transitions/images/transitions_icon.png',
-    dataTableIconHover: 'plugins/Transitions/images/transitions_icon_hover.png',
+    dataTableIcon: 'icon-transition',
 
     order: 20,
 
@@ -188,7 +187,7 @@ Piwik_Transitions.prototype.showPopover = function () {
     var self = this;
 
     this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
-    Piwik_Popover.addHelpButton('https://piwik.org/docs/transitions');
+    Piwik_Popover.addHelpButton('https://matomo.org/docs/transitions');
 
     var bothLoaded = function () {
         Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);

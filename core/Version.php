@@ -10,17 +10,17 @@
 namespace Piwik;
 
 /**
- * Piwik version information.
+ * Matomo version information.
  *
  * @api
  */
 final class Version
 {
     /**
-     * The current Piwik version.
+     * The current Matomo version.
      * @var string
      */
-    const VERSION = '3.2.0';
+    const VERSION = '3.4.0-rc1';
 
     public function isStableVersion($version)
     {

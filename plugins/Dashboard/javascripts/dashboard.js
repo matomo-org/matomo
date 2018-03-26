@@ -10,21 +10,24 @@ function createDashboard() {
 
     piwikHelper.modalConfirm(makeSelectorLastId('createDashboardConfirm'), {yes: function () {
         var dashboardName = $(makeSelectorLastId('createDashboardName')).val();
-        var type = ($('[id=dashboard_type_empty]:last:checked').length > 0) ? 'empty' : 'default';
+        var addDefaultWidgets = ($('[id=dashboard_type_empty]:last:checked').length > 0) ? 0 : 1;
 
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.setLoadingElement();
         ajaxRequest.withTokenInUrl();
         ajaxRequest.addParams({
-            module: 'Dashboard',
-            action: 'createNewDashboard'
+            module: 'API',
+            method: 'Dashboard.createNewDashboardForUser',
+            format: 'json'
         }, 'get');
         ajaxRequest.addParams({
-            name: encodeURIComponent(dashboardName),
-            type: type
+            dashboardName: encodeURIComponent(dashboardName),
+            addDefaultWidgets: addDefaultWidgets,
+            login: piwik.userLogin
         }, 'post');
         ajaxRequest.setCallback(
-            function (id) {
+            function (response) {
+                var id = response.value;
                 angular.element(document).injector().invoke(function ($location, reportingMenuModel, dashboardsModel) {
                     dashboardsModel.reloadAllDashboards().then(function () {
 
@@ -126,16 +129,17 @@ function copyDashboardToUser() {
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams({
-                module: 'Dashboard',
-                action: 'copyDashboardToUser'
+                module: 'API',
+                method: 'Dashboard.copyDashboardToUser',
+                format: 'json'
             }, 'get');
             ajaxRequest.addParams({
-                name: encodeURIComponent(copyDashboardName),
-                dashboardId: $('#dashboardWidgetsArea').dashboard('getDashboardId'),
-                user: encodeURIComponent(copyDashboardUser)
+                dashboardName: encodeURIComponent(copyDashboardName),
+                idDashboard: $('#dashboardWidgetsArea').dashboard('getDashboardId'),
+                copyToUser: encodeURIComponent(copyDashboardUser)
             }, 'post');
             ajaxRequest.setCallback(
-                function (id) {
+                function (response) {
                     $('#alert').find('h2').text(_pk_translate('Dashboard_DashboardCopied'));
                     piwikHelper.modalConfirm('#alert', {});
                 }

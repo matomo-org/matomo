@@ -102,7 +102,7 @@ class ReportsProvider
                 $mapApiToReport[$key] = get_class($report);
             }
 
-            $cache->save($lazyCacheId, $mapApiToReport);
+            $cache->save($lazyCacheId, $mapApiToReport, $lifeTime = 3600);
         }
 
         return $mapApiToReport;
@@ -117,7 +117,7 @@ class ReportsProvider
     public function getAllReports()
     {
         $reports = $this->getAllReportClasses();
-        $cacheId = CacheId::languageAware('Reports' . md5(implode('', $reports)));
+        $cacheId = CacheId::siteAware(CacheId::languageAware('Reports' . md5(implode('', $reports))));
         $cache   = PiwikCache::getTransientCache();
 
         if (!$cache->contains($cacheId)) {
@@ -163,7 +163,7 @@ class ReportsProvider
              */
             Piwik::postEvent('Report.filterReports', array(&$instances));
 
-            usort($instances, array($this, 'sort'));
+            @usort($instances, array($this, 'sort'));
 
             $cache->save($cacheId, $instances);
         }

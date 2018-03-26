@@ -23,7 +23,7 @@ class SearchEngine extends Singleton
     const OPTION_STORAGE_NAME = 'SearchEngineDefinitions';
 
     /** @var string location of definition file (relative to PIWIK_INCLUDE_PATH) */
-    const DEFINITION_FILE = '/vendor/piwik/searchengine-and-social-list/SearchEngines.yml';
+    const DEFINITION_FILE = '/vendor/matomo/searchengine-and-social-list/SearchEngines.yml';
 
     protected $definitionList = null;
 
@@ -485,7 +485,7 @@ class SearchEngine extends Singleton
     public function getBackLinkFromUrlAndKeyword($url, $keyword)
     {
         if ($keyword === API::LABEL_KEYWORD_NOT_DEFINED) {
-            return 'https://piwik.org/faq/general/#faq_144';
+            return 'https://matomo.org/faq/general/#faq_144';
         }
         $keyword = urlencode($keyword);
         $keyword = str_replace(urlencode('+'), urlencode(' '), $keyword);

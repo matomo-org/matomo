@@ -33,7 +33,7 @@
         "ColumnIdPageview": "ID wyświetlenia strony",
         "ColumnInteractionPosition": "Miejsce interakcji",
         "ActionsInVisit": "Akcji podczas wizyty",
-        "DownloadsReportDocumentation": "W tym raporcie możesz zobaczyć które pliki twoi odwiedzający pobrali. %s Które Piwik liczy jako pobrane kliknięcia na link pobrania. Niezalerznie czy pobranie było ukończone lub czy Piwik nie ma o tym informacji.",
+        "DownloadsReportDocumentation": "W tym raporcie możesz zobaczyć które pliki twoi odwiedzający pobrali. %s Które Matomo liczy jako pobrane kliknięcia na link pobrania. Niezalerznie czy pobranie było ukończone lub czy Matomo nie ma o tym informacji.",
         "EntryPagesReportDocumentation": "Ten raport zawiera informacje o stronach wejścia użytych w określonym przedziale czasu. Strona wejściowa, to pierwsza strona, którą odwiedzający zobaczy podczas wizyty. %s Adresy wejścia są wyświetlane w strukturze katalogów.",
         "EntryPageTitles": "Tytuły stron Wejściowych",
         "EntryPageTitlesReportDocumentation": "Ten raport zawiera informację o tytułach stron wejściowych które były używane podczas wybranego okresu.",

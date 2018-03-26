@@ -19,9 +19,7 @@
             var date = piwik.broadcast.getValueFromHash('date');
             var period = piwik.broadcast.getValueFromHash('period');
 
-            if (!piwikPeriods.isRecognizedPeriod(period)
-                || !isValidDateStr(date)
-            ) {
+            if (!isValidPeriod(period, date)) {
                 // invalid data in URL
                 return;
             }
@@ -33,6 +31,16 @@
 
             piwik.period = period;
 
+            var dateRange = piwikPeriods.parse(period, date).getDateRange();
+            piwik.startDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[0]);
+            piwik.endDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
+
+            // do not set anything to previous7/last7, as piwik frontend code does not
+            // expect those values.
+            if (piwik.period === 'range') {
+                date = piwik.startDateString + ',' + piwik.endDateString;
+            }
+
             if (date && date.indexOf(',') > -1) {
                 var dateParts = date.split(',');
                 if (dateParts[1]) {
@@ -43,20 +51,11 @@
             } else {
                 piwik.currentDateString = date;
             }
-
-            var dateRange = piwikPeriods.parse(period, date).getDateRange();
-            piwik.startDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[0]);
-            piwik.endDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
         }
 
-        function isValidDateStr(dateStr) {
-            if (dateStr.indexOf(',') !== -1) {
-                var dateParts = dateStr.split(',');
-                return isValidDateStr(dateParts[0]) && isValidDateStr(dateParts[1]);
-            }
-
+        function isValidPeriod(periodStr, dateStr) {
             try {
-                piwikPeriods.parseDate(dateStr);
+                piwikPeriods.get(periodStr).parse(dateStr);
                 return true;
             } catch (e) {
                 return false;

@@ -17,7 +17,7 @@ use Piwik\Piwik;
 /**
  * The Events API lets you request reports about your users' Custom Events.
  *
- * Events are tracked using the Javascript Tracker trackEvent() function, or using the [Tracking HTTP API](http://developer.piwik.org/api-reference/tracking-api).
+ * Events are tracked using the Javascript Tracker trackEvent() function, or using the [Tracking HTTP API](http://developer.matomo.org/api-reference/tracking-api).
  *
  * <br/>An event is defined by an event category (Videos, Music, Games...),
  * an event action (Play, Pause, Duration, Add Playlist, Downloaded, Clicked...),

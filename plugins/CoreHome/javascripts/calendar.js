@@ -77,7 +77,7 @@
         };
     };
 
-    Mousetrap.bind('d', function(event) {
+    piwikHelper.registerShortcut('d', _pk_translate('CoreHome_ShortcutCalendar'), function(event) {
         if (event.altKey) {
             return;
         }

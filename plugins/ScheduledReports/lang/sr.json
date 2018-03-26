@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "Morate biti prijavljeni na sistem kako biste kreirali i zakazivali izveštaje.",
         "NoRecipients": "Nije definisan primaoc",
         "Pagination": "Strana %1$s od %2$s",
-        "PiwikReports": "Piwik izveštaji",
+        "PiwikReports": "Matomo izveštaji",
         "PleaseFindAttachedFile": "u prilogu se nalazi vaš %1$s izveštaj za %2$s.",
         "SentFromX": "Poslato od strane %s.",
         "PleaseFindBelow": "u nastavku je vaš %1$s izveštaj za %2$s.",
@@ -43,7 +43,7 @@
         "SentToMe": "Pošalji meni",
         "TableOfContent": "Spisak izveštaja",
         "ThereIsNoReportToManage": "Nema izveštaja za obradu za sajt %s.",
-        "TopLinkTooltip": "Napravite izveštaje kako biste vi ili vaši klijenti automatski dobijali Piwik statistike putem elektronske pošte!",
+        "TopLinkTooltip": "Napravite izveštaje kako biste vi ili vaši klijenti automatski dobijali Matomo statistike putem elektronske pošte!",
         "TopOfReport": "Povratak na početak",
         "UpdateReport": "Ažuriraj izveštaj",
         "WeeklyScheduleHelp": "Nedeljno zakazivanje: izveštaj će biti poslat svakog ponedeljka."
