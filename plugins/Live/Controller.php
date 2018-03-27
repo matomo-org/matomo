@@ -86,11 +86,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view = new View('@Live/getLastVisitsStart');
         $view->idSite = (int) $this->idSite;
-        $api = new Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");
+        $api = new Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=original&serialize=0&disable_generic_filters=1");
         $visitors = $api->process();
-        if (!empty($visitors['result']) && $visitors['result'] === 'error' && !empty($visitors['message'])) {
-            throw new \Exception($visitors['message']);
-        }
         $view->visitors = $visitors;
 
         return $this->render($view);
