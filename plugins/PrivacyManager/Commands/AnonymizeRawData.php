@@ -75,8 +75,8 @@ class AnonymizeRawData extends ConsoleCommand
         $logDataAnonymizations->setCallbackOnOutput(function ($message) use ($output) {
             $output->writeln($message);
         });
-        $index = $logDataAnonymizations->scheduleEntry('Command line', $idSites, $date, $anonymizeIp, $anonymizeLocation, $visitColumnsToUnset, $linkVisitActionColumns, $isStarted = true);
-        $logDataAnonymizations->executeScheduledEntry($index);
+        $idLogData = $logDataAnonymizations->scheduleEntry('Command line', $idSites, $date, $anonymizeIp, $anonymizeLocation, $visitColumnsToUnset, $linkVisitActionColumns, $isStarted = true);
+        $logDataAnonymizations->executeScheduledEntry($idLogData);
 
         $output->writeln('Done');
     }

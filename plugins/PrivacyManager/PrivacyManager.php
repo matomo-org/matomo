@@ -73,6 +73,16 @@ class PrivacyManager extends Plugin
         $this->ipAnonymizer = new IPAnonymizer();
     }
 
+    public function install()
+    {
+        StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations')->install();
+    }
+
+    public function uninstall()
+    {
+        StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations')->install();
+    }
+
     /**
      * Returns true if it is likely that the data for this report has been purged and if the
      * user should be told about that.

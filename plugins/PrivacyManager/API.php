@@ -75,7 +75,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         if ($idSites === 'all' || empty($idSites)) {
-            $idSites = false; // all websites
+            $idSites = null; // all websites
         } else {
             $idSites = Site::getIdSitesFromIdSitesString($idSites);
         }

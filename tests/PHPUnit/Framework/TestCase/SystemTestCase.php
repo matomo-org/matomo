@@ -441,7 +441,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         return array($processedPath, $path . '/expected/');
     }
 
-    private function getProcessedAndExpectedPaths($testName, $testId, $format = null, $compareAgainst = false)
+    protected function getProcessedAndExpectedPaths($testName, $testId, $format = null, $compareAgainst = false)
     {
         $filenameSuffix = '__' . $testId;
         if ($format) {

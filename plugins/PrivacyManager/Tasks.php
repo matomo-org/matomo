@@ -32,17 +32,15 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function anonymizePastData()
     {
-        $schedules = $this->logDataAnonymizations->getAllEntries();
-
-        foreach ($schedules as $index => $schedule) {
-            if (empty($schedule['isStarted']) && empty($schedule['isFinished'])) {
-                // during one task run we want to start executing max one entry because this may take a lot of time.
-                // this also simplifies logic here to not having to run in a do/while loop and re-fetching getAllSchedules()
-                // after executing this entry etc.
-                $this->logDataAnonymizations->executeScheduledEntry($index);
-                return;
+        $loop = 0;
+        do {
+            $loop++; // safety loop...
+            $id = $this->logDataAnonymizations->getNextScheduledAnonymizationId();
+            if (!empty($id)) {
+                $this->logDataAnonymizations->executeScheduledEntry($id);
             }
-        }
+
+        } while (!empty($id) && $loop < 100);
     }
 
     public function deleteReportData()

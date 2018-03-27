@@ -278,7 +278,8 @@
 
     <div piwik-content-block content-title="Anonymize previously tracked raw data">
         <p>If you have tracked personal data such as the full visitor IP, you may
-            want to anonymize this data now in case you do not have consent for this data.
+            want to anonymize this data now in case you do not have consent for this data or no longer a legitimate
+            interest.
         </p>
 
         {% if isSuperUser %}
@@ -303,21 +304,23 @@
             </tr></thead>
             <tbody>
             {% for entry in anonymizations %}
+                {% set isStarted = not entry.job_start_date or entry.job_start_date is empty %}
+                {% set isFinished = not entry.job_finish_date or entry.job_finish_date is empty %}
                 <tr>
                     <td>{{ entry.requester }}</td>
                     <td>{% if entry.idsites is empty or entry.idsites == 'all' %}All sites{% else %}{{ entry.idsites|join(', ') }}{% endif %}</td>
                     <td>{{ entry.date }}</td>
-                    <td>{% if entry.anonymizeIp %}<span class="icon-ok"></span>{% else %}-{% endif %}</td>
-                    <td>{% if entry.anonymizeLocation %}<span class="icon-ok"></span>{% else %}-{% endif %}</td>
-                    <td>{{ entry.unsetVisitColumns|join(', ') }}</td>
-                    <td>{{ entry.unsetLinkVisitActionColumns|join(', ') }}</td>
+                    <td>{% if entry.anonymize_ip %}<span class="icon-ok"></span>{% else %}-{% endif %}</td>
+                    <td>{% if entry.anonymize_location %}<span class="icon-ok"></span>{% else %}-{% endif %}</td>
+                    <td>{{ entry.unset_visit_columns|join(', ') }}</td>
+                    <td>{{ entry.unset_link_visit_action_columns|join(', ') }}</td>
                     <td>
-                        {% if not entry.isStarted %}
-                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduledOn|default('') }}."></span> Scheduled
-                        {% elseif entry.isStarted and not entry.isFinished %}
-                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduledOn|default('') }}. Job Start Date: {{ entry.startDate }}. Current Output: {{ entry.output }}"></span> In progress
+                        {% if not isStarted %}
+                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduled_date|default('') }}."></span> Scheduled
+                        {% elseif isStarted and not isFinished %}
+                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduled_date|default('') }}. Job Start Date: {{ entry.job_start_date }}. Current Output: {{ entry.output }}"></span> In progress
                         {% else %}
-                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduledOn|default('') }}. Job Start Date: {{ entry.startDate }}. Job End Date: {{ entry.finishDate }}. Output: {{ entry.output }}"></span> Done
+                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduled_date|default('') }}. Job Start Date: {{ entry.job_start_date }}. Job Finish Date: {{ entry.job_finish_date }}. Output: {{ entry.output }}"></span> Done
                         {% endif %}
                     </td>
                 </tr>
