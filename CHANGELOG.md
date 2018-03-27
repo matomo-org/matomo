@@ -14,7 +14,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * A new event `Actions.addActionTypes` has been added, to allow plugins to add their custom action types.
 * Dashboard API has been extended by the methods `copyDashboardToUser`, `createNewDashboardForUser`, `removeDashboard` and `resetDashboardLayout`
   * It is also now possible to delete the first dashboard for a user for automation purposes. Doing so and not adding a new first dashboard might result in buggy UX.
-  * `getDashbaords` API method has been extended by additional parameters to fetch dashboards for specific user
+  * `getDashboards` API method has been extended by additional parameters to fetch dashboards for specific user
 * A new event `API.Request.intercept` has been added which allows plugins to intercept API requests to perform custom logic, overriding the original API method.
 * A new event `Request.shouldDisablePostProcessing` has been added which allows plugins to disable DataTable post processing for individual API requests.
 * A new event `SitesManager.shouldPerformEmptySiteCheck` has been added to allow plugins to disable the empty site check for individual sites.
