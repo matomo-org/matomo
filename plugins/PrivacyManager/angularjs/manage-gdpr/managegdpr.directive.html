@@ -1,5 +1,5 @@
 <div class="manageGdpr">
-    <div piwik-content-block content-title="GDPR Manager">
+    <div piwik-content-block content-title="GDPR Tools">
         <p>
             Here you can manage various GDPR rights. In case you do not know what GDPR is, have a look at the <a href="{{ linkTo({module: 'PrivacyManager', action: 'gdprOverview'}) }}">Overview</a> page.
             <br /><br />
@@ -84,6 +84,9 @@
             </tr>
             </thead>
             <tbody>
+                <tr ng-show="(manageGdpr.dataSubjects|length) > 500">
+                    <td colspan="8">More than 500 results were found and the result was truncated to the first 500 visits.</td>
+                </tr>
                 <tr ng-repeat="(index, dataSubject) in manageGdpr.dataSubjects" title="Last action: {{ dataSubject.lastActionDateTime }}">
                     <td class="checkInclude">
                         <div piwik-field uicontrol="checkbox" name="subject{{dataSubject.idVisit}}"

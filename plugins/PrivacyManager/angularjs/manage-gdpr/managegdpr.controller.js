@@ -156,7 +156,7 @@
                 module: 'API',
                 method: 'Live.getLastVisitsDetails',
                 segment: this.segment_filter,
-                filter_limit: -1,
+                filter_limit: 501,
                 doNotFetchActions: 1
             }).then(function (visits) {
                 self.hasSearched = true;

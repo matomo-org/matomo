@@ -19,12 +19,15 @@ class Menu extends \Piwik\Plugin\Menu
             $category = 'PrivacyManager_MenuPrivacySettings';
             $menu->registerMenuIcon($category, 'icon-locked-4');
             $menu->addItem($category, null, array(), 2);
-            $menu->addItem($category, 'General_Settings',
-                                 $this->urlForAction('privacySettings'),
-                                 $order = 5);
-            $menu->addItem($category, 'GDPR Overview', $this->urlForAction('gdprOverview'), 10);
-            $menu->addItem($category, 'GDPR Tools', $this->urlForAction('gdprTools'), 10);
-            $menu->addItem($category, 'PrivacyManager_GdprManager', $this->urlForAction('gdprManageRights'), 15);
+
+            if (Piwik::hasUserSuperUserAccess()) {
+                $menu->addItem($category, 'Anonymize data', $this->urlForAction('privacySettings'), 5);
+            }
+
+            $menu->addItem($category, 'Users opt-out', $this->urlForAction('usersOptOut'), 10);
+            $menu->addItem($category, 'Asking for consent', $this->urlForAction('askingForConsent'), 15);
+            $menu->addItem($category, 'GDPR Overview', $this->urlForAction('gdprOverview'), 20);
+            $menu->addItem($category, 'GDPR Tools', $this->urlForAction('gdprTools'), 25);
         }
     }
 }
