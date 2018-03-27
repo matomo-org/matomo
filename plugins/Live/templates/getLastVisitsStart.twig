@@ -43,42 +43,43 @@
                 {% if visitor.visitIp %} <span title="{% if visitor.visitorId is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitor.visitorId }}{% endif %}">
                     IP: {{ visitor.visitIp }}</span>
                 {% endif %}
-            <!--<div class="settings"></div>-->
             <span class="referrer">
-                {% if visitor.referrerType is defined and visitor.referrerType != 'direct' %}
-                    {{ 'General_FromReferrer'|translate }}
-                    {% if visitor.referrerUrl is not empty %}
-                        <a rel="noreferrer" target="_blank"
-                           href="{{ visitor.referrerUrl|e('html_attr') }}">
+                {% if visitor.referrerType == 'website' %}
+                    <span>{{ 'Referrers_ColumnWebsite'|translate }}:</span>
+                    <a href="{{ visitor.referrerUrl }}" rel="noreferrer" target="_blank"
+                       class="visitorLogTooltip" title="{{ visitor.referrerUrl }}"
+                       style="text-decoration:underline;">{{ visitor.referrerName }}</a>
+                {% endif %}
+                {% if visitor.referrerType == 'campaign' %}
+                    <span>{{ 'Referrers_ColumnCampaign'|translate }}: {{ visitor.referrerName }}
+                        {% if visitor.referrerKeyword is not empty %} - {{ visitor.referrerKeyword }}{% endif %}</span>
+                {% endif %}
+                {% if visitor.referrerType == 'search' %}
+                    {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
+                    {%- set showKeyword = visitor.referrerKeyword is not empty and visitor.referrerKeyword != keywordNotDefined -%}
+                    {% if visitor.referrerSearchEngineIcon %}
+                        <img width="16" src="{{ visitor.referrerSearchEngineIcon }}"
+                             alt="{{ visitor.referrerName }}"/>
                     {% endif %}
-
-                    {% if visitor.searchEngineIcon is defined %}
-                        <img src="{{ visitor.searchEngineIcon }}" />
+                    <span {% if not showKeyword %}title="{{ keywordNotDefined }}"
+                          class="visitorLogTooltip"{% endif %}>{{ visitor.referrerName }}</span>
+                    {%- if showKeyword %}<span>, {{ 'Referrers_Keywords'|translate }}:</span>
+                        <a href="{{ visitor.referrerUrl }}" rel="noreferrer" target="_blank"
+                           style="text-decoration:underline;">"{{ visitor.referrerKeyword }}"</a>
                     {% endif %}
-
-                    {{ visitor.referrerName }}
-
-                    {% if visitor.referrerUrl is not empty %}
-                        </a>
-                    {% endif %}
-
-                    {% if visitor.referrerKeyword is not empty %} - "{{ visitor.referrerKeyword }}"{% endif %}
-
                     {% set keyword %}{{ visitor.referrerKeyword }}{% endset %}
                     {% set searchName %}{{ visitor.referrerName }}{% endset %}
-                    {% set position %}#{{ visitor.referrerKeywordPosition}}{% endset %}
-
-                    {% if visitor.referrerKeywordPosition is not empty %}
-                        <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}'
-                              class='visitorRank'>
-                            <span class='hash'>#</span> {{ visitor.referrerKeywordPosition }}
+                    {% set position %}#{{ visitor.referrerKeywordPosition }}{% endset %}
+                    {% if visitor.referrerKeywordPosition %}
+                    <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}'
+                          class='visitorRank visitorLogTooltip'>
+                            <span class='hash'>#</span>
+                        {{ visitor.referrerKeywordPosition }}
                         </span>
                     {% endif %}
-
-                {% elseif visitor.referrerType is defined %}
-                    {{ 'Referrers_DirectEntry'|translate }}
                 {% endif %}
-            </span></div>
+                {% if visitor.referrerType == 'direct' %}{{ 'Referrers_DirectEntry'|translate }}{% endif %}
+             </span></div>
             <div id="{{ visitor.idVisit|e('html_attr') }}_actions" class="settings">
                 <span class="pagesTitle"
                       title="{{ visitor.actionDetails|length }} {{ 'General_Actions'|translate }}"
