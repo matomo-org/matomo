@@ -985,6 +985,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, getPiwikUrl, getCurrentUrl,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
+    getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, setConsentGiven,
+    rememberConsentGiven, forgetConsentGiven, unload,
     discardHashTag,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
@@ -5591,6 +5593,12 @@ if (typeof window.Piwik !== 'object') {
                 var firstTracker = asyncTrackers[0];
                 asyncTrackers = [firstTracker];
             };
+            this.getConsentRequestsQueue = function () {
+                return consentRequestsQueue;
+            };
+            this.hasRequiredConsent = function () {
+                return configRequireConsent;
+            };
             this.getRemainingVisitorCookieTimeout = getRemainingVisitorCookieTimeout;
 /*</DEBUG>*/
 
@@ -7075,7 +7083,11 @@ if (typeof window.Piwik !== 'object') {
              * @returns {number|string}
              */
             this.getRememberedConsent = function () {
-                return getCookie('consent');
+                var value = getCookie('consent');
+                if (!value || value === 0) {
+                    return null;
+                }
+                return value;
             };
 
             /**
@@ -7114,13 +7126,17 @@ if (typeof window.Piwik !== 'object') {
                 if (!this.hasRememberedConsent()) {
                     configRequireConsent = true;
                 }
-                Piwik.addPlugin('Core', {
+                // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
+                // We also want to make sure to define an unload listener for each tracker, not only one tracker.
+                var rand = String(parseInt(Math.random() * 10000, 10));
+                plugins['CoreConsent' + rand] = {
                     unload: function () {
                         if (configRequireConsent) {
-                            deleteCookies(); // we want to make sure to remove all previously set cookies again
+                            // we want to make sure to remove all previously set cookies again
+                            deleteCookies();
                         }
                     }
-                });
+                };
             };
 
             /**
@@ -7139,6 +7155,7 @@ if (typeof window.Piwik !== 'object') {
                         sendBulkRequest(consentRequestsQueue[i], configTrackerPause);
                     }
                 }
+                consentRequestsQueue = [];
             };
 
             /**
@@ -7173,8 +7190,8 @@ if (typeof window.Piwik !== 'object') {
              * want to re-ask for consent after a specific time period.
              */
             this.forgetConsentGiven = function () {
-                this.requireConsent();
                 deleteCookie('consent', configCookiePath, configCookieDomain);
+                this.requireConsent();
             };
 
             Piwik.trigger('TrackerSetup', [this]);

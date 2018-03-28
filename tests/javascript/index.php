@@ -47,6 +47,9 @@ function getContentToken() {
 function getHeartbeatToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getConsentToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 <?php
 
 if ($mysql) {
@@ -2112,7 +2115,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(90);
+        expect(96);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2213,6 +2216,13 @@ function PiwikTest() {
         equal( typeof tracker.addEcommerceItem, 'function', 'addEcommerceItem' );
         equal( typeof tracker.trackEcommerceOrder, 'function', 'trackEcommerceOrder' );
         equal( typeof tracker.trackEcommerceCartUpdate, 'function', 'trackEcommerceCartUpdate' );
+        // consent
+        equal( typeof tracker.getRememberedConsent, 'function', 'getRememberedConsent' );
+        equal( typeof tracker.hasRememberedConsent, 'function', 'hasRememberedConsent' );
+        equal( typeof tracker.requireConsent, 'function', 'requireConsent' );
+        equal( typeof tracker.setConsentGiven, 'function', 'setConsentGiven' );
+        equal( typeof tracker.rememberConsentGiven, 'function', 'rememberConsentGiven' );
+        equal( typeof tracker.forgetConsentGiven, 'function', 'forgetConsentGiven' );
     });
 
     module("API and internals");
@@ -4686,7 +4696,63 @@ if ($mysql) {
             start();
         }, 4000);
     });
-    <?php
+
+    test("Test API - consent", function() {
+        expect(25);
+
+        var queue;
+        var tracker = Piwik.getTracker();
+        tracker.setCustomData('token', getConsentToken());
+        deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, by default is empty" );
+        strictEqual(tracker.hasRememberedConsent(), false, "hasRememberedConsent, has no consent given by default" );
+        strictEqual(tracker.getRememberedConsent(), null, "getConsentRequestsQueue, does not return consent cookie content as no consent given" );
+        strictEqual(tracker.hasRequiredConsent(), false, "hasRequiredConsent, has not required consent by default" );
+
+        tracker.requireConsent();
+        deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, still empty after requiring consent" );
+        strictEqual(tracker.hasRequiredConsent(), true, "hasRequiredConsent, has now required consent" );
+
+        tracker.trackRequest('myFoo=bar&baz=1');
+        queue = tracker.getConsentRequestsQueue();
+        strictEqual(1, queue.length, "getConsentRequestsQueue, did not execute tracking request when requiring consent but added this request to the queue" );
+        strictEqual(0, queue[0].indexOf('myFoo=bar&baz=1'), "getConsentRequestsQueue, the request contains the tracking request" );
+
+        tracker.trackRequest('myFoo=bar&baz=2');
+        queue = tracker.getConsentRequestsQueue();
+        strictEqual(2, queue.length, "getConsentRequestsQueue, did not execute tracking request again and added a second request to the queue" );
+        strictEqual(0, queue[1].indexOf('myFoo=bar&baz=2'), "getConsentRequestsQueue, the request contains the tracking request" );
+
+        tracker.setConsentGiven();
+        deepEqual(tracker.getConsentRequestsQueue(), [], "setConsentGiven, should reset queued requests" );
+        strictEqual(tracker.hasRememberedConsent(), false, "getConsentRequestsQueue, has not remembered consent" );
+        strictEqual(tracker.getRememberedConsent(), null, "getConsentRequestsQueue, does not return consent cookie content as no consent given" );
+
+        tracker.rememberConsentGiven();
+
+        strictEqual(tracker.hasRememberedConsent(), true, "rememberConsentGiven, sets cookie to remember consent" );
+        var rememberedConsent = tracker.getRememberedConsent();
+        strictEqual(String(rememberedConsent).length, 13, "getRememberedConsent, returns the data in milliseconds eg '1522200406749'" );
+        strictEqual(String(rememberedConsent).substr(0, 2), '15', "getRememberedConsent, starts with correct data" );
+
+        tracker.requireConsent();
+        strictEqual(tracker.hasRequiredConsent(), false, "when requiring consent, and we remembered consent, we actually ignore the required consent because consent was given" );
+
+        tracker.forgetConsentGiven();
+        strictEqual(tracker.hasRequiredConsent(), true, "forgetConsentGiven(), will remove remembered consent and require consent again" );
+        strictEqual(tracker.hasRememberedConsent(), false, "forgetConsentGiven, has forgotten consent" );
+        strictEqual(tracker.getRememberedConsent(), null, "forgetConsentGiven, has no longer a date for consent given stored" );
+
+        stop();
+        setTimeout(function() {
+            var results = fetchTrackedRequests(getConsentToken());
+            strictEqual(true, results.indexOf('myFoo=bar&baz=1') > 0, "setConsentGiven does replay all queued requests" );
+            strictEqual(true, results.indexOf('myFoo=bar&baz=2') > 0, "setConsentGiven does replay all queued requests" );
+            start();
+        }, 2000);
+    });
+
+
+<?php
 }
 ?>
 }
