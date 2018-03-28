@@ -18,6 +18,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * A new event `API.Request.intercept` has been added which allows plugins to intercept API requests to perform custom logic, overriding the original API method.
 * A new event `Request.shouldDisablePostProcessing` has been added which allows plugins to disable DataTable post processing for individual API requests.
 * A new event `SitesManager.shouldPerformEmptySiteCheck` has been added to allow plugins to disable the empty site check for individual sites.
+* A new JavaScript tracker method `getCrossDomainLinkingUrlParameter` has been added so you can add cross domain tracking capability to dynamically created links. [Learn here how to append the result to said links' URLs, see the section "Advanced: Handling Dynamically Generated Links"](https://matomo.org/faq/how-to/faq_23654/) 
 
 ## Matomo 3.3.0
 
