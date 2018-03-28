@@ -35,6 +35,12 @@ class Actions extends BaseFilter
 
             $defaultActionName = Config::getInstance()->General['action_default_name'];
 
+            // for BC, we read the old style delimiter first (see #1067)
+            $actionDelimiter = @Config::getInstance()->General['action_category_delimiter'];
+            if (empty($actionDelimiter)) {
+                $actionDelimiter = Config::getInstance()->General['action_url_category_delimiter'];
+            }
+
             foreach ($dataTable->getRows() as $row) {
                 $url = $row->getMetadata('url');
                 if ($url) {
@@ -44,11 +50,10 @@ class Actions extends BaseFilter
                 // remove the default action name 'index' in the end of flattened urls
                 if (Common::getRequestVar('flat', 0)) {
                     $label = $row->getColumn('label');
-                    if (substr($label, -strlen($defaultActionName)) == $defaultActionName) {
+                    $stringToSearch = $actionDelimiter.$defaultActionName;
+                    if (substr($label, -strlen($stringToSearch)) == $stringToSearch) {
                         $label = substr($label, 0, -strlen($defaultActionName));
-                        if (substr($label, -1) == '/') {
-                            $label = rtrim($label, '/') . '/';
-                        }
+                        $label = rtrim($label, $actionDelimiter) . $actionDelimiter;
                         $row->setColumn('label', $label);
                     }
                     $dataTable->setLabelsHaveChanged();
