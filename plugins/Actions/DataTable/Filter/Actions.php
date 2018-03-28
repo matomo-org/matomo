@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\Actions\DataTable\Filter;
 
+use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
@@ -30,10 +32,26 @@ class Actions extends BaseFilter
     public function filter($table)
     {
         $table->filter(function (DataTable $dataTable) {
+
+            $defaultActionName = Config::getInstance()->General['action_default_name'];
+
             foreach ($dataTable->getRows() as $row) {
                 $url = $row->getMetadata('url');
                 if ($url) {
                     $row->setMetadata('segmentValue', urldecode($url));
+                }
+
+                // remove the default action name 'index' in the end of flattened urls
+                if (Common::getRequestVar('flat', 0)) {
+                    $label = $row->getColumn('label');
+                    if (substr($label, -strlen($defaultActionName)) == $defaultActionName) {
+                        $label = substr($label, 0, -strlen($defaultActionName));
+                        if (substr($label, -1) == '/') {
+                            $label = rtrim($label, '/') . '/';
+                        }
+                        $row->setColumn('label', $label);
+                    }
+                    $dataTable->setLabelsHaveChanged();
                 }
             }
         });
