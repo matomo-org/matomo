@@ -320,7 +320,7 @@
         "Password": "Passwort",
         "Period": "Zeitraum",
         "Piechart": "Kreisdiagramm",
-        "PiwikIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$s Matomo %2$s ist ein gemeinschaftliches Projekt der %7$s Matomo Team%8$s Mitglieder, sowie viele andere auf der Welt verteilte Unterstützer. <br\/> Wenn Ihnen Matomo gefällt, können Sie helfen: Finden Sie heraus, %3$s wie Sie Matomo unterstützen können%4$s oder %5$s Spenden Sie jetzt%6$s und unterstützen Sie die nächste großartige Matomo-Version!",
+        "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$s Matomo %2$s, ehemals bekannt als Piwik, ist ein gemeinschaftliches Projekt der %7$s Matomo Team%8$s Mitglieder, sowie viele andere auf der Welt verteilte Unterstützer. <br\/> Wenn Ihnen Matomo gefällt, können Sie helfen: Finden Sie heraus, %3$s wie Sie Matomo unterstützen können%4$s oder %5$s Spenden Sie jetzt%6$s und unterstützen Sie die nächste großartige Matomo-Version!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s ist verfügbar. Bitte benachrichtigen Sie den %2$sMatomo Administrator%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s ist verfügbar. %2$s Bitte aktualisieren Sie jetzt!%3$s (siehe %4$s Änderungen%5$s).",
         "PleaseContactYourPiwikAdministrator": "Bitte kontaktieren Sie Ihren Matomo Administrator.",

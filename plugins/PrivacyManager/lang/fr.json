@@ -1,6 +1,6 @@
 {
     "PrivacyManager": {
-        "AnonymizeIpDescription": "Sélectionnez \"Oui\" si vous voulez que Piwik ne trace pas les adresses IP complètes.",
+        "AnonymizeIpDescription": "Sélectionnez \"Oui\" si vous souhaitez que Matomo n'enregistre pas des adresses IP complètes.",
         "AnonymizeIpInlineHelp": "Masque les adresses IP des visiteurs pour remplir les conditions légales et politiques locales.",
         "AnonymizeIpExtendedHelp": "Quand les utilisateurs visitent votre site, Matomo n'utilisera pas l'adresse IP complète (par exemple %1$s) mais l'anonymisera (par exemple %2$s). L'anonymisation des adresses IP est requise par certaines lois adressant la protection de la vie privée dans certains pays comme l'Allemagne.",
         "AnonymizeIpMaskLengtDescription": "Sélectionnez combien de bytes de l'adresse IP du visiteur doivent être masqués.",
@@ -31,11 +31,11 @@
         "DeleteDataSettings": "Supprimer les journaux et rapports des anciens visiteurs",
         "DoNotTrack_Description": "\"Ne pas Suivre\" (Do Not Track) est une technologie et une proposition de politique qui permet aux utilisateurs de désactiver leur suivi par les sites web qu'ils ne visitent pas, incluant les services d'analyse, les réseaux publicitaires et les réseaux sociaux.",
         "DoNotTrack_Disable": "Désactiver la prise en charge de \"Ne pas Suivre\"",
-        "DoNotTrack_Disabled": "Piwik suit actuellement tous les visiteurs, même si ils ont précisé \"Je ne veux pas être suivi\" dans leurs navigateurs.",
+        "DoNotTrack_Disabled": "Matomo suit actuellement tous les visiteurs, même si ils ont précisé \"Je ne veux pas être suivi\" dans leurs navigateurs.",
         "DoNotTrack_DisabledMoreInfo": "Nous vous recommandons de respecter la vie privée de vos visiteurs et d'activer la prise en charge de \"Ne pas Suivre\"",
         "DoNotTrack_Enable": "Activer la prise en charge de \"Ne pas Suivre\"",
         "DoNotTrack_Enabled": "Vous respectez actuellement actuellement la vie privée de vos utilisateurs, Bravo!",
-        "DoNotTrack_EnabledMoreInfo": "Quand les utilisateurs ont activé dans leurs navigateurs \"Je ne veux pas être suivi\" (Do No Track en anglais) Piwik ne suit plus leurs visites.",
+        "DoNotTrack_EnabledMoreInfo": "Quand les utilisateurs ont activé dans leurs navigateurs \"Je ne veux pas être suivi\" (Do No Track en anglais) Matamo ne suit plus leurs visites.",
         "DoNotTrack_SupportDNTPreference": "Prendre en charge la préférence \"Ne Pas Suivre\"",
         "EstimatedDBSizeAfterPurge": "Taille estimée de la base de données après la purge",
         "EstimatedSpaceSaved": "Espace libéré estimé",

@@ -9,6 +9,8 @@
         "BestKeywords": "أفضل الكلمات الدلالية من حيث التحويل:",
         "BestReferrers": "أفضل المواقع التي جلبت زيارات ربحية هي:",
         "CaseSensitive": "يطابق حالة الأحرف",
+        "CategoryTextReferrers_Referrers": "مرسلو الزوار",
+        "CategoryTextDevicesDetection_DevicesDetection": "الأجهزة",
         "ClickOutlink": "ينقر رابط لموقع خارجي",
         "ColumnConversions": "التحويلات",
         "Contains": "يتضمن %s",

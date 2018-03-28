@@ -129,8 +129,8 @@ class ImportLogsTest extends SystemTestCase
         $this->assertEquals(1, count($whateverDotCom));
 
         // make sure invalid requests are reported correctly
-        $this->assertContains('The Piwik tracker identified 2 invalid requests on lines: 10, 11', $output);
-        $this->assertContains("The following lines were not tracked by Piwik, either due to a malformed tracker request or error in the tracker:\n\n10, 11", $output);
+        $this->assertContains('The Matomo tracker identified 2 invalid requests on lines: 10, 11', $output);
+        $this->assertContains("The following lines were not tracked by Matomo, either due to a malformed tracker request or error in the tracker:\n\n10, 11", $output);
     }
 
     public function test_LogImporter_RetriesWhenServerFails()

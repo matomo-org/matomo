@@ -6,7 +6,7 @@ use Piwik\Plugins\Marketplace\LicenseKey;
 
 return array(
     'MarketplaceEndpoint' => function (ContainerInterface $c) {
-        $domain = 'http://plugins.piwik.org';
+        $domain = 'http://plugins.matomo.org';
         $updater = $c->get('Piwik\Plugins\CoreUpdater\Updater');
 
         if ($updater->isUpdatingOverHttps()) {

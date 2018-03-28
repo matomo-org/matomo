@@ -68,8 +68,23 @@ class SitesManager extends \Piwik\Plugin
             return;
         }
 
+        $shouldPerformEmptySiteCheck = true;
+
+        /**
+         * Posted before checking to display the "No data has been recorded yet" message.
+         * If your Measurable should never have visits, you can use this event to make
+         * sure that message is never displayed.
+         *
+         * @param bool &$shouldPerformEmptySiteCheck Set this value to true to perform the
+         *                                           check, false if otherwise.
+         * @param int $siteId The ID of the site we would perform a check for.
+         */
+        Piwik::postEvent('SitesManager.shouldPerformEmptySiteCheck', [&$shouldPerformEmptySiteCheck, $siteId]);
+
         $trackerModel = new TrackerModel();
-        if ($trackerModel->isSiteEmpty($siteId)) {
+        if ($shouldPerformEmptySiteCheck
+            && $trackerModel->isSiteEmpty($siteId)
+        ) {
             $session = new SessionNamespace('siteWithoutData');
             if (!empty($session->ignoreMessage)) {
                 return;
@@ -308,7 +323,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_OnlyMatchedUrlsAllowedHelp";
         $translationKeys[] = "SitesManager_OnlyMatchedUrlsAllowedHelpExamples";
         $translationKeys[] = "SitesManager_KeepURLFragmentsLong";
-        $translationKeys[] = "SitesManager_HelpExcludedIps";
+        $translationKeys[] = "SitesManager_HelpExcludedIpAddresses";
         $translationKeys[] = "SitesManager_ListOfQueryParametersToExclude";
         $translationKeys[] = "SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters";
         $translationKeys[] = "SitesManager_GlobalExcludedUserAgentHelp1";

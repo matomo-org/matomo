@@ -157,7 +157,14 @@ class TestsSetupFixture extends ConsoleCommand
         foreach (array('libs', 'plugins', 'tests', 'misc', 'piwik.js') as $linkName) {
             $linkPath = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/proxy/' . $linkName;
             if (!file_exists($linkPath)) {
-                symlink(PIWIK_INCLUDE_PATH . '/' . $linkName, $linkPath);
+                $target = PIWIK_INCLUDE_PATH . '/' . $linkName;
+                $success = @symlink($target, $linkPath);
+                // setting symlink might fail when the symlink already exists but pointing to a no longer existing path/file
+                // eg when sometimes running it on a VM and sometimes on the VM's host itself.
+                if (!$success) {
+                    unlink($target);
+                    symlink($target, $linkPath);
+                }
             }
         }
     }

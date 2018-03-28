@@ -9,7 +9,7 @@
 
 describe("ActionsDataTable", function () {
     this.retries(3);
-    
+
     this.timeout(0);
 
     var url = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&isFooterExpandedInDashboard=1";
@@ -22,14 +22,16 @@ describe("ActionsDataTable", function () {
 
     it("should sort column correctly when column header clicked", function (done) {
         expect.screenshot('column_sorted').to.be.capture(function (page) {
-            page.click('th#avg_time_on_page');
+            page.click('th#avg_time_on_page', 3000);
         }, done);
     });
 
     it("should load subtables correctly when row clicked", function (done) {
         expect.screenshot('subtables_loaded').to.be.capture(function (page) {
-            page.click('tr.subDataTable:first');
-            page.click('tr.subDataTable:eq(2)');
+            page.evaluate(function(){
+               $('tr.subDataTable:first').click();
+               $('tr.subDataTable:eq(2)').click();
+            });
         }, done);
     });
 

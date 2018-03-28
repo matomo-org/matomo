@@ -27,7 +27,7 @@ describe("MultiSitesTest", function () {
         };
 
         testEnvironment.callApi("SitesManager.addSite", {
-            siteName: '%3CMy%20website%22%27%3E%3B%2C%3F',
+            siteName: '%3CMy%20website%22%27%3E%3B%2C%3F with a very very very very long stupid name',
             urls: 'http%3A%2F%2Fpiwik.org'},
         callback);
     });

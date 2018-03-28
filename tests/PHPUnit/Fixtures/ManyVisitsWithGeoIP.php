@@ -91,7 +91,7 @@ class ManyVisitsWithGeoIP extends Fixture
         }
 
         if (!self::goalExists($idSite = 1, $idGoal = 2)) {
-            $this->idGoal2 = API::getInstance()->addGoal($this->idSite, 'two', 'url', 'xxxxxxxxxxxxx', 'contains', false, 5);
+            $this->idGoal2 = API::getInstance()->addGoal($this->idSite, 'two', 'url', 'xxxxxxxxxxxxx', 'contains', false, 5, false, 'twodesc');
         }
     }
 

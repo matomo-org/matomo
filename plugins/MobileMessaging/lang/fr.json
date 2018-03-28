@@ -28,7 +28,7 @@
         "Settings_PhoneNumbers_Add": "Ajouter un nouveau numéro de téléphone",
         "Settings_PhoneNumbers_CountryCode_Help": "Si vous ne connaissez pas votre indicatif téléphonique de pays, sélectionnez votre pays ici.",
         "Settings_PhoneNumbers_Help": "Avant de recevoir des rapports par SMS sur un téléphone, le numéro de téléphone doit être entré ci-dessous.",
-        "Settings_PhoneNumbers_HelpAdd": "Quand vous cliquez sur \"Ajouter\", un SMS contenant un code sera envoyé au téléphone. L'utilisateur qui recevra le code devra ensuite se connecter à Piwik, Cliquer sur Paramètres, puis sur Messagerie Mobile. Après avoir entré le code, l'utilisateur sera capable de recevoir des rapports sur son téléphone.",
+        "Settings_PhoneNumbers_HelpAdd": "Quand vous cliquez sur \"Ajouter\", un SMS contenant un code sera envoyé au téléphone. L'utilisateur qui recevra le code devra ensuite se connecter à Matomo, Cliquer sur Paramètres, puis sur Messagerie Mobile. Après avoir entré le code, l'utilisateur sera capable de recevoir des rapports sur son téléphone.",
         "Settings_PleaseSignUp": "Pour créer un rapport SMS et en recevoir avec les statistiques de vos sites web sur votre téléphone mobile, veuillez vous enregistrer auprès d'une API SMS et entrer vos informations ci-dessous.",
         "Settings_SMSAPIAccount": "Paramètres de compte d'API SMS",
         "Settings_SMSProvider": "Fournisseur SMS",
@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Recevez vos rapports d'analyse web dans votre boite de courriels ou sur votre téléphone mobile!",
         "TopMenu": "Rapports Email & SMS",
         "UserKey": "Clef utilisateur",
-        "VerificationText": "Le code est %1$s. Pour valider votre numéro de téléphone et recevoir les rapports SMS de Piwik veuillez copier ce code dans le formulaire accessible via Matomo > %2$s > %3$s."
+        "VerificationText": "Le code est %1$s. Pour valider votre numéro de téléphone et recevoir les rapports SMS de Matomo veuillez copier ce code dans le formulaire accessible via Matomo > %2$s > %3$s."
     }
 }

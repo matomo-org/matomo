@@ -194,13 +194,14 @@ var piwikHelper = {
 
     /**
      * Displays a Modal dialog. Text will be taken from the DOM node domSelector.
-     * Given callback handles will be mapped to the buttons having a role attriute
+     * Given callback handles will be mapped to the buttons having a role attribute
      *
      * Dialog will be closed when a button is clicked and callback handle will be
      * called, if one was given for the clicked role
      *
      * @param {string} domSelector   domSelector for modal window
      * @param {object} handles       callback functions for available roles
+     * @param {object} options       options for modal
      * @return {void}
      */
     modalConfirm: function(domSelector, handles, options)
@@ -246,6 +247,12 @@ var piwikHelper = {
         if (options && options.fixedFooter) {
             $content.addClass('modal-fixed-footer');
             delete options.fixedFooter;
+        }
+
+        if (options && !options.ready) {
+            options.ready = function () {
+                $(".modal.open a").focus();
+            };
         }
 
         domElem.show();

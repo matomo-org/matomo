@@ -31,7 +31,7 @@
         "DeleteDataSettings": "刪除舊的訪客紀錄和報表",
         "DoNotTrack_Description": "不追蹤（Do Not Track）是技術和政策上的提議來讓使用者選擇退出不被所訪問的網站追蹤，包含分析服務、廣告聯播網和社群平台。",
         "DoNotTrack_Disable": "停用不追蹤（Do Not Track）支援",
-        "DoNotTrack_Disabled": "Piwik 目前追蹤所有訪客，包含那些在瀏覽器中設定了「我不想被追蹤」的人。",
+        "DoNotTrack_Disabled": "Matomo 目前追蹤所有訪客，包含那些在瀏覽器中設定了「我不想被追蹤」的人。",
         "DoNotTrack_DisabledMoreInfo": "我們推薦你尊重訪客的隱私權以及啟用不追蹤（Do Not Track）支援。",
         "DoNotTrack_Enable": "啟用不追蹤（Do Not Track）支援",
         "DoNotTrack_Enabled": "你目前正尊重你的使用者，太棒了！",

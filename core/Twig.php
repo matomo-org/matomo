@@ -313,7 +313,7 @@ class Twig
     {
         $themeLoader = new Twig_Loader_Filesystem(array(
                                                        sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, \Piwik\Plugin\Manager::DEFAULT_THEME)
-                                                  ));
+                                                  ), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
 
         return $themeLoader;
     }
@@ -330,7 +330,7 @@ class Twig
         }
         $themeLoader = new Twig_Loader_Filesystem(array(
                                                        sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName())
-                                                  ));
+                                                  ), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
 
         return $themeLoader;
     }

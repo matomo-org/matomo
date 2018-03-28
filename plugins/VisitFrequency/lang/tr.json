@@ -6,7 +6,7 @@
         "ColumnBounceCountForReturningVisits": "Geri Gelen Ziyaretlerin Hemen Çıkma Sayısı",
         "ColumnBounceRateForReturningVisits": "Geri Gelen Ziyaretlerin Hemen Çıkma Oranı",
         "ColumnMaxActionsInReturningVisit": "Geri gelen bir ziyarette yapılan en fazla işlem sayısı",
-        "ColumnNbReturningVisitsConverted": "Dönüştürülmüş geri gelen ziyaret sayısı",
+        "ColumnNbReturningVisitsConverted": "Hedef tutturan geri gelen ziyaret sayısı",
         "ColumnReturningVisits": "Geri Gelen Ziyaretler",
         "ColumnSumVisitLengthReturning": "Geri gelen ziyaretçilerin harcadığı toplam süre (saniye)",
         "ColumnUniqueReturningVisitors": "Tekil geri gelen ziyaretçi sayısı",

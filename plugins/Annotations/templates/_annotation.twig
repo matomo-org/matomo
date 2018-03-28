@@ -8,23 +8,32 @@
                 <img src="plugins/Morpheus/images/star_empty.png"/>
             {% endif %}
         </div>
-        <div class="annotation-period {% if annotation.canEditOrDelete %}annotation-enter-edit-mode{% endif %}">({{ annotation.date }})</div>
+
+      <div class="annotation-period {% if annotation.canEditOrDelete %}annotation-enter-edit-mode{% endif %}">{{ annotation.date }}</div>
         {% if annotation.canEditOrDelete %}
             <div class="annotation-period-edit" style="display:none;">
-                <a href="#">{{ annotation.date }}</a>
+                <a href="#" class= "font">{{ annotation.date }}</a>
                 <div class="datepicker" style="display:none;"/>
             </div>
         {% endif %}
     </td>
+
+    {% if annotation.user is defined and userLogin != 'anonymous' %}
+        <td class="annotation-user-cell">
+            <span class="annotation-user">{{ annotation.user }}</span><br/>
+
+        </td>
+    {% endif %}
+
+
     <td class="annotation-value">
         <div class="annotation-view-mode">
             <span {% if annotation.canEditOrDelete %}title="{{ 'Annotations_ClickToEdit'|translate }}"
                   class="annotation-enter-edit-mode"{% endif %}>{{ annotation.note|raw }}</span>
-            {% if annotation.canEditOrDelete %}
-                <a href="#" class="edit-annotation annotation-enter-edit-mode" title="{{ 'Annotations_ClickToEdit'|translate }}">{{ 'General_Edit'|translate }}...</a>
-            {% endif %}
         </div>
-        {% if annotation.canEditOrDelete %}
+
+
+          {% if annotation.canEditOrDelete %}
             <div class="annotation-edit-mode" style="display:none;">
                 <div class="input-field">
                     <input class="annotation-edit browser-default" type="text" value="{{ annotation.note|raw }}"/>
@@ -35,13 +44,19 @@
             </div>
         {% endif %}
     </td>
-    {% if annotation.user is defined and userLogin != 'anonymous' %}
-        <td class="annotation-user-cell">
-            <span class="annotation-user">{{ annotation.user }}</span><br/>
-            {% if annotation.canEditOrDelete %}
-                <a href="#" class="delete-annotation" style="display:none;" title="{{ 'Annotations_ClickToDelete'|translate }}">{{ 'General_Delete'|translate }}</a>
-            {% endif %}
-        </td>
-    {% endif %}
-</tr>
+<td class = "wider">
+{% if annotation.canEditOrDelete %}
 
+  <span class="table-action edit-annotation annotation-enter-edit-mode"  title="{{ 'Annotations_ClickToEdit'|translate }}">
+    <span class="icon-edit"></span>
+  </span>
+
+  <a class="delete-annotation" title="Delete">
+      <span class="icon-delete"></span>
+  </a>
+
+{% endif %}
+</td>
+
+
+</tr>

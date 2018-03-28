@@ -28,7 +28,6 @@
         "Settings_PhoneNumbers_Add": "Agregar un nuevo número telefónico",
         "Settings_PhoneNumbers_CountryCode_Help": "Si no conoce el código telefónico del país, búsquelo aquí.",
         "Settings_PhoneNumbers_Help": "Antes de recibir los mensajes de texto (SMS) de los informes en un teléfono, el número de teléfono debe ser ingresado.",
-        "Settings_PhoneNumbers_HelpAdd": "Cuando hagas click en \"Añadir\", se enviará al teléfono un SMS que contiene un código. El usuario que reciba el código deberá conectarse a Piwik, hacer click en \"Configuración\" y, luego, hacer click en \"Mensajería móvil\". Después de introducir el código, el usuario ya podrá recibir informes de texto en su teléfono.",
         "Settings_PleaseSignUp": "Para crear informes SMS y recibir mensajes de texto cortos con las estadísticas de sus sitios de internet en su teléfono móvil, por favor, enrólese con la API del SMS e ingrese su información abajo.",
         "Settings_SMSAPIAccount": "Administrar API de la cuenta SMS",
         "Settings_SMSProvider": "Proveedor SMS",
@@ -43,6 +42,6 @@
         "TopLinkTooltip": "Obtenga informes analíticos de su sitio de internet enviados a su casilla de correo electrónico o su teléfono móvil.",
         "TopMenu": "Informes por correo electrónico & SMS",
         "UserKey": "Clave de usuario",
-        "VerificationText": "El código es %1$s. Para validar su número de teléfono y recibir los informes Piwik vía mensaje de texto (SMS), por favor, copie este código en el formulario accesible vía Matomo > %2$s > %3$s."
+        "VerificationText": "El código es %1$s. Para validar su número de teléfono y recibir los informes Matomo vía mensaje de texto (SMS), por favor, copie este código en el formulario accesible vía Matomo > %2$s > %3$s."
     }
 }

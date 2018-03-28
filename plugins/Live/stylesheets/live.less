@@ -275,6 +275,10 @@ a.visitor-log-visitor-profile-link {
         margin-top: -2px;
         margin-bottom: -3px;
     }
+
+    @media print {
+      display: none;
+    }
 }
 
 .visitorLog {
@@ -369,5 +373,21 @@ a.visitor-log-visitor-profile-link {
 @media only screen and (max-width: 600px) {
   .own-visitor-column {
     margin: 10px 0;
+  }
+}
+
+@media print{
+  .col.s12.m3{
+    width: 20%;
+  }
+
+  .row .col.s12.own-visitor-column{
+    width: 15%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .col.s12.m7.column {
+    width:65%;
   }
 }

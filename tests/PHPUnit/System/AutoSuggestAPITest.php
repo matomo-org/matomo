@@ -12,6 +12,7 @@ use Piwik\Application\Environment;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Plugins\API\API;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableName;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableValue;
 use Piwik\Plugins\CustomVariables\Model;
@@ -213,5 +214,11 @@ class AutoSuggestAPITest extends SystemTestCase
     }
 }
 
+$date = mktime(0, 0, 0, 1, 1, 2018);
+
+$lookBack = ceil((time() - $date) / 86400);
+
+API::$_autoSuggestLookBack = $lookBack;
+
 AutoSuggestAPITest::$fixture = new ManyVisitsWithGeoIP();
-AutoSuggestAPITest::$fixture->dateTime = Date::yesterday()->subDay(30)->getDatetime();
+AutoSuggestAPITest::$fixture->dateTime = Date::factory($date)->getDatetime();

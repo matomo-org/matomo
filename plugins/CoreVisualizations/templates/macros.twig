@@ -2,6 +2,7 @@
 
     <div class="sparkline {% if areSparklinesLinkable is defined and not areSparklinesLinkable %}notLinkable{% endif %}">
         {% if sparkline.url %}{{ sparkline(sparkline.url)|raw }}{% endif %}
+	<div>
         {% for metric in sparkline.metrics %}
             <span {% if allMetricsDocumentation[metric.column] is defined and allMetricsDocumentation[metric.column] %}title="{{ allMetricsDocumentation[metric.column] }}"{% endif %}>
             {% if '%s' in metric.description -%}
@@ -31,5 +32,6 @@
                         style="padding-right:4px" src="plugins/MultiSites/images/{{ evolutionIcon }}"/>
                 <strong class="{{ evolutionClass }}">{{ evolutionPretty }}</strong></span>
         {% endif %}
+	</div>
     </div>
 {% endmacro %}

@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "Özel rapor eklemek ve zamanlamak için oturum açmalısınız.",
         "NoRecipients": "Bu raporun herhangi bir alıcısı yok",
         "Pagination": "Sayfa %1$s\/%2$s",
-        "PiwikReports": "Piwik Raporları",
+        "PiwikReports": "Matomo Raporları",
         "PleaseFindAttachedFile": "%2$s için %1$s raporunuzu ekli dosyada bulabilirsiniz.",
         "SentFromX": "%s tarafından gönderilmiş.",
         "PleaseFindBelow": "%2$s için %1$s raporunuzu aşağıda bulabilirsiniz.",
@@ -43,7 +43,7 @@
         "SentToMe": "Bana gönder",
         "TableOfContent": "Rapor listesi",
         "ThereIsNoReportToManage": "%s web sitesinde herhangi bir rapor yok",
-        "TopLinkTooltip": "Piwik istatistiklerini otomatik olarak e-posta ile almak ya da müşterilerinize iletmek için e-posta raporları oluşturun!",
+        "TopLinkTooltip": "Matomo istatistiklerini otomatik olarak e-posta ile almak ya da müşterilerinize iletmek için e-posta raporları oluşturun!",
         "TopOfReport": "Başa dön",
         "UpdateReport": "Raporu Güncelle",
         "WeeklyScheduleHelp": "Haftalık zamanlama: Rapor her hafta Pazartesi günü gönderilir."

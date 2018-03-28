@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "보고서 작성 및 일정을 사용자정의하려면 로그인해야합니다.",
         "NoRecipients": "이 보고서의 수신자가 없음",
         "Pagination": "페이지 %1$s \/ %2$s",
-        "PiwikReports": "Piwik 보고서",
+        "PiwikReports": "Matomo 보고서",
         "SentFromX": "%s에서 보내기",
         "PleaseFindBelow": "%2$s의 %1$s 보고서를 제공합니다.",
         "PluginDescription": "맞춤형 보고서를 만들고 이를 매일, 주간, 월간 한 사람 혹은 여러 명에게 이메일을 보냅니다. 보고서 형식은 다양한 형식(html, pdf, csv, 이미지 등)을 지원합니다.",

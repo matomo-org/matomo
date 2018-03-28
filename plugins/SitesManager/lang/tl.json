@@ -33,7 +33,6 @@
         "GlobalListExcludedUserAgents": "Pandaigdigang listahan ng mga agent na gumagamit upang ibukod ang mga",
         "GlobalListExcludedUserAgents_Desc": "Kung ang user agents strings ng iyong bisita ay naglalaman ng iyong mga tinukoy ang bisitang ito ay hindi maisasama sa Matomo.",
         "GlobalWebsitesSettings": "Mga setting ng pandaigdigang mga website",
-        "HelpExcludedIps": "Ipasok ang mga listahan ng IP isa bawat linya na gusto mong ibukod mula pagsusubay-bay ng Matomo. Maa-ari kang gumamit ng mga wildcard hal. %1$s o %2$s",
         "JsTrackingTagHelp": "Narito ang JavaScript Tracking code upang isama sa lahat ng iyong pahina",
         "KeepURLFragments": "Pag track sa mga fragments ng pahina ng URL",
         "KeepURLFragmentsHelp": "Kung ang checkbox sa ibaba ay naka-uncheck Page URL fragments (lahat pagkatapos ng %1$s) ay aalisin kapag itoy nakita: %2$s ay susubaybayan bilang %3$s",

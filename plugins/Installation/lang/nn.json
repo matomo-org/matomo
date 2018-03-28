@@ -2,7 +2,6 @@
     "Installation": {
         "ConfirmDeleteExistingTables": "Er du sikker på at du vil sletta tabellane: %s frå databasen? ÅTVARING: DEI KAN IKKJE BLI GJENOPPRETTA!",
         "Congratulations": "Gratulerer",
-        "CongratulationsHelp": "<p>Gratulerer! Matomo-installasjon er ferdig.<\/p><p>Sjå til at JavaScript-koden er lagt til på sidene dine, og vent på dine fyrste vitjarar!<\/p>",
         "DatabaseCreation": "Databaseoppretting",
         "DatabaseErrorConnect": "Feil under tilkopling til databasetenar",
         "DatabaseServerVersion": "Databasetenarversjon",
@@ -21,7 +20,7 @@
         "PasswordDoNotMatch": "Passorda samsvarer ikkje",
         "PercentDone": "%s %% Ferdig",
         "PleaseFixTheFollowingErrors": "Rett på følgjande feil",
-        "Requirements": "Piwik-krav",
+        "Requirements": "Matomo-krav",
         "RestartWebServer": "Etter denne endringa, start vevtenaren din på nytt.",
         "SetupWebsite": "Sett opp ein nettstad",
         "SetupWebsiteError": "Det skjedde ein feil då nettsiden vart lagt til",
@@ -29,8 +28,8 @@
         "SuperUser": "Superbrukar",
         "SuperUserSetupSuccess": "Superbrukar vart oppretta!",
         "SystemCheck": "Systemsjekk",
-        "SystemCheckAutoUpdateHelp": "Merk: Eittklikksoppdateringa til Piwik krev skrivetilgang til Matomo-katalogen og innhaldet der.",
-        "SystemCheckDatabaseHelp": "Piwik krev anten mysqli-utvidinga eller båe utvidingane PDO og pdo_mysql.",
+        "SystemCheckAutoUpdateHelp": "Merk: Eittklikksoppdateringa til Matomo krev skrivetilgang til Matomo-katalogen og innhaldet der.",
+        "SystemCheckDatabaseHelp": "Matomo krev anten mysqli-utvidinga eller båe utvidingane PDO og pdo_mysql.",
         "SystemCheckError": "Det skjedde ein feil - du må retta på den før du kan halda fram",
         "SystemCheckExtensions": "Andre påkravde utvidingar",
         "SystemCheckFileIntegrity": "Filintegritet",
@@ -50,7 +49,7 @@
         "SystemCheckSplHelp": "Du må konfigurera og byggja PHP med Standard PHP Library (SPL) påslegen (standard).",
         "SystemCheckTimeLimitHelp": "På ein nettstad med høg trafikk, kan arkiveringsprosessen nytta meir tid enn den hev lov til.<br \/>Viss det trengs, endre innstillinga max_execution_time i php.ini-fila di.",
         "SystemCheckWarnDomHelp": "Du bør slå på \"dom\"-utvidinga (t.d. installer \"php-dom\"- og\/eller \"php-xml\"-pakken).",
-        "SystemCheckWarning": "Piwik vil fungera som normalt, men det kan hende at somme funksjonar manglar",
+        "SystemCheckWarning": "Matomo vil fungera som normalt, men det kan hende at somme funksjonar manglar",
         "SystemCheckWarnJsonHelp": "Du bør slå på \"json\"-utvidinga (t.d. installer \"php-json\"-pakken) for betre yting.",
         "SystemCheckWarnLibXmlHelp": "Du bør slå på \"libxml\"-utvidinga (t.d. installer \"php-libxml\"-pakken) sidan andre kjerneutvidingar i PHP krev den.",
         "SystemCheckWarnSimpleXMLHelp": "Du bør installera \"SimpleXML\"-utvidinga (t.d. installer \"php-simplexml\"- og\/eller \"php-xml\"-pakken).",
@@ -66,7 +65,6 @@
         "TablesReuse": "Nytt dei eksisterande tabellane",
         "TablesWarningHelp": "Du må velja om du vil nytta dei eksisterande tabellane slik dei er, eller å sletta dei og starta på nytt.",
         "TablesWithSameNamesFound": "Nokre %1$s tabellar i databasen din %2$s hev dei same namna som dei tabellane Matomo prøvar å lage",
-        "Welcome": "Velkommen!",
-        "WelcomeHelp": "<p>Matomo er ein nettstatistikkprogramvare med open kjeldekode, som gjer det enkelt å henta ut informasjonen du ønskjer om dine vitjarar.<\/p><p>Denne prosessen er delt opp i %s enkle steg, og tek omkring 5 minuttar.<\/p>"
+        "Welcome": "Velkommen!"
     }
 }

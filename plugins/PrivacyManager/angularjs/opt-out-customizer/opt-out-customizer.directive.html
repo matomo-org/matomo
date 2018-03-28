@@ -1,0 +1,52 @@
+<div class="optOutCustomizer">
+    <p>
+        {{ 'CoreAdminHome_OptOutExplanation'|translate }}
+        <span ng-bind-html="'General_ReadThisToLearnMore'|translate:'&lt;a rel=\'noreferrer\' target=\'_blank\' href=\'https://matomo.org/faq/how-to/faq_25918/\'>':'&lt;/a>'"></span>
+    </p>
+
+    <h3>Customize the Opt-out iframe</h3>
+        <div>
+            <p>
+                <span>
+                Font Color:
+                <input type="color" ng-model="optOutCustomizer.fontColor" ng-change="optOutCustomizer.onUpdate()">
+                </span>
+
+                <span>
+                Background Color:
+                <input type="color" ng-model="optOutCustomizer.backgroundColor" ng-change="optOutCustomizer.onUpdate()">
+                </span>
+
+                <span>
+                Font Size:
+                <input id=FontSizeInput type="number" min="1" max="100" ng-model="optOutCustomizer.fontSize" ng-change="optOutCustomizer.updateFontSize()">
+                </span>
+
+                <span>
+                        <select class="browser-default" ng-model="optOutCustomizer.fontSizeUnit" ng-change="optOutCustomizer.updateFontSize()">
+                                <option value="px">px</option>
+                                <option value="pt">pt</option>
+                                <option value="em">em</option>
+                                <option value="rem">rem</option>
+                                <option value="%">%</option>
+                        </select>
+                </span>
+
+                <span>
+                Font Family:
+                <input id=FontFamilyInput type="text" ng-model="optOutCustomizer.fontFamily" ng-change="optOutCustomizer.onUpdate()">
+                </span>
+                
+            </p>
+        </div>
+    </p>
+    <h3>HTML code to embed on your website</h3>
+    <pre piwik-select-on-focus>&lt;iframe
+        style="border: 0; height: 200px; width: 600px;"
+        src="{{ optOutCustomizer.iframeUrl }}"
+        ></iframe></pre>
+    <p ng-bind-html="'CoreAdminHome_OptOutExplanationIntro'|translate:'&lt;a  href=\'' + optOutCustomizer.iframeUrl + '\' rel=\'noreferrer\' target=\'_blank\'>':'&lt/a>'">
+    </p>
+    <h3>Preview of the Opt-out as it will appear on your website</h3>
+    <iframe ng-src="{{ optOutCustomizer.iframeUrl }}"  style="border: 0; height: 200px; width: 600px;" >
+</div>

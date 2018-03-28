@@ -747,7 +747,7 @@ abstract class Dimension
      */
     public static function getAllDimensions()
     {
-        $cacheId = CacheId::pluginAware('AllDimensions');
+        $cacheId = CacheId::siteAware(CacheId::pluginAware('AllDimensions'));
         $cache   = PiwikCache::getTransientCache();
 
         if (!$cache->contains($cacheId)) {

@@ -207,8 +207,13 @@ class Request
         // read the format requested for the output data
         $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $this->request));
 
+        $disablePostProcessing = $this->shouldDisablePostProcessing();
+
         // create the response
         $response = new ResponseBuilder($outputFormat, $this->request);
+        if ($disablePostProcessing) {
+            $response->disableDataTablePostProcessor();
+        }
 
         $corsHandler = new CORSHandler();
         $corsHandler->handle();
@@ -232,7 +237,7 @@ class Request
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
             list($module, $method) = self::getRenamedModuleAndAction($module, $method);
-            
+
             PluginManager::getInstance()->checkIsPluginActivated($module);
 
             $apiClassName = self::getClassNameAPI($module);
@@ -522,5 +527,25 @@ class Request
     private static function getDefaultRequest()
     {
         return $_GET + $_POST;
+    }
+
+    private function shouldDisablePostProcessing()
+    {
+        $shouldDisable = false;
+
+        /**
+         * After an API method returns a value, the value is post processed (eg, rows are sorted
+         * based on the `filter_sort_column` query parameter, rows are truncated based on the
+         * `filter_limit`/`filter_offset` parameters, amongst other things).
+         *
+         * If you're creating a plugin that needs to disable post processing entirely for
+         * certain requests, use this event.
+         *
+         * @param bool &$shouldDisable Set this to true to disable datatable post processing for a request.
+         * @param array $request The request parameters.
+         */
+        Piwik::postEvent('Request.shouldDisablePostProcessing', [&$shouldDisable, $this->request]);
+
+        return $shouldDisable;
     }
 }

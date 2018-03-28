@@ -77,7 +77,7 @@
         "UsersManagementMainDescription": "Створення нових користувачів або редагування існуючих. Також Ви можете задати права доступу для користувача.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Коли незареєстровані користувачі відвідують систему Matomo, вони повинні бачити",
         "YourUsernameCannotBeChanged": "Ім'я вашого користувача не може бути змінено.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sВаші відвідування ігноруються системою Piwik в %2$s %3$s (Matomo знашов cookie у вашому браузері з вказівкою ігнорувати).",
-        "YourVisitsAreNotIgnored": "%1$sВаші відвідування відслідковуються системою Piwik %2$s (Matomo не знашов cookie у вашому браузері)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sВаші відвідування ігноруються системою Matomo в %2$s %3$s (Matomo знашов cookie у вашому браузері з вказівкою ігнорувати).",
+        "YourVisitsAreNotIgnored": "%1$sВаші відвідування відслідковуються системою Matomo %2$s (Matomo не знашов cookie у вашому браузері)."
     }
 }

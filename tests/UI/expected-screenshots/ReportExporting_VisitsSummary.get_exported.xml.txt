@@ -5,14 +5,14 @@
 	<result date="2010" />
 	<result date="2011" />
 	<result date="2012">
-		<nb_visits>298</nb_visits>
-		<nb_actions>603</nb_actions>
-		<nb_visits_converted>236</nb_visits_converted>
-		<bounce_count>210</bounce_count>
-		<sum_visit_length>89687</sum_visit_length>
+		<nb_visits>308</nb_visits>
+		<nb_actions>636</nb_actions>
+		<nb_visits_converted>242</nb_visits_converted>
+		<bounce_count>213</bounce_count>
+		<sum_visit_length>96659</sum_visit_length>
 		<max_actions>20</max_actions>
-		<bounce_rate>70%</bounce_rate>
-		<nb_actions_per_visit>2</nb_actions_per_visit>
-		<avg_time_on_site>5 min 1s</avg_time_on_site>
+		<bounce_rate>69%</bounce_rate>
+		<nb_actions_per_visit>2.1</nb_actions_per_visit>
+		<avg_time_on_site>5 min 14s</avg_time_on_site>
 	</result>
 </results>

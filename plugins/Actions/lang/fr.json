@@ -32,6 +32,7 @@
         "ColumnUniqueOutlinks": "Liens sortants uniques",
         "ColumnIdPageview": "ID de vue de page",
         "ColumnInteractionPosition": "Position de l'action",
+        "ActionsInVisit": "Actions de la visite",
         "DownloadsReportDocumentation": "Dans ce rapport vous pouvez voir quels fichiers les utilisateurs ont téléchargés. %s Ce que Matomo compte comme un téléchargement est un clic sur un lien de téléchargement. Le fait que le téléchargement ait été terminé ou non n'est pas connu de Matomo.",
         "EntryPagesReportDocumentation": "Ce rapport contient des informations à propos des pages d'entrées qui ont été utilisées durant la période spécifiée. Une page d'entrée est la première page qu'un utilisateur voit pendant sa visite. %s Les URLs des pages d'entrée sont affichées dans une structure de dossier.",
         "EntryPageTitles": "Titres de la page d'entrée",

@@ -13,7 +13,7 @@
         "CannotInstall": "Kurulamadı",
         "CannotUpdate": "Güncellenemedi",
         "ClickToCompletePurchase": "Satın almayı tamamlamak için tıklayın.",
-        "CurrentNumPiwikUsers": "Piwik uygulamanızda şu anda %1$s kayıtlı kullanıcı var.",
+        "CurrentNumPiwikUsers": "Matomo uygulamanızda şu anda %1$s kayıtlı kullanıcı var.",
         "ConfirmRemoveLicense": "Lisans anahtarınızı kaldırmak istediğinizden emin misiniz? Anahtarı kaldırdığınızda satın aldığınız uygulama ekleri için güncellemeleri alamazsınız.",
         "Developer": "Geliştirici",
         "DevelopersLearnHowToDevelopPlugins": "Geliştiriciler: Matomo uygulamasını geliştirmek ve gereksinimlerinize göre özelleştirmek için %1$suygulama eki ya da tema geliştirmeyi öğrenin%2$s.",
@@ -52,8 +52,8 @@
         "AllPaidPluginsInstalledAndActivated": "Satın alınmış tüm uygulama ekleri kuruldu ve etkinleştirildi.",
         "OnlySomePaidPluginsInstalledAndActivated": "Satın alınmış bazı uygulama ekleri kurulamadı.",
         "NewVersion": "yeni sürüm",
-        "NotAllowedToBrowseMarketplacePlugins": "Piwik uygulamanızı özelleştirecek ya da yeni özellikler ekleyecek uygulama eklerinin listesine bakabilirsiniz. Kurmak istediğiniz bir uygulama eki varsa lütfen yöneticinizle görüşün.",
-        "NotAllowedToBrowseMarketplaceThemes": "Piwik uygulamanızın görünümü değiştirecek temaların listesine bakabilirsiniz. Kurmak istediğiniz bir tema varsa lütfen yöneticinizle görüşün.",
+        "NotAllowedToBrowseMarketplacePlugins": "Matomo uygulamanızı özelleştirecek ya da yeni özellikler ekleyecek uygulama eklerinin listesine bakabilirsiniz. Kurmak istediğiniz bir uygulama eki varsa lütfen yöneticinizle görüşün.",
+        "NotAllowedToBrowseMarketplaceThemes": "Matomo uygulamanızın görünümü değiştirecek temaların listesine bakabilirsiniz. Kurmak istediğiniz bir tema varsa lütfen yöneticinizle görüşün.",
         "NoPluginsFound": "Herhangi bir uygulama eki bulunamadı",
         "NoThemesFound": "Herhangi bir tema bulunamadı",
         "NoSubscriptionsFound": "Herhangi bir abonelik bulunamadı",
@@ -106,7 +106,7 @@
         "PluginUploadDisabled": "Yapılandırma dosyasındaki uygulama eki yükleme seçeneği devre dışı bırakılmış. Bu seçeneği etkinleştirmek için yapılandırma dosyanızı güncelleyin ya da yöneticiniz ile görüşün.",
         "LicenseKeyExpiresSoon": "Lisansınızın süresi yakında dolacak. Lütfen %1$s ile görüşün.",
         "LicenseKeyIsExpired": "Lisans anahtarınızın süresi dolmuş. Lütfen %1$s ile görüşün.",
-        "MultiServerEnvironmentWarning": "Piwik uygulamasını birden çok sunucu üzerinde kullandığınızdan uygulama ekini doğrudan kuramaz ya da güncelleyemezsiniz. Uygulama eki yalnız bir sunucu üzerine kurulmalıdır. Bu nedenle uygulama ekini indirin ve tüm sunucularınıza el ile dağıtın.",
+        "MultiServerEnvironmentWarning": "Matomo uygulamasını birden çok sunucu üzerinde kullandığınızdan uygulama ekini doğrudan kuramaz ya da güncelleyemezsiniz. Uygulama eki yalnız bir sunucu üzerine kurulmalıdır. Bu nedenle uygulama ekini indirin ve tüm sunucularınıza el ile dağıtın.",
         "AutoUpdateDisabledWarning": "Yapılandırma ayarlarında otomatik güncellemeler devre dışı bırakılmış olduğundan uygulama ekini doğrudan kuramaz ya da güncelleyemezsiniz. Otomatik güncellemeleri etkinleştirmek için %2$s içinden %1$s ayarını yapın.",
         "ViewRepositoryChangelog": "Değişiklikleri görüntüle"
     }

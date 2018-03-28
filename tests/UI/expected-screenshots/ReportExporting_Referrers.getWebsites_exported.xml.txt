@@ -23,13 +23,24 @@
 		<subtable>
 			<row>
 				<label>http://referrer.com/Other_Page.htm</label>
-				<nb_visits>8</nb_visits>
-				<nb_actions>36</nb_actions>
+				<nb_visits>4</nb_visits>
+				<nb_actions>18</nb_actions>
 				<max_actions>5</max_actions>
-				<sum_visit_length>5776</sum_visit_length>
+				<sum_visit_length>2888</sum_visit_length>
 				<bounce_count>0</bounce_count>
-				<nb_visits_converted>8</nb_visits_converted>
-				<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
+				<nb_visits_converted>4</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+			<row>
+				<label>https://referrer.com/Other_Page.htm</label>
+				<nb_visits>4</nb_visits>
+				<nb_actions>18</nb_actions>
+				<max_actions>5</max_actions>
+				<sum_visit_length>2888</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>4</nb_visits_converted>
+				<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 				<sum_daily_nb_users>0</sum_daily_nb_users>
 			</row>
 			<row>

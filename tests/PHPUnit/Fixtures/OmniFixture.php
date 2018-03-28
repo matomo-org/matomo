@@ -8,7 +8,9 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Option;
 use ReflectionClass;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
@@ -132,6 +134,8 @@ class OmniFixture extends Fixture
 
             $this->setUpFixture($fixture);
         }
+
+        Db::query(sprintf('UPDATE %s SET token_auth = "9ad1de7f8b329ab919d854c556f860c1" WHERE login = "superUserLogin"', Common::prefixTable('user')));
 
         Option::set("Tests.forcedNowTimestamp", $this->now->getTimestamp());
     }

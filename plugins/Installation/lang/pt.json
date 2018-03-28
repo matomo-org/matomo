@@ -1,9 +1,7 @@
 {
     "Installation": {
-        "ConfigurationHelp": "O seu ficheiro de configuração Matomo parece estar mal configurado. Pode remover config\/config.ini.php e continuar a instalação, ou corrigir as definições da ligação à base de dados.",
         "ConfirmDeleteExistingTables": "Tem a certeza que deseja eliminar as tabelas: %s da sua base de dados? AVISO: DADOS DESTAS TABELAS NÃO PODEM SER RECUPERADOS!",
         "Congratulations": "Parabéns",
-        "CongratulationsHelp": "<p>Parabéns! A sua instalação do Matomo foi completada.<\/p><p>Certifique-se que colocou o código javascript em todas as suas páginas, e aguarde pelos seus primeiros visitantes!<\/p>",
         "DatabaseCreation": "Criação da base de dados",
         "DatabaseErrorConnect": "Erro ao tentar ligar ao servidor da base de dados",
         "DatabaseServerVersion": "Versão do servidor de base de dados",
@@ -30,9 +28,9 @@
         "SuperUser": "Super Utilizador",
         "SuperUserSetupSuccess": "Super Utilizador criado com sucesso",
         "SystemCheck": "Verificação do Sistema",
-        "SystemCheckAutoUpdateHelp": "Nota: A actualização Um Clique Piwik necessita de permissões de escrita na pasta do Matomo e respectivos conteúdos.",
-        "SystemCheckCreateFunctionHelp": "Piwik usa funções anónimas para retro-chamadas.",
-        "SystemCheckDatabaseHelp": "Piwik necessita da extensão mysqli ou tanto as extensões PDO e pdo_mysql.",
+        "SystemCheckAutoUpdateHelp": "Nota: A actualização Um Clique Matomo necessita de permissões de escrita na pasta do Matomo e respectivos conteúdos.",
+        "SystemCheckCreateFunctionHelp": "Matomo usa funções anónimas para retro-chamadas.",
+        "SystemCheckDatabaseHelp": "Matomo necessita da extensão mysqli ou tanto as extensões PDO e pdo_mysql.",
         "SystemCheckDebugBacktraceHelp": "View::factory não poderá criar visualizações para o módulo que o chame.",
         "SystemCheckError": "Ocorreu um erro - tem que ser corrigido antes de poder proceder",
         "SystemCheckEvalHelp": "Necessário pelo HTML QuickForm e o sistema de modelos Smarty.",
@@ -61,7 +59,7 @@
         "SystemCheckTimeLimitHelp": "Em um website com tráfego elevado, executar o processo de arquivamento pode exigir mais memória do que o permitido actualmente.<br \/>Altere a directiva max_execution_time no seu ficheiro php.ini se for necessário.",
         "SystemCheckTracker": "Estado do Tracker",
         "SystemCheckWarnDomHelp": "Você deve activar a extensão \"dom\" (por exemplo, instalar o pacote \"php-dom\" e \/ ou \"php-xml\").",
-        "SystemCheckWarning": "Piwik vai funcionar normalmente mas podem faltar algumas funcionalidades",
+        "SystemCheckWarning": "Matomo vai funcionar normalmente mas podem faltar algumas funcionalidades",
         "SystemCheckWarnJsonHelp": "Você deve activar a extensão \"json\" (por exemplo, instalar o pacote \"php-json\") para um melhor desempenho.",
         "SystemCheckWarnLibXmlHelp": "Você deve activar a extensão \"libxml\" (por exemplo, \"instalar o pacote php-libxml\" ), já que é exigido por outras extensões PHP.",
         "SystemCheckWarnSimpleXMLHelp": "Você deve activar a extensão \"SimpleXML\" (por exemplo, instalar o pacote \"php-simplexml\" e \/ ou \"php-xml\").",
@@ -77,7 +75,6 @@
         "TablesReuse": "Reutilizar as tabelas existentes",
         "TablesWarningHelp": "Escolha reutilizar as tabelas existentes ou seleccione uma instalação nova para eliminar os dados existentes da base de dados.",
         "TablesWithSameNamesFound": "Algumas %1$s tabelas na sua base de dados %2$s têm o mesmo nome que as tabelas que Matomo está a tentar criar",
-        "Welcome": "Bem vindo!",
-        "WelcomeHelp": "<p>Matomo é um analisador de tráfego open source que torna fácil obter informações sobre os seus visitantes.<\/p><p>Este processo divide-se em %s passos fáceis e demora por volta de 5 minutos.<\/p>"
+        "Welcome": "Bem vindo!"
     }
 }

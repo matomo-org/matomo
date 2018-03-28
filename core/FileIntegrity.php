@@ -171,7 +171,7 @@ class FileIntegrity
 
         foreach (self::getPathsToInvestigate() as $file) {
             $file = substr($file, strlen(PIWIK_DOCUMENT_ROOT)); // remove piwik path to match format in manifest.inc.php
-            $file = ltrim($file, DIRECTORY_SEPARATOR);
+            $file = ltrim($file, "\\/");
             $directory = dirname($file);
 
             if(in_array($directory, $directoriesInManifest)) {
@@ -210,7 +210,7 @@ class FileIntegrity
                 continue;
             }
             $file = substr($file, strlen(PIWIK_DOCUMENT_ROOT)); // remove piwik path to match format in manifest.inc.php
-            $file = ltrim($file, DIRECTORY_SEPARATOR);
+            $file = ltrim($file, "\\/");
 
             if (self::isFileFromPluginNotInManifest($file, $pluginsInManifest)) {
                 continue;
