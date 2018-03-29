@@ -19,7 +19,7 @@ use Piwik\Plugin\LogTablesProvider;
 use Piwik\Tracker\LogTable;
 use Piwik\Tracker\PageUrl;
 
-class Gdpr
+class DataSubjects
 {
     /**
      * @var LogTablesProvider
@@ -271,8 +271,8 @@ class Gdpr
         $bind = array();
         foreach ($visits as $visit) {
             $where[] = '(' . $tableToSelect . '.idsite = ? AND ' . $tableToSelect . '.idvisit = ?)';
-            $bind[] = $visit['idSite'];
-            $bind[] = $visit['idVisit'];
+            $bind[] = $visit['idsite'];
+            $bind[] = $visit['idvisit'];
         }
         $where = implode(' OR ', $where);
 

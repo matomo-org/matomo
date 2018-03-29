@@ -14,6 +14,8 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
+use Piwik\Validators\BaseValidator;
+use Piwik\Validators\NotEmpty;
 
 class LogDataAnonymizations
 {
@@ -80,8 +82,11 @@ class LogDataAnonymizations
 
     public function getNextScheduledAnonymizationId()
     {
-        $scheduled = Db::fetchOne(sprintf('SELECT idlogdata_anonymization FROM %s WHERE job_start_date is null LIMIT 1', $this->tablePrefixed));
+        $scheduled = Db::fetchOne(sprintf('SELECT idlogdata_anonymization FROM %s WHERE job_start_date is null ORDER BY idlogdata_anonymization asc LIMIT 1', $this->tablePrefixed));
 
+        if (!empty($scheduled)) {
+            return (int) $scheduled;
+        }
         return $scheduled;
     }
 
@@ -122,14 +127,16 @@ class LogDataAnonymizations
             $entry['unset_link_visit_action_columns'] = array();
         }
 
+        $entry['anonymize_ip'] = !empty($entry['anonymize_ip']);
+        $entry['anonymize_location'] = !empty($entry['anonymize_location']);
+        $entry['idlogdata_anonymization'] = (int) $entry['idlogdata_anonymization'];
+
         return $entry;
     }
 
     public function scheduleEntry($requester, $idSites, $dateString, $anonymizeIp, $anonymizeLocation, $unsetVisitColumns, $unsetLinkVisitActionColumns, $willBeStartedNow = false)
     {
-        if (empty($dateString)) {
-            throw new \Exception('No date specified');
-        }
+        BaseValidator::check('date', $dateString, [new NotEmpty()]);
 
         list($startDate, $endDate) = $this->getStartAndEndDate($dateString); // make sure valid date
 
@@ -143,7 +150,7 @@ class LogDataAnonymizations
         } else {
             $unsetLinkVisitActionColumns = array();
         }
-        if (!empty($idSites)) {
+        if (!empty($idSites) && $idSites !== 'all') {
             $idSites = array_map('intval', $idSites);
             $idSites = json_encode($idSites);
         } else {

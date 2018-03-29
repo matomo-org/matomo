@@ -10,7 +10,7 @@ namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
-use Piwik\Plugins\PrivacyManager\Model\Gdpr;
+use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Site;
@@ -23,7 +23,7 @@ use Piwik\Site;
 class API extends \Piwik\Plugin\API
 {
     /**
-     * @var Gdpr
+     * @var DataSubjects
      */
     private $gdpr;
 
@@ -37,22 +37,38 @@ class API extends \Piwik\Plugin\API
      */
     private $logDataAnonymizer;
 
-    public function __construct(Gdpr $gdpr, LogDataAnonymizations $logDataAnonymizations, LogDataAnonymizer $logDataAnonymizer)
+    public function __construct(DataSubjects $gdpr, LogDataAnonymizations $logDataAnonymizations, LogDataAnonymizer $logDataAnonymizer)
     {
         $this->gdpr = $gdpr;
         $this->logDataAnonymizations = $logDataAnonymizations;
         $this->logDataAnonymizer = $logDataAnonymizer;
     }
 
+    private function checkDataSubjectVisits($visits)
+    {
+        if (empty($visits) || !is_array($visits)) {
+            throw new \Exception('No list of visits that need to be exported given');
+        }
+
+        $idSites = array();
+        foreach ($visits as $index => $visit) {
+            if (empty($visit['idsite'])) {
+                throw new \Exception('No idsite key set for visit at index ' . $index);
+            }
+            if (empty($visit['idvisit'])) {
+                throw new \Exception('No idvisit key set for visit at index ' . $index);
+            }
+
+            $idSites[] = $visit['idsite'];
+        }
+        Piwik::checkUserHasAdminAccess($idSites);
+    }
+
     public function deleteDataSubjects($visits)
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        $idSites = array();
-        foreach ($visits as $visit) {
-            $idSites[] = $visit['idSite'];
-        }
-        Piwik::checkUserHasAdminAccess($idSites);
+        $this->checkDataSubjectVisits($visits);
 
         return $this->gdpr->deleteDataSubjects($visits);
     }
@@ -61,11 +77,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        $idSites = array();
-        foreach ($visits as $visit) {
-            $idSites[] = $visit['idSite'];
-        }
-        Piwik::checkUserHasAdminAccess($idSites);
+        $this->checkDataSubjectVisits($visits);
 
         return $this->gdpr->exportDataSubjects($visits);
     }
@@ -88,6 +100,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         $columns = $this->logDataAnonymizer->getAvailableVisitColumnsToAnonymize();
+        ksort($columns);
         $formatted = array();
         foreach ($columns as $column => $default) {
             $formatted[] = array(
@@ -104,6 +117,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         $columns = $this->logDataAnonymizer->getAvailableLinkVisitActionColumnsToAnonymize();
+        ksort($columns);
         $formatted = array();
         foreach ($columns as $column => $default) {
             $formatted[] = array(

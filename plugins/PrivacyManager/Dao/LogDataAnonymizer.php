@@ -46,9 +46,17 @@ class LogDataAnonymizer
             $idSites = array_map('intval', $idSites);
         }
 
+        if (empty($idSites)) {
+            return 0; // no visit tracked yet, the idsite in() would otherwise fail
+        }
+
         $idSites = implode(', ', $idSites);
 
         $numVisitsToUpdate = $this->getNumVisitsInTimeRange($idSites, $startDate, $endDate);
+
+        if (empty($numVisitsToUpdate)) {
+            return 0;
+        }
 
         $privacyConfig = new Config();
         $minimumIpAddressMaskLength = 2;
@@ -143,11 +151,13 @@ class LogDataAnonymizer
     public function checkAllVisitColumns($visitColumns)
     {
         $this->areAllColumnsValid('log_visit', $visitColumns);
+        return null;
     }
 
     public function checkAllLinkVisitActionColumns($linkVisitActionColumns)
     {
         $this->areAllColumnsValid('log_link_visit_action', $linkVisitActionColumns);
+        return null;
     }
 
     public function getAvailableVisitColumnsToAnonymize()
@@ -189,6 +199,11 @@ class LogDataAnonymizer
         } else {
             $idSites = array_map('intval', $idSites);
         }
+
+        if (empty($idSites)) {
+            return 0; // no visit tracked yet, the idsite in() would otherwise fail
+        }
+
         $idSites = implode(', ', $idSites);
 
         $logTableFields = $this->getAvailableColumnsWithDefaultValue($table);

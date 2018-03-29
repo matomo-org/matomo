@@ -1,0 +1,203 @@
+{
+    "log_visit": [
+        {
+            "idvisit": "1",
+            "idsite": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "visit_last_action_time": "2013-06-23 01:23:45",
+            "config_id": "b0a7b5727c880313",
+            "location_ip": "0.0.0.0",
+            "user_id": "userId200",
+            "visit_first_action_time": "2013-06-23 01:23:45",
+            "visit_goal_buyer": "None",
+            "visit_goal_converted": "Yes",
+            "visitor_days_since_first": "0",
+            "visitor_days_since_order": "0",
+            "visitor_returning": "New",
+            "visitor_count_visits": "1",
+            "visit_entry_idaction_name": "1",
+            "visit_entry_idaction_url": "2",
+            "visit_exit_idaction_name": "1",
+            "visit_exit_idaction_url": "2",
+            "visit_total_actions": "1",
+            "visit_total_interactions": "1",
+            "visit_total_searches": "0",
+            "referer_keyword": null,
+            "referer_name": "www.example.com",
+            "referer_type": "Websites",
+            "referer_url": "http:\/\/www.example.com\/foo\/bar",
+            "location_browser_lang": "Greek (el)",
+            "config_browser_engine": "Edge",
+            "config_browser_name": "Microsoft Edge",
+            "config_browser_version": "12.10240",
+            "config_device_brand": "Unknown",
+            "config_device_model": "",
+            "config_device_type": "Desktop",
+            "config_os": "Windows",
+            "config_os_version": "10",
+            "visit_total_events": "0",
+            "visitor_localtime": "12:34:06",
+            "visitor_days_since_last": "0",
+            "config_resolution": "800x600",
+            "config_cookie": "Yes",
+            "config_director": "No",
+            "config_flash": "Yes",
+            "config_gears": "No",
+            "config_java": "Yes",
+            "config_pdf": "No",
+            "config_quicktime": "No",
+            "config_realplayer": "No",
+            "config_silverlight": "No",
+            "config_windowsmedia": "No",
+            "visit_total_time": "00:00:04",
+            "location_city": null,
+            "location_country": "Intl_Continent_ie",
+            "location_latitude": null,
+            "location_longitude": null,
+            "location_region": null,
+            "custom_var_k1": null,
+            "custom_var_v1": null,
+            "custom_var_k2": null,
+            "custom_var_v2": null,
+            "custom_var_k3": null,
+            "custom_var_v3": null,
+            "custom_var_k4": null,
+            "custom_var_v4": null,
+            "custom_var_k5": null,
+            "custom_var_v5": null,
+            "last_idlink_va": null,
+            "custom_dimension_1": null,
+            "custom_dimension_2": null,
+            "custom_dimension_3": null,
+            "custom_dimension_4": null,
+            "custom_dimension_5": null
+        }
+    ],
+    "log_link_visit_action": [
+        {
+            "idlink_va": "1",
+            "idsite": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "idvisit": "1",
+            "idaction_url_ref": "0",
+            "idaction_name_ref": "0",
+            "custom_float": "9 min 5s",
+            "server_time": "2013-06-23 01:23:45",
+            "idpageview": "012a5f",
+            "interaction_position": "1",
+            "idaction_name": "1",
+            "idaction_url": "2",
+            "time_spent_ref_action": "00:00:00",
+            "idaction_event_action": null,
+            "idaction_event_category": null,
+            "idaction_content_interaction": null,
+            "idaction_content_name": null,
+            "idaction_content_piece": null,
+            "idaction_content_target": null,
+            "bandwidth": null,
+            "custom_var_k1": null,
+            "custom_var_v1": null,
+            "custom_var_k2": null,
+            "custom_var_v2": null,
+            "custom_var_k3": null,
+            "custom_var_v3": null,
+            "custom_var_k4": null,
+            "custom_var_v4": null,
+            "custom_var_k5": null,
+            "custom_var_v5": null,
+            "time_spent": null,
+            "custom_dimension_1": null,
+            "custom_dimension_2": null,
+            "custom_dimension_3": null,
+            "custom_dimension_4": null,
+            "custom_dimension_5": null
+        }
+    ],
+    "log_conversion_item": [],
+    "log_conversion": [
+        {
+            "idvisit": "1",
+            "idsite": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "server_time": "2013-06-23 01:23:45",
+            "idaction_url": null,
+            "idlink_va": null,
+            "idgoal": "1",
+            "buster": "0",
+            "idorder": "0",
+            "items": "0",
+            "url": "http:\/\/www.helloworld.com\/hello\/world200",
+            "visitor_days_since_first": "0",
+            "visitor_days_since_order": "0",
+            "visitor_returning": "0",
+            "visitor_count_visits": "1",
+            "referer_keyword": null,
+            "referer_name": "www.example.com",
+            "referer_type": "3",
+            "config_device_brand": "",
+            "config_device_model": "",
+            "config_device_type": "0",
+            "location_city": null,
+            "location_country": "ie",
+            "location_latitude": null,
+            "location_longitude": null,
+            "location_region": null,
+            "revenue": "$ 0",
+            "revenue_discount": "$ ",
+            "revenue_shipping": "$ ",
+            "revenue_subtotal": "$ ",
+            "revenue_tax": "$ ",
+            "custom_var_k1": null,
+            "custom_var_v1": null,
+            "custom_var_k2": null,
+            "custom_var_v2": null,
+            "custom_var_k3": null,
+            "custom_var_v3": null,
+            "custom_var_k4": null,
+            "custom_var_v4": null,
+            "custom_var_k5": null,
+            "custom_var_v5": null,
+            "custom_dimension_1": null,
+            "custom_dimension_2": null,
+            "custom_dimension_3": null,
+            "custom_dimension_4": null,
+            "custom_dimension_5": null
+        }
+    ],
+    "log_action_log_link_visit_action_idaction_url": [
+        {
+            "idaction": "2",
+            "name": "http:\/\/www.helloworld.com\/hello\/world200"
+        }
+    ],
+    "log_action_log_visit_visit_entry_idaction_name": [
+        {
+            "idaction": "1",
+            "name": "Hello World"
+        }
+    ],
+    "log_action_log_visit_visit_entry_idaction_url": [
+        {
+            "idaction": "2",
+            "name": "http:\/\/www.helloworld.com\/hello\/world200"
+        }
+    ],
+    "log_action_log_visit_visit_exit_idaction_name": [
+        {
+            "idaction": "1",
+            "name": "Hello World"
+        }
+    ],
+    "log_action_log_visit_visit_exit_idaction_url": [
+        {
+            "idaction": "2",
+            "name": "http:\/\/www.helloworld.com\/hello\/world200"
+        }
+    ],
+    "log_action_log_link_visit_action_idaction_name": [
+        {
+            "idaction": "1",
+            "name": "Hello World"
+        }
+    ]
+}

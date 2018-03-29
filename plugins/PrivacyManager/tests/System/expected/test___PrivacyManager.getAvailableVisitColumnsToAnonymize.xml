@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<column_name>config_browser_engine</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_browser_name</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_browser_version</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_cookie</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_device_brand</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_device_model</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_device_type</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_director</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_flash</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_gears</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_java</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_os</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_os_version</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_pdf</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_quicktime</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_realplayer</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_resolution</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_silverlight</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>config_windowsmedia</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_dimension_1</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_dimension_2</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_dimension_3</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_dimension_4</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_dimension_5</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k1</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k2</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k3</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k4</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k5</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v1</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v2</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v3</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v4</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v5</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>last_idlink_va</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>location_browser_lang</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>location_city</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>location_country</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>location_latitude</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>location_longitude</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>location_region</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>referer_keyword</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>referer_name</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>referer_type</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>referer_url</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>user_id</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visit_entry_idaction_name</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visit_entry_idaction_url</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visit_exit_idaction_name</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visit_exit_idaction_url</column_name>
+		<default_value>0</default_value>
+	</row>
+	<row>
+		<column_name>visit_goal_buyer</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visit_goal_converted</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visit_total_actions</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visit_total_events</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visit_total_interactions</column_name>
+		<default_value>0</default_value>
+	</row>
+	<row>
+		<column_name>visit_total_searches</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visitor_days_since_first</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visitor_days_since_last</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visitor_days_since_order</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visitor_localtime</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>visitor_returning</column_name>
+		<default_value />
+	</row>
+</result>
