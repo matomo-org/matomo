@@ -84,6 +84,8 @@ class Fixture extends \PHPUnit_Framework_Assert
     const ADMIN_USER_LOGIN = 'superUserLogin';
     const ADMIN_USER_PASSWORD = 'superUserPass';
 
+    const PERSIST_FIXTURE_DATA_ENV = 'PERSIST_FIXTURE_DATA';
+
     public $dbName = false;
 
     /**
@@ -190,6 +192,8 @@ class Fixture extends \PHPUnit_Framework_Assert
     {
         // TODO: don't use static var, use test env var for this
         TestingEnvironmentManipulator::$extraPluginsToLoad = $this->extraPluginsToLoad;
+
+        $this->initFromEnvVars();
 
         $this->dbName = $this->getDbName();
 
@@ -1037,5 +1041,10 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $this->piwikEnvironment->destroy();
         $this->piwikEnvironment = null;
+    }
+
+    private function initFromEnvVars()
+    {
+        $this->persistFixtureData = $this->persistFixtureData || (bool)getenv(self::PERSIST_FIXTURE_DATA_ENV);
     }
 }
