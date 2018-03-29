@@ -22,7 +22,7 @@ describe("Live", function () {
     it('should show visitor log', function (done) {
         expect.screenshot('visitor_log').to.be.captureSelector('.reporting-page', function (page) {
             page.load("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
-            page.wait(4000);
+            page.wait(4500);
         }, done);
     });
 

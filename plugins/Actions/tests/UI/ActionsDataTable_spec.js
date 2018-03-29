@@ -104,7 +104,8 @@ describe("ActionsDataTable", function () {
     it("should search through table when search input entered and search button clicked and input should be visible", function (done) {
         expect.screenshot('search').to.be.capture(function (page) {
             page.sendKeys('.searchAction .dataTableSearchInput', 'i');
-            page.click('.searchAction .icon-search');
+            page.click('.searchAction .icon-search', 1500);
+            page.mouseMove('#logo', 100);
         }, done);
     });
 
