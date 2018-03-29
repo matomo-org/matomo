@@ -7,10 +7,129 @@
  */
 namespace Piwik\Plugins\PrivacyManager\tests\Fixtures;
 
-use Piwik\Config;
+use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db;
+use Piwik\DbHelper;
+use Piwik\Piwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Plugins\Goals\API as ApiGoals;
+use Piwik\Tracker\LogTable;
+
+
+class TestLogFooBarBaz extends LogTable
+{
+    const TABLE = 'log_foo_bar_baz';
+
+    public function install()
+    {
+        DbHelper::createTable($this->getName(), "
+                  `idlogfoobarbaz` bigint(15) NOT NULL,
+                  `idlogfoobar` bigint(15) NOT NULL");
+    }
+
+    public function uninstall()
+    {
+        Db::query(sprintf('DROP TABLE IF EXISTS `%s`', Common::prefixTable($this->getName())));
+    }
+
+    public function insertEntry($idLogFooBarBaz, $idLogFooBar)
+    {
+        Db::query(sprintf('INSERT INTO %s VALUES(?,?)', Common::prefixTable($this->getName())), array($idLogFooBarBaz, $idLogFooBar));
+    }
+
+    public function getName()
+    {
+        return self::TABLE;
+    }
+
+    public function getIdColumn()
+    {
+        return 'idlogfoobarbaz';
+    }
+
+    public function getWaysToJoinTable()
+    {
+        return array('log_foo_bar' => 'idlogfoobar');
+    }
+}
+
+class TestLogFooBar extends LogTable
+{
+    const TABLE = 'log_foo_bar';
+
+    public function install()
+    {
+        DbHelper::createTable($this->getName(), "
+                  `idlogfoobar` bigint(15) NOT NULL,
+                  `idlogfoo` bigint(15) NOT NULL");
+    }
+
+    public function insertEntry($idLogFooBar, $idLogFoo)
+    {
+        Db::query(sprintf('INSERT INTO %s VALUES(?,?)', Common::prefixTable($this->getName())), array($idLogFooBar, $idLogFoo));
+    }
+
+    public function uninstall()
+    {
+        Db::query(sprintf('DROP TABLE IF EXISTS `%s`', Common::prefixTable($this->getName())));
+    }
+
+    public function getName()
+    {
+        return self::TABLE;
+    }
+
+    public function getIdColumn()
+    {
+        return 'idlogfoobar';
+    }
+
+    public function getWaysToJoinTable()
+    {
+        return array('log_foo' => 'idlogfoo');
+    }
+}
+
+class TestLogFoo extends LogTable
+{
+    const TABLE = 'log_foo';
+
+    public function install()
+    {
+        DbHelper::createTable($this->getName(), "
+                  `idlogfoo` bigint(15) NOT NULL,
+                  `idsite` bigint(15) NOT NULL,
+                  `idvisit` bigint(15) NOT NULL");
+    }
+
+    public function insertEntry($idLogFoo, $idSite, $idVisit)
+    {
+        Db::query(sprintf('INSERT INTO %s VALUES(?,?,?)', Common::prefixTable($this->getName())), array($idLogFoo, $idSite, $idVisit));
+    }
+
+    public function uninstall()
+    {
+        Db::query(sprintf('DROP TABLE IF EXISTS `%s`', Common::prefixTable($this->getName())));
+    }
+
+    public function getColumnToJoinOnIdVisit()
+    {
+        return 'idvisit';
+    }
+
+    public function getName()
+    {
+        return self::TABLE;
+    }
+
+    public function getIdColumn()
+    {
+        return 'idlogfoo';
+    }
+
+}
+
 
 class MultipleSitesMultipleVisitsFixture extends Fixture
 {
@@ -40,6 +159,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
     public function setUp()
     {
         parent::setUp();
+        $this->installLogTables();
         $this->setUpWebsites();
         $this->trackVisitsForMultipleSites();
     }
@@ -47,6 +167,36 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
     public function tearDown()
     {
         // empty
+    }
+
+    public function installLogTables()
+    {
+        try {
+            $columns = DbHelper::getTableColumns(TestLogFoo::TABLE);
+            if (!empty($columns)) {
+                return; // already installed
+            }
+        } catch (\Exception $e) {
+            // not installed yet
+        }
+        $extraLogTables = array(new TestLogFooBar(), new TestLogFoo(), new TestLogFooBarBaz());
+        foreach ($extraLogTables as $extraLogTable) {
+            $extraLogTable->install();
+        }
+
+        Piwik::addAction('LogTables.addLogTables', function (&$logTables) use ($extraLogTables) {
+            foreach ($extraLogTables as $extraLogTable) {
+                $logTables[] = $extraLogTable;
+            }
+        });
+    }
+
+    public function uninstallLogTables()
+    {
+        $extraLogTables = array(new TestLogFooBar(), new TestLogFoo(), new TestLogFooBarBaz());
+        foreach ($extraLogTables as $extraLogTable) {
+            $extraLogTable->uninstall();
+        }
     }
 
     private function trackVisitsForMultipleSites()
@@ -105,6 +255,23 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
 
     public function trackVisits($idSite, $numIterations)
     {
+        if ($idSite == 1) {
+            $this->installLogTables();
+            $logFoo = new TestLogFoo();
+            $logFoo->insertEntry(10, 1,1);
+            $logFoo->insertEntry(21, 1,1);
+            $logFoo->insertEntry(22, 1,2);
+
+            $logFooBar = new TestLogFooBar();
+            $logFooBar->insertEntry(35, 10);
+            $logFooBar->insertEntry(36, 10);
+            $logFooBar->insertEntry(37, 22);
+
+            $logFooBar = new TestLogFooBarBaz();
+            $logFooBar->insertEntry(51, 35);
+            $logFooBar->insertEntry(52, 36);
+        }
+
         for ($day = 0; $day < $numIterations; $day++) {
             // we track over several days to make sure we have some data to aggregate in week reports
 
@@ -270,5 +437,21 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
             $this->tracker->doTrackEvent('Sound', 'play');
         }
     }
+
+    public static function  cleanResult($result)
+    {
+        if (!empty($result) && is_array($result)) {
+            foreach ($result as $key => $value) {
+                if (is_array($value)) {
+                    $result[$key] = self::cleanResult($value);
+                } elseif ($key === 'idpageview') {
+                    $result[$key] = '123456';
+                }
+            }
+        }
+
+        return $result;
+    }
+
 
 }

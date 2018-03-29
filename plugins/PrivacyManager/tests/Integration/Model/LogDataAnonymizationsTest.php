@@ -8,13 +8,9 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\Integration\Model;
 
-use CpChart\Chart\Data;
-use Piwik\DataTable;
-use Piwik\Date;
 use Piwik\DbHelper;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
-use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -161,7 +157,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedException Specified date range is invalid.
+     * @expectedExceptionMessage Specified date range is invalid.
      */
     public function test_scheduleEntry_failsInvalidDateRange()
     {

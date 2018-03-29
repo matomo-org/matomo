@@ -8,16 +8,11 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\Integration\Dao;
 
-use CpChart\Chart\Data;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\DbHelper;
 use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
-use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
-use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\MultipleSitesMultipleVisitsFixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -240,6 +235,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
     {
         $rows = Db::fetchAll('SELECT idsite, idvisit from ' . Common::prefixTable('log_visit'));
         $export = API::getInstance()->exportDataSubjects($rows);
+        $export = MultipleSitesMultipleVisitsFixture::cleanResult($export);
         $result = json_encode($export, JSON_PRETTY_PRINT);
         $fileExpected = PIWIK_DOCUMENT_ROOT . '/plugins/PrivacyManager/tests/System/expected/anonymizeVisitInformation_' . $fileName . '.json';
         $fileProcessed = str_replace('/expected/', '/processed/', $fileExpected);

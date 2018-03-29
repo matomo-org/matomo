@@ -47,7 +47,7 @@ class API extends \Piwik\Plugin\API
     private function checkDataSubjectVisits($visits)
     {
         if (empty($visits) || !is_array($visits)) {
-            throw new \Exception('No list of visits that need to be exported given');
+            throw new \Exception('No list of visits given');
         }
 
         $idSites = array();

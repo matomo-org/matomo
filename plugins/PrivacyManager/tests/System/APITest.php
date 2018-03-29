@@ -39,7 +39,7 @@ class APITest extends SystemTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage No list of visits that need to be exported given
+     * @expectedExceptionMessage No list of visits given
      */
     public function test_exportDataSubjects_failsWhenNoVisitsGiven()
     {
@@ -76,6 +76,7 @@ class APITest extends SystemTestCase
 
     private function assertJsonResponse($fileName, $result)
     {
+        $result = MultipleSitesMultipleVisitsFixture::cleanResult($result);
         $result = json_encode($result, JSON_PRETTY_PRINT);
         $fileExpected = PIWIK_DOCUMENT_ROOT . '/plugins/PrivacyManager/tests/System/expected/' . $fileName . '.json';
         $fileProcessed = str_replace('/expected/', '/processed/', $fileExpected);

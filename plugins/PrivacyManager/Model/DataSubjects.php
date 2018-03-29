@@ -36,7 +36,31 @@ class DataSubjects
         $logTables = $this->logTablesProvider->getAllLogTables();
         $logTables = $this->sortLogTablesToEnsureDataErasureFromAllTablesIsPossible($logTables);
 
+        if (empty($visits)) {
+            return array();
+        }
+
         $results = array();
+
+        /**
+         * Lets you delete data subjects to make your plugin GDPR compliant.
+         * This can be useful if you have developed a plugin which stores any data for visits but doesn't
+         * use any core logic to store this data. If core API's are used, for example log tables, then the data may
+         * be deleted automatically.
+         *
+         * **Example**
+         *
+         *     public function deleteDataSubjects(&$result, $visitsToDelete)
+         *     {
+         *         $numDeletes = $this->deleteVisits($visitsToDelete)
+         *         $result['myplugin'] = $numDeletes;
+         *     }
+         *
+         * @param array &$results An array storing the result of how much data was deleted for .
+         * @param array &$visits An array with multiple visit entries containing an idvisit and idsite each. The data
+         *                       for these visits is requested to be deleted.
+         */
+        Piwik::postEvent('PrivacyManager.deleteDataSubjects', array(&$results, $visits));
 
         foreach ($logTables as $logTable) {
             $logTableName = $logTable->getName();
@@ -59,8 +83,6 @@ class DataSubjects
 
             $results[$logTableName] = $result;
         }
-
-        Piwik::postEvent('PrivacyManager.deleteDataSubjects', array(&$results, $visits));
 
         return $results;
     }
@@ -119,6 +141,10 @@ class DataSubjects
 
     public function exportDataSubjects($visits)
     {
+        if (empty($visits)) {
+            return array();
+        }
+
         $logTables = $this->logTablesProvider->getAllLogTables();
         $logTables = $this->sortLogTablesToEnsureDataErasureFromAllTablesIsPossible($logTables);
         $logTables = array_reverse($logTables); // we want to list most important tables first
@@ -163,7 +189,7 @@ class DataSubjects
                 }
                 $select[] = sprintf('`%s`.`%s`', $logTableName, $col);
             }
-            if (!$cols['idsite']) {
+            if (!isset($cols['idsite'])) {
                 $select[] = sprintf('`%s`.`idsite`', $tableToSelect);
             }
             $binaryFields = array_unique($binaryFields);
@@ -172,6 +198,7 @@ class DataSubjects
             $sql = "SELECT $select FROM " . $this->makeFromStatement($from) . ' WHERE ' . $where;
 
             $result = Db::fetchAll($sql, $bind);
+
             $numResults = count($result);
             for ($index = 0; $index < $numResults; $index++) {
                 foreach ($binaryFields as $binaryField) {
@@ -225,6 +252,26 @@ class DataSubjects
             }
         }
 
+        /**
+         * Lets you enrich the data export for one or multiple data subjects to make your plugin GDPR compliant.
+         * This can be useful if you have developed a plugin which stores any data for visits but doesn't
+         * use any core logic to store this data. If core API's are used, for example log tables, then the data may
+         * be exported automatically.
+         *
+         * **Example**
+         *
+         *     public function exportDataSubjects(&export, $visitsToExport)
+         *     {
+         *         $export['myplugin'] = array();
+         *         foreach($visitsToExport as $visit) {
+         *              $export['myplugin'][] = 'exported data';
+         *         }
+         *     }
+         *
+         * @param array &$results An array containing the exported data subjects.
+         * @param array &$visits An array with multiple visit entries containing an idvisit and idsite each. The data
+         *                       for these visits is requested to be exported.
+         */
         Piwik::postEvent('PrivacyManager.exportDataSubjects', array(&$results, $visits));
 
         return $results;
