@@ -118,6 +118,19 @@ abstract class LocationProvider
     abstract public function isWorking();
 
     /**
+     * Returns information about this location provider. Contains an id, title & description:
+     *
+     * array(
+     *     'id' => 'geoip2php',
+     *     'title' => '...',
+     *     'description' => '...'
+     * );
+     *
+     * @return array
+     */
+    abstract public function getInfo();
+
+    /**
      * Returns an array mapping location result keys w/ bool values indicating whether
      * that information is supported by this provider. If it is not supported, that means
      * this provider either cannot get this information, or is not configured to get it.
@@ -141,6 +154,13 @@ abstract class LocationProvider
     public static function getRegionNameFromCodes($countryCode, $regionCode)
     {
         return $regionCode;
+    }
+
+    /**
+     * Method called when a provider gets activated.
+     */
+    public function activate()
+    {
     }
 
     /**
@@ -213,10 +233,10 @@ abstract class LocationProvider
      *
      * An example result:
      * array(
-     *     'geoip_php' => array('id' => 'geoip_php',
+     *     'geoip2php' => array('id' => 'geoip2php',
      *                          'title' => '...',
      *                          'desc' => '...',
-     *                          'status' => GeoIp::BROKEN,
+     *                          'status' => GeoIp2::BROKEN,
      *                          'statusMessage' => '...',
      *                          'location' => '...')
      *     'geoip_serverbased' => array(...)
@@ -230,6 +250,7 @@ abstract class LocationProvider
     {
         $allInfo = array();
         foreach (self::getAllProviders() as $provider) {
+
             $info = $provider->getInfo();
 
             $status = self::INSTALLED;
@@ -286,7 +307,11 @@ abstract class LocationProvider
      */
     public static function getCurrentProviderId()
     {
-        $optionValue = Option::get(self::CURRENT_PROVIDER_OPTION_NAME);
+        try {
+            $optionValue = Option::get(self::CURRENT_PROVIDER_OPTION_NAME);
+        } catch (\Exception $e) {
+            $optionValue = false;
+        }
         return $optionValue === false ? DefaultProvider::ID : $optionValue;
     }
 
@@ -316,6 +341,9 @@ abstract class LocationProvider
             throw new Exception(
                 "Invalid provider ID '$providerId'. The provider either does not exist or is not available");
         }
+
+        $provider->activate();
+
         Option::set(self::CURRENT_PROVIDER_OPTION_NAME, $providerId);
         Cache::clearCacheGeneral();
         return $provider;
@@ -483,4 +511,3 @@ abstract class LocationProvider
         }
     }
 }
-
