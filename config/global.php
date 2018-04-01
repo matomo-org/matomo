@@ -94,6 +94,8 @@ return array(
         'config/manifest.inc.php',
         'misc/*.dat',
         'misc/*.dat.gz',
+        'misc/*.mmdb',
+        'misc/*.mmdb.gz',
         'misc/*.bin',
         'misc/user/*png',
         'misc/user/*js',
