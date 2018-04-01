@@ -19,7 +19,7 @@ class DbSSLTest extends IntegrationTestCase
 {
     public function testMysqlSSLConnection() {
         $dbConfig = Config::getInstance()->database;
-        if(isset($dbConfig['enable_ssl']) AND $dbConfig['enable_ssl'] == true) {
+        if(isset($dbConfig['enable_ssl']) && $dbConfig['enable_ssl'] == true) {
             Db::createDatabaseObject($dbConfig);
             $cipher = Db::fetchRow("show status like 'Ssl_cipher'");
             $this->assertNotEmpty($cipher['Value']);
