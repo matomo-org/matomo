@@ -31,7 +31,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@UserCountry/getDistinctCountries');
 
         $view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
-        $view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
+        $view->numberDistinctCountries = $this->getNumberOfDistinctCountries();
 
         return $view->render();
     }
