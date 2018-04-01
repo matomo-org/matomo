@@ -652,10 +652,10 @@
 		<country>Macedonia</country>
 		<countryCode>mk</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
-		<region>Miravci</region>
-		<regionCode>66</regionCode>
+		<region>Gevgelija</region>
+		<regionCode>18</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Miravci, Macedonia</location>
+		<location>Stratford-upon-Avon, Gevgelija, Macedonia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -797,10 +797,10 @@
 		<country>Macedonia</country>
 		<countryCode>mk</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
-		<region>Miravci</region>
-		<regionCode>66</regionCode>
+		<region>Gevgelija</region>
+		<regionCode>18</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Miravci, Macedonia</location>
+		<location>Stratford-upon-Avon, Gevgelija, Macedonia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -1016,10 +1016,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
+		<region>Sankt-Peterburg</region>
+		<regionCode>SPE</regionCode>
 		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, Saint Petersburg City, Russia</location>
+		<location>Hluboká nad Vltavou, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -1161,10 +1161,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
+		<region>Sankt-Peterburg</region>
+		<regionCode>SPE</regionCode>
 		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, Saint Petersburg City, Russia</location>
+		<location>Hluboká nad Vltavou, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -1358,10 +1358,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
+		<region>Sankt-Peterburg</region>
+		<regionCode>SPE</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Saint Petersburg City, Russia</location>
+		<location>Stratford-upon-Avon, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -1503,10 +1503,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
+		<region>Sankt-Peterburg</region>
+		<regionCode>SPE</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Saint Petersburg City, Russia</location>
+		<location>Stratford-upon-Avon, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -1723,7 +1723,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Kent</region>
-		<regionCode>G5</regionCode>
+		<regionCode>KEN</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Kent, United Kingdom</location>
 		<latitude />
@@ -1868,7 +1868,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Kent</region>
-		<regionCode>G5</regionCode>
+		<regionCode>KEN</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Kent, United Kingdom</location>
 		<latitude />
@@ -2065,7 +2065,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>London, City of</region>
-		<regionCode>H9</regionCode>
+		<regionCode>LND</regionCode>
 		<city>London</city>
 		<location>London, London, City of, United Kingdom</location>
 		<latitude />
@@ -2262,7 +2262,7 @@
 		<countryCode>cn</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region>Xizang</region>
-		<regionCode>14</regionCode>
+		<regionCode>XZ</regionCode>
 		<city>Lhasa</city>
 		<location>Lhasa, Xizang, China</location>
 		<latitude>29.650000</latitude>
@@ -2399,7 +2399,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>London, City of</region>
-		<regionCode>H9</regionCode>
+		<regionCode>LND</regionCode>
 		<city>London</city>
 		<location>London, London, City of, United Kingdom</location>
 		<latitude />
@@ -2544,7 +2544,7 @@
 		<countryCode>cn</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region>Xizang</region>
-		<regionCode>14</regionCode>
+		<regionCode>XZ</regionCode>
 		<city>Lhasa</city>
 		<location>Lhasa, Xizang, China</location>
 		<latitude>29.650000</latitude>
@@ -2763,7 +2763,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
+		<regionCode>WAR</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
 		<latitude>124.456000</latitude>
@@ -2801,7 +2801,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>28</idVisit>
-		<visitIp>2001:db8:85a3::8a2e:370:7334</visitIp>
+		<visitIp>2003:f6:93bf:26f:9ec7:a6ff:fe29:27df</visitIp>
 		
 		<actionDetails>
 			<row>
@@ -3119,7 +3119,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
+		<regionCode>WAR</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
 		<latitude>124.456000</latitude>
@@ -3157,7 +3157,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>27</idVisit>
-		<visitIp>2001:db8:85a3::8a2e:370:7334</visitIp>
+		<visitIp>2003:f6:93bf:26f:9ec7:a6ff:fe29:27df</visitIp>
 		
 		<actionDetails>
 			<row>
@@ -3461,7 +3461,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
+		<regionCode>WAR</regionCode>
 		<city>Nuneaton and Bedworth</city>
 		<location>Nuneaton and Bedworth, Warwickshire, United Kingdom</location>
 		<latitude />
@@ -4189,7 +4189,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
+		<regionCode>WAR</regionCode>
 		<city>Nuneaton and Bedworth</city>
 		<location>Nuneaton and Bedworth, Warwickshire, United Kingdom</location>
 		<latitude />
@@ -4843,7 +4843,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
+		<regionCode>WAR</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
 		<latitude>123.456000</latitude>
@@ -5061,10 +5061,10 @@
 		<country>France</country>
 		<countryCode>fr</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
-		<region>Franche-Comte</region>
-		<regionCode>A6</regionCode>
+		<region>Doubs</region>
+		<regionCode>25</regionCode>
 		<city>Besançon</city>
-		<location>Besançon, Franche-Comte, France</location>
+		<location>Besançon, Doubs, France</location>
 		<latitude>47.249000</latitude>
 		<longitude>6.018000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -5637,7 +5637,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
+		<regionCode>WAR</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
 		<latitude>123.456000</latitude>
@@ -5781,10 +5781,10 @@
 		<country>France</country>
 		<countryCode>fr</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
-		<region>Franche-Comte</region>
-		<regionCode>A6</regionCode>
+		<region>Doubs</region>
+		<regionCode>25</regionCode>
 		<city>Besançon</city>
-		<location>Besançon, Franche-Comte, France</location>
+		<location>Besançon, Doubs, France</location>
 		<latitude>47.249000</latitude>
 		<longitude>6.018000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
