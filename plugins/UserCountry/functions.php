@@ -106,6 +106,20 @@ function getElementFromStringArray($label, $separator, $index, $emptyValue = fal
 }
 
 /**
+ * Returns region name for the given regionCode / countryCode combination
+ * using the currently set location provider
+ *
+ * @param string $countryCode
+ * @param string $regionCode
+ * @return string
+ */
+function getRegionNameFromCodes($countryCode, $regionCode)
+{
+    $provider = LocationProvider::getCurrentProvider();
+    return $provider::getRegionNameFromCodes($countryCode, $regionCode);
+}
+
+/**
  * Returns the region name using the label of a Visits by Region report.
  *
  * @param string $label A label containing a region code followed by '|' and a country code, eg,
@@ -123,7 +137,7 @@ function getRegionName($label)
     }
 
     list($regionCode, $countryCode) = explode(Archiver::LOCATION_SEPARATOR, $label);
-    return GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
+    return getRegionNameFromCodes($countryCode, $regionCode);
 }
 
 /**
@@ -146,7 +160,7 @@ function getPrettyRegionName($label)
 
     list($regionCode, $countryCode) = explode(Archiver::LOCATION_SEPARATOR, $label);
 
-    $result = GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
+    $result = getRegionNameFromCodes($countryCode, $regionCode);
     if ($countryCode != Visit::UNKNOWN_CODE && $countryCode != '') {
         $result .= ', ' . countryTranslate($countryCode);
     }
@@ -185,7 +199,7 @@ function getPrettyCityName($label)
     $result = $cityName;
     if ($countryCode != Visit::UNKNOWN_CODE && $countryCode != '') {
         if ($regionCode != '' && $regionCode != Visit::UNKNOWN_CODE) {
-            $regionName = GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
+            $regionName = getRegionNameFromCodes($countryCode, $regionCode);
             $result .= ', ' . $regionName;
         }
         $result .= ', ' . countryTranslate($countryCode);

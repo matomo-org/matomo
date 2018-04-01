@@ -73,7 +73,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         $region = $this->getRegionCode();
         if ($region != '' && $region != Visit::UNKNOWN_CODE) {
-            return GeoIp::getRegionNameFromCodes(
+            return LocationProvider::getCurrentProvider()->getRegionNameFromCodes(
                 $this->details['location_country'], $region);
         }
 

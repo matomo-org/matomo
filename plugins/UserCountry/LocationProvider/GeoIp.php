@@ -63,7 +63,7 @@ abstract class GeoIp extends LocationProvider
         ) {
             $countryCode = $location[self::COUNTRY_CODE_KEY];
             $regionCode = (string)$location[self::REGION_CODE_KEY];
-            $location[self::REGION_NAME_KEY] = self::getRegionNameFromCodes($countryCode, $regionCode);
+            $location[self::REGION_NAME_KEY] = $this->getRegionNameFromCodes($countryCode, $regionCode);
         }
     }
 
