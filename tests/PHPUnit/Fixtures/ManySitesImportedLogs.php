@@ -7,9 +7,9 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
 
@@ -35,11 +35,10 @@ class ManySitesImportedLogs extends Fixture
     public function setUp()
     {
         $this->setUpWebsitesAndGoals();
-        self::downloadGeoIpDbs();
 
         LocationProvider::$providers = null;
-        GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
-        LocationProvider::setCurrentProvider('geoip_php');
+        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        LocationProvider::setCurrentProvider('geoip2php');
 
         self::createSuperUser();
 
@@ -50,7 +49,7 @@ class ManySitesImportedLogs extends Fixture
     public function tearDown()
     {
         LocationProvider::$providers = null;
-        GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         ManyVisitsWithGeoIP::unsetLocationProvider();
     }
 

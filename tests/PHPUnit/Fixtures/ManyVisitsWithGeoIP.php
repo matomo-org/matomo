@@ -9,8 +9,8 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Cache;
 use Piwik\Date;
+use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\Goals\API;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
 use Exception;
@@ -25,7 +25,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvide
  */
 class ManyVisitsWithGeoIP extends Fixture
 {
-    const GEOIP_IMPL_TO_TEST = 'geoip_php';
+    const GEOIP_IMPL_TO_TEST = 'geoip2php';
 
     public $idSite = 1;
     public $dateTime = '2010-01-03 11:22:33';
@@ -58,7 +58,6 @@ class ManyVisitsWithGeoIP extends Fixture
     public function setUp()
     {
         $this->setUpWebsitesAndGoals();
-        self::downloadGeoIpDbs();
 
         $this->setMockLocationProvider();
         $this->trackVisits(9, false);
@@ -240,8 +239,8 @@ class ManyVisitsWithGeoIP extends Fixture
 
     public function setLocationProvider($file)
     {
-        GeoIp::$dbNames['loc'] = array($file);
-        GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        GeoIp2::$dbNames['loc'] = array($file);
+        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
         LocationProvider::$providers = null;
         LocationProvider::setCurrentProvider(self::GEOIP_IMPL_TO_TEST);
 
@@ -249,8 +248,8 @@ class ManyVisitsWithGeoIP extends Fixture
             throw new Exception("Failed to set the current location provider to '" . self::GEOIP_IMPL_TO_TEST . "'.");
         }
 
-        $possibleFiles = GeoIp::$dbNames['loc'];
-        if (GeoIp::getPathToGeoIpDatabase($possibleFiles) === false) {
+        $possibleFiles = GeoIp2::$dbNames['loc'];
+        if (GeoIp2::getPathToGeoIpDatabase($possibleFiles) === false) {
             throw new Exception("The GeoIP location provider cannot find the '$file' file! Tests will fail.");
         }
     }

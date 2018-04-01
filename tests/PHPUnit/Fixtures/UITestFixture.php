@@ -42,8 +42,6 @@ class UITestFixture extends SqlDump
 
     public function setUp()
     {
-        self::downloadGeoIpDbs();
-
         parent::setUp();
 
         self::resetPluginsInstalledConfig();
