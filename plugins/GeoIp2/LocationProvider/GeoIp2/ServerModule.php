@@ -241,7 +241,7 @@ class ServerModule extends GeoIp2
         $configUrl = Url::getCurrentQueryStringWithParametersModified(array(
             'module' => 'CoreAdminHome', 'action' => 'generalSettings'
         ));
-        $extraMessage .= '<br />'.Piwik::translate('UserCountry_GeoIPVariablesConfigurationHere', ['<a href="'.$configUrl.'">', '</a>']);
+        $extraMessage .= '<br />'.Piwik::translate('GeoIp2_GeoIPVariablesConfigurationHere', ['<a href="'.$configUrl.'">', '</a>']);
 
         return array('id'            => self::ID,
             'title'         => $title,

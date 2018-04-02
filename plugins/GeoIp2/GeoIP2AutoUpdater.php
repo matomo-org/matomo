@@ -19,8 +19,8 @@ use Piwik\Http;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2 AS LocationProviderGeoIp2;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2\Php;
-use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
@@ -128,9 +128,9 @@ class GeoIP2AutoUpdater extends Task
         $ext = GeoIP2AutoUpdater::getGeoIPUrlExtension($url);
 
         // NOTE: using the first item in $dbNames[$dbType] makes sure GeoLiteCity will be renamed to GeoIPCity
-        $zippedFilename = GeoIp2::$dbNames[$dbType][0] . '.' . $ext;
+        $zippedFilename = LocationProviderGeoIp2::$dbNames[$dbType][0] . '.' . $ext;
 
-        $zippedOutputPath = GeoIp2::getPathForGeoIpDatabase($zippedFilename);
+        $zippedOutputPath = LocationProviderGeoIp2::getPathForGeoIpDatabase($zippedFilename);
 
         $url = self::removeDateFromUrl($url);
 
@@ -168,7 +168,7 @@ class GeoIP2AutoUpdater extends Task
      */
     public static function unzipDownloadedFile($path, $dbType, $unlink = false)
     {
-        $tempPath = GeoIp2::getPathForGeoIpDatabase('update/');
+        $tempPath = LocationProviderGeoIp2::getPathForGeoIpDatabase('update/');
 
         // extract file
         if (substr($path, -7, 7) == '.tar.gz') {
@@ -197,10 +197,10 @@ class GeoIP2AutoUpdater extends Task
 
             foreach ($extractedFiles as $extractedFile) {
                 $filename = basename($extractedFile);
-                if (in_array($filename, GeoIp2::$dbNames[$dbType])) {
+                if (in_array($filename, LocationProviderGeoIp2::$dbNames[$dbType])) {
                     $dbFilename = $filename;
                     $tempFilename = $filename . '.new';
-                    $outputPath = GeoIp2::getPathForGeoIpDatabase($tempFilename);
+                    $outputPath = LocationProviderGeoIp2::getPathForGeoIpDatabase($tempFilename);
                     @rename($extractedFile, $outputPath);
                     Filesystem::unlinkRecursive($tempPath, true);
                     break;
@@ -208,7 +208,7 @@ class GeoIP2AutoUpdater extends Task
             }
 
             // test that the new archive is a valid GeoIP 2 database
-            if (empty($dbFilename) || false === GeoIp2::getGeoIPDatabaseTypeFromFilename($dbFilename)) {
+            if (empty($dbFilename) || false === LocationProviderGeoIp2::getGeoIPDatabaseTypeFromFilename($dbFilename)) {
                 throw new Exception("Unexpected GeoIP 2 archive file name '$path'.");
             }
 
@@ -221,7 +221,7 @@ class GeoIP2AutoUpdater extends Task
             $phpProvider = new Php($customDbNames);
 
             try {
-                $location = $phpProvider->getLocation(array('ip' => GeoIp2::TEST_IP));
+                $location = $phpProvider->getLocation(array('ip' => LocationProviderGeoIp2::TEST_IP));
             } catch (\Exception $e) {
                 Log::info("GeoIP2AutoUpdater: Encountered exception when testing newly downloaded" .
                     " GeoIP 2 database: %s", $e->getMessage());
@@ -234,12 +234,12 @@ class GeoIP2AutoUpdater extends Task
             }
 
             // delete the existing GeoIP database (if any) and rename the downloaded file
-            $oldDbFile = GeoIp2::getPathForGeoIpDatabase($dbFilename);
+            $oldDbFile = LocationProviderGeoIp2::getPathForGeoIpDatabase($dbFilename);
             if (file_exists($oldDbFile)) {
                 unlink($oldDbFile);
             }
 
-            $tempFile = GeoIp2::getPathForGeoIpDatabase($tempFilename);
+            $tempFile = LocationProviderGeoIp2::getPathForGeoIpDatabase($tempFilename);
             if (@rename($tempFile, $oldDbFile) !== true) {
                 //In case the $tempfile cannot be renamed, we copy the file.
                 copy($tempFile, $oldDbFile);
@@ -414,8 +414,8 @@ class GeoIP2AutoUpdater extends Task
             if (!empty($url)) {
                 // if a database of the type does not exist, but there's a url to update, then
                 // a database is missing
-                $path = GeoIp2::getPathToGeoIpDatabase(
-                    GeoIp2::$dbNames[$key]);
+                $path = LocationProviderGeoIp2::getPathToGeoIpDatabase(
+                    LocationProviderGeoIp2::$dbNames[$key]);
                 if ($path === false) {
                     $result[] = $key;
                 }
@@ -478,7 +478,7 @@ class GeoIP2AutoUpdater extends Task
      */
     protected function performRedundantDbChecks($logErrors = true)
     {
-        $databaseTypes = array_keys(GeoIp2::$dbNames);
+        $databaseTypes = array_keys(LocationProviderGeoIp2::$dbNames);
 
         foreach ($databaseTypes as $type) {
             $customNames = array(
@@ -486,14 +486,14 @@ class GeoIP2AutoUpdater extends Task
                 'isp' => array(),
                 'org' => array()
             );
-            $customNames[$type] = GeoIp2::$dbNames[$type];
+            $customNames[$type] = LocationProviderGeoIp2::$dbNames[$type];
 
             // create provider that only uses the DB type we're testing
             $provider = new Php($customNames);
 
             // test the provider. on error, we rename the broken DB.
             try {
-                $location = $provider->getLocation(array('ip' => GeoIp2::TEST_IP));
+                $location = $provider->getLocation(array('ip' => LocationProviderGeoIp2::TEST_IP));
             } catch (\Exception $e) {
                 if($logErrors) {
                     Log::error("GeoIP2AutoUpdater: Encountered exception when performing redundant tests on GeoIP2 "
@@ -527,7 +527,7 @@ class GeoIP2AutoUpdater extends Task
      */
     private function getOldAndNewPathsForBrokenDb($possibleDbNames)
     {
-        $pathToDb = GeoIp2::getPathToGeoIpDatabase($possibleDbNames);
+        $pathToDb = LocationProviderGeoIp2::getPathToGeoIpDatabase($possibleDbNames);
         $newPath = false;
 
         if ($pathToDb !== false) {
@@ -613,9 +613,9 @@ class GeoIP2AutoUpdater extends Task
     {
         $previousScheduledRuntime = $this->getPreviousScheduledTime($rescheduledTime)->setTime("00:00:00")->getTimestamp();
 
-        foreach (GeoIp2::$dbNames as $type => $dbNames) {
+        foreach (LocationProviderGeoIp2::$dbNames as $type => $dbNames) {
             $dbUrl = Option::get(self::$urlOptions[$type]);
-            $dbPath = GeoIp2::getPathToGeoIpDatabase($dbNames);
+            $dbPath = LocationProviderGeoIp2::getPathToGeoIpDatabase($dbNames);
 
             // if there is a URL for this DB type and the GeoIP 2 DB file's last modified time is before
             // the time the updater should have been previously run, then **the file is out of date**

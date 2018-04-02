@@ -9,8 +9,6 @@ namespace Piwik\Tests\Fixtures;
 
 use Exception;
 use Piwik\API\Request;
-use Piwik\AssetManager;
-use Piwik\Access;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
@@ -18,12 +16,12 @@ use Piwik\DbHelper;
 use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
-use Piwik\Tests\Framework\Fixture;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\Config as PiwikConfig;
 
@@ -55,7 +53,8 @@ class UITestFixture extends SqlDump
         );
 
         // for proper geolocation
-        LocationProvider::setCurrentProvider(LocationProvider\GeoIp\Php::ID);
+        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        LocationProvider::setCurrentProvider(GeoIp2\Php::ID);
         IPAnonymizer::deactivate();
 
         $this->addOverlayVisits();

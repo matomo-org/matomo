@@ -63,7 +63,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 	</row>
 	<row>
-		<label>Besançon, Franche-Comte, France</label>
+		<label>Besançon, Doubs, France</label>
 		<nb_visits>3</nb_visits>
 		<nb_actions>7</nb_actions>
 		<max_actions>5</max_actions>
@@ -86,12 +86,12 @@
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<lat>47.249</lat>
 		<long>6.018</long>
-		<segment>city==Besan%C3%A7on;regionCode==A6;countryCode==fr</segment>
+		<segment>city==Besan%C3%A7on;regionCode==25;countryCode==fr</segment>
 		<city_name>Besançon</city_name>
-		<region>A6</region>
+		<region>25</region>
 		<country>fr</country>
 		<country_name>France</country_name>
-		<region_name>Franche-Comte</region_name>
+		<region_name>Doubs</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
@@ -118,9 +118,9 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>29.65</lat>
 		<long>91.1</long>
-		<segment>city==Lhasa;regionCode==14;countryCode==cn</segment>
+		<segment>city==Lhasa;regionCode==XZ;countryCode==cn</segment>
 		<city_name>Lhasa</city_name>
-		<region>14</region>
+		<region>XZ</region>
 		<country>cn</country>
 		<country_name>China</country_name>
 		<region_name>Xizang</region_name>
@@ -150,9 +150,9 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>41.9</lat>
 		<long>12.483</long>
-		<segment>city==Rome;regionCode==07;countryCode==it</segment>
+		<segment>city==Rome;regionCode==62;countryCode==it</segment>
 		<city_name>Rome</city_name>
-		<region>07</region>
+		<region>62</region>
 		<country>it</country>
 		<country_name>Italy</country_name>
 		<region_name>Lazio</region_name>

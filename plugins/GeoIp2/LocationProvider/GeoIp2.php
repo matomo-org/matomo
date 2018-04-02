@@ -19,7 +19,6 @@ use Piwik\Plugins\UserCountry\LocationProvider;
  */
 abstract class GeoIp2 extends LocationProvider
 {
-    /* For testing, use: 'http://piwik-team.s3.amazonaws.com/GeoLite2-City.tar.gz' */
     const GEO_LITE_URL = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz';
     const TEST_IP = '194.57.91.215';
     const SWITCH_TO_ISO_REGIONS_OPTION_NAME = 'usercountry.switchtoisoregions';

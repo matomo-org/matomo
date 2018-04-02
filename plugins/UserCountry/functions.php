@@ -11,6 +11,8 @@ namespace Piwik\Plugins\UserCountry;
 
 use Piwik\DataTable;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Tracker\Visit;
 
@@ -115,8 +117,10 @@ function getElementFromStringArray($label, $separator, $index, $emptyValue = fal
  */
 function getRegionNameFromCodes($countryCode, $regionCode)
 {
-    $provider = LocationProvider::getCurrentProvider();
-    return $provider::getRegionNameFromCodes($countryCode, $regionCode);
+    if (Manager::getInstance()->isPluginActivated('GeoIp2')) {
+        return GeoIp2::getRegionNameFromCodes($countryCode, $regionCode);
+    }
+    return GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
 }
 
 /**

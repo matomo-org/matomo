@@ -9,12 +9,8 @@
 namespace Piwik\Plugins\UserCountry;
 
 use Piwik\Common;
-use Piwik\Plugins\Live;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Tracker\Visit;
-use Piwik\Url;
-use Piwik\View;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
@@ -73,7 +69,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     {
         $region = $this->getRegionCode();
         if ($region != '' && $region != Visit::UNKNOWN_CODE) {
-            return LocationProvider::getCurrentProvider()->getRegionNameFromCodes(
+            return getRegionNameFromCodes(
                 $this->details['location_country'], $region);
         }
 

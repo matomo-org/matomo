@@ -2,7 +2,7 @@
   "GeoIp2": {
     "PluginDescription": "Provides GeoIP2 location providers.",
     "LocationProviderDesc_Php": "This location provider is the most simple to install as it does not require server configuration (ideal for shared hosting!). It uses a GeoIP 2 database and MaxMind's PHP API to accurately determine the location of your visitors.",
-    "LocationProviderDesc_Php_NoExtension": "If your website gets a lot of traffic, you may find that this location provider is too slow. In this case, you can install %1$smaxminddb extension%2$s or a %3$sapache module%4$s.",
+    "LocationProviderDesc_Php_NoExtension": "If your website gets a lot of traffic, you may find that this location provider is too slow. In this case, you can install %1$smaxminddb extension%2$s or a %3$sserver module%4$s.",
     "LocationProviderDesc_Php_WithExtension": "This location provider is speeded up by the installed %1$smaxminddb%2$s extension.",
     "LocationProviderDesc_ServerModule": "This location provider uses the GeoIP 2 module that has been installed in your HTTP server. This provider is fast and accurate, but %1$scan only be used with normal browser tracking.%2$s",
     "LocationProviderDesc_ServerModule2": "If you have to import log files or do something else that requires setting IP addresses, use the %3$sPHP GeoIP 2 implementation%4$s and install %1$smaxminddb extension%2$s.",

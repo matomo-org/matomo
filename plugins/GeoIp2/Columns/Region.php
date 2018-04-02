@@ -11,4 +11,10 @@ namespace Piwik\Plugins\GeoIp2\Columns;
 class Region extends \Piwik\Plugins\UserCountry\Columns\Region
 {
     protected $columnType = 'char(3) DEFAULT NULL';
+    protected $segmentName = '';
+
+    public function uninstall()
+    {
+        // do not remove region column when plugin is deactivated
+    }
 }

@@ -144,19 +144,6 @@ abstract class LocationProvider
     abstract public function getSupportedLocationInfo();
 
     /**
-     * Returns region name for the given regionCode / countryCode combination
-     * Should be overwritten in any LocationProvider providing region data
-     *
-     * @param string $countryCode
-     * @param string $regionCode
-     * @return string
-     */
-    public static function getRegionNameFromCodes($countryCode, $regionCode)
-    {
-        return $regionCode;
-    }
-
-    /**
      * Method called when a provider gets activated.
      */
     public function activate()

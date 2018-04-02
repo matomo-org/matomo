@@ -23,7 +23,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     protected function init()
     {
-        $this->title = Piwik::translate('GeoIp2_GeoIp2ServerBasedVariablesConfiguration');
+        $this->title = Piwik::translate('GeoIp2_ServerBasedVariablesConfiguration');
 
         foreach (ServerModule::$defaultGeoIpServerVars as $name => $value) {
             $this->geoIp2variables[$name] = $this->createGeoIp2ServerVarSetting($name, $value);

@@ -9,8 +9,8 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Cache;
 use Piwik\Date;
-use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\Goals\API;
+use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
 use Exception;
@@ -35,10 +35,10 @@ class ManyVisitsWithGeoIP extends Fixture
         '::ffff:137.82.130.49', // in British Columbia (mapped ipv4)
         '137.82.130.0', // anonymization tests
         '137.82.0.0',
-        '2001:db8:85a3:0:0:8a2e:370:7334', // ipv6
+        '2003:f6:93bf:26f:9ec7:a6ff:fe29:27df', // ipv6 in US (without region or city)
         '113.62.1.1', // in Lhasa, Tibet
         '151.100.101.92', // in Rome, Italy (using country DB, so only Italy will show)
-        '103.29.196.229', // in Indonesia (Bali), (only Indonesia will show up)
+        '103.29.196.229', // in Indonesia, Central Java (Bali)
     );
 
     public $userAgents = array(
@@ -62,16 +62,16 @@ class ManyVisitsWithGeoIP extends Fixture
         $this->setMockLocationProvider();
         $this->trackVisits(9, false);
 
-        $this->setLocationProvider('GeoIPCity.dat');
+        $this->setLocationProvider('GeoIP2-City.mmdb');
         $this->trackVisits(2, true, $useLocal = false);
         $this->trackVisits(4, true, $useLocal = false, $doBulk = true);
 
-        $this->setLocationProvider('GeoIP.dat');
+        $this->setLocationProvider('GeoIP2-Country.mmdb');
         $this->trackVisits(2, true);
 
         $this->trackOtherVisits();
 
-        $this->setLocationProvider('GeoIPCity.dat');
+        $this->setLocationProvider('GeoIP2-City.mmdb');
     }
 
     public function tearDown()
@@ -250,7 +250,7 @@ class ManyVisitsWithGeoIP extends Fixture
 
         $possibleFiles = GeoIp2::$dbNames['loc'];
         if (GeoIp2::getPathToGeoIpDatabase($possibleFiles) === false) {
-            throw new Exception("The GeoIP location provider cannot find the '$file' file! Tests will fail.");
+            throw new Exception("The GeoIP2 location provider cannot find the '$file' file! Tests will fail.");
         }
     }
 
@@ -260,28 +260,28 @@ class ManyVisitsWithGeoIP extends Fixture
         LocationProvider::$providers[] = new MockLocationProvider();
         LocationProvider::setCurrentProvider('mock_provider');
         MockLocationProvider::$locations = array(
-            self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 123.456, 21.321), // template location
+            self::makeLocation('Stratford-upon-Avon', 'WAR', 'gb', 123.456, 21.321), // template location
 
             // same region, different city, same country
-            self::makeLocation('Nuneaton and Bedworth', 'P3', 'gb', $isp = 'comcast.net'),
+            self::makeLocation('Nuneaton and Bedworth', 'WAR', 'gb', $isp = 'comcast.net'),
 
             // same region, city & country (different lat/long)
-            self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 124.456, 22.231, $isp = 'comcast.net'),
+            self::makeLocation('Stratford-upon-Avon', 'WAR', 'gb', 124.456, 22.231, $isp = 'comcast.net'),
 
             // same country, different region & city
-            self::makeLocation('London', 'H9', 'gb'),
+            self::makeLocation('London', 'LND', 'gb'),
 
             // same country, different region, same city
-            self::makeLocation('Stratford-upon-Avon', 'G5', 'gb', $lat = null, $long = null, $isp = 'awesomeisp.com'),
+            self::makeLocation('Stratford-upon-Avon', 'KEN', 'gb', $lat = null, $long = null, $isp = 'awesomeisp.com'),
 
             // different country, diff region, same city
-            self::makeLocation('Stratford-upon-Avon', '66', 'ru'),
+            self::makeLocation('Stratford-upon-Avon', 'SPE', 'ru'),
 
             // different country, diff region (same as last), different city
-            self::makeLocation('Hluboká nad Vltavou', '66', 'ru'),
+            self::makeLocation('Hluboká nad Vltavou', 'SPE', 'ru'),
 
             // different country, diff region (same as last), same city
-            self::makeLocation('Stratford-upon-Avon', '66', 'mk'),
+            self::makeLocation('Stratford-upon-Avon', '18', 'mk'),
 
             // unknown location
             self::makeLocation(null, null, null),

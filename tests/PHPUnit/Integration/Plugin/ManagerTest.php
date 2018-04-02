@@ -147,8 +147,8 @@ class ManagerTest extends IntegrationTestCase
 
     private function assertOnlyTrackerPluginsAreLoaded($expectedPluginNamesLoaded)
     {
-        // should currently load between 10 and 26 plugins
-        $this->assertLessThan(26, count($this->manager->getLoadedPlugins()));
+        // should currently load between 10 and 27 plugins
+        $this->assertLessThan(27, count($this->manager->getLoadedPlugins()));
         $this->assertGreaterThan(10, count($this->manager->getLoadedPlugins()));
 
         // we need to make sure it actually only loaded the correct ones
