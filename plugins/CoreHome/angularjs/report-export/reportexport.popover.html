@@ -1,0 +1,51 @@
+<div class="report-export-popover row">
+
+    <div class="col l6">
+        <div piwik-field uicontrol="radio" name="format"
+             title="{{ 'CoreHome_ExportFormat'|translate }}"
+             ng-model="$parent.reportFormat"
+             full-width="true"
+             value="XML"
+             options="availableReportFormats[$parent.reportType]">
+        </div>
+
+        <div piwik-field uicontrol="checkbox" name="option_flat"
+             title="{{ 'CoreHome_FlattenReport'|translate }}"
+             ng-model="$parent.optionFlat" ng-show="$parent.hasSubtables">
+        </div>
+        <div piwik-field uicontrol="checkbox" name="option_expanded"
+             title="{{ 'CoreHome_ExpandSubtables'|translate }}"
+             ng-model="$parent.optionExpanded" ng-show="$parent.hasSubtables && !$parent.optionFlat"
+        >
+        </div>
+    </div>
+
+    <div class="col l6">
+        <div piwik-field uicontrol="radio" name="filter_type"
+             title="{{ 'CoreHome_ReportType'|translate }}"
+             ng-model="$parent.reportType"
+             full-width="true"
+             options="availableReportTypes">
+        </div>
+
+        <div class="filter_limit">
+            <div piwik-field uicontrol="radio" name="filter_limit_all"
+                 title="{{ 'CoreHome_RowLimit'|translate }}"
+                 ng-model="$parent.reportLimitAll"
+                 full-width="false"
+                 options="limitAllOptions">
+            </div>
+            <div piwik-field uicontrol="number" name="filter_limit"
+                 min="1"
+                 ng-model="$parent.reportLimit"
+                 full-width="false"
+                 ng-show="$parent.reportLimitAll == 'no'">
+            </div>
+        </div>
+    </div>
+
+    <div class="col l12">
+        <div piwik-save-button value="{{ 'General_Export'|translate }}" ng-click="processExport()"></div>
+    </div>
+
+</div>

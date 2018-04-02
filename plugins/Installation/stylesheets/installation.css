@@ -121,3 +121,7 @@ p.next-step:first-child {
 .system-check-legend {
     font-size: 13px;
 }
+
+.should-get-hidden-by-css {
+    display: none;
+}

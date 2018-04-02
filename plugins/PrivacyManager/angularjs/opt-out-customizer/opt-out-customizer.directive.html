@@ -44,9 +44,9 @@
     <pre piwik-select-on-focus>&lt;iframe
         style="border: 0; height: 200px; width: 600px;"
         src="{{ optOutCustomizer.iframeUrl }}"
-        ></iframe></pre>
-    <p ng-bind-html="'CoreAdminHome_OptOutExplanationIntro'|translate:'&lt;a  href=\'' + optOutCustomizer.iframeUrl + '\' rel=\'noreferrer\' target=\'_blank\'>':'&lt/a>'">
+        &gt;&lt;/iframe&gt;</pre>
+    <p ng-bind-html="'CoreAdminHome_OptOutExplanationIntro'|translate:'&lt;a  href=\'' + optOutCustomizer.iframeUrl + '\' rel=\'noreferrer\' target=\'_blank\'>':'&lt;/a>'">
     </p>
     <h3>Preview of the Opt-out as it will appear on your website</h3>
-    <iframe ng-src="{{ optOutCustomizer.iframeUrl }}"  style="border: 0; height: 200px; width: 600px;" >
+    <iframe ng-src="{{ optOutCustomizer.iframeUrl }}"  style="border: 0; height: 200px; width: 600px;" />
 </div>

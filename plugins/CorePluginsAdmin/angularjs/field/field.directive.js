@@ -58,7 +58,9 @@
                 maxlength: '@',
                 required: '@',
                 placeholder: '@',
-                rows: '@'
+                rows: '@',
+                min: '@',
+                max: '@'
             },
             template: '<div piwik-form-field="field"></div>',
             link: function(scope, elm, attrs, ctrl) {
@@ -97,6 +99,8 @@
                     field.type = 'boolean';
                 } else if (field.uiControl === 'site') {
                     field.type = 'object';
+                } else if (field.uiControl === 'number') {
+                    field.type = 'integer';
                 } else {
                     field.type = 'string';
                 }
@@ -118,7 +122,7 @@
                 }
 
                 var i = 0, attribute;
-                var attributes = ['disabled', 'autocomplete', 'tabindex', 'autofocus', 'rows', 'required', 'maxlength', 'placeholder'];
+                var attributes = ['disabled', 'autocomplete', 'tabindex', 'autofocus', 'rows', 'required', 'maxlength', 'placeholder', 'min', 'max'];
                 for (i; i < attributes.length; i++) {
                     attribute = attributes[i];
                     if (!!$scope[attribute]) {

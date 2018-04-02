@@ -219,10 +219,10 @@ class OptOutManager
 
     private function optOutStyling()
     {
-        $cssfontsize = Common::getRequestVar('fontSize', false, 'string');
-        $cssfontcolour = Common::getRequestVar('fontColor', false, 'string');
-        $cssfontfamily = Common::getRequestVar('fontFamily', false, 'string');
-        $cssbackgroundcolor = Common::getRequestVar('backgroundColor', false, 'string');
+        $cssfontsize = Common::unsanitizeInputValue(Common::getRequestVar('fontSize', false, 'string'));
+        $cssfontcolour = Common::unsanitizeInputValue(Common::getRequestVar('fontColor', false, 'string'));
+        $cssfontfamily = Common::unsanitizeInputValue(Common::getRequestVar('fontFamily', false, 'string'));
+        $cssbackgroundcolor = Common::unsanitizeInputValue(Common::getRequestVar('backgroundColor', false, 'string'));
         $cssbody = 'body { ';
 
         $hexstrings = array(
@@ -241,7 +241,7 @@ class OptOutManager
             throw new \Exception("The URL parameter fontSize value of '$cssfontsize' is not valid. Expected value is for example '15pt', '1.2em' or '13px'.\n");
         }
 
-        if ($cssfontfamily && (preg_match("/^[a-zA-Z-\ ,]+$/", $cssfontfamily))) {
+        if ($cssfontfamily && (preg_match('/^[a-zA-Z-\ ,\'"]+$/', $cssfontfamily))) {
             $cssbody .= 'font-family: ' . $cssfontfamily . '; ';
         } else if ($cssfontfamily) {
             throw new \Exception("The URL parameter fontFamily value of '$cssfontfamily' is not valid. Expected value is for example 'sans-serif' or 'Monaco, monospace'.\n");

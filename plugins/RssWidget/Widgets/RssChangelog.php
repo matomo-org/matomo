@@ -14,10 +14,20 @@ use Piwik\Plugins\RssWidget\RssRenderer;
 
 class RssChangelog extends \Piwik\Widget\Widget
 {
+    public static function getCategory()
+    {
+        return 'About Matomo';
+    }
+
+    public static function getName()
+    {
+        return 'Matomo Changelog';
+    }
+
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('About Matomo');
-        $config->setName('Matomo Changelog');
+        $config->setCategoryId(self::getCategory());
+        $config->setName(self::getName());
     }
 
     private function getFeed($URL) {
