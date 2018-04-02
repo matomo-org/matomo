@@ -24,6 +24,7 @@ return array(
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\NfsDiskCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\CronArchivingCheck'),
         DI\get('Piwik\Plugins\Diagnostics\Diagnostic\LoadDataInfileCheck'),
+        Di\get('Piwik\Plugins\Diagnostics\Diagnostic\DbOverSSLCheck'),
     ),
     // Allows other plugins to disable diagnostics that were previously registered
     'diagnostics.disabled' => array(),
