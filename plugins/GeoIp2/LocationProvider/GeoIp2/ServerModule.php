@@ -246,7 +246,7 @@ class ServerModule extends GeoIp2
         return array('id'            => self::ID,
             'title'         => $title,
             'description'   => $desc,
-            'order'         => 13,
+            'order'         => 3,
             'install_docs'  => $installDocs,
             'extra_message' => $extraMessage);
     }

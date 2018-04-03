@@ -264,7 +264,7 @@ class Php extends GeoIp2
             'description'   => $desc,
             'install_docs'  => $installDocs,
             'extra_message' => $extraMessage,
-            'order'         => 12);
+            'order'         => 2);
     }
 
     /**
