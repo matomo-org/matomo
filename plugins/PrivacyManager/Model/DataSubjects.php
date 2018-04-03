@@ -84,6 +84,8 @@ class DataSubjects
             $results[$logTableName] = $result;
         }
 
+        krsort($results); // make sure test results are always in same order
+
         return $results;
     }
 
@@ -261,6 +263,7 @@ class DataSubjects
                         unset($result[$index]['url_prefix']);
                     }
 
+                    $result = array_values(array_unique($result, SORT_REGULAR));
                     $results['log_action_' . $dimensionTable.'_' . $dimensionColumn] = $result;
                 }
             }
@@ -287,6 +290,8 @@ class DataSubjects
          *                       for these visits is requested to be exported.
          */
         Piwik::postEvent('PrivacyManager.exportDataSubjects', array(&$results, $visits));
+
+        krsort($results); // make sure test results are always in same order
 
         return $results;
     }
