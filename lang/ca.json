@@ -207,7 +207,7 @@
         "NbSearches": "Nombre de cerques internes",
         "NeedMoreHelp": "Necessiteu més ajuda?",
         "Never": "Mai",
-        "NewReportsWillBeProcessedByCron": "Quan l'arxivat del piwik no es dispara per el navegador, els nous informes es processaran per el crontab.",
+        "NewReportsWillBeProcessedByCron": "Quan l'arxivat del Matomo no es dispara per el navegador, els nous informes es processaran per el crontab.",
         "NewUpdatePiwikX": "Nova actualització: Matomo %s",
         "NewVisitor": "Nova visita",
         "NewVisits": "Noves visites",

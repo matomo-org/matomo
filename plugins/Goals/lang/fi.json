@@ -40,7 +40,7 @@
         "Details": "Tavoitteen tiedot",
         "DefaultGoalConvertedOncePerVisit": "(oletus) tavoitteen voi saavuttaa vain kerran per käynti",
         "DefaultRevenue": "Tavoitteen oletustuotto on",
-        "DefaultRevenueHelp": "Esimerkiksi lähetetyn \\\"Ota yhteyttä\\\"-lomakkeen arvo voi olla keskimäärin 10€. Piwik auttaa ymmärtämään, miten eri segmentit tuovat rahaa.",
+        "DefaultRevenueHelp": "Esimerkiksi lähetetyn \\\"Ota yhteyttä\\\"-lomakkeen arvo voi olla keskimäärin 10€. Matomo auttaa ymmärtämään, miten eri segmentit tuovat rahaa.",
         "DeleteGoalConfirm": "Haluatko varmasti poistaa tavoitteen %s?",
         "DocumentationRevenueGeneratedByProductSales": "Tuotteiden myynti. Poislukien verot, kuljetus ja alennukset",
         "Download": "Ladataan tiedosto",

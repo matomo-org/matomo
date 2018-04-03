@@ -70,7 +70,7 @@
         "GoalX": "目標 %s",
         "HelpOneConversionPerVisit": "もしこの目標にマッチしたページが更新されたり、1 回のビジットで 1 回以上見られたとしても、その最初の訪問時にのみ目標はトラックされます。",
         "IsExactly": "%s と完全に一致する",
-        "LearnMoreAboutGoalTrackingDocumentation": "Piwik の目標のトラッキングについての詳細は、%1$s ユーザーマニュアル %2$sを参照してください。",
+        "LearnMoreAboutGoalTrackingDocumentation": "Matomo の目標のトラッキングについての詳細は、%1$s ユーザーマニュアル %2$sを参照してください。",
         "LeftInCart": "カートに残された %s",
         "Manually": "手動",
         "ManuallyTriggeredUsingJavascriptFunction": "JavaScript API の trackGoal() を使用した手動トリガー",

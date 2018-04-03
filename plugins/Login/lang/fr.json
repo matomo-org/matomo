@@ -9,6 +9,7 @@
         "InvalidOrExpiredToken": "La clef est invalide ou a expiré",
         "InvalidUsernameEmail": "Nom d'utilisateur et\/ou courriel invalide.",
         "LogIn": "Connexion",
+        "LoginOrEmail": "Nom d'usager ou courriel",
         "LoginPasswordNotCorrect": "Mot de passe et nom d'utilisateur incorrects.",
         "LostYourPassword": "Mot de passe perdu ?",
         "ChangeYourPassword": "Changer de mot de passe",

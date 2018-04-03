@@ -1,7 +1,7 @@
 {
     "PrivacyManager": {
         "AnonymizeIpInlineHelp": "Ocultar los últimos bit(s) de la dirección IP del visitante para cumplir con las leyes\/directrices de privacidad de su jurisdicción.",
-        "AnonymizeIpExtendedHelp": "Cuando los usuarios visiten su sitio web, Piwik no usará la dirección IP completa (como en %1$s) sino que Matomo la mantendrá anónima (como en %2$s). El anonimato de una dirección IP es uno de los requisitos dispuestos por leyes de privacidad en algunos países como Alemania.",
+        "AnonymizeIpExtendedHelp": "Cuando los usuarios visiten su sitio web, Matomo no usará la dirección IP completa (como en %1$s) sino que Matomo la mantendrá anónima (como en %2$s). El anonimato de una dirección IP es uno de los requisitos dispuestos por leyes de privacidad en algunos países como Alemania.",
         "AnonymizeIpMaskLengtDescription": "Seleccione cuantos bytes de las direcciones IP de los visitantes deben ser enmascaradas.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - ej. %2$s",
         "CannotLockSoDeleteLogActions": "La tabla log_action no se purgará: por favor, concede el privilegio LOCK TABLES al usuario '%s' de MySQL.",

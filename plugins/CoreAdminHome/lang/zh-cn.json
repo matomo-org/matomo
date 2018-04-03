@@ -51,7 +51,7 @@
         "JSTrackingIntro3b": "多数网站，例如博客、内容管理网站等，您可以使用预制的插件来帮你完成技术性的工作。（参见%1$s用于集成 Matomo 的插件列表%2$s。）如果没有插件，您可以修改网站模板，把这段代码加入到 &lt;\/head&gt; tag标签里，该标签一般定义在“header.php”、“header.tpl”或者类似的模板文件中。",
         "JSTrackingIntro4": "如果您不想用 JavaScript 来追踪访客，%1$s在下面生成图片追踪链接%2$s。",
         "JSTrackingIntro5": "如果您不只是想追踪页面访问，请查看 %1$sMatomo Javascript 追踪文档%2$s 中的更多功能列表。通过这些功能，您可以追踪目标、自定义变量、电子商务订单、被放弃的购物车等等。",
-        "LogoNotWriteableInstruction": "要使用您的自定义图标替代 Piwik 默认的，请给予此文件夹写入权限：%1$s。Matomo 需要%2$s的写入权限以便将您的图标存储下来。",
+        "LogoNotWriteableInstruction": "要使用您的自定义图标替代 Matomo 默认的，请给予此文件夹写入权限：%1$s。Matomo 需要%2$s的写入权限以便将您的图标存储下来。",
         "FileUploadDisabled": "您的 PHP 配置中关闭了文件上传功能。如果要上传您的自定义图标，请在 php.ini 文件中设置 %s ，并重启您的 WEB 服务器。",
         "LogoUploadFailed": "无法处理上传的文件。请检查该文件是否为有效格式。",
         "LogoUpload": "选择一个图标上传",
@@ -65,9 +65,9 @@
         "OptOutComplete": "已选择退出追踪；您在此网站的访问将不会被记录、追踪。",
         "OptOutCompleteBis": "注意：如果您清空了浏览器的 Cookies、删除了退出追踪的 Cookie 或是您更换了电脑或浏览器，您需要重新执行选择退出追踪的操作。",
         "OptOutDntFound": "您的访问没有被记录，因为您的浏览器禁止追踪（Do Not Track）。这是您的浏览器的设置，所以除非您关闭禁止追踪，否则无法记录、追踪您的访问。",
-        "OptOutExplanation": "Piwik 致力于互联网隐私保护。要让您的访客可以选择退出 Matomo 网页分析追踪，您可以在类似隐私保护的某个网页上添加以下 HTML 代码。",
+        "OptOutExplanation": "Matomo 致力于互联网隐私保护。要让您的访客可以选择退出 Matomo 网页分析追踪，您可以在类似隐私保护的某个网页上添加以下 HTML 代码。",
         "OptOutForYourVisitors": "访客选择退出 Matomo 追踪",
-        "PiwikIsInstalledAt": "Piwik 安装在",
+        "PiwikIsInstalledAt": "Matomo 安装在",
         "PersonalPluginSettings": "个人插件设置",
         "PluginSettingChangeNotAllowed": "您无权修改插件“%1$s”中的“%2$s”设置",
         "PluginSettingReadNotAllowed": "您无权查看插件“%1$s”中的“%2$s”设置",
@@ -95,7 +95,7 @@
         "YouMayOptOut": "您可以选择不让您的电脑分配唯一的网站分析 Cookie 标识编码，以避免被此网站搜集和分析访问数据。",
         "YouMayOptOutBis": "想要如此的话，请点击下方以设置一个选择退出追踪的 Cookie 记录。",
         "OptingYouOut": "正在帮您设置选择退出追踪，请稍候……",
-        "ProtocolNotDetectedCorrectly": "您目前正在以安全 SSL 连接（HTTPS）查看 Piwik，但 Matomo 服务器上只检测到非安全连接。",
+        "ProtocolNotDetectedCorrectly": "您目前正在以安全 SSL 连接（HTTPS）查看 Matomo，但 Matomo 服务器上只检测到非安全连接。",
         "ProtocolNotDetectedCorrectlySolution": "为了确保 Matomo 通过 HTTPS 来安全地请求和响应您的内容，您可以编辑%1$s 文件，要么配置代理设置，要么在%3$s下添加代码%2$s。 %4$s了解详情%5$s"
     }
 }

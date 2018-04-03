@@ -9,7 +9,12 @@
 namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\Marketplace\Widgets\GetNewPlugins;
+use Piwik\Plugins\Marketplace\Widgets\GetPremiumFeatures;
+use Piwik\SettingsPiwik;
+use Piwik\Widget\WidgetsList;
 
 class Marketplace extends \Piwik\Plugin
 {
@@ -23,6 +28,7 @@ class Marketplace extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Controller.CoreHome.checkForUpdates' => 'checkForUpdates',
+            'Widget.filterWidgets' => 'filterWidgets'
         );
     }
 
@@ -53,6 +59,17 @@ class Marketplace extends \Piwik\Plugin
     {
         $translationKeys[] = 'Marketplace_LicenseKeyActivatedSuccess';
         $translationKeys[] = 'Marketplace_LicenseKeyDeletedSuccess';
+    }
+
+    /**
+     * @param WidgetsList $list
+     */
+    public function filterWidgets($list)
+    {
+        if (!SettingsPiwik::isInternetEnabled()) {
+            $list->remove(GetPremiumFeatures::getCategory(), GetPremiumFeatures::getName());
+            $list->remove(GetNewPlugins::getCategory(), GetNewPlugins::getName());
+        }
     }
 
     public static function isMarketplaceEnabled()

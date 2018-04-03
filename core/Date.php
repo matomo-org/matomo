@@ -41,6 +41,9 @@ class Date
 
     /** The default date time string format. */
     const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    
+    /** Timestamp when first website came online - Tue, 06 Aug 1991 00:00:00 GMT. */
+    const FIRST_WEBSITE_TIMESTAMP = 681436800;
 
     const DATETIME_FORMAT_LONG    = DateTimeFormatProvider::DATE_FORMAT_LONG;
     const DATETIME_FORMAT_SHORT   = DateTimeFormatProvider::DATETIME_FORMAT_SHORT;
@@ -141,11 +144,17 @@ class Date
             $date = new Date($dateString);
         }
         $timestamp = $date->getTimestamp();
-        // can't be doing web analytics before the 1st website
-        // Tue, 06 Aug 1991 00:00:00 GMT
-        if ($timestamp < 681436800) {
-            throw self::getInvalidDateFormatException($dateString);
+    
+        if ($timestamp < self::FIRST_WEBSITE_TIMESTAMP) {
+            $dateOfFirstWebsite = new self(self::FIRST_WEBSITE_TIMESTAMP);
+            $message = Piwik::translate('General_ExceptionInvalidDateBeforeFirstWebsite', array(
+                $date->toString(),
+                $dateOfFirstWebsite->getLocalized(self::DATE_FORMAT_SHORT),
+                $dateOfFirstWebsite->getTimestamp()
+            ));
+            throw new Exception($message . ": $dateString");
         }
+        
         if (empty($timezone)) {
             return $date;
         }
