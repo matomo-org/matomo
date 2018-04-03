@@ -48,7 +48,7 @@
 
             angular.forEach(this.dataSubjects, function (visit) {
                 if (visit.dataSubjectActive) {
-                    visitsToDelete.push({idSite: visit.idSite, idVisit: visit.idVisit});
+                    visitsToDelete.push({idsite: visit.idSite, idvisit: visit.idVisit});
                 }
             });
             return visitsToDelete;
@@ -120,6 +120,7 @@
                     self.dataSubjects = [];
                     self.isDeleting = false;
                     showSuccessNotification('Visits were successfully deleted');
+                    self.findDataSubjects();
                 }, function () {
                     self.isDeleting = false;
                 });

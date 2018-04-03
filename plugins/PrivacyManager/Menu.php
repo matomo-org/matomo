@@ -25,7 +25,7 @@ class Menu extends \Piwik\Plugin\Menu
             }
 
             $menu->addItem($category, 'Users opt-out', $this->urlForAction('usersOptOut'), 10);
-            $menu->addItem($category, 'Asking for consent', $this->urlForAction('askingForConsent'), 15);
+            $menu->addItem($category, 'Asking for consent', $this->urlForAction('consent'), 15);
             $menu->addItem($category, 'GDPR Overview', $this->urlForAction('gdprOverview'), 20);
             $menu->addItem($category, 'GDPR Tools', $this->urlForAction('gdprTools'), 25);
         }

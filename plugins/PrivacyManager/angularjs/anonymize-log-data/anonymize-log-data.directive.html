@@ -122,6 +122,7 @@
     <p><span class="icon-info"></span> This action may take a long time and will therefore not be executed right away. You will be able to follow the current state of the process below. The anonymization should typically start within one hour.</p>
 
     <div piwik-save-button
+         class="anonymizePastData"
          onconfirm="anonymizeLogData.scheduleAnonymization()"
          disabled="!anonymizeLogData.anonymizeIp && !anonymizeLogData.anonymizeLocation && !anonymizeLogData.selectedVisitColumns && !anonymizeLogData.selectedActionColumns"
          value="Anonymize past data for the selected site and time">

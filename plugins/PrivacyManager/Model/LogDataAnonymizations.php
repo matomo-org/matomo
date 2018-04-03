@@ -14,6 +14,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
+use Piwik\Site;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\NotEmpty;
 
@@ -109,10 +110,20 @@ class LogDataAnonymizations
             return $entry;
         }
 
+        $entry['sites'] = array();
         if (!empty($entry['idsites'])) {
             $entry['idsites'] = json_decode($entry['idsites'], true);
+            foreach ($entry['idsites'] as $idSite) {
+                try {
+                    $entry['sites'][] = Site::getNameFor($idSite);
+                } catch (\Exception$e) {
+                    // site might be deleted
+                    $entry['sites'][] = 'Site ID: '. $idSite;
+                }
+            }
         } else {
             $entry['idsites'] = null;
+            $entry['sites'][] = 'All Websites';
         }
 
         if (!empty($entry['unset_visit_columns'])) {

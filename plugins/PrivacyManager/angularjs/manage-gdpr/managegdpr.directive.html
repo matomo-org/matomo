@@ -39,6 +39,7 @@
         </div>
 
         <div piwik-save-button
+             class="findDataSubjects"
              onconfirm="manageGdpr.findDataSubjects()"
              disabled="!manageGdpr.segment_filter"
              value="Find matching data subjects"
@@ -113,11 +114,13 @@
         </table>
 
         <div piwik-save-button
+             class="exportDataSubjects"
              onconfirm="manageGdpr.exportDataSubject()"
              disabled="!manageGdpr.hasActiveDataSubjects()"
              value="Export selected visits">
         </div>
         <div piwik-save-button
+             class="deleteDataSubjects"
              onconfirm="manageGdpr.deleteDataSubject()"
              disabled="!manageGdpr.hasActiveDataSubjects() || manageGdpr.isDeleting"
              value="Delete selected visits">

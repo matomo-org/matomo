@@ -101,7 +101,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ));
     }
 
-    public function askingForConsent()
+    public function consent()
     {
         Piwik::checkUserHasSomeAdminAccess();
         return $this->renderTemplate('askingForConsent');
