@@ -200,18 +200,6 @@ class SettingTest extends IntegrationTestCase
         }
     }
 
-    public function test_setValue_shouldMixinHtmlAttributes()
-    {
-        $configure = function (FieldConfig $config) {
-            $config->validators[] = new NotEmpty();
-            $config->validators[] = new CharacterLength(null, 10);
-        };
-        $setting = $this->makeSetting('myname', FieldConfig::TYPE_STRING, $default = '', $configure);
-
-        $expected = array('required' => 'required', 'maxlength' => 10);
-        $this->assertEquals($expected, $setting->configureField()->uiControlAttributes);
-    }
-
     public function getNumericTypes()
     {
         return array(array(FieldConfig::TYPE_INT), array(FieldConfig::TYPE_FLOAT));

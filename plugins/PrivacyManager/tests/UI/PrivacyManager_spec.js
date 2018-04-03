@@ -19,16 +19,22 @@ describe("PrivacyManager", function () {
         testEnvironment.pluginsToLoad = ['PrivacyManager'];
         testEnvironment.save();
     });
+
+    function setAnonymizeStartEndDate(page)
+    {
+        // make sure tests do not fail every day
+        page.evaluate(function () {
+            $('input.anonymizeStartDate').val('2018-03-02').change();
+            $('input.anonymizeEndDate').val('2018-03-02').change();
+        });
+    }
     
     function loadActionPage(page, action)
     {
         page.load(urlBase + action);
+
         if (action === 'privacySettings') {
-            // make sure tests do not fail every day
-            page.evaluate(function () {
-                $('input.anonymizeStartDate').val('2018-03-02').change();
-                $('input.anonymizeEndDate').val('2018-03-02').change();
-            });
+            setAnonymizeStartEndDate(page);
         }
     }
 
@@ -143,6 +149,7 @@ describe("PrivacyManager", function () {
         captureAnonymizeLogData('anonymizelogdata_anonymizeip_and_visit_column_confirmed', function (page) {
             anonymizePastData(page);
             selectModalButton(page, 'Yes');
+            setAnonymizeStartEndDate(page);
         }, done);
     });
 
@@ -160,6 +167,7 @@ describe("PrivacyManager", function () {
         captureAnonymizeLogData('anonymizelogdata_anonymizelocation_and_action_column_confirmed', function (page) {
             anonymizePastData(page);
             selectModalButton(page, 'Yes');
+            setAnonymizeStartEndDate(page);
         }, done);
     });
 
@@ -181,6 +189,7 @@ describe("PrivacyManager", function () {
             anonymizePastData(page);
             selectModalButton(page, 'Yes');
             page.wait(1000);
+            setAnonymizeStartEndDate(page);
         }, done);
     });
 
