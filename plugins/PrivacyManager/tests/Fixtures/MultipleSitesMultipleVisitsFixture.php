@@ -12,9 +12,13 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Piwik;
+use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Plugins\Goals\API as ApiGoals;
 use Piwik\Tracker\LogTable;
+use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
+
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvider.php';
 
 
 class TestLogFooBarBaz extends LogTable
@@ -161,12 +165,49 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
         parent::setUp();
         $this->installLogTables();
         $this->setUpWebsites();
+        $this->setUpLocation();
         $this->trackVisitsForMultipleSites();
     }
 
     public function tearDown()
     {
-        // empty
+        $this->tearDownLocation();
+    }
+
+    public function tearDownLocation()
+    {
+        LocationProvider::$providers = null;
+    }
+
+    public function setUpLocation()
+    {
+        $mock = new MockLocationProvider();
+        LocationProvider::$providers = array($mock);
+        LocationProvider::setCurrentProvider('mock_provider');
+        MockLocationProvider::$locations = array(
+            self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 123.456, 21.321), // template location
+
+            // same region, different city, same country
+            self::makeLocation('Nuneaton and Bedworth', 'P3', 'gb', $isp = 'comcast.net'),
+
+            // same region, city & country (different lat/long)
+            self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 124.456, 22.231, $isp = 'comcast.net'),
+
+            // same country, different region & city
+            self::makeLocation('London', 'H9', 'gb'),
+
+            // same country, different region, same city
+            self::makeLocation('Stratford-upon-Avon', 'G5', 'gb', $lat = null, $long = null, $isp = 'awesomeisp.com'),
+
+            // different country, diff region, same city
+            self::makeLocation('Stratford-upon-Avon', '66', 'ru'),
+
+            // different country, diff region (same as last), different city
+            self::makeLocation('Hluboká nad Vltavou', '66', 'ru'),
+
+            // different country, diff region (same as last), same city
+            self::makeLocation('Stratford-upon-Avon', '66', 'mk'),
+        );
     }
 
     public function installLogTables()

@@ -39,6 +39,12 @@ class LogDataAnonymizerTest extends IntegrationTestCase
 
         $this->anonymizer = new LogDataAnonymizer();
         $this->theFixture = new MultipleSitesMultipleVisitsFixture();
+        $this->theFixture->setUpLocation();
+    }
+
+    public function tearDown()
+    {
+        $this->theFixture->tearDownLocation();
     }
 
     public function test_checkAllVisitColumns_noColumnsGiven()

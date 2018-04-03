@@ -41,6 +41,7 @@ class DataSubjectsTest extends IntegrationTestCase
 
         $this->theFixture = new MultipleSitesMultipleVisitsFixture();
         $this->theFixture->installLogTables();
+        $this->theFixture->setUpLocation();
 
         $logTablesProvider = StaticContainer::get('Piwik\Plugin\LogTablesProvider');
         $this->dataSubjects = new DataSubjects($logTablesProvider);
@@ -49,6 +50,7 @@ class DataSubjectsTest extends IntegrationTestCase
     public function tearDown()
     {
         $this->theFixture->uninstallLogTables();
+        $this->theFixture->tearDownLocation();
     }
 
     public function test_deleteExport_deleteOneVisit()

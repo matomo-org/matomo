@@ -164,7 +164,9 @@ class DataSubjects
             $tableToSelect = $this->findNeededTables($logTable, $from);
 
             if (!$tableToSelect) {
-                throw new \Exception('Cannot join table ' . $logTable->getName());
+                // cannot join this table automatically, we do not fail as this would break the feature entirely
+                // when eg not all third party plugins are updated to latest version etc
+                continue;
             }
 
             list($where, $bind) = $this->visitsToWhereAndBind($tableToSelect, $visits);
