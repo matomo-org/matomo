@@ -146,6 +146,7 @@ describe("PrivacyManager", function () {
         captureAnonymizeLogData('anonymizelogdata_anonymizelocation_and_action_column_prefilled', function (page) {
             loadActionPage(page, 'privacySettings');
             page.click('[name=anonymizeLocation] label');
+            page.wait(500);
             selectActionColumn(page, 'time_spent_ref_action');
             selectActionColumn(page, 'idaction_content_name');
         }, done);
