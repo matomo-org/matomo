@@ -12,9 +12,18 @@ namespace Piwik\Validators;
 abstract class BaseValidator
 {
 
+    /**
+     * The method to validate a value. If the value has not an expected format, an instance of
+     * {@link Piwik\Validators\Exception} should be thrown.
+     *
+     * @param $value
+     * @throws Exception
+     */
     abstract public function validate($value);
 
     /**
+     * Lets you easily check a value against multiple validators.
+     *
      * @param string $name The name/description of the field you want to validate the value for.
      *                     The name will be prefixed in case there is any error.
      * @param mixed $value The value which needs to be tested

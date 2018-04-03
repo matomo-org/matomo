@@ -127,6 +127,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
             'job_start_date' => null,
             'job_finish_date' => null,
             'requester' => 'mylogin',
+            'sites' => array ('All Websites')
         ), $entry);
     }
 
@@ -152,6 +153,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
             'output' => null,
             'job_finish_date' => null,
             'requester' => 'mylogin2',
+            'sites' => array ('All Websites')
         ), $entry);
     }
 
@@ -170,6 +172,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
 
         $entry = $this->dao->getEntry($id);
         $this->assertSame([4,5,10,402], $entry['idsites']);
+        $this->assertSame([], $entry['sites']);
     }
 
     public function test_scheduleEntry_success_increasesId()
@@ -280,6 +283,7 @@ Starting to unset log_link_visit_action table entries.
 Number of unset log_link_visit_action table entries: 0
 ",
             'requester' => 'mylogin',
+            'sites' => array ('All Websites')
         ), $entry);
     }
 
@@ -300,6 +304,7 @@ Number of unset log_link_visit_action table entries: 0
             'job_start_date' => null,
             'job_finish_date' => null,
             'requester' => 'CLI',
+            'sites' => array ('All Websites')
         ), $entry);
     }
 

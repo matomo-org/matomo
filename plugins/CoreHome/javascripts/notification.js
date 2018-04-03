@@ -112,6 +112,7 @@
         if (options.placeat) {
             defaultPlaceAt = options.placeat;
         } else {
+            // If a modal is open, we want to make sure the error message is visible and therefore show it within the opened modal
             var modalSelector = '.modal.open .modal-content';
             var modalOpen = $(modalSelector);
             if (modalOpen.length) {

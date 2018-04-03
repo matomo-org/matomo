@@ -493,7 +493,6 @@
             "custom_dimension_5": null
         }
     ],
-    "log_conversion_item": [],
     "log_conversion": [
         {
             "idvisit": "1",
@@ -522,8 +521,8 @@
             "location_latitude": null,
             "location_longitude": null,
             "location_region": null,
-            "revenue": "$ 0",
             "revenue_discount": "$ ",
+            "revenue": "$ 0",
             "revenue_shipping": "$ ",
             "revenue_subtotal": "$ ",
             "revenue_tax": "$ ",
@@ -544,6 +543,7 @@
             "custom_dimension_5": null
         }
     ],
+    "log_conversion_item": [],
     "log_foo": [
         {
             "idlogfoo": "10",

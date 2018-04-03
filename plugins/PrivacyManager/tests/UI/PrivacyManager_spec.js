@@ -83,7 +83,7 @@ describe("PrivacyManager", function () {
     }
 
     function captureAnonymizeLogData(screenshotName, test, done) {
-        expect.screenshot(screenshotName).to.be.captureSelector('.logDataAnonymizer,#notificationContainer,.modal.open', test, done);
+        expect.screenshot(screenshotName).to.be.captureSelector('.logDataAnonymizer,#notificationContainer,.modal.open,.logDataAnonymizer table', test, done);
     }
 
     function captureModal(screenshotName, test, done) {
@@ -139,7 +139,6 @@ describe("PrivacyManager", function () {
         captureAnonymizeLogData('anonymizelogdata_anonymizeip_and_visit_column_confirmed', function (page) {
             anonymizePastData(page);
             selectModalButton(page, 'Yes');
-            page.wait(1000);
         }, done);
     });
 
@@ -149,7 +148,6 @@ describe("PrivacyManager", function () {
             page.click('[name=anonymizeLocation] label');
             selectActionColumn(page, 'time_spent_ref_action');
             selectActionColumn(page, 'idaction_content_name');
-            page.wait(1000);
         }, done);
     });
 
@@ -164,7 +162,7 @@ describe("PrivacyManager", function () {
         captureAnonymizeLogData('anonymizelogdata_one_site_and_custom_date_prefilled', function (page) {
             page.click('.form-group #anonymizeSite .title');
             page.wait(1000);
-            page.click('.form-group #anonymizeSite [title=Site 1]');
+            page.click(".form-group #anonymizeSite [title='Site 1']");
             page.click('[name=anonymizeIp] label');
             page.evaluate(function () {
                 $('input.anonymizeStartDate').val('2017-01-01').change();

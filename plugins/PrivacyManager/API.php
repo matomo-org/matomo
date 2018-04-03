@@ -13,7 +13,9 @@ use Piwik\Config as PiwikConfig;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
+use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
 use Piwik\Site;
+use Piwik\Validators\BaseValidator;
 
 /**
  * API for plugin PrivacyManager
@@ -46,19 +48,10 @@ class API extends \Piwik\Plugin\API
 
     private function checkDataSubjectVisits($visits)
     {
-        if (empty($visits) || !is_array($visits)) {
-            throw new \Exception('No list of visits given');
-        }
+        BaseValidator::check('visits', $visits, [new VisitsDataSubject()]);
 
         $idSites = array();
         foreach ($visits as $index => $visit) {
-            if (empty($visit['idsite'])) {
-                throw new \Exception('No idsite key set for visit at index ' . $index);
-            }
-            if (empty($visit['idvisit'])) {
-                throw new \Exception('No idvisit key set for visit at index ' . $index);
-            }
-
             $idSites[] = $visit['idsite'];
         }
         Piwik::checkUserHasAdminAccess($idSites);
