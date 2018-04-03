@@ -197,6 +197,18 @@ class DataSubjects
 
             $sql = "SELECT $select FROM " . $this->makeFromStatement($from) . ' WHERE ' . $where;
 
+            $idFields = $logTable->getIdColumn();
+            if (!empty($idFields)) {
+                if (!is_array($idFields)) {
+                    $idFields = array($idFields);
+                }
+                $sql .= ' ORDER BY ';
+                foreach ($idFields as $field) {
+                    $sql .= " `$logTableName`.`$field`,";
+                }
+                $sql = rtrim($sql, ',');
+            }
+
             $result = Db::fetchAll($sql, $bind);
 
             $numResults = count($result);

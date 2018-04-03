@@ -75,7 +75,11 @@ describe("PrivacyManager", function () {
         page.evaluate(function () {
             $('.selectedActionColumns:last input.select-dropdown').click();
         });
-        page.click('.selectedActionColumns:last .dropdown-content li:contains(' + title + ')');
+        page.execCallback(function () {
+            page.webpage.evaluate(function (theTitle) {
+                $('.selectedActionColumns:last .dropdown-content li:contains(' + theTitle + ')').click();
+            }, title);
+        });
     }
 
     function capturePage(screenshotName, test, done) {
