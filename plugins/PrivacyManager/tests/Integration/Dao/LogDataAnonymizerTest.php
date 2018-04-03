@@ -14,6 +14,7 @@ use Piwik\Db;
 use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\MultipleSitesMultipleVisitsFixture;
+use Piwik\Plugins\TagManager\Context\Storage\Filesystem;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -239,6 +240,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
         $result = json_encode($export, JSON_PRETTY_PRINT);
         $fileExpected = PIWIK_DOCUMENT_ROOT . '/plugins/PrivacyManager/tests/System/expected/anonymizeVisitInformation_' . $fileName . '.json';
         $fileProcessed = str_replace('/expected/', '/processed/', $fileExpected);
+        \Piwik\Filesystem::mkdir(dirname($fileProcessed));
         file_put_contents($fileProcessed, $result);
 
         $this->assertJsonStringEqualsJsonFile($fileExpected, $result);
