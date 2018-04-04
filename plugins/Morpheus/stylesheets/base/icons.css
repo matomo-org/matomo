@@ -2,8 +2,9 @@
 /* @todo remove piwik font in Matomo 4.0 */
 @font-face {
     font-family: 'piwik';
-    src: url('plugins/Morpheus/fonts/piwik.ttf?gnoj4m') format('truetype'),
+    src: url('plugins/Morpheus/fonts/piwik.woff2?gnoj4m') format('woff2'),
          url('plugins/Morpheus/fonts/piwik.woff?gnoj4m') format('woff'),
+         url('plugins/Morpheus/fonts/piwik.ttf?gnoj4m') format('truetype'),
          url('plugins/Morpheus/fonts/piwik.svg?gnoj4m#piwik') format('svg');
     font-weight: normal;
     font-style: normal;
@@ -11,8 +12,9 @@
 
 @font-face {
     font-family: 'matomo';
-    src: url('plugins/Morpheus/fonts/matomo.ttf?gnoj4m') format('truetype'),
+    src: url('plugins/Morpheus/fonts/matomo.woff2?gnoj4m') format('woff2'),
          url('plugins/Morpheus/fonts/matomo.woff?gnoj4m') format('woff'),
+         url('plugins/Morpheus/fonts/matomo.ttf?gnoj4m') format('truetype'),
          url('plugins/Morpheus/fonts/matomo.svg?gnoj4m#matomo') format('svg');
     font-weight: normal;
     font-style: normal;
