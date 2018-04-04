@@ -23,8 +23,8 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>regionCode==P3;countryCode==gb</segment>
-		<region>P3</region>
+		<segment>regionCode==WAR;countryCode==gb</segment>
+		<region>WAR</region>
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
 		<region_name>Warwickshire</region_name>

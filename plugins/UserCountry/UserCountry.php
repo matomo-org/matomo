@@ -8,18 +8,10 @@
  */
 namespace Piwik\Plugins\UserCountry;
 
-use Piwik\ArchiveProcessor;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
-use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Url;
-
-/**
- * @see plugins/UserCountry/GeoIPAutoUpdater.php
- */
-require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/GeoIPAutoUpdater.php';
 
 /**
  *
@@ -27,7 +19,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/GeoIPAutoUpdater.php';
 class UserCountry extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {

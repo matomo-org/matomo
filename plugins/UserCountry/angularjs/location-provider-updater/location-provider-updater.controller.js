@@ -136,11 +136,10 @@
             piwikApi.post({
                 period: this.updatePeriod,
                 module: 'UserCountry',
-                action: 'updateGeoIPLinks',
+                action: 'updateGeoIPLinks'
             }, {
                 loc_db: this.locationDbUrl,
-                isp_db: this.ispDbUrl,
-                org_db: this.orgDbUrl
+                isp_db: this.ispDbUrl
             }).then(updateGeoIPSuccess);
         };
 

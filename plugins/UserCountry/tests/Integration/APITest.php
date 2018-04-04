@@ -41,7 +41,7 @@ class APITest extends IntegrationTestCase
 
     public function test_setLocationProvider()
     {
-        $locationProvider = LocationProvider\GeoIp\Php::ID;
+        $locationProvider = LocationProvider\GeoIp2\Php::ID;
         $this->api->setLocationProvider($locationProvider);
         $this->assertEquals($locationProvider, Common::getCurrentLocationProviderId());
 
@@ -66,7 +66,7 @@ class APITest extends IntegrationTestCase
     {
         Access::getInstance()->setSuperUserAccess(false);
 
-        $locationProvider = LocationProvider\GeoIp\Php::ID;
+        $locationProvider = LocationProvider\GeoIp2\Php::ID;
         $this->api->setLocationProvider($locationProvider);
     }
 
@@ -77,7 +77,7 @@ class APITest extends IntegrationTestCase
     {
         Config::getInstance()->General['enable_geolocation_admin'] = 0;
 
-        $locationProvider = LocationProvider\GeoIp\Php::ID;
+        $locationProvider = LocationProvider\GeoIp2\Php::ID;
         $this->api->setLocationProvider($locationProvider);
     }
 }

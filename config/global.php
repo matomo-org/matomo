@@ -92,6 +92,7 @@ return array(
         'config/common.ini.php',
         'config/*.config.ini.php',
         'config/manifest.inc.php',
+        'misc/*.mmdb',
         'misc/*.dat',
         'misc/*.dat.gz',
         'misc/*.bin',

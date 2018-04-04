@@ -32,7 +32,7 @@ use Piwik\Unzip;
  * Used to automatically update installed GeoIP databases, and manages the updater's
  * scheduled task.
  */
-class GeoIPAutoUpdater extends Task
+class GeoIPLegacyAutoUpdater extends Task
 {
     const SCHEDULE_PERIOD_MONTHLY = 'month';
     const SCHEDULE_PERIOD_WEEKLY = 'week';
@@ -63,6 +63,12 @@ class GeoIPAutoUpdater extends Task
      */
     public function __construct()
     {
+        $updateUrl = Option::get(self::LOC_URL_OPTION_NAME);
+
+        if (time() > mktime(0, 0, 0, 5, 1, 2018) && strpos($updateUrl, 'GeoLiteCity') !== false) {
+            return; // Do not perform an update for GeoLiteCity after May 2018, as database won't be updated anymore
+        }
+
         $schedulePeriodStr = self::getSchedulePeriod();
 
         // created the scheduledtime instance, also, since GeoIP updates are done on tuesdays,
@@ -106,7 +112,7 @@ class GeoIPAutoUpdater extends Task
                 $this->downloadFile('org', $orgUrl);
             }
         } catch (Exception $ex) {
-            // message will already be prefixed w/ 'GeoIPAutoUpdater: '
+            // message will already be prefixed w/ 'GeoIPLegacyAutoUpdater: '
             Log::error($ex);
             $this->performRedundantDbChecks();
             throw $ex;
@@ -131,7 +137,7 @@ class GeoIPAutoUpdater extends Task
     {
         $url = trim($url);
 
-        $ext = GeoIPAutoUpdater::getGeoIPUrlExtension($url);
+        $ext = GeoIPLegacyAutoUpdater::getGeoIPUrlExtension($url);
 
         // NOTE: using the first item in $dbNames[$dbType] makes sure GeoLiteCity will be renamed to GeoIPCity
         $zippedFilename = GeoIp::$dbNames[$dbType][0] . '.' . $ext;
@@ -144,25 +150,25 @@ class GeoIPAutoUpdater extends Task
         try {
             $success = Http::sendHttpRequest($url, $timeout = 3600, $userAgent = null, $zippedOutputPath);
         } catch (Exception $ex) {
-            throw new Exception("GeoIPAutoUpdater: failed to download '$url' to "
+            throw new Exception("GeoIPLegacyAutoUpdater: failed to download '$url' to "
                 . "'$zippedOutputPath': " . $ex->getMessage());
         }
 
         if ($success !== true) {
-            throw new Exception("GeoIPAutoUpdater: failed to download '$url' to "
+            throw new Exception("GeoIPLegacyAutoUpdater: failed to download '$url' to "
                 . "'$zippedOutputPath'! (Unknown error)");
         }
 
-        Log::info("GeoIPAutoUpdater: successfully downloaded '%s'", $url);
+        Log::info("GeoIPLegacyAutoUpdater: successfully downloaded '%s'", $url);
 
         try {
             self::unzipDownloadedFile($zippedOutputPath, $unlink = true);
         } catch (Exception $ex) {
-            throw new Exception("GeoIPAutoUpdater: failed to unzip '$zippedOutputPath' after "
+            throw new Exception("GeoIPLegacyAutoUpdater: failed to unzip '$zippedOutputPath' after "
                 . "downloading " . "'$url': " . $ex->getMessage());
         }
 
-        Log::info("GeoIPAutoUpdater: successfully updated GeoIP database '%s'", $url);
+        Log::info("GeoIPLegacyAutoUpdater: successfully updated GeoIP database '%s'", $url);
     }
 
     /**
@@ -254,7 +260,7 @@ class GeoIPAutoUpdater extends Task
             ) {
                 if (self::$unzipPhpError !== null) {
                     list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
-                    Log::info("GeoIPAutoUpdater: Encountered PHP error when testing newly downloaded" .
+                    Log::info("GeoIPLegacyAutoUpdater: Encountered PHP error when testing newly downloaded" .
                         " GeoIP database: %s: %s on line %s of %s.", $errno, $errstr, $errline, $errfile);
                 }
 
@@ -290,72 +296,14 @@ class GeoIPAutoUpdater extends Task
     }
 
     /**
-     * Sets the options used by this class based on query parameter values.
-     *
-     * See setUpdaterOptions for query params used.
+     * Removes all options to disable any configured automatic updates
      */
-    public static function setUpdaterOptionsFromUrl()
+    public static function clearOptions()
     {
-        $options = array(
-            'loc'    => Common::getRequestVar('loc_db', false, 'string'),
-            'isp'    => Common::getRequestVar('isp_db', false, 'string'),
-            'org'    => Common::getRequestVar('org_db', false, 'string'),
-            'period' => Common::getRequestVar('period', false, 'string'),
-        );
-
         foreach (self::$urlOptions as $optionKey => $optionName) {
-            $options[$optionKey] = Common::unsanitizeInputValue($options[$optionKey]); // URLs should not be sanitized
+            Option::delete($optionName);
         }
-
-        self::setUpdaterOptions($options);
-    }
-
-    /**
-     * Sets the options used by this class based on the elements in $options.
-     *
-     * The following elements of $options are used:
-     *   'loc' - URL for location database.
-     *   'isp' - URL for ISP database.
-     *   'org' - URL for Organization database.
-     *   'period' - 'weekly' or 'monthly'. When to run the updates.
-     *
-     * @param array $options
-     * @throws Exception
-     */
-    public static function setUpdaterOptions($options)
-    {
-        // set url options
-        foreach (self::$urlOptions as $optionKey => $optionName) {
-            if (!isset($options[$optionKey])) {
-                continue;
-            }
-
-            $url = $options[$optionKey];
-            $url = self::removeDateFromUrl($url);
-
-            Option::set($optionName, $url);
-        }
-
-        // set period option
-        if (!empty($options['period'])) {
-            $period = $options['period'];
-
-            if ($period != self::SCHEDULE_PERIOD_MONTHLY
-                && $period != self::SCHEDULE_PERIOD_WEEKLY
-            ) {
-                throw new Exception(Piwik::translate(
-                    'UserCountry_InvalidGeoIPUpdatePeriod',
-                    array("'$period'", "'" . self::SCHEDULE_PERIOD_MONTHLY . "', '" . self::SCHEDULE_PERIOD_WEEKLY . "'")
-                ));
-            }
-
-            Option::set(self::SCHEDULE_PERIOD_OPTION_NAME, $period);
-
-            /** @var Scheduler $scheduler */
-            $scheduler = StaticContainer::getContainer()->get('Piwik\Scheduler\Scheduler');
-
-            $scheduler->rescheduleTask(new GeoIPAutoUpdater());
-        }
+        Option::delete(self::SCHEDULE_PERIOD_OPTION_NAME);
     }
 
     /**
@@ -411,7 +359,7 @@ class GeoIPAutoUpdater extends Task
      */
     public static function performUpdate()
     {
-        $instance = new GeoIPAutoUpdater();
+        $instance = new GeoIPLegacyAutoUpdater();
         $instance->update();
     }
 
@@ -509,7 +457,7 @@ class GeoIPAutoUpdater extends Task
         // in order to delete the files in such a case (which can be caused by a man-in-the-middle attack)
         // we need to catch them, so we set a new error handler.
         self::$unzipPhpError = null;
-        set_error_handler(array('Piwik\Plugins\UserCountry\GeoIPAutoUpdater', 'catchGeoIPError'));
+        set_error_handler(array('Piwik\Plugins\UserCountry\GeoIPLegacyAutoUpdater', 'catchGeoIPError'));
 
         $location = $provider->getLocation(array('ip' => GeoIp::TEST_IP));
 
@@ -551,7 +499,7 @@ class GeoIPAutoUpdater extends Task
                 list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
 
                 if($logErrors) {
-                    Log::error("GeoIPAutoUpdater: Encountered PHP error when performing redundant tests on GeoIP "
+                    Log::error("GeoIPLegacyAutoUpdater: Encountered PHP error when performing redundant tests on GeoIP "
                         . "%s database: %s: %s on line %s of %s.", $type, $errno, $errstr, $errline, $errfile);
                 }
 
@@ -643,7 +591,7 @@ class GeoIPAutoUpdater extends Task
      */
     public static function getNextRunTime()
     {
-        $task = new GeoIPAutoUpdater();
+        $task = new GeoIPLegacyAutoUpdater();
 
         $timetable = new Timetable();
         return $timetable->getScheduledTaskTime($task->getName());

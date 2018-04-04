@@ -42,8 +42,6 @@ class UITestFixture extends SqlDump
 
     public function setUp()
     {
-        self::downloadGeoIpDbs();
-
         parent::setUp();
 
         self::resetPluginsInstalledConfig();
@@ -57,7 +55,8 @@ class UITestFixture extends SqlDump
         );
 
         // for proper geolocation
-        LocationProvider::setCurrentProvider(LocationProvider\GeoIp\Php::ID);
+        LocationProvider\GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        LocationProvider::setCurrentProvider(LocationProvider\GeoIp2\Php::ID);
         IPAnonymizer::deactivate();
 
         $this->addOverlayVisits();

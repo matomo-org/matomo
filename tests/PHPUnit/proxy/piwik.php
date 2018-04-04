@@ -10,7 +10,7 @@
 use Piwik\Application\Environment;
 use Piwik\DataTable\Manager;
 use Piwik\Option;
-use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
+use Piwik\Plugins\UserCountry\LocationProvider\GeoIp2;
 use Piwik\Site;
 use Piwik\Tests\Framework\TestingEnvironmentManipulator;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
@@ -34,7 +34,7 @@ try {
 
     Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables(), $globalObservers));
 
-    GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+    GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
     include PIWIK_INCLUDE_PATH . '/piwik.php';
 } catch (Exception $ex) {

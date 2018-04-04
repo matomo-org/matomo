@@ -13,6 +13,7 @@ php_errors.log
 /docs/
 /favicon.ico
 /js/yui*
+/misc/*.mmdb
 /misc/*.dat
 /misc/*.dat.gz
 /misc/user/logo-header.png

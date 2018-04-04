@@ -37,13 +37,6 @@ abstract class GeoIp extends LocationProvider
     );
 
     /**
-     * Cached region name array. Data is from geoipregionvars.php.
-     *
-     * @var array
-     */
-    private static $regionNames = null;
-
-    /**
      * Attempts to fill in some missing information in a GeoIP location.
      *
      * This method will call LocationProvider::completeLocationResult and then
@@ -56,14 +49,12 @@ abstract class GeoIp extends LocationProvider
     {
         parent::completeLocationResult($location);
 
-        // set region name if region code is set
-        if (empty($location[self::REGION_NAME_KEY])
-            && !empty($location[self::REGION_CODE_KEY])
+        list($location[self::COUNTRY_CODE_KEY], $location[self::REGION_CODE_KEY]) = self::convertRegionCodeToIso($location[self::COUNTRY_CODE_KEY], $location[self::REGION_CODE_KEY]);
+
+        if (!empty($location[self::REGION_CODE_KEY])
             && !empty($location[self::COUNTRY_CODE_KEY])
         ) {
-            $countryCode = $location[self::COUNTRY_CODE_KEY];
-            $regionCode = (string)$location[self::REGION_CODE_KEY];
-            $location[self::REGION_NAME_KEY] = self::getRegionNameFromCodes($countryCode, $regionCode);
+            $location[self::REGION_NAME_KEY] = self::getRegionNameFromCodes($location[self::COUNTRY_CODE_KEY], $location[self::REGION_CODE_KEY]);
         }
     }
 
@@ -134,22 +125,7 @@ abstract class GeoIp extends LocationProvider
      */
     public static function getRegionNameFromCodes($countryCode, $regionCode)
     {
-        $regionNames = self::getRegionNames();
-
-        $countryCode = strtoupper($countryCode);
-        $regionCode = strtoupper($regionCode);
-
-        // ensure tibet is shown as region of china
-        if ($countryCode == 'TI' && $regionCode == '1') {
-            $regionCode = '14';
-            $countryCode = 'CN';
-        }
-
-        if (isset($regionNames[$countryCode][$regionCode])) {
-            return $regionNames[$countryCode][$regionCode];
-        } else {
-            return Piwik::translate('General_Unknown');
-        }
+        return GeoIp2::getRegionNameFromCodes($countryCode, $regionCode);
     }
 
     /**
@@ -159,13 +135,7 @@ abstract class GeoIp extends LocationProvider
      */
     public static function getRegionNames()
     {
-        if (is_null(self::$regionNames)) {
-            $GEOIP_REGION_NAME = array();
-            require_once PIWIK_INCLUDE_PATH . '/libs/MaxMindGeoIP/geoipregionvars.php';
-            self::$regionNames = $GEOIP_REGION_NAME;
-        }
-
-        return self::$regionNames;
+        return GeoIp2::getRegionNames();
     }
 
     /**
@@ -207,7 +177,7 @@ abstract class GeoIp extends LocationProvider
         if (is_null($result)) {
             // TODO: what happens when IP changes? should we get this information from piwik.org?
             $expected = array(self::COUNTRY_CODE_KEY => 'FR',
-                              self::REGION_CODE_KEY  => 'A6',
+                              self::REGION_CODE_KEY  => 'I',
                               self::CITY_NAME_KEY    => 'Besançon');
             $result = array(self::TEST_IP, $expected);
         }
@@ -244,5 +214,45 @@ abstract class GeoIp extends LocationProvider
             }
         }
         return false;
+    }
+
+    /**
+     * Converts an old FIPS region code to ISO
+     *
+     * @param string $countryCode
+     * @param string $fipsRegionCode
+     * @param bool $returnOriginalIfNotFound  return given region code if no mapping was found
+     * @return array
+     */
+    public static function convertRegionCodeToIso($countryCode, $fipsRegionCode, $returnOriginalIfNotFound = false)
+    {
+        static $mapping;
+
+        if(empty($mapping)) {
+            $mapping = include __DIR__ . '/../data/regionMapping.php';
+        }
+
+        $countryCode = strtoupper($countryCode);
+
+        if (empty($countryCode) || in_array($countryCode, ['EU', 'AP', 'A1', 'A2'])) {
+            return ['', ''];
+        }
+
+        if (in_array($countryCode, ['US', 'CA'])) { // US and CA always haven been iso codes
+            return [$countryCode, $fipsRegionCode];
+        }
+
+        if ($countryCode == 'TI') {
+            $countryCode = 'CN';
+            $fipsRegionCode = '14';
+        }
+
+        $isoRegionCode = $returnOriginalIfNotFound ? $fipsRegionCode : '';
+
+        if (!empty($fipsRegionCode) && !empty($mapping[$countryCode][$fipsRegionCode])) {
+            $isoRegionCode = $mapping[$countryCode][$fipsRegionCode];
+        }
+
+        return [$countryCode, $isoRegionCode];
     }
 }

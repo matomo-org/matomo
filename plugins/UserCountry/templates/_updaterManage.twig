@@ -25,13 +25,6 @@
 		 value="{{ geoIPIspUrl }}">
 	</div>
 
-	<div piwik-field uicontrol="text" name="geoip-org-db"
-		 ng-model="locationUpdater.orgDbUrl"
-		 introduction="{{ 'UserCountry_OrgDatabase'|translate|e('html_attr') }}"
-		 title="{{ 'Actions_ColumnDownloadURL'|translate|e('html_attr') }}"
-		 value="{{ geoIPOrgUrl }}">
-	</div>
-
 	<div id="locationProviderUpdatePeriodInlineHelp" class="inline-help-node">
 		{% if lastTimeUpdaterRun is defined and lastTimeUpdaterRun is not empty %}
 			{{ 'UserCountry_UpdaterWasLastRun'|translate(lastTimeUpdaterRun)|raw }}

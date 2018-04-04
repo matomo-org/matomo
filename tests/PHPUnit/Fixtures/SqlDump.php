@@ -85,7 +85,7 @@ class SqlDump extends Fixture
     }
 
     /**
-     * maybe this could use downloadAndUnzip(self::$geoLiteCityDbUrl, $geoIpOutputDir, 'GeoIPCity.dat');
+     * maybe this could use downloadAndUnzip(self::$geoLiteCityDbUrl, $geoIpOutputDir, 'GeoIP2-City.mmdb');
      *
      * @param $dumpPath
      * @return int

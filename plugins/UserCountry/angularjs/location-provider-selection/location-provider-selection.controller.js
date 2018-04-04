@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('LocationProviderSelectionController', LocationProviderSelectionController);
 
-    LocationProviderSelectionController.$inject = ['piwikApi'];
+    LocationProviderSelectionController.$inject = ['piwikApi', '$window'];
 
-    function LocationProviderSelectionController(piwikApi) {
+    function LocationProviderSelectionController(piwikApi, $window) {
         var self = this;
 
         this.isLoading = false;
@@ -45,25 +45,12 @@
 
             this.isLoading = true;
             
-            var parent = $(this).closest('p'),
-                loading = $('.loadingPiwik', parent),
-                ajaxSuccess = $('.success', parent);
-
             piwikApi.withTokenInUrl();
             piwikApi.fetch({
                 method: 'UserCountry.setLocationProvider',
                 providerId: this.selectedProvider
             }).then(function () {
-                self.isLoading = false;
-                var UI = require('piwik/UI');
-                var notification = new UI.Notification();
-                notification.show(_pk_translate('General_Done'), {
-                    context: 'success',
-                    noclear: true,
-                    type: 'toast',
-                    id: 'userCountryLocationProvider'
-                });
-                notification.scrollToNotification();
+                $window.location.reload();
             }, function () {
                 self.isLoading = false;
             });

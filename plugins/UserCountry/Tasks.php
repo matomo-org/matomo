@@ -15,7 +15,8 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         // add the auto updater task if GeoIP admin is enabled
         if (UserCountry::isGeoLocationAdminEnabled() && SettingsPiwik::isInternetEnabled() === true) {
-            $this->scheduleTask(new GeoIPAutoUpdater());
+            $this->scheduleTask(new GeoIPLegacyAutoUpdater());
+            $this->scheduleTask(new GeoIP2AutoUpdater());
         }
     }
 }
