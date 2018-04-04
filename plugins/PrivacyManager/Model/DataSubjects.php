@@ -175,6 +175,7 @@ class DataSubjects
 
             $select = array();
             $cols = DbHelper::getTableColumns(Common::prefixTable($logTableName));
+            ksort($cols); // make sure test results will be always in same order
 
             $binaryFields = array();
             $dimensionPerCol = array();
@@ -264,6 +265,9 @@ class DataSubjects
                     }
 
                     $result = array_values(array_unique($result, SORT_REGULAR));
+                    usort($result, function ($a1, $a2) {
+                        return $a1['idaction'] > $a2['idaction'] ? 1 : -1;
+                    });
                     $results['log_action_' . $dimensionTable.'_' . $dimensionColumn] = $result;
                 }
             }
