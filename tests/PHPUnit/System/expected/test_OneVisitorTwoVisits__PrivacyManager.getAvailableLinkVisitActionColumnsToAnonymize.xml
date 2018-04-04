@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<column_name>bandwidth</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_dimension_1</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_dimension_2</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_dimension_3</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_dimension_4</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_dimension_5</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_float</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k1</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k2</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k3</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k4</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_k5</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v1</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v2</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v3</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v4</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>custom_var_v5</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_content_interaction</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_content_name</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_content_piece</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_content_target</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_event_action</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_event_category</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_name</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_name_ref</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_url</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>idaction_url_ref</column_name>
+		<default_value>0</default_value>
+	</row>
+	<row>
+		<column_name>idpageview</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>interaction_position</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>time_spent</column_name>
+		<default_value />
+	</row>
+	<row>
+		<column_name>time_spent_ref_action</column_name>
+		<default_value />
+	</row>
+</result>

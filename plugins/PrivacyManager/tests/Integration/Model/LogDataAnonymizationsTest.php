@@ -172,7 +172,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
 
         $entry = $this->dao->getEntry($id);
         $this->assertSame([4,5,10,402], $entry['idsites']);
-        $this->assertSame([], $entry['sites']);
+        $this->assertSame(['Site ID: 4', 'Site ID: 5', 'Site ID: 10', 'Site ID: 402'], $entry['sites']);
     }
 
     public function test_scheduleEntry_success_increasesId()
