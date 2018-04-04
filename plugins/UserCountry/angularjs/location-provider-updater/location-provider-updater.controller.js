@@ -33,7 +33,7 @@
                     callback(response);
                 } else {
                     // update progress bar
-                    var newProgressVal = Math.ceil((response.current_size / response.expected_file_size) * 100);
+                    var newProgressVal = Math.floor((response.current_size / response.expected_file_size) * 100);
                     self[progressBarId] = Math.min(newProgressVal, 100);
 
                     // if incomplete, download next chunk, otherwise, show updater manager
@@ -67,6 +67,17 @@
                         self.geoipDatabaseInstalled = true;
                     } else {
                         self.showGeoIpUpdateInfo();
+                        if (response.settings) {
+                            if (response.settings.loc) {
+                                self.locationDbUrl = response.settings.loc;
+                            }
+                            if (response.settings.isp) {
+                                self.ispDbUrl = response.settings.isp;
+                            }
+                            if (response.settings.org) {
+                                self.orgDbUrl = response.settings.org;
+                            }
+                        }
                     }
                 }
             );
@@ -136,7 +147,7 @@
             piwikApi.post({
                 period: this.updatePeriod,
                 module: 'UserCountry',
-                action: 'updateGeoIPLinks',
+                action: 'updateGeoIPLinks'
             }, {
                 loc_db: this.locationDbUrl,
                 isp_db: this.ispDbUrl,
