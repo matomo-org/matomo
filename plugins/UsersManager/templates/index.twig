@@ -214,7 +214,7 @@
             {% for i,user in users %}
                 {% if user.login != 'anonymous' %}
                     <tr class="editable" id="row{{ i }}">
-                        <td id="userLogin" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.login }}</td>
+                        <td id="userLogin" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.login }}</td>
                         <td id="password" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>-</td>
                         <td id="email" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.email }}</td>
                         <td id="alias" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.alias|raw }}</td>

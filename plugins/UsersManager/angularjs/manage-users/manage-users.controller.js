@@ -104,12 +104,10 @@
                 // make the fields editable
                 // change the EDIT button to VALID button
                 function (i, n) {
-                    var contentBefore = $(n).text();
                     var idName = $(n).attr('id');
-                    if (idName != 'userLogin') {
-                        var contentAfter = '<input id="' + idName + '" value="' + piwikHelper.htmlEntities(contentBefore) + '" size="25" />';
-                        $(n).html(contentAfter);
-                    }
+                    var contentBefore = idName != 'password' ? $(n).text() : '';
+                    var contentAfter = '<input id="' + idName + '" value="' + piwikHelper.htmlEntities(contentBefore) + '" size="25" />';
+                    $(n).html(contentAfter);
                 }
             );
 
@@ -123,12 +121,12 @@
                         piwikHelper.redirect();
                     })
                 ).prepend($('<input type="submit" class="btn updateuser"  value="' + _pk_translate('General_Save') + '" />')
-                .click(function () {
-                    var $tr = $('tr#' + idRow);
+                    .click(function () {
+                        var $tr = $('tr#' + idRow);
 
-                    sendUpdateUserAJAX($tr);
-                })
-            );
+                        sendUpdateUserAJAX($tr);
+                    })
+                );
         }
         
         this.createUser = function () {
@@ -146,17 +144,16 @@
             newRowId = 'row' + newRowId;
 
             $($.parseHTML(' <tr id="' + newRowId + '" class="addNewUserRow">\
-				<td><input id="useradd_login" placeholder="username" size="10" maxlength="100" /></td>\
-				<td><input id="useradd_password" placeholder="password" size="10" /></td>\
-				<td><input id="useradd_email" placeholder="email@domain.com" size="15" maxlength="100" /></td>\
-				<td><input id="useradd_alias" placeholder="alias" size="15" maxlength="45" /></td>\
-				<td>-</td>\
+                <td><input id="useradd_login" placeholder="username" size="10" maxlength="100" /></td>\
+                <td><input id="useradd_password" placeholder="password" size="10" /></td>\
+                <td><input id="useradd_email" placeholder="email@domain.com" size="15" maxlength="100" /></td>\
+                <td><input id="useradd_alias" placeholder="alias" size="15" maxlength="45" /></td>\
                 <td>-</td>\
-				<td><input type="submit" class="btn adduser"  value="' + _pk_translate('General_Save') + '" /></td>\
-	  			<td><span class="cancel">' + sprintf(_pk_translate('General_OrCancel'), "", "") + '</span></td>\
-	 		</tr>'))
-                .appendTo('#users')
-            ;
+                <td>-</td>\
+                <td><input type="submit" class="btn adduser"  value="' + _pk_translate('General_Save') + '" /></td>\
+                    <td><span class="cancel">' + sprintf(_pk_translate('General_OrCancel'), "", "") + '</span></td>\
+                </tr>')
+                ).appendTo('#users');
             $('#' + newRowId).keypress(submitOnEnter);
             $('.adduser').click(function () { sendAddUserAJAX($('tr#' + newRowId)); });
             $('.cancel').click(function () {
