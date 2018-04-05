@@ -151,6 +151,14 @@ abstract class LocationProvider
     }
 
     /**
+     * Returns if location provider should be shown.
+     */
+    public function isVisible()
+    {
+        return true;
+    }
+
+    /**
      * Returns every available provider instance.
      *
      * @return LocationProvider[]
@@ -162,7 +170,9 @@ abstract class LocationProvider
             $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
             foreach ($plugins as $plugin) {
                 foreach (self::getLocationProviders($plugin) as $instance) {
-                    self::$providers[] = $instance;
+                    if ($instance->isVisible()) {
+                        self::$providers[] = $instance;
+                    }
                 }
             }
         }

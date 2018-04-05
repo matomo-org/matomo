@@ -10,6 +10,8 @@ namespace Piwik\Plugins\UserCountry\LocationProvider;
 
 use Exception;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
@@ -65,6 +67,11 @@ abstract class GeoIp extends LocationProvider
             $regionCode = (string)$location[self::REGION_CODE_KEY];
             $location[self::REGION_NAME_KEY] = $this->getRegionNameFromCodes($countryCode, $regionCode);
         }
+    }
+
+    public function isVisible()
+    {
+        return !Manager::getInstance()->isPluginActivated('GeoIp2') || self::getCurrentProvider() instanceof GeoIp;
     }
 
     /**

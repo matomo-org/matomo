@@ -15,7 +15,7 @@ php_errors.log
 /js/yui*
 /misc/*.dat
 /misc/*.dat.gz
-/misc/*.mmdb
+/misc/*.tar.gz
 /misc/*.mmdb
 /misc/user/logo-header.png
 /misc/user/logo.png

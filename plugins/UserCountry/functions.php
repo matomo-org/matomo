@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\UserCountry;
 
 use Piwik\DataTable;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
@@ -117,7 +118,8 @@ function getElementFromStringArray($label, $separator, $index, $emptyValue = fal
  */
 function getRegionNameFromCodes($countryCode, $regionCode)
 {
-    if (Manager::getInstance()->isPluginActivated('GeoIp2')) {
+    // if GeoIP2 provider is or was in use, use ISO translations
+    if (Manager::getInstance()->isPluginActivated('GeoIp2') || Option::get(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME)) {
         return GeoIp2::getRegionNameFromCodes($countryCode, $regionCode);
     }
     return GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
