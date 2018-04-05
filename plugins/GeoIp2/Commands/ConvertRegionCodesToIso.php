@@ -59,7 +59,7 @@ class ConvertRegionCodesToIso extends ConsoleCommand
 
         $output->writeln(' <fg=green>✓</>');
 
-        $mappings = require_once __DIR__ . '/../data/regionMapping.php';
+        $mappings = include __DIR__ . '/../data/regionMapping.php';
 
         $output->write('Inserting mapping data ');
 

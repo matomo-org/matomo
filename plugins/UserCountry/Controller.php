@@ -17,7 +17,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
-use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2\ServerModule;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\View;
@@ -69,12 +68,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
         $view->isThereWorkingProvider = $isThereWorkingProvider;
 
-        // if using either the Apache or Nginx module, they are working and there are no databases
+        // if using either the Apache, Nginx or PECL module, they are working and there are no databases
         // in misc, then the databases are located outside of Piwik, so we cannot update them
         $view->showGeoIPUpdateSection = true;
         $currentProviderId = LocationProvider::getCurrentProviderId();
         if (!$geoIPDatabasesInstalled
-            && $currentProviderId == ServerModule::ID
+            && in_array($currentProviderId, [GeoIp2\ServerModule::ID, GeoIp\ServerBased::ID, GeoIp\Pecl::ID])
             && $allProviderInfo[$currentProviderId]['status'] == LocationProvider::INSTALLED
         ) {
             $view->showGeoIPUpdateSection = false;
