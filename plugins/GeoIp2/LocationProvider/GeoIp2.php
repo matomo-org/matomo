@@ -147,7 +147,10 @@ abstract class GeoIp2 extends LocationProvider
 
     public function activate()
     {
-        Option::set(self::SWITCH_TO_ISO_REGIONS_OPTION_NAME, time());
+        $option = Option::get(self::SWITCH_TO_ISO_REGIONS_OPTION_NAME);
+        if (empty($option)) {
+            Option::set(self::SWITCH_TO_ISO_REGIONS_OPTION_NAME, time());
+        }
     }
 
     /**
@@ -213,5 +216,37 @@ abstract class GeoIp2 extends LocationProvider
         }
 
         return self::$regionNames;
+    }
+
+    /**
+     * Converts an old FIPS region code to ISO
+     *
+     * @param string $countryCode
+     * @param string $fipsRegionCode
+     * @param bool $returnOriginalIfNotFound  return given region code if no mapping was found
+     * @return array
+     */
+    public static function convertRegionCodeToIso($countryCode, $fipsRegionCode, $returnOriginalIfNotFound = false)
+    {
+        static $mapping;
+        if(empty($mapping)) {
+            $mapping = include __DIR__ . '/../data/regionMapping.php';
+        }
+        $countryCode = strtoupper($countryCode);
+        if (empty($countryCode) || in_array($countryCode, ['EU', 'AP', 'A1', 'A2'])) {
+            return ['', ''];
+        }
+        if (in_array($countryCode, ['US', 'CA'])) { // US and CA always haven been iso codes
+            return [$countryCode, $fipsRegionCode];
+        }
+        if ($countryCode == 'TI') {
+            $countryCode = 'CN';
+            $fipsRegionCode = '14';
+        }
+        $isoRegionCode = $returnOriginalIfNotFound ? $fipsRegionCode : '';
+        if (!empty($fipsRegionCode) && !empty($mapping[$countryCode][$fipsRegionCode])) {
+            $isoRegionCode = $mapping[$countryCode][$fipsRegionCode];
+        }
+        return [$countryCode, $isoRegionCode];
     }
 }
