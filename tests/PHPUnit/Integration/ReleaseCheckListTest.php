@@ -599,6 +599,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             return false;
         }
 
+        // ignore downloaded geoip files
+        if(strpos($file, 'GeoIP') !== false && strpos($file, '.dat') !== false) {
+            return false;
+        }
+
         if($this->isFileIsAnIconButDoesNotBelongToDistribution($file)) {
             return false;
         }
