@@ -91,6 +91,7 @@ class APITest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
+        $params['xmlFieldsToRemove'] = array('totalEcommerceRevenue');
         $this->runApiTests($api, $params);
     }
 
