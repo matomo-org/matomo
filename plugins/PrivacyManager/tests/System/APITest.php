@@ -80,6 +80,7 @@ class APITest extends SystemTestCase
         $result = json_encode($result, JSON_PRETTY_PRINT);
         $fileExpected = PIWIK_DOCUMENT_ROOT . '/plugins/PrivacyManager/tests/System/expected/' . $fileName . '.json';
         $fileProcessed = str_replace('/expected/', '/processed/', $fileExpected);
+        \Piwik\Filesystem::mkdir(dirname($fileProcessed));
         file_put_contents($fileProcessed, $result);
 
         $this->assertJsonStringEqualsJsonFile($fileExpected, $result);

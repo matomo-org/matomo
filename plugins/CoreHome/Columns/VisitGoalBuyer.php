@@ -48,6 +48,7 @@ class VisitGoalBuyer extends VisitDimension
     {
         switch ($value) {
             case 'ordered':
+            case '1':
             case self::TYPE_BUYER_ORDERED:
                 return Piwik::translate('CoreHome_VisitStatusOrdered');
             case 'abandonedCart':
@@ -57,6 +58,7 @@ class VisitGoalBuyer extends VisitDimension
             case self::TYPE_BUYER_ORDERED_AND_OPEN_CART:
                 return Piwik::translate('CoreHome_VisitStatusOrderedThenAbandoned');
             case 'none';
+            case '0':
             case self::TYPE_BUYER_NONE:
                 return Piwik::translate('UserCountryMap_None');
         }
