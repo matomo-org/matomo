@@ -487,6 +487,8 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
                     $result[$key] = self::cleanResult($value);
                 } elseif ($key === 'idpageview') {
                     $result[$key] = '123456';
+                } elseif ($value !== null && !is_bool($value)) {
+                    $result[$key] = (string) $result[$key]; // PDO and MySQLI might return different types
                 }
             }
         }
