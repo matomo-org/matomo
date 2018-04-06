@@ -41,7 +41,7 @@ class SettingsMetadata
 
             if (!empty($setting)) {
                 $title = Piwik::translate(strip_tags($setting->configureField()->title));
-                if (strpos($message, $title) === false) {
+                if (strpos($message, $title) !== 0) {
                     // only prefix it if not already prefixed
                     $message = $title . ': ' . $message;
                 }

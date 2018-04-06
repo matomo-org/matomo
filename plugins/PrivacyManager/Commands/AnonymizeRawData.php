@@ -20,7 +20,8 @@ class AnonymizeRawData extends ConsoleCommand
 {
     protected function configure()
     {
-        $defaultDate = '2008-01-01,' . Date::now()->toString();
+        // by default we want to anonymize as many (if not all) logs as possible.
+        $defaultDate = '1996-01-01,' . Date::now()->toString();
 
         $this->setName('privacymanager:anonymize-some-raw-data');
         $this->setDescription('Anonymize some of the stored raw data (logs). The reason it only anonymizes "some" data is that personal data can be present in many various data collection points, for example some of your page URLs or page titles may include personal data and these will not be anonymized by this command as it is not possible to detect personal data for example in a URL automatically.');
@@ -58,16 +59,25 @@ class AnonymizeRawData extends ConsoleCommand
         list($startDate, $endDate) = $logDataAnonymizations->getStartAndEndDate($date);
         $output->writeln(sprintf('Start date is "%s", end date is "%s"', $startDate, $endDate));
 
-        if (($anonymizeIp || $anonymizeLocation) && !$this->confirmAnonymize($input, $output, 'anonymize visit IP and/or location', $startDate, $endDate)) {
+        if ($anonymizeIp
+            && !$this->confirmAnonymize($input, $output, $startDate, $endDate, 'anonymize visit IP')) {
             $anonymizeIp = false;
-            $anonymizeLocation = false;
-            $output->writeln('<info>SKIPPING anonymizing IP and/or location.</info>');
+            $output->writeln('<info>SKIPPING anonymizing IP.</info>');
         }
-        if (!empty($visitColumnsToUnset) && !$this->confirmAnonymize($input, $output, 'unset the log_visit columns "' . implode(', ', $visitColumnsToUnset) . '"', $startDate, $endDate)) {
+
+        if ($anonymizeLocation
+            && !$this->confirmAnonymize($input, $output, $startDate, $endDate, 'anonymize visit location')) {
+            $anonymizeLocation = false;
+            $output->writeln('<info>SKIPPING anonymizing location.</info>');
+        }
+
+        if (!empty($visitColumnsToUnset)
+            && !$this->confirmAnonymize($input, $output, $startDate, $endDate, 'unset the log_visit columns "' . implode(', ', $visitColumnsToUnset) . '"')) {
             $visitColumnsToUnset = false;
             $output->writeln('<info>SKIPPING unset log_visit columns.</info>');
         }
-        if (!empty($linkVisitActionColumns) && !$this->confirmAnonymize($input, $output, 'unset the log_link_visit_action columns "' . implode(', ', $linkVisitActionColumns) . '"', $startDate, $endDate)) {
+        if (!empty($linkVisitActionColumns)
+            && !$this->confirmAnonymize($input, $output, $startDate, $endDate, 'unset the log_link_visit_action columns "' . implode(', ', $linkVisitActionColumns) . '"')) {
             $linkVisitActionColumns = false;
             $output->writeln('<info>SKIPPING unset log_link_visit_action columns.</info>');
         }
@@ -81,7 +91,7 @@ class AnonymizeRawData extends ConsoleCommand
         $output->writeln('Done');
     }
 
-    private function confirmAnonymize(InputInterface $input, OutputInterface $output, $action, $startDate, $endDate)
+    private function confirmAnonymize(InputInterface $input, OutputInterface $output, $startDate, $endDate, $action)
     {
         $noInteraction = $input->getOption('no-interaction');
         if ($noInteraction) {

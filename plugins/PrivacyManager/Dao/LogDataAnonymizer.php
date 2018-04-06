@@ -212,7 +212,7 @@ class LogDataAnonymizer
         $bind = [];
         foreach ($columns as $column) {
             if (!array_key_exists($column, $logTableFields)) {
-                throw new Exception(sprintf('The column "%s" seems to not exist in %s or cannot be unset. Use one of %s', $column, $table, implode(', ', array_keys($logTableFields))));
+                throw new Exception(sprintf('The column "%s" cannot be unset because it has no default value or it does not exist in "%s". Use one of %s', $column, $table, implode(', ', array_keys($logTableFields))));
             }
             $col[] = $column . ' = ?';
             $bind[] = $logTableFields[$column];
@@ -238,12 +238,14 @@ class LogDataAnonymizer
         $columns = DbHelper::getTableColumns($table);
         $values = array();
         foreach ($columns as $column => $config) {
+            $hasDefaultKey = array_key_exists('Default', $config);
+
             if (in_array($column, $this->COLUMNS_BLACKLISTED, true)) {
                 continue;
-            } elseif (strtoupper($config['Null']) === 'NO' && $config['Default'] === null) {
+            } elseif (strtoupper($config['Null']) === 'NO' && $hasDefaultKey && $config['Default'] === null) {
                 // we cannot unset this column as it may result in an error or random data
                 continue;
-            } elseif (array_key_exists('Default', $config)) {
+            } elseif ($hasDefaultKey) {
                 $values[$column] = $config['Default'];
             } elseif (strtoupper($config['Null']) === 'YES') {
                 $values[$column] = null;

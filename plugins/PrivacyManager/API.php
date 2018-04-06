@@ -93,16 +93,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         $columns = $this->logDataAnonymizer->getAvailableVisitColumnsToAnonymize();
-        ksort($columns);
-        $formatted = array();
-        foreach ($columns as $column => $default) {
-            $formatted[] = array(
-                'column_name' => $column,
-                'default_value' => $default
-            );
-        }
-
-        return $formatted;
+        return $this->formatAvailableColumnsToAnonymize($columns);
     }
 
     public function getAvailableLinkVisitActionColumnsToAnonymize()
@@ -110,6 +101,11 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         $columns = $this->logDataAnonymizer->getAvailableLinkVisitActionColumnsToAnonymize();
+        return $this->formatAvailableColumnsToAnonymize($columns);
+    }
+
+    private function formatAvailableColumnsToAnonymize($columns)
+    {
         ksort($columns);
         $formatted = array();
         foreach ($columns as $column => $default) {
@@ -118,7 +114,6 @@ class API extends \Piwik\Plugin\API
                 'default_value' => $default
             );
         }
-
         return $formatted;
     }
 

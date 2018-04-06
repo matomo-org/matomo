@@ -1095,6 +1095,8 @@ if (typeof window.Piwik !== 'object') {
 
             missedPluginTrackerCalls = [],
 
+            coreConsentCounter = 0,
+
             isPageUnloading = false;
 
         /************************************************************
@@ -7208,8 +7210,8 @@ if (typeof window.Piwik !== 'object') {
                 }
                 // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
                 // We also want to make sure to define an unload listener for each tracker, not only one tracker.
-                var rand = String(parseInt(Math.random() * 10000, 10));
-                plugins['CoreConsent' + rand] = {
+                coreConsentCounter++;
+                plugins['CoreConsent' + coreConsentCounter] = {
                     unload: function () {
                         if (configRequireConsent) {
                             // we want to make sure to remove all previously set cookies again

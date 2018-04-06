@@ -240,8 +240,8 @@ class FieldConfig
      * $fieldConfig->validators = new Piwik\Validators\NotEmpty();
      *
      * Want to require an email?
-     * $fieldConfig->validators = new Piwik\Validators\NotEmpty();
-     * $fieldConfig->validators = new Piwik\Validators\Email();
+     * $fieldConfig->validators[] = new Piwik\Validators\NotEmpty();
+     * $fieldConfig->validators[] = new Piwik\Validators\Email();
      *
      * The core comes with a set of various validators that can be used.
      *

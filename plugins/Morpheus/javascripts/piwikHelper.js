@@ -109,7 +109,8 @@ var piwikHelper = {
      *
      * @param selector
      * @param {object} options
-     * @param {object} options.scope if supplied, the given scope will be used when compiling the template.
+     * @param {object} options.scope if supplied, the given scope will be used when compiling the template. Shouldn't
+     *                               be a plain object but an actual angular scope.
      * @param {object} options.params if supplied, the properties in this object are
      *                               added to the new scope.
      */
@@ -254,6 +255,7 @@ var piwikHelper = {
         }
 
         if (options && options.extraWide) {
+            // if given, the modal will be shown larger than usual and almost consume the full width.
             $content.addClass('modal-extra-wide');
             delete options.extraWide;
         }

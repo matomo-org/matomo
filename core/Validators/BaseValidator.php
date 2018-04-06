@@ -35,7 +35,7 @@ abstract class BaseValidator
             try {
                 $validator->validate($value);
             } catch (\Exception $e) {
-                throw new Exception($name . ': ' . $e->getMessage(), $e->getCode(), $e);
+                throw new Exception(strip_tags($name) . ': ' . $e->getMessage(), $e->getCode(), $e);
             }
         }
     }

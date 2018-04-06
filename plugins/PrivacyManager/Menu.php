@@ -21,7 +21,7 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addItem($category, null, array(), 2);
 
             if (Piwik::hasUserSuperUserAccess()) {
-                $menu->addItem($category, 'Anonymize data', $this->urlForAction('privacySettings'), 5);
+                $menu->addItem($category, 'PrivacyManager_AnonymizeData', $this->urlForAction('privacySettings'), 5);
             }
 
             $menu->addItem($category, 'Users opt-out', $this->urlForAction('usersOptOut'), 10);

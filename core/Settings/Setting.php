@@ -12,6 +12,7 @@ namespace Piwik\Settings;
 use Piwik\Piwik;
 use Piwik\Settings\Storage\Storage;
 use Exception;
+use Piwik\Validators\BaseValidator;
 
 /**
  * Base setting type class.
@@ -238,16 +239,7 @@ class Setting
         $config = $this->configureField();
 
         if (!empty($config->validators)) {
-            foreach ($config->validators as $validator) {
-
-                try {
-                    $validator->validate($value);
-                } catch (\Piwik\Validators\Exception $e) {
-                    $errorMsg = strip_tags($config->title) . ': ' . $e->getMessage();
-
-                    throw new \Piwik\Validators\Exception($errorMsg, $e->getCode(), $e);
-                }
-            }
+            BaseValidator::check($config->title, $value, $config->validators);
         }
 
         if ($config->validate && $config->validate instanceof \Closure) {
