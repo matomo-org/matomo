@@ -9,6 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Cache;
 use Piwik\Date;
+use Piwik\Option;
 use Piwik\Plugins\Goals\API;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -57,6 +58,9 @@ class ManyVisitsWithGeoIP extends Fixture
 
     public function setUp()
     {
+        // set option, so tracked data for the past won't get converted
+        Option::set(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME, 1);
+
         $this->setUpWebsitesAndGoals();
 
         $this->setMockLocationProvider();

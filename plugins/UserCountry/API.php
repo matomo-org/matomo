@@ -115,7 +115,17 @@ class API extends \Piwik\Plugin\API
                         list($countryCode, $regionCode) = GeoIp2::convertRegionCodeToIso($countryCode,
                             $regionCode, true);
 
-                        return $regionCode . $separator . strtolower($countryCode);
+                        $splitLabel = explode($separator, $label);
+
+                        if (isset($splitLabel[0])) {
+                            $splitLabel[0] = $regionCode;
+                        }
+
+                        if (isset($splitLabel[1])) {
+                            $splitLabel[1] = strtolower($countryCode);
+                        }
+
+                        return implode($separator, $splitLabel);
                     }
                 ));
             }
