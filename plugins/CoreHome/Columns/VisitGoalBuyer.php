@@ -47,6 +47,10 @@ class VisitGoalBuyer extends VisitDimension
     public function formatValue($value, $idSite, Formatter $formatter)
     {
         switch ($value) {
+            case 'none';
+            case '0':
+            case self::TYPE_BUYER_NONE:
+                return Piwik::translate('UserCountryMap_None');
             case 'ordered':
             case '1':
             case self::TYPE_BUYER_ORDERED:
@@ -57,10 +61,6 @@ class VisitGoalBuyer extends VisitDimension
             case 'orderedThenAbandonedCart':
             case self::TYPE_BUYER_ORDERED_AND_OPEN_CART:
                 return Piwik::translate('CoreHome_VisitStatusOrderedThenAbandoned');
-            case 'none';
-            case '0':
-            case self::TYPE_BUYER_NONE:
-                return Piwik::translate('UserCountryMap_None');
         }
 
         return $value;
