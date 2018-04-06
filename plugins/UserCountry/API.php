@@ -16,6 +16,7 @@ use Piwik\Date;
 use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\GeoIp2\Commands\ConvertRegionCodesToIso;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Tracker\Visit;
 
@@ -94,19 +95,21 @@ class API extends \Piwik\Plugin\API
         $separator = Archiver::LOCATION_SEPARATOR;
         $unk = Visit::UNKNOWN_CODE;
 
-        // convert fips region codes to iso if required
-        if ($this->shouldRegionCodesBeConvertedToIso($date, $period)) {
-            $dataTables = [$dataTable];
+        $dataTables = [$dataTable];
 
-            if ($dataTable instanceof DataTable\Map) {
-                $dataTables = $dataTable->getDataTables();
-            }
+        if ($dataTable instanceof DataTable\Map) {
+            $dataTables = $dataTable->getDataTables();
+        }
 
-            foreach ($dataTables as $dt) {
+        foreach ($dataTables as $dt) {
+            $archiveDate = $dt->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
+
+            // convert fips region codes to iso if required
+            if ($this->shouldRegionCodesBeConvertedToIso($archiveDate, $date, $period)) {
                 $dt->filter('GroupBy', array(
                     'label',
                     function ($label) use ($separator, $unk) {
-                        $regionCode  = getElementFromStringArray($label, $separator, 0, '');
+                        $regionCode = getElementFromStringArray($label, $separator, 0, '');
                         $countryCode = getElementFromStringArray($label, $separator, 1, '');
 
                         list($countryCode, $regionCode) = GeoIp2::convertRegionCodeToIso($countryCode,
@@ -163,19 +166,21 @@ class API extends \Piwik\Plugin\API
         $separator = Archiver::LOCATION_SEPARATOR;
         $unk = Visit::UNKNOWN_CODE;
 
-        // convert fips region codes to iso if required
-        if ($this->shouldRegionCodesBeConvertedToIso($date, $period)) {
-            $dataTables = [$dataTable];
+        $dataTables = [$dataTable];
 
-            if ($dataTable instanceof DataTable\Map) {
-                $dataTables = $dataTable->getDataTables();
-            }
+        if ($dataTable instanceof DataTable\Map) {
+            $dataTables = $dataTable->getDataTables();
+        }
 
-            foreach ($dataTables as $dt) {
+        foreach ($dataTables as $dt) {
+            $archiveDate = $dt->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
+
+            // convert fips region codes to iso if required
+            if ($this->shouldRegionCodesBeConvertedToIso($archiveDate, $date, $period)) {
                 $dt->filter('GroupBy', array(
                     'label',
                     function ($label) use ($separator, $unk) {
-                        $regionCode  = getElementFromStringArray($label, $separator, 1, '');
+                        $regionCode = getElementFromStringArray($label, $separator, 1, '');
                         $countryCode = getElementFromStringArray($label, $separator, 2, '');
 
                         list($countryCode, $regionCode) = GeoIp2::convertRegionCodeToIso($countryCode,
@@ -254,7 +259,7 @@ class API extends \Piwik\Plugin\API
      * @param $period
      * @return bool
      */
-    private function shouldRegionCodesBeConvertedToIso($date, $period)
+    private function shouldRegionCodesBeConvertedToIso($archiveDate, $date, $period)
     {
         $timeOfSwitch = Option::get(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME);
 
@@ -268,6 +273,22 @@ class API extends \Piwik\Plugin\API
             $periodStart = $period->getDateStart();
         } catch (Exception $e) {
             return false;
+        }
+
+        // if all region codes in log tables have been converted, check if archiving date was after the date of switch to iso
+        // this check might not be fully correct in cases were only periods > day get recreated, but it should avoid some
+        // double conversion if all archives have been recreated after converting all region codes
+        $codesConverted = Option::get(ConvertRegionCodesToIso::OPTION_NAME);
+
+        if ($codesConverted && $archiveDate) {
+            try {
+                $dateOfArchive = Date::factory($archiveDate);
+
+                if ($dateOfArchive->isLater($dateOfSwitch)) {
+                    return false;
+                }
+            } catch (Exception $e) {
+            }
         }
 
         if ($dateOfSwitch->isEarlier($periodStart)) {
