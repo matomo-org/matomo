@@ -6693,7 +6693,7 @@ if (typeof window.Piwik !== 'object') {
              */
             this.disableHeartBeatTimer = function () {
                 heartBeatDown();
-                
+
                 if (configHeartBeatDelay || heartBeatSetUp) {
                     if (windowAlias.removeEventListener) {
                         windowAlias.removeEventListener('focus', heartBeatOnFocus, true);
@@ -7162,7 +7162,7 @@ if (typeof window.Piwik !== 'object') {
              * in milliseconds since 1970/01/01 which is the date when the user has given consent. Please note that
              * the returned time depends on the users local time which may not always be correct.
              *
-             * @returns {number|string}
+             * @returns number|string
              */
             this.getRememberedConsent = function () {
                 var value = getCookie('consent');
@@ -7175,7 +7175,7 @@ if (typeof window.Piwik !== 'object') {
             /**
              * Detects whether the user has given consent previously.
              *
-             * @returns {bool}
+             * @returns bool
              */
             this.hasRememberedConsent = function () {
                 return !!getCookie('consent');

@@ -32,7 +32,6 @@ class IdSiteTest extends IntegrationTestCase
         $this->validate('2');
         $this->validate(1);
         $this->validate(2);
-        $this->validate(false);
     }
 
     /**

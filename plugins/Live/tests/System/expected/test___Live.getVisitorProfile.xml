@@ -47,6 +47,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -162,6 +163,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -277,6 +279,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -392,6 +395,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -507,6 +511,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -622,6 +627,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -737,6 +743,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -852,6 +859,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -967,6 +975,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -1082,6 +1091,7 @@
 			
 			
 			
+			<siteName>Piwik test</siteName>
 			
 			
 			
@@ -1193,7 +1203,7 @@
 	<visitsAggregated>10</visitsAggregated>
 	<visitedPages>
 		<row>
-			<url>http://example.org/my/dir/page0</url>
+			<url>http://example.org/my/dir/page2</url>
 			<count>8</count>
 		</row>
 		<row>
@@ -1201,7 +1211,7 @@
 			<count>8</count>
 		</row>
 		<row>
-			<url>http://example.org/my/dir/page2</url>
+			<url>http://example.org/my/dir/page0</url>
 			<count>8</count>
 		</row>
 		<row>
