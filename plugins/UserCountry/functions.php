@@ -118,11 +118,19 @@ function getElementFromStringArray($label, $separator, $index, $emptyValue = fal
  */
 function getRegionNameFromCodes($countryCode, $regionCode)
 {
-    // if GeoIP2 provider is or was in use, use ISO translations
-    if (Manager::getInstance()->isPluginActivated('GeoIp2') || Option::get(GeoIp2::SWITCH_TO_ISO_REGIONS_OPTION_NAME)) {
-        return GeoIp2::getRegionNameFromCodes($countryCode, $regionCode);
+    if (!Manager::getInstance()->isPluginActivated('GeoIp2') ||
+        LocationProvider::getCurrentProvider() instanceof GeoIp) {
+        return GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
     }
-    return GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
+
+    $name = GeoIp2::getRegionNameFromCodes($countryCode, $regionCode);
+
+    // fallback if no translation for with GeoIP2
+    if ($name == Piwik::translate('General_Unknown')) {
+        $name = GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
+    }
+
+    return $name;
 }
 
 /**
