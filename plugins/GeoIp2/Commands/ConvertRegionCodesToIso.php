@@ -66,6 +66,10 @@ class ConvertRegionCodesToIso extends ConsoleCommand
         $counter = 0;
         foreach ($mappings as $country => $regionMapping) {
             foreach ($regionMapping as $fips => $iso) {
+                if ($fips == $iso) {
+                    continue; // nothing needs to be changed, so ignore the mapping
+                }
+
                 Db::query('INSERT INTO `'.Common::prefixTable(self::MAPPING_TABLE_NAME).'` VALUES (?, ?, ?)', [$country, $fips, $iso]);
                 $counter++;
                 if ($counter%50 == 0) {
@@ -73,9 +77,6 @@ class ConvertRegionCodesToIso extends ConsoleCommand
                 }
             }
         }
-
-        // remove all entries where no change has to be done.
-        Db::query('DELETE FROM `'.Common::prefixTable(self::MAPPING_TABLE_NAME).'` WHERE `fips_code` = `iso_code`');
 
         $output->writeln(' <fg=green>✓</>');
 

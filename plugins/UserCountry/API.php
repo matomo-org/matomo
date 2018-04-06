@@ -95,7 +95,7 @@ class API extends \Piwik\Plugin\API
         $unk = Visit::UNKNOWN_CODE;
 
         // convert fips region codes to iso if required
-        if (!$this->shouldRegionCodesBeConvertedToIso($date, $period)) {
+        if ($this->shouldRegionCodesBeConvertedToIso($date, $period)) {
             $dataTables = [$dataTable];
 
             if ($dataTable instanceof DataTable\Map) {
@@ -109,7 +109,6 @@ class API extends \Piwik\Plugin\API
                         $regionCode  = getElementFromStringArray($label, $separator, 0, '');
                         $countryCode = getElementFromStringArray($label, $separator, 1, '');
 
-                        //
                         list($countryCode, $regionCode) = GeoIp2::convertRegionCodeToIso($countryCode,
                             $regionCode, true);
 
@@ -165,7 +164,7 @@ class API extends \Piwik\Plugin\API
         $unk = Visit::UNKNOWN_CODE;
 
         // convert fips region codes to iso if required
-        if (!$this->shouldRegionCodesBeConvertedToIso($date, $period)) {
+        if ($this->shouldRegionCodesBeConvertedToIso($date, $period)) {
             $dataTables = [$dataTable];
 
             if ($dataTable instanceof DataTable\Map) {
@@ -263,9 +262,13 @@ class API extends \Piwik\Plugin\API
             return false; // if option was not set, all codes are fips codes, so leave them
         }
 
-        $dateOfSwitch = Date::factory((int)$timeOfSwitch);
-        $period = Period\Factory::build($period, $date);
-        $periodStart = $period->getDateStart();
+        try {
+            $dateOfSwitch = Date::factory((int)$timeOfSwitch);
+            $period = Period\Factory::build($period, $date);
+            $periodStart = $period->getDateStart();
+        } catch (Exception $e) {
+            return false;
+        }
 
         if ($dateOfSwitch->isEarlier($periodStart)) {
             return false;

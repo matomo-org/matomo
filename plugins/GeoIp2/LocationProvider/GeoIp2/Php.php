@@ -10,9 +10,11 @@ namespace Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 
 use GeoIp2\Database\Reader;
 use GeoIp2\Exception\AddressNotFoundException;
+use MaxMind\Db\Reader\InvalidDatabaseException;
 use Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
+use Piwik\Plugins\Marketplace\Api\Exception;
 
 /**
  * A LocationProvider that uses the PHP implementation of GeoIP 2.
@@ -93,11 +95,8 @@ class Php extends GeoIp2
                 switch ($reader->metadata()->databaseType) {
                     case 'GeoLite2-Country':
                     case 'GeoIP2-Country':
-                        $lookupResult                     = $reader->country($ip);
-                        $result[self::CONTINENT_NAME_KEY] = $lookupResult->continent->name;
-                        $result[self::CONTINENT_CODE_KEY] = strtoupper($lookupResult->continent->code);
-                        $result[self::COUNTRY_CODE_KEY]   = strtoupper($lookupResult->country->isoCode);
-                        $result[self::COUNTRY_NAME_KEY]   = $lookupResult->country->name;
+                        $lookupResult = $reader->country($ip);
+                        $this->setCountryResults($lookupResult, $result);
                         break;
                     case 'GeoIP2-Enterprise':
                     case 'GeoLite2-City':
@@ -107,20 +106,8 @@ class Php extends GeoIp2
                         } else {
                             $lookupResult = $reader->city($ip);
                         }
-                        $result[self::CONTINENT_NAME_KEY] = $lookupResult->continent->name;
-                        $result[self::CONTINENT_CODE_KEY] = strtoupper($lookupResult->continent->code);
-                        $result[self::COUNTRY_CODE_KEY]   = strtoupper($lookupResult->country->isoCode);
-                        $result[self::COUNTRY_NAME_KEY]   = $lookupResult->country->name;
-                        $result[self::CITY_NAME_KEY]      = $lookupResult->city->name;
-                        $result[self::LATITUDE_KEY]       = $lookupResult->location->latitude;
-                        $result[self::LONGITUDE_KEY]      = $lookupResult->location->longitude;
-                        $result[self::POSTAL_CODE_KEY]    = $lookupResult->postal->code;
-                        if (is_array($lookupResult->subdivisions) && count($lookupResult->subdivisions) > 0) {
-                            $subdivisions = $lookupResult->subdivisions;
-                            $subdivision = end($subdivisions);
-                            $result[self::REGION_CODE_KEY] = strtoupper($subdivision->isoCode);
-                            $result[self::REGION_NAME_KEY] = $subdivision->name;
-                        }
+                        $this->setCountryResults($lookupResult, $result);
+                        $this->setCityResults($lookupResult, $result);
                         break;
                     default: // unknown database type log warning
                         Log::warning("Found unrecognized database type: %s", $reader->metadata()->databaseType);
@@ -149,6 +136,28 @@ class Php extends GeoIp2
 
         $this->completeLocationResult($result);
         return $result;
+    }
+
+    protected function setCountryResults($lookupResult, &$result)
+    {
+        $result[self::CONTINENT_NAME_KEY] = $lookupResult->continent->name;
+        $result[self::CONTINENT_CODE_KEY] = strtoupper($lookupResult->continent->code);
+        $result[self::COUNTRY_CODE_KEY]   = strtoupper($lookupResult->country->isoCode);
+        $result[self::COUNTRY_NAME_KEY]   = $lookupResult->country->name;
+    }
+
+    protected function setCityResults($lookupResult, &$result)
+    {
+        $result[self::CITY_NAME_KEY]      = $lookupResult->city->name;
+        $result[self::LATITUDE_KEY]       = $lookupResult->location->latitude;
+        $result[self::LONGITUDE_KEY]      = $lookupResult->location->longitude;
+        $result[self::POSTAL_CODE_KEY]    = $lookupResult->postal->code;
+        if (is_array($lookupResult->subdivisions) && count($lookupResult->subdivisions) > 0) {
+            $subdivisions = $lookupResult->subdivisions;
+            $subdivision = end($subdivisions);
+            $result[self::REGION_CODE_KEY] = strtoupper($subdivision->isoCode);
+            $result[self::REGION_NAME_KEY] = $subdivision->name;
+        }
     }
 
     /**
@@ -279,7 +288,11 @@ class Php extends GeoIp2
         if (empty($this->readerCache[$key])) {
             $pathToDb = self::getPathToGeoIpDatabase($this->customDbNames[$key]);
             if ($pathToDb !== false) {
-                $this->readerCache[$key] = new Reader($pathToDb);
+                try {
+                    $this->readerCache[$key] = new Reader($pathToDb);
+                } catch (InvalidDatabaseException $e) {
+                    // ignore invalid database exception
+                }
             }
         }
 

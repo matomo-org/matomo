@@ -203,10 +203,11 @@ class GeoIP2AutoUpdater extends Task
                     $tempFilename = $filename . '.new';
                     $outputPath = LocationProviderGeoIp2::getPathForGeoIpDatabase($tempFilename);
                     @rename($extractedFile, $outputPath);
-                    Filesystem::unlinkRecursive($tempPath, true);
                     break;
                 }
             }
+
+            Filesystem::unlinkRecursive($tempPath, true);
 
             // test that the new archive is a valid GeoIP 2 database
             if (empty($dbFilename) || false === LocationProviderGeoIp2::getGeoIPDatabaseTypeFromFilename($dbFilename)) {
