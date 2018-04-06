@@ -345,9 +345,14 @@ class Php extends GeoIp
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_Organization');
         }
 
-        $extraMessage = '<strong>' . Piwik::translate('General_Note') . '</strong>:&nbsp;'
-            . Piwik::translate('UserCountry_GeoIPImplHasAccessTo') . ':&nbsp;<strong>'
-            . implode(', ', $availableDatabaseTypes) . '</strong>.';
+        if (!empty($availableDatabaseTypes)) {
+            $extraMessage = '<strong>' . Piwik::translate('General_Note') . '</strong>:&nbsp;'
+                . Piwik::translate('UserCountry_GeoIPImplHasAccessTo') . ':&nbsp;<strong>'
+                . implode(', ', $availableDatabaseTypes) . '</strong>.';
+        } else {
+            $extraMessage = '<strong>' . Piwik::translate('General_Note') . '</strong>:&nbsp;'
+                . Piwik::translate('UserCountry_GeoIPNoDatabaseFound') . '<strong>';
+        }
 
         return array('id'            => self::ID,
                      'title'         => self::TITLE,
