@@ -8,8 +8,10 @@
 namespace Piwik\Plugins\UserCountry\Diagnostic;
 
 use Piwik\Config;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\Diagnostics\Diagnostic\Diagnostic;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
+use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Translation\Translator;
 
@@ -40,7 +42,10 @@ class GeolocationDiagnostic implements Diagnostic
 
         $currentProviderId = LocationProvider::getCurrentProviderId();
         $allProviders = LocationProvider::getAllProviderInfo();
-        $isRecommendedProvider = in_array($currentProviderId, array(LocationProvider\GeoIp\Php::ID, $currentProviderId == LocationProvider\GeoIp\Pecl::ID));
+        $isRecommendedProvider = in_array($currentProviderId, array(
+            LocationProvider\GeoIp\Php::ID,
+            LocationProvider\GeoIp\Pecl::ID,
+            GeoIp2\Php::ID));
         $isProviderInstalled = (isset($allProviders[$currentProviderId]['status']) && $allProviders[$currentProviderId]['status'] == LocationProvider::INSTALLED);
 
         if ($isRecommendedProvider && $isProviderInstalled) {
@@ -49,7 +54,8 @@ class GeolocationDiagnostic implements Diagnostic
 
         if ($isProviderInstalled) {
             $comment = $this->translator->translate('UserCountry_GeoIpLocationProviderNotRecomnended') . ' ';
-            $comment .= $this->translator->translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2', array(
+            $message = Manager::getInstance()->isPluginActivated('GeoIp2') ? 'GeoIp2_LocationProviderDesc_ServerModule2' : 'UserCountry_GeoIpLocationProviderDesc_ServerBased2';
+            $comment .= $this->translator->translate($message, array(
                 '<a href="https://matomo.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>'
             ));
         } else {
