@@ -1,5 +1,7 @@
 {
   "GeoIp2": {
+    "CannotFindGeoIPDatabaseInArchive": "No valid GeoIP database could be found in tar archive %1$s!",
+    "CannotUnzipGeoIPFile": "Could not unzip GeoIP file in %1$s: %2$s",
     "PluginDescription": "Provides GeoIP2 location providers.",
     "LocationProviderDesc_Php": "This location provider is the most simple to install as it does not require server configuration (ideal for shared hosting!). It uses a GeoIP 2 database and MaxMind's PHP API to accurately determine the location of your visitors.",
     "LocationProviderDesc_Php_NoExtension": "If your website gets a lot of traffic, you may find that this location provider is too slow. In this case, you can install %1$smaxminddb extension%2$s or a %3$sserver module%4$s.",

@@ -169,20 +169,54 @@ class GeoIP2AutoUpdater extends Task
      */
     public static function unzipDownloadedFile($path, $dbType, $unlink = false)
     {
-        $tempPath = LocationProviderGeoIp2::getPathForGeoIpDatabase('update/');
-
         // extract file
         if (substr($path, -7, 7) == '.tar.gz') {
+            // find the .dat file in the tar archive
             $unzip = Unzip::factory('tar.gz', $path);
-            $success = $unzip->extract($tempPath);
+            $content = $unzip->listContent();
 
-            if ($success !== true) {
-                throw new Exception(Piwik::translate('UserCountry_CannotUnzipDatFile',
+            if (empty($content)) {
+                throw new Exception(Piwik::translate('UserCountry_CannotListContent',
                     array("'$path'", $unzip->errorInfo())));
             }
+
+            $fileToExtract = null;
+            foreach ($content as $info) {
+                $archivedPath = $info['filename'];
+                if (in_array(basename($archivedPath), LocationProviderGeoIp2::$dbNames[$dbType])) {
+                    $fileToExtract = $archivedPath;
+                }
+            }
+
+            if ($fileToExtract === null) {
+                throw new Exception(Piwik::translate('GeoIP2_CannotFindGeoIPDatabaseInArchive',
+                    array("'$path'")));
+            }
+
+            // extract JUST the .dat file
+            $unzipped = $unzip->extractInString($fileToExtract);
+
+            if (empty($unzipped)) {
+                throw new Exception(Piwik::translate('GeoIP2_CannotUnzipGeoIPFile',
+                    array("'$path'", $unzip->errorInfo())));
+            }
+
+            $dbFilename = basename($fileToExtract);
+            $tempFilename = $dbFilename . '.new';
+            $outputPath = LocationProviderGeoIp2::getPathForGeoIpDatabase($tempFilename);
+
+            // write unzipped to file
+            $fd = fopen($outputPath, 'wb');
+            fwrite($fd, $unzipped);
+            fclose($fd);
         } else if (substr($path, -3, 3) == '.gz') {
             $unzip = Unzip::factory('gz', $path);
-            $success = $unzip->extract($tempPath);
+
+            $dbFilename = basename($path);
+            $tempFilename = $dbFilename . '.new';
+            $outputPath = LocationProviderGeoIp2::getPathForGeoIpDatabase($tempFilename);
+
+            $success = $unzip->extract($outputPath);
 
             if ($success !== true) {
                 throw new Exception(Piwik::translate('UserCountry_CannotUnzipDatFile',
@@ -194,21 +228,6 @@ class GeoIP2AutoUpdater extends Task
         }
 
         try {
-            $extractedFiles = glob($tempPath . '*/*');
-
-            foreach ($extractedFiles as $extractedFile) {
-                $filename = basename($extractedFile);
-                if (in_array($filename, LocationProviderGeoIp2::$dbNames[$dbType])) {
-                    $dbFilename = $filename;
-                    $tempFilename = $filename . '.new';
-                    $outputPath = LocationProviderGeoIp2::getPathForGeoIpDatabase($tempFilename);
-                    @rename($extractedFile, $outputPath);
-                    break;
-                }
-            }
-
-            Filesystem::unlinkRecursive($tempPath, true);
-
             // test that the new archive is a valid GeoIP 2 database
             if (empty($dbFilename) || false === LocationProviderGeoIp2::getGeoIPDatabaseTypeFromFilename($dbFilename)) {
                 throw new Exception("Unexpected GeoIP 2 archive file name '$path'.");
