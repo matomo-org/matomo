@@ -48,7 +48,7 @@
         "ReportGeneratedOn": "Raport i prodhuar më %s",
         "ReportGeneratedXAgo": "Raport i prodhuar %s më parë",
         "SharePiwikLong": "Njatjeta! Sapo gjeta një program të lirë shumë të mirë: Matomo!\n\nMatomo do t’ju lejojë të gjurmoni falas vizitorët në sajtin tuaj. Duhet ta provoni medoemos!",
-        "SharePiwikShort": "Piwik! Analiza web të lira\/libre. Ruani pronësinë e të dhënave tuaja.",
+        "SharePiwikShort": "Matomo! Analiza web të lira\/libre. Ruani pronësinë e të dhënave tuaja.",
         "ShareThis": "Ndajeni me të tjerët këtë",
         "ShortcutsAvailable": "Shkurtore të gatshme",
         "ShortcutZenMode": "për mënyrën Zen",
@@ -83,11 +83,21 @@
         "QuickAccessTitle": "Kërkoni për %s. Përdorni tastet shigjetë që të lëvizni nëpër përfundimet e kërkimit. Shkurtore tastiere: Shtypni 'f' që të kërkohet.",
         "MenuEntries": "Zëra menuje",
         "Segments": "Segmente",
-        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "S’kryeni dot përditësim me një klikim, ngaqë po e përdorni Matomo-un me disa shërbyes. Ju lutemi, që të mund të vazhdohet, shkarkoni versionin më të ri prej %1$s.",
+        "OneClickUpdateNotPossibleAsMultiServerEnvironment": "S’kryeni dot përditësim me një klikim, ngaqë po e përdorni Matomo-n me disa shërbyes. Ju lutemi, që të mund të vazhdohet, shkarkoni versionin më të ri prej %1$s.",
+        "CssDidntLoad": "Shfletuesi juaj s’qe në gjendje të ngarkonte stilin e kësaj faqeje.",
+        "JsDidntLoad": "Shfletuesi juaj s’qe në gjendje të ngarkonte programthet e kësaj faqeje.",
         "AdblockIsMaybeUsed": "Në rast se përdorni ndonjë bllokues reklamash, ju lutemi çaktivizojeni për këtë sajt, që të siguroni punën pa probleme të Matomo-s.",
         "ChangeCurrentWebsite": "Zgjidhni një sajt, sajti i përzgjedhur tani: %s",
         "LeadingAnalyticsPlatformRespectsYourPrivacy": "Platforma kryesuese e analizave të hapura që respekton privatësinë tuaj.",
         "MacPageUp": "Fn+shigjeta Majtas",
-        "MacPageDown": "Fn+shigjeta Djathtas"
+        "MacPageDown": "Fn+shigjeta Djathtas",
+        "ReportType": "Lloj raport",
+        "RowLimit": "Kufi i papërpunuar",
+        "CustomLimit": "Kufi vetjak",
+        "ExportFormat": "Format eksportimi",
+        "ExpandSubtables": "Zgjeroji nëntabelat",
+        "StandardReport": "Raport standard",
+        "FlattenReport": "Raport i sheshtë",
+        "ReportWithMetadata": "Raport me tejtëdhëna"
     }
 }
