@@ -805,6 +805,12 @@ class CronArchive
 
         $this->logArchiveWebsite($idSite, "day", $date);
 
+        $cliMulti = $this->makeCliMulti();
+        if ($cliMulti->isCommandAlreadyRunning($this->makeRequestUrl($url))) {
+            $this->logger->info("Skipped website id $idSite, such a process is already in progress, " . $timerWebsite->__toString());
+            return false;
+        }
+
         $content = $this->request($url);
         $daysResponse = @unserialize($content);
 
@@ -915,11 +921,17 @@ class CronArchive
 
         $urls = array();
 
+        $cliMulti = $this->makeCliMulti();
+
         $noSegmentUrl = $url;
         // already processed above for "day"
         if ($period != "day") {
-            $urls[] = $url;
-            $this->logArchiveWebsite($idSite, $period, $date);
+            if ($cliMulti->isCommandAlreadyRunning($url)) {
+                $this->logArchiveWebsiteAlreadyInProcess($idSite, $period, $date);
+            } else {
+                $urls[] = $url;
+                $this->logArchiveWebsite($idSite, $period, $date);
+            }
         }
 
         $segmentRequestsCount = 0;
@@ -934,7 +946,6 @@ class CronArchive
 
         $this->requests += count($urls);
 
-        $cliMulti = $this->makeCliMulti();
         $cliMulti->setConcurrentProcessesLimit($this->getConcurrentRequestsPerWebsite());
         $response = $cliMulti->request($urls);
 
@@ -1691,6 +1702,8 @@ class CronArchive
             $segments[] = $segment;
         }
 
+        $cliMulti = $this->makeCliMulti();
+
         $segmentCount = count($segments);
         $processedSegmentCount = 0;
         foreach ($segments as $segment) {
@@ -1698,6 +1711,11 @@ class CronArchive
 
             $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
             $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
+
+            if ($cliMulti->isCommandAlreadyRunning($urlWithSegment)) {
+                $this->logger->info("- skipping segment archiving for '{segment}' because such a process is already in progress.", array('segment' => $segment));
+                continue;
+            }
 
             $request = new Request($urlWithSegment);
             $logger = $this->logger;
@@ -1746,6 +1764,21 @@ class CronArchive
             $date
         ));
         $this->logger->info('- pre-processing all visits');
+    }
+
+    /**
+     * @param $idSite
+     * @param $period
+     * @param $date
+     */
+    private function logArchiveWebsiteAlreadyInProcess($idSite, $period, $date)
+    {
+        $this->logger->info(sprintf(
+            "Will not pre-process for website id = %s, period = %s, date = %s because such a process is already in progress.",
+            $idSite,
+            $period,
+            $date
+        ));
     }
 
     private function shouldSkipSegmentArchiving($segment)
