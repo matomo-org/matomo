@@ -15,7 +15,7 @@ class Email extends BaseValidator
 {
     public function validate($value)
     {
-        if ($value === null || $value === false || $value === '') {
+        if ($this->isValueBare($value)) {
             return;
         }
 

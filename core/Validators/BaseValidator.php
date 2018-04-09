@@ -21,6 +21,12 @@ abstract class BaseValidator
      */
     abstract public function validate($value);
 
+    protected function isValueBare($value)
+    {
+        // we allow this value. if it is supposed to be not empty, please use NotEmpty validator on top
+        return $value === false || $value === null || $value === '';
+    }
+
     /**
      * Lets you easily check a value against multiple validators.
      *

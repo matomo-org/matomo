@@ -38,8 +38,7 @@ class NumberRange extends BaseValidator
 
     public function validate($value)
     {
-        if ($value === false || $value === null || $value === '') {
-            // we allow this value. if it is supposed to be not empty, please use NotEmpty validator on top
+        if ($this->isValueBare($value)) {
             return;
         }
         if (!is_numeric($value)) {
