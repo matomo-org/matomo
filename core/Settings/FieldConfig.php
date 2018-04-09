@@ -237,7 +237,7 @@ class FieldConfig
      *
      * Examples
      * Want to require a value to be set?
-     * $fieldConfig->validators = new Piwik\Validators\NotEmpty();
+     * $fieldConfig->validators[] = new Piwik\Validators\NotEmpty();
      *
      * Want to require an email?
      * $fieldConfig->validators[] = new Piwik\Validators\NotEmpty();
