@@ -114,14 +114,14 @@ class DataSubjects
                 return 1;
             }
 
-            $aWays = $a->getWaysToJoinTable();
+            $aWays = $a->getWaysToJoinToOtherLogTables();
             foreach ($aWays as $table => $column) {
                 if ($table === $bName) {
                     return -1;
                 }
             }
 
-            $bWays = $b->getWaysToJoinTable();
+            $bWays = $b->getWaysToJoinToOtherLogTables();
             foreach ($bWays as $table => $column) {
                 if ($table === $aName) {
                     return 1;
@@ -352,7 +352,7 @@ class DataSubjects
     private function joinNonCoreTable(LogTable $logTable, &$from)
     {
         $logTableName = $logTable->getName();
-        $nonCoreTables = $logTable->getWaysToJoinTable();
+        $nonCoreTables = $logTable->getWaysToJoinToOtherLogTables();
 
         if (empty($nonCoreTables)) {
             return;

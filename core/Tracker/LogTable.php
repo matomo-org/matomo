@@ -65,7 +65,7 @@ abstract class LogTable {
      * with that other log table is possible using the specified column.
      * @return array
      */
-    public function getWaysToJoinTable()
+    public function getWaysToJoinToOtherLogTables()
     {
         return array();
     }

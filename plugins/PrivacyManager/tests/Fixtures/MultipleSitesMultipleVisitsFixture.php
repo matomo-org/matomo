@@ -52,7 +52,7 @@ class TestLogFooBarBaz extends LogTable
         return 'idlogfoobarbaz';
     }
 
-    public function getWaysToJoinTable()
+    public function getWaysToJoinToOtherLogTables()
     {
         return array('log_foo_bar' => 'idlogfoobar');
     }
@@ -89,7 +89,7 @@ class TestLogFooBar extends LogTable
         return 'idlogfoobar';
     }
 
-    public function getWaysToJoinTable()
+    public function getWaysToJoinToOtherLogTables()
     {
         return array('log_foo' => 'idlogfoo');
     }
