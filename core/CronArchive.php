@@ -714,6 +714,10 @@ class CronArchive
             $date = $this->getApiDateParameter($idSite, $period, $lastTimestampWebsiteProcessedPeriods);
             $periodArchiveWasSuccessful = $this->archiveReportsFor($idSite, $period, $date, $archiveSegments = true, $timer);
             $success = $periodArchiveWasSuccessful && $success;
+            if(!$success) {
+                // if it failed, we abort the current website processing
+                return $success;
+            }
         }
 
         if ($this->shouldProcessPeriod('range')) {
@@ -928,6 +932,8 @@ class CronArchive
         if ($period != "day") {
             if ($cliMulti->isCommandAlreadyRunning($url)) {
                 $this->logArchiveWebsiteAlreadyInProcess($idSite, $period, $date);
+                $success = false;
+                return $success;
             } else {
                 $urls[] = $url;
                 $this->logArchiveWebsite($idSite, $period, $date);
