@@ -32,7 +32,7 @@
         "LargePiwikInstances": "Ndihmë për raste Matomo me ngarkesë",
         "Legend": "Legjendë",
         "LoadDataInfileRecommended": "Nëse shërbyesi juaj Matomo gjurmon sajte me trafik të madh (p.sh. > 100,000 faqe në muaj), këshillojmë të përpiqeni ta ndreqni këtë problem.",
-        "LoadDataInfileUnavailableHelp": "Përdorimi i %1$s do ta përshpejtojë mjaft procesin e arkivimit në Piwik. Që Matomo të mund ta përdorë, provoni të përditësoni software-in tuaj PHP & MySQL dhe sigurohuni që përdoruesi i bazës tuaj të të dhënave ka privilegje %2$s.",
+        "LoadDataInfileUnavailableHelp": "Përdorimi i %1$s do ta përshpejtojë mjaft procesin e arkivimit në Matomo. Që Matomo të mund ta përdorë, provoni të përditësoni software-in tuaj PHP & MySQL dhe sigurohuni që përdoruesi i bazës tuaj të të dhënave ka privilegje %2$s.",
         "NfsFilesystemWarning": "Shërbyesi juaj përdor një sistem NFS kartelash.",
         "NfsFilesystemWarningSuffixAdmin": "Kjo do të thotë që Matomo do të jetë tejet i ngadaltë kur të përdorë sesione të bazuar në kartela.",
         "NfsFilesystemWarningSuffixInstall": "Përdorimi për NFS-në i sesioneve të bazuar në kartela është tejet i ngadaltë, ndaj Matomo do të përdorë sesione të bazuar në baza të dhënash. Nëse keni shumë përdorues të njëkohshëm të pultit, mund të keni nevojë të rritni numrin maksimum të lidhjeve nga klientët te shërbyesi i bazës së të dhënave.",

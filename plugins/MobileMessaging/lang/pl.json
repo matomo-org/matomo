@@ -43,6 +43,6 @@
         "TopLinkTooltip": "Spraw aby Raporty z analizą serwisów internetowych były dostarczane do Twojej skrzynki odbiorczej lub na Twoją komórkę.",
         "TopMenu": "Raporty e-mail & SMS",
         "UserKey": "Klucz użytkownika",
-        "VerificationText": "Kod to %1$s. W celu weryfikacji Twojego numeru telefonu i umożliwienia odbioru raportów Piwik przez SMS proszę skopiuj ten kod do formularza dostępnego w Matomo'u > %2$s > %3$s."
+        "VerificationText": "Kod to %1$s. W celu weryfikacji Twojego numeru telefonu i umożliwienia odbioru raportów Matomo przez SMS proszę skopiuj ten kod do formularza dostępnego w Matomo'u > %2$s > %3$s."
     }
 }

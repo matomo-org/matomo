@@ -335,7 +335,7 @@
         "LastUpdated": "Huling nai-update: %s",
         "LoadingReport": "Nilo-load ang %s",
         "LoginCredentials": "Kredensyal",
-        "LoginToPiwikToChangeSettings": "Mag-login sa iyong piwik server upang makagawa at makapag-update ng websites mga user o baguhin ang Panngkalahatang settings tulad ng \"upang i-load ang default na pang Ulat\".",
+        "LoginToPiwikToChangeSettings": "Mag-login sa iyong Matomo server upang makagawa at makapag-update ng websites mga user o baguhin ang Panngkalahatang settings tulad ng \"upang i-load ang default na pang Ulat\".",
         "LoginUseHttps": "Gumamit ng https",
         "MultiChartLabel": "Ipakita ang sparklines",
         "NavigationBack": "Balik",

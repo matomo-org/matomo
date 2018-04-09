@@ -10,6 +10,7 @@ namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Development;
+use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Plugin\ConsoleCommand;
 use Psr\Log\LoggerInterface;
@@ -51,7 +52,7 @@ class SyncScreenshots extends ConsoleCommand
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync.');
         $this->addArgument('screenshotsRegex', InputArgument::OPTIONAL,
             'A regex to use when selecting screenshots to copy. If not supplied all screenshots are copied.', '.*');
-        $this->addOption('repository', 'r', InputOption::VALUE_OPTIONAL, 'Repository name you want to sync screenshots for.', 'piwik/piwik');
+        $this->addOption('repository', 'r', InputOption::VALUE_OPTIONAL, 'Repository name you want to sync screenshots for.', 'matomo-org/matomo');
         $this->addOption('http-user', '', InputOption::VALUE_OPTIONAL, 'the HTTP AUTH username (for premium plugins where artifacts are protected)');
         $this->addOption('http-password', '', InputOption::VALUE_OPTIONAL, 'the HTTP AUTH password (for premium plugins where artifacts are protected)');
     }
@@ -109,7 +110,7 @@ class SyncScreenshots extends ConsoleCommand
 
     private function downloadScreenshot($url, $repository, $screenshot, $httpUser, $httpPassword)
     {
-        $downloadTo = $this->getDownloadToPath($repository) . $screenshot;
+        $downloadTo = $this->getDownloadToPath($repository, $screenshot) . $screenshot;
         $url = 'https://builds-artifacts.piwik.org' . $url;
 
         $this->logger->debug("Downloading {url} to {destination}", array('url' => $url, 'destination' => $downloadTo));
@@ -156,9 +157,9 @@ cd ../../../../../";
         $output->writeln($commands);
     }
 
-    private function getDownloadToPath($repository)
+    private function getDownloadToPath($repository, $fileName=false)
     {
-        $plugin = $this->getPluginName($repository);
+        $plugin = $this->getPluginName($repository, $fileName);
 
         if (empty($plugin)) {
             return PIWIK_DOCUMENT_ROOT . "/tests/UI/expected-screenshots/";
@@ -184,13 +185,28 @@ cd ../../../../../";
         throw new \Exception("Download to path could not be found: $downloadTo");
     }
 
-    private function getPluginName($repository)
+    private function getPluginName($repository, $fileName)
     {
         list($org, $repository) = explode('/', $repository, 2);
 
         if (strpos($repository, 'plugin-') === 0) {
             return substr($repository, strlen('plugin-'));
         }
+
+        // determine plugin based on the test name
+        if (!empty($fileName)) {
+            list($testName, $_null) = explode('_', $fileName, 2);
+            $foundExistingFiles = Filesystem::globr(PIWIK_DOCUMENT_ROOT, $fileName);
+            $foundTestSpecs = Filesystem::globr(PIWIK_DOCUMENT_ROOT, $testName.'_spec.js');
+            $filesToCheck = $foundExistingFiles + $foundTestSpecs;
+
+            foreach ($filesToCheck as $file) {
+                if (preg_match('/plugins\/([^\/]+)\//i', $file, $plugin)) {
+                    return $plugin[1];
+                }
+            }
+        }
+
         return null;
     }
 }

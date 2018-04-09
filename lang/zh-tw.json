@@ -173,6 +173,7 @@
         "ExceptionInvalidAggregateReportsFormat": "合併的報表格式「%1$s」無效。嘗試下列任一來替代：%2$s。",
         "ExceptionInvalidArchiveTimeToLive": "今日彙整時間必須是大於 0 的秒數",
         "ExceptionInvalidDateFormat": "日期格式必須為：%1$s 或任何被 %2$s 函式支援的關鍵字（查看 %3$s 以取得更多資訊）",
+        "ExceptionInvalidDateBeforeFirstWebsite": "日期「%1$s」比網站上線日期還早。嘗試使用 %2$s 之後的日期（時間戳 %3$s）。",
         "ExceptionInvalidDateRange": "「%1$s」不是一個正確的日期範圍。它應該是以下格式：%2$s。",
         "ExceptionInvalidPeriod": "目前不支援「%1$s」。嘗試以下任一來取代：%2$s",
         "ExceptionInvalidRendererFormat": "「%1$s」格式無效。嘗試以下任一來取代：%2$s。",

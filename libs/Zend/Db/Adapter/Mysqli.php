@@ -299,9 +299,21 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
 
         $this->_connection = mysqli_init();
 
+        $enable_ssl = false;
+        $ssl_options = array (
+            'ssl_ca' => null,
+            'ssl_ca_path' => null,
+            'ssl_cert' => null,
+            'ssl_cipher' => null,
+            'ssl_key' => null,
+        );
+
         if(!empty($this->_config['driver_options'])) {
             foreach($this->_config['driver_options'] as $option=>$value) {
-                if(is_string($option)) {
+                if(array_key_exists($option, $ssl_options)) {
+                    $ssl_options[$option] = $value;
+                    $enable_ssl = true;
+                } elseif(is_string($option)) {
                     // Suppress warnings here
                     // Ignore it if it's not a valid constant
                     $option = @constant(strtoupper($option));
@@ -309,6 +321,28 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
                         continue;
                 }
                 mysqli_options($this->_connection, $option, $value);
+            }
+        }
+
+
+        if ($enable_ssl) {
+            mysqli_ssl_set(
+                $this->_connection,
+                $ssl_options['ssl_key'],
+                $ssl_options['ssl_cert'],
+                $ssl_options['ssl_ca'],
+                $ssl_options['ssl_ca_path'],
+                $ssl_options['ssl_cipher']
+            );
+        }
+
+        $flags = null;
+        if ($enable_ssl) {
+            $flags = MYSQLI_CLIENT_SSL;
+            if (!empty($this->_config['driver_options']['ssl_no_verify'])
+                && defined('MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT')
+            ) {
+                $flags = MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
             }
         }
 
@@ -320,7 +354,9 @@ class Zend_Db_Adapter_Mysqli extends Zend_Db_Adapter_Abstract
             $this->_config['username'],
             $this->_config['password'],
             $this->_config['dbname'],
-            $port
+            $port,
+            $socket = null,
+            $enable_ssl ? $flags : null
         );
 
         if ($_isConnected === false || mysqli_connect_errno()) {

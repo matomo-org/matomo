@@ -417,7 +417,7 @@
         "Warning": "警告",
         "Warnings": "警告",
         "WarningPhpVersionXIsTooOld": "您正在使用的PHP版本%s 已达到其生命周期结束（EOL）。我们强烈敦促升级到最新版本，因为使用这个版本可能会使您已修复在最近版本的PHP中的安全漏洞和错误。",
-        "WarningPiwikWillStopSupportingPHPVersion": "Piwik将停止下一个主要版本，支持PHP%1$s。升级你的PHP来至少PHP%2$s还为时不晚。",
+        "WarningPiwikWillStopSupportingPHPVersion": "Matomo将停止下一个主要版本，支持PHP%1$s。升级你的PHP来至少PHP%2$s还为时不晚。",
         "YouMustUpgradePhpVersionToReceiveLatestPiwik": "您需要升级您的 PHP 版本才能接收最新的 Matomo 更新。",
         "PiwikCannotBeUpgradedBecausePhpIsTooOld": "您当前的 PHP 版本不兼容最新的 Matomo。",
         "PleaseUpgradeYourPhpVersionSoYourPiwikDataStaysSecure": "请您将 PHP 版本升级到 %s 以上，以便保持您的 Matomo 统计数据安全。",

@@ -27,15 +27,26 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get each dashboard that belongs to a user including the containing widgets that are placed within each dashboard.
-     * If the user has not created any dashboard yet, the default dashboard will be returned.
+     * If the user has not created any dashboard yet, the default dashboard will be returned unless
+     * $returnDefaultIfEmpty is set to `false`
+     *
+     * @param string $login Login of the user [defaults to current user]
+     * @param bool $returnDefaultIfEmpty  disable return of default dashboard
      *
      * @return array[]
      */
-    public function getDashboards()
+    public function getDashboards($login = '', $returnDefaultIfEmpty = true)
     {
-        $dashboards = $this->getUserDashboards();
+        $login = $login ? $login : Piwik::getCurrentUserLogin();
 
-        if (empty($dashboards)) {
+        $dashboards = [];
+
+        if (!Piwik::isUserIsAnonymous()) {
+            Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
+            $dashboards = $this->getUserDashboards($login);
+        }
+
+        if (empty($dashboards) && $returnDefaultIfEmpty) {
             $dashboards = array($this->getDefaultDashboard());
         }
 
@@ -150,11 +161,12 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get all dashboards which a user has created.
+     *
+     * @param string $userLogin login of the user
      * @return \array[]
      */
-    private function getUserDashboards()
+    private function getUserDashboards($userLogin)
     {
-        $userLogin = Piwik::getCurrentUserLogin();
         $userDashboards = $this->dashboard->getAllDashboards($userLogin);
 
         $dashboards = array();

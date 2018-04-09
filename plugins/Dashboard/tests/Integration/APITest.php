@@ -15,7 +15,7 @@ use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * @group GoalsDashboard
+ * @group Dashboard
  * @group Plugins
  * @group APITest
  * @group Plugins
@@ -40,6 +40,77 @@ class APITest extends IntegrationTestCase
 
         $this->model = new Model();
         $this->api = API::getInstance();
+    }
+
+    public function testGetDashboardsNoParamsNoDashboardShouldReturnDefault()
+    {
+        $result = $this->api->getDashboards();
+        $this->assertCount(1, $result);
+    }
+
+    public function testGetDashboardsNoDefaultShouldReturnEmpty()
+    {
+        $result = $this->api->getDashboards(null, false);
+        $this->assertCount(0, $result);
+    }
+
+    public function testGetDashboardsShouldReturnOwnDashboardsForSuperUser()
+    {
+        $layout ='[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
+        $this->model->createNewDashboardForUser('eva', 'any name', $layout);
+
+        FakeAccess::$superUser = true;
+        FakeAccess::$identity = 'eva';
+
+        $result = $this->api->getDashboards('eva', false);
+
+        $expected = [
+            'name' => 'any name',
+            'id' => 1,
+            'widgets' => [
+                ['module' => 'Live', 'action' => 'widget']
+            ]
+        ];
+
+        $this->assertCount(1, $result);
+        $this->assertEquals([$expected], $result);
+    }
+
+    public function testGetDashboardsShouldReturnForeignDashboardsForSuperUser()
+    {
+        $layout ='[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
+        $this->model->createNewDashboardForUser('peter', 'any name', $layout);
+
+        FakeAccess::$superUser = true;
+        FakeAccess::$identity = 'eva';
+
+        $result = $this->api->getDashboards('peter', false);
+        $this->assertCount(1, $result);
+    }
+
+
+    public function testGetDashboardsShouldReturnOwnDashboardsForUser()
+    {
+        $layout ='[[{"uniqueId":"widgetLivewidget","parameters":{"module":"Live","action":"widget"}}]]';
+        $this->model->createNewDashboardForUser('eva', 'any name', $layout);
+
+        FakeAccess::$superUser = false;
+        FakeAccess::$identity = 'eva';
+
+        $result = $this->api->getDashboards('eva', false);
+        $this->assertCount(1, $result);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage General_ExceptionCheckUserHasSuperUserAccessOrIsTheUser
+     */
+    public function testGetDashboardsShouldNotReturnForeignDashboardsForNonSuperUser()
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$identity = 'eva';
+
+        $this->api->getDashboards('peter', false);
     }
 
     /**

@@ -80,6 +80,7 @@ class ClientTest extends SystemTestCase
             'isCustomPlugin',
             'shop',
             'bundle',
+            'specialOffer',
             'versions',
             'isDownloadable',
             'changelog',

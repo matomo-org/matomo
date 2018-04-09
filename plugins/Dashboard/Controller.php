@@ -138,7 +138,7 @@ class Controller extends \Piwik\Plugin\Controller
             $session->dashboardLayout = $layout;
             $session->setExpirationSeconds(1800);
         } else {
-            $this->getModel()->updateLayoutForUser(Piwik::getCurrentUserLogin(), $idDashboard, $layout);
+            $this->getModel()->createOrUpdateDashboard(Piwik::getCurrentUserLogin(), $idDashboard, $layout);
             if (!empty($name)) {
                 $this->getModel()->updateDashboardName(Piwik::getCurrentUserLogin(), $idDashboard, $name);
             }
@@ -181,12 +181,12 @@ class Controller extends \Piwik\Plugin\Controller
             $layout = $this->dashboard->getLayoutForUser(Piwik::getCurrentUserLogin(), $idDashboard);
         }
 
-        if (!empty($layout)) {
-            $layout = $this->dashboard->removeDisabledPluginFromLayout($layout);
-        }
-
         if (empty($layout)) {
             $layout = $this->dashboard->getDefaultLayout();
+        }
+
+        if (!empty($layout)) {
+            $layout = $this->dashboard->removeDisabledPluginFromLayout($layout);
         }
 
         return $layout;

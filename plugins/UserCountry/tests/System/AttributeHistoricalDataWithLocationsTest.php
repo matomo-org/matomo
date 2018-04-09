@@ -20,7 +20,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class AttributeHistoricalDataWithLocationsTest
- * @package Piwik\Plugins\UserCountry\Test\Integration
+ * @package Piwik\Plugins\UserCountry\tests\Integration
  *
  * @group UserCountry
  * @group AttributeHistoricalDataWithLocations
