@@ -812,6 +812,7 @@ class CronArchive
         $cliMulti = $this->makeCliMulti();
         if ($cliMulti->isCommandAlreadyRunning($this->makeRequestUrl($url))) {
             $this->logger->info("Skipped website id $idSite, such a process is already in progress, " . $timerWebsite->__toString());
+            $this->skipped++;
             return false;
         }
 
