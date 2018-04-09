@@ -280,22 +280,18 @@ class CliMulti
 
         $query = UrlHelper::getQueryFromUrl($url, array('pid' => 'removeme'));
         $hostname = Url::getHost($checkIfTrusted = false);
-        $commandsToCheck = array();
-        $commandsToCheck[] = $this->buildCommand($hostname, $query, '', true);
-        $commandsToCheck[] = $this->buildCommand($hostname, $query, '', false);
+        $commandToCheck = $this->buildCommand($hostname, $query, $output = '', $escape = false);
 
         $currentlyRunningJobs = `ps ex`;
 
-        foreach ($commandsToCheck as $commandToCheck) {
-            $posStart = strpos($commandToCheck, 'console climulti');
-            $posPid = strpos($commandToCheck, '&pid='); // the pid is random each time so we need to ignore it.
-            $shortendCommand = substr($commandToCheck, $posStart, $posPid - $posStart);
-            // equals eg console climulti:request -q --piwik-domain= --superuser module=API&method=API.get&idSite=1&period=month&date=2018-04-08,2018-04-30&format=php&trigger=archivephp
+        $posStart = strpos($commandToCheck, 'console climulti');
+        $posPid = strpos($commandToCheck, '&pid='); // the pid is random each time so we need to ignore it.
+        $shortendCommand = substr($commandToCheck, $posStart, $posPid - $posStart);
+        // equals eg console climulti:request -q --piwik-domain= --superuser module=API&method=API.get&idSite=1&period=month&date=2018-04-08,2018-04-30&format=php&trigger=archivephp
 
-            if (strpos($currentlyRunningJobs, $shortendCommand) !== false) {
-                Log::debug($shortendCommand . ' is already running');
-                return true;
-            }
+        if (strpos($currentlyRunningJobs, $shortendCommand) !== false) {
+            Log::debug($shortendCommand . ' is already running');
+            return true;
         }
 
         return false;
