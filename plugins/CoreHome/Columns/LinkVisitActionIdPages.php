@@ -25,6 +25,7 @@ class LinkVisitActionIdPages extends ActionDimension
 
     public function configureSegments()
     {
+        // empty so we don't auto-generate a segment
     }
 
     public function getDbDiscriminator()
