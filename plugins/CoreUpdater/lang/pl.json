@@ -48,7 +48,7 @@
         "TheFollowingPluginsWillBeUpgradedX": "Następujące wtyczki zostaną zaktualizowane: %s.",
         "TheFollowingDimensionsWillBeUpgradedX": "Następujące rozmiary zostaną zaaktualizowane: %s.",
         "ThereIsNewPluginVersionAvailableForUpdate": "Niektóre wtyczki zostały zaktualizowane w Sklepie:",
-        "ThereIsNewVersionAvailableForUpdate": "Pojawiła się nowa wersja Matomo dostępna już dla aktualizacji",
+        "ThereIsNewVersionAvailableForUpdate": "Pojawiła się nowa wersja Matomo, zapraszamy do aktualizacji",
         "TheUpgradeProcessMayFailExecuteCommand": "Jeżeli twoja baza danych Matomo zawiera dużo danych, aktualizacje mogą trwać zbyt długo by przeprowadzić je przez przeglądarkę. W takim przypadku przeprowadź aktualizację z linii poleceń: %s",
         "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "Aktualizacja bazy danych może potrwać chwilę, więc bądź cierpliwy.",
         "UnpackingTheUpdate": "Rozpakowywanie aktualizacji",
