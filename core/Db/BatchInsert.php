@@ -179,19 +179,28 @@ class BatchInsert
          * this requires that the db user have the FILE privilege; however, since this is
          * a global privilege, it may not be granted due to security concerns
          */
-        $keywords = array('');
+        if (Config::getInstance()->General['load_data_infile_remote']) {
+            $keywords = array();
+            
+        } else {
+            $keywords = array('');
+        }
 
         /*
          * Second attempt: using the LOCAL keyword means the client reads the file and sends it to the server;
          * the LOCAL keyword may trigger a known PHP PDO\MYSQL bug when MySQL not built with --enable-local-infile
          * @see http://bugs.php.net/bug.php?id=54158
          */
-        $openBaseDir = ini_get('open_basedir');
+        $openBaseDir = !empty(ini_get('open_basedir')) && !(function_exists('mysqli_get_client_stats') && version_compare(PHP_VERSION, '5.6.17', '>='));
         $safeMode    = ini_get('safe_mode');
 
         if (empty($openBaseDir) && empty($safeMode)) {
             // php 5.x - LOAD DATA LOCAL INFILE is disabled if open_basedir restrictions or safe_mode enabled
             $keywords[] = 'LOCAL ';
+        }
+
+        if (count($keywords) < 1) {
+            return false;
         }
 
         $exceptions = array();
