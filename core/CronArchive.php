@@ -391,7 +391,7 @@ class CronArchive
                 // will basically never end because by the time the `cron:archive` finishes, the sharedSideIds have
                 // been resettet. This can eventually lead to some random concurrency issues when there are like
                 // 40 `core:archive` active at the same time.
-                $this->logger->info("Stop archiving websites as initial list of websites have been processed.");
+                $this->logger->info("Stopping archiving as the initial list of websites has been processed.");
                 return;
             }
 
