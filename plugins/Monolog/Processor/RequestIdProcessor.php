@@ -19,10 +19,6 @@ class RequestIdProcessor
 
     public function __invoke(array $record)
     {
-        if (Common::isPhpCliMode()) {
-            return $record;
-        }
-
         if (empty($this->currentRequestKey)) {
             $this->currentRequestKey = substr(Common::generateUniqId(), 0, 5);
         }
