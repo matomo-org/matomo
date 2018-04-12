@@ -871,9 +871,9 @@ class CronArchive
         $this->visitsToday += $visitsToday;
         $this->websitesWithVisitsSinceLastRun++;
 
-        $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true, $timer, $visitsToday, $visitsLastDays);
+        $dayArchiveWasSuccessful = $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true, $timer, $visitsToday, $visitsLastDays);
 
-        return true;
+        return $dayArchiveWasSuccessful;
     }
 
     /**
