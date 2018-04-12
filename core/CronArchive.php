@@ -940,11 +940,6 @@ class CronArchive
                 $urls[] = $url;
                 $this->logArchiveWebsite($idSite, $period, $date);
             }
-        } else {
-            if ($cliMulti->isCommandAlreadyRunning($url)) {
-                $this->logArchiveWebsiteAlreadyInProcess($idSite, $period, $date);
-                return;
-            }
         }
 
         $segmentRequestsCount = 0;
