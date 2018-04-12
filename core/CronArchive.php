@@ -924,6 +924,7 @@ class CronArchive
         $cliMulti = $this->makeCliMulti();
 
         $noSegmentUrl = $url;
+
         // already processed above for "day"
         if ($period != "day") {
             if ($cliMulti->isCommandAlreadyRunning($url)) {
@@ -931,6 +932,11 @@ class CronArchive
             } else {
                 $urls[] = $url;
                 $this->logArchiveWebsite($idSite, $period, $date);
+            }
+        } else {
+            if ($cliMulti->isCommandAlreadyRunning($url)) {
+                $this->logArchiveWebsiteAlreadyInProcess($idSite, $period, $date);
+                return;
             }
         }
 
