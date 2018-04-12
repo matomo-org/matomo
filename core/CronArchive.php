@@ -932,6 +932,13 @@ class CronArchive
 
         // already processed above for "day"
         if ($period != "day") {
+            $periodInProgress = $this->isAlreadyArchivingAnyLowerPeriod($idSite, $period);
+            if ($periodInProgress) {
+                $this->logger->info("- skipping archiving for period '{period}' because processing the period '{periodcheck}' is already in progress.", array('period' => $period, 'periodcheck' => $periodInProgress));
+                $success = false;
+                return $success;
+            }
+
             if ($cliMulti->isCommandAlreadyRunning($url)) {
                 $this->logArchiveWebsiteAlreadyInProcess($idSite, $period, $date);
                 $success = false;
@@ -1714,11 +1721,18 @@ class CronArchive
 
         $segmentCount = count($segments);
         $processedSegmentCount = 0;
+
         foreach ($segments as $segment) {
             $dateParamForSegment = $this->segmentArchivingRequestUrlProvider->getUrlParameterDateString($idSite, $period, $date, $segment);
 
             $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
             $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
+
+            $periodInProgress = $this->isAlreadyArchivingAnyLowerPeriod($idSite, $period);
+            if ($periodInProgress) {
+                $this->logger->info("- skipping segment archiving for period '{period}' with segment '{segment}' because processing the period '{periodcheck}' is already in progress.", array('segment' => $segment, 'period' => $period, 'periodcheck' => $periodInProgress));
+                continue;
+            }
 
             if ($cliMulti->isCommandAlreadyRunning($urlWithSegment)) {
                 $this->logger->info("- skipping segment archiving for '{segment}' because such a process is already in progress.", array('segment' => $segment));
@@ -1741,6 +1755,32 @@ class CronArchive
         }
 
         return $urlsWithSegment;
+    }
+
+    private function isAlreadyArchivingAnyLowerPeriod($idSite, $period, $segment = false)
+    {
+        $periodOrder = array('day', 'week', 'month', 'year');
+        $cliMulti = $this->makeCliMulti();
+
+        $index = array_search($period, $periodOrder);
+        if ($index > 0) {
+            // we only need to check for week, month, year if any earlier period is already running
+            // so when period = month, then we check for day and week
+
+            for ($i = 0; $i < $index; $i++) {
+                $periodToCheck = $periodOrder[$i];
+
+                // the date will be ignored in isCommandAlreadyRunning() because it could be any date
+                $urlCheck = $this->getVisitsRequestUrl($idSite, $periodToCheck, 'last2', $segment);
+                $urlCheck = $this->makeRequestUrl($urlCheck);
+
+                if ($cliMulti->isCommandAlreadyRunning($urlCheck)) {
+                    return $periodToCheck;
+                }
+            }
+        }
+
+        return false;
     }
 
     private function createSitesToArchiveQueue($websitesIds)

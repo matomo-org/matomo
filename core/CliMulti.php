@@ -282,12 +282,14 @@ class CliMulti
         $hostname = Url::getHost($checkIfTrusted = false);
         $commandToCheck = $this->buildCommand($hostname, $query, $output = '', $escape = false);
 
-        $currentlyRunningJobs = `ps ex`;
+        $currentlyRunningJobs = `ps aux`;
 
         $posStart = strpos($commandToCheck, 'console climulti');
         $posPid = strpos($commandToCheck, '&pid='); // the pid is random each time so we need to ignore it.
         $shortendCommand = substr($commandToCheck, $posStart, $posPid - $posStart);
         // equals eg console climulti:request -q --piwik-domain= --superuser module=API&method=API.get&idSite=1&period=month&date=2018-04-08,2018-04-30&format=php&trigger=archivephp
+        $shortendCommand      = preg_replace("/([&])date=.*?(&|$)/", "", $shortendCommand);
+        $currentlyRunningJobs = preg_replace("/([&])date=.*?(&|$)/", "", $currentlyRunningJobs);
 
         if (strpos($currentlyRunningJobs, $shortendCommand) !== false) {
             Log::debug($shortendCommand . ' is already running');
