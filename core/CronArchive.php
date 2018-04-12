@@ -612,21 +612,13 @@ class CronArchive
         // Skip this day archive if last archive was older than TTL
         $existingArchiveIsValid = ($elapsedSinceLastArchiving < $this->todayArchiveTimeToLive);
 
-        $skipDayArchive = $existingArchiveIsValid;
-
-        // Invalidate old website forces the archiving for this site
-        $skipDayArchive = $skipDayArchive && !$websiteInvalidatedShouldReprocess;
-
-        // Also reprocess when day has ended since last run
-        if ($dayHasEndedMustReprocess
-            // it might have reprocessed for that day by another cron
-            && !$this->hasBeenProcessedSinceMidnight($idSite, $lastTimestampWebsiteProcessedDay)
-            && !$existingArchiveIsValid) {
-            $skipDayArchive = false;
-        }
-
-        if ($websiteIdIsForced) {
-            $skipDayArchive = false;
+        $skipDayArchive = false;
+        if($existingArchiveIsValid
+            && !$websiteIdIsForced
+            && !$websiteInvalidatedShouldReprocess
+            && !$dayHasEndedMustReprocess
+            && $this->hasBeenProcessedSinceMidnight($idSite, $lastTimestampWebsiteProcessedDay)) {
+            $skipDayArchive = true;
         }
 
         if ($skipDayArchive) {
@@ -781,10 +773,6 @@ class CronArchive
 
         $timer = new Timer();
 
-        // Fake that the request is already done, so that other core:archive commands
-        // running do not grab the same website from the queue
-        Option::set($this->lastRunKey($idSite, "day"), time());
-
         // Remove this website from the list of websites to be invalidated
         // since it's now just about to being re-processed, makes sure another running cron archiving process
         // does not archive the same idSite
@@ -823,9 +811,6 @@ class CronArchive
             || !is_array($daysResponse)
             || count($daysResponse) == 0
         ) {
-            // cancel the successful run flag
-            Option::set($this->lastRunKey($idSite, "day"), 0);
-
             // cancel marking the site as reprocessed
             if ($websiteInvalidatedShouldReprocess) {
                 $store = new SitesToReprocessDistributedList();
@@ -873,6 +858,9 @@ class CronArchive
 
         $dayArchiveWasSuccessful = $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true, $timer, $visitsToday, $visitsLastDays);
 
+        if($dayArchiveWasSuccessful) {
+            Option::set($this->lastRunKey($idSite, "day"), time());
+        }
         return $dayArchiveWasSuccessful;
     }
 
