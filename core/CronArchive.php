@@ -612,21 +612,13 @@ class CronArchive
         // Skip this day archive if last archive was older than TTL
         $existingArchiveIsValid = ($elapsedSinceLastArchiving < $this->todayArchiveTimeToLive);
 
-        $skipDayArchive = $existingArchiveIsValid;
-
-        // Invalidate old website forces the archiving for this site
-        $skipDayArchive = $skipDayArchive && !$websiteInvalidatedShouldReprocess;
-
-        // Also reprocess when day has ended since last run
-        if ($dayHasEndedMustReprocess
-            // it might have reprocessed for that day by another cron
-            && !$this->hasBeenProcessedSinceMidnight($idSite, $lastTimestampWebsiteProcessedDay)
-            && !$existingArchiveIsValid) {
-            $skipDayArchive = false;
-        }
-
-        if ($websiteIdIsForced) {
-            $skipDayArchive = false;
+        $skipDayArchive = false;
+        if($existingArchiveIsValid
+            && !$websiteIdIsForced
+            && !$websiteInvalidatedShouldReprocess
+            && !$dayHasEndedMustReprocess
+            && $this->hasBeenProcessedSinceMidnight($idSite, $lastTimestampWebsiteProcessedDay)) {
+            $skipDayArchive = true;
         }
 
         if ($skipDayArchive) {
@@ -781,10 +773,6 @@ class CronArchive
 
         $timer = new Timer();
 
-        // Fake that the request is already done, so that other core:archive commands
-        // running do not grab the same website from the queue
-        Option::set($this->lastRunKey($idSite, "day"), time());
-
         // Remove this website from the list of websites to be invalidated
         // since it's now just about to being re-processed, makes sure another running cron archiving process
         // does not archive the same idSite
@@ -823,9 +811,6 @@ class CronArchive
             || !is_array($daysResponse)
             || count($daysResponse) == 0
         ) {
-            // cancel the successful run flag
-            Option::set($this->lastRunKey($idSite, "day"), 0);
-
             // cancel marking the site as reprocessed
             if ($websiteInvalidatedShouldReprocess) {
                 $store = new SitesToReprocessDistributedList();
@@ -871,9 +856,12 @@ class CronArchive
         $this->visitsToday += $visitsToday;
         $this->websitesWithVisitsSinceLastRun++;
 
-        $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true, $timer, $visitsToday, $visitsLastDays);
+        $dayArchiveWasSuccessful = $this->archiveReportsFor($idSite, "day", $this->getApiDateParameter($idSite, "day", $processDaysSince), $archiveSegments = true, $timer, $visitsToday, $visitsLastDays);
 
-        return true;
+        if($dayArchiveWasSuccessful) {
+            Option::set($this->lastRunKey($idSite, "day"), time());
+        }
+        return $dayArchiveWasSuccessful;
     }
 
     /**
@@ -932,6 +920,7 @@ class CronArchive
 
         // already processed above for "day"
         if ($period != "day") {
+
             $periodInProgress = $this->isAlreadyArchivingAnyLowerPeriod($idSite, $period);
             if ($periodInProgress) {
                 $this->logger->info("- skipping archiving for period '{period}' because processing the period '{periodcheck}' is already in progress.", array('period' => $period, 'periodcheck' => $periodInProgress));
@@ -943,10 +932,10 @@ class CronArchive
                 $this->logArchiveWebsiteAlreadyInProcess($idSite, $period, $date);
                 $success = false;
                 return $success;
-            } else {
-                $urls[] = $url;
-                $this->logArchiveWebsite($idSite, $period, $date);
             }
+
+            $urls[] = $url;
+            $this->logArchiveWebsite($idSite, $period, $date);
         }
 
         $segmentRequestsCount = 0;
@@ -970,8 +959,10 @@ class CronArchive
 
             if ($noSegmentUrl === $url && $success) {
                 $stats = @unserialize($content);
+
                 if (!is_array($stats)) {
                     $this->logError("Error unserializing the following response from $url: " . $content);
+                    $success = false;
                 }
 
                 if ($period == 'range') {
