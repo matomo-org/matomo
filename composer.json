@@ -41,7 +41,7 @@
         "symfony/monolog-bridge": "~2.6.0",
         "symfony/event-dispatcher": "~2.6.0",
         "pear/pear_exception": "~1.0.0",
-        "matomo/referrer-spam-blacklist": "~1.0",
+        "matomo/referrer-spam-blacklist": "~1.1",
         "matomo/searchengine-and-social-list": "~1.0",
         "tecnickcom/tcpdf": "~6.0",
         "piwik/piwik-php-tracker": "^1.0",
