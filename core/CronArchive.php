@@ -932,14 +932,15 @@ class CronArchive
 
         // already processed above for "day"
         if ($period != "day") {
+
             if ($cliMulti->isCommandAlreadyRunning($url)) {
                 $this->logArchiveWebsiteAlreadyInProcess($idSite, $period, $date);
                 $success = false;
                 return $success;
-            } else {
-                $urls[] = $url;
-                $this->logArchiveWebsite($idSite, $period, $date);
             }
+
+            $urls[] = $url;
+            $this->logArchiveWebsite($idSite, $period, $date);
         }
 
         $segmentRequestsCount = 0;
@@ -963,8 +964,10 @@ class CronArchive
 
             if ($noSegmentUrl === $url && $success) {
                 $stats = @unserialize($content);
+
                 if (!is_array($stats)) {
                     $this->logError("Error unserializing the following response from $url: " . $content);
+                    $success = false;
                 }
 
                 if ($period == 'range') {
