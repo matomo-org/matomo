@@ -4,6 +4,9 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.5.0
+* New event `Archiving.getIdSitesToMarkArchivesAsInvalidates` that lets plugins customize the behaviour of report invalidations.
+
 ## Matomo 3.4.0
 
 ### Breaking Changes
