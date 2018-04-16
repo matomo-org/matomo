@@ -178,6 +178,11 @@ class PrivacyManager extends Plugin
         );
     }
 
+    public function isTrackerPlugin()
+    {
+        return true;
+    }
+
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';

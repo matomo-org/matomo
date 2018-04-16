@@ -30,6 +30,7 @@ class AnonymizeRawData extends ConsoleCommand
         $this->addOption('unset-link-visit-action-columns', null, InputOption::VALUE_REQUIRED, 'Comma seperated list of log_link_visit_action columns that you want to unset. Each value for that column will be set to its default value. This action cannot be undone.', '');
         $this->addOption('anonymize-ip', null, InputOption::VALUE_NONE, 'If set, the IP will be anonymized with a mask of at least 2. This action cannot be undone.');
         $this->addOption('anonymize-location', null, InputOption::VALUE_NONE, 'If set, the location will be re-evaluated based on the anonymized IP. This action cannot be undone.');
+        $this->addOption('anonymize-userid', null, InputOption::VALUE_NONE, 'If set, any set user-id will be anonymized. This action cannot be undone.');
         $this->addOption('idsites', null, InputOption::VALUE_REQUIRED, 'By default, the data of all idSites will be anonymized or unset. However, you can specify a set of idSites to execute this command only on these idsites.');
     }
 
@@ -53,6 +54,7 @@ class AnonymizeRawData extends ConsoleCommand
         }
         $anonymizeIp = $input->getOption('anonymize-ip');
         $anonymizeLocation = $input->getOption('anonymize-location');
+        $anonymizeUserId = $input->getOption('anonymize-userid');
 
         $logDataAnonymizations = StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations');
 
@@ -71,6 +73,12 @@ class AnonymizeRawData extends ConsoleCommand
             $output->writeln('<info>SKIPPING anonymizing location.</info>');
         }
 
+        if ($anonymizeUserId
+            && !$this->confirmAnonymize($input, $output, $startDate, $endDate, 'anonymize user id')) {
+            $anonymizeUserId = false;
+            $output->writeln('<info>SKIPPING anonymizing user id.</info>');
+        }
+
         if (!empty($visitColumnsToUnset)
             && !$this->confirmAnonymize($input, $output, $startDate, $endDate, 'unset the log_visit columns "' . implode(', ', $visitColumnsToUnset) . '"')) {
             $visitColumnsToUnset = false;
@@ -85,7 +93,7 @@ class AnonymizeRawData extends ConsoleCommand
         $logDataAnonymizations->setCallbackOnOutput(function ($message) use ($output) {
             $output->writeln($message);
         });
-        $idLogData = $logDataAnonymizations->scheduleEntry('Command line', $idSites, $date, $anonymizeIp, $anonymizeLocation, $visitColumnsToUnset, $linkVisitActionColumns, $isStarted = true);
+        $idLogData = $logDataAnonymizations->scheduleEntry('Command line', $idSites, $date, $anonymizeIp, $anonymizeLocation, $anonymizeUserId, $visitColumnsToUnset, $linkVisitActionColumns, $isStarted = true);
         $logDataAnonymizations->executeScheduledEntry($idLogData);
 
         $output->writeln('Done');

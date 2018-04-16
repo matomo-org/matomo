@@ -35,6 +35,7 @@ class Updates_3_5_0 extends PiwikUpdates
             'date_end' => 'DATETIME NOT NULL',
             'anonymize_ip' => 'TINYINT(1) UNSIGNED NOT NULL DEFAULT 0',
             'anonymize_location' => 'TINYINT(1) UNSIGNED NOT NULL DEFAULT 0',
+            'anonymize_userid' => 'TINYINT(1) UNSIGNED NOT NULL DEFAULT 0',
             'unset_visit_columns' => "TEXT NOT NULL DEFAULT ''",
             'unset_link_visit_action_columns' => "TEXT NOT NULL DEFAULT ''",
             'output' => 'MEDIUMTEXT NULL DEFAULT NULL',

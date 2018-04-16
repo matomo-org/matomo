@@ -39,7 +39,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
     {
         $columns = DbHelper::getTableColumns($this->tableName);
         $columns = array_keys($columns);
-        $this->assertEquals(array('idlogdata_anonymization', 'idsites', 'date_start', 'date_end', 'anonymize_ip', 'anonymize_location', 'unset_visit_columns', 'unset_link_visit_action_columns', 'output', 'scheduled_date', 'job_start_date', 'job_finish_date', 'requester'), $columns);
+        $this->assertEquals(array('idlogdata_anonymization', 'idsites', 'date_start', 'date_end', 'anonymize_ip', 'anonymize_location', 'anonymize_userid', 'unset_visit_columns', 'unset_link_visit_action_columns', 'output', 'scheduled_date', 'job_start_date', 'job_finish_date', 'requester'), $columns);
     }
 
     /**
@@ -85,7 +85,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
      */
     public function test_scheduleEntry_fails_whenInvalidVisitColumnsGiven()
     {
-        $this->scheduleEntry(null, '2018-01-02', false, false, ['visitor_localtime', 'visitor_foobar_Baz', 'config_device_type']);
+        $this->scheduleEntry(null, '2018-01-02', false, false, false, ['visitor_localtime', 'visitor_foobar_Baz', 'config_device_type']);
     }
 
     /**
@@ -94,7 +94,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
      */
     public function test_scheduleEntry_fails_whenInvalidLinkVisitActionColumnsGiven()
     {
-        $this->scheduleEntry(null, '2018-01-02', false, false, [], ['idaction_event_category', 'idaction_foobar_baz']);
+        $this->scheduleEntry(null, '2018-01-02', false, false, false, [], ['idaction_event_category', 'idaction_foobar_baz']);
     }
 
     /**
@@ -103,12 +103,12 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
      */
     public function test_scheduleEntry_fails_whenNoWorkScheduled()
     {
-        $this->scheduleEntry(null, '2018-01-02', false, false, [], []);
+        $this->scheduleEntry(null, '2018-01-02', false, false, false, [], []);
     }
 
     public function test_scheduleEntry_success()
     {
-        $id = $this->scheduleEntry(null, '2017-01-03', true, true, ['visitor_localtime', 'config_device_type'], ['idaction_event_category'], 'mylogin');
+        $id = $this->scheduleEntry(null, '2017-01-03', true, true, true, ['visitor_localtime', 'config_device_type'], ['idaction_event_category'], 'mylogin');
         $this->assertSame(1, $id);
 
         $entry = $this->dao->getEntry($id);
@@ -121,6 +121,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
             'date_end' => '2017-01-03 23:59:59',
             'anonymize_ip' => true,
             'anonymize_location' => true,
+            'anonymize_userid' => true,
             'unset_visit_columns' => array ('visitor_localtime','config_device_type'),
             'unset_link_visit_action_columns' => array('idaction_event_category'),
             'output' => null,
@@ -133,7 +134,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
 
     public function test_scheduleEntry_successStartDirectlySetsDateAndAlsoTestingDifferentSettings()
     {
-        $id = $this->scheduleStartedEntry(null, '2017-03-01,2018-04-06', false, true, [], false, 'mylogin2');
+        $id = $this->scheduleStartedEntry(null, '2017-03-01,2018-04-06', false, true, false, [], false, 'mylogin2');
 
         $entry = $this->dao->getEntry($id);
         $this->assertNotEmpty($entry['scheduled_date']);
@@ -148,6 +149,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
             'date_end' => '2018-04-06 23:59:59',
             'anonymize_ip' => false,
             'anonymize_location' => true,
+            'anonymize_userid' => false,
             'unset_visit_columns' => array (),
             'unset_link_visit_action_columns' => array(),
             'output' => null,
@@ -249,7 +251,7 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
 
     public function test_executeScheduledEntry_SimpleExecutionWithAllFeaturesEnabledWhenNoTrackedData_OtherTestsBeDoneInSystemTests()
     {
-        $id = $this->scheduleEntry(null, '2017-01-03', true, true, ['visitor_localtime', 'config_device_type'], ['idaction_event_category'], 'mylogin');
+        $id = $this->scheduleEntry(null, '2017-01-03', true, true, true, ['visitor_localtime', 'config_device_type'], ['idaction_event_category'], 'mylogin');
 
         // now we execute the task
         $this->dao->executeScheduledEntry($id);
@@ -269,12 +271,13 @@ class LogDataAnonymizationsTest extends IntegrationTestCase
             'date_end' => '2017-01-03 23:59:59',
             'anonymize_ip' => true,
             'anonymize_location' => true,
+            'anonymize_userid' => true,
             'unset_visit_columns' => array ('visitor_localtime','config_device_type'),
             'unset_link_visit_action_columns' => array('idaction_event_category'),
             'output' => "Running behaviour on all sites.
 Applying this to visits between '2017-01-03 00:00:00' and '2017-01-03 23:59:59'.
 Starting to anonymize visit information.
-Number of anonymized IP and/or location: 0
+Number of anonymized IP and/or location and/or User ID: 0
 Starting to unset log_visit table entries.
 Number of unset log_visit table entries: 0
 Starting to unset log_conversion table entries (if possible).
@@ -298,6 +301,7 @@ Number of unset log_link_visit_action table entries: 0
             'date_end' => '2018-01-01 23:59:59',
             'anonymize_ip' => true,
             'anonymize_location' => false,
+            'anonymize_userid' => false,
             'unset_visit_columns' => array (),
             'unset_link_visit_action_columns' => array(),
             'output' => null,
@@ -308,14 +312,14 @@ Number of unset log_link_visit_action table entries: 0
         ), $entry);
     }
 
-    private function scheduleEntry($idSites = null, $dateString = '2018-01-01', $anonymizeIp = true, $anonymizeLocation = false, $unsetVisitColumns = [], $unsetLinkVisitActionColumns = [], $requester = 'CLI')
+    private function scheduleEntry($idSites = null, $dateString = '2018-01-01', $anonymizeIp = true, $anonymizeLocation = false, $anonymizeUserId = false, $unsetVisitColumns = [], $unsetLinkVisitActionColumns = [], $requester = 'CLI')
     {
-        return $this->dao->scheduleEntry($requester, $idSites, $dateString, $anonymizeIp, $anonymizeLocation, $unsetVisitColumns, $unsetLinkVisitActionColumns, $start = false);
+        return $this->dao->scheduleEntry($requester, $idSites, $dateString, $anonymizeIp, $anonymizeLocation, $anonymizeUserId, $unsetVisitColumns, $unsetLinkVisitActionColumns, $start = false);
     }
 
-    private function scheduleStartedEntry($idSites = null, $dateString = '2018-01-01', $anonymizeIp = true, $anonymizeLocation = false, $unsetVisitColumns = [], $unsetLinkVisitActionColumns = [], $requester = 'CLI')
+    private function scheduleStartedEntry($idSites = null, $dateString = '2018-01-01', $anonymizeIp = true, $anonymizeLocation = false, $anonymizeUserId = false, $unsetVisitColumns = [], $unsetLinkVisitActionColumns = [], $requester = 'CLI')
     {
-        return $this->dao->scheduleEntry($requester, $idSites, $dateString, $anonymizeIp, $anonymizeLocation, $unsetVisitColumns, $unsetLinkVisitActionColumns, $start = true);
+        return $this->dao->scheduleEntry($requester, $idSites, $dateString, $anonymizeIp, $anonymizeLocation, $anonymizeUserId, $unsetVisitColumns, $unsetLinkVisitActionColumns, $start = true);
     }
 
 }

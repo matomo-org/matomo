@@ -24,6 +24,7 @@
         this.isDeleting = false;
         this.anonymizeIp = false;
         this.anonymizeLocation = false;
+        this.anonymizeUserId = false;
         this.site = {id: 'all', name: 'All Websites'};
         this.availableVisitColumns = [];
         this.availableActionColumns = [];
@@ -111,6 +112,7 @@
             params.idSites = this.site.id;
             params.anonymizeIp = this.anonymizeIp ? '1' : '0';
             params.anonymizeLocation = this.anonymizeLocation ? '1' : '0';
+            params.anonymizeUserId = this.anonymizeUserId ? '1' : '0';
             params.unsetVisitColumns = [];
             params.unsetLinkVisitActionColumns = [];
             angular.forEach(this.selectedVisitColumns, function (column) {

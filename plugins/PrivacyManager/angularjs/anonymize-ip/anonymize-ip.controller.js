@@ -20,6 +20,8 @@
 
             piwikApi.post({module: 'API', method: 'PrivacyManager.setAnonymizeIpSettings'}, {
                 anonymizeIPEnable: this.enabled ? '1' : '0',
+                anonymizeUserId: this.anonymizeUserId ? '1' : '0',
+                anonymizeOrderId: this.anonymizeOrderId ? '1' : '0',
                 maskLength: this.maskLength,
                 useAnonymizedIpForVisitEnrichment: parseInt(this.useAnonymizedIpForVisitEnrichment, 10) ? '1' : '0'
             }).then(function (success) {

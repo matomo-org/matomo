@@ -14,8 +14,10 @@ use Piwik\DbHelper;
 use Piwik\Network\IP;
 use Piwik\Plugins\PrivacyManager\Config;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
+use Piwik\Plugins\PrivacyManager\Tracker\RequestProcessor;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
+use Piwik\SettingsPiwik;
 use Piwik\Tracker\Model;
 use Exception;
 
@@ -34,9 +36,9 @@ class LogDataAnonymizer
         $this->logVisitTable = Common::prefixTable('log_visit');
     }
 
-    public function anonymizeVisitInformation($idSites, $startDate, $endDate, $anonymizeIp, $anonimizeLocation)
+    public function anonymizeVisitInformation($idSites, $startDate, $endDate, $anonymizeIp, $anonimizeLocation, $anonymizeUserId)
     {
-        if (!$anonymizeIp && !$anonimizeLocation) {
+        if (!$anonymizeIp && !$anonimizeLocation && !$anonymizeUserId) {
             return 0; // nothing to do
         }
 
@@ -73,7 +75,7 @@ class LogDataAnonymizer
                 $limit = $numVisitsToUpdate % $limit;
             }
 
-            $sql = sprintf('SELECT idsite, idvisit, location_ip, location_longitude, location_latitude, location_city, location_region, location_country FROM %s WHERE idsite in (%s) and visit_last_action_time >= ? and visit_last_action_time <= ? ORDER BY idsite, visit_last_action_time, idvisit LIMIT %d OFFSET %d', $this->logVisitTable, $idSites, $limit, $offset);
+            $sql = sprintf('SELECT idsite, idvisit, location_ip, user_id, location_longitude, location_latitude, location_city, location_region, location_country FROM %s WHERE idsite in (%s) and visit_last_action_time >= ? and visit_last_action_time <= ? ORDER BY idsite, visit_last_action_time, idvisit LIMIT %d OFFSET %d', $this->logVisitTable, $idSites, $limit, $offset);
             $rows = Db::query($sql, array($startDate, $endDate))->fetchAll();
 
             foreach ($rows as $row) {
@@ -87,6 +89,10 @@ class LogDataAnonymizer
                         // needs updating
                         $update['location_ip'] = $ipAnonymized->toBinary();
                     }
+                }
+
+                if ($anonymizeUserId && isset($row['user_id']) && $row['user_id'] !== false && $row['user_id'] !== '') {
+                    $update['user_id'] = RequestProcessor::anonymizeUserId($row['user_id']);
                 }
 
                 if ($anonimizeLocation) {

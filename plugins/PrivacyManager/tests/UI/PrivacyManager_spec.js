@@ -154,9 +154,10 @@ describe("PrivacyManager", function () {
     });
 
     it('should prefill anonymize location and action column', function (done) {
-        captureAnonymizeLogData('anonymizelogdata_anonymizelocation_and_action_column_prefilled', function (page) {
+        captureAnonymizeLogData('anonymizelogdata_anonymizelocation_anduserid_and_action_column_prefilled', function (page) {
             loadActionPage(page, 'privacySettings');
             page.click('[name=anonymizeLocation] label');
+            page.click('[name=anonymizeTheUserId] label');
             page.wait(500);
             selectActionColumn(page, 'time_spent_ref_action');
             selectActionColumn(page, 'idaction_content_name');
@@ -164,7 +165,7 @@ describe("PrivacyManager", function () {
     });
 
     it('should confirm anonymize location and action column', function (done) {
-        captureAnonymizeLogData('anonymizelogdata_anonymizelocation_and_action_column_confirmed', function (page) {
+        captureAnonymizeLogData('anonymizelogdata_anonymizelocation_anduserid_and_action_column_confirmed', function (page) {
             anonymizePastData(page);
             selectModalButton(page, 'Yes');
             setAnonymizeStartEndDate(page);

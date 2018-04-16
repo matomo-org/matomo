@@ -14,7 +14,7 @@
 
 <div piwik-content-block
      id="anonymizeIPAnchor"
-     content-title="{{ 'PrivacyManager_UseAnonymizeIp'|translate|e('html_attr') }}">
+     content-title="{{ 'PrivacyManager_UseAnonymizeTrackingData'|translate|e('html_attr') }}">
     <div piwik-form ng-controller="AnonymizeIpController as anonymizeIp">
 
         <div piwik-field uicontrol="checkbox" name="anonymizeIpSettings"
@@ -40,6 +40,20 @@
                  options="{{ useAnonymizedIpForVisitEnrichmentOptions|json_encode }}"
                  inline-help="{{ 'PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote'|translate|e('html_attr') }}">
             </div>
+        </div>
+
+        <div piwik-field uicontrol="checkbox" name="anonymizeUserId"
+             ng-model="anonymizeIp.anonymizeUserId"
+             title="{{ 'PrivacyManager_UseAnonymizeUserId'|translate|e('html_attr') }}"
+             value="{{ anonymizeIP.anonymizeUserId }}"
+             inline-help="{{ 'PrivacyManager_AnonymizeUserIdNote'|translate|e('html_attr') }}">
+        </div>
+
+        <div piwik-field uicontrol="checkbox" name="anonymizeOrderId"
+             ng-model="anonymizeIp.anonymizeOrderId"
+             title="{{ 'PrivacyManager_UseAnonymizeOrderId'|translate|e('html_attr') }}"
+             value="{{ anonymizeIP.anonymizeOrderId }}"
+             inline-help="{{ 'PrivacyManager_AnonymizeOrderIdNote'|translate|e('html_attr') }}">
         </div>
 
         <div piwik-save-button onconfirm="anonymizeIp.save()" saving="anonymizeIp.isLoading"></div>
@@ -276,6 +290,7 @@
     {% endif %}
 </div>
 
+
     <div piwik-content-block content-title="Anonymize previously tracked raw data" class="logDataAnonymizer">
         <p>If you have tracked personal data such as the full visitor IP, you may
             want to anonymize this data now in case you do not have consent for this data or no longer a legitimate
@@ -296,8 +311,7 @@
                 <th>Requester</th>
                 <th>Affected ID Sites</th>
                 <th>Affected date</th>
-                <th>Anonymize IP</th>
-                <th>Anonymize Location</th>
+                <th>Anonymize</th>
                 <th>Visit Columns</th>
                 <th>Link Visit Action Columns</th>
                 <th>Status</th>
@@ -310,8 +324,11 @@
                     <td>{{ entry.requester }}</td>
                     <td>{{ entry.sites|join(', ') }}</td>
                     <td>{{ entry.date_start }} - {{ entry.date_end }}</td>
-                    <td>{% if entry.anonymize_ip %}<span class="icon-ok"></span>{% else %}-{% endif %}</td>
-                    <td>{% if entry.anonymize_location %}<span class="icon-ok"></span>{% else %}-{% endif %}</td>
+                    <td>{% if entry.anonymize_ip %}<span>IP address</span>{% endif %}
+                        {% if entry.anonymize_location %}<span>Location</span>{% endif %}
+                        {% if entry.anonymize_userid %}<span>User ID</span>{% endif %}
+                        {% if not entry.anonymize_ip and not entry.anonymize_location and not entry.anonymize_userid %}-{% endif %}
+                    </td>
                     <td>{{ entry.unset_visit_columns|join(', ') }}</td>
                     <td>{{ entry.unset_link_visit_action_columns|join(', ') }}</td>
                     <td>

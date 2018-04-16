@@ -47,6 +47,12 @@
          inline-help="This action cannot be undone. Re-evaluates the location based on the anonymized IP (at least 2 bytes of the IP will be anonymized).">
     </div>
 
+    <div piwik-field uicontrol="checkbox" name="anonymizeTheUserId"
+         title="Anonymize User ID"
+         ng-model="anonymizeLogData.anonymizeUserId"
+         inline-help="This action cannot be undone. Anonymizes any set User ID.">
+    </div>
+
     <div class="form-group row">
         <div class="col s12 m6">
             <div>

@@ -75,7 +75,7 @@ class API extends \Piwik\Plugin\API
         return $this->gdpr->exportDataSubjects($visits);
     }
 
-    public function anonymizeSomeRawData($idSites, $date, $anonymizeIp = false, $anonymizeLocation = false, $unsetVisitColumns = [], $unsetLinkVisitActionColumns = [])
+    public function anonymizeSomeRawData($idSites, $date, $anonymizeIp = false, $anonymizeLocation = false, $anonymizeUserId = false, $unsetVisitColumns = [], $unsetLinkVisitActionColumns = [])
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -85,7 +85,7 @@ class API extends \Piwik\Plugin\API
             $idSites = Site::getIdSitesFromIdSitesString($idSites);
         }
         $requester = Piwik::getCurrentUserLogin();
-        $this->logDataAnonymizations->scheduleEntry($requester, $idSites, $date, $anonymizeIp, $anonymizeLocation, $unsetVisitColumns, $unsetLinkVisitActionColumns);
+        $this->logDataAnonymizations->scheduleEntry($requester, $idSites, $date, $anonymizeIp, $anonymizeLocation, $anonymizeUserId, $unsetVisitColumns, $unsetLinkVisitActionColumns);
     }
 
     public function getAvailableVisitColumnsToAnonymize()
@@ -120,7 +120,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment)
+    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false)
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -135,6 +135,14 @@ class API extends \Piwik\Plugin\API
         $privacyConfig = new Config();
         $privacyConfig->ipAddressMaskLength = (int) $maskLength;
         $privacyConfig->useAnonymizedIpForVisitEnrichment = (bool) $useAnonymizedIpForVisitEnrichment;
+
+        if (false !== $anonymizeUserId) {
+            $privacyConfig->anonymizeUserId = (bool) $anonymizeUserId;
+        }
+
+        if (false !== $anonymizeOrderId) {
+            $privacyConfig->anonymizeOrderId = (bool) $anonymizeOrderId;
+        }
 
         return true;
     }

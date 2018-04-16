@@ -52,6 +52,7 @@ class LogDataAnonymizations
                   `date_end` DATETIME NOT NULL,
                   `anonymize_ip` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
                   `anonymize_location` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+                  `anonymize_userid` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
                   `unset_visit_columns` TEXT NOT NULL DEFAULT '',
                   `unset_link_visit_action_columns` TEXT NOT NULL DEFAULT '',
                   `output` MEDIUMTEXT NULL DEFAULT NULL,
@@ -140,12 +141,13 @@ class LogDataAnonymizations
 
         $entry['anonymize_ip'] = !empty($entry['anonymize_ip']);
         $entry['anonymize_location'] = !empty($entry['anonymize_location']);
+        $entry['anonymize_userid'] = !empty($entry['anonymize_userid']);
         $entry['idlogdata_anonymization'] = (int) $entry['idlogdata_anonymization'];
 
         return $entry;
     }
 
-    public function scheduleEntry($requester, $idSites, $dateString, $anonymizeIp, $anonymizeLocation, $unsetVisitColumns, $unsetLinkVisitActionColumns, $willBeStartedNow = false)
+    public function scheduleEntry($requester, $idSites, $dateString, $anonymizeIp, $anonymizeLocation, $anonymizeUserId, $unsetVisitColumns, $unsetLinkVisitActionColumns, $willBeStartedNow = false)
     {
         BaseValidator::check('date', $dateString, [new NotEmpty()]);
 
@@ -168,7 +170,7 @@ class LogDataAnonymizations
             $idSites = null;
         }
 
-        if (!$anonymizeIp && !$anonymizeLocation && empty($unsetVisitColumns) && empty($unsetLinkVisitActionColumns)) {
+        if (!$anonymizeIp && !$anonymizeLocation && !$anonymizeUserId && empty($unsetVisitColumns) && empty($unsetLinkVisitActionColumns)) {
             throw new \Exception('Nothing is selected to be anonymized');
         }
 
@@ -181,6 +183,7 @@ class LogDataAnonymizations
             'date_end' => $endDate,
             'anonymize_ip' => !empty($anonymizeIp) ? 1 : 0,
             'anonymize_location' => !empty($anonymizeLocation) ? 1 : 0,
+            'anonymize_userid' => !empty($anonymizeUserId) ? 1 : 0,
             'unset_visit_columns' => json_encode($unsetVisitColumns),
             'unset_link_visit_action_columns' => json_encode($unsetLinkVisitActionColumns),
             'scheduled_date' => Date::now()->getDatetime(),
@@ -258,13 +261,13 @@ class LogDataAnonymizations
 
         $this->appendToOutput($idLogData, $schedule, sprintf("Applying this to visits between '%s' and '%s'.", $startDate, $endDate));
 
-        if ($schedule['anonymize_ip'] || $schedule['anonymize_location']) {
+        if ($schedule['anonymize_ip'] || $schedule['anonymize_location'] || $schedule['anonymize_userid']) {
             $this->appendToOutput($idLogData, $schedule, 'Starting to anonymize visit information.');
             try {
-                $numAnonymized = $this->logDataAnonymizer->anonymizeVisitInformation($idSites, $startDate, $endDate, $schedule['anonymize_ip'], $schedule['anonymize_location']);
-                $this->appendToOutput($idLogData, $schedule, 'Number of anonymized IP and/or location: ' . $numAnonymized);
+                $numAnonymized = $this->logDataAnonymizer->anonymizeVisitInformation($idSites, $startDate, $endDate, $schedule['anonymize_ip'], $schedule['anonymize_location'], $schedule['anonymize_userid']);
+                $this->appendToOutput($idLogData, $schedule, 'Number of anonymized IP and/or location and/or User ID: ' . $numAnonymized);
             } catch (\Exception $e) {
-                $this->appendToOutput($idLogData, $schedule, 'Failed to anonymize IP and/or location:' . $e->getMessage());
+                $this->appendToOutput($idLogData, $schedule, 'Failed to anonymize IP and/or location and/or User ID:' . $e->getMessage());
             }
         }
 
