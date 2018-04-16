@@ -144,6 +144,10 @@ class Response
             return;
         }
 
+        if ($this->isHttpGetRequest()) {
+            Common::sendHeader('Cache-Control: no-cache');
+        }
+
         $this->outputTransparentGif();
     }
 
