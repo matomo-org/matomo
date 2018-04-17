@@ -20,6 +20,13 @@
         this.toggleAll = true;
         this.hasSearched = false;
 
+        this.linkTo = function (action){
+            var currentUrl = window.location.pathname + window.location.search;
+            var newUrl = piwik.broadcast.updateParamValue('module=PrivacyManager', currentUrl);
+            newUrl = piwik.broadcast.updateParamValue('action=' + action, newUrl);
+            return newUrl;
+        }
+
         function showSuccessNotification(message)
         {
             var UI = require('piwik/UI');

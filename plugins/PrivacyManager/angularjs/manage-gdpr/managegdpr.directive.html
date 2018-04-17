@@ -1,15 +1,16 @@
 <div class="manageGdpr">
     <div piwik-content-block content-title="GDPR Tools">
         <p>
-            Here you can manage various GDPR rights. In case you do not know what GDPR is, have a look at the <a href="{{ linkTo({module: 'PrivacyManager', action: 'gdprOverview'}) }}">Overview</a> page.
+            This page has been designed in order for you to exercise data subject rights.
             <br /><br />
-            In case you are searching for example a data subject by Visit IP to exercise the right of erasure or right to be forgotten, you may want to include additional visits of that visitor
-            by clicking on the visitorId. The IP of a visitor typically changes on many visits and therefore you would not find all visits.
-            <br /><br />
-            If you are trying to export the data for a data subject by IP address please be aware that the same IP address may be assigned to different visitors and is therefore not really
-            recommended to be used as a filter as you might be sending personal data from a different data subject to another data subject. Always make sure the visitor who wants to exercise the
-            right of access is actually the visitor he claims to be. In most cases, the only reliable source for this is using the <a rel="noreferrer noopener" href="https://matomo.org/docs/user-id/">UserId</a> feature
+            Here you can exercise the rights of your users with our GDPR-friendly procedures:
+            <br />
         </p>
+        <ol>
+            <li>the right of access to all of their data (and the right to data portability),</li>
+            <li>the right to erase some or all of their data (and the right to rectification).</li>
+        </ol>
+        <p><br />In case you do not know what GDPR is, please refer to the <a ng-href="{{ manageGdpr.linkTo('gdprOverview') }}">GDPR overview</a>.</p>
         <h3>Search for a data subject</h3>
 
         <div class="form-group row">
@@ -54,7 +55,7 @@
 
         <h2>Matching data subjects</h2>
         <p>These visits match the selected criteria.
-            In case you are exporting the data to exercise the right of access please make sure the selected visits are actually performed by the data subject you want to export the data for.
+            In case you are exporting the data to exercise the right of access, please make sure the selected visits are actually performed by the data subject you want to export the data for.
             <br />
             <br />
             When deleting data to exercise the right of erasure keep in mind that any data that will be deleted for this data subject might still be included in previously generated reports.

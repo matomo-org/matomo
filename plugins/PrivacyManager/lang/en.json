@@ -60,7 +60,7 @@
         "ReportsDataSavedEstimate": "Database size",
         "SaveSettingsBeforePurge": "You have changed the data deletion settings. Please save them before starting a purge.",
         "SeeAlsoOurOfficialGuidePrivacy": "See also our official guide: %1$sWeb Analytics Privacy%2$s",
-        "Teaser": "On this page, you can customize Matomo to make it privacy compliant with existing legislations, by: %1$s anonymizing the visitor IP%2$s, %3$s automatically remove old visitor logs from the database%4$s, and %5$s providing an Opt-out mechanism for your website%6$s.",
+        "TeaserHeader": "On this page, you can customize Matomo to make it privacy compliant with existing legislations, by: %1$s anonymizing the visitor IP%2$s, %3$s automatically remove old visitor logs from the database%4$s, and %5$s anonymise previously tracked raw users' data%6$s.",
         "TeaserHeadline": "Privacy Settings",
         "UseAnonymizedIpForVisitEnrichment": "Also use the Anonymized IP addresses when enriching visits.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Plugins such as Geo Location via IP and Provider improve visitor's metadata. By default these plugins use the anonymized IP addresses. If you select 'No', then the non-anonymized full IP address will be used instead, resulting in less privacy but better data accuracy.",

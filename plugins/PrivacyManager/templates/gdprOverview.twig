@@ -5,51 +5,51 @@
 {% block content %}
 <div class="gdprOverview">
     <div piwik-content-intro>
-        <h2>GDPR Overview</h2>
+        <h2>GDPR overview</h2>
         <p>
-            The General Data Protection Regulation (GDPR) is a regulation which strengthen and unify data protection for all individuals
-            within the European Union (EU). It allows EU citizens to better control their personal data. GDPR modernises and unifies rules allowing businesses to reduce red tape and to benefit from greater consumer trust.
+            The General Data Protection Regulation (GDPR) is a regulation which strengthen and unify data protection for all individuals within the European Union (EU).
+<br /><br />
+            If you take steps to ensure no personal data is collected in Matomo then you may not be concerned by the GDPR (when you track no IP address, no user IDs, no geolocation data, etc.).
+
         </p>
     </div>
 
-    <div piwik-content-block content-title="Who is concerned by GDPR?">
-        <h3></h3>
-        <p>Almost all structures dealing with EU citizens data wherever they are located are concerned by GDPR.
-            The few exemptions are listed under <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" target="_blank" rel="noreferrer noopener">article 2 of the GDPR</a>.</p>
-    </div>
-    <div piwik-content-block content-title="What is a personal data under GDPR?">
-        <p>Any information relating to an identified or identifiable natural person. An identifiable natural person
-            is one who can be identified, directly or indirectly, in particular by reference to an identifier such as a name,
-            an identification number, location data, an online identifier...</p>
-    </div>
-    <div piwik-content-block content-title="Where can I get more information about GDPR?">
-        <p>The official GDPR text is available at <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" target="_blank" rel="noreferrer noopener">https://eur-lex.europa.eu/eli/reg/2016/679/oj</a>. As it is interpretation may be difficult,
-            we strongly advise you to refer to your local privacy commissioner.</p>
-    </div>
-    <div piwik-content-block content-title="How can I be GDPR compliant with Matomo Analytics?">
-        <p>By default, Matomo is GDPR compliant as it is not collecting any personal data.
+    <div piwik-content-block content-title="GDPR checklists">
+        <p>If you are processing personal data of European citizens through Matomo, even if your company is located outside Europe, you need to fulfill GDPR obligations and this guide will help you.
 <br /><br />
-            However, by changing the default settings and/or adding specific tracking code, you may collect personal data, for example:
-            IP addresses, E-commerce order ID, User ID, custom dimensions... You might be also tracking personal data for example as part of URLs or page/screen titles depending on your website or mobile app.
-<br /><br />
-            Please note that while Matomo might be GDPR compatible, your webserver might collect log entries of each request containing IP address and possibly other personal information. You may want to consider not storing logs or only for a limit time.
-            <br /><br />
-            If you are processing EU citizens personal data through Matomo, you will need to fulfill the obligations listed below:
+            Find below our tools that let you exercise your users’ rights easily, and the list of actions to take in order to make your use of Matomo compliant with the GDPR and safeguard your data. Visit our <a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/gdpr">GDPR User guide</a> to learn even more.</p>
+    </div>
+    <div piwik-content-block content-title="Individuals' rights">
+        <p>Exercise the rights of your users with our GDPR-friendly procedures:
+        </p>
+        <ol>
+            <li>The right to be informed: inform your users with a clear privacy notice.</li>
+            <li>The right of access: <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({module: 'PrivacyManager', action: 'gdprTools'}) }}">search for a data subject</a> and export all of their data.</li>
+            <li>The right to erasure: <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({module: 'PrivacyManager', action: 'gdprTools'}) }}">search for a data subject</a> and delete some or all of their data.</li>
+            <li>The right to rectification: you can <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({module: 'PrivacyManager', action: 'gdprTools'}) }}">search for a data subject</a> and delete some or all of their data.</li>
+            <li>The right to data portability: <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({module: 'PrivacyManager', action: 'gdprTools'}) }}">search for a data subject</a> and export all of their data.</li>
+            <li>The right to object: <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({module: 'PrivacyManager', action: 'usersOptOut'}) }}">let your users easily opt-out</a> in your privacy policy page.</li>
+            <li>If you offer online services to children and relies on consent to collect information about them, then you may need a parent or guardian’s consent in order to process the children’s personal data lawfully.</li>
+        </ol>
+    </div>
 
-        </p><ul>
-            <li>Document your use of Matomo within your information asset register.</li>
-            <li>Make sure that you are inserting our opt-out feature on all pages collecting personal data.</li>
-            <li>Is your business currently registered to an Privacy Commissioner Office?</li>
-            <li>Did you clearly informed your visitors on your privacy policy page about their different rights and that you are using Matomo?</li>
-            <li>Did you include Matomo within your data protection policy and security policy?</li>
-            <li>If you are using a cloud provider for Matomo, did you sign up a contract with them?</li>
-            <li>Do you have appropriate action plans in place to mitigate any risks to your Matomo data?</li>
-            <li>Are you 100% sure that you are collecting only the necessary information within Matomo?</li>
-            <li>If data collected by Matomo is highly sensitive, did you perform a DPIA?</li>
-            <li>Do people know in your company that you are using Matomo and what is it for?</li>
-            <li>If your Matomo data are stored outside of EU, did you check that it ensures a good level of protection of individuals according to GDPR?</li>
-            <li>Is Matomo part of your data breach notification process?</li>
-        </ul>
+    <div piwik-content-block content-title="Awareness & documentation">
+        <p>Inform your users clearly and transparently, and make your colleagues aware of the data being collected and how it is used:</p>
+        <ol>
+            <li>Inform your visitors through a clear privacy notice whenever you’re collecting personal data.</li>
+            <li>Inform your users in your privacy policy about what data you collect and how the data is used.</li>
+            <li>Make your team aware that you are using Matomo Analytics and <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/general/faq_18254/">what data is being collected by your analytics platform</a>.</li>
+            <li>Document your use of Matomo within your <a href="https://matomo.org/blog/2018/04/gdpr-how-to-fill-in-the-information-asset-register-when-using-matomo/" target="_blank" rel="noreferrer noopener">information asset register</a>.</li>
+        </ol>
+    </div>
+    <div piwik-content-block content-title="Security procedures">
+        <p>Inform your users clearly and transparently, and make your colleagues aware of the data being collected and how it is used:</p>
+        <ol>
+            <li>Apply our <a href="https://matomo.org/docs/security/" target="_blank" rel="noreferrer noopener">security recommendations</a> in order to keep your Matomo data safe.</li>
+            <li>Check that you have a written contract with the company providing you the Matomo server or hosting which ensures <a href="https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/international-transfers/" target="_blank" rel="noreferrer noopener">appropriate safeguards are provided</a>.</li>
+            <li>Include Matomo in your <a href="https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/personal-data-breaches/" target="_blank" rel="noreferrer noopener">data breach procedure</a>.</li>
+            <li>Include Matomo in your <a href="https://www.cnil.fr/en/guidelines-dpia" target="_blank" rel="noreferrer noopener">data privacy impact assessment (DPIA)</a>, if applicable.</li>
+        </ol>
     </div>
 </div>
 {% endblock %}

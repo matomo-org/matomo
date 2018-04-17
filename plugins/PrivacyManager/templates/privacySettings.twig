@@ -8,7 +8,7 @@
 <div piwik-content-intro>
     <h2 piwik-enriched-headline help-url="https://matomo.org/docs/privacy/">{{ title }}</h2>
 
-    <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
+    <p>{{ 'PrivacyManager_TeaserHeader'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#anonymizeHistoricalData">',"</a>")|raw }}
         {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<a href="https://matomo.org/privacy/" rel="noreferrer"  target="_blank">','</a>')|raw }}</p>
 </div>
 
@@ -290,6 +290,7 @@
     {% endif %}
 </div>
 
+    <a name="anonymizeHistoricalData" id="anonymizeHistoricalData"></a>
 
     <div piwik-content-block content-title="Anonymize previously tracked raw data" class="logDataAnonymizer">
         <p>If you have tracked personal data such as the full visitor IP, you may
