@@ -60,15 +60,26 @@ class ArchiveInvalidator
 
     public function rememberToInvalidateArchivedReportsLater($idSite, Date $date)
     {
+        //To support multiple transactions at once, look for any other process to have set ( and committed )
+        //this report to be invalidated.
         $key   = $this->buildRememberArchivedReportId($idSite, $date->toString());
-        $value = Option::get($key);
+        $value = Option::getLike($key . '%');
 
         // we do not really have to get the value first. we could simply always try to call set() and it would update or
         // insert the record if needed but we do not want to lock the table (especially since there are still some
         // MyISAM installations)
 
-        if (false === $value) {
-            Option::set($key, '1');
+        //In order to support multiple concurrent transactions, add our pid to the end of the key so that it will just insert
+        //rather than waiting on some other process to commit before proceeding.The issue is that with out this, more than
+        //one process is trying to add the exact same value to the table, which causes contention. With the pid suffixed to
+        //the value, each process can successfully enter its own row in the table. The net result will be the same. We could
+        //always just set this, but it would result in a lot of rows in the options table.. more than needed.  With this
+        //change you'll have at most N rows per date/site, where N is the number of parallel requests on this same idsite/date
+        //that happen to run in overlapping transactions.
+        $mykey = $this->buildMyRememberArchivedReportId($idSite, $date->toString());
+        //getLike returns an empty array rather than 'false'
+        if (empty($value)) {
+            Option::set($mykey, '1');
         }
     }
 
@@ -102,6 +113,14 @@ class ArchiveInvalidator
         return $id;
     }
 
+    //This version is multi process safe on the insert of a new date to invalidate.
+    private function buildMyRememberArchivedReportId($idSite, $date)
+    {
+        $id  = $this->buildRememberArchivedReportIdForSite($idSite);
+        $id .= '_' . trim($date) . '_' . getmypid();
+        return $id;
+    }
+
     private function buildRememberArchivedReportIdForSite($idSite)
     {
         return $this->rememberArchivedReportIdStart . (int) $idSite;
@@ -120,7 +139,9 @@ class ArchiveInvalidator
     {
         $id = $this->buildRememberArchivedReportId($idSite, $date->toString());
 
-        Option::delete($id);
+        //The process pid is added to the end of the entry in order to support multiple concurrent transactions.
+        //  So this must be a deleteLike call to get all the entries, where there used to only be one.
+        Option::deleteLike($id . '%');
     }
 
     /**
