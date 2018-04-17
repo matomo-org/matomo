@@ -35,7 +35,7 @@
         </p>
         <h3>Step 3b, user gives consent</h3>
         <p>
-            Alternatively, you can let Matomo remember that the user has given consent by calling <code>_paq.push(['rememberConsentGiven', optionallyExpireConsentInMs])</code>
+            Alternatively, you can let Matomo remember that the user has given consent by calling <code>_paq.push(['rememberConsentGiven', optionallyExpireConsentInHours])</code>
             once the user has given her or his consent. This means Matomo will remember on subsequent requests that
             the user has given his or her consent by setting a cookie named "consent" and the required consent will be automatically ignored while the cookie exists.
             This means when you call <code>_paq.push(['rememberConsentGiven'])</code> once, you do not need to call

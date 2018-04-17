@@ -7199,7 +7199,7 @@ if (typeof window.Piwik !== 'object') {
              * If the user has already given consent in the past, you can either decide to not call `requireConsent` at all
              * or call `_paq.push(['setConsentGiven'])` on each page view at any time after calling `requireConsent`.
              *
-             * When the user gives you the consent to track data, you can also call `_paq.push(['rememberConsentGiven', optionalTimeoutInMs])`
+             * When the user gives you the consent to track data, you can also call `_paq.push(['rememberConsentGiven', optionalTimeoutInHours])`
              * and for the duration while the consent is remembered, any call to `requireConsent` will be automatically ignored until you call `forgetConsentGiven`.
              * `forgetConsentGiven` needs to be called when the user removes consent for tracking. This means if you call `rememberConsentGiven` at the
              * time the user gives you consent, you do not need to ever call `_paq.push(['setConsentGiven'])`.
@@ -7255,14 +7255,17 @@ if (typeof window.Piwik !== 'object') {
              * you may need to restrict or widen the scope of the cookie domain/path to ensure the consent is applied
              * to the sites you want.
              */
-            this.rememberConsentGiven = function (msToExpire) {
+            this.rememberConsentGiven = function (hoursToExpire) {
                 if (configCookiesDisabled) {
                     logConsoleError('rememberConsentGiven is called but cookies are disabled, consent will not be remembered');
                     return;
                 }
+                if (hoursToExpire) {
+                    hoursToExpire = hoursToExpire * 60 * 60 * 1000;
+                }
                 this.setConsentGiven();
                 var now = new Date().getTime();
-                setCookie('consent', now, msToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie('consent', now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
             };
 
             /**
