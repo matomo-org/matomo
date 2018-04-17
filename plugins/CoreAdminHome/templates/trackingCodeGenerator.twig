@@ -8,6 +8,9 @@
 {% set title %}{{ 'CoreAdminHome_JavaScriptTracking'|translate }}{% endset %}
 
 {% block content %}
+    <div piwik-content-intro>
+        <h2>{{ 'CoreAdminHome_TrackingCode'|translate }}</h2>
+    </div>
 
     <input type="hidden" name="numMaxCustomVariables"
            value="{{ maxCustomVariables|e('html_attr') }}">
@@ -319,4 +322,7 @@
         {{ 'CoreAdminHome_ImportingServerLogsDesc'|translate('<a href="https://matomo.org/log-analytics/" rel="noreferrer"  target="_blank">','</a>')|raw }}
     </p>
 </div>
+
+{{ postEvent('Template.endTrackingCodePage') }}
+
 {% endblock %}
