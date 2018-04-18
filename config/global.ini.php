@@ -580,9 +580,6 @@ tmp_path = "/tmp"
 ; This may for example be useful when doing Mysql AWS replication
 enable_load_data_infile = 1
 
-; Set this setting to 1 when the Matomo php files are not on the same server as the database server
-load_data_infile_remote = 0
-
 ; By setting this option to 0:
 ; - links to Enable/Disable/Uninstall plugins will be hidden and disabled
 ; - links to Uninstall themes will be disabled (but user can still enable/disable themes)
