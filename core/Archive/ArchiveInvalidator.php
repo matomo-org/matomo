@@ -153,7 +153,7 @@ class ArchiveInvalidator
          *
          * @param array &$idSites An array containing a list of site IDs which are requested to be invalidated.
          */
-        Piwik::postEvent('Archiving.getIdSitesToMarkArchivesAsInvalidates', array(&$idSites));
+        Piwik::postEvent('Archiving.getIdSitesToMarkArchivesAsInvalidated', array(&$idSites));
         // we trigger above event on purpose here and it is good that the segment was created like
         // `new Segment($segmentString, $idSites)` because when a user adds a site via this event, the added idSite
         // might not have this segment meaning we avoid a possible error. For the workflow to work, any added or removed
