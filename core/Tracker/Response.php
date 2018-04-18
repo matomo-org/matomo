@@ -139,13 +139,13 @@ class Response
 
         $request = $_GET + $_POST;
 
+        if ($this->isHttpGetRequest()) {
+            Common::sendHeader('Cache-Control: no-cache');
+        }
+
         if (array_key_exists('send_image', $request) && $request['send_image'] === '0') {
             Common::sendResponseCode(204);
             return;
-        }
-
-        if ($this->isHttpGetRequest()) {
-            Common::sendHeader('Cache-Control: no-cache');
         }
 
         $this->outputTransparentGif();
