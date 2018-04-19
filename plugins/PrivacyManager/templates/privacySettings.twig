@@ -325,8 +325,8 @@
                     <td>{{ entry.requester }}</td>
                     <td>{{ entry.sites|join(', ') }}</td>
                     <td>{{ entry.date_start }} - {{ entry.date_end }}</td>
-                    <td>{% if entry.anonymize_ip %}<span>IP address</span>{% endif %}
-                        {% if entry.anonymize_location %}<span>Location</span>{% endif %}
+                    <td>{% if entry.anonymize_ip %}<span>IP address<br /></span>{% endif %}
+                        {% if entry.anonymize_location %}<span>Location<br /></span>{% endif %}
                         {% if entry.anonymize_userid %}<span>User ID</span>{% endif %}
                         {% if not entry.anonymize_ip and not entry.anonymize_location and not entry.anonymize_userid %}-{% endif %}
                     </td>

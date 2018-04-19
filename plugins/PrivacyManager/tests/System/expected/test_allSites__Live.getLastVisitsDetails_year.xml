@@ -9911,11 +9911,11 @@
 			<row>
 				<type>ecommerceOrder</type>
 				<orderId>205</orderId>
-				<revenue>233.7</revenue>
+				<revenue>233.70</revenue>
 				<revenueSubTotal>205</revenueSubTotal>
 				<revenueTax>43.05</revenueTax>
 				<revenueShipping>14.35</revenueShipping>
-				<revenueDiscount>28.7</revenueDiscount>
+				<revenueDiscount>28.70</revenueDiscount>
 				<items>1</items>
 				
 				<itemDetails>
@@ -10411,11 +10411,11 @@
 			<row>
 				<type>ecommerceOrder</type>
 				<orderId>205</orderId>
-				<revenue>233.7</revenue>
+				<revenue>233.70</revenue>
 				<revenueSubTotal>205</revenueSubTotal>
 				<revenueTax>43.05</revenueTax>
 				<revenueShipping>14.35</revenueShipping>
-				<revenueDiscount>28.7</revenueDiscount>
+				<revenueDiscount>28.70</revenueDiscount>
 				<items>1</items>
 				
 				<itemDetails>
@@ -36635,11 +36635,11 @@
 			<row>
 				<type>ecommerceOrder</type>
 				<orderId>205</orderId>
-				<revenue>233.7</revenue>
+				<revenue>233.70</revenue>
 				<revenueSubTotal>205</revenueSubTotal>
 				<revenueTax>43.05</revenueTax>
 				<revenueShipping>14.35</revenueShipping>
-				<revenueDiscount>28.7</revenueDiscount>
+				<revenueDiscount>28.70</revenueDiscount>
 				<items>1</items>
 				
 				<itemDetails>
