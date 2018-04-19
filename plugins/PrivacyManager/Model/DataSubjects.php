@@ -46,7 +46,7 @@ class DataSubjects
          * Lets you delete data subjects to make your plugin GDPR compliant.
          * This can be useful if you have developed a plugin which stores any data for visits but doesn't
          * use any core logic to store this data. If core API's are used, for example log tables, then the data may
-         * be deleted automatically.
+         * be deleted automatically. 
          *
          * **Example**
          *
