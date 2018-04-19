@@ -263,10 +263,10 @@ var piwikHelper = {
         if (options && !options.ready) {
             options.ready = function () {
                 $(".modal.open a").focus();
-                var modalContent = $(".modal.open .modal-content");
+                var modalContent = $(".modal.open");
                 if (modalContent && modalContent[0]) {
                     // make sure to scroll to the top of the content
-                    modalContent[0].scrollIntoView();
+                    modalContent[0].scrollTop = 0;
                 }
             };
         }
