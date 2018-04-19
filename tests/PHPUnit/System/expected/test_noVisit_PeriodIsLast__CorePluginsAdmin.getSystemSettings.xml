@@ -259,8 +259,27 @@ Another line</defaultValue>
 		<title>QueuedTracking</title>
 		<settings>
 			<row>
+				<name>backend</name>
+				<title>Backend</title>
+				<value>redis</value>
+				<defaultValue>redis</defaultValue>
+				<type>string</type>
+				<uiControl>select</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<redis>Redis</redis>
+					<mysql>MySQL</mysql>
+				</availableValues>
+				<description />
+				<inlineHelp>Select the backend you want to use for this feature. If you do not have any experience with Redis or it is not available on your server, we recommend to use Mysql.</inlineHelp>
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
 				<name>useSentinelBackend</name>
-				<title>Enable Redis Sentinel'</title>
+				<title>Enable Redis Sentinel</title>
 				<value>0</value>
 				<defaultValue>0</defaultValue>
 				<type>boolean</type>
@@ -273,7 +292,7 @@ Another line</defaultValue>
 				<inlineHelp>If enabled, the Redis Sentinel feature will be used. Make sure to update host and port if needed. Once you have enabled and saved the change, you will be able to specify multiple hosts and ports comma separated.</inlineHelp>
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>backend==&quot;redis&quot;</condition>
 			</row>
 			<row>
 				<name>sentinelMasterName</name>
@@ -290,7 +309,7 @@ Another line</defaultValue>
 				<inlineHelp>The sentinel master name only needs to be configured if Sentinel is enabled.</inlineHelp>
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>backend==&quot;redis&quot;</condition>
 			</row>
 			<row>
 				<name>redisHost</name>
@@ -307,7 +326,7 @@ Another line</defaultValue>
 				<inlineHelp>Remote host or unix socket of the Redis server. Max 500 characters are allowed.</inlineHelp>
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>backend==&quot;redis&quot;</condition>
 			</row>
 			<row>
 				<name>redisPort</name>
@@ -324,7 +343,7 @@ Another line</defaultValue>
 				<inlineHelp>Port the Redis server is running on. Value should be between 1 and 65535. Use 0 if you are using unix socket to connect to Redis server.</inlineHelp>
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>backend==&quot;redis&quot;</condition>
 			</row>
 			<row>
 				<name>redisDatabase</name>
@@ -341,7 +360,7 @@ Another line</defaultValue>
 				<inlineHelp>In case you are using Redis for caching make sure to use a different database.</inlineHelp>
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>backend==&quot;redis&quot;</condition>
 			</row>
 			<row>
 				<name>redisPassword</name>
@@ -358,7 +377,7 @@ Another line</defaultValue>
 				<inlineHelp>Password set on the Redis server, if any. Redis can be instructed to require a password before allowing clients to execute commands.</inlineHelp>
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>backend==&quot;redis&quot;</condition>
 			</row>
 			<row>
 				<name>queueEnabled</name>
