@@ -88,6 +88,11 @@
         "ChangeCurrentWebsite": "Wählen Sie eine Webseite, aktuell gewählte Webseite: %s",
         "LeadingAnalyticsPlatformRespectsYourPrivacy": "Die führende Open-Source-Analyseplattform, die Ihre Privatsphäre achtet.",
         "MacPageUp": "Fn + Pfeil nach Links",
-        "MacPageDown": "Fn + Pfeil nach Rechts"
+        "MacPageDown": "Fn + Pfeil nach Rechts",
+        "RowLimit": "Zeilenlimit",
+        "ExportFormat": "Exportformat",
+        "ExpandSubtables": "Erweitere Untertabellen",
+        "FlattenReport": "Flacher Bericht",
+        "ReportWithMetadata": "Bericht mit Metadaten"
     }
 }

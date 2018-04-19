@@ -6,6 +6,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 3.5.0
 * New events `PrivacyManager.deleteLogsOlderThan`, `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` to enable plugins to be GDPR compliant.  
+* New event `Archiving.getIdSitesToMarkArchivesAsInvalidated` that lets plugins customize the behaviour of report invalidations.
 
 ## Matomo 3.4.0
 

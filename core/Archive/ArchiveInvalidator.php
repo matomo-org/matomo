@@ -15,6 +15,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
@@ -134,6 +135,29 @@ class ArchiveInvalidator
     public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false)
     {
         $invalidationInfo = new InvalidationResult();
+
+        /**
+         * Triggered when a Matomo user requested the invalidation of some reporting archives. Using this event, plugin
+         * developers can automatically invalidate another site, when a site is being invalidated. A plugin may even
+         * remove an idSite from the list of sites that should be invalidated to prevent it from ever being
+         * invalidated.
+         *
+         * **Example**
+         *
+         *     public function getIdSitesToMarkArchivesAsInvalidates(&$idSites)
+         *     {
+         *         if (in_array(1, $idSites)) {
+         *             $idSites[] = 5; // when idSite 1 is being invalidated, also invalidate idSite 5
+         *         }
+         *     }
+         *
+         * @param array &$idSites An array containing a list of site IDs which are requested to be invalidated.
+         */
+        Piwik::postEvent('Archiving.getIdSitesToMarkArchivesAsInvalidated', array(&$idSites));
+        // we trigger above event on purpose here and it is good that the segment was created like
+        // `new Segment($segmentString, $idSites)` because when a user adds a site via this event, the added idSite
+        // might not have this segment meaning we avoid a possible error. For the workflow to work, any added or removed
+        // idSite does not need to be added to $segment.
 
         $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $invalidationInfo);
 

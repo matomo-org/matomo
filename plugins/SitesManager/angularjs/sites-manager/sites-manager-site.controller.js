@@ -187,6 +187,25 @@
         };
 
         var deleteSite = function() {
+            var redirectParams = $scope.redirectParams;
+
+            // if the current idSite in the URL is the site we're deleting, then we have to make to change it. otherwise,
+            // if a user goes to another page, the invalid idSite may cause a fatal error.
+            if (broadcast.getValueFromUrl('idSite') == $scope.site.idsite) {
+                var sites = $scope.adminSites.sites;
+
+                var otherSite;
+                for (var i = 0; i !== sites.length; ++i) {
+                    if (sites[i].idsite != $scope.site.idsite) {
+                        otherSite = sites[i];
+                        break;
+                    }
+                }
+
+                if (otherSite) {
+                    redirectParams = $.extend({}, redirectParams, { idSite: otherSite.idsite });
+                }
+            }
 
             var ajaxHandler = new ajaxHelper();
 
@@ -197,7 +216,7 @@
                 method: 'SitesManager.deleteSite'
             }, 'GET');
 
-            ajaxHandler.redirectOnSuccess($scope.redirectParams);
+            ajaxHandler.redirectOnSuccess(redirectParams);
             ajaxHandler.setLoadingElement();
             ajaxHandler.send();
         };
