@@ -134,7 +134,7 @@ var piwikHelper = {
                 scope = $rootScope.$new(true);
             }
 
-            if (options.scope) {
+            if (options.params) {
                 $.extend(scope, options.params);
             }
 
