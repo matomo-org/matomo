@@ -5785,7 +5785,6 @@ if (typeof window.Piwik !== 'object') {
              */
             this.resetUserId = function() {
                 configUserId = '';
-                visitorUUID = generateRandomUuid();
             };
 
             /**
@@ -5798,7 +5797,6 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
                 configUserId = userId;
-                visitorUUID = hash(configUserId).substr(0, 16);
             };
 
             /**
