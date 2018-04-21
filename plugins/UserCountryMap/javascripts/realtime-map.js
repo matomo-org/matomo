@@ -148,7 +148,7 @@
                         'referrerTypeName', 'browserIcon', 'operatingSystemIcon',
                         'countryFlag', 'idVisit', 'actionDetails', 'continentCode',
                         'actions', 'searches', 'goalConversions', 'visitorId', 'userId'].join(','),
-                    minTimestamp: firstRun ? -1 : lastTimestamp
+                    minTimestamp: firstRun ? 0 : lastTimestamp
                 });
             }
 
