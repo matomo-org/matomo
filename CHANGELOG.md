@@ -6,6 +6,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 3.5.0
 * Added new event `AssetManager.addStylesheets` to add additional less styles which are not located in a file.
+* New event `Archiving.getIdSitesToMarkArchivesAsInvalidated` that lets plugins customize the behaviour of report invalidations.
 
 ## Matomo 3.4.0
 

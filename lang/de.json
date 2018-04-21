@@ -173,6 +173,7 @@
         "ExceptionInvalidAggregateReportsFormat": "Aggregiertes Berichtsformat '%1$s' ungültig. Versuchen Sie eines der folgenden: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Die Archivierungszeit von Live-Berichten muss eine Zahl in Sekunden (größer als Null) sein.",
         "ExceptionInvalidDateFormat": "Das Datumsformat muss %1$s oder eine andere, von der Funktion %2$s unterstützte Zeichenkette sein. (Besuchen Sie %3$s für nähere Informationen)",
+        "ExceptionInvalidDateBeforeFirstWebsite": "Das Datum '%1$s' ist vor dem Datum an dem die erste Website online ging. Versuchen Sie ein Datum dass nach dem %2$s (Timestamp %3$s) liegt.",
         "ExceptionInvalidDateRange": "Das Datum '%1$s' ist keine korrekte Zeitspanne. Es sollte das folgende Format haben: %2$s",
         "ExceptionInvalidPeriod": "Der Zeitraum '%1$s' wird nicht unterstützt. Versuchen Sie es stattdessen mit einem der folgenden: %2$s",
         "ExceptionInvalidRendererFormat": "Das Renderer-Format '%1$s' ist ungültig. Versuchen Sie stattdessen eines der folgenden Formate: %2$s.",

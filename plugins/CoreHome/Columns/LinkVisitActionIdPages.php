@@ -9,25 +9,36 @@
 namespace Piwik\Plugins\CoreHome\Columns;
 
 use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\Discriminator;
 use Piwik\Columns\MetricsList;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\ActionDimension;
+use Piwik\Tracker\Action;
 
-class LinkVisitActionId extends ActionDimension
+class LinkVisitActionIdPages extends ActionDimension
 {
     protected $columnName = 'idlink_va';
-    protected $acceptValues = 'Any integer.';
     protected $category = 'General_Actions';
     protected $nameSingular = 'General_Actions';
-    protected $metricId = 'hits';
     protected $type = self::TYPE_NUMBER;
+
+    public function configureSegments()
+    {
+        // empty so we don't auto-generate a segment
+    }
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator('log_action', 'type', Action::TYPE_PAGE_URL);
+    }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
         $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
-        $metric->setTranslatedName(Piwik::translate('General_ColumnHits'));
-        $metric->setName('hits');
+        $metric->setTranslatedName(Piwik::translate('General_ColumnPageviews'));
+        $metric->setDocumentation(Piwik::translate('General_ColumnPageviewsDocumentation'));
+        $metric->setName('pageviews');
         $metricsList->addMetric($metric);
     }
 }
