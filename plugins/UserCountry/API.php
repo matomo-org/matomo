@@ -128,6 +128,16 @@ class API extends \Piwik\Plugin\API
                         return implode($separator, $splitLabel);
                     }
                 ));
+            } else if ($dt->getRowFromLabel('1|ti')) {
+                $dt->filter('GroupBy', array(
+                    'label',
+                    function ($label) {
+                        if ($label == '1|ti') {
+                            return '14|cn';
+                        }
+                        return $label;
+                    }
+                ));
             }
         }
 
@@ -207,6 +217,16 @@ class API extends \Piwik\Plugin\API
                         }
 
                         return implode($separator, $splitLabel);
+                    }
+                ));
+            } else {
+                $dt->filter('GroupBy', array(
+                    'label',
+                    function ($label) {
+                        if (substr($label, -5) == '|1|ti') {
+                            return substr($label, 0, -5) . '|14|cn';
+                        }
+                        return $label;
                     }
                 ));
             }
