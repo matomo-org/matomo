@@ -18,11 +18,6 @@
         "wiki": "https://github.com/matomo-org/piwik/wiki",
         "source": "https://github.com/matomo-org/piwik"
     },
-    "config":{
-        "platform": {
-            "php": "5.5.9"
-        }
-    },
     "require": {
         "php": ">=5.5.9",
         "twig/twig": "~1.0",
