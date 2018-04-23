@@ -317,6 +317,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    // should load the row evolution [see #11526]
+    it('should show rov evolution for goal tables', function (done) {
+        expect.screenshot('goals_individual_row_evolution').to.be.captureSelector('.ui-dialog', function (page) {
+            page.mouseMove('table.dataTable tbody tr:first-child');
+            page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
+            page.click('a.actionRowEvolution:visible');
+            page.wait(2000);
+        }, done);
+    });
+
     // Events pages
     it('should load the Events > index page correctly', function (done) {
         expect.screenshot('events_overview').to.be.captureSelector('.pageWrap,.dataTable', function (page) {

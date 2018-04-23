@@ -413,6 +413,13 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         }
     }
 
+    if (self.dataTable.jsViewDataTable === 'tableGoals') {
+        // remove idGoal param, when it's set for goal visualizations
+        if (extraParams['idGoal']) {
+            delete(extraParams['idGoal']);
+        }
+    }
+
     $.extend(requestParams, extraParams);
 
     var ajaxRequest = new ajaxHelper();
