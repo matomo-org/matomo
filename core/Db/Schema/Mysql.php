@@ -318,7 +318,7 @@ class Mysql implements SchemaInterface
     {
         $db = $this->getDb();
 
-        $allColumns = $db->fetchAll("SHOW COLUMNS FROM . $tableName");
+        $allColumns = $db->fetchAll("SHOW COLUMNS FROM " . $tableName);
 
         $fields = array();
         foreach ($allColumns as $column) {

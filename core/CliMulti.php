@@ -148,13 +148,18 @@ class CliMulti
         $this->outputs[] = $output;
     }
 
-    private function buildCommand($hostname, $query, $outputFile)
+    private function buildCommand($hostname, $query, $outputFile, $doEsacpeArg = true)
     {
         $bin = $this->findPhpBinary();
         $superuserCommand = $this->runAsSuperUser ? "--superuser" : "";
 
+        if ($doEsacpeArg) {
+            $hostname = escapeshellarg($hostname);
+            $query = escapeshellarg($query);
+        }
+
         return sprintf('%s %s %s/console climulti:request -q --piwik-domain=%s %s %s > %s 2>&1 &',
-                       $bin, $this->phpCliOptions, PIWIK_INCLUDE_PATH, escapeshellarg($hostname), $superuserCommand, escapeshellarg($query), $outputFile);
+                       $bin, $this->phpCliOptions, PIWIK_INCLUDE_PATH, $hostname, $superuserCommand, $query, $outputFile);
     }
 
     private function getResponse()
@@ -264,6 +269,34 @@ class CliMulti
     public static function getTmpPath()
     {
         return StaticContainer::get('path.tmp') . '/climulti';
+    }
+
+    public function isCommandAlreadyRunning($url)
+    {
+        if (!$this->supportsAsync) {
+            // we cannot detect if web archive is still running
+            return false;
+        }
+
+        $query = UrlHelper::getQueryFromUrl($url, array('pid' => 'removeme'));
+        $hostname = Url::getHost($checkIfTrusted = false);
+        $commandToCheck = $this->buildCommand($hostname, $query, $output = '', $escape = false);
+
+        $currentlyRunningJobs = `ps aux`;
+
+        $posStart = strpos($commandToCheck, 'console climulti');
+        $posPid = strpos($commandToCheck, '&pid='); // the pid is random each time so we need to ignore it.
+        $shortendCommand = substr($commandToCheck, $posStart, $posPid - $posStart);
+        // equals eg console climulti:request -q --piwik-domain= --superuser module=API&method=API.get&idSite=1&period=month&date=2018-04-08,2018-04-30&format=php&trigger=archivephp
+        $shortendCommand      = preg_replace("/([&])date=.*?(&|$)/", "", $shortendCommand);
+        $currentlyRunningJobs = preg_replace("/([&])date=.*?(&|$)/", "", $currentlyRunningJobs);
+
+        if (strpos($currentlyRunningJobs, $shortendCommand) !== false) {
+            Log::debug($shortendCommand . ' is already running');
+            return true;
+        }
+
+        return false;
     }
 
     private function executeAsyncCli($url, Output $output, $cmdId)

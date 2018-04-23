@@ -2918,13 +2918,13 @@ function PiwikTest() {
         strictEqual(tracker.getTrackerUrl(), makeReplaceHrefForCrossDomainLink(tracker.getTrackerUrl()), 'replaceHrefForCrossDomainLink, should not change URL if href is a tracker URL');
         strictEqual(tracker.getTrackerUrl(), makeReplaceHrefForCrossDomainLink(tracker.getTrackerUrl()), 'replaceHrefForCrossDomainLink, should not change URL if href is a tracker URL');
 
-        tracker.setUserId('test');
-        var replacedUrl = makeReplaceHrefForCrossDomainLink('http://www.example.com');
-        ok(replacedUrl.indexOf('http://www.example.com?pk_vid=a94a8fe5ccb19ba61') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
+            tracker.setVisitorId('082ea0f319e784f6');
+            var replacedUrl = makeReplaceHrefForCrossDomainLink('http://www.example.com/');
+            ok(replacedUrl.indexOf('http://www.example.com/?pk_vid=082ea0f319e784f6') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
         ok(replacedUrl.indexOf(browserId) > 20, 'replaceHrefForCrossDomainLink, should set browserId if a url is given');
 
         replacedUrl = makeReplaceHrefForCrossDomainLink(makeUrlWithVisitorId(true, currentTimestamp, 'foobar'));
-        ok(replacedUrl.indexOf('http://www.example.com/?pk_vid=a94a8fe5ccb19ba61') === 0, 'replaceHrefForCrossDomainLink, should replace parameters if a URL is given');
+            ok(replacedUrl.indexOf('http://www.example.com/?pk_vid=082ea0f319e784f6') === 0, 'replaceHrefForCrossDomainLink, should replace parameters if a URL is given');
         ok(replacedUrl.indexOf(browserId) > 20, 'replaceHrefForCrossDomainLink, should replace browserId if a URL is given');
 
 
@@ -2970,8 +2970,8 @@ function PiwikTest() {
         // getCrossDomainLinkingUrlParameter() tests
         mockNowValue = 1520391713308;
         browserId = generateBrowserSpecificId();
-        var expectedCrossDomainParam = 'pk_vid=a94a8fe5ccb19ba6' + Math.floor(mockNowValue / 1000) + browserId;
-        equal(expectedCrossDomainParam, tracker.getCrossDomainLinkingUrlParameter());
+            var expectedCrossDomainParam = 'pk_vid=082ea0f319e784f6' + Math.floor(mockNowValue / 1000) + browserId;
+            equal(expectedCrossDomainParam, tracker.getCrossDomainLinkingUrlParameter(), "the cross domain parameter was not as expected");
 
         // sanity check (test that getCrossDomainLinkingUrlParameter() uses the same value as makeReplaceHrefForCrossDomainLink)
         equal('http://www.example.com?' + expectedCrossDomainParam, makeReplaceHrefForCrossDomainLink('http://www.example.com'));
@@ -3198,34 +3198,32 @@ function PiwikTest() {
         notEqual("", tracker2.getVisitorId(), "Visitor ID 2 is not empty");
         notEqual(tracker.getVisitorId(), tracker2.getVisitorId(), "Setting a new namespace forces Visitor ID " + tracker.getVisitorId() + " to be different from Visitor ID 2 " + tracker2.getVisitorId());
 
-
+            // Set the same Visitor IDs in both trackers
+            tracker2.setVisitorId(tracker.getVisitorId());
 
         // Set User ID and verify it was set
         tracker.setUserId(userIdString);
         equal(userIdString, tracker.getUserId(), "getUserId() returns User Id");
-        equal(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker.getVisitorId(), "Visitor ID is the sha1 of User ID");
+            notEqual(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker.getVisitorId(), "Visitor ID is not the sha1 of User ID (it used to be)");
+            equal(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting a User ID, Visitor ID does not change");
+
+            // Set the User ID and verify nothing's changed
+            tracker2.setUserId(userIdString);
+            equal(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting the same User ID, Visitor ID are the same");
 
         // Check that calling trackPageView does not change the visitor ID
         var visitorId = tracker.getVisitorId();
         tracker.trackPageView();
         equal(getVisitorIdFromCookie(tracker), visitorId, "Visitor ID from cookie is the same as Visitor ID in object ("+ visitorId +"), but got: " + getVisitorIdFromCookie(tracker));
 
-        // Verify that Visitor ID is tied to User ID
-        notEqual(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting a User ID, Visitor ID " + tracker.getVisitorId() + " is now different from Visitor ID2 " + tracker2.getVisitorId());
-
-        // Verify that setting the same user ID on two objects results in the same Visitor ID
-        tracker2.setUserId(userIdString);
-        equal(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting the same User ID, Visitor ID are the same");
-
-
         // Verify that when resetting the User ID, it also changes the Visitor ID
         tracker.resetUserId();
         equal(tracker.getUserId(), '', "after reset, user ID is set to empty string");
         ok(tracker.getVisitorId().length == 16, "after resetting user id, visitor ID should still be 16 chars, got: " + tracker.getVisitorId());
-        notEqual(tracker.getVisitorId(), visitorId, "after resetting user id, visitor ID should be different ("+ tracker.getVisitorId() +")");
+            equal(tracker.getVisitorId(), visitorId, "after resetting user id, visitor ID should be the same ("+ tracker.getVisitorId() +")");
         tracker.trackPageView("Track some data to write the cookies...");
         ok(getVisitorIdFromCookie(tracker).length == 16, "after resetting user id, visitor ID from cookie should still be 16 chars, got: " + getVisitorIdFromCookie(tracker));
-        notEqual(getVisitorIdFromCookie(tracker), visitorId, "after resetting user id, visitor ID from cookie should be different ("+ getVisitorIdFromCookie(tracker) +")");
+            equal(getVisitorIdFromCookie(tracker), visitorId, "after resetting user id, visitor ID from cookie should be the same ("+ getVisitorIdFromCookie(tracker) +")");
 
     });
 

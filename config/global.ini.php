@@ -468,7 +468,7 @@ datatable_archiving_maximum_rows_subtable_actions = 100
 ; maximum number of rows for any of the Events tables (Categories, Actions, Names)
 datatable_archiving_maximum_rows_events = 500
 ; maximum number of rows for sub-tables of the Events tables (eg. for the subtables Categories>Actions or Categories>Names).
-datatable_archiving_maximum_rows_subtable_events = 100
+datatable_archiving_maximum_rows_subtable_events = 500
 
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500
