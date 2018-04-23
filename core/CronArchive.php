@@ -1151,7 +1151,8 @@ class CronArchive
         $sitesPerDays = $this->invalidator->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         foreach ($sitesPerDays as $date => $siteIds) {
-            $listSiteIds = implode(',', $siteIds);
+            //Concurrent transaction logic will end up with duplicates set.  Adding array_unique to the siteIds.
+            $listSiteIds = implode(',', array_unique($siteIds ));
 
             try {
                 $this->logger->info('- Will invalidate archived reports for ' . $date . ' for following websites ids: ' . $listSiteIds);
