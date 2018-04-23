@@ -36,7 +36,6 @@ class VisitorProfile
         $visitorDetailsManipulators = Visitor::getAllVisitorDetailsInstances();
 
         $this->profile['visitorId']       = $visitorId;
-        $this->profile['totalVisitCount'] = $visits->getMetadata('rowCount');
         $this->profile['visit_first']     = $visits->getLastRow();
         $this->profile['visit_last']      = $visits->getFirstRow();
 
