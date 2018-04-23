@@ -42,13 +42,13 @@ class GeolocationDiagnostic implements Diagnostic
 
         $currentProviderId = LocationProvider::getCurrentProviderId();
         $allProviders = LocationProvider::getAllProviderInfo();
-        $isRecommendedProvider = in_array($currentProviderId, array(
-            LocationProvider\GeoIp\Php::ID,
-            LocationProvider\GeoIp\Pecl::ID,
-            GeoIp2\Php::ID));
+        $isNotRecommendedProvider = in_array($currentProviderId, array(
+            LocationProvider\DefaultProvider::ID,
+            LocationProvider\GeoIp\ServerBased::ID,
+            GeoIp2\ServerModule::ID));
         $isProviderInstalled = (isset($allProviders[$currentProviderId]['status']) && $allProviders[$currentProviderId]['status'] == LocationProvider::INSTALLED);
 
-        if ($isRecommendedProvider && $isProviderInstalled) {
+        if (!$isNotRecommendedProvider && $isProviderInstalled) {
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
         }
 
