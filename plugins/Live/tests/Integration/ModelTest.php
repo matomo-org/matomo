@@ -45,7 +45,7 @@ class ModelTest extends IntegrationTestCase
                 $minTimestamp = false,
                 $filterSortOrder = false
         );
-        $expectedSql = ' SELECT sub.* FROM
+        $expectedSql = ' SELECT SQL_CALC_FOUND_ROWS sub.* FROM
                 (
                     SELECT log_visit.*
                     FROM ' . Common::prefixTable('log_visit') . ' AS log_visit
@@ -86,7 +86,7 @@ class ModelTest extends IntegrationTestCase
                 $minTimestamp = false,
                 $filterSortOrder = false
         );
-        $expectedSql = ' SELECT sub.* FROM
+        $expectedSql = ' SELECT SQL_CALC_FOUND_ROWS sub.* FROM
                 (
                     SELECT log_visit.*
                     FROM ' . Common::prefixTable('log_visit') . ' AS log_visit
@@ -125,7 +125,7 @@ class ModelTest extends IntegrationTestCase
                 $minTimestamp = false,
                 $filterSortOrder = false
         );
-        $expectedSql = ' SELECT sub.* FROM
+        $expectedSql = ' SELECT SQL_CALC_FOUND_ROWS sub.* FROM
                 (
                     SELECT log_visit.*
                     FROM ' . Common::prefixTable('log_visit') . ' AS log_visit
@@ -163,7 +163,7 @@ class ModelTest extends IntegrationTestCase
             $minTimestamp = false,
             $filterSortOrder = false
         );
-        $expectedSql = ' SELECT sub.* FROM
+        $expectedSql = ' SELECT SQL_CALC_FOUND_ROWS sub.* FROM
                 (
 
                     SELECT log_inner.*
