@@ -45,9 +45,9 @@
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",
-        "phpunit/phpunit": "^7.0",
+        "phpunit/phpunit": "~4.8",
         "facebook/xhprof": "dev-master",
-        "johnkary/phpunit-speedtrap": "dev-master",
+        "johnkary/phpunit-speedtrap": "1.1.0",
         "phpseclib/phpseclib": "~0.3.8",
         "symfony/var-dumper": "~2.6.0",
         "symfony/yaml": "~2.6.0"

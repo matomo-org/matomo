@@ -41,7 +41,7 @@ matrix:
   fast_finish: true
   include:
     # PDO Mysql
-    - php: 7.2
+    - php: 5.6
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
       sudo: false
       addons: false
