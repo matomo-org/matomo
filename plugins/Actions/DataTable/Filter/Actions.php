@@ -47,7 +47,7 @@ class Actions extends BaseFilter
                     $row->setMetadata('segmentValue', urldecode($url));
                 }
 
-                // remove the default action name 'index' in the end of flattened urls
+                // remove the default action name 'index' in the end of flattened urls and prepend $actionDelimiter
                 if (Common::getRequestVar('flat', 0)) {
                     $label = $row->getColumn('label');
                     $stringToSearch = $actionDelimiter.$defaultActionName;

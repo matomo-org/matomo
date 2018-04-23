@@ -97,7 +97,7 @@ class Flattener extends DataTableManipulator
             $label = trim($label);
 
             if ($this->recursiveLabelSeparator == '/') {
-                if (substr($label, 0, 1) == '/') {
+                if (substr($label, 0, 1) == '/' && substr($labelPrefix, -1) == '/') {
                     $label = substr($label, 1);
                 } elseif ($rowId === DataTable::ID_SUMMARY_ROW && $labelPrefix && $label != DataTable::LABEL_SUMMARY_ROW) {
                     $label = ' - ' . $label;

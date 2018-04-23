@@ -95,6 +95,17 @@ class API extends \Piwik\Plugin\API
 
         $this->filterActionsDataTable($dataTable);
 
+        if ($flat) {
+            $dataTable->filter(function(DataTable $dataTable) {
+                foreach ($dataTable->getRows() as $row) {
+                    $label = $row->getColumn('label');
+                    if (substr($label, 0, 1) !== '/' && $label != Piwik::translate('General_NotDefined', Piwik::translate('Actions_ColumnPageURL'))) {
+                        $row->setColumn('label', '/'.$label);
+                    }
+                }
+            });
+        }
+
         return $dataTable;
     }
 
