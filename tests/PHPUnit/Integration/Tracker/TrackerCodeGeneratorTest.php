@@ -62,7 +62,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
-&lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;//piwik-server/piwik/piwik.php?idsite=1&amp;rec=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
+&lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;//piwik-server/piwik/piwik.php?idsite=1&amp;amp;rec=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
 &lt;!-- End Matomo Code --&gt;
 ";
 
