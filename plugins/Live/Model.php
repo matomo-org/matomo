@@ -148,10 +148,11 @@ class Model
     private function getIdSitesWhereClause($idSite, $table = 'log_visit')
     {
         if ($idSite === 'all') {
-            return array('', array());
+            $idSites = Request::processRequest('SitesManager.getSitesIdWithAdminAccess');
+        } else {
+            $idSites = array($idSite);
         }
 
-        $idSites = array($idSite);
         Piwik::postEvent('Live.API.getIdSitesString', array(&$idSites));
 
         $idSitesBind = Common::getSqlStringFieldsArray($idSites);
