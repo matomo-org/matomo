@@ -17,10 +17,15 @@ class ManyVisitsOfSameVisitor extends Fixture
 {
     public $dateTime = '2010-02-01 11:22:33';
     public $idSite = 1;
+    public $idSite2 = 2;
 
     public function setUp()
     {
-        if (!self::siteCreated($idSite = 1)) {
+        if (!self::siteCreated($this->idSite)) {
+            self::createWebsite($this->dateTime);
+        }
+
+        if (!self::siteCreated($this->idSite2)) {
             self::createWebsite($this->dateTime);
         }
 
@@ -34,6 +39,18 @@ class ManyVisitsOfSameVisitor extends Fixture
 
     private function trackVisits()
     {
+        $t = self::getTracker($this->idSite2, $this->dateTime, $defaultInit = true);
+        $t->setTokenAuth(self::getTokenAuth());
+        $t->setForceNewVisit();
+        $t->setUserId(101);
+        $t->setUrl('http://example.org/foo/dir/page');
+
+        $visitDateTime = Date::factory($this->dateTime)->getDatetime();
+        $t->setForceVisitDateTime($visitDateTime);
+
+        self::checkResponse($t->doTrackPageView('incredible title'));
+
+
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
         $t->setTokenAuth(self::getTokenAuth());
         $t->enableBulkTracking();

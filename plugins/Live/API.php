@@ -162,6 +162,11 @@ class API extends \Piwik\Plugin\API
     public function getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
+        $idSite = Site::getIdSitesFromIdSitesString($idSite);
+        if (is_array($idSite) && count($idSite) === 1) {
+            $idSite = array_shift($idSite);
+        }
+        Piwik::checkUserHasViewAccess($idSite);
 
         if ($countVisitorsToFetch !== false) {
             $filterLimit     = (int) $countVisitorsToFetch;
@@ -307,7 +312,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getFirstVisitForVisitorId($idSite, $visitorId)
     {
-        Piwik::checkUserHasViewAccess($idSite);
+        Piwik::checkUserHasSomeViewAccess();
 
         if (empty($visitorId)) {
             return new DataTable();

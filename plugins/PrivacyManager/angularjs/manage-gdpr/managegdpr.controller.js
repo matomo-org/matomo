@@ -18,7 +18,9 @@
         this.segment_filter = 'userId==';
         this.dataSubjects = [];
         this.toggleAll = true;
-        this.hasSearched = false;
+        this.hasSearched = false
+
+        var sitesPromise = piwikApi.fetch({method: 'SitesManager.getSitesIdWithAdminAccess', filter_limit: '-1'});
 
         this.linkTo = function (action){
             var currentUrl = window.location.pathname + window.location.search;
@@ -157,24 +159,36 @@
             // we are adding two years to make sure to also capture some requests in the future as we fetch data across
             // different sites and different timezone and want to avoid missing any possible requests
 
-            piwikApi.fetch({
-                idSite: this.site.id,
-                period: 'range',
-                date: '1998-01-01,today',
-                module: 'API',
-                method: 'Live.getLastVisitsDetails',
-                segment: this.segment_filter,
-                filter_limit: 501,
-                doNotFetchActions: 1
-            }).then(function (visits) {
-                self.hasSearched = true;
-                angular.forEach(visits, function (visit) {
-                    visit.dataSubjectActive = true;
+            sitesPromise.then(function (idsites) {
+
+                var siteIds = self.site.id;
+                if (siteIds === 'all' && !piwik.hasSuperUserAccess) {
+                    // when superuser, we speed the request up a little and simply use 'all'
+                    siteIds = idsites;
+                    if (angular.isArray(idsites)) {
+                        siteIds = idsites.join(',');
+                    }
+                }
+
+                piwikApi.fetch({
+                    idSite: siteIds,
+                    period: 'range',
+                    date: '1998-01-01,today',
+                    module: 'API',
+                    method: 'Live.getLastVisitsDetails',
+                    segment: this.segment_filter,
+                    filter_limit: 501,
+                    doNotFetchActions: 1
+                }).then(function (visits) {
+                    self.hasSearched = true;
+                    angular.forEach(visits, function (visit) {
+                        visit.dataSubjectActive = true;
+                    });
+                    self.dataSubjects = visits;
+                    self.isLoading = false;
+                }, function () {
+                    self.isLoading = false;
                 });
-                self.dataSubjects = visits;
-                self.isLoading = false;
-            }, function () {
-                self.isLoading = false;
             });
         };
     }

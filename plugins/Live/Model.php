@@ -147,8 +147,8 @@ class Model
      */
     private function getIdSitesWhereClause($idSite, $table = 'log_visit')
     {
-        if ($idSite === 'all') {
-            $idSites = Request::processRequest('SitesManager.getSitesIdWithAdminAccess');
+        if (is_array($idSite)) {
+            $idSites = $idSite;
         } else {
             $idSites = array($idSite);
         }

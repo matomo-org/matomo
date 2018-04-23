@@ -233,6 +233,9 @@ class DataSubjects
                             $result[$index][$rowColumn] = $testValue;
                         }
                     }
+                    if ($result[$index][$rowColumn] === null) {
+                        unset($result[$index][$rowColumn]);
+                    }
                 }
             }
 
