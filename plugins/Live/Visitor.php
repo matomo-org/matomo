@@ -155,7 +155,7 @@ class Visitor implements VisitorInterface
     public static function cleanVisitorDetails($visitorDetails)
     {
         $toUnset = array('config_id');
-        if (Piwik::isUserIsAnonymous()) {
+        if (Piwik::isUserIsAnonymous() && !Piwik::hasUserSuperUserAccess()) {
             $toUnset[] = 'idvisitor';
             $toUnset[] = 'user_id';
             $toUnset[] = 'location_ip';
