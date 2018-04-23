@@ -18,11 +18,6 @@
         "wiki": "https://github.com/matomo-org/piwik/wiki",
         "source": "https://github.com/matomo-org/piwik"
     },
-    "config":{
-        "platform": {
-            "php": "5.5.9"
-        }
-    },
     "require": {
         "php": ">=5.5.9",
         "twig/twig": "~1.0",
@@ -50,8 +45,9 @@
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",
-        "phpunit/phpunit": "~4.8",
+        "phpunit/phpunit": "^7.0",
         "facebook/xhprof": "dev-master",
+        "johnkary/phpunit-speedtrap": "dev-master",
         "phpseclib/phpseclib": "~0.3.8",
         "symfony/var-dumper": "~2.6.0",
         "symfony/yaml": "~2.6.0"
