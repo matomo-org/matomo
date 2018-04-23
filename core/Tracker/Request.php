@@ -669,28 +669,30 @@ class Request
      *
      * @throws Exception
      */
-    public function getVisitorId()
+    public function getVisitorId($forThirdPartyCookie = false)
     {
         $found = false;
-
-        // If User ID is set it takes precedence
-        $userId = $this->getForcedUserId();
-        if ($userId) {
-            $userIdHashed = $this->getUserIdHashed($userId);
-            $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
-            Common::printDebug("Request will be recorded for this user_id = " . $userId . " (idvisitor = $idVisitor)");
-            $found = true;
-        }
-
-        // Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
-        if (!$found) {
-            $idVisitor = $this->getForcedVisitorId();
-            if (!empty($idVisitor)) {
-                if (strlen($idVisitor) != Tracker::LENGTH_HEX_ID_STRING) {
-                    throw new InvalidRequestParameterException("Visitor ID (cid) $idVisitor must be " . Tracker::LENGTH_HEX_ID_STRING . " characters long");
-                }
-                Common::printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
+        
+        if (!$forThirdPartyCookie) {
+            // If User ID is set it takes precedence
+            $userId = $this->getForcedUserId();
+            if ($userId) {
+                $userIdHashed = $this->getUserIdHashed($userId);
+                $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
+                Common::printDebug("Request will be recorded for this user_id = " . $userId . " (idvisitor = $idVisitor)");
                 $found = true;
+            }
+    
+            // Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
+            if (!$found) {
+                $idVisitor = $this->getForcedVisitorId();
+                if (!empty($idVisitor)) {
+                    if (strlen($idVisitor) != Tracker::LENGTH_HEX_ID_STRING) {
+                        throw new InvalidRequestParameterException("Visitor ID (cid) $idVisitor must be " . Tracker::LENGTH_HEX_ID_STRING . " characters long");
+                    }
+                    Common::printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
+                    $found = true;
+                }
             }
         }
 
