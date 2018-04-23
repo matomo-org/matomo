@@ -217,8 +217,8 @@ class ProxyHttp
     public static function overrideCacheControlHeaders($override = null)
     {
         if ($override || self::isHttps()) {
-            Common::sendHeader('Pragma: ');
-            Common::sendHeader('Expires: ');
+            Common::stripHeader('Pragma');
+            Common::stripHeader('Expires');
             if (in_array($override, array('public', 'private', 'no-cache', 'no-store'))) {
                 Common::sendHeader("Cache-Control: $override, must-revalidate");
             } else {

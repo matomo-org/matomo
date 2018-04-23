@@ -67,10 +67,11 @@ abstract class GeneratePluginBase extends ConsoleCommand
      *
      * @param $pluginName
      * @param $translatedText
+     * @param string $translationKey Optional, by default the key will be generated automatically
      * @return string  Either the generated translation key or the original text if a different translation for this
      *                 generated translation key already exists.
      */
-    protected function makeTranslationIfPossible($pluginName, $translatedText)
+    protected function makeTranslationIfPossible($pluginName, $translatedText, $translationKey = '')
     {
         $defaultLang = array($pluginName => array());
 
@@ -85,7 +86,11 @@ abstract class GeneratePluginBase extends ConsoleCommand
             $translations[$pluginName] = array();
         }
 
-        $key = $this->buildTranslationKey($translatedText);
+        if (!empty($translationKey)) {
+            $key = $translationKey;
+        } else {
+            $key = $this->buildTranslationKey($translatedText);
+        }
 
         if (array_key_exists($key, $translations[$pluginName])) {
             // we do not want to overwrite any existing translations

@@ -26,24 +26,29 @@ class SharedSiteIdsTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        if (! SharedSiteIds::isSupported()) {
+        if (!SharedSiteIds::isSupported()) {
             $this->markTestSkipped('Not supported on this platform');
             return;
         }
 
-        $this->sharedSiteIds = new SharedSiteIds(array(1,2,5,9));
+        $this->sharedSiteIds = $this->makeSharedSiteIds(array(1,2,5,9));
     }
 
     public function tearDown()
     {
-        if (! SharedSiteIds::isSupported()) {
+        if (!SharedSiteIds::isSupported()) {
             return;
         }
 
-        $siteIdsToCleanup = new SharedSiteIds(array());
+        $siteIdsToCleanup = $this->makeSharedSiteIds(array());
         $siteIdsToCleanup->setSiteIdsToArchive(array());
 
         parent::tearDown();
+    }
+
+    private function makeSharedSiteIds($siteIds, $optionalKey = SharedSiteIds::OPTION_DEFAULT)
+    {
+        return new SharedSiteIds($siteIds, $optionalKey);
     }
 
     public function test_construct_withEmptyValue()
@@ -91,6 +96,29 @@ class SharedSiteIdsTest extends IntegrationTestCase
 
         $this->assertNull($this->sharedSiteIds->getNextSiteId());
         $this->assertEquals(4, $this->sharedSiteIds->getNumProcessedWebsites());
+    }
+
+    public function test_getNextSiteId_shouldDetectWhenTheQueueHasBeenResetMeanwhile()
+    {
+        $this->assertEquals(1, $this->sharedSiteIds->getNextSiteId());
+        $this->assertEquals(2, $this->sharedSiteIds->getNextSiteId());
+
+        // we fake to reset the sharedSiteIds by another process
+        $this->sharedSiteIds->setSiteIdsToArchive(array(1,2,5,9));
+
+        // it detects that sites must have been processed by now
+        $this->assertNull($this->sharedSiteIds->getNextSiteId());
+    }
+
+    public function test_getNextSiteId_queueWithOnlyOneSite()
+    {
+        $sharedSiteIds = $this->makeSharedSiteIds(array(1), 'mytest');
+
+        $this->assertEquals(1, $sharedSiteIds->getNextSiteId());
+        $this->assertNull($sharedSiteIds->getNextSiteId());
+
+        // still returns null even when calling it again
+        $this->assertNull($sharedSiteIds->getNextSiteId());
     }
 
     public function test_usingMultipleSharedSiteIds()

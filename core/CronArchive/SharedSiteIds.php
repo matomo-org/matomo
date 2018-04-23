@@ -29,6 +29,7 @@ class SharedSiteIds
     private $siteIds = array();
     private $currentSiteId;
     private $done = false;
+    private $numWebsitesLeftToProcess;
 
     public function __construct($websiteIds, $optionName = self::OPTION_DEFAULT)
     {
@@ -52,6 +53,7 @@ class SharedSiteIds
 
             return $websiteIds;
         });
+        $this->numWebsitesLeftToProcess = $this->getNumSites();
     }
 
     public function getInitialSiteIds()
@@ -154,6 +156,12 @@ class SharedSiteIds
      */
     public function getNextSiteId()
     {
+        if ($this->done) {
+            // we make sure we don't check again whether there are more sites to be archived as the list of
+            // sharedSiteIds may have been reset by now.
+            return null;
+        }
+
         $self = $this;
 
         $this->currentSiteId = $this->runExclusive(function () use ($self) {
@@ -161,8 +169,17 @@ class SharedSiteIds
             $siteIds = $self->getAllSiteIdsToArchive();
 
             if (empty($siteIds)) {
+                // done... no sites left to be archived
                 return null;
             }
+
+            if (count($siteIds) > $self->numWebsitesLeftToProcess) {
+                // done... the number of siteIds in SharedSiteIds is larger than it was initially... therefore it must have
+                // been reset at some point.
+                return null;
+            }
+
+            $self->numWebsitesLeftToProcess = count($siteIds);
 
             $nextSiteId = array_shift($siteIds);
             $self->setSiteIdsToArchive($siteIds);
@@ -172,6 +189,7 @@ class SharedSiteIds
 
         if (is_null($this->currentSiteId)) {
             $this->done = true;
+            $this->numWebsitesLeftToProcess = 0;
         }
 
         return $this->currentSiteId;
