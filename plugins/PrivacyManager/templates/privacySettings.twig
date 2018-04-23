@@ -319,8 +319,8 @@
             </tr></thead>
             <tbody>
             {% for entry in anonymizations %}
-                {% set isStarted = not entry.job_start_date or entry.job_start_date is empty %}
-                {% set isFinished = not entry.job_finish_date or entry.job_finish_date is empty %}
+                {% set isStarted = entry.job_start_date or not entry.job_start_date is empty %}
+                {% set isFinished = entry.job_finish_date or not entry.job_finish_date is empty %}
                 <tr>
                     <td>{{ entry.requester }}</td>
                     <td>{{ entry.sites|join(', ') }}</td>

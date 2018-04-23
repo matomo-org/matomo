@@ -109,7 +109,7 @@
                 format: 'json',
                 filter_limit: -1,
             }, {visits: visitsToDelete}).then(function (visits) {
-                showSuccessNotification('Visits were successfully deleted');
+                showSuccessNotification('Visits were successfully exported');
                 sendContentAsDownload('exported_data_subjects.json', JSON.stringify(visits));
             });
         };
