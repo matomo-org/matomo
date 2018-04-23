@@ -627,12 +627,12 @@ class Request
             return;
         }
 
-        Common::printDebug("We manage the cookie...");
-
         $cookie = $this->makeThirdPartyCookieUID();
-        // idcookie has been generated in handleNewVisit or we simply propagate the old value
-        $cookie->set(0, bin2hex($idVisitor));
+        $idVisitor = bin2hex($idVisitor);
+        $cookie->set(0, $idVisitor);
         $cookie->save();
+
+        Common::printDebug(sprintf("We set the visitor ID to %s in the 3rd party cookie...", $idVisitor));
     }
 
     protected function makeThirdPartyCookieUID()
