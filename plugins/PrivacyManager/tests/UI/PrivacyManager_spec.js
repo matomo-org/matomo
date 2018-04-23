@@ -168,6 +168,7 @@ describe("PrivacyManager", function () {
         captureAnonymizeLogData('anonymizelogdata_anonymizelocation_anduserid_and_action_column_confirmed', function (page) {
             anonymizePastData(page);
             selectModalButton(page, 'Yes');
+            page.wait(1000);
             setAnonymizeStartEndDate(page);
         }, done);
     });
