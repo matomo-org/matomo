@@ -365,17 +365,34 @@ class CronArchive
         $this->logSection("START");
         $this->logger->info("Starting Matomo reports archiving...");
 
-        do {
+        $numWebsitesScheduled = $this->websites->getNumSites();
+        $numWebsitesArchived = 0;
 
+        do {
             if ($this->isMaintenanceModeEnabled()) {
                 $this->logger->info("Archiving will stop now because maintenance mode is enabled");
                 return;
             }
 
             $idSite = $this->websites->getNextSiteId();
+            $numWebsitesArchived++;
 
             if (null === $idSite) {
                 break;
+            }
+
+            if ($numWebsitesArchived > $numWebsitesScheduled) {
+                // this is needed because a cron:archive might run for example for 5 hours. Meanwhile 5 other
+                // `cron:archive` have been possibly started... this means meanwhile, within the 5 hours, the
+                // `list of SharedSiteIds` have been potentially emptied and filled again from the beginning.
+                // This means 5 hours later, even though all websites that were originally in the list have been
+                // finished by now, the `cron:archive` will stay active and continue processing because the list of
+                // siteIds to archive was resetted by another `cron:archive` command. Potentially some `cron:archive`
+                // will basically never end because by the time the `cron:archive` finishes, the sharedSideIds have
+                // been resettet. This can eventually lead to some random concurrency issues when there are like
+                // 40 `core:archive` active at the same time.
+                $this->logger->info("Stopping archiving as the initial list of websites has been processed.");
+                return;
             }
 
             flush();
