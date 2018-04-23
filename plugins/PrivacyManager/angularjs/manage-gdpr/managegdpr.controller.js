@@ -176,7 +176,7 @@
                     date: '1998-01-01,today',
                     module: 'API',
                     method: 'Live.getLastVisitsDetails',
-                    segment: this.segment_filter,
+                    segment: self.segment_filter,
                     filter_limit: 501,
                     doNotFetchActions: 1
                 }).then(function (visits) {
