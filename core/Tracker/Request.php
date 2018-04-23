@@ -606,6 +606,18 @@ class Request
         return (bool)Config::getInstance()->Tracker['use_third_party_id_cookie'];
     }
 
+    public function getThirdPartyCookieVisitorId()
+    {
+        $cookie = $this->makeThirdPartyCookieUID();
+        $idVisitor = $cookie->get(0);
+        if ($idVisitor !== false
+            && strlen($idVisitor) == Tracker::LENGTH_HEX_ID_STRING
+        ) {
+            return $idVisitor;
+        }
+        return null;
+    }
+
     /**
      * Update the cookie information.
      */
@@ -669,43 +681,37 @@ class Request
      *
      * @throws Exception
      */
-    public function getVisitorId($forThirdPartyCookie = false)
+    public function getVisitorId()
     {
         $found = false;
         
-        if (!$forThirdPartyCookie) {
-            // If User ID is set it takes precedence
-            $userId = $this->getForcedUserId();
-            if ($userId) {
-                $userIdHashed = $this->getUserIdHashed($userId);
-                $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
-                Common::printDebug("Request will be recorded for this user_id = " . $userId . " (idvisitor = $idVisitor)");
-                $found = true;
-            }
-    
-            // Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
-            if (!$found) {
-                $idVisitor = $this->getForcedVisitorId();
-                if (!empty($idVisitor)) {
-                    if (strlen($idVisitor) != Tracker::LENGTH_HEX_ID_STRING) {
-                        throw new InvalidRequestParameterException("Visitor ID (cid) $idVisitor must be " . Tracker::LENGTH_HEX_ID_STRING . " characters long");
-                    }
-                    Common::printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
-                    $found = true;
+        // If User ID is set it takes precedence
+        $userId = $this->getForcedUserId();
+        if ($userId) {
+            $userIdHashed = $this->getUserIdHashed($userId);
+            $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
+            Common::printDebug("Request will be recorded for this user_id = " . $userId . " (idvisitor = $idVisitor)");
+            $found = true;
+        }
+
+        // Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
+        if (!$found) {
+            $idVisitor = $this->getForcedVisitorId();
+            if (!empty($idVisitor)) {
+                if (strlen($idVisitor) != Tracker::LENGTH_HEX_ID_STRING) {
+                    throw new InvalidRequestParameterException("Visitor ID (cid) $idVisitor must be " . Tracker::LENGTH_HEX_ID_STRING . " characters long");
                 }
+                Common::printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
+                $found = true;
             }
         }
 
         // - If set to use 3rd party cookies for Visit ID, read the cookie
         if (!$found) {
-            // - By default, reads the first party cookie ID
             $useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
             if ($useThirdPartyCookie) {
-                $cookie = $this->makeThirdPartyCookieUID();
-                $idVisitor = $cookie->get(0);
-                if ($idVisitor !== false
-                    && strlen($idVisitor) == Tracker::LENGTH_HEX_ID_STRING
-                ) {
+                $idVisitor = $this->getThirdPartyCookieVisitorId();
+                if(!empty($idVisitor)) {
                     $found = true;
                 }
             }
@@ -718,15 +724,44 @@ class Request
         }
 
         if ($found) {
-            $truncated = $this->truncateIdAsVisitorId($idVisitor);
-            $binVisitorId = @Common::hex2bin($truncated);
-            if (!empty($binVisitorId)) {
-                return $binVisitorId;
-            }
+            return $this->getVisitorIdAsBinary($idVisitor);
         }
 
         return false;
     }
+
+    /**
+     * When creating a third party cookie, we want to ensure that the original value set in this 3rd party cookie
+     * sticks and is not overwritten later.
+     */
+    public function getVisitorIdForThirdPartyCookie()
+    {
+        $found = false;
+
+        // For 3rd party cookies, priority is on re-using the existing 3rd party cookie value
+        if (!$found) {
+            $useThirdPartyCookie = $this->shouldUseThirdPartyCookie();
+            if ($useThirdPartyCookie) {
+                $idVisitor = $this->getThirdPartyCookieVisitorId();
+                if(!empty($idVisitor)) {
+                    $found = true;
+                }
+            }
+        }
+
+        // If a third party cookie was not found, we default to the first party cookie
+        if (!$found) {
+            $idVisitor = Common::getRequestVar('_id', '', 'string', $this->params);
+            $found = strlen($idVisitor) >= Tracker::LENGTH_HEX_ID_STRING;
+        }
+
+        if ($found) {
+            return $this->getVisitorIdAsBinary($idVisitor);
+        }
+
+        return false;
+    }
+
 
     public function getIp()
     {
@@ -839,5 +874,19 @@ class Request
     public function getMetadata($pluginName, $key)
     {
         return isset($this->requestMetadata[$pluginName][$key]) ? $this->requestMetadata[$pluginName][$key] : null;
+    }
+
+    /**
+     * @param $idVisitor
+     * @return bool|string
+     */
+    private function getVisitorIdAsBinary($idVisitor)
+    {
+        $truncated = $this->truncateIdAsVisitorId($idVisitor);
+        $binVisitorId = @Common::hex2bin($truncated);
+        if (!empty($binVisitorId)) {
+            return $binVisitorId;
+        }
+        return false;
     }
 }
