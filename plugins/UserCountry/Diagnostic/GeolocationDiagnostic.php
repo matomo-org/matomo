@@ -40,7 +40,13 @@ class GeolocationDiagnostic implements Diagnostic
 
         $currentProviderId = LocationProvider::getCurrentProviderId();
         $allProviders = LocationProvider::getAllProviderInfo();
-        $isRecommendedProvider = in_array($currentProviderId, array(LocationProvider\GeoIp\Php::ID, $currentProviderId == LocationProvider\GeoIp\Pecl::ID));
+        $recommendedProviders = array(LocationProvider\GeoIp\Php::ID, LocationProvider\GeoIp\Pecl::ID);
+        
+        if (defined('\Piwik\Plugins\IP2Location\LocationProvider\IP2Location::ID')) {
+            $recommendedProviders[] = \Piwik\Plugins\IP2Location\LocationProvider\IP2Location::ID;
+        }
+        
+        $isRecommendedProvider = in_array($currentProviderId, $recommendedProviders);
         $isProviderInstalled = (isset($allProviders[$currentProviderId]['status']) && $allProviders[$currentProviderId]['status'] == LocationProvider::INSTALLED);
 
         if ($isRecommendedProvider && $isProviderInstalled) {
