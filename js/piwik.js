@@ -98,9 +98,9 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
                     // The `getUTCFullYear`, `Month`, and `Date` methods return nonsensical
                     // results for certain dates in Opera >= 10.53.
                     isExtended = isExtended.getUTCFullYear() == -109252 && isExtended.getUTCMonth() === 0 && isExtended.getUTCDate() === 1 &&
-                            // Safari < 2.0.2 stores the internal millisecond time value correctly,
-                            // but clips the values returned by the date methods to the range of
-                            // signed 32-bit integers ([-2 ** 31, 2 ** 31 - 1]).
+                        // Safari < 2.0.2 stores the internal millisecond time value correctly,
+                        // but clips the values returned by the date methods to the range of
+                        // signed 32-bit integers ([-2 ** 31, 2 ** 31 - 1]).
                         isExtended.getUTCHours() == 10 && isExtended.getUTCMinutes() == 37 && isExtended.getUTCSeconds() == 6 && isExtended.getUTCMilliseconds() == 708;
                 } catch (exception) {}
 
@@ -135,54 +135,54 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
                                         // Firefox 3.1b1 and b2 serialize string, number, and boolean
                                         // primitives as object literals.
                                         stringify(0) === "0" &&
-                                            // FF 3.1b1, b2, and JSON 2 serialize wrapped primitives as object
-                                            // literals.
+                                        // FF 3.1b1, b2, and JSON 2 serialize wrapped primitives as object
+                                        // literals.
                                         stringify(new Number()) === "0" &&
                                         stringify(new String()) == '""' &&
-                                            // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
-                                            // does not define a canonical JSON representation (this applies to
-                                            // objects with `toJSON` properties as well, *unless* they are nested
-                                            // within an object or array).
+                                        // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
+                                        // does not define a canonical JSON representation (this applies to
+                                        // objects with `toJSON` properties as well, *unless* they are nested
+                                        // within an object or array).
                                         stringify(getClass) === undef &&
-                                            // IE 8 serializes `undefined` as `"undefined"`. Safari <= 5.1.7 and
-                                            // FF 3.1b3 pass this test.
+                                        // IE 8 serializes `undefined` as `"undefined"`. Safari <= 5.1.7 and
+                                        // FF 3.1b3 pass this test.
                                         stringify(undef) === undef &&
-                                            // Safari <= 5.1.7 and FF 3.1b3 throw `Error`s and `TypeError`s,
-                                            // respectively, if the value is omitted entirely.
+                                        // Safari <= 5.1.7 and FF 3.1b3 throw `Error`s and `TypeError`s,
+                                        // respectively, if the value is omitted entirely.
                                         stringify() === undef &&
-                                            // FF 3.1b1, 2 throw an error if the given value is not a number,
-                                            // string, array, object, Boolean, or `null` literal. This applies to
-                                            // objects with custom `toJSON` methods as well, unless they are nested
-                                            // inside object or array literals. YUI 3.0.0b1 ignores custom `toJSON`
-                                            // methods entirely.
+                                        // FF 3.1b1, 2 throw an error if the given value is not a number,
+                                        // string, array, object, Boolean, or `null` literal. This applies to
+                                        // objects with custom `toJSON` methods as well, unless they are nested
+                                        // inside object or array literals. YUI 3.0.0b1 ignores custom `toJSON`
+                                        // methods entirely.
                                         stringify(value) === "1" &&
                                         stringify([value]) == "[1]" &&
-                                            // Prototype <= 1.6.1 serializes `[undefined]` as `"[]"` instead of
-                                            // `"[null]"`.
+                                        // Prototype <= 1.6.1 serializes `[undefined]` as `"[]"` instead of
+                                        // `"[null]"`.
                                         stringify([undef]) == "[null]" &&
-                                            // YUI 3.0.0b1 fails to serialize `null` literals.
+                                        // YUI 3.0.0b1 fails to serialize `null` literals.
                                         stringify(null) == "null" &&
-                                            // FF 3.1b1, 2 halts serialization if an array contains a function:
-                                            // `[1, true, getClass, 1]` serializes as "[1,true,],". FF 3.1b3
-                                            // elides non-JSON values from objects and arrays, unless they
-                                            // define custom `toJSON` methods.
+                                        // FF 3.1b1, 2 halts serialization if an array contains a function:
+                                        // `[1, true, getClass, 1]` serializes as "[1,true,],". FF 3.1b3
+                                        // elides non-JSON values from objects and arrays, unless they
+                                        // define custom `toJSON` methods.
                                         stringify([undef, getClass, null]) == "[null,null,null]" &&
-                                            // Simple serialization test. FF 3.1b1 uses Unicode escape sequences
-                                            // where character escape codes are expected (e.g., `\b` => `\u0008`).
+                                        // Simple serialization test. FF 3.1b1 uses Unicode escape sequences
+                                        // where character escape codes are expected (e.g., `\b` => `\u0008`).
                                         stringify({ "a": [value, true, false, null, "\x00\b\n\f\r\t"] }) == serialized &&
-                                            // FF 3.1b1 and b2 ignore the `filter` and `width` arguments.
+                                        // FF 3.1b1 and b2 ignore the `filter` and `width` arguments.
                                         stringify(null, value) === "1" &&
                                         stringify([1, 2], null, 1) == "[\n 1,\n 2\n]" &&
-                                            // JSON 2, Prototype <= 1.7, and older WebKit builds incorrectly
-                                            // serialize extended years.
+                                        // JSON 2, Prototype <= 1.7, and older WebKit builds incorrectly
+                                        // serialize extended years.
                                         stringify(new Date(-8.64e15)) == '"-271821-04-20T00:00:00.000Z"' &&
-                                            // The milliseconds are optional in ES 5, but required in 5.1.
+                                        // The milliseconds are optional in ES 5, but required in 5.1.
                                         stringify(new Date(8.64e15)) == '"+275760-09-13T00:00:00.000Z"' &&
-                                            // Firefox <= 11.0 incorrectly serializes years prior to 0 as negative
-                                            // four-digit years instead of six-digit years. Credits: @Yaffle.
+                                        // Firefox <= 11.0 incorrectly serializes years prior to 0 as negative
+                                        // four-digit years instead of six-digit years. Credits: @Yaffle.
                                         stringify(new Date(-621987552e5)) == '"-000001-01-01T00:00:00.000Z"' &&
-                                            // Safari <= 5.1.5 and Opera >= 10.53 incorrectly serialize millisecond
-                                            // values less than 1000. Credits: @Yaffle.
+                                        // Safari <= 5.1.5 and Opera >= 10.53 incorrectly serialize millisecond
+                                        // values less than 1000. Credits: @Yaffle.
                                         stringify(new Date(-1)) == '"1969-12-31T23:59:59.999Z"';
                                 } catch (exception) {
                                     stringifySupported = false;
@@ -470,10 +470,10 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
                                         // Serialize extended years correctly.
                                         value = (year <= 0 || year >= 1e4 ? (year < 0 ? "-" : "+") + toPaddedString(6, year < 0 ? -year : year) : toPaddedString(4, year)) +
                                             "-" + toPaddedString(2, month + 1) + "-" + toPaddedString(2, date) +
-                                                // Months, dates, hours, minutes, and seconds should have two
-                                                // digits; milliseconds should have three.
+                                            // Months, dates, hours, minutes, and seconds should have two
+                                            // digits; milliseconds should have three.
                                             "T" + toPaddedString(2, hours) + ":" + toPaddedString(2, minutes) + ":" + toPaddedString(2, seconds) +
-                                                // Milliseconds are optional in ES 5.0, but required in 5.1.
+                                            // Milliseconds are optional in ES 5.0, but required in 5.1.
                                             "." + toPaddedString(3, milliseconds) + "Z";
                                     } else {
                                         value = null;
@@ -1012,7 +1012,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     CONTENT_ATTR, CONTENT_CLASS, CONTENT_NAME_ATTR, CONTENT_PIECE_ATTR, CONTENT_PIECE_CLASS,
     CONTENT_TARGET_ATTR, CONTENT_TARGET_CLASS, CONTENT_IGNOREINTERACTION_ATTR, CONTENT_IGNOREINTERACTION_CLASS,
     trackCallbackOnLoad, trackCallbackOnReady, buildContentImpressionsRequests, wasContentImpressionAlreadyTracked,
-    getQuery, getContent, getContentImpressionsRequestsFromNodes, buildContentInteractionTrackingRedirectUrl,
+    getQuery, getContent, setVisitorId, getContentImpressionsRequestsFromNodes, buildContentInteractionTrackingRedirectUrl,
     buildContentInteractionRequestNode, buildContentInteractionRequest, buildContentImpressionRequest,
     appendContentInteractionToRequestIfPossible, setupInteractionsTracking, trackContentImpressionClickInteraction,
     internalIsNodeVisible, clearTrackedContentImpressions, getTrackerUrl, trackAllContentImpressions,
@@ -1668,18 +1668,18 @@ if (typeof window.Piwik !== 'object') {
             }
 
             switch (str_len & 3) {
-            case 0:
-                i = 0x080000000;
-                break;
-            case 1:
-                i = str.charCodeAt(str_len - 1) << 24 | 0x0800000;
-                break;
-            case 2:
-                i = str.charCodeAt(str_len - 2) << 24 | str.charCodeAt(str_len - 1) << 16 | 0x08000;
-                break;
-            case 3:
-                i = str.charCodeAt(str_len - 3) << 24 | str.charCodeAt(str_len - 2) << 16 | str.charCodeAt(str_len - 1) << 8 | 0x80;
-                break;
+                case 0:
+                    i = 0x080000000;
+                    break;
+                case 1:
+                    i = str.charCodeAt(str_len - 1) << 24 | 0x0800000;
+                    break;
+                case 2:
+                    i = str.charCodeAt(str_len - 2) << 24 | str.charCodeAt(str_len - 1) << 16 | 0x08000;
+                    break;
+                case 3:
+                    i = str.charCodeAt(str_len - 3) << 24 | str.charCodeAt(str_len - 2) << 16 | str.charCodeAt(str_len - 1) << 8 | 0x80;
+                    break;
             }
 
             word_array.push(i);
@@ -1778,8 +1778,8 @@ if (typeof window.Piwik !== 'object') {
                 href = getUrlParameter(href, 'u');
                 hostName = getHostName(href);
             } else if (hostName === 'cc.bingj.com' ||                   // Bing
-                    hostName === 'webcache.googleusercontent.com' ||    // Google
-                    hostName.slice(0, 5) === '74.6.') {                 // Yahoo (via Inktomi 74.6.0.0/16)
+                hostName === 'webcache.googleusercontent.com' ||    // Google
+                hostName.slice(0, 5) === '74.6.') {                 // Yahoo (via Inktomi 74.6.0.0/16)
                 href = documentAlias.links[0].href;
                 hostName = getHostName(href);
             }
@@ -1991,11 +1991,11 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 if (!isDefined(t) ||
-                        !isDefined(r) ||
-                        !isDefined(b) ||
-                        !isDefined(l) ||
-                        !isDefined(w) ||
-                        !isDefined(h)) {
+                    !isDefined(r) ||
+                    !isDefined(b) ||
+                    !isDefined(l) ||
+                    !isDefined(w) ||
+                    !isDefined(h)) {
                     t = el.offsetTop;
                     l = el.offsetLeft;
                     b = t + el.offsetHeight;
@@ -2016,11 +2016,11 @@ if (typeof window.Piwik !== 'object') {
                         if (
                             //-- If the target element is to the right of the parent elm
                         l + VISIBLE_PADDING > p.offsetWidth + p.scrollLeft ||
-                            //-- If the target element is to the left of the parent elm
+                        //-- If the target element is to the left of the parent elm
                         l + w - VISIBLE_PADDING < p.scrollLeft ||
-                            //-- If the target element is under the parent elm
+                        //-- If the target element is under the parent elm
                         t + VISIBLE_PADDING > p.offsetHeight + p.scrollTop ||
-                            //-- If the target element is above the parent elm
+                        //-- If the target element is above the parent elm
                         t + h - VISIBLE_PADDING < p.scrollTop
                         ) {
                             //-- Our target element is out of bounds:
@@ -2710,7 +2710,7 @@ if (typeof window.Piwik !== 'object') {
             buildImpressionRequestParams: function (name, piece, target)
             {
                 var params = 'c_n=' + encodeWrapper(name) +
-                             '&c_p=' + encodeWrapper(piece);
+                    '&c_p=' + encodeWrapper(piece);
 
                 if (target) {
                     params += '&c_t=' + encodeWrapper(target);
@@ -2904,7 +2904,7 @@ if (typeof window.Piwik !== 'object') {
 
             // check whether we were redirected from the piwik overlay plugin
             var referrerRegExp = new RegExp('index\\.php\\?module=Overlay&action=startOverlaySession'
-                               + '&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)(&segment=.*)?$');
+                + '&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)(&segment=.*)?$');
 
             var match = referrerRegExp.exec(documentAlias.referrer);
 
@@ -2995,12 +2995,12 @@ if (typeof window.Piwik !== 'object') {
              ************************************************************/
 
             var
-/*<DEBUG>*/
+                /*<DEBUG>*/
                 /*
                  * registered test hooks
                  */
                 registeredHooks = {},
-/*</DEBUG>*/
+                /*</DEBUG>*/
 
                 trackerInstance = this,
                 // Current URL and Referrer URL
@@ -4267,8 +4267,8 @@ if (typeof window.Piwik !== 'object') {
                     if (currentReferrerHostName.length && // there is a referrer
                         !isSiteHostName(currentReferrerHostName) && // domain is not the current domain
                         (!configConversionAttributionFirstReferrer || // attribute to last known referrer
-                        !originalReferrerHostName.length || // previously empty
-                        isSiteHostName(originalReferrerHostName))) { // previously set but in current domain
+                            !originalReferrerHostName.length || // previously empty
+                            isSiteHostName(originalReferrerHostName))) { // previously set but in current domain
                         referralUrl = configReferrerUrl;
                     }
 
@@ -4289,22 +4289,22 @@ if (typeof window.Piwik !== 'object') {
 
                 // build out the rest of the request
                 request += '&idsite=' + configTrackerSiteId +
-                '&rec=1' +
-                '&r=' + String(Math.random()).slice(2, 8) + // keep the string to a minimum
-                '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
-                '&url=' + encodeWrapper(purify(currentUrl)) +
-                (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
-                ((configUserId && configUserId.length) ? '&uid=' + encodeWrapper(configUserId) : '') +
-                '&_id=' + cookieVisitorIdValues.uuid + '&_idts=' + cookieVisitorIdValues.createTs + '&_idvc=' + cookieVisitorIdValues.visitCount +
-                '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
-                (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
-                (campaignKeywordDetected.length ? '&_rck=' + encodeWrapper(campaignKeywordDetected) : '') +
-                '&_refts=' + referralTs +
-                '&_viewts=' + cookieVisitorIdValues.lastVisitTs +
-                (String(cookieVisitorIdValues.lastEcommerceOrderTs).length ? '&_ects=' + cookieVisitorIdValues.lastEcommerceOrderTs : '') +
-                (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
-                (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
-                '&send_image=0';
+                    '&rec=1' +
+                    '&r=' + String(Math.random()).slice(2, 8) + // keep the string to a minimum
+                    '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
+                    '&url=' + encodeWrapper(purify(currentUrl)) +
+                    (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
+                    ((configUserId && configUserId.length) ? '&uid=' + encodeWrapper(configUserId) : '') +
+                    '&_id=' + cookieVisitorIdValues.uuid + '&_idts=' + cookieVisitorIdValues.createTs + '&_idvc=' + cookieVisitorIdValues.visitCount +
+                    '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
+                    (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
+                    (campaignKeywordDetected.length ? '&_rck=' + encodeWrapper(campaignKeywordDetected) : '') +
+                    '&_refts=' + referralTs +
+                    '&_viewts=' + cookieVisitorIdValues.lastVisitTs +
+                    (String(cookieVisitorIdValues.lastEcommerceOrderTs).length ? '&_ects=' + cookieVisitorIdValues.lastEcommerceOrderTs : '') +
+                    (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
+                    (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
+                    '&send_image=0';
 
                 // browser features
                 for (i in browserFeatures) {
@@ -4477,13 +4477,13 @@ if (typeof window.Piwik !== 'object') {
 
                             // Set price to zero
                             if (!isDefined(ecommerceItems[sku][3])
-                                    || String(ecommerceItems[sku][3]).length === 0) {
+                                || String(ecommerceItems[sku][3]).length === 0) {
                                 ecommerceItems[sku][3] = 0;
                             }
 
                             // Set quantity to 1
                             if (!isDefined(ecommerceItems[sku][4])
-                                    || String(ecommerceItems[sku][4]).length === 0) {
+                                || String(ecommerceItems[sku][4]).length === 0) {
                                 ecommerceItems[sku][4] = 1;
                             }
 
@@ -4502,7 +4502,7 @@ if (typeof window.Piwik !== 'object') {
 
             function logEcommerceOrder(orderId, grandTotal, subTotal, tax, shipping, discount) {
                 if (String(orderId).length
-                        && isDefined(grandTotal)) {
+                    && isDefined(grandTotal)) {
                     logEcommerce(orderId, grandTotal, subTotal, tax, shipping, discount);
                 }
             }
@@ -4558,7 +4558,7 @@ if (typeof window.Piwik !== 'object') {
                 var downloadPattern = getClassesRegExp(configDownloadClasses, 'download'),
                     linkPattern = getClassesRegExp(configLinkClasses, 'link'),
 
-                // does file extension indicate that it is a download?
+                    // does file extension indicate that it is a download?
                     downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions.join('|') + ')([?&#]|$)', 'i');
 
                 if (linkPattern.test(className)) {
@@ -4582,7 +4582,7 @@ if (typeof window.Piwik !== 'object') {
 
                 parentElement = sourceElement.parentNode;
                 while (parentElement !== null &&
-                    /* buggy IE5.5 */
+                /* buggy IE5.5 */
                 isDefined(parentElement)) {
 
                     if (query.isLinkElement(sourceElement)) {
@@ -5016,9 +5016,9 @@ if (typeof window.Piwik !== 'object') {
             function buildEventRequest(category, action, name, value)
             {
                 return 'e_c=' + encodeWrapper(category)
-                     + '&e_a=' + encodeWrapper(action)
-                     + (isDefined(name) ? '&e_n=' + encodeWrapper(name) : '')
-                     + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : '');
+                    + '&e_a=' + encodeWrapper(action)
+                    + (isDefined(name) ? '&e_n=' + encodeWrapper(name) : '')
+                    + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : '');
             }
 
             /*
@@ -5032,10 +5032,10 @@ if (typeof window.Piwik !== 'object') {
                     return false;
                 }
                 var request = getRequest(
-                        buildEventRequest(category, action, name, value),
-                        customData,
-                        'event'
-                    );
+                    buildEventRequest(category, action, name, value),
+                    customData,
+                    'event'
+                );
 
                 sendRequest(request, configTrackerPause, callback);
             }
@@ -5045,8 +5045,8 @@ if (typeof window.Piwik !== 'object') {
              */
             function logSiteSearch(keyword, category, resultsCount, customData) {
                 var request = getRequest('search=' + encodeWrapper(keyword)
-                                + (category ? '&search_cat=' + encodeWrapper(category) : '')
-                                + (isDefined(resultsCount) ? '&search_count=' + resultsCount : ''), customData, 'sitesearch');
+                    + (category ? '&search_cat=' + encodeWrapper(category) : '')
+                    + (isDefined(resultsCount) ? '&search_count=' + resultsCount : ''), customData, 'sitesearch');
 
                 sendRequest(request, configTrackerPause);
             }
@@ -5182,8 +5182,8 @@ if (typeof window.Piwik !== 'object') {
                 targetLink = String(targetLink);
 
                 var isOutlink = targetLink.indexOf('//') === 0
-                             || targetLink.indexOf('http://') === 0
-                             || targetLink.indexOf('https://') === 0;
+                    || targetLink.indexOf('http://') === 0
+                    || targetLink.indexOf('https://') === 0;
 
                 if (!isOutlink) {
                     return false;
@@ -5508,9 +5508,9 @@ if (typeof window.Piwik !== 'object') {
                     // IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
                     // on Edge navigator.javaEnabled() always returns `true`, so ignore it
                     if (!((new RegExp('Edge[ /](\\d+[\\.\\d]+)')).test(navigatorAlias.userAgent)) &&
-                            typeof navigator.javaEnabled !== 'unknown' &&
-                            isDefined(navigatorAlias.javaEnabled) &&
-                            navigatorAlias.javaEnabled()) {
+                        typeof navigator.javaEnabled !== 'unknown' &&
+                        isDefined(navigatorAlias.javaEnabled) &&
+                        navigatorAlias.javaEnabled()) {
                         browserFeatures.java = '1';
                     }
 
@@ -5528,7 +5528,7 @@ if (typeof window.Piwik !== 'object') {
                 browserFeatures.res = parseInt(width, 10) + 'x' + parseInt(height, 10);
             }
 
-/*<DEBUG>*/
+            /*<DEBUG>*/
             /*
              * Register a test hook. Using eval() permits access to otherwise
              * privileged members.
@@ -5550,7 +5550,7 @@ if (typeof window.Piwik !== 'object') {
 
                 return hookObj;
             }
-/*</DEBUG>*/
+            /*</DEBUG>*/
 
             /************************************************************
              * Constructor
@@ -5563,19 +5563,19 @@ if (typeof window.Piwik !== 'object') {
             updateDomainHash();
             setVisitorIdCookie();
 
-/*<DEBUG>*/
+            /*<DEBUG>*/
             /*
              * initialize test plugin
              */
             executePluginMethod('run', null, registerHook);
-/*</DEBUG>*/
+            /*</DEBUG>*/
 
             /************************************************************
              * Public data and methods
              ************************************************************/
 
 
-/*<DEBUG>*/
+            /*<DEBUG>*/
             /*
              * Test hook accessors
              */
@@ -5588,6 +5588,9 @@ if (typeof window.Piwik !== 'object') {
             };
             this.getContent = function () {
                 return content;
+            };
+            this.setVisitorId = function (visitorId) {
+                visitorUUID = visitorId;
             };
 
             this.buildContentImpressionRequest = buildContentImpressionRequest;
@@ -5639,7 +5642,7 @@ if (typeof window.Piwik !== 'object') {
                 asyncTrackers = [firstTracker];
             };
             this.getRemainingVisitorCookieTimeout = getRemainingVisitorCookieTimeout;
-/*</DEBUG>*/
+            /*</DEBUG>*/
 
             /**
              * Get visitor ID (from first party cookie)
@@ -5785,7 +5788,6 @@ if (typeof window.Piwik !== 'object') {
              */
             this.resetUserId = function() {
                 configUserId = '';
-                visitorUUID = generateRandomUuid();
             };
 
             /**
@@ -5798,7 +5800,6 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
                 configUserId = userId;
-                visitorUUID = hash(configUserId).substr(0, 16);
             };
 
             /**
@@ -5999,7 +6000,7 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 if (!isDefined(cvar)
-                        || (cvar && cvar[0] === '')) {
+                    || (cvar && cvar[0] === '')) {
                     return false;
                 }
 
@@ -6195,6 +6196,7 @@ if (typeof window.Piwik !== 'object') {
             this.isCrossDomainLinkingEnabled = function () {
                 return crossDomainTrackingEnabled;
             };
+
 
             /**
              * By default, the two visits across domains will be linked together
@@ -6667,7 +6669,7 @@ if (typeof window.Piwik !== 'object') {
              */
             this.disableHeartBeatTimer = function () {
                 heartBeatDown();
-                
+
                 if (configHeartBeatDelay || heartBeatSetUp) {
                     if (windowAlias.removeEventListener) {
                         windowAlias.removeEventListener('focus', heartBeatOnFocus, true);
@@ -7048,7 +7050,7 @@ if (typeof window.Piwik !== 'object') {
 
                 // On a category page, do not track Product name not defined
                 if ((!isDefined(sku) || !sku.length)
-                        && (!isDefined(name) || !name.length)) {
+                    && (!isDefined(name) || !name.length)) {
                     return;
                 }
 
@@ -7495,12 +7497,12 @@ if (typeof window.Piwik !== 'object') {
             window.Piwik.addTracker();
         } else {
             _paq = {push: function (args) {
-                // needed to write it this way for jslint
-                var consoleType = typeof console;
-                if (consoleType !== 'undefined' && console && console.error) {
-                    console.error('_paq.push() was used but Piwik tracker was not initialized before the piwik.js file was loaded. Make sure to configure the tracker via _paq.push before loading piwik.js. Alternatively, you can create a tracker via Piwik.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
-                }
-            }};
+                    // needed to write it this way for jslint
+                    var consoleType = typeof console;
+                    if (consoleType !== 'undefined' && console && console.error) {
+                        console.error('_paq.push() was used but Piwik tracker was not initialized before the piwik.js file was loaded. Make sure to configure the tracker via _paq.push before loading piwik.js. Alternatively, you can create a tracker via Piwik.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
+                    }
+                }};
         }
     }
 
