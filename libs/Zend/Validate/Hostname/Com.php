@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Com.php 23775 2011-03-01 17:25:24Z ralph $
+ * @version    $Id$
  */
 
 /**
@@ -24,7 +24,7 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 return array(
@@ -184,8 +184,6 @@ return array(
     68 => '/^[\x{A000}-\x{A48F}]{1,63}$/iu',
     69 => '/^[\x{A490}-\x{A4CF}]{1,63}$/iu',
     70 => '/^[\x{AC00}-\x{D7AF}]{1,63}$/iu',
-    71 => '/^[\x{D800}-\x{DB7F}]{1,63}$/iu',
-    72 => '/^[\x{DC00}-\x{DFFF}]{1,63}$/iu',
     73 => '/^[\x{F900}-\x{FAFF}]{1,63}$/iu',
     74 => '/^[\x{FB00}-\x{FB4F}]{1,63}$/iu',
     75 => '/^[\x{FB50}-\x{FDFF}]{1,63}$/iu',
