@@ -515,12 +515,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the Settings > Privacy admin page correctly', function (done) {
-        expect.screenshot('admin_privacy_settings').to.be.captureSelector('.pageWrap,.ui-inline-help', function (page) {
-            page.load("?" + generalParams + "&module=PrivacyManager&action=privacySettings");
-        }, done);
-    });
-
     it('should load the Privacy Opt out iframe correctly', function (done) {
         expect.screenshot('admin_privacy_optout_iframe').to.be.capture(function (page) {
             page.load("?module=CoreAdminHome&action=optOut&language=de");

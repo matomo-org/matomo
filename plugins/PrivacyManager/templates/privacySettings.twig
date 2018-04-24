@@ -1,21 +1,20 @@
 {% extends 'admin.twig' %}
 
-{% set title %}{{ 'PrivacyManager_TeaserHeadline'|translate }}{% endset %}
+{% set title %}{{ 'PrivacyManager_AnonymizeData'|translate }}{% endset %}
 
 {% block content %}
 {% import 'macros.twig' as piwik %}
-{% if isSuperUser %}
 
 <div piwik-content-intro>
     <h2 piwik-enriched-headline help-url="https://matomo.org/docs/privacy/">{{ title }}</h2>
 
-    <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
+    <p>{{ 'PrivacyManager_TeaserHeader'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#anonymizeHistoricalData">',"</a>")|raw }}
         {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<a href="https://matomo.org/privacy/" rel="noreferrer"  target="_blank">','</a>')|raw }}</p>
 </div>
 
 <div piwik-content-block
      id="anonymizeIPAnchor"
-     content-title="{{ 'PrivacyManager_UseAnonymizeIp'|translate|e('html_attr') }}">
+     content-title="{{ 'PrivacyManager_UseAnonymizeTrackingData'|translate|e('html_attr') }}">
     <div piwik-form ng-controller="AnonymizeIpController as anonymizeIp">
 
         <div piwik-field uicontrol="checkbox" name="anonymizeIpSettings"
@@ -41,6 +40,20 @@
                  options="{{ useAnonymizedIpForVisitEnrichmentOptions|json_encode }}"
                  inline-help="{{ 'PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote'|translate|e('html_attr') }}">
             </div>
+        </div>
+
+        <div piwik-field uicontrol="checkbox" name="anonymizeUserId"
+             ng-model="anonymizeIp.anonymizeUserId"
+             title="{{ 'PrivacyManager_UseAnonymizeUserId'|translate|e('html_attr') }}"
+             value="{{ anonymizeIP.anonymizeUserId }}"
+             inline-help="{{ 'PrivacyManager_AnonymizeUserIdNote'|translate|e('html_attr') }}">
+        </div>
+
+        <div piwik-field uicontrol="checkbox" name="anonymizeOrderId"
+             ng-model="anonymizeIp.anonymizeOrderId"
+             title="{{ 'PrivacyManager_UseAnonymizeOrderId'|translate|e('html_attr') }}"
+             value="{{ anonymizeIP.anonymizeOrderId }}"
+             inline-help="{{ 'PrivacyManager_AnonymizeOrderIdNote'|translate|e('html_attr') }}">
         </div>
 
         <div piwik-save-button onconfirm="anonymizeIp.save()" saving="anonymizeIp.isLoading"></div>
@@ -276,41 +289,62 @@
         </div>
     {% endif %}
 </div>
-<div piwik-content-block
-    id="DNT"
-    content-title="{{ 'PrivacyManager_DoNotTrack_SupportDNTPreference'|translate|e('html_attr') }}">
-    <p>
-        {% if dntSupport %}
-            <strong>{{ 'PrivacyManager_DoNotTrack_Enabled'|translate }}</strong>
-            <br/>
-            {{ 'PrivacyManager_DoNotTrack_EnabledMoreInfo'|translate }}
+
+    <a name="anonymizeHistoricalData" id="anonymizeHistoricalData"></a>
+
+    <div piwik-content-block content-title="Anonymize previously tracked raw data" class="logDataAnonymizer">
+        <p>If you have tracked personal data such as the full visitor IP, you may
+            want to anonymize this data now in case you do not have consent for this data or no longer a legitimate
+            interest.
+        </p>
+
+        {% if isSuperUser %}
+            <div matomo-anonymize-log-data></div>
         {% else %}
-            {{ 'PrivacyManager_DoNotTrack_Disabled'|translate }} {{ 'PrivacyManager_DoNotTrack_DisabledMoreInfo'|translate }}
+            <p>Only a user with Super User access can anonymize previously tracked raw data.</p>
         {% endif %}
-    </p>
 
-    <div piwik-form ng-controller="DoNotTrackPreferenceController as doNotTrack">
-
-        {# {{ {'module':'PrivacyManager','nonce':nonce,'action':action} | urlRewriteWithParameters }}#DNT #}
-        <div piwik-field uicontrol="radio" name="doNotTrack"
-             ng-model="doNotTrack.enabled"
-             options="{{ doNotTrackOptions|json_encode }}"
-             value="{% if dntSupport %}1{% else %}0{% endif %}"
-             inline-help="{{ 'PrivacyManager_DoNotTrack_Description'|translate|e('html_attr') }}">
-        </div>
-
-        <div piwik-save-button onconfirm="doNotTrack.save()" saving="doNotTrack.isLoading"></div>
-
+        <br />
+        <h3>Previous log data anonymizations</h3>
+        <table piwik-content-table>
+            <thead>
+            <tr>
+                <th>Requester</th>
+                <th>Affected ID Sites</th>
+                <th>Affected date</th>
+                <th>Anonymize</th>
+                <th>Visit Columns</th>
+                <th>Link Visit Action Columns</th>
+                <th>Status</th>
+            </tr></thead>
+            <tbody>
+            {% for entry in anonymizations %}
+                {% set isStarted = entry.job_start_date or not entry.job_start_date is empty %}
+                {% set isFinished = entry.job_finish_date or not entry.job_finish_date is empty %}
+                <tr>
+                    <td>{{ entry.requester }}</td>
+                    <td>{{ entry.sites|join(', ') }}</td>
+                    <td>{{ entry.date_start }} - {{ entry.date_end }}</td>
+                    <td>{% if entry.anonymize_ip %}<span>IP address<br /></span>{% endif %}
+                        {% if entry.anonymize_location %}<span>Location<br /></span>{% endif %}
+                        {% if entry.anonymize_userid %}<span>User ID</span>{% endif %}
+                        {% if not entry.anonymize_ip and not entry.anonymize_location and not entry.anonymize_userid %}-{% endif %}
+                    </td>
+                    <td>{{ entry.unset_visit_columns|join(', ') }}</td>
+                    <td>{{ entry.unset_link_visit_action_columns|join(', ') }}</td>
+                    <td>
+                        {% if not isStarted %}
+                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduled_date|default('') }}."></span> Scheduled
+                        {% elseif isStarted and not isFinished %}
+                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduled_date|default('') }}. Job Start Date: {{ entry.job_start_date }}. Current Output: {{ entry.output }}"></span> In progress
+                        {% else %}
+                            <span class="icon-info" style="cursor: help;" title="Scheduled date: {{ entry.scheduled_date|default('') }}. Job Start Date: {{ entry.job_start_date }}. Job Finish Date: {{ entry.job_finish_date }}. Output: {{ entry.output }}"></span> Done
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 
-
-{% endif %}
-</div>
-<div piwik-content-block
-     id="optOutAnchor"
-     content-title="{{ 'CoreAdminHome_OptOutForYourVisitors'|translate|e('html_attr') }}">
-    <div piwik-opt-out-customizer piwikurl="{{ piwikUrl }}" language="{{ language }}">
-    
-    </div>
-</div>
 {% endblock %}

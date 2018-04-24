@@ -62,8 +62,6 @@ class FormSuperUser extends QuickForm2
             array("<a href='https://matomo.org/support/?pk_medium=App_Newsletter_link&pk_source=Piwik_App&pk_campaign=App_Installation' style='color:#444;' rel='noreferrer' target='_blank'>", "</a>")
         );
 
-        $currentLanguage = StaticContainer::get('Piwik\Translation\Translator')->getCurrentLanguage();
-
         $this->addElement('checkbox', 'subscribe_newsletter_professionalservices', null,
             array(
                 'content' => '&nbsp;&nbsp;' . $professionalServicesNewsletter,
@@ -73,8 +71,8 @@ class FormSuperUser extends QuickForm2
 
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
-            'subscribe_newsletter_piwikorg' => 1,
-            'subscribe_newsletter_professionalservices' => $currentLanguage == 'de' ? 0 : 1,
+            'subscribe_newsletter_piwikorg' => 0,
+            'subscribe_newsletter_professionalservices' => 0,
         )));
     }
 }

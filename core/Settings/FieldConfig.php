@@ -8,6 +8,7 @@
  */
 
 namespace Piwik\Settings;
+use Piwik\Validators\BaseValidator;
 
 /**
  * Lets you configure a form field.
@@ -229,5 +230,23 @@ class FieldConfig
      * @var string
      */
     public $condition;
+
+    /**
+     * Here you can add one or multiple instances of `Piwik\Validators\BaseValidator` to avoid having to
+     * write the same validators over and over again in {@link $validate}.
+     *
+     * Examples
+     * Want to require a value to be set?
+     * $fieldConfig->validators[] = new Piwik\Validators\NotEmpty();
+     *
+     * Want to require an email?
+     * $fieldConfig->validators[] = new Piwik\Validators\NotEmpty();
+     * $fieldConfig->validators[] = new Piwik\Validators\Email();
+     *
+     * The core comes with a set of various validators that can be used.
+     *
+     * @var BaseValidator[]
+     */
+    public $validators = [];
 
 }

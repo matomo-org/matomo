@@ -8,13 +8,39 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
+use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
+
 class Tasks extends \Piwik\Plugin\Tasks
 {
+
+    /**
+     * @var LogDataAnonymizations
+     */
+    private $logDataAnonymizations;
+
+    public function __construct(LogDataAnonymizations $logDataAnonymizations)
+    {
+        $this->logDataAnonymizations = $logDataAnonymizations;
+    }
 
     public function schedule()
     {
         $this->daily('deleteReportData', null, self::LOW_PRIORITY);
         $this->daily('deleteLogData', null, self::LOW_PRIORITY);
+        $this->hourly('anonymizePastData', null, self::LOW_PRIORITY);
+    }
+
+    public function anonymizePastData()
+    {
+        $loop = 0;
+        do {
+            $loop++; // safety loop...
+            $id = $this->logDataAnonymizations->getNextScheduledAnonymizationId();
+            if (!empty($id)) {
+                $this->logDataAnonymizations->executeScheduledEntry($id);
+            }
+
+        } while (!empty($id) && $loop < 100);
     }
 
     public function deleteReportData()

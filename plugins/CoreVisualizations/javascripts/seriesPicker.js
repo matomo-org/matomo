@@ -96,7 +96,7 @@
             $(this).trigger('placeSeriesPicker');
 
             piwikHelper.compileAngularComponents(this.domElem, {
-                scope: {
+                params: {
                     selectableColumns: this.selectableColumns,
                     selectableRows: this.selectableRows,
                     selectedColumns: selectedColumns,

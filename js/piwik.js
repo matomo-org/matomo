@@ -986,6 +986,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, getPiwikUrl, getCurrentUrl,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
+    getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, setConsentGiven,
+    rememberConsentGiven, forgetConsentGiven, unload, hasRequiredConsent,
     discardHashTag,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
@@ -1092,6 +1094,8 @@ if (typeof window.Piwik !== 'object') {
             Piwik,
 
             missedPluginTrackerCalls = [],
+
+            coreConsentCounter = 0,
 
             isPageUnloading = false;
 
@@ -3209,7 +3213,13 @@ if (typeof window.Piwik !== 'object') {
                 // pageview was already tracked or not
                 numTrackedPageviews = 0,
 
-                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
+                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
+
+                // whether we require consent from the end user in order to execute tracking requests
+                configRequireConsent = false,
+
+                // holds all pending tracking requests that have not been tracked because we need consent
+                consentRequestsQueue = [];
 
             // Document title
             try {
@@ -3599,6 +3609,7 @@ if (typeof window.Piwik !== 'object') {
             function heartBeatUp(delay) {
                 if (heartBeatTimeout
                     || !configHeartBeatDelay
+                    || configRequireConsent
                 ) {
                     return;
                 }
@@ -3710,6 +3721,10 @@ if (typeof window.Piwik !== 'object') {
              * Send request
              */
             function sendRequest(request, delay, callback) {
+                if (configRequireConsent) {
+                    consentRequestsQueue.push(request);
+                    return;
+                }
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
 
@@ -3745,6 +3760,11 @@ if (typeof window.Piwik !== 'object') {
             function sendBulkRequest(requests, delay)
             {
                 if (!canSendBulkRequest(requests)) {
+                    return;
+                }
+
+                if (configRequireConsent) {
+                    consentRequestsQueue.push(requests);
                     return;
                 }
 
@@ -5641,6 +5661,12 @@ if (typeof window.Piwik !== 'object') {
                 var firstTracker = asyncTrackers[0];
                 asyncTrackers = [firstTracker];
             };
+            this.getConsentRequestsQueue = function () {
+                return consentRequestsQueue;
+            };
+            this.hasRequiredConsent = function () {
+                return configRequireConsent;
+            };
             this.getRemainingVisitorCookieTimeout = getRemainingVisitorCookieTimeout;
             /*</DEBUG>*/
 
@@ -6756,6 +6782,7 @@ if (typeof window.Piwik !== 'object') {
              */
             this.trackPageView = function (customTitle, customData, callback) {
                 trackedContentImpressions = [];
+                consentRequestsQueue = [];
 
                 if (isOverlaySession(configTrackerSiteId)) {
                     trackCallback(function () {
@@ -7132,6 +7159,128 @@ if (typeof window.Piwik !== 'object') {
                 });
             };
 
+            /**
+             * If the user has given consent previously and this consent was remembered, it will return the number
+             * in milliseconds since 1970/01/01 which is the date when the user has given consent. Please note that
+             * the returned time depends on the users local time which may not always be correct.
+             *
+             * @returns number|string
+             */
+            this.getRememberedConsent = function () {
+                var value = getCookie('consent');
+                if (!value || value === 0) {
+                    return null;
+                }
+                return value;
+            };
+
+            /**
+             * Detects whether the user has given consent previously.
+             *
+             * @returns bool
+             */
+            this.hasRememberedConsent = function () {
+                return !!getCookie('consent');
+            };
+
+            /**
+             * When called, no tracking request will be sent to the Matomo server until you have called `setConsentGiven()`
+             * unless consent was given previously AND you called {@link rememberConsentGiven()} when the user gave her
+             * or his consent.
+             *
+             * This may be useful when you want to implement for example a popup to ask for consent before tracking the user.
+             * Once the user has given consent, you should call {@link setConsentGiven()} or {@link rememberConsentGiven()}.
+             *
+             * Please note that when consent is required, we will temporarily set cookies but not track any data. Those
+             * cookies will only exist during this page view and deleted as soon as the user navigates to a different page
+             * or closes the browser.
+             *
+             * If you require consent for tracking personal data for example, you should first call
+             * `_paq.push(['requireConsent'])`.
+             *
+             * If the user has already given consent in the past, you can either decide to not call `requireConsent` at all
+             * or call `_paq.push(['setConsentGiven'])` on each page view at any time after calling `requireConsent`.
+             *
+             * When the user gives you the consent to track data, you can also call `_paq.push(['rememberConsentGiven', optionalTimeoutInHours])`
+             * and for the duration while the consent is remembered, any call to `requireConsent` will be automatically ignored until you call `forgetConsentGiven`.
+             * `forgetConsentGiven` needs to be called when the user removes consent for tracking. This means if you call `rememberConsentGiven` at the
+             * time the user gives you consent, you do not need to ever call `_paq.push(['setConsentGiven'])`.
+             */
+            this.requireConsent = function () {
+                if (!this.hasRememberedConsent()) {
+                    configRequireConsent = true;
+                }
+                // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
+                // We also want to make sure to define an unload listener for each tracker, not only one tracker.
+                coreConsentCounter++;
+                plugins['CoreConsent' + coreConsentCounter] = {
+                    unload: function () {
+                        if (configRequireConsent) {
+                            // we want to make sure to remove all previously set cookies again
+                            deleteCookies();
+                        }
+                    }
+                };
+            };
+
+            /**
+             * Call this method once the user has given consent. This will cause all tracking requests from this
+             * page view to be sent. Please note that the given consent won't be remembered across page views. If you
+             * want to remember consent across page views, call {@link rememberConsentGiven()} instead.
+             */
+            this.setConsentGiven = function () {
+                configRequireConsent = false;
+                var i, requestType;
+                for (i = 0; i < consentRequestsQueue.length; i++) {
+                    requestType = typeof consentRequestsQueue[i];
+                    if (requestType === 'string') {
+                        sendRequest(consentRequestsQueue[i], configTrackerPause);
+                    } else if (requestType === 'object') {
+                        sendBulkRequest(consentRequestsQueue[i], configTrackerPause);
+                    }
+                }
+                consentRequestsQueue = [];
+            };
+
+            /**
+             * Calling this method will remember that the user has given consent across multiple requests by setting
+             * a cookie. You can optionally define the lifetime of that cookie in milliseconds using a parameter.
+             *
+             * When you call this method, we imply that the user has given consent for this page view, and will also
+             * imply consent for all future page views unless the cookie expires (if timeout defined) or the user
+             * deletes all her or his cookies. This means even if you call {@link requireConsent()}, then all requests
+             * will still be tracked.
+             *
+             * Please note that this feature requires you to set the `cookieDomain` and `cookiePath` correctly and requires
+             * that you do not disable cookies. Please also note that when you call this method, consent will be implied
+             * for all sites that match the configured cookieDomain and cookiePath. Depending on your website structure,
+             * you may need to restrict or widen the scope of the cookie domain/path to ensure the consent is applied
+             * to the sites you want.
+             */
+            this.rememberConsentGiven = function (hoursToExpire) {
+                if (configCookiesDisabled) {
+                    logConsoleError('rememberConsentGiven is called but cookies are disabled, consent will not be remembered');
+                    return;
+                }
+                if (hoursToExpire) {
+                    hoursToExpire = hoursToExpire * 60 * 60 * 1000;
+                }
+                this.setConsentGiven();
+                var now = new Date().getTime();
+                setCookie('consent', now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
+            };
+
+            /**
+             * Calling this method will remove any previously given consent and during this page view no request
+             * will be sent anymore ({@link requireConsent()}) will be called automatically to ensure the removed
+             * consent will be enforced. You may call this method if the user removes consent manually, or if you
+             * want to re-ask for consent after a specific time period.
+             */
+            this.forgetConsentGiven = function () {
+                deleteCookie('consent', configCookiePath, configCookieDomain);
+                this.requireConsent();
+            };
+
             Piwik.trigger('TrackerSetup', [this]);
         }
 
@@ -7184,7 +7333,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {

@@ -11,6 +11,7 @@
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		<visitServerHour>1</visitServerHour>
+		<siteName>Piwik test</siteName>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />

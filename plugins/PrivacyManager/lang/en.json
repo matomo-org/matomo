@@ -1,5 +1,6 @@
 {
     "PrivacyManager": {
+        "AnonymizeData": "Anonymize data",
         "AnonymizeIpDescription": "Select \"Yes\" if you want Matomo not to track fully qualified IP-Addresses.",
         "AnonymizeIpInlineHelp": "Anonymize the last byte(s) of visitors IP addresses to comply with your local privacy laws\/guidelines.",
         "AnonymizeIpExtendedHelp": "When users visit your website, Matomo will not use the full IP address (such as %1$s) but instead Matomo will anonymise it first (to %2$s). IP address anonymisation is one of the requirements set by the privacy laws in some countries such as Germany.",
@@ -40,6 +41,8 @@
         "EstimatedDBSizeAfterPurge": "Estimated database size after purge",
         "EstimatedSpaceSaved": "Estimated space saved",
         "GeolocationAnonymizeIpNote": "Note: Geolocation will have approximately the same results with 1 byte anonymized. With 2 bytes or more, Geolocation will be inaccurate.",
+        "GDPR": "GDPR",
+        "GdprManager": "GDPR Manager",
         "GetPurgeEstimate": "Get purge estimate",
         "KeepBasicMetrics": "Keep basic metrics (visits, page views, bounce rate, goal conversions, ecommerce conversions, etc.)",
         "KeepDataFor": "Keep all data for",
@@ -57,11 +60,16 @@
         "ReportsDataSavedEstimate": "Database size",
         "SaveSettingsBeforePurge": "You have changed the data deletion settings. Please save them before starting a purge.",
         "SeeAlsoOurOfficialGuidePrivacy": "See also our official guide: %1$sWeb Analytics Privacy%2$s",
-        "Teaser": "On this page, you can customize Matomo to make it privacy compliant with existing legislations, by: %1$s anonymizing the visitor IP%2$s, %3$s automatically remove old visitor logs from the database%4$s, and %5$s providing an Opt-out mechanism for your website%6$s.",
+        "TeaserHeader": "On this page, you can customize Matomo to make it privacy compliant with existing legislations, by: %1$s anonymizing the visitor IP%2$s, %3$s automatically remove old visitor logs from the database%4$s, and %5$s anonymise previously tracked raw users' data%6$s.",
         "TeaserHeadline": "Privacy Settings",
         "UseAnonymizedIpForVisitEnrichment": "Also use the Anonymized IP addresses when enriching visits.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Plugins such as Geo Location via IP and Provider improve visitor's metadata. By default these plugins use the anonymized IP addresses. If you select 'No', then the non-anonymized full IP address will be used instead, resulting in less privacy but better data accuracy.",
+        "AnonymizeUserIdNote": "When you enable this option, the User ID will be anonymized to avoid tracking potentially personal information such as an email address.",
+        "AnonymizeOrderIdNote": "Because an Order ID can be cross referenced with another system, typically an ecommerce shop, the Order ID may count as personal information under the GDPR. When you enable this option, an Order ID will be automatically anonymized so no personal information will be tracked.",
         "UseAnonymizeIp": "Anonymize Visitors' IP addresses",
+        "UseAnonymizeTrackingData": "Anonymize Tracking Data",
+        "UseAnonymizeUserId": "Anonymize User ID",
+        "UseAnonymizeOrderId": "Anonymize Order ID",
         "UseDeleteLog": "Regularly delete old visitor logs from the database",
         "UseDeleteReports": "Regularly delete old reports from the database"
     }

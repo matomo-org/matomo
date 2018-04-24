@@ -26,7 +26,8 @@
                 contentTitle: '@',
                 feature: '@',
                 helpUrl: '@',
-                helpText: '@'
+                helpText: '@',
+                anchor: '@?'
             },
             templateUrl: 'plugins/CoreHome/angularjs/content-block/content-block.directive.html?cb=' + piwik.cacheBuster,
             controllerAs: 'contentBlock',
@@ -37,6 +38,11 @@
                 }
 
                 return function (scope, element, attrs) {
+                    if (scope.anchor) {
+                        var anchor = $('<a></a>').attr('id', scope.anchor);
+                        element.prepend(anchor);
+                    }
+
                     var inlineHelp = element.find('[ng-transclude] > .contentHelp');
                     if (inlineHelp.length) {
                         scope.helpText = inlineHelp.html();

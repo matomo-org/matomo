@@ -10,17 +10,15 @@
 namespace Piwik\Plugins\Live;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataAccess\LogAggregator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
-use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Segment;
 use Piwik\Site;
-use Piwik\Tracker\GoalManager;
 
 class Model
 {
@@ -149,7 +147,12 @@ class Model
      */
     private function getIdSitesWhereClause($idSite, $table = 'log_visit')
     {
-        $idSites = array($idSite);
+        if (is_array($idSite)) {
+            $idSites = $idSite;
+        } else {
+            $idSites = array($idSite);
+        }
+
         Piwik::postEvent('Live.API.getIdSitesString', array(&$idSites));
 
         $idSitesBind = Common::getSqlStringFieldsArray($idSites);
@@ -309,7 +312,9 @@ class Model
     private function getWhereClauseAndBind($whereClause, $bindIdSites, $idSite, $period, $date, $visitorId, $minTimestamp)
     {
         $where = array();
-        $where[] = $whereClause;
+        if (!empty($whereClause)) {
+            $where[] = $whereClause;
+        }
         $whereBind = $bindIdSites;
 
         if (!empty($visitorId)) {
@@ -324,8 +329,12 @@ class Model
 
         // SQL Filter with provided period
         if (!empty($period) && !empty($date)) {
-            $currentSite = $this->makeSite($idSite);
-            $currentTimezone = $currentSite->getTimezone();
+            if ($idSite === 'all') {
+                $currentTimezone = Request::processRequest('SitesManager.getDefaultTimezone');
+            } else {
+                $currentSite = $this->makeSite($idSite);
+                $currentTimezone = $currentSite->getTimezone();
+            }
 
             $dateString = $date;
             if ($period == 'range') {

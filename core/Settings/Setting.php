@@ -12,6 +12,7 @@ namespace Piwik\Settings;
 use Piwik\Piwik;
 use Piwik\Settings\Storage\Storage;
 use Exception;
+use Piwik\Validators\BaseValidator;
 
 /**
  * Base setting type class.
@@ -236,6 +237,10 @@ class Setting
     private function validateValue($value)
     {
         $config = $this->configureField();
+
+        if (!empty($config->validators)) {
+            BaseValidator::check($config->title, $value, $config->validators);
+        }
 
         if ($config->validate && $config->validate instanceof \Closure) {
             call_user_func($config->validate, $value, $this);

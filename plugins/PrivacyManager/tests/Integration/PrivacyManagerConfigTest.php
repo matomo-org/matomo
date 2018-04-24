@@ -73,6 +73,24 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->assertSame(19, $this->config->ipAddressMaskLength);
     }
 
+    public function test_anonymizeOrderId()
+    {
+        $this->assertFalse($this->config->anonymizeOrderId);
+
+        $this->config->anonymizeOrderId = true;
+
+        $this->assertTrue($this->config->anonymizeOrderId);
+    }
+
+    public function test_anonymizeUserId()
+    {
+        $this->assertFalse($this->config->anonymizeUserId);
+
+        $this->config->anonymizeUserId = true;
+
+        $this->assertTrue($this->config->anonymizeUserId);
+    }
+
     public function test_setTrackerCacheContent()
     {
         $content = $this->config->setTrackerCacheGeneral(array('existingEntry' => 'test'));
@@ -82,6 +100,8 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
             'PrivacyManager.ipAddressMaskLength' => 2,
             'PrivacyManager.ipAnonymizerEnabled' => true,
             'PrivacyManager.doNotTrackEnabled'   => true,
+            'PrivacyManager.anonymizeUserId'     => false,
+            'PrivacyManager.anonymizeOrderId'    => false,
             'PrivacyManager.useAnonymizedIpForVisitEnrichment' => false,
         );
 

@@ -5,17 +5,34 @@
     <link rel="stylesheet" href="plugins/CoreAdminHome/stylesheets/jsTrackingGenerator.css" />
 {% endblock %}
 
-{% set title %}{{ 'CoreAdminHome_JavaScriptTracking'|translate }}{% endset %}
+{% set title %}{{ 'CoreAdminHome_TrackingCode'|translate }}{% endset %}
 
 {% block content %}
+
+    <div class="card">
+        <div class="card-content">
+            <h2 piwik-enriched-headline
+                help-url="https://matomo.org/docs/tracking-api/"
+                rate="{{ 'CoreAdminHome_TrackingCode'|translate|e('html_attr') }}">{{ 'CoreAdminHome_TrackingCode'|translate  }}</h2>
+            <p style="padding-left: 0;">{{ 'CoreAdminHome_TrackingCodeIntro'|translate }}</p>
+        </div>
+        <div class="card-action">
+            {{ 'General_GoTo2'|translate }}:
+            <a href="#javaScriptTracking">{{ 'CoreAdminHome_JavaScriptTracking'|translate  }}</a>
+            <a href="#imageTracking">{{ 'CoreAdminHome_ImageTracking'|translate }}</a>
+            <a href="#importServerLogs">{{ 'CoreAdminHome_ImportingServerLogs'|translate }}</a>
+            <a href="#mobileAppsAndSdks">{{ 'SitesManager_MobileAppsAndSDKs'|translate }}</a>
+            <a href="#trackingApi">{{ 'CoreAdminHome_HttpTrackingApi'|translate }}</a>
+            {{ postEvent('Template.endTrackingCodePageTableOfContents') }}
+        </div>
+    </div>
 
     <input type="hidden" name="numMaxCustomVariables"
            value="{{ maxCustomVariables|e('html_attr') }}">
 
 <div piwik-content-block
-     content-title="{{ title|e('html_attr') }}"
-     help-url="https://matomo.org/docs/tracking-api/"
-     rate="{{ 'CoreAdminHome_TrackingCode'|translate|e('html_attr') }}">
+     anchor="javaScriptTracking"
+     content-title="{{ 'CoreAdminHome_JavaScriptTracking'|translate|e('html_attr') }}">
 
     <div id="js-code-options" ng-controller="JsTrackingCodeController as jsTrackingCode">
 
@@ -238,7 +255,8 @@
     </div>
 </div>
 
-<div piwik-content-block content-title="{{ 'CoreAdminHome_ImageTracking'|translate|e('html_attr') }}">
+<div piwik-content-block content-title="{{ 'CoreAdminHome_ImageTracking'|translate|e('html_attr') }}"
+     anchor="imageTracking">
     <a name="image-tracking-link"></a>
 
     <div id="image-tracking-code-options" ng-controller="ImageTrackingCodeController as imageTrackingCode">
@@ -314,9 +332,21 @@
     </div>
 </div>
 
-<div piwik-content-block content-title="{{ 'CoreAdminHome_ImportingServerLogs'|translate|e('html_attr') }}">
+<div piwik-content-block content-title="{{ 'CoreAdminHome_ImportingServerLogs'|translate|e('html_attr') }}"
+     anchor="importServerLogs">
     <p>
         {{ 'CoreAdminHome_ImportingServerLogsDesc'|translate('<a href="https://matomo.org/log-analytics/" rel="noreferrer"  target="_blank">','</a>')|raw }}
     </p>
 </div>
+
+<div piwik-content-block content-title="{{ 'SitesManager_MobileAppsAndSDKs'|translate }}" anchor="mobileAppsAndSdks">
+    <p>{{ 'SitesManager_MobileAppsAndSDKsDescription'|translate('<a href="https://matomo.org/integrate/#programming-language-platforms-and-frameworks" rel="noreferrer" target="_blank">','</a>')|raw }}</p>
+</div>
+
+<div piwik-content-block content-title="{{ 'CoreAdminHome_HttpTrackingApi'|translate }}" anchor="trackingApi">
+    <p>{{ 'CoreAdminHome_HttpTrackingApiDescription'|translate('<a href="https://developer.matomo.org/api-reference/tracking-api" rel="noreferrer" target="_blank">','</a>')|raw }}</p>
+</div>
+
+{{ postEvent('Template.endTrackingCodePage') }}
+
 {% endblock %}

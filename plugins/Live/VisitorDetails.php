@@ -51,6 +51,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $visitor['siteCurrency']         = $currency;
         $visitor['siteCurrencySymbol']   = @$currencies[$visitor['siteCurrency']];
+        $visitor['siteName']             = $website->getName();
         $visitor['serverTimestamp']      = $visitor['lastActionTimestamp'];
         $visitor['firstActionTimestamp'] = strtotime($this->details['visit_first_action_time']);
 
