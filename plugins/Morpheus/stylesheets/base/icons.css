@@ -487,3 +487,7 @@
 .icon-bug:before {
     content: "\e868";
 }
+
+.icon-upload:before {
+    content: "\e2c6";
+}
