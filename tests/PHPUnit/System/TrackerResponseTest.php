@@ -62,7 +62,7 @@ class TrackerResponseTest extends SystemTestCase
         $response = $this->sendHttpRequest($url);
         $this->assertEquals(200, $response['status']);
         $this->assertArrayHasKey('Cache-Control', $response['headers']);
-        $this->assertEquals('no-cache', $response['headers']['Cache-Control']);
+        $this->assertEquals('no-store', $response['headers']['Cache-Control']);
     }
 
     public function test_response_ShouldSend204ResponseCode_IfImageIsDisabled()
@@ -73,7 +73,7 @@ class TrackerResponseTest extends SystemTestCase
         $response = $this->sendHttpRequest($url);
         $this->assertEquals(204, $response['status']);
         $this->assertArrayHasKey('Cache-Control', $response['headers']);
-        $this->assertEquals('no-cache', $response['headers']['Cache-Control']);
+        $this->assertEquals('no-store', $response['headers']['Cache-Control']);
     }
 
     public function test_response_ShouldSend400ResponseCode_IfSiteIdIsInvalid()
@@ -101,7 +101,7 @@ class TrackerResponseTest extends SystemTestCase
 
         $response = $this->sendHttpRequest($url);
         $this->assertArrayHasKey('Cache-Control', $response['headers']);
-        $this->assertEquals('no-cache', $response['headers']['Cache-Control']);
+        $this->assertEquals('no-store', $response['headers']['Cache-Control']);
         $this->assertEquals(200, $response['status']);
 
         $response = $this->sendHttpRequest($url . '1'); // has to be 16 char, but is 17 now
@@ -126,6 +126,7 @@ class TrackerResponseTest extends SystemTestCase
         $response = $this->sendHttpRequest($url . '?rec=1');
         $this->assertEquals(400, $response['status']);
 
+        $response = $this->sendHttpRequest($url);
         $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer'>digital analytics platform</a> for web and mobile.";
         $this->assertEquals($expected, $response['data']);
     }
