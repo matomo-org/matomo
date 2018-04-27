@@ -20,7 +20,7 @@
 		<exit_rate>100%</exit_rate>
 	</row>
 	<row>
-		<label>0/ - Others</label>
+		<label>/0/ - Others</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -39,7 +39,7 @@
 		<exit_rate>100%</exit_rate>
 	</row>
 	<row>
-		<label>1/ - Others</label>
+		<label>/1/ - Others</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -58,7 +58,7 @@
 		<exit_rate>100%</exit_rate>
 	</row>
 	<row>
-		<label>2/ - Others</label>
+		<label>/2/ - Others</label>
 		<nb_visits>4</nb_visits>
 		<nb_hits>4</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -77,7 +77,7 @@
 		<exit_rate>100%</exit_rate>
 	</row>
 	<row>
-		<label>0/</label>
+		<label>/0/</label>
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
@@ -101,7 +101,7 @@
 		<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F0%2F</segment>
 	</row>
 	<row>
-		<label>1/</label>
+		<label>/1/</label>
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
@@ -125,7 +125,7 @@
 		<segment>pageUrl==http%3A%2F%2Fpiwik.net%2F1%2F</segment>
 	</row>
 	<row>
-		<label>2/</label>
+		<label>/2/</label>
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>

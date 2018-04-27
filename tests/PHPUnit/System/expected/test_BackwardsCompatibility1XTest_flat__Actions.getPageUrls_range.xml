@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label></label>
+		<label>/</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>180</sum_time_spent>
@@ -18,7 +18,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2F</segment>
 	</row>
 	<row>
-		<label>index.htm</label>
+		<label>/index.htm</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -37,7 +37,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
 	</row>
 	<row>
-		<label>index.htm?parameter=Should display</label>
+		<label>/index.htm?parameter=Should display</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>180</sum_time_spent>
@@ -59,7 +59,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Fparameter%3DShould+display</segment>
 	</row>
 	<row>
-		<label>store/purchase.htm</label>
+		<label>/store/purchase.htm</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
