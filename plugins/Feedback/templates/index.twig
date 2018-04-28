@@ -12,22 +12,22 @@
              content-title="{{ headline|e('html_attr') }}"
              feature="{{ 'General_Help'|translate|e('html_attr') }}">
             <p>{{ 'General_MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease'|translate(
-                "<a href='?module=Proxy&action=redirect&url=https://matomo.org' target='_blank'>",
+                "<a target='_blank' rel='noreferrer' href='https://matomo.org'>",
                 "</a>",
-                "<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/get-involved/'>",
+                "<a target='_blank' rel='noreferrer' href='https://matomo.org/get-involved/'>",
                 "</a>",
                 "<a href='#donate'>",
                 "</a>",
-                "<a href='?module=Proxy&action=redirect&url=https://matomo.org/team/' target='_blank'>",
+                "<a target='_blank' rel='noreferrer' href='https://matomo.org/team/'>",
                 "</a>"
                 )|raw }}
             </p>
         </div>
 
         <div piwik-content-block content-title="{{ 'Feedback_CommunityHelp'|translate|e('html_attr') }}">
-            <p> &bull; {{ 'Feedback_ViewUserGuides'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/docs/'>","</a>")|raw }}.</p>
-            <p> &bull; {{ 'Feedback_ViewAnswersToFAQ'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/faq/'>","</a>")|raw }}.</p>
-            <p> &bull; {{ 'Feedback_VisitTheForums'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://forum.matomo.org/'>","</a>")|raw }}.</p>
+            <p> &bull; {{ 'Feedback_ViewUserGuides'|translate("<a target='_blank' rel='noreferrer' href='https://matomo.org/docs/'>","</a>")|raw }}.</p>
+            <p> &bull; {{ 'Feedback_ViewAnswersToFAQ'|translate("<a target='_blank' rel='noreferrer' href='https://matomo.org/faq/'>","</a>")|raw }}.</p>
+            <p> &bull; {{ 'Feedback_VisitTheForums'|translate("<a target='_blank' rel='noreferrer' href='https://forum.matomo.org/'>","</a>")|raw }}.</p>
             <p> &bull; {{ 'API_LearnAboutCommonlyUsedTerms2'|translate }} <a href="{{ linkTo({'module':"API",'action':"glossary"}) }}">({{ 'API_Glossary'|translate }})</a></p>
         </div>
 
@@ -68,13 +68,13 @@
 
         <div piwik-content-block content-title="{{ 'Feedback_DoYouHaveBugReportOrFeatureRequest'|translate|e('html_attr') }}">
             <p>{{ 'Feedback_HowToCreateTicket'|translate(
-            "<a target='_blank' href='?module=Proxy&action=redirect&url=https://developer.matomo.org/guides/core-team-workflow%23submitting-a-bug-report'>",
+            "<a target='_blank' rel='noreferrer' href='https://developer.matomo.org/guides/core-team-workflow#submitting-a-bug-report'>",
             "</a>",
-            "<a target='_blank' href='?module=Proxy&action=redirect&url=https://developer.matomo.org/guides/core-team-workflow%23submitting-a-feature-request'>",
+            "<a target='_blank' rel='noreferrer' href='https://developer.matomo.org/guides/core-team-workflow#submitting-a-feature-request'>",
             "</a>",
-            "<a target='_blank' href='?module=Proxy&action=redirect&url=https://github.com/matomo-org/piwik/issues'>",
+            "<a target='_blank' rel='noreferrer' href='https://github.com/matomo-org/piwik/issues'>",
             "</a>",
-            "<a target='_blank' href='?module=Proxy&action=redirect&url=https://github.com/matomo-org/piwik/issues/new'>",
+            "<a target='_blank' rel='noreferrer' href='https://github.com/matomo-org/piwik/issues/new'>",
             "</a>"
             )|raw }}</p>
         </div>
@@ -82,35 +82,35 @@
         <div class="footer">
             <ul class="social">
                 <li>
-                    <a target="_blank" href="?module=Proxy&action=redirect&url=https://matomo.org/newsletter/"><img class="icon" src="plugins/Feedback/images/newsletter.png"></a>
-                    <a target="_blank" href="?module=Proxy&action=redirect&url=https://matomo.org/newsletter/">Newsletter</a>
+                    <a target="_blank" rel="noreferrer" href="https://matomo.org/newsletter/"><img class="icon" src="plugins/Feedback/images/newsletter.png"></a>
+                    <a target="_blank" rel="noreferrer" href="https://matomo.org/newsletter/">Newsletter</a>
                 </li>
                 <li>
-                    <a rel="noreferrer"  target="_blank" href="https://www.facebook.com/Matomo.org"><img class="icon" src="plugins/Feedback/images/facebook.png"></a>
-                    <a rel="noreferrer"  target="_blank" href="https://www.facebook.com/Matomo.org">Facebook</a>
+                    <a target="_blank" rel="noreferrer" href="https://www.facebook.com/Matomo.org"><img class="icon" src="plugins/Feedback/images/facebook.png"></a>
+                    <a target="_blank" rel="noreferrer" href="https://www.facebook.com/Matomo.org">Facebook</a>
                 </li>
                 <li>
-                    <a rel="noreferrer"  target="_blank" href="https://twitter.com/matomo_org"><img class="icon" src="plugins/Feedback/images/twitter.png"></a>
-                    <a rel="noreferrer"  target="_blank" href="https://twitter.com/matomo_org">Twitter</a>
+                    <a target="_blank" rel="noreferrer" href="https://twitter.com/matomo_org"><img class="icon" src="plugins/Feedback/images/twitter.png"></a>
+                    <a target="_blank" rel="noreferrer" href="https://twitter.com/matomo_org">Twitter</a>
                 </li>
                 <li>
-                    <a rel="noreferrer"  target="_blank" href="https://www.linkedin.com/groups?gid=867857"><img class="icon" src="plugins/Feedback/images/linkedin.png"></a>
-                    <a rel="noreferrer"  target="_blank" href="https://www.linkedin.com/groups?gid=867857">Linkedin</a>
+                    <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/groups?gid=867857"><img class="icon" src="plugins/Feedback/images/linkedin.png"></a>
+                    <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/groups?gid=867857">Linkedin</a>
                 </li>
                 <li>
-                    <a rel="noreferrer"  target="_blank" href="https://github.com/matomo-org/piwik"><img class="icon" src="plugins/Feedback/images/github.png"></a>
-                    <a rel="noreferrer"  target="_blank" href="https://github.com/matomo-org/piwik">GitHub</a>
+                    <a target="_blank" rel="noreferrer" href="https://github.com/matomo-org/matomo"><img class="icon" src="plugins/Feedback/images/github.png"></a>
+                    <a target="_blank" rel="noreferrer" href="https://github.com/matomo-org/matomo">GitHub</a>
                 </li>
             </ul>
             <ul class="menu">
-                <li><a target="_blank" href="?module=Proxy&action=redirect&url=https://matomo.org/blog/">Blog</a></li>
-                <li><a target="_blank" href="?module=Proxy&action=redirect&url=https://matomo.org/about/sponsors/">Sponsors</a></li>
-                <li><a target="_blank" href="?module=Proxy&action=redirect&url=https://developer.matomo.org">Developers</a></li>
-                <li><a target="_blank" href="?module=Proxy&action=redirect&url=https://plugins.matomo.org">Marketplace</a></li>
-                <li><a target="_blank" href="?module=Proxy&action=redirect&url=https://matomo.org/thank-you-all/">Credits</a></li>
+                <li><a rel="noreferrer" target="_blank" href="https://matomo.org/blog/">Blog</a></li>
+                <li><a rel="noreferrer" target="_blank" href="https://matomo.org/about/sponsors/">Sponsors</a></li>
+                <li><a rel="noreferrer" target="_blank" href="https://developer.matomo.org">Developers</a></li>
+                <li><a rel="noreferrer" target="_blank" href="https://plugins.matomo.org">Marketplace</a></li>
+                <li><a rel="noreferrer" target="_blank" href="https://matomo.org/thank-you-all/">Credits</a></li>
             </ul>
             <p class="claim"><small>{{ 'Feedback_PrivacyClaim'|translate(
-                    "<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/privacy/'>",
+                    "<a target='_blank' rel='noreferrer' href='https://matomo.org/privacy/'>",
                     "</a>"
                 )|raw}}</small></p>
         </div>

@@ -74,6 +74,7 @@ class Controller extends \Piwik\Plugin\Controller
      * exposing the referrer on the Piwik demo.
      *
      * @internal param string $url (via $_GET)
+     * @deprecated
      */
     public function redirect()
     {
