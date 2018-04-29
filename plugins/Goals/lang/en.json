@@ -55,6 +55,8 @@
         "EcommerceOverview": "Ecommerce Overview",
         "EcommerceReports": "Ecommerce Reports",
         "ExceptionInvalidMatchingString": "If you choose 'exact match', the matching string must be a URL starting with %1$s. For example, '%2$s'.",
+        "ExceptionInvalidGoalPatternType": "The given goal pattern type '%1$s' is invalid. Valid pattern types are %2$s",
+        "ExceptionInvalidGoalPatternRegex": "The given goal pattern regex '%1$s' is invalid.",
         "ExternalWebsiteUrl": "external website URL",
         "Filename": "filename",
         "GoalConversion": "Goal conversion",

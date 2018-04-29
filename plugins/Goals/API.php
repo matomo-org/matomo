@@ -136,6 +136,7 @@ class API extends \Piwik\Plugin\API
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
         $name        = $this->checkName($name);
         $pattern     = $this->checkPattern($pattern);
+        $patternType = $this->checkPatternType($patternType);
         $description = $this->checkDescription($description);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
@@ -188,6 +189,7 @@ class API extends \Piwik\Plugin\API
 
         $name        = $this->checkName($name);
         $description = $this->checkDescription($description);
+        $patternType = $this->checkPatternType($patternType);
         $pattern     = $this->checkPattern($pattern);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
 
@@ -218,6 +220,10 @@ class API extends \Piwik\Plugin\API
         ) {
             throw new Exception(Piwik::translate('Goals_ExceptionInvalidMatchingString', array("http:// or https://", "http://www.yourwebsite.com/newsletter/subscribed.html")));
         }
+
+        if ($patternType == 'regex' && @preg_match(GoalManager::formatRegex($pattern), '') === false) {
+            throw new \Exception(Piwik::translate('Goals_ExceptionInvalidGoalPatternRegex', [$pattern]));
+        }
     }
 
     private function checkName($name)
@@ -228,6 +234,19 @@ class API extends \Piwik\Plugin\API
     private function checkDescription($description)
     {
         return urldecode($description);
+    }
+
+    private function checkPatternType($patternType)
+    {
+        $patternType = strtolower($patternType);
+
+        $validPatternTypes = ['exact', 'contains', 'regex'];
+
+        if (!in_array($patternType, $validPatternTypes)) {
+            throw new \Exception(Piwik::translate('Goals_ExceptionInvalidGoalPatternType', [$patternType, implode(', ', $validPatternTypes)]));
+        }
+
+        return $patternType;
     }
 
     private function checkPattern($pattern)
