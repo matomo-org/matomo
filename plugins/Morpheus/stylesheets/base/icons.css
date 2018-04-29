@@ -479,3 +479,15 @@
 .icon-overlay:before {
     content: "\e0cb";
 }
+
+.icon-rocket:before {
+    content: "\e9a5";
+}
+
+.icon-bug:before {
+    content: "\e868";
+}
+
+.icon-upload:before {
+    content: "\e2c6";
+}
