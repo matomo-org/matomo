@@ -256,21 +256,7 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $generator = $this->makeGenerator($tables);
         usort($tables, array($generator, 'sortTablesForJoin'));
 
-        $expected = array(
-            'log_link_visit_action',
-            array (
-                'table' => 'log_action',
-                'tableAlias' => 'log_action_visit_exit_idaction_name',
-                'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
-            ),
-            array (
-                'table' => 'log_action',
-                'tableAlias' => 'log_action_idaction_name',
-                'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
-            ),
-        );
-
-        $this->assertEquals($expected, $tables);
+        $this->assertEquals('log_link_visit_action', $tables[0]);
     }
 
     public function test_sortTablesForJoin_anotherTest2MakingSureWorksOhPhp5_5()
@@ -295,21 +281,7 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $generator = $this->makeGenerator($tables);
         usort($tables, array($generator, 'sortTablesForJoin'));
 
-        $expected = array(
-            'log_link_visit_action',
-            array (
-                'table' => 'log_action',
-                'tableAlias' => 'log_action_idaction_name',
-                'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
-            ),
-            array (
-                'table' => 'log_action',
-                'tableAlias' => 'log_action_visit_exit_idaction_name',
-                'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
-            ),
-        );
-
-        $this->assertEquals($expected, $tables);
+        $this->assertEquals('log_link_visit_action', $tables[0]);
     }
 
     public function test_sortTablesForJoin_shouldSortTablesWithCustomJoinRequiringEachOther1()
@@ -411,21 +383,7 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $generator = $this->makeGenerator($tables);
         usort($tables, array($generator, 'sortTablesForJoin'));
 
-        $expected = array(
-            'log_link_visit_action',
-            array(
-                'table' => 'log_action',
-                'tableAlias' => 'log_action_idaction_event_action',
-                'joinOn' => "log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction"
-            ),
-            array(
-                'table' => 'log_action',
-                'tableAlias' => 'log_action_visit_entry_idaction_name',
-                'joinOn' => "log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction"
-            )
-        );
-
-        $this->assertEquals($expected, $tables);
+        $this->assertEquals('log_link_visit_action', $tables[0]);
     }
 
     private function generate($tables)
