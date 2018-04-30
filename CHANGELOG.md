@@ -8,6 +8,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * New events `PrivacyManager.deleteLogsOlderThan`, `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` to enable plugins to be GDPR compliant.  
 * New event `AssetManager.addStylesheets` to add additional less styles which are not located in a file.
 * New event `Archiving.getIdSitesToMarkArchivesAsInvalidated` that lets plugins customize the behaviour of report invalidations.
+* Reports and visualizations can now disable the 'all' rows limit selector: `$view->config->disable_all_rows_filter_limit`.
 
 ## Matomo 3.4.0
 

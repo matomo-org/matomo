@@ -83,6 +83,7 @@ class VisitorLog extends Visualization
         $this->config->show_all_views_icons        = false;
         $this->config->show_table_all_columns      = false;
         $this->config->show_export_as_rss_feed     = false;
+        $this->config->disable_all_rows_filter_limit = true;
 
         $this->config->documentation = Piwik::translate('Live_VisitorLogDocumentation', array('<br />', '<br />'));
 
