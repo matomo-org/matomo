@@ -242,7 +242,7 @@ class API extends \Piwik\Plugin\API
 
         $validPatternTypes = ['exact', 'contains', 'regex'];
 
-        if (!in_array($patternType, $validPatternTypes)) {
+        if (!empty($patternType) && !in_array($patternType, $validPatternTypes)) {
             throw new \Exception(Piwik::translate('Goals_ExceptionInvalidGoalPatternType', [$patternType, implode(', ', $validPatternTypes)]));
         }
 
