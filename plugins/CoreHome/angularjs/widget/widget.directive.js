@@ -96,6 +96,16 @@
                     } else if (attrs.containerid) {
                         findContainerWidget(attrs.containerid, scope);
                     }
+
+                    $(element).tooltip({
+                        track: true,
+                        content: function() {
+                            var title = $(this).attr('title');
+                            return piwikHelper.escape(title.replace(/\n/g, '<br />'));
+                        },
+                        show: false,
+                        hide: false
+                    });
                 }
             }
         };
