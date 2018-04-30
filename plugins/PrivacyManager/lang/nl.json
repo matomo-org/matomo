@@ -53,7 +53,6 @@
         "ReportsDataSavedEstimate": "Database omvang",
         "SaveSettingsBeforePurge": "De data verwijder instellingen zijn aangepast. Sla deze eerst op voor het starten van het verwijderen.",
         "SeeAlsoOurOfficialGuidePrivacy": "Zie ook onze officiele gids: %1$sWeb Analytics Privacy%2$s",
-        "Teaser": "Op deze pagina kunt u Matomo zodanig instellen dat het voldoet aan de bestaande privacy wetgeving in uw regio. Door: %1$s anonimiseren van uw bezoekers IP %2$s,%3$s automatisch verwijderen oude bezoekerlogs uit de database %4$s en %5$s door een opt-out ondersteuning aan te bieden voor uw website%6$s.",
         "TeaserHeadline": "Privacy-instellingen",
         "UseAnonymizedIpForVisitEnrichment": "Gebruik de geanonimiseerde IP-adressen ook bij het verrijken van bezoeken.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Plugins zoals Geolocatie via IP en Provider verbeteren bezoekers metadata. Standaard maken deze plugins gebruik van de geanonimiseerde IP adressen. Als je 'Nee' selecteert, dan zal het volledige, niet geanonimiseerde IP adres gebruikt worden. Dat resulteert in minder privacy, maar een grotere nauwkeurigheid van data.",

@@ -44,7 +44,6 @@
         "PurgingData": "Prugant la informació...",
         "ReportsDataSavedEstimate": "Mida de la Base de dades",
         "SaveSettingsBeforePurge": "Heu canviat la configuració d'esborrament. Sisplau, guardeu les vostres preferències abans de començar la purga.",
-        "Teaser": "En aquesta pàgina podeu personalitzar el Matomo per tal de que compleixi amb les legislacions actuals. Podeu: %1$sconvertir la IP del visitant en anònima%2$s, %3$sesborrar automàticmant els registres antics de la base de dades%4$s i %5$s proporcionar un mecanisme per a que els vostreus usuaris puguin triar de no ser rastrejats %6$s.",
         "TeaserHeadline": "Preferències de Privacitat",
         "UseAnonymizeIp": "Convertir la IP dels vostres visitants en anònima",
         "UseDeleteLog": "Esborrar de forma períodica el registres de visitants.",

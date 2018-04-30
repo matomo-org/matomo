@@ -1,6 +1,6 @@
 {
     "UserCountryMap": {
-        "PluginDescription": "Denne udvidelse leverer de to widgets Besøgerkort og Real-tid kort. Bemærk: Kræver at BrugerLand udvidelsen er aktiveret.",
+        "PluginDescription": "Denne udvidelse leverer de to widgets Besøgerkort og Realtidskort. Bemærk: Kræver at BrugerLand-udvidelsen er aktiveret.",
         "AndNOthers": "og %s andre",
         "Cities": "Byer",
         "Countries": "Lande",
@@ -11,7 +11,7 @@
         "MinutesAgo": "%s minutter siden",
         "None": "Ingen",
         "NoVisit": "Ingen besøg",
-        "RealTimeMap": "Tidstro kort",
+        "RealTimeMap": "Realtidskort",
         "Regions": "Regioner",
         "Searches": "%s søgninger",
         "SecondsAgo": "%s sekunder siden",

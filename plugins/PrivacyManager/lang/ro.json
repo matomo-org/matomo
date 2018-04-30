@@ -45,7 +45,6 @@
         "ReportsDataSavedEstimate": "Mărimea bazei de date",
         "SaveSettingsBeforePurge": "Ați schimbat setările de ștergere a datelor. Vă rugăm să le salvați înainte de a începe o curatare.",
         "SeeAlsoOurOfficialGuidePrivacy": "A se vedea, de asemenea, ghidul nostru oficial: %1$sWeb Analytics confidențialitate%2$s",
-        "Teaser": "Pe această pagină, puteți personaliza Matomo pentru a face viața privată în conformitate cu legislațiile existente, prin: %1$s anonimizarea vizitator IP %2$s, %3$s elimina automat busteni de vizitatori vechi din baza de date %4$s, iar %5$s oferind un mecanism de opt-out pentru site-ul dvs.%6$s.",
         "TeaserHeadline": "Setări confidenţialitate",
         "UseAnonymizedIpForVisitEnrichment": "De asemenea, utilizeaza adresele IP anonimime, atunci când se cresc vizitele.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Plugin-uri, cum ar fi Locația geografică prin intermediul IP și furnizor îmbunătățire metadate vizitator. În mod implicit aceste plugin-uri folosesc adresele IP anonimizate. Dacă selectați \"Nu\", atunci adresa IP complet non-anonime va fi folosit în loc, careare mai puțina intimitate, dar are o mai mare acuratețe a datelor.",

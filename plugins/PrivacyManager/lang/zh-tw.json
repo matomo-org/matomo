@@ -57,7 +57,6 @@
         "ReportsDataSavedEstimate": "資料庫大小",
         "SaveSettingsBeforePurge": "你已變更了資料刪除的設定。請在開始清理前先保存設定。",
         "SeeAlsoOurOfficialGuidePrivacy": "也看看我們的官方指南：%1$s網頁分析隱私%2$s",
-        "Teaser": "在此頁面中你可以透過自訂 Matomo 使其隱私與現有法規相容，如%1$s訪客 IP 匿名化%2$s、%3$s自動從資料庫中移除舊的訪客記錄%4$s和%5$s為你的網站提供不被追蹤機制%6$s。",
         "TeaserHeadline": "隱私設定",
         "UseAnonymizedIpForVisitEnrichment": "彙整訪問紀錄時也將 IP 匿名化。",
         "UseAnonymizedIpForVisitEnrichmentNote": "像是 Geo Location via IP and Provider 之類的外掛改善訪客的中繼資料。這些外掛預設使用匿名化的 IP 位址。如果你選擇「否」將會以原始的完整 IP 位址取代，結果呈現較無隱私但數據準確度更高。",

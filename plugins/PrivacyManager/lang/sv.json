@@ -52,7 +52,6 @@
         "ReportsDataSavedEstimate": "Databasstorlek",
         "SaveSettingsBeforePurge": "Du har ändrat inställningarna för radering av loggdata. Spara dem innan du startar en utrensning.",
         "SeeAlsoOurOfficialGuidePrivacy": "Se också vår allmänna guide: %1$sWeb Analytics Privacy%2$s",
-        "Teaser": "På denna sidan kan du anpassa Matomo så att den personliga integriteten uppfyller existerande lagstiftning, genom att: %1$s anonymisera besökarens IP%2$s, %3$s automatiskt ta bort gamla besöksloggar från databasen %4$s, och %5$s erbjuda exkludering av spårning för din webbplats%6$s.",
         "TeaserHeadline": "Integritetinställningar",
         "UseAnonymizedIpForVisitEnrichment": "Använd också de anonyma IP-adresserna för att berika besök.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Plugin som Geo Location via IP adress och leverantör förbättrar dina användares metadat. För att standardisera dessa plugins använder du en anonyma IP adresser. Om du väljer \"Nej\", kommer den icke-anonyma fullständiga IP adressen att användas istället. Det kommer göra att du är mindre privat, men du kommer få en mer exakt data",

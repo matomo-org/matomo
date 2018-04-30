@@ -10,7 +10,7 @@
         "CustomLogoFeedbackInfo": "Hvis du tilpasser Matomo logoet, kan du også være interesseret i at skjule %1$s linket i topmenuen. For at gøre dette, kan du deaktivere tilbagemeldingsmodulet på %2$sUdvidelsesmodul administration%3$s siden.",
         "CustomLogoHelpText": "Du kan tilpasse Matomo logo, der bliver vist i brugergrænsefladen og e-mail rapporter.",
         "DevelopmentProcess": "Mens vores %1$sudviklingsproces%2$s omfatter tusindvis af automatiske tests, spiller betatestere en nøglerolle i at opnå \"ingen fejl politikken\" i Matomo.",
-        "EmailServerSettings": "E-mail-server indstillinger",
+        "EmailServerSettings": "E-mail-serverindstillinger",
         "ForBetaTestersOnly": "Kun for beta testere",
         "ImageTracking": "Sporing vha. et billede",
         "ImageTrackingIntro1": "Når en besøgende har deaktiveret JavaScript, eller når JavaScript kan ikke bruges, kan sporing vha. et billede bruges til at spore besøgende.",
@@ -50,7 +50,7 @@
         "JSTrackingIntro2": "Når du har JavaScript sporingskoden til hjemmesiden, kopier og indsæt den på alle de sider, der skal spores med Matomo.",
         "JSTrackingIntro3b": "På de fleste websider, blogs, CMS'er osv., kan du bruge en foruddefineret plugin til at klare det tekniske arbejde for dig. (se hvores %1$sliste over programtilføjelser brugt til at integrere Matomo%2$s). Er der ingen plugin, kan du ændre i din webside skabelon, og tilføje denne kode til &lt;\/head&gt; mærkerne, som ofte er defineret i 'header.php', 'header.tpl' eller lignende skabelon filer.",
         "JSTrackingIntro4": "Hvis du ikke ønsker at bruge JavaScript til at spore besøgende,%1$sgenerere et billed sporingslink herunder%2$s.",
-        "JSTrackingIntro5": "Hvis du vil gøre mere end at spore sidevisninger, kan du checke %1$sMatomo Javascript sporingsdokumentation%2$s for listen over tilgængelige funktioner. Ved hjælp af disse funktioner kan du spore mål, brugerdefinerede variabler, e-handels ordrer, afbrudte ordrer og meget mere.",
+        "JSTrackingIntro5": "Hvis du vil gøre mere end at spore sidevisninger, kan du tjekke %1$sMatomo Javascript sporingsdokumentation%2$s for listen over tilgængelige funktioner. Ved hjælp af disse funktioner kan du spore mål, brugerdefinerede variabler, e-handelsordrer, afbrudte ordrer og meget mere.",
         "FileUploadDisabled": "Overførelse af filer er ikke aktiveret i PHP-konfiguration. For at overføre dit brugerdefinerede logo skal du indstille %s i php.ini og genstarte webserveren.",
         "LogoUploadFailed": "Den uploadede fil kunne ikke behandles. Kontroller at filen har et gyldigt format.",
         "LogoUpload": "Vælg et logo til overførelse",
@@ -94,7 +94,7 @@
         "YouMayOptOut": "Du kan vælge ikke at have en unik web analyse cookie identifikationsnummer tildelt til computeren for at undgå aggregering og analyse af data indsamlet på denne hjemmesider.",
         "YouMayOptOutBis": "Vælg muligheden, klik nedenfor for at modtage en opt out-cookie.",
         "OptingYouOut": "Vælger dig fra, vent venligst.....",
-        "ProtocolNotDetectedCorrectly": "Du ser Matomo kan kun finde en usikker forbindelse på serveren.",
+        "ProtocolNotDetectedCorrectly": "Du benhytter i øjeblikket Matomo over en sikker SSL-forbindelse (via HTTPS), men Matomo kunne kun detektere en ikke-sikker forbindelse på serveren.",
         "ProtocolNotDetectedCorrectlySolution": "For at sikre at Matomo behandler anmodninger og dit indhold over HTTPS, skal du måske redigere din %1$s fil og enten konfigurere dine proxy indstillinger, eller du kan tilføje linjen %2$s under sektionen %3$s. %4$sLæs mere%5$s"
     }
 }

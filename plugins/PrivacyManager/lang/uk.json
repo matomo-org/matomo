@@ -52,7 +52,6 @@
         "ReportsDataSavedEstimate": "Розмір бази даних",
         "SaveSettingsBeforePurge": "Ви змінили налаштування видалення даних. Будь ласка, збережіть їх, перед тим як почати чистку.",
         "SeeAlsoOurOfficialGuidePrivacy": "Дивіться також офіційне керівництво: %1$sПриватність даних в Matomo%2$s",
-        "Teaser": "На цій вкладці ви можете налаштовувати веб-аналітику для її відповідної політики конфіденційності чинного законодавства вашої країни. Використовуйте: %1$s приховування IP-адреси відвідувача%2$s, %3$s автоматичне стирання старих логів з бази банних%4$s і %5$s можливість для відвідувачів виключити себе з обліку в системі%6$s.",
         "TeaserHeadline": "Налаштування конфіденційності",
         "UseAnonymizedIpForVisitEnrichment": "Також використовуйте анонімні IP-адреси при логуванні відвідувань.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Plugins such as Geo Location via IP and Provider improve visitor's metadata. By default these plugins use the anonymized IP addresses. If you select 'No', then the non-anonymized full IP address will be used instead, resulting in less privacy but better data accuracy.",

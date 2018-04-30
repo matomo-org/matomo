@@ -1,5 +1,6 @@
 {
     "PrivacyManager": {
+        "AnonymizeData": "Anonimizo të dhënat",
         "AnonymizeIpDescription": "Përzgjidhni \"Po\" nëse doni që Matomo të mos gjurmojë adresa IP të përcaktuara qartë.",
         "AnonymizeIpInlineHelp": "Anonimizoje bajtin(et) e fundit të adresave IP të vizitorëve, në pajtim me ligjet\/udhëzimet vendore mbi privatësinë.",
         "AnonymizeIpExtendedHelp": "Kur përdoruesit vizitojnë sajtin tuaj, Matomo s’do të përdorë adresën e plotë IP (të tillë si %1$s), por në vend të kësaj Matomo së pari do ta anonimizojë (si %2$s). Anonimizimi i adresave IP është një nga domosdoshmëritë e vendosura nga ligjet mbi privatësinë në disa vende, si Gjermania, fjala vjen.",
@@ -40,6 +41,8 @@
         "EstimatedDBSizeAfterPurge": "Madhësi e pritshme për bazën e të dhënave pas pastrimit",
         "EstimatedSpaceSaved": "Hapësirë që pritet të kursehet",
         "GeolocationAnonymizeIpNote": "Shënim: Gjeovendëzimi do të ketë përafërsisht të njëjtat përfundime me 1 bajt të anonimizuar. Me 2 ose më shumë bajte, Gjeovendëzimi do të jetë i pasaktë.",
+        "GDPR": "GDPR",
+        "GdprManager": "Përgjegjës GDPR",
         "GetPurgeEstimate": "Merrni parashikim pastrimi",
         "KeepBasicMetrics": "Mba vlerat bazë (vizita, parje faqesh, mesatare kthimesh, shndërrime objektivash, shndërrime e-tregti, etj.)",
         "KeepDataFor": "Mba krejt të dhënat për",
@@ -57,11 +60,16 @@
         "ReportsDataSavedEstimate": "Madhësi baze të dhënash",
         "SaveSettingsBeforePurge": "Keni ndryshuar rregullimet për fshirje të dhënash. Ju lutemi, ruajini ato përpara se të nisni një pastrim.",
         "SeeAlsoOurOfficialGuidePrivacy": "Shihni edhe udhërrëfyesin tonë zyrtar: %1$sPrivatësi Analizash Web%2$s",
-        "Teaser": "Në këtë faqe, mund ta përshtatni Matomo-n që privatësia në të të jetë në pajtim me legjislacionin në fuqi, duke: %1$s anonimizuar IP-të e vizitorëve%2$s, %3$s hequr automatikisht nga baza e të dhënave regjistrime të vjetër vizitorësh%4$s, dhe %5$s duke ofruar një mekanizëm Opt-out për sajtin tuaj%6$s.",
+        "TeaserHeader": "Në këtë faqe, mund ta përshtatni Matomo-n për ta bërë të përputhshëm me rregulla privatësie legjislacionesh ekzistuese, duke: %1$s anonimizuar IP-në e vizitorit%2$s, %3$s duke hequr vetvetiu nga baza e të dhënave regjistra të vjetër vizitorësh%4$s, dhe %5$s anonimizuar të dhëna të papërpunuara vizitorësh të ndjekur më parë%6$s.",
         "TeaserHeadline": "Rregullime Privatësie",
         "UseAnonymizedIpForVisitEnrichment": "Përdor edhe adresa IP të Anonimizuara kur pasurohen vizita.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Shtojca të tilla si Gjeovendëzim përmes IP-sh dhe Furnizuesish përmirësojnë tejtëdhënat e përdoruesve. Si parazgjedhje, këto shtojca përdorin adresa IP të anonimizuara. Nëse përzgjidhni 'Jo', atëherë do të përdoren adresa IP të plota, të paanonimizuara, që do të thotë më pak privatësi, por më tepër saktësi të dhënash.",
+        "AnonymizeUserIdNote": "Kur e aktivizoni këtë mundësi, ID-ja e përdoruesit do të anonimizohet për të shmangur gjurmim të dhënash potencialisht personale, b.f. adresë email.",
+        "AnonymizeOrderIdNote": "Ngaqë një ID Porosie mund të mund të përshoqërohet me një sistem tjetër, zakonisht një dyqan etregtie, ID-ja e Porosisë mund të shihet si e dhënë personale, nën GDPR-në. Kur e aktivizoni këtë mundësi, një ID Porosie do të anonimizohet vetvetiu, dhe kështu s’do të ketë gjurmim të dhënash personale.",
         "UseAnonymizeIp": "Anonimizoni adresat IP të Vizitorëve",
+        "UseAnonymizeTrackingData": "Anonimizo Të dhëna Gjurmimi",
+        "UseAnonymizeUserId": "Anonimizo ID Përdoruesi",
+        "UseAnonymizeOrderId": "Anonimizo ID Porosie",
         "UseDeleteLog": "Fshiji rregullisht te baza e të dhënave regjistrimet e vjetra të përdoruesve",
         "UseDeleteReports": "Fshi rregullisht raporte të vjetër prej bazës së të dhënave"
     }

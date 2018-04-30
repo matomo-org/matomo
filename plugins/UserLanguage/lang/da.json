@@ -1,7 +1,7 @@
 {
     "UserLanguage": {
-        "BrowserLanguage": "Browser sprog",
+        "BrowserLanguage": "Browsersprog",
         "LanguageCode": "Sprogkode",
-        "PluginDescription": "Rapporter sproget, som anvendes af de besøgendes browsere."
+        "PluginDescription": "Rapporterer sproget, som anvendes af de besøgendes browsere."
     }
 }
