@@ -106,6 +106,15 @@
                         show: false,
                         hide: false
                     });
+
+                    scope.$on(
+                        "$destroy",
+                        function () {
+                            try {
+                                $(element).tooltip('destroy');
+                            } catch (e) {}
+                        }
+                    );
                 }
             }
         };
