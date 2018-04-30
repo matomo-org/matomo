@@ -253,7 +253,7 @@ Piwik_Transitions.prototype.preparePopover = function () {
     var textContainer = h2;
     if (self.actionType == 'url') {
         var a = $(document.createElement('a'));
-        a.attr('href', self.actionName);
+        a.attr('href', piwik.piwik_url + '?module=Proxy&action=redirect&url=' + encodeURIComponent(self.actionName));
         a.attr('rel', 'noreferrer noopener');
         a.attr('target', '_blank');
         h2.append(a);
@@ -567,7 +567,7 @@ Piwik_Transitions.prototype.renderOpenGroup = function (groupName, side, onlyBg)
         if (!isOthers && (groupName == 'previousPages' || groupName == 'followingPages')) {
             onClick = (function (url) {
                 return function () {
-                    self.reloadPopover(url.replace(/^(?!http)/, 'http://'));
+                    self.reloadPopover(piwik.piwik_url + '?module=Proxy&action=redirect&url=' + encodeURIComponent(url.replace(/^(?!http)/, 'http://')));
                 };
             })(label);
         } else if (!isOthers && (groupName == 'outlinks' || groupName == 'websites' || groupName == 'downloads')) {
