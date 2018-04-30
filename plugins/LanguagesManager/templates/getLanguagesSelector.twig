@@ -2,7 +2,7 @@
      ng-cloak
      menu-title="{{ currentLanguageName|e('html_attr') }}"
      piwik-menudropdown>
-    <a class="item" target="_blank" rel="noreferrer"
+    <a class="item" target="_blank" rel="noreferrer noopener"
         href="https://matomo.org/translations/">{{ 'LanguagesManager_AboutPiwikTranslations'|translate }}</a>
     {% for language in languages %}
         <a class="item {% if language.code == currentLanguageCode %}active{% endif %}"

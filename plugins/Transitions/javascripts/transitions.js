@@ -254,7 +254,7 @@ Piwik_Transitions.prototype.preparePopover = function () {
     if (self.actionType == 'url') {
         var a = $(document.createElement('a'));
         a.attr('href', self.actionName);
-        a.attr('rel', 'noreferrer');
+        a.attr('rel', 'noreferrer noopener');
         a.attr('target', '_blank');
         h2.append(a);
         textContainer = a;
@@ -905,7 +905,7 @@ Piwik_Transitions_Canvas.prototype.renderText = function (text, x, y, cssClass, 
         } else {
             var a = $(document.createElement('a'));
             a.attr('href', onClick);
-            a.attr('rel', 'noreferrer');
+            a.attr('rel', 'noreferrer noopener');
             a.attr('target', '_blank');
             div.append(a);
             textContainer = a;

@@ -159,7 +159,7 @@ class InvalidLicenses
             return '';
         }
 
-        return '<a href="' . $info['loginUrl'] . '" target="_blank" rel="noreferrer">';
+        return '<a href="' . $info['loginUrl'] . '" target="_blank" rel="noreferrer noopener">';
     }
 
     private function getSubscritionSummaryMessage()
