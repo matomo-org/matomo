@@ -74,6 +74,7 @@
         "SystemCheckDatabaseHelp": "Matomo erfordert entweder die mysqli Erweiterung oder die PDO und pdo_mysql Erweiterung.",
         "SystemCheckDatabaseSSL": "Datenbank SSL Verbindung",
         "SystemCheckDatabaseSSLDisabled": "SSL-Unterstützung ist auf Ihrem Datenbank-Server deaktiviert",
+        "SystemCheckDatabaseSSLNo": "Der Datenbank-Server wurde nicht mit SSL-Unterstützung kompiliert",
         "SystemCheckDatabaseSSLNotWorking": "%s ist auf '1' gesetzt, jedoch funktioniert die SSL-Verbindung nicht",
         "SystemCheckDebugBacktraceHelp": "View::factory wird nicht in der Lage sein, die Module für die Anzeige zu laden.",
         "SystemCheckError": "Ein Fehler ist aufgetreten - dieser muss behoben werden, bevor Sie weiter machen können.",

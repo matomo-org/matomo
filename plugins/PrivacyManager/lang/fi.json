@@ -52,7 +52,6 @@
         "ReportsDataSavedEstimate": "Tietokannan koko",
         "SaveSettingsBeforePurge": "Olet muuttanut tietojen poistamisen asetuksia. Tallenna muutokset ennen jatkamista.",
         "SeeAlsoOurOfficialGuidePrivacy": "Lue myös virallinen oppaamme: %1$sVerkkoanalyysi ja yksityisyys%2$s",
-        "Teaser": "Tällä sivulla voit kustomoida Matomoiä, jotta se noudattaa voimassaolevia lakeja ja säännöksiä. Voit %1$s anonymisoida vierailijoiden IP-osoitteita%2$s, %3$s poistaa vanhat lokit automaattisesti%4$s ja %5$s tarjota mahdollisuuden poistaa seuranta käytöstä sivullasi%6$s.",
         "TeaserHeadline": "Yksityisyysasetukset",
         "UseAnonymizedIpForVisitEnrichment": "Käytä piilotettuja IP-osoitteita myös käyntejä rikastettaessa.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Geopaikannusliitännäiset parantavat käyttäjien metadataa. Nämä liitännäiset käyttävät oletuksena piilotettuja IP-osoitteita. Jos valitset \"Ei\", käytetään täysiä, ei-piilotettuja IP-osoitteita. Tämä vähentää yksityisyyttä, mutta parantaa datan tarkkuutta.",

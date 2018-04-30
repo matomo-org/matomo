@@ -45,7 +45,6 @@
         "PurgingData": "Membersihkan data...",
         "ReportsDataSavedEstimate": "Ukuran basisdata",
         "SaveSettingsBeforePurge": "Anda melakukan perubahan pengaturan penghapusan. Harap menyimpan perubahan tersebut sebelum melakukan pembersihan.",
-        "Teaser": "Pada halaman ini, Anda dapat menyesuaikan Matomo untuk membuatnya sesuai dengan peraturan perundang-undangan privasi yang ada, dengan: %1$s anonimasi IP pengunjung%2$s, %3$s otomatis hapus catatan pengunjung lama dari basis data%4$s, dan %5$s menyediakan pilihan Jangan-Lacak untuk situs Anda%6$s.",
         "TeaserHeadline": "Pengaturan Privasi",
         "UseAnonymizeIp": "Anonimasi alamat IP Pengunjung",
         "UseDeleteLog": "Hapus teratur catatan pengunjung lama dari basis data",

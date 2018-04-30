@@ -1,5 +1,6 @@
 {
     "PrivacyManager": {
+        "AnonymizeData": "Anonimizuj dane",
         "AnonymizeIpDescription": "Zaznacz \"Tak\" jeśli Matomo ma nie śledzić pełnych adresów IP.",
         "AnonymizeIpInlineHelp": "Anonimizacja ostatniego bajtu w adresie IP odwiedzających, by dostosować się do być może lokalnego prawa do prywatności\/wytycznych o prywatności.",
         "AnonymizeIpExtendedHelp": "Kiedy użytkownik odwiedzi twoją stronę. Matomo nie użyje całego adresu IP danej osoby (np %1$s), a zamiast tego wykona anonimizację adresu (do %2$s). Anonimizacja adresu IP jest wymogiem prawnym w niektórych krajach - na przykład w Niemczech.",
@@ -40,6 +41,8 @@
         "EstimatedDBSizeAfterPurge": "Szacowana wielkość bazy danych po oczyszczaniu",
         "EstimatedSpaceSaved": "Szacowana oszczędność miejsca",
         "GeolocationAnonymizeIpNote": "NOTKA: Geolokalizacja zwróci zbliżone wyniki przy anonimizacji 1 bajtu. 2 bajty lub więcej znacząco obniżą dokładność.",
+        "GDPR": "RODO",
+        "GdprManager": "Zarządzaj RODO",
         "GetPurgeEstimate": "Oszacuj wzrost wolnego miejsca",
         "KeepBasicMetrics": "Zachowaj podstawowe wskaźniki ()wizyty, odsłony stron, wskaźnik porzuceń, konwersje celów, konwersje e-commerce, itd.)",
         "KeepDataFor": "Zachowaj wszystkie dane przez",
@@ -57,11 +60,16 @@
         "ReportsDataSavedEstimate": "Rozmiar bazy danych",
         "SaveSettingsBeforePurge": "Zmodyfikowałeś ustawienia kasowania danych. Proszę zapisz je przed przystąpieniem do kasowania.",
         "SeeAlsoOurOfficialGuidePrivacy": "Zobacz również nasz oficjalny przewodnik: : %1$sWeb Analytics Privacy%2$s",
-        "Teaser": "Ta strona umożliwia dostosowanie Matomo'a pod kątem przestrzegania zapisów prawa dotyczących prywatności poprzez: %1$sanonimizację adresów IP odwiedzających%2$s, %3$sautomatyczne usuwanie archiwalnych logów odwiedzin z bazy danych%4$s oraz %5$sdostarczanie mechanizmu wypisania się ze śledzenia w Twoim serwisie%6$s.",
+        "TeaserHeader": "Ta strona pozwala dostosować Matomo do wymaganej prawem prywatności odwiedzających poprzez: %1$sanonimizację adresu IP odwiedzającego%2$s, %3$sautomatyczne usuwanie starych logów odwiedzin z bazy danych%4$s i %5$sanonimizowanie już zebranych nieprzetworzonych danych użytkowników%6$s.",
         "TeaserHeadline": "Ustawienia prywatności",
         "UseAnonymizedIpForVisitEnrichment": "Korzystaj z Anonimizowanych adresów IP przy analizowaniu wizyt.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Wtyczki takie jak Geolokalizacja (bazując na IP i dostawcy) wzbogacają metadane odwiedzających. Domyślnie te wtyczki wykorzystują anonimizowane adresy IP. Wybierając 'Nie', wybierasz wykorzystanie pełnego, nie anonimizowanego adresu IP, co zwiększa dokładność danych kosztem prywatności.",
+        "AnonymizeUserIdNote": "Włączenie tej opcji, zanonimizuje ID użytkownika w celu uniknięcia śledzenia potencjalnych danych osobowych takich jak adres email.",
+        "AnonymizeOrderIdNote": "Ze względu na możliwość powiązania ID zamówienia z innym systemem, na przykład w sklepie internetowym, ID zamówienia może zostać zaliczone jako dane osobowe w myśl RODO. Po włączeniu tej opcji ID zamówienia zostanie automatycznie zanonimizowane, co wykluczy śledzenie danych osobowych.",
         "UseAnonymizeIp": "Anonimizacja adresów IP odwiedzających",
+        "UseAnonymizeTrackingData": "Anonimizuj dane śledzenia",
+        "UseAnonymizeUserId": "Anonimizuj ID użytkownika",
+        "UseAnonymizeOrderId": "Anonimizuj ID zamówienia",
         "UseDeleteLog": "Regularnie usuwanie starych logów odwiedzających z bazy danych",
         "UseDeleteReports": "Regularnie usuwaj stare raporty z bazy danych"
     }

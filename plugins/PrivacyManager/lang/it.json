@@ -52,7 +52,6 @@
         "ReportsDataSavedEstimate": "Dimensioni database",
         "SaveSettingsBeforePurge": "Hai cambiato le impostazioni per la cancellazione dei dati. Si consiglia di salvarli prima di cominciare una pulizia.",
         "SeeAlsoOurOfficialGuidePrivacy": "Leggi anche la nostra guida ufficiale: %1$sWeb Analytics Privacy%2$s",
-        "Teaser": "In questa pagina è possibile personalizzare Matomo per renderlo conforme alle norme vigenti sulla privacy. È possibile %1$srendere anonimi gli IP dei visitatori%2$s, %3$srimuovere automaticamente dal database i vecchi log dei visitatori%4$s e %5$sfornire un meccanismo opt-out per il sito%6$s.",
         "TeaserHeadline": "Impostazioni privacy",
         "UseAnonymizedIpForVisitEnrichment": "Usa anche gli indirizzi IP Anonimi quando si arricchiscono le visite",
         "UseAnonymizedIpForVisitEnrichmentNote": "Plugin come Geo Location tramite IP e Provider incrementano i metadati dei visitatori. Di default questi plugin utiizzano gli indirizzi IP resi anonimi. Se selezioni 'No', verrà utilizzato l'indirizzo IP completo non reso anonimo, con la conseguenza di una minore privacy ma con un'accuratezza dei dati migliore.",
