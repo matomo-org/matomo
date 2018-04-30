@@ -491,3 +491,7 @@
 .icon-upload:before {
     content: "\e2c6";
 }
+
+.icon-embed:before {
+    content: "\ea80";
+}
