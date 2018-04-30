@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Live\Visualizations;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -46,7 +47,8 @@ class VisitorLog extends Visualization
         if (!is_numeric($this->requestConfig->filter_limit)
             || $this->requestConfig->filter_limit == -1 // 'all' is not supported for this visualization
         ) {
-            $this->requestConfig->filter_limit = 25;
+            $defaultLimit = Config::getInstance()->General['datatable_default_limit'];
+            $this->requestConfig->filter_limit = $defaultLimit;
         }
 
         $this->requestConfig->disable_generic_filters = true;
