@@ -43,8 +43,10 @@ class VisitorLog extends Visualization
             'filter_sort_order',
         ));
 
-        if (!is_numeric($this->requestConfig->filter_limit)) {
-            $this->requestConfig->filter_limit = 20;
+        if (!is_numeric($this->requestConfig->filter_limit)
+            || $this->requestConfig->filter_limit == -1 // 'all' is not supported for this visualization
+        ) {
+            $this->requestConfig->filter_limit = 25;
         }
 
         $this->requestConfig->disable_generic_filters = true;
