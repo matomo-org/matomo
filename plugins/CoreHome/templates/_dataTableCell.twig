@@ -2,9 +2,9 @@
 {% set tooltipIndex = column ~ '_tooltip' %}
 {% if row.getMetadata(tooltipIndex) %}<span class="cell-tooltip" data-tooltip="{{ row.getMetadata(tooltipIndex) }}">{% endif %}
 {% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
-    <a rel="noreferrer noopener"
+    <a rel="noopener"
        target="_blank"
-       href='{% if row.getMetadata('url')|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.getMetadata('url')|rawSafeDecoded }}'>
+       href='?module=Proxy&action=redirect&url={% if row.getMetadata('url')|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.getMetadata('url')|rawSafeDecoded|url_encode }}'>
     {% if not row.getMetadata('logo') %}
         <img class="link" width="10" height="9"
              src="plugins/Morpheus/images/link.png"/>
