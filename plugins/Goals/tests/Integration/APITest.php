@@ -78,7 +78,7 @@ class APITest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage Goals_ExceptionInvalidGoalPatternType
+     * @expectedExceptionMessage General_ValidatorErrorXNotWhitelisted
      */
     public function test_addGoal_shouldThrowException_IfPatternTypeIsInvalid()
     {
@@ -87,7 +87,7 @@ class APITest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage Goals_ExceptionInvalidGoalPatternRegex
+     * @expectedExceptionMessage General_ValidatorErrorNoValidRegex
      */
     public function test_addGoal_shouldThrowException_IfPatternRegexIsInvalid()
     {

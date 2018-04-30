@@ -28,6 +28,8 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
+use Piwik\Validators\Regex;
+use Piwik\Validators\WhitelistedValue;
 
 /**
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
@@ -221,8 +223,9 @@ class API extends \Piwik\Plugin\API
             throw new Exception(Piwik::translate('Goals_ExceptionInvalidMatchingString', array("http:// or https://", "http://www.yourwebsite.com/newsletter/subscribed.html")));
         }
 
-        if ($patternType == 'regex' && @preg_match(GoalManager::formatRegex($pattern), '') === false) {
-            throw new \Exception(Piwik::translate('Goals_ExceptionInvalidGoalPatternRegex', [$pattern]));
+        if ($patternType == 'regex') {
+            $validator = new Regex();
+            $validator->validate(GoalManager::formatRegex($pattern));
         }
     }
 
@@ -238,13 +241,14 @@ class API extends \Piwik\Plugin\API
 
     private function checkPatternType($patternType)
     {
+        if (empty($patternType)) {
+            return '';
+        }
+
         $patternType = strtolower($patternType);
 
-        $validPatternTypes = ['exact', 'contains', 'regex'];
-
-        if (!empty($patternType) && !in_array($patternType, $validPatternTypes)) {
-            throw new \Exception(Piwik::translate('Goals_ExceptionInvalidGoalPatternType', [$patternType, implode(', ', $validPatternTypes)]));
-        }
+        $validator = new WhitelistedValue(['exact', 'contains', 'regex']);
+        $validator->validate($patternType);
 
         return $patternType;
     }
