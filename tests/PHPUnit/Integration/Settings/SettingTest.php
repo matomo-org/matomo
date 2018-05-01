@@ -13,6 +13,7 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\Storage\Storage;
 use Piwik\Settings\Storage\Backend;
 use Exception;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\Settings\FakeBackend;
 use Piwik\Validators\NotEmpty;
 use Piwik\Validators\NumberRange;
@@ -24,6 +25,18 @@ use Piwik\Validators\NumberRange;
  */
 class SettingTest extends \PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $fixutre = new Fixture();
+        $fixutre->createEnvironmentInstance();
+    }
+
+    protected function tearDown()
+    {
+        $fixutre = new Fixture();
+        $fixutre->clearInMemoryCaches();
+        $fixutre->destroyEnvironment();
+    }
 
     /**
      * @expectedException \Exception
