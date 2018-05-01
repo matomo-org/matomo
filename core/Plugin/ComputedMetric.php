@@ -121,7 +121,12 @@ class ComputedMetric extends ProcessedMetric
         $metric1 = $this->getMetric($row, $this->metric1);
         $metric2 = $this->getMetric($row, $this->metric2);
 
-        return Piwik::getQuotientSafe($metric1, $metric2, $precision = 2);
+        $precision = 2;
+        if ($this->aggregation === self::AGGREGATION_RATE) {
+            $precision = 3;
+        }
+
+        return Piwik::getQuotientSafe($metric1, $metric2, $precision);
     }
 
     private function getDetectedType()

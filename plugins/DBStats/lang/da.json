@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Database brug",
+        "DatabaseUsage": "Databasebrug",
         "DataSize": "Data",
-        "DBSize": "DB størrelse",
+        "DBSize": "DB-størrelse",
         "EstimatedSize": "Anslået størrelse",
         "IndexSize": "Indeks",
         "LearnMore": "Hvis du vil vide mere om, hvordan Matomo behandler data, og hvordan man kan få Matomo til arbejde godt på mellem til stærkt trafikerede hjemmesider, se dokumentationen på %s.",
@@ -10,10 +10,10 @@
         "MetricDataByYear": "Målingstabeller fordelt på år",
         "MetricTables": "Målingstabeller",
         "OtherTables": "Andre tabeller",
-        "PluginDescription": "Giver detaljerede MySQL database brugerrapporter. Tilgængelig for superbrugere under Diagnostik.",
+        "PluginDescription": "Giver detaljerede MySQL-databasebrugsrapporter. Tilgængelig for superbrugere under Diagnostik.",
         "ReportDataByYear": "Rapport tabeller fordelt på år",
         "ReportTables": "Rapport tabeller",
-        "RowCount": "Række antal",
+        "RowCount": "Antal rækker",
         "Table": "Tabel",
         "TotalSize": "Samlet størrelse",
         "TrackerTables": "Sporings tabeller"

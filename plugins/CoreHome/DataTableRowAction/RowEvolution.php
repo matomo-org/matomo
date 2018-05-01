@@ -12,7 +12,6 @@ use Exception;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\NumberFormatter;
@@ -84,8 +83,14 @@ class RowEvolution
      */
     public function __construct($idSite, $date, $graphType = 'graphEvolution')
     {
+        if (!($date instanceof Date)) {
+            throw new Exception("Expected date to be an instance of \\Piwik\\Date");
+        }
+
         $this->apiMethod = Common::getRequestVar('apiMethod', '', 'string');
-        if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");
+        if (empty($this->apiMethod)) {
+            throw new Exception("Parameter apiMethod not set.");
+        }
 
         $this->label = DataTablePostProcessor::getLabelFromRequest($_GET);
         if (!is_array($this->label)) {

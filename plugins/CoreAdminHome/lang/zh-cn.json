@@ -27,6 +27,7 @@
         "JSTracking_CodeNoteBeforeClosingHead": "请确保此代码在您网站里的每一个页面。我们建议您马上把它粘贴在%1$s标签之前。",
         "JSTracking_CustomCampaignQueryParam": "广告活动名称和关键词使用自定义搜索参数",
         "JSTracking_CrossDomain": "用来辨识独立访客的访问者 ID 默认被储存在浏览器的第一方 \u0004Cookies 中，并且只能被相同域名的网页访问。启用跨域链接将能辨识出某位用户在不同域名下的活动和页面访问是同一位用户所为。每当用户点击任何一个您网站的别名地址，都会在网址后方添加参数 pk_vid 来传递访问者 ID。",
+        "JSTracking_CrossDomain_NeedsMultipleDomains": "注意：如果使用跨越链接，请为你的网站指定一个以上的域名（URL）。",
         "JSTracking_CustomCampaignQueryParamDesc": "提示：%1$sMatomo 会自动检测谷歌分析（Google Analytics）的参数。%2$s",
         "JSTracking_DisableCookies": "禁用所有追踪 Cookies",
         "JSTracking_DisableCookiesDesc": "禁用所有第一方 Cookies。这个网站现有的 Matomo cookies 将会在下次页面访问时全部删除。",
