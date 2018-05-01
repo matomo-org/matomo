@@ -8,27 +8,13 @@
 
 namespace Piwik\Tests\Integration\Report;
 
-use Piwik\API\Proxy;
-use Piwik\Plugin\Report;
-use Piwik\Plugins\ExampleReport\Reports\GetExampleReport;
-use Piwik\Plugins\Actions\Columns\ExitPageUrl;
-use Piwik\Piwik;
-use Piwik\Metrics;
-use Piwik\Plugins\ExampleTracker\Columns\ExampleDimension;
-use Piwik\Plugins\Referrers\Columns\Keyword;
 use Piwik\Plugin\ReportsProvider;
-use Piwik\Report\ReportWidgetFactory;
-use Piwik\Translate;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Tests\Framework\Fixture;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Widget\WidgetsList;
-
 
 /**
  * @group Core
  */
-class ReportTest extends IntegrationTestCase
+class ReportTest extends \PHPUnit_Framework_TestCase
 {
     public function test_getAllReports_shouldNotFindAReport_IfNoPluginLoaded()
     {

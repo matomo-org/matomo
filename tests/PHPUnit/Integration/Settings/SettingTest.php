@@ -8,15 +8,12 @@
 
 namespace Piwik\Tests\Integration\Settings\Plugin;
 
-use Piwik\Db;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Setting;
 use Piwik\Settings\Storage\Storage;
 use Piwik\Settings\Storage\Backend;
 use Exception;
 use Piwik\Tests\Framework\Mock\Settings\FakeBackend;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Validators\CharacterLength;
 use Piwik\Validators\NotEmpty;
 use Piwik\Validators\NumberRange;
 
@@ -25,7 +22,7 @@ use Piwik\Validators\NumberRange;
  * @group Settings
  * @group Setting
  */
-class SettingTest extends IntegrationTestCase
+class SettingTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
