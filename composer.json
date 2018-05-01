@@ -20,9 +20,9 @@
     },
     "config":{
         "platform": {
-            "php": "5.5.9"
+            "php": "5.6.0"
         }
-    },
+    }, 
     "require": {
         "php": ">=5.5.9",
         "twig/twig": "~1.0",
@@ -52,6 +52,7 @@
         "aws/aws-sdk-php": "2.7.1",
         "phpunit/phpunit": "~4.8",
         "facebook/xhprof": "dev-master",
+        "johnkary/phpunit-speedtrap": "1.1.0",
         "phpseclib/phpseclib": "~0.3.8",
         "symfony/var-dumper": "~2.6.0",
         "symfony/yaml": "~2.6.0"
