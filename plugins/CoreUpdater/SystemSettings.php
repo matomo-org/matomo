@@ -88,7 +88,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                                                         "</a>"))
                             . Piwik::translate('<br/>')
                             . Piwik::translate('CoreAdminHome_StableReleases',
-                                                 array("<a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development'>",
+                                               array("<a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development'>",
                                                      "</a>"))
                             . Piwik::translate('<br />')
                             . Piwik::translate('CoreAdminHome_LtsReleases');
