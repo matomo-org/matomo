@@ -852,7 +852,10 @@ class GoalManager
                 $match = ($matched == 0);
                 break;
             default:
-                StaticContainer::get('Psr\Log\LoggerInterface')->warning(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
+                try {
+                    StaticContainer::get('Psr\Log\LoggerInterface')->warning(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
+                } catch (\Exception $e) {
+                }
                 $match = false;
                 break;
         }
