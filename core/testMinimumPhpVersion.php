@@ -68,7 +68,7 @@ if ($minimumPhpInvalid) {
                     "\n\n<br/><br/>Then reload this page to access your analytics reports." .
                     "\n\n<br/><br/>For more information check out this FAQ: <a href='https://matomo.org/faq/how-to-install/faq_18271/' rel='noreferrer noopener' target='_blank'>How do I use Matomo from the Git repository?</a>." .
                     "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Matomo release from ".
-                    "<a href='https://builds.matomo.org/piwik.zip' rel='noreferrer noopener' target='_blank'>builds.matomo.org</a>.</p>";
+                    "<a href='https://builds.matomo.org/piwik.zip' rel='noreferrer noopener'>builds.matomo.org</a>.</p>";
     }
 }
 
