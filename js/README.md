@@ -31,20 +31,20 @@ The js/ folder contains:
 
 ## Deployment
 
-* piwik.js is minified using YUICompressor 2.4.7.
+* piwik.js is minified using YUICompressor 2.4.8.
   To install YUICompressor run:
  
   ```bash
   $ cd /path/to/piwik/js/
-  $ wget https://github.com/downloads/yui/yuicompressor/yuicompressor-2.4.7.zip
-  $ unzip yuicompressor-2.4.7.zip
+  $ wget https://github.com/yui/yuicompressor/releases/download/v2.4.8/yuicompressor-2.4.8.zip
+  $ unzip yuicompressor-2.4.8.zip
   ```
 
   To compress the code containing the evil "eval", run:
 
   ```bash
   $ cd /path/to/piwik/js/
-  $ sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > piwik.min.js && cp piwik.min.js ../piwik.js
+  $ sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.8.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > piwik.min.js && cp piwik.min.js ../piwik.js
   ```
 
   This will generate the minify /path/to/piwik/js/piwik.min.js and copy it to
