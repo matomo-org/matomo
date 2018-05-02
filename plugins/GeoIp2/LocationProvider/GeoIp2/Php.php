@@ -88,6 +88,10 @@ class Php extends GeoIp2
     {
         $ip = $this->getIpFromInfo($info);
 
+        if (empty($ip)) {
+            return false;
+        }
+
         $result = [];
         $reader = $this->getGeoIpInstance('loc');
         if ($reader) {

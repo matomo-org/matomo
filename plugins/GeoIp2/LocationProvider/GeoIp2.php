@@ -249,4 +249,18 @@ abstract class GeoIp2 extends LocationProvider
         }
         return [$countryCode, $isoRegionCode];
     }
+
+    /**
+     * Returns an IP address from an array that was passed into getLocation. This
+     * will return an IPv4 address or IPv6 address.
+     *
+     * @param  array $info Must have 'ip' key.
+     * @return string|null
+     */
+    protected function getIpFromInfo($info)
+    {
+        $ip = \Piwik\Network\IP::fromStringIP($info['ip']);
+
+        return $ip->toString();
+    }
 }
