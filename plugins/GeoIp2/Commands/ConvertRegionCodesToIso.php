@@ -51,6 +51,8 @@ class ConvertRegionCodesToIso extends ConsoleCommand
 
         $output->write('Creating mapping table in database');
 
+        Db::query('DROP table ' . self::MAPPING_TABLE_NAME);
+
         DbHelper::createTable(self::MAPPING_TABLE_NAME,
             "`country_code` VARCHAR(2) NOT NULL,
                            `fips_code` VARCHAR(2) NOT NULL,
