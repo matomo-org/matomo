@@ -885,7 +885,7 @@
 		<module>UserCountry</module>
 		<action>getRegion</action>
 		<dimension>Region</dimension>
-		<documentation>This report shows which region your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer&quot;  target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
+		<documentation>This report shows which region your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -963,7 +963,7 @@
 		<module>UserCountry</module>
 		<action>getCity</action>
 		<dimension>City</dimension>
-		<documentation>This report shows the cities your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer&quot;  target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
+		<documentation>This report shows the cities your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
