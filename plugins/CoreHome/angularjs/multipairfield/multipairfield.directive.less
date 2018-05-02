@@ -1,0 +1,20 @@
+.multiPairField {
+  .fieldUiControl1.hasMultiFields {
+    width: 160px;
+    display: inline-block;
+  }
+
+  .fieldUiControl1:not(.hasMultiFields) {
+    width: ~"calc(100% - 60px)";
+    padding-right: 0.75rem;
+  }
+
+  .fieldUiControl2 {
+    width: ~"calc(100% - 240px)";
+    padding: 0.75rem;
+    display: inline-block;
+  }
+  .icon-minus {
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,35 @@
+<div class="multiPairField form-group">
+    <div ng-repeat="(index, item) in formValue"
+         class="multiPairFieldTable multiPairFieldTable{{ index }} multiple valign-wrapper">
+
+        <div piwik-field uicontrol="{{ field1.uiControl }}"
+             title="{{ field1.title }}"
+             full-width="true"
+             ng-if="field1.templateFile"
+             template-file="{{ field1.templateFile }}"
+             class="fieldUiControl1"
+             ng-class="{'hasMultiFields': (field1.templateFile && field2.templateFile)}"
+             ng-model="formValue[index][field1.key]"
+             options="field1.availableValues"
+             ng-change="multiPairField.onEntryChange()"
+             placeholder=" ">
+        </div>
+
+        <div piwik-field uicontrol="{{ field2.uiControl }}"
+             title="{{ field2.title }}"
+             full-width="true"
+             ng-if="field2.templateFile"
+             class="fieldUiControl2"
+             template-file="{{ field2.templateFile }}"
+             options="field2.availableValues"
+             ng-change="multiPairField.onEntryChange()"
+             ng-model="formValue[index][field2.key]"
+             placeholder=" ">
+        </div>
+
+        <span ng-click="multiPairField.removeEntry(index)"
+              title="{{ 'General_Remove'|translate }}"
+              ng-hide="(index + 1) == (formValue|length)"
+              class="icon-minus valign"></span>
+    </div>
+</div>
