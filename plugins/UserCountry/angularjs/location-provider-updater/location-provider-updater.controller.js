@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('LocationProviderUpdaterController', LocationProviderUpdaterController);
 
-    LocationProviderUpdaterController.$inject = ['piwikApi'];
+    LocationProviderUpdaterController.$inject = ['piwikApi', '$window'];
 
-    function LocationProviderUpdaterController(piwikApi) {
+    function LocationProviderUpdaterController(piwikApi, $window) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
         var self = this;
 
@@ -66,18 +66,7 @@
                         $('#geoipdb-update-info').html(response.error);
                         self.geoipDatabaseInstalled = true;
                     } else {
-                        self.showGeoIpUpdateInfo();
-                        if (response.settings) {
-                            if (response.settings.loc) {
-                                self.locationDbUrl = response.settings.loc;
-                            }
-                            if (response.settings.isp) {
-                                self.ispDbUrl = response.settings.isp;
-                            }
-                            if (response.settings.org) {
-                                self.orgDbUrl = response.settings.org;
-                            }
-                        }
+                        $window.location.reload();
                     }
                 }
             );
