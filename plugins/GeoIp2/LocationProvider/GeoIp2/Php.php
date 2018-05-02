@@ -211,8 +211,8 @@ class Php extends GeoIp2
                     $result[self::REGION_NAME_KEY] = true;
                     $result[self::CITY_NAME_KEY] = true;
                     $result[self::POSTAL_CODE_KEY] = true;
-                    $result[self::LATITUDE_KEY] = true; // will be removed from GeoLite2-City in 2019
-                    $result[self::LONGITUDE_KEY] = true; // will be removed from GeoLite2-City in 2019
+                    $result[self::LATITUDE_KEY] = true;
+                    $result[self::LONGITUDE_KEY] = true;
                     break;
             }
         }
