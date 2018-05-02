@@ -760,6 +760,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 var visitorLogLinkSelector = 'table.dataTable tbody tr:first-child a.actionSegmentVisitorLog';
                 $(visitorLogLinkSelector).click();
             }, 2000);
+            page.mouseMove('#secondNavBar');
         }, done);
     });
 

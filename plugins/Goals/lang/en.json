@@ -64,6 +64,7 @@
         "GoalIsTriggeredWhen": "Goal is triggered when",
         "GoalName": "Goal Name",
         "Goals": "Goals",
+        "NGoals": "%s goals",
         "ManageGoals": "Manage Goals",
         "GoalsOverview": "Goals Overview",
         "GoalsOverviewDocumentation": "This is an overview of your goal conversions. Initially, the graph shows the sum of all conversions. %s Below the graph, you can see conversion reports for each of your goals. The sparklines can be enlarged by clicking on them.",

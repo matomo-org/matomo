@@ -10,6 +10,7 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ConversionDimension;
@@ -817,7 +818,6 @@ class GoalManager
      * @param $pattern_type
      * @param $url
      * @return bool
-     * @throws Exception
      */
     protected function isGoalPatternMatchingUrl($goal, $pattern_type, $url)
     {
@@ -852,7 +852,11 @@ class GoalManager
                 $match = ($matched == 0);
                 break;
             default:
-                throw new Exception(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
+                try {
+                    StaticContainer::get('Psr\Log\LoggerInterface')->warning(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
+                } catch (\Exception $e) {
+                }
+                $match = false;
                 break;
         }
         return $match;

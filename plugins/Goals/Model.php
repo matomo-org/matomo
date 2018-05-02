@@ -99,6 +99,13 @@ class Model
         Db::query($query, $bind);
     }
 
+    public function getActiveGoalCount()
+    {
+        return (int) Db::fetchOne("SELECT count(*) FROM " . $this->table . "
+                                WHERE deleted = 0");
+
+    }
+
     private function getDb()
     {
         return Db::get();

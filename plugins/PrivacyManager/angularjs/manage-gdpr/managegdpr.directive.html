@@ -88,8 +88,8 @@
             </tr>
             </thead>
             <tbody>
-                <tr ng-show="(manageGdpr.dataSubjects|length) > 500">
-                    <td colspan="8">More than 500 results were found and the result was truncated to the first 500 visits.</td>
+                <tr ng-show="(manageGdpr.dataSubjects|length) > 400">
+                    <td colspan="8">More than 400 results were found and the result was truncated to the first 400 visits.</td>
                 </tr>
                 <tr ng-repeat="(index, dataSubject) in manageGdpr.dataSubjects" title="Last action: {{ dataSubject.lastActionDateTime }}">
                     <td class="checkInclude">
