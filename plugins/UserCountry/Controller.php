@@ -178,8 +178,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
                 // if the file is done
                 if ($result['current_size'] >= $result['expected_file_size']) {
-                    GeoIP2AutoUpdater::unzipDownloadedFile($outputPath, 'loc', $unlink = true);
-
+                    try {
+                        GeoIP2AutoUpdater::unzipDownloadedFile($outputPath, 'loc', $unlink = true);
+                    } catch (\Exception $e) {
+                        // remove downloaded file on error
+                        unlink($outputPath);
+                        throw $e;
+                    }
 
                     // setup the auto updater
                     GeoIP2AutoUpdater::setUpdaterOptions(array(
