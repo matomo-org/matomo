@@ -44,27 +44,27 @@
         }, true);
 
         this.onEntryChange = function () {
-            var hasAll = true;
+            var hasAny = true;
             angular.forEach($scope.formValue, function (table) {
                 if (!table) {
-                    hasAll = false;
+                    hasAny = false;
                     return;
                 }
                 if ($scope.field1 && $scope.field2) {
                     if (!table[$scope.field1.key] && !table[$scope.field2.key]) {
-                        hasAll = false;
+                        hasAny = false;
                     }
                 } else if ($scope.field1) {
                     if (!table[$scope.field1.key]) {
-                        hasAll = false;
+                        hasAny = false;
                     }
                 } else if ($scope.field2) {
                     if (!table[$scope.field2.key]) {
-                        hasAll = false;
+                        hasAny = false;
                     }
                 }
             });
-            if (hasAll) {
+            if (hasAny) {
                 this.addEntry();
             }
         };
