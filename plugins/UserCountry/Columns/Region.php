@@ -21,7 +21,7 @@ class Region extends Base
     protected $segmentName = 'regionCode';
     protected $nameSingular = 'UserCountry_Region';
     protected $namePlural = 'UserCountryMap_Regions';
-    protected $acceptValues = '01 02, OR, P8, etc.<br/>eg. region=A1;country=fr';
+    protected $acceptValues = '01 02, OR, P8, etc.<br/>eg. region=BFC;country=fr';
 
     /**
      * @param Request $request
