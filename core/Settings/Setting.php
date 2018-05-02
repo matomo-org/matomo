@@ -321,7 +321,7 @@ class Setting
             throw new Exception('Type must be an array when using a multi select');
         }
 
-        if ($field->uiControl === FieldConfig::UI_CONTROL_MULTI_PAIR &&
+        if ($field->uiControl === FieldConfig::UI_CONTROL_MULTI_TUPLE &&
             $this->type !== FieldConfig::TYPE_ARRAY) {
             throw new Exception('Type must be an array when using a multi pair');
         }
