@@ -158,10 +158,19 @@ class Php extends GeoIp2
         $result[self::POSTAL_CODE_KEY]    = $lookupResult->postal->code;
         if (is_array($lookupResult->subdivisions) && count($lookupResult->subdivisions) > 0) {
             $subdivisions = $lookupResult->subdivisions;
-            $subdivision = end($subdivisions);
+            $subdivision = $this->determinSubdivision($subdivisions, $result[self::COUNTRY_CODE_KEY]);
             $result[self::REGION_CODE_KEY] = strtoupper($subdivision->isoCode);
             $result[self::REGION_NAME_KEY] = $subdivision->name;
         }
+    }
+
+    protected function determinSubdivision($subdivisions, $countryCode)
+    {
+        if (in_array($countryCode, ['GB'])) {
+            return end($subdivisions);
+        }
+
+        return reset($subdivisions);
     }
 
     /**
