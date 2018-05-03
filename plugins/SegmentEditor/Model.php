@@ -119,6 +119,15 @@ class Model
         return $segments;
     }
 
+    public function getSegmentByDefinition($definition)
+    {
+        $sql = $this->buildQuerySortedByName("definition = ?");
+        $bind = [$definition];
+
+        $segment = $this->getDb()->fetchRow($sql, $bind);
+        return $segment;
+    }
+
     public function deleteSegment($idSegment)
     {
         $db = $this->getDb();
@@ -178,5 +187,4 @@ class Model
 
         DbHelper::createTable(self::$rawPrefix, $segmentTable);
     }
-
 }

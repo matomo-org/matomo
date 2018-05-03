@@ -8,15 +8,27 @@
  */
 namespace Piwik\Plugins\SegmentEditor;
 
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\ArchiveSelector;
+use Piwik\Notification;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
+use Piwik\Segment;
+use Piwik\SettingsPiwik;
+use Piwik\Site;
+use Piwik\Period;
+use Piwik\Url;
+use Piwik\View;
 
 /**
  */
 class SegmentEditor extends \Piwik\Plugin
 {
+    const NO_DATA_UNPROCESSED_SEGMENT_ID = 'nodata_segment_not_processed';
+
     /**
      * @see Piwik\Plugin::registerEvents
      */
@@ -30,6 +42,7 @@ class SegmentEditor extends \Piwik\Plugin
             'Template.nextToCalendar'                    => 'getSegmentEditorHtml',
             'System.addSystemSummaryItems'               => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
+            'Visualization.overrideNoDataForReportMessage' => 'onNoDataForReport',
         );
     }
 
@@ -69,6 +82,86 @@ class SegmentEditor extends \Piwik\Plugin
         }
 
         $segments = array_unique($segments);
+    }
+
+    /**
+     * TODO: move to new class
+     */
+    public function onNoDataForReport()
+    {
+        $segment = $this->getSegmentIfIsUnprocessed();
+        if (empty($segment)) {
+            Notification\Manager::cancel(self::NO_DATA_UNPROCESSED_SEGMENT_ID);
+            return;
+        }
+
+        // this report has no data, the report is for a segment that gets preprocessed, and the archive for this
+        // data does not exist. this means the data will be processed later. we let the user know so they will not
+        // be confused.
+        $model = new Model();
+        $segmentToPreprocess = $model->getSegmentByDefinition($segment->getString());
+
+        $segmentDisplayName = !empty($segmentToPreprocess['name']) ? $segmentToPreprocess['name'] : $segment;
+
+        $view = new View('@SegmentEditor/_unprocessedSegmentMessage.twig');
+        $view->segmentName = $segmentDisplayName;
+        $view->visitorLogLink = Url::getCurrentQueryStringWithParametersModified([
+            'category' => 'General_Visitors',
+            'subcategory' => 'Live_VisitorLog',
+        ]);
+
+        $notification = new Notification($view->render());
+        $notification->priority = Notification::PRIORITY_HIGH;
+        $notification->context = Notification::CONTEXT_INFO;
+        $notification->flags = Notification::FLAG_NO_CLEAR;
+        $notification->type = Notification::TYPE_TRANSIENT;
+        $notification->raw = true;
+        Notification\Manager::notify(self::NO_DATA_UNPROCESSED_SEGMENT_ID, $notification);
+    }
+
+    private function getSegmentIfIsUnprocessed()
+    {
+        // get idSites
+        $idSite = Common::getRequestVar('idSite', false);
+        if (empty($idSite)
+            || !is_numeric($idSite)
+        ) {
+            return null;
+        }
+
+        // get segment
+        $segment = Common::getRequestVar('segment', false);
+        if (empty($segment)) {
+            return null;
+        }
+        $segment = new Segment($segment, [$idSite]);
+
+        // get period
+        $date = Common::getRequestVar('date', false);
+        $period = Common::getRequestVar('period', false);
+        $period = Period\Factory::build($period, $date);
+
+        // check if archiving is enabled. if so, the segment should have been processed.
+        $isArchivingDisabled = Rules::isArchivingDisabledFor([$idSite], $segment, $period);
+        if (!$isArchivingDisabled) {
+            return null;
+        }
+
+        // check if requested segment is segment to preprocess
+        $segmentsToPreprocess = SettingsPiwik::getKnownSegmentsToArchive();
+        $segmentsToPreprocess = array_merge($segmentsToPreprocess, SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite));
+        if (!in_array($segment, $segmentsToPreprocess)) {
+            return null;
+        }
+
+        // check if segment archive does not exist
+        $processorParams = new \Piwik\ArchiveProcessor\Parameters(new Site($idSite), $period, $segment);
+        $archiveIdAndStats = ArchiveSelector::getArchiveIdAndVisits($processorParams, null);
+        if (!empty($archiveIdAndStats[0])) {
+            return null;
+        }
+
+        return $segment;
     }
 
     public function install()

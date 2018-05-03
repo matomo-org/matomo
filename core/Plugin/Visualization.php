@@ -232,6 +232,7 @@ class Visualization extends ViewDataTable
             $view->deleteReportsOlderThan         = Option::get('delete_reports_older_than');
         }
 
+
         $view->idSubtable  = $this->requestConfig->idSubtable;
         $clientSideParameters = $this->getClientSideParametersToSet();
         if (isset($clientSideParameters['showtitle'])) {
@@ -244,7 +245,25 @@ class Visualization extends ViewDataTable
         $view->footerIcons = $this->config->footer_icons;
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
 
+        if (empty($view->dataTable) || !empty($view->dataTableHasNoData)) {
+            $this->setNoDataMessageOverride($view);
+        }
+
         return $view->render();
+    }
+
+    private function setNoDataMessageOverride(View $view)
+    {
+        $overrideMessage = null;
+
+        /**
+         * TODO w/ example
+         */
+        Piwik::postEvent('Visualization.overrideNoDataForReportMessage', [&$overrideMessage]);
+
+        if (!empty($overrideMessage)) {
+            $view->properties['no_data_message'] = $overrideMessage;
+        }
     }
 
     /**
