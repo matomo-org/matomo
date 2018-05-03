@@ -97,21 +97,13 @@ class PluginSettingsTable implements BackendInterface
             $sql  = "INSERT INTO $table (`plugin_name`, `user_login`, `setting_name`, `setting_value`, `json_encoded`) VALUES (?, ?, ?, ?, ?)";
             $bind = array($this->pluginName, $this->userLogin, $name, $value, $jsonEncoded);
 
-            try {
-                $this->db->query($sql, $bind);
-            } catch (\Exception $e) {
-                // we catch an exception since json_encoded might not be present before matomo is updated to 3.5.0+ but the updater
-                // may run this query
-                if ($this->shouldHaveJsonEncodedColumn()) {
-                    throw $e;
-                }
-            }
+            $this->db->query($sql, $bind);
         }
     }
 
-    private function shouldHaveJsonEncodedColumn()
+    private function jsonEncodedMissingError(Exception $e)
     {
-        return version_compare(Version::VERSION, '3.5.0-b5') != -1;
+        return strpos($e->getMessage(), 'json_encoded') !== false;
     }
 
     public function load()
@@ -126,10 +118,11 @@ class PluginSettingsTable implements BackendInterface
         } catch (\Exception $e) {
             // we catch an exception since json_encoded might not be present before matomo is updated to 3.5.0+ but the updater
             // may run this query
-            if ($this->shouldHaveJsonEncodedColumn()) {
-                throw $e;
+            if ($this->jsonEncodedMissingError($e)) {
+                $sql  = "SELECT `setting_name`, `setting_value` FROM " . $this->getTableName() . " WHERE plugin_name = ? and user_login = ?";
+                $settings = $this->db->fetchAll($sql, $bind);
             } else {
-                $settings = array();
+                throw $e;
             }
         }
 
