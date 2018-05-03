@@ -78,7 +78,7 @@ class Updates_3_0_0_b1 extends Updates
         Access::doAsSuperUser(function () use ($isEnabled) {
             $table = Common::prefixTable('plugin_setting');
             $sql  = "INSERT INTO $table (`plugin_name`, `user_login`, `setting_name`, `setting_value`) VALUES (?, ?, ?, ?)";
-            $bind = array('CoreUpdater', null, 'enable_plugin_update_communication', (int) !empty($isEnabled));
+            $bind = array('CoreUpdater', '', 'enable_plugin_update_communication', (int) !empty($isEnabled));
             Db::query($sql, $bind);
         });
     }
