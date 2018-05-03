@@ -98,15 +98,7 @@ class MeasurableSettingsTable implements BackendInterface
             $sql  = "INSERT INTO $table (`idsite`, `plugin_name`, `setting_name`, `setting_value`, `json_encoded`) VALUES (?, ?, ?, ?, ?)";
             $bind = array($this->idSite, $this->pluginName, $name, $value, $jsonEncoded);
 
-            try {
-                $this->db->query($sql, $bind);
-            } catch (\Exception $e) {
-                // we catch an exception since json_encoded might not be present before matomo is updated to 3.5.0+ but the updater
-                // may run this query
-                if (!$this->jsonEncodedMissingError($e)) {
-                    throw $e;
-                }
-            }
+            $this->db->query($sql, $bind);
         }
     }
 
