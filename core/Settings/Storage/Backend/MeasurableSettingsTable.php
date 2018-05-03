@@ -112,7 +112,7 @@ class MeasurableSettingsTable implements BackendInterface
 
     private function shouldHaveJsonEncodedColumn()
     {
-        return version_compare(Version::VERSION, '3.5.0-b4') != -1;
+        return version_compare(Version::VERSION, '3.5.0-b5') != -1;
     }
 
     public function load()
