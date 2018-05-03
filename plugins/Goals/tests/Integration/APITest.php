@@ -69,6 +69,31 @@ class APITest extends IntegrationTestCase
         $this->assertGoal($idGoal, 'MyName', '', 'title', 'normal title', 'exact', 1, 50, 1);
     }
 
+    public function test_addGoal_ShouldSucceed_IfRegexPageTitle()
+    {
+        $idGoal = $this->api->addGoal($this->idSite, 'MyName', 'title', 'rere(.*)', 'regex', true, 50, true);
+
+        $this->assertGoal($idGoal, 'MyName', '', 'title', 'rere(.*)', 'regex', 1, 50, 1);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage General_ValidatorErrorXNotWhitelisted
+     */
+    public function test_addGoal_shouldThrowException_IfPatternTypeIsInvalid()
+    {
+        $this->api->addGoal($this->idSite, 'MyName', 'external_website', 'www.test.de', 'invalid');
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage General_ValidatorErrorNoValidRegex
+     */
+    public function test_addGoal_shouldThrowException_IfPatternRegexIsInvalid()
+    {
+        $this->api->addGoal($this->idSite, 'MyName', 'url', '/(%$f', 'regex');
+    }
+
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage Goals_ExceptionInvalidMatchingString

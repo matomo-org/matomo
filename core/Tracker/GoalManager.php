@@ -823,13 +823,7 @@ class GoalManager
     {
         switch ($pattern_type) {
             case 'regex':
-                $pattern = $goal['pattern'];
-                if (strpos($pattern, '/') !== false
-                    && strpos($pattern, '\\/') === false
-                ) {
-                    $pattern = str_replace('/', '\\/', $pattern);
-                }
-                $pattern = '/' . $pattern . '/';
+                $pattern = self::formatRegex($goal['pattern']);
                 if (!$goal['case_sensitive']) {
                     $pattern .= 'i';
                 }
@@ -860,5 +854,21 @@ class GoalManager
                 break;
         }
         return $match;
+    }
+
+    /**
+     * Formats a goal regex pattern to a usable regex
+     *
+     * @param string $pattern
+     * @return string
+     */
+    public static function formatRegex($pattern)
+    {
+        if (strpos($pattern, '/') !== false
+            && strpos($pattern, '\\/') === false
+        ) {
+            $pattern = str_replace('/', '\\/', $pattern);
+        }
+        return '/' . $pattern . '/';
     }
 }

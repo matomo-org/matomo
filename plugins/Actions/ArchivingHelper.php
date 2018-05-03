@@ -306,7 +306,7 @@ class ArchivingHelper
 
     public static function reloadConfig()
     {
-        // for BC, we read the old style delimiter first (see #1067)Row
+        // for BC, we read the old style delimiter first (see #1067)
         $actionDelimiter = @Config::getInstance()->General['action_category_delimiter'];
         if (empty($actionDelimiter)) {
             self::$actionUrlCategoryDelimiter = Config::getInstance()->General['action_url_category_delimiter'];
