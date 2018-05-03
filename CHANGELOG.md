@@ -8,6 +8,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * New events `PrivacyManager.deleteLogsOlderThan`, `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` to enable plugins to be GDPR compliant.  
 * New event `AssetManager.addStylesheets` to add additional less styles which are not located in a file.
 * New event `Archiving.getIdSitesToMarkArchivesAsInvalidated` that lets plugins customize the behaviour of report invalidations.
+* New settings form field UI component "Multi Tuple" that lets users enter multiple values for one setting
 
 ## Matomo 3.4.0
 
