@@ -345,6 +345,41 @@
                      options='[{group: "Group 1",key:"1",value:"Hello"}, {group: "Group 1",key:"2",value:"How",tooltip: "Help text"}, {group: "Group 1",key:"3",value:"Are"}, {group: "Group 2",key:"4",value:"You"}]'>
                 </div>
 
+                <div piwik-field uicontrol="multituple" name="multitupletext"
+                     title="Multiple values"
+                     value="[]"
+                     inline-help="Multi Tuple text and text"
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multitupletextvalue"
+                     title="Multiple values with values"
+                     value='[{"index": "test", "value":"myfoo"},{"index": "test 2", "value":"myfoo 2"}]'
+                     inline-help="Multi Tuple again."
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multitupleselect"
+                     title="Multiple values with select"
+                     value='[{"index": "test", "value": "myfoo"}]'
+                     inline-help="Multi Tuple select and text"
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multituplesingleselect"
+                     title="Multi One Select"
+                     value='[{"index": "test", "value": "myfoo"}]'
+                     inline-help="Multi values with one select"
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}}}'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multituplesingletext"
+                     title="Multi One Text"
+                     value='[{"index": "test", "value": "myfoo"}]'
+                     inline-help="Multi values with one text"
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null}}'>
+                </div>
+
                 <div piwik-field uicontrol="checkbox" name="enableFeature"
                      title="Enable feature"
                      introduction="Radio and checkboxes"
@@ -456,7 +491,42 @@
          ng-model=&quot;view.selectedExpand&quot;
          options='[{group: &quot;Group 1&quot;,key:&quot;1&quot;,value:&quot;Hello&quot;}, {group: &quot;Group 1&quot;,key:&quot;2&quot;,value:&quot;How&quot;,tooltip: &quot;Help text&quot;}, {group: &quot;Group 1&quot;,key:&quot;3&quot;,value:&quot;Are&quot;}, {group: &quot;Group 2&quot;,key:&quot;4&quot;,value:&quot;You&quot;}]'&gt;
     &lt;/div&gt;
-                
+
+    &lt;div piwik-field uicontrol="multituple" name="multitupletext"
+         title="Multiple values"
+         value="[]"
+         inline-help="Multi Pair text and text"
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multitupletextvalue"
+         title="Multiple values with values"
+         value='[{"index": "test", "value":"myfoo"},{"index": "test 2", "value":"myfoo 2"}]'
+         inline-help="Multi Pair again."
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multitupleselect"
+         title="Multiple values with select"
+         value='[{"index": "test", "value": "myfoo"}]'
+         inline-help="Multi Pair select and text"
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multituplesingleselect"
+         title="Multi One Select"
+         value='[{"index": "test", "value": "myfoo"}]'
+         inline-help="Multi values with one select"
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}}}'>
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multituplesingletext"
+         title="Multi One Text"
+         value='[{"index": "test", "value": "myfoo"}]'
+         inline-help="Multi values with one text"
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null}}'>
+    &lt;/div&gt;
+
     &lt;div piwik-field uicontrol=&quot;checkbox&quot; name=&quot;enableFeature&quot;
          title=&quot;Enable feature&quot;
          introduction=&quot;Radio and checkboxes&quot;
@@ -589,8 +659,8 @@
                 <table piwik-content-table>
                     <thead><tr><th>Column 1</th><th>Column 2</th></tr></thead>
                     <tbody>
-                        <tr><td>Value 1</td><td>Value 2</td></tr>
-                        <tr><td>Value 1</td><td>Value 2</td></tr>
+                    <tr><td>Value 1</td><td>Value 2</td></tr>
+                    <tr><td>Value 1</td><td>Value 2</td></tr>
                     </tbody>
                 </table>
             </div>

@@ -1,0 +1,9 @@
+<div>
+    <div matomo-multi-pair-field
+         name="{{ formField.name }}"
+         ng-model="formField.value"
+         field1="formField.uiControlAttributes.field1"
+         field2="formField.uiControlAttributes.field2">
+    </div>
+    <label for="{{ formField.name }}" ng-bind-html="formField.title"></label>
+</div>
