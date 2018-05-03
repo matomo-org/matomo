@@ -12,6 +12,7 @@ namespace Piwik\Settings\Storage\Backend;
 use Piwik\Common;
 use Piwik\Db;
 use Exception;
+use Piwik\Version;
 
 /**
  * Measurable settings backend. Stores all settings in a "site_setting" database table.
@@ -115,7 +116,12 @@ class MeasurableSettingsTable implements BackendInterface
         } catch (\Exception $e) {
             // we catch an exception since json_encoded might not be present before matomo is updated to 3.5.0+ but the updater
             // may run this query
-            $settings = array();
+            if (version_compare(Version::VERSION, '3.5.0-b4') == -1) {
+                $settings = array();
+            } else {
+                throw $e;
+            }
+
         }
 
         $flat = array();
