@@ -189,7 +189,7 @@ class GeoIP2AutoUpdater extends Task
             }
 
             if ($fileToExtract === null) {
-                throw new Exception(Piwik::translate('GeoIP2_CannotFindGeoIPDatabaseInArchive',
+                throw new Exception(Piwik::translate('GeoIp2_CannotFindGeoIPDatabaseInArchive',
                     array("'$path'")));
             }
 
@@ -197,7 +197,7 @@ class GeoIP2AutoUpdater extends Task
             $unzipped = $unzip->extractInString($fileToExtract);
 
             if (empty($unzipped)) {
-                throw new Exception(Piwik::translate('GeoIP2_CannotUnzipGeoIPFile',
+                throw new Exception(Piwik::translate('GeoIp2_CannotUnzipGeoIPFile',
                     array("'$path'", $unzip->errorInfo())));
             }
 
