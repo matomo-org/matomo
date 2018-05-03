@@ -97,7 +97,15 @@ class PluginSettingsTable implements BackendInterface
             $sql  = "INSERT INTO $table (`plugin_name`, `user_login`, `setting_name`, `setting_value`, `json_encoded`) VALUES (?, ?, ?, ?, ?)";
             $bind = array($this->pluginName, $this->userLogin, $name, $value, $jsonEncoded);
 
-            $this->db->query($sql, $bind);
+            try {
+                $this->db->query($sql, $bind);
+            } catch (\Exception $e) {
+                // we catch an exception since json_encoded might not be present before matomo is updated to 3.5.0+ but the updater
+                // may run this query
+                if (version_compare(Version::VERSION, '3.5.0-b4') != -1) {
+                    throw $e;
+                }
+            }
         }
     }
 
