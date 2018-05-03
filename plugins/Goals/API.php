@@ -28,6 +28,8 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
+use Piwik\Validators\Regex;
+use Piwik\Validators\WhitelistedValue;
 
 /**
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
@@ -136,6 +138,7 @@ class API extends \Piwik\Plugin\API
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
         $name        = $this->checkName($name);
         $pattern     = $this->checkPattern($pattern);
+        $patternType = $this->checkPatternType($patternType);
         $description = $this->checkDescription($description);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
@@ -188,6 +191,7 @@ class API extends \Piwik\Plugin\API
 
         $name        = $this->checkName($name);
         $description = $this->checkDescription($description);
+        $patternType = $this->checkPatternType($patternType);
         $pattern     = $this->checkPattern($pattern);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
 
@@ -218,6 +222,11 @@ class API extends \Piwik\Plugin\API
         ) {
             throw new Exception(Piwik::translate('Goals_ExceptionInvalidMatchingString', array("http:// or https://", "http://www.yourwebsite.com/newsletter/subscribed.html")));
         }
+
+        if ($patternType == 'regex') {
+            $validator = new Regex();
+            $validator->validate(GoalManager::formatRegex($pattern));
+        }
     }
 
     private function checkName($name)
@@ -228,6 +237,20 @@ class API extends \Piwik\Plugin\API
     private function checkDescription($description)
     {
         return urldecode($description);
+    }
+
+    private function checkPatternType($patternType)
+    {
+        if (empty($patternType)) {
+            return '';
+        }
+
+        $patternType = strtolower($patternType);
+
+        $validator = new WhitelistedValue(['exact', 'contains', 'regex']);
+        $validator->validate($patternType);
+
+        return $patternType;
     }
 
     private function checkPattern($pattern)

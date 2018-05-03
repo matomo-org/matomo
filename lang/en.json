@@ -451,6 +451,7 @@
         "ValidatorErrorCharacterTooLong": "The value contains \"%1$s\" characters but should contain at most %2$s characters.",
         "ValidatorErrorNotUrlLike": "The value \"%s\" does not look like a URL.",
         "ValidatorErrorNotEmailLike": "The value \"%s\" does not look like a valid email.",
+        "ValidatorErrorNoValidRegex": "The value \"%s\" is not a valid regular expression.",
         "ValidatorErrorXNotWhitelisted": "The value \"%1$s\" is not allowed, use one of: %2$s.",
         "ValidatorErrorInvalidDateTimeFormat": "The date \"%1$s\" does not have the correct format, please use %2$s",
         "WarningFileIntegrityNoManifest": "File integrity check could not be performed due to missing manifest.inc.php.",
