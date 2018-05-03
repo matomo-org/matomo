@@ -235,11 +235,11 @@ nb_total_overall_bandwidth,nb_total_pageview_bandwidth,nb_total_download_bandwid
 
 Page URLs
 label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate
-index.htm,4,16,0%,00:03:23,100%
+/index.htm,4,16,0%,00:03:23,100%
 
 Entry pages
 label,entry_nb_visits,entry_bounce_count,bounce_rate
-index.htm,4,0,0%
+/index.htm,4,0,0%
 
 Entry page titles
 label,entry_nb_visits,entry_bounce_count,bounce_rate
@@ -249,7 +249,7 @@ Looking at Electronics & Cameras page with a page level custom variable,1,0,0%
 
 Exit pages
 label,nb_visits,exit_nb_visits,exit_rate
-index.htm,4,4,100%
+/index.htm,4,4,100%
 
 Exit page titles
 label,nb_visits,exit_nb_visits,exit_rate

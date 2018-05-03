@@ -245,15 +245,15 @@ nb_total_overall_bandwidth,nb_total_pageview_bandwidth,nb_total_download_bandwid
 
 Page URLs
 label,nb_visits,nb_hits,bounce_rate,avg_time_on_page,exit_rate,avg_time_generation
-index.htm,9,9,11%,00:05:20,11%,0.3s
+/index.htm,9,9,11%,00:05:20,11%,0.3s
 Page URL not defined,9,17,0%,00:00:00,0%,0.22s
-thankyou,8,16,0%,00:04:30,100%,0.31s
-products,1,1,100%,00:00:00,100%,0.15s
+/thankyou,8,16,0%,00:04:30,100%,0.31s
+/products,1,1,100%,00:00:00,100%,0.15s
 
 Entry pages
 label,entry_nb_visits,entry_bounce_count,bounce_rate,avg_time_generation
-index.htm,9,1,11%,0.3s
-products,1,1,100%,0.15s
+/index.htm,9,1,11%,0.3s
+/products,1,1,100%,0.15s
 
 Entry page titles
 label,entry_nb_visits,entry_bounce_count,bounce_rate,avg_time_generation
@@ -262,9 +262,9 @@ first page view,2,2,100%,0.14s
 
 Exit pages
 label,nb_visits,exit_nb_visits,exit_rate,avg_time_generation
-index.htm,9,1,11%,0.3s
-thankyou,8,8,100%,0.31s
-products,1,1,100%,0.15s
+/index.htm,9,1,11%,0.3s
+/thankyou,8,8,100%,0.31s
+/products,1,1,100%,0.15s
 
 Exit page titles
 label,nb_visits,exit_nb_visits,exit_rate,avg_time_generation
