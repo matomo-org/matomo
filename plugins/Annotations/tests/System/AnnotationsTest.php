@@ -5,7 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\System;
+namespace Piwik\Plugins\Annotations\tests\System;
 
 use Piwik\API\Request;
 use Piwik\Plugins\Annotations\API;

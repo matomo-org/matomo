@@ -11,7 +11,6 @@ namespace Piwik\Tests\Integration;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\SettingsServer;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
