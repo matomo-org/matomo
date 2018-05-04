@@ -58,7 +58,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 	</row>
 	<row>
-		<label>Doubs, France</label>
+		<label>Bourgogne-Franche-Comt&#xE9;, France</label>
 		<nb_visits>3</nb_visits>
 		<nb_actions>7</nb_actions>
 		<max_actions>5</max_actions>
@@ -79,11 +79,11 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>regionCode==25;countryCode==fr</segment>
-		<region>25</region>
+		<segment>regionCode==BFC;countryCode==fr</segment>
+		<region>BFC</region>
 		<country>fr</country>
 		<country_name>France</country_name>
-		<region_name>Doubs</region_name>
+		<region_name>Bourgogne-Franche-Comt&#xE9;</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
