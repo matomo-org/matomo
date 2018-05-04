@@ -92,7 +92,8 @@ class   Config
         'show_limit_control',
         'pivot_by_dimension',
         'pivot_by_column',
-        'pivot_dimension_name'
+        'pivot_dimension_name',
+        'disable_all_rows_filter_limit',
     );
 
     /**
@@ -471,6 +472,13 @@ class   Config
      * Controls whether annotations are shown or not.
      */
     public $hide_annotations_view = true;
+
+    /**
+     * Controls whether the 'all' row limit option is shown for the limit selector.
+     *
+     * @var bool
+     */
+    public $disable_all_rows_filter_limit = false;
 
     /**
      * Message to show if not data is available for the report

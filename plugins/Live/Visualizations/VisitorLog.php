@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Live\Visualizations;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugin;
@@ -43,8 +44,11 @@ class VisitorLog extends Visualization
             'filter_sort_order',
         ));
 
-        if (!is_numeric($this->requestConfig->filter_limit)) {
-            $this->requestConfig->filter_limit = 20;
+        if (!is_numeric($this->requestConfig->filter_limit)
+            || $this->requestConfig->filter_limit == -1 // 'all' is not supported for this visualization
+        ) {
+            $defaultLimit = Config::getInstance()->General['datatable_default_limit'];
+            $this->requestConfig->filter_limit = $defaultLimit;
         }
 
         $this->requestConfig->disable_generic_filters = true;
@@ -83,6 +87,7 @@ class VisitorLog extends Visualization
         $this->config->show_all_views_icons        = false;
         $this->config->show_table_all_columns      = false;
         $this->config->show_export_as_rss_feed     = false;
+        $this->config->disable_all_rows_filter_limit = true;
 
         $this->config->documentation = Piwik::translate('Live_VisitorLogDocumentation', array('<br />', '<br />'));
 
