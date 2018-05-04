@@ -107,6 +107,11 @@ class TransitionsTest extends SystemTestCase
     {
         return 'Transitions';
     }
+
+    public static function getPathToTestDirectory()
+    {
+        return dirname(__FILE__);
+    }
 }
 
 TransitionsTest::$fixture = new SomeVisitsManyPageviewsWithTransitions();

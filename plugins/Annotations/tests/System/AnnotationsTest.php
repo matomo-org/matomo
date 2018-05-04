@@ -279,6 +279,11 @@ class AnnotationsTest extends SystemTestCase
 
         }
     }
+
+    public static function getPathToTestDirectory()
+    {
+        return dirname(__FILE__);
+    }
 }
 
 AnnotationsTest::$fixture = new TwoSitesWithAnnotations();
