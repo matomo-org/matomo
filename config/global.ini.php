@@ -873,6 +873,7 @@ Plugins[] = Ecommerce
 Plugins[] = SEO
 Plugins[] = Events
 Plugins[] = UserCountry
+Plugins[] = GeoIp2
 Plugins[] = VisitsSummary
 Plugins[] = VisitFrequency
 Plugins[] = VisitTime

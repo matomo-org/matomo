@@ -18,8 +18,8 @@
         <h3 style="margin-top:0;">{{ 'UserCountry_HowToSetupGeoIP'|translate }}</h3>
         <p>{{ 'UserCountry_HowToSetupGeoIPIntro'|translate }}</p>
         <ul style="list-style:disc !important;margin-left:2em;">
-            <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step1'|translate('<a href="http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz">','</a>','<a rel="noreferrer"  target="_blank" href="http://www.maxmind.com/?rId=piwik">','</a>')|raw }}</li>
-            <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step2'|translate("'GeoLiteCity.dat'",'<strong>','</strong>')|raw }}</li>
+            <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step1'|translate('<a href="'~geoLiteUrl~'">','</a>','<a rel="noreferrer"  target="_blank" href="http://www.maxmind.com/?rId=piwik">','</a>')|raw }}</li>
+            <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step2'|translate("'"~geoLiteFilename~"'",'<strong>','</strong>')|raw }}</li>
             <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step3'|translate('<strong>','</strong>','<span style="color:green"><strong>','</strong></span>')|raw }}</li>
             <li style="list-style-type: disc !important;">{{ 'UserCountry_HowToSetupGeoIP_Step4'|translate }}</li>
         </ul>
@@ -97,6 +97,36 @@
 
 </div>
 </div>
+
+{% if geoIPLegacyLocUrl is defined and geoIPLegacyLocUrl %}
+    {# The text in this part is not translatable on purpose, as it will be removed again soon #}
+    <div piwik-content-block content-title="Automatic Updates for GeoIP Legacy">
+
+        <p>Setting up automatic updates for GeoIP Legacy is no longer supported.</p>
+
+        <div class="notification system notification-warning">
+            {% if 'GeoLite' in geoIPLegacyLocUrl %}
+                <div>Maxmind announced to discontinue updates to the GeoLite Legacy databases as of April 1, 2018.</div>
+            {% endif %}
+            <strong>Please consider switching to GeoIP 2 soon! GeoIP Legacy Support is deprecated and will be removed in one of the next major releases.</strong>
+        </div>
+
+        {% if geoIPLegacyLocUrl or geoIPLegacyIspUrl or geoIPLegacyOrgUrl %}
+            <h3>GeoIP Legacy Auto Update</h3>
+
+            <p>Your previous configuration for automatic updates for GeoIP legacy databases is still up and running. It will be automatically disabled and removed after switching to GeoIP2.</p>
+
+            <p>Below you can find the current configuration:</p>
+
+            {% if geoIPLegacyLocUrl %}<p>{{ 'UserCountry_LocationDatabase'|translate|e('html_attr') }}: {{ geoIPLegacyLocUrl }}</p>{% endif %}
+            {% if geoIPLegacyIspUrl %}<p>{{ 'UserCountry_ISPDatabase'|translate|e('html_attr') }}: {{ geoIPLegacyIspUrl }}</p>{% endif %}
+            {% if geoIPLegacyOrgUrl %}<p>{{ 'UserCountry_OrgDatabase'|translate|e('html_attr') }}: {{ geoIPLegacyOrgUrl }}</p>{% endif %}
+            {% if geoIPLegacyUpdatePeriod %}<p>{{ 'UserCountry_DownloadNewDatabasesEvery'|translate|e('html_attr') }}: {{ geoIPLegacyUpdatePeriod }}</p>{% endif %}
+
+        {% endif %}
+    </div>
+{% endif %}
+
 <div piwik-content-block
      content-title="{% if not geoIPDatabasesInstalled %}{{ 'UserCountry_GeoIPDatabases'|translate|e('html_attr') }}{% else %}{{ 'UserCountry_SetupAutomaticUpdatesOfGeoIP'|translate|e('html_attr') }}{% endif %}"
      id="geoip-db-mangement">
@@ -132,7 +162,7 @@
                     </div>
                     <div id="geoipdb-screen2-download" ng-show="locationUpdater.showFreeDownload">
                         <div piwik-progressbar
-                             label="{{ ('UserCountry_DownloadingDb'|translate('<a href="'~geoLiteUrl~'">GeoLiteCity.dat</a>') ~ '...')|json_encode }}"
+                             label="{{ ('UserCountry_DownloadingDb'|translate('<a href="'~geoLiteUrl~'">'~geoLiteFilename~'</a>') ~ '...')|json_encode }}"
                              progress="locationUpdater.progressFreeDownload">
                         </div>
                     </div>

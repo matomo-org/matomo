@@ -58,7 +58,7 @@
 		<logo>plugins/Morpheus/icons/dist/flags/ca.png</logo>
 	</row>
 	<row>
-		<label>Franche-Comte, France</label>
+		<label>Doubs, France</label>
 		<nb_visits>3</nb_visits>
 		<nb_actions>7</nb_actions>
 		<max_actions>5</max_actions>
@@ -79,11 +79,11 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
-		<segment>regionCode==A6;countryCode==fr</segment>
-		<region>A6</region>
+		<segment>regionCode==25;countryCode==fr</segment>
+		<region>25</region>
 		<country>fr</country>
 		<country_name>France</country_name>
-		<region_name>Franche-Comte</region_name>
+		<region_name>Doubs</region_name>
 		<logo>plugins/Morpheus/icons/dist/flags/fr.png</logo>
 	</row>
 	<row>
@@ -108,8 +108,8 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>regionCode==07;countryCode==it</segment>
-		<region>07</region>
+		<segment>regionCode==62;countryCode==it</segment>
+		<region>62</region>
 		<country>it</country>
 		<country_name>Italy</country_name>
 		<region_name>Lazio</region_name>
@@ -137,8 +137,8 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<segment>regionCode==14;countryCode==cn</segment>
-		<region>14</region>
+		<segment>regionCode==XZ;countryCode==cn</segment>
+		<region>XZ</region>
 		<country>cn</country>
 		<country_name>China</country_name>
 		<region_name>Xizang</region_name>

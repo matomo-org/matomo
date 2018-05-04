@@ -333,7 +333,7 @@
 		<category>Visit Location</category>
 		<name>Region</name>
 		<segment>regionCode</segment>
-		<acceptedValues>01 02, OR, P8, etc.&lt;br/&gt;eg. region=A1;country=fr</acceptedValues>
+		<acceptedValues>01 02, OR, P8, etc.&lt;br/&gt;eg. region=BFC;country=fr</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
