@@ -451,6 +451,7 @@
         "ValidatorErrorCharacterTooLong": "Η τιμή περιέχει \"%1$s\" χαρακτήρες αλλά πρέπει να περιέχει το πολύ %2$s χαρακτήρες.",
         "ValidatorErrorNotUrlLike": "Η τιμή \"%s\" δεν φαίνεται να είναι διεύθυνση URL.",
         "ValidatorErrorNotEmailLike": "Η τιμή \"%s\" δεν φαίνεται να είναι έγκυρη διεύθυνση ηλεκτρονικού ταχυδρομείου.",
+        "ValidatorErrorNoValidRegex": "Η τιμή \"%s\" δεν είναι έγκυρη κανονική έκφραση.",
         "ValidatorErrorXNotWhitelisted": "Η τιμή \"%1$s\" δεν επιτρέπεται, χρησιμοποιήστε ένα από τα: %2$s.",
         "ValidatorErrorInvalidDateTimeFormat": "Η ημερομηνία \"%1$s\" δεν έχει έγκυρη μορφή, παρακαλούμε χρησιμοποιήστε %2$s",
         "WarningFileIntegrityNoManifest": "Ο έλεγχος ακεραιότητας αρχείου δεν μπορεί να πραγματοποιηθεί επειδή λείπει το αρχείο manifest.inc.php.",
