@@ -101,6 +101,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     public function test_screenshotsStoredInLfs()
     {
         $screenshots = Filesystem::globr(PIWIK_INCLUDE_PATH . '/tests/UI/expected-screenshots', '*.png');
+        $screenshotsPlugins = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins/*/tests/UI/expected-screenshots', '*.png');
+        $screenshots = array_merge($screenshots, $screenshotsPlugins);
         $cleanPath   = function ($value) {
             return str_replace(PIWIK_INCLUDE_PATH . '/', '', $value);
         };
