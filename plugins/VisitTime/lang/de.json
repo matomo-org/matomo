@@ -13,6 +13,8 @@
         "ColumnVisitEndServerDayOfMonth": "Serverzeit - Monatstag (Ende des Besuchs)",
         "ColumnVisitEndServerDayOfWeek": "Serverzeit - Wochentag (Ende des Besuchs)",
         "ColumnVisitEndServerDayOfYear": "Serverzeit - Jahrestag (Ende des Besuchs)",
+        "ColumnVisitEndServerQuarter": "Serverzeit - Quartal (Ende des Besuchs)",
+        "ColumnVisitEndServerSecond": "Serverzeit - Sekunde (Ende des Besuchs)",
         "ColumnVisitEndServerWeekOfYear": "Serverzeit - Kalenderwoche (Ende des Besuchs)",
         "ColumnVisitEndServerMonth": "Serverzeit - Monat (Ende des Besuchs)",
         "ColumnVisitEndServerYear": "Serverzeit - Jahr (Ende des Besuchs)",
