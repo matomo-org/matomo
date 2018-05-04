@@ -160,7 +160,7 @@ class CreatePull extends TranslationBase
 
         $message = implode('', $messages);
 
-        $message .= '\n\nHelp us translate Piwik in your language!\nSignup at https://www.transifex.com/matomo/matomo/\nIf you have any questions, get in touch with us at translations@piwik.org';
+        $message .= '\n\nHelp us translate Matomo in your language!\nSignup at https://www.transifex.com/matomo/matomo/\nIf you have any questions, get in touch with us at translations@matomo.org';
 
         $languageCodesTouched = array_unique($languageCodesTouched, SORT_REGULAR);
 
