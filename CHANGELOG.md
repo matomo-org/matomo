@@ -17,6 +17,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * New event `Archiving.getIdSitesToMarkArchivesAsInvalidated` that lets plugins customize the behaviour of report invalidations.
 * Reports and visualizations can now disable the 'all' rows limit selector: `$view->config->disable_all_rows_filter_limit`.
 * New settings form field UI component "Multi Tuple" that lets users enter multiple values for one setting
+* New event `Visualization.onNoDataForReport` which can be used to customize the message displayed when there is no data for a report.
 
 ## Matomo 3.4.0
 
