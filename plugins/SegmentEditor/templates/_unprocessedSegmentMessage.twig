@@ -1,10 +1,11 @@
+{% set visitorLogLinkHtml %}<a href="{{ visitorLogLink }}" target="_blank">{% endset %}
 <p>
-    This report has no data, because the Segment you requested <strong>({{ segmentName }})</strong> has not yet been processed by the system.
-    Data for this Segment will become available in a few hours when processing completes.
+    {{ 'SegmentEditor_UnprocessedSegmentNoData1'|translate('<strong>(' ~ segmentName ~ ')</strong>')|raw }}
+    {{ 'SegmentEditor_UnprocessedSegmentNoData2'|translate }}
 </p>
 <p>&nbsp;</p>
 <p>
-    <a href="{{ visitorLogLink }}" target="_blank">In the Visitor Log</a>, you can test whether your segment will match your users
-    correctly by applying it there. When applied, you can see immediately which visits and actions were matched by your segment.
-    This can help you confirm your Segment matches the users and actions you expect it to.
+    {{ 'SegmentEditor_UnprocessedSegmentInVisitorLog1'|translate(visitorLogLinkHtml, '</a>')|raw }}
+    {{ 'SegmentEditor_UnprocessedSegmentInVisitorLog2'|translate }}
+    {{ 'SegmentEditor_UnprocessedSegmentInVisitorLog3'|translate }}
 </p>
