@@ -76,6 +76,14 @@
     </div>
 </div>
 
+{% if notifications is not empty and notifications|length %}
+    {% for notificationId, n in notifications %}
+
+        {{ n.message|notification({'id': notificationId, 'type': n.type, 'title': n.title, 'noclear': n.hasNoClear, 'context': n.context, 'raw': n.raw}, false) }}
+
+    {% endfor %}
+{% endif %}
+
 {% if showCardTableIsEmpty %}
     </div></div>
 {% endif %}

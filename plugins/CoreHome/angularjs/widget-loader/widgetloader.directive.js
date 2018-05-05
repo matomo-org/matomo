@@ -19,9 +19,9 @@
 (function () {
     angular.module('piwikApp').directive('piwikWidgetLoader', piwikWidgetLoader);
 
-    piwikWidgetLoader.$inject = ['piwik', 'piwikUrl', '$http', '$compile', '$q', '$location'];
+    piwikWidgetLoader.$inject = ['piwik', 'piwikUrl', '$http', '$compile', '$q', '$location', 'notifications'];
 
-    function piwikWidgetLoader(piwik, piwikUrl, $http, $compile, $q, $location){
+    function piwikWidgetLoader(piwik, piwikUrl, $http, $compile, $q, $location, notifications){
         return {
             restrict: 'A',
             transclude: true,
@@ -147,6 +147,8 @@
                             }
 
                             $compile(currentElement)(newScope);
+
+                            notifications.parseNotificationDivs();
                         })['catch'](function () {
                             if (thisChangeId !== changeCounter) {
                                 // another widget was requested meanwhile, ignore this response

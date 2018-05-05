@@ -42,7 +42,7 @@ class SegmentEditor extends \Piwik\Plugin
             'Template.nextToCalendar'                    => 'getSegmentEditorHtml',
             'System.addSystemSummaryItems'               => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
-            'Visualization.overrideNoDataForReportMessage' => 'onNoDataForReport',
+            'Visualization.onNoDataForReport' => 'onNoDataForReport',
         );
     }
 
@@ -84,10 +84,7 @@ class SegmentEditor extends \Piwik\Plugin
         $segments = array_unique($segments);
     }
 
-    /**
-     * TODO: move to new class
-     */
-    public function onNoDataForReport()
+    public function onNoDataForReport(&$message, View $dataTableView)
     {
         $segment = $this->getSegmentIfIsUnprocessed();
         if (empty($segment)) {
@@ -116,7 +113,8 @@ class SegmentEditor extends \Piwik\Plugin
         $notification->flags = Notification::FLAG_NO_CLEAR;
         $notification->type = Notification::TYPE_TRANSIENT;
         $notification->raw = true;
-        Notification\Manager::notify(self::NO_DATA_UNPROCESSED_SEGMENT_ID, $notification);
+
+        $dataTableView->notifications[self::NO_DATA_UNPROCESSED_SEGMENT_ID] = $notification;
     }
 
     private function getSegmentIfIsUnprocessed()

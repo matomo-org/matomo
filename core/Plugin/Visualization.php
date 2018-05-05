@@ -244,22 +244,27 @@ class Visualization extends ViewDataTable
         $view->reportLastUpdatedMessage = $this->reportLastUpdatedMessage;
         $view->footerIcons = $this->config->footer_icons;
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
+        $view->notifications = [];
 
         if (empty($view->dataTable) || !empty($view->dataTableHasNoData)) {
-            $this->setNoDataMessageOverride($view);
+            $this->onNoDataForReport($view);
         }
 
         return $view->render();
     }
 
-    private function setNoDataMessageOverride(View $view)
+    private function onNoDataForReport(View $view)
     {
         $overrideMessage = null;
 
         /**
-         * TODO w/ example
+         * Invoked when a report has no data. Use this event to customize the display for all, some or just one
+         * report when it has no data.
+         *
+         * @param string &$overrideMessage Set a value to change the 'no data' message for the specific report.
+         * @param View $view The View that will render the report.
          */
-        Piwik::postEvent('Visualization.overrideNoDataForReportMessage', [&$overrideMessage]);
+        Piwik::postEvent('Visualization.onNoDataForReport', [&$overrideMessage, $view]);
 
         if (!empty($overrideMessage)) {
             $view->properties['no_data_message'] = $overrideMessage;

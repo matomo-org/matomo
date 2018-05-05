@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('ReportingPageController', ReportingPageController);
 
-    ReportingPageController.$inject = ['$scope', 'piwik', '$rootScope', '$location', 'reportingPageModel', 'reportingPagesModel'];
+    ReportingPageController.$inject = ['$scope', 'piwik', '$rootScope', '$location', 'reportingPageModel', 'reportingPagesModel', 'notifications'];
 
-    function ReportingPageController($scope, piwik, $rootScope, $location, pageModel, pagesModel) {
+    function ReportingPageController($scope, piwik, $rootScope, $location, pageModel, pagesModel, notifications) {
         pageModel.resetPage();
         $scope.pageModel = pageModel;
 
@@ -39,6 +39,8 @@
 
             currentCategory = category;
             currentSubcategory = subcategory;
+
+            notifications.clearTransientNotifications();
 
             if (category === 'Dashboard_Dashboard' && $.isNumeric(subcategory) && $('[piwik-dashboard]').length) {
                 // hack to make loading of dashboards faster since all the information is already there in the
