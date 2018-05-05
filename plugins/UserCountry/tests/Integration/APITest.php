@@ -12,6 +12,7 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Plugins\UserCountry\API;
+use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -41,7 +42,8 @@ class APITest extends IntegrationTestCase
 
     public function test_setLocationProvider()
     {
-        $locationProvider = LocationProvider\GeoIp\Php::ID;
+        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        $locationProvider = GeoIp2\Php::ID;
         $this->api->setLocationProvider($locationProvider);
         $this->assertEquals($locationProvider, Common::getCurrentLocationProviderId());
 
