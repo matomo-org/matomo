@@ -115,7 +115,7 @@ class DomainAge implements MetricsProvider
     private function getAgeWhoisCom($domain)
     {
         $data = $this->getUrl('https://www.whois.com/whois/' . urlencode($domain));
-        preg_match('#(?:Creation Date|Created On|created):\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
+        preg_match('#(?:Creation Date|Created On|created|Registration Date):\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
         if (!empty($p[1])) {
             $value = strtotime(trim($p[1]));
             if ($value === false) {
