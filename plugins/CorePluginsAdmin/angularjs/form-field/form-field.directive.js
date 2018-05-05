@@ -281,6 +281,10 @@
                 function formatPrettyDefaultValue(defaultValue, availableOptions) {
 
                     if (!angular.isArray(availableOptions)) {
+                        if (angular.isArray(defaultValue)) {
+                            return null;
+                        }
+                        
                         return defaultValue;
                     }
 
