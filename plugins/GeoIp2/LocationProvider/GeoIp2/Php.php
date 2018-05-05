@@ -280,7 +280,7 @@ class Php extends GeoIp2
                 . implode(', ', $availableDatabaseTypes) . '</strong>.';
         } else {
             $extraMessage = '<strong>' . Piwik::translate('General_Note') . '</strong>:&nbsp;'
-                . Piwik::translate('UserCountry_GeoIPNoDatabaseFound') . '<strong>';
+                . Piwik::translate('UserCountry_GeoIPNoDatabaseFound');
         }
 
         return array('id'            => self::ID,
