@@ -57,7 +57,7 @@
             });
 
             piwikApi.post({method: apiMethod}, {settingValues: values}).then(function (success) {
-                self.isSaving[settings.pluginName] = true
+                self.isSaving[settings.pluginName] = false;
 
                 var UI = require('piwik/UI');
                 var notification = new UI.Notification();
