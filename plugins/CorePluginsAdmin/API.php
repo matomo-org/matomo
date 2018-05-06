@@ -49,7 +49,9 @@ class API extends \Piwik\Plugin\API
 
         try {
             foreach ($pluginsSettings as $pluginSetting) {
-                $pluginSetting->save();
+                if (!empty($settingValues[$pluginSetting->getPluginName()])) {
+                    $pluginSetting->save();
+                }
             }
         } catch (Exception $e) {
             throw new Exception(Piwik::translate('CoreAdminHome_PluginSettingsSaveFailed'));
@@ -71,7 +73,9 @@ class API extends \Piwik\Plugin\API
 
         try {
             foreach ($pluginsSettings as $pluginSetting) {
-                $pluginSetting->save();
+                if (!empty($settingValues[$pluginSetting->getPluginName()])) {
+                    $pluginSetting->save();
+                }
             }
         } catch (Exception $e) {
             throw new Exception(Piwik::translate('CoreAdminHome_PluginSettingsSaveFailed'));
