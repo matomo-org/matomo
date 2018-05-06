@@ -707,6 +707,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             'vendor/doctrine/cache/.git',
             'vendor/tecnickcom/tcpdf/examples',
             'vendor/tecnickcom/tcpdf/CHANGELOG.TXT',
+            'vendor/php-di/php-di/benchmarks/',
             'vendor/guzzle/guzzle/docs/',
             'vendor/geoip2/geoip2/.gitmodules',
             'vendor/geoip2/geoip2/.php_cs',
