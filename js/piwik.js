@@ -1029,7 +1029,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     getConfigIdPageView, newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
-    sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst
+    sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
+    isUserOptedOut, optUserOut, forgetUserOptedOut
  */
 /*global _paq:true */
 /*members push */
@@ -3265,6 +3266,10 @@ if (typeof window.Piwik !== 'object') {
                 return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
             }
 
+            function isUserOptedOut() {
+                return getCookie('piwik_ignore') === '*';
+            }
+
             /*
              * Removes hash tag from the URL
              *
@@ -3490,6 +3495,10 @@ if (typeof window.Piwik !== 'object') {
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
             function getImage(request, callback) {
+                if (isUserOptedOut()) {
+                    return;
+                }
+
                 // make sure to actually load an image so callback gets invoked
                 request = request.replace("send_image=0","send_image=1");
 
@@ -3533,6 +3542,10 @@ if (typeof window.Piwik !== 'object') {
             function sendXmlHttpRequest(request, callback, fallbackToGet) {
                 if (!isDefined(fallbackToGet) || null === fallbackToGet) {
                     fallbackToGet = true;
+                }
+
+                if (isUserOptedOut()) {
+                    return;
                 }
 
                 if (isPageUnloading && sendPostRequestViaSendBeacon(request)) {
@@ -3727,7 +3740,6 @@ if (typeof window.Piwik !== 'object') {
                 }
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-
                         if (configRequestMethod === 'POST' || String(request).length > 2000) {
                             sendXmlHttpRequest(request, callback);
                         } else {
@@ -3737,7 +3749,6 @@ if (typeof window.Piwik !== 'object') {
                         setExpireDateTime(delay);
                     });
                 }
-
                 if (!heartBeatSetUp) {
                     setUpHeartBeat(); // setup window events too, but only once
                 } else {
@@ -7279,6 +7290,33 @@ if (typeof window.Piwik !== 'object') {
             this.forgetConsentGiven = function () {
                 deleteCookie('consent', configCookiePath, configCookieDomain);
                 this.requireConsent();
+            };
+
+            /**
+             * Detects whether a user has opted out.
+             *
+             * @returns {boolean}
+             */
+            this.isUserOptedOut = isUserOptedOut;
+
+            /**
+             * Opts a user out from tracking. If called, no tracker requests will be sent to Matomo for the current
+             * user.
+             *
+             * Note: using the opt out strategy conflicts with the consent features, since here we are assuming
+             * consent. It also follows that depending on where you/your users are located, using opt-out instead
+             * requiring consent may affect how well you comply with relevant privacy laws (ie, GDPR).
+             */
+            this.optUserOut = function () {
+                setCookie('piwik_ignore', '*', null, configCookiePath, configCookieDomain, configCookieIsSecure);
+            };
+
+            /**
+             * Forgets that a user opted out. After calling this method, tracking requests will begin again to
+             * be sent to matomo.
+             */
+            this.forgetUserOptedOut = function () {
+                deleteCookie('piwik_ignore');
             };
 
             Piwik.trigger('TrackerSetup', [this]);

@@ -50,6 +50,9 @@ function getHeartbeatToken() {
 function getConsentToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getOptInToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 <?php
 
 if ($mysql) {
@@ -4779,6 +4782,46 @@ if ($mysql) {
             strictEqual(true, results.indexOf('myFoo=bar&baz=2') > 0, "setConsentGiven does replay all queued requests" );
             start();
         }, 2000);
+    });
+
+    test("Test API - optOut", function () {
+        expect(8);
+
+        var token = getOptInToken();
+
+        var tracker = Piwik.getTracker();
+        tracker.setCustomData({ "token" : token });
+        strictEqual(tracker.isUserOptedOut(), false, "isUserOptedOut(), should be false by default" );
+
+        stop();
+        Q.delay(1).then(function () {
+            tracker.trackRequest('myFoo=bar&baz=1');
+
+            return Q.delay(500);
+        }).then(function () {
+            tracker.optUserOut();
+            strictEqual(tracker.isUserOptedOut(), true, "optUserOut(), should have set the cookie" );
+
+            tracker.trackRequest('myFoo=bar&baz=2');
+
+            return Q.delay(500);
+        }).then(function () {
+            tracker.forgetUserOptedOut();
+            tracker.trackRequest('myFoo=bar&baz=3');
+
+            return Q.delay(500);
+        }).then(function () {
+            var results = fetchTrackedRequests(token);
+            var requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            strictEqual(2, requests.length, "should have only sent two requests");
+            strictEqual(true, requests[0].indexOf('myFoo=bar&baz=1') >= 0, "should have sent first request since user was not opted out");
+            strictEqual(true, requests[1].indexOf('myFoo=bar&baz=3') >= 0, "should have sent third request since user was opted back in");
+            start();
+        }).catch(function (e) {
+            console.log('caught', e.stack || e.message || e);
+        });
     });
 
 
