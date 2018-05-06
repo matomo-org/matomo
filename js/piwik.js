@@ -3216,8 +3216,9 @@ if (typeof window.Piwik !== 'object') {
 
                 configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
 
-                // whether we require consent from the end user in order to execute tracking requests
-                configRequireConsent = false,
+                // we always require consent, by default consent is assumed unless the end user removes it
+                // or unless a matomo user explicitly requires consent
+                configHasConsent = !getCookie('consent_removed'),
 
                 // holds all pending tracking requests that have not been tracked because we need consent
                 consentRequestsQueue = [];
@@ -3622,7 +3623,7 @@ if (typeof window.Piwik !== 'object') {
             function heartBeatUp(delay) {
                 if (heartBeatTimeout
                     || !configHeartBeatDelay
-                    || configRequireConsent
+                    || !configHasConsent
                 ) {
                     return;
                 }
@@ -3734,7 +3735,7 @@ if (typeof window.Piwik !== 'object') {
              * Send request
              */
             function sendRequest(request, delay, callback) {
-                if (configRequireConsent) {
+                if (!configHasConsent) {
                     consentRequestsQueue.push(request);
                     return;
                 }
@@ -3774,7 +3775,7 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
-                if (configRequireConsent) {
+                if (!configHasConsent) {
                     consentRequestsQueue.push(requests);
                     return;
                 }
@@ -5675,8 +5676,8 @@ if (typeof window.Piwik !== 'object') {
             this.getConsentRequestsQueue = function () {
                 return consentRequestsQueue;
             };
-            this.hasRequiredConsent = function () {
-                return configRequireConsent;
+            this.hasConsent = function () {
+                return configHasConsent;
             };
             this.getRemainingVisitorCookieTimeout = getRemainingVisitorCookieTimeout;
             /*</DEBUG>*/
@@ -7219,15 +7220,16 @@ if (typeof window.Piwik !== 'object') {
              */
             this.requireConsent = function () {
                 if (!this.hasRememberedConsent()) {
-                    configRequireConsent = true;
+                    configHasConsent = false;
                 }
                 // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
                 // We also want to make sure to define an unload listener for each tracker, not only one tracker.
                 coreConsentCounter++;
                 plugins['CoreConsent' + coreConsentCounter] = {
                     unload: function () {
-                        if (configRequireConsent) {
+                        if (!configHasConsent) {
                             // we want to make sure to remove all previously set cookies again
+                            // todo do not remove the "consent_removed" cookie
                             deleteCookies();
                         }
                     }
@@ -7240,7 +7242,7 @@ if (typeof window.Piwik !== 'object') {
              * want to remember consent across page views, call {@link rememberConsentGiven()} instead.
              */
             this.setConsentGiven = function () {
-                configRequireConsent = false;
+                configHasConsent = true;
                 var i, requestType;
                 for (i = 0; i < consentRequestsQueue.length; i++) {
                     requestType = typeof consentRequestsQueue[i];
@@ -7289,6 +7291,8 @@ if (typeof window.Piwik !== 'object') {
              */
             this.forgetConsentGiven = function () {
                 deleteCookie('consent', configCookiePath, configCookieDomain);
+                var now = new Date().getTime();
+                setCookie('consent_removed', now, 0, configCookiePath, configCookieDomain, configCookieIsSecure);
                 this.requireConsent();
             };
 
