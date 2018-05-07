@@ -4117,9 +4117,7 @@ if (typeof window.Piwik !== 'object') {
                 return false;
             }
 
-            function deleteCookies(excluding) {
-                excluding = excluding || [];
-
+            function deleteCookies() {
                 var savedConfigCookiesDisabled = configCookiesDisabled;
 
                 // Temporarily allow cookies just to delete the existing ones
@@ -4129,7 +4127,11 @@ if (typeof window.Piwik !== 'object') {
 
                 for (index = 0; index < configCookiesToDelete.length; index++) {
                     cookieName = getCookieName(configCookiesToDelete[index]);
-                    if (excluding.indexOf(cookieName) !== -1 && 0 !== getCookie(cookieName)) {
+                    if (cookieName === 'consent_removed' || cookieName === 'consent') {
+                        continue;
+                    }
+
+                    if (0 !== getCookie(cookieName)) {
                         deleteCookie(cookieName, configCookiePath, configCookieDomain);
                     }
                 }
@@ -7219,7 +7221,7 @@ if (typeof window.Piwik !== 'object') {
                     unload: function () {
                         if (!configHasConsent) {
                             // we want to make sure to remove all previously set cookies again
-                            deleteCookies(['consent_removed']);
+                            deleteCookies();
                         }
                     }
                 };
@@ -7283,6 +7285,15 @@ if (typeof window.Piwik !== 'object') {
                 deleteCookie('consent', configCookiePath, configCookieDomain);
                 setCookie('consent_removed', new Date().getTime(), 0, configCookiePath, configCookieDomain, configCookieIsSecure);
                 this.requireConsent();
+            };
+
+            /**
+             * Returns true if user is opted out, false if otherwise.
+             *
+             * @returns {boolean}
+             */
+            this.isUserOptedOut = function () {
+                return !configHasConsent;
             };
 
             /**

@@ -2132,7 +2132,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(97);
+        expect(100);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2241,6 +2241,10 @@ function PiwikTest() {
         equal( typeof tracker.setConsentGiven, 'function', 'setConsentGiven' );
         equal( typeof tracker.rememberConsentGiven, 'function', 'rememberConsentGiven' );
         equal( typeof tracker.forgetConsentGiven, 'function', 'forgetConsentGiven' );
+        // opt out (via consent)
+        equal( typeof tracker.isUserOptedOut, 'function', 'isUserOptedOut' );
+        equal( typeof tracker.optUserOut, 'function', 'optUserOut' );
+        equal( typeof tracker.forgetUserOptOut, 'function', 'forgetUserOptOut' );
     });
 
     module("API and internals", {
