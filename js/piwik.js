@@ -987,7 +987,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, setConsentGiven,
-    rememberConsentGiven, forgetConsentGiven, unload, hasRequiredConsent,
+    rememberConsentGiven, forgetConsentGiven, unload, hasConsent,
     discardHashTag,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
@@ -1030,7 +1030,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
-    optUserOut, forgetUserOptOut
+    optUserOut, forgetUserOptOut, isUserOptedOut
  */
 /*global _paq:true */
 /*members push */
@@ -3218,7 +3218,7 @@ if (typeof window.Piwik !== 'object') {
 
                 // we always have the concept of consent. by default consent is assumed unless the end user removes it,
                 // or unless a matomo user explicitly requires consent (via requireConsent())
-                configHasConsent = !getCookie('consent_removed'),
+                configHasConsent = null, // initialized below
 
                 // holds all pending tracking requests that have not been tracked because we need consent
                 consentRequestsQueue = [];
@@ -3266,6 +3266,8 @@ if (typeof window.Piwik !== 'object') {
 
                 return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
             }
+
+            configHasConsent = !getCookie('consent_removed');
 
             /*
              * Removes hash tag from the URL
@@ -4127,11 +4129,7 @@ if (typeof window.Piwik !== 'object') {
 
                 for (index = 0; index < configCookiesToDelete.length; index++) {
                     cookieName = getCookieName(configCookiesToDelete[index]);
-                    if (cookieName === 'consent_removed' || cookieName === 'consent') {
-                        continue;
-                    }
-
-                    if (0 !== getCookie(cookieName)) {
+                    if (cookieName !== 'consent_removed' && cookieName !== 'consent' && 0 !== getCookie(cookieName)) {
                         deleteCookie(cookieName, configCookiePath, configCookieDomain);
                     }
                 }
