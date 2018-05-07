@@ -92,7 +92,7 @@ class LogDataAnonymizer
                 }
 
                 if ($anonymizeUserId && isset($row['user_id']) && $row['user_id'] !== false && $row['user_id'] !== '') {
-                    $update['user_id'] = RequestProcessor::anonymizeUserId($row['user_id']);
+                    $update['user_id'] = RequestProcessor::anonymizeUserId($row['user_id'], $row['idsite']);
                 }
 
                 if ($anonimizeLocation) {
