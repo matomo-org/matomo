@@ -47,10 +47,9 @@ class RequestProcessor extends Tracker\RequestProcessor
     public static function anonymizeUserId($userId)
     {
         $trackerCache = Tracker\Cache::getCacheGeneral();
+        $salt = '';
         if (!empty($trackerCache[PrivacyManager::OPTION_USERID_SALT])) {
             $salt = $trackerCache[PrivacyManager::OPTION_USERID_SALT];
-        } else {
-            $salt = PrivacyManager::getUserIdSalt();
         }
         return sha1($userId . $salt);
     }

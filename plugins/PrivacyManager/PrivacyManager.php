@@ -594,13 +594,10 @@ class PrivacyManager extends Plugin
      */
     public static function getUserIdSalt()
     {
-        static $salt = null;
-        if (is_null($salt)) {
-            $salt = Option::get(self::OPTION_USERID_SALT);
-            if (empty($salt)) {
-                $salt = Common::generateUniqId();
-                Option::set(self::OPTION_USERID_SALT, $salt, 1);
-            }
+        $salt = Option::get(self::OPTION_USERID_SALT);
+        if (empty($salt)) {
+            $salt = Common::getRandomString($len = 40, $alphabet = "abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ0123456789_-$");
+            Option::set(self::OPTION_USERID_SALT, $salt, 1);
         }
         return $salt;
     }
