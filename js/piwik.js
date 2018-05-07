@@ -3008,6 +3008,11 @@ if (typeof window.Piwik !== 'object') {
                 /*</DEBUG>*/
 
                 trackerInstance = this,
+
+                // constants
+                CONSENT_COOKIE_NAME = 'mtm_consent',
+                CONSENT_REMOVED_COOKIE_NAME = 'mtm_consent_removed',
+
                 // Current URL and Referrer URL
                 locationArray = urlFixup(documentAlias.domain, windowAlias.location.href, getReferrer()),
                 domainAlias = domainFixup(locationArray[0]),
@@ -3267,7 +3272,7 @@ if (typeof window.Piwik !== 'object') {
                 return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
             }
 
-            configHasConsent = !getCookie('consent_removed');
+            configHasConsent = !getCookie(CONSENT_REMOVED_COOKIE_NAME);
 
             /*
              * Removes hash tag from the URL
@@ -4129,7 +4134,7 @@ if (typeof window.Piwik !== 'object') {
 
                 for (index = 0; index < configCookiesToDelete.length; index++) {
                     cookieName = getCookieName(configCookiesToDelete[index]);
-                    if (cookieName !== 'consent_removed' && cookieName !== 'consent' && 0 !== getCookie(cookieName)) {
+                    if (cookieName !== CONSENT_REMOVED_COOKIE_NAME && cookieName !== CONSENT_COOKIE_NAME && 0 !== getCookie(cookieName)) {
                         deleteCookie(cookieName, configCookiePath, configCookieDomain);
                     }
                 }
@@ -7169,7 +7174,7 @@ if (typeof window.Piwik !== 'object') {
              * @returns number|string
              */
             this.getRememberedConsent = function () {
-                var value = getCookie('consent');
+                var value = getCookie(CONSENT_COOKIE_NAME);
                 if (!value || value === 0) {
                     return null;
                 }
@@ -7182,7 +7187,7 @@ if (typeof window.Piwik !== 'object') {
              * @returns bool
              */
             this.hasRememberedConsent = function () {
-                return !!getCookie('consent');
+                return !!getCookie(CONSENT_COOKIE_NAME);
             };
 
             /**
@@ -7232,7 +7237,7 @@ if (typeof window.Piwik !== 'object') {
              */
             this.setConsentGiven = function () {
                 configHasConsent = true;
-                deleteCookie('consent_removed');
+                deleteCookie(CONSENT_REMOVED_COOKIE_NAME);
                 var i, requestType;
                 for (i = 0; i < consentRequestsQueue.length; i++) {
                     requestType = typeof consentRequestsQueue[i];
@@ -7270,7 +7275,7 @@ if (typeof window.Piwik !== 'object') {
                 }
                 this.setConsentGiven();
                 var now = new Date().getTime();
-                setCookie('consent', now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
             };
 
             /**
@@ -7280,8 +7285,8 @@ if (typeof window.Piwik !== 'object') {
              * want to re-ask for consent after a specific time period.
              */
             this.forgetConsentGiven = function () {
-                deleteCookie('consent', configCookiePath, configCookieDomain);
-                setCookie('consent_removed', new Date().getTime(), 0, configCookiePath, configCookieDomain, configCookieIsSecure);
+                deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
+                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), 0, configCookiePath, configCookieDomain, configCookieIsSecure);
                 this.requireConsent();
             };
 
