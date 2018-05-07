@@ -4784,30 +4784,40 @@ if ($mysql) {
         }, 2000);
     });
 
-    test("Test API - optOut", function () {
-        expect(8);
+    test("Test API - optOut (via consent feature)", function () {
+        expect(9);
 
         var token = getOptInToken();
 
         var tracker = Piwik.getTracker();
         tracker.setCustomData({ "token" : token });
-        strictEqual(tracker.isUserOptedOut(), false, "isUserOptedOut(), should be false by default" );
+
+        // test default consent w/o cookie
+        strictEqual(tracker.hasConsent(), true, "hasConsent(), should be true by default" );
 
         stop();
         Q.delay(1).then(function () {
+            // test track w/ assumed consent
             tracker.trackRequest('myFoo=bar&baz=1');
 
             return Q.delay(500);
         }).then(function () {
+            // opt user out & track w/ consent_removed
             tracker.optUserOut();
-            strictEqual(tracker.isUserOptedOut(), true, "optUserOut(), should have set the cookie" );
+            strictEqual(tracker.hasConsent(), false, "optUserOut(), should have set the cookie" );
 
             tracker.trackRequest('myFoo=bar&baz=2');
 
             return Q.delay(500);
         }).then(function () {
-            tracker.forgetUserOptedOut();
-            tracker.trackRequest('myFoo=bar&baz=3');
+            // new tracker (so new consent request queue), check it detects cookie
+            var tracker2 = Piwik.getTracker();
+            tracker2.setCustomData({ "token" : token });
+            strictEqual(tracker.hasConsent(), false, "hasConsent(), should be false in the second tracker since we opted out before");
+
+            // forget user opt out & check new tracker sends request
+            tracker2.forgetUserOptOut();
+            tracker2.trackRequest('myFoo=bar&baz=3');
 
             return Q.delay(500);
         }).then(function () {

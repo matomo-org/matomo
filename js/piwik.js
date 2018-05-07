@@ -1030,7 +1030,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
-    isUserOptedOut, optUserOut, forgetUserOptedOut
+    optUserOut, forgetUserOptOut
  */
 /*global _paq:true */
 /*members push */
@@ -3216,8 +3216,8 @@ if (typeof window.Piwik !== 'object') {
 
                 configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
 
-                // we always require consent, by default consent is assumed unless the end user removes it
-                // or unless a matomo user explicitly requires consent
+                // we always have the concept of consent. by default consent is assumed unless the end user removes it,
+                // or unless a matomo user explicitly requires consent (via requireConsent())
                 configHasConsent = !getCookie('consent_removed'),
 
                 // holds all pending tracking requests that have not been tracked because we need consent
@@ -3265,10 +3265,6 @@ if (typeof window.Piwik !== 'object') {
                     cookieMatch = cookiePattern.exec(documentAlias.cookie);
 
                 return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
-            }
-
-            function isUserOptedOut() {
-                return getCookie('piwik_ignore') === '*';
             }
 
             /*
@@ -3496,10 +3492,6 @@ if (typeof window.Piwik !== 'object') {
              * The infamous web bug (or beacon) is a transparent, single pixel (1x1) image
              */
             function getImage(request, callback) {
-                if (isUserOptedOut()) {
-                    return;
-                }
-
                 // make sure to actually load an image so callback gets invoked
                 request = request.replace("send_image=0","send_image=1");
 
@@ -3543,10 +3535,6 @@ if (typeof window.Piwik !== 'object') {
             function sendXmlHttpRequest(request, callback, fallbackToGet) {
                 if (!isDefined(fallbackToGet) || null === fallbackToGet) {
                     fallbackToGet = true;
-                }
-
-                if (isUserOptedOut()) {
-                    return;
                 }
 
                 if (isPageUnloading && sendPostRequestViaSendBeacon(request)) {
@@ -4129,7 +4117,9 @@ if (typeof window.Piwik !== 'object') {
                 return false;
             }
 
-            function deleteCookies() {
+            function deleteCookies(excluding) {
+                excluding = excluding || [];
+
                 var savedConfigCookiesDisabled = configCookiesDisabled;
 
                 // Temporarily allow cookies just to delete the existing ones
@@ -4139,7 +4129,7 @@ if (typeof window.Piwik !== 'object') {
 
                 for (index = 0; index < configCookiesToDelete.length; index++) {
                     cookieName = getCookieName(configCookiesToDelete[index]);
-                    if (0 !== getCookie(cookieName)) {
+                    if (excluding.indexOf(cookieName) !== -1 && 0 !== getCookie(cookieName)) {
                         deleteCookie(cookieName, configCookiePath, configCookieDomain);
                     }
                 }
@@ -7229,8 +7219,7 @@ if (typeof window.Piwik !== 'object') {
                     unload: function () {
                         if (!configHasConsent) {
                             // we want to make sure to remove all previously set cookies again
-                            // todo do not remove the "consent_removed" cookie
-                            deleteCookies();
+                            deleteCookies(['consent_removed']);
                         }
                     }
                 };
@@ -7292,37 +7281,20 @@ if (typeof window.Piwik !== 'object') {
              */
             this.forgetConsentGiven = function () {
                 deleteCookie('consent', configCookiePath, configCookieDomain);
-                var now = new Date().getTime();
-                setCookie('consent_removed', now, 0, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie('consent_removed', new Date().getTime(), 0, configCookiePath, configCookieDomain, configCookieIsSecure);
                 this.requireConsent();
             };
 
             /**
-             * Detects whether a user has opted out.
-             *
-             * @returns {boolean}
+             * Alias for forgetConsentGiven(). After calling this function, the user will no longer be tracked,
+             * (even if they come back to the site).
              */
-            this.isUserOptedOut = isUserOptedOut;
+            this.optUserOut = this.forgetConsentGiven;
 
             /**
-             * Opts a user out from tracking. If called, no tracker requests will be sent to Matomo for the current
-             * user.
-             *
-             * Note: using the opt out strategy conflicts with the consent features, since here we are assuming
-             * consent. It also follows that depending on where you/your users are located, using opt-out instead
-             * requiring consent may affect how well you comply with relevant privacy laws (ie, GDPR).
+             * Alias for rememberConsentGiven(). After calling this function, the current user will be tracked.
              */
-            this.optUserOut = function () {
-                setCookie('piwik_ignore', '*', null, configCookiePath, configCookieDomain, configCookieIsSecure);
-            };
-
-            /**
-             * Forgets that a user opted out. After calling this method, tracking requests will begin again to
-             * be sent to matomo.
-             */
-            this.forgetUserOptedOut = function () {
-                deleteCookie('piwik_ignore');
-            };
+            this.forgetUserOptOut = this.rememberConsentGiven;
 
             Piwik.trigger('TrackerSetup', [this]);
         }
