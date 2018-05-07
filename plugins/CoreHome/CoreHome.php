@@ -291,6 +291,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_InvalidDateRange';
         $translationKeys[] = 'General_Loading';
         $translationKeys[] = 'General_Show';
+        $translationKeys[] = 'General_Remove';
         $translationKeys[] = 'General_Hide';
         $translationKeys[] = 'General_Save';
         $translationKeys[] = 'General_Website';
