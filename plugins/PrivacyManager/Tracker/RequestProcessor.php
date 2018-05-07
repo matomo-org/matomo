@@ -31,7 +31,7 @@ class RequestProcessor extends Tracker\RequestProcessor
         if ($privacyConfig->anonymizeOrderId) {
             $orderId = $request->getParam('ec_id');
             if ($this->isValueSet($orderId)) {
-                $orderIdAnonymized = sha1(Common::getRandomInt() . $orderId . time() . SettingsPiwik::getSalt());
+                $orderIdAnonymized = sha1(Common::getRandomInt() . $request->getIdSite() . $orderId . microtime() . SettingsPiwik::getSalt());
                 $request->setParam('ec_id', $orderIdAnonymized);
             }
         }
