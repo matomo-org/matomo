@@ -23,7 +23,7 @@ class RequestProcessor extends Tracker\RequestProcessor
         if ($privacyConfig->anonymizeUserId) {
             $userId = $request->getParam('uid');
             if ($this->isValueSet($userId)) {
-                $userIdAnonymized = self::anonymizeUserId($userId);
+                $userIdAnonymized = self::anonymizeUserId($userId, $request->getIdSite());
                 $request->setParam('uid', $userIdAnonymized);
             }
         }
@@ -37,10 +37,10 @@ class RequestProcessor extends Tracker\RequestProcessor
         }
     }
 
-    public static function anonymizeUserId($userId)
+    public static function anonymizeUserId($userId, $idSite)
     {
         // pseudo anonymization as we need to make sure to always generate the same UserId for the same original UserID
-        return sha1($userId . SettingsPiwik::getSalt());
+        return sha1($userId . $idSite . SettingsPiwik::getSalt());
     }
 
     private function isValueSet($value)

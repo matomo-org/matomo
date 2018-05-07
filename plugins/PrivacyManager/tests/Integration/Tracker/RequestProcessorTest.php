@@ -75,7 +75,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $request = $this->makeRequest(array('idsite' => '3', 'uid' => 'foobar', 'ec_id' => 'baz'));
         $this->requestProcessor->manipulateRequest($request);
 
-        $this->assertSame(array('idsite' => '3', 'uid' => '8843d7f92416211de9ebb963ff4ce28125932878', 'ec_id' => 'baz'), $request->getParams());
+        $this->assertSame(array('idsite' => '3', 'uid' => '037526671b140b9060aa6de1083a96fb607db988', 'ec_id' => 'baz'), $request->getParams());
     }
 
     public function test_manipulateRequest_anonymizeOrderIdOnly()
