@@ -10,9 +10,12 @@ namespace Piwik\Plugins\PrivacyManager\tests\System;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\API;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\FewVisitsAnonymizedFixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Tracker\Cache;
 
 /**
  * @group PrivacyManager
@@ -30,6 +33,13 @@ class AnonymizationTest extends SystemTestCase
      * @var API
      */
     private $api;
+
+    public static function provideContainerConfigBeforeClass()
+    {
+        Option::set(PrivacyManager::OPTION_USERID_SALT, 'simpleuseridsalt1');
+        Cache::clearCacheGeneral();
+        return [];
+    }
 
     public function setUp()
     {
