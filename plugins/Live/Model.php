@@ -329,7 +329,7 @@ class Model
 
         // SQL Filter with provided period
         if (!empty($period) && !empty($date)) {
-            if ($idSite === 'all') {
+            if ($idSite === 'all' || is_array($idSite)) {
                 $currentTimezone = Request::processRequest('SitesManager.getDefaultTimezone');
             } else {
                 $currentSite = $this->makeSite($idSite);
