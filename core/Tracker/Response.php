@@ -79,7 +79,7 @@ class Response
                 Common::sendResponseCode(400);
             }
             Common::printDebug("Empty request => Matomo page");
-            echo "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank'>digital analytics platform</a> for web and mobile.";
+            echo "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer'>digital analytics platform</a> for web and mobile.";
         } else {
             $this->outputApiResponse($tracker);
             Common::printDebug("Nothing to notice => default behaviour");
