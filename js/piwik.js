@@ -7197,7 +7197,7 @@ if (typeof window.Piwik !== 'object') {
              * @returns bool
              */
             this.hasRememberedConsent = function () {
-                return !!this.getRememberedConsent(CONSENT_COOKIE_NAME);
+                return !!this.getRememberedConsent();
             };
 
             /**
