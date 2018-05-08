@@ -48,9 +48,9 @@
     </div>
 
     <div piwik-field uicontrol="checkbox" name="anonymizeTheUserId"
-         title="Anonymize User ID"
+         title="Replace User ID with a pseudonym"
          ng-model="anonymizeLogData.anonymizeUserId"
-         inline-help="This action cannot be undone. Anonymizes any set User ID.">
+         inline-help="When you enable this option, the User ID will be replaced by a pseudonym to avoid directly storing and displaying personally identifiable information such as an email address. In technical terms: given your User ID, Matomo will process the User ID pseudonym using a salted hash function.<br/><br/><em>Note: replacing with a pseudonym is not the same as anonymisation. In GDPR terms: the User ID pseudonym still counts as personal data. The original User ID could still be identified if certain additional information is available (which only Matomo and your data processor has access to).</em>">
     </div>
 
     <div class="form-group row">
