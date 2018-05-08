@@ -7224,9 +7224,7 @@ if (typeof window.Piwik !== 'object') {
              * time the user gives you consent, you do not need to ever call `_paq.push(['setConsentGiven'])`.
              */
             this.requireConsent = function () {
-                if (!this.hasRememberedConsent()) {
-                    configHasConsent = false;
-                }
+                configHasConsent = this.hasRememberedConsent();
                 // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
                 // We also want to make sure to define an unload listener for each tracker, not only one tracker.
                 coreConsentCounter++;
