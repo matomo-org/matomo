@@ -50,6 +50,9 @@ function getHeartbeatToken() {
 function getConsentToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getOptInToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 <?php
 
 if ($mysql) {
@@ -2129,7 +2132,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(97);
+        expect(100);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2238,6 +2241,10 @@ function PiwikTest() {
         equal( typeof tracker.setConsentGiven, 'function', 'setConsentGiven' );
         equal( typeof tracker.rememberConsentGiven, 'function', 'rememberConsentGiven' );
         equal( typeof tracker.forgetConsentGiven, 'function', 'forgetConsentGiven' );
+        // opt out (via consent)
+        equal( typeof tracker.isUserOptedOut, 'function', 'isUserOptedOut' );
+        equal( typeof tracker.optUserOut, 'function', 'optUserOut' );
+        equal( typeof tracker.forgetUserOptOut, 'function', 'forgetUserOptOut' );
     });
 
     module("API and internals", {
@@ -4728,7 +4735,7 @@ if ($mysql) {
     });
 
     test("Test API - consent", function() {
-        expect(25);
+        expect(24);
 
         var queue;
         var tracker = Piwik.getTracker();
@@ -4736,11 +4743,10 @@ if ($mysql) {
         deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, by default is empty" );
         strictEqual(tracker.hasRememberedConsent(), false, "hasRememberedConsent, has no consent given by default" );
         strictEqual(tracker.getRememberedConsent(), null, "getConsentRequestsQueue, does not return consent cookie content as no consent given" );
-        strictEqual(tracker.hasRequiredConsent(), false, "hasRequiredConsent, has not required consent by default" );
+        strictEqual(tracker.hasConsent(), true, "hasConsent, assumes consent by default" );
 
         tracker.requireConsent();
         deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, still empty after requiring consent" );
-        strictEqual(tracker.hasRequiredConsent(), true, "hasRequiredConsent, has now required consent" );
 
         tracker.trackRequest('myFoo=bar&baz=1');
         queue = tracker.getConsentRequestsQueue();
@@ -4765,10 +4771,10 @@ if ($mysql) {
         strictEqual(String(rememberedConsent).substr(0, 2), '15', "getRememberedConsent, starts with correct data" );
 
         tracker.requireConsent();
-        strictEqual(tracker.hasRequiredConsent(), false, "when requiring consent, and we remembered consent, we actually ignore the required consent because consent was given" );
+        strictEqual(tracker.hasConsent(), true, "when requiring consent, and we remembered consent, consent should be given" );
 
         tracker.forgetConsentGiven();
-        strictEqual(tracker.hasRequiredConsent(), true, "forgetConsentGiven(), will remove remembered consent and require consent again" );
+        strictEqual(tracker.hasConsent(), false, "forgetConsentGiven(), will remove remembered consent and require consent again" );
         strictEqual(tracker.hasRememberedConsent(), false, "forgetConsentGiven, has forgotten consent" );
         strictEqual(tracker.getRememberedConsent(), null, "forgetConsentGiven, has no longer a date for consent given stored" );
 
@@ -4779,6 +4785,56 @@ if ($mysql) {
             strictEqual(true, results.indexOf('myFoo=bar&baz=2') > 0, "setConsentGiven does replay all queued requests" );
             start();
         }, 2000);
+    });
+
+    test("Test API - optOut (via consent feature)", function () {
+        expect(9);
+
+        var token = getOptInToken();
+
+        var tracker = Piwik.getTracker();
+        tracker.setCustomData({ "token" : token });
+
+        // test default consent w/o cookie
+        strictEqual(tracker.hasConsent(), true, "hasConsent(), should be true by default" );
+
+        stop();
+        Q.delay(1).then(function () {
+            // test track w/ assumed consent
+            tracker.trackRequest('myFoo=bar&baz=1');
+
+            return Q.delay(500);
+        }).then(function () {
+            // opt user out & track w/ consent_removed
+            tracker.optUserOut();
+            strictEqual(tracker.hasConsent(), false, "optUserOut(), should have set the cookie" );
+
+            tracker.trackRequest('myFoo=bar&baz=2');
+
+            return Q.delay(500);
+        }).then(function () {
+            // new tracker (so new consent request queue), check it detects cookie
+            var tracker2 = Piwik.getTracker();
+            tracker2.setCustomData({ "token" : token });
+            strictEqual(tracker.hasConsent(), false, "hasConsent(), should be false in the second tracker since we opted out before");
+
+            // forget user opt out & check new tracker sends request
+            tracker2.forgetUserOptOut();
+            tracker2.trackRequest('myFoo=bar&baz=3');
+
+            return Q.delay(500);
+        }).then(function () {
+            var results = fetchTrackedRequests(token);
+            var requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            strictEqual(2, requests.length, "should have only sent two requests");
+            strictEqual(true, requests[0].indexOf('myFoo=bar&baz=1') >= 0, "should have sent first request since user was not opted out");
+            strictEqual(true, requests[1].indexOf('myFoo=bar&baz=3') >= 0, "should have sent third request since user was opted back in");
+            start();
+        }).catch(function (e) {
+            console.log('caught', e.stack || e.message || e);
+        });
     });
 
 

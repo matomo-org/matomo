@@ -987,7 +987,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, setConsentGiven,
-    rememberConsentGiven, forgetConsentGiven, unload, hasRequiredConsent,
+    rememberConsentGiven, forgetConsentGiven, unload, hasConsent,
     discardHashTag,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
@@ -1029,7 +1029,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     getConfigIdPageView, newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
-    sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst
+    sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
+    optUserOut, forgetUserOptOut, isUserOptedOut
  */
 /*global _paq:true */
 /*members push */
@@ -3007,6 +3008,11 @@ if (typeof window.Piwik !== 'object') {
                 /*</DEBUG>*/
 
                 trackerInstance = this,
+
+                // constants
+                CONSENT_COOKIE_NAME = 'mtm_consent',
+                CONSENT_REMOVED_COOKIE_NAME = 'mtm_consent_removed',
+
                 // Current URL and Referrer URL
                 locationArray = urlFixup(documentAlias.domain, windowAlias.location.href, getReferrer()),
                 domainAlias = domainFixup(locationArray[0]),
@@ -3215,8 +3221,9 @@ if (typeof window.Piwik !== 'object') {
 
                 configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
 
-                // whether we require consent from the end user in order to execute tracking requests
-                configRequireConsent = false,
+                // we always have the concept of consent. by default consent is assumed unless the end user removes it,
+                // or unless a matomo user explicitly requires consent (via requireConsent())
+                configHasConsent = null, // initialized below
 
                 // holds all pending tracking requests that have not been tracked because we need consent
                 consentRequestsQueue = [];
@@ -3264,6 +3271,8 @@ if (typeof window.Piwik !== 'object') {
 
                 return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
             }
+
+            configHasConsent = !getCookie(CONSENT_REMOVED_COOKIE_NAME);
 
             /*
              * Removes hash tag from the URL
@@ -3609,7 +3618,7 @@ if (typeof window.Piwik !== 'object') {
             function heartBeatUp(delay) {
                 if (heartBeatTimeout
                     || !configHeartBeatDelay
-                    || configRequireConsent
+                    || !configHasConsent
                 ) {
                     return;
                 }
@@ -3721,13 +3730,12 @@ if (typeof window.Piwik !== 'object') {
              * Send request
              */
             function sendRequest(request, delay, callback) {
-                if (configRequireConsent) {
+                if (!configHasConsent) {
                     consentRequestsQueue.push(request);
                     return;
                 }
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-
                         if (configRequestMethod === 'POST' || String(request).length > 2000) {
                             sendXmlHttpRequest(request, callback);
                         } else {
@@ -3737,7 +3745,6 @@ if (typeof window.Piwik !== 'object') {
                         setExpireDateTime(delay);
                     });
                 }
-
                 if (!heartBeatSetUp) {
                     setUpHeartBeat(); // setup window events too, but only once
                 } else {
@@ -3763,7 +3770,7 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
-                if (configRequireConsent) {
+                if (!configHasConsent) {
                     consentRequestsQueue.push(requests);
                     return;
                 }
@@ -4127,7 +4134,7 @@ if (typeof window.Piwik !== 'object') {
 
                 for (index = 0; index < configCookiesToDelete.length; index++) {
                     cookieName = getCookieName(configCookiesToDelete[index]);
-                    if (0 !== getCookie(cookieName)) {
+                    if (cookieName !== CONSENT_REMOVED_COOKIE_NAME && cookieName !== CONSENT_COOKIE_NAME && 0 !== getCookie(cookieName)) {
                         deleteCookie(cookieName, configCookiePath, configCookieDomain);
                     }
                 }
@@ -5664,8 +5671,8 @@ if (typeof window.Piwik !== 'object') {
             this.getConsentRequestsQueue = function () {
                 return consentRequestsQueue;
             };
-            this.hasRequiredConsent = function () {
-                return configRequireConsent;
+            this.hasConsent = function () {
+                return configHasConsent;
             };
             this.getRemainingVisitorCookieTimeout = getRemainingVisitorCookieTimeout;
             /*</DEBUG>*/
@@ -7167,7 +7174,17 @@ if (typeof window.Piwik !== 'object') {
              * @returns number|string
              */
             this.getRememberedConsent = function () {
-                var value = getCookie('consent');
+                var value = getCookie(CONSENT_COOKIE_NAME);
+                if (getCookie(CONSENT_REMOVED_COOKIE_NAME)) {
+                    // if for some reason the consent_removed cookie is also set with the consent cookie, the
+                    // consent_removed cookie overrides the consent one, and we make sure to delete the consent
+                    // cookie.
+                    if (value) {
+                        deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
+                    }
+                    return null;
+                }
+
                 if (!value || value === 0) {
                     return null;
                 }
@@ -7180,7 +7197,7 @@ if (typeof window.Piwik !== 'object') {
              * @returns bool
              */
             this.hasRememberedConsent = function () {
-                return !!getCookie('consent');
+                return !!this.getRememberedConsent();
             };
 
             /**
@@ -7207,15 +7224,13 @@ if (typeof window.Piwik !== 'object') {
              * time the user gives you consent, you do not need to ever call `_paq.push(['setConsentGiven'])`.
              */
             this.requireConsent = function () {
-                if (!this.hasRememberedConsent()) {
-                    configRequireConsent = true;
-                }
+                configHasConsent = this.hasRememberedConsent();
                 // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
                 // We also want to make sure to define an unload listener for each tracker, not only one tracker.
                 coreConsentCounter++;
                 plugins['CoreConsent' + coreConsentCounter] = {
                     unload: function () {
-                        if (configRequireConsent) {
+                        if (!configHasConsent) {
                             // we want to make sure to remove all previously set cookies again
                             deleteCookies();
                         }
@@ -7229,7 +7244,8 @@ if (typeof window.Piwik !== 'object') {
              * want to remember consent across page views, call {@link rememberConsentGiven()} instead.
              */
             this.setConsentGiven = function () {
-                configRequireConsent = false;
+                configHasConsent = true;
+                deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
                 var i, requestType;
                 for (i = 0; i < consentRequestsQueue.length; i++) {
                     requestType = typeof consentRequestsQueue[i];
@@ -7267,7 +7283,7 @@ if (typeof window.Piwik !== 'object') {
                 }
                 this.setConsentGiven();
                 var now = new Date().getTime();
-                setCookie('consent', now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
+                setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
             };
 
             /**
@@ -7277,9 +7293,35 @@ if (typeof window.Piwik !== 'object') {
              * want to re-ask for consent after a specific time period.
              */
             this.forgetConsentGiven = function () {
-                deleteCookie('consent', configCookiePath, configCookieDomain);
+                if (configCookiesDisabled) {
+                    logConsoleError('forgetConsentGiven is called but cookies are disabled, consent will not be forgotten');
+                    return;
+                }
+
+                deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
+                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), 0, configCookiePath, configCookieDomain, configCookieIsSecure);
                 this.requireConsent();
             };
+
+            /**
+             * Returns true if user is opted out, false if otherwise.
+             *
+             * @returns {boolean}
+             */
+            this.isUserOptedOut = function () {
+                return !configHasConsent;
+            };
+
+            /**
+             * Alias for forgetConsentGiven(). After calling this function, the user will no longer be tracked,
+             * (even if they come back to the site).
+             */
+            this.optUserOut = this.forgetConsentGiven;
+
+            /**
+             * Alias for rememberConsentGiven(). After calling this function, the current user will be tracked.
+             */
+            this.forgetUserOptOut = this.rememberConsentGiven;
 
             Piwik.trigger('TrackerSetup', [this]);
         }
