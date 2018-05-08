@@ -7182,7 +7182,7 @@ if (typeof window.Piwik !== 'object') {
                     if (value) {
                         deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
                     }
-                    return false;
+                    return null;
                 }
 
                 if (!value || value === 0) {
