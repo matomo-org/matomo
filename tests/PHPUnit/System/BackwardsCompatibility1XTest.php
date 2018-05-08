@@ -139,6 +139,9 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'DevicesDetection.getBrand',
             'DevicesDetection.getModel',
 
+            // has different output before and after
+            'PrivacyManager.getAvailableVisitColumnsToAnonymize',
+
             // we test VisitFrequency explicitly
             'VisitFrequency.get',
 

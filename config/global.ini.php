@@ -21,6 +21,25 @@ port = 3306
 adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
+
+; Database SSL Options START
+; Turn on or off SSL connection to database, possible values for enable_ssl: 1 or 0
+enable_ssl = 0
+; Direct path to server CA file, CA bundle supported (required for ssl connection)
+ssl_ca =
+; Direct path to client cert file (optional)
+ssl_cert =
+; Direct path to client key file (optional)
+ssl_key =
+; Direct path to CA cert files directory (optional)
+ssl_ca_path =
+; List of one or more ciphers for SSL encryption, in OpenSSL format (optional)
+ssl_cipher =
+; Whether to skip verification of self signed certificates (optional, only supported
+; w/ specific PHP versions, and is mostly for testing purposes)
+ssl_no_verify =
+; Database SSL Options END
+
 ; if charset is set to utf8, Matomo will ensure that it is storing its data using UTF8 charset.
 ; it will add a sql query SET at each page view.
 ; Matomo should work correctly without this setting but we recommend to have a charset set.
@@ -37,6 +56,13 @@ adapter = PDO\MYSQL
 type = InnoDB
 schema = Mysql
 charset = utf8
+enable_ssl = 0
+ssl_ca =
+ssl_cert =
+ssl_key =
+ssl_ca_path =
+ssl_cipher =
+ssl_no_verify = 1
 
 [tests]
 ; needed in order to run tests.
@@ -442,7 +468,7 @@ datatable_archiving_maximum_rows_subtable_actions = 100
 ; maximum number of rows for any of the Events tables (Categories, Actions, Names)
 datatable_archiving_maximum_rows_events = 500
 ; maximum number of rows for sub-tables of the Events tables (eg. for the subtables Categories>Actions or Categories>Names).
-datatable_archiving_maximum_rows_subtable_events = 100
+datatable_archiving_maximum_rows_subtable_events = 500
 
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500
@@ -847,6 +873,7 @@ Plugins[] = Ecommerce
 Plugins[] = SEO
 Plugins[] = Events
 Plugins[] = UserCountry
+Plugins[] = GeoIp2
 Plugins[] = VisitsSummary
 Plugins[] = VisitFrequency
 Plugins[] = VisitTime
@@ -904,4 +931,3 @@ SDK_batch_size = 10
 SDK_interval_value = 30
 
 ; NOTE: do not directly edit this file! See notice at the top
-

@@ -7,6 +7,7 @@
         "DeleteMaxRowsNoLimit": "brez omejitve",
         "LastDelete": "Zadnji izbris je bil",
         "LeastDaysInput": "Prosimo, navedite število dni, večje od %s.",
+        "MenuPrivacySettings": "Zasebnost",
         "NextDelete": "Naslednji izbris je predviden",
         "TeaserHeadline": "Nastavitve zasebnosti",
         "UseDeleteLog": "Redno izbriši stare dnevnike obiskov iz podatkovne baze"

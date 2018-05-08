@@ -52,7 +52,6 @@
         "ReportsDataSavedEstimate": "Veličina baze",
         "SaveSettingsBeforePurge": "Izmenili ste pravila oko brisanja podataka. Molimo vas da ih sačuvate pre nego što počnete sa čišćenjem podataka.",
         "SeeAlsoOurOfficialGuidePrivacy": "Pogledajte i naš zvanični vodič: %1$sPrivatnost u analitikama%2$s",
-        "Teaser": "Na ovoj stranici možete izvršiti Matomo podešavanja u pogledu privatnosti tako što ćete: %1$s anonimizirati IP adrese posetilaca%2$s, %3$s automatski ukloniti stare zapise iz baze%4$s, obezbediti mehanizam da %5$s podaci ne budu zabeleženi ako posetioc to ne želi%6$s",
         "TeaserHeadline": "Podešavanja privatnosti",
         "UseAnonymizedIpForVisitEnrichment": "Takođe koristi anonimne IP adrese kada obogaćuješ podete.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Dodaci poput Geolokacije putem IP adrese i provajdera unapređuju podatke o posetiocima. Podrazumevano, ovi dodaci anonimiziraju IP adrese. Ukoliko izaberete 'Ne', onda će u upotrebi biti pune IP adrese što će rezultovati slabijom privatnošću ali i većom tačnošću podataka.",

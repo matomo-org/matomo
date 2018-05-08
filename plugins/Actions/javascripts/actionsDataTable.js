@@ -112,7 +112,7 @@
         },
 
         openSubtableFromSubtableIfOnlyOneSubtableGiven: function (domElem) {
-            var hasOnlyOneRow = domElem.length === 1
+            var hasOnlyOneRow = domElem.length === 1;
             var hasOnlyOneSubtable = domElem.hasClass('subDataTable');
 
             if (hasOnlyOneRow && hasOnlyOneSubtable) {

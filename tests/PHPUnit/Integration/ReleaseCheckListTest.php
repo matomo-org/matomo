@@ -101,6 +101,8 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
     public function test_screenshotsStoredInLfs()
     {
         $screenshots = Filesystem::globr(PIWIK_INCLUDE_PATH . '/tests/UI/expected-screenshots', '*.png');
+        $screenshotsPlugins = Filesystem::globr(PIWIK_INCLUDE_PATH . '/plugins/*/tests/UI/expected-screenshots', '*.png');
+        $screenshots = array_merge($screenshots, $screenshotsPlugins);
         $cleanPath   = function ($value) {
             return str_replace(PIWIK_INCLUDE_PATH . '/', '', $value);
         };
@@ -462,7 +464,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
     public function test_piwikJs_minified_isUpToDate()
     {
-        shell_exec("sed '/<DEBUG>/,/<\/DEBUG>/d' < ". PIWIK_DOCUMENT_ROOT ."/js/piwik.js | sed 's/eval/replacedEvilString/' | java -jar ". PIWIK_DOCUMENT_ROOT ."/tests/resources/yuicompressor/yuicompressor-2.4.7.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > " . PIWIK_DOCUMENT_ROOT ."/piwik-minified.js");
+        shell_exec("sed '/<DEBUG>/,/<\/DEBUG>/d' < ". PIWIK_DOCUMENT_ROOT ."/js/piwik.js | sed 's/eval/replacedEvilString/' | java -jar ". PIWIK_DOCUMENT_ROOT ."/tests/resources/yuicompressor/yuicompressor-2.4.8.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > " . PIWIK_DOCUMENT_ROOT ."/piwik-minified.js");
 
         $this->assertFileEquals(PIWIK_DOCUMENT_ROOT . '/piwik-minified.js',
             PIWIK_DOCUMENT_ROOT . '/piwik.js',
@@ -599,6 +601,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             return false;
         }
 
+        // ignore downloaded geoip files
+        if(strpos($file, 'GeoIP') !== false && strpos($file, '.dat') !== false) {
+            return false;
+        }
+
         if($this->isFileIsAnIconButDoesNotBelongToDistribution($file)) {
             return false;
         }
@@ -698,13 +705,17 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             'vendor/twig/twig/doc/',
             'vendor/symfony/console/Symfony/Component/Console/Resources/bin',
             'vendor/doctrine/cache/.git',
-            'vendor/mnapoli/php-di/.git',
-            'vendor/mnapoli/php-di/website',
-            'vendor/mnapoli/php-di/news',
-            'vendor/mnapoli/php-di/doc',
             'vendor/tecnickcom/tcpdf/examples',
-            'vendor/tecnickcom/tcpdf/CHANGELOG.txt',
+            'vendor/tecnickcom/tcpdf/CHANGELOG.TXT',
+            'vendor/php-di/php-di/benchmarks/',
             'vendor/guzzle/guzzle/docs/',
+            'vendor/geoip2/geoip2/.gitmodules',
+            'vendor/geoip2/geoip2/.php_cs',
+            'vendor/maxmind-db/reader/ext/',
+            'vendor/maxmind-db/reader/autoload.php',
+            'vendor/maxmind-db/reader/CHANGELOG.md',
+            'vendor/maxmind/web-service-common/dev-bin/',
+            'vendor/maxmind/web-service-common/CHANGELOG.md',
 
             // deleted fonts folders
             'vendor/tecnickcom/tcpdf/fonts/ae_fonts_2.0',

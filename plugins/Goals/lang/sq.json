@@ -34,7 +34,7 @@
         "ColumnVisits": "Numër vizitash gjithsej, pavarësisht nëse u shkaktua a jo veprimtari te një objektiv.",
         "ColumnVisitsProductDocumentation": "Numri i vizitave te faqja Produkt\/Kategori. Kjo përdoret gjithashtu për të përpunuar koeficientin %s e shndërrimeve. Kjo vlerë gjendet te raporti, nëse gjurmimi i parjeve E-tregti është rregulluar te faqet Produkt\/Kategori.",
         "Contains": "përmban %s",
-        "ConversionByTypeReportDocumentation": "Ky raport ofron të dhëna të hollësishme rreth funksionimit të objektivave (shndërrime, koeficient shndërrimesh dhe të ardhura për vizitë) për secilën prej kategorive të mundshme te paneli majtas. %1$s Ju lutemi, klikoni mbi një nga këto kategori që të shihni raportin. %2$s Për më tepër të dhëna, lexoni %3$sdokumentimin për Gjurmim Objektivash te piwik.org%4$s",
+        "ConversionByTypeReportDocumentation": "Ky raport ofron të dhëna të hollësishme rreth funksionimit të objektivave (shndërrime, koeficient shndërrimesh dhe të ardhura për vizitë) për secilën prej kategorive të mundshme te paneli majtas. %1$s Ju lutemi, klikoni mbi një nga këto kategori që të shihni raportin. %2$s Për më tepër të dhëna, lexoni %3$sdokumentimin për Gjurmim Objektivash%4$s",
         "ConversionRate": "Koeficient shndërrimi %s",
         "Conversions": "Shndërrime %s",
         "ConversionsDescription": "shndërrime",

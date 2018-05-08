@@ -25,6 +25,7 @@
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
+		<siteName>Piwik test</siteName>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -150,6 +151,7 @@
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
+		<siteName>Piwik test</siteName>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
@@ -342,6 +344,7 @@
 		<siteCurrency>USD</siteCurrency>
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
+		<siteName>Piwik test</siteName>
 		<userId />
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />

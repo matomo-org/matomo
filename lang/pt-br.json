@@ -453,7 +453,7 @@
         "EvolutionGraph": "Gráfico histórico",
         "HelpUsToImprovePiwikMobile": "Gostaria de ativar o acompanhamento de uso anônimo em Matomo Mobile?",
         "HowtoDeleteAnAccount": "Clique para remover a conta.",
-        "HowtoDeleteAnAccountOniOS": "Deslize para a esquerda para a direita para apagar uma conta",
+        "HowtoDeleteAnAccountOniOS": "Deslize da direita para a esquerda para apagar uma conta",
         "HowtoLoginAnonymous": "Deixe nome de usuário e senha em branco para fazer login anônimo",
         "HttpIsNotSecureWarning": "Seu token de autorização Matomo (token_auth) é enviada em texto simples, se você usar 'HTTP'. Por este motivo, recomendamos HTTPS para o transporte seguro de dados através da internet. Você quer continuar?",
         "HttpTimeout": "Timeout HTTP",

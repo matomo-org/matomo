@@ -64,6 +64,7 @@
         "GoalIsTriggeredWhen": "Ziel ist erreicht, wenn",
         "GoalName": "Name des Ziels",
         "Goals": "Ziele",
+        "NGoals": "%s Ziele",
         "ManageGoals": "Ziele verwalten",
         "GoalsOverview": "Ziel-Übersicht",
         "GoalsOverviewDocumentation": "Dies ist eine Übersicht über die Ziel-Konversionen. Zu Beginn zeigt der Graph die Summe aller Konversionen an. %s Darunter können Sie die Berichte zu Konversionen der einzelnen Ziele sehen. Die Sparklines (kleine Graphen) können durch Klicken vergrößert werden.",

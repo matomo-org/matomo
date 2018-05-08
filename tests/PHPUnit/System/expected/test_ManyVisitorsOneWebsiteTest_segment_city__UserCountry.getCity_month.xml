@@ -25,9 +25,9 @@
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<lat>124.456</lat>
 		<long>22.231</long>
-		<segment>city==Stratford-upon-Avon;regionCode==P3;countryCode==gb</segment>
+		<segment>city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb</segment>
 		<city_name>Stratford-upon-Avon</city_name>
-		<region>P3</region>
+		<region>WAR</region>
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
 		<region_name>Warwickshire</region_name>

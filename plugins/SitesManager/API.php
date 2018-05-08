@@ -167,10 +167,11 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('SitesManager.getImageTrackingCode', array(&$piwikUrl, &$urlParams));
 
-        $piwikUrl = (ProxyHttp::isHttps() ? "https://" : "http://") . $piwikUrl . '/piwik.php';
-        return "<!-- Matomo Image Tracker-->
-<img src=\"$piwikUrl?" . Url::getQueryStringFromParameters($urlParams) . "\" style=\"border:0\" alt=\"\" />
+        $url = (ProxyHttp::isHttps() ? "https://" : "http://") . $piwikUrl . '/piwik.php?' . Url::getQueryStringFromParameters($urlParams);
+        $html = "<!-- Matomo Image Tracker-->
+<img src=\"" . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . "\" style=\"border:0\" alt=\"\" />
 <!-- End Matomo -->";
+        return htmlspecialchars($html, ENT_COMPAT, 'UTF-8');
     }
 
     /**

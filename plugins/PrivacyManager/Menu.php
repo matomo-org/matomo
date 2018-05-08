@@ -16,9 +16,18 @@ class Menu extends \Piwik\Plugin\Menu
     public function configureAdminMenu(MenuAdmin $menu)
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
-            $menu->addSystemItem('PrivacyManager_MenuPrivacySettings',
-                                 $this->urlForAction('privacySettings'),
-                                 $order = 25);
+            $category = 'PrivacyManager_MenuPrivacySettings';
+            $menu->registerMenuIcon($category, 'icon-locked-4');
+            $menu->addItem($category, null, array(), 2);
+
+            if (Piwik::hasUserSuperUserAccess()) {
+                $menu->addItem($category, 'PrivacyManager_AnonymizeData', $this->urlForAction('privacySettings'), 5);
+            }
+
+            $menu->addItem($category, 'Users opt-out', $this->urlForAction('usersOptOut'), 10);
+            $menu->addItem($category, 'Asking for consent', $this->urlForAction('consent'), 15);
+            $menu->addItem($category, 'GDPR Overview', $this->urlForAction('gdprOverview'), 20);
+            $menu->addItem($category, 'GDPR Tools', $this->urlForAction('gdprTools'), 25);
         }
     }
 }

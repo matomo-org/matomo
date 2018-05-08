@@ -1,5 +1,6 @@
 {
     "PrivacyManager": {
+        "AnonymizeData": "Veriyi anonimleştir",
         "AnonymizeIpDescription": "Bu seçenek etkinleştirildiğinde, Matomo tarafından tam sınıflandırılmış IP adresleri izlenmez.",
         "AnonymizeIpInlineHelp": "Kişisel verilerin korunması ile ilgili yerel yasalarınıza uygun olarak ziyaretçi IP adreslerinin son baytlarını anonimleştirir.",
         "AnonymizeIpExtendedHelp": "Kullanıcılar web sitenizi ziyaret ettiğinde, Matomo tam IP adresini (%1$s gibi) kullanmaz. Bunun yerine Matomo önce IP adresini anonimleştirir (%2$s gibi). IP adresi anonimleştirme Almanya gibi bazı ülkelerde kişisel verilerin korunması yasalarına göre zorunludur.",
@@ -40,6 +41,8 @@
         "EstimatedDBSizeAfterPurge": "Temizklik sonrası öngörülen veritabanı boyutu",
         "EstimatedSpaceSaved": "Öngörülen kazanılacak boyut",
         "GeolocationAnonymizeIpNote": "Not: Coğrafi konum yaklaşık olarak 1 bayt anonimleştirme ile aynı sonucu verir. 2 ya da daha fazla bayt ile yapılan anonimleştirmelerde coğrafi konum doğruluğu kalmaz.",
+        "GDPR": "GVKY (GDPR)",
+        "GdprManager": "GVKY Yönetimi",
         "GetPurgeEstimate": "Temizlik öngörüsünü görüntüle",
         "KeepBasicMetrics": "Temel ölçütler korunur (ziyaretler, sayfa görüntülemeleri, hemen çıkma oranı, hedef tutturma, e-ticarete dönüşme gibi)",
         "KeepDataFor": "Şunun için tüm veriler korunsun",
@@ -57,11 +60,16 @@
         "ReportsDataSavedEstimate": "Veritabanı boyutu",
         "SaveSettingsBeforePurge": "Veri silme ayarlarınızı değiştirdiniz. Lütfen temizliği başlatmadan önce ayarları kaydedin.",
         "SeeAlsoOurOfficialGuidePrivacy": "Resmi belgelere de bakabilirsiniz: %1$sWeb İstatistiklerinde Kişisel Gizlilik%2$s",
-        "Teaser": "Kişisel gizliliğin korunması yasalarına uygun Matomo ayarları bu bölümden şu seçenekler kullanılarak yapılabilir: %1$sZiyaretçi IP adreslerinin anonimleştirilmesi%2$s, %3$sEski ziyaretçi günlük kayıtlarının veritabanından otomatik olarak kaldırılması%4$s ve %5$sweb siteniz için izlenmeyi engelleme seçeneğinin sunulması%6$s.",
+        "TeaserHeader": "Kişisel gizliliğin korunması yasalarına uygun Matomo ayarları bu bölümden şu seçenekler kullanılarak yapılabilir: %1$s Ziyaretçi IP adreslerinin anonimleştirilmesi%2$s, %3$s Eski ziyaretçi günlük kayıtlarının veritabanından otomatik olarak kaldırılması%4$s ve %5$s önceden izlenmiş ham kullanıcı verilerinin anonimleştirilmesi%6$s.",
         "TeaserHeadline": "Kişisel Gizlilik Ayarları",
         "UseAnonymizedIpForVisitEnrichment": "Ziyaret verilerini zenginleştirirken Anonoimleştirilmiş IP adresleri kullanılsın.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Zİyaretçilerin üst verilerini geliştiren IP adresi ve hizmet sağlayıcıya göre coğrafi konum bulma uygulama ekleri. Varsayılan olarak bu uygulama eklerinde anonimleştirilmiş IP adresleri kullanılır. Bu seçenek devre dışı bırakıldığında anonimleştirilmemiş tam IP adresi kullanılır. Bu durum da kişisel gizliliğin korunmasını azaltırken daha doğru konum bilgisi sağlar.",
+        "AnonymizeUserIdNote": "Bu seçenek etkinleştirildiğinde, Kullanıcı Kodu anonimleştirilerek e-posta adresi gibi olası kişisel bilgilerin izlenmesi engellenir.",
+        "AnonymizeOrderIdNote": "Sipariş Kodu bir e-ticaret mağazası gibi başka bir sistemde referans olarak bulunacağından, Genel Veri Koruma Yönergesi kapsamındaki kişisel bilgilerin elde edilmesinde kullanılabilir. Bu seçenek etkinleştirildiğinde, Sipariş Kodu otomatik olarak anonimleştirilir böylecek kişisel bilgiler izlenemez.",
         "UseAnonymizeIp": "Ziyaretçinin IP adresini anonimleştir",
+        "UseAnonymizeTrackingData": "İzleme Verileri Anonimleştirilsin",
+        "UseAnonymizeUserId": "Kullanıcı Kodu Anonimleştirilsin",
+        "UseAnonymizeOrderId": "Sipariş Kodu Anonimleştirilsin",
         "UseDeleteLog": "Veritabanından eski ziyaretçi günlüğü kayıtları düzenli olarak silinsin",
         "UseDeleteReports": "Veritabanından eski raporlar düzenli olarak silinsin"
     }

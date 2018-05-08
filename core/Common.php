@@ -1143,6 +1143,19 @@ class Common
     }
 
     /**
+     * Strips outgoing header.
+     *
+     * @param string $name The header name.
+     */
+    public static function stripHeader($name)
+    {
+        // don't strip header in CLI mode
+        if (!Common::isPhpCliMode() and !headers_sent()) {
+            header_remove($name);
+        }
+    }
+
+    /**
      * Sends the given response code if supported.
      *
      * @param int $code  Eg 204

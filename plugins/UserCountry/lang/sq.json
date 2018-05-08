@@ -61,7 +61,7 @@
         "HowToSetupGeoIP_Step1": "%1$sShkarkoni%2$s bazën e të dhënave GeoLite City prej %3$sMaxMind%4$s.",
         "HowToSetupGeoIP_Step2": "Përftojeni këtë kartelë dhe kopjojeni përfundimin, %1$s te nëndrejtoria %2$smisc%3$s e Matomo-s (këtë mund ta bëni me FTP ose SSH).",
         "HowToSetupGeoIP_Step3": "Ringarkoni këtë skenë. Furnizuesi %1$sGeoIP (PHP)%2$s tani do të jetë %3$sinstaluar%4$s. Përzgjidheni.",
-        "HowToSetupGeoIP_Step4": "Dhe mbaruat! Sapo e rregulluat Matomo-un të përdorë GeoIP, që do të thotë se do të jeni në gjendje të shihni rajonet dhe qytetet e vizitorëve tuaj, tok me të dhëna shumë të sakta të vendit.",
+        "HowToSetupGeoIP_Step4": "Dhe mbaruat! Sapo e rregulluat Matomo-n të përdorë GeoIP, që do të thotë se do të jeni në gjendje të shihni rajonet dhe qytetet e vizitorëve tuaj, tok me të dhëna shumë të sakta të vendit.",
         "HowToSetupGeoIPIntro": "Nuk duket se keni rregulluar Gjeovendëzim të saktë. Kjo është një veçori e dobishme dhe pa të nuk do të shihni të dhëna të sakta dhe të plota vendesh për vizitorët tuaj. Ja se si mund të filloni ta përdorni shpejt e shpejt:",
         "HttpServerModule": "Modul Shërbyesi HTTP",
         "InvalidGeoIPUpdatePeriod": "Periudhë e pavlefshme për përditësuesin GeoIP: %1$s. Vlera të vlefshme janë %2$s.",

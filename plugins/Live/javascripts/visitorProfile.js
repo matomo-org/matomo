@@ -42,8 +42,11 @@
      *
      * @param {String} visitorId The string visitor ID.
      */
-    VisitorProfileControl.showPopover = function (visitorId) {
+    VisitorProfileControl.showPopover = function (visitorId, idSite) {
         var url = 'module=Live&action=getVisitorProfilePopup&visitorId=' + encodeURIComponent(visitorId);
+        if (idSite) {
+            url += '&idSite=' + idSite;
+        }
 
         // if there is already a map shown on the screen, do not show the map in the popup. kartograph seems
         // to only support showing one map at a time.

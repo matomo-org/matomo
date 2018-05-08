@@ -1,0 +1,42 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
+
+{% block content %}
+    <div piwik-content-block content-title="Let users opt-out of tracking">
+        <div piwik-opt-out-customizer piwikurl="{{ piwikUrl }}" language="{{ language }}">
+
+        </div>
+    </div>
+
+    {% if isSuperUser %}
+        <div piwik-content-block
+             id="DNT"
+             content-title="{{ 'PrivacyManager_DoNotTrack_SupportDNTPreference'|translate|e('html_attr') }}">
+            <p>
+                {% if dntSupport %}
+                    <strong>{{ 'PrivacyManager_DoNotTrack_Enabled'|translate }}</strong>
+                    <br/>
+                    {{ 'PrivacyManager_DoNotTrack_EnabledMoreInfo'|translate }}
+                {% else %}
+                    {{ 'PrivacyManager_DoNotTrack_Disabled'|translate }} {{ 'PrivacyManager_DoNotTrack_DisabledMoreInfo'|translate }}
+                {% endif %}
+            </p>
+
+            <div piwik-form ng-controller="DoNotTrackPreferenceController as doNotTrack">
+
+                {# {{ {'module':'PrivacyManager','nonce':nonce,'action':action} | urlRewriteWithParameters }}#DNT #}
+                <div piwik-field uicontrol="radio" name="doNotTrack"
+                     ng-model="doNotTrack.enabled"
+                     options="{{ doNotTrackOptions|json_encode }}"
+                     value="{% if dntSupport %}1{% else %}0{% endif %}"
+                     inline-help="{{ 'PrivacyManager_DoNotTrack_Description'|translate|e('html_attr') }}">
+                </div>
+
+                <div piwik-save-button onconfirm="doNotTrack.save()" saving="doNotTrack.isLoading"></div>
+
+            </div>
+
+        </div>
+    {% endif %}
+{% endblock %}

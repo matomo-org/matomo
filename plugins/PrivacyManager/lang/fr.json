@@ -57,7 +57,6 @@
         "ReportsDataSavedEstimate": "Taille de la base de données",
         "SaveSettingsBeforePurge": "Vous avez modifié les paramètres de suppression des données. Veuillez les sauvegarder avant de démmarrer une purge.",
         "SeeAlsoOurOfficialGuidePrivacy": "Consultez aussi notre guide officiel : %1$sConfidentialité de l'analyse web%2$s",
-        "Teaser": "Sur cette page, vous pouvez personnaliser Matomo pour que sa gestion de la vie privée respecte la législation en vigueur, en : %1$s rendant anonyme l'adresse IP du visiteur%2$s, %3$s supprimant automatiquement les anciens logs de visiteurs de la base de données%4$s, et %5$s en fournissant un mécanisme d'exclusion pour votre site web%6$s.",
         "TeaserHeadline": "Paramètres de vie privée",
         "UseAnonymizedIpForVisitEnrichment": "Utiliser les adresses IP anonymisées pour enrichir les visites",
         "UseAnonymizedIpForVisitEnrichmentNote": "Les composants tels que Geo Location (localisation) par IP et Fournisseur améliorent les métadonnées des visiteurs. Par défaut ces composants utilisent des adresses IP anonymisées. Si vous sélectionnez \"Non\", l'adresse IP réelle et complète sera utilisée à la place. Ceci améliorera la précision des données mais diminuera le respect de la vie privée.",

@@ -84,10 +84,20 @@
         "MenuEntries": "Menü kayıtları",
         "Segments": "Dilimler",
         "OneClickUpdateNotPossibleAsMultiServerEnvironment": "Matomo uygulamasını bir kaç sunucu üzerinde kullandığınız için tek tıklama ile güncelleme özelliğini kullanamazsınız. Lütfen ilerlemek için %1$s üzerinden son sürümü indirin.",
+        "CssDidntLoad": "Tarayıcınız bu sayfanın biçemini yükleyemedi.",
+        "JsDidntLoad": "Tarayıcınız bu sayfadaki betikleri yükleyemedi.",
         "AdblockIsMaybeUsed": "Bir reklam engelleyici kullanıyorsanız, Matomo uygulamasının sorunsuz çalışmasını sağlamak için devre dışı bırakın.",
         "ChangeCurrentWebsite": "Bir web sitesi seçin, geçerli seçilmiş site: %s",
         "LeadingAnalyticsPlatformRespectsYourPrivacy": "Gizliliğinize önem veren lider açık kaynaklı istatistik platformu.",
         "MacPageUp": "Fn + Sol Ok",
-        "MacPageDown": "Fn + Sağ Ok"
+        "MacPageDown": "Fn + Sağ Ok",
+        "ReportType": "Rapor türü",
+        "RowLimit": "Satır sayısı",
+        "CustomLimit": "Özel sayı",
+        "ExportFormat": "Dışa aktarma biçimi",
+        "ExpandSubtables": "Alt tabloları genişlet",
+        "StandardReport": "Standart rapor",
+        "FlattenReport": "Düz rapor",
+        "ReportWithMetadata": "Üst veriler ile rapor"
     }
 }

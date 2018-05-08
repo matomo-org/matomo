@@ -359,6 +359,17 @@ class GeoIPAutoUpdater extends Task
     }
 
     /**
+     * Removes all options to disable any configured automatic updates
+     */
+    public static function clearOptions()
+    {
+        foreach (self::$urlOptions as $optionKey => $optionName) {
+            Option::delete($optionName);
+        }
+        Option::delete(self::SCHEDULE_PERIOD_OPTION_NAME);
+    }
+
+    /**
      * Returns true if the auto-updater is setup to update at least one type of
      * database. False if otherwise.
      *

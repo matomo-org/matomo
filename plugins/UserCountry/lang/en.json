@@ -31,6 +31,7 @@
         "GeoIPCannotFindMbstringExtension": "Cannot find the %1$s function. Please make sure the %2$s extension is installed and loaded.",
         "GeoIPDatabases": "GeoIP Databases",
         "GeoIPDocumentationSuffix": "In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial %1$sMaxmind%2$s GeoIP databases are more accurate than the free ones. To see how accurate they are, click %3$shere%4$s.",
+        "GeoIPNoDatabaseFound": "This GeoIP implementation was not able to find any database.",
         "GeoIPImplHasAccessTo": "This GeoIP implementation has access to the following types of databases",
         "GeoIPIncorrectDatabaseFormat": "Your GeoIP database does not seem to have the correct format. It may be corrupt. Make sure you are using the binary version and try replacing it with another copy.",
         "GeoIpLocationProviderDesc_Pecl1": "This location provider uses a GeoIP database and a PECL module to accurately and efficiently determine the location of your visitors.",

@@ -1,10 +1,10 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Real time visitors map
  * Using Kartograph.js http://kartograph.org/
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -67,28 +67,23 @@
                 if (clickedMenuIsNotMap) {
                     $('#periodString').show();
                     initTopControls();
-                };
+                }
             });
             $('.realTimeMap_overlay').css('top', '0px');
             $('.realTimeMap_datetime').css('top', '20px');
         },
 
         run: function () {
-            var debug = 0;
-
             var self = this,
                 config = self.config,
                 _ = config._,
                 map = self.map,
-                main = $('.RealTimeMap_container', this.$element),
-                worldTotalVisits = 0,
                 maxVisits = config.maxVisits || 100,
                 changeVisitAlpha = typeof config.changeVisitAlpha === 'undefined' ? true : config.changeVisitAlpha,
                 removeOldVisits = typeof config.removeOldVisits === 'undefined' ? true : config.removeOldVisits,
                 doNotRefreshVisits = typeof config.doNotRefreshVisits === 'undefined' ? false : config.doNotRefreshVisits,
                 enableAnimation = typeof config.enableAnimation === 'undefined' ? true : config.enableAnimation,
                 forceNowValue = typeof config.forceNowValue === 'undefined' ? false : +config.forceNowValue,
-                width = main.width(),
                 lastTimestamp = -1,
                 lastVisits = [],
                 visitSymbols,
@@ -148,7 +143,7 @@
                         'referrerTypeName', 'browserIcon', 'operatingSystemIcon',
                         'countryFlag', 'idVisit', 'actionDetails', 'continentCode',
                         'actions', 'searches', 'goalConversions', 'visitorId', 'userId'].join(','),
-                    minTimestamp: firstRun ? -1 : lastTimestamp
+                    minTimestamp: firstRun ? 0 : lastTimestamp
                 });
             }
 
@@ -347,7 +342,7 @@
             /*
              * this function requests new data from Live.getLastVisitsDetails
              * and updates the symbols on the map. Then, it sets a timeout
-             * to call itself after the refresh time set by Piwik
+             * to call itself after the refresh time set by Matomo
              *
              * If firstRun is true, the SymbolGroup is initialized
              */
@@ -527,8 +522,6 @@
                         }
                     });
                 }
-                var lastVisitId = -1,
-                    lastReport = [];
                 refreshVisits(true);
             }
 

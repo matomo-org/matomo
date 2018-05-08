@@ -52,7 +52,6 @@
         "ReportsDataSavedEstimate": "データベースサイズ",
         "SaveSettingsBeforePurge": "データ削除設定を変更しました。削除が開始される前に保存してください。",
         "SeeAlsoOurOfficialGuidePrivacy": "私達のオフィシャルガイドもご確認ください。%1$sWeb Analytics Privacy%2$s",
-        "Teaser": "このページでは、Matomo をカスタマイズして、既存の法律に準拠したプライバシーを提供することができます。%1$s ビジター IP%2$s の匿名化、%3$s データベース%4$s からの古いビジターログの自動削除、%5$s Web サイト%6$s のオプトアウトメカニズムの提供。",
         "TeaserHeadline": "プライバシー設定",
         "UseAnonymizedIpForVisitEnrichment": "ビジット数を増やす場合は、匿名化された IP アドレスもご利用ください。",
         "UseAnonymizedIpForVisitEnrichmentNote": "IP およびプロバイダー経由の位置情報探索機能のようなプラグインは、ビジターのメタデータを修正します。デフォルトでは、このようなプラグインは匿名 IP アドレスを使用します。'No' を選ぶと、非匿名の完全な IP アドレスが代わりに使用されます。この場合、データの正確性は向上しますがプライバシーは多少劣ります。",

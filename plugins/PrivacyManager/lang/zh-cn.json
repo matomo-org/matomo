@@ -44,7 +44,6 @@
         "PurgingData": "清理数据...",
         "ReportsDataSavedEstimate": "数据库大小",
         "SaveSettingsBeforePurge": "您修改了数据删除选项，请保存后再开始删除。",
-        "Teaser": "在本页面可以设置 Matomo 符合现有的隐私保护法规: %1$s 隐藏访客的 IP 地址%2$s, %3$s 自动从数据库删除旧的访问日志%4$s, 并且 %5$s 在网站提供主动退出机制%6$s。",
         "TeaserHeadline": "隐私设置",
         "UseAnonymizedIpForVisitEnrichment": "当使访问更加丰富时也使用匿名IP地址。",
         "UseAnonymizedIpForVisitEnrichmentNote": "例如通过IP和提供商的Geo定位等插件提供了关于访问者的更多数据。在默认情况下，这些插件都使用匿名IP地址。如果你选择“NO”，那么将使用非匿名的整个IP地址，从而可以得到更准确的数据，但是透露了更多的私有信息。",
