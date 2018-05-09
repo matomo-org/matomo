@@ -74,6 +74,7 @@ class Controller extends \Piwik\Plugin\Controller
      * exposing the referrer on the Piwik demo.
      *
      * @internal param string $url (via $_GET)
+     * @deprecated
      */
     public function redirect()
     {
@@ -91,11 +92,43 @@ class Controller extends \Piwik\Plugin\Controller
 				<br/><br/>You can access the page at: ' . $url);
         }
 
-        Piwik::checkUserHasSomeViewAccess();
-
+        // mask visits to *.piwik.org
+        if (!self::isPiwikUrl($url)) {
+            Piwik::checkUserHasSomeViewAccess();
+        }
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
         echo '<html><head><meta http-equiv="refresh" content="0;url=' . $url . '" /></head></html>';
 
         exit;
+    }
+
+    /**
+     * Validate URL against *.piwik.org domains
+     *
+     * @param string $url
+     * @return bool True if valid; false otherwise
+     */
+    public static function isPiwikUrl($url)
+    {
+        // guard for IE6 meta refresh parsing weakness (OSVDB 19029)
+        if (strpos($url, ';') !== false
+            || strpos($url, '&#59') !== false
+        ) {
+            return false;
+        }
+        if (preg_match('~^http://(qa\.|demo\.|dev\.|forum\.)?piwik.org([#?/]|$)~', $url)) {
+            return true;
+        }
+
+        if (preg_match('~^http://(qa\.|demo\.|dev\.|forum\.)?matomo.org([#?/]|$)~', $url)) {
+            return true;
+        }
+
+        // Allow clockworksms domain
+        if (strpos($url, 'http://www.clockworksms.com/') === 0) {
+            return true;
+        }
+
+        return false;
     }
 }

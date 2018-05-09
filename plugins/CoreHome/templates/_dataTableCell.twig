@@ -4,7 +4,7 @@
 {% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
     <a rel="noopener"
        target="_blank"
-       href='?module=Proxy&action=redirect&url={% if row.getMetadata('url')|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.getMetadata('url')|rawSafeDecoded|url_encode }}'>
+       href='{% if row.getMetadata('url')|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.getMetadata('url')|rawSafeDecoded }}'>
     {% if not row.getMetadata('logo') %}
         <img class="link" width="10" height="9"
              src="plugins/Morpheus/images/link.png"/>
