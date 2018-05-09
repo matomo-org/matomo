@@ -75,7 +75,32 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        return $this->renderTemplate('gdprOverview');
+        $purgeDataSettings = PrivacyManager::getPurgeDataSettings();
+
+        $reportRetention = '';
+
+        if ($purgeDataSettings['delete_reports_older_than'] > 12) {
+            $reportRetention .= floor($purgeDataSettings['delete_reports_older_than']/12) . ' ' . Piwik::translate('Intl_PeriodYears') . ' ';
+        }
+        if ($purgeDataSettings['delete_reports_older_than'] % 12 > 0) {
+            $reportRetention .= floor($purgeDataSettings['delete_reports_older_than']%12) . ' ' . Piwik::translate('Intl_PeriodMonths');
+        }
+
+        $rawDataRetention = '';
+
+        if ($purgeDataSettings['delete_reports_older_than'] > 30) {
+            $rawDataRetention .= floor($purgeDataSettings['delete_reports_older_than']/30) . ' ' . Piwik::translate('Intl_PeriodMonths') . ' ';
+        }
+        if ($purgeDataSettings['delete_reports_older_than'] % 30 > 0) {
+            $rawDataRetention .= floor($purgeDataSettings['delete_reports_older_than']%30) . ' ' . Piwik::translate('Intl_PeriodDays');
+        }
+
+        return $this->renderTemplate('gdprOverview', [
+            'reportRetention'     => trim($reportRetention),
+            'rawDataRetention'    => trim($rawDataRetention),
+            'deleteLogsEnable'    => $purgeDataSettings['delete_logs_enable'],
+            'deleteReportsEnable' => $purgeDataSettings['delete_reports_enable'],
+        ]);
     }
 
     public function usersOptOut()
