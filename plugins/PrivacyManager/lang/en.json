@@ -6,6 +6,7 @@
         "AnonymizeIpExtendedHelp": "When users visit your website, Matomo will not use the full IP address (such as %1$s) but instead Matomo will anonymise it first (to %2$s). IP address anonymisation is one of the requirements set by the privacy laws in some countries such as Germany.",
         "AnonymizeIpMaskLengtDescription": "Select how many bytes of the visitors' IPs should be masked.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - e.g. %2$s",
+        "AskingForConsent": "Asking for consent",
         "CannotLockSoDeleteLogActions": "The log_action table will not be purged: please grant the LOCK TABLES privilege to the '%s' MySQL user.",
         "ClickHereSettings": "Click here to access the %s settings.",
         "CurrentDBSize": "Current database size",
@@ -43,6 +44,8 @@
         "GeolocationAnonymizeIpNote": "Note: Geolocation will have approximately the same results with 1 byte anonymized. With 2 bytes or more, Geolocation will be inaccurate.",
         "GDPR": "GDPR",
         "GdprManager": "GDPR Manager",
+        "GdprOverview": "GDPR Overview",
+        "GdprTools": "GDPR Tools",
         "GetPurgeEstimate": "Get purge estimate",
         "KeepBasicMetrics": "Keep basic metrics (visits, page views, bounce rate, goal conversions, ecommerce conversions, etc.)",
         "KeepDataFor": "Keep all data for",
@@ -73,6 +76,7 @@
         "PseudonymizeUserId": "Replace User ID with a pseudonym",
         "UseAnonymizeOrderId": "Anonymize Order ID",
         "UseDeleteLog": "Regularly delete old visitor logs from the database",
-        "UseDeleteReports": "Regularly delete old reports from the database"
+        "UseDeleteReports": "Regularly delete old reports from the database",
+        "UsersOptOut": "Users opt-out"
     }
 }
