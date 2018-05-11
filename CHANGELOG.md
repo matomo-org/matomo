@@ -10,6 +10,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 * Added new event `API.addGlossaryItems` which lets you add items to the glossary.
 
+### Breaking Changes
+
+* Changed some menu items to use translation keys instead (see [PR #12885](https://github.com/matomo-org/matomo/pull/12885)).
+
 ## Matomo 3.5.1
 
 ### New APIs
