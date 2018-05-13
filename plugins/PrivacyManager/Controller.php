@@ -35,7 +35,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function checkDataPurgeAdminSettingsIsEnabled()
     {
         if (!self::isDataPurgeSettingsEnabled()) {
-            throw new \Exception("Configuring deleting log data and report data has been disabled by Piwik admins.");
+            throw new \Exception("Configuring deleting raw data and report data has been disabled by Piwik admins.");
         }
     }
 
@@ -207,7 +207,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Executes a data purge, deleting log data and report data using the current config
+     * Executes a data purge, deleting raw data and report data using the current config
      * options. Echo's the result of getDatabaseSize after purging.
      */
     public function executeDataPurge()

@@ -356,14 +356,14 @@ class PrivacyManager extends Plugin
     }
 
     /**
-     * Deletes old log data based on the options set in the Deletelogs config
+     * Deletes old raw data based on the options set in the Deletelogs config
      * section. This is a scheduled task and will only execute every N days. The number
      * of days is determined by the delete_logs_schedule_lowest_interval config option.
      *
      * If delete_logs_enable is set to 1, old data in the log_visit, log_conversion,
      * log_conversion_item and log_link_visit_action tables is deleted. The following
      * options can tweak this behavior:
-     * - delete_logs_older_than: The number of days after which log data is considered old.
+     * - delete_logs_older_than: The number of days after which raw data is considered old.
      *
      * @ToDo: return number of Rows deleted in last run; Display age of "oldest" row to help the user setting
      *        the day offset;
@@ -399,7 +399,7 @@ class PrivacyManager extends Plugin
     }
 
     /**
-     * Returns an array describing what data would be purged if both log data & report
+     * Returns an array describing what data would be purged if both raw data & report
      * purging is invoked.
      *
      * The returned array maps table names with the number of rows that will be deleted.
