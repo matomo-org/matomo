@@ -60,7 +60,7 @@ class Mysql extends Db
         }
 
 
-        if ($dbInfo['enable_ssl']) {
+        if (!empty($dbInfo['enable_ssl'])) {
 
             if (!empty($dbInfo['ssl_key'])) {
                 $this->mysqlOptions[PDO::MYSQL_ATTR_SSL_KEY] = $dbInfo['ssl_key'];
