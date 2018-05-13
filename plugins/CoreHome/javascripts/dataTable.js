@@ -1621,12 +1621,18 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 return;
             }
 
+            var $title = '';
             var $headline = domElem.prev('h2');
-            if (!$headline.length) {
-                return;
+
+            if ($headline.length) {
+                $title = $headline.find('.title:not(.ng-hide)');
+            } else {
+                var $widget = domElem.parents('.widget');
+                if ($widget.length) {
+                    $title = $widget.find('.widgetName > span');
+                }
             }
 
-            var $title = $headline.find('.title:not(.ng-hide)');
             if ($title.length) {
                 $title.text(relatedReportName);
 
