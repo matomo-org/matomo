@@ -4,7 +4,6 @@
         "AdvancedTimezoneSupportNotFound": "Suporte avançado de fusos horários não foi encontrado na sua instalação PHP (suportado em PHP>=5.2). No entanto pode escolher uma diferença UTC manualmente.",
         "AliasUrlHelp": "É recomendado, mas não necessário, que especifique vários endereços, um por linha, que os seus visitantes usam para aceder a este website. Endereços alternativos não aparecem no relatório Referentes > Websites. Note que não é necessário especificar tanto os endereços com e sem 'www' porque Matomo automaticamente considera ambos.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Alterar o seu fuso horário apenas afecta dados futuros, e não será aplicado retroactivamente.",
-        "ChooseCityInSameTimezoneAsYou": "Escolha uma cidade no mesmo fuso horário que o seu.",
         "Currency": "Moeda",
         "CurrencySymbolWillBeUsedForGoals": "O símbolo da Moeda será mostrado ao lado dos rendimentos dos Objectivos.",
         "DefaultCurrencyForNewWebsites": "Moeda padrão para websites novos",

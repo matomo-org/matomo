@@ -4,7 +4,6 @@
         "AdvancedTimezoneSupportNotFound": "Hỗ trợ múi giờ nâng cao không được tìm thấy trong PHP của bạn (đã được hỗ trợ trong PHP> = 5.2). Bạn vẫn có thể chọn một UTC dẫn bù đắp.",
         "AliasUrlHelp": "Nó được khuyến cáo, nhưng không bắt buộc, để xác định các URL khác nhau, mỗi dòng, mà khách truy cập của bạn sử dụng để truy cập vào trang web này. Bí danh URL cho một trang web sẽ không xuất hiện trong báo cáo Referrers> Websites. Lưu ý rằng nó không cần thiết để xác định các URL có và không có 'www' như Matomo tự động xem xét cả hai.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Thay đổi múi giờ của bạn sẽ chỉ ảnh hưởng đến dữ liệu về sau, và sẽ không được áp dụng cho dữ liệu trước.",
-        "ChooseCityInSameTimezoneAsYou": "Chọn một thành phố trong múi giờ tương tự của bạn.",
         "Currency": "Tiền tệ",
         "CurrencySymbolWillBeUsedForGoals": "Biểu tượng tiền tệ sẽ được hiển thị bên cạnh mục tiêu doanh thu.",
         "DefaultCurrencyForNewWebsites": "Tiền tệ mặc định cho các trang web mới",
