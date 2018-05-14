@@ -10,9 +10,11 @@
     piwikService.$inject = ['piwikPeriods'];
 
     function piwikService(piwikPeriods) {
+        var originalTitle;
         piwik.helper    = piwikHelper;
         piwik.broadcast = broadcast;
         piwik.updatePeriodParamsFromUrl = updatePeriodParamsFromUrl;
+        piwik.updateDateInTitle = updateDateInTitle;
         return piwik;
 
         function updatePeriodParamsFromUrl() {
@@ -34,6 +36,8 @@
             var dateRange = piwikPeriods.parse(period, date).getDateRange();
             piwik.startDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[0]);
             piwik.endDateString = $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
+
+            updateDateInTitle(date, period);
 
             // do not set anything to previous7/last7, as piwik frontend code does not
             // expect those values.
@@ -60,6 +64,15 @@
             } catch (e) {
                 return false;
             }
+        }
+
+        function updateDateInTitle( date, period ) {
+            // Cache server-rendered page title
+            originalTitle = originalTitle || document.title;
+            var titleParts = originalTitle.split('-');
+            var dateString = ' ' + piwikPeriods.parse(period, date).getPrettyString() + ' ';
+            titleParts.splice(1, 0, dateString);
+            document.title = titleParts.join('-');
         }
     }
 

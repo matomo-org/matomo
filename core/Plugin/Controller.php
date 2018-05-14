@@ -630,6 +630,7 @@ abstract class Controller
 
         $view->date = $this->strDate;
         $view->prettyDate = self::getCalendarPrettyDate($period);
+        // prettyDateLong is not used by core, leaving in case plugins may be using it
         $view->prettyDateLong = $period->getLocalizedLongString();
         $view->rawDate = $rawDate;
         $view->startDate = $dateStart;
