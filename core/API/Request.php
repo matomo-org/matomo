@@ -294,11 +294,23 @@ class Request
         return sprintf('\Piwik\Plugins\%s\API', $plugin);
     }
 
+    /**
+     * @ignore
+     * @internal
+     * @param bool $isRootRequestApiRequest
+     */
     public static function setIsRootRequestApiRequest($isRootRequestApiRequest)
     {
         Cache::getTransientCache()->save('API.setIsRootRequestApiRequest', $isRootRequestApiRequest);
     }
 
+    /**
+     * Detect if the root request (the actual request) is an API request or not. To detect whether an API is currently
+     * request within any request, have a look at {@link isApiRequest()}.
+     *
+     * @return bool
+     * @throws Exception
+     */
     public static function isRootRequestApiRequest()
     {
         $isApi = Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
