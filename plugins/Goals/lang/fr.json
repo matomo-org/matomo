@@ -64,6 +64,7 @@
         "GoalIsTriggeredWhen": "L'objectif est déclenché quand",
         "GoalName": "Nom de l'objectif",
         "Goals": "Objectifs",
+        "NGoals": "%sobjectifs",
         "ManageGoals": "Gérer les objectifs",
         "GoalsOverview": "Vue d'ensemble des Objectifs",
         "GoalsOverviewDocumentation": "Ceci est un aperçu de vos conversions d'objectifs. Initialement, le graphique, affiche la somme des conversions. %s Sous le graphique, vous pouvez voir les rapports de conversion pour chacun de vos objectifs. Les lignes de tendance peuvent être agrandies en cliquant dessus.",

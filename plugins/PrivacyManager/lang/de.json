@@ -63,10 +63,11 @@
         "TeaserHeadline": "Privatsphäreeinstellungen",
         "UseAnonymizedIpForVisitEnrichment": "Benutze die anonymisierte IP-Adresse auch für die Aufbereitung der Besuche.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Plugins wie Geolokalisierung anhand IP und Provider verbessern die Metadaten eines Besuchers. Normalerweise verwenden diese Plugins die anonymisierte IP-Adresse. Wenn sie 'Nein' auswählen wird stattdessen die nicht anonymisierte volle IP-Adresse verwendet. Daraus resultiert eine größere Genauigkeit, jedoch weniger Privatsphäre.",
-        "AnonymizeUserIdNote": "Bei aktivierter Einstellung, wird die Benuzter-ID anonymisiert um das Speichern potenziell persönlicher Daten, wie z.B. einer E-Mail-Adresse, zu verhindern.",
         "AnonymizeOrderIdNote": "Da eine Bestellnummer mit einem anderen System referenziert sein kann, typischerweise einem E-Commerce Shop, könnte die Bestellnummer zu den persönlichen Informationen zählen die unter die DSGVO fallen. Wenn diese Einstellung aktiviert wird, wird die Bestellnummer automatisch anonymisiert, um keine persönlichen Informationen zu speichern.",
         "UseAnonymizeIp": "Anonymisiere die IP-Adresse von Besuchern",
+        "UseAnonymizeTrackingData": "Tracking Daten anonymisieren",
         "UseAnonymizeUserId": "Benutzer-ID anonymisieren",
+        "PseudonymizeUserId": "Benutzer ID mit Pseudonym austauschen",
         "UseAnonymizeOrderId": "Bestellnummer anonymisieren",
         "UseDeleteLog": "Alte Besucher-Logs automatisch aus der Datenbank entfernen",
         "UseDeleteReports": "Lösche regelmäßig alte Berichte aus der Datenbank"

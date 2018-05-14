@@ -1,5 +1,6 @@
 {
     "PrivacyManager": {
+        "AnonymizeData": "Anonymiser les données",
         "AnonymizeIpDescription": "Sélectionnez \"Oui\" si vous souhaitez que Matomo n'enregistre pas des adresses IP complètes.",
         "AnonymizeIpInlineHelp": "Masque les adresses IP des visiteurs pour remplir les conditions légales et politiques locales.",
         "AnonymizeIpExtendedHelp": "Quand les utilisateurs visitent votre site, Matomo n'utilisera pas l'adresse IP complète (par exemple %1$s) mais l'anonymisera (par exemple %2$s). L'anonymisation des adresses IP est requise par certaines lois adressant la protection de la vie privée dans certains pays comme l'Allemagne.",
@@ -40,6 +41,8 @@
         "EstimatedDBSizeAfterPurge": "Taille estimée de la base de données après la purge",
         "EstimatedSpaceSaved": "Espace libéré estimé",
         "GeolocationAnonymizeIpNote": "Note : La géolocalisation aura à peu près les mêmes résultats avec 1 octet rendu anonyme. Avec 2 octets ou plus, elle sera inexacte.",
+        "GDPR": "RGPD",
+        "GdprManager": "Gestionnaire RGPD",
         "GetPurgeEstimate": "Obtenir l'estimation de la purge",
         "KeepBasicMetrics": "Conserver les métriques de base (visites, pages vues, taux de rebond, objectif, conversions, conversions ecommerce, etc.)",
         "KeepDataFor": "Conserver toutes les données pour",
@@ -57,10 +60,18 @@
         "ReportsDataSavedEstimate": "Taille de la base de données",
         "SaveSettingsBeforePurge": "Vous avez modifié les paramètres de suppression des données. Veuillez les sauvegarder avant de démmarrer une purge.",
         "SeeAlsoOurOfficialGuidePrivacy": "Consultez aussi notre guide officiel : %1$sConfidentialité de l'analyse web%2$s",
+        "TeaserHeader": "Depuis cette page, vous pouvez personnaliser Matomo afin de rendre sa politique de vie privée conforme aux législations, en %1$sanonymisant l'adresse IP des visiteurs %2$s, %3$ssupprimant automatiquement les anciens journaux de visites de la base de données %4$s, et en %5$sanonymisant les données brutes de visites déjà enregistrées %6$s.",
         "TeaserHeadline": "Paramètres de vie privée",
         "UseAnonymizedIpForVisitEnrichment": "Utiliser les adresses IP anonymisées pour enrichir les visites",
         "UseAnonymizedIpForVisitEnrichmentNote": "Les composants tels que Geo Location (localisation) par IP et Fournisseur améliorent les métadonnées des visiteurs. Par défaut ces composants utilisent des adresses IP anonymisées. Si vous sélectionnez \"Non\", l'adresse IP réelle et complète sera utilisée à la place. Ceci améliorera la précision des données mais diminuera le respect de la vie privée.",
+        "PseudonymizeUserIdNote": "Lorsque vous activez cette option, l'identifiant utilisateur va être remplacé par un pseudonyme afin d'éviter de stocker et d'afficher des information directement identifiables telles qu'une adresse courriel. En termes techniques: étant donné un identifiant utilisateur, Matomo va générer l'identifiant avec une fonction de hash utilisant un \"grain de sel\".",
+        "PseudonymizeUserIdNote2": "Note: remplacer par un pseudonyme n'est pas identique à une anonymisation des données. Dans les termes énoncés par RGPD: un pseudonyme identifiant l'utilisateur compte toujours comme une données personnelle. L'identifiant utilisateur originel pourrait toujours être identifié si certaines informations complémentaires étaient disponibles (auxquelles uniquement Matomo et votre traitement de données ont accès).",
+        "AnonymizeOrderIdNote": "Parce qu'un identifiant de commande peut être référencé au travers de plusieurs systèmes, typiquement un magasin e-commerce, l'identifiant de commande compte comme donnée personnelle pour RGPD. En sélectionnant cette option, un identifiant de commande va être automatiquement anonymisé de sorte qu'aucune information personnelle ne sera enregistrée.",
         "UseAnonymizeIp": "Rendre anonymes les adresses IP des visiteurs",
+        "UseAnonymizeTrackingData": "Anonymiser les données de suivit",
+        "UseAnonymizeUserId": "Anonymiser l'identifiant utilisateur",
+        "PseudonymizeUserId": "Remplacer l'identifiant utilisateur par un pseudonyme",
+        "UseAnonymizeOrderId": "Anonymiser l'identifiant de la commande",
         "UseDeleteLog": "Supprimer régulièrement les anciens logs de la base de données.",
         "UseDeleteReports": "Supprimer régulièrement les anciens rapports de la base de données"
     }

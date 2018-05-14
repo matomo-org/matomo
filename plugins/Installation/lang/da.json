@@ -85,6 +85,7 @@
         "SystemCheckMemoryLimit": "Hukommelses grænse",
         "SystemCheckMemoryLimitHelp": "På et stærkt trafikeret hjemmesider, kan arkiveringsprocessen kræve mere hukommelse end der er tilladt.<br \/>Se på memory_limit i php.ini filen hvis nødvendig.",
         "SystemCheckNoErrorsOrWarnings": "Der er ingen fejl eller advarsler",
+        "SystemCheckViewFullSystemCheck": "Se hele systemtjekrapporten",
         "SystemCheckOpenURL": "Åbn netadresse",
         "SystemCheckOpenURLHelp": "Nyhedsbrev tilmelding, opdateringsbeskeder og et-klik opdatering kræver \"curl\" udvidelsen, allow_url_fopen=On, eller fsockopen() aktiveret.",
         "SystemCheckOtherExtensions": "Andre udvidelser",
