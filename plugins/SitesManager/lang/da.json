@@ -43,6 +43,8 @@
         "ListOfQueryParametersToBeExcludedOnAllWebsites": "URL-søgeparameterne nedenfor vil blive udelukket fra URL'er på alle hjemmesider.",
         "ListOfQueryParametersToExclude": "Angiv listen af URL-parametre (én pr. linje), der skal ekskluderes fra side-URL-rapporter. Du kan bruge regulære udtryk, såsom %s.",
         "MainDescription": "Din hjemmesideanalyse kræver hjemmesider! Tilføj, opdater, slet hjemmesider og vis JavaScript-koden, som skal indsættes på dine sider.",
+        "MenuManage": "Administrer",
+        "MobileAppsAndSDKs": "Mobileapps and SDK’er",
         "NotAnEcommerceSite": "Ikke en e-handelshjemmeside",
         "NotFound": "Ingen hjemmesider for",
         "NoWebsites": "Du har ingen hjemmesider at administrere.",

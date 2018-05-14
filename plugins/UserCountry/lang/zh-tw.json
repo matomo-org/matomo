@@ -31,6 +31,7 @@
         "GeoIPCannotFindMbstringExtension": "找不到 %1$s 功能。請確定擴充功能 %2$s 已經安裝並載入。",
         "GeoIPDatabases": "GeoIP 資料庫",
         "GeoIPDocumentationSuffix": "要查看此報表的數據，你必須先在管理後台中的地理位置設定 GeoIP 。商用的 %1$sMaxmind%2$s GeoIP 資料庫比免費的還來的精準。點擊%3$s這裡%4$s看看他們多準確。",
+        "GeoIPNoDatabaseFound": "這個 GeoIP 執行時無法找到任何資料庫。",
         "GeoIPImplHasAccessTo": "這個 GeoIP 執行時會存取以下類型的資料庫",
         "GeoIPIncorrectDatabaseFormat": "你的 GeoIP 資料庫看起來不是正確的格式。它可能損壞了。請確定你正在使用二進制版本並試著使用其他副本覆蓋。",
         "GeoIpLocationProviderDesc_Pecl1": "這個地理位置供應商使用 GeoIP 資料庫和 PECL 模組來精準而且有效率的判別訪客位置。",

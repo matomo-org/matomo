@@ -22,6 +22,8 @@
         "InvalidPluginsWarning": "Folgende Plugins sind nicht kompatibel mit %1$s und konnten nicht geladen werden: %2$s",
         "InvalidPluginsYouCanUninstall": "Sie können diese Plugins auf der %1$sPlugins verwalten%2$s Seite aktualisieren oder deinstallieren.",
         "JavaScriptTracking": "Tracking mit JavaScript",
+        "HttpTrackingApi": "HTTP Tracking API",
+        "HttpTrackingApiDescription": "Die %1$sHTTP Tracking API%2$s ermöglicht es beliebige Dinge zu tracken. Das kann hilfreich sein, wenn Sie eine Programmiersprache verwenden, für die noch kein SDK existiert. Auch kann es hilfreich sein wenn Sie Geräte oder Applikationen in einer besonderen Weise tracken möchten.",
         "JSTracking_CampaignKwdParam": "Kampagnen Suchbegriff Parameter",
         "JSTracking_CampaignNameParam": "Parameter für Kampagnenname",
         "JSTracking_CodeNoteBeforeClosingHead": "Stellen Sie sicher, dass sich dieser Code auf jeder Seite Ihrer Webseite befindet. Wir empfehlen, ihn direkt vor dem schließenden %1$s Tag zu positionieren.",

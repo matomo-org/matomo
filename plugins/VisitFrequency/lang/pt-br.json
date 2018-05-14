@@ -15,6 +15,7 @@
         "ReturnActions": "ações por visitas retornadas",
         "ReturnAverageVisitDuration": "média da duração da visita por visitantes que retornaram",
         "ReturnAvgActions": "ações por visita retornada",
+        "ReturnBounceRate": "as visitas de retorno foram devolvidas (saiu do site após uma página)",
         "ReturningVisitDocumentation": "Uma visita de retorno é (em oposição a uma nova visita) feito por alguém que tenha visitado o site pelo menos uma vez antes.",
         "ReturningVisitsDocumentation": "Esta é uma visão geral das visitas de retorno.",
         "ReturnVisits": "visitas de retorno",

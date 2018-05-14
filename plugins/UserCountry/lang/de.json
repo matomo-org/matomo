@@ -31,6 +31,7 @@
         "GeoIPCannotFindMbstringExtension": "Konnte die Funktion %1$s nicht finden. Bitte stellen Sie sicher, dass die %2$s Erweiterung installiert und geladen ist.",
         "GeoIPDatabases": "GeoIP Datenbanken",
         "GeoIPDocumentationSuffix": "Um Daten für diesen Bericht sehen zu können, müssen Sie GeoIP im Standorterkennung Administrations-Reiter konfigurieren. Die kommerziellen %1$sMaxmind%2$s GeoIP Datenbanken sind weit genauer als die kostenlosen. Um zu sehen, wie genau sie sind, klicken Sie %3$shier%4$s.",
+        "GeoIPNoDatabaseFound": "Die GeoIP Implementierung konnte keine Datenbank finden.",
         "GeoIPImplHasAccessTo": "Die GeoIP Implementierung hat Zugriff auf die folgenden Datenbanktypen",
         "GeoIPIncorrectDatabaseFormat": "Ihre GeoIP Datenbank scheint nicht das korrekte Format zu haben. Möglicherweise ist diese beschädigt. Stellen Sie sicher, dass Sie die binäre Version verwenden und versuchen Sie diese durch eine andere Kopie zu ersetzen.",
         "GeoIpLocationProviderDesc_Pecl1": "Diese Standorterkennung verwendet eine GeoIP-Datenbank sowie ein PECL-Modul um den Standort der Besucher effizient und genau zu bestimmen.",
