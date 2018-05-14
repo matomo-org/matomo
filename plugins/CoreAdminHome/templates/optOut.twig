@@ -9,8 +9,6 @@
         <meta http-equiv="refresh" content="0; url={{ reloadUrl }}&amp;nonce={{ nonce }}" />
     {% endif %}
 
-    <script src="plugins/CoreAdminHome/javascripts/optOut.js" type="text/javascript"></script>
-
     {% if stylesheets.external|length > 0 %}
         {% for style in stylesheets.external %}
             <link href="{{ style|raw }}" rel="stylesheet" type="text/css">
