@@ -10,6 +10,7 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Access;
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Exception\PluginDeactivatedException;
@@ -293,9 +294,23 @@ class Request
         return sprintf('\Piwik\Plugins\%s\API', $plugin);
     }
 
+    public static function setIsRootRequestApiRequest($isRootRequestApiRequest)
+    {
+        Cache::getTransientCache()->save('API.setIsRootRequestApiRequest', $isRootRequestApiRequest);
+    }
+
+    public static function isRootRequestApiRequest()
+    {
+        $isApi = Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
+        return !empty($isApi);
+    }
+
     /**
      * Detect if request is an API request. Meaning the module is 'API' and an API method having a valid format was
-     * specified.
+     * specified. Note that this method will return true even if the actual request is for example a regular UI
+     * reporting page request but within this request we are currently processing an API request (eg a
+     * controller calls Request::processRequest('API.getMatomoVersion')). To find out if the root request is an API
+     * request or not, call {@link isRootRequestApiRequest()}
      *
      * @param array $request  eg array('module' => 'API', 'method' => 'Test.getMethod')
      * @return bool
