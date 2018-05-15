@@ -27,7 +27,7 @@
         "ColumnSiteSearchKeywords": "Unikke søgeord",
         "ColumnUniqueClicks": "Unikke klik",
         "ColumnUniqueClicksDocumentation": "Antal besøg, der involverede et klik på linket. Hvis et link blev klikket flere gange under et besøg, tæller det kun én gang.",
-        "ColumnUniqueDownloads": "Unikke fil-hentninger",
+        "ColumnUniqueDownloads": "Unikke downloads",
         "ColumnUniqueOutlinks": "Unikke udgående links",
         "ColumnIdPageview": "Sidevisning ID",
         "ColumnInteractionPosition": "Position for Interaktion",

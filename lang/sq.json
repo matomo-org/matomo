@@ -450,6 +450,7 @@
         "ValidatorErrorCharacterTooLong": "Vlera përmban \"%1$s\" shenja, por duhet të përmbajë të paktën %2$s shenja.",
         "ValidatorErrorNotUrlLike": "Vlera \"%s\" nuk duket si URL.",
         "ValidatorErrorNotEmailLike": "Vlera \"%s\" s’duket si email i vlefshëm.",
+        "ValidatorErrorNoValidRegex": "Vlera \"%s\" s’është një shprehje e rregullt e vlefshme.",
         "ValidatorErrorXNotWhitelisted": "Vlera \"%1$s\" s’është e lejuar, përdorni një nga: %2$s.",
         "ValidatorErrorInvalidDateTimeFormat": "Data \"%1$s\" s’është në formatin e saktë, ju lutemi, përdorni %2$s",
         "WarningFileIntegrityNoManifest": "Kontrolli i pacenueshmërisë së kartelës s’u krye dot për shkak të mungesës së manifest.inc.php.",

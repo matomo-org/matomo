@@ -8,8 +8,11 @@
 namespace Piwik\Plugins\PrivacyManager\tests\Fixtures;
 
 use Piwik\Date;
+use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\Config;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tracker\Cache;
 
 
 class FewVisitsAnonymizedFixture extends Fixture
@@ -19,6 +22,9 @@ class FewVisitsAnonymizedFixture extends Fixture
 
     public function setUp()
     {
+        Option::set(PrivacyManager::OPTION_USERID_SALT, 'simpleuseridsalt1');
+        Cache::clearCacheGeneral();
+
         $this->setUpWebsite();
         $this->trackAnonymizedUserId();
         $this->trackAnonymizedOrderId();

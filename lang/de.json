@@ -447,6 +447,7 @@
         "ValidatorErrorNumberTooLow": "Der Wert \"%1$s\" ist zu niedrig. Er muss mindestens %2$s betragen.",
         "ValidatorErrorNumberTooHigh": "Der Wert \"%1$s\" ist zu hoch. Er sollte höchstens %2$s betragen",
         "ValidatorErrorCharacterTooShort": "Der Wert enthält \"%1$s\" Zeichen, muss jedoch mindestens %2$s Zeichen enthalten.",
+        "ValidatorErrorCharacterTooLong": "Der Wert enthält \"%1$s\" Zeichen, sollte aber maximal %2$s Zeichen haben.",
         "ValidatorErrorNotUrlLike": "Der Wert \"%s\" sieht nicht wie eine URL aus.",
         "ValidatorErrorNotEmailLike": "Der Wert \"%s\" ist keine gültige E-Mail-Adresse.",
         "ValidatorErrorNoValidRegex": "Der Wert \"%s\" ist kein gültiger regulärer Ausdruck.",
