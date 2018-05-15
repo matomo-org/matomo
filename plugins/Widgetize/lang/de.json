@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "In neuem Fenster öffnen",
+        "PluginDescription": "Zeigt sämtliche Matomo Berichte in Ihrer Website oder App mit einem einfachen Embed HTML tag an.",
+        "TopLinkTooltip": "Exportieren Sie Berichte als Widgets und binden Sie das Dashboard in Ihrer Applikation als iframe ein."
+    }
+}

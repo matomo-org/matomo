@@ -8,9 +8,15 @@
  */
 
 namespace Piwik\ViewDataTable;
+
 use Piwik\API\Request as ApiRequest;
+use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\DataTable;
+use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics;
 use Piwik\Plugins\API\API;
+use Piwik\Plugin\ReportsProvider;
 
 /**
  * Contains base display properties for {@link Piwik\Plugin\ViewDataTable}s. Manipulating these
@@ -77,13 +83,17 @@ use Piwik\Plugins\API\API;
  *
  * @api
  */
-class Config
+class   Config
 {
     /**
      * The list of ViewDataTable properties that are 'Client Side Properties'.
      */
     public $clientSideProperties = array(
-        'show_limit_control'
+        'show_limit_control',
+        'pivot_by_dimension',
+        'pivot_by_column',
+        'pivot_dimension_name',
+        'disable_all_rows_filter_limit',
     );
 
     /**
@@ -93,15 +103,16 @@ class Config
         'show_goals',
         'show_exclude_low_population',
         'show_flatten_table',
+        'show_pivot_by_subtable',
         'show_table',
         'show_table_all_columns',
         'show_footer',
         'show_footer_icons',
         'show_all_views_icons',
-        'show_active_view_icon',
         'show_related_reports',
         'show_limit_control',
         'show_search',
+        'show_export',
         'enable_sort',
         'show_bar_chart',
         'show_pie_chart',
@@ -113,7 +124,7 @@ class Config
         'show_pagination_control',
         'show_offset_information',
         'hide_annotations_view',
-        'export_limit'
+        'columns_to_display'
     );
 
     /**
@@ -185,6 +196,28 @@ class Config
     public $show_flatten_table = true;
 
     /**
+     * Whether to show the 'Pivot by subtable' option (visible in the popup that displays after clicking
+     * the 'cog' icon).
+     */
+    public $show_pivot_by_subtable;
+
+    /**
+     * The ID of the dimension to pivot by when the 'pivot by subtable' option is clicked. Defaults
+     * to the subtable dimension of the report being displayed.
+     */
+    public $pivot_by_dimension;
+
+    /**
+     * The column to display in pivot tables. Defaults to the first non-label column if not specified.
+     */
+    public $pivot_by_column = '';
+
+    /**
+     * The human readable name of the pivot dimension.
+     */
+    public $pivot_dimension_name = false;
+
+    /**
      * Controls whether the footer icon that allows users to switch to the 'normal' DataTable view
      * is shown.
      */
@@ -223,11 +256,6 @@ class Config
     public $show_all_views_icons = true;
 
     /**
-     * Controls whether to display a tiny upside-down caret over the currently active view icon.
-     */
-    public $show_active_view_icon = true;
-
-    /**
      * Related reports are listed below a datatable view. When clicked, the original report will
      * change to the clicked report and the list will change so the original report can be
      * navigated back to.
@@ -247,6 +275,19 @@ class Config
      * This must be set if related reports are added.
      */
     public $title = '';
+
+    /**
+     * If a URL is set, the title of the report will be clickable. Is supposed to be set for entities that can be
+     * configured (edited) such as goal. Eg when there is a goal report, and someone is allowed to edit the goal entity,
+     * a link is supposed to be with a URL to the edit goal form.
+     * @var string
+     */
+    public $title_edit_entity_url = '';
+
+    /**
+     * The report description. eg like a goal description
+     */
+    public $description = '';
 
     /**
      * Controls whether a report's related reports are listed with the view or not.
@@ -282,6 +323,13 @@ class Config
     public $show_search = true;
 
     /**
+     * Controls whether the export feature under the datatable is shown.
+     *
+     * @api since Piwik 3.2.0
+     */
+    public $show_export = true;
+
+    /**
      * Controls whether the user can sort DataTables by clicking on table column headings.
      */
     public $enable_sort = true;
@@ -302,6 +350,19 @@ class Config
     public $show_tag_cloud = true;
 
     /**
+     * If enabled, shows the visualization as a content block. This is similar to wrapping your visualization
+     * with a `<div piwik-content-block></div>`
+     * @var bool
+     */
+    public $show_as_content_block = true;
+
+    /**
+     * If enabled shows the title of the report.
+     * @var bool
+     */
+    public $show_title = true;
+
+    /**
      * Controls whether the user is allowed to export data as an RSS feed or not.
      */
     public $show_export_as_rss_feed = true;
@@ -312,7 +373,16 @@ class Config
     public $show_ecommerce = false;
 
     /**
+     * Stores an HTML message (if any) to display above the datatable view.
+     *
+     * Attention: Message will be printed raw. Don't forget to escape where needed!
+     */
+    public $show_header_message = false;
+
+    /**
      * Stores an HTML message (if any) to display under the datatable view.
+     *
+     * Attention: Message will be printed raw. Don't forget to escape where needed!
      */
     public $show_footer_message = false;
 
@@ -404,11 +474,21 @@ class Config
     public $hide_annotations_view = true;
 
     /**
-     * The filter_limit query parameter value to use in export links.
+     * Controls whether the 'all' row limit option is shown for the limit selector.
      *
-     * Defaulted to the value of the `[General] API_datatable_default_limit` INI config option.
+     * @var bool
      */
-    public $export_limit = '';
+    public $disable_all_rows_filter_limit = false;
+
+    /**
+     * Message to show if not data is available for the report
+     * Defaults to `CoreHome_ThereIsNoDataForThisReport` if not set
+     *
+     * Attention: Message will be printed raw. Don't forget to escape where needed!
+     *
+     * @var string
+     */
+    public $no_data_message = '';
 
     /**
      * @ignore
@@ -430,11 +510,12 @@ class Config
      */
     public function __construct()
     {
-        $this->export_limit = \Piwik\Config::getInstance()->General['API_datatable_default_limit'];
         $this->translations = array_merge(
             Metrics::getDefaultMetrics(),
             Metrics::getDefaultProcessedMetrics()
         );
+
+        $this->show_title = (bool)Common::getRequestVar('showtitle', 0, 'int');
     }
 
     /**
@@ -447,6 +528,8 @@ class Config
         $this->report_id        = $controllerName . '.' . $controllerAction;
 
         $this->loadDocumentation();
+        $this->setShouldShowPivotBySubtable();
+        $this->setShouldShowFlattener();
     }
 
     /** Load documentation from the API */
@@ -454,7 +537,27 @@ class Config
     {
         $this->metrics_documentation = array();
 
-        $report = API::getInstance()->getMetadata(0, $this->controllerName, $this->controllerAction);
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
+
+        if ($idSite < 1) {
+            return;
+        }
+
+        $apiParameters = array();
+        $entityNames = StaticContainer::get('entities.idNames');
+        foreach ($entityNames as $entityName) {
+            $idEntity = Common::getRequestVar($entityName, 0, 'int');
+            if ($idEntity > 0) {
+                $apiParameters[$entityName] = $idEntity;
+            }
+        }
+
+        $report = API::getInstance()->getMetadata($idSite, $this->controllerName, $this->controllerAction, $apiParameters);
+
+        if (empty($report)) {
+            return;
+        }
+
         $report = $report[0];
 
         if (isset($report['metricsDocumentation'])) {
@@ -524,10 +627,21 @@ class Config
         $this->columns_to_display = array_filter($columnsToDisplay);
     }
 
+    public function removeColumnToDisplay($columnToRemove)
+    {
+        if (!empty($this->columns_to_display)) {
+
+            $key = array_search($columnToRemove, $this->columns_to_display);
+            if (false !== $key) {
+                unset($this->columns_to_display[$key]);
+            }
+        }
+    }
+
     /**
      * @ignore
      */
-    public function getFiltersToRun()
+    private function getFiltersToRun()
     {
         $priorityFilters     = array();
         $presentationFilters = array();
@@ -551,12 +665,26 @@ class Config
         return array($priorityFilters, $presentationFilters);
     }
 
+    public function getPriorityFilters()
+    {
+        $filters = $this->getFiltersToRun();
+
+        return $filters[0];
+    }
+
+    public function getPresentationFilters()
+    {
+        $filters = $this->getFiltersToRun();
+
+        return $filters[1];
+    }
+
     /**
      * Adds a related report to the {@link $related_reports} property. If the report
      * references the one that is currently being displayed, it will not be added to the related
      * report list.
      *
-     * @param string $relatedReport The plugin and method of the report, eg, `'UserSettings.getBrowser'`.
+     * @param string $relatedReport The plugin and method of the report, eg, `'DevicesDetection.getBrowsers'`.
      * @param string $title The report's display name, eg, `'Browsers'`.
      * @param array $queryParams Any extra query parameters to set in releated report's URL, eg,
      *                           `array('idGoal' => 'ecommerceOrder')`.
@@ -568,7 +696,7 @@ class Config
         // don't add the related report if it references this report
         if ($this->controllerName == $module
             && $this->controllerAction == $action) {
-            if(empty($queryParams)) {
+            if (empty($queryParams)) {
                 return;
             }
         }
@@ -590,8 +718,8 @@ class Config
      *                              titles, eg,
      *                              ```
      *                              array(
-     *                                  'UserSettings.getBrowser' => 'Browsers',
-     *                                  'UserSettings.getConfiguration' => 'Configurations'
+     *                                  'DevicesDetection.getBrowsers' => 'Browsers',
+     *                                  'Resolution.getConfiguration' => 'Configurations'
      *                              )
      *                              ```
      */
@@ -634,5 +762,43 @@ class Config
         foreach ($translations as $key => $translation) {
             $this->addTranslation($key, $translation);
         }
+    }
+
+    private function setShouldShowPivotBySubtable()
+    {
+        $report = ReportsProvider::factory($this->controllerName, $this->controllerAction);
+
+        if (empty($report)) {
+            $this->show_pivot_by_subtable = false;
+            $this->pivot_by_dimension = false;
+        } else {
+            $this->show_pivot_by_subtable =  PivotByDimension::isPivotingReportBySubtableSupported($report);
+
+            $subtableDimension = $report->getSubtableDimension();
+            if (!empty($subtableDimension)) {
+                $this->pivot_by_dimension = $subtableDimension->getId();
+                $this->pivot_dimension_name = $subtableDimension->getName();
+            }
+        }
+    }
+
+    private function setShouldShowFlattener()
+    {
+        $report = ReportsProvider::factory($this->controllerName, $this->controllerAction);
+
+        if ($report && !$report->supportsFlatten()) {
+            $this->show_flatten_table = false;
+        }
+    }
+
+    public function disablePivotBySubtableIfTableHasNoSubtables(DataTable $table)
+    {
+        foreach ($table->getRows() as $row) {
+            if ($row->getIdSubDataTable() !== null) {
+                return;
+            }
+        }
+
+        $this->show_pivot_by_subtable = false;
     }
 }

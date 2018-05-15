@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Site 1 - Site search</website>
+	<prettyDate>January 3 – 9, 2010</prettyDate>
+	<metadata>
+		<category>Actions</category>
+		<subcategory>Site Search</subcategory>
+		<name>Search Categories</name>
+		<module>Actions</module>
+		<action>getSiteSearchCategories</action>
+		<dimension>Search Category</dimension>
+		<documentation>This report lists the Categories that visitors selected when they made a Search on your website.&lt;br/&gt;For example, Ecommerce websites typically have a &quot;Category&quot; selector so that visitors can restrict their searches to all products in a specific Category.</documentation>
+		<metrics>
+			<nb_visits>Searches</nb_visits>
+			<nb_pages_per_search>Search Results pages</nb_pages_per_search>
+			<exit_rate>% Search Exits</exit_rate>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>The number of visits that searched for this keyword on your website's search engine.</nb_visits>
+			<nb_pages_per_search>Visitors will search on your website, and sometimes click &quot;next&quot; to view more results. This is the average number of search results pages viewed for this keyword.</nb_pages_per_search>
+			<exit_rate>The percentage of visits that left the website after searching for this Keyword on your Site Search engine.</exit_rate>
+		</metricsDocumentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchCategories&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchCategories&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getSiteSearchCategories</uniqueId>
+	</metadata>
+	<columns>
+		<label>Search Category</label>
+		<nb_visits>Searches</nb_visits>
+		<nb_pages_per_search>Search Results pages</nb_pages_per_search>
+		<exit_rate>% Search Exits</exit_rate>
+	</columns>
+	<reportData>
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<label>Search Category</label>
+				<nb_visits>2</nb_visits>
+				<nb_pages_per_search>1.5</nb_pages_per_search>
+				<exit_rate>0%</exit_rate>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<label>Bad No Result Category :(</label>
+				<nb_visits>1</nb_visits>
+				<nb_pages_per_search>1</nb_pages_per_search>
+				<exit_rate>0%</exit_rate>
+			</row>
+			<row>
+				<label>Category</label>
+				<nb_visits>1</nb_visits>
+				<nb_pages_per_search>1</nb_pages_per_search>
+				<exit_rate>0%</exit_rate>
+			</row>
+		</result>
+	</reportData>
+	<reportMetadata>
+		<result prettyDate="Sunday, January 3, 2010" />
+		<result prettyDate="Monday, January 4, 2010" />
+	</reportMetadata>
+	<reportTotal>
+		<nb_visits>4</nb_visits>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_actions>5</nb_actions>
+	</reportTotal>
+</result>

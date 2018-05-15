@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Movie</label>
+		<nb_uniq_visitors>26</nb_uniq_visitors>
+		<nb_visits>28</nb_visits>
+		<nb_events>28</nb_events>
+		<nb_events_with_value>2</nb_events_with_value>
+		<sum_event_value>19.32</sum_event_value>
+		<min_event_value>0</min_event_value>
+		<max_event_value>9.66</max_event_value>
+		<avg_event_value>9.66</avg_event_value>
+		<segment>eventCategory==Movie</segment>
+		<subtable>
+			<row>
+				<label>Spirited Away (千と千尋の神隠し)</label>
+				<nb_uniq_visitors>16</nb_uniq_visitors>
+				<nb_visits>16</nb_visits>
+				<nb_events>16</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>19.32</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+			<row>
+				<label>Ponyo (崖の上のポニョ)</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Princess Mononoke (もののけ姫)</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Search query here</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>Music</label>
+		<nb_uniq_visitors>12</nb_uniq_visitors>
+		<nb_visits>12</nb_visits>
+		<nb_events>14</nb_events>
+		<nb_events_with_value>4</nb_events_with_value>
+		<sum_event_value>38</sum_event_value>
+		<min_event_value>0</min_event_value>
+		<max_event_value>10</max_event_value>
+		<avg_event_value>9.5</avg_event_value>
+		<segment>eventCategory==Music</segment>
+		<subtable>
+			<row>
+				<label>La fiancée de l'eau</label>
+				<nb_uniq_visitors>12</nb_uniq_visitors>
+				<nb_visits>12</nb_visits>
+				<nb_events>14</nb_events>
+				<nb_events_with_value>4</nb_events_with_value>
+				<sum_event_value>38</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>10</max_event_value>
+				<avg_event_value>9.5</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>event category Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_events>2</nb_events>
+		<nb_events_with_value>2</nb_events_with_value>
+		<sum_event_value>19.32</sum_event_value>
+		<min_event_value>9.66</min_event_value>
+		<max_event_value>9.66</max_event_value>
+		<avg_event_value>9.66</avg_event_value>
+		<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
+		<subtable>
+			<row>
+				<label>event name Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				<nb_uniq_visitors>2</nb_uniq_visitors>
+				<nb_visits>2</nb_visits>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>19.32</sum_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>CategoryTriggersGoal here</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_events>1</nb_events>
+		<nb_events_with_value>0</nb_events_with_value>
+		<sum_event_value>0</sum_event_value>
+		<min_event_value>0</min_event_value>
+		<max_event_value>0</max_event_value>
+		<avg_event_value>0</avg_event_value>
+		<segment>eventCategory==CategoryTriggersGoal+here</segment>
+	</row>
+</result>

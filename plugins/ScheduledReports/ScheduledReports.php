@@ -9,19 +9,19 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
-use Piwik\Common;
-use Piwik\Db;
-use Piwik\DbHelper;
-use Piwik\Mail;
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Log;
+use Piwik\Option;
+use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\Model as UserModel;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
-use Piwik\Plugins\UsersManager\Model as UserModel;
 use Piwik\ReportRenderer;
-use Piwik\ScheduledTime;
+use Piwik\Scheduler\Schedule\Schedule;
+use Piwik\Tracker;
 use Piwik\View;
-use Zend_Mime;
-use Piwik\Config;
 
 /**
  *
@@ -61,17 +61,20 @@ class ScheduledReports extends \Piwik\Plugin
 
     private static $managedReportFormats = array(
         ReportRenderer::HTML_FORMAT => 'plugins/Morpheus/images/html_icon.png',
-        ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif',
+        ReportRenderer::PDF_FORMAT  => 'plugins/Morpheus/icons/dist/plugins/pdf.png',
         ReportRenderer::CSV_FORMAT  => 'plugins/Morpheus/images/export.png',
     );
 
+    const OPTION_KEY_LAST_SENT_DATERANGE = 'report_last_sent_daterange_';
+
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see \Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getJavaScriptFiles'           => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'           => 'getStylesheetFiles',
             'MobileMessaging.deletePhoneNumber'         => 'deletePhoneNumber',
             'ScheduledReports.getReportParameters'      => 'getReportParameters',
             'ScheduledReports.validateReportParameters' => 'validateReportParameters',
@@ -85,17 +88,27 @@ class ScheduledReports extends \Piwik\Plugin
             'ScheduledReports.sendReport'               => 'sendReport',
             'Template.reportParametersScheduledReports' => 'template_reportParametersScheduledReports',
             'UsersManager.deleteUser'                   => 'deleteUserReport',
+            'UsersManager.removeSiteAccess'             => 'deleteUserReportForSites',
             'SitesManager.deleteSite.end'               => 'deleteSiteReport',
             'SegmentEditor.deactivate'                  => 'segmentDeactivation',
             'SegmentEditor.update'                      => 'segmentUpdated',
             'Translate.getClientSideTranslationKeys'    => 'getClientSideTranslationKeys',
+            'Request.getRenamedModuleAndAction'         => 'renameDeprecatedModuleAndAction',
         );
+    }
+
+    public function renameDeprecatedModuleAndAction(&$module, &$action)
+    {
+        if($module == 'PDFReports') {
+            $module = 'ScheduledReports';
+        }
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "ScheduledReports_ReportSent";
         $translationKeys[] = "ScheduledReports_ReportUpdated";
+        $translationKeys[] = "ScheduledReports_ReportHourWithUTC";
     }
 
     /**
@@ -113,42 +126,50 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/ScheduledReports/javascripts/pdf.js";
+        $jsFiles[] = "plugins/ScheduledReports/angularjs/manage-scheduled-report/manage-scheduled-report.controller.js";
+        $jsFiles[] = "plugins/ScheduledReports/angularjs/manage-scheduled-report/manage-scheduled-report.directive.js";
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = 'plugins/ScheduledReports/stylesheets/scheduledreports.less';
     }
 
     public function validateReportParameters(&$parameters, $reportType)
     {
-        if (self::manageEvent($reportType)) {
-            $reportFormat = $parameters[self::DISPLAY_FORMAT_PARAMETER];
-            $availableDisplayFormats = array_keys(self::getDisplayFormats());
-            if (!in_array($reportFormat, $availableDisplayFormats)) {
-                throw new Exception(
-                    Piwik::translate(
-                    // General_ExceptionInvalidAggregateReportsFormat should be named General_ExceptionInvalidDisplayFormat
-                        'General_ExceptionInvalidAggregateReportsFormat',
-                        array($reportFormat, implode(', ', $availableDisplayFormats))
-                    )
-                );
-            }
+        if (! self::manageEvent($reportType)) {
+            return;
+        }
 
-            // emailMe is an optional parameter
-            if (!isset($parameters[self::EMAIL_ME_PARAMETER])) {
-                $parameters[self::EMAIL_ME_PARAMETER] = self::EMAIL_ME_PARAMETER_DEFAULT_VALUE;
-            } else {
-                $parameters[self::EMAIL_ME_PARAMETER] = self::valueIsTrue($parameters[self::EMAIL_ME_PARAMETER]);
-            }
+        $reportFormat = $parameters[self::DISPLAY_FORMAT_PARAMETER];
+        $availableDisplayFormats = array_keys(self::getDisplayFormats());
+        if (!in_array($reportFormat, $availableDisplayFormats)) {
+            throw new Exception(
+                Piwik::translate(
+                // General_ExceptionInvalidAggregateReportsFormat should be named General_ExceptionInvalidDisplayFormat
+                    'General_ExceptionInvalidAggregateReportsFormat',
+                    array($reportFormat, implode(', ', $availableDisplayFormats))
+                )
+            );
+        }
 
-            // evolutionGraph is an optional parameter
-            if (!isset($parameters[self::EVOLUTION_GRAPH_PARAMETER])) {
-                $parameters[self::EVOLUTION_GRAPH_PARAMETER] = self::EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE;
-            } else {
-                $parameters[self::EVOLUTION_GRAPH_PARAMETER] = self::valueIsTrue($parameters[self::EVOLUTION_GRAPH_PARAMETER]);
-            }
+        // emailMe is an optional parameter
+        if (!isset($parameters[self::EMAIL_ME_PARAMETER])) {
+            $parameters[self::EMAIL_ME_PARAMETER] = self::EMAIL_ME_PARAMETER_DEFAULT_VALUE;
+        } else {
+            $parameters[self::EMAIL_ME_PARAMETER] = self::valueIsTrue($parameters[self::EMAIL_ME_PARAMETER]);
+        }
 
-            // additionalEmails is an optional parameter
-            if (isset($parameters[self::ADDITIONAL_EMAILS_PARAMETER])) {
-                $parameters[self::ADDITIONAL_EMAILS_PARAMETER] = self::checkAdditionalEmails($parameters[self::ADDITIONAL_EMAILS_PARAMETER]);
-            }
+        // evolutionGraph is an optional parameter
+        if (!isset($parameters[self::EVOLUTION_GRAPH_PARAMETER])) {
+            $parameters[self::EVOLUTION_GRAPH_PARAMETER] = self::EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE;
+        } else {
+            $parameters[self::EVOLUTION_GRAPH_PARAMETER] = self::valueIsTrue($parameters[self::EVOLUTION_GRAPH_PARAMETER]);
+        }
+
+        // additionalEmails is an optional parameter
+        if (isset($parameters[self::ADDITIONAL_EMAILS_PARAMETER])) {
+            $parameters[self::ADDITIONAL_EMAILS_PARAMETER] = self::checkAdditionalEmails($parameters[self::ADDITIONAL_EMAILS_PARAMETER]);
         }
     }
 
@@ -160,22 +181,26 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function getReportMetadata(&$reportMetadata, $reportType, $idSite)
     {
-        if (self::manageEvent($reportType)) {
-            $availableReportMetadata = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
+        if (! self::manageEvent($reportType)) {
+            return;
+        }
 
-            $filteredReportMetadata = array();
-            foreach ($availableReportMetadata as $reportMetadata) {
-                // removing reports from the API category and MultiSites.getOne
-                if (
-                    $reportMetadata['category'] == 'API' ||
-                    $reportMetadata['category'] == Piwik::translate('General_MultiSitesSummary') && $reportMetadata['name'] == Piwik::translate('General_SingleWebsitesDashboard')
-                ) continue;
+        $availableReportMetadata = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
 
-                $filteredReportMetadata[] = $reportMetadata;
+        $filteredReportMetadata = array();
+        foreach ($availableReportMetadata as $reportMetadata) {
+            // removing reports from the API category and MultiSites.getOne
+            if (
+                $reportMetadata['category'] == 'API' ||
+                $reportMetadata['category'] == Piwik::translate('General_MultiSitesSummary') && $reportMetadata['name'] == Piwik::translate('General_SingleWebsitesDashboard')
+            ) {
+                continue;
             }
 
-            $reportMetadata = $filteredReportMetadata;
+            $filteredReportMetadata[] = $reportMetadata;
         }
+
+        $reportMetadata = $filteredReportMetadata;
     }
 
     public function getReportTypes(&$reportTypes)
@@ -199,53 +224,57 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function processReports(&$processedReports, $reportType, $outputType, $report)
     {
-        if (self::manageEvent($reportType)) {
-            $displayFormat = $report['parameters'][self::DISPLAY_FORMAT_PARAMETER];
-            $evolutionGraph = $report['parameters'][self::EVOLUTION_GRAPH_PARAMETER];
+        if (! self::manageEvent($reportType)) {
+            return;
+        }
 
-            foreach ($processedReports as &$processedReport) {
-                $metadata = $processedReport['metadata'];
+        $displayFormat = $report['parameters'][self::DISPLAY_FORMAT_PARAMETER];
+        $evolutionGraph = $report['parameters'][self::EVOLUTION_GRAPH_PARAMETER];
 
-                $isAggregateReport = !empty($metadata['dimension']);
+        foreach ($processedReports as &$processedReport) {
+            $metadata = $processedReport['metadata'];
 
-                $processedReport['displayTable'] = $displayFormat != self::DISPLAY_FORMAT_GRAPHS_ONLY;
+            $isAggregateReport = !empty($metadata['dimension']);
 
-                $processedReport['displayGraph'] =
-                    ($isAggregateReport ?
-                        $displayFormat == self::DISPLAY_FORMAT_GRAPHS_ONLY || $displayFormat == self::DISPLAY_FORMAT_TABLES_AND_GRAPHS
-                        :
-                        $displayFormat != self::DISPLAY_FORMAT_TABLES_ONLY)
-                    && \Piwik\SettingsServer::isGdExtensionEnabled()
-                    && \Piwik\Plugin\Manager::getInstance()->isPluginActivated('ImageGraph')
-                    && !empty($metadata['imageGraphUrl']);
+            $processedReport['displayTable'] = $displayFormat != self::DISPLAY_FORMAT_GRAPHS_ONLY;
 
-                $processedReport['evolutionGraph'] = $evolutionGraph;
+            $processedReport['displayGraph'] =
+                ($isAggregateReport ?
+                    $displayFormat == self::DISPLAY_FORMAT_GRAPHS_ONLY || $displayFormat == self::DISPLAY_FORMAT_TABLES_AND_GRAPHS
+                    :
+                    $displayFormat != self::DISPLAY_FORMAT_TABLES_ONLY)
+                && \Piwik\SettingsServer::isGdExtensionEnabled()
+                && \Piwik\Plugin\Manager::getInstance()->isPluginActivated('ImageGraph')
+                && !empty($metadata['imageGraphUrl']);
 
-                // remove evolution metrics from MultiSites.getAll
-                if ($metadata['module'] == 'MultiSites') {
-                    $columns = $processedReport['columns'];
+            $processedReport['evolutionGraph'] = $evolutionGraph;
 
-                    foreach (\Piwik\Plugins\MultiSites\API::getApiMetrics($enhanced = true) as $metricSettings) {
-                        unset($columns[$metricSettings[\Piwik\Plugins\MultiSites\API::METRIC_EVOLUTION_COL_NAME_KEY]]);
-                    }
+            // remove evolution metrics from MultiSites.getAll
+            if ($metadata['module'] == 'MultiSites') {
+                $columns = $processedReport['columns'];
 
-                    $processedReport['metadata'] = $metadata;
-                    $processedReport['columns'] = $columns;
+                foreach (\Piwik\Plugins\MultiSites\API::getApiMetrics($enhanced = true) as $metricSettings) {
+                    unset($columns[$metricSettings[\Piwik\Plugins\MultiSites\API::METRIC_EVOLUTION_COL_NAME_KEY]]);
                 }
+
+                $processedReport['metadata'] = $metadata;
+                $processedReport['columns'] = $columns;
             }
         }
     }
 
     public function getRendererInstance(&$reportRenderer, $reportType, $outputType, $report)
     {
-        if (self::manageEvent($reportType)) {
-            $reportFormat = $report['format'];
+        if (! self::manageEvent($reportType)) {
+            return;
+        }
 
-            $reportRenderer = ReportRenderer::factory($reportFormat);
+        $reportFormat = $report['format'];
 
-            if ($reportFormat == ReportRenderer::HTML_FORMAT) {
-                $reportRenderer->setRenderImageInline($outputType != API::OUTPUT_SAVE_ON_DISK);
-            }
+        $reportRenderer = ReportRenderer::factory($reportFormat);
+
+        if ($reportFormat == ReportRenderer::HTML_FORMAT) {
+            $reportRenderer->setRenderImageInline($outputType != API::OUTPUT_SAVE_ON_DISK);
         }
     }
 
@@ -257,132 +286,82 @@ class ScheduledReports extends \Piwik\Plugin
     }
 
     public function sendReport($reportType, $report, $contents, $filename, $prettyDate, $reportSubject, $reportTitle,
-                               $additionalFiles)
+                               $additionalFiles, Period $period = null, $force)
     {
-        if (self::manageEvent($reportType)) {
-            $periods = self::getPeriodToFrequencyAsAdjective();
-            $message = Piwik::translate('ScheduledReports_EmailHello');
-            $subject = Piwik::translate('General_Report') . ' ' . $reportTitle . " - " . $prettyDate;
+        if (! self::manageEvent($reportType)) {
+            return;
+        }
 
-            $mail = new Mail();
-            $mail->setDefaultFromPiwik();
-            $mail->setSubject($subject);
-            $attachmentName = $subject;
+        // Safeguard against sending the same report twice to the same email (unless $force is true)
+        if (!$force && $this->reportAlreadySent($report, $period)) {
+            Log::warning(
+                'Preventing the same scheduled report from being sent again (report #%s for period "%s")',
+                $report['idreport'],
+                $prettyDate
+            );
+            return;
+        }
 
-            $this->setReplyToAsSender($mail, $report);
+        $generatedReport = new GeneratedReport($report, $reportTitle, $prettyDate, $contents, $additionalFiles);
 
-            $displaySegmentInfo = false;
-            $segmentInfo = null;
-            $segment = API::getSegment($report['idsegment']);
-            if ($segment != null) {
-                $displaySegmentInfo = true;
-                $segmentInfo = Piwik::translate('ScheduledReports_SegmentAppliedToReports', $segment['name']);
-            }
+        $reportFormat = $generatedReport->getReportFormat();
 
-            switch ($report['format']) {
-                case 'html':
+        $customReplyTo = null;
+        if (Config::getInstance()->General['scheduled_reports_replyto_is_user_email_and_alias']
+            || !isset($reportDetails['login'])
+        ) {
+            $userModel = new UserModel();
+            $customReplyTo = $userModel->getUser($report['login']);
+        }
 
-                    // Needed when using images as attachment with cid
-                    $mail->setType(Zend_Mime::MULTIPART_RELATED);
-                    $message .= "<br/>" . Piwik::translate('ScheduledReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
+        /** @var ReportEmailGenerator $reportGenerator */
+        $reportGenerator = StaticContainer::get(ReportEmailGenerator::class . '.' . $reportFormat);
+        $mail = $reportGenerator->makeEmail($generatedReport, $customReplyTo);
 
-                    if ($displaySegmentInfo) {
-                        $message .= " " . $segmentInfo;
-                    }
+        // Get user emails and languages
+        $reportParameters = $report['parameters'];
+        $emails = array();
 
-                    $mail->setBodyHtml($message . "<br/><br/>" . $contents);
-                    break;
+        if (isset($reportParameters[self::ADDITIONAL_EMAILS_PARAMETER])) {
+            $emails = $reportParameters[self::ADDITIONAL_EMAILS_PARAMETER];
+        }
 
-                case 'csv':
-                    $message .= "\n" . Piwik::translate('ScheduledReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
-
-                    if ($displaySegmentInfo) {
-                        $message .= " " . $segmentInfo;
-                    }
-
-                    $mail->setBodyText($message);
-                    $mail->createAttachment(
-                        $contents,
-                        'application/csv',
-                        Zend_Mime::DISPOSITION_INLINE,
-                        Zend_Mime::ENCODING_BASE64,
-                        $attachmentName . '.csv'
-                    );
-                    break;
-
-                default:
-                case 'pdf':
-                    $message .= "\n" . Piwik::translate('ScheduledReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
-
-                    if ($displaySegmentInfo) {
-                        $message .= " " . $segmentInfo;
-                    }
-
-                    $mail->setBodyText($message);
-                    $mail->createAttachment(
-                        $contents,
-                        'application/pdf',
-                        Zend_Mime::DISPOSITION_INLINE,
-                        Zend_Mime::ENCODING_BASE64,
-                        $attachmentName . '.pdf'
-                    );
-                    break;
-            }
-
-            foreach ($additionalFiles as $additionalFile) {
-                $fileContent = $additionalFile['content'];
-                $at = $mail->createAttachment(
-                    $fileContent,
-                    $additionalFile['mimeType'],
-                    Zend_Mime::DISPOSITION_INLINE,
-                    $additionalFile['encoding'],
-                    $additionalFile['filename']
-                );
-                $at->id = $additionalFile['cid'];
-
-                unset($fileContent);
-            }
-
-            // Get user emails and languages
-            $reportParameters = $report['parameters'];
-            $emails = array();
-
-            if (isset($reportParameters[self::ADDITIONAL_EMAILS_PARAMETER])) {
-                $emails = $reportParameters[self::ADDITIONAL_EMAILS_PARAMETER];
-            }
-
-            if ($reportParameters[self::EMAIL_ME_PARAMETER] == 1) {
-                if (Piwik::getCurrentUserLogin() == $report['login']) {
-                    $emails[] = Piwik::getCurrentUserEmail();
-                } else {
-                    try {
-                        $user = APIUsersManager::getInstance()->getUser($report['login']);
-                    } catch (Exception $e) {
-                        return;
-                    }
-                    $emails[] = $user['email'];
-                }
-            }
-
-            foreach ($emails as $email) {
-                if (empty($email)) {
-                    continue;
-                }
-                $mail->addTo($email);
-
+        if ($reportParameters[self::EMAIL_ME_PARAMETER] == 1) {
+            if (Piwik::getCurrentUserLogin() == $report['login']) {
+                $emails[] = Piwik::getCurrentUserEmail();
+            } else {
                 try {
-                    $mail->send();
+                    $user = APIUsersManager::getInstance()->getUser($report['login']);
                 } catch (Exception $e) {
-
-                    // If running from piwik.php with debug, we ignore the 'email not sent' error
-                    if (!isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG']) {
-                        throw new Exception("An error occured while sending '$filename' " .
-                            " to " . implode(', ', $mail->getRecipients()) .
-                            ". Error was '" . $e->getMessage() . "'");
-                    }
+                    return;
                 }
-                $mail->clearRecipients();
+                $emails[] = $user['email'];
             }
+        }
+
+        if (! $force) {
+            $this->markReportAsSent($report, $period);
+        }
+
+        foreach ($emails as $email) {
+            if (empty($email)) {
+                continue;
+            }
+            $mail->addTo($email);
+
+            try {
+                $mail->send();
+            } catch (Exception $e) {
+
+                // If running from piwik.php with debug, we ignore the 'email not sent' error
+                $tracker = new Tracker();
+                if (!$tracker->isDebugModeEnabled()) {
+                    throw new Exception("An error occurred while sending '$filename' " .
+                        " to " . implode(', ', $mail->getRecipients()) .
+                        ". Error was '" . $e->getMessage() . "'");
+                }
+            }
+            $mail->clearRecipients();
         }
     }
 
@@ -430,20 +409,22 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function getReportRecipients(&$recipients, $reportType, $report)
     {
-        if (self::manageEvent($reportType)) {
-            $parameters = $report['parameters'];
-            $eMailMe = $parameters[self::EMAIL_ME_PARAMETER];
-
-            if ($eMailMe) {
-                $recipients[] = Piwik::getCurrentUserEmail();
-            }
-
-            if (isset($parameters[self::ADDITIONAL_EMAILS_PARAMETER])) {
-                $additionalEMails = $parameters[self::ADDITIONAL_EMAILS_PARAMETER];
-                $recipients = array_merge($recipients, $additionalEMails);
-            }
-            $recipients = array_filter($recipients);
+        if (! self::manageEvent($reportType)) {
+            return;
         }
+
+        $parameters = $report['parameters'];
+        $eMailMe = $parameters[self::EMAIL_ME_PARAMETER];
+
+        if ($eMailMe) {
+            $recipients[] = Piwik::getCurrentUserEmail();
+        }
+
+        if (isset($parameters[self::ADDITIONAL_EMAILS_PARAMETER])) {
+            $additionalEMails = $parameters[self::ADDITIONAL_EMAILS_PARAMETER];
+            $recipients = array_merge($recipients, $additionalEMails);
+        }
+        $recipients = array_values(array_filter($recipients));
     }
 
     public static function template_reportParametersScheduledReports(&$out)
@@ -468,32 +449,31 @@ class ScheduledReports extends \Piwik\Plugin
 
         $reportsNeedSegment = array();
 
-        if(!$updatedSegment['enable_all_users']) {
+        if (!$updatedSegment['enable_all_users']) {
             // which reports would become invisible to other users?
             foreach($reportsUsingSegment as $report) {
-                if($report['login'] == Piwik::getCurrentUserLogin()) {
+                if ($report['login'] == Piwik::getCurrentUserLogin()) {
                     continue;
                 }
                 $reportsNeedSegment[] = $report;
             }
         }
 
-        if($updatedSegment['enable_only_idsite']) {
+        if ($updatedSegment['enable_only_idsite']) {
             // which reports from other websites are set to use this segment restricted to one website?
             foreach($reportsUsingSegment as $report) {
-                if($report['idsite'] == $updatedSegment['enable_only_idsite']) {
+                if ($report['idsite'] == $updatedSegment['enable_only_idsite']) {
                     continue;
                 }
                 $reportsNeedSegment[] = $report;
             }
         }
 
-        if(empty($reportsNeedSegment)) {
+        if (empty($reportsNeedSegment)) {
             return;
         }
 
         $this->throwExceptionReportsAreUsingSegment($reportsNeedSegment);
-
     }
 
     public function segmentDeactivation($idSegment)
@@ -525,28 +505,30 @@ class ScheduledReports extends \Piwik\Plugin
 
     public function deleteUserReport($userLogin)
     {
-        Db::query('DELETE FROM ' . Common::prefixTable('report') . ' WHERE login = ?', $userLogin);
+        $this->getModel()->deleteAllReportForUser($userLogin);
+    }
+
+    public function deleteUserReportForSites($userLogin, $idSites)
+    {
+        if (empty($idSites) || empty($userLogin)) {
+            return;
+        }
+
+        $model = $this->getModel();
+
+        foreach ($idSites as $idSite) {
+            $model->deleteUserReportForSite($userLogin, $idSite);
+        }
+    }
+
+    private function getModel()
+    {
+        return new Model();
     }
 
     public function install()
     {
-        $reportTable = "`idreport` INT(11) NOT NULL AUTO_INCREMENT,
-					    `idsite` INTEGER(11) NOT NULL,
-					    `login` VARCHAR(100) NOT NULL,
-					    `description` VARCHAR(255) NOT NULL,
-					    `idsegment` INT(11),
-					    `period` VARCHAR(10) NOT NULL,
-					    `hour` tinyint NOT NULL default 0,
-					    `type` VARCHAR(10) NOT NULL,
-					    `format` VARCHAR(10) NOT NULL,
-					    `reports` TEXT NOT NULL,
-					    `parameters` TEXT NULL,
-					    `ts_created` TIMESTAMP NULL,
-					    `ts_last_sent` TIMESTAMP NULL,
-					    `deleted` tinyint(4) NOT NULL default 0,
-					    PRIMARY KEY (`idreport`)";
-
-        DbHelper::createTable('report', $reportTable);
+        Model::install();
     }
 
     private static function checkAdditionalEmails($additionalEmails)
@@ -559,7 +541,7 @@ class ScheduledReports extends \Piwik\Plugin
                 throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidEmail') . ' (' . $email . ')');
             }
         }
-        $additionalEmails = array_filter($additionalEmails);
+        $additionalEmails = array_values(array_filter($additionalEmails));
         return $additionalEmails;
     }
 
@@ -584,37 +566,26 @@ class ScheduledReports extends \Piwik\Plugin
     public static function getPeriodToFrequency()
     {
         return array(
-            ScheduledTime::PERIOD_NEVER => Piwik::translate('General_Never'),
-            ScheduledTime::PERIOD_DAY   => Piwik::translate('General_Daily'),
-            ScheduledTime::PERIOD_WEEK  => Piwik::translate('General_Weekly'),
-            ScheduledTime::PERIOD_MONTH => Piwik::translate('General_Monthly'),
+            Schedule::PERIOD_NEVER => Piwik::translate('General_Never'),
+            Schedule::PERIOD_DAY   => Piwik::translate('General_Daily'),
+            Schedule::PERIOD_WEEK  => Piwik::translate('General_Weekly'),
+            Schedule::PERIOD_MONTH => Piwik::translate('General_Monthly'),
         );
     }
 
-    /**
-     * Used in the Report's email content, ie "monthly report"
-     * @ignore
-     */
-    public static function getPeriodToFrequencyAsAdjective()
+    private function reportAlreadySent($report, Period $period)
     {
-        return array(
-            ScheduledTime::PERIOD_DAY   => Piwik::translate('General_DailyReport'),
-            ScheduledTime::PERIOD_WEEK  => Piwik::translate('General_WeeklyReport'),
-            ScheduledTime::PERIOD_MONTH => Piwik::translate('General_MonthlyReport'),
-            ScheduledTime::PERIOD_YEAR  => Piwik::translate('General_YearlyReport'),
-            ScheduledTime::PERIOD_RANGE => Piwik::translate('General_RangeReports'),
-        );
+        $key = self::OPTION_KEY_LAST_SENT_DATERANGE . $report['idreport'];
+
+        $previousDate = Option::get($key);
+
+        return $previousDate === $period->getRangeString();
     }
 
-    protected function setReplyToAsSender(Mail $mail, array $report)
+    private function markReportAsSent($report, Period $period)
     {
-        if (Config::getInstance()->General['scheduled_reports_replyto_is_user_email_and_alias']) {
-            if (isset($report['login'])) {
-                $userModel = new UserModel();
-                $user = $userModel->getUser($report['login']);
+        $key = self::OPTION_KEY_LAST_SENT_DATERANGE . $report['idreport'];
 
-                $mail->setReplyTo($user['email'], $user['alias']);
-            }
-        }
+        Option::set($key, $period->getRangeString());
     }
 }

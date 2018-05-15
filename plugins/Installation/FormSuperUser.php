@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Installation;
 use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;
@@ -39,9 +40,8 @@ class FormSuperUser extends QuickForm2
             ->setLabel(Piwik::translate('Installation_Password'));
         $password->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_Password')));
         $pwMinLen = UsersManager::PASSWORD_MIN_LENGTH;
-        $pwMaxLen = UsersManager::PASSWORD_MAX_LENGTH;
-        $pwLenInvalidMessage = Piwik::translate('UsersManager_ExceptionInvalidPassword', array($pwMinLen, $pwMaxLen));
-        $password->addRule('length', $pwLenInvalidMessage, array('min' => $pwMinLen, 'max' => $pwMaxLen));
+        $pwLenInvalidMessage = Piwik::translate('UsersManager_ExceptionInvalidPassword', array($pwMinLen));
+        $password->addRule('length', $pwLenInvalidMessage, array('min' => $pwMinLen));
 
         $passwordBis = $this->addElement('password', 'password_bis')
             ->setLabel(Piwik::translate('Installation_PasswordRepeat'));
@@ -58,19 +58,21 @@ class FormSuperUser extends QuickForm2
                 'content' => '&nbsp;&nbsp;' . Piwik::translate('Installation_PiwikOrgNewsletter'),
             ));
 
-        $this->addElement('checkbox', 'subscribe_newsletter_piwikpro', null,
+        $professionalServicesNewsletter = Piwik::translate('Installation_ProfessionalServicesNewsletter',
+            array("<a href='https://matomo.org/support/?pk_medium=App_Newsletter_link&pk_source=Piwik_App&pk_campaign=App_Installation' style='color:#444;' rel='noreferrer' target='_blank'>", "</a>")
+        );
+
+        $this->addElement('checkbox', 'subscribe_newsletter_professionalservices', null,
             array(
-                'content' => '&nbsp;&nbsp;' . Piwik::translate('Installation_PiwikProNewsletter',
-                        array("<a href='http://piwik.pro' style='color:#444;' target='_blank'>", "</a>")
-                    ),
+                'content' => '&nbsp;&nbsp;' . $professionalServicesNewsletter,
             ));
 
-        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'submit'));
+        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn'));
 
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
-            'subscribe_newsletter_piwikorg' => 1,
-            'subscribe_newsletter_piwikpro' => 0,
+            'subscribe_newsletter_piwikorg' => 0,
+            'subscribe_newsletter_professionalservices' => 0,
         )));
     }
 }

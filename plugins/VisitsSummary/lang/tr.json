@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "ortalama üretilme süresi",
+        "AverageVisitDuration": "ortalama ziyaret süresi",
+        "GenerateQueries": "%s sorgu çalıştırıldı",
+        "GenerateTime": "sayfa %s saniyede üretildi",
+        "MaxNbActions": "bir ziyarette yapılan en fazla işlem",
+        "NbActionsDescription": "%s işlem",
+        "NbActionsPerVisit": "bir ziyaretteki işlemler (sayfa görüntüleme, indirme, giden bağlantılar ve site içi aramalar)",
+        "NbDownloadsDescription": "indirme",
+        "NbKeywordsDescription": "tekil anahtar sözcük",
+        "NbOutlinksDescription": "giden bağlantı",
+        "NbPageviewsDescription": "sayfa gösterimi",
+        "NbSearchesDescription": "web sitenizdeki toplam arama",
+        "NbUniqueDownloadsDescription": "tekil indirme",
+        "NbUniqueOutlinksDescription": "tekil giden bağlantı",
+        "NbUniquePageviewsDescription": "tekil sayfa gösterimi",
+        "NbUniqueVisitors": "tekil ziyaretçi",
+        "NbUsersDescription": "kullanıcı",
+        "NbVisitsDescription": "ziyaret",
+        "NbVisitsBounced": "hemen çıkan ziyaretler (bir sayfadan sonra siteden ayrılan)",
+        "PluginDescription": "Bu rapor, ziyaretler, tekil ziyaretçiler, işlem sayısı, hemen çıkma oranı gibi genel istatistik ölçütlerini içerir.",
+        "VisitsSummary": "Ziyaret Özeti",
+        "VisitsSummaryDocumentation": "Ziyaret sayılarının özetini görüntüler.",
+        "WidgetLastVisits": "Zamana Göre Ziyaretler",
+        "WidgetOverviewGraph": "Ziyaret Özeti (çizelge ile)",
+        "WidgetVisits": "Ziyaret Özeti"
+    }
+}

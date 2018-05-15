@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Click to download Piwik now</label>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_visits>4</nb_visits>
+		<nb_impressions>4</nb_impressions>
+		<nb_interactions>2</nb_interactions>
+		<interaction_rate>50%</interaction_rate>
+		<contentTarget>http://piwik.org/download</contentTarget>
+		<segment>contentPiece==Click+to+download+Piwik+now</segment>
+	</row>
+	<row>
+		<label>/path/ad.jpg</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_impressions>2</nb_impressions>
+		<nb_interactions>2</nb_interactions>
+		<interaction_rate>100%</interaction_rate>
+		<contentTarget>http://www.example.com</contentTarget>
+		<segment>contentPiece==%2Fpath%2Fad.jpg</segment>
+	</row>
+	<row>
+		<label>/path/ad2.jpg</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_impressions>2</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<interaction_rate>0%</interaction_rate>
+		<contentTarget>http://www.example.com</contentTarget>
+		<segment>contentPiece==%2Fpath%2Fad2.jpg</segment>
+	</row>
+	<row>
+		<label>Content Piece not defined</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_impressions>2</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<interaction_rate>0%</interaction_rate>
+		<contentTarget />
+	</row>
+	<row>
+		<label>Unknown</label>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_impressions>2</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<interaction_rate>0%</interaction_rate>
+		<contentTarget />
+		<segment>contentPiece==Unknown</segment>
+	</row>
+</result>

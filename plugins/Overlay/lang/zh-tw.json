@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s 次點擊",
+        "ClicksFromXLinks": "%1$s 次點擊來自 %2$s 個連結之一",
+        "Domain": "域名",
+        "ErrorNotLoading": "網頁覆蓋功能尚無法執行。",
+        "ErrorNotLoadingDetails": "可能是右邊讀取的頁面沒有 Matomo 追蹤程式碼。在這種情況下，試著在頁面報表內的不同頁面中執行頁面覆蓋。",
+        "ErrorNotLoadingDetailsSSL": "你正透過 https 使用 Matomo，最可能的原因是你的網站不支援 SSL。試著透過 http 使用 Matomo。",
+        "ErrorNotLoadingLink": "點擊這裡取得更多問題排除技巧",
+        "Link": "連結",
+        "Location": "位置",
+        "NoData": "此網頁在所選的期間中沒有任何資料。",
+        "OneClick": "1 次點擊",
+        "OpenFullScreen": "進入全螢幕模式（無側欄）",
+        "Overlay": "網頁覆蓋",
+        "PluginDescription": "在你的網站上以網頁覆蓋方式查看你的分析資料。查看你的訪客點擊了多少次連結。注意：需要啟用 Transitions 外掛。",
+        "RedirectUrlError": "你將要開啟網址「%1$s」的網頁覆蓋。%2$s該連結與 Matomo 所設定的域名不相符。",
+        "RedirectUrlErrorAdmin": "你可以在%1$s設定頁面%2$s中將域名新增為網站網址。",
+        "RedirectUrlErrorUser": "要求你的管理原將域名新增為網站網址。"
+    }
+}

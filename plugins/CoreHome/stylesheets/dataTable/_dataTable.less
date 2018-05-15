@@ -8,22 +8,16 @@
 
   td .ratio {
     color: #999999;
-    font-size: 12px;
-    display:none;
+    display: inline-block;
+    visibility: hidden;
     text-align: right;
-    min-width: 45px;
-    margin-left: 4px;
+    margin-right: 4px;
     font-weight: normal;
   }
 
   td.highlight > .ratio {
-    display: inline-block;
-    line-height: 15px;
+    visibility: visible;
   }
-}
-
-div.dataTable {
-  position:relative;
 }
 
 table.dataTable td.label,
@@ -43,6 +37,10 @@ table.dataTable img {
   margin-left: 0.5em;
 }
 
+table.subDataTable img.link {
+  transform: translateY(-50%);
+}
+
 table.dataTable tr.subDataTable {
   cursor: pointer;
 
@@ -52,19 +50,51 @@ table.dataTable tr.subDataTable {
     text-overflow: ellipsis;
     width: inherit;
     display: inline-block;
+    vertical-align: text-bottom;
   }
 }
 
 table.dataTable th {
   margin: 0;
-  color: @dataTable-link-color;
   text-align: left;
   padding: 6px 6px 6px 12px;
-  background: @dataTable-header-background;
   font-size: 12px;
   font-weight: normal;
-  border-left: 1px solid #d4d0c4;
   vertical-align: top;
+}
+
+// for dataTables in exported widgets ( we do not want to apply this for widgets in dashboard )
+body>.widget table.dataTable {
+  th {
+    background: @theme-color-background-tinyContrast;
+  }
+}
+
+// for dataTables in report pages (not for widgets in the dashboard)
+.theWidgetContent .card .card-content table.dataTable {
+  margin-left: -20px;
+  width: ~"calc(100% + 40px)";
+
+  th {
+    background: @theme-color-background-tinyContrast;
+
+    &:first-child {
+      padding-left: 20px;
+    }
+    &:last-child {
+      padding-right: 20px;
+    }
+  }
+
+  td {
+    &:first-child {
+      padding-left: 20px;
+    }
+
+    &:last-child {
+      padding-right: 20px;
+    }
+  }
 }
 
 table.dataTable th.sortable {
@@ -73,14 +103,11 @@ table.dataTable th.sortable {
 
 table.dataTable th.columnSorted {
   font-weight: bold;
-  padding-right: 20px;
-  background: @dataTable-headerActive-background;
 }
 
 table.dataTable td {
-  padding: 5px 5px 5px 12px;
-  background: #fff;
-  border-left: 1px solid #e7e7e7;
+  padding: 5px 1px 5px 12px;
+  background: @theme-color-background-base;
 }
 
 table.dataTable td,
@@ -90,39 +117,15 @@ table.dataTable td a {
   color: @theme-color-text-light;
 }
 
-table.dataTable tr:hover > td,
-table.dataTable tr:hover > td .dataTableRowActions {
-  background-color: #FFFFF7;
-}
-
-table.dataTable tr.subDataTable:hover > td,
-table.dataTable tr.subDataTable:hover > td .dataTableRowActions {
-  background-color: #ffffcb;
-}
-
-table.dataTable tr:hover > td.cellSubDataTable
-table.dataTable tr:hover > td.cellSubDataTable .dataTableRowActions {
-  background-color: #fff;
-}
-
 td.clean {
-  background-color: #fff;
+  background-color: @theme-color-background-base;
 }
 
 table.dataTable td.column {
   white-space: nowrap;
 }
 
-table.dataTable td.columneven {
-  background: #efeeec;
-}
-
-table.dataTable td.columnodd {
-  background: #f6f5f3;
-}
-
 .dataTable tr.highlight td {
-  background-color: #ECF9DD;
   font-weight: bold;
 }
 
@@ -166,16 +169,12 @@ table.dataTable img {
   margin-left: 0;
 }
 
-.dataTable > .dataTableWrapper {
-  width: 450px;
-}
-
 .subDataTable > .dataTableWrapper {
   width: 95%;
 }
 
 .sortIconContainer {
-  float: right;
+  float: left;
   position: relative;
 }
 
@@ -184,10 +183,11 @@ table.dataTable img {
   position: absolute;
 }
 
-.datatableFooterMessage {
+.datatableHeaderMessage, .datatableFooterMessage {
   color: #888;
   text-align: left;
   margin: 10px;
+  margin-left: 1px;
 }
 
 .dataTablePages {
@@ -197,37 +197,80 @@ table.dataTable img {
   font-size: 12px;
 }
 
-.dataTableSearchPattern {
-  margin: 5px 0 2px 0;
-  height: 20px;
-  display: block;
-  white-space: nowrap;
-  background: url(plugins/Morpheus/images/search_bg.png) no-repeat center 0;
-  text-align: center;
-}
-
-.dataTableSearchPattern input {
-  vertical-align: top;
-  font-size: 10px;
-  color: #454545;
-  border: 0;
-  background: transparent;
-  width: 21px;
-  height: 17px;
-  overflow: hidden;
+.dataTableSearchInput {
+  display: inline-block;
   opacity: 0;
-  filter: Alpha(opacity=0);
-  cursor: pointer;
+  color: #adadad !important;
+  min-height: 30px !important;
+  padding-left: 25px !important;
+  width: 100% !important;
+  transition: opacity 0.3s ease !important;
+  box-shadow: 0 0 !important;
+  visibility: hidden;
 }
 
-.dataTableSearchPattern .searchInput {
-  width: 114px;
-  height: auto;
-  overflow: visible;
-  padding: 2px 6px;
-  opacity: 1;
+.searchAction:hover {
+  .dataTableSearchInput {
+    &:hover,
+    &:focus {
+      color: #333 !important;
+    }
+  }
+}
+
+.searchAction {
+  transition: width 0.3s ease !important;
+  text-align: left !important;
+  padding-left: 10px;
+  position: relative;
+  cursor: pointer;
+
+  .icon-search {
+    display: inline-block;
+    cursor: pointer;
+    z-index: 1;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+  }
+
+  .icon-close {
+    display: none;
+  }
+}
+
+.searchAction.searchActive {
   cursor: text;
-  filter: Alpha(opacity=100);
+
+  .dataTableSearchInput {
+    visibility: visible;
+  }
+
+  .icon-close {
+    display: inline-block;
+    font-size: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    color: #adadad !important;
+    &:hover,
+    &:focus {
+      color: #333 !important;
+    }
+  }
+  .icon-search {
+    cursor: pointer;
+    color: #adadad !important;
+    &:hover,
+    &:focus {
+      color: #333 !important;
+    }
+  }
+
+  .dataTableSearchInput {
+    opacity: 1;
+  }
 }
 
 .dataTableNext,
@@ -235,44 +278,49 @@ table.dataTable img {
   font-size: 12px;
   color: #184A83;
   cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+  @media print{
+    display: none;
+  }
 }
 
 .datatableRelatedReports {
   color: #888;
-  font-size: 11px;
+  font-size: 12px;
   padding-bottom: 5px;
   margin-top: 6px;
-}
-
-#dashboard .datatableRelatedReports {
-  margin-top: 0px;
+  @media print{
+    display: none;
+  }
 }
 
 .datatableRelatedReports span {
   cursor: pointer;
   font-weight: bold;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .dataTableFeatures {
   text-align: center;
 }
 
-.dataTableFooterNavigation {
-  padding: 5px 0;
+.dataTableNext,
+.dataTablePrevious {
+  visibility: hidden;
 }
 
-.dataTableNext,
-.dataTablePrevious,
-.dataTableSearchPattern {
-  display: none;
+.dataTablePaginationControl {
+  margin: 5px 0 !important;
 }
 
 .dataTableFeatures .loadingPiwik {
-  font-size: 0.9em;
-}
-
-.subDataTable .dataTableFooterIcons {
-  height: 0;
+  font-size: 13px;
+  display: inline-block;
+  padding-bottom: 13px;
 }
 
 .dataTable .loadingPiwikBelow {
@@ -281,152 +329,41 @@ table.dataTable img {
   text-align: center;
 }
 
-.dataTableFooterIcons div {
-  padding-bottom: 4px;
-}
-
-#content {
-
-  .dataTableFeatures {
-    &.expanded {
-      .dataTableFooterIcons {
-        display: block;
-      }
-
-      .expandDataTableFooterDrawer {
-        display: none;
-      }
-    }
-
-    &.hasEvolution {
-      .dataTableFooterIcons {
-        margin-top: 17px;
-      }
-      .expandDataTableFooterDrawer {
-        margin-top: 20px;
-      }
-    }
-
-    .expandDataTableFooterDrawer {
-      display: block;
-      margin-top: 5px;
-      margin-bottom: 0px;
-      margin-left: auto;
-      margin-right: auto;
-      background-color: #D9D9D9;
-      height: 7px;
-      width: 70px;
-      -webkit-border-top-left-radius: 10px;
-      -webkit-border-top-right-radius: 10px;
-      -moz-border-radius-topleft: 10px;
-      -moz-border-radius-topright: 10px;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-      line-height: 0px;
-
-      img {
-        margin-bottom: 0px;
-        line-height: 0px;
-      }
+.dataTableFeatures {
+  &.hasEvolution {
+    .dataTableFooterIcons {
+      margin-top: 17px;
     }
   }
+}
+
+.widget .dataTableFeatures {
+  border-bottom-style: none !important;
+}
+
+
+// customizing footer appearance for row evolution graph
+.ui-dialog .dataTableVizEvolution {
 
   .dataTableFooterIcons {
-
-    display: none;
-    margin-top: 5px;
-    height: auto;
-
-    div {
-      padding-bottom: 2px;
-    }
-
-    .foldDataTableFooterDrawer {
-      display: block;
-      padding-bottom: 0px;
-      margin-top: 0px;
-      margin-left: auto;
-      margin-right: auto;
-      background-color: #D9D9D9;
-      -webkit-border-top-left-radius: 10px;
-      -webkit-border-top-right-radius: 10px;
-      -moz-border-radius-topleft: 10px;
-      -moz-border-radius-topright: 10px;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-      line-height: 0px;
-      height: 7px;
-      width: 70px;
-      clear: both;
-
-      img {
-        margin-top: 2px;
-        margin-bottom: 0px;
-        line-height: 0px;
-      }
-    }
-
-    .controls {
-      clear: left;
-      padding: 0px 0px 15px;
-      text-align: left;
-      color: #333;
-    }
+    display: block;
   }
 
-}
-
-.dataTableFooterIcons .foldDataTableFooterDrawer,
-.dataTableFeatures .expandDataTableFooterDrawer {
-  display: none;
-  cursor: pointer;
-}
-
-@-moz-document url-prefix() {
-
-  #dashboard .dataTableFeatures .expandDataTableFooterDrawer {
-    line-height: 1px;
-
-    img {
-      margin-bottom: 1px;
-      line-height: 1px;
-    }
+  .dataTableFeatures {
+    border-bottom-style: none !important;
+    margin-top: 0 !important;
   }
-}
-
-.dataTableFooterIcons {
-  height: 20px;
-  white-space: nowrap;
-  font-size: 10px;
-  padding: 6px 5px;
-  border-top: 1px solid #B6B0A6;
 }
 
 .dataTableFooterWrap {
   position: relative;
   float: left;
+  margin-left: 10px;
 }
 
 .dataTableFooterWrap select {
   float: left;
   margin: 1px 0 1px 10px;
-}
-
-.tableIcon {
-  background: #f2f1ed;
-  display: inline-block;
-  float: left;
-  margin: 0 1px 0 0;
-  padding: 2px;
-  border-radius: 2px;
-}
-
-.tableIcon:hover {
-  background: #e9e8e1;
-}
-
-.activeIcon {
-  background: #e9e8e1;
 }
 
 .tableIconsGroup > span > span {
@@ -440,14 +377,6 @@ table.dataTable img {
   left: 0;
 }
 
-.exportToFormatItems {
-  background: #dcdacf;
-  float: left;
-  margin: 0 1px 0 0;
-  padding: 4px 6px 3px 6px;
-  color: #968d7f;
-  border-radius: 2px;
-}
 
 .exportToFormatItems img {
   vertical-align: middle;
@@ -483,23 +412,12 @@ table.dataTable img {
   background: #e9e8e1;
 }
 
-.exportToFormatIcons,
-.dataTableFooterIconsShow {
-  float: left;
-}
-
-.dataTableFooterIcons,
-.dataTableFooterIcons a {
-  text-decoration: none;
-  color: @dataTable-link-color;
-}
-
 .dataTableSpacer {
   clear: both;
 }
 
 /* Actions table */
-.dataTableActions table.dataTable tr td.labelodd {
+.dataTableActions table.dataTable tr td.label {
   background-image: none;
 }
 
@@ -509,67 +427,84 @@ table.dataTable img {
 }
 
 tr.level0 td.label {
-  padding-left: 1.5em;
+  padding-left: 20px !important;
+}
+
+.widget {
+  tr.level0 td.label {
+    padding-left: 12px !important;
+  }
 }
 
 tr.level1 td.label {
-  padding-left: 2.5em;
+  padding-left: 2.5em !important;
 }
 
 tr.level2 td.label {
-  padding-left: 3.5em;
+  padding-left: 3.5em !important;
 }
 
 tr.level3 td.label {
-  padding-left: 4.5em;
+  padding-left: 4.5em !important;
 }
 
 tr.level4 td.label {
-  padding-left: 5em;
+  padding-left: 5em !important;
 }
 tr.level5 td.label {
-  padding-left: 5.5em;
+  padding-left: 5.5em !important;
 }
 tr.level6 td.label {
-  padding-left: 6em;
+  padding-left: 6em !important;
 }
 tr.level7 td.label {
-  padding-left: 6.5em;
+  padding-left: 6.5em !important;
 }
 tr.level8 td.label {
-  padding-left: 7em;
+  padding-left: 7em !important;
 }
 tr.level9 td.label {
-  padding-left: 7.5em;
+  padding-left: 7.5em !important;
 }
 tr.level10 td.label {
-  padding-left: 8em;
+  padding-left: 8em !important;
 }
 tr.level11 td.label {
-  padding-left: 8.5em;
+  padding-left: 8.5em !important;
 }
 tr.level12 td.label {
-  padding-left: 9em;
+  padding-left: 9em !important;
 }
 
 /* less right margins for the link image in the Pa*/
 .dataTableActions table.dataTable img.link {
   margin-right: 0.5em;
-  margin-left: -0.5em;
-  margin-top: -8px;
+  margin-left: 0;
+  margin-bottom: 4px;
+  vertical-align: text-bottom;
+}
+
+table.dataTable td.label img {
+  margin-top: -3px;
+  max-height: 16px;
 }
 
 tr td.label img.plusMinus {
-  margin-left: -1em;
+  margin-left: -3px;
   margin-right: 3px;
-  margin-top: -5px;
+  margin-top: -3px;
 }
 
 .pk-emptyDataTable {
   padding-top: 20px;
   padding-bottom: 10px;
+  padding-left: 1px;
+}
+
+.widget .pk-emptyDataTable {
+  padding-left: 0;
+  padding-top: 33px;
   text-align: center;
-  font-style: italic;
 }
 
 .helpDate {
@@ -591,7 +526,6 @@ table.dataTable span.cell-tooltip {
 }
 
 .dataTable .jqplot-graph {
-  padding-left: 6px;
   > div {
     position: relative;
   }
@@ -610,5 +544,73 @@ td.cellSubDataTable .loadingPiwik {
     left: -15px;
     cursor: pointer;
     display: inline;
+  }
+}
+
+.dataTableControls {
+  text-align: left;
+  padding-left: 0 !important;
+
+  &.col {
+    padding-right: 0;
+  }
+
+  .dropdown-content {
+    a {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .dataTableAction {
+    border: 0;
+    border: none;
+    border-radius: 2px;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    outline: 0;
+    width: 36px;
+    text-transform: uppercase;
+    vertical-align: middle;
+    text-decoration: none !important;
+    text-align: center;
+    color: #adadad;
+    font-size: 16px;
+    &:hover {
+      color: #333;
+      background-color: @theme-color-background-base;
+      text-decoration: none !important;
+    }
+
+    .icon-export {
+      margin-top: 6px;
+      display: block;
+    }
+
+    .icon-more-verti {
+      font-size: 18px;
+    }
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  #dashboardWidgetsArea .widget,
+  .theWidgetContent > div:not(#dashboard) {
+    &:hover {
+      .limitSelection,
+      .dataTableControls .dataTableAction {
+        visibility: visible;
+      }
+    }
+    .limitSelection,
+    .dataTableControls .dataTableAction {
+      visibility: hidden;
+
+      &.forceActionVisible {
+        visibility: visible;
+      }
+    }
   }
 }

@@ -1,0 +1,26 @@
+{
+    "SegmentEditor": {
+        "AddANDorORCondition": "Tambah %s kondisi",
+        "AddNewSegment": "Tambah pecahan baru",
+        "AreYouSureDeleteSegment": "Apakah Anda yakin menghapus pecahan ini?",
+        "AutoArchivePreProcessed": "laporan terpecah merupakan praproses (lebih cepat, membutuhkan cron archive.php)",
+        "AutoArchiveRealTime": "laporan terpecah diproses dalam waktu nyata",
+        "ChooseASegment": "Pilih pecahan",
+        "DefaultAllVisits": "Semua kunjungan",
+        "DragDropCondition": "Kondisi Seret dan Taruh",
+        "HideMessageInFuture": "Sembunyikan pesan ini di masa mendatang",
+        "LoadingSegmentedDataMayTakeSomeTime": "Memproses pecahan data pengunjung mungkin membutuhkan waktu beberapa menit...",
+        "OperatorAND": "TAMBAH",
+        "OperatorOR": "ATAU",
+        "SaveAndApply": "Simpan dan Terapkan",
+        "SegmentDisplayedAllWebsites": "seluruh situs",
+        "SegmentDisplayedThisWebsiteOnly": "hanya situs ini",
+        "SegmentIsDisplayedForWebsite": "dan diproses untuk",
+        "ThisSegmentIsVisibleTo": "Pecahan ini tampak untuk:",
+        "VisibleToAllUsers": "seluruh pengunjung",
+        "VisibleToMe": "saya",
+        "SharedWithYou": "Berbagi dengan Anda",
+        "YouMustBeLoggedInToCreateSegments": "Anda harus masuk-log untuk membuat dan menyunting pecahan pengunjung kustom.",
+        "SegmentOperatorIsNotNullNorEmpty": "tidak boleh null atau kosong"
+    }
+}

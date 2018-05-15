@@ -1,0 +1,17 @@
+{
+    "UserCountry": {
+        "Continent": "Continente",
+        "Country": "País",
+        "country_o1": "Outro país",
+        "DistinctCountries": "%s continentes distintos",
+        "DownloadingDb": "A descargar %s",
+        "DownloadNewDatabasesEvery": "Actualizar as bases de datos cada",
+        "Region": "Rexión",
+        "SubmenuLocations": "Lugares",
+        "UpdaterHasNotBeenRun": "O actualizador non foi executado nunca.",
+        "UpdaterIsNotScheduledToRun": "Non está planificado para ser executado no futuro.",
+        "UpdaterScheduledForNextRun": "Está planificado para ser executado durante a próxima execución da orde core:archive de cron.",
+        "UpdaterWasLastRun": "O actualizador foi executado por última vez o %s.",
+        "UpdaterWillRunNext": "Está planificado para ser executado o %s."
+    }
+}

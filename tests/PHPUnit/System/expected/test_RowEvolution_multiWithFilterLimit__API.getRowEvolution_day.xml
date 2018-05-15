@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<column>nb_visits</column>
+	<reportData>
+		<result date="2010-03-01">
+			<row>
+				<nb_visits_0>1</nb_visits_0>
+				<nb_visits_1>0</nb_visits_1>
+				<nb_visits_2>0</nb_visits_2>
+			</row>
+		</result>
+		<result date="2010-03-02">
+			<row>
+				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_1>1</nb_visits_1>
+				<nb_visits_2>0</nb_visits_2>
+			</row>
+		</result>
+		<result date="2010-03-03">
+			<row>
+				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_1>0</nb_visits_1>
+				<nb_visits_2>1</nb_visits_2>
+			</row>
+		</result>
+		<result date="2010-03-04">
+			<row>
+				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_1>0</nb_visits_1>
+				<nb_visits_2>0</nb_visits_2>
+			</row>
+		</result>
+		<result date="2010-03-05">
+			<row>
+				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_1>0</nb_visits_1>
+				<nb_visits_2>0</nb_visits_2>
+			</row>
+		</result>
+		<result date="2010-03-06">
+			<row>
+				<nb_visits_0>1</nb_visits_0>
+				<nb_visits_1>0</nb_visits_1>
+				<nb_visits_2>0</nb_visits_2>
+			</row>
+		</result>
+	</reportData>
+	<metadata>
+		<metrics>
+			<nb_visits_0>
+				<name>www.referrer0.com (Visits)</name>
+				<min>0</min>
+				<max>1</max>
+				<change>0%</change>
+			</nb_visits_0>
+			<nb_visits_1>
+				<name>www.referrer4.com (Visits)</name>
+				<min>0</min>
+				<max>1</max>
+			</nb_visits_1>
+			<nb_visits_2>
+				<name>www.referrer3.com (Visits)</name>
+				<min>0</min>
+				<max>1</max>
+			</nb_visits_2>
+		</metrics>
+		<dimension>Website</dimension>
+		<columns>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+			<nb_users>Users</nb_users>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+		</columns>
+	</metadata>
+</result>

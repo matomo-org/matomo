@@ -1,0 +1,167 @@
+.widget {
+    .font-default(13px, 18px);
+    background: @theme-color-widget-background;
+    border: 1px solid @theme-color-widget-border;
+    border-radius: 2px;
+    position: relative;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.14),0 1px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.12);
+
+    &:hover, &:focus {
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+    }
+
+    h2 {
+        font-weight: normal;
+        border-bottom: none;
+        margin: 0;
+        padding: 12px 10px 7px;
+    }
+    h3 {
+        font-weight: normal;
+        font-size: 15px;
+        margin: 0;
+        color: @theme-color-text;
+        text-shadow: none;
+        padding: 15px 15px 10px 12px;
+    }
+    p {
+        margin-left: 10px;
+    }
+
+    &.default {
+        margin-left: 0;
+        margin-right: 0;
+        .widgetTop {
+            cursor: default !important;
+        }
+    }
+
+    .widgetTop {
+        cursor: move;
+        font-size: 10pt;
+        font-weight: normal;
+        padding-bottom: 4px;
+        background: @theme-color-widget-title-background;
+        h3 {
+            .font-default(18px, 18px);
+            color: @theme-color-widget-title-text;
+        }
+        .button {
+            margin: 16px 8px 0 0;
+            opacity: 0.8;
+            cursor: pointer;
+            float: right;
+        }
+        .buttons {
+            right: 8px;
+            float: right;
+            position: absolute;
+            padding-left: 50px;
+            display: none;
+            color: @theme-color-widget-title-text;
+            background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
+            background: -webkit-linear-gradient(left,rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='@{theme-color-widget-title-background}',GradientType=1 );
+        }
+        
+        &:hover .buttons {
+            display:block;
+        }
+    }
+
+    .widgetText {
+        padding: 10px;
+    }
+
+    .pk-emptyDataTable {
+        .font-default(13px, 16px);
+        text-transform: none;
+    }
+
+    .widgetContent {
+        .widgetBody {
+            padding: 5px 12px 0;
+        }
+
+        /** We do not want to show a material-card in a widget which is already a card */
+        .card {
+            box-shadow: 0 0;
+            padding: 0 10px;
+
+            .card-content {
+                padding: 0;
+                border-radius: 0
+            }
+        }
+        .jqplot-graph {
+            margin-top: 6px;
+        }
+        .sparkline {
+            padding: 0 10px;
+        }
+    }
+
+    .widgetContent.hidden {
+        position: absolute;
+        top: -5000px;
+        height: 1000px;
+        overflow: hidden;
+    }
+    .widgetContent.loading {
+        opacity: 0.5;
+        background: url(plugins/Morpheus/images/loading-blue.gif) no-repeat top right;
+    }
+
+    .widgetLoading {
+        cursor: wait;
+        text-align: center;
+    }
+
+    .widgetNameOffScreen {
+        overflow: hidden;
+        width:1px;
+        height:1px;
+    }
+
+    .card {
+        margin: 0;
+        border-radius: 0;
+    }
+}
+
+.widget.hiddenContent .widgetTop.widgetTopHover {
+    .button#minimise,.button#refresh {
+        display:none;
+    }
+}
+
+.widget table.dataTable tr td {
+  background-color: @theme-color-widget-background;
+}
+
+.dataTable table.dataTable tr td {
+  background-color: @theme-color-widget-background;
+}
+
+.widget {
+  .datatableHeaderMessage, .datatableFooterMessage {
+    padding-left: 12px;
+  }
+}
+
+.bar-graph-colors[data-name=grid-background] {
+    color: @theme-color-widget-background !important;
+}
+
+
+.widgetoverlay {
+  .widget, .ui-dialog-content {
+      position: static;
+  }
+}
+
+
+.ui-dialog .widget .widgetTop .buttons {
+    right: 25px;
+}

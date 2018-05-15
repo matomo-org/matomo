@@ -1,0 +1,25 @@
+{
+    "Feedback": {
+        "DoYouHaveBugReportOrFeatureRequest": "Onko sinulle virheraportti tai pyyntö uudesta ominaisuudesta?",
+        "IWantTo": "Haluan:",
+        "LearnWaysToParticipate": "Katso erilaisia tapoja %1$s osallistua%2$s",
+        "ManuallySendEmailTo": "Ole hyvä ja lähetä viesti osoitteeseen",
+        "RateFeatureLeaveMessageDislike": "Harmillista kuulla että et pidä siitä! Voisitko kertoa meille, miten voimme korjata tämän?",
+        "RateFeatureLeaveMessageLike": "Olemme iloisia että pidit siitä! Kerro meille mistä pidit eniten tai jos sinulla on ehdotuksia uusiksi ominaisuuksiksi.",
+        "RateFeatureThankYouTitle": "Kiitos '%s':n arvostelemisesta!",
+        "RateFeatureTitle": "Pidätkö ominaisuudesta '%s'? Jätä arvostelu ja kommentti",
+        "SendFeedback": "Lähetä palaute",
+        "ThankYou": "Kiitos että autat parantamaan Matomoiä!",
+        "TopLinkTooltip": "Kerro meille mitä ajattelet, tai osta tukipalveluita (englanniksi).",
+        "CommunityHelp": "Yhteisön apu",
+        "ProfessionalHelp": "Ammattilaisapu",
+        "ProfessionalServicesOfferIntro": "Mistä palveluista on hyötyä sinulle?",
+        "ProfessionalServicesOptimizationMaintenance": "Matomo optimointi- ja ylläpitopalvelut",
+        "ProfessionalServicesPhoneEmailSupport": "Puhelin- ja sähköpostituki",
+        "ProfessionalServicesTraining": "Käyttäjä- tekninen- ja kehittäjäkoulutus",
+        "ProfessionalServicesPremiumFeatures": "Premium-ominaisuudet",
+        "ProfessionalServicesCustomDevelopment": "Kustomoidut kehityspalvelut",
+        "ProfessionalServicesAnalystConsulting": "Analytiikan konsultointipalvelut",
+        "ContactUs": "Ota yhteyttä"
+    }
+}

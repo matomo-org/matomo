@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>ImageAd</label>
+		<nb_visits>8</nb_visits>
+		<nb_impressions>8</nb_impressions>
+		<nb_interactions>2</nb_interactions>
+		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
+		<interaction_rate>25%</interaction_rate>
+		<contentTarget>http://www.example.com</contentTarget>
+		<segment>contentName==ImageAd</segment>
+	</row>
+	<row>
+		<label>Text Ad</label>
+		<nb_visits>6</nb_visits>
+		<nb_impressions>6</nb_impressions>
+		<nb_interactions>4</nb_interactions>
+		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
+		<interaction_rate>66.67%</interaction_rate>
+		<contentTarget>http://piwik.org/</contentTarget>
+		<segment>contentName==Text+Ad</segment>
+	</row>
+	<row>
+		<label>Video Ad</label>
+		<nb_visits>2</nb_visits>
+		<nb_impressions>2</nb_impressions>
+		<nb_interactions>0</nb_interactions>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<interaction_rate>0%</interaction_rate>
+		<contentTarget />
+		<segment>contentName==Video+Ad</segment>
+	</row>
+</result>

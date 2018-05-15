@@ -1,0 +1,10 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "ამ კატეგორიაში მონაცემები არ არის. ცადეთ \"ყველა მონაწილის ჩართვა\"",
+        "PageOf": "%1$s, სულ %2$s",
+        "ShowJSCode": "JavaScript კოდის ნახვა, რომელიც უნდა ჩაისვას ვებ გვერდზე",
+        "ThereIsNoDataForThisReport": "რეპორტისთვის მონაცემები არ არის.",
+        "WebAnalyticsReports": "ვებ ანალიზატორის რეპორტები",
+        "SystemSummaryPhpVersion": "PHP ვერსია"
+    }
+}

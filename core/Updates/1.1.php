@@ -12,12 +12,13 @@ namespace Piwik\Updates;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_1_1 extends Updates
 {
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         $config = Config::getInstance();
 

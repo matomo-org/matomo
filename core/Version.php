@@ -10,16 +10,30 @@
 namespace Piwik;
 
 /**
- * Piwik version information.
- *
+ * Matomo version information.
  *
  * @api
  */
 final class Version
 {
     /**
-     * The current Piwik version.
+     * The current Matomo version.
      * @var string
      */
-    const VERSION = '2.5.0-b2';
+    const VERSION = '3.5.0';
+
+    public function isStableVersion($version)
+    {
+        return (bool) preg_match('/^(\d+)\.(\d+)\.(\d+)$/', $version);
+    }
+
+    public function isVersionNumber($version)
+    {
+        return $this->isStableVersion($version) || $this->isNonStableVersion($version);
+    }
+
+    private function isNonStableVersion($version)
+    {
+        return (bool) preg_match('/^(\d+)\.(\d+)\.(\d+)-.{1,4}(\d+)$/', $version);
+    }
 }

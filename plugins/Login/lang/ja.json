@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "確認リンクが送信されました。 電子メールを確認し、このリンクにアクセスしてパスワード変更要求を承認してください。",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "スーパーユーザーアクセス権を持つユーザーは、'%s' のメカニズムを使用して、認証することはできません。",
+        "ExceptionPasswordMD5HashExpected": "パスワードパラメータは、パスワードの MD5 ハッシュ値であることを想定されています。",
+        "InvalidNonceOrHeadersOrReferrer": "安全にフォームをロードできませんでした。フォームを再ロードし、cookie が有効になっていることを確認してください。プロキシサーバーを使用する場合、ホストヘッダーを転送するプロキシヘッダー %1$s を許可するために、Matomo を %2$s 設定する必要があります。また、リファラーヘッダーが正しく送信されているかどうかご確認ください。",
+        "InvalidNonceSSLMisconfigured": "また、%1$s は、Matomo に安全な接続%2$sを使用させることができます：設定ファイルでセクション %5$s の下の%3$s の設定 %4$s",
+        "InvalidOrExpiredToken": "トークンが無効または期限切れです。",
+        "InvalidUsernameEmail": "ユーザー名またはメールアドレスが無効です",
+        "LogIn": "ログイン",
+        "LoginPasswordNotCorrect": "ユーザー名またはパスワードが正しくありません",
+        "LostYourPassword": "パスワードをお忘れですか？",
+        "ChangeYourPassword": "パスワードを変更してください",
+        "MailTopicPasswordChange": "パスワード変更の確認",
+        "NewPassword": "新しいパスワード",
+        "NewPasswordRepeat": "新しいパスワード ( 再入力 )",
+        "PasswordChanged": "パスワードが変更されました。",
+        "PasswordRepeat": "パスワード（再入力）",
+        "PasswordsDoNotMatch": "パスワードが一致しません。",
+        "PluginDescription": "パスワードリセットの機能と同様にユーザ名とパスワードで認証を提供します。 Marketplace で利用可能な LoginLdap など別の Login プラグインを使用することによって、認証方法を変えることができます。",
+        "RememberMe": "次回の入力を省略"
+    }
+}

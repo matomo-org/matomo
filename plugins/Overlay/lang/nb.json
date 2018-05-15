@@ -1,0 +1,10 @@
+{
+    "Overlay": {
+        "Clicks": "%s klikk",
+        "Domain": "Domene",
+        "ErrorNotLoadingLink": "Klikk her for å få flere tips for feilsøking",
+        "Link": "Lenke",
+        "Location": "Sted",
+        "OneClick": "1 klikk"
+    }
+}

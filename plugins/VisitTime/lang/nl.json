@@ -1,0 +1,26 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Lokale tijd",
+        "ColumnLocalHour": "Lokale tijd - uur (start van bezoek)",
+        "ColumnLocalMinute": "Lokale tijd - minuut (start van bezoek)",
+        "ColumnServerTime": "Servertijd",
+        "ColumnServerHour": "Servertijd - uur",
+        "ColumnVisitEndServerHour": "Servertijd - uur (einde van bezoek)",
+        "ColumnVisitEndServerMinute": "Servertijd - minuut (einde van bezoek)",
+        "ColumnVisitStartServerHour": "Servertijd - uur (start van bezoek)",
+        "ColumnVisitStartServerMinute": "Servertijd - minuut (start van bezoek)",
+        "ColumnServerMinute": "Servertijd - minuut",
+        "DayOfWeek": "Dag van de week",
+        "LocalTime": "Bezoeken per lokale tijd",
+        "NHour": "%s uur",
+        "PluginDescription": "Rapporteert de lokale tijd en servertijd als uw bezoekers uw website of app bekijken.",
+        "ServerTime": "Bezoeken per servertijd",
+        "SubmenuTimes": "Tijden",
+        "VisitsByDayOfWeek": "Bezoeken per dag van de week",
+        "WidgetByDayOfWeekDocumentation": "Deze grafiek toont het aantal bezoeken dat uw website ontving op elke dag van de week.",
+        "WidgetLocalTime": "Bezoeken op basis van lokale tijd",
+        "WidgetLocalTimeDocumentation": "Deze grafiek toont hoe laat het was in de %1$s tijdzones van bezoekers %2$s tijdens hun bezoeken.",
+        "WidgetServerTime": "Bezoeken op basis van servertijd",
+        "WidgetServerTimeDocumentation": "Deze grafiek toont hoe laat het was in de %1$s tijdzone van de server %2$s tijdens de bezoeken."
+    }
+}

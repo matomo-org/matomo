@@ -8,9 +8,7 @@
  */
 namespace Piwik\Plugins\Events\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -18,23 +16,12 @@ use Piwik\Tracker\Visitor;
 class TotalEvents extends VisitDimension
 {
     protected $columnName = 'visit_total_events';
-    protected $columnType = 'SMALLINT(5) UNSIGNED NOT NULL';
+    protected $columnType = 'INT(11) UNSIGNED NULL';
+    protected $segmentName = 'events';
+    protected $nameSingular = 'Events_Events';
+    protected $acceptValues = 'To select all visits who triggered an Event, use: &segment=events>0';
 
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('events');
-        $segment->setName('Events_TotalEvents');
-        $segment->setAcceptedValues('To select all visits who triggered an Event, use: &segment=events>0');
-        $segment->setCategory('General_Visit');
-        $segment->setType(Segment::TYPE_METRIC);
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('Events_EventName');
-    }
+    protected $type = self::TYPE_NUMBER;
 
     /**
      * @param Request $request

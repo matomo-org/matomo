@@ -17,12 +17,22 @@ use Piwik\Config;
 use Piwik\Segment;
 
 /**
- * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.a
+ * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.
  *
  * @method static \Piwik\Plugins\SegmentEditor\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * @var Model
+     */
+    private $model;
+
+    public function __construct(Model $model)
+    {
+        $this->model = $model;
+    }
+
     protected function checkSegmentValue($definition, $idSite)
     {
         // unsanitize so we don't record the HTML entitied segment
@@ -77,22 +87,38 @@ class API extends \Piwik\Plugin\API
     protected function checkAutoArchive($autoArchive, $idSite)
     {
         $autoArchive = (int)$autoArchive;
-        if ($autoArchive) {
-            $exception = new Exception(
-                "Please contact Support to make these changes on your behalf. ".
-                " To update (or create) a pre-processed segment, a user must have admin access or super user access. "
-            );
-
-            if (empty($idSite)) {
-                if (!Piwik::hasUserSuperUserAccess()) {
-                    throw $exception;
-                }
-            } else {
-                if (!Piwik::isUserHasAdminAccess($idSite)) {
-                    throw $exception;
-                }
-            }
+        if (!$autoArchive) {
+            return $autoArchive;
         }
+
+        $exception = new Exception(
+            "Please contact Support to make these changes on your behalf. ".
+            " To modify a pre-processed segment, a user must have admin access or super user access. "
+        );
+
+        // Segment 'All websites' and pre-processed requires Super User
+        if (empty($idSite)) {
+            if (!Piwik::hasUserSuperUserAccess()) {
+                throw $exception;
+            }
+            return $autoArchive;
+        }
+
+        // if real-time segments are disabled, then allow user to create pre-processed report
+        $realTimeSegmentsDisabled = !Config::getInstance()->General['enable_create_realtime_segments'];
+        if($realTimeSegmentsDisabled) {
+            // User is at least view
+            if(!Piwik::isUserHasViewAccess($idSite)) {
+                throw $exception;
+            }
+            return $autoArchive;
+        }
+
+        // pre-processed segment for a given website requires admin access
+        if(!Piwik::isUserHasAdminAccess($idSite)) {
+            throw $exception;
+        }
+
         return $autoArchive;
     }
 
@@ -103,6 +129,7 @@ class API extends \Piwik\Plugin\API
         if (empty($segment)) {
             throw new Exception("Requested segment not found");
         }
+
         return $segment;
     }
 
@@ -115,14 +142,20 @@ class API extends \Piwik\Plugin\API
 
     protected function checkUserCanAddNewSegment($idSite)
     {
-        if(!$this->isUserCanAddNewSegment($idSite)) {
+        if (empty($idSite)
+            && !SegmentEditor::isAddingSegmentsForAllWebsitesEnabled()
+        ) {
+            throw new Exception(Piwik::translate('SegmentEditor_AddingSegmentForAllWebsitesDisabled'));
+        }
+
+        if (!$this->isUserCanAddNewSegment($idSite)) {
             throw new Exception(Piwik::translate('SegmentEditor_YouDontHaveAccessToCreateSegments'));
         }
     }
 
     public function isUserCanAddNewSegment($idSite)
     {
-        if(Piwik::isUserIsAnonymous()) {
+        if (Piwik::isUserIsAnonymous()) {
             return false;
         }
 
@@ -139,13 +172,13 @@ class API extends \Piwik\Plugin\API
 
     protected function checkUserCanEditOrDeleteSegment($segment)
     {
-        if(Piwik::hasUserSuperUserAccess()) {
+        if (Piwik::hasUserSuperUserAccess()) {
             return;
         }
 
         $this->checkUserIsNotAnonymous();
 
-        if($segment['login'] != Piwik::getCurrentUserLogin()) {
+        if ($segment['login'] != Piwik::getCurrentUserLogin()) {
             throw new Exception($this->getMessageCannotEditSegmentCreatedBySuperUser());
         }
     }
@@ -171,9 +204,14 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('SegmentEditor.deactivate', array($idSegment));
 
-        $db = Db::get();
-        $db->delete(Common::prefixTable('segment'), 'idsegment = ' . $idSegment);
+        $this->getModel()->deleteSegment($idSegment);
+
         return true;
+    }
+
+    private function getModel()
+    {
+        return $this->model;
     }
 
     /**
@@ -195,9 +233,9 @@ class API extends \Piwik\Plugin\API
 
         $idSite = $this->checkIdSite($idSite);
         $this->checkSegmentName($name);
-        $definition = $this->checkSegmentValue($definition, $idSite);
+        $definition      = $this->checkSegmentValue($definition, $idSite);
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
-        $autoArchive = $this->checkAutoArchive($autoArchive, $idSite);
+        $autoArchive     = $this->checkAutoArchive($autoArchive, $idSite);
 
         $bind = array(
             'name'               => $name,
@@ -218,11 +256,8 @@ class API extends \Piwik\Plugin\API
          */
         Piwik::postEvent('SegmentEditor.update', array($idSegment, $bind));
 
-        $db = Db::get();
-        $db->update(Common::prefixTable("segment"),
-            $bind,
-            "idsegment = $idSegment"
-        );
+        $this->getModel()->updateSegment($idSegment, $bind);
+
         return true;
     }
 
@@ -246,7 +281,6 @@ class API extends \Piwik\Plugin\API
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
         $autoArchive = $this->checkAutoArchive($autoArchive, $idSite);
 
-        $db = Db::get();
         $bind = array(
             'name'               => $name,
             'definition'         => $definition,
@@ -257,8 +291,10 @@ class API extends \Piwik\Plugin\API
             'ts_created'         => Date::now()->getDatetime(),
             'deleted'            => 0,
         );
-        $db->insert(Common::prefixTable("segment"), $bind);
-        return $db->lastInsertId();
+
+        $id = $this->getModel()->createSegment($bind);
+
+        return $id;
     }
 
     /**
@@ -271,12 +307,12 @@ class API extends \Piwik\Plugin\API
     public function get($idSegment)
     {
         Piwik::checkUserHasSomeViewAccess();
+
         if (!is_numeric($idSegment)) {
             throw new Exception("idSegment should be numeric.");
         }
-        $segment = Db::get()->fetchRow("SELECT * " .
-            " FROM " . Common::prefixTable("segment") .
-            " WHERE idsegment = ?", $idSegment);
+
+        $segment = $this->getModel()->getSegment($idSegment);
 
         if (empty($segment)) {
             return false;
@@ -294,6 +330,7 @@ class API extends \Piwik\Plugin\API
         if ($segment['deleted']) {
             throw new Exception("This segment is marked as deleted. ");
         }
+
         return $segment;
     }
 
@@ -313,14 +350,51 @@ class API extends \Piwik\Plugin\API
 
         $userLogin = Piwik::getCurrentUserLogin();
 
-        $model = new Model();
-        if (empty($idSite)) {
-            $segments = $model->getAllSegments($userLogin);
+        $model = $this->getModel();
+        if(Piwik::hasUserSuperUserAccess()) {
+            $segments = $model->getAllSegmentsForAllUsers($idSite);
         } else {
-            $segments = $model->getAllSegmentsForSite($idSite, $userLogin);
+            if (empty($idSite)) {
+                $segments = $model->getAllSegments($userLogin);
+            } else {
+                $segments = $model->getAllSegmentsForSite($idSite, $userLogin);
+            }
         }
 
+        $segments = $this->sortSegmentsCreatedByUserFirst($segments);
+
         return $segments;
+    }
+
+    /**
+     * Sorts segment in a particular order:
+     *
+     *  1) my segments
+     *  2) segments created by the super user that were shared with all users
+     *  3) segments created by other users (which are visible to all super users)
+     *
+     * @param $segments
+     * @return array
+     */
+    private function sortSegmentsCreatedByUserFirst($segments)
+    {
+        $orderedSegments = array();
+        foreach($segments as $id => &$segment) {
+            if($segment['login'] == Piwik::getCurrentUserLogin()) {
+                $orderedSegments[] = $segment;
+                unset($segments[$id]);
+            }
+        }
+        foreach($segments as $id => &$segment) {
+            if($segment['enable_all_users'] == 1) {
+                $orderedSegments[] = $segment;
+                unset($segments[$id]);
+            }
+        }
+        foreach($segments as $id => &$segment) {
+            $orderedSegments[] = $segment;
+        }
+        return $orderedSegments;
     }
 
     /**

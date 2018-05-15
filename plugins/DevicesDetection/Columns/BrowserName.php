@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
-use Piwik\Piwik;
+use Piwik\Metrics\Formatter;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -16,10 +16,16 @@ use Piwik\Tracker\Action;
 class BrowserName extends Base
 {
     protected $columnName = 'config_browser_name';
+    protected $columnType = 'VARCHAR(10) NULL';
+    protected $segmentName = 'browserCode';
+    protected $nameSingular = 'DevicesDetection_ColumnBrowser';
+    protected $namePlural = 'DevicesDetection_Browsers';
+    protected $acceptValues = 'FF, IE, CH, SF, OP, etc.';
+    protected $type = self::TYPE_TEXT;
 
-    public function getName()
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
-        return Piwik::translate('UserSettings_BrowserFamilies');
+        return \Piwik\Plugins\DevicesDetection\getBrowserName($value);
     }
 
     /**

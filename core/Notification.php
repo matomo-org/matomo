@@ -81,6 +81,13 @@ class Notification
     const FLAG_NO_CLEAR   = 1;
 
     /**
+     * If this flag is applied, a close icon will be displayed.
+     *
+     * See {@link $flags}.
+     */
+    const FLAG_CLEAR  = 0;
+
+    /**
      * Notifications of this type will be displayed for a few seconds and then faded out.
      */
     const TYPE_TOAST      = 'toast';

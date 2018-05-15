@@ -1,0 +1,15 @@
+{
+    "Live": {
+        "GoalType": "Vrsta",
+        "HideMap": "sakrij mapu",
+        "LoadMoreVisits": "Učitaj više posjeta",
+        "NbVisitor": "1 visitor",
+        "NextVisitor": "Slijedeći posjetitelj",
+        "PreviousVisitor": "Prijašnji posjetitelj",
+        "Referrer_URL": "Referrer URL",
+        "ShowMap": "pokaži mapu",
+        "VisitedPages": "Posjećene stranice",
+        "VisitorLog": "Zapis posjeta",
+        "VisitorsInRealTime": "Posjete u stvarnom vremenu"
+    }
+}

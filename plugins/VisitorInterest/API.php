@@ -33,18 +33,18 @@ class API extends \Piwik\Plugin\API
     public function getNumberOfVisitsPerVisitDuration($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::TIME_SPENT_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->queueFilter('Sort', array('label', 'asc', true));
+        $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
         $dataTable->queueFilter('BeautifyTimeRangeLabels', array(
                                                                 Piwik::translate('VisitorInterest_BetweenXYSeconds'),
-                                                                Piwik::translate('VisitorInterest_OneMinute'),
-                                                                Piwik::translate('VisitorInterest_PlusXMin')));
+                                                                Piwik::translate('Intl_OneMinuteShort'),
+                                                                Piwik::translate('Intl_NMinutesShort')));
         return $dataTable;
     }
 
     public function getNumberOfVisitsPerPage($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::PAGES_VIEWED_RECORD_NAME, $idSite, $period, $date, $segment);
-        $dataTable->queueFilter('Sort', array('label', 'asc', true));
+        $dataTable->queueFilter('Sort', array('label', 'asc', true, false));
         $dataTable->queueFilter('BeautifyRangeLabels', array(
                                                             Piwik::translate('VisitorInterest_OnePage'),
                                                             Piwik::translate('VisitorInterest_NPages')));
@@ -65,7 +65,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(
             Archiver::DAYS_SINCE_LAST_RECORD_NAME, $idSite, $period, $date, $segment, Metrics::INDEX_NB_VISITS);
-        $dataTable->queueFilter('BeautifyRangeLabels', array(Piwik::translate('General_OneDay'), Piwik::translate('General_NDays')));
+        $dataTable->queueFilter('BeautifyRangeLabels', array(Piwik::translate('Intl_OneDay'), Piwik::translate('Intl_NDays')));
         return $dataTable;
     }
 
@@ -87,28 +87,6 @@ class API extends \Piwik\Plugin\API
         $dataTable->queueFilter('BeautifyRangeLabels', array(
                                                             Piwik::translate('General_OneVisit'), Piwik::translate('General_NVisits')));
 
-        // add visit percent column
-        self::addVisitsPercentColumn($dataTable);
-
         return $dataTable;
-    }
-
-    /**
-     * Utility function that adds a visit percent column to a data table,
-     * regardless of whether the data table is an data table array or just
-     * a data table.
-     *
-     * @param DataTable $dataTable The data table to modify.
-     */
-    private static function addVisitsPercentColumn($dataTable)
-    {
-        if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getDataTables() as $table) {
-                self::addVisitsPercentColumn($table);
-            }
-        } else {
-            $totalVisits = array_sum($dataTable->getColumn(Metrics::INDEX_NB_VISITS));
-            $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', 'nb_visits', $totalVisits));
-        }
     }
 }

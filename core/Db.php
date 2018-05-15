@@ -9,8 +9,8 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\DataAccess\TableMetadata;
 use Piwik\Db\Adapter;
-use Piwik\Tracker;
 
 /**
  * Contains SQL related helper functions for Piwik's MySQL database.
@@ -33,7 +33,11 @@ use Piwik\Tracker;
  */
 class Db
 {
+    const SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';
+
     private static $connection = null;
+
+    private static $logQueries = true;
 
     /**
      * Returns the database connection and creates it if it hasn't been already.
@@ -46,13 +50,19 @@ class Db
             return Tracker::getDatabase();
         }
 
-        if (self::$connection === null) {
+        if (!self::hasDatabaseObject()) {
             self::createDatabaseObject();
         }
 
         return self::$connection;
     }
 
+    /**
+     * Returns an array with the Database connection information.
+     *
+     * @param array|null $dbConfig
+     * @return array
+     */
     public static function getDatabaseConfig($dbConfig = null)
     {
         $config = Config::getInstance();
@@ -81,9 +91,20 @@ class Db
          */
         Piwik::postEvent('Db.getDatabaseConfig', array(&$dbConfig));
 
-        $dbConfig['profiler'] = $config->Debug['enable_sql_profiler'];
+        $dbConfig['profiler'] = @$config->Debug['enable_sql_profiler'];
 
         return $dbConfig;
+    }
+
+    /**
+     * For tests only.
+     * @param $connection
+     * @ignore
+     * @internal
+     */
+    public static function setDatabaseObject($connection)
+    {
+        self::$connection = $connection;
     }
 
     /**
@@ -101,6 +122,16 @@ class Db
         $db = @Adapter::factory($dbConfig['adapter'], $dbConfig);
 
         self::$connection = $db;
+    }
+
+    /**
+     * Detect whether a database object is initialized / created or not.
+     *
+     * @internal
+     */
+    public static function hasDatabaseObject()
+    {
+        return isset(self::$connection);
     }
 
     /**
@@ -132,6 +163,8 @@ class Db
         $q = $profiler->queryStart($sql, \Zend_Db_Profiler::INSERT);
 
         try {
+            self::logSql(__FUNCTION__, $sql);
+
             $return = self::get()->exec($sql);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -139,6 +172,7 @@ class Db
         }
 
         $profiler->queryEnd($q);
+
         return $return;
     }
 
@@ -157,6 +191,8 @@ class Db
     public static function query($sql, $parameters = array())
     {
         try {
+            self::logSql(__FUNCTION__, $sql, $parameters);
+
             return self::get()->query($sql, $parameters);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -176,6 +212,8 @@ class Db
     public static function fetchAll($sql, $parameters = array())
     {
         try {
+            self::logSql(__FUNCTION__, $sql, $parameters);
+
             return self::get()->fetchAll($sql, $parameters);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -195,6 +233,8 @@ class Db
     public static function fetchRow($sql, $parameters = array())
     {
         try {
+            self::logSql(__FUNCTION__, $sql, $parameters);
+
             return self::get()->fetchRow($sql, $parameters);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -214,6 +254,8 @@ class Db
     public static function fetchOne($sql, $parameters = array())
     {
         try {
+            self::logSql(__FUNCTION__, $sql, $parameters);
+
             return self::get()->fetchOne($sql, $parameters);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -237,6 +279,8 @@ class Db
     public static function fetchAssoc($sql, $parameters = array())
     {
         try {
+            self::logSql(__FUNCTION__, $sql, $parameters);
+
             return self::get()->fetchAssoc($sql, $parameters);
         } catch (Exception $ex) {
             self::logExtraInfoIfDeadlock($ex);
@@ -259,7 +303,7 @@ class Db
      *
      * @param string $table The name of the table to delete from. Must be prefixed (see {@link Piwik\Common::prefixTable()}).
      * @param string $where The where clause of the query. Must include the WHERE keyword.
-     * @param $orderBy The column to order by and the order by direction, eg, `idvisit ASC`.
+     * @param string $orderBy The column to order by and the order by direction, eg, `idvisit ASC`.
      * @param int $maxRowsPerQuery The maximum number of rows to delete per `DELETE` query.
      * @param array $parameters Parameters to bind for each query.
      * @return int The total number of rows deleted.
@@ -267,13 +311,13 @@ class Db
     public static function deleteAllRows($table, $where, $orderBy, $maxRowsPerQuery = 100000, $parameters = array())
     {
         $orderByClause = $orderBy ? "ORDER BY $orderBy" : "";
-        $sql = "DELETE FROM $table
-                $where
-                $orderByClause
+
+        $sql = "DELETE FROM $table $where $orderByClause
                 LIMIT " . (int)$maxRowsPerQuery;
 
         // delete rows w/ a limit
         $totalRowsDeleted = 0;
+
         do {
             $rowsDeleted = self::query($sql, $parameters)->rowCount();
 
@@ -291,38 +335,54 @@ class Db
      *
      * @param string|array $tables The name of the table to optimize or an array of tables to optimize.
      *                             Table names must be prefixed (see {@link Piwik\Common::prefixTable()}).
+     * @param bool $force If true, the `OPTIMIZE TABLE` query will be run even if InnoDB tables are being used.
      * @return \Zend_Db_Statement
      */
-    public static function optimizeTables($tables)
+    public static function optimizeTables($tables, $force = false)
     {
         $optimize = Config::getInstance()->General['enable_sql_optimize_queries'];
-        if (empty($optimize)) {
-            return;
+
+        if (empty($optimize)
+            && !$force
+        ) {
+            return false;
         }
 
         if (empty($tables)) {
             return false;
         }
+
         if (!is_array($tables)) {
             $tables = array($tables);
         }
 
-        // filter out all InnoDB tables
-        $myisamDbTables = array();
-        foreach (Db::fetchAll("SHOW TABLE STATUS") as $row) {
-            if (strtolower($row['Engine']) == 'myisam'
-                && in_array($row['Name'], $tables)
-            ) {
-                $myisamDbTables[] = $row['Name'];
+        if (!self::isOptimizeInnoDBSupported()
+            && !$force
+        ) {
+            // filter out all InnoDB tables
+            $myisamDbTables = array();
+            foreach (self::getTableStatus() as $row) {
+                if (strtolower($row['Engine']) == 'myisam'
+                    && in_array($row['Name'], $tables)
+                ) {
+                    $myisamDbTables[] = $row['Name'];
+                }
             }
+
+            $tables = $myisamDbTables;
         }
 
-        if (empty($myisamDbTables)) {
+        if (empty($tables)) {
             return false;
         }
 
         // optimize the tables
-        return self::query("OPTIMIZE TABLE " . implode(',', $myisamDbTables));
+        return self::query("OPTIMIZE TABLE " . implode(',', $tables));
+    }
+
+    private static function getTableStatus()
+    {
+        return Db::fetchAll("SHOW TABLE STATUS");
     }
 
     /**
@@ -355,17 +415,12 @@ class Db
      *
      * @param string|array $table The name of the table you want to get the columns definition for.
      * @return \Zend_Db_Statement
+     * @deprecated since 2.11.0
      */
     public static function getColumnNamesFromTable($table)
     {
-        $columns = self::fetchAll("SHOW COLUMNS FROM `" . $table . "`");
-
-        $columnNames = array();
-        foreach ($columns as $column) {
-            $columnNames[] = $column['Field'];
-        }
-
-        return $columnNames;
+        $tableMetadataAccess = new TableMetadata();
+        return $tableMetadataAccess->getColumns($table);
     }
 
     /**
@@ -385,6 +440,7 @@ class Db
         if (!is_array($tablesToRead)) {
             $tablesToRead = array($tablesToRead);
         }
+
         if (!is_array($tablesToWrite)) {
             $tablesToWrite = array($tablesToWrite);
         }
@@ -393,6 +449,7 @@ class Db
         foreach ($tablesToWrite as $table) {
             $lockExprs[] = $table . " WRITE";
         }
+
         foreach ($tablesToRead as $table) {
             $lockExprs[] = $table . " READ";
         }
@@ -454,6 +511,7 @@ class Db
     public static function segmentedFetchFirst($sql, $first, $last, $step, $params = array())
     {
         $result = false;
+
         if ($step > 0) {
             for ($i = $first; $result === false && $i <= $last; $i += $step) {
                 $result = self::fetchOne($sql, array_merge($params, array($i, $i + $step)));
@@ -463,6 +521,7 @@ class Db
                 $result = self::fetchOne($sql, array_merge($params, array($i, $i + $step)));
             }
         }
+
         return $result;
     }
 
@@ -490,6 +549,7 @@ class Db
     public static function segmentedFetchOne($sql, $first, $last, $step, $params = array())
     {
         $result = array();
+
         if ($step > 0) {
             for ($i = $first; $i <= $last; $i += $step) {
                 $result[] = self::fetchOne($sql, array_merge($params, array($i, $i + $step)));
@@ -499,6 +559,7 @@ class Db
                 $result[] = self::fetchOne($sql, array_merge($params, array($i, $i + $step)));
             }
         }
+
         return $result;
     }
 
@@ -527,17 +588,19 @@ class Db
     public static function segmentedFetchAll($sql, $first, $last, $step, $params = array())
     {
         $result = array();
+
         if ($step > 0) {
             for ($i = $first; $i <= $last; $i += $step) {
                 $currentParams = array_merge($params, array($i, $i + $step));
-                $result = array_merge($result, self::fetchAll($sql, $currentParams));
+                $result        = array_merge($result, self::fetchAll($sql, $currentParams));
             }
         } else {
             for ($i = $first; $i >= $last; $i += $step) {
                 $currentParams = array_merge($params, array($i, $i + $step));
-                $result = array_merge($result, self::fetchAll($sql, $currentParams));
+                $result        = array_merge($result, self::fetchAll($sql, $currentParams));
             }
         }
+
         return $result;
     }
 
@@ -575,26 +638,20 @@ class Db
     }
 
     /**
-     * Returns `true` if a table in the database, `false` if otherwise.
-     *
-     * @param string $tableName The name of the table to check for. Must be prefixed.
-     * @return bool
-     */
-    public static function tableExists($tableName)
-    {
-        return self::query("SHOW TABLES LIKE ?", $tableName)->rowCount() > 0;
-    }
-
-    /**
      * Attempts to get a named lock. This function uses a timeout of 1s, but will
      * retry a set number of times.
      *
      * @param string $lockName The lock name.
      * @param int $maxRetries The max number of times to retry.
      * @return bool `true` if the lock was obtained, `false` if otherwise.
+     * @throws \Exception if Lock name is too long
      */
     public static function getDbLock($lockName, $maxRetries = 30)
     {
+        if (strlen($lockName) > 64) {
+            throw new \Exception('DB lock name has to be 64 characters or less for MySQL 5.7 compatibility.');
+        }
+
         /*
          * the server (e.g., shared hosting) may have a low wait timeout
          * so instead of a single GET_LOCK() with a 30 second timeout,
@@ -606,11 +663,13 @@ class Db
         $db = self::get();
 
         while ($maxRetries > 0) {
-            if ($db->fetchOne($sql, array($lockName)) == '1') {
+            $result = $db->fetchOne($sql, array($lockName));
+            if ($result == '1') {
                 return true;
             }
             $maxRetries--;
         }
+
         return false;
     }
 
@@ -661,11 +720,62 @@ class Db
 
     private static function logExtraInfoIfDeadlock($ex)
     {
-        if (self::get()->isErrNo($ex, 1213)) {
+        if (!self::get()->isErrNo($ex, 1213)) {
+            return;
+        }
+
+        try {
             $deadlockInfo = self::fetchAll("SHOW ENGINE INNODB STATUS");
 
             // log using exception so backtrace appears in log output
             Log::debug(new Exception("Encountered deadlock: " . print_r($deadlockInfo, true)));
+
+        } catch(\Exception $e) {
+            //  1227 Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
         }
+    }
+
+    private static function logSql($functionName, $sql, $parameters = array())
+    {
+        if (self::$logQueries === false
+            || @Config::getInstance()->Debug['log_sql_queries'] != 1
+        ) {
+            return;
+        }
+
+        // NOTE: at the moment we don't log parameters in order to avoid sensitive information leaks
+        Log::debug("Db::%s() executing SQL: %s", $functionName, $sql);
+    }
+
+    /**
+     * @param bool $enable
+     */
+    public static function enableQueryLog($enable)
+    {
+        self::$logQueries = $enable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public static function isQueryLogEnabled()
+    {
+        return self::$logQueries;
+    }
+
+    public static function isOptimizeInnoDBSupported($version = null)
+    {
+        if ($version === null) {
+            $version = Db::fetchOne("SELECT VERSION()");
+        }
+
+        $version = strtolower($version);
+
+        if (strpos($version, "mariadb") === false) {
+            return false;
+        }
+
+        $semanticVersion = strstr($version, '-', $beforeNeedle = true);
+        return version_compare($semanticVersion, '10.1.1', '>=');
     }
 }

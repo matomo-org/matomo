@@ -1,0 +1,10 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s zonder plugins ingeschakeld",
+        "BrowserWithPluginsEnabled": "%1$s met plugins %2$s ingeschakeld",
+        "PluginDescription": "Rapporteert de lijst van plugins die door browsers van bezoekers worden ondersteund.",
+        "PluginDetectionDoesNotWorkInIE": "Let op: plugin detectie werkt niet in Internet Explorer lager dan 11. Dit rapport is alleen gebaseerd nieuwere versies van IE en andere browser dan IE.",
+        "WidgetPlugins": "Geïnstalleerde plugins",
+        "WidgetPluginsDocumentation": "Dit rapport laat zien welke browserplugins uw bezoekers haden geïnstalleerd. Deze informatie kan van belang zijn voor het kiezen van de juiste manier om uw content aan te bieden."
+    }
+}

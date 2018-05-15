@@ -1,0 +1,9 @@
+{
+    "MultiSites": {
+        "Evolution": "Évolution",
+        "LoadingWebsites": "Chargement des sites",
+        "PluginDescription": "Visualisez et comparez tous vos sites web et application en utilisant le tableau de bord \"tous les sites web\".",
+        "TopLinkTooltip": "Comparez les statistiques pour tous vos sites web.",
+        "Pagination": "%1$s - %2$s de %3$s"
+    }
+}

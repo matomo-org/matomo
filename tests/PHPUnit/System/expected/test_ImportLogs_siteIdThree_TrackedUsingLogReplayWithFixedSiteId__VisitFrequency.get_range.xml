@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<nb_visits_returning>10</nb_visits_returning>
+	<nb_actions_returning>12</nb_actions_returning>
+	<nb_visits_converted_returning>0</nb_visits_converted_returning>
+	<bounce_count_returning>8</bounce_count_returning>
+	<sum_visit_length_returning>113</sum_visit_length_returning>
+	<max_actions_returning>2</max_actions_returning>
+	<bounce_rate_returning>80%</bounce_rate_returning>
+	<nb_actions_per_visit_returning>1.2</nb_actions_per_visit_returning>
+	<avg_time_on_site_returning>11</avg_time_on_site_returning>
+</result>

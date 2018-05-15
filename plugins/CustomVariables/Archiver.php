@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\CustomVariables;
 
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataArray;
+use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Tracker\GoalManager;
 use Piwik\Tracker;
@@ -35,11 +35,14 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected $maximumRowsInSubDataTable;
     protected $newEmptyRow;
 
+    private $metadata = array();
+    private $metadataFlat = array();
+
     function __construct($processor)
     {
         parent::__construct($processor);
 
-        if($processor->getParams()->getSite()->isEcommerceEnabled()) {
+        if ($processor->getParams()->getSite()->isEcommerceEnabled()) {
             $this->maximumRowsInDataTableLevelZero = self::MAX_ROWS_WHEN_ECOMMERCE;
             $this->maximumRowsInSubDataTable = self::MAX_ROWS_WHEN_ECOMMERCE;
         } else {
@@ -50,16 +53,23 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateMultipleReports()
     {
+        $columnsAggregationOperation = array('slots' => 'uniquearraymerge');
+
         $this->getProcessor()->aggregateDataTableRecords(
-            self::CUSTOM_VARIABLE_RECORD_NAME, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
-            $columnToSort = Metrics::INDEX_NB_VISITS);
+            self::CUSTOM_VARIABLE_RECORD_NAME,
+            $this->maximumRowsInDataTableLevelZero,
+            $this->maximumRowsInSubDataTable,
+            $columnToSort = Metrics::INDEX_NB_VISITS,
+            $columnsAggregationOperation,
+            $columnsToRenameAfterAggregation = null,
+            $countRowsRecursive = array());
     }
 
     public function aggregateDayReport()
     {
         $this->dataArray = new DataArray();
 
-        $maxCustomVariables = CustomVariables::getMaxCustomVariables();
+        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
         for ($i = 1; $i <= $maxCustomVariables; $i++) {
             $this->aggregateCustomVariable($i);
         }
@@ -67,6 +77,16 @@ class Archiver extends \Piwik\Plugin\Archiver
         $this->removeVisitsMetricsFromActionsAggregate();
         $this->dataArray->enrichMetricsWithConversions();
         $table = $this->dataArray->asDataTable();
+
+        foreach ($table->getRows() as $row) {
+            $label = $row->getColumn('label');
+            if (!empty($this->metadata[$label])) {
+                foreach ($this->metadata[$label] as $name => $value) {
+                    $row->addMetadata($name, $value);
+                }
+            }
+        }
+
         $blob = $table->getSerialized(
             $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
             $columnToSort = Metrics::INDEX_NB_VISITS
@@ -111,6 +131,8 @@ class Archiver extends \Piwik\Plugin\Archiver
             $key = $row[$keyField];
             $value = $this->cleanCustomVarValue($row[$valueField]);
 
+            $this->addMetadata($keyField, $key, Model::SCOPE_VISIT);
+
             $this->dataArray->sumMetricsVisits($key, $row);
             $this->dataArray->sumMetricsVisitsPivot($key, $value, $row);
         }
@@ -130,11 +152,29 @@ class Archiver extends \Piwik\Plugin\Archiver
             $key = $row[$keyField];
             $value = $this->cleanCustomVarValue($row[$valueField]);
 
+            $this->addMetadata($keyField, $key, Model::SCOPE_PAGE);
+
             $alreadyAggregated = $this->aggregateEcommerceCategories($key, $value, $row);
             if (!$alreadyAggregated) {
                 $this->aggregateActionByKeyAndValue($key, $value, $row);
                 $this->dataArray->sumMetricsActions($key, $row);
             }
+        }
+    }
+
+    private function addMetadata($keyField, $label, $scope)
+    {
+        $index = (int) str_replace('custom_var_k', '', $keyField);
+
+        if (!array_key_exists($label, $this->metadata)) {
+            $this->metadata[$label] = array('slots' => array());
+        }
+
+        $uniqueId = $label . 'scope' . $scope . 'index' . $index;
+
+        if (!isset($this->metadataFlat[$uniqueId])) {
+            $this->metadata[$label]['slots'][] = array('scope' => $scope, 'index' => $index);
+            $this->metadataFlat[$uniqueId] = true;
         }
     }
 
@@ -154,7 +194,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             if (substr($value, -2) != '"]') {
                 $value .= '"]';
             }
-            $decoded = @Common::json_decode($value);
+            $decoded = json_decode($value);
             if (is_array($decoded)) {
                 $count = 0;
                 foreach ($decoded as $category) {
@@ -198,12 +238,26 @@ class Archiver extends \Piwik\Plugin\Archiver
         }
         while ($row = $query->fetch()) {
             $key = $row[$keyField];
+
             $value = $this->cleanCustomVarValue($row[$valueField]);
             $this->dataArray->sumMetricsGoals($key, $row);
             $this->dataArray->sumMetricsGoalsPivot($key, $value, $row);
         }
     }
 
+    /**
+     * Delete Visit, Unique Visitor and Users metric from 'page' scope custom variables.
+     *
+     * - Custom variables of 'visit' scope: it is expected that these ones have the "visit" column set.
+     * - Custom variables of 'page' scope: we cannot process "Visits" count for these.
+     *   Why?
+     *     "Actions" column is processed with a SELECT count(*).
+     *     A same visit can set the same custom variable of 'page' scope multiple times.
+     *     We cannot sum the values of count(*) as it would be incorrect.
+     *     The way we could process "Visits" Metric for 'page' scope variable is to issue a count(Distinct *) or so,
+     *     but it is no implemented yet (this would likely be very slow for high traffic sites).
+     *
+     */
     protected function removeVisitsMetricsFromActionsAggregate()
     {
         $dataArray = & $this->dataArray->getDataArray();
@@ -213,6 +267,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             ) {
                 unset($row[Metrics::INDEX_NB_UNIQ_VISITORS]);
                 unset($row[Metrics::INDEX_NB_VISITS]);
+                unset($row[Metrics::INDEX_NB_USERS]);
             }
         }
     }

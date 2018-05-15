@@ -1,0 +1,18 @@
+{
+    "Contents": {
+        "PluginDescription": "Indhold og banner sporing gør dig i stand til at måle effektiviteten (besøg, klik, CTR) af ethvert indhold på dine sider (bannerreklamer, billeder, hvad som helst).",
+        "Impressions": "Visninger",
+        "ContentImpression": "Indholdsvisning",
+        "ContentInteraction": "Interaktion med indhold",
+        "ContentInteractions": "Interaktion med indhold",
+        "InteractionRate": "Interaktionsfrekvens",
+        "ContentName": "Indholdsnavn",
+        "ContentNames": "Indholdsnavne",
+        "ContentPiece": "Indholdsstykke",
+        "ContentTarget": "Indholdsmål",
+        "Contents": "Indhold",
+        "InteractionsMetricDocumentation": "Antal gange der er blevet interageret på et indhold (f.eks. et klik på et banner eller en reklame).",
+        "ImpressionsMetricDocumentation": "Antal gange et indhold, som f.eks. et banner eller en reklame er vist på en side.",
+        "InteractionRateMetricDocumentation": "Forholdet mellem indholdsvisninger til interaktioner."
+    }
+}

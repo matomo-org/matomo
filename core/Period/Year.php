@@ -15,6 +15,8 @@ use Piwik\Period;
  */
 class Year extends Period
 {
+    const PERIOD_ID = 4;
+
     protected $label = 'year';
 
     /**
@@ -35,7 +37,7 @@ class Year extends Period
     public function getLocalizedLongString()
     {
         //"2009"
-        $out = $this->getDateStart()->getLocalized("%longYear%");
+        $out = $this->getDateStart()->getLocalized(Date::DATE_FORMAT_YEAR);
         return $out;
     }
 
@@ -58,6 +60,7 @@ class Year extends Period
         if ($this->subperiodsProcessed) {
             return;
         }
+
         parent::generate();
 
         $year = $this->date->toString("Y");
@@ -75,13 +78,25 @@ class Year extends Period
      * @param string $format
      * @return array
      */
-    function toString($format = 'ignored')
+    public function toString($format = 'ignored')
     {
         $this->generate();
+
         $stringMonth = array();
         foreach ($this->subperiods as $month) {
             $stringMonth[] = $month->getDateStart()->toString("Y") . "-" . $month->getDateStart()->toString("m") . "-01";
         }
+
         return $stringMonth;
+    }
+
+    public function getImmediateChildPeriodLabel()
+    {
+        return 'month';
+    }
+
+    public function getParentPeriodLabel()
+    {
+        return null;
     }
 }

@@ -1,0 +1,63 @@
+.uiTest .getNewPlugins {
+    .row {
+        display: none;
+    }
+}
+
+.getPremiumFeatures {
+    h3 {
+        margin-top: 0;
+    }
+    .pluginBody {
+        margin-bottom: 32px;
+        display: inline-block;
+
+        .pluginMoreDetails {
+            line-height:3em;
+        }
+    }
+
+    .row {
+        margin-left: -12px;
+        margin-right: -12px;
+    }
+}
+
+.getNewPlugins {
+    .pluginName {
+        cursor: pointer;
+    }
+
+    .widgetBody {
+        margin-bottom: 20px;
+    }
+
+    .screenshot {
+        cursor: pointer;
+    }
+
+    &:not(.isAdminPage) {
+        h3 {
+            padding-left: 0 !important;
+            padding-top: 5px !important;
+        }
+    }
+
+    &.isAdminPage {
+        h3 {
+            margin-top:0;
+            margin-bottom: 8px;
+        }
+        .description {
+            height: 30px;
+        }
+        .row {
+            margin-left: -12px;
+            margin-right: -12px;
+        }
+        .screenshot {
+            max-height: 250px;
+            object-fit: cover;
+        }
+    }
+}

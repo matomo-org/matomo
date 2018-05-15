@@ -1,0 +1,22 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Naam aangepaste variabele",
+        "ColumnCustomVariableValue": "Waarde aangepaste variabele",
+        "CustomVariables": "Aangepaste variabelen",
+        "CustomVariablesReportDocumentation": "Dit rapport bevat informatie over uw aangepaste variabelen. Klik op de naam van een variabele om de verdeling van de waarden te zien. %1$s voor meer informatie over aangepaste variabelen in het algemeen, lees de %2$sCustom variabelen documentatie over piwik.org%3$s",
+        "ScopePage": "omvang pagina",
+        "ScopeVisit": "omvang bezoek",
+        "ManageDescription": "Dit overzicht toont alle slots van custom variabelen en het gebruik voor websites '%s'. De namen in elk slot zijn gesorteerd op hoe vaak ze in totaal zijn gebruikt.",
+        "ScopeX": "Scope %s",
+        "Index": "Index",
+        "Usages": "Gebruikt",
+        "Unused": "Ongebruikt",
+        "CreateNewSlot": "Verhoog het aantal van beschikbare Custom Variabelen slots",
+        "UsageDetails": "%1$s bezoeken en %2$s acties sinds het maken van deze website.",
+        "CreatingCustomVariableTakesTime": "Het maken van een nieuw custom variabele slot kan een lange tijd in beslag nemen afhankelijk van de grote van de database. Om deze reden is het alleen mogelijk om dit via een commando op de command line uit te voeren.",
+        "CurrentAvailableCustomVariables": "Op dit moment kan je in totaal %s Custom Variables per website gebruiken.",
+        "SlotsReportIsGeneratedOverTime": "De data voor dit verslag wordt na verloop van tijd gegenereerd. Het kan een dag of twee duren voordat je de data ziet en een paar weken tot het rapport helemaal nauwkeurig is.",
+        "MetricsAreOnlyAvailableForVisitScope": "Let op: %1$s metrics zijn beeschikbaar voor Custom Variables alleen voor bereik %2$s .",
+        "MetricsNotAvailableForPageScope": "Voor Custom Variabelen met bereik %1$s, de kolom waarde deze metriek is %2$s"
+    }
+}

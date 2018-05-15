@@ -1,0 +1,18 @@
+<div piwik-dialog="$parent.showAddSiteDialog" class="ui-confirm">
+
+    <h2>{{ 'SitesManager_ChooseMeasurableTypeHeadline'|translate }}</h2>
+
+    <p>
+        <div class="center">
+            <button type="button"
+                    ng-repeat="type in availableTypes"
+                    title="{{ type.description }}"
+                    class="modal-close btn"
+                    style="margin-left: 20px;"
+                    ng-click="addSite(type.id);"
+                    aria-disabled="false">
+                <span class="ui-button-text">{{ type.name }}</span>
+            </button>
+        </div>
+    </p>
+</div>

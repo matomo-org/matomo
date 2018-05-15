@@ -1,0 +1,31 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s のバウンス",
+        "DirectEntries": "直接エントリー",
+        "ErrorBack": "前の操作に戻る",
+        "ExitsInline": "%s 終了",
+        "NumPageviews": "%s ページビュー",
+        "NumDownloads": "%s ダウンロード",
+        "NumOutlinks": "%s アウトリンク",
+        "FromCampaigns": "キャンペーンから",
+        "FromPreviousPages": "内部ページから",
+        "FromPreviousPagesInline": "内部ページからの %s",
+        "FromPreviousSiteSearches": "内部検索から",
+        "FromPreviousSiteSearchesInline": "内部検索からの %s",
+        "FromSearchEngines": "検索エンジンから",
+        "FromWebsites": "ウェブサイトから",
+        "IncomingTraffic": "受信トラフィック",
+        "LoopsInline": "%s ページリロード",
+        "NoDataForAction": "%s に対するデータはありません。",
+        "NoDataForActionDetails": "アクションが %s の期間ページビューが無かったか、無効です。",
+        "OutgoingTraffic": "送信トラフィック",
+        "PluginDescription": "新しいアイコンを通して アクションレポートで利用可能な、新しい翻訳レポートのそれぞれのページ URL に対する遷移をレポートします。",
+        "ShareOfAllPageviews": "このページは、%1$s ページビューでした ( 全ページビューの %2$s )",
+        "ToFollowingPages": "内部ページへ",
+        "ToFollowingPagesInline": "内部ページへの %s",
+        "ToFollowingSiteSearches": "内部検索",
+        "ToFollowingSiteSearchesInline": "%s 内部検索",
+        "XOfAllPageviews": "このページの全ビューの %s",
+        "XOutOfYVisits": "(%2$s の内の ) %1$s"
+    }
+}

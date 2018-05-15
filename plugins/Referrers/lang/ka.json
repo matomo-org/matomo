@@ -1,0 +1,28 @@
+{
+    "Referrers": {
+        "Campaigns": "კამპანიები",
+        "ColumnCampaign": "კამპანია",
+        "ColumnSearchEngine": "საძიებო სისტემა",
+        "ColumnWebsite": "ვებ საიტი",
+        "ColumnWebsitePage": "ვებ საიტის გვერდი",
+        "DirectEntry": "პირდაპირი შესვლა",
+        "Distinct": "განსხვავებული რეფერერები რეფერერების ტიპის მიხედვით",
+        "DistinctCampaigns": "განსხვავებული კამპანიები",
+        "DistinctKeywords": "განსხვავებული საკვანძო სიტყვები",
+        "DistinctSearchEngines": "განსხვავებული საძიებო სისტემები",
+        "DistinctWebsites": "განსხვავებული ვებ საიტები",
+        "Keywords": "საკვანძო სიტყვები",
+        "Referrers": "რეფერერები",
+        "SearchEngines": "საძიებო სისტემები",
+        "SubmenuSearchEngines": "საძიებო სისტემები და საკვანძო სიტყვები",
+        "SubmenuWebsites": "ვებ საიტები",
+        "Type": "რეფერერის ტიპი",
+        "TypeCampaigns": "%s კამპანიებიდან",
+        "TypeDirectEntries": "%s პირდაპირი შესვლა",
+        "TypeSearchEngines": "%s საძიებო სისტემებიდან",
+        "TypeWebsites": "%s ვებ საიტებიდან",
+        "UsingNDistinctUrls": "(%s განსხვავებული url გამოყენებით)",
+        "Websites": "ვებ საიტები",
+        "WidgetExternalWebsites": "გარე ვებ საიტების ჩამონათვალი"
+    }
+}

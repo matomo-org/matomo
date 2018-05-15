@@ -28,7 +28,7 @@ class JScriptUIAssetMerger extends UIAssetMerger
      * @param JScriptUIAssetFetcher $assetFetcher
      * @param UIAssetCacheBuster $cacheBuster
      */
-    function __construct($mergedAsset, $assetFetcher, $cacheBuster)
+    public function __construct($mergedAsset, $assetFetcher, $cacheBuster)
     {
         parent::__construct($mergedAsset, $assetFetcher, $cacheBuster);
 
@@ -37,15 +37,13 @@ class JScriptUIAssetMerger extends UIAssetMerger
 
     protected function getMergedAssets()
     {
-        $concatenatedAssets = $this->getConcatenatedAssets();
-
-        return str_replace("\n", "\r\n", $concatenatedAssets);
+        return $this->getConcatenatedAssets();
     }
 
     protected function generateCacheBuster()
     {
         $cacheBuster = $this->cacheBuster->piwikVersionBasedCacheBuster($this->getPlugins());
-        return "/* Piwik Javascript - cb=" . $cacheBuster . "*/\r\n";
+        return "/* Matomo Javascript - cb=" . $cacheBuster . "*/\n";
     }
 
     protected function getPreamble()
@@ -57,7 +55,7 @@ class JScriptUIAssetMerger extends UIAssetMerger
     {
         $plugins = $this->getPlugins();
 
-        if(!empty($plugins)) {
+        if (!empty($plugins)) {
 
             /**
              * Triggered after all the JavaScript files Piwik uses are minified and merged into a
@@ -74,15 +72,16 @@ class JScriptUIAssetMerger extends UIAssetMerger
 
     public function getFileSeparator()
     {
-        return PHP_EOL;
+        return "\n";
     }
 
     protected function processFileContent($uiAsset)
     {
         $content = $uiAsset->getContent();
 
-        if (!$this->assetMinifier->isMinifiedJs($content))
+        if (!$this->assetMinifier->isMinifiedJs($content)) {
             $content = $this->assetMinifier->minifyJs($content);
+        }
 
         return $content;
     }

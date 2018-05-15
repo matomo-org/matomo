@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "S'ha executat un total de %s consultes",
+        "GenerateTime": "S'han trigat %s segons en generar la pàgina",
+        "NbActionsDescription": "%s accions",
+        "VisitsSummary": "Resum de les visites",
+        "VisitsSummaryDocumentation": "Aquesta és una visió general de l'evolució visita.",
+        "WidgetLastVisits": "Gràfic de les darreres visites",
+        "WidgetOverviewGraph": "Resum amb gràfic",
+        "WidgetVisits": "Resum de les visites"
+    }
+}

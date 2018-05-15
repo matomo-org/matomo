@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Öppna i ett nytt fönster",
+        "PluginDescription": "Visa alla Matomo rapporter på din webbplats eller app med hjälp av enkel kod (en HTML-tagg).",
+        "TopLinkTooltip": "Exportera rapporter från Matomo som Widgets och bädda in instrumentpanelen i din app som en iframe."
+    }
+}

@@ -12,6 +12,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\SitesManager\SiteUrls;
 
 /**
  * @see plugins/Referrers/functions.php
@@ -23,13 +24,30 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referrers/functions.php';
 class Referrers extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
-            'Insights.addReportToOverview'    => 'addReportToInsightsOverview'
+            'Insights.addReportToOverview'      => 'addReportToInsightsOverview',
+            'Request.getRenamedModuleAndAction' => 'renameDeprecatedModuleAndAction',
+            'Tracker.setTrackerCacheGeneral'    => 'setTrackerCacheGeneral'
         );
+    }
+
+    public function setTrackerCacheGeneral(&$cacheContent)
+    {
+        $siteUrls = new SiteUrls();
+        $urls = $siteUrls->getAllCachedSiteUrls();
+
+        return $cacheContent['allUrlsByHostAndIdSite'] = $siteUrls->groupUrlsByHost($urls);
+    }
+
+    public function renameDeprecatedModuleAndAction(&$module, &$action)
+    {
+        if($module == 'Referers') {
+            $module = 'Referrers';
+        }
     }
 
     public function addReportToInsightsOverview(&$reports)
@@ -73,6 +91,6 @@ class Referrers extends \Piwik\Plugin
         $label = strtolower(Piwik::translate($indexTranslation));
 
         // return html that displays it as grey & italic
-        return '<span class="datatable-label-category"><em>(' . $label . ')</em></span>';
+        return '<span class="datatable-label-category">(' . $label . ')</span>';
     }
 }

@@ -1,0 +1,50 @@
+<div class="assertSize" id="ex1"></div> <!-- visible -->
+<div class="assertSize" id="ex2" style="opacity: 0"></div>
+<div class="assertSize" id="ex3" style="visibility: hidden"></div>
+<div class="assertSize" id="ex4" style="display: none"></div>
+<div class="assertSize" id="ex5" style="width: 0px;margin-top: 1px;margin-left: 1px;"></div>
+<div class="assertSize" id="ex6" style="height: 0px;margin-left: 1px;margin-left: 1px;"></div>
+<div class="assertSize" id="ex7" style="width: 0px;margin-top: 1px;margin-left: 1px;overflow: hidden;"></div>
+<div class="assertSize" id="ex8" style="height: 0px;margin-top: 1px;margin-left: 1px;overflow: hidden;"></div>
+
+<div id="ex9" style="margin-left: -110px;width: 50px;">Test</div>
+<div id="ex10" style="margin-left: 1000000px; width: 50px;">Test</div>
+
+<!-- The elements itself are visible but hidden by a parent -->
+<div class="assertSize" style="opacity: 0"><div class="assertSize" id="ex13"></div></div>
+<div class="assertSize" style="visibility: hidden"><div class="assertSize" id="ex14"></div></div>
+<div class="assertSize" style="display: none"><div class="assertSize" id="ex15"></div></div>
+<div class="assertSize" style="width: 0px;overflow: hidden;"><div class="assertSize" id="ex16"></div></div>
+<div class="assertSize" style="height: 0px;overflow: hidden;"><div class="assertSize" id="ex17"></div></div>
+
+<!-- at least one pixel has to be visible of the element -->
+<div id="ex18" style="margin-left: -110px;width: 110px;">Test</div>
+<div id="ex19" style="margin-left: -110px; width: 111px;">Test</div>
+
+<!-- positioned absolute -->
+<div id="ex20" style="height: 20px;width: 20px;position: absolute;left: 1px;top: -19px;"></div>
+<div id="ex21" style="height: 20px;width: 20px;position: absolute;left: -19px;top: 0px;"></div>
+<div id="ex22" style="height: 20px;width: 20px;position: absolute;right: -19px;top: 0px;"></div>
+<div id="ex23" style="height: 20px;width: 20px;position: absolute;left: 1px;bottom: -19px;"></div>
+
+<div id="ex24" style="height: 20px;width: 20px;position: absolute;left: 1px;top: -20px;"></div>
+<div id="ex25" style="height: 20px;width: 20px;position: absolute;left: -20px;top: 0px;"></div>
+<div id="ex26" style="height: 20px;width: 20px;position: absolute;right: -100px;top: 0px;"></div>
+<div id="ex27" style="height: 20px;width: 20px;position: absolute;left: 1px;bottom: -20px;"></div>
+
+<!-- positioned fixed -->
+<div id="ex28" style="height: 20px;width: 20px;position: fixed;left: 1px;top: -19px;"></div>
+<div id="ex29" style="height: 20px;width: 20px;position: fixed;left: -19px;top: 0px;"></div>
+<div id="ex30" style="height: 20px;width: 20px;position: fixed;right: -19px;top: 0px;"></div>
+<div id="ex31" style="height: 20px;width: 20px;position: fixed;left: 1px;bottom: -19px;"></div>
+
+<div id="ex32" style="height: 20px;width: 20px;position: fixed;left: 1px;top: -20px;"></div>
+<div id="ex33" style="height: 20px;width: 20px;position: fixed;left: -20px;top: 0px;"></div>
+<div id="ex34" style="height: 20px;width: 20px;position: fixed;right: -20px;top: 0px;"></div>
+<div id="ex35" style="height: 20px;width: 20px;position: fixed;left: 1px;bottom: -20px;"></div>
+
+<!-- nodes whose parent is scrollable -->
+<div class="assertSize" id="ex36" style="overflow: scroll;position: fixed;top:0px;left:0px;width:20px;height: 20px;">
+    <div class="assertSize" id="ex37" style="height:30px;"></div>
+    <div class="assertSize" id="ex38" style="height:5px;"></div>
+</div>

@@ -1,0 +1,13 @@
+{
+    "Login": {
+        "InvalidOrExpiredToken": "Netinkamas arba pasibaigęs talonas",
+        "InvalidUsernameEmail": "Netinkamas naudotojo vardas ir\/arba el. pašto adresas",
+        "LogIn": "Prisijungti",
+        "LoginPasswordNotCorrect": "Naudotojo vardas ir slaptažodis neteisingi",
+        "LostYourPassword": "Pamiršote slaptažodį?",
+        "PasswordChanged": "Jūsų slaptažodis buvo pakeistas.",
+        "PasswordRepeat": "Slaptažodis (pakartoti)",
+        "PasswordsDoNotMatch": "Slaptažodžiai nesutampa",
+        "RememberMe": "Prisiminti mane"
+    }
+}

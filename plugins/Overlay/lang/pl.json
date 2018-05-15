@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s kliknięć",
+        "ClicksFromXLinks": "%1$s kliknięć z jednego z %2$s odnośników",
+        "Domain": "Domena",
+        "ErrorNotLoading": "Sesja Nakładki Strony nie mogła zostać uruchomiona.",
+        "ErrorNotLoadingDetails": "Może strona załadowana po prawej stronie nie ma kodu śledzącego Matomo. W takim przypadku spróbuj uruchomić Nakładkę dla innej strony widocznej w raporcie.",
+        "ErrorNotLoadingDetailsSSL": "W związku z faktem, że Matomo korzysta z połączenia HTTPS i jest prawdopodobne, że Twój serwis nie korzysta z SSL'a. Spróbuj użyuć Matomo'a na HTTP.",
+        "ErrorNotLoadingLink": "Kliknij tu, aby uzyskać więcej podpowiedzi i pomocy",
+        "Link": "Odnośnik",
+        "Location": "Lokalizacja",
+        "NoData": "Brak danych dla wybranej strony we wskazanym przedziale czasu.",
+        "OneClick": "1 kliknięcie",
+        "OpenFullScreen": "Tryb pełnoekranowy (bez paska)",
+        "Overlay": "Nakładka Strony",
+        "PluginDescription": "Oglądaj dane analityczne jako Nakładkę na Twoją stronę. Zobacz liczbę kliknięć wszystkich odwiedzających w poszczególne odnośniki. Notka: Wymaga włączenia wtyczki Transitions.",
+        "RedirectUrlError": "Próbujesz otworzyć Nakładkę Strony dla adresu \"%1$s\". %2$s Żadna ze skonfigurowanych w Matomo domen nie pasuje do wskazanego adresu.",
+        "RedirectUrlErrorAdmin": "Możesz dodać domenę jako dodatkowy adres URL %1$sw ustawieniach%2$s.",
+        "RedirectUrlErrorUser": "Zwrócić się do administratora, aby dodać domenę jako dodatkowy URL."
+    }
+}

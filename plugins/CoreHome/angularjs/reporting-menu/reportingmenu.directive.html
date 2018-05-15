@@ -1,0 +1,62 @@
+<div><ul class="navbar hide-on-med-and-down" role="menu" aria-label="{{ 'CoreHome_MainNavigation'|translate }}">
+    <li ng-repeat="category in menuModel.menu"
+        class="menuTab"
+        role="menuitem"
+        ng-class="{'active': category.active}">
+        <a class="item" tabindex="5"
+           href=""
+           ng-click="loadCategory(category)">
+            <span class="menu-icon {{ category.icon ? category.icon : 'icon-arrow-right' }}"></span>{{ category.name }}
+            <span class="hidden">
+             {{ 'CoreHome_Menu'|translate }}
+           </span>
+        </a>
+        <ul role="menu">
+            <li ng-repeat="subcategory in category.subcategories"
+                role="menuitem"
+                ng-class="{'active': subcategory.active}">
+                <div ng-if="subcategory.isGroup" piwik-menudropdown show-search="true" menu-title="{{ subcategory.name|escape }}">
+                    <a class="item" tabindex="5"
+                       ng-repeat="subcat in subcategory.subcategories"
+                       title="{{ subcat.tooltip }}"
+                       ng-class="{'active': subcat.active}"
+                       ng-href="#?{{ makeUrl(category,subcat) }}"
+                       ng-click='loadSubcategory(category, subcat)'>
+                        {{ subcat.name }}
+                    </a>
+                </div>
+
+                <a ng-if="!subcategory.isGroup"
+                   ng-href="#?{{ makeUrl(category,subcategory) }}"
+                   class="item"
+                   ng-click='loadSubcategory(category, subcategory)'>
+                    {{ subcategory.name }}
+                </a>
+            </li>
+        </ul>
+    </li>
+</ul>
+<ul id="mobile-left-menu" class="side-nav hide-on-large-only">
+    <li class="no-padding" ng-repeat="category in menuModel.menu">
+        <ul class="collapsible collapsible-accordion" piwik-side-nav="nav .activateLeftMenu">
+            <li>
+                <a class="collapsible-header">{{ category.name }}<i class="{{ category.icon ? category.icon : 'icon-arrow-bottom' }}"></i></a>
+                <div class="collapsible-body">
+                    <ul>
+                        <li ng-repeat="subcategory in category.subcategories">
+                            <a ng-if="subcategory.isGroup"
+                               ng-repeat="subcat in subcategory.subcategories"
+                               ng-click='loadSubcategory(category, subcat)'
+                               ng-href="#?{{ makeUrl(category,subcat) }}">{{ subcat.name }}</a>
+                            <a ng-if="!subcategory.isGroup"
+                               ng-click='loadSubcategory(category, subcategory)'
+                               ng-href="#?{{ makeUrl(category,subcategory) }}">{{ subcategory.name }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+</div>

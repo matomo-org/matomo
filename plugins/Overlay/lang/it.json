@@ -1,0 +1,20 @@
+{
+    "Overlay": {
+        "Clicks": "%s clicks",
+        "ClicksFromXLinks": "%1$s clicks per uno di %2$s links",
+        "Domain": "Dominio",
+        "ErrorNotLoading": "La sessione di Overlay Pagina non può ancora essere lanciata.",
+        "ErrorNotLoadingDetails": "Forse la pagina caricata sulla destra non ha il codice tracking di Matomo. In questo caso prova ad avviare Overlay per una pagina diversa.",
+        "ErrorNotLoadingDetailsSSL": "Dal momento che si sta utilizzando Matomo su HTTPS, la causa più probabile è che il vostro sito web non supporti SSL. Prova a utilizzare Matomo su HTTP.",
+        "ErrorNotLoadingLink": "Ottieni altri suggerimenti sui problemi",
+        "Link": "Link",
+        "Location": "Posizione",
+        "NoData": "Non vi sono dati per questa pagina nel periodo selezionato",
+        "OneClick": "1 click",
+        "OpenFullScreen": "Vai a schermo intero (niente barra laterale)",
+        "Overlay": "Overlay di Pagina",
+        "PluginDescription": "Vedi i tuoi dati statistici in sovrapposizione al tuo sito web. Guarda quante volte i tuoi utenti hanno cliccato su ciascun link. Nota: Richiede che sia abilitato il plugin Transitions.",
+        "RedirectUrlErrorAdmin": "È possibile aggiungere il dominio come un ulteriore URL nelle %1$simpostazioni%2$s.",
+        "RedirectUrlErrorUser": "Chiedi all'amministratore di aggiungere il dominio come un URL aggiuntivo."
+    }
+}

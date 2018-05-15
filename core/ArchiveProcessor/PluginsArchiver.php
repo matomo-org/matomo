@@ -9,12 +9,17 @@
 
 namespace Piwik\ArchiveProcessor;
 
-use Piwik\Archive;
 use Piwik\ArchiveProcessor;
+use Piwik\Common;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\Metrics;
+use Piwik\Piwik;
 use Piwik\Plugin\Archiver;
+use Piwik\Log;
+use Piwik\Timer;
+use Exception;
 
 /**
  * This class creates the Archiver objects found in plugins and will trigger aggregation,
@@ -33,18 +38,27 @@ class PluginsArchiver
     protected $params;
 
     /**
+     * @var LogAggregator
+     */
+    private $logAggregator;
+
+    /**
+     * Public only for tests. Won't be necessary after DI changes are complete.
+     *
      * @var Archiver[] $archivers
      */
-    private static $archivers = array();
+    public static $archivers = array();
 
-    public function __construct(Parameters $params, $isTemporaryArchive)
+    public function __construct(Parameters $params, $isTemporaryArchive, ArchiveWriter $archiveWriter = null)
     {
         $this->params = $params;
-
-        $this->archiveWriter = new ArchiveWriter($this->params, $isTemporaryArchive);
+        $this->isTemporaryArchive = $isTemporaryArchive;
+        $this->archiveWriter = $archiveWriter ?: new ArchiveWriter($this->params, $this->isTemporaryArchive);
         $this->archiveWriter->initNewArchive();
 
-        $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter);
+        $this->logAggregator = new LogAggregator($params);
+
+        $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter, $this->logAggregator);
 
         $this->isSingleSiteDayArchive = $this->params->isSingleSiteDayArchive();
     }
@@ -56,7 +70,9 @@ class PluginsArchiver
      */
     public function callAggregateCoreMetrics()
     {
-        if($this->isSingleSiteDayArchive) {
+        $this->logAggregator->setQueryOriginHint('Core');
+
+        if ($this->isSingleSiteDayArchive) {
             $metrics = $this->aggregateDayVisitsMetrics();
         } else {
             $metrics = $this->aggregateMultipleVisitsMetrics();
@@ -78,29 +94,70 @@ class PluginsArchiver
      * Instantiates the Archiver class in each plugin that defines it,
      * and triggers Aggregation processing on these plugins.
      */
-    public function callAggregateAllPlugins($visits, $visitsConverted)
+    public function callAggregateAllPlugins($visits, $visitsConverted, $forceArchivingWithoutVisits = false)
     {
+        Log::debug("PluginsArchiver::%s: Initializing archiving process for all plugins [visits = %s, visits converted = %s]",
+            __FUNCTION__, $visits, $visitsConverted);
+
         $this->archiveProcessor->setNumberOfVisits($visits, $visitsConverted);
 
-        $archivers = $this->getPluginArchivers();
+        $archivers = static::getPluginArchivers();
 
-        foreach($archivers as $pluginName => $archiverClass) {
-
+        foreach ($archivers as $pluginName => $archiverClass) {
             // We clean up below all tables created during this function call (and recursive calls)
             $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
 
             /** @var Archiver $archiver */
-            $archiver = new $archiverClass($this->archiveProcessor);
+            $archiver = $this->makeNewArchiverObject($archiverClass, $pluginName);
 
-            if(!$archiver->isEnabled()) {
+            if (!$archiver->isEnabled()) {
+                Log::debug("PluginsArchiver::%s: Skipping archiving for plugin '%s' (disabled).", __FUNCTION__, $pluginName);
                 continue;
             }
-            if($this->shouldProcessReportsForPlugin($pluginName)) {
-                if($this->isSingleSiteDayArchive) {
-                    $archiver->aggregateDayReport();
-                } else {
-                    $archiver->aggregateMultipleReports();
+
+            if (!$forceArchivingWithoutVisits && !$visits && !$archiver->shouldRunEvenWhenNoVisits()) {
+                Log::debug("PluginsArchiver::%s: Skipping archiving for plugin '%s' (no visits).", __FUNCTION__, $pluginName);
+                continue;
+            }
+
+            if ($this->shouldProcessReportsForPlugin($pluginName)) {
+
+                $this->logAggregator->setQueryOriginHint($pluginName);
+
+                try {
+                    $timer = new Timer();
+                    if ($this->isSingleSiteDayArchive) {
+                        Log::debug("PluginsArchiver::%s: Archiving day reports for plugin '%s'.", __FUNCTION__, $pluginName);
+
+                        $archiver->aggregateDayReport();
+                    } else {
+                        Log::debug("PluginsArchiver::%s: Archiving period reports for plugin '%s'.", __FUNCTION__, $pluginName);
+
+                        $archiver->aggregateMultipleReports();
+                    }
+
+                    $this->logAggregator->setQueryOriginHint('');
+
+                    Log::debug("PluginsArchiver::%s: %s while archiving %s reports for plugin '%s' %s.",
+                        __FUNCTION__,
+                        $timer->getMemoryLeak(),
+                        $this->params->getPeriod()->getLabel(),
+                        $pluginName,
+                        $this->params->getSegment() ? sprintf("(for segment = '%s')", $this->params->getSegment()->getString()) : ''
+                    );
+                } catch (Exception $e) {
+                    $className = get_class($e);
+
+                    if ($className === 'PHPUnit_Framework_Exception' || (class_exists('PHPUnit_Framework_Exception', false) &&  is_subclass_of($className, 'PHPUnit_Framework_Exception'))) {
+                        $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e->getFile(), $e->getLine(), $e);
+                    } else {
+                        $exception = new $className($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e);
+                    }
+
+                    throw $exception;
                 }
+            } else {
+                Log::debug("PluginsArchiver::%s: Not archiving reports for plugin '%s'.", __FUNCTION__, $pluginName);
             }
 
             Manager::getInstance()->deleteAll($latestUsedTableId);
@@ -110,9 +167,25 @@ class PluginsArchiver
 
     public function finalizeArchive()
     {
-        $this->params->logStatusDebug( $this->archiveWriter->isArchiveTemporary );
+        $this->params->logStatusDebug($this->archiveWriter->isArchiveTemporary);
         $this->archiveWriter->finalizeArchive();
         return $this->archiveWriter->getIdArchive();
+    }
+
+    /**
+     * Returns if any plugin archiver archives without visits
+     */
+    public static function doesAnyPluginArchiveWithoutVisits()
+    {
+        $archivers = static::getPluginArchivers();
+
+        foreach ($archivers as $pluginName => $archiverClass) {
+            if ($archiverClass::shouldRunEvenWhenNoVisits()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -120,7 +193,7 @@ class PluginsArchiver
      *
      * @return \Piwik\Plugin\Archiver[]
      */
-    protected function getPluginArchivers()
+    protected static function getPluginArchivers()
     {
         if (empty(static::$archivers)) {
             $pluginNames = \Piwik\Plugin\Manager::getInstance()->getActivatedPlugins();
@@ -154,9 +227,9 @@ class PluginsArchiver
             return true;
         }
         if (Rules::shouldProcessReportsAllPlugins(
-                            $this->params->getIdSites(),
-                            $this->params->getSegment(),
-                            $this->params->getPeriod()->getLabel())) {
+            $this->params->getIdSites(),
+            $this->params->getSegment(),
+            $this->params->getPeriod()->getLabel())) {
             return true;
         }
 
@@ -193,4 +266,27 @@ class PluginsArchiver
         return $metrics;
     }
 
+
+    /**
+     * @param $archiverClass
+     * @return Archiver
+     */
+    private function makeNewArchiverObject($archiverClass, $pluginName)
+    {
+        $archiver = new $archiverClass($this->archiveProcessor);
+
+        /**
+         * Triggered right after a new **plugin archiver instance** is created.
+         * Subscribers to this event can configure the plugin archiver, for example prevent the archiving of a plugin's data
+         * by calling `$archiver->disable()` method.
+         *
+         * @param \Piwik\Plugin\Archiver &$archiver The newly created plugin archiver instance.
+         * @param string $pluginName The name of plugin of which archiver instance was created.
+         * @param array $this->params Array containing archive parameters (Site, Period, Date and Segment)
+         * @param bool $this->isTemporaryArchive Flag indicating whether the archive being processed is temporary (ie. the period isn't finished yet) or final (the period is already finished and in the past).
+         */
+        Piwik::postEvent('Archiving.makeNewArchiverObject', array($archiver, $pluginName, $this->params, $this->isTemporaryArchive));
+
+        return $archiver;
+    }
 }

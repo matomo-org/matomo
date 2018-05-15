@@ -1,0 +1,8 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s با هیچ پلاگین را فعال کنید",
+        "BrowserWithPluginsEnabled": "%1$s با پلاگین ها%2$s فعال کنید",
+        "WidgetPlugins": "لیست افزونه ها",
+        "WidgetPluginsDocumentation": "این گزارش نشان می دهد که پلاگین مرورگر بازدید کننده خود را فعال کرده بود. این اطلاعات ممکن است مهم برای انتخاب راه درست برای ارائه محتوای خود را."
+    }
+}

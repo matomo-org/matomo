@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<col name="label">0</col>
+		<col name="1. /index">1</col>
+		<col name="2. /13">0</col>
+		<col name="3. /12">0</col>
+		<col name="4. /9">0</col>
+		<col name="5. /14">0</col>
+		<col name="6. /15">0</col>
+		<col name="7. /19">0</col>
+		<col name="8. /18">0</col>
+		<col name="9. /17">0</col>
+		<col name="10. /16">0</col>
+		<col name="11. /8">0</col>
+		<col name="12. /11">0</col>
+		<col name="13. /2">1</col>
+		<col name="14. /1">1</col>
+		<col name="15. /0">1</col>
+		<col name="16. /3">1</col>
+		<col name="17. /4">0</col>
+		<col name="18. /7">0</col>
+		<col name="19. /6">0</col>
+		<col name="20. /5">0</col>
+		<col name="21. /10">0</col>
+	</row>
+	<row>
+		<col name="label">1</col>
+		<col name="1. /index">1</col>
+		<col name="2. /13">0</col>
+		<col name="3. /12">0</col>
+		<col name="4. /9">0</col>
+		<col name="5. /14">0</col>
+		<col name="6. /15">0</col>
+		<col name="7. /19">0</col>
+		<col name="8. /18">0</col>
+		<col name="9. /17">0</col>
+		<col name="10. /16">0</col>
+		<col name="11. /8">0</col>
+		<col name="12. /11">0</col>
+		<col name="13. /2">0</col>
+		<col name="14. /1">0</col>
+		<col name="15. /0">0</col>
+		<col name="16. /3">0</col>
+		<col name="17. /4">1</col>
+		<col name="18. /7">1</col>
+		<col name="19. /6">1</col>
+		<col name="20. /5">1</col>
+		<col name="21. /10">0</col>
+	</row>
+	<row>
+		<col name="label">2</col>
+		<col name="1. /index">1</col>
+		<col name="2. /13">0</col>
+		<col name="3. /12">0</col>
+		<col name="4. /9">1</col>
+		<col name="5. /14">0</col>
+		<col name="6. /15">0</col>
+		<col name="7. /19">0</col>
+		<col name="8. /18">0</col>
+		<col name="9. /17">0</col>
+		<col name="10. /16">0</col>
+		<col name="11. /8">1</col>
+		<col name="12. /11">1</col>
+		<col name="13. /2">0</col>
+		<col name="14. /1">0</col>
+		<col name="15. /0">0</col>
+		<col name="16. /3">0</col>
+		<col name="17. /4">0</col>
+		<col name="18. /7">0</col>
+		<col name="19. /6">0</col>
+		<col name="20. /5">0</col>
+		<col name="21. /10">1</col>
+	</row>
+	<row>
+		<col name="label">3</col>
+		<col name="1. /index">1</col>
+		<col name="2. /13">1</col>
+		<col name="3. /12">1</col>
+		<col name="4. /9">0</col>
+		<col name="5. /14">1</col>
+		<col name="6. /15">1</col>
+		<col name="7. /19">0</col>
+		<col name="8. /18">0</col>
+		<col name="9. /17">0</col>
+		<col name="10. /16">0</col>
+		<col name="11. /8">0</col>
+		<col name="12. /11">0</col>
+		<col name="13. /2">0</col>
+		<col name="14. /1">0</col>
+		<col name="15. /0">0</col>
+		<col name="16. /3">0</col>
+		<col name="17. /4">0</col>
+		<col name="18. /7">0</col>
+		<col name="19. /6">0</col>
+		<col name="20. /5">0</col>
+		<col name="21. /10">0</col>
+	</row>
+	<row>
+		<col name="label">4</col>
+		<col name="1. /index">1</col>
+		<col name="2. /13">0</col>
+		<col name="3. /12">0</col>
+		<col name="4. /9">0</col>
+		<col name="5. /14">0</col>
+		<col name="6. /15">0</col>
+		<col name="7. /19">1</col>
+		<col name="8. /18">1</col>
+		<col name="9. /17">1</col>
+		<col name="10. /16">1</col>
+		<col name="11. /8">0</col>
+		<col name="12. /11">0</col>
+		<col name="13. /2">0</col>
+		<col name="14. /1">0</col>
+		<col name="15. /0">0</col>
+		<col name="16. /3">0</col>
+		<col name="17. /4">0</col>
+		<col name="18. /7">0</col>
+		<col name="19. /6">0</col>
+		<col name="20. /5">0</col>
+		<col name="21. /10">0</col>
+	</row>
+</result>

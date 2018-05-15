@@ -13,28 +13,65 @@ use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataTable\Renderer\Json;
 use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
-use Piwik\Nonce;
 use Piwik\Piwik;
-use Piwik\Plugins\CorePluginsAdmin\UpdateCommunication;
+use Piwik\Plugin;
+use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Plugins\CustomVariables\CustomVariables;
-use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Site;
-use Piwik\Tracker\IgnoreCookie;
+use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\Widget\WidgetsList;
+use Piwik\SettingsPiwik;
 
-/**
- *
- */
-class Controller extends \Piwik\Plugin\ControllerAdmin
+class Controller extends ControllerAdmin
 {
-    const SET_PLUGIN_SETTINGS_NONCE = 'CoreAdminHome.setPluginSettings';
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    /** @var OptOutManager */
+    private $optOutManager;
+
+    public function __construct(Translator $translator, OptOutManager $optOutManager)
+    {
+        $this->translator = $translator;
+        $this->optOutManager = $optOutManager;
+
+        parent::__construct();
+    }
+
+    public function home()
+    {
+        $isInternetEnabled = SettingsPiwik::isInternetEnabled();
+        
+        $isMarketplaceEnabled = Marketplace::isMarketplaceEnabled();
+        $isFeedbackEnabled = Plugin\Manager::getInstance()->isPluginLoaded('Feedback');
+        $widgetsList = WidgetsList::get();
+
+        $hasDonateForm = $widgetsList->isDefined('CoreHome', 'getDonateForm');
+        $hasPiwikBlog = $widgetsList->isDefined('RssWidget', 'rssPiwik');
+        $hasPremiumFeatures = $widgetsList->isDefined('Marketplace', 'getPremiumFeatures');
+        $hasNewPlugins = $widgetsList->isDefined('Marketplace', 'getNewPlugins');
+        $hasDiagnostics = $widgetsList->isDefined('Installation', 'getSystemCheck');
+
+        return $this->renderTemplate('home', array(
+            'isInternetEnabled' => $isInternetEnabled,
+            'isMarketplaceEnabled' => $isMarketplaceEnabled,
+            'hasPremiumFeatures' => $hasPremiumFeatures,
+            'hasNewPlugins' => $hasNewPlugins,
+            'isFeedbackEnabled' => $isFeedbackEnabled,
+            'hasDonateForm' => $hasDonateForm,
+            'hasPiwikBlog' => $hasPiwikBlog,
+            'hasDiagnostics' => $hasDiagnostics,
+        ));
+    }
 
     public function index()
     {
@@ -44,155 +81,72 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function generalSettings()
     {
-        Piwik::checkUserHasSomeAdminAccess();
+        Piwik::checkUserHasSuperUserAccess();
+
         $view = new View('@CoreAdminHome/generalSettings');
+        $this->handleGeneralSettingsAdmin($view);
 
-        if (Piwik::hasUserSuperUserAccess()) {
-            $this->handleGeneralSettingsAdmin($view);
-
-            $view->trustedHosts = Url::getTrustedHostsFromConfig();
-
-            $logo = new CustomLogo();
-            $view->branding              = array('use_custom_logo' => $logo->isEnabled());
-            $view->fileUploadEnabled     = $logo->isFileUploadEnabled();
-            $view->logosWriteable        = $logo->isCustomLogoWritable();
-            $view->pathUserLogo          = CustomLogo::getPathUserLogo();
-            $view->pathUserFavicon       = CustomLogo::getPathUserFavicon();
-            $view->pathUserLogoSmall     = CustomLogo::getPathUserLogoSmall();
-            $view->pathUserLogoSVG       = CustomLogo::getPathUserSvgLogo();
-            $view->pathUserLogoDirectory = realpath(dirname($view->pathUserLogo) . '/');
-        }
+        $view->trustedHosts = array_values(Url::getTrustedHostsFromConfig());
+        $logo = new CustomLogo();
+        $view->branding              = array('use_custom_logo' => $logo->isEnabled());
+        $view->fileUploadEnabled     = $logo->isFileUploadEnabled();
+        $view->logosWriteable        = $logo->isCustomLogoWritable();
+        $view->hasUserLogo           = CustomLogo::hasUserLogo();
+        $view->pathUserLogo          = CustomLogo::getPathUserLogo();
+        $view->hasUserFavicon        = CustomLogo::hasUserFavicon();
+        $view->pathUserFavicon       = CustomLogo::getPathUserFavicon();
+        $view->pathUserLogoSmall     = CustomLogo::getPathUserLogoSmall();
+        $view->pathUserLogoSVG       = CustomLogo::getPathUserSvgLogo();
+        $view->pathUserLogoDirectory = realpath(dirname($view->pathUserLogo) . '/');
+        $view->mailTypes = array(
+            '' => '',
+            'Plain' => 'Plain',
+            'Login' => 'Login',
+            'Crammd5' => 'Crammd5',
+        );
+        $view->mailEncryptions = array(
+            '' => '',
+            'ssl' => 'SSL',
+            'tls' => 'TLS'
+        );
 
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
         return $view->render();
     }
 
-    public function pluginSettings()
-    {
-        Piwik::checkUserIsNotAnonymous();
-
-        $settings = $this->getPluginSettings();
-
-        $view = new View('@CoreAdminHome/pluginSettings');
-        $view->nonce          = Nonce::getNonce(static::SET_PLUGIN_SETTINGS_NONCE);
-        $view->pluginSettings = $settings;
-        $view->firstSuperUserSettingNames = $this->getFirstSuperUserSettingNames($settings);
-
-        $this->setBasicVariablesView($view);
-
-        return $view->render();
-    }
-
-    private function getPluginSettings()
-    {
-        $pluginsSettings = SettingsManager::getPluginSettingsForCurrentUser();
-
-        ksort($pluginsSettings);
-
-        return $pluginsSettings;
-    }
-
-    /**
-     * @param \Piwik\Plugin\Settings[] $pluginsSettings
-     * @return array   array([pluginName] => [])
-     */
-    private function getFirstSuperUserSettingNames($pluginsSettings)
-    {
-        $names = array();
-        foreach ($pluginsSettings as $pluginName => $pluginSettings) {
-
-            foreach ($pluginSettings->getSettingsForCurrentUser() as $setting) {
-                if ($setting instanceof \Piwik\Settings\SystemSetting) {
-                    $names[$pluginName] = $setting->getName();
-                    break;
-                }
-            }
-        }
-
-        return $names;
-    }
-
-    public function setPluginSettings()
-    {
-        Piwik::checkUserIsNotAnonymous();
-        Json::sendHeaderJSON();
-
-        $nonce = Common::getRequestVar('nonce', null, 'string');
-
-        if (!Nonce::verifyNonce(static::SET_PLUGIN_SETTINGS_NONCE, $nonce)) {
-            return json_encode(array(
-                'result' => 'error',
-                'message' => Piwik::translate('General_ExceptionNonceMismatch')
-            ));
-        }
-
-        $pluginsSettings = SettingsManager::getPluginSettingsForCurrentUser();
-
-        try {
-
-            foreach ($pluginsSettings as $pluginName => $pluginSetting) {
-                foreach ($pluginSetting->getSettingsForCurrentUser() as $setting) {
-
-                    $value = $this->findSettingValueFromRequest($pluginName, $setting->getKey());
-
-                    if (!is_null($value)) {
-                        $setting->setValue($value);
-                    }
-                }
-            }
-
-            foreach ($pluginsSettings as $pluginSetting) {
-                $pluginSetting->save();
-            }
-
-        } catch (Exception $e) {
-            $message = html_entity_decode($e->getMessage(), ENT_QUOTES, 'UTF-8');
-            return json_encode(array('result' => 'error', 'message' => $message));
-        }
-
-        Nonce::discardNonce(static::SET_PLUGIN_SETTINGS_NONCE);
-        return json_encode(array('result' => 'success'));
-    }
-
-    private function findSettingValueFromRequest($pluginName, $settingKey)
-    {
-        $changedPluginSettings = Common::getRequestVar('settings', null, 'array');
-
-        if (!array_key_exists($pluginName, $changedPluginSettings)) {
-            return;
-        }
-
-        $settings = $changedPluginSettings[$pluginName];
-
-        foreach ($settings as $setting) {
-            if ($setting['name'] == $settingKey) {
-                $value = $setting['value'];
-
-                if (is_string($value)) {
-                    return Common::unsanitizeInputValue($value);
-                }
-
-                return $value;
-            }
-        }
-    }
-
-    public function setGeneralSettings()
+    public function setMailSettings()
     {
         Piwik::checkUserHasSuperUserAccess();
-        $response = new ResponseBuilder(Common::getRequestVar('format'));
+
+        if (!self::isGeneralSettingsAdminEnabled()) {
+            // General settings + Beta channel + SMTP settings is disabled
+            return '';
+        }
+
+        $response = new ResponseBuilder('json2');
         try {
             $this->checkTokenInUrl();
 
-            $this->saveGeneralSettings();
+            // Update email settings
+            $mail = array();
+            $mail['transport'] = (Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
+            $mail['port'] = Common::getRequestVar('mailPort', '');
+            $mail['host'] = Common::unsanitizeInputValue(Common::getRequestVar('mailHost', ''));
+            $mail['type'] = Common::getRequestVar('mailType', '');
+            $mail['username'] = Common::unsanitizeInputValue(Common::getRequestVar('mailUsername', ''));
+            $mail['password'] = Common::unsanitizeInputValue(Common::getRequestVar('mailPassword', ''));
 
-            $customLogo = new CustomLogo();
-            if (Common::getRequestVar('useCustomLogo', '0')) {
-                $customLogo->enable();
-            } else {
-                $customLogo->disable();
+            if (!array_key_exists('mailPassword', $_POST)) {
+                // use old password if it wasn't set in request
+                $mail['password'] = Config::getInstance()->mail['password'];
             }
+
+            $mail['encryption'] = Common::getRequestVar('mailEncryption', '');
+
+            Config::getInstance()->mail = $mail;
+
+            Config::getInstance()->forceSave();
 
             $toReturn = $response->getResponse();
         } catch (Exception $e) {
@@ -208,19 +162,30 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function trackingCodeGenerator()
     {
+        Piwik::checkUserHasSomeViewAccess();
+        
         $view = new View('@CoreAdminHome/trackingCodeGenerator');
         $this->setBasicVariablesView($view);
         $view->topMenu  = MenuTop::getInstance()->getMenu();
-        $view->userMenu = MenuUser::getInstance()->getMenu();
 
         $viewableIdSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
 
         $defaultIdSite = reset($viewableIdSites);
         $view->idSite = Common::getRequestVar('idSite', $defaultIdSite, 'int');
 
+        if ($view->idSite) {
+            try {
+                $view->siteName = Site::getNameFor($view->idSite);
+            } catch (Exception $e) {
+                // ignore if site no longer exists
+            }
+        }
+
         $view->defaultReportSiteName = Site::getNameFor($view->idSite);
-        $view->defaultSiteRevenue = \Piwik\MetricsFormatter::getCurrencySymbol($view->idSite);
-        $view->maxCustomVariables = CustomVariables::getMaxCustomVariables();
+        $view->defaultSiteRevenue = Site::getCurrencySymbolFor($view->idSite);
+        $view->maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
+
+        $view->defaultSite = array('id' => $view->idSite, 'name' => $view->defaultReportSiteName);
 
         $allUrls = APISitesManager::getInstance()->getSiteUrlsFromId($view->idSite);
         if (isset($allUrls[1])) {
@@ -233,10 +198,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $mainUrl = Site::getMainUrlFor($view->idSite);
         $view->defaultReportSiteDomain = @parse_url($mainUrl, PHP_URL_HOST);
 
-        // get currencies for each viewable site
-        $view->currencySymbols = APISitesManager::getInstance()->getCurrencySymbols();
-
-        $view->serverSideDoNotTrackEnabled = \Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker::isActive();
+        $dntChecker = new DoNotTrackHeaderChecker();
+        $view->serverSideDoNotTrackEnabled = $dntChecker->isActive();
 
         return $view->render();
     }
@@ -246,34 +209,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function optOut()
     {
-        $trackVisits = !IgnoreCookie::isIgnoreCookieFound();
-
-        $nonce = Common::getRequestVar('nonce', false);
-        $language = Common::getRequestVar('language', '');
-        if ($nonce !== false && Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
-            Nonce::discardNonce('Piwik_OptOut');
-            IgnoreCookie::setIgnoreCookie();
-            $trackVisits = !$trackVisits;
-        }
-
-        $view = new View('@CoreAdminHome/optOut');
-        $view->trackVisits = $trackVisits;
-        $view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
-        $view->language = APILanguagesManager::getInstance()->isLanguageAvailable($language)
-            ? $language
-            : LanguagesManager::getLanguageCodeForCurrentUser();
-        return $view->render();
+        return $this->optOutManager->getOptOutView()->render();
     }
 
     public function uploadCustomLogo()
     {
         Piwik::checkUserHasSuperUserAccess();
+        $this->checkTokenInUrl();
 
         $logo = new CustomLogo();
         $successLogo    = $logo->copyUploadedLogoToFilesystem();
         $successFavicon = $logo->copyUploadedFaviconToFilesystem();
 
-        if($successLogo || $successFavicon) {
+        if ($successLogo || $successFavicon) {
             return '1';
         }
         return '0';
@@ -284,57 +232,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return (bool) Config::getInstance()->General['enable_general_settings_admin'];
     }
 
-    private function saveGeneralSettings()
-    {
-        if(!self::isGeneralSettingsAdminEnabled()) {
-            // General settings + Beta channel + SMTP settings is disabled
-            return;
-        }
-
-        // General Setting
-        $enableBrowserTriggerArchiving = Common::getRequestVar('enableBrowserTriggerArchiving');
-        $todayArchiveTimeToLive = Common::getRequestVar('todayArchiveTimeToLive');
-        Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
-        Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
-
-        // update beta channel setting
-        $debug = Config::getInstance()->Debug;
-        $debug['allow_upgrades_to_beta'] = Common::getRequestVar('enableBetaReleaseCheck', '0', 'int');
-        Config::getInstance()->Debug = $debug;
-
-        // Update email settings
-        $mail = array();
-        $mail['transport'] = (Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
-        $mail['port'] = Common::getRequestVar('mailPort', '');
-        $mail['host'] = Common::unsanitizeInputValue(Common::getRequestVar('mailHost', ''));
-        $mail['type'] = Common::getRequestVar('mailType', '');
-        $mail['username'] = Common::unsanitizeInputValue(Common::getRequestVar('mailUsername', ''));
-        $mail['password'] = Common::unsanitizeInputValue(Common::getRequestVar('mailPassword', ''));
-        $mail['encryption'] = Common::getRequestVar('mailEncryption', '');
-
-        Config::getInstance()->mail = $mail;
-
-        // update trusted host settings
-        $trustedHosts = Common::getRequestVar('trustedHosts', false, 'json');
-        if ($trustedHosts !== false) {
-            Url::saveTrustedHostnameInConfig($trustedHosts);
-        }
-
-        Config::getInstance()->forceSave();
-
-        $pluginUpdateCommunication = new UpdateCommunication();
-        if (Common::getRequestVar('enablePluginUpdateCommunication', '0', 'int')) {
-            $pluginUpdateCommunication->enable();
-        } else {
-            $pluginUpdateCommunication->disable();
-        }
-    }
-
     private function handleGeneralSettingsAdmin($view)
     {
         // Whether to display or not the general settings (cron, beta, smtp)
         $view->isGeneralSettingsAdminEnabled = self::isGeneralSettingsAdminEnabled();
-        if($view->isGeneralSettingsAdminEnabled) {
+        if ($view->isGeneralSettingsAdminEnabled) {
             $this->displayWarningIfConfigFileNotWritable();
         }
 
@@ -348,14 +250,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
         $view->showWarningCron = $showWarningCron;
         $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
+        $view->todayArchiveTimeToLiveDefault = Rules::getTodayArchiveTimeToLiveDefault();
         $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-        $view->enableBetaReleaseCheck = Config::getInstance()->Debug['allow_upgrades_to_beta'];
         $view->mail = Config::getInstance()->mail;
-
-        $pluginUpdateCommunication = new UpdateCommunication();
-        $view->canUpdateCommunication              = $pluginUpdateCommunication->canBeEnabled();
-        $view->enableSendPluginUpdateCommunication = $pluginUpdateCommunication->isEnabled();
     }
 
 }

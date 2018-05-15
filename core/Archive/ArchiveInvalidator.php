@@ -1,0 +1,362 @@
+<?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ */
+
+namespace Piwik\Archive;
+
+use Piwik\Archive\ArchiveInvalidator\InvalidationResult;
+use Piwik\CronArchive\SitesToReprocessDistributedList;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataAccess\Model;
+use Piwik\Date;
+use Piwik\Option;
+use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Period;
+use Piwik\Segment;
+
+/**
+ * Service that can be used to invalidate archives or add archive references to a list so they will
+ * be invalidated later.
+ *
+ * Archives are put in an "invalidated" state by setting the done flag to `ArchiveWriter::DONE_INVALIDATED`.
+ * This class also adds the archive's associated site to the a distributed list and adding the archive's year month to another
+ * distributed list.
+ *
+ * CronArchive will reprocess the archive data for all sites in the first list, and a scheduled task
+ * will purge the old, invalidated data in archive tables identified by the second list.
+ *
+ * Until CronArchive, or browser triggered archiving, re-processes data for an invalidated archive, the invalidated
+ * archive data will still be displayed in the UI and API.
+ *
+ * ### Deferred Invalidation
+ *
+ * Invalidating archives means running queries on one or more archive tables. In some situations, like during
+ * tracking, this is not desired. In such cases, archive references can be added to a list via the
+ * rememberToInvalidateArchivedReportsLater method, which will add the reference to a distributed list
+ *
+ * Later, during Piwik's normal execution, the list will be read and every archive it references will
+ * be invalidated.
+ */
+class ArchiveInvalidator
+{
+    private $rememberArchivedReportIdStart = 'report_to_invalidate_';
+
+    /**
+     * @var Model
+     */
+    private $model;
+
+    public function __construct(Model $model)
+    {
+        $this->model = $model;
+    }
+
+    public function rememberToInvalidateArchivedReportsLater($idSite, Date $date)
+    {
+        // To support multiple transactions at once, look for any other process to have set (and committed)
+        // this report to be invalidated.
+        $key   = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date->toString());
+
+        // we do not really have to get the value first. we could simply always try to call set() and it would update or
+        // insert the record if needed but we do not want to lock the table (especially since there are still some
+        // MyISAM installations)
+        $value = Option::getLike($key . '%');
+
+        // In order to support multiple concurrent transactions, add our pid to the end of the key so that it will just insert
+        // rather than waiting on some other process to commit before proceeding.The issue is that with out this, more than
+        // one process is trying to add the exact same value to the table, which causes contention. With the pid suffixed to
+        // the value, each process can successfully enter its own row in the table. The net result will be the same. We could
+        // always just set this, but it would result in a lot of rows in the options table.. more than needed.  With this
+        // change you'll have at most N rows per date/site, where N is the number of parallel requests on this same idsite/date
+        // that happen to run in overlapping transactions.
+        $mykey = $this->buildRememberArchivedReportIdProcessSafe($idSite, $date->toString());
+        // getLike() returns an empty array rather than 'false'
+        if (empty($value)) {
+            Option::set($mykey, '1');
+        }
+    }
+
+    public function getRememberedArchivedReportsThatShouldBeInvalidated()
+    {
+        $reports = Option::getLike($this->rememberArchivedReportIdStart . '%_%');
+
+        $sitesPerDay = array();
+
+        foreach ($reports as $report => $value) {
+            $report = str_replace($this->rememberArchivedReportIdStart, '', $report);
+            $report = explode('_', $report);
+            $siteId = (int) $report[0];
+            $date   = $report[1];
+
+            if (empty($sitesPerDay[$date])) {
+                $sitesPerDay[$date] = array();
+            }
+
+            $sitesPerDay[$date][] = $siteId;
+        }
+
+        return $sitesPerDay;
+    }
+
+    private function buildRememberArchivedReportIdForSite($idSite)
+    {
+        return $this->rememberArchivedReportIdStart . (int) $idSite;
+    }
+    
+    private function buildRememberArchivedReportIdForSiteAndDate($idSite, $date)
+    {
+        $id  = $this->buildRememberArchivedReportIdForSite($idSite);
+        $id .= '_' . trim($date);
+
+        return $id;
+    }
+
+    // This version is multi process safe on the insert of a new date to invalidate.
+    private function buildRememberArchivedReportIdProcessSafe($idSite, $date)
+    {
+        $id  = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date);
+        $id .= '_' . getmypid();
+        return $id;
+    }
+
+    public function forgetRememberedArchivedReportsToInvalidateForSite($idSite)
+    {
+        $id = $this->buildRememberArchivedReportIdForSite($idSite) . '_%';
+        Option::deleteLike($id);
+    }
+
+    /**
+     * @internal
+     */
+    public function forgetRememberedArchivedReportsToInvalidate($idSite, Date $date)
+    {
+        $id = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date->toString());
+
+        // The process pid is added to the end of the entry in order to support multiple concurrent transactions.
+        //  So this must be a deleteLike call to get all the entries, where there used to only be one.
+        Option::deleteLike($id . '%');
+    }
+
+    /**
+     * @param $idSites int[]
+     * @param $dates Date[]
+     * @param $period string
+     * @param $segment Segment
+     * @param bool $cascadeDown
+     * @return InvalidationResult
+     * @throws \Exception
+     */
+    public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false)
+    {
+        $invalidationInfo = new InvalidationResult();
+
+        /**
+         * Triggered when a Matomo user requested the invalidation of some reporting archives. Using this event, plugin
+         * developers can automatically invalidate another site, when a site is being invalidated. A plugin may even
+         * remove an idSite from the list of sites that should be invalidated to prevent it from ever being
+         * invalidated.
+         *
+         * **Example**
+         *
+         *     public function getIdSitesToMarkArchivesAsInvalidates(&$idSites)
+         *     {
+         *         if (in_array(1, $idSites)) {
+         *             $idSites[] = 5; // when idSite 1 is being invalidated, also invalidate idSite 5
+         *         }
+         *     }
+         *
+         * @param array &$idSites An array containing a list of site IDs which are requested to be invalidated.
+         */
+        Piwik::postEvent('Archiving.getIdSitesToMarkArchivesAsInvalidated', array(&$idSites));
+        // we trigger above event on purpose here and it is good that the segment was created like
+        // `new Segment($segmentString, $idSites)` because when a user adds a site via this event, the added idSite
+        // might not have this segment meaning we avoid a possible error. For the workflow to work, any added or removed
+        // idSite does not need to be added to $segment.
+
+        $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $invalidationInfo);
+
+        if (empty($period)) {
+            // if the period is empty, we don't need to cascade in any way, since we'll remove all periods
+            $periodDates = $this->getDatesByYearMonthAndPeriodType($dates);
+        } else {
+            $periods = $this->getPeriodsToInvalidate($datesToInvalidate, $period, $cascadeDown);
+            $periodDates = $this->getPeriodDatesByYearMonthAndPeriodType($periods);
+        }
+
+        $periodDates = $this->getUniqueDates($periodDates);
+        $this->markArchivesInvalidated($idSites, $periodDates, $segment);
+
+        $yearMonths = array_keys($periodDates);
+        $this->markInvalidatedArchivesForReprocessAndPurge($idSites, $yearMonths);
+
+        foreach ($idSites as $idSite) {
+            foreach ($dates as $date) {
+                $this->forgetRememberedArchivedReportsToInvalidate($idSite, $date);
+            }
+        }
+
+        return $invalidationInfo;
+    }
+
+    /**
+     * @param string[][][] $periodDates
+     * @return string[][][]
+     */
+    private function getUniqueDates($periodDates)
+    {
+        $result = array();
+        foreach ($periodDates as $yearMonth => $periodsByYearMonth) {
+            foreach ($periodsByYearMonth as $periodType => $periods) {
+                $result[$yearMonth][$periodType] = array_unique($periods);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param Date[] $dates
+     * @param string $periodType
+     * @param bool $cascadeDown
+     * @return Period[]
+     */
+    private function getPeriodsToInvalidate($dates, $periodType, $cascadeDown)
+    {
+        $periodsToInvalidate = array();
+
+        foreach ($dates as $date) {
+            if ($periodType == 'range') {
+                $date = $date . ',' . $date;
+            }
+
+            $period = Period\Factory::build($periodType, $date);
+            $periodsToInvalidate[] = $period;
+
+            if ($cascadeDown) {
+                $periodsToInvalidate = array_merge($periodsToInvalidate, $period->getAllOverlappingChildPeriods());
+            }
+
+            if ($periodType != 'year'
+                && $periodType != 'range'
+            ) {
+                $periodsToInvalidate[] = Period\Factory::build('year', $date);
+            }
+        }
+
+        return $periodsToInvalidate;
+    }
+
+    /**
+     * @param Period[] $periods
+     * @return string[][][]
+     */
+    private function getPeriodDatesByYearMonthAndPeriodType($periods)
+    {
+        $result = array();
+        foreach ($periods as $period) {
+            $date = $period->getDateStart();
+            $periodType = $period->getId();
+
+            $yearMonth = ArchiveTableCreator::getTableMonthFromDate($date);
+            $result[$yearMonth][$periodType][] = $date->toString();
+        }
+        return $result;
+    }
+
+    /**
+     * Called when deleting all periods.
+     *
+     * @param Date[] $dates
+     * @return string[][][]
+     */
+    private function getDatesByYearMonthAndPeriodType($dates)
+    {
+        $result = array();
+        foreach ($dates as $date) {
+            $yearMonth = ArchiveTableCreator::getTableMonthFromDate($date);
+            $result[$yearMonth][null][] = $date->toString();
+
+            // since we're removing all periods, we must make sure to remove year periods as well.
+            // this means we have to make sure the january table is processed.
+            $janYearMonth = $date->toString('Y') . '_01';
+            $result[$janYearMonth][null][] = $date->toString();
+        }
+        return $result;
+    }
+
+    /**
+     * @param int[] $idSites
+     * @param string[][][] $dates
+     * @throws \Exception
+     */
+    private function markArchivesInvalidated($idSites, $dates, Segment $segment = null)
+    {
+        $archiveNumericTables = ArchiveTableCreator::getTablesArchivesInstalled($type = ArchiveTableCreator::NUMERIC_TABLE);
+        foreach ($archiveNumericTables as $table) {
+            $tableDate = ArchiveTableCreator::getDateFromTableName($table);
+            if (empty($dates[$tableDate])) {
+                continue;
+            }
+
+            $this->model->updateArchiveAsInvalidated($table, $idSites, $dates[$tableDate], $segment);
+        }
+    }
+
+    /**
+     * @param Date[] $dates
+     * @param InvalidationResult $invalidationInfo
+     * @return \Piwik\Date[]
+     */
+    private function removeDatesThatHaveBeenPurged($dates, InvalidationResult $invalidationInfo)
+    {
+        $this->findOlderDateWithLogs($invalidationInfo);
+
+        $result = array();
+        foreach ($dates as $date) {
+            // we should only delete reports for dates that are more recent than N days
+            if ($invalidationInfo->minimumDateWithLogs
+                && $date->isEarlier($invalidationInfo->minimumDateWithLogs)
+            ) {
+                $invalidationInfo->warningDates[] = $date->toString();
+                continue;
+            }
+
+            $result[] = $date;
+            $invalidationInfo->processedDates[] = $date->toString();
+        }
+        return $result;
+    }
+
+    private function findOlderDateWithLogs(InvalidationResult $info)
+    {
+        // If using the feature "Delete logs older than N days"...
+        $purgeDataSettings = PrivacyManager::getPurgeDataSettings();
+        $logsDeletedWhenOlderThanDays = (int)$purgeDataSettings['delete_logs_older_than'];
+        $logsDeleteEnabled = $purgeDataSettings['delete_logs_enable'];
+
+        if ($logsDeleteEnabled
+            && $logsDeletedWhenOlderThanDays
+        ) {
+            $info->minimumDateWithLogs = Date::factory('today')->subDay($logsDeletedWhenOlderThanDays);
+        }
+    }
+
+    /**
+     * @param array $idSites
+     * @param array $yearMonths
+     */
+    private function markInvalidatedArchivesForReprocessAndPurge(array $idSites, $yearMonths)
+    {
+        $store = new SitesToReprocessDistributedList();
+        $store->add($idSites);
+
+        $archivesToPurge = new ArchivesToPurgeDistributedList();
+        $archivesToPurge->add($yearMonths);
+    }
+}

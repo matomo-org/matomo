@@ -8,12 +8,9 @@
  */
 namespace Piwik\Plugins\Actions;
 
-use Piwik\ArchiveProcessor;
-use Piwik\Common;
-use Piwik\Db;
 use Piwik\Site;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Tracker\Action;
 
 /**
  * Actions plugin
@@ -26,17 +23,17 @@ class Actions extends \Piwik\Plugin
     const ACTIONS_REPORT_ROWS_DISPLAY = 100;
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see \Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'ViewDataTable.configure'         => 'configureViewDataTable',
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'Insights.addReportToOverview'    => 'addReportToInsightsOverview',
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
-            'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations'
+            'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
+            'Actions.addActionTypes' => 'addActionTypes'
         );
     }
 
@@ -90,20 +87,42 @@ class Actions extends \Piwik\Plugin
         $reports['Actions_getDownloads']  = array('flat' => 1);
     }
 
-    public function getStylesheetFiles(&$stylesheets)
-    {
-        $stylesheets[] = "plugins/Actions/stylesheets/dataTableActions.less";
-    }
-
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Actions/javascripts/actionsDataTable.js";
+        $jsFiles[] = "plugins/Actions/javascripts/rowactions.js";
     }
 
-    public function isSiteSearchEnabled()
+    public function addActionTypes(&$types)
     {
-        $idSite  = Common::getRequestVar('idSite', 0, 'int');
-        $idSites = Common::getRequestVar('idSites', '', 'string');
+        $types[] = [
+            'id' => Action::TYPE_PAGE_URL,
+            'name' => 'pageviews'
+        ];
+        $types[] = [
+            'id' => Action::TYPE_CONTENT,
+            'name' => 'contents'
+        ];
+        $types[] = [
+            'id' => Action::TYPE_SITE_SEARCH,
+            'name' => 'sitesearches'
+        ];
+        $types[] = [
+            'id' => Action::TYPE_EVENT,
+            'name' => 'events'
+        ];
+        $types[] = [
+            'id' => Action::TYPE_OUTLINK,
+            'name' => 'outlinks'
+        ];
+        $types[] = [
+            'id' => Action::TYPE_DOWNLOAD,
+            'name' => 'downloads'
+        ];
+    }
+
+    public function isSiteSearchEnabled($idSites, $idSite)
+    {
         $idSites = Site::getIdSitesFromIdSitesString($idSites, true);
 
         if (!empty($idSite)) {

@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Dostawca",
+        "PluginDescription": "Raport przedstawiający dostawców internetu - ISP - odwiedzających.",
+        "ProviderReportDocumentation": "Ten raport przedstawia Dostawców Internetu, ISP, z których usług korzystają Twoi odwiedzający. Kliknij na nazwie dostawcy po więcej informacji. %s W sytuacji, gdy Matomo nie potrafi określić dostawcy, wyświetla adres IP.",
+        "WidgetProviders": "Dostawcy",
+        "ProviderReportFooter": "Nieznany dostawca oznacza, że nie udało się odczytać danych przypisanych do adresu IP."
+    }
+}

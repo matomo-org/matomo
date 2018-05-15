@@ -1,6 +1,8 @@
 #users .editable:hover,
 #users .addrow:hover,
-#users .updateAccess:hover,
+#superUserAccess .updateAccess:hover,
+#superUserAccess .accessGranted:hover,
+#manageUserAccess .updateAccess:hover,
 #users .accessGranted:hover,
 #users .adduser:hover, .edituser:hover,
 #users .deleteuser:hover,
@@ -9,11 +11,82 @@
     cursor: pointer;
 }
 
-#sites.usersManager .sites_selector_title {
-  display:inline-block;
-  margin-top:5px;
+#manageUserAccess .icon-help,
+#super_user_access .icon-help {
+  color: @theme-color-text-contrast;
+}
+
+#manageUserAccess .icon-help:hover,
+#super_user_access .icon-help:hover {
+  color: @theme-color-text;
+  text-decoration: none;
+}
+
+#manageUserAccess .helpLink,
+#super_user_access .helpLink {
+  outline: none;
+}
+
+#manageUserAccess .helpLink:hover,
+#super_user_access .helpLink:hover {
+  text-decoration: none;
+}
+
+#users .addNewUserRow td {
+  padding: 0 16px;
+}
+
+#users td {
+  vertical-align: middle !important;
+}
+
+#userSettingsTable {
+  .sites_autocomplete {
+    margin-left: 20px;
+    margin-top: 5px;
+  }
+}
+
+#users .canceluser {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  display: inline-block;
+}
+
+#users .canceluser:hover {
+  text-decoration: underline;
+}
+
+#sites.usersManager {
+  .sites_selector_title {
+    display:inline-block;
+    margin-top:5px;
+  }
+  .sites_selector_container {
+    padding-top: 0px;
+  }
 }
 
 .old-ie #sites.usersManager .sites_selector_title {
   height: 30px;
+}
+
+#showGiveViewAccessForm {
+  text-align: left;
+}
+
+#ajaxErrorGiveViewAccess {
+  margin-top: 16px;
+}
+
+#giveViewAccessForm {
+  margin-left: 30px;
+
+  #user_invite {
+    min-width: 300px;
+  }
 }

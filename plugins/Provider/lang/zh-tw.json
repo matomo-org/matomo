@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "網路供應商",
+        "PluginDescription": "報告訪客的網際網路服務供應商（ISP）。",
+        "ProviderReportDocumentation": "這份報表顯示你訪客常用的網路供應商。你可以點擊供應商名稱來查看詳情。%s如果 Matomo 無法判定訪客的供應商，則會以 IP 列出。",
+        "WidgetProviders": "網路供應商",
+        "ProviderReportFooter": "未知的供應商代表 IP 位址無法被查詢。"
+    }
+}

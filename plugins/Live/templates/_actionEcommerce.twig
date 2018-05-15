@@ -1,0 +1,54 @@
+<li class="action"
+    title="{{ postEvent('Live.renderActionTooltip', action, visitInfo) }}">
+    <div>
+        {# Ecommerce Abandoned Cart / Ecommerce Order #}
+        <img src="{{ action.icon }}" class="action-list-action-icon"/>
+        {% if action.type == 'ecommerceOrder' %}
+            <strong>{{ 'Goals_EcommerceOrder'|translate }}</strong>
+            <span style='color:#666;'>({{ action.orderId }})</span>
+        {% else %}
+            <strong>{{ 'Goals_AbandonedCart'|translate }}</strong>
+
+            {# TODO: would be nice to have the icons Orders / Cart in the ecommerce log footer #}
+        {% endif %}
+        <p>
+            <span {% if not isWidget %}style='margin-left:22px;'{% endif %}>
+                {% if action.type == 'ecommerceOrder' %}
+                {# spacing is important for tooltip to look nice #}
+                {% set ecommerceOrderTooltip %}{{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(visitInfo.idSite)|raw }}
+                    {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(visitInfo.idSite)|raw }}{% endif %}
+
+                    {% if action.revenueTax is not empty %} - {{ 'General_Tax'|translate }}: {{ action.revenueTax|money(visitInfo.idSite)|raw }}{% endif %}
+
+                    {% if action.revenueShipping is not empty %} - {{ 'General_Shipping'|translate }}: {{ action.revenueShipping|money(visitInfo.idSite)|raw }}{% endif %}
+
+                    {% if action.revenueDiscount is not empty %} - {{ 'General_Discount'|translate }}: {{ action.revenueDiscount|money(visitInfo.idSite)|raw }}{% endif %}
+                {% endset %}
+                <abbr title="{{ ecommerceOrderTooltip }}">{{ 'General_ColumnRevenue'|translate }}:
+                    {% else %}
+                        {% set revenueLeft %}{{ 'General_ColumnRevenue'|translate }}{% endset %}
+                        {{ 'Goals_LeftInCart'|translate(revenueLeft) }}:
+                    {% endif %}
+                    <strong>{{ action.revenue|money(visitInfo.idSite)|raw }}</strong>
+                    {% if action.type == 'ecommerceOrder' %}
+                </abbr>
+                {% endif %}, {{ 'General_Quantity'|translate }}: {{ action.items }}
+
+                {# Ecommerce items in Cart/Order #}
+                {% if action.itemDetails is not empty %}
+                    <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}50{% endif %}px;'>
+                        {% for product in action.itemDetails %}
+                            <li>
+                                {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif %}
+                                {% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}
+                                ,
+                                {{ 'General_Quantity'|translate }}: {{ product.quantity }},
+                                {{ 'General_Price'|translate }}: {{ product.price|money(visitInfo.idSite)|raw }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </span>
+        </p>
+    </div>
+</li>

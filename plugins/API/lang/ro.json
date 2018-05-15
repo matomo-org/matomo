@@ -1,0 +1,15 @@
+{
+    "API": {
+        "GenerateVisits": "Daca nu ai date pentru astazi, prima data poti genera date folosind pluginul %1$s. Poti activa pluginul %2$s, apoi apasa pe meniul 'Visitor Generator' in aria de administrare Matomo Admin.",
+        "KeepTokenSecret": "Acest token_auth este secret cum sunt login-ul si parola, %1$s nu le fa publice%2$s!",
+        "LoadedAPIs": "%s API-uri încarcate cu succes",
+        "MoreInformation": "Pentru mai multe informatii despre API-urile Matomo, va rugam sa va uitati la %1$s Introducere la Matomo API %2$s si la %3$s Referinte Matomo API %4$s.",
+        "PluginDescription": "Toate informaţiile din Matomo sunt disponibile prin simple API-uri. Acest plugin este punctul de intrare al serviciului web prin care poţi prelua date Web Analytics în format xml, json, php, csv, etc.",
+        "ReportingApiReference": "Referinţe API de raportare",
+        "TopLinkTooltip": "Acceseaza datele tale de Web Analytics in mod organizat prin intermediul unui simplu API in json, xml, etc.",
+        "UserAuthentication": "Identificare utilizator",
+        "UsingTokenAuth": "Daca vrei sa %1$s preiei date printr-un script, crontab etc. %2$s este necesar sa adaugi parametrul %3$s la URL-urile API care cer autentificare.",
+        "Glossary": "Glosar",
+        "LearnAboutCommonlyUsedTerms": "Învaţă cei mai uzuali termeni de analiză Matomo: %1$s şi %2$s"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "E-handel lader dig registrere når en kunde tilføjer en vare til kurven og når de udfører et køb. Man kan også registrere når der bliver set på varer og kategorier og når en handel afbrydes.",
+        "Sales": "Salg",
+        "SalesBy": "Salg af %s",
+        "SalesAdjective": "Salg %s"
+    }
+}

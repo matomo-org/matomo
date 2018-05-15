@@ -1,0 +1,41 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+
+    <div style="max-width:980px;">
+
+        <h2>{{ 'Marketplace_UpdatingPlugin'|translate(plugin.name) }}</h2>
+
+        <div>
+
+            {% if plugin.isTheme %}
+
+                <p>{{ 'Marketplace_StepDownloadingThemeFromMarketplace'|translate }}</p>
+
+                <p>{{ 'Marketplace_StepUnzippingTheme'|translate }}</p>
+
+                <p>{{ 'Marketplace_StepReplaceExistingTheme'|translate }}</p>
+
+                <p>{{ 'Marketplace_StepThemeSuccessfullyUpdated'|translate(plugin.name, plugin.latestVersion) }}</p>
+
+            {% else %}
+
+                <p>{{ 'Marketplace_StepDownloadingPluginFromMarketplace'|translate }}</p>
+
+                <p>{{ 'Marketplace_StepUnzippingPlugin'|translate }}</p>
+
+                <p>{{ 'Marketplace_StepReplaceExistingPlugin'|translate }}</p>
+
+                <p>{{ 'Marketplace_StepPluginSuccessfullyUpdated'|translate(plugin.name, plugin.latestVersion) }}</p>
+
+            {% endif %}
+
+            <p><a href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'plugins'}) }}">{{ 'General_Plugins'|translate }}</a>
+                |
+                <a href="{{ linkTo({'module': 'CorePluginsAdmin', 'action': 'themes'}) }}">{{ 'CorePluginsAdmin_Themes'|translate }}</a>
+                |
+                <a href="{{ linkTo({'module': 'Marketplace', 'action': 'overview'}) }}">{{ 'Marketplace_Marketplace'|translate }}</a></p>
+        </div>
+    </div>
+
+{% endblock %}

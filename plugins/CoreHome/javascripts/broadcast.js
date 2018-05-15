@@ -54,9 +54,9 @@ var broadcast = {
         }
         broadcast._isInit = true;
 
-        // Initialize history plugin.
-        // The callback is called at once by present location.hash
-        $.history.init(broadcast.pageload, {unescape: true});
+        angular.element(document).injector().invoke(function (historyService) {
+            historyService.init();
+        });
 
         if(noLoadingMessage != true) {
             piwikHelper.showAjaxLoading();
@@ -92,6 +92,7 @@ var broadcast = {
             hash = (''+hash).substr(1);
         }
 
+
         if (hash) {
 
             if (/^popover=/.test(hash)) {
@@ -124,7 +125,7 @@ var broadcast = {
                 popoverParamUpdated = (popoverParam != '');
             }
 
-            if (pageUrlUpdated || broadcast.forceReload) {
+            if (!broadcast.isWidgetizedDashboard() && (pageUrlUpdated || broadcast.forceReload)) {
                 Piwik_Popover.close();
 
                 if (hashUrl != broadcast.currentHashUrl || broadcast.forceReload) {
@@ -151,7 +152,7 @@ var broadcast = {
                 var handlerName = popoverParamParts[0];
                 popoverParamParts.shift();
                 var param = popoverParamParts.join(':');
-                if (typeof broadcast.popoverHandlers[handlerName] != 'undefined') {
+                if (typeof broadcast.popoverHandlers[handlerName] != 'undefined' && !broadcast.isLoginPage()) {
                     broadcast.popoverHandlers[handlerName](param);
                 }
             }
@@ -159,12 +160,26 @@ var broadcast = {
         } else {
             // start page
             Piwik_Popover.close();
-
-            $('.pageWrap #content:not(.admin)').empty();
+            if (!broadcast.isWidgetizedDashboard()) {
+                $('.pageWrap #content:not(.admin)').empty();
+            }
         }
     },
 
+    isWidgetizedDashboard: function() {
+        return broadcast.getValueFromUrl('module') == 'Widgetize' && broadcast.getValueFromUrl('moduleToWidgetize') == 'Dashboard';
+    },
+
     /**
+     * Returns if the current page is the login page
+     * @return {boolean}
+     */
+    isLoginPage: function() {
+        return !!$('body#loginPage').length;
+    },
+
+    /**
+     * ONLY USED BY OVERLAY
      * propagateAjax -- update hash values then make ajax calls.
      *    example :
      *       1) <a href="javascript:broadcast.propagateAjax('module=Referrers&action=getKeywords')">View keywords report</a>
@@ -197,7 +212,11 @@ var broadcast = {
         // if the module is not 'Goals', we specifically unset the 'idGoal' parameter
         // this is to ensure that the URLs are clean (and that clicks on graphs work as expected - they are broken with the extra parameter)
         var action = broadcast.getParamValue('action', currentHashStr);
-        if (action != 'goalReport' && action != 'ecommerceReport') {
+        if (action != 'goalReport'
+            && action != 'ecommerceReport'
+            && action != 'products'
+            && action != 'sales'
+            && (''+ ajaxUrl).indexOf('&idGoal=') === -1) {
             currentHashStr = broadcast.updateParamValue('idGoal=', currentHashStr);
         }
         // unset idDashboard if use doesn't display a dashboard
@@ -206,16 +225,59 @@ var broadcast = {
             currentHashStr = broadcast.updateParamValue('idDashboard=', currentHashStr);
         }
 
+        if (module != 'CustomDimensions') {
+            currentHashStr = broadcast.updateParamValue('idDimension=', currentHashStr);
+        }
+
         if (disableHistory) {
-            var newLocation = window.location.href.split('#')[0] + '#' + currentHashStr;
+            var newLocation = window.location.href.split('#')[0] + '#?' + currentHashStr;
             // window.location.replace changes the current url without pushing it on the browser's history stack
             window.location.replace(newLocation);
         }
         else {
             // Let history know about this new Hash and load it.
             broadcast.forceReload = true;
-            $.history.load(currentHashStr);
+            angular.element(document).injector().invoke(function (historyService) {
+                historyService.load(currentHashStr);
+            });
         }
+    },
+
+    /**
+     * Returns the current hash with updated parameters that were provided in ajaxUrl
+     *
+     * Parameters like idGoal and idDashboard will be automatically reset if the won't be relevant anymore
+     *
+     * NOTE: this method does not issue any ajax call, but returns the hash instead
+     *
+     * @param {string} ajaxUrl  querystring with parameters to be updated
+     * @return {string} current hash with updated parameters
+     */
+    buildReportingUrl: function (ajaxUrl) {
+
+        // available in global scope
+        var currentHashStr = broadcast.getHash();
+
+        ajaxUrl = ajaxUrl.replace(/^\?|&#/, '');
+
+        var params_vals = ajaxUrl.split("&");
+        for (var i = 0; i < params_vals.length; i++) {
+            currentHashStr = broadcast.updateParamValue(params_vals[i], currentHashStr);
+        }
+
+        // if the module is not 'Goals', we specifically unset the 'idGoal' parameter
+        // this is to ensure that the URLs are clean (and that clicks on graphs work as expected - they are broken with the extra parameter)
+        var action = broadcast.getParamValue('action', currentHashStr);
+        if (action != 'goalReport' && action != 'ecommerceReport' && action != 'products' && action != 'sales') {
+            currentHashStr = broadcast.updateParamValue('idGoal=', currentHashStr);
+        }
+        // unset idDashboard if use doesn't display a dashboard
+        var module = broadcast.getParamValue('module', currentHashStr);
+        if (module != 'Dashboard') {
+            currentHashStr = broadcast.updateParamValue('idDashboard=', currentHashStr);
+        }
+
+        return '#' + currentHashStr;
     },
 
     /**
@@ -233,9 +295,10 @@ var broadcast = {
      *
      * @param {string} str  url with parameters to be updated
      * @param {boolean} [showAjaxLoading] whether to show the ajax loading gif or not.
+     * @param {string} strHash additional parameters that should be updated on the hash
      * @return {void}
      */
-    propagateNewPage: function (str, showAjaxLoading) {
+    propagateNewPage: function (str, showAjaxLoading, strHash) {
         // abort all existing ajax requests
         globalAjaxQueue.abort();
 
@@ -248,9 +311,19 @@ var broadcast = {
         // available in global scope
         var currentSearchStr = window.location.search;
         var currentHashStr = broadcast.getHashFromUrl();
+        
+        if (!currentSearchStr) {
+            currentSearchStr = '?';
+        }
+
         var oldUrl = currentSearchStr + currentHashStr;
 
         for (var i = 0; i < params_vals.length; i++) {
+
+            if(params_vals[i].length == 0) {
+                continue; // updating with empty string would destroy some values
+            }
+
             // update both the current search query and hash string
             currentSearchStr = broadcast.updateParamValue(params_vals[i], currentSearchStr);
 
@@ -259,8 +332,33 @@ var broadcast = {
             }
         }
 
+        var updatedUrl = new RegExp('&updated=([0-9]+)');
+        var updatedCounter = updatedUrl.exec(currentSearchStr);
+        if (!updatedCounter) {
+            currentSearchStr += '&updated=1';
+        } else {
+            updatedCounter = 1 + parseInt(updatedCounter[1]);
+            currentSearchStr = currentSearchStr.replace(new RegExp('(&updated=[0-9]+)'), '&updated=' + updatedCounter);
+        }
+
+        if (strHash && currentHashStr.length != 0) {
+            var params_hash_vals = strHash.split("&");
+            for (var i = 0; i < params_hash_vals.length; i++) {
+                currentHashStr = broadcast.updateParamValue(params_hash_vals[i], currentHashStr);
+            }
+        }
+
         // Now load the new page.
         var newUrl = currentSearchStr + currentHashStr;
+
+        var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+        if ($rootScope) {
+            $rootScope.$on('$locationChangeStart', function (event) {
+                if (event) {
+                    event.preventDefault();
+                }
+            })
+        }
 
         if (oldUrl == newUrl) {
             window.location.reload();
@@ -310,7 +408,7 @@ var broadcast = {
             valFromUrl = getQuotedRegex(valFromUrl);
             var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
             if (newParamValue == '') {
-                // if new value is empty remove leading &, aswell
+                // if new value is empty remove leading &, as well
                 regToBeReplace = new RegExp('[\&]?' + paramName + '=' + valFromUrl, 'ig');
             }
             urlStr = urlStr.replace(regToBeReplace, newParamValue);
@@ -339,9 +437,11 @@ var broadcast = {
      */
     propagateNewPopoverParameter: function (handlerName, value) {
         // init broadcast if not already done (it is required to make popovers work in widgetize mode)
-        broadcast.init(true);
+        if (broadcast.isWidgetizedDashboard()) {
+            broadcast.init(true);
+        }
 
-        var hash = broadcast.getHashFromUrl(window.location.href);
+        var $location = angular.element(document).injector().get('$location');
 
         var popover = '';
         if (handlerName) {
@@ -355,22 +455,14 @@ var broadcast = {
         }
 
         if ('' == value || 'undefined' == typeof value) {
-            var newHash = hash.replace(/(&?popover=.*)/, '');
-        } else if (broadcast.getParamValue('popover', hash)) {
-            var newHash = broadcast.updateParamValue('popover='+popover, hash);
-        } else if (hash && hash != '#') {
-            var newHash = hash + '&popover=' + popover
+            $location.search('popover', '');
         } else {
-            var newHash = '#popover='+popover;
+            $location.search('popover', popover);
         }
 
-        // never use an empty hash, as that might reload the page
-        if ('' == newHash) {
-            newHash = '#';
-        }
-
-        broadcast.forceReload = false;
-        $.history.load(newHash);
+        setTimeout(function () {
+            angular.element(document).injector().get('$rootScope').$apply();
+        }, 1);
     },
 
     /**
@@ -396,12 +488,11 @@ var broadcast = {
      * @return {Boolean}
      */
     loadAjaxContent: function (urlAjax) {
-        if (typeof piwikMenu !== 'undefined') {
-            piwikMenu.activateMenu(
-                broadcast.getParamValue('module', urlAjax),
-                broadcast.getParamValue('action', urlAjax),
-                broadcast.getParamValue('idGoal', urlAjax) || broadcast.getParamValue('idDashboard', urlAjax)
-            );
+        if(broadcast.getParamValue('module', urlAjax) == 'API') {
+            broadcast.lastUrlRequested = null;
+            $('#content').html("Loading content from the API and displaying it within Piwik is not allowed.");
+            piwikHelper.hideAjaxLoading();
+            return false;
         }
 
         piwikHelper.hideAjaxError('loadingError');
@@ -411,7 +502,24 @@ var broadcast = {
 
         urlAjax = urlAjax.match(/^\?/) ? urlAjax : "?" + urlAjax;
         broadcast.lastUrlRequested = urlAjax;
-        function sectionLoaded(content) {
+
+        function sectionLoaded(content, status, request) {
+            if (request) {
+                var responseHeader = request.getResponseHeader('Content-Type');
+                if (responseHeader && 0 <= responseHeader.toLowerCase().indexOf('json')) {
+                    var message = 'JSON cannot be displayed for';
+                    if (this.getParams && this.getParams['module']) {
+                        message += ' module=' +  this.getParams['module'];
+                    }
+                    if (this.getParams && this.getParams['action']) {
+                        message += ' action=' +  this.getParams['action'];
+                    }
+                    $('#content').text(message);
+                    piwikHelper.hideAjaxLoading();
+                    return;
+                }
+            }
+
             // if content is whole HTML document, do not show it, otherwise recursive page load could occur
             var htmlDocType = '<!DOCTYPE';
             if (content.substring(0, htmlDocType.length) == htmlDocType) {
@@ -437,6 +545,9 @@ var broadcast = {
 
         var ajax = new ajaxHelper();
         ajax.setUrl(urlAjax);
+        ajax._getDefaultPostParams = function () {
+            return {};
+        };
         ajax.setErrorCallback(broadcast.customAjaxHandleError);
         ajax.setCallback(sectionLoaded);
         ajax.setFormat('html');

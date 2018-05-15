@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "Ce composant fournit les gadgets Carte du Visiteur et Carte en temps réel. Note : requiert que le composant Pays du Visiteur soit activé.",
+        "AndNOthers": "et %s autres",
+        "Cities": "Villes",
+        "Countries": "Pays",
+        "DaysAgo": "%s jours",
+        "GoalConversions": "%s conversions d'objectifs",
+        "HoursAgo": "%s heures",
+        "map": "carte",
+        "MinutesAgo": "%s minutes",
+        "None": "aucun",
+        "NoVisit": "Aucune visite",
+        "RealTimeMap": "Carte en temps-réel",
+        "Regions": "Régions",
+        "Searches": "%s recherches",
+        "SecondsAgo": "%s secondes",
+        "ShowingVisits": "Dernières visites géo-localisées",
+        "Unlocated": "<b>%s<\/b> %p des dernières visites de %c n'ont pas pu être géo-localisées.",
+        "VisitorMap": "Carte des visiteurs",
+        "WorldWide": "Mondialement",
+        "WithUnknownRegion": "%s avec une région inconnue",
+        "WithUnknownCity": "%s avec une ville inconnue"
+    }
+}

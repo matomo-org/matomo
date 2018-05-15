@@ -1,0 +1,15 @@
+{
+    "Marketplace": {
+        "ActivateLicenseKey": "Activar",
+        "ActionActivatePlugin": "Ativar plugin",
+        "ActionActivateTheme": "Ativar tema",
+        "ActionInstall": "Instalar",
+        "Marketplace": "Mercado",
+        "LastUpdated": "Ultima atualização",
+        "PluginKeywords": "Palavras Chave",
+        "SubscriptionType": "Tipo",
+        "Support": "Suporte",
+        "Updated": "Atualizado",
+        "ViewRepositoryChangelog": "Ver alterações"
+    }
+}

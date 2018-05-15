@@ -1,0 +1,8 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "በዚህ ፈርጅ ምንም ውሂብ የለም. \"ሁሉንም ምድብ\" ለማጠቃለል ይሞክሩ።",
+        "PageOf": "%1$s የ %2$s",
+        "ShowJSCode": "ለማስገባት የጃቫ ስክሪፕትን ኮድ አሳይ",
+        "SystemSummaryPhpVersion": "የፒ ኤች ፒ ስሪት"
+    }
+}

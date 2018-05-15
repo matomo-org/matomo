@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="2010-01-01" />
+		<result date="2010-01-02" />
+		<result date="2010-01-03">
+			<row>
+				<col name="label">search term 1</col>
+				<col name="1. Melbourne, Victoria, Australia">0</col>
+				<col name="2. Toronto, Ontario, Canada">0</col>
+				<col name="3. Yokohama, Kanagawa, Japan">1</col>
+			</row>
+			<row>
+				<col name="label">search term 2</col>
+				<col name="1. Melbourne, Victoria, Australia">0</col>
+				<col name="2. Toronto, Ontario, Canada">0</col>
+				<col name="3. Yokohama, Kanagawa, Japan">2</col>
+			</row>
+			<row>
+				<col name="label">search term 3</col>
+				<col name="1. Melbourne, Victoria, Australia">0</col>
+				<col name="2. Toronto, Ontario, Canada">2</col>
+				<col name="3. Yokohama, Kanagawa, Japan">0</col>
+			</row>
+			<row>
+				<col name="label">search term 4</col>
+				<col name="1. Melbourne, Victoria, Australia">0</col>
+				<col name="2. Toronto, Ontario, Canada">2</col>
+				<col name="3. Yokohama, Kanagawa, Japan">0</col>
+			</row>
+			<row>
+				<col name="label">that search term</col>
+				<col name="1. Melbourne, Victoria, Australia">2</col>
+				<col name="2. Toronto, Ontario, Canada">0</col>
+				<col name="3. Yokohama, Kanagawa, Japan">0</col>
+			</row>
+			<row>
+				<col name="label">this search term</col>
+				<col name="1. Melbourne, Victoria, Australia">2</col>
+				<col name="2. Toronto, Ontario, Canada">0</col>
+				<col name="3. Yokohama, Kanagawa, Japan">1</col>
+			</row>
+		</result>
+		<result date="2010-01-04" />
+		<result date="2010-01-05" />
+		<result date="2010-01-06" />
+		<result date="2010-01-07" />
+	</result>
+</results>

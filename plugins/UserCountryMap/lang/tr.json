@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "Bu uygulama eki Ziyaretçi Haritası ve Gerçek Zamanlı Harita gereçlerini görüntüler. Not: Kullanıcı Ülkesi uygulama ekinin etkinleştirilmiş olması gerekir.",
+        "AndNOthers": "ve %s diğer",
+        "Cities": "İller",
+        "Countries": "Ülkeler",
+        "DaysAgo": "%s gün önce",
+        "GoalConversions": "%s hedef tutturma",
+        "HoursAgo": "%s saat önce",
+        "map": "harita",
+        "MinutesAgo": "%s dakika önce",
+        "None": "Yok",
+        "NoVisit": "Herhangi bir ziyaret yok",
+        "RealTimeMap": "Gerçek Zamanlı Harita",
+        "Regions": "Bölgeler",
+        "Searches": "%s arama",
+        "SecondsAgo": "%s saniye önce",
+        "ShowingVisits": "Son dönemdeki ziyaret coğrafi konumları",
+        "Unlocated": "%c üzerinden <b>%s<\/b> %p ziyaretin coğrafi konumu belirlenemedi.",
+        "VisitorMap": "Ziyaretçi Haritası",
+        "WorldWide": "Dünya Geneli",
+        "WithUnknownRegion": "%s ziyaretin bölgesi bilinmiyor",
+        "WithUnknownCity": "%s ziyaretin ili bilinmiyor"
+    }
+}

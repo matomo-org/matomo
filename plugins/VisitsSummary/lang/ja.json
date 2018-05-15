@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "平均生成時間",
+        "AverageVisitDuration": "平均訪問持続時間",
+        "GenerateQueries": "実行されたクエリ %s",
+        "GenerateTime": "ページ生成時間 %s 秒",
+        "MaxNbActions": "1 回の訪問で最大のアクション",
+        "NbActionsDescription": "%s アクション（ページビュー、ダウンロード、外部リンク）",
+        "NbActionsPerVisit": "ビジットごとのアクション( ページビュー、ダウンロード、アウトリンク、内部サイト検索 )",
+        "NbDownloadsDescription": "ダウンロード",
+        "NbKeywordsDescription": "ユニークキーワード",
+        "NbOutlinksDescription": "アウトリンク",
+        "NbPageviewsDescription": "ページビュー",
+        "NbSearchesDescription": "あなたのウェブサイトでの総検索数",
+        "NbUniqueDownloadsDescription": "ユニークダウンロード",
+        "NbUniqueOutlinksDescription": "ユニークアウトリンク",
+        "NbUniquePageviewsDescription": "ユニークページビュー",
+        "NbUniqueVisitors": "ユニークビジター",
+        "NbUsersDescription": "ユーザー",
+        "NbVisitsDescription": "ビジット",
+        "NbVisitsBounced": "バウンスしたビジット ( 1 ページの後にウェブサイトを去りました )",
+        "PluginDescription": "一般的な分析メトリックのレポート：ビジット、ユニークなビジター、アクション数、直帰率等。",
+        "VisitsSummary": "ビジットの概要",
+        "VisitsSummaryDocumentation": "ビジット推移の概観です",
+        "WidgetLastVisits": "最終ビジットのグラフ",
+        "WidgetOverviewGraph": "グラフ付き概観",
+        "WidgetVisits": "ビジットの概観"
+    }
+}

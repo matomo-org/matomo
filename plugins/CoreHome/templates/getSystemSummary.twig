@@ -1,0 +1,26 @@
+<div class="widgetBody systemSummary">
+    {% for item in items %}
+        {% if item is not empty %}
+            <div class="systemSummaryItem {% if item.getKey %}{{ item.getKey }}{% endif %}">
+                {% if item.getIcon %}<span class="icon {{ item.getIcon }}"></span>{% endif %}
+
+                {% if item.getUrlParams -%}
+                    <a href="{{ linkTo(item.getUrlParams) }}" class="itemLabel">
+                {% else -%}
+                    <span class="itemLabel">
+                {% endif -%}
+
+                {{ item.getLabel }}{% if item.getValue %}:{% endif %}
+
+                {%- if item.getUrlParams %}
+                    </a>
+                {%- else %}
+                    </span>
+                {%- endif %}
+
+                {% if item.getValue %}<span class="itemValue">{{ item.getValue }}</span>{% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    <br />
+</div>

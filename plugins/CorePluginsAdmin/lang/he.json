@@ -1,0 +1,23 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "הפעל",
+        "Activated": "הופעל",
+        "Active": "פעיל",
+        "Activity": "פעילות",
+        "AuthorHomepage": "אתר היוצר",
+        "Deactivate": "כבה",
+        "Inactive": "לא פעיל",
+        "LicenseHomepage": "אתר רישון השימוש",
+        "PluginsExtendPiwik": "תוספים מרחיבים את היכולות של Matomo.",
+        "OncePluginIsInstalledYouMayActivateHere": "ברגע שתוסף מותקן, ניתן להפעילו או לבטלו כאן.",
+        "MenuPlatform": "פלטפורמה",
+        "PluginHomepage": "אתר התוסף",
+        "PluginsManagement": "ניהול תוספים",
+        "Status": "מצב",
+        "Theme": "ערכת עיצוב",
+        "Themes": "ערכות עיצוב",
+        "ThemesManagement": "ניהול ערכות עיצוב",
+        "Version": "גרסה",
+        "Websites": "אתרים"
+    }
+}

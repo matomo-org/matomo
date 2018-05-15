@@ -1,0 +1,28 @@
+{
+    "Dashboard": {
+        "AddAWidget": "เพิ่มวิดเจ็ท",
+        "AddPreviewedWidget": "เพิ่มวิดเจ็ทตัวอย่างในแผงควบคุม",
+        "ChangeDashboardLayout": "เปลี่ยนเค้าโครงแผงควบคุม",
+        "CopyDashboardToUser": "คัดลอกกระดานหลักไปไว้ที่ผู้ใช้งาน",
+        "CreateNewDashboard": "สร้างหน้ากระดานหลักใหม่",
+        "Dashboard": "แผงควบคุม",
+        "DashboardCopied": "กระดานหลักปัจจุบันได้ถูกคัดลอกไปยังผู้ใช้งานที่เลือกเสร็จเรียบร้อยแล้ว",
+        "DashboardName": "ชื่อกระดานหลัก",
+        "DashboardOf": "กระดานหลักของ %s",
+        "DeleteWidgetConfirm": "คุณแน่ใจไหมที่จะลบวิดเจ็ทนี้ออกจากแผงควบคุม?",
+        "LoadingWidget": "กำลังโหลดวิดเจ็ท กรุณารอ...",
+        "ManageDashboard": "จัดการกระดานหลัก",
+        "Maximise": "มากที่สุด",
+        "Minimise": "น้อยที่สุด",
+        "NotUndo": "คุณจะไม่สามารถย้อนกลับไปดำเนินการในส่วนนี้ได้อีก",
+        "RemoveDashboard": "ลบกระดานหลักออก",
+        "RemoveDashboardConfirm": "คุณแน่ใจแล้วหรือว่าต้องการลบกระดานหลัก \"%s\" นี้ทิ้งไป?",
+        "RenameDashboard": "เปลี่ยนชื่อกระดานหลัก",
+        "ResetDashboard": "รีเซ็ตแผงควบคุมใหม่",
+        "ResetDashboardConfirm": "แน่ใจหรือไม่ ที่จะต้องการรีเซ็ตรูปแบบแผงควบคุมของคุณ เพื่อเริ่มต้นการเลือกวิดเจ็ตใหม่?",
+        "SelectDashboardLayout": "กรุณาเลือกรูปแบบแผงควบคุมใหม่ของคุณ",
+        "SelectWidget": "เลือกวิดเจ็ทเพื่อเพิ่มในแผงควบคุม",
+        "WidgetNotFound": "ไม่พบวิดเจ็ท",
+        "WidgetPreview": "ตัวอย่าง Widget"
+    }
+}

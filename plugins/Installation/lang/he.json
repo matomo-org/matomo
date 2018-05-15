@@ -1,0 +1,24 @@
+{
+    "Installation": {
+        "Congratulations": "ברכות",
+        "DatabaseSetup": "התקנת מסד נתונים",
+        "DatabaseSetupAdapter": "מתאם",
+        "DatabaseSetupDatabaseName": "שם מסד הנתונים",
+        "DatabaseSetupLogin": "משתמש",
+        "DatabaseSetupServer": "שרת",
+        "DatabaseSetupTablePrefix": "מקדם טבלאות",
+        "Email": "אימייל",
+        "Extension": "הרחבה",
+        "Installation": "התקנה",
+        "InstallationStatus": "מצב התקנה",
+        "Optional": "אופציונלי",
+        "Password": "סיסמה",
+        "PasswordDoNotMatch": "סיסמה לא תואמת",
+        "PercentDone": "%s %% עברו",
+        "Requirements": "דרישות Matomo",
+        "SetupWebsite": "הגדרת אתר",
+        "SystemCheck": "בדיקת מערכת",
+        "SystemCheckPhp": "גרסת PHP",
+        "Welcome": "ברוכים הבאים!"
+    }
+}

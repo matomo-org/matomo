@@ -1,0 +1,12 @@
+{
+    "DevicesDetection": {
+        "BrowserEngine": "Nettlesar",
+        "BrowserFamily": "Nettlesarfamilar",
+        "Browsers": "Nettlesarar",
+        "ColumnBrowser": "Nettlesar",
+        "ColumnOperatingSystem": "Operativsystem",
+        "dataTableLabelTypes": "Type",
+        "OperatingSystems": "Operativsystem",
+        "WidgetBrowsers": "Nytta nettlesarar"
+    }
+}

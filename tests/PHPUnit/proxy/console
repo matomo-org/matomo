@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+use Piwik\Application\Environment;
+use Piwik\Tests\Framework\TestingEnvironmentManipulator;
+use Piwik\Tests\Framework\TestingEnvironmentVariables;
+
+require realpath(dirname(__FILE__)) . "/includes.php";
+
+Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables()));
+
+require_once PIWIK_INCLUDE_PATH . "/console";

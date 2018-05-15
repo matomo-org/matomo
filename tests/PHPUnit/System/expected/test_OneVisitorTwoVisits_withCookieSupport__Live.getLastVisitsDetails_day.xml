@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>2</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>matching purchase.htm</goalName>
+				<goalId>2</goalId>
+				<revenue>1</revenue>
+				<goalPageId>9</goalPageId>
+				
+				<url>http://example.org/store/purchase.htm</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/store/purchase.htm</url>
+				<pageTitle>Checkout/Purchasing...</pageTitle>
+				<pageIdAction>13</pageIdAction>
+				
+				
+				<pageId>9</pageId>
+				<bandwidth />
+				<generationTimeMilliseconds>134</generationTimeMilliseconds>
+				<generationTime>0.13s</generationTime>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>new name</siteName>
+		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>2</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>search</referrerType>
+		<referrerTypeName>Search Engines</referrerTypeName>
+		<referrerName>Yahoo!</referrerName>
+		<referrerKeyword>purchase</referrerKeyword>
+		<referrerKeywordPosition />
+		<referrerUrl>http://search.yahoo.com/search?p=purchase</referrerUrl>
+		<referrerSearchEngineUrl>http://search.yahoo.com</referrerSearchEngineUrl>
+		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/search.yahoo.com.png</referrerSearchEngineIcon>
+		<languageCode>fr</languageCode>
+		<language>French</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>XP</operatingSystemVersion>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
+		<resolution>1024x768</resolution>
+		<plugins>cookie, flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>1</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm?parameter=Should display</url>
+				<pageTitle>incredible title!</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				
+				
+				<pageId>1</pageId>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<generationTimeMilliseconds>234</generationTimeMilliseconds>
+				<generationTime>0.23s</generationTime>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/</url>
+				<pageTitle>Second page view - should be registered as URL</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				
+				
+				<pageId>2</pageId>
+				<bandwidth />
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<generationTimeMilliseconds>224</generationTimeMilliseconds>
+				<generationTime>0.22s</generationTime>
+				<interactionPosition>2</interactionPosition>
+				<icon />
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>https://outlinks.org/#!outlink-with-fragment-&lt;script&gt;</url>
+				<pageTitle />
+				<pageIdAction>5</pageIdAction>
+				
+				
+				<pageId>3</pageId>
+				<bandwidth />
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
+				<icon>plugins/Morpheus/images/link.png</icon>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>download</type>
+				<url>http://piwik.org/path/again/latest.zip</url>
+				<pageTitle />
+				<pageIdAction>6</pageIdAction>
+				
+				
+				<pageId>4</pageId>
+				<bandwidth />
+				<timeSpent>72</timeSpent>
+				<timeSpentPretty>1 min 12s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
+				<icon>plugins/Morpheus/images/download.png</icon>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://outlinks.org/other_outlink#fragment&amp;pk_campaign=Open%20partnership</url>
+				<pageTitle />
+				<pageIdAction>7</pageIdAction>
+				
+				
+				<pageId>5</pageId>
+				<bandwidth />
+				<timeSpent>108</timeSpent>
+				<timeSpentPretty>1 min 48s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
+				<icon>plugins/Morpheus/images/link.png</icon>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>outlink</type>
+				<url>http://dev.piwik.org/svn</url>
+				<pageTitle />
+				<pageIdAction>8</pageIdAction>
+				
+				
+				<pageId>6</pageId>
+				<bandwidth />
+				<timeSpent>72</timeSpent>
+				<timeSpentPretty>1 min 12s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
+				<icon>plugins/Morpheus/images/link.png</icon>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>triggered js</goalName>
+				<goalId>1</goalId>
+				<revenue>42</revenue>
+				<goalPageId />
+				
+				<url>http://example.org/</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
+			</row>
+			<row>
+				<type>search</type>
+				<url />
+				<pageIdAction />
+				
+				
+				<pageId>7</pageId>
+				<bandwidth />
+				<timeSpent>108</timeSpent>
+				<timeSpentPretty>1 min 48s</timeSpentPretty>
+				<siteSearchKeyword>Banks Own The World</siteSearchKeyword>
+				<generationTimeMilliseconds>812</generationTimeMilliseconds>
+				<generationTime>0.81s</generationTime>
+				<interactionPosition>3</interactionPosition>
+				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Looking at homepage after site search...</pageTitle>
+				<pageIdAction>11</pageIdAction>
+				
+				
+				<pageId>8</pageId>
+				<bandwidth />
+				<generationTimeMilliseconds>24</generationTimeMilliseconds>
+				<generationTime>0.02s</generationTime>
+				<interactionPosition>4</interactionPosition>
+				<icon />
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+		</actionDetails>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>new name</siteName>
+		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>plugins/Morpheus/images/goal.png</visitConvertedIcon>
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>1621</visitDuration>
+		<visitDurationPretty>27 min 1s</visitDurationPretty>
+		<searches>1</searches>
+		<actions>8</actions>
+		<interactions>4</interactions>
+		<referrerType>website</referrerType>
+		<referrerTypeName>Websites</referrerTypeName>
+		<referrerName>referrer.com</referrerName>
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl>http://referrer.com/page.htm?param=valuewith some spaces</referrerUrl>
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>XP</operatingSystemVersion>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
+		<resolution>1024x768</resolution>
+		<plugins>cookie, flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+	</row>
+</result>

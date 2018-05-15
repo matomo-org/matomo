@@ -1,0 +1,12 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Staðartími",
+        "ColumnServerTime": "Tímabelti þjóns",
+        "LocalTime": "Heimsóknir miðað við staðartíma",
+        "NHour": "%st",
+        "ServerTime": "Heimsóknir miðað við tíma vefþjóns",
+        "SubmenuTimes": "Tímar",
+        "WidgetLocalTime": "Heimsóknir skv. staðartíma",
+        "WidgetServerTime": "Heimsóknir skv. tímabelti þjóns"
+    }
+}

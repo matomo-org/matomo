@@ -1,20 +1,20 @@
-{% extends 'dashboard.twig' %}
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'ScheduledReports_PersonalEmailReports'|translate }}{% endset %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% include "@CoreHome/_periodSelect.twig" %}
+{% endblock %}
 
 {% block content %}
 
-{% include "@CoreHome/_siteSelectHeader.twig" %}
+<div class="emailReports" piwik-manage-scheduled-report>
 
-<div class="top_controls">
-    {% include "@CoreHome/_periodSelect.twig" %}
-</div>
-
-<div class="centerLargeDiv">
-    <h2 piwik-enriched-headline
-        help-url="http://piwik.org/docs/email-reports/">{{ 'ScheduledReports_ManageEmailReports'|translate }}</h2>
     <span id="reportSentSuccess"></span>
     <span id="reportUpdatedSuccess"></span>
 
-    <div class="entityContainer">
+    <div>
         {% import 'ajaxMacros.twig' as ajax %}
         {{ ajax.errorDiv() }}
         {{ ajax.loadingDiv() }}
@@ -31,6 +31,7 @@
 </div>
 
 <script type="text/javascript">
+    var timeZoneDifference = {{ timeZoneDifference }};
     var ReportPlugin = {};
     ReportPlugin.defaultPeriod = '{{ defaultPeriod }}';
     ReportPlugin.defaultHour = '{{ defaultHour }}';
@@ -39,9 +40,6 @@
     ReportPlugin.reportList = {{ reportsJSON | raw }};
     ReportPlugin.createReportString = "{{ 'ScheduledReports_CreateReport'|translate }}";
     ReportPlugin.updateReportString = "{{ 'ScheduledReports_UpdateReport'|translate }}";
-    $(function () {
-        initManagePdf();
-    });
 </script>
 <style type="text/css">
     .reportCategory {
@@ -53,10 +51,9 @@
         position:relative;
     }
 
-    .entityAddContainer > .entityCancel:first-child {
-        position: absolute;
-        right:0;
-        bottom:100%;
+    .emailReports .top_controls {
+        padding-bottom: 18px;
     }
+
 </style>
 {% endblock %}

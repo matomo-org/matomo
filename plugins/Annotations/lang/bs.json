@@ -1,0 +1,19 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Dodaj bilješku za %s...",
+        "AnnotationOnDate": "Bilješka za %1$s: %2$s",
+        "Annotations": "Bilješke",
+        "ClickToDelete": "Kliknite da obrišete ovu bilješku.",
+        "ClickToEdit": "Kliknite da uredite ovu bilješku.",
+        "ClickToEditOrAdd": "Kliknite da uredite ili dodate novu bilješku.",
+        "ClickToStarOrUnstar": "Kliknite da markirate bilješku ili da uklonite markiranje.",
+        "CreateNewAnnotation": "Napravi novu bilješku...",
+        "EnterAnnotationText": "Unesite vašu bilješku...",
+        "HideAnnotationsFor": "Sakrij bilješke za %s...",
+        "IconDesc": "Prikaži bilješke za ovaj vremenski period.",
+        "IconDescHideNotes": "Sakrij bilješke za ovaj vremenski period.",
+        "InlineQuickHelp": "Možete napraviti bilješke kako bi markirali posebne događaje (kao na primjer pravljenje novog članka na blogu, ili ponovno dizajniranje internet stranice), sačuvali vašu analizu podataka ili da sačuvate bilo šta drugo što smatrate važnim.",
+        "LoginToAnnotate": "Prijavite se da napravite novu bilješku.",
+        "NoAnnotations": "Nema bilješki za ovaj vremenski period."
+    }
+}

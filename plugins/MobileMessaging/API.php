@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\MobileMessaging;
 
-use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\SMSProvider;
@@ -24,16 +23,7 @@ use Piwik\Plugins\MobileMessaging\SMSProvider;
 class API extends \Piwik\Plugin\API
 {
     const VERIFICATION_CODE_LENGTH = 5;
-    const SMS_FROM = 'Piwik';
-
-    /**
-     * @param string $provider
-     * @return SMSProvider
-     */
-    private static function getSMSProviderInstance($provider)
-    {
-        return SMSProvider::factory($provider);
-    }
+    const SMS_FROM = 'Matomo';
 
     /**
      * determine if SMS API credential are available for the current user
@@ -51,11 +41,21 @@ class API extends \Piwik\Plugin\API
     private function getSMSAPICredential()
     {
         $settings = $this->getCredentialManagerSettings();
+
+        $credentials = isset($settings[MobileMessaging::API_KEY_OPTION]) ? $settings[MobileMessaging::API_KEY_OPTION] : null;
+
+        // fallback for older values, where api key has been stored as string value
+        if (!empty($credentials) && !is_array($credentials)) {
+            $credentials = array(
+                'apiKey' => $credentials
+            );
+        }
+
         return array(
             MobileMessaging::PROVIDER_OPTION =>
                 isset($settings[MobileMessaging::PROVIDER_OPTION]) ? $settings[MobileMessaging::PROVIDER_OPTION] : null,
             MobileMessaging::API_KEY_OPTION  =>
-                isset($settings[MobileMessaging::API_KEY_OPTION]) ? $settings[MobileMessaging::API_KEY_OPTION] : null,
+                $credentials,
         );
     }
 
@@ -75,21 +75,21 @@ class API extends \Piwik\Plugin\API
      * set the SMS API credential
      *
      * @param string $provider SMS API provider
-     * @param string $apiKey API Key
+     * @param array $credentials array with data like API Key or username
      *
      * @return bool true if SMS API credential were validated and saved, false otherwise
      */
-    public function setSMSAPICredential($provider, $apiKey)
+    public function setSMSAPICredential($provider, $credentials = array())
     {
         $this->checkCredentialManagementRights();
 
-        $smsProviderInstance = self::getSMSProviderInstance($provider);
-        $smsProviderInstance->verifyCredential($apiKey);
+        $smsProviderInstance = SMSProvider::factory($provider);
+        $smsProviderInstance->verifyCredential($credentials);
 
         $settings = $this->getCredentialManagerSettings();
 
         $settings[MobileMessaging::PROVIDER_OPTION] = $provider;
-        $settings[MobileMessaging::API_KEY_OPTION] = $apiKey;
+        $settings[MobileMessaging::API_KEY_OPTION] = $credentials;
 
         $this->setCredentialManagerSettings($settings);
 
@@ -160,7 +160,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsNotAnonymous();
 
         $credential = $this->getSMSAPICredential();
-        $SMSProvider = self::getSMSProviderInstance($credential[MobileMessaging::PROVIDER_OPTION]);
+        $SMSProvider = SMSProvider::factory($credential[MobileMessaging::PROVIDER_OPTION]);
         $SMSProvider->sendSMS(
             $credential[MobileMessaging::API_KEY_OPTION],
             $content,
@@ -183,7 +183,7 @@ class API extends \Piwik\Plugin\API
         $this->checkCredentialManagementRights();
 
         $credential = $this->getSMSAPICredential();
-        $SMSProvider = self::getSMSProviderInstance($credential[MobileMessaging::PROVIDER_OPTION]);
+        $SMSProvider = SMSProvider::factory($credential[MobileMessaging::PROVIDER_OPTION]);
         return $SMSProvider->getCreditLeft(
             $credential[MobileMessaging::API_KEY_OPTION]
         );
@@ -365,7 +365,7 @@ class API extends \Piwik\Plugin\API
     {
         Option::set(
             $user . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION,
-            Common::json_encode($settings)
+            json_encode($settings)
         );
     }
 
@@ -392,7 +392,7 @@ class API extends \Piwik\Plugin\API
         if (empty($userSettings)) {
             $userSettings = array();
         } else {
-            $userSettings = Common::json_decode($userSettings, true);
+            $userSettings = json_decode($userSettings, true);
         }
 
         return $userSettings;
@@ -427,6 +427,7 @@ class API extends \Piwik\Plugin\API
     public function getDelegatedManagement()
     {
         Piwik::checkUserHasSomeViewAccess();
-        return Option::get(MobileMessaging::DELEGATED_MANAGEMENT_OPTION) == 'true';
+        $option = Option::get(MobileMessaging::DELEGATED_MANAGEMENT_OPTION);
+        return $option === 'true';
     }
 }

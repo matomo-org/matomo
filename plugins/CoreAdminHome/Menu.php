@@ -10,35 +10,40 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\Db;
 use Piwik\Menu\MenuAdmin;
+use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
-use Piwik\Settings\Manager as SettingsManager;
+use Piwik\Plugin;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $hasAdminAccess = Piwik::isUserHasSomeAdminAccess();
+        $menu->addPersonalItem(null, array(), 1, false);
+        $menu->addSystemItem(null, array(), 2, false);
+        $menu->addMeasurableItem(null, array(), $order = 3);
+        $menu->addPlatformItem(null, array(), 4, false);
+        $menu->addDiagnosticItem(null, array(), $order = 5);
+        $menu->addDevelopmentItem(null, array(), $order = 40);
 
-        if ($hasAdminAccess) {
-            $menu->addManageItem(null, "", $order = 1);
-            $menu->addSettingsItem(null, "", $order = 5);
-            $menu->addDiagnosticItem(null, "", $order = 10);
-            $menu->addDevelopmentItem(null, "", $order = 15);
-
-            $menu->addSettingsItem('CoreAdminHome_MenuGeneralSettings',
-                                   array('module' => 'CoreAdminHome', 'action' => 'generalSettings'),
-                                   $order = 6);
-            $menu->addManageItem('CoreAdminHome_TrackingCode',
-                                 array('module' => 'CoreAdminHome', 'action' => 'trackingCodeGenerator'),
-                                 $order = 4);
+        if (Piwik::hasUserSuperUserAccess()) {
+            $menu->addSystemItem('General_GeneralSettings',
+                $this->urlForAction('generalSettings'),
+                $order = 5);
         }
 
-        if (SettingsManager::hasPluginsSettingsForCurrentUser()) {
-            $menu->addSettingsItem('CoreAdminHome_PluginSettings',
-                                   array('module' => 'CoreAdminHome', 'action' => 'pluginSettings'),
-                                   $order = 7);
+        if (!Piwik::isUserIsAnonymous()) {
+            $menu->addMeasurableItem('CoreAdminHome_TrackingCode',
+                $this->urlForAction('trackingCodeGenerator'),
+                $order = 12);
         }
+    }
+
+    public function configureTopMenu(MenuTop $menu)
+    {
+        $url = $this->urlForModuleAction('CoreAdminHome', 'home');
+
+        $menu->registerMenuIcon('CoreAdminHome_Administration', 'icon-settings');
+        $menu->addItem('CoreAdminHome_Administration', null, $url, 980, Piwik::translate('CoreAdminHome_Administration'));
     }
 
 }

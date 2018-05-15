@@ -9,6 +9,8 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
+use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Session\SaveHandler\DbTable;
 use Zend_Session;
 
@@ -38,6 +40,7 @@ class Session extends Zend_Session
      *
      * @param array|bool $options An array of configuration options; the auto-start (bool) setting is ignored
      * @return void
+     * @throws Exception if starting a session fails
      */
     public static function start($options = false)
     {
@@ -83,7 +86,7 @@ class Session extends Zend_Session
 
             @ini_set('session.save_handler', 'files');
             @ini_set('session.save_path', $sessionPath);
-        } else if ($config->General['session_save_handler'] === 'dbtable'
+        } elseif ($config->General['session_save_handler'] === 'dbtable'
             || in_array($currentSaveHandler, array('user', 'mm'))
         ) {
             // We consider these to be misconfigurations, in that:
@@ -113,16 +116,15 @@ class Session extends Zend_Session
             parent::start();
             register_shutdown_function(array('Zend_Session', 'writeClose'), true);
         } catch (Exception $e) {
-            Log::warning('Unable to start session: ' . $e->getMessage());
+            Log::error('Unable to start session: ' . $e->getMessage());
 
             $enableDbSessions = '';
             if (DbHelper::isInstalled()) {
                 $enableDbSessions = "<br/>If you still experience issues after trying these changes,
-			            			we recommend that you <a href='http://piwik.org/faq/how-to-install/#faq_133' target='_blank'>enable database session storage</a>.";
+			            			we recommend that you <a href='https://matomo.org/faq/how-to-install/#faq_133' rel='noreferrer' target='_blank'>enable database session storage</a>.";
             }
 
-            $pathToSessions = Filechecks::getErrorMessageMissingPermissions(Filesystem::getPathToPiwikRoot() . '/tmp/sessions/');
-            $pathToSessions = SettingsPiwik::rewriteTmpPathWithInstanceId($pathToSessions);
+            $pathToSessions = Filechecks::getErrorMessageMissingPermissions(self::getSessionsDirectory());
             $message = sprintf("Error: %s %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik::translate('General_ExceptionUnableToStartSession'),
                 $pathToSessions,
@@ -130,7 +132,10 @@ class Session extends Zend_Session
                 $e->getMessage()
             );
 
-            Piwik_ExitWithMessage($message, $e->getTraceAsString());
+            $ex = new MissingFilePermissionException($message, $e->getCode(), $e);
+            $ex->setIsHtmlMessage();
+
+            throw $ex;
         }
     }
 
@@ -141,8 +146,7 @@ class Session extends Zend_Session
      */
     public static function getSessionsDirectory()
     {
-        $path = PIWIK_USER_PATH . '/tmp/sessions';
-        return SettingsPiwik::rewriteTmpPathWithInstanceId($path);
+        return StaticContainer::get('path.tmp') . '/sessions';
     }
 
     public static function close()

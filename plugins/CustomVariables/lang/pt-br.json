@@ -1,0 +1,22 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Nome da Variável Personalizada",
+        "ColumnCustomVariableValue": "Valor de variável personalizado",
+        "CustomVariables": "Variáveis personalizadas",
+        "CustomVariablesReportDocumentation": "Este relatório contém informações sobre as suas variáveis ​​personalizadas. Clique em um nome de variável para ver a distribuição dos valores. %1$s para mais informações sobre variáveis ​​personalizadas em geral, leia a documentação %2$sCustom Variáveis ​​em piwik.org%3$s",
+        "ScopePage": "página escopo",
+        "ScopeVisit": "visita escopo",
+        "ManageDescription": "Esta visão geral mostra todos os compartimentos personalizados de variáveis ​ e seus usos para o website '%s'. Os nomes dentro de cada compartimento são ordenados por quantas vezes foram utilizados no total.",
+        "ScopeX": "Escopo %s",
+        "Index": "Índice",
+        "Usages": "Utilizações",
+        "Unused": "Não utilizado",
+        "CreateNewSlot": "Aumentar o número de compartimentos de Variáveis ​​Personalizadas disponíveis",
+        "UsageDetails": "%1$s visitas e %2$s ações desde a criação deste website.",
+        "CreatingCustomVariableTakesTime": "Criar um novo compartimento de variável personalizada pode levar um longo tempo, dependendo do tamanho do seu banco de dados. Por isso, só é possível fazer isso através de um comando que deve ser executado na linha de comando.",
+        "CurrentAvailableCustomVariables": "Atualmente você pode usar até %s Variáveis Personalizadas por site.",
+        "SlotsReportIsGeneratedOverTime": "Os dados para este relatório serão preenchidos ao longo do tempo. Pode demorar um dia ou dois para ver todos os dados e algumas semanas até que o relatório seja totalmente preciso.",
+        "MetricsAreOnlyAvailableForVisitScope": "Nota: %1$s métricas estão disponíveis apenas para as Variáveis ​​Personalizadas de alcance %2$s.",
+        "MetricsNotAvailableForPageScope": "Para as Variáveis ​​Personalizadas de alcance %1$s, o valor da coluna para essas métricas é %2$s"
+    }
+}

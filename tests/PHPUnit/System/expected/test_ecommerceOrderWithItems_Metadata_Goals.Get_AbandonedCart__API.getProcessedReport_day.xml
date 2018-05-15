@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Piwik test</website>
+	<prettyDate>Tuesday, April 5, 2011</prettyDate>
+	<metadata>
+		<category>Ecommerce</category>
+		<name>Abandoned Carts</name>
+		<module>Goals</module>
+		<action>get</action>
+		<parameters>
+			<idGoal>ecommerceAbandonedCart</idGoal>
+		</parameters>
+		<metrics>
+			<nb_conversions>Abandoned Carts</nb_conversions>
+			<conversion_rate>Conversion Rate</conversion_rate>
+			<revenue>Revenue left in cart</revenue>
+			<items>Products left in cart</items>
+		</metrics>
+		<metricsDocumentation>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<avg_order_revenue>Average Order Value</avg_order_revenue>
+		</processedMetrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>
+		<uniqueId>Goals_get_idGoal--ecommerceAbandonedCart</uniqueId>
+	</metadata>
+	<columns>
+		<nb_conversions>Abandoned Carts</nb_conversions>
+		<conversion_rate>Conversion Rate</conversion_rate>
+		<revenue>Revenue left in cart</revenue>
+		<items>Products left in cart</items>
+		<avg_order_revenue>Average Order Value</avg_order_revenue>
+	</columns>
+	<reportData>
+		<nb_conversions>2</nb_conversions>
+		<revenue>$ 5020.22</revenue>
+		<items>8</items>
+		<avg_order_revenue>$ 2510.11</avg_order_revenue>
+		<conversion_rate>66.67%</conversion_rate>
+	</reportData>
+	<reportMetadata />
+	<reportTotal>
+	</reportTotal>
+</result>

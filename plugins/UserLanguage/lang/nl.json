@@ -1,0 +1,7 @@
+{
+    "UserLanguage": {
+        "BrowserLanguage": "Browsertaal",
+        "LanguageCode": "Taalcode",
+        "PluginDescription": "Rapporteert de taal die door browsers van uw bezoekers werd gebruikt."
+    }
+}

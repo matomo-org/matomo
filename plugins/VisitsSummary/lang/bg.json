@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s заявки са изпълнени",
+        "GenerateTime": "%s секунди за генериране на страницата",
+        "NbActionsDescription": "%s действия (показвания, изтегляния и outlinks)",
+        "VisitsSummary": "Резюме на посещенията",
+        "VisitsSummaryDocumentation": "Това е преглед на еволюцията на посещенията.",
+        "WidgetLastVisits": "Последни посетители",
+        "WidgetOverviewGraph": "Резюме с графика",
+        "WidgetVisits": "Резюме на посещенията"
+    }
+}

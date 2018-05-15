@@ -1,0 +1,13 @@
+{
+    "Events": {
+        "Event": "Esdeveniment",
+        "EventCategory": "Categoria d'esdeveniment",
+        "EventName": "Nom de l'esdeveniment",
+        "EventNames": "Noms dels esdeveniments",
+        "Events": "Esdeveniments",
+        "EventsWithValue": "Esdeveniments amb valor",
+        "EventsWithValueDocumentation": "Nombre d'esdeveniments que tenen un valor",
+        "MaxValueDocumentation": "El valor màxim per aquest esdeveniment",
+        "MinValueDocumentation": "El valor mínim per aquest esdeveniment"
+    }
+}

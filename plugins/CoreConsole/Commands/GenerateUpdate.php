@@ -34,7 +34,7 @@ class GenerateUpdate extends GeneratePluginBase
         $className = $this->getUpdateClassName($component, $version);
 
         $exampleFolder = PIWIK_INCLUDE_PATH . '/plugins/ExamplePlugin';
-        $replace       = array('Piwik\Plugins\ExamplePlugin' => $namespace,
+        $replace       = array('Piwik\Plugins\ExamplePlugin\Updates' => $namespace,
                                'ExamplePlugin' => $component,
                                'Updates_0_0_2' => $className,
                                '0.0.2'         => $version);

@@ -1804,7 +1804,7 @@
         // prop: drawIfHidden
         // True to execute the draw method even if the plot target is hidden.
         // Generally, this should be false.  Most plot elements will not be sized/
-        // positioned correclty if renderered into a hidden container.  To render into
+        // positioned correctly if renderered into a hidden container.  To render into
         // a hidden container, call the replot method when the container is shown.
         this.drawIfHidden = false;
         this.eventCanvas = new $.jqplot.GenericCanvas();

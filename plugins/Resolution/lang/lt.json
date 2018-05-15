@@ -1,0 +1,12 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Konfigūracija",
+        "ColumnResolution": "Ekrano raiška",
+        "Configurations": "Konfigūracijos",
+        "PluginDescription": "Praneša apie jūsų lankytojų ekrano raiškas.",
+        "Resolutions": "Ekranų raiškos",
+        "WidgetGlobalVisitors": "Lankytojų konfigūracija",
+        "WidgetGlobalVisitorsDocumentation": "Ši ataskaita rodo visas dažniausias jūsų lankytojų naudotas konfigūracijas. Konfigūracija - tai operacinės sistemos, naršyklės tipo ir ekrano raiškos kombinacija.",
+        "WidgetResolutions": "Ekrano raiška"
+    }
+}

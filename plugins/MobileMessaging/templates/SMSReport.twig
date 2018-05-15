@@ -11,33 +11,33 @@
     {%- if displaySiteName -%}{{ rowMetrics.label|raw }}: {% endif -%}
 
     {# visits #}
-    {{- rowMetrics.nb_visits }} {{ 'General_ColumnNbVisits'|translate }}
-    {%- if rowMetrics.visits_evolution != 0 %} ({{ rowMetrics.visits_evolution }}%){%- endif -%}
+    {{- rowMetrics.nb_visits|number }} {{ 'General_ColumnNbVisits'|translate }}
+    {%- if rowMetrics.visits_evolution != 0 %} ({{ rowMetrics.visits_evolution|percentEvolution }}){%- endif -%}
 
     {%- if rowMetrics.nb_visits != 0 -%}
         {#- actions -#}
-        , {{ rowMetrics.nb_actions }} {{ 'General_ColumnNbActions'|translate }}
-        {%- if rowMetrics.actions_evolution != 0 %} ({{ rowMetrics.actions_evolution }}%){%- endif -%}
+        , {{ rowMetrics.nb_actions|number }} {{ 'General_ColumnNbActions'|translate }}
+        {%- if rowMetrics.actions_evolution != 0 %} ({{ rowMetrics.actions_evolution|percentEvolution }}){%- endif -%}
 
         {%- if isGoalPluginEnabled -%}
 
             {# goal metrics #}
             {%- if rowMetrics.nb_conversions != 0 -%}
                 , {{ 'General_ColumnRevenue'|translate }}: {{ rowMetrics.revenue|raw }}
-                {%- if rowMetrics.revenue_evolution != 0 %} ({{ rowMetrics.revenue_evolution }}%){%- endif -%}
+                {%- if rowMetrics.revenue_evolution != 0 %} ({{ rowMetrics.revenue_evolution|percentEvolution }}){%- endif -%}
 
-                , {{ rowMetrics.nb_conversions }} {{ 'Goals_GoalConversions'|translate }}
-                {%- if rowMetrics.nb_conversions_evolution != 0 %} ({{ rowMetrics.nb_conversions_evolution }}%){%- endif -%}
+                , {{ rowMetrics.nb_conversions|number }} {{ 'Goals_GoalConversions'|translate }}
+                {%- if rowMetrics.nb_conversions_evolution != 0 %} ({{ rowMetrics.nb_conversions_evolution|percentEvolution }}){%- endif -%}
             {%- endif -%}
 
             {# eCommerce metrics #}
             {%- if siteHasECommerce[rowMetadata.idsite] -%}
 
                 , {{ 'General_ProductRevenue'|translate }}: {{ rowMetrics.ecommerce_revenue|raw }}
-                {%- if rowMetrics.ecommerce_revenue_evolution != 0 %} ({{ rowMetrics.ecommerce_revenue_evolution }}%){%- endif -%}
+                {%- if rowMetrics.ecommerce_revenue_evolution != 0 %} ({{ rowMetrics.ecommerce_revenue_evolution|percentEvolution }}){%- endif -%}
 
-                , {{ rowMetrics.orders }} {{ 'General_EcommerceOrders'|translate }}
-                {%- if rowMetrics.orders_evolution != 0 %} ({{ rowMetrics.orders_evolution }}%){%- endif -%}
+                , {{ rowMetrics.orders|number }} {{ 'General_EcommerceOrders'|translate }}
+                {%- if rowMetrics.orders_evolution != 0 %} ({{ rowMetrics.orders_evolution|percentEvolution }}){%- endif -%}
             {%- endif -%}
 
         {%- endif -%}

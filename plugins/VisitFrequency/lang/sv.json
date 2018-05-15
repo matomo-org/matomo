@@ -1,0 +1,21 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Händelser av återkommande besökare",
+        "ColumnAverageVisitDurationForReturningVisitors": "Genomsnittlig besökstid för återkommande besökare (i sekunder)",
+        "ColumnAvgActionsPerReturningVisit": "Genomsnittliga Händelser per Återkommande besök",
+        "ColumnBounceCountForReturningVisits": "Avvisningsfrekvens för Återkommande Besökare",
+        "ColumnBounceRateForReturningVisits": "Avvisningsfrekvens för återkommande besök",
+        "ColumnMaxActionsInReturningVisit": "Flest händelser under ett återkommande besök",
+        "ColumnNbReturningVisitsConverted": "Antalet konverterade återkommande besök",
+        "ColumnReturningVisits": "Återkommande besök",
+        "ColumnSumVisitLengthReturning": "Total tid som återkommande besökare spenderade (i sekunder)",
+        "ColumnUniqueReturningVisitors": "Unika återkommande besökare",
+        "ColumnReturningUsers": "Återkommande användare",
+        "PluginDescription": "Rapport om förstagångsbesökare och återkommande användare.",
+        "ReturningVisitDocumentation": "Ett återkommande besök är (till skillnad från ett nytt besök) en besökare som besökt webbplatsen minst en gång tidigare.",
+        "ReturningVisitsDocumentation": "Detta är en översikt av återkommande besök.",
+        "SubmenuFrequency": "Frekvens",
+        "WidgetGraphReturning": "Graf över återkommande besök",
+        "WidgetOverview": "Frekvensöversikt"
+    }
+}

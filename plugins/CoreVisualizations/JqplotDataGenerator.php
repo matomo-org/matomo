@@ -99,9 +99,6 @@ class JqplotDataGenerator
      */
     protected function initChartObjectData($dataTable, $visualization)
     {
-        // We apply a filter to the DataTable, decoding the label column (useful for keywords for example)
-        $dataTable->filter('ColumnCallbackReplace', array('label', 'urldecode'));
-
         $xLabels = $dataTable->getColumn('label');
 
         $columnNames = $this->properties['columns_to_display'];

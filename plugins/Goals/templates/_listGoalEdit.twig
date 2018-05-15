@@ -1,41 +1,90 @@
-<div id='entityEditContainer' style="display:none;">
-    <table class="dataTable entityTable">
+<div id='entityEditContainer' feature="true"
+     ng-show="manageGoals.showGoalList"
+     piwik-content-block content-title="{{ 'Goals_ManageGoals'|translate|e('html_attr') }}"
+     class="managegoals">
+
+    <div piwik-activity-indicator loading="manageGoals.isLoading"></div>
+
+    <div class="contentHelp">
+        {{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=https://matomo.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}
+
+        {% if not ecommerceEnabled %}
+            <br /><br/>
+            {% set websiteManageText %}
+                <a href='{{ linkTo({'module':'SitesManager','action':'index' }) }}'>{{ 'SitesManager_WebsitesManagement'|translate }}</a>
+            {% endset %}
+            {% set ecommerceReportText %}
+                <a href="https://matomo.org/docs/ecommerce-analytics/" rel="noreferrer" target="_blank">{{ 'Goals_EcommerceReports'|translate }}</a>
+            {% endset %}
+            {{ 'Goals_Optional'|translate }} {{ 'Goals_Ecommerce'|translate }}: {{ 'Goals_YouCanEnableEcommerceReports'|translate(ecommerceReportText,websiteManageText)|raw }}
+        {% endif %}
+    </div>
+
+    <table piwik-content-table>
         <thead>
         <tr>
             <th class="first">Id</th>
             <th>{{ 'Goals_GoalName'|translate }}</th>
+            <th>{{ 'General_Description'|translate }}</th>
             <th>{{ 'Goals_GoalIsTriggeredWhen'|translate }}</th>
             <th>{{ 'General_ColumnRevenue'|translate }}</th>
-            <th>{{ 'General_Edit'|translate }}</th>
-            <th>{{ 'General_Delete'|translate }}</th>
+            {{ postEvent("Template.beforeGoalListActionsHead") }}
+            {% if userCanEditGoals %}
+                <th>{{ 'General_Edit'|translate }}</th>
+                <th>{{ 'General_Delete'|translate }}</th>
+            {% endif %}
         </tr>
         </thead>
-        {% for goal in goals %}
+        {% if goals is empty %}
             <tr>
-                <td class="first">{{ goal.idgoal }}</td>
-                <td>{{ goal.name|raw }}</td>{# NOTE: goal names are escaped in the DB #}
-                <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
-                    {% if goal.pattern_type is defined %}
-                        <br/>
-                        {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern|raw }}
-                    {% endif %}
-                </td>
-                <td>{% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}</td>
-                <td>
-                    <a href='#' name="linkEditGoal" id="{{ goal.idgoal }}" class="link_but">
-                        <img src='plugins/Morpheus/images/ico_edit.png' border="0"/>
-                        {{ 'General_Edit'|translate }}
-                    </a>
-                </td>
-                <td>
-                    <a href='#' name="linkDeleteGoal" id="{{ goal.idgoal }}" class="link_but">
-                        <img src='plugins/Morpheus/images/ico_delete.png' border="0"/>
-                        {{ 'General_Delete'|translate }}
-                    </a>
+                <td colspan='8'>
+                    <br/>
+                    {{ 'Goals_ThereIsNoGoalToManage'|translate(siteName)|rawSafeDecoded }}.
+                    <br/><br/>
                 </td>
             </tr>
-        {% endfor %}
+        {% else %}
+            {% for goal in goals %}
+                <tr id="{{ goal.idgoal }}">
+                    <td class="first">{{ goal.idgoal }}</td>
+                    <td>{{ goal.name }}</td>
+                    <td>{{ goal.description }}</td>
+                    <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
+                        {% if goal.pattern_type is defined %}
+                            <br/>
+                            {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern }}
+                        {% endif %}
+                    </td>
+                    <td class="center">
+                        {% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}
+                    </td>
+                    {{ postEvent("Template.beforeGoalListActionsBody", goal) }}
+                    {% if userCanEditGoals %}
+                        <td style="padding-top:2px">
+                            <button ng-click="manageGoals.editGoal({{ goal.idgoal }})" class="table-action" title="{{ 'General_Edit'|translate }}">
+                                <span class="icon-edit"></span>
+                            </button>
+                        </td>
+                        <td style="padding-top:2px">
+                            <button ng-click="manageGoals.deleteGoal({{ goal.idgoal }})" class="table-action" title="{{ 'General_Delete'|translate }}">
+                                <span class="icon-delete"></span>
+                            </button>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        {% endif %}
     </table>
+
+    {% if userCanEditGoals and onlyShowAddNewGoal is not defined %}
+        <div class="tableActionBar">
+            <button id="add-goal" ng-click="manageGoals.createGoal()">
+                <span class="icon-add"></span>
+                {{ 'Goals_AddNewGoal'|translate }}
+            </button>
+        </div>
+    {% endif %}
+
 </div>
 
 <div class="ui-confirm" id="confirm">
@@ -50,7 +99,10 @@
         "file": "{{ 'Goals_Download'|translate }}",
         "url": "{{ 'Goals_VisitUrl'|translate }}",
         "title": "{{ 'Goals_VisitPageTitle'|translate }}",
-        "external_website": "{{ 'Goals_ClickOutlink'|translate }}"
+        "external_website": "{{ 'Goals_ClickOutlink'|translate }}",
+        "event_action": "{{ 'Goals_SendEvent'|translate }} ({{ 'Events_EventAction'|translate }})",
+        "event_category": "{{ 'Goals_SendEvent'|translate }} ({{ 'Events_EventCategory'|translate }})",
+        "event_name": "{{ 'Goals_SendEvent'|translate }} ({{ 'Events_EventName'|translate }})"
     };
 
     $(document).ready(function () {

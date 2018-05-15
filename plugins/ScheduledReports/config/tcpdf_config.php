@@ -6,16 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+use Piwik\Container\StaticContainer;
 
 /**
  * Override settings in libs/tcpdf_config.php
  *
  */
 
-define('K_PATH_MAIN', PIWIK_INCLUDE_PATH . '/libs/tcpdf/');
+define('K_PATH_MAIN', PIWIK_VENDOR_PATH . '/tecnickcom/tcpdf/');
 
-$pathTmpTCPDF = PIWIK_USER_PATH . '/tmp/tcpdf/';
-$pathTmpTCPDF = \Piwik\SettingsPiwik::rewriteTmpPathWithInstanceId($pathTmpTCPDF);
+$pathTmpTCPDF = StaticContainer::get('path.tmp') . '/tcpdf/';
 
 define('K_PATH_CACHE', $pathTmpTCPDF);
 define('K_PATH_IMAGES', $pathTmpTCPDF);

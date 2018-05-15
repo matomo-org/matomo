@@ -1,0 +1,29 @@
+{
+    "Feedback": {
+        "DoYouHaveBugReportOrFeatureRequest": "Heeft u een bugmelding of een verzoek voor nieuwe functies?",
+        "HowToCreateTicket": "Gelieve de richtlijnen te lezen over hoe een correct %1$sbug rapport%2$s of %3$sfeature request%4$s te schrijven. Daarna kun je je registreren of inloggen op %5$sonze issue tracker%6$s en een %7$snieuw issue%8$s aanmaken.",
+        "IWantTo": "Ik wil:",
+        "LearnWaysToParticipate": "Ontdek op welke manieren je kunt %1$s bijdragen%2$s",
+        "ManuallySendEmailTo": "Verstuur uw bericht handmatig naar",
+        "PluginDescription": "Stuur je feedback naar het Matomo team. Deel je ideeën en suggesties om van Matomo het beste analytics platform in de wereld te maken!",
+        "PrivacyClaim": "Matomo respecteert je %1$sprivacy%2$s en geeft je alle controle over jouw data.",
+        "RateFeatureLeaveMessageDislike": "We vinden het jammer te horen dat je het niks vind! Laat ons alsjeblieft weten hoe we het kunnen verbeteren.",
+        "RateFeatureLeaveMessageLike": "We zijn blij dat je het leuk vind! Laat ons weten wat het leukste vind of als je een goed idee hebt.",
+        "RateFeatureSendFeedbackInformation": "Je Matomo installatie zal ons (het Matomo team) een email sturen (inclusief je email adres) zodat we met je in contact kunnen treden mochten we vragen hebben.",
+        "RateFeatureThankYouTitle": "Bedank voor het waarderen '%s'!",
+        "RateFeatureTitle": "Hou je van deze '%s' feature? Beoordeel ons en geef ons wat commentaar",
+        "SendFeedback": "Feedback versturen",
+        "ThankYou": "Bedankt voor uw hulp om Matomo beter te maken!",
+        "TopLinkTooltip": "Vertel ons je waat je ervan denkt, of vraag om Professionele Ondersteuning.",
+        "ViewAnswersToFAQ": "Bekijk de antwoorden van %1$sveelgestelde vragen%2$s",
+        "ViewUserGuides": "Leer hoe je Matomo moet configureren en hoe je data te analyseren met onze %1$sgebruikers handleidingen%2$s",
+        "CommunityHelp": "Hulp van de gemeenschap",
+        "ProfessionalHelp": "Professionele hulp",
+        "ProfessionalServicesReviewPiwikSetup": "Een overzicht van je Matomo omgeving",
+        "ProfessionalServicesPhoneEmailSupport": "Telefoon en Email ondersteuning",
+        "ProfessionalServicesPremiumFeatures": "Premium functies",
+        "ProfessionalServicesAnalystConsulting": "Analytisch consulting services",
+        "ContactUs": "Neem contact met ons op",
+        "VisitTheForums": "Bezoek het %1$s Forums%2$s en ontvang hulp van de community van Matomo users"
+    }
+}

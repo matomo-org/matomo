@@ -1,0 +1,24 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Een bevestigingslink is naar uw inbox verstuurd. Controleer uw e-mail en bezoek deze link om uw aanvraag voor een wijziging van uw wachtwoord te autoriseren.",
+        "ContactAdmin": "Mogelijke oorzaak: Je host heeft de mail() functie uitgeschakeld. <br \/>Contacteer je Matomo beheerder.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Een gebruiker met Super User toegang kan niet geauthenticeerd worden met het '%s' mechanisme.",
+        "ExceptionPasswordMD5HashExpected": "De wachtwoord parameter moet een MD5 hash zijn van het wachtwoord.",
+        "InvalidNonceOrHeadersOrReferrer": "Securityformulier gefaald. Herlaad het formulier en controleer dat cookies worden toegestaan. Als u een proxyserver gebruikt, %1$s configureer Matomo dan zodanig dat deze proxy headers%2$s accepteert, die de Hostheaders doorstuurt. Controleer tevens dat de refererheader correct wordt verzonden.",
+        "InvalidNonceSSLMisconfigured": "Ook, mag je Matomo forceren %1$s om een beveiligde verbinding te gebruiken%2$s: in je config bestand %3$s stel %4$s onder sectie %5$s",
+        "InvalidOrExpiredToken": "Token is ongeldig of is verlopen.",
+        "InvalidUsernameEmail": "Ongeldige gebruikersnaam of e-mailadres.",
+        "LogIn": "Inloggen",
+        "LoginPasswordNotCorrect": "Verkeerde gebruikersnaam- en wachtwoordcombinatie.",
+        "LostYourPassword": "Wachtwoord vergeten?",
+        "ChangeYourPassword": "Wijzig je wachtwoord",
+        "MailTopicPasswordChange": "Wijziging wachtwoord bevestigen",
+        "NewPassword": "Nieuw wachtwoord",
+        "NewPasswordRepeat": "Nieuw wachtwoord (herhalen)",
+        "PasswordChanged": "Je wachtwoord is gewijzigd.",
+        "PasswordRepeat": "Wachtwoord (herhalen)",
+        "PasswordsDoNotMatch": "Wachtwoorden komen niet overeen.",
+        "PluginDescription": "Maakt het mogelijk authenticatie via gebruikersnaam en wachtwoord te laten verlopen, aslook de wachtwoord reset mogelijkheid. De authenticatie methode kan worden gewijzigd door gebruik te maken van een andere login plugin - zoals LoginLdap - die beschikbaar zijn in de marktplaats.",
+        "RememberMe": "Onthoud mij"
+    }
+}

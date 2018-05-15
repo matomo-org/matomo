@@ -1,0 +1,8 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "Non hai datos nesta categoría. Intente \"Incluir todos os datos\".",
+        "PageOf": "%1$s de %2$s",
+        "ShowJSCode": "Ver o código javascript para insertar",
+        "SystemSummaryPhpVersion": "Versión PHP"
+    }
+}

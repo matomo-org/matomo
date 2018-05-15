@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "%sのアノテーションを追加…",
+        "AnnotationOnDate": "%1$sのアノテーション: %2$s",
+        "Annotations": "アノテーション",
+        "ClickToDelete": "クリックしてこのアノテーションを削除",
+        "ClickToEdit": "クリックしてこのアノテーションを編集",
+        "ClickToEditOrAdd": "クリックして新しいアノテーションを編集または作成",
+        "ClickToStarOrUnstar": "クリックしてアノテーションに星印を付ける、または外す",
+        "CreateNewAnnotation": "新しいアノテーションを作成する",
+        "EnterAnnotationText": "メモを入力して下さい",
+        "HideAnnotationsFor": "%sのアノテーションを非表示にする…",
+        "IconDesc": "この期間のメモを表示します。",
+        "IconDescHideNotes": "この期間のメモを非表示にします。",
+        "InlineQuickHelp": "データの分析結果や重要と思うものを記録するのに、特別なイベントとしてアノテーションを作成できます ( 新しいブログの投稿、ウェブサイトのリニューアルなど ) 。",
+        "LoginToAnnotate": "アノテーションを作成するにはログインしてください。",
+        "NoAnnotations": "この期間内のアノテーションはありません",
+        "PluginDescription": "ウェブサイトに加えられた変更をマークしたり、データに関して行った分析を保存したり、あなたの考えを同僚と共有したりするために、それぞれの日にノートを添付することができます。 データにアノテーションを付けることで、そのデータの根拠を思い出すきっかけになります。",
+        "ViewAndAddAnnotations": "%sのアノテーションの表示と追加",
+        "YouCannotModifyThisNote": "このアノテーションは変更できません。あなたが生成したアノテーションではないか、このサイトの管理者権限がないためです"
+    }
+}

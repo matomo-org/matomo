@@ -1,0 +1,27 @@
+{
+    "Installation": {
+        "Congratulations": "Čestitamo",
+        "DatabaseServerVersion": "Verzija strežnika podatkovne baze",
+        "DatabaseSetupDatabaseName": "ime podatkovne baze",
+        "DatabaseSetupLogin": "vpis",
+        "DatabaseSetupServer": "strežnik podatkovne baze",
+        "Extension": "razširitev",
+        "Installation": "Namestitev",
+        "InstallationStatus": "Status namestitve",
+        "Legend": "Legenda",
+        "Optional": "Izbirno",
+        "PasswordDoNotMatch": "gesli se ne ujemata",
+        "PercentDone": "%s %% Končano",
+        "PleaseFixTheFollowingErrors": "Prosimo, odpravite sledeče napake",
+        "Requirements": "Matomo-ovi minimalni pogoji",
+        "SetupWebsite": "Nastavite spletno stran",
+        "SetupWebsiteError": "Med dodajanjem spletne strani je prišlo do napake.",
+        "SetupWebsiteSetupSuccess": "Spletna stran %s je bila uspešno ustvarjena!",
+        "SuperUser": "Super Uporabnik",
+        "SuperUserSetupSuccess": "Super Uporabnik je bil uspešno ustvarjen",
+        "SystemCheckExtensions": "Ostale potrebne razširitve",
+        "SystemCheckPhp": "Različica PHP",
+        "TablesCreatedSuccess": "Tabele so bile uspešno ustvarjene!",
+        "Welcome": "Dobrodošli!"
+    }
+}

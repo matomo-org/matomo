@@ -9,18 +9,26 @@
 namespace Piwik\Plugins\Events;
 
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
+use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable\AllColumns;
 
 class Events extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
+            'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
-            'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations'
+            'ViewDataTable.configure'   => 'configureViewDataTable',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
         );
     }
 
@@ -51,8 +59,8 @@ class Events extends \Piwik\Plugin
     public function getMetricTranslations()
     {
         $metrics = array(
-            'nb_events'            => 'Events_TotalEvents',
-            'sum_event_value'      => 'Events_TotalValue',
+            'nb_events'            => 'Events_Events',
+            'sum_event_value'      => 'Events_EventValue',
             'min_event_value'      => 'Events_MinValue',
             'max_event_value'      => 'Events_MaxValue',
             'avg_event_value'      => 'Events_AvgValue',
@@ -83,29 +91,6 @@ class Events extends \Piwik\Plugin
             'getName'     => array('Events_EventNames', 'Events_EventName'),
         );
     }
-
-    public function getSegmentsMetadata(&$segments)
-    {
-//        $segments[] = array(
-//            'type'           => 'metric',
-//            'category'       => 'Events_Events',
-//            'name'           => 'Events_EventValue',
-//            'segment'        => 'eventValue',
-//            'sqlSegment'     => 'log_link_visit_action.custom_float',
-//            'sqlFilter'      => '\\Piwik\\Plugins\\Events\\Events::getSegmentEventValue'
-//        );
-    }
-//
-//    public static function getSegmentEventValue($valueToMatch, $sqlField, $matchType, $segmentName)
-//    {
-//        $andActionisNotEvent = \Piwik\Plugins\Actions\Archiver::getWhereClauseActionIsNotEvent();
-//        $andActionisEvent = str_replace("IS NULL", "IS NOT NULL", $andActionisNotEvent);
-//
-//        return array(
-//            'extraWhere' => $andActionisEvent,
-//            'bind' => $valueToMatch
-//        );
-//    }
 
     /**
      * Given getCategory, returns "Event Categories"
@@ -142,11 +127,148 @@ class Events extends \Piwik\Plugin
         throw new \Exception("Translation not found for report $apiMethod");
     }
 
+    public function configureViewDataTable(ViewDataTable $view)
+    {
+        if ($view->requestConfig->getApiModuleToRequest() != 'Events') {
+            return;
+        }
+
+        // eg. 'Events.getCategory'
+        $apiMethod = $view->requestConfig->getApiMethodToRequest();
+
+        $secondaryDimension = $this->getSecondaryDimensionFromRequest();
+        $view->config->subtable_controller_action = API::getInstance()->getActionToLoadSubtables($apiMethod, $secondaryDimension);
+
+        $pivotBy = Common::getRequestVar('pivotBy', false);
+        if (empty($pivotBy)) {
+            $view->config->columns_to_display = array('label', 'nb_events', 'sum_event_value');
+        }
+
+        $view->config->show_flatten_table = true;
+        $view->requestConfig->filter_sort_column = 'nb_events';
+
+        if ($view->isViewDataTableId(AllColumns::ID)) {
+            $view->config->filters[] = function (DataTable $table) use ($view) {
+                $columsToDisplay = array('label');
+
+                $columns = $table->getColumns();
+                if (in_array('nb_visits', $columns)) {
+                    $columsToDisplay[] = 'nb_visits';
+                }
+
+                if (in_array('nb_uniq_visitors', $columns)) {
+                    $columsToDisplay[] = 'nb_uniq_visitors';
+                }
+
+                $view->config->columns_to_display = array_merge($columsToDisplay, array('nb_events', 'sum_event_value', 'avg_event_value', 'min_event_value', 'max_event_value'));
+
+                if (!in_array($view->requestConfig->filter_sort_column, $view->config->columns_to_display)) {
+                    $view->requestConfig->filter_sort_column = 'nb_events';
+                }
+            };
+            $view->config->show_pivot_by_subtable = false;
+        }
+
+        $labelTranslation = $this->getColumnTranslation($apiMethod);
+        $view->config->addTranslation('label', $labelTranslation);
+        $view->config->addTranslations($this->getMetricTranslations());
+        $this->addRelatedReports($view, $secondaryDimension);
+        $this->addTooltipEventValue($view);
+
+        $subtableReport = ReportsProvider::factory('Events', $view->config->subtable_controller_action);
+        $view->config->pivot_by_dimension = $subtableReport->getDimension()->getId();
+        $view->config->pivot_by_column = 'nb_events';
+    }
+
+    private function addRelatedReports($view, $secondaryDimension)
+    {
+        if (empty($secondaryDimension)) {
+            // eg. Row Evolution
+            return;
+        }
+
+        $view->config->show_related_reports = true;
+
+        $apiMethod = $view->requestConfig->getApiMethodToRequest();
+        $secondaryDimensions = API::getInstance()->getSecondaryDimensions($apiMethod);
+
+        if (empty($secondaryDimensions)) {
+            return;
+        }
+
+        $secondaryDimensionTranslation = $this->getDimensionLabel($secondaryDimension);
+        $view->config->related_reports_title =
+            Piwik::translate('Events_SecondaryDimension', $secondaryDimensionTranslation)
+            . "<br/>"
+            . Piwik::translate('Events_SwitchToSecondaryDimension', '');
+
+        foreach($secondaryDimensions as $dimension) {
+            if ($dimension == $secondaryDimension) {
+                // don't show as related report the currently selected dimension
+                continue;
+            }
+
+            $dimensionTranslation = $this->getDimensionLabel($dimension);
+            $view->config->addRelatedReport(
+                $view->requestConfig->apiMethodToRequestDataTable,
+                $dimensionTranslation,
+                array('secondaryDimension' => $dimension)
+            );
+        }
+
+    }
+
+    private function addTooltipEventValue(ViewDataTable $view)
+    {
+        // Creates the tooltip message for Event Value column
+        $tooltipCallback = function ($hits, $min, $max, $avg) {
+            if (!$hits) {
+                return false;
+            }
+
+            $avg = $avg ?: 0;
+
+            $msgEventMinMax = Piwik::translate("Events_EventValueTooltip", array($hits, "<br />", $min, $max));
+            $msgEventAvg = Piwik::translate("Events_AvgEventValue", $avg);
+            return $msgEventMinMax . "<br/>" . $msgEventAvg;
+        };
+
+        // Add tooltip metadata column to the DataTable
+        $view->config->filters[] = array('ColumnCallbackAddMetadata',
+            array(
+                array(
+                    'nb_events',
+                    'min_event_value',
+                    'max_event_value',
+                    'avg_event_value'
+                ),
+                'sum_event_value_tooltip',
+                $tooltipCallback
+            )
+        );
+    }
+
     /**
      * @return mixed
      */
     public function getSecondaryDimensionFromRequest()
     {
         return Common::getRequestVar('secondaryDimension', false, 'string');
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/Events/stylesheets/datatable.less";
+    }
+
+    public function provideActionDimensionFields(&$fields, &$joins)
+    {
+        $fields[] = 'log_action_event_category.type AS eventType';
+        $fields[] = 'log_action_event_category.name AS eventCategory';
+        $fields[] = 'log_action_event_action.name as eventAction';
+        $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_event_action
+					ON  log_link_visit_action.idaction_event_action = log_action_event_action.idaction';
+        $joins[] = 'LEFT JOIN ' . Common::prefixTable('log_action') . ' AS log_action_event_category
+					ON  log_link_visit_action.idaction_event_category = log_action_event_category.idaction';
     }
 }

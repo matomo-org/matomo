@@ -1,0 +1,14 @@
+{
+    "ScheduledReports": {
+        "AlsoSendReportToTheseEmails": "Továbbítsd a jelentéseket még az alábbi e-mail címekre is (soronként csak egy e-mail cím szerepeljen)",
+        "EmailHello": "Szia!",
+        "EmailReports": "Jelentés e-mailben",
+        "EmailSchedule": "E-mail küldésének ütemezése",
+        "MonthlyScheduleHelp": "Havi ütemezés: a jelentés a hónap első napján kerül elküldésre.",
+        "PiwikReports": "Matomo jelentések",
+        "SendReportNow": "Jelentés elküldése most",
+        "SendReportTo": "Küldd a jelentést ide:",
+        "SentToMe": "Küldd a jelentést nekem",
+        "WeeklyScheduleHelp": "Heti ütemezés: a jelentés hétfőnként kerül elküldésre"
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "UserCountry": {
+        "City": "Miestas",
+        "Continent": "Kontinentas",
+        "Country": "Šalis",
+        "country_a1": "Anoniminis įgaliotasis serveris",
+        "country_a2": "Palydovinis tiekėjas",
+        "country_cat": "Kataloniškai kalbančios bendruomenės",
+        "country_o1": "Kita šalis",
+        "DistinctCountries": "%s atskirti šalis",
+        "DownloadingDb": "Atsiunčiama %s",
+        "GeoIPDatabases": "GeoIP duomenų bazės",
+        "HowToInstallApacheModule": "Kaip man įdiegti Apache skirtą GeoIP modulį?",
+        "IWantToDownloadFreeGeoIP": "Aš noriu atsisiųsti nemokamą GeoIP duomenų bazę...",
+        "Latitude": "Platuma",
+        "Location": "Vietovė",
+        "Longitude": "Ilguma",
+        "SubmenuLocations": "Vietovės"
+    }
+}

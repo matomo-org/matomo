@@ -9,7 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Adds one site and tracks a couple conversions.
@@ -53,6 +53,19 @@ class SomeVisitsAllConversions extends Fixture
                 $revenue = 10, $allowMultipleConversions = true
             );
         }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 3)) {
+            API::getInstance()->addGoal($this->idSite, 'click event', 'event_action', 'click', 'contains');
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 4)) {
+            API::getInstance()->addGoal($this->idSite, 'category event', 'event_category', 'The_Category', 'exact', true, false, false, 'categorydesc');
+        }
+
+        if (!self::goalExists($idSite = 1, $idGoal = 5)) {
+            // including a few characters that are HTML entitiable
+            API::getInstance()->addGoal($this->idSite, 'name event', 'event_name', '<the_\'"name>', 'exact', false, false, false, 'eventdesc');
+        }
     }
 
     private function trackVisits()
@@ -81,7 +94,7 @@ class SomeVisitsAllConversions extends Fixture
         $goals = API::getInstance()->getGoals($idSite);
         $goal = $goals[$idGoal_OneConversionPerVisit];
         self::assertTrue($goal['allow_multiple'] == 0);
-        API::getInstance()->updateGoal($idSite, $idGoal_OneConversionPerVisit, $goal['name'], @$goal['match_attribute'], @$goal['pattern'], @$goal['pattern_type'], @$goal['case_sensitive'], $goal['revenue'], $goal['allow_multiple'] = 1);
+        API::getInstance()->updateGoal($idSite, $idGoal_OneConversionPerVisit, $goal['name'], @$goal['match_attribute'], @$goal['pattern'], @$goal['pattern_type'], @$goal['case_sensitive'], $goal['revenue'], $goal['allow_multiple'] = 1, $goal['description']);
         self::assertTrue($goal['allow_multiple'] == 1);
 
         // 1st goal should Now be tracked
@@ -93,5 +106,17 @@ class SomeVisitsAllConversions extends Fixture
         $t->setTokenAuth($this->getTokenAuth());
         $t->setForceNewVisit();
         $t->doTrackPageView('This is tracked in a new visit.');
+
+        // should trigger two goals at once (event_category, event_action)
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.3)->getDatetime());
+        self::checkResponse($t->doTrackEvent('The_Category', 'click_action', 'name'));
+
+        // should not trigger a goal (the_category is case senstive goal)
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.4)->getDatetime());
+        self::checkResponse($t->doTrackEvent('the_category', 'click_action', 'name'));
+
+        // should trigger a goal for event_name, including a few characters that are HTML entitiable
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.4)->getDatetime());
+        self::checkResponse($t->doTrackEvent('other_category', 'other_action', '<the_\'"name>'));
     }
 }

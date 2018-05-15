@@ -331,7 +331,7 @@ class AnnotationList
 
             if ($serialized !== false) {
                 $result[$id] = @unserialize($serialized);
-                if(empty($result[$id])) {
+                if (empty($result[$id])) {
                     // in case unserialize failed
                     $result[$id] = array();
                 }
@@ -440,7 +440,7 @@ class AnnotationList
     public static function canUserAddNotesFor($idSite)
     {
         return Piwik::isUserHasViewAccess($idSite)
-        && !Piwik::isUserIsAnonymous($idSite);
+        && !Piwik::isUserIsAnonymous();
     }
 
     /**

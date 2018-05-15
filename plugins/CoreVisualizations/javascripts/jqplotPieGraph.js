@@ -67,7 +67,7 @@
 
             var label = this.data[0][valueIndex][0];
 
-            var text = '<strong>' + percentage + '%</strong> (' + value + ' ' + series + ')';
+            var text = '<strong>' + NumberFormatter.formatPercent(percentage) + '</strong> (' + value + ' ' + series + ')';
             $(element).tooltip({
                 track:   true,
                 items:   '*',

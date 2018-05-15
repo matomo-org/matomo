@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
-use Piwik\Plugin\ConsoleCommand;
 use Piwik\Plugins\LanguagesManager\API;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,14 +17,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  */
-class CreatePull extends ConsoleCommand
+class CreatePull extends TranslationBase
 {
+    const GIT_BASE_BRANCH = '3.x-dev';
+
     protected function configure()
     {
         $this->setName('translations:createpull')
             ->setDescription('Updates translation files')
-            ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'oTrance username')
-            ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'oTrance password')
+            ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
+            ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
             ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
     }
 
@@ -39,7 +40,7 @@ class CreatePull extends ConsoleCommand
             return;
         }
 
-        $unpushedCommits = shell_exec('git log origin/master..HEAD');
+        $unpushedCommits = shell_exec('git log origin/' . self::GIT_BASE_BRANCH . '..HEAD');
 
         if (!empty($unpushedCommits)) {
 
@@ -50,7 +51,7 @@ class CreatePull extends ConsoleCommand
         chdir(PIWIK_DOCUMENT_ROOT);
 
         shell_exec('
-            git checkout master > /dev/null 2>&1
+            git checkout -f ' . self::GIT_BASE_BRANCH . ' > /dev/null 2>&1
             git pull > /dev/null 2>&1
             git submodule init > /dev/null 2>&1
             git submodule update > /dev/null 2>&1
@@ -61,7 +62,7 @@ class CreatePull extends ConsoleCommand
 
             chdir(PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$plugin);
             shell_exec('
-                git checkout master > /dev/null 2>&1
+                git checkout ' . self::GIT_BASE_BRANCH . ' > /dev/null 2>&1
                 git pull > /dev/null 2>&1
             ');
         }
@@ -74,10 +75,10 @@ class CreatePull extends ConsoleCommand
             shell_exec('git checkout -b translationupdates origin/translationupdates');
         }
 
-        // switch to branch and update it to latest master
+        // switch to branch and update it to latest $GIT_BASE_BRANCH
         shell_exec('
-            git checkout translationupdates > /dev/null 2>&1
-            git merge master > /dev/null 2>&1
+            git checkout -f translationupdates > /dev/null 2>&1
+            git reset --hard origin/' . self::GIT_BASE_BRANCH . ' > /dev/null 2>&1
             git push origin translationupdates > /dev/null 2>&1
         ');
 
@@ -106,7 +107,7 @@ class CreatePull extends ConsoleCommand
         if (empty($changes)) {
 
             $output->writeln("Nothing changed. Everything is already up to date.");
-            shell_exec('git checkout master > /dev/null 2>&1');
+            shell_exec('git checkout ' . self::GIT_BASE_BRANCH . ' > /dev/null 2>&1');
             return;
         }
 
@@ -114,7 +115,7 @@ class CreatePull extends ConsoleCommand
 
         $stats = shell_exec('git diff --numstat HEAD');
 
-        preg_match_all('/([0-9]+)\t([0-9]+)\t[a-zA-Z\/]*lang\/([a-z]{2,3})\.json/', $stats, $lineChanges);
+        preg_match_all('/([0-9]+)\t([0-9]+)\t[a-zA-Z\/]*lang\/([a-z]{2,3}(?:-[a-z]{2,3})?)\.json/', $stats, $lineChanges);
 
         $addedLinesSum = 0;
         if (!empty($lineChanges[1])) {
@@ -122,12 +123,13 @@ class CreatePull extends ConsoleCommand
         }
 
         $linesSumByLang = array();
-        for($i=0; $i<count($lineChanges[0]); $i++) {
+        $lineChangesCount = count($lineChanges[0]);
+        for ($i = 0; $i < $lineChangesCount; $i++) {
             @$linesSumByLang[$lineChanges[3][$i]] += $lineChanges[1][$i];
         }
 
-        preg_match_all('/M  [a-zA-Z\/]*lang\/([a-z]{2,3})\.json/', $changes, $modifiedFiles);
-        preg_match_all('/A  [a-zA-Z\/]*lang\/([a-z]{2,3})\.json/', $changes, $addedFiles);
+        preg_match_all('/M  [a-zA-Z\/]*lang\/([a-z]{2,3}(?:-[a-z]{2,3})?)\.json/', $changes, $modifiedFiles);
+        preg_match_all('/A  [a-zA-Z\/]*lang\/([a-z]{2,3}(?:-[a-z]{2,3})?)\.json/', $changes, $addedFiles);
 
         $messages = array();
 
@@ -142,13 +144,23 @@ class CreatePull extends ConsoleCommand
 
         if (!empty($modifiedFiles[1])) {
             foreach ($modifiedFiles[1] as $modifiedFile) {
-                $languageInfo = $this->getLanguageInfoByIsoCode($modifiedFile);
-                $messages[$modifiedFile] = sprintf('- Updated %s (%s changes / %s translated)\n', $languageInfo['english_name'], $linesSumByLang[$modifiedFile], $languageInfo['percentage_complete']);
+                if ($linesSumByLang[$modifiedFile]) {
+                    $languageInfo            = $this->getLanguageInfoByIsoCode($modifiedFile);
+                    $messages[$modifiedFile] = sprintf(
+                        '- Updated %s (%s changes / %s translated)\n',
+                        $languageInfo['english_name'],
+                        $linesSumByLang[$modifiedFile],
+                        $languageInfo['percentage_complete']
+                    );
+                    $languageCodesTouched[] = $modifiedFile;
+                }
             }
-            $languageCodesTouched = array_merge($languageCodesTouched, $modifiedFiles[1]);
+            $languageCodesTouched = array_unique($languageCodesTouched);
         }
 
         $message = implode('', $messages);
+
+        $message .= '\n\nHelp us translate Matomo in your language!\nSignup at https://www.transifex.com/matomo/matomo/\nIf you have any questions, get in touch with us at translations@matomo.org';
 
         $languageCodesTouched = array_unique($languageCodesTouched, SORT_REGULAR);
 
@@ -159,9 +171,9 @@ class CreatePull extends ConsoleCommand
             implode(', ', $languageCodesTouched)
         );
 
-        shell_exec('git commit -m "language update ${pluginName} refs #3430"');
+        shell_exec('git commit -m "language update ${pluginName}"');
         shell_exec('git push');
-        shell_exec('git checkout master > /dev/null 2>&1');
+        shell_exec('git checkout ' . self::GIT_BASE_BRANCH . ' > /dev/null 2>&1');
 
         $this->createPullRequest($output, $title, $message);
     }
@@ -183,7 +195,7 @@ class CreatePull extends ConsoleCommand
 
         while (true) {
 
-            $username = $dialog->ask($output, 'Please provide your github username (to create a pull request using Github API): ');
+            $username = $dialog->ask($output, 'Please provide your GitHub username (to create a pull request using GitHub API): ');
 
             $returnCode = shell_exec('curl \
                  -X POST \
@@ -193,9 +205,9 @@ class CreatePull extends ConsoleCommand
                  --stderr /dev/null \
                  -o /dev/null \
                  -u '.$username.' \
-                 --data "{\"title\":\"[automatic translation update] '.$title.'\",\"body\":\"'.$message.'\",\"head\":\"translationupdates\",\"base\":\"master\"}" \
+                 --data "{\"title\":\"[automatic translation update] '.$title.'\",\"body\":\"'.$message.'\",\"head\":\"translationupdates\",\"base\":\"' . self::GIT_BASE_BRANCH . '\"}" \
                  -H "Accept: application/json" \
-                 https://api.github.com/repos/piwik/piwik/pulls');
+                 https://api.github.com/repos/matomo-org/matomo/pulls');
 
             switch ($returnCode) {
                 case 401:

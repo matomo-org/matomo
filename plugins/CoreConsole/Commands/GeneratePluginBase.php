@@ -9,17 +9,30 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Common;
 use Piwik\Development;
 use Piwik\Filesystem;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugin\Dependency;
+use Piwik\Version;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class GeneratePluginBase extends ConsoleCommand
 {
+    public function isEnabled()
+    {
+        return Development::isEnabled();
+    }
+
     public function getPluginPath($pluginName)
     {
-        return PIWIK_INCLUDE_PATH . '/plugins/' . ucfirst($pluginName);
+        return PIWIK_INCLUDE_PATH . $this->getRelativePluginPath($pluginName);
+    }
+
+    private function getRelativePluginPath($pluginName)
+    {
+        return '/plugins/' . $pluginName;
     }
 
     private function createFolderWithinPluginIfNotExists($pluginNameOrCore, $folder)
@@ -54,10 +67,11 @@ abstract class GeneratePluginBase extends ConsoleCommand
      *
      * @param $pluginName
      * @param $translatedText
+     * @param string $translationKey Optional, by default the key will be generated automatically
      * @return string  Either the generated translation key or the original text if a different translation for this
      *                 generated translation key already exists.
      */
-    protected function makeTranslationIfPossible($pluginName, $translatedText)
+    protected function makeTranslationIfPossible($pluginName, $translatedText, $translationKey = '')
     {
         $defaultLang = array($pluginName => array());
 
@@ -72,7 +86,11 @@ abstract class GeneratePluginBase extends ConsoleCommand
             $translations[$pluginName] = array();
         }
 
-        $key = $this->buildTranslationKey($translatedText);
+        if (!empty($translationKey)) {
+            $key = $translationKey;
+        } else {
+            $key = $this->buildTranslationKey($translatedText);
+        }
 
         if (array_key_exists($key, $translations[$pluginName])) {
             // we do not want to overwrite any existing translations
@@ -88,6 +106,100 @@ abstract class GeneratePluginBase extends ConsoleCommand
         file_put_contents($langJsonPath, $this->toJson($translations));
 
         return $pluginName . '_' . $key;
+    }
+
+    protected function checkAndUpdateRequiredPiwikVersion($pluginName, OutputInterface $output)
+    {
+        $pluginJsonPath     = $this->getPluginPath($pluginName) . '/plugin.json';
+        $relativePluginJson = $this->getRelativePluginPath($pluginName) . '/plugin.json';
+
+        if (!file_exists($pluginJsonPath) || !is_writable($pluginJsonPath)) {
+            return;
+        }
+
+        $pluginJson = file_get_contents($pluginJsonPath);
+        $pluginJson = json_decode($pluginJson, true);
+
+        if (empty($pluginJson)) {
+            return;
+        }
+
+        if (empty($pluginJson['require'])) {
+            $pluginJson['require'] = array();
+        }
+
+        $piwikVersion     = Version::VERSION;
+        $nextMajorVersion = (int) substr($piwikVersion, 0, strpos($piwikVersion, '.')) + 1;
+        $secondPartPiwikVersionRequire = ',<' . $nextMajorVersion . '.0.0-b1';
+        if (false === strpos($piwikVersion, '-')) {
+            // see https://github.com/composer/composer/issues/4080 we need to specify -stable otherwise it would match
+            // $piwikVersion-dev meaning it would also match all pre-released. However, we only want to match a stable
+            // release
+            $piwikVersion.= '-stable';
+        }
+
+        $newRequiredVersion = sprintf('>=%s,<%d.0.0-b1', $piwikVersion, $nextMajorVersion);
+
+
+        if (!empty($pluginJson['require']['piwik'])) {
+            $requiredVersion = trim($pluginJson['require']['piwik']);
+
+            if ($requiredVersion === $newRequiredVersion) {
+                // there is nothing to updated
+                return;
+            }
+
+            // our generated versions look like ">=2.25.4,<3.0.0-b1".
+            // We only updated the Piwik version in the first part if the piwik version looks like that or if it has only
+            // one piwik version defined. In all other cases, eg user uses || etc we do not update it as user has customized
+            // the piwik version.
+
+            foreach (['<>','!=', '<=','==', '^'] as $comparison) {
+                if (strpos($requiredVersion, $comparison) === 0) {
+                    // user is using custom piwik version require, we do not overwrite anything.
+                    return;
+                }
+            }
+
+            if (strpos($requiredVersion, '||') !== false || strpos($requiredVersion, ' ') !== false) {
+                // user is using custom piwik version require, we do not overwrite anything.
+                return;
+            }
+
+            $requiredPiwikVersions = explode(',', (string) $requiredVersion);
+            $numRequiredPiwikVersions = count($requiredPiwikVersions);
+
+            if ($numRequiredPiwikVersions > 2) {
+                // user is using custom piwik version require, we do not overwrite anything.
+                return;
+            }
+
+            if ($numRequiredPiwikVersions === 2 &&
+                !Common::stringEndsWith($requiredVersion, $secondPartPiwikVersionRequire)) {
+                // user is using custom piwik version require, we do not overwrite anything
+                return;
+            }
+
+            // if only one piwik version is defined we update it to make sure it does now specify an upper version limit
+
+            $dependency     = new Dependency();
+            $missingVersion = $dependency->getMissingVersions($piwikVersion, $requiredVersion);
+
+            if (!empty($missingVersion)) {
+                $msg = sprintf('We cannot generate this component as the plugin "%s" requires the Piwik version "%s" in the file "%s". Generating this component requires "%s". If you know your plugin is compatible with your Piwik version remove the required Piwik version in "%s" and try to execute this command again.', $pluginName, $requiredVersion, $relativePluginJson, $newRequiredVersion, $relativePluginJson);
+
+                throw new \Exception($msg);
+            }
+
+            $output->writeln('');
+            $output->writeln(sprintf('<comment>We have updated the required Piwik version from "%s" to "%s" in "%s".</comment>', $requiredVersion, $newRequiredVersion, $relativePluginJson));
+        } else {
+            $output->writeln('');
+            $output->writeln(sprintf('<comment>We have updated your "%s" to require the Piwik version "%s".</comment>', $relativePluginJson, $newRequiredVersion));
+        }
+
+        $pluginJson['require']['piwik'] = $newRequiredVersion;
+        file_put_contents($pluginJsonPath, $this->toJson($pluginJson));
     }
 
     private function toJson($value)
@@ -198,6 +310,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
             }
 
             if (is_dir($file)) {
+                $fileNamePlugin = $this->replaceContent($replace, $fileNamePlugin);
                 $this->createFolderWithinPluginIfNotExists($pluginName, $fileNamePlugin);
             } else {
                 $template = file_get_contents($file);
@@ -240,7 +353,7 @@ abstract class GeneratePluginBase extends ConsoleCommand
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return array
+     * @return string
      * @throws \RuntimeException
      */
     protected function askPluginNameAndValidate(InputInterface $input, OutputInterface $output, $pluginNames, $invalidArgumentException)
@@ -261,8 +374,6 @@ abstract class GeneratePluginBase extends ConsoleCommand
         } else {
             $validate($pluginName);
         }
-
-        $pluginName = ucfirst($pluginName);
 
         return $pluginName;
     }

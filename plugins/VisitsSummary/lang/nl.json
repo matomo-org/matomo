@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "gemiddelde generatietijd",
+        "AverageVisitDuration": "gemiddelde duur bezoek",
+        "GenerateQueries": "%s queries uitgevoerd",
+        "GenerateTime": "%s seconden om de pagina te genereren",
+        "MaxNbActions": "max acties in één bezoek",
+        "NbActionsDescription": "%s acties",
+        "NbActionsPerVisit": "acties (pagina bezoeken, downloads, outlinks en interne zoekacties) per bezoek",
+        "NbDownloadsDescription": "downloads",
+        "NbKeywordsDescription": "unieke sleutelwoorden",
+        "NbOutlinksDescription": "outlink",
+        "NbPageviewsDescription": "paginaweergaven",
+        "NbSearchesDescription": "totaal aantal zoekopdrachten op uw website",
+        "NbUniqueDownloadsDescription": "unieke downloads",
+        "NbUniqueOutlinksDescription": "unieke outlinks",
+        "NbUniquePageviewsDescription": "unieke paginaweergaven",
+        "NbUniqueVisitors": "unieke bezoekers",
+        "NbUsersDescription": "gebruikers",
+        "NbVisitsDescription": "bezoeken",
+        "NbVisitsBounced": "bezoeken hebben verlaten (welke na één pagina de website hebben verlaten)",
+        "PluginDescription": "Rapporteert algemene analyse metrics: bezoeken, unieke bezoeken, aantal acties, bounce ration, enz.",
+        "VisitsSummary": "Bezoekers samenvatting",
+        "VisitsSummaryDocumentation": "Dit is een trendlijn die de ontwikkeling weergeeft.",
+        "WidgetLastVisits": "Recente bezoeken",
+        "WidgetOverviewGraph": "Overzicht bezoeken (met grafiek)",
+        "WidgetVisits": "Overzicht bezoeken"
+    }
+}

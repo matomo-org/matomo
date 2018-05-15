@@ -1,0 +1,59 @@
+// Most of this is Bootstrap code and can be removed when switching to Bootstrap
+
+.nav {
+    margin-bottom: 20px;
+    padding-left: 0; // Override default ul/ol
+    list-style: none;
+
+    > li {
+        position: relative;
+        display: block;
+
+        > a {
+            position: relative;
+            display: block;
+            padding: 11px 70px;
+            text-decoration: none;
+        }
+    }
+}
+// .clearfix
+.nav:before, .nav:after {
+    display: table;
+    content: " ";
+}
+.nav:after {
+    clear: both;
+}
+
+.nav-pills {
+    > li {
+        float: left;
+        border: 1px solid @color-silver-l85;
+        border-left: 0;
+
+        &:first-child {
+            border-radius: 3px 0 0 3px;
+            border: 1px solid @color-silver-l85;
+        }
+        &:last-child {
+            border-radius: 0 3px 3px 0;
+        }
+
+        > a {
+            color: @theme-color-link;
+            background-color: @color-silver-l95;
+
+            &:hover,
+            &:focus {
+                background-color: @color-silver-l85;
+            }
+        }
+
+        &.active > a {
+            color: @theme-color-text;
+            background-color: @theme-color-background-base;
+            cursor: default;
+        }
+    }
+}

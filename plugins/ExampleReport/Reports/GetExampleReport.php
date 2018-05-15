@@ -4,8 +4,8 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
+
 namespace Piwik\Plugins\ExampleReport\Reports;
 
 use Piwik\Piwik;
@@ -49,12 +49,8 @@ class GetExampleReport extends Base
         // 24 rows for 1-24hours
         // $this->constantRowsCount = true;
 
-        // If a menu title is specified, the report will be displayed in the menu
-        // $this->menuTitle    = 'ExampleReportName';
-
-        // If a widget title is specified, the report will be displayed in the list of widgets and the report can be
-        // exported as a widget
-        // $this->widgetTitle  = 'ExampleReportName';
+        // If a subcategory is specified, the report will be displayed in the menu under this menu item
+        // $this->subcategoryId = 'ExampleReportName';
     }
 
     /**
@@ -84,7 +80,7 @@ class GetExampleReport extends Base
      */
     public function getRelatedReports()
     {
-         return array(); // eg return array(new XyzReport());
+        return array(); // eg return array(new XyzReport());
     }
 
     /**

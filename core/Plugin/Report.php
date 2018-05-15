@@ -9,16 +9,21 @@
 namespace Piwik\Plugin;
 
 use Piwik\API\Proxy;
-use Piwik\Cache\LanguageAwareStaticCache;
-use Piwik\Menu\MenuReporting;
+use Piwik\API\Request;
+use Piwik\Cache;
+use Piwik\Columns\Dimension;
+use Piwik\Common;
+use Piwik\DataTable;
+use Piwik\DataTable\Filter\Sort;
 use Piwik\Metrics;
+use Piwik\Cache as PiwikCache;
 use Piwik\Piwik;
-use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Translate;
-use Piwik\WidgetsList;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
+use Piwik\Widget\WidgetsList;
+use Piwik\Report\ReportWidgetFactory;
 
 /**
  * Defines a new report. This class contains all information a report defines except the corresponding API method which
@@ -33,6 +38,17 @@ use Exception;
  */
 class Report
 {
+    /**
+     * The sub-namespace name in a plugin where Report components are stored.
+     */
+    const COMPONENT_SUBNAMESPACE = 'Reports';
+
+    /**
+     * When added to the menu, a given report eg 'getCampaigns'
+     * will be routed as &action=menuGetCampaigns
+     */
+    const PREFIX_ACTION_IN_MENU = 'menu';
+
     /**
      * The name of the module which is supposed to be equal to the name of the plugin. The module is detected
      * automatically.
@@ -66,30 +82,14 @@ class Report
      * @var string
      * @api
      */
-    protected $category;
+    protected $categoryId;
 
     /**
-     * The translation key of the widget title. If a widget title is set, the platform will automatically configure/add
-     * a widget for this report. Alternatively, this behavior can be overwritten in {@link configureWidget()}.
+     * The translation key of the subcategory the report belongs to.
      * @var string
      * @api
      */
-    protected $widgetTitle;
-
-    /**
-     * Optional widget params that will be appended to the widget URL if a {@link $widgetTitle} is set.
-     * @var array
-     * @api
-     */
-    protected $widgetParams = array();
-
-    /**
-     * The translation key of the menu title. If a menu title is set, the platform will automatically add a menu item
-     * to the reporting menu. Alternatively, this behavior can be overwritten in {@link configureReportingMenu()}.
-     * @var string
-     * @api
-     */
-    protected $menuTitle;
+    protected $subcategoryId;
 
     /**
      * An array of supported metrics. Eg `array('nb_visits', 'nb_actions', ...)`. Defaults to the platform default
@@ -97,7 +97,7 @@ class Report
      * @var array
      * @api
      */
-    protected $metrics = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
+    protected $metrics = array('nb_visits', 'nb_uniq_visitors', 'nb_actions', 'nb_users');
     // for a little performance improvement we avoid having to call Metrics::getDefaultMetrics for each report
 
     /**
@@ -105,7 +105,7 @@ class Report
      * platform default processed metrics, see {@link Metrics::getDefaultProcessedMetrics()}. Set it to boolean `false`
      * if your report does not support any processed metrics at all. Otherwise an array of metric names.
      * Eg `array('avg_time_on_site', 'nb_actions_per_visit', ...)`
-     * @var array|false
+     * @var array
      * @api
      */
     protected $processedMetrics = array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate');
@@ -118,6 +118,14 @@ class Report
      * @api
      */
     protected $hasGoalMetrics = false;
+
+    /**
+     * Set this property to false in case your report can't/shouldn't be flattened.
+     * In this case, flattener won't be applied even if parameter is provided in a request
+     * @var bool
+     * @api
+     */
+    protected $supportsFlatten = true;
 
     /**
      * Set it to boolean `true` if your report always returns a constant count of rows, for instance always 24 rows
@@ -135,7 +143,7 @@ class Report
     protected $isSubtableReport = false;
 
     /**
-     * Some reports may require additonal URL parameters that need to be sent when a report is requested. For instance
+     * Some reports may require additional URL parameters that need to be sent when a report is requested. For instance
      * a "goal" report might need a "goalId": `array('idgoal' => 5)`.
      * @var null|array
      * @api
@@ -167,22 +175,25 @@ class Report
     protected $order = 1;
 
     /**
-     * @var array
-     * @ignore
+     * Separator for building recursive labels (or paths)
+     * @var string
+     * @api
      */
-    public static $orderOfReports = array(
-        'General_MultiSitesSummary',
-        'VisitsSummary_VisitsSummary',
-        'Goals_Ecommerce',
-        'General_Actions',
-        'Events_Events',
-        'Actions_SubmenuSitesearch',
-        'Referrers_Referrers',
-        'Goals_Goals',
-        'General_Visitors',
-        'DevicesDetection_DevicesDetection',
-        'UserSettings_VisitorSettings',
-    );
+    protected $recursiveLabelSeparator = ' - ';
+
+    /**
+     * Default sort column. Either a column name or a column id.
+     *
+     * @var string|int
+     */
+    protected $defaultSortColumn = 'nb_visits';
+
+    /**
+     * Default sort desc. If true will sort by default desc, if false will sort by default asc
+     *
+     * @var bool
+     */
+    protected $defaultSortOrderDesc = true;
 
     /**
      * The constructur initializes the module, action and the default metrics. If you want to overwrite any of those
@@ -191,10 +202,13 @@ class Report
      */
     final public function __construct()
     {
-        $classname    = get_class($this);
-        $parts        = explode('\\', $classname);
-        $this->module = $parts[2];
-        $this->action = lcfirst($parts[4]);
+        $classname = get_class($this);
+        $parts = explode('\\', $classname);
+
+        if (5 === count($parts)) {
+            $this->module = $parts[2];
+            $this->action = lcfirst($parts[4]);
+        }
 
         $this->init();
     }
@@ -227,9 +241,9 @@ class Report
      * containing a message that will be displayed to the user. You can overwrite this message in case you want to
      * customize the error message. Eg.
      * ```
-     if (!$this->isEnabled()) {
-         throw new Exception('Setting XYZ is not enabled or the user has not enough permission');
-     }
+     * if (!$this->isEnabled()) {
+     * throw new Exception('Setting XYZ is not enabled or the user has not enough permission');
+     * }
      * ```
      * @throws \Exception
      * @api
@@ -252,6 +266,16 @@ class Report
     }
 
     /**
+     * Returns if the default viewDataTable type should always be used. e.g. the type won't be changeable through config or url params.
+     * Defaults to false
+     * @return bool
+     */
+    public function alwaysUseDefaultViewDataTable()
+    {
+        return false;
+    }
+
+    /**
      * Here you can configure how your report should be displayed and which capabilities your report has. For instance
      * whether your report supports a "search" or not. EG `$view->config->show_search = false`. You can also change the
      * default request config. For instance you can change how many rows are displayed by default:
@@ -261,7 +285,6 @@ class Report
      */
     public function configureView(ViewDataTable $view)
     {
-
     }
 
     /**
@@ -275,54 +298,78 @@ class Report
      */
     public function render()
     {
+        $viewDataTable = Common::getRequestVar('viewDataTable', false, 'string');
+        $fixed = Common::getRequestVar('forceView', 0, 'int');
+
+        $module = $this->getModule();
+        $action = $this->getAction();
+
         $apiProxy = Proxy::getInstance();
 
-        if (!$apiProxy->isExistingApiAction($this->module, $this->action)) {
-            throw new Exception("Invalid action name '$this->action' for '$this->module' plugin.");
+        if (!$apiProxy->isExistingApiAction($module, $action)) {
+            throw new Exception("Invalid action name '$module' for '$action' plugin.");
         }
 
-        $apiAction = $apiProxy->buildApiActionName($this->module, $this->action);
+        $apiAction = $apiProxy->buildApiActionName($module, $action);
 
-        $view      = ViewDataTableFactory::build(null, $apiAction, $this->module . '.' . $this->action);
-        $rendered  = $view->render();
+        $view = ViewDataTableFactory::build($viewDataTable, $apiAction, $module . '.' . $action, $fixed);
 
-        return $rendered;
+        return $view->render();
     }
 
     /**
-     * By default a widget will be configured for this report if a {@link $widgetTitle} is set. If you want to customize
-     * the way the widget is added or modify any other behavior you can overwrite this method.
-     * @param WidgetsList $widget
-     * @api
+     *
+     * Processing a uniqueId for each report, can be used by UIs as a key to match a given report
+     * @return string
      */
-    public function configureWidget(WidgetsList $widget)
+    public function getId()
     {
-        if ($this->widgetTitle) {
-            $params = array();
-            if (!empty($this->widgetParams) && is_array($this->widgetParams)) {
-                $params = $this->widgetParams;
+        $params = $this->getParameters();
+
+        $paramsKey = $this->getModule() . '.' . $this->getAction();
+
+        if (!empty($params)) {
+            foreach ($params as $key => $value) {
+                $paramsKey .= '_' . $key . '--' . $value;
             }
-            $widget->add($this->category, $this->widgetTitle, $this->module, $this->action, $params);
+        }
+
+        return $paramsKey;
+    }
+
+    /**
+     * lets you add any amount of widgets for this report. If a report defines a {@link $categoryId} and a
+     * {@link $subcategoryId} a widget will be generated automatically.
+     *
+     * Example to add a widget manually by overwriting this method in your report:
+     * $widgetsList->addWidgetConfig($factory->createWidget());
+     *
+     * If you want to have the name and the order of the widget differently to the name and order of the report you can
+     * do the following:
+     * $widgetsList->addWidgetConfig($factory->createWidget()->setName('Custom')->setOrder(5));
+     *
+     * If you want to add a widget to any container defined by your plugin or by another plugin you can do
+     * this:
+     * $widgetsList->addToContainerWidget($containerId = 'Products', $factory->createWidget());
+     *
+     * @param WidgetsList $widgetsList
+     * @param ReportWidgetFactory $factory
+     * @api
+     */
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        if ($this->categoryId && $this->subcategoryId) {
+            $widgetsList->addWidgetConfig($factory->createWidget());
         }
     }
 
     /**
-     * By default a menu item will be added to the reporting menu if a {@link $menuTitle} is set. If you want to
-     * customize the way the item is added or modify any other behavior you can overwrite this method. For instance
-     * in case you need to add additional url properties beside module and action which are added by default.
-     * @param \Piwik\Menu\MenuReporting $menu
-     * @api
+     * @ignore
+     * @see $recursiveLabelSeparator
      */
-    public function configureReportingMenu(MenuReporting $menu)
+    public function getRecursiveLabelSeparator()
     {
-        if ($this->menuTitle) {
-            $action = 'menu' . ucfirst($this->action);
-            $menu->add($this->category,
-                       $this->menuTitle,
-                       array('module' => $this->module, 'action' => $action),
-                       $this->isEnabled(),
-                       $this->order);
-        }
+        return $this->recursiveLabelSeparator;
     }
 
     /**
@@ -341,13 +388,52 @@ class Report
     }
 
     /**
+     * Returns the list of metrics required at minimum for a report factoring in the columns requested by
+     * the report requester.
+     *
+     * This will return all the metrics requested (or all the metrics in the report if nothing is requested)
+     * **plus** the metrics required to calculate the requested processed metrics.
+     *
+     * This method should be used in **Plugin.get** API methods.
+     *
+     * @param string[]|null $allMetrics The list of all available unprocessed metrics. Defaults to this report's
+     *                                  metrics.
+     * @param string[]|null $restrictToColumns The requested columns.
+     * @return string[]
+     */
+    public function getMetricsRequiredForReport($allMetrics = null, $restrictToColumns = null)
+    {
+        if (empty($allMetrics)) {
+            $allMetrics = $this->metrics;
+        }
+
+        if (empty($restrictToColumns)) {
+            $restrictToColumns = array_merge($allMetrics, array_keys($this->getProcessedMetrics()));
+        }
+        $restrictToColumns = array_unique($restrictToColumns);
+
+        $processedMetricsById = $this->getProcessedMetricsById();
+        $metricsSet = array_flip($allMetrics);
+
+        $metrics = array();
+        foreach ($restrictToColumns as $column) {
+            if (isset($processedMetricsById[$column])) {
+                $metrics = array_merge($metrics, $processedMetricsById[$column]->getDependentMetrics());
+            } elseif (isset($metricsSet[$column])) {
+                $metrics[] = $column;
+            }
+        }
+        return array_unique($metrics);
+    }
+
+    /**
      * Returns an array of supported processed metrics and their corresponding translations. Eg
      * `array('nb_visits' => 'Visits')`. By default the given {@link $processedMetrics} are used and their
      * corresponding translations are looked up automatically. If a metric is not translated, you should add the
      * default metric translation for this metric using the {@hook Metrics.getDefaultMetricTranslations} event. If you
      * want to overwrite any default metric translation you should overwrite this method, call this parent method to
      * get all default translations and overwrite any custom metric translations.
-     * @return array
+     * @return array|mixed
      * @api
      */
     public function getProcessedMetrics()
@@ -360,8 +446,34 @@ class Report
     }
 
     /**
+     * Returns the array of all metrics displayed by this report.
+     *
+     * @return array
+     * @api
+     */
+    public function getAllMetrics()
+    {
+        $processedMetrics = $this->getProcessedMetrics() ?: array();
+        return array_keys(array_merge($this->getMetrics(), $processedMetrics));
+    }
+
+    /**
+     * Use this method to register metrics to process report totals.
+     *
+     * When a metric is registered, it will process the report total values and as a result show percentage values
+     * in the HTML Table reporting visualization.
+     *
+     * @return string[]  metricId => metricColumn, if the report has only column names and no IDs, it should return
+     *                   metricColumn => metricColumn, eg array('13' => 'nb_pageviews') or array('mymetric' => 'mymetric')
+     */
+    public function getMetricNamesToProcessReportTotals()
+    {
+        return array();
+    }
+
+    /**
      * Returns an array of metric documentations and their corresponding translations. Eg
-     * `array('nb_visits' => 'If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after...')`.
+     * `array('nb_visits' => 'If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after...')`.
      * By default the given {@link $metrics} are used and their corresponding translations are looked up automatically.
      * If there is a metric documentation not found, you should add the default metric documentation translation for
      * this metric using the {@hook Metrics.getDefaultMetricDocumentationTranslations} event. If you want to overwrite
@@ -381,6 +493,23 @@ class Report
             }
         }
 
+        $processedMetrics = $this->processedMetrics ?: array();
+        foreach ($processedMetrics as $processedMetric) {
+            if (is_string($processedMetric) && !empty($translations[$processedMetric])) {
+                $documentation[$processedMetric] = $translations[$processedMetric];
+            } elseif ($processedMetric instanceof ProcessedMetric) {
+                $name = $processedMetric->getName();
+                $metricDocs = $processedMetric->getDocumentation();
+                if (empty($metricDocs)) {
+                    $metricDocs = @$translations[$name];
+                }
+
+                if (!empty($metricDocs)) {
+                    $documentation[$processedMetric->getName()] = $metricDocs;
+                }
+            }
+        }
+
         return $documentation;
     }
 
@@ -391,6 +520,15 @@ class Report
     public function hasGoalMetrics()
     {
         return $this->hasGoalMetrics;
+    }
+
+    /**
+     * @return bool
+     * @ignore
+     */
+    public function supportsFlatten()
+    {
+        return $this->supportsFlatten;
     }
 
     /**
@@ -417,15 +555,27 @@ class Report
     }
 
     /**
+     * Get report documentation.
+     * @return string
+     */
+    public function getDocumentation()
+    {
+        return $this->documentation;
+    }
+
+    /**
      * Builts the report metadata for this report. Can be useful in case you want to change the behavior of
      * {@link configureReportMetadata()}.
      * @return array
      * @ignore
+     *
+     * TODO we should move this out to API::getReportMetadata
      */
     protected function buildReportMetadata()
     {
         $report = array(
-            'category' => $this->getCategory(),
+            'category' => $this->getCategoryId(),
+            'subcategory' => $this->getSubcategoryId(),
             'name'     => $this->getName(),
             'module'   => $this->getModule(),
             'action'   => $this->getAction()
@@ -459,9 +609,43 @@ class Report
             $report['constantRowsCount'] = $this->constantRowsCount;
         }
 
+        $relatedReports = $this->getRelatedReports();
+        if (!empty($relatedReports)) {
+            $report['relatedReports'] = array();
+            foreach ($relatedReports as $relatedReport) {
+                if (!empty($relatedReport)) {
+                    $report['relatedReports'][] = array(
+                        'name' => $relatedReport->getName(),
+                        'module' => $relatedReport->getModule(),
+                        'action' => $relatedReport->getAction()
+                    );
+                }
+            }
+        }
+
         $report['order'] = $this->order;
 
         return $report;
+    }
+
+    /**
+     * @ignore
+     */
+    public function getDefaultSortColumn()
+    {
+        return $this->defaultSortColumn;
+    }
+
+    /**
+     * @ignore
+     */
+    public function getDefaultSortOrder()
+    {
+        if ($this->defaultSortOrderDesc) {
+            return Sort::ORDER_DESC;
+        }
+
+        return Sort::ORDER_ASC;
     }
 
     /**
@@ -474,18 +658,6 @@ class Report
     public function getRelatedReports()
     {
         return array();
-    }
-
-    /**
-     * Gets the translated widget title if one is defined.
-     * @return string
-     * @ignore
-     */
-    public function getWidgetTitle()
-    {
-        if ($this->widgetTitle) {
-            return Piwik::translate($this->widgetTitle);
-        }
     }
 
     /**
@@ -518,14 +690,29 @@ class Report
         return $this->action;
     }
 
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
     /**
      * Get the translated name of the category the report belongs to.
      * @return string
      * @ignore
      */
-    public function getCategory()
+    public function getCategoryId()
     {
-        return Piwik::translate($this->category);
+        return $this->categoryId;
+    }
+
+    /**
+     * Get the translated name of the subcategory the report belongs to.
+     * @return string
+     * @ignore
+     */
+    public function getSubcategoryId()
+    {
+        return $this->subcategoryId;
     }
 
     /**
@@ -548,16 +735,6 @@ class Report
     }
 
     /**
-     * Get the menu title if one is defined.
-     * @return string
-     * @ignore
-     */
-    public function getMenuTitle()
-    {
-        return $this->menuTitle;
-    }
-
-    /**
      * Get the action to load sub tables if one is defined.
      * @return string
      * @ignore
@@ -568,73 +745,64 @@ class Report
     }
 
     /**
-     * Get an instance of a specific report belonging to the given module and having the given action.
-     * @param  string $module
-     * @param  string $action
-     * @return null|\Piwik\Plugin\Report
-     * @api
-     */
-    public static function factory($module, $action)
-    {
-        if (empty($module) || empty($action)) {
-            return;
-        }
-
-        try {
-            $plugin = PluginManager::getInstance()->getLoadedPlugin($module);
-        } catch (Exception $e) {
-            return;
-        }
-
-        $reports = $plugin->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
-        $action  = ucfirst($action);
-
-        foreach ($reports as $reportClass) {
-            if ($reportClass == 'Piwik\\Plugins\\' . $module . '\\Reports\\' . $action) {
-                return new $reportClass();
-            }
-        }
-    }
-
-    /**
-     * Returns a list of all available reports. Even not enabled reports will be returned. They will be already sorted
-     * depending on the order and category of the report.
-     * @return \Piwik\Plugin\Report[]
-     * @api
-     */
-    public static function getAllReports()
-    {
-        $reports = PluginManager::getInstance()->findMultipleComponents('Reports', '\\Piwik\\Plugin\\Report');
-        $cache   = new LanguageAwareStaticCache('Reports' . implode('', $reports));
-
-        if (!$cache->has()) {
-            $instances = array();
-
-            foreach ($reports as $report) {
-                $instances[] = new $report();
-            }
-
-            usort($instances, array('self', 'sort'));
-
-            $cache->set($instances);
-        }
-
-        return $cache->get();
-    }
-
-    /**
-     * API metadata are sorted by category/name,
-     * with a little tweak to replicate the standard Piwik category ordering
+     * Returns the Dimension instance of this report's subtable report.
      *
-     * @param Report $a
-     * @param Report $b
-     * @return int
+     * @return Dimension|null The subtable report's dimension or null if there is subtable report or
+     *                        no dimension for the subtable report.
+     * @api
      */
-    private static function sort($a, $b)
+    public function getSubtableDimension()
     {
-        return ($category = strcmp(array_search($a->category, self::$orderOfReports), array_search($b->category, self::$orderOfReports))) == 0
-            ? ($a->order < $b->order ? -1 : 1)
-            : $category;
+        if (empty($this->actionToLoadSubTables)) {
+            return null;
+        }
+
+        list($subtableReportModule, $subtableReportAction) = $this->getSubtableApiMethod();
+
+        $subtableReport = ReportsProvider::factory($subtableReportModule, $subtableReportAction);
+        if (empty($subtableReport)) {
+            return null;
+        }
+
+        return $subtableReport->getDimension();
+    }
+
+    /**
+     * Returns true if the report is for another report's subtable, false if otherwise.
+     *
+     * @return bool
+     */
+    public function isSubtableReport()
+    {
+        return $this->isSubtableReport;
+    }
+
+    /**
+     * Fetches the report represented by this instance.
+     *
+     * @param array $paramOverride Query parameter overrides.
+     * @return DataTable
+     * @api
+     */
+    public function fetch($paramOverride = array())
+    {
+        return Request::processRequest($this->module . '.' . $this->action, $paramOverride);
+    }
+
+    /**
+     * Fetches a subtable for the report represented by this instance.
+     *
+     * @param int $idSubtable The subtable ID.
+     * @param array $paramOverride Query parameter overrides.
+     * @return DataTable
+     * @api
+     */
+    public function fetchSubtable($idSubtable, $paramOverride = array())
+    {
+        $paramOverride = array('idSubtable' => $idSubtable) + $paramOverride;
+
+        list($module, $action) = $this->getSubtableApiMethod();
+        return Request::processRequest($module . '.' . $action, $paramOverride);
     }
 
     private function getMetricTranslations($metricsToTranslate)
@@ -643,13 +811,108 @@ class Report
         $metrics = array();
 
         foreach ($metricsToTranslate as $metric) {
-            if (!empty($translations[$metric])) {
-                $metrics[$metric] = $translations[$metric];
+            if ($metric instanceof Metric) {
+                $metricName  = $metric->getName();
+                $translation = $metric->getTranslatedName();
             } else {
-                $metrics[$metric] = $metric;
+                $metricName  = $metric;
+                $translation = @$translations[$metric];
             }
+
+            $metrics[$metricName] = $translation ?: $metricName;
         }
 
         return $metrics;
+    }
+
+    private function getSubtableApiMethod()
+    {
+        if (strpos($this->actionToLoadSubTables, '.') !== false) {
+            return explode('.', $this->actionToLoadSubTables);
+        } else {
+            return array($this->module, $this->actionToLoadSubTables);
+        }
+    }
+
+    /**
+     * Finds a top level report that provides stats for a specific Dimension.
+     *
+     * @param Dimension $dimension The dimension whose report we're looking for.
+     * @return Report|null The
+     * @api
+     */
+    public static function getForDimension(Dimension $dimension)
+    {
+        return ComponentFactory::getComponentIf(__CLASS__, $dimension->getModule(), function (Report $report) use ($dimension) {
+            return !$report->isSubtableReport()
+                && $report->getDimension()
+                && $report->getDimension()->getId() == $dimension->getId();
+        });
+    }
+
+    /**
+     * Returns an array mapping the ProcessedMetrics served by this report by their string names.
+     *
+     * @return ProcessedMetric[]
+     */
+    public function getProcessedMetricsById()
+    {
+        $processedMetrics = $this->processedMetrics ?: array();
+
+        $result = array();
+        foreach ($processedMetrics as $processedMetric) {
+            if ($processedMetric instanceof ProcessedMetric || $processedMetric instanceof ArchivedMetric) { // instanceof check for backwards compatibility
+                $result[$processedMetric->getName()] = $processedMetric;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Returns the Metrics that are displayed by a DataTable of a certain Report type.
+     *
+     * Includes ProcessedMetrics and Metrics.
+     *
+     * @param DataTable $dataTable
+     * @param Report|null $report
+     * @param string $baseType The base type each metric class needs to be of.
+     * @return Metric[]
+     * @api
+     */
+    public static function getMetricsForTable(DataTable $dataTable, Report $report = null, $baseType = 'Piwik\\Plugin\\Metric')
+    {
+        $metrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME) ?: array();
+
+        if (!empty($report)) {
+            $metrics = array_merge($metrics, $report->getProcessedMetricsById());
+        }
+
+        $result = array();
+
+        /** @var Metric $metric */
+        foreach ($metrics as $metric) {
+            if (!($metric instanceof $baseType)) {
+                continue;
+            }
+
+            $result[$metric->getName()] = $metric;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns the ProcessedMetrics that should be computed and formatted for a DataTable of a
+     * certain report. The ProcessedMetrics returned are those specified by the Report metadata
+     * as well as the DataTable metadata.
+     *
+     * @param DataTable $dataTable
+     * @param Report|null $report
+     * @return ProcessedMetric[]
+     * @api
+     */
+    public static function getProcessedMetricsForTable(DataTable $dataTable, Report $report = null)
+    {
+        return self::getMetricsForTable($dataTable, $report, 'Piwik\\Plugin\\ProcessedMetric');
     }
 }

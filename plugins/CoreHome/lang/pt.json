@@ -1,0 +1,16 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "Sem dados nesta categoria. Tente o \"Incluir toda a população\".",
+        "CheckForUpdates": "Procurar actualizações",
+        "DataTableExcludeAggregateRows": "Linhas agregadas encontram-se visíveis %s Esconda-as",
+        "DataTableIncludeAggregateRows": "Linhas agregadas encontram-se escondidas %s Mostre-as",
+        "Default": "defeito",
+        "DonateCall1": "O Matomo nunca lhe custará nada para usar, mas isso não quer dizer que não nos custe nada para o criar.",
+        "DonateCall2": "O Matomo presisa do seu contínuo suporte para crescer e brilhar.",
+        "Menu": "Menu",
+        "PageOf": "%1$s de %2$s",
+        "ShowJSCode": "Mostrar o código JavaScript para inserir",
+        "ThereIsNoDataForThisReport": "Não há dados para este relatório.",
+        "WebAnalyticsReports": "Relatórios de Analíticas Web"
+    }
+}

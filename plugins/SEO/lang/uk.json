@@ -1,0 +1,12 @@
+{
+    "SEO": {
+        "PluginDescription": "Цей плагін витягує і відображає метрики SEO: Alexa рейтинг, Google Pagerank, кількість проіндексованих сторінок і зворотних посилань в даний момент на сайт.",
+        "AlexaRank": "Рейтинг Alexa",
+        "Bing_IndexedPages": "Сторінок в індексі Bing",
+        "DomainAge": "Вік домену",
+        "Google_IndexedPages": "Сторінок в індексі Google",
+        "Rank": "Рейтинг",
+        "SeoRankings": "SEO-рейтинги",
+        "SEORankingsFor": "SEO рейтинги для %s"
+    }
+}

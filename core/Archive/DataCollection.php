@@ -138,6 +138,21 @@ class DataCollection
     }
 
     /**
+     * Set data for a specific site & period. If there is no data for the given site ID & period,
+     * it is set to the default row.
+     *
+     * @param int $idSite
+     * @param string $period eg, '2012-01-01,2012-01-31'
+     * @param string $name eg 'nb_visits'
+     * @param string $value eg 5
+     */
+    public function set($idSite, $period, $name, $value)
+    {
+        $row = & $this->get($idSite, $period);
+        $row[$name] = $value;
+    }
+
+    /**
      * Adds a new metadata to the data for specific site & period. If there is no
      * data for the given site ID & period, it is set to the default row.
      *
@@ -188,6 +203,7 @@ class DataCollection
                 $this->putRowInIndex($result, $indexKeys, $row, $idSite, $period);
             }
         }
+
         return $result;
     }
 
@@ -208,7 +224,25 @@ class DataCollection
             $this->dataNames, $this->dataType, $this->sitesId, $this->periods, $this->defaultRow);
 
         $index = $this->getIndexedArray($resultIndices);
+
         return $dataTableFactory->make($index, $resultIndices);
+    }
+
+    /**
+     * See {@link DataTableFactory::makeMerged()}
+     *
+     * @param array $resultIndices
+     * @return DataTable|DataTable\Map
+     * @throws Exception
+     */
+    public function getMergedDataTable($resultIndices)
+    {
+        $dataTableFactory = new DataTableFactory(
+            $this->dataNames, $this->dataType, $this->sitesId, $this->periods, $this->defaultRow);
+
+        $index = $this->getIndexedArray($resultIndices);
+
+        return $dataTableFactory->makeMerged($index, $resultIndices);
     }
 
     /**
@@ -249,6 +283,7 @@ class DataCollection
         $dataTableFactory->useSubtable($idSubTable);
 
         $index = $this->getIndexedArray($resultIndices);
+
         return $dataTableFactory->make($index, $resultIndices);
     }
 
@@ -296,12 +331,16 @@ class DataCollection
 
             if ($metadataName == DataTableFactory::TABLE_METADATA_SITE_INDEX) {
                 $indexKeyValues = array_values($this->sitesId);
-            } else if ($metadataName == DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
+            } elseif ($metadataName == DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
                 $indexKeyValues = array_keys($this->periods);
             }
 
-            foreach ($indexKeyValues as $key) {
-                $result[$key] = $this->createOrderedIndex($metadataNamesToIndexBy);
+            if (empty($metadataNamesToIndexBy)) {
+                $result = array_fill_keys($indexKeyValues, array());
+            } else {
+                foreach ($indexKeyValues as $key) {
+                    $result[$key] = $this->createOrderedIndex($metadataNamesToIndexBy);
+                }
             }
         }
 
@@ -318,7 +357,7 @@ class DataCollection
         foreach ($metadataNamesToIndexBy as $metadataName) {
             if ($metadataName == DataTableFactory::TABLE_METADATA_SITE_INDEX) {
                 $key = $idSite;
-            } else if ($metadataName == DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
+            } elseif ($metadataName == DataTableFactory::TABLE_METADATA_PERIOD_INDEX) {
                 $key = $period;
             } else {
                 $key = $row[self::METADATA_CONTAINER_ROW_KEY][$metadataName];

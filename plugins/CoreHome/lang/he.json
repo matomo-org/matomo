@@ -1,0 +1,19 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "אין מידע בקטגוריה זו. נא לנסות \"לכלול את כלל האוכלוסייה\"",
+        "CheckForUpdates": "בדוק עדכונים",
+        "Default": "ברירת מחדל",
+        "DonateCall1": "תמיד השימוש ב-Matomo לא יעלה לך דבר, אך זה לא אומר שלהכין אותו לא עולה לנו כסף",
+        "HowMuchIsPiwikWorth": "כמה Matomo שווה עבורך?",
+        "MakeOneTimeDonation": "במקום,בצע תרומה חד-פעמית",
+        "PageOf": "%1$s מתוך %2$s",
+        "PeriodRange": "טווח",
+        "SharePiwikShort": "Matomo! ניתוח רשת חינמי ופתוח. שליטה בנתונים של עצמך.",
+        "ShowJSCode": "הצגת הJavaScript להטמעה",
+        "SupportPiwik": "תמיכה ב-Matomo!",
+        "ThereIsNoDataForThisReport": "אין מידע להצגה עבור הדוח",
+        "ViewAllPiwikVideoTutorials": "צפייה בכל סרטי ההדרכה של Matomo",
+        "WebAnalyticsReports": "דוחות פעילות",
+        "SystemSummaryPhpVersion": "גרסת PHP"
+    }
+}

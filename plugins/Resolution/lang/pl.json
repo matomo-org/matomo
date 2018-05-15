@@ -1,0 +1,12 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Konfiguracja",
+        "ColumnResolution": "Rozdzielczość",
+        "Configurations": "Konfiguracje",
+        "PluginDescription": "Raport zawiera rozdzielczości ekranu Twoich odwiedzających.",
+        "Resolutions": "Rozdzielczości",
+        "WidgetGlobalVisitors": "Konfiguracje odwiedzających",
+        "WidgetGlobalVisitorsDocumentation": "Ten raport prezentuje najpopularniejsze konfiguracje Twoich odwiedzających. Konfiguracja to zestawienie systemu operacyjnego, typu przeglądarki i rozdzielczości ekranu.",
+        "WidgetResolutions": "Rozdzielczość ekranu"
+    }
+}

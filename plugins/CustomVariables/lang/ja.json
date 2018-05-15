@@ -1,0 +1,10 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "カスタム変数名",
+        "ColumnCustomVariableValue": "カスタム変数値",
+        "CustomVariables": "カスタム変数",
+        "CustomVariablesReportDocumentation": "このレポートには、カスタム変数に関する情報が含まれています。値の分布を表示するには、変数名をクリックして下さい。%s 一般的なカスタム変数の詳細については、%sCustom Variables documentation on piwik.org%s をお読み下さい。",
+        "ScopePage": "スコープはページ",
+        "ScopeVisit": "スコープはビジット"
+    }
+}

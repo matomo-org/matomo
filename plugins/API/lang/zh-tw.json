@@ -1,0 +1,16 @@
+{
+    "API": {
+        "ChangeTokenHint": "如果你要變更這個 Token，請到你的%1$s個人設定頁面%2$s。",
+        "GenerateVisits": "如果你今天還沒有任何資料，你可以先使用 %1$s 外掛來產生一些數據。你可以啟用 %2$s 外掛，然後在 Matomo 後台管理選單中點擊「訪客產生器」。",
+        "KeepTokenSecret": "token_auth 如同你的帳號和密碼一樣重要，%1$s請不要公開它%2$s！",
+        "LoadedAPIs": "已成功載入 %s 個 API",
+        "MoreInformation": "查看%1$sMatomo API 介紹%2$s和 %3$sMatomo API 參考資料%4$s以取得更多關於 Matomo API 的資訊。",
+        "PluginDescription": "Matomo 內的所有資料都能透過簡單的 API 來取得。這個外掛是網頁服務的進入點，你可以用來獲取 xml、json、php 或 csv 格式的網頁分析資料。",
+        "ReportingApiReference": "報表 API 參考資料",
+        "TopLinkTooltip": "透過簡單的 API 來取得 json、xml 等格式的網頁分析資料。",
+        "UserAuthentication": "使用者驗證",
+        "UsingTokenAuth": "如果你想%1$s經由程式碼或工作排程來請求資料。%2$s你需要新增參數 %3$s 至 API 呼叫網址來進行驗證。",
+        "Glossary": "詞彙表",
+        "LearnAboutCommonlyUsedTerms": "了解更多常用的術語來讓 Matomo 分析發揮最大化：%1$s 和 %2$s。"
+    }
+}

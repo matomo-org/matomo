@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<nb_conversions>14</nb_conversions>
+		<nb_visits_converted>10</nb_visits_converted>
+		<revenue>50</revenue>
+		<conversion_rate>90.91%</conversion_rate>
+		<nb_conversions_new_visit>2</nb_conversions_new_visit>
+		<nb_visits_converted_new_visit>2</nb_visits_converted_new_visit>
+		<revenue_new_visit>10</revenue_new_visit>
+		<conversion_rate_new_visit>100%</conversion_rate_new_visit>
+		<nb_conversions_returning_visit>12</nb_conversions_returning_visit>
+		<nb_visits_converted_returning_visit>8</nb_visits_converted_returning_visit>
+		<revenue_returning_visit>40</revenue_returning_visit>
+		<conversion_rate_returning_visit>88.89%</conversion_rate_returning_visit>
+	</result>
+	<result idSite="2">
+		<nb_conversions>1</nb_conversions>
+		<nb_visits_converted>1</nb_visits_converted>
+		<revenue>0</revenue>
+		<conversion_rate>100%</conversion_rate>
+		<nb_conversions_new_visit>1</nb_conversions_new_visit>
+		<nb_visits_converted_new_visit>1</nb_visits_converted_new_visit>
+		<revenue_new_visit>0</revenue_new_visit>
+		<conversion_rate_new_visit>100%</conversion_rate_new_visit>
+	</result>
+</results>

@@ -1,0 +1,25 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Nazwa Zmiennej Niestandardowej",
+        "ColumnCustomVariableValue": "Wartość Zmiennej Niestandardowej",
+        "CustomVariables": "Zmienne Niestandardowe",
+        "CustomVariablesReportDocumentation": "Raport ten zawiera informacje na temat Zmiennych Niestandardowych. Kliknij na nazwę zmiennej, aby zobaczyć rozkład wartości. %1$sAby uzyskać więcej informacji na temat Zmiennych Niestandardowych, przeczytaj dokumentację %2$sZmienne Niestandardowe na piwik.org%3$s",
+        "PluginDescription": "Zmienne Niestandardowe są parami (nazwa, wartość), którym możesz przypisywać do użytkowników lub dowolnej ich akcji przy pomocy JavaScript API. Matomo na tej podstawie zaraportuje liczbę odwiedzin, stron, konwersji dla każdej z tych nazw i wartości. Przeglądaj szczegóły Zmiennych Niestandardowych dla każdego użytkownika i akcji w Logu Odwiedzających.<br \/>Do działania wymaga funkcjonalności <a href=\"https:\/\/matomo.org\/docs\/ecommerce-analytics\/\">Analityki Ecommerce<\/a>!",
+        "ScopePage": "zakres stron",
+        "ScopeVisit": "zakres wizyt",
+        "ScopeConversion": "zakres konwersji",
+        "ManageDescription": "Ten przegląd pokazuje wszystkie pola Zmiennych Niestandardowych i ich wykorzystanie w serwisie '%s'. Każdy przedział zawiera nazwy uporządkowane według częstości ich łącznego wykorzystanie.",
+        "ScopeX": "Zakres %s",
+        "Index": "Indeks",
+        "Usages": "Wykorzystanie",
+        "Unused": "Niewykorzystane",
+        "CreateNewSlot": "Zwiększ liczbę dostępnych pól Zmiennych Niestandardowych",
+        "UsageDetails": "%1$s wizyt i %2$s akcji od utworzenia tego serwisu.",
+        "CreatingCustomVariableTakesTime": "Utworzenie nowego pola Zmiennej Niestandardowej może zająć sporo czasu w zależności od wielkości Twojej bazy danych. Z tego powodu operacja ta możliwa jest jedynie z poziomu linii poleceń po wydaniu odpowiedniego polecenia.",
+        "CurrentAvailableCustomVariables": "Obecnie możesz wykorzystać do %s Zmiennych Niestandardowych per serwis.",
+        "ToCreateCustomVarExecute": "Aby utworzyć nowe pole Zmiennej Niestandardowej wykonaj następujące polecenie w ramach swojej instalacji Matomo:",
+        "SlotsReportIsGeneratedOverTime": "Dane dla tego raportu pojawią się po jakimś czasie. Dzień lub dwa może potrwać zanim zobaczysz jakiekolwiek dane a uzyskanie dokładnego raportu może potrwać nawet parę tygodni.",
+        "MetricsAreOnlyAvailableForVisitScope": "NOTKA: wskaźniki %1$s są dostępne jedynie dla Zmiennych Niestandardowych tylko w zakresie %2$s.",
+        "MetricsNotAvailableForPageScope": "Dla Zmiennych Niestandardowych z zakresu %1$s, kolumna wartość dla tych wskaźników to %2$s"
+    }
+}

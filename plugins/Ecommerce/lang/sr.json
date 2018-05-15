@@ -1,0 +1,13 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "Pomoću E-commerce možete da pratite kada posetilac dodaje proizvode u korpu i kada se obavi kupovina. Proizvode i kategorije proizvoda možete da pratite i u napuštenim korpama.",
+        "Sales": "Prodaja",
+        "SalesBy": "Prodaja po %s",
+        "SalesAdjective": "Prodaja %s",
+        "LifeTimeValue": "Ukupna vrednost elektronskih porudžbina",
+        "LifeTimeValueDescription": "Ukupan prihod od elektronskih porudžbina ovog korisnika kroz sve posete: suma prihoda svih porudžbina za identifikator posetioca %s.",
+        "VisitorProfileLTV": "Generisao je ukupan prihod od %1$s.",
+        "VisitorProfileItemsAndOrders": "Poručio je %1$s predmeta u %2$s elektronskih porudžbina.",
+        "VisitorProfileAbandonedCartSummary": "Otkazao je %1$s korpi sa ukupno %2$s predmeta u ukupnoj vrednosti od %3$s."
+    }
+}

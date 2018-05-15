@@ -25,7 +25,7 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 class ServerBased extends GeoIp
 {
     const ID = 'geoip_serverbased';
-    const TITLE = 'GeoIP (%s)';
+    const TITLE = 'GeoIP Legacy (%s)';
     const TEST_SERVER_VAR = 'GEOIP_ADDR';
     const TEST_SERVER_VAR_ALT = 'GEOIP_COUNTRY_CODE';
     const TEST_SERVER_VAR_ALT_IPV6 = 'GEOIP_COUNTRY_CODE_V6';
@@ -169,9 +169,9 @@ class ServerBased extends GeoIp
             return Piwik::translate('General_Note') . ':&nbsp;' . Piwik::translate('UserCountry_AssumingNonApache');
         }
 
-        $message = "<strong><em>" . Piwik::translate('General_Note') . ':&nbsp;'
+        $message = "<strong>" . Piwik::translate('General_Note') . ':&nbsp;'
             . Piwik::translate('UserCountry_FoundApacheModules')
-            . "</em></strong>:<br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
+            . "</strong>:<br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
         foreach (apache_get_modules() as $name) {
             $message .= "<li>$name</li>\n";
         }
@@ -218,17 +218,17 @@ class ServerBased extends GeoIp
         $title = sprintf(self::TITLE, $serverDesc);
         $desc = Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBased1', array('<strong>', '</strong>'))
             . '<br/><br/>'
-            . '<em>' . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBasedAnonWarn') . '</em>'
+             . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBasedAnonWarn')
             . '<br/><br/>'
             . Piwik::translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2',
-                array('<strong><em>', '</em></strong>', '<strong><em>', '</em></strong>'));
+                array('<strong>', '</strong>', '<strong>', '</strong>'));
         $installDocs =
-            '<em><a target="_blank" href="http://piwik.org/faq/how-to/#faq_165">'
+            '<a rel="noreferrer"  target="_blank" href="https://matomo.org/faq/how-to/#faq_165">'
             . Piwik::translate('UserCountry_HowToInstallApacheModule')
-            . '</a></em><br/><em>'
-            . '<a target="_blank" href="http://piwik.org/faq/how-to/#faq_166">'
+            . '</a><br/>'
+            . '<a rel="noreferrer"  target="_blank" href="https://matomo.org/faq/how-to/#faq_166">'
             . Piwik::translate('UserCountry_HowToInstallNginxModule')
-            . '</a></em>';
+            . '</a>';
 
         $geoipServerVars = array();
         foreach ($_SERVER as $key => $value) {
@@ -238,10 +238,10 @@ class ServerBased extends GeoIp
         }
 
         if (empty($geoipServerVars)) {
-            $extraMessage = '<strong><em>' . Piwik::translate('UserCountry_GeoIPNoServerVars', '$_SERVER') . '</em></strong>';
+            $extraMessage = '<strong>' . Piwik::translate('UserCountry_GeoIPNoServerVars', '$_SERVER') . '</strong>';
         } else {
-            $extraMessage = '<strong><em>' . Piwik::translate('UserCountry_GeoIPServerVarsFound', '$_SERVER')
-                . ":</em></strong><br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
+            $extraMessage = '<strong>' . Piwik::translate('UserCountry_GeoIPServerVarsFound', '$_SERVER')
+                . ":</strong><br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
             foreach ($geoipServerVars as $key) {
                 $extraMessage .= '<li>' . $key . "</li>\n";
             }
@@ -251,7 +251,7 @@ class ServerBased extends GeoIp
         return array('id'            => self::ID,
                      'title'         => $title,
                      'description'   => $desc,
-                     'order'         => 4,
+                     'order'         => 14,
                      'install_docs'  => $installDocs,
                      'extra_message' => $extraMessage);
     }

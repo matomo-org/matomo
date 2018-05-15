@@ -8,9 +8,9 @@
  */
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -22,23 +22,45 @@ class VisitorReturning extends VisitDimension
     const IS_NEW = 0;
 
     protected $columnName = 'visitor_returning';
-    protected $columnType = 'TINYINT(1) NOT NULL';
+    protected $columnType = 'TINYINT(1) NULL';
+    protected $segmentName = 'visitorType';
+    protected $nameSingular = 'General_VisitType';
+    protected $namePlural = 'General_VisitTypes';
     protected $conversionField = true;
+    protected $type = self::TYPE_ENUM;
 
-    protected function configureSegments()
+    public function __construct()
     {
-        $acceptedValues  = 'new, returning, returningCustomer. ';
-        $acceptedValues .= Piwik::translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"');
-
-        $segment = new Segment();
-        $segment->setSegment('visitorType');
-        $segment->setName('General_VisitType');
-        $segment->setAcceptedValues($acceptedValues);
-        $segment->setSqlFilterValue(function ($type) {
+        $this->acceptValues  = 'new, returning, returningCustomer. ';
+        $this->acceptValues .= Piwik::translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"');
+        $this->sqlFilterValue = function ($type) {
+            if (is_numeric($type)) {
+                return $type;
+            }
             return $type == "new" ? 0 : ($type == "returning" ? 1 : 2);
-        });
+        };
+    }
 
-        $this->addSegment($segment);
+    public function formatValue($value, $idSite, Formatter $formatter)
+    {
+        if ($value === 1 || $value === '1' || $value === 'returning') {
+            return Piwik::translate('CoreHome_VisitTypeReturning');
+        } elseif ($value === 2 || $value === '2' || $value === 'returningCustomer'){
+            return Piwik::translate('CoreHome_VisitTypeReturningCustomer');
+        } elseif ($value === 0 || $value === '0' || $value === 'new'){
+            return Piwik::translate('General_New');
+        }
+
+        return $value;
+    }
+
+    public function getEnumColumnValues()
+    {
+        return array(
+            self::IS_RETURNING_CUSTOMER => 'returningCustomer',
+            self::IS_RETURNING => 'returning',
+            self::IS_NEW => 'new',
+        );
     }
 
     /**
@@ -49,9 +71,6 @@ class VisitorReturning extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $visitCount = $request->getVisitCount();
-        $daysSinceLastVisit = $request->getDaysSinceLastVisit();
-
         $daysSinceLastOrder = $request->getDaysSinceLastOrder();
         $isReturningCustomer = ($daysSinceLastOrder !== false);
 
@@ -59,7 +78,11 @@ class VisitorReturning extends VisitDimension
             return self::IS_RETURNING_CUSTOMER;
         }
 
-        if ($visitCount > 1 || $visitor->isVisitorKnown() || $daysSinceLastVisit > 0) {
+        $visitCount = $request->getVisitCount();
+        $daysSinceFirstVisit = $request->getDaysSinceFirstVisit();
+        $daysSinceLastVisit = $request->getDaysSinceLastVisit();
+
+        if ($visitCount > 1 || $visitor->isVisitorKnown() || $daysSinceFirstVisit > 0 || $daysSinceLastVisit > 0) {
             return self::IS_RETURNING;
         }
 

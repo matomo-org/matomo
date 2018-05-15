@@ -18,12 +18,12 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph;
 class Bar extends JqplotGraph
 {
     const ID = 'graphVerticalBar';
-    const FOOTER_ICON       = 'plugins/Morpheus/images/chart_bar.png';
+    const FOOTER_ICON       = 'icon-chart-bar';
     const FOOTER_ICON_TITLE = 'General_VBarGraph';
-
-    public function beforeRender()
+    
+    public function beforeLoadDataTable()
     {
-        parent::beforeRender();
+        parent::beforeLoadDataTable();
 
         $this->config->datatable_js_type = 'JqplotBarGraphDataTable';
     }

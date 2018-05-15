@@ -1,0 +1,27 @@
+{
+    "Events": {
+        "AvgEventValue": "Average na value ng event ay: %s",
+        "AvgValue": "Average value",
+        "AvgValueDocumentation": "Ang average ng lahat ng mga values para sa event na ito.",
+        "Event": "Resulta",
+        "EventAction": "Event Action",
+        "EventActions": "Event Actions",
+        "EventCategories": "Mga kategorya ng Event",
+        "EventCategory": "Kategorya ng event",
+        "EventName": "Pangalan ng Event",
+        "EventNames": "Event Names",
+        "Events": "Mga Resulta",
+        "EventsWithValue": "Mga event na may value",
+        "EventsWithValueDocumentation": "Bilang ng pangyayari kung saan ang halaga ng Event ay itinakda",
+        "EventValueTooltip": "Ang total event value ay resulta ng %1$s events values %2$s sa pagitan ng minimum %3$s at maximum ng %4$s.",
+        "MaxValueDocumentation": "Ang maximum na halaga para sa kaganapang ito.",
+        "MinValueDocumentation": "Ang minimum na halaga para sa kaganapang ito.",
+        "SecondaryDimension": "Pangalawang dimensyon ay %s.",
+        "SwitchToSecondaryDimension": "Lumipat sa %s",
+        "TopEvents": "Mga nangungunang events",
+        "TotalEvents": "Total events",
+        "TotalEventsDocumentation": "Kabuuang bilang ng mga event",
+        "TotalValueDocumentation": "Ang kabuuan ng mga value ng event",
+        "ViewEvents": "View Events"
+    }
+}

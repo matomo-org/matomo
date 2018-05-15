@@ -1,0 +1,45 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'UsersManager_MenuAnonymousUserSettings'|translate }}{% endset %}
+
+{% block content %}
+{% if isSuperUser %}
+<div piwik-content-block content-title="{{ title|e('html_attr') }}">
+    {% if anonymousSites|length == 0 %}
+
+        <div class="alert alert-info">
+            {{ 'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2'|translate }}
+        </div>
+
+    {% else %}
+
+        <div piwik-form ng-controller="AnonymousSettingsController as anonymousSettings">
+
+            <div piwik-field uicontrol="radio" name="anonymousDefaultReport"
+                 ng-model="anonymousSettings.defaultReport"
+                 introduction="{{ 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess'|translate|e('html_attr') }}"
+                 value="{{ anonymousDefaultReport }}"
+                 options="{{ defaultReportOptions|json_encode }}">
+            </div>
+
+            <div piwik-field uicontrol="select" name="anonymousDefaultReportWebsite"
+                 ng-model="anonymousSettings.defaultReportWebsite"
+                 options="{{ anonymousSites|json_encode }}"
+                 value="{{ anonymousDefaultSite }}">
+            </div>
+
+            <div piwik-field uicontrol="radio" name="anonymousDefaultDate"
+                 ng-model="anonymousSettings.defaultDate"
+                 introduction="{{ 'UsersManager_ForAnonymousUsersReportDateToLoadByDefault'|translate|e('html_attr') }}"
+                 value="{{ anonymousDefaultDate }}"
+                 options="{{ availableDefaultDates|json_encode }}">
+            </div>
+
+            <div piwik-save-button saving="anonymousSettings.loading" onconfirm="anonymousSettings.save()"></div>
+
+        </div>
+
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

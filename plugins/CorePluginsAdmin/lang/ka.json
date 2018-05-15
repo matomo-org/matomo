@@ -1,0 +1,18 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "ჩართვა",
+        "Activated": "აქტივირება",
+        "Active": "აქტიური",
+        "AuthorHomepage": "ავტორის სათაო გვერდი",
+        "Deactivate": "გამორთვა",
+        "Inactive": "არააქტიური",
+        "LicenseHomepage": "ლიცენზირების სათაო გვერდი",
+        "PluginsExtendPiwik": "პლაგინები აფართოვებენ და ამრავალფეროვნებენ Matomo–ის ფუნქციებს.",
+        "OncePluginIsInstalledYouMayActivateHere": "აქედან შესაძლებელია ერთხელ დაინსტალირებული პლაგინის ჩართვა და გამორთვა.",
+        "PluginHomepage": "პლაგინის სათაო გვერდი",
+        "PluginsManagement": "პლაგინების მენეჯმენტი",
+        "Status": "სტატუსი",
+        "Version": "ვერსია",
+        "Websites": "ვებ საიტები"
+    }
+}

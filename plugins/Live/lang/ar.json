@@ -1,0 +1,12 @@
+{
+    "Live": {
+        "GoalType": "النوع",
+        "KeywordRankedOnSearchResultForThisVisitor": "الكلمة الدلالية %1$s كان ترتيبها %2$s في %3$s في صفحة نتائج البحث لهذا الزائر.",
+        "LastHours": "آخر %s ساعة",
+        "LastMinutes": "آخر %s دقيقة",
+        "LinkVisitorLog": "مشاهدة سجل تفصيلي للزائر",
+        "Referrer_URL": "جاء من",
+        "VisitorLog": "سجل الزائر",
+        "VisitorsInRealTime": "الزوار في الوقت الحقيقي"
+    }
+}

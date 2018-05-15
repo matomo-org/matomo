@@ -1,0 +1,21 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "و%s سایر",
+        "Cities": "شهرها",
+        "Countries": "کشورها",
+        "DaysAgo": "%s روز پیش",
+        "GoalConversions": "%s تبدیل هدف",
+        "HoursAgo": "%s ساعت پیش",
+        "map": "نقشه",
+        "MinutesAgo": "%s دقیقه پیش",
+        "None": "هیچ",
+        "NoVisit": "بدون بازدید",
+        "RealTimeMap": "نقشه در همین لحظه",
+        "Regions": "منطقه ها",
+        "Searches": "%sجستجو",
+        "SecondsAgo": "%s ثانیه پیش",
+        "ShowingVisits": "مکان اخرین بازدید کنندگان",
+        "VisitorMap": "نقشه بازدیدکننده",
+        "WorldWide": "سراسر جهان"
+    }
+}

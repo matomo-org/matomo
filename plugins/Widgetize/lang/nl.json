@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "In een nieuw venster openen",
+        "PluginDescription": "Toon elk Matomo rapport in je website of app eenvoudig met een Embed HTML tag.",
+        "TopLinkTooltip": "Export Matomo Rapporten als Widgets en voeg het dashboard toe in je app als een iframe."
+    }
+}

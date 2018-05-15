@@ -95,7 +95,8 @@ class Sms extends ReportRenderer
                  $evolutionMetrics,
                  function ($value) use ($floatRegex) {
                      $matched = preg_match($floatRegex, $value, $matches);
-                     return $matched ? sprintf("%+d", $matches[0]) : $value;
+                     $formatted = $matched ? sprintf("%+d", $matches[0]) : $value;
+                     return \Piwik\NumberFormatter::getInstance()->formatPercentEvolution($formatted);
                  }
             )
         );

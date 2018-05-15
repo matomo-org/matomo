@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s consultas executadas",
+        "GenerateTime": "%s segundos para gerar a página",
+        "NbActionsDescription": "%s acções (páginas vistas, transferências e links de saída)",
+        "VisitsSummary": "Resumo das Visitas",
+        "VisitsSummaryDocumentation": "Isto é uma visualização global da evolução das visitas.",
+        "WidgetLastVisits": "Gráfico das últimas visitas",
+        "WidgetOverviewGraph": "Visão geral com gráfico",
+        "WidgetVisits": "Visão geral das visitas"
+    }
+}

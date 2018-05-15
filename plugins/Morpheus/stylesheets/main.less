@@ -1,0 +1,599 @@
+@import "theme";
+@import "theme-advanced";
+@import "base/mixins";
+@import "general/_typography";
+@import "general/_forms";
+@import "general/_admin";
+@import "ui/_components";
+@import "ui/_popups";
+@import "ui/_tooltip";
+@import "ui/_charts";
+@import "ui/_map";
+
+body {
+    background: @theme-color-background-base;
+    font-family: @theme-fontFamily-base;
+    color: @theme-color-text;
+}
+
+button, input, optgroup, select, textarea {
+  color: @theme-color-text;
+}
+
+h2 {
+    font-weight: normal;
+    font-size: 24px;
+    width: 100%;
+    padding: 16px 0 16px 0;
+    margin: 0;
+    .inlineHelp {
+      a, a:hover {
+        text-decoration: underline;
+        color: @theme-color-text;
+      }
+    }
+}
+h3 {
+    color: @theme-color-headline-alternative;
+    .font-default(18px, 24px);
+    font-weight: normal;
+    margin: 32px 0 16px 0;
+}
+
+.pageWrap a:hover {
+    text-decoration:underline;
+}
+
+p {
+  color: @theme-color-text;
+}
+
+#content p {
+    margin-left: 0;
+    margin-right: 0;
+    .font-default(13px, 18px);
+}
+
+.piwik-content-intro {
+  button, input, optgroup, select, textarea {
+    color: @theme-color-headline-alternative;
+  }
+  color: @theme-color-headline-alternative;
+  h1, h2, h3, h4 {
+    color: @theme-color-headline-alternative;
+  }
+  p {
+    color: @theme-color-headline-alternative;
+  }
+}
+
+#content .card-content {
+  p {
+    color: @theme-color-text;
+  }
+}
+
+#leftcolumn {
+    width: 49%;
+    margin-right: 1%;
+}
+
+#rightcolumn {
+    float: left;
+    width: 50%;
+}
+
+#root {
+    margin: 0 0 100px 0;
+    padding: 0;
+    .widgetize {
+        width: auto;
+    }
+
+}
+
+.dashboardSettings {
+  border: 1px solid @theme-color-background-lowContrast;
+  background: @theme-color-background-base;
+  z-index: 10;
+  .border-radius(0px);
+  > span {
+    position: relative;
+    background: none;
+    text-transform: uppercase;
+    &:after {
+      content: '';
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid @color-silver-l20;
+      position: absolute;
+      top: 3px;
+      right: 7px;
+    }
+  }
+
+  ul.submenu {
+    margin-left: 0;
+    padding-right: 0;
+    li {
+      list-style-type: none;
+      > div {
+        .font-default(11px, 14px);
+        color: @theme-color-text;
+      }
+      text-transform: none;
+      color: @color-silver-l20;
+      &.widgetpreview-choosen {
+        color: @theme-color-text;
+        font-weight: normal;
+        background: @color-silver-l95;
+        position: relative;
+        &:after {
+          position: absolute;
+          content: '';
+          top: 6px;
+          right: 10px;
+          border-top: 4px solid transparent;
+          border-bottom: 4px solid transparent;
+          border-left: 5px solid @theme-color-brand;
+        }
+      }
+    }
+  }
+}
+
+.segmentEditorPanel {
+  border: 1px solid @theme-color-background-lowContrast;
+  background: @theme-color-background-base;
+  .border-radius(0px);
+  .dropdown-body {
+    background:@theme-color-background-contrast;
+    padding: 8px 19px 0;
+    .border-radius(0px);
+    border-top-width: 0px;
+  }
+  &:hover .dropdown-body {
+    background:@theme-color-background-contrast;
+  }
+  .segmentationContainer {
+    > span > strong {
+      color: @theme-color-brand;
+    }
+    .submenu {
+      li {
+        font-weight: normal;
+        .font-default(12px, 14px) !important;
+        color: @color-silver-l30;
+      }
+
+      ul li:hover  {
+        color: @theme-color-text;
+      }
+
+    }
+  }
+
+  .segmentListContainer {
+    .segmentationContainer {
+      .submenu {
+          li {
+            .font-default(13px, 16px);
+            color: @theme-color-text-light;
+          }
+      }
+    }
+  }
+}
+
+.segmentEditorPanel:hover,
+.dashboardSettings:hover {
+  background: @theme-color-background-base;
+  border: 1px solid @theme-color-background-lowContrast;
+}
+
+/* Iframed Embed dashboard style */
+#standalone {
+
+  #Dashboard {
+    position: relative;
+
+    &:hover ul {
+      background-color: @theme-color-background-base;
+    }
+    ul {
+      padding: 0 19px;
+      color: @theme-color-text-light;
+      min-height: 33px;
+      line-height:0.5em;
+      .border-radius(0px);
+      border: 0;
+      background-color: @theme-color-background-base;
+    }
+    > ul > li {
+      white-space: nowrap;
+      margin-right: 0;
+      a {
+        font-family: @theme-fontFamily-base;
+        line-height: 12px;
+        display: inline-block;
+        width: 100%;
+        padding: 11px 19px 10px 0;
+        white-space: nowrap;
+        cursor: pointer;
+        text-transform: uppercase;
+      }
+      &.active {
+        a {
+          color: @theme-color-menu-contrast-textActive;
+        }
+      }
+    }
+    > ul > li:hover,
+    > ul > li:hover a {
+      color: @theme-color-brand;
+    }
+  }
+}
+
+.rss-title {
+    color: @theme-color-link !important;
+    font-weight: normal;
+    .font-default(15px, 18px);
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    margin-top: 14px;
+}
+
+.rss li:first-child .rss-title {
+  margin-top: 0;
+}
+
+.rss-date {
+    display: block;
+    color: @color-silver-l60;
+    .font-default(13px, 26px);
+}
+
+.rss-description {
+    p {
+        margin: 0;
+        color: @theme-color-text-lighter;
+        .font-default(13px, 18px);
+    }
+}
+
+table.dataTable {
+    thead {
+        tr {
+            th {
+                background: @theme-color-background-contrast;
+                text-transform: uppercase;
+                color: @theme-color-text;
+                .font-default(11px, 12px);
+                padding-top: 16px;
+                padding-bottom: 16px;
+                vertical-align: middle;
+
+                &:not(.first) {
+                  text-align: right;
+                  padding-left: 28px;
+                  padding-right: 12px;
+                }
+
+                &.first + th {
+                  // first column after label should have a bit less padding
+                  padding-left: 13px;
+                }
+
+                #thDIV {
+                 display: inline;
+                  position: relative;
+                }
+
+                &.columnSorted {
+                  .sortIcon {
+                    display: inline-block;
+                    position: absolute;
+                    margin: 0px;
+                    height: 12px;
+                    margin-top: -1px;
+                    margin-left: -14px;
+
+                    &.asc {
+                      margin-top: -7px;
+                    }
+
+                  }
+
+                  &.first {
+                    .sortIcon {
+                      margin-top: -1px;
+                      margin-left: 4px;
+                      &.asc {
+                        margin-top: -6px;
+                      }
+                    }
+                  }
+
+                  .sortIcon.asc:after {
+                    content: " \25B2";
+                    border-bottom: 5px solid @theme-color-brand;
+                    border-top: 0px;
+                  }
+
+                  .sortIcon:after {
+                    content: " \25BC";
+                    font-size: 1px;
+                    color: @theme-color-brand;
+                    border-left: 4px solid rgba(0, 0, 0, 0);
+                    border-right: 4px solid rgba(0, 0, 0, 0);
+                    border-top: 5px solid @theme-color-brand;
+                  }
+
+                }
+            }
+        }
+    }
+    tr {
+
+        td {
+            border-bottom: 1px solid @color-silver-l95 !important;
+            border-color: @color-silver-l95 !important;
+            color: @theme-color-text;
+            background: @theme-color-background-contrast;
+
+            &:not(.value) {
+              .font-default(13px, 16px);
+            }
+
+            .label {
+              line-height: normal;
+            }
+
+            .value {
+              .font-default(13px, 16px);
+            }
+
+            &:first-child {
+                border-left: 0px;
+            }
+
+            &.label + td.column {
+              // first column after label should have a bit less padding
+              padding-left: 10px;
+            }
+
+            &.label .label {
+              text-align: left;
+            }
+
+            &.column:not(.label) {
+              padding-left: 28px;
+              padding-right: 12px;
+              text-align: right;
+            }
+
+            a {
+                text-decoration: none !important;
+                color: @theme-color-link;
+                width: inherit;
+
+              &.withIcon {
+                  color: @theme-color-text;
+              }
+            }
+
+            div.label,
+            a.label,
+            span.label {
+              word-break: break-all;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              width: inherit;
+              display: inline-block;
+              vertical-align: sub;
+            }
+        }
+
+      &:hover {
+        td:not(.cellSubDataTable) {
+          background-color: @color-silver-l95;
+        }
+
+        // for third level tables
+        td.cellSubDataTable {
+          table {
+            table {
+            tr td {
+              background: @theme-color-background-contrast !important;
+            }
+            tr:hover td {
+              background: @theme-color-background-contrast !important;
+
+              &:not(.cellSubDataTable) {
+                background-color: @color-silver-l95 !important;
+              }
+            }
+            }
+          }
+        }
+
+        .cellSubDataTable td {
+          background: @theme-color-background-contrast;
+        }
+        .cellSubDataTable tr:hover td:not(.cellSubDataTable) {
+          background-color: @theme-color-background-base;
+        }
+      }
+    }
+}
+
+div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns, div.dataTableVizGoals {
+  tr.subDataTable > td:first-child:before {
+    display: inline-block;
+    float: left;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    margin-left:-1px;
+    margin-top:3px;
+    margin-right:8px;
+    content: '';
+  }
+
+  tr.subDataTable:not(.expanded) > td:first-child:before {
+    background-image: url(plugins/Morpheus/images/plus.png);
+  }
+
+  tr.subDataTable.expanded > td:first-child:before {
+    background-image: url(plugins/Morpheus/images/minus.png);
+  }
+}
+
+.visitsLiveFooter {
+    padding-left: 10px;
+    a.rightLink {
+        .font-default(13px, 16px);
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding-right: 10px;
+    }
+}
+
+.UserCountryMap-btn-zoom {
+  padding-left: 0;
+}
+
+div.sparkline {
+    display: -ms-flexbox;
+    -ms-box-orient: horizontal;
+    -ms-box-pack: center;
+
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: flex;
+   
+    -webkit-justify-content: space-around;
+    -moz-justify-content: space-around;
+    -ms-justify-content: space-around;
+    justify-content: space-around;
+
+    border-bottom: 0;
+    margin-bottom: 10px;
+    &.linked {
+        border-bottom: 1px solid transparent;
+        &:hover {
+            cursor: pointer;
+            border-bottom: 1px dashed #c3c3c3;
+        }
+    }
+}
+
+div.sparkline img {
+    -webkit-flex-shrink: 0;
+    -moz-flex-shrink: 0;
+    -ms-flex-shrink: 0;
+    flex-shrink: 0;
+}
+
+div.sparkline script+div {
+    -ms-flex: 1 1 auto; // for getting flex to work on IE10's buggy implementation
+
+    margin: 1px 0 0 1px;
+}
+
+
+.widgetpreview-base li.widgetpreview-choosen {
+    background: @color-silver-l95;
+    position: relative;
+    color: @theme-color-text;
+    font-weight: normal;
+    text-transform: none;
+    &:after {
+        position: absolute;
+        content: '';
+        top: 6px;
+        right: 10px;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        border-left: 5px solid @theme-color-brand;
+    }
+}
+
+.dataTableNext, .dataTablePrevious {
+    color: @theme-color-link;
+    .font-default(13px, 14px);
+}
+
+.UserCountryMap-info-btn {
+    z-index: 1;
+}
+
+.annotationView {
+    .font-default(10px, 12px);
+    text-transform: uppercase;
+    color: @theme-color-text;
+}
+
+.datatableHeaderMessage, .datatableFooterMessage {
+    .font-default(13px, 18px);
+    color: @color-silver;
+    font-weight: normal;
+}
+.multisites_asc,
+.multisites_desc {
+    background-repeat: no-repeat;
+    height: 6px;
+}
+
+#visitsLive .datetime {
+    background: @color-silver-l95;
+    border-top: 0;
+}
+
+.metricValueBlock input {
+    padding: 5px !important;
+}
+
+#piwik-promo-share {
+    border: 0px;
+    background: @theme-color-background-tinyContrast;
+    .font-default(10px, 16px);
+}
+
+tr:hover #token_auth {
+  background: #FFFFF7;
+}
+
+#header_message .dropdown a,
+#header_message #updateCheckLinkContainer:hover {
+    text-decoration: underline;
+}
+
+#header_message #updateCheckLinkContainer:hover {
+    cursor: pointer;
+}
+
+#multisites table.dataTable {
+    tfoot tr:hover td {
+        background: @theme-color-background-contrast;
+    }
+}
+
+/** Materialize color overwrites */
+.dropdown-content li>a, .dropdown-content li>span {
+  color: @theme-color-link !important;
+}
+
+.dropdown-content li:hover, .dropdown-content li.active, .dropdown-content li.selected {
+  background-color: @theme-color-background-tinyContrast;
+}
+
+#root .side-nav .collapsible-body li a {
+  padding-top: 20px;
+  line-height: 20px;
+  height: auto;
+  padding-bottom: 20px;
+}

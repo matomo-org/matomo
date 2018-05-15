@@ -194,7 +194,7 @@ abstract class GridGraph extends StaticGraph
 
             // $legendTopLeftYValue = y coordinate of the top edge of the legend's icons
             // Caution :
-            //  - pChart will silently add some value (see $paddingAddedByPChart) to $legendTopLeftYValue depending on multiple criterias
+            //  - pChart will silently add some value (see $paddingAddedByPChart) to $legendTopLeftYValue depending on multiple criteria
             //  - pChart will not take into account the size of the text. Setting $legendTopLeftYValue = 0 will crop the legend's labels
             // The following section of code determines the value of $legendTopLeftYValue while taking into account the following paremeters :
             //  - whether legend items have icons
@@ -419,11 +419,11 @@ abstract class GridGraph extends StaticGraph
     // see https://github.com/piwik/piwik/issues/3396
 //	protected function displayMinMaxValues()
 //	{
-//		if($displayMinMax)
+//		if ($displayMinMax)
 //		{
 //			// when plotting multiple metrics, display min & max on both series
 //			// to fix: in vertical bars, labels are hidden when multiple metrics are plotted, hence the restriction on count($this->ordinateSeries) == 1
-//			if($this->multipleMetrics && count($this->ordinateSeries) == 1)
+//			if ($this->multipleMetrics && count($this->ordinateSeries) == 1)
 //			{
 //				$colorIndex = 1;
 //				foreach($this->ordinateSeries as $column => $data)
@@ -467,13 +467,13 @@ abstract class GridGraph extends StaticGraph
 //		$maxValueIndex = 0;
 //		foreach($data as $index => $value)
 //		{
-//			if($value > $maxValue)
+//			if ($value > $maxValue)
 //			{
 //				$maxValue = $value;
 //				$maxValueIndex = $index;
 //			}
 //
-//			if($value < $minValue)
+//			if ($value < $minValue)
 //			{
 //				$minValue = $value;
 //				$minValueIndex = $index;

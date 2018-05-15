@@ -10,31 +10,32 @@ namespace Piwik\Plugins\DevicesDetection\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\DevicesDetection\Columns\Browserversion;
+use Piwik\Plugins\DevicesDetection\Columns\BrowserVersion;
+use Piwik\Plugin\ReportsProvider;
 
 class GetBrowserVersions extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Browserversion();
-        $this->name          = Piwik::translate('DevicesDetection_BrowserVersions');
+        $this->dimension     = new BrowserVersion();
+        $this->name          = Piwik::translate('DevicesDetection_BrowserVersion');
         $this->documentation = ''; // TODO
         $this->order = 6;
-        $this->widgetTitle  = 'DevicesDetection_BrowserVersions';
+        $this->subcategoryId = 'DevicesDetection_Software';
     }
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->show_search = false;
+        $view->config->show_search = true;
         $view->config->show_exclude_low_population = false;
-        $view->config->addTranslation('label', Piwik::translate("UserSettings_ColumnBrowserVersion"));
+        $view->config->addTranslation('label', $this->dimension->getName());
     }
 
     public function getRelatedReports()
     {
         return array(
-            new GetBrowserFamilies()
+            ReportsProvider::factory('DevicesDetection', 'getBrowsers'),
         );
     }
 }

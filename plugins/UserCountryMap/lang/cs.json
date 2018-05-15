@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "Tento modul poskytuje widgety Mapa návštěvníků a Real-time Mapa. Poznámka: Vyžaduje povolený UserCountry plugin.",
+        "AndNOthers": "a %s dalších",
+        "Cities": "Města",
+        "Countries": "Země",
+        "DaysAgo": "před %s dny",
+        "GoalConversions": "%s konverzí cíle",
+        "HoursAgo": "před %s hodinami",
+        "map": "mapa",
+        "MinutesAgo": "před %s minutami",
+        "None": "Žádní",
+        "NoVisit": "Žádná návštěva",
+        "RealTimeMap": "Mapa v reálném čase",
+        "Regions": "Regiony",
+        "Searches": "%s vyhledávání",
+        "SecondsAgo": "před %s sekundami",
+        "ShowingVisits": "Geolokované návštěvy posledních",
+        "Unlocated": "<b>%s<\/b> %p z návštěv z %c nebylo možné geolokovat.",
+        "VisitorMap": "Mapa návštěvníků",
+        "WorldWide": "Celosvětová",
+        "WithUnknownRegion": "%s s neznámým regionem",
+        "WithUnknownCity": "%s s neznámým městem"
+    }
+}

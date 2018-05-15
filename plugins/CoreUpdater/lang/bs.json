@@ -1,0 +1,7 @@
+{
+    "CoreUpdater": {
+        "DownloadX": "Preuzmi %s",
+        "ExceptionArchiveEmpty": "Prazna arhiva",
+        "ExceptionArchiveIncompatible": "Nekompatibilna arhiva: %s"
+    }
+}

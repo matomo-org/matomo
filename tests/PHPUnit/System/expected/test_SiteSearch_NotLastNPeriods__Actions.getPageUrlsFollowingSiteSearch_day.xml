@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>/index.htm</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>36</sum_time_spent>
+		<nb_hits_following_search>1</nb_hits_following_search>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>36</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<url>http://example.org/index.htm</url>
+	</row>
+	<row>
+		<label>/index.htm?random=PAGEVIEW, NOT SEARCH&amp;mykwd=&amp;IS_FOLLOWING_SEARCH ONCE</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>2</nb_hits>
+		<sum_time_spent>216</sum_time_spent>
+		<nb_hits_following_search>1</nb_hits_following_search>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>108</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<url>http://example.org/index.htm?random=PAGEVIEW, NOT SEARCH&amp;mykwd=&amp;IS_FOLLOWING_SEARCH ONCE</url>
+	</row>
+</result>

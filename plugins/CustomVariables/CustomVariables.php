@@ -8,27 +8,23 @@
  */
 namespace Piwik\Plugins\CustomVariables;
 
-use Piwik\ArchiveProcessor;
-use Piwik\Piwik;
 use Piwik\Tracker\Cache;
-use Piwik\Tracker;
 
 class CustomVariables extends \Piwik\Plugin
 {
-    public function getInformation()
-    {
-        $info = parent::getInformation();
-        $info['description'] .= ' <br/>Required to use <a href="http://piwik.org/docs/ecommerce-analytics/">Ecommerce Analytics</a> feature!';
-        return $info;
-    }
+    const MAX_NUM_CUSTOMVARS_CACHEKEY = 'CustomVariables.MaxNumCustomVariables';
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see \Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
-            'API.getSegmentDimensionMetadata' => 'getSegmentsMetadata'
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
+            'Dimension.addDimensions' => 'addDimensions',
+            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
         );
     }
 
@@ -42,6 +38,24 @@ class CustomVariables extends \Piwik\Plugin
         Model::uninstall();
     }
 
+    public function addDimensions(&$instances)
+    {
+        foreach (Model::getScopes() as $scope) {
+            $model = new Model($scope);
+            try {
+                $highestIndex = $model->getHighestCustomVarIndex();
+            } catch (\Exception $e) {
+                continue; // ignore error for tests to work as this might be executed before Piwik tables are installed
+            }
+
+            foreach (range(1, $highestIndex) as $index) {
+                $custom = new CustomDimension();
+                $custom->initCustomDimension($index, $model);
+                $instances[] = $custom;
+            }
+        }
+    }
+
     /**
      * There are also some hardcoded places in JavaScript
      * @return int
@@ -51,69 +65,85 @@ class CustomVariables extends \Piwik\Plugin
         return 200;
     }
 
-    public static function getMaxCustomVariables()
+    /**
+     * Returns the number of available custom variables that can be used.
+     *
+     * "Can be used" is identifed by the minimum number of available custom variables across all relevant tables. Eg
+     * if there are 6 custom variables installed in log_visit but only 5 in log_conversion, we consider only 5 custom
+     * variables as usable.
+     * @return int
+     */
+    public static function getNumUsableCustomVariables()
     {
         $cache    = Cache::getCacheGeneral();
-        $cacheKey = 'CustomVariables.MaxNumCustomVariables';
+        $cacheKey = self::MAX_NUM_CUSTOMVARS_CACHEKEY;
 
         if (!array_key_exists($cacheKey, $cache)) {
 
-            $maxCustomVar = 0;
+            $minCustomVar = null;
 
             foreach (Model::getScopes() as $scope) {
                 $model = new Model($scope);
                 $highestIndex = $model->getHighestCustomVarIndex();
 
-                if ($highestIndex > $maxCustomVar) {
-                    $maxCustomVar = $highestIndex;
+                if (!isset($minCustomVar)) {
+                    $minCustomVar = $highestIndex;
+                }
+
+                if ($highestIndex < $minCustomVar) {
+                    $minCustomVar = $highestIndex;
                 }
             }
 
-            $cache[$cacheKey] = $maxCustomVar;
+            if (!isset($minCustomVar)) {
+                $minCustomVar = 0;
+            }
+
+            $cache[$cacheKey] = $minCustomVar;
             Cache::setCacheGeneral($cache);
         }
 
         return $cache[$cacheKey];
     }
 
-    public function getSegmentsMetadata(&$segments)
+    public function getClientSideTranslationKeys(&$translationKeys)
     {
-        $maxCustomVariables = self::getMaxCustomVariables();
-
-        for ($i = 1; $i <= $maxCustomVariables; $i++) {
-            $segments[] = array(
-                'type'       => 'dimension',
-                'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableName') . ' ' . $i
-                    . ' (' . Piwik::translate('CustomVariables_ScopeVisit') . ')',
-                'segment'    => 'customVariableName' . $i,
-                'sqlSegment' => 'log_visit.custom_var_k' . $i,
-            );
-            $segments[] = array(
-                'type'       => 'dimension',
-                'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableValue') . ' ' . $i
-                    . ' (' . Piwik::translate('CustomVariables_ScopeVisit') . ')',
-                'segment'    => 'customVariableValue' . $i,
-                'sqlSegment' => 'log_visit.custom_var_v' . $i,
-            );
-            $segments[] = array(
-                'type'       => 'dimension',
-                'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableName') . ' ' . $i
-                    . ' (' . Piwik::translate('CustomVariables_ScopePage') . ')',
-                'segment'    => 'customVariablePageName' . $i,
-                'sqlSegment' => 'log_link_visit_action.custom_var_k' . $i,
-            );
-            $segments[] = array(
-                'type'       => 'dimension',
-                'category'   => 'CustomVariables_CustomVariables',
-                'name'       => Piwik::translate('CustomVariables_ColumnCustomVariableValue') . ' ' . $i
-                    . ' (' . Piwik::translate('CustomVariables_ScopePage') . ')',
-                'segment'    => 'customVariablePageValue' . $i,
-                'sqlSegment' => 'log_link_visit_action.custom_var_v' . $i,
-            );
-        }
+        $translationKeys[] = 'CustomVariables_CustomVariables';
+        $translationKeys[] = 'CustomVariables_ManageDescription';
+        $translationKeys[] = 'CustomVariables_ScopeX';
+        $translationKeys[] = 'CustomVariables_Index';
+        $translationKeys[] = 'CustomVariables_Usages';
+        $translationKeys[] = 'CustomVariables_Unused';
+        $translationKeys[] = 'CustomVariables_CreateNewSlot';
+        $translationKeys[] = 'CustomVariables_UsageDetails';
+        $translationKeys[] = 'CustomVariables_CurrentAvailableCustomVariables';
+        $translationKeys[] = 'CustomVariables_ToCreateCustomVarExecute';
+        $translationKeys[] = 'CustomVariables_CreatingCustomVariableTakesTime';
+        $translationKeys[] = 'CustomVariables_SlotsReportIsGeneratedOverTime';
+        $translationKeys[] = 'General_Loading';
+        $translationKeys[] = 'General_TrackingScopeVisit';
+        $translationKeys[] = 'General_TrackingScopePage';
     }
 
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.directive.less";
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.model.js";
+        $jsFiles[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.controller.js";
+        $jsFiles[] = "plugins/CustomVariables/angularjs/manage-custom-vars/manage-custom-vars.directive.js";
+    }
+
+    public function provideActionDimensionFields(&$fields, &$joins)
+    {
+        $maxCustomVariables = CustomVariables::getNumUsableCustomVariables();
+
+        for ($i = 1; $i <= $maxCustomVariables; $i++) {
+            $fields[] = 'custom_var_k' . $i;
+            $fields[] = 'custom_var_v' . $i;
+        }
+    }
 }

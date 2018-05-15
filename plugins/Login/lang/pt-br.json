@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Um link de confirmação foi enviado para a sua caixa de entrada. Verifique seu e-mail e acesse o link para autorizar seu pedido de alteração de senha.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Um usuário com acesso de Super Usuário não pode ser autenticado usando o mecanismo '%s'.",
+        "ExceptionPasswordMD5HashExpected": "É esperado que o parâmetro da senha seja um hash MD5 da senha.",
+        "InvalidNonceOrHeadersOrReferrer": "O formulário de segurança falhou. Por favor, recarregue o formulário e verifique se seus cookies estão habilitados. Se você usa um servidor proxy, você deve configurar %1$s Matomo para aceitar proxy header%2$s que encaminhe para o Host header. Além disso, verifique se o header do Referenciador esta sendo enviada corretamente.",
+        "InvalidNonceSSLMisconfigured": "Além disso, você pode %1$s forçar o Matomo a usar uma conexão segura%2$s: em seu arquivo de configuração %3$s configure %4$s abaixo da secção %5$s",
+        "InvalidOrExpiredToken": "Token inválido ou expirado",
+        "InvalidUsernameEmail": "Nome de usuário ou e-mail inválido",
+        "LogIn": "Entrar",
+        "LoginPasswordNotCorrect": "Combinação errada de Nome de Usuário e senha.",
+        "LostYourPassword": "Esqueceu a sua senha?",
+        "ChangeYourPassword": "Trocar sua senha",
+        "MailTopicPasswordChange": "Confirme Alteração de Senha",
+        "NewPassword": "Nova senha",
+        "NewPasswordRepeat": "Nova senha (repetir)",
+        "PasswordChanged": "Sua senha foi alterada.",
+        "PasswordRepeat": "Senha (repetir)",
+        "PasswordsDoNotMatch": "Senhas não conferem.",
+        "PluginDescription": "Fornece autenticação através do nome de usuário e senha, bem como a funcionalidade de redefinição de senha. O método de autenticação pode ser alterado utilizando outro plug-in, como, por exemplo, o LoginLdap disponível no Mercado.",
+        "RememberMe": "Lembrar-me"
+    }
+}

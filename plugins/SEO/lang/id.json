@@ -1,0 +1,11 @@
+{
+    "SEO": {
+        "AlexaRank": "Peringkat Alexa",
+        "Bing_IndexedPages": "Halaman terindeks Bing",
+        "DomainAge": "Umut Ranah",
+        "Google_IndexedPages": "Halaman terindeks Google",
+        "Rank": "Peringkat",
+        "SeoRankings": "Peringkat SEO",
+        "SEORankingsFor": "Peringkat SEO untuk %s"
+    }
+}

@@ -9,7 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Adds one site with two goals and tracks two visits with custom variables.
@@ -80,7 +80,7 @@ class TwoVisitsWithCustomVariables extends Fixture
         // At first, visitor custom var is set to LoggedOut
         $visitorA->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1)->getDatetime());
         $visitorA->setUrl('http://example.org/homepage');
-        $visitorA->setCustomVariable($id = 1, $name = 'VisitorType', $value = 'LoggedOut');
+        $visitorA->setCustomVariable($id = 2, $name = 'VisitorType', $value = 'LoggedOut');
         self::checkResponse($visitorA->doTrackPageView('Homepage'));
         self::checkResponse($visitorA->doTrackGoal($idGoal2));
 

@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "tiempo medio de generación",
+        "AverageVisitDuration": "duración media de la visita",
+        "GenerateQueries": "%s consultas ejecutadas",
+        "GenerateTime": "%s segundos para generar la página",
+        "MaxNbActions": "cantidad máxima de acciones en una visita",
+        "NbActionsDescription": "%s acciones",
+        "NbActionsPerVisit": "acciones del visitante (vistas de páginas, descargas, enlaces salientes y búsquedas internas dentro del sitio)",
+        "NbDownloadsDescription": "descargas",
+        "NbKeywordsDescription": "palabras claves únicas",
+        "NbOutlinksDescription": "enlaces de salida",
+        "NbPageviewsDescription": "páginas vistas",
+        "NbSearchesDescription": "búsquedas totales en su sitio web",
+        "NbUniqueDownloadsDescription": "descargas únicas",
+        "NbUniqueOutlinksDescription": "enlaces de salida únicos",
+        "NbUniquePageviewsDescription": "páginas vistas únicas",
+        "NbUniqueVisitors": "visitantes únicos",
+        "NbUsersDescription": "usuarios",
+        "NbVisitsDescription": "visitas",
+        "NbVisitsBounced": "visitas que han rebotado (salieron del sitio después de haber visto una sola página)",
+        "PluginDescription": "Informes generales de análisis de la métricas: visitas, visitantes únicos, número de acciones, tasa de rebote, etc.",
+        "VisitsSummary": "Resumen de visitas",
+        "VisitsSummaryDocumentation": "Esta es una visión holística de la evolución de las visitas.",
+        "WidgetLastVisits": "Gráfica de las últimas visitas",
+        "WidgetOverviewGraph": "Visitas generales (con gráficas)",
+        "WidgetVisits": "Visión general de visitas"
+    }
+}

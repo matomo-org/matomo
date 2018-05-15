@@ -1,0 +1,12 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Konfiguration",
+        "ColumnResolution": "Skärmupplösning",
+        "Configurations": "Konfiguration",
+        "PluginDescription": "Rapporterar dina besökares skärmupplösning.",
+        "Resolutions": "Skärmupplösning",
+        "WidgetGlobalVisitors": "Global besökarkonfiguration",
+        "WidgetGlobalVisitorsDocumentation": "Denna rapport visar de vanligaste övergripande konfigurationer som besökarna hade. En konfiguration är en kombination av ett operativsystem, en webbläsare och en skärmupplösning.",
+        "WidgetResolutions": "Skärmupplösning"
+    }
+}

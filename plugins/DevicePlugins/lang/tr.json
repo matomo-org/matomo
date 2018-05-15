@@ -1,0 +1,10 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s için bir eklenti yüklenmemiş",
+        "BrowserWithPluginsEnabled": "%1$s için %2$s eklenti yüklenmiş",
+        "PluginDescription": "Ziyaretçilerin web tarayıcıları tarafından desteklenen eklentilerin listesini görüntüler.",
+        "PluginDetectionDoesNotWorkInIE": "Not: Eklenti algılaması Internet Explorer 11 öncesindeki sürümleri desteklemez. Bu raporda yalnız IE dışındaki tarayıcılar ve yeni IE tarayıcıları için veriler bulunur.",
+        "WidgetPlugins": "Tarayıcı Eklentileri",
+        "WidgetPluginsDocumentation": "Bu raporda ziyaretçilerinizin web tarayıcılarında hangi eklentilerin etkin olduğu görüntülenir. Bu bilgiler içeriğinizi doğru şekilde sunmanız için önemli olabilir."
+    }
+}

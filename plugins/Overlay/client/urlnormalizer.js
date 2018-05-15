@@ -66,7 +66,7 @@ var Piwik_Overlay_UrlNormalizer = (function () {
     return {
 
         initialize: function () {
-            this.setCurrentDomain(document.location.hostname);
+            this.setCurrentDomain(document.location.host);
             this.setCurrentUrl(window.location.href);
 
             var head = document.getElementsByTagName('head');
@@ -189,6 +189,8 @@ var Piwik_Overlay_UrlNormalizer = (function () {
             url = url.replace(/\?&/, '?');
             url = url.replace(/\?#/, '#');
             url = url.replace(/\?$/, '');
+            url = url.replace(/%5B/gi, '[');
+            url = url.replace(/%5D/gi, ']');
 
             return url;
         }

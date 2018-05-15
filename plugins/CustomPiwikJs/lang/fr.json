@@ -1,0 +1,8 @@
+{
+    "CustomPiwikJs": {
+        "PluginDescription": "Autorise n'importe quel composant à mettre à jour le fichier de suivi Matomo (piwik.js) et à ajouter de nouvelles fonctionnalités ainsi que des capacités de suivi de site web.",
+        "DiagnosticPiwikJsWritable": "Traceur JavaScript inscriptible (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "Le fichier du traceur JavaScript Matomo \"\/piwik.js\" ne peut pas être modifié ce qui signifie que les autres composants ne peuvent pas l'enrichir. A l'avenir même certaines fonctionnalités natives pourraient ne pas fonctionner comme prévu.",
+        "DiagnosticPiwikJsMakeWritable": "Nous vous recommandons de permettre l'écriture de piwik.js en exécutant la commande suivante : %s"
+    }
+}

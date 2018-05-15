@@ -1,0 +1,9 @@
+{
+    "MultiSites": {
+        "Evolution": "Evolución",
+        "LoadingWebsites": "Cargando sitios de internet",
+        "PluginDescription": "Vea y compare todos sus sitios de internet y aplicaciones en este tablero 'Todos los sitios de internet'",
+        "TopLinkTooltip": "Comparar la estadísticas de Análisis de internet para todos sus sitios.",
+        "Pagination": "%1$s - %2$s de %3$s"
+    }
+}

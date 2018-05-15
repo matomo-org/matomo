@@ -1,0 +1,12 @@
+{
+    "Actions": {
+        "ColumnClickedURL": "Klik egindako URLa",
+        "ColumnClicks": "Klikak",
+        "ColumnDownloadURL": "Deskargaren URLa",
+        "ColumnPageName": "Orriaren izena",
+        "ColumnPageURL": "Orriaren URLa",
+        "ColumnUniqueClicks": "Klik desberdinak",
+        "ColumnUniqueDownloads": "Deskarga desberdinak",
+        "SubmenuPageTitles": "Orrien izenburuak"
+    }
+}

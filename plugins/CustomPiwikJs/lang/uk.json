@@ -1,0 +1,6 @@
+{
+    "CustomPiwikJs": {
+        "DiagnosticPiwikJsWritable": "Доступний для запису JavaScript трекер (\"\/piwik.js\")",
+        "DiagnosticPiwikJsMakeWritable": "Ми рекомендуємо piwik.js зробити доступним для запису, виконавши команду: %s"
+    }
+}

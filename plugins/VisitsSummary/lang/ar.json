@@ -1,0 +1,11 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s استعلام تم تنفيذهم",
+        "GenerateTime": "%s ثانية لإنشاء هذه الصفحة",
+        "NbActionsDescription": "%s سلوك (عدد مشاهدات الصفحة، التحميلات، والروابط الصادرة)",
+        "VisitsSummary": "ملخص الزيارات",
+        "WidgetLastVisits": "الرسم البياني لآخر الزيارات",
+        "WidgetOverviewGraph": "نظرة عامة مع الرسم البياني",
+        "WidgetVisits": "نظرة عامة على الزيارات"
+    }
+}

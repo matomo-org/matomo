@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s запытаў выканана",
+        "GenerateTime": "Старонка згенеравана за %s секунд",
+        "NbActionsDescription": "%s дзеянні (прагляды старонак, запампоўка і знешнія спасылкі)",
+        "VisitsSummary": "Наведванні сумарна",
+        "VisitsSummaryDocumentation": "Гэта агляд зменаў наведванняў.",
+        "WidgetLastVisits": "Графік апошніх наведванняў",
+        "WidgetOverviewGraph": "Агляд па ўсіх графіках",
+        "WidgetVisits": "Агляд наведванняў"
+    }
+}

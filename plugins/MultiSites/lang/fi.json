@@ -1,0 +1,9 @@
+{
+    "MultiSites": {
+        "Evolution": "Kehitys",
+        "LoadingWebsites": "Lataa verkkosivuja",
+        "PluginDescription": "Katso ja vertaile kaikkia verkkosivujasi tällä \"Kaikki verkkosivut\"-työpöydällä.",
+        "TopLinkTooltip": "Vertaile eri sivujen tilastoja.",
+        "Pagination": "%1$s - %2$s %3$s:sta."
+    }
+}

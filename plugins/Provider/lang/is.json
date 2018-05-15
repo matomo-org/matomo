@@ -1,0 +1,6 @@
+{
+    "Provider": {
+        "ColumnProvider": "Veitandi",
+        "WidgetProviders": "Veitendur"
+    }
+}

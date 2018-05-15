@@ -1,0 +1,15 @@
+{
+    "DevicesDetection": {
+        "BrowserEngine": "Pārlūks",
+        "BrowserEngineDocumentation": "Šis grafiks rāda apmeklētāju pārlūkus izdalītus pa pārlūku ģimenēm. %s Vissvarīgākā informācija tīkla izstrādātājiem ir kādu atveidojuma dzinēju apmeklētāji izmanto. Etiķetes satur dzinēju nosaukumus, kuriem seko visbiežāk izmantotie dzinēji.",
+        "BrowserFamily": "Pārlūku ģimene",
+        "Browsers": "Pārlūki",
+        "BrowserVersion": "Pārlūka versija",
+        "ColumnBrowser": "Pārlūks",
+        "ColumnOperatingSystem": "Operētājsistēma",
+        "dataTableLabelTypes": "Tips",
+        "OperatingSystems": "Operētājsistēmas",
+        "WidgetBrowsers": "Apmeklētāju pārlūki",
+        "WidgetBrowsersDocumentation": "Šajā atskaitē ir informācija par to kādus pārlūkus Jūsu apmeklētāji izmanto. Katra pārlūka versija ir izdalīta atsevišķi."
+    }
+}

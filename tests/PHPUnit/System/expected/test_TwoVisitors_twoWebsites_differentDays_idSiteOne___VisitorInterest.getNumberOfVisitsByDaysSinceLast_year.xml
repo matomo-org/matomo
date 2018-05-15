@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result date="2010">
+		<row>
+			<label>New visits</label>
+			<nb_visits>2</nb_visits>
+		</row>
+		<row>
+			<label>0 days</label>
+			<nb_visits>1</nb_visits>
+		</row>
+		<row>
+			<label>1 day</label>
+			<nb_visits>0</nb_visits>
+		</row>
+		<row>
+			<label>2 days</label>
+			<nb_visits>1</nb_visits>
+		</row>
+		<row>
+			<label>3 days</label>
+			<nb_visits>1</nb_visits>
+		</row>
+		<row>
+			<label>4 days</label>
+			<nb_visits>1</nb_visits>
+		</row>
+		<row>
+			<label>5 days</label>
+			<nb_visits>1</nb_visits>
+		</row>
+		<row>
+			<label>6 days</label>
+			<nb_visits>1</nb_visits>
+		</row>
+		<row>
+			<label>7 days</label>
+			<nb_visits>1</nb_visits>
+		</row>
+		<row>
+			<label>8-14 days</label>
+			<nb_visits>2</nb_visits>
+		</row>
+		<row>
+			<label>15-30 days</label>
+			<nb_visits>0</nb_visits>
+		</row>
+		<row>
+			<label>31-60 days</label>
+			<nb_visits>0</nb_visits>
+		</row>
+		<row>
+			<label>61-120 days</label>
+			<nb_visits>0</nb_visits>
+		</row>
+		<row>
+			<label>121-364 days</label>
+			<nb_visits>0</nb_visits>
+		</row>
+		<row>
+			<label>365+ days</label>
+			<nb_visits>0</nb_visits>
+		</row>
+	</result>
+	<result date="2011" />
+	<result date="2012" />
+	<result date="2013" />
+	<result date="2014" />
+	<result date="2015" />
+	<result date="2016" />
+</results>

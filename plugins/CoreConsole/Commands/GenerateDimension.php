@@ -12,7 +12,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Common;
 use Piwik\DbHelper;
 use Piwik\Plugin\Report;
-use Piwik\Translate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,7 +36,9 @@ class GenerateDimension extends GeneratePluginBase
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $pluginName    = $this->getPluginName($input, $output);
+        $pluginName = $this->getPluginName($input, $output);
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
+
         $type          = $this->getDimensionType($input, $output);
         $dimensionName = $this->getDimensionName($input, $output);
 

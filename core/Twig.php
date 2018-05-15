@@ -9,9 +9,10 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
-use Piwik\Period\Range;
-use Piwik\Translate;
+use Piwik\Metrics\Formatter;
+use Piwik\Tracker\GoalManager;
 use Piwik\View\RenderTokenParser;
 use Piwik\Visualization\Sparkline;
 use Twig_Environment;
@@ -20,6 +21,93 @@ use Twig_Loader_Chain;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFilter;
 use Twig_SimpleFunction;
+use Twig_SimpleTest;
+
+function piwik_filter_truncate($string, $size)
+{
+    if (Common::mb_strlen(html_entity_decode($string)) <= $size) {
+        return $string;
+    } else {
+        preg_match('/^(&(?:[a-z\d]+|#\d+|#x[a-f\d]+);|.){'.$size.'}/i', $string, $shortenString);
+        return reset($shortenString) . "...";
+    }
+}
+
+function piwik_format_number($string, $minFractionDigits, $maxFractionDigits)
+{
+    $formatter = NumberFormatter::getInstance();
+    return $formatter->format($string, $minFractionDigits, $maxFractionDigits);
+}
+
+function piwik_fix_lbrace($string)
+{
+    $chars = array('{', '&#x7B;', '&#123;', '&lcub;', '&lbrace;', '&#x0007B;');
+
+    static $search;
+    static $replace;
+
+    if (!isset($search)) {
+        $search = array_map(function ($val) { return $val . $val; }, $chars);
+    }
+    if (!isset($replace)) {
+        $replace = array_map(function ($val) { return $val . '&#8291;' . $val; }, $chars);
+    }
+
+    $replacedString = str_replace($search, $replace, $string);
+
+    // try to replace characters until there are no changes
+    if ($string !== $replacedString) {
+        return piwik_fix_lbrace($replacedString);
+    }
+
+    return $string;
+}
+
+function piwik_escape_filter(Twig_Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false) {
+
+    $string = twig_escape_filter($env, $string, $strategy, $charset, $autoescape);
+
+    switch ($strategy) {
+        case 'html':
+        case 'html_attr':
+            return piwik_fix_lbrace($string);
+        case 'url':
+            $encoded = rawurlencode('{');
+            return str_replace('{{', $encoded . $encoded, $string);
+        case 'css':
+        case 'js':
+        default:
+            return $string;
+    }
+}
+
+function piwik_format_money($amount, $idSite)
+{
+    $currencySymbol = Site::getCurrencySymbolFor($idSite);
+    $numberFormatter = NumberFormatter::getInstance();
+    return $numberFormatter->formatCurrency($amount, $currencySymbol, GoalManager::REVENUE_PRECISION);
+}
+
+class PiwikTwigFilterExtension extends \Twig_Extension
+{
+    public function getFilters()
+    {
+        return array(
+            new Twig_SimpleFilter('e', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => 'twig_escape_filter_is_safe')),
+            new Twig_SimpleFilter('escape', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => 'twig_escape_filter_is_safe'))
+        );
+    }
+
+    /**
+     * Returns the name of the extension.
+     *
+     * @return string The extension name
+     */
+    public function getName()
+    {
+        return 'escaper2';
+    }
+}
 
 /**
  * Twig class
@@ -35,33 +123,36 @@ class Twig
      */
     private $twig;
 
+    private $formatter;
+
     public function __construct()
     {
         $loader = $this->getDefaultThemeLoader();
-		$this->addPluginNamespaces($loader);
+        $this->addPluginNamespaces($loader);
 
-		//get current theme
-		$manager = Plugin\Manager::getInstance();
-		$theme   = $manager->getThemeEnabled();
-		$loaders = array();
+        //get current theme
+        $manager = Plugin\Manager::getInstance();
+        $theme   = $manager->getThemeEnabled();
+        $loaders = array();
 
-		//create loader for custom theme to overwrite twig templates
-		if($theme && $theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {
-			$customLoader = $this->getCustomThemeLoader($theme);
-			if ($customLoader) {
-				//make it possible to overwrite plugin templates
-				$this->addCustomPluginNamespaces($customLoader, $theme->getPluginName());
-				$loaders[] = $customLoader;
-			}
-		}
+        $this->formatter = new Formatter();
 
-		$loaders[] = $loader;
+        //create loader for custom theme to overwrite twig templates
+        if ($theme && $theme->getPluginName() != \Piwik\Plugin\Manager::DEFAULT_THEME) {
+            $customLoader = $this->getCustomThemeLoader($theme);
+            if ($customLoader) {
+                //make it possible to overwrite plugin templates
+                $this->addCustomPluginNamespaces($customLoader, $theme->getPluginName());
+                $loaders[] = $customLoader;
+            }
+        }
+
+        $loaders[] = $loader;
 
         $chainLoader = new Twig_Loader_Chain($loaders);
 
         // Create new Twig Environment and set cache dir
-        $templatesCompiledPath = PIWIK_USER_PATH . '/tmp/templates_c';
-        $templatesCompiledPath = SettingsPiwik::rewriteTmpPathWithInstanceId($templatesCompiledPath);
+        $templatesCompiledPath = StaticContainer::get('path.tmp') . '/templates_c';
 
         $this->twig = new Twig_Environment($chainLoader,
             array(
@@ -79,11 +170,18 @@ class Twig
         $this->addFilter_money();
         $this->addFilter_truncate();
         $this->addFilter_notification();
+        $this->addFilter_percent();
         $this->addFilter_percentage();
+        $this->addFilter_percentEvolution();
         $this->addFilter_prettyDate();
         $this->addFilter_safeDecodeRaw();
+        $this->addFilter_number();
+        $this->addFilter_nonce();
+        $this->addFilter_md5();
+        $this->addFilter_onlyDomain();
         $this->twig->addFilter(new Twig_SimpleFilter('implode', 'implode'));
         $this->twig->addFilter(new Twig_SimpleFilter('ucwords', 'ucwords'));
+        $this->twig->addFilter(new Twig_SimpleFilter('lcfirst', 'lcfirst'));
 
         $this->addFunction_includeAssets();
         $this->addFunction_linkTo();
@@ -93,6 +191,45 @@ class Twig
         $this->addFunction_getJavascriptTranslations();
 
         $this->twig->addTokenParser(new RenderTokenParser());
+
+        $this->addTest_false();
+        $this->addTest_true();
+        $this->addTest_emptyString();
+
+        $this->twig->addExtension(new PiwikTwigFilterExtension());
+    }
+
+    private function addTest_false()
+    {
+        $test = new Twig_SimpleTest(
+            'false',
+            function ($value) {
+                return false === $value;
+            }
+        );
+        $this->twig->addTest($test);
+    }
+
+    private function addTest_true()
+    {
+        $test = new Twig_SimpleTest(
+            'true',
+            function ($value) {
+                return true === $value;
+            }
+        );
+        $this->twig->addTest($test);
+    }
+
+    private function addTest_emptyString()
+    {
+        $test = new Twig_SimpleTest(
+            'emptyString',
+            function ($value) {
+                return '' === $value;
+            }
+        );
+        $this->twig->addTest($test);
     }
 
     protected function addFunction_getJavascriptTranslations()
@@ -143,7 +280,7 @@ class Twig
             // make the first value the string that will get output in the template
             // plugins can modify this string
             $str = '';
-            $params = array_merge( array( &$str ), $params);
+            $params = array_merge(array( &$str ), $params);
 
             Piwik::postEvent($eventName, $params);
             return $str;
@@ -176,26 +313,27 @@ class Twig
     {
         $themeLoader = new Twig_Loader_Filesystem(array(
                                                        sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, \Piwik\Plugin\Manager::DEFAULT_THEME)
-                                                  ));
+                                                  ), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
 
         return $themeLoader;
     }
 
-	/**
-	 * create template loader for a custom theme
-	 * @param \Piwik\Plugin $theme
-	 * @return \Twig_Loader_Filesystem
-	 */
-	protected function getCustomThemeLoader(Plugin $theme){
-		if(!file_exists(sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName()))){
-			return false;
-		}
-		$themeLoader = new Twig_Loader_Filesystem(array(
+    /**
+     * create template loader for a custom theme
+     * @param \Piwik\Plugin $theme
+     * @return \Twig_Loader_Filesystem
+     */
+    protected function getCustomThemeLoader(Plugin $theme)
+    {
+        if (!file_exists(sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName()))) {
+            return false;
+        }
+        $themeLoader = new Twig_Loader_Filesystem(array(
                                                        sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $theme->getPluginName())
-                                                  ));
+                                                  ), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
 
         return $themeLoader;
-	}
+    }
 
     public function getTwigEnvironment()
     {
@@ -218,7 +356,7 @@ class Twig
             $template .= '>';
 
             if (!empty($options['raw'])) {
-                $template .= $message;
+                $template .= piwik_fix_lbrace($message);
             } else {
                 $template .= twig_escape_filter($twigEnv, $message, 'html');
             }
@@ -235,8 +373,11 @@ class Twig
     {
         $rawSafeDecoded = new Twig_SimpleFilter('rawSafeDecoded', function ($string) {
             $string = str_replace('+', '%2B', $string);
+            $string = str_replace('&nbsp;', html_entity_decode('&nbsp;', ENT_COMPAT | ENT_HTML401, 'UTF-8'), $string);
 
-            return SafeDecodeLabel::decodeLabelSafe($string);
+            $string = SafeDecodeLabel::decodeLabelSafe($string);
+
+            return piwik_fix_lbrace($string);
 
         }, array('is_safe' => array('all')));
         $this->twig->addFilter($rawSafeDecoded);
@@ -245,7 +386,7 @@ class Twig
     protected function addFilter_prettyDate()
     {
         $prettyDate = new Twig_SimpleFilter('prettyDate', function ($dateString, $period) {
-            return Range::factory($period, $dateString)->getLocalizedShortString();
+            return Period\Factory::build($period, $dateString)->getLocalizedShortString();
         });
         $this->twig->addFilter($prettyDate);
     }
@@ -253,20 +394,70 @@ class Twig
     protected function addFilter_percentage()
     {
         $percentage = new Twig_SimpleFilter('percentage', function ($string, $totalValue, $precision = 1) {
-            return Piwik::getPercentageSafe($string, $totalValue, $precision) . '%';
+            $formatter = NumberFormatter::getInstance();
+            return $formatter->formatPercent(Piwik::getPercentageSafe($string, $totalValue, $precision), $precision);
         });
         $this->twig->addFilter($percentage);
+    }
+
+    protected function addFilter_percent()
+    {
+        $percentage = new Twig_SimpleFilter('percent', function ($string, $precision = 1) {
+            $formatter = NumberFormatter::getInstance();
+            return $formatter->formatPercent($string, $precision);
+        });
+        $this->twig->addFilter($percentage);
+    }
+
+    protected function addFilter_percentEvolution()
+    {
+        $percentage = new Twig_SimpleFilter('percentEvolution', function ($string) {
+            $formatter = NumberFormatter::getInstance();
+            return $formatter->formatPercentEvolution($string);
+        });
+        $this->twig->addFilter($percentage);
+    }
+
+    private function getProfessionalServicesAdvertising()
+    {
+        return StaticContainer::get('Piwik\ProfessionalServices\Advertising');
+    }
+
+    protected function addFilter_number()
+    {
+        $formatter = new Twig_SimpleFilter('number', function ($string, $minFractionDigits = 0, $maxFractionDigits = 0) {
+            return piwik_format_number($string, $minFractionDigits, $maxFractionDigits);
+        });
+        $this->twig->addFilter($formatter);
+    }
+
+    protected function addFilter_nonce()
+    {
+        $nonce = new Twig_SimpleFilter('nonce', array('Piwik\\Nonce', 'getNonce'));
+        $this->twig->addFilter($nonce);
+    }
+
+    private function addFilter_md5()
+    {
+        $md5 = new \Twig_SimpleFilter('md5', function ($value) {
+            return md5($value);
+        });
+        $this->twig->addFilter($md5);
+    }
+
+    private function addFilter_onlyDomain()
+    {
+        $domainOnly = new \Twig_SimpleFilter('domainOnly', function ($url) {
+            $parsed = parse_url($url);
+            return $parsed['scheme'] . '://' . $parsed['host'];
+        });
+        $this->twig->addFilter($domainOnly);
     }
 
     protected function addFilter_truncate()
     {
         $truncateFilter = new Twig_SimpleFilter('truncate', function ($string, $size) {
-            if (strlen($string) < $size) {
-                return $string;
-            } else {
-                $array = str_split($string, $size);
-                return array_shift($array) . "...";
-            }
+            return piwik_filter_truncate($string, $size);
         });
         $this->twig->addFilter($truncateFilter);
     }
@@ -279,15 +470,16 @@ class Twig
             }
             $idSite = func_get_args();
             $idSite = $idSite[1];
-            return MetricsFormatter::getPrettyMoney($amount, $idSite);
+            return piwik_format_money($amount, $idSite);
         });
         $this->twig->addFilter($moneyFilter);
     }
 
     protected function addFilter_sumTime()
     {
-        $sumtimeFilter = new Twig_SimpleFilter('sumtime', function ($numberOfSeconds) {
-            return MetricsFormatter::getPrettyTimeFromSeconds($numberOfSeconds);
+        $formatter = $this->formatter;
+        $sumtimeFilter = new Twig_SimpleFilter('sumtime', function ($numberOfSeconds) use ($formatter) {
+            return $formatter->getPrettyTimeFromSeconds($numberOfSeconds, true);
         });
         $this->twig->addFilter($sumtimeFilter);
     }
@@ -324,7 +516,8 @@ class Twig
 
     private function addPluginNamespaces(Twig_Loader_Filesystem $loader)
     {
-        $plugins = \Piwik\Plugin\Manager::getInstance()->getAllPluginsNames();
+        $pluginManager = \Piwik\Plugin\Manager::getInstance();
+        $plugins = $pluginManager->getAllPluginsNames();
         foreach ($plugins as $name) {
             $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);
             if (is_dir($path)) {
@@ -333,18 +526,19 @@ class Twig
         }
     }
 
-	/**
-	*
-	* Plugin-Templates can be overwritten by putting identically named templates in plugins/[theme]/templates/plugins/[plugin]/
-	*
-	*/
-	private function addCustomPluginNamespaces(Twig_Loader_Filesystem $loader, $pluginName)
+    /**
+    *
+    * Plugin-Templates can be overwritten by putting identically named templates in plugins/[theme]/templates/plugins/[plugin]/
+    *
+    */
+    private function addCustomPluginNamespaces(Twig_Loader_Filesystem $loader, $pluginName)
     {
-        $plugins = \Piwik\Plugin\Manager::getInstance()->getAllPluginsNames();
+        $pluginManager = \Piwik\Plugin\Manager::getInstance();
+        $plugins = $pluginManager->getAllPluginsNames();
         foreach ($plugins as $name) {
             $path = sprintf("%s/plugins/%s/templates/plugins/%s/", PIWIK_INCLUDE_PATH, $pluginName, $name);
             if (is_dir($path)) {
-                $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/templates/plugins/'. $name , $name);
+                $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/templates/plugins/'. $name, $name);
             }
         }
     }

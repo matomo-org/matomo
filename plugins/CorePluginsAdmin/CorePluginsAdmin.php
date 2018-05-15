@@ -9,31 +9,36 @@
 namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\CoreHome\SystemSummary;
 
-class CorePluginsAdmin extends \Piwik\Plugin
+class CorePluginsAdmin extends Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
         );
     }
 
-    public function getStylesheetFiles(&$stylesheets)
+    public function addSystemSummaryItems(&$systemSummary)
     {
-        $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/marketplace.less";
-        $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugins_admin.less";
+        $numPlugins = Plugin\Manager::getInstance()->getNumberOfActivatedPluginsExcludingAlwaysActivated();
+        $systemSummary[] = new SystemSummary\Item($key = 'plugins', Piwik::translate('CoreHome_SystemSummaryNActivatedPlugins', $numPlugins), $value = null, $url = array('module' => 'CorePluginsAdmin', 'action' => 'plugins'), $icon = '', $order = 11);
     }
 
-    public static function isMarketplaceEnabled()
+    public function getStylesheetFiles(&$stylesheets)
     {
-        return (bool) Config::getInstance()->General['enable_marketplace'];
+        $stylesheets[] = "plugins/CorePluginsAdmin/stylesheets/plugins_admin.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/plugin-settings/plugin-settings.directive.less";
+        $stylesheets[] = "plugins/CorePluginsAdmin/angularjs/form-field/field-expandable-select.less";
     }
 
     public static function isPluginsAdminEnabled()
@@ -41,18 +46,24 @@ class CorePluginsAdmin extends \Piwik\Plugin
         return (bool) Config::getInstance()->General['enable_plugins_admin'];
     }
 
+    public static function isPluginUploadEnabled()
+    {
+        return (bool) Config::getInstance()->General['enable_plugin_upload'];
+    }
+
     public function getJsFiles(&$jsFiles)
     {
+        $jsFiles[] = "libs/bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/popover.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginDetail.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginOverview.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/pluginExtend.js";
-        $jsFiles[] = "plugins/CorePluginsAdmin/javascripts/plugins.js";
     }
 
     public function getClientSideTranslationKeys(&$translations)
     {
         $translations[] = 'CorePluginsAdmin_NoZipFileSelected';
+        $translations[] = 'CorePluginsAdmin_NoPluginSettings';
+        $translations[] = 'CoreAdminHome_PluginSettingsIntro';
+        $translations[] = 'CoreAdminHome_PluginSettingsSaveSuccess';
+        $translations[] = 'General_Save';
     }
 
 }

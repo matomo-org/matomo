@@ -1,0 +1,17 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "E コマースでは、いつユーザーがカートに製品を追加し、いつ E コマース販売に結びついたか、を追跡できます。製品、製品のカテゴリビュー、および放棄されたカートも追跡できます。",
+        "Sales": "売り上げ",
+        "Order": "注文",
+        "Orders": "注文",
+        "SalesBy": "%s 別売り上げ高",
+        "SalesAdjective": "売り上げ %s",
+        "NumberOfItems": "カートに入っているアイテム数",
+        "OrderValue": "注文額",
+        "LifeTimeValue": "e コマース通算値",
+        "LifeTimeValueDescription": "すべてのビジットでこの顧客に起因する e コマースの収益の合計：ビジター ID %s のすべての e コマース注文の収益の合計。",
+        "VisitorProfileLTV": "%1$s の通算収益を生成しました。",
+        "VisitorProfileItemsAndOrders": "%2$s の e コマース注文で %1$s アイテムを購入しました。",
+        "VisitorProfileAbandonedCartSummary": "合計 %3$s 中 %2$s アイテムを含む %1$s のカートを放棄しました。"
+    }
+}

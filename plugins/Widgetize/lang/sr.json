@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Otvori u novom prozoru",
+        "PluginDescription": "Prikaz bilo kog Matomo izveštaja na vašem sajtu pomoću jednostavnog HTML taga.",
+        "TopLinkTooltip": "Prikaži Matomo izveštaje kao vidžete i ugradi konzolu u svoju aplikaciju kao iframe."
+    }
+}

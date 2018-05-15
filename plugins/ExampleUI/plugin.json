@@ -1,15 +1,24 @@
 {
     "name": "ExampleUI",
-    "description": "Example Plugin: This plugin showcases the Piwik User Interface framework, how to easily display custom data tables, graphs, and more.",
+    "description": "Matomo Platform showcase: how to display data tables, graphs, and the UI framework.",
     "version": "1.0.1",
-    "keywords": ["example", "framework", "platform", "ui", "visualization"],
-    "homepage": "http://piwik.org",
+    "keywords": [
+        "example",
+        "framework",
+        "platform",
+        "ui",
+        "visualization"
+    ],
+    "homepage": "http:\/\/piwik.org",
     "license": "GPL v3+",
     "authors": [
         {
-            "name": "Piwik",
-            "email": "hello@piwik.org",
-            "homepage": "http://piwik.org"
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "http:\/\/matomo.org"
         }
-    ]
+    ],
+    "require": {
+        "piwik": ">=3.3.0"
+    }
 }

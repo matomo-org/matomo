@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Otevřít nové okno",
+        "PluginDescription": "Zobrazte jakékoliv hlášení z Matomou na vašich stránkách pomocí jednoduchého vkládacího HTML tagu.",
+        "TopLinkTooltip": "Exportujte své Matomo hlášení jako widgety a použijte eje e vaší aplikaci jako iframe."
+    }
+}

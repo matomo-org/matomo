@@ -1,0 +1,16 @@
+{
+    "API": {
+        "ChangeTokenHint": "Pokud chcete tento token změnit, %1$spřejdtě na svou stránku s osobními nastaveními%2$s",
+        "GenerateVisits": "Pokud pro dnešek nemáte data, můžete je nejprve vygenerovat pomocí zásuvného modulu %1$s. Můžete povolit zásuvný modul %2$s a poté kliknout na 'Generátor návštěv' v menu v administrační části Matomou",
+        "KeepTokenSecret": "Tento token_auth je tajný jako vaše uživatelské jméno a heslo, %1$s neříkejte jej nikomu jinému %2$s!",
+        "LoadedAPIs": "Úspěšně načteno %s API",
+        "MoreInformation": "Pro více informací o API Matomou se podívejte na %1$s Úvod do API Matomou %2$s a %3$s Referenci API Matomou %4$s",
+        "PluginDescription": "Všechna data v Matomou jsou dostupná pomocí jednoduchých API. Tento zásuvný modul je vstupním bodem těchto webových služeb, který vám umožňuje získat vaše analytická data jako XML, JSON, CSV, PHP atd.",
+        "ReportingApiReference": "Reference API hlášení",
+        "TopLinkTooltip": "Zpřístupněte svoje Webové analýzy programově skrze jednoduché API pomocí json, xml a dalších.",
+        "UserAuthentication": "Autentifikace uživatele",
+        "UsingTokenAuth": "Pokud chcete %1$s načíst data ze skriptu, cronu, atd. %2$s Potřebujete přidat parametr %3$s k voláním API, které vyžadují přihlášení",
+        "Glossary": "Glosář",
+        "LearnAboutCommonlyUsedTerms": "Zjistěte víc o nejčastějších termínech, abyste mohli využít Matomo naplno %1$s a %2$s."
+    }
+}

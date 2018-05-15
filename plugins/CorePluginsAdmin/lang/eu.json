@@ -1,0 +1,16 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Gaitu",
+        "Activated": "Gaituta",
+        "Active": "Gaituta",
+        "Deactivate": "Ezgaitu",
+        "Inactive": "Ezgaituta",
+        "PluginsExtendPiwik": "Matomo funtzionaltasunak hedatu eta zabaltzen dituzte pluginek.",
+        "OncePluginIsInstalledYouMayActivateHere": "Plugin bat instalatu ondoren, hemendik gaitu edo ezgaitu dezakezu.",
+        "PluginHomepage": "Pluginaren hasiera-orria",
+        "PluginsManagement": "Pluginen kudeaketa",
+        "Status": "Egoera",
+        "Version": "Bertsioa",
+        "Websites": "Webguneak"
+    }
+}

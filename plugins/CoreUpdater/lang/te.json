@@ -1,0 +1,9 @@
+{
+    "CoreUpdater": {
+        "ReadyToGo": "వెళ్ళడానికి సిద్ధమా?",
+        "UpdateTitle": "నవీకరించు",
+        "UpgradeComplete": "నవీకరణ పూర్తయ్యింది!",
+        "UpgradePiwik": "పివిక్ నవీకరణ",
+        "WarningMessages": "హెచ్చరిక సందేశాలు:"
+    }
+}

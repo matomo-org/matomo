@@ -1,0 +1,12 @@
+{
+    "SEO": {
+        "PluginDescription": "Bu uygulama eki AMD ölçütlerini ayıklar ve görüntüler: Alexa web derecelendirmesi, Google sayfa sıralaması, dizine eklenmiş sayfa sayısı ve seçilmiş web sitesine giden bağlantılar.",
+        "AlexaRank": "Alexa Derecelendirmesi",
+        "Bing_IndexedPages": "Bing dizinine eklenmiş sayfalar",
+        "DomainAge": "Etki Alanı Yaşı",
+        "Google_IndexedPages": "Google dizinine eklenmiş sayfalar",
+        "Rank": "Derecelendirme",
+        "SeoRankings": "AMD Derecelendirmeleri",
+        "SEORankingsFor": "'%s'için AMD Derecelendirmeleri"
+    }
+}

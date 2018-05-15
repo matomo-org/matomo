@@ -1,0 +1,8 @@
+{
+    "API": {
+        "LoadedAPIs": "Edukalt laetud %s API-id",
+        "MoreInformation": "Et saada rohkem infot Matomou API-st, vaata %1$sMatomou API tutvustus%2$s ja %3$sMatomou API juhend%4$s.",
+        "UserAuthentication": "Kasutaja autentimine",
+        "Glossary": "Sõnastik"
+    }
+}

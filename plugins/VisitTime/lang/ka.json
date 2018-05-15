@@ -1,0 +1,11 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "ადგილობრივი დრო",
+        "ColumnServerTime": "სერვერის დრო",
+        "LocalTime": "ვიზიტები ადგილობრივი დროით",
+        "NHour": "%sსთ",
+        "ServerTime": "ვიზიტები სერვერის დროით",
+        "WidgetLocalTime": "ვიზიტები ადგილობრივი დროის მიხრდვით",
+        "WidgetServerTime": "ვიზიტები სერვერის დროის მიხედვით"
+    }
+}

@@ -1,22 +1,30 @@
-<div> <!-- Wrapper is needed that the html can be jqueryfied -->
+<div> <!-- Wrapper is needed that the html can be jQueryfied -->
 
     <!-- This div is removed by JS and the content is put in the location div -->
-    <div class="Overlay_Location">
+    <div class="overlayLocation">
         <strong>{{ 'Overlay_Location'|translate }}:</strong>
 		<span data-normalized-url="{{ normalizedUrl }}" data-label="{{ label }}">
 			{{ location }}
 		</span>
     </div>
 
+    <div class="overlaySegment">
+        <strong>{{ 'General_Segment'|translate }}:</strong>
+        <span>{{ segmentDescription }}</span>
+    </div>
+
     {% if data|length > 0 %}
-        <h2 class="Overlay_MainMetrics">{{ 'General_MainMetrics'|translate }}</h2>
+        <h2 class="overlayMainMetrics">{{ 'General_MainMetrics'|translate }}</h2>
+        <ul class="overlayMetrics">
         {% for metric in data %}
-            <div class="Overlay_Metric">
-                <span class="Overlay_MetricValue">{{ metric.value|raw }}</span> {{ metric.name }}
-            </div>
+            <li class="overlayMetric">
+                <span class="overlayMetricValue">{{ metric.value|raw }}</span> {{ metric.name }}
+            </li>
         {% endfor %}
+        </ul>
+        <input type="hidden" value="{{ segment }}" id="segment" />
     {% else %}
-        <!-- note: the class Overlay_NoData is used in Piwik_Overlay.js -->
-        <div class="Overlay_NoData">{{ 'Overlay_NoData'|translate }}</div>
+        <!-- note: the class overlayNoData is used in Piwik_Overlay.js -->
+        <div class="overlayNoData">{{ 'Overlay_NoData'|translate }}</div>
     {% endif %}
 </div>

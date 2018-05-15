@@ -8,13 +8,11 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\CronArchive;
-use Piwik\Log;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Site;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Exception;
 
 class CoreArchiver extends ConsoleCommand
 {
@@ -25,33 +23,14 @@ class CoreArchiver extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $url = $input->getOption('url') ?: $input->getOption('piwik-domain');
-        if (empty($url)) {
-            throw new \InvalidArgumentException("The --url argument is not set. It should be set to your Piwik URL, for example: --url=http://example.org/piwik/.");
-        }
-
-        if (is_string($url) && $url && in_array($url, array('http://', 'https://'))) {
-            // see https://github.com/piwik/piwik/issues/5180 and http://forum.piwik.org/read.php?2,115274
-            throw new \InvalidArgumentException('No valid URL given. If you have specified a valid URL try --piwik-domain instead of --url');
-        }
-
-        if ($input->getOption('verbose')) {
-            Log::getInstance()->setLogLevel(Log::VERBOSE);
-        }
-
-        $archiver = $this->makeArchiver($url, $input);
-
-        try {
-            $archiver->main();
-        } catch (Exception $e) {
-            $archiver->logFatalError($e->getMessage());
-        }
+        $archiver = self::makeArchiver($input->getOption('url'), $input);
+        $archiver->main();
     }
 
     // also used by another console command
     public static function makeArchiver($url, InputInterface $input)
     {
-        $archiver = new CronArchive($url);
+        $archiver = new CronArchive();
 
         $archiver->disableScheduledTasks = $input->getOption('disable-scheduled-tasks');
         $archiver->acceptInvalidSSLCertificate = $input->getOption("accept-invalid-ssl-certificate");
@@ -62,6 +41,7 @@ class CoreArchiver extends ConsoleCommand
         $archiver->forceTimeoutPeriod = $input->getOption("force-timeout-for-periods");
         $archiver->shouldArchiveAllPeriodsSince = $input->getOption("force-all-periods");
         $archiver->restrictToDateRange = $input->getOption("force-date-range");
+        $archiver->phpCliConfigurationOptions = $input->getOption("php-cli-options");
 
         $restrictToPeriods = $input->getOption("force-periods");
         $restrictToPeriods = explode(',', $restrictToPeriods);
@@ -69,6 +49,15 @@ class CoreArchiver extends ConsoleCommand
 
         $archiver->dateLastForced = $input->getOption('force-date-last-n');
         $archiver->concurrentRequestsPerWebsite = $input->getOption('concurrent-requests-per-website');
+
+        $archiver->disableSegmentsArchiving = $input->getOption('skip-all-segments');
+
+        $segmentIds = $input->getOption('force-idsegments');
+        $segmentIds = explode(',', $segmentIds);
+        $segmentIds = array_map('trim', $segmentIds);
+        $archiver->setSegmentsToForceFromSegmentIds($segmentIds);
+
+        $archiver->setUrlToPiwik($url);
 
         return $archiver;
     }
@@ -83,25 +72,51 @@ class CoreArchiver extends ConsoleCommand
     {
         $command->setName('core:archive');
         $command->setDescription("Runs the CLI archiver. It is an important tool for general maintenance and to keep Piwik very fast.");
-        $command->setHelp("* It is recommended to run the script with the option --url=[piwik-server-url] only. Other options are not required.
-  Try --piwik-domain if --url does not work for you.
+        $command->setHelp("* It is recommended to run the script without any option.
 * This script should be executed every hour via crontab, or as a daemon.
 * You can also run it via http:// by specifying the Super User &token_auth=XYZ as a parameter ('Web Cron'),
   but it is recommended to run it via command line/CLI instead.
 * If you have any suggestion about this script, please let the team know at feedback@piwik.org
 * Enjoy!");
-        $command->addOption('url', null, InputOption::VALUE_REQUIRED, "Mandatory option as an alternative to '--piwik-domain'. Must be set to the Piwik base URL.\nFor example: --url=http://analytics.example.org/ or --url=https://example.org/piwik/");
-        $command->addOption('force-all-websites', null, InputOption::VALUE_NONE, "If specified, the script will trigger archiving on all websites.\nUse with --force-all-periods=[seconds] to also process those websites\nthat had visits in the last [seconds] seconds.");
-        $command->addOption('force-all-periods', null, InputOption::VALUE_OPTIONAL, "Limits archiving to websites with some traffic in the last [seconds] seconds. \nFor example --force-all-periods=86400 will archive websites that had visits in the last 24 hours. \nIf [seconds] is not specified, all websites with visits in the last " . CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE . "\n seconds (" . round(CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE / 86400) . " days) will be archived.");
-        $command->addOption('force-timeout-for-periods', null, InputOption::VALUE_OPTIONAL, "The current week/ current month/ current year will be processed at most every [seconds].\nIf not specified, defaults to " . CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES . ".");
-        $command->addOption('skip-idsites', null, InputOption::VALUE_OPTIONAL, 'If specified, archiving will be skipped for these websites (in case these website ids would have been archived).');
-        $command->addOption('force-idsites', null, InputOption::VALUE_OPTIONAL, 'If specified, archiving will be processed only for these Sites Ids (comma separated)');
-        $command->addOption('force-periods', null, InputOption::VALUE_OPTIONAL, "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month)");
-        $command->addOption('force-date-last-n', null, InputOption::VALUE_REQUIRED, "This script calls the API with period=lastN. You can force the N in lastN by specifying this value.");
-        $command->addOption('force-date-range', null, InputOption::VALUE_OPTIONAL, "If specified, archiving will be processed only for periods included in this date range. Format: YYYY-MM-DD,YYYY-MM-DD");
-        $command->addOption('concurrent-requests-per-website', null, InputOption::VALUE_OPTIONAL, "When processing a website and its segments, number of requests to process in parallel", CronArchive::MAX_CONCURRENT_API_REQUESTS);
-        $command->addOption('disable-scheduled-tasks', null, InputOption::VALUE_NONE, "Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).");
-        $command->addOption('accept-invalid-ssl-certificate', null, InputOption::VALUE_NONE, "It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!\nIt can be useful if you specified --url=https://... or if you are using Piwik with force_ssl=1");
-        $command->addOption('xhprof', null, InputOption::VALUE_NONE, "Enables XHProf profiler for this archive.php run. Requires XHPRof (see tests/README.xhprof.md).");
+        $command->addOption('url', null, InputOption::VALUE_REQUIRED,
+            "Forces the value of this option to be used as the URL to Piwik. \nIf your system does not support"
+            . " archiving with CLI processes, you may need to set this in order for the archiving HTTP requests to use"
+            . " the desired URLs.");
+        $command->addOption('force-all-websites', null, InputOption::VALUE_NONE,
+            "If specified, the script will trigger archiving on all websites.\nUse with --force-all-periods=[seconds] "
+            . "to also process those websites that had visits in the last [seconds] seconds.\nLaunching several processes"
+            . " with this option will make them share the list of sites to process.");
+        $command->addOption('force-all-periods', null, InputOption::VALUE_OPTIONAL,
+            "Limits archiving to websites with some traffic in the last [seconds] seconds. \nFor example "
+            . "--force-all-periods=86400 will archive websites that had visits in the last 24 hours. \nIf [seconds] is "
+            . "not specified, all websites with visits in the last " . CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE
+            . " seconds (" . round(CronArchive::ARCHIVE_SITES_WITH_TRAFFIC_SINCE / 86400) . " days) will be archived.");
+        $command->addOption('force-timeout-for-periods', null, InputOption::VALUE_OPTIONAL,
+            "The current week/ current month/ current year will be processed at most every [seconds].\nIf not "
+            . "specified, defaults to " . CronArchive::SECONDS_DELAY_BETWEEN_PERIOD_ARCHIVES . ".");
+        $command->addOption('skip-idsites', null, InputOption::VALUE_OPTIONAL,
+            'If specified, archiving will be skipped for these websites (in case these website ids would have been archived).');
+        $command->addOption('skip-all-segments', null, InputOption::VALUE_NONE,
+            'If specified, all segments will be skipped during archiving.');
+        $command->addOption('force-idsites', null, InputOption::VALUE_OPTIONAL,
+            'If specified, archiving will be processed only for these Sites Ids (comma separated)');
+        $command->addOption('force-periods', null, InputOption::VALUE_OPTIONAL,
+            "If specified, archiving will be processed only for these Periods (comma separated eg. day,week,month,year,range)");
+        $command->addOption('force-date-last-n', null, InputOption::VALUE_REQUIRED,
+            "This script calls the API with period=lastN. You can force the N in lastN by specifying this value.");
+        $command->addOption('force-date-range', null, InputOption::VALUE_OPTIONAL,
+            "If specified, archiving will be processed only for periods included in this date range. Format: YYYY-MM-DD,YYYY-MM-DD");
+        $command->addOption('force-idsegments', null, InputOption::VALUE_REQUIRED,
+            'If specified, only these segments will be processed (if the segment should be applied to a site in the first place).'
+            . "\nSpecify stored segment IDs, not the segments themselves, eg, 1,2,3. "
+            . "\nNote: if identical segments exist w/ different IDs, they will both be skipped, even if you only supply one ID.");
+        $command->addOption('concurrent-requests-per-website', null, InputOption::VALUE_OPTIONAL,
+            "When processing a website and its segments, number of requests to process in parallel", CronArchive::MAX_CONCURRENT_API_REQUESTS);
+        $command->addOption('disable-scheduled-tasks', null, InputOption::VALUE_NONE,
+            "Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).");
+        $command->addOption('accept-invalid-ssl-certificate', null, InputOption::VALUE_NONE,
+            "It is _NOT_ recommended to use this argument. Instead, you should use a valid SSL certificate!\nIt can be "
+            . "useful if you specified --url=https://... or if you are using Piwik with force_ssl=1");
+        $command->addOption('php-cli-options', null, InputOption::VALUE_OPTIONAL, 'Forwards the PHP configuration options to the PHP CLI command. For example "-d memory_limit=8G". Note: These options are only applied if the archiver actually uses CLI and not HTTP.', $default = '');
     }
 }

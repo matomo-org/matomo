@@ -1,0 +1,17 @@
+{
+    "PrivacyManager": {
+        "AnonymizeIpMaskLength": "%1$s bait(i) - nt. %2$s",
+        "ClickHereSettings": "Vajuta siia, et minna %s seadete lehele.",
+        "CurrentDBSize": "Praegune andmebaasi suurus",
+        "DBPurged": "Andmebaas tühjendatud.",
+        "DeleteDataInterval": "Kustuta vanad andmed iga",
+        "DeleteDataSettings": "Kustuta vanad külastajate logid ja raportid",
+        "EstimatedSpaceSaved": "Ennustatud kettaruumi sääst",
+        "MenuPrivacySettings": "Privaatsus",
+        "PurgeNow": "Tühjenda andmebaas kohe",
+        "ReportsDataSavedEstimate": "Andmebaasi suurus",
+        "TeaserHeadline": "Privaatsusseaded",
+        "UseDeleteLog": "Kustuta regulaarselt vanad külastajate logid andmebaasist",
+        "UseDeleteReports": "Kustuta regulaarselt vanad raportid andmebaasist"
+    }
+}

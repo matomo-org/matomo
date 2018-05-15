@@ -10,6 +10,7 @@ namespace Piwik\ArchiveProcessor;
 
 use Exception;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Log;
 use Piwik\Option;
@@ -33,8 +34,6 @@ class Rules
 
     const FLAG_TABLE_PURGED = 'lastPurge_';
 
-    public static $purgeOutdatedArchivesIsDisabled = false;
-
     /** Flag that will forcefully disable the archiving process (used in tests only) */
     public static $archivingDisabledByTests = false;
 
@@ -46,13 +45,12 @@ class Rules
      * @param Segment $segment
      * @param string $periodLabel
      * @param string $plugin
-     * @param bool $isSkipAggregationOfSubTables
      * @return string
      */
-    public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin, $isSkipAggregationOfSubTables)
+    public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin)
     {
         if (!self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)) {
-            return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin, $isSkipAggregationOfSubTables);
+            return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
         }
         return self::getDoneFlagArchiveContainsAllPlugins($segment);
     }
@@ -83,39 +81,24 @@ class Rules
         return $segmentsToProcess;
     }
 
-    public static function getDoneFlagArchiveContainsOnePlugin(Segment $segment, $plugin, $isSkipAggregationOfSubTables = false)
+    public static function getDoneFlagArchiveContainsOnePlugin(Segment $segment, $plugin)
     {
-        $partial = self::isFlagArchivePartial($plugin, $isSkipAggregationOfSubTables);
-        return 'done' . $segment->getHash() . '.' . $plugin . $partial ;
+        return 'done' . $segment->getHash() . '.' . $plugin ;
     }
 
-    private static function getDoneFlagArchiveContainsAllPlugins(Segment $segment)
+    public static function getDoneFlagArchiveContainsAllPlugins(Segment $segment)
     {
         return 'done' . $segment->getHash();
     }
 
     /**
-     * @param $plugin
-     * @param $isSkipAggregationOfSubTables
-     * @return string
-     */
-    private static function isFlagArchivePartial($plugin, $isSkipAggregationOfSubTables)
-    {
-        $partialArchive = '';
-        if ($plugin != "VisitsSummary" // VisitsSummary is always called when segmenting and should not have its own .partial archive
-            && $isSkipAggregationOfSubTables
-        ) {
-            $partialArchive = '.partial';
-        }
-        return $partialArchive;
-    }
-
-    /**
+     * Return done flags used to tell how the archiving process for a specific archive was completed,
+     *
      * @param array $plugins
      * @param $segment
      * @return array
      */
-    public static function getDoneFlags(array $plugins, Segment $segment, $isSkipAggregationOfSubTables)
+    public static function getDoneFlags(array $plugins, Segment $segment)
     {
         $doneFlags = array();
         $doneAllPlugins = self::getDoneFlagArchiveContainsAllPlugins($segment);
@@ -123,73 +106,19 @@ class Rules
 
         $plugins = array_unique($plugins);
         foreach ($plugins as $plugin) {
-            $doneOnePlugin = self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin, $isSkipAggregationOfSubTables);
+            $doneOnePlugin = self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
             $doneFlags[$plugin] = $doneOnePlugin;
         }
         return $doneFlags;
     }
 
-    public static function disablePurgeOutdatedArchives()
-    {
-        self::$purgeOutdatedArchivesIsDisabled = true;
-    }
-
-    public static function enablePurgeOutdatedArchives()
-    {
-        self::$purgeOutdatedArchivesIsDisabled = false;
-    }
-
-    /**
-     * Given a monthly archive table, will delete all reports that are now outdated,
-     * or reports that ended with an error
-     *
-     * @param \Piwik\Date $date
-     * @return int|bool  False, or timestamp indicating which archives to delete
-     */
-    public static function shouldPurgeOutdatedArchives(Date $date)
-    {
-        if (self::$purgeOutdatedArchivesIsDisabled) {
-            return false;
-        }
-        $key = self::FLAG_TABLE_PURGED . "blob_" . $date->toString('Y_m');
-        $timestamp = Option::get($key);
-
-        // we shall purge temporary archives after their timeout is finished, plus an extra 6 hours
-        // in case archiving is disabled or run once a day, we give it this extra time to run
-        // and re-process more recent records...
-        $temporaryArchivingTimeout = self::getTodayArchiveTimeToLive();
-        $hoursBetweenPurge = 6;
-        $purgeEveryNSeconds = max($temporaryArchivingTimeout, $hoursBetweenPurge * 3600);
-
-        // we only delete archives if we are able to process them, otherwise, the browser might process reports
-        // when &segment= is specified (or custom date range) and would below, delete temporary archives that the
-        // browser is not able to process until next cron run (which could be more than 1 hour away)
-        if (self::isRequestAuthorizedToArchive()
-            && (!$timestamp
-                || $timestamp < time() - $purgeEveryNSeconds)
-        ) {
-            Option::set($key, time());
-
-            if (self::isBrowserTriggerEnabled()) {
-                // If Browser Archiving is enabled, it is likely there are many more temporary archives
-                // We delete more often which is safe, since reports are re-processed on demand
-                $purgeArchivesOlderThan = Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
-            } else {
-                // If cron core:archive command is building the reports, we should keep all temporary reports from today
-                $purgeArchivesOlderThan = Date::factory('today')->getDateTime();
-            }
-            return $purgeArchivesOlderThan;
-        }
-
-        Log::info("Purging temporary archives: skipped.");
-        return false;
-    }
-
     public static function getMinTimeProcessedForTemporaryArchive(
         Date $dateStart, \Piwik\Period $period, Segment $segment, Site $site)
     {
+        $todayArchiveTimeToLive = self::getPeriodArchiveTimeToLiveDefault($period->getLabel());
+
         $now = time();
-        $minimumArchiveTime = $now - Rules::getTodayArchiveTimeToLive();
+        $minimumArchiveTime = $now - $todayArchiveTimeToLive;
 
         $idSites = array($site->getId());
         $isArchivingDisabled = Rules::isArchivingDisabledFor($idSites, $segment, $period->getLabel());
@@ -222,29 +151,68 @@ class Rules
     {
         $uiSettingIsEnabled = Controller::isGeneralSettingsAdminEnabled();
 
-        if($uiSettingIsEnabled) {
+        if ($uiSettingIsEnabled) {
             $timeToLive = Option::get(self::OPTION_TODAY_ARCHIVE_TTL);
             if ($timeToLive !== false) {
                 return $timeToLive;
             }
         }
+        return self::getTodayArchiveTimeToLiveDefault();
+    }
+
+    public static function getPeriodArchiveTimeToLiveDefault($periodLabel)
+    {
+        if (empty($periodLabel) || strtolower($periodLabel) === 'day') {
+            return self::getTodayArchiveTimeToLive();
+        }
+
+        $config = Config::getInstance();
+        $general = $config->General;
+
+        $key = sprintf('time_before_%s_archive_considered_outdated', $periodLabel);
+        if (isset($general[$key]) && is_numeric($general[$key]) && $general[$key] > 0) {
+            return $general[$key];
+        }
+
+        return self::getTodayArchiveTimeToLive();
+    }
+
+    public static function getTodayArchiveTimeToLiveDefault()
+    {
         return Config::getInstance()->General['time_before_today_archive_considered_outdated'];
+    }
+
+    public static function isBrowserArchivingAvailableForSegments()
+    {
+        $generalConfig = Config::getInstance()->General;
+        return !$generalConfig['browser_archiving_disabled_enforce'];
     }
 
     public static function isArchivingDisabledFor(array $idSites, Segment $segment, $periodLabel)
     {
+        $generalConfig = Config::getInstance()->General;
+
         if ($periodLabel == 'range') {
-            return false;
+            if (!isset($generalConfig['archiving_range_force_on_browser_request'])
+                || $generalConfig['archiving_range_force_on_browser_request'] != false
+            ) {
+                return false;
+            }
+
+            Log::debug("Not forcing archiving for range period.");
+            $processOneReportOnly = false;
+
+        } else {
+            $processOneReportOnly = !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel);
         }
-        $processOneReportOnly = !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel);
-        $isArchivingDisabled = !self::isRequestAuthorizedToArchive() || self::$archivingDisabledByTests;
 
-        if ($processOneReportOnly) {
+        $isArchivingEnabled = self::isRequestAuthorizedToArchive() && !self::$archivingDisabledByTests;
 
+        if ($processOneReportOnly)  {
             // When there is a segment, we disable archiving when browser_archiving_disabled_enforce applies
             if (!$segment->isEmpty()
-                && $isArchivingDisabled
-                && Config::getInstance()->General['browser_archiving_disabled_enforce']
+                && !$isArchivingEnabled
+                && !self::isBrowserArchivingAvailableForSegments()
                 && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
             ) {
                 Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
@@ -254,10 +222,11 @@ class Rules
             // Always allow processing one report
             return false;
         }
-        return $isArchivingDisabled;
+
+        return !$isArchivingEnabled;
     }
 
-    protected static function isRequestAuthorizedToArchive()
+    public static function isRequestAuthorizedToArchive()
     {
         return Rules::isBrowserTriggerEnabled() || SettingsServer::isArchivePhpTriggered();
     }
@@ -266,7 +235,7 @@ class Rules
     {
         $uiSettingIsEnabled = Controller::isGeneralSettingsAdminEnabled();
 
-        if($uiSettingIsEnabled) {
+        if ($uiSettingIsEnabled) {
             $browserArchivingEnabled = Option::get(self::OPTION_BROWSER_TRIGGER_ARCHIVING);
             if ($browserArchivingEnabled !== false) {
                 return (bool)$browserArchivingEnabled;
@@ -285,11 +254,23 @@ class Rules
     }
 
     /**
+     * Returns true if the archiving process should skip the calculation of unique visitors
+     * across several sites. The `[General] enable_processing_unique_visitors_multiple_sites`
+     * INI config option controls the value of this variable.
+     *
+     * @return bool
+     */
+    public static function shouldSkipUniqueVisitorsCalculationForMultipleSites()
+    {
+        return Config::getInstance()->General['enable_processing_unique_visitors_multiple_sites'] != 1;
+    }
+
+    /**
      * @param array $idSites
      * @param Segment $segment
      * @return bool
      */
-    protected static function isSegmentPreProcessed(array $idSites, Segment $segment)
+    public static function isSegmentPreProcessed(array $idSites, Segment $segment)
     {
         $segmentsToProcess = self::getSegmentsToProcess($idSites);
 
@@ -303,11 +284,24 @@ class Rules
         // Turns out the getString() above returns the URL decoded segment string
         $segmentsToProcessUrlDecoded = array_map('urldecode', $segmentsToProcess);
 
-        if (in_array($segment, $segmentsToProcess)
-            || in_array($segment, $segmentsToProcessUrlDecoded)
-        ) {
-            return true;
+        return in_array($segment, $segmentsToProcess)
+            || in_array($segment, $segmentsToProcessUrlDecoded);
+    }
+
+    /**
+     * Returns done flag values allowed to be selected
+     *
+     * @return string
+     */
+    public static function getSelectableDoneFlagValues()
+    {
+        $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
+
+        if (!Rules::isRequestAuthorizedToArchive()) {
+            //If request is not authorized to archive then fetch also invalidated archives
+            $possibleValues[] = ArchiveWriter::DONE_INVALIDATED;
         }
-        return false;
+
+        return $possibleValues;
     }
 }

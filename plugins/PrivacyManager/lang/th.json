@@ -1,0 +1,20 @@
+{
+    "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "Anonymize มีขนาดเป็นไบต์ล่าสุดของที่อยู่ IP ของผู้เข้าชมเพื่อให้สอดคล้องกับนโยบายข้อมูลส่วนบุคคลภายในเครื่องของคุณ",
+        "ClickHereSettings": "คลิกที่นี่เพื่อเข้าถึงการตั้งค่า %s",
+        "CurrentDBSize": "ขนาดฐานข้อมูลปัจจุบัน",
+        "DBPurged": "ล้าง DB",
+        "DeleteDataInterval": "ลบข้อมูลเก่าทุกๆ",
+        "DeleteLogsOlderThan": "ลบบันทึก logs ที่มีอายุเก่ากว่า",
+        "DeleteMaxRowsNoLimit": "ไม่จำกัด",
+        "DeleteReportsOlderThan": "ลบรายงานที่มีอายุเก่ากว่า",
+        "DeleteDataSettings": "ลบบันทึกการเข้าชมและรายงานที่เก่าแล้ว",
+        "LastDelete": "ลบครั้งสุดท้ายเมื่อ",
+        "MenuPrivacySettings": "ความเป็นส่วนตัว",
+        "PurgeNow": "ล้างข้อมูลในฐานข้อมูลตอนนี้เลย",
+        "PurgingData": "กำลังล้างข้อมูล...",
+        "ReportsDataSavedEstimate": "ขนาดฐานข้อมูล",
+        "TeaserHeadline": "การตั้งค่าความเป็นส่วนตัว",
+        "UseAnonymizeIp": "ผู้เข้าชมแบบไม่ระบุที่อยู่ IP"
+    }
+}

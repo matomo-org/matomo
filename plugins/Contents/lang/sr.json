@@ -1,0 +1,16 @@
+{
+    "Contents": {
+        "PluginDescription": "Praćenje sadržaja i banera vam omogućuje merenje performansi (prikaza, klikova, CTR) bilo kog dela sadržaja vaših stranica (reklama, slika itd.).",
+        "Impressions": "Prikazi",
+        "ContentInteraction": "Interakcija sa sadržajem",
+        "ContentInteractions": "Interakcije sa sadržajem",
+        "InteractionRate": "Odnos interakcija",
+        "ContentName": "Naziv sadržaja",
+        "ContentPiece": "Sadržaj",
+        "ContentTarget": "Cilj sadržaja",
+        "Contents": "Sadržaji",
+        "InteractionsMetricDocumentation": "Broj interakcija sa blokom sadržaja (npr., klik na baner ili reklamu).",
+        "ImpressionsMetricDocumentation": "Broj prikaza bloka sadržaja poput banera i reklama na stranici.",
+        "InteractionRateMetricDocumentation": "Odnos prikaza i interakcija sadržaja."
+    }
+}

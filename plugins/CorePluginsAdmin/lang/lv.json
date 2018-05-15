@@ -1,0 +1,18 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Aktivizēt",
+        "Activated": "Aktivizēts",
+        "Active": "Aktīvs",
+        "AuthorHomepage": "Autora vietne",
+        "Deactivate": "Deaktivizēt",
+        "Inactive": "Neaktīvs",
+        "LicenseHomepage": "Licences vietne",
+        "PluginsExtendPiwik": "Spraudņi paplašina Matomo funkcionalitāti.",
+        "OncePluginIsInstalledYouMayActivateHere": "Pēc spraudņa instalācijas, Jūs to varat aktivizēt (vai deaktivizēt) šeit.",
+        "PluginHomepage": "Spraudņa vietne",
+        "PluginsManagement": "Spraudņu pārvaldība",
+        "Status": "Statuss",
+        "Version": "Versija",
+        "Websites": "Vietnes"
+    }
+}

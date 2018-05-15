@@ -8,11 +8,17 @@
  */
 namespace Piwik\Plugins\Actions\Reports;
 
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\API\Request;
 use Piwik\Plugins\Actions\Columns\ExitPageUrl;
+use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
+use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
+use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
+use Piwik\Plugin\ReportsProvider;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 class GetExitPageUrls extends Base
 {
@@ -25,19 +31,39 @@ class GetExitPageUrls extends Base
         $this->documentation = Piwik::translate('Actions_ExitPagesReportDocumentation', '<br />')
                              . '<br />' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
 
-        $this->metrics = array('exit_nb_visits', 'nb_visits', 'exit_rate');
+        $this->metrics = array('exit_nb_visits', 'nb_visits');
+        $this->processedMetrics = array(
+            new AverageTimeOnPage(),
+            new BounceRate(),
+            new ExitRate(),
+            new AveragePageGenerationTime()
+        );
         $this->actionToLoadSubTables = $this->action;
 
         $this->order = 4;
 
-        $this->menuTitle   = 'Actions_SubmenuPagesExit';
-        $this->widgetTitle = 'Actions_WidgetPagesExit';
+        $this->subcategoryId = 'Actions_SubmenuPagesExit';
+    }
+
+    public function getProcessedMetrics()
+    {
+        $result = parent::getProcessedMetrics();
+
+        // these metrics are not displayed in the API.getProcessedReport version of this report,
+        // so they are removed here.
+        unset($result['bounce_rate']);
+        unset($result['avg_time_on_page']);
+
+        return $result;
     }
 
     public function getMetrics()
     {
         $metrics = parent::getMetrics();
         $metrics['nb_visits'] = Piwik::translate('General_ColumnUniquePageviews');
+
+        unset($metrics['bounce_rate']);
+        unset($metrics['avg_time_on_page']);
 
         return $metrics;
     }
@@ -52,12 +78,9 @@ class GetExitPageUrls extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        // link to the page, not just the report, but only if not a widget
-        $widget = Common::getRequestVar('widget', false);
-
         $view->config->self_url = Request::getCurrentUrlWithoutGenericFilters(array(
             'module' => 'Actions',
-            'action' => $widget === false ? 'indexExitPageUrls' : 'getExitPageUrls'
+            'action' => 'getExitPageUrls',
         ));
 
         $view->config->addTranslations(array('label' => $this->dimension->getName()));
@@ -75,7 +98,7 @@ class GetExitPageUrls extends Base
     public function getRelatedReports()
     {
         return array(
-            new GetExitPageTitles()
+            ReportsProvider::factory('Actions', 'getExitPageTitles'),
         );
     }
 

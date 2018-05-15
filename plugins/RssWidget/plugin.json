@@ -1,0 +1,15 @@
+{
+    "name": "RssWidget",
+    "description": "Matomo Platform showcase: how to create a new widget that displays a user submitted RSS feed.",
+    "version": "1.0",
+    "keywords": ["example", "feed", "widget"],
+    "homepage": "https://matomo.org",
+    "license": "GPL v3+",
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org"
+        }
+    ]
+}

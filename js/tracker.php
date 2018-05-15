@@ -27,7 +27,15 @@ define('PIWIK_DOCUMENT_ROOT', '..');
 define('PIWIK_USER_PATH', '..');
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
+
+if (is_dir(PIWIK_INCLUDE_PATH . '/vendor')) {
+    define('PIWIK_VENDOR_PATH', PIWIK_INCLUDE_PATH . '/vendor'); // Piwik is the main project
+} else {
+    define('PIWIK_VENDOR_PATH', PIWIK_INCLUDE_PATH . '/../..'); // Piwik is installed as a Composer dependency
+}
+
+// Composer autoloader
+require PIWIK_VENDOR_PATH . '/autoload.php';
 
 $file = '../piwik.js';
 
@@ -37,8 +45,17 @@ $byteStart = $byteEnd = false;
 if (!defined("PIWIK_KEEP_JS_TRACKER_COMMENT")
     || !PIWIK_KEEP_JS_TRACKER_COMMENT
 ) {
-    $byteStart = 369; // length of comment header in bytes
+    $byteStart = 371; // length of comment header in bytes
 }
+
+class Validator {
+    public function validate() {}
+}
+$validator = new Validator();
+$environment = new \Piwik\Application\Environment(null, array(
+    'Piwik\Application\Kernel\EnvironmentValidator' => $validator
+));
+$environment->init();
 
 ProxyHttp::serverStaticFile($file, "application/javascript; charset=UTF-8", $daysExpireFarFuture, $byteStart, $byteEnd);
 

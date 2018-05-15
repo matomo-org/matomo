@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<login>login1</login>
+		
+		<alias>login1</alias>
+		<email>login1@example.com</email>
+		<superuser_access>1</superuser_access>
+		
+	</row>
+	<row>
+		<login>login2</login>
+		
+		<alias>login2</alias>
+		<email>login2@example.com</email>
+		<superuser_access>0</superuser_access>
+		
+	</row>
+	<row>
+		<login>login3</login>
+		
+		<alias>login3</alias>
+		<email>login3@example.com</email>
+		<superuser_access>0</superuser_access>
+		
+	</row>
+	<row>
+		<login>login4</login>
+		
+		<alias>login4</alias>
+		<email>login4@example.com</email>
+		<superuser_access>0</superuser_access>
+		
+	</row>
+	<row>
+		<login>login5</login>
+		
+		<alias>login5</alias>
+		<email>login5@example.com</email>
+		<superuser_access>0</superuser_access>
+		
+	</row>
+	<row>
+		<login>login6</login>
+		
+		<alias>login6</alias>
+		<email>login6@example.com</email>
+		<superuser_access>0</superuser_access>
+		
+	</row>
+	<row>
+		<login>login7</login>
+		
+		<alias>login7</alias>
+		<email>login7@example.com</email>
+		<superuser_access>0</superuser_access>
+		
+	</row>
+	<row>
+		<login>login8</login>
+		
+		<alias>login8</alias>
+		<email>login8@example.com</email>
+		<superuser_access>0</superuser_access>
+		
+	</row>
+	<row>
+		<login>superUserLogin</login>
+		
+		<alias>superUserLogin</alias>
+		<email>hello@example.org</email>
+		<superuser_access>1</superuser_access>
+		
+	</row>
+</result>

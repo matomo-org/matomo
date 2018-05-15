@@ -12,14 +12,19 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Log;
+use Piwik\Piwik;
 
 class Model
 {
-    const SCOPE_PAGE = 'log_link_visit_action';
-    const SCOPE_VISIT = 'log_visit';
-    const SCOPE_CONVERSION = 'log_conversion';
+    const DEFAULT_CUSTOM_VAR_COUNT = 5;
+
+    const SCOPE_PAGE = 'page';
+    const SCOPE_VISIT = 'visit';
+    const SCOPE_CONVERSION = 'conversion';
 
     private $scope = null;
+    private $table = null;
+    private $tableUnprefixed = null;
 
     public function __construct($scope)
     {
@@ -28,19 +33,50 @@ class Model
         }
 
         $this->scope = $scope;
+        $this->tableUnprefixed = $this->getTableNameFromScope($scope);
+        $this->table = Common::prefixTable($this->tableUnprefixed);
+    }
+
+    public function getUnprefixedTableName()
+    {
+        return $this->tableUnprefixed;
+    }
+
+    private function getTableNameFromScope($scope)
+    {
+        // actually we should have a class for each scope but don't want to overengineer it for now
+        switch ($scope) {
+            case self::SCOPE_PAGE:
+                return 'log_link_visit_action';
+            case self::SCOPE_VISIT:
+                return 'log_visit';
+            case self::SCOPE_CONVERSION:
+                return 'log_conversion';
+        }
+    }
+
+    public function getScope()
+    {
+        return $this->scope;
     }
 
     public function getScopeName()
     {
-        // actually we should have a class for each scope but don't want to overengineer it for now
+        return ucfirst($this->scope);
+    }
+
+    public function getScopeDescription()
+    {
         switch ($this->scope) {
-            case self::SCOPE_PAGE:
-                return 'Page';
-            case self::SCOPE_VISIT:
-                return 'Visit';
-            case self::SCOPE_CONVERSION:
-                return 'Conversion';
+            case Model::SCOPE_PAGE:
+                return Piwik::translate('CustomVariables_ScopePage');
+            case Model::SCOPE_VISIT:
+                return Piwik::translate('CustomVariables_ScopeVisit');
+            case Model::SCOPE_CONVERSION:
+                return Piwik::translate('CustomVariables_ScopeConversion');
         }
+
+        return ucfirst($this->scope);
     }
 
     /**
@@ -95,8 +131,7 @@ class Model
 
     private function getCustomVarColumnNames()
     {
-        $dbTable = $this->getDbTableName();
-        $columns = Db::getColumnNamesFromTable($dbTable);
+        $columns = Db::getColumnNamesFromTable($this->table);
 
         $customVarColumns = array_filter($columns, function ($column) {
             return false !== strpos($column, 'custom_var_');
@@ -107,14 +142,13 @@ class Model
 
     public function removeCustomVariable()
     {
-        $dbTable = $this->getDbTableName();
-        $index   = $this->getHighestCustomVarIndex();
+        $index = $this->getHighestCustomVarIndex();
 
         if ($index < 1) {
             return null;
         }
 
-        Db::exec(sprintf('ALTER TABLE %s ', $dbTable)
+        Db::exec(sprintf('ALTER TABLE %s ', $this->table)
                . sprintf('DROP COLUMN custom_var_k%d,', $index)
                . sprintf('DROP COLUMN custom_var_v%d;', $index));
 
@@ -123,20 +157,14 @@ class Model
 
     public function addCustomVariable()
     {
-        $dbTable = $this->getDbTableName();
-        $index   = $this->getHighestCustomVarIndex() + 1;
-        $maxLen  = CustomVariables::getMaxLengthCustomVariables();
+        $index  = $this->getHighestCustomVarIndex() + 1;
+        $maxLen = CustomVariables::getMaxLengthCustomVariables();
 
-        Db::exec(sprintf('ALTER TABLE %s ', $dbTable)
+        Db::exec(sprintf('ALTER TABLE %s ', $this->table)
                . sprintf('ADD COLUMN custom_var_k%d VARCHAR(%d) DEFAULT NULL,', $index, $maxLen)
                . sprintf('ADD COLUMN custom_var_v%d VARCHAR(%d) DEFAULT NULL;', $index, $maxLen));
 
         return $index;
-    }
-
-    private function getDbTableName()
-    {
-        return Common::prefixTable($this->scope);
     }
 
     public static function getCustomVariableIndexFromFieldName($fieldName)
@@ -159,14 +187,14 @@ class Model
             $model = new Model($scope);
 
             try {
-                $maxCustomVars   = 5;
+                $maxCustomVars   = self::DEFAULT_CUSTOM_VAR_COUNT;
                 $customVarsToAdd = $maxCustomVars - $model->getCurrentNumCustomVars();
 
                 for ($index = 0; $index < $customVarsToAdd; $index++) {
                     $model->addCustomVariable();
                 }
             } catch (\Exception $e) {
-                Log::warning('Failed to add custom variable: ' . $e->getMessage());
+                Log::error('Failed to add custom variable: ' . $e->getMessage());
             }
         }
     }

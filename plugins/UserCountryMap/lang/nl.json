@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "Deze plugin verzorgt de widgets Bezoekers landkaart en Real-time landkaart. Opmerking: Vereist dat de UserCountry plugin is ingeschakeld.",
+        "AndNOthers": "en %s anderen",
+        "Cities": "Steden",
+        "Countries": "Landen",
+        "DaysAgo": "%s dagen geleden",
+        "GoalConversions": "%s doelconversies",
+        "HoursAgo": "%s uur geleden",
+        "map": "kaart",
+        "MinutesAgo": "%s minuten geleden",
+        "None": "Geen",
+        "NoVisit": "Geen bezoek",
+        "RealTimeMap": "Realtime Kaart",
+        "Regions": "Regio's",
+        "Searches": "%s zoekopdrachten",
+        "SecondsAgo": "%s seconden geleden",
+        "ShowingVisits": "Gelokaliseerde bezoeken van laatste",
+        "Unlocated": "<b>%s<\/b> %p van de bezoeken vanaf %c konden niet worden gelokaliseerd.",
+        "VisitorMap": "Bezoekersmap",
+        "WorldWide": "Wereldwijd",
+        "WithUnknownRegion": "%s met onbekende regio",
+        "WithUnknownCity": "%s met onbekende stad"
+    }
+}

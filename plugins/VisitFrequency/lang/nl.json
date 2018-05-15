@@ -1,0 +1,26 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Acties tijdens terugkerende bezoeken.",
+        "ColumnAverageVisitDurationForReturningVisitors": "Gemiddelde duur van een terugkeer bezoek (in sec)",
+        "ColumnAvgActionsPerReturningVisit": "Gemiddeld aantal acties per terugkerend bezoek",
+        "ColumnBounceCountForReturningVisits": "Aantal bounces voor terugkerende bezoekers",
+        "ColumnBounceRateForReturningVisits": "Bounce Rate voor terugkerende bezoeken",
+        "ColumnMaxActionsInReturningVisit": "Hoogste aantal acties in een terugkeer bezoek",
+        "ColumnNbReturningVisitsConverted": "Aantal conversies terugkerende bezoekers",
+        "ColumnReturningVisits": "Terugkerende bezoeken",
+        "ColumnSumVisitLengthReturning": "Totale tijd besteed door de terugkerende bezoeker (in seconden)",
+        "ColumnUniqueReturningVisitors": "Unieke terugkerende bezoekers",
+        "ColumnReturningUsers": "Terugkerende gebruikers",
+        "PluginDescription": "Rapporteert metrics over nieuwe bezoekers en terugkerende bezoekers.",
+        "ReturnActions": "acties door terugkerende bezoekers",
+        "ReturnAverageVisitDuration": "gemiddelde bezoekers duur voor terugkerende bezoekers",
+        "ReturnAvgActions": "acties per terugkerend bezoek",
+        "ReturnBounceRate": "terugkerende bezoekers zijn gebounced(hebben de website verlaten na één pagina)",
+        "ReturningVisitDocumentation": "Een terugkerend bezoek is (in tegenstelling tot een nieuw bezoek) gemaakt door iemand die de website teminste één keer eerder heeft bezocht.",
+        "ReturningVisitsDocumentation": "Dit is een overzicht van de terugkerende bezoeken.",
+        "ReturnVisits": "terugkerende bezoeken",
+        "SubmenuFrequency": "Frequentie",
+        "WidgetGraphReturning": "Grafiek terugkerende bezoeken",
+        "WidgetOverview": "Frequentie overzicht"
+    }
+}

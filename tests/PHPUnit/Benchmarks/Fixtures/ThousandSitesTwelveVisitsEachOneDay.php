@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Date;
-use Piwik\Plugins\Goals\API as APIGoals;
+use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestCase\BenchmarkTestCase;
 
 /**
  * Reusable fixture. Tracks twelve thousand page views for 1000 sites on one day.

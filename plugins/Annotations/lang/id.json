@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Tambahkan penjelasan untuk %s...",
+        "AnnotationOnDate": "Penjelasan dalam %1$s: %2$s",
+        "Annotations": "Penjelasan",
+        "ClickToDelete": "Klik untuk menghapus penjelasan ini.",
+        "ClickToEdit": "Klik untuk menyunting penjelsan ini.",
+        "ClickToEditOrAdd": "Klik untuk menyunting atau menambah penjelasan baru.",
+        "ClickToStarOrUnstar": "Klik untuk memberi atau menghapus bintang penjelasan ini.",
+        "CreateNewAnnotation": "Membuat penjelasan baru...",
+        "EnterAnnotationText": "Masukkan catatan Anda...",
+        "HideAnnotationsFor": "Sembunyikan penjelasan untuk %s...",
+        "IconDesc": "Lihat catatan untuk rentang data ini.",
+        "IconDescHideNotes": "Sembunyikan catatan untuk rentang tanggal ini.",
+        "InlineQuickHelp": "Anda dapat membuat penjelasan untuk menandai kejadian istimewa (seperti sebuah kiriman blog baru, atau perubahan desain situs), untuk menyimpan analisa data Anda atau untuk menyimpan hal lain yang menurut Anda penting.",
+        "LoginToAnnotate": "Masuk-log untuk membuat penjelasan baru.",
+        "NoAnnotations": "Tidak tersedia penjelasan untuk rentang tanggal ini.",
+        "PluginDescription": "Memungkinkan Anda untuk melampirkan catatan dari hari berbeda untuk menandai perubahan dalam situs Anda, simpan analisa mengenai data Anda dan berbagi pemikiran tersebut dengan rekan Anda. Dengan memberi penjelasan terhadap data, akan membuat Anda ingat mengapa data tampak seperti saat ini terjadi.",
+        "ViewAndAddAnnotations": "Tampilkan dan tambahkan penjelasan untuk %s...",
+        "YouCannotModifyThisNote": "Anda tidak dapat mengubah penjelasan ini, sebab Anda bukan yang membuat ini, atau Anda tidak memiliki akses pengelola untuk situs ini."
+    }
+}

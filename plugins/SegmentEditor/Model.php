@@ -10,12 +10,35 @@ namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\DbHelper;
 
 /**
  * The SegmentEditor Model lets you persist and read custom Segments from the backend without handling any logic.
  */
 class Model
 {
+    private static $rawPrefix = 'segment';
+
+    protected function getTable()
+    {
+        return Common::prefixTable(self::$rawPrefix);
+    }
+
+    /**
+     * Returns all stored segments that haven't been deleted. Ignores the site the segments are enabled
+     * for and whether to auto archive or not.
+     *
+     * @return array
+     */
+    public function getAllSegmentsAndIgnoreVisibility()
+    {
+        $sql = "SELECT * FROM " . $this->getTable() . " WHERE deleted = 0";
+
+        $segments = $this->getDb()->fetchAll($sql);
+
+        return $segments;
+    }
+
     /**
      * Returns all stored segments.
      *
@@ -36,7 +59,7 @@ class Model
         $sql = $this->buildQuerySortedByName("($whereIdSite enable_only_idsite = 0)
                                               AND deleted = 0 AND auto_archive = 1");
 
-        $segments = Db::get()->fetchAll($sql, $bind);
+        $segments = $this->getDb()->fetchAll($sql, $bind);
 
         return $segments;
     }
@@ -52,7 +75,7 @@ class Model
         $bind = array($userLogin);
         $sql  = $this->buildQuerySortedByName('deleted = 0 AND (enable_all_users = 1 OR login = ?)');
 
-        $segments = Db::get()->fetchAll($sql, $bind);
+        $segments = $this->getDb()->fetchAll($sql, $bind);
 
         return $segments;
     }
@@ -70,16 +93,90 @@ class Model
         $sql  = $this->buildQuerySortedByName('(enable_only_idsite = ? OR enable_only_idsite = 0)
                                                AND deleted = 0
                                                AND (enable_all_users = 1 OR login = ?)');
-        $segments = Db::get()->fetchAll($sql, $bind);
+        $segments = $this->getDb()->fetchAll($sql, $bind);
 
         return $segments;
     }
 
+    /**
+     * This should be used _only_ by Super Users
+     * @param $idSite
+     * @return array
+     */
+    public function getAllSegmentsForAllUsers($idSite = false)
+    {
+        $bind = array();
+        $sqlWhereCondition = '';
+
+        if(!empty($idSite)) {
+            $bind = array($idSite);
+            $sqlWhereCondition = '(enable_only_idsite = ? OR enable_only_idsite = 0) AND';
+        }
+
+        $sqlWhereCondition  = $this->buildQuerySortedByName($sqlWhereCondition . ' deleted = 0');
+        $segments = $this->getDb()->fetchAll($sqlWhereCondition, $bind);
+
+        return $segments;
+    }
+
+    public function deleteSegment($idSegment)
+    {
+        $db = $this->getDb();
+        $db->delete($this->getTable(), 'idsegment = ' . (int) $idSegment);
+    }
+
+    public function updateSegment($idSegment, $segment)
+    {
+        $idSegment = (int) $idSegment;
+
+        $db = $this->getDb();
+        $db->update($this->getTable(), $segment, "idsegment = $idSegment");
+
+        return true;
+    }
+
+    public function createSegment($segment)
+    {
+        $db = $this->getDb();
+        $db->insert($this->getTable(), $segment);
+        $id = $db->lastInsertId();
+
+        return $id;
+    }
+
+    public function getSegment($idSegment)
+    {
+        $db = $this->getDb();
+        $segment = $db->fetchRow("SELECT * FROM " . $this->getTable() . " WHERE idsegment = ?", $idSegment);
+
+        return $segment;
+    }
+
+    private function getDb()
+    {
+        return Db::get();
+    }
+
     private function buildQuerySortedByName($where)
     {
-        $sql = "SELECT * FROM " . Common::prefixTable("segment") .
-               " WHERE $where ORDER BY name ASC";
-
-        return $sql;
+        return "SELECT * FROM " . $this->getTable() . " WHERE $where ORDER BY name ASC";
     }
+
+    public static function install()
+    {
+        $segmentTable = "`idsegment` INT(11) NOT NULL AUTO_INCREMENT,
+					     `name` VARCHAR(255) NOT NULL,
+					     `definition` TEXT NOT NULL,
+					     `login` VARCHAR(100) NOT NULL,
+					     `enable_all_users` tinyint(4) NOT NULL default 0,
+					     `enable_only_idsite` INTEGER(11) NULL,
+					     `auto_archive` tinyint(4) NOT NULL default 0,
+					     `ts_created` TIMESTAMP NULL,
+					     `ts_last_edit` TIMESTAMP NULL,
+					     `deleted` tinyint(4) NOT NULL default 0,
+					     PRIMARY KEY (`idsegment`)";
+
+        DbHelper::createTable(self::$rawPrefix, $segmentTable);
+    }
+
 }

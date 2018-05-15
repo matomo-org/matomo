@@ -1,0 +1,18 @@
+{
+    "Marketplace": {
+        "ActivateLicenseKey": "Aktyvinti",
+        "ActionActivatePlugin": "Aktyvuoti papildinį",
+        "AllowedUploadFormats": "Per šį puslapį galite įkelti papildinį ar temą .zip formatu.",
+        "Developer": "Kūrėjas",
+        "InstallingPlugin": "Įdiegiama %s",
+        "NoPluginsFound": "Papildinių nerasta",
+        "NoThemesFound": "Temų nerasta",
+        "PluginKeywords": "Raktiniai žodžiai",
+        "PluginWebsite": "Papildinio svetainė",
+        "Screenshots": "Ekrano kopijos",
+        "StepPluginSuccessfullyInstalled": "Jūs sėkmingai įdiegėte papildinį %1$s %2$s.",
+        "StepPluginSuccessfullyUpdated": "Jūs sėkmingai atnaujinote papildinį %1$s %2$s.",
+        "StepReplaceExistingPlugin": "Pakeičiamas esamas papildinys",
+        "SubscriptionType": "Tipas"
+    }
+}

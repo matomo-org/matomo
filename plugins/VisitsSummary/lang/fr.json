@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "temps de génération moyen",
+        "AverageVisitDuration": "durée moyenne d'une visite",
+        "GenerateQueries": "%s requêtes exécutées",
+        "GenerateTime": "%s secondes pour générer la page",
+        "MaxNbActions": "actions max en une visite",
+        "NbActionsDescription": "%s actions (pages vues, téléchargements et liens de sortie)",
+        "NbActionsPerVisit": "actions (pages vues, téléchargements, liens sortants et recherches internes) par visite",
+        "NbDownloadsDescription": "téléchargements",
+        "NbKeywordsDescription": "mots clés uniques",
+        "NbOutlinksDescription": "liens sortants",
+        "NbPageviewsDescription": "pages vues",
+        "NbSearchesDescription": "recherches totales sur votre site",
+        "NbUniqueDownloadsDescription": "téléchargements uniques",
+        "NbUniqueOutlinksDescription": "liens externes uniques",
+        "NbUniquePageviewsDescription": "pages vues uniques",
+        "NbUniqueVisitors": "visiteurs uniques",
+        "NbUsersDescription": "utilisateurs",
+        "NbVisitsDescription": "visites",
+        "NbVisitsBounced": "visiteurs ayant survolé (quitté le site après une page)",
+        "PluginDescription": "Fournit des métriques d'analyse générales : visites, visiteurs uniques, nombre d'actions, taux de rebond, etc.",
+        "VisitsSummary": "Récapitulatif des visites",
+        "VisitsSummaryDocumentation": "Ceci est un aperçu de l'évolution de la visite.",
+        "WidgetLastVisits": "Graphique des dernières visites",
+        "WidgetOverviewGraph": "Graphique récapitulatif",
+        "WidgetVisits": "Récapitulatif des visites"
+    }
+}

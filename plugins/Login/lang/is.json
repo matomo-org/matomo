@@ -1,0 +1,12 @@
+{
+    "Login": {
+        "ExceptionPasswordMD5HashExpected": "Búist er við að lykilorðs færibreytan sé MD5 dulmál af lykilorðinu.",
+        "InvalidUsernameEmail": "Ekki gilt notendanafn og\/eða tölvupóstfang",
+        "LogIn": "Innskrá",
+        "LoginPasswordNotCorrect": "Notendanafn & Lykilroð ekki rétt",
+        "LostYourPassword": "Tapaðirðu lykilroðinu?",
+        "PasswordRepeat": "Lykilorð (endurtekið)",
+        "PasswordsDoNotMatch": "Lykilorðin stemma ekki.",
+        "RememberMe": "Mundu mig"
+    }
+}

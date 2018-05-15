@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "průměrný čas generování",
+        "AverageVisitDuration": "průměrný čas návštěvy",
+        "GenerateQueries": "%s provedeno dotazů",
+        "GenerateTime": "%s sekund k vygenerování stránky",
+        "MaxNbActions": "maximální počet akcí na návštěvu",
+        "NbActionsDescription": "%s akcí (zobrazení stránek, stažení a odchodů)",
+        "NbActionsPerVisit": "akcí (zobrazení stránek, stažení, odkazy a interní vyhledávání) za návštěvu",
+        "NbDownloadsDescription": "stažení",
+        "NbKeywordsDescription": "jedinečná klíčová slova",
+        "NbOutlinksDescription": "externí odkazy",
+        "NbPageviewsDescription": "zobrazení stránek",
+        "NbSearchesDescription": "celkem vyhledávání na webových stránkách",
+        "NbUniqueDownloadsDescription": "jedinečných stažení",
+        "NbUniqueOutlinksDescription": "jedinečných externích odkazů",
+        "NbUniquePageviewsDescription": "jedinečných zobrazení",
+        "NbUniqueVisitors": "jedineční návštěvníci",
+        "NbUsersDescription": "uživatelů",
+        "NbVisitsDescription": "návštěv",
+        "NbVisitsBounced": "návštěvníků odešlo (opustilo web po jedné stránce)",
+        "PluginDescription": "Hlásí základní analytická měření: počet návštěv a jedinečných návštěvníků, počet akcí, frekvenci odrazu atd.",
+        "VisitsSummary": "Shrnutí návštěv",
+        "VisitsSummaryDocumentation": "Toto je přehled vývoje návštěv.",
+        "WidgetLastVisits": "Graf posledních návštěv",
+        "WidgetOverviewGraph": "Přehled s grafem",
+        "WidgetVisits": "Přehled návštěv"
+    }
+}

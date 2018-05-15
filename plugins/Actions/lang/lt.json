@@ -1,0 +1,18 @@
+{
+    "Actions": {
+        "ColumnClickedURL": "Paspausti URL",
+        "ColumnClicks": "Paspaudimai",
+        "ColumnDownloadURL": "Atsisiuntimų URL",
+        "ColumnPageName": "Puslapio pavadinimas",
+        "ColumnPageURL": "Puslapio URL",
+        "ColumnSearches": "Paieškos",
+        "ColumnSiteSearchKeywords": "Unikalūs raktažodžiai",
+        "ColumnUniqueClicks": "Unikalūs spustelėjimai",
+        "ColumnUniqueDownloads": "Unikalūs atsisiuntimai",
+        "SubmenuPagesEntry": "Užėjimo puslapiai",
+        "SubmenuPagesExit": "Išėjimo puslapiai",
+        "SubmenuPageTitles": "Puslapių antraštės",
+        "WidgetSearchCategories": "Paieškos kategorijos",
+        "ActionType": "Veiksmo tipas"
+    }
+}

@@ -17,20 +17,23 @@ use Piwik\Config as PiwikConfig;
 use Piwik\Config;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
+use Piwik\Exception\NoPrivilegesException;
+use Piwik\Exception\NoWebsiteFoundException;
 use Piwik\FrontController;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
 use Piwik\NoAccessException;
 use Piwik\Notification\Manager as NotificationManager;
+use Piwik\NumberFormatter;
 use Piwik\Period\Month;
 use Piwik\Period;
+use Piwik\Period\PeriodValidator;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\UsersManager\UserPreferences;
-use Piwik\Registry;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Url;
@@ -185,10 +188,8 @@ abstract class Controller
      */
     protected static function getEnabledPeriodsInUI()
     {
-        $periods = Config::getInstance()->General['enabled_periods_UI'];
-        $periods = explode(",", $periods);
-        $periods = array_map('trim', $periods);
-        return $periods;
+        $periodValidator = new PeriodValidator();
+        return $periodValidator->getPeriodsAllowedForUI();
     }
 
     /**
@@ -199,20 +200,20 @@ abstract class Controller
         $availablePeriods = self::getEnabledPeriodsInUI();
         $periodNames = array(
             'day'   => array(
-                'singular' => Piwik::translate('CoreHome_PeriodDay'),
-                'plural' => Piwik::translate('CoreHome_PeriodDays')
+                'singular' => Piwik::translate('Intl_PeriodDay'),
+                'plural' => Piwik::translate('Intl_PeriodDays')
             ),
             'week'  => array(
-                'singular' => Piwik::translate('CoreHome_PeriodWeek'),
-                'plural' => Piwik::translate('CoreHome_PeriodWeeks')
+                'singular' => Piwik::translate('Intl_PeriodWeek'),
+                'plural' => Piwik::translate('Intl_PeriodWeeks')
             ),
             'month' => array(
-                'singular' => Piwik::translate('CoreHome_PeriodMonth'),
-                'plural' => Piwik::translate('CoreHome_PeriodMonths')
+                'singular' => Piwik::translate('Intl_PeriodMonth'),
+                'plural' => Piwik::translate('Intl_PeriodMonths')
             ),
             'year'  => array(
-                'singular' => Piwik::translate('CoreHome_PeriodYear'),
-                'plural' => Piwik::translate('CoreHome_PeriodYears')
+                'singular' => Piwik::translate('Intl_PeriodYear'),
+                'plural' => Piwik::translate('Intl_PeriodYears')
             ),
             // Note: plural is not used for date range
             'range' => array(
@@ -249,6 +250,55 @@ abstract class Controller
     }
 
     /**
+     * Assigns the given variables to the template and renders it.
+     *
+     * Example:
+     *
+     *     public function myControllerAction () {
+     *        return $this->renderTemplate('index', array(
+     *            'answerToLife' => '42'
+     *        ));
+     *     }
+     *
+     * This will render the 'index.twig' file within the plugin templates folder and assign the view variable
+     * `answerToLife` to `42`.
+     *
+     * @param string $template   The name of the template file. If only a name is given it will automatically use
+     *                           the template within the plugin folder. For instance 'myTemplate' will result in
+     *                           '@$pluginName/myTemplate.twig'. Alternatively you can include the full path:
+     *                           '@anyOtherFolder/otherTemplate'. The trailing '.twig' is not needed.
+     * @param array $variables   For instance array('myViewVar' => 'myValue'). In template you can use {{ myViewVar }}
+     * @return string
+     * @since 2.5.0
+     * @api
+     */
+    protected function renderTemplate($template, array $variables = array())
+    {
+        if (false === strpos($template, '@') || false === strpos($template, '/')) {
+            $template = '@' . $this->pluginName . '/' . $template;
+        }
+
+        $view = new View($template);
+
+        // alternatively we could check whether the templates extends either admin.twig or dashboard.twig and based on
+        // that call the correct method. This will be needed once we unify Controller and ControllerAdmin see
+        // https://github.com/piwik/piwik/issues/6151
+        if ($this instanceof ControllerAdmin) {
+            $this->setBasicVariablesView($view);
+        } elseif (empty($this->site) || empty($this->idSite)) {
+            $this->setBasicVariablesView($view);
+        } else {
+            $this->setGeneralVariablesView($view);
+        }
+
+        foreach ($variables as $key => $value) {
+            $view->$key = $value;
+        }
+
+        return $view->render();
+    }
+
+    /**
      * Convenience method that creates and renders a ViewDataTable for a API method.
      *
      * @param string|\Piwik\Plugin\Report $apiAction The name of the API action (eg, `'getResolution'`) or
@@ -264,7 +314,7 @@ abstract class Controller
     protected function renderReport($apiAction, $controllerAction = false)
     {
         if (empty($controllerAction) && is_string($apiAction)) {
-            $report = Report::factory($this->pluginName, $apiAction);
+            $report = ReportsProvider::factory($this->pluginName, $apiAction);
 
             if (!empty($report)) {
                 $apiAction = $report;
@@ -530,64 +580,87 @@ abstract class Controller
      */
     protected function setGeneralVariablesView($view)
     {
-        $view->date = $this->strDate;
+        $view->idSite = $this->idSite;
+        $this->checkSitePermission();
+        $this->setPeriodVariablesView($view);
 
-        try {
-            $view->idSite = $this->idSite;
-            $this->checkSitePermission();
-            $this->setPeriodVariablesView($view);
+        $view->siteName = $this->site->getName();
+        $view->siteMainUrl = $this->site->getMainUrl();
 
-            $rawDate = Common::getRequestVar('date');
-            $periodStr = Common::getRequestVar('period');
-            if ($periodStr != 'range') {
-                $date = Date::factory($this->strDate);
-                $period = Period\Factory::build($periodStr, $date);
-            } else {
-                $period = new Range($periodStr, $rawDate, $this->site->getTimezone());
+        $siteTimezone = $this->site->getTimezone();
+
+        $datetimeMinDate = $this->site->getCreationDate()->getDatetime();
+        $minDate = Date::factory($datetimeMinDate, $siteTimezone);
+        $this->setMinDateView($minDate, $view);
+
+        $maxDate = Date::factory('now', $siteTimezone);
+        $this->setMaxDateView($maxDate, $view);
+
+        $rawDate = Common::getRequestVar('date');
+        Period::checkDateFormat($rawDate);
+
+        $periodStr = Common::getRequestVar('period');
+
+        if ($periodStr != 'range') {
+            $date      = Date::factory($this->strDate);
+            $validDate = $this->getValidDate($date, $minDate, $maxDate);
+            $period    = Period\Factory::build($periodStr, $validDate);
+
+            if ($date->toString() !== $validDate->toString()) {
+                // we to not always change date since it could convert a strDate "today" to "YYYY-MM-DD"
+                // only change $this->strDate if it was not valid before
+                $this->setDate($validDate);
             }
-            $view->rawDate = $rawDate;
-            $view->prettyDate = self::getCalendarPrettyDate($period);
-
-            $view->siteName = $this->site->getName();
-            $view->siteMainUrl = $this->site->getMainUrl();
-
-            $datetimeMinDate = $this->site->getCreationDate()->getDatetime();
-            $minDate = Date::factory($datetimeMinDate, $this->site->getTimezone());
-            $this->setMinDateView($minDate, $view);
-
-            $maxDate = Date::factory('now', $this->site->getTimezone());
-            $this->setMaxDateView($maxDate, $view);
-
-            // Setting current period start & end dates, for pre-setting the calendar when "Date Range" is selected
-            $dateStart = $period->getDateStart();
-            if ($dateStart->isEarlier($minDate)) {
-                $dateStart = $minDate;
-            }
-            $dateEnd = $period->getDateEnd();
-            if ($dateEnd->isLater($maxDate)) {
-                $dateEnd = $maxDate;
-            }
-
-            $view->startDate = $dateStart;
-            $view->endDate = $dateEnd;
-
-            $language = LanguagesManager::getLanguageForSession();
-            $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
-
-            $this->setBasicVariablesView($view);
-
-            $view->topMenu  = MenuTop::getInstance()->getMenu();
-            $view->userMenu = MenuUser::getInstance()->getMenu();
-
-            $notifications = $view->notifications;
-            if (empty($notifications)) {
-                $view->notifications = NotificationManager::getAllNotificationsToDisplay();
-                NotificationManager::cancelAllNonPersistent();
-            }
-
-        } catch (Exception $e) {
-            Piwik_ExitWithMessage($e->getMessage(), $e->getTraceAsString());
+        } else {
+            $period = new Range($periodStr, $rawDate, $siteTimezone);
         }
+
+        // Setting current period start & end dates, for pre-setting the calendar when "Date Range" is selected
+        $dateStart = $period->getDateStart();
+        $dateStart = $this->getValidDate($dateStart, $minDate, $maxDate);
+
+        $dateEnd   = $period->getDateEnd();
+        $dateEnd   = $this->getValidDate($dateEnd, $minDate, $maxDate);
+
+        if ($periodStr == 'range') {
+            // make sure we actually display the correct calendar pretty date
+            $newRawDate = $dateStart->toString() . ',' . $dateEnd->toString();
+            $period = new Range($periodStr, $newRawDate, $siteTimezone);
+        }
+
+        $view->date = $this->strDate;
+        $view->prettyDate = self::getCalendarPrettyDate($period);
+        $view->prettyDateLong = $period->getLocalizedLongString();
+        $view->rawDate = $rawDate;
+        $view->startDate = $dateStart;
+        $view->endDate = $dateEnd;
+
+        $language = LanguagesManager::getLanguageForSession();
+        $view->language = !empty($language) ? $language : LanguagesManager::getLanguageCodeForCurrentUser();
+
+        $this->setBasicVariablesView($view);
+
+        $view->topMenu = MenuTop::getInstance()->getMenu();
+        $view->adminMenu = MenuAdmin::getInstance()->getMenu();
+
+        $notifications = $view->notifications;
+        if (empty($notifications)) {
+            $view->notifications = NotificationManager::getAllNotificationsToDisplay();
+            NotificationManager::cancelAllNonPersistent();
+        }
+    }
+
+    private function getValidDate(Date $date, Date $minDate, Date $maxDate)
+    {
+        if ($date->isEarlier($minDate)) {
+            $date = $minDate;
+        }
+
+        if ($date->isLater($maxDate)) {
+            $date = $maxDate;
+        }
+
+        return $date;
     }
 
     /**
@@ -595,8 +668,6 @@ abstract class Controller
      *
      * The following variables assigned:
      *
-     * **enableMeasurePiwikForSiteId** - The value of the `[Debug] enable_measure_piwik_usage_in_idsite`
-     *                                     INI config option.
      * **isSuperUser** - True if the current user is the Super User, false if otherwise.
      * **hasSomeAdminAccess** - True if the current user has admin access to at least one site,
      *                          false if otherwise.
@@ -616,7 +687,6 @@ abstract class Controller
     protected function setBasicVariablesView($view)
     {
         $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
-        $view->enableMeasurePiwikForSiteId = PiwikConfig::getInstance()->Debug['enable_measure_piwik_usage_in_idsite'];
         $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->hasSomeViewAccess  = Piwik::isUserHasSomeViewAccess();
@@ -638,7 +708,8 @@ abstract class Controller
         $general = PiwikConfig::getInstance()->General;
         $view->enableFrames = $general['enable_framed_pages']
                 || (isset($general['enable_framed_logins']) && $general['enable_framed_logins']);
-        if (!$view->enableFrames) {
+        $embeddedAsIframe = (Common::getRequestVar('module', '', 'string') == 'Widgetize');
+        if (!$view->enableFrames && !$embeddedAsIframe) {
             $view->setXFrameOptions('sameorigin');
         }
 
@@ -709,7 +780,7 @@ abstract class Controller
                                                                                     $validHost,
                                                                                     '</a>'
                                                                                ));
-            } else if (Piwik::isUserIsAnonymous()) {
+            } elseif (Piwik::isUserIsAnonymous()) {
                 $view->invalidHostMessage = $warningStart . ' '
                     . Piwik::translate('CoreHome_InjectedHostNonSuperUserWarning', array(
                         "<br/><a href=\"$validUrl\">",
@@ -726,7 +797,7 @@ abstract class Controller
                                                                                        '</a>'
                                                                                   ));
             }
-            $view->invalidHostMessageHowToFix = '<p><b>How do I fix this problem and how do I login again?</b><br/> The Piwik Super User can manually edit the file piwik/config/config.ini.php
+            $view->invalidHostMessageHowToFix = '<p><b>How do I fix this problem and how do I login again?</b><br/> The Matomo Super User can manually edit the file piwik/config/config.ini.php
 						and add the following lines: <pre>[General]' . "\n" . 'trusted_hosts[] = "' . $invalidHost . '"</pre>After making the change, you will be able to login again.</p>
 						<p>You may also <i>disable this security feature (not recommended)</i>. To do so edit config/config.ini.php and add:
 						<pre>[General]' . "\n" . 'enable_trusted_host_check=0</pre>';
@@ -755,17 +826,22 @@ abstract class Controller
             return;
         }
 
+        $periodValidator = new PeriodValidator();
+
         $currentPeriod = Common::getRequestVar('period');
         $view->displayUniqueVisitors = SettingsPiwik::isUniqueVisitorsEnabled($currentPeriod);
-        $availablePeriods = self::getEnabledPeriodsInUI();
-        if (!in_array($currentPeriod, $availablePeriods)) {
+        $availablePeriods = $periodValidator->getPeriodsAllowedForUI();
+
+        if (! $periodValidator->isPeriodAllowedForUI($currentPeriod)) {
             throw new Exception("Period must be one of: " . implode(", ", $availablePeriods));
         }
+
         $found = array_search($currentPeriod, $availablePeriods);
         unset($availablePeriods[$found]);
 
         $view->period = $currentPeriod;
         $view->otherPeriods = $availablePeriods;
+        $view->enabledPeriods = self::getEnabledPeriodsInUI();
         $view->periodsNames = self::getEnabledPeriodsNames();
     }
 
@@ -785,58 +861,48 @@ abstract class Controller
     public function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null,
                                     $defaultDate = null, $parameters = array())
     {
-
-        $userPreferences = new UserPreferences();
-
-        if (empty($websiteId)) {
-            $websiteId = $userPreferences->getDefaultWebsiteId();
-        }
-        if (empty($defaultDate)) {
-            $defaultDate = $userPreferences->getDefaultDate();
-        }
-        if (empty($defaultPeriod)) {
-            $defaultPeriod = $userPreferences->getDefaultPeriod();
-        }
-        $parametersString = '';
-        if (!empty($parameters)) {
-            $parametersString = '&' . Url::getQueryStringFromParameters($parameters);
-        }
-
-        if ($websiteId) {
-            $url = "index.php?module=" . $moduleToRedirect
-                . "&action=" . $actionToRedirect
-                . "&idSite=" . $websiteId
-                . "&period=" . $defaultPeriod
-                . "&date=" . $defaultDate
-                . $parametersString;
-            Url::redirectToUrl($url);
-            exit;
+        try {
+            $this->doRedirectToUrl($moduleToRedirect, $actionToRedirect, $websiteId, $defaultPeriod, $defaultDate, $parameters);
+        } catch (Exception $e) {
+            // no website ID to default to, so could not redirect
         }
 
         if (Piwik::hasUserSuperUserAccess()) {
-            Piwik_ExitWithMessage("Error: no website was found in this Piwik installation.
-			<br />Check the table '" . Common::prefixTable('site') . "' in your database, it should contain your Piwik websites.", false, true);
+            $siteTableName = Common::prefixTable('site');
+            $message = "Error: no website was found in this Matomo installation.
+			<br />Check the table '$siteTableName' in your database, it should contain your Matomo websites.";
+
+            $ex = new NoWebsiteFoundException($message);
+            $ex->setIsHtmlMessage();
+
+            throw $ex;
         }
 
-        $currentLogin = Piwik::getCurrentUserLogin();
-        if (!empty($currentLogin)
-            && $currentLogin != 'anonymous'
-        ) {
+        if (!Piwik::isUserIsAnonymous()) {
+            $currentLogin = Piwik::getCurrentUserLogin();
             $emails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
-            $errorMessage = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . $emails . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
-            $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Registry::get('auth')->getName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
-            Piwik_ExitWithMessage($errorMessage, false, true);
+            $errorMessage  = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . $emails . "?subject=Access to Matomo for user $currentLogin'>", "</a>");
+            $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Piwik::getLoginPluginName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
+
+            $ex = new NoPrivilegesException($errorMessage);
+            $ex->setIsHtmlMessage();
+
+            throw $ex;
         }
 
         echo FrontController::getInstance()->dispatch(Piwik::getLoginPluginName(), false);
         exit;
     }
 
+
     /**
      * Checks that the token_auth in the URL matches the currently logged-in user's token_auth.
      *
      * This is a protection against CSRF and should be used in all controller
      * methods that modify Piwik or any user settings.
+     *
+     * If called from JavaScript by using the `ajaxHelper` you have to call `ajaxHelper.withTokenInUrl();` before
+     * `ajaxHandler.send();` to send the token along with the request.
      *
      * **The token_auth should never appear in the browser's address bar.**
      *
@@ -848,7 +914,7 @@ abstract class Controller
         $tokenRequest = Common::getRequestVar('token_auth', false);
         $tokenUser = Piwik::getCurrentUserTokenAuth();
 
-        if(empty($tokenRequest) && empty($tokenUser)) {
+        if (empty($tokenRequest) && empty($tokenUser)) {
             return; // UI tests
         }
 
@@ -866,8 +932,9 @@ abstract class Controller
      */
     public static function getCalendarPrettyDate($period)
     {
-        if ($period instanceof Month) // show month name when period is for a month
-        {
+        if ($period instanceof Month) {
+            // show month name when period is for a month
+
             return $period->getLocalizedLongString();
         } else {
             return $period->getPrettyString();
@@ -886,69 +953,37 @@ abstract class Controller
         return self::getCalendarPrettyDate(Period\Factory::build($period, Date::factory($date)));
     }
 
-    /**
-     * Calculates the evolution from one value to another and returns HTML displaying
-     * the evolution percent. The HTML includes an up/down arrow and is colored red, black or
-     * green depending on whether the evolution is negative, 0 or positive.
-     *
-     * No HTML is returned if the current value and evolution percent are both 0.
-     *
-     * @param string $date The date of the current value.
-     * @param int $currentValue The value to calculate evolution to.
-     * @param string $pastDate The date of past value.
-     * @param int $pastValue The value in the past to calculate evolution from.
-     * @return string|false The HTML or `false` if the evolution is 0 and the current value is 0.
-     * @api
-     */
-    protected function getEvolutionHtml($date, $currentValue, $pastDate, $pastValue)
-    {
-        $evolutionPercent = CalculateEvolutionFilter::calculate(
-            $currentValue, $pastValue, $precision = 1);
-
-        // do not display evolution if evolution percent is 0 and current value is 0
-        if ($evolutionPercent == 0
-            && $currentValue == 0
-        ) {
-            return false;
-        }
-
-        $titleEvolutionPercent = $evolutionPercent;
-        if ($evolutionPercent < 0) {
-            $class = "negative-evolution";
-            $img = "arrow_down.png";
-        } else if ($evolutionPercent == 0) {
-            $class = "neutral-evolution";
-            $img = "stop.png";
-        } else {
-            $class = "positive-evolution";
-            $img = "arrow_up.png";
-            $titleEvolutionPercent = '+' . $titleEvolutionPercent;
-        }
-
-        $title = Piwik::translate('General_EvolutionSummaryGeneric', array(
-                                                                         Piwik::translate('General_NVisits', $currentValue),
-                                                                         $date,
-                                                                         Piwik::translate('General_NVisits', $pastValue),
-                                                                         $pastDate,
-                                                                         $titleEvolutionPercent
-                                                                    ));
-
-        $result = '<span class="metricEvolution" title="' . $title
-            . '"><img style="padding-right:4px" src="plugins/MultiSites/images/' . $img . '"/><strong';
-
-        if (isset($class)) {
-            $result .= ' class="' . $class . '"';
-        }
-        $result .= '>' . $evolutionPercent . '</strong></span>';
-
-        return $result;
-    }
-
     protected function checkSitePermission()
     {
-        if (empty($this->site) || empty($this->idSite)) {
+        if (!empty($this->idSite) && empty($this->site)) {
+            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $this->idSite)));
+        } elseif (empty($this->site) || empty($this->idSite)) {
             throw new Exception("The requested website idSite is not found in the request, or is invalid.
-				Please check that you are logged in Piwik and have permission to access the specified website.");
+				Please check that you are logged in Matomo and have permission to access the specified website.");
         }
+    }
+
+    /**
+     * @param $moduleToRedirect
+     * @param $actionToRedirect
+     * @param $websiteId
+     * @param $defaultPeriod
+     * @param $defaultDate
+     * @param $parameters
+     * @throws Exception
+     */
+    private function doRedirectToUrl($moduleToRedirect, $actionToRedirect, $websiteId, $defaultPeriod, $defaultDate, $parameters)
+    {
+        $menu = new Menu();
+
+        $parameters = array_merge(
+            $menu->urlForDefaultUserParams($websiteId, $defaultPeriod, $defaultDate),
+            $parameters
+        );
+        $queryParams = !empty($parameters) ? '&' . Url::getQueryStringFromParameters($parameters) : '';
+        $url = "index.php?module=%s&action=%s";
+        $url = sprintf($url, $moduleToRedirect, $actionToRedirect);
+        $url = $url . $queryParams;
+        Url::redirectToUrl($url);
     }
 }

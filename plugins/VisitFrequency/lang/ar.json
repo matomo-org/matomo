@@ -1,0 +1,12 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "السلوكيات بواسطة الزيارات العائدة",
+        "ColumnAverageVisitDurationForReturningVisitors": "متوسط طول الزيارة للزوار العائدين (بالثواني)",
+        "ColumnAvgActionsPerReturningVisit": "متوسط السلوكيات لكل زيارة عائدة",
+        "ColumnBounceRateForReturningVisits": "معدل الارتداد للزوار العائدين",
+        "ColumnReturningVisits": "الزيارات العائدة",
+        "SubmenuFrequency": "التكرار",
+        "WidgetGraphReturning": "رسم بياني للزيارات المتكررة",
+        "WidgetOverview": "نظرة عامة على التكرار"
+    }
+}

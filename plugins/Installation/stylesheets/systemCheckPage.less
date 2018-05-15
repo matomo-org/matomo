@@ -1,30 +1,5 @@
-#systemCheckOptional,
-#systemCheckRequired {
-    border: 1px solid #dadada;
-    width: 100%;
-    max-width: 900px;
-}
-
-#systemCheckOptional {
-    margin-bottom: 2em;
-}
-
-#systemCheckOptional td,
-#systemCheckRequired td {
-    padding: 1em .5em 1em 2em;
-    vertical-align: middle;
-    font-size: 1.2em;
-    margin: 0;
-}
-
-#systemCheckOptional tr:nth-child(even),
-#systemCheckRequired tr:nth-child(even) {
-    background-color: #EFEEEC;
-}
-
-#systemCheckOptional tr:nth-child(odd),
-#systemCheckRequired tr:nth-child(odd) {
-    background-color: #F6F5F3;
+.system-check td:first-child {
+    width: 40%;
 }
 
 .error {
@@ -43,3 +18,45 @@
     margin: 10px;
 }
 
+.system-check .icon-ok {
+    color: #1AA282;
+    margin-right: 10px;
+}
+.system-check .icon-warning {
+    color: #DF9D27;
+    margin-right: 10px;
+}
+.system-check .icon-error {
+    color: #D73F36;
+    margin-right: 10px;
+}
+
+.widgetBody.system-check {
+    .icon-ok,
+    .icon-warning,
+    .icon-error {
+        margin-right: 0;
+    }
+
+    ul {
+        li {
+            list-style-type: disc;
+            list-style-position: inside;
+        }
+    }
+}
+
+.system-success {
+    color: #1AA282 !important;
+    font-weight: bold;
+}
+
+.system-errors {
+    font-weight: bold;
+    color: #D73F36 !important;
+}
+
+.system-warnings {
+    font-weight: bold;
+    color: #DF9D27 !important;
+}

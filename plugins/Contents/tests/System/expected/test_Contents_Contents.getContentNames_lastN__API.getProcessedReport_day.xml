@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Piwik test</website>
+	<prettyDate>January 3 – 9, 2010</prettyDate>
+	<metadata>
+		<category>Actions</category>
+		<subcategory>Contents</subcategory>
+		<name>Content Name</name>
+		<module>Contents</module>
+		<action>getContentNames</action>
+		<dimension>Content Name</dimension>
+		<metrics>
+			<nb_impressions>Impressions</nb_impressions>
+			<nb_interactions>Content Interactions</nb_interactions>
+		</metrics>
+		<metricsDocumentation>
+			<nb_impressions>The number of times a content block, such as a banner or an ad, was displayed on a page.</nb_impressions>
+			<nb_interactions>The number of times a content block was interacted with (eg, a 'click' on a banner or ad).</nb_interactions>
+			<interaction_rate>The ratio of content impressions to interactions.</interaction_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<interaction_rate>Interaction Rate</interaction_rate>
+		</processedMetrics>
+		<actionToLoadSubTables>getContentNames</actionToLoadSubTables>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentNames&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentNames&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
+		<uniqueId>Contents_getContentNames</uniqueId>
+	</metadata>
+	<columns>
+		<label>Content Name</label>
+		<nb_impressions>Impressions</nb_impressions>
+		<nb_interactions>Content Interactions</nb_interactions>
+		<interaction_rate>Interaction Rate</interaction_rate>
+	</columns>
+	<reportData>
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<label>ImageAd</label>
+				<nb_impressions>8</nb_impressions>
+				<nb_interactions>2</nb_interactions>
+				<interaction_rate>25%</interaction_rate>
+			</row>
+			<row>
+				<label>Text Ad</label>
+				<nb_impressions>6</nb_impressions>
+				<nb_interactions>4</nb_interactions>
+				<interaction_rate>66.67%</interaction_rate>
+			</row>
+			<row>
+				<label>Video Ad</label>
+				<nb_impressions>2</nb_impressions>
+				<nb_interactions>0</nb_interactions>
+				<interaction_rate>0%</interaction_rate>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
+	</reportData>
+	<reportMetadata>
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<contentTarget>http://www.example.com</contentTarget>
+				<segment>contentName==ImageAd</segment>
+				<idsubdatatable>1</idsubdatatable>
+			</row>
+			<row>
+				<contentTarget>http://piwik.org/</contentTarget>
+				<segment>contentName==Text+Ad</segment>
+				<idsubdatatable>2</idsubdatatable>
+			</row>
+			<row>
+				<contentTarget />
+				<segment>contentName==Video+Ad</segment>
+				<idsubdatatable>3</idsubdatatable>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
+	</reportMetadata>
+	<reportTotal>
+		<nb_visits>16</nb_visits>
+		<nb_uniq_visitors>16</nb_uniq_visitors>
+	</reportTotal>
+</result>

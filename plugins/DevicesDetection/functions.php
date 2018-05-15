@@ -16,16 +16,15 @@ use DeviceDetector\Parser\Client\Browser AS BrowserParser;
 
 function getBrandLogo($label)
 {
-    $label = str_replace(" ", "_", $label);
-    $path = dirname(__FILE__) . '/images/brand/' . $label . '.ico';
-    if (file_exists($path)) {
-        return 'plugins/DevicesDetection/images/brand/' . $label . '.ico';
-    } else {
-        return 'plugins/DevicesDetection/images/brand/Unknown.ico';
+    $path = 'plugins/Morpheus/icons/dist/brand/%s.png';
+    $label = preg_replace("/[^a-z0-9_-]+/i", "_", $label);
+    if (!file_exists(PIWIK_INCLUDE_PATH . '/' . sprintf($path, $label))) {
+        $label = "unk";
     }
+    return sprintf($path, $label);
 }
 
-function getBrowserFamilyFullNameExtended($label)
+function getBrowserFamilyFullName($label)
 {
     foreach (BrowserParser::getAvailableBrowserFamilies() as $name => $family) {
         if (in_array($label, $family)) {
@@ -35,22 +34,33 @@ function getBrowserFamilyFullNameExtended($label)
     return Piwik::translate('General_Unknown');
 }
 
-function getBrowserFamilyLogoExtended($label)
+function getBrowserFamilyLogo($label)
 {
     $browserFamilies = BrowserParser::getAvailableBrowserFamilies();
     if (!empty($label) && array_key_exists($label, $browserFamilies)) {
-        return getBrowserLogoExtended($browserFamilies[$label][0]);
+        return getBrowserLogo($browserFamilies[$label][0]);
     }
-    return getBrowserLogoExtended($label);
+    return getBrowserLogo($label);
 }
 
-function getBrowserNameExtended($label)
+function getBrowserNameWithVersion($label)
 {
     $short = substr($label, 0, 2);
     $ver = substr($label, 3, 10);
     $browsers = BrowserParser::getAvailableBrowsers();
-    if (array_key_exists($short, $browsers)) {
+    if ($short && array_key_exists($short, $browsers)) {
         return trim(ucfirst($browsers[$short]) . ' ' . $ver);
+    } else {
+        return Piwik::translate('General_Unknown');
+    }
+}
+
+function getBrowserName($label)
+{
+    $short = substr($label, 0, 2);
+    $browsers = BrowserParser::getAvailableBrowsers();
+    if ($short && array_key_exists($short, $browsers)) {
+        return trim(ucfirst($browsers[$short]));
     } else {
         return Piwik::translate('General_Unknown');
     }
@@ -61,15 +71,15 @@ function getBrowserNameExtended($label)
  *
  * First try to find a logo for the given short code
  * If none can be found try to find a logo for the browser family
- * Return unkown logo otherwise
+ * Return unknown logo otherwise
  *
  * @param string  $short  Shortcode or name of browser
  *
  * @return string  path to image
  */
-function getBrowserLogoExtended($short)
+function getBrowserLogo($short)
 {
-    $path = 'plugins/UserSettings/images/browsers/%s.gif';
+    $path = 'plugins/Morpheus/icons/dist/browsers/%s.png';
 
     // If name is given instead of short code, try to find matching shortcode
     if (strlen($short) > 2) {
@@ -82,7 +92,7 @@ function getBrowserLogoExtended($short)
         }
     }
 
-    $family = getBrowserFamilyFullNameExtended($short);
+    $family = getBrowserFamilyFullName($short);
 
     $browserFamilies = BrowserParser::getAvailableBrowserFamilies();
 
@@ -116,12 +126,14 @@ function getDeviceTypeLabel($label)
         'desktop'       => 'General_Desktop',
         'smartphone'    => 'DevicesDetection_Smartphone',
         'tablet'        => 'DevicesDetection_Tablet',
+        'phablet'       => 'DevicesDetection_Phablet',
         'feature phone' => 'DevicesDetection_FeaturePhone',
         'console'       => 'DevicesDetection_Console',
         'tv'            => 'DevicesDetection_TV',
-        'car browser'   => 'DevicesDetection_CarBbrowser',
+        'car browser'   => 'DevicesDetection_CarBrowser',
         'smart display' => 'DevicesDetection_SmartDisplay',
-        'camera'        => 'DevicesDetection_Camera'
+        'camera'        => 'DevicesDetection_Camera',
+        'portable media player' => 'DevicesDetection_PortableMediaPlayer',
     );
 
     $deviceTypes = DeviceParser::getAvailableDeviceTypes();
@@ -142,59 +154,63 @@ function getDeviceTypeLogo($label)
 {
     if (is_numeric($label) && in_array($label, DeviceParser::getAvailableDeviceTypes())) {
         $label = array_search($label, DeviceParser::getAvailableDeviceTypes());
-    }
-
-    $label = strtolower($label);
-
-    $deviceTypeLogos = Array(
-        "desktop"       => "normal.gif",
-        "smartphone"    => "smartphone.png",
-        "tablet"        => "tablet.png",
-        "tv"            => "tv.png",
-        "feature phone" => "mobile.gif",
-        "console"       => "console.gif",
-        "car browser"   => "carbrowser.png",
-        "camera"        => "camera.png");
-
-    if (!array_key_exists($label, $deviceTypeLogos)) {
-        $label = 'unknown.gif';
+        $label = strtolower($label);
+        $label = str_replace(' ', '_', $label);
     } else {
-        $label = $deviceTypeLogos[$label];
+        $label = "unknown";
     }
-    $path = 'plugins/DevicesDetection/images/screens/' . $label;
+
+    $path = 'plugins/Morpheus/icons/dist/devices/' . $label . ".png";
     return $path;
 }
 
 function getModelName($label)
 {
-    if (!$label) {
-        return Piwik::translate('General_Unknown');
+    if (strpos($label, ';') !== false) {
+        list($brand, $model) = explode(';', $label, 2);
+    } else {
+        $brand = null;
+        $model = $label;
     }
-    return $label;
+    if (!$model) {
+        $model = Piwik::translate('General_Unknown');
+    }
+    if (!$brand) {
+        return $model;
+    }
+    return getDeviceBrandLabel($brand) . ' - ' . $model;
 }
 
-function getOSFamilyFullNameExtended($label)
+function getOSFamilyFullName($label)
 {
     if ($label == \Piwik\Tracker\Settings::OS_BOT) {
         return 'Bot';
     }
-    $label = OperatingSystemParser::getOsFamily($label);
-    if($label !== false) {
+    $label = OperatingSystemParser::getOsFamily(_mapLegacyOsShortCodes($label));
+
+    if ($label == 'unknown') {
+        $label = Piwik::translate('General_Unknown');
+    } else if ($label == 'Gaming Console') {
+        $label = Piwik::translate('DevicesDetection_Console');
+    }
+
+    if ($label !== false) {
         return $label;
     }
     return Piwik::translate('General_Unknown');
 }
 
-function getOsFamilyLogoExtended($label)
+function getOsFamilyLogo($label)
 {
+    $label = _mapLegacyOsShortCodes($label);
     $osFamilies = OperatingSystemParser::getAvailableOperatingSystemFamilies();
     if (!empty($label) && array_key_exists($label, $osFamilies)) {
-        return getOsLogoExtended($osFamilies[$label][0]);
+        return getOsLogo($osFamilies[$label][0]);
     }
-    return getOsLogoExtended($label);
+    return getOsLogo($label);
 }
 
-function getOsFullNameExtended($label)
+function getOsFullName($label)
 {
     if (substr($label, 0, 3) == \Piwik\Tracker\Settings::OS_BOT) {
         return 'Bot';
@@ -202,7 +218,7 @@ function getOsFullNameExtended($label)
     if (!empty($label) && $label != ";") {
         $os = substr($label, 0, 3);
         $ver = substr($label, 4, 15);
-        $name = OperatingSystemParser::getNameFromId($os, $ver);
+        $name = OperatingSystemParser::getNameFromId(_mapLegacyOsShortCodes($os), $ver);
         if (!empty($name)) {
             return $name;
         }
@@ -210,20 +226,51 @@ function getOsFullNameExtended($label)
     return Piwik::translate('General_Unknown');
 }
 
+function _mapLegacyOsShortCodes($shortCode)
+{
+    $legacyShortCodes = array(
+        'IPA' => 'IOS', // iPad => iOS
+        'IPH' => 'IOS', // iPhone => iOS
+        'IPD' => 'IOS', // iPod => iOS
+        'WIU' => 'WII', // WiiU => Nintendo
+        '3DS' => 'NDS', // Nintendo 3DS => Nintendo Mobile
+        'DSI' => 'NDS', // Nintendo DSi => Nintendo Mobile
+        'PSV' => 'PSP', // PlayStation Vita => PlayStation Portable
+        'MAE' => 'SMG', // Maemo => MeeGo
+        'W10' => 'WIN',
+        'W2K' => 'WIN',
+        'W31' => 'WIN',
+        'WI7' => 'WIN',
+        'WI8' => 'WIN',
+        'W81' => 'WIN',
+        'W95' => 'WIN',
+        'W98' => 'WIN',
+        'WME' => 'WIN',
+        'WNT' => 'WIN',
+        'WS3' => 'WIN',
+        'WVI' => 'WIN',
+        'WXP' => 'WIN',
+        //'VMS' => '', // OpenVMS => ??
+    );
+    return ($shortCode && array_key_exists($shortCode, $legacyShortCodes)) ? $legacyShortCodes[$shortCode] : $shortCode;
+}
+
 /**
  * Returns the path to the logo for the given OS
  *
  * First try to find a logo for the given short code
  * If none can be found try to find a logo for the os family
- * Return unkown logo otherwise
+ * Return unknown logo otherwise
  *
  * @param string  $short  Shortcode or name of OS
  *
  * @return string  path to image
  */
-function getOsLogoExtended($short)
+function getOsLogo($short)
 {
-    $path = 'plugins/UserSettings/images/os/%s.gif';
+    $path = 'plugins/Morpheus/icons/dist/os/%s.png';
+
+    $short = _mapLegacyOsShortCodes($short);
 
     // If name is given instead of short code, try to find matching shortcode
     if (strlen($short) > 3) {
@@ -235,7 +282,7 @@ function getOsLogoExtended($short)
         }
     }
 
-    $family = getOsFamilyFullNameExtended($short);
+    $family = getOSFamilyFullName($short);
     $osFamilies = OperatingSystemParser::getAvailableOperatingSystemFamilies();
 
     if (!empty($short) &&
@@ -251,4 +298,45 @@ function getOsLogoExtended($short)
         return sprintf($path, $osFamilies[$family][0]);
     }
     return sprintf($path, 'UNK');
+}
+
+/**
+ * Returns the display name for a browser engine
+ *
+ * @param $engineName
+ *
+ * @return string
+ */
+function getBrowserEngineName($engineName) {
+    /*
+     * Map leagcy types to engines
+     */
+    $oldTypeMapping = array(
+        'ie'     => 'Trident',
+        'gecko'  => 'Gecko',
+        'khtml'  => 'KHTML',
+        'webkit' => 'WebKit',
+        'opera'  => 'Presto',
+        'unknown' => ''
+    );
+    if (array_key_exists($engineName, $oldTypeMapping)) {
+        $engineName = $oldTypeMapping[$engineName];
+    }
+
+    $displayNames = array(
+        'Trident' => 'Trident (IE)',
+        'Gecko' => 'Gecko (Firefox)',
+        'KHTML' => 'KHTML (Konqueror)',
+        'Presto' => 'Presto (Opera)',
+        'WebKit' => 'WebKit (Safari, Chrome)',
+        'Blink' => 'Blink (Chrome, Opera)'
+    );
+
+    if (!empty($engineName)) {
+        if (!empty($displayNames[$engineName])) {
+            return $displayNames[$engineName];
+        }
+        return $engineName;
+    }
+    return Piwik::translate('General_Unknown');
 }

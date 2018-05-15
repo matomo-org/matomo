@@ -60,13 +60,16 @@ class ProxyHttp
      *                             of the file will be served.
      * @param int|false $byteEnd The ending byte in the file to serve. If false, the data from $byteStart to the
      *                           end of the file will be served.
+     * @param string|false $filename By default the filename of $file is reused as Content-Disposition. If the
+     *                               file should be sent as a different filename to the client you can specify
+     *                               a custom filename here.
      */
     public static function serverStaticFile($file, $contentType, $expireFarFutureDays = 100, $byteStart = false,
-                                            $byteEnd = false)
+                                            $byteEnd = false, $filename = false)
     {
         // if the file cannot be found return HTTP status code '404'
         if (!file_exists($file)) {
-            self::setHttpStatus('404 Not Found');
+            Common::sendResponseCode(404);
             return;
         }
 
@@ -77,17 +80,22 @@ class ProxyHttp
 
         // set some HTTP response headers
         self::overrideCacheControlHeaders('public');
-        @header('Vary: Accept-Encoding');
-        @header('Content-Disposition: inline; filename=' . basename($file));
+        Common::sendHeader('Vary: Accept-Encoding');
+
+        if (false === $filename) {
+            $filename = basename($file);
+        }
+
+        Common::sendHeader('Content-Disposition: inline; filename=' . $filename);
 
         if ($expireFarFutureDays) {
             // Required by proxy caches potentially in between the browser and server to cache the request indeed
-            @header(self::getExpiresHeaderForFutureDay($expireFarFutureDays));
+            Common::sendHeader(self::getExpiresHeaderForFutureDay($expireFarFutureDays));
         }
 
         // Return 304 if the file has not modified since
         if ($modifiedSince === $lastModified) {
-            self::setHttpStatus('304 Not Modified');
+            Common::sendResponseCode(304);
             return;
         }
 
@@ -143,22 +151,22 @@ class ProxyHttp
             }
         }
 
-        @header('Last-Modified: ' . $lastModified);
+        Common::sendHeader('Last-Modified: ' . $lastModified);
 
         if (!$phpOutputCompressionEnabled) {
-            @header('Content-Length: ' . ($byteEnd - $byteStart));
+            Common::sendHeader('Content-Length: ' . ($byteEnd - $byteStart));
         }
 
         if (!empty($contentType)) {
-            @header('Content-Type: ' . $contentType);
+            Common::sendHeader('Content-Type: ' . $contentType);
         }
 
         if ($compressed) {
-            @header('Content-Encoding: ' . $encoding);
+            Common::sendHeader('Content-Encoding: ' . $encoding);
         }
 
         if (!_readfile($file, $byteStart, $byteEnd)) {
-            self::setHttpStatus('505 Internal server error');
+            Common::sendResponseCode(500);
         }
     }
 
@@ -209,29 +217,13 @@ class ProxyHttp
     public static function overrideCacheControlHeaders($override = null)
     {
         if ($override || self::isHttps()) {
-            @header('Pragma: ');
-            @header('Expires: ');
+            Common::stripHeader('Pragma');
+            Common::stripHeader('Expires');
             if (in_array($override, array('public', 'private', 'no-cache', 'no-store'))) {
-                @header("Cache-Control: $override, must-revalidate");
+                Common::sendHeader("Cache-Control: $override, must-revalidate");
             } else {
-                @header('Cache-Control: must-revalidate');
+                Common::sendHeader('Cache-Control: must-revalidate');
             }
-        }
-    }
-
-    /**
-     * Set response header, e.g., HTTP/1.0 200 Ok
-     *
-     * @param string $status Status
-     * @return bool
-     */
-    protected static function setHttpStatus($status)
-    {
-        if (strpos(PHP_SAPI, '-fcgi') === false) {
-            @header($_SERVER['SERVER_PROTOCOL'] . ' ' . $status);
-        } else {
-            // FastCGI
-            @header('Status: ' . $status);
         }
     }
 
@@ -239,7 +231,7 @@ class ProxyHttp
      * Returns a formatted Expires HTTP header for a certain number of days in the future. The result
      * can be used in a call to `header()`.
      */
-    private function getExpiresHeaderForFutureDay($expireFarFutureDays)
+    private static function getExpiresHeaderForFutureDay($expireFarFutureDays)
     {
         return "Expires: " . gmdate('D, d M Y H:i:s', time() + 86400 * (int)$expireFarFutureDays) . ' GMT';
     }
@@ -250,7 +242,7 @@ class ProxyHttp
 
         if (preg_match(self::DEFLATE_ENCODING_REGEX, $acceptEncoding, $matches)) {
             return array('deflate', '.deflate');
-        } else if (preg_match(self::GZIP_ENCODING_REGEX, $acceptEncoding, $matches)) {
+        } elseif (preg_match(self::GZIP_ENCODING_REGEX, $acceptEncoding, $matches)) {
             return array('gzip', '.gz');
         } else {
             return array(false, false);
@@ -278,7 +270,7 @@ class ProxyHttp
 
         if ($compressionEncoding == 'deflate') {
             $data = gzdeflate($data, 9);
-        } else if ($compressionEncoding == 'gzip' || $compressionEncoding == 'x-gzip') {
+        } elseif ($compressionEncoding == 'gzip' || $compressionEncoding == 'x-gzip') {
             $data = gzencode($data, 9);
         }
 

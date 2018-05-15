@@ -1,0 +1,31 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s hemen çıkma",
+        "DirectEntries": "Doğrudan Girişler",
+        "ErrorBack": "Önceki işleme dön",
+        "ExitsInline": "%s çıkış",
+        "NumPageviews": "%s sayfa görüntüleme",
+        "NumDownloads": "%s indirme",
+        "NumOutlinks": "%s giden bağlantı",
+        "FromCampaigns": "Kampanyalardan Geçişler",
+        "FromPreviousPages": "İç Sayfalardan",
+        "FromPreviousPagesInline": "%s iç sayfalardan",
+        "FromPreviousSiteSearches": "İç Aramalardan",
+        "FromPreviousSiteSearchesInline": "%s iç aramalardan",
+        "FromSearchEngines": "Arama Motorlarından",
+        "FromWebsites": "Web Sitelerinden",
+        "IncomingTraffic": "Gelen Trafik",
+        "LoopsInline": "%s sayfa yüklemesi",
+        "NoDataForAction": "%s için herhangi bir veri yok",
+        "NoDataForActionDetails": "%s zaman aralığından işlem için hiç bir sayfa görüntülenmemiş ya da geçersiz.",
+        "OutgoingTraffic": "Giden Trafik",
+        "PluginDescription": "Bu rapor, işlem raporları bölümündeki yeni simgesi ile erişilebilen yeni geçiş raporunda her sayfa adresi için önceki ve sonraki işlemleri içerir.",
+        "ShareOfAllPageviews": "Bu sayfa %1$s kez görüntülenmiş (toplam sayfa görüntülemelerinden %2$s).",
+        "ToFollowingPages": "İç Sayfalara",
+        "ToFollowingPagesInline": "%s iç sayfalara",
+        "ToFollowingSiteSearches": "İç Aramalar",
+        "ToFollowingSiteSearchesInline": "%s iç arama",
+        "XOfAllPageviews": "Bu sayfanın tüm görüntülenmelerinden %s",
+        "XOutOfYVisits": "%1$s (toplam %2$s)"
+    }
+}

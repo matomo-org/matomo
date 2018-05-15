@@ -1,0 +1,48 @@
+{% import '@CoreVisualizations/macros.twig' as macros %}
+
+{% if not isWidget %}
+    <div class="card"><div class="card-content">
+{% endif %}
+    {% if title is not empty %}<h2 class="card-title"
+                                    {% if titleAttributes is not empty %}{% for attribute, value in titleAttributes %}{{ attribute }}="{{ value }}"{% endfor %}{% endif %}
+                                >{{ title }}</h2>{% endif %}
+    {% if not isWidget %}
+    <div class="row">
+        <div class="col m6">
+    {% endif %}
+
+            {% for key, sparkline in sparklines %}
+                {% if key is even %}
+                    {{ macros.singleSparkline(sparkline, allMetricsDocumentation, areSparklinesLinkable) }}
+                {% endif %}
+            {% endfor %}
+
+    {% if not isWidget %}
+            <br style="clear:left"/>
+        </div>
+        <div class="col m6">
+    {% endif %}
+
+            {% for key, sparkline in sparklines %}
+                {% if key is odd %}
+                    {{ macros.singleSparkline(sparkline, allMetricsDocumentation, areSparklinesLinkable) }}
+                {% endif %}
+            {% endfor %}
+
+            <br style="clear:left"/>
+
+    {% if not isWidget %}
+        </div>
+    </div>
+    {% endif %}
+
+    {%  if areSparklinesLinkable %}
+        {% include "_sparklineFooter.twig" %}
+    {% endif %}
+
+    {% if footerMessage is not empty %}
+        <div class='datatableFooterMessage'>{{ footerMessage | raw }}</div>
+    {% endif %}
+{% if not isWidget %}
+        </div></div>
+{% endif %}

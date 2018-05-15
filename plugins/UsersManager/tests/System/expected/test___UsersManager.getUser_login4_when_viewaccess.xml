@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<login>login4</login>
+		
+		<alias>login4</alias>
+		<email>login4@example.com</email>
+		<superuser_access>0</superuser_access>
+		
+	</row>
+</result>

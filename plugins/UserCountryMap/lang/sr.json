@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "Ovaj dodatak donosi vidžete Mapa posetilaca i Mapa u realnom vremenu. Zahteva UserCountry dodatak.",
+        "AndNOthers": "i %s ostalih",
+        "Cities": "Gradovi",
+        "Countries": "Države",
+        "DaysAgo": "pre %s dana",
+        "GoalConversions": "%s ispunjenih ciljeva",
+        "HoursAgo": "pre %s sati",
+        "map": "mapa",
+        "MinutesAgo": "pre %s minuta",
+        "None": "Ništa",
+        "NoVisit": "Nema poseta",
+        "RealTimeMap": "Mapa u realnom vremenu",
+        "Regions": "Regioni",
+        "Searches": "%s pretraga",
+        "SecondsAgo": "pre %s sekundi",
+        "ShowingVisits": "Geolocirane posete od poslednjih",
+        "Unlocated": "<b>%s<\/b> %p od poseta sa %c nije moguće geolocirati.",
+        "VisitorMap": "Mapa posetilaca",
+        "WorldWide": "Ceo svet",
+        "WithUnknownRegion": "%s sa nepoznatim regionom",
+        "WithUnknownCity": "%s sa nepoznatim gradom"
+    }
+}

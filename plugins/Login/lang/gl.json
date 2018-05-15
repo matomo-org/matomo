@@ -1,0 +1,8 @@
+{
+    "Login": {
+        "InvalidUsernameEmail": "O nome do usuario ou o enderezo de correo electrónicoo son incorrectos",
+        "LogIn": "Conectar",
+        "LoginPasswordNotCorrect": "Usuario e contrasinal incorrectos",
+        "LostYourPassword": "Esqueceu o contrasinal?"
+    }
+}

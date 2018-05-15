@@ -15,28 +15,39 @@
  * <div piwik-autocomplete-matched="searchTerm">{{ name }}</div>
  * <input type="text" ng-model="searchTerm">
  */
-angular.module('piwikApp.directive').directive('piwikAutocompleteMatched', function() {
-    return function(scope, element, attrs) {
-        var searchTerm;
+(function () {
+    angular.module('piwikApp.directive').directive('piwikAutocompleteMatched', piwikAutocompleteMatched);
 
-        scope.$watch(attrs.piwikAutocompleteMatched, function(value) {
-            searchTerm = value;
-            updateText();
-        });
+    piwikAutocompleteMatched.$inject = ['piwik', '$sanitize'];
 
-        function updateText () {
-            if (!searchTerm || !element) {
-                return;
+    function piwikAutocompleteMatched(piwik, $sanitize) {
+
+        return {
+            priority: 10, // makes sure to render after other directives, otherwise the content might be overwritten again see https://github.com/piwik/piwik/pull/8467
+            link: function (scope, element, attrs) {
+                var searchTerm;
+
+                scope.$watch(attrs.piwikAutocompleteMatched, function (value) {
+                    searchTerm = value;
+                    updateText();
+                });
+
+                function updateText() {
+                    if (!searchTerm || !element) {
+                        return;
+                    }
+
+                    var content = piwik.helper.htmlEntities(element.text());
+                    var startTerm = content.toLowerCase().indexOf(searchTerm.toLowerCase());
+
+                    if (-1 !== startTerm) {
+                        var word = content.substr(startTerm, searchTerm.length);
+                        var escapedword = $sanitize(piwik.helper.htmlEntities(word));
+                        content = content.replace(word, '<span class="autocompleteMatched">' + escapedword + '</span>');
+                        element.html(content);
+                    }
+                }
             }
-
-            var content   = element.html();
-            var startTerm = content.toLowerCase().indexOf(searchTerm.toLowerCase());
-
-            if (-1 !== startTerm) {
-                var word = content.substr(startTerm, searchTerm.length);
-                content = content.replace(word, '<span class="autocompleteMatched">' + word + '</span>');
-                element.html(content);
-            }
-        }
-    };
-});
+        };
+    }
+})();

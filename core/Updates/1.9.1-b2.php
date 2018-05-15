@@ -9,25 +9,35 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_9_1_b2 extends Updates
 {
-    static function getSql()
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'ALTER TABLE ' . Common::prefixTable('site') . " DROP `feedburnerName`" => 1091
+            $this->migration->db->dropColumn('site', 'feedburnerName')
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         // manually remove ExampleFeedburner column
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
 
         // remove ExampleFeedburner plugin
         $pluginToDelete = 'ExampleFeedburner';

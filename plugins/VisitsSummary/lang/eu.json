@@ -1,0 +1,10 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s galdera exekutatuta",
+        "GenerateTime": "%s segundo orria sortzeko",
+        "VisitsSummary": "Bisiten laburpena",
+        "WidgetLastVisits": "Azken bisiten grafikoa",
+        "WidgetOverviewGraph": "Ikuspegi orokorra grafikoarekin",
+        "WidgetVisits": "Bisiten ikuspegi orokorra"
+    }
+}

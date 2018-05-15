@@ -1,0 +1,8 @@
+{
+    "CustomPiwikJs": {
+        "PluginDescription": "I lejon cilësdo shtojcë të zgjerojë kartelën Matomo JavaScript Tracking (piwik.js) dhe të shtojë aftësi të reja funksionimi dhe matjesh në sajt.",
+        "DiagnosticPiwikJsWritable": "Ndjekës JavaScript i Shkrueshëm (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "Kartela e ndjekësit JavaScript të Matomo-ut, \"\/piwik.js\" s’është e shkrueshme, çka do të thotë se shtojcat e tjera s’mund ta zgjerojnë ndjekësin JavaScript. Në të ardhmen mund të mos punojnë siç pritet madje edhe disa veçori bazë.",
+        "DiagnosticPiwikJsMakeWritable": "Këshillojmë bërjen e piwik.js të shkrueshme, duke xhiruar urdhrin: %s"
+    }
+}

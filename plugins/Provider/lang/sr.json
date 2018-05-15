@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Provajder",
+        "PluginDescription": "Prikazuje Internet provajdere posetilaca.",
+        "ProviderReportDocumentation": "Ovaj izveštaj prikazuje koje Internet provajdere koriste vaši posetioci kako bi pristupili sajtu. Možete kliknuti na naziv provajdera kako biste videli više detalja. %s Ako Matomo ne može da odredi koji provajder je u pitanju, onda prikazuje IP.",
+        "WidgetProviders": "Provajderi",
+        "ProviderReportFooter": "Nepoznat provajder znači da nije moguće razrešiti IP adresu."
+    }
+}

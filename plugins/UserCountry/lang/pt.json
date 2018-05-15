@@ -1,0 +1,13 @@
+{
+    "UserCountry": {
+        "Continent": "Continente",
+        "Country": "País",
+        "country_a1": "Proxy anónimo",
+        "country_a2": "Fornecedor Satélite",
+        "country_cat": "Comunidades língua Catalã",
+        "country_o1": "Outro País",
+        "DistinctCountries": "%s países distintos",
+        "Location": "Localização",
+        "SubmenuLocations": "Localizações"
+    }
+}

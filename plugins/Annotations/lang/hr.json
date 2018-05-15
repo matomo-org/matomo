@@ -1,0 +1,11 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Dodaj bilješke za %s...",
+        "AnnotationOnDate": "Interaktivne bilješke na %1$s: %2$s",
+        "Annotations": "Interaktivne bilješke",
+        "ClickToDelete": "Kliknite izbrisati ovu obavijest.",
+        "ClickToEdit": "Klikni za urediti ovu obavijest.",
+        "EnterAnnotationText": "Unesi svoju bilješku",
+        "LoginToAnnotate": "Prijavi se za objaviti obavijest."
+    }
+}

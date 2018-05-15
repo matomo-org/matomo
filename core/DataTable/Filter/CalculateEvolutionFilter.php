@@ -8,8 +8,10 @@
  */
 namespace Piwik\DataTable\Filter;
 
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\NumberFormatter;
 use Piwik\Site;
 
 /**
@@ -26,6 +28,7 @@ use Piwik\Site;
  *     ((currentValue - pastValue) / pastValue) * 100
  *
  * @api
+ * @deprecated since v2.10.0
  */
 class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
 {
@@ -100,7 +103,9 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
     protected function getDivisor($row)
     {
         $pastRow = $this->getPastRowFromCurrent($row);
-        if (!$pastRow) return 0;
+        if (!$pastRow) {
+            return 0;
+        }
 
         return $pastRow->getColumn($this->columnNameUsedAsDivisor);
     }
@@ -121,6 +126,9 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
     {
         $value = self::getPercentageValue($value, $divisor, $this->quotientPrecision);
         $value = self::appendPercentSign($value);
+
+        $value = Common::forceDotAsSeparatorForDecimalPoint($value);
+
         return $value;
     }
 
@@ -150,9 +158,10 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
     {
         $number = self::getPercentageValue($currentValue - $pastValue, $pastValue, $quotientPrecision);
         if ($appendPercentSign) {
-            $number = self::appendPercentSign($number);
+            return NumberFormatter::getInstance()->formatPercent($number, $quotientPrecision);
         }
-        return $number;
+
+        return NumberFormatter::getInstance()->format($number, $quotientPrecision);
     }
 
     public static function appendPercentSign($number)
@@ -165,6 +174,7 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
         if ($number > 0) {
             $number = '+' . $number;
         }
+
         return $number;
     }
 

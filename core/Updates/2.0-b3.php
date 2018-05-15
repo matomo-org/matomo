@@ -9,34 +9,43 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_2_0_b3 extends Updates
 {
-    static function isMajorUpdate()
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public static function isMajorUpdate()
     {
         return true;
     }
 
-    static function getSql()
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'ALTER TABLE ' . Common::prefixTable('log_visit')
-            . " ADD COLUMN  visit_total_events SMALLINT(5) UNSIGNED NOT NULL AFTER visit_total_searches" => 1060,
-
-            'ALTER TABLE ' . Common::prefixTable('log_link_visit_action')
-            . " ADD COLUMN  idaction_event_category INTEGER(10) UNSIGNED AFTER idaction_name_ref,
-	            ADD COLUMN  idaction_event_action INTEGER(10) UNSIGNED AFTER idaction_event_category" => 1060,
+            $this->migration->db->addColumn('log_visit', 'visit_total_events', 'SMALLINT(5) UNSIGNED NOT NULL', 'visit_total_searches'),
+            $this->migration->db->addColumns('log_link_visit_action', array(
+                'idaction_event_category' => 'INTEGER(10) UNSIGNED',
+                'idaction_event_action' => 'INTEGER(10) UNSIGNED'
+            ), $placeAfter = 'idaction_name_ref')
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
 
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('Events');

@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "在這份報表中找不到欄位「%1$s」。嘗試下列任一：%2$s",
+        "PluginDescription": "從你任何資料報表產生優美的靜態 PNG 圖像檔案。"
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "API": {
+        "ChangeTokenHint": "Om du vill ändra denna token gå till din %1$spersonliga inställningssida%2$s.",
+        "GenerateVisits": "Om du inte har data för idag så kan du först skapa några data med hjälp av %1$s plugin. Du kan aktivera %2$s plugin, klicka sedan på 'Besöksgeneratorn'-menyn i Matomo administrationsområdet.",
+        "KeepTokenSecret": "Detta token_auth är lika hemligt som ditt användarnamn och lösenord, %1$s dela inte med dig av detta! %2$s!",
+        "LoadedAPIs": "Laddade in %s API'er utan problem",
+        "MoreInformation": "För mer information om Matomos API'er, ta en titt i %1$s Introduction to Matomo API %2$s och %3$s Matomo API Reference %4$s.",
+        "PluginDescription": "Allt data i Matomo finns tillgängligt genom enkla API:er. Denna plugin är en web service entry point, vilken du kan använda för att hämta ditt Matomo-data i formaten xml, json, php, csv, etc.",
+        "ReportingApiReference": "Rapporterings-API referens",
+        "TopLinkTooltip": "Få åtkomst till webbanalysdata programmatiskt genom ett enkelt API i t.ex. json, xml etc.",
+        "UserAuthentication": "Användarautentisering",
+        "UsingTokenAuth": "Om du vill %1$s begära uppgifter inom ett skript, ett crontab-jobb, etc. %2$s måste du lägga till parametern %3$s till API-anrop webbadresser som kräver autentisering.",
+        "Glossary": "Ordbok",
+        "LearnAboutCommonlyUsedTerms": "Lär dig mer om de vanligaste termerna för att få ut mest av Matomo Analytics: %1$s och %2$s."
+    }
+}

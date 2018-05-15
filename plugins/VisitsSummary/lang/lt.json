@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s aktyvuotos užklausos",
+        "GenerateTime": "%s sekundės puslapiui sugeneruoti",
+        "NbActionsDescription": "%s veiksmai (puslapio peržiūros, atsisiuntimai ir išorinės nuorodos)",
+        "NbVisitsDescription": "apsilankymų",
+        "VisitsSummary": "Apsilankymų suvestinė",
+        "WidgetLastVisits": "Paskutinių apsilankymų diagrama",
+        "WidgetOverviewGraph": "Peržiūra su diagrama",
+        "WidgetVisits": "Apsilankymų peržiūra"
+    }
+}

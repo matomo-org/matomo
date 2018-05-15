@@ -1,0 +1,10 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s bez aktywnych wtyczek",
+        "BrowserWithPluginsEnabled": "%1$s z aktywnymi wtyczkami: %2$s",
+        "PluginDescription": "Zwraca listę wtyczek wspieranych przez przeglądarki odwiedzających.",
+        "PluginDetectionDoesNotWorkInIE": "NOTKA: Wykrywanie wtyczek nie działa w starszych niż 11 wersjach Internet Explorer'a. Ten raport bazuje na danych z nowszych wersji IE i pozostałych przeglądarek.",
+        "WidgetPlugins": "Lista wtyczek",
+        "WidgetPluginsDocumentation": "Ten raport pokazuje, które wtyczki były aktywne w przeglądarkach Twoich odwiedzających. To może być ważna informacja, która pomoże zdecydować w jaki sposób zwracać treści."
+    }
+}

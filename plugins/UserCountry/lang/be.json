@@ -1,0 +1,13 @@
+{
+    "UserCountry": {
+        "Continent": "Кантынент",
+        "Country": "Краіна",
+        "country_a1": "Ананімныя проксі",
+        "country_a2": "Спадарожнікавы правайдар",
+        "country_cat": "Абшчыны, якія гавораць па Каталонскі",
+        "country_o1": "Іншыя краіны",
+        "DistinctCountries": "%s унікальных краін",
+        "Location": "Лакаця",
+        "SubmenuLocations": "Лакацыі"
+    }
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>My secret spy tech</label>
+		<revenue>10000000000</revenue>
+		<quantity>1</quantity>
+		<abandoned_carts>1</abandoned_carts>
+		<avg_price>10000000000</avg_price>
+		<avg_quantity>1</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+	</row>
+</result>

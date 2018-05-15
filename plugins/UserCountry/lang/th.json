@@ -1,0 +1,19 @@
+{
+    "UserCountry": {
+        "City": "เมือง",
+        "Continent": "ทวีป",
+        "Country": "ประเทศ",
+        "country_a2": "ผู้ให้บริการดาวเทียม",
+        "country_o1": "ประเทศอื่นๆ",
+        "DistinctCountries": "%s การเข้าชมตามประเทศ",
+        "DownloadingDb": "กำลังดาวน์โหลด %s",
+        "ISPDatabase": "ฐานข้อมูล ISP",
+        "Latitude": "ละติจูด",
+        "Location": "ตำแหน่งที่ตั้ง",
+        "Longitude": "ลองจิจูด",
+        "Region": "ภูมิภาค",
+        "SetupAutomaticUpdatesOfGeoIP": "ติดตั้งการปรับปรุงอัตโนมัติจากฐานข้อมูล GeoIP",
+        "SubmenuLocations": "ตำแหน่งที่อยู่",
+        "UpdaterWasLastRun": "ตัวปรับปรุงทำงานครั้งล่าสุดเมื่อ %s"
+    }
+}

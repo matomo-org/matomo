@@ -11,9 +11,14 @@ namespace Piwik\Plugins\SitesManager;
 use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
+use Piwik\Session;
+use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
+use Piwik\Tracker\TrackerCodeGenerator;
+use Piwik\Url;
 use Piwik\View;
 
 /**
@@ -26,21 +31,25 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function index()
     {
-        $view = new View('@SitesManager/index');
+        Piwik::checkUserHasSomeAdminAccess();
 
-        $this->setBasicVariablesView($view);
+        return $this->renderTemplate('index');
+    }
+    
+    public function globalSettings()
+    {
+        Piwik::checkUserHasSuperUserAccess();
 
-        return $view->render();
+        return $this->renderTemplate('globalSettings');
     }
 
-    public function getGlobalSettings() {
-
+    public function getGlobalSettings()
+    {
         Piwik::checkUserHasSomeViewAccess();
 
         $response = new ResponseBuilder(Common::getRequestVar('format'));
 
         $globalSettings = array();
-
         $globalSettings['keepURLFragmentsGlobal'] = API::getInstance()->getKeepURLFragmentsGlobal();
         $globalSettings['siteSpecificUserAgentExcludeEnabled'] = API::getInstance()->isSiteSpecificUserAgentExcludeEnabled();
         $globalSettings['defaultCurrency'] = API::getInstance()->getDefaultCurrency();
@@ -99,15 +108,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $idSite = Common::getRequestVar('idSite');
         Piwik::checkUserHasViewAccess($idSite);
-        $jsTag = Piwik::getJavascriptCode($idSite, SettingsPiwik::getPiwikUrl());
-        $view = new View('@SitesManager/displayJavascriptCode');
-        $this->setBasicVariablesView($view);
-        $view->idSite = $idSite;
-        $site = new Site($idSite);
-        $view->displaySiteName = $site->getName();
-        $view->jsTag = $jsTag;
+        $javascriptGenerator = new TrackerCodeGenerator();
+        $jsTag = $javascriptGenerator->generate($idSite, SettingsPiwik::getPiwikUrl());
+        $site  = new Site($idSite);
 
-        return $view->render();
+        return $this->renderTemplate('displayJavascriptCode', array(
+            'idSite' => $idSite,
+            'displaySiteName' => $site->getName(),
+            'jsTag' => $jsTag
+        ));
     }
 
     /**
@@ -117,8 +126,44 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         $path = PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/';
         $filename = 'PiwikTracker.php';
-        header('Content-type: text/php');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        Common::sendHeader('Content-type: text/php');
+        Common::sendHeader('Content-Disposition: attachment; filename="' . $filename . '"');
         return file_get_contents($path . $filename);
+    }
+
+    public function ignoreNoDataMessage()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        $session = new Session\SessionNamespace('siteWithoutData');
+        $session->ignoreMessage = true;
+        $session->setExpirationSeconds($oneHour = 60 * 60);
+
+        $url = Url::getCurrentUrlWithoutQueryString() . Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreHome', 'action' => 'index'));
+        Url::redirectToUrl($url);
+    }
+
+    public function siteWithoutData()
+    {
+        $javascriptGenerator = new TrackerCodeGenerator();
+        $piwikUrl = Url::getCurrentUrlWithoutFileName();
+
+        if (!$this->site && Piwik::hasUserSuperUserAccess()) {
+            throw new UnexpectedWebsiteFoundException('Invalid site ' . $this->idSite);
+        } elseif (!$this->site) {
+            // redirect to login form
+            Piwik::checkUserHasViewAccess($this->idSite);
+        }
+
+        return $this->renderTemplate('siteWithoutData', array(
+            'siteName'     => $this->site->getName(),
+            'idSite' => $this->site->getId(),
+            'trackingHelp' => $this->renderTemplate('_displayJavascriptCode', array(
+                'displaySiteName' => Common::unsanitizeInputValue($this->site->getName()),
+                'jsTag'           => $javascriptGenerator->generate($this->idSite, $piwikUrl),
+                'idSite'          => $this->idSite,
+                'piwikUrl'        => $piwikUrl,
+            )),
+        ));
     }
 }

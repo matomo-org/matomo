@@ -11,7 +11,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\Annotations\API as APIAnnotations;
 use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs.php';
 
@@ -32,6 +32,8 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
     {
         parent::setUp();
 
+        $this->trackVisitWithActionsXss();
+
         $this->trackVisitsForRealtimeMap(Date::factory('2012-08-11 11:22:33'), $createSeperateVisitors = false);
 
         $this->addAnnotations();
@@ -48,12 +50,17 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
             APIGoals::getInstance()->addGoal(
-                $this->idSite, self::makeXssContent("goal name"), 'url', 'http', 'contains', false, 5);
+                $this->idSite, self::makeXssContent("goal name"), 'url', 'http', 'contains', false, 5, false, self::makeXssContent("goal description"));
         }
 
         if (!self::siteCreated($idSite = 2)) {
             self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
                 $siteUrl = 'http://example-site-two.com');
+        }
+
+        if (!self::siteCreated($idSite = 3)) {
+            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test three',
+                $siteUrl = 'http://example-site-three.com');
         }
     }
 
@@ -119,5 +126,19 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
         $t->setLatitude(-23.55);
         $t->setLongitude(-46.64);
         self::checkResponse($t->doTrackPageView('incredible title!'));
+    }
+
+    private function trackVisitWithActionsXss()
+    {
+        $urlXss = self::makeXssContent('page url');
+        $titleXss = self::makeXssContent('page title');
+
+        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit= true);
+        $t->setUrl('http://example.org/' . urlencode($urlXss));
+        self::checkResponse($t->doTrackPageView(urlencode($titleXss)));
+
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(1)->getDateTime());
+        $t->setUrl('http://example.org/' . $urlXss);
+        self::checkResponse($t->doTrackPageView($titleXss));
     }
 }

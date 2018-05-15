@@ -1,11 +1,24 @@
 $(function () {
-    $('#toFade').fadeOut(4000, function () { $(this).show().css({visibility: 'hidden'}); });
     $('input:first').focus();
-    $('#progressbar').progressbar({
-        value: parseInt($('#progressbar').attr('data-progress'))
+    $('code').click(function () {
+        $(this).select();
     });
-    $('code').click(function () { $(this).select(); });
 
     // Focus the first input field in the form
     $('form:not(.filter) :input:visible:enabled:first').focus();
+
+    $('select').material_select();
+});
+
+$(document).ready(function() {
+    $('.form-help').each(function (index, help) {
+        var $help = $(help);
+        var $row = $help.parents('.row').first();
+
+        if ($row.length) {
+            $help.addClass('col s12 m12 l6');
+            $row.append($help);
+        }
+    });
+    $(".should-get-hidden-by-js").hide();
 });

@@ -1,0 +1,11 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Kohandatud muutuja nimi",
+        "ColumnCustomVariableValue": "Kohandatud muutuja väärtus",
+        "CustomVariables": "Kohandatud muutujad",
+        "ScopePage": "skoop: lehekülg",
+        "ScopeVisit": "skoop: külastus",
+        "Index": "Indeks",
+        "Usages": "Kasutamised"
+    }
+}

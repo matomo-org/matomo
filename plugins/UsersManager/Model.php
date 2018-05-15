@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\UsersManager;
 
+use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
@@ -22,10 +23,24 @@ use Piwik\Piwik;
  * Existing Permissions are listed given a login via "getSitesAccessFromUser", or a website ID via "getUsersAccessFromSite",
  * or you can list all users and websites for a given permission via "getUsersSitesFromAccess". Permissions are set and updated
  * via the method "setUserAccess".
- * See also the documentation about <a href='http://piwik.org/docs/manage-users/' target='_blank'>Managing Users</a> in Piwik.
+ * See also the documentation about <a href='http://piwik.org/docs/manage-users/' rel='noreferrer' target='_blank'>Managing Users</a> in Piwik.
  */
 class Model
 {
+    private static $rawPrefix = 'user';
+    private $table;
+
+    /**
+     * @var Password
+     */
+    private $passwordHelper;
+
+    public function __construct()
+    {
+        $this->passwordHelper = new Password();
+        $this->table = Common::prefixTable(self::$rawPrefix);
+    }
+
     /**
      * Returns the list of all the users
      *
@@ -39,13 +54,13 @@ class Model
 
         if (!empty($userLogins)) {
             $where = 'WHERE login IN (' . Common::getSqlStringFieldsArray($userLogins) . ')';
-            $bind = $userLogins;
+            $bind  = $userLogins;
         }
 
-        $users = Db::get()->fetchAll("SELECT *
-                                      FROM " . Common::prefixTable("user") . "
-                                      $where
-                                      ORDER BY login ASC", $bind);
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT * FROM " . $this->table . "
+                                $where
+                                ORDER BY login ASC", $bind);
 
         return $users;
     }
@@ -57,9 +72,9 @@ class Model
      */
     public function getUsersLogin()
     {
-        $users = Db::get()->fetchAll("SELECT login
-                                      FROM " . Common::prefixTable("user") . "
-                                      ORDER BY login ASC");
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT login FROM " . $this->table . " ORDER BY login ASC");
+
         $return = array();
         foreach ($users as $login) {
             $return[] = $login['login'];
@@ -70,10 +85,10 @@ class Model
 
     public function getUsersSitesFromAccess($access)
     {
-        $users = Db::get()->fetchAll("SELECT login,idsite
-                                      FROM " . Common::prefixTable("access")
-                                  . " WHERE access = ?
-                                      ORDER BY login, idsite", $access);
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT login,idsite FROM " . Common::prefixTable("access")
+                                . " WHERE access = ?
+                                    ORDER BY login, idsite", $access);
 
         $return = array();
         foreach ($users as $user) {
@@ -85,9 +100,9 @@ class Model
 
     public function getUsersAccessFromSite($idSite)
     {
-        $users = Db::get()->fetchAll("SELECT login,access
-                                      FROM " . Common::prefixTable("access")
-                                  . " WHERE idsite = ?", $idSite);
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT login,access FROM " . Common::prefixTable("access")
+                             . " WHERE idsite = ?", $idSite);
 
         $return = array();
         foreach ($users as $user) {
@@ -99,9 +114,10 @@ class Model
 
     public function getUsersLoginWithSiteAccess($idSite, $access)
     {
-        $users = Db::get()->fetchAll("SELECT login
-                                      FROM " . Common::prefixTable("access")
-                                  . " WHERE idsite = ? AND access = ?", array($idSite, $access));
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT login
+                                           FROM " . Common::prefixTable("access")
+                                       . " WHERE idsite = ? AND access = ?", array($idSite, $access));
 
         $logins = array();
         foreach ($users as $user) {
@@ -129,9 +145,9 @@ class Model
      */
     public function getSitesAccessFromUser($userLogin)
     {
-        $users = Db::get()->fetchAll("SELECT idsite,access
-                                      FROM " . Common::prefixTable("access")
-                                  . " WHERE login = ?", $userLogin);
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT idsite,access FROM " . Common::prefixTable("access")
+                                        . " WHERE login = ?", $userLogin);
 
         $return = array();
         foreach ($users as $user) {
@@ -146,30 +162,39 @@ class Model
 
     public function getUser($userLogin)
     {
-        return Db::get()->fetchRow("SELECT *
-                                    FROM " . Common::prefixTable("user")
-                                . " WHERE login = ?", $userLogin);
+        $db = $this->getDb();
+
+        $matchedUsers = $db->fetchAll("SELECT * FROM " . $this->table . " WHERE login = ?", $userLogin);
+
+        // for BC in 2.15 LTS, if there is a user w/ an exact match to the requested login, return that user.
+        // this is done since before this change, login was case sensitive. until 3.0, we want to maintain
+        // this behavior.
+        foreach ($matchedUsers as $user) {
+            if ($user['login'] == $userLogin) {
+                return $user;
+            }
+        }
+
+        return reset($matchedUsers);
     }
 
     public function getUserByEmail($userEmail)
     {
-        return Db::get()->fetchRow("SELECT *
-                                    FROM " . Common::prefixTable("user")
-                                . " WHERE email = ?", $userEmail);
+        $db = $this->getDb();
+        return $db->fetchRow("SELECT * FROM " . $this->table . " WHERE email = ?", $userEmail);
     }
 
     public function getUserByTokenAuth($tokenAuth)
     {
-        return Db::get()->fetchRow('SELECT *
-                                    FROM ' . Common::prefixTable('user') . '
-					                WHERE token_auth = ?', $tokenAuth);
+        $db = $this->getDb();
+        return $db->fetchRow('SELECT * FROM ' . $this->table . ' WHERE token_auth = ?', $tokenAuth);
     }
 
-    public function addUser($userLogin, $passwordTransformed, $email, $alias, $tokenAuth, $dateRegistered)
+    public function addUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth, $dateRegistered)
     {
         $user = array(
             'login'            => $userLogin,
-            'password'         => $passwordTransformed,
+            'password'         => $hashedPassword,
             'alias'            => $alias,
             'email'            => $email,
             'token_auth'       => $tokenAuth,
@@ -177,62 +202,88 @@ class Model
             'superuser_access' => 0
         );
 
-        Db::get()->insert(Common::prefixTable("user"), $user);
+        $db = $this->getDb();
+        $db->insert($this->table, $user);
     }
 
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
     {
-        Db::get()->update(Common::prefixTable("user"),
-            array(
-                'superuser_access' => $hasSuperUserAccess ? 1 : 0
-            ),
-            "login = '$userLogin'"
-        );
+        $this->updateUserFields($userLogin, array(
+            'superuser_access' => $hasSuperUserAccess ? 1 : 0
+        ));
     }
 
+    private function updateUserFields($userLogin, $fields)
+    {
+        $set  = array();
+        $bind = array();
+
+        foreach ($fields as $key => $val) {
+            $set[]  = "`$key` = ?";
+            $bind[] = $val;
+        }
+
+        $bind[] = $userLogin;
+
+        $db = $this->getDb();
+        $db->query(sprintf('UPDATE `%s` SET %s WHERE `login` = ?', $this->table, implode(', ', $set)), $bind);
+    }
+
+    /**
+     * Note that this returns the token_auth which is as private as the password!
+     *
+     * @return array[] containing login, email and token_auth
+     */
     public function getUsersHavingSuperUserAccess()
     {
-        $users = Db::get()->fetchAll("SELECT login, email
-                                      FROM " . Common::prefixTable("user") . "
-                                      WHERE superuser_access = 1
-                                      ORDER BY date_registered ASC");
+        $db = $this->getDb();
+        $users = $db->fetchAll("SELECT login, email, token_auth
+                                FROM " . Common::prefixTable("user") . "
+                                WHERE superuser_access = 1
+                                ORDER BY date_registered ASC");
 
         return $users;
     }
 
-    public function updateUser($userLogin, $password, $email, $alias, $tokenAuth)
+    public function updateUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth)
     {
-        Db::get()->update(Common::prefixTable("user"),
-            array(
-                 'password'   => $password,
-                 'alias'      => $alias,
-                 'email'      => $email,
-                 'token_auth' => $tokenAuth
-            ),
-            "login = '$userLogin'"
-        );
+        $this->updateUserFields($userLogin, array(
+            'password'   => $hashedPassword,
+            'alias'      => $alias,
+            'email'      => $email,
+            'token_auth' => $tokenAuth
+        ));
+    }
+
+    public function updateUserTokenAuth($userLogin, $tokenAuth)
+    {
+        $this->updateUserFields($userLogin, array(
+            'token_auth' => $tokenAuth
+        ));
     }
 
     public function userExists($userLogin)
     {
-        $count = Db::get()->fetchOne("SELECT count(*)
-                                      FROM " . Common::prefixTable("user") . "
-                                      WHERE login = ?", $userLogin);
+        $db = $this->getDb();
+        $count = $db->fetchOne("SELECT count(*) FROM " . $this->table . " WHERE login = ?", $userLogin);
+
         return $count != 0;
     }
 
     public function userEmailExists($userEmail)
     {
-        $count = Db::get()->fetchOne("SELECT count(*)
-                                      FROM " . Common::prefixTable("user") . "
-                                      WHERE email = ?", $userEmail);
+        $db = $this->getDb();
+        $count = $db->fetchOne("SELECT count(*) FROM " . $this->table . " WHERE email = ?", $userEmail);
+
         return $count != 0;
     }
 
     public function addUserAccess($userLogin, $access, $idSites)
     {
+        $db = $this->getDb();
+
         foreach ($idSites as $idsite) {
-            Db::get()->insert(Common::prefixTable("access"),
+            $db->insert(Common::prefixTable("access"),
                 array("idsite" => $idsite,
                       "login"  => $userLogin,
                       "access" => $access)
@@ -242,7 +293,8 @@ class Model
 
     public function deleteUserOnly($userLogin)
     {
-        Db::get()->query("DELETE FROM " . Common::prefixTable("user") . " WHERE login = ?", $userLogin);
+        $db = $this->getDb();
+        $db->query("DELETE FROM " . $this->table . " WHERE login = ?", $userLogin);
 
         /**
          * Triggered after a user has been deleted.
@@ -257,18 +309,25 @@ class Model
 
     public function deleteUserAccess($userLogin, $idSites = null)
     {
+        $db = $this->getDb();
+
         if (is_null($idSites)) {
-            Db::get()->query("DELETE FROM " . Common::prefixTable("access") .
+            $db->query("DELETE FROM " . Common::prefixTable("access") .
                 " WHERE login = ?",
                 array($userLogin));
         } else {
             foreach ($idSites as $idsite) {
-                Db::get()->query("DELETE FROM " . Common::prefixTable("access") .
+                $db->query("DELETE FROM " . Common::prefixTable("access") .
                     " WHERE idsite = ? AND login = ?",
                     array($idsite, $userLogin)
                 );
             }
         }
+    }
+
+    private function getDb()
+    {
+        return Db::get();
     }
 
 }

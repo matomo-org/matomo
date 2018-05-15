@@ -27,20 +27,32 @@ class UIAssetCacheBuster extends Singleton
      */
     public function piwikVersionBasedCacheBuster($pluginNames = false)
     {
-        $masterFile = PIWIK_INCLUDE_PATH . '/.git/refs/heads/master';
-        $currentGitHash = file_exists($masterFile) ? @file_get_contents($masterFile) : null;
+        static $cachedCacheBuster = null;
 
-        $pluginNames = !$pluginNames ? Manager::getInstance()->getLoadedPluginsName() : $pluginNames;
-        sort($pluginNames);
+        if (empty($cachedCacheBuster) || $pluginNames !== false) {
 
-        $pluginsInfo = '';
-        foreach ($pluginNames as $pluginName) {
-            $plugin       = Manager::getInstance()->getLoadedPlugin($pluginName);
-            $pluginsInfo .= $plugin->getPluginName() . $plugin->getVersion() . ',';
+            $masterFile     = PIWIK_INCLUDE_PATH . '/.git/refs/heads/master';
+            $currentGitHash = file_exists($masterFile) ? @file_get_contents($masterFile) : null;
+
+            $plugins = !$pluginNames ? Manager::getInstance()->getLoadedPluginsName() : $pluginNames;
+            sort($plugins);
+
+            $pluginsInfo = '';
+            foreach ($plugins as $pluginName) {
+                $plugin      = Manager::getInstance()->getLoadedPlugin($pluginName);
+                $pluginsInfo .= $plugin->getPluginName() . $plugin->getVersion() . ',';
+            }
+
+            $cacheBuster = md5($pluginsInfo . PHP_VERSION . Version::VERSION . trim($currentGitHash));
+
+            if ($pluginNames !== false) {
+                return $cacheBuster;
+            }
+
+            $cachedCacheBuster = $cacheBuster;
         }
 
-        $cacheBuster = md5($pluginsInfo . PHP_VERSION . Version::VERSION . trim($currentGitHash));
-        return $cacheBuster;
+        return $cachedCacheBuster;
     }
 
     /**

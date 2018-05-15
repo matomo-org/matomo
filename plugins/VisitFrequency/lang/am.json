@@ -1,0 +1,10 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "በመልስ ጉብኝቶች የተወሰዱ ርምጃዎች",
+        "ColumnBounceRateForReturningVisits": "የመልስ ጉብኝቶች ተመላሽ ፍጥነት",
+        "ColumnReturningVisits": "መልስ ጉበኝቶች",
+        "SubmenuFrequency": "ድግግሞሽ",
+        "WidgetGraphReturning": "የመልስ ጉብኝቶች ግራፍ",
+        "WidgetOverview": "የድግግሞሽ አጠቃላይ እይታ"
+    }
+}

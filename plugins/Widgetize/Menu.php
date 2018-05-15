@@ -8,18 +8,17 @@
  */
 namespace Piwik\Plugins\Widgetize;
 
-use Piwik\Menu\MenuUser;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-    public function configureUserMenu(MenuUser $menu)
+    public function configureAdminMenu(MenuAdmin $menu)
     {
         $tooltip   = Piwik::translate('Widgetize_TopLinkTooltip');
-        $urlParams = array('module' => 'Widgetize', 'action' => 'index', 'segment' => false);
+        $urlParams = $this->urlForAction('index', array('segment' => false));
 
-        $menu->addPlatformItem(null, $urlParams, 50, $tooltip);
-        $menu->addPlatformItem('General_Widgets', $urlParams, 5, $tooltip);
+        $menu->addPlatformItem('General_Widgets', $urlParams, 6, $tooltip);
     }
 
 }

@@ -1,0 +1,8 @@
+{
+    "CoreAdminHome": {
+        "Administration": "Administracija",
+        "EmailServerSettings": "Postavke email servera",
+        "MenuDiagnostic": "Dijagnostika",
+        "MenuGeneralSettings": "Opšte postavke"
+    }
+}

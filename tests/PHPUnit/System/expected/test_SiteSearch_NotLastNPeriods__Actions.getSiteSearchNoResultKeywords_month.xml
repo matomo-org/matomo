@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>No Result Keyword!</label>
+		<nb_visits>2</nb_visits>
+		<nb_hits>2</nb_hits>
+		<sum_time_spent>288</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<nb_pages_per_search>1</nb_pages_per_search>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>144</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+	</row>
+</result>

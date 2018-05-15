@@ -1,0 +1,8 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "E-kauppa mahdollistaa myyntiin liittyvien toimintojen seuraamisen: tuotteiden lisäämisen ostoskoriin ja ostosten tekemisen. Myös tuotteiden ja tuotekategorioiden katselu, ja hylätyt ostoskorit seurataan.",
+        "Sales": "Myynnit",
+        "SalesBy": "Myynnit %s:n mukaan",
+        "SalesAdjective": "Myynnit %s"
+    }
+}

@@ -29,6 +29,7 @@ use Piwik\DataTable\Row;
  *     // label, url and truncate_length are columns in $dataTable
  *     $dataTable->filter('ColumnCallbackReplace', array('label', 'url'), $truncateString, null, array('truncate_length'));
  *
+ * @api
  */
 class ColumnCallbackReplace extends BaseFilter
 {
@@ -54,14 +55,14 @@ class ColumnCallbackReplace extends BaseFilter
                                 $extraColumnParameters = array())
     {
         parent::__construct($table);
-        $this->functionToApply = $functionToApply;
+        $this->functionToApply    = $functionToApply;
         $this->functionParameters = $functionParameters;
 
         if (!is_array($columnsToFilter)) {
             $columnsToFilter = array($columnsToFilter);
         }
 
-        $this->columnsToFilter = $columnsToFilter;
+        $this->columnsToFilter       = $columnsToFilter;
         $this->extraColumnParameters = $extraColumnParameters;
     }
 
@@ -79,6 +80,7 @@ class ColumnCallbackReplace extends BaseFilter
             }
 
             foreach ($this->columnsToFilter as $column) {
+
                 // when a value is not defined, we set it to zero by default (rather than displaying '-')
                 $value = $this->getElementToReplace($row, $column);
                 if ($value === false) {
@@ -86,13 +88,20 @@ class ColumnCallbackReplace extends BaseFilter
                 }
 
                 $parameters = array_merge(array($value), $extraColumnParameters);
+
                 if (!is_null($this->functionParameters)) {
                     $parameters = array_merge($parameters, $this->functionParameters);
                 }
+
                 $newValue = call_user_func_array($this->functionToApply, $parameters);
                 $this->setElementToReplace($row, $column, $newValue);
                 $this->filterSubTable($row);
             }
+        }
+
+        if (in_array('label', $this->columnsToFilter)) {
+            // we need to force rebuilding the index
+            $table->setLabelsHaveChanged();
         }
     }
 

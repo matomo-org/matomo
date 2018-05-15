@@ -1,0 +1,19 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Lehekülgi külastuse jooksul",
+        "ColumnVisitDuration": "Külastuse kestvus",
+        "Engagement": "Korduvused",
+        "NPages": "%s lehte",
+        "OnePage": "1 leht",
+        "VisitNum": "Külastuste arv",
+        "VisitsByDaysSinceLast": "Külastused viimase külastusaja järgi",
+        "visitsByVisitCount": "Külastused külastuste arvu järgi",
+        "VisitsPerDuration": "Külastused külastuste pikkuse järgi",
+        "VisitsPerNbOfPages": "Külastused külastatud lehtede arvu järgi",
+        "WidgetLengths": "Külastuste kestvus",
+        "WidgetPages": "Erinevaid lehti külastuse kohta",
+        "WidgetVisitsByDaysSinceLast": "Külastused viimase külastusaja järgi"
+    }
+}

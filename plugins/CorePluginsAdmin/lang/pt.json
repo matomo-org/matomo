@@ -1,0 +1,26 @@
+{
+    "CorePluginsAdmin": {
+        "ActionUninstall": "Desinstalar",
+        "Activate": "Activar",
+        "Activated": "Activado",
+        "Active": "Activo",
+        "Activity": "Atividade",
+        "AuthorHomepage": "HomePage do Autor",
+        "Deactivate": "Desactivar",
+        "History": "Histórico",
+        "Inactive": "Inactivo",
+        "LicenseHomepage": "Homepage da licença",
+        "PluginsExtendPiwik": "Plugins estendem e expandem a funcionalidade de Matomo.",
+        "OncePluginIsInstalledYouMayActivateHere": "Quando um plugin é instalado, pode activá-lo ou desactivá-lo aqui.",
+        "MenuPlatform": "Plataforma",
+        "Origin": "Origem",
+        "PluginHomepage": "Homepage do Plugin",
+        "PluginsManagement": "Gestão de Plugins",
+        "Status": "Estado",
+        "Theme": "Tema",
+        "Themes": "Temas",
+        "ThemesManagement": "Gestão de temas",
+        "Version": "Versão",
+        "Websites": "Websites"
+    }
+}

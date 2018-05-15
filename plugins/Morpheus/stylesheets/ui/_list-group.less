@@ -1,0 +1,47 @@
+// Bootstrap component, Bootstrap code
+.list-group {
+    font-size: 12px;
+    // No need to set list-style: none; since .list-group-item is block level
+    margin-bottom: 20px;
+    padding-left: 0; // reset padding because ul and ol
+    box-shadow: 0 1px 1px rgba(0,0,0,.1);
+    border-radius: 4px;
+}
+.list-group-item {
+    color: #858585;
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    // Place the border on the list items and negative margin up for better styling
+    margin-bottom: -1px;
+    background-color: white;
+    border: 1px solid @theme-color-border;
+
+    // Round the first and last items
+    &:first-child {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+    &:last-child {
+        margin-bottom: 0;
+        border-bottom-right-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+}
+.list-group-item {
+    // Disabled state
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+        background-color: #FAFAFA;
+        color: #858585;
+    }
+
+    // Active class on item itself, not parent
+    &.active,
+    &.active:hover,
+    &.active:focus {
+        z-index: 2; // Place active items above their siblings for proper border styling
+        color: black;
+    }
+}

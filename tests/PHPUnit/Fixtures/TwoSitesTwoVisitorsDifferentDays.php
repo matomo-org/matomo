@@ -10,7 +10,7 @@ namespace Piwik\Tests\Fixtures;
 use Piwik\Date;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Adds two websites and tracks visits from two visitors on different days.
@@ -24,6 +24,8 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
     public $dateTime = '2010-01-03 11:22:33';
 
     public $allowConversions = false;
+    const URL_IS_GOAL_WITH_CAMPAIGN_PARAMETERS = 'http://example.org/index.htm?pk_campaign=goal-matching-url-parameter';
+
 
     public function setUp()
     {
@@ -58,6 +60,9 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
             if (!self::goalExists($idSite = 1, $idGoal = 2)) {
                 APIGoals::getInstance()->addGoal($this->idSite2, 'all', 'url', 'http', 'contains');
             }
+            if (!self::goalExists($idSite = 1, $idGoal = 3)) {
+                APIGoals::getInstance()->addGoal($this->idSite1, 'matching URL with campaign parameter', 'url', self::URL_IS_GOAL_WITH_CAMPAIGN_PARAMETERS, 'contains');
+            }
         }
 
         APISitesManager::getInstance()->updateSite(
@@ -72,7 +77,7 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
             $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1); // KEEP_URL_FRAGMENT_YES Yes for idSite 2
     }
 
-    private function trackVisits()
+    public function trackVisits()
     {
         $dateTime = $this->dateTime;
         $idSite = $this->idSite1;
@@ -88,7 +93,7 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
      */
     private function trackVisitsSite1($idSite, $dateTime)
     {
-// -
+        // -
         // First visitor on Idsite 1: two page views
         $datetimeSpanOverTwoDays = '2010-01-03 23:55:00';
         $visitorA = self::getTracker($idSite, $datetimeSpanOverTwoDays, $defaultInit = true);
@@ -130,8 +135,14 @@ class TwoSitesTwoVisitorsDifferentDays extends Fixture
             // Temporary, until we implement 1st party cookies in PiwikTracker
             $visitorB->DEBUG_APPEND_URL .= '&_idvc=2&_viewts=' . Date::factory($dateTime)->getTimestamp();
 
-            $visitorB->setUrlReferrer('http://referrer.com/Other_Page.htm');
-            $visitorB->setUrl('http://example.org/index.htm');
+            $protocol = (0 === $days % 2) ? 'http' : 'https';
+            $visitorB->setUrlReferrer($protocol . '://referrer.com/Other_Page.htm');
+            if( in_array($days, array(2,3,4,$daysToGenerateVisitsFor-1)) ) {
+                $visitorB->setUrl( self::URL_IS_GOAL_WITH_CAMPAIGN_PARAMETERS );
+            } else {
+                $visitorB->setUrl('http://example.org/index.htm');
+            }
+
             $visitorB->setGenerationTime(323);
             self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
             // Second page view 6 minutes later

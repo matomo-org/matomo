@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugin;
 
-use Piwik\Common;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,35 +19,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ConsoleCommand extends SymfonyCommand
 {
-    /**
-     * Constructor.
-     *
-     * @param string|null $name The name of the command, eg, `'generate:api'`.
-     */
-    public function __construct($name = null)
-    {
-        if (!Common::isPhpCliMode()) {
-            throw new \RuntimeException('Only executable in CLI mode');
-        }
-
-        parent::__construct($name);
-    }
-
     public function writeSuccessMessage(OutputInterface $output, $messages)
     {
-        $lengths = array_map('strlen', $messages);
-        $maxLen = max($lengths) + 4;
-
-        $separator = str_pad('', $maxLen, '*');
-
         $output->writeln('');
-        $output->writeln('<info>' . $separator . '</info>');
 
         foreach ($messages as $message) {
-            $output->writeln('  ' . $message . '  ');
+            $output->writeln('<info>' . $message . '</info>');
         }
 
-        $output->writeln('<info>' . $separator . '</info>');
         $output->writeln('');
     }
 
@@ -61,7 +39,7 @@ class ConsoleCommand extends SymfonyCommand
             $value = $input->getOption($name);
 
             if ($option->isValueRequired() && empty($value)) {
-                throw new \InvalidArgumentException(sprintf('The required option %s is not set', $name));
+                throw new \InvalidArgumentException(sprintf('The required option --%s is not set', $name));
             }
         }
     }

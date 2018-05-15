@@ -1,0 +1,9 @@
+{
+    "CoreAdminHome": {
+        "Administration": "Administracija",
+        "EmailServerSettings": "Postavke email servera",
+        "LogoUpload": "Odaberi logo za upload",
+        "MenuGeneralSettings": "Opće postavke",
+        "TrackingCode": "Kod za praćenje"
+    }
+}

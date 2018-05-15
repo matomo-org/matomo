@@ -1,5 +1,6 @@
 {% import 'ajaxMacros.twig' as ajax %}
-<div class="pageWrap">
+<div class="pageWrap container-fluid">
+<a name="main"></a>
     {% include "@CoreHome/_notifications.twig" %}
     <div class="top_controls">
         {% include "@CoreHome/_periodSelect.twig" %}
@@ -11,10 +12,11 @@
 
     {{ ajax.loadingDiv() }}
 
+    <div piwik-popover></div>
+
     <div id="content" class="home">
         {% if content %}{{ content }}{% endif %}
+        <div piwik-reporting-page ng-cloak></div>
     </div>
     <div class="clear"></div>
 </div>
-
-<br/><br/>

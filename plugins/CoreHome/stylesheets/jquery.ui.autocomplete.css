@@ -59,7 +59,7 @@
 }
 
 .ui-corner-all {
-    border-radius: 4px;
+    border-radius: 0;
 }
 
 .ui-menu .ui-menu-item a.ui-state-focus {

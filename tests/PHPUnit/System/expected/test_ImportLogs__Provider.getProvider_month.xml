@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Unknown</label>
+		<nb_visits>37</nb_visits>
+		<nb_actions>44</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>551</sum_visit_length>
+		<bounce_count>32</bounce_count>
+		<nb_visits_converted>33</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>35</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>2</sum_daily_nb_users>
+		<url />
+	</row>
+</result>

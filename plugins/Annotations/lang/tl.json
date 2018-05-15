@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Magdagdag ng mga anotasyon para sa %s ...",
+        "AnnotationOnDate": "Anotasyon sa %1$s: %2$s",
+        "Annotations": "Mga anotasyon",
+        "ClickToDelete": "I-Click upang alisin ang anotasyong ito",
+        "ClickToEdit": "I-Click upang baguhin ang anotasyong ito",
+        "ClickToEditOrAdd": "I-Click upang baguhin o dagdagan ang anotasyong ito",
+        "ClickToStarOrUnstar": "I-Click upang lagyan ng bituin o hindi ang anotasyong ito",
+        "CreateNewAnnotation": "Gumawa ng bagong anotasyon…",
+        "EnterAnnotationText": "Ipasok ang iyong paalala...",
+        "HideAnnotationsFor": "Itago ang mga anotasyon para sa %s…",
+        "IconDesc": "Tingnan ang mga paalala para sa hanay ng petsa na ito.",
+        "IconDescHideNotes": "Itago ang mga paalala para sa hanay ng petsa na ito.",
+        "InlineQuickHelp": "Maaari kang lumikha ng mga anotasyon upang markahan ang mga espesyal na mga kaganapan (tulad ng isang bagong post sa blog, o pagbabago ng disenyo ng website), upang i-save ang iyong pag-aaral ng datos o i-save ang anumang bagay na sa tingin mo ay mahalaga.",
+        "LoginToAnnotate": "Mag-login upang gumawa ng isang anotasyon.",
+        "NoAnnotations": "Walang mga anotasyon para sa hanay ng petsa na ito.",
+        "PluginDescription": "Pinapayagan kang mag-attach ng mga tala sa iba't ibang araw upang markahan ang mga pagbabagong ginawa sa iyong website, i-save ang pinag-aaralan na gagawin mo tungkol sa iyong datos at ibahagi ang iyong mga pananaw sa iyong mga kasamahan. Sa pamamagitan ng annotating ng iyong data, tiyak na iyong maaalala kung bakit ganito ang itsura ng iyong mga datos.",
+        "ViewAndAddAnnotations": "Tingnan at magdagdag ng mga anotasyon para sa %s…",
+        "YouCannotModifyThisNote": "Hindi mo maaaring baguhin ang anotasyon na ito, dahil ito ay hindi mo nilikha, at wala ka ring admin access para sa site na ito."
+    }
+}

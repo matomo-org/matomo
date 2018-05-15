@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<value>url</value>
+		<name>Page URL</name>
+	</row>
+	<row>
+		<value>urlparam</value>
+		<name>Page URL Parameter</name>
+	</row>
+	<row>
+		<value>action_name</value>
+		<name>Page Title</name>
+	</row>
+</result>

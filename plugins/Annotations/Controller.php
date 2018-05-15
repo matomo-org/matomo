@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Annotations;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Date;
-use Piwik\Piwik;
 use Piwik\View;
 
 /**
@@ -71,9 +70,14 @@ class Controller extends \Piwik\Plugin\Controller
         list($startDate, $endDate) = API::getDateRangeForPeriod($date, $period, $lastN);
         $view->startDate = $startDate->toString();
         $view->endDate = $endDate->toString();
-        $view->today = Date::today()->toString();
 
-        $dateFormat = Piwik::translate('CoreHome_ShortDateFormatWithYear');
+        if ($startDate->toString() !== $endDate->toString()) {
+            $view->selectedDate = Date::today()->toString();
+        } else {
+            $view->selectedDate = $endDate->toString();
+        }
+
+        $dateFormat = Date::DATE_FORMAT_SHORT;
         $view->startDatePretty = $startDate->getLocalized($dateFormat);
         $view->endDatePretty = $endDate->getLocalized($dateFormat);
 

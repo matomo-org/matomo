@@ -1,0 +1,20 @@
+{
+    "Overlay": {
+        "Clicks": "%s kliks",
+        "ClicksFromXLinks": "%1$s Kliks van één van %2$s links",
+        "Domain": "Domein",
+        "ErrorNotLoading": "De Pagina Overlay sessie kon nog niet gestart worden.",
+        "ErrorNotLoadingDetails": "De aan de rechter kant geladen pagina heeft wellicht niet de Matomo tracker code. Probeer in dat geval een andere pagina van het rapport 'Pagina's' als overlay.",
+        "ErrorNotLoadingDetailsSSL": "Omdat u Matomo via https gebruikt is het waarschijnlijk dat uw website geen SSL ondersteunt. Probeer Matomo via http te gebruiken.",
+        "ErrorNotLoadingLink": "Klik hier voor meer tips tijdens het troubleshooten.",
+        "Link": "Link",
+        "Location": "Locatie",
+        "NoData": "Er is geen data voor deze pagina gedurende de geselecteerde periode.",
+        "OneClick": "1 klik",
+        "OpenFullScreen": "Naar volledig scherm (geen zijbalk)",
+        "Overlay": "Pagina Overlay",
+        "PluginDescription": "Zie je analyse data als een transparant op je eigenlijke website. Zie hoeveel keer je bezoekers hebben geklik op elke link. Opmerking: Vereist dat de Transitions plugin is ingeschakeld.",
+        "RedirectUrlErrorAdmin": "Je kunt het domein toevoegen als extra URL %1$sin de instellingen%2$s.",
+        "RedirectUrlErrorUser": "Vraag je beheerder om het domein toe te voegen als additionele URL."
+    }
+}

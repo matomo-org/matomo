@@ -1,13 +1,29 @@
 {
- "name": "ExamplePlugin",
- "version": "0.1.0",
- "description": "ExampleDescription",
- "theme": false,
- "authors": [
-     {
-         "name": "Piwik",
-         "email": "",
-         "homepage": ""
-     }
- ]
+  "name": "ExamplePlugin",
+  "description": "Matomo Platform showcase: how to create widgets, menus, scheduled tasks, a custom archiver, plugin tests, and an AngularJS component.",
+  "version": "0.1.0",
+  "theme": false,
+  "require": {
+    "piwik": ">=3.0.0-b1,<4.0.0-b1"
+  },
+  "authors": [
+    {
+      "name": "Matomo",
+      "email": "",
+      "homepage": ""
+    }
+  ],
+  "support": {
+	    "email": "",
+	    "issues": "",
+	    "forum": "",
+	    "irc": "",
+	    "wiki": "",
+	    "source": "",
+	    "docs": "",
+	    "rss": ""
+  },
+  "homepage": "",
+  "license": "GPL v3+",
+  "keywords": []
 }

@@ -1,0 +1,10 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s 没有启用任何插件",
+        "BrowserWithPluginsEnabled": "%1$s 启用了插件%2$s",
+        "PluginDescription": "报告访客浏览器支持的插件列表。",
+        "PluginDetectionDoesNotWorkInIE": "注意：插件检测无法在 Internet Explorer 11 之前的版本运行。此报表仅用于非 IE 浏览器或者 IE 的新版本。",
+        "WidgetPlugins": "浏览器插件",
+        "WidgetPluginsDocumentation": "此报表显示访客浏览器已启用的插件。这些信息可能对选择发布您内容的合适方式至关重要。"
+    }
+}

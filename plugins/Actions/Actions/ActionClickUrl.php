@@ -24,7 +24,7 @@ class ActionClickUrl extends Action
     public function __construct(Request $request)
     {
         parent::__construct(self::TYPE_OUTLINK, $request);
-        $this->setActionUrl($request->getParam('link'));
+        $this->setActionUrlWithoutExcludingParameters($request->getParam('link'));
     }
 
     public static function shouldHandle(Request $request)

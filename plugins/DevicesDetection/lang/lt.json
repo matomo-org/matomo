@@ -1,0 +1,31 @@
+{
+    "DevicesDetection": {
+        "BrowserEngine": "Naršyklė",
+        "BrowserEngines": "Naršyklių moduliai",
+        "BrowserFamily": "Naršyklių šeimos",
+        "Browsers": "Naršyklės",
+        "BrowserVersion": "Naršyklės versija",
+        "CarBrowser": "Automobilio naršyklė",
+        "Software": "Programinė įranga",
+        "ColumnBrowser": "Naršyklė",
+        "ColumnOperatingSystem": "Operacinė sistema",
+        "ColumnOperatingSystemVersion": "Operacinės sistemos versija",
+        "dataTableLabelBrands": "Prekės ženklas",
+        "dataTableLabelModels": "Modelis",
+        "dataTableLabelSystemVersion": "Operacinės sistemos versija",
+        "dataTableLabelTypes": "Tipas",
+        "Device": "Įrenginys",
+        "DeviceBrand": "Įrenginio prekės ženklas",
+        "DeviceModel": "Įrenginio modelis",
+        "DeviceType": "Įrenginio tipas",
+        "OperatingSystems": "Operacinės sistemos",
+        "SmartDisplay": "Belaidis monitorius",
+        "Smartphone": "Išmanusis telefonas",
+        "PortableMediaPlayer": "Nešiojamoji medijos leistuvė",
+        "Devices": "Įrenginiai",
+        "Tablet": "Planšetinis kompiuteris",
+        "Phablet": "Planšetofonas",
+        "TV": "Televizorius",
+        "WidgetBrowsers": "Lankytojų naršyklės"
+    }
+}

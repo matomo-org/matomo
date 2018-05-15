@@ -12,23 +12,16 @@ use Piwik\Config;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CoreHome\Segment;
 use Piwik\Tracker\Action;
-use Piwik\Tracker\GoalManager;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
 class VisitTotalTime extends VisitDimension
 {
     protected $columnName = 'visit_total_time';
-    protected $columnType = 'SMALLINT(5) UNSIGNED NOT NULL';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('visitDuration');
-        $segment->setName('General_ColumnVisitDuration');
-        $segment->setType(Segment::TYPE_METRIC);
-        $this->addSegment($segment);
-    }
+    protected $columnType = 'INT(11) UNSIGNED NOT NULL';
+    protected $segmentName = 'visitDuration';
+    protected $nameSingular = 'General_ColumnVisitDuration';
+    protected $type = self::TYPE_DURATION_S;
 
     /**
      * @param Request $request
@@ -72,14 +65,12 @@ class VisitTotalTime extends VisitDimension
             return false;
         }
 
-        $goalManager = new GoalManager($request);
-
         $totalTime = $visitor->getVisitorColumn('visit_total_time');
 
         // If a pageview and goal conversion in the same second, with previously a goal conversion recorded
         // the request would not "update" the row since all values are the same as previous
         // therefore the request below throws exception, instead we make sure the UPDATE will affect the row
-        $totalTime = $totalTime + $goalManager->idGoal;
+        $totalTime = $totalTime + $request->getParam('idgoal');
         // +2 to offset idgoal=-1 and idgoal=0
         $totalTime = $totalTime + 2;
 
@@ -97,12 +88,6 @@ class VisitTotalTime extends VisitDimension
 
         if ($t < 0) {
             $t = 0;
-        }
-
-        $smallintMysqlLimit = 65534;
-
-        if ($t > $smallintMysqlLimit) {
-            $t = $smallintMysqlLimit;
         }
 
         return $t;

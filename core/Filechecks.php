@@ -8,6 +8,8 @@
  */
 namespace Piwik;
 
+use Piwik\Exception\MissingFilePermissionException;
+
 class Filechecks
 {
     /**
@@ -38,23 +40,15 @@ class Filechecks
     {
         $resultCheck = array();
         foreach ($directoriesToCheck as $directoryToCheck) {
-
             if (!preg_match('/^' . preg_quote(PIWIK_USER_PATH, '/') . '/', $directoryToCheck)) {
                 $directoryToCheck = PIWIK_USER_PATH . $directoryToCheck;
-            }
-
-            if(strpos($directoryToCheck, '/tmp/') !== false) {
-                $directoryToCheck = SettingsPiwik::rewriteTmpPathWithInstanceId($directoryToCheck);
             }
 
             Filesystem::mkdir($directoryToCheck);
 
             $directory = Filesystem::realpath($directoryToCheck);
-            $resultCheck[$directory] = false;
-            if ($directory !== false // realpath() returns FALSE on failure
-                && is_writable($directoryToCheck)
-            ) {
-                $resultCheck[$directory] = true;
+            if ($directory !== false) {
+                $resultCheck[$directory] = is_writable($directoryToCheck);
             }
         }
         return $resultCheck;
@@ -87,85 +81,25 @@ class Filechecks
             $directoryList = "<code>chown -R ". self::getUserAndGroup() ." " . $realpath . "</code><br />" . $directoryList;
         }
 
-        if(function_exists('shell_exec')) {
+        if (function_exists('shell_exec')) {
             $currentUser = self::getUser();
-            if(!empty($currentUser)) {
+            if (!empty($currentUser)) {
                 $optionalUserInfo = " (running as user '" . $currentUser . "')";
             }
         }
 
-        $directoryMessage = "<p><b>Piwik couldn't write to some directories $optionalUserInfo</b>.</p>";
+        $directoryMessage  = "<p><b>Matomo couldn't write to some directories $optionalUserInfo</b>.</p>";
         $directoryMessage .= "<p>Try to Execute the following commands on your server, to allow Write access on these directories"
             . ":</p>"
             . "<blockquote>$directoryList</blockquote>"
             . "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 0755 (or 0777 if 0755 is not enough). To do so with your FTP software, right click on the directories then click permissions.</p>"
             . "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.</p>"
-            . "<p>If you need more help, try <a href='?module=Proxy&action=redirect&url=http://piwik.org'>Piwik.org</a>.</p>";
+            . "<p>If you need more help, try <a href='?module=Proxy&action=redirect&url=https://matomo.org'>Matomo.org</a>.</p>";
 
-        Piwik_ExitWithMessage($directoryMessage, false, true);
-    }
+        $ex = new MissingFilePermissionException($directoryMessage);
+        $ex->setIsHtmlMessage();
 
-    /**
-     * Get file integrity information (in PIWIK_INCLUDE_PATH).
-     *
-     * @return array(bool, string, ...) Return code (true/false), followed by zero or more error messages
-     */
-    public static function getFileIntegrityInformation()
-    {
-        $messages = array();
-        $messages[] = true;
-
-        $manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
-
-        if (file_exists($manifest)) {
-            require_once $manifest;
-        }
-
-        if (!class_exists('Piwik\\Manifest')) {
-            $messages[] = Piwik::translate('General_WarningFileIntegrityNoManifest')
-                        . ' '
-                        . Piwik::translate('General_WarningFileIntegrityNoManifestDeployingFromGit');
-
-            return $messages;
-        }
-
-        $files = \Piwik\Manifest::$files;
-
-        $hasMd5file = function_exists('md5_file');
-        $hasMd5 = function_exists('md5');
-        foreach ($files as $path => $props) {
-            $file = PIWIK_INCLUDE_PATH . '/' . $path;
-
-            if (!file_exists($file) || !is_readable($file)) {
-                $messages[] = Piwik::translate('General_ExceptionMissingFile', $file);
-            } else if (filesize($file) != $props[0]) {
-                if (!$hasMd5 || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf'))) {
-                    // files that contain binary data (e.g., images) must match the file size
-                    $messages[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
-                } else {
-                    // convert end-of-line characters and re-test text files
-                    $content = @file_get_contents($file);
-                    $content = str_replace("\r\n", "\n", $content);
-                    if ((strlen($content) != $props[0])
-                        || (@md5($content) !== $props[1])
-                    ) {
-                        $messages[] = Piwik::translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
-                    }
-                }
-            } else if ($hasMd5file && (@md5_file($file) !== $props[1])) {
-                $messages[] = Piwik::translate('General_ExceptionFileIntegrity', $file);
-            }
-        }
-
-        if (count($messages) > 1) {
-            $messages[0] = false;
-        }
-
-        if (!$hasMd5file) {
-            $messages[] = Piwik::translate('General_WarningFileIntegrityNoMd5file');
-        }
-
-        return $messages;
+        throw $ex;
     }
 
     /**
@@ -177,7 +111,7 @@ class Filechecks
     {
         $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/');
         $message = '';
-        $message .= "<code>chown -R ". self::getUserAndGroup() ." " . $realpath . "</code><br />";
+        $message .= "<code>" . self::getCommandToChangeOwnerOfPiwikFiles() . "</code><br />";
         $message .= "<code>chmod -R 0755 " . $realpath . "</code><br />";
         $message .= 'After you execute these commands (or change permissions via your FTP software), refresh the page and you should be able to use the "Automatic Update" feature.';
         return $message;
@@ -208,27 +142,33 @@ class Filechecks
         return $message;
     }
 
-    private static function getUserAndGroup()
+    public static function getUserAndGroup()
     {
         $user = self::getUser();
-        if(!function_exists('shell_exec')) {
+        if (!function_exists('shell_exec')) {
             return $user . ':' . $user;
         }
 
         $group = trim(shell_exec('groups '. $user .' | cut -f3 -d" "'));
 
-        if(empty($group)) {
+        if (empty($group)) {
             $group = 'www-data';
         }
         return $user . ':' . $group;
     }
 
-    private static function getUser()
+    public static function getUser()
     {
-        if(!function_exists('shell_exec')) {
-            return 'www-data';
+        if (function_exists('shell_exec')) {
+            return trim(shell_exec('whoami'));
         }
-        return trim(shell_exec('whoami'));
+
+        $currentUser = get_current_user();
+        if(!empty($currentUser)) {
+            return $currentUser;
+        }
+
+        return 'www-data';
     }
 
     /**
@@ -240,8 +180,44 @@ class Filechecks
     private static function getMakeWritableCommand($realpath)
     {
         if (SettingsServer::isWindows()) {
-            return "<code>cacls $realpath /t /g " . get_current_user() . ":f</code><br />\n";
+            return "<code>cacls $realpath /t /g " . self::getUser() . ":f</code><br />\n";
         }
         return "<code>chmod -R 0755 $realpath</code><br />";
     }
+
+    /**
+     * @return string
+     */
+    public static function getCommandToChangeOwnerOfPiwikFiles()
+    {
+        $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/');
+        return "chown -R " . self::getUserAndGroup() . " " . $realpath;
+    }
+
+    public static function getOwnerOfPiwikFiles()
+    {
+        $index = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/index.php');
+        $stat = stat($index);
+        if(!$stat) {
+            return '';
+        }
+
+        if (function_exists('posix_getgrgid')) {
+            $group = posix_getgrgid($stat[5]);
+            $group = $group['name'];
+        } else {
+            return '';
+        }
+
+        if (function_exists('posix_getpwuid')) {
+            $user = posix_getpwuid($stat[4]);
+            $user = $user['name'];
+        } else {
+            return '';
+        }
+
+        return "$user:$group";
+    }
+
+
 }

@@ -1,0 +1,58 @@
+tests/UI/expected-screenshots/*.png filter=lfs diff=lfs merge=lfs
+plugins/*/tests/UI/expected-screenshots/*.png filter=lfs diff=lfs merge=lfs
+
+# auto detect text files and perform LF normalization
+* text eol=lf
+
+# text
+*.doc	 diff=astextplain
+*.DOC	 diff=astextplain
+*.docx   diff=astextplain
+*.DOCX   diff=astextplain
+*.dot    diff=astextplain
+*.DOT    diff=astextplain
+*.pdf    diff=astextplain
+*.PDF	 diff=astextplain
+*.rtf	 diff=astextplain
+*.RTF	 diff=astextplain
+*.svg    diff=astextplain
+*.SVG    diff=astextplain
+
+# binary
+*.z binary
+*.xls binary
+*.xlsx binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.gif binary
+*.gz binary
+*.gzip binary
+*.bz2 binary
+*.pdf binary
+*.jar binary
+
+# fonts
+*.eot binary
+*.EOT binary
+*.ttf binary
+*.TTF binary
+*.woff binary
+*.WOFF binary
+*.woff2 binary
+*.WOFF2 binary
+
+# Custom for Visual Studio
+*.cs     diff=csharp
+
+
+# Files excluded from git packages
+tests/ export-ignore
+.coveralls.yml export-ignore
+.gitignore export-ignore
+.gitattributes export-ignore
+.gitmodules export-ignore
+.phpstorm.meta.php export-ignore
+.scrutinizer.yml export-ignore
+.travis.yml export-ignore
+PULL_REQUEST_TEMPLATE export-ignore

@@ -1,23 +1,33 @@
 {% extends isWidgetized ? 'empty.twig' : 'dashboard.twig' %}
 
-{% block content %}
-{% if not isWidgetized %}
-    <div class="top_controls">
+{% block topcontrols %}
+    {% if not isWidgetized %}
         {% include "@CoreHome/_periodSelect.twig" %}
         {% include "@CoreHome/_headerMessage.twig" %}
-    </div>
-{% endif %}
+    {% endif %}
+{% endblock %}
 
-<div class="pageWrap" id="multisites">
-    <div id="main">
-        <div piwik-multisites-dashboard
-             class="centerLargeDiv"
-             display-revenue-column="{% if displayRevenueColumn %}true{% else %}false{%endif%}"
-             page-size="{{ limit }}"
-             show-sparklines="{% if show_sparklines %}true{% else %}false{%endif%}"
-             date-sparkline="{{ dateSparkline }}"
-             auto-refresh-today-report="{{ autoRefreshTodayReport }}">
-        </div>
+{% block content %}
+<div class="row" id="multisites">
+    <div class="col s12 m12 l10 offset-l1">
+        {% if isWidgetized %}
+            <div id="main">
+        {% else %}
+            <div id="main" class="card">
+                <div class="card-content">
+        {% endif %}
+                <div piwik-multisites-dashboard
+                     display-revenue-column="{% if displayRevenueColumn %}true{% else %}false{%endif%}"
+                     page-size="{{ limit }}"
+                     show-sparklines="{% if show_sparklines %}true{% else %}false{%endif%}"
+                     date-sparkline="{{ dateSparkline }}"
+                     auto-refresh-today-report="{{ autoRefreshTodayReport }}">
+                </div>
+        {% if isWidgetized %}
+            </div>
+        {% else %}
+            </div></div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

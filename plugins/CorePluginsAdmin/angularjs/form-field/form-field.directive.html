@@ -1,0 +1,28 @@
+<div class="form-group row" ng-show="formField.showField">
+
+    <h3 ng-if="formField.introduction" class="col s12">{{ formField.introduction }}</h3>
+
+    <div class="col s12"
+         ng-class="{'input-field': formField.uiControl != 'checkbox' && formField.uiControl != 'radio', 'file-field': formField.uiControl == 'file', 'm6': !formField.fullWidth}"
+         ng-include="formField.templateFile" onload="templateLoaded()"
+    >
+
+    </div>
+    <div class="col s12"
+         ng-class="{'m6': !formField.fullWidth}">
+        <div ng-if="formField.description || formField.inlineHelp || (formField.defaultValue && formField.uiControl != 'checkbox' && formField.uiControl != 'radio')"
+             class="form-help">
+
+            <div ng-show="formField.description"
+                  class='form-description'>{{ formField.description }}</div>
+
+            <span class="inline-help" ng-bind-html="formField.inlineHelp"></span>
+
+            <span ng-show="formField.defaultValue && formField.uiControl != 'checkbox' && formField.uiControl != 'radio'">
+                <br />
+                {{ 'General_Default'|translate }}:
+                <span>{{formField.defaultValuePretty|limitTo:50}}</span>
+            </span>
+        </div>
+    </div>
+</div>

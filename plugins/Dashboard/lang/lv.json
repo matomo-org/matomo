@@ -1,0 +1,27 @@
+{
+    "Dashboard": {
+        "AddAWidget": "Pievienot logrīku",
+        "AddPreviewedWidget": "Pievienot apskatīto logdaļu panelim",
+        "ChangeDashboardLayout": "Izmainīt paneļa izkārtojumu",
+        "CopyDashboardToUser": "Kopēt paneli uz lietotāju",
+        "CreateNewDashboard": "Izveidot jaunu paneli",
+        "Dashboard": "Panelis",
+        "DashboardName": "Paneļa vārds:",
+        "DashboardOf": "%s panelis",
+        "DeleteWidgetConfirm": "Vai tiešām vēlaties dzēst šo logdaļu no paneļa?",
+        "LoadingWidget": "Notiek logdaļas ielāde, lūdzu uzgaidiet...",
+        "ManageDashboard": "Pārvaldīt paneli",
+        "Maximise": "Izvērst",
+        "Minimise": "Samazināt",
+        "NotUndo": "Jūs nevarēsiet atgriezt šo operāciju.",
+        "RemoveDashboard": "Noņemt paneli",
+        "RemoveDashboardConfirm": "Vai Jūs tiešām vēlaties noņemt paneli \"%s\"?",
+        "RemoveDefaultDashboardNotPossible": "Noklusējuma paneli nevar noņemt",
+        "RenameDashboard": "Pārsaukt paneli",
+        "ResetDashboard": "Atiestatīt paneli",
+        "SelectDashboardLayout": "Lūdzu izvēlieties Jūsu jaunā paneļa izkārtojumu",
+        "SelectWidget": "Izvēlieties to logdaļu, kuru vēlaties pievienot panelim",
+        "WidgetNotFound": "Logdaļa nav atrasta",
+        "WidgetPreview": "Logdaļas priekšstatījums"
+    }
+}

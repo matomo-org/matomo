@@ -1,0 +1,12 @@
+{
+    "SEO": {
+        "PluginDescription": "Ovaj dodatak prikuplja i prikazuje SEO metrike: Aleksa rangiranje, Gugl rangiranje, broj indeksiranih stranica i povratnih linkova za trenutno odabrani sajt.",
+        "AlexaRank": "Alexa rangiranje",
+        "Bing_IndexedPages": "Stranice koje je indeksirao Bing",
+        "DomainAge": "Starost domena",
+        "Google_IndexedPages": "Stranice koje je indeksirao Google",
+        "Rank": "Rang",
+        "SeoRankings": "SEO rangiranje",
+        "SEORankingsFor": "SEO rangiranje za %s"
+    }
+}

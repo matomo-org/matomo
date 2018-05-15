@@ -13,6 +13,7 @@ use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
 use Piwik\Metrics;
+use Piwik\Metrics\Sorter;
 
 /**
  * Sorts a {@link DataTable} based on the value of a specific column.
@@ -25,6 +26,11 @@ class Sort extends BaseFilter
 {
     protected $columnToSort;
     protected $order;
+    protected $naturalSort;
+    protected $isSecondaryColumnSortEnabled;
+
+    const ORDER_DESC = 'desc';
+    const ORDER_ASC  = 'asc';
 
     /**
      * Constructor.
@@ -34,184 +40,21 @@ class Sort extends BaseFilter
      * @param string $order order `'asc'` or `'desc'`.
      * @param bool $naturalSort Whether to use a natural sort or not (see {@link http://php.net/natsort}).
      * @param bool $recursiveSort Whether to sort all subtables or not.
+     * @param bool $doSortBySecondaryColumn If true will sort by a secondary column. The column is automatically
+     *                                    detected and will be either nb_visits or label, if possible.
      */
-    public function __construct($table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = false)
+    public function __construct($table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = true, $doSortBySecondaryColumn = false)
     {
         parent::__construct($table);
+
         if ($recursiveSort) {
             $table->enableRecursiveSort();
         }
+
         $this->columnToSort = $columnToSort;
         $this->naturalSort = $naturalSort;
-        $this->setOrder($order);
-    }
-
-    /**
-     * Updates the order
-     *
-     * @param string $order asc|desc
-     */
-    public function setOrder($order)
-    {
-        if ($order == 'asc') {
-            $this->order = 'asc';
-            $this->sign = 1;
-        } else {
-            $this->order = 'desc';
-            $this->sign = -1;
-        }
-    }
-
-    /**
-     * Sorting method used for sorting numbers
-     *
-     * @param number $a
-     * @param number $b
-     * @return int
-     */
-    public function numberSort($a, $b)
-    {
-        $valA = $a->getColumn($this->columnToSort);
-        $valB = $b->getColumn($this->columnToSort);
-
-        if ($valA === false) {
-            $valA = null;
-        }
-
-        if ($valB === false) {
-            $valB = null;
-        }
-
-        return !isset($valA)
-        && !isset($valB)
-            ? 0
-            : (
-            !isset($valA)
-                ? 1
-                : (
-            !isset($valB)
-                ? -1
-                : (($valA != $valB
-                || !isset($a->c[Row::COLUMNS]['label']))
-                ? ($this->sign * (
-                    $valA
-                    < $valB
-                        ? -1
-                        : 1)
-                )
-                : -1 * $this->sign * strnatcasecmp(
-                    $a->c[Row::COLUMNS]['label'],
-                    $b->c[Row::COLUMNS]['label'])
-            )
-            )
-            );
-    }
-
-    /**
-     * Sorting method used for sorting values natural
-     *
-     * @param mixed $a
-     * @param mixed $b
-     * @return int
-     */
-    function naturalSort($a, $b)
-    {
-        $valA = $a->getColumn($this->columnToSort);
-        $valB = $b->getColumn($this->columnToSort);
-
-        if ($valA === false) {
-            $valA = null;
-        }
-
-        if ($valB === false) {
-            $valB = null;
-        }
-
-        return !isset($valA)
-        && !isset($valB)
-            ? 0
-            : (!isset($valA)
-                ? 1
-                : (!isset($valB)
-                    ? -1
-                    : $this->sign * strnatcasecmp(
-                        $valA,
-                        $valB
-                    )
-                )
-            );
-    }
-
-    /**
-     * Sorting method used for sorting values
-     *
-     * @param mixed $a
-     * @param mixed $b
-     * @return int
-     */
-    function sortString($a, $b)
-    {
-        $valA = $a->getColumn($this->columnToSort);
-        $valB = $b->getColumn($this->columnToSort);
-
-        if ($valA === false) {
-            $valA = null;
-        }
-
-        if ($valB === false) {
-            $valB = null;
-        }
-
-        return !isset($valA)
-        && !isset($valB)
-            ? 0
-            : (!isset($valA)
-                ? 1
-                : (!isset($valB)
-                    ? -1
-                    : $this->sign *
-                    strcasecmp($valA,
-                        $valB
-                    )
-                )
-            );
-    }
-
-    /**
-     * Sets the column to be used for sorting
-     *
-     * @param Row $row
-     * @return int
-     */
-    protected function selectColumnToSort($row)
-    {
-        $value = $row->getColumn($this->columnToSort);
-        if ($value !== false) {
-            return $this->columnToSort;
-        }
-
-        $columnIdToName = Metrics::getMappingFromIdToName();
-        // sorting by "nb_visits" but the index is Metrics::INDEX_NB_VISITS in the table
-        if (isset($columnIdToName[$this->columnToSort])) {
-            $column = $columnIdToName[$this->columnToSort];
-            $value = $row->getColumn($column);
-
-            if ($value !== false) {
-                return $column;
-            }
-        }
-
-        // eg. was previously sorted by revenue_per_visit, but this table
-        // doesn't have this column; defaults with nb_visits
-        $column = Metrics::INDEX_NB_VISITS;
-        $value = $row->getColumn($column);
-        if ($value !== false) {
-            return $column;
-        }
-
-        // even though this column is not set properly in the table,
-        // we select it for the sort, so that the table's internal state is set properly
-        return $this->columnToSort;
+        $this->order = strtolower($order);
+        $this->isSecondaryColumnSortEnabled = $doSortBySecondaryColumn;
     }
 
     /**
@@ -225,30 +68,53 @@ class Sort extends BaseFilter
         if ($table instanceof Simple) {
             return;
         }
+
         if (empty($this->columnToSort)) {
             return;
         }
-        $rows = $table->getRows();
-        if (count($rows) == 0) {
+
+        if (!$table->getRowsCountWithoutSummaryRow()) {
             return;
         }
-        $row = current($rows);
+
+        $row = $table->getFirstRow();
+
         if ($row === false) {
             return;
         }
-        $this->columnToSort = $this->selectColumnToSort($row);
 
-        $value = $row->getColumn($this->columnToSort);
-        if (is_numeric($value)) {
-            $methodToUse = "numberSort";
-        } else {
-            if ($this->naturalSort) {
-                $methodToUse = "naturalSort";
-            } else {
-                $methodToUse = "sortString";
+        $config = new Sorter\Config();
+        $sorter = new Sorter($config);
+
+        $config->naturalSort = $this->naturalSort;
+        $config->primaryColumnToSort   = $sorter->getPrimaryColumnToSort($table, $this->columnToSort);
+        $config->primarySortOrder      = $sorter->getPrimarySortOrder($this->order);
+        $config->primarySortFlags      = $sorter->getBestSortFlags($table, $config->primaryColumnToSort);
+        $config->secondaryColumnToSort = $sorter->getSecondaryColumnToSort($row, $config->primaryColumnToSort);
+        $config->secondarySortOrder    = $sorter->getSecondarySortOrder($this->order, $config->secondaryColumnToSort);
+        $config->secondarySortFlags    = $sorter->getBestSortFlags($table, $config->secondaryColumnToSort);
+
+        // secondary sort should not be needed for all other sort flags (eg string/natural sort) as label is unique and would make it slower
+        $isSecondaryColumnSortNeeded = $config->primarySortFlags === SORT_NUMERIC;
+        $config->isSecondaryColumnSortEnabled = $this->isSecondaryColumnSortEnabled && $isSecondaryColumnSortNeeded;
+
+        $this->sort($sorter, $table);
+    }
+
+    private function sort(Sorter $sorter, DataTable $table)
+    {
+        $sorter->sort($table);
+
+        if ($table->isSortRecursiveEnabled()) {
+            foreach ($table->getRowsWithoutSummaryRow() as $row) {
+                $subTable = $row->getSubtable();
+
+                if ($subTable) {
+                    $subTable->enableRecursiveSort();
+                    $this->sort($sorter, $subTable);
+                }
             }
         }
-
-        $table->sort(array($this, $methodToUse), $this->columnToSort);
     }
+
 }

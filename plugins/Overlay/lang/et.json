@@ -1,0 +1,12 @@
+{
+    "Overlay": {
+        "Clicks": "%s klikki",
+        "ClicksFromXLinks": "%1$s klikki %2$s lingilt",
+        "Domain": "Domeen",
+        "Link": "Link",
+        "Location": "Asukoht",
+        "OneClick": "1 klikk",
+        "OpenFullScreen": "Ava täisekraani vaade (ilma külgribata)",
+        "Overlay": "Lehe statistika kiht"
+    }
+}

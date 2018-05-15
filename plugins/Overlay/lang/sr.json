@@ -1,0 +1,20 @@
+{
+    "Overlay": {
+        "Clicks": "%s klikova",
+        "ClicksFromXLinks": "%1$s klikova sa jednog od %2$s linkova",
+        "Domain": "Domen",
+        "ErrorNotLoading": "Nije moguće pokrenuti sesiju za ovaj prikaz.",
+        "ErrorNotLoadingDetails": "Možda stranica koja se učitala sa desne strane nema Matomo kod za praćenje. U tom slučaju, pokušajte da otvorite prikaz neke druge stranice sa izveštajem.",
+        "ErrorNotLoadingDetailsSSL": "S obzirom na to da koristite Matomo preko HTTPS-a, najverovatnije je da vaš sajt ne podržava SSL. Pokušajte da koristite Matomo preko HTTP-a.",
+        "ErrorNotLoadingLink": "Kliknite ovde za više saveta za rešavanje problema",
+        "Link": "Link",
+        "Location": "Lokacija",
+        "NoData": "Nema podataka o ovoj stranici za dati period.",
+        "OneClick": "1 klik",
+        "OpenFullScreen": "Prikaži preko celog ekrana",
+        "Overlay": "Prikaz preko (overlay)",
+        "PluginDescription": "Prikažite analitičke podatke preko vašeg sajta. Pogledajte koliko puta su korisnici kliknuli na svaki od linkova. Morate imati uključen Transitions dodatak.",
+        "RedirectUrlErrorAdmin": "Možete dodati domen kao dodatni URL %1$su podešavanjima%2$s.",
+        "RedirectUrlErrorUser": "Zamolite administratora da doda domen kao dodatni URL."
+    }
+}

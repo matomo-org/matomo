@@ -11,6 +11,7 @@ namespace Piwik\Plugins\DBStats\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
+use Piwik\Plugin\ReportsProvider;
 
 /**
  * Shows a datatable that displays the amount of space each blob archive table
@@ -29,12 +30,14 @@ class GetReportDataSummaryByYear extends Base
         $this->addPresentationFilters($view);
 
         $view->config->title = $this->name;
-        $view->config->addTranslation('label', Piwik::translate('CoreHome_PeriodYear'));
+        $view->config->addTranslation('label', Piwik::translate('Intl_PeriodYear'));
     }
 
     public function getRelatedReports()
     {
-        return array(new GetReportDataSummary());
+        return array(
+            ReportsProvider::factory('DBStats', 'getReportDataSummary'),
+        );
     }
 
 }

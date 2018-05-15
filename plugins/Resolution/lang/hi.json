@@ -1,0 +1,12 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "विन्यास",
+        "ColumnResolution": "संकल्प",
+        "Configurations": "विन्यास",
+        "PluginDescription": "अपने दर्शकों के स्क्रीन संकल्प रिपोर्ट।",
+        "Resolutions": "संकल्प",
+        "WidgetGlobalVisitors": "आगंतुक विन्यास",
+        "WidgetGlobalVisitorsDocumentation": "यह रिपोर्ट आपकी आगंतुकों था कि सबसे आम समग्र विन्यास को दर्शाता है। एक विन्यास एक ऑपरेटिंग सिस्टम, एक ब्राउज़र का प्रकार और एक स्क्रीन संकल्प का संयोजन है।",
+        "WidgetResolutions": "स्क्रीन संकल्प"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s ጥያቄዎች ተሰርተዋል",
+        "GenerateTime": "%s ሰከንዶች ገፁን ለማመንጨት",
+        "WidgetLastVisits": "የመጨረሻው ጉብኝቶች ግራፍ",
+        "WidgetOverviewGraph": "አጠቃላይ እይታ ከግራፍ ጋር",
+        "WidgetVisits": "የጉብኝቶች አጠቃላይ እይታ"
+    }
+}

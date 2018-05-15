@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "середній час генерації сторінки",
+        "AverageVisitDuration": "середня тривалість відвідування",
+        "GenerateQueries": "%s запитів виконано",
+        "GenerateTime": "сторінка згенерована за %s секунд",
+        "MaxNbActions": "максимально дій на одне відвідування",
+        "NbActionsDescription": "%s дій (перегляди сторінок, завантаження, зовнішні переходи)",
+        "NbActionsPerVisit": "дій (переглядів сторінок, завантажень, і внутрішні та зовнішні посилання, пошук на сайті) на відвідування",
+        "NbDownloadsDescription": "завантажень",
+        "NbKeywordsDescription": "унікальних ключових слів",
+        "NbOutlinksDescription": "вихідних посилань",
+        "NbPageviewsDescription": "переглядів сторінок",
+        "NbSearchesDescription": "всього пошуків на вашому сайті",
+        "NbUniqueDownloadsDescription": "унікальних завантажень",
+        "NbUniqueOutlinksDescription": "унікальні вихідних посилань",
+        "NbUniquePageviewsDescription": "унікальних переглядів сторінок",
+        "NbUniqueVisitors": "унікальних відвідувачів",
+        "NbUsersDescription": "користувачів",
+        "NbVisitsDescription": "відвідувань",
+        "NbVisitsBounced": "візитів з відмовами (залишили сайт після прегляду однієї сторінки)",
+        "PluginDescription": "Звіти загальних аналітичних показників: відвідування, кількість унікальних відвідувачів, кількість користувачів, показник відмов і т.д..",
+        "VisitsSummary": "Відвідувань",
+        "VisitsSummaryDocumentation": "Це огляд динаміки відвідувань.",
+        "WidgetLastVisits": "Графік останніх відвідувань",
+        "WidgetOverviewGraph": "Огляд по всім графіками",
+        "WidgetVisits": "Огляд відвідувань"
+    }
+}

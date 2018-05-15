@@ -13,10 +13,27 @@
 </div>
 {% endmacro %}
 
-{% macro requestErrorDiv(emailSuperUser) %}
-    {% if emailSuperUser is defined and emailSuperUser %}
-        <div id="loadingError">{{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ emailSuperUser ~ '">', '</a>')|raw }}</div>
-    {% else %}
-        <div id="loadingError">{{ 'General_ErrorRequest'|translate('', '') }}</div>
-    {% endif %}
+{% macro requestErrorDiv(emailSuperUser, areAdsForProfessionalServicesEnabled = false, currentModule = '') %}
+    <div id="loadingError">
+        <div class="alert alert-danger">
+
+            {% if emailSuperUser is defined and emailSuperUser %}
+                {{ 'General_ErrorRequest'|translate('<a href="mailto:' ~ emailSuperUser ~ '">', '</a>')|raw }}
+            {% else %}
+                {{ 'General_ErrorRequest'|translate('', '') }}
+            {% endif %}
+
+            <br /><br />
+            {{ 'General_NeedMoreHelp'|translate }}
+
+            <a rel="noreferrer" target="_blank" href="https://matomo.org/faq/troubleshooting/faq_19489/">{{ 'General_Faq'|translate }}</a> –
+            <a rel="noreferrer" target="_blank" href="https://forum.matomo.org/">{{ 'Feedback_CommunityHelp'|translate }}</a>
+
+            {%- if areAdsForProfessionalServicesEnabled %}
+                –
+                {% set supportUrl = 'https://matomo.org/support/?pk_campaign=Help&pk_medium=AjaxError&pk_content=' ~ currentModule ~ '&pk_source=Piwik_App' %}
+                <a rel="noreferrer" target="_blank" href="{{ supportUrl|e('html_attr') }}">{{ 'Feedback_ProfessionalHelp'|translate }}</a>
+            {%- endif %}.
+        </div>
+    </div>
 {% endmacro %}

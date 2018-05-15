@@ -8,24 +8,22 @@
  */
 namespace Piwik\Updates;
 
-use Faker\Provider\File;
-use Piwik\Filesystem;
-use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updates;
+use Piwik\Updater;
 
 class Updates_2_4_0_b1 extends Updates
 {
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('Morpheus');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
 
         try {
             \Piwik\Plugin\Manager::getInstance()->deactivatePlugin('Zeitgeist');
             self::deletePluginFromConfigFile('Zeitgeist');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

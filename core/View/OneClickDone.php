@@ -9,6 +9,8 @@
 
 namespace Piwik\View;
 
+use Piwik\Common;
+
 /**
  * Post-update view
  *
@@ -30,12 +32,19 @@ class OneClickDone
     /**
      * @var string
      */
-    public $coreError;
+    public $error;
 
     /**
      * @var array
      */
     public $feedbackMessages;
+
+    /**
+     * Did the download over HTTPS fail?
+     *
+     * @var bool
+     */
+    public $httpsFail = false;
 
     public function __construct($tokenAuth)
     {
@@ -50,21 +59,23 @@ class OneClickDone
     public function render()
     {
         // set response headers
-        @header('Content-Type: text/html; charset=UTF-8');
-        @header('Pragma: ');
-        @header('Expires: ');
-        @header('Cache-Control: must-revalidate');
-        @header('X-Frame-Options: deny');
+        @Common::stripHeader('Pragma');
+        @Common::stripHeader('Expires');
+        @Common::sendHeader('Content-Type: text/html; charset=UTF-8');
+        @Common::sendHeader('Cache-Control: must-revalidate');
+        @Common::sendHeader('X-Frame-Options: deny');
 
-        $error = htmlspecialchars($this->coreError, ENT_QUOTES, 'UTF-8');
+        $error = htmlspecialchars($this->error, ENT_QUOTES, 'UTF-8');
         $messages = htmlspecialchars(serialize($this->feedbackMessages), ENT_QUOTES, 'UTF-8');
         $tokenAuth = $this->tokenAuth;
+        $httpsFail = (int) $this->httpsFail;
 
         // use a heredoc instead of an external file
         echo <<<END_OF_TEMPLATE
 <!DOCTYPE html>
 <html>
  <head>
+  <meta name="robots" content="noindex,nofollow">
   <meta charset="utf-8">
   <title></title>
  </head>
@@ -73,6 +84,7 @@ class OneClickDone
    <input type="hidden" name="token_auth" value="$tokenAuth" />
    <input type="hidden" name="error" value="$error" />
    <input type="hidden" name="messages" value="$messages" />
+   <input type="hidden" name="httpsFail" value="$httpsFail" />
    <noscript>
     <button type="submit">Continue</button>
    </noscript>

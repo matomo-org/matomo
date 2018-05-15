@@ -8,28 +8,10 @@
  */
 namespace Piwik\Plugins\Proxy;
 
-use Piwik\Version;
-
 /**
  * Proxy services for the UI
  *
  */
 class Proxy extends \Piwik\Plugin
 {
-    /**
-     * Return information about this plugin.
-     *
-     * @see Piwik\Plugin
-     *
-     * @return array
-     */
-    public function getInformation()
-    {
-        return array(
-            'description'          => 'Proxy services',
-            'authors'              => array(array('name' => 'Piwik', 'homepage' => 'http://piwik.org/')),
-            'version'              => Version::VERSION,
-            'translationAvailable' => false,
-        );
-    }
 }

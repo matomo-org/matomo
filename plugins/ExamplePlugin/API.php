@@ -4,8 +4,8 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
+
 namespace Piwik\Plugins\ExamplePlugin;
 
 use Piwik\DataTable;
@@ -47,9 +47,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getExampleReport($idSite, $period, $date, $segment = false)
     {
-        $table = new DataTable();
-
-        $table->addRowFromArray(array(Row::COLUMNS => array('nb_visits' => 5)));
+        $table = DataTable::makeFromSimpleArray(array(
+            array('label' => 'My Label 1', 'nb_visits' => '1'),
+            array('label' => 'My Label 2', 'nb_visits' => '5'),
+        ));
 
         return $table;
     }

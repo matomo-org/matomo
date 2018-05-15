@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Desktop</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_actions>8</nb_actions>
+		<max_actions>7</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>42</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>1</revenue>
+			</row>
+		</goals>
+		<nb_conversions>2</nb_conversions>
+		<revenue>43</revenue>
+		<segment>deviceType==desktop</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/desktop.png</logo>
+	</row>
+	<row>
+		<label>Camera</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==camera</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/camera.png</logo>
+	</row>
+	<row>
+		<label>Car browser</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==car+browser</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/car_browser.png</logo>
+	</row>
+	<row>
+		<label>Console</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==console</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/console.png</logo>
+	</row>
+	<row>
+		<label>Feature phone</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==feature+phone</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/feature_phone.png</logo>
+	</row>
+	<row>
+		<label>Phablet</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==phablet</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/phablet.png</logo>
+	</row>
+	<row>
+		<label>Portable media player</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==portable+media+player</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/portable_media_player.png</logo>
+	</row>
+	<row>
+		<label>Smart display</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==smart+display</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/smart_display.png</logo>
+	</row>
+	<row>
+		<label>Smartphone</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==smartphone</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/smartphone.png</logo>
+	</row>
+	<row>
+		<label>Tablet</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==tablet</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/tablet.png</logo>
+	</row>
+	<row>
+		<label>Tv</label>
+		<nb_visits>0</nb_visits>
+		<segment>deviceType==tv</segment>
+		<logo>plugins/Morpheus/icons/dist/devices/tv.png</logo>
+	</row>
+</result>

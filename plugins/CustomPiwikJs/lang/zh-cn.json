@@ -1,0 +1,7 @@
+{
+    "CustomPiwikJs": {
+        "PluginDescription": "允许任意插件扩展 Matomo Javascript 追踪文件（piwik.js）并添加新的功能及网站测度能力。",
+        "DiagnosticPiwikJsWritable": "可写的 Javascript 追踪器（“\/piwik.js”）",
+        "DiagnosticPiwikJsMakeWritable": "我们建议通过运行这条命令来使 Piwki.js 文件可写：%s"
+    }
+}

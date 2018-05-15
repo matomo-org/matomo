@@ -15,29 +15,15 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Cloud;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 
-/**
- *
- */
 class VisitorInterest extends \Piwik\Plugin
 {
-
     function postLoad()
     {
-        Piwik::addAction('Template.headerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'headerVisitsFrequency'));
         Piwik::addAction('Template.footerVisitsFrequency', array('Piwik\Plugins\VisitorInterest\VisitorInterest', 'footerVisitsFrequency'));
     }
 
-    public static function headerVisitsFrequency(&$out)
+   public static function footerVisitsFrequency(&$out)
     {
-        $out = '<div id="leftcolumn">';
-    }
-
-    public static function footerVisitsFrequency(&$out)
-    {
-        $out = '</div>
-			<div id="rightcolumn">
-			';
         $out .= FrontController::getInstance()->fetchDispatch('VisitorInterest', 'index');
-        $out .= '</div>';
     }
 }

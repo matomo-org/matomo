@@ -1,0 +1,31 @@
+{
+    "Actions": {
+        "ColumnClickedURL": "Klikka URL",
+        "ColumnClicks": "Klikk",
+        "ColumnClicksDocumentation": "Talet på klikk på denne peikaren.",
+        "ColumnDownloadURL": "Nedlasta URL",
+        "ColumnEntryPageTitle": "Tittel til inngangsside",
+        "ColumnEntryPageURL": "URL til inngangsside",
+        "ColumnExitPageTitle": "Tittel til utgangsside",
+        "ColumnExitPageURL": "URL til utgangsside",
+        "ColumnPageName": "Sidenamn",
+        "ColumnPageURL": "Side-URL",
+        "ColumnUniqueClicks": "Unike klikk",
+        "ColumnUniqueClicksDocumentation": "Talet på vitjingar som involverte eit klikk på denne peikaren. Viss ein peikar vart klikka fleire gonger under ei vitjing, reknast det med berre ein gong.",
+        "ColumnUniqueDownloads": "Unike nedlastingar",
+        "ColumnUniqueOutlinks": "Unike utpeikarar",
+        "DownloadsReportDocumentation": "I denne rapporten kan du sjå kva filer som vitjarane har lasta ned. %s Matomo tel berre klikk på peikarar til filer. Det er ikkje kjent for Matomo om nedlastinga vart fullførd eller ikkje.",
+        "EntryPageTitles": "Tittel på inngangssider",
+        "EntryPageTitlesReportDocumentation": "Denne rapporten inneheld informasjon om sidetittelen til inngangssider gjennom ein oppgjeven periode.",
+        "ExitPageTitles": "Tittel på utgangssider",
+        "ExitPageTitlesReportDocumentation": "Denne rapporten inneheld informasjon om sidetittelen til utgangssider gjennom ein oppgjeven periode.",
+        "OutlinkDocumentation": "Ein utpeikar er ein peikar som leier vitjarane dine vekk frå nettsida di (til eit anna domene).",
+        "OutlinksReportDocumentation": "Denne rapporten viser ei hierarkisk liste av utpeikarar som vitjarane dine klikka på.",
+        "PagesReportDocumentation": "Denne rapporten inneheld informasjon om side-URLar som er vitja. %s Tabellen er organisert hierarkisk, URLane er vist som ein mappestruktur.",
+        "PageTitlesReportDocumentation": "Denne rapporten inneheld informasjon om titlane til sidene som er vitja. %1$s Sidetittelen er HTML-entiteten %2$s som dei fleste nettlesarane viser som tittel på vindauget sitt.",
+        "PageUrls": "Side-URLar",
+        "SubmenuPagesEntry": "Inngangssider",
+        "SubmenuPagesExit": "Utgangssider",
+        "SubmenuPageTitles": "Sidetitlar"
+    }
+}

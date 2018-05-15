@@ -1,0 +1,20 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "среднее время генерации страницы",
+        "AverageVisitDuration": "средняя продолжительность посещения",
+        "GenerateQueries": "%s запросов выполнено",
+        "GenerateTime": "Страница сгенерирована за %s секунд",
+        "MaxNbActions": "Максимум действий за одно посещение",
+        "NbActionsDescription": "%s действий (просмотры страниц, загрузки, внешние переходы)",
+        "NbActionsPerVisit": "действий (просмотров, загрузок, уходов с сайта, внутренних поисков по сайту) за одно посещение",
+        "NbDownloadsDescription": "загрузки",
+        "NbKeywordsDescription": "уникальные ключевые слова",
+        "NbOutlinksDescription": "исходящие ссылки",
+        "NbPageviewsDescription": "просмотры страниц",
+        "VisitsSummary": "Посещения",
+        "VisitsSummaryDocumentation": "Это обзор динамики посещений.",
+        "WidgetLastVisits": "График последних посещений",
+        "WidgetOverviewGraph": "Обзор по всем графикам",
+        "WidgetVisits": "Обзор посещений"
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "API": {
+        "ChangeTokenHint": "만약 이 토큰을 변경하고 싶으시다면, %1$s 에 있는 개인 설정페이지 %2$s 에서 변경하실 수 있습니다.",
+        "GenerateVisits": "오늘에 해당하는 데이터가 없는 경우는 %1$s 플러그인을 사용하여 처음 약간의 데이터를 생성할 수 있습니다. %2$s 플러그인을 활성화하고 관리 영역에서 '방문자 생성기'메뉴를 클릭하세요.",
+        "KeepTokenSecret": "token_auth는 외부 로그인을 위한 비밀키입니다. %1$s 절대로 공유하지 마세요 %2$s!",
+        "LoadedAPIs": "성공적으로 %s API를 불러옴",
+        "MoreInformation": "Matomo API에 대한 자세한 내용은 %1$sIntroduction to Matomo API %2$s 문서와 %3$sMatomo API Reference%4$s 문서를 참조하세요.",
+        "PluginDescription": "Matomo 내 모든 데이터는 간단한 API를 통해서 접근할 수 있습니다. 이 플러그인은 웹 분석 데이터를 xml, json, php, csv 등의 형태로 받을 수 있는 웹 서비스 진입로입니다.",
+        "ReportingApiReference": "API 레퍼런스 보고",
+        "TopLinkTooltip": "JSON, XML 등의 간단한 API를 통해 프로그래밍 방식으로 웹 로그 분석 데이터에 접근할 수 있습니다.",
+        "UserAuthentication": "사용자 인증",
+        "UsingTokenAuth": "%1$s 스크립트 (crontab 등)에서 요청 데이터를 얻고 싶다면 %2$s는 API를 호출하는 URL (인증 필요)에 매개 변수 %3$s를 추가해야합니다.",
+        "Glossary": "용어",
+        "LearnAboutCommonlyUsedTerms": "Matomo 분석에 있어 자주 사용되는 용어 %1$s 와 %2$s 배우기"
+    }
+}

@@ -8,34 +8,43 @@
  */
 namespace Piwik\Plugins\CorePluginsAdmin;
 
-use Piwik\Db;
+use Piwik\Container\StaticContainer;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
+use Piwik\Plugins\Marketplace\Marketplace;
+use Piwik\Plugins\Marketplace\Plugins;
 
-/**
- */
 class Menu extends \Piwik\Plugin\Menu
 {
+    private $marketplacePlugins;
+
+    /**
+     * Menu constructor.
+     * @param Plugins $marketplacePlugins
+     */
+    public function __construct($marketplacePlugins = null)
+    {
+        if (!empty($marketplacePlugins)) {
+            $this->marketplacePlugins = $marketplacePlugins;
+        } elseif (Marketplace::isMarketplaceEnabled()) {
+            // we load it manually as marketplace plugin might not be loaded
+            $this->marketplacePlugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+        }
+    }
 
     public function configureAdminMenu(MenuAdmin $menu)
     {
         $hasSuperUserAcess    = Piwik::hasUserSuperUserAccess();
         $isAnonymous          = Piwik::isUserIsAnonymous();
-        $isMarketplaceEnabled = CorePluginsAdmin::isMarketplaceEnabled();
+        $isMarketplaceEnabled = Marketplace::isMarketplaceEnabled();
 
         $pluginsUpdateMessage = '';
-        $themesUpdateMessage  = '';
 
-        if ($hasSuperUserAcess && $isMarketplaceEnabled) {
-            $marketplace = new Marketplace();
-            $pluginsHavingUpdate = $marketplace->getPluginsHavingUpdate($themesOnly = false);
-            $themesHavingUpdate  = $marketplace->getPluginsHavingUpdate($themesOnly = true);
+        if ($hasSuperUserAcess && $isMarketplaceEnabled && $this->marketplacePlugins) {
+            $pluginsHavingUpdate = $this->marketplacePlugins->getPluginsHavingUpdate();
 
             if (!empty($pluginsHavingUpdate)) {
                 $pluginsUpdateMessage = sprintf(' (%d)', count($pluginsHavingUpdate));
-            }
-            if (!empty($themesHavingUpdate)) {
-                $themesUpdateMessage = sprintf(' (%d)', count($themesHavingUpdate));
             }
         }
 
@@ -44,19 +53,9 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         if ($hasSuperUserAcess) {
-            $menu->addPlatformItem(Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
-                                   array('module' => 'CorePluginsAdmin', 'action' => 'plugins', 'activated' => ''),
-                                   $order = 1);
-            $menu->addPlatformItem(Piwik::translate('CorePluginsAdmin_Themes') . $themesUpdateMessage,
-                                   array('module' => 'CorePluginsAdmin', 'action' => 'themes', 'activated' => ''),
-                                   $order = 3);
-        }
-
-        if ($isMarketplaceEnabled && !$isAnonymous) {
-            $menu->addPlatformItem('CorePluginsAdmin_Marketplace',
-                                   array('module' => 'CorePluginsAdmin', 'action' => 'extend', 'activated' => ''),
-                                   $order = 5);
-
+            $menu->addSystemItem(Piwik::translate('General_Plugins') . $pluginsUpdateMessage,
+                $this->urlForAction('plugins', array('activated' => '')),
+                $order = 20);
         }
     }
 

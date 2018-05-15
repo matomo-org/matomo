@@ -1,0 +1,12 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Asetukset",
+        "ColumnResolution": "Resoluutio",
+        "Configurations": "Asetukset",
+        "PluginDescription": "Raportoi käyttäjien näytön resoluutioista.",
+        "Resolutions": "Resoluutio",
+        "WidgetGlobalVisitors": "Kaikkien kävijöiden asetukset",
+        "WidgetGlobalVisitorsDocumentation": "Tämä raportti näyttää yleiskuvan eri käyttäjien asetuksista. Asetukset on yhdistelmä käyttöjärjestelmästä, selaimen tyypistä ja näytön resoluutiosta.",
+        "WidgetResolutions": "Näytön resoluutio"
+    }
+}

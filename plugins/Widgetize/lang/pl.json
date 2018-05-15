@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Otwórz w nowym oknie",
+        "PluginDescription": "Wyświetl dowolny raport Matomo na swojej stronie lub w aplikacji przy pomocy prostego Zagnieżdżonego HTML'a.",
+        "TopLinkTooltip": "Eksportuj raporty Matomo jako widżety i zagnieżdżaj Pulpit w swoich aplikacjach jako iframe."
+    }
+}

@@ -2,74 +2,30 @@
     vertical-align: middle;;
 }
 
-.admin a {
-    color: black;
+.admin h2 + .top_bar_sites_selector {
+    margin-top: -62px;
+    margin-right: 0 !important;
+}
+
+// hide PHP is deprecated notification in UI test
+.uiTest [notification-id="DeprecatedPHPVersionCheck"],
+.uiTest [notification-id="PHPVersionTooOldForNewestPiwikCheck"]{
+    display: none !important;
 }
 
 #content.admin {
-    margin: 0 0 0 260px;
-    padding: 0 0 40px;
-    display: table;
     font-size: 13px;
+    margin-top: 0;
+
+    // Fix the <pre> blocks because of the display: table
+    pre {
+        max-width: 995px;
+    }
 }
 
 .admin #header_message {
-    margin-top: 10px;
-}
-
-table.admin {
-    font-size: 0.9em;
-    background-color: #fff;
-    border-collapse: collapse;
-}
-
-table.admin thead th {
-    border-right: 1px solid #fff;
-    color: #fff;
-    text-align: center;
-    padding: 5px;
-    text-transform: uppercase;
-    height: 25px;
-    background-color: #a3c159;
-    font-weight: bold;
-}
-
-table.admin tbody tr {
-    background-color: #fff;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-table.admin tbody td {
-    color: #414141;
-    text-align: left;
-    vertical-align: top;
-}
-
-table.admin tbody th {
-    text-align: left;
-    padding: 2px;
-}
-
-table.admin tbody td, table.admin tbody th {
-    color: #536C2A;
-    text-decoration: none;
-    font-weight: normal;
-    padding: 10px;
-}
-
-table.admin  tbody td:hover, table.admin  tbody th:hover {
-    color: #009193;
-    text-decoration: none;
-}
-
-.warning {
-    border: 1px dotted gray;
-    padding: 15px;
-    font-size: .8em;
-}
-
-.warning ul {
-    margin-left: 50px;
+    margin-top: 8px;
+    margin-right: 8px;
 }
 
 .access_error {
@@ -77,101 +33,22 @@ table.admin  tbody td:hover, table.admin  tbody th:hover {
     padding: 15px;
 }
 
-.admin h2 {
-    border-bottom: 1px solid #DADADA;
-    margin: 15px -15px 20px 0;
-    padding: 0 0 5px 0;
-    font-size: 24px;
-    width:100%;
-}
-
 .admin p, .admin section {
     margin-top: 10px;
     line-height: 140%;
-    padding-bottom: 20px;
-}
-
-.adminTable {
-    width: 100%;
-    clear: both;
-    margin: 0;
-}
-
-.adminTable a {
-    text-decoration: none;
-    color: #2B5C97;
-}
-
-.adminTable abbr {
-    white-space: nowrap;
-}
-
-.adminTable td {
-    font-size: 13px;
-    vertical-align: top;
-    padding: 7px 15px 9px 10px;
-    vertical-align: top;
-}
-
-.adminTable td.action-links {
-    text-align: right;
-}
-
-.adminTable .check-column {
-    text-align: right;
-    width: 1.5em;
-    padding: 0;
-}
-
-.adminTable .num {
-    text-align: center;
-}
-
-.adminTable .name {
-    font-weight: bold;
-}
-
-.adminTable .ui-inline-help {
-    margin-top: 0;
-    width: 100%;
-    margin-left: 50px;
-}
-
-/* other styles */
-.form-description {
-    color: @theme-color-text-lighter;
-    font-style: italic;
-    margin-left: 10px;
-}
-
-#logoSettings, #smtpSettings {
-    margin-left: 50px;
-}
-
-/* to override .admin a */
-.admin .sites_autocomplete a {
-    color: #255792;
+    padding-bottom: 10px;
 }
 
 /* trusted host styles */
-#trustedHostSettings .adminTable {
-    width: 300px;
-}
-
-#trustedHostSettings .adminTable td {
-    vertical-align: middle;
-    padding-bottom: 0;
-}
-
-#trustedHostSettings .adminTable tr td:last-child {
-    padding: 0 0 0 0;
-}
-
-#trustedHostSettings input {
+#trustedHostSettings input:not(.btn) {
     width: 238px;
 }
 
+#trustedHostSettings li {
+    padding-bottom: 6px;
+}
+
 #trustedHostSettings .add-trusted-host-container,
-#corsSettings .add-cors-host-container{
+#corsSettings .add-cors-host-container {
     padding: 12px 24px;
 }

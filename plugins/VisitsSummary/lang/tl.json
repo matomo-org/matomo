@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "mga query sa %s isagawa",
+        "GenerateTime": "segundo %s upang makabuo ng pahina.",
+        "NbActionsDescription": "%s mga aksyon",
+        "VisitsSummary": "Buod ng mga Pagbisita",
+        "VisitsSummaryDocumentation": "Ito ay isang pangkalahatang-ideya sa ebolusyon ng pagbisita",
+        "WidgetLastVisits": "Mga pagbisita sa paglipas ng panahon",
+        "WidgetOverviewGraph": "Mga pagbisita pangkalahatang-ideya ng (na may mga graph)",
+        "WidgetVisits": "Visits Overview"
+    }
+}

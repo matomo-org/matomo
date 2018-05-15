@@ -9,14 +9,15 @@
 
 namespace Piwik\Plugin;
 
-use Piwik\Singleton;
+use Piwik\Container\StaticContainer;
+use Psr\Log\LoggerInterface;
 
 /**
  * The base class of all API singletons.
  *
  * Plugins that want to expose functionality through the Reporting API should create a class
  * that extends this one. Every public method in that class that is not annotated with **@ignore**
- * will be callable through Piwik's Web API.
+ * will be callable through Matomo's Web API.
  *
  * _Note: If your plugin calculates and stores reports, they should be made available through the API._
  *
@@ -39,7 +40,69 @@ use Piwik\Singleton;
  *
  * @api
  */
-abstract class API extends Singleton
+abstract class API
 {
+    private static $instances;
 
+    /**
+     * Returns the singleton instance for the derived class. If the singleton instance
+     * has not been created, this method will create it.
+     *
+     * @return static
+     */
+    public static function getInstance()
+    {
+        $class = get_called_class();
+
+        if (!isset(self::$instances[$class])) {
+            $container = StaticContainer::getContainer();
+
+            $refl = new \ReflectionClass($class);
+
+            if (!$refl->getConstructor() || $refl->getConstructor()->isPublic()) {
+                self::$instances[$class] = $container->get($class);
+            } else {
+                /** @var LoggerInterface $logger */
+                $logger = $container->get('Psr\Log\LoggerInterface');
+
+                // BC with API defining a protected constructor
+                $logger->notice('The API class {class} defines a protected constructor which is deprecated, make the constructor public instead', array('class' => $class));
+                self::$instances[$class] = new $class;
+            }
+        }
+
+        return self::$instances[$class];
+    }
+
+    /**
+     * Used in tests only
+     * @ignore
+     * @deprecated
+     */
+    public static function unsetInstance()
+    {
+        $class = get_called_class();
+        unset(self::$instances[$class]);
+    }
+
+    /**
+     * Used in tests only
+     * @ignore
+     * @deprecated
+     */
+    public static function unsetAllInstances()
+    {
+        self::$instances = array();
+    }
+
+    /**
+     * Sets the singleton instance. For testing purposes.
+     * @ignore
+     * @deprecated
+     */
+    public static function setSingletonInstance($instance)
+    {
+        $class = get_called_class();
+        self::$instances[$class] = $instance;
+    }
 }

@@ -1,0 +1,14 @@
+{% if userCanEditGoals %}
+
+    {% include "@Goals/_addEditGoal.twig" %}
+
+{% else %}
+
+    <h2>{{ 'Goals_ManageGoals'|translate }}</h2>
+    <p>
+        {{ 'Goals_NeedAccess'|translate|raw }}
+    </p>
+
+    {% include "@Goals/_addEditGoal.twig" %}
+
+{% endif %}

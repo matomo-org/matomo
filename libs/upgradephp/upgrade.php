@@ -349,7 +349,7 @@ function _safe_serialize( $value )
 	}
 	if(is_float($value))
 	{
-		return 'd:'.$value.';';
+		return 'd:'.str_replace(',', '.', $value).';';
 	}
 	if(is_string($value))
 	{
@@ -633,8 +633,8 @@ function _readfile($filename, $byteStart, $byteEnd, $useIncludePath = false, $co
         for ($pos = $byteStart; $pos < $byteEnd && !feof($handle); $pos = ftell($handle)) {
 			echo fread($handle, min(8192, $byteEnd - $pos));
 
-			ob_flush();
-			flush();
+			@ob_flush();
+			@flush();
 		}
 
 		fclose($handle);
@@ -696,3 +696,26 @@ if (!function_exists('gzopen')
         return gzopen64($filename , $mode, $use_include_path);
     }
 }
+
+if (!function_exists('dump')) {
+    function dump () {
+
+    }
+}
+
+/**
+ * Need to catch that PHP7 error object on php5
+ */
+if( !class_exists('\Error')) {
+	class Error {
+
+	}
+}
+
+if(!function_exists('fnmatch')) {
+
+	function fnmatch($pattern, $string) {
+		return preg_match("#^".strtr(preg_quote($pattern, '#'), array('\*' => '.*', '\?' => '.'))."$#i", $string);
+	} // end
+
+} // end if

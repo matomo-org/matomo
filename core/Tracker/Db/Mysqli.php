@@ -27,6 +27,14 @@ class Mysqli extends Db
     protected $charset;
     protected $activeTransaction = false;
 
+    protected $enable_ssl;
+    protected $ssl_key;
+    protected $ssl_cert;
+    protected $ssl_ca;
+    protected $ssl_ca_path;
+    protected $ssl_cipher;
+    protected $ssl_no_verify;
+
     /**
      * Builds the DB object
      *
@@ -39,7 +47,7 @@ class Mysqli extends Db
             $this->host = null;
             $this->port = null;
             $this->socket = $dbInfo['unix_socket'];
-        } else if ($dbInfo['port'][0] == '/') {
+        } elseif ($dbInfo['port'][0] == '/') {
             $this->host = null;
             $this->port = null;
             $this->socket = $dbInfo['port'];
@@ -52,6 +60,30 @@ class Mysqli extends Db
         $this->username = $dbInfo['username'];
         $this->password = $dbInfo['password'];
         $this->charset = isset($dbInfo['charset']) ? $dbInfo['charset'] : null;
+
+
+        if(!empty($dbInfo['enable_ssl'])){
+            $this->enable_ssl = $dbInfo['enable_ssl'];
+        }
+        if(!empty($dbInfo['ssl_key'])){
+            $this->ssl_key = $dbInfo['ssl_key'];
+        }
+        if(!empty($dbInfo['ssl_cert'])){
+            $this->ssl_cert = $dbInfo['ssl_cert'];
+        }
+        if(!empty($dbInfo['ssl_ca'])){
+            $this->ssl_ca = $dbInfo['ssl_ca'];
+        }
+        if(!empty($dbInfo['ssl_ca_path'])){
+            $this->ssl_ca_path = $dbInfo['ssl_ca_path'];
+        }
+        if(!empty($dbInfo['ssl_cipher'])){
+            $this->ssl_cipher = $dbInfo['ssl_cipher'];
+        }
+        if(!empty($dbInfo['ssl_no_verify'])){
+            $this->ssl_no_verify = $dbInfo['ssl_no_verify'];
+        }
+
     }
 
     /**
@@ -73,7 +105,25 @@ class Mysqli extends Db
             $timer = $this->initProfiler();
         }
 
-        $this->connection = mysqli_connect($this->host, $this->username, $this->password, $this->dbname, $this->port, $this->socket);
+        $this->connection = mysqli_init();
+
+
+        if($this->enable_ssl){
+            mysqli_ssl_set($this->connection, $this->ssl_key, $this->ssl_cert, $this->ssl_ca, $this->ssl_ca_path, $this->ssl_cipher);
+        }
+
+        // Make sure MySQL returns all matched rows on update queries including
+        // rows that actually didn't have to be updated because the values didn't
+        // change. This matches common behaviour among other database systems.
+        // See #6296 why this is important in tracker
+        $flags = MYSQLI_CLIENT_FOUND_ROWS;
+        if ($this->enable_ssl){
+            $flags = $flags | MYSQLI_CLIENT_SSL;
+        }
+        if ($this->ssl_no_verify && defined('MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT')){
+            $flags = $flags | MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+        }
+        mysqli_real_connect($this->connection, $this->host, $this->username, $this->password, $this->dbname, $this->port, $this->socket, $flags);
         if (!$this->connection || mysqli_connect_errno()) {
             throw new DbException("Connect failed: " . mysqli_connect_error());
         }
@@ -106,7 +156,7 @@ class Mysqli extends Db
      * @param string $query Query
      * @param array $parameters Parameters to bind
      * @return array
-     * @throws Exception|DbException if an exception occured
+     * @throws Exception|DbException if an exception occurred
      */
     public function fetchAll($query, $parameters = array())
     {
@@ -205,8 +255,8 @@ class Mysqli extends Db
             return $result;
         } catch (Exception $e) {
             throw new DbException("Error query: " . $e->getMessage() . "
-								In query: $query
-								Parameters: " . var_export($parameters, true));
+                                   In query: $query
+                                   Parameters: " . var_export($parameters, true), $e->getCode());
         }
     }
 
@@ -232,7 +282,7 @@ class Mysqli extends Db
     {
         if (!$parameters) {
             $parameters = array();
-        } else if (!is_array($parameters)) {
+        } elseif (!is_array($parameters)) {
             $parameters = array($parameters);
         }
 
@@ -278,57 +328,61 @@ class Mysqli extends Db
         return mysqli_affected_rows($this->connection);
     }
 
-	/**
-	 * Start Transaction
-	 * @return string TransactionID
-	 */
+    /**
+     * Start Transaction
+     * @return string TransactionID
+     */
+    public function beginTransaction()
+    {
+        if (!$this->activeTransaction === false) {
+            return;
+        }
 
-	public function beginTransaction()
-	{
-		if(!$this->activeTransaction === false ) {
-			return;
-		}
+        if ($this->connection->autocommit(false)) {
+            $this->activeTransaction = uniqid();
+            return $this->activeTransaction;
+        }
+    }
 
-		if( $this->connection->autocommit(false) ) {
-			$this->activeTransaction = uniqid();
-			return $this->activeTransaction;
-		}
-	}
+    /**
+     * Commit Transaction
+     * @param $xid
+     * @throws DbException
+     * @internal param TransactionID $string from beginTransaction
+     */
+    public function commit($xid)
+    {
+        if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
+            return;
+        }
 
-	/**
-	 * Commit Transaction
-	 * @param string TransactionID from beginTransaction
-	 */
+        $this->activeTransaction = false;
 
-	public function commit($xid)
-	{
-		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) {
+        if (!$this->connection->commit()) {
+            throw new DbException("Commit failed");
+        }
 
-			return;
-		}
-		$this->activeTransaction = false;
+        $this->connection->autocommit(true);
+    }
 
-		if(!$this->connection->commit() ) {
-			throw new DbException("Commit failed");
-		}
-		$this->connection->autocommit(true);
-	}
+    /**
+     * Rollback Transaction
+     * @param $xid
+     * @throws DbException
+     * @internal param TransactionID $string from beginTransaction
+     */
+    public function rollBack($xid)
+    {
+        if ($this->activeTransaction != $xid || $this->activeTransaction === false) {
+            return;
+        }
 
-	/**
-	 * Rollback Transaction
-	 * @param string TransactionID from beginTransaction
-	 */
+        $this->activeTransaction = false;
 
-	public function rollBack($xid)
-	{
-		if($this->activeTransaction !=  $xid || $this->activeTransaction === false  ) {
-			return;
-		}
-		$this->activeTransaction = false;
+        if (!$this->connection->rollback()) {
+            throw new DbException("Rollback failed");
+        }
 
-		if(!$this->connection->rollback() ) {
-			throw new DbException("Rollback failed");
-		}
-		$this->connection->autocommit(true);
-	}
+        $this->connection->autocommit(true);
+    }
 }

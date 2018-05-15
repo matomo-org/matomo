@@ -1,0 +1,10 @@
+{
+    "Feedback": {
+        "DoYouHaveBugReportOrFeatureRequest": "Hibát szeretnél bejelenteni, vagy egy funkció kifejlesztését szeretnéd kérni?",
+        "IWantTo": "A következőt szeretném:",
+        "LearnWaysToParticipate": "Győződj meg róla, %1$shányféleképpen segíthetsz%2$s",
+        "ManuallySendEmailTo": "Kérjük, küldd el manuálisan az üzeneted ide:",
+        "SendFeedback": "Visszajelzés elküldése",
+        "ThankYou": "Köszönjük, hogy segítesz jobbá tenni a Matomo-et!"
+    }
+}

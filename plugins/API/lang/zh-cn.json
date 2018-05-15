@@ -1,0 +1,16 @@
+{
+    "API": {
+        "ChangeTokenHint": "如果你想改变这个标记，请到你的%1$s个人设置页面%2$s。",
+        "GenerateVisits": "如果您今天还沒有任何资料，可以先用 %1$s 插件来产生一些数据。您可以启用 %2$s 插件，然后点击在 Matomo 管理菜单下的'生成访客'选项。",
+        "KeepTokenSecret": "授权号 token_auth 与您的帐号和密码一样重要，%1$s请不要公开%2$s！",
+        "LoadedAPIs": "已成功载入 %s 个 APIs",
+        "MoreInformation": "了解更多关于 Matomo APIs 的资讯，请访问 %1$sMatomo API 介绍%2$s 和 %3$s Matomo API 参考资料%4$s。",
+        "PluginDescription": "Matomo中的所有数据，都可通过简单的API接口获取。这个插件是Web服务的切入点，那你可以通过调用获取你想要的网站分析的数据，比如XML，JSON，PHP，CSV等。",
+        "ReportingApiReference": "报告API参考",
+        "TopLinkTooltip": "通过一个简单的 API，让您可以以 xml, json及其它格式取得网站分析的数据。",
+        "UserAuthentication": "身份验证",
+        "UsingTokenAuth": "如果您想在代码、定时任务中 %1$s 请求数据，%2$s 要在 API 调用需要认证的网址时增加参数 %3$s。",
+        "Glossary": "词汇表",
+        "LearnAboutCommonlyUsedTerms": "了解Matomo Analytics常用的术语：%1$s and %2$s。"
+    }
+}

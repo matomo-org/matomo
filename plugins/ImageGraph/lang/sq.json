@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "Në këtë raport s’u gjet shtylla '%1$s'. Provoni cilëndo nga %2$s",
+        "PluginDescription": "Prodhoni figura të hijshme Grafikësh statikë PNG për çfarëdo të dhënash të raportit tuaj."
+    }
+}

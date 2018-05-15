@@ -1,0 +1,11 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Lokālais laiks",
+        "ColumnServerTime": "Servera laiks",
+        "LocalTime": "Apmeklējumi pēc vietējā laika",
+        "NHour": "%s st.",
+        "ServerTime": "Apmeklējumi pēc servera laika",
+        "SubmenuTimes": "Laiki",
+        "WidgetLocalTime": "Apmeklējumi pēc lokālā laika"
+    }
+}

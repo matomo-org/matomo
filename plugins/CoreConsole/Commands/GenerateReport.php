@@ -9,7 +9,11 @@
 
 namespace Piwik\Plugins\CoreConsole\Commands;
 
+use Piwik\Columns\Dimension;
+use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugin\Report;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Translate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -31,17 +35,18 @@ class GenerateReport extends GeneratePluginBase
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pluginName    = $this->getPluginName($input, $output);
+        $this->checkAndUpdateRequiredPiwikVersion($pluginName, $output);
+
         $reportName    = $this->getReportName($input, $output);
         $category      = $this->getCategory($input, $output, $pluginName);
         $documentation = $this->getDocumentation($input, $output);
-        list($dimension, $dimensionClass) = $this->getDimension($input, $output);
+        list($dimension, $dimensionClass) = $this->getDimension($input, $output, $pluginName);
 
         $order   = $this->getOrder($category);
         $apiName = $this->getApiName($reportName);
 
         $exampleFolder  = PIWIK_INCLUDE_PATH . '/plugins/ExampleReport';
-        $replace        = array('ExampleReport'     => $pluginName,
-                                'GetExampleReport'  => ucfirst($apiName),
+        $replace        = array('GetExampleReport'  => ucfirst($apiName),
                                 'getExampleReport'  => lcfirst($apiName),
                                 'getApiReport'      => lcfirst($apiName),
                                 'ExampleCategory'   => $category,
@@ -49,7 +54,8 @@ class GenerateReport extends GeneratePluginBase
                                 'ExampleReportDocumentation' => $documentation,
                                 '999'               => $order,
                                 'new ExitPageUrl()' => $dimension,
-                                'use Piwik\Plugins\Actions\Columns\ExitPageUrl;' => $dimensionClass
+                                'use Piwik\Plugins\Actions\Columns\ExitPageUrl;' => $dimensionClass,
+                                'ExampleReport'     => $pluginName,
         );
 
         $whitelistFiles = array('/Reports', '/Reports/Base.php', '/Reports/GetExampleReport.php');
@@ -63,8 +69,8 @@ class GenerateReport extends GeneratePluginBase
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $whitelistFiles);
 
         $this->writeSuccessMessage($output, array(
-            sprintf('Reports/%s.php for %s generated.', ucfirst($apiName), $pluginName),
-            'You should now implement the method called "' . lcfirst($apiName) . '" in API.php',
+            sprintf('plugins/%s/Reports/%s.php for %s generated.', $pluginName, ucfirst($apiName)),
+            'You should now implement the method called <comment>"' . lcfirst($apiName) . '()"</comment> in API.php',
            // 'Read more about this here: link to developer guide',
             'Enjoy!'
         ));
@@ -74,8 +80,10 @@ class GenerateReport extends GeneratePluginBase
     {
         $order = 1;
 
-        foreach (Report::getAllReports() as $report) {
-            if ($report->getCategory() === $category) {
+        $reports = new ReportsProvider();
+
+        foreach ($reports->getAllReports() as $report) {
+            if ($report->getCategoryId() === $category) {
                 if ($report->getOrder() > $order) {
                     $order = $report->getOrder() + 1;
                 }
@@ -185,10 +193,12 @@ class GenerateReport extends GeneratePluginBase
 
         $category = $input->getOption('category');
 
+        $reports = new ReportsProvider();
+
         $categories = array();
-        foreach (Report::getAllReports() as $report) {
-            if ($report->getCategory()) {
-                $categories[] = $report->getCategory();
+        foreach ($reports->getAllReports() as $report) {
+            if ($report->getCategoryId()) {
+                $categories[] = Piwik::translate($report->getCategoryId());
             }
         }
         $categories = array_values(array_unique($categories));
@@ -213,15 +223,18 @@ class GenerateReport extends GeneratePluginBase
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @param string $pluginName
      * @return array
      * @throws \RuntimeException
      */
-    protected function getDimension(InputInterface $input, OutputInterface $output)
+    protected function getDimension(InputInterface $input, OutputInterface $output, $pluginName)
     {
         $dimensions = array();
         $dimensionNames = array();
 
-        foreach (Report::getAllReports() as $report) {
+        $reports = new ReportsProvider();
+
+        foreach ($reports->getAllReports() as $report) {
             $dimension = $report->getDimension();
             if (is_object($dimension)) {
                 $name = $dimension->getName();
@@ -229,6 +242,18 @@ class GenerateReport extends GeneratePluginBase
                     $dimensions[$name] = get_class($dimension);
                     $dimensionNames[]  = $name;
                 }
+            }
+        }
+
+        $plugin     = Manager::getInstance()->loadPlugin($pluginName);
+        $dimensions = Dimension::getAllDimensions();
+        $dimensions = array_merge($dimensions, Dimension::getDimensions($plugin));
+
+        foreach ($dimensions as $dimension) {
+            $name = $dimension->getName();
+            if (!empty($name)) {
+                $dimensions[$name] = get_class($dimension);
+                $dimensionNames[]  = $name;
             }
         }
 

@@ -1,0 +1,26 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Potwierdzenie zostało wysłane na skrzynkę odbiorczą. Sprawdź swój e-mail i odwiedzić link do autoryzacji żądania zmiany hasła.",
+        "ContactAdmin": "Możliwy powód: Twój serwer może mieć wyłączoną funkcję mail().<br \/>Zachęcamy do kontaktu z administratorem Matomo.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Użytkownik o uprawnieniach Super Użytkownika nie może być autoryzowany przy pomocy mechanizmu '%s'.",
+        "ExceptionPasswordMD5HashExpected": "Oczekiwanym parametrem hasła jest hash z MD5 uzyskany z hasła.",
+        "InvalidNonceOrHeadersOrReferrer": "Błąd zabezpieczeń formularza. Proszę przeładować stronę z formularzem i upewnić się, że obsługa ciasteczek jest włączona. Jeśli korzystasz z serwera proxy, należy %1$s skonfigurować Matomo, tak aby akceptował nagłówek serwera proxy%2$s, który przekazuje nagłówek serwera docelowego. Ponadto sprawdź, czy naglówek Referrer jest poprawnie wysyłany.",
+        "InvalidNonceSSLMisconfigured": "Możesz także %1$s wymusić na Matomo'u korzystanie z bezpiecznego połączenia%2$s: w pliku konfiguracyjnym %3$s ustaw %4$s poniżej sekcji %5$s",
+        "InvalidOrExpiredToken": "Token jest błędny lub już wygasł.",
+        "InvalidUsernameEmail": "Błędna nazwa użytkownika i\/lub adres e-mail",
+        "LogIn": "Zaloguj się",
+        "LoginOrEmail": "Nazwa użytkownika lub email",
+        "LoginPasswordNotCorrect": "Nazwa użytkownika i hasło nie są poprawne.",
+        "LostYourPassword": "Nie pamiętasz hasła?",
+        "ChangeYourPassword": "Zmień swoje hasło",
+        "MailPasswordChangeBody": "Cześć %1$s,\n\nOdebraliśmy żądanie zmiany hasła dla konta %2$s. Aby potwierdzić zmianę hasła, co umożliwi zalogowanie z nowymi danymi, przejdź do poniższej strony:\n\n%3$s\n\nUWAGA: Zmiana hasła spowoduje również zmianę Twojego tokenu autoryzacyjnego. Swój zaktualizowany token znajdziesz na swojej stronie ustawień.\n\nJeśli korzystasz z tokenu w zewnętrznej aplikacji lub do archiwizacji, upewnij się, że zostanie on zaktualizowany. Brak aktualizacji spowoduje brak możliwości połączenia z API.\n\nNOTKA: ważność tego linku to 24 godziny.\n\nDzięki, że korzystasz z Matomo!",
+        "MailTopicPasswordChange": "Zatwierdź zmianę hasła",
+        "NewPassword": "Nowe hasło",
+        "NewPasswordRepeat": "Nowe hasło (powtórz)",
+        "PasswordChanged": "Twoje hasło zostało zmienione.",
+        "PasswordRepeat": "Hasło (powtórz)",
+        "PasswordsDoNotMatch": "Hasła nie pasują.",
+        "PluginDescription": "Dostarcza funkcjonalności autentykacji przy pomocy nazwy użytkownika i hasła jak również resetu hasła. Metoda autentykacji może być zmieniona przy wykorzystaniu dodatkowej wtyczki Logowania jak choćby LoginLdap dostępnej w Sklepie.",
+        "RememberMe": "Zapamiętaj mnie"
+    }
+}

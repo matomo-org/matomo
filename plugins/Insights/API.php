@@ -39,11 +39,9 @@ class API extends \Piwik\Plugin\API
      */
     private $model;
 
-    protected function __construct()
+    public function __construct(Model $model)
     {
-        parent::__construct();
-
-        $this->model = new Model();
+        $this->model = $model;
     }
 
     private function getOverviewReports()
@@ -83,8 +81,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSomeViewAccess();
 
         try {
-            $model    = new Model();
-            $lastDate = $model->getLastDate($date, $period, 1);
+            $lastDate = $this->model->getLastDate($date, $period, 1);
         } catch (\Exception $e) {
             return false;
         }
@@ -215,12 +212,12 @@ class API extends \Piwik\Plugin\API
             throw new \Exception('A report having the ID ' . $reportUniqueId .  ' does not exist');
         }
 
-        $totalValue     = $this->model->getTotalValue($idSite, $period, $date, $metric);
+        $totalValue     = $this->model->getTotalValue($idSite, $period, $date, $metric, $segment);
         $currentReport  = $this->model->requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($currentReport);
 
         $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods);
-        $lastTotalValue = $this->model->getTotalValue($idSite, $period, $lastDate, $metric);
+        $lastTotalValue = $this->model->getTotalValue($idSite, $period, $lastDate, $metric, $segment);
         $lastReport     = $this->model->requestReport($idSite, $period, $lastDate, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($lastReport);
 
@@ -269,12 +266,12 @@ class API extends \Piwik\Plugin\API
             throw new \Exception('A report having the ID ' . $reportUniqueId .  ' does not exist');
         }
 
-        $totalValue     = $this->model->getTotalValue($idSite, $period, $date, $metric);
+        $totalValue     = $this->model->getTotalValue($idSite, $period, $date, $metric, $segment);
         $currentReport  = $this->model->requestReport($idSite, $period, $date, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($currentReport);
 
         $lastDate       = $this->model->getLastDate($date, $period, $comparedToXPeriods);
-        $lastTotalValue = $this->model->getTotalValue($idSite, $period, $lastDate, $metric);
+        $lastTotalValue = $this->model->getTotalValue($idSite, $period, $lastDate, $metric, $segment);
         $lastReport     = $this->model->requestReport($idSite, $period, $lastDate, $reportUniqueId, $metric, $segment);
         $this->checkReportIsValid($lastReport);
 

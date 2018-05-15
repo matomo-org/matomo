@@ -1,0 +1,13 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "เวลาของท้องถิ่น",
+        "ColumnServerTime": "เวลาของเซิร์ฟเวอร์",
+        "DayOfWeek": "วันในสัปดาห์",
+        "LocalTime": "จำนวนผู้ชมต่อเวลาท้องถิ่น",
+        "NHour": "%s ชม.",
+        "ServerTime": "จำนวนผู้ชมต่อเวลาของเซิร์ฟเวอร์",
+        "SubmenuTimes": "เวลา",
+        "WidgetLocalTime": "จำนวนผู้ชมตามเวลาท้องถิ่น",
+        "WidgetServerTime": "จำนวนผู้ชมตามเวลาของเซิร์ฟเวอร์"
+    }
+}

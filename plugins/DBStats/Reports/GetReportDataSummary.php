@@ -11,6 +11,7 @@ namespace Piwik\Plugins\DBStats\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
+use Piwik\Plugin\ReportsProvider;
 
 /**
  * Shows a datatable that displays the amount of space each blob archive table
@@ -33,6 +34,8 @@ class GetReportDataSummary extends Base
 
     public function getRelatedReports()
     {
-        return array(new GetReportDataSummaryByYear());
+        return array(
+            ReportsProvider::factory('DBStats', 'getReportDataSummaryByYear'),
+        );
     }
 }

@@ -1,0 +1,10 @@
+[piwik-period-selector] {
+  display: inline-block;
+
+  // overrides theme CSS that always hides .loadingPiwik. since we use an ng-if to make
+  // sure it's only shown when we're actually loading a new page, it's not necessary to
+  // forcefully hide it.
+  .loadingPiwik {
+    display: inline-block !important;
+  }
+}

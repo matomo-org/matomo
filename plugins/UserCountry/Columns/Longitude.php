@@ -8,9 +8,7 @@
  */
 namespace Piwik\Plugins\UserCountry\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UserCountry\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -18,21 +16,13 @@ use Piwik\Tracker\Action;
 class Longitude extends Base
 {
     protected $columnName = 'location_longitude';
-    protected $columnType = 'float(10, 6) DEFAULT NULL';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('longitude');
-        $segment->setName('UserCountry_Longitude');
-        $segment->setAcceptedValues('-70.664, 14.326, etc.');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('UserCountry_Latitude');
-    }
+    protected $columnType = 'decimal(9, 6) DEFAULT NULL';
+    protected $type = self::TYPE_TEXT;
+    protected $category = 'UserCountry_VisitLocation';
+    protected $acceptValues = '-70.664, 14.326, etc.';
+    protected $segmentName = 'longitude';
+    protected $nameSingular = 'UserCountry_Longitude';
+    protected $namePlural = 'UserCountry_Longitudes';
 
     /**
      * @param Request $request
@@ -50,7 +40,9 @@ class Longitude extends Base
 
         $userInfo = $this->getUserInfo($request, $visitor);
 
-        return $this->getLocationDetail($userInfo, LocationProvider::LONGITUDE_KEY);
+        $longitude = $this->getLocationDetail($userInfo, LocationProvider::LONGITUDE_KEY);
+
+        return $longitude;
     }
 
     /**

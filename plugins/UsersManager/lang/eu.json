@@ -1,0 +1,25 @@
+{
+    "UsersManager": {
+        "AddUser": "Gehitu erabiltzaile berria",
+        "Alias": "Alias",
+        "AllWebsites": "Webgune guztiak",
+        "ApplyToAllWebsites": "Aplikatu webgune guztiei",
+        "DeleteConfirm": "Ziur zaude %s erabiltzailea ezabatu nahi duzula?",
+        "Email": "E-posta",
+        "ExceptionAccessValues": "access parametroak ondorengo balioetako bat izan behar du: [ %s ]",
+        "ExceptionAdminAnonymous": "Ezin diozu 'admin' atzipena eman 'anonymous' erabiltzaileari.",
+        "ExceptionDeleteDoesNotExist": "'%s' erabiltzailea ez dago beraz ezin da ezabatu.",
+        "ExceptionEditAnonymous": "anonymous erabiltzailea ezin da editatu edo ezabatu. Saioa hasi gabeko erabiltzaileak definitzeko erabiltzen du Matomo-ek. Adibidez, estatistikak publiko egiteko 'ikusi' atzipena eman besterik ez duzu 'anonymous' erabiltzailearentzat.",
+        "ExceptionEmailExists": "'%s' helbide elektronikoa duen erabiltzailea badago.",
+        "ExceptionInvalidEmail": "Helbide elektronikoaren formatua baliogabea da.",
+        "ExceptionUserDoesNotExist": "'%s' erabiltzailea ez dago.",
+        "ManageAccess": "Kudeatu atzipena",
+        "MenuUsers": "Erabiltzaileak",
+        "PrivAdmin": "Kudeatu",
+        "PrivNone": "Atzipenik ez",
+        "PrivView": "Ikusi",
+        "User": "Erabiltzailea",
+        "UsersManagement": "Erabiltzaileen kudeaketa",
+        "UsersManagementMainDescription": "Sortu erabiltzaile berriak edo eguneratu daudenak. Ondoren hauen baimenak goian ezar ditzakezu."
+    }
+}

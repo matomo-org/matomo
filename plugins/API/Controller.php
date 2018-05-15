@@ -14,7 +14,9 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Url;
+use Piwik\UrlHelper;
 use Piwik\View;
 
 /**
@@ -24,19 +26,37 @@ class Controller extends \Piwik\Plugin\Controller
 {
     function index()
     {
+        $token = 'token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string');
+
         // when calling the API through http, we limit the number of returned results
         if (!isset($_GET['filter_limit'])) {
-            $_GET['filter_limit'] = Config::getInstance()->General['API_datatable_default_limit'];
+            if (isset($_POST['filter_limit'])) {
+                $_GET['filter_limit'] = $_POST['filter_limit'];
+            } else {
+                $_GET['filter_limit'] = Config::getInstance()->General['API_datatable_default_limit'];
+            }
         }
 
-        $request = new Request('token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string'));
-        return $request->process();
+        $request  = new Request($token);
+        $response = $request->process();
+
+        if (is_array($response)) {
+            $response = var_export($response, true);
+        }
+
+        return $response;
     }
 
     public function listAllMethods()
     {
+        Piwik::checkUserHasSomeViewAccess();
+
         $ApiDocumentation = new DocumentationGenerator();
-        return $ApiDocumentation->getAllInterfaceString($outputExampleUrls = true, $prefixUrls = Common::getRequestVar('prefixUrl', ''));
+        $prefixUrls = Common::getRequestVar('prefixUrl', 'https://demo.matomo.org/', 'string');
+        if (!UrlHelper::isLookLikeUrl($prefixUrls) || strpos($prefixUrls, 'http') !== 0) {
+            $prefixUrls = '';
+        }
+        return $ApiDocumentation->getApiDocumentationAsStringForDeveloperReference($outputExampleUrls = true, $prefixUrls);
     }
 
     public function listAllAPI()
@@ -46,7 +66,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $ApiDocumentation = new DocumentationGenerator();
         $view->countLoadedAPI = Proxy::getInstance()->getCountRegisteredClasses();
-        $view->list_api_methods_with_links = $ApiDocumentation->getAllInterfaceString();
+        $view->list_api_methods_with_links = $ApiDocumentation->getApiDocumentationAsString();
         return $view->render();
     }
 
@@ -58,12 +78,6 @@ class Controller extends \Piwik\Plugin\Controller
         $customVariables = 0;
         $lastCategory = array();
         foreach ($segments as $segment) {
-            // Eg. Event Value is a metric, not in the Visit metric category,
-            // we make sure it is displayed along with the Events dimensions
-            if($segment['type'] == 'metric' && $segment['category'] != Piwik::translate('General_Visit')) {
-                $segment['type'] = 'dimension';
-            }
-
             $onlyDisplay = array('customVariableName1', 'customVariableName2',
                                  'customVariableValue1', 'customVariableValue2',
                                  'customVariablePageName1', 'customVariablePageValue1');
@@ -126,5 +140,15 @@ class Controller extends \Piwik\Plugin\Controller
 		$tableMetrics
 		</table>
 		";
+    }
+
+    public function glossary()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        return $this->renderTemplate('glossary', array(
+            'reports' => Request::processRequest('API', array('method' => 'API.getGlossaryReports', 'filter_limit' => -1)),
+            'metrics' => Request::processRequest('API', array('method' => 'API.getGlossaryMetrics', 'filter_limit' => -1)),
+        ));
     }
 }

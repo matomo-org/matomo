@@ -1,0 +1,31 @@
+{
+    "Live": {
+        "AveragePageGenerationTime": "Setiap halaman rata-rata memakan %1$s membuat untuk pengguna ini.",
+        "ClickToViewMoreAboutVisit": "Klik untuk melihat informasi lebih lanjut tentang kunjungan ini",
+        "FirstVisit": "Kunjungan pertama",
+        "GoalType": "Jenis",
+        "HideMap": "sembunyikan peta",
+        "KeywordRankedOnSearchResultForThisVisitor": "Kata kunci %1$s menuduki peringkat %2$s dalam halaman pencarian %3$s untuk pengunjung ini",
+        "LastHours": "Jam %s terakhir",
+        "LastMinutes": "Menit %s terakhir",
+        "LastVisit": "Kunjungan terakhir",
+        "LinkVisitorLog": "Tampilkan catatan pengunjung lengkap",
+        "LoadMoreVisits": "Muat kunjungan lebih banyak",
+        "MorePagesNotDisplayed": "halaman lain untuk pengguna tersebut tak dapat ditampilkan",
+        "NbVisitor": "1 pengunjung",
+        "NbVisitors": "%s pengunjung",
+        "NextVisitor": "Pengunjung selanjutnya",
+        "PageRefreshed": "Jumlah kali halaman ini ditampilkan \/ disegarkan berurutan.",
+        "PreviousVisitor": "Pengunjung sebelumnya",
+        "RealTimeVisitorCount": "Jumlah Pengunjung Waktu Nyata",
+        "Referrer_URL": "URL Pengarah",
+        "ShowMap": "tampilkan peta",
+        "SimpleRealTimeWidget_Message": "%1$s dan %2$s dalam %3$s terakhir.",
+        "ViewVisitorProfile": "Lihat profil pengunjung",
+        "VisitorLog": "Catatan Pengunjung",
+        "VisitorLogDocumentation": "Tabel berikut menampilkan kunjungan terakhir selama rentang tanggal yang dipilih.%1$s Bila hari ini termasuk dalam rentang tanggal, Anda dapat melihat pengunjung Anda dalam waktu nyata! %2$s Data yang ditampilkan di sini selalu ditampilkan secara langsung, tidak terpengaruh bagaimana Anda mengatur pengarsipan di tugas Cron.",
+        "VisitorProfile": "Profil pengunjung",
+        "VisitorsInRealTime": "Pengunjung dalam Waktu Nyata",
+        "VisitorsLastVisit": "Pengunjung ini telah berkunjung %s hari yang lalu."
+    }
+}

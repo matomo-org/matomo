@@ -1,0 +1,14 @@
+{
+    "SitesManager": {
+        "Currency": "Gjaldmiðill",
+        "ExcludedIps": "Útilokuð vistföng (IP)",
+        "GlobalListExcludedIps": "Algildur listi af útilokuðum vistföngum (IP)",
+        "ShowTrackingTag": "Sýna merkimiða til að elta",
+        "Sites": "Vefir",
+        "Timezone": "Tímabelti",
+        "TrackingTags": "Eltir merkimiða fyrir %s",
+        "Urls": "URL",
+        "Type": "Tegund",
+        "WebsitesManagement": "Stjórnun Vefja"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "Denna plugin ger dig widgetarna besökskarta och realtidskarta. Notera: Kräver aktiverad UserCountry-plugin.",
+        "AndNOthers": "och %s andra",
+        "Cities": "Städer",
+        "Countries": "Länder",
+        "DaysAgo": "%s dagar sedan",
+        "GoalConversions": "%s målomvandlingar",
+        "HoursAgo": "%s timmar sedan",
+        "map": "karta",
+        "MinutesAgo": "%s minuter sedan",
+        "None": "Ingen",
+        "NoVisit": "Inga besök",
+        "RealTimeMap": "Realtidskarta",
+        "Regions": "Regioner",
+        "Searches": "%s sökningar",
+        "SecondsAgo": "%s sekunder sedan",
+        "ShowingVisits": "Geolokaliserade besök de senaste",
+        "Unlocated": "<b>%s<\/b> %p av besöken från %c kunde inte geolokaliseras.",
+        "VisitorMap": "Besökskarta",
+        "WorldWide": "Hela världen",
+        "WithUnknownRegion": "%s med okänd region",
+        "WithUnknownCity": "%s med okänd stad"
+    }
+}

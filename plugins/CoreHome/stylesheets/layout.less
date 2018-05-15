@@ -1,0 +1,437 @@
+
+.card-content > .row:last-child {
+  margin-bottom: 0;
+}
+
+nav {
+  background-color: @theme-color-header-background !important;
+
+  .brand-logo {
+    font-size: 28px;
+  }
+
+  .activateLeftMenu {
+    float: left;
+  }
+
+  .activateTopMenu {
+    float: right;
+  }
+
+  .icon-more-verti,
+  .icon-menu-hamburger {
+    font-size: 2.7rem;
+    padding: 8px 10px 10px;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .side-nav {
+    .languageSelection {
+      display: block !important;
+      color: #444;
+      padding: 0 30px;
+      .items {
+        margin-left: 0 !important;
+        .item {
+          height: auto;
+        }
+      }
+    }
+  }
+
+  .languageSelection {
+    &:hover {
+      background-color: rgba(0,0,0,0.1);
+    }
+  }
+
+  ul a {
+    color: @theme-color-header-text;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+ .navbar {
+   a {
+     text-decoration: none;
+     &:hover, &:focus {
+       text-decoration: none;
+     }
+   }
+ }
+
+ // start #secondNavBar fadeInLeft animation
+ @-webkit-keyframes fadeInLeft {
+   0% {
+     opacity: 0;
+     -webkit-transform: translateX(-20px);
+   }
+   100% {
+     opacity: 1;
+     -webkit-transform: translateX(0);
+   }
+ }
+ @keyframes fadeInLeft {
+   0% {
+     opacity: 0;
+     transform: translateX(-20px);
+   }
+   100% {
+     opacity: 1;
+     transform: translateX(0);
+   }
+ }
+ // end #secondNavBar fadeInLeft animation
+
+#root {
+
+  .pageWrap {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  #secondNavBar + .pageWrap {
+    margin-left: 224px;
+  }
+
+    &>.top_controls {
+      .icon-arrowup:before, .icon-arrowdown:before {
+      padding: 17px 0 0 0px;
+      display: inline-block;
+      cursor: pointer;
+
+      @media screen and (max-width: 600px) {
+        display: none;
+      }
+    }
+  }
+
+  @media all and (max-width: 992px) {
+    .pageWrap {
+      margin-left: 0 !important;
+    }
+  }
+
+  @media all and (max-width: 600px) {
+
+    .top_controls {
+      height: auto;
+
+      .piwikTopControl {
+        position: static !important;
+        float: none;
+        margin: 0 23px 10px 17px !important;
+        display: block !important;
+      }
+
+      .piwikSelector {
+        > a.title {
+            max-width: none;
+        }
+
+        display: block;
+      }
+
+      .quick-access {
+        width: auto !important;
+
+        .icon-search {
+          left: 30px;
+        }
+      }
+    }
+  }
+
+  #ajaxLoadingDiv {
+    margin-top: 10px;
+  }
+
+  #secondNavBar {
+    width: 224px;
+    float:left;
+    background-color: @theme-color-menu-contrast-background;
+
+    .navbar {
+      padding-top: 16px;
+      padding-bottom: 20px;
+
+      .menu-icon {
+        padding-right: 13px;
+      }
+
+      > li {
+        display: inline-block;
+        width: 100%;
+        .border-radius(0px);
+        border: 0;
+        background: none;
+
+        .item {
+          display: inline-block;
+          width: 100%;
+          .font-default(13px, 21px);
+          padding: 12px 21px 12px 19px;
+          color: @theme-color-menu-contrast-text;
+          decoration: none !important;
+          word-wrap: break-word;
+          word-break: break-word;
+
+          &:hover, &:focus {
+            decoration: none !important;
+          }
+        }
+
+        > .item {
+          cursor: default;
+          font-weight: bold;
+          &:hover, &:focus {
+            text-decoration: none;
+          }
+        }
+
+        > ul {
+
+          li {
+            .item {
+              .font-default(13px, 16px);
+              padding: 11px 22px 11px 45px;
+              decoration: none;
+              transition: background-color 200ms linear;
+              &:hover, &:focus {
+                text-decoration: none;
+                color: @theme-color-menu-contrast-textActive;
+              }
+            }
+
+            &.active {
+              > .menuDropdown,
+              > .item {
+                color: @theme-color-menu-contrast-textSelected;
+                background-color: @theme-color-background-base;
+                decoration: none;
+              }
+            }
+          }
+        }
+      }
+
+
+      .menuDropdown {
+        width: 100%;
+
+        .items {
+          width: 224px;
+          box-shadow: 0 1px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+
+          .search {
+            margin: 15px 16px 10px 17px;
+          }
+
+          .item {
+            padding: 10px 16px 10px !important;
+            min-height: 25px;
+            height: auto;
+          }
+        }
+
+        .title {
+          color: @theme-color-menu-contrast-text;
+          display: block;
+          padding: 15px 22px 11px 45px;
+          font-size: 13px;
+          font-weight: normal;
+
+          &:hover, &:focus {
+            color: @theme-color-menu-contrast-textActive;
+          }
+
+          &:after {
+            color: @theme-color-menu-contrast-text;
+            border-top: 5px solid @theme-color-menu-contrast-text;
+            top: 20px;
+            right: 3px;
+          }
+        }
+      }
+    }
+
+    &.Menu--dashboard .navbar > li {
+      > ul {
+        display: none;
+
+        @media all and (max-width: 749px) {
+          display: block;
+        }
+      }
+
+      > .item {
+        cursor: pointer;
+        &:hover, &:focus {
+          color: @theme-color-menu-contrast-textActive;
+        }
+      }
+
+      &.active {
+        ul {
+          display: block;
+        }
+
+        .icon-arrow-right:before {
+          content: "\e63b";
+        }
+      }
+    }
+
+    &.Menu--admin .navbar > li {
+      > .item {
+        padding: 14px 21px 6px 19px;
+      }
+      .item .icon-arrow-right:before {
+        content: "\e63b";
+      }
+    }
+  }
+}
+
+#root {
+  .top_controls {
+    visibility: hidden;
+    opacity: 0;
+    z-index: 45;
+    padding-left: 16px;
+
+    @media screen and (max-width: 600px){
+      visibility: hidden;
+      opacity: 0;
+      z-index: 45;
+      padding-left: 0;
+    }
+
+    .quick-access {
+      z-index: 1000;
+      position: absolute;
+      width: 208px;
+      margin-left: 0;
+
+      @media screen and (max-width: 600px){
+        z-index: 1000;
+        position: absolute;
+        width: 208px;
+        margin-left: 16px;
+      }
+
+      .dropdown {
+        width: 209px;
+        padding: 0;
+      }
+
+      input {
+        height: 33px;
+        font-size: 11px;
+        padding: 10px 12px 10px 10px;
+        border: 0;
+        margin: 0;
+        box-sizing: border-box;
+        border-radius: 2px !important;
+        box-shadow: none!important;
+      }
+    }
+
+    .piwikTopControl {
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+  }
+}
+
+#root, #standalone {
+  .top_controls {
+    min-height: 51px;
+    position: relative;
+    background-color: @theme-color-background-base;
+    height: auto;
+    margin-bottom: 8px;
+    margin-top: 8px;
+
+    .piwikTopControl {
+      display: inline-block;
+      float: none;
+      position: relative;
+      margin-right: 12px;
+      vertical-align: top;
+      font-size: 11px;
+    }
+  }
+}
+
+#root, #standalone, .ui-dialog, .ngdialog {
+  .borderedControl {
+    background-color: @theme-color-background-base;
+    border: 0;
+    transition: box-shadow 150ms linear;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    border-radius: 2px;
+    &.expanded,
+    &:hover, &:focus {
+      background-color: @theme-color-background-contrast;
+    }
+  }
+}
+
+.widgetize {
+  width: auto;
+}
+
+@media print {
+
+  #secondNavBar{
+    display: none;
+  }
+
+  nav .icon-menu-hamburger, nav .icon-more-verti{
+    display: none;
+  }
+
+  nav ul a{
+    display: none;
+  }
+
+  #root, #standalone {
+    .dashboard-manager{
+      display: none !important;
+      visibility: hidden !important;
+    }
+  }
+
+  #root{
+    #secondNavBar + .pageWrap {
+      margin-left: 0px;
+    }
+
+    .top_controls{
+      .quick-access {
+      display: none !important;
+      }
+    }
+  }
+
+  .dataTableAction{
+    display: none !important;
+  }
+
+  .select-dropdown, .caret{
+    display: none !important;
+  }
+
+  .dataTable td .ratio{
+    margin-right: 4px;
+    visibility: visible;
+  }
+  .dataTableFooterNavigation > .row{
+    margin-bottom: -20px !important;
+  }
+}

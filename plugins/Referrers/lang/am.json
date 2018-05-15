@@ -1,0 +1,25 @@
+{
+    "Referrers": {
+        "ColumnSearchEngine": "የመፈለጊያ ሞተሮች",
+        "ColumnWebsite": "ድር ጣቢያዎች",
+        "ColumnWebsitePage": "የድር ጣቢያዎች ገፅ",
+        "DirectEntry": "ቀጥተኛ ምዝግብ",
+        "Distinct": "የተለዩ ምልከታዎች በአመላካች ዓይነት",
+        "DistinctCampaigns": "የተለዩ campaigns",
+        "DistinctKeywords": "የተለዩ ቁልፍ ቃላት",
+        "DistinctSearchEngines": "የተለዩ የመፈለጊያ ሞተሮች",
+        "DistinctWebsites": "የተለዩ ድር ጣቢያዎች",
+        "Keywords": "ቁልፍ ቃላት",
+        "Referrers": "አመላካቾች",
+        "SearchEngines": "የመፈለጊያ ሞተሮች",
+        "SubmenuSearchEngines": "የመፈለጊያ ሞተሮች እና ቁልፍ ቃላት",
+        "SubmenuWebsites": "ድር ጣቢያዎች",
+        "Type": "የምልከታ ዓይነት",
+        "TypeCampaigns": "%s ከ campaigns",
+        "TypeDirectEntries": "%s ቀጥተኛ ምዝግቦች",
+        "TypeSearchEngines": "%s ከመፈለጊያ ሞተሮች",
+        "TypeWebsites": "%s ከድር ጣቢያዎች",
+        "Websites": "ድር ጣቢያዎች",
+        "WidgetExternalWebsites": "የውጫዊ ድር ጣቢያዎች ዝርዝር"
+    }
+}

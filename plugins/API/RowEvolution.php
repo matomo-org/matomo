@@ -10,8 +10,8 @@ namespace Piwik\Plugins\API;
 
 use Exception;
 use Piwik\API\DataTableManipulator\LabelFilter;
+use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
-use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
@@ -36,7 +36,7 @@ class RowEvolution
         'getPageUrl'
     );
 
-    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
+    public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $apiParameters = array(), $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
     {
         // validation of requested $period & $date
         if ($period == 'range') {
@@ -48,12 +48,12 @@ class RowEvolution
             throw new Exception("Row evolutions can not be processed with this combination of \'date\' and \'period\' parameters.");
         }
 
-        $label = ResponseBuilder::unsanitizeLabelParameter($label);
+        $label = DataTablePostProcessor::unsanitizeLabelParameter($label);
         $labels = Piwik::getArrayFromApiParameter($label);
 
-        $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $idGoal);
+        $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $apiParameters);
 
-        $dataTable = $this->loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $idGoal);
+        $dataTable = $this->loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $apiParameters);
 
         if (empty($labels)) {
             $labels = $this->getLabelsFromDataTable($dataTable, $labels);
@@ -209,7 +209,7 @@ class RowEvolution
             $result = str_replace(LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
         }
 
-        // remove @ terminal operator occurances
+        // remove @ terminal operator occurrences
         return str_replace(LabelFilter::TERMINAL_OPERATOR, '', $result);
     }
 
@@ -244,11 +244,11 @@ class RowEvolution
      * @param string $apiAction
      * @param string|bool $label
      * @param string|bool $segment
-     * @param int|bool $idGoal
+     * @param array $apiParameters
      * @throws Exception
      * @return DataTable\Map|DataTable
      */
-    private function loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $idGoal = false)
+    private function loadRowEvolutionDataFromAPI($metadata, $idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $apiParameters)
     {
         if (!is_array($label)) {
             $label = array($label);
@@ -264,8 +264,6 @@ class RowEvolution
             'format'                   => 'original',
             'serialize'                => '0',
             'segment'                  => $segment,
-            'idGoal'                   => $idGoal,
-
             // data for row evolution should NOT be limited
             'filter_limit'             => -1,
 
@@ -274,14 +272,18 @@ class RowEvolution
             // can be sorted in a different order)
             'labelFilterAddLabelIndex' => count($label) > 1 ? 1 : 0,
         );
+        if (!empty($apiParameters) && is_array($apiParameters)) {
+            foreach ($apiParameters as $param => $value) {
+                $parameters[$param] = $value;
+            }
+        }
 
         // add "processed metrics" like actions per visit or bounce rate
         // note: some reports should not be filtered with AddColumnProcessedMetrics
         // specifically, reports without the Metrics::INDEX_NB_VISITS metric such as Goals.getVisitsUntilConversion & Goal.getDaysToConversion
         // this is because the AddColumnProcessedMetrics filter removes all datable rows lacking this metric
-        if( isset($metadata['metrics']['nb_visits'])
-            && !empty($label)) {
-            $parameters['filter_add_columns_when_show_all_columns'] = '1';
+        if (isset($metadata['metrics']['nb_visits'])) {
+            $parameters['filter_add_columns_when_show_all_columns'] = '0';
         }
 
         $url = Url::getQueryStringFromParameters($parameters);
@@ -306,16 +308,12 @@ class RowEvolution
      * @param $apiModule
      * @param $apiAction
      * @param $language
-     * @param $idGoal
+     * @param $apiParameters
      * @throws Exception
      * @return array
      */
-    private function getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $idGoal = false)
+    private function getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $apiParameters)
     {
-        $apiParameters = array();
-        if (!empty($idGoal) && $idGoal > 0) {
-            $apiParameters = array('idGoal' => $idGoal);
-        }
         $reportMetadata = API::getInstance()->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language,
             $period, $date, $hideMetricsDoc = false, $showSubtableReports = true);
 
@@ -329,6 +327,10 @@ class RowEvolution
         $metrics = $reportMetadata['metrics'];
         if (isset($reportMetadata['processedMetrics']) && is_array($reportMetadata['processedMetrics'])) {
             $metrics = $metrics + $reportMetadata['processedMetrics'];
+        }
+
+        if (empty($reportMetadata['dimension'])) {
+            throw new Exception(sprintf('Reports like %s.%s which do not have a dimension are not supported by row evolution', $apiModule, $apiAction));
         }
 
         $dimension = $reportMetadata['dimension'];
@@ -356,9 +358,16 @@ class RowEvolution
         unset($metadata['logos']);
 
         $subDataTables = $dataTable->getDataTables();
+        if (empty($subDataTables)) {
+            throw new \Exception("Unexpected state: row evolution API call returned empty DataTable\\Map.");
+        }
+
         $firstDataTable = reset($subDataTables);
+        $this->checkDataTableInstance($firstDataTable);
         $firstDataTableRow = $firstDataTable->getFirstRow();
+
         $lastDataTable = end($subDataTables);
+        $this->checkDataTableInstance($lastDataTable);
         $lastDataTableRow = $lastDataTable->getFirstRow();
 
         // Process min/max values
@@ -426,7 +435,7 @@ class RowEvolution
                         $labelRow, $apiModule, $apiAction, $labelUseAbsoluteUrl);
 
                     $prettyLabel = $labelRow->getColumn('label_html');
-                    if($prettyLabel !== false) {
+                    if ($prettyLabel !== false) {
                         $actualLabels[$labelIdx] = $prettyLabel;
                     }
 
@@ -528,5 +537,12 @@ class RowEvolution
         $label = str_replace(LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
         $label = SafeDecodeLabel::decodeLabelSafe($label);
         return $label;
+    }
+
+    private function checkDataTableInstance($lastDataTable)
+    {
+        if (!($lastDataTable instanceof DataTable)) {
+            throw new \Exception("Unexpected state: row evolution returned DataTable\\Map w/ incorrect child table type: " . get_class($lastDataTable));
+        }
     }
 }

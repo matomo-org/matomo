@@ -1,0 +1,14 @@
+{
+    "Actions": {
+        "ColumnClickedURL": "URL–ზე დაწკაპუნება",
+        "ColumnClicks": "დაწკაპუნებები",
+        "ColumnDownloadURL": "URL–ის ჩამოტვირთვა",
+        "ColumnPageName": "გვერდის სახელი",
+        "ColumnPageURL": "გვერდის URL",
+        "ColumnUniqueClicks": "უნიკალური დაწკაპუნებები",
+        "ColumnUniqueDownloads": "უნიკალური ჩამოტვირთვები",
+        "SubmenuPagesEntry": "შესვლის გვერდები",
+        "SubmenuPagesExit": "გასავლის გვერდები",
+        "SubmenuPageTitles": "გვერდის სათაურები"
+    }
+}

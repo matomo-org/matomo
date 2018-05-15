@@ -1,0 +1,16 @@
+{
+    "SegmentEditor": {
+        "AddNewSegment": "Legg til nytt segment",
+        "AreYouSureDeleteSegment": "Er du sikker på at du vil slette dette segmentet?",
+        "ChooseASegment": "Velg et segment",
+        "DefaultAllVisits": "Alle besøk",
+        "OperatorAND": "OG",
+        "OperatorOR": "ELLER",
+        "SegmentDisplayedAllWebsites": "alle nettsteder",
+        "SegmentDisplayedThisWebsiteOnly": "kun dette nettstedet",
+        "ThisSegmentIsVisibleTo": "Dette segmentet er synlig for:",
+        "VisibleToAllUsers": "alle brukere",
+        "VisibleToMe": "meg",
+        "SharedWithYou": "Delt med deg"
+    }
+}

@@ -1,0 +1,10 @@
+<img src="img-en.jpg" id="isOneWithAttribute" data-track-content/>
+<img src="img-en.jpg" id="isOneWithClass" class="piwikTrackContent"/>
+<!-- next content block tests it will find block only once although attribute and class is used -->
+<div><a href="http://www.example.com" data-track-content class="piwikTrackContent"><img src="img-en.jpg" data-content-piece/><div id="innerNode"></div></a></div>
+<div></div>
+<div id="containsOneWithAttribute">
+    <div>
+        <div data-track-content><input type="submit"/></div>
+    </div>
+</div>

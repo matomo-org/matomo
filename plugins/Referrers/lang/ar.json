@@ -1,0 +1,28 @@
+{
+    "Referrers": {
+        "Campaigns": "الحملات",
+        "ColumnCampaign": "الحملة",
+        "ColumnSearchEngine": "محرك بحث",
+        "ColumnWebsite": "موقع ويب",
+        "ColumnWebsitePage": "صفحة موقع",
+        "DirectEntry": "الوصول المباشر",
+        "Distinct": "أبرز المرسلون حسب النوع",
+        "DistinctCampaigns": "أبرز الحملات",
+        "DistinctKeywords": "أبرز الكلمات الدلالية",
+        "DistinctSearchEngines": "أبرز محركات البحث",
+        "DistinctWebsites": "أبرز مواقع ويب",
+        "Keywords": "الكلمات الدلالية",
+        "ReferrerName": "اسم المرسل",
+        "Referrers": "مرسلو الزوار",
+        "SearchEngines": "محركات البحث",
+        "SubmenuSearchEngines": "محركات البحث والكلمات الدلالية",
+        "SubmenuWebsites": "مواقع ويب",
+        "Type": "نوع المرسل",
+        "TypeDirectEntries": "%s وصول مباشر",
+        "TypeSearchEngines": "%s من محركات البحث",
+        "TypeWebsites": "%s من مواقع ويب",
+        "UsingNDistinctUrls": "(باستخدام %s روابط بارزة)",
+        "Websites": "المواقع",
+        "WidgetExternalWebsites": "قائمة المواقع الخارجية"
+    }
+}

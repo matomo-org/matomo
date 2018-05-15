@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\ImageGraph\StaticGraph;
 
-use pData;
+use CpChart\Chart\Data;
 use Piwik\Plugins\ImageGraph\StaticGraph;
 
 /**
@@ -51,7 +51,7 @@ class Exception extends StaticGraph
 
     public function renderGraph()
     {
-        $this->pData = new pData();
+        $this->pData = new Data();
 
         $message = $this->exception->getMessage();
         list($textWidth, $textHeight) = $this->getTextWidthHeight($message);

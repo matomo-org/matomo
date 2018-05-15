@@ -9,26 +9,26 @@
 namespace Piwik\Plugins\ImageGraph;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
+use Piwik\DataTable\Map;
 use Piwik\Filesystem;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugins\API\API as APIMetadata;
-use Piwik\Plugins\ImageGraph\StaticGraph;
 use Piwik\SettingsServer;
 use Piwik\Translate;
 
 /**
- * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Piwik report.
+ * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Matomo report.
  * Supported graph types are: line plot, 2D/3D pie chart and vertical bar chart.
  *
  * A few notes about some of the parameters available:<br/>
  * - $graphType defines the type of graph plotted, accepted values are: 'evolution', 'verticalBar', 'pie' and '3dPie'<br/>
- * - $colors accepts a comma delimited list of colors that will overwrite the default Piwik colors <br/>
+ * - $colors accepts a comma delimited list of colors that will overwrite the default Matomo colors <br/>
  * - you can also customize the width, height, font size, metric being plotted (in case the data contains multiple columns/metrics).
  *
- * See also <a href='http://piwik.org/docs/analytics-api/metadata/#toc-static-image-graphs'>How to embed static Image Graphs?</a> for more information.
+ * See also <a href='http://matomo.org/docs/analytics-api/metadata/#toc-static-image-graphs'>How to embed static Image Graphs?</a> for more information.
  *
  * @method static \Piwik\Plugins\ImageGraph\API getInstance()
  */
@@ -75,10 +75,6 @@ class API extends \Piwik\Plugin\API
     );
 
     private static $DEFAULT_GRAPH_TYPE_OVERRIDE = array(
-        'UserSettings_getPlugin'    => array(
-            false // override if !$isMultiplePeriod
-            => StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR,
-        ),
         'Referrers_getReferrerType' => array(
             false // override if !$isMultiplePeriod
             => StaticGraph::GRAPH_TYPE_HORIZONTAL_BAR,
@@ -126,14 +122,15 @@ class API extends \Piwik\Plugin\API
         $gridColor = API::DEFAULT_GRID_COLOR,
         $idSubtable = false,
         $legendAppendMetric = true,
-        $segment = false
+        $segment = false,
+        $idDimension = false
     )
     {
         Piwik::checkUserHasViewAccess($idSite);
 
         // Health check - should we also test for GD2 only?
         if (!SettingsServer::isGdExtensionEnabled()) {
-            throw new Exception('Error: To create graphs in Piwik, please enable GD php extension (with Freetype support) in php.ini,
+            throw new Exception('Error: To create graphs in Matomo, please enable GD php extension (with Freetype support) in php.ini,
             and restart your web server.');
         }
 
@@ -155,10 +152,23 @@ class API extends \Piwik\Plugin\API
             if (!empty($idGoal)) {
                 $apiParameters = array('idGoal' => $idGoal);
             }
+            if (!empty($idDimension)) {
+                $apiParameters = array('idDimension' => $idDimension);
+            }
             // Fetch the metadata for given api-action
-            $metadata = APIMetadata::getInstance()->getMetadata(
-                $idSite, $apiModule, $apiAction, $apiParameters, $languageLoaded, $period, $date,
-                $hideMetricsDoc = false, $showSubtableReports = true);
+            $parameters = array(
+                'idSite' => $idSite,
+                'apiModule' => $apiModule,
+                'apiAction' => $apiAction,
+                'apiParameters' => $apiParameters,
+                'language' => $languageLoaded,
+                'period' => $period,
+                'date' => $date,
+                'hideMetricsDoc' => false,
+                'showSubtableReports' => true
+            );
+
+            $metadata = Request::processRequest('API.getMetadata', $parameters);
             if (!$metadata) {
                 throw new Exception('Invalid API Module and/or API Action');
             }
@@ -253,7 +263,7 @@ class API extends \Piwik\Plugin\API
                 case StaticGraph::GRAPH_TYPE_BASIC_PIE:
 
                     if (count($ordinateColumns) > 1) {
-                        // pChart doesn't support multiple series on pie charts
+                        // CpChart doesn't support multiple series on pie charts
                         throw new Exception("Pie charts do not currently support multiple series");
                     }
 
@@ -288,20 +298,22 @@ class API extends \Piwik\Plugin\API
                     }
                 }
 
-                $processedReport = APIMetadata::getInstance()->getRowEvolution(
-                    $idSite,
-                    $period,
-                    $date,
-                    $apiModule,
-                    $apiAction,
-                    $labels,
-                    $segment,
-                    $plottedMetric,
-                    $languageLoaded,
-                    $idGoal,
-                    $legendAppendMetric,
-                    $labelUseAbsoluteUrl = false
+                $parameters = array(
+                    'idSite' => $idSite,
+                    'period' => $period,
+                    'date' => $date,
+                    'apiModule' => $apiModule,
+                    'apiAction' => $apiAction,
+                    'label' => $labels,
+                    'segment' => $segment,
+                    'column' => $plottedMetric,
+                    'language' => $languageLoaded,
+                    'idGoal' => $idGoal,
+                    'idDimension' => $idDimension,
+                    'legendAppendMetric' => $legendAppendMetric,
+                    'labelUseAbsoluteUrl' => false
                 );
+                $processedReport = Request::processRequest('API.getRowEvolution', $parameters);
 
                 //@review this test will need to be updated after evaluating the @review comment in API/API.php
                 if (!$processedReport) {
@@ -345,22 +357,25 @@ class API extends \Piwik\Plugin\API
                     $ordinateLabels[$plottedMetric] = $processedReport['label'] . ' (' . $metrics[$plottedMetric]['name'] . ')';
                 }
             } else {
-                $processedReport = APIMetadata::getInstance()->getProcessedReport(
-                    $idSite,
-                    $period,
-                    $date,
-                    $apiModule,
-                    $apiAction,
-                    $segment,
-                    $apiParameters = false,
-                    $idGoal,
-                    $languageLoaded,
-                    $showTimer = true,
-                    $hideMetricsDoc = false,
-                    $idSubtable,
-                    $showRawMetrics = false
+                $parameters = array(
+                    'idSite' => $idSite,
+                    'period' => $period,
+                    'date' => $date,
+                    'apiModule' => $apiModule,
+                    'apiAction' => $apiAction,
+                    'segment' => $segment,
+                    'apiParameters' => false,
+                    'idGoal' => $idGoal,
+                    'idDimension' => $idDimension,
+                    'language' => $languageLoaded,
+                    'showTimer' => true,
+                    'hideMetricsDoc' => false,
+                    'idSubtable' => $idSubtable,
+                    'showRawMetrics' => false
                 );
+                $processedReport = Request::processRequest('API.getProcessedReport', $parameters);
             }
+
             // prepare abscissa and ordinate series
             $abscissaSeries = array();
             $abscissaLogos = array();
@@ -370,7 +385,7 @@ class API extends \Piwik\Plugin\API
             $hasData = false;
             $hasNonZeroValue = false;
 
-            if (!$isMultiplePeriod) {
+            if (!$isMultiplePeriod || !($reportData instanceof Map)) {
                 $reportMetadata = $processedReport['reportMetadata']->getRows();
 
                 $i = 0;
@@ -420,6 +435,9 @@ class API extends \Piwik\Plugin\API
                         $rowData = $rows[0]->getColumns(); // associative Array
 
                         foreach ($ordinateColumns as $column) {
+                            if(!isset($rowData[$column])) {
+                                continue;
+                            }
                             $ordinateValue = $rowData[$column];
                             $parsedOrdinateValue = $this->parseOrdinateValue($ordinateValue);
 
@@ -494,7 +512,10 @@ class API extends \Piwik\Plugin\API
                 if ($idGoal != '') {
                     $idGoal = '_' . $idGoal;
                 }
-                $fileName = self::$DEFAULT_PARAMETERS[$graphType][self::FILENAME_KEY] . '_' . $apiModule . '_' . $apiAction . $idGoal . ' ' . str_replace(',', '-', $date) . ' ' . $idSite . '.png';
+                if ($idDimension != '') {
+                    $idDimension = '__' . $idDimension;
+                }
+                $fileName = self::$DEFAULT_PARAMETERS[$graphType][self::FILENAME_KEY] . '_' . $apiModule . '_' . $apiAction . $idGoal . $idDimension . ' ' . str_replace(',', '-', $date) . ' ' . $idSite . '.png';
                 $fileName = str_replace(array(' ', '/'), '_', $fileName);
 
                 if (!Filesystem::isValidFilename($fileName)) {

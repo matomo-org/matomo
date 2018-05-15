@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "打开一个新窗口",
+        "PluginDescription": "在你的网站显示Matomo报告或者嵌入HTML标签中在app中显示",
+        "TopLinkTooltip": "小工具形式导出 Matomo 报表，将面板以 iframe 形式嵌入你的app中。"
+    }
+}

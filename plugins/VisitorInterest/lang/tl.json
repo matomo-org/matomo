@@ -1,0 +1,22 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Mga Pahina bawat Pagbisita",
+        "ColumnVisitDuration": "Tagal ng pagbisita",
+        "Engagement": "Engagement",
+        "NPages": "%s mga pahina",
+        "VisitNum": "numero ng pagbisita",
+        "VisitsByDaysSinceLast": "Mga araw araw na pagbisita mula noong huling pagbisita.",
+        "visitsByVisitCount": "Bilang ng pagbisita",
+        "VisitsPerDuration": "Tagal ng bawat pagbisita",
+        "VisitsPerNbOfPages": "Mga pagbisita sa bawat bilang ng mga pahina",
+        "WidgetLengths": "Tagal ng pagbisita",
+        "WidgetLengthsDocumentation": "Sa ulat na ito maari mong makita kung gaano karami ang bumisita na may kabuohang total na tinagal. Sa simula Ang ulat na ito ay ipapakita bilang tag cloud ang karaniwang tagal ng pagbisita ay pinapakita na may malaking font.",
+        "WidgetPages": "Mga Pahina bawat Pagbisita",
+        "WidgetPagesDocumentation": "Sa ulat na ito maari mong makita ang dami ng bumisita na may tiyak na bilang ng mga pageview. Sa simula ang ulat ay ipinapakita bilang tag clound ang karaniwang bilang ng pahina ay ipinapakita na may malaking font.",
+        "WidgetVisitsByDaysSinceLast": "Mga pagbisita sa pamamagitan ng mga araw mula sa huling pagbisita.",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Sa ulat na ito maaari mong makita kung gaano karami ang pagbisita mula sa isang piling bilang ng nakapalipas na araw.",
+        "WidgetVisitsByNumDocumentation": "Sa ulat na ito maaari mong makita ang bilang ng mga pagbisita kung saan pati ang nth na pagbisita ie. ang mga bumisita sa iyong websita na hindi bababa sa N na ulit na bilang"
+    }
+}

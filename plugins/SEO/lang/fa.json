@@ -1,0 +1,11 @@
+{
+    "SEO": {
+        "AlexaRank": "رتبه الکسا",
+        "Bing_IndexedPages": "صفحه های نمایه (ایندکس) شده در بینگ",
+        "DomainAge": "سن دامنه",
+        "Google_IndexedPages": "صفحه های نمایه (ایندکس) شده در گوگل",
+        "Rank": "رنک",
+        "SeoRankings": "رتبه سئو",
+        "SEORankingsFor": "رتبه سئو برای %s"
+    }
+}

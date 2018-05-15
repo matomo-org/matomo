@@ -1,0 +1,14 @@
+{
+    "Goals": {
+        "ColumnConversions": "Konverzije",
+        "Contains": "sadrži %s",
+        "Download": "Preuzmi datoteku",
+        "GoalName": "Naziv cilja",
+        "IsExactly": "je tačno %s",
+        "Manually": "ručno",
+        "ProductCategory": "Kategorija proizvoda",
+        "ProductName": "Ime proizvoda",
+        "Products": "Proizvodi",
+        "URL": "Veza"
+    }
+}

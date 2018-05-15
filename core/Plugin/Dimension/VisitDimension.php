@@ -8,17 +8,16 @@
  */
 namespace Piwik\Plugin\Dimension;
 
-use Piwik\Cache\PluginAwareStaticCache;
+use Piwik\CacheId;
+use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Plugin\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
-use Piwik\Tracker;
-use Piwik\Translate;
 use Piwik\Plugin;
 use Exception;
 
@@ -37,46 +36,19 @@ use Exception;
  */
 abstract class VisitDimension extends Dimension
 {
-    private $tableName = 'log_visit';
+    const INSTALLER_PREFIX = 'log_visit.';
 
-    /**
-     * Installs the visit dimension in case it is not installed yet. The installation is already implemented based on
-     * the {@link $columnName} and {@link $columnType}. If you want to perform additional actions beside adding the
-     * column to the database - for instance adding an index - you can overwrite this method. We recommend to call
-     * this parent method to get the minimum required actions and then add further custom actions since this makes sure
-     * the column will be installed correctly. We also recommend to change the default install behavior only if really
-     * needed. FYI: We do not directly execute those alter table statements here as we group them together with several
-     * other alter table statements do execute those changes in one step which results in a faster installation. The
-     * column will be added to the `log_visit` MySQL table.
-     *
-     * Example:
-     * ```
+    protected $dbTableName = 'log_visit';
+    protected $category = 'General_Visitors';
+
     public function install()
     {
-        $changes = parent::install();
-        $changes['log_visit'][] = "ADD INDEX index_idsite_servertime ( idsite, server_time )";
-
-        return $changes;
-    }
-    ```
-     *
-     * @return array An array containing the table name as key and an array of MySQL alter table statements that should
-     *               be executed on the given table. Example:
-     * ```
-    array(
-        'log_visit' => array("ADD COLUMN `$this->columnName` $this->columnType", "ADD INDEX ...")
-    );
-    ```
-     * @api
-     */
-    public function install()
-    {
-        if (!$this->columnType) {
+        if (empty($this->columnType) || empty($this->columnName)) {
             return array();
         }
 
         $changes = array(
-            $this->tableName => array("ADD COLUMN `$this->columnName` $this->columnType")
+            $this->dbTableName => array("ADD COLUMN `$this->columnName` $this->columnType")
         );
 
         if ($this->isHandlingLogConversion()) {
@@ -88,19 +60,20 @@ abstract class VisitDimension extends Dimension
 
     /**
      * @see ActionDimension::update()
-     * @param array $conversionColumns An array of currently installed columns in the conversion table.
      * @return array
      * @ignore
      */
-    public function update($conversionColumns)
+    public function update()
     {
         if (!$this->columnType) {
             return array();
         }
 
+        $conversionColumns = DbHelper::getTableColumns(Common::prefixTable('log_conversion'));
+
         $changes = array();
 
-        $changes[$this->tableName] = array("MODIFY COLUMN `$this->columnName` $this->columnType");
+        $changes[$this->dbTableName] = array("MODIFY COLUMN `$this->columnName` $this->columnType");
 
         $handlingConversion  = $this->isHandlingLogConversion();
         $hasConversionColumn = array_key_exists($this->columnName, $conversionColumns);
@@ -117,7 +90,6 @@ abstract class VisitDimension extends Dimension
     }
 
     /**
-     * @see ActionDimension::getVersion()
      * @return string
      * @ignore
      */
@@ -150,7 +122,7 @@ abstract class VisitDimension extends Dimension
         }
 
         try {
-            $sql = "ALTER TABLE `" . Common::prefixTable($this->tableName) . "` DROP COLUMN `$this->columnName`";
+            $sql = "ALTER TABLE `" . Common::prefixTable($this->dbTableName) . "` DROP COLUMN `$this->columnName`";
             Db::exec($sql);
         } catch (Exception $e) {
             if (!Db::get()->isErrNo($e, '1091')) {
@@ -159,6 +131,10 @@ abstract class VisitDimension extends Dimension
         }
 
         try {
+            if (!$this->isHandlingLogConversion()) {
+                return;
+            }
+
             $sql = "ALTER TABLE `" . Common::prefixTable('log_conversion') . "` DROP COLUMN `$this->columnName`";
             Db::exec($sql);
         } catch (Exception $e) {
@@ -166,23 +142,6 @@ abstract class VisitDimension extends Dimension
                 throw $e;
             }
         }
-    }
-
-    /**
-     * Adds a new segment. It automatically sets the SQL segment depending on the column name in case none is set
-     * already.
-     * @see \Piwik\Columns\Dimension::addSegment()
-     * @param Segment $segment
-     * @api
-     */
-    protected function addSegment(Segment $segment)
-    {
-        $sqlSegment = $segment->getSqlSegment();
-        if (!empty($this->columnName) && empty($sqlSegment)) {
-            $segment->setSqlSegment('log_visit.' . $this->columnName);
-        }
-
-        parent::addSegment($segment);
     }
 
     /**
@@ -266,16 +225,35 @@ abstract class VisitDimension extends Dimension
     }
 
     /**
+     * This hook is executed by the tracker when determining if an action is the start of a new visit
+     * or part of an existing one. Derived classes can use it to force new visits based on dimension
+     * data.
+     *
+     * For example, the Campaign dimension in the Referrers plugin will force a new visit if the
+     * campaign information for the current action is different from the last.
+     *
+     * @param Request $request The current tracker request information.
+     * @param Visitor $visitor The information for the currently recognized visitor.
+     * @param Action|null $action The current action information (if any).
+     * @return bool Return true to force a visit, false if otherwise.
+     * @api
+     */
+    public function shouldForceNewVisit(Request $request, Visitor $visitor, Action $action = null)
+    {
+        return false;
+    }
+
+    /**
      * Get all visit dimensions that are defined by all activated plugins.
      * @return VisitDimension[]
      */
     public static function getAllDimensions()
     {
-        $cache = new PluginAwareStaticCache('VisitDimensions');
+        $cacheId = CacheId::pluginAware('VisitDimensions');
+        $cache   = PiwikCache::getTransientCache();
 
-        if (!$cache->has()) {
-
-            $plugins   = PluginManager::getInstance()->getLoadedPlugins();
+        if (!$cache->contains($cacheId)) {
+            $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
             $instances = array();
 
             foreach ($plugins as $plugin) {
@@ -284,30 +262,71 @@ abstract class VisitDimension extends Dimension
                 }
             }
 
-            usort($instances, array('self', 'sortByRequiredFields'));
+            $instances = self::sortDimensions($instances);
 
-            $cache->set($instances);
+            $cache->save($cacheId, $instances);
         }
 
-        return $cache->get();
+        return $cache->fetch($cacheId);
     }
 
     /**
      * @ignore
+     * @param VisitDimension[] $dimensions
      */
-    public static function sortByRequiredFields($a, $b)
+    public static function sortDimensions($dimensions)
     {
-        $fields = $a->getRequiredVisitFields();
+        $sorted = array();
+        $exists = array();
 
-        if (empty($fields)) {
-            return -1;
+        // we first handle all the once without dependency
+        foreach ($dimensions as $index => $dimension) {
+            $fields = $dimension->getRequiredVisitFields();
+            if (empty($fields)) {
+                $sorted[] = $dimension;
+                $exists[] = $dimension->getColumnName();
+                unset($dimensions[$index]);
+            }
         }
 
-        if (in_array($b->columnName, $fields)) {
-            return 1;
+        // find circular references
+        // and remove dependencies whose column cannot be resolved because it is not installed / does not exist / is defined by core
+        $dependencies = array();
+        foreach ($dimensions as $dimension) {
+            $dependencies[$dimension->getColumnName()] = $dimension->getRequiredVisitFields();
         }
 
-        return 0;
+        foreach ($dependencies as $column => $fields) {
+            foreach ($fields as $key => $field) {
+                if (empty($dependencies[$field]) && !in_array($field, $exists)) {
+                    // we cannot resolve that dependency as it does not exist
+                    unset($dependencies[$column][$key]);
+                } elseif (!empty($dependencies[$field]) && in_array($column, $dependencies[$field])) {
+                    throw new Exception("Circular reference detected for required field $field in dimension $column");
+                }
+            }
+        }
+
+        $count = 0;
+        while (count($dimensions) > 0) {
+            $count++;
+            if ($count > 1000) {
+                foreach ($dimensions as $dimension) {
+                    $sorted[] = $dimension;
+                }
+                break; // to prevent an endless loop
+            }
+            foreach ($dimensions as $key => $dimension) {
+                $fields = $dependencies[$dimension->getColumnName()];
+                if (count(array_intersect($fields, $exists)) === count($fields)) {
+                    $sorted[] = $dimension;
+                    $exists[] = $dimension->getColumnName();
+                    unset($dimensions[$key]);
+                }
+            }
+        }
+
+        return $sorted;
     }
 
     /**
@@ -327,5 +346,4 @@ abstract class VisitDimension extends Dimension
 
         return $instances;
     }
-
 }

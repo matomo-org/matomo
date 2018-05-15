@@ -1,11 +1,18 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "Selain",
+        "BrowserEngineDocumentation": "Tämä kuvaaja näyttää käyttäjien selaimen nimen mukaan. %s Tärkein tieto verkkosivun kehittäjille on käyttäjien selaimen taustajärjestelmä. Taustajärjestelmä löytyy hakasuluissa nimen perästä.",
+        "BrowserFamily": "Selainperhe",
+        "Browsers": "Selaimet",
+        "BrowserVersion": "Selaimen versio",
         "BrowserVersions": "Selainversiot",
         "Camera": "Kamera",
         "CarBrowser": "Auton selain",
+        "Software": "Ohjelmisto",
+        "ColumnBrowser": "Selain",
+        "ColumnOperatingSystem": "Käyttöjärjestelmä",
         "Console": "Konsoli",
         "dataTableLabelBrands": "Merkki",
-        "dataTableLabelBrowserFamily": "Selainperhe",
         "dataTableLabelModels": "Malli",
         "dataTableLabelSystemVersion": "Käyttöjärjestelmäversio",
         "dataTableLabelTypes": "Tyyppi",
@@ -17,13 +24,16 @@
         "DeviceType": "Laitteen tyyppi",
         "FeaturePhone": "Puhelintoiminto",
         "OperatingSystemFamilies": "Käyttöjärjestelmäperheet",
+        "OperatingSystemFamily": "Käyttöjärjestelmä",
+        "OperatingSystems": "Käyttöjärjestelmä",
         "OperatingSystemVersions": "Käyttöjärjestelmäversiot",
-        "PluginDescription": "Tämä liitännäinen tarjoaa laajennettua tietoa mobiililaitteista, kuten merkki (valmistaja), malli (laitteen malli), paremman laitetyypin tunnistuksen (tv, konsolit, älypuhelimet, tietokoneet jne) sekä muuta. Liitännäinen lisää uuden raportin 'Kävijät > Laitteet'.",
         "SmartDisplay": "Älynäyttö",
         "Smartphone": "Älypuhelin",
-        "submenu": "Laitteet",
+        "Devices": "Laitteet",
         "Tablet": "Tabletti",
         "TV": "TV",
-        "UserAgent": "Käyttäjä-Agentti"
+        "UserAgent": "Käyttäjä-Agentti",
+        "WidgetBrowsers": "Kävijöiden selaimet",
+        "WidgetBrowsersDocumentation": "Tämä raportti näyttää, mitä selaimia vierailijoillasi oli. Jokainen selaimen versio näytetään erikseen."
     }
 }

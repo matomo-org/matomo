@@ -15,39 +15,43 @@ body #header {
     margin-left: -6px;
 }
 
-body #logo {
-    margin-top: 5px;
-}
-
-a#Overlay_Title {
-    font-size: 15px;
-    font-weight: normal;
-    color: #7e7363;
+a#overlayTitle {
+    font-size: 16px;
     text-decoration: none;
-    margin: -3px 0 0 0;
-    padding: 0 0 0 5px;
-    vertical-align: text-bottom;
+    color: #4d4d4d;
+    margin-left: 10px;
 }
-
-#Overlay_Title img {
-    vertical-align: text-bottom;
+a#overlayTitle .icon-help {
     margin-left: 4px;
 }
 
-#Overlay_DateRangeSelection {
-    padding: 30px 0 20px 23px;
-    background: url(../../Morpheus/images/icon-calendar.gif) 2px 33px no-repeat;
-    margin-left: 5px;
+#overlayDateRangeSelection {
+    padding: 0 0 0 25px;
+    margin: 20px 10px;
+    position: relative;
 }
 
-#Overlay_Location {
+#overlayDateRangeSelection .icon-calendar {
+    position: absolute;
+    top: 18px;
+    left: 2px;
+}
+
+#overlayLocation, .overlaySegment {
     width: 200px;
-    padding: 0 0 30px 0;
-    margin-left: 5px;
     font-size: 12px;
 }
 
-#Overlay_Loading {
+#overlayLocation {
+    margin: 0 0 10px 10px;
+}
+
+.overlaySegment {
+    margin: 0 0 30px 0;
+    word-break: break-all;
+}
+
+#overlayLoading {
     background: url(../../Morpheus/images/loading-blue.gif) no-repeat center 10px;
     width: 190px;
     padding-top: 30px;
@@ -56,104 +60,122 @@ a#Overlay_Title {
     display: none;
 }
 
-#Overlay_Sidebar {
+#overlaySidebar {
     width: 200px;
-    margin-left: 5px;
+    margin-left: 10px;
 }
 
-#Overlay_Sidebar h2 {
+#overlaySidebar h2 {
     font-size: 15px;
-    margin: 0;
-    padding: 0 0 8px 23px;
-    color: #255792;
+    margin: 0 0 8px 0;
 }
 
-a#Overlay_FullScreen,
-a#Overlay_RowEvolution,
-a#Overlay_Transitions {
+.overlayMainMetrics {
+    padding-bottom: 0 !important;
+}
+
+a#overlaySegmentedVisitorLog,
+a#overlayRowEvolution,
+a#overlayTransitions {
     display: block;
     color: #255792;
     font-size: 13px;
     line-height: 15px;
-    margin: 0 0 0 5px;
-    padding: 8px 0 3px 25px;
+    margin: 0 0 0 10px;
+    padding: 8px 10px 3px 0;
     text-decoration: none;
 }
 
-a#Overlay_RowEvolution {
+a#overlaySegmentedVisitorLog .icon,
+a#overlayRowEvolution .icon,
+a#overlayTransitions .icon {
+    font-size: 18px;
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+
+a#overlayRowEvolution {
     margin-top: 20px;
-    background: url(../../Morpheus/images/row_evolution_hover.png) no-repeat 0 7px;
 }
 
-a#Overlay_Transitions {
-    background: url(../../Transitions/images/transitions_icon_hover.png) no-repeat 0 6px;
-}
-
-a#Overlay_FullScreen {
-    margin-top: 20px;
-    background: url(../../Morpheus/images/fullscreen.png) no-repeat 3px 8px;
-}
-
-a#Overlay_FullScreen:hover,
-a#Overlay_RowEvolution:hover,
-a#Overlay_Transitions:hover {
+a#overlaySegmentedVisitorLog:hover,
+a#overlayRowEvolution:hover,
+a#overlayTransitions:hover {
     color: #E87500;
 }
 
-#Overlay_Main {
+#overlayMain {
     margin-left: 220px;
     position: absolute;
     top: 0;
 }
 
-#Overlay_Iframe {
+#root > nav {
+    width: 240px;
+    overflow: hidden;
+}
+
+#root > nav > .nav-wrapper > * {
+    display: none;
+}
+
+#root > nav > .nav-wrapper > .accessibility-skip-to-content,
+#root > nav > .nav-wrapper > #logo {
+    display: block;
+}
+
+#overlayIframe {
     border-left: 2px solid #ddd;
 }
 
-.Overlay_Metric {
+.overlayMetric {
     font-size: 12px;
-    padding-bottom: 4px;
+    line-height: 14px;
+    padding: 5px 0;
 }
 
-.Overlay_MetricValue {
-    font-size: 14px;
+.overlayMetricValue {
+    font-size: 12px;
     font-weight: bold;
 }
 
-.Overlay_NoData {
+.overlayNoData {
     font-size: 12px;
     color: #7E7363;
 }
 
-h2.Overlay_MainMetrics {
-    background: url(../images/info.png) 0 1px no-repeat;
-}
-
-body .ui-tooltip.Overlay_Tooltip {
+body .ui-tooltip.overlayTooltip {
     font-size: 11px;
     padding: 3px 5px 3px 6px;
 }
 
-#Overlay_NoFrame {
+#overlayNoFrame {
     padding: 20px 0 40px 2px;
 }
 
-#Overlay_Error_NotLoading {
+#overlayErrorNotLoading {
     width: 190px;
     display: none;
     margin: 20px 0 0 5px;
     font-size: 14px;
 }
 
-#Overlay_Error_NotLoading span {
+#overlayErrorNotLoading span {
     color: #E87500;
     font-weight: bold;
 }
 
-#topBars {
+.navbar .navbar-right {
+    display: none;
+}
+
+.top_controls {
     display: none;
 }
 
 .overlay-sidebar-container {
     width: 220px;
+    margin-left: -16px;
+    margin-top: 10px;
 }

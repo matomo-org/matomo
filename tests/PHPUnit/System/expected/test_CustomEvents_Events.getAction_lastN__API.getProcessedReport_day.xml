@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Piwik test</website>
+	<prettyDate>January 3 – 9, 2010</prettyDate>
+	<metadata>
+		<category>Actions</category>
+		<subcategory>Events</subcategory>
+		<name>Event Actions</name>
+		<module>Events</module>
+		<action>getAction</action>
+		<dimension>Event Action</dimension>
+		<metrics>
+			<nb_events>Events</nb_events>
+			<sum_event_value>Event value</sum_event_value>
+			<min_event_value>Minimum Event value</min_event_value>
+			<max_event_value>Maximum Event value</max_event_value>
+			<nb_events_with_value>Events with a value</nb_events_with_value>
+		</metrics>
+		<metricsDocumentation>
+			<nb_events>Total number of events</nb_events>
+			<sum_event_value>The sum of event values</sum_event_value>
+			<min_event_value>The minimum value for this event</min_event_value>
+			<max_event_value>The maximum value for this event</max_event_value>
+			<nb_events_with_value>Number of events where an Event value was set</nb_events_with_value>
+			<avg_event_value>The average of all values for this event</avg_event_value>
+		</metricsDocumentation>
+		<processedMetrics>
+			<avg_event_value>The average of all values for this event</avg_event_value>
+		</processedMetrics>
+		<actionToLoadSubTables>getNameFromActionId</actionToLoadSubTables>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getAction&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Events&amp;apiAction=getAction&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
+		<uniqueId>Events_getAction</uniqueId>
+	</metadata>
+	<columns>
+		<label>Event Action</label>
+		<nb_events>Events</nb_events>
+		<sum_event_value>Event value</sum_event_value>
+		<min_event_value>Minimum Event value</min_event_value>
+		<max_event_value>Maximum Event value</max_event_value>
+		<nb_events_with_value>Events with a value</nb_events_with_value>
+		<avg_event_value>The average of all values for this event</avg_event_value>
+	</columns>
+	<reportData>
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<label>playTrailer</label>
+				<nb_events>6</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Search</label>
+				<nb_events>6</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play25%</label>
+				<nb_events>4</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play50%</label>
+				<nb_events>4</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play75%</label>
+				<nb_events>4</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playEnd</label>
+				<nb_events>4</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>rating</label>
+				<nb_events>6</nb_events>
+				<nb_events_with_value>6</nb_events_with_value>
+				<sum_event_value>57.32</sum_event_value>
+				<min_event_value>9</min_event_value>
+				<max_event_value>10</max_event_value>
+				<avg_event_value>9.55</avg_event_value>
+			</row>
+			<row>
+				<label>clickBuyNow</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>2</nb_events_with_value>
+				<sum_event_value>19.32</sum_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+			<row>
+				<label>play</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playStart</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Purchase</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>This is an event without a URL</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				<label>playTrailer</label>
+				<nb_events>3</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Search</label>
+				<nb_events>3</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play25%</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play50%</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>play75%</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playEnd</label>
+				<nb_events>2</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>rating</label>
+				<nb_events>3</nb_events>
+				<nb_events_with_value>3</nb_events_with_value>
+				<sum_event_value>28.66</sum_event_value>
+				<min_event_value>9</min_event_value>
+				<max_event_value>10</max_event_value>
+				<avg_event_value>9.55</avg_event_value>
+			</row>
+			<row>
+				<label>clickBuyNow</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>event action Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long Extremely long ---&gt; SHOULD APPEAR IN TEST OUTPUT NOT TRUNCATED &lt;---</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>1</nb_events_with_value>
+				<sum_event_value>9.66</sum_event_value>
+				<min_event_value>9.66</min_event_value>
+				<max_event_value>9.66</max_event_value>
+				<avg_event_value>9.66</avg_event_value>
+			</row>
+			<row>
+				<label>play</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>playStart</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+			<row>
+				<label>Purchase</label>
+				<nb_events>1</nb_events>
+				<nb_events_with_value>0</nb_events_with_value>
+				<sum_event_value>0</sum_event_value>
+				<min_event_value>0</min_event_value>
+				<max_event_value>0</max_event_value>
+				<avg_event_value>0</avg_event_value>
+			</row>
+		</result>
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
+	</reportData>
+	<reportMetadata>
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				
+				<segment>eventAction==playTrailer</segment>
+				<idsubdatatable>1576</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==Search</segment>
+				<idsubdatatable>1569</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==play25%25</segment>
+				<idsubdatatable>1571</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==play50%25</segment>
+				<idsubdatatable>1572</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==play75%25</segment>
+				<idsubdatatable>1573</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==playEnd</segment>
+				<idsubdatatable>1574</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==rating</segment>
+				<idsubdatatable>1575</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==clickBuyNow</segment>
+				<idsubdatatable>1577</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
+				<idsubdatatable>1579</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==play</segment>
+				<idsubdatatable>1570</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==playStart</segment>
+				<idsubdatatable>1578</idsubdatatable>
+			</row>
+			<row>
+				<segment>eventAction==Purchase</segment>
+			</row>
+			<row>
+				<segment>eventAction==This+is+an+event+without+a+URL</segment>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010">
+			<row>
+				
+				<segment>eventAction==playTrailer</segment>
+				<idsubdatatable>1588</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==Search</segment>
+				<idsubdatatable>1581</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==play25%25</segment>
+				<idsubdatatable>1583</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==play50%25</segment>
+				<idsubdatatable>1584</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==play75%25</segment>
+				<idsubdatatable>1585</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==playEnd</segment>
+				<idsubdatatable>1586</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==rating</segment>
+				<idsubdatatable>1587</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==clickBuyNow</segment>
+				<idsubdatatable>1589</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==event+action+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
+				<idsubdatatable>1591</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==play</segment>
+				<idsubdatatable>1582</idsubdatatable>
+			</row>
+			<row>
+				
+				<segment>eventAction==playStart</segment>
+				<idsubdatatable>1590</idsubdatatable>
+			</row>
+			<row>
+				<segment>eventAction==Purchase</segment>
+			</row>
+		</result>
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
+	</reportMetadata>
+	<reportTotal>
+		<nb_visits>64</nb_visits>
+		<nb_uniq_visitors>61</nb_uniq_visitors>
+	</reportTotal>
+</result>

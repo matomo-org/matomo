@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Lisää kommentti %s:lle...",
+        "AnnotationOnDate": "Kommentti %1$s:lle: %2$s",
+        "Annotations": "Kommentit",
+        "ClickToDelete": "Klikkaa poistaaksesi tämä kommentti.",
+        "ClickToEdit": "Klikkaa muokataksesi tätä kommenttia.",
+        "ClickToEditOrAdd": "Klikkaa muokataksesi kommenttia tai lisätäksesi uuden kommentin.",
+        "ClickToStarOrUnstar": "Klikkaa merkitäksesi tähdellä tai poistaaksesi tähtimerkinnän tästä kommentista.",
+        "CreateNewAnnotation": "Luo uusi kommentti...",
+        "EnterAnnotationText": "Kirjoita kommenttisi...",
+        "HideAnnotationsFor": "Piilota %s:n kommentit...",
+        "IconDesc": "Näytä kommentit tältä aikaväliltä.",
+        "IconDescHideNotes": "Piilota kommentit tältä aikaväliltä.",
+        "InlineQuickHelp": "Voit luoda kommentteja erityisiä tapahtumia varten (kuten uusi blogiteksti tai verkkosivun uusi design), tallentaaksesi data-analyysejä tai muuta tärkeäksi katsomaasi.",
+        "LoginToAnnotate": "Kirjaudu sisään luodaksesi kommentti.",
+        "NoAnnotations": "Tällä aikavälillä ei ole kommentteja.",
+        "PluginDescription": "Mahdollistaa kommenttien lisäämisen eri päiville, jotta voit merkitä verkkosivulle tekemiäsi muutoksia, tallentaa analyysejä ja jakaa ajatuksia kollegoidesi kanssa. Kommenttien avulla muistat, miksi data näyttää siltä kuin näyttää.",
+        "ViewAndAddAnnotations": "Tarkastele ja lisää kommentteja %s:lle...",
+        "YouCannotModifyThisNote": "Et voi muokata tätä kommenttia, koska et ole luonut sitä, eikä sinulla ole admin-oikeuksia tällä verkkosivulla."
+    }
+}

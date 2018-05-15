@@ -20,7 +20,7 @@ class DashboardManagerControl extends DashboardSettingsControlBase
         parent::__construct();
 
         $this->jsClass = "DashboardManagerControl";
-        $this->cssIdentifier = "dashboard-manager";
+        $this->cssIdentifier = "dashboard-manager piwikSelector";
 
         $this->addDashboardActions();
         $this->addGeneralActions();

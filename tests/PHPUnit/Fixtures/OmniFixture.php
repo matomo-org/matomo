@@ -7,13 +7,14 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Date;
-use Piwik\Access;
+use Piwik\Db;
 use Piwik\Option;
 use ReflectionClass;
-use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
-use Piwik\Tests\Fixture;
-use Piwik\Tests\OverrideLogin;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * This fixture is the combination of every other fixture defined by Piwik. Should be used
@@ -21,38 +22,68 @@ use Piwik\Tests\OverrideLogin;
  */
 class OmniFixture extends Fixture
 {
+    const DEFAULT_SEGMENT = "browserCode==FF";
+
     public $month = '2012-01';
     public $idSite = 'all';
     public $dateTime = '2012-02-01';
+
+    /**
+     * @var Date
+     */
     public $now = null;
-    public $segment = "browserCode==FF";
+    public $segment = self::DEFAULT_SEGMENT;
 
     // Visitor profile screenshot test needs visitor id
     public $visitorIdDeterministic = null;
 
+    /**
+     * @var Fixture[]
+     */
     public $fixtures = array();
+
+    private function requireAllFixtures()
+    {
+        $fixturesToLoad = array(
+            '/tests/PHPUnit/Fixtures/*.php',
+            '/tests/UI/Fixtures/*.php',
+            '/plugins/*/tests/Fixtures/*.php',
+            '/plugins/*/Test/Fixtures/*.php',
+        );
+
+        foreach($fixturesToLoad as $fixturePath) {
+            foreach (glob(PIWIK_INCLUDE_PATH . $fixturePath) as $file) {
+                require_once $file;
+            }
+        }
+    }
 
     /**
      * Constructor.
      */
     public function __construct()
     {
+        $this->requireAllFixtures();
+
         $date = $this->month . '-01';
 
         $classes = get_declared_classes();
         sort($classes);
+
         foreach ($classes as $className) {
-            if (is_subclass_of($className, 'Fixture')
+            if (is_subclass_of($className, 'Piwik\\Tests\\Framework\\Fixture')
                 && !is_subclass_of($className, __CLASS__)
                 && $className != __CLASS__
-                && $className != "Piwik_Test_Fixture_SqlDump"
+                && $className != "Piwik\\Tests\\Fixtures\\SqlDump"
                 && $className != "Piwik\\Tests\\Fixtures\\UpdaterTestFixture"
                 && $className != "Piwik\\Tests\\Fixtures\\UITestFixture"
             ) {
+
                 $klassReflect = new ReflectionClass($className);
                 if (!strpos($klassReflect->getFilename(), "tests/PHPUnit/Fixtures")
                     && $className != "CustomAlerts"
                     && $className != "Piwik\\Plugins\\Insights\\tests\\Fixtures\\SomeVisitsDifferentPathsOnTwoDays"
+                    && $className != "Piwik\\Plugins\\Contents\\tests\\Fixtures\\TwoVisitsWithContents"
                 ) {
                     continue;
                 }
@@ -70,12 +101,15 @@ class OmniFixture extends Fixture
             }
         }
 
-        $this->now = $this->fixtures['ManySitesImportedLogsWithXssAttempts']->now;
 
-        // make sure ManySitesImportedLogsWithXssAttempts is the first fixture
-        $fixture = $this->fixtures['Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts'];
-        unset($this->fixtures['Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts']);
-        $this->fixtures = array_merge(array('Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts' => $fixture), $this->fixtures);
+        if (!empty($this->fixtures['Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts'])) {
+            $this->now = $this->fixtures['Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts']->now;
+
+            // make sure ManySitesImportedLogsWithXssAttempts is the first fixture
+            $fixture = $this->fixtures['Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts'];
+            unset($this->fixtures['Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts']);
+            $this->fixtures = array_merge(array('Piwik\\Tests\\Fixtures\\ManySitesImportedLogsWithXssAttempts' => $fixture), $this->fixtures);
+        }
     }
 
     private function adjustDateTime($dateTime, $adjustToDate)
@@ -90,28 +124,58 @@ class OmniFixture extends Fixture
 
     public function setUp()
     {
+        $firstFixture = array_shift($this->fixtures);
+        $this->setUpFixture($firstFixture);
+
+        $initialSitesProperties = SitesManagerAPI::getInstance()->getAllSites();
+
         foreach ($this->fixtures as $fixture) {
-            $fixture->setUp();
+            $this->restoreSitesProperties($initialSitesProperties);
+
+            $this->setUpFixture($fixture);
         }
 
-        Option::set("Tests.forcedNowTimestamp", $this->now->getTimestamp());
+        Db::query(sprintf('UPDATE %s SET token_auth = "9ad1de7f8b329ab919d854c556f860c1" WHERE login = "superUserLogin"', Common::prefixTable('user')));
 
-        // launch archiving so tests don't run out of time
-        $date = Date::factory($this->dateTime)->toString();
-        VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date);
-        VisitsSummaryAPI::getInstance()->get($this->idSite, 'year', $date, urlencode($this->segment));
+        Option::set("Tests.forcedNowTimestamp", $this->now->getTimestamp());
     }
 
     public function tearDown()
     {
         foreach ($this->fixtures as $fixture) {
+            echo "Tearing down " . get_class($fixture) . "...\n";
+
             $fixture->tearDown();
         }
     }
 
-    public static function createAccessInstance()
+    private function setUpFixture(Fixture $fixture)
     {
-        Access::setSingletonInstance($access = new OverrideLogin());
-        \Piwik\Piwik::postEvent('Request.initAuthenticationObject');
+        echo "Setting up " . get_class($fixture) . "...\n";
+        $fixture->setUp();
+    }
+
+    private function restoreSitesProperties($initialSitesProperties)
+    {
+        foreach ($initialSitesProperties as $idSite => $properties) {
+            Request::processRequest('SitesManager.updateSite', array(
+                'idSite' => $idSite,
+                'siteName' => $properties['name'],
+                'ecommerce' => $properties['ecommerce'],
+                'siteSearch' => $properties['sitesearch'],
+                'searchKeywordParameters' => $properties['sitesearch_keyword_parameters'],
+                'searchCategoryParameters' => $properties['sitesearch_category_parameters'],
+                'excludedIps' => $properties['excluded_ips'],
+                'excludedQueryParameters' => $properties['excluded_parameters'],
+                'timezone' => $properties['timezone'],
+                'currency' => $properties['currency'],
+                'group' => $properties['group'],
+                'startDate' => $properties['ts_created'],
+                'excludedUserAgents' => $properties['excluded_user_agents'],
+                'keepURLFragments' => $properties['keep_url_fragment'],
+                'type' => $properties['type'],
+                'excludeUnknownUrls' => $properties['exclude_unknown_urls']
+            ));
+        }
     }
 }

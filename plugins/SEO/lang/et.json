@@ -1,0 +1,11 @@
+{
+    "SEO": {
+        "AlexaRank": "Alexa reiting",
+        "Bing_IndexedPages": "Bingi indekseeritud lehti",
+        "DomainAge": "Domeeni vanus",
+        "Google_IndexedPages": "Googles indekseeritud lehed",
+        "Rank": "Reiting",
+        "SeoRankings": "SEO reiting",
+        "SEORankingsFor": "SEO reiting %s jaoks"
+    }
+}

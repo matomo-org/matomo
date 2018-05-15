@@ -9,47 +9,56 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_9_b9 extends Updates
 {
-    static function isMajorUpdate()
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public static function isMajorUpdate()
     {
         return true;
     }
 
-    static function getSql()
+    public function getMigrations(Updater $updater)
     {
-        $logVisit = Common::prefixTable('log_visit');
-        $logConversion = Common::prefixTable('log_conversion');
+        $logVisit = 'log_visit';
+        $logConversion = 'log_conversion';
 
-        $addColumns = "ADD `location_region` CHAR(2) NULL AFTER `location_country`,
-					   ADD `location_city` VARCHAR(255) NULL AFTER `location_region`,
-					   ADD `location_latitude` FLOAT(10, 6) NULL AFTER `location_city`,
-			           ADD `location_longitude` FLOAT(10, 6) NULL AFTER `location_latitude`";
-        $dropColumns = "DROP `location_continent`";
+        $addColumns = array('location_region' => 'CHAR(2) NULL',
+                             'location_city' => 'VARCHAR(255) NULL',
+                             'location_latitude' => 'FLOAT(10, 6) NULL',
+                             'location_longitude' => 'FLOAT(10, 6) NULL');
+        $dropColumn = 'location_continent';
 
         return array(
-
-            "ALTER TABLE `$logVisit` $dropColumns"      => 1091,
-            "ALTER TABLE `$logConversion` $dropColumns" => 1091,
+            $this->migration->db->dropColumn($logVisit, $dropColumn),
+            $this->migration->db->dropColumn($logConversion, $dropColumn),
 
             // add geoip columns to log_visit
-            "ALTER TABLE `$logVisit` $addColumns"      => 1060,
+            $this->migration->db->addColumns($logVisit, $addColumns, 'location_country'),
             // add geoip columns to log_conversion
-            "ALTER TABLE `$logConversion` $addColumns" => 1060,
+            $this->migration->db->addColumns($logConversion, $addColumns, 'location_country'),
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         try {
             self::enableMaintenanceMode();
-            Updater::updateDatabase(__FILE__, self::getSql());
+            $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
             self::disableMaintenanceMode();
         } catch (\Exception $e) {
             self::disableMaintenanceMode();
@@ -57,4 +66,3 @@ class Updates_1_9_b9 extends Updates
         }
     }
 }
-

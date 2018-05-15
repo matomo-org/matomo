@@ -30,29 +30,9 @@ class Xml extends Renderer
      *
      * @return string
      */
-    function render()
+    public function render()
     {
-        $this->renderHeader();
         return '<?xml version="1.0" encoding="utf-8" ?>' . "\n" . $this->renderTable($this->table);
-    }
-
-    /**
-     * Computes the exception output and returns the string/binary
-     *
-     * @return string
-     */
-    function renderException()
-    {
-        $this->renderHeader();
-
-        $exceptionMessage = $this->getExceptionMessage();
-
-        $return = '<?xml version="1.0" encoding="utf-8" ?>' . "\n" .
-            "<result>\n" .
-            "\t<error message=\"" . $exceptionMessage . "\" />\n" .
-            "</result>";
-
-        return $return;
     }
 
     /**
@@ -174,17 +154,16 @@ class Xml extends Renderer
         foreach ($array as $key => $value) {
             // based on the type of array & the key, determine how this node will look
             if ($isAssociativeArray) {
-                $keyIsInvalidXmlElement = is_numeric($key) || is_numeric($key[0]);
-                if ($keyIsInvalidXmlElement) {
-                    $prefix = "<row key=\"$key\">";
-                    $suffix = "</row>";
-                    $emptyNode = "<row key=\"$key\"/>";
-                } else if (strpos($key, '=') !== false) {
+                if (strpos($key, '=') !== false) {
                     list($keyAttributeName, $key) = explode('=', $key, 2);
 
                     $prefix = "<row $keyAttributeName=\"$key\">";
                     $suffix = "</row>";
                     $emptyNode = "<row $keyAttributeName=\"$key\">";
+                } elseif (!self::isValidXmlTagName($key)) {
+                    $prefix = "<row key=\"$key\">";
+                    $suffix = "</row>";
+                    $emptyNode = "<row key=\"$key\"/>";
                 } else {
                     $prefix = "<$key>";
                     $suffix = "</$key>";
@@ -197,11 +176,11 @@ class Xml extends Renderer
             }
 
             // render the array item
-            if (is_array($value)) {
+            if (is_array($value) || $value instanceof \stdClass) {
                 $result .= $prefixLines . $prefix . "\n";
-                $result .= $this->renderArray($value, $prefixLines . "\t");
+                $result .= $this->renderArray((array) $value, $prefixLines . "\t");
                 $result .= $prefixLines . $suffix . "\n";
-            } else if ($value instanceof DataTable
+            } elseif ($value instanceof DataTable
                 || $value instanceof Map
             ) {
                 if ($value->getRowsCount() == 0) {
@@ -210,7 +189,7 @@ class Xml extends Renderer
                     $result .= $prefixLines . $prefix . "\n";
                     if ($value instanceof Map) {
                         $result .= $this->renderDataTableMap($value, $this->getArrayFromDataTable($value), $prefixLines);
-                    } else if ($value instanceof Simple) {
+                    } elseif ($value instanceof Simple) {
                         $result .= $this->renderDataTableSimple($this->getArrayFromDataTable($value), $prefixLines);
                     } else {
                         $result .= $this->renderDataTable($this->getArrayFromDataTable($value), $prefixLines);
@@ -219,6 +198,7 @@ class Xml extends Renderer
                 }
             } else {
                 $xmlValue = self::formatValueXml($value);
+
                 if (strlen($xmlValue) != 0) {
                     $result .= $prefixLines . $prefix . $xmlValue . $suffix . "\n";
                 } else {
@@ -358,6 +338,8 @@ class Xml extends Renderer
      */
     protected function renderDataTable($array, $prefixLine = "")
     {
+        $columnsHaveInvalidChars = $this->areTableLabelsInvalidXmlTagNames(reset($array));
+
         $out = '';
         foreach ($array as $rowId => $row) {
             if (!is_array($row)) {
@@ -393,10 +375,13 @@ class Xml extends Renderer
                     } else {
                         $value = self::formatValueXml($value);
                     }
+
+                    list($tagStart, $tagEnd) = $this->getTagStartAndEndFor($name, $columnsHaveInvalidChars);
+
                     if (strlen($value) == 0) {
-                        $out .= $prefixLine . "\t\t<$name />\n";
+                        $out .= $prefixLine . "\t\t<$tagStart />\n";
                     } else {
-                        $out .= $prefixLine . "\t\t<$name>" . $value . "</$name>\n";
+                        $out .= $prefixLine . "\t\t<$tagStart>" . $value . "</$tagEnd>\n";
                     }
                 }
                 $out .= "\t";
@@ -419,24 +404,62 @@ class Xml extends Renderer
             $array = array('value' => $array);
         }
 
+        $columnsHaveInvalidChars = $this->areTableLabelsInvalidXmlTagNames($array);
+
         $out = '';
         foreach ($array as $keyName => $value) {
             $xmlValue = self::formatValueXml($value);
+            list($tagStart, $tagEnd) = $this->getTagStartAndEndFor($keyName, $columnsHaveInvalidChars);
             if (strlen($xmlValue) == 0) {
-                $out .= $prefixLine . "\t<$keyName />\n";
+                $out .= $prefixLine . "\t<$tagStart />\n";
             } else {
-                $out .= $prefixLine . "\t<$keyName>" . $xmlValue . "</$keyName>\n";
+                $out .= $prefixLine . "\t<$tagStart>" . $xmlValue . "</$tagEnd>\n";
             }
         }
         return $out;
     }
 
     /**
-     * Sends the XML headers
+     * Returns true if a string is a valid XML tag name, false if otherwise.
+     *
+     * @param string $str
+     * @return bool
      */
-    protected function renderHeader()
+    private static function isValidXmlTagName($str)
     {
-        // silent fail because otherwise it throws an exception in the unit tests
-        @header('Content-Type: text/xml; charset=utf-8');
+        static $validTagRegex = null;
+
+        if ($validTagRegex === null) {
+            $invalidTagChars = "!\"#$%&'()*+,\\/;<=>?@[\\]\\\\^`{|}~";
+            $invalidTagStartChars = $invalidTagChars . "\\-.0123456789";
+            $validTagRegex = "/^[^" . $invalidTagStartChars . "][^" . $invalidTagChars . "]*$/";
+        }
+
+        $result = preg_match($validTagRegex, $str);
+        return !empty($result);
+    }
+
+    private function areTableLabelsInvalidXmlTagNames($rowArray)
+    {
+        if (!empty($rowArray)) {
+            foreach ($rowArray as $name => $value) {
+                if (!self::isValidXmlTagName($name)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private function getTagStartAndEndFor($keyName, $columnsHaveInvalidChars)
+    {
+        if ($columnsHaveInvalidChars) {
+            $tagStart = "col name=\"" . self::formatValueXml($keyName) . "\"";
+            $tagEnd = "col";
+        } else {
+            $tagStart = $tagEnd = $keyName;
+        }
+
+        return array($tagStart, $tagEnd);
     }
 }

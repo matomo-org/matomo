@@ -1,0 +1,26 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "回訪活動數",
+        "ColumnAverageVisitDurationForReturningVisitors": "回訪平均時間（秒）",
+        "ColumnAvgActionsPerReturningVisit": "每次回訪平均活動數",
+        "ColumnBounceCountForReturningVisits": "回訪者跳出數",
+        "ColumnBounceRateForReturningVisits": "回訪者跳出率",
+        "ColumnMaxActionsInReturningVisit": "單次回訪最大活動數",
+        "ColumnNbReturningVisitsConverted": "轉換的回訪數",
+        "ColumnReturningVisits": "回訪數",
+        "ColumnSumVisitLengthReturning": "回訪者停留時間總計（秒）",
+        "ColumnUniqueReturningVisitors": "不重複回訪者數",
+        "ColumnReturningUsers": "回訪者",
+        "PluginDescription": "你的首次訪問訪客和回訪訪客的數據報表。",
+        "ReturnActions": "回訪者活動數",
+        "ReturnAverageVisitDuration": "回訪者平均停留時間",
+        "ReturnAvgActions": "每個回訪的活動數",
+        "ReturnBounceRate": "回訪者跳出數（只瀏覽一頁就離開）",
+        "ReturningVisitDocumentation": "回訪者（與新訪客相反）是之前至少訪問網站一次的訪客。",
+        "ReturningVisitsDocumentation": "這是回訪者的總覽。",
+        "ReturnVisits": "回訪數",
+        "SubmenuFrequency": "訪問頻率",
+        "WidgetGraphReturning": "最近回訪",
+        "WidgetOverview": "訪問頻率總覽"
+    }
+}

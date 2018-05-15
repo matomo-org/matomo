@@ -9,10 +9,15 @@
 namespace Piwik\Plugins\Referrers\Reports;
 
 use Piwik\Common;
+use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Referrers\Columns\ReferrerType;
+use Piwik\Widget\WidgetsList;
+use Piwik\Report\ReportWidgetFactory;
 
 class GetReferrerType extends Base
 {
@@ -32,12 +37,44 @@ class GetReferrerType extends Base
         $this->constantRowsCount = true;
         $this->hasGoalMetrics = true;
         $this->order = 1;
-        $this->widgetTitle  = 'General_Overview';
+        $this->subcategoryId = 'Referrers_WidgetGetAll';
+        $this->supportsFlatten = false;
     }
 
     public function getDefaultTypeViewDataTable()
     {
         return HtmlTable\AllColumns::ID;
+    }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
+    {
+        $widgetsList->addWidgetConfig(
+            $factory->createWidget()
+                    ->setName('Referrers_ReferrerTypes')
+                    ->setSubcategoryId('Referrers_WidgetGetAll')
+        );
+
+        $widgetsList->addWidgetConfig(
+            $factory->createWidget()
+                ->setName('General_EvolutionOverPeriod')
+                ->setSubcategoryId('General_Overview')
+                ->setAction('getEvolutionGraph')
+                ->setOrder(9)
+                ->setIsNotWidgetizable()
+                ->forceViewDataTable(Evolution::ID)
+                ->addParameters(array(
+                    'columns' => $defaultColumns = array('nb_visits'),
+                ))
+        );
+
+        $widgetsList->addWidgetConfig(
+            $factory->createCustomWidget('getSparklines')
+                ->forceViewDataTable(Sparklines::ID)
+                ->setIsNotWidgetizable()
+                ->setName('Referrers_Type')
+                ->setSubcategoryId('General_Overview')
+                ->setOrder(10)
+        );
     }
 
     public function configureView(ViewDataTable $view)
@@ -47,7 +84,7 @@ class GetReferrerType extends Base
 
         switch ($idSubtable) {
             case Common::REFERRER_TYPE_SEARCH_ENGINE:
-                $labelColumnTitle = Piwik::translate('Referrers_ColumnSearchEngine');
+                $labelColumnTitle = Piwik::translate('General_ColumnKeyword');
                 break;
             case Common::REFERRER_TYPE_WEBSITE:
                 $labelColumnTitle = Piwik::translate('Referrers_ColumnWebsite');
@@ -71,6 +108,19 @@ class GetReferrerType extends Base
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_subtable_when_show_goals = true;
         }
+        
+        $this->configureFooterMessage($view);
     }
 
+    protected function configureFooterMessage(ViewDataTable $view)
+    {
+        if ($this->isSubtableReport) {
+            // no footer message for subtables
+            return;
+        }
+
+        $out = '';
+        Piwik::postEvent('Template.afterReferrerTypeReport', array(&$out));
+        $view->config->show_footer_message = $out;
+    }
 }

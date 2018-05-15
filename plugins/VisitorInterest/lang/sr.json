@@ -1,0 +1,24 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Stranica po poseti",
+        "ColumnVisitDuration": "Dužina zadržavanja",
+        "Engagement": "Zainteresovanost",
+        "NPages": "%s stranica",
+        "OnePage": "1 stranica",
+        "PluginDescription": "Izveštaji na temu interesovanja posetilaca: broj pogledanih stranica, vreme provedeno na sajtu, dana od poslednje posete itd.",
+        "VisitNum": "Broj poseta",
+        "VisitsByDaysSinceLast": "Poseta po danima od poslednje posete",
+        "visitsByVisitCount": "Posete po broju poseta",
+        "VisitsPerDuration": "Broj poseta po dužini zadržavanja",
+        "VisitsPerNbOfPages": "Broj poseta po broju stranica",
+        "WidgetLengths": "Dužine poseta",
+        "WidgetLengthsDocumentation": "U ovom izveštaju možete videti koliko poseta ima određenu dužinu trajanja. Izveštaj je inicijalno prikazan kao oblak tagova a najčešće dužine su prikazane većim slovimna.",
+        "WidgetPages": "Broj stranica po poseti",
+        "WidgetPagesDocumentation": "U ovom izveštaju možete videti koliko poseta je imalo određeni broj pregleda stranica. Izveštaj je inicijalno prikazan kao oblak tagova a najčešći rezultati su prikazani većim brojevima.",
+        "WidgetVisitsByDaysSinceLast": "Poseta po danima od poslednje posete",
+        "WidgetVisitsByDaysSinceLastDocumentation": "U ovom izveštaju možete da vidite koliko ima poseta od strane posetilaca čija poslednja poseta je bila pre određenog broja dana.",
+        "WidgetVisitsByNumDocumentation": "U ovom izveštaju možete da vidite broj poseta koje su n-te posete, na primer posetioce koji su došli na vaš sajt barem n puta."
+    }
+}

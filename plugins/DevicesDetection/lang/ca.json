@@ -1,0 +1,16 @@
+{
+    "DevicesDetection": {
+        "BrowserEngine": "Navegador",
+        "BrowserEngineDocumentation": "Aquest gràfic mostra els navegadors dels vostres visitants dividits en famílies. %s La informació més important per als desenvolupadors web es quin tipus de sistema de renderització estan utilitzant els seus visitants. Les etiquetiquetes contenen els noms dels sistemes, seguit pel navegador més comú utilitzant aquest sistema.",
+        "BrowserFamily": "Família del navegador",
+        "Browsers": "Navegadors",
+        "BrowserVersion": "Versió del navegador",
+        "ColumnBrowser": "Navegador",
+        "ColumnOperatingSystem": "Sistema operatiu",
+        "dataTableLabelTypes": "Tipus",
+        "OperatingSystemFamily": "Família del Sistema Operatiu",
+        "OperatingSystems": "Sistemes operatius",
+        "WidgetBrowsers": "Navegadors",
+        "WidgetBrowsersDocumentation": "Aquest informe conté informació sobre quin tipus de navegador està utilitzant els vostres visitants. Cada versió del navegador es llista per separat."
+    }
+}

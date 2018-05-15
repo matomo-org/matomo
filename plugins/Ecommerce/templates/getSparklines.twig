@@ -1,0 +1,73 @@
+<div class="card"><div class="card-content">
+<div id='leftcolumn' style="clear:both;{% if not isWidget %}width:33%;'{% endif %}">
+    <div class="sparkline">{{ sparkline(urlSparklineConversions) }}
+	<div>
+        <strong>{{ nb_conversions|number }}</strong>
+        {{ 'General_EcommerceOrders'|translate }}
+        <img src='plugins/Morpheus/images/ecommerceOrder.png'>
+
+        {% if goalAllowMultipleConversionsPerVisit is defined and goalAllowMultipleConversionsPerVisit %}
+            ({{ 'General_NVisits'|translate("<strong>"~nb_visits_converted~"</strong>")|raw }})
+        {% endif %}
+	</div>
+    </div>
+
+    <div class="sparkline">
+        {{ sparkline(urlSparklineRevenue) }}
+	<div>
+        {% set revenue=revenue|money(idSite) %}
+        <strong>{{ revenue|raw }}</strong> {{ 'General_TotalRevenue'|translate }}
+	</div>
+    </div>
+
+    <div class="sparkline">{{ sparkline(urlSparklineAverageOrderValue) }}
+	<div>
+        <strong>{{ avg_order_revenue|money(idSite)|raw }}</strong>
+        {{ 'General_AverageOrderValue'|translate }}
+	</div>
+    </div>
+</div>
+<div id='leftcolumn' {% if not isWidget %}style='width:33%;'{% endif %}>
+    <div class="sparkline">{{ sparkline(urlSparklineConversionRate) }}
+	<div>
+        {% set ecommerceOrdersText %}{{ 'General_EcommerceOrders'|translate }}{% endset %}
+        {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate|percent~"</strong> "~ecommerceOrdersText)|raw }}
+	</div>
+    </div>
+    <div class="sparkline">{{ sparkline(urlSparklinePurchasedProducts) }}
+	<div>
+    <strong>{{ items|number }}</strong> {{ 'General_PurchasedProducts'|translate }}</div></div>
+</div>
+<div id='rightcolumn' {% if not isWidget %}style='width:30%;'{% endif %}>
+    <div>
+        <img src='plugins/Morpheus/images/ecommerceAbandonedCart.png'> {{ 'General_AbandonedCarts'|translate }}
+    </div>
+
+    <div class="sparkline">
+        {{ sparkline(cart_urlSparklineConversions) }}
+	<div>
+        {% set ecommerceAbandonedCartsText %}{{ 'Goals_AbandonedCart'|translate }}{% endset %}
+        <strong>{{ cart_nb_conversions|number }}</strong> {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
+	</div>
+    </div>
+
+    <div class="sparkline">
+        {{ sparkline(cart_urlSparklineRevenue) }}
+	<div>
+        {% set revenue %}{{ cart_revenue|money(idSite)|raw }}{% endset %}
+        {% set revenueText %}{{ 'General_ColumnRevenue'|translate }}{% endset %}
+        <strong>{{ revenue }}</strong> {{ 'Goals_LeftInCart'|translate(revenueText) }}
+	</div>
+    </div>
+
+    <div class="sparkline">
+        {{ sparkline(cart_urlSparklineConversionRate) }}
+	<div>
+        <strong>{{ cart_conversion_rate|percent }}</strong>
+        {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
+	</div>
+    </div>
+</div>
+<div style="clear: left;"></div>
+{% include "_sparklineFooter.twig" %}
+    </div></div>

@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "Kjo shtojcë ofron widget-et Hartë Vizitorësh dhe Hartë Në Kohë Reale. Shënim: Lyp shtojcën UserCountry të aktivizuar.",
+        "AndNOthers": "dhe %s të tjerë",
+        "Cities": "Qytete",
+        "Countries": "Vende",
+        "DaysAgo": "%s ditë më parë",
+        "GoalConversions": "%s shndërrime objektivash",
+        "HoursAgo": "%s orë më parë",
+        "map": "hartë",
+        "MinutesAgo": "%s minuta më parë",
+        "None": "Asnjë",
+        "NoVisit": "Pa vizita",
+        "RealTimeMap": "Hartë e Atypëratyshme",
+        "Regions": "Rajone",
+        "Searches": "%s kërkime",
+        "SecondsAgo": "%s sekonda më parë",
+        "ShowingVisits": "Vizita të gjeovendëzuara, për pjesën e fundit të",
+        "Unlocated": "<b>%s<\/b> %p e vizitës prej %c s’u gjeovendëzua dot.",
+        "VisitorMap": "Hartë Vizitorësh",
+        "WorldWide": "Anembanë Botës",
+        "WithUnknownRegion": "%s me rajon të panjohur",
+        "WithUnknownCity": "%s me qytet të panjohur"
+    }
+}

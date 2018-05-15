@@ -1,0 +1,24 @@
+{
+    "SitesManager": {
+        "AddSite": "Legg til ein ny nettstad",
+        "ChooseCityInSameTimezoneAsYou": "Vel ein by i same tidssone som deg.",
+        "Currency": "Valuta",
+        "DeleteConfirm": "Er du sikker på at du vil sletta denne nettstaden %s?",
+        "ExceptionDeleteSite": "It is not possible to delete this website as it is the only registered website. Add a new website first, then delete this one. Det er ikkje mulig å sletta denne nettstaden, ettersom det er den einaste registrerte nettstaden. Legg til ein ny nettstad først, så kan du sletta denne etterpå.",
+        "ExceptionEmptyName": "Stadsnamnet kan ikkje vera tomt.",
+        "ExceptionInvalidTimezone": "Tidssonen \"%s\" er ugyldig. Skriv ein gyldig tidssone.",
+        "ExceptionInvalidUrl": "Adressa '%s' er ikkje ein gyldig adresse (URL)",
+        "ExceptionNoUrl": "Du må skriva minst ein adresse for nettstaden.",
+        "ExcludedIps": "Ekskluderte IPar",
+        "GlobalListExcludedIps": "Global liste over ekskluderte IPar",
+        "JsTrackingTagHelp": "Her er JavaScript sporingskoden som du på leggja ved alle sidene dine",
+        "MainDescription": "Your Web Analytics reports need Websites! Add, update, delete Websites, and show the JavaScript to insert in your pages. Din nettanalyserapport treng nettstader! Legg til, oppdater og fjern nettstader, samt vis javaScript koden som trengs på sidene dine.",
+        "NoWebsites": "Du har inga nettstader å administrera.",
+        "SelectACity": "Vel ein by",
+        "ShowTrackingTag": "vis sporingskode",
+        "Sites": "Nettstadar",
+        "Urls": "Adresser",
+        "WebsitesManagement": "Nettstadsbehandling",
+        "YourCurrentIpAddressIs": "Din gjeldande IP-adresse er %s"
+    }
+}

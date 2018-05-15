@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Přidat anotace k %s...",
+        "AnnotationOnDate": "Anotace na %1$s: %2$s",
+        "Annotations": "Anotace",
+        "ClickToDelete": "Kliknutím odstraníte tuto anotaci.",
+        "ClickToEdit": "Klikněte k úpravě této anotace.",
+        "ClickToEditOrAdd": "Kliknutím upravit nebo přidat novou anotaci",
+        "ClickToStarOrUnstar": "Kliknutím ohnodnotíte tuto anotaci",
+        "CreateNewAnnotation": "Vytvořit novou anotaci...",
+        "EnterAnnotationText": "Vložte poznámku...",
+        "HideAnnotationsFor": "Skrýt anotace %s...",
+        "IconDesc": "Zobrazit poznámky k tomuto časovému rozsahu.",
+        "IconDescHideNotes": "Skrýt poznámky zvoleného rozsahu.",
+        "InlineQuickHelp": "Můžete vytvořit anotace k důležitým událostem, jako je třeba nový příspěvek na blogu, redesign stránek, nebo cokoliv, co považujete za důležité.",
+        "LoginToAnnotate": "Přihlásit se pro vytvoření anotace.",
+        "NoAnnotations": "Nejsou zde žádné anotace k tomuto časovému rozsahu.",
+        "PluginDescription": "Dovoluje vám přidat poznámky k jednotlivým dnům (k označení změn na stránkách, poznamenání analýz dat, které lze sdílet s kolegy...). Anotováním dat zajistíte, že budete v budoucnu vědět, proč data vypadají tak, jak vypadají.",
+        "ViewAndAddAnnotations": "Zobrazit a přidat anotace k %s...",
+        "YouCannotModifyThisNote": "Nemůžete upravit tuto anotaci, protože jste ji nevytvořil(a) a ani nemáte administrátorský přístup k této stránce."
+    }
+}

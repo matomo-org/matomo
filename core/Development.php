@@ -168,7 +168,7 @@ class Development
         $fileIterator = new \LimitIterator($file, $offset, $count);
 
         $methodCode = "\n    " . $method->getDocComment() . "\n";
-        foreach($fileIterator as $line) {
+        foreach ($fileIterator as $line) {
             $methodCode .= $line;
         }
         $methodCode .= "\n";
@@ -185,7 +185,7 @@ class Development
         $fileIterator = new \LimitIterator($file, 0, $class->getStartLine());
 
         $uses = array();
-        foreach($fileIterator as $line) {
+        foreach ($fileIterator as $line) {
             if (preg_match('/(\s*)use (.+)/', $line, $match)) {
                 $uses[] = trim($match[2]);
             }

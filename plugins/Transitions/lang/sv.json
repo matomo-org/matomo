@@ -1,0 +1,28 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s avvisningar",
+        "DirectEntries": "Direktträffar",
+        "ErrorBack": "Gå tillbaka till föregående åtgärd",
+        "ExitsInline": "%s utgångar",
+        "FromCampaigns": "Från kampanjer",
+        "FromPreviousPages": "Från interna sidor",
+        "FromPreviousPagesInline": "%s från interna sidor",
+        "FromPreviousSiteSearches": "Från Intern Sök.",
+        "FromPreviousSiteSearchesInline": "%s från interna sökningar",
+        "FromSearchEngines": "Från sökmotorer",
+        "FromWebsites": "Från webbplatser",
+        "IncomingTraffic": "Inkommande trafik",
+        "LoopsInline": "%s siduppdateringar",
+        "NoDataForAction": "Det finns inga data för %s",
+        "NoDataForActionDetails": "Antingen har händelsen inte haft några sidvisningar under perioden %s eller så är den ogiltig.",
+        "OutgoingTraffic": "Utgående trafik",
+        "PluginDescription": "Tidigare Rapporter och följande åtgärder för varje sida URL i en ny Övergångsrapport, som finns i Händelserapporter via en ny ikon.",
+        "ShareOfAllPageviews": "Den här sidan hade %1$s sidvisningar (%2$s av alla sidvisningar)",
+        "ToFollowingPages": "Till interna sidor",
+        "ToFollowingPagesInline": "%s till interna sidor",
+        "ToFollowingSiteSearches": "Interna Sökningar",
+        "ToFollowingSiteSearchesInline": "%s interna sökningar",
+        "XOfAllPageviews": "%s av alla sidvisningar",
+        "XOutOfYVisits": "%1$s (av %2$s)"
+    }
+}

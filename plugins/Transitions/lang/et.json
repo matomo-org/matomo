@@ -1,0 +1,26 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s põrget",
+        "DirectEntries": "Otse sisenemisi",
+        "ErrorBack": "Mine tagasi eelmisele tegevusele",
+        "ExitsInline": "%s väljumist",
+        "FromCampaigns": "Tuldud kampaaniad",
+        "FromPreviousPages": "Tuldud sisemised lehed",
+        "FromPreviousPagesInline": "%s tuli sisemistelt lehtedelt",
+        "FromPreviousSiteSearches": "Tuldud sisemised otsingud",
+        "FromPreviousSiteSearchesInline": "%s tuli sisemisest otsingust",
+        "FromSearchEngines": "Tuldud otsingumootorid",
+        "FromWebsites": "Tuldud veebilehed",
+        "IncomingTraffic": "Sisenev liiklus",
+        "LoopsInline": "%s lehe korduvat laadimist",
+        "NoDataForAction": "Tegevuse %s kohta puuduvad andmed",
+        "OutgoingTraffic": "Väljuv liiklus",
+        "ShareOfAllPageviews": "See leht sai %1$s vaatamist (%2$s kõigist vaatamistest)",
+        "ToFollowingPages": "Sisemistele lehtedele",
+        "ToFollowingPagesInline": "%s läks sisemistele lehtedele",
+        "ToFollowingSiteSearches": "Sisemised otsingud",
+        "ToFollowingSiteSearchesInline": "%s sisemist otsingut",
+        "XOfAllPageviews": "%s kõigist antud lehe vaatamistest",
+        "XOutOfYVisits": "%1$s (%2$s kõigist)"
+    }
+}

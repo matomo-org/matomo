@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="2009-12-28,2010-01-03">
+			<nb_uniq_visitors>2</nb_uniq_visitors>
+			<nb_users>0</nb_users>
+			<nb_visits>3</nb_visits>
+			<nb_actions>5</nb_actions>
+			<nb_visits_converted>2</nb_visits_converted>
+			<bounce_count>2</bounce_count>
+			<sum_visit_length>725</sum_visit_length>
+			<max_actions>3</max_actions>
+			<bounce_rate>67%</bounce_rate>
+			<nb_actions_per_visit>1.7</nb_actions_per_visit>
+			<avg_time_on_site>242</avg_time_on_site>
+		</result>
+		<result date="2010-01-04,2010-01-10" />
+		<result date="2010-01-11,2010-01-17" />
+		<result date="2010-01-18,2010-01-24" />
+		<result date="2010-01-25,2010-01-31" />
+		<result date="2010-02-01,2010-02-07" />
+		<result date="2010-02-08,2010-02-14" />
+	</result>
+</results>

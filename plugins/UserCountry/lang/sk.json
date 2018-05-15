@@ -1,0 +1,11 @@
+{
+    "UserCountry": {
+        "City": "Mesto",
+        "Continent": "Kontinent",
+        "Country": "Krajina",
+        "DistinctCountries": "Počet rôznych krajín: %s",
+        "Location": "Miesto",
+        "SubmenuLocations": "Umiestnenie",
+        "UpdaterWasLastRun": "Aktualizátor bol naposledy spustený %s."
+    }
+}

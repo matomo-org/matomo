@@ -1,0 +1,12 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "সক্রিয় করুন",
+        "Activated": "সক্রিয় হয়েছে",
+        "Active": "সক্রিয়",
+        "Deactivate": "নিষ্ক্রিয়করণ",
+        "Inactive": "নিষ্ক্রিয়",
+        "PluginHomepage": "প্লাগইনসমূহের মূলপাতা",
+        "Status": "অবস্থা",
+        "Version": "সংস্করণ"
+    }
+}

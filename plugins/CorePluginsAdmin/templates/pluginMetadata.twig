@@ -1,9 +1,0 @@
-{% import '@CorePluginsAdmin/macros.twig' as plugins %}
-
-<hr class="metadataSeparator"/>
-<ul class="metadata">
-    <li class="odd">{{ 'CorePluginsAdmin_Version'|translate }}: <strong>{{ plugin.latestVersion }}</strong></li>
-    <li class="even">{{ 'CorePluginsAdmin_Updated'|translate }}: <strong>{{ plugin.lastUpdated }}</strong></li>
-    <li class="odd">{{ 'General_Downloads'|translate }}: <strong>{{ plugin.numDownloads }}</strong></li>
-    <li class="even">{{ 'CorePluginsAdmin_Developer'|translate }}: <strong>{{ plugins.pluginDeveloper(plugin.owner) }}</strong></li>
-</ul>

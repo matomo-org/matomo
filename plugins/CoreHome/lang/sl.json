@@ -1,0 +1,14 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "V tej kategoriji ni podatkov. Poizkusite \"Vključiti celotno populacijo\".",
+        "CheckForUpdates": "Preveri za posodobitve",
+        "Default": "privzeto",
+        "NoPrivilegesAskPiwikAdmin": "Vpisani ste kot '%1$s', vendar v Matomo-u nimate nastavljenih nobenih pooblastil. %2$s Poprosite vašega Matomo administratorja (klik za email)%3$s naj vam da pooblastila za ogled določene(ih) strani.",
+        "PageOf": "%1$s od %2$s",
+        "PeriodRange": "Razpon",
+        "ReportGeneratedOn": "Poročilo ustvarjano na %s",
+        "ReportGeneratedXAgo": "Poročilo ustvarjano pred %s",
+        "ShowJSCode": "Prikaži JavaScript kodo za vstavljanje",
+        "ThereIsNoDataForThisReport": "Za to poročilo ni podatkov."
+    }
+}

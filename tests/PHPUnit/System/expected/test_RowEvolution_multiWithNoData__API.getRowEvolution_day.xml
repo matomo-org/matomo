@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<column>nb_visits</column>
+	<reportData>
+		<result date="2010-04-01" />
+		<result date="2010-04-02" />
+		<result date="2010-04-03" />
+		<result date="2010-04-04" />
+		<result date="2010-04-05" />
+		<result date="2010-04-06" />
+	</reportData>
+	<metadata>
+		<metrics>
+		</metrics>
+		<dimension>Website</dimension>
+		<columns>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+			<nb_users>Users</nb_users>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+		</columns>
+	</metadata>
+</result>

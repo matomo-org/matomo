@@ -1,0 +1,27 @@
+{
+    "CorePluginsAdmin": {
+        "ActionUninstall": "Lepaskan",
+        "Activate": "Diaktifkan",
+        "Activated": "Teraktivasi",
+        "Active": "Aktif",
+        "Activity": "Aktivitas",
+        "AuthorHomepage": "Alamat Penulis",
+        "Deactivate": "Dimatikan",
+        "History": "Riwayat",
+        "Inactive": "Tak Aktif",
+        "InstalledPlugins": "Plugin terinstal",
+        "InstalledThemes": "Tema terinstal",
+        "InstallNewPlugins": "Instal plugin baru",
+        "LicenseHomepage": "Alamat Lisensi",
+        "LikeThisPlugin": "Suka plugin ini?",
+        "PluginsExtendPiwik": "Pengaya menambah dan memperluas kegunaan dari Matomo.",
+        "OncePluginIsInstalledYouMayActivateHere": "Sekali pengaya terinstal, Anda dapat mengaktifkan dan mematikan di sini.",
+        "MenuPlatform": "Pelantar",
+        "NoZipFileSelected": "Silakan pilih sebuah berkas ZIP.",
+        "PluginHomepage": "Alamat Pengaya",
+        "PluginsManagement": "Pengatur Pengaya",
+        "Status": "Status",
+        "Version": "Versi",
+        "Websites": "Situs"
+    }
+}

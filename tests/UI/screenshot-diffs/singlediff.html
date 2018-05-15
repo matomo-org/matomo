@@ -1,0 +1,50 @@
+<html>
+<head>
+    <link rel="stylesheet" href="style.css"/>
+    <!-- loaded when on build-artifacts -->
+    <script src='jquery.js'></script>
+    <script src='resemble.js'></script>
+    <!-- loaded when viewing within piwik -->
+    <script src='../../../libs/bower_components/jquery/dist/jquery.min.js'></script>
+    <script src='../../../tests/lib/resemblejs/resemble.js'></script>
+    <script src='diffgenerator.js'></script>
+    <script src='comparator.js'></script>
+</head>
+<body style="background: #E8E8E8">
+
+<span class="info"></span>
+<br />
+<br />
+<img class="diff">
+
+<br/><br/>
+
+<div id="controls">
+    <button id="toggleAliasing">Ignore aliasing</button>
+</div>
+
+<br/><br/>
+
+<figure class="cd-image-container">
+    <img id="original">
+    <span class="cd-image-label" data-type="original">Original</span>
+
+    <div class="cd-resize-img"> <!-- the resizable image on top -->
+        <img id="modified">
+        <span class="cd-image-label" data-type="modified">Modified</span>
+    </div>
+
+    <span class="cd-handle"></span>
+</figure>
+
+<h2>Processed</h2>
+<img class="processed">
+
+<h2>Expected</h2>
+<img class="expected">
+
+<h2>Expected GitHub</h2>
+<img class="expectedGithub">
+
+</body>
+</html>

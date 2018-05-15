@@ -38,7 +38,7 @@ class Schema extends Singleton
     private static function getSchemaClassName($schemaName)
     {
         // Upgrade from pre 2.0.4
-        if(strtolower($schemaName) == 'myisam'
+        if (strtolower($schemaName) == 'myisam'
             || empty($schemaName)) {
             $schemaName = self::DEFAULT_SCHEMA;
         }
@@ -47,80 +47,17 @@ class Schema extends Singleton
         return '\Piwik\Db\Schema\\' . $class;
     }
 
-    /**
-     * Get list of schemas
-     *
-     * @param string $adapterName
-     * @return array
-     */
-    public static function getSchemas($adapterName)
-    {
-        static $allSchemaNames = array(
-            'MYSQL' => array(
-                self::DEFAULT_SCHEMA,
-                // InfiniDB
-            ),
-
-            // Microsoft SQL Server
-//			'MSSQL' => array( 'Mssql' ),
-
-            // PostgreSQL
-//			'PDO_PGSQL' => array( 'Pgsql' ),
-
-            // IBM DB2
-//			'IBM' => array( 'Ibm' ),
-
-            // Oracle
-//			'OCI' => array( 'Oci' ),
-        );
-
-        $adapterName = strtoupper($adapterName);
-        switch ($adapterName) {
-            case 'PDO\MYSQL':
-            case 'PDO_MYSQL':
-            case 'MYSQLI':
-                $adapterName = 'MYSQL';
-                break;
-
-            case 'PDO_MSSQL':
-            case 'SQLSRV':
-                $adapterName = 'MSSQL';
-                break;
-
-            case 'PDO_IBM':
-            case 'DB2':
-                $adapterName = 'IBM';
-                break;
-
-            case 'PDO_OCI':
-            case 'ORACLE':
-                $adapterName = 'OCI';
-                break;
-        }
-        $schemaNames = $allSchemaNames[$adapterName];
-
-        $schemas = array();
-
-        foreach ($schemaNames as $schemaName) {
-            $className = __NAMESPACE__ . '\\Schema\\' . $schemaName;
-            if (call_user_func(array($className, 'isAvailable'))) {
-                $schemas[] = $schemaName;
-            }
-        }
-
-        return $schemas;
-    }
 
     /**
      * Load schema
      */
     private function loadSchema()
     {
-        $config = Config::getInstance();
-        $dbInfos = $config->database;
+        $config     = Config::getInstance();
+        $dbInfos    = $config->database;
         $schemaName = trim($dbInfos['schema']);
 
-        $className = self::getSchemaClassName($schemaName);
+        $className    = self::getSchemaClassName($schemaName);
         $this->schema = new $className();
     }
 
@@ -134,6 +71,7 @@ class Schema extends Singleton
         if ($this->schema === null) {
             $this->loadSchema();
         }
+
         return $this->schema;
     }
 

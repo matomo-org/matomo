@@ -1,0 +1,12 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Brukartid",
+        "ColumnServerTime": "Tenartid",
+        "LocalTime": "Vitjingar per brukartid",
+        "NHour": "%st",
+        "ServerTime": "Vitjingar per tenartid",
+        "SubmenuTimes": "Tid",
+        "WidgetLocalTime": "Vitjingar etter brukartid",
+        "WidgetServerTime": "Vitjingar etter tenartid"
+    }
+}

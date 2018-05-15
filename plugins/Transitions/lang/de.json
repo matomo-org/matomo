@@ -1,0 +1,31 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s Absprünge",
+        "DirectEntries": "Direkte Eingaben",
+        "ErrorBack": "Gehe zurück zur letzten Aktion",
+        "ExitsInline": "%s Ausstiege",
+        "NumPageviews": "%s Seitenansichten",
+        "NumDownloads": "%s Downloads",
+        "NumOutlinks": "%s ausgehende Verweise",
+        "FromCampaigns": "Von Kampagnen",
+        "FromPreviousPages": "Von internen Seiten",
+        "FromPreviousPagesInline": "%s von internen Seiten",
+        "FromPreviousSiteSearches": "Von der internen Suche",
+        "FromPreviousSiteSearchesInline": "%s von internen Suchen",
+        "FromSearchEngines": "Von Suchmaschinen",
+        "FromWebsites": "Von Websites",
+        "IncomingTraffic": "Eingehender Traffic",
+        "LoopsInline": "%s Seite erneut geladen",
+        "NoDataForAction": "Es sind keine Daten für %s verfügbar",
+        "NoDataForActionDetails": "Entweder hatte diese Aktion während des Zeitraums %s keine Seitenansichten oder sie ist ungültig.",
+        "OutgoingTraffic": "Ausgehender Traffic",
+        "PluginDescription": "Berichte über vergangene und zukünftige Aktionen für jede Seiten-URL in einem neuen Transitions-Bericht, aufrufbar im Aktionen-Bericht über ein neues Icon.",
+        "ShareOfAllPageviews": "Diese Seite wurde %1$s mal angesehen (%2$s aller Seitenansichten)",
+        "ToFollowingPages": "Zu internen Seiten",
+        "ToFollowingPagesInline": "%s zu internen Seiten",
+        "ToFollowingSiteSearches": "Interne Suchen",
+        "ToFollowingSiteSearchesInline": "%s interne Suchen",
+        "XOfAllPageviews": "%s von allen Seitenansichten",
+        "XOutOfYVisits": "%1$s (von insgesamt %2$s)"
+    }
+}

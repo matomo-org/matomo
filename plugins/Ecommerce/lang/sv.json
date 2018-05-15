@@ -1,0 +1,17 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "E-handel möjliggör för dig att spåra när en användare lägger till produkter i varukorgen och när de konverterar till en e-handelsförsäljning. Du kan även spåra visningar av produkter och produktkategorier samt övergivna varukorgar.",
+        "Sales": "Försäljning",
+        "Order": "Order",
+        "Orders": "Ordrar",
+        "SalesBy": "Försäljning genom %s",
+        "SalesAdjective": "Försäljning %s",
+        "NumberOfItems": "Antal artiklar i Varukorgen",
+        "OrderValue": "Ordervärde",
+        "LifeTimeValue": "E-handel livstid värde",
+        "LifeTimeValueDescription": "Summan av alla e-handelsinkomster som tilldelats denna kund i alla besök: summan av intäkterna för alla e-handelsorder för Visitor ID %s.",
+        "VisitorProfileLTV": "Genererade Life Time Revenue för %1$s.",
+        "VisitorProfileItemsAndOrders": "Har köpt %1$s artiklar i %2$s e-handelsordrar.",
+        "VisitorProfileAbandonedCartSummary": "Har övergivit %1$s varukorgar med %2$s artiklar till ett totalt värde av %3$s."
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "Contents": {
+        "PluginDescription": "컨텐츠와 배너 트래킹으로 당신의 페이지들(배너광고, 이미지, 각종 아이템)상에서의 각각의 컨텐츠의 퍼포먼스(뷰들, 클릭수들, CTR) 를 측정할 수 있습니다",
+        "Impressions": "뷰들",
+        "ContentInteraction": "컨텐츠 상호교환",
+        "ContentInteractions": "컨텐츠 상호교환들",
+        "InteractionRate": "상호 작용 비율",
+        "ContentName": "콘텐츠 이름",
+        "ContentPiece": "콘텐츠 조각",
+        "ContentTarget": "콘텐츠 목표",
+        "Contents": "콘텐츠",
+        "InteractionsMetricDocumentation": "(배너나 광고의 '클릭')과 상호작용한 콘텐츠 블록의 횟수입니다.",
+        "ImpressionsMetricDocumentation": "배너나 광고와 같은 콘텐츠 블록이 보여진 횟수입니다.",
+        "InteractionRateMetricDocumentation": "상호작용으로 인해 보여진 페이지들의 비율"
+    }
+}

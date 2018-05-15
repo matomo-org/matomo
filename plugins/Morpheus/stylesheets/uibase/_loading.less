@@ -9,17 +9,21 @@
 }
 
 .loadingSegment {
-  color: grey;
-  font-size: 10pt;
+  color: @color-silver-l60;
+  font-size: 13px;
   margin-left: 28px;
   display:none;
 }
 
+#root > #loadingError {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 #loadingError {
-  font-weight: bold;
-  font-size: 1.1em;
-  color: #F88D22;
-  padding: 0.5em;
+  font-size: 15px;
+  padding: 8px 0;
   display: none;
-  padding-top: 40px;
+  color: @theme-color-brand;
+  font-weight: normal;
 }

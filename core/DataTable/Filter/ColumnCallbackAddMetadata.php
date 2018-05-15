@@ -48,12 +48,12 @@ class ColumnCallbackAddMetadata extends BaseFilter
         if (!is_array($columnsToRead)) {
             $columnsToRead = array($columnsToRead);
         }
-        $this->columnsToRead = $columnsToRead;
 
-        $this->functionToApply = $functionToApply;
+        $this->columnsToRead      = $columnsToRead;
+        $this->functionToApply    = $functionToApply;
         $this->functionParameters = $functionParameters;
-        $this->metadataToAdd = $metadataToAdd;
-        $this->applyToSummaryRow = $applyToSummaryRow;
+        $this->metadataToAdd      = $metadataToAdd;
+        $this->applyToSummaryRow  = $applyToSummaryRow;
     }
 
     /**
@@ -63,11 +63,13 @@ class ColumnCallbackAddMetadata extends BaseFilter
      */
     public function filter($table)
     {
-        foreach ($table->getRows() as $key => $row) {
-            if (!$this->applyToSummaryRow && $key == DataTable::ID_SUMMARY_ROW) {
-                continue;
-            }
+        if ($this->applyToSummaryRow) {
+            $rows = $table->getRows();
+        } else {
+            $rows = $table->getRowsWithoutSummaryRow();
+        }
 
+        foreach ($rows as $key => $row) {
             $parameters = array();
             foreach ($this->columnsToRead as $columnsToRead) {
                 $parameters[] = $row->getColumn($columnsToRead);

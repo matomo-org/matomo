@@ -1,0 +1,20 @@
+{
+    "Contents": {
+        "PluginDescription": "Le suivi de contenu et de bannière vous permet de mesurer la performance (vues, clics, CTR) de chaque partie du contenu de vos pages (bannière de pub, image, tout élément).",
+        "Impressions": "Impressions",
+        "ContentImpression": "Affichage du contenu",
+        "ContentInteraction": "Action du contenu",
+        "ContentInteractions": "Actions du contenu",
+        "InteractionRate": "Taux d'interaction",
+        "ContentName": "Nom du contenu",
+        "ContentNames": "Noms du contenu",
+        "ContentPiece": "Partie du contenu",
+        "ContentPieces": "Portions de contenu",
+        "ContentTarget": "Cible du contenu",
+        "ContentTargets": "Cibles de contenu",
+        "Contents": "Contenus",
+        "InteractionsMetricDocumentation": "Nombre de fois où un bloc de contenu a subi une interaction (ex un click sur une bannière ou sur une publicité).",
+        "ImpressionsMetricDocumentation": "Le nombre de fois qu'un bloc de contenu tel qu'une bannière ou une publicité a été affiché sur la page.",
+        "InteractionRateMetricDocumentation": "Le ratio entre les impressions de contenu et les interactions."
+    }
+}

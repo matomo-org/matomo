@@ -8,9 +8,7 @@
  */
 namespace Piwik\Plugins\UserCountry\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UserCountry\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -18,21 +16,13 @@ use Piwik\Tracker\Action;
 class Latitude extends Base
 {
     protected $columnName = 'location_latitude';
-    protected $columnType = 'float(10, 6) DEFAULT NULL';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('latitude');
-        $segment->setName('UserCountry_Latitude');
-        $segment->setAcceptedValues('-33.578, 40.830, etc.<br/>You can select visitors within a lat/long range using &segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('UserCountry_Latitude');
-    }
+    protected $columnType = 'decimal(9, 6) DEFAULT NULL';
+    protected $type = self::TYPE_TEXT;
+    protected $category = 'UserCountry_VisitLocation';
+    protected $segmentName = 'latitude';
+    protected $nameSingular = 'UserCountry_Latitude';
+    protected $namePlural = 'UserCountry_Latitudes';
+    protected $acceptValues = '-33.578, 40.830, etc.<br/>You can select visitors within a lat/long range using &segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.';
 
     /**
      * @param Request $request
@@ -50,7 +40,9 @@ class Latitude extends Base
 
         $userInfo = $this->getUserInfo($request, $visitor);
 
-        return $this->getLocationDetail($userInfo, LocationProvider::LATITUDE_KEY);
+        $latitude = $this->getLocationDetail($userInfo, LocationProvider::LATITUDE_KEY);
+
+        return $latitude;
     }
 
     /**

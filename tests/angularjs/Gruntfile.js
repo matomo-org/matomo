@@ -2,6 +2,12 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js',
+                autoWatch: true
+            }
+        },
         pkg: grunt.file.readJSON('package.json'),
         watch: {
             scripts: {
@@ -13,7 +19,14 @@ module.exports = function(grunt) {
             },
             piwikjs: {
                 files: ['js/piwik.js'],
-                tasks: ["shell:compilePiwikJs"],
+                tasks: ["shell:compilePiwikJs", "shell:updateTracker"],
+                options: {
+                    spawn: false,
+                },
+            },
+            piwikjs2: {
+                files: ['plugins/*/tracker.js',],
+                tasks: ["shell:updateTracker"],
                 options: {
                     spawn: false,
                 },
@@ -21,10 +34,18 @@ module.exports = function(grunt) {
         },
         "shell": {
             compilePiwikJs: {
-                command: "sed '/<DEBUG>/,/<\\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\\/*!/' > piwik-min.js && cp piwik-min.js ../piwik.js",
+                command: "sed '/<DEBUG>/,/<\\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\\/*!/' > piwik-min.js && cp piwik-min.js ../piwik.js",
                 options: {
                     execOptions: {
                         cwd: 'js'
+                    }
+                }
+            },
+            updateTracker: {
+                command: "php console custom-piwik-js:update --ignore-minified",
+                options: {
+                    execOptions: {
+                        cwd: ''
                     }
                 }
             }

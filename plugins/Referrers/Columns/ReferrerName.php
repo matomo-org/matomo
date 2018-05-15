@@ -8,7 +8,7 @@
  */
 namespace Piwik\Plugins\Referrers\Columns;
 
-use Piwik\Plugins\Referrers\Segment;
+use Piwik\Common;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -17,15 +17,13 @@ class ReferrerName extends Base
 {
     protected $columnName = 'referer_name';
     protected $columnType = 'VARCHAR(70) NULL';
+    protected $type = self::TYPE_TEXT;
 
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('referrerName');
-        $segment->setName('Referrers_ReferrerName');
-        $segment->setAcceptedValues('twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName');
-        $this->addSegment($segment);
-    }
+    protected $nameSingular = 'Referrers_ReferrerName';
+    protected $namePlural = 'Referrers_ReferrerNames';
+    protected $segmentName = 'referrerName';
+    protected $acceptValues = 'twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName';
+    protected $category = 'Referrers_Referrers';
 
     /**
      * @param Request $request
@@ -35,16 +33,11 @@ class ReferrerName extends Base
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $referrerUrl = $request->getParam('urlref');
-        $currentUrl  = $request->getParam('url');
-
-        $information = $this->getReferrerInformation($referrerUrl, $currentUrl, $request->getIdSite());
+        $information = $this->getReferrerInformationFromRequest($request, $visitor);
 
         if (!empty($information['referer_name'])) {
-
-            return substr($information['referer_name'], 0, 70);
+            return Common::mb_substr($information['referer_name'], 0, 70);
         }
-
         return $information['referer_name'];
     }
 

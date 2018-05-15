@@ -1,0 +1,24 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s 分",
+        "BetweenXYSeconds": "%1$s-%2$s 秒",
+        "ColumnPagesPerVisit": "每次訪問瀏覽的網頁數",
+        "ColumnVisitDuration": "訪問停留時間",
+        "Engagement": "參與度",
+        "NPages": "%s 頁",
+        "OnePage": "1 頁",
+        "PluginDescription": "報告訪客的黏著度：網頁瀏覽數、網站停留時間、訪問間隔時間等等。",
+        "VisitNum": "訪問次數",
+        "VisitsByDaysSinceLast": "訪問間隔時間",
+        "visitsByVisitCount": "訪問次數",
+        "VisitsPerDuration": "每次訪問的停留時間",
+        "VisitsPerNbOfPages": "每次訪問的網頁瀏覽數",
+        "WidgetLengths": "訪問停留時間",
+        "WidgetLengthsDocumentation": "在這個報表中你可以看到網站停留時間的統計結果。預設以標籤雲格式來顯示，較多次的時間會顯示較大字體。",
+        "WidgetPages": "每次訪問瀏覽網頁數",
+        "WidgetPagesDocumentation": "在這個報表中你可以看到網頁瀏覽數的統計結果。預設以標籤雲格式來顯示，較多次的時間會顯示較大字體。",
+        "WidgetVisitsByDaysSinceLast": "訪問間隔時間",
+        "WidgetVisitsByDaysSinceLastDocumentation": "在這個報表中你可以看到每次訪問與上次訪問間隔日期的統計列表。",
+        "WidgetVisitsByNumDocumentation": "在這個報表中你可以看到訪客到訪次數的統計列表。"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "このプラグインでは、ビジターマップとリアルタイムマップウィジェットを提供します。注：利用可能なユーザーカントリープラグインが必要。",
+        "AndNOthers": "と、%s ほか",
+        "Cities": "都市",
+        "Countries": "国",
+        "DaysAgo": "%s 日前",
+        "GoalConversions": "%s 目標コンバージョン",
+        "HoursAgo": "%s 時間前",
+        "map": "地図",
+        "MinutesAgo": "%s 分前",
+        "None": "なし",
+        "NoVisit": "訪問なし",
+        "RealTimeMap": "リアルタイムマップ",
+        "Regions": "地域",
+        "Searches": "%s 検索",
+        "SecondsAgo": "%s 秒前",
+        "ShowingVisits": "位置情報が探索された最後の訪問",
+        "Unlocated": "%c からの訪問の <b> %s <\/b> %p は、位置情報が特定できませんでした。",
+        "VisitorMap": "ビジターマップ",
+        "WorldWide": "世界規模",
+        "WithUnknownRegion": "未知の地域と %s",
+        "WithUnknownCity": "未知の都市と %s"
+    }
+}

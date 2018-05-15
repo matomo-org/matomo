@@ -1,0 +1,22 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Nombre de la Variable Personalizada",
+        "ColumnCustomVariableValue": "Valor de la Variable Personalizada",
+        "CustomVariables": "Variables Personalizadas",
+        "CustomVariablesReportDocumentation": "Este informe contiene información sobre sus Variables Personalizadas. Haga clic en el nombre de una variable para ver la distribución de los valores. %1$s Para más información sobre las Variables Personalizadas en general, lea la %2$sdocumentación de Variables Personalizadas en piwik.org%3$s",
+        "ScopePage": "ámbito de la página",
+        "ScopeVisit": "alcance de la visita",
+        "ManageDescription": "Esta visión general muestra todas las variantes personalizadas y su uso en los sitios '%s'. Los nombres dentro de cada espacio están clasificados por la frecuencia con que se utilizaron en su totalidad.",
+        "ScopeX": "Ambito %s",
+        "Index": "Índice",
+        "Usages": "Usos",
+        "Unused": "No usado",
+        "CreateNewSlot": "Aumente el número de variables personalizadas disponibles",
+        "UsageDetails": "%1$s visitas y %2$s acciones desde la creación de este sitio.",
+        "CreatingCustomVariableTakesTime": "Crear una nueva variable personalizada puede tomar un cierto tiempo dependiendo del tamaño de su base de datos. Por lo tanto, sólo es posible hacerlo vía un comando que necesita ser ejecutado desde la línea de comando.",
+        "CurrentAvailableCustomVariables": "Actualmente puede usar hasta %s variables personalizadas por sitio.",
+        "SlotsReportIsGeneratedOverTime": "Los datos de este informe irán aumentando con el tiempo. Puede tomar un día o dos para ver cualquier dato y unas pocas semanas hasta que el informe sea totalmente exacto.",
+        "MetricsAreOnlyAvailableForVisitScope": "Nota: Solo %1$s métricas están disponibles para las variables personalizadas de ámbito %2$s.",
+        "MetricsNotAvailableForPageScope": "Para variables personalizadas de ámbito %1$s, el valor de estas métricas es %2$s"
+    }
+}

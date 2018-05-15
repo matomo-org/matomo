@@ -9,8 +9,8 @@
 namespace Piwik\Plugins\API;
 
 use Piwik\DeviceDetectorCache;
+use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
 use Piwik\Piwik;
 use DeviceDetector\Parser\OperatingSystem;
 
@@ -24,12 +24,20 @@ class Menu extends \Piwik\Plugin\Menu
         $this->addTopMenuMobileApp($menu);
     }
 
-    public function configureUserMenu(MenuUser $menu)
+    public function configureAdminMenu(MenuAdmin $menu)
     {
-        $apiUrlParams = array('module' => 'API', 'action' => 'listAllAPI', 'segment' => false);
-        $tooltip      = Piwik::translate('API_TopLinkTooltip');
+        $menu->addPlatformItem('General_API',
+            $this->urlForAction('listAllAPI', array('segment' => false)),
+            7,
+            Piwik::translate('API_TopLinkTooltip')
+        );
 
-        $menu->addPlatformItem('General_API', $apiUrlParams, 6, $tooltip);
+        if(Piwik::isUserIsAnonymous()) {
+            $menu->addPlatformItem('API_Glossary',
+                $this->urlForAction('glossary', array('segment' => false)),
+                50
+            );
+        }
     }
 
     private function addTopMenuMobileApp(MenuTop $menu)
@@ -43,10 +51,16 @@ class Menu extends \Piwik\Plugin\Menu
         }
 
         $ua = new OperatingSystem($_SERVER['HTTP_USER_AGENT']);
-        $ua->setCache(new DeviceDetectorCache('tracker', 86400));
+        $ua->setCache(new DeviceDetectorCache(86400));
         $parsedOS = $ua->parse();
+
         if (!empty($parsedOS['short_name']) && in_array($parsedOS['short_name'], array(self::DD_SHORT_NAME_ANDROID, self::DD_SHORT_NAME_IOS))) {
-            $menu->add('Piwik Mobile App', null, array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
+
+            $url = $this->urlForModuleAction('Proxy', 'redirect', array('url' => 'https://matomo.org/mobile/'));
+
+            if ($url) {
+                $menu->addItem('Piwik Mobile App', null, $url, 4);
+            }
         }
     }
 

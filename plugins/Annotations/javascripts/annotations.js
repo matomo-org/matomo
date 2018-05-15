@@ -17,7 +17,8 @@
                 action: 'getAnnotationManager',
                 idSite: idSite,
                 date: date,
-                period: period
+                period: period,
+                filter_limit: '-1'
             };
             if (lastN) {
                 ajaxParams.lastN = lastN;
@@ -45,6 +46,7 @@
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(ajaxParams, 'get');
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
             ajaxRequest.send(false);
@@ -67,6 +69,7 @@
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(ajaxParams, 'get');
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
             ajaxRequest.send(false);
@@ -86,6 +89,7 @@
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(ajaxParams, 'get');
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
             ajaxRequest.send(false);
@@ -99,7 +103,8 @@
                 action: 'getEvolutionIcons',
                 idSite: idSite,
                 date: date,
-                period: period
+                period: period,
+                filter_limit: '-1'
             };
             if (lastN) {
                 ajaxParams.lastN = lastN;
@@ -126,6 +131,8 @@
             annotationDate = new Date(parts[0], parts[1] - 1, parts[2]);
 
         var result = piwik.getBaseDatePickerOptions(annotationDate);
+        result.showButtonPanel = true;
+        result.currentText = _pk_translate('Intl_Today');
 
         // make sure days before site start & after today cannot be selected
         var piwikMinDate = result.minDate;
@@ -244,7 +251,8 @@
         manager.on('click', '.add-annotation', function (e) {
             e.preventDefault();
 
-            $('.new-annotation-row', manager).show();
+            var $newRow = $('.new-annotation-row', manager);
+            $newRow.show();
             $(this).hide();
 
             return false;
@@ -496,6 +504,7 @@
 
                 // reload annotation manager for new date/period
                 annotationsApi.getAnnotationManager(idSite, date, period, lastN, function (response) {
+
                     replaceAnnotationManager(manager, response);
 
                     createDatePickers(manager);

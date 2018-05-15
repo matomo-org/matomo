@@ -1,0 +1,10 @@
+{
+    "Live": {
+        "GoalType": "வகை",
+        "LastHours": "கடைசி %s மணிநேரம்",
+        "LastMinutes": "கடைசி %s நிமிடங்கள்",
+        "NbVisitor": "1 வருகையாளர்",
+        "NbVisitors": "%s வருகையாளர்கள்",
+        "VisitorLog": "வருகையாளர் பதிவு"
+    }
+}

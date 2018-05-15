@@ -1,0 +1,11 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Handlingar av Tilbakevendande Vitjarar",
+        "ColumnAvgActionsPerReturningVisit": "Gjen. handlingar per tilbakevendande vitjing",
+        "ColumnBounceRateForReturningVisits": "Hopprate for Tilbakevendande Vitjarar",
+        "ColumnReturningVisits": "Tilbakevendande Vitjarar",
+        "SubmenuFrequency": "Frekvens",
+        "WidgetGraphReturning": "Graf tilbakevendande vitjarar",
+        "WidgetOverview": "Frekvensoversikt"
+    }
+}

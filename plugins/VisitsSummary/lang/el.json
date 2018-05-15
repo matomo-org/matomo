@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "μέσος χρόνος δημιουργίας",
+        "AverageVisitDuration": "μέση διάρκεια επισκέψεων",
+        "GenerateQueries": "%s ερωτήματα εκτελέστηκαν",
+        "GenerateTime": "%s δευτερόλεπτα για τη δημιουργία της σελίδας",
+        "MaxNbActions": "μέγιστος αριθμός δραστηριοτήτων σε μία επίσκεψη",
+        "NbActionsDescription": "%s δραστηριότητες",
+        "NbActionsPerVisit": "δραστηριότητες (επισκέψεις σελίδων, λήψεις, εξωτερικοί σύνδεσμοι και αναζητήσεις εσωτερικά στον ιστοτόπο) ανά επίσκεψη",
+        "NbDownloadsDescription": "λήψεις",
+        "NbKeywordsDescription": "μοναδικές λέξεις κλειδιά",
+        "NbOutlinksDescription": "εξωτερικοί σύνδεσμοι",
+        "NbPageviewsDescription": "προβολές σελίδων",
+        "NbSearchesDescription": "συνολικές αναζητήσεις στον ιστοτόπο σας",
+        "NbUniqueDownloadsDescription": "μοναδικές λήψεις",
+        "NbUniqueOutlinksDescription": "μοναδικοί σύνδεσμοι προς εξωτερικό",
+        "NbUniquePageviewsDescription": "μοναδικές προβολές σελίδων",
+        "NbUniqueVisitors": "μοναδικοί επισκέπτες",
+        "NbUsersDescription": "χρήστες",
+        "NbVisitsDescription": "επισκέψεις",
+        "NbVisitsBounced": "επισκέψεις από τις οποίες έγινε απομάκρυνση (έφυγαν από τον ιστοτόπο από την πρώτη σελίδα)",
+        "PluginDescription": "Αναφέρει γενικές μετρικές αναλυτικών: επισκέψεις, μοναδικοί επισκέπτες, αριθμός ενεργειών, ρυθμός αναπήδησης, κτλ.",
+        "VisitsSummary": "Περίληψη επισκέψεων",
+        "VisitsSummaryDocumentation": "Αυτή είναι μια επισκόπηση της εξέλιξης των επισκέψεων.",
+        "WidgetLastVisits": "Διάγραμμα τελευταίων επισκέψεων",
+        "WidgetOverviewGraph": "Επισκόπηση με διάγραμμα",
+        "WidgetVisits": "Επισκόπηση επισκέψεων"
+    }
+}

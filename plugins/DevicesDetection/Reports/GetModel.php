@@ -10,23 +10,24 @@ namespace Piwik\Plugins\DevicesDetection\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\DevicesDetection\Columns\Devicemodel;
+use Piwik\Plugins\DevicesDetection\Columns\DeviceModel;
 
 class GetModel extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Devicemodel();
+        $this->dimension     = new DeviceModel();
         $this->name          = Piwik::translate('DevicesDetection_DeviceModel');
         $this->documentation = ''; // TODO
         $this->order = 2;
-        $this->widgetTitle  = 'DevicesDetection_DeviceModel';
+        $this->hasGoalMetrics = true;
+        $this->subcategoryId = 'DevicesDetection_Devices';
     }
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->show_search = false;
+        $view->config->show_search = true;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate("DevicesDetection_dataTableLabelModels"));
     }

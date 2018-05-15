@@ -1,0 +1,25 @@
+{
+    "Marketplace": {
+        "ActivateLicenseKey": "Kích hoạt",
+        "ActionActivatePlugin": "Kích hoạt tiện ích",
+        "ActionActivateTheme": "Kích hoạt giao diện",
+        "ActionInstall": "Cài đặt",
+        "AllowedUploadFormats": "Bạn có thể tải tiện ích hoặc giao diện dưới định dạng .zip lên qua trang này",
+        "Authors": "Tác giả",
+        "BackToMarketplace": "Quay lại Chợ ứng dụng",
+        "Developer": "Người phát triển",
+        "Marketplace": "Chợ ứng dụng",
+        "InstallingPlugin": "Cài đặt %s",
+        "LastUpdated": "Lần cập nhật cuối",
+        "NoPluginsFound": "Tiện ích không tìm thấy",
+        "NoThemesFound": "Giao diện không tìm thấy",
+        "NumDownloadsLatestVersion": "Phiên bản mới nhất: %s lượt tải",
+        "PluginKeywords": "Từ khóa",
+        "PluginVersionInfo": "%1$s từ %2$s",
+        "StepDownloadingThemeFromMarketplace": "Tải giao diện từ Chợ ứng dụng",
+        "SubscriptionType": "Kiểu",
+        "Support": "Hỗ trợ",
+        "Updated": "Đã cập nhật",
+        "ViewRepositoryChangelog": "Xem các thay đổi"
+    }
+}

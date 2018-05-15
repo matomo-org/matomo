@@ -1,0 +1,28 @@
+{
+    "Events": {
+        "PluginDescription": "Отслеживайте события и получайте отчеты об активности своих посетителей.",
+        "AvgEventValue": "Среднее значение события: %s",
+        "AvgValue": "Среднее значение",
+        "AvgValueDocumentation": "Среднее всех значений для этого события",
+        "Event": "Событие",
+        "EventAction": "Действие события",
+        "EventActions": "Действия событий",
+        "EventCategories": "Категории событий",
+        "EventCategory": "Категория события",
+        "EventName": "Название события",
+        "EventNames": "Названия событий",
+        "Events": "События",
+        "EventsWithValue": "События со значением",
+        "EventsWithValueDocumentation": "Количество событий, где было установлено значение для События",
+        "EventValueTooltip": "Общие значения событий равны сумме %1$s значениям (событий) %2$s между минимумом %3$s и максимум %4$s.",
+        "MaxValueDocumentation": "Максимальное значения для этого события",
+        "MinValueDocumentation": "Минимальное значения для этого события",
+        "SecondaryDimension": "Втроричное измерение %s.",
+        "SwitchToSecondaryDimension": "Переключиться на %s",
+        "TopEvents": "Топ событий",
+        "TotalEvents": "Всего событий",
+        "TotalEventsDocumentation": "Общее количество событий",
+        "TotalValueDocumentation": "Сумма значений событий",
+        "ViewEvents": "Просмотреть события"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "MultiSites": {
+        "Evolution": "發展趨勢",
+        "LoadingWebsites": "網站載入中",
+        "PluginDescription": "在這個方便的「所有網站」展示板中查看並比較你所有的網站和應用程式。",
+        "TopLinkTooltip": "比較你所有網站的網頁分析統計。",
+        "Pagination": "第 %1$s - %2$s 項，共 %3$s 項"
+    }
+}

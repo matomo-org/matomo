@@ -11,12 +11,13 @@ namespace Piwik\Updates;
 
 use Piwik\Piwik;
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_0_4_4 extends Updates
 {
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         $obsoleteFile = PIWIK_DOCUMENT_ROOT . '/libs/open-flash-chart/php-ofc-library/ofc_upload_image.php';
         if (file_exists($obsoleteFile)) {

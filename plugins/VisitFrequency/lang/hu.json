@@ -1,0 +1,21 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Ismétlődő látogatások akciói",
+        "ColumnAverageVisitDurationForReturningVisitors": "Látogatások átlagos időtartama visszatérő látogatók esetén (másodpercekben)",
+        "ColumnAvgActionsPerReturningVisit": "Akciók átlagos gyakorisága ismétlődő látogatások esetén",
+        "ColumnBounceCountForReturningVisits": "Visszafordulások száma visszatérő látogatók esetén",
+        "ColumnBounceRateForReturningVisits": "Visszafordulások aránya ismétlődő látogatások esetén",
+        "ColumnMaxActionsInReturningVisit": "Maximális akciók egy visszatérés alkalmával",
+        "ColumnNbReturningVisitsConverted": "Konvertált visszatérő látogatások száma",
+        "ColumnReturningVisits": "Ismétlődő látogatások",
+        "ColumnSumVisitLengthReturning": "Visszatérő látogatók által eltöltött összes idő (másodpercben)",
+        "ColumnUniqueReturningVisitors": "Egyedi visszatérő látogatók",
+        "ColumnReturningUsers": "Visszatérő látogatók",
+        "PluginDescription": "Jelentés az új és a visszatérő látogatókról.",
+        "ReturningVisitDocumentation": "A visszatérő látogatás (az új látogatással ellentétben) olyasvalakit jelöl, aki korábban már legalább egyszer meglátogatta a webhelyet.",
+        "ReturningVisitsDocumentation": "Ez egy összefoglaló nézet a visszatérő látogatásokról.",
+        "SubmenuFrequency": "Gyakoriság",
+        "WidgetGraphReturning": "Ismétlődő látogatások diagramja",
+        "WidgetOverview": "Gyakoriság áttekintése"
+    }
+}

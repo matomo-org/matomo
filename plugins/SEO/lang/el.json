@@ -1,0 +1,12 @@
+{
+    "SEO": {
+        "PluginDescription": "Το πρόσθετο εξάγει και εμφανίζει μετρικές SEO: ταξινόμηση ιστού από το Alexa, Google Pagerank, αριθμός σελίδων στο ευρετήριο και σύνδεσμοι του επιλεγμένου ιστοτόπου.",
+        "AlexaRank": "Βαθμολόγηση Alexa",
+        "Bing_IndexedPages": "Σελίδες σε ευρετήριο Bing",
+        "DomainAge": "Ηλικία Domain",
+        "Google_IndexedPages": "Σελίδες σε ευρετήριο Google",
+        "Rank": "Βαθμολόγηση",
+        "SeoRankings": "Βαθμολόγηση BMA",
+        "SEORankingsFor": "Βαθμολόγηση BMA για %s"
+    }
+}

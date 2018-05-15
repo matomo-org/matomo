@@ -15,22 +15,25 @@ module.exports = function(config) {
     files: [
         'tests/angularjs/node_modules/chai/chai.js',
         'tests/angularjs/bootstrap.js',
-        'libs/angularjs/angular.min.js',
-        "libs/angularjs/angular-sanitize.min.js",
-        "libs/angularjs/angular-animate.min.js",
-        'libs/angularjs/angular-mocks.js',
-        'libs/jquery/jquery.js',
-        "libs/jquery/jquery-ui.js",
+        'libs/bower_components/angular/angular.min.js',
+        "libs/bower_components/angular-sanitize/angular-sanitize.js",
+        "libs/bower_components/angular-animate/angular-animate.js",
+        'libs/bower_components/angular-mocks/angular-mocks.js',
+        'libs/bower_components/jquery/dist/jquery.min.js',
+        "libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js",
         "plugins/CoreHome/javascripts/require.js",
         "plugins/Morpheus/javascripts/piwikHelper.js",
         "plugins/Morpheus/javascripts/ajaxHelper.js",
         "plugins/CoreHome/javascripts/broadcast.js",
-        'plugins/CoreHome/angularjs/common/services/service.js',
-        'plugins/CoreHome/angularjs/common/filters/filter.js',
-        'plugins/CoreHome/angularjs/common/directives/directive.js',
+        'plugins/CoreHome/angularjs/common/services/service.module.js',
+        'plugins/CoreHome/angularjs/common/filters/filter.module.js',
+        'plugins/CoreHome/angularjs/common/directives/directive.module.js',
         'plugins/CoreHome/angularjs/piwikApp.js',
         'plugins/*/angularjs/**/*.js',
-        'plugins/*/angularjs/**/*_spec.js'
+        'piwik.js',
+        'plugins/AnonymousPiwikUsageMeasurement/javascripts/url.js',
+        'plugins/AnonymousPiwikUsageMeasurement/javascripts/tracking.js',
+        'plugins/*/**/*.spec.js'
     ],
 
     // list of files to exclude
@@ -65,7 +68,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: [],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

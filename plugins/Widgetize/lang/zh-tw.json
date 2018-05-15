@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "在新視窗開啟",
+        "PluginDescription": "在你的網站或應用程式中以簡單的 HTML 嵌入程式碼顯示任何 Matomo 報表。",
+        "TopLinkTooltip": "將 Matomo 報表以小工具匯出，並於你的應用程式中以 iframe 嵌入展示板。"
+    }
+}

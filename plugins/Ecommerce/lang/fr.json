@@ -1,0 +1,17 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "Ecommerce vous permet de suivre lorsque les utilisateurs ajoutent des produits aux paniers, et quand ils se convertissent en vente de commerce électronique. Il suit également des produits, des catégories de produits vues et les paniers abandonnés.",
+        "Sales": "Ventes",
+        "Order": "Commande",
+        "Orders": "Commandes",
+        "SalesBy": "Ventes par %s",
+        "SalesAdjective": "Ventes %s",
+        "NumberOfItems": "Nombre d'éléments dans le panier",
+        "OrderValue": "Valeur de la commande",
+        "LifeTimeValue": "Valeur e-Commerce globale",
+        "LifeTimeValueDescription": "Revenu E-Commerce total attribué à ce client sur le total de ses visites : somme du chiffre d'affaire de toutes les commandes E-commerce du visiteur ID %s.",
+        "VisitorProfileLTV": "A généré un revenu total de %1$s.",
+        "VisitorProfileItemsAndOrders": "%1$s articles achetés en %2$s commandes e-commerce.",
+        "VisitorProfileAbandonedCartSummary": "A abandonné %1$s cadis contenant %2$s articles avec une valeur totale de %3$s."
+    }
+}

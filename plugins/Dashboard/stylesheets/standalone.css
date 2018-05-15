@@ -3,6 +3,10 @@ body {
     padding-left: 7px;
 }
 
+#standalone strong {
+    font-weight: 700;
+}
+
 #dashboard {
     margin: 30px -6px 0 -12px;
     width: 100%;
@@ -17,6 +21,9 @@ body {
     position: relative;
 }
 
+#Dashboard > ul > li {
+    list-style: square inside none;
+}
 #Dashboard > ul {
     list-style: square inside none;
     background: #f7f7f7;
@@ -45,15 +52,8 @@ body {
 }
 
 #Dashboard > ul > li:hover,
-#Dashboard > ul > li:hover a,
-#Dashboard > ul > li.sfHover,
-#Dashboard > ul > li.sfHover a {
+#Dashboard > ul > li:hover a {
     color: #e87500;
-}
-
-#Dashboard > ul > li.sfHover,
-#Dashboard > ul > li.sfHover a {
-    font-weight: bold;
 }
 
 .top_controls > #Dashboard,

@@ -1,0 +1,11 @@
+{
+    "Login": {
+        "InvalidOrExpiredToken": "Tokena baliogabea da edo iraungi egin da",
+        "InvalidUsernameEmail": "Erabiltzaile-izen edo helbide elektroniko baliogabea",
+        "LogIn": "Hasi saioa",
+        "LoginPasswordNotCorrect": "Erabiltzaile-izena eta pasahitza ez datoz bat",
+        "LostYourPassword": "Pasahitza galdu duzu?",
+        "PasswordRepeat": "Pasahitza (errepikatu)",
+        "PasswordsDoNotMatch": "Pasahitzak ez datoz bat."
+    }
+}

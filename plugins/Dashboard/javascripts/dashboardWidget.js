@@ -70,7 +70,7 @@
          */
         destroy: function () {
             if (this.isMaximised) {
-                $('[widgetId=' + this.uniqueId + ']').dialog('destroy');
+                $('[widgetId="' + this.uniqueId + '"]').dialog('destroy');
             }
             $('*', this.element).off('.dashboardWidget'); // unbind all events
             $('.widgetContent', this.element).trigger('widget:destroy');
@@ -118,9 +118,25 @@
             var self = this, currentWidget = this.element;
 
             function onWidgetLoadedReplaceElementWithContent(loadedContent) {
-                $('.widgetContent', currentWidget).html(loadedContent);
-                $('.widgetContent', currentWidget).removeClass('loading');
-                $('.widgetContent', currentWidget).trigger('widget:create', [self]);
+                var $widgetContent = $('.widgetContent', currentWidget);
+
+                $widgetContent.html(loadedContent);
+
+                /* move widget icons into datatable top actions
+                var $buttons = currentWidget.find('.buttons .button');
+                var $controls = currentWidget.find('.dataTableControls .dataTableAction').first();
+                if ($buttons.length && $controls.length) {
+                    $buttons.find('.button').addClass('dataTableAction');
+                    $buttons.insertBefore($controls);
+                }*/
+
+                if (currentWidget.parents('body').length) {
+                    // there might be race conditions, eg widget might be just refreshed while whole dashboard is also
+                    // removed from DOM
+                    piwikHelper.compileAngularComponents($widgetContent);
+                }
+                $widgetContent.removeClass('loading');
+                $widgetContent.trigger('widget:create', [self]);
             }
 
             // Reading segment from hash tag (standard case) or from the URL (when embedding dashboard)
@@ -197,7 +213,7 @@
             var emptyWidgetContent = require('piwik/UI/Dashboard').WidgetFactory.make(uniqueId, title);
             this.element.html(emptyWidgetContent);
 
-            var widgetElement = $('#' + uniqueId, this.element);
+            var widgetElement = $('[id="' + uniqueId + '"]', this.element);
             var self = this;
             widgetElement
                 .on('mouseenter.dashboardWidget', function () {
@@ -298,6 +314,7 @@
             var self = this;
             this.element.dialog({
                 title: '',
+                dialogClass: 'widgetoverlay',
                 modal: true,
                 width: width,
                 position: ['center', 'center'],
@@ -307,7 +324,7 @@
                     self.isMaximised = false;
                     $('body').off('.dashboardWidget');
                     $(this).dialog("destroy");
-                    $('#' + self.uniqueId + '-placeholder').replaceWith(this);
+                    $('[id="' + self.uniqueId + '-placeholder"]').replaceWith(this);
                     $(this).removeAttr('style');
                     self.options.onChange();
                     $(this).find('div.piwik-graph').trigger('resizeGraph');
@@ -333,6 +350,9 @@
          */
         detachWidget: function () {
             this.element.before('<div id="' + this.uniqueId + '-placeholder" class="widgetPlaceholder widget"> </div>');
+            var placeholder = $('[id="' + self.uniqueId + '-placeholder"]')
+
+
             $('#' + this.uniqueId + '-placeholder').height(this.element.height());
             $('#' + this.uniqueId + '-placeholder').width(this.element.width() - 16);
 

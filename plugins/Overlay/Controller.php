@@ -8,21 +8,34 @@
  */
 namespace Piwik\Plugins\Overlay;
 
+use Piwik\API\CORSHandler;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Metrics;
-use Piwik\MetricsFormatter;
 use Piwik\Piwik;
+use Piwik\Plugin\Report;
 use Piwik\Plugins\Actions\ArchivingHelper;
+use Piwik\Plugins\SegmentEditor\SegmentFormatter;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ProxyHttp;
+use Piwik\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {
+    /**
+     * @var SegmentFormatter
+     */
+    private $segmentFormatter;
+
+    public function __construct(SegmentFormatter $segmentFormatter)
+    {
+        $this->segmentFormatter = $segmentFormatter;
+        parent::__construct();
+    }
 
     /** The index of the plugin */
     public function index()
@@ -37,13 +50,11 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View($template);
 
         $this->setGeneralVariablesView($view);
-
-        $view->idSite = $this->idSite;
-        $view->date = Common::getRequestVar('date', 'today');
-        $view->period = Common::getRequestVar('period', 'day');
+        $view->segment = Request::getRawSegmentFromRequest();
 
         $view->ssl = ProxyHttp::isHttps();
 
+        $this->outputCORSHeaders();
         return $view->render();
     }
 
@@ -54,7 +65,9 @@ class Controller extends \Piwik\Plugin\Controller
         $period = Common::getRequestVar('period');
         $date = Common::getRequestVar('date');
         $currentUrl = Common::getRequestVar('currentUrl');
+        $segment = Request::getRawSegmentFromRequest();
         $currentUrl = Common::unsanitizeInputValue($currentUrl);
+        $segmentSidebar = '';
 
         $normalizedCurrentUrl = PageUrl::excludeQueryParametersFromUrl($currentUrl, $idSite);
         $normalizedCurrentUrl = Common::unsanitizeInputValue($normalizedCurrentUrl);
@@ -64,23 +77,36 @@ class Controller extends \Piwik\Plugin\Controller
         $path = ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Action::TYPE_PAGE_URL);
         $path = array_map('urlencode', $path);
         $label = implode('>', $path);
-        $request = new Request(
-            'method=Actions.getPageUrls'
-            . '&idSite=' . urlencode($idSite)
-            . '&date=' . urlencode($date)
-            . '&period=' . urlencode($period)
-            . '&label=' . urlencode($label)
-            . '&format=original'
+
+        $params = array(
+            'idSite' => $idSite,
+            'date' => $date,
+            'period' => $period,
+            'label' => $label,
+            'format' => 'original',
+            'format_metrics' => 0,
         );
-        $dataTable = $request->process();
+
+        if (!empty($segment)) {
+            $params['segment'] = $segment;
+        }
+
+        $dataTable = Request::processRequest('Actions.getPageUrls', $params);
+
+        $formatter = new Metrics\Formatter\Html();
 
         $data = array();
         if ($dataTable->getRowsCount() > 0) {
             $row = $dataTable->getFirstRow();
 
             $translations = Metrics::getDefaultMetricTranslations();
-            $showMetrics = array('nb_hits', 'nb_visits', 'nb_uniq_visitors',
+            $showMetrics = array('nb_hits', 'nb_visits', 'nb_users', 'nb_uniq_visitors',
                                  'bounce_rate', 'exit_rate', 'avg_time_on_page');
+
+            $segmentSidebar = $row->getMetadata('segment');
+            if (!empty($segmentSidebar) && !empty($segment)) {
+                $segmentSidebar = $segment . ';' . $segmentSidebar;
+            }
 
             foreach ($showMetrics as $metric) {
                 $value = $row->getColumn($metric);
@@ -88,9 +114,15 @@ class Controller extends \Piwik\Plugin\Controller
                     // skip unique visitors for period != day
                     continue;
                 }
-                if ($metric == 'avg_time_on_page') {
-                    $value = MetricsFormatter::getPrettyTimeFromSeconds($value);
+
+                if ($metric == 'bounce_rate'
+                    || $metric == 'exit_rate'
+                ) {
+                    $value = $formatter->getPrettyPercentFromQuotient($value);
+                } else if ($metric == 'avg_time_on_page') {
+                    $value = $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
                 }
+
                 $data[] = array(
                     'name'  => $translations[$metric],
                     'value' => $value
@@ -117,6 +149,10 @@ class Controller extends \Piwik\Plugin\Controller
         $view->idSite = $idSite;
         $view->period = $period;
         $view->date = $date;
+        $view->segment = $segmentSidebar;
+        $view->segmentDescription = $this->segmentFormatter->getHumanReadable($segment, $idSite);
+
+        $this->outputCORSHeaders();
         return $view->render();
     }
 
@@ -129,63 +165,20 @@ class Controller extends \Piwik\Plugin\Controller
         $idSite = Common::getRequestVar('idSite', 0, 'int');
         Piwik::checkUserHasViewAccess($idSite);
 
+        $view = new View('@Overlay/startOverlaySession');
+
         $sitesManager = APISitesManager::getInstance();
         $site = $sitesManager->getSiteFromId($idSite);
         $urls = $sitesManager->getSiteUrlsFromId($idSite);
 
-        @header('Content-Type: text/html; charset=UTF-8');
-        return '
-			<html><head><title></title></head><body>
-			<script type="text/javascript">
-				function handleProtocol(url) {
-					if (' . (ProxyHttp::isHttps() ? 'true' : 'false') . ') {
-						return url.replace(/http:\/\//i, "https://");
-					} else {
-						return url.replace(/https:\/\//i, "http://");
-					}
-				}
+        $view->isHttps   = ProxyHttp::isHttps();
+        $view->knownUrls = json_encode($urls);
+        $view->mainUrl   = $site['main_url'];
 
-				function removeUrlPrefix(url) {
-					return url.replace(/http(s)?:\/\/(www\.)?/i, "");
-				}
+        $this->outputCORSHeaders();
+        Common::sendHeader('Content-Type: text/html; charset=UTF-8');
 
-				if (window.location.hash) {
-					var match = false;
-
-					var urlToRedirect = window.location.hash.substr(1);
-					var urlToRedirectWithoutPrefix = removeUrlPrefix(urlToRedirect);
-
-					var knownUrls = ' . Common::json_encode($urls) . ';
-					for (var i = 0; i < knownUrls.length; i++) {
-						var testUrl = removeUrlPrefix(knownUrls[i]);
-						if (urlToRedirectWithoutPrefix.substr(0, testUrl.length) == testUrl) {
-							match = true;
-							if (navigator.appName == "Microsoft Internet Explorer") {
-								// internet explorer loses the referrer if we use window.location.href=X
-								var referLink = document.createElement("a");
-								referLink.href = handleProtocol(urlToRedirect);
-								document.body.appendChild(referLink);
-								referLink.click();
-							} else {
-								window.location.href = handleProtocol(urlToRedirect);
-							}
-							break;
-						}
-					}
-
-					if (!match) {
-						var idSite = window.location.href.match(/idSite=([0-9]+)/i)[1];
-						window.location.href = "index.php?module=Overlay&action=showErrorWrongDomain"
-							+ "&idSite=" + idSite
-							+ "&url=" + encodeURIComponent(urlToRedirect);
-					}
-				}
-				else {
-					window.location.href = handleProtocol("' . $site['main_url'] . '");
-				};
-			</script>
-			</body></html>
-		';
+        return $view->render();
     }
 
     /**
@@ -201,7 +194,7 @@ class Controller extends \Piwik\Plugin\Controller
         $url = Common::unsanitizeInputValue($url);
 
         $message = Piwik::translate('Overlay_RedirectUrlError', array($url, "\n"));
-        $message = nl2br(htmlentities($message));
+        $message = nl2br(htmlentities($message, ENT_COMPAT | ENT_HTML401, 'UTF-8'));
 
         $view = new View('@Overlay/showErrorWrongDomain');
         $this->addCustomLogoInfo($view);
@@ -211,13 +204,14 @@ class Controller extends \Piwik\Plugin\Controller
             // TODO use $idSite to link to the correct row. This is tricky because the #rowX ids don't match
             // the site ids when sites have been deleted.
             $url = 'index.php?module=SitesManager&action=index';
-            $troubleshoot = htmlentities(Piwik::translate('Overlay_RedirectUrlErrorAdmin'));
+            $troubleshoot = htmlentities(Piwik::translate('Overlay_RedirectUrlErrorAdmin'), ENT_COMPAT | ENT_HTML401, 'UTF-8');
             $troubleshoot = sprintf($troubleshoot, '<a href="' . $url . '" target="_top">', '</a>');
             $view->troubleshoot = $troubleshoot;
         } else {
-            $view->troubleshoot = htmlentities(Piwik::translate('Overlay_RedirectUrlErrorUser'));
+            $view->troubleshoot = htmlentities(Piwik::translate('Overlay_RedirectUrlErrorUser'), ENT_COMPAT | ENT_HTML401, 'UTF-8');
         }
 
+        $this->outputCORSHeaders();
         return $view->render();
     }
 
@@ -232,6 +226,13 @@ class Controller extends \Piwik\Plugin\Controller
     public function notifyParentIframe()
     {
         $view = new View('@Overlay/notifyParentIframe');
+        $this->outputCORSHeaders();
         return $view->render();
+    }
+
+    protected function outputCORSHeaders()
+    {
+        $corsHandler = new CORSHandler();
+        $corsHandler->handle();
     }
 }

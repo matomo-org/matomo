@@ -1,0 +1,21 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Tautan konfirmasi telah dikirim ke kotak masuk Anda. Periksa surel Anda dan kunjungi tautan ini untuk memberi izin permintaan perubahan sandi Anda.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Pengguna dengan akses Pengguna Super tidak bisa diautentikasi menggunakan mekanisme '%s'",
+        "ExceptionPasswordMD5HashExpected": "Parameter sandi diperkirakan menjadi hash MD5 dari sandi.",
+        "InvalidNonceOrHeadersOrReferrer": "Borang keamanan gagal. Silkan muat ulang borang dan periksa apakah kuki Anda telah aktif. Bila Anda menggunakan peladen wali, Anda harus %1$s mengkonfigurasi Matomo untuk menerima `header` wali%2$s yang meneruskan `header` Inang. Serta, periksa apakah `header` Pengarah telah terkirim dengan benar.",
+        "InvalidOrExpiredToken": "Kepingan tak sahih atau telah kedaluwarsa.",
+        "InvalidUsernameEmail": "Nama-id dan\/atau alamat surel tak sahih",
+        "LogIn": "Masuk-log",
+        "LoginPasswordNotCorrect": "Nama-id dan Sandi tak sesuai",
+        "LostYourPassword": "Lupa sandi?",
+        "ChangeYourPassword": "Ubah sandi lewat Anda",
+        "MailTopicPasswordChange": "Konfirmasi Pengubahan Sandi",
+        "NewPassword": "Sandi lewat baru",
+        "NewPasswordRepeat": "Sandi lewat baru (ulangi)",
+        "PasswordChanged": "Sandi Anda telah berubah.",
+        "PasswordRepeat": "Sandi (ulangi)",
+        "PasswordsDoNotMatch": "Sandi tak sesuai.",
+        "RememberMe": "Ingat Saya"
+    }
+}

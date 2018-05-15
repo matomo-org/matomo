@@ -1,0 +1,11 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s fyrirspurnir framkvæmdar",
+        "GenerateTime": "%s sekúndur að gera þessa síðu",
+        "NbActionsDescription": "%s aðgerðir (síðuflettingar, niðurhal og linkar frá vefnum)",
+        "VisitsSummary": "Samantekt heimsókna",
+        "WidgetLastVisits": "Línurit yfir síðustu heimsóknir",
+        "WidgetOverviewGraph": "Yfirlit með línuriti",
+        "WidgetVisits": "Heimsóknayfirlit"
+    }
+}

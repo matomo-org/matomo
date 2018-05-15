@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "FAI",
+        "PluginDescription": "Rapporte le Fournisseur d'Accès Internet des visiteurs.",
+        "ProviderReportDocumentation": "Ce rapport affiche quel Fournisseur d'Accès à Internet vos visiteurs ont utilisé pour accéder à votre site web. Vous pouvez cliquer sur le nom d'un FAI pour plus de détails. %s Si Matomo ne peut déterminer le FAI d'un visiteur, il est listé en tant qu'IP.",
+        "WidgetProviders": "Fournisseurs d'accès à Internet",
+        "ProviderReportFooter": "Fournisseur d'accès inconnu signifie que l'adresse IP ne peut pas être déterminée"
+    }
+}

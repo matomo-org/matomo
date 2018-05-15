@@ -1,0 +1,8 @@
+#Software: IIS Advanced Logging Module
+#Version: 1.0
+#Start-Date: 2014-11-18 00:00:00.128
+#Fields:  date-local time-local s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) cs(Host) sc-status sc-substatus sc-win32-status TimeTakenMS
+2012-08-15 17:00:00.363 10.10.28.140 GET /Products/theProduct - 80 user1 "70.95.0.0" "Mozilla/5.0 (Linux; Android 4.4.4; SM-G900V Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.59 Mobile Safari/537.36" "http://example.com/Search/SearchResults.pg?informationRecipient.languageCode.c=en" "xzy.example.com" 200 0 32 109
+2012-08-15 17:00:00.660 10.10.28.140 GET /Topic/hw43061 - 80 user1 "70.95.32.0" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36" - "example.hello.com" 301 0 42 0
+2012-08-15 17:00:00.675 10.10.28.140 GET /hello/world/6,681965 - 80 - "173.5.0.0" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36" - "hello.example.com" 404 0 24 359
+2012-08-15 17:30:00.675 10.10.28.140 GET /hello/from/another/world/6,681965 - 80 user2 "173.5.0.0" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36" - "hello.example.com" 200 0 96 359

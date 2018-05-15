@@ -64,6 +64,16 @@ class ActionSiteSearch extends Action
         return null;
     }
 
+    public function getIdActionUrlForEntryAndExitIds()
+    {
+        return $this->getIdActionUrl();
+    }
+
+    public function getIdActionNameForEntryAndExitIds()
+    {
+        return $this->getIdActionName();
+    }
+
     public function getCustomFloatValue()
     {
         return $this->request->getPageGenerationTime();
@@ -73,7 +83,7 @@ class ActionSiteSearch extends Action
     {
         $siteSearch = $this->detectSiteSearch($this->originalUrl);
 
-        if(empty($siteSearch)) {
+        if (empty($siteSearch)) {
             return false;
         }
 
@@ -169,10 +179,10 @@ class ActionSiteSearch extends Action
             // @see excludeQueryParametersFromUrl()
             // Excluded the detected parameters from the URL
             $parametersToExclude = array($categoryParameterRaw, $keywordParameterRaw);
-            if(isset($parsedUrl['query'])) {
+            if (isset($parsedUrl['query'])) {
                 $parsedUrl['query'] = UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($parsedUrl['query']), $parametersToExclude);
             }
-            if(isset($parsedUrl['fragment'])) {
+            if (isset($parsedUrl['fragment'])) {
                 $parsedUrl['fragment'] = UrlHelper::getQueryStringWithExcludedParameters(UrlHelper::getArrayFromQueryString($parsedUrl['fragment']), $parametersToExclude);
             }
         }
@@ -180,14 +190,19 @@ class ActionSiteSearch extends Action
         if (is_array($actionName)) {
             $actionName = reset($actionName);
         }
-        $actionName = trim(urldecode($actionName));
+
+        $actionName = PageUrl::urldecodeValidUtf8($actionName);
+        $actionName = trim($actionName);
         if (empty($actionName)) {
             return false;
         }
+
         if (is_array($categoryName)) {
             $categoryName = reset($categoryName);
         }
-        $categoryName = trim(urldecode($categoryName));
+        $categoryName = PageUrl::urldecodeValidUtf8($categoryName);
+        $categoryName = trim($categoryName);
+
         return array($url, $actionName, $categoryName, $count);
     }
 

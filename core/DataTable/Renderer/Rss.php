@@ -29,22 +29,9 @@ class Rss extends Renderer
      *
      * @return string
      */
-    function render()
+    public function render()
     {
-        $this->renderHeader();
         return $this->renderTable($this->table);
-    }
-
-    /**
-     * Computes the exception output and returns the string/binary
-     *
-     * @return string
-     */
-    function renderException()
-    {
-        header('Content-type: text/plain');
-        $exceptionMessage = $this->getExceptionMessage();
-        return 'Error: ' . $exceptionMessage;
     }
 
     /**
@@ -77,9 +64,13 @@ class Rss extends Renderer
 
             $pudDate = date('r', $timestamp);
 
-            $dateInSiteTimezone = Date::factory($timestamp)->setTimezone($site->getTimezone())->toString('Y-m-d');
+            $dateInSiteTimezone = Date::factory($timestamp);
+            if($site) {
+                $dateInSiteTimezone = $dateInSiteTimezone->setTimezone($site->getTimezone());
+            }
+            $dateInSiteTimezone = $dateInSiteTimezone->toString('Y-m-d');
             $thisPiwikUrl = Common::sanitizeInputValue($piwikUrl . "&date=$dateInSiteTimezone");
-            $siteName = $site->getName();
+            $siteName = $site ? $site->getName() : '';
             $title = $siteName . " on " . $date;
 
             $out .= "\t<item>
@@ -87,7 +78,7 @@ class Rss extends Renderer
 		<guid>$thisPiwikUrl</guid>
 		<link>$thisPiwikUrl</link>
 		<title>$title</title>
-		<author>http://piwik.org</author>
+		<author>https://matomo.org</author>
 		<description>";
 
             $out .= Common::sanitizeInputValue($this->renderDataTable($subtable));
@@ -98,14 +89,6 @@ class Rss extends Renderer
         $footer = $this->getRssFooter();
 
         return $header . $out . $footer;
-    }
-
-    /**
-     * Sends the xml file http header
-     */
-    protected function renderHeader()
-    {
-        @header('Content-Type: text/xml; charset=utf-8');
     }
 
     /**
@@ -129,11 +112,11 @@ class Rss extends Renderer
         $header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <rss version=\"2.0\">
   <channel>
-    <title>piwik statistics - RSS</title>
-    <link>http://piwik.org</link>
-    <description>Piwik RSS feed</description>
+    <title>matomo statistics - RSS</title>
+    <link>https://matomo.org</link>
+    <description>Matomo RSS feed</description>
     <pubDate>$generationDate</pubDate>
-    <generator>piwik</generator>
+    <generator>matomo</generator>
     <language>en</language>
     <lastBuildDate>$generationDate</lastBuildDate>";
         return $header;

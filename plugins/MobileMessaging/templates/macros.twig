@@ -1,0 +1,84 @@
+{% macro manageSmsApi(credentialSupplied, credentialError, creditLeft, smsProviderOptions, smsProviders, provider) %}
+<div ng-controller="ManageSmsProviderController as manageProvider">
+
+    <div piwik-activity-indicator loading="manageProvider.isDeletingAccount"></div>
+    <div id="ajaxErrorManageSmsProviderSettings"></div>
+
+    {% if credentialSupplied %}
+        <p>
+            {% if credentialError %}
+                {{ 'MobileMessaging_Settings_CredentialInvalid'|translate(provider) }}<br />
+                {{ credentialError }}
+            {% else %}
+                {{ 'MobileMessaging_Settings_CredentialProvided'|translate(provider) }}
+                {{ creditLeft }}
+            {% endif %}
+            <br/>
+            {{ 'MobileMessaging_Settings_UpdateOrDeleteAccount'|translate('<a ng-click="manageProvider.showUpdateAccount()" id="displayAccountForm">',"</a>",'<a ng-click="manageProvider.deleteAccount()" id="deleteAccount">',"</a>")|raw }}
+        </p>
+    {% else %}
+        <p>{{ 'MobileMessaging_Settings_PleaseSignUp'|translate }}</p>
+    {% endif %}
+
+    <div piwik-form id='accountForm' {% if credentialSupplied %}ng-show="manageProvider.showAccountForm"{% endif %}>
+
+        <div piwik-field uicontrol="select" name="smsProviders"
+             options="{{ smsProviderOptions|json_encode }}"
+             ng-model="manageProvider.smsProvider"
+             ng-change="manageProvider.isUpdateAccountPossible()"
+             title="{{ 'MobileMessaging_Settings_SMSProvider'|translate|e('html_attr') }}"
+             value="{{ provider }}">
+        </div>
+
+        <div sms-provider-credentials
+             provider="manageProvider.smsProvider"
+             ng-model="manageProvider.credentials"
+             value="{}"
+             ng-init="manageProvider.isUpdateAccountPossible()"
+             ng-change="manageProvider.isUpdateAccountPossible()"
+        ></div>
+
+        <div piwik-save-button id='apiAccountSubmit'
+             disabled="!manageProvider.canBeUpdated"
+             saving="manageProvider.isUpdatingAccount"
+             onconfirm="manageProvider.updateAccount()"></div>
+
+        {% for smsProvider, description in smsProviders %}
+            <div class='providerDescription'
+                 ng-show="manageProvider.smsProvider == '{{ smsProvider|e('js') }}'"
+                 id='{{ smsProvider }}'>
+                {{ description|raw }}
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endmacro %}
+
+{% macro selectPhoneNumbers(phoneNumbers, angularContext, value, withIntroduction) %}
+    <div id="mobilePhoneNumbersHelp" class="inline-help-node">
+        <span class="icon-info"></span>
+
+        {% if phoneNumbers|length == 0 %}
+            {{ 'MobileMessaging_MobileReport_NoPhoneNumbers'|translate }}
+        {% else %}
+            {{ 'MobileMessaging_MobileReport_AdditionalPhoneNumbers'|translate|e('html_attr') }}
+        {% endif %}
+        <a href="{{ linkTo({'module':"MobileMessaging", 'action': 'index', 'updated':null}) }}">{{ 'MobileMessaging_MobileReport_MobileMessagingSettingsLink'|translate }}</a>
+    </div>
+
+    <div class='mobile'
+         piwik-field uicontrol="checkbox"
+         var-type="array"
+         name="phoneNumbers"
+         ng-model="{{ angularContext }}.report.phoneNumbers"
+         {% if withIntroduction %}
+             introduction="{{ 'ScheduledReports_SendReportTo'|translate|e('html_attr') }}"
+         {% endif %}
+         title="{{ 'MobileMessaging_PhoneNumbers'|translate|e('html_attr') }}"
+         {% if phoneNumbers|length == 0 %}disabled="true"{% endif %}
+         options="{{ phoneNumbers|json_encode }}"
+         inline-help="#mobilePhoneNumbersHelp"
+         {% if value %}value="{{ value|json_encode }}"{% endif %}>
+    </div>
+{% endmacro %}

@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Poskytovatel",
+        "PluginDescription": "Hlásí poskytovatele internetového připojení návštěvníků.",
+        "ProviderReportDocumentation": "Toto hlášení poskytuje informace o tom, jakého poskytovatele internetového připojení vaši návštěvníci při přístupu na stránky použili. Pokud kliknete na jméno poskytovatele, zobrazí se podrobnosti. %s Pokud Matomo nebyl schopen poskytovatele zjistit, je zobrazen jako IP.",
+        "WidgetProviders": "Poskytovatelé",
+        "ProviderReportFooter": "Neznámý poskytovatel znamená, že IP adresu nebylo možné vyhledat."
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s के प्रश्नों को मार डाला",
+        "GenerateTime": "%s सेकेंडों पेज उत्पन्न करने के लिए",
+        "NbActionsDescription": "%s कार्रवाई",
+        "PluginDescription": "रिपोर्ट सामान्य विश्लेषिकी मेट्रिक्स: यात्राओं, अद्वितीय आगंतुकों, कार्यों की संख्या, उछाल दर, आदि",
+        "VisitsSummary": "दौरा सारांश"
+    }
+}

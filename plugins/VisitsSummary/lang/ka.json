@@ -1,0 +1,11 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s მოთხოვნა შესრულდა",
+        "GenerateTime": "%s წამი გვერდის გენერირებისთვის",
+        "NbActionsDescription": "%s ქმედება (გვერდის დათვალიერება, ჩამოტვირთვები და გარე ბმულები)",
+        "VisitsSummary": "ვიზიტების მოკლე ანგარიში",
+        "WidgetLastVisits": "ბოლო ვიზიტების გრაფიკი",
+        "WidgetOverviewGraph": "მიმოხილვა გრაფიკით",
+        "WidgetVisits": "ვიზიტების მიმოხილვა"
+    }
+}

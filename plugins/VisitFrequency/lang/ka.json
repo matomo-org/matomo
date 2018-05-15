@@ -1,0 +1,12 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "ქმედებები დაბრუნებული ვიზიტების მიხედვით",
+        "ColumnAverageVisitDurationForReturningVisitors": "ვიზიტის საშ. ხანგრძლივობა დაბრუნებული ვიზიტორებისთვის (წამებში)",
+        "ColumnAvgActionsPerReturningVisit": "საშ. ქმედება დაბრუნებულ ვიზიტზე",
+        "ColumnBounceRateForReturningVisits": "უსარგებლო შესვლები დაბრუნებული ვიზიტორებისთვის",
+        "ColumnReturningVisits": "დაბრუნებული ვიზიტები",
+        "SubmenuFrequency": "სიხშირე",
+        "WidgetGraphReturning": "დაბრუნებული ვიზიტების გრაფიკი",
+        "WidgetOverview": "სიხშირის მიმოხილვა"
+    }
+}

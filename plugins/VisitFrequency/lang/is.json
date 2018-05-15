@@ -1,0 +1,12 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Aðgerðir við endurkomur",
+        "ColumnAverageVisitDurationForReturningVisitors": "Meðalheimsóknatími fyrir endurkomur (í sekúndum)",
+        "ColumnAvgActionsPerReturningVisit": "Meðalfj. aðgerða fyrir endurkomur",
+        "ColumnBounceRateForReturningVisits": "Skopphraði fyrir endurkomur",
+        "ColumnReturningVisits": "Endurkomur",
+        "SubmenuFrequency": "Tíðni",
+        "WidgetGraphReturning": "Línurit yfir endurkomur",
+        "WidgetOverview": "Tíðniyfirlit"
+    }
+}

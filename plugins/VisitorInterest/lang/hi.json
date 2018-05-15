@@ -1,0 +1,19 @@
+{
+    "VisitorInterest": {
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "यात्रा के प्रति पन्ने",
+        "ColumnVisitDuration": "भेंट अवधि",
+        "Engagement": "नियम",
+        "NPages": "%s के पन्नों",
+        "OnePage": "1 पेज",
+        "PluginDescription": "आगंतुकों के हित के बारे में रिपोर्ट : देखे गए पृष्ठों की संख्या , वेबसाइट पर बिताए समय , पिछली यात्रा के बाद दिन, और अधिक ।",
+        "VisitNum": "भेंट संख्या",
+        "VisitsByDaysSinceLast": "पिछली यात्रा के बाद के दिनों से दौरा",
+        "visitsByVisitCount": "भेंट संख्या द्वारा दौरा",
+        "VisitsPerDuration": "पिछली यात्रा के बाद के दिनों से दौरा",
+        "VisitsPerNbOfPages": "पृष्ठों की संख्या प्रति दौरा",
+        "WidgetLengths": "यात्रा अवधि प्रति दौरा",
+        "WidgetPages": "भेंट प्रति पन्ने",
+        "WidgetVisitsByDaysSinceLast": "भेंट प्रति पन्ने"
+    }
+}

@@ -9,9 +9,9 @@
 namespace Piwik\Plugin;
 
 use Exception;
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Version;
+use Piwik\Plugin;
 
 /**
  * @see core/Version.php
@@ -50,9 +50,23 @@ class MetadataLoader
      */
     public function load()
     {
+        $defaults = $this->getDefaultPluginInformation();
+        $plugin   = $this->loadPluginInfoJson();
+
+        // use translated plugin description if available
+        if ($defaults['description'] != Piwik::translate($defaults['description'])) {
+            unset($plugin['description']);
+        }
+
+        // look for a license file
+        $licenseFile = $this->getPathToLicenseFile();
+        if(!empty($licenseFile)) {
+            $plugin['license_file'] = $licenseFile;
+        }
+
         return array_merge(
-            $this->getDefaultPluginInformation(),
-            $this->loadPluginInfoJson()
+            $defaults,
+            $plugin
         );
     }
 
@@ -67,21 +81,30 @@ class MetadataLoader
     {
         $descriptionKey = $this->pluginName . '_PluginDescription';
         return array(
-            'description'      => Piwik::translate($descriptionKey),
-            'homepage'         => 'http://piwik.org/',
-            'authors'          => array(array('name' => 'Piwik', 'homepage'  => 'http://piwik.org/')),
+            'description'      => $descriptionKey,
+            'homepage'         => 'https://matomo.org/',
+            'authors'          => array(array('name' => 'Matomo', 'homepage'  => 'https://matomo.org/')),
             'license'          => 'GPL v3+',
-            'license_homepage' => 'http://www.gnu.org/licenses/gpl.html',
             'version'          => Version::VERSION,
             'theme'            => false,
             'require'          => array()
         );
     }
 
-    private function loadPluginInfoJson()
+    /**
+     * It is important that this method works without using anything from DI
+     * @return array|mixed
+     */
+    public function loadPluginInfoJson()
     {
-        $path = \Piwik\Plugin\Manager::getPluginsDirectory() . $this->pluginName . '/' . self::PLUGIN_JSON_FILENAME;
+        $path = $this->getPathToPluginJson();
         return $this->loadJsonMetadata($path);
+    }
+
+    public function getPathToPluginJson()
+    {
+        $path = $this->getPathToPluginFolder() . '/' . self::PLUGIN_JSON_FILENAME;
+        return $path;
     }
 
     private function loadJsonMetadata($path)
@@ -95,12 +118,41 @@ class MetadataLoader
             return array();
         }
 
-        $info = Common::json_decode($json, $assoc = true);
+        $info = json_decode($json, $assoc = true);
         if (!is_array($info)
             || empty($info)
         ) {
             throw new Exception("Invalid JSON file: $path");
         }
+
         return $info;
+    }
+
+    /**
+     * @return string
+     */
+    private function getPathToPluginFolder()
+    {
+        return \Piwik\Plugin\Manager::getPluginsDirectory() . $this->pluginName;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPathToLicenseFile()
+    {
+        $prefixPath = $this->getPathToPluginFolder() . '/';
+        $licenseFiles = array(
+            'LICENSE',
+            'LICENSE.md',
+            'LICENSE.txt'
+        );
+        foreach ($licenseFiles as $licenseFile) {
+            $pathToLicense = $prefixPath . $licenseFile;
+            if (is_file($pathToLicense) && is_readable($pathToLicense)) {
+                return $pathToLicense;
+            }
+        }
+        return null;
     }
 }

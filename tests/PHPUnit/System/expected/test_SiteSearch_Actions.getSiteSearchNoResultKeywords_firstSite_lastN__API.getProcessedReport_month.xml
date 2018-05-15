@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Site 1 - Site search</website>
+	<prettyDate>January 1 – July 31, 2010</prettyDate>
+	<metadata>
+		<category>Actions</category>
+		<subcategory>Site Search</subcategory>
+		<name>Search Keywords with No Results</name>
+		<module>Actions</module>
+		<action>getSiteSearchNoResultKeywords</action>
+		<dimension>Keyword with No Search Result</dimension>
+		<documentation>Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br /&gt;&lt;br /&gt;This report lists the Search Keywords that did not return any Search result: maybe the search engine algorithm can be improved, or maybe your visitors are looking for content that is not (yet) on your website?</documentation>
+		<metrics>
+			<nb_visits>Searches</nb_visits>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>The number of visits that searched for this keyword on your website's search engine.</nb_visits>
+			<exit_rate>The percentage of visits that left the website after searching for this Keyword on your Site Search engine.</exit_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<exit_rate>% Search Exits</exit_rate>
+		</processedMetrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchNoResultKeywords&amp;period=range&amp;date=2010-01-03,2010-07-03</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getSiteSearchNoResultKeywords&amp;period=month&amp;date=2010-01-03,2010-07-03</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getSiteSearchNoResultKeywords</uniqueId>
+	</metadata>
+	<columns>
+		<label>Keyword with No Search Result</label>
+		<nb_visits>Searches</nb_visits>
+		<exit_rate>% Search Exits</exit_rate>
+	</columns>
+	<reportData>
+		<result prettyDate="January 2010">
+			<row>
+				<label>No Result Keyword!</label>
+				<nb_visits>2</nb_visits>
+				<exit_rate>0%</exit_rate>
+			</row>
+		</result>
+		<result prettyDate="February 2010" />
+		<result prettyDate="March 2010" />
+		<result prettyDate="April 2010" />
+		<result prettyDate="May 2010" />
+		<result prettyDate="June 2010" />
+		<result prettyDate="July 2010" />
+	</reportData>
+	<reportMetadata>
+		<result prettyDate="January 2010" />
+		<result prettyDate="February 2010" />
+		<result prettyDate="March 2010" />
+		<result prettyDate="April 2010" />
+		<result prettyDate="May 2010" />
+		<result prettyDate="June 2010" />
+		<result prettyDate="July 2010" />
+	</reportMetadata>
+	<reportTotal>
+		<nb_visits>2</nb_visits>
+		<nb_hits>2</nb_hits>
+	</reportTotal>
+</result>

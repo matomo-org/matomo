@@ -1,0 +1,26 @@
+{
+    "PrivacyManager": {
+        "AnonymizeIpMaskLength": "%1$s byte(s) – f.eks. %2$s",
+        "ClickHereSettings": "Klikk her for å få tilgang til %s-innstillingene.",
+        "CurrentDBSize": "Nåværende databasestørrelse",
+        "DeleteDataInterval": "Slett gammel data hver",
+        "DeleteOldVisitorLogs": "Slett gamle besøkslogger",
+        "DeleteOldArchivedReports": "Slett gamle arkiverte rapporter",
+        "DeleteLogInfo": "Logger fra følgende tabeller vil bli slettet: %s",
+        "DeleteLogsOlderThan": "Slett logger eldre enn",
+        "DeleteMaxRowsNoLimit": "ingen grense",
+        "DeleteReportsOlderThan": "Slett rapporter eldre enn",
+        "DeleteDataSettings": "Slett gamle besøkslogger og -rapporter",
+        "DoNotTrack_Disable": "Deaktiver Do Not Track-støtte",
+        "DoNotTrack_Enable": "Aktiver Do Not Track-støtte",
+        "EstimatedSpaceSaved": "Estimert plassbesparelse",
+        "GeolocationAnonymizeIpNote": "Merk: Geoposisjonering vil ha omtrent de samme resultatene med en byte anonymisert. Med to byte eller mer, vil geoposisjonering være unøyaktig.",
+        "KeepDataFor": "Behold all data for",
+        "LastDelete": "Siste sletting var på",
+        "MenuPrivacySettings": "Personvern",
+        "PurgeNow": "Rydd database nå",
+        "RecommendedForPrivacy": "Anbefalt for personvern",
+        "ReportsDataSavedEstimate": "Databasestørrelse",
+        "TeaserHeadline": "Personverninnstillinger"
+    }
+}

@@ -41,6 +41,22 @@ class SettingsServer
     }
 
     /**
+     * Mark the current request as a Tracker API request
+     */
+    public static function setIsTrackerApiRequest()
+    {
+        $GLOBALS['PIWIK_TRACKER_MODE'] = true;
+    }
+
+    /**
+     * Set the current request is not a tracker API request
+     */
+    public static function setIsNotTrackerApiRequest()
+    {
+        $GLOBALS['PIWIK_TRACKER_MODE'] = false;
+    }
+
+    /**
      * Returns `true` if running on Microsoft IIS 7 (or above), `false` if otherwise.
      *
      * @return bool
@@ -53,20 +69,6 @@ class SettingsServer
             version_compare($matches[1], '7') >= 0;
 
         return $iis;
-    }
-
-    /**
-     * Returns `true` if running on an Apache web server, `false` if otherwise.
-     *
-     * @return bool
-     * @api
-     */
-    public static function isApache()
-    {
-        $apache = isset($_SERVER['SERVER_SOFTWARE']) &&
-            !strncmp($_SERVER['SERVER_SOFTWARE'], 'Apache', 6);
-
-        return $apache;
     }
 
     /**
@@ -111,9 +113,14 @@ class SettingsServer
     {
         static $gd = null;
         if (is_null($gd)) {
+            $gd = false;
+
             $extensions = @get_loaded_extensions();
-            $gd = in_array('gd', $extensions) && function_exists('imageftbbox');
+            if (is_array($extensions)) {
+                $gd = in_array('gd', $extensions) && function_exists('imageftbbox');
+            }
         }
+
         return $gd;
     }
 

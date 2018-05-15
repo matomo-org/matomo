@@ -1,0 +1,13 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "Comercio electrónico le permite rastrear cuando los usuarios agregan productos a su carrito y cuando se transforman en una venta electrónica. También rastrea productos y visualiza las categorías de producto y sus carritos abandonados.",
+        "Sales": "Ventas",
+        "SalesBy": "Ventas por %s",
+        "SalesAdjective": "Ventas %s",
+        "LifeTimeValue": "Ingresos atribuidos al cliente durante el tiempo que fue cliente: \"Ecommerce Life Time Value\"",
+        "LifeTimeValueDescription": "Ingresos totales por Ecommerce atribuidos a este cliente a lo largo de todas las visitas: la suma de los ingresos de todas las compras para el visitante %s",
+        "VisitorProfileLTV": "Generó un Life Time Revenue de %1$s.",
+        "VisitorProfileItemsAndOrders": "Compró %1$s artículos en %2$s compras ecommerce.",
+        "VisitorProfileAbandonedCartSummary": "Abandonó %1$s carritos de compra que incluían %2$s artículos por un valor total de %3$s."
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "Goals": {
+        "AddGoal": "இலக்கை இணைக்க",
+        "AddNewGoal": "புதிய இலக்கை இணைத்திடுங்கள்",
+        "CategoryTextGeneral_Visitors": "பயனர் இடம்",
+        "Details": "இலக்கு விவரங்கள்",
+        "DeleteGoalConfirm": "%s இலக்கை நீக்குவதில் நீங்கள் உறுதியாக இருக்கிறீர்களா?",
+        "Download": "ஒரு கோப்பை தரவிறக்கம் செய்",
+        "Ecommerce": "மின்வணிகம்",
+        "EcommerceAndGoalsMenu": "மின்வணிகமும் இலக்கும்",
+        "EcommerceOverview": "மின்வணிகம் - மேற்பார்வை",
+        "EcommerceReports": "மின்வணிக அறிக்கை",
+        "Filename": "கோப்பின் பெயர்",
+        "GoalName": "இலக்குப் பெயர்",
+        "Goals": "இலக்குகள்",
+        "GoalsOverview": "இலக்கு மேற்பார்வை",
+        "ProductCategory": "பொருளின் வகை",
+        "ProductName": "பொருளின் பெயர்",
+        "Products": "பொருட்கள்",
+        "ProductSKU": "பொருள் தனிக்குறியீடு(SKU)",
+        "WhenVisitors": "வருகையாளர்கள் எப்பொழுது",
+        "WhereThe": "எங்கே"
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Дзеянняў за паўторнае наведванне",
+        "ColumnAverageVisitDurationForReturningVisitors": "Сяр. працягласць наведванняў для вяртаючыхся наведвальнікаў (у секундах)",
+        "ColumnAvgActionsPerReturningVisit": "Сяр. колькасць дзеянняў за паўторнае наведванне",
+        "ColumnBounceRateForReturningVisits": "Паказчык адмоў для паўторных наведванняў",
+        "ColumnReturningVisits": "Паўторныя наведванні",
+        "ReturningVisitDocumentation": "Паўторнае наведванне (у адрозненне ад новага наведвання) зрабіў той, хто наведаў вэб-сайт па крайняй меры двойчы.",
+        "ReturningVisitsDocumentation": "Гэта агляд паўторных наведванняў.",
+        "SubmenuFrequency": "Чашчыня",
+        "WidgetGraphReturning": "Графік паўторных наведванняў",
+        "WidgetOverview": "Агляд чашчыні наведванняў"
+    }
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<lastActionDateTime>2010-01-12 11:37:33</lastActionDateTime>
+		<visitConverted>1</visitConverted>
+		<actions>5</actions>
+		<referrerType>campaign</referrerType>
+		<referrerName>goal-matching-url-parameter</referrerName>
+		<events>0</events>
+	</row>
+	<row>
+		<lastActionDateTime>2010-01-11 11:37:33</lastActionDateTime>
+		<visitConverted>1</visitConverted>
+		<actions>5</actions>
+		<referrerType>website</referrerType>
+		<referrerName>referrer.com</referrerName>
+		<events>0</events>
+	</row>
+	<row>
+		<lastActionDateTime>2010-01-10 11:37:33</lastActionDateTime>
+		<visitConverted>1</visitConverted>
+		<actions>5</actions>
+		<referrerType>website</referrerType>
+		<referrerName>referrer.com</referrerName>
+		<events>0</events>
+	</row>
+	<row>
+		<lastActionDateTime>2010-01-09 11:37:33</lastActionDateTime>
+		<visitConverted>1</visitConverted>
+		<actions>5</actions>
+		<referrerType>website</referrerType>
+		<referrerName>referrer.com</referrerName>
+		<events>0</events>
+	</row>
+	<row>
+		<lastActionDateTime>2010-01-08 11:37:33</lastActionDateTime>
+		<visitConverted>1</visitConverted>
+		<actions>5</actions>
+		<referrerType>website</referrerType>
+		<referrerName>referrer.com</referrerName>
+		<events>0</events>
+	</row>
+	<row>
+		<lastActionDateTime>2010-01-07 11:37:33</lastActionDateTime>
+		<visitConverted>1</visitConverted>
+		<actions>5</actions>
+		<referrerType>campaign</referrerType>
+		<referrerName>goal-matching-url-parameter</referrerName>
+		<events>0</events>
+	</row>
+	<row>
+		<lastActionDateTime>2010-01-06 11:37:33</lastActionDateTime>
+		<visitConverted>1</visitConverted>
+		<actions>5</actions>
+		<referrerType>campaign</referrerType>
+		<referrerName>goal-matching-url-parameter</referrerName>
+		<events>0</events>
+	</row>
+	<row>
+		<lastActionDateTime>2010-01-05 11:37:33</lastActionDateTime>
+		<visitConverted>1</visitConverted>
+		<actions>5</actions>
+		<referrerType>campaign</referrerType>
+		<referrerName>goal-matching-url-parameter</referrerName>
+		<events>0</events>
+	</row>
+	<row>
+		<lastActionDateTime>2010-01-04 00:01:00</lastActionDateTime>
+		<visitConverted>0</visitConverted>
+		<actions>1</actions>
+		<referrerType>website</referrerType>
+		<referrerName>referrer.com</referrerName>
+		<events>0</events>
+	</row>
+	<row>
+		<lastActionDateTime>2010-01-03 23:55:00</lastActionDateTime>
+		<visitConverted>1</visitConverted>
+		<actions>1</actions>
+		<referrerType>website</referrerType>
+		<referrerName>referrer.com</referrerName>
+		<events>0</events>
+	</row>
+</result>

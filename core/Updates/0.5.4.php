@@ -13,20 +13,30 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_0_5_4 extends Updates
 {
-    static function getSql()
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'ALTER TABLE `' . Common::prefixTable('log_action') . '`
-				 CHANGE `name` `name` TEXT' => false,
+            $this->migration->db->changeColumnType('log_action', 'name', 'TEXT'),
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         $salt = Common::generateUniqId();
         $config = Config::getInstance();
@@ -56,10 +66,10 @@ class Updates_0_5_4 extends Updates
                     throw new \Exception('optional update failed');
                 }
             } catch (\Exception $e) {
-                throw new \Exception("You can now enable the new MultiSites plugin in the Plugins screen in the Piwik admin!");
+                throw new \Exception("You can now enable the new MultiSites plugin in the Plugins screen in the Matomo admin!");
             }
         }
 
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

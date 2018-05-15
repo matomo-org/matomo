@@ -16,7 +16,10 @@ use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    // Call metadata reports, and draw the default graph for each report.
+    /**
+     * @internal For Debugging only
+     * Call metadata reports and draw the default graph for each report.
+     */
     public function index()
     {
         Piwik::checkUserHasSomeAdminAccess();

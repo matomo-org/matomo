@@ -5,10 +5,6 @@ use Piwik\Tracker;
 use Piwik\Tracker\Cache;
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
-$GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
-if (!defined('PIWIK_ENABLE_TRACKING')) {
-    define('PIWIK_ENABLE_TRACKING', true);
-}
 
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Db.php';
@@ -25,6 +21,10 @@ class Piwik_LocalTracker extends PiwikTracker
 {
     protected function sendRequest($url, $method = 'GET', $data = null, $force = false)
     {
+        if ($this->DEBUG_APPEND_URL) {
+            $url .= $this->DEBUG_APPEND_URL;
+        }
+
         // if doing a bulk request, store the url
         if ($this->doBulkRequests && !$force) {
             $this->storedTrackingActions[] = $url;
@@ -44,20 +44,17 @@ class Piwik_LocalTracker extends PiwikTracker
         }
 
         // unset cached values
-        Cache::$trackerCache = null;
-        Tracker::setForceIp(null);
-        Tracker::setForceDateTime(null);
-        Tracker::setForceVisitorId(null);
+        Cache::$cache = null;
+        Tracker\Visit::$dimensions = null;
 
         // save some values
         $plugins = Config::getInstance()->Plugins['Plugins'];
-        $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
         $oldTrackerConfig = Config::getInstance()->Tracker;
 
         \Piwik\Plugin\Manager::getInstance()->unloadPlugins();
 
         // modify config
-        $GLOBALS['PIWIK_TRACKER_MODE'] = true;
+        \Piwik\SettingsServer::setIsTrackerApiRequest();
         $GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING'] = true;
         Tracker::$initTrackerMode = false;
         Tracker::setTestEnvironment($testEnvironmentArgs, $method);
@@ -78,20 +75,29 @@ class Piwik_LocalTracker extends PiwikTracker
         ob_start();
 
         $localTracker = new Tracker();
-        $localTracker->main($requests);
+        $request = new Tracker\RequestSet();
+        $request->setRequests($requests);
+
+        \Piwik\Plugin\Manager::getInstance()->loadTrackerPlugins();
+        $handler = Tracker\Handler\Factory::make();
+
+        $response = $localTracker->main($handler, $request);
+
+        if (!is_null($response)) {
+            echo $response;
+        }
 
         $output = ob_get_contents();
 
         ob_end_clean();
 
         // restore vars
-        Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
         Config::getInstance()->Tracker = $oldTrackerConfig;
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $oldLang;
         $_SERVER['HTTP_USER_AGENT'] = $oldUserAgent;
         $_COOKIE = $oldCookie;
         $GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING'] = false;
-        $GLOBALS['PIWIK_TRACKER_MODE'] = false;
+        \Piwik\SettingsServer::setIsNotTrackerApiRequest();
         unset($_GET['bots']);
 
         // reload plugins

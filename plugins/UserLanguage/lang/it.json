@@ -1,0 +1,7 @@
+{
+    "UserLanguage": {
+        "BrowserLanguage": "Lingua Browser",
+        "LanguageCode": "Codice della lingua",
+        "PluginDescription": "Restituisce la lingua utilizzata dai browser dei tuoi visitatori."
+    }
+}

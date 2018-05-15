@@ -25,7 +25,7 @@ class Sparkline extends ViewDataTable
      * @see ViewDataTable::main()
      * @return mixed
      */
-    protected function buildView()
+    public function render()
     {
         // If period=range, we force the sparkline to draw daily data points
         $period = Common::getRequestVar('period');
@@ -58,7 +58,7 @@ class Sparkline extends ViewDataTable
 
         $graph->main();
 
-        return $graph;
+        return $graph->render();
     }
 
     /**

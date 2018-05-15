@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>/index.htm</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>36</sum_time_spent>
+		<nb_hits_following_search>1</nb_hits_following_search>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>36</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<url>http://example.org/index.htm</url>
+		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+	</row>
+	<row>
+		<label>/index.htm?gkwd=SHOULD be a PageView, NOT a search</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>0</sum_time_spent>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<exit_nb_visits>1</exit_nb_visits>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>0</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>100%</exit_rate>
+		<url>http://example.org/index.htm?gkwd=SHOULD be a PageView, NOT a search</url>
+		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Fgkwd%3DSHOULD+be+a+PageView%2C+NOT+a+search</segment>
+	</row>
+	<row>
+		<label>/index.htm?random=PAGEVIEW, NOT SEARCH&amp;mykwd=&amp;IS_FOLLOWING_SEARCH ONCE</label>
+		<nb_visits>1</nb_visits>
+		<nb_hits>2</nb_hits>
+		<sum_time_spent>216</sum_time_spent>
+		<nb_hits_following_search>1</nb_hits_following_search>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>108</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<url>http://example.org/index.htm?random=PAGEVIEW, NOT SEARCH&amp;mykwd=&amp;IS_FOLLOWING_SEARCH ONCE</url>
+		<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Frandom%3DPAGEVIEW%2C+NOT+SEARCH%26mykwd%3D%26IS_FOLLOWING_SEARCH+ONCE</segment>
+	</row>
+</result>

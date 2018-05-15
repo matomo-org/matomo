@@ -1,0 +1,15 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "Keskmine genereerimise aeg",
+        "AverageVisitDuration": "keskmine külastuse kestus",
+        "GenerateQueries": "%s katkestatud päringut",
+        "GenerateTime": "Lehe genereerimiseks kulus %s sekundit",
+        "NbActionsDescription": "%s tegevust",
+        "NbDownloadsDescription": "allalaadimised",
+        "VisitsSummary": "Külastuste kokkuvõte",
+        "VisitsSummaryDocumentation": "See on külastuste muutuse ajas ülevaade.",
+        "WidgetLastVisits": "Viimaste külastuste graafik",
+        "WidgetOverviewGraph": "Graafikutega ülevaade",
+        "WidgetVisits": "Külastuste ülevaade"
+    }
+}

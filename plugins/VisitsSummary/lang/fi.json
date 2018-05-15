@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "keskimääräinen sivun ladonta-aika",
+        "AverageVisitDuration": "keskimääräisen käynnin kesto",
+        "GenerateQueries": "%s kyselyä ajettu",
+        "GenerateTime": "%s sekuntia sivun luomiseen",
+        "MaxNbActions": "suurin määrä toimintoja käynnillä",
+        "NbActionsDescription": "%s toimintoa (sivua, latausta ja lähtevää linkkiä)",
+        "NbActionsPerVisit": "toimintoa (sivulatausta, latausta, poistumista and sivun sisäistä hakua) per käynti",
+        "NbDownloadsDescription": "latausta",
+        "NbKeywordsDescription": "ainutkertaista avainsanaa",
+        "NbOutlinksDescription": "poistumista",
+        "NbPageviewsDescription": "sivukatselua",
+        "NbSearchesDescription": "hakuja sivustolla",
+        "NbUniqueDownloadsDescription": "ainutkertaista latausta",
+        "NbUniqueOutlinksDescription": "ainutkertaista poistumista",
+        "NbUniquePageviewsDescription": "ainutkertaista sivulatausta",
+        "NbUniqueVisitors": "ainutkertaista kävijää",
+        "NbUsersDescription": "kävijää",
+        "NbVisitsDescription": "käyntiä",
+        "NbVisitsBounced": "käyntiä on kimmonnut (lähtenyt sivustolta heti ensimmäisen sivun nähtyään)",
+        "PluginDescription": "Raportoi yleiset analytiikkametriikat: käynnit, uniikit kävijät, toimintojen määrän jne.",
+        "VisitsSummary": "Yhteenveto käynneistä",
+        "VisitsSummaryDocumentation": "Tämä on käyntien muutoksen yleiskatsaus",
+        "WidgetLastVisits": "Edelliset käynnit",
+        "WidgetOverviewGraph": "Yleiskatsaus graafilla",
+        "WidgetVisits": "Käyntien yleiskatsaus"
+    }
+}

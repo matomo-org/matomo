@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="2010-01-03">
+			<nb_pageviews>4</nb_pageviews>
+			<nb_uniq_pageviews>3</nb_uniq_pageviews>
+			<nb_downloads>0</nb_downloads>
+			<nb_uniq_downloads>0</nb_uniq_downloads>
+			<nb_outlinks>0</nb_outlinks>
+			<nb_uniq_outlinks>0</nb_uniq_outlinks>
+			<nb_searches>9</nb_searches>
+			<nb_keywords>3</nb_keywords>
+		</result>
+		<result date="2010-01-04">
+			<nb_pageviews>0</nb_pageviews>
+			<nb_uniq_pageviews>0</nb_uniq_pageviews>
+			<nb_downloads>0</nb_downloads>
+			<nb_uniq_downloads>0</nb_uniq_downloads>
+			<nb_outlinks>0</nb_outlinks>
+			<nb_uniq_outlinks>0</nb_uniq_outlinks>
+			<nb_searches>4</nb_searches>
+			<nb_keywords>3</nb_keywords>
+		</result>
+		<result date="2010-01-05" />
+		<result date="2010-01-06" />
+		<result date="2010-01-07" />
+		<result date="2010-01-08" />
+		<result date="2010-01-09" />
+	</result>
+	<result idSite="2">
+		<result date="2010-01-03">
+			<nb_pageviews>2</nb_pageviews>
+			<nb_uniq_pageviews>2</nb_uniq_pageviews>
+			<nb_downloads>0</nb_downloads>
+			<nb_uniq_downloads>0</nb_uniq_downloads>
+			<nb_outlinks>0</nb_outlinks>
+			<nb_uniq_outlinks>0</nb_uniq_outlinks>
+			<nb_searches>3</nb_searches>
+			<nb_keywords>3</nb_keywords>
+		</result>
+		<result date="2010-01-04" />
+		<result date="2010-01-05" />
+		<result date="2010-01-06" />
+		<result date="2010-01-07" />
+		<result date="2010-01-08" />
+		<result date="2010-01-09" />
+	</result>
+	<result idSite="3">
+		<result date="2010-01-03">
+			<nb_pageviews>3</nb_pageviews>
+			<nb_uniq_pageviews>3</nb_uniq_pageviews>
+			<nb_downloads>0</nb_downloads>
+			<nb_uniq_downloads>0</nb_uniq_downloads>
+			<nb_outlinks>0</nb_outlinks>
+			<nb_uniq_outlinks>0</nb_uniq_outlinks>
+			<nb_searches>0</nb_searches>
+			<nb_keywords>0</nb_keywords>
+		</result>
+		<result date="2010-01-04" />
+		<result date="2010-01-05" />
+		<result date="2010-01-06" />
+		<result date="2010-01-07" />
+		<result date="2010-01-08" />
+		<result date="2010-01-09" />
+	</result>
+</results>

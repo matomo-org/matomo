@@ -1,0 +1,80 @@
+<div id="ex101" data-track-content>
+    <a id="ignoreInteraction1" href="http://www.example.com"
+       class="piwikContentTarget piwikContentIgnoreInteraction">Link</a>
+</div>
+<div id="ex102" data-track-content data-content-ignoreinteraction>
+    <a id="ignoreInteraction2" href="http://www.example.com">Link</a>
+</div>
+<div id="ex103" data-track-content>
+    <a title="Target Title" href="http://target.example.com" data-content-target>Lorem ipsum dolor sit amet...</a>
+    <span id="notClickedTargetNode" title="Piece Title">Lorem ipsum dolor sit amet...</span>
+</div>
+<div id="ex104" data-track-content>
+    <img src="img.jpg" data-content-piece/>
+    <a id="ex104_inner" href="http://www.example.com">Link</a>
+</div>
+<div id="ex105" data-track-content>
+    <img src="img.jpg" data-content-piece/>
+    <a id="ex105_target" data-content-target="" href="http://www.example.com">
+        <span id="ex105_withinTarget">test</span>Link</a>
+</div>
+<!-- click event should be added to target node -->
+<div id="ex106" data-track-content data-content-name="My Ad">
+    <a id="ex106_target" href="/anylink" data-content-target>Add to shopping cart</a>
+</div>
+<!-- click event should be added to content block node which is target node -->
+<a id="ex107" data-track-content data-content-name="My Ad">
+    <img src="img.jpg" data-content-piece/>
+</a>
+<!-- trackContentImpressionClickInteraction, should be tracked as outlink -->
+<a id="ex108" href="http://ad.example.com" data-track-content>
+    <img src="http://www.example.com/path/xyz.jpg" data-content-piece />
+</a>
+<!-- trackContentImpressionClickInteraction, should be tracked as download -->
+<a id="ex109" href="/file.pdf" data-track-content>
+    <img src="http://www.example.com/path/xyz.jpg" data-content-piece />
+</a>
+<!-- trackContentImpressionClickInteraction, should be tracked using redirect as internal page link -->
+<a id="ex110" href="/example" data-track-content data-content-name="MyName">
+    <img src="http://www.example.com/path/xyz.jpg" data-content-piece="img.jpg" />
+</a>
+<!-- trackContentImpressionClickInteraction, if a link to tracker is already set we do not alter this link even if link is wrong -->
+<a id="ex111" href="piwik.php?xyz=makesnosense" data-track-content data-content-name="MyName">
+    <img src="http://www.example.com/path/xyz.jpg" data-content-piece="img.jpg" />
+</a>
+<!-- trackContentImpressionClickInteraction, should be tracked as XHR as link within same page -->
+<a id="ex112" href="#example" data-track-content>
+    <img src="http://www.example.com/path/xyz.jpg" data-content-piece="img.jpg" />
+</a>
+<!-- trackContentImpressionClickInteraction, target link is not an A or AREA element -->
+<div id="ex113" data-track-content>
+    <img id="ex113_target" src="http://www.example.com/path/xyz.jpg" data-content-target data-content-piece="img.jpg" />
+</div>
+<!-- trackContentImpressionClickInteraction, target link is link element but does not have href, we track it via xhr -->
+<a id="ex114" onclick="void 0" data-track-content data-content-target="/test">
+    <img src="http://www.example.com/path/xyz.jpg" data-content-piece="imgnohref.jpg" />
+</a>
+
+<!-- some nodes are visible, some not -->
+<a id="ex115" href="http://www.example.com" data-track-content class="assertSize">
+    <img src="img115.jpg" data-content-piece />
+</a>
+<a id="ex116_hidden" href="http://www.example.com" data-track-content class="assertSize" style="display:none">
+    <img src="img116.jpg" data-content-piece />
+</a>
+
+<div id="ex117" data-track-content>
+    <a id="ignoreInternalLink" href="/internallink" class="piwikContentIgnoreInteraction" data-content-target>Link</a>
+</div>
+
+
+<a id="ex118" href="piwik.php?test=5" data-track-content>Link</a>
+<a id="ex119" href="#test" data-track-content>Link</a>
+<a id="ex120" href="http://www.example.com" data-track-content>Link</a>
+<a id="ex121" href="/download.pdf" class="download" data-track-content>Link</a>
+<div id="ex122" data-track-content>
+    <a id="replacedLinkWithTarget" href="/internallink" data-content-target="/test">Link</a>
+</div>
+<div id="ex123" data-track-content>
+    <a id="replacedLinkWithTarget" data-content-target="/test">Link</a>
+</div>

@@ -1,0 +1,12 @@
+{
+    "UserCountry": {
+        "Continent": "Heimsálfa",
+        "Country": "Land",
+        "country_a1": "Nafnlaus milliþjónn",
+        "country_a2": "Gerfihnattasamband",
+        "country_o1": "Annað land",
+        "DistinctCountries": "%s mismunandi lönd",
+        "Location": "Staðsetning",
+        "SubmenuLocations": "Staðsetningar"
+    }
+}

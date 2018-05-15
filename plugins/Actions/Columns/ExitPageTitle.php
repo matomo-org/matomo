@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Piwik;
-use Piwik\Plugins\Actions\Segment;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -18,14 +18,22 @@ use Piwik\Tracker\Visitor;
 class ExitPageTitle extends VisitDimension
 {
     protected $columnName = 'visit_exit_idaction_name';
-    protected $columnType = 'INTEGER(11) UNSIGNED NOT NULL';
+    protected $columnType = 'INTEGER(10) UNSIGNED NULL';
+    protected $segmentName = 'exitPageTitle';
+    protected $nameSingular = 'Actions_ColumnExitPageTitle';
+    protected $namePlural = 'Actions_WidgetExitPageTitles';
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
+    protected $type = self::TYPE_TEXT;
 
-    protected function configureSegments()
+    public function getDbColumnJoin()
     {
-        $segment = new Segment();
-        $segment->setSegment('exitPageTitle');
-        $segment->setName('Actions_ColumnExitPageTitle');
-        $this->addSegment($segment);
+        return new ActionNameJoin();
+    }
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator('log_action', 'type', Action::TYPE_PAGE_TITLE);
     }
 
     /**
@@ -58,10 +66,5 @@ class ExitPageTitle extends VisitDimension
         }
 
         return $action->getIdActionNameForEntryAndExitIds();
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('Actions_ColumnExitPageTitle');
     }
 }

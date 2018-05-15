@@ -1,5 +1,0 @@
-#Software: Microsoft Internet Information Services 6.0
-#Version: 1.0
-#Date: 2012-04-01 00:00:13
-#Fields: date time s-sitename s-computername s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs-version cs(User-Agent) cs(Cookie) cs(Referer) cs-host sc-status sc-substatus sc-win32-status sc-bytes cs-bytes time-taken
-2012-04-01 00:00:13 W3SVC834221556 PXQD1 1.2.3.4 GET /foo/bar topCat1=divinity&submit=Search 80 - 5.6.7.8 HTTP/1.1 Mozilla/5.0+(X11;+U;+Linux+i686;+en-US;+rv:1.9.2.7)+Gecko/20100722+Firefox/3.6.7 - - example.com 200 0 0 27028 214 1687

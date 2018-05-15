@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Site 1 - Site search</website>
+	<prettyDate>January 1 – July 31, 2010</prettyDate>
+	<metadata>
+		<category>Actions</category>
+		<subcategory>Pages</subcategory>
+		<name>Page URLs</name>
+		<module>Actions</module>
+		<action>getPageUrls</action>
+		<dimension>Page URL</dimension>
+		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<metrics>
+			<nb_hits>Pageviews</nb_hits>
+			<nb_visits>Unique Pageviews</nb_visits>
+		</metrics>
+		<metricsDocumentation>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+			<nb_visits>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_visits>
+			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
+			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<avg_time_on_page>Avg. time on page</avg_time_on_page>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<exit_rate>Exit rate</exit_rate>
+			<avg_time_generation>Avg. generation time</avg_time_generation>
+		</processedMetrics>
+		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=range&amp;date=2010-01-03,2010-07-03</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=month&amp;date=2010-01-03,2010-07-03</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getPageUrls</uniqueId>
+	</metadata>
+	<columns>
+		<label>Page URL</label>
+		<nb_hits>Pageviews</nb_hits>
+		<nb_visits>Unique Pageviews</nb_visits>
+		<avg_time_on_page>Avg. time on page</avg_time_on_page>
+		<bounce_rate>Bounce Rate</bounce_rate>
+		<exit_rate>Exit rate</exit_rate>
+	</columns>
+	<reportData>
+		<result prettyDate="January 2010">
+			<row>
+				<label>/index.htm</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<bounce_rate>0%</bounce_rate>
+				<avg_time_on_page>00:00:36</avg_time_on_page>
+				<exit_rate>0%</exit_rate>
+			</row>
+			<row>
+				<label>/index.htm?gkwd=SHOULD be a PageView, NOT a search</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>1</nb_hits>
+				<bounce_rate>0%</bounce_rate>
+				<avg_time_on_page>00:00:00</avg_time_on_page>
+				<exit_rate>100%</exit_rate>
+			</row>
+			<row>
+				<label>/index.htm?random=PAGEVIEW, NOT SEARCH&amp;mykwd=&amp;IS_FOLLOWING_SEARCH ONCE</label>
+				<nb_visits>1</nb_visits>
+				<nb_hits>2</nb_hits>
+				<bounce_rate>0%</bounce_rate>
+				<avg_time_on_page>00:01:48</avg_time_on_page>
+				<exit_rate>0%</exit_rate>
+			</row>
+		</result>
+		<result prettyDate="February 2010" />
+		<result prettyDate="March 2010" />
+		<result prettyDate="April 2010" />
+		<result prettyDate="May 2010" />
+		<result prettyDate="June 2010" />
+		<result prettyDate="July 2010" />
+	</reportData>
+	<reportMetadata>
+		<result prettyDate="January 2010">
+			<row>
+				<url>http://example.org/index.htm</url>
+				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm</segment>
+			</row>
+			<row>
+				<url>http://example.org/index.htm?gkwd=SHOULD be a PageView, NOT a search</url>
+				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Fgkwd%3DSHOULD+be+a+PageView%2C+NOT+a+search</segment>
+			</row>
+			<row>
+				<url>http://example.org/index.htm?random=PAGEVIEW, NOT SEARCH&amp;mykwd=&amp;IS_FOLLOWING_SEARCH ONCE</url>
+				<segment>pageUrl==http%3A%2F%2Fexample.org%2Findex.htm%3Frandom%3DPAGEVIEW%2C+NOT+SEARCH%26mykwd%3D%26IS_FOLLOWING_SEARCH+ONCE</segment>
+			</row>
+		</result>
+		<result prettyDate="February 2010" />
+		<result prettyDate="March 2010" />
+		<result prettyDate="April 2010" />
+		<result prettyDate="May 2010" />
+		<result prettyDate="June 2010" />
+		<result prettyDate="July 2010" />
+	</reportMetadata>
+	<reportTotal>
+		<nb_visits>3</nb_visits>
+		<nb_hits>4</nb_hits>
+		<exit_nb_visits>1</exit_nb_visits>
+	</reportTotal>
+</result>

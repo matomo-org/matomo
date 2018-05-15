@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Actions\Reports;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Actions;
@@ -17,13 +18,36 @@ abstract class SiteSearchBase extends Base
     protected function init()
     {
         parent::init();
-        $this->category = 'Actions_SubmenuSitesearch';
+        $this->categoryId = 'General_Actions';
     }
 
     public function isEnabled()
     {
+        $idSites = Common::getRequestVar('idSites', '', 'string');
+        $idSite  = Common::getRequestVar('idSite', 0, 'int');
+
+        return $this->isEnabledForIdSites($idSites, $idSite);
+    }
+
+    protected function isEnabledForIdSites($idSites, $idSite)
+    {
         $actions = new Actions();
-        return $actions->isSiteSearchEnabled();
+        return $actions->isSiteSearchEnabled($idSites, $idSite);
+    }
+
+    public function configureReportMetadata(&$availableReports, $infos)
+    {
+        $idSite = array($infos['idSite']);
+
+        if (!$this->isEnabledForIdSites($idSite, Common::getRequestVar('idSite', 0, 'int'))) {
+            return;
+        }
+
+        $report = $this->buildReportMetadata();
+
+        if (!empty($report)) {
+            $availableReports[] = $report;
+        }
     }
 
     protected function addSiteSearchDisplayProperties(ViewDataTable $view)

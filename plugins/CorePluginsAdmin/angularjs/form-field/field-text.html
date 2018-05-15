@@ -1,0 +1,13 @@
+<div>
+    <input
+            class="control_{{ formField.uiControl }}"
+            type="{{ formField.uiControl }}"
+            id="{{ formField.name }}"
+            name="{{ formField.name }}"
+            ng-model="formField.value"
+            ng-value="formField.value"
+            ng-trim="false"
+            piwik-attributes="{{formField.uiControlAttributes}}"
+    >
+    <label for="{{ formField.name }}" ng-bind-html="formField.title"></label>
+</div>

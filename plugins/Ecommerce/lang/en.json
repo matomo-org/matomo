@@ -1,0 +1,17 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "Ecommerce lets you track when users add products to carts, and when they convert to a ecommerce sale. Also track products and product categories views and abandoned carts.",
+        "Sales": "Sales",
+        "Order": "Order",
+        "Orders": "Orders",
+        "SalesBy": "Sales by %s",
+        "SalesAdjective": "Sales %s",
+        "NumberOfItems": "Number of Items in Cart",
+        "OrderValue": "Order value",
+        "LifeTimeValue": "Ecommerce Life Time Value",
+        "LifeTimeValueDescription": "Total Ecommerce revenue attributed to this customer across all visits: the sum of revenue of all Ecommerce orders for Visitor ID %s.",
+        "VisitorProfileLTV": "Generated a Life Time Revenue of %1$s.",
+        "VisitorProfileItemsAndOrders": "Purchased %1$s items in %2$s ecommerce orders.",
+        "VisitorProfileAbandonedCartSummary": "Abandoned %1$s carts including %2$s items worth a total of %3$s."
+    }
+}

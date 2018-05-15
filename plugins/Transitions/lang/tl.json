@@ -1,0 +1,27 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s mga bounce",
+        "DirectEntries": "Direktang mga entry",
+        "ErrorBack": "Bumalik sa nakaraang aksyon",
+        "ExitsInline": "%s paglabas",
+        "FromCampaigns": "Mula sa campaigns",
+        "FromPreviousPages": "Mula sa Panloob na Pahina",
+        "FromPreviousPagesInline": "%s mula sa mga panloob na mga pahina",
+        "FromPreviousSiteSearches": "Mula sa panloob na paghahanap",
+        "FromPreviousSiteSearchesInline": "%s mula sa mga panloob na paghahanap",
+        "FromSearchEngines": "Mula sa Search Engine",
+        "FromWebsites": "Mula sa mga website",
+        "IncomingTraffic": "Incoming traffic",
+        "LoopsInline": "muling pagload ng pahina %s",
+        "NoDataForAction": "Walang data para sa %s",
+        "NoDataForActionDetails": "Maaaring ang aksyon ay walang pageview sa panahon ng %s o ito ay hindi wasto.",
+        "OutgoingTraffic": "Mga outgoing na traffic",
+        "ShareOfAllPageviews": "Ang pahinang ito ay may %1$s na pageview (%2$s ng lahat ng mga pageview)",
+        "ToFollowingPages": "Sa mga panloob na mga pahina",
+        "ToFollowingPagesInline": "%s panloob na mga pahina",
+        "ToFollowingSiteSearches": "Panloob na paghahanap",
+        "ToFollowingSiteSearchesInline": "panloob na paghahanap %s",
+        "XOfAllPageviews": "%s ng lahat ng mga tanawin ng pahinang ito",
+        "XOutOfYVisits": "%1$s (mula sa %2$s)"
+    }
+}

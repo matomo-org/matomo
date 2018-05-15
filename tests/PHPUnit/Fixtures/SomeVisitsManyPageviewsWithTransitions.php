@@ -8,7 +8,8 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
+use PiwikTracker;
 
 /**
  * Adds one site and tracks a couple visits with many pageviews. The

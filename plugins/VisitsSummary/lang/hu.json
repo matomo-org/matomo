@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s kérés végrehajtva",
+        "GenerateTime": "%s másodperc kellett a lap legenerálásához",
+        "NbActionsDescription": "%s akció (weblap megnyitása, letöltések és kimenő linkek)",
+        "VisitsSummary": "Látogatások összesítése",
+        "VisitsSummaryDocumentation": "Ez egy összefoglaló nézet a látogatások folyamatáról.",
+        "WidgetLastVisits": "Utolsó látogatások grafikonja",
+        "WidgetOverviewGraph": "Áttekintés grafikonnal",
+        "WidgetVisits": "Látogatások áttekintése"
+    }
+}

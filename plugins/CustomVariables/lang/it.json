@@ -1,0 +1,22 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Nome Variabile Personalizzata",
+        "ColumnCustomVariableValue": "Valore Variabile Personalizzata",
+        "CustomVariables": "Variabile Personalizzata",
+        "CustomVariablesReportDocumentation": "Questo report contiene le informazioni sulle variabili personalizzate. Clicca su un nome di variabile per visualizzarne la distribuzione dei valori. %1$s Per ulteriori informazioni sulle variabili personalizzate in generale, leggere la %2$sDocumentazione Variabili Personalizzate su piwik.org%3$s",
+        "ScopePage": "ambito pagina",
+        "ScopeVisit": "ambito visita",
+        "ManageDescription": "Questa panoramica mostra tutti gli slot di variabili personali e il loro utilizzo nel sito '%s'. I nomi in ciascuno slot vengono ordinati a seconda di quanto sono stati utilizzati in totale.",
+        "ScopeX": "Ambito %s",
+        "Index": "Indice",
+        "Usages": "Usi",
+        "Unused": "Inutilizzate",
+        "CreateNewSlot": "Aumenta il numero degli slot di variabili personali disponibili",
+        "UsageDetails": "%1$s visite e %2$s azioni dalla creazione di questo sito web.",
+        "CreatingCustomVariableTakesTime": "La creazione di un nuovo slot di variabili personali può richiedere un tempo lungo che dipende dalla dimensione del tuo database. Pertanto è possibile fare ciò solo tramite un comando che deve essere eseguito da riga di comando.",
+        "CurrentAvailableCustomVariables": "Attualmente puoi utilizzare fino a %s variabili personali per sito.",
+        "SlotsReportIsGeneratedOverTime": "I dati per questo report saranno popolati nel tempo. Ciò può richiedere un giorno o due per vedere dei dati, e qualche settimana perché il report sia totalmente accurato.",
+        "MetricsAreOnlyAvailableForVisitScope": "Nota: Sono disponibili %1$s metriche per le Variabili Speciali solo per l'ambito %2$s.",
+        "MetricsNotAvailableForPageScope": "Per le Variabili Speciali dell'ambito %1$s, il valore colonna è %2$s"
+    }
+}

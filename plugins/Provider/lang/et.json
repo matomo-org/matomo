@@ -1,0 +1,6 @@
+{
+    "Provider": {
+        "ColumnProvider": "Teenusepakkuja",
+        "WidgetProviders": "Teenusepakkujad"
+    }
+}

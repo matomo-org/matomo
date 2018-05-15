@@ -8,11 +8,10 @@
  */
 namespace Piwik\Plugins\Widgetize;
 
-use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\FrontController;
+use Piwik\Piwik;
 use Piwik\View;
-use Piwik\WidgetsList;
 
 /**
  *
@@ -22,37 +21,44 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         $view = new View('@Widgetize/index');
-        $view->availableWidgets = Common::json_encode(WidgetsList::get());
         $this->setGeneralVariablesView($view);
-        return $view->render();
-    }
-
-    public function testJsInclude1()
-    {
-        $view = new View('@Widgetize/testJsInclude1');
-        $view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=UserSettings&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
-        $view->url2 = '?module=Widgetize&action=js&moduleToWidgetize=API&actionToWidgetize=index&method=ExamplePlugin.getGoldenRatio&format=original';
-        return $view->render();
-    }
-
-    public function testJsInclude2()
-    {
-        $view = new View('@Widgetize/testJsInclude2');
-        $view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=UserSettings&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
-        $view->url2 = '?module=Widgetize&action=js&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry&idSite=1&period=day&date=yesterday&viewDataTable=cloud&show_footer=0';
-        $view->url3 = '?module=Widgetize&action=js&moduleToWidgetize=Referrers&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&viewDataTable=table&show_footer=0';
         return $view->render();
     }
 
     public function iframe()
     {
-        Request::reloadAuthUsingTokenAuth();
         $this->init();
 
         $controllerName = Common::getRequestVar('moduleToWidgetize');
         $actionName     = Common::getRequestVar('actionToWidgetize');
 
-        if ($controllerName == 'Dashboard' && $actionName == 'index') {
+        if ($controllerName == 'API') {
+            throw new \Exception("Widgetizing API requests is not supported for security reasons. Please change query parameter 'moduleToWidgetize'.");
+        }
+
+        $shouldEmbedEmpty = false;
+
+        /**
+         * Triggered to detect whether a widgetized report should be wrapped in the widgetized HTML or whether only
+         * the rendered output of the controller/action should be printed. Set `$shouldEmbedEmpty` to `true` if
+         * your widget renders the full HTML itself.
+         *
+         * **Example**
+         *
+         *     public function embedIframeEmpty(&$shouldEmbedEmpty, $controllerName, $actionName)
+         *     {
+         *         if ($controllerName == 'Dashboard' && $actionName == 'index') {
+         *             $shouldEmbedEmpty = true;
+         *         }
+         *     }
+         *
+         * @param string &$shouldEmbedEmpty Defines whether the iframe should be embedded empty or wrapped within the widgetized html.
+         * @param string $controllerName    The name of the controller that will be executed.
+         * @param string $actionName        The name of the action within the controller that will be executed.
+         */
+        Piwik::postEvent('Widgetize.shouldEmbedIframeEmpty', array(&$shouldEmbedEmpty, $controllerName, $actionName));
+
+        if ($shouldEmbedEmpty) {
             $view = new View('@Widgetize/iframe_empty');
         } else {
             $view = new View('@Widgetize/iframe');

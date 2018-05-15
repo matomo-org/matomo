@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "średni czas generowania",
+        "AverageVisitDuration": "średni długość wizyty",
+        "GenerateQueries": "%s wykonanych zapytań",
+        "GenerateTime": "%s sekund do wygenerowania strony",
+        "MaxNbActions": "max akcji w czasie jednej wizyty",
+        "NbActionsDescription": "%s działań",
+        "NbActionsPerVisit": "akcji (wyświetlenia stron, pobrań, wyszukiwań zewnętrznych i wewnętrznych linków) podczas wizyty",
+        "NbDownloadsDescription": "pobrań",
+        "NbKeywordsDescription": "unikalnych słów kluczowych",
+        "NbOutlinksDescription": "linków zewnętrznych",
+        "NbPageviewsDescription": "wyświetleń stron",
+        "NbSearchesDescription": "suma wyszukiwań w Twoim portalu",
+        "NbUniqueDownloadsDescription": "unikalnych pobrań",
+        "NbUniqueOutlinksDescription": "unikalnych linków zewnętrznych",
+        "NbUniquePageviewsDescription": "unikalnych wyświetleń stron",
+        "NbUniqueVisitors": "unikalnych odwiedzających",
+        "NbUsersDescription": "użytkowników",
+        "NbVisitsDescription": "wizyt",
+        "NbVisitsBounced": "wizyt porzuconych (opuścili portal po jednej stronie)",
+        "PluginDescription": "Raport z podstawowymi wskaźnikami analitycznymi: odwiedziny, unikalni odwiedzający, liczba akcji, współczynnik porzuceń, itd.",
+        "VisitsSummary": "Podsumowanie odwiedzin",
+        "VisitsSummaryDocumentation": "To jest przegląd ewolucji wizyt.",
+        "WidgetLastVisits": "Wykres z ostatnich odwiedzin",
+        "WidgetOverviewGraph": "Podgląd z wykresem",
+        "WidgetVisits": "Podgląd odwiedzin"
+    }
+}

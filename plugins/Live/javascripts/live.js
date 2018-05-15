@@ -65,7 +65,14 @@
             ajaxRequest.addParams(this.options.dataUrlParams, 'GET');
             ajaxRequest.setFormat('html');
             ajaxRequest.setCallback(function (r) {
-                that._parseResponse(r);
+                if (that.options.replaceContent) {
+                    $(that.element).html(r);
+                    if (that.options.fadeInSpeed) {
+                        $(that.element).effect("highlight", {}, that.options.fadeInSpeed);
+                    }
+                } else {
+                    that._parseResponse(r);
+                }
 
                 // add default interval to last interval if not updated or reset to default if so
                 if (!that.updated) {
@@ -82,7 +89,7 @@
 
                 if (that.isStarted) {
                     window.clearTimeout(that.updateInterval);
-                    if ($(that.element).closest('body').length) {
+                    if (that.element.length && $.contains(document, that.element[0])) {
                         that.updateInterval = window.setTimeout(function() { that._update() }, that.currentInterval);
                     }
                 }
@@ -101,10 +108,28 @@
                 return;
             }
 
-            var items = $('li', $(data));
+            var items = $('li.visit', $(data));
             for (var i = items.length; i--;) {
                 this._parseItem(items[i]);
             }
+
+            this._initTooltips();
+        },
+
+        /**
+         * Initializes the icon tooltips
+         */
+        _initTooltips: function() {
+            $('li.visit').tooltip({
+                items: '.visitorLogIconWithDetails',
+                track: true,
+                show: false,
+                hide: false,
+                content: function() {
+                    return $('<ul>').html($('ul', $(this)).html());
+                },
+                tooltipClass: 'small'
+            });
         },
 
         /**
@@ -128,7 +153,7 @@
                 $(item).fadeIn(this.options.fadeInSpeed);
             }
             // remove rows if there are more than the maximum
-            $('li:gt(' + (this.options.maxRows - 1) + ')', this.element).remove();
+            $('li.visit:gt(' + (this.options.maxRows - 1) + ')', this.element).remove();
         },
 
         /**
@@ -146,6 +171,8 @@
             this.currentInterval = this.options.interval;
 
             var self = this;
+
+            this._initTooltips();
 
             this.updateInterval = window.setTimeout(function() { self._update(); }, this.currentInterval);
         },
@@ -189,6 +216,14 @@
         },
 
         /**
+         * Return true in case widget is started.
+         * @returns {boolean}
+         */
+        started: function() {
+            return this.isStarted;
+        },
+
+        /**
          * Set the interval for refresh
          *
          * @param {int} interval  new interval for refresh
@@ -203,7 +238,17 @@
 $(function() {
     var refreshWidget = function (element, refreshAfterXSecs) {
         // if the widget has been removed from the DOM, abort
-        if ($(element).parent().length == 0) {
+        if (!element.length || !$.contains(document, element[0])) {
+            return;
+        }
+
+        function scheduleAnotherRequest()
+        {
+            setTimeout(function () { refreshWidget(element, refreshAfterXSecs); }, refreshAfterXSecs * 1000);
+        }
+
+        if (Visibility.hidden()) {
+            scheduleAnotherRequest();
             return;
         }
 
@@ -227,7 +272,7 @@ $(function() {
                 var visitorsCountMessage = translations['one_visitor'];
             }
             else {
-                var visitorsCountMessage = translations['visitors'].replace('%s', visitors);
+                var visitorsCountMessage = sprintf(translations['visitors'], visitors);
             }
             $('.simple-realtime-visitor-counter', element)
               .attr('title', visitorsCountMessage)
@@ -237,21 +282,20 @@ $(function() {
             var metrics = $('.simple-realtime-metric', element);
 
             var visitsText = data['visits'] == 1
-              ? translations['one_visit'] : translations['visits'].replace('%s', data['visits']);
+              ? translations['one_visit'] : sprintf(translations['visits'], data['visits']);
             $(metrics[0]).text(visitsText);
 
             var actionsText = data['actions'] == 1
-              ? translations['one_action'] : translations['actions'].replace('%s', data['actions']);
+              ? translations['one_action'] : sprintf(translations['actions'], data['actions']);
             $(metrics[1]).text(actionsText);
 
             var lastMinutesText = lastMinutes == 1
-              ? translations['one_minute'] : translations['minutes'].replace('%s', lastMinutes);
+              ? translations['one_minute'] : sprintf(translations['minutes'], lastMinutes);
             $(metrics[2]).text(lastMinutesText);
 
-            // schedule another request
-            setTimeout(function () { refreshWidget(element, refreshAfterXSecs); }, refreshAfterXSecs * 1000);
+            scheduleAnotherRequest();
         });
-        ajaxRequest.send(true);
+        ajaxRequest.send();
     };
 
     var exports = require("piwik/Live");
@@ -270,17 +314,48 @@ $(function() {
     };
 });
 
-var pauseImage = "plugins/Live/images/pause.gif";
-var pauseDisabledImage = "plugins/Live/images/pause_disabled.gif";
-var playImage = "plugins/Live/images/play.gif";
-var playDisabledImage = "plugins/Live/images/play_disabled.gif";
 function onClickPause() {
-    $('#pauseImage').attr('src', pauseImage);
-    $('#playImage').attr('src', playDisabledImage);
+    $('#pauseImage').hide();
+    $('#playImage').show();
     return $('#visitsLive').liveWidget('stop');
 }
 function onClickPlay() {
-    $('#playImage').attr('src', playImage);
-    $('#pauseImage').attr('src', pauseDisabledImage);
+    $('#playImage').hide();
+    $('#pauseImage').show();
     return $('#visitsLive').liveWidget('start');
 }
+
+(function () {
+    if (!Visibility.isSupported()) {
+        return;
+    }
+
+    var isStoppedByBlur = false;
+
+    function isStarted()
+    {
+        return $('#visitsLive').liveWidget('started');
+    }
+
+    function onTabBlur() {
+        if (isStarted()) {
+            isStoppedByBlur = true;
+            onClickPause();
+        }
+    }
+
+    function onTabFocus() {
+        if (isStoppedByBlur && !isStarted()) {
+            isStoppedByBlur = false;
+            onClickPlay();
+        }
+    }
+
+    Visibility.change(function (event, state) {
+        if (Visibility.hidden()) {
+            onTabBlur();
+        } else {
+            onTabFocus();
+        }
+    });
+})();

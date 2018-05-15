@@ -12,7 +12,7 @@ Piwik.addPlugin('testPlugin', {
 	 * called when tracker instantiated
 	 * - function or string to be eval()'d
 	 */
-	run: function (registerHookCallback) {
+	run: function (params, registerHookCallback) {
 		registerHookCallback('test',
 			'{' +
 				'_isDefined : isDefined,' +
@@ -20,10 +20,13 @@ Piwik.addPlugin('testPlugin', {
 				'_isObject : isObject,' +
 				'_isString : isString,' +
 				'_isSiteHostName : isSiteHostName,' +
+				'_isSiteHostPath : isSiteHostPath,' +
 				'_getClassesRegExp : getClassesRegExp,' +
 				'_hasCookies : hasCookies,' +
 				'_getCookie : getCookie,' +
+				'_getCookieName : getCookieName,' +
 				'_setCookie : setCookie,' +
+				'_getLinkIfShouldBeProcessed : getLinkIfShouldBeProcessed,' +
 				'_encode : encodeWrapper,' +
 				'_decode : decodeWrapper,' +
 				'_urldecode : urldecode,' +
@@ -31,7 +34,15 @@ Piwik.addPlugin('testPlugin', {
 				'_beforeUnloadHandler : beforeUnloadHandler,' +
 				'_getProtocolScheme : getProtocolScheme,' +
 				'_getHostName : getHostName,' +
-				'_getParameter : getParameter,' +
+				'_getUrlParameter : getUrlParameter,' +
+				'_addUrlParameter : addUrlParameter,' +
+				'_removeUrlParameter : removeUrlParameter,' +
+				'_getVisitorIdFromUrl : getVisitorIdFromUrl,' +
+				'_generateBrowserSpecificId : generateBrowserSpecificId,' +
+				'_makeCrossDomainDeviceId: makeCrossDomainDeviceId,' +
+				'_isSameCrossDomainDevice: isSameCrossDomainDevice,' +
+				'_replaceHrefForCrossDomainLink: replaceHrefForCrossDomainLink,' +
+				'_isLinkToDifferentDomainButSamePiwikWebsite: isLinkToDifferentDomainButSamePiwikWebsite,' +
 				'_urlFixup : urlFixup,' +
 				'_domainFixup : domainFixup,' +
 				'_titleFixup : titleFixup,' +
@@ -40,7 +51,9 @@ Piwik.addPlugin('testPlugin', {
 				'_purify : purify,' +
 				'_resolveRelativeReference : resolveRelativeReference,' +
 				'_addEventListener : addEventListener,' +
-				'_prefixPropertyName : prefixPropertyName' +
+				'_prefixPropertyName : prefixPropertyName,' +
+				'_getPiwikUrlForOverlay : getPiwikUrlForOverlay, ' +
+				'_isInsideAnIframe : isInsideAnIframe' +
 			'}'
 		);
 	},

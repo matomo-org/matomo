@@ -9,16 +9,17 @@
 namespace Piwik\Updates;
 
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_2_2_3_b6 extends Updates
 {
-    public static function update()
+    public function doUpdate(Updater $updater)
     {
         try {
             \Piwik\Plugin\Manager::getInstance()->activatePlugin('ZenMode');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
         }
     }
 }

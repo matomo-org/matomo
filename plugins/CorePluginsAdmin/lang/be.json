@@ -1,0 +1,18 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Актываваць",
+        "Activated": "Актывавана",
+        "Active": "Актыўныя",
+        "AuthorHomepage": "Хатняя старонка аўтара",
+        "Deactivate": "Дэактываваць",
+        "Inactive": "Неактыўныя",
+        "LicenseHomepage": "Хатняя старонка ліцэнзіі",
+        "PluginsExtendPiwik": "Плагіны пашыраюць функцыянальнасць Matomo.",
+        "OncePluginIsInstalledYouMayActivateHere": "Пасля ўсталёўкі плагіна Вы можаце актываваць ці дэактываваць яго тут.",
+        "PluginHomepage": "Хатняя старонка плагіна",
+        "PluginsManagement": "Кіраванне плагінамі",
+        "Status": "Статус",
+        "Version": "Версія",
+        "Websites": "Вэб-сайты"
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "Live": {
+        "AveragePageGenerationTime": "Hver side tok i gjennomsnitt %1$s å laste for denne brukeren.",
+        "ClickToViewMoreAboutVisit": "Klikk for å se mer informasjon om dette besøket",
+        "ConvertedNGoals": "Konverterte %s mål",
+        "FirstVisit": "Første besøk",
+        "GoalType": "Type",
+        "HideMap": "skjul kart",
+        "LastHours": "Siste %s timer",
+        "LastMinutes": "Siste %s minutter",
+        "LastVisit": "Siste besøk",
+        "LinkVisitorLog": "Vis detaljert logg over besøkere",
+        "NbVisitor": "1 besøker",
+        "NbVisitors": "%s besøkere",
+        "NextVisitor": "Neste besøker",
+        "PreviousVisitor": "Forrige besøker",
+        "RealTimeVisitorCount": "Besøkstall i sanntid",
+        "Referrer_URL": "Henvisnings-URL",
+        "ShowMap": "vis kart",
+        "SimpleRealTimeWidget_Message": "%1$s og %2$s i de siste %3$s",
+        "ViewVisitorProfile": "Vis besøksprofil",
+        "VisitedPages": "Besøkte sider",
+        "VisitorLog": "Logg over besøkere",
+        "VisitorProfile": "Besøksprofil",
+        "VisitorsInRealTime": "Besøkende i sanntid",
+        "VisitsFrom": "%1$s%2$s besøk%3$s fra",
+        "VisitSummaryWithActionDetails": "Brukte totalt %1$s%2$s på nettstedet%3$s, og utførte %4$s handlinger%5$s (%6$s) i løpet av %7$s besøk%8$s.",
+        "OnClickPause": "%s er startet. Klikk for å sette på pause.",
+        "OnClickStart": "%s er stoppet. Klikk for å starte."
+    }
+}

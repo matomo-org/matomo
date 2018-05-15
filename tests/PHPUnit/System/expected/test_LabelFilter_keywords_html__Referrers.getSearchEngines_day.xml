@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>9</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>9</max_actions>
+		<sum_visit_length>1441</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerName==Google;referrerType==search;referrerKeyword==%3C%3E%26%5C%22the+pdo+extension+is+required+for+this+adapter+but+the+extension+is+not+loaded</segment>
+		<url>http://google.com/search?q=%3C%3E%26%5C%22the+pdo+extension+is+required+for+this+adapter+but+the+extension+is+not+loaded</url>
+	</row>
+</result>

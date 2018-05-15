@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="2009-12-28,2010-01-03" />
+		<result date="2010-01-04,2010-01-10">
+			<nb_uniq_visitors_returning>2</nb_uniq_visitors_returning>
+			<nb_users_returning>0</nb_users_returning>
+			<nb_visits_returning>7</nb_visits_returning>
+			<nb_actions_returning>31</nb_actions_returning>
+			<nb_visits_converted_returning>0</nb_visits_converted_returning>
+			<bounce_count_returning>1</bounce_count_returning>
+			<sum_visit_length_returning>5406</sum_visit_length_returning>
+			<max_actions_returning>5</max_actions_returning>
+			<bounce_rate_returning>14%</bounce_rate_returning>
+			<nb_actions_per_visit_returning>4.4</nb_actions_per_visit_returning>
+			<avg_time_on_site_returning>772</avg_time_on_site_returning>
+		</result>
+		<result date="2010-01-11,2010-01-17">
+			<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
+			<nb_users_returning>0</nb_users_returning>
+			<nb_visits_returning>2</nb_visits_returning>
+			<nb_actions_returning>10</nb_actions_returning>
+			<nb_visits_converted_returning>0</nb_visits_converted_returning>
+			<bounce_count_returning>0</bounce_count_returning>
+			<sum_visit_length_returning>1802</sum_visit_length_returning>
+			<max_actions_returning>5</max_actions_returning>
+			<bounce_rate_returning>0%</bounce_rate_returning>
+			<nb_actions_per_visit_returning>5</nb_actions_per_visit_returning>
+			<avg_time_on_site_returning>901</avg_time_on_site_returning>
+		</result>
+		<result date="2010-01-18,2010-01-24" />
+		<result date="2010-01-25,2010-01-31" />
+		<result date="2010-02-01,2010-02-07" />
+		<result date="2010-02-08,2010-02-14" />
+	</result>
+	<result idSite="2">
+		<result date="2009-12-28,2010-01-03" />
+		<result date="2010-01-04,2010-01-10" />
+		<result date="2010-01-11,2010-01-17" />
+		<result date="2010-01-18,2010-01-24" />
+		<result date="2010-01-25,2010-01-31" />
+		<result date="2010-02-01,2010-02-07" />
+		<result date="2010-02-08,2010-02-14" />
+	</result>
+</results>

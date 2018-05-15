@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Piwik test</website>
+	<prettyDate>January 3 – 9, 2010</prettyDate>
+	<metadata>
+		<category>Actions</category>
+		<subcategory>Contents</subcategory>
+		<name>Content Piece</name>
+		<module>Contents</module>
+		<action>getContentPieces</action>
+		<dimension>Content Piece</dimension>
+		<metrics>
+			<nb_impressions>Impressions</nb_impressions>
+			<nb_interactions>Content Interactions</nb_interactions>
+		</metrics>
+		<metricsDocumentation>
+			<nb_impressions>The number of times a content block, such as a banner or an ad, was displayed on a page.</nb_impressions>
+			<nb_interactions>The number of times a content block was interacted with (eg, a 'click' on a banner or ad).</nb_interactions>
+			<interaction_rate>The ratio of content impressions to interactions.</interaction_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<interaction_rate>Interaction Rate</interaction_rate>
+		</processedMetrics>
+		<actionToLoadSubTables>getContentPieces</actionToLoadSubTables>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentPieces&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Contents&amp;apiAction=getContentPieces&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
+		<uniqueId>Contents_getContentPieces</uniqueId>
+	</metadata>
+	<columns>
+		<label>Content Piece</label>
+		<nb_impressions>Impressions</nb_impressions>
+		<nb_interactions>Content Interactions</nb_interactions>
+		<interaction_rate>Interaction Rate</interaction_rate>
+	</columns>
+	<reportData>
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<label>Click to download Piwik now</label>
+				<nb_impressions>4</nb_impressions>
+				<nb_interactions>2</nb_interactions>
+				<interaction_rate>50%</interaction_rate>
+			</row>
+			<row>
+				<label>/path/ad.jpg</label>
+				<nb_impressions>2</nb_impressions>
+				<nb_interactions>2</nb_interactions>
+				<interaction_rate>100%</interaction_rate>
+			</row>
+			<row>
+				<label>/path/ad2.jpg</label>
+				<nb_impressions>2</nb_impressions>
+				<nb_interactions>0</nb_interactions>
+				<interaction_rate>0%</interaction_rate>
+			</row>
+			<row>
+				<label>Click NOW</label>
+				<nb_impressions>2</nb_impressions>
+				<nb_interactions>2</nb_interactions>
+				<interaction_rate>100%</interaction_rate>
+			</row>
+			<row>
+				<label>Content Piece not defined</label>
+				<nb_impressions>2</nb_impressions>
+				<nb_interactions>0</nb_interactions>
+				<interaction_rate>0%</interaction_rate>
+			</row>
+			<row>
+				<label>movie.mov</label>
+				<nb_impressions>2</nb_impressions>
+				<nb_interactions>0</nb_interactions>
+				<interaction_rate>0%</interaction_rate>
+			</row>
+			<row>
+				<label>Unknown</label>
+				<nb_impressions>2</nb_impressions>
+				<nb_interactions>0</nb_interactions>
+				<interaction_rate>0%</interaction_rate>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
+	</reportData>
+	<reportMetadata>
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<contentTarget>http://piwik.org/download</contentTarget>
+				<segment>contentPiece==Click+to+download+Piwik+now</segment>
+				<idsubdatatable>5</idsubdatatable>
+			</row>
+			<row>
+				<contentTarget>http://www.example.com</contentTarget>
+				<segment>contentPiece==%2Fpath%2Fad.jpg</segment>
+				<idsubdatatable>3</idsubdatatable>
+			</row>
+			<row>
+				<contentTarget>http://www.example.com</contentTarget>
+				<segment>contentPiece==%2Fpath%2Fad2.jpg</segment>
+				<idsubdatatable>4</idsubdatatable>
+			</row>
+			<row>
+				<contentTarget>http://piwik.org/</contentTarget>
+				<segment>contentPiece==Click+NOW</segment>
+				<idsubdatatable>6</idsubdatatable>
+			</row>
+			<row>
+				<contentTarget />
+				<idsubdatatable>1</idsubdatatable>
+			</row>
+			<row>
+				<contentTarget />
+				<segment>contentPiece==movie.mov</segment>
+				<idsubdatatable>7</idsubdatatable>
+			</row>
+			<row>
+				<contentTarget />
+				<segment>contentPiece==Unknown</segment>
+				<idsubdatatable>2</idsubdatatable>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
+	</reportMetadata>
+	<reportTotal>
+		<nb_visits>16</nb_visits>
+		<nb_uniq_visitors>16</nb_uniq_visitors>
+	</reportTotal>
+</result>

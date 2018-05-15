@@ -1,0 +1,21 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "Rata-rata waktu generasi",
+        "AverageVisitDuration": "rata-rata durasi kunjungan",
+        "GenerateQueries": "%s kueri dijalankan",
+        "GenerateTime": "%s detik untuk menghasilkan halaman",
+        "MaxNbActions": "aksi maksimal dalam satu kunjungan",
+        "NbActionsDescription": "%s tindakan (menampilkan halaman, mengunduh, dan tautan keluar)",
+        "NbDownloadsDescription": "unduhan",
+        "NbKeywordsDescription": "katakunci unik",
+        "NbUniqueDownloadsDescription": "unduhan unik",
+        "NbUniqueVisitors": "pengunjung unik",
+        "NbUsersDescription": "pengguna",
+        "NbVisitsDescription": "kunjungan",
+        "VisitsSummary": "Rangkuman Kunjungan",
+        "VisitsSummaryDocumentation": "Ini merupakan iktisar perkembangan kunjungan.",
+        "WidgetLastVisits": "Grafik kunjungan terakhir",
+        "WidgetOverviewGraph": "Iktisar dengan grafik",
+        "WidgetVisits": "Iktisar kunjungan"
+    }
+}

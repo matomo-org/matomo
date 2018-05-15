@@ -1,0 +1,7 @@
+{
+    "CustomPiwikJs": {
+        "PluginDescription": "Permite a cualquier plugin extender el fichero de seguimiento por javascript (piwik.js) y añadir nuevas funcionalidades y capacidades de medida del sitio web",
+        "DiagnosticPiwikJsWritable": "Archivo de seguimiento Javascript modificable (\"\/piwik.js\")",
+        "DiagnosticPiwikJsMakeWritable": "Recomendamos piwik.js modificable mediante la ejecución de este comando: %s"
+    }
+}

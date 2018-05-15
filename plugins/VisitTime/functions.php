@@ -9,11 +9,20 @@
 
 namespace Piwik\Plugins\VisitTime;
 
+use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Piwik;
 
 function getTimeLabel($label)
 {
-    return sprintf(Piwik::translate('VisitTime_NHour'), $label);
+    $date             = Date::factory(mktime($label));
+    $dateTimeProvider = StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider');
+
+    if ($dateTimeProvider->uses12HourClock()) {
+        return $date->getLocalized(Piwik::translate('Intl_Format_Hour_12'));
+    }
+
+    return $date->getLocalized(Piwik::translate('Intl_Format_Hour_24'));
 }
 
 /**
@@ -36,5 +45,16 @@ function dayOfWeekFromDate($dateStr)
  */
 function translateDayOfWeek($dayOfWeek)
 {
-    return Piwik::translate('General_LongDay_' . $dayOfWeek);
+    return Piwik::translate('Intl_Day_Long_StandAlone_' . $dayOfWeek);
+}
+
+/**
+ * Returns translated long name for month.
+ *
+ * @param int $month 1-12, for January-December
+ * @return string
+ */
+function translateMonth($month)
+{
+    return Piwik::translate('Intl_Month_Long_StandAlone_' . $month);
 }

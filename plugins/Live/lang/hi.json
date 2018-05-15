@@ -1,0 +1,33 @@
+{
+    "Live": {
+        "AveragePageGenerationTime": "प्रत्येक पृष्ठ इस आगंतुक के लिए लोड करने के लिए औसत %1$s पर ले लिया।",
+        "CalculatedOverNPageViews": "इस आगंतुक के अंतिम %1$s पृष्ठ विचार उपयोग कर की गणना।",
+        "ClickToViewMoreAboutVisit": "इस यात्रा के बारे में अधिक जानकारी देखने के लिए क्लिक करें",
+        "ConvertedNGoals": "लक्ष्य %s बदल दिया गया है",
+        "FirstVisit": "पहला दौरा",
+        "GoalType": "प्रकार",
+        "HideMap": "नक्शा छिपाना",
+        "KeywordRankedOnSearchResultForThisVisitor": "खोजशब्द %1$sके इस आगंतुक %2$sके लिए %3$sखोज परिणाम पृष्ठ पर स्थान दिया गया था",
+        "LastHours": "अंतिम %s घंटे",
+        "LastMinutes": "अंतिम %s मिनट",
+        "LastVisit": "अंतिम दौरा",
+        "LinkVisitorLog": "विस्तृत आगंतुक लॉग देखें",
+        "LoadMoreVisits": "अधिक यात्राओं लोड",
+        "MorePagesNotDisplayed": "इस आगंतुक से अधिक पृष्ठों को प्रदर्शित नहीं कर रहे हैं",
+        "NbVisitor": "1 आगंतुक",
+        "NbVisitors": "%s आगंतुकों",
+        "NextVisitor": "अगले आगंतुक",
+        "PageRefreshed": "यह पृष्ठ देखा गया था \/ एक पंक्ति में रिफ्रेश की संख्या।",
+        "RealTimeVisitorCount": "रीयल टाइम आगंतुक गणना",
+        "Referrer_URL": "संदर्भ URL",
+        "ShowMap": "नक्शा दिखाना",
+        "SimpleRealTimeWidget_Message": "अंतिम %1$s में %2$s और %3$s है.",
+        "VisitedPages": "पृष्ठों का दौरा",
+        "VisitorLog": "आगंतुक प्रवेश",
+        "VisitorLogDocumentation": "इस तालिका में चयनित तिथि सीमा के भीतर नवीनतम यात्राओं से पता चलता है. %1$sआप देख सकते हैं जब एक आगंतुक की अंतिम यात्रा की तारीख के आस-पास उत्पन्न हुई।तिथि सीमा आज भी शामिल है, तो आप अपने दर्शकों के वास्तविक समय देख सकते हैं! %2$s यहाँ प्रदर्शित डेटा की परवाह किए बिना कि क्या और कितनी बार आप पुरालेखण क्रॉन जॉब का उपयोग कर रहे हैं.",
+        "VisitorProfile": "आगंतुक रूपरेखा",
+        "VisitorsInRealTime": "वास्तविक समय से आगंतुक",
+        "VisitorsLastVisit": "इस आगंतुक की आखिरी यात्रा %s दिन पहले की बात है.",
+        "VisitsFrom": "%1$s%2$s से दौरा %3$s"
+    }
+}

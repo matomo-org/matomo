@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Hape në dritare të re",
+        "PluginDescription": "Shfaqni çfarëdo raporti Matomo në sajtin apo aplikacionin tuaj, përmes një etikete të thjeshtë Embed HTML.",
+        "TopLinkTooltip": "Eksportoni Raporte Matomo si Widget-e dhe bëjeni Pultin pjesë të aplikacionit tuaj si një iframe."
+    }
+}

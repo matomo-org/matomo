@@ -1,0 +1,26 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Ein Bestätigungslink wurde an Ihre E-Mail-Adresse verschickt. Überprüfen Sie Ihren Posteingang und besuchen diesen Link um die Passwortänderung zu bestätigen.",
+        "ContactAdmin": "Möglicher Grund: Der Server könnte die mail()-Funktion deaktiviert haben.<br \/>Bitte sprechen Sie mit Ihrem Matomo Administrator.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Ein Benutzer mit Systemverwaltunszugriff kann nicht mit der Methode »%s« legitimiert werden.",
+        "ExceptionPasswordMD5HashExpected": "Der Parameter »password« wird als MD5-Hash des Passwortes erwartet.",
+        "InvalidNonceOrHeadersOrReferrer": "Sicherheitschecks fehlgeschlagen. Bitte laden Sie das Formular erneut und prüfen Sie, ob Ihr Browser Cookies zulässt. Wenn Sie einen Proxy Server verwenden, müssen Sie %1$sMatomo so einrichten, dass es Proxy Header akzeptiert%2$s.",
+        "InvalidNonceSSLMisconfigured": "Sie können %1$sMatomo zur Verwendung einer sicheren Verbindung zwingen%2$s: Setzen sie dafür in der Konfigurationsdatei %3$s innerhalb der Sektion %5$s %4$s",
+        "InvalidOrExpiredToken": "Der Token ist ungültig oder dessen Gültigkeitsdauer ist bereits abgelaufen.",
+        "InvalidUsernameEmail": "Ungültiger Benutzername und\/oder E-Mail-Adresse",
+        "LogIn": "Anmelden",
+        "LoginOrEmail": "Benutzername oder E-Mail",
+        "LoginPasswordNotCorrect": "Benutzername und Passwort sind nicht korrekt",
+        "LostYourPassword": "Passwort vergessen?",
+        "ChangeYourPassword": "Ändern Sie ihr Passwort",
+        "MailPasswordChangeBody": "Hallo %1$s,\n\nEine Anfrage zum Zurücksetzen des Passworts von %2$s wurde empfangen. Um diese Passwortänderung zu bestätigen, damit Sie sich mit Ihren neuen Zugangsdaten anmelden können, besuchen Sie folgenden Link:\n\n%3$s\n\nAchtung: Das Ändern des Passworts wird auch Ihren token_auth ändern. Sie können den neuen token_auth bei Ihren Einstellungen einsehen.\n\nFalls Sie Ihren API token_auth in einem externen Programm oder für die Archivierung einsetzen, vergewissern Sie sich bitte, dass der token_auth aktualisiert wird, sonst werden die Anfragen an die API fehlschlagen.\n\nHinweis: Der Link ist nur 24 Stunden gültig.\n\nUnd vielen Dank, dass Sie Matomo verwenden!",
+        "MailTopicPasswordChange": "Passwortänderung bestätigen",
+        "NewPassword": "Neues Passwort",
+        "NewPasswordRepeat": "Neues Passwort (Wiederholung)",
+        "PasswordChanged": "Das Passwort wurde geändert.",
+        "PasswordRepeat": "Passwort (wiederholen)",
+        "PasswordsDoNotMatch": "Die Passwörter stimmen nicht überein.",
+        "PluginDescription": "Unterstützt Authentifizierung via Benutzername und Passwort sowie Password Reset Funktionalität. Die Authentifizierungsmethode kann durch ein anderes Login Plugin wie LoginLdap (verfügbar im Marketplace) geändert werden.",
+        "RememberMe": "Angemeldet bleiben"
+    }
+}

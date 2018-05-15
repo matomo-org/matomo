@@ -1,0 +1,16 @@
+{
+    "API": {
+        "ChangeTokenHint": "W celu zmiany tokenu, proszę odwiedź %1$s strony ustawień osobistych %2$s.",
+        "GenerateVisits": "Jeżeli nie posiadasz żadnych danych do dnia dzisiejszego, możesz na początek wygenerować trochę symulowanych danych testowych używając wtyczki o nazwie %1$s. Możesz aktywować i uruchomić wtyczkę %2$s, a następnie kliknąć w menu przycisk Potwierdź w 'generatorze odwiedzin', w strefie menu Konfiguracja administratora systemu Matomo.",
+        "KeepTokenSecret": "Ten token_auth jest tak samo tajny jak twój login i hasło, %1$s nie upowszechniaj go%2$s!",
+        "LoadedAPIs": "Środowisko API załadowano %s pomyślnie",
+        "MoreInformation": "Aby uzyskać więcej informacji o interfejsie API statystyk Matomo, prosimy przeczytać %1$s Wprowadzenie do interfejsu API w Matomo%2$s, a także na stronie opracowania %3$s Matomo API Reference%4$s.",
+        "PluginDescription": "Wszystkie dane w Matomou są dostępne poprzez proste API. Ten plugin jest punktem końcowym serwisu web,",
+        "ReportingApiReference": "Referencje API Raportów",
+        "TopLinkTooltip": "Dostęp do twoich danych analitycznych programistycznie poprzez proste API w formatach json, xml itp.",
+        "UserAuthentication": "Uwierzytelnianie użytkownika",
+        "UsingTokenAuth": "Jeżeli wysuniesz żądanie %1$s ujęcia pewnych danych w statystyce za pomocą crontab, %2$s musisz dodać poniższy parametr %3$s do interfejsu API, wywołując URL-e które wymagają uwierzytelniania.",
+        "Glossary": "Słownik",
+        "LearnAboutCommonlyUsedTerms": "Poznaj powszechnie stosowane terminy i zrozum zebrane przez Matomo dane: %1$s i %2$s."
+    }
+}

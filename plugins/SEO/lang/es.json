@@ -1,0 +1,12 @@
+{
+    "SEO": {
+        "PluginDescription": "Este complemento extrae y visualiza las métricas SEO: ranking de internet Alexa, Google Pagerank, número de páginas indexadas y enlaces de retorno del sitio de internet actualmente seleccionado.",
+        "AlexaRank": "Ranking Alexa",
+        "Bing_IndexedPages": "páginas indexadas por Bing",
+        "DomainAge": "Edad del dominio",
+        "Google_IndexedPages": "Páginas indexadas por Google",
+        "Rank": "Rango",
+        "SeoRankings": "Rankings SEO",
+        "SEORankingsFor": "Rankings SEO de %s"
+    }
+}

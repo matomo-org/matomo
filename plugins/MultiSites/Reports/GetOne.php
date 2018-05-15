@@ -20,7 +20,6 @@ class GetOne extends Base
         $this->name          = Piwik::translate('General_SingleWebsitesDashboard');
         $this->documentation = ''; // TODO
         $this->constantRowsCount = false;
-        $this->processedMetrics = false;
         $this->order = 5;
     }
 

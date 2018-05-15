@@ -1,0 +1,7 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s bez žiadnych aktivovaných modulov",
+        "BrowserWithPluginsEnabled": "%1$s s modulmi %2$s aktivovanými",
+        "WidgetPlugins": "Moduly prehliadača"
+    }
+}

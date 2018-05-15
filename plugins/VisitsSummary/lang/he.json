@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s שאילתות בוצעו",
+        "GenerateTime": "%s שניות בכדי לחולל את העמוד",
+        "NbActionsDescription": "%s פעולות (צפייה בעמודים, הורדות וקישורים יוצאים)",
+        "VisitsSummary": "תקציר ביקורים",
+        "VisitsSummaryDocumentation": "זו סקירה של התפתחות הביקור.",
+        "WidgetLastVisits": "גרף ביקורים אחרונים",
+        "WidgetOverviewGraph": "מבט כללי עם גרף",
+        "WidgetVisits": "מבט כללי על ביקורים"
+    }
+}

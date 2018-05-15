@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>/path/again/latest.zip</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>72</sum_time_spent>
+		<avg_bandwidth>0</avg_bandwidth>
+		<url>http://piwik.org/path/again/latest.zip</url>
+	</row>
+</result>

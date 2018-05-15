@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<label>example.org/my/dir/page3?foo=bar&amp;baz=bar</label>
+	<reportData>
+		<result date="2010-03-01" />
+		<result date="2010-03-02" />
+		<result date="2010-03-03">
+			<row>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<bounce_rate>100%</bounce_rate>
+				<avg_time_on_page>0</avg_time_on_page>
+				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0.45</avg_time_generation>
+			</row>
+		</result>
+		<result date="2010-03-04" />
+		<result date="2010-03-05" />
+		<result date="2010-03-06" />
+	</reportData>
+	<metadata>
+		<metrics>
+			<nb_hits>
+				<name>Pageviews</name>
+				<min>0</min>
+				<max>2</max>
+			</nb_hits>
+			<nb_visits>
+				<name>Unique Pageviews</name>
+				<min>0</min>
+				<max>2</max>
+			</nb_visits>
+			<avg_time_on_page>
+				<name>Avg. time on page</name>
+			</avg_time_on_page>
+			<bounce_rate>
+				<name>Bounce Rate</name>
+				<min>0</min>
+				<max>100</max>
+			</bounce_rate>
+			<exit_rate>
+				<name>Exit rate</name>
+				<min>0</min>
+				<max>100</max>
+			</exit_rate>
+			<avg_time_generation>
+				<name>Avg. generation time</name>
+				<min>0</min>
+				<max>0.45</max>
+			</avg_time_generation>
+		</metrics>
+		<dimension>Page URL</dimension>
+	</metadata>
+</result>

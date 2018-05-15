@@ -14,39 +14,48 @@ use Piwik\Db;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_8_3_b1 extends Updates
 {
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
 
-    static function getSql()
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'ALTER TABLE `' . Common::prefixTable('site') . '`
-				CHANGE `excluded_parameters` `excluded_parameters` TEXT NOT NULL'                      => false,
+            $this->migration->db->changeColumnType('site', 'excluded_parameters', 'TEXT NOT NULL'),
 
-            'CREATE TABLE `' . Common::prefixTable('report') . '` (
-					`idreport` INT(11) NOT NULL AUTO_INCREMENT,
-					`idsite` INTEGER(11) NOT NULL,
-					`login` VARCHAR(100) NOT NULL,
-					`description` VARCHAR(255) NOT NULL,
-					`period` VARCHAR(10) NOT NULL,
-					`type` VARCHAR(10) NOT NULL,
-					`format` VARCHAR(10) NOT NULL,
-					`reports` TEXT NOT NULL,
-					`parameters` TEXT NULL,
-					`ts_created` TIMESTAMP NULL,
-					`ts_last_sent` TIMESTAMP NULL,
-					`deleted` tinyint(4) NOT NULL default 0,
-					PRIMARY KEY (`idreport`)
-				) DEFAULT CHARSET=utf8' => 1050,
+            $this->migration->db->createTable('report', array(
+                'idreport' => 'INT(11) NOT NULL AUTO_INCREMENT',
+                'idsite' => 'INTEGER(11) NOT NULL',
+                'login' => 'VARCHAR(100) NOT NULL',
+                'description' => 'VARCHAR(255) NOT NULL',
+                'period' => 'VARCHAR(10) NOT NULL',
+                'type' => 'VARCHAR(10) NOT NULL',
+                'format' => 'VARCHAR(10) NOT NULL',
+                'reports' => 'TEXT NOT NULL',
+                'parameters' => 'TEXT NULL',
+                'ts_created' => 'TIMESTAMP NULL',
+                'ts_last_sent' => 'TIMESTAMP NULL',
+                'deleted' => 'tinyint(4) NOT NULL default 0',
+            ), $primaryKey = 'idreport'),
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginLoaded('ScheduledReports')) {
             return;
         }
@@ -61,7 +70,6 @@ class Updates_1_8_3_b1 extends Updates
 
             $reports = Db::fetchAll('SELECT * FROM `' . Common::prefixTable('pdf') . '`');
             foreach ($reports as $report) {
-
                 $idreport = $report['idreport'];
                 $idsite = $report['idsite'];
                 $login = $report['login'];
@@ -87,9 +95,9 @@ class Updates_1_8_3_b1 extends Updates
 
                 Db::query(
                     'INSERT INTO `' . Common::prefixTable('report') . '` SET
-					idreport = ?, idsite = ?, login = ?, description = ?, period = ?,
-					type = ?, format = ?, reports = ?, parameters = ?, ts_created = ?,
-					ts_last_sent = ?, deleted = ?',
+                    idreport = ?, idsite = ?, login = ?, description = ?, period = ?,
+                    type = ?, format = ?, reports = ?, parameters = ?, ts_created = ?,
+                    ts_last_sent = ?, deleted = ?',
                     array(
                          $idreport,
                          $idsite,
@@ -98,8 +106,8 @@ class Updates_1_8_3_b1 extends Updates
                          is_null($period) ? ScheduledReports::DEFAULT_PERIOD : $period,
                          ScheduledReports::EMAIL_TYPE,
                          is_null($format) ? ScheduledReports::DEFAULT_REPORT_FORMAT : $format,
-                         Common::json_encode(preg_split('/,/', $reports)),
-                         Common::json_encode($parameters),
+                         json_encode(preg_split('/,/', $reports)),
+                         json_encode($parameters),
                          $ts_created,
                          $ts_last_sent,
                          $deleted
@@ -107,9 +115,9 @@ class Updates_1_8_3_b1 extends Updates
                 );
             }
 
-            Db::query('DROP TABLE `' . Common::prefixTable('pdf') . '`');
+            $updater->executeMigration(__FILE__, $this->migration->db->dropTable('pdf'));
+
         } catch (\Exception $e) {
         }
-
     }
 }

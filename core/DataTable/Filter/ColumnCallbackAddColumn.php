@@ -10,6 +10,7 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\BaseFilter;
+use Piwik\Plugins\CoreHome\Columns\Metrics\CallableProcessedMetric;
 
 /**
  * Adds a new column to every row of a {@link DataTable} based on the result of callback.
@@ -83,20 +84,29 @@ class ColumnCallbackAddColumn extends BaseFilter
         $functionParams  = $this->functionParameters;
         $functionToApply = $this->functionToApply;
 
+        $extraProcessedMetrics = $table->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+
+        if (empty($extraProcessedMetrics)) {
+            $extraProcessedMetrics = array();
+        }
+
+        $metric = new CallableProcessedMetric($this->columnToAdd, function (DataTable\Row $row) use ($columns, $functionParams, $functionToApply) {
+
+            $columnValues = array();
+            foreach ($columns as $column) {
+                $columnValues[] = $row->getColumn($column);
+            }
+
+            $parameters = array_merge($columnValues, $functionParams);
+
+            return call_user_func_array($functionToApply, $parameters);
+        }, $columns);
+        $extraProcessedMetrics[] = $metric;
+
+        $table->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $extraProcessedMetrics);
+
         foreach ($table->getRows() as $row) {
-
-            $row->setColumn($this->columnToAdd, function (DataTable\Row $row) use ($columns, $functionParams, $functionToApply) {
-
-                $columnValues = array();
-                foreach ($columns as $column) {
-                    $columnValues[] = $row->getColumn($column);
-                }
-
-                $parameters = array_merge($columnValues, $functionParams);
-
-                return call_user_func_array($functionToApply, $parameters);
-            });
-
+            $row->setColumn($this->columnToAdd, $metric->compute($row));
             $this->filterSubTable($row);
         }
     }

@@ -1,0 +1,5 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "La columan '%1$s' no s'ha trobat en aquest informe. Proveu algun dels següents: %2$s"
+    }
+}

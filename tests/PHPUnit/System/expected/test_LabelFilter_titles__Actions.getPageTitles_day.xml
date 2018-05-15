@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label> incredible title! &lt;&gt;,;</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>4</nb_hits>
+		<sum_time_spent>1116</sum_time_spent>
+		<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
+		<min_time_generation>0.123</min_time_generation>
+		<max_time_generation>1.233</max_time_generation>
+		<sum_bandwidth>0</sum_bandwidth>
+		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
+		<min_bandwidth />
+		<max_bandwidth />
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>9</entry_nb_actions>
+		<entry_sum_visit_length>1441</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<avg_bandwidth>0</avg_bandwidth>
+		<avg_time_on_page>279</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+		<avg_time_generation>0.626</avg_time_generation>
+	</row>
+</result>

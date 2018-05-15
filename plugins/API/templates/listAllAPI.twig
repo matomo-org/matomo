@@ -1,31 +1,34 @@
-{% extends 'dashboard.twig' %}
-{% set showMenu=false %}
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'API_ReportingApiReference'|translate }}{% endset %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% include "@CoreHome/_periodSelect.twig" %}
+{% endblock %}
 
 {% block content %}
 
-{% include "@CoreHome/_siteSelectHeader.twig" %}
+<div class="api-list">
+    <div piwik-content-block content-title="{{ title }}" rate="true">
+        <p>{{ 'API_PluginDescription'|translate }}</p>
 
-<div class="page_api pageWrap">
-
-    <div class="top_controls">
-        {% include "@CoreHome/_periodSelect.twig" %}
+        <p>
+            {{ 'API_MoreInformation'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/docs/analytics-api'>","</a>","<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/docs/analytics-api/reference'>","</a>")|raw }}
+        </p>
     </div>
-
-    <h2>{{ 'API_QuickDocumentationTitle'|translate }}</h2>
-
-    <p>{{ 'API_PluginDescription'|translate }}</p>
-
-    <p>
-        <strong>{{ 'API_MoreInformation'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api'>","</a>","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api/reference'>","</a>")|raw }}</strong>
-    </p>
-
-    <h2>{{ 'API_UserAuthentication'|translate }}</h2>
-
-    <p>
-        {{ 'API_UsingTokenAuth'|translate('<b>','</b>',"")|raw }}<br/>
-        <span id='token_auth'>&amp;token_auth=<strong>{{ token_auth }}</strong></span><br/>
-        {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}
-        {{ list_api_methods_with_links|raw }}
-        <br/>
+    <div piwik-content-block content-title="{{ 'API_UserAuthentication'|translate|e('html_attr') }}">
+        <p>
+            {{ 'API_UsingTokenAuth'|translate('','',"")|raw }}<br/>
+            <pre piwik-select-on-focus id='token_auth'>&amp;token_auth=<strong piwik-show-sensitive-data="{{ token_auth }}" data-click-element-selector="#token_auth"></strong></pre><br/>
+            {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}<br />
+            {{ 'API_ChangeTokenHint'|translate('<a href="' ~ linkTo({
+                'module': 'UsersManager',
+                'action': 'userSettings',
+            }) ~ '">', '</a>')|raw }}
+        </p>
+    </div>
+    {{ list_api_methods_with_links|raw }}
+    <br/>
 </div>
 {% endblock %}

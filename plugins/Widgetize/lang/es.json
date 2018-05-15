@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Abrir en una nueva ventana",
+        "PluginDescription": "Mostrar un informe Matomo en su sitio de internet o aplicación con una simple etiqueta HTML incrustada.",
+        "TopLinkTooltip": "Exportar los informes de Matomo como una aplicación (widget) e incrustar el panel en su aplicación como un elemento iframe."
+    }
+}

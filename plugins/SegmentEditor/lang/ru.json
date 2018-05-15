@@ -1,0 +1,22 @@
+{
+    "SegmentEditor": {
+        "PluginDescription": "Создать и повторно использовать пользовательские Сегменты посетителей с помощью Редактора сегментов.",
+        "AddANDorORCondition": "Добавить условие %s",
+        "AddNewSegment": "Добавить новый сегмент",
+        "AreYouSureDeleteSegment": "Вы уверены, что хотите удалить этот сегмент?",
+        "AutoArchiveRealTime": "отчёты по сегментам обрабатываются в реальном времени",
+        "ChooseASegment": "Выбрать сегмент",
+        "DefaultAllVisits": "Все посещения",
+        "LoadingSegmentedDataMayTakeSomeTime": "Обработка данных о посещениях сегмента может занять несколько минут...",
+        "OperatorAND": "И",
+        "OperatorOR": "ИЛИ",
+        "SaveAndApply": "Сохранить и применить",
+        "SegmentDisplayedAllWebsites": "все сайты",
+        "SegmentDisplayedThisWebsiteOnly": "только этот сайт",
+        "SegmentNotAppliedMessage": "Вы запрашиваете данные для пользовательского сегмента '%s', эта конфигурация Matomo в данный момент препятствует обработке отчетов в реальном времени по соображениям производительности.",
+        "ThisSegmentIsVisibleTo": "Этот сегмент видим для:",
+        "VisibleToAllUsers": "все пользователи",
+        "VisibleToMe": "меня",
+        "AddingSegmentForAllWebsitesDisabled": "Добавление сегментов для всех веб-сайтов было отключено."
+    }
+}

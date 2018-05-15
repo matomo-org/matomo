@@ -1,0 +1,8 @@
+{
+    "CustomPiwikJs": {
+        "PluginDescription": "Matomo JavaScript İzleme dosyasına (piwik.js) tüm uygulama eklerinin katkıda bulunmasını sağlayarak yeni özellik ve web sitesi ölçüm yetenekleri ekler.",
+        "DiagnosticPiwikJsWritable": "Yazılabilir JavaScript İzleyici (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "\"\/piwik.js\" Matomo JavaScript izleyici dosyası yazılabilir olmadığından diğer uygulama ekleri JavaScript İzleyiciyi kullanamaz. İleride bazı temel özellikler de beklendiği gibi çalışmayabilir.",
+        "DiagnosticPiwikJsMakeWritable": "Şu komutu kullanarak piwik.js dosyasını yazılabilir yapmanız önerilir: %s"
+    }
+}

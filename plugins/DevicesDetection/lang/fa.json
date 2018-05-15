@@ -1,11 +1,16 @@
 {
     "DevicesDetection": {
+        "BrowserEngine": "مرورگر",
+        "BrowserFamily": "خانواده مرورگر",
+        "Browsers": "مرورگر ها",
+        "BrowserVersion": "نسخه مرورگر",
         "BrowserVersions": "نسخه مرورگر",
         "Camera": "دوربین",
         "CarBrowser": "مرورگر خودرو",
+        "ColumnBrowser": "مرورگر",
+        "ColumnOperatingSystem": "پیکربندی سیستم",
         "Console": "کنسول",
         "dataTableLabelBrands": "مارک",
-        "dataTableLabelBrowserFamily": "خانواده مرورگر",
         "dataTableLabelModels": "مدل",
         "dataTableLabelSystemVersion": "نسخه سیستم عامل",
         "dataTableLabelTypes": "نوع",
@@ -17,12 +22,16 @@
         "DeviceType": "نوع وسیله",
         "FeaturePhone": "گوشی",
         "OperatingSystemFamilies": "خانواده سیستم عامل",
+        "OperatingSystemFamily": "خانواده سیستم عامل",
+        "OperatingSystems": "سیستم عامل",
         "OperatingSystemVersions": "نسخه سیستم عامل",
         "SmartDisplay": "صفحه نمایش هوشمند",
         "Smartphone": "تلفن هوشمند",
-        "submenu": "وسایل",
+        "Devices": "وسایل",
         "Tablet": "تبلت",
         "TV": "تلویزیون",
-        "UserAgent": "کاربر-نمایندگی"
+        "UserAgent": "کاربر-نمایندگی",
+        "WidgetBrowsers": "مرورگر بازدید کننده",
+        "WidgetBrowsersDocumentation": "این گزارش حاوی اطلاعات در مورد چه نوع مرورگر بازدید کنندگان خود را با استفاده از. هر مرورگر بطور جداگانه ذکر شده است."
     }
 }

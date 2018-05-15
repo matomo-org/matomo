@@ -10,28 +10,34 @@ namespace Piwik;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Row;
 use Piwik\DataTable\Simple;
-use Piwik\DataTable;
 use Piwik\Plugins\ImageGraph\API;
 
 /**
  * A Report Renderer produces user friendly renderings of any given Piwik report.
  * All new Renderers must be copied in ReportRenderer and added to the $availableReportRenderers.
  */
-abstract class ReportRenderer
+abstract class ReportRenderer extends BaseFactory
 {
-    const DEFAULT_REPORT_FONT = 'dejavusans';
-    const REPORT_TEXT_COLOR = "68,68,68";
-    const REPORT_TITLE_TEXT_COLOR = "126,115,99";
-    const TABLE_HEADER_BG_COLOR = "228,226,215";
-    const TABLE_HEADER_TEXT_COLOR = "37,87,146";
-    const TABLE_CELL_BORDER_COLOR = "231,231,231";
-    const TABLE_BG_COLOR = "249,250,250";
+    const DEFAULT_REPORT_FONT_FAMILY = 'dejavusans';
+    const REPORT_TEXT_COLOR = "13,13,13";
+    const REPORT_TITLE_TEXT_COLOR = "13,13,13";
+    const TABLE_HEADER_BG_COLOR = "255,255,255";
+    const TABLE_HEADER_TEXT_COLOR = "13,13,13";
+    const TABLE_HEADER_TEXT_TRANSFORM = "uppercase";
+    const TABLE_HEADER_TEXT_WEIGHT = "normal";
+    const TABLE_CELL_BORDER_COLOR = "217,217,217";
+    const TABLE_BG_COLOR = "242,242,242";
 
     const HTML_FORMAT = 'html';
     const PDF_FORMAT = 'pdf';
     const CSV_FORMAT = 'csv';
+
+    protected $idSite = 'all';
+
+    protected $report;
 
     private static $availableReportRenderers = array(
         self::PDF_FORMAT,
@@ -40,31 +46,36 @@ abstract class ReportRenderer
     );
 
     /**
-     * Return the ReportRenderer associated to the renderer type $rendererType
+     * Sets the site id
      *
-     * @throws exception If the renderer is unknown
-     * @param string $rendererType
-     * @return \Piwik\ReportRenderer
+     * @param int $idSite
      */
-    public static function factory($rendererType)
+    public function setIdSite($idSite)
     {
-        $name = ucfirst(strtolower($rendererType));
-        $className = 'Piwik\ReportRenderer\\' . $name;
+        $this->idSite = $idSite;
+    }
 
-        try {
-            Loader::loadClass($className);
-            return new $className;
-        } catch (Exception $e) {
+    public function setReport($report)
+    {
+        $this->report = $report;
+    }
 
-            @header('Content-Type: text/html; charset=utf-8');
+    protected static function getClassNameFromClassId($rendererType)
+    {
+        return 'Piwik\ReportRenderer\\' . self::normalizeRendererType($rendererType);
+    }
 
-            throw new Exception(
-                Piwik::translate(
-                    'General_ExceptionInvalidReportRendererFormat',
-                    array($name, implode(', ', self::$availableReportRenderers))
-                )
-            );
-        }
+    protected static function getInvalidClassIdExceptionMessage($rendererType)
+    {
+        return Piwik::translate(
+            'General_ExceptionInvalidReportRendererFormat',
+            array(self::normalizeRendererType($rendererType), implode(', ', self::$availableReportRenderers))
+        );
+    }
+
+    protected static function normalizeRendererType($rendererType)
+    {
+        return ucfirst(strtolower($rendererType));
     }
 
     /**
@@ -139,8 +150,11 @@ abstract class ReportRenderer
      * @param  string $extension
      * @return string  filename with extension
      */
-    protected static function appendExtension($filename, $extension)
+    protected static function makeFilenameWithExtension($filename, $extension)
     {
+        // the filename can be used in HTTP headers, remove new lines to prevent HTTP header injection
+        $filename = str_replace(array("\n", "\t"), " ", $filename);
+
         return $filename . "." . $extension;
     }
 
@@ -153,47 +167,46 @@ abstract class ReportRenderer
      */
     protected static function getOutputPath($filename)
     {
-        $outputFilename = PIWIK_USER_PATH . '/tmp/assets/' . $filename;
-        $outputFilename = SettingsPiwik::rewriteTmpPathWithInstanceId($outputFilename);
+        $outputFilename = StaticContainer::get('path.tmp') . '/assets/' . $filename;
 
         @chmod($outputFilename, 0600);
-        @unlink($outputFilename);
+
+        if(file_exists($outputFilename)){
+            @unlink($outputFilename);
+        }
+
         return $outputFilename;
     }
 
     protected static function writeFile($filename, $extension, $content)
     {
-        $filename = self::appendExtension($filename, $extension);
+        $filename = self::makeFilenameWithExtension($filename, $extension);
         $outputFilename = self::getOutputPath($filename);
 
-        $emailReport = @fopen($outputFilename, "w");
-
-        if (!$emailReport) {
-            throw new Exception ("The file : " . $outputFilename . " can not be opened in write mode.");
+        $bytesWritten = file_put_contents($outputFilename, $content);
+        if ($bytesWritten === false) {
+            throw new Exception("ReportRenderer: Could not write to file '" . $outputFilename . "'.");
         }
-
-        fwrite($emailReport, $content);
-        fclose($emailReport);
 
         return $outputFilename;
     }
 
     protected static function sendToBrowser($filename, $extension, $contentType, $content)
     {
-        $filename = ReportRenderer::appendExtension($filename, $extension);
+        $filename = ReportRenderer::makeFilenameWithExtension($filename, $extension);
 
         ProxyHttp::overrideCacheControlHeaders();
-        header('Content-Description: File Transfer');
-        header('Content-Type: ' . $contentType);
-        header('Content-Disposition: attachment; filename="' . str_replace('"', '\'', basename($filename)) . '";');
-        header('Content-Length: ' . strlen($content));
+        Common::sendHeader('Content-Description: File Transfer');
+        Common::sendHeader('Content-Type: ' . $contentType);
+        Common::sendHeader('Content-Disposition: attachment; filename="' . str_replace('"', '\'', basename($filename)) . '";');
+        Common::sendHeader('Content-Length: ' . strlen($content));
 
         echo $content;
     }
 
     protected static function inlineToBrowser($contentType, $content)
     {
-        header('Content-Type: ' . $contentType);
+        Common::sendHeader('Content-Type: ' . $contentType);
         echo $content;
     }
 

@@ -1,0 +1,26 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Дії повторних відвідувань",
+        "ColumnAverageVisitDurationForReturningVisitors": "Середня тривалість візиту повторних відвідувань (в сек.)",
+        "ColumnAvgActionsPerReturningVisit": "Середня кількість дій для повторних відвідувань",
+        "ColumnBounceCountForReturningVisits": "Показник відмов для відвідувачів що повернулись",
+        "ColumnBounceRateForReturningVisits": "Показник відмов для повторних відвідувань",
+        "ColumnMaxActionsInReturningVisit": "Максимум дій за одне повторне відвідування",
+        "ColumnNbReturningVisitsConverted": "Число конверсії відвідувачів, що повернулися",
+        "ColumnReturningVisits": "Візити повторних відвідувань",
+        "ColumnSumVisitLengthReturning": "Загальний час, проведений відвідувачами що повернулися (в секундах)",
+        "ColumnUniqueReturningVisitors": "Унікальні відвідувачі що повернулися",
+        "ColumnReturningUsers": "Відвідувачі що повернулися",
+        "PluginDescription": "Звіти метрик нових відвідувачів і постійних відвідувачів.",
+        "ReturnActions": "дії повторними відвідувачами",
+        "ReturnAverageVisitDuration": "середня тривалість відвідування повторними відвідувачами",
+        "ReturnAvgActions": "дій на повторного відвідувача",
+        "ReturnBounceRate": "відмови повторних відвідувачів (залишили веб-сайт після перегляду однієї сторінки)",
+        "ReturningVisitDocumentation": "Повторний візит (на відміну від нового візиту) зробленого кимось, хто відвідував сайт хоча б один раз.",
+        "ReturningVisitsDocumentation": "Це огляд візитів що повернулися.",
+        "ReturnVisits": "повторних відвідувань",
+        "SubmenuFrequency": "Частота",
+        "WidgetGraphReturning": "Графік повторних відвідувань",
+        "WidgetOverview": "Огляд частоти"
+    }
+}

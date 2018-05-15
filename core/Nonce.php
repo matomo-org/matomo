@@ -160,7 +160,7 @@ class Nonce
      * @param string $nonceName The nonce's unique ID. See {@link getNonce()}.
      * @param string|null $nonce The nonce from the client. If `null`, the value from the
      *                           **nonce** query parameter is used.
-     * @throws Exception if the nonce is invalid. See {@link verifyNonce()}.
+     * @throws \Exception if the nonce is invalid. See {@link verifyNonce()}.
      */
     public static function checkNonce($nonceName, $nonce = null)
     {

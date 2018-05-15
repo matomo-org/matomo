@@ -1,0 +1,20 @@
+{
+    "Contents": {
+        "PluginDescription": "Content- und Banner-Tracking gibt Ihnen die Möglichkeit, die Performance (Ansichten, Klicks, CTR) von einem beliebigen Stück Content (Banner-Werbung, Bild, beliebiges Element) auf Ihrer Seite zu messen.",
+        "Impressions": "Impressionen",
+        "ContentImpression": "Inhaltsimpression",
+        "ContentInteraction": "Inhaltsinteraktion",
+        "ContentInteractions": "Inhaltsinteraktionen",
+        "InteractionRate": "Interaktionsrate",
+        "ContentName": "Inhaltsname",
+        "ContentNames": "Inhaltnamen",
+        "ContentPiece": "Inhaltsteil",
+        "ContentPieces": "Inhaltteile",
+        "ContentTarget": "Inhaltsziel",
+        "ContentTargets": "Inhaltziele",
+        "Contents": "Inhalte",
+        "InteractionsMetricDocumentation": "Die Anzahl, wie häufig mit einem Inhalt interagiert wurde (z.B. durch einen Klick auf ein Banner oder eine Anzeige).",
+        "ImpressionsMetricDocumentation": "Die Anzahl, wie häufig ein Inhalt, z.b. ein Banner oder eine Anzeige, auf der Seite angezeigt wurden.",
+        "InteractionRateMetricDocumentation": "Verhältnis zwischen Impressionen des Inhalts und Interaktionen."
+    }
+}

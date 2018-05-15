@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "Este plugin fornece os widgets Mapa de Visitantes e o Mapa Tempo-Real. Nota: Requer o plugin UserCountry ativado.",
+        "AndNOthers": "e %s outros",
+        "Cities": "Cidades",
+        "Countries": "Países",
+        "DaysAgo": "%s dias atrás",
+        "GoalConversions": "%s conversões de meta",
+        "HoursAgo": "%s horas atrás",
+        "map": "mapa",
+        "MinutesAgo": "%s minutos atrás",
+        "None": "Nenhum",
+        "NoVisit": "Nenhuma visita",
+        "RealTimeMap": "Mapa em tempo real",
+        "Regions": "Regiões",
+        "Searches": "%s buscas",
+        "SecondsAgo": "%s segundos atrás",
+        "ShowingVisits": "Geo-localização das últimas visitas",
+        "Unlocated": "<b>%s<\/b> %p das visitas de %c não puderam ser geo localizados.",
+        "VisitorMap": "Mapa de visitantes",
+        "WorldWide": "World-Wide",
+        "WithUnknownRegion": "%s com região desconhecida",
+        "WithUnknownCity": "%s com cidade desconhecida"
+    }
+}

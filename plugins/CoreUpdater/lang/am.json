@@ -1,0 +1,29 @@
+{
+    "CoreUpdater": {
+        "CriticalErrorDuringTheUpgradeProcess": "በማላቅ ሂደት ላይ ያጋጠመ ከባድ እንከን:",
+        "DatabaseUpgradeRequired": "የውሂብ ጎታ ማላቅ ያስፈልጋል",
+        "DownloadX": "አውርድ %s",
+        "ErrorDuringPluginsUpdates": "ተሰኪዎችን በማላቅ ሂደት ያጋጠሙ ስህተቶች:",
+        "HelpMessageContent": "የ %1$s ፒዊክን ኤፍ ኤ ኪው %2$s ይመልከቱ ምከነያቱም ባማላቀ ወቅት በጣም ተደጋጋሚ ለሆኑ ስህተቶች መልስ የሰጣልና %3$s የስርዓት አስተዳዳሪዎን ይጠይቁ - ከአገልጋይ ወይም ማይ ኤስ ኪው ኤል መዋቅር ጋር ተዛማጅነት ላላቸው ስህተቶች ርዳታ ሊያገኙ ይችላሉ",
+        "HelpMessageIntroductionWhenError": "ከላይ ያለው የስህተት ኮር መልእክት ነው። ምክንያቱን ለማስረዳት አጋዥ ሊሆን ይችላል ነገር ግን ተጨማሪ ርዳታ ከፈለጉ እባክዎ:",
+        "HelpMessageIntroductionWhenWarning": "ማላቁ በሚጋባ ተጠናቅቋል ቢሆንም በሂደቱ ላይ ችግሮች ነበሩ። ዝርዝር ከፈለጉ ከላይ የተቀመጡትን መግለጫዎች ያንቡ። ለተጨማሪ ርዳታ፡",
+        "InstallingTheLatestVersion": "አዲሱን ስሪት በመጫን ላይ",
+        "PiwikHasBeenSuccessfullyUpgraded": "ፒዊክን ማላቅ በተሳካ ሁኔታ ተጠናቋል!",
+        "PiwikUpdatedSuccessfully": "የፒዊክ ማላቅ ተሳክቷል!",
+        "PiwikWillBeUpgradedFromVersionXToVersionY": "የፒዊክ የውሂብ ጎታዎ ከ %1$sስሪት ወደ %2$sስሪት ይልቃል.",
+        "TheFollowingPluginsWillBeUpgradedX": "የሚከተሉት ተሰኪዎችም ይልቃሉ: %s.",
+        "ThereIsNewVersionAvailableForUpdate": "ለማላቅ ዝግጁ የሆነ የፒዊክ ሰሪት አለ",
+        "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "የውሂብ ጎታ ማላቅ ሂደቱ ጥቂት ጊዜ ስለሚወስድ እባክዎ በትዕግስት ይጠብቁ",
+        "UpdateAutomatically": "ራስሰር አልቅ",
+        "UpdateHasBeenCancelledExplanation": "ፒዊክ አንድ ጠቅ አርግ ማላቅ ተሰርዟል። ከላይ ያለውን የስህተት መልዕክት መጠገን ካልቻልክ ፒዊክን በእጅ እንድታልቅትመከራለህ። %1$s ለመጀመር የ %2$sማላቂያ ስነዳ %3$sተመልከት!",
+        "UpdateTitle": "ፒዊክ › አልቅ",
+        "UpdateSuccessTitle": "ፒዊክን ማላቅ በተሳካ ሁኔታ ተጠናቋል!",
+        "UpgradeComplete": "ማላቅ ተጠናቋል!",
+        "UpgradePiwik": "ፒዊክን አልቅ",
+        "VerifyingUnpackedFiles": "የተበተኑትን ፋይሎች በመበተን ላይ",
+        "WarningMessages": "የማስጠንቀቂያ መልዕክቶች:",
+        "WeAutomaticallyDeactivatedTheFollowingPlugins": "የሚከተሉትን ተሰኪዎች በራስሰር አቦዝነናል: %s",
+        "YouCanUpgradeAutomaticallyOrDownloadPackage": "ወደ ስሪት %s ራስሰር ማላቅ ወይም አካታቾቹን አውርዶ በጅ መጫን ይቻላል ይቻላል:",
+        "YourDatabaseIsOutOfDate": "የፒዊክ የውሂብ ጎታዎ ቀኑ ሰላለፈበት ከመቀጠልዎ በፊት ማላቅ ያስፈልገዋል"
+    }
+}

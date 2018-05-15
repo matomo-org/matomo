@@ -10,15 +10,13 @@ namespace Piwik\AssetManager\UIAssetFetcher;
 
 use Piwik\AssetManager\UIAssetFetcher;
 use Piwik\Piwik;
-use string;
 
 class JScriptUIAssetFetcher extends UIAssetFetcher
 {
 
     protected function retrieveFileLocations()
     {
-
-        if(!empty($this->plugins)) {
+        if (!empty($this->plugins)) {
 
             /**
              * Triggered when gathering the list of all JavaScript files needed by Piwik
@@ -53,17 +51,14 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
     protected function addThemeFiles()
     {
         $theme = $this->getTheme();
-        if(!$theme) {
+        if (!$theme) {
             return;
         }
-        if(in_array($theme->getThemeName(), $this->plugins)) {
-
+        if (in_array($theme->getThemeName(), $this->plugins)) {
             $jsInThemes = $this->getTheme()->getJavaScriptFiles();
 
-            if(!empty($jsInThemes)) {
-
-                foreach($jsInThemes as $jsFile) {
-
+            if (!empty($jsInThemes)) {
+                foreach ($jsInThemes as $jsFile) {
                     $this->fileLocations[] = $jsFile;
                 }
             }
@@ -73,14 +68,14 @@ class JScriptUIAssetFetcher extends UIAssetFetcher
     protected function getPriorityOrder()
     {
         return array(
-            'libs/jquery/jquery.js',
-            'libs/jquery/jquery-ui.js',
+            'libs/bower_components/jquery/dist/jquery.min.js',
+            'libs/bower_components/jquery-ui/ui/minified/jquery-ui.min.js',
             'libs/jquery/jquery.browser.js',
             'libs/',
+            'js/',
+            'piwik.js',
             'plugins/CoreHome/javascripts/require.js',
             'plugins/Morpheus/javascripts/piwikHelper.js',
-            'plugins/Morpheus/javascripts/jquery.icheck.min.js',
-            'plugins/Morpheus/javascripts/morpheus.js',
             'plugins/Morpheus/javascripts/',
             'plugins/CoreHome/javascripts/uiControl.js',
             'plugins/CoreHome/javascripts/broadcast.js',

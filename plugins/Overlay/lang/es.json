@@ -1,0 +1,20 @@
+{
+    "Overlay": {
+        "Clicks": "%s clics",
+        "ClicksFromXLinks": "%1$s clics desde uno de %2$s enlaces",
+        "Domain": "Dominio",
+        "ErrorNotLoading": "La sesión de superposición de página no puede ser aun iniciada.",
+        "ErrorNotLoadingDetails": "Tal vez la página cargada a su derecha no posee el código de rastreo Matomo. En este caso, trate de lanzar Overlay para una página diferente desde las páginas de informe.",
+        "ErrorNotLoadingDetailsSSL": "Ya que está utilizando Matomo sobre https, la causa más probable es que su sitio de internet no provea soporte SSL. Intente utilizar Matomo sobre http.",
+        "ErrorNotLoadingLink": "Clic aquí para obtener más ayuda acerca de soluciones de problemas",
+        "Link": "Enlace",
+        "Location": "Ubicación",
+        "NoData": "No hay información para esta página en el período seleccionado.",
+        "OneClick": "1 clic",
+        "OpenFullScreen": "Ir a pantalla completa (sin barras laterales)",
+        "Overlay": "Superposición de página",
+        "PluginDescription": "Vea su información analítica como una superposición en su actual sitio de internet. Vea cuántas veces sus usuarios han hecho clic en cada enlace. Nota: Requiere el complemento Transitions habilitado.",
+        "RedirectUrlErrorAdmin": "Puede agregar el dominio como una URL %1$sen la configuración%2$s.",
+        "RedirectUrlErrorUser": "Pregunte a su administrador para agregar el dominio como una dirección de internet adicional."
+    }
+}

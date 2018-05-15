@@ -1,14 +1,26 @@
-# Piwik - piwik.org
+# Matomo (formerly Piwik) - matomo.org
+
+[![Latest Stable Version](https://poser.pugx.org/piwik/piwik/v/stable)](https://matomo.org/download/)
+[![Latest Unstable Version](https://poser.pugx.org/piwik/piwik/v/unstable)](https://packagist.org/packages/piwik/piwik)
+[![License](https://poser.pugx.org/piwik/piwik/license)](https://matomo.org/free-software/)
+
+## Code Status
+
+[![Build Status](https://travis-ci.org/matomo-org/matomo.svg?branch=master)](https://travis-ci.org/matomo-org/matomo/branches)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/piwik/piwik.svg)](https://scrutinizer-ci.com/g/piwik/piwik?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master "Unit tests code coverage. Does not include coverage of integration tests, system tests or UI screenshot tests.")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Percentage of issues still open")
+[![Dependency Status](https://gemnasium.com/piwik/piwik.svg)](https://gemnasium.com/piwik/piwik)
 
 ## Description
 
-Piwik is the leading Free/Libre open analytics platform.
+Matomo is the leading Free/Libre open analytics platform.
 
-Piwik is a full featured PHP MySQL software program that you download and install on your own webserver.
+Matomo is a full featured PHP MySQL software program that you download and install on your own webserver.
 At the end of the five minute installation process you will be given a JavaScript code.
 Simply copy and paste this tag on websites you wish to track and access your analytics reports in real time.
 
-Piwik aims to be a Free software alternative to Google Analytics, and is already used on more than 1,000,000 websites. Privacy is built-in!
+Matomo aims to be a Free software alternative to Google Analytics, and is already used on more than 1,000,000 websites. Privacy is built-in!
 
 ## Mission Statement
 
@@ -19,85 +31,92 @@ Or in short:
 
 ## License
 
-Piwik is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](misc/gpl-3.0.txt)
+Matomo is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](misc/gpl-3.0.txt)
+
 
 ## Requirements
 
-  * PHP 5.3.2 or greater
-  * MySQL 4.1 or greater, and either MySQLi or PDO library must be enabled
-  * Piwik is OS / server independent
+  * PHP 5.5.9 or greater
+  * MySQL version 5.5 or greater, or MariaDB 
+  * PHP extension pdo and pdo_mysql, or the MySQLi extension.
+  * Matomo is OS / server independent
 
-See http://piwik.org/docs/requirements/
+See https://matomo.org/docs/requirements/
 
 ## Install
 
-  * Upload piwik to your webserver
+  * Upload matomo to your webserver
   * Point your browser to the directory
   * Follow the steps
   * Add the given javascript code to your pages
   * (You may also generate fake data to experiment, by enabling the plugin VisitorGenerator)
 
-See http://piwik.org/docs/installation/
+See https://matomo.org/docs/installation/
 
-If you do not have a server, consider our Piwik Hosting partner: http://piwik.org/hosting/
+## Free trial 
+
+If you do not have a server or don't want to host yourself you can use our Matomo Cloud partner service (30 day free trial): https://www.innocraft.cloud/
+
+## Online Demo
+
+Check out the online demo for Matomo at [demo.matomo.org](https://demo.matomo.org/)
 
 ## Changelog
 
-For the list of all tickets closed in the current and past releases, see http://piwik.org/changelog/
+For the list of all tickets closed in the current and past releases, see https://matomo.org/changelog/. For the list of technical changes in the Matomo platform, see [https://developer.matomo.org/changelog](https://developer.matomo.org/changelog).
 
-## Participate!
+## Get involved!
 
-We believe in liberating Web Analytics, providing a free platform for simple and advanced analytics. Piwik was built by dozens of people like you,
-and we need your help to make Piwik better… Why not participate in a useful project today?
+We believe in liberating Web Analytics, providing a free platform for simple and advanced analytics. Matomo was built by dozens of people like you,
+and we need your help to make Matomo better… Why not participate in a useful project today? [Learn how you can contribute to Matomo.](https://matomo.org/get-involved)
 
-You will find pointers on how you can participate in Piwik at http://piwik.org/get-involved/
+## Quality Assurance
+
+The Matomo project uses an ever-expanding comprehensive set of thousands of unit tests and hundreds of automated integration tests, system tests, JavaScript tests, and screenshot UI tests, running on a continuous integration server as part of its software quality assurance. [Learn more](https://matomo.org/qa/)
+
+We use [BrowserStack.com](https://www.browserstack.com/) testing tool to help check the Matomo user interface is compatible with many browsers.
+
+
+## Security
+
+Security is a top priority at Matomo. As potential issues are discovered, we validate, patch and release fixes as quickly as we can. We have a security bug bounty program in place that rewards researchers for finding security issues and disclosing them to us. 
+
+[Learn more](https://matomo.org/security/)
+
+## Support for Matomo
+
+For **Free support**, post a message in our community forums: [forum.matomo.org](https://forum.matomo.org/)
+
+For **Professional paid support**, send a message to our network of Matomo professionals: [matomo.org/support](https://matomo.org/contact/)  
 
 ## Contact
 
-http://piwik.org
+Website: [matomo.org](https://matomo.org)
 
-hello@piwik.org
+About us: [matomo.org/team/](https://matomo.org/team/)
 
-About us: http://piwik.org/the-piwik-team/
+Contact us: [matomo.org/contact/](https://matomo.org/contact/)
+
 
 ## More information
 
-What makes Piwik unique from the competition:
+What makes Matomo unique from the competition:
 
-  * Real time web analytics reports: in Piwik, reports are by default generated in real time.
+  * Real time web analytics reports: in Matomo, reports are by default generated in real time.
     For high traffic websites, you can choose the frequency for reports to be processed.
 
-  * You own your web analytics data: since Piwik is installed on your server, the data is stored in your own database and you can get all the statistics
-  using the powerful Piwik Analytics API.
+  * You own your web analytics data: since Matomo is installed on your server, the data is stored in your own database and you can get all the statistics using the powerful Matomo Analytics API.
 
-  * Piwik is a Free Software which can easily be configured to respect your visitors privacy.
+  * Matomo is a Free Software which can easily be configured to respect your visitors' privacy.
 
   * Modern, easy to use User Interface: you can fully customize your dashboard, drag and drop widgets and more.
 
-  * Piwik features are built inside plugins: you can add new features and remove the ones you don’t need.
-    You can build your own web analytics plugins or hire a consultant to have your custom feature built in Piwik
+  * Matomo features are built inside plugins: you can add new features and remove the ones you don’t need.
+    You can build your own web analytics plugins or hire a consultant to have your custom feature built in Matomo
 
   * Vibrant international Open community of more than 200,000 active users (tracking even more websites!)
 
   * Advanced Web Analytics capabilities such as Ecommerce Tracking, Goal tracking, Campaign tracking,
     Custom Variables, Email Reports, Custom Segment Editor, Geo Location, Real time maps, and more!
 
-Documentation and more info on http://piwik.org
-
-
-
-## We’re seeking a talented Software Engineer
-
-Are you looking for a new challenge? We are currently seeking a software engineer or software developer who is passionate about data processing, security, privacy, the open source and free/libre philosophy and usable interface design.
-
-[View Job Description](http://piwik.org/blog/2014/05/piwik-expanding-seeking-talented-software-engineer-new-zealand-poland/) - [Apply online](http://piwik.org/jobs/)
-
-We are grateful if you can share the Job Description with your friends and colleagues. We can help the right candidate relocate to beautiful New Zealand.
-
-
-## Code Status
-The Piwik project uses an ever-expanding comprehensive set of thousands of unit tests and dozens of integration [tests](https://github.com/piwik/piwik/tree/master/tests),
- running on the hosted distributed continuous integration platform Travis-CI.
-
-Build status (master branch) [![Build Status](https://travis-ci.org/piwik/piwik.png?branch=master)](https://travis-ci.org/piwik/piwik) - Screenshot tests Build  [![Build Status](https://travis-ci.org/piwik/piwik-ui-tests.png?branch=master)](https://travis-ci.org/piwik/piwik-ui-tests)
-
+Documentation and more info on https://matomo.org

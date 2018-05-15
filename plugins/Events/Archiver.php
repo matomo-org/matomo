@@ -98,7 +98,19 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregateMultipleReports()
     {
         $dataTableToSum = $this->getRecordNames();
-        $this->getProcessor()->aggregateDataTableRecords($dataTableToSum, $this->maximumRowsInDataTable, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
+        $columnsAggregationOperation = array(
+            Metrics::INDEX_EVENT_MIN_EVENT_VALUE => 'min',
+            Metrics::INDEX_EVENT_MAX_EVENT_VALUE => 'max',
+        );
+
+        $this->getProcessor()->aggregateDataTableRecords(
+            $dataTableToSum,
+            $this->maximumRowsInDataTable,
+            $this->maximumRowsInSubDataTable,
+            $this->columnToSortByBeforeTruncation,
+            $columnsAggregationOperation,
+            $columnsToRenameAfterAggregation = null,
+            $countRowsRecursive = array());
     }
 
     protected function getRecordNames()
@@ -179,17 +191,17 @@ class Archiver extends \Piwik\Plugin\Archiver
             $rankingQuery->addColumn(Metrics::INDEX_EVENT_MAX_EVENT_VALUE, 'max');
         }
 
-        $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, $rankingQuery);
+        $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, $rankingQuery);
     }
 
-    protected function archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy, RankingQuery $rankingQuery)
+    protected function archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, RankingQuery $rankingQuery)
     {
         // get query with segmentation
         $query = $this->getLogAggregator()->generateQuery($select, $from, $where, $groupBy, $orderBy);
 
         // apply ranking query
         if ($rankingQuery) {
-            $query['sql'] = $rankingQuery->generateQuery($query['sql']);
+            $query['sql'] = $rankingQuery->generateRankingQuery($query['sql']);
         }
 
         // get result
@@ -225,7 +237,7 @@ class Archiver extends \Piwik\Plugin\Archiver
      */
     protected function getDataArray($name)
     {
-        if(empty($this->arrays[$name])) {
+        if (empty($this->arrays[$name])) {
             $this->arrays[$name] = new DataArray();
         }
         return $this->arrays[$name];

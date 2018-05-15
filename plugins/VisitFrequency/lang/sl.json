@@ -1,0 +1,9 @@
+{
+    "VisitFrequency": {
+        "ColumnAvgActionsPerReturningVisit": "Povpr. število akcij na ponovni obisk",
+        "ColumnReturningVisits": "Ponovni obiski",
+        "SubmenuFrequency": "Frekvenca",
+        "WidgetGraphReturning": "Ponovni obiski",
+        "WidgetOverview": "Frekvenčni pregled"
+    }
+}

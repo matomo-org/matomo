@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Piwik;
-use Piwik\Plugins\Actions\Segment;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -18,14 +18,22 @@ use Piwik\Tracker\Visitor;
 class EntryPageUrl extends VisitDimension
 {
     protected $columnName = 'visit_entry_idaction_url';
-    protected $columnType = 'INTEGER(11) UNSIGNED NOT NULL';
+    protected $columnType = 'INTEGER(11) UNSIGNED NULL  DEFAULT NULL';
+    protected $segmentName = 'entryPageUrl';
+    protected $nameSingular = 'Actions_ColumnEntryPageURL';
+    protected $namePlural = 'Actions_ColumnEntryPageURLs';
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
+    protected $type = self::TYPE_URL;
 
-    protected function configureSegments()
+    public function getDbColumnJoin()
     {
-        $segment = new Segment();
-        $segment->setSegment('entryPageUrl');
-        $segment->setName('Actions_ColumnEntryPageURL');
-        $this->addSegment($segment);
+        return new ActionNameJoin();
+    }
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator('log_action', 'type', Action::TYPE_PAGE_URL);
     }
 
     /**
@@ -42,12 +50,31 @@ class EntryPageUrl extends VisitDimension
             $idActionUrl = $action->getIdActionUrlForEntryAndExitIds();
         }
 
+        if($idActionUrl === false) {
+            return false;
+        }
+
         return (int) $idActionUrl;
     }
 
-    public function getName()
+    /*
+     * @param Request $request
+     * @param Visitor $visitor
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
-        return Piwik::translate('Actions_ColumnEntryPageURL');
+        $idAction = $visitor->getVisitorColumn('visit_entry_idaction_url');
+
+        if (is_null($idAction) && !empty($action)) {
+            $idAction = $action->getIdActionUrlForEntryAndExitIds();
+            if (!empty($idAction)) {
+                return $idAction;
+            }
+        }
+
+        return false;
     }
 
 }

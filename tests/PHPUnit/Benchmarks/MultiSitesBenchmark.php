@@ -9,8 +9,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Plugins\MultiSites\API as APIMultiSites;
 use Piwik\Plugins\VisitsSummary\API as APIVisitsSummary;
-
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
+use Piwik\Tests\Framework\TestCase\BenchmarkTestCase;
 
 /**
  * Tests MultiSites API. Should be used with ManyThousandSitesOneVisitEach benchmark fixture.

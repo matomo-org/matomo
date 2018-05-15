@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>facebook.com/whatever</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>361</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerUrl==http%3A%2F%2Ffacebook.com%2Fwhatever</segment>
+		<url>http://facebook.com/whatever</url>
+	</row>
+	<row>
+		<label>fb.me/?q=sdlfjs&amp;n=slfjsd</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>2</max_actions>
+		<sum_visit_length>361</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerUrl==http%3A%2F%2Ffb.me%2F%3Fq%3Dsdlfjs%26n%3Dslfjsd</segment>
+		<url>http://fb.me/?q=sdlfjs&amp;n=slfjsd</url>
+	</row>
+	<row>
+		<label>www.facebook.com/another/path</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerUrl==http%3A%2F%2Fwww.facebook.com%2Fanother%2Fpath</segment>
+		<url>http://www.facebook.com/another/path</url>
+	</row>
+</result>

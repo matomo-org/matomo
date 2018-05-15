@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\View\ViewInterface;
 use Twig_Environment;
@@ -85,6 +86,8 @@ if (!defined('PIWIK_USER_PATH')) {
  *                  which is outputted in the template, eg, `{{ postEvent('MyPlugin.event') }}`
  * - **isPluginLoaded**: Returns true if the supplied plugin is loaded, false if otherwise.
  *                       `{% if isPluginLoaded('Goals') %}...{% endif %}`
+ * - **areAdsForProfessionalServicesEnabled**: Returns true if it is ok to show some advertising in the UI for providers of Professional Support for Piwik (from Piwik 2.16.0)
+ * - **isMultiServerEnvironment**: Returns true if Piwik is used on more than one server (since Piwik 2.16.1)
  *
  * ### Examples
  *
@@ -114,6 +117,7 @@ class View implements ViewInterface
     protected $templateVars = array();
     private $contentType = 'text/html; charset=utf-8';
     private $xFrameOptions = null;
+    private $enableCacheBuster = true;
 
     /**
      * Constructor.
@@ -141,6 +145,14 @@ class View implements ViewInterface
         } catch (Exception $ex) {
             // pass (occurs when DB cannot be connected to, perhaps piwik URL cache should be stored in config file...)
         }
+    }
+
+    /**
+     * Disables the cache buster (adding of ?cb=...) to JavaScript and stylesheet files
+     */
+    public function disableCacheBuster()
+    {
+        $this->enableCacheBuster = false;
     }
 
     /**
@@ -189,10 +201,26 @@ class View implements ViewInterface
         return $this->templateVars[$key];
     }
 
+    /**
+     * Returns true if a template variable has been set or not.
+     *
+     * @param string $name The name of the template variable.
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return isset($this->templateVars[$name]);
+    }
+
+    /** @var Twig */
+    static $twigCached = null;
+
     private function initializeTwig()
     {
-        $piwikTwig = new Twig();
-        $this->twig = $piwikTwig->getTwigEnvironment();
+        if (empty(static::$twigCached)) {
+            static::$twigCached = new Twig();
+        }
+        $this->twig = static::$twigCached->getTwigEnvironment();
     }
 
     /**
@@ -210,40 +238,71 @@ class View implements ViewInterface
             $this->url = Common::sanitizeInputValue(Url::getCurrentUrl());
             $this->token_auth = Piwik::getCurrentUserTokenAuth();
             $this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
+            $this->userIsAnonymous = Piwik::isUserIsAnonymous();
             $this->userIsSuperUser = Piwik::hasUserSuperUserAccess();
             $this->latest_version_available = UpdateCheck::isNewestVersionAvailable();
+            $this->showUpdateNotificationToUser = !SettingsPiwik::isShowUpdateNotificationToSuperUsersOnlyEnabled() || Piwik::hasUserSuperUserAccess();
             $this->disableLink = Common::getRequestVar('disableLink', 0, 'int');
             $this->isWidget = Common::getRequestVar('widget', 0, 'int');
-            $this->cacheBuster = UIAssetCacheBuster::getInstance()->piwikVersionBasedCacheBuster();
+            $this->isMultiServerEnvironment = SettingsPiwik::isMultiServerEnvironment();
+
+            $piwikAds = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
+            $this->areAdsForProfessionalServicesEnabled = $piwikAds->areAdsForProfessionalServicesEnabled();
+
+            if (Development::isEnabled()) {
+                $cacheBuster = rand(0, 10000);
+            } else {
+                $cacheBuster = UIAssetCacheBuster::getInstance()->piwikVersionBasedCacheBuster();
+            }
+            $this->cacheBuster = $cacheBuster;
 
             $this->loginModule = Piwik::getLoginPluginName();
 
             $user = APIUsersManager::getInstance()->getUser($this->userLogin);
             $this->userAlias = $user['alias'];
         } catch (Exception $e) {
-            // can fail, for example at installation (no plugin loaded yet)
-        }
+            Log::debug($e);
 
-        try {
-            $this->totalTimeGeneration = Registry::get('timer')->getTime();
-            $this->totalNumberOfQueries = Profiler::getQueryCount();
-        } catch (Exception $e) {
-            $this->totalNumberOfQueries = 0;
+            // can fail, for example at installation (no plugin loaded yet)
         }
 
         ProxyHttp::overrideCacheControlHeaders('no-store');
 
-        @header('Content-Type: ' . $this->contentType);
-        // always sending this header, sometimes empty, to ensure that Dashboard embed loads (which could call this header() multiple times, the last one will prevail)
-        @header('X-Frame-Options: ' . (string)$this->xFrameOptions);
+        Common::sendHeader('Content-Type: ' . $this->contentType);
+        // always sending this header, sometimes empty, to ensure that Dashboard embed loads
+        // - when calling sendHeader() multiple times, the last one prevails
+        if(!empty($this->xFrameOptions)) {
+            Common::sendHeader('X-Frame-Options: ' . (string)$this->xFrameOptions);
+        }
 
         return $this->renderTwigTemplate();
     }
 
+    /**
+     * @internal
+     * @ignore
+     * @return Twig_Environment
+     */
+    public function getTwig()
+    {
+        return $this->twig;
+    }
+
     protected function renderTwigTemplate()
     {
-        $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
-        $output = $this->applyFilter_cacheBuster($output);
+        try {
+            $output = $this->twig->render($this->getTemplateFile(), $this->getTemplateVars());
+        } catch (Exception $ex) {
+            // twig does not rethrow exceptions, it wraps them so we log the cause if we can find it
+            $cause = $ex->getPrevious();
+            Log::debug($cause === null ? $ex : $cause);
+
+            throw $ex;
+        }
+
+        if ($this->enableCacheBuster) {
+            $output = $this->applyFilter_cacheBuster($output);
+        }
 
         $helper = new Theme;
         $output = $helper->rewriteAssetsPathToTheme($output);
@@ -305,6 +364,7 @@ class View implements ViewInterface
      */
     public function setXFrameOptions($option = 'deny')
     {
+
         if ($option === 'deny' || $option === 'sameorigin') {
             $this->xFrameOptions = $option;
         }
@@ -351,7 +411,15 @@ class View implements ViewInterface
     public static function clearCompiledTemplates()
     {
         $twig = new Twig();
-        $twig->getTwigEnvironment()->clearTemplateCache();
+        $environment = $twig->getTwigEnvironment();
+        $environment->clearTemplateCache();
+
+        $cacheDirectory = $environment->getCache();
+        if (!empty($cacheDirectory)
+            && is_dir($cacheDirectory)
+        ) {
+            $environment->clearCacheFiles();
+        }
     }
 
     /**

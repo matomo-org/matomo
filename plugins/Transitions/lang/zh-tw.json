@@ -1,0 +1,31 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s 跳出",
+        "DirectEntries": "直接流量",
+        "ErrorBack": "返回上一個動作",
+        "ExitsInline": "%s 個離開數",
+        "NumPageviews": "%s 次瀏覽數",
+        "NumDownloads": "%s 次下載數",
+        "NumOutlinks": "%s 個離開連結",
+        "FromCampaigns": "來自廣告活動",
+        "FromPreviousPages": "來自站內網頁",
+        "FromPreviousPagesInline": "%s 來自站內網頁",
+        "FromPreviousSiteSearches": "來自站內搜尋",
+        "FromPreviousSiteSearchesInline": "%s 來自站內搜尋",
+        "FromSearchEngines": "來自搜尋引擎",
+        "FromWebsites": "來自網站",
+        "IncomingTraffic": "進站流量",
+        "LoopsInline": "%s 次頁面重整",
+        "NoDataForAction": "%s 中沒有資料",
+        "NoDataForActionDetails": "活動在所選的期間內沒有瀏覽數%s或是無效。",
+        "OutgoingTraffic": "離站流量",
+        "PluginDescription": "在行為流程報表中查看訪客在每個網頁網址中的上一步和下一步動作，可以點擊動作報表中的圖示來檢視。",
+        "ShareOfAllPageviews": "此網頁有 %1$s 個瀏覽數（%2$s 總瀏覽數）",
+        "ToFollowingPages": "進入站內頁面",
+        "ToFollowingPagesInline": "%s 進入站內頁面",
+        "ToFollowingSiteSearches": "站內搜尋",
+        "ToFollowingSiteSearchesInline": "%s 站內搜尋",
+        "XOfAllPageviews": "此網頁所有訪問中的 %s",
+        "XOutOfYVisits": "%2$s 中的 %1$s"
+    }
+}

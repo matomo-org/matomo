@@ -1,0 +1,13 @@
+{
+    "Live": {
+        "GoalType": "Tip",
+        "LastHours": "Zadnjih %s ur",
+        "LastMinutes": "Zadnjih %s minut",
+        "LinkVisitorLog": "Ogled podrobnega dnevnika obiskovalcev",
+        "NbVisitor": "1 obiskovalec",
+        "NbVisitors": "%s obiskovalcev",
+        "VisitorLog": "Dnevnik obiskovalcev",
+        "VisitorsInRealTime": "Obiskovalci v živo",
+        "VisitorsLastVisit": "Zadnji obisk tega obiskovalce je bil pred %s dnevi."
+    }
+}

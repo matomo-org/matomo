@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "durchschnittliche Generierungszeit",
+        "AverageVisitDuration": "durchschnittliche Aufenthaltsdauer",
+        "GenerateQueries": "%s Abfragen durchgeführt",
+        "GenerateTime": "%s Sekunden, um die Seite zu generieren",
+        "MaxNbActions": "max. Aktionen pro Besuch",
+        "NbActionsDescription": "%s Aktionen",
+        "NbActionsPerVisit": "Aktionen pro Besuch (Seitenansichten, Downloads, ausgehende Verweise und interne Suchen)",
+        "NbDownloadsDescription": "Downloads",
+        "NbKeywordsDescription": "einmalige Suchbegriffe",
+        "NbOutlinksDescription": "Ausgehende Verweise",
+        "NbPageviewsDescription": "Seitenansichten",
+        "NbSearchesDescription": "interne Suchen",
+        "NbUniqueDownloadsDescription": "Einmalige Downloads",
+        "NbUniqueOutlinksDescription": "Einmalige ausgehende Verweise",
+        "NbUniquePageviewsDescription": "Einmalige Seitenansichten",
+        "NbUniqueVisitors": "Eindeutige Besucher",
+        "NbUsersDescription": "Benutzer",
+        "NbVisitsDescription": "Besuche",
+        "NbVisitsBounced": "abgesprungene Besucher (Verlassen der Webseite nach einer Seite)",
+        "PluginDescription": "Berichte mit generellen analytischen Metriken: Besuche, eindeutige Besucher, Anzahl Aktionen, Absprungsrate, usw.",
+        "VisitsSummary": "Besucherüberblick",
+        "VisitsSummaryDocumentation": "Dies ist eine Übersicht über die Entwicklung der Besuche.",
+        "WidgetLastVisits": "Graph der letzten Besuche",
+        "WidgetOverviewGraph": "Übersicht mit Graph",
+        "WidgetVisits": "Besucherübersicht"
+    }
+}

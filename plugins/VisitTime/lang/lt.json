@@ -1,0 +1,33 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Vietinis laikas",
+        "ColumnLocalHour": "Vietinis laikas - valanda (Apsilankymo pradžia)",
+        "ColumnLocalMinute": "Vietinis laikas - minutė (Apsilankymo pradžia)",
+        "ColumnServerTime": "Serverio laikas",
+        "ColumnServerHour": "Serverio laikas - valanda",
+        "ColumnVisitEndServerHour": "Serverio laikas - valanda (Apsilankymo pabaiga)",
+        "ColumnVisitEndServerMinute": "Serverio laikas - minutė (Apsilankymo pabaiga)",
+        "ColumnVisitStartServerHour": "Serverio laikas - valanda (Apsilankymo pradžia)",
+        "ColumnVisitStartServerMinute": "Serverio laikas - minutė (Apsilankymo pradžia)",
+        "ColumnVisitEndServerDate": "Serverio laikas - data (Apsilankymo pabaiga)",
+        "ColumnVisitEndServerDayOfMonth": "Serverio laikas - mėnesio diena (Apsilankymo pabaiga)",
+        "ColumnVisitEndServerDayOfWeek": "Serverio laikas - savaitės diena (Apsilankymo pabaiga)",
+        "ColumnVisitEndServerDayOfYear": "Serverio laikas - metų diena (Apsilankymo pabaiga)",
+        "ColumnVisitEndServerQuarter": "Serverio laikas - ketvirtis (Apsilankymo pabaiga)",
+        "ColumnVisitEndServerSecond": "Serverio laikas - sekundė (Apsilankymo pabaiga)",
+        "ColumnVisitEndServerWeekOfYear": "Serverio laikas - metų savaitė (Apsilankymo pabaiga)",
+        "ColumnVisitEndServerMonth": "Serverio laikas - mėnesis (Apsilankymo pabaiga)",
+        "ColumnVisitEndServerYear": "Serverio laikas - metai (Apsilankymo pabaiga)",
+        "ColumnServerMinute": "Serverio laikas - minutė",
+        "DayOfWeek": "Savaitės diena",
+        "LocalTime": "Apsilankymai vietiniu laiku",
+        "NHour": "%sval.",
+        "PluginDescription": "Praneša vietinį laiką ir serverio laiką, kai jūsų lankytojai peržiūri jūsų svetainę ar programėlę.",
+        "ServerTime": "Apsilankymai serverio laiku",
+        "SubmenuTimes": "Laikai",
+        "VisitsByDayOfWeek": "Apsilankymai pagal savaitės dienas",
+        "WidgetByDayOfWeekDocumentation": "Šis grafikas rodo kiek buvo apsilankymų jūsų svetainėje kiekvieną savaitės dieną",
+        "WidgetLocalTime": "Apsilankymai pagal vietinį laiką",
+        "WidgetServerTime": "Apsilankymai pagal serverio laiką"
+    }
+}

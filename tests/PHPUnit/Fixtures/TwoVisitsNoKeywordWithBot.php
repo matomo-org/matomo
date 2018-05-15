@@ -9,7 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Adds one site and tracks two visits. One visit is a bot and one has no keyword
@@ -43,7 +43,7 @@ class TwoVisitsNoKeywordWithBot extends Fixture
         // tests run in UTC, the Tracker in UTC
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
-        $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
         // Also testing to record this as a bot while specifically allowing bots
         $t->setUserAgent('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
@@ -53,8 +53,10 @@ class TwoVisitsNoKeywordWithBot extends Fixture
         // VISIT 1 = Referrer is "Keyword not defined"
         // Alsotrigger goal to check that attribution goes to this keyword
         $t->setUrlReferrer('http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CC&url=http%3A%2F%2Fpiwik.org%2F&ei=&usg=');
-        $t->setUrl('http://example.org/this%20is%20cool!');
-        self::checkResponse($t->doTrackPageView('incredible title!'));
+
+        $t->setUrl('http://example.org/this%20is%20cool!?filter=<script>alert(1);</script>{"place":{"place":"0c5b2444-70a0-4932-980c-b4dc0d3f02b5"}}');
+        self::checkResponse($t->doTrackPageView('incredible title! (Page URL contains a HTML entity)'));
+
         $idGoal = 1;
         if (!self::goalExists($idSite, $idGoal)) {
             $idGoal = API::getInstance()->addGoal($idSite, 'triggered js', 'manually', '', '');

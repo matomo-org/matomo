@@ -66,7 +66,7 @@ class Mssql extends Zend_Db_Adapter_Pdo_Mssql implements AdapterInterface
 
         try {
             $serverName = $this->_config["host"];
-            $database = $this->_config["dbname"];
+            $database   = $this->_config["dbname"];
             if (is_null($database)) {
                 $database = 'master';
             }
@@ -134,8 +134,9 @@ class Mssql extends Zend_Db_Adapter_Pdo_Mssql implements AdapterInterface
      */
     public function checkServerVersion()
     {
-        $serverVersion = $this->getServerVersion();
+        $serverVersion   = $this->getServerVersion();
         $requiredVersion = Config::getInstance()->General['minimum_mssql_version'];
+
         if (version_compare($serverVersion, $requiredVersion) === -1) {
             throw new Exception(Piwik::translate('General_ExceptionDatabaseVersion', array('MSSQL', $serverVersion, $requiredVersion)));
         }
@@ -149,7 +150,7 @@ class Mssql extends Zend_Db_Adapter_Pdo_Mssql implements AdapterInterface
     public function getServerVersion()
     {
         try {
-            $stmt = $this->query("SELECT CAST(SERVERPROPERTY('productversion') as VARCHAR) as productversion");
+            $stmt   = $this->query("SELECT CAST(SERVERPROPERTY('productversion') as VARCHAR) as productversion");
             $result = $stmt->fetchAll(Zend_Db::FETCH_NUM);
             if (count($result)) {
                 return $result[0][0];
@@ -169,6 +170,7 @@ class Mssql extends Zend_Db_Adapter_Pdo_Mssql implements AdapterInterface
     {
         $serverVersion = $this->getServerVersion();
         $clientVersion = $this->getClientVersion();
+
         if (version_compare($serverVersion, '10') >= 0
             && version_compare($clientVersion, '10') < 0
         ) {
@@ -183,8 +185,7 @@ class Mssql extends Zend_Db_Adapter_Pdo_Mssql implements AdapterInterface
      */
     public static function isEnabled()
     {
-        $extensions = @get_loaded_extensions();
-        return in_array('PDO', $extensions) && in_array('pdo_sqlsrv', $extensions);
+        return extension_loaded('PDO') && extension_loaded('pdo_sqlsrv');
     }
 
     /**
@@ -224,6 +225,7 @@ class Mssql extends Zend_Db_Adapter_Pdo_Mssql implements AdapterInterface
         if (preg_match('/(?:\[|\s)([0-9]{4})(?:\]|\s)/', $e->getMessage(), $match)) {
             return $match[1] == $errno;
         }
+
         return false;
     }
 

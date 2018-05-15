@@ -1,4 +1,41 @@
-{{ postEvent("Template.beforeTopBar", userAlias, userLogin, topMenu, userMenu) }}
-<div id="topBars">
-    {% include "@CoreHome/_topBarTopMenu.twig" %}
-</div>
+{{ postEvent("Template.beforeTopBar", userAlias, userLogin, topMenu) }}
+<ul class="right hide-on-med-and-down">
+    {% macro menuItemLabel(label, icon) %}
+        {% if icon is defined and icon and icon starts with 'icon-' %}
+            <span class="navbar-icon {{ icon|striptags }}" aria-label="{{ label|translate|e('html_attr') }}"></span>
+        {% else %}
+            {{ label|translate }}
+        {% endif %}
+    {% endmacro %}
+
+    {% macro topMenuItem(label, icon, menu) %}
+        {% if menu._html is defined %}
+            {{ menu._html|raw }}
+        {% else %}
+            <a {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}
+               id="topmenu-{{ menu._url.module|lower }}" target="_self"
+               href="index.php{{ menu._url|urlRewriteWithParameters }}" tabindex="3">{{ _self.menuItemLabel(label, icon) }}</a>
+        {% endif %}
+    {% endmacro %}
+
+    {% macro isActiveItem(menu, currentModule, currentAction) %}{% if (menu and menu._url and menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}active{% endif %}{% endmacro %}
+
+    {% if topMenuModule is not defined %}
+        {% set topMenuModule = currentModule %}
+        {% set topMenuAction = currentAction %}
+    {% endif %}
+
+    {% spaceless %}
+        {% for label,menu in topMenu %}
+            <li role="menuitem" class="{{ _self.isActiveItem(menu, topMenuModule, topMenuAction) }}">{{ _self.topMenuItem(label, menu._icon, menu) }}</li>
+        {% endfor %}
+    {% endspaceless %}
+</ul>
+<ul class="side-nav" id="mobile-top-menu">
+    {% for label,menu in topMenu %}
+        <li role="menuitem" class="{{ _self.isActiveItem(menu, topMenuModule, topMenuAction) }}"
+            >{{ _self.topMenuItem(label, '', menu) }}</li>
+    {% endfor %}
+</ul>
+<a href="javascript:;" data-activates="mobile-left-menu" class="activateLeftMenu hide-on-large-only button-collapse" style="display:none;"><span class="icon-menu-hamburger"></span></a>
+<a href="javascript:;" data-activates="mobile-top-menu" class="activateTopMenu hide-on-large-only button-collapse"><span class="icon-more-verti"></span></a>

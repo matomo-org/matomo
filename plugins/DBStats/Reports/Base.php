@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DBStats\Reports;
 
+use Piwik\Metrics\Formatter;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
@@ -17,7 +18,6 @@ use Piwik\Plugins\DBStats\DBStats;
 
 abstract class Base extends \Piwik\Plugin\Report
 {
-
     public function isEnabled()
     {
         return Piwik::hasUserSuperUserAccess();
@@ -51,7 +51,7 @@ abstract class Base extends \Piwik\Plugin\Report
 
         $view->config->addTranslations(array(
             'label'          => Piwik::translate('DBStats_Table'),
-            'year'           => Piwik::translate('CoreHome_PeriodYear'),
+            'year'           => Piwik::translate('Intl_PeriodYear'),
             'data_size'      => Piwik::translate('DBStats_DataSize'),
             'index_size'     => Piwik::translate('DBStats_IndexSize'),
             'total_size'     => Piwik::translate('DBStats_TotalSize'),
@@ -109,8 +109,6 @@ abstract class Base extends \Piwik\Plugin\Report
                 $view->config->y_axis_unit = ' K';
                 $view->requestConfig->filter_sort_column = 'total_size';
                 $view->requestConfig->filter_sort_order  = 'desc';
-
-                $runPrettySizeFilterBeforeGeneric = true;
             } else {
                 $view->config->columns_to_display = array('label', 'row_count');
                 $view->config->y_axis_unit        = ' ' . Piwik::translate('General_Rows');
@@ -121,10 +119,14 @@ abstract class Base extends \Piwik\Plugin\Report
             $view->config->selectable_rows = array();
         }
 
-        $getPrettySize = array('\Piwik\MetricsFormatter', 'getPrettySizeFromBytes');
+        $formatter = new Formatter();
+
+        $getPrettySize = array($formatter, 'getPrettySizeFromBytes');
         $params        = !isset($fixedMemoryUnit) ? array() : array($fixedMemoryUnit);
 
-        $view->config->filters[] = array('ColumnCallbackReplace', array($sizeColumns, $getPrettySize, $params), $runPrettySizeFilterBeforeGeneric);
+        $view->config->filters[] = function ($dataTable) use ($sizeColumns, $getPrettySize, $params) {
+            $dataTable->filter('ColumnCallbackReplace', array($sizeColumns, $getPrettySize, $params));
+        };
 
         // jqPlot will display &nbsp; as, well, '&nbsp;', so don't replace the spaces when rendering as a graph
         if ($view->isViewDataTableId(HtmlTable::ID)) {
@@ -135,7 +137,7 @@ abstract class Base extends \Piwik\Plugin\Report
             $view->config->filters[] = array('ColumnCallbackReplace', array($sizeColumns, $replaceSpaces));
         }
 
-        $getPrettyNumber = array('\Piwik\MetricsFormatter', 'getPrettyNumber');
+        $getPrettyNumber = array($formatter, 'getPrettyNumber');
         $view->config->filters[] = array('ColumnCallbackReplace', array('row_count', $getPrettyNumber));
     }
 

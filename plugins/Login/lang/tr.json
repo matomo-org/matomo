@@ -1,0 +1,26 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Size onaylama bağlantısını içeren bir e-posta önderildi. Parola değişikliği isteğinizi onaylamak için e-postalarınıza bakın ve onaylama bağlantısını açın.",
+        "ContactAdmin": "Olası neden: Sunucunuzda mail() işlevi devre dışı bırakılmış olabilir. <br \/>Lütfen Matomo yöneticinizle görüşün.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Süper kullanıcı yetkileri olan bir kullanıcının kimliği '%s' yöntemi ile doğrulanamaz.",
+        "ExceptionPasswordMD5HashExpected": "Parola parametresinin parolanın MD5 yöntemi ile karılmış biçimi olması beklenir.",
+        "InvalidNonceOrHeadersOrReferrer": "Form güvenliği sağlanamadı. Lütfen formu yeniden yükleyin ve çerezlerin etkinleştirildiğinden emin olun. Bir vekil sunucu kullanıyorsanız, %2$s vekil sunucu üst bilgisini kabul edip sunucu başlığını iletmesi için Matomo'i %1$s olarak ayarlamalısınız. Ayrıca Referans üst bilgisinin doğru şekilde gönderildiğini denetleyin.",
+        "InvalidNonceSSLMisconfigured": "Ayrıca %1$sMatomo tarafında güvenli bir bağlantı kullanılmasını%2$s dayatabilirsiniz: yapılandırma dosyanızda%5$s bölümü altındaki %3$s seçeneğini %4$s olarak ayarlayın",
+        "InvalidOrExpiredToken": "Kod geçersiz ya da süresi dolmuş.",
+        "InvalidUsernameEmail": "Kullanıcı adı ya da e-posta adresi geçersiz.",
+        "LogIn": "Oturum aç",
+        "LoginOrEmail": "Kullanıcı Adı ya da E-posta",
+        "LoginPasswordNotCorrect": "Kullanıcı adı ile parola uyuşmuyor.",
+        "LostYourPassword": "Parolamı unuttum",
+        "ChangeYourPassword": "Parolanızı değiştirin",
+        "MailPasswordChangeBody": "Merhaba %1$s,\n\n%2$s tarafından bir parola sıfırlama isteği gönderildi. Parola değişikliğini onaylayarak yeniden oturum açmak için şu bağlantıya tıklayın:\n\n%3$s\n\nDikkat: Parolanızı değiştirmek kimlik doğrulama kodunun da (token_auth) değiştirilmesine yol açar. Yeni kimlik doğrulama kodunuzu ayarlarınız bölümünde bulabilirsiniz.\n\nAPI token_auth kodunuzu bir dış uygulamada ya da arşivleme için kullanıyorsanız, API işlemlerinin yapılabilmesi için token_auth kodunu uygun şekilde güncelleyin.\n\nNot: Bu bağlantı 24 saat sonra geçerliliğini yitirir.\n\nMatomo uygulamasını kullandığınız için teşekkürler.",
+        "MailTopicPasswordChange": "Parola Değişikliğini Onayla",
+        "NewPassword": "Yeni parola",
+        "NewPasswordRepeat": "Yeni parola (yeniden)",
+        "PasswordChanged": "Parolanız değiştirildi.",
+        "PasswordRepeat": "Parola onayı",
+        "PasswordsDoNotMatch": "Parola ve onayı aynı değil",
+        "PluginDescription": "Kullanıcı adı ve parola ile kimlik doğrulaması yapar. Ek olarak parola sıfırlama seçeneği bulunur. Kimlik doğrulama yöntemi, mağazadan alınabilecek LoginLdap gibi başka bir oturum açma uygulama eki kullanılarak değiştirilebilir.",
+        "RememberMe": "Beni Hatırla"
+    }
+}

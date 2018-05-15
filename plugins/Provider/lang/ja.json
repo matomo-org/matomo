@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "プロバイダ",
+        "PluginDescription": "ビジターのインターネットサービスプロバイダを報告します",
+        "ProviderReportDocumentation": "このリポートは、ウェブサイトにアクセスするビジターが使っているインターネットサービスプロバイダを示しています。詳細については、プロバイダ名をクリックしてください。 %s Matomo がビジターのプロバイダを判別できない場合は、IPとして表示されます。",
+        "WidgetProviders": "プロバイダ",
+        "ProviderReportFooter": "未知のプロバイダーとは IP アドレスが検索できなかったことを意味します。"
+    }
+}

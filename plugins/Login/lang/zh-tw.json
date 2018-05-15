@@ -1,0 +1,26 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "確認連結已經發送到你的信箱中。請前往信箱並點擊該連結來確認變更密碼的要求。",
+        "ContactAdmin": "可能原因：你的伺服器可能已經停用了 mail() 函式。<br \/>請聯絡你的 Matomo 管理員。",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "擁有超級使用者權限的使用者無法使用「%s'」機制驗證。",
+        "ExceptionPasswordMD5HashExpected": "密碼參數會是 MD5 雜湊加密的密碼。",
+        "InvalidNonceOrHeadersOrReferrer": "表單安全性驗證失敗。請重新整理頁面並確定已啟用 cookies。如果你正在使用 Proxy 伺服器，你必須%1$s設定讓 Matomo 接受跳轉的 Proxy header%2$s。並檢查你的來源（Referrer）header 傳送正確。",
+        "InvalidNonceSSLMisconfigured": "當然，你可以%1$s強制 Matomo 使用安全連線%2$s：在你的設定檔案 %3$s 在 %5$s 下方設定 %4$s",
+        "InvalidOrExpiredToken": "Token 不正確或已過期。",
+        "InvalidUsernameEmail": "使用者名稱或 Email 無效",
+        "LogIn": "登入",
+        "LoginOrEmail": "使用者名稱或 Email",
+        "LoginPasswordNotCorrect": "使用者名稱 & 密碼不正確。",
+        "LostYourPassword": "密碼遺失了？",
+        "ChangeYourPassword": "變更你的密碼",
+        "MailPasswordChangeBody": "%1$s，你好：\n\n這裡有個來自 %2$s 的密碼變更要求。要確認這個密碼變更並使用新密碼登入，請點擊以下連結：\n\n%3$s\n\n注意：變更密碼後也會變更你的 API 驗證 Token，你可以在個人設定中查看新的 API 驗證 Token。\n\n如果你在其他應用程式或彙整中使用了你的 API 驗證 Token，請記得要更新它否則工作將會失敗。\n\n注意：此連結將於 24 小時候失效。\n\n感謝你使用 Matomo！",
+        "MailTopicPasswordChange": "確認密碼變更",
+        "NewPassword": "新密碼",
+        "NewPasswordRepeat": "新密碼（重覆）",
+        "PasswordChanged": "你的密碼已變更。",
+        "PasswordRepeat": "密碼（再次輸入）",
+        "PasswordsDoNotMatch": "密碼不相符。",
+        "PluginDescription": "提供使用者名稱與密碼驗證以及重設密碼功能。驗證方法可以透過使用市集中的其他登入外掛如 LoginLdap 來變更。",
+        "RememberMe": "記住我"
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "Referrers": {
+        "Campaigns": "Kampányok",
+        "ColumnCampaign": "Kampány",
+        "ColumnSearchEngine": "Keresőoldal",
+        "ColumnWebsite": "Weboldal",
+        "ColumnWebsitePage": "Weboldal weblapja",
+        "DirectEntry": "Közvetlen látogatás",
+        "Distinct": "Különböző források a forgalmi forrás típus szerint",
+        "DistinctCampaigns": "különböző kampány",
+        "DistinctKeywords": "különböző kulcsszó",
+        "DistinctSearchEngines": "különböző keresőoldal",
+        "DistinctWebsites": "különböző weboldal",
+        "Keywords": "Kulcsszavak",
+        "Referrers": "Források",
+        "SearchEngines": "Keresőoldalak",
+        "SubmenuSearchEngines": "Keresőoldalak és kulcsszavak",
+        "SubmenuWebsites": "Weboldalak",
+        "Type": "Forgalmi források típusa",
+        "TypeCampaigns": "%s a kampányok által",
+        "TypeDirectEntries": "%s közvetlen látogatás",
+        "TypeSearchEngines": "%s a keresőoldalakról",
+        "TypeWebsites": "%s a weboldalakról",
+        "UsingNDistinctUrls": "(%s különböző URL által)",
+        "Websites": "Weboldalak",
+        "WidgetExternalWebsites": "Külső weboldalak listája"
+    }
+}

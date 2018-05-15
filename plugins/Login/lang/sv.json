@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "En länk för bekräftelse har skickats till dig. Kontrollera din e-post och besök länken för att fullfölja begäran att ändra ditt lösenord.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "En användare med Superanvändaråtkomst kan inte bli autensieras vid användande av '%s' mekanism.",
+        "ExceptionPasswordMD5HashExpected": "Lösenordsparametern förväntas bli en MD5-hash av lösenordet.",
+        "InvalidNonceOrHeadersOrReferrer": "Formulärets säkerhet misslyckades. Vänligen ladda formuläret och kontrollera att cookies är aktiverade. Om du använder en proxyserver måste du %1$s konfigurera Matomo att acceptera proxy huvuden %2$s som överför Host-huvuden. Kontrollera också att din Referer header skickas korrekt.",
+        "InvalidNonceSSLMisconfigured": "Du kan även %1$s kräva att Matomo använder en säker anslutning%2$s: för att göra detta konfigurerar du din konfigurationsfil %3$s med %4$s nedan sektioner%5$s",
+        "InvalidOrExpiredToken": "Lösenordsbevis är felaktigt eller har utgått.",
+        "InvalidUsernameEmail": "Felaktigt användarnamn och\/eller e-postadress",
+        "LogIn": "Logga in",
+        "LoginPasswordNotCorrect": "Användarnamn & Lösenord är inte korrekta",
+        "LostYourPassword": "Glömt ditt lösenord?",
+        "ChangeYourPassword": "Ändra ditt lösenord",
+        "MailTopicPasswordChange": "Bekräfta byte av lösenord",
+        "NewPassword": "Nytt lösenord",
+        "NewPasswordRepeat": "Nytt lösenord (upprepa)",
+        "PasswordChanged": "Ditt lösenord har ändrats.",
+        "PasswordRepeat": "Lösenord (bekräfta)",
+        "PasswordsDoNotMatch": "Lösenorden matchar inte.",
+        "PluginDescription": "Tillhandahåller autentisering med användarnamn och lösenord samt lösenordsåterställning. Autentiseringsmetoden kan anpassas med en annan plugin som t.ex. LoginLdap från marknadsplatsen.",
+        "RememberMe": "Kom ihåg mig"
+    }
+}

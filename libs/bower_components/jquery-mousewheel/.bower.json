@@ -1,0 +1,27 @@
+{
+  "name": "jquery-mousewheel",
+  "version": "3.1.13",
+  "main": "./jquery.mousewheel.js",
+  "ignore": [
+    "*.json",
+    "*.markdown",
+    "*.txt",
+    ".*",
+    "!LICENSE.txt",
+    "Gruntfile.js",
+    "test"
+  ],
+  "dependencies": {
+    "jquery": ">=1.2.2"
+  },
+  "homepage": "https://github.com/jquery/jquery-mousewheel",
+  "_release": "3.1.13",
+  "_resolution": {
+    "type": "version",
+    "tag": "3.1.13",
+    "commit": "67289b6b2aa0066d7d78a5807f520387135ffb22"
+  },
+  "_source": "https://github.com/jquery/jquery-mousewheel.git",
+  "_target": "~3.1.12",
+  "_originalSource": "jquery-mousewheel"
+}

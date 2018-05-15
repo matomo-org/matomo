@@ -1,0 +1,26 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Veprime nga Vizita Rikthim",
+        "ColumnAverageVisitDurationForReturningVisitors": "Mesatare Kohëzgjatjeje Vizite për Vizitorë të Rikthyer (në sekonda)",
+        "ColumnAvgActionsPerReturningVisit": "Mesatare Veprimesh për vizita të Rikthyerish",
+        "ColumnBounceCountForReturningVisits": "Numër Kthimesh për Vizita Me Rikthim",
+        "ColumnBounceRateForReturningVisits": "Mesatare Kthimesh për Vizita Rikthim",
+        "ColumnMaxActionsInReturningVisit": "Maksimum veprimesh në një vizitë rikthim",
+        "ColumnNbReturningVisitsConverted": "Numër vizitash me rikthim të shndërruara",
+        "ColumnReturningVisits": "Vizita Rikthim",
+        "ColumnSumVisitLengthReturning": "Kohë gjithsej shpenzuar nga vizitorë të rikthyer (në sekonda)",
+        "ColumnUniqueReturningVisitors": "Vizitorë të rikthyer unikë",
+        "ColumnReturningUsers": "Përdorues të Rikthyer",
+        "PluginDescription": "Raporton vlera mbi vizitorë të rinj që vijnë për herë të parë dhe vizitorë të rikthyer.",
+        "ReturnActions": "veprime sipas vizitash rikthim",
+        "ReturnAverageVisitDuration": "kohëzgjatje mesatare vizitash për vizitorë të rikthyer",
+        "ReturnAvgActions": "veprime për vizitë të rikthyer",
+        "ReturnBounceRate": "vizita rikthim që janë kthyer mbrapsht (e kanë lënë sajtin pas një faqeje)",
+        "ReturningVisitDocumentation": "Vizitë rikthim (ndryshe nga një vizitë e re) është e bërë nga dikush që e ka vizituar sajtin të paktën një herë më përpara.",
+        "ReturningVisitsDocumentation": "Kjo është një përmbledhje e vizitave rikthim.",
+        "ReturnVisits": "vizita rikthim",
+        "SubmenuFrequency": "Shpeshti",
+        "WidgetGraphReturning": "Grafik Rrjedhe Vizitash Rikthim",
+        "WidgetOverview": "Përmbledhje Shpeshtie"
+    }
+}

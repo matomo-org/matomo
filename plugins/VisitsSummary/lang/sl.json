@@ -1,0 +1,13 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s izvršenih povpraševanj",
+        "GenerateTime": "%s sekund za prikaz strani",
+        "NbActionsDescription": "%s akcij",
+        "PluginDescription": "Prikaže splošne anlitične metrike: obiski, unikatni obiskovalci, število akcij, stopnja odbojev, ipd.",
+        "VisitsSummary": "Povzetek obiskov",
+        "VisitsSummaryDocumentation": "Pregled obiskov v zadnjem času.",
+        "WidgetLastVisits": "Graf zadnjih obiskov",
+        "WidgetOverviewGraph": "Pregled z grafom",
+        "WidgetVisits": "Povzetek obiskov"
+    }
+}

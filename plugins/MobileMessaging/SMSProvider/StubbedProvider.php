@@ -13,21 +13,37 @@ use Piwik\Plugins\MobileMessaging\SMSProvider;
 /**
  * Used for testing
  *
+ * @ignore
  */
 class StubbedProvider extends SMSProvider
 {
 
-    public function verifyCredential($apiKey)
+    public function getId()
+    {
+        return 'StubbedProvider';
+    }
+
+    public function getDescription()
+    {
+        return 'Only during testing available';
+    }
+
+    public function isAvailable()
+    {
+        return defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE;
+    }
+
+    public function verifyCredential($credentials)
     {
         return true;
     }
 
-    public function sendSMS($apiKey, $smsText, $phoneNumber, $from)
+    public function sendSMS($credentials, $smsText, $phoneNumber, $from)
     {
         // nothing to do
     }
 
-    public function getCreditLeft($apiKey)
+    public function getCreditLeft($credentials)
     {
         return 1;
     }

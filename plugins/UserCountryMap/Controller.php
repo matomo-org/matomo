@@ -12,19 +12,34 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
+use Piwik\Translation\Translator;
 use Piwik\View;
+
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 /**
  *
  */
 class Controller extends \Piwik\Plugin\Controller
 {
+    // By default plot up to the last 3 days of visitors on the map, for low traffic sites
+    const REAL_TIME_WINDOW = 'last3';
+    
+    /**
+     * @var Translator
+     */
+    private $translator;
 
-    // By default plot up to the last 30 days of visitors on the map, for low traffic sites
-    const REAL_TIME_WINDOW = 'last30';
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+
+        parent::__construct();
+    }
 
     public function visitorMap($fetch = false, $segmentOverride = false)
     {
@@ -35,7 +50,16 @@ class Controller extends \Piwik\Plugin\Controller
 
         $period = Common::getRequestVar('period');
         $date = Common::getRequestVar('date');
-        $segment = $segmentOverride ? : Request::getRawSegmentFromRequest() ? : '';
+
+        if (!empty($segmentOverride)) {
+            $segment = $segmentOverride;
+        } else {
+            $segment = Request::getRawSegmentFromRequest();
+            if (empty($segment)) {
+                $segment = '';
+            }
+        }
+        
         $token_auth = Piwik::getCurrentUserTokenAuth();
 
         $view = new View('@UserCountryMap/visitorMap');
@@ -63,18 +87,19 @@ class Controller extends \Piwik\Plugin\Controller
         $view->defaultMetric = 'nb_visits';
 
         // some translations
-        $view->localeJSON = Common::json_encode(array(
-                                                     'nb_visits'            => Piwik::translate('General_NVisits'),
-                                                     'one_visit'            => Piwik::translate('General_OneVisit'),
-                                                     'no_visit'             => Piwik::translate('UserCountryMap_NoVisit'),
-                                                     'nb_actions'           => Piwik::translate('VisitsSummary_NbActionsDescription'),
-                                                     'nb_actions_per_visit' => Piwik::translate('VisitsSummary_NbActionsPerVisit'),
-                                                     'bounce_rate'          => Piwik::translate('VisitsSummary_NbVisitsBounced'),
-                                                     'avg_time_on_site'     => Piwik::translate('VisitsSummary_AverageVisitDuration'),
-                                                     'and_n_others'         => Piwik::translate('UserCountryMap_AndNOthers'),
-                                                     'no_data'              => Piwik::translate('CoreHome_ThereIsNoDataForThisReport'),
-                                                     'nb_uniq_visitors'     => Piwik::translate('VisitsSummary_NbUniqueVisitors')
-                                                ));
+        $view->localeJSON = json_encode(array(
+             'nb_visits'            => $this->translator->translate('General_NVisits'),
+             'one_visit'            => $this->translator->translate('General_OneVisit'),
+             'no_visit'             => $this->translator->translate('UserCountryMap_NoVisit'),
+             'nb_actions'           => $this->translator->translate('VisitsSummary_NbActionsDescription'),
+             'nb_actions_per_visit' => $this->translator->translate('VisitsSummary_NbActionsPerVisit'),
+             'bounce_rate'          => $this->translator->translate('VisitsSummary_NbVisitsBounced'),
+             'avg_time_on_site'     => $this->translator->translate('VisitsSummary_AverageVisitDuration'),
+             'and_n_others'         => $this->translator->translate('UserCountryMap_AndNOthers'),
+             'no_data'              => $this->translator->translate('CoreHome_ThereIsNoDataForThisReport'),
+             'nb_uniq_visitors'     => $this->translator->translate('VisitsSummary_NbUniqueVisitors'),
+             'nb_users'             => $this->translator->translate('VisitsSummary_NbUsers'),
+        ));
 
         $view->reqParamsJSON = $this->getEnrichedRequest($params = array(
             'period'                      => $period,
@@ -89,8 +114,27 @@ class Controller extends \Piwik\Plugin\Controller
         $view->metrics = $config['metrics'] = $this->getMetrics($idSite, $period, $date, $token_auth);
         $config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
         $config['mapCssPath'] = 'plugins/UserCountryMap/stylesheets/map.css';
-        $view->config = Common::json_encode($config);
+        $view->config = json_encode($config);
         $view->noData = empty($config['visitsSummary']['nb_visits']);
+
+        $countriesByIso = array();
+        $regionDataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\RegionDataProvider');
+        $countries = array_keys($regionDataProvider->getCountryList());
+
+        foreach ($countries AS $country) {
+            $countriesByIso[strtoupper($country)] = Piwik::translate('Intl_Country_'.strtoupper($country));
+        }
+
+        $view->countriesByIso = $countriesByIso;
+
+        $view->continents = array(
+            'AF' => \Piwik\Plugins\UserCountry\continentTranslate('afr'),
+            'AS' => \Piwik\Plugins\UserCountry\continentTranslate('asi'),
+            'EU' => \Piwik\Plugins\UserCountry\continentTranslate('eur'),
+            'NA' => \Piwik\Plugins\UserCountry\continentTranslate('amn'),
+            'OC' => \Piwik\Plugins\UserCountry\continentTranslate('oce'),
+            'SA' => \Piwik\Plugins\UserCountry\continentTranslate('ams')
+        );
 
         return $view->render();
     }
@@ -120,7 +164,7 @@ class Controller extends \Piwik\Plugin\Controller
         $token_auth = Piwik::getCurrentUserTokenAuth();
         $view = new View('@UserCountryMap/realtimeMap');
 
-        $view->mapIsStandaloneNotWidget = $standalone;
+        $view->mapIsStandaloneNotWidget = !(bool) Common::getRequestVar('widget', $standalone, 'int');
 
         $view->metrics = $this->getMetrics($idSite, 'range', self::REAL_TIME_WINDOW, $token_auth);
         $view->defaultMetric = 'nb_visits';
@@ -135,19 +179,19 @@ class Controller extends \Piwik\Plugin\Controller
 
         // some translations
         $locale = array(
-            'nb_actions'       => Piwik::translate('VisitsSummary_NbActionsDescription'),
-            'local_time'       => Piwik::translate('VisitTime_ColumnLocalTime'),
-            'from'             => Piwik::translate('General_FromReferrer'),
-            'seconds'          => Piwik::translate('UserCountryMap_Seconds'),
-            'seconds_ago'      => Piwik::translate('UserCountryMap_SecondsAgo'),
-            'minutes'          => Piwik::translate('UserCountryMap_Minutes'),
-            'minutes_ago'      => Piwik::translate('UserCountryMap_MinutesAgo'),
-            'hours'            => Piwik::translate('UserCountryMap_Hours'),
-            'hours_ago'        => Piwik::translate('UserCountryMap_HoursAgo'),
-            'days_ago'         => Piwik::translate('UserCountryMap_DaysAgo'),
-            'actions'          => Piwik::translate('VisitsSummary_NbPageviewsDescription'),
-            'searches'         => Piwik::translate('UserCountryMap_Searches'),
-            'goal_conversions' => Piwik::translate('UserCountryMap_GoalConversions'),
+            'nb_actions'       => $this->translator->translate('VisitsSummary_NbActionsDescription'),
+            'local_time'       => $this->translator->translate('VisitTime_ColumnLocalTime'),
+            'from'             => $this->translator->translate('General_FromReferrer'),
+            'seconds'          => $this->translator->translate('Intl_Seconds'),
+            'seconds_ago'      => $this->translator->translate('UserCountryMap_SecondsAgo'),
+            'minutes'          => $this->translator->translate('Intl_Minutes'),
+            'minutes_ago'      => $this->translator->translate('UserCountryMap_MinutesAgo'),
+            'hours'            => $this->translator->translate('Intl_Hours'),
+            'hours_ago'        => $this->translator->translate('UserCountryMap_HoursAgo'),
+            'days_ago'         => $this->translator->translate('UserCountryMap_DaysAgo'),
+            'actions'          => $this->translator->translate('Transitions_NumPageviews'),
+            'searches'         => $this->translator->translate('UserCountryMap_Searches'),
+            'goal_conversions' => $this->translator->translate('UserCountryMap_GoalConversions'),
         );
 
         $segment = $segmentOverride ? : Request::getRawSegmentFromRequest() ? : '';
@@ -190,22 +234,27 @@ class Controller extends \Piwik\Plugin\Controller
         $params['format'] = 'json';
         $params['showRawMetrics'] = 1;
         if (empty($params['segment'])) {
-            $segment = \Piwik\API\Request::getRawSegmentFromRequest();
+            $segment = Request::getRawSegmentFromRequest();
             if (!empty($segment)) {
-                $params['segment'] = urldecode($segment);
+                $params['segment'] = $segment;
             }
         }
 
-        if ($encode) {
-            $params = Common::json_encode($params);
+        if (!empty($params['segment'])) {
+            $params['segment'] = urldecode($params['segment']);
         }
+
+        if ($encode) {
+            $params = json_encode($params);
+        }
+
         return $params;
     }
 
     private function checkUserCountryPluginEnabled()
     {
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('UserCountry')) {
-            throw new Exception(Piwik::translate('General_Required', 'Plugin UserCountry'));
+            throw new Exception($this->translator->translate('General_Required', 'Plugin UserCountry'));
         }
     }
 
@@ -220,16 +269,21 @@ class Controller extends \Piwik\Plugin\Controller
             . '&token_auth=' . $token_auth
             . '&filter_limit=-1'
         );
-        $metaData = $request->process();
+        $metaData = unserialize($request->process());
 
         $metrics = array();
-        foreach ($metaData[0]['metrics'] as $id => $val) {
-            if (Common::getRequestVar('period') == 'day' || $id != 'nb_uniq_visitors') {
-                $metrics[] = array($id, $val);
+        if (!empty($metaData[0]['metrics']) && is_array($metaData[0]['metrics'])) {
+            foreach ($metaData[0]['metrics'] as $id => $val) {
+                // todo: should use SettingsPiwik::isUniqueVisitorsEnabled ?
+                if (Common::getRequestVar('period') == 'day' || $id != 'nb_uniq_visitors') {
+                    $metrics[] = array($id, $val);
+                }
             }
         }
-        foreach ($metaData[0]['processedMetrics'] as $id => $val) {
-            $metrics[] = array($id, $val);
+        if (!empty($metaData[0]['processedMetrics']) && is_array($metaData[0]['processedMetrics'])) {
+            foreach ($metaData[0]['processedMetrics'] as $id => $val) {
+                $metrics[] = array($id, $val);
+            }
         }
         return $metrics;
     }

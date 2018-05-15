@@ -9,7 +9,6 @@
 namespace Piwik\DataTable\Renderer;
 
 use Exception;
-use Piwik\DataTable\Manager;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
@@ -71,8 +70,6 @@ class Php extends Renderer
      */
     public function render($dataTable = null)
     {
-        $this->renderHeader();
-
         if (is_null($dataTable)) {
             $dataTable = $this->table;
         }
@@ -85,26 +82,6 @@ class Php extends Renderer
             $toReturn = "<pre>" . var_export($toReturn, true) . "</pre>";
         }
         return $toReturn;
-    }
-
-    /**
-     * Computes the exception output and returns the string/binary
-     *
-     * @return string
-     */
-    public function renderException()
-    {
-        $this->renderHeader();
-
-        $exceptionMessage = $this->getExceptionMessage();
-
-        $return = array('result' => 'error', 'message' => $exceptionMessage);
-
-        if ($this->serialize) {
-            $return = serialize($return);
-        }
-
-        return $return;
     }
 
     /**
@@ -133,7 +110,7 @@ class Php extends Renderer
             if (self::shouldWrapArrayBeforeRendering($flatArray)) {
                 $flatArray = array($flatArray);
             }
-        } else if ($dataTable instanceof DataTable\Map) {
+        } elseif ($dataTable instanceof DataTable\Map) {
             $flatArray = array();
             foreach ($dataTable->getDataTables() as $keyName => $table) {
                 $serializeSave = $this->serialize;
@@ -141,7 +118,7 @@ class Php extends Renderer
                 $flatArray[$keyName] = $this->flatRender($table);
                 $this->serialize = $serializeSave;
             }
-        } else if ($dataTable instanceof Simple) {
+        } elseif ($dataTable instanceof Simple) {
             $flatArray = $this->renderSimpleTable($dataTable);
 
             // if we return only one numeric value then we print out the result in a simple <result> tag
@@ -228,10 +205,11 @@ class Php extends Renderer
                 $newRow['issummaryrow'] = true;
             }
 
+            $subTable = $row->getSubtable();
             if ($this->isRenderSubtables()
-                && $row->isSubtableLoaded()
+                && $subTable
             ) {
-                $subTable = $this->renderTable(Manager::getInstance()->getTable($row->getIdSubDataTable()));
+                $subTable = $this->renderTable($subTable);
                 $newRow['subtable'] = $subTable;
                 if ($this->hideIdSubDatatable === false
                     && isset($newRow['metadata']['idsubdatatable_in_db'])

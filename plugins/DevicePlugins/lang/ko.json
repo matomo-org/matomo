@@ -1,0 +1,8 @@
+{
+    "DevicePlugins": {
+        "PluginDescription": "방문자의 브라우저가 지원하는 플러그인들 리스트 보고서",
+        "PluginDetectionDoesNotWorkInIE": "참고: Internet Explorer 11 이전 버전에서는 플러그인 검색이 작동하지 않습니다. 이 보고서는 IE 브라우저가 아닌것과 새로운 버전의 IE에 기반합니다.",
+        "WidgetPlugins": "플러그인 목록",
+        "WidgetPluginsDocumentation": "방문자가 사용하는 브라우저의 플러그인에 대한 보고서입니다. 컨텐츠에 대한 최적의 표시 방법을 선택하는 데 중요한 정보입니다."
+    }
+}

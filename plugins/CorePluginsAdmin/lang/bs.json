@@ -1,0 +1,16 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Aktiviraj",
+        "Activated": "Aktivirano",
+        "Active": "Aktivno",
+        "AuthorHomepage": "Početna stranica autora",
+        "Deactivate": "Deaktiviraj",
+        "Inactive": "Neaktivno",
+        "MenuPlatform": "Platforma",
+        "Status": "Status",
+        "Theme": "Tema",
+        "Themes": "Teme",
+        "ThemesManagement": "Uredi teme",
+        "Version": "Verzija"
+    }
+}

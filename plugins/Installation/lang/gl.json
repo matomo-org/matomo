@@ -1,0 +1,30 @@
+{
+    "Installation": {
+        "Congratulations": "Noraboa!",
+        "Email": "Enderezo electrónico",
+        "Installation": "Instalación",
+        "InstallationStatus": "Estado da instalación",
+        "Password": "Contrasinal",
+        "PercentDone": "%s %%Hecho",
+        "SetupWebsite": "Configurar unha páxina web",
+        "SetupWebsiteError": "Houbo un erro ao engadir o sitio",
+        "SystemCheck": "Comprobación do sitio",
+        "SystemCheckError": "Houbo un erro - Debe arranxarse antes de continuar",
+        "SystemCheckGDHelp": "Os sparklines (gráficos pequenos) non funcionarán.",
+        "SystemCheckMemoryLimit": "Límite de memoria",
+        "SystemCheckMemoryLimitHelp": "Nun sitio web cun tráfico elevado, o proceso de arquivado pode requirir máis memoria da que está dispoñible.<br>Mire o apartado memory_limit no seu ficheiro php.ini se é necesario.",
+        "SystemCheckPhp": "Versión PHP",
+        "SystemCheckTimeLimitHelp": "Nun sitio web cun tráfico elevado, o proceso de arquivado pode requirir máis memoria da que está dispoñible.<br>Mire a directiva max_execution_time no seu ficheiro php.ini se fose necesario",
+        "SystemCheckWarning": "Matomo traballará correctamente, pero algunhas características poden faltar",
+        "SystemCheckWriteDirs": "Directorios con permisos de escrita",
+        "SystemCheckWriteDirsHelp": "Para arranxar este erro no seu sistema GNU\/Linux, tente inserindo os seguintes comandos",
+        "Tables": "Creando as táboas",
+        "TablesCreatedSuccess": "Táboas creadas con éxito!",
+        "TablesDelete": "Eliminar as táboas detectadas",
+        "TablesDeletedSuccess": "Táboas existentes de Matomo eliminadas con éxito",
+        "TablesFound": "As seguintes táboas atopáronse na base de datos",
+        "TablesReuse": "Reutilizar as táboas xa existentes",
+        "TablesWarningHelp": "Ou ben optar pola reutilización de táboas de bases de datos existentes ou seleccionar unha instalación limpa para eliminar todos os datos existentes na base de datos.",
+        "Welcome": "Benvido!"
+    }
+}

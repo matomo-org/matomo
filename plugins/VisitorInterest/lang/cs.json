@@ -1,0 +1,24 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s minut",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Stránek za návštěvu",
+        "ColumnVisitDuration": "Doba návštěvy",
+        "Engagement": "Zapojení",
+        "NPages": "%s stránek",
+        "OnePage": "1 stránka",
+        "PluginDescription": "Hlásí zájem vašich návštěvníků: počet zobrazených stránek, čas na stránkách, dny od poslední návštěvy aj.",
+        "VisitNum": "Číslo návštěvníka",
+        "VisitsByDaysSinceLast": "Návštěvy po dnech od posledního navštívení",
+        "visitsByVisitCount": "Návstěvy podle pořadí",
+        "VisitsPerDuration": "Doba zobrazení na návštěvníka",
+        "VisitsPerNbOfPages": "Počet stránek na návštěvníka",
+        "WidgetLengths": "Doba návštěv",
+        "WidgetLengthsDocumentation": "V tomto hlášení vidíte, kolik návštěv mělo určitou celkovou délku. Nejdříve je toto hlášení zobrazeno jako tag cloud, častější doby jsou větším písmem.",
+        "WidgetPages": "Stránek za návštěvu",
+        "WidgetPagesDocumentation": "V tomto hlášení je zobrazeno, kolik návštěv provedlo určité množství zobrazení stránek. Nejdříve je toto hlášení zobrazeno jako tag cloud, častější čísla mají větší písmo.",
+        "WidgetVisitsByDaysSinceLast": "Návštěvy podle dnů od poslední návštěvy",
+        "WidgetVisitsByDaysSinceLastDocumentation": "V tomto hlášení vidíte kolik návštěv provedli návštěvníci, kteří v minulosti stránku navštívili opakovaně.",
+        "WidgetVisitsByNumDocumentation": "V tomto hlášení vidíte, kolik návštěv bylo n-tou návštěvou, t. j. návštěvníky, kteří navštívili vaše stránky aspoň n-krát."
+    }
+}

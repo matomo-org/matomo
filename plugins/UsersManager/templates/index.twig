@@ -1,57 +1,83 @@
 {% extends 'admin.twig' %}
 
+{% set title %}{{ 'UsersManager_ManageAccess'|translate }}{% endset %}
+
 {% block content %}
 
-<h2 piwik-enriched-headline
-    help-url="http://piwik.org/docs/manage-users/">{{ 'UsersManager_ManageAccess'|translate }}</h2>
-<div id="sites" class="usersManager">
-    <section class="sites_selector_container">
-        <p>{{ 'UsersManager_MainDescription'|translate }}</p>
+<div piwik-content-block
+     content-title="{{ title|e('html_attr') }}"
+     feature="true"
+     style="width:800px;"
+     help-url="https://matomo.org/docs/manage-users/"
+    >
+<div ng-controller="ManageUserAccessController as manageUserAccess">
+    <div id="sites" class="usersManager">
+        <section class="sites_selector_container">
+            <p>{{ 'UsersManager_MainDescription'|translate }}</p>
 
-        <div class="sites_selector_title">{{ 'SitesManager_Sites'|translate }}:</div>
+            {% set applyAllSitesText %}
+                <strong>{{ 'UsersManager_ApplyToAllWebsites'|translate }}</strong>
+            {% endset %}
 
-        {% set applyAllSitesText %}
-            <strong>{{ 'UsersManager_ApplyToAllWebsites'|translate }}</strong>
-        {% endset %}
+            <div piwik-siteselector
+                 show-selected-site="true"
+                 only-sites-with-admin-access="true"
+                 class="sites_autocomplete"
+                 ng-model="manageUserAccess.site"
+                 ng-change="manageUserAccess.siteChanged()"
+                 siteid="{{ idSiteSelected }}"
+                 sitename="{{ defaultReportSiteName }}"
+                 all-sites-text="{{ applyAllSitesText|raw }}"
+                 all-sites-location="top"
+                 id="usersManagerSiteSelect"
+                 switch-site-on-select="false"></div>
+        </section>
+    </div>
 
-        <div piwik-siteselector
-             class="sites_autocomplete"
-             siteid="{{ idSiteSelected }}"
-             sitename="{{ defaultReportSiteName }}"
-             all-sites-text="{{ applyAllSitesText|raw }}"
-             all-sites-location="top"
-             id="usersManagerSiteSelect"
-             switch-site-on-select="false"></div>
-    </section>
-</div>
+    {% block websiteAccessTable %}
 
-{% import 'ajaxMacros.twig' as ajax %}
-{{ ajax.errorDiv }}
-{{ ajax.loadingDiv }}
+    {% import 'ajaxMacros.twig' as ajax %}
 
-<div class="entityContainer" style="width:600px;">
+    <div piwik-activity-indicator class="loadingManageUserAccess" loading="manageUserAccess.isLoading"></div>
+    <div id="accessUpdated" style="vertical-align:top;"></div>
+
     {% if anonymousHasViewAccess %}
-        <div style="display:inline-block;margin-top:10px;" id="usersManagerAnonymousUserHasViewAccess">
-            {{ ['UsersManager_AnonymousUserHasViewAccess'|translate("'anonymous'","'view'"), 'UsersManager_AnonymousUserHasViewAccess2'|translate]|join(' ')|notification({'placeAt': '#usersManagerAnonymousUserHasViewAccess', 'noclear': true}) }}
+        <br/>
+        <div class="alert alert-warning">
+            {{ ['UsersManager_AnonymousUserHasViewAccess'|translate("'anonymous'","'view'"), 'UsersManager_AnonymousUserHasViewAccess2'|translate]|join(' ') }}
         </div>
     {% endif %}
-    <table class="entityTable dataTable" id="access" style="display:inline-table;width:500px;">
+
+    <table piwik-content-table id="manageUserAccess">
         <thead>
         <tr>
             <th class='first'>{{ 'UsersManager_User'|translate }}</th>
             <th>{{ 'UsersManager_Alias'|translate }}</th>
             <th>{{ 'UsersManager_PrivNone'|translate }}</th>
-            <th>{{ 'UsersManager_PrivView'|translate }}</th>
-            <th>{{ 'UsersManager_PrivAdmin'|translate }}</th>
+            <th>{{ 'UsersManager_PrivView'|translate }} <a href="https://matomo.org/faq/general/faq_70/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
+            <th>{{ 'UsersManager_PrivAdmin'|translate }} <a href="https://matomo.org/faq/general/faq_69/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
         </tr>
         </thead>
 
         <tbody>
-        {% set accesValid %}<img src='plugins/UsersManager/images/ok.png' class='accessGranted' />{% endset %}
-        {% set accesInvalid %}<img src='plugins/UsersManager/images/no-access.png' class='updateAccess' />{% endset %}
-        {% set superUserAccess %}<span title="{{ 'UsersManager_ExceptionSuperUserAccess'|translate }}">N/A</span>{% endset %}
+
         {% for login,access in usersAccessByWebsite %}
-            <tr>
+
+            {% set accesValid %}
+              <img src='plugins/UsersManager/images/ok.png' class='accessGranted'
+                {% if access == 'noaccess' %}
+                title="{{'UsersManager_UserHasNoPermission'|translate(login,'UsersManager_PrivNone'|translate,defaultReportSiteName)}}"
+                {% elseif access == 'view' %}
+                title="{{'UsersManager_UserHasPermission'|translate(login,'UsersManager_PrivView'|translate,defaultReportSiteName)}}"
+                {% elseif access == 'admin' %}
+                title="{{'UsersManager_UserHasPermission'|translate(login,'UsersManager_PrivAdmin'|translate,defaultReportSiteName)}}"
+                {% endif %}
+              />
+            {% endset %}
+            {% set superUserAccess %}<span title="{{ 'UsersManager_ExceptionSuperUserAccess'|translate }}">N/A</span>{% endset %}
+
+            {% if userIsSuperUser or (hasOnlyAdminAccess and (access!='noaccess' or idSiteSelected == 'all'))  %}
+            <tr data-login="{{ login|e('html_attr') }}">
                 <td id='login'>{{ login }}</td>
                 <td>{{ usersAliasByLogin[login]|raw }}</td>
                 <td id='noaccess'>
@@ -60,7 +86,10 @@
                     {% elseif access=='noaccess' and idSiteSelected != 'all' %}
                         {{ accesValid }}
                     {% else %}
-                        {{ accesInvalid }}
+                        <img src='plugins/UsersManager/images/no-access.png' class='updateAccess'
+                             ng-click='manageUserAccess.setAccess({{ login|json_encode}}, "noaccess")'
+                             title="{{'UsersManager_RemoveUserAccess'|translate(login,defaultReportSiteName)|e('html_attr')}}"
+                        />
                     {% endif %}&nbsp;</td>
                 <td id='view'>
                     {% if login in superUserLogins %}
@@ -68,7 +97,10 @@
                     {% elseif access == 'view' and idSiteSelected != 'all' %}
                         {{ accesValid }}
                     {% else %}
-                        {{ accesInvalid }}
+                        <img src='plugins/UsersManager/images/no-access.png' class='updateAccess'
+                             ng-click='manageUserAccess.setAccess({{ login|json_encode}}, "view")'
+                             title="{{'UsersManager_GiveUserAccess'|translate(login,'UsersManager_PrivView'|translate,defaultReportSiteName)|e('html_attr')}}"
+                        />
                     {% endif %}&nbsp;</td>
                 <td id='admin'>
                     {% if login in superUserLogins %}
@@ -76,49 +108,100 @@
                     {% elseif login == 'anonymous' %}
                         N/A
                     {% else %}
-                        {% if access == 'admin' and idSiteSelected != 'all' %}{{ accesValid }}{% else %}{{ accesInvalid }}{% endif %}&nbsp;
+                        {% if access == 'admin' and idSiteSelected != 'all' %}
+                            {{ accesValid }}
+                        {% else %}
+                            <img src='plugins/UsersManager/images/no-access.png' class='updateAccess'
+                                 ng-click='manageUserAccess.setAccess({{ login|json_encode}}, "admin")'
+                                 title="{{'UsersManager_GiveUserAccess'|translate(login,'UsersManager_PrivAdmin'|translate,defaultReportSiteName)|e('html_attr')}}"
+                            />
+                        {% endif %}&nbsp;
                     {% endif %}
                 </td>
             </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
-    <div id="accessUpdated" style="vertical-align:top;"></div>
+
+    {% if hasOnlyAdminAccess %}
+        <div class="tableActionBar">
+            <div ng-controller="GiveUserViewAccessController as giveViewAccess" piwik-form>
+                <button id="showGiveViewAccessForm"
+                        ng-show="!giveViewAccess.showForm" ng-click="giveViewAccess.showViewAccessForm()">
+                    <span class="icon-add"></span>
+                    {{ 'UsersManager_GiveViewAccessTitle'|translate('"' ~ defaultReportSiteName ~ '"')|raw }}
+                </button>
+
+                <form id="giveViewAccessForm" ng-show="giveViewAccess.showForm">
+                    <div piwik-field uicontrol="text" name="user_invite"
+                         ng-model="giveViewAccess.usernameOrEmail"
+                         full-width="true"
+                         title="{{ 'UsersManager_EnterUsernameOrEmail'|translate|e('html_attr') }}"
+                         >
+                    </div>
+
+                    <div piwik-save-button id="giveUserAccessToViewReports"
+                         onconfirm="giveViewAccess.giveAccess()"
+                           saving="giveViewAccess.isLoading"
+                           value="{{ 'UsersManager_GiveViewAccess'|translate("'" ~ defaultReportSiteName ~ "'")|e('html_attr') }}"></div>
+
+                </form>
+            </div>
+        </div>
+        <div id="ajaxErrorGiveViewAccess">
+
+        </div>
+    {% endif %}
+</div>
 </div>
 
 <div class="ui-confirm" id="confirm">
-    <h2>{{ 'UsersManager_ChangeAllConfirm'|translate("<span id='login'></span>")|raw }}</h2>
+    <h2>{{ 'UsersManager_ChangeAllConfirm'|translate("<span class='login'></span>")|raw }}</h2>
+    <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+    <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+</div>
+
+<div class="ui-confirm" id="confirmAnonymousAccess">
+    <h2>{{ 'UsersManager_AnonymousAccessConfirmation'|translate }}</h2>
     <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
 
 {% if userIsSuperUser %}
+<div piwik-content-block content-title="{{ 'UsersManager_UsersManagement'|translate|e('html_attr') }}">
     <div class="ui-confirm" id="confirmUserRemove">
         <h2></h2>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
         <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
     </div>
-    <div class="ui-confirm" id="confirmPasswordChange">
-        <h2>{{ 'UsersManager_ChangePasswordConfirm'|translate }}</h2>
+
+    <div class="ui-confirm" id="confirmTokenRegenerate">
+        <h2>{{ 'UsersManager_TokenRegenerateConfirm'|translate }}</h2>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
         <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
     </div>
+    <div class="ui-confirm" id="confirmTokenRegenerateSelf">
+        <h2>{{ 'UsersManager_TokenRegenerateConfirmSelf'|translate }}</h2>
+        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+    </div>
+
     <br/>
-    <h2>{{ 'UsersManager_UsersManagement'|translate }}</h2>
     <p>{{ 'UsersManager_UsersManagementMainDescription'|translate }}
         {{ 'UsersManager_ThereAreCurrentlyNRegisteredUsers'|translate("<b>"~usersCount~"</b>")|raw }}</p>
     {% import 'ajaxMacros.twig' as ajax %}
-    {{ ajax.errorDiv('ajaxErrorUsersManagement') }}
-    {{ ajax.loadingDiv('ajaxLoadingUsersManagement') }}
-    <div class="entityContainer" style="margin-bottom:50px;">
-        <table class="entityTable dataTable" id="users">
+
+    <div class="user" ng-controller="ManageUsersController as manageUsers">
+        <div piwik-activity-indicator class="loadingManageUsers" loading="manageUsers.isLoading"></div>
+
+        <table piwik-content-table id="users">
             <thead>
             <tr>
                 <th>{{ 'General_Username'|translate }}</th>
                 <th>{{ 'General_Password'|translate }}</th>
                 <th>{{ 'UsersManager_Email'|translate }}</th>
                 <th>{{ 'UsersManager_Alias'|translate }}</th>
-                <th>token_auth</th>
                 {% if showLastSeen is defined and showLastSeen %}
                 <th>{{ 'UsersManager_LastSeen'|translate }}</th>
                 {% endif %}
@@ -131,80 +214,103 @@
             {% for i,user in users %}
                 {% if user.login != 'anonymous' %}
                     <tr class="editable" id="row{{ i }}">
-                        <td id="userLogin" class="editable">{{ user.login }}</td>
-                        <td id="password" class="editable">-</td>
-                        <td id="email" class="editable">{{ user.email }}</td>
-                        <td id="alias" class="editable">{{ user.alias|raw }}</td>
-                        <td id="token_auth">{{ user.token_auth }}</td>
+                        <td id="userLogin" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.login }}</td>
+                        <td id="password" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>-</td>
+                        <td id="email" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.email }}</td>
+                        <td id="alias" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.alias|raw }}</td>
                         {% if user.last_seen is defined %}
                         <td id="last_seen">{% if user.last_seen is empty %}-{% else %}{{ 'General_TimeAgo'|translate(user.last_seen)|raw }}{% endif %}</td>
                         {% endif %}
-                        <td>
-                            <span class="edituser link_but" id="row{{ i }}">
-                                <img title="{{ 'General_Edit'|translate }}" src='plugins/Morpheus/images/ico_edit.png'/>
-                                <span>{{ 'General_Edit'|translate }}</span>
-                            </span>
+                        <td class="center">
+                            <button ng-click='manageUsers.editUser("row{{ i|e('js') }}")'
+                                    class="edituser table-action" title="{{ 'General_Edit'|translate }}">
+                                <span class="icon-edit"></span>
+                            </button>
                         </td>
-                        <td>
-                            <span class="deleteuser link_but" id="row{{ i }}">
-                                <img title="{{ 'General_Delete'|translate }}" src='plugins/Morpheus/images/ico_delete.png'/>
-                                <span>{{ 'General_Delete'|translate }}</span>
-                            </span>
+                        <td class="center">
+                            <button class="deleteuser table-action"
+                                    ng-click='manageUsers.deleteUser({{ user.login|json_encode }})'
+                                    title="{{ 'General_Delete'|translate }}">
+                                <span class="icon-delete"></span>
+                            </button>
                         </td>
                     </tr>
                 {% endif %}
             {% endfor %}
             </tbody>
         </table>
-        <div class="addrow"><img src='plugins/Morpheus/images/add.png'/> {{ 'UsersManager_AddUser'|translate }}</div>
+
+        <div class="tableActionBar">
+            <button class="add-user" ng-click="manageUsers.createUser()" ng-show="manageUsers.showCreateUser">
+                <span class="icon-add"></span>
+                {{ 'UsersManager_AddUser'|translate }}
+            </button>
+        </div>
     </div>
+</div>
 
-    <h2 id="super_user_access">{{ 'UsersManager_SuperUserAccessManagement'|translate }}</h2>
-    <p>{{ 'UsersManager_SuperUserAccessManagementMainDescription'|translate }} <br/>
-    {{ 'UsersManager_SuperUserAccessManagementGrantMore'|translate }}</p>
+<div piwik-content-block
+     id="super_user_access"
+     style="width:800px;"
+     content-title="{{ 'UsersManager_SuperUserAccessManagement'|translate|e('html_attr') }}">
 
-    {{ ajax.errorDiv('ajaxErrorSuperUsersManagement') }}
-    {{ ajax.loadingDiv('ajaxLoadingSuperUsersManagement') }}
+    <div ng-controller="ManageSuperUserController as manageSuperUser">
 
-    <table class="entityTable dataTable" id="superUserAccess" style="display:inline-table;width:400px;">
-        <thead>
-        <tr>
-            <th class='first'>{{ 'UsersManager_User'|translate }}</th>
-            <th>{{ 'UsersManager_Alias'|translate }}</th>
-            <th>{{ 'Installation_SuperUser'|translate }}</th>
-        </tr>
-        </thead>
+        <p>{{ 'UsersManager_SuperUserAccessManagementMainDescription'|translate }} <br/>
+        {{ 'UsersManager_SuperUserAccessManagementGrantMore'|translate }}</p>
 
-        <tbody>
-        {% if users|length > 1 %}
-            {% for login,alias in usersAliasByLogin if login != 'anonymous' %}
+        <div piwik-activity-indicator class="loadingManageSuperUser" loading="manageSuperUser.isLoading"></div>
+
+        <div id="superUserAccessUpdated" style="vertical-align:top;"></div>
+
+        <table piwik-content-table id="superUserAccess" >
+            <thead>
+            <tr>
+                <th class='first'>{{ 'UsersManager_User'|translate }}</th>
+                <th>{{ 'UsersManager_Alias'|translate }}</th>
+                <th>{{ 'Installation_SuperUser'|translate }} <a href="https://matomo.org/faq/general/faq_35/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% if users|length > 1 %}
+                {% for login,alias in usersAliasByLogin if login != 'anonymous' %}
+                    <tr>
+                        <td id='login'>{{ login }}</td>
+                        <td>{{ alias|raw }}</td>
+                        <td id='superuser'>
+                            {% if login in superUserLogins %}
+                                <img src='plugins/UsersManager/images/ok.png' class='accessGranted'
+                                     ng-click='manageSuperUser.removeSuperUserAccess({{ login|json_encode}})' />
+                            {% endif %}
+                            {% if not (login in superUserLogins) %}
+                                <img src='plugins/UsersManager/images/no-access.png' class='updateAccess'
+                                     ng-click='manageSuperUser.giveSuperUserAccess({{ login|json_encode }})' />
+                            {% endif %}
+                            &nbsp;
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
                 <tr>
-                    <td id='login'>{{ login }}</td>
-                    <td>{{ alias|raw }}</td>
-                    <td id='superuser' data-login="{{ login|e('html_attr') }}">
-                        <img src='plugins/UsersManager/images/ok.png' class='accessGranted' data-hasaccess="1" {% if not (login in superUserLogins) %}style="display:none"{% endif %} />
-                        <img src='plugins/UsersManager/images/no-access.png' class='updateAccess' data-hasaccess="0" {% if login in superUserLogins %}style="display:none"{% endif %} />
-                        &nbsp;
+                    <td colspan="3">
+                        {{ 'UsersManager_NoUsersExist'|translate }}
                     </td>
                 </tr>
-            {% endfor %}
-        {% else %}
-            <tr>
-                <td colspan="3">
-                    {{ 'UsersManager_NoUsersExist'|translate }}
-                </td>
-            </tr>
-        {% endif %}
-        </tbody>
-    </table>
+            {% endif %}
+            </tbody>
+        </table>
 
-    <div id="superUserAccessUpdated" style="vertical-align:top;"></div>
+        <div class="ui-confirm" id="superUserAccessConfirm">
+            <h2> </h2>
+            <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+            <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+        </div>
 
-    <div class="ui-confirm" id="superUserAccessConfirm">
-        <h2> </h2>
-        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
     </div>
+</div>
 
 {% endif %}
+{% endblock %}
+
 {% endblock %}

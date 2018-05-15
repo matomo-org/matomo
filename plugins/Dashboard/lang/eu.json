@@ -1,0 +1,11 @@
+{
+    "Dashboard": {
+        "AddPreviewedWidget": "Gehitu arbelean aurrebistako widget-a",
+        "Dashboard": "Arbela",
+        "DeleteWidgetConfirm": "Ziur zaude widget hau arbeletik ezabatu nahi duzula?",
+        "LoadingWidget": "Widget-a kargatzen, itxaron mesedez...",
+        "SelectWidget": "Hautatu arbelean gehitzeko widget-a",
+        "WidgetNotFound": "Ez da widget-a aurkitu",
+        "WidgetPreview": "Widget-aren aurrebista"
+    }
+}

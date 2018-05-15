@@ -1,0 +1,10 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s sin complementos habilitados",
+        "BrowserWithPluginsEnabled": "%1$s con los complementos %2$s habilitados",
+        "PluginDescription": "Informa la lista de complementos que están admitidos en los navegadores de internet de los visitantes.",
+        "PluginDetectionDoesNotWorkInIE": "Nota: La detección de complementos no funciona en Internet Explorer antes de la versión 11. Este informe está basado solamente en navegadores no-IE y nuevas versiones de IE.",
+        "WidgetPlugins": "Lista de Complementos",
+        "WidgetPluginsDocumentation": "Este informe muestra que extensiones del navegador sus visitantes han habilitado. Esta información puede ser importante sea para elegir el método eficiente de enviar su contenido."
+    }
+}

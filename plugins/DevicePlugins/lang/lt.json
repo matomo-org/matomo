@@ -1,0 +1,8 @@
+{
+    "DevicePlugins": {
+        "PluginDescription": "Praneša lankytojų naršyklėse palaikomų papildinių sąrašą.",
+        "PluginDetectionDoesNotWorkInIE": "Pastaba: Papildinių aptikimas neveikia naršyklėse, kurios senesnės nei Internet Explorer 11. Ši ataskaita yra paremta tik ne IE naršyklėmis ir naujesnėmis IE naršyklės versijomis.",
+        "WidgetPlugins": "Naršyklės papildiniai",
+        "WidgetPluginsDocumentation": "Ši ataskaita parodo kuriuos naršyklės papildinius jūsų lankytojai buvo įjungę. Ši informacija gali būti svarbi, pasirenkant teisingą savo turinio pristatymo būdą."
+    }
+}

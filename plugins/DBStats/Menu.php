@@ -19,7 +19,7 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if (Piwik::hasUserSuperUserAccess()) {
             $menu->addDiagnosticItem('DBStats_DatabaseUsage',
-                                     array('module' => 'DBStats', 'action' => 'index'),
+                                     $this->urlForAction('index'),
                                      $order = 6);
         }
     }

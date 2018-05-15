@@ -9,23 +9,16 @@
 namespace Piwik\ReportRenderer;
 
 use Piwik\Piwik;
-use Piwik\Plugins\API\API;
 use Piwik\ReportRenderer;
-use Piwik\SettingsPiwik;
 use Piwik\View;
 
 /**
- *
+ * HTML report renderer
  */
 class Html extends ReportRenderer
 {
     const IMAGE_GRAPH_WIDTH = 700;
     const IMAGE_GRAPH_HEIGHT = 200;
-
-    const REPORT_TITLE_TEXT_SIZE = 11;
-    const REPORT_TABLE_HEADER_TEXT_SIZE = 11;
-    const REPORT_TABLE_ROW_TEXT_SIZE = 11;
-    const REPORT_BACK_TO_TOP_TEXT_SIZE = 9;
 
     const HTML_CONTENT_TYPE = 'text/html';
     const HTML_FILE_EXTENSION = 'html';
@@ -81,50 +74,21 @@ class Html extends ReportRenderer
 
     private function epilogue()
     {
-        $view = new View('@CoreHome/ReportRenderer/_htmlReportFooter');
+        $view = new View\HtmlEmailFooterView();
         $this->rendering .= $view->render();
     }
 
     public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)
     {
-        $frontPageView = new View('@CoreHome/ReportRenderer/_htmlReportHeader');
-        $this->assignCommonParameters($frontPageView);
-
-        $frontPageView->assign("reportTitle", $reportTitle);
-        $frontPageView->assign("prettyDate", $prettyDate);
-        $frontPageView->assign("description", $description);
-        $frontPageView->assign("reportMetadata", $reportMetadata);
-
-        // segment
-        $displaySegment = ($segment != null);
-        $frontPageView->assign("displaySegment", $displaySegment);
-        if ($displaySegment) {
-            $frontPageView->assign("segmentName", $segment['name']);
-        }
-
+        $frontPageView = new View\HtmlReportEmailHeaderView($reportTitle, $prettyDate, $description, $reportMetadata,
+            $segment, $this->idSite, $this->report['period']);
         $this->rendering .= $frontPageView->render();
-    }
-
-    private function assignCommonParameters(View $view)
-    {
-        $view->assign("reportTitleTextColor", ReportRenderer::REPORT_TITLE_TEXT_COLOR);
-        $view->assign("reportTitleTextSize", self::REPORT_TITLE_TEXT_SIZE);
-        $view->assign("reportTextColor", ReportRenderer::REPORT_TEXT_COLOR);
-        $view->assign("tableHeaderBgColor", ReportRenderer::TABLE_HEADER_BG_COLOR);
-        $view->assign("tableHeaderTextColor", ReportRenderer::TABLE_HEADER_TEXT_COLOR);
-        $view->assign("tableCellBorderColor", ReportRenderer::TABLE_CELL_BORDER_COLOR);
-        $view->assign("tableBgColor", ReportRenderer::TABLE_BG_COLOR);
-        $view->assign("reportTableHeaderTextSize", self::REPORT_TABLE_HEADER_TEXT_SIZE);
-        $view->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);
-        $view->assign("reportBackToTopTextSize", self::REPORT_BACK_TO_TOP_TEXT_SIZE);
-        $view->assign("currentPath", SettingsPiwik::getPiwikUrl());
-        $view->assign("logoHeader", API::getInstance()->getHeaderLogoUrl());
     }
 
     public function renderReport($processedReport)
     {
         $reportView = new View('@CoreHome/ReportRenderer/_htmlReportBody');
-        $this->assignCommonParameters($reportView);
+        View\HtmlReportEmailHeaderView::assignCommonParameters($reportView);
 
         $reportMetadata = $processedReport['metadata'];
         $reportData = $processedReport['reportData'];
@@ -169,7 +133,6 @@ class Html extends ReportRenderer
 
         foreach ($processedReports as $processedReport) {
             if ($processedReport['displayGraph']) {
-
                 $additionalFiles[] = $this->getAttachment($report, $processedReport, $prettyDate);
             }
         }
@@ -189,10 +152,9 @@ class Html extends ReportRenderer
 
         $additionalFile['filename'] =
             sprintf(
-                '%s - %s - %s %d - %s %d%s.png',
+                '%s - %s - %d - %s %d%s.png',
                 $processedReportMetadata['name'],
                 $prettyDate,
-                Piwik::translate('General_Website'),
                 $report['idsite'],
                 Piwik::translate('General_Report'),
                 $report['idreport'],

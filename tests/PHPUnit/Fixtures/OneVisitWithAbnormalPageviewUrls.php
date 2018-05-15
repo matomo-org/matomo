@@ -8,7 +8,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Adds one site and tracks one visit w/ pageview URLs that are not normalized.
@@ -41,7 +41,7 @@ class OneVisitWithAbnormalPageviewUrls extends Fixture
     {
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
-        $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
         $t->setUrlReferrer('http://www.google.com/search?q=piwik');
         $t->setUrl('http://example.org/foo/bar.html');
@@ -63,8 +63,18 @@ class OneVisitWithAbnormalPageviewUrls extends Fixture
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.5)->getDatetime());
         self::checkResponse($t->doTrackPageView('incredible.title/'));
 
+        $t->setUrl('http://www.my.url/ꟽ碌㒧䊶亄ﶆⅅขκもኸόσशμεޖृ');
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.7)->getDatetime());
+        self::checkResponse($t->doTrackPageView('Valid URL, although strange looking'));
+
+        $t->setUrl('https://make.wordpress.org/?emoji=😎l&param=test');
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.8)->getDatetime());
+        self::checkResponse($t->doTrackPageView('Emoji here: %F0%9F%98%8E'));
+
+        // this pageview should be last
         $t->setUrl('https://example.org/foo/bar4.html');
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.6)->getDatetime());
         self::checkResponse($t->doTrackPageView('incredible.title/'));
+
     }
 }

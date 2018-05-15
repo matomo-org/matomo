@@ -1,0 +1,10 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s med inga plugins är aktiverad",
+        "BrowserWithPluginsEnabled": "%1$s med plugins %2$s är aktiverad",
+        "PluginDescription": "Visar en lista av plugins som stöds i besökarnas webbläsare.",
+        "PluginDetectionDoesNotWorkInIE": "Notering: Detektering av tillägg fungerar inte i Internet Explorer med versioner före 11. Denna rapport baseras endast på icke-IE webbläsare och nyare versioner av IE.",
+        "WidgetPlugins": "Lista över plugins",
+        "WidgetPluginsDocumentation": "Denna rapport visar vilka plugins i webbläsaren som besökarna hade aktiverat. Denna information kan vara viktig för att välja rätt sätt att leverera ditt innehåll."
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Et bekræftelselink er blevet sendt til din indbakke. Tjek din e-mail og besøg dette link for at godkende ændringen af din adgangskode.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "En bruger med superbrugeradgang kan ikke godkendes ved hjælp af '%s'.",
+        "ExceptionPasswordMD5HashExpected": "Adgangskode parameteren forventes at være en MD5 hash af adgangskoden.",
+        "InvalidNonceOrHeadersOrReferrer": "Formularsikkerhed fejlede. Genindlæs formularen og kontroller, at dine cookies er aktiveret. Hvis du bruger en proxyserver, skal du %1$s konfigurere Matomo til at acceptere proxyheaderen%2$s, der videresender hostheaderen. Kontroller også, at din Referer header er sendt korrekt",
+        "InvalidOrExpiredToken": "Nøglen er forkert eller udløbet",
+        "InvalidUsernameEmail": "Fejl i brugernavn eller e-mailadresse.",
+        "LogIn": "Log på",
+        "LoginOrEmail": "Brugernavn eller e-mail",
+        "LoginPasswordNotCorrect": "Brugernavn og adgangskode er ikke korrekt",
+        "LostYourPassword": "Glemt adgangskoden?",
+        "ChangeYourPassword": "Skift din adgangskode",
+        "MailTopicPasswordChange": "Bekræft ændring af adgangskode",
+        "NewPassword": "Ny adgangskode",
+        "NewPasswordRepeat": "Ny adgangskode (gentag)",
+        "PasswordChanged": "Din adgangskode er blevet ændret.",
+        "PasswordRepeat": "Adgangskode (gentag)",
+        "PasswordsDoNotMatch": "Adgangskoder er ikke ens.",
+        "PluginDescription": "Giver godkendelse via brugernavn og adgangskode samt nulstilling af adgangskode funktionalitet. Godkendelsesmetoden kan ændres ved hjælp af en anden logind udvidelse såsom LoginLDAP, som er tilgængelig på markedspladsen.",
+        "RememberMe": "Husk mig"
+    }
+}

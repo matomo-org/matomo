@@ -1,0 +1,29 @@
+{
+    "Marketplace": {
+        "ActivateLicenseKey": "تفعيل",
+        "ActionActivatePlugin": "تفعيل الإضافة",
+        "ActionActivateTheme": "تفعيل الثيم",
+        "ActionInstall": "تنصيب",
+        "AllowedUploadFormats": "يمكنك رفع إضافة او ثيم بصيغة .zip عبر هذة الصفحة.",
+        "Authors": "المالكون",
+        "BackToMarketplace": "العودة الي سوق العرض",
+        "Developer": "المطور",
+        "Marketplace": "سوق العرض",
+        "FeaturedPlugin": "إضافات مميزة",
+        "LastCommitTime": "(اخر تحديث %s)",
+        "LastUpdated": "أخر تحديث",
+        "NoPluginsFound": "لم يتم العثور علي إضافات",
+        "NoThemesFound": "لم يتم العثور علي ثيمات",
+        "PluginKeywords": "كلمات دلالية",
+        "PluginUpdateAvailable": "أنت تستخدم الإصدار %1$s %2$sويوجد إصدار جديد متاح",
+        "PluginWebsite": "الموقع الإلكتروني للإضافة",
+        "Screenshots": "صور العرض",
+        "StepUnzippingPlugin": "إستخراج الإضافة",
+        "StepUnzippingTheme": "إستخراج الثيم",
+        "SubscriptionType": "النوع",
+        "Support": "الدعم",
+        "Updated": "تم التحديث",
+        "UploadZipFile": "رفع الملف المضغوط",
+        "ViewRepositoryChangelog": "مشاهدة التعديلات"
+    }
+}

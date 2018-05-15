@@ -1,0 +1,31 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s käväisyä",
+        "DirectEntries": "Suorat merkinnät",
+        "ErrorBack": "Palaa takaisin edelliseen toimintoon",
+        "ExitsInline": "%s poistumista",
+        "NumPageviews": "%s sivunavausta",
+        "NumDownloads": "%s tiedoston latausta",
+        "NumOutlinks": "%s lähtevää linkki",
+        "FromCampaigns": "Kampanjoista",
+        "FromPreviousPages": "Sisäisiltä sivuilta",
+        "FromPreviousPagesInline": "%s sisäisiltä sivuilta",
+        "FromPreviousSiteSearches": "Sisäisestä hausta",
+        "FromPreviousSiteSearchesInline": "%s sisäisestä hausta",
+        "FromSearchEngines": "Hakukoneista",
+        "FromWebsites": "Verkkosivuilta",
+        "IncomingTraffic": "Sisääntuleva liikenne",
+        "LoopsInline": "%s sivujen uudelleenlatauksia",
+        "NoDataForAction": "%s:lle ei ole tietoja",
+        "NoDataForActionDetails": "Joko toiminnolle ei ole tietoja aikavälille %s tai toiminto on virheellinen.",
+        "OutgoingTraffic": "Lähtevä liikenne",
+        "PluginDescription": "Raportoi edellisen ja seuraavat toiminnot jokaiselle sivulle. Saatavilla \"Toiminnot\"-raportissa uuden ikonin takaa.",
+        "ShareOfAllPageviews": "Tällä sivulla on %1$s sivunavausta (%2$s kaikista)",
+        "ToFollowingPages": "Sisäisille sivuille",
+        "ToFollowingPagesInline": "%s sisäisille sivuille",
+        "ToFollowingSiteSearches": "Sisäisiä hakuja",
+        "ToFollowingSiteSearchesInline": "%s sisäistä hakua",
+        "XOfAllPageviews": "%s kaikista tämän sivun katseluista",
+        "XOutOfYVisits": "%1$s (%2$s:stä)"
+    }
+}

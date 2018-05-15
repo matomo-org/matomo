@@ -12,9 +12,6 @@ namespace Piwik\Plugins\CoreVisualizations;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/JqplotDataGenerator.php';
-require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/Cloud.php';
-require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/HtmlTable.php';
-require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/JqplotGraph.php';
 
 /**
  * This plugin contains all core visualizations, such as the normal HTML table and
@@ -23,16 +20,15 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/CoreVisualizations/Visualizations/Jq
 class CoreVisualizations extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see \Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'ViewDataTable.addViewDataTable'         => 'getAvailableDataTableVisualizations',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'UsersManager.deleteUser'                => 'deleteUser'
+            'UsersManager.deleteUser'                => 'deleteUser',
         );
     }
 
@@ -41,22 +37,19 @@ class CoreVisualizations extends \Piwik\Plugin
         ViewDataTableManager::clearUserViewDataTableParameters($userLogin);
     }
 
-    public function getAvailableDataTableVisualizations(&$visualizations)
-    {
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\HtmlTable\\AllColumns';
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph\\Pie';
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph\\Bar';
-        $visualizations[] = 'Piwik\\Plugins\\CoreVisualizations\\Visualizations\\JqplotGraph\\Evolution';
-    }
-
     public function getStylesheetFiles(&$stylesheets)
     {
+        $stylesheets[] = "plugins/CoreVisualizations/angularjs/series-picker/series-picker.component.less";
+
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/dataTableVisualizations.less";
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/jqplot.css";
     }
 
     public function getJsFiles(&$jsFiles)
     {
+        $jsFiles[] = "plugins/CoreVisualizations/angularjs/series-picker/series-picker.component.js";
+        $jsFiles[] = "plugins/CoreVisualizations/angularjs/series-picker/series-picker.component.js";
+
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/seriesPicker.js";
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/jqplot.js";
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/jqplotBarGraph.js";

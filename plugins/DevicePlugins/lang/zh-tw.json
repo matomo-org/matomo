@@ -1,0 +1,10 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s 沒有啟用任何外掛",
+        "BrowserWithPluginsEnabled": "%1$s 啟用外掛 %2$s",
+        "PluginDescription": "顯示訪客的瀏覽器中所有啟用的外掛程式。",
+        "PluginDetectionDoesNotWorkInIE": "注意：外掛偵測功能無法在比 Internet Explorer 11 舊的版本中運作。這份報表僅基於非 IE 瀏覽器或新版的 IE 來統計。",
+        "WidgetPlugins": "瀏覽器外掛清單",
+        "WidgetPluginsDocumentation": "這份報表顯示訪客所使用的瀏覽器中已啟用的外掛。這些資訊對你以正確的方式提供內容來說可能很重要。"
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Мясцовы час",
+        "ColumnServerTime": "Серверны час",
+        "LocalTime": "Наведванняў па мясцовым часе",
+        "NHour": "%s ч.",
+        "ServerTime": "Наведванняў па серверным часе",
+        "SubmenuTimes": "Па часе",
+        "WidgetLocalTime": "Наведванняў па мясцовым часе",
+        "WidgetLocalTimeDocumentation": "Гэты графік паказвае, які %1$s час быў у наведвальніка %2$s пад час наведвання веб-сайту.",
+        "WidgetServerTime": "Наведванняў па серверным часе",
+        "WidgetServerTimeDocumentation": "Гэты графік паказвае, які %1$s час быў на серверы %2$s пад час наведвання веб-сайту."
+    }
+}

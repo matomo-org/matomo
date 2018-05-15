@@ -10,12 +10,13 @@
 namespace Piwik\Updates;
 
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_2_0_b10 extends Updates
 {
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         parent::deletePluginFromConfigFile('Referers');
         parent::deletePluginFromConfigFile('PDFReports');

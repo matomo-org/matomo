@@ -1,0 +1,19 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Activa",
+        "Activated": "Actiu",
+        "Active": "Actiu",
+        "Activity": "Activitat",
+        "AuthorHomepage": "Pàgina de l'autor",
+        "Deactivate": "Desactiva",
+        "Inactive": "Inactiu",
+        "LicenseHomepage": "Pàgina de la llicència",
+        "PluginsExtendPiwik": "Els connectors augmenten la funcionalitat del Matomo.",
+        "OncePluginIsInstalledYouMayActivateHere": "Un cop hi ha un connector instal·lat, podeu activar-lo i desactivar-lo aquí.",
+        "PluginHomepage": "Pàgina web",
+        "PluginsManagement": "Gestiona els connectors",
+        "Status": "Estat",
+        "Version": "Versió",
+        "Websites": "Llocs"
+    }
+}

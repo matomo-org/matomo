@@ -1,0 +1,28 @@
+{
+    "Referrers": {
+        "Campaigns": "Herferðir",
+        "ColumnCampaign": "Herferð",
+        "ColumnSearchEngine": "Leitarvél",
+        "ColumnWebsite": "Vefur",
+        "ColumnWebsitePage": "Vefsíða",
+        "DirectEntry": "Beinar Innfærslur",
+        "Distinct": "Mismundandi Sendendur eftir Tegund Sendanda",
+        "DistinctCampaigns": "mismunandi herferðir",
+        "DistinctKeywords": "mismunandi leitarorð",
+        "DistinctSearchEngines": "mismunandi leitarvélar",
+        "DistinctWebsites": "mismunandi vefir",
+        "Keywords": "Leitarorð",
+        "Referrers": "Sendendur",
+        "SearchEngines": "Leitarvélar",
+        "SubmenuSearchEngines": "Leitarvélar & Leitarorð",
+        "SubmenuWebsites": "Vefir",
+        "Type": "Tegund Sendanda",
+        "TypeCampaigns": "%s frá herferðum",
+        "TypeDirectEntries": "%s beinar innfærslur",
+        "TypeSearchEngines": "%s frá leitarvélum",
+        "TypeWebsites": "%s frá vefjum",
+        "UsingNDistinctUrls": "(notuð eru %s mismunandi url)",
+        "Websites": "Vefir",
+        "WidgetExternalWebsites": "Listi yfir ytri vefi"
+    }
+}

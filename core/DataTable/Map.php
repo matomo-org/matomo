@@ -8,6 +8,7 @@
  */
 namespace Piwik\DataTable;
 
+use Closure;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Renderer\Console;
@@ -27,7 +28,7 @@ use Piwik\DataTable\Renderer\Console;
 class Map implements DataTableInterface
 {
     /**
-     * Array containing the DataTable withing this Set
+     * Array containing the DataTable within this Set
      *
      * @var DataTable[]
      */
@@ -110,6 +111,32 @@ class Map implements DataTableInterface
     }
 
     /**
+     * Apply a filter to all subtables contained by this instance.
+     *
+     * @param string|Closure $className Name of filter class or a Closure.
+     * @param array $parameters Parameters to pass to the filter.
+     */
+    public function filterSubtables($className, $parameters = array())
+    {
+        foreach ($this->getDataTables() as $table) {
+            $table->filterSubtables($className, $parameters);
+        }
+    }
+
+    /**
+     * Apply a queued filter to all subtables contained by this instance.
+     *
+     * @param string|Closure $className Name of filter class or a Closure.
+     * @param array $parameters Parameters to pass to the filter.
+     */
+    public function queueFilterSubtables($className, $parameters = array())
+    {
+        foreach ($this->getDataTables() as $table) {
+            $table->queueFilterSubtables($className, $parameters);
+        }
+    }
+
+    /**
      * Returns the array of DataTables contained by this class.
      *
      * @return DataTable[]|Map[]
@@ -161,6 +188,22 @@ class Map implements DataTableInterface
         $this->array[$label] = $table;
     }
 
+    public function getRowFromIdSubDataTable($idSubtable)
+    {
+        $dataTables = $this->getDataTables();
+
+        // find first datatable containing data
+        foreach ($dataTables as $subTable) {
+            $subTableRow = $subTable->getRowFromIdSubDataTable($idSubtable);
+
+            if (!empty($subTableRow)) {
+                return $subTableRow;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Returns a string output of this DataTable\Map (applying the default renderer to every {@link DataTable}
      * of this DataTable\Map).
@@ -181,6 +224,36 @@ class Map implements DataTableInterface
     {
         foreach ($this->getDataTables() as $table) {
             $table->enableRecursiveSort();
+        }
+    }
+
+    /**
+     * See {@link DataTable::disableFilter()}.
+     */
+    public function disableFilter($className)
+    {
+        foreach ($this->getDataTables() as $table) {
+            $table->disableFilter($className);
+        }
+    }
+
+    /**
+     * @ignore
+     */
+    public function disableRecursiveFilters()
+    {
+        foreach ($this->getDataTables() as $table) {
+            $table->disableRecursiveFilters();
+        }
+    }
+
+    /**
+     * @ignore
+     */
+    public function enableRecursiveFilters()
+    {
+        foreach ($this->getDataTables() as $table) {
+            $table->enableRecursiveFilters();
         }
     }
 
@@ -246,12 +319,14 @@ class Map implements DataTableInterface
     public function getColumn($name)
     {
         $values = array();
+
         foreach ($this->getDataTables() as $table) {
             $moreValues = $table->getColumn($name);
             foreach ($moreValues as &$value) {
                 $values[] = $value;
             }
         }
+
         return $values;
     }
 

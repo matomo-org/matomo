@@ -1,16 +1,9 @@
 As a developer it may be useful to generate test data. Follow these steps:
 
-1. 	Install Piwik
-2. 	Create a site with URL http://piwik.org/
-3. 	Create a Goal eg. URL Contains "blog"
-4. 	Import data from an anonimized test log file in piwik/tests/resources/ directory. Run the following command:
-
-		$ python /home/piwik/misc/log-analytics/import_logs.py --url=http://localhost/path/ /path/to/piwik/tests/resources/access.log-dev-anon-9-days-nov-2012.log.bz2 --idsite=1 --enable-http-errors --enable-http-redirects --enable-static --enable-bots
-
-	This will import 9 days worth of data from Nov 20th-Nov 29th 2012.
-
-5.	You can then archive the reports with:
-
-        $ php5 /home/piwik/console core:archive --url=http://localhost/path/
-
-You should now have some interesting data to test with in November 2012!
+* Install Piwik, for help see [Setting up Piwik](http://developer.piwik.org/guides/getting-started-part-1#getting-setup-to-extend-piwik)
+* Install and activate the `VisitorGenerator` plugin via the Marketplace if needed
+* Generate websites `./console visitorgenerator:generate-websites --limit=50`
+* Generate users `./console visitorgenerator:generate-users --limit=50`
+* Generate goals for a website `./console visitorgenerator:generate-goals --idsite=1`
+* Generate visits for a website `./console visitorgenerator:generate-visits --idsite=1`
+* Trigger the archiving in case browser archiving is disabled `./console core:archive`

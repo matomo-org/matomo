@@ -1,0 +1,63 @@
+.inlineHelp {
+    display: none;
+}
+
+[piwik-enriched-headline] {
+    visibility: hidden;
+    height: 47px;
+}
+
+[piwik-enriched-headline].ng-isolate-scope {
+    visibility: visible;
+    height: auto;
+}
+
+.enrichedHeadline {
+    min-height: 22px;
+
+    a.title {
+        cursor: pointer;
+    }
+
+    .title {
+        display:inline-block;
+    }
+
+    .inlineHelp {
+        display: block;
+        background: #F7F7F7;
+        font-size: 12px;
+        font-weight: normal;
+        border: 1px solid #E4E5E4;
+        margin: 10px 0 10px 0;
+        padding: 10px;
+        border-radius: 2px;
+
+        .readMore {
+            margin-top: 10px;
+            display: inline-block;
+            font-weight: bold;
+        }
+    }
+    .iconsBar {
+        line-height: 1 !important;
+    }
+
+    .ratingIcons {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .helpIcon {
+        cursor: pointer;
+        display: inline-block;
+        margin: 0 0 -1px 4px;
+        opacity: 0.3;
+        font-size: 15px;
+        color: @theme-color-text-light;
+        &:hover {
+            opacity: 0.9;
+            text-decoration: none;
+        }
+    }
+}

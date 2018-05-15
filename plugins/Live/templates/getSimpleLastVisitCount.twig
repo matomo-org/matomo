@@ -12,7 +12,7 @@
             <span class="simple-realtime-metric" data-metric="actions">{% if actions == 1 %}{{ 'General_OneAction'|translate }}{% else %}{{ 'VisitsSummary_NbActionsDescription'|translate(actions) }}{% endif %}</span>
         {% endset %}
         {% set minutesMessage %}
-            <span class="simple-realtime-metric" data-metric="minutes">{% if lastMinutes == 1 %}{{ 'General_OneMinute'|translate }}{% else %}{{ 'General_NMinutes'|translate(lastMinutes) }}{% endif %}</span>
+            <span class="simple-realtime-metric" data-metric="minutes">{% if lastMinutes == 1 %}{{ 'Intl_OneMinute'|translate }}{% else %}{{ 'Intl_NMinutes'|translate(lastMinutes) }}{% endif %}</span>
         {% endset %}
 
         {{ 'Live_SimpleRealTimeWidget_Message'|translate(visitsMessage,actionsMessage,minutesMessage) | raw }}

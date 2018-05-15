@@ -1,0 +1,21 @@
+{
+    "Overlay": {
+        "Clicks": "%s clics",
+        "ClicksFromXLinks": "%1$s clics depuis un des %2$s liens",
+        "Domain": "Domaine",
+        "ErrorNotLoading": "L'analyse des pages web n'a pas pu être lancée pour le moment.",
+        "ErrorNotLoadingDetails": "Peut être que la page chargée sur la droite n'a pas de code de suivi Matomo. Dans ce cas, essayez de lancer la navigation superposée depuis une autre page que le rapport de pages.",
+        "ErrorNotLoadingDetailsSSL": "Etant donné que vous utilisez Matomo en https, la cause la plus probable est que votre site web ne supporte pas le SSL. Essayez d'utiliser Matomo en http.",
+        "ErrorNotLoadingLink": "Cliquez ici pour obtenir plus d'informations de dépannage.",
+        "Link": "Lien",
+        "Location": "Localisation",
+        "NoData": "Il n'y a aucune données durant cette période",
+        "OneClick": "1 clic",
+        "OpenFullScreen": "Ouvrir en plein écran",
+        "Overlay": "Analyse des pages web",
+        "PluginDescription": "Visualisez vos données d'analyse comme une Superposition de votre site web. Voyez combien de fois vos utilisateurs ont cliqué sur chaque lien. Remarque: Nécessite que le composant Transitions soit activé.",
+        "RedirectUrlError": "Vous tentez d'ouvrir l'analyse des pages web pour l'URL \"%1$s\". %2$s Aucun des domaines configurés dans Matomo ne correspond à cette URL.",
+        "RedirectUrlErrorAdmin": "Vous pouvez ajouter le domaine en tant qu'URL additionnelle %1$sdans les paramètres%2$s.",
+        "RedirectUrlErrorUser": "Demandez à votre administrateur d'ajouter le domaine en tant qu'URL additionnelle."
+    }
+}

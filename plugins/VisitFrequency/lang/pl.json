@@ -1,0 +1,26 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Aktywność w trakcie powtórnych odwiedzin",
+        "ColumnAverageVisitDurationForReturningVisitors": "Średni czas odwiedzin dla powtórnych wizyt (w sekundach)",
+        "ColumnAvgActionsPerReturningVisit": "Średnia aktywność w takcie powtórnych odwiedzin",
+        "ColumnBounceCountForReturningVisits": "Ilość rezygnacji dla powtórnych odwiedzin",
+        "ColumnBounceRateForReturningVisits": "Współczynnik rezygnacji dla powtórnych odwiedzin",
+        "ColumnMaxActionsInReturningVisit": "Maksymalna aktywność na pojedynczą powtórną wizytę",
+        "ColumnNbReturningVisitsConverted": "Liczba konwersji dla powtórnych wizyt",
+        "ColumnReturningVisits": "Powtórne odwiedziny",
+        "ColumnSumVisitLengthReturning": "Całkowity czas spędzony przez powracających użytkowników (w sekundach)",
+        "ColumnUniqueReturningVisitors": "Unikalni powracający odwiedzający",
+        "ColumnReturningUsers": "Powracający Użytkownicy",
+        "PluginDescription": "Zestawienie wskaźników dotyczących Twoich nowych i powracających odwiedzających.",
+        "ReturnActions": "akcje powracających użytkowników",
+        "ReturnAverageVisitDuration": "średni czas powracających użytkowników na stronie",
+        "ReturnAvgActions": "akcji na ponowną wizytę",
+        "ReturnBounceRate": "porzucone ponowne odwiedziny (opuszczenie serwisu po pojedynczej stronie)",
+        "ReturningVisitDocumentation": "Ponowna wizyta (w odróżnieniu od nowej) to wizyta użytkownika, który odwiedził już Twój serwis przynajmniej jeden raz.",
+        "ReturningVisitsDocumentation": "To jest przegląd powracających odwiedzających.",
+        "ReturnVisits": "ponownych wizyt",
+        "SubmenuFrequency": "Częstotliwość",
+        "WidgetGraphReturning": "Wykres powtórnych odwiedzin",
+        "WidgetOverview": "Częstotliwość przeglądania"
+    }
+}

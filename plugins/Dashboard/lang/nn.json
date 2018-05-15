@@ -1,0 +1,32 @@
+{
+    "Dashboard": {
+        "AddAWidget": "Legg til småprogram",
+        "AddPreviewedWidget": "Klikk for å leggja småprogram til styringspanelet",
+        "ChangeDashboardLayout": "Endre oppsett på styringspanelet",
+        "CreateNewDashboard": "Opprett nytt styringspanel",
+        "Dashboard": "Styringspanel",
+        "DashboardEmptyNotification": "Styringspanelet ditt inneheld ingen småprogram. Start med å leggja til nokre småprogram, eller nullstill panelet til standardutvalet.",
+        "DashboardName": "Namn på styringspanel:",
+        "DashboardOf": "Styringspanelet til %s",
+        "DefaultDashboard": "Standard styringspanel - Bruker standard småprogramutval og kolonneutforming",
+        "DeleteWidgetConfirm": "Er du sikker på at du vil fjerna dette småprogrammet frå styringspanelet ditt?",
+        "EmptyDashboard": "Tomt styringspanel - Vel dine favorittsmåprogram",
+        "LoadingWidget": "Lastar småprogram, vent...",
+        "ManageDashboard": "Handsam styringspanel",
+        "Maximise": "Maksimer",
+        "Minimise": "Minimer",
+        "NotUndo": "Du kan ikkje angra denne handlinga.",
+        "RemoveDashboard": "Fjern styringspanel",
+        "RemoveDashboardConfirm": "Er du sikker på at du vil fjerna styringspanelet \"%s\"?",
+        "RenameDashboard": "Lag nytt namn på styringspanel",
+        "ResetDashboard": "Nullstill styringspanelet",
+        "ResetDashboardConfirm": "Vil du verkeleg nullstilla styringspanelet ditt?",
+        "SelectDashboardLayout": "Vel ditt nye oppsett av styringspanelet",
+        "SelectWidget": "Vel det småprogrammet du vil legga til styringspanelet",
+        "SetAsDefaultWidgets": "Sett som standard småprogramutval",
+        "SetAsDefaultWidgetsConfirm": "Er du sikker på at du vil setja dette utvalet av småprogram og utforming som standardmal for styringspanel?",
+        "SetAsDefaultWidgetsConfirmHelp": "Dette utvalet av småprogram og kolonneutforminga vil bli brukt når ein brukar opprettar eit nytt styringspanel, eller når \"%s\"-funksjonen er brukt.",
+        "WidgetNotFound": "Fann ikkje småprogrammet",
+        "WidgetPreview": "Småprogramvisning"
+    }
+}

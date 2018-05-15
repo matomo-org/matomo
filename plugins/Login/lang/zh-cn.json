@@ -1,0 +1,19 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "确认链接已发到您的邮箱，请接收邮件并点击链接确认密码修改。",
+        "ExceptionPasswordMD5HashExpected": "密码参数是一个 MD5 加密的密码。",
+        "InvalidNonceOrHeadersOrReferrer": "表单安全检查失败，请重新打开表单，检查是否启用cookie。如果配置了代理服务器，需要 %1$s 设置Matomo接收代理头信息 %2$s ，同时检查Referer头是否正确",
+        "InvalidOrExpiredToken": "凭证无效或已经过期。",
+        "InvalidUsernameEmail": "用户名或邮件地址不正确",
+        "LogIn": "登录",
+        "LoginPasswordNotCorrect": "用户名或密码不正确！",
+        "LostYourPassword": "忘记密码了?",
+        "MailTopicPasswordChange": "密码修改确认",
+        "NewPassword": "新密码",
+        "NewPasswordRepeat": "新密码(重复)",
+        "PasswordChanged": "您的密码已修改。",
+        "PasswordRepeat": "密码(重复)",
+        "PasswordsDoNotMatch": "密码不一致。",
+        "RememberMe": "记住密码"
+    }
+}

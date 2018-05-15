@@ -12,13 +12,17 @@
         <tbody>
     {%- endif -%}
         {% if showingEmbeddedSubtable and dataTable.getRowsCount() == 0 %}
-            <tr>
-                <td colspan="{{ properties.columns_to_display|length }}">{{ 'CoreHome_CategoryNoData'|translate }}</td>
-            </tr>
+            {% if clientSideParameters is not defined or clientSideParameters.filter_pattern_recursive is not defined or not clientSideParameters.filter_pattern_recursive  %}
+                <tr class="nodata">
+                    <td colspan="{{ properties.columns_to_display|length }}">{{ 'CoreHome_CategoryNoData'|translate }}</td>
+                </tr>
+            {% endif %}
         {% else %}
             {%- for rowId, row in dataTable.getRows() -%}
                 {%- set rowHasSubtable = not subtablesAreDisabled and row.getIdSubDataTable() and properties.subtable_controller_action is not null -%}
-                {%- set shouldHighlightRow = rowId == constant('Piwik\\DataTable::ID_SUMMARY_ROW') and properties.highlight_summary_row -%}
+                {%- set rowSubtableId = row.getMetadata('idsubdatatable_in_db')|default(row.getIdSubDataTable()) -%}
+                {%- set isSummaryRow = rowId == constant('Piwik\\DataTable::ID_SUMMARY_ROW') -%}
+                {%- set shouldHighlightRow = isSummaryRow and properties.highlight_summary_row -%}
 
                 {# display this row if it doesn't have a subtable or if we don't replace the row with the subtable #}
                 {%- set showRow = subtablesAreDisabled
@@ -27,8 +31,12 @@
                                or not properties.replace_row_with_subtable|default(false) -%}
 
                 {% if showRow %}
-                <tr {% if rowHasSubtable %}id="{{ row.getIdSubDataTable() }}"{% endif %}
-                    class="{{ row.getMetadata('css_class') }} {% if rowHasSubtable %}subDataTable{% endif %}{% if shouldHighlightRow %} highlight{% endif %}">
+                <tr {% if rowHasSubtable %}id="{{ rowSubtableId }}"{% endif %}
+                    {% if row.getMetadata('segment') is not false %} data-segment-filter="{{ row.getMetadata('segment')|e('html_attr') }}"{% endif %}
+                    {% if row.getMetadata('url') is not false %} data-url-label="{{ row.getMetadata('url')|rawSafeDecoded }}"{% endif %}
+                    data-row-metadata="{{ row.getMetadata|json_encode|e('html_attr') }}"
+                    class="{{ row.getMetadata('css_class') }} {% if rowHasSubtable %}subDataTable{% endif %}{% if shouldHighlightRow %} highlight{% endif %}{% if isSummaryRow %} summaryRow{% endif %}"
+                    {% if rowHasSubtable %}title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}"{% endif %}>
                     {% for column in properties.columns_to_display %}
                         <td>
                             {% include "@CoreHome/_dataTableCell.twig" with properties %}
@@ -39,7 +47,7 @@
 
                 {# display subtable if present and showing expanded datatable #}
                 {% if properties.show_expanded|default(false) and rowHasSubtable %}
-                    {% include "@CoreVisualizations/_dataTableViz_htmlTable.twig" with {'dataTable': row.getSubtable(), 'idSubtable': row.getIdSubDataTable()} %}
+                    {% include "@CoreVisualizations/_dataTableViz_htmlTable.twig" with {'dataTable': row.getSubtable(), 'idSubtable': rowSubtableId} %}
                 {% endif %}
             {%- endfor -%}
         {% endif %}

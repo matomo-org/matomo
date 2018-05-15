@@ -8,7 +8,20 @@
  */
 
 // required modules
-var config = require("./config");
+config = require("./../../UI/config.dist");
+try {
+    var localConfig = require("./../../UI/config");
+} catch (e) {
+    localConfig = null;
+}
+
+if (localConfig) {
+    for (var prop in localConfig) {
+        if (localConfig.hasOwnProperty(prop)) {
+            config[prop] = localConfig[prop];
+        }
+    }
+}
 
 // assume the URI points to a folder and make sure Piwik won't cut off the last path segment
 if (config.phpServer.REQUEST_URI.slice(-1) != '/') {
@@ -18,6 +31,8 @@ if (config.phpServer.REQUEST_URI.slice(-1) != '/') {
 require('./support/fs-extras');
 
 phantom.injectJs('./support/globals.js');
+
+console.log('PhantomJS version: ' + phantom.version.major + '.' + phantom.version.minor + '.' + phantom.version.patch);
 
 // make sure script works wherever it's executed from
 require('fs').changeWorkingDirectory(__dirname);
@@ -38,7 +53,8 @@ resemble.outputSettings({
         alpha: 125
     },
     errorType: 'movement',
-    transparency: 0.3
+    transparency: 0.3,
+    largeImageThreshold: 20000
 });
 
 // run script

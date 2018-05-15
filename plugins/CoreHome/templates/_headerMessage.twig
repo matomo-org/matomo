@@ -1,47 +1,52 @@
 {# testing, remove test_ from var names #}
-{% set test_latest_version_available="3.0" %}
-{% set test_piwikUrl='http://demo.piwik.org/' %}
-{% set isPiwikDemo %}{{ piwikUrl == 'http://demo.piwik.org/' or piwikUrl == 'https://demo.piwik.org/'}}{% endset %}
+{% set test_latest_version_available="4.0.0" %}
+{% set test_piwikUrl='https://demo.matomo.org/' %}
+{% set isPiwikDemo %}{{ piwikUrl == 'http://demo.matomo.org/' or piwikUrl == 'https://demo.matomo.org/' }}{% endset %}
 
 {% set updateCheck %}
-<div id="updateCheckLinkContainer">
-    <span class='loadingPiwik' style="display:none;"><img src='plugins/Morpheus/images/loading-blue.gif'/></span>
-    <img class="icon" src="plugins/Morpheus/images/reload.png"/>
-    <a href="#" id="checkForUpdates"><em>{{ 'CoreHome_CheckForUpdates'|translate }}</em></a>
-</div>
+    <span id="updateCheckLinkContainer">
+        <span class="icon icon-fixed icon-reload"></span>
+                {{ 'CoreHome_CheckForUpdates'|translate }}
+    </span>
 {% endset %}
 
-{% if isPiwikDemo or (latest_version_available and hasSomeViewAccess and not isUserIsAnonymous) or (isSuperUser and adminMenu is defined and adminMenu) %}
-<span id="header_message" class="{% if isPiwikDemo or not latest_version_available %}header_info{% else %}header_alert{% endif %}">
-    <span class="header_short">
-        {% if isPiwikDemo %}
-            {{ 'General_YouAreViewingDemoShortMessage'|translate }}
-        {% elseif latest_version_available %}
-            {{ 'General_NewUpdatePiwikX'|translate(latest_version_available) }}
-        {% elseif isSuperUser and adminMenu is defined and adminMenu %}
-            {{ updateCheck|raw }}
-        {% endif %}
-    </span>
+{% if (latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser) or (isSuperUser and isAdminArea is defined and isAdminArea) %}
+<div piwik-expand-on-hover
+     id="header_message"
+     class="piwikSelector borderedControl {% if not latest_version_available %}header_info{% else %}{% endif %} piwikTopControl {% if latest_version_available %}update_available{% endif %}"
+        >
 
-    <span class="header_full">
-        {% if isPiwikDemo %}
-            {{ 'General_YouAreViewingDemoShortMessage'|translate }}
-            <br />
-            {{ 'General_DownloadFullVersion'|translate("<a href='http://piwik.org/'>","</a>","<a href='http://piwik.org'>piwik.org</a>")|raw }}
-            <br/>
+        {% if latest_version_available and not isPiwikDemo %}
+        <a class="title" href="?module=CoreUpdater&action=newVersionAvailable" style="cursor:pointer;">
+            {{ 'General_NewUpdatePiwikX'|translate(latest_version_available) }}
+            <span class="icon-warning"></span>
+          </a>
+        {% elseif isSuperUser and isAdminArea is defined and isAdminArea %}
+        <a class="title">
+            {{ updateCheck|raw }}
+          </a>
         {% endif %}
+
+    <div class="dropdown positionInViewport">
         {% if latest_version_available and isSuperUser %}
-            {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/changelog/' target='_blank'>","</a>")|raw }}
-            <br/>
-            {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
+            {% if isMultiServerEnvironment %}
+                {{ 'CoreHome_OneClickUpdateNotPossibleAsMultiServerEnvironment'|translate("<a rel='noreferrer' href='https://builds.matomo.org/piwik-" ~ latest_version_available ~ ".zip'>","</a>")|raw }}
+            {% else %}
+                {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=https://matomo.org/changelog/' target='_blank'>","</a>")|raw }}
+            {% endif %}
+            <br />
         {% elseif latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous %}
             {% set updateSubject = 'General_NewUpdatePiwikX'|translate(latest_version_available)|e('url') %}
-            {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=http://piwik.org/changelog/' target='_blank'>" ~ latest_version_available ~ "</a>", "<a href='mailto:" ~ superUserEmails ~ "?subject=" ~ updateSubject ~ "'>", "</a>")|raw }}
-        {% elseif isSuperUser and adminMenu is defined and adminMenu %}
-            {{ updateCheck|raw }}
+            {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=https://matomo.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=https://matomo.org/changelog/' target='_blank'>" ~ latest_version_available ~ "</a>", "<a href='mailto:" ~ superUserEmails ~ "?subject=" ~ updateSubject ~ "'>", "</a>")|raw }}
             <br />
-            {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
         {% endif %}
-    </span>
-</span>
+
+        {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
+    </div>
+</div>
+
+<span class="icon icon-arrowup"></span>
+<div style="clear:right"></div>
+{% else %}
+<span class="icon icon-arrowup"></span>
 {% endif %}

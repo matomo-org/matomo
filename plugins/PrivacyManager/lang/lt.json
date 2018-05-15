@@ -1,0 +1,13 @@
+{
+    "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "Paslėpkite savo lankytojų IP adresus, jei to reikalauja Jūsų vidaus taisyklės ar įstatymai.",
+        "CurrentDBSize": "Esamas duomenų bazės dydis",
+        "DeleteLogsOlderThan": "Ištrinti įrašus senesnius nei",
+        "DeleteMaxRows": "Maksimalus vienu metu trinamų eilučių kiekis:",
+        "LastDelete": "Paskutinis išvalymas atliktas",
+        "MenuPrivacySettings": "Privatumas",
+        "NextDelete": "Kitas suplanuotas išvalymas",
+        "TeaserHeadline": "Privatumo nustatymai",
+        "UseAnonymizeIp": "Paslėpti lankytojų IP adresus"
+    }
+}

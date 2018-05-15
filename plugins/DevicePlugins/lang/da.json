@@ -1,0 +1,10 @@
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s med ingen aktiverede udvidelsesmoduler",
+        "BrowserWithPluginsEnabled": "%1$s med udvidelsesmoduler %2$s aktiveret",
+        "PluginDescription": "Viseren liste over udvidelser, der understøttes i besøgendes browsere.",
+        "PluginDetectionDoesNotWorkInIE": "Bemærk: Plugins detektering virker ikke i Internet Explorer før version 11. Denne rapport er kun baseret på ikke-IE browsere og nyere versioner af IE.",
+        "WidgetPlugins": "Udvidelsesmoduler",
+        "WidgetPluginsDocumentation": "Rapporten viser, hvilke browserudvidelser de besøgende havde aktiveret. Oplysningerne kan være vigtigt for at vælge den rigtige måde at levere indholdet på."
+    }
+}

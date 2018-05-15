@@ -1,0 +1,12 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "Nincs adat ebben a kategóriában. Próbáld meg a \"Tartalmazza a teljes populációt\" opciót.",
+        "NoPrivilegesAskPiwikAdmin": "'%1$s' felhasználóként léptél be, de úgy tűnik, hogy nem rendelkezel semmilyen jogosultsággal. %2$s Kérd meg a Matomo adminisztrátorod (kattints ide egy email írásához)%3$s, hogy adjon számodra 'megtekintési' jogosultságot a webhelyhez.",
+        "PageOf": "%1$s — %2$s",
+        "ShowJSCode": "Mutasd a JavaScript kódot a beillesztéshez",
+        "ThereIsNoDataForThisReport": "Nincs adat ehhez a jelentéshez.",
+        "WebAnalyticsReports": "Webanalitikai jelentések",
+        "SystemSummaryPhpVersion": "PHP verzió",
+        "Segments": "Szegmensek"
+    }
+}

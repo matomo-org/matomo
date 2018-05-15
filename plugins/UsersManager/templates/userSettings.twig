@@ -1,176 +1,138 @@
 {% extends 'admin.twig' %}
 
-{% block content %}
-<h2 piwik-enriched-headline>{{ 'UsersManager_MenuUserSettings'|translate }}</h2>
+{% set title %}{{ 'UsersManager_PersonalSettings'|translate }}{% endset %}
 
-<br/>
-<div class="ui-confirm" id="confirmPasswordChange">
-    <h2>{{ 'UsersManager_ChangePasswordConfirm'|translate }}</h2>
+{% block content %}
+
+<div class="ui-confirm" id="confirmTokenRegenerate">
+    <h2>{{ 'UsersManager_TokenRegenerateConfirmSelf'|translate }}</h2>
     <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
 
-<table id='userSettingsTable' class="adminTable">
-    <tr>
-        <td><label for="username">{{ 'General_Username'|translate }} </label></td>
-        <td>
-            <input size="25" value="{{ userLogin }}" id="username" disabled="disabled"/>
-            <span class='form-description'>{{ 'UsersManager_YourUsernameCannotBeChanged'|translate }}</span>
-        </td>
-    </tr>
+<div piwik-content-block content-title="{{ title|e('html_attr') }}" feature="true">
+    <form id="userSettingsTable" piwik-form ng-controller="PersonalSettingsController as personalSettings">
 
-    <tr>
-        <td><label for="alias">{{ 'UsersManager_Alias'|translate }} </label></td>
-        <td><input size="25" value="{{ userAlias }}" id="alias" /></td>
-    </tr>
-    <tr>
-        <td><label for="email">{{ 'UsersManager_Email'|translate }} </label></td>
-        <td><input size="25" value="{{ userEmail }}" id="email"/></td>
-    </tr>
-    <tr>
-        <td><div style="margin-top: 5px;margin-bottom: 10px;">{{ 'General_Language'|translate }}</div></td>
-        <td>
-            <fieldset style="margin-top: 5px;margin-bottom: 10px;">
-                <select name="language" id="language" onchange="if (this.value=='') window.open('?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/translations/');">
-                    <option title="" value="">{{ 'LanguagesManager_AboutPiwikTranslations'|translate }}</option>
-                    {% for language in languages %}
-                        <option value="{{ language.code }}" {% if language.code == currentLanguageCode %}selected="selected"{% endif %}
-                                title="{{ language.name }} ({{ language.english_name }})">{{ language.name }}</option>
-                    {% endfor %}
-                </select>
-                <br />
-            </fieldset>
-        </td>
-    </tr>
-    <tr>
-        <td>{{ 'UsersManager_ReportToLoadByDefault'|translate }}</td>
-        <td>
-            <fieldset>
-                <input id="defaultReportRadioAll" type="radio" value="MultiSites"
-                      name="defaultReport"{% if defaultReport=='MultiSites' %} checked="checked"{% endif %} />
-                <label for="defaultReportRadioAll">{{ 'General_AllWebsitesDashboard'|translate }}</label><br/>
-                <input id="defaultReportSpecific" type="radio" value="1"
-                       name="defaultReport"{% if defaultReport != 'MultiSites' %} checked="checked"{% endif %} />
-                <label for="defaultReportSpecific" style="padding-right:12px;">{{ 'General_DashboardForASpecificWebsite'|translate }}</label>
+        <div piwik-field uicontrol="text" name="username"
+             title="{{ 'General_Username'|translate|e('html_attr') }}"
+             value="{{ userLogin }}" disabled="true"
+             ng-model="personalSettings.username"
+             inline-help="{{ 'UsersManager_YourUsernameCannotBeChanged'|translate|e('html_attr') }}">
+        </div>
 
-                <div piwik-siteselector
-                     class="sites_autocomplete"
-                     siteid="{{ defaultReportIdSite }}"
-                     sitename="{{ defaultReportSiteName }}"
-                     switch-site-on-select="false"
-                     show-all-sites-item="false"
-                     showselectedsite="true"
-                     id="defaultReportSiteSelector"></div>
-            </fieldset>
-        </td>
-    </tr>
-    <tr>
-        <td>{{ 'UsersManager_ReportDateToLoadByDefault'|translate }}</td>
-        <td>
-            <fieldset>
-                {% for value,description in availableDefaultDates %}
-                    <input id="defaultDate-{{ loop.index }}" type="radio"{% if defaultDate==value %} checked="checked"{% endif %} value="{{ value }}" name="defaultDate"/>
-                    <label for="defaultDate-{{ loop.index }}">{{ description }}</label>
-                    <br/>
-                {% endfor %}
-            </fieldset>
-        </td>
-    </tr>
+        <div piwik-field uicontrol="text" name="alias"
+             ng-model="personalSettings.alias"
+             maxlength="45"
+             title="{{ 'UsersManager_Alias'|translate|e('html_attr') }}"
+             value="{{ userAlias|raw }}">
+        </div>
 
-    {% if isValidHost is defined and isValidHost %}
-        <tr>
-            <td><label for="email">{{ 'General_ChangePassword'|translate }} </label></td>
-            <td><input size="25" value="" autocomplete="off" id="password" type="password"/>
-                <span class='form-description'>{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate }}</span>
-                <br/><br/><input size="25" value="" autocomplete="off" id="passwordBis" type="password"/>
-                <span class='form-description'> {{ 'UsersManager_TypeYourPasswordAgain'|translate }}</span>
-            </td>
-        </tr>
-    {% endif %}
-</table>
-{% if isValidHost is not defined or not isValidHost %}
-    <div id="injectedHostCannotChangePwd">
-        {% set injectedHostCannotChangePwd %}
-        {{ 'UsersManager_InjectedHostCannotChangePwd'|translate(invalidHost) }}
-        &nbsp;{% if not isSuperUser %}{{ 'UsersManager_EmailYourAdministrator'|translate(invalidHostMailLinkStart,'</a>')|raw }}{% endif %}
-        {% endset %}
-        {{ injectedHostCannotChangePwd|notification({'raw': true, 'context': 'error', 'placeat': '#injectedHostCannotChangePwd', 'noclear': true}) }}
-    </div>
-    <br/>
-{% endif %}
+        <div piwik-field uicontrol="text" name="email"
+             ng-model="personalSettings.email"
+             maxlength="100"
+             title="{{ 'UsersManager_Email'|translate|e('html_attr') }}"
+             value="{{ userEmail }}">
+        </div>
 
-{% import 'ajaxMacros.twig' as ajax %}
-{{ ajax.errorDiv('ajaxErrorUserSettings') }}
-{{ ajax.loadingDiv('ajaxLoadingUserSettings') }}
-<input type="submit" value="{{ 'General_Save'|translate }}" id="userSettingsSubmit" class="submit"/>
+        <div id="languageHelp" class="inline-help-node">
+            <a href="?module=Proxy&amp;action=redirect&amp;url=https://matomo.org/translations/" target="_blank">
+                {{ 'LanguagesManager_AboutPiwikTranslations'|translate }}</a>
+        </div>
 
-<br/><br/>
+        <div piwik-field uicontrol="select" name="language"
+             ng-model="personalSettings.language"
+             title="{{ 'General_Language'|translate|e('html_attr') }}"
+             options="{{ languageOptions|json_encode }}"
+             inline-help="#languageHelp"
+             value="{{ currentLanguageCode }}">
+        </div>
 
-<h2 id="excludeCookie">{{ 'UsersManager_ExcludeVisitsViaCookie'|translate }}</h2>
-<p>
-{% if ignoreCookieSet %}
-   {{ 'UsersManager_YourVisitsAreIgnoredOnDomain'|translate("<strong>", piwikHost, "</strong>")|raw }}
-{% else %}
-   {{ 'UsersManager_YourVisitsAreNotIgnored'|translate("<strong>","</strong>")|raw }}
-{% endif %}
-</p>
-<span style="margin-left:20px;">
-<a href='{{ linkTo({'ignoreSalt':ignoreSalt, 'action':'setIgnoreCookie'}) }}#excludeCookie'>&rsaquo; {% if ignoreCookieSet %}{{ 'UsersManager_ClickHereToDeleteTheCookie'|translate }}
-    {% else %}{{'UsersManager_ClickHereToSetTheCookieOnDomain'|translate(piwikHost) }}{% endif %}
-    <br/>
-</a></span>
+        <div piwik-field uicontrol="select" name="timeformat"
+             ng-model="personalSettings.timeformat"
+             title="{{ 'General_TimeFormat'|translate|e('html_attr') }}"
+             value="{{ currentTimeformat }}" options="{{ timeFormats|json_encode }}">
+        </div>
 
-<br/><br/>
-{% if isSuperUser %}
-    <h2>{{ 'UsersManager_MenuAnonymousUserSettings'|translate }}</h2>
-    {% if anonymousSites|length == 0 %}
-        <h3 class='form-description'><strong>{{ 'UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2'|translate }}</strong></h3>
+        <div piwik-field uicontrol="radio" name="defaultReport"
+             ng-model="personalSettings.defaultReport"
+             introduction="{{ 'UsersManager_ReportToLoadByDefault'|translate|e('html_attr') }}"
+             title="{{ 'General_AllWebsitesDashboard'|translate|e('html_attr') }}"
+             value="{{ defaultReport }}" options="{{ defaultReportOptions|json_encode }}">
+        </div>
+
+        <div piwik-siteselector
+             ng-model="personalSettings.site"
+             show-selected-site="true"
+             class="sites_autocomplete"
+             siteid="{{ defaultReportIdSite }}"
+             sitename="{{ defaultReportSiteName }}"
+             switch-site-on-select="false"
+             show-all-sites-item="false"
+             showselectedsite="true"
+             id="defaultReportSiteSelector"
+        ></div>
+
+        <div piwik-field uicontrol="radio" name="defaultDate"
+             ng-model="personalSettings.defaultDate"
+             introduction="{{ 'UsersManager_ReportDateToLoadByDefault'|translate|e('html_attr') }}"
+             value="{{ defaultDate }}" options="{{ availableDefaultDates|json_encode }}">
+        </div>
+
+        {% if isValidHost is defined and isValidHost %}
+
+            <div piwik-field uicontrol="password" name="password" autocomplete="off"
+                 ng-model="personalSettings.password"
+                 introduction="{{ 'General_ChangePassword'|translate|e('html_attr') }}"
+                 title="{{ 'Login_NewPassword'|translate|e('html_attr') }}"
+                 value="" inline-help="{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate|e('html_attr') }}">
+            </div>
+
+            <div piwik-field uicontrol="password" name="passwordBis" autocomplete="off"
+                 ng-model="personalSettings.passwordBis"
+                 title="{{ 'Login_NewPasswordRepeat'|translate|e('html_attr') }}"
+                 value="" inline-help="{{ 'UsersManager_TypeYourPasswordAgain'|translate|e('html_attr') }}">
+            </div>
+        {% endif %}
+
+        {% if isValidHost is not defined or not isValidHost %}
+            <div class="alert alert-danger">
+                {{ 'UsersManager_InjectedHostCannotChangePwd'|translate(invalidHost) }}
+                {% if not isSuperUser %}{{ 'UsersManager_EmailYourAdministrator'|translate(invalidHostMailLinkStart,'</a>')|raw }}{% endif %}
+            </div>
+        {% endif %}
+
+        <div piwik-save-button onconfirm="personalSettings.save()"
+             saving="personalSettings.loading"></div>
+
+    </form>
+</div>
+
+<div piwik-content-block
+     content-title="{{ 'UsersManager_TokenAuth'|translate|e('html_attr') }}">
+    <pre piwik-select-on-focus id="token_auth_user" piwik-show-sensitive-data="{{ userTokenAuth }}"></pre>
+
+    <p>{{ 'UsersManager_TokenRegenerateLogoutWarning'|translate }}</p>
+    <button class="btn btn-link"
+            ng-controller="PersonalSettingsController as personalSettings"
+            ng-click="personalSettings.regenerateTokenAuth()">{{ 'UsersManager_TokenRegenerateTitle'|translate }}</button>
+</div>
+
+<div piwik-plugin-settings mode="user"></div>
+
+<div piwik-content-block
+     content-title="{{ 'UsersManager_ExcludeVisitsViaCookie'|translate|e('html_attr') }}">
+    <p>
+        {% if ignoreCookieSet %}
+            {{ 'UsersManager_YourVisitsAreIgnoredOnDomain'|translate("<strong>", piwikHost, "</strong>")|raw }}
+        {% else %}
+            {{ 'UsersManager_YourVisitsAreNotIgnored'|translate("<strong>","</strong>")|raw }}
+        {% endif %}
+    </p>
+    <span style="margin-left:20px;">
+    <a href='{{ linkTo({'ignoreSalt':ignoreSalt, 'module': 'UsersManager', 'action':'setIgnoreCookie'}) }}#excludeCookie'>&rsaquo; {% if ignoreCookieSet %}{{ 'UsersManager_ClickHereToDeleteTheCookie'|translate }}
+        {% else %}{{'UsersManager_ClickHereToSetTheCookieOnDomain'|translate(piwikHost) }}{% endif %}
         <br/>
-    {% else %}
-        <br/>
-        {{ ajax.errorDiv('ajaxErrorAnonymousUserSettings') }}
-        {{ ajax.loadingDiv('ajaxLoadingAnonymousUserSettings') }}
-        <table id='anonymousUserSettingsTable' class="adminTable" style='width:850px;'>
-            <tr>
-                <td style="width:400px;">{{ 'UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess'|translate }}</td>
-                <td>
-                    <fieldset>
-                        <input id="anonymousDefaultReport-login" type="radio" value="Login"
-                               name="anonymousDefaultReport"{% if anonymousDefaultReport==loginModule %} checked="checked"{% endif %} />
-                        <label for="anonymousDefaultReport-login">{{ 'UsersManager_TheLoginScreen'|translate }}</label><br/>
-                        <input id="anonymousDefaultReport-multisites" {% if anonymousSites is empty %}disabled="disabled" {% endif %}type="radio" value="MultiSites"
-                               name="anonymousDefaultReport"{% if anonymousDefaultReport=='MultiSites' %} checked="checked"{% endif %} />
-                        <label for="anonymousDefaultReport-multisites">{{ 'General_AllWebsitesDashboard'|translate }}</label><br/>
+    </a></span>
+</div>
 
-                        <input id="anonymousDefaultReport-specific" {% if anonymousSites is empty %}disabled="disabled" {% endif %}type="radio" value="1"
-                               name="anonymousDefaultReport"{% if anonymousDefaultReport>0 %} checked="checked"{% endif %} />
-                        <label for="anonymousDefaultReport-specific">{{ 'General_DashboardForASpecificWebsite'|translate }}</label>
-                        {% if anonymousSites is not empty %}
-                            <select id="anonymousDefaultReportWebsite">
-                                {% for info in anonymousSites %}
-                                    <option value="{{ info.idsite }}" {% if anonymousDefaultReport==info.idsite %} selected="selected"{% endif %}>{{ info.name|raw }}</option>
-                                {% endfor %}
-                            </select>
-                        {% endif %}
-                    </fieldset>
-                </td>
-            </tr>
-            <tr>
-                <td>{{ 'UsersManager_ForAnonymousUsersReportDateToLoadByDefault'|translate }}</td>
-                <td>
-                    <fieldset>
-                        {% for value,description in availableDefaultDates %}
-                            <input id="anonymousDefaultDate-{{ loop.index }}" type="radio" {% if anonymousDefaultDate==value %}checked="checked" {% endif %}value="{{ value }}"
-                                   name="anonymousDefaultDate"/>
-                            <label for="anonymousDefaultDate-{{ loop.index }}">{{ description }}</label>
-                            <br/>
-                        {% endfor %}
-                    </fieldset>
-                </td>
-            </tr>
-
-        </table>
-        <input type="submit" value="{{ 'General_Save'|translate }}" id="anonymousUserSettingsSubmit" class="submit"/>
-    {% endif %}
-{% endif %}
 {% endblock %}

@@ -1,0 +1,11 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Cấu hình",
+        "ColumnResolution": "Độ phân giải",
+        "Configurations": "cấu hình",
+        "Resolutions": "Độ phân giải",
+        "WidgetGlobalVisitors": "Cấu hình khách truy cập",
+        "WidgetGlobalVisitorsDocumentation": "Báo cáo này cho thấy các cấu hình tổng thể phổ biến nhất mà khách truy cập của bạn đã có. Một cấu hình là sự kết hợp của một hệ điều hành, một loại trình duyệt và độ phân giải màn hình.",
+        "WidgetResolutions": "Độ phân giải màn hình"
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "客户端配置",
+        "ColumnResolution": "分辨率",
+        "Configurations": "客户端配置",
+        "Resolutions": "分辨率",
+        "WidgetGlobalVisitors": "访客设置",
+        "WidgetGlobalVisitorsDocumentation": "本报表显示您的访客最常用的系统配置。系统配置是操作系统、浏览器类型及显示器分辨率的组合。",
+        "WidgetResolutions": "画面分辨率"
+    }
+}

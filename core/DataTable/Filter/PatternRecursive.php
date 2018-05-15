@@ -8,10 +8,8 @@
  */
 namespace Piwik\DataTable\Filter;
 
-use Exception;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
-use Piwik\DataTable\Manager;
 
 /**
  * Deletes rows that do not contain a column that matches a regex pattern and do not contain a
@@ -58,22 +56,19 @@ class PatternRecursive extends BaseFilter
 
         foreach ($rows as $key => $row) {
             // A row is deleted if
-            // 1 - its label doesnt contain the pattern
+            // 1 - its label doesn't contain the pattern
             // AND 2 - the label is not found in the children
             $patternNotFoundInChildren = false;
 
-            try {
-                $idSubTable = $row->getIdSubDataTable();
-                $subTable = Manager::getInstance()->getTable($idSubTable);
-
+            $subTable = $row->getSubtable();
+            if (!$subTable) {
+                $patternNotFoundInChildren = true;
+            } else {
                 // we delete the row if we couldn't find the pattern in any row in the
                 // children hierarchy
                 if ($this->filter($subTable) == 0) {
                     $patternNotFoundInChildren = true;
                 }
-            } catch (Exception $e) {
-                // there is no subtable loaded for example
-                $patternNotFoundInChildren = true;
             }
 
             if ($patternNotFoundInChildren

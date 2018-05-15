@@ -24,7 +24,7 @@ use ReflectionMethod;
  *
  * It will also log the performance of API calls (time spent, parameter values, etc.) if logger available
  *
- * @method static \Piwik\API\Proxy getInstance()
+ * @method static Proxy getInstance()
  */
 class Proxy extends Singleton
 {
@@ -37,10 +37,7 @@ class Proxy extends Singleton
     // when a parameter doesn't have a default value we use this
     private $noDefaultValue;
 
-    /**
-     * protected constructor
-     */
-    protected function __construct()
+    public function __construct()
     {
         $this->noDefaultValue = new NoDefaultValue();
     }
@@ -78,12 +75,14 @@ class Proxy extends Singleton
         $this->checkClassIsSingleton($className);
 
         $rClass = new ReflectionClass($className);
-        foreach ($rClass->getMethods() as $method) {
-            $this->loadMethodMetadata($className, $method);
-        }
+        if (!$this->shouldHideAPIMethod($rClass->getDocComment())) {
+            foreach ($rClass->getMethods() as $method) {
+                $this->loadMethodMetadata($className, $method);
+            }
 
-        $this->setDocumentation($rClass, $className);
-        $this->alreadyRegistered[$className] = true;
+            $this->setDocumentation($rClass, $className);
+            $this->alreadyRegistered[$className] = true;
+        }
     }
 
     /**
@@ -106,6 +105,9 @@ class Proxy extends Singleton
         $doc = preg_replace("/(@package)[a-z _A-Z]*/", "", $doc);
         $doc = preg_replace("/(@method).*/", "", $doc);
         $doc = str_replace(array("\t", "\n", "/**", "*/", " * ", " *", "  ", "\t*", "  *  @package"), " ", $doc);
+
+        // replace 'foo' and `bar` and "foobar" with code blocks... much magic
+        $doc = preg_replace('/`(.*?)`/', '<code>$1</code>', $doc);
         $this->metadataArray[$className]['__documentation'] = $doc;
     }
 
@@ -162,6 +164,8 @@ class Proxy extends Singleton
             // allow plugins to manipulate the value
             $pluginName = $this->getModuleNameFromClassName($className);
 
+            $returnedValue = null;
+
             /**
              * Triggered before an API request is dispatched.
              *
@@ -205,8 +209,32 @@ class Proxy extends Singleton
              */
             Piwik::postEvent(sprintf('API.%s.%s', $pluginName, $methodName), array(&$finalParameters));
 
-            // call the method
-            $returnedValue = call_user_func_array(array($object, $methodName), $finalParameters);
+            /**
+             * Triggered before an API request is dispatched.
+             *
+             * Use this event to intercept an API request and execute your own code instead. If you set
+             * `$returnedValue` in a handler for this event, the original API method will not be executed,
+             * and the result will be what you set in the event handler.
+             *
+             * @param mixed &$returnedValue Set this to set the result and preempt normal API invocation.
+             * @param array &$finalParameters List of parameters that will be passed to the API method.
+             * @param string $pluginName The name of the plugin the API method belongs to.
+             * @param string $methodName The name of the API method that will be called.
+             */
+            Piwik::postEvent(sprintf('API.Request.intercept'), [&$returnedValue, $finalParameters, $pluginName, $methodName]);
+
+            $apiParametersInCorrectOrder = array();
+
+            foreach ($parameterNamesDefaultValues as $name => $defaultValue) {
+                if (isset($finalParameters[$name]) || array_key_exists($name, $finalParameters)) {
+                    $apiParametersInCorrectOrder[] = $finalParameters[$name];
+                }
+            }
+
+            // call the method if a hook hasn't already set an output variable
+            if ($returnedValue === null) {
+                $returnedValue = call_user_func_array(array($object, $methodName), $apiParametersInCorrectOrder);
+            }
 
             $endHookParams = array(
                 &$returnedValue,
@@ -263,7 +291,7 @@ class Proxy extends Singleton
              * **Example**
              *
              *     // append (0 hits) to the end of row labels whose row has 0 hits for any report that has the 'nb_hits' metric
-             *     Piwik::addAction('API.Actions.getPageUrls', function (&$returnValue, $info)) {
+             *     Piwik::addAction('API.Actions.getPageUrls.end', function (&$returnValue, $info)) {
              *         // don't process non-DataTable reports and reports that don't have the nb_hits column
              *         if (!($returnValue instanceof DataTableInterface)
              *             || in_array('nb_hits', $returnValue->getColumns())
@@ -324,6 +352,14 @@ class Proxy extends Singleton
     }
 
     /**
+     * Check if given method name is deprecated or not.
+     */
+    public function isDeprecatedMethod($class, $methodName)
+    {
+        return $this->metadataArray[$class][$methodName]['isDeprecated'];
+    }
+
+    /**
      * Returns the 'moduleName' part of '\\Piwik\\Plugins\\moduleName\\API'
      *
      * @param string $className "API"
@@ -378,7 +414,6 @@ class Proxy extends Singleton
                     $requestValue = Common::getRequestVar($name, null, null, $parametersRequest);
                 } else {
                     try {
-
                         if ($name == 'segment' && !empty($parametersRequest['segment'])) {
                             // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
                             $requestValue = ($parametersRequest['segment']);
@@ -399,13 +434,13 @@ class Proxy extends Singleton
             } catch (Exception $e) {
                 throw new Exception(Piwik::translate('General_PleaseSpecifyValue', array($name)));
             }
-            $finalParameters[] = $requestValue;
+            $finalParameters[$name] = $requestValue;
         }
         return $finalParameters;
     }
 
     /**
-     * Includes the class API by looking up plugins/UserSettings/API.php
+     * Includes the class API by looking up plugins/xxx/API.php
      *
      * @param string $fileName api class name eg. "API"
      * @throws Exception
@@ -428,29 +463,27 @@ class Proxy extends Singleton
      */
     private function loadMethodMetadata($class, $method)
     {
-        if ($method->isPublic()
-            && !$method->isConstructor()
-            && $method->getName() != 'getInstance'
-            && false === strstr($method->getDocComment(), '@deprecated')
-            && (!$this->hideIgnoredFunctions || false === strstr($method->getDocComment(), '@ignore'))
-        ) {
-            $name = $method->getName();
-            $parameters = $method->getParameters();
-
-            $aParameters = array();
-            foreach ($parameters as $parameter) {
-                $nameVariable = $parameter->getName();
-
-                $defaultValue = $this->noDefaultValue;
-                if ($parameter->isDefaultValueAvailable()) {
-                    $defaultValue = $parameter->getDefaultValue();
-                }
-
-                $aParameters[$nameVariable] = $defaultValue;
-            }
-            $this->metadataArray[$class][$name]['parameters'] = $aParameters;
-            $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
+        if (!$this->checkIfMethodIsAvailable($method)) {
+            return;
         }
+        $name = $method->getName();
+        $parameters = $method->getParameters();
+        $docComment = $method->getDocComment();
+
+        $aParameters = array();
+        foreach ($parameters as $parameter) {
+            $nameVariable = $parameter->getName();
+
+            $defaultValue = $this->noDefaultValue;
+            if ($parameter->isDefaultValueAvailable()) {
+                $defaultValue = $parameter->getDefaultValue();
+            }
+
+            $aParameters[$nameVariable] = $defaultValue;
+        }
+        $this->metadataArray[$class][$name]['parameters'] = $aParameters;
+        $this->metadataArray[$class][$name]['numberOfRequiredParameters'] = $method->getNumberOfRequiredParameters();
+        $this->metadataArray[$class][$name]['isDeprecated'] = false !== strstr($docComment, '@deprecated');
     }
 
     /**
@@ -468,15 +501,56 @@ class Proxy extends Singleton
     }
 
     /**
-     * Returns the number of required parameters (parameters without default values).
-     *
-     * @param string $class The class name
-     * @param string $name The method name
-     * @return int The number of required parameters
+     * @param $docComment
+     * @return bool
      */
-    private function getNumberOfRequiredParameters($class, $name)
+    public function shouldHideAPIMethod($docComment)
     {
-        return $this->metadataArray[$class][$name]['numberOfRequiredParameters'];
+        $hideLine = strstr($docComment, '@hide');
+
+        if ($hideLine === false) {
+            return false;
+        }
+
+        $hideLine = trim($hideLine);
+        $hideLine .= ' ';
+
+        $token = trim(strtok($hideLine, " "), "\n");
+
+        $hide = false;
+
+        if (!empty($token)) {
+            /**
+             * This event exists for checking whether a Plugin API class or a Plugin API method tagged
+             * with a `@hideXYZ` should be hidden in the API listing.
+             *
+             * @param bool &$hide whether to hide APIs tagged with $token should be displayed.
+             */
+            Piwik::postEvent(sprintf('API.DocumentationGenerator.%s', $token), array(&$hide));
+        }
+
+        return $hide;
+    }
+
+    /**
+     * @param ReflectionMethod $method
+     * @return bool
+     */
+    protected function checkIfMethodIsAvailable(ReflectionMethod $method)
+    {
+        if (!$method->isPublic() || $method->isConstructor() || $method->getName() === 'getInstance') {
+            return false;
+        }
+
+        if ($this->hideIgnoredFunctions && false !== strstr($method->getDocComment(), '@ignore')) {
+            return false;
+        }
+
+        if ($this->shouldHideAPIMethod($method->getDocComment())) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

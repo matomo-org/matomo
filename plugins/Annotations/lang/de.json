@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Anmerkung für %s hinzufügen...",
+        "AnnotationOnDate": "Anmerkung für %1$s: %2$s",
+        "Annotations": "Anmerkungen",
+        "ClickToDelete": "Klicken Sie um diese Anmerkung zu löschen.",
+        "ClickToEdit": "Klicken Sie um diese Anmerkung zu bearbeiten.",
+        "ClickToEditOrAdd": "Klicken Sie hier um eine Anmerkung hinzuzufügen oder zu bearbeiten.",
+        "ClickToStarOrUnstar": "Klicken Sie um die Markierung dieser Anmerkung zu setzen oder zu entfernen.",
+        "CreateNewAnnotation": "Neue Anmerkung anlegen...",
+        "EnterAnnotationText": "Geben Sie Ihre Notiz ein...",
+        "HideAnnotationsFor": "Anmerkungen für %s verbergen …",
+        "IconDesc": "Notizen für diesen Zeitraum anzeigen.",
+        "IconDescHideNotes": "Notizen für diesen Zeitraum verbergen.",
+        "InlineQuickHelp": "Sie können Anmerkungen erstellen um spezielle Ereignisse (wie einen Blog-Eintrag oder eine Neugestaltung der Website) zu markieren, Stichtage für die Datenanalyse zu speichern oder einfach alles zu speichern was Ihnen wichtig erscheint.",
+        "LoginToAnnotate": "Sie müssen sich einloggen um eine Anmerkung hinzufügen zu können.",
+        "NoAnnotations": "Für diesen Zeitraum sind keine Anmerkungen vorhanden.",
+        "PluginDescription": "Erlaubt Ihnen Hinweise zu verschiedenen Tagen hinzuzufügen, um Änderungen zu markieren, die an der Website gemacht wurden, Analysen zu speichern, die bezüglich Ihrer Daten gemacht wurden und um Ihre Gedanken mit Ihren Kollegen zu teilen. Durch das Hinzufügen von Hinweisen stellen Sie sicher, dass Sie sich daran erinnern warum die Daten so sind, wie sie sind.",
+        "ViewAndAddAnnotations": "Anmerkungen zu %s ansehen und hinzufügen …",
+        "YouCannotModifyThisNote": "Sie können diese Anmerkung nicht ändern, da Sie sie weder erstellt haben noch administrativen Zugang für diese Seite besitzen."
+    }
+}

@@ -3,270 +3,350 @@
 {% block head %}
     {{ parent() }}
     <link rel="stylesheet" href="plugins/CoreAdminHome/stylesheets/jsTrackingGenerator.css" />
-    <script type="text/javascript" src="plugins/CoreAdminHome/javascripts/jsTrackingGenerator.js"></script>
 {% endblock %}
 
+{% set title %}{{ 'CoreAdminHome_TrackingCode'|translate }}{% endset %}
+
 {% block content %}
-<div id="js-tracking-generator-data" max-custom-variables="{{ maxCustomVariables|e('html_attr') }}" data-currencies="{{ currencySymbols|json_encode }}"></div>
 
-<h2 piwik-enriched-headline
-    feature-name="{{ 'CoreAdminHome_TrackingCode'|translate }}"
-    help-url="http://piwik.org/docs/tracking-api/">{{ 'CoreAdminHome_JavaScriptTracking'|translate }}</h2>
-
-<div id="js-code-options" class="adminTable">
-
-    <p>
-        {{ 'CoreAdminHome_JSTrackingIntro1'|translate }}
-        <br/><br/>
-        {{ 'CoreAdminHome_JSTrackingIntro2'|translate }} {{ 'CoreAdminHome_JSTrackingIntro3'|translate('<a href="http://piwik.org/integrate/" target="_blank">','</a>')|raw }}
-        <br/><br/>
-        {{ 'CoreAdminHome_JSTrackingIntro4'|translate('<a href="#image-tracking-link">','</a>')|raw }}
-        <br/><br/>
-        {{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a target="_blank" href="http://piwik.org/docs/javascript-tracking/">','</a>')|raw }}
-    </p>
-
-    <div>
-        {# website #}
-        <label class="website-label"><strong>{{ 'General_Website'|translate }}</strong></label>
-
-        <div piwik-siteselector
-             class="sites_autocomplete"
-             siteid="{{ idSite }}"
-             sitename="{{ defaultReportSiteName }}"
-             show-all-sites-item="false"
-             switch-site-on-select="false"
-             id="js-tracker-website"
-             show-selected-site="true"></div>
-
-        <br/><br/><br/>
-    </div>
-
-    <table id="optional-js-tracking-options" class="adminTable">
-        <tr>
-            <th>{{ 'General_Options'|translate }}</th>
-            <th>{{ 'Mobile_Advanced'|translate }}
-                <a href="#" class="section-toggler-link" data-section-id="javascript-advanced-options">({{ 'General_Show'|translate }})</a>
-            </th>
-        </tr>
-        <tr>
-            <td>
-                {# track across all subdomains #}
-                <div class="tracking-option-section">
-                    <input type="checkbox" id="javascript-tracking-all-subdomains"/>
-                    <label for="javascript-tracking-all-subdomains">{{ 'CoreAdminHome_JSTracking_MergeSubdomains'|translate }}
-                        <span class='current-site-name'>{{ defaultReportSiteName|raw }}</span>
-                    </label>
-
-                    <div class="small-form-description">
-                        {{ 'CoreAdminHome_JSTracking_MergeSubdomainsDesc'|translate("x.<span class='current-site-host'>"~defaultReportSiteDomain~"</span>","y.<span class='current-site-host'>"~defaultReportSiteDomain~"</span>")|raw }}
-                    </div>
-                </div>
-
-                {# group page titles by site domain #}
-                <div class="tracking-option-section">
-                    <input type="checkbox" id="javascript-tracking-group-by-domain"/>
-                    <label for="javascript-tracking-group-by-domain">{{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomain'|translate }}</label>
-
-                    <div class="small-form-description">
-                        {{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1'|translate("<span class='current-site-host'>" ~ defaultReportSiteDomain ~ "</span>")|raw }}
-                    </div>
-                </div>
-
-                {# track across all site aliases #}
-                <div class="tracking-option-section">
-                    <input type="checkbox" id="javascript-tracking-all-aliases"/>
-                    <label for="javascript-tracking-all-aliases">{{ 'CoreAdminHome_JSTracking_MergeAliases'|translate }}
-                        <span class='current-site-name'>{{ defaultReportSiteName|raw }}</span>
-                    </label>
-
-                    <div class="small-form-description">
-                        {{ 'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate("<span class='current-site-alias'>"~defaultReportSiteAlias~"</span>")|raw }}
-                    </div>
-                </div>
-
-            </td>
-            <td>
-                <div id="javascript-advanced-options" style="display:none;">
-                    {# visitor custom variable #}
-                    <div class="custom-variable tracking-option-section" id="javascript-tracking-visitor-cv">
-                        <input class="section-toggler-link" type="checkbox" id="javascript-tracking-visitor-cv-check" data-section-id="js-visitor-cv-extra"/>
-                        <label for="javascript-tracking-visitor-cv-check">{{ 'CoreAdminHome_JSTracking_VisitorCustomVars'|translate }}</label>
-
-                        <div class="small-form-description">
-                            {{ 'CoreAdminHome_JSTracking_VisitorCustomVarsDesc'|translate }}
-                        </div>
-
-                        <table style="display:none;" id="js-visitor-cv-extra">
-                            <tr>
-                                <td><strong>{{ 'General_Name'|translate }}</strong></td>
-                                <td><input type="textbox" class="custom-variable-name" placeholder="e.g. Type"/></td>
-                                <td><strong>{{ 'General_Value'|translate }}</strong></td>
-                                <td><input type="textbox" class="custom-variable-value" placeholder="e.g. Customer"/></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" style="text-align:right;">
-                                    <a href="#" class="add-custom-variable">{{ 'General_Add'|translate }}</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    {# page view custom variable #}
-                    <div class="custom-variable tracking-option-section" id="javascript-tracking-page-cv">
-                        <input class="section-toggler-link" type="checkbox" id="javascript-tracking-page-cv-check" data-section-id="js-page-cv-extra"/>
-                        <label for="javascript-tracking-page-cv-check">{{ 'CoreAdminHome_JSTracking_PageCustomVars'|translate }}</label>
-
-                        <div class="small-form-description">
-                            {{ 'CoreAdminHome_JSTracking_PageCustomVarsDesc'|translate }}
-                        </div>
-
-                        <table style="display:none;" id="js-page-cv-extra">
-                            <tr>
-                                <td><strong>{{ 'General_Name'|translate }}</strong></td>
-                                <td><input type="textbox" class="custom-variable-name" placeholder="e.g. Category"/></td>
-                                <td><strong>{{ 'General_Value'|translate }}</strong></td>
-                                <td><input type="textbox" class="custom-variable-value" placeholder="e.g. White Papers"/></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" style="text-align:right;">
-                                    <a href="#" class="add-custom-variable">{{ 'General_Add'|translate }}</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    {# do not track support #}
-                    <div class="tracking-option-section">
-                        <input type="checkbox" id="javascript-tracking-do-not-track"/>
-                        <label for="javascript-tracking-do-not-track">{{ 'CoreAdminHome_JSTracking_EnableDoNotTrack'|translate }}</label>
-
-                        <div class="small-form-description">
-                            {{ 'CoreAdminHome_JSTracking_EnableDoNotTrackDesc'|translate }}
-                            {% if serverSideDoNotTrackEnabled %}
-                                <br/>
-                                <br/>
-                                {{ 'CoreAdminHome_JSTracking_EnableDoNotTrack_AlreadyEnabled'|translate }}
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    {# custom campaign name/keyword query params #}
-                    <div class="tracking-option-section">
-                        <input class="section-toggler-link" type="checkbox" id="custom-campaign-query-params-check"
-                               data-section-id="js-campaign-query-param-extra"/>
-                        <label for="custom-campaign-query-params-check">{{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParam'|translate }}</label>
-
-                        <div class="small-form-description">
-                            {{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc'|translate('<a href="http://piwik.org/faq/general/#faq_119" target="_blank">','</a>')|raw }}
-                        </div>
-
-                        <table style="display:none;" id="js-campaign-query-param-extra">
-                            <tr>
-                                <td><strong>{{ 'CoreAdminHome_JSTracking_CampaignNameParam'|translate }}</strong></td>
-                                <td><input type="text" id="custom-campaign-name-query-param"/></td>
-                            </tr>
-                            <tr>
-                                <td><strong>{{ 'CoreAdminHome_JSTracking_CampaignKwdParam'|translate }}</strong></td>
-                                <td><input type="text" id="custom-campaign-keyword-query-param"/></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>
-
-</div>
-
-<div id="javascript-output-section">
-    <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
-
-    <p class="form-description">{{ 'CoreAdminHome_JSTracking_CodeNote'|translate("&lt;/body&gt;")|raw }}</p>
-
-    <div id="javascript-text">
-        <textarea> </textarea>
-    </div>
-    <br/>
-</div>
-
-<h2 id="image-tracking-link">{{ 'CoreAdminHome_ImageTracking'|translate }}</h2>
-
-<div id="image-tracking-code-options" class="adminTable">
-
-    <p>
-        {{ 'CoreAdminHome_ImageTrackingIntro1'|translate }} {{ 'CoreAdminHome_ImageTrackingIntro2'|translate("<em>&lt;noscript&gt;&lt;/noscript&gt;</em>")|raw }}
-        <br/><br/>
-        {{ 'CoreAdminHome_ImageTrackingIntro3'|translate('<a href="http://piwik.org/docs/tracking-api/reference/" target="_blank">','</a>')|raw }}
-    </p>
-
-    <div>
-        {# website #}
-        <label class="website-label"><strong>{{ 'General_Website'|translate }}</strong></label>
-        <div piwik-siteselector
-             class="sites_autocomplete"
-             siteid="{{ idSite }}"
-             sitename="{{ defaultReportSiteName }}"
-             id="image-tracker-website"
-             show-all-sites-item="false"
-             switch-site-on-select="false"
-             show-selected-site="true"></div>
-
-        <br/><br/><br/>
-    </div>
-
-    <table id="image-tracking-section" class="adminTable">
-        <tr>
-            <th>{{ 'General_Options'|translate }}</th>
-            <th>{{ 'Mobile_Advanced'|translate }}
-                <a href="#" class="section-toggler-link" data-section-id="image-tracker-advanced-options">
-                    ({{ 'General_Show'|translate }})
-                </a>
-            </th>
-        </tr>
-        <tr>
-            <td>
-                {# action_name #}
-                <div class="tracking-option-section">
-                    <label for="image-tracker-action-name">{{ 'Actions_ColumnPageName'|translate }}</label>
-                    <input type="text" id="image-tracker-action-name"/>
-                </div>
-            </td>
-            <td>
-                <div id="image-tracker-advanced-options" style="display:none;">
-                    {# goal #}
-                    <div class="goal-picker tracking-option-section">
-                        <input class="section-toggler-link" type="checkbox" id="image-tracking-goal-check" data-section-id="image-goal-picker-extra"/>
-                        <label for="image-tracking-goal-check">{{ 'CoreAdminHome_TrackAGoal'|translate }}</label>
-
-                        <div style="display:none;" id="image-goal-picker-extra">
-                            <select id="image-tracker-goal">
-                                <option value="">{{ 'UserCountryMap_None'|translate }}</option>
-                            </select>
-                            <span>{{ 'CoreAdminHome_WithOptionalRevenue'|translate }}</span>
-                            <span class="currency">{{ defaultSiteRevenue }}</span>
-                            <input type="text" class="revenue" value=""/>
-                        </div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>
-
-    <div id="image-link-output-section" width="560px">
-        <h3>{{ 'CoreAdminHome_ImageTrackingLink'|translate }}</h3><br/><br/>
-
-        <div id="image-tracking-text">
-            <textarea> </textarea>
+    <div class="card">
+        <div class="card-content">
+            <h2 piwik-enriched-headline
+                help-url="https://matomo.org/docs/tracking-api/"
+                rate="{{ 'CoreAdminHome_TrackingCode'|translate|e('html_attr') }}">{{ 'CoreAdminHome_TrackingCode'|translate  }}</h2>
+            <p style="padding-left: 0;">{{ 'CoreAdminHome_TrackingCodeIntro'|translate }}</p>
         </div>
-        <br/>
+        <div class="card-action">
+            {{ 'General_GoTo2'|translate }}:
+            <a href="#javaScriptTracking">{{ 'CoreAdminHome_JavaScriptTracking'|translate  }}</a>
+            <a href="#imageTracking">{{ 'CoreAdminHome_ImageTracking'|translate }}</a>
+            <a href="#importServerLogs">{{ 'CoreAdminHome_ImportingServerLogs'|translate }}</a>
+            <a href="#mobileAppsAndSdks">{{ 'SitesManager_MobileAppsAndSDKs'|translate }}</a>
+            <a href="#trackingApi">{{ 'CoreAdminHome_HttpTrackingApi'|translate }}</a>
+            {{ postEvent('Template.endTrackingCodePageTableOfContents') }}
+        </div>
     </div>
 
+    <input type="hidden" name="numMaxCustomVariables"
+           value="{{ maxCustomVariables|e('html_attr') }}">
+
+<div piwik-content-block
+     anchor="javaScriptTracking"
+     content-title="{{ 'CoreAdminHome_JavaScriptTracking'|translate|e('html_attr') }}">
+
+    <div id="js-code-options" ng-controller="JsTrackingCodeController as jsTrackingCode">
+
+        <p>
+            {{ 'CoreAdminHome_JSTrackingIntro1'|translate }}
+            <br/><br/>
+            {{ 'CoreAdminHome_JSTrackingIntro2'|translate }} {{ 'CoreAdminHome_JSTrackingIntro3b'|translate('<a href="https://matomo.org/integrate/" rel="noreferrer"  target="_blank">','</a>')|raw }}
+            <br/><br/>
+            {{ 'CoreAdminHome_JSTrackingIntro4'|translate('<a href="#image-tracking-link">','</a>')|raw }}
+            <br/><br/>
+            {{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a rel="noreferrer"  target="_blank" href="https://matomo.org/docs/javascript-tracking/">','</a>')|raw }}
+        </p>
+
+        <div piwik-field uicontrol="site" name="js-tracker-website"
+             class="jsTrackingCodeWebsite"
+             ng-model="jsTrackingCode.site"
+             ng-change="jsTrackingCode.changeSite(true)"
+             introduction="{{ 'General_Website'|translate|e('html_attr') }}"
+             value='{{ defaultSite|json_encode }}'>
+        </div>
+
+        <div id="optional-js-tracking-options">
+
+            {# track across all subdomains #}
+            <div id="jsTrackAllSubdomainsInlineHelp" class="inline-help-node">
+                {{ 'CoreAdminHome_JSTracking_MergeSubdomainsDesc'|translate("x.<span class='current-site-host'></span>","y.<span class='current-site-host'></span>")|raw }}
+                {{ 'General_LearnMore'|translate(' (<a href="https://developer.matomo.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains" rel="noreferrer"  target="_blank">', '</a>)')|raw }}
+            </div>
+
+            <div piwik-field uicontrol="checkbox" name="javascript-tracking-all-subdomains"
+                 ng-model="jsTrackingCode.trackAllSubdomains"
+                 ng-change="jsTrackingCode.updateTrackingCode()"
+                 disabled="jsTrackingCode.isLoading"
+                 introduction="{{ 'General_Options'|translate|e('html_attr') }}"
+                 title="{{ 'CoreAdminHome_JSTracking_MergeSubdomains'|translate|e('html_attr') }} <span class='current-site-name'></span>"
+                 value="" inline-help="#jsTrackAllSubdomainsInlineHelp">
+            </div>
+
+            {# group page titles by site domain #}
+            <div id="jsTrackGroupByDomainInlineHelp" class="inline-help-node">
+                {{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1'|translate("<span class='current-site-host'></span>")|raw }}
+            </div>
+
+            <div piwik-field uicontrol="checkbox" name="javascript-tracking-group-by-domain"
+                 ng-model="jsTrackingCode.groupByDomain"
+                 ng-change="jsTrackingCode.updateTrackingCode()"
+                 disabled="jsTrackingCode.isLoading"
+                 title="{{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomain'|translate|e('html_attr') }}"
+                 value="" inline-help="#jsTrackGroupByDomainInlineHelp">
+            </div>
+
+            {# track across all site aliases #}
+            <div id="jsTrackAllAliasesInlineHelp" class="inline-help-node">
+                {{ 'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate("<span class='current-site-alias'></span>")|raw }}
+            </div>
+
+            <div piwik-field uicontrol="checkbox" name="javascript-tracking-all-aliases"
+                 ng-model="jsTrackingCode.trackAllAliases"
+                 ng-change="jsTrackingCode.updateTrackingCode()"
+                 disabled="jsTrackingCode.isLoading"
+                 title="{{ 'CoreAdminHome_JSTracking_MergeAliases'|translate|e('html_attr') }} <span class='current-site-name'></span>"
+                 value="" inline-help="#jsTrackAllAliasesInlineHelp">
+            </div>
+
+            <div piwik-field uicontrol="checkbox" name="javascript-tracking-noscript"
+                 ng-model="jsTrackingCode.trackNoScript"
+                 ng-change="jsTrackingCode.updateTrackingCode()"
+                 disabled="jsTrackingCode.isLoading"
+                 title="{{ 'CoreAdminHome_JSTracking_TrackNoScript'|translate|e('html_attr') }}"
+                 value="" inline-help="">
+            </div>
+
+            <h3>{{ 'Mobile_Advanced'|translate }}</h3>
+
+            <p>
+                <a href="javascript:;"
+                   ng-show="!jsTrackingCode.showAdvanced"
+                   ng-click="jsTrackingCode.showAdvanced = true">{{ 'General_Show'|translate }}</a>
+                <a href="javascript:;"
+                   ng-show="jsTrackingCode.showAdvanced"
+                   ng-click="jsTrackingCode.showAdvanced = false">{{ 'General_Hide'|translate }}</a>
+            </p>
+
+            <div id="javascript-advanced-options" ng-show="jsTrackingCode.showAdvanced">
+
+                {# visitor custom variable #}
+                <div piwik-field uicontrol="checkbox" name="javascript-tracking-visitor-cv-check"
+                     ng-model="jsTrackingCode.trackCustomVars"
+                     ng-change="jsTrackingCode.updateTrackingCode()"
+                     disabled="jsTrackingCode.isLoading"
+                     title="{{ 'CoreAdminHome_JSTracking_VisitorCustomVars'|translate|e('html_attr') }}"
+                     value="" inline-help="{{ 'CoreAdminHome_JSTracking_VisitorCustomVarsDesc'|translate|e('html_attr') }}">
+                </div>
+
+                <div id="javascript-tracking-visitor-cv" ng-show="jsTrackingCode.trackCustomVars">
+                    <div class="row">
+                        <div class="col s12 m3">
+                            {{ 'General_Name'|translate }}
+                        </div>
+                        <div class="col s12 m3">
+                            {{ 'General_Value'|translate }}
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat="customVar in jsTrackingCode.customVars">
+                        <div class="col s12 m6 l3">
+                            <input type="text" class="custom-variable-name"
+                                   ng-change="jsTrackingCode.updateTrackingCode()"
+                                   ng-model="jsTrackingCode.customVars[$index.toString()].name"
+                                   placeholder="e.g. Type"/>
+                        </div>
+                        <div class="col s12 m6 l3">
+                            <input type="text" class="custom-variable-value"
+                                   ng-change="jsTrackingCode.updateTrackingCode()"
+                                   ng-model="jsTrackingCode.customVars[$index.toString()].value"
+                                   placeholder="e.g. Customer"/>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="jsTrackingCode.canAddMoreCustomVariables">
+                        <div class="col s12">
+                            <a href="javascript:;"
+                               ng-click="jsTrackingCode.addCustomVar()"
+                               class="add-custom-variable"><span class="icon-add"></span> {{ 'General_Add'|translate }}</a>
+                        </div>
+                    </div>
+                </div>
+
+                {# cross domain support #}
+                <div id="jsCrossDomain" class="inline-help-node">
+                    {{ "CoreAdminHome_JSTracking_CrossDomain"|translate }}
+                    <br/>
+                    {{ 'CoreAdminHome_JSTracking_CrossDomain_NeedsMultipleDomains'|translate }}
+                </div>
+
+                <div piwik-field uicontrol="checkbox" name="javascript-tracking-cross-domain"
+                     ng-model="jsTrackingCode.crossDomain"
+                     ng-change="jsTrackingCode.updateTrackingCode();jsTrackingCode.onCrossDomainToggle();"
+                     disabled="jsTrackingCode.isLoading || !jsTrackingCode.hasManySiteUrls"
+                     title="{{ 'CoreAdminHome_JSTracking_EnableCrossDomainLinking'|translate|e('html_attr') }}"
+                     value="" inline-help="#jsCrossDomain">
+                </div>
+
+                {# do not track support #}
+                <div id="jsDoNotTrackInlineHelp" class="inline-help-node">
+                    {{ 'CoreAdminHome_JSTracking_EnableDoNotTrackDesc'|translate }}
+                    {% if serverSideDoNotTrackEnabled %}
+                        <br/>
+                        {{ 'CoreAdminHome_JSTracking_EnableDoNotTrack_AlreadyEnabled'|translate }}
+                    {% endif %}
+                </div>
+
+                <div piwik-field uicontrol="checkbox" name="javascript-tracking-do-not-track"
+                     ng-model="jsTrackingCode.doNotTrack"
+                     ng-change="jsTrackingCode.updateTrackingCode() "
+                     disabled="jsTrackingCode.isLoading"
+                     title="{{ 'CoreAdminHome_JSTracking_EnableDoNotTrack'|translate|e('html_attr') }}"
+                     value="" inline-help="#jsDoNotTrackInlineHelp">
+                </div>
+
+                {# disable all cookies options #}
+                <div piwik-field uicontrol="checkbox" name="javascript-tracking-disable-cookies"
+                     ng-model="jsTrackingCode.disableCookies"
+                     disabled="jsTrackingCode.isLoading"
+                     ng-change="jsTrackingCode.updateTrackingCode()"
+                     title="{{ 'CoreAdminHome_JSTracking_DisableCookies'|translate|e('html_attr') }}"
+                     value="" inline-help="{{ 'CoreAdminHome_JSTracking_DisableCookiesDesc'|translate|e('html_attr') }}">
+                </div>
+
+                {# custom campaign name/keyword query params #}
+                <div id="jsTrackCampaignParamsInlineHelp" class="inline-help-node">
+                    {{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc'|translate('<a href="https://matomo.org/faq/general/#faq_119" rel="noreferrer"  target="_blank">','</a>')|raw }}
+                </div>
+
+                <div piwik-field uicontrol="checkbox" name="custom-campaign-query-params-check"
+                     ng-model="jsTrackingCode.useCustomCampaignParams"
+                     disabled="jsTrackingCode.isLoading"
+                     ng-change="jsTrackingCode.updateTrackingCode()"
+                     title="{{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParam'|translate|e('html_attr') }}"
+                     value="" inline-help="#jsTrackCampaignParamsInlineHelp">
+                </div>
+
+                <div ng-show="jsTrackingCode.useCustomCampaignParams" id="js-campaign-query-param-extra">
+                    <div class="row">
+                        <div class="col s12">
+                            <div piwik-field uicontrol="text" name="custom-campaign-name-query-param"
+                                 ng-model="jsTrackingCode.customCampaignName"
+                                 ng-change="jsTrackingCode.updateTrackingCode()"
+                                 disabled="jsTrackingCode.isLoading"
+                                 title="{{ 'CoreAdminHome_JSTracking_CampaignNameParam'|translate|e('html_attr') }}"
+                                 value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <div piwik-field uicontrol="text" name="custom-campaign-keyword-query-param"
+                                 ng-model="jsTrackingCode.customCampaignKeyword"
+                                 ng-change="jsTrackingCode.updateTrackingCode()"
+                                 disabled="jsTrackingCode.isLoading"
+                                 title="{{ 'CoreAdminHome_JSTracking_CampaignKwdParam'|translate|e('html_attr') }}"
+                                 value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="javascript-output-section">
+            <h3>{{ 'General_JsTrackingTag'|translate }}</h3>
+
+            <p>{{ 'CoreAdminHome_JSTracking_CodeNoteBeforeClosingHead'|translate("&lt;/head&gt;")|raw }}</p>
+
+            <div id="javascript-text">
+                <pre piwik-select-on-focus class="codeblock"
+                     ng-bind="jsTrackingCode.trackingCode"> </pre>
+            </div>
+        </div>
+    </div>
 </div>
 
-<h2>{{ 'CoreAdminHome_ImportingServerLogs'|translate }}</h2>
+<div piwik-content-block content-title="{{ 'CoreAdminHome_ImageTracking'|translate|e('html_attr') }}"
+     anchor="imageTracking">
+    <a name="image-tracking-link"></a>
 
-<p>
-    {{ 'CoreAdminHome_ImportingServerLogsDesc'|translate('<a href="http://piwik.org/log-analytics/" target="_blank">','</a>')|raw }}
-</p>
+    <div id="image-tracking-code-options" ng-controller="ImageTrackingCodeController as imageTrackingCode">
+
+        <p>
+            {{ 'CoreAdminHome_ImageTrackingIntro1'|translate }} {{ 'CoreAdminHome_ImageTrackingIntro2'|translate("<code>&lt;noscript&gt;&lt;/noscript&gt;</code>")|raw }}
+        </p>
+        <p>
+            {{ 'CoreAdminHome_ImageTrackingIntro3'|translate('<a href="https://matomo.org/docs/tracking-api/reference/" rel="noreferrer"  target="_blank">','</a>')|raw }}
+        </p>
+
+        {# website #}
+        <div piwik-field uicontrol="site" name="image-tracker-website"
+             ng-model="imageTrackingCode.site"
+             ng-change="imageTrackingCode.changeSite(true)"
+             introduction="{{ 'General_Website'|translate|e('html_attr') }}"
+             value='{{ defaultSite|json_encode }}'>
+        </div>
+
+        {# action_name #}
+        <div piwik-field uicontrol="text" name="image-tracker-action-name"
+             ng-model="imageTrackingCode.pageName"
+             ng-change="imageTrackingCode.updateTrackingCode()"
+             disabled="imageTrackingCode.isLoading"
+             introduction="{{ 'General_Options'|translate|e('html_attr') }}"
+             title="{{ 'Actions_ColumnPageName'|translate|e('html_attr') }}"
+             value="">
+        </div>
+
+        {# goal #}
+        <div piwik-field uicontrol="checkbox" name="image-tracking-goal-check"
+             ng-model="imageTrackingCode.trackGoal"
+             ng-change="imageTrackingCode.updateTrackingCode()"
+             disabled="imageTrackingCode.isLoading"
+             title="{{ 'CoreAdminHome_TrackAGoal'|translate|e('html_attr') }}"
+             value="">
+        </div>
+
+        <div ng-show="imageTrackingCode.trackGoal"
+             id="image-tracking-goal-sub">
+            <div class="row">
+                <div class="col s12 m6">
+                    <div piwik-field uicontrol="select" name="image-tracker-goal"
+                         options="imageTrackingCode.allGoals"
+                         disabled="imageTrackingCode.isLoading"
+                         ng-model="imageTrackingCode.trackIdGoal"
+                         full-width="true"
+                         ng-change="imageTrackingCode.updateTrackingCode()"
+                         value="">
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div piwik-field uicontrol="text" name="image-revenue"
+                         ng-model="imageTrackingCode.revenue"
+                         ng-change="imageTrackingCode.updateTrackingCode()"
+                         disabled="imageTrackingCode.isLoading"
+                         full-width="true"
+                         title="{{ 'CoreAdminHome_WithOptionalRevenue'|translate|e('html_attr') }} <span class='site-currency'></span>"
+                         value="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="image-link-output-section">
+            <h3>{{ 'CoreAdminHome_ImageTrackingLink'|translate }}</h3>
+
+            <div id="image-tracking-text">
+                <pre piwik-select-on-focus
+                          ng-bind="imageTrackingCode.trackingCode"> </pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div piwik-content-block content-title="{{ 'CoreAdminHome_ImportingServerLogs'|translate|e('html_attr') }}"
+     anchor="importServerLogs">
+    <p>
+        {{ 'CoreAdminHome_ImportingServerLogsDesc'|translate('<a href="https://matomo.org/log-analytics/" rel="noreferrer"  target="_blank">','</a>')|raw }}
+    </p>
+</div>
+
+<div piwik-content-block content-title="{{ 'SitesManager_MobileAppsAndSDKs'|translate }}" anchor="mobileAppsAndSdks">
+    <p>{{ 'SitesManager_MobileAppsAndSDKsDescription'|translate('<a href="https://matomo.org/integrate/#programming-language-platforms-and-frameworks" rel="noreferrer" target="_blank">','</a>')|raw }}</p>
+</div>
+
+<div piwik-content-block content-title="{{ 'CoreAdminHome_HttpTrackingApi'|translate }}" anchor="trackingApi">
+    <p>{{ 'CoreAdminHome_HttpTrackingApiDescription'|translate('<a href="https://developer.matomo.org/api-reference/tracking-api" rel="noreferrer" target="_blank">','</a>')|raw }}</p>
+</div>
+
+{{ postEvent('Template.endTrackingCodePage') }}
 
 {% endblock %}

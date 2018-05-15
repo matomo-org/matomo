@@ -1,0 +1,14 @@
+{
+    "Actions": {
+        "ColumnClickedURL": "Músarsmellt slóð",
+        "ColumnClicks": "Músasmellir",
+        "ColumnDownloadURL": "Niðurhals slóð",
+        "ColumnPageName": "Síðu nafn",
+        "ColumnPageURL": "Síðu slóð",
+        "ColumnUniqueClicks": "Einstakir músasmellir",
+        "ColumnUniqueDownloads": "Einstakt niðurhal",
+        "SubmenuPagesEntry": "Inngangssíður",
+        "SubmenuPagesExit": "Útgangssíður",
+        "SubmenuPageTitles": "Síðu titlar"
+    }
+}

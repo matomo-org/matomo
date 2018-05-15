@@ -10,15 +10,19 @@ namespace Piwik\Plugin;
 
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Development;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
+use Piwik\Plugins\Marketplace\Marketplace;
+use Piwik\Tracker\TrackerConfig;
 use Piwik\Url;
 use Piwik\Version;
 use Piwik\View;
+use Piwik\ProxyHttp;
 
 /**
  * Base class of plugin controllers that provide administrative functionality.
@@ -28,8 +32,6 @@ use Piwik\View;
  */
 abstract class ControllerAdmin extends Controller
 {
-    private static $isEacceleratorUsed = false;
-
     private static function notifyWhenTrackingStatisticsDisabled()
     {
         $statsEnabled = PiwikConfig::getInstance()->Tracker['record_statistics'];
@@ -40,19 +42,66 @@ abstract class ControllerAdmin extends Controller
         }
     }
 
+    private static function notifyAnyInvalidLicense()
+    {
+        if (!Marketplace::isMarketplaceEnabled()) {
+            return;
+        }
+
+        if (Piwik::isUserIsAnonymous()) {
+            return;
+        }
+
+        if (!Piwik::isUserHasSomeAdminAccess()) {
+            return;
+        }
+
+        $expired = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins\InvalidLicenses');
+
+        $messageLicenseMissing = $expired->getMessageNoLicense();
+        if (!empty($messageLicenseMissing)) {
+            $notification = new Notification($messageLicenseMissing);
+            $notification->raw = true;
+            $notification->context = Notification::CONTEXT_ERROR;
+            $notification->title = Piwik::translate('Marketplace_LicenseMissing');
+            Notification\Manager::notify('ControllerAdmin_LicenseMissingWarning', $notification);
+        }
+
+        $messageExceeded = $expired->getMessageExceededLicenses();
+        if (!empty($messageExceeded)) {
+            $notification = new Notification($messageExceeded);
+            $notification->raw = true;
+            $notification->context = Notification::CONTEXT_WARNING;
+            $notification->title = Piwik::translate('Marketplace_LicenseExceeded');
+            Notification\Manager::notify('ControllerAdmin_LicenseExceededWarning', $notification);
+        }
+
+        $messageExpired = $expired->getMessageExpiredLicenses();
+        if (!empty($messageExpired)) {
+            $notification = new Notification($messageExpired);
+            $notification->raw = true;
+            $notification->context = Notification::CONTEXT_WARNING;
+            $notification->title = Piwik::translate('Marketplace_LicenseExpired');
+            Notification\Manager::notify('ControllerAdmin_LicenseExpiredWarning', $notification);
+        }
+    }
+
     private static function notifyAnyInvalidPlugin()
     {
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return;
+        }
+
         $missingPlugins = \Piwik\Plugin\Manager::getInstance()->getMissingPlugins();
+
         if (empty($missingPlugins)) {
             return;
         }
 
-        if (!Piwik::hasUserSuperUserAccess()) {
-            return;
-        }
         $pluginsLink = Url::getCurrentQueryStringWithParametersModified(array(
             'module' => 'CorePluginsAdmin', 'action' => 'plugins'
         ));
+
         $invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', array(
                 self::getPiwikVersion(),
                 '<strong>' . implode('</strong>,&nbsp;<strong>', $missingPlugins) . '</strong>'))
@@ -65,7 +114,7 @@ abstract class ControllerAdmin extends Controller
         $notification = new Notification($invalidPluginsWarning);
         $notification->raw = true;
         $notification->context = Notification::CONTEXT_WARNING;
-        $notification->title = Piwik::translate('General_Warning') . ':';
+        $notification->title = Piwik::translate('General_Warning');
         Notification\Manager::notify('ControllerAdmin_InvalidPluginsWarning', $notification);
     }
 
@@ -81,6 +130,39 @@ abstract class ControllerAdmin extends Controller
         parent::setBasicVariablesView($view);
 
         self::setBasicVariablesAdminView($view);
+    }
+
+    private static function notifyIfURLIsNotSecure()
+    {
+        $isURLSecure = ProxyHttp::isHttps();
+        if ($isURLSecure) {
+            return;
+        }
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return;
+        }
+
+        if (Url::isLocalHost(Url::getCurrentHost())) {
+            return;
+        }
+
+        if (Development::isEnabled()) {
+            return;
+        }
+
+        $message = Piwik::translate('General_CurrentlyUsingUnsecureHttp');
+
+        $message .= " ";
+
+        $message .= Piwik::translate('General_ReadThisToLearnMore',
+            array('<a rel="noreferrer" target="_blank" href="https://matomo.org/faq/how-to/faq_91/">', '</a>')
+          );
+
+        $notification = new Notification($message);
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->raw     = true;
+        Notification\Manager::notify('ControllerAdmin_HttpIsUsed', $notification);
     }
 
     /**
@@ -101,36 +183,98 @@ abstract class ControllerAdmin extends Controller
         }
     }
 
-    /**
-     * See https://github.com/piwik/piwik/issues/4439#comment:8 and https://github.com/eaccelerator/eaccelerator/issues/12
-     *
-     * Eaccelerator does not support closures and is known to be not comptabile with Piwik. Therefore we are disabling
-     * it automatically. At this point it looks like Eaccelerator is no longer under development and the bug has not
-     * been fixed within a year.
-     */
-    public static function disableEacceleratorIfEnabled()
-    {
-        $isEacceleratorUsed = ini_get('eaccelerator.enable');
-
-        if (!empty($isEacceleratorUsed)) {
-            self::$isEacceleratorUsed = true;
-
-            @ini_set('eaccelerator.enable', 0);
-        }
-    }
 
     private static function notifyIfEAcceleratorIsUsed()
     {
-        if (self::$isEacceleratorUsed) {
-            $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Piwik.
-                We have disabled eAccelerator, which might affect the performance of Piwik.
-                Read the %srelated ticket%s for more information and how to fix this problem.",
-                '<a target="_blank" href="https://github.com/piwik/piwik/issues/4439">', '</a>');
+        $isEacceleratorUsed = ini_get('eaccelerator.enable');
+        if (empty($isEacceleratorUsed)) {
+            return;
+        }
+        $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Matomo.
+            We have disabled eAccelerator, which might affect the performance of Matomo.
+            Read the %srelated ticket%s for more information and how to fix this problem.",
+            '<a rel="noreferrer" target="_blank" href="https://github.com/matomo-org/piwik/issues/4439">', '</a>');
 
+        $notification = new Notification($message);
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->raw     = true;
+        Notification\Manager::notify('ControllerAdmin_EacceleratorIsUsed', $notification);
+    }
+
+    /**
+     * PHP Version required by the next major Piwik version
+     * @return string
+     */
+    private static function getNextRequiredMinimumPHP()
+    {
+        return '5.5.9';
+    }
+
+    private static function isUsingPhpVersionCompatibleWithNextPiwik()
+    {
+        return version_compare( PHP_VERSION, self::getNextRequiredMinimumPHP(), '>=' );
+    }
+
+    private static function notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik()
+    {
+        return; // no major version coming
+
+        if (self::isUsingPhpVersionCompatibleWithNextPiwik()) {
+            return;
+        }
+
+        $youMustUpgradePHP = Piwik::translate('General_YouMustUpgradePhpVersionToReceiveLatestPiwik');
+        $message =  Piwik::translate('General_PiwikCannotBeUpgradedBecausePhpIsTooOld')
+            .     ' '
+            .  sprintf(Piwik::translate('General_PleaseUpgradeYourPhpVersionSoYourPiwikDataStaysSecure'), self::getNextRequiredMinimumPHP())
+        ;
+
+        $notification = new Notification($message);
+        $notification->title = $youMustUpgradePHP;
+        $notification->priority = Notification::PRIORITY_LOW;
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->type = Notification::TYPE_TRANSIENT;
+        $notification->flags = Notification::FLAG_NO_CLEAR;
+        NotificationManager::notify('PHPVersionTooOldForNewestPiwikCheck', $notification);
+    }
+
+    private static function notifyWhenPhpVersionIsEOL()
+    {
+        return; // no supported version (5.5+) has currently ended support
+        $notifyPhpIsEOL = Piwik::hasUserSuperUserAccess() && self::isPhpVersionAtLeast55();
+        if (!$notifyPhpIsEOL) {
+            return;
+        }
+
+        $message = Piwik::translate('General_WarningPiwikWillStopSupportingPHPVersion', array($deprecatedMajorPhpVersion, self::getNextRequiredMinimumPHP()))
+            . "\n "
+            . Piwik::translate('General_WarningPhpVersionXIsTooOld', $deprecatedMajorPhpVersion);
+
+        $notification = new Notification($message);
+        $notification->title = Piwik::translate('General_Warning');
+        $notification->priority = Notification::PRIORITY_LOW;
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->type = Notification::TYPE_TRANSIENT;
+        $notification->flags = Notification::FLAG_NO_CLEAR;
+        NotificationManager::notify('PHP54VersionCheck', $notification);
+    }
+
+    private static function notifyWhenDebugOnDemandIsEnabled($trackerSetting)
+    {
+        if (!Development::isEnabled()
+            && Piwik::hasUserSuperUserAccess() &&
+            TrackerConfig::getConfigValue($trackerSetting)) {
+
+            $message = Piwik::translate('General_WarningDebugOnDemandEnabled');
+            $message = sprintf($message, '"' . $trackerSetting . '"', '"[Tracker] ' .  $trackerSetting . '"', '"0"',
+                                               '"config/config.ini.php"');
             $notification = new Notification($message);
+            $notification->title = Piwik::translate('General_Warning');
+            $notification->priority = Notification::PRIORITY_LOW;
             $notification->context = Notification::CONTEXT_WARNING;
-            $notification->raw     = true;
-            Notification\Manager::notify('ControllerAdmin_EacceleratorIsUsed', $notification);
+            $notification->type = Notification::TYPE_TRANSIENT;
+            $notification->flags = Notification::FLAG_NO_CLEAR;
+            NotificationManager::notify('Tracker' . $trackerSetting, $notification);
         }
     }
 
@@ -142,7 +286,6 @@ abstract class ControllerAdmin extends Controller
      * - **statisticsNotRecorded** - Set to true if the `[Tracker] record_statistics` INI
      *                               config is `0`. If not `0`, this variable will not be defined.
      * - **topMenu** - The result of `MenuTop::getInstance()->getMenu()`.
-     * - **currentAdminMenuName** - The currently selected admin menu name.
      * - **enableFrames** - The value of the `[General] enable_framed_pages` INI config option. If
      *                    true, {@link Piwik\View::setXFrameOptions()} is called on the view.
      * - **isSuperUser** - Whether the current user is a superuser or not.
@@ -161,27 +304,51 @@ abstract class ControllerAdmin extends Controller
     {
         self::notifyWhenTrackingStatisticsDisabled();
         self::notifyIfEAcceleratorIsUsed();
+        self::notifyIfURLIsNotSecure();
 
-        $view->topMenu  = MenuTop::getInstance()->getMenu();
-        $view->userMenu = MenuUser::getInstance()->getMenu();
-        $view->currentAdminMenuName = MenuAdmin::getInstance()->getCurrentAdminMenuName();
+        $view->topMenu = MenuTop::getInstance()->getMenu();
 
         $view->isDataPurgeSettingsEnabled = self::isDataPurgeSettingsEnabled();
-        $view->enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];
-        if (!$view->enableFrames) {
+        $enableFrames = PiwikConfig::getInstance()->General['enable_framed_settings'];
+        $view->enableFrames = $enableFrames;
+
+        if (!$enableFrames) {
             $view->setXFrameOptions('sameorigin');
         }
 
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
 
+        self::notifyAnyInvalidLicense();
         self::notifyAnyInvalidPlugin();
+        self::notifyWhenPhpVersionIsEOL();
+        self::notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik();
+        self::notifyWhenDebugOnDemandIsEnabled('debug');
+        self::notifyWhenDebugOnDemandIsEnabled('debug_on_demand');
 
-        self::checkPhpVersion($view);
+        /**
+         * Posted when rendering an admin page and notifications about any warnings or errors should be triggered.
+         * You can use it for example when you have a plugin that needs to be configured in order to work and the
+         * plugin has not been configured yet. It can be also used to cancel / remove other notifications by calling 
+         * eg `Notification\Manager::cancel($notificationId)`.
+         *
+         * **Example**
+         *
+         *     public function onTriggerAdminNotifications(Piwik\Widget\WidgetsList $list)
+         *     {
+         *         if ($pluginFooIsNotConfigured) {
+         *              $notification = new Notification('The plugin foo has not been configured yet');
+         *              $notification->context = Notification::CONTEXT_WARNING;
+         *              Notification\Manager::notify('fooNotConfigured', $notification);
+         *         }
+         *     }
+         *
+         */
+        Piwik::postEvent('Controller.triggerAdminNotifications');
 
-        $adminMenu = MenuAdmin::getInstance()->getMenu();
-        $view->adminMenu = $adminMenu;
+        $view->adminMenu = MenuAdmin::getInstance()->getMenu();
 
         $notifications = $view->notifications;
+
         if (empty($notifications)) {
             $view->notifications = NotificationManager::getAllNotificationsToDisplay();
             NotificationManager::cancelAllNonPersistent();
@@ -195,16 +362,11 @@ abstract class ControllerAdmin extends Controller
 
     protected static function getPiwikVersion()
     {
-        return "Piwik " . Version::VERSION;
+        return "Matomo " . Version::VERSION;
     }
 
-    /**
-     * Check if the current PHP version is >= 5.3. If not, a warning is displayed
-     * to the user.
-     */
-    private static function checkPhpVersion($view)
+    private static function isPhpVersionAtLeast55()
     {
-        $view->phpVersion = PHP_VERSION;
-        $view->phpIsNewEnough = version_compare($view->phpVersion, '5.3.0', '>=');
+        return version_compare(PHP_VERSION, '5.5', '>=');
     }
 }

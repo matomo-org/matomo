@@ -1,0 +1,17 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "Ecommerce ti consente di tracciare quando gli utenti aggiungono al carrello dei prodotti, e quando questi vengono convertiti in una vendita. Traccia anche le visioni dei prodotti, delle categorie di prodotti e i carrelli abbandonati.",
+        "Sales": "Vendite",
+        "Order": "Ordine",
+        "Orders": "Ordini",
+        "SalesBy": "Vendite per %s",
+        "SalesAdjective": "Vendite %s",
+        "NumberOfItems": "Numero di articoli nel Carrello",
+        "OrderValue": "Valore ordine",
+        "LifeTimeValue": "Incasso Complessivo Ecommerce",
+        "LifeTimeValueDescription": "Ricavo totale Ecommerce attribuito a questo cliente durante tutte le sue visite: la somma degli incassi di tutti gli ordini commerce per l'ID Visitatore %s.",
+        "VisitorProfileLTV": "Generato un Incasso Complessivo di %1$s.",
+        "VisitorProfileItemsAndOrders": "Acquistati %1$s articoli in %2$s ordini ecommerce.",
+        "VisitorProfileAbandonedCartSummary": "Abbandonati %1$s carrelli contenenti %2$s articoli per un valore di %3$s."
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "UserCountryMap": {
+        "Cities": "Mestá",
+        "Countries": "Krajiny",
+        "map": "mapa",
+        "None": "Nič",
+        "NoVisit": "Žiadna návšteva",
+        "RealTimeMap": "Mapa v reálnom čase",
+        "Regions": "Regióny",
+        "VisitorMap": "Mapa návštev"
+    }
+}

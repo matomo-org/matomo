@@ -1,0 +1,18 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Un link de confirmare a fost trimis la casuta ta de email. Verificați-vă e-mail-ul și vizitați aceast link legătură pentru a autoriza cererea de schimbare a parolei.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un utilizator cu acces la Super utilizator nu poate fi autentificat folosind '%s' mecanismul.",
+        "ExceptionPasswordMD5HashExpected": "Parametrul parolei este aşteptat să fie un hash MD5 al parolei.",
+        "InvalidNonceOrHeadersOrReferrer": "Formular de securitate nereusit. Vă rugăm să reîncărcați formularul și verificați dacă modulele cookie sunt activate. Dacă utilizați un server proxy, trebuie să configurati %1$s Matomo pentru a accepta antetul proxy %2$s care transmite antetul Host. De asemenea, verificați dacă antetul dvs. Referrer este trimis corect.",
+        "InvalidOrExpiredToken": "Jetonul este invalid sau expirat.",
+        "InvalidUsernameEmail": "Nume sau adresa email invalidă.",
+        "LogIn": "Intrare",
+        "LoginPasswordNotCorrect": "Numele sau parola sunt greşite.",
+        "LostYourPassword": "Ai pierdut parola?",
+        "MailTopicPasswordChange": "Confirmă schimbarea parolei",
+        "PasswordChanged": "Parola ta a fost schimbată",
+        "PasswordRepeat": "Parolă (repetă)",
+        "PasswordsDoNotMatch": "Parolele nu se potrivesc.",
+        "RememberMe": "Ţine-mă minte"
+    }
+}

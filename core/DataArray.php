@@ -47,7 +47,7 @@ class DataArray
     public function sumMetricsVisits($label, $row)
     {
         if (!isset($this->data[$label])) {
-            $this->data[$label] = self::makeEmptyRow();
+            $this->data[$label] = static::makeEmptyRow();
         }
         $this->doSumVisitsMetrics($row, $this->data[$label]);
     }
@@ -62,6 +62,7 @@ class DataArray
         return array(Metrics::INDEX_NB_UNIQ_VISITORS    => 0,
                      Metrics::INDEX_NB_VISITS           => 0,
                      Metrics::INDEX_NB_ACTIONS          => 0,
+                     Metrics::INDEX_NB_USERS            => 0,
                      Metrics::INDEX_MAX_ACTIONS         => 0,
                      Metrics::INDEX_SUM_VISIT_LENGTH    => 0,
                      Metrics::INDEX_BOUNCE_COUNT        => 0,
@@ -79,7 +80,7 @@ class DataArray
      *
      * @return void
      */
-    protected function doSumVisitsMetrics($newRowToAdd, &$oldRowToUpdate, $onlyMetricsAvailableInActionsTable = false)
+    protected function doSumVisitsMetrics($newRowToAdd, &$oldRowToUpdate)
     {
         // Pre 1.2 format: string indexed rows are returned from the DB
         // Left here for Backward compatibility with plugins doing custom SQL queries using these metrics as string
@@ -87,9 +88,7 @@ class DataArray
             $oldRowToUpdate[Metrics::INDEX_NB_VISITS] += $newRowToAdd['nb_visits'];
             $oldRowToUpdate[Metrics::INDEX_NB_ACTIONS] += $newRowToAdd['nb_actions'];
             $oldRowToUpdate[Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd['nb_uniq_visitors'];
-            if ($onlyMetricsAvailableInActionsTable) {
-                return;
-            }
+            $oldRowToUpdate[Metrics::INDEX_NB_USERS] += $newRowToAdd['nb_users'];
             $oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS] = (float)max($newRowToAdd['max_actions'], $oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS]);
             $oldRowToUpdate[Metrics::INDEX_SUM_VISIT_LENGTH] += $newRowToAdd['sum_visit_length'];
             $oldRowToUpdate[Metrics::INDEX_BOUNCE_COUNT] += $newRowToAdd['bounce_count'];
@@ -97,36 +96,81 @@ class DataArray
             return;
         }
 
-        $oldRowToUpdate[Metrics::INDEX_NB_VISITS] += $newRowToAdd[Metrics::INDEX_NB_VISITS];
-        $oldRowToUpdate[Metrics::INDEX_NB_ACTIONS] += $newRowToAdd[Metrics::INDEX_NB_ACTIONS];
-        $oldRowToUpdate[Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd[Metrics::INDEX_NB_UNIQ_VISITORS];
-        if ($onlyMetricsAvailableInActionsTable) {
+        // Edge case fail safe
+        if (!isset($oldRowToUpdate[Metrics::INDEX_NB_VISITS])) {
             return;
         }
 
+        $oldRowToUpdate[Metrics::INDEX_NB_VISITS] += $newRowToAdd[Metrics::INDEX_NB_VISITS];
+        $oldRowToUpdate[Metrics::INDEX_NB_ACTIONS] += $newRowToAdd[Metrics::INDEX_NB_ACTIONS];
+        $oldRowToUpdate[Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd[Metrics::INDEX_NB_UNIQ_VISITORS];
+
         // In case the existing Row had no action metrics (eg. Custom Variable XYZ with "visit" scope)
         // but the new Row has action metrics (eg. same Custom Variable XYZ this time with a "page" scope)
-        if(!isset($oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS])) {
-            $toZero = array(Metrics::INDEX_MAX_ACTIONS,
+        if (!isset($oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS])) {
+            $toZero = array(
+                            Metrics::INDEX_NB_USERS,
+                            Metrics::INDEX_MAX_ACTIONS,
                             Metrics::INDEX_SUM_VISIT_LENGTH,
                             Metrics::INDEX_BOUNCE_COUNT,
-                            Metrics::INDEX_NB_VISITS_CONVERTED);
-            foreach($toZero as $metric) {
+                            Metrics::INDEX_NB_VISITS_CONVERTED
+            );
+            foreach ($toZero as $metric) {
                 $oldRowToUpdate[$metric] = 0;
             }
         }
 
+        $oldRowToUpdate[Metrics::INDEX_NB_USERS] += $newRowToAdd[Metrics::INDEX_NB_USERS];
         $oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS] = (float)max($newRowToAdd[Metrics::INDEX_MAX_ACTIONS], $oldRowToUpdate[Metrics::INDEX_MAX_ACTIONS]);
         $oldRowToUpdate[Metrics::INDEX_SUM_VISIT_LENGTH] += $newRowToAdd[Metrics::INDEX_SUM_VISIT_LENGTH];
         $oldRowToUpdate[Metrics::INDEX_BOUNCE_COUNT] += $newRowToAdd[Metrics::INDEX_BOUNCE_COUNT];
         $oldRowToUpdate[Metrics::INDEX_NB_VISITS_CONVERTED] += $newRowToAdd[Metrics::INDEX_NB_VISITS_CONVERTED];
     }
 
+    /**
+     * Adds the given row $newRowToAdd to the existing  $oldRowToUpdate passed by reference
+     * The rows are php arrays Name => value
+     *
+     * @param array $newRowToAdd
+     * @param array $oldRowToUpdate
+     * @param bool $onlyMetricsAvailableInActionsTable
+     *
+     * @return void
+     */
+    protected function doSumActionsMetrics($newRowToAdd, &$oldRowToUpdate)
+    {
+        // Pre 1.2 format: string indexed rows are returned from the DB
+        // Left here for Backward compatibility with plugins doing custom SQL queries using these metrics as string
+        if (!isset($newRowToAdd[Metrics::INDEX_NB_VISITS])) {
+            $oldRowToUpdate[Metrics::INDEX_NB_VISITS] += $newRowToAdd['nb_visits'];
+            $oldRowToUpdate[Metrics::INDEX_NB_ACTIONS] += $newRowToAdd['nb_actions'];
+            $oldRowToUpdate[Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd['nb_uniq_visitors'];
+            return;
+        }
+
+        // Edge case fail safe
+        if (!isset($oldRowToUpdate[Metrics::INDEX_NB_VISITS])) {
+            return;
+        }
+
+        $oldRowToUpdate[Metrics::INDEX_NB_VISITS] += $newRowToAdd[Metrics::INDEX_NB_VISITS];
+        if (array_key_exists(Metrics::INDEX_NB_ACTIONS, $newRowToAdd)) {
+            $oldRowToUpdate[Metrics::INDEX_NB_ACTIONS] += $newRowToAdd[Metrics::INDEX_NB_ACTIONS];
+        }
+        if (array_key_exists(Metrics::INDEX_PAGE_NB_HITS, $newRowToAdd)) {
+            if (!array_key_exists(Metrics::INDEX_PAGE_NB_HITS, $oldRowToUpdate)) {
+                $oldRowToUpdate[Metrics::INDEX_PAGE_NB_HITS] = 0;
+            }
+            $oldRowToUpdate[Metrics::INDEX_PAGE_NB_HITS] += $newRowToAdd[Metrics::INDEX_PAGE_NB_HITS];
+        }
+        $oldRowToUpdate[Metrics::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd[Metrics::INDEX_NB_UNIQ_VISITORS];
+    }
+
     public function sumMetricsGoals($label, $row)
     {
         $idGoal = $row['idgoal'];
         if (!isset($this->data[$label][Metrics::INDEX_GOALS][$idGoal])) {
-            $this->data[$label][Metrics::INDEX_GOALS][$idGoal] = self::makeEmptyGoalRow($idGoal);
+            $this->data[$label][Metrics::INDEX_GOALS][$idGoal] = static::makeEmptyGoalRow($idGoal);
         }
         $this->doSumGoalsMetrics($row, $this->data[$label][Metrics::INDEX_GOALS][$idGoal]);
     }
@@ -190,9 +234,10 @@ class DataArray
     public function sumMetricsActions($label, $row)
     {
         if (!isset($this->data[$label])) {
-            $this->data[$label] = self::makeEmptyActionRow();
+            $this->data[$label] = static::makeEmptyActionRow();
         }
-        $this->doSumVisitsMetrics($row, $this->data[$label], $onlyMetricsAvailableInActionsTable = true);
+
+        $this->doSumActionsMetrics($row, $this->data[$label]);
     }
 
     protected static function makeEmptyActionRow()
@@ -207,7 +252,7 @@ class DataArray
     public function sumMetricsEvents($label, $row)
     {
         if (!isset($this->data[$label])) {
-            $this->data[$label] = self::makeEmptyEventRow();
+            $this->data[$label] = static::makeEmptyEventRow();
         }
         $this->doSumEventsMetrics($row, $this->data[$label], $onlyMetricsAvailableInActionsTable = true);
     }
@@ -220,7 +265,7 @@ class DataArray
             Metrics::INDEX_EVENT_NB_HITS            => 0,
             Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE => 0,
             Metrics::INDEX_EVENT_SUM_EVENT_VALUE    => 0,
-            Metrics::INDEX_EVENT_MIN_EVENT_VALUE    => 0,
+            Metrics::INDEX_EVENT_MIN_EVENT_VALUE    => false,
             Metrics::INDEX_EVENT_MAX_EVENT_VALUE    => 0,
         );
     }
@@ -239,16 +284,16 @@ class DataArray
         $oldRowToUpdate[Metrics::INDEX_EVENT_NB_HITS] += $newRowToAdd[Metrics::INDEX_EVENT_NB_HITS];
         $oldRowToUpdate[Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE] += $newRowToAdd[Metrics::INDEX_EVENT_NB_HITS_WITH_VALUE];
 
-        $newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE] = round($newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE], self::EVENT_VALUE_PRECISION);
+        $newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE] = round($newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE], static::EVENT_VALUE_PRECISION);
         $oldRowToUpdate[Metrics::INDEX_EVENT_SUM_EVENT_VALUE] += $newRowToAdd[Metrics::INDEX_EVENT_SUM_EVENT_VALUE];
-        $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE] = round(max($newRowToAdd[Metrics::INDEX_EVENT_MAX_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE]), self::EVENT_VALUE_PRECISION);
+        $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE] = round(max($newRowToAdd[Metrics::INDEX_EVENT_MAX_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MAX_EVENT_VALUE]), static::EVENT_VALUE_PRECISION);
 
         // Update minimum only if it is set
-        if($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] !== false) {
-            if($oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] === false) {
-                $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] = round($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE], self::EVENT_VALUE_PRECISION);
+        if ($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] !== false) {
+            if ($oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] === false) {
+                $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] = round($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE], static::EVENT_VALUE_PRECISION);
             } else {
-                $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] = round(min($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE]), self::EVENT_VALUE_PRECISION);
+                $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE] = round(min($newRowToAdd[Metrics::INDEX_EVENT_MIN_EVENT_VALUE], $oldRowToUpdate[Metrics::INDEX_EVENT_MIN_EVENT_VALUE]), static::EVENT_VALUE_PRECISION);
             }
         }
     }
@@ -279,7 +324,7 @@ class DataArray
     public function sumMetricsVisitsPivot($parentLabel, $label, $row)
     {
         if (!isset($this->dataTwoLevels[$parentLabel][$label])) {
-            $this->dataTwoLevels[$parentLabel][$label] = self::makeEmptyRow();
+            $this->dataTwoLevels[$parentLabel][$label] = static::makeEmptyRow();
         }
         $this->doSumVisitsMetrics($row, $this->dataTwoLevels[$parentLabel][$label]);
     }
@@ -288,7 +333,7 @@ class DataArray
     {
         $idGoal = $row['idgoal'];
         if (!isset($this->dataTwoLevels[$parentLabel][$label][Metrics::INDEX_GOALS][$idGoal])) {
-            $this->dataTwoLevels[$parentLabel][$label][Metrics::INDEX_GOALS][$idGoal] = self::makeEmptyGoalRow($idGoal);
+            $this->dataTwoLevels[$parentLabel][$label][Metrics::INDEX_GOALS][$idGoal] = static::makeEmptyGoalRow($idGoal);
         }
         $this->doSumGoalsMetrics($row, $this->dataTwoLevels[$parentLabel][$label][Metrics::INDEX_GOALS][$idGoal]);
     }
@@ -298,7 +343,7 @@ class DataArray
         if (!isset($this->dataTwoLevels[$parentLabel][$label])) {
             $this->dataTwoLevels[$parentLabel][$label] = $this->makeEmptyActionRow();
         }
-        $this->doSumVisitsMetrics($row, $this->dataTwoLevels[$parentLabel][$label], $onlyMetricsAvailableInActionsTable = true);
+        $this->doSumActionsMetrics($row, $this->dataTwoLevels[$parentLabel][$label]);
     }
 
     public function sumMetricsEventsPivot($parentLabel, $label, $row)
@@ -357,7 +402,7 @@ class DataArray
 
             // if there are no "visit" column, we force one to prevent future complications
             // eg. This helps the setDefaultColumnsToDisplay() call
-            if(!isset($values[Metrics::INDEX_NB_VISITS])) {
+            if (!isset($values[Metrics::INDEX_NB_VISITS])) {
                 $values[Metrics::INDEX_NB_VISITS] = 0;
             }
         }
@@ -371,7 +416,7 @@ class DataArray
      */
     public static function isRowActions($row)
     {
-        return (count($row) == count(self::makeEmptyActionRow())) && isset($row[Metrics::INDEX_NB_ACTIONS]);
+        return (count($row) == count(static::makeEmptyActionRow())) && isset($row[Metrics::INDEX_NB_ACTIONS]);
     }
 
     /**

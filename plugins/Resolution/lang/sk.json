@@ -1,0 +1,12 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Konfigurácia",
+        "ColumnResolution": "Rozlíšenie",
+        "Configurations": "Konfigurácia",
+        "PluginDescription": "Poskytuje informáciu o rozlíšení obrazovky návštevníka.",
+        "Resolutions": "Rozlíšenie",
+        "WidgetGlobalVisitors": "Globálne konfigurácie návštevníkov",
+        "WidgetGlobalVisitorsDocumentation": "Tento report zobrazuje najbežnejšiu celkovú konfiguráciu, ktorú mali vaši návštevníci. Konfigurácia je kombinácia operačného systému, typu prehliadača a rozlíšenia obrazovky",
+        "WidgetResolutions": "Rozlíšenie obrazovky"
+    }
+}

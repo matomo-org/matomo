@@ -11,6 +11,7 @@ namespace Piwik\Plugins\DevicesDetection\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\DevicesDetection\Columns\OsVersion;
+use Piwik\Plugin\ReportsProvider;
 
 class GetOsVersions extends Base
 {
@@ -20,14 +21,15 @@ class GetOsVersions extends Base
         $this->dimension     = new OsVersion();
         $this->name          = Piwik::translate('DevicesDetection_OperatingSystemVersions');
         $this->documentation = ''; // TODO
-        $this->order = 4;
-        $this->widgetTitle  = 'DevicesDetection_OperatingSystemVersions';
+        $this->order = 2;
+
+        $this->subcategoryId = 'DevicesDetection_Software';
     }
 
     public function configureView(ViewDataTable $view)
     {
         $view->config->title = $this->name;
-        $view->config->show_search = false;
+        $view->config->show_search = true;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate("DevicesDetection_dataTableLabelSystemVersion"));
     }
@@ -35,7 +37,7 @@ class GetOsVersions extends Base
     public function getRelatedReports()
     {
         return array(
-            new GetOsFamilies()
+            ReportsProvider::factory('DevicesDetection', 'getOsFamilies'),
         );
     }
 }

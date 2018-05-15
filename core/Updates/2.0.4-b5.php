@@ -17,23 +17,32 @@ use Piwik\Plugins\UsersManager\API as UsersManagerApi;
 use Piwik\Updater;
 use Piwik\UpdaterErrorException;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_2_0_4_b5 extends Updates
 {
-    static function getSql()
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
     {
         return array(
-            // ignore existing column name error (1060)
-            'ALTER TABLE ' . Common::prefixTable('user')
-            . " ADD COLUMN `superuser_access` tinyint(2) unsigned NOT NULL DEFAULT '0' AFTER token_auth" => 1060,
+            $this->migration->db->addColumn('user', 'superuser_access', "TINYINT(2) UNSIGNED NOT NULL DEFAULT '0'", 'token_auth')
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
 
         try {
             self::migrateConfigSuperUserToDb();
@@ -78,7 +87,7 @@ class Updates_2_0_4_b5 extends Updates
                     'superuser_access' => 1
                 )
             );
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             echo "There was an issue, but we proceed: " . $e->getMessage();
         }
 

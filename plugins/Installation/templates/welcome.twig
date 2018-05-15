@@ -1,40 +1,34 @@
 {% extends '@Installation/layout.twig' %}
 
 {% block content %}
-<h2>{{ 'Installation_Welcome'|translate }}</h2>
 
-{% if newInstall %}
+    <h2>{{ 'Installation_Welcome'|translate }}</h2>
+
     {{ 'Installation_WelcomeHelp'|translate(totalNumberOfSteps)|raw }}
-{% else %}
-    <p>{{ 'Installation_ConfigurationHelp'|translate }}</p>
-    <br/>
-    <div class="error">
-        {{ errorMessage }}
-    </div>
-{% endif %}
 
-<script type="text/javascript">
-    <!--
-    $(function () {
-        // client-side test for broken tracker (e.g., mod_security rule)
-        $('p.nextStep').hide();
-        $.ajax({
-            url: 'piwik.php',
-            data: 'url=http://example.com',
-            complete: function () {
-                $('p.nextStep').show();
-            },
-            error: function (req) {
-                $('p.nextStep a').attr('href', $('p.nextStep a').attr('href') + '&trackerStatus=' + req.status);
-            }
+    <script type="text/javascript">
+        <!--
+        $(function () {
+            // client-side test for broken tracker (e.g., mod_security rule)
+            $('.next-step').hide();
+            $.ajax({
+                url: 'piwik.php',
+                data: 'url=http://example.com',
+                complete: function () {
+                    $('.next-step').show();
+                },
+                error: function (req) {
+                    $('.next-step a').attr('href', $('.next-step a').attr('href') + '&trackerStatus=' + req.status);
+                }
+            });
         });
-    });
-    //-->
-</script>
+        //-->
+    </script>
 
-{% if not showNextStep %}
-    <p class="nextStep">
-        <a href="{{url}}">{{ 'General_RefreshPage'|translate }} &raquo;</a>
-    </p>
-{% endif %}
+    {% if not showNextStep %}
+        <p class="next-step">
+            <a href="{{ url }}">{{ 'General_RefreshPage'|translate }} &raquo;</a>
+        </p>
+    {% endif %}
+
 {% endblock %}

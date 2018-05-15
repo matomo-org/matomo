@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<col name="label">search term 1</col>
+		<col name="Google">0</col>
+		<col name="Yahoo!">0</col>
+		<col name="Bing">1</col>
+		<col name="Ask">0</col>
+		<col name="Babylon">0</col>
+		<col name="Alexa">0</col>
+	</row>
+	<row>
+		<col name="label">search term 2</col>
+		<col name="Google">0</col>
+		<col name="Yahoo!">0</col>
+		<col name="Bing">0</col>
+		<col name="Ask">0</col>
+		<col name="Babylon">1</col>
+		<col name="Alexa">1</col>
+	</row>
+	<row>
+		<col name="label">search term 3</col>
+		<col name="Google">1</col>
+		<col name="Yahoo!">0</col>
+		<col name="Bing">0</col>
+		<col name="Ask">1</col>
+		<col name="Babylon">0</col>
+		<col name="Alexa">0</col>
+	</row>
+	<row>
+		<col name="label">search term 4</col>
+		<col name="Google">0</col>
+		<col name="Yahoo!">1</col>
+		<col name="Bing">1</col>
+		<col name="Ask">0</col>
+		<col name="Babylon">0</col>
+		<col name="Alexa">0</col>
+	</row>
+	<row>
+		<col name="label">that search term</col>
+		<col name="Google">1</col>
+		<col name="Yahoo!">1</col>
+		<col name="Bing">0</col>
+		<col name="Ask">0</col>
+		<col name="Babylon">0</col>
+		<col name="Alexa">0</col>
+	</row>
+	<row>
+		<col name="label">this search term</col>
+		<col name="Google">1</col>
+		<col name="Yahoo!">1</col>
+		<col name="Bing">0</col>
+		<col name="Ask">1</col>
+		<col name="Babylon">0</col>
+		<col name="Alexa">0</col>
+	</row>
+</result>

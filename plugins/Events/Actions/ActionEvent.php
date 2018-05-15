@@ -38,6 +38,21 @@ class ActionEvent extends Action
         return (strlen($eventCategory) > 0 && strlen($eventAction) > 0);
     }
 
+    public function getEventAction()
+    {
+        return $this->request->getParam('e_a');
+    }
+
+    public function getEventCategory()
+    {
+        return $this->request->getParam('e_c');
+    }
+
+    public function getEventName()
+    {
+        return $this->request->getParam('e_n');
+    }
+
     public function getCustomFloatValue()
     {
         return $this->eventValue;
@@ -45,21 +60,17 @@ class ActionEvent extends Action
 
     protected function getActionsToLookup()
     {
-        return array(
-            'idaction_url' => $this->getUrlAndType()
-        );
-    }
+        $actionUrl = false;
 
-    // Do not track this Event URL as Entry/Exit Page URL (leave the existing entry/exit)
-    public function getIdActionUrlForEntryAndExitIds()
-    {
-        return false;
-    }
+        $url = $this->getActionUrl();
 
-    // Do not track this Event Name as Entry/Exit Page Title (leave the existing entry/exit)
-    public function getIdActionNameForEntryAndExitIds()
-    {
-        return false;
+        if (!empty($url)) {
+            // normalize urls by stripping protocol and www
+            $url = Tracker\PageUrl::normalizeUrl($url);
+            $actionUrl = array($url['url'], $this->getActionType(), $url['prefixId']);
+        }
+
+        return array('idaction_url' => $actionUrl);
     }
 
     public function writeDebugInfo()

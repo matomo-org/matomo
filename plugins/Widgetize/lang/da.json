@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Åbn i et nyt vindue",
+        "PluginDescription": "Viser alle Matomo rapport på webstedet eller app med et simpel indlejrings HTML-tag.",
+        "TopLinkTooltip": "Eksporter Matomo rapporter som moduler og indlejre dit kontrolpanel i din applikation som en iframe."
+    }
+}

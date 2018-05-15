@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Un link di conferma è stato inviato alla tua casella di posta. Controlla la tua e-mail e visita questo link per autorizzare la richiesta di modifica della password.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un utente con accesso Super User non può essere autenticato utilizzando il sistema '%s'.",
+        "ExceptionPasswordMD5HashExpected": "I parametri della password che ci si aspetta sono un hash MD5 della password.",
+        "InvalidNonceOrHeadersOrReferrer": "Controllo sicurezza modulo non riuscito. Si prega di ricaricare il modulo e verificare che i cookies siano abilitati. Se si utilizza un server proxy, è necessario %1$sconfigurare Matomo per accettare l'header del proxy %2$s che inoltri all'header host. In più, bisogna verificare che l'header Referer venga inviata correttamente.",
+        "InvalidNonceSSLMisconfigured": "Inoltre puoi %1$s forzare Matomo a utilizzare una connessione sicura%2$s: nel tuo file di configurazione %3$s imposta %4$s sotto la sezione %5$s",
+        "InvalidOrExpiredToken": "Token non valido o scaduto",
+        "InvalidUsernameEmail": "Nome utente e\/o indirizzo e-mail non validi",
+        "LogIn": "Accedi",
+        "LoginPasswordNotCorrect": "Combinazione Nome utente e Password non corretta",
+        "LostYourPassword": "Hai perso la password?",
+        "ChangeYourPassword": "Cambia password",
+        "MailTopicPasswordChange": "Conferma Cambio Password",
+        "NewPassword": "Nuova password",
+        "NewPasswordRepeat": "Nuova password (ripeti)",
+        "PasswordChanged": "La tua password è stata cambiata.",
+        "PasswordRepeat": "Password (ripeti)",
+        "PasswordsDoNotMatch": "La password non corrisponde.",
+        "PluginDescription": "Fornisce l'autenticazione tramite user name e password, e anche la funzione di reset della password. Il metodo di autenticazione può essere cambiato utilizzando un altro plugin di accesso, come LoginLdap disponibile nel Marketplace.",
+        "RememberMe": "Ricordami"
+    }
+}

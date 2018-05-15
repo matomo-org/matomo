@@ -9,24 +9,24 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Option;
 use Piwik\Http;
-use Piwik\Tests\IntegrationTestCase;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManySitesImportedLogs;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 use Exception;
 
 /**
  * Tests to call the archive.php script via web and check there is no error.
  *
- * @group Integration
+ * @group Core
  * @group ArchiveWebTest
  */
-class ArchiveWebTest extends IntegrationTestCase
+class ArchiveWebTest extends SystemTestCase
 {
     public static $fixture = null; // initialized below class definition
 
-    public function testWebArchiving()
+    public function test_WebArchiving()
     {
-        if(self::isMysqli() && self::isTravisCI()) {
+        if (self::isMysqli() && self::isTravisCI()) {
             $this->markTestSkipped('Skipping on Mysqli as it randomly fails.');
         }
 
@@ -36,15 +36,12 @@ class ArchiveWebTest extends IntegrationTestCase
         $urlTmp = Option::get('piwikUrl');
         Option::set('piwikUrl', $host . 'tests/PHPUnit/proxy/index.php');
 
-        $url = $host . 'tests/PHPUnit/proxy/archive.php?token_auth=' . $token;
+        $url    = $host . 'tests/PHPUnit/proxy/archive.php?token_auth=' . $token;
         $output = Http::sendHttpRequest($url, 600);
 
         // ignore random build issues
         if (empty($output) || strpos($output, \Piwik\CronArchive::NO_ERROR) === false) {
-            $message = "This test has failed. Because it sometimes randomly fails, we skip the test, and ignore this failure.\n";
-            $message .= "If you see this message often, or in every build, please investigate as this should only be a random and rare occurence!\n";
-            $message .= "\n\narchive web failed: " . $output . "\n\nurl used: $url";
-            $this->markTestSkipped($message);
+            $this->fail("archive web failed: " . $output . "\n\nurl used: $url");
         }
 
         if (!empty($urlTmp)) {
@@ -53,25 +50,51 @@ class ArchiveWebTest extends IntegrationTestCase
             Option::delete('piwikUrl');
         }
 
-        $this->assertContains('Starting Piwik reports archiving...', $output);
-        $this->assertContains('Archived website id = 1', $output);
-        $this->assertContains('Done archiving!', $output);
-        $this->compareArchivePhpOutputAgainstExpected($output);
+        $this->assertWebArchivingDone($output);
+
     }
 
-    private function compareArchivePhpOutputAgainstExpected($output)
+    public function test_WebArchiveScriptCanBeRun_WithPhpCgi_AndWithoutTokenAuth()
     {
-        $fileName = 'test_ArchiveCronTest_archive_php_cron_output.txt';
-        list($pathProcessed, $pathExpected) = static::getProcessedAndExpectedDirs();
+        list($returnCode, $output) = $this->runArchivePhpScriptWithPhpCgi();
 
-        $expectedOutputFile = $pathExpected . $fileName;
+        $this->assertEquals(0, $returnCode, "Output: " . $output);
+        $this->assertWebArchivingDone($output, $checkArchivedSite = false);
+    }
 
-        try {
-            $this->assertTrue(is_readable($expectedOutputFile));
-            $this->assertEquals(file_get_contents($expectedOutputFile), $output);
-        } catch (Exception $ex) {
-            $this->comparisonFailures[] = $ex;
+    private function assertWebArchivingDone($output, $checkArchivedSite = true)
+    {
+        $this->assertContains('Starting Matomo reports archiving...', $output);
+        if ($checkArchivedSite) {
+            $this->assertContains('Archived website id = 1', $output);
         }
+        $this->assertContains('Done archiving!', $output);
+
+        $this->assertNotContains('ERROR', $output);
+        $this->assertNotContains('WARNING', $output);
+
+        // Check there are enough lines in output
+        $minimumLinesInOutput = 30;
+        $linesInOutput = count( explode(PHP_EOL, $output) );
+        $this->assertGreaterThan($minimumLinesInOutput, $linesInOutput);
+    }
+
+    private function runArchivePhpScriptWithPhpCgi()
+    {
+        $command = "php-cgi \"" . PIWIK_INCLUDE_PATH . "/tests/PHPUnit/proxy/archive.php" . "\"";
+
+        exec($command, $output, $returnCode);
+
+        $output = implode("\n", $output);
+
+        return array($returnCode, $output);
+    }
+
+    public static function provideContainerConfigBeforeClass()
+    {
+        return array(
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
+        );
     }
 }
 

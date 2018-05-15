@@ -1,0 +1,13 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s 쿼리 실행됨",
+        "GenerateTime": "페이지 생성에 %s 초 걸림",
+        "NbActionsDescription": "%s 활동",
+        "PluginDescription": "보고서 기본 분석 측정 기준: 방문횟수, 고유 방문자, 활동 횟수, 반송률 등",
+        "VisitsSummary": "방문 개요",
+        "VisitsSummaryDocumentation": "방문 추이 개요입니다.",
+        "WidgetLastVisits": "최근 방문 그래프",
+        "WidgetOverviewGraph": "개요 그래프",
+        "WidgetVisits": "방문자 개요"
+    }
+}

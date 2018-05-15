@@ -1,0 +1,17 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "Mit E-Commerce haben Sie die Möglichkeit zu Erfassen, wenn ein Besucher Produkte in den Warenkorb legt, und wann es zu einem Verkauf kommt. Zusätzlich lassen sich auch Besuche von Produkt- sowie Kategorieseiten und verlassene Warenkörbe erfassen.",
+        "Sales": "Umsatz",
+        "Order": "Bestellung",
+        "Orders": "Bestellungen",
+        "SalesBy": "Umsatz nach %s",
+        "SalesAdjective": "Umsatz %s",
+        "NumberOfItems": "Anzahl an Artikeln im Warenkorb",
+        "OrderValue": "Bestellwert",
+        "LifeTimeValue": "E-Commerce Gesamtumsatz",
+        "LifeTimeValueDescription": "Die gesamten E-Commerce-Umsätze, die diesem Kunden bei allen Besuchen zugeschrieben werden: die Summe der Umsätze aller E-Commerce-Aufträge für Besucher-ID %s.",
+        "VisitorProfileLTV": "Generierter Gesamtumsatz von %1$s.",
+        "VisitorProfileItemsAndOrders": "%1$s Artikel in %2$s E-Commerce Bestellungen gekauft.",
+        "VisitorProfileAbandonedCartSummary": "%1$s verwaiste Warenkörbe mit %2$s Artikeln und einem Gesamtwert von %3$s."
+    }
+}

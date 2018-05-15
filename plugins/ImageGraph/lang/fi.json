@@ -1,0 +1,6 @@
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "Kolumnia '%1$s' ei löydetty tässä raportissa. Kokeile mitä tahansa %2$s",
+        "PluginDescription": "Luo kauniita staattisia PNG-kuvaajia mistä tahansa raportista."
+    }
+}

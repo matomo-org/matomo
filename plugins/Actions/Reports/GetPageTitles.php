@@ -11,8 +11,14 @@ namespace Piwik\Plugins\Actions\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\API\Request;
-use Piwik\Common;
 use Piwik\Plugins\Actions\Columns\PageTitle;
+use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
+use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
+use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
+use Piwik\Plugin\ReportsProvider;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
 
 class GetPageTitles extends Base
 {
@@ -23,15 +29,20 @@ class GetPageTitles extends Base
         $this->dimension     = new PageTitle();
         $this->name          = Piwik::translate('Actions_SubmenuPageTitles');
         $this->documentation = Piwik::translate('Actions_PageTitlesReportDocumentation',
-                                                array('<br />', htmlentities('<title>')));
+                                                array('<br />', htmlentities('<title>', ENT_COMPAT | ENT_HTML401, 'UTF-8')));
 
         $this->order   = 5;
-        $this->metrics = array('nb_hits', 'nb_visits', 'bounce_rate', 'avg_time_on_page', 'exit_rate', 'avg_time_generation');
+        $this->metrics = array('nb_hits', 'nb_visits');
+        $this->processedMetrics = array(
+            new AverageTimeOnPage(),
+            new BounceRate(),
+            new ExitRate(),
+            new AveragePageGenerationTime()
+        );
 
         $this->actionToLoadSubTables = $this->action;
 
-        $this->menuTitle   = 'Actions_SubmenuPageTitles';
-        $this->widgetTitle = 'Actions_WidgetPageTitles';
+        $this->subcategoryId = 'Actions_SubmenuPageTitles';
     }
 
     public function getMetrics()
@@ -53,12 +64,9 @@ class GetPageTitles extends Base
 
     public function configureView(ViewDataTable $view)
     {
-        // link to the page, not just the report, but only if not a widget
-        $widget = Common::getRequestVar('widget', false);
-
         $view->config->self_url = Request::getCurrentUrlWithoutGenericFilters(array(
             'module' => $this->module,
-            'action' => $widget === false ? 'indexPageTitles' : 'getPageTitles'
+            'action' => 'getPageTitles',
         ));
 
         $view->config->title = $this->name;
@@ -74,8 +82,8 @@ class GetPageTitles extends Base
     public function getRelatedReports()
     {
         return array(
-            new GetEntryPageTitles(),
-            new GetExitPageTitles()
+            ReportsProvider::factory('Actions', 'getEntryPageTitles'),
+            ReportsProvider::factory('Actions', 'getExitPageTitles'),
         );
     }
 }

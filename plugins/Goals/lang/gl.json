@@ -1,0 +1,11 @@
+{
+    "Goals": {
+        "AddGoal": "Engadir un obxectivo",
+        "AddNewGoal": "Engadir un novo obxectivo",
+        "AllowMultipleConversionsPerVisit": "Permitir varias conversións por visita",
+        "ColumnConversions": "Conversións",
+        "Download": "Descargar un ficheiro",
+        "Ecommerce": "Comercio electrónico",
+        "ExternalWebsiteUrl": "URL de sitio web externo"
+    }
+}

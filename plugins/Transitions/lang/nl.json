@@ -1,0 +1,31 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s bounces",
+        "DirectEntries": "Directe Bezoeken",
+        "ErrorBack": "Ga terug naar de vorige actie",
+        "ExitsInline": "%s Einde Bezoek",
+        "NumPageviews": "%s pageviews",
+        "NumDownloads": "%s downloads",
+        "NumOutlinks": "%s outlinks",
+        "FromCampaigns": "Van campagnes",
+        "FromPreviousPages": "Van interne pagina's",
+        "FromPreviousPagesInline": "%s van interne pagina's",
+        "FromPreviousSiteSearches": "Van Interne Zoekopdracht",
+        "FromPreviousSiteSearchesInline": "%s van interne zoekopdrachten",
+        "FromSearchEngines": "Van Zoekmachines",
+        "FromWebsites": "Van Websites",
+        "IncomingTraffic": "Inkomend verkeer",
+        "LoopsInline": "%s pagina herladen",
+        "NoDataForAction": "Er zijn geen gegevens voor %s",
+        "NoDataForActionDetails": "Deze actie had geen paginaweergaves gedurende de periode %s, of is ongeldig.",
+        "OutgoingTraffic": "Uitgaand verkeer",
+        "PluginDescription": "Voor elke pagina URL in het Transities rapport zijn de voorgaande en volgende acties beschikbaar in de Acties rapportage met een nieuw icoontje.",
+        "ShareOfAllPageviews": "Deze pagina had %1$s paginaweergaves (%2$s van alle paginaweergaves)",
+        "ToFollowingPages": "Naar interne pagina's",
+        "ToFollowingPagesInline": "%s naar interne pagina's",
+        "ToFollowingSiteSearches": "Interne zoekopdrachten",
+        "ToFollowingSiteSearchesInline": "%s interne zoekopdrachten",
+        "XOfAllPageviews": "%s van alle weergaves van deze pagina",
+        "XOutOfYVisits": "%1$s (van de %2$s)"
+    }
+}

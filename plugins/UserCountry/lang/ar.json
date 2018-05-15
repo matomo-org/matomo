@@ -1,0 +1,30 @@
+{
+    "UserCountry": {
+        "AssumingNonApache": "لم أجد دالة apache_get_modules ، أفترض أن خادم ويب ليس Apache.",
+        "CannotFindGeoIPDatabaseInArchive": "لم أجد ملف %1$s في الملف المضغوط %2$s الذي صيغته tar !",
+        "CannotFindGeoIPServerVar": "لم يتم وضع قيمة للمتغير %s . يبدو أن الخادوم لديك ضبطه غير صحيح .",
+        "CannotListContent": "لم أتمكن من سرد محتويات %1$s: %2$s",
+        "CannotLocalizeLocalIP": "عنوان IP %s هو عنوان محلي لايمكن تحديد موقعه الجغرافي.",
+        "CannotUnzipDatFile": "لم أتمكن من فك ضغط ملف dat في %1$s : %2$s",
+        "City": "المدينة",
+        "CityAndCountry": "%1$s ، %2$s",
+        "Continent": "القارة",
+        "Country": "الدولة",
+        "country_a1": "بروكسي مجهول",
+        "country_a2": "مزود خدمة عبر الأقمار الصناعية",
+        "country_cat": "المجتمعات الناطقة بالكاتالانية",
+        "country_o1": "دولة أخرى",
+        "CurrentLocationIntro": "طبقاً لهذا المزوّد فإن مكانك الحالي هو",
+        "DefaultLocationProviderDesc1": "مقدم معلومات الأماكن الافتراضي يخمّن بلد الزائر بناءاً على اللغة التي يستخدمها.",
+        "DistinctCountries": "%s دولة بارزة",
+        "DownloadingDb": "سحب %s",
+        "DownloadNewDatabasesEvery": "تحديث قاعدة البيانات كلّ",
+        "FoundApacheModules": "وجد Matomo بريمجات Apache التالية",
+        "FromDifferentCities": "مدن مختلفة",
+        "GeoIPCannotFindMbstringExtension": "لم أجد دالة %1$s . فضلاً تأكد من أن إضافة %2$s مثبتة ومحمّلة في الذاكرة.",
+        "GeoIPDatabases": "قواعد بيانات GeoIP",
+        "GeoIPImplHasAccessTo": "إصدار GeoIP هذا يمكنه الوصول إلى الأنواع التالية من قواعد البيانات",
+        "Location": "المكان",
+        "SubmenuLocations": "الأماكن"
+    }
+}

@@ -1,0 +1,25 @@
+
+{% macro pluginDeveloper(owner) %}
+    {% if 'piwik' == owner or 'matomo-org' == owner %}<img title="Matomo" alt="Matomo" style="padding-bottom:2px;height:11px;" src="plugins/Morpheus/images/logo-marketplace.png"/>{% else %}{{ owner }}{% endif %}
+{% endmacro %}
+
+{% macro featuredIcon(align='') %}
+    <img class="featuredIcon"
+         title="{{ 'Marketplace_FeaturedPlugin'|translate }}"
+         src="plugins/Marketplace/images/rating_important.png"
+         align="{{ align }}" />
+{% endmacro %}
+
+{% macro missingRequirementsPleaseUpdateNotice(plugin) %}
+    {% if plugin.missingRequirements and 0 < plugin.missingRequirements|length %}
+        {% for req in plugin.missingRequirements -%}
+            <div class="alert alert-danger">
+                {% set requirement = req.requirement|capitalize %}
+                {% if 'Php' == requirement %}
+                    {% set requirement = 'PHP' %}
+                {% endif %}
+                {{ 'CorePluginsAdmin_MissingRequirementsNotice'|translate(requirement, req.actualVersion, req.requiredVersion) }}
+            </div>
+        {%- endfor %}
+    {% endif %}
+{% endmacro %}

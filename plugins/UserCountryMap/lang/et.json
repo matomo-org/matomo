@@ -1,0 +1,21 @@
+{
+    "UserCountryMap": {
+        "AndNOthers": "ja %s muud",
+        "Cities": "Linnad",
+        "Countries": "Riigid",
+        "DaysAgo": "%s päeva tagasi",
+        "GoalConversions": "%s tulutoovaid eesmärke",
+        "HoursAgo": "%s tundi tagasi",
+        "map": "kaart",
+        "MinutesAgo": "%s minutit tagasi",
+        "None": "Mitte ükski",
+        "NoVisit": "Külastused puuduvad",
+        "RealTimeMap": "Reaalaja kaart",
+        "Regions": "Regioonid",
+        "Searches": "%s otsingut",
+        "SecondsAgo": "%s sekundit tagasi",
+        "ShowingVisits": "Tuvastatud asukohaga külastused viimase",
+        "VisitorMap": "Külastuste kaart",
+        "WorldWide": "Globaalne"
+    }
+}

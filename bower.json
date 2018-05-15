@@ -1,0 +1,45 @@
+{
+  "name": "Matomo",
+  "main": "piwik.js",
+  "homepage": "https://matomo.org",
+  "authors": [
+    "Matomo.org <hello@matomo.org>"
+  ],
+  "description": "the leading free/libre analytics platform",
+  "private": true,
+  "keywords": [
+    "matomo",
+    "piwik",
+    "web",
+    "analytics"
+  ],
+  "dependencies": {
+    "jquery-ui": "1.10.4",
+    "jquery": "~2.2.0",
+    "angular": "~1.6.0",
+    "angular-sanitize": "~1.6.0",
+    "angular-animate": "~1.6.0",
+    "angular-cookies": "~1.6.0",
+    "angular-mocks": "~1.6.0",
+    "ngDialog": "~1.3.0",
+    "html5shiv": "~3.7.0",
+    "mousetrap": "~1.4.0",
+    "sprintf": "~1.0.0",
+    "jScrollPane": "~2.0.0",
+    "jquery-mousewheel": "~3.1.12",
+    "jquery-placeholder": "~2.0.8",
+    "jQuery.dotdotdot": "~1.7.2",
+    "jquery.scrollTo": "~1.4.13",
+    "chroma-js": "~0.6.0",
+    "visibilityjs": "~1.2.1"
+  },
+  "license": "GPLv3 or later",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "tests"
+  ],
+  "resolutions": {
+    "angular": "~1.6.0"
+  }
+}

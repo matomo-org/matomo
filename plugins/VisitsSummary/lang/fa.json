@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s پرس و جو های اجرا شده",
+        "GenerateTime": "%s ثانیه برای تولید صفحه",
+        "NbActionsDescription": "فعالیت ها %s",
+        "VisitsSummary": "خلاصه بازدیدها",
+        "VisitsSummaryDocumentation": "این مروری بر تکامل بازدید است.",
+        "WidgetLastVisits": "نمودار آخرین بازدید ها",
+        "WidgetOverviewGraph": "مرور به وسیله نمودار",
+        "WidgetVisits": "مرور بازدید ها"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s นาที",
+        "BetweenXYSeconds": "%1$s-%2$s วินาที",
+        "ColumnPagesPerVisit": "หน้าต่อผู้เข้าชม",
+        "ColumnVisitDuration": "ระยะเวลาผู้เข้าชม",
+        "Engagement": "ความมุ่งมั่น",
+        "NPages": "%s หน้า",
+        "OnePage": "1 หน้า",
+        "VisitsPerDuration": "เวลาเฉลี่ยของผู้เข้าชม",
+        "VisitsPerNbOfPages": "หน้าเฉลี่ยของผู้เข้าชม",
+        "WidgetLengths": "ระยะเวลาการเข้าชม",
+        "WidgetPages": "หน้าต่อผู้เข้าชม"
+    }
+}

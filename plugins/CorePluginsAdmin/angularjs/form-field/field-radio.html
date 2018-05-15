@@ -1,0 +1,17 @@
+<div>
+    <label class="fieldRadioTitle" ng-show="formField.title">{{ formField.title }}</label>
+
+    <p ng-repeat="radioModel in formField.availableOptions"
+    class="radio">
+    <input ng-model="formField.value"
+           ng-value="radioModel.key"
+           type="radio"
+           id="{{ formField.name + radioModel.key }}"
+           name="{{ formField.name }}"
+           ng-disabled="radioModel.disabled || formField.disabled"
+           piwik-attributes="{{formField.uiControlAttributes}}"
+    >
+    <label for="{{ formField.name + radioModel.key }}">{{ radioModel.value }}
+        <span class="form-description" ng-show="radioModel.description">{{ radioModel.description }}</span></label>
+    </p>
+</div>

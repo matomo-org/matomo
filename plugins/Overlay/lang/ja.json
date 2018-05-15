@@ -1,0 +1,20 @@
+{
+    "Overlay": {
+        "Clicks": "%s クリック",
+        "ClicksFromXLinks": "%2$s リンクの 1 つからの%1$s クリック",
+        "Domain": "ドメイン",
+        "ErrorNotLoading": "ページオーバーレイ・セッションがまだ開始されていません。",
+        "ErrorNotLoadingDetails": "右側にロードされたページには、Matomo 追跡コードがありません。ページレポートとは異なるページで、オーバーレイの起動をお試しください。",
+        "ErrorNotLoadingDetailsSSL": "Matomo を https 経由で利用していますが、お使いのパソコンが SSL をサポートしていないことが原因として考えられます。http 経由でのご利用をお試しください。",
+        "ErrorNotLoadingLink": "トラブルシューティングのためのヒントは、こちらをクリック",
+        "Link": "リンク",
+        "Location": "位置情報",
+        "NoData": "このページに対する選択された期間のデータは存在しません。",
+        "OneClick": "1 クリック",
+        "OpenFullScreen": "フルスクリーンへ (サイドバーなし)",
+        "Overlay": "ページオーバーレイ",
+        "PluginDescription": "実際の web サイト上のオーバーレイ分析データを参照してください。ユーザーが各リンクをクリックした回数が表示されます。注: 有効なトランジションプラグインが必要です。",
+        "RedirectUrlErrorAdmin": "%1$s 設定で %2$s 追加の URL としてドメインを追加できます。",
+        "RedirectUrlErrorUser": "管理者に、任意のドメインを追加 URL として追加するよう管理者に依頼してください。"
+    }
+}

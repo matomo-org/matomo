@@ -78,7 +78,9 @@ class Controller extends \Piwik\Plugin\Controller
     public function redirect()
     {
         $url = Common::getRequestVar('url', '', 'string', $_GET);
-
+        if (!UrlHelper::isLookLikeUrl($url)) {
+            die('Please check the &url= parameter: it should to be a valid URL');
+        }
         // validate referrer
         $referrer = Url::getReferrer();
         if (empty($referrer) || !Url::isLocalUrl($referrer)) {
@@ -93,10 +95,7 @@ class Controller extends \Piwik\Plugin\Controller
         if (!self::isPiwikUrl($url)) {
             Piwik::checkUserHasSomeViewAccess();
         }
-        if (!UrlHelper::isLookLikeUrl($url)) {
-            die('Please check the &url= parameter: it should to be a valid URL');
-        }
-        @header('Content-Type: text/html; charset=utf-8');
+        Common::sendHeader('Content-Type: text/html; charset=utf-8');
         echo '<html><head><meta http-equiv="refresh" content="0;url=' . $url . '" /></head></html>';
 
         exit;
@@ -117,6 +116,10 @@ class Controller extends \Piwik\Plugin\Controller
             return false;
         }
         if (preg_match('~^http://(qa\.|demo\.|dev\.|forum\.)?piwik.org([#?/]|$)~', $url)) {
+            return true;
+        }
+
+        if (preg_match('~^http://(qa\.|demo\.|dev\.|forum\.)?matomo.org([#?/]|$)~', $url)) {
             return true;
         }
 

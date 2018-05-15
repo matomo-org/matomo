@@ -10,6 +10,7 @@ namespace Piwik\DataTable\Filter;
 
 use Piwik\DataTable;
 use Piwik\DataTable\BaseFilter;
+use Piwik\DataTable\Row;
 
 /**
  * DataTable filter that will group {@link DataTable} rows together based on the results
@@ -51,17 +52,17 @@ class GroupBy extends BaseFilter
      * @param DataTable $table The DataTable to filter.
      * @param string $groupByColumn The column name to reduce.
      * @param callable $reduceFunction The reduce function. This must alter the `$groupByColumn`
-     *                                 columng in some way.
+     *                                 columng in some way. If not set then the filter will group by the raw column value.
      * @param array $parameters deprecated - use an [anonymous function](http://php.net/manual/en/functions.anonymous.php)
      *                          instead.
      */
-    public function __construct($table, $groupByColumn, $reduceFunction, $parameters = array())
+    public function __construct($table, $groupByColumn, $reduceFunction = null, $parameters = array())
     {
         parent::__construct($table);
 
-        $this->groupByColumn = $groupByColumn;
+        $this->groupByColumn  = $groupByColumn;
         $this->reduceFunction = $reduceFunction;
-        $this->parameters = $parameters;
+        $this->parameters     = $parameters;
     }
 
     /**
@@ -71,19 +72,19 @@ class GroupBy extends BaseFilter
      */
     public function filter($table)
     {
+        /** @var Row[] $groupByRows */
         $groupByRows = array();
         $nonGroupByRowIds = array();
 
-        foreach ($table->getRows() as $rowId => $row) {
-            // skip the summary row
-            if ($rowId == DataTable::ID_SUMMARY_ROW) {
-                continue;
-            }
+        foreach ($table->getRowsWithoutSummaryRow() as $rowId => $row) {
+            $groupByColumnValue = $row->getColumn($this->groupByColumn);
+            $groupByValue = $groupByColumnValue;
 
             // reduce the group by column of this row
-            $groupByColumnValue = $row->getColumn($this->groupByColumn);
-            $parameters = array_merge(array($groupByColumnValue), $this->parameters);
-            $groupByValue = call_user_func_array($this->reduceFunction, $parameters);
+            if ($this->reduceFunction) {
+                $parameters   = array_merge(array($groupByColumnValue), $this->parameters);
+                $groupByValue = call_user_func_array($this->reduceFunction, $parameters);
+            }
 
             if (!isset($groupByRows[$groupByValue])) {
                 // if we haven't encountered this group by value before, we mark this row as a
@@ -96,6 +97,10 @@ class GroupBy extends BaseFilter
                 $groupByRows[$groupByValue]->sumRow($row, $copyMeta = true, $table->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME));
                 $nonGroupByRowIds[] = $rowId;
             }
+        }
+
+        if ($this->groupByColumn === 'label') {
+            $table->setLabelsHaveChanged();
         }
 
         // delete the unneeded rows.

@@ -1,0 +1,16 @@
+{
+    "API": {
+        "ChangeTokenHint": "このトークンを変更する場合は、%1$s個人設定%2$s ページに移動してください。",
+        "GenerateVisits": "今日のデータがない場合は、%1$s プラグインを使用して、はじめに若干のデータを生成することができます。 これを行うには、%2$s プラグインを有効にし、管理エリアで 'ビジタージェネレータ' メニューをクリックします。",
+        "KeepTokenSecret": "token_auth は、ログイン名とパスワードのように秘密にし、%1$s絶対に共有しないでください%2$s！",
+        "LoadedAPIs": "%s API が正常に読み込まれました",
+        "MoreInformation": "Matomo APIの詳細については、%1$sMatomo API入門%2$sと%3$sMatomo APIリファレンス%4$sをご覧ください。",
+        "PluginDescription": "Matomoのすべてのデータは、シンプルなAPIを介して利用できます。 このプラグインは、xml、json、php、csvなどでWeb Analyticsデータを取得するために呼び出すことのできるWebサービスのエントリポイントです。",
+        "ReportingApiReference": "APIリファレンスレポート",
+        "TopLinkTooltip": "jsopn、xml等シンプルなAPIを介して、プログラムでWeb Analyticsデータにアクセスできます。",
+        "UserAuthentication": "ユーザー認証",
+        "UsingTokenAuth": "%1$sスクリプト（crontab 等）でリクエストデータを得たい場合%2$sは、API をコールする URL（認証が必要）にパラメータ %3$s を付加する必要があります。",
+        "Glossary": "用語集",
+        "LearnAboutCommonlyUsedTerms": "Matomo Analytics の最もよく使われる用語について: %1$s と %2$s"
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "S'ha enviat un enllaç de confirmació a la vostra bústia d'entrada. Reviseu el vostre correu electrònic i visiteu l'enllaç per autoritzar la sol·licitud de canvi de password.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "No es pot autentificar mitjançant el mecanisme '%s' un usuari amb accessos de super usuari.",
+        "ExceptionPasswordMD5HashExpected": "El paràmetre contrasenya hauria de ser un hash MD5 de la contrasenya.",
+        "InvalidNonceOrHeadersOrReferrer": "El formulari de seguretat ha fallat. Sisuplau recarregeu el formaulari i reviseu que teniu les cookies activades. Si feu servir un proxy, heu de %1$s configurar el Matomo per a que accepti la capcelera del proxy %2$s que conté la capçalera del host. També reviseu que el la vostra capçalera de referent s'envia correctament.",
+        "InvalidOrExpiredToken": "El codi és invàlid o ha caducat",
+        "InvalidUsernameEmail": "Aquest usuari i\/o direcció de correu-e és invàlid.",
+        "LogIn": "Inicia la sessió",
+        "LoginPasswordNotCorrect": "L'usuari o la contrasenya no són correctes",
+        "LostYourPassword": "Heu perdut la contrasenya?",
+        "MailTopicPasswordChange": "Confirmeu el canvi de contrasenya",
+        "PasswordChanged": "S'ha canviat la vostra contrasenya",
+        "PasswordRepeat": "Contrasenya (torneu-la a escriure)",
+        "PasswordsDoNotMatch": "Les contrasenyes no coincideixen",
+        "RememberMe": "Recorda'm"
+    }
+}

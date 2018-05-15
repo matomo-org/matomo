@@ -1,0 +1,75 @@
+{% set defaultLicenseKeyFields %}
+        <div piwik-field uicontrol="text" name="license_key"
+             class="valign licenseKeyText"
+             full-width="true"
+             ng-model="licenseController.licenseKey"
+             ng-change="licenseController.updatedLicenseKey()"
+             placeholder="{% if isValidConsumer %}{{ 'Marketplace_LicenseKeyIsValidShort'|translate }}{% else %}{{ 'Marketplace_LicenseKey'|translate|e('html_attr') }}{% endif %}">
+        </div>
+        <div piwik-save-button
+             class="valign"
+             onconfirm="licenseController.updateLicense()"
+             disabled="!licenseController.enableUpdate"
+             value="{% if hasLicenseKey %}{{ 'CoreUpdater_UpdateTitle'|translate|e('html_attr') }}{% else %}{{ 'Marketplace_ActivateLicenseKey'|translate|e('html_attr') }}{% endif %}"
+             id="submit_license_key"></div>
+{% endset %}
+
+<div class="marketplace-max-width" ng-controller="PiwikMarketplaceLicenseController as licenseController">
+    <div class="marketplace-paid-intro">
+    {% if isValidConsumer %}
+        {% if isSuperUser %}
+            {{ 'Marketplace_PaidPluginsWithLicenseKeyIntro'|translate('')|raw }}
+            <br/>
+
+            <div class="licenseToolbar valign-wrapper">
+                {{ defaultLicenseKeyFields|raw }}
+
+                <div piwik-save-button
+                     class="valign"
+                     id="remove_license_key"
+                     onconfirm="licenseController.removeLicense()"
+                     value="{{ 'Marketplace_RemoveLicenseKey'|translate|e('html_attr') }}"
+                ></div>
+
+                <a href="{{ linkTo({'action': 'subscriptionOverview'}) }}" class="btn valign">
+                    {{ 'Marketplace_ViewSubscriptions'|translate }}
+                </a>
+
+                {% if isAutoUpdatePossible and isPluginsAdminEnabled and paidPluginsToInstallAtOnce|length %}
+                    <a href="javascript:;" class="btn installAllPaidPlugins valign">
+                        {{ 'Marketplace_InstallPurchasedPlugins'|translate }}
+                    </a>
+                    {% include '@Marketplace/paid-plugins-install-list.twig' %}
+                {% endif %}
+
+            </div>
+
+            <div piwik-activity-indicator loading="licenseController.isUpdating"></div>
+        {% endif %}
+
+    {% else %}
+        {% if isSuperUser %}
+            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntro'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/recommends/premium-plugins/'>", "</a>")|raw }}
+
+            <br/>
+
+            <div class="licenseToolbar valign-wrapper">
+                {{ defaultLicenseKeyFields|raw }}
+            </div>
+
+            <div piwik-activity-indicator loading="licenseController.isUpdating"></div>
+
+        {% else %}
+            {{ 'Marketplace_PaidPluginsNoLicenseKeyIntroNoSuperUserAccess'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=https://matomo.org/recommends/premium-plugins/'>", "</a>")|raw }}
+        {% endif %}
+
+    {% endif %}
+    </div>
+</div>
+
+
+<div class="ui-confirm" id="confirmRemoveLicense">
+    <h2>{{ 'Marketplace_ConfirmRemoveLicense'|translate }}</h2>
+    <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+    <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+</div>

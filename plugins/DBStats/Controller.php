@@ -8,13 +8,8 @@
  */
 namespace Piwik\Plugins\DBStats;
 
-use Piwik\MetricsFormatter;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
-use Piwik\Plugins\DBStats\Reports\GetAdminDataSummary;
-use Piwik\Plugins\DBStats\Reports\GetDatabaseUsageSummary;
-use Piwik\Plugins\DBStats\Reports\GetMetricDataSummary;
-use Piwik\Plugins\DBStats\Reports\GetReportDataSummary;
-use Piwik\Plugins\DBStats\Reports\GetTrackerDataSummary;
 use Piwik\View;
 
 /**
@@ -34,17 +29,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@DBStats/index');
         $this->setBasicVariablesView($view);
 
-        $view->databaseUsageSummary = $this->renderReport(new GetDatabaseUsageSummary());
-        $view->trackerDataSummary   = $this->renderReport(new GetTrackerDataSummary());
-        $view->metricDataSummary    = $this->renderReport(new GetMetricDataSummary());
-        $view->reportDataSummary    = $this->renderReport(new GetReportDataSummary());
-        $view->adminDataSummary     = $this->renderReport(new GetAdminDataSummary());
+        $_GET['showtitle'] = '1';
+
+        $view->databaseUsageSummary = $this->renderReport('getDatabaseUsageSummary');
+        $view->trackerDataSummary   = $this->renderReport('getTrackerDataSummary');
+        $view->metricDataSummary    = $this->renderReport('getMetricDataSummary');
+        $view->reportDataSummary    = $this->renderReport('getReportDataSummary');
+        $view->adminDataSummary     = $this->renderReport('getAdminDataSummary');
 
         list($siteCount, $userCount, $totalSpaceUsed) = API::getInstance()->getGeneralInformation();
 
-        $view->siteCount      = MetricsFormatter::getPrettyNumber($siteCount);
-        $view->userCount      = MetricsFormatter::getPrettyNumber($userCount);
-        $view->totalSpaceUsed = MetricsFormatter::getPrettySizeFromBytes($totalSpaceUsed);
+        $formatter = new Formatter();
+        $view->siteCount      = $formatter->getPrettyNumber($siteCount);
+        $view->userCount      = $formatter->getPrettyNumber($userCount);
+        $view->totalSpaceUsed = $formatter->getPrettySizeFromBytes($totalSpaceUsed);
 
         return $view->render();
     }

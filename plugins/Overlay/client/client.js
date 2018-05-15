@@ -10,7 +10,7 @@ var Piwik_Overlay_Client = (function () {
     var idSite;
 
     /** The current period and date */
-    var period, date;
+    var period, date, segment;
 
     /** Reference to the status bar DOM element */
     var statusBar;
@@ -35,7 +35,7 @@ var Piwik_Overlay_Client = (function () {
             callback();
         }
         else {
-            Piwik_Overlay_Client.loadScript('libs/jquery/jquery.js', function () {
+            Piwik_Overlay_Client.loadScript('libs/bower_components/jquery/dist/jquery.min.js', function () {
                 $ = jQuery;
                 jQuery.noConflict();
                 callback();
@@ -54,10 +54,7 @@ var Piwik_Overlay_Client = (function () {
                 src: piwikRoot + 'index.php?module=Overlay&action=notifyParentIframe#' + window.location.href
             }).css({width: 0, height: 0, border: 0});
 
-            // in some cases, calling append right away doesn't work in IE8
-            $(document).ready(function () {
-                $('body').append(iframe);
-            });
+            $('body').append(iframe);
         }
     }
 
@@ -84,58 +81,15 @@ var Piwik_Overlay_Client = (function () {
         return el;
     }
 
-    /** Special treatment for some internet explorers */
-    var ieStatusBarEventsBound = false;
-
-    function handleIEStatusBar() {
-        if (navigator.appVersion.indexOf("MSIE 7.") == -1
-            && navigator.appVersion.indexOf("MSIE 8.") == -1) {
-            // this is not IE8 or lower
-            return;
-        }
-
-        // IE7/8 can't handle position:fixed so we need to do it by hand
-        statusBar.css({
-            position: 'absolute',
-            right: 'auto',
-            bottom: 'auto',
-            left: 0,
-            top: 0
-        });
-
-        var position = function () {
-            var scrollY = document.body.parentElement.scrollTop;
-            var scrollX = document.body.parentElement.scrollLeft;
-            statusBar.css({
-                top: (scrollY + $(window).height() - statusBar.outerHeight()) + 'px',
-                left: (scrollX + $(window).width() - statusBar.outerWidth()) + 'px'
-            });
-        };
-
-        position();
-
-        statusBar.css({width: 'auto'});
-        if (statusBar.width() < 350) {
-            statusBar.width(350);
-        } else {
-            statusBar.width(statusBar.width());
-        }
-
-        if (!ieStatusBarEventsBound) {
-            ieStatusBarEventsBound = true;
-            $(window).resize(position);
-            $(window).scroll(position);
-        }
-    }
-
     return {
 
         /** Initialize in-site analytics */
-        initialize: function (pPiwikRoot, pIdSite, pPeriod, pDate) {
+        initialize: function (pPiwikRoot, pIdSite, pPeriod, pDate, pSegment) {
             piwikRoot = pPiwikRoot;
             idSite = pIdSite;
             period = pPeriod;
             date = pDate;
+            segment = pSegment;
 
             var load = this.loadScript;
             var loading = this.loadingNotification;
@@ -193,6 +147,10 @@ var Piwik_Overlay_Client = (function () {
             var url = piwikRoot + 'index.php?module=API&method=Overlay.' + method
                 + '&idSite=' + idSite + '&period=' + period + '&date=' + date + '&format=JSON&filter_limit=-1';
 
+            if (segment) {
+                url += '&segment=' + segment;
+            }
+
             if (additionalParams) {
                 url += '&' + additionalParams;
             }
@@ -225,15 +183,10 @@ var Piwik_Overlay_Client = (function () {
 
             statusBar.show().append(item);
 
-            handleIEStatusBar();
-            window.setTimeout(handleIEStatusBar, 100);
-
             return function () {
                 item.remove();
-                if (statusBar.children().size() == 0) {
+                if (!statusBar.children().length) {
                     statusBar.hide();
-                } else {
-                    handleIEStatusBar();
                 }
             };
         },
@@ -241,10 +194,8 @@ var Piwik_Overlay_Client = (function () {
         /** Hide all notifications with a certain class */
         hideNotifications: function (className) {
             statusBar.find('.PIS_' + className).remove();
-            if (statusBar.children().size() == 0) {
+            if (!statusBar.children().length) {
                 statusBar.hide();
-            } else {
-                handleIEStatusBar();
             }
         },
 

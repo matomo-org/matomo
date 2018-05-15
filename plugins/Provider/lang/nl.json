@@ -1,0 +1,9 @@
+{
+    "Provider": {
+        "ColumnProvider": "Provider",
+        "PluginDescription": "Rapporteert de Internet Service Provider van de bezoekers.",
+        "ProviderReportDocumentation": "Dit rapport toont de Internet Service Providers die uw bezoekers gebruiken om de website te bezoeken. Klik op een provider naam voor meer informatie. %s Als Matomo de naam van de provider niet kan achterhalen, dan wordt deze vermeld als IP.",
+        "WidgetProviders": "Providers",
+        "ProviderReportFooter": "Onbekende provider betekent dat het IP-adres niet kon worden opgezocht."
+    }
+}

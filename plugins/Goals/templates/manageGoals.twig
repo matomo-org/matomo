@@ -1,0 +1,24 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'Goals_ManageGoals'|translate }}{% endset %}
+
+{% block topcontrols %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+{% endblock %}
+
+{% block content %}
+
+    {% include "@Goals/_addEditGoal.twig" %}
+
+    <style type="text/css">
+        .entityAddContainer {
+            position:relative;
+        }
+
+        .entityAddContainer > .entityCancel:first-child {
+            position: absolute;
+            right:0;
+            bottom:100%;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Adaugă notiţe pentru %s...",
+        "AnnotationOnDate": "Comentariu in %1$s: %2$s",
+        "Annotations": "Note",
+        "ClickToDelete": "Click pentru a sterge acesta nota",
+        "ClickToEdit": "Dă clic pentru a modifica aceasă notiţă.",
+        "ClickToEditOrAdd": "Dă click pentru a edita sau a adăuga o notiţă.",
+        "ClickToStarOrUnstar": "Click pentru a marca sau demarca aceasta nota.",
+        "CreateNewAnnotation": "Crează o notiţă nouă...",
+        "EnterAnnotationText": "Introdu nota...",
+        "HideAnnotationsFor": "Ascunde adnotaiile pentru %s...",
+        "IconDesc": "Vezi notele pentru aceasta data de interval.",
+        "IconDescHideNotes": "Ascunde notiţele pentru acest interval",
+        "InlineQuickHelp": "Poti crea note pentru a marca evenimente speciale (cum ar fi o noua postare pe blog sau redesign-ul siteului), pentru a salva datele analizate sau pentru a salva orice altceva crezi ca este important.",
+        "LoginToAnnotate": "Conecteaza-te pentru a crea o nota.",
+        "NoAnnotations": "Nu există notiţe pentru acest interval",
+        "PluginDescription": "Permite sa inserezi note pentru zile diferite pentru a marca modificarile facute la siteul tau, salveaza rapoartele pe care le faci privind datele siteului tau si impartaseste gandurile cu colegii. Facand note pentru datele tale, vei fi sigur ca iti vei aminti de ce datele tale arata in felul in care sunt.",
+        "ViewAndAddAnnotations": "Vezi şi adaugă notiţe pentru %s...",
+        "YouCannotModifyThisNote": "Nu poti modifica aceasta nota deoarece nu ai creat-o tu sau pentru ca nu ai access ca admin pentru acest site."
+    }
+}

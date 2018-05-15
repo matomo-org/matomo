@@ -12,11 +12,11 @@ $trackingURL = Piwik_getUrlTrackPageView($idSite = 16, $customTitle = 'This titl
 <script type="text/javascript">
     var _paq = _paq || [];
     (function() {
-        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://localhost/piwik-master/";
+        var u="//localhost/piwik-master/";
         _paq.push(["setTrackerUrl", u+"piwik.php"]);
         _paq.push(["setSiteId", "16"]);
-        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
-        g.defer=true; g.async=true; g.src=u+"js/piwik.js"; s.parentNode.insertBefore(g,s);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];
+        g.type="text/javascript"; g.async=true; g.defer=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
     })();
 </script>
 <!-- End Piwik Code -->
@@ -24,7 +24,7 @@ $trackingURL = Piwik_getUrlTrackPageView($idSite = 16, $customTitle = 'This titl
 This page loads a Simple Tracker request to Piwik website id=1
 
 <?php
-echo '<img src="' . htmlentities($trackingURL) . '" alt="" />';
+echo '<img src="' . htmlentities($trackingURL, ENT_COMPAT | ENT_HTML401, 'UTF-8') . '" alt="" />';
 ?>
 </body>
 </html>

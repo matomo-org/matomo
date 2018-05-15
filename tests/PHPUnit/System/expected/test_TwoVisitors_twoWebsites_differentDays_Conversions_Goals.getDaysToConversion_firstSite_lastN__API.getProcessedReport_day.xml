@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Site 1</website>
+	<prettyDate>January 3 – 9, 2010</prettyDate>
+	<metadata>
+		<category>Goals</category>
+		<name>Days to Conversion</name>
+		<module>Goals</module>
+		<action>getDaysToConversion</action>
+		<dimension>Days to Conversion</dimension>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+		</metrics>
+		<constantRowsCount>1</constantRowsCount>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+		</processedMetricsGoal>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
+		<uniqueId>Goals_getDaysToConversion</uniqueId>
+	</metadata>
+	<columns>
+		<label>Days to Conversion</label>
+		<nb_conversions>Conversions</nb_conversions>
+		<revenue>Revenue</revenue>
+	</columns>
+	<reportData>
+		<result prettyDate="Sunday, January 3, 2010">
+			<row>
+				<label>0 days</label>
+				<nb_conversions>2</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+		</result>
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010">
+			<row>
+				<label>0 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_conversions>2</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+		</result>
+		<result prettyDate="Wednesday, January 6, 2010">
+			<row>
+				<label>0 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_conversions>2</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+		</result>
+		<result prettyDate="Thursday, January 7, 2010">
+			<row>
+				<label>0 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_conversions>2</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+		</result>
+		<result prettyDate="Friday, January 8, 2010">
+			<row>
+				<label>0 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_conversions>1</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+		</result>
+		<result prettyDate="Saturday, January 9, 2010">
+			<row>
+				<label>0 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>1 day</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>2 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>3 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>4 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>5 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>6 days</label>
+				<nb_conversions>1</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>7 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>8-14 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>15-30 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>31-60 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>61-120 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>121-364 days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+			<row>
+				<label>365+ days</label>
+				<nb_conversions>0</nb_conversions>
+				<revenue>$ 0</revenue>
+			</row>
+		</result>
+	</reportData>
+	<reportMetadata>
+		<result prettyDate="Sunday, January 3, 2010" />
+		<result prettyDate="Monday, January 4, 2010" />
+		<result prettyDate="Tuesday, January 5, 2010" />
+		<result prettyDate="Wednesday, January 6, 2010" />
+		<result prettyDate="Thursday, January 7, 2010" />
+		<result prettyDate="Friday, January 8, 2010" />
+		<result prettyDate="Saturday, January 9, 2010" />
+	</reportMetadata>
+	<reportTotal>
+		<nb_conversions>10</nb_conversions>
+	</reportTotal>
+</result>

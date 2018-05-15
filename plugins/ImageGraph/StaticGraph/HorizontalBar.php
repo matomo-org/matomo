@@ -24,13 +24,15 @@ class HorizontalBar extends GridGraph
     {
         $verticalLegend = false;
 
-        // determine the maximum logo width & height
-        list($maxLogoWidth, $maxLogoHeight) = self::getMaxLogoSize($this->abscissaLogos);
-
-        foreach ($this->abscissaLogos as $logoPath) {
+        // create resized copies of logo to match maximum width / height
+        foreach ($this->abscissaLogos as &$logoPath) {
+            $logoPath = $this->createResizedImageCopyIfNeeded($logoPath);
             list($logoWidth, $logoHeight) = self::getLogoSize($logoPath);
             $logoPathToHeight[$logoPath] = $logoHeight;
         }
+
+        // determine the maximum logo width & height
+        list($maxLogoWidth, $maxLogoHeight) = self::getMaxLogoSize($this->abscissaLogos);
 
         // truncate report
         $graphHeight = $this->getGraphBottom($horizontalGraph = true) - $this->getGridTopMargin($horizontalGraph = true, $verticalLegend);

@@ -1,0 +1,25 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "Aktyvinti",
+        "Activated": "Aktyvintas",
+        "Active": "Aktyvus",
+        "AlwaysActivatedPluginsList": "Šie papildiniai yra visada aktyvuoti ir negali būti išjungti: %s",
+        "Changelog": "Keitimų žurnalas",
+        "Deactivate": "Pasyvinti",
+        "DoMoreContactPiwikAdmins": "Norėdami įdiegti naują papildinį ar naują temą, susisiekite su savo Matomo administratoriais.",
+        "Inactive": "Pasyvus",
+        "InstalledPlugins": "Įdiegti papildiniai",
+        "InstallNewPlugins": "Įdiegti naujus papildinius",
+        "LikeThisPlugin": "Patinka šis papildinys?",
+        "PluginsExtendPiwik": "Papildiniai suteikia Matomo papildomų galimybių.",
+        "OncePluginIsInstalledYouMayActivateHere": "Įdiegę papildinį, čia galite jį aktyvinti arba pasyvinti",
+        "NoZipFileSelected": "Prašome pasirinkti ZIP failą.",
+        "PluginHomepage": "Papildinio svetainė",
+        "PluginRequirement": "%1$s reikalauja %2$s.",
+        "PluginsManagement": "Tvarkyti papildinius",
+        "Status": "Būsena",
+        "SuccessfullyActicated": "Jūs sėkmingai aktyvavote <strong>%s<\/strong>.",
+        "Version": "Versija",
+        "Websites": "Svetainės"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "这个插件提供了访客地图和实时地图的小工具。注意：需要激活UserCountry插件。",
+        "AndNOthers": "和 %s 其它",
+        "Cities": "城市",
+        "Countries": "国家",
+        "DaysAgo": "%s 天前",
+        "GoalConversions": "%s 目标转化",
+        "HoursAgo": "%s 小时前",
+        "map": "地图",
+        "MinutesAgo": "%s 分钟前",
+        "None": "无",
+        "NoVisit": "没有访问",
+        "RealTimeMap": "实时地图",
+        "Regions": "地区",
+        "Searches": "%s 次搜索",
+        "SecondsAgo": "%s 秒前",
+        "ShowingVisits": "最后访客地理位置",
+        "Unlocated": "<b>%s<\/b> %p 的访问来自 %c 无法定位地理位置。",
+        "VisitorMap": "访客地图",
+        "WorldWide": "全世界",
+        "WithUnknownRegion": "%s未知区域",
+        "WithUnknownCity": "%s未知城市"
+    }
+}

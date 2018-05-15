@@ -7,14 +7,14 @@
  */
 namespace Piwik\Updates;
 
-use Piwik\Db;
 use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  */
 class Updates_2_2_0_b15 extends Updates
 {
-    static function update()
+    public function doUpdate(Updater $updater)
     {
         // This was added in the beta cycle and then removed
         // if the file is there, it can cause bugs (we don't have an archiver in VisitFrequency anymore)

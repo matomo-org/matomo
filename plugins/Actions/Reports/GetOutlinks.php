@@ -29,8 +29,7 @@ class GetOutlinks extends Base
 
         $this->actionToLoadSubTables = $this->action;
 
-        $this->menuTitle   = 'General_Outlinks';
-        $this->widgetTitle = 'General_Outlinks';
+        $this->subcategoryId = 'General_Outlinks';
     }
 
     public function getMetrics()

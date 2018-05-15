@@ -1,0 +1,12 @@
+{
+    "UserCountry": {
+        "City": "నగరం",
+        "Continent": "ఖండం",
+        "Country": "దేశం",
+        "DistinctCountries": "%s ఇతర దేశాలు",
+        "Latitude": "అక్షాంశం",
+        "Location": "ప్రాంతం",
+        "Longitude": "రేఖాంశం",
+        "SubmenuLocations": "ప్రాంతాలు"
+    }
+}

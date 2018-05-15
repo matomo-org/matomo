@@ -1,0 +1,10 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "Nav datu šajā kategorijā. Mēģiniet izvēlēties \"Iekļaut visu apmeklējumu\".",
+        "NoPrivilegesAskPiwikAdmin": "Jūs esat ienākuši kā '%1$s', bet izskatās, ka Jums nav iestatītas vajadzīgās Matomo atļaujas. %2$s Pieprasiet savam Matomo administratoram (klikšķiniet, lai nosūtītu e-pastu)%3$s Jums pieslēgt vietnes apskates atļauju.",
+        "PageOf": "%1$s no %2$s",
+        "ShowJSCode": "Rādīt ievietošanai paredzēto JavaScript kodu",
+        "ThereIsNoDataForThisReport": "Nav šajai atskaitei vajadzīgo datu.",
+        "WebAnalyticsReports": "Tīkla analīzes atskaites"
+    }
+}

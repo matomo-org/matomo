@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>1</idVisit>
+		<visitIp>24.125.31.147</visitIp>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				
+				<serverTimePretty>Apr 7, 2013 10:00:00</serverTimePretty>
+				<pageId>1</pageId>
+				<bandwidth>9625</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				<timestamp>1365328800</timestamp>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<bandwidth_pretty>9.4 K</bandwidth_pretty>
+			</row>
+		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		<serverDate>2013-04-07</serverDate>
+		<visitServerHour>10</visitServerHour>
+		<lastActionTimestamp>1365328800</lastActionTimestamp>
+		<lastActionDateTime>2013-04-07 10:00:00</lastActionDateTime>
+		<siteName>Piwik test</siteName>
+		<serverTimestamp>1365328800</serverTimestamp>
+		<firstActionTimestamp>1365328800</firstActionTimestamp>
+		<serverTimePretty>10:00:00</serverTimePretty>
+		<serverDatePretty>Sunday, April 7, 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Sunday, April 7, 2013</serverDatePrettyFirstAction>
+		<serverTimePrettyFirstAction>10:00:00</serverTimePrettyFirstAction>
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Windows Vista</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>Vista</operatingSystemVersion>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 7.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>7.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>10:00:00</visitLocalTime>
+		<visitLocalHour>10</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>2</idVisit>
+		<visitIp>24.125.31.147</visitIp>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				
+				<serverTimePretty>Apr 6, 2013 11:00:00</serverTimePretty>
+				<pageId>2</pageId>
+				<bandwidth>9625</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				<timestamp>1365246000</timestamp>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<bandwidth_pretty>9.4 K</bandwidth_pretty>
+			</row>
+		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		<serverDate>2013-04-06</serverDate>
+		<visitServerHour>11</visitServerHour>
+		<lastActionTimestamp>1365246000</lastActionTimestamp>
+		<lastActionDateTime>2013-04-06 11:00:00</lastActionDateTime>
+		<siteName>Piwik test</siteName>
+		<serverTimestamp>1365246000</serverTimestamp>
+		<firstActionTimestamp>1365246000</firstActionTimestamp>
+		<serverTimePretty>11:00:00</serverTimePretty>
+		<serverDatePretty>Saturday, April 6, 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Saturday, April 6, 2013</serverDatePrettyFirstAction>
+		<serverTimePrettyFirstAction>11:00:00</serverTimePrettyFirstAction>
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Windows Vista</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>Vista</operatingSystemVersion>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 7.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>7.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>11:00:00</visitLocalTime>
+		<visitLocalHour>11</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>3</idVisit>
+		<visitIp>24.125.31.147</visitIp>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/</url>
+				<pageTitle />
+				<pageIdAction>1</pageIdAction>
+				
+				<serverTimePretty>Apr 5, 2013 12:00:00</serverTimePretty>
+				<pageId>3</pageId>
+				<bandwidth>9625</bandwidth>
+				<interactionPosition>1</interactionPosition>
+				<icon />
+				<timestamp>1365163200</timestamp>
+				<customVariables>
+					<row>
+						<customVariablePageName1>HTTP-code</customVariablePageName1>
+						<customVariablePageValue1>200</customVariablePageValue1>
+					</row>
+				</customVariables>
+				<bandwidth_pretty>9.4 K</bandwidth_pretty>
+			</row>
+		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		<serverDate>2013-04-05</serverDate>
+		<visitServerHour>12</visitServerHour>
+		<lastActionTimestamp>1365163200</lastActionTimestamp>
+		<lastActionDateTime>2013-04-05 12:00:00</lastActionDateTime>
+		<siteName>Piwik test</siteName>
+		<serverTimestamp>1365163200</serverTimestamp>
+		<firstActionTimestamp>1365163200</firstActionTimestamp>
+		<serverTimePretty>12:00:00</serverTimePretty>
+		<serverDatePretty>Friday, April 5, 2013</serverDatePretty>
+		<serverDatePrettyFirstAction>Friday, April 5, 2013</serverDatePrettyFirstAction>
+		<serverTimePrettyFirstAction>12:00:00</serverTimePrettyFirstAction>
+		<userId />
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>1</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<languageCode />
+		<language>Unknown</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel />
+		<operatingSystem>Windows Vista</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>Vista</operatingSystemVersion>
+		<browserFamily>Trident</browserFamily>
+		<browserFamilyDescription>Trident (IE)</browserFamilyDescription>
+		<browser>Internet Explorer 7.0</browser>
+		<browserName>Internet Explorer</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/IE.png</browserIcon>
+		<browserCode>IE</browserCode>
+		<browserVersion>7.0</browserVersion>
+		<totalEcommerceRevenue>0</totalEcommerceRevenue>
+		<totalEcommerceConversions>0</totalEcommerceConversions>
+		<totalEcommerceItems>0</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>0</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>0</totalAbandonedCarts>
+		<totalAbandonedCartsItems>0</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
+		<country>Unknown</country>
+		<countryCode>xx</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/xx.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:00:00</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<customVariables>
+		</customVariables>
+		<resolution>unknown</resolution>
+		<plugins />
+		<pluginsIcons />
+	</row>
+</result>

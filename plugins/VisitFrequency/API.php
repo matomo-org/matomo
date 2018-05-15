@@ -13,7 +13,7 @@ use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Piwik;
 use Piwik\Plugins\VisitsSummary\API as APIVisitsSummary;
-use Piwik\SegmentExpression;
+use Piwik\Segment\SegmentExpression;
 
 /**
  * VisitFrequency API lets you access a list of metrics related to Returning Visitors.
@@ -45,8 +45,9 @@ class API extends \Piwik\Plugin\API
             'segment'   => $segment,
             'columns'   => implode(',', $columns),
             'format'    => 'original',
-            'serialize' => 0 // tests set this to 1
+            'format_metrics' => 0
         );
+
         $table = Request::processRequest('VisitsSummary.get', $params);
         $this->prefixColumns($table, $period);
         return $table;

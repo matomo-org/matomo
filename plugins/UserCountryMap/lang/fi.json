@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "Tämä lisäosa tarjoaa käyttäjäkartan ja reaaliaikakartan. Huom: \"UserCountry\"-lisäosan täytyy olla päällä.",
+        "AndNOthers": "ja %s muuta",
+        "Cities": "Kaupunkeja",
+        "Countries": "Maita",
+        "DaysAgo": "%s päivää sitten",
+        "GoalConversions": "%s tavoitekonversiot",
+        "HoursAgo": "%s tuntia sitten",
+        "map": "kartta",
+        "MinutesAgo": "%s minuuttia sitten",
+        "None": "Ei mitään",
+        "NoVisit": "Ei käyntejä",
+        "RealTimeMap": "Reaaliaikainen kartta",
+        "Regions": "Alueita",
+        "Searches": "%s hakua",
+        "SecondsAgo": "%s sekuntia sitten",
+        "ShowingVisits": "Geopaikannetut käynnit viimeiset",
+        "Unlocated": "<b>%s<\/b> %p käynneistä %c:sta ei voitu geopaikantaa.",
+        "VisitorMap": "Kartta kävijöistä",
+        "WorldWide": "Maailmanlaajuinen",
+        "WithUnknownRegion": "%s tuntemattomalta alueelta",
+        "WithUnknownCity": "%s tuntemattomista kaupungeista"
+    }
+}

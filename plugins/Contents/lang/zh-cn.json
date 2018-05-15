@@ -1,0 +1,16 @@
+{
+    "Contents": {
+        "PluginDescription": "追踪内容和横幅可以让您衡量您网页上任何一部分内容（横幅广告，图像，任何项目）的表现（浏览次数，点击次数，点击率）。",
+        "Impressions": "展示次数",
+        "ContentInteraction": "内容互动",
+        "ContentInteractions": "内容互动",
+        "InteractionRate": "互动率",
+        "ContentName": "内容名称",
+        "ContentPiece": "内容区块",
+        "ContentTarget": "内容目标",
+        "Contents": "内容",
+        "InteractionsMetricDocumentation": "内容区块的互动次数（例如点击横幅或广告）",
+        "ImpressionsMetricDocumentation": "内容区块（例如横幅或广告）在页面上的展示次数。",
+        "InteractionRateMetricDocumentation": "内容展示和互动的比率。"
+    }
+}

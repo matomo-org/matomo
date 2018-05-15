@@ -9,16 +9,20 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
-use Piwik\DataAccess\ArchiveTableCreator;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
+use Piwik\Archive\ArchiveInvalidator;
+use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Option;
-use Piwik\Period\Week;
-use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Segment;
+use Piwik\Scheduler\Scheduler;
 use Piwik\Site;
-use Piwik\TaskScheduler;
+use Piwik\Url;
 
 /**
  * @method static \Piwik\Plugins\CoreAdminHome\API getInstance()
@@ -26,59 +30,178 @@ use Piwik\TaskScheduler;
 class API extends \Piwik\Plugin\API
 {
     /**
+     * @var Scheduler
+     */
+    private $scheduler;
+
+    /**
+     * @var ArchiveInvalidator
+     */
+    private $invalidator;
+
+    public function __construct(Scheduler $scheduler, ArchiveInvalidator $invalidator)
+    {
+        $this->scheduler = $scheduler;
+        $this->invalidator = $invalidator;
+    }
+
+    /**
      * Will run all scheduled tasks due to run at this time.
      *
      * @return array
+     * @hideExceptForSuperUser
      */
     public function runScheduledTasks()
     {
         Piwik::checkUserHasSuperUserAccess();
-        return TaskScheduler::runTasks();
+
+        return $this->scheduler->run();
     }
 
-    /*
-     * stores the list of websites IDs to re-reprocess in core:archive command
+    /**
+     * @internal
      */
-    const OPTION_INVALIDATED_IDSITES = 'InvalidatedOldReports_WebsiteIds';
+    public function setArchiveSettings($enableBrowserTriggerArchiving, $todayArchiveTimeToLive)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        if (!Controller::isGeneralSettingsAdminEnabled()) {
+            throw new Exception('General settings admin is ont enabled');
+        }
+
+        Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
+        Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
+
+        return true;
+    }
 
     /**
-     * When tracking data in the past (using Tracking API), this function
-     * can be used to invalidate reports for the idSites and dates where new data
-     * was added.
-     * DEV: If you call this API, the UI should display the data correctly, but will process
-     *      in real time, which could be very slow after large data imports.
-     *      After calling this function via REST, you can manually force all data
-     *      to be reprocessed by visiting the script as the Super User:
-     *      http://example.net/piwik/misc/cron/archive.php?token_auth=$SUPER_USER_TOKEN_AUTH_HERE
-     * REQUIREMENTS: On large piwik setups, you will need in PHP configuration: max_execution_time = 0
-     *    We recommend to use an hourly schedule of the script.
-     *    More information: http://piwik.org/setup-auto-archiving/
+     * @internal
+     */
+    public function setTrustedHosts($trustedHosts)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        if (!Controller::isGeneralSettingsAdminEnabled()) {
+            throw new Exception('General settings admin is ont enabled');
+        }
+
+        if (!empty($trustedHosts)) {
+            Url::saveTrustedHostnameInConfig($trustedHosts);
+            Config::getInstance()->forceSave();
+        }
+
+        return true;
+    }
+
+    /**
+     * @internal
+     */
+    public function setBrandingSettings($useCustomLogo)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $customLogo = new CustomLogo();
+        if ($useCustomLogo) {
+            $customLogo->enable();
+        } else {
+            $customLogo->disable();
+        }
+
+        return true;
+    }
+    /**
+     * Invalidates report data, forcing it to be recomputed during the next archiving run.
      *
-     * @param string $idSites Comma separated list of idSite that have had data imported for the specified dates
-     * @param string $dates Comma separated list of dates to invalidate for all these websites
+     * Note: This is done automatically when tracking or importing visits in the past.
+     *
+     * @param string $idSites Comma separated list of site IDs to invalidate reports for.
+     * @param string $dates Comma separated list of dates of periods to invalidate reports for.
+     * @param string|bool $period The type of period to invalidate: either 'day', 'week', 'month', 'year', 'range'.
+     *                            The command will automatically cascade up, invalidating reports for parent periods as
+     *                            well. So invalidating a day will invalidate the week it's in, the month it's in and the
+     *                            year it's in, since those periods will need to be recomputed too.
+     * @param string|bool $segment Optional. The segment to invalidate reports for.
+     * @param bool $cascadeDown If true, child periods will be invalidated as well. So if it is requested to invalidate
+     *                          a month, then all the weeks and days within that month will also be invalidated. But only
+     *                          if this parameter is set.
      * @throws Exception
      * @return array
+     * @hideExceptForSuperUser
      */
-    public function invalidateArchivedReports($idSites, $dates)
+    public function invalidateArchivedReports($idSites, $dates, $period = false, $segment = false, $cascadeDown = false)
     {
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
         if (empty($idSites)) {
             throw new Exception("Specify a value for &idSites= as a comma separated list of website IDs, for which your token_auth has 'admin' permission");
         }
+
         Piwik::checkUserHasAdminAccess($idSites);
 
-        // Ensure the specified dates are valid
-        $toInvalidate = $invalidDates = array();
+        if (!empty($segment)) {
+            $segment = new Segment($segment, $idSites);
+        } else {
+            $segment = null;
+        }
+
+        list($dateObjects, $invalidDates) = $this->getDatesToInvalidateFromString($dates);
+
+        $invalidationResult = $this->invalidator->markArchivesAsInvalidated($idSites, $dateObjects, $period, $segment, (bool)$cascadeDown);
+
+        $output = $invalidationResult->makeOutputLogs();
+        if ($invalidDates) {
+            $output[] = 'Warning: some of the Dates to invalidate were invalid: ' .
+                implode(", ", $invalidDates) . ". Matomo simply ignored those and proceeded with the others.";
+        }
+
+        Site::clearCache(); // TODO: is this needed? it shouldn't be needed...
+
+        return $invalidationResult->makeOutputLogs();
+    }
+
+    /**
+     * Initiates cron archiving via web request.
+     *
+     * @hideExceptForSuperUser
+     */
+    public function runCronArchiving()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        // HTTP request: logs needs to be dumped in the HTTP response (on top of existing log destinations)
+        /** @var \Monolog\Logger $logger */
+        $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+        $handler = new StreamHandler('php://output', Logger::INFO);
+        $handler->setFormatter(StaticContainer::get('Piwik\Plugins\Monolog\Formatter\LineMessageFormatter'));
+        $logger->pushHandler($handler);
+
+        $archiver = new CronArchive();
+        $archiver->main();
+    }
+
+    /**
+     * Ensure the specified dates are valid.
+     * Store invalid date so we can log them
+     * @param array $dates
+     * @return Date[]
+     */
+    private function getDatesToInvalidateFromString($dates)
+    {
+        $toInvalidate = array();
+        $invalidDates = array();
+
         $dates = explode(',', trim($dates));
         $dates = array_unique($dates);
+
         foreach ($dates as $theDate) {
             $theDate = trim($theDate);
             try {
                 $date = Date::factory($theDate);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $invalidDates[] = $theDate;
                 continue;
             }
+
             if ($date->toString() == $theDate) {
                 $toInvalidate[] = $date;
             } else {
@@ -86,137 +209,6 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        // If using the feature "Delete logs older than N days"...
-        $purgeDataSettings = PrivacyManager::getPurgeDataSettings();
-        $logsAreDeletedBeforeThisDate = $purgeDataSettings['delete_logs_schedule_lowest_interval'];
-        $logsDeleteEnabled = $purgeDataSettings['delete_logs_enable'];
-        $minimumDateWithLogs = false;
-        if ($logsDeleteEnabled
-            && $logsAreDeletedBeforeThisDate
-        ) {
-            $minimumDateWithLogs = Date::factory('today')->subDay($logsAreDeletedBeforeThisDate);
-        }
-
-        // Given the list of dates, process which tables they should be deleted from
-        $minDate = false;
-        $warningDates = $processedDates = array();
-        /* @var $date Date */
-        foreach ($toInvalidate as $date) {
-            // we should only delete reports for dates that are more recent than N days
-            if ($minimumDateWithLogs
-                && $date->isEarlier($minimumDateWithLogs)
-            ) {
-                $warningDates[] = $date->toString();
-            } else {
-                $processedDates[] = $date->toString();
-            }
-
-            $month = $date->toString('Y_m');
-            // For a given date, we must invalidate in the monthly archive table
-            $datesByMonth[$month][] = $date->toString();
-
-            // But also the year stored in January
-            $year = $date->toString('Y_01');
-            $datesByMonth[$year][] = $date->toString();
-
-            // but also weeks overlapping several months stored in the month where the week is starting
-            /* @var $week Week */
-            $week = Period\Factory::build('week', $date);
-            $weekAsString = $week->getDateStart()->toString('Y_m');
-            $datesByMonth[$weekAsString][] = $date->toString();
-
-            // Keep track of the minimum date for each website
-            if ($minDate === false
-                || $date->isEarlier($minDate)
-            ) {
-                $minDate = $date;
-            }
-        }
-
-        if(empty($minDate)) {
-            throw new Exception("Check the 'dates' parameter is a valid date.");
-        }
-
-        // In each table, invalidate day/week/month/year containing this date
-        $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
-        foreach ($archiveTables as $table) {
-            // Extract Y_m from table name
-            $suffix = ArchiveTableCreator::getDateFromTableName($table);
-            if (!isset($datesByMonth[$suffix])) {
-                continue;
-            }
-            // Dates which are to be deleted from this table
-            $datesToDeleteInTable = $datesByMonth[$suffix];
-
-            // Build one statement to delete all dates from the given table
-            $sql = $bind = array();
-            $datesToDeleteInTable = array_unique($datesToDeleteInTable);
-            foreach ($datesToDeleteInTable as $dateToDelete) {
-                $sql[] = '(date1 <= ? AND ? <= date2)';
-                $bind[] = $dateToDelete;
-                $bind[] = $dateToDelete;
-            }
-            $sql = implode(" OR ", $sql);
-
-            $query = "DELETE FROM $table " .
-                " WHERE ( $sql ) " .
-                " AND idsite IN (" . implode(",", $idSites) . ")";
-            Db::query($query, $bind);
-        }
-        \Piwik\Plugins\SitesManager\API::getInstance()->updateSiteCreatedTime($idSites, $minDate);
-
-        // Force to re-process data for these websites in the next cron core:archive command run
-        $invalidatedIdSites = self::getWebsiteIdsToInvalidate();
-        $invalidatedIdSites = array_merge($invalidatedIdSites, $idSites);
-        $invalidatedIdSites = array_unique($invalidatedIdSites);
-        $invalidatedIdSites = array_values($invalidatedIdSites);
-        Option::set(self::OPTION_INVALIDATED_IDSITES, serialize($invalidatedIdSites));
-
-        Site::clearCache();
-
-        $output = array();
-        // output logs
-        if ($warningDates) {
-            $output[] = 'Warning: the following Dates have not been invalidated, because they are earlier than your Log Deletion limit: ' .
-                implode(", ", $warningDates) .
-                "\n The last day with logs is " . $minimumDateWithLogs . ". " .
-                "\n Please disable 'Delete old Logs' or set it to a higher deletion threshold (eg. 180 days or 365 years).'.";
-        }
-        $output[] = "Success. The following dates were invalidated successfully: " .
-            implode(", ", $processedDates);
-        return $output;
-    }
-
-    /**
-     * Returns array of idSites to force re-process next time core:archive command runs
-     *
-     * @ignore
-     * @return mixed
-     */
-    public static function getWebsiteIdsToInvalidate()
-    {
-        Piwik::checkUserHasSomeAdminAccess();
-
-        Option::clearCachedOption(self::OPTION_INVALIDATED_IDSITES);
-        $invalidatedIdSites = Option::get(self::OPTION_INVALIDATED_IDSITES);
-        if ($invalidatedIdSites
-            && ($invalidatedIdSites = unserialize($invalidatedIdSites))
-            && count($invalidatedIdSites)
-        ) {
-            return $invalidatedIdSites;
-        }
-        return array();
-    }
-
-    /**
-     * Return true if plugin is activated, false otherwise
-     *
-     * @param string $pluginName
-     * @return bool
-     */
-    public function isPluginActivated($pluginName)
-    {
-        Piwik::checkUserHasSomeViewAccess();
-        return \Piwik\Plugin\Manager::getInstance()->isPluginActivated($pluginName);
+        return array($toInvalidate, $invalidDates);
     }
 }

@@ -1,0 +1,28 @@
+{
+    "DevicesDetection": {
+        "BrowserEngine": "Motor de busca",
+        "BrowserEngineDocumentation": "Este gráfico mostra os navegadores dos seus visitantes dividido em famílias. %s A informação mais importante para os programadores web é o tipo de motor de renderização que os seus visitantes estão usando. As etiquetas contêm os nomes dos motores seguido pelo navegador mais comum que usa esse motor entre parênteses.",
+        "BrowserEngines": "Motores de busca",
+        "BrowserFamily": "Família de navegadores",
+        "Browsers": "Navegadores",
+        "BrowserVersion": "Versão do Navegador",
+        "ColumnBrowser": "Navegador",
+        "ColumnOperatingSystem": "Sistema operativo",
+        "ColumnOperatingSystemVersion": "Versão do sistema operativo",
+        "Console": "Consola",
+        "dataTableLabelBrands": "Marca",
+        "dataTableLabelModels": "Modelo",
+        "dataTableLabelTypes": "Tipo",
+        "Device": "Dispositivo",
+        "DeviceBrand": "Marca do equipamento",
+        "DeviceDetection": "Detetação de equipamento",
+        "DeviceModel": "Modelo do dispositivo",
+        "DevicesDetection": "Equipamento do Visitante",
+        "DeviceType": "Tipo de equipamento",
+        "OperatingSystems": "Sistemas Operativos",
+        "Devices": "Equipamentos",
+        "TV": "Tv",
+        "WidgetBrowsers": "Navegador dos visitantes",
+        "WidgetBrowsersDocumentation": "Este relatório contém informações sobre o tipo de navegadores os seus visitantes estavam a utilizar. Cada versão do navegador é listada separadamente."
+    }
+}

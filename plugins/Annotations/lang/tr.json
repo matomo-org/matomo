@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "%s için notlar ekle...",
+        "AnnotationOnDate": "%1$s için not: %2$s",
+        "Annotations": "Notlar",
+        "ClickToDelete": "Bu notu silmek için tıklayın.",
+        "ClickToEdit": "Bu notu düzenlemek için tıklayın.",
+        "ClickToEditOrAdd": "Not eklemek ya da düzenlemek icin buraya tıklayın.",
+        "ClickToStarOrUnstar": "Bu nota işaret koymak ya da kaldırmak için tıklayın.",
+        "CreateNewAnnotation": "Not ekle...",
+        "EnterAnnotationText": "Notunuzu yazın...",
+        "HideAnnotationsFor": "%s için notları gizle...",
+        "IconDesc": "Bu tarih aralığındaki notları görüntüle.",
+        "IconDescHideNotes": "Bu tarih aralığındaki notları gizle",
+        "InlineQuickHelp": "Önemli etkinlikleri (yeni blog iletileri ya da web sitesi tasarım değişiklikleri gibi), veri incelemelerinizi ya da önemli olduğunu düşündüğünüz konuları kaydetmek için notlar oluşturabilirsiniz.",
+        "LoginToAnnotate": "Not eklemek için oturum açın.",
+        "NoAnnotations": "Bu tarih aralığında bir not yok.",
+        "PluginDescription": "Bu özellik web sitenizde farklı günlerde yaptığınız değişiklikleri veri incelemeleri ve düşüncelerinizi çalışma arkadaşlarınızla paylaşmak için notlar eklenmesini sağlar. Verilerinize not ekleyerek neden bu şekilde görüntülendiklerini hatırlayabilirsiniz.",
+        "ViewAndAddAnnotations": "%s için notları görüntüle ve yeni not ekle...",
+        "YouCannotModifyThisNote": "Bu notu siz oluşturmadığınız ya da yönetici yetkileriniz olmadığı için düzenleyemezsiniz."
+    }
+}

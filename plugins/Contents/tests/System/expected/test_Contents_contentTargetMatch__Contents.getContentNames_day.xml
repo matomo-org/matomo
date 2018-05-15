@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>ImageAd</label>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_visits>4</nb_visits>
+		<nb_impressions>4</nb_impressions>
+		<nb_interactions>2</nb_interactions>
+		<interaction_rate>50%</interaction_rate>
+		<contentTarget>http://www.example.com</contentTarget>
+		<segment>contentName==ImageAd</segment>
+	</row>
+</result>

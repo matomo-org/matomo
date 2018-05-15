@@ -1,0 +1,20 @@
+{
+    "Contents": {
+        "PluginDescription": "Sledování obsahu a bannerů vám umožňuje měřit výkon (zobrazení, kliknutí, CTR) libovolného obsahu na vašich stránkách (bannerová reklama, obrázek, libovolná položka).",
+        "Impressions": "Zobrazení",
+        "ContentImpression": "Zobrazení obsahu",
+        "ContentInteraction": "Interakce s obsahem",
+        "ContentInteractions": "Interakce s obsahem",
+        "InteractionRate": "Rychlost interakcí",
+        "ContentName": "Jméno obsahu",
+        "ContentNames": "Názvy obsahu",
+        "ContentPiece": "Část obsahu",
+        "ContentPieces": "Části obsahu",
+        "ContentTarget": "Cíl obsahu",
+        "ContentTargets": "Cíle obsahu",
+        "Contents": "Obsah",
+        "InteractionsMetricDocumentation": "Kolikrát bylo s blokem obsahu interagováno (t. j. kliknuto na banner nebo reklamu).",
+        "ImpressionsMetricDocumentation": "Počet zobrazení banneru nebo reklamy na stránkách.",
+        "InteractionRateMetricDocumentation": "Poměr impresí obsahu k interakcím."
+    }
+}

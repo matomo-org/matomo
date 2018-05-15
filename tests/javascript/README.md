@@ -1,10 +1,9 @@
 # JavaScript Tests
 
 ## Setup
-Javascript integration tests require sqlite:
- * ensure this PHP extension is enabled to make sure you run all tests apt-get install php5-sqlite
- * Then please create an empty file `enable_sqlite` in `tests/javascript/enable_sqlite`
- * Re-execute the tests and make sure the "missing sqlite" error message does not display
+Javascript integration tests require an installed Piwik and ensure the `[database_tests]` section in `piwik/config/config.ini.php` is set up correctly, i.e. with th correct password to prevent the following error: `SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)`
+
+The tests will create a database named `tracker_tests` and store several tracking requests in it.
 
 ## Execute
 

@@ -1,0 +1,17 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "電子商務讓你可以在使用者將產品增加到購物車，或是轉換電子商務銷售時追蹤。也追蹤產品、產品分類查看數以及棄用的購物車。",
+        "Sales": "銷售",
+        "Order": "訂單",
+        "Orders": "訂單",
+        "SalesBy": "由 %s 銷售",
+        "SalesAdjective": "銷售 %s",
+        "NumberOfItems": "購物車中的項目數量",
+        "OrderValue": "訂單值",
+        "LifeTimeValue": "電子商務總期間價值",
+        "LifeTimeValueDescription": "這位顧客在所有訪問中的電子商務收益總計：屬於訪客 ID %s 的所有電子商務訂單收益總和。",
+        "VisitorProfileLTV": "為 %1$s 產生總期間收益。",
+        "VisitorProfileItemsAndOrders": "在 %2$s 個訂單中購買了 %1$s 項商品。",
+        "VisitorProfileAbandonedCartSummary": "棄用了 %1$s 個購物車，包含 %2$s 項商品，總價值 %3$s。"
+    }
+}

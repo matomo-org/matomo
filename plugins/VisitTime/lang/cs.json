@@ -1,0 +1,26 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Místní čas",
+        "ColumnLocalHour": "Místní čas - hodina (začátek návštěvy)",
+        "ColumnLocalMinute": "Místní čas - minuta (začátek návštěvy)",
+        "ColumnServerTime": "Čas na serveru",
+        "ColumnServerHour": "Čas na serveru - hodina",
+        "ColumnVisitEndServerHour": "Čas na serveru - hodina (Konec návštěvy)",
+        "ColumnVisitEndServerMinute": "Čas na serveru - minuta (Konec návštěvy)",
+        "ColumnVisitStartServerHour": "Čas na serveru - hodina (Začátek návštěvy)",
+        "ColumnVisitStartServerMinute": "Čas na serveru - minuta (Začátek návštěvy)",
+        "ColumnServerMinute": "Čas na serveru - minuta",
+        "DayOfWeek": "Dny v týdnu",
+        "LocalTime": "Návštěvy podle lokálního času",
+        "NHour": "%sh",
+        "PluginDescription": "Hlásí místní a serverový čas, kdy vaši návštěvníci zobrazují stránky nebo aplikaci.",
+        "ServerTime": "Návštěvy podle času na serveru",
+        "SubmenuTimes": "Časy",
+        "VisitsByDayOfWeek": "Návštěvy podle dnů v týdnu",
+        "WidgetByDayOfWeekDocumentation": "Tento graf zobrazuje, kolik návštěv obdržela vaše stránka každý den v týdnu.",
+        "WidgetLocalTime": "Návštěvy podle lokálního času",
+        "WidgetLocalTimeDocumentation": "Tento graf ukazuje čas v %1$s návštěvníkovo časové zóně %2$s během jěho návštěvy.",
+        "WidgetServerTime": "Návštěvy podle času na serveru",
+        "WidgetServerTimeDocumentation": "Tento graf ukazuje jaký čas byl na %1$s serveru časové zóny %2$s během návstěvy."
+    }
+}

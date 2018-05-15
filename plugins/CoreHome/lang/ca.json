@@ -1,0 +1,30 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "No hi ha dades en aquesta categoria. Proveu d'incloure tota la població.",
+        "CheckForUpdates": "Cerca actualitzacions",
+        "DataForThisReportHasBeenPurged": "La informació d'aquest informés és anterior a %s mesos d'antiguitat i s'ha purgat.",
+        "DataTableExcludeAggregateRows": "Es mostren les files aggrupades %s Amaga-ho",
+        "DataTableIncludeAggregateRows": "No es mostren les files agrupades %s Mostra-les",
+        "Default": "per defecte",
+        "ExcludeRowsWithLowPopulation": "Es mostren totes les files %s No mostris la població inferior",
+        "FlattenDataTable": "L'informe es jeràrquic %s Feu-lo pla.",
+        "IncludeRowsWithLowPopulation": "No es mostren les files amb polbació inferior %s Mostra totes les files",
+        "InjectedHostEmailBody": "Hola, He provat d'accedir al Matomo avui i m'he trobat amb l'avís de nom de la màquina desconegut.",
+        "InjectedHostEmailSubject": "S'ha accedit al Matomo amb un nom de màquina desconegut: %s",
+        "InjectedHostNonSuperUserWarning": "%1$sClick here to access Matomo safely%2$s i eliminar aaquest avíst. Potse també voldreu contractar amb l'administrador del vostre Matomo i notificar-li aquesta incidència (%3$sclick here to email%4$s).",
+        "InjectedHostSuperUserWarning": "Pot ser que el Matomo estigui mal configurat (per exemple, si el Matomo s'ha mogut a un nou servidor o URL). Podeu %1$sfer click aquí i afegir %2$s com el nom de la màquina vàlid (si hi confieu)%3$s, o bé %4$s fer click aquí %5$s per accedir al Matomo de forma segura%6$s.",
+        "InjectedHostWarningIntro": "Esteu accedint al Matomo desde %1$s, però el Matomo està configurat per escoltar a l'adreça: %2$s.",
+        "JavascriptDisabled": "S'ha de tenir el Javascript activat per vistualitzar la vista estàndar del Matomo.<br\/> No obstant això, sembla que el Javascript esta deshabilitat or no està suportat pel vostre navegador<br\/> Per utilitzar la vista estàndarc, activeu el Javascript canviant les opcions del navegador i %1$storneu-ho a probar%2$s.<br \/>",
+        "NoPrivilegesAskPiwikAdmin": "Esteu identificat com a '%1$s' però sembla que no teniu cap permís establert al Matomo. %2$s Pregunteu al vostre administrador de Matomo (feu click per enviar un email)%3$s que us dongui access per veure un lloc web.",
+        "PageOf": "%1$s de %2$s",
+        "PeriodRange": "Rang",
+        "ReportGeneratedOn": "Informe generat el %s",
+        "ReportGeneratedXAgo": "Informe generat fa %s",
+        "ShowJSCode": "Mostra el codi JavaScript necessari",
+        "ThereIsNoDataForThisReport": "No hi ha informació per aquest informe.",
+        "UnFlattenDataTable": "Aquest informe es pla %s Feu-lo jeràrquic",
+        "WebAnalyticsReports": "Informe d'analítica web",
+        "YouAreUsingTheLatestVersion": "Esteu fent servir l'última versió de Matomo!",
+        "SystemSummaryPhpVersion": "Versió del PHP"
+    }
+}

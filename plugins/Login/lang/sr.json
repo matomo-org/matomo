@@ -1,0 +1,23 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Link sa potvrdom je poslat na vašu elektronsku adresu. Proverite elektronsku poštu i posetite link kako biste potvrdili zahtev za promenom lozinke.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Korisnik sa superkorisničkim nivoom pristupa ne može biti autentifikovan korišćenjem mehanizma '%s'.",
+        "ExceptionPasswordMD5HashExpected": "Parametar za lozinku bi trebalo da bude MD5 hash lozinke.",
+        "InvalidNonceOrHeadersOrReferrer": "Problem sa sigurnošću. Molimo vas da proverite da li su kolačići (cookies) omogućeni i da ponovo učitate stranicu. Ukoliko se nalazite iza proxy servera, morate %1$s podesiti Matomo da prihvata proxy zaglavlje%2$s koje prosleđuje zaglavlje servera. Takođe, proverite da li je referer zaglavlje poslato kako treba.",
+        "InvalidNonceSSLMisconfigured": "Takođe možete %1$s naterati Matomo da koristi bezbednu konekciju%2$s: u datoteci sa podešavanjima %3$s postavite %4$s u sekciji %5$s",
+        "InvalidOrExpiredToken": "Token ili nije validan ili je istekao.",
+        "InvalidUsernameEmail": "Pogrešno korisničko ime i\/ili elektronska adresa",
+        "LogIn": "Prijavljivanje",
+        "LoginPasswordNotCorrect": "Korisničko ime i lozinka nisu ispravni",
+        "LostYourPassword": "Zaboravili ste lozinku?",
+        "ChangeYourPassword": "Promenite vašu lozinku",
+        "MailTopicPasswordChange": "Potvrdite promenu lozinke",
+        "NewPassword": "Nova lozinka",
+        "NewPasswordRepeat": "Ponovite novu lozinku",
+        "PasswordChanged": "Vaša lozinka je promenjena.",
+        "PasswordRepeat": "Lozinka (ponovo)",
+        "PasswordsDoNotMatch": "Lozinka se ne poklapa",
+        "PluginDescription": "Omogućuje proveru korisnika putem koriničkog imena i lozinke kao i funkciju reseta zaboravljene lozinke. Metod provere se može promeniti korišćenjem nekog drugog dodatka za prijavu poput LoginLdap-a koji je dostupan na Marketu.",
+        "RememberMe": "Zapamti me"
+    }
+}

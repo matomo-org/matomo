@@ -1,0 +1,11 @@
+{
+    "Resolution": {
+        "ColumnConfiguration": "Канфігурацыя",
+        "ColumnResolution": "Дазвол",
+        "Configurations": "Па канфігурацыі",
+        "Resolutions": "Па дазволе манітораў",
+        "WidgetGlobalVisitors": "Глабальная канфігурацыя",
+        "WidgetGlobalVisitorsDocumentation": "Гэтая справаздача паказвае найбольш распаўсюджаныя агульныя канфігурацыі, якія мелі вашы наведвальнікі. Канфігурацыя - гэта спалучэнне аперацыйнай сістэмы, тыпу браўзэра і дазволу экрана.",
+        "WidgetResolutions": "Дазвол манітораў"
+    }
+}

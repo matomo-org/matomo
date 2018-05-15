@@ -1,0 +1,26 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "リピートビジットによるアクション",
+        "ColumnAverageVisitDurationForReturningVisitors": "リピートビジットの平均ビジット継続時間（秒単位）",
+        "ColumnAvgActionsPerReturningVisit": "リピートビジット単位の平均アクション数",
+        "ColumnBounceCountForReturningVisits": "リピートビジットの直帰数",
+        "ColumnBounceRateForReturningVisits": "リピートビジットの直帰率",
+        "ColumnMaxActionsInReturningVisit": "リピートビジット 1 回あたりの最大アクション数",
+        "ColumnNbReturningVisitsConverted": "リピートビジットになった数",
+        "ColumnReturningVisits": "リピートビジット",
+        "ColumnSumVisitLengthReturning": "リピーターの総滞在時間(秒単位)",
+        "ColumnUniqueReturningVisitors": "ユニークリピートビジット",
+        "ColumnReturningUsers": "戻ってきたユーザー",
+        "PluginDescription": "初めての新しいビジターやリピーターに関するレポートメトリック。",
+        "ReturnActions": "リターンビジットによるアクション",
+        "ReturnAverageVisitDuration": "リターンビジターの平均訪問持続時間",
+        "ReturnAvgActions": "リターンビジット毎のアクション",
+        "ReturnBounceRate": "バウンスしたリターンビジット ( 1 ページの後にウェブサイトを去りました )",
+        "ReturningVisitDocumentation": "リピートビジットは ( 新規ビジットとは対照的に ) 、少なくとも一回は以前にウェブサイトを訪問した人によって行われます。",
+        "ReturningVisitsDocumentation": "リピートビジットの概観です。",
+        "ReturnVisits": "リターンビジット",
+        "SubmenuFrequency": "頻度",
+        "WidgetGraphReturning": "リピートビジットのグラフ",
+        "WidgetOverview": "頻度の概観"
+    }
+}

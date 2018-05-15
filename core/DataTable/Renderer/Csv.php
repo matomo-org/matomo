@@ -12,7 +12,6 @@ use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
-use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
@@ -70,6 +69,8 @@ class Csv extends Renderer
      */
     const NO_DATA_AVAILABLE = 'No data available';
 
+    private $unsupportedColumns = array();
+
     /**
      * Computes the dataTable output and returns the string/binary
      *
@@ -84,24 +85,8 @@ class Csv extends Renderer
 
         $this->renderHeader();
 
-        if ($this->convertToUnicode
-            && function_exists('mb_convert_encoding')
-        ) {
-            $str = chr(255) . chr(254) . mb_convert_encoding($str, 'UTF-16LE', 'UTF-8');
-        }
+        $str = $this->convertToUnicode($str);
         return $str;
-    }
-
-    /**
-     * Computes the exception output and returns the string/binary
-     *
-     * @return string
-     */
-    function renderException()
-    {
-        @header('Content-Type: text/html; charset=utf-8');
-        $exceptionMessage = $this->getExceptionMessage();
-        return 'Error: ' . $exceptionMessage;
     }
 
     /**
@@ -133,8 +118,8 @@ class Csv extends Renderer
      */
     protected function renderTable($table, &$allColumns = array())
     {
-        if (is_array($table)) // convert array to DataTable
-        {
+        if (is_array($table)) {
+            // convert array to DataTable
             $table = DataTable::makeFromSimpleArray($table);
         }
 
@@ -162,7 +147,7 @@ class Csv extends Renderer
             // get rid of the columns names
             $returned = array_slice($returned, 1);
 
-            // case empty datatable we dont print anything in the CSV export
+            // case empty datatable we don't print anything in the CSV export
             // when in xml we would output <result date="2008-01-15" />
             if (!empty($returned)) {
                 foreach ($returned as &$row) {
@@ -205,42 +190,7 @@ class Csv extends Renderer
             }
         }
 
-        $csv = array();
-        foreach ($table->getRows() as $row) {
-            $csvRow = $this->flattenColumnArray($row->getColumns());
-
-            if ($this->exportMetadata) {
-                $metadata = $row->getMetadata();
-                foreach ($metadata as $name => $value) {
-                    if ($name == 'idsubdatatable_in_db') {
-                        continue;
-                    }
-                    //if a metadata and a column have the same name make sure they dont overwrite
-                    if ($this->translateColumnNames) {
-                        $name = Piwik::translate('General_Metadata') . ': ' . $name;
-                    } else {
-                        $name = 'metadata_' . $name;
-                    }
-
-                    $csvRow[$name] = $value;
-                }
-            }
-
-            foreach ($csvRow as $name => $value) {
-                $allColumns[$name] = true;
-            }
-
-            if ($this->exportIdSubtable) {
-                $idsubdatatable = $row->getIdSubDataTable();
-                if ($idsubdatatable !== false
-                    && $this->hideIdSubDatatable === false
-                ) {
-                    $csvRow['idsubdatatable'] = $idsubdatatable;
-                }
-            }
-
-            $csv[] = $csvRow;
-        }
+        $csv = $this->makeArrayFromDataTable($table, $allColumns);
 
         // now we make sure that all the rows in the CSV array have all the columns
         foreach ($csv as &$row) {
@@ -251,31 +201,7 @@ class Csv extends Renderer
             }
         }
 
-        $str = '';
-
-        // specific case, we have only one column and this column wasn't named properly (indexed by a number)
-        // we don't print anything in the CSV file => an empty line
-        if (sizeof($allColumns) == 1
-            && reset($allColumns)
-            && !is_string(key($allColumns))
-        ) {
-            $str .= '';
-        } else {
-            // render row names
-            $str .= $this->getHeaderLine(array_keys($allColumns)) . $this->lineEnd;
-        }
-
-        // we render the CSV
-        foreach ($csv as $theRow) {
-            $rowStr = '';
-            foreach ($allColumns as $columnName => $true) {
-                $rowStr .= $this->formatValue($theRow[$columnName]) . $this->separator;
-            }
-            // remove the last separator
-            $rowStr = substr_replace($rowStr, "", -strlen($this->separator));
-            $str .= $rowStr . $this->lineEnd;
-        }
-        $str = substr($str, 0, -strlen($this->lineEnd));
+        $str = $this->buildCsvString($allColumns, $csv);
         return $str;
     }
 
@@ -287,9 +213,20 @@ class Csv extends Renderer
      */
     private function getHeaderLine($columnMetrics)
     {
+        foreach ($columnMetrics as $index => $value) {
+            if (in_array($value, $this->unsupportedColumns)) {
+                unset($columnMetrics[$index]);
+            }
+        }
+
         if ($this->translateColumnNames) {
             $columnMetrics = $this->translateColumnNames($columnMetrics);
         }
+
+        foreach ($columnMetrics as &$value) {
+            $value = $this->formatValue($value);
+        }
+
         return implode($this->separator, $columnMetrics);
     }
 
@@ -308,6 +245,9 @@ class Csv extends Renderer
         } elseif ($value === false) {
             $value = 0;
         }
+
+        $value = $this->formatFormulas($value);
+
         if (is_string($value)
             && (strpos($value, '"') !== false
                 || strpos($value, $this->separator) !== false)
@@ -325,23 +265,47 @@ class Csv extends Renderer
         return $value;
     }
 
+    protected function formatFormulas($value)
+    {
+        // Excel / Libreoffice formulas may start with one of these characters
+        $formulaStartsWith = array('=', '+', '-', '@');
+
+        // remove first % sign and if string is still a number, return it as is
+        $valueWithoutFirstPercentSign = $this->removeFirstPercentSign($value);
+
+        if (empty($valueWithoutFirstPercentSign)
+            || !is_string($value)
+            || is_numeric($valueWithoutFirstPercentSign)) {
+            return $value;
+        }
+
+        $firstCharCellValue = $valueWithoutFirstPercentSign[0];
+        $isFormula = in_array($firstCharCellValue, $formulaStartsWith);
+        if($isFormula) {
+            return "'" . $value;
+        }
+
+        return $value;
+    }
+
     /**
      * Sends the http headers for csv file
      */
     protected function renderHeader()
     {
-        $fileName = 'Piwik ' . Piwik::translate('General_Export');
+        $fileName = Piwik::translate('General_Export');
 
         $period = Common::getRequestVar('period', false);
         $date = Common::getRequestVar('date', false);
-        if ($period || $date) // in test cases, there are no request params set
-        {
+        if ($period || $date) {
+            // in test cases, there are no request params set
+
             if ($period == 'range') {
                 $period = new Range($period, $date);
-            } else if (strpos($date, ',') !== false) {
+            } elseif (strpos($date, ',') !== false) {
                 $period = new Range('range', $date);
             } else {
-                $period = Period\Factory::build($period, Date::factory($date));
+                $period = Period\Factory::build($period, $date);
             }
 
             $prettyDate = $period->getLocalizedLongString();
@@ -353,8 +317,7 @@ class Csv extends Renderer
         }
 
         // silent fail otherwise unit tests fail
-        @header('Content-Type: application/vnd.ms-excel');
-        @header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        Common::sendHeader('Content-Disposition: attachment; filename="' . $fileName . '"', true);
         ProxyHttp::overrideCacheControlHeaders();
     }
 
@@ -399,5 +362,134 @@ class Csv extends Renderer
         } else {
             return $name;
         }
+    }
+
+    /**
+     * @param $allColumns
+     * @param $csv
+     * @return array
+     */
+    private function buildCsvString($allColumns, $csv)
+    {
+        $str = '';
+
+        // specific case, we have only one column and this column wasn't named properly (indexed by a number)
+        // we don't print anything in the CSV file => an empty line
+        if (sizeof($allColumns) == 1
+            && reset($allColumns)
+            && !is_string(key($allColumns))
+        ) {
+            $str .= '';
+        } else {
+            // render row names
+            $str .= $this->getHeaderLine(array_keys($allColumns)) . $this->lineEnd;
+        }
+
+        // we render the CSV
+        foreach ($csv as $theRow) {
+            $rowStr = '';
+            foreach ($allColumns as $columnName => $true) {
+                $rowStr .= $this->formatValue($theRow[$columnName]) . $this->separator;
+            }
+            // remove the last separator
+            $rowStr = substr_replace($rowStr, "", -strlen($this->separator));
+            $str .= $rowStr . $this->lineEnd;
+        }
+        $str = substr($str, 0, -strlen($this->lineEnd));
+        return $str;
+    }
+
+    /**
+     * @param $table
+     * @param $allColumns
+     * @return array of csv data
+     */
+    private function makeArrayFromDataTable($table, &$allColumns)
+    {
+        $csv = array();
+        foreach ($table->getRows() as $row) {
+            $csvRow = $this->flattenColumnArray($row->getColumns());
+
+            if ($this->exportMetadata) {
+                $metadata = $row->getMetadata();
+                foreach ($metadata as $name => $value) {
+                    if ($name == 'idsubdatatable_in_db') {
+                        continue;
+                    }
+                    //if a metadata and a column have the same name make sure they don't overwrite
+                    if ($this->translateColumnNames) {
+                        $name = Piwik::translate('General_Metadata') . ': ' . $name;
+                    } else {
+                        $name = 'metadata_' . $name;
+                    }
+
+                    if (is_array($value)) {
+                        if (!in_array($name, $this->unsupportedColumns)) {
+                            $this->unsupportedColumns[] = $name;
+                        }
+                    } else {
+                        $csvRow[$name] = $value;
+                    }
+
+                }
+            }
+
+            foreach ($csvRow as $name => $value) {
+                if (in_array($name, $this->unsupportedColumns)) {
+                    unset($allColumns[$name]);
+                } else {
+                    $allColumns[$name] = true;
+                }
+            }
+
+            if ($this->exportIdSubtable) {
+                $idsubdatatable = $row->getIdSubDataTable();
+                if ($idsubdatatable !== false
+                    && $this->hideIdSubDatatable === false
+                ) {
+                    $csvRow['idsubdatatable'] = $idsubdatatable;
+                }
+            }
+
+            $csv[] = $csvRow;
+        }
+
+        if (!empty($this->unsupportedColumns)) {
+            foreach ($this->unsupportedColumns as $unsupportedColumn) {
+                foreach ($csv as $index => $row) {
+                    unset($row[$index][$unsupportedColumn]);
+                }
+            }
+        }
+
+        return $csv;
+    }
+
+    /**
+     * @param $str
+     * @return string
+     */
+    private function convertToUnicode($str)
+    {
+        if ($this->convertToUnicode
+            && function_exists('mb_convert_encoding')
+        ) {
+            $str = chr(255) . chr(254) . mb_convert_encoding($str, 'UTF-16LE', 'UTF-8');
+        }
+        return $str;
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    protected function removeFirstPercentSign($value)
+    {
+        $needle = '%';
+        $posPercent = strpos($value, $needle);
+        if ($posPercent !== false) {
+            return substr_replace($value, '', $posPercent, strlen($needle));
+        }
+        return $value;
     }
 }

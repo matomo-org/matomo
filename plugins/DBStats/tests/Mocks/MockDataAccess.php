@@ -6,11 +6,12 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\DBStats\Mocks;
+namespace Piwik\Plugins\DBStats\tests\Mocks;
 
 use Piwik\Common;
+use Piwik\Plugins\DBStats\MySQLMetadataDataAccess;
 
-class MockDataAccess
+class MockDataAccess extends MySQLMetadataDataAccess
 {
     public static $tableStatuses = array(
         'user' => array(5, 8192, 8192),

@@ -1,0 +1,7 @@
+{
+    "Widgetize": {
+        "OpenInNewWindow": "Abrir em uma nova janela",
+        "PluginDescription": "Exibe qualquer relatório Matomo no seu site ou aplicativo com uma simples tag HTML Embed.",
+        "TopLinkTooltip": "Exportar relatórios Matomo como widgets do Dashboard e incorporar em seu aplicativo como um iframe."
+    }
+}

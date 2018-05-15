@@ -1,0 +1,16 @@
+{
+    "API": {
+        "ChangeTokenHint": "Si quieres cambiar este token, por favor ve hacia tu %1$s página de ajustes de usuario %2$s",
+        "GenerateVisits": "Si no tiene los datos de hoy puede generar primero algunos datos mediante el complemento %1$s. Puede habilitar el complemento %2$s, a continuación, haga clic en el menú 'Generador de Visitas' en el área Administrativa de Matomo.",
+        "KeepTokenSecret": "Este token_auth es tan secreto como su nombre de usuario y contraseña, %1$s no lo comparta %2$s!",
+        "LoadedAPIs": "Se han cargado %s APIs exitosamente",
+        "MoreInformation": "Para mayor información acerca de las APIs de Matomo, por favor lea la %1$s Introducción a las API Matomo %2$s y la %3$s Referencia de las API Matomo %4$s.",
+        "PluginDescription": "Toda la información en Matomo está disponible a través de simples APIs. Este complemento es el punto de entrada del servicio de internet, al que puede convocar para obtener la información analítica de internet en formato xml, json, php, csv, etc.",
+        "ReportingApiReference": "Informando Referencia API",
+        "TopLinkTooltip": "Acceda a sus datos de análisis de internet programáticamente, a través de una sencilla API en json, xml, etc.",
+        "UserAuthentication": "Autenticación de usuario",
+        "UsingTokenAuth": "Si quieres %1$s solicitar datos dentro de un script, un crontab, etc. %2$s tiene que agregar el parámetro %3$s a las llamadas a la URL de la API que requieren autenticación.",
+        "Glossary": "Glosario",
+        "LearnAboutCommonlyUsedTerms": "Obtenga más información de los términos que se utilizan más frecuentemente para aprovechar al máximo de las analíticas de Matomo. %1$s y %2$s."
+    }
+}

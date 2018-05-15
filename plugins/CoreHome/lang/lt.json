@@ -1,0 +1,15 @@
+{
+    "CoreHome": {
+        "CategoryNoData": "Šioje kategorijoje duomenų nėra. Pabandykite \"Įtraukti visą populiaciją\"",
+        "CheckForUpdates": "Tikrinti ar yra atnaujinimų",
+        "CloseSearch": "Užverti paiešką",
+        "CloseWidgetDirections": "Galite užverti šį valdiklį, spusteldami ant valdiklio viršuje esančios \"X\" piktogramos.",
+        "Menu": "Meniu",
+        "PageOf": "%1$s iš %2$s",
+        "SharePiwikShort": "Matomo! Nemokama\/laisva saityno analitika. Būkite savo duomenų savininkais.",
+        "ShowJSCode": "Parodyti JavaScript kodą įvedimui",
+        "ThereIsNoDataForThisReport": "Nėra duomenų šiai ataskaitai.",
+        "WebAnalyticsReports": "Žiniatinklio analizės sprendimo ataskaitos",
+        "ChangeCurrentWebsite": "Pasirinkite svetainę, šiuo metu pasirinkta svetainė: %s"
+    }
+}

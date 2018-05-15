@@ -1,0 +1,30 @@
+{
+    "Referrers": {
+        "Campaigns": "Kampanijos",
+        "ColumnCampaign": "Kampanija",
+        "ColumnSearchEngine": "Paieškos sistema",
+        "ColumnWebsite": "Svetainė",
+        "ColumnWebsitePage": "Svetainės puslapis",
+        "DirectEntry": "Tiesioginis apsilankymas",
+        "Distinct": "Atskirti šaltinius pagal tipą",
+        "DistinctCampaigns": "atskirti kampanijas",
+        "DistinctKeywords": "atskirti raktinius žodžius",
+        "DistinctSearchEngines": "atskirti paieškos sistemas",
+        "DistinctWebsites": "atskirti svetaines",
+        "Keywords": "Raktiniai žodžiai",
+        "ReferrerName": "Šaltinio pavadinimas",
+        "Referrers": "Šaltiniai",
+        "SearchEngines": "Paieškos sistemos",
+        "SubmenuSearchEngines": "Paieškos sistemos ir raktiniai žodžiai",
+        "SubmenuWebsites": "Svetainės",
+        "Type": "Šaltinio tipas",
+        "TypeCampaigns": "%s per kampanijas",
+        "TypeDirectEntries": "%s tiesioginiai apsilankymai",
+        "TypeSearchEngines": "%s per paieškos sistemas",
+        "TypeWebsites": "%s iš svetainių",
+        "UsingNDistinctUrls": "(naudojant %s skirtingus URL)",
+        "Websites": "Svetainės",
+        "WidgetExternalWebsites": "Išorinių svetainių sąrašas",
+        "WidgetSocials": "Socialinių tinklų sąrašas"
+    }
+}

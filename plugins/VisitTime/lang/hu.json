@@ -1,0 +1,12 @@
+{
+    "VisitTime": {
+        "ColumnLocalTime": "Helyi idő",
+        "ColumnServerTime": "Szerveridő",
+        "LocalTime": "Látogatások\/helyi idő",
+        "NHour": "%s ó",
+        "ServerTime": "Látogatások\/szerveridő",
+        "SubmenuTimes": "Idő",
+        "WidgetLocalTime": "Látogatások helyi idő szerint",
+        "WidgetServerTime": "Látogatások szerveridő szerint"
+    }
+}

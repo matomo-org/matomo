@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "Thực thi truy vấn %s",
+        "GenerateTime": "%s giây để tạo trang",
+        "NbActionsDescription": "Hành động %s",
+        "VisitsSummary": "Lịch sử các lượt truy cập",
+        "VisitsSummaryDocumentation": "Đây là một tổng quan của sự mở rộng truy cập.",
+        "WidgetLastVisits": "Các lượt truy cập theo thời gian",
+        "WidgetOverviewGraph": "Các lượt truy cập tổng quan (với đồ thị)",
+        "WidgetVisits": "Các lượt truy cập tổng quan"
+    }
+}

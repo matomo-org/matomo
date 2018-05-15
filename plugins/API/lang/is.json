@@ -1,0 +1,10 @@
+{
+    "API": {
+        "GenerateVisits": "Ef þú hefur ekki gögn dagsins í dag verður þú fyrst að búa til gögn með að nota %1$s íbótina. Virkjaðu %2$s íbótina og smelltu síðan á valmyndinni 'Gesta framleiðni' í Matomo umsjónarmanns svæðinu.",
+        "KeepTokenSecret": "Þessi tókar auðkenning er eins leynd og þitt notendanafn og lykilorð %1$s deilið því ekki%2$s!",
+        "LoadedAPIs": "Tókst að hlaða %s API",
+        "MoreInformation": "Fyrir frekari upplýsingar um Matomo API, Vinsamlegast skoðið %1$s Inngangur að Matomo API %2$s og %3$s Matomo API Tilvísunir %4$s.",
+        "UserAuthentication": "Notenda auðkenning",
+        "UsingTokenAuth": "Ef þú vilt að %1$s biðji um gögn inn í skriftu eða crontab færslu osfv. %2$s verður þú að bæta við færibreytu %3$s til API kalls vefslóðir sem krefst auðkenningar."
+    }
+}

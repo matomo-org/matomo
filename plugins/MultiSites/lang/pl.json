@@ -1,0 +1,9 @@
+{
+    "MultiSites": {
+        "Evolution": "Postęp",
+        "LoadingWebsites": "Ładowanie stron",
+        "PluginDescription": "Przeglądaj i porównuj wszystkie swoje serwisy i aplikacje w tym użytecznym panelu 'Wszystkie serwisy'",
+        "TopLinkTooltip": "Porównaj statystyki stron wszystkich swoich Serwisów.",
+        "Pagination": "%1$s - %2$s z %3$s"
+    }
+}

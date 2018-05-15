@@ -1,0 +1,17 @@
+{
+    "Ecommerce": {
+        "PluginDescription": "Ecommerce laat je toe gebruikers te volgen wanneer ze producten toevoegen aan winkelmandjes, en wanneer ze omgezet worden naar een ecommerce verkoop. Houdt ook de product weergave, product categorie weergave en achtergelaten winkelmandjes bij.",
+        "Sales": "Verkopen",
+        "Order": "Bestelling",
+        "Orders": "Bestellingen",
+        "SalesBy": "Verkopen per %s",
+        "SalesAdjective": "Verkopen %s",
+        "NumberOfItems": "Aantal items in winkelwagen",
+        "OrderValue": "Bestelwaarde",
+        "LifeTimeValue": "E-commerce Life Time Waarde",
+        "LifeTimeValueDescription": "Totale e-commerce omzet toegekend aan deze klant over al zijn bezoeken: de som van omzet van alle e-commerce orders voor Visitor ID %s.",
+        "VisitorProfileLTV": "Gegenereerde levenslange omzet van %1$s.",
+        "VisitorProfileItemsAndOrders": "Gekochte %1$s items in %2$s ecommerce orders.",
+        "VisitorProfileAbandonedCartSummary": "%1$s verlaten winkelwagens inclusief %2$s items met een totale waarde van %3$s."
+    }
+}

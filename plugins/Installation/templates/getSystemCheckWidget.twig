@@ -1,0 +1,39 @@
+<div class="widgetBody system-check">
+    {% if not numErrors and not numWarnings %}
+        <p class="system-success"><span class="icon-ok"></span> {{ 'Installation_SystemCheckNoErrorsOrWarnings'|translate }}</p>
+    {% endif %}
+
+    {% if numErrors %}
+        <p class="system-errors"><span class="icon-error"></span> {{ 'General_Errors'|translate }}</p>
+        <ul>
+            {% for error in errors %}
+                <li title="{{ error.getLongErrorMessage|e('html_attr') }}">{{ error.getLabel }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if numWarnings %}
+
+        <p class="system-warnings">
+
+            {% if numErrors %}
+                <br />
+            {% endif %}
+
+            <span class="icon-warning"></span> {{ 'General_Warnings'|translate }}
+        </p>
+        <ul>
+            {% for warning in warnings %}
+                <li title="{{ warning.getLongErrorMessage|e('html_attr') }}">{{ warning.getLabel }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if numErrors or numWarnings %}
+        <p>
+            <br />
+            <a href="{{ linkTo({'module': 'Installation', 'action': 'systemCheckPage'}) }}"
+            >{{ 'Installation_SystemCheckViewFullSystemCheck'|translate }}</a>
+        </p>
+    {% endif %}
+</div>

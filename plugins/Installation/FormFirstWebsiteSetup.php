@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Installation;
 use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
+use Piwik\Access;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\QuickForm2;
@@ -31,7 +32,7 @@ class FormFirstWebsiteSetup extends QuickForm2
         HTML_QuickForm2_Factory::registerRule('checkTimezone', 'Piwik\Plugins\Installation\Rule_isValidTimezone');
 
         $urlExample = 'http://example.org';
-        $javascriptOnClickUrlExample = "javascript:if(this.value=='$urlExample'){this.value='http://';} this.style.color='black';";
+        $javascriptOnClickUrlExample = "javascript:if (this.value=='$urlExample'){this.value='http://';} this.style.color='black';";
 
         $timezones = API::getInstance()->getTimezonesList();
         $timezones = array_merge(array('No timezone' => Piwik::translate('SitesManager_SelectACity')), $timezones);
@@ -59,7 +60,7 @@ class FormFirstWebsiteSetup extends QuickForm2
                                1 => Piwik::translate('SitesManager_EnableEcommerce'),
                           ));
 
-        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'submit'));
+        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn'));
 
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
@@ -79,7 +80,9 @@ class Rule_isValidTimezone extends HTML_QuickForm2_Rule
         try {
             $timezone = $this->owner->getValue();
             if (!empty($timezone)) {
-                API::getInstance()->setDefaultTimezone($timezone);
+                Access::doAsSuperUser(function () use ($timezone) {
+                    API::getInstance()->setDefaultTimezone($timezone);
+                });
             }
         } catch (\Exception $e) {
             return false;

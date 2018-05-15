@@ -16,35 +16,53 @@
          stopOnFailure="false"
          stopOnIncomplete="false"
          stopOnSkipped="false"
-         strict="false"
          verbose="true">
 
-<php>
-    <!--
-        When copying this file to phpunit.xml, replace with the path to Piwik on localhost.
-        If Piwik is available at http://localhost/dev/piwik/ replace @REQUEST_URI@ with /dev/piwik/
-        NOTE: the REQUEST_URI should not contain "plugins" or "tests" in the PATH
-    -->
-    <server name="HTTP_HOST" value="localhost"/>
-    <server name="REQUEST_URI" value="@REQUEST_URI@"/>
-    <server name="REMOTE_ADDR" value="127.0.0.1"/>
-</php>
-
 <testsuites>
-  <testsuite name="IntegrationTests">
-      <directory>./Integration</directory>
-  </testsuite>
-  <testsuite name="PluginTests">
-      <directory>./Plugins</directory>
-      <directory>../../plugins/*/tests</directory>
-      <directory>../../plugins/*/Test</directory>
-  </testsuite>
-  <testsuite name="CoreTests">
-      <directory>./Core</directory>
-  </testsuite>
-  <testsuite name="UITests">
-      <directory>./UI</directory>
-  </testsuite>
+    <testsuite name="SystemTests">
+        <directory>./System</directory>
+        <directory>../../plugins/*/tests</directory><!-- There should be actually a tests/System but this way we make sure to execute all tests even if some are not moved to correct subdirectory. We will execute Unit and Integration tests twice :( ... -->
+        <directory>../../plugins/*/Test</directory>
+        <exclude>../../plugins/*/tests/Integration</exclude>
+        <exclude>../../plugins/*/Test/Integration</exclude>
+        <exclude>../../plugins/*/tests/Unit</exclude>
+        <exclude>../../plugins/*/Test/Unit</exclude>
+    </testsuite>
+    <testsuite name="IntegrationTests">
+        <directory>./Integration</directory>
+        <directory>../../plugins/*/tests/Integration</directory>
+        <directory>../../plugins/*/Test/Integration</directory>
+    </testsuite>
+    <testsuite name="UnitTests">
+        <directory>./Unit</directory>
+        <directory>../../plugins/*/tests/Unit</directory>
+        <directory>../../plugins/*/Test/Unit</directory>
+    </testsuite>
+    <testsuite name="PluginTests">
+        <directory>../../plugins/*/tests</directory>
+        <directory>../../plugins/*/Test</directory>
+    </testsuite>
+    <testsuite name="CoreTests">
+        <directory>./Unit</directory>
+        <directory>./Integration</directory>
+        <directory>./System</directory>
+    </testsuite>
 </testsuites>
+
+<filter>
+    <whitelist addUncoveredFilesFromWhitelist="true">
+        <directory suffix=".php">../../core</directory>
+        <directory suffix=".php">../../plugins</directory>
+        <exclude>
+            <directory suffix=".php">../../core/Updates</directory>
+            <directory suffix=".php">../../plugins/Example*</directory>
+            <directory suffix=".php">../../plugins/SecurityInfo*</directory>
+            <directory suffix=".php">../../plugins/*/Updates</directory>
+            <directory suffix=".php">../../plugins/*/libs</directory>
+            <directory suffix=".php">../../plugins/*/tests</directory>
+            <directory suffix=".php">../../plugins/*/Test</directory>
+        </exclude>
+    </whitelist>
+</filter>
 
 </phpunit>

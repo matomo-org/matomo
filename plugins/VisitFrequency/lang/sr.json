@@ -1,0 +1,26 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Akcije posetilaca koji se vraćaju",
+        "ColumnAverageVisitDurationForReturningVisitors": "Prosečna dužina posete (u sekundama)",
+        "ColumnAvgActionsPerReturningVisit": "Prosečno akcija po ponovnoj poseti",
+        "ColumnBounceCountForReturningVisits": "Broj odbijanja posetilaca koji se vraćaju",
+        "ColumnBounceRateForReturningVisits": "Stopa odbijanja posetilaca koji se vraćaju",
+        "ColumnMaxActionsInReturningVisit": "Maksimum akcija u jednoj ponovnoj poseti",
+        "ColumnNbReturningVisitsConverted": "Broj ispunjenih ponovnih posetilaca",
+        "ColumnReturningVisits": "Posetioci koji se vraćaju",
+        "ColumnSumVisitLengthReturning": "Ukupno vreme provedeno od strane ponovnih posetilaca (u sekundama)",
+        "ColumnUniqueReturningVisitors": "Jedinstvenih ponovnih posetilaca",
+        "ColumnReturningUsers": "Posetioci koji se vraćaju",
+        "PluginDescription": "Podaci o posetiocima koji us prvi put na vašem sajtu i onima koji se vraćaju.",
+        "ReturnActions": "akcije od strane ponovnih poseta",
+        "ReturnAverageVisitDuration": "prosečno trajanje posete od strane ponovnih posetilaca",
+        "ReturnAvgActions": "akcije po ponovnoj poseti",
+        "ReturnBounceRate": "broj poseta koje su se odbile (napustile sajt posle samo jedne stranice)",
+        "ReturningVisitDocumentation": "Posetioc koji se vraća je (za razliku od novog posetioca) neko ko je bar jednom posetio sajt u prošlosti.",
+        "ReturningVisitsDocumentation": "Ovo je pregled posetilaca koji se vraćaju",
+        "ReturnVisits": "ponovne posete",
+        "SubmenuFrequency": "Učestalost",
+        "WidgetGraphReturning": "Grafikon ponovnih poseta",
+        "WidgetOverview": "Pregled učestalosti"
+    }
+}

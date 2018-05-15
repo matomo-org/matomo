@@ -1,0 +1,22 @@
+{
+    "name": "TestRunner",
+    "version": "0.1.0",
+    "description": "Developer tool that lets you run the automated tests suite. Only needed in development.",
+    "theme": false,
+    "require": {
+        "piwik": ">=2.9.0"
+    },
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "http:\/\/matomo.org"
+        }
+    ],
+    "license": "GPL v3+",
+    "keywords": [
+        "test",
+        "runner"
+    ],
+    "homepage": "http:\/\/matomo.org"
+}

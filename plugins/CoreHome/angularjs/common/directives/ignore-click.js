@@ -12,10 +12,14 @@
  * Example
  * <a piwik-ignore-click ng-click="doSomething()" href="/">my link</a>
  */
-angular.module('piwikApp.directive').directive('piwikIgnoreClick', function() {
-    return function(scope, element, attrs) {
-        $(element).click(function(event) {
-            event.preventDefault();
-        });
-    };
-});
+(function () {
+    angular.module('piwikApp.directive').directive('piwikIgnoreClick', piwikIgnoreClick);
+
+    function piwikIgnoreClick() {
+        return function(scope, element, attrs) {
+            $(element).click(function(event) {
+                event.preventDefault();
+            });
+        };
+    }
+})();

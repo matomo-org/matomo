@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>new name</website>
+	<prettyDate>Saturday, March 6, 2010</prettyDate>
+	<metadata>
+		<category>Actions</category>
+		<subcategory>Page titles</subcategory>
+		<name>Page titles</name>
+		<module>Actions</module>
+		<action>getPageTitles</action>
+		<dimension>Page Title</dimension>
+		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
+		<metricsDocumentation>
+			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<exit_rate>Exit rate</exit_rate>
+		</processedMetrics>
+		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
+		<relatedReports>
+			<row>
+				<name>Entry page titles</name>
+				<module>Actions</module>
+				<action>getEntryPageTitles</action>
+			</row>
+			<row>
+				<name>Exit page titles</name>
+				<module>Actions</module>
+				<action>getExitPageTitles</action>
+			</row>
+		</relatedReports>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2010-03-06</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2010-02-05,2010-03-06</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getPageTitles</uniqueId>
+	</metadata>
+	<columns>
+		<label>Page Title</label>
+		<exit_rate>Exit rate</exit_rate>
+	</columns>
+	<reportData>
+		<row>
+			<label>Checkout</label>
+			<exit_rate>100%</exit_rate>
+		</row>
+		<row>
+			<label> incredible title!</label>
+			<exit_rate>0%</exit_rate>
+		</row>
+		<row>
+			<label> Looking at homepage (again)...</label>
+			<exit_rate>100%</exit_rate>
+		</row>
+		<row>
+			<label> Second page view - should be registered as URL</label>
+			<exit_rate>0%</exit_rate>
+		</row>
+	</reportData>
+	<reportMetadata>
+		<row>
+			
+			<idsubdatatable>5190</idsubdatatable>
+		</row>
+		<row>
+		</row>
+		<row>
+		</row>
+		<row>
+		</row>
+	</reportMetadata>
+	<reportTotal>
+		<entry_bounce_count>1</entry_bounce_count>
+		<entry_nb_actions>8</entry_nb_actions>
+		<exit_nb_visits>2</exit_nb_visits>
+		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+	</reportTotal>
+</result>

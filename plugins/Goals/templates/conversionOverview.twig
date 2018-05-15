@@ -1,0 +1,24 @@
+<div piwik-content-block
+     content-title="{{ 'Goals_ConversionsOverview'|translate|e('html_attr') }}">
+    <ul class="ulGoalTopElements">
+        {% if topDimensions.country is defined %}
+            <li>{{ 'Goals_BestCountries'|translate }} {% include '@Goals/_listTopDimension.twig' with {'topDimension':topDimensions.country} %}</li>
+        {% endif %}
+        {% if topDimensions.keyword is defined and topDimensions.keyword|length > 0 %}
+            <li>{{ 'Goals_BestKeywords'|translate }} {% include '@Goals/_listTopDimension.twig' with {'topDimension':topDimensions.keyword} %}</li>
+        {% endif %}
+        {% if topDimensions.website is defined and topDimensions.website|length > 0 %}
+            <li>{{ 'Goals_BestReferrers'|translate }} {% include '@Goals/_listTopDimension.twig' with {'topDimension':topDimensions.website} %}</li>
+        {% endif %}
+        <li>
+            {{ 'Goals_ReturningVisitorsConversionRateIs'|translate("<strong>"~conversion_rate_returning~"</strong>")|raw }}
+            , {{ 'Goals_NewVisitorsConversionRateIs'|translate("<strong>"~conversion_rate_new~"</strong>")|raw }}
+        </li>
+    </ul>
+<a href="javascript:;" class="segmentedlog" onclick="SegmentedVisitorLog.show('Goals.getMetrics', 'visitConvertedGoalId=={{ idGoal }}', {})">
+    {{ 'Live_RowActionTooltipWithDimension'|translate('General_Goal'|translate) }}
+</a>
+{{ postEvent("Template.afterGoalConversionOverviewReport") }}
+<br style="clear:left"/>
+
+</div>

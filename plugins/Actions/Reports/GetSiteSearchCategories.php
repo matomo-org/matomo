@@ -23,13 +23,14 @@ class GetSiteSearchCategories extends SiteSearchBase
         $this->name          = Piwik::translate('Actions_WidgetSearchCategories');
         $this->documentation = Piwik::translate('Actions_SiteSearchCategories1') . '<br/>' . Piwik::translate('Actions_SiteSearchCategories2');
         $this->metrics       = array('nb_visits', 'nb_pages_per_search', 'exit_rate');
-        $this->order = 17;
-        $this->widgetTitle  = 'Actions_WidgetSearchCategories';
+        $this->order = 20;
+
+        $this->subcategoryId = 'Actions_SubmenuSitesearch';
     }
 
-    public function isEnabled()
+    protected function isEnabledForIdSites($idSites, $idSite)
     {
-        return parent::isEnabled() && Actions::isCustomVariablesPluginsEnabled();
+        return parent::isEnabledForIdSites($idSites, $idSite) && Actions::isCustomVariablesPluginsEnabled();
     }
 
     public function getMetrics()

@@ -1,0 +1,12 @@
+{
+    "VisitorInterest": {
+        "ColumnPagesPerVisit": "ጉብኝት ከገፆች ጋር",
+        "ColumnVisitDuration": "የጉብኝት ቆይታዎች",
+        "NPages": "%s ገፆች",
+        "OnePage": "1 ገፅ",
+        "VisitsPerDuration": "ጉብኝት ከጉብኝት ቆይታ ጋር",
+        "VisitsPerNbOfPages": "ጉብኝት ከገፅ ቁጥር ጋር",
+        "WidgetLengths": "የጉብኝት ርዝመት",
+        "WidgetPages": "ጉብኝት ከገፆች ጋር"
+    }
+}

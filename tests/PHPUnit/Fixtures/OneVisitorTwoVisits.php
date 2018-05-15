@@ -7,10 +7,13 @@
  */
 namespace Piwik\Tests\Fixtures;
 
+use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
+use Piwik\Tracker\Cache;
 
 /**
  * This fixture adds one website and tracks two visits by one visitor.
@@ -25,16 +28,37 @@ class OneVisitorTwoVisits extends Fixture
     public $useThirdPartyCookies = false;
     public $useSiteSearch = false;
     public $excludeMozilla = false;
+    public $simulateIntegerOverflow = false;
+    public $maxUnsignedIntegerValue = '4294967295';
 
     public function setUp()
     {
         $this->setUpWebsitesAndGoals();
+        $this->simulateIntegerOverflow();
         $this->trackVisits();
     }
 
     public function tearDown()
     {
         // empty
+    }
+
+    private function simulateIntegerOverflow()
+    {
+        if(!$this->simulateIntegerOverflow) {
+            return;
+        }
+
+        $overflow = $this->maxUnsignedIntegerValue;
+
+        // overflow in log_visit
+        $table = Common::prefixTable('log_visit');
+        Db::query("INSERT INTO $table (idvisit) VALUES ($overflow)");
+
+        // overflow in log_link_visit_action
+        $table = Common::prefixTable('log_link_visit_action');
+        Db::query("INSERT INTO $table (idlink_va) VALUES ($overflow)");
+
     }
 
     private function setUpWebsitesAndGoals()
@@ -61,7 +85,11 @@ class OneVisitorTwoVisits extends Fixture
             APISitesManager::getInstance()->setSiteSpecificUserAgentExcludeEnabled(false);
         }
 
+        self::createSuperUser();
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
+
+        Cache::clearCacheGeneral();
+        Cache::regenerateCacheWebsiteAttributes(array($idSite));
 
         if ($this->useThirdPartyCookies) {
             $t->DEBUG_APPEND_URL = '&forceUseThirdPartyCookie=1';
@@ -106,7 +134,9 @@ class OneVisitorTwoVisits extends Fixture
 
         // Click on external link after 6 minutes (3rd action)
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1)->getDatetime());
-        self::checkResponse($t->doTrackAction('http://dev.piwik.org/svn', 'link'));
+
+        // Testing Outlink that contains a URL Fragment
+        self::checkResponse($t->doTrackAction('https://outlinks.org/#!outlink-with-fragment-<script>', 'link'));
 
         // Click on file download after 12 minutes (4th action)
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->getDatetime());
@@ -114,7 +144,7 @@ class OneVisitorTwoVisits extends Fixture
 
         // Click on two more external links, one the same as before (5th & 6th actions)
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.22)->getDateTime());
-        self::checkResponse($t->doTrackAction('http://outlinks.org/other_outlink', 'link'));
+        self::checkResponse($t->doTrackAction('http://outlinks.org/other_outlink#fragment&pk_campaign=Open%20partnership', 'link'));
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.25)->getDateTime());
         self::checkResponse($t->doTrackAction('http://dev.piwik.org/svn', 'link'));
 
@@ -177,5 +207,13 @@ class OneVisitorTwoVisits extends Fixture
         self::checkResponse($t->doTrackPageView('Checkout/Purchasing...'));
         // -
         // End of second visit
+    }
+
+    /**
+     * @return string
+     */
+    public static function getValueForHideColumns()
+    {
+        return 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth';
     }
 }

@@ -1,0 +1,21 @@
+<div>
+    <img src="img1-en.jpg" data-track-content/>
+    <img src="img1-en.jpg" class="piwikTrackContent"/> <!-- same as before should be ignored -->
+    <div id="block1" style="display: none;">
+        <a href="http://img2.example.com" data-track-content id="isOutlink"><img id="isWithinOutlink" src="img2-en.jpg" data-content-piece="img.jpg"/></a>
+        <a href="http://img3.example.com" data-track-content><img src="img3-en.jpg" data-content-piece/></a>
+        <a href="http://img4.example.com" data-track-content><p data-content-piece="My content 4">Lorem ipsum</p></a>
+    </div>
+    <div id="block2">
+        <div id="ex5" data-track-content data-content-name="My Ad 5">
+            <img src="http://img5.example.com/path/xyz.jpg" data-content-piece id="notWithinTarget" />
+            <a href="/anylink5" data-content-target id="internalLink">Lorem ipsum</a>
+        </div>
+        <a href="http://img6.example.com" data-track-content>
+            <img src="http://www.example.com/path/xyz.jpg" data-content-piece />
+        </a>
+        <a href="http://img7.example.com" data-track-content data-content-name="My Ad 7" style="visibility:hidden;">
+            Lorem ipsum
+        </a>
+    </div>
+</div>

@@ -22,9 +22,9 @@ define('FONT_3', 3);
 define('FONT_4', 4);
 define('FONT_5', 5);
 
-require_once dirname(__FILE__).'/Object.php';
+require_once dirname(__FILE__).'/SparklineObject.php';
 
-class Sparkline extends Object {
+class Sparkline extends SparklineObject {
 
   var $imageX;
   var $imageY;
@@ -38,8 +38,8 @@ class Sparkline extends Object {
   ////////////////////////////////////////////////////////////////////////////
   // constructor
   //
-  function Sparkline($catch_errors = true) {
-    parent::Object($catch_errors);
+  function __construct($catch_errors = true) {
+    parent::__construct($catch_errors);
 
     $this->colorList       = array();
     $this->colorBackground = 'white';
@@ -405,7 +405,7 @@ class Sparkline extends Object {
   }
 
   function DrawImageCopyResampled($dhandle, $shandle, $dx, $dy, $sx, $sy, $dw, $dh, $sw, $sh) {
-    $this->Debug("Sparkline :: DrawImageCopyResampled($dhhandle, $shandle, $dx, $dy, $sx, $sy, $dw, $dh, $sw, $sh)", DEBUG_DRAW);
+    $this->Debug("Sparkline :: DrawImageCopyResampled($dhandle, $shandle, $dx, $dy, $sx, $sy, $dw, $dh, $sw, $sh)", DEBUG_DRAW);
     if (!$this->IsError()) {
       return imagecopyresampled($dhandle,  // dest handle
                                 $shandle,  // src  handle

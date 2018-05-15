@@ -14,4 +14,3 @@ namespace Piwik\Tracker;
 class VisitorNotFoundInDb extends \Exception
 {
 }
-

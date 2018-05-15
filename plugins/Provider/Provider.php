@@ -20,7 +20,7 @@ class Provider extends \Piwik\Plugin
     public function install()
     {
         // add column hostname / hostname ext in the visit table
-        $query = "ALTER IGNORE TABLE `" . Common::prefixTable('log_visit') . "` ADD `location_provider` VARCHAR( 100 ) NULL";
+        $query = "ALTER TABLE `" . Common::prefixTable('log_visit') . "` ADD `location_provider` VARCHAR(200) NULL";
 
         // if the column already exist do not throw error. Could be installed twice...
         try {
@@ -46,10 +46,8 @@ class Provider extends \Piwik\Plugin
 
     public static function footerUserCountry(&$out)
     {
-        $out = '<div>
-			<h2>' . Piwik::translate('Provider_WidgetProviders') . '</h2>';
+        $out .= '<h2 piwik-enriched-headline>' . Piwik::translate('Provider_WidgetProviders') . '</h2>';
         $out .= FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
-        $out .= '</div>';
     }
 
     /**

@@ -1,28 +1,81 @@
-<div class="Menu--dashboard">
+{% macro menu(menu, anchorlink, cssClass, currentModule, currentAction) %}
+    <div id="secondNavBar" class="{{ cssClass }} z-depth-1">
+        <ul class="navbar hide-on-med-and-down" aria-label="{{ 'CoreHome_MainNavigation'|translate|e('html_attr') }}" role="menu">
+            {% for level1,level2 in menu %}
 
-    <ul class="Menu-tabList">
-        {% for level1,level2 in menu %}
-            <li id="{{ level2._url|urlRewriteWithParameters }}">
-                <a href="#{{ level2._url|urlRewriteWithParameters|slice(1) }}"
-                   onclick="return piwikMenu.onItemClick(this);">{{ level1|translate }}</a>
-                <ul>
+                {% set hasSubmenuItem = false %}
                 {% for name,urlParameters in level2 %}
                     {% if name|slice(0,1) != '_' %}
-                        <li>
-                            <a href='#{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}'
-                               onclick='return piwikMenu.onItemClick(this);'>
-                                {{ name|translate }}
-                            </a>
-                        </li>
+                        {% set hasSubmenuItem = true %}
                     {% endif %}
                 {% endfor %}
-                </ul>
-            </li>
-        {% endfor %}
-        <li id="Searchmenu">
-            <span piwik-quick-access></span>
-        </li>
-    </ul>
 
-</div>
-<div class="nav_sep"></div>
+                {% if hasSubmenuItem %}
+                    <li class="menuTab" role="menuitem">
+
+                        <a class="item" tabindex="5">
+                            <span class="menu-icon {{ level2._icon|default('icon-arrow-right') }}"></span>{{ level1|translate }}
+                            <span class="hidden">
+                             {{ 'CoreHome_Menu'|translate }}
+                           </span>
+                        </a>
+                        <ul role="menu">
+                            {% for name,urlParameters in level2 %}
+                                {% if name|slice(0,1) != '_' %}
+                                    <li {% if urlParameters._url.module is defined and urlParameters._url.module == currentModule and urlParameters._url.action is defined and urlParameters._url.action == currentAction %}class="active"{% endif %}
+                                        role="menuitem"
+                                    >
+                                        <a class="item" tabindex="5" target="_self"
+                                           title="{{ urlParameters._tooltip|default('')|translate|e('html_attr') }}"
+                                            {% if urlParameters._onclick is defined and urlParameters._onclick %}
+                                                onclick="{{ urlParameters._onclick|e('html_attr') }};return false;"
+                                            {% endif %}
+                                            {% if urlParameters._url %}
+                                                href="index.php?{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}"
+                                            {% endif %}>
+                                            {% if urlParameters._icon is defined and urlParameters._icon %}<span class="icon {{ urlParameters._icon|e('html_attr') }}" style="margin-right: 5px;"></span>{% endif %}
+                                            {{ name|translate }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <ul id="mobile-left-menu" class="side-nav hide-on-large-only">
+            {% for level1,level2 in menu %}
+
+            {% set hasSubmenuItem = false %}
+            {% for name,urlParameters in level2 %}
+                {% if name|slice(0,1) != '_' %}
+                    {% set hasSubmenuItem = true %}
+                {% endif %}
+            {% endfor %}
+
+            {% if hasSubmenuItem %}
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion" piwik-side-nav="nav .activateLeftMenu">
+                    <li>
+                        <a class="collapsible-header">{{ level1|translate }}<i class="{{ level2._icon|default('icon-arrow-down') }}"></i></a>
+                        <div class="collapsible-body">
+                            <ul>
+                                {% for name,urlParameters in level2 %}
+                                    {% if name|slice(0,1) != '_' %}
+                                        <li>
+                                            <a title="{{ urlParameters._tooltip|default('')|translate|e('html_attr') }}" target="_self"
+                                               href="index.php?{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}">{{ name|translate }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                {% endif %}
+                {% endfor %}
+            </li>
+        </ul>
+    </div>
+{% endmacro %}

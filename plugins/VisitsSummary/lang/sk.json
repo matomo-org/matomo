@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "priem. čas generovania",
+        "AverageVisitDuration": "priemerné trvanie návštevy",
+        "GenerateQueries": "spustené požiadavky: %s",
+        "GenerateTime": "%s sekúnd na vygenerovanie strany",
+        "MaxNbActions": "max. akcií na jednu návštevu",
+        "NbActionsDescription": "%s akcie",
+        "NbActionsPerVisit": "akcie (zobrazenie stránok, sťahovanie a odkazujúce odkazy) za návštevu",
+        "NbDownloadsDescription": "sťahovania",
+        "NbKeywordsDescription": "unikátne kľúčové slová",
+        "NbOutlinksDescription": "vonkajšie odkazy",
+        "NbPageviewsDescription": "zobrazené stránky",
+        "NbSearchesDescription": "celkový počet vyhľadávaní na Vašej webstránke",
+        "NbUniqueDownloadsDescription": "jedinečné sťahovania",
+        "NbUniqueOutlinksDescription": "unikátne vonkajšie odkazy",
+        "NbUniquePageviewsDescription": "unikátne zobrazenia stránok",
+        "NbUniqueVisitors": "unikátny návštevníci",
+        "NbUsersDescription": "používatelia",
+        "NbVisitsDescription": "návštevy",
+        "NbVisitsBounced": "návštev odskočilo (odišli po zobrazení jednej stránky)",
+        "PluginDescription": "Reportuje obecnú analýzu metrík: návštevy, unikátny návštevníci, počet akcií, mieru odskočenia, atď.",
+        "VisitsSummary": "Všetky návštevy",
+        "VisitsSummaryDocumentation": "Toto je prehľad vývoja návštev..",
+        "WidgetLastVisits": "Návštevy v priebehu času",
+        "WidgetOverviewGraph": "Prehľad návštev (s grafom)",
+        "WidgetVisits": "Prehľad návštevníkov"
+    }
+}

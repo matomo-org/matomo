@@ -1,0 +1,6 @@
+{
+    "PrivacyManager": {
+        "AnonymizeIpInlineHelp": "Anonymiser siste del av IPen til vitjarane for å overhalda lokale lovar og retningsliner for personvern.",
+        "KeepBasicMetrics": "Behald standardverdiar (vitjingar, sidevisningar, hoppfrekvens, målkonverteringar, netthandelkonverteringar, osb)"
+    }
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>referrer.com</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>8</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>8</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>42</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>42</revenue>
+		<segment>referrerName==referrer.com</segment>
+		<subtable>
+			<row>
+				<label>http://referrer.com/page.htm?param=valuewith some spaces</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>8</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>8</max_actions>
+				<sum_visit_length>1621</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
+			</row>
+		</subtable>
+	</row>
+</result>

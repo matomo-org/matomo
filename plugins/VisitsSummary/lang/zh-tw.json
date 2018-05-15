@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "平均載入時間",
+        "AverageVisitDuration": "平均停留時間",
+        "GenerateQueries": "已執行 %s 個查詢",
+        "GenerateTime": "%s 秒載入網頁",
+        "MaxNbActions": "單次訪問最大活動數",
+        "NbActionsDescription": "%s 個活動",
+        "NbActionsPerVisit": "單次訪問活動數（網頁瀏覽、離開連結和站內搜尋）",
+        "NbDownloadsDescription": "下載數",
+        "NbKeywordsDescription": "不重複關鍵字數",
+        "NbOutlinksDescription": "離開連結數",
+        "NbPageviewsDescription": "瀏覽數",
+        "NbSearchesDescription": "站內搜尋數",
+        "NbUniqueDownloadsDescription": "不重複下載數",
+        "NbUniqueOutlinksDescription": "不重複離開連結數",
+        "NbUniquePageviewsDescription": "不重複瀏覽數",
+        "NbUniqueVisitors": "不重複訪客",
+        "NbUsersDescription": "使用者",
+        "NbVisitsDescription": "訪問數",
+        "NbVisitsBounced": "跳出數（只瀏覽一頁就離開）",
+        "PluginDescription": "報表產生分析數據：訪問數、不重複訪客數、活動數和跳出率等等。",
+        "VisitsSummary": "訪客摘要",
+        "VisitsSummaryDocumentation": "這是訪問趨勢的總覽。",
+        "WidgetLastVisits": "最近訪問",
+        "WidgetOverviewGraph": "訪問總覽圖表",
+        "WidgetVisits": "訪問總覽"
+    }
+}

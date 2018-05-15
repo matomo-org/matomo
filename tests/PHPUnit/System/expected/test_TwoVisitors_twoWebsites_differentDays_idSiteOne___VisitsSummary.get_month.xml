@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result date="2010-01">
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_users>0</nb_users>
+		<nb_visits>11</nb_visits>
+		<nb_actions>43</nb_actions>
+		<nb_visits_converted>0</nb_visits_converted>
+		<bounce_count>3</bounce_count>
+		<sum_visit_length>7208</sum_visit_length>
+		<max_actions>5</max_actions>
+		<bounce_rate>27%</bounce_rate>
+		<nb_actions_per_visit>3.9</nb_actions_per_visit>
+		<avg_time_on_site>655</avg_time_on_site>
+	</result>
+	<result date="2010-02" />
+	<result date="2010-03" />
+	<result date="2010-04" />
+	<result date="2010-05" />
+	<result date="2010-06" />
+	<result date="2010-07" />
+</results>

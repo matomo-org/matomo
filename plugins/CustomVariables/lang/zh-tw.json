@@ -1,0 +1,25 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "自訂變數名稱",
+        "ColumnCustomVariableValue": "自訂變數值",
+        "CustomVariables": "自訂變數",
+        "CustomVariablesReportDocumentation": "這份報表包含你的自訂變數資訊。點擊變數名稱來查看分配的值。%1$s更多關於自訂變數的資訊請查看 %2$spiwik.org 上的自訂變數說明文件%3$s",
+        "PluginDescription": "自訂變數是透過 Javascript API 為訪客或他們的活動以 [名稱 => 值] 來配對。Matomo 接著會報告這些自訂名稱與值有多少訪問、頁面及轉換。在訪客紀錄中查看每位使用者和活動的自定變數詳情。<br \/>必須要使用<a href=\"https:\/\/piwik.org\/docs\/ecommerce-analytics\/\">電子商務分析<\/a>功能！",
+        "ScopePage": "網頁範圍",
+        "ScopeVisit": "訪客範圍",
+        "ScopeConversion": "範圍轉換",
+        "ManageDescription": "這個總覽顯示「%s」的所有自訂變數和它們的用途。每個欄位中的名稱將以總使用次數來排序。",
+        "ScopeX": "%s 範圍",
+        "Index": "索引",
+        "Usages": "用途",
+        "Unused": "未使用",
+        "CreateNewSlot": "增加自訂變數可用的欄位",
+        "UsageDetails": "自從此網站建立後已有 %1$s 次訪問數和 %2$s 個活動。",
+        "CreatingCustomVariableTakesTime": "建立新的自訂變數欄位可能會花上較久的時間，取決於你的資料庫大小。因此這只可能透過指令列執行指令來達成。",
+        "CurrentAvailableCustomVariables": "目前每個網站最多可以建立 %s 個自訂變數。",
+        "ToCreateCustomVarExecute": "要建立新的自訂變數欄位請在 Matomo 安裝路徑執行以下指令：",
+        "SlotsReportIsGeneratedOverTime": "這份報表的資料將會被補充。可能會花上一到兩天來產生資料，並且花上數周才會有完整準確的報表。",
+        "MetricsAreOnlyAvailableForVisitScope": "注意：%1$s只有自訂變數的範圍有數據%2$s。",
+        "MetricsNotAvailableForPageScope": "自訂變數範圍 %1$s 中，欄位數據的值為 %2$s。"
+    }
+}

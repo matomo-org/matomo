@@ -1,0 +1,11 @@
+{
+    "SEO": {
+        "AlexaRank": "Xếp hạng Alexa",
+        "Bing_IndexedPages": "Các trang được lập chỉ mục Bing",
+        "DomainAge": "Tuổi tên miền",
+        "Google_IndexedPages": "Các trang được lập chỉ mục Google",
+        "Rank": "Xếp hạng",
+        "SeoRankings": "Xếp hạng SEO",
+        "SEORankingsFor": "Xếp hạng SEO cho %s"
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "Feedback": {
+        "DoYouHaveBugReportOrFeatureRequest": "Har du en feil å rapportere eller ny funksjonalitet du ønsker deg?",
+        "HowToCreateTicket": "Vennligst les anbefalingene for å skrive gode %1$sbug-rapporter%2$s eller %3$sfunksjonalitetsønsker%4$s. Så registrerer du deg eller logger inn i %5$svår issue tracker%6$s og klikker på %7$snew issue%8$s.",
+        "IWantTo": "Jeg vil:",
+        "LearnWaysToParticipate": "Lær om alle måtene du kan %1$s bidra%2$s",
+        "ManuallySendEmailTo": "Send meldingen manuelt til",
+        "RateFeatureThankYouTitle": "Takk for at du rangerer «%s»!",
+        "RateFeatureTitle": "Liker du funksjonen «%s»? Vennligst ranger den og legg igjen en kommentar",
+        "SendFeedback": "Send tilbakemelding",
+        "ThankYou": "Takk for at du hjelper oss å lage Matomo bedre!",
+        "TopLinkTooltip": "Fortell oss hva du synes eller be om profesjonell støtte.",
+        "CommunityHelp": "Hjelp fra Matomo-samfunnet",
+        "ProfessionalHelp": "Profesjonell hjelp",
+        "ProfessionalServicesPhoneEmailSupport": "Telefon- og e-poststøtte",
+        "ProfessionalServicesPremiumFeatures": "Premium-funksjoner",
+        "ContactUs": "Kontakt oss"
+    }
+}

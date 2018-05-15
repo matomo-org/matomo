@@ -1,0 +1,33 @@
+{
+    "SitesManager": {
+        "AddSite": "Dodaj novo spletno stran",
+        "ChooseCityInSameTimezoneAsYou": "Izberite mesto, ki je v istem časovnem pasu kot vi.",
+        "Currency": "Valuta",
+        "DefaultCurrencyForNewWebsites": "Privzeta Valuta za nove spletne strani",
+        "DefaultTimezoneForNewWebsites": "Privzet časovni pas za nove spletne strani",
+        "DeleteConfirm": "Ste prepričani da želite izbrisati spletno stran %s?",
+        "EnableEcommerce": "Ecommerce omogočen",
+        "ExceptionDeleteSite": "Te spletne strani ni mogoče izbrisati, saj je trenutno edina registrirana spletna stran. Šele ko boste dodali novo spletno stran, boste lahko izbrisali to spletno stran.",
+        "ExceptionEmptyName": "Ime spletne strani ne sme biti prazno.",
+        "ExceptionInvalidTimezone": "Časovno območje \"%s\" ni veljavno. Prosimo, vnesite veljavno časovno območje.",
+        "ExceptionInvalidUrl": "Vnešeni URL \"%s\" ni veljaven.",
+        "ExceptionNoUrl": "Navesti morate vsaj en URL za to spletno stran.",
+        "ExcludedIps": "Izključeni IP naslovi",
+        "ExcludedParameters": "Izključeni Parametri",
+        "JsTrackingTagHelp": "Tu je JavaScript sledilna koda, ki jo vključite v vse vaše strani",
+        "ListOfIpsToBeExcludedOnAllWebsites": "Spodnji IP-ji bodo izključeni iz sledenja na vseh spletnih straneh.",
+        "NotFound": "Ni bilo najdenih spletnih strani za",
+        "NoWebsites": "Nimate spletnih strani za urejanje",
+        "OnlyOneSiteAtTime": "Sočasno lahko urejate zgolj eno spletno stran. Prosimo, shranite ali pa prekličite vaše trenutne spremembe za spletno stran %s.",
+        "SelectACity": "Izberite mesto",
+        "SelectDefaultCurrency": "Izberete lahko privzeto valuto. Ta bo uporabljena na vseh novo-dodanih spletnih straneh.",
+        "ShowTrackingTag": "Oglej si sledilno kodo",
+        "Sites": "Spletne strani",
+        "Timezone": "Časovno območje",
+        "TrackingTags": "Sledilna koda za %s",
+        "Urls": "Povezave",
+        "UTCTimeIs": "UTC čas je %s.",
+        "WebsitesManagement": "Upravljanje spletnih strani",
+        "YourCurrentIpAddressIs": "Vaš trenuten IP je %s"
+    }
+}

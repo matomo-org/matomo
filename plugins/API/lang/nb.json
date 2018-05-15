@@ -1,0 +1,15 @@
+{
+    "API": {
+        "GenerateVisits": "Hvis du ikke har data for i dag kan du først generere noe data med utvidelsen %1$s. Du kan aktivere %2$s, så klikker du på «Besøksgenerator»-menyen i Matomo admin.",
+        "KeepTokenSecret": "Denne token_auth er like hemmelig som ditt brukernavn og passord. %1$sIkke del den!%2$s",
+        "LoadedAPIs": "Lastet %s API-er",
+        "MoreInformation": "For mer informasjon om Matomo API-er, vennligst se på %1$s Introduction to Matomo API %2$s og %3$s Matomo API Reference %4$s.",
+        "PluginDescription": "Alle data i Matomo er tilgjengelig gjennom enkle API-er. Denne utvidelsen er web-tjenestens inngangspunkt, som du kan kalle opp for å få ut dine data i xml, json, php, csv, etc.",
+        "ReportingApiReference": "Referanse for rapporterings-API",
+        "TopLinkTooltip": "Få tilgang til dine analysedata programmatisk gjennom en enkel API i json, xml, etc.",
+        "UserAuthentication": "Brukerautentisering",
+        "UsingTokenAuth": "Hvis du vil %1$s spørre etter data i et script, en crontab, etc. %2$s må du legge til parameteret %3$s til API-spørringer som krever autentisering.",
+        "Glossary": "Ordliste",
+        "LearnAboutCommonlyUsedTerms": "Lær mer om vanlige termer for å få mest mulig ut av Matomo Analytics: %1$s og %2$s."
+    }
+}

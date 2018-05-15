@@ -1,0 +1,8 @@
+{
+    "ScheduledReports": {
+        "CreateReport": "יצירת דוח",
+        "EmailHello": "שלום,",
+        "SendReportTo": "שלח דוח אל",
+        "SentToMe": "שלח אלי"
+    }
+}

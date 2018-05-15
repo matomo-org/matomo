@@ -9,7 +9,7 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Adds one website and tracks visits on different days over a month
@@ -23,7 +23,7 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
     public $keywords = array(
         'free > proprietary', // testing a keyword containing >
         'peace "," not war', // testing a keyword containing ,
-        'justice )(&^#%$ NOT corruption!',
+        'justice )(&^#%$ NOT \'" corruption!',
     );
 
     public function setUp()

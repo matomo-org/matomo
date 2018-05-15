@@ -1,0 +1,12 @@
+{
+    "UserCountry": {
+        "Continent": "Kontinents",
+        "Country": "Valsts",
+        "country_a1": "Anonīms starpniekserveris",
+        "country_a2": "Satelītpieslēgums",
+        "country_cat": "Katalāņu valodā runājošās kopienas",
+        "country_o1": "Cita valsts",
+        "Location": "Lokācijas",
+        "SubmenuLocations": "Lokācijas"
+    }
+}

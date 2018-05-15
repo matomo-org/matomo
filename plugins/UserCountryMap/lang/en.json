@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "This plugin provides the widgets Visitor Map and Real-time Map. Note: Requires the UserCountry plugin enabled.",
+        "AndNOthers": "and %s others",
+        "Cities": "Cities",
+        "Countries": "Countries",
+        "DaysAgo": "%s days ago",
+        "GoalConversions": "%s goal conversions",
+        "HoursAgo": "%s hours ago",
+        "map": "map",
+        "MinutesAgo": "%s minutes ago",
+        "None": "None",
+        "NoVisit": "No visit",
+        "RealTimeMap": "Real-time Map",
+        "Regions": "Regions",
+        "Searches": "%s searches",
+        "SecondsAgo": "%s seconds ago",
+        "ShowingVisits": "Geo-located visits of last",
+        "Unlocated": "<b>%s<\/b> %p of the visits from %c couldn't be geo located.",
+        "VisitorMap": "Visitor Map",
+        "WorldWide": "World-Wide",
+        "WithUnknownRegion": "%s with unknown region",
+        "WithUnknownCity": "%s with unknown city"
+    }
+}

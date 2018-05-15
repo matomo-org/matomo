@@ -6,6 +6,8 @@
  */
 (function ($) {
 
+    var layoutColumnSelector = '#dashboardWidgetsArea > .col';
+
     /**
      * Current dashboard column layout
      * @type {object}
@@ -57,9 +59,6 @@
 
             if (options.layout) {
                 generateLayout(options.layout);
-                buildMenu();
-            } else {
-                methods.loadDashboard.apply(this, [dashboardId]);
             }
 
             return this;
@@ -73,27 +72,33 @@
         destroy: function () {
             $(dashboardElement).remove();
             dashboardElement = null;
-            var widgets = $('[widgetId]');
-            for (var i = 0; i < widgets.length; i++) {
-                $(widgets[i]).dashboardWidget('destroy');
-            }
+            destroyWidgets();
         },
+
+        destroyWidgets: destroyWidgets,
 
         /**
          * Load dashboard with the given id
          *
          * @param {int} dashboardIdToLoad
          */
-        loadDashboard: function (dashboardIdToLoad) {
+        loadDashboard: function (dashboardIdToLoad, forceReload) {
+
             $(dashboardElement).empty();
             dashboardName = '';
             dashboardLayout = null;
             dashboardId = dashboardIdToLoad;
-            piwikHelper.showAjaxLoading();
-            broadcast.updateHashOnly = true;
-            broadcast.propagateAjax('?idDashboard=' + dashboardIdToLoad);
-            fetchLayout(generateLayout);
-            buildMenu();
+
+            if (!forceReload && piwikHelper.isAngularRenderingThePage()) {
+                angular.element(document).injector().invoke(function ($location) {
+                    $location.search('subcategory', '' + dashboardIdToLoad);
+                });
+            } else {
+                var element = $('[piwik-dashboard]');
+                var scope = angular.element(element).scope();
+                scope.fetchDashboard(dashboardIdToLoad);
+            }
+
             return this;
         },
 
@@ -169,9 +174,10 @@
                 action: 'resetLayout',
                 idDashboard: dashboardId
             }, 'get');
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(
                 function () {
-                    methods.loadDashboard.apply(this, [dashboardId])
+                    methods.loadDashboard.apply(this, [dashboardId, true])
                 }
             );
             ajaxRequest.setLoadingElement();
@@ -179,11 +185,33 @@
             ajaxRequest.send(true);
         },
 
+        rebuildMenu: rebuildMenu,
         /**
          * Removes the current dashboard
          */
         removeDashboard: function () {
-            removeDashboard();
+            if (dashboardId == 1) {
+                return; // dashboard with id 1 should never be deleted, as it is the default
+            }
+
+            var ajaxRequest = new ajaxHelper();
+            ajaxRequest.setLoadingElement();
+            ajaxRequest.addParams({
+                module: 'API',
+                method: 'Dashboard.removeDashboard',
+                idDashboard: dashboardId,
+                login: piwik.userLogin,
+                format: 'json'
+            }, 'get');
+            ajaxRequest.setCallback(
+                function () {
+                    methods.loadDashboard.apply(this, [1]);
+                    rebuildMenu();
+                }
+            );
+            ajaxRequest.withTokenInUrl();
+            ajaxRequest.setFormat('html');
+            ajaxRequest.send(true);
         },
 
         /**
@@ -201,6 +229,47 @@
         }
     };
 
+    function destroyWidgets()
+    {
+        var widgets = $('[widgetId]');
+        for (var i = 0; i < widgets.length; i++) {
+            $(widgets[i]).dashboardWidget('destroy');
+        }
+    }
+
+    function removeNonExistingWidgets(availableWidgets, layout)
+    {
+        var existingModuleAction = {};
+        $.each(availableWidgets, function (category, widgets) {
+            $.each(widgets, function (index, widget) {
+                existingModuleAction[widget.module + '.' + widget.action] = true;
+            });
+        });
+
+        var columns = [];
+        $.each(layout.columns, function (i, column) {
+            var widgets = [];
+
+            $.each(column, function (j, widget) {
+                if (!widget.parameters || !widget.parameters.module) {
+                    return;
+                }
+
+                var method = widget.parameters.module + '.' + widget.parameters.action
+                if (existingModuleAction[method]) {
+                    widgets.push(widget);
+                }
+
+            });
+
+            columns[i] = widgets;
+        });
+
+        layout.columns = columns;
+
+        return layout;
+    }
+
     /**
      * Generates the dashboard out of the given layout
      *
@@ -209,46 +278,33 @@
     function generateLayout(layout) {
 
         dashboardLayout = parseLayout(layout);
-        piwikHelper.hideAjaxLoading();
-        adjustDashboardColumns(dashboardLayout.config.layout);
 
-        var dashboardContainsWidgets = false;
-        for (var column = 0; column < dashboardLayout.columns.length; column++) {
-            for (var i in dashboardLayout.columns[column]) {
-                if (typeof dashboardLayout.columns[column][i] != 'object') {
-                    // Fix IE8 bug: the "i in" loop contains i="indexOf", which would yield type function.
-                    // If we would continue with i="indexOf", an invalid widget would be created.
-                    continue;
+        widgetsHelper.getAvailableWidgets(function (availableWidgets) {
+            dashboardLayout = removeNonExistingWidgets(availableWidgets, dashboardLayout);
+
+            piwikHelper.hideAjaxLoading();
+            adjustDashboardColumns(dashboardLayout.config.layout);
+
+            var dashboardContainsWidgets = false;
+            for (var column = 0; column < dashboardLayout.columns.length; column++) {
+                for (var i in dashboardLayout.columns[column]) {
+                    if (typeof dashboardLayout.columns[column][i] != 'object') {
+                        // Fix IE8 bug: the "i in" loop contains i="indexOf", which would yield type function.
+                        // If we would continue with i="indexOf", an invalid widget would be created.
+                        continue;
+                    }
+                    var widget = dashboardLayout.columns[column][i];
+                    dashboardContainsWidgets = true;
+                    addWidgetTemplate(widget.uniqueId, column + 1, widget.parameters, false, widget.isHidden)
                 }
-                var widget = dashboardLayout.columns[column][i];
-                dashboardContainsWidgets = true;
-                addWidgetTemplate(widget.uniqueId, column + 1, widget.parameters, false, widget.isHidden)
             }
-        }
 
-        if (!dashboardContainsWidgets) {
-            $(dashboardElement).trigger('dashboardempty');
-        }
+            if (!dashboardContainsWidgets) {
+                $(dashboardElement).trigger('dashboardempty');
+            }
 
-        makeWidgetsSortable();
-    }
-
-    /**
-     * Fetches the layout for the currently set dashboard id
-     * and passes the response to given callback function
-     *
-     * @param {function} callback
-     */
-    function fetchLayout(callback) {
-        globalAjaxQueue.abort();
-        var ajaxRequest = new ajaxHelper();
-        ajaxRequest.addParams({
-            module: 'Dashboard',
-            action: 'getDashboardLayout',
-            idDashboard: dashboardId
-        }, 'get');
-        ajaxRequest.setCallback(callback);
-        ajaxRequest.send(false);
+            makeWidgetsSortable();
+        });
     }
 
     /**
@@ -262,7 +318,7 @@
         var columnWidth = layout.split('-');
         var columnCount = columnWidth.length;
 
-        var currentCount = $('.col', dashboardElement).length;
+        var currentCount = $('> .col', dashboardElement).length;
 
         if (currentCount < columnCount) {
             $('.menuClear', dashboardElement).remove();
@@ -279,8 +335,8 @@
                     dashboardLayout.columns.pop();
                 }
                 // move widgets to other columns depending on columns height
-                $('[widgetId]', $('.col:last')).each(function (id, elem) {
-                    var cols = $('.col').slice(0, columnCount);
+                $('[widgetId]', $(layoutColumnSelector + ':last')).each(function (id, elem) {
+                    var cols = $(layoutColumnSelector).slice(0, columnCount);
                     var smallestColumn = $(cols[0]);
                     var smallestColumnHeight = null;
                     cols.each(function (colId, col) {
@@ -293,12 +349,57 @@
                     $(elem).appendTo(smallestColumn);
                 });
 
-                $('.col:last').remove();
+                $(layoutColumnSelector + ':last').remove();
             }
         }
 
-        for (var i = 0; i < columnCount; i++) {
-            $('.col', dashboardElement)[i].className = 'col width-' + columnWidth[i];
+        var $dashboardElement = $(' > .col', dashboardElement);
+
+        if (!$dashboardElement.length) {
+            return;
+        }
+
+        switch (layout) {
+            case '100':
+                $dashboardElement.removeClass().addClass('col s12');
+                break;
+            case '50-50':
+                $dashboardElement.removeClass().addClass('col s12 m6');
+                break;
+            case '67-33':
+                $dashboardElement[0].className = 'col s12 m8';
+                $dashboardElement[1].className = 'col s12 m4';
+                break;
+            case '33-67':
+                $dashboardElement[0].className = 'col s12 m4';
+                $dashboardElement[1].className = 'col s12 m8';
+                break;
+            case '33-33-33':
+                $dashboardElement[0].className = 'col s12 m4';
+                $dashboardElement[1].className = 'col s12 m4';
+                $dashboardElement[2].className = 'col s12 m4';
+                break;
+            case '40-30-30':
+                $dashboardElement[0].className = 'col s12 m6';
+                $dashboardElement[1].className = 'col s12 m3';
+                $dashboardElement[2].className = 'col s12 m3';
+                break;
+            case '30-40-30':
+                $dashboardElement[0].className = 'col s12 m3';
+                $dashboardElement[1].className = 'col s12 m6';
+                $dashboardElement[2].className = 'col s12 m3';
+                break;
+            case '30-30-40':
+                $dashboardElement[0].className = 'col s12 m3';
+                $dashboardElement[1].className = 'col s12 m3';
+                $dashboardElement[2].className = 'col s12 m6';
+                break;
+            case '25-25-25-25':
+                $dashboardElement[0].className = 'col s12 m3';
+                $dashboardElement[1].className = 'col s12 m3';
+                $dashboardElement[2].className = 'col s12 m3';
+                $dashboardElement[3].className = 'col s12 m3';
+                break;
         }
 
         makeWidgetsSortable();
@@ -347,7 +448,7 @@
      * @param {String} uniqueId
      */
     function reloadWidget(uniqueId) {
-        $('[widgetId=' + uniqueId + ']', dashboardElement).dashboardWidget('reload', false, true);
+        $('[widgetId="' + uniqueId + '"]', dashboardElement).dashboardWidget('reload', false, true);
     }
 
     /**
@@ -364,19 +465,19 @@
         }
 
         // do not try to add widget if given column number is to high
-        if (columnNumber > $('.col', dashboardElement).length) {
+        if (columnNumber > $('> .col', dashboardElement).length) {
             return;
         }
 
         var widgetContent = '<div class="sortable" widgetId="' + uniqueId + '"></div>';
 
         if (addWidgetOnTop) {
-            $('.col:nth-child(' + columnNumber + ')', dashboardElement).prepend(widgetContent);
+            $('> .col:nth-child(' + columnNumber + ')', dashboardElement).prepend(widgetContent);
         } else {
-            $('.col:nth-child(' + columnNumber + ')', dashboardElement).append(widgetContent);
+            $('> .col:nth-child(' + columnNumber + ')', dashboardElement).append(widgetContent);
         }
 
-        $('[widgetId=' + uniqueId + ']', dashboardElement).dashboardWidget({
+        $('[widgetId="' + uniqueId + '"]', dashboardElement).dashboardWidget({
             uniqueId: uniqueId,
             widgetParameters: widgetParameters,
             onChange: function () {
@@ -407,9 +508,9 @@
         }
 
         //launch 'sortable' property on every dashboard widgets
-        $( "div.col:data('ui-sortable')", dashboardElement ).sortable('destroy');
+        $( layoutColumnSelector + ":data('ui-sortable')", dashboardElement ).sortable('destroy');
 
-        $('div.col', dashboardElement)
+        $('> .col', dashboardElement)
                     .sortable({
                         items: 'div.sortable',
                         opacity: 0.6,
@@ -420,67 +521,78 @@
                         helper: 'clone',
                         start: onStart,
                         stop: onStop,
-                        connectWith: 'div.col'
+                        connectWith: layoutColumnSelector
                     });
     }
 
     /**
      * Handle clicks for menu items for choosing between available dashboards
      */
-    function buildMenu() {
+    function rebuildMenu() {
+
+        if (piwikHelper.isAngularRenderingThePage()) {
+            // dashboard in reporting page (regular Piwik UI)
+            angular.element(document).injector().invoke(function (reportingMenuModel) {
+                reportingMenuModel.reloadMenuItems();
+            });
+            return;
+        }
+
+        var _self = this;
+
+        // widgetized
         var success = function (dashboards) {
-            var dashboardMenuList = $('#Dashboard').find('> ul');
+            var dashboardMenuList = $('#Dashboard_embeddedIndex_1').closest('ul');
             var dashboardMenuListItems = dashboardMenuList.find('>li');
 
             dashboardMenuListItems.filter(function () {
                 return $(this).attr('id').indexOf('Dashboard_embeddedIndex') == 0;
             }).remove();
 
+            if (dashboards.length === 0) {
+                dashboards = [{iddashboard: 1, name: _pk_translate('Dashboard_Dashboard')}];
+            }
+
             if (dashboards.length > 1
                 || dashboardMenuListItems.length >= 1
             ) {
                 var items = [];
                 for (var i = 0; i < dashboards.length; i++) {
-                    var $link = $('<a/>').attr('data-idDashboard', dashboards[i].iddashboard).text(dashboards[i].name);
-                    var $li = $('<li/>').attr('id', 'Dashboard_embeddedIndex_' + dashboards[i].iddashboard)
-                                        .addClass('dashboardMenuItem').append($link);
+                    var $link = $('<a/>').attr('data-iddashboard', dashboards[i].iddashboard).text(dashboards[i].name).addClass('item');
+                    var $li = $('<li/>').attr('id', 'Dashboard_embeddedIndex_' + dashboards[i].iddashboard).addClass('dashboardMenuItem').attr('role', 'menuitem').append($link);
+
                     items.push($li);
 
                     if (dashboards[i].iddashboard == dashboardId) {
                         dashboardName = dashboards[i].name;
-                        $li.addClass('sfHover');
+                        $li.addClass('active');
                     }
                 }
                 dashboardMenuList.prepend(items);
-            } else {
-                dashboardMenuList.hide();
             }
 
-            dashboardMenuList.find('a[data-idDashboard]').click(function (e) {
+            dashboardMenuList.find('a[data-iddashboard]').click(function (e) {
                 e.preventDefault();
 
-                var idDashboard = $(this).attr('data-idDashboard');
+                var idDashboard = $(this).attr('data-iddashboard');
 
-                if (typeof piwikMenu != 'undefined') {
-                    piwikMenu.activateMenu('Dashboard', 'embeddedIndex');
-                }
-                $('#Dashboard ul li').removeClass('sfHover');
-                if ($(dashboardElement).length) {
-                    $(dashboardElement).dashboard('loadDashboard', idDashboard);
-                } else {
-                    broadcast.propagateAjax('module=Dashboard&action=embeddedIndex&idDashboard=' + idDashboard);
-                }
-                $(this).closest('li').addClass('sfHover');
+                $('#Dashboard ul li').removeClass('active');
+
+                methods.loadDashboard.apply(_self, [idDashboard]);
+
+                $(this).closest('li').addClass('active');
             });
         };
 
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.addParams({
             module: 'Dashboard',
-            action: 'getAllDashboards'
+            action: 'getAllDashboards',
+            filter_limit: '-1'
         }, 'get');
+        ajaxRequest.withTokenInUrl();
         ajaxRequest.setCallback(success);
-        ajaxRequest.send(false);
+        ajaxRequest.send();
     }
 
     /**
@@ -491,10 +603,11 @@
         var columns = [];
 
         var columnNumber = 0;
-        $('.col').each(function () {
+
+        $(layoutColumnSelector).each(function () {
             columns[columnNumber] = [];
             var items = $('[widgetId]', this);
-            for (var j = 0; j < items.size(); j++) {
+            for (var j = 0; j < items.length; j++) {
                 columns[columnNumber][j] = $(items[j]).dashboardWidget('getWidgetObject');
 
                 // Do not store segment in the dashboard layout
@@ -527,37 +640,15 @@
                 function () {
                     if (dashboardChanged) {
                         dashboardChanged = false;
-                        buildMenu();
+                        rebuildMenu();
                     }
                 }
             );
+
+            ajaxRequest.withTokenInUrl();
             ajaxRequest.setFormat('html');
             ajaxRequest.send(false);
         }
-    }
-
-    /**
-     * Removes the current dashboard
-     */
-    function removeDashboard() {
-        if (dashboardId == 1) {
-            return; // dashboard with id 1 should never be deleted, as it is the default
-        }
-
-        var ajaxRequest = new ajaxHelper();
-        ajaxRequest.setLoadingElement();
-        ajaxRequest.addParams({
-            module: 'Dashboard',
-            action: 'removeDashboard',
-            idDashboard: dashboardId
-        }, 'get');
-        ajaxRequest.setCallback(
-            function () {
-                methods.loadDashboard.apply(this, [1]);
-            }
-        );
-        ajaxRequest.setFormat('html');
-        ajaxRequest.send(true);
     }
 
     /**

@@ -1,4 +1,7 @@
-<div id="header">
-    {% include "@CoreHome/_logo.twig" %}
-    {% include "@CoreHome/_topBar.twig" %}
-</div>
+<nav>
+    <div class="nav-wrapper">
+        <a href="#main" tabindex="1" class="accessibility-skip-to-content">{{'CoreHome_SkipToContent'|translate}}</a>
+        {% include "@CoreHome/_logo.twig" %}
+        {% include "@CoreHome/_topBar.twig" %}
+    </div>
+</nav>

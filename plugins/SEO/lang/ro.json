@@ -1,0 +1,11 @@
+{
+    "SEO": {
+        "AlexaRank": "Poziţie în Alexa",
+        "Bing_IndexedPages": "Pagini indexate de Bing",
+        "DomainAge": "Vechime domeniu",
+        "Google_IndexedPages": "Pagini indexate de Google",
+        "Rank": "Poziţie",
+        "SeoRankings": "Poziţionări SEO",
+        "SEORankingsFor": "Poziţionări SEO pentru %s"
+    }
+}

@@ -9,10 +9,9 @@
 namespace Piwik\Plugins\Provider\Columns;
 
 use Piwik\Common;
-use Piwik\IP;
-use Piwik\Piwik;
+use Piwik\Network\IP;
+use Piwik\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -22,16 +21,12 @@ use Piwik\Plugins\Provider\Provider as ProviderPlugin;
 class Provider extends VisitDimension
 {
     protected $columnName = 'location_provider';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('provider');
-        $segment->setCategory('Visit Location');
-        $segment->setName('Provider_ColumnProvider');
-        $segment->setAcceptedValues('comcast.net, proxad.net, etc.');
-        $this->addSegment($segment);
-    }
+    protected $segmentName = 'provider';
+    protected $category = 'UserCountry_VisitLocation';
+    protected $nameSingular = 'Provider_ColumnProvider';
+    protected $namePlural = 'Provider_WidgetProviders';
+    protected $acceptValues = 'comcast.net, proxad.net, etc.';
+    protected $type = self::TYPE_TEXT;
 
     /**
      * @param Request $request
@@ -41,6 +36,13 @@ class Provider extends VisitDimension
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
+        // Adding &dp=1 will disable the provider plugin, this is an "unofficial" parameter used to speed up log importer
+        $disableProvider = $request->getParam('dp');
+
+        if (!empty($disableProvider)) {
+            return false;
+        }
+
         // if provider info has already been set, abort
         $locationValue = $visitor->getVisitorColumn('location_provider');
         if (!empty($locationValue)) {
@@ -54,7 +56,7 @@ class Provider extends VisitDimension
             $ip = $request->getIp();
         }
 
-        $ip = IP::N2P($ip);
+        $ip = IPUtils::binaryToStringIP($ip);
 
         // In case the IP was anonymized, we should not continue since the DNS reverse lookup will fail and this will slow down tracking
         if (substr($ip, -2, 2) == '.0') {
@@ -79,16 +81,16 @@ class Provider extends VisitDimension
     /**
      * Returns the hostname given the IP address string
      *
-     * @param string $ip IP Address
+     * @param string $ipStr IP Address
      * @return string hostname (or human-readable IP address)
      */
-    private function getHost($ip)
+    private function getHost($ipStr)
     {
-        return trim(strtolower(@IP::getHostByAddr($ip)));
-    }
+        $ip = IP::fromStringIP($ipStr);
 
-    public function getName()
-    {
-        return Piwik::translate('Provider_ColumnProvider');
+        $host = $ip->getHostname();
+        $host = ($host === null ? $ipStr : $host);
+
+        return trim(strtolower($host));
     }
 }

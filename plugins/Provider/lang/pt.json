@@ -1,0 +1,7 @@
+{
+    "Provider": {
+        "ColumnProvider": "Fornecedor",
+        "ProviderReportDocumentation": "Este relatório mostra quais os ISPs que os seus visitantes usaram para aceder ao website. Você pode clicar num nome do ISP para obter mais detalhes. %s Se o Matomo não pode determinar o ISP do visitante, é listado como IP.",
+        "WidgetProviders": "Fornecedores"
+    }
+}

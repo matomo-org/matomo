@@ -9,9 +9,10 @@ namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\Mock\LocationProvider as MockLocationProvider;
 
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Framework/Mock/LocationProvider.php';
 
 /**
  * Adds one site and tracks 60 visits (15 visitors, one action per visit).
@@ -32,6 +33,8 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         $this->setUpWebsitesAndGoals();
         $this->setMockLocationProvider();
         $this->trackVisits();
+
+        ManyVisitsWithGeoIP::unsetLocationProvider();
     }
 
     public function tearDown()
@@ -209,15 +212,17 @@ class ManyVisitsWithMockLocationProvider extends Fixture
 
     private function setMockLocationProvider()
     {
+        LocationProvider::$providers = array();
+        LocationProvider::$providers[] = new MockLocationProvider();
         LocationProvider::setCurrentProvider('mock_provider');
-        \MockLocationProvider::$locations = array(
+        MockLocationProvider::$locations = array(
             self::makeLocation('Toronto', 'ON', 'CA', $lat = null, $long = null, $isp = 'comcast.net'),
 
-            self::makeLocation('Nice', 'B8', 'FR', $lat = null, $long = null, $isp = 'comcast.net'),
+            self::makeLocation('Nice', 'PAC', 'FR', $lat = null, $long = null, $isp = 'comcast.net'),
 
-            self::makeLocation('Melbourne', '07', 'AU', $lat = null, $long = null, $isp = 'awesomeisp.com'),
+            self::makeLocation('Melbourne', 'VIC', 'AU', $lat = null, $long = null, $isp = 'awesomeisp.com'),
 
-            self::makeLocation('Yokohama', '19', 'JP'),
+            self::makeLocation('Yokohama', '14', 'JP'),
         );
     }
 }

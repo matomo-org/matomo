@@ -1,0 +1,12 @@
+{
+    "UserCountry": {
+        "City": "Grad",
+        "CityAndCountry": "%1$s, %2$s",
+        "Continent": "Kontinent",
+        "Country": "Država",
+        "country_a1": "Anonimni Proxy",
+        "country_a2": "Satelitski pružatelj usluga",
+        "Location": "Lokacija",
+        "SubmenuLocations": "Lokacije"
+    }
+}

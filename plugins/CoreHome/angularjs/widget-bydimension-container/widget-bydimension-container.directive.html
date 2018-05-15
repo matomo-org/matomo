@@ -1,0 +1,23 @@
+<div class="reportsByDimensionView">
+
+    <div class="entityList">
+        <div class='dimensionCategory' ng-repeat="category in widgetsByCategory">
+            {{ category.name }}
+            <ul class='listCircle'>
+                <li ng-repeat="widget in category.widgets"
+                    class="reportDimension"
+                    ng-class="{activeDimension: (selectedWidget.uniqueId===widget.uniqueId)}"
+                    ng-click="selectWidget(widget)">
+                    <span class='dimension'>{{widget.name}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="reportContainer">
+        <div ng-if="selectedWidget.parameters" class="dimensionReport"
+             piwik-widget-loader="selectedWidget.parameters"></div>
+    </div>
+    <div class="clear"></div>
+
+</div>

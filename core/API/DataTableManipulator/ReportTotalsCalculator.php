@@ -10,10 +10,10 @@ namespace Piwik\API\DataTableManipulator;
 
 use Piwik\API\DataTableManipulator;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Period;
-use Piwik\Plugins\API\API;
+use Piwik\Plugin\Report;
+use Piwik\Plugin\ReportsProvider;
 
 /**
  * This class is responsible for setting the metadata property 'totals' on each dataTable if the report
@@ -23,10 +23,29 @@ use Piwik\Plugins\API\API;
 class ReportTotalsCalculator extends DataTableManipulator
 {
     /**
-     * Cached report metadata array.
+     * Array [readableMetric] => [summed value]
      * @var array
      */
-    private static $reportMetadata = array();
+    private $totals = array();
+
+    /**
+     * @var Report
+     */
+    private $report;
+
+    /**
+     * Constructor
+     *
+     * @param bool $apiModule
+     * @param bool $apiMethod
+     * @param array $request
+     * @param Report $report
+     */
+    public function __construct($apiModule = false, $apiMethod = false, $request = array(), $report = null)
+    {
+        parent::__construct($apiModule, $apiMethod, $request);
+        $this->report = $report;
+    }
 
     /**
      * @param  DataTable $table
@@ -43,7 +62,7 @@ class ReportTotalsCalculator extends DataTableManipulator
 
         try {
             return $this->manipulate($table);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             // eg. requests with idSubtable may trigger this exception
             // (where idSubtable was removed in
             // ?module=API&method=Events.getNameFromCategoryId&idSubtable=1&secondaryDimension=eventName&format=XML&idSite=1&period=day&date=yesterday&flat=0
@@ -59,73 +78,37 @@ class ReportTotalsCalculator extends DataTableManipulator
      */
     protected function manipulateDataTable($dataTable)
     {
-        $report = $this->findCurrentReport();
-
-        if (!empty($report) && empty($report['dimension'])) {
+        if (!empty($this->report) && !$this->report->getDimension() && !$this->isAllMetricsReport()) {
             // we currently do not calculate the total value for reports having no dimension
             return $dataTable;
         }
 
-        // Array [readableMetric] => [summed value]
-        $totalValues = array();
-
+        $this->totals       = array();
         $firstLevelTable    = $this->makeSureToWorkOnFirstLevelDataTable($dataTable);
         $metricsToCalculate = Metrics::getMetricIdsToProcessReportTotal();
 
+        $metricNames = array();
         foreach ($metricsToCalculate as $metricId) {
-            if (!$this->hasDataTableMetric($firstLevelTable, $metricId)) {
-                continue;
-            }
+            $metricNames[$metricId] = Metrics::getReadableColumnName($metricId);
+        }
 
-            foreach ($firstLevelTable->getRows() as $row) {
-                $totalValues = $this->sumColumnValueToTotal($row, $metricId, $totalValues);
+        if (!empty($this->report)) {
+            $reportMetrics = $this->report->getMetricNamesToProcessReportTotals();
+            foreach ($reportMetrics as $metricId => $metricName) {
+                $metricNames[$metricId] = $metricName;
             }
         }
 
-        $dataTable->setMetadata('totals', $totalValues);
+        foreach ($firstLevelTable->getRows() as $row) {
+            $columns = $row->getColumns();
+            foreach ($metricNames as $metricId => $metricName) {
+                $this->sumColumnValueToTotal($columns, $metricId, $metricName);
+            }
+        }
+
+        $dataTable->setMetadata('totals', $this->totals);
 
         return $dataTable;
-    }
-
-    private function hasDataTableMetric(DataTable $dataTable, $metricId)
-    {
-        $firstRow = $dataTable->getFirstRow();
-
-        if (empty($firstRow)) {
-            return false;
-        }
-
-        if (false === $this->getColumn($firstRow, $metricId)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Returns column from a given row.
-     * Will work with 2 types of datatable
-     * - raw datatables coming from the archive DB, which columns are int indexed
-     * - datatables processed resulting of API calls, which columns have human readable english names
-     *
-     * @param Row|array $row
-     * @param int $columnIdRaw see consts in Metrics::
-     * @return mixed  Value of column, false if not found
-     */
-    private function getColumn($row, $columnIdRaw)
-    {
-        $columnIdReadable = Metrics::getReadableColumnName($columnIdRaw);
-
-        if ($row instanceof Row) {
-            $raw = $row->getColumn($columnIdRaw);
-            if ($raw !== false) {
-                return $raw;
-            }
-
-            return $row->getColumn($columnIdReadable);
-        }
-
-        return false;
     }
 
     private function makeSureToWorkOnFirstLevelDataTable($table)
@@ -141,11 +124,12 @@ class ReportTotalsCalculator extends DataTableManipulator
             $module = $this->apiModule;
             $action = $this->apiMethod;
         } else {
-            $module = $firstLevelReport['module'];
-            $action = $firstLevelReport['action'];
+            $module = $firstLevelReport->getModule();
+            $action = $firstLevelReport->getAction();
         }
 
         $request = $this->request;
+        unset($request['idSubtable']); // to make sure we work on first level table
 
         /** @var \Piwik\Period $period */
         $period = $table->getMetadata('period');
@@ -170,30 +154,47 @@ class ReportTotalsCalculator extends DataTableManipulator
         return $table;
     }
 
-    private function sumColumnValueToTotal(Row $row, $metricId, $totalValues)
+    private function sumColumnValueToTotal($columns, $metricId, $metricName)
     {
-        $value = $this->getColumn($row, $metricId);
-
-        if (false === $value) {
-
-            return $totalValues;
+        $value = false;
+        if (array_key_exists($metricId, $columns)) {
+            $value = $columns[$metricId];
         }
 
-        $metricName = Metrics::getReadableColumnName($metricId);
+        if ($value === false) {
+            // we do not add $metricId to $possibleMetricNames for a small performance improvement since in most cases
+            // $metricId should be present in $columns so we avoid this foreach loop
+            $possibleMetricNames = array(
+                $metricName,
+                // TODO: this and below is a hack to get report totals to work correctly w/ MultiSites.getAll. can be corrected
+                //       when all metrics are described by Metadata classes & internal naming quirks are handled by core system.
+                'Goal_' . $metricName,
+                'Actions_' . $metricName
+            );
+            foreach ($possibleMetricNames as $possibleMetricName) {
+                if (array_key_exists($possibleMetricName, $columns)) {
+                    $value = $columns[$possibleMetricName];
+                    break;
+                }
+            }
 
-        if (array_key_exists($metricName, $totalValues)) {
-            $totalValues[$metricName] += $value;
+            if ($value === false) {
+                return;
+            }
+        }
+
+        if (array_key_exists($metricName, $this->totals)) {
+            $this->totals[$metricName] += $value;
         } else {
-            $totalValues[$metricName] = $value;
+            $this->totals[$metricName] = $value;
         }
-
-        return $totalValues;
     }
 
     /**
      * Make sure to get all rows of the first level table.
      *
      * @param array $request
+     * @return array
      */
     protected function manipulateSubtableRequest($request)
     {
@@ -201,6 +202,7 @@ class ReportTotalsCalculator extends DataTableManipulator
         $request['expanded']      = 0;
         $request['filter_limit']  = -1;
         $request['filter_offset'] = 0;
+        $request['filter_sort_column'] = '';
 
         $parametersToRemove = array('flat');
 
@@ -216,38 +218,22 @@ class ReportTotalsCalculator extends DataTableManipulator
         return $request;
     }
 
-    private function getReportMetadata()
-    {
-        if (!empty(static::$reportMetadata)) {
-            return static::$reportMetadata;
-        }
-
-        static::$reportMetadata = API::getInstance()->getReportMetadata();
-
-        return static::$reportMetadata;
-    }
-
-    private function findCurrentReport()
-    {
-        foreach ($this->getReportMetadata() as $report) {
-            if ($this->apiMethod == $report['action']
-                && $this->apiModule == $report['module']) {
-
-                return $report;
-            }
-        }
-    }
-
     private function findFirstLevelReport()
     {
-        foreach ($this->getReportMetadata() as $report) {
-            if (!empty($report['actionToLoadSubTables'])
-                && $this->apiMethod == $report['actionToLoadSubTables']
-                && $this->apiModule == $report['module']
+        $reports = new ReportsProvider();
+        foreach ($reports->getAllReports() as $report) {
+            $actionToLoadSubtables = $report->getActionToLoadSubTables();
+            if ($actionToLoadSubtables == $this->apiMethod
+                && $this->apiModule == $report->getModule()
             ) {
-
                 return $report;
             }
         }
+        return null;
+    }
+
+    private function isAllMetricsReport()
+    {
+        return $this->report->getModule() == 'API' && $this->report->getAction() == 'get';
     }
 }

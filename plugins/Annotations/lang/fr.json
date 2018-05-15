@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Ajouter une annotation pour %s...",
+        "AnnotationOnDate": "Annotation sur %1$s : %2$s",
+        "Annotations": "Annotations",
+        "ClickToDelete": "Cliquez ici pour supprimer une annotation",
+        "ClickToEdit": "Cliquez ici pour supprimer une annotation",
+        "ClickToEditOrAdd": "Cliquer pour éditer ou ajouter une nouvelle annotation.",
+        "ClickToStarOrUnstar": "Cliquez pour marquer ou enlever le marquage de cette annotation.",
+        "CreateNewAnnotation": "Cliquez-ici pour créer une annotation",
+        "EnterAnnotationText": "Description...",
+        "HideAnnotationsFor": "Masquer les annotations pour %s...",
+        "IconDesc": "Voir les annotations pour cette période",
+        "IconDescHideNotes": "Masquer les annotations pour cette période",
+        "InlineQuickHelp": "Vous pouvez créer des annotations pour marquer des évènements spéciaux (comme un nouveau billet de blog ou une refonte du site web), pour garder une trace de vos analyses de données ou de ce que vous jugez important.",
+        "LoginToAnnotate": "Identifiez vous pour créer une annotation",
+        "NoAnnotations": "Il n'y a aucune annotation pour cette période",
+        "PluginDescription": "Vous permet d'annoter des dates pour marquer des changement sur votre site, noter des analyses que vous faites de vos données et partager vos notes avec vos collègues. En annotant vos données, vous pourrez vous rappeler pourquoi vos données sont ainsi.",
+        "ViewAndAddAnnotations": "Voir et ajouter une annotation pour %s ...",
+        "YouCannotModifyThisNote": "Vous ne pouvez pas modifier cette annotation parce que vous ne l'avez pas créée ou vous n'avez pas les accès d'administrateur pour ce site."
+    }
+}

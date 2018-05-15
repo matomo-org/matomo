@@ -28,7 +28,7 @@ class Info extends ConsoleCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $maxVars = CustomVariables::getMaxCustomVariables();
+        $maxVars = CustomVariables::getNumUsableCustomVariables();
 
         if ($this->hasEverywhereSameAmountOfVariables()) {
             $this->writeSuccessMessage($output, array(

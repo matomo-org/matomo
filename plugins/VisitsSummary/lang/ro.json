@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s interogari executate",
+        "GenerateTime": "%s secunde pentru generarea pagini",
+        "NbActionsDescription": "%s acţiuni",
+        "VisitsSummary": "Rezumatul vizitelor",
+        "VisitsSummaryDocumentation": "Acesta este un rezumat a evoluţiei vizitelor.",
+        "WidgetLastVisits": "Grafic ultima vizita",
+        "WidgetOverviewGraph": "Rezumatul grafic",
+        "WidgetVisits": "Rezumatul vizitelor"
+    }
+}

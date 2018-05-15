@@ -1,0 +1,32 @@
+{
+    "UsersManager": {
+        "AddUser": "Pridať nového používateľa",
+        "Alias": "Alias",
+        "AllWebsites": "Všetky webstránky",
+        "AnonymousUser": "Anonymný používateľ",
+        "ApplyToAllWebsites": "Použiť na všetky webstránky",
+        "DeleteConfirm": "Ste si istý, že chcete odstrániť používateľa %s?",
+        "Email": "E-mail",
+        "ExceptionAccessValues": "Parameter prístupu musí mať jednu z nasledujúcich hodnôt: [ %s ]",
+        "ExceptionAdminAnonymous": "Nemôžete priradiť prístup 'admin' pre používateľa 'anonymous'.",
+        "ExceptionDeleteDoesNotExist": "Používateľ '%s' neexistuje a preto nemôže byť odstránený.",
+        "ExceptionEditAnonymous": "Anonymný používateľ nemôže byť odstránený alebo upravený. Matomo ho používa na definovanie používateľa, ktorý sa ešte prihlásil. Anonymného používateľa môžete použiť na zverejnenie svojich štatistík, a to priradeným mu práv na prezeranie.",
+        "ExceptionEmailExists": "Používateľ s e-mailom '%s' už existuje.",
+        "ExceptionInvalidEmail": "E-mailová adresa nemá platný formát.",
+        "ExceptionUserDoesNotExist": "Používateľ '%s' neexistuje.",
+        "ManageAccess": "Správa prístupov",
+        "MenuAnonymousUserSettings": "Nastavenie pre anonymného užívateľa",
+        "MenuUsers": "Používatelia",
+        "MenuUserSettings": "Užívateľské nastavenia",
+        "MenuPersonal": "Osobné",
+        "PersonalSettings": "Osobné nastavenia",
+        "PrivAdmin": "Admin",
+        "PrivNone": "Bez prístupu",
+        "PrivView": "Zobrazenie",
+        "TypeYourPasswordAgain": "Zadajte nové heslo znovu.",
+        "User": "Používatelia",
+        "UsersManagement": "Správa používateľov",
+        "UsersManagementMainDescription": "Vytvorenie nových alebo aktualizácia existujúcich používateľov V sekcií vyššie im môžete nastaviť rozsah prístupov.",
+        "YourUsernameCannotBeChanged": "Vaše užívateľské meno sa nedá zmeniť."
+    }
+}

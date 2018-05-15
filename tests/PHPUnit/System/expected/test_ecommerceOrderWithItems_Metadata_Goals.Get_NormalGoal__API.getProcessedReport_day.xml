@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Piwik test</website>
+	<prettyDate>Tuesday, April 5, 2011</prettyDate>
+	<metadata>
+		<category>Goals</category>
+		<name>Goal title match, triggered ONCE</name>
+		<module>Goals</module>
+		<action>get</action>
+		<parameters>
+			<idGoal>1</idGoal>
+		</parameters>
+		<metrics>
+			<nb_conversions>Conversions</nb_conversions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+			<revenue>Revenue</revenue>
+		</metrics>
+		<metricsDocumentation>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<conversion_rate>Conversion Rate</conversion_rate>
+		</processedMetrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=1&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=1&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>
+		<uniqueId>Goals_get_idGoal--1</uniqueId>
+	</metadata>
+	<columns>
+		<nb_conversions>Conversions</nb_conversions>
+		<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+		<revenue>Revenue</revenue>
+		<conversion_rate>Conversion Rate</conversion_rate>
+	</columns>
+	<reportData>
+		<nb_conversions>1</nb_conversions>
+		<nb_visits_converted>1</nb_visits_converted>
+		<revenue>$ 10</revenue>
+		<conversion_rate>33.33%</conversion_rate>
+	</reportData>
+	<reportMetadata />
+	<reportTotal>
+	</reportTotal>
+</result>

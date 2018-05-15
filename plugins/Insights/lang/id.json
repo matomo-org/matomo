@@ -1,0 +1,11 @@
+{
+    "Insights": {
+        "ControlComparedToDescription": "Pertumbuhan dibandingkan ke",
+        "DayComparedToPreviousDay": "hari sebelumnya",
+        "Filter": "Saring",
+        "FilterOnlyNew": "Hanya baru",
+        "MonthComparedToPreviousMonth": "bulan sebelumnya",
+        "WeekComparedToPreviousWeek": "minggu sebelumnya",
+        "YearComparedToPreviousYear": "tahun sebelumnya"
+    }
+}

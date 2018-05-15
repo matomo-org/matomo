@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Events\Reports;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\Events\Columns\EventName;
 
@@ -19,9 +20,12 @@ class GetName extends Base
         $this->dimension     = new EventName();
         $this->name          = Piwik::translate('Events_EventNames');
         $this->documentation = ''; // TODO
-        $this->metrics       = array('nb_events', 'sum_event_value', 'min_event_value', 'max_event_value', 'avg_event_value', 'nb_events_with_value');
-        $this->actionToLoadSubTables = 'getActionFromNameId';
+        $this->metrics       = array('nb_events', 'sum_event_value', 'min_event_value', 'max_event_value', 'nb_events_with_value');
+        if (Common::getRequestVar('secondaryDimension', false) == 'eventCategory') {
+            $this->actionToLoadSubTables = 'getCategoryFromNameId';
+        } else {
+            $this->actionToLoadSubTables = 'getActionFromNameId';
+        }
         $this->order = 2;
-        $this->widgetTitle  = 'Events_EventNames';
     }
 }

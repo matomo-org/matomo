@@ -1,0 +1,26 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Toimintoja palaavilta käyttäjiltä",
+        "ColumnAverageVisitDurationForReturningVisitors": "Palaavien käyttäjien keskimääräinen vierailuaika (sekuntia)",
+        "ColumnAvgActionsPerReturningVisit": "Palaavien käyttäjien toimintojen määrä",
+        "ColumnBounceCountForReturningVisits": "Ensimmäisen sivun jälkeen poistuneet palaavat kävijät",
+        "ColumnBounceRateForReturningVisits": "Lyhyitä käyntejä palaavilta käyttäjiltä",
+        "ColumnMaxActionsInReturningVisit": "Suurin määrä toimintoja yhdellä palaavalla käynnillä",
+        "ColumnNbReturningVisitsConverted": "Palaavien konvertoitujen käyntien määrä",
+        "ColumnReturningVisits": "Palaavat käynnit",
+        "ColumnSumVisitLengthReturning": "Palaavien käyttäjien aika yhteensä (sekunteja)",
+        "ColumnUniqueReturningVisitors": "Yksilölliset palaavat kävijät",
+        "ColumnReturningUsers": "Palaavat käyttäjät",
+        "PluginDescription": "Raportoi metriikat ensimmäisen kerran kävijöistä ja palaavista vierailijoista",
+        "ReturnActions": "toimintoja palanneissa käynneissä",
+        "ReturnAverageVisitDuration": "palaavien kävijöiden käynnin keskimääräinen kesto",
+        "ReturnAvgActions": "toimintoja per palannut kävijä",
+        "ReturnBounceRate": "kimmonneet palaavat kävijät (lähtivät sivustolta ensimmäinen sivun nähtyään)",
+        "ReturningVisitDocumentation": "Palaava käynti (vs. uusi käynti) on kävijä, joka on käynyt sivulla vähintään kerran aikaisemminkin.",
+        "ReturningVisitsDocumentation": "Tämä on palaavien käyntien yleiskatsaus.",
+        "ReturnVisits": "palaavia kävijöitä",
+        "SubmenuFrequency": "Yleisyys",
+        "WidgetGraphReturning": "Palaavat käynnit",
+        "WidgetOverview": "Yleiskatsaus käynneistä"
+    }
+}

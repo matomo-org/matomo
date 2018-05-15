@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="2010-01-03">
+			<row>
+				<label>this keyword should be ranked</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>3</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>3</max_actions>
+				<sum_visit_length>364</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<nb_visits_converted>1</nb_visits_converted>
+				<segment>referrerType==search;referrerKeyword==this+keyword+should+be+ranked</segment>
+				<subtable>
+					<row>
+						<label>Google</label>
+						<nb_uniq_visitors>1</nb_uniq_visitors>
+						<nb_visits>1</nb_visits>
+						<nb_actions>3</nb_actions>
+						<nb_users>0</nb_users>
+						<max_actions>3</max_actions>
+						<sum_visit_length>364</sum_visit_length>
+						<bounce_count>0</bounce_count>
+						<nb_visits_converted>1</nb_visits_converted>
+					</row>
+				</subtable>
+			</row>
+			<row>
+				<label>piwik</label>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>0</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>0</revenue>
+					</row>
+				</goals>
+				<nb_conversions>2</nb_conversions>
+				<revenue>0</revenue>
+				<nb_visits>0</nb_visits>
+				<segment>referrerType==search;referrerKeyword==piwik</segment>
+			</row>
+		</result>
+		<result date="2010-01-04" />
+		<result date="2010-01-05" />
+		<result date="2010-01-06" />
+		<result date="2010-01-07" />
+		<result date="2010-01-08" />
+		<result date="2010-01-09" />
+	</result>
+</results>

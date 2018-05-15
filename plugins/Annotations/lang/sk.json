@@ -1,0 +1,21 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Pridať anotáciu pre %s…",
+        "AnnotationOnDate": "Anotácia na %1$s: %2$s",
+        "Annotations": "Anotácie",
+        "ClickToDelete": "Kliknutím odstránite túto anotáciu.",
+        "ClickToEdit": "Kliknutím upravíte túto anotáciu.",
+        "ClickToEditOrAdd": "Klknutím upravíte alebo pridáte anotáciu.",
+        "ClickToStarOrUnstar": "Klknutím označíte alebo odznačíte hviezdičkou anotáciu.",
+        "CreateNewAnnotation": "Vytvoriť novú anotáciu…",
+        "EnterAnnotationText": "Vložte svoju poznámku...",
+        "HideAnnotationsFor": "Skryť anotáciu pre %s…",
+        "IconDesc": "Pozrieť poznámky pre tento časový rozsah.",
+        "IconDescHideNotes": "Skryť poznámky pre tento časový rozsah.",
+        "InlineQuickHelp": "Môžete vytvoriť anotácie na onačenie špeciálnych udalostí (ako nový príspevok na blogu, alebo redizajn webovej stránky), na uloženie Vašich dátových analýz alebo na uloženie čohokoľvek ďalšieho čo si myslíte, že je dôležité.",
+        "LoginToAnnotate": "Prihláste sa pre vytvorenie anotácie.",
+        "NoAnnotations": "Pre tento časový rozsah nie sú anotácie.",
+        "ViewAndAddAnnotations": "Zobraziť a pridať anotácie pre %s…",
+        "YouCannotModifyThisNote": "Nemôžete upraviť túto anotáciu, pretože ste ju nevytvorili, ani nemáte administrátorský prístup pre túto stránku."
+    }
+}

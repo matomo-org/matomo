@@ -1,0 +1,16 @@
+{
+    "API": {
+        "ChangeTokenHint": "Wenn Sie dieses Token ändern wollen, gehen Sie bitte zu Ihren %1$sBenutzereinstellungen%2$s.",
+        "GenerateVisits": "Sollten für heute keine Daten verfügbar sein, so können Sie mit dem %1$s Plugin Testdaten erzeugen. Aktivieren Sie das %2$s Plugin und klicken dann auf das 'Besuchergenerator'-Menu in der Matomo-Administration.",
+        "KeepTokenSecret": "Der token_auth ist so geheim wie Ihr Login und Passwort, %1$s teilen Sie es niemandem mit%2$s!",
+        "LoadedAPIs": "%s APIs erfolgreich geladen",
+        "MoreInformation": "Für weitere Informationen über die Matomo-APIs lesen Sie bitte %1$s Einführung in die Matomo-API %2$s und die %3$s Matomo-API-Referenz %4$s.",
+        "PluginDescription": "Alle Daten in Matomo sind über einfache APIs verfügbar. Dieses Plugin ist der Web Service Eingangspunkt, welchen Sie nutzen können um Daten der Webanalyse in XML, JSON, PHP, CSV usw. abzufragen.",
+        "ReportingApiReference": "Reporting-API-Referenz",
+        "TopLinkTooltip": "Greife auf die Webanalytikdaten über eine einfache API mit json, xml, usw. zu.",
+        "UserAuthentication": "Benutzerauthentifizierung",
+        "UsingTokenAuth": "Wenn Sie %1$s Daten mit einem Script, einem Crontab, etc. abrufen wollen, %2$s müssen Sie den Parameter %3$s an die URLs anhängen, deren API-Aufrufe eine Authentifizierung benötigen.",
+        "Glossary": "Glossar",
+        "LearnAboutCommonlyUsedTerms": "Lernen Sie mehr über die häufig verwendeten Begriffe, um das Beste aus Ihren Matomo Analysen zu machen: %1$s und %2$s"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "Este complemento suministra los módulos Mapa de visitante y Mapa en tiempo real. Nota: Requiere el complemento UserCountry habilitado.",
+        "AndNOthers": "y %s otros",
+        "Cities": "Ciudades",
+        "Countries": "Países",
+        "DaysAgo": "%s días atrás",
+        "GoalConversions": "%s conversiones de objetivo",
+        "HoursAgo": "%s horas atrás",
+        "map": "mapa",
+        "MinutesAgo": "Hace %s minutos",
+        "None": "Ninguno",
+        "NoVisit": "Sin visitas",
+        "RealTimeMap": "Mapa en Tiempo real",
+        "Regions": "Regiones",
+        "Searches": "%s búsquedas",
+        "SecondsAgo": "Hace %s segundos",
+        "ShowingVisits": "Visitas geolocalizadas desde la última vez",
+        "Unlocated": "<b>%s<\/b> %p de las visitas desde %c no pudieron ser geolocalizadas.",
+        "VisitorMap": "Mapa de visitantes",
+        "WorldWide": "Global",
+        "WithUnknownRegion": "%s con región desconocida",
+        "WithUnknownCity": "%s con ciudad desconocida"
+    }
+}

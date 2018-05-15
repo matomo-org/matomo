@@ -9,7 +9,8 @@
 namespace Piwik\Plugins\Actions\Reports;
 
 use Piwik\Common;
-use Piwik\MetricsFormatter;
+use Piwik\Metrics;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Actions;
@@ -20,8 +21,9 @@ abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
-        $this->category = 'General_Actions';
+        $this->categoryId = 'General_Actions';
         $this->processedMetrics = false;
+        $this->recursiveLabelSeparator = '/';
     }
 
     protected function addBaseDisplayProperties(ViewDataTable $view)
@@ -58,25 +60,13 @@ abstract class Base extends \Piwik\Plugin\Report
     {
         $view->config->addTranslations(array(
             'nb_hits'             => Piwik::translate('General_ColumnPageviews'),
-            'nb_visits'           => Piwik::translate('General_ColumnUniquePageviews'),
-            'avg_time_on_page'    => Piwik::translate('General_ColumnAverageTimeOnPage'),
-            'bounce_rate'         => Piwik::translate('General_ColumnBounceRate'),
-            'exit_rate'           => Piwik::translate('General_ColumnExitRate'),
-            'avg_time_generation' => Piwik::translate('General_ColumnAverageGenerationTime'),
+            'nb_visits'           => Piwik::translate('General_ColumnUniquePageviews')
         ));
 
-        // prettify avg_time_on_page column
-        $getPrettyTimeFromSeconds = '\Piwik\MetricsFormatter::getPrettyTimeFromSeconds';
-        $view->config->filters[] = array('ColumnCallbackReplace', array('avg_time_on_page', $getPrettyTimeFromSeconds));
-
-        // prettify avg_time_generation column
-        $avgTimeCallback = function ($time) {
-            return $time ? MetricsFormatter::getPrettyTimeFromSeconds($time, true, true, false) : "-";
-        };
-        $view->config->filters[] = array('ColumnCallbackReplace', array('avg_time_generation', $avgTimeCallback));
+        $formatter = new Formatter();
 
         // add avg_generation_time tooltip
-        $tooltipCallback = function ($hits, $min, $max) {
+        $tooltipCallback = function ($hits, $min, $max) use ($formatter) {
             if (!$hits) {
                 return false;
             }
@@ -84,8 +74,8 @@ abstract class Base extends \Piwik\Plugin\Report
             return Piwik::translate("Actions_AvgGenerationTimeTooltip", array(
                 $hits,
                 "<br />",
-                MetricsFormatter::getPrettyTimeFromSeconds($min),
-                MetricsFormatter::getPrettyTimeFromSeconds($max)
+                $formatter->getPrettyTimeFromSeconds($min, true),
+                $formatter->getPrettyTimeFromSeconds($max, true)
             ));
         };
         $view->config->filters[] = array('ColumnCallbackAddMetadata',
@@ -102,7 +92,11 @@ abstract class Base extends \Piwik\Plugin\Report
     protected function addExcludeLowPopDisplayProperties(ViewDataTable $view)
     {
         if (Common::getRequestVar('enable_filter_excludelowpop', '0', 'string') != '0') {
-            $view->requestConfig->filter_excludelowpop = 'nb_hits';
+            if (Common::getRequestVar('flat', 0, 'int') === 1) {
+                $view->requestConfig->filter_excludelowpop = 'nb_hits';
+            } else {
+                $view->requestConfig->filter_excludelowpop = Metrics::INDEX_PAGE_NB_HITS;
+            }
             $view->requestConfig->filter_excludelowpop_value = function () {
                 // computing minimum value to exclude (2 percent of the total number of actions)
                 $visitsInfo = \Piwik\Plugins\VisitsSummary\Controller::getVisitsSummary()->getFirstRow();
@@ -115,5 +109,4 @@ abstract class Base extends \Piwik\Plugin\Report
             };
         }
     }
-
 }

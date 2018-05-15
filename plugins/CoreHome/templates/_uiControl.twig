@@ -1,6 +1,9 @@
 <div class="{{ cssIdentifier }} {{ cssClass }}"
-     data-props="{{ clientSideProperties|json_encode }}"
-     data-params="{{ clientSideParameters|json_encode }}">
-     {% render implView with implOverride %}
+    {% for name,value in htmlAttributes %}
+         {{ name }}="{{ value|e('html_attr') }}"
+    {% endfor %}
+    data-props="{{ clientSideProperties|json_encode }}"
+    data-params="{{ clientSideParameters|json_encode }}">
+{% render implView with implOverride %}
 </div>
 <script>$(document).ready(function () { require('{{ jsNamespace }}').{{ jsClass }}.initElements(); });</script>

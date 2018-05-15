@@ -109,6 +109,7 @@ class ColumnCallbackAddColumnQuotient extends BaseFilter
         if ($divisor > 0 && $value > 0) {
             $quotient = round($value / $divisor, $this->quotientPrecision);
         }
+
         return $quotient;
     }
 
@@ -135,7 +136,7 @@ class ColumnCallbackAddColumnQuotient extends BaseFilter
     {
         if (!is_null($this->totalValueUsedAsDivisor)) {
             return $this->totalValueUsedAsDivisor;
-        } else if ($this->getDivisorFromSummaryRow) {
+        } elseif ($this->getDivisorFromSummaryRow) {
             $summaryRow = $this->table->getRowFromId(DataTable::ID_SUMMARY_ROW);
             return $summaryRow->getColumn($this->columnNameUsedAsDivisor);
         } else {

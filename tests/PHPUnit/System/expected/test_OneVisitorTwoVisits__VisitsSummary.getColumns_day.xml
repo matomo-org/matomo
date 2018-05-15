@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>nb_uniq_visitors</row>
+	<row>nb_users</row>
+	<row>nb_visits</row>
+	<row>nb_actions</row>
+	<row>nb_visits_converted</row>
+	<row>bounce_count</row>
+	<row>sum_visit_length</row>
+	<row>max_actions</row>
+	<row>bounce_rate</row>
+	<row>nb_actions_per_visit</row>
+	<row>avg_time_on_site</row>
+</result>

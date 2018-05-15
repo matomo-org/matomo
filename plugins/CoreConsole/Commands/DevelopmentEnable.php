@@ -25,29 +25,23 @@ class DevelopmentEnable extends ConsoleCommand
         $this->setName('development:enable');
         $this->setAliases(array('development:disable'));
         $this->setDescription('Enable or disable development mode. See config/global.ini.php in section [Development] for more information');
-        $this->addOption('full', null, InputOption::VALUE_NONE, 'If set, it will enable/disable more developer options such as disable merged assets as well and not only the [Development:enabled] option.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $commandName = $input->getFirstArgument();
         $enable      = (false !== strpos($commandName, 'enable'));
-        $full        = $input->getOption('full');
 
         $config      = Config::getInstance();
         $development = $config->Development;
 
         if ($enable) {
             $development['enabled'] = 1;
-            if ($full) {
-                $development['disable_merged_assets'] = 1;
-            }
+            $development['disable_merged_assets'] = 1;
             $message = 'Development mode enabled';
         } else {
             $development['enabled'] = 0;
-            if ($full) {
-                $development['disable_merged_assets'] = 0;
-            }
+            $development['disable_merged_assets'] = 0;
             $message = 'Development mode disabled';
         }
 

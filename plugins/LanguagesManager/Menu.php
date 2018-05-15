@@ -28,7 +28,7 @@ class Menu extends \Piwik\Plugin\Menu
     {
         if (Development::isEnabled() && Piwik::isUserHasSomeAdminAccess()) {
             $menu->addDevelopmentItem('LanguagesManager_TranslationSearch',
-                                      array('module' => 'LanguagesManager', 'action' => 'searchTranslation'));
+                                      $this->urlForAction('searchTranslation'));
         }
     }
 }

@@ -1,0 +1,16 @@
+{
+    "API": {
+        "ChangeTokenHint": "Jika Anda ingin mengganti token ini, silakan menuju %1$s pengaturan halaman Anda %2$s.",
+        "GenerateVisits": "Bila Anda tidak memiliki data untuk hari ini, Anda dapat membuat beberapa menggunakan pengaya %1$s. Anda dapat mengaktifkan pengaya %2$s, lalu klik menu 'Pembangkit Kunjungan' di halaman Pengurus Matomo.",
+        "KeepTokenSecret": "token_auth ini merupakan hal yang rahasia sebagaimana nama-id dan sandi Anda, %1$s sehingga jangan memberitahukannya%2$s!",
+        "LoadedAPIs": "Berhasil memuat API %s",
+        "MoreInformation": "Untuk informasi selengkapnya tentang API Matomo, silakan melihat %1$s Pengenalan API Matomo%2$s dan %3$sReferensi API Matomo%4$s.",
+        "PluginDescription": "Semua data di Matomo tersedia melalui API sederhana. Plugin ini adalah titik masuk layanan web, yang dapat Anda hubungkan untuk mendapatkan data Web Analytics Anda dalam bentuk xml, json, php, csv, dll.",
+        "ReportingApiReference": "Referensi Pelaporan API",
+        "TopLinkTooltip": "Akses data Analisis Ramatraya terprogram melalui API sederhana dalam json, xml, dan lain lain.",
+        "UserAuthentication": "Otentikasi pengguna",
+        "UsingTokenAuth": "Jika Anda ingin melakukan permintaan data %1$s menggunakan skrip, crontab, dll. %2$s Anda harus menambah parameter %3$s agar API memanggil URL yang membutuhkan otentikasi.",
+        "Glossary": "Glosarium",
+        "LearnAboutCommonlyUsedTerms": "Pelajari tentang istilah yang umum digunakan untuk memanfaatkan Analitik Matomo:%1$s dan %2$s."
+    }
+}

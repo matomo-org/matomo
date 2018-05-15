@@ -1,0 +1,101 @@
+{% extends mode is defined and mode == 'user' ? "user.twig" : "admin.twig" %}
+{% import '@Marketplace/macros.twig' as marketplaceMacro %}
+
+{% set title %}{{ 'Marketplace_Marketplace'|translate }}{% endset %}
+
+{% block content %}
+
+    <div piwik-content-block
+         content-title="{{ 'Marketplace_OverviewPluginSubscriptions'|translate|e('html_attr') }}"
+         class="subscriptionOverview">
+
+        {% if hasLicenseKey %}
+            <p>
+                {{ 'Marketplace_PluginSubscriptionsList'|translate }}
+                {% if loginUrl %}
+                    <a target="_blank" rel="noreferrer" href="{{ loginUrl }}">{{ 'Marketplace_OverviewPluginSubscriptionsAllDetails'|translate }}</a>
+                {% endif %}
+                <br/>
+                {{ 'Marketplace_OverviewPluginSubscriptionsMissingInfo'|translate }}
+                <br />
+
+                {{ 'Marketplace_NoValidSubscriptionNoUpdates'|translate }}
+                {{ 'Marketplace_CurrentNumPiwikUsers'|translate('<strong>' ~ numUsers ~ '</strong>')|raw }}
+            </p>
+
+            <br />
+
+            <table piwik-content-table>
+                <thead>
+                <tr>
+                    <th>{{ 'General_Name'|translate }}</th>
+                    <th>{{ 'Marketplace_SubscriptionType'|translate }}</th>
+                    <th>{{ 'CorePluginsAdmin_Status'|translate }}</th>
+                    <th>{{ 'Marketplace_SubscriptionStartDate'|translate }}</th>
+                    <th>{{ 'Marketplace_SubscriptionEndDate'|translate }}</th>
+                    <th>{{ 'Marketplace_SubscriptionNextPaymentDate'|translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if subscriptions|length %}
+                    {% for subscription in subscriptions %}
+                        <tr>
+                            <td class="subscriptionName">
+                                {% if subscription.plugin.htmlUrl %}
+                                    <a href="{{ subscription.plugin.htmlUrl }}" rel="noreferrer" target="_blank">
+                                {% endif %}
+
+                                {{ subscription.plugin.displayName }}
+
+                                {% if subscription.plugin.htmlUrl %}
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td class="subscriptionType">{{ subscription.productType }}</td>
+                            <td class="subscriptionStatus"
+                                title="{% if not subscription.isValid %}{{ 'Marketplace_SubscriptionInvalid'|translate|e('html_attr') }}{% elseif subscription.isExpiredSoon %}{{ 'Marketplace_SubscriptionExpiresSoon'|translate|e('html_attr') }}{% endif %}">
+                                {% if not subscription.isValid %}
+                                    <span class="icon-error"></span>
+                                {% elseif subscription.isExpiredSoon %}
+                                    <span class="icon-warning"></span>
+                                {% else %}
+                                    <span class="icon-ok"></span>
+                                {% endif %}
+
+                                {{ subscription.status }}
+
+                                {% if subscription.isExceeded is defined and subscription.isExceeded %}
+                                    <span class="errorMessage" title="{{ 'Marketplace_LicenseExceededPossibleCause'|translate }}"><span class="icon-error"></span> {{ 'Marketplace_Exceeded'|translate }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ subscription.start }}</td>
+                            <td>{% if subscription.isValid and subscription.nextPayment %}
+                                    {{ 'Marketplace_LicenseRenewsNextPaymentDate'|translate }}
+                                {% else %}
+                                    {{ subscription.end }}
+                                {% endif %}
+                            </td>
+                            <td>{{ subscription.nextPayment }}</td>
+
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="6">{{ 'Marketplace_NoSubscriptionsFound'|translate }}</td></tr>
+                {% endif %}
+                </tbody>
+            </table>
+
+            <div class="tableActionBar">
+                <a href="{{ linkTo({'module':"Marketplace", 'action':"overview"}) }}"
+                   class="">
+                    <span class="icon-table"></span>
+                    {{ 'Marketplace_BrowseMarketplace'|translate }}
+                </a>
+            </div>
+
+        {% else %}
+            <p>{{ 'Marketplace_OverviewPluginSubscriptionsMissingLicense'|translate('<a href="'~ linkTo({'module':"Marketplace", 'action':"overview"}) ~'">', '</a>')|raw }}</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,8 @@
+{
+    "Marketplace": {
+        "ActivateLicenseKey": "Slå på",
+        "PluginKeywords": "Nøkkelord",
+        "PluginVersionInfo": "%1$s van %2$s",
+        "SubscriptionType": "Type"
+    }
+}

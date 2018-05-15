@@ -1,0 +1,12 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Brugerdefineret variabelnavn",
+        "ColumnCustomVariableValue": "Brugerdefineret variabelværdi",
+        "CustomVariables": "Brugerdefinerede variabler",
+        "CustomVariablesReportDocumentation": "Rapporten indeholder oplysninger om brugerdefinerede variabler. Klik på et variabelnavn se fordeling af værdier. %1$s Yderligere oplysninger om brugerdefinerede variabler generelt, læs %2$sBrugerdefinerede variabel dokumentation på piwik.org%3$s",
+        "ScopePage": "virkefelt side",
+        "ScopeVisit": "virkefelt besøg",
+        "Index": "Indeks",
+        "Unused": "Ubrugt"
+    }
+}

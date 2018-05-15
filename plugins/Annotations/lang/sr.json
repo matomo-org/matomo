@@ -1,0 +1,22 @@
+{
+    "Annotations": {
+        "AddAnnotationsFor": "Dodaj belešku za %s...",
+        "AnnotationOnDate": "Beleške za %1$s: %2$s",
+        "Annotations": "Beleške",
+        "ClickToDelete": "Kliknite kako biste obrisali belešku.",
+        "ClickToEdit": "Kliknite kako biste izmenili belešku.",
+        "ClickToEditOrAdd": "Kliknite kako biste dodali ili izmenili belešku.",
+        "ClickToStarOrUnstar": "Kliknite kako biste markirali belešku.",
+        "CreateNewAnnotation": "Napravi novu belešku...",
+        "EnterAnnotationText": "Upišite belešku...",
+        "HideAnnotationsFor": "Sakrij beleške za %s...",
+        "IconDesc": "Prikaži beleške za ovaj vremenski period.",
+        "IconDescHideNotes": "Sakrij beleške za ovaj vremenski period.",
+        "InlineQuickHelp": "Možete da kreirate beleške kako biste istakli posebne događaje (novi post na blogu, redizajn sajta), sačuvali vašu analizu podataka ili kako biste sačuvali bilo šta drugo što smatrate važnim.",
+        "LoginToAnnotate": "Prijavite se kako biste napravili novu belešku.",
+        "NoAnnotations": "Nema beleški za ovaj vremenski period.",
+        "PluginDescription": "Omogućuje vam da dodate beleške za određene dane kako biste zapamtili zašto podaci izgledaju tako kako izgledaju.",
+        "ViewAndAddAnnotations": "Prikaži i dodaj beleške za %s...",
+        "YouCannotModifyThisNote": "Ovu belešku ne možete da izmenite zato što je niste vi kreirali i nemate nivo administratorskog pristupa sajtu."
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "Referrers": {
+        "Campaigns": "Kampanjar",
+        "ColumnCampaign": "Kampanje",
+        "ColumnSearchEngine": "Søkjemotor",
+        "ColumnWebsite": "Nettstad",
+        "ColumnWebsitePage": "Nettstadside",
+        "DirectEntry": "Direkte vitjing",
+        "Distinct": "Distinkte referansar etter referansetype",
+        "DistinctCampaigns": "distinkte kampanjar",
+        "DistinctKeywords": "distinkte nøkkelord",
+        "DistinctSearchEngines": "distinkte søkjemotorer",
+        "DistinctWebsites": "distinkte nettstader",
+        "Keywords": "Nøkkelord",
+        "Referrers": "Referansar",
+        "SearchEngines": "Søkjemotorar",
+        "SubmenuSearchEngines": "Søkjemotorar og nøkkelord",
+        "SubmenuWebsites": "Nettstader",
+        "Type": "Referansetype",
+        "TypeCampaigns": "%s frå kampanjar",
+        "TypeDirectEntries": "%s direkte vitjarar",
+        "TypeSearchEngines": "%s frå søkjemotorer",
+        "TypeWebsites": "%s frå nettstader",
+        "Websites": "Nettstadar",
+        "WidgetExternalWebsites": "Liste over eksterne nettsider"
+    }
+}

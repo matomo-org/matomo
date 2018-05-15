@@ -1,0 +1,12 @@
+{
+    "UserCountry": {
+        "Continent": "კონტინენტი",
+        "Country": "ქვეყანა",
+        "country_a1": "ანონიმური პროქსი",
+        "country_a2": "სატელიტური პროვაიდერი",
+        "country_o1": "სხვა ქვეყანა",
+        "DistinctCountries": "%s განსხვავებული ქვეყანა",
+        "Location": "მდებარეობა",
+        "SubmenuLocations": "მდებარეობები"
+    }
+}

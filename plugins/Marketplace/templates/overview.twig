@@ -1,0 +1,85 @@
+{% extends "admin.twig" %}
+{% import '@CorePluginsAdmin/macros.twig' as pluginsMacro %}
+
+{% set title %}{{ 'Marketplace_Marketplace'|translate }}{% endset %}
+
+{% block content %}
+
+    <div class="marketplace" piwik-marketplace>
+
+        <div piwik-content-intro>
+            <h2 piwik-enriched-headline feature-name="{{ 'CorePluginsAdmin_Marketplace'|translate }}"
+            >{{ title|e('html_attr') }}</h2>
+            <p>
+                {% if not isSuperUser %}
+                    {% if showThemes %}
+                        {{ 'Marketplace_NotAllowedToBrowseMarketplaceThemes'|translate }}
+                    {% else %}
+                        {{ 'Marketplace_NotAllowedToBrowseMarketplacePlugins'|translate }}
+                    {% endif %}
+                {% elseif showThemes %}
+                    {{ 'CorePluginsAdmin_ThemesDescription'|translate }}
+                    {{ 'Marketplace_InstallingNewPluginViaMarketplaceOrUpload'|translate(('CorePluginsAdmin_Themes'|translate), '<a href="#" class="uploadPlugin">', ('CorePluginsAdmin_Theme'|translate), '</a>')|raw }}
+                {% else %}
+                    {{ 'CorePluginsAdmin_PluginsExtendPiwik'|translate }}
+                    {{ 'Marketplace_InstallingNewPluginViaMarketplaceOrUpload'|translate(('General_Plugins'|translate), '<a href="#" class="uploadPlugin">', ('General_Plugin'|translate), '</a>')|raw }}
+                {% endif %}
+            </p>
+
+            {% include '@Marketplace/licenseform.twig' %}
+
+            {% include '@Marketplace/uploadPluginDialog.twig' %}
+
+            <div class="row marketplaceActions" ng-controller="PiwikMarketplaceController as marketplace">
+                <div piwik-field uicontrol="select" name="plugin_type"
+                     class="col s12 m6 l4"
+                     ng-model="marketplace.pluginType"
+                     ng-change="marketplace.changePluginType()"
+                     title="{{ 'Show'|translate|e('html_attr') }}"
+                     value="{{ pluginType }}"
+                     full-width="true"
+                     options="{{ pluginTypeOptions|json_encode }}">
+                </div>
+
+                <div piwik-field uicontrol="select" name="plugin_sort"
+                     title="{{ 'Sort'|translate|e('html_attr') }}"
+                     value="{{ sort }}"
+                     ng-model="marketplace.pluginSort"
+                     ng-change="marketplace.changePluginSort()"
+                     class="col s12 m6 l4"
+                     full-width="true"
+                     options="{{ pluginSortOptions|json_encode }}">
+                </div>
+
+                {# Hide filters and search for themes because we don't have many of them #}
+                {% if (pluginsToShow|length) > 20 or query %}
+                    <div class="col s12 m12 l4 ">
+                        <form action="{{ linkTo({'sort': ''}) }}" method="post" class="plugin-search">
+                            <div piwik-field uicontrol="text" name="query"
+                                 title="{{ 'General_Search'|translate }} {{ numAvailablePlugins }} {{ 'General_Plugins'|translate|lcfirst }}..."
+                                 value="{{ query }}"
+                                 full-width="true">
+                            </div>
+                            <span class="icon-search" onclick="$('form.plugin-search').submit();"></span>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% include '@Marketplace/plugin-list.twig' %}
+
+        <div class="footer-message center">
+            {{ 'Marketplace_DevelopersLearnHowToDevelopPlugins'|translate('<a href="?module=Proxy&action=redirect&url=https://developer.matomo.org/develop" target="_blank">', '</a>')|raw }}
+            <br />
+            <br />
+            <br />
+            <a rel="noreferrer" href="https://shop.matomo.org/faq/" target="_blank">FAQ</a> |
+            <a rel="noreferrer" href="https://shop.matomo.org/terms-conditions/" target="_blank">Terms</a> |
+            <a rel="noreferrer" href="https://matomo.org/privacy-policy/" target="_blank">Privacy</a> |
+            <a rel="noreferrer" href="https://matomo.org/contact/" target="_blank">Contact</a>
+        </div>
+
+    </div>
+
+{% endblock %}

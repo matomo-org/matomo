@@ -10,23 +10,24 @@ namespace Piwik\Plugins\DevicesDetection\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\DevicesDetection\Columns\Devicebrand;
+use Piwik\Plugins\DevicesDetection\Columns\DeviceBrand;
 
 class GetBrand extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new Devicebrand();
+        $this->dimension     = new DeviceBrand();
         $this->name          = Piwik::translate('DevicesDetection_DeviceBrand');
         $this->documentation = ''; // TODO
-        $this->order = 1;
-        $this->widgetTitle  = 'DevicesDetection_DeviceBrand';
+        $this->order = 4;
+        $this->hasGoalMetrics = true;
+        $this->subcategoryId = 'DevicesDetection_Devices';
     }
 
     public function configureView(ViewDataTable $view)
     {
-        $view->config->show_search = false;
+        $view->config->show_search = true;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate("DevicesDetection_dataTableLabelBrands"));
     }

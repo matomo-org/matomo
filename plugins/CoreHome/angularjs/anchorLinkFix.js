@@ -32,7 +32,12 @@
             return;
         }
 
-        var $node = $('#' + hash);
+        try {
+            var $node = $('#' + hash);
+        } catch (err) {
+            // on jquery syntax error, ignore so nothing is logged to the console
+            return;
+        }
 
         if ($node && $node.length) {
             scrollToAnchorNode($node);
@@ -80,7 +85,9 @@
     {
         angular.module('piwikApp').run(['$rootScope', function ($rootScope) {
 
-            $rootScope.$on('$locationChangeStart', function (event, newUrl, oldUrl, $location) {
+            $rootScope.$on('$locationChangeStart', onLocationChangeStart);
+
+            function onLocationChangeStart (event, newUrl, oldUrl, $location) {
 
                 if (!newUrl) {
                     return;
@@ -98,7 +105,7 @@
                 var hash = newUrl.substr(hashPos + 2);
 
                 scrollToAnchorIfPossible(hash, event);
-            });
+            }
         }]);
     }
 

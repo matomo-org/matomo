@@ -1,0 +1,31 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s kthime",
+        "DirectEntries": "Hyrje të Drejtpërdrejta",
+        "ErrorBack": "Kthehu te veprimi i mëparshëm",
+        "ExitsInline": "%s largime",
+        "NumPageviews": "%s parje faqesh",
+        "NumDownloads": "%s shkarkime",
+        "NumOutlinks": "%s lidhje për jashtë",
+        "FromCampaigns": "Prej Fushatash",
+        "FromPreviousPages": "Prej Faqesh të Brendshme",
+        "FromPreviousPagesInline": "%s prej faqesh të brendshme",
+        "FromPreviousSiteSearches": "Prej Kërkimesh të Brendshme",
+        "FromPreviousSiteSearchesInline": "%s prej kërkimesh të brendshme",
+        "FromSearchEngines": "Prej Motorë Kërkimesh",
+        "FromWebsites": "Prej Sajtesh",
+        "IncomingTraffic": "Trafik ardhës",
+        "LoopsInline": "%s ringarkime faqesh",
+        "NoDataForAction": "S’ka të dhëna për %s",
+        "NoDataForActionDetails": "Ose veprimi nuk ka parje faqesh gjatë periudhës %s, ose është i pavlefshëm.",
+        "OutgoingTraffic": "Trafik ikës",
+        "PluginDescription": "Raporton, në një raport të ri Tranzicionesh, veprime të mëparshme dhe në vijim për çdo URL faqeje, i passhëm te raportet mbi Veprimet përmes një ikone të re.",
+        "ShareOfAllPageviews": "Kjo faqe pati %1$s parje faqesh (%2$s e krejt parjeve të faqeve)",
+        "ToFollowingPages": "Te Faqe të Brendshme",
+        "ToFollowingPagesInline": "%s te faqe të brendshme",
+        "ToFollowingSiteSearches": "Kërkime të Brendshme",
+        "ToFollowingSiteSearchesInline": "%s kërkime të brendshme",
+        "XOfAllPageviews": "%s e krejt parjeve të kësaj faqeje",
+        "XOutOfYVisits": "%1$s (nga %2$s gjithsej)"
+    }
+}

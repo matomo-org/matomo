@@ -1,0 +1,31 @@
+{
+    "ScheduledReports": {
+        "AggregateReportsFormat": "Kuvamise seaded",
+        "AggregateReportsFormat_GraphsOnly": "Kuva ainult graafikud (tabelid puuduvad)",
+        "AggregateReportsFormat_TablesAndGraphs": "Kuva tabelid ja graafikud kõikidele raportitele",
+        "AggregateReportsFormat_TablesOnly": "(vaikimisi) Kuva raportite tabelid (ja olulistele mõõdikutele ka graafikud)",
+        "AlsoSendReportToTheseEmails": "Saada raport ka järgnevatele e-posti aadressitele (iga aadress eraldi real):",
+        "CancelAndReturnToReports": "Katkesta ja %1$snaase raportite nimekirja%2$s",
+        "CreateAndScheduleReport": "Loo ja ajasta raporti käivitumine",
+        "CreateReport": "Loo raport",
+        "CustomVisitorSegment": "Kohandatud külastaja segment:",
+        "EmailHello": "Tere,",
+        "EmailReports": "E-posti raportid",
+        "EmailSchedule": "E-posti ajastamine",
+        "FrontPage": "Esileht",
+        "Pagination": "Lehekülg %1$s \/ %2$s",
+        "PiwikReports": "Matomo raportid",
+        "ReportFormat": "Raporti formaat",
+        "ReportIncludeNWebsites": "Antud raport sisaldab põhimõõdikuid kõikide veebilehtede kohta, millel on vähemalt üks külastus (%s veebilehest, mis on kokku saadaval).",
+        "ReportSent": "Raport saadetud",
+        "ReportsIncluded": "Statistika osade kaasamine",
+        "ReportType": "Raporti saatmise kanal",
+        "ReportUpdated": "Raport uuendatud",
+        "SendReportNow": "Saada raport kohe",
+        "SendReportTo": "Raporti saaja",
+        "SentToMe": "Saada mulle",
+        "ThereIsNoReportToManage": "Puuduvad olemasolevad raportid veebilehe %s kohta",
+        "TopOfReport": "Tagasi üles",
+        "UpdateReport": "Uuenda raportit"
+    }
+}

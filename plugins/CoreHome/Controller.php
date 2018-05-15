@@ -13,81 +13,105 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\FrontController;
-use Piwik\Menu\MenuMain;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
+use Piwik\Widget\Widget;
 use Piwik\Plugins\CoreHome\DataTableRowAction\MultiRowEvolution;
 use Piwik\Plugins\CoreHome\DataTableRowAction\RowEvolution;
-use Piwik\Plugins\CorePluginsAdmin\MarketplaceApiClient;
 use Piwik\Plugins\Dashboard\DashboardManagerControl;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Site;
+use Piwik\Translation\Translator;
 use Piwik\UpdateCheck;
 use Piwik\Url;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
-use Piwik\Plugin\Widgets as PluginWidgets;
+use Piwik\Widget\WidgetConfig;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    function getDefaultAction()
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+
+        parent::__construct();
+    }
+    
+    public function getDefaultAction()
     {
         return 'redirectToCoreHomeIndex';
     }
 
-    public function renderReportMenu($reportModule = null, $reportAction = null)
+    public function renderReportWidget(Report $report)
     {
         Piwik::checkUserHasSomeViewAccess();
         $this->checkSitePermission();
-
-        $report = Report::factory($reportModule, $reportAction);
-
-        if (empty($report)) {
-            throw new Exception(Piwik::translate('General_ExceptionReportNotFound'));
-        }
-
-        $report->checkIsEnabled();
-
-        $menuTitle = $report->getMenuTitle();
-
-        if (empty($menuTitle)) {
-            throw new Exception('This report is not supposed to be displayed in the menu, please define a $menuTitle in your report.');
-        }
-
-        $menuTitle = Piwik::translate($menuTitle);
-        $content   = $this->renderReportWidget($reportModule, $reportAction);
-
-        return View::singleReport($menuTitle, $content);
-    }
-
-    public function renderReportWidget($reportModule = null, $reportAction = null)
-    {
-        Piwik::checkUserHasSomeViewAccess();
-        $this->checkSitePermission();
-
-        $report = Report::factory($reportModule, $reportAction);
-
-        if (empty($report)) {
-            throw new Exception(Piwik::translate('General_ExceptionReportNotFound'));
-        }
 
         $report->checkIsEnabled();
 
         return $report->render();
     }
 
-    public function renderWidget($widgetModule = null, $widgetAction = null)
+    /**
+     * This is only used for exported widgets
+     * @return string
+     * @throws Exception
+     * @throws \Piwik\NoAccessException
+     */
+    public function renderWidgetContainer()
+    {
+        Piwik::checkUserHasSomeViewAccess();
+        $this->checkSitePermission();
+
+        $view = new View('@CoreHome/widgetContainer');
+        $view->isWidgetized = (bool) Common::getRequestVar('widget', 0, 'int');
+        $view->containerId  = Common::getRequestVar('containerId', null, 'string');
+
+        return $view->render();
+    }
+
+    /**
+     * @param Widget $widget
+     * @return mixed
+     * @throws Exception
+     */
+    public function renderWidget($widget)
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $widget = PluginWidgets::factory($widgetModule, $widgetAction);
+        $config = new WidgetConfig();
+        $widget::configure($config);
 
-        if (!empty($widget)) {
-            return $widget->$widgetAction();
+        $content = $widget->render();
+
+        if ($config->getName() && Common::getRequestVar('showtitle', '', 'string') === '1') {
+            if (strpos($content, '<h2') !== false
+                || strpos($content, ' content-title=') !== false
+                || strpos($content, ' piwik-enriched-headline') !== false
+                || strpos($content, '<h1') !== false ) {
+                // already includes title
+                return $content;
+            }
+
+            if (strpos($content, 'piwik-content-block') === false
+                && strpos($content, 'class="card"') === false
+                && strpos($content, "class='card'") === false
+                && strpos($content, 'class="card-content"') === false
+                && strpos($content, "class='card-content'") === false) {
+                $view = new View('@CoreHome/_singleWidget');
+                $view->title = $config->getName();
+                $view->content = $content;
+                return $view->render();
+            }
         }
 
-        throw new Exception(Piwik::translate('General_ExceptionWidgetNotFound'));
+        return $content;
     }
 
     function redirectToCoreHomeIndex()
@@ -102,9 +126,11 @@ class Controller extends \Piwik\Plugin\Controller
         ) {
             $module = 'MultiSites';
         }
+
         if ($defaultReport == Piwik::getLoginPluginName()) {
             $module = Piwik::getLoginPluginName();
         }
+
         $idSite = Common::getRequestVar('idSite', false, 'int');
         parent::redirectToIndex($module, $action, $idSite);
     }
@@ -112,10 +138,15 @@ class Controller extends \Piwik\Plugin\Controller
     public function showInContext()
     {
         $controllerName = Common::getRequestVar('moduleToLoad');
-        $actionName = Common::getRequestVar('actionToLoad', 'index');
+        $actionName     = Common::getRequestVar('actionToLoad', 'index');
+
+        if($controllerName == 'API') {
+            throw new Exception("Showing API requests in context is not supported for security reasons. Please change query parameter 'moduleToLoad'.");
+        }
         if ($actionName == 'showInContext') {
             throw new Exception("Preventing infinite recursion...");
         }
+
         $view = $this->getDefaultIndexView();
         $view->content = FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
         return $view->render();
@@ -131,7 +162,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@CoreHome/getDefaultIndexView');
         $this->setGeneralVariablesView($view);
-        $view->menu = MenuMain::getInstance()->getMenu();
+        $view->showMenu = true;
         $view->dashboardSettingsControl = new DashboardManagerControl();
         $view->content = '';
         return $view;
@@ -145,12 +176,16 @@ class Controller extends \Piwik\Plugin\Controller
         ) {
             return;
         }
+
         $websiteId = Common::getRequestVar('idSite', false, 'int');
+
         if ($websiteId) {
+
             $website = new Site($websiteId);
-            $datetimeCreationDate = $website->getCreationDate()->getDatetime();
+            $datetimeCreationDate      = $website->getCreationDate()->getDatetime();
             $creationDateLocalTimezone = Date::factory($datetimeCreationDate, $website->getTimezone())->toString('Y-m-d');
-            $todayLocalTimezone = Date::factory('now', $website->getTimezone())->toString('Y-m-d');
+            $todayLocalTimezone        = Date::factory('now', $website->getTimezone())->toString('Y-m-d');
+
             if ($creationDateLocalTimezone == $todayLocalTimezone) {
                 Piwik::redirectToModule('CoreHome', 'index',
                     array('date'   => 'today',
@@ -227,8 +262,6 @@ class Controller extends \Piwik\Plugin\Controller
 
         // perform check (but only once every 10s)
         UpdateCheck::check($force = false, UpdateCheck::UI_CLICK_CHECK_INTERVAL);
-
-        MarketplaceApiClient::clearAllCacheEntries();
 
         $view = new View('@CoreHome/checkForUpdates');
         $this->setGeneralVariablesView($view);

@@ -11,6 +11,11 @@ namespace Piwik\Plugins\Actions\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Actions\Columns\DestinationPage;
+use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
+use Piwik\Plugins\Actions\Columns\Metrics\AverageTimeOnPage;
+use Piwik\Plugins\Actions\Columns\Metrics\BounceRate;
+use Piwik\Plugins\Actions\Columns\Metrics\ExitRate;
+use Piwik\Plugin\ReportsProvider;
 
 class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
 {
@@ -21,8 +26,15 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
         $this->name          = Piwik::translate('Actions_WidgetPageTitlesFollowingSearch');
         $this->documentation = Piwik::translate('Actions_SiteSearchFollowingPagesDoc') . '<br/>' . Piwik::translate('General_UsePlusMinusIconsDocumentation');
         $this->metrics       = array('nb_hits_following_search', 'nb_hits');
+        $this->processedMetrics = array(
+            new AverageTimeOnPage(),
+            new BounceRate(),
+            new ExitRate(),
+            new AveragePageGenerationTime()
+        );
         $this->order = 19;
-        $this->widgetTitle  = 'Actions_WidgetPageTitlesFollowingSearch';
+
+        $this->subcategoryId = 'Actions_SubmenuSitesearch';
     }
 
     public function configureView(ViewDataTable $view)
@@ -36,8 +48,13 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
     {
         return array(
             'nb_hits_following_search' => Piwik::translate('General_ColumnViewedAfterSearch'),
-            'nb_hits'                  => Piwik::translate('General_ColumnTotalPageviews'),
+            'nb_hits'                  => Piwik::translate('General_ColumnPageviews'),
         );
+    }
+
+    public function getProcessedMetrics()
+    {
+        return array();
     }
 
     protected function getMetricsDocumentation()
@@ -65,7 +82,7 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
     public function getRelatedReports()
     {
         return array(
-            new GetPageUrlsFollowingSiteSearch()
+            ReportsProvider::factory('Actions', 'getPageUrlsFollowingSiteSearch'),
         );
     }
 }

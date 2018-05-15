@@ -1,0 +1,85 @@
+<div id="ignoreInteraction1" data-track-content>
+    <a href="http://www.example.com" class="piwikContentTarget piwikContentIgnoreInteraction">Link</a>
+</div>
+<div id="ignoreInteraction2" data-track-content>
+    <a href="http://www.example.com" class="piwikContentTarget" data-content-ignoreinteraction>Link</a>
+</div>
+<!-- targetNode in this example is the content block node -->
+<div id="ignoreInteraction3" data-track-content data-content-ignoreinteraction>
+    <a href="http://www.example.com">Link</a>
+</div>
+<!-- targetNode in this example is the content block node -->
+<div id="ignoreInteraction4" data-track-content class="piwikContentIgnoreInteraction">
+    <a href="http://www.example.com">Link</a>
+</div>
+
+<div id="notIgnoreInteraction1" data-track-content>
+    <a href="http://www.example.com" class="piwikContentTarget">Link</a>
+</div>
+<!-- Will not be ignored since set on wrong element, has to be set on content target node -->
+<div id="notIgnoreInteraction2" data-track-content data-content-ignoreinteraction class="piwikContentIgnoreInteraction">
+    <a href="http://www.example.com" class="piwikContentTarget">Link</a>
+</div>
+
+
+<!-- test to make sure only clicked elements within target node are authorized -->
+<!-- authorized because content block is target and a link is within -->
+<div id="authorized1" data-track-content>
+    <a id="authorized1_1" href="http://www.example.com">Link</a>
+</div>
+<!-- authorized because span is within target -->
+<div id="authorized2" data-track-content>
+    <a href="http://www.example.com" data-content-target id="authorized2_1">Link<span id="authorized2_2"></span></a>
+</div>
+<!-- not authorized because span is not in target -->
+<div id="authorized3" data-track-content>
+    <span id="authorized3_1"></span>
+    <a href="http://www.example.com" data-content-target id="authorized3_2">Link</a>
+</div>
+
+
+
+<a href="http://www.example.com" id="aLinkToBeChanged">Link</a>
+
+<div class="media">
+    <div id="mediaDiv" src="test/img.jpg"/>
+    <img id="mediaImg" src="test/img.jpg"/>
+
+    <video id="mediaVideo" width="320" height="240" controls>
+        <source src="movie.mp4" type="video/mp4">
+        <source src="movie.ogg" type="video/ogg">
+        Your browser does not support the video tag.
+    </video>
+
+    <audio id="mediaAudio" controls>
+        <source src="audio.ogg" type="audio/ogg">
+        <source src="audio.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <embed id="mediaEmbed" src="embed.swf">
+
+    <object id="mediaObjectSimple" width="400" height="400" data="objectSimple.swf"></object>
+
+    <object id="mediaObjectParam" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="550"
+            height="400" id="movie_name" align="middle">
+        <param name="anything" value="anyvalue"/>
+        <param name="movie" value="movie_param1.swf"/>
+        <!--[if !IE]>-->
+        <object type="application/x-shockwave-flash" data="movie_inner.swf" width="550" height="400">
+            <param name="movie" value="movie_param2.swf"/>
+            <!<![endif]--> <a href="http://www.adobe.com/go/getflash"> <img
+                src="http://www.adobe.com/de/images/shared/download_buttons/get_flash_player.gif"
+                alt="Get Adobe Flash player"/> </a> <!--[if !IE]>-->     </object>
+        <!<![endif]-->
+    </object>
+
+    <object id="mediaObjectPdf" data="document.pdf" type="application/pdf">
+        <embed src="document2.pdf" type="application/pdf" />
+    </object>
+
+    <!-- should fall back to embed as no data specified -->
+    <object id="mediaObjectEmbed" data="" type="application/pdf">
+        <embed src="document2.pdf" type="application/pdf" />
+    </object>
+</div>

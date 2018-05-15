@@ -1,0 +1,20 @@
+{
+    "Overlay": {
+        "Clicks": "%s klik",
+        "ClicksFromXLinks": "%1$s klik fra et af %2$s link",
+        "Domain": "Domæne",
+        "ErrorNotLoading": "Sideoverlay session kunne ikke startes endnu.",
+        "ErrorNotLoadingDetails": "Måske den indlæste side til højre ikke har Matomo sporingskode. I så tilfælde, kan du prøve at starte overlejring for en anden side fra siderapporter.",
+        "ErrorNotLoadingDetailsSSL": "Da du bruger Matomo over HTTPS, er den mest sandsynlige årsag, at hjemmesiden ikke understøtter SSL. Prøv at bruge Matomo over HTTP.",
+        "ErrorNotLoadingLink": "Klik her for at få flere tips til fejlfinding",
+        "Link": "Link",
+        "Location": "Lokation",
+        "NoData": "Der er ingen data for denne side i den valgte periode.",
+        "OneClick": "1 klik",
+        "OpenFullScreen": "Vis fuldskærm (ingen sidebjælke)",
+        "Overlay": "Side overlejring",
+        "PluginDescription": "Se dine analytiske data som et lag over din aktuelle webside. Se hvor mange gange brugere har klikket på de enkelte links. Note: Kræver at Transitions programtilføjelsen er aktiveret.",
+        "RedirectUrlErrorAdmin": "Du kan tilføje domænet som en yderligere URL %1$si indstillingerne%2$s.",
+        "RedirectUrlErrorUser": "Spørg administratoren om at tilføje domænet som en yderligere URL."
+    }
+}

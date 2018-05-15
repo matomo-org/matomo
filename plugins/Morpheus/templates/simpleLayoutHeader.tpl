@@ -2,10 +2,21 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="robots" content="noindex,nofollow">
 	<title>{$HTML_TITLE}</title>
-	<link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico" />
+	<link rel="shortcut icon" href="%faviconUrl%" />
 	<link rel="stylesheet" type="text/css" href="plugins/Morpheus/stylesheets/simple_structure.css" />
 </head>
 <body id="simple">
-<div id="contentsimple">
-	<div id="title"><img title="Piwik" alt="Piwik" src="plugins/Morpheus/images/logo-header.png" style="margin-left:10px;" /><span id="subh1"> # <a href='http://piwik.org/'>Web Analytics</a></span></div>
+
+<div class="logo">
+	<img title="Matomo" alt="Matomo" style="height: 40px;" src="%logoUrl%"/>
+</div>
+
+<div class="box">
+
+	<div class="header">
+		<h1>An error occurred</h1>
+	</div>
+
+	<div class="content">

@@ -10,6 +10,9 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Container\StaticContainer;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Intl\Data\Provider\CurrencyDataProvider;
 use Piwik\Plugins\SitesManager\API;
 
 /**
@@ -52,18 +55,33 @@ class Site
      */
     protected static $infoSites = array();
 
+    private $site = array();
+
     /**
      * Constructor.
      *
      * @param int $idsite The ID of the site we want data for.
+     * @throws UnexpectedWebsiteFoundException
      */
     public function __construct($idsite)
     {
-        $this->id = (int)$idsite;
-        if (!isset(self::$infoSites[$this->id])) {
+        $this->id = (int) $idsite;
+
+        if (!empty(self::$infoSites[$this->id])) {
+            $site = self::$infoSites[$this->id];
+        } else {
             $site = API::getInstance()->getSiteFromId($this->id);
-            self::setSite($this->id, $site);
+
+            if (empty($site)) {
+                throw new UnexpectedWebsiteFoundException('The requested website id = ' . (int)$this->id . ' couldn\'t be found');
+            }
         }
+
+        $sites = array(&$site);
+        self::triggerSetSitesEvent($sites);
+        self::setSiteFromArray($this->id, $site);
+
+        $this->site = $site;
     }
 
     /**
@@ -77,9 +95,36 @@ class Site
      */
     public static function setSites($sites)
     {
-        foreach($sites as $idsite => $site) {
-            self::setSite($idsite, $site);
+        self::triggerSetSitesEvent($sites);
+
+        foreach ($sites as $idsite => $site) {
+            self::setSiteFromArray($idsite, $site);
         }
+    }
+
+    private static function triggerSetSitesEvent(&$sites)
+    {
+        /**
+         * Triggered so plugins can modify website entities without modifying the database.
+         *
+         * This event should **not** be used to add data that is expensive to compute. If you
+         * need to make HTTP requests or query the database for more information, this is not
+         * the place to do it.
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Site.setSites', function (&$sites) {
+         *         foreach ($sites as &$site) {
+         *             $site['name'] .= " (original)";
+         *         }
+         *     });
+         *
+         * @param array $sites An array of website entities. [Learn more.](/guides/persistence-and-the-mysql-backend#websites-aka-sites)
+         *
+         * This is not yet public as it doesn't work 100% accurately. Eg if `setSiteFromArray()` is called directly this event will not be triggered.
+         * @ignore
+         */
+        Piwik::postEvent('Site.setSites', array(&$sites));
     }
 
     /**
@@ -92,29 +137,11 @@ class Site
      * @param $infoSite
      * @throws Exception if website or idsite is invalid
      */
-    protected static function setSite($idSite, $infoSite)
+    public static function setSiteFromArray($idSite, $infoSite)
     {
-        if(empty($idSite) || empty($infoSite)) {
-            throw new Exception("An unexpected website was found, check idSite in the request.");
+        if (empty($idSite) || empty($infoSite)) {
+            throw new UnexpectedWebsiteFoundException("An unexpected website was found in the request: website id was set to '$idSite' .");
         }
-
-        /**
-         * Triggered so plugins can modify website entities without modifying the database.
-         *
-         * This event should **not** be used to add data that is expensive to compute. If you
-         * need to make HTTP requests or query the database for more information, this is not
-         * the place to do it.
-         *
-         * **Example**
-         *
-         *     Piwik::addAction('Site.setSite', function ($idSite, &$info) {
-         *         $info['name'] .= " (original)";
-         *     });
-         *
-         * @param int $idSite The ID of the website entity that will be modified.
-         * @param array $infoSite The website entity. [Learn more.](/guides/persistence-and-the-mysql-backend#websites-aka-sites)
-         */
-        Piwik::postEvent('Site.setSite', array($idSite, &$infoSite));
 
         self::$infoSites[$idSite] = $infoSite;
     }
@@ -131,8 +158,15 @@ class Site
      */
     public static function setSitesFromArray($sites)
     {
+        self::triggerSetSitesEvent($sites);
+
         foreach ($sites as $site) {
-            self::setSite($site['idsite'], $site);
+            $idSite = null;
+            if (!empty($site['idsite'])) {
+                $idSite = $site['idsite'];
+            }
+
+            self::setSiteFromArray($idSite, $site);
         }
     }
 
@@ -230,10 +264,11 @@ class Site
      */
     protected function get($name)
     {
-        if (!isset(self::$infoSites[$this->id][$name])) {
-            throw new Exception('The requested website id = ' . (int)$this->id . ' (or its property ' . $name . ') couldn\'t be found');
+        if (isset($this->site[$name])) {
+            return $this->site[$name];
         }
-        return self::$infoSites[$this->id][$name];
+
+        throw new Exception("The property $name could not be found on the website ID " . (int)$this->id);
     }
 
     /**
@@ -361,7 +396,7 @@ class Site
             return API::getInstance()->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
         }
 
-        if(is_bool($ids)) {
+        if (is_bool($ids)) {
             return array();
         }
         if (!is_array($ids)) {
@@ -391,25 +426,32 @@ class Site
     }
 
     /**
+     * Clears the site data cache.
+     *
+     * See also {@link setSites()} and {@link setSitesFromArray()}.
+     */
+    public static function clearCacheForSite($idSite)
+    {
+        $idSite = (int)$idSite;
+        unset(self::$infoSites[$idSite]);
+    }
+
+    /**
      * Utility function. Returns the value of the specified field for the
      * site with the specified ID.
      *
      * @param int $idsite The ID of the site whose data is being accessed.
-     * @param bool|string $field The name of the field to get.
-     * @return array|string
+     * @param string $field The name of the field to get.
+     * @return string
      */
-    protected static function getFor($idsite, $field = false)
+    protected static function getFor($idsite, $field)
     {
-        $idsite = (int)$idsite;
-
         if (!isset(self::$infoSites[$idsite])) {
             $site = API::getInstance()->getSiteFromId($idsite);
-            self::setSite($idsite, $site);
+            self::setSiteFromArray($idsite, $site);
         }
-        if($field) {
-            return self::$infoSites[$idsite][$field];
-        }
-        return self::$infoSites[$idsite];
+
+        return self::$infoSites[$idsite][$field];
     }
 
     /**
@@ -425,9 +467,16 @@ class Site
     /**
      * @ignore
      */
-    public static function getSite($id)
+    public static function getSite($idsite)
     {
-        return self::getFor($id);
+        $idsite = (int)$idsite;
+
+        if (!isset(self::$infoSites[$idsite])) {
+            $site = API::getInstance()->getSiteFromId($idsite);
+            self::setSiteFromArray($idsite, $site);
+        }
+
+        return self::$infoSites[$idsite];
     }
 
     /**
@@ -527,6 +576,42 @@ class Site
     public static function getCurrencyFor($idsite)
     {
         return self::getFor($idsite, 'currency');
+    }
+
+    /**
+     * Returns the currency of the site with the specified ID.
+     *
+     * @param int $idsite The site ID.
+     * @return string
+     */
+    public static function getCurrencySymbolFor($idsite)
+    {
+        $currency = self::getCurrencyFor($idsite);
+        $symbols  = self::getCurrencyList();
+
+        if (isset($symbols[$currency])) {
+            return $symbols[$currency][0];
+        }
+
+        return '';
+    }
+
+
+    /**
+     * Returns the list of all known currency symbols.
+     *
+     * @return array An array mapping currency codes to their respective currency symbols
+     *               and a description, eg, `array('USD' => array('$', 'US dollar'))`.
+     *
+     * @deprecated Use Piwik\Intl\Data\Provider\CurrencyDataProvider instead.
+     * @see \Piwik\Intl\Data\Provider\CurrencyDataProvider::getCurrencyList()
+     * @api
+     */
+    public static function getCurrencyList()
+    {
+        /** @var CurrencyDataProvider $dataProvider */
+        $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
+        return $dataProvider->getCurrencyList();
     }
 
     /**

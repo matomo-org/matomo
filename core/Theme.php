@@ -64,10 +64,10 @@ class Theme
             return false;
         }
         $jsFiles = $info['javascript'];
-        if(!is_array($jsFiles)) {
+        if (!is_array($jsFiles)) {
             $jsFiles = array($jsFiles);
         }
-        foreach($jsFiles as &$jsFile) {
+        foreach ($jsFiles as &$jsFile) {
             $jsFile = 'plugins/' . $this->theme->getPluginName() . '/' . $jsFile;
         }
         return $jsFiles;
@@ -97,7 +97,7 @@ class Theme
             // rewrites images in JS files
             '~(=)[\s]?[\'"]([^\'"]+[.jpg|.png|.gif|svg]?)[\'"]~',
         );
-        return preg_replace_callback($pattern, array($this,'rewriteAssetPathIfOverridesFound'), $output);
+        return preg_replace_callback($pattern, array($this, 'rewriteAssetPathIfOverridesFound'), $output);
     }
 
     private function rewriteAssetPathIfOverridesFound($src)
@@ -105,20 +105,20 @@ class Theme
         $source = $src[0];
         $pathAsset = $src[2];
 
-        // Basic health check, we dont replace if not starting with plugins/
+        // Basic health check, we don't replace if not starting with plugins/
         $posPluginsInPath = strpos($pathAsset, 'plugins');
-        if( $posPluginsInPath !== 0) {
+        if ($posPluginsInPath !== 0) {
             return $source;
         }
 
         // or if it's already rewritten
-        if(strpos($pathAsset, $this->themeName) !== false) {
+        if (strpos($pathAsset, $this->themeName) !== false) {
             return $source;
         }
 
         $pathPluginName = substr($pathAsset, strlen('plugins/'));
         $nextSlash = strpos($pathPluginName, '/');
-        if($nextSlash === false) {
+        if ($nextSlash === false) {
             return $source;
         }
         $pathPluginName = substr($pathPluginName, 0, $nextSlash);
@@ -133,11 +133,11 @@ class Theme
         // Strip trailing query string
         $fileToCheck = $overridingAsset;
         $queryStringPos = strpos($fileToCheck, '?');
-        if( $queryStringPos !== false) {
+        if ($queryStringPos !== false) {
             $fileToCheck = substr($fileToCheck, 0, $queryStringPos);
         }
 
-        if(file_exists($fileToCheck)) {
+        if (file_exists($fileToCheck)) {
             return str_replace($pathAsset, $overridingAsset, $source);
         }
         return $source;

@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "prosečno vreme generisanja",
+        "AverageVisitDuration": "prosečno trajanje posete",
+        "GenerateQueries": "Izvršeno upita: %s",
+        "GenerateTime": "Vreme generisanja izveštaja u sekundama: %s",
+        "MaxNbActions": "maksimum akcija u jednoj poseti",
+        "NbActionsDescription": "Broj akcija (prikaza stranica, preuzimanja i odlazaka): %s",
+        "NbActionsPerVisit": "akcije (prikaz stranica, pruzimanja, izlazni linkovi i pretrage) po poseti",
+        "NbDownloadsDescription": "preuzimanja",
+        "NbKeywordsDescription": "jedinstvene ključne reči",
+        "NbOutlinksDescription": "izlazni linkovi",
+        "NbPageviewsDescription": "prikazane stranice",
+        "NbSearchesDescription": "ukupno pretraživanja vašeg sajta",
+        "NbUniqueDownloadsDescription": "jedinstvena preuzimanja",
+        "NbUniqueOutlinksDescription": "jedinstveni izlazni linkovi",
+        "NbUniquePageviewsDescription": "jedinstveni prikazi stranica",
+        "NbUniqueVisitors": "jedinstveni posetioci",
+        "NbUsersDescription": "korisnici",
+        "NbVisitsDescription": "posete",
+        "NbVisitsBounced": "posetioci koji su otišli posle samo jedne stranice",
+        "PluginDescription": "Prikaz osnovnih metrika: posete, jedinstveni posetioci, broj akcija, stepen odbijanja (bounce) itd.",
+        "VisitsSummary": "Sumarno",
+        "VisitsSummaryDocumentation": "Ovo je pregled razvoja poseta",
+        "WidgetLastVisits": "Grafikon najskorijih poseta",
+        "WidgetOverviewGraph": "Pregled sa grafikonom",
+        "WidgetVisits": "Pregled poseta"
+    }
+}

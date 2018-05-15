@@ -1,0 +1,15 @@
+{
+    "UserCountry": {
+        "CannotLocalizeLocalIP": "IP naslov %s je lokalen in ne more biti geolociran.",
+        "City": "Mesto",
+        "Continent": "Kontitent",
+        "Country": "Država",
+        "country_a1": "Anonimen Proxy",
+        "country_o1": "Druge države",
+        "DistinctCountries": "%s različnih držav",
+        "Location": "Lokacija",
+        "Region": "Regija",
+        "SubmenuLocations": "Lokacije",
+        "WidgetLocation": "Lokacija obiskovalca"
+    }
+}

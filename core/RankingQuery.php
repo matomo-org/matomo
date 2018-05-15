@@ -136,6 +136,14 @@ class RankingQuery
     }
 
     /**
+     * @return array
+     */
+    public function getLabelColumns()
+    {
+        return $this->labelColumns;
+    }
+
+    /**
      * Add a column that has be added to the outer queries.
      *
      * @param $column
@@ -214,8 +222,8 @@ class RankingQuery
      */
     public function execute($innerQuery, $bind = array())
     {
-        $query = $this->generateQuery($innerQuery);
-        $data = Db::fetchAll($query, $bind);
+        $query = $this->generateRankingQuery($innerQuery);
+        $data  = Db::fetchAll($query, $bind);
 
         if ($this->columnToMarkExcludedRows !== false) {
             // split the result into the regular result and the rows with special treatment
@@ -268,7 +276,7 @@ class RankingQuery
      *                            itself.
      * @return string             The entire ranking query SQL.
      */
-    public function generateQuery($innerQuery)
+    public function generateRankingQuery($innerQuery)
     {
         // +1 to include "Others"
         $limit = $this->limit + 1;

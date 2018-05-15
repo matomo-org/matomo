@@ -1,0 +1,6 @@
+{
+    "DevicePlugins": {
+        "WidgetPlugins": "Lista de Plugins",
+        "WidgetPluginsDocumentation": "Este relatório mostra quais os plugin que o navegador dos seus visitantes tinham. Esta informação pode ser importante para a escolha do caminho certo para distribuir o seu conteúdo."
+    }
+}

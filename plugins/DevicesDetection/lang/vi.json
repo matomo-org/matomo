@@ -1,0 +1,16 @@
+{
+    "DevicesDetection": {
+        "BrowserEngine": "Trình duyệt",
+        "BrowserEngineDocumentation": "Biểu đồ này cho thấy các trình duyệt khách truy cập của bạn chia thành các họ trình duyệt. %s Thông tin quan trọng nhất đối với nhà phát triển web là loại công cụ rendering nào khách truy cập của họ đang sử dụng. Các nhãn chứa tên của các công cụ tiếp theo của trình duyệt phổ biến nhất đang sử dụng công cụ cho trong giấu ngoặc đơn.",
+        "BrowserFamily": "Họ trình duyệt",
+        "Browsers": "Các trình duyệt",
+        "BrowserVersion": "Phiên bản trình duyệt",
+        "ColumnBrowser": "Trình duyệt",
+        "ColumnOperatingSystem": "Hệ điều hành",
+        "dataTableLabelTypes": "Kiểu",
+        "OperatingSystemFamily": "Hệ điều hành gia đình",
+        "OperatingSystems": "Các hệ điều hành",
+        "WidgetBrowsers": "Trình duyệt khách truy cập",
+        "WidgetBrowsersDocumentation": "Báo cáo này chứa thông tin về loại trình duyệt mà khách truy cập của bạn sử dụng. Mỗi phiên bản trình duyệt được liệt kê một cách riêng biệt."
+    }
+}

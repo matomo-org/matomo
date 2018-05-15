@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>North America</label>
+		<nb_visits>6</nb_visits>
+		<nb_actions>16</nb_actions>
+		<max_actions>5</max_actions>
+		<sum_visit_length>4863</sum_visit_length>
+		<bounce_count>3</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>6</nb_conversions>
+				<nb_visits_converted>6</nb_visits_converted>
+				<revenue>30</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>3</nb_conversions>
+				<nb_visits_converted>3</nb_visits_converted>
+				<revenue>15</revenue>
+			</row>
+		</goals>
+		<nb_conversions>9</nb_conversions>
+		<revenue>45</revenue>
+		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>North America</code>
+	</row>
+</result>

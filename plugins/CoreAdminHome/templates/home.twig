@@ -1,0 +1,74 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'CoreAdminHome_MenuGeneralSettings'|translate }}{% endset %}
+
+{% block content %}
+    {% set feedbackHelp %}
+        <div piwik-content-block content-title="Need help?">
+            <div>
+                There are different ways you can get help. There is free support via the Matomo Community and paid support
+                provided by the Matomo team and partners of Matomo. Or maybe do you have a bug to report or want to suggest a new
+                feature?
+                <br />
+                <br />
+                <a href="{{ linkTo({'module': 'Feedback', 'action': 'index'}) }}">Learn more</a>
+            </div>
+        </div>
+    {% endset %}
+
+    {% if isSuperUser %}
+        <div class="row">
+            <div class="col s12 {% if isFeedbackEnabled %}m4{% else %}m6{% endif %}">
+                <div piwik-widget-loader='{"module":"CoreHome","action":"getSystemSummary"}'></div>
+            </div>
+            {% if hasDiagnostics %}
+                <div class="col s12 {% if isFeedbackEnabled %}m4{% else %}m6{% endif %}">
+                    <div piwik-widget-loader='{"module":"Installation","action":"getSystemCheck"}'></div>
+                </div>
+            {% endif %}
+            {% if isFeedbackEnabled %}
+                <div class="col s12 m4">
+                    {{ feedbackHelp|raw }}
+                </div>
+            {% endif %}
+        </div>
+    {% elseif isFeedbackEnabled %}
+        {{ feedbackHelp|raw }}
+    {% endif %}
+
+    {% if hasPremiumFeatures and isMarketplaceEnabled and isInternetEnabled %}
+        <div piwik-widget-loader='{"module":"Marketplace","action":"getPremiumFeatures"}'></div>
+    {% endif %}
+    {% if hasNewPlugins and isMarketplaceEnabled and isInternetEnabled %}
+        <div piwik-widget-loader='{"module":"Marketplace","action":"getNewPlugins", "isAdminPage": "1"}'></div>
+    {% endif %}
+
+    {{ postEvent('Template.adminHome') }}
+
+    <style type="text/css">
+        #content .piwik-donate-call {
+            padding: 0;
+            border: 0;
+            max-width: none;
+        }
+        .theWidgetContent .rss {
+            margin: -10px -15px;
+        }
+    </style>
+
+    {% if hasDonateForm or hasPiwikBlog %}
+        <div class="row">
+            {% if hasDonateForm %}
+                <div class="col s12 {% if hasPiwikBlog %}m6{% endif %}">
+                    <div piwik-widget-loader='{"module":"CoreHome","action":"getDonateForm","widget": "0"}'></div>
+                </div>
+            {% endif %}
+            {% if hasPiwikBlog and isInternetEnabled %}
+                <div class="col s12 {% if hasDonateForm %}m6{% endif %}">
+                    <div piwik-widget-loader='{"module":"RssWidget","action":"rssPiwik"}'></div>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+{% endblock %}

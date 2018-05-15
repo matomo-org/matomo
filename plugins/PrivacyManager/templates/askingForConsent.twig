@@ -1,0 +1,105 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
+
+{% block content %}
+    <div piwik-content-intro>
+        <h2>Asking for consent</h2>
+        <p>Consent means offering individuals choice and control about how their personal data is processed.</p>
+    </div>
+
+    <div piwik-content-block content-title="When do I need to ask for user consent?" class="privacyAskingForConsent">
+        <p>
+            In the context of the GDPR privacy regulations, when you are processing personal data, in some cases you will need to ask for your users' consent. To identify whether you need to ask for consent, you need to determine whether your lawful basis for processing personal data is "Consent" or "Legitimate interest", or whether you can avoid collecting personal data altogether. We recommend to learn more about the lawful basis under the GDPR for Matomo.
+            <br /><br />
+            Note that when you require to have your users' consents and if you cannot prove that you got the "Consent" of your users in the past, then we recommend to <a href="{{ linkTo({module: 'PrivacyManager', action: 'privacySettings'}) }}">anonymise your previously tracked users' raw data</a>.
+        </p>
+    </div>
+
+    <div piwik-content-block content-title="How do I ask users for consent?" class="privacyAskingForConsent">
+        <p>
+            Follow the steps below to ask your user for their consents before their data is processed within Matomo.
+        </p>
+
+        <h3>Step 1: require consent</h3>
+        <p>
+            To require consent, insert the following line at top of your existing Matomo Tracking code on all your pages:
+        </p>
+        <pre piwik-select-on-focus><code>// require user consent before processing data
+_paq.push(['requireConsent']);
+_paq.push([‘trackPageview']);
+[...]</code></pre>
+        <p>
+            Once this function ‘requireConsent' is executed then no tracking request will be sent to Matomo. Note that some <a href="https://matomo.org/faq/general/faq_146/" target="_blank" rel="noreferrer noopener">tracking cookies</a> will be set during this page view but will be deleted as soon as the user navigates to a different page or closes the browser.
+        </p>
+        <h3>Step 2: asking for consent through your privacy notice</h3>
+        <p>Now you can ask the user for consent for example by displaying a clear privacy notice on your pages. Learn more about privacy notices and asking for user consent. Note that Matomo does not yet offer the feature to display a privacy notice, but may implement such a feature in the future to easily let you display the notice and gather user consent.
+        </p>
+        <h3>Step 3: user gives consent</h3>
+        <p>
+            Once a user gives consent, you can either A) let Matomo remember the consent, or B) use your own consent tool to remember the consent. We present the two solutions below:
+            <br /><br />
+            <strong>A) if you want to let Matomo remember the consent</strong>
+            <br />
+            Once a user gives their consent, you can let Matomo remember that the user has given consent by simply calling the following method once the user has given her or his consent:
+        </p>
+        <pre piwik-select-on-focus><code>_paq.push(['rememberConsentGiven'])</code></pre>
+        <p>
+            Matomo will then remember on subsequent requests that the user has given her or his consent by setting a cookie named "consent". As long as this cookie exists, Matomo will know that consent has been given and will automatically process the data. This means that you only need to call <code piwik-select-on-focus>_paq.push(['rememberConsentGiven'])</code> once, and it is not needed to call <code piwik-select-on-focus>_paq.push(['setConsentGiven'])</code> on any page view.
+            <br /><br />
+            Notes:
+        </p>
+            <ol>
+            <li>By default, the cookie and consent will be remembered forever. It is possible to define an optional expiry period for your user consent by calling:
+
+                <br /><code piwik-select-on-focus>_paq.push(['rememberConsentGiven', optionallyExpireConsentInHours])</code>.</li>
+            <li>When you're tracking multiple sub-domains into the same website in Matomo, you want to ensure that when you ask for Consent, the user gives consent for all the sub-domains on which you are collecting data. If the user only gives consent for a particular domain or sub-domain(s), you may need to restrict or widen the scope of the consent cookie domain and path by using 'setCookieDomain' and ‘setCookiePath' (learn more in the JavaScript tracking guide). </li>
+            <li>It is required that you do not disable cookies.</li>
+            </ol>
+        <p>
+            <br />
+            <br />
+            <strong>B) if you use your own consent tool to remember the consent</strong>
+            <br />
+            In some cases, you record the information that the user has given consent to be tracked directly in your own system or CMS (for example when you use your own a cookie to remember user consent). Once you have the consent by the user to process their data, you need to call the 'setConsentGiven' method:
+        </p>
+        <pre piwik-select-on-focus><code>// require user consent before processing data
+_paq.push(['requireConsent']);
+_paq.push([‘trackPageview']);
+[...]
+
+// user has given consent to process their data
+_paq.push(['setConsentGiven']);</code></pre>
+        <p>
+            This lets the JavaScript tracker know that the user has given consent and ensures the tracking is working as expected. This function needs to be called anytime after <code piwik-select-on-focus>_paq.push(['requireConsent'])</code>.
+            <br />
+            <br />
+            Notes:
+        </p>
+        <ol>
+            <li>when you call <code piwik-select-on-focus>_paq.push(['setConsentGiven'])</code>, Matomo will not remember on subsequent requests that this user has given consent: it is important that you call setConsentGiven on every page.</li>
+            <li>when the user has given consent, you could also avoid calling <code piwik-select-on-focus>_paq.push(['requireConsent'])</code> in the first place. </li>
+        </ol>
+
+        <h3>Step 4: user removes consent</h3>
+        <p>
+            In order to remove his consent the user needs to perform a specific action, for example: clicking on a button "I do not want to be tracked anymore".
+            <br /><br />
+            <strong>A) if you want to let Matomo remember the consent</strong>
+            <br />
+            When the user has expressed she or he no longer gives consent, you need to call the following method once:
+        </p>
+        <pre piwik-select-on-focus><code> _paq.push(['forgetConsentGiven']);</code></pre>
+        <p>This makes sure the cookie that remembered the given consent is deleted.
+
+            <br />
+            <br />
+            <strong>B) if you use your own consent tool to remember the consent</strong><br />
+            When the user has expressed she or he no longer gives consent, you shall not call the following method anymore:
+            <br />
+        </p>
+        <pre piwik-select-on-focus><code>// do not call this once user has removed their consent
+_paq.push(['setConsentGiven']);</code></pre>
+
+    </div>
+{% endblock %}

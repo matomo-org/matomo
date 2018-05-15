@@ -1,0 +1,25 @@
+{
+    "UserCountryMap": {
+        "PluginDescription": "Dieses Plugin stellt die Widgets \"Besucherkarte\" sowie \"Besucherkarte in Echtzeit\" bereit. Hinweis: Hierfür muss das Plugin \"UserCountry\" aktiviert sein.",
+        "AndNOthers": "und %s andere",
+        "Cities": "Städte",
+        "Countries": "Länder",
+        "DaysAgo": "vor %s Tagen",
+        "GoalConversions": "%s Ziel-Konversionen",
+        "HoursAgo": "vor %s Stunden",
+        "map": "Karte",
+        "MinutesAgo": "vor %s Minuten",
+        "None": "Keine",
+        "NoVisit": "Keine Besuche",
+        "RealTimeMap": "Besucherkarte in Echtzeit",
+        "Regions": "Regionen",
+        "Searches": "%s Suchen",
+        "SecondsAgo": "vor %s Sekunden",
+        "ShowingVisits": "Lokalisierte Besuche der letzten",
+        "Unlocated": "<b>%s<\/b> %p der Besuche von %c konnten nicht lokalisiert werden.",
+        "VisitorMap": "Besucherkarte",
+        "WorldWide": "Weltweit",
+        "WithUnknownRegion": "%s mit unbekannter Region",
+        "WithUnknownCity": "%s mit unbekannter Stadt"
+    }
+}

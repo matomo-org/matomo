@@ -1,0 +1,15 @@
+{
+    "UserCountry": {
+        "City": "עיר",
+        "CityAndCountry": "%1$s, %2$s",
+        "Continent": "יבשת",
+        "Country": "מדינה",
+        "country_a1": "מתווך אנונימי",
+        "country_a2": "ספק לוויני",
+        "country_cat": "קהילות דוברות קטלאנית",
+        "country_o1": "מדינה אחרת",
+        "GeoIPDatabases": "מסד נתונים GeoIP",
+        "Geolocation": "מיקום גאוגרפי",
+        "Location": "מיקום"
+    }
+}

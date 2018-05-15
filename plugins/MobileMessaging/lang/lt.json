@@ -1,0 +1,11 @@
+{
+    "MobileMessaging": {
+        "Settings_APIKey": "API raktas",
+        "Settings_CountryCode": "Šalies kodas",
+        "Settings_DeleteAccountConfirm": "Ar tikrai norite ištrinti šią SMS paskyrą?",
+        "Settings_InvalidActivationCode": "Įvestas kodas buvo neteisingas, prašome bandyti dar kartą.",
+        "Settings_PhoneNumber": "Telefono numeris",
+        "Settings_PhoneNumbers_Add": "Pridėti naują telefono numerį",
+        "Settings_SuperAdmin": "Super naudotojo nustatymai"
+    }
+}

@@ -1,10 +1,10 @@
 /*!
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
  * Real time visitors map
  * Using Kartograph.js http://kartograph.org/
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -51,17 +51,22 @@
             $('.RealTimeMap_map', $element).attr('id', this.uniqueId);
 
             // create the map
-            this.map = Kartograph.map('#' + this.uniqueId);
+            this.map = $K.map('#' + this.uniqueId);
 
             $element.focus();
         },
 
         _initStandaloneMap: function () {
-            $('.top_controls').hide();
-            $('.Menu--dashboard').on('piwikSwitchPage', function (event, item) {
-                var clickedMenuIsNotMap = ($(item).attr('href').indexOf('module=UserCountryMap&action=realtimeWorldMap') == -1);
+            $('#periodString').hide();
+            initTopControls();
+
+            var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+            $rootScope.$on('piwikPageChange', function () {
+                var href = location.href;
+                var clickedMenuIsNotMap = !href || (href.indexOf('module=UserCountryMap&action=realtimeWorldMap') == -1);
                 if (clickedMenuIsNotMap) {
-                    $('.top_controls').show();
+                    $('#periodString').show();
+                    initTopControls();
                 }
             });
             $('.realTimeMap_overlay').css('top', '0px');
@@ -69,21 +74,16 @@
         },
 
         run: function () {
-            var debug = 0;
-
             var self = this,
                 config = self.config,
                 _ = config._,
                 map = self.map,
-                main = $('.RealTimeMap_container', this.$element),
-                worldTotalVisits = 0,
                 maxVisits = config.maxVisits || 100,
                 changeVisitAlpha = typeof config.changeVisitAlpha === 'undefined' ? true : config.changeVisitAlpha,
                 removeOldVisits = typeof config.removeOldVisits === 'undefined' ? true : config.removeOldVisits,
                 doNotRefreshVisits = typeof config.doNotRefreshVisits === 'undefined' ? false : config.doNotRefreshVisits,
                 enableAnimation = typeof config.enableAnimation === 'undefined' ? true : config.enableAnimation,
                 forceNowValue = typeof config.forceNowValue === 'undefined' ? false : +config.forceNowValue,
-                width = main.width(),
                 lastTimestamp = -1,
                 lastVisits = [],
                 visitSymbols,
@@ -99,7 +99,7 @@
                 colorManager = piwik.ColorManager,
                 colors = colorManager.getColors('realtime-map', ['white-bg', 'white-fill', 'black-bg', 'black-fill', 'visit-stroke',
                                                                  'website-referrer-color', 'direct-referrer-color', 'search-referrer-color',
-                                                                 'live-widget-highlight', 'live-widget-unhighlight', 'symbol-animate-fill']),
+                                                                 'live-widget-highlight', 'live-widget-unhighlight', 'symbol-animate-fill', 'region-stroke-color']),
                 currentTheme = 'white',
                 colorTheme = {
                     white: {
@@ -142,8 +142,8 @@
                         'visitLocalTime', 'city', 'country', 'referrerType', 'referrerName',
                         'referrerTypeName', 'browserIcon', 'operatingSystemIcon',
                         'countryFlag', 'idVisit', 'actionDetails', 'continentCode',
-                        'actions', 'searches', 'goalConversions', 'visitorId'].join(','),
-                    minTimestamp: firstRun ? -1 : lastTimestamp
+                        'actions', 'searches', 'goalConversions', 'visitorId', 'userId'].join(','),
+                    minTimestamp: firstRun ? 0 : lastTimestamp
                 });
             }
 
@@ -210,12 +210,14 @@
             function visitTooltip(r) {
                 var ds = new Date().getTime() / 1000 - r.lastActionTimestamp,
                     ad = r.actionDetails,
-                    ico = function (src) { return '<img src="' + src + '" alt="" class="icon" />&nbsp;'; };
+                    ico = function (src) { return '<img height="16px" src="' + src + '" alt="" class="icon" />&nbsp;'; };
                 return '<h3>' + (r.city ? r.city + ' / ' : '') + r.country + '</h3>' +
                     // icons
                     ico(r.countryFlag) + ico(r.browserIcon) + ico(r.operatingSystemIcon) + '<br/>' +
+                    // User ID
+                    (r.userId ? _pk_translate('General_UserId') + ':&nbsp;' + r.userId + '<br/>' : '') +
                     // last action
-                    (ad && ad.length && ad[ad.length - 1].pageTitle ? '<em>' + ad[ad.length - 1].pageTitle + '</em><br/>' : '') +
+                    (ad && ad.length && ad[ad.length - 1].pageTitle ? '' + ad[ad.length - 1].pageTitle + '<br/>' : '') +
                     // time of visit
                     '<div class="rel-time" data-actiontime="' + r.lastActionTimestamp + '">' + relativeTime(ds) + '</div>' +
                     // either from or direct
@@ -340,7 +342,7 @@
             /*
              * this function requests new data from Live.getLastVisitsDetails
              * and updates the symbols on the map. Then, it sets a timeout
-             * to call itself after the refresh time set by Piwik
+             * to call itself after the refresh time set by Matomo
              *
              * If firstRun is true, the SymbolGroup is initialized
              */
@@ -357,7 +359,7 @@
                  */
                 function gotNewReport(report) {
                     // if the map has been destroyed, do nothing
-                    if (!self.map) {
+                    if (!self.map || !self.$element.length || !$.contains(document, self.$element[0])) {
                         return;
                     }
 
@@ -374,7 +376,7 @@
                     if (firstRun) {  // if we run this the first time, we initialiize the map symbols
                         visitSymbols = map.addSymbols({
                             data: [],
-                            type: Kartograph.Bubble,
+                            type: $K.Bubble,
                             /*title: function(d) {
                              return visitRadius(d) > 15 && d.actions > 1 ? d.actions : '';
                              },
@@ -476,6 +478,8 @@
                 if (firstRun && lastVisits.length) {
                     // zoom changed, use cached report data
                     gotNewReport(lastVisits.slice());
+                } else if (Visibility.hidden()) {
+                    nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
                 } else {
                     // request API for new data
                     $('.realTimeMap_overlay img').show();
@@ -490,7 +494,7 @@
              */
             function initMap() {
                 $('#widgetRealTimeMapliveMap .loadingPiwik, .RealTimeMap .loadingPiwik').hide();
-                map.addLayer('countries', {
+                map.addLayer(currentMap.length == 3 ? 'context' : 'countries', {
                     styles: {
                         fill: colorTheme[currentTheme].fill,
                         stroke: colorTheme[currentTheme].bg,
@@ -498,7 +502,9 @@
                     },
                     click: function (d, p, evt) {
                         evt.stopPropagation();
-                        if (currentMap != 'world') {  // zoom out if zoomed in
+                        if (currentMap.length == 2){   // zoom to country
+                            updateMap(d.iso);
+                        } else if (currentMap != 'world') {  // zoom out if zoomed in
                             updateMap('world');
                         } else {  // or zoom to continent view otherwise
                             updateMap(UserCountryMap.ISO3toCONT[d.iso]);
@@ -509,9 +515,13 @@
                         return d.name;
                     }
                 });
-
-                var lastVisitId = -1,
-                    lastReport = [];
+                if (currentMap.length == 3){
+                    map.addLayer('regions', {
+                        styles: {
+                            stroke: colors['region-stroke-color']
+                        }
+                    });
+                }
                 refreshVisits(true);
             }
 
@@ -539,7 +549,7 @@
                 storeSettings();
             }
 
-            updateMap(location.hash && (location.hash == '#world' || location.hash.match(/^#[A-Z][A-Z]$/)) ? location.hash.substr(1) : 'world'); // TODO: restore last state
+            updateMap(location.hash && (location.hash == '#world' || location.hash.match(/^#[A-Z]{2,3}$/)) ? location.hash.substr(1) : 'world'); // TODO: restore last state
 
             // clicking on map background zooms out
             $('.RealTimeMap_map', this.$element).off('click').click(function () {
@@ -617,8 +627,8 @@
                 map.symbolGroups[0].update();
             }
 
-            if (w < 355) $('.tableIcon span').hide();
-            else $('.tableIcon span').show();
+            if (w < 355) $('.UserCountryMap .tableIcon span').hide();
+            else $('.UserCountryMap .tableIcon span').show();
         },
 
         _destroy: function () {

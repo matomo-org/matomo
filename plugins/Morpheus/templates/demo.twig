@@ -1,0 +1,842 @@
+{% extends 'layout.twig' %}
+
+{% set title %}Matomo UI demo{% endset %}
+
+{% block head %}
+    {{ parent() }}
+
+    <style>
+        .grid-demo .row {
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        .grid-demo [class^=col-] {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #eee;
+            border: 1px solid #ddd;
+        }
+        .demo {
+            margin: 0 0 15px 0;
+            background-color: #fff;
+            border: solid 1px #ddd;
+            border-radius: 4px 4px 0 0;
+            padding: 25px;
+        }
+        .demo-code {
+            padding: 9px 14px;
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+            margin: -16px 0 15px;
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+        .demo-code pre {
+            color: inherit;
+            font-size: 14px;
+            padding: 0;
+            background-color: transparent;
+            margin: 0;
+        }
+        .demo .div-block {
+            max-width: 400px;
+            margin-right: auto;
+            margin-left: auto;
+            min-height: 20px;
+            padding: 19px;
+            background-color: #f5f5f5;
+            border: 1px solid #e3e3e3;
+            border-radius: 4px;
+        }
+        .icons h4 {
+            padding-top: 15px;
+            padding-bottom: 10px;
+        }
+        .icons .icon {
+            font-family: monospace, monospace;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block root %}
+
+    <div class="container">
+
+        <h1>{{ title }}</h1>
+        <p>
+            This page is intended to show all the UI components and styles available to use in Matomo.
+        </p>
+
+        <h2>Grid system</h2>
+        <p>
+            Materialize's grid system allows to organize the content in columns, all the while staying responsive for smaller screens.
+        </p>
+        <div class="grid-demo">
+            <div class="row">
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+                <div class="col m1">.col m1</div>
+            </div>
+            <div class="row">
+                <div class="col s8">.col m8</div>
+                <div class="col m4">.col m4</div>
+            </div>
+            <div class="row">
+                <div class="col m4">.col m4</div>
+                <div class="col m4">.col m4</div>
+                <div class="col m4">.col m4</div>
+            </div>
+            <div class="row">
+                <div class="col m6">.col m6</div>
+                <div class="col m6">.col m6</div>
+            </div>
+        </div>
+        <p>
+            Read more about <a href="http://materializecss.com/grid.html">Materialize's grid system</a>.
+        </p>
+
+        <h2>Typography</h2>
+
+        <div class="demo">
+            <h1>h1. heading</h1>
+            <h2>h2. heading</h2>
+            <h3>h3. heading</h3>
+            <h4>h4. heading</h4>
+            <h5>h5. heading</h5>
+            <h6>h6. heading</h6>
+            <p>
+                This is a paragraph, and <a href="#">this is a link</a>.
+            </p>
+            <p>
+                Another paragraph, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+        </div>
+
+        <h3>Alignment classes</h3>
+
+        <div class="demo">
+            <p class="left">Left aligned block.</p>
+            <p class="center">Center aligned block.</p>
+            <p class="right">Right aligned block.</p>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;p class=&quot;left&quot;&gt;Left aligned block.&lt;/p&gt;
+&lt;p class=&quot;center&quot;&gt;Center aligned block.&lt;/p&gt;
+&lt;p class=&quot;right&quot;&gt;Right aligned block.&lt;/p&gt;</pre>
+        </div>
+
+        <div class="demo">
+            <p class="left-align">Left aligned text.</p>
+            <p class="center-align">Center aligned text.</p>
+            <p class="right-align">Right aligned text.</p>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;p class=&quot;left-align&quot;&gt;Left aligned text.&lt;/p&gt;
+&lt;p class=&quot;center-align&quot;&gt;Center aligned text.&lt;/p&gt;
+&lt;p class=&quot;right-align&quot;&gt;Right aligned text.&lt;/p&gt;</pre>
+        </div>
+
+        <h3>Lists</h3>
+
+        <div class="demo">
+            <ul>
+                <li>First item</li>
+                <li>Second item</li>
+            </ul>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;ul&gt;
+  &lt;li&gt;...&lt;/li&gt;
+&lt;/ul&gt;</pre>
+        </div>
+
+        <h2>Buttons</h2>
+
+        <div class="demo">
+            <a class="btn" href="#">Link</a>
+            <input type="button" class="btn" value="Input">
+            <input type="submit" class="btn" value="Submit">
+        </div>
+        <div class="demo-code">
+            <pre>&lt;a class=&quot;btn&quot; href=&quot;#&quot;&gt;Link&lt;/a&gt;
+&lt;input type=&quot;button&quot; class=&quot;btn&quot; value=&quot;Input&quot;&gt;
+&lt;input type=&quot;submit&quot; class=&quot;brn&quot; value=&quot;Submit&quot;&gt;</pre>
+        </div>
+
+        <div class="demo">
+            <button class="btn btn-large">Large button</button>
+            <a class="btn btn-large" href="#">Large button</a>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;button class=&quot;btn btn-large&quot;&gt;Large button&lt;/button&gt;
+&lt;a class=&quot;btn btn-large&quot; href=&quot;#&quot;&gt;Large button&lt;/a&gt;</pre>
+        </div>
+
+        <div class="demo">
+            <div class="div-block">
+                <a class="btn btn-block" href="#">Block button</a>
+                <a class="btn btn-large btn-block" href="#">Large block button</a>
+            </div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;a class=&quot;btn btn-block&quot; href=&quot;#&quot;&gt;Block button&lt;/a&gt;
+&lt;a class=&quot;btn btn-large btn-block&quot; href=&quot;#&quot;&gt;Large block button&lt;/a&gt;</pre>
+        </div>
+
+        <h3>Flat buttons</h3>
+
+        <div class="demo">
+            <a class="btn-flat" href="#">Flat button</a>
+            <a class="btn-flat" href="#"><span class="icon-add"></span></a>
+            <a class="btn-flat btn-large" href="#">Flat button</a>
+            <a class="btn-flat btn-large" href="#"><span class="icon-add"></span></a>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;a class=&quot;btn-flat&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
+&lt;a class=&quot;btn-flat&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;
+&lt;a class=&quot;btn-flat btn-large&quot; href=&quot;#&quot;&gt;Flat button&lt;/a&gt;
+&lt;a class=&quot;btn-flat btn-large&quot; href=&quot;#&quot;&gt;&lt;span class=&quot;icon-add&quot;&gt;&lt;/span&gt;&lt;/a&gt;</pre>
+        </div>
+
+        <h2>Loading indicator</h2>
+        <div class="demo">
+            <div piwik-activity-indicator loading="true"></div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div piwik-activity-indicator loading=&quot;true&quot;>&lt;/div></pre>
+        </div>
+        <p>
+            This is an angular component. You can change the loading state via angular.
+        </p>
+
+        <h2>Progressbar</h2>
+        <div class="demo">
+            <div piwik-progressbar progress="5" label="'Downloading database'"></div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div piwik-progressbar progress=&quot;5&quot; label=&quot;Downloading database&quot;>&lt;/div></pre>
+        </div>
+        <p>
+            This is an angular component. Update the progress and label via angular.
+        </p>
+
+        <h2>Alerts</h2>
+
+        <div class="demo">
+            <div piwik-alert="info">
+                <strong>Info!</strong> This alert needs <a>your attention</a>, but it's not super important.
+            </div>
+            <div piwik-alert="success">
+                <strong>Success!</strong> You successfully read this important <a>alert message</a>.
+            </div>
+            <div piwik-alert="warning">
+                <strong>Warning!</strong> Better <a>check</a> yourself, you're not looking too good.
+            </div>
+            <div piwik-alert="danger">
+                <strong>Error!</strong> Change <a>a few things</a> up and try submitting again.
+            </div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div piwik-alert=&quot;info&quot;&gt;
+    &lt;strong&gt;Info!&lt;/strong&gt; This alert needs &lt;a&gt;your attention&lt;/a&gt;, but it's not super important.
+&lt;/div&gt;
+&lt;div piwik-alert=&quot;success&quot;&gt;
+    &lt;strong&gt;Success!&lt;/strong&gt; You successfully read this important &lt;a&gt;alert message&lt;/a&gt;.
+&lt;/div&gt;
+&lt;div piwik-alert=&quot;warning&quot;&gt;
+    &lt;strong&gt;Warning!&lt;/strong&gt; Better &lt;a&gt;check&lt;/a&gt; yourself, you're not looking too good.
+&lt;/div&gt;
+&lt;div piwik-alert=&quot;danger&quot;&gt;
+    &lt;strong&gt;Error!&lt;/strong&gt; Change &lt;a&gt;a few things&lt;/a&gt; up and try submitting again.
+&lt;/div&gt;</pre>
+        </div>
+
+        <h2>Forms</h2>
+
+        <h3>Simple form</h3>
+
+        <div class="demo">
+            <div piwik-form>
+                <div piwik-field uicontrol="text" name="username"
+                     title="Username"
+                     introduction="This is an introduction. It can be used to group form fields"
+                     placeholder="Some text here">
+                </div>
+
+                <div piwik-field uicontrol="email" name="email"
+                     title="Email"
+                     inline-help="This is the inline help which provides more information.">
+                </div>
+
+                <div piwik-field uicontrol="text" name="textWithoutPlaceholder"
+                     title="This field has a title but no place holder">
+                </div>
+
+                <div piwik-field uicontrol="text" name="textWithoutTitle"
+                     title="This field has a place holder but no title">
+                </div>
+
+                <div piwik-field uicontrol="text" name="textWithValue"
+                     value="My value"
+                     title="This field has already a value set">
+                </div>
+
+                <div piwik-field uicontrol="password" name="password"
+                     title="Password"
+                     placeholder="Enter your password here">
+                </div>
+
+                <div id="complexHelpText" class="inline-help-node">
+                    It is possible to use all kind of HTML in the help text, including <a href="javascript:;">links</a>.
+                </div>
+
+                <div piwik-field uicontrol="text" name="alias"
+                     title="Disabeld text field"
+                     disabled="true"
+                     placeholder="This value cannot be changed"
+                     inline-help="#complexHelpText">
+                </div>
+
+                <div piwik-field uicontrol="text" name="fullWidthText"
+                     title="Form fields can be made full witdth"
+                     full-width="true"
+                     placeholder="Some text here...">
+                </div>
+
+                <div piwik-field uicontrol="url" name="urlText" title="URL" inline-help="URL field">
+                </div>
+
+                <div piwik-field uicontrol="textarea" name="description"
+                     title="Description"
+                     inline-help="This is a textarea. It automatically gets larger the more text is entered.">
+                </div>
+
+                <div piwik-field uicontrol="select" name="language"
+                     title="Language"
+                     introduction="Select fields"
+                     value="1"
+                     inline-help="Single select"
+                     options='{1: "English",2:"Spanish"}'>
+                </div>
+
+                <div piwik-field uicontrol="multiselect" name="phonenumbers"
+                     title="Phone numbers"
+                     value="1"
+                     inline-help="Multi select"
+                     options='{1: "0123456789",2:"9876543210",3:"5432109876"}'>
+                </div>
+
+                <div piwik-field uicontrol="expandable-select" name="selectexpand"
+                     title="{{ "{{ view.selectedExpand ? view.selectedExpand : 'Select word' }}"|raw }}"
+                     value="Select value"
+                     inline-help="Expandable select"
+                     ng-model="view.selectedExpand"
+                     options='[{group: "Group 1",key:"1",value:"Hello"}, {group: "Group 1",key:"2",value:"How",tooltip: "Help text"}, {group: "Group 1",key:"3",value:"Are"}, {group: "Group 2",key:"4",value:"You"}]'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multitupletext"
+                     title="Multiple values"
+                     value="[]"
+                     inline-help="Multi Tuple text and text"
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multitupletextvalue"
+                     title="Multiple values with values"
+                     value='[{"index": "test", "value":"myfoo"},{"index": "test 2", "value":"myfoo 2"}]'
+                     inline-help="Multi Tuple again."
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multitupleselect"
+                     title="Multiple values with select"
+                     value='[{"index": "test", "value": "myfoo"}]'
+                     inline-help="Multi Tuple select and text"
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multituplesingleselect"
+                     title="Multi One Select"
+                     value='[{"index": "test", "value": "myfoo"}]'
+                     inline-help="Multi values with one select"
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}}}'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multituplesingletext"
+                     title="Multi One Text"
+                     value='[{"index": "test", "value": "myfoo"}]'
+                     inline-help="Multi values with one text"
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null}}'>
+                </div>
+
+                <div piwik-field uicontrol="checkbox" name="enableFeature"
+                     title="Enable feature"
+                     introduction="Radio and checkboxes"
+                     inline-help="This is a single checkbox">
+                </div>
+
+                <div piwik-field uicontrol="checkbox" name="enableFeature"
+                     title="Enable feature"
+                     var-type="array"
+                     options='{today: "Today", yesterday: "Yesterday",week: "Previous 30 days (not including today)"}'
+                     inline-help="This field shows multiple checkboxes as we declare we want to get an array of values.">
+                </div>
+
+                <div piwik-field uicontrol="radio" name="defaultReportDate"
+                     title="Report to load by default"
+                     options='{today: "Today", yesterday: "Yesterday",week: "Previous 30 days (not including today)"}'
+                     inline-help="This is a help text that can be used to describe the field. This help text may extend over several lines.">
+                </div>
+
+                <div piwik-field uicontrol="site" name="currentsite"
+                     introduction="Matomo specific form fields"
+                     title="Select a website">
+                </div>
+
+                <div piwik-save-button></div>
+                <div piwik-save-button
+                     onconfirm="myController.save()"
+                     disabled="myController.isDisabled"
+                     value="Changed button text"
+                     saving="myController.isLoading">
+                </div>
+            </div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div piwik-form&gt;
+    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;username&quot;
+          title=&quot;Username&quot;
+          introduction=&quot;This is an introduction. It can be used to group form fields&quot;
+          placeholder=&quot;Some text here&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;email&quot; name=&quot;email&quot;
+         title=&quot;Email&quot;
+         inline-help=&quot;This is the inline help which provides more information.&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;textWithoutPlaceholder&quot;
+         title=&quot;This field has a title but no place holder&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;textWithoutTitle&quot;
+         title=&quot;This field has a place holder but no title&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;textWithValue&quot;
+         value=&quot;My value&quot;
+         title=&quot;This field has already a value set&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;password&quot; name=&quot;password&quot;
+         title=&quot;Password&quot;
+         placeholder=&quot;Enter your password here&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;complexHelpText&quot; class=&quot;inline-help-node&quot;&gt;
+        It is possible to use all kind of HTML in the help text, including &lt;a href=&quot;javascript:;&quot;&gt;links&lt;/a&gt;.
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;alias&quot;
+         title=&quot;Disabeld text field&quot;
+         disabled=&quot;true&quot;
+         placeholder=&quot;This value cannot be changed&quot;
+         inline-help=&quot;#complexHelpText&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;text&quot; name=&quot;fullWidthText&quot;
+         title=&quot;Form fields can be made full witdth&quot;
+         full-width=&quot;true&quot;
+         placeholder=&quot;Some text here...&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;url&quot; name=&quot;urlText&quot; title=&quot;URL&quot; inline-help=&quot;URL field&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;textarea&quot; name=&quot;description&quot;
+         title=&quot;Description&quot;
+         inline-help=&quot;This is a textarea. It automatically gets larger the more text is entered.&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;select&quot; name=&quot;language&quot;
+         title=&quot;Language&quot;
+         introduction=&quot;Select fields&quot;
+         value=&quot;1&quot;
+         inline-help=&quot;Single select&quot;
+         options='{1: &quot;English&quot;,2:&quot;Spanish&quot;}'&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;multiselect&quot; name=&quot;phonenumbers&quot;
+         title=&quot;Phone numbers&quot;
+         value=&quot;1&quot;
+         inline-help=&quot;Multi select&quot;
+         options='{1: &quot;0123456789&quot;,2:&quot;9876543210&quot;,3:&quot;5432109876&quot;}'&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;expandable-select&quot; name=&quot;selectexpand&quot;
+         title=&quot;{{ "{{ view.selectedExpand ? view.selectedExpand : 'Select word' }}"|raw }}&quot;
+         value=&quot;Select value&quot;
+         inline-help=&quot;Expandable select&quot;
+         ng-model=&quot;view.selectedExpand&quot;
+         options='[{group: &quot;Group 1&quot;,key:&quot;1&quot;,value:&quot;Hello&quot;}, {group: &quot;Group 1&quot;,key:&quot;2&quot;,value:&quot;How&quot;,tooltip: &quot;Help text&quot;}, {group: &quot;Group 1&quot;,key:&quot;3&quot;,value:&quot;Are&quot;}, {group: &quot;Group 2&quot;,key:&quot;4&quot;,value:&quot;You&quot;}]'&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multitupletext"
+         title="Multiple values"
+         value="[]"
+         inline-help="Multi Pair text and text"
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multitupletextvalue"
+         title="Multiple values with values"
+         value='[{"index": "test", "value":"myfoo"},{"index": "test 2", "value":"myfoo 2"}]'
+         inline-help="Multi Pair again."
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multitupleselect"
+         title="Multiple values with select"
+         value='[{"index": "test", "value": "myfoo"}]'
+         inline-help="Multi Pair select and text"
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multituplesingleselect"
+         title="Multi One Select"
+         value='[{"index": "test", "value": "myfoo"}]'
+         inline-help="Multi values with one select"
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}}}'>
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multituplesingletext"
+         title="Multi One Text"
+         value='[{"index": "test", "value": "myfoo"}]'
+         inline-help="Multi values with one text"
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null}}'>
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;checkbox&quot; name=&quot;enableFeature&quot;
+         title=&quot;Enable feature&quot;
+         introduction=&quot;Radio and checkboxes&quot;
+         inline-help=&quot;This is a single checkbox&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;checkbox&quot; name=&quot;enableFeature&quot;
+         title=&quot;Enable feature&quot;
+         var-type=&quot;array&quot;
+         options='{today: &quot;Today&quot;, yesterday: &quot;Yesterday&quot;,week: &quot;Previous 30 days (not including today)&quot;}'
+         inline-help=&quot;This field shows multiple checkboxes as we declare we want to get an array of values.&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;radio&quot; name=&quot;defaultReportDate&quot;
+         title=&quot;Report to load by default&quot;
+         options='{today: &quot;Today&quot;, yesterday: &quot;Yesterday&quot;,week: &quot;Previous 30 days (not including today)&quot;}'
+         inline-help=&quot;This is a help text that can be used to describe the field. This help text may extend over several lines.&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol=&quot;site&quot; name=&quot;currentsite&quot;
+         introduction=&quot;Matomo specific form fields&quot;
+         title=&quot;Select a website&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-save-button&gt;&lt;/div&gt;
+    &lt;div piwik-save-button
+         onconfirm=&quot;myController.save()&quot;
+         disabled=&quot;myController.isDisabled&quot;
+         value=&quot;Changed button text&quot;
+         saving=&quot;myController.isLoading&quot;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+            <p>If you do not want to use one ouf our form fields we recommend to add the class <code>browser-default</code> to the input or select element.</p>
+        </div>
+
+        <h2>Code</h2>
+
+        <h3>Inline</h3>
+
+        <div class="demo">
+            <p>
+                You can put code in a text using the <code piwik-select-on-focus>code</code> tag.
+            </p>
+        </div>
+        <div class="demo-code">
+            <pre>You can put code in a text using the &lt;code piwik-select-on-focus&gt;code&lt;/code&gt; tag.</pre>
+        </div>
+
+        <h3>Block</h3>
+
+        <div class="demo">
+            <p>Or you can display a code block:</p>
+            <pre piwik-select-on-focus>&lt;!-- Matomo --&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+&lt;/script&gt;
+&lt;!-- End Matomo Code --&gt;</pre>
+        </div>
+        <div class="demo-code">
+            &lt;pre piwik-select-on-focus&gt;...&lt;/pre&gt;
+        </div>
+
+        <h2>Tables</h2>
+
+        <div class="demo">
+            <table>
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;table&gt;&lt;thead&gt;...&lt;/thead&gt;&lt;tbody&gt;...&lt;/tbody&gt;&lt;/table&gt;</pre>
+        </div>
+
+        <h2>Content intro</h2>
+
+        <div class="demo">
+            <div piwik-content-intro>
+                <h2>My headline</h2>
+                <p>My text goes is in here</p>
+            </div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div piwik-content-intro&gt;
+    &lt;h2&gt;My headline&lt;/h2&gt;
+    &lt;p&gt;My text goes is in here&lt;/p&gt;
+&lt;/div&gt;</pre>
+        </div>
+        <p>A content intro can be used as an introduction to the following content and is usually used as the first part of a page followed by one or multiple content blocks.</p>
+
+        <h2>Content blocks</h2>
+
+        <div class="demo">
+            <div piwik-content-block content-title="My title" help-url="https://matomo.org">
+                <p>My text goes is in here</p>
+            </div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div piwik-content-block content-title=&quot;My title&quot; help-url=&quot;https://matomo.org&quot;&gt;
+    &lt;p&gt;My text goes is in here&lt;/p&gt;
+&lt;/div&gt;</pre>
+        </div>
+
+        <h3>Content Table</h3>
+
+        <div class="demo">
+            <div piwik-content-block content-title="My title" help-url="https://matomo.org">
+                <p>My intro text is here</p>
+                <table piwik-content-table>
+                    <thead><tr><th>Column 1</th><th>Column 2</th></tr></thead>
+                    <tbody>
+                    <tr><td>Value 1</td><td>Value 2</td></tr>
+                    <tr><td>Value 1</td><td>Value 2</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="demo-code">
+            <pre>&lt;div piwik-content-block content-title=&quot;My title&quot; help-url=&quot;https://matomo.org&quot;&gt;
+    &lt;p&gt;My intro text is here&lt;/p&gt;
+    &lt;table piwik-content-table&gt;
+        &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Column 1&lt;/th&gt;&lt;th&gt;Column 2&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+        &lt;tbody&gt;
+            &lt;tr&gt;&lt;td&gt;Value 1&lt;/td&gt;&lt;td&gt;Value 2&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;Value 1&lt;/td&gt;&lt;td&gt;Value 2&lt;/td&gt;&lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/div&gt;</pre>
+        </div>
+
+        <h2>Icons</h2>
+
+        <div id="icons" class="demo icons">
+        </div>
+        <div class="demo-code">
+            <pre>&lt;span class=&quot;icon-ok&quot;&gt;&lt;/span&gt;</pre>
+        </div>
+
+        <script>
+            $(function () {
+
+                var icons = {
+                    'Manage': [
+                        'add',
+                        'edit',
+                        'delete',
+                        'plus',
+                        'minus',
+                        'archive'
+                    ],
+                    'Alerts': [
+                        'error',
+                        'warning',
+                        'info',
+                        'info2',
+                        'success',
+                        'help',
+                        'help-alt',
+                        'ok'
+                    ],
+                    'Navigation': [
+                        'arrow-left',
+                        'arrow-right',
+                        'arrow-top',
+                        'arrow-bottom',
+                        'arrow-collapsed',
+                        'zoom-in',
+                        'zoom-out',
+                        'show',
+                        'hide',
+                        'search',
+                        'menu-hamburger',
+                        'more-horiz',
+                        'more-verti',
+                        'arrowup',
+                        'arrowdown'
+                    ],
+                    'Window-Widget': [
+                        'minimise',
+                        'fullscreen',
+                        'close',
+                        'maximise',
+                        'newtab',
+                        'refresh',
+                        'reload'
+                    ],
+                    'Reports': [
+                        'table',
+                        'table-more',
+                        'chart-bar',
+                        'chart-pie',
+                        'chart-line',
+                        'chart-line-details',
+                        'evolution',
+                        'funnel',
+                        'form',
+                        'transition',
+                        'overlay',
+                        'lab'
+                    ],
+                    'Users': [
+                        'user',
+                        'user-add',
+                        'users',
+                        'alien'
+                    ],
+                    'Date-picker': [
+                        'calendar'
+                    ],
+                    'Annotations': [
+                        'annotation'
+                    ],
+                    'E-commerce': [
+                        'ecommerce-order',
+                        'ecommerce-abandoned-cart'
+                    ],
+                    'Goals': [
+                        'goal'
+                    ],
+                    'Insights': [
+                        'insights'
+                    ],
+                    'Segments': [
+                        'segment'
+                    ],
+                    'Visitors': [
+                        'visitor-profile'
+                    ],
+                    'Lock': [
+                        'locked',
+                        'locked-2',
+                        'locked-3',
+                        'locked-4'
+                    ],
+                    'Other': [
+                        'configure',
+                        'document',
+                        'email',
+                        'export',
+                        'feed',
+                        'download',
+                        'image',
+                        'code',
+                        'star',
+                        'drop',
+                        'business',
+                        'finance',
+                        'folder',
+                        'folder-charts',
+                        'open-source',
+                        'puzzle',
+                        'server',
+                        'server-alt',
+                        'tag-cloud',
+                        'audio',
+                        'play',
+                        'pause',
+                        'replay',
+                        'stop',
+                        'fast-forward',
+                        'fast-rewind',
+                        'skip-next',
+                        'skip-previous',
+                        'sign-in',
+                        'sign-out',
+                        'settings',
+                        'rocket',
+                        'bug',
+                        'upload',
+                        'embed'
+                    ]
+                };
+
+                var iconsDiv = $('#icons');
+                for(var category in icons) {
+                    if (icons.hasOwnProperty(category)) {
+                        iconsDiv.append('<h4>' + category + '</h4>');
+                        var row = $('<div class="row"></div>');
+                        icons[category].forEach(function(icon) {
+                            icon = 'icon-' + icon;
+                            row.append('<div class="col s4 icon"><span class="' + icon + '"></span> ' + icon + '</div>');
+                        });
+                        iconsDiv.append(row);
+                    }
+                }
+
+            });
+        </script>
+
+    </div>
+
+{% endblock %}

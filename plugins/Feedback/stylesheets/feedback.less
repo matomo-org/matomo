@@ -1,27 +1,17 @@
 #feedback-faq {
-  color: #5e5e5c;
-  width: 675px;
-  font-size: 14px;
-
-   strong {
-    color: #5e5e5c;
-  }
+  max-width: 850px;
+  margin: 0 auto;
 
   ul {
     list-style: none;
     padding: 0 0 0 20px;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 18px;
   }
 
   p {
-    padding-bottom: 0px;
     line-height: 1.7em;
-  }
-
-  a {
-    color: #5176a0;
-    text-decoration: none;
+    font-size: 13px;
   }
 
   .piwik-donate-call {
@@ -47,16 +37,18 @@
 
   .footer {
     text-align: center;
+    margin-top: 48px;
 
     a {
-      color: black;
+      color: @theme-color-text-contrast;
       &:hover {
         text-decoration: underline;
       }
     }
 
     hr {
-      background-color: #CCC;
+      margin-top: 45px;
+      background-color: @color-silver-l90;
       height: 1px;
       border: 0px;
     }
@@ -65,7 +57,7 @@
   .claim {
     font-size: 13px;
     line-height: 16px;
-    color: #808080;
+    color: @theme-color-text-contrast;
     margin-bottom: 50px;
     margin-top: 15px;
   }

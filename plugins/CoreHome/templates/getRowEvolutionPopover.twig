@@ -7,12 +7,12 @@
     <div class="metrics-container">
         <h2>{{ availableMetricsText|raw }}</h2>
 
-        <div class="rowevolution-documentation">
+        <div class="alert alert-info">
             {{ 'RowEvolution_Documentation'|translate }}
         </div>
         <table class="metrics" border="0" cellpadding="0" cellspacing="0" data-thing="{{ seriesColorCount }}">
             {% for i, metric in metrics %}
-                <tr data-i="{{ i }}">
+                <tr data-i="{{ i }}" {% if metric.hide|default %}style="display:none"{% endif %}>
                     <td class="sparkline">
                         {{ metric.sparkline|raw }}
                     </td>
@@ -31,9 +31,9 @@
     <div class="compare-container">
         <h2>{{ 'RowEvolution_CompareRows'|translate }}</h2>
 
-        <div class="rowevolution-documentation">
+        <div class="alert alert-info">
             {{ 'RowEvolution_CompareDocumentation'|translate|raw }}
         </div>
-        <a href="#" class="rowevolution-startmulti">&raquo; {{ 'RowEvolution_PickARow'|translate }}</a>
+        <a href="#" class="rowevolution-startmulti">» {{ 'RowEvolution_PickARow'|translate }}</a>
     </div>
 </div>

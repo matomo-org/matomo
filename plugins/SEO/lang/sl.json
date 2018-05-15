@@ -1,0 +1,12 @@
+{
+    "SEO": {
+        "PluginDescription": "Ta vtičnik izlušči in prikaže SEO metriko: Alexa web rangiranje, Google Pagerank, število indeksiranih strani in povratnih povezav za trenutno izbrane spletne strani.",
+        "AlexaRank": "Alexa položaj",
+        "Bing_IndexedPages": "Bing indeksirane strani",
+        "DomainAge": "Starost domene",
+        "Google_IndexedPages": "Google indeksirane strani",
+        "Rank": "Položaj",
+        "SeoRankings": "SEO položaji",
+        "SEORankingsFor": "SEO položaji za %s"
+    }
+}

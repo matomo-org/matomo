@@ -20,7 +20,7 @@ class ActionDownloadUrl extends Action
     public function __construct(Request $request)
     {
         parent::__construct(self::TYPE_DOWNLOAD, $request);
-        $this->setActionUrl($request->getParam('download'));
+        $this->setActionUrlWithoutExcludingParameters($request->getParam('download'));
     }
 
     public static function shouldHandle(Request $request)

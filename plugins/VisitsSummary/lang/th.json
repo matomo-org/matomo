@@ -1,0 +1,12 @@
+{
+    "VisitsSummary": {
+        "GenerateQueries": "%s การค้นหา",
+        "GenerateTime": "%s วินาทีที่ใช้",
+        "NbActionsDescription": "%s ดำเนินการ(เข้าชม ดาวน์โหลดและลิงค์ออก)",
+        "VisitsSummary": "สรุปการเข้าชม",
+        "VisitsSummaryDocumentation": "ภาพรวมของผู้เข้าชม",
+        "WidgetLastVisits": "กราฟของผู้เข้าชมล่าสุด",
+        "WidgetOverviewGraph": "ภาพรวมและกราฟ",
+        "WidgetVisits": "ภาพรวมผู้เข้าชม"
+    }
+}

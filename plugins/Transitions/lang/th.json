@@ -1,0 +1,7 @@
+{
+    "Transitions": {
+        "FromCampaigns": "จากแคมเปญ",
+        "FromWebsites": "จากเว็บไซต์",
+        "NoDataForAction": "ยังไม่มีข้อมูลสำหรับ %s"
+    }
+}

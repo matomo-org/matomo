@@ -25,8 +25,8 @@ class Sparkline_Line extends Sparkline {
   ////////////////////////////////////////////////////////////////////////////
   // constructor
   //
-  function Sparkline_Line($catch_errors = true) {
-    parent::Sparkline($catch_errors);
+  function __construct($catch_errors = true) {
+    parent::__construct($catch_errors);
 
     $this->dataSeries          = array();
     $this->dataSeriesStats     = array();

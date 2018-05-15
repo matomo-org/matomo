@@ -1,0 +1,26 @@
+{
+    "VisitFrequency": {
+        "ColumnActionsByReturningVisits": "Aktionen bei wiederkehrenden Besuchen",
+        "ColumnAverageVisitDurationForReturningVisitors": "Durchschnittszeit von wiederkehrenden Besuchen",
+        "ColumnAvgActionsPerReturningVisit": "Aktionen pro wiederkehrendem Besuch",
+        "ColumnBounceCountForReturningVisits": "Absprünge von wiederkehrenden Besuchen",
+        "ColumnBounceRateForReturningVisits": "Absprungsrate bei wiederkehrenden Besuchen",
+        "ColumnMaxActionsInReturningVisit": "Maximale Aktionen eines wiederkehrenden Besuchs",
+        "ColumnNbReturningVisitsConverted": "Anzahl wiederkehrende Besuche mit Konversion",
+        "ColumnReturningVisits": "Wiederkehrende Besuche",
+        "ColumnSumVisitLengthReturning": "Gesamte Aufenthaltszeit bei wiederkehrenden Besuchen (in Sekunden)",
+        "ColumnUniqueReturningVisitors": "Eindeutige wiederkehrende Besucher",
+        "ColumnReturningUsers": "Wiederkehrende Benutzer",
+        "PluginDescription": "Liefert Metriken über erstmalige und wiederkehrende Besucher.",
+        "ReturnActions": "Aktionen von wiederkehrenden Besuchen",
+        "ReturnAverageVisitDuration": "durchschnittliche Verweildauer wiederkehrender Besucher",
+        "ReturnAvgActions": "Aktionen pro wiederkehrendem Besuch",
+        "ReturnBounceRate": "Absprung wiederkehrender Besucher (Verlassen der Webseite nach einer Seite)",
+        "ReturningVisitDocumentation": "Ein wiederkehrender Besuch wird (im Vergleich zu einem neuen Besuch) von jemandem gemacht, der bereits mindestens einmal die Website besucht hat.",
+        "ReturningVisitsDocumentation": "Dies ist eine Übersicht über die wiederkehrenden Besuche.",
+        "ReturnVisits": "wiederkehrende Besucher",
+        "SubmenuFrequency": "Häufigkeit",
+        "WidgetGraphReturning": "Graph der wiederkehrenden Besuche",
+        "WidgetOverview": "Häufigkeitsübersicht"
+    }
+}

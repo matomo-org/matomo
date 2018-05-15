@@ -1,0 +1,7 @@
+{
+    "UserLanguage": {
+        "BrowserLanguage": "Browser language",
+        "LanguageCode": "Language code",
+        "PluginDescription": "Reports the language used by your visitors' browsers."
+    }
+}

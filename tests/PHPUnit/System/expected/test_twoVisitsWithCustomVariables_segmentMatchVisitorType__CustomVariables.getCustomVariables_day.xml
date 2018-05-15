@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="2010-01-03">
+			<row>
+				<label>SET WITH EMPTY VALUE</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>3</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>3</max_actions>
+				<sum_visit_length>364</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>0</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>0</revenue>
+				<slots>
+					<row>
+						<scope>visit</scope>
+						<index>2</index>
+					</row>
+				</slots>
+				<segment>customVariableName==SET+WITH+EMPTY+VALUE</segment>
+				<subtable>
+					<row>
+						<label>Value not defined</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>3</nb_actions>
+						<nb_users>0</nb_users>
+						<max_actions>3</max_actions>
+						<sum_visit_length>364</sum_visit_length>
+						<bounce_count>0</bounce_count>
+						<goals>
+							<row idgoal='1'>
+								<nb_conversions>1</nb_conversions>
+								<nb_visits_converted>1</nb_visits_converted>
+								<revenue>0</revenue>
+							</row>
+						</goals>
+						<nb_conversions>1</nb_conversions>
+						<revenue>0</revenue>
+					</row>
+				</subtable>
+			</row>
+			<row>
+				<label>Value will be VERY long and truncated</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>3</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>3</max_actions>
+				<sum_visit_length>364</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>0</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>0</revenue>
+				<slots>
+					<row>
+						<scope>visit</scope>
+						<index>3</index>
+					</row>
+				</slots>
+				<segment>customVariableName==Value+will+be+VERY+long+and+truncated</segment>
+				<subtable>
+					<row>
+						<label>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>3</nb_actions>
+						<nb_users>0</nb_users>
+						<max_actions>3</max_actions>
+						<sum_visit_length>364</sum_visit_length>
+						<bounce_count>0</bounce_count>
+						<goals>
+							<row idgoal='1'>
+								<nb_conversions>1</nb_conversions>
+								<nb_visits_converted>1</nb_visits_converted>
+								<revenue>0</revenue>
+							</row>
+						</goals>
+						<nb_conversions>1</nb_conversions>
+						<revenue>0</revenue>
+					</row>
+				</subtable>
+			</row>
+			<row>
+				<label>VisitorType</label>
+				<nb_visits>1</nb_visits>
+				<nb_actions>3</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>3</max_actions>
+				<sum_visit_length>364</sum_visit_length>
+				<bounce_count>0</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>0</revenue>
+					</row>
+					<row idgoal='2'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>0</revenue>
+					</row>
+				</goals>
+				<nb_conversions>2</nb_conversions>
+				<revenue>0</revenue>
+				<slots>
+					<row>
+						<scope>visit</scope>
+						<index>1</index>
+					</row>
+				</slots>
+				<segment>customVariableName==VisitorType</segment>
+				<subtable>
+					<row>
+						<label>LoggedIn</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>3</nb_actions>
+						<nb_users>0</nb_users>
+						<max_actions>3</max_actions>
+						<sum_visit_length>364</sum_visit_length>
+						<bounce_count>0</bounce_count>
+						<goals>
+							<row idgoal='1'>
+								<nb_conversions>1</nb_conversions>
+								<nb_visits_converted>1</nb_visits_converted>
+								<revenue>0</revenue>
+							</row>
+						</goals>
+						<nb_conversions>1</nb_conversions>
+						<revenue>0</revenue>
+					</row>
+					<row>
+						<label>LoggedOut</label>
+						<goals>
+							<row idgoal='2'>
+								<nb_conversions>1</nb_conversions>
+								<nb_visits_converted>1</nb_visits_converted>
+								<revenue>0</revenue>
+							</row>
+						</goals>
+						<nb_conversions>1</nb_conversions>
+						<revenue>0</revenue>
+						<nb_visits>0</nb_visits>
+					</row>
+				</subtable>
+			</row>
+			<row>
+				<label>Status user</label>
+				<nb_actions>3</nb_actions>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>4</index>
+					</row>
+					<row>
+						<scope>page</scope>
+						<index>5</index>
+					</row>
+				</slots>
+				<segment>customVariableName==Status+user</segment>
+				<subtable>
+					<row>
+						<label>looking at &quot;profile page&quot;</label>
+						<nb_visits>2</nb_visits>
+						<nb_actions>2</nb_actions>
+					</row>
+					<row>
+						<label>Loggedin</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>1</nb_actions>
+					</row>
+				</subtable>
+			</row>
+			<row>
+				<label>Language</label>
+				<nb_actions>1</nb_actions>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>1</index>
+					</row>
+				</slots>
+				<segment>customVariableName==Language</segment>
+				<subtable>
+					<row>
+						<label>FR</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>1</nb_actions>
+					</row>
+				</subtable>
+			</row>
+			<row>
+				<label>SET WITH EMPTY VALUE PAGE SCOPE</label>
+				<nb_actions>1</nb_actions>
+				<slots>
+					<row>
+						<scope>page</scope>
+						<index>2</index>
+					</row>
+				</slots>
+				<segment>customVariableName==SET+WITH+EMPTY+VALUE+PAGE+SCOPE</segment>
+				<subtable>
+					<row>
+						<label>Value not defined</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>1</nb_actions>
+					</row>
+				</subtable>
+			</row>
+		</result>
+		<result date="2010-01-04" />
+		<result date="2010-01-05" />
+		<result date="2010-01-06" />
+		<result date="2010-01-07" />
+		<result date="2010-01-08" />
+		<result date="2010-01-09" />
+	</result>
+</results>

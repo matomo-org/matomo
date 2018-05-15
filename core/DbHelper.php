@@ -9,8 +9,8 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Db\Adapter;
 use Piwik\Db\Schema;
+use Piwik\DataAccess\ArchiveTableCreator;
 
 /**
  * Contains database related helper functions.
@@ -165,12 +165,40 @@ class DbHelper
     /**
      * Get the SQL to create a specific Piwik table
      *
-     * @param string $tableName
+     * @param string $tableName Unprefixed table name.
      * @return string  SQL
      */
     public static function getTableCreateSql($tableName)
     {
         return Schema::getInstance()->getTableCreateSql($tableName);
+    }
+
+    /**
+     * Deletes archive tables. For use in tests.
+     */
+    public static function deleteArchiveTables()
+    {
+        foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
+            Log::debug("Dropping table $table");
+
+            Db::query("DROP TABLE IF EXISTS `$table`");
+        }
+
+        ArchiveTableCreator::refreshTableList($forceReload = true);
+    }
+
+    /**
+     * Returns true if the string is a valid database name for MySQL. MySQL allows + in the database names.
+     * Database names that start with a-Z or 0-9 and contain a-Z, 0-9, underscore(_), dash(-), plus(+), and dot(.) will be accepted.
+     * File names beginning with anything but a-Z or 0-9 will be rejected (including .htaccess for example).
+     * File names containing anything other than above mentioned will also be rejected (file names with spaces won't be accepted).
+     *
+     * @param string $dbname
+     * @return bool
+     */
+    public static function isValidDbname($dbname)
+    {
+        return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z0-9\_\.\-\+]*))$/D', $dbname));
     }
 
 }

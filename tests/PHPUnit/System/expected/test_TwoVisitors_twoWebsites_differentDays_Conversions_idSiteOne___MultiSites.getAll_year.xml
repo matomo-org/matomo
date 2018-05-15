@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result date="2010">
+		<row>
+			<label>Site 1</label>
+			<nb_visits>11</nb_visits>
+			<nb_actions>43</nb_actions>
+			<nb_pageviews>43</nb_pageviews>
+			<revenue>50</revenue>
+			<visits_evolution>100%</visits_evolution>
+			<actions_evolution>100%</actions_evolution>
+			<pageviews_evolution>100%</pageviews_evolution>
+			<revenue_evolution>100%</revenue_evolution>
+			<idsite>1</idsite>
+			<group />
+			<main_url>http://piwik.net</main_url>
+		</row>
+		<row>
+			<label>Site 2</label>
+			<nb_visits>1</nb_visits>
+			<nb_actions>3</nb_actions>
+			<nb_pageviews>3</nb_pageviews>
+			<revenue>0</revenue>
+			<visits_evolution>100%</visits_evolution>
+			<actions_evolution>100%</actions_evolution>
+			<pageviews_evolution>100%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
+			<idsite>2</idsite>
+			<group />
+			<main_url>http://piwik.net</main_url>
+		</row>
+	</result>
+	<result date="2011" />
+	<result date="2012" />
+	<result date="2013" />
+	<result date="2014" />
+	<result date="2015" />
+	<result date="2016" />
+</results>

@@ -1,0 +1,13 @@
+{
+    "Dashboard": {
+        "AddPreviewedWidget": "Add hozzá a megtekintett modult a vezérlőpultodhoz",
+        "Dashboard": "Vezérlőpult",
+        "DeleteWidgetConfirm": "Biztosan törölni akarod ezt a modult a vezérlőpultról?",
+        "LoadingWidget": "Modul betöltése folyamatban. Kérjük, várj…",
+        "Maximise": "Maximalizál",
+        "Minimise": "Minimalizál",
+        "SelectWidget": "Válaszd ki melyik modult szeretnéd hozzáadni a vezérlőpulthoz!",
+        "WidgetNotFound": "A modul nem található",
+        "WidgetPreview": "Modul előnézete"
+    }
+}

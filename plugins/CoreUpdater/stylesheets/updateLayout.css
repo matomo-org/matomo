@@ -9,19 +9,13 @@
     line-height: 1.33;
 }
 
-#donate-form-container {
-    margin: 0 0 2em 2em;
+.piwik-donate-call {
+    border: none;
+    padding: 0;
+    max-width: none;
 }
-
-code {
-    background-color: #F0F7FF;
-    border: 1px dashed #00008B;
-    border-left: 5px solid;
-    direction: ltr;
-    display: block;
-    margin: 2px 2px 20px;
-    padding: 4px;
-    text-align: left;
+.piwik-donate-call > .piwik-donate-message p {
+    margin-left: 0;
 }
 
 li {
@@ -29,10 +23,23 @@ li {
     margin-left: 30px;
 }
 
-#oneclickupdate .submit {
+#oneclickupdate .btn {
     clear:none;
     float:left;
 }
 form#oneclickupdate {
     min-height: 50px;
+}
+
+
+body#simple .languageSelection {
+    color: #4183C4;
+    padding-top: 8px;
+}
+
+p strong {
+    font-weight: 700 !important;
+}
+strong {
+    font-weight: 700 !important;
 }

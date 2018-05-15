@@ -1,0 +1,14 @@
+{
+    "CorePluginsAdmin": {
+        "Activate": "አግብር",
+        "Activated": "የተገበረ",
+        "Active": "ገባሪ",
+        "Deactivate": "አቦዝን",
+        "Inactive": "ያልተመረጠ",
+        "PluginHomepage": "የተሰኪ መነሻ ገፅ",
+        "PluginsManagement": "ተሰኪዎች መመነጅ",
+        "Status": "ሁኔታ",
+        "Version": "ስሪት",
+        "Websites": "ድር ጣቢያዎች"
+    }
+}

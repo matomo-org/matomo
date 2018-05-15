@@ -7,8 +7,13 @@ a {
     text-decoration: none;
 }
 
+h1 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
 h2 {
-    color: @theme-color-text;
+    color: @theme-color-headline-alternative;
 }
 
 .datatableRelatedReports {
@@ -16,21 +21,8 @@ h2 {
 }
 
 .tableIcon {
-    background: none;
-    padding: 2px 4px 4px 4px;
     &.activeIcon {
-        background: @color-silver-l80;
-    }
-}
-
-.exportToFormatItems {
-    background: @color-silver-l80;
-    padding-top: 5px;
-    padding-bottom: 4px;
-    color: #000;
-
-    a {
-       color: @theme-color-brand !important;
+        background-color: @theme-color-background-tinyContrast;
     }
 }
 
@@ -49,7 +41,7 @@ h2 {
 .dataTablePages {
     color: @theme-color-text;
     font-weight: normal;
-    .font-default(10px, 12px);
+    .font-default(13px, 14px);
 }
 
 .datatableRelatedReports {
@@ -57,11 +49,6 @@ h2 {
     span {
         color: @theme-color-text;
         font-weight: normal;
-    }
-}
-.dataTableSearchPattern {
-    img {
-        top: 7px !important
     }
 }
 
@@ -77,47 +64,17 @@ ul.widgetpreview-widgetlist, ul.widgetpreview-categorylist {
     background: none !important;
 }
 
-a#Overlay_Title {
-    color: #4d4d4d !important;
-    .font-default(12px, 14px) !important;
-    margin-left: 15px !important;
-}
-
 a {
     color: @theme-color-link;
-}
-
-a.rowevolution-startmulti {
-    color: @theme-color-link !important;
 }
 
 .Piwik_Popover_Loading_Subject {
     color: @theme-color-link !important;
 }
 
-.segmentFooterNote {
-    margin-top: -3px;
-    font-family: @theme-fontFamily-base !important;
-    a {
-        color: @theme-color-link !important;
-    }
-}
-
 body > a.ddmetric {
     background-color: @color-gray-light !important;
     border-color: @color-gray !important;
     color: #000 !important;
-    font-family: @theme-fontFamily-base !important;
-}
-
-.segment-element .segment-content .segment-or,
-.segment-element .segment-content .segment-add-or,
-.segment-element .segment-content .segment-row {
-    background-color: @color-gray-light !important;
-}
-
-.segmentEditorPanel *,
-.segment-element .segment-content .segment-input select,
-.segment-element .segment-content .segment-input input {
     font-family: @theme-fontFamily-base !important;
 }

@@ -1,0 +1,23 @@
+{
+    "VisitorInterest": {
+        "BetweenXYMinutes": "%1$s-%2$s min",
+        "BetweenXYSeconds": "%1$s-%2$ss",
+        "ColumnPagesPerVisit": "Pàgines per visita",
+        "ColumnVisitDuration": "Durada de la visita",
+        "Engagement": "Compromís",
+        "NPages": "%s pàgines",
+        "OnePage": "1 pàgina",
+        "VisitNum": "Nombre de visites",
+        "VisitsByDaysSinceLast": "Visites per dia des de l'última visita",
+        "visitsByVisitCount": "Visites per nombre de visita",
+        "VisitsPerDuration": "Visites segons la durada",
+        "VisitsPerNbOfPages": "Visites segons el nombre de pàgines",
+        "WidgetLengths": "Durada de les visites",
+        "WidgetLengthsDocumentation": "En aquest informe tu pots veure quantes visites han tingut una determinada duració. Inicialment, l'informe es mostra com un núvol d'etiquetes, on les duracions amb visites es mostren més gran.",
+        "WidgetPages": "Pàgines per visita",
+        "WidgetPagesDocumentation": "En aquest informe podeu veure quantes visites han produït un nombre de pàgines vistes. Inicialment, la informació es mostra com un núvol d'etiquetes, on els nombres més comuns es mostren amb una mida més gran.",
+        "WidgetVisitsByDaysSinceLast": "Visites per dia des de l'última visita",
+        "WidgetVisitsByDaysSinceLastDocumentation": "En aquest informe, podeu veure quantes visites han estat de visitant que la seva visita va ser fa un cert nombre de dies.",
+        "WidgetVisitsByNumDocumentation": "En aquest informe podeu veure qui va ser la visita número N. Per exemple, els visitants que han vist el vostre lloc web com a mínim N vegades."
+    }
+}

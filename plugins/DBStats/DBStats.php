@@ -11,32 +11,26 @@ namespace Piwik\Plugins\DBStats;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
+use Piwik\Plugins\DBStats\tests\Mocks\MockDataAccess;
 
 class DBStats extends \Piwik\Plugin
 {
     const TIME_OF_LAST_TASK_RUN_OPTION = 'dbstats_time_of_last_cache_task_run';
 
     /**
-     * @see Piwik\Plugin::getListHooksRegistered
+     * @see Piwik\Plugin::registerEvents
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            "TestingEnvironment.addHooks"     => 'setupTestEnvironment'
+            "TestingEnvironment.addHooks" => 'setupTestEnvironment'
         );
-    }
-
-    public function getStylesheetFiles(&$stylesheets)
-    {
-        $stylesheets[] = "plugins/DBStats/stylesheets/dbStatsTable.less";
     }
 
     public function setupTestEnvironment($environment)
     {
         Piwik::addAction("MySQLMetadataProvider.createDao", function (&$dao) {
-            require_once dirname(__FILE__) . "/tests/Mocks/MockDataAccess.php";
-            $dao = new Mocks\MockDataAccess();
+            $dao = new MockDataAccess();
         });
     }
 }

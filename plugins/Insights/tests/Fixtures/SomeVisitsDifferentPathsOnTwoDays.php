@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Insights\tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Tests\Fixture;
+use Piwik\Tests\Framework\Fixture;
 
 /**
  * Adds one website and tracks several visits from one visitor on
@@ -70,6 +70,8 @@ class SomeVisitsDifferentPathsOnTwoDays extends Fixture
                 $date    = $date->addHour(.1);
                 $tracker->setUrl('http://example.org' . $path);
                 $tracker->setIp('156.15.13.' . $numPageViews);
+                $tracker->setResolution(1000, 1000 + $numPageViews);
+
                 $response = $tracker->doTrackPageView('Hello');
                 self::checkResponse($response);
 

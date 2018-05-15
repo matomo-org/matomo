@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>campaign name - yeah!</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>361</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>1000</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>1000</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<segment>referrerType==campaign;referrerName==campaign+name+-+yeah%21</segment>
+		<subtable>
+			<row>
+				<label>campaign keyword - right...</label>
+				<nb_visits>2</nb_visits>
+				<nb_actions>2</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>361</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>1000</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>1000</revenue>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+				<sum_daily_nb_users>0</sum_daily_nb_users>
+			</row>
+		</subtable>
+	</row>
+</result>

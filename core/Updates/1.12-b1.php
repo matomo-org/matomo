@@ -9,30 +9,38 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
 use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 /**
  */
 class Updates_1_12_b1 extends Updates
 {
-    static function isMajorUpdate()
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public static function isMajorUpdate()
     {
         return true;
     }
 
-    static function getSql()
+    public function getMigrations(Updater $updater)
     {
         return array(
-            'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`
-			 ADD `custom_float` FLOAT NULL DEFAULT NULL' => 1060
+            $this->migration->db->addColumn('log_link_visit_action', 'custom_float', 'FLOAT NULL DEFAULT NULL')
         );
     }
 
-    static function update()
+    public function doUpdate(Updater $updater)
     {
-        Updater::updateDatabase(__FILE__, self::getSql());
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
-
 }

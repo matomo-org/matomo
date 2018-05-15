@@ -8,12 +8,13 @@
  */
 namespace Piwik\Plugins\UserCountry;
 
+use Piwik\SettingsPiwik;
 class Tasks extends \Piwik\Plugin\Tasks
 {
     public function schedule()
     {
         // add the auto updater task if GeoIP admin is enabled
-        if (UserCountry::isGeoLocationAdminEnabled()) {
+        if (UserCountry::isGeoLocationAdminEnabled() && SettingsPiwik::isInternetEnabled() === true) {
             $this->scheduleTask(new GeoIPAutoUpdater());
         }
     }

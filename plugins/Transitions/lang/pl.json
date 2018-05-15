@@ -1,0 +1,31 @@
+{
+    "Transitions": {
+        "BouncesInline": "%s porzucenia",
+        "DirectEntries": "Wejścia Bezpośrednie",
+        "ErrorBack": "Cofnij do poprzedniej akcji",
+        "ExitsInline": "%s wyjścia",
+        "NumPageviews": "%s wyświetleń strony",
+        "NumDownloads": "%s pobrania",
+        "NumOutlinks": "%s linków zewnętrznych",
+        "FromCampaigns": "Z Kampanii",
+        "FromPreviousPages": "Ze stron serwisu",
+        "FromPreviousPagesInline": "%s stron serwisu",
+        "FromPreviousSiteSearches": "Z wyszukiwarki serwisu",
+        "FromPreviousSiteSearchesInline": "%s z wyszukiwarki serwisu",
+        "FromSearchEngines": "Z wyszukiwarek",
+        "FromWebsites": "Z serwisów",
+        "IncomingTraffic": "Ruch przychodzący",
+        "LoopsInline": "%s odświeżeń strony",
+        "NoDataForAction": "Brak danych dla %s",
+        "NoDataForActionDetails": "Akcja nie powodowała wyświetleń strony w czasie %s lub jest błędna.",
+        "OutgoingTraffic": "Ruch wychodzący",
+        "PluginDescription": "Prezentuje poprzednie i następne akcje dla każdej strony w raporcie Transitions, dostępne w raporcie Akcji poprzez nową ikonę.",
+        "ShareOfAllPageviews": "Wybrana strona miała %1$s wyświetleń (%2$s wszystkich wyświetleń)",
+        "ToFollowingPages": "Do stron serwisu",
+        "ToFollowingPagesInline": "%s stron serwisu",
+        "ToFollowingSiteSearches": "Wewnętrzne Wyszukiwania",
+        "ToFollowingSiteSearchesInline": "%s wewnętrznych wyszukiwań",
+        "XOfAllPageviews": "%s wszystkich wyświetleń tej strony",
+        "XOutOfYVisits": "%1$s (z %2$s)"
+    }
+}

@@ -1,0 +1,32 @@
+<div class="getNewPlugins isAdminPage">
+    <div class="row">
+        {% for plugin in plugins %}
+            <div class="col s12 m4">
+
+                <h3 class="pluginName"
+                    title="{{ plugin.description|e('html_attr') }}"
+                    piwik-plugin-name="{{ plugin.name|e('html_attr') }}">{{ plugin.displayName }}</h3>
+                <p class="description"
+                   title="{{ plugin.description|e('html_attr') }}">{{ plugin.description }}</p>
+
+                {% if plugin.screenshots and plugin.screenshots.0 is defined %}
+                    <br />
+                    <img piwik-plugin-name="{{ plugin.name|e('html_attr') }}"
+                         class="screenshot"
+                         src="{{ plugin.screenshots.0 }}?w=600" width="100%" alt="">
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="widgetBody">
+        <a href="{{ linkTo({'module': 'Marketplace', 'action': 'overview'}) }}"
+            >{{ 'CorePluginsAdmin_ViewAllMarketplacePlugins'|translate }}</a>
+    </div>
+
+    <script type="text/javascript">
+        $('.getNewPlugins .col .description').dotdotdot({
+            watch: 'window'
+        });
+    </script>
+</div>

@@ -1,0 +1,12 @@
+{
+    "SEO": {
+        "PluginDescription": "Kjo shtojcë përfton dhe shfaq vlera SEO: renditje web Alexa, Google Pagerank, numër faqesh të përfshira në tregues dhe paslidhje të sajtit të përzgjedhur në atë çast.",
+        "AlexaRank": "Renditje Alexa",
+        "Bing_IndexedPages": "Faqe të indeksuara nga Bing",
+        "DomainAge": "Moshë Përkatësie",
+        "Google_IndexedPages": "Faqe të indeksuara nga Google",
+        "Rank": "Renditje",
+        "SeoRankings": "Renditje SEO",
+        "SEORankingsFor": "Renditje SEO për %s"
+    }
+}

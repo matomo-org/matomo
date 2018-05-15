@@ -34,14 +34,16 @@ class FormDatabaseSetup extends QuickForm2
     function init()
     {
         HTML_QuickForm2_Factory::registerRule('checkValidFilename', 'Piwik\Plugins\Installation\FormDatabaseSetup_Rule_checkValidFilename');
-
-        $checkUserPrivilegesClass = 'Piwik\Plugins\Installation\Rule_checkUserPrivileges';
-        HTML_QuickForm2_Factory::registerRule('checkUserPrivileges', $checkUserPrivilegesClass);
+        HTML_QuickForm2_Factory::registerRule('checkValidDbname', 'Piwik\Plugins\Installation\FormDatabaseSetup_Rule_checkValidDbname');
+        HTML_QuickForm2_Factory::registerRule('checkUserPrivileges', 'Piwik\Plugins\Installation\Rule_checkUserPrivileges');
 
         $availableAdapters = Adapter::getAdapters();
         $adapters = array();
         foreach ($availableAdapters as $adapter => $port) {
             $adapters[$adapter] = $adapter;
+            if (Adapter::isRecommendedAdapter($adapter)) {
+                $adapters[$adapter] .= ' (' . Piwik::translate('General_Recommended') . ')';
+            }
         }
 
         $this->addElement('text', 'host')
@@ -62,7 +64,7 @@ class FormDatabaseSetup extends QuickForm2
         $item = $this->addElement('text', 'dbname')
             ->setLabel(Piwik::translate('Installation_DatabaseSetupDatabaseName'));
         $item->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupDatabaseName')));
-        $item->addRule('checkValidFilename', Piwik::translate('General_NotValid', Piwik::translate('Installation_DatabaseSetupDatabaseName')));
+        $item->addRule('checkValidDbname', Piwik::translate('General_NotValid', Piwik::translate('Installation_DatabaseSetupDatabaseName')));
 
         $this->addElement('text', 'tables_prefix')
             ->setLabel(Piwik::translate('Installation_DatabaseSetupTablePrefix'))
@@ -73,12 +75,16 @@ class FormDatabaseSetup extends QuickForm2
             ->loadOptions($adapters)
             ->addRule('required', Piwik::translate('General_Required', Piwik::translate('Installation_DatabaseSetupAdapter')));
 
-        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'submit'));
+        $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn'));
+
+        $defaultDatabaseType = Config::getInstance()->database['type'];
+        $this->addElement( 'hidden', 'type')->setLabel('Database engine');
 
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
                                                                        'host'          => '127.0.0.1',
-                                                                       'tables_prefix' => 'piwik_',
+                                                                       'type'          => $defaultDatabaseType,
+                                                                       'tables_prefix' => 'matomo_',
                                                                   )));
     }
 
@@ -90,7 +96,7 @@ class FormDatabaseSetup extends QuickForm2
      */
     public function createDatabaseObject()
     {
-        $dbname = $this->getSubmitValue('dbname');
+        $dbname = trim($this->getSubmitValue('dbname'));
         if (empty($dbname)) // disallow database object creation w/ no selected database
         {
             throw new Exception("No database name");
@@ -99,16 +105,19 @@ class FormDatabaseSetup extends QuickForm2
         $adapter = $this->getSubmitValue('adapter');
         $port = Adapter::getDefaultPortForAdapter($adapter);
 
+        $host = $this->getSubmitValue('host');
+        $tables_prefix = $this->getSubmitValue('tables_prefix');
+        
         $dbInfos = array(
-            'host'          => $this->getSubmitValue('host'),
+            'host'          => (is_null($host)) ? $host : trim($host),
             'username'      => $this->getSubmitValue('username'),
             'password'      => $this->getSubmitValue('password'),
             'dbname'        => $dbname,
-            'tables_prefix' => $this->getSubmitValue('tables_prefix'),
+            'tables_prefix' => (is_null($tables_prefix)) ? $tables_prefix : trim($tables_prefix),
             'adapter'       => $adapter,
             'port'          => $port,
             'schema'        => Config::getInstance()->database['schema'],
-            'type'          => Config::getInstance()->database['type']
+            'type'          => $this->getSubmitValue('type')
         );
 
         if (($portIndex = strpos($dbInfos['host'], '/')) !== false) {
@@ -147,7 +156,7 @@ class FormDatabaseSetup extends QuickForm2
 /**
  * Validation rule that checks that the supplied DB user has enough privileges.
  *
- * The following privileges are required for Piwik to run:
+ * The following privileges are required for Matomo to run:
  * - CREATE
  * - ALTER
  * - SELECT
@@ -223,7 +232,7 @@ class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
     }
 
     /**
-     * Returns an array describing the database privileges required for Piwik to run. The
+     * Returns an array describing the database privileges required for Matomo to run. The
      * array maps privilege names with one or more SQL queries that can be used to test
      * if the current user has the privilege.
      *
@@ -256,7 +265,7 @@ class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
     }
 
     /**
-     * Returns a string description of the database privileges required for Piwik to run.
+     * Returns a string description of the database privileges required for Matomo to run.
      *
      * @return string
      */
@@ -300,7 +309,7 @@ class Rule_checkUserPrivileges extends HTML_QuickForm2_Rule
 }
 
 /**
- * Filename check for prefix/DB name
+ * Filename check for prefix
  *
  */
 class FormDatabaseSetup_Rule_checkValidFilename extends HTML_QuickForm2_Rule
@@ -310,6 +319,20 @@ class FormDatabaseSetup_Rule_checkValidFilename extends HTML_QuickForm2_Rule
         $prefix = $this->owner->getValue();
         return empty($prefix)
         || Filesystem::isValidFilename($prefix);
+    }
+}
+
+/**
+ * Filename check for DB name
+ *
+ */
+class FormDatabaseSetup_Rule_checkValidDbname extends HTML_QuickForm2_Rule
+{
+    function validateOwner()
+    {
+        $prefix = $this->owner->getValue();
+        return empty($prefix)
+        || DbHelper::isValidDbname($prefix);
     }
 }
 
