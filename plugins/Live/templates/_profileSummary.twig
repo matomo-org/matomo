@@ -18,12 +18,17 @@
         {% endif %}
         {% if visitorData.totalGoalConversions is defined %}
         <p>{% if visitorData.totalGoalConversions %}<strong>{% endif %}{{ 'Live_ConvertedNGoals'|translate(visitorData.totalGoalConversions) }}{% if visitorData.totalGoalConversions %}</strong>{% endif %}
-        {%- if visitorData.totalGoalConversions %} (
+        {%- if visitorData.totalGoalConversions %}
+            {% set goalList %}
             {%- for idGoal, totalConversions in visitorData.totalConversionsByGoal -%}
-            {%- set idGoal = idGoal[7:] -%}
-            {%- if not loop.first %}, {% endif -%}{{- totalConversions }} {{ goals[idGoal]['name'] -}}
+                {%- set idGoal = idGoal[7:] -%}
+                {% if goals[idGoal] is defined %}
+                    {%- if not loop.first %}, {% endif -%}{{- totalConversions }} {{ goals[idGoal]['name'] -}}
+                {% endif %}
             {%- endfor -%}
-        ){% endif %}.</p>
+            {% endset %}
+            {% if goalList %}({{ goalList }}){% endif %}
+        {% endif %}.</p>
         {% endif %}
         {% if visitorData.totalSearches|default(0) %}
         <p>
