@@ -28,7 +28,7 @@
             {%- endfor -%}
             {% endset %}
             {% if goalList %}({{ goalList }}){% endif %}
-        {% endif %}.</p>
+        {%- endif %}.</p>
         {% endif %}
         {% if visitorData.totalSearches|default(0) %}
         <p>
