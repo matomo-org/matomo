@@ -290,7 +290,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                 AND log_visit.idsite = ?
                  AND log_visit.%s > 0";
 
-        $groupBy = "log_visit.%s, idaction";
+        $groupBy = "log_visit.%s";
 
         $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "visit_entry_idaction_url", $rankingQuery);
 
@@ -335,7 +335,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                  AND log_visit.idsite = ?
                  AND log_visit.%s > 0";
 
-        $groupBy = "log_visit.%s, idaction";
+        $groupBy = "log_visit.%s";
 
         $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "visit_exit_idaction_url", $rankingQuery);
 
@@ -381,7 +381,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                  AND log_link_visit_action.%s > 0"
             . $this->getWhereClauseActionIsNotEvent();
 
-        $groupBy = "log_link_visit_action.%s, idaction";
+        $groupBy = "log_link_visit_action.%s";
 
         $this->archiveDayQueryProcess($select, $from, $where, $groupBy, $orderBy, "idaction_url_ref", $rankingQuery);
 
