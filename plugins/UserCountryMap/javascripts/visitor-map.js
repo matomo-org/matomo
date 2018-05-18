@@ -902,6 +902,7 @@
                                 sumArea = 0,
                                 f = {
                                     nb_visits: 0.002,
+                                    nb_uniq_visitors: 0.002,
                                     nb_actions: 0.002,
                                     avg_time_on_site: 0.02,
                                     nb_actions_per_visit: 0.02,
