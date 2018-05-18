@@ -167,7 +167,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                 AND log_link_visit_action.%s IS NOT NULL"
             . $this->getWhereClauseActionIsNotEvent();
 
-        $groupBy = "log_action.idaction";
+        $groupBy = "log_link_visit_action.%s";
         $orderBy = "`" . PiwikMetrics::INDEX_PAGE_NB_HITS . "` DESC, name ASC";
 
         $rankingQuery = false;
