@@ -327,10 +327,13 @@ class ServerModule extends GeoIp2
 
         $settingValues = self::$defaultGeoIpServerVars; // preset with defaults
 
-        $systemSettings = new SystemSettings();
+        try {
+            $systemSettings = new SystemSettings();
 
-        foreach ($systemSettings->geoIp2variables as $name => $setting) {
-            $settingValues[$name] = $setting->getValue();
+            foreach ($systemSettings->geoIp2variables as $name => $setting) {
+                $settingValues[$name] = $setting->getValue();
+            }
+        } catch (\Exception $e) {
         }
 
         $cache->save($cacheKey, $settingValues);
