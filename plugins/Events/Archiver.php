@@ -172,7 +172,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                     AND log_link_visit_action.idsite = ?
                     AND log_link_visit_action.idaction_event_category IS NOT NULL";
 
-        $groupBy = "og_link_visit_action.idaction_event_category,
+        $groupBy = "log_link_visit_action.idaction_event_category,
                     log_link_visit_action.idaction_event_action,
                     log_link_visit_action.idaction_name";
 
