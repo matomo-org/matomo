@@ -97,7 +97,7 @@ class Controller extends \Piwik\Plugin\Controller
              'avg_time_on_site'     => $this->translator->translate('VisitsSummary_AverageVisitDuration'),
              'and_n_others'         => $this->translator->translate('UserCountryMap_AndNOthers'),
              'no_data'              => $this->translator->translate('CoreHome_ThereIsNoDataForThisReport'),
-             'nb_uniq_visitors'     => $this->translator->translate('VisitsSummary_NbUniqueVisitors'),
+             'nb_uniq_visitors'     => $this->translator->translate('General_NUniqueVisitors'),
              'nb_users'             => $this->translator->translate('VisitsSummary_NbUsers'),
         ));
 
