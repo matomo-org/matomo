@@ -126,9 +126,17 @@ class Php extends GeoIp2
         $ispGeoIp = $this->getGeoIpInstance($key = 'isp');
         if ($ispGeoIp) {
             try {
-                $lookupResult          = $ispGeoIp->isp($ip);
-                $result[self::ISP_KEY] = $lookupResult->isp;
-                $result[self::ORG_KEY] = $lookupResult->organization;
+                switch ($ispGeoIp->metadata()->databaseType) {
+                    case 'GeoIP2-ISP':
+                        $lookupResult = $ispGeoIp->isp($ip);
+                        $result[self::ISP_KEY] = $lookupResult->isp;
+                        $result[self::ORG_KEY] = $lookupResult->organization;
+                        break;
+                    case 'GeoLite2-ASN':
+                        $lookupResult = $ispGeoIp->asn($ip);
+                        $result[self::ISP_KEY] = $lookupResult->autonomousSystemOrganization;
+                        break;
+                }
             } catch (AddressNotFoundException $e) {
                 // ignore - do nothing
             }
@@ -270,7 +278,7 @@ class Php extends GeoIp2
         if (self::getPathToGeoIpDatabase(['GeoIP2-Country.mmdb', 'GeoLite2-Country.mmdb']) !== false) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_Country');
         }
-        if (self::getPathToGeoIpDatabase(['GeoIP2-ISP.mmdb']) !== false) {
+        if (self::getPathToGeoIpDatabase(self::$dbNames['isp']) !== false) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_ISPDatabase');
         }
 

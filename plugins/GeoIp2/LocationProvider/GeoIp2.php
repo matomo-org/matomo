@@ -40,7 +40,7 @@ abstract class GeoIp2 extends LocationProvider
      */
     public static $dbNames = array(
         'loc' => array('GeoIP2-City.mmdb', 'GeoIP2-Enterprise.mmdb', 'GeoLite2-City.mmdb', 'GeoIP2-Country.mmdb', 'GeoLite2-Country.mmdb'),
-        'isp' => array('GeoIP2-ISP.mmdb'),
+        'isp' => array('GeoIP2-ISP.mmdb', 'GeoLite2-ASN.mmdb'),
     );
 
     /**
