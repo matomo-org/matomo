@@ -8,17 +8,14 @@
 
 namespace Piwik\Tests\Integration\Settings\Storage\Backend;
 
-use Piwik\Config;
-use Piwik\Db;
 use Piwik\Settings\Storage\Backend\NullBackend;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group Settings
  * @group Backend
  * @group Storage
  */
-class NullTest extends IntegrationTestCase
+class NullTest extends \PHPUnit_Framework_TestCase
 {
 
     /**

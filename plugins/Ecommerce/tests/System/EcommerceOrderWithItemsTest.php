@@ -5,7 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\System;
+namespace Piwik\Plugins\Ecommerce\tests\System;
 
 use Piwik\Date;
 use Piwik\Piwik;
@@ -276,6 +276,11 @@ class EcommerceOrderWithItemsTest extends SystemTestCase
     public static function getOutputPrefix()
     {
         return 'ecommerceOrderWithItems';
+    }
+
+    public static function getPathToTestDirectory()
+    {
+        return dirname(__FILE__);
     }
 }
 
