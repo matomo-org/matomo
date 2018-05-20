@@ -22,9 +22,11 @@ class Updates_3_5_1_b1 extends PiwikUpdates
     {
         // try to deactivate and remove the GeoIP2 plugin from marketplace,
         // which causes problems with GeoIp2 plugin included in core
-        // Skip for Windows as file system is case insensitive and names are handled equal
+        // Skip if new file `isoRegionNames.php` is detected within `GeoIP2` directory, as that means filesystem is case
+        // insensitive and GeoIP2 plugin has been partially overwritten by GeoIp2 plugin
         try {
-            if (!SettingsServer::isWindows() && is_dir(PIWIK_INCLUDE_PATH . '/plugins/GeoIP2')) {
+            if (is_dir(PIWIK_INCLUDE_PATH . '/plugins/GeoIP2') && !file_exists(PIWIK_INCLUDE_PATH . '/plugins/GeoIP2/data/isoRegionNames.php')) {
+
                 // first remove the plugin files, as trying to deactivate would load the plugin files resulting in a fatal error
                 Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/plugins/GeoIP2', true);
 
