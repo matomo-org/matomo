@@ -24,6 +24,7 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
+use Piwik\Plugins\PrivacyManager\Tracker\RequestProcessor;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 
@@ -40,6 +41,8 @@ class PrivacyManager extends Plugin
     const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
     const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
     const OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL = "lastDelete_piwik_logs_initial";
+    const OPTION_USERID_SALT = 'useridsalt';
+
 
     // options for data purging feature array[configName => configSection]
     public static $purgeDataOptions = array(
@@ -71,6 +74,16 @@ class PrivacyManager extends Plugin
 
         $this->dntChecker = new DoNotTrackHeaderChecker();
         $this->ipAnonymizer = new IPAnonymizer();
+    }
+
+    public function install()
+    {
+        StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations')->install();
+    }
+
+    public function uninstall()
+    {
+        StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations')->install();
     }
 
     /**
@@ -168,6 +181,11 @@ class PrivacyManager extends Plugin
         );
     }
 
+    public function isTrackerPlugin()
+    {
+        return true;
+    }
+
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
@@ -179,6 +197,7 @@ class PrivacyManager extends Plugin
     {
         $config       = new Config();
         $cacheContent = $config->setTrackerCacheGeneral($cacheContent);
+        $cacheContent[self::OPTION_USERID_SALT] = self::getUserIdSalt();
     }
 
     public function getJsFiles(&$jsFiles)
@@ -191,11 +210,18 @@ class PrivacyManager extends Plugin
         $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-reports/delete-old-reports.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.js";
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.less";
+        $stylesheets[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.less";
+        $stylesheets[] = "plugins/PrivacyManager/stylesheets/gdprOverview.less";
+        $stylesheets[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.less";
     }
 
     /**
@@ -559,5 +585,20 @@ class PrivacyManager extends Plugin
     private static function getMaxGoalId()
     {
         return Db::fetchOne("SELECT MAX(idgoal) FROM " . Common::prefixTable('goal'));
+    }
+
+    /**
+     * Returns a unique salt used for pseudonimisation of user id only
+     *
+     * @return string
+     */
+    public static function getUserIdSalt()
+    {
+        $salt = Option::get(self::OPTION_USERID_SALT);
+        if (empty($salt)) {
+            $salt = Common::getRandomString($len = 40, $alphabet = "abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ0123456789_-$");
+            Option::set(self::OPTION_USERID_SALT, $salt, 1);
+        }
+        return $salt;
     }
 }

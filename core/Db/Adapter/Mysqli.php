@@ -99,6 +99,24 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
     }
 
     /**
+     * Returns the MySQL server version
+     *
+     * @return null|string
+     */
+    public function getServerVersion()
+    {
+        // prioritizing SELECT @@VERSION in case the connection version string is incorrect (which can
+        // occur on Azure)
+        $versionInfo = $this->fetchAll('SELECT @@VERSION');
+
+        if (count($versionInfo)) {
+            return $versionInfo[0]['@@VERSION'];
+        }
+
+        return parent::getServerVersion();
+    }
+
+    /**
      * Check client version compatibility against database server
      *
      * @throws Exception

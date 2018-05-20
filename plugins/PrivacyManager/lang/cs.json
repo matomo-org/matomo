@@ -52,7 +52,6 @@
         "ReportsDataSavedEstimate": "Velikost databáze",
         "SaveSettingsBeforePurge": "Nastavení mazání dat byla změněna. Uložte je před promazáním.",
         "SeeAlsoOurOfficialGuidePrivacy": "Podívejte se také na náš oficiální návod: %1$ssoukromí webové analýzy%2$s",
-        "Teaser": "Na této stránce můžete Matomo nastavit tak, aby chránil osobní údaje tak, že bude: %1$s anonymizovat IP adresy návštěvníků%2$s, %3$s automaticky odstraňovat staré logy návštěvníků z databáze%4$s a %5$s poskytovat mechanismus odhlášení pro váš web%6$s.",
         "TeaserHeadline": "Nastavení ochrany soukromí",
         "UseAnonymizedIpForVisitEnrichment": "Anonymizované IP adresy použít i při obohacování návštěv.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Zásuvné moduly jako geolokace podle IP a poskytovatel vylepšují metadata o návštěvnících. Ve výchozím stavu tyto zásuvné moduly používají anonymizované IP adresy. Pokud vyberete \"ne\", pak tyto zásuvné moduly budou používat plné adresy, což způsobí omezení soukromí ale zlepšení výsledků.",

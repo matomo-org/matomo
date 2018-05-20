@@ -8,6 +8,7 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
+use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -256,6 +257,33 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\'enableLinkTracking\']);
   (function() {
     var u=&quot;//abc&quot;def/&quot;;
+    _paq.push([\'setTrackerUrl\', u+\'piwik.php\']);
+    _paq.push([\'setSiteId\', \'1\']);
+    var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];
+    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'piwik.js\'; s.parentNode.insertBefore(g,s);
+  })();
+&lt;/script&gt;
+&lt;!-- End Matomo Code --&gt;
+';
+
+        $this->assertEquals($expected, $jsTag);
+    }
+
+    public function testJavascriptTrackingCode_withForceSsl()
+    {
+        Config::getInstance()->General['force_ssl'] = 1;
+
+        $generator = new TrackerCodeGenerator();
+        $jsTag = $generator->generate($idSite = 1, $piwikUrl = 'http://localhost/piwik');
+
+        $expected = '&lt;!-- Matomo --&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+  var _paq = _paq || [];
+  /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
+  _paq.push([\'trackPageView\']);
+  _paq.push([\'enableLinkTracking\']);
+  (function() {
+    var u=&quot;https://localhost/piwik/&quot;;
     _paq.push([\'setTrackerUrl\', u+\'piwik.php\']);
     _paq.push([\'setSiteId\', \'1\']);
     var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];

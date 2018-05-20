@@ -32,6 +32,9 @@
                 {
                     if (angular.isObject(attributes)) {
                         angular.forEach(attributes, function (value, key) {
+                            if (angular.isObject(value)) {
+                                value = JSON.stringify(value);
+                            }
                             if (key === 'disabled') {
                                 element.prop(key, value);
                             } else {

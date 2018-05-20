@@ -10,18 +10,17 @@ namespace Piwik\Tests\Core\DataTable\Filter;
 use Piwik\API\Proxy;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Tracker\Cache;
-use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\DataTable\Row;
 use Piwik\Plugin\Manager as PluginManager;
 use Exception;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Translate;
 
 /**
  * @group DataTableTest
  */
-class PivotByDimensionTest extends IntegrationTestCase
+class PivotByDimensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * The number of segment tables that have been created. Used when injecting API results to make sure each
@@ -42,6 +41,10 @@ class PivotByDimensionTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
+
+        Translate::reset();
+        Cache::clearCacheGeneral();
+        \Piwik\Cache::flushAll();
 
         $self = $this;
 
@@ -272,9 +275,9 @@ class PivotByDimensionTest extends IntegrationTestCase
         $pivotFilter->filter($table);
 
         $expectedRows = array(
-            array('label' => 'row 1', 'col 2' => false, 'col 4' => false, 'General_Others' => 1),
-            array('label' => 'row 2', 'col 2' => 5, 'col 4' => false, 'General_Others' => 3),
-            array('label' => 'row 3', 'col 2' => 7, 'col 4' => 32, 'General_Others' => 9)
+            array('label' => 'row 1', 'col 2' => false, 'col 4' => false, 'Others' => 1),
+            array('label' => 'row 2', 'col 2' => 5, 'col 4' => false, 'Others' => 3),
+            array('label' => 'row 3', 'col 2' => 7, 'col 4' => 32, 'Others' => 9)
         );
         $this->assertTableRowsEquals($expectedRows, $table);
     }

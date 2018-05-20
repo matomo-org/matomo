@@ -4,9 +4,26 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.5.1
+
+### New APIs
+
+* Added new method `Piwik\API\Request::isRootRequestApiRequest()` to detect if the root request is an API request.
+
 ## Matomo 3.5.0
-* Added new event `AssetManager.addStylesheets` to add additional less styles which are not located in a file.
+
+### Breaking Changes
+
+* Flattened action url reports now always include a leading `/` and will no longer include the `default_action_name`. e.g. `path/to/index` will now be `/path/to/`. This might affect configured custom alerts, as this plugin uses the flattened url reports for comparison.
+
+### New APIs
+
+* New JavaScript tracker functions to [ask for consent](https://developer.matomo.org/guides/tracking-javascript-guide#asking-for-consent): `requireConsent`, `rememberConsentGiven`, `setConsentGiven`, `forgetConsentGiven`.
+* New events `PrivacyManager.deleteLogsOlderThan`, `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` to enable plugins to be GDPR compliant.  
+* New event `AssetManager.addStylesheets` to add additional less styles which are not located in a file.
 * New event `Archiving.getIdSitesToMarkArchivesAsInvalidated` that lets plugins customize the behaviour of report invalidations.
+* Reports and visualizations can now disable the 'all' rows limit selector: `$view->config->disable_all_rows_filter_limit`.
+* New settings form field UI component "Multi Tuple" that lets users enter multiple values for one setting
 
 ## Matomo 3.4.0
 

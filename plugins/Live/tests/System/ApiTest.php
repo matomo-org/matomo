@@ -57,6 +57,26 @@ class ApiTest extends SystemTestCase
             )
         );
 
+        $apiToTest[] = array(array('Live.getLastVisitsDetails'),
+            array(
+                'idSite'     => 'all',
+                'date'       => self::$fixture->dateTime,
+                'periods'    => array('day'),
+                'otherRequestParameters' => array('limitVisits' => 20),
+                'testSuffix' => 'allSites'
+            )
+        );
+
+        $apiToTest[] = array(array('Live.getLastVisitsDetails'),
+            array(
+                'idSite'     => '1,2',
+                'date'       => self::$fixture->dateTime,
+                'periods'    => array('day'),
+                'otherRequestParameters' => array('limitVisits' => 40),
+                'testSuffix' => 'multiSites'
+            )
+        );
+
         return $apiToTest;
     }
 

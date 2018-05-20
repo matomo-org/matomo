@@ -52,7 +52,6 @@
         "ReportsDataSavedEstimate": "Tamaño de la base de datos",
         "SaveSettingsBeforePurge": "Ha cambiado la configuración de borrado de información. Por favor, guárdelas antes de iniciar la purga.",
         "SeeAlsoOurOfficialGuidePrivacy": "Lee también nuestra guía oficial: %1$sPrivacidad en las análíticas web%2$s",
-        "Teaser": "En esta página, puede personalizar Matomo para hacer que cumpla con la privacidad de las legislaciones existentes: %1$s haciendo anónima la IP del visitante%2$s, %3$s eliminar automáticamente los antiguos registros de los visitantes de la base de datos%4$s. y %5$s proporcionando un mecanismo de renuncia de su sitio web (para que los visitantes no sean rastreados)%6$s",
         "TeaserHeadline": "Configuración de privacidad",
         "UseAnonymizedIpForVisitEnrichment": "Usa también direcciones IP anónimas para enriquecer las visitas.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Los complementos Geo Location a través de IP y Provider mejoran los metadatos de los visitantes. Por defecto estos complementos utilizan las direcciones IP anónimas. Si elige 'No' será utilizada una dirección completa de forma no anónima lo que resulta en una menor privacidad pero una mayor precisión de datos.",

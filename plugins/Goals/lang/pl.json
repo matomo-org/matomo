@@ -1,6 +1,6 @@
 {
     "Goals": {
-        "AbandonedCart": "Opuszczony Koszyk",
+        "AbandonedCart": "Porzucony koszyk",
         "AddGoal": "Dodaj Cel",
         "AddNewGoal": "Dodaj nowy Cel",
         "AddNewGoalOrEditExistingGoal": "%1$sDodaj nowy Cel%2$s lub %3$sedytuj%4$s istniejące Cele",
@@ -64,6 +64,7 @@
         "GoalIsTriggeredWhen": "Cel został osiągnięty, gdy",
         "GoalName": "Nazwa celu",
         "Goals": "Cele",
+        "NGoals": "%s celi",
         "ManageGoals": "Zarządzaj celami",
         "GoalsOverview": "Przegląd celów",
         "GoalsOverviewDocumentation": "To jest przegląd konwersji Twoich celów. Wstępnie wykres pokazuje sumę wszystkich konwersji. %s Poniżej wykresu, zobaczysz raporty konwersji poszczególnych celów. Linie wykropkowane można powiększyć klikając na nie.",

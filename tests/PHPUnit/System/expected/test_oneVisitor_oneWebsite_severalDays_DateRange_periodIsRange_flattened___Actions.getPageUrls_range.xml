@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>homepage</label>
+		<label>/homepage</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>720</sum_time_spent>
@@ -23,7 +23,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fhomepage</segment>
 	</row>
 	<row>
-		<label>news</label>
+		<label>/news</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -47,7 +47,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fnews</segment>
 	</row>
 	<row>
-		<label>sub1/sub2/sub3/news</label>
+		<label>/sub1/sub2/sub3/news</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>

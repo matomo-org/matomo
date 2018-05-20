@@ -1,0 +1,428 @@
+{
+    "log_visit": [
+        {
+            "config_browser_engine": "WebKit (Safari, Chrome)",
+            "config_browser_name": "Chrome",
+            "config_browser_version": "17.0",
+            "config_cookie": "Yes",
+            "config_device_brand": "Unknown",
+            "config_device_model": "",
+            "config_device_type": "Desktop",
+            "config_director": "No",
+            "config_flash": "Yes",
+            "config_gears": "No",
+            "config_id": "d5e8ac7a720f0405",
+            "config_java": "Yes",
+            "config_os": "Windows",
+            "config_os_version": "Vista",
+            "config_pdf": "No",
+            "config_quicktime": "No",
+            "config_realplayer": "No",
+            "config_resolution": "1024x768",
+            "config_silverlight": "No",
+            "config_windowsmedia": "No",
+            "custom_var_k1": "myCustomUserId",
+            "custom_var_v1": "200",
+            "idsite": "Site 1",
+            "idvisit": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "last_idlink_va": "11",
+            "location_browser_lang": "French (fr)",
+            "location_country": "Intl_Continent_ie",
+            "location_ip": "156.5.3.200",
+            "referer_name": "www.example.com",
+            "referer_type": "Websites",
+            "referer_url": "http:\/\/www.example.com\/",
+            "user_id": "userId200",
+            "visit_entry_idaction_name": "1",
+            "visit_entry_idaction_url": "2",
+            "visit_exit_idaction_name": "7",
+            "visit_first_action_time": "2017-01-02 03:04:05",
+            "visit_goal_buyer": "None",
+            "visit_goal_converted": "Yes",
+            "visit_last_action_time": "2017-01-02 03:10:05",
+            "visit_total_actions": "4",
+            "visit_total_events": "0",
+            "visit_total_interactions": "4",
+            "visit_total_searches": "1",
+            "visit_total_time": "00:06:01",
+            "visitor_count_visits": "1",
+            "visitor_days_since_first": "0",
+            "visitor_days_since_last": "0",
+            "visitor_days_since_order": "0",
+            "visitor_localtime": "12:34:06",
+            "visitor_returning": "New"
+        }
+    ],
+    "log_link_visit_action": [
+        {
+            "custom_float": "9 min 5s",
+            "idaction_name": "1",
+            "idaction_name_ref": "0",
+            "idaction_url": "2",
+            "idaction_url_ref": "0",
+            "idlink_va": "1",
+            "idpageview": "123456",
+            "idsite": "1",
+            "idvisit": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "interaction_position": "1",
+            "server_time": "2017-01-02 03:04:05",
+            "time_spent": "360",
+            "time_spent_ref_action": "00:00:00"
+        },
+        {
+            "custom_float": "9 min 5s",
+            "idaction_name": "3",
+            "idaction_name_ref": "1",
+            "idaction_url": "4",
+            "idaction_url_ref": "2",
+            "idlink_va": "2",
+            "idpageview": "123456",
+            "idsite": "1",
+            "idvisit": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "interaction_position": "2",
+            "server_time": "2017-01-02 03:10:05",
+            "time_spent_ref_action": "00:06:00"
+        },
+        {
+            "custom_float": "9 min 5s",
+            "idaction_name": "5",
+            "idaction_name_ref": "3",
+            "idaction_url": "6",
+            "idaction_url_ref": "4",
+            "idlink_va": "3",
+            "idpageview": "123456",
+            "idsite": "1",
+            "idvisit": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "interaction_position": "3",
+            "server_time": "2017-01-02 03:10:05",
+            "time_spent_ref_action": "00:00:00"
+        },
+        {
+            "custom_float": "9 min 5s",
+            "custom_var_k4": "_pk_scat",
+            "custom_var_k5": "_pk_scount",
+            "custom_var_v4": "images",
+            "custom_var_v5": "200",
+            "idaction_name": "7",
+            "idaction_name_ref": "5",
+            "idaction_url_ref": "6",
+            "idlink_va": "4",
+            "idpageview": "123456",
+            "idsite": "1",
+            "idvisit": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "interaction_position": "4",
+            "server_time": "2017-01-02 03:10:05",
+            "time_spent_ref_action": "00:00:00"
+        },
+        {
+            "custom_float": "0s",
+            "idaction_content_name": "9",
+            "idaction_content_piece": "10",
+            "idaction_content_target": "11",
+            "idaction_name_ref": "7",
+            "idaction_url": "8",
+            "idlink_va": "5",
+            "idpageview": "123456",
+            "idsite": "1",
+            "idvisit": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "interaction_position": "4",
+            "server_time": "2017-01-02 03:10:05",
+            "time_spent_ref_action": "00:00:00"
+        },
+        {
+            "custom_float": "0s",
+            "idaction_content_name": "9",
+            "idaction_content_piece": "12",
+            "idaction_content_target": "11",
+            "idaction_name_ref": "7",
+            "idaction_url": "8",
+            "idlink_va": "6",
+            "idpageview": "123456",
+            "idsite": "1",
+            "idvisit": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "interaction_position": "4",
+            "server_time": "2017-01-02 03:10:05",
+            "time_spent_ref_action": "00:00:00"
+        },
+        {
+            "custom_float": "0s",
+            "idaction_content_name": "13",
+            "idaction_content_piece": "14",
+            "idaction_content_target": "15",
+            "idaction_name_ref": "7",
+            "idaction_url": "8",
+            "idlink_va": "7",
+            "idpageview": "123456",
+            "idsite": "1",
+            "idvisit": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "interaction_position": "4",
+            "server_time": "2017-01-02 03:10:05",
+            "time_spent_ref_action": "00:00:00"
+        },
+        {
+            "custom_float": "0s",
+            "idaction_content_name": "16",
+            "idaction_content_piece": "17",
+            "idaction_content_target": "18",
+            "idaction_name_ref": "7",
+            "idaction_url": "8",
+            "idlink_va": "8",
+            "idpageview": "123456",
+            "idsite": "1",
+            "idvisit": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "interaction_position": "4",
+            "server_time": "2017-01-02 03:10:05",
+            "time_spent_ref_action": "00:00:00"
+        },
+        {
+            "custom_float": "0s",
+            "idaction_content_name": "19",
+            "idaction_content_piece": "20",
+            "idaction_name_ref": "7",
+            "idaction_url": "8",
+            "idlink_va": "9",
+            "idpageview": "123456",
+            "idsite": "1",
+            "idvisit": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "interaction_position": "4",
+            "server_time": "2017-01-02 03:10:05",
+            "time_spent_ref_action": "00:00:00"
+        },
+        {
+            "custom_float": "0s",
+            "idaction_content_interaction": "21",
+            "idaction_content_name": "16",
+            "idaction_content_piece": "17",
+            "idaction_content_target": "18",
+            "idaction_name_ref": "7",
+            "idaction_url": "8",
+            "idlink_va": "10",
+            "idpageview": "123456",
+            "idsite": "1",
+            "idvisit": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "interaction_position": "4",
+            "server_time": "2017-01-02 03:10:05",
+            "time_spent_ref_action": "00:00:00"
+        },
+        {
+            "custom_float": "0s",
+            "idaction_content_interaction": "22",
+            "idaction_content_name": "23",
+            "idaction_content_piece": "24",
+            "idaction_name_ref": "7",
+            "idaction_url": "8",
+            "idlink_va": "11",
+            "idpageview": "123456",
+            "idsite": "1",
+            "idvisit": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "interaction_position": "4",
+            "server_time": "2017-01-02 03:10:05",
+            "time_spent_ref_action": "00:00:00"
+        }
+    ],
+    "log_foo_bar_baz": [
+        {
+            "idlogfoobar": "35",
+            "idlogfoobarbaz": "51",
+            "idsite": "1"
+        },
+        {
+            "idlogfoobar": "36",
+            "idlogfoobarbaz": "52",
+            "idsite": "1"
+        }
+    ],
+    "log_foo_bar": [
+        {
+            "idlogfoo": "10",
+            "idlogfoobar": "35",
+            "idsite": "1"
+        },
+        {
+            "idlogfoo": "10",
+            "idlogfoobar": "36",
+            "idsite": "1"
+        }
+    ],
+    "log_foo": [
+        {
+            "idlogfoo": "10",
+            "idsite": "1",
+            "idvisit": "1"
+        },
+        {
+            "idlogfoo": "21",
+            "idsite": "1",
+            "idvisit": "1"
+        }
+    ],
+    "log_conversion_item": [],
+    "log_conversion": [
+        {
+            "buster": "0",
+            "config_device_brand": "",
+            "config_device_model": "",
+            "config_device_type": "0",
+            "custom_var_k1": "myCustomUserId",
+            "custom_var_v1": "200",
+            "idgoal": "1",
+            "idorder": "0",
+            "idsite": "1",
+            "idvisit": "1",
+            "idvisitor": "5484eb1bcd82eefe",
+            "items": "0",
+            "location_country": "ie",
+            "referer_name": "www.example.com",
+            "referer_type": "3",
+            "revenue": "$ 0",
+            "revenue_discount": "$ ",
+            "revenue_shipping": "$ ",
+            "revenue_subtotal": "$ ",
+            "revenue_tax": "$ ",
+            "server_time": "2017-01-02 03:04:05",
+            "url": "http:\/\/www.helloworld.com\/hello\/world200",
+            "visitor_count_visits": "1",
+            "visitor_days_since_first": "0",
+            "visitor_days_since_order": "0",
+            "visitor_returning": "0"
+        }
+    ],
+    "log_action_log_visit_visit_exit_idaction_name": [
+        {
+            "idaction": "7",
+            "name": "mobile"
+        }
+    ],
+    "log_action_log_visit_visit_entry_idaction_url": [
+        {
+            "idaction": "2",
+            "name": "http:\/\/www.helloworld.com\/hello\/world200"
+        }
+    ],
+    "log_action_log_visit_visit_entry_idaction_name": [
+        {
+            "idaction": "1",
+            "name": "Hello World"
+        }
+    ],
+    "log_action_log_link_visit_action_idaction_url": [
+        {
+            "idaction": "2",
+            "name": "http:\/\/www.helloworld.com\/hello\/world200"
+        },
+        {
+            "idaction": "4",
+            "name": "http:\/\/www.helloworld.com\/hello\/world200\/0"
+        },
+        {
+            "idaction": "6",
+            "name": "http:\/\/www.helloworld.com\/hello\/world200\/1"
+        },
+        {
+            "idaction": "8",
+            "name": "http:\/\/www.helloworld.com\/hello\/world200\/1"
+        }
+    ],
+    "log_action_log_link_visit_action_idaction_name": [
+        {
+            "idaction": "1",
+            "name": "Hello World"
+        },
+        {
+            "idaction": "3",
+            "name": "Hello World 0"
+        },
+        {
+            "idaction": "5",
+            "name": "Hello World 1"
+        },
+        {
+            "idaction": "7",
+            "name": "mobile"
+        }
+    ],
+    "log_action_log_link_visit_action_idaction_content_target": [
+        {
+            "idaction": "11",
+            "name": "http:\/\/product1.example.com"
+        },
+        {
+            "idaction": "15",
+            "name": "http:\/\/product200.example.com"
+        },
+        {
+            "idaction": "18",
+            "name": "http:\/\/product3.example.com"
+        }
+    ],
+    "log_action_log_link_visit_action_idaction_content_piece": [
+        {
+            "idaction": "10",
+            "name": "\/path\/product1.jpg"
+        },
+        {
+            "idaction": "12",
+            "name": "Buy Product 1 Now!"
+        },
+        {
+            "idaction": "14",
+            "name": "\/path\/product2.jpg"
+        },
+        {
+            "idaction": "17",
+            "name": "Product 3 on sale"
+        },
+        {
+            "idaction": "20",
+            "name": "Unknown"
+        },
+        {
+            "idaction": "24",
+            "name": "http:\/\/product1.example.com"
+        }
+    ],
+    "log_action_log_link_visit_action_idaction_content_name": [
+        {
+            "idaction": "9",
+            "name": "Product 1"
+        },
+        {
+            "idaction": "13",
+            "name": "Product 2"
+        },
+        {
+            "idaction": "16",
+            "name": "Product 3"
+        },
+        {
+            "idaction": "19",
+            "name": "Product 4"
+        },
+        {
+            "idaction": "23",
+            "name": "\/path\/product1.jpg"
+        }
+    ],
+    "log_action_log_link_visit_action_idaction_content_interaction": [
+        {
+            "idaction": "21",
+            "name": "click"
+        },
+        {
+            "idaction": "22",
+            "name": "hover"
+        }
+    ]
+}

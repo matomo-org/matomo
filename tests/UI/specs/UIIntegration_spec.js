@@ -317,6 +317,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    // should load the row evolution [see #11526]
+    it('should show rov evolution for goal tables', function (done) {
+        expect.screenshot('goals_individual_row_evolution').to.be.captureSelector('.ui-dialog', function (page) {
+            page.mouseMove('table.dataTable tbody tr:first-child');
+            page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
+            page.click('a.actionRowEvolution:visible');
+            page.wait(2000);
+        }, done);
+    });
+
     // Events pages
     it('should load the Events > index page correctly', function (done) {
         expect.screenshot('events_overview').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
@@ -502,12 +512,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 $('textarea:eq(0)').trigger('focus');
             });
             page.wait(1000);
-        }, done);
-    });
-
-    it('should load the Settings > Privacy admin page correctly', function (done) {
-        expect.screenshot('admin_privacy_settings').to.be.captureSelector('.pageWrap,.ui-inline-help', function (page) {
-            page.load("?" + generalParams + "&module=PrivacyManager&action=privacySettings");
         }, done);
     });
 
@@ -756,6 +760,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 var visitorLogLinkSelector = 'table.dataTable tbody tr:first-child a.actionSegmentVisitorLog';
                 $(visitorLogLinkSelector).click();
             }, 2000);
+            page.mouseMove('#secondNavBar');
         }, done);
     });
 

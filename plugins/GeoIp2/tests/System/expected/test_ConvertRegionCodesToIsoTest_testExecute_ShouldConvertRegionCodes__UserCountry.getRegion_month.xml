@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Unknown</label>
+		<nb_visits>3</nb_visits>
+		<nb_actions>3</nb_actions>
+		<max_actions>1</max_actions>
+		<bounce_count>3</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>3</sum_daily_nb_users>
+		<region>xx</region>
+		<country>xx</country>
+		<country_name>Unknown</country_name>
+		<region_name>Unknown</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/xx.png</logo>
+	</row>
+	<row>
+		<label>Anatoliki Makedonia kai Thraki, Greece</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>regionCode==A;countryCode==gr</segment>
+		<region>A</region>
+		<country>gr</country>
+		<country_name>Greece</country_name>
+		<region_name>Anatoliki Makedonia kai Thraki</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/gr.png</logo>
+	</row>
+	<row>
+		<label>Chahār Mahāll va Bakhtīārī, Iran</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>regionCode==08;countryCode==ir</segment>
+		<region>08</region>
+		<country>ir</country>
+		<country_name>Iran</country_name>
+		<region_name>Chahār Mahāll va Bakhtīārī</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/ir.png</logo>
+	</row>
+	<row>
+		<label>Khūzestān, Iran</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>regionCode==10;countryCode==ir</segment>
+		<region>10</region>
+		<country>ir</country>
+		<country_name>Iran</country_name>
+		<region_name>Khūzestān</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/ir.png</logo>
+	</row>
+	<row>
+		<label>Ordino, Andorra</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>regionCode==05;countryCode==ad</segment>
+		<region>05</region>
+		<country>ad</country>
+		<country_name>Andorra</country_name>
+		<region_name>Ordino</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/ad.png</logo>
+	</row>
+	<row>
+		<label>Saint Catherine, Jamaica</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>regionCode==14;countryCode==jm</segment>
+		<region>14</region>
+		<country>jm</country>
+		<country_name>Jamaica</country_name>
+		<region_name>Saint Catherine</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/jm.png</logo>
+	</row>
+	<row>
+		<label>Westmoreland, Jamaica</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>regionCode==10;countryCode==jm</segment>
+		<region>10</region>
+		<country>jm</country>
+		<country_name>Jamaica</country_name>
+		<region_name>Westmoreland</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/jm.png</logo>
+	</row>
+	<row>
+		<label>Xizang, China</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>regionCode==XZ;countryCode==cn</segment>
+		<region>XZ</region>
+		<country>cn</country>
+		<country_name>China</country_name>
+		<region_name>Xizang</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
+	</row>
+	<row>
+		<label>Īlām, Iran</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>1</sum_daily_nb_users>
+		<segment>regionCode==05;countryCode==ir</segment>
+		<region>05</region>
+		<country>ir</country>
+		<country_name>Iran</country_name>
+		<region_name>Īlām</region_name>
+		<logo>plugins/Morpheus/icons/dist/flags/ir.png</logo>
+	</row>
+</result>

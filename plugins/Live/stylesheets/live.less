@@ -118,6 +118,7 @@ ol.visitorLog > li {
     height: 0;
     margin: 0;
     overflow: hidden;
+    padding: 0;
   }
 
   &.more {
@@ -158,6 +159,10 @@ ol.visitorLog > li {
     padding: 2px;
     border: none;
     margin-left: 5px;
+}
+
+#visitsLive .visitorType .visitorRank {
+  margin-left: 0;
 }
 
 .hash {
@@ -253,6 +258,12 @@ ol.visitorLog p {
   display: block;
 }
 
+.visitor-log-ip-location img.flag {
+  border: 1px solid lightgray;
+  top: 2px;
+  position: relative;
+}
+
 .visitor-log-page-list {
   position:relative;
   margin-top: 7px;
@@ -324,6 +335,10 @@ a.visitor-log-visitor-profile-link {
     height: 16px;
 }
 
+.visitorLogIconWithDetails.flag {
+  display: none;
+}
+
 .visitorLogIconWithDetails.flag>img {
     border: 1px solid lightgray;
 }
@@ -369,6 +384,29 @@ a.visitor-log-visitor-profile-link {
   background-image: url('plugins/Live/images/visitorlog-hover.png');
 }
 
+#widgetLivewidget {
+  .visitorLogIcons {
+    display: inline;
+  }
+
+  .visitorLogIconWithDetails.flag {
+    display: inline;
+  }
+
+  .visitorDetails {
+    display: inline-block;
+  }
+
+  .visitorLogIconWithDetails {
+    margin-right: 5px;
+  }
+
+  .visitorType {
+    display: inline-block;
+    float: left;
+    margin-right: 15px;
+  }
+}
 
 @media only screen and (max-width: 600px) {
   .own-visitor-column {
