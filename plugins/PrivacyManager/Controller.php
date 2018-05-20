@@ -80,19 +80,23 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $reportRetention = '';
 
         if ($purgeDataSettings['delete_reports_older_than'] > 12) {
-            $reportRetention .= floor($purgeDataSettings['delete_reports_older_than']/12) . ' ' . Piwik::translate('Intl_PeriodYears') . ' ';
+            $years = floor($purgeDataSettings['delete_reports_older_than']/12);
+            $reportRetention .=  $years . ' ' . Piwik::translate($years > 1 ? 'Intl_PeriodYears' : 'Intl_PeriodYear') . ' ';
         }
         if ($purgeDataSettings['delete_reports_older_than'] % 12 > 0) {
-            $reportRetention .= floor($purgeDataSettings['delete_reports_older_than']%12) . ' ' . Piwik::translate('Intl_PeriodMonths');
+            $months = floor($purgeDataSettings['delete_reports_older_than']%12);
+            $reportRetention .= $months . ' ' . Piwik::translate($months > 1 ? 'Intl_PeriodMonths' : 'Intl_PeriodMonth');
         }
 
         $rawDataRetention = '';
 
-        if ($purgeDataSettings['delete_reports_older_than'] > 30) {
-            $rawDataRetention .= floor($purgeDataSettings['delete_reports_older_than']/30) . ' ' . Piwik::translate('Intl_PeriodMonths') . ' ';
+        if ($purgeDataSettings['delete_logs_older_than'] > 30) {
+            $months = floor($purgeDataSettings['delete_logs_older_than']/30);
+            $rawDataRetention .= $months . ' ' . Piwik::translate($months > 1 ? 'Intl_PeriodMonths' : 'Intl_PeriodMonth') . ' ';
         }
-        if ($purgeDataSettings['delete_reports_older_than'] % 30 > 0) {
-            $rawDataRetention .= floor($purgeDataSettings['delete_reports_older_than']%30) . ' ' . Piwik::translate('Intl_PeriodDays');
+        if ($purgeDataSettings['delete_logs_older_than'] % 30 > 0) {
+            $days = floor($purgeDataSettings['delete_logs_older_than']%30);
+            $rawDataRetention .= $days . ' ' . Piwik::translate($days > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');
         }
 
         return $this->renderTemplate('gdprOverview', [
