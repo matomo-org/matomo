@@ -10,6 +10,7 @@ namespace Piwik\Plugins\GeoIp2;
 
 use Piwik\Piwik;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2\ServerModule;
+use Piwik\Plugins\UserCountry\UserCountry;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 
@@ -25,8 +26,11 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         $this->title = Piwik::translate('GeoIp2_ServerBasedVariablesConfiguration');
 
+        $geoIpAdminEnabled = UserCountry::isGeoLocationAdminEnabled();
+
         foreach (ServerModule::$defaultGeoIpServerVars as $name => $value) {
             $this->geoIp2variables[$name] = $this->createGeoIp2ServerVarSetting($name, $value);
+            $this->geoIp2variables[$name]->setIsWritableByCurrentUser($geoIpAdminEnabled);
         }
     }
 
