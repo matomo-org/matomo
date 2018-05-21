@@ -333,10 +333,10 @@ class ServerModule extends GeoIp2
             foreach ($systemSettings->geoIp2variables as $name => $setting) {
                 $settingValues[$name] = $setting->getValue();
             }
+
+            $cache->save($cacheKey, $settingValues);
         } catch (\Exception $e) {
         }
-
-        $cache->save($cacheKey, $settingValues);
 
         return $settingValues;
     }
