@@ -320,7 +320,8 @@ class Piwik
     public static function isUserIsAnonymous()
     {
         $currentUserLogin = Piwik::getCurrentUserLogin();
-        return $currentUserLogin == 'anonymous';
+        $isSuperUser = self::hasUserSuperUserAccess();
+        return !$isSuperUser && $currentUserLogin == 'anonymous';
     }
 
     /**
