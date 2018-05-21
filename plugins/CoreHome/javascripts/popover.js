@@ -51,8 +51,10 @@ var Piwik_Popover = (function () {
                     closeCallback = false;
                 }
 
+                // if we were not called by Piwik_Popover.close(), then the user clicked the close button or clicked
+                // the overlay, in which case we want to handle the popover URL as well as the actual modal.
                 if (!isProgrammaticClose) {
-                    window.history.back();
+                    broadcast.propagateNewPopoverParameter(false);
                 }
             }
         };

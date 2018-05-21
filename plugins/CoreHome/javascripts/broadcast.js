@@ -45,6 +45,13 @@ var broadcast = {
     updateHashOnly: false,
 
     /**
+     * Keeps track of the current number of stacked popovers. Necessary in order to differentiate
+     * when a user opens a popover and when a user enters a URL that opens a popover. In the latter
+     * case, using window.history.back() results in existing matomo, which we don't want.
+     */
+    popoverStackCount: 0,
+
+    /**
      * Initializes broadcast object
      * @return {void}
      */
@@ -445,6 +452,8 @@ var broadcast = {
 
         var popover = '';
         if (handlerName) {
+            ++broadcast.popoverStackCount;
+
             popover = handlerName + ':' + value;
 
             // between jquery.history and different browser bugs, it's impossible to ensure
@@ -452,7 +461,9 @@ var broadcast = {
             // make sure it doesn't change, we have to manipulate the url encoding a bit.
             popover = encodeURIComponent(popover);
             popover = popover.replace(/%/g, '\$');
-        } else if ($location.search().popover) {
+        } else if ($location.search().popover && broadcast.popoverStackCount > 0) {
+            broadcast.popoverStackCount = Math.max(0, broadcast.popoverStackCount - 1);
+
             // if we're removing the popover & there is a current popover parameter, hit the back button to retain
             // the proper browser history.
             window.history.back();
