@@ -5,7 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\System;
+namespace Piwik\Plugins\Goals\tests\System;
 
 use Piwik\Plugins\Goals\API;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -69,6 +69,11 @@ class TrackGoalsAllowMultipleConversionsPerVisitTest extends SystemTestCase
     public static function getOutputPrefix()
     {
         return 'trackGoals_allowMultipleConversionsPerVisit';
+    }
+
+    public static function getPathToTestDirectory()
+    {
+        return dirname(__FILE__);
     }
 }
 

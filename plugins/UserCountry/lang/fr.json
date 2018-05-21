@@ -31,6 +31,7 @@
         "GeoIPCannotFindMbstringExtension": "Impossible de trouver la fonction %1$s. Veuillez vous assurer que l'extension %2$s est installée et chargée.",
         "GeoIPDatabases": "Base de donnéees GeoIP",
         "GeoIPDocumentationSuffix": "Afin de visualiser les données de ce rapport, vous devez installer GeoIP depuis l'onglet d'administration Géolocalisation. Les bases de données commerciales %1$sMaxmind%2$s sont plus précises que les gratuites. Pour voir à quelles points elles sont précises, cliquez %3$sici%4$s.",
+        "GeoIPNoDatabaseFound": "Cette implémentation de GeoIP n'a trouvé aucune base de données.",
         "GeoIPImplHasAccessTo": "Cette implémentation GeoIP a accès aux types de bases de données suivants",
         "GeoIPIncorrectDatabaseFormat": "Votre base de données GeoIP n'est pas au bon format. Elle peut être corrompue. Assurez-vous que vous utilisez la version binaire et tentez de la remplacer avec une autre copie.",
         "GeoIpLocationProviderDesc_Pecl1": "Ce fournisseur de localisation utilise une base de données GeoIP et le module PECL pour déterminer de manière précise et efficace l'emplacement de vos visiteurs.",

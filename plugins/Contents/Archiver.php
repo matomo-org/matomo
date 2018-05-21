@@ -109,9 +109,9 @@ class Archiver extends \Piwik\Plugin\Archiver
                     AND log_link_visit_action.idaction_content_name IS NOT NULL
                     AND log_link_visit_action.idaction_content_interaction IS NULL";
 
-        $groupBy = "log_action_content_piece.idaction,
-                    log_action_content_target.idaction,
-                    log_action_content_name.idaction";
+        $groupBy = "log_link_visit_action.idaction_content_piece,
+                    log_link_visit_action.idaction_content_target,
+                    log_link_visit_action.idaction_content_name";
 
         $orderBy = "`" . Metrics::INDEX_NB_VISITS . "` DESC";
 

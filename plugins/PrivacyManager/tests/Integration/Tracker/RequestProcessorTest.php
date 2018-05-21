@@ -8,10 +8,13 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\Integration\Tracker;
 
+use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\Config;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\Tracker\RequestProcessor;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Cache;
 use Piwik\Tracker\Request;
 
 
@@ -36,6 +39,9 @@ class RequestProcessorTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
+
+        Option::set(PrivacyManager::OPTION_USERID_SALT, 'simpleuseridsalt1');
+        Cache::clearCacheGeneral();
 
         $this->requestProcessor = new RequestProcessor();
         $this->config = new Config();
@@ -75,7 +81,7 @@ class RequestProcessorTest extends IntegrationTestCase
         $request = $this->makeRequest(array('idsite' => '3', 'uid' => 'foobar', 'ec_id' => 'baz'));
         $this->requestProcessor->manipulateRequest($request);
 
-        $this->assertSame(array('idsite' => '3', 'uid' => '8843d7f92416211de9ebb963ff4ce28125932878', 'ec_id' => 'baz'), $request->getParams());
+        $this->assertSame(array('idsite' => '3', 'uid' => '11d45007a54ea2dce76e57b9a1c2f0644b79687e', 'ec_id' => 'baz'), $request->getParams());
     }
 
     public function test_manipulateRequest_anonymizeOrderIdOnly()

@@ -23,7 +23,7 @@ class GeoIp2 extends \Piwik\Plugin
     public function deactivate()
     {
         // switch to default provider if GeoIP2 provider was in use
-        if (LocationProvider::getCurrentProvider() instanceof GeoIp2) {
+        if (LocationProvider::getCurrentProvider() instanceof \Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2) {
             LocationProvider::setCurrentProvider(LocationProvider\DefaultProvider::ID);
         }
     }

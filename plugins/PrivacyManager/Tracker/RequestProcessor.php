@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\PrivacyManager\Tracker;
 
 use Piwik\Common;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\Request;
 use Piwik\Tracker;
@@ -37,15 +38,27 @@ class RequestProcessor extends Tracker\RequestProcessor
         }
     }
 
+    /**
+     * pseudo anonymization as we need to make sure to always generate the same UserId for the same original UserID
+     *
+     * @param $userId
+     * @return string
+     */
     public static function anonymizeUserId($userId)
     {
-        // pseudo anonymization as we need to make sure to always generate the same UserId for the same original UserID
-        return sha1($userId . SettingsPiwik::getSalt());
+        $trackerCache = Tracker\Cache::getCacheGeneral();
+        $salt = '';
+        if (!empty($trackerCache[PrivacyManager::OPTION_USERID_SALT])) {
+            $salt = $trackerCache[PrivacyManager::OPTION_USERID_SALT];
+        }
+        if(empty($salt)) {
+            return $userId;
+        }
+        return sha1($userId . $salt);
     }
 
     private function isValueSet($value)
     {
         return $value !== '' && $value !== false && $value !== null;
     }
-
 }

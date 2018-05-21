@@ -11,11 +11,13 @@ namespace Piwik\Plugins\PrivacyManager\tests\Integration\Dao;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
+use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\MultipleSitesMultipleVisitsFixture;
-use Piwik\Plugins\TagManager\Context\Storage\Filesystem;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Cache;
 
 /**
  * Class LogDataAnonymizationsTest
@@ -36,6 +38,9 @@ class LogDataAnonymizerTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
+
+        Option::set(PrivacyManager::OPTION_USERID_SALT, 'simpleuseridsalt1');
+        Cache::clearCacheGeneral();
 
         $this->anonymizer = new LogDataAnonymizer();
         $this->theFixture = new MultipleSitesMultipleVisitsFixture();

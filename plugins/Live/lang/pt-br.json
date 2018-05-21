@@ -27,6 +27,7 @@
         "SimpleRealTimeWidget_Message": "%1$s e %2$s na última %3$s.",
         "ViewVisitorProfile": "Ver o perfil do visitante",
         "VisitedPages": "Páginas visitadas",
+        "RevisitedPages": "Páginas visualizadas mais de uma vez",
         "VisitorLog": "Log de visitantes",
         "VisitorLogDocumentation": "Esta tabela mostra as últimas visitas dentro do período selecionado. Você pode ver quando a última visita de um visitante ocorreu passando o mouse sobre a data da visita. %1$s se o intervalo de data incluir hoje, você pode ver os seus visitantes em tempo real! %2$s Os dados exibidos aqui são sempre ao vivo, independentemente de estar usando o arquivamento agendado por cron.",
         "VisitorProfile": "Páginas visitadas",

@@ -1685,7 +1685,7 @@
 		<module>Referrers</module>
 		<action>getKeywords</action>
 		<dimension>Keyword</dimension>
-		<documentation>This report shows which keywords users were searching for before they were referred to your website. &lt;br /&gt; By clicking on a row in the table, you can see the distribution of search engines that were queried for the keyword.</documentation>
+		<documentation>This report shows which keywords users were searching for before they were referred to your website. &lt;br /&gt;&lt;br /&gt; By clicking on a row in the table, you can see the distribution of search engines that were queried for the keyword.&lt;br /&gt;&lt;br /&gt;Note: This report lists most keywords as not defined, because most search engines do not send the exact keyword used on the search engine.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>

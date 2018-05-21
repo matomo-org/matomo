@@ -773,7 +773,7 @@ class Visualization extends ViewDataTable
     public function buildApiRequestArray()
     {
         $requestArray = $this->request->getRequestArray();
-        $request = APIRequest::getRequestArrayFromString($requestArray);
+        $request = ApiRequest::getRequestArrayFromString($requestArray);
 
         if (false === $this->config->enable_sort) {
             $request['filter_sort_column'] = '';

@@ -1,5 +1,6 @@
 {
     "PrivacyManager": {
+        "AnonymizeData": "Anonymiser data",
         "AnonymizeIpInlineHelp": "Anonymiser besøgendes IP-adresser for at efterkomme den lokale lovgivning om privatlivets fred\/retningslinjer.",
         "AnonymizeIpExtendedHelp": "Når brugerne besøger hjemmesiden, vil Matomo ikke bruge den fulde IP-adresse (f.eks %1$s), men i stedet vil Matomo anonymisere det først (til %2$s). IP-adresse anonymisering er et af de krav, som lovgivningen om privatlivets fred i visse lande som fx. Tyskland.",
         "AnonymizeIpMaskLengtDescription": "Vælg hvor mange bytes af de besøgendes IP-adresser der skal maskeres.",
@@ -34,6 +35,7 @@
         "EstimatedDBSizeAfterPurge": "Anslået database størrelse efter oprydning",
         "EstimatedSpaceSaved": "Anslået sparet plads",
         "GeolocationAnonymizeIpNote": "Bemærk: geolokalisering vil have omtrent de samme resultater med 1 byte anonymiseret. Med 2 byte eller mere, vil geolokalisering være unøjagtig.",
+        "GdprManager": "GDPR-administration",
         "GetPurgeEstimate": "Overslag på rensning",
         "KeepBasicMetrics": "Behold grundlæggende målinger (besøg, sidevisninger, afvisningsprocent, mål konverteringer, eHandel konverteringer osv.)",
         "KeepReportSegments": "For beholdte data ovenfor, beholdes desuden segmenterede rapporter",
@@ -52,6 +54,8 @@
         "UseAnonymizedIpForVisitEnrichment": "Brug også anonymiserede IP-adresser ved berigelse af besøg.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Programudvidelser som Geo Location via IP og udbyder forbedrer besøgendes metadata. Som standard bruger disse udvidelsesmoduler anonyme IP-adresser. Hvis du vælger 'Nej', så vil den ikke-anonymiseret fulde IP-adresse blive brugt i stedet for, hvilket resulterer i mindre privatliv, men bedre data nøjagtighed.",
         "UseAnonymizeIp": "Anonymisere besøgendes IP-adresser",
+        "UseAnonymizeTrackingData": "Anonymiser sporingsdata",
+        "PseudonymizeUserId": "Erstat bruger-ID med et pseudonym",
         "UseDeleteLog": "Slet regelmæssigt gamle logfiler fra databasen",
         "UseDeleteReports": "Slet regelmæssigt gamle rapporter fra databasen"
     }

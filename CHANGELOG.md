@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.5.1
+
+### New APIs
+
+* Added new method `Piwik\API\Request::isRootRequestApiRequest()` to detect if the root request is an API request.
+
 ## Matomo 3.5.0
 
 ### Breaking Changes
@@ -12,6 +18,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New APIs
 
+* New JavaScript tracker functions to [ask for consent](https://developer.matomo.org/guides/tracking-javascript-guide#asking-for-consent): `requireConsent`, `rememberConsentGiven`, `setConsentGiven`, `forgetConsentGiven`.
 * New events `PrivacyManager.deleteLogsOlderThan`, `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` to enable plugins to be GDPR compliant.  
 * New event `AssetManager.addStylesheets` to add additional less styles which are not located in a file.
 * New event `Archiving.getIdSitesToMarkArchivesAsInvalidated` that lets plugins customize the behaviour of report invalidations.

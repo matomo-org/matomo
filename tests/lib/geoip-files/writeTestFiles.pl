@@ -24,6 +24,8 @@ sub main {
         for (
         ['GeoIP2-City'],
         ['GeoIP2-Country'],
+        ['GeoIP2-ISP'],
+        ['GeoLite2-ASN'],
         );}
 
 sub _universal_map_key_type_callback {

@@ -31,6 +31,7 @@
         "GeoIPCannotFindMbstringExtension": "Nie udało się odnaleźć funkcji %1$s. Proszę upewnij się, że rozszerzenie %2$s jest zainstalowane i załadowane.",
         "GeoIPDatabases": "Bazy danych GeoIP",
         "GeoIPDocumentationSuffix": "W celu wyświetlenia danych tego raportu konieczna jest konfiguracja GeoIP w zakładce Geolokalizacja panelu administracyjnego. Płatne bazy GeoIP dostarczane przez %1$sMaxmind%2$s cechuje wyższa dokładność od baz bezpłatnych. Aby porównać ich dokładność kliknij %3$stutaj%4$s.",
+        "GeoIPNoDatabaseFound": "Ta implementacja GeoIP nie znalazła bazy danych geolokalizacyjnych.",
         "GeoIPImplHasAccessTo": "Ta implementacja GeoIP ma dostęp do następujących typów baz danych",
         "GeoIPIncorrectDatabaseFormat": "Twoja baza GeoIP ma niepoprawny format. Może być uszkodzona. Dopilnuj by używać wersji binarnej i spróbuj podmienić bazę na nową kopię.",
         "GeoIpLocationProviderDesc_Pecl1": "Ten dostawca usług geolokalizacyjnych korzysta z bazy GeoIP i modułu PECL, aby dokładnie i efektywnie określić lokalizację odwiedzających.",

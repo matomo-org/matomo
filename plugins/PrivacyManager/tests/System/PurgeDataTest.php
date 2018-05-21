@@ -5,7 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\System;
+namespace Piwik\Plugins\PrivacyManager\tests\System;
 
 use Piwik\API\Request;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
@@ -14,8 +14,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 
 /**
- * TODO: shouldn't this be merged w/ PrivacyManagerTest? the original data purging tests are there
- *
+ * @group PrivacyManager
  * @group Core
  * @group PurgeDataTest
  */

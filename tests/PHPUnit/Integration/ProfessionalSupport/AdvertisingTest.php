@@ -10,17 +10,15 @@ namespace Piwik\Tests\Integration\ProfessionalServices;
 
 use Piwik\Config;
 use Piwik\ProfessionalServices\Advertising;
-use Piwik\Plugin;
 use Piwik\Tests\Framework\Mock\FakeConfig;
 use Piwik\Tests\Framework\Mock\Plugin\Manager;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group ProfessionalServices
  * @group Advertising
  * @group Integration
  */
-class AdvertisingTest extends IntegrationTestCase
+class AdvertisingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Advertising
