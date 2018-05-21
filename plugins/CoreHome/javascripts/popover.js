@@ -10,6 +10,7 @@ var Piwik_Popover = (function () {
     var container = false;
     var isOpen = false;
     var closeCallback = false;
+    var isProgrammaticClose = false;
 
     var createContainer = function () {
         if (container === false) {
@@ -44,11 +45,14 @@ var Piwik_Popover = (function () {
                 globalAjaxQueue.abort();
                 $('.ui-widget-overlay').off('click.popover');
                 isOpen = false;
-                broadcast.propagateNewPopoverParameter(false);
                 require('piwik/UI').UIControl.cleanupUnusedControls();
                 if (typeof closeCallback == 'function') {
                     closeCallback();
                     closeCallback = false;
+                }
+
+                if (!isProgrammaticClose) {
+                    window.history.back();
                 }
             }
         };
@@ -213,10 +217,17 @@ var Piwik_Popover = (function () {
             closeCallback = callback;
         },
 
-        /** Close the popover */
+        /**
+         * Close the popover.
+         *
+         * Note: this method shouldn't normally be used to close a popover, instead
+         * `broadcast.propagateNewPopoverHandler(false)` should be used.
+         */
         close: function () {
             if (isOpen) {
+                isProgrammaticClose = true;
                 container.dialog('close');
+                isProgrammaticClose = false;
             }
         },
 

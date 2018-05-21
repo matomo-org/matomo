@@ -51,12 +51,12 @@
 
                 function openOrClose()
                 {
+                    close();
+
                     // should be rather done by routing
                     var popoverParam = $location.search().popover;
                     if (popoverParam) {
                         open(popoverParam);
-                    } else {
-                        close();
                     }
                 }
 
