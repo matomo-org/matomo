@@ -179,6 +179,7 @@ class Visualization extends ViewDataTable
     {
         $this->overrideSomeConfigPropertiesIfNeeded();
 
+        $caughtException = null;
         try {
             $this->beforeLoadDataTable();
             $this->loadDataTableFromAPI();
@@ -206,15 +207,17 @@ class Visualization extends ViewDataTable
             Log::error($logMessage);
 
             $loadingError = array('message' => $message);
+
+            $caughtException = $e;
         }
 
         $view = new View("@CoreHome/_dataTable");
+        $view->assign($this->templateVars);
 
         if (!empty($loadingError)) {
             $view->error = $loadingError;
         }
 
-        $view->assign($this->templateVars);
         $view->visualization         = $this;
         $view->visualizationTemplate = static::TEMPLATE_FILE;
         $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
@@ -246,29 +249,23 @@ class Visualization extends ViewDataTable
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
         $view->notifications = [];
 
-        if (empty($view->dataTable) || !empty($view->dataTableHasNoData)) {
-            $this->onNoDataForReport($view);
+        if (!empty($caughtException)) {
+            $this->onLoadingError($caughtException, $view);
         }
 
         return $view->render();
     }
 
-    private function onNoDataForReport(View $view)
+    private function onLoadingError(\Exception $ex, View $view)
     {
-        $overrideMessage = null;
-
         /**
-         * Invoked when a report has no data. Use this event to customize the display for all, some or just one
-         * report when it has no data.
+         * This event is triggered in Visualizations if an error occurs when getting the data for a report. Use this event
+         * to customize the appearance of the report when any error or even a specific error is thrown.
          *
-         * @param string &$overrideMessage Set a value to change the 'no data' message for the specific report.
+         * @param \Exception $ex The exception that was caught.
          * @param View $view The View that will render the report.
          */
-        Piwik::postEvent('Visualization.onNoDataForReport', [&$overrideMessage, $view]);
-
-        if (!empty($overrideMessage)) {
-            $view->properties['no_data_message'] = $overrideMessage;
-        }
+        Piwik::postEvent('Visualization.onLoadingError', [$ex, $view]);
     }
 
     /**

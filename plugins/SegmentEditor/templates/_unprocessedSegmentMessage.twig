@@ -1,8 +1,15 @@
 {% set visitorLogLinkHtml %}<a href="{{ visitorLogLink }}" target="_blank">{% endset %}
+{% if isSegmentToPreprocess %}
 <p>
     {{ 'SegmentEditor_UnprocessedSegmentNoData1'|translate('<strong>(' ~ segmentName ~ ')</strong>')|raw }}
     {{ 'SegmentEditor_UnprocessedSegmentNoData2'|translate }}
 </p>
+{% else %}
+<p>
+    {{ 'SegmentEditor_CustomUnprocessedSegmentApiError1'|translate }}
+    {{ 'SegmentEditor_CustomUnprocessedSegmentNoData2'|translate }}
+</p>
+{% endif %}
 <p>&nbsp;</p>
 <p>
     {{ 'SegmentEditor_UnprocessedSegmentInVisitorLog1'|translate(visitorLogLinkHtml, '</a>')|raw }}

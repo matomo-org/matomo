@@ -42,7 +42,8 @@ class SegmentEditor extends \Piwik\Plugin
             'Template.nextToCalendar'                    => 'getSegmentEditorHtml',
             'System.addSystemSummaryItems'               => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
-            'Visualization.onNoDataForReport' => 'onNoDataForReport',
+            'Visualization.onLoadingError' => 'onLoadingError',
+            'Archive.noArchivedData' => 'onNoArchiveData',
         );
     }
 
@@ -84,25 +85,40 @@ class SegmentEditor extends \Piwik\Plugin
         $segments = array_unique($segments);
     }
 
-    public function onNoDataForReport(&$message, View $dataTableView)
+    public function onNoArchiveData()
     {
-        $segment = $this->getSegmentIfIsUnprocessed();
-        if (empty($segment)) {
+        $segmentInfo = $this->getSegmentIfIsUnprocessed();
+        if (empty($segmentInfo)) {
+            return;
+        }
+
+        list($segment, $isSegmentToPreprocess) = $segmentInfo;
+
+        // this archive has no data, the report is for a segment that gets preprocessed, and the archive for this
+        // data does not exist. this means the data will be processed later. we let the user know so they will not
+        // be confused.
+        $model = new Model();
+        $storedSegment = $model->getSegmentByDefinition($segment->getString()) ?: null;
+
+        throw new UnprocessedSegmentException($segment, $isSegmentToPreprocess, $storedSegment);
+    }
+
+    public function onLoadingError(\Exception $ex, View $dataTableView)
+    {
+        if (!($ex instanceof UnprocessedSegmentException)) {
             Notification\Manager::cancel(self::NO_DATA_UNPROCESSED_SEGMENT_ID);
             return;
         }
 
-        // this report has no data, the report is for a segment that gets preprocessed, and the archive for this
-        // data does not exist. this means the data will be processed later. we let the user know so they will not
-        // be confused.
-        $model = new Model();
-        $segmentToPreprocess = $model->getSegmentByDefinition($segment->getString());
+        $segment = $ex->getSegment();
+        $segmentToPreprocess = $ex->getStoredSegment();
 
-        $segmentDisplayName = !empty($segmentToPreprocess['name']) ? $segmentToPreprocess['name'] : $segment;
+        $segmentDisplayName = !empty($segmentToPreprocess['name']) ? $segmentToPreprocess['name'] : $segment->getString();
 
         $view = new View('@SegmentEditor/_unprocessedSegmentMessage.twig');
+        $view->isSegmentToPreprocess = $ex->isSegmentToPreprocess();
         $view->segmentName = $segmentDisplayName;
-        $view->visitorLogLink = Url::getCurrentQueryStringWithParametersModified([
+        $view->visitorLogLink = '#' . Url::getCurrentQueryStringWithParametersModified([
             'category' => 'General_Visitors',
             'subcategory' => 'Live_VisitorLog',
         ]);
@@ -114,11 +130,13 @@ class SegmentEditor extends \Piwik\Plugin
         $notification->type = Notification::TYPE_TRANSIENT;
         $notification->raw = true;
 
+        unset($dataTableView->error); // don't display the API error
         $dataTableView->notifications[self::NO_DATA_UNPROCESSED_SEGMENT_ID] = $notification;
     }
 
     private function getSegmentIfIsUnprocessed()
     {
+        // TODO: if in cron archiving, return null;
         // get idSites
         $idSite = Common::getRequestVar('idSite', false);
         if (empty($idSite)
@@ -148,18 +166,9 @@ class SegmentEditor extends \Piwik\Plugin
         // check if requested segment is segment to preprocess
         $segmentsToPreprocess = SettingsPiwik::getKnownSegmentsToArchive();
         $segmentsToPreprocess = array_merge($segmentsToPreprocess, SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite));
-        if (!in_array($segment, $segmentsToPreprocess)) {
-            return null;
-        }
+        $isSegmentToPreprocess = in_array($segment, $segmentsToPreprocess);
 
-        // check if segment archive does not exist
-        $processorParams = new \Piwik\ArchiveProcessor\Parameters(new Site($idSite), $period, $segment);
-        $archiveIdAndStats = ArchiveSelector::getArchiveIdAndVisits($processorParams, null);
-        if (!empty($archiveIdAndStats[0])) {
-            return null;
-        }
-
-        return $segment;
+        return [$segment, $isSegmentToPreprocess];
     }
 
     public function install()

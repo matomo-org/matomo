@@ -46,6 +46,8 @@
     }
 
     angular.module('piwikApp').run(['notifications', function (notifications) {
-        $(notifications.parseNotificationDivs());
+        $(function () {
+            notifications.parseNotificationDivs();
+        });
     }]);
 })();

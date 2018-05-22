@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "this website only",
         "SegmentIsDisplayedForWebsite": "and processed for",
         "SegmentNotApplied": "Segment '%s' not applied",
-        "SegmentNotAppliedMessage": "You are requesting data for the Custom Segment '%s', this Matomo configuration currently prevents real time processing of reports for performance reasons.",
+        "SegmentNotAppliedMessage": "You are requesting data for the Custom Segment '%s', this Matomo's configuration currently prevents real time processing of reports for performance reasons.",
         "SelectSegmentOfVisits": "Select a segment of visits:",
         "ThisSegmentIsVisibleTo": "This segment is visible to:",
         "VisibleToAllUsers": "all users",
@@ -41,6 +41,16 @@
         "UnprocessedSegmentNoData2": "Data for this Segment will become available in a few hours when processing completes.",
         "UnprocessedSegmentInVisitorLog1": "%1$sMeanwhile you can use the Visitor Log%2$s to test whether your segment will match your users correctly by applying it there.",
         "UnprocessedSegmentInVisitorLog2": "When applied, you can see immediately which visits and actions were matched by your segment.",
-        "UnprocessedSegmentInVisitorLog3": "This can help you confirm your Segment matches the users and actions you expect it to."
+        "UnprocessedSegmentInVisitorLog3": "This can help you confirm your Segment matches the users and actions you expect it to.",
+        "UnprocessedSegmentApiError1": "The Segment '%s' is set to '%s' but Matomo is not currently configured to process segmented reports in API requests.",
+        "UnprocessedSegmentApiError2": "To see data for this report in the future, you will need to edit your segment and choose the option labeled '%s'.",
+        "UnprocessedSegmentApiError3": "Then after a few hours your segment data will become available through the API.",
+        "CustomUnprocessedSegmentApiError1": "The Segment you requested has not yet been created in the Segment Editor and so the report data has not been pre-processed.",
+        "CustomUnprocessedSegmentApiError2": "To see data for this segment, you must go to Matomo and create this segment manually in the Segment Editor.",
+        "CustomUnprocessedSegmentApiError3": "(Alternatively, you can create a new segment programatically using the SegmentEditor.add API method).",
+        "CustomUnprocessedSegmentApiError4": "Once created the segment in the editor (or via API), this error message will disappear and within a few hours you will see your segmented report data, after the segment data has been pre-processed.",
+        "CustomUnprocessedSegmentApiError5": "Please note that you can test whether your segment will work without having to wait for it to be processed by using the Live.getLastVisitsDetails API.",
+        "CustomUnprocessedSegmentApiError6": "When using this API method, you will see which users and actions were matched by your &segment= parameter.",
+        "CustomUnprocessedSegmentNoData2": "To see data for this segment, you must create this segment manually in the Segment Editor, then wait a couple hours for preprocessing to complete."
     }
 }
