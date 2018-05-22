@@ -27,20 +27,20 @@ class ServerModule extends GeoIp2
 {
     const ID = 'geoip2server';
     const TITLE = 'GeoIP 2 (%s)';
-    const TEST_SERVER_VAR = 'MMDB_ADDR';
-    const TEST_SERVER_VAR_ALT = 'MMDB_INFO';
 
     public static $defaultGeoIpServerVars = array(
-        parent::COUNTRY_CODE_KEY => 'MM_COUNTRY_CODE',
-        parent::COUNTRY_NAME_KEY => 'MM_COUNTRY_NAME',
-        parent::REGION_CODE_KEY  => 'MM_REGION_CODE',
-        parent::REGION_NAME_KEY  => 'MM_REGION_NAME',
-        parent::LATITUDE_KEY     => 'MM_LATITUDE',
-        parent::LONGITUDE_KEY    => 'MM_LONGITUDE',
-        parent::POSTAL_CODE_KEY  => 'MM_POSTAL_CODE',
-        parent::CITY_NAME_KEY    => 'MM_CITY_NAME',
-        parent::ISP_KEY          => 'MM_ISP',
-        parent::ORG_KEY          => 'MM_ORG',
+        parent::CONTINENT_CODE_KEY => 'MM_CONTINENT_CODE',
+        parent::CONTINENT_NAME_KEY => 'MM_CONTINENT_NAME',
+        parent::COUNTRY_CODE_KEY   => 'MM_COUNTRY_CODE',
+        parent::COUNTRY_NAME_KEY   => 'MM_COUNTRY_NAME',
+        parent::REGION_CODE_KEY    => 'MM_REGION_CODE',
+        parent::REGION_NAME_KEY    => 'MM_REGION_NAME',
+        parent::LATITUDE_KEY       => 'MM_LATITUDE',
+        parent::LONGITUDE_KEY      => 'MM_LONGITUDE',
+        parent::POSTAL_CODE_KEY    => 'MM_POSTAL_CODE',
+        parent::CITY_NAME_KEY      => 'MM_CITY_NAME',
+        parent::ISP_KEY            => 'MM_ISP',
+        parent::ORG_KEY            => 'MM_ORG',
     );
 
     /**
@@ -146,8 +146,12 @@ class ServerModule extends GeoIp2
             }
         }
 
-        $available = !empty($_SERVER[self::TEST_SERVER_VAR])
-            || !empty($_SERVER[self::TEST_SERVER_VAR_ALT]);
+        $settings = self::getGeoIpServerVars();
+
+        $available = array_key_exists($settings[self::CONTINENT_CODE_KEY], $_SERVER)
+            || array_key_exists($settings[self::COUNTRY_CODE_KEY], $_SERVER)
+            || array_key_exists($settings[self::REGION_CODE_KEY], $_SERVER)
+            || array_key_exists($settings[self::CITY_NAME_KEY], $_SERVER);
 
         if ($available) {
             return true;
@@ -175,10 +179,15 @@ class ServerModule extends GeoIp2
      */
     public function isWorking()
     {
-        if (empty($_SERVER[self::TEST_SERVER_VAR])
-            && empty($_SERVER[self::TEST_SERVER_VAR_ALT])
-        ) {
-            return Piwik::translate("UserCountry_CannotFindGeoIPServerVar", self::TEST_SERVER_VAR . ' $_SERVER');
+        $settings = self::getGeoIpServerVars();
+
+        $available = array_key_exists($settings[self::CONTINENT_CODE_KEY], $_SERVER)
+            || array_key_exists($settings[self::COUNTRY_CODE_KEY], $_SERVER)
+            || array_key_exists($settings[self::REGION_CODE_KEY], $_SERVER)
+            || array_key_exists($settings[self::CITY_NAME_KEY], $_SERVER);
+
+        if (!$available) {
+            return Piwik::translate("UserCountry_CannotFindGeoIPServerVar", $settings[self::COUNTRY_CODE_KEY] . ' $_SERVER');
         }
 
         return true;
@@ -318,13 +327,16 @@ class ServerModule extends GeoIp2
 
         $settingValues = self::$defaultGeoIpServerVars; // preset with defaults
 
-        $systemSettings = new SystemSettings();
+        try {
+            $systemSettings = new SystemSettings();
 
-        foreach ($systemSettings->geoIp2variables as $name => $setting) {
-            $settingValues[$name] = $setting->getValue();
+            foreach ($systemSettings->geoIp2variables as $name => $setting) {
+                $settingValues[$name] = $setting->getValue();
+            }
+
+            $cache->save($cacheKey, $settingValues);
+        } catch (\Exception $e) {
         }
-
-        $cache->save($cacheKey, $settingValues);
 
         return $settingValues;
     }
