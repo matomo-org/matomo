@@ -548,6 +548,9 @@ class Archive implements ArchiveQuery
 
         $archiveIds = $this->getArchiveIds($archiveNames);
         if (empty($archiveIds)) {
+            /**
+             * Triggered when no archive data is found in an API request.
+             */
             Piwik::postEvent('Archive.noArchivedData');
             return $result;
         }
