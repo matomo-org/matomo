@@ -35,7 +35,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function checkDataPurgeAdminSettingsIsEnabled()
     {
         if (!self::isDataPurgeSettingsEnabled()) {
-            throw new \Exception("Configuring deleting log data and report data has been disabled by Piwik admins.");
+            throw new \Exception("Configuring deleting raw data and report data has been disabled by Piwik admins.");
         }
     }
 
@@ -75,7 +75,36 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        return $this->renderTemplate('gdprOverview');
+        $purgeDataSettings = PrivacyManager::getPurgeDataSettings();
+
+        $reportRetention = '';
+
+        if ($purgeDataSettings['delete_reports_older_than'] > 12) {
+            $years = floor($purgeDataSettings['delete_reports_older_than']/12);
+            $reportRetention .=  $years . ' ' . Piwik::translate($years > 1 ? 'Intl_PeriodYears' : 'Intl_PeriodYear') . ' ';
+        }
+        if ($purgeDataSettings['delete_reports_older_than'] % 12 > 0) {
+            $months = floor($purgeDataSettings['delete_reports_older_than']%12);
+            $reportRetention .= $months . ' ' . Piwik::translate($months > 1 ? 'Intl_PeriodMonths' : 'Intl_PeriodMonth');
+        }
+
+        $rawDataRetention = '';
+
+        if ($purgeDataSettings['delete_logs_older_than'] > 30) {
+            $months = floor($purgeDataSettings['delete_logs_older_than']/30);
+            $rawDataRetention .= $months . ' ' . Piwik::translate($months > 1 ? 'Intl_PeriodMonths' : 'Intl_PeriodMonth') . ' ';
+        }
+        if ($purgeDataSettings['delete_logs_older_than'] % 30 > 0) {
+            $days = floor($purgeDataSettings['delete_logs_older_than']%30);
+            $rawDataRetention .= $days . ' ' . Piwik::translate($days > 1 ? 'Intl_PeriodDays' : 'Intl_PeriodDay');
+        }
+
+        return $this->renderTemplate('gdprOverview', [
+            'reportRetention'     => trim($reportRetention),
+            'rawDataRetention'    => trim($rawDataRetention),
+            'deleteLogsEnable'    => $purgeDataSettings['delete_logs_enable'],
+            'deleteReportsEnable' => $purgeDataSettings['delete_reports_enable'],
+        ]);
     }
 
     public function usersOptOut()
@@ -182,7 +211,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     }
 
     /**
-     * Executes a data purge, deleting log data and report data using the current config
+     * Executes a data purge, deleting raw data and report data using the current config
      * options. Echo's the result of getDatabaseSize after purging.
      */
     public function executeDataPurge()

@@ -119,7 +119,7 @@ class DataPurgingTest extends IntegrationTestCase
         $settings = array();
         $settings['delete_logs_enable'] = 1;
 
-        // purging log data from before 2012-01-24
+        // purging raw data from before 2012-01-24
         $settings['delete_logs_older_than'] = 35 + $daysSinceToday;
         $settings['delete_logs_schedule_lowest_interval'] = 7;
         $settings['delete_logs_max_rows_per_query'] = 100000;
@@ -512,7 +512,7 @@ class DataPurgingTest extends IntegrationTestCase
     }
 
     /**
-     * Test no concurrency issues when deleting log data from log_action table.
+     * Test no concurrency issues when deleting raw data from log_action table.
      */
     public function testPurgeLogDataConcurrency()
     {
