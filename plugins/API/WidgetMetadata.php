@@ -178,7 +178,7 @@ class WidgetMetadata
 
         return array(
             'id'    => (string) $category->getId(),
-            'name'  => Piwik::translate($category->getDisplayName()),
+            'name'  => $category->getDisplayName(),
             'order' => $category->getOrder(),
             'icon' => $category->getIcon(),
         );
