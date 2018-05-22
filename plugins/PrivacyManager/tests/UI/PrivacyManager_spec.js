@@ -114,6 +114,20 @@ describe("PrivacyManager", function () {
 
     it('should load GDPR overview page', function (done) {
         capturePage('gdpr_overview', function (page) {
+            testEnvironment.overrideConfig('Deletelogs', 'delete_logs_enable', '1');
+            testEnvironment.overrideConfig('Deletelogs', 'delete_logs_older_than', '95');
+            testEnvironment.overrideConfig('Deletereports', 'delete_reports_enable', '1');
+            testEnvironment.overrideConfig('Deletereports', 'delete_reports_older_than', '131');
+            testEnvironment.save();
+            loadActionPage(page, 'gdprOverview');
+        }, done);
+    });
+
+    it('should load GDPR overview page', function (done) {
+        capturePage('gdpr_overview_no_retention', function (page) {
+            testEnvironment.overrideConfig('Deletelogs', 'delete_logs_enable', '0');
+            testEnvironment.overrideConfig('Deletereports', 'delete_reports_enable', '0');
+            testEnvironment.save();
             loadActionPage(page, 'gdprOverview');
         }, done);
     });

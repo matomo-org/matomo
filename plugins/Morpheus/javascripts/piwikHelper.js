@@ -27,6 +27,44 @@ var piwikHelper = {
         return $('<div/>').html(value).text();
     },
 
+    sendContentAsDownload: function (filename, content, mimeType) {
+        if (!mimeType) {
+            mimeType = 'text/plain';
+        }
+        function downloadFile(content)
+        {
+            var node = document.createElement('a');
+            node.style.display = 'none';
+            if ('string' === typeof content) {
+                node.setAttribute('href', 'data:' + mimeType + ';charset=utf-8,' + encodeURIComponent(content));
+            } else {
+                node.href = window.URL.createObjectURL(blob);
+            }
+            node.setAttribute('download', filename);
+            document.body.appendChild(node);
+            node.click();
+            document.body.removeChild(node);
+        }
+
+        var node;
+        if ('function' === typeof Blob) {
+            // browser supports blob
+            try {
+                var blob = new Blob([content], {type: mimeType});
+                if (window.navigator.msSaveOrOpenBlob) {
+                    window.navigator.msSaveBlob(blob, filename);
+                    return;
+                } else {
+                    downloadFile(blob);
+                    return;
+                }
+            } catch (e) {
+                downloadFile(content);
+            }
+        }
+        downloadFile(content);
+    },
+
     /**
      * a nice cross-browser logging function
      */
