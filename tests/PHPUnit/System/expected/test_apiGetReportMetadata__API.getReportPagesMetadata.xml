@@ -149,36 +149,6 @@
 		</widgets>
 	</row>
 	<row>
-		<uniqueId>General_Actions.General_Pages</uniqueId>
-		<category>
-			<id>General_Actions</id>
-			<name>Actions</name>
-			<order>10</order>
-			<icon>icon-reporting-actions</icon>
-		</category>
-		<subcategory>
-			<id>General_Pages</id>
-			<name>Pages</name>
-			<order>5</order>
-		</subcategory>
-		<widgets>
-			<row>
-				<name>Pages</name>
-				<module>Actions</module>
-				<action>getPageUrls</action>
-				<order>102</order>
-				<parameters>
-					<module>Actions</module>
-					<action>getPageUrls</action>
-				</parameters>
-				<uniqueId>widgetActionsgetPageUrls</uniqueId>
-				<isWide>0</isWide>
-				<viewDataTable>table</viewDataTable>
-				<isReport>1</isReport>
-			</row>
-		</widgets>
-	</row>
-	<row>
 		<uniqueId>General_Actions.Actions_SubmenuPageTitles</uniqueId>
 		<category>
 			<id>General_Actions</id>
@@ -202,6 +172,36 @@
 					<action>getPageTitles</action>
 				</parameters>
 				<uniqueId>widgetActionsgetPageTitles</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+		</widgets>
+	</row>
+	<row>
+		<uniqueId>General_Actions.General_Pages</uniqueId>
+		<category>
+			<id>General_Actions</id>
+			<name>Actions</name>
+			<order>10</order>
+			<icon>icon-reporting-actions</icon>
+		</category>
+		<subcategory>
+			<id>General_Pages</id>
+			<name>Pages</name>
+			<order>5</order>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>Pages</name>
+				<module>Actions</module>
+				<action>getPageUrls</action>
+				<order>102</order>
+				<parameters>
+					<module>Actions</module>
+					<action>getPageUrls</action>
+				</parameters>
+				<uniqueId>widgetActionsgetPageUrls</uniqueId>
 				<isWide>0</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
