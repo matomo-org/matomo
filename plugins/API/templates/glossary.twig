@@ -26,12 +26,13 @@
             <div id="{{ keyword }}" class="col s12">
                 <div class="card">
                     <div class="card-content">
+                        <div style="background:#fff;width:100%" class="pushpin">
                         <h2 class="card-title">{{ item.title }}</h2>
-                        <ul class="pagination section table-of-contents">
+                        <ul class="pagination table-of-contents">
                             {% for letter in item.letters %}
                                 <li class="waves-effect"><a href="#{{ keyword }}{{ letter }}">{{ letter }}</a></li>
                             {% endfor %}
-                        </ul>
+                        </ul></div>
 
                         {% set lastLetter = '' %}
                         {% for entry in item.entries %}
@@ -58,6 +59,7 @@
     <script>
         $(document).ready(function(){
             $('.scrollspy').scrollSpy();
+            $('.pushpin').pushpin({ top: $('.pushpin').offset().top });
         });
     </script>
 {% endset %}
