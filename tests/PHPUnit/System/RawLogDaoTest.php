@@ -70,8 +70,8 @@ class RawLogDaoTest extends SystemTestCase
     {
         $expected = array(
             'log_action' => 'idaction',
-            'log_conversion_item' => 'idvisit',
             'log_conversion' => 'idvisit',
+            'log_conversion_item' => 'idvisit',
             'log_link_visit_action' => 'idlink_va',
             'log_visit' => 'idvisit',
         );

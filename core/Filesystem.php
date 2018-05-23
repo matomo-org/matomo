@@ -189,6 +189,7 @@ class Filesystem
                 $aFiles = array_merge($aFiles, $aSubFiles);
             }
         }
+        sort($aFiles);
         return $aFiles;
     }
 
