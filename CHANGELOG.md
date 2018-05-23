@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 
 * Added new method `Piwik\API\Request::isRootRequestApiRequest()` to detect if the root request is an API request.
+* Added new event `API.addGlossaryItems` which lets you add items to the glossary.
 
 ## Matomo 3.5.0
 
