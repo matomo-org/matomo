@@ -203,12 +203,7 @@ class OptOutManager
 
         $this->view = new View("@CoreAdminHome/optOut");
 
-        if (Common::getRequestVar('matomoproxy', '0') === '1') {
-            $this->view->disableCacheBuster();
-            $this->addJavaScript('?module=CoreAdminHome&action=getOptOutJs', $false);
-        } else {
-            $this->addJavaScript('plugins/CoreAdminHome/javascripts/optOut.js', $false);
-        }
+        $this->addJavaScript('plugins/CoreAdminHome/javascripts/optOut.js', $false);
 
         $this->view->setXFrameOptions('allow');
         $this->view->dntFound = $dntFound;
