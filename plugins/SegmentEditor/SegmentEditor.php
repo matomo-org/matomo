@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\SegmentEditor;
 
+use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
@@ -18,6 +19,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Segment;
 use Piwik\SettingsPiwik;
+use Piwik\SettingsServer;
 use Piwik\Site;
 use Piwik\Period;
 use Piwik\Url;
@@ -106,7 +108,6 @@ class SegmentEditor extends \Piwik\Plugin
     public function onLoadingError(\Exception $ex, View $dataTableView)
     {
         if (!($ex instanceof UnprocessedSegmentException)) {
-            Notification\Manager::cancel(self::NO_DATA_UNPROCESSED_SEGMENT_ID);
             return;
         }
 
@@ -136,7 +137,16 @@ class SegmentEditor extends \Piwik\Plugin
 
     private function getSegmentIfIsUnprocessed()
     {
-        // TODO: if in cron archiving, return null;
+        // don't do check unless this is the root API request
+        if (Request::isRootApiRequestHandlingMethod()) {
+            return null;
+        }
+
+        // don't do check during cron archiving
+        if (SettingsServer::isArchivePhpTriggered()) {
+            return null;
+        }
+
         // get idSites
         $idSite = Common::getRequestVar('idSite', false);
         if (empty($idSite)
@@ -146,7 +156,7 @@ class SegmentEditor extends \Piwik\Plugin
         }
 
         // get segment
-        $segment = Common::getRequestVar('segment', false);
+        $segment = Request::getRawSegmentFromRequest();
         if (empty($segment)) {
             return null;
         }
@@ -164,9 +174,7 @@ class SegmentEditor extends \Piwik\Plugin
         }
 
         // check if requested segment is segment to preprocess
-        $segmentsToPreprocess = SettingsPiwik::getKnownSegmentsToArchive();
-        $segmentsToPreprocess = array_merge($segmentsToPreprocess, SettingsPiwik::getKnownSegmentsToArchiveForSite($idSite));
-        $isSegmentToPreprocess = in_array($segment, $segmentsToPreprocess);
+        $isSegmentToPreprocess = Rules::isSegmentPreProcessed([$idSite], $segment);
 
         return [$segment, $isSegmentToPreprocess];
     }
