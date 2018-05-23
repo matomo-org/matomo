@@ -177,7 +177,7 @@ class Controller extends \Piwik\Plugin\Controller
          *
          * @param array &$glossaryItems An array containing all glossary items.
          */
-        Piwik::postEvent('API.addGlossaryItems', $glossaryItems);
+        Piwik::postEvent('API.addGlossaryItems', array(&$glossaryItems));
 
         foreach ($glossaryItems as &$item) {
             $item['letters'] = array();
