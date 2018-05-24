@@ -45,7 +45,7 @@
                                 <p>{{ entry.documentation|raw }}
 
                                     {% if entry.id is defined %}
-                                        <br/><span style="color: #bbb;">{{ entry.id }} (API)</span>
+                                        <br/><span style="color: #bbb;">{{ entry.id }}{% if keyword == 'metrics' %} (API){% endif %}</span>
                                     {% endif %}
                                 </p>
                         {% endfor %}
