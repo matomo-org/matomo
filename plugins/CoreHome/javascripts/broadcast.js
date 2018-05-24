@@ -35,6 +35,12 @@ var broadcast = {
     popoverHandlers: [],
 
     /**
+     * Holds the stack of popovers opened in sequence. When closing a popover, the last popover in the stack
+     * is opened (if any).
+     */
+    popoverParamStack: [],
+
+    /**
      * Force reload once
      */
     forceReload: false,
@@ -43,13 +49,6 @@ var broadcast = {
      * Suppress content update on hash changing
      */
     updateHashOnly: false,
-
-    /**
-     * Keeps track of the current number of stacked popovers. Necessary in order to differentiate
-     * when a user opens a popover and when a user enters a URL that opens a popover. In the latter
-     * case, using window.history.back() results in existing matomo, which we don't want.
-     */
-    popoverStackCount: 0,
 
     /**
      * Initializes broadcast object
@@ -451,9 +450,7 @@ var broadcast = {
         var $location = angular.element(document).injector().get('$location');
 
         var popover = '';
-        if (handlerName) {
-            ++broadcast.popoverStackCount;
-
+        if (handlerName && '' != value && 'undefined' != typeof value) {
             popover = handlerName + ':' + value;
 
             // between jquery.history and different browser bugs, it's impossible to ensure
@@ -461,20 +458,16 @@ var broadcast = {
             // make sure it doesn't change, we have to manipulate the url encoding a bit.
             popover = encodeURIComponent(popover);
             popover = popover.replace(/%/g, '\$');
-        } else if ($location.search().popover && broadcast.popoverStackCount > 0) {
-            broadcast.popoverStackCount = Math.max(0, broadcast.popoverStackCount - 1);
 
-            // if we're removing the popover & there is a current popover parameter, hit the back button to retain
-            // the proper browser history.
-            window.history.back();
-            return;
-        }
-
-        if ('' == value || 'undefined' == typeof value) {
-            $location.search('popover', '');
+            broadcast.popoverParamStack.push(popover);
         } else {
-            $location.search('popover', popover);
+            broadcast.popoverParamStack.pop();
+            if (broadcast.popoverParamStack.length) {
+                popover = broadcast.popoverParamStack[broadcast.popoverParamStack.length - 1];
+            }
         }
+
+        $location.search('popover', popover);
 
         setTimeout(function () {
             angular.element(document).injector().get('$rootScope').$apply();
