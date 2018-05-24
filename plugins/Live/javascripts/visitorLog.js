@@ -46,6 +46,16 @@
                 broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
                 return false;
             });
+        },
+
+        _destroy: function () {
+            try {
+                this.$element.tooltip('destroy');
+            } catch (e) {
+                // ignore
+            }
+
+            dataTablePrototype._destroy.call(this);
         }
     });
 
