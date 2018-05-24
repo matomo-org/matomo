@@ -53,5 +53,28 @@
             <li>Include Matomo in your <a href="https://www.cnil.fr/en/guidelines-dpia" target="_blank" rel="noreferrer noopener">data privacy impact assessment (DPIA)</a>, if applicable.</li>
         </ol>
     </div>
+
+    <div piwik-content-block content-title="Data retention">
+        <p>
+            Data retention for data stored in Matomo:
+        </p>
+        <ul>
+            {% if deleteLogsEnable %}
+                <li>all visits and actions raw data are deleted after <strong>{{ rawDataRetention }}</strong>.</li>
+            {% else %}
+                <li>visits and actions raw data are <strong>never</strong> deleted.</li>
+            {% endif %}
+            {% if deleteReportsEnable %}
+                <li>all aggregated reports are deleted after <strong>{{ reportRetention }}</strong>.</li>
+            {% else %}
+                <li>aggregated reports are <strong>never</strong> deleted.</li>
+            {% endif %}
+        </ul>
+        <p>
+            <br />
+            The overall data retention rate for your privacy policy is the raw data retention rate. Please note that aggregated reports may contain personal data as well. If you are using features like User ID, Custom Variables, Custom Dimension, or track personal data in other ways such as events, page URLs or page titles, etc, then the overall data retention rate for your privacy policy is the higher of the two.
+        </p>
+    </div>
+
 </div>
 {% endblock %}
