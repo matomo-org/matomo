@@ -7,9 +7,6 @@ Visits Summary
 nb_uniq_visitors,nb_visits,nb_actions,max_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate
 1,5,16,6,3.2,00:22:49,20%
 
-Users
-No data available
-
 Custom Variables
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
 ValueIsZero - Custom Variable value not defined,5,16,$ 13361.11,3.2,00:22:49,20%
@@ -68,33 +65,6 @@ Quicktime,0,0%
 Realplayer,0,0%
 Silverlight,0,0%
 Windowsmedia,0,0%
-
-Country
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Poland,4,12,$ 13351.11,3,00:25:32,25%
-France,1,4,$ 10,4,00:12:01,0%
-
-Continent
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Europe,5,16,$ 13361.11,3.2,00:22:49,20%
-
-Region
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,$ 13361.11,3.2,00:22:49,20%
-
-Browser language
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Polish,4,12,75%,3,00:25:32,25%
-French,1,4,100%,4,00:12:01,0%
-
-City
-label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Unknown,5,16,$ 13361.11,3.2,00:22:49,20%
-
-Language code
-label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
-Polish (pl),4,12,75%,3,00:25:32,25%
-French (fr),1,4,100%,4,00:12:01,0%
 
 Length of Visits
 label,nb_visits
@@ -224,6 +194,36 @@ Thursday,0,0%,0,00:00:00,0%,0
 Friday,0,0%,0,00:00:00,0%,0
 Saturday,0,0%,0,00:00:00,0%,0
 Sunday,0,0%,0,00:00:00,0%,0
+
+User IDs
+No data available
+
+Country
+label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Poland,4,12,$ 13351.11,3,00:25:32,25%
+France,1,4,$ 10,4,00:12:01,0%
+
+Continent
+label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Europe,5,16,$ 13361.11,3.2,00:22:49,20%
+
+Region
+label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unknown,5,16,$ 13361.11,3.2,00:22:49,20%
+
+Browser language
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Polish,4,12,75%,3,00:25:32,25%
+French,1,4,100%,4,00:12:01,0%
+
+City
+label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Unknown,5,16,$ 13361.11,3.2,00:22:49,20%
+
+Language code
+label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
+Polish (pl),4,12,75%,3,00:25:32,25%
+French (fr),1,4,100%,4,00:12:01,0%
 
 Actions - Main metrics
 nb_pageviews,nb_uniq_pageviews,nb_downloads,nb_uniq_downloads,nb_outlinks,nb_uniq_outlinks,nb_searches,nb_keywords

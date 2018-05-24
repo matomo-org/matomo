@@ -837,7 +837,7 @@
 		<subcategory>
 			<id>UserCountry_SubmenuLocations</id>
 			<name>Locations</name>
-			<order>25</order>
+			<order>40</order>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1060,7 +1060,7 @@
 		<subcategory>
 			<id>UserCountryMap_RealTimeMap</id>
 			<name>Real-time Map</name>
-			<order>40</order>
+			<order>45</order>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1150,12 +1150,12 @@
 		</category>
 		<subcategory>
 			<id>UserId_UserReportTitle</id>
-			<name>Users</name>
-			<order>6</order>
+			<name>User IDs</name>
+			<order>37</order>
 		</subcategory>
 		<widgets>
 			<row>
-				<name>Users</name>
+				<name>User IDs</name>
 				<module>UserId</module>
 				<action>getUsers</action>
 				<order>109</order>
