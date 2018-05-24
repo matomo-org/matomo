@@ -4,7 +4,7 @@
 		<uniqueId>General_Actions.General_Downloads</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -34,7 +34,7 @@
 		<uniqueId>General_Actions.Actions_SubmenuPagesEntry</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -78,7 +78,7 @@
 		<uniqueId>General_Actions.Actions_SubmenuPagesExit</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -122,7 +122,7 @@
 		<uniqueId>General_Actions.General_Outlinks</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -152,7 +152,7 @@
 		<uniqueId>General_Actions.Actions_SubmenuPageTitles</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -182,7 +182,7 @@
 		<uniqueId>General_Actions.General_Pages</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -212,7 +212,7 @@
 		<uniqueId>General_Actions.Actions_SubmenuSitesearch</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -298,7 +298,7 @@
 		<uniqueId>General_Actions.Events_Events</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -409,7 +409,7 @@
 		<uniqueId>General_Actions.Contents_Contents</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1203,7 +1203,7 @@
 		<uniqueId>Referrers_Referrers.Referrers_WidgetGetAll</uniqueId>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
@@ -1247,7 +1247,7 @@
 		<uniqueId>Referrers_Referrers.Referrers_Campaigns</uniqueId>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
@@ -1277,7 +1277,7 @@
 		<uniqueId>Referrers_Referrers.General_Overview</uniqueId>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
@@ -1328,7 +1328,7 @@
 		<uniqueId>Referrers_Referrers.Referrers_SubmenuSearchEngines</uniqueId>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
@@ -1372,7 +1372,7 @@
 		<uniqueId>Referrers_Referrers.Referrers_SubmenuWebsites</uniqueId>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
