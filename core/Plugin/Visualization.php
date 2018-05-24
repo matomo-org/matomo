@@ -264,6 +264,7 @@ class Visualization extends ViewDataTable
          *
          * @param \Exception $ex The exception that was caught.
          * @param View $view The View that will render the report.
+         * @ignore
          */
         Piwik::postEvent('Visualization.onLoadingError', [$ex, $view]);
     }

@@ -89,6 +89,16 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function onNoArchiveData()
     {
+        // don't do check unless this is the root API request
+        if (Request::isRootApiRequestHandlingMethod()) {
+            return null;
+        }
+
+        // don't do check during cron archiving
+        if (SettingsServer::isArchivePhpTriggered()) {
+            return null;
+        }
+
         $segmentInfo = $this->getSegmentIfIsUnprocessed();
         if (empty($segmentInfo)) {
             return;
@@ -137,16 +147,6 @@ class SegmentEditor extends \Piwik\Plugin
 
     private function getSegmentIfIsUnprocessed()
     {
-        // don't do check unless this is the root API request
-        if (Request::isRootApiRequestHandlingMethod()) {
-            return null;
-        }
-
-        // don't do check during cron archiving
-        if (SettingsServer::isArchivePhpTriggered()) {
-            return null;
-        }
-
         // get idSites
         $idSite = Common::getRequestVar('idSite', false);
         if (empty($idSite)
@@ -170,6 +170,13 @@ class SegmentEditor extends \Piwik\Plugin
         // check if archiving is enabled. if so, the segment should have been processed.
         $isArchivingDisabled = Rules::isArchivingDisabledFor([$idSite], $segment, $period);
         if (!$isArchivingDisabled) {
+            return null;
+        }
+
+        // check if segment archive does not exist
+        $processorParams = new \Piwik\ArchiveProcessor\Parameters(new Site($idSite), $period, $segment);
+        $archiveIdAndStats = ArchiveSelector::getArchiveIdAndVisits($processorParams, null);
+        if (!empty($archiveIdAndStats[0])) {
             return null;
         }
 

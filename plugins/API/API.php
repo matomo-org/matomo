@@ -756,7 +756,7 @@ class Plugin extends \Piwik\Plugin
 
     public function detectIsApiRequest()
     {
-        Request::setIsRootRequestApiRequest(Request::isApiRequest($request = null));
+        Request::setIsRootRequestApiRequest(Request::getMethodIfApiRequest($request = null));
     }
 
     public function getStylesheetFiles(&$stylesheets)

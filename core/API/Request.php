@@ -297,11 +297,11 @@ class Request
     /**
      * @ignore
      * @internal
-     * @param bool $isRootRequestApiRequest
+     * @param string $currentApiMethod
      */
-    public static function setIsRootRequestApiRequest($isRootRequestApiRequest)
+    public static function setIsRootRequestApiRequest($currentApiMethod)
     {
-        Cache::getTransientCache()->save('API.setIsRootRequestApiRequest', $isRootRequestApiRequest);
+        Cache::getTransientCache()->save('API.setIsRootRequestApiRequest', $currentApiMethod);
     }
 
     /**
@@ -313,8 +313,26 @@ class Request
      */
     public static function isRootRequestApiRequest()
     {
-        $isApi = Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
-        return !empty($isApi);
+        $apiMethod = Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
+        return !empty($apiMethod);
+    }
+
+    /**
+     * Checks if the API method of the root API request is == to $methodToCheck.
+     *
+     * @param string|null $methodToCheck The API method to check, eg, VisitsSummary.get. If null, gets the
+     *                                   current value of the 'method' query parameter.
+     * @return bool
+     * @throws Exception
+     */
+    public static function isRootApiRequestHandlingMethod($methodToCheck = null)
+    {
+        if (empty($methodToCheck)) {
+            $methodToCheck = Common::getRequestVar('method', '', 'string');
+        }
+
+        $apiMethod = Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
+        return $apiMethod == $methodToCheck;
     }
 
     /**
@@ -330,10 +348,24 @@ class Request
      */
     public static function isApiRequest($request)
     {
+        $method = self::getMethodIfApiRequest($request);
+        return !empty($method);
+    }
+
+    /**
+     * Returns the current API method being executed, if the current request is an API request.
+     *
+     * @param array $request  eg array('module' => 'API', 'method' => 'Test.getMethod')
+     * @return string|null
+     * @throws Exception
+     */
+    public static function getMethodIfApiRequest($request)
+    {
         $module = Common::getRequestVar('module', '', 'string', $request);
         $method = Common::getRequestVar('method', '', 'string', $request);
 
-        return $module === 'API' && !empty($method) && (count(explode('.', $method)) === 2);
+        $isApi = $module === 'API' && !empty($method) && (count(explode('.', $method)) === 2);
+        return $isApi ? $method : null;
     }
 
     /**
