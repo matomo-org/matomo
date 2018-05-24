@@ -121,6 +121,10 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
+        if (!$ex->isSegmentToPreprocess()) {
+            return; // do not display the notification for custom segments
+        }
+
         $segment = $ex->getSegment();
         $segmentToPreprocess = $ex->getStoredSegment();
 
