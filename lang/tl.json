@@ -222,6 +222,7 @@
         "NumberOfVisits": "Bilang ng mga bumisita",
         "NUsers": "%s mga user",
         "NVisits": "%s na mga pagbisita",
+        "NUniqueVisitors": "mga natatanging bisita %s",
         "Ok": "Ok",
         "OnlyEnterIfRequired": "Ipasok lamang ang iyong username kung kinakailangan ito ng iyong SMTP server.",
         "OnlyEnterIfRequiredPassword": "Ipasok lamang ang iyong password kung kinakailangan ito ng iyong SMTP server.",

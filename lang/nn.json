@@ -170,6 +170,7 @@
         "NotValid": "%s er ugyldig",
         "NumberOfVisits": "Tal på vitjingar",
         "NVisits": "%s vitjingar",
+        "NUniqueVisitors": "%s unike vitjarar",
         "Ok": "OK",
         "OneVisit": "1 vitjing",
         "OnlyEnterIfRequired": "Skriv berre eit brukarnamn viss det er påkravd av SMTP-tenaren din.",
