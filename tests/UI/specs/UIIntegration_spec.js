@@ -281,7 +281,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load the referrers > social page correctly', function (done) {
         expect.screenshot('referrers_socials').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_SubmenuSocials");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_Socials");
         }, done);
     });
 
