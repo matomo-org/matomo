@@ -150,12 +150,13 @@ class WidgetMetadata
                 $subOrderB = $widgetB['subcategory']['order'];
 
                 if ($subOrderA === $subOrderB) {
-                    return 0;
+                    return $this->compareWidgetIds($widgetA, $widgetB);
                 }
 
                 return $subOrderA > $subOrderB ? 1 : -1;
-
-            } elseif (!empty($orderA)) {
+            } else if (empty($widgetA['subcategory']['order']) && empty($widgetB['subcategory']['order'])) {
+                return $this->compareWidgetIds($widgetA, $widgetB);
+            } elseif (!empty($widgetA['subcategory']['order'])) {
 
                 return 1;
             }
@@ -164,6 +165,15 @@ class WidgetMetadata
         }
 
         return $orderA > $orderB ? 1 : -1;
+    }
+
+    private function compareWidgetIds($widgetA, $widgetB)
+    {
+        if ($widgetA['uniqueId'] == $widgetB['uniqueId']) {
+            return 0;
+        }
+
+        return $widgetA['uniqueId'] > $widgetB['uniqueId'] ? 1 : -1;
     }
 
     /**
