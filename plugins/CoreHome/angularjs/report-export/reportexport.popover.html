@@ -18,6 +18,11 @@
              ng-model="$parent.optionExpanded" ng-show="$parent.hasSubtables && !$parent.optionFlat"
         >
         </div>
+        <div piwik-field uicontrol="checkbox" name="option_format_metrics"
+             title="{{ 'CoreHome_FormatMetrics'|translate }}"
+             ng-model="$parent.optionFormatMetrics"
+        >
+        </div>
     </div>
 
     <div class="col l6">
