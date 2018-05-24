@@ -11,7 +11,7 @@ namespace Piwik\Plugins\GeoIp2\tests\Integration;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 
 /**
- * @group GeoIp2x
+ * @group GeoIp2
  */
 class ConvertRegionCodesToIsoTest extends \PHPUnit_Framework_TestCase
 {
