@@ -151,9 +151,9 @@ var broadcast = {
             broadcast.currentHashUrl = hashUrl;
             broadcast.currentPopoverParameter = popoverParam;
 
+            Piwik_Popover.close();
+
             if (popoverParamUpdated) {
-                Piwik_Popover.close();
-            } else {
                 var popoverParamParts = popoverParam.split(':');
                 var handlerName = popoverParamParts[0];
                 popoverParamParts.shift();
