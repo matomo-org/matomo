@@ -79,7 +79,7 @@ class CoreUpdater extends \Piwik\Plugin
 
                 $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $_GET + $_POST));
                 $response = new ResponseBuilder($outputFormat);
-                $e = new Exception('Database Upgrade Required. Your Piwik database is out-of-date, and must be upgraded before you can continue.');
+                $e = new Exception('Database Upgrade Required. Your Matomo database is out-of-date, and must be upgraded before you can continue.');
                 echo $response->getResponseException($e);
                 Common::sendResponseCode(503);
                 exit;
