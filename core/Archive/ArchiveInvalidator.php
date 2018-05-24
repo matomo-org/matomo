@@ -52,35 +52,55 @@ class ArchiveInvalidator
      * @var Model
      */
     private $model;
+    /**
+     * Queue of archives to invalidate
+     */
+    private $archives_to_invalidate;
+
 
     public function __construct(Model $model)
     {
         $this->model = $model;
+        $this->archives_to_invalidate = array();
+    }
+
+    public function __destruct()
+    {
+        foreach ($this->archives_to_invalidate as $idSite => $dates) {
+            foreach ($dates as $date => $dummy_flag) {
+                // To support multiple transactions at once, look for any other process to have set (and committed)
+                // this report to be invalidated.
+                $key = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date);
+
+                // we do not really have to get the value first. we could simply always try to call set() and it would update or
+                // insert the record if needed but we do not want to lock the table (especially since there are still some
+                // MyISAM installations)
+                $value = Option::getLike($key . '%');
+
+                // In order to support multiple concurrent transactions, add our pid to the end of the key so that it will just insert
+                // rather than waiting on some other process to commit before proceeding.The issue is that with out this, more than
+                // one process is trying to add the exact same value to the table, which causes contention. With the pid suffixed to
+                // the value, each process can successfully enter its own row in the table. The net result will be the same. We could
+                // always just set this, but it would result in a lot of rows in the options table.. more than needed.  With this
+                // change you'll have at most N rows per date/site, where N is the number of parallel requests on this same idsite/date
+                // that happen to run in overlapping transactions.
+                $mykey = $this->buildRememberArchivedReportIdProcessSafe($idSite, $date);
+
+                // getLike() returns an empty array rather than 'false'
+                if (empty($value)) {
+                    Option::set($mykey, '1');
+                }
+            }
+        }
     }
 
     public function rememberToInvalidateArchivedReportsLater($idSite, Date $date)
     {
-        // To support multiple transactions at once, look for any other process to have set (and committed)
-        // this report to be invalidated.
-        $key   = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date->toString());
-
-        // we do not really have to get the value first. we could simply always try to call set() and it would update or
-        // insert the record if needed but we do not want to lock the table (especially since there are still some
-        // MyISAM installations)
-        $value = Option::getLike($key . '%');
-
-        // In order to support multiple concurrent transactions, add our pid to the end of the key so that it will just insert
-        // rather than waiting on some other process to commit before proceeding.The issue is that with out this, more than
-        // one process is trying to add the exact same value to the table, which causes contention. With the pid suffixed to
-        // the value, each process can successfully enter its own row in the table. The net result will be the same. We could
-        // always just set this, but it would result in a lot of rows in the options table.. more than needed.  With this
-        // change you'll have at most N rows per date/site, where N is the number of parallel requests on this same idsite/date
-        // that happen to run in overlapping transactions.
-        $mykey = $this->buildRememberArchivedReportIdProcessSafe($idSite, $date->toString());
-        // getLike() returns an empty array rather than 'false'
-        if (empty($value)) {
-            Option::set($mykey, '1');
+        if (!array_key_exists($idSite, $this->archives_to_invalidate)) {
+            $this->archives_to_invalidate[$idSite] = array();
         }
+     
+        $this->archives_to_invalidate[$idSite][$date->toString()] = true;
     }
 
     public function getRememberedArchivedReportsThatShouldBeInvalidated()
