@@ -9,6 +9,7 @@
         "PluginDescription": "Skapa och ladda ner ett anpassade SMS rapporter och få dem skickade till din mobil dagligen, en gång i veckan eller en gång i månaden.",
         "Settings_APIKey": "API-nyckel",
         "Settings_CountryCode": "Landskod",
+        "Settings_SelectCountry": "Välj land",
         "Settings_CredentialNotProvided": "Innan du kan skapa och hantera telefonnummer, var snäll och koppa Matomo till ditt SMS konto här ovan.",
         "Settings_CredentialNotProvidedByAdmin": "Innan du kan skapa och hantera telefonnummer, var snäll och fråga din administratör om han eller hon kan koppla Matomo till ett SMS konto",
         "Settings_CredentialProvided": "Dina %s SMS API konton är korrekt konfigurerade!",

@@ -286,6 +286,7 @@
         "NumberOfVisits": "Nombre de visites",
         "NUsers": "%s utilisateurs",
         "NVisits": "%s visites",
+        "NUniqueVisitors": "%s visiteurs uniques",
         "Ok": "Ok",
         "OneAction": "1 action",
         "OneVisit": "1 visite",

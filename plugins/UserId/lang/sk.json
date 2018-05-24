@@ -1,7 +1,6 @@
 {
     "UserId": {
         "UserId": "UserId",
-        "UserReportTitle": "Používatelia",
         "PluginDescription": "Zobraziť reporty užívateľa"
     }
 }

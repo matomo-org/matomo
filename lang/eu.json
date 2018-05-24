@@ -93,6 +93,7 @@
         "NoDataForTagCloud": "Daturik ez etiketa-hodei honentzat.",
         "NotValid": "%s ez da baliozkoa",
         "NVisits": "%s bisita",
+        "NUniqueVisitors": "%s bisitari desberdin",
         "Ok": "Ados",
         "OnlyEnterIfRequired": "Idatzi erabiltzaile-izena soilik zure SMTP zerbitzariak behar badu",
         "OnlyEnterIfRequiredPassword": "Idatzi pasahitza soilik zure SMTP zerbitzariak behar badu",
