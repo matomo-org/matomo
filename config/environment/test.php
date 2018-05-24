@@ -15,6 +15,9 @@ return array(
     },
     'cache.eager.cache_id' => 'eagercache-test-',
 
+    // set in individual tests to override now value when needed
+    'Tests.now' => false,
+
     // Disable loading core translations
     'Piwik\Translation\Translator' => DI\decorate(function ($previous, ContainerInterface $c) {
         $loadRealTranslations = $c->get('test.vars.loadRealTranslations');
