@@ -51,6 +51,10 @@ var Piwik_Popover = (function () {
                     closeCallback = false;
                 }
 
+                // just to avoid any annoying race conditions that cause tooltips to remain on the screen permanently,
+                // remove any that still exist
+                $('body > .ui-tooltip').remove();
+
                 // if we were not called by Piwik_Popover.close(), then the user clicked the close button or clicked
                 // the overlay, in which case we want to handle the popover URL as well as the actual modal.
                 if (!isProgrammaticClose) {
