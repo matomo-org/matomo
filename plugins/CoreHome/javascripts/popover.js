@@ -37,8 +37,21 @@ var Piwik_Popover = (function () {
                 $('.ui-widget-overlay').on('click.popover', function () {
                     container.dialog('close');
                 });
+
+                // sometimes the modal can be displayed outside of the current viewport, in this case
+                // we scroll to it to make sure it's visible. this isn't a perfect workaround, since it
+                // doesn't center the modal.g
+                var self = this;
+                setTimeout(function () {
+                    piwikHelper.lazyScrollTo(self, 0);
+                }, 0);
             },
             close: function (event, ui) {
+                // if clicking outside of the dialog, close entire stack
+                if (!event.currentTarget && !$(event.currentTarget).is('button')) {
+                    broadcast.resetPopoverStack();
+                }
+
                 container.find('div.jqplot-target').trigger('piwikDestroyPlot');
                 container[0].innerHTML = '';
                 container.dialog('destroy').remove();

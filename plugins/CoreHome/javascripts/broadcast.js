@@ -475,6 +475,14 @@ var broadcast = {
     },
 
     /**
+     * Resets the popover param stack ensuring when a popover is closed, no new popover will
+     * be loaded.
+     */
+    resetPopoverStack: function () {
+        broadcast.popoverParamStack = [];
+    },
+
+    /**
      * Adds a handler for the 'popover' query parameter.
      *
      * @see broadcast#propagateNewPopoverParameter

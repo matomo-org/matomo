@@ -60,7 +60,7 @@
                     } else {
                         // the URL should only be set to an empty popover if there are no popovers in the stack.
                         // to avoid avoid any strange inconsistent states, we reset the popover stack here.
-                        broadcast.popoverParamStack = [];
+                        broadcast.resetPopoverStack();
                     }
                 }
 
