@@ -1672,7 +1672,7 @@
 		</parameters>
 		<uniqueId>widgetReferrersgetWebsites</uniqueId>
 		<isWide>0</isWide>
-		<viewDataTable>table</viewDataTable>
+		<viewDataTable>tableAllColumns</viewDataTable>
 		<isReport>1</isReport>
 	</row>
 	<row>
