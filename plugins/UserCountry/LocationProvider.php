@@ -170,9 +170,7 @@ abstract class LocationProvider
             $plugins   = PluginManager::getInstance()->getPluginsLoadedAndActivated();
             foreach ($plugins as $plugin) {
                 foreach (self::getLocationProviders($plugin) as $instance) {
-                    if ($instance->isVisible()) {
-                        self::$providers[] = $instance;
-                    }
+                    self::$providers[] = $instance;
                 }
             }
         }
@@ -280,6 +278,7 @@ abstract class LocationProvider
             $info['status'] = $status;
             $info['statusMessage'] = $statusMessage;
             $info['location'] = $location;
+            $info['isVisible'] = $provider->isVisible();
 
             $allInfo[$info['order']] = $info;
         }
