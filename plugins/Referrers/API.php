@@ -76,6 +76,9 @@ class API extends \Piwik\Plugin\API
                 case Common::REFERRER_TYPE_SEARCH_ENGINE:
                     $result = $this->getKeywords($idSite, $period, $date, $segment);
                     break;
+                case Common::REFERRER_TYPE_SOCIAL_NETWORK:
+                    $result = $this->getSocials($idSite, $period, $date, $segment);
+                    break;
                 case Common::REFERRER_TYPE_WEBSITE:
                     $result = $this->getWebsites($idSite, $period, $date, $segment);
                     break;
@@ -108,10 +111,11 @@ class API extends \Piwik\Plugin\API
         $dataTable->filter('AddSegmentByLabelMapping', array(
             'referrerType',
             array(
-                Common::REFERRER_TYPE_DIRECT_ENTRY  => 'direct',
-                Common::REFERRER_TYPE_CAMPAIGN      => 'campaign',
-                Common::REFERRER_TYPE_SEARCH_ENGINE => 'search',
-                Common::REFERRER_TYPE_WEBSITE       => 'website',
+                Common::REFERRER_TYPE_DIRECT_ENTRY   => 'direct',
+                Common::REFERRER_TYPE_CAMPAIGN       => 'campaign',
+                Common::REFERRER_TYPE_SEARCH_ENGINE  => 'search',
+                Common::REFERRER_TYPE_SOCIAL_NETWORK => 'social',
+                Common::REFERRER_TYPE_WEBSITE        => 'website',
             )
         ));
         // set referrer type column to readable value
@@ -328,11 +332,71 @@ class API extends \Piwik\Plugin\API
      */
     public function getSocials($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
     {
-        $dataTable = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, false);
+        $dataTable = Archive::createDataTableFromArchive(Archiver::SOCIAL_NETWORKS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
 
-        $dataTable->filter('ColumnCallbackDeleteRow', array('label', function ($url) { return !Social::getInstance()->isSocialUrl($url); }));
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', function ($url) { return Social::getInstance()->getMainUrl($url); }));
-        $dataTable->filter('GroupBy', array('label', function ($url) { return Social::getInstance()->getSocialNetworkFromDomain($url); }));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', function ($name) {
+            return Social::getInstance()->getMainUrlFromName($name);
+        }));
+
+        $dataTable = $this->completeSocialTablesWithOldReports($dataTable, $idSite, $period, $date, $segment, $expanded, $flat);
+
+        $dataTable->filter('MetadataCallbackAddMetadata', array('url', 'logo', function ($url) { return Social::getInstance()->getLogoFromUrl($url); }));
+
+        return $dataTable;
+    }
+
+    private function completeSocialTablesWithOldReports($dataTable, $idSite, $period, $date, $segment, $expanded, $flat)
+    {
+        $isMap = false;
+        $hasEmptyTable = false;
+        if ($dataTable instanceof DataTable\Map) {
+            $isMap = true;
+            $dataTables = $dataTable->getDataTables();
+        } else {
+            $dataTables = [$dataTable];
+        }
+
+        foreach ($dataTables as $table) {
+            if ($table instanceof DataTable && !$table->getRowsCountWithoutSummaryRow()) {
+                $hasEmptyTable = true;
+                break;
+            }
+        }
+
+        if ($hasEmptyTable) {
+            $dataTableFiltered = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, false);
+
+            $this->filterWebsitesForSocials($dataTableFiltered, $idSite, $period, $date, $segment, $expanded, $flat);
+
+            if (!$isMap) {
+                $dataTable = $dataTableFiltered;
+            } else {
+                $filteredTables = $dataTableFiltered->getDataTables();
+                foreach ($dataTables as $label => $table) {
+                    if ($table instanceof DataTable && !$table->getRowsCountWithoutSummaryRow() && !empty($filteredTables[$label])) {
+                        $dataTable->addTable($filteredTables[$label], $label);
+                    }
+                }
+            }
+        }
+
+        return $dataTable;
+    }
+
+    /**
+     * @param DataTable $dataTable
+     */
+    protected function filterWebsitesForSocials($dataTable, $idSite, $period, $date, $segment, $expanded, $flat)
+    {
+        $dataTable->filter('ColumnCallbackDeleteRow', array('label', function ($url) {
+            return !Social::getInstance()->isSocialUrl($url);
+        }));
+        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', function ($url) {
+            return Social::getInstance()->getMainUrl($url);
+        }));
+        $dataTable->filter('GroupBy', array('label', function ($url) {
+            return Social::getInstance()->getSocialNetworkFromDomain($url);
+        }));
 
         $this->setSocialIdSubtables($dataTable);
         $this->removeSubtableMetadata($dataTable);
@@ -340,10 +404,6 @@ class API extends \Piwik\Plugin\API
         if ($flat) {
             $this->buildExpandedTableForFlattenGetSocials($idSite, $period, $date, $segment, $expanded, $dataTable);
         }
-
-        $dataTable->queueFilter('MetadataCallbackAddMetadata', array('url', 'logo', function ($url) { return Social::getInstance()->getLogoFromUrl($url); }));
-
-        return $dataTable;
     }
 
     /**
@@ -362,43 +422,76 @@ class API extends \Piwik\Plugin\API
      */
     public function getUrlsForSocial($idSite, $period, $date, $segment = false, $idSubtable = false)
     {
-        $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true);
+        $dataTable = $this->getDataTable(Archiver::SOCIAL_NETWORKS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true, $idSubtable);
 
-        // get the social network domain referred to by $idSubtable
-        $socialNetworks = Social::getInstance()->getDefinitions();
-
-        $social = false;
-        if ($idSubtable !== false) {
-            --$idSubtable;
-
-            reset($socialNetworks);
-            for ($i = 0; $i != (int)$idSubtable; ++$i) {
-                next($socialNetworks);
-            }
-
-            $social = current($socialNetworks);
+        if (!$idSubtable) {
+            $dataTable = $dataTable->mergeSubtables();
         }
 
-        // filter out everything but social network indicated by $idSubtable
-        $dataTable->filter(
-            'ColumnCallbackDeleteRow',
-            array('label',
-                  function ($url) use ($social) { return !Social::getInstance()->isSocialUrl($url, $social); }
-            )
-        );
+        $isMap = false;
+        $hasEmptyTable = false;
+        if ($dataTable instanceof DataTable\Map) {
+            $isMap = true;
+            $dataTables = $dataTable->getDataTables();
+        } else {
+            $dataTables = [$dataTable];
+        }
+        foreach ($dataTables as $table) {
+            if ($table instanceof DataTable && !$table->getRowsCountWithoutSummaryRow()) {
+                $hasEmptyTable = true;
+                break;
+            }
+        }
+        if ($hasEmptyTable) {
+            $dataTableFiltered = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true);
+            // get the social network domain referred to by $idSubtable
+            $socialNetworks = Social::getInstance()->getDefinitions();
+            $social = false;
+            if ($idSubtable !== false) {
+                --$idSubtable;
+                reset($socialNetworks);
+                for ($i = 0; $i != (int)$idSubtable; ++$i) {
+                    next($socialNetworks);
+                }
+                $social = current($socialNetworks);
+            }
+            // filter out everything but social network indicated by $idSubtable
+            $dataTableFiltered->filter(
+                'ColumnCallbackDeleteRow',
+                array('label',
+                    function ($url) use ($social) {
+                        return !Social::getInstance()->isSocialUrl($url, $social);
+                    }
+                )
+            );
 
-        // merge the datatable's subtables which contain the individual URLs
-        $dataTable = $dataTable->mergeSubtables();
+            $dataTableFiltered = $dataTableFiltered->mergeSubtables();
 
+            if (!$isMap) {
+                $dataTable = $dataTableFiltered;
+            } else {
+                $filteredTables = $dataTableFiltered->getDataTables();
+                foreach ($dataTables as $label => $table) {
+                    if (!$table->getRowsCountWithoutSummaryRow() && !empty($filteredTables[$label])) {
+                        $dataTable->addTable($filteredTables[$label], $label);
+                    }
+                }
+            }
+        }
+        $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', array(true));
         $dataTable->filter('AddSegmentByLabel', array('referrerUrl'));
-        $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', array($expanded));
-
+        $dataTable->queueFilter('ReplaceColumnNames');
         return $dataTable;
     }
 
     public function getNumberOfDistinctSearchEngines($idSite, $period, $date, $segment = false)
     {
         return $this->getNumeric(Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME, $idSite, $period, $date, $segment);
+    }
+
+    public function getNumberOfDistinctSocialNetworks($idSite, $period, $date, $segment = false)
+    {
+        return $this->getNumeric(Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME, $idSite, $period, $date, $segment);
     }
 
     public function getNumberOfDistinctKeywords($idSite, $period, $date, $segment = false)
