@@ -33,7 +33,6 @@
         "SearchEngines": "Search Engines",
         "SearchEnginesDocumentation": "A visitor was referred to your website by a search engine. %1$s See the %2$s report for more details.",
         "SearchEnginesReportDocumentation": "This report shows which search engines referred users to your website. %s By clicking on a row in the table, you can see what users were searching for using a specific search engine.",
-        "SocialFooterMessage": "This is a subset of the Websites report to the left. It filters out other websites so you can compare your social network referrers directly.",
         "Socials": "Social Networks",
         "SocialsReportDocumentation": "This report shows which social networks led visitors to your website.<br \/>By clicking on a row in the table, you can see from which social network pages visitors came to your website.",
         "SubmenuSearchEngines": "Search Engines & Keywords",
