@@ -37,11 +37,11 @@
 
             ajaxRequest.setCallback(function (response) {
                 headerMessage.fadeOut('slow', function () {
-                    response = $(response);
+                    response = $('#header_message', $('<div>' + response + '</div>'));
 
                     $titleElement.removeClass('activityIndicator');
 
-                    var newVersionAvailable = response.hasClass('header_alert');
+                    var newVersionAvailable = response.hasClass('update_available');
                     if (newVersionAvailable) {
                         headerMessage.replaceWith(response);
                         headerMessage.show();
