@@ -4101,31 +4101,6 @@
 				<isContainer>1</isContainer>
 				<widgets>
 					<row>
-						<name>Product SKU</name>
-						<category>
-							<id>Goals_Ecommerce</id>
-							<name>Ecommerce</name>
-							<order>99</order>
-							<icon />
-						</category>
-						<subcategory>
-							<id>Goals_Products</id>
-							<name>Products</name>
-							<order>99</order>
-						</subcategory>
-						<module>Goals</module>
-						<action>getItemsSku</action>
-						<order>130</order>
-						<parameters>
-							<module>Goals</module>
-							<action>getItemsSku</action>
-						</parameters>
-						<uniqueId>widgetGoalsgetItemsSku</uniqueId>
-						<isWide>0</isWide>
-						<viewDataTable>table</viewDataTable>
-						<isReport>1</isReport>
-					</row>
-					<row>
 						<name>Product Name</name>
 						<category>
 							<id>Goals_Ecommerce</id>
@@ -4140,12 +4115,37 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getItemsName</action>
-						<order>131</order>
+						<order>130</order>
 						<parameters>
 							<module>Goals</module>
 							<action>getItemsName</action>
 						</parameters>
 						<uniqueId>widgetGoalsgetItemsName</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>table</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Product SKU</name>
+						<category>
+							<id>Goals_Ecommerce</id>
+							<name>Ecommerce</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals_Products</id>
+							<name>Products</name>
+							<order>99</order>
+						</subcategory>
+						<module>Goals</module>
+						<action>getItemsSku</action>
+						<order>131</order>
+						<parameters>
+							<module>Goals</module>
+							<action>getItemsSku</action>
+						</parameters>
+						<uniqueId>widgetGoalsgetItemsSku</uniqueId>
 						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>

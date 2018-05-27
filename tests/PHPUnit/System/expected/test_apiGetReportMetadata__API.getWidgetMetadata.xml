@@ -1928,7 +1928,7 @@
 		</subcategory>
 		<module>Goals</module>
 		<action>getItemsName</action>
-		<order>131</order>
+		<order>130</order>
 		<parameters>
 			<module>Goals</module>
 			<action>getItemsName</action>
@@ -1953,7 +1953,7 @@
 		</subcategory>
 		<module>Goals</module>
 		<action>getItemsName</action>
-		<order>131</order>
+		<order>130</order>
 		<parameters>
 			<module>Goals</module>
 			<action>getItemsName</action>
@@ -1978,7 +1978,7 @@
 		</subcategory>
 		<module>Goals</module>
 		<action>getItemsSku</action>
-		<order>130</order>
+		<order>131</order>
 		<parameters>
 			<module>Goals</module>
 			<action>getItemsSku</action>
@@ -2003,7 +2003,7 @@
 		</subcategory>
 		<module>Goals</module>
 		<action>getItemsSku</action>
-		<order>130</order>
+		<order>131</order>
 		<parameters>
 			<module>Goals</module>
 			<action>getItemsSku</action>
