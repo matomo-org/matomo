@@ -35,6 +35,12 @@ var broadcast = {
     popoverHandlers: [],
 
     /**
+     * Holds the stack of popovers opened in sequence. When closing a popover, the last popover in the stack
+     * is opened (if any).
+     */
+    popoverParamStack: [],
+
+    /**
      * Force reload once
      */
     forceReload: false,
@@ -145,9 +151,9 @@ var broadcast = {
             broadcast.currentHashUrl = hashUrl;
             broadcast.currentPopoverParameter = popoverParam;
 
-            if (popoverParamUpdated && popoverParam == '') {
-                Piwik_Popover.close();
-            } else if (popoverParamUpdated) {
+            Piwik_Popover.close();
+
+            if (popoverParamUpdated) {
                 var popoverParamParts = popoverParam.split(':');
                 var handlerName = popoverParamParts[0];
                 popoverParamParts.shift();
@@ -444,7 +450,7 @@ var broadcast = {
         var $location = angular.element(document).injector().get('$location');
 
         var popover = '';
-        if (handlerName) {
+        if (handlerName && '' != value && 'undefined' != typeof value) {
             popover = handlerName + ':' + value;
 
             // between jquery.history and different browser bugs, it's impossible to ensure
@@ -452,17 +458,28 @@ var broadcast = {
             // make sure it doesn't change, we have to manipulate the url encoding a bit.
             popover = encodeURIComponent(popover);
             popover = popover.replace(/%/g, '\$');
+
+            broadcast.popoverParamStack.push(popover);
+        } else {
+            broadcast.popoverParamStack.pop();
+            if (broadcast.popoverParamStack.length) {
+                popover = broadcast.popoverParamStack[broadcast.popoverParamStack.length - 1];
+            }
         }
 
-        if ('' == value || 'undefined' == typeof value) {
-            $location.search('popover', '');
-        } else {
-            $location.search('popover', popover);
-        }
+        $location.search('popover', popover);
 
         setTimeout(function () {
             angular.element(document).injector().get('$rootScope').$apply();
         }, 1);
+    },
+
+    /**
+     * Resets the popover param stack ensuring when a popover is closed, no new popover will
+     * be loaded.
+     */
+    resetPopoverStack: function () {
+        broadcast.popoverParamStack = [];
     },
 
     /**
