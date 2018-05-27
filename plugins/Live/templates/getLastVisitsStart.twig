@@ -10,16 +10,16 @@
                 {{ postEvent('Live.visitorLogWidgetViewBeforeVisitInfo', visitor) }}
                 {% set year = visitor.getColumn('serverTimestamp')|date('Y') %}
                 <span class="realTimeWidget_datetime">{{ visitor.getColumn('serverDatePretty')|replace({(year): ' '}) }} - {{ visitor.getColumn('serverTimePretty') }} {% if visitor.getColumn('visitDuration') > 0 %}({{ visitor.getColumn('visitDurationPretty')|raw }}){% endif %}</span>
-                {% if visitor.getColumn('visitorId')|default(false) is not empty %}
+                {% if visitor.getColumn('userId')|default(false) is not empty %}
                   &nbsp;  <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.getColumn('userId') is not empty %}{{ visitor.getColumn('userId')|raw }}{% endif %}" data-visitor-id="{{ visitor.getColumn('visitorId') }}">
-                        {% if visitor.getColumn('userId') is not empty %}<br/>{% endif %}
-                        <img src="plugins/Live/images/visitorProfileLaunch.png"/>
-                        {{ visitor.getColumn('userId')|default('')|raw }}
+                        <span>{{ visitor.getColumn('userId') }}</span>
                     </a>
                 {% endif %}
-                <br />
 
                 {{ postEvent('Live.renderVisitorIcons', visitor) }}
+                <a class="visits-live-launch-visitor-profile rightLink" title="{{ 'Live_ViewVisitorProfile'|translate }} {% if visitor.getColumn('userId') is not empty %}{{ visitor.getColumn('userId')|raw }}{% endif %}" data-visitor-id="{{ visitor.getColumn('visitorId') }}">
+                    <span class="icon-visitor-profile"></span>
+                </a>
 
                 <span class="referrer">
                     {% include "@Referrers/_visitorDetails.twig" with {'visitInfo': visitor} %}

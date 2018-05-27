@@ -280,6 +280,7 @@
         "NumberOfVisits": "Käyntien lukumäärä",
         "NUsers": "%s käyttäjää",
         "NVisits": "%s käyntiä",
+        "NUniqueVisitors": "%s uniikia kävijää",
         "Ok": "Ok",
         "OneAction": "1 toiminto",
         "OneVisit": "1 käynti",

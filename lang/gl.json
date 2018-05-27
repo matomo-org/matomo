@@ -89,6 +89,7 @@
         "NotValid": "%s non é valido",
         "NumberOfVisits": "Número de Visitas",
         "NVisits": "%s visitas",
+        "NUniqueVisitors": "%s visitas únicas",
         "Ok": "Ok",
         "OpenSourceWebAnalytics": "Analise Web de Open Source",
         "OrCancel": "ou %1$s Cancelar %2$s",

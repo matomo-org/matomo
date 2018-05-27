@@ -20,6 +20,7 @@
         "EvolutionDocumentationMoreInfo": "Farklı yönlendiren türleri hakkında ayrıntılı bilgi almak için %s tablosunun belgelerine bakın.",
         "Keywords": "Anahtar Sözcükler",
         "KeywordsReportDocumentation": "Bu rapor ziyaretçilerin web sitenize yönlendirilmeden önce hangi anahtar sözcüklerle arama yaptığını görüntüler. %s Tablodaki bir satıra tıklayarak anahtar sözcüğün arama motorlarına göre dağılımını görebilirsiniz.",
+        "KeywordsReportDocumentationNote": "Not: Bu raporda çoğu anahtar sözcük, arama motorlarının çoğu arama sırasında kullanılan anahtar sözcüğü tam olarak göndermediğinden tanımlanmamış olarak görüntülenir.",
         "PluginDescription": "Yönlendiren Verilerini Raporlar: Arama Motorları, Anahtar Sözcükler, Web Siteleri, Kampanyalar, Sosyal Ağ, Doğrudan Girişler.",
         "Referrer": "Yönlendiren",
         "ReferrerName": "Yönlendiren Adı",

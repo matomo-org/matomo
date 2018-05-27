@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 namespace Piwik\Category;
+use Piwik\Piwik;
 
 /**
  * Base type for category. lets you change the name for a categoryId and specifiy a different order
@@ -66,6 +67,11 @@ class Category
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getDisplayName()
+    {
+        return Piwik::translate($this->getId());
     }
 
     public function addSubcategory(Subcategory $subcategory)

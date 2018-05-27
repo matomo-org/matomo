@@ -286,6 +286,7 @@
         "NumberOfVisits": "訪問數",
         "NUsers": "%s 位使用者",
         "NVisits": "%s 訪問數",
+        "NUniqueVisitors": "不重複訪客 %s 位",
         "Ok": "OK",
         "OneAction": "1 活動數",
         "OneVisit": "1 訪問數",

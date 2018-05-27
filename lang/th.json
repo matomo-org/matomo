@@ -189,6 +189,7 @@
         "NotValid": "%s ไม่สมบูรณ์",
         "NumberOfVisits": "จำนวนการเข้าชม",
         "NVisits": "%s ครั้ง",
+        "NUniqueVisitors": "%s ผู้เข้าชมที่ไม่ซ้ำ",
         "Ok": "ตกลง",
         "OneVisit": "1 ครั้ง",
         "OnlyEnterIfRequired": "กรอกชื่อผู้ใช้เท่านั้น ถ้าเซิร์ฟเวอร์ SMTP ของคุณต้องการอยู่",
