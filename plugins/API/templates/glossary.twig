@@ -56,10 +56,11 @@
         {% endfor %}
     </div>
 
-    <script>
+    <script type="text/javascript">
         $(document).ready(function(){
             $('.scrollspy').scrollSpy();
             $('.pushpin').pushpin({ top: $('.pushpin').offset().top });
+            $('.tabs').tabs();
         });
     </script>
 {% endset %}
