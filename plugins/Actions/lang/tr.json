@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "Site Arama Anahtar Sözcükleri",
         "WidgetSearchNoResultKeywords": "Sonuç Vermeyen Arama Anahtar Sözcükleri",
         "ActionType": "Eylem Türü",
-        "ActionTypes": "İşlem Türleri"
+        "ActionTypes": "İşlem Türleri",
+        "Behaviour": "Davranış"
     }
 }

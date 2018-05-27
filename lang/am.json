@@ -43,6 +43,7 @@
         "NoDataForGraph": "ለዚህ ግራፍ ምንም ውሂብ የለም",
         "NoDataForTagCloud": "ለዚህ መለያ ክላውድ ምንም ውሂብ የለም.",
         "NVisits": "%s ጉበኝቶች",
+        "NUniqueVisitors": "%s የተለዩ ጎብኚዎች",
         "Ok": "ይሁን",
         "OpenSourceWebAnalytics": "ክፍት የሆነ የድር ጣቢያ ማመዛዘኛ",
         "Others": "ለሎች",

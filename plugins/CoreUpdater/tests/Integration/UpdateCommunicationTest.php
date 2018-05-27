@@ -77,7 +77,7 @@ CoreUpdater_YouCanUpgradeAutomaticallyOrDownloadPackage
 {$rootUrl}index.php?module=CoreUpdater&action=newVersionAvailable
 
 CoreUpdater_ViewVersionChangelog
-https://matomo.org/changelog/piwik-33-0-0/
+https://matomo.org/changelog/matomo-33-0-0/
 
 CoreUpdater_ReceiveEmailBecauseIsSuperUser
 

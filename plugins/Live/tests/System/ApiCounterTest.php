@@ -25,10 +25,22 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 class ApiCounterTest extends SystemTestCase
 {
     /**
+     * @var int
+     */
+    private static $testNow;
+
+    /**
      * @var API
      */
     private $api;
     private $idSite = 1;
+
+    public static function setUpBeforeClass()
+    {
+        self::$testNow = strtotime('2018-02-03 04:45:40');
+
+        parent::setUpBeforeClass();
+    }
 
     public function setUp()
     {
@@ -104,7 +116,7 @@ class ApiCounterTest extends SystemTestCase
 
     private function trackSomeVisits()
     {
-        $nowTimestamp = time();
+        $nowTimestamp = self::$testNow;
 
         // use local tracker so mock location provider can be used
         $t = Fixture::getTracker($this->idSite, $nowTimestamp, $defaultInit = true, $useLocal = false);
@@ -180,7 +192,8 @@ class ApiCounterTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
+            'Tests.now' => self::$testNow,
         );
     }
 }

@@ -1,7 +1,7 @@
 {
     "UserId": {
         "UserId": "Kullanıcı Kodu",
-        "UserReportTitle": "Kullanıcılar",
+        "UserReportTitle": "Kullanıcı Kodları",
         "PluginDescription": "Kullanıcı raporlarını görüntüler"
     }
 }

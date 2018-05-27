@@ -286,6 +286,7 @@
         "NumberOfVisits": "Ziyaret sayısı",
         "NUsers": "%s kullanıcı",
         "NVisits": "%s ziyaret",
+        "NUniqueVisitors": "%s tekil ziyaretçi",
         "Ok": "Tamam",
         "OneAction": "1 işlem",
         "OneVisit": "1 ziyaret",

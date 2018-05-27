@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Live;
 use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period;
@@ -127,8 +128,16 @@ class Model
 
         list($whereIdSites, $idSites) = $this->getIdSitesWhereClause($idSite, $from);
 
+        $now = null;
+        try {
+            $now = StaticContainer::get('Tests.now');
+        } catch (\Exception $ex) {
+            // ignore
+        }
+        $now = $now ?: time();
+
         $bind   = $idSites;
-        $bind[] = Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s');
+        $bind[] = Date::factory($now - $lastMinutes * 60)->toString('Y-m-d H:i:s');
 
         $where = $whereIdSites . "AND " . $where;
 

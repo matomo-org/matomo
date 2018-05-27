@@ -91,11 +91,11 @@
         "UseCustomLogo": "Anvend brugerdefineret logo",
         "ValidPiwikHostname": "Gyldigt Matomo værtsnavn",
         "WithOptionalRevenue": "med valgfri indtægter",
-        "YouAreOptedIn": "Du er i øjeblikket tilmeldt.",
-        "YouAreOptedOut": "Du har i øjeblikket frameldt.",
-        "YouMayOptOut": "Du kan vælge ikke at have en unik web analyse cookie identifikationsnummer tildelt til computeren for at undgå aggregering og analyse af data indsamlet på denne hjemmesider.",
-        "YouMayOptOutBis": "Vælg muligheden, klik nedenfor for at modtage en opt out-cookie.",
-        "OptingYouOut": "Vælger dig fra, vent venligst.....",
+        "YouAreOptedIn": "Du tildeles automatisk et identifikationsnummer. Klik for at fravælge.",
+        "YouAreOptedOut": "Du har fravalgt af få tildelt et identifikationsnummer.",
+        "YouMayOptOut": "Når du besøger websitet bliver du tildelt et unikt identifikationsnummer, som er placeret i en cookie på din computer. Dette identifikationsnummer bruger vi til en simpel statistikanalyse af antallet af besøgende på websitet.",
+        "YouMayOptOutBis": "Du kan herunder fravælge at blive tildelt et unikt identifikationsnummer.",
+        "OptingYouOut": "Vælger dig fra, vent venligst...",
         "ProtocolNotDetectedCorrectly": "Du benhytter i øjeblikket Matomo over en sikker SSL-forbindelse (via HTTPS), men Matomo kunne kun detektere en ikke-sikker forbindelse på serveren.",
         "ProtocolNotDetectedCorrectlySolution": "For at sikre at Matomo behandler anmodninger og dit indhold over HTTPS, skal du måske redigere din %1$s fil og enten konfigurere dine proxy indstillinger, eller du kan tilføje linjen %2$s under sektionen %3$s. %4$sLæs mere%5$s"
     }
