@@ -454,7 +454,7 @@ class API extends \Piwik\Plugin\API
         $apiParameters = array();
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {
-            if ($entityName === 'idGoal' && $idGoal) {
+            if ($entityName === 'idGoal' && is_numeric($idGoal)) {
                 $apiParameters['idGoal'] = $idGoal;
             } elseif ($entityName === 'idDimension' && $idDimension) {
                 $apiParameters['idDimension'] = $idDimension;
