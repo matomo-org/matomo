@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use Piwik\Piwik;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -33,7 +34,23 @@ class DeviceModel extends Base
         $userAgent = $request->getUserAgent();
         $parser    = $this->getUAParser($userAgent);
 
-        return $parser->getModel();
+        $model = $parser->getModel();
+
+        if (!empty($model)) {
+            return $model;
+        }
+
+        $deviceType = $parser->getDeviceName();
+
+        if (!empty($deviceType)) {
+            return 'generic ' . $deviceType;
+        }
+
+        if ($parser->isMobile()) {
+            return 'generic mobile';
+        }
+
+        return '';
     }
 
     /**
