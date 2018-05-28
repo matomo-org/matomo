@@ -76,7 +76,7 @@
                 try {
                     $element.tooltip('destroy');
                 } catch (e) {}
-                Piwik_Popover.close();
+                broadcast.propagateNewPopoverParameter(false);
                 return false;
             });
 

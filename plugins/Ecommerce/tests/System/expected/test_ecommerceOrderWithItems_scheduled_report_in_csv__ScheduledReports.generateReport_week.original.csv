@@ -399,14 +399,6 @@ label,nb_conversions
 121-364 days,0
 365+ days,0
 
-Product SKU
-label,revenue,quantity,orders,nb_visits,avg_price,avg_quantity,conversion_rate
-SKU2,$ 1500,1,1,1,$ 1500,1,100%
-SKU VERY nice indeed,$ 1011.22,3,2,4,$ 255.61,1.5,50%
-ANOTHER SKU HERE,$ 600,6,1,0,$ 100,6,0%
-TRIPOD SKU,$ 200,2,1,0,$ 100,2,0%
-SKU IN ABANDONED CART TWO,$ 0,0,0,3,$ 0,0,0%
-
 Product Name
 label,revenue,quantity,orders,avg_price,avg_quantity,conversion_rate,nb_visits
 Canon SLR,$ 1500,1,1,$ 1500,1,0%,0
@@ -415,6 +407,14 @@ PRODUCT name BIS,$ 600,6,1,$ 100,6,0%,0
 TRIPOD - bought day after,$ 200,2,1,$ 100,2,0%,0
 PRODUCT TWO LEFT in cart,$ 0,0,0,$ 0,0,0%,3
 PRODUCT THREE LEFT in cart,$ 0,0,0,$ 1332,0,0%,3
+
+Product SKU
+label,revenue,quantity,orders,nb_visits,avg_price,avg_quantity,conversion_rate
+SKU2,$ 1500,1,1,1,$ 1500,1,100%
+SKU VERY nice indeed,$ 1011.22,3,2,4,$ 255.61,1.5,50%
+ANOTHER SKU HERE,$ 600,6,1,0,$ 100,6,0%
+TRIPOD SKU,$ 200,2,1,0,$ 100,2,0%
+SKU IN ABANDONED CART TWO,$ 0,0,0,3,$ 0,0,0%
 
 Product Category
 label,revenue,quantity,orders,nb_visits,avg_price,avg_quantity,conversion_rate

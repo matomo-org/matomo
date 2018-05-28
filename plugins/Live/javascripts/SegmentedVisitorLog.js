@@ -122,8 +122,7 @@ var SegmentedVisitorLog = function() {
             action: 'indexVisitorLog',
             segment: segment,
             disableLink: 1,
-            small: 1,
-            hideProfileLink: 1
+            small: 1
         };
 
         $.extend(requestParams, extraParams);

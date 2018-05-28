@@ -51,12 +51,16 @@
 
                 function openOrClose()
                 {
+                    close();
+
                     // should be rather done by routing
                     var popoverParam = $location.search().popover;
                     if (popoverParam) {
                         open(popoverParam);
                     } else {
-                        close();
+                        // the URL should only be set to an empty popover if there are no popovers in the stack.
+                        // to avoid avoid any strange inconsistent states, we reset the popover stack here.
+                        broadcast.resetPopoverStack();
                     }
                 }
 
