@@ -42,7 +42,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
-
+    
     // dashboard tests
     it("should load dashboard1 correctly", function (done) {
         expect.screenshot("dashboard1").to.be.captureSelector('.pageWrap', function (page) {
@@ -613,6 +613,18 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should show error for super user if invalid idsite given', function (done) {
         expect.screenshot('invalid_idsite_superuser').to.be.capture(function (page) {
             page.load("?module=CoreHome&action=index&idSite=10006&period=week&date=2017-06-04");
+        }, done);
+    });
+
+    it('should load the glossary correctly', function (done) {
+        expect.screenshot('glossary').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + generalParams + "&module=API&action=glossary");
+        }, done);
+    });
+
+    it('should load the glossary correctly widgetized', function (done) {
+        expect.screenshot('glossary_widgetized').to.be.capture(function (page) {
+            page.load("?" + generalParams + "&module=API&action=glossary&widget=1");
         }, done);
     });
 
