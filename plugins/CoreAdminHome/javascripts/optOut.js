@@ -6,9 +6,10 @@ function submitForm(e, form) {
     var now = Date.now ? Date.now() : (+(new Date())), // Date.now does not exist in < IE8
     newWindow = window.open(form.action + '&time=' + now);
 
-    setInterval(function () {
+    var interval = setInterval(function () {
         if (newWindow.closed) {
             window.location.reload();
+            clearInterval(interval);
         }
     }, 1000);
     return false;
