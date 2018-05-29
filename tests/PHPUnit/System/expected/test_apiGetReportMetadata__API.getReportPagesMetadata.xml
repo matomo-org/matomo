@@ -1369,7 +1369,7 @@
 		</widgets>
 	</row>
 	<row>
-		<uniqueId>Referrers_Referrers.Referrers_SubmenuWebsites</uniqueId>
+		<uniqueId>Referrers_Referrers.Referrers_Socials</uniqueId>
 		<category>
 			<id>Referrers_Referrers</id>
 			<name>Acquisition</name>
@@ -1377,8 +1377,38 @@
 			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
-			<id>Referrers_SubmenuWebsites</id>
-			<name>Websites &amp; Social</name>
+			<id>Referrers_Socials</id>
+			<name>Social Networks</name>
+			<order>16</order>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>Social Networks</name>
+				<module>Referrers</module>
+				<action>getSocials</action>
+				<order>111</order>
+				<parameters>
+					<module>Referrers</module>
+					<action>getSocials</action>
+				</parameters>
+				<uniqueId>widgetReferrersgetSocials</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>graphPie</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+		</widgets>
+	</row>
+	<row>
+		<uniqueId>Referrers_Referrers.Referrers_SubmenuWebsitesOnly</uniqueId>
+		<category>
+			<id>Referrers_Referrers</id>
+			<name>Acquisition</name>
+			<order>15</order>
+			<icon>icon-reporting-referer</icon>
+		</category>
+		<subcategory>
+			<id>Referrers_SubmenuWebsitesOnly</id>
+			<name>Websites</name>
 			<order>15</order>
 		</subcategory>
 		<widgets>
@@ -1393,21 +1423,7 @@
 				</parameters>
 				<uniqueId>widgetReferrersgetWebsites</uniqueId>
 				<isWide>0</isWide>
-				<viewDataTable>table</viewDataTable>
-				<isReport>1</isReport>
-			</row>
-			<row>
-				<name>Social Networks</name>
-				<module>Referrers</module>
-				<action>getSocials</action>
-				<order>111</order>
-				<parameters>
-					<module>Referrers</module>
-					<action>getSocials</action>
-				</parameters>
-				<uniqueId>widgetReferrersgetSocials</uniqueId>
-				<isWide>0</isWide>
-				<viewDataTable>graphPie</viewDataTable>
+				<viewDataTable>tableAllColumns</viewDataTable>
 				<isReport>1</isReport>
 			</row>
 		</widgets>

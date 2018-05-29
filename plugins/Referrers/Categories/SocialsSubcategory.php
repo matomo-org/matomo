@@ -10,10 +10,10 @@ namespace Piwik\Plugins\Referrers\Categories;
 
 use Piwik\Category\Subcategory;
 
-class WebsitesSubcategory extends Subcategory
+class SocialsSubcategory extends Subcategory
 {
     protected $categoryId = 'Referrers_Referrers';
-    protected $id = 'Referrers_SubmenuWebsitesOnly';
-    protected $order = 15;
+    protected $id = 'Referrers_Socials';
+    protected $order = 16;
 
 }

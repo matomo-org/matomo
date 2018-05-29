@@ -36,7 +36,7 @@
         "Socials": "Social Networks",
         "SocialsReportDocumentation": "This report shows which social networks led visitors to your website.<br \/>By clicking on a row in the table, you can see from which social network pages visitors came to your website.",
         "SubmenuSearchEngines": "Search Engines & Keywords",
-        "SubmenuWebsites": "Websites & Social",
+        "SubmenuWebsitesOnly": "Websites",
         "Type": "Referrer Type",
         "TypeCampaigns": "%s from campaigns",
         "TypeDirectEntries": "%s direct entries",
