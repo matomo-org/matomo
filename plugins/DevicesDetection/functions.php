@@ -188,7 +188,7 @@ function getModelName($label)
             $model = Piwik::translate('DevicesDetection_GenericDevice', getDeviceTypeLabel($model));
         }
     }
-    if (!$brand || $brand == Piwik::translate('General_Unknown')) {
+    if (empty($brand)) {
         return $model;
     }
     return $brand . ' - ' . $model;

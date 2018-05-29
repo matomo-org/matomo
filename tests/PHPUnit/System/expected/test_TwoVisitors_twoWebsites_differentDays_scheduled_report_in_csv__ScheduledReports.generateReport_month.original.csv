@@ -17,7 +17,8 @@ Desktop,3,3,1,00:00:00,100%,$ 0
 
 Device model
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
-Unknown,11,43,3.9,00:10:55,27%,$ 0
+Unknown,8,40,5,00:15:01,0%,$ 0
+Generic Desktop,3,3,1,00:00:00,100%,$ 0
 
 Device brand
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
