@@ -187,6 +187,10 @@ class API extends \Piwik\Plugin\API
         $group = trim($group);
         $sites = $this->getModel()->getSitesFromGroup($group);
 
+        foreach ($sites as &$site) {
+            $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
+        }
+
         Site::setSitesFromArray($sites);
         return $sites;
     }
@@ -219,6 +223,10 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         $site = $this->getModel()->getSiteFromId($idSite);
+
+        if ($site) {
+            $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
+        }
 
         Site::setSiteFromArray($idSite, $site);
 
@@ -260,6 +268,7 @@ class API extends \Piwik\Plugin\API
         $sites  = $this->getModel()->getAllSites();
         $return = array();
         foreach ($sites as $site) {
+            $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
             $return[$site['idsite']] = $site;
         }
 
@@ -329,6 +338,11 @@ class API extends \Piwik\Plugin\API
             $sites = $this->getSitesFromIds($sitesId, $limit);
         } else {
             $sites = $this->getModel()->getPatternMatchSites($sitesId, $pattern, $limit);
+
+            foreach ($sites as &$site) {
+                $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
+            }
+
             Site::setSitesFromArray($sites);
         }
 
@@ -336,10 +350,6 @@ class API extends \Piwik\Plugin\API
             foreach ($sites as &$site) {
                 $site['alias_urls'] = $this->getSiteUrlsFromId($site['idsite']);
             }
-        }
-
-        foreach ($sites as &$site) {
-            $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
         }
 
         return $sites;
@@ -446,6 +456,10 @@ class API extends \Piwik\Plugin\API
     private function getSitesFromIds($idSites, $limit = false)
     {
         $sites = $this->getModel()->getSitesFromIds($idSites, $limit);
+
+        foreach ($sites as &$site) {
+            $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
+        }
 
         Site::setSitesFromArray($sites);
 
