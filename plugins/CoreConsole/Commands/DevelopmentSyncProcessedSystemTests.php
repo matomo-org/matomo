@@ -85,7 +85,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
             $buildNumber = substr($buildNumber, 0, -2);
         }
 
-        $filename = sprintf('system.plugins.%s.tar.bz2', $buildNumber);
+        $filename = sprintf('system.plugin.%s.tar.bz2', $buildNumber);
         $urlBase  = sprintf('https://builds-artifacts.matomo.org/matomo-org/matomo/%s', $filename);
         $tests    = Http::sendHttpRequest($urlBase, $timeout = 120);
 
