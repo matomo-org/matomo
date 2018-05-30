@@ -33,6 +33,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
         $this->setName('development:sync-system-test-processed');
         $this->setDescription('For Piwik core devs. Copies processed system tests from travis artifacts to local processed directories');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync, eg "14820".');
+        $this->addOption('expected', 'e', InputOption::VALUE_NONE, 'If given file will be copied in expected directories instead of processed');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -44,7 +45,8 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
     protected function updateCoreFiles(InputInterface $input, OutputInterface $output)
     {
         $buildNumber = $input->getArgument('buildnumber');
-        $targetDir   = PIWIK_INCLUDE_PATH . '/tests/PHPUnit/System/processed';
+        $expected    = $input->getOption('expected');
+        $targetDir   = sprintf(PIWIK_INCLUDE_PATH . '/tests/PHPUnit/System/%s', $expected ? 'expected' : 'processed');
         $tmpDir      = StaticContainer::get('path.tmp') . '/';
 
         $this->validate($buildNumber, $targetDir, $tmpDir);
@@ -77,7 +79,8 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
     protected function updatePluginsFiles(InputInterface $input, OutputInterface $output)
     {
         $buildNumber = $input->getArgument('buildnumber');
-        $targetDir   = PIWIK_INCLUDE_PATH . '/plugins/%s/tests/System/processed/';
+        $expected    = $input->getOption('expected');
+        $targetDir   = sprintf(PIWIK_INCLUDE_PATH . '/plugins/%%s/tests/System/%s/', $expected ? 'expected' : 'processed');
         $tmpDir      = StaticContainer::get('path.tmp') . '/';
 
         if (Common::stringEndsWith($buildNumber, '.1')) {
