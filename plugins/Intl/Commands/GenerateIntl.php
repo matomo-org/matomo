@@ -355,15 +355,17 @@ class GenerateIntl extends ConsoleCommand
             foreach ($cities as $timezone => $city) {
                 try {
                     $zone = new DateTimeZone($timezone);
-                    $location = $zone->getLocation();
-                    if (isset($location['country_code'])) {
-                        // We only need translations for countries with more than one timezone.
-                        $timezonesInCountry = DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $location['country_code']);
-                        if (count($timezonesInCountry) > 1) {
-                            $translations['Intl']['Timezone_' . str_replace(array('_', '/'), array('', '_'), $timezone)] = $city;
-                        }
-                    }
                 } catch (\Exception $e) {
+                    continue;
+                }
+                $location = $zone->getLocation();
+                if (!isset($location['country_code'])) {
+                    continue;
+                }
+                // We only need translations for countries with more than one timezone.
+                $timezonesInCountry = DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $location['country_code']);
+                if (count($timezonesInCountry) > 1) {
+                    $translations['Intl']['Timezone_' . str_replace(array('_', '/'), array('', '_'), $timezone)] = $city;
                 }
             }
         } catch (\Exception $e) {
