@@ -332,8 +332,6 @@ class GenerateIntl extends ConsoleCommand
             $timeZoneData = json_decode($timeZoneData, true);
             $timeZoneData = $timeZoneData['main'][$requestLangCode]['dates']['timeZoneNames'];
 
-            $translations['Intl']['GmtFormat'] = $this->replacePlaceHolder($timeZoneData['gmtFormat']);
-
             $cities = array();
             foreach ($timeZoneData['zone'] as $key1 => $level1) {
                 foreach ($level1 as $key2 => $level2) {

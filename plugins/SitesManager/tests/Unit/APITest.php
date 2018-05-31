@@ -54,11 +54,10 @@ class APITest extends \PHPUnit_Framework_TestCase
             array('America/New_York', 'ru', 'Соединенные Штаты - Нью-Йорк'),
             array('Asia/Foo_Bar', 'en', 'Foo Bar'),
             array('Etc/UTC', 'en', 'UTC'),
-            array('UTC', 'en', 'GMT'),
-            array('UTC+1', 'en', 'GMT+1'),
-            array('UTC+1.5', 'en', 'GMT+1:30'),
-            array('UTC-1.5', 'en', 'GMT-1:30'),
-            array('UTC-1.5', 'am', 'ጂ ኤም ቲ-1:30'),
+            array('UTC', 'en', 'UTC'),
+            array('UTC+1', 'en', 'UTC+1'),
+            array('UTC+1.5', 'en', 'UTC+1:30'),
+            array('UTC-1.5', 'en', 'UTC-1:30'),
         );
     }
 

@@ -26,6 +26,7 @@
         "ExcludedIps": "Excluded IPs",
         "ExcludedParameters": "Excluded Parameters",
         "ExcludedUserAgents": "Excluded User Agents",
+        "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Enter the list of user agents to exclude from being tracked by Matomo.",
         "GlobalExcludedUserAgentHelp2": "You can use this to exclude some bots from being tracked.",
         "GlobalListExcludedIps": "Global list of Excluded IPs",

@@ -1417,7 +1417,7 @@ class API extends \Piwik\Plugin\API
     public function getTimezoneName($timezone, $countryCode = null, $multipleTimezonesInCountry = null)
     {
         if (substr($timezone, 0, 3) === 'UTC') {
-            return Piwik::translate('Intl_GmtFormat', str_replace(array('.25', '.5', '.75'), array(':15', ':30', ':45'), substr($timezone, 3)));
+            return Piwik::translate('SitesManager_Format_Utc', str_replace(array('.25', '.5', '.75'), array(':15', ':30', ':45'), substr($timezone, 3)));
         }
 
         if (!isset($countryCode)) {
