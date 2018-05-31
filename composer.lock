@@ -346,16 +346,16 @@
         },
         {
             "name": "matomo/searchengine-and-social-list",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "70d35969cbd5812f015db251988080c579327814"
+                "reference": "5c29a58c6cab8a78c3e625ffc615e759ef8466d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/70d35969cbd5812f015db251988080c579327814",
-                "reference": "70d35969cbd5812f015db251988080c579327814",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/5c29a58c6cab8a78c3e625ffc615e759ef8466d3",
+                "reference": "5c29a58c6cab8a78c3e625ffc615e759ef8466d3",
                 "shasum": ""
             },
             "replace": {
@@ -367,7 +367,7 @@
                 "CC0-1.0"
             ],
             "description": "Search engine and social network definitions used by Matomo (formerly Piwik)",
-            "time": "2018-02-20T14:04:26+00:00"
+            "time": "2018-05-25T11:09:26+00:00"
         },
         {
             "name": "maxmind-db/reader",
