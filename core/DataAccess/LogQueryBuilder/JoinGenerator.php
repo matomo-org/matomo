@@ -294,7 +294,7 @@ class JoinGenerator
                 return -1;
             }
 
-            return 0;
+            return strcmp($tAName, $tBName);
         }
 
         if (is_array($tA)) {
