@@ -61,7 +61,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it.only("should load dashboard3 correctly", function (done) {
+    it("should load dashboard3 correctly", function (done) {
         expect.screenshot("dashboard3").to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
         }, done);
