@@ -286,11 +286,11 @@ class JoinGenerator
                 $tBName = $tB['table'];
             }
 
-            if ($tBName && isset($tA['joinOn']) && strpos($tA['joinOn'], $tBName) !== false) {
+            if ($tBName && isset($tA['joinOn']) && strpos($tA['joinOn'] . '.', $tBName) !== false) {
                 return 1;
             }
 
-            if ($tAName && isset($tB['joinOn']) && strpos($tB['joinOn'], $tAName) !== false) {
+            if ($tAName && isset($tB['joinOn']) && strpos($tB['joinOn'] . '.', $tAName) !== false) {
                 return -1;
             }
 
@@ -317,14 +317,10 @@ class JoinGenerator
         }
 
         if ($weightA === $weightB) {
-            return 0;
+            return strcmp($tAName, $tBName);
         }
 
-        if ($weightA > $weightB) {
-            return 1;
-        }
-
-        return -1;
+        return $weightA - $weightB;
     }
     
 }
