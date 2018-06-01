@@ -23,9 +23,6 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
-use Piwik\Config as PiwikConfig;
-use Piwik\SettingsPiwik;
-use Piwik\SettingsServer;
 
 /**
  * Fixture for UI tests.
