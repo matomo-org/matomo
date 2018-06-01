@@ -248,7 +248,7 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
                 array (
                     'table' => 'log_action',
                     'tableAlias' => 'log_action_visit_exit_idaction_name',
-                    'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
+                    'joinOn' => 'log_link_visit_action.idaction_name = log_action_visit_exit_idaction_name.idaction',
                 ),
         )
         ;
@@ -266,7 +266,7 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
             array (
                 'table' => 'log_action',
                 'tableAlias' => 'log_action_visit_exit_idaction_name',
-                'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
+                'joinOn' => 'log_link_visit_action.idaction_name = log_action_visit_exit_idaction_name.idaction',
             ),
         );
 
