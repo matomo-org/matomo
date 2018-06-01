@@ -162,7 +162,7 @@ class TestsSetupFixture extends ConsoleCommand
                 // setting symlink might fail when the symlink already exists but pointing to a no longer existing path/file
                 // eg when sometimes running it on a VM and sometimes on the VM's host itself.
                 if (!$success) {
-                    unlink($target);
+                    unlink($linkPath);
                     symlink($target, $linkPath);
                 }
             }
