@@ -14,9 +14,13 @@ var fs = require('fs'),
 var walk = function (dir, pattern, result) {
     result = result || [];
 
-    fs.list(dir).forEach(function (item) {
-        if (item == '.'
-            || item == '..'
+    if (!fs.isDirectory(dir)) {
+        return result;
+    }
+
+    fs.readdirSync(dir).forEach(function (item) {
+        if (item === '.'
+            || item === '..'
         ) {
             return;
         }
@@ -71,7 +75,7 @@ Application.prototype.printHelpAndExit = function () {
     console.log("  --second-half:            Only execute second half of all the test suites. Will be only applied if no")
     console.log("                            specific plugin or test-files requested");
 
-    phantom.exit(0);
+    process.exit(0);
 };
 
 Application.prototype.init = function () {
@@ -96,7 +100,7 @@ Application.prototype.loadTestModules = function () {
         pluginDir = path.join(PIWIK_INCLUDE_PATH, 'plugins');
 
     // find all installed plugins
-    var plugins = fs.list(pluginDir).map(function (item) {
+    var plugins = fs.readdirSync(pluginDir).map(function (item) {
         return path.join(pluginDir, item);
     }).filter(function (path) {
         return fs.isDirectory(path) && !path.match(/\/\.*$/);
@@ -171,7 +175,7 @@ Application.prototype.loadTestModules = function () {
             }
 
             // remove existing diffs
-            fs.list(suite.diffDir).forEach(function (item) {
+            fs.readdirSync(suite.diffDir).forEach(function (item) {
                 var file = path.join(suite.diffDir, item);
                 if (fs.exists(file)
                     && item.slice(-4) == '.png'
@@ -203,7 +207,7 @@ Application.prototype.loadTestModules = function () {
     });
 };
 
-Application.prototype.runTests = function () {
+Application.prototype.runTests = function (mocha) {
     var self = this;
 
     // make sure all necessary directories exist (symlinks handled by PHP since phantomjs can't create any)
@@ -217,10 +221,10 @@ Application.prototype.runTests = function () {
         }
     });
 
-    this.doRunTests();
+    this.doRunTests(mocha);
 };
 
-Application.prototype.doRunTests = function () {
+Application.prototype.doRunTests = function (mocha) {
     var self = this;
 
     testEnvironment.reload();
@@ -256,12 +260,12 @@ Application.prototype.doRunTests = function () {
 };
 
 Application.prototype.finish = function () {
-    phantom.exit(this.runner ? this.runner.failures : -1);
+    process.exit(this.runner ? this.runner.failures : -1);
 };
 
 Application.prototype.appendMissingExpected = function (screenName) {
     var missingExpectedFilePath = path.join(this.diffviewerDir, 'missing-expected.list');
-    fs.write(missingExpectedFilePath, screenName + "\n", "a");
+    fs.appendFileSync(missingExpectedFilePath, screenName + "\n");
 };
 
 exports.Application = new Application();
