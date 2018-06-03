@@ -14,10 +14,11 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     var url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1";
 
-    it("should load correctly", function (done) {
-        expect.screenshot("0_initial").to.be.capture(function (page) {
-            page.load(url);
-        }, done);
+    it.only("should load correctly", async function () {
+        await page.goto(url);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('0_initial');
+
+        // TODO: on test failure, print details
     });
 
     it("should load all columns when all columns clicked", function (done) {

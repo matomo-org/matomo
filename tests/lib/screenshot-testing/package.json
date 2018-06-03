@@ -1,0 +1,15 @@
+{
+  "name": "matomo-screenshot-testing",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Matomo Team",
+  "license": "GPL-3.0+",
+  "dependencies": {
+    "canvas-prebuilt": "^1.6.5-prerelease.1",
+    "chai": "^4.1.2",
+    "chai-image-assert": "^1.2.0",
+    "mocha": "^5.2.0",
+    "puppeteer": "^1.4.0",
+    "resemblejs": "^2.10.3"
+  }
+}
