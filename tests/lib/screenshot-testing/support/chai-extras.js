@@ -8,6 +8,7 @@
  */
 
 var fs = require('fs'),
+    fsExtra = require('fs-extra'),
     path = require('path'),
     chai = require('chai'),
     AssertionError = chai.AssertionError;
@@ -175,7 +176,7 @@ function getProcessedFilePath(fileName) {
     var processedScreenshotDir = path.join(pathToUITests, config.processedScreenshotsDir);
 
     if (!fs.isDirectory(processedScreenshotDir)) {
-        fs.makeTree(processedScreenshotDir);
+        fsExtra.mkdirsSync(processedScreenshotDir);
     }
     fileName = assumeFileIsImageIfNotSpecified(fileName);
 
