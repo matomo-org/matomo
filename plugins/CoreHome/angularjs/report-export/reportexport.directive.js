@@ -27,7 +27,9 @@
 
                 var popoverParamBackup;
 
-                scope.processExport = function() {
+                scope.showUrl = false;
+
+                scope.getExportLink = function() {
 
                     var dataTable = scope.dataTable;
                     var format    = scope.reportFormat;
@@ -159,7 +161,12 @@
                     exportUrlParams.token_auth = piwik.token_auth;
                     exportUrlParams.filter_limit = limit;
 
-                    window.open('index.php?' + $httpParamSerializerJQLike(exportUrlParams));
+                    var currentUrl = $location.absUrl();
+                    var urlParts = currentUrl.split('/');
+                    urlParts.pop();
+                    var url = urlParts.join('/');
+
+                    return url + '/index.php?' + $httpParamSerializerJQLike(exportUrlParams);
                 };
 
                 element.on('click', function () {
