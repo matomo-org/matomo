@@ -119,20 +119,14 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
             chai.assert(!isCommandNotFound(result),
                 `the '${comparisonCommand}' command was not found, ('compare' is provided by imagemagick)`);
 
-            if (result.status !== 0) {
-                return false;
-            }
-
             const allOutput = result.stdout.toString() + result.stderr.toString();
             const pixelError = parseInt(allOutput);
+
             chai.assert(!isNaN(pixelError),
                 `the '${comparisonCommand}' command output could not be parsed, should be` +
                 ` an integer, got: ${allOutput}`);
 
-            const isSame = pixelError === 0;
-            if (isSame) {
-                return isSame;
-            }
+            return result.status === 0;
 
             if (comparisonThreshold) {
                 // TODO: comparisonThreshold not implemented
@@ -150,8 +144,6 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
                 });
                 */
             }
-
-            return isSame;
         }
     };
 };
