@@ -31,6 +31,7 @@
         "GeoIPCannotFindMbstringExtension": "%1$s ファンクションが見つかりません。 %2$s 拡張モジュールがインストールされロードされている事をご確認ください。",
         "GeoIPDatabases": "GeoIP データベース",
         "GeoIPDocumentationSuffix": "このレポートのデータを確認するために、位置情報探索 (ジオロケーション) 管理タブの GeoIP をセットアップする必要があります。商用 %1$sMaxmind%2$s GeoIP データベースは、無償のデータベースより正確です。その精度を確認するには、 %3$shere%4$s をクリックしてください。",
+        "GeoIPNoDatabaseFound": "この GeoIP 実装は、データベースを見つけることができませんでした。",
         "GeoIPImplHasAccessTo": "この GeoIP 実装は、次の種類のデータベースへのアクセスを含みます。",
         "GeoIPIncorrectDatabaseFormat": "ご利用の GeoIP データベースは、壊れている可能性があり、正しいフォーマットを持っていないようです。バイナリバージョンを使用し、別のコピーへ交換してください。",
         "GeoIpLocationProviderDesc_Pecl1": "正確に効率的にビジターの位置を決定するため、この位置情報プロバイダーは、GeoIP データベースと PECL モジュールを使用します。",

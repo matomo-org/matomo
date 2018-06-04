@@ -30,7 +30,7 @@
         "Socials": "Các mạng xã hội",
         "SocialsReportDocumentation": "Báo cáo này cho thấy những mạng xã hội dẫn khách truy cập vào trang web của bạn.<br\/> bằng cách click trên một hàng trong bảng, bạn có thể thấy các trang mạng xã hội đã đến website của bạn.",
         "SubmenuSearchEngines": "Các công cụ tìm kiếm và từ khóa",
-        "SubmenuWebsites": "Các Website và xã hội",
+        "SubmenuWebsitesOnly": "Websites",
         "Type": "Kiểu Referrer",
         "TypeCampaigns": "%s từ các chiến dịch",
         "TypeDirectEntries": "%s các mục trực tiếp",

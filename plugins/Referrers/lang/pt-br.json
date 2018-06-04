@@ -32,7 +32,7 @@
         "Socials": "Redes Sociais",
         "SocialsReportDocumentation": "Este relatório mostra quais as redes sociais levaram visitantes ao seu site. <br \/> Ao clicar em uma linha na tabela, você pode ver de quais páginas os visitantes de redes sociais vieram para o seu site.",
         "SubmenuSearchEngines": "Motores de Busca & Palavras-Chave",
-        "SubmenuWebsites": "Websites & Social",
+        "SubmenuWebsitesOnly": "Websites",
         "Type": "Tipo de Referenciador",
         "TypeCampaigns": "%s de campanhas",
         "TypeDirectEntries": "%s entradas diretas",

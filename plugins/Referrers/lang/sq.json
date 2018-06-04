@@ -36,7 +36,7 @@
         "Socials": "Rrjete Shoqërore",
         "SocialsReportDocumentation": "Ky raport shfaq rrjetet shoqërore që prunë vizitorë te sajti juaj.<br \/>Duke klikuar mbi një rresht të tabelës, mund të shihni se prej cilave faqe të rrjetit shoqëror erdhën vizitorët te sajti juaj.",
         "SubmenuSearchEngines": "Motorë kërkimi & fjalëkyçe",
-        "SubmenuWebsites": "Sajte & Shoqërore",
+        "SubmenuWebsitesOnly": "Sajte",
         "Type": "Lloj Sjellësi",
         "TypeCampaigns": "%s prej fushatash",
         "TypeDirectEntries": "%s zëra të drejtpërdrejtë",
@@ -53,6 +53,7 @@
         "WidgetGetAll": "Krejt Sjellësit",
         "WidgetSocials": "Listë rrjetesh shoqërore",
         "WidgetTopKeywordsForPages": "Fjalëkyçe Kryesuese për URL Faqesh",
-        "XPercentOfVisits": "%s e vizitave"
+        "XPercentOfVisits": "%s e vizitave",
+        "Acquisition": "Blerje"
     }
 }
