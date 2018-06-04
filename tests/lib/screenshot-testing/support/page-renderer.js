@@ -8,6 +8,7 @@
  */
 
 const urlModule = require('url');
+const util = require('util');
 const { EventEmitter } = require('events');
 
 const parseUrl = urlModule.parse,
@@ -146,6 +147,8 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
 });
 
 PageRenderer.prototype.waitForNetworkIdle = async function () {
+    await new Promise(resolve => setTimeout(resolve, AJAX_IDLE_THRESHOLD));
+
     while (this.activeRequestCount > 0) {
         await new Promise(resolve => setTimeout(resolve, AJAX_IDLE_THRESHOLD));
     }
