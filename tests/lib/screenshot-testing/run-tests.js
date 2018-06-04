@@ -42,7 +42,8 @@ async function main() {
         ui: 'bdd',
         reporter: config.reporter,
         bail: false,
-        useColors: true
+        useColors: true,
+        timeout: 240000, // TODO: make configurable via CLI
     });
 
     const imageAssert = require('./support/chai-extras');
@@ -58,15 +59,33 @@ async function main() {
         },
         errorType: 'movement',
         transparency: 0.3,
-        largeImageThreshold: 20000
+        largeImageThreshold: 20000,
     });
+
+    // TODO: implement load timeout? not sure if it's needed.
+    /* TODO: timeout should be global mocha timeout
+    timeout = setTimeout(function () {
+        var timeoutDetails = "";
+        timeoutDetails += "Page is loading: " + self._isLoading + "\n";
+        timeoutDetails += "Initializing: " + self._isInitializing + "\n";
+        timeoutDetails += "Navigation requested: " + self._isNavigationRequested + "\n";
+        timeoutDetails += "Pending AJAX request count: " + self._getAjaxRequestCount() + "\n";
+        timeoutDetails += "Loading images count: " + self._getImageLoadingCount() + "\n";
+        timeoutDetails += "Remaining resources: " + JSON.stringify(self._resourcesRequested) + "\n";
+
+        self.abort();
+
+        callback(new Error("Screenshot load timeout. Details:\n" + timeoutDetails));
+    }, 240 * 1000);
+    */
 
     // run script
     if (options['help']) {
         app.printHelpAndExit();
     }
 
-    // TODO: note about why doing this
+    // the mocha-super-suite imports the individual specs. kept for expedience when converting to chromium
+    // headless.
     mocha.addFile(path.join(__dirname, 'mocha-super-suite.js'));
 
     app.runTests(mocha)

@@ -13,6 +13,7 @@ const { EventEmitter } = require('events');
 const parseUrl = urlModule.parse,
     formatUrl = urlModule.format;
 
+const AJAX_IDLE_THRESHOLD = 500; // same as networkIdle event
 const VERBOSE = false;
 const PAGE_METHODS_TO_PROXY = [
     '$',
@@ -36,10 +37,8 @@ const PAGE_METHODS_TO_PROXY = [
     'goForward',
     'goto',
     'hover',
-    'keyboard',
     'mainFrame',
     'metrics',
-    'mouse',
     'queryObjects',
     'reload',
     'screenshot',
@@ -62,14 +61,23 @@ const PAGE_METHODS_TO_PROXY = [
     'waitForXPath',
 ];
 
+const PAGE_PROPERTIES_TO_PROXY = [
+    'mouse',
+    'keyboard',
+    'touchscreen',
+];
+
 const AUTO_WAIT_METHODS = {
+    'goBack': true,
+    'goForward': true,
     'goto': true,
-    // TODO
+    'reload': true,
 };
 
 var PageRenderer = function (baseUrl, page) {
     this.webpage = page;
 
+    this.selectorMarkerClass = 0;
     this.pageLogs = [];
     this.baseUrl = baseUrl;
     this.lifeCycleEventEmitter = new EventEmitter();
@@ -78,6 +86,13 @@ var PageRenderer = function (baseUrl, page) {
     if (this.baseUrl.substring(-1) !== '/') {
         this.baseUrl = this.baseUrl + '/';
     }
+
+    PAGE_PROPERTIES_TO_PROXY.forEach((propertyName) => {
+        Object.defineProperty(this, propertyName, {
+            value: page[propertyName],
+            writable: false,
+        });
+    });
 
     this.webpage.setViewport({
         width: 1350,
@@ -88,6 +103,24 @@ var PageRenderer = function (baseUrl, page) {
 
 PageRenderer.prototype._reset = function () {
     this.pageLogs = [];
+};
+
+PageRenderer.prototype.isVisible = function (selector) {
+    return this.webpage.evaluate(() => {
+        return $(selector).is(':visible');
+    });
+};
+
+PageRenderer.prototype.jQuery = function (selector) {
+    const selectorMarkerClass = '__selector_marker_' + this.selectorMarkerClass;
+
+    ++this.selectorMarkerClass;
+
+    return this.webpage.evaluate((selectorMarkerClass, s) => {
+        $(s).addClass(selectorMarkerClass);
+    }, selectorMarkerClass, selector).then(() => {
+        return this.webpage.$('.' + selectorMarkerClass);
+    });
 };
 
 PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
@@ -103,8 +136,8 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
         let result = this.webpage[methodName](...args);
 
         if (result && result.then && AUTO_WAIT_METHODS[methodName]) {
-            result = result.then(() => {
-                return this.waitForNetworkIdle();
+            result = result.then((value) => {
+                return this.waitForNetworkIdle().then(() => value);
             });
         }
 
@@ -112,47 +145,11 @@ PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
     };
 });
 
-PageRenderer.prototype.waitForNetworkIdle = function () {
-    return new Promise(resolve => {
-        var self = this;
-
-        if (!this.activeRequestCount) {
-            resolve();
-            return;
-        }
-
-        this.lifeCycleEventEmitter.on('lifecycleEvent', _onLifecycleEvent);
-
-        function _onLifecycleEvent(event) {
-            if (event.frameId === self.webpage.mainFrame()._id
-                && event.name === 'networkIdle'
-            ) {
-                resolve();
-                self.lifeCycleEventEmitter.removeListener('lifecycleEvent', _onLifecycleEvent);
-            }
-        }
-    });
+PageRenderer.prototype.waitForNetworkIdle = async function () {
+    while (this.activeRequestCount > 0) {
+        await new Promise(resolve => setTimeout(resolve, AJAX_IDLE_THRESHOLD));
+    }
 };
-
-// TODO: implement load timeout?
-/* TODO: timeout should be global mocha timeout
-timeout = setTimeout(function () {
-    var timeoutDetails = "";
-    timeoutDetails += "Page is loading: " + self._isLoading + "\n";
-    timeoutDetails += "Initializing: " + self._isInitializing + "\n";
-    timeoutDetails += "Navigation requested: " + self._isNavigationRequested + "\n";
-    timeoutDetails += "Pending AJAX request count: " + self._getAjaxRequestCount() + "\n";
-    timeoutDetails += "Loading images count: " + self._getImageLoadingCount() + "\n";
-    timeoutDetails += "Remaining resources: " + JSON.stringify(self._resourcesRequested) + "\n";
-
-    self.abort();
-
-    callback(new Error("Screenshot load timeout. Details:\n" + timeoutDetails));
-}, 240 * 1000);
-*/
-
-// TODO: for capture() take screenshot & spit out the page logs
-
 
 PageRenderer.prototype._isUrlThatWeCareAbout = function (url) {
     return -1 === url.indexOf('proxy/misc/user/favicon.png?r=') && -1 === url.indexOf('proxy/misc/user/logo.png?r=');
