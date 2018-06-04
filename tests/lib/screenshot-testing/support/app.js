@@ -8,8 +8,8 @@
  */
 
 var fs = require('fs'),
-    path = require('./path'),
-    DiffViewerGenerator = require('./diff-viewer').DiffViewerGenerator
+    fsExtra = require('fs-extra'),
+    path = require('./path');
 
 var walk = function (dir, pattern, result) {
     result = result || [];
@@ -47,7 +47,6 @@ var Application = function () {
     this.runner = null;
 
     this.diffviewerDir = path.join(PIWIK_INCLUDE_PATH, 'tests/UI', config.screenshotDiffDir);
-    this.diffViewerGenerator = new DiffViewerGenerator(this.diffviewerDir);
 };
 
 Application.prototype.printHelpAndExit = function () {
@@ -208,8 +207,6 @@ Application.prototype.loadTestModules = function () {
 };
 
 Application.prototype.runTests = function (mocha) {
-    var self = this;
-
     // make sure all necessary directories exist (symlinks handled by PHP since phantomjs can't create any)
     var dirsToCreate = [
         path.join(PIWIK_INCLUDE_PATH, 'tmp/sessions')
@@ -217,7 +214,7 @@ Application.prototype.runTests = function (mocha) {
 
     dirsToCreate.forEach(function (path) {
         if (!fs.isDirectory(path)) {
-            fs.makeTree(path);
+            fsExtra.mkdirsSync(path);
         }
     });
 
@@ -225,35 +222,33 @@ Application.prototype.runTests = function (mocha) {
 };
 
 Application.prototype.doRunTests = function (mocha) {
-    var self = this;
-
     testEnvironment.reload();
 
     // run tests
-    this.runner = mocha.run(function () {
+    this.runner = mocha.run(function (failures) {
         // remove symlinks
         if (!options['keep-symlinks']) {
             var symlinks = ['libs', 'plugins', 'tests', 'misc', 'piwik.js', 'matomo.js'];
 
             symlinks.forEach(function (item) {
                 var file = path.join(uiTestsDir, '..', 'PHPUnit', 'proxy', item);
-                if (fs.exists(file)) {
-                    fs.remove(file);
+                if (fs.existsSync(file)) {
+                    fs.unlinkSync(file);
                 }
             });
         }
 
-        // build diffviewer
-        self.diffViewerGenerator.generate(function () {
-            self.finish();
-        });
+        process.exit(failures);
+    });
+
+    this.runner.on('test', function () {
+        page._reset();
     });
 
     this.runner.on('fail', function(test, err) {
         var indent = "     ";
 
-        var message = "\n";
-        message += err && err.stack ? err.stack : err;
+        var message = err && err.stack ? err.stack : err;
         message = message.replace(/\n/g, "\n" + indent);
         console.log(indent + message + "\n\n");
     });

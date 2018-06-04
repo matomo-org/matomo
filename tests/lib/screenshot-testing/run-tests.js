@@ -13,6 +13,7 @@ const path = require('path');
 const puppeteer = require('puppeteer');
 const setUpGlobals = require('./support/globals.js');
 const Mocha = require('mocha');
+const chai = require('chai');
 const resemble = require('resemblejs');
 require('./support/fs-extras');
 
@@ -44,7 +45,8 @@ async function main() {
         useColors: true
     });
 
-    require('./support/chai-extras');
+    const imageAssert = require('./support/chai-extras');
+    chai.use(imageAssert());
 
     // TODO: outputSettings is deprecated, should use in chai
     resemble.outputSettings({
