@@ -8,8 +8,6 @@
  */
 
 describe("BarGraph", function () {
-    this.timeout(0);
-
     var tokenAuth = "9ad1de7f8b329ab919d854c556f860c1", // md5('superUserLogin' . md5('superUserPass'))
         url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=graphVerticalBar&isFooterExpandedInDashboard=1&"
@@ -21,21 +19,21 @@ describe("BarGraph", function () {
         testEnvironment.save();
     });
 
-    it("should load correctly", function (done) {
-        expect.screenshot("load").to.be.capture(function (page) {
-            page.load(url);
-        }, done);
+    it("should load correctly", async function () {
+        await page.goto(url);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('load');
     });
 
-    it("should display the metric picker on hover of metric picker icon", function (done) {
-        expect.screenshot('metric_picker_shown').to.be.capture(function (page) {
-            page.mouseMove('.jqplot-seriespicker');
-        }, done);
+    it("should display the metric picker on hover of metric picker icon", async function () {
+        await page.hover('.jqplot-seriespicker');
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('metric_picker_shown');
     });
 
-    it("should display multiple metrics when another metric picked", function (done) {
-        expect.screenshot('other_metric').to.be.capture(function (page) {
-            page.click('.jqplot-seriespicker-popover input:not(:checked):first + label');
-        }, done);
+    it("should display multiple metrics when another metric picked", async function () {
+        const element = await page.jQuery('.jqplot-seriespicker-popover input:not(:checked):first + label');
+        await element.click();
+        await page.waitForNetworkIdle();
+        await page.waitFor(500);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('other_metric');
     });
 });

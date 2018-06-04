@@ -67,7 +67,7 @@ const PAGE_PROPERTIES_TO_PROXY = [
     'touchscreen',
 ];
 
-const AUTO_WAIT_METHODS = {
+const AUTO_WAIT_METHODS = {// TODO: remove this to keep it consistent?
     'goBack': true,
     'goForward': true,
     'goto': true,
