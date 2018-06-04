@@ -10,7 +10,6 @@
         "TopLinkTooltip": "Pristupite analitičkim podacima iz vašeg programa pomoću jednostavnog API-ja u json-u, xml-u itd.",
         "UserAuthentication": "Autentifikacija korisnika",
         "UsingTokenAuth": "Ukoliko želite da %1$s dođete do podataka putem skripta, crontaba i slično %2$s potrebno je da dodate parametar %3$s API pozivima.",
-        "Glossary": "Rečnik",
-        "LearnAboutCommonlyUsedTerms": "Naučite najčešće koišćene termine kako biste izvukli maksimum iz Matomo analitike: %1$s i %2$s."
+        "Glossary": "Rečnik"
     }
 }

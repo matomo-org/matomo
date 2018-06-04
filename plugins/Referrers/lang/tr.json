@@ -36,7 +36,7 @@
         "Socials": "Sosyal Ağlar",
         "SocialsReportDocumentation": "Bu rapor ziyaretçileri web sitenize yönlendiren sosyal ağları görüntüler. <br \/> Tablodaki bir satıra tıklayarak kullanıcıların sosyal ağ sayfalarına göre dağılımını görebilirsiniz.",
         "SubmenuSearchEngines": "Arama Motorları ve Anahtar Sözcükler",
-        "SubmenuWebsites": "Web Siteleri ve Sosyal Ağ",
+        "SubmenuWebsitesOnly": "Web siteleri",
         "Type": "Yönlendiren Türü",
         "TypeCampaigns": "kampanyalardan %s",
         "TypeDirectEntries": "doğrudan girişler %s",
@@ -53,6 +53,7 @@
         "WidgetGetAll": "Tüm Web Siteleri",
         "WidgetSocials": "Tüm sosyal ağlar",
         "WidgetTopKeywordsForPages": "Sayfa Adresi için Çok Kullanılan Anahtar Sözcükler",
-        "XPercentOfVisits": "ziyaretlerde %s"
+        "XPercentOfVisits": "ziyaretlerde %s",
+        "Acquisition": "Veri Toplama"
     }
 }

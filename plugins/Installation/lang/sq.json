@@ -149,6 +149,7 @@
         "WelcomeHelp": "<p>Matomou është një program analizash web, me burim të hapët, që e bën të lehtë të kihen të dhëna që dëshironi rreth vizitorëve tuaj.<\/p><p>Ky proces është ndarë në %s hapa të kollajtë dhe do të zgjasë rreth 5 minuta.<\/p>",
         "WelcomeToCommunity": "Mirë se vini te bashkësia Matomo!",
         "CannotConnectToDb": "S’lidhet dot me bazën e të dhënave",
-        "CannotConnectToDbResolvingExplanation": "Ky mund të jetë problem i përkohshëm, provoni %1$stë rifreskoni faqen%2$s. Nëse problemi vazhdon, ju lutemi lidhuni me përgjegjësin e Matomo-s tuaj."
+        "CannotConnectToDbResolvingExplanation": "Ky mund të jetë problem i përkohshëm, provoni %1$stë rifreskoni faqen%2$s. Nëse problemi vazhdon, ju lutemi lidhuni me përgjegjësin e Matomo-s tuaj.",
+        "EmailPrivacyNotice": "Adresa juaj email do të përdoret vetëm për t’ju dërguar buletinin e Matomo-s. Mund të shpajtoheni kur të doni, duke klikuar mbi lidhjen e shpajtimit. Nuk do t’i japim kujt email-in tuaj, apo ta përdorim email-in tuaj për qëllime të tjera veç dërgimit të buletinit Matomo. Ju lutemi, për më tepër hollësi, shihni %1$srregullat tona mbi privatësinë%2$s."
     }
 }

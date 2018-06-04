@@ -1,5 +1,7 @@
 {
     "PrivacyManager": {
+        "AnonymizeData": "データの匿名化",
+        "AnonymizeIpDescription": "Matomoが完全なIPアドレスを追跡しないようにする場合、有効にしてください。",
         "AnonymizeIpInlineHelp": "ローカルプライバシー規則やガイドラインに応じて、ビジターの IP アドレスの最終バイトを匿名化します。",
         "AnonymizeIpExtendedHelp": "ユーザーがウェブサイトを訪れるとき、Matomo は ( %1$s のような ) 完全な IP アドレスを使用しませんが、代わりに最初に匿名化します ( %2$s まで ) 。IP アドレスの匿名化はドイツを含むいくつかの国においてプライバシー法によって設定されている条件の中の１つです。",
         "AnonymizeIpMaskLengtDescription": "ビジターの IP アドレスから何バイトマスクするか選択してください。",
@@ -33,6 +35,7 @@
         "EstimatedDBSizeAfterPurge": "削除後の推定データベースサイズ",
         "EstimatedSpaceSaved": "確保される推定容量",
         "GeolocationAnonymizeIpNote": "注）位置情報探索機能は、匿名化された 1 byte の場合とほぼ同じ結果になります。2 byte 以上を使用すると、位置情報探索機能が不正確になります。",
+        "GDPR": "GDPR",
         "GetPurgeEstimate": "パージ推定値を取得",
         "KeepBasicMetrics": "基本のメトリックスを保持（ ビジット、ページビュー、直帰率、目標コンバージョン、e コマースコンバージョン等 ）",
         "KeepDataFor": "すべてのデータを保持",
@@ -49,10 +52,18 @@
         "ReportsDataSavedEstimate": "データベースサイズ",
         "SaveSettingsBeforePurge": "データ削除設定を変更しました。削除が開始される前に保存してください。",
         "SeeAlsoOurOfficialGuidePrivacy": "私達のオフィシャルガイドもご確認ください。%1$sWeb Analytics Privacy%2$s",
+        "TeaserHeader": "このページでは、%1$s ビジターIPの匿名化%2$s、%3$s ビジターログのデータベースからの自動削除%4$s、 %5$s 以前に追跡された生データの匿名化%6$sによって、既存の法律に準拠したプライバシーを実現するようMatomoをカスタマイズできます。",
         "TeaserHeadline": "プライバシー設定",
         "UseAnonymizedIpForVisitEnrichment": "ビジット数を増やす場合は、匿名化された IP アドレスもご利用ください。",
         "UseAnonymizedIpForVisitEnrichmentNote": "IP およびプロバイダー経由の位置情報探索機能のようなプラグインは、ビジターのメタデータを修正します。デフォルトでは、このようなプラグインは匿名 IP アドレスを使用します。'No' を選ぶと、非匿名の完全な IP アドレスが代わりに使用されます。この場合、データの正確性は向上しますがプライバシーは多少劣ります。",
-        "UseAnonymizeIp": "匿名の訪問者の IP アドレス",
+        "PseudonymizeUserIdNote": "このオプションを有効にすると、Eメールアドレスなどの個人識別可能な情報を直接格納して表示しないようにするために、ユーザーIDは仮名に置き換えられます。技術的には、ユーザーIDが与えられたとき、、Matomoはソルト化ハッシュ関数を使用してユーザーIDを仮名に処理します。",
+        "PseudonymizeUserIdNote2": "注：仮名に置き換えることは、匿名化と同じではありません。 GDPRでは、仮名化されたユーザーIDは依然として個人データとみなされます。 特定の追加情報が利用可能な場合、元のユーザーIDを特定することができます。（必要な追加情報にはMatomoとおあなたのデータプロセッサのみがアクセス可能です）",
+        "AnonymizeOrderIdNote": "オーダーIDは別のシステム（通常はeコマースショップ）と相互参照することができるため、GDPRの下で個人情報としてカウントされることがあります。このオプションを有効にすると、オーダーIDは自動的に匿名化され、個人情報は追跡されません。",
+        "UseAnonymizeIp": "訪問者 IP アドレスの匿名化",
+        "UseAnonymizeTrackingData": "トラッキングデータを匿名化",
+        "UseAnonymizeUserId": "ユーザーIDを匿名化",
+        "PseudonymizeUserId": "ユーザーIDを仮名に置き換える",
+        "UseAnonymizeOrderId": "オーダーIDを匿名化",
         "UseDeleteLog": "定期的にデータベースから古いビジターのログを削除する",
         "UseDeleteReports": "定期的にデータベースから古いリポートを削除"
     }

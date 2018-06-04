@@ -35,7 +35,7 @@
         "Socials": "ソーシャルネットワーク",
         "SocialsReportDocumentation": "このレポートでは、ビジターがサイト訪問時に経由したソーシャルネットワークを表示します。<br\/> 表の列をクリックして、ビジターが経由したソーシャルネットワークページを確認してください。",
         "SubmenuSearchEngines": "検索エンジンとキーワード",
-        "SubmenuWebsites": "ウェブサイト",
+        "SubmenuWebsitesOnly": "ウェブサイト",
         "Type": "リファラータイプ",
         "TypeCampaigns": "%s キャンペーン経由",
         "TypeDirectEntries": "%s 直接アクセス",
@@ -52,6 +52,7 @@
         "WidgetGetAll": "全リファラー",
         "WidgetSocials": "ソーシャルネットワークのリスト",
         "WidgetTopKeywordsForPages": "ページ URL のトップキーワード",
-        "XPercentOfVisits": "訪問の %s"
+        "XPercentOfVisits": "訪問の %s",
+        "Acquisition": "集客"
     }
 }

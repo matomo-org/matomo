@@ -1,9 +1,11 @@
 {
     "PrivacyManager": {
+        "AnonymizeIpDescription": "Selecione \"Sim\" se você quer que o Matomo não rastreie os endereços de IP totalmente qualificados.",
         "AnonymizeIpInlineHelp": "Anonimize o último byte do endereço IP dos visitantes para obedecer suas leis\/guias locais de privacidade.",
         "AnonymizeIpExtendedHelp": "Quando usuários visitarem o seu site, Matomo não vai usar o endereço de IP completo (como %1$s), pelo contrário, Matomo vai anonimizá-los primeiro (para %2$s). Anonimização de endereço de IP é um dos requisitos estabelecidos pelas leis de privacidade em alguns países como a Alemanha.",
         "AnonymizeIpMaskLengtDescription": "Selecione quantos bytes de IPs dos visitantes deve ser mascarado.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - e.g. %2$s",
+        "CannotLockSoDeleteLogActions": "A tabela log_action não será purgada: por favor, conceder o privilégio LOCK TABLES para o usuário MySQL '%s'.",
         "ClickHereSettings": "Clique aqui para acessar as configurações do %s.",
         "CurrentDBSize": "Tamanho atual do banco de dados",
         "DBPurged": "DB purgado.",
@@ -32,6 +34,8 @@
         "EstimatedDBSizeAfterPurge": "Tamanho do banco estimado após purge",
         "EstimatedSpaceSaved": "Espaço estimado salvo",
         "GeolocationAnonymizeIpNote": "Nota: Geolocation terá aproximadamente os mesmos resultados com um byte anónimos. Com dois bytes ou mais, Geolocation será impreciso.",
+        "GDPR": "GDPR",
+        "GdprManager": "Gerenciar GDPR",
         "GetPurgeEstimate": "Obter estimativa de purge",
         "KeepBasicMetrics": "Mantenha métricas básicas (visitas, exibições de página, taxa de rejeição, conversões de meta, conversões de comércio eletrônico, etc)",
         "KeepDataFor": "Manter todos os dados para",

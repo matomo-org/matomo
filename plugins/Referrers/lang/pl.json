@@ -20,6 +20,7 @@
         "EvolutionDocumentationMoreInfo": "Więcej informacji o różnych typach odnośników znajdziesz w tabeli %s na stronie dokumentacji.",
         "Keywords": "Słowa kluczowe",
         "KeywordsReportDocumentation": "Raport pokazuje słowa kluczowe wyszukiwane przez użytkowników zanim trafili oni do Twojego serwisu. %s Kliknij na rząd w tabeli, aby zobaczyć podział na wyszukiwarki, w których znaleziono dane słowa kluczowe.",
+        "KeywordsReportDocumentationNote": "UWAGA: Ten raport zawiera większość niezdefiniowanych słów kluczowych, ponieważ większość wyszukiwarek nie przekazuje informacji o wyszukiwanych frazach.",
         "PluginDescription": "Zawiera następujące informacje o Odnośnikach: Wyszukiwarki, Słowa kluczowe, Serwisy, Kampanie, Media społecznościowe, Wejścia bezpośrednie.",
         "Referrer": "Odnośnik",
         "ReferrerName": "Nazwa odnośnika",
@@ -35,7 +36,7 @@
         "Socials": "Sieci społecznościowe",
         "SocialsReportDocumentation": "Ten raport pokazuje, które sieci społecznościowe prowadzą do Twojego serwisu. <br \/>Klikając na rząd w tabeli, możesz sprawdzić, z której strony sieci społecznościowej odwiedzający trafili do Ciebie.",
         "SubmenuSearchEngines": "Wyszukiwarki i słowa kluczowe",
-        "SubmenuWebsites": "Strony i sieci społecznościowe",
+        "SubmenuWebsitesOnly": "Serwisy internetowe",
         "Type": "Typ odsyłacza",
         "TypeCampaigns": "%s z kampanii",
         "TypeDirectEntries": "%s bezpośrednich wejść",
@@ -52,6 +53,7 @@
         "WidgetGetAll": "Wszystkie odnośniki",
         "WidgetSocials": "Lista sieci społecznościowych",
         "WidgetTopKeywordsForPages": "Najpopularniejsze słowa kluczowe dla tej strony",
-        "XPercentOfVisits": "%s wizyt"
+        "XPercentOfVisits": "%s wizyt",
+        "Acquisition": "Pozyskanie"
     }
 }
