@@ -23,7 +23,7 @@ const { spawnSync } = require('child_process');
  * chai.use(require('chai-image-assert')(baseFilePath));
  *
  */
-function makeChaiImageAssert(comparisonCommand = 'compare') {
+module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
     return function chaiImageAssert(chai, utils) {
         chai.Assertion.addMethod('matchImage', matchImage);
 
@@ -57,22 +57,51 @@ function makeChaiImageAssert(comparisonCommand = 'compare') {
             const imageBuffer = this._obj;
 
             chai.assert.instanceOf(imageBuffer, Buffer);
-
             fs.writeFileSync(processedPath, imageBuffer);
 
-            if (!fs.isFile(expectedPath)) {
-                app.appendMissingExpected(imageName);
-                chai.assert(false, `expected file at '${expectedPath}' does not exist`);
-                return;
+            try {
+                if (!fs.isFile(expectedPath)) {
+                    app.appendMissingExpected(imageName);
+                    this.assert(false, `expected file at '${expectedPath}' does not exist`);
+                } else {
+                    this.assert(
+                        compareImages(expectedPath, processedPath, comparisonThreshold),
+                        `expected screenshot to match ${expectedPath}`,
+                        `expected screenshot to not match ${expectedPath}`
+                    );
+
+                    performAutomaticPageChecks();
+                }
+            } catch (e) {
+                fail(e.message);
             }
 
-            this.assert(
-                compareImages(expectedPath, processedPath, comparisonThreshold),
-                `expected screenshot to match ${expectedPath}`,
-                `expected screenshot to not match ${expectedPath}`
-            );
+            function fail(message) {
+                var testInfo = {
+                    name: imageName,
+                    processed: fs.isFile(processedPath) ? processedPath : null,
+                    expected: fs.isFile(expectedPath) ? expectedPath : null,
+                    baseDirectory: app.runner.suite.baseDirectory
+                };
 
-            performAutomaticPageChecks();
+                var expectedPathStr = testInfo.expected ? path.resolve(testInfo.expected) : (expectedPath + " (not found)"),
+                    processedPathStr = testInfo.processed ? path.resolve(testInfo.processed) : (processedPath + " (not found)");
+
+                var indent = "     ";
+                var failureInfo = message + "\n";
+                failureInfo += indent + "Url to reproduce: " + page.url() + "\n";
+                failureInfo += indent + "Generated screenshot: " + processedPathStr + "\n";
+                failureInfo += indent + "Expected screenshot: " + expectedPathStr + "\n";
+
+                failureInfo += getPageLogsString(page.pageLogs, indent);
+
+                var error = new AssertionError(message);
+
+                // stack traces are useless so we avoid the clutter w/ this
+                error.stack = failureInfo;
+
+                throw error;
+            }
         }
 
         function compareImages(expectedPath, processedPath, comparisonThreshold) {
@@ -127,30 +156,11 @@ function makeChaiImageAssert(comparisonCommand = 'compare') {
     };
 };
 
-chai.use(makeChaiImageAssert()); // TODO: should put elsewhere
-
 function isCommandNotFound(result) {
     return result.status === 127
         || (result.error != null && result.error.code === 'ENOENT');
 }
 
-
-// TODO: uncoverted below
-// TODO: handle somehow. err.stack = err.message + "\n" + indent + getPageLogsString(pageRenderer.pageLogs, indent);
-//             var indent = "     ";
-function getPageLogsString(pageLogs, indent) {
-    var result = "";
-    if (pageLogs.length) {
-        result = "\n\n" + indent + "Rendering logs:\n";
-        pageLogs.forEach(function (message) {
-            result += indent + "  " + message.replace(/\n/g, "\n" + indent + "  ") + "\n";
-        });
-        result = result.substring(0, result.length - 1);
-    }
-    return result;
-}
-
-// add capture assertion
 function getExpectedScreenshotPath() {
     if (typeof config.expectedScreenshotsDir === 'string') {
         config.expectedScreenshotsDir = [config.expectedScreenshotsDir];
@@ -195,31 +205,16 @@ function endsWith(string, needle)
     return string.substr(-1 * needle.length, needle.length) === needle;
 }
 
-
-
-function failCapture(fileTypeString, pageRenderer, testInfo, expectedFilePath, processedFilePath, message, done) {
-
-    app.diffViewerGenerator.failures.push(testInfo);
-
-    var expectedPath = testInfo.expected ? path.resolve(testInfo.expected) :
-            (expectedFilePath + " (not found)"),
-        processedPath = testInfo.processed ? path.resolve(testInfo.processed) :
-            (processedFilePath + " (not found)");
-
-    var indent = "     ";
-    var failureInfo = message + "\n";
-    failureInfo += indent + "Url to reproduce: " + pageRenderer.getCurrentUrl() + "\n";
-    failureInfo += indent + "Generated " + fileTypeString + ": " + processedPath + "\n";
-    failureInfo += indent + "Expected " + fileTypeString + ": " + expectedPath + "\n";
-
-    failureInfo += getPageLogsString(pageRenderer.pageLogs, indent);
-
-    error = new AssertionError(message);
-
-    // stack traces are useless so we avoid the clutter w/ this
-    error.stack = failureInfo;
-
-    done(error);
+function getPageLogsString(pageLogs, indent) {
+    var result = "";
+    if (pageLogs.length) {
+        result = "\n\n" + indent + "Rendering logs:\n";
+        pageLogs.forEach(function (message) {
+            result += indent + "  " + message.replace(/\n/g, "\n" + indent + "  ") + "\n";
+        });
+        result = result.substring(0, result.length - 1);
+    }
+    return result;
 }
 
 

@@ -70,7 +70,6 @@ const AUTO_WAIT_METHODS = {
 var PageRenderer = function (baseUrl, page) {
     this.webpage = page;
 
-    this._logMessage = [];
     this.pageLogs = [];
     this.baseUrl = baseUrl;
     this.lifeCycleEventEmitter = new EventEmitter();
@@ -85,6 +84,10 @@ var PageRenderer = function (baseUrl, page) {
         height: 768,
     });
     this._setupWebpageEvents();
+};
+
+PageRenderer.prototype._reset = function () {
+    this.pageLogs = [];
 };
 
 PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
