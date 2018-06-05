@@ -79,7 +79,7 @@ abstract class IntegrationTestCase extends SystemTestCase
         static::$fixture->extraDefinitions = array_merge(static::provideContainerConfigBeforeClass(), $this->provideContainerConfig());
         static::$fixture->createEnvironmentInstance();
 
-        Db::createDatabaseObject();
+        Db::get();
         Fixture::loadAllPlugins(new TestingEnvironmentVariables(), get_class($this), self::$fixture->extraPluginsToLoad);
 
         Access::getInstance()->setSuperUserAccess(true);
