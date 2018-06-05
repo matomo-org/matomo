@@ -866,6 +866,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         $oldDbName = $dbConfig['dbname'];
         $dbConfig['dbname'] = null;
 
+        Db::destroyDatabaseObject();
         Db::createDatabaseObject($dbConfig);
 
         $dbConfig['dbname'] = $oldDbName;
