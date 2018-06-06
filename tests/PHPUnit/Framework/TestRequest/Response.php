@@ -295,6 +295,11 @@ class Response
      */
     private function replacePiwikUrl($apiResponse)
     {
-        return str_replace(Fixture::getRootUrl(), "http://example.com/piwik/", $apiResponse);
+        $rootUrl = Fixture::getRootUrl();
+        $rootUrlRel = str_replace(array('http://', 'https://'), '//', $rootUrl);
+
+        $apiResponse = str_replace($rootUrl, "http://example.com/piwik/", $apiResponse);
+        $apiResponse = str_replace($rootUrlRel, "//example.com/piwik/", $apiResponse);
+        return $apiResponse;
     }
 }
