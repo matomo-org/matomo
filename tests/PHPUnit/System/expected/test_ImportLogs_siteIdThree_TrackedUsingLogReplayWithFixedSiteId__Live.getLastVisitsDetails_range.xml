@@ -71,7 +71,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 8.1</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -223,7 +223,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -338,7 +338,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -502,7 +502,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Apple</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.9</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -636,7 +636,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -772,7 +772,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Apple</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.9</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -914,7 +914,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Apple</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.9</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -1046,7 +1046,7 @@
 		<deviceType>Smartphone</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Smartphone</deviceModel>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>
@@ -1170,7 +1170,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1360,7 +1360,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 8</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1488,7 +1488,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1624,7 +1624,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1766,7 +1766,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1892,7 +1892,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -2082,7 +2082,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Apple</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>

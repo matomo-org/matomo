@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Unknown</label>
+		<label>Generic Desktop</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
 		<nb_actions>8</nb_actions>
@@ -22,6 +22,6 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>43</revenue>
-		<segment>deviceBrand==Unknown;deviceModel==</segment>
+		<segment>deviceBrand==Unknown;deviceModel==generic+desktop</segment>
 	</row>
 </result>
