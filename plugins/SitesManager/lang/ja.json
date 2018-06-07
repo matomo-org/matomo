@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "このサーバーの PHP では拡張タイムゾーンがサポートされていません（ PHP>=5.2 でサポート）。 手作業で UTC オフセットを指定します。",
         "AliasUrlHelp": "これは推奨されますが、必須ではありません。 ビジターがこのウェブサイトのアクセスに使用するさまざまな URL を指定するには、1行に1つの URL を入力します。 ウェブサイトの URL エイリアスは、［ 参照元 ］ > ［ ウェブサイト ］のリポートには表示されません。 URL の 'www' の有無は、Matomo が両方とも考慮するため、指定する必要がないことに注意してください。",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "タイムゾーンの変更は、今後のデータにのみ反映され、過去のデータには適用されません。",
-        "ChooseCityInSameTimezoneAsYou": "あなたと同じタイムゾーンの都市を選択します。",
         "Currency": "通貨",
         "CurrencySymbolWillBeUsedForGoals": "通貨文字は目標収益の隣に表示されます。",
         "DefaultCurrencyForNewWebsites": "新しいウェブサイトのデフォルト通貨",
