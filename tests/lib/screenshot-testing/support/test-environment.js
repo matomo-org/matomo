@@ -9,6 +9,8 @@
 
 var fs = require('fs'),
     path = require('path'),
+    resolveUrl = require('url').resolve,
+    request = require('request-promise'),
     testingEnvironmentOverridePath = path.join(PIWIK_INCLUDE_PATH, '/tmp/testingPathOverride.json');
 
 var DEFAULT_UI_TEST_FIXTURE_NAME = "Piwik\\Tests\\Fixtures\\UITestFixture";
@@ -74,63 +76,49 @@ TestingEnvironment.prototype.save = function () {
     fs.writeFileSync(testingEnvironmentOverridePath, JSON.stringify(copy));
 };
 
-TestingEnvironment.prototype.callApi = function (method, params, done) {
+TestingEnvironment.prototype.callApi = function (method, params) {
     params.module = "API";
     params.method = method;
     params.format = 'json';
 
-    this._call(params, done);
+    return this._call(params);
 };
 
-TestingEnvironment.prototype.callController = function (method, params, done) {
+TestingEnvironment.prototype.callController = function (method, params) {
     var parts = method.split('.');
 
     params.module = parts[0];
     params.action = parts[1];
     params.idSite = params.idSite || 1;
 
-    this._call(params, done);
+    return this._call(params);
 };
 
-TestingEnvironment.prototype._call = function (params, done) {
-    var url = path.join(config.piwikUrl, "tests/PHPUnit/proxy/index.php?");
-    for (var key in params) {
-        var value = params[key];
-        if (value instanceof Array) {
-            for (var i = 0; i != value.length; ++i) {
-                url += key + "[]=" + encodeURIComponent(value[i]) + "&";
+TestingEnvironment.prototype._call = async function (params) {
+    let response = await request({
+        uri: resolveUrl(config.piwikUrl, '/tests/PHPUnit/proxy/index.php'),
+        qs: Object.keys(params).reduce(function (obj, name) {
+            if (params[name] instanceof Array) {
+                name += '[]';
             }
-        } else {
-            url += key + "=" + encodeURIComponent(value) + "&";
-        }
-    }
-    url = url.substring(0, url.length - 1);
-
-    var page = require('webpage').create();
-    page.open(url, function () {
-        var response = page.plainText;
-        if (response.replace(/\s*/g, "")) {
-            try {
-                response = JSON.parse(response);
-            } catch (e) {
-                page.close();
-
-                done(new Error("Unable to parse JSON response: " + response));
-                return;
-            }
-
-            if (response.result == "error") {
-                page.close();
-
-                done(new Error("API returned error: " + response.message));
-                return;
-            }
-        }
-
-        page.close();
-
-        done(null, response);
+            obj[name] = params[name];
+            return obj;
+        }, {}),
     });
+
+    response = response.replace(/\s*/g, "");
+
+    try {
+        response = JSON.parse(response);
+    } catch (e) {
+        throw new Error("Unable to parse JSON response: " + response);
+    }
+
+    if (response.result === "error") {
+        throw new Error("API returned error: " + response.message);
+    }
+
+    return response;
 };
 
 TestingEnvironment.prototype.executeConsoleCommand = function (command, args, callback) {
