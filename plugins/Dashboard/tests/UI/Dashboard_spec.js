@@ -13,7 +13,7 @@ describe("Dashboard", function () {
     var url = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&moduleToWidgetize=Dashboard&"
             + "actionToWidgetize=index&idDashboard=5";
 
-    var removeAllExtraDashboards = function (done) {
+    var removeAllExtraDashboards = async function() {
         testEnvironment.callController("Dashboard.getAllDashboards", {}, function (err, dashboards) {
             dashboards = (dashboards || []).filter(function (dash) {
                 return parseInt(dash.iddashboard) > 5;
@@ -35,7 +35,7 @@ describe("Dashboard", function () {
         });
     };
 
-    var setup = function (done) {
+    var setup = async function() {
         // make sure live widget doesn't refresh constantly for UI tests
         testEnvironment.overrideConfig('General', 'live_widget_refresh_after_seconds', 1000000);
         testEnvironment.save();
@@ -63,13 +63,13 @@ describe("Dashboard", function () {
     before(setup);
     after(setup);
 
-    it("should load correctly", function (done) {
+    it("should load correctly", async function() {
         expect.screenshot("loaded").to.be.capture(function (page) {
-            page.load(url, 5000);
+            page.goto(url, 5000);
         }, done);
     });
 
-    it("should move a widget when widget is drag & dropped", function (done) {
+    it("should move a widget when widget is drag & dropped", async function() {
         expect.screenshot("widget_move").to.be.capture(function (page) {
             page.mousedown('.widgetTop');
             page.mouseMove('#dashboardWidgetsArea > .col:eq(2)');
@@ -77,7 +77,7 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should refresh widget when widget refresh icon clicked", function (done) {
+    it("should refresh widget when widget refresh icon clicked", async function() {
         expect.screenshot("widget_move_refresh").to.be.capture(function (page) {
             page.mouseMove('.widgetTop');
             page.click('.button#refresh');
@@ -85,14 +85,14 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should minimise widget when widget minimise icon clicked", function (done) {
+    it("should minimise widget when widget minimise icon clicked", async function() {
         expect.screenshot("widget_minimised").to.be.capture(function (page) {
             page.mouseMove('.widgetTop');
             page.click('.button#minimise');
         }, done);
     });
 
-    it("should unminimise widget when widget maximise icon is clicked after being minimised", function (done) {
+    it("should unminimise widget when widget maximise icon is clicked after being minimised", async function() {
         expect.screenshot("widget_move_unminimised").to.be.capture(function (page) {
             page.mouseMove('.widgetTop');
             page.click('.button#maximise');
@@ -100,14 +100,14 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should maximise widget when widget maximise icon is clicked", function (done) {
+    it("should maximise widget when widget maximise icon is clicked", async function() {
         expect.screenshot("widget_maximise").to.be.capture(function (page) {
             page.mouseMove('.widgetTop');
             page.click('.button#maximise');
         }, done);
     });
 
-    it("should close maximise dialog when minimise icon is clicked", function (done) {
+    it("should close maximise dialog when minimise icon is clicked", async function() {
         expect.screenshot("widget_move_unmaximise").to.be.capture(function (page) {
             page.mouseMove('.widgetTop');
             page.click('.button#minimise');
@@ -115,7 +115,7 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should add a widget when a widget is selected in the dashboard manager", function (done) {
+    it("should add a widget when a widget is selected in the dashboard manager", async function() {
         expect.screenshot("widget_add_widget").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
 
@@ -130,7 +130,7 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should open row evolution", function (done) {
+    it("should open row evolution", async function() {
         expect.screenshot("rowevolution").to.be.captureSelector('.ui-dialog:visible', function (page) {
             page.mouseMove('#widgetActionsgetPageUrls table.dataTable tbody tr:contains(thankyou) td:first-child', 100);
             page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
@@ -138,7 +138,7 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should remove widget when remove widget icon is clicked", function (done) {
+    it("should remove widget when remove widget icon is clicked", async function() {
         expect.screenshot("widget_move_removed").to.be.capture(function (page) {
             page.click('.ui-dialog-titlebar-close:visible'); // close row evolution
 
@@ -152,7 +152,7 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should change dashboard layout when new layout is selected", function (done) {
+    it("should change dashboard layout when new layout is selected", async function() {
         expect.screenshot("change_layout").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=showChangeDashboardLayoutDialog]');
@@ -161,7 +161,7 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should rename dashboard when dashboard rename process completed", function (done) {
+    it("should rename dashboard when dashboard rename process completed", async function() {
         expect.screenshot("rename").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=renameDashboard]');
@@ -172,7 +172,7 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should copy dashboard successfully when copy dashboard process completed", function (done) {
+    it("should copy dashboard successfully when copy dashboard process completed", async function() {
         expect.screenshot("copied").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=copyDashboardToUser]');
@@ -185,11 +185,11 @@ describe("Dashboard", function () {
             });
             page.click('.modal.open .modal-footer a:contains(Ok)');
 
-            page.load(url.replace("idDashboard=5", "idDashboard=6"));
+            page.goto(url.replace("idDashboard=5", "idDashboard=6"));
         }, done);
     });
 
-    it("should reset dashboard when reset dashboard process completed", function (done) {
+    it("should reset dashboard when reset dashboard process completed", async function() {
         this.retries(3);
         expect.screenshot("reset").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
@@ -204,7 +204,7 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should remove dashboard when remove dashboard process completed", function (done) {
+    it("should remove dashboard when remove dashboard process completed", async function() {
         expect.screenshot("removed").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=removeDashboard]');
@@ -216,16 +216,16 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should not fail when default widget selection changed", function (done) {
+    it("should not fail when default widget selection changed", async function() {
         expect.screenshot("default_widget_selection_changed").to.be.capture(function (page) {
-            page.load(url);
+            page.goto(url);
             page.click('.dashboard-manager .title');
             page.click('li[data-action=setAsDefaultWidgets]');
             page.click('.modal.open .modal-footer a:contains(Yes)');
         }, done);
     });
 
-    it("should create new dashboard with new default widget selection when create dashboard process completed", function (done) {
+    it("should create new dashboard with new default widget selection when create dashboard process completed", async function() {
         expect.screenshot("create_new").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=createDashboard]');
@@ -234,31 +234,31 @@ describe("Dashboard", function () {
         }, done);
     });
 
-    it("should load segmented dashboard", function (done) {
+    it("should load segmented dashboard", async function() {
         removeAllExtraDashboards(function(){
             expect.screenshot("segmented").to.be.capture(function (page) {
-                page.load(url + '&segment=' + encodeURIComponent("browserCode==FF"), 5000);
+                page.goto(url + '&segment=' + encodeURIComponent("browserCode==FF"), 5000);
             }, done);
         });
     });
 
-    it("should load correctly with token_auth", function (done) {
+    it("should load correctly with token_auth", async function() {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.save();
 
         expect.screenshot("loaded_token_auth").to.be.capture(function (page) {
             var tokenAuth = "9ad1de7f8b329ab919d854c556f860c1";
-            page.load(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth, 5000);
+            page.goto(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth, 5000);
         }, done);
     });
 
-    it("should fail to load with invalid token_auth", function (done) {
+    it("should fail to load with invalid token_auth", async function() {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.save();
 
         expect.screenshot("invalid_token_auth").to.be.capture(function (page) {
             var tokenAuth = "anyInvalidToken";
-            page.load(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth, 5000);
+            page.goto(url.replace("idDashboard=5", "idDashboard=1") + '&token_auth=' + tokenAuth, 5000);
         }, done);
     });
 

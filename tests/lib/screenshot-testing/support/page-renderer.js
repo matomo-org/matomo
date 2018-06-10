@@ -162,6 +162,11 @@ PageRenderer.prototype._logMessage = function (message) {
     this.pageLogs.push(message);
 };
 
+PageRenderer.prototype.clearCookies = function () {
+    // see https://github.com/GoogleChrome/puppeteer/issues/1632#issuecomment-353086292
+    return this.webpage._client.send('Network.clearBrowserCookies');
+};
+
 PageRenderer.prototype._setupWebpageEvents = function () {
     this.webpage.on('error', (message, trace) => {
         var msgStack = ['Webpage error: ' + message];

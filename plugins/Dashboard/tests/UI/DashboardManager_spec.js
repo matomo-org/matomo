@@ -16,19 +16,19 @@ describe("DashboardManager", function () {
     var generalParams = 'idSite=1&period=day&date=2012-01-01';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=Dashboard_Dashboard&subcategory=5';
 
-    it("should load correctly", function (done) {
+    it("should load correctly", async function() {
         expect.screenshot("loaded").to.be.captureSelector(selectorToCapture, function (page) {
-            page.load(url);
+            page.goto(url);
         }, done);
     });
 
-    it("should expand when clicked", function (done) {
+    it("should expand when clicked", async function() {
         expect.screenshot("expanded").to.be.captureSelector(selectorToCapture, function (page) {
             page.click('.dashboard-manager .title');
         }, done);
     });
 
-    it("should show widget for a category when category label hovered", function (done) {
+    it("should show widget for a category when category label hovered", async function() {
         expect.screenshot("widget_list_shown").to.be.captureSelector(selectorToCapture, function (page) {
             page.mouseMove('.widgetpreview-categorylist>li:contains(Goals)'); // have to mouse move twice... otherwise Live! will just be highlighted
             page.mouseMove('.widgetpreview-categorylist>li:contains(Visitors):first');
@@ -36,13 +36,13 @@ describe("DashboardManager", function () {
         }, done);
     });
 
-    it("should load a widget preview when a widget is hovered", function (done) {
+    it("should load a widget preview when a widget is hovered", async function() {
         expect.screenshot("widget_preview").to.be.captureSelector(selectorToCapture, function (page) {
             page.mouseMove('.widgetpreview-widgetlist>li:contains(Visits Over Time)');
         }, done);
     });
 
-    it("should close the manager when a widget is selected", function (done) {
+    it("should close the manager when a widget is selected", async function() {
         expect.screenshot("loaded").to.be.captureSelector("widget_selected", selectorToCapture, function (page) {
             // make sure selecting a widget does nothing
             page.evaluate(function () {
@@ -53,7 +53,7 @@ describe("DashboardManager", function () {
         }, done);
     });
 
-    it("should create new dashboard with new default widget selection when create dashboard process completed", function (done) {
+    it("should create new dashboard with new default widget selection when create dashboard process completed", async function() {
         expect.screenshot("create_new").to.be.capture(function (page) {
             page.click('.dashboard-manager .title');
             page.click('li[data-action=createDashboard]');
@@ -64,7 +64,7 @@ describe("DashboardManager", function () {
         }, done);
     });
 
-    it("should remove dashboard when remove dashboard process completed", function (done) {
+    it("should remove dashboard when remove dashboard process completed", async function() {
         expect.screenshot("removed").to.be.capture(function (page) {
             page.contains('ul.navbar ul li.sfActive:contains(newdash2)');
             page.click('.dashboard-manager .title');

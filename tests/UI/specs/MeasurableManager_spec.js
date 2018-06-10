@@ -22,18 +22,18 @@ describe("MeasurableManager", function () {
         expect(await element.screenshot()).to.matchImage(screenshotName);
     }
 
-    it("should load correctly and should not use SitesManager wording as another type is enabled", async function ()  {
+    it("should load correctly and should not use SitesManager wording as another type is enabled", async function () {
         await page.goto(url);
         await assertScreenshotEquals("loaded", '#content.admin');
     });
 
-    it("should use measurable wording in menu", async function ()  {
+    it("should use measurable wording in menu", async function () {
         const element = await page.jQuery('#secondNavBar li:contains(Manage):first');
         expect(await element.screenshot()).to.matchImage('measurable_menu_item');
     });
 
     // '.sitesManagerList,.sitesButtonBar,.sites-manager-header,.ui-dialog.ui-widget,.modal.open'
-    it("should show selection of available types when adding a type", async function ()  {
+    it("should show selection of available types when adding a type", async function () {
         const element = await page.jQuery('.SitesManager .addSite:first');
         await element.click();
         await page.waitFor('.modal.open');
@@ -41,7 +41,7 @@ describe("MeasurableManager", function () {
         await assertScreenshotEquals("add_new_dialog", '#content.admin');
     });
 
-    it("should load mobile app specific fields", async function ()  {
+    it("should load mobile app specific fields", async function () {
         const element = await page.jQuery('.modal.open .btn:contains(Mobile App)');
         await element.click();
 

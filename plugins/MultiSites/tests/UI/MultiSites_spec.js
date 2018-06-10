@@ -16,7 +16,7 @@ describe("MultiSitesTest", function () {
 
     var createdSiteId = null;
 
-    before(function (done) {
+    before(async function() {
         var callback = function (error, response) {
             if (error) {
                 done(error, response);
@@ -33,22 +33,22 @@ describe("MultiSitesTest", function () {
         callback);
     });
 
-    after(function (done) {
+    after(async function() {
         if (createdSiteId) {
             testEnvironment.callApi("SitesManager.deleteSite", {idSite: createdSiteId}, done);
         }
     });
 
-    it('should load the all websites dashboard correctly', function (done) {
+    it('should load the all websites dashboard correctly', async function() {
         this.retries(3);
 
         expect.screenshot('all_websites').to.be.captureSelector(selector, function (page) {
-            page.load("?" + generalParams + "&module=MultiSites&action=index");
+            page.goto("?" + generalParams + "&module=MultiSites&action=index");
             page.wait(3000);
         }, done);
     });
 
-    it('should load next page correctly', function (done) {
+    it('should load next page correctly', async function() {
         this.retries(3);
 
         expect.screenshot('all_websites_page_1').to.be.captureSelector(selector, function (page) {
@@ -57,14 +57,14 @@ describe("MultiSitesTest", function () {
         }, done);
     });
 
-    it('should search correctly', function (done) {
+    it('should search correctly', async function() {
         expect.screenshot('all_websites_search').to.be.captureSelector(selector, function (page) {
             page.sendKeys('.site_search input', 'Site');
             page.click('.site_search .search_ico');
         }, done);
     });
 
-    it('should toggle sort order when click on current metric', function (done) {
+    it('should toggle sort order when click on current metric', async function() {
         expect.screenshot('all_websites_changed_sort_order').to.be.captureSelector(selector, function (page) {
             page.click('#visits .heading');
         }, done);

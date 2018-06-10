@@ -25,7 +25,7 @@ describe("CoreUpdaterDb", function () {
     });
 
     function apiUpgradeTest(format) {
-        it("should start the updater when an old version of Piwik is detected in the DB with format " + format, function (done) {
+        it("should start the updater when an old version of Piwik is detected in the DB with format " + format, async function() {
             expect.file('CoreUpdater.API.ErrorMessage' + format + '.txt').to.be.pageContents(function (page) {
                 page.load('');
                 page.downloadUrl('?module=API&method=API.getPiwikVersion&format=' + format);
@@ -36,7 +36,7 @@ describe("CoreUpdaterDb", function () {
     var formats = ['CSV', 'TSV', 'XML', 'JSON', 'PHP'];
     formats.forEach(apiUpgradeTest);
 
-    it("should start the updater when an old version of Piwik is detected in the DB", function (done) {
+    it("should start the updater when an old version of Piwik is detected in the DB", async function() {
         expect.screenshot("main").to.be.capture(function (page) {
             page.load("");
             page.evaluate(function () {
@@ -48,7 +48,7 @@ describe("CoreUpdaterDb", function () {
         }, done);
     });
 
-    it("should show instance id in updating screen", function (done) {
+    it("should show instance id in updating screen", async function() {
         expect.screenshot("main_instance").to.be.capture(function (page) {
             testEnvironment.configOverride.General = {
                 instance_id: 'custom.instance'
@@ -65,7 +65,7 @@ describe("CoreUpdaterDb", function () {
         }, done);
     });
 
-    it("should show the donation form when the update process is complete", function (done) {
+    it("should show the donation form when the update process is complete", async function() {
         expect.screenshot("updated").to.be.capture(function (page) {
             page.click('.btn');
         }, done);
