@@ -31,6 +31,7 @@
         "GeoIPCannotFindMbstringExtension": "%1$s işlevi bulunamadı. Lütfen %2$s eklentisinin kurulmuş ve yüklenmiş olduğundan emin olun.",
         "GeoIPDatabases": "GeoIP Veritabanları",
         "GeoIPDocumentationSuffix": "Bu raporun verilerini görüntülemek için Coğrafi konum yönetici sekmesinden GeoIP kurulumunu yapmalısınız. Ticari %1$sMaxmind%2$s GeoIP veritabanları ücretsiz olanlardan daha doğrudur. Doğruluğu görmek için %3$sburaya tıklayın%4$s",
+        "GeoIPNoDatabaseFound": "Bu GeoIP uygulaması herhangi bir veritabanı bulamadı.",
         "GeoIPImplHasAccessTo": "GeoIP uygulaması şu türdeki veritabanlarına erişebilir",
         "GeoIPIncorrectDatabaseFormat": "GeoIP veritabanı biçiminiz geçersiz görünüyor. Bozulmuş olabilir. Binary sürümü kullanıyor olduğunuzdan emin olun ve başka bir kopya ile değiştirmeyi deneyin.",
         "GeoIpLocationProviderDesc_Pecl1": "Bu konum hizmeti sağlayıcısı GeoIP veritabanı ve PECL modülünü kullanarak ziyaretçilerinizin konumunu doğru ve etkin bir şekilde belirler.",

@@ -266,11 +266,11 @@
         "YourChangesHaveBeenSaved": "Változtatások elmentve."
     },
     "Mobile": {
-        "AboutPiwikMobile": "Matomo Mobile-ról",
+        "AboutPiwikMobile": "Matomo Mobilról",
         "AccessUrlLabel": "Matomo elérési url",
         "Account": "Profil",
         "Accounts": "Profilok",
-        "AddAccount": "Profil hozzádása",
+        "AddAccount": "Profil hozzáadása",
         "AddPiwikDemo": "Matomo Demo hozzáadása",
         "Advanced": "Haladó",
         "AnonymousAccess": "Névtelen elérés",
@@ -309,9 +309,9 @@
         "AvailableMetrics": "Elérhető metrikák",
         "CompareRows": "Adatok összehasonlítása",
         "ComparingRecords": "%s sorok összehasonlítása",
-        "Documentation": "Válassza ki a megjelenítendő metrikákat, amelyeket szeretne megtekinteni nagy evolúciós grafikonon. A shift billentyű nyomvatartásával több metrika egyidejűleg megjelenthető.",
+        "Documentation": "Válassza ki a megjelenítendő metrikákat, amelyeket szeretne megtekinteni a nagy evolúciós grafikonon. A shift billentyű nyomva tartásával több metrika egyidejűleg is megjelentíhető.",
         "MetricBetweenText": "%1$s-től %2$s-ig",
-        "PickAnotherRow": "Válasszon egy mások sort az összehasonlításhoz",
+        "PickAnotherRow": "Válasszon egy másik sort az összehasonlításhoz",
         "PickARow": "Válasszon egy sort az összehasonlításhoz"
     }
 }
