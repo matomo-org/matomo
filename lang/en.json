@@ -510,6 +510,7 @@
         "LoginCredentials": "Credentials",
         "LoginToPiwikToChangeSettings": "Login to your Matomo server to create and update websites, users or to change General Settings like \"Report to load by default\".",
         "LoginUseHttps": "Use https",
+        "MatomoMobile": "Matomo Mobile App",
         "MultiChartLabel": "Display sparklines",
         "NavigationBack": "Back",
         "NetworkError": "Network Error",
