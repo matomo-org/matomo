@@ -16,7 +16,7 @@ describe("SiteSelector", function () {
 
     it("should load correctly", function (done) {
         expect.screenshot("loaded").to.be.captureSelector(selectorToCapture, function (page) {
-            page.load(url);
+            page.goto(url);
         }, done);
     });
 

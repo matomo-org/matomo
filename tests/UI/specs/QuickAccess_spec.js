@@ -30,44 +30,44 @@ describe("QuickAccess", function () {
         captureSelector(screenshotName, done, selectorToCapture, callback);
     }
 
-    it("should be displayed", function (done) {
+    it("should be displayed", async function ()  {
         capture('initially', done, function (page) {
-            page.load(url);
+            page.goto(url);
         });
     });
 
-    it("should search for something and update view", function (done) {
+    it("should search for something and update view", async function ()  {
         capture('search_1', done, function (page) {
             enterSearchTerm(page, 's');
         });
     });
 
-    it("should search again when typing another letter", function (done) {
+    it("should search again when typing another letter", async function ()  {
         capture('search_2', done, function (page) {
             enterSearchTerm(page, 'a');
         });
     });
 
-    it("should show message if no results", function (done) {
+    it("should show message if no results", async function ()  {
         capture('search_no_result', done, function (page) {
             enterSearchTerm(page, 'alaskdjfs');
         });
     });
 
-    it("should be possible to activate via shortcut", function (done) {
+    it("should be possible to activate via shortcut", async function ()  {
         capture('shortcut', done, function (page) {
-            page.load(url);
+            page.goto(url);
             page.sendKeys("body", 'f');
         });
     });
 
-    it("should search for websites", function (done) {
+    it("should search for websites", async function ()  {
         capture('search_sites', done, function (page) {
             enterSearchTerm(page, 'si');
         });
     });
 
-    it("clicking on a category should show all items that belong to that category", function (done) {
+    it("clicking on a category should show all items that belong to that category", async function ()  {
         capture('search_category', done, function (page) {
             page.click('.quick-access-category:first');
         });
