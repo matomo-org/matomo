@@ -12,13 +12,13 @@ describe("CustomVariables", function () {
 
     this.fixture = "Piwik\\Plugins\\CustomVariables\\tests\\Fixtures\\VisitWithManyCustomVariables";
 
-    it('should show an overview of all used custom variables', function (done) {
+    it('should show an overview of all used custom variables', async function() {
         expect.screenshot('manage').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?idSite=1&period=day&date=2010-01-03&module=CustomVariables&action=manage");
+            page.goto("?idSite=1&period=day&date=2010-01-03&module=CustomVariables&action=manage");
         }, done);
     });
 
-    it('should be visible in the menu', function (done) {
+    it('should be visible in the menu', async function() {
         expect.screenshot('link_in_menu').to.be.captureSelector('li:contains(Diagnostic)', function (page) {
         }, done);
     });

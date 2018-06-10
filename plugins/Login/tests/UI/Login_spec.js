@@ -55,13 +55,13 @@ describe("Login", function () {
         }, done);
     });
 
-    it("should load correctly", function (done) {
+    it("should load correctly", async function() {
         expect.screenshot("login_form").to.be.capture(function (page) {
             page.load("");
         }, done);
     });
 
-    it("should fail when incorrect credentials are supplied", function (done) {
+    it("should fail when incorrect credentials are supplied", async function() {
         expect.screenshot("login_fail").to.be.capture(function (page) {
             page.sendKeys('#login_form_login', 'superUserLogin');
             page.sendKeys('#login_form_password', 'wrongpassword');
@@ -69,7 +69,7 @@ describe("Login", function () {
         }, done);
     });
 
-    it("should redirect to Piwik when correct credentials are supplied", function (done) {
+    it("should redirect to Piwik when correct credentials are supplied", async function() {
         expect.current_page.contains("#dashboard", function (page) {
             page.sendKeys("#login_form_login", "superUserLogin");
             page.sendKeys("#login_form_password", "superUserPass");
@@ -77,13 +77,13 @@ describe("Login", function () {
         }, done);
     });
 
-    it("should redirect to login when logout link clicked", function (done) {
+    it("should redirect to login when logout link clicked", async function() {
         expect.screenshot("login_form").to.be.capture("logout_form", function (page) {
             page.click("nav .right .icon-sign-out");
         }, done);
     });
 
-    it("login with email and password should work", function (done) {
+    it("login with email and password should work", async function() {
         expect.current_page.contains("#dashboard", function (page) {
             page.sendKeys("#login_form_login", "hello@example.org");
             page.sendKeys("#login_form_password", "superUserPass");
@@ -91,14 +91,14 @@ describe("Login", function () {
         }, done);
     });
 
-    it("should display password reset form when forgot password link clicked", function (done) {
+    it("should display password reset form when forgot password link clicked", async function() {
         expect.screenshot("forgot_password").to.be.capture(function (page) {
             page.click("nav .right .icon-sign-out");
             page.click("a#login_form_nav");
         }, done);
     });
 
-    it("should show reset password form and error message on error", function (done) {
+    it("should show reset password form and error message on error", async function() {
         expect.screenshot("password_reset_error").to.be.capture(function (page) {
             page.sendKeys("#reset_form_login", "superUserLogin");
             page.sendKeys("#reset_form_password", "superUserPass2");
@@ -106,7 +106,7 @@ describe("Login", function () {
         }, done);
     });
 
-    it("should send email when password reset form submitted", function (done) {
+    it("should send email when password reset form submitted", async function() {
         expect.screenshot("password_reset").to.be.capture(function (page) {
             page.reload();
             page.click("a#login_form_nav");
@@ -117,7 +117,7 @@ describe("Login", function () {
         }, done);
     });
 
-    it("should reset password when password reset link is clicked", function (done) {
+    it("should reset password when password reset link is clicked", async function() {
         expect.screenshot("password_reset_complete").to.be.capture(function (page) {
             var expectedMailOutputFile = PIWIK_INCLUDE_PATH + '/tmp/Login.resetPassword.mail.json',
                 mailSent = JSON.parse(require("fs").read(expectedMailOutputFile)),
@@ -127,7 +127,7 @@ describe("Login", function () {
         }, done);
     });
 
-    it("should login successfully when new credentials used", function (done) {
+    it("should login successfully when new credentials used", async function() {
         expect.page("").contains("#dashboard", function (page) {
             page.sendKeys("#login_form_login", "superUserLogin");
             page.sendKeys("#login_form_password", "superUserPass2");
@@ -135,14 +135,14 @@ describe("Login", function () {
         }, done);
     });
 
-    it("should login successfully when formless login used", function (done) {
+    it("should login successfully when formless login used", async function() {
         expect.page("").contains('#dashboard', /*'formless_login',*/ function (page) {
             page.click("nav .right .icon-sign-out");
             page.load(formlessLoginUrl);
         }, done);
     });
 
-    it('should not show login page when ips whitelisted and ip is not matching', function (done) {
+    it('should not show login page when ips whitelisted and ip is not matching', async function() {
         expect.screenshot('ip_not_whitelisted').to.be.captureSelector('.box', function (page) {
             testEnvironment.overrideConfig('General', 'login_whitelist_ip', ['199.199.199.199']);
             testEnvironment.save();

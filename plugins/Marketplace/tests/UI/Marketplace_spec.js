@@ -85,7 +85,7 @@ describe("Marketplace", function () {
     ['superuser', 'user', 'multiUserEnvironment'].forEach(function (mode) {
 
         if (mode !== 'user') {
-            it('should show available updates in plugins page', function (done) {
+            it('should show available updates in plugins page', async function() {
                 setEnvironment(mode, noLicense);
 
                 captureSelector(done, 'updates_' + mode, function (page) {
@@ -94,7 +94,7 @@ describe("Marketplace", function () {
             });
         }
 
-        it(mode + ' for a user without license key should be able to open paid plugins', function (done) {
+        it(mode + ' for a user without license key should be able to open paid plugins', async function() {
             setEnvironment(mode, noLicense);
 
             captureMarketplace(done, 'paid_plugins_no_license_' + mode, function (page) {
@@ -102,7 +102,7 @@ describe("Marketplace", function () {
             });
         });
 
-        it(mode + ' for a user with license key should be able to open paid plugins', function (done) {
+        it(mode + ' for a user with license key should be able to open paid plugins', async function() {
             setEnvironment(mode, validLicense);
 
             captureMarketplace(done, 'paid_plugins_with_license_' + mode, function (page) {
@@ -110,7 +110,7 @@ describe("Marketplace", function () {
             });
         });
 
-        it(mode + ' for a user with exceeded license key should be able to open paid plugins', function (done) {
+        it(mode + ' for a user with exceeded license key should be able to open paid plugins', async function() {
             setEnvironment(mode, exceededLicense);
             assumePaidPluginsActivated();
 
@@ -119,7 +119,7 @@ describe("Marketplace", function () {
             });
         });
 
-        it('should show themes page', function (done) {
+        it('should show themes page', async function() {
             setEnvironment(mode, validLicense);
 
             captureMarketplace(done, 'themes_with_valid_license_' + mode, function (page) {
@@ -127,7 +127,7 @@ describe("Marketplace", function () {
             });
         });
 
-        it('should show free plugin details', function (done) {
+        it('should show free plugin details', async function() {
             setEnvironment(mode, noLicense);
 
             captureWithDialog(done, 'free_plugin_details_' + mode, function (page) {
@@ -136,7 +136,7 @@ describe("Marketplace", function () {
             });
         });
 
-        it('should show paid plugin details when having no license', function (done) {
+        it('should show paid plugin details when having no license', async function() {
             setEnvironment(mode, noLicense);
 
             captureWithDialog(done, 'paid_plugin_details_no_license_' + mode, function (page) {
@@ -146,7 +146,7 @@ describe("Marketplace", function () {
             });
         });
 
-        it('should show paid plugin details when having valid license', function (done) {
+        it('should show paid plugin details when having valid license', async function() {
             setEnvironment(mode, validLicense);
 
             captureWithDialog(done, 'paid_plugin_details_valid_license_' + mode + '_installed', function (page) {
@@ -156,7 +156,7 @@ describe("Marketplace", function () {
             });
         });
 
-        it('should show paid plugin details when having valid license', function (done) {
+        it('should show paid plugin details when having valid license', async function() {
             setEnvironment(mode, exceededLicense);
 
             captureWithDialog(done, 'paid_plugin_details_exceeded_license_' + mode, function (page) {
@@ -169,7 +169,7 @@ describe("Marketplace", function () {
 
     var mode = 'superuser';
 
-    it('should show a dialog showing a list of all possible plugins to install', function (done) {
+    it('should show a dialog showing a list of all possible plugins to install', async function() {
         setEnvironment(mode, validLicense);
 
         captureSelector(done, mode + '_install_all_paid_plugins_at_once', function (page) {
@@ -178,7 +178,7 @@ describe("Marketplace", function () {
         }, '.modal.open');
     });
 
-    it('should show an error message when invalid license key entered', function (done) {
+    it('should show an error message when invalid license key entered', async function() {
         setEnvironment(mode, noLicense);
 
         captureWithNotification(done, mode + '_invalid_license_key_entered', function (page) {
@@ -189,7 +189,7 @@ describe("Marketplace", function () {
         });
     });
 
-    it('should show a confirmation before removing a license key', function (done) {
+    it('should show a confirmation before removing a license key', async function() {
         setEnvironment(mode, validLicense);
 
         captureSelector(done, mode + '_remove_license_key_confirmation', function (page) {
@@ -198,7 +198,7 @@ describe("Marketplace", function () {
         }, '.modal.open');
     });
 
-    it('should show a confirmation before removing a license key', function (done) {
+    it('should show a confirmation before removing a license key', async function() {
         setEnvironment(mode, noLicense);
 
         captureMarketplace(done, mode + '_remove_license_key_confirmed', function (page) {
@@ -206,7 +206,7 @@ describe("Marketplace", function () {
         });
     });
 
-    it('should show a success message when valid license key entered', function (done) {
+    it('should show a success message when valid license key entered', async function() {
         setEnvironment(mode, noLicense);
 
         captureMarketplace(done, mode + '_valid_license_key_entered', function (page) {
@@ -219,7 +219,7 @@ describe("Marketplace", function () {
         });
     });
 
-    it('should hide activate / deactivate buttons if plugins admin is disabled', function (done) {
+    it('should hide activate / deactivate buttons if plugins admin is disabled', async function() {
         setEnvironment(mode, noLicense);
         testEnvironment.overrideConfig('General', 'enable_plugins_admin', '0');
         testEnvironment.save();
@@ -229,7 +229,7 @@ describe("Marketplace", function () {
         });
     });
 
-    it('should hide activate / deactivate buttons if plugins admin is disabled when also multi server environment is enabled', function (done) {
+    it('should hide activate / deactivate buttons if plugins admin is disabled when also multi server environment is enabled', async function() {
         setEnvironment('multiUserEnvironment', noLicense);
         testEnvironment.overrideConfig('General', 'enable_plugins_admin', '0');
         testEnvironment.save();
@@ -240,7 +240,7 @@ describe("Marketplace", function () {
     });
 
     [expiredLicense, exceededLicense, validLicense, noLicense].forEach(function (consumer) {
-        it('should show a subscription overview for ' + consumer, function (done) {
+        it('should show a subscription overview for ' + consumer, async function() {
             setEnvironment('superuser', consumer);
 
             captureSelector(done, 'subscription_overview_' + consumer, function (page) {
@@ -251,7 +251,7 @@ describe("Marketplace", function () {
 
     [noLicense, expiredLicense, exceededLicense].forEach(function (consumer) {
         // when there is no license it should not show a warning! as it could be due to network problems etc
-        it('should show a warning if license is ' + consumer, function (done) {
+        it('should show a warning if license is ' + consumer, async function() {
             setEnvironment('superuser', consumer);
 
             assumePaidPluginsActivated();

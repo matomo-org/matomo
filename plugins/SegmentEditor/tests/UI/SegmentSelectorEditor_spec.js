@@ -36,19 +36,19 @@ describe("SegmentSelectorEditorTest", function () {
         page.click(prefixSelector + ' .metricListBlock .expandableList .secondLevel li:contains(' + name + ')');
     }
 
-    it("should load correctly", function (done) {
+    it("should load correctly", async function() {
         expect.screenshot("0_initial").to.be.captureSelector(selectorsToCapture, function (page) {
             page.load(url);
         }, done);
     });
 
-    it("should open selector when control clicked", function (done) {
+    it("should open selector when control clicked", async function() {
         expect.screenshot("1_selector_open").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.segmentationContainer .title');
         }, done);
     });
 
-    it("should open segment editor when edit link clicked for existing segment", function (done) {
+    it("should open segment editor when edit link clicked for existing segment", async function() {
         expect.screenshot("2_segment_editor_update").to.be.captureSelector(selectorsToCapture, function (page) {
             page.evaluate(function() {
                 $('.segmentList .editSegment:first').click()
@@ -56,26 +56,26 @@ describe("SegmentSelectorEditorTest", function () {
         }, done);
     });
 
-    it("should start editing segment name when segment name edit link clicked", function (done) {
+    it("should start editing segment name when segment name edit link clicked", async function() {
         expect.screenshot("3_segment_editor_edit_name").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.segmentEditorPanel .editSegmentName');
         }, done);
     });
 
-    it("should show the egment editor's available segments dropdown", function (done) {
+    it("should show the egment editor's available segments dropdown", async function() {
         expect.screenshot("6_segment_editor_droplist").to.be.captureSelector(selectorsToCapture, function (page) {
             page.mouseMove('.available_segments a.dropList');
             page.click('.available_segments a.dropList');
         }, done);
     });
 
-    it("should change segment when another available segment clicked in segment editor's available segments dropdown", function (done) {
+    it("should change segment when another available segment clicked in segment editor's available segments dropdown", async function() {
         expect.screenshot("6_segment_editor_different").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.ui-menu-item a:contains(Add new segment)');
         }, done);
     });
 
-    it("should close the segment editor when the close link is clicked", function (done) {
+    it("should close the segment editor when the close link is clicked", async function() {
         expect.screenshot("7_segment_editor_closed").to.be.captureSelector(selectorsToCapture, function (page) {
             page.evaluate(function () {
                 $('.segmentEditorPanel .segment-footer .close').click();
@@ -83,51 +83,51 @@ describe("SegmentSelectorEditorTest", function () {
         }, done);
     });
 
-    it("should open blank segment editor when create new segment link is clicked", function (done) {
+    it("should open blank segment editor when create new segment link is clicked", async function() {
         expect.screenshot("8_segment_editor_create").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.segmentationContainer .title');
             page.click('.add_new_segment');
         }, done);
     });
 
-    it("should update segment expression when selecting different segment", function (done) {
+    it("should update segment expression when selecting different segment", async function() {
         expect.screenshot("dimension_drag_drop").to.be.captureSelector(selectorsToCapture, function (page) {
             selectDimension(page, '.segmentRow0', 'Actions', 'Action URL');
         }, done);
     });
 
     // phantomjs won't take screenshots of dropdown windows, so skip this test
-    it.skip("should show suggested segment values when a segment value input is focused", function (done) {
+    it.skip("should show suggested segment values when a segment value input is focused", async function() {
         expect.screenshot("suggested_values").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.segmentEditorPanel .ui-autocomplete-input');
         }, done);
     });
 
-    it("should add an OR condition when clicking on add OR", function (done) {
+    it("should add an OR condition when clicking on add OR", async function() {
         expect.screenshot("add_new_or_condition").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.segmentEditorPanel .segment-add-or');
         }, done);
     });
 
-    it("should add an OR condition when a segment dimension is selected in the OR placeholder section", function (done) {
+    it("should add an OR condition when a segment dimension is selected in the OR placeholder section", async function() {
         expect.screenshot("drag_or_condition").to.be.captureSelector(selectorsToCapture, function (page) {
             selectDimension(page, '.segmentRow0 .segment-row:last', 'Actions', 'Clicked URL');
         }, done);
     });
 
-    it("should add an AND condition when clicking on add AND", function (done) {
+    it("should add an AND condition when clicking on add AND", async function() {
         expect.screenshot("add_new_and_condition").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.segmentEditorPanel .segment-add-row');
         }, done);
     });
 
-    it("should add an AND condition when a segment dimension is dragged to the AND placeholder section", function (done) {
+    it("should add an AND condition when a segment dimension is dragged to the AND placeholder section", async function() {
         expect.screenshot("drag_and_condition").to.be.captureSelector(selectorsToCapture, function (page) {
             selectDimension(page, '.segmentRow1', 'Actions', 'Clicked URL');
         }, done);
     });
 
-    it("should save a new segment and add it to the segment list when the form is filled out and the save button is clicked", function (done) {
+    it("should save a new segment and add it to the segment list when the form is filled out and the save button is clicked", async function() {
         expect.screenshot("saved").to.be.captureSelector(selectorsToCapture, function (page) {
             page.evaluate(function () {
                 $('.metricValueBlock input').each(function (index) {
@@ -146,20 +146,20 @@ describe("SegmentSelectorEditorTest", function () {
         }, done);
     });
 
-    it("should show the new segment after page reload", function (done) {
+    it("should show the new segment after page reload", async function() {
         expect.screenshot("saved").to.be.captureSelector("saved_reload", selectorsToCapture, function (page) {
             page.reload();
             page.click('.segmentationContainer .title');
         }, done);
     });
 
-    it("should correctly load the new segment's details when the new segment is edited", function (done) {
+    it("should correctly load the new segment's details when the new segment is edited", async function() {
         expect.screenshot("saved_details").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.segmentList li[data-idsegment=4] .editSegment');
         }, done);
     });
 
-    it("should correctly should show a confirmation when changing segment definition", function (done) {
+    it("should correctly should show a confirmation when changing segment definition", async function() {
         expect.screenshot("update_confirmation").to.be.captureSelector('.modal.open', function (page) {
             page.click('.segmentEditorPanel .editSegmentName');
             page.evaluate(function () {
@@ -184,27 +184,27 @@ describe("SegmentSelectorEditorTest", function () {
         }, done);
     });
 
-    it("should correctly update the segment when saving confirmed", function (done) {
+    it("should correctly update the segment when saving confirmed", async function() {
         expect.screenshot("updated").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.modal.open .modal-footer a:contains(Yes):visible');
             page.click('.segmentationContainer');
         }, done);
     });
 
-    it("should show the updated segment after page reload", function (done) {
+    it("should show the updated segment after page reload", async function() {
         expect.screenshot("updated_reload").to.be.captureSelector("updated_reload", selectorsToCapture, function (page) {
             page.reload();
             page.click('.segmentationContainer .title');
         }, done);
     });
 
-    it("should correctly load the updated segment's details when the updated segment is edited", function (done) {
+    it("should correctly load the updated segment's details when the updated segment is edited", async function() {
         expect.screenshot("updated_details").to.be.captureSelector(selectorsToCapture, function (page) {
             page.click('.segmentList li[data-idsegment=4] .editSegment');
         }, done);
     });
 
-    it("should correctly show delete dialog when the delete link is clicked", function (done) {
+    it("should correctly show delete dialog when the delete link is clicked", async function() {
         expect.screenshot('deleted_dialog').to.be.captureSelector('.modal.open', function (page) {
             page.evaluate(function () {
                 $('.segmentEditorPanel a.delete').click();
@@ -212,7 +212,7 @@ describe("SegmentSelectorEditorTest", function () {
         }, done);
     });
 
-    it("should correctly remove the segment when the delete dialog is confirmed", function (done) {
+    it("should correctly remove the segment when the delete dialog is confirmed", async function() {
         expect.screenshot('deleted').to.be.captureSelector(selectorsToCapture + ',.modal.open', function (page) {
             page.click('.modal.open .modal-footer a:contains(Yes):visible');
 
@@ -220,7 +220,7 @@ describe("SegmentSelectorEditorTest", function () {
         }, done);
     });
 
-    it("should not show the deleted segment after page reload", function (done) {
+    it("should not show the deleted segment after page reload", async function() {
         expect.screenshot('deleted').to.be.captureSelector('deleted_reload', selectorsToCapture, function (page) {
             page.reload();
             page.click('.segmentationContainer .title');

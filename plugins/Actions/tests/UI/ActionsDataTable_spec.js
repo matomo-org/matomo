@@ -12,19 +12,19 @@ describe("ActionsDataTable", function () {
 
     var url = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&isFooterExpandedInDashboard=1";
 
-    it("should load correctly", function (done) {
+    it("should load correctly", async function() {
         expect.screenshot('initial').to.be.capture(function (page) {
             page.load(url);
         }, done);
     });
 
-    it("should sort column correctly when column header clicked", function (done) {
+    it("should sort column correctly when column header clicked", async function() {
         expect.screenshot('column_sorted').to.be.capture(function (page) {
             page.click('th#avg_time_on_page', 3000);
         }, done);
     });
 
-    it("should load subtables correctly when row clicked", function (done) {
+    it("should load subtables correctly when row clicked", async function() {
         expect.screenshot('subtables_loaded').to.be.capture(function (page) {
             page.evaluate(function(){
                $('tr.subDataTable:first').click();
@@ -33,26 +33,26 @@ describe("ActionsDataTable", function () {
         }, done);
     });
 
-    it("should show configuration options", function (done) {
+    it("should show configuration options", async function() {
         expect.screenshot('configuration_options').to.be.captureSelector('.tableConfiguration', function (page) {
             page.click('.dropdownConfigureIcon');
         }, done);
     });
 
-    it("should flatten table when flatten link clicked", function (done) {
+    it("should flatten table when flatten link clicked", async function() {
         expect.screenshot('flattened').to.be.capture(function (page) {
             page.click('.dataTableFlatten');
         }, done);
     });
 
-    it("should exclude low population rows when exclude low population link clicked", function (done) {
+    it("should exclude low population rows when exclude low population link clicked", async function() {
         expect.screenshot('exclude_low_population').to.be.capture(function (page) {
             page.click('.dropdownConfigureIcon');
             page.click('.dataTableExcludeLowPopulation');
         }, done);
     });
 
-    it("should load normal view when switch to view hierarchical view link is clicked", function (done) {
+    it("should load normal view when switch to view hierarchical view link is clicked", async function() {
         expect.screenshot('unflattened').to.be.capture(function (page) {
             page.click('.dropdownConfigureIcon span');
             page.click('.dataTableFlatten');
@@ -60,7 +60,7 @@ describe("ActionsDataTable", function () {
         }, done);
     });
 
-    it("should display pageview percentages when hovering over pageviews column", function (done) {
+    it("should display pageview percentages when hovering over pageviews column", async function() {
         this.retries(3);
         expect.screenshot('pageview_percentages').to.be.capture(function (page) {
             page.mouseMove('tr:contains("thankyou") td.column:eq(1)');
@@ -68,7 +68,7 @@ describe("ActionsDataTable", function () {
         }, done);
     });
 
-    it("should generate a proper title for the visitor log segmented by the current row", function (done) {
+    it("should generate a proper title for the visitor log segmented by the current row", async function() {
         this.retries(3);
         expect.screenshot('segmented_visitor_log_hover').to.be.capture(function (page) {
             var row = 'tr:contains("thankyou") ';
@@ -78,7 +78,7 @@ describe("ActionsDataTable", function () {
         }, done);
     });
 
-    it("should open the visitor log segmented by the current row", function (done) {
+    it("should open the visitor log segmented by the current row", async function() {
         expect.screenshot('segmented_visitor_log').to.be.captureSelector('.ui-dialog', function (page) {
             page.evaluate(function(){
                 $('tr:contains("thankyou") td.label .actionSegmentVisitorLog').click();
@@ -86,7 +86,7 @@ describe("ActionsDataTable", function () {
         }, done);
     });
 
-    it("should display unique pageview percentages when hovering over unique pageviews column", function (done) {
+    it("should display unique pageview percentages when hovering over unique pageviews column", async function() {
         this.retries(3);
         expect.screenshot('unique_pageview_percentages').to.be.capture(function (page) {
             page.click('.ui-widget .ui-dialog-titlebar-close');
@@ -96,13 +96,13 @@ describe("ActionsDataTable", function () {
         }, done);
     });
 
-    it("should show the search when clicking on the search icon", function (done) {
+    it("should show the search when clicking on the search icon", async function() {
         expect.screenshot('search_visible').to.be.capture(function (page) {
             page.click('.dataTableAction.searchAction');
         }, done);
     });
 
-    it("should search through table when search input entered and search button clicked and input should be visible", function (done) {
+    it("should search through table when search input entered and search button clicked and input should be visible", async function() {
         expect.screenshot('search').to.be.capture(function (page) {
             page.sendKeys('.searchAction .dataTableSearchInput', 'i');
             page.click('.searchAction .icon-search', 1500);
@@ -110,13 +110,13 @@ describe("ActionsDataTable", function () {
         }, done);
     });
 
-    it("should close search when clicking on the x icon", function (done) {
+    it("should close search when clicking on the x icon", async function() {
         expect.screenshot('search_closed').to.be.capture(function (page) {
             page.click('.searchAction .icon-close');
         }, done);
     });
 
-    it("should automatically expand subtables if it contains only one folder", function (done) {
+    it("should automatically expand subtables if it contains only one folder", async function() {
         expect.screenshot('auto_expand').to.be.capture(function (page) {
             page.load(url + '&viewDataTable=table');
             page.click('tr .value:contains("blog")');

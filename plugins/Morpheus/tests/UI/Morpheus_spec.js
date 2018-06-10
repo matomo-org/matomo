@@ -16,7 +16,7 @@ describe("Morpheus", function () {
         testEnvironment.save();
     });
 
-    it("should show all UI components and CSS classes", function (done) {
+    it("should show all UI components and CSS classes", async function() {
         expect.screenshot('load').to.be.capture(function (page) {
             page.load(url, 4000);
         }, done);

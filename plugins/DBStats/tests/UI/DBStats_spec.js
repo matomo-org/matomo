@@ -12,7 +12,7 @@ describe("DBStats", function () {
 
     var url = "?module=DBStats&action=index&idSite=1&period=day&date=yesterday";
 
-    it("should load correctly", function (done) {
+    it("should load correctly", async function() {
         expect.screenshot('admin_page').to.be.captureSelector('#content', function (page) {
             page.load(url);
         }, done);

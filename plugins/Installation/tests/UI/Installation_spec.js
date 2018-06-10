@@ -33,7 +33,7 @@ describe("Installation", function () {
         testEnvironment.save();
     });
 
-    it("should display an error message when trying to access a resource w/o a config.ini.php file", function (done) {
+    it("should display an error message when trying to access a resource w/o a config.ini.php file", async function() {
         expect.screenshot("access_no_config").to.be.capture(function (page) {
             page.load("?module=CoreHome&action=index&ignoreClearAllViewDataTableParameters=1");
 
@@ -48,20 +48,20 @@ describe("Installation", function () {
         }, done);
     });
 
-    it("should start the installation process when the index is visited w/o a config.ini.php file", function (done) {
+    it("should start the installation process when the index is visited w/o a config.ini.php file", async function() {
         expect.screenshot("start").to.be.capture(function (page) {
             page.load("?ignoreClearAllViewDataTableParameters=1");
         }, done);
     });
 
-    it("should display the system check page when next is clicked on the first page", function (done) {
+    it("should display the system check page when next is clicked on the first page", async function() {
         expect.screenshot("system_check").to.be.capture(function (page) {
             page.click('.next-step .btn');
         }, done);
     });
 
     var pageUrl;
-    it("should have already created a tmp/sessions/index.htm file to prevent directory listing", function (done) {
+    it("should have already created a tmp/sessions/index.htm file to prevent directory listing", async function() {
         expect.screenshot('nothing_to_see_here').to.be.capture(function (page) {
             pageUrl = page.url();
 
@@ -72,7 +72,7 @@ describe("Installation", function () {
         }, done);
     });
 
-    it("should display the database setup page when next is clicked on the system check page", function (done) {
+    it("should display the database setup page when next is clicked on the system check page", async function() {
         expect.screenshot("db_setup").to.be.capture(function (page) {
             page.load(pageUrl);
 
@@ -80,13 +80,13 @@ describe("Installation", function () {
         }, done);
     });
 
-    it("should fail when the next button is clicked and no database info is entered in the form", function (done) {
+    it("should fail when the next button is clicked and no database info is entered in the form", async function() {
         expect.screenshot("db_setup_fail").to.be.capture(function (page) {
             page.click('.btn');
         }, done);
     });
 
-    it("should display the tables created page when next is clicked on the db setup page w/ correct info entered in the form", function (done) {
+    it("should display the tables created page when next is clicked on the db setup page w/ correct info entered in the form", async function() {
         expect.screenshot("db_created").to.be.capture(function (page) {
             var dbInfo = testEnvironment.readDbInfoFromConfig();
             var username = dbInfo.username;
@@ -103,7 +103,7 @@ describe("Installation", function () {
         }, done);
     });
 
-    it("should display the superuser configuration page when next is clicked on the tables created page", function (done) {
+    it("should display the superuser configuration page when next is clicked on the tables created page", async function() {
         expect.screenshot("superuser").to.be.capture(function (page) {
             page.click('.next-step .btn');
         }, done);
@@ -111,7 +111,7 @@ describe("Installation", function () {
 
     var pageUrl, pageUrlDe;
 
-    it("should un-select Professional Services newsletter checkbox when language is German", function (done) {
+    it("should un-select Professional Services newsletter checkbox when language is German", async function() {
         expect.screenshot("superuser_de").to.be.capture(function (page) {
             pageUrl = page.url();
             pageUrlDe = pageUrl + '&language=de'
@@ -119,14 +119,14 @@ describe("Installation", function () {
         }, done);
     });
 
-    it("should fail when incorrect information is entered in the superuser configuration page", function (done) {
+    it("should fail when incorrect information is entered in the superuser configuration page", async function() {
         expect.screenshot("superuser_fail").to.be.capture(function (page) {
             page.load(pageUrl);
             page.click('.btn');
         }, done);
     });
 
-    it("should display the setup a website page when next is clicked on the filled out superuser config page", function (done) {
+    it("should display the setup a website page when next is clicked on the filled out superuser config page", async function() {
         expect.screenshot("setup_website").to.be.capture(function (page) {
             page.sendKeys('input[name=login]', 'thesuperuser');
             page.sendKeys('input[name=password]', 'thepassword');
@@ -137,13 +137,13 @@ describe("Installation", function () {
         }, done);
     });
 
-    it("should should fail when incorrect information is entered in the setup a website page", function (done) {
+    it("should should fail when incorrect information is entered in the setup a website page", async function() {
         expect.screenshot("setup_website_fail").to.be.capture(function (page) {
             page.click('.btn');
         }, done);
     });
 
-    it("should display the javascript tracking page when correct information is entered in the setup website page and next is clicked", function (done) {
+    it("should display the javascript tracking page when correct information is entered in the setup website page and next is clicked", async function() {
         expect.screenshot("js_tracking").to.be.capture(function (page) {
             page.sendKeys('input[name=siteName]', 'Serenity');
             page.evaluate(function () {
@@ -167,13 +167,13 @@ describe("Installation", function () {
         }, done);
     });
 
-    it("should display the congratulations page when next is clicked on the javascript tracking page", function (done) {
+    it("should display the congratulations page when next is clicked on the javascript tracking page", async function() {
         expect.screenshot("congrats").to.be.capture(function (page) {
             page.click('.next-step .btn');
         }, done);
     });
 
-    it("should continue to piwik after submitting on the privacy settings form in the congrats page", function (done) {
+    it("should continue to piwik after submitting on the privacy settings form in the congrats page", async function() {
         expect.current_page.contains('.loginForm', function (page) {
             page.click('.btn');
         }, done);

@@ -18,7 +18,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         segment = encodeURIComponent("browserCode==FF") // from OmniFixture
         ;
 
-    before(async function ()  {
+    before(async function () {
         testEnvironment.queryParamOverride = {
             forceNowValue: testEnvironment.forcedNowTimestamp,
             visitorId: testEnvironment.forcedIdVisitor,
@@ -47,7 +47,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
     
     // dashboard tests
-    it("should load dashboard1 correctly", async function ()  {
+    it("should load dashboard1 correctly", async function () {
         expect.screenshot("dashboard1").to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
 
@@ -58,25 +58,25 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it("should load dashboard2 correctly", async function ()  {
+    it("should load dashboard2 correctly", async function () {
         expect.screenshot("dashboard2").to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=2");
         }, done);
     });
 
-    it("should load dashboard3 correctly", async function ()  {
+    it("should load dashboard3 correctly", async function () {
         expect.screenshot("dashboard3").to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
         }, done);
     });
 
-    it("should load dashboard4 correctly", async function ()  {
+    it("should load dashboard4 correctly", async function () {
         expect.screenshot("dashboard4").to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=4");
         }, done);
     });
 
-    it("should display dashboard correctly on a mobile phone", async function ()  {
+    it("should display dashboard correctly on a mobile phone", async function () {
         expect.screenshot("dashboard5_mobile").to.be.capture(function (page) { // capture with menu
             page.setViewportSize(480, 320);
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=5");
@@ -84,7 +84,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // shortcuts help
-    it("should show shortcut help", async function ()  {
+    it("should show shortcut help", async function () {
         expect.screenshot("shortcuts").to.be.captureSelector('.modal.open', function (page) {
             page.userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=1");
@@ -93,21 +93,21 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // visitors pages
-    it('should load visitors > overview page correctly', async function ()  {
+    it('should load visitors > overview page correctly', async function () {
         expect.screenshot("visitors_overview").to.be.captureSelector('.pageWrap', function (page) {
             // use columns query param to make sure columns works when supplied in URL fragment
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&columns=nb_visits,nb_actions");
         }, done);
     });
 
-    it('should reload the visitors > overview page when clicking on the visitors overview page element again', async function ()  {
+    it('should reload the visitors > overview page when clicking on the visitors overview page element again', async function () {
         expect.screenshot("visitors_overview").to.be.captureSelector("visitors_overview_reloaded", '.pageWrap', function (page) {
             page.click('#VisitsSummary_index > a.item');
         }, done);
     });
 
     // skipped as phantom seems to crash at this test sometimes
-    it.skip('should load visitors > visitor log page correctly', async function ()  {
+    it.skip('should load visitors > visitor log page correctly', async function () {
         expect.screenshot("visitors_visitorlog").to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog");
         }, done);
@@ -115,49 +115,49 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     // this test often fails for unknown reasons? 
     // the visitor log with site search is also currently tested in plugins/Live/tests/UI/expected-ui-screenshots/Live_visitor_log.png
-    it.skip('should load visitors with site search > visitor log page correctly', async function ()  {
+    it.skip('should load visitors with site search > visitor log page correctly', async function () {
         expect.screenshot("visitors_with_site_search_visitorlog").to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=Live_VisitorLog&period=day&date=2012-01-11");
         }, done);
     });
 
-    it('should load the visitors > devices page correctly', async function ()  {
+    it('should load the visitors > devices page correctly', async function () {
         expect.screenshot("visitors_devices").to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=DevicesDetection_Devices");
         }, done);
     });
 
-    it('should load visitors > locations & provider page correctly', async function ()  {
+    it('should load visitors > locations & provider page correctly', async function () {
         expect.screenshot("visitors_locations_provider").to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=UserCountry_SubmenuLocations");
         }, done);
     });
 
-    it('should load the visitors > software page correctly', async function ()  {
+    it('should load the visitors > software page correctly', async function () {
         expect.screenshot("visitors_software").to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=DevicesDetection_Software");
         }, done);
     });
 
-    it('should load the visitors > times page correctly', async function ()  {
+    it('should load the visitors > times page correctly', async function () {
         expect.screenshot("visitors_times").to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
         }, done);
     });
 
-    it('should load the visitors > engagement page correctly', async function ()  {
+    it('should load the visitors > engagement page correctly', async function () {
         expect.screenshot("visitors_engagement").to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=VisitorInterest_Engagement");
         }, done);
     });
 
-    it('should load the visitors > custom variables page correctly', async function ()  {
+    it('should load the visitors > custom variables page correctly', async function () {
         expect.screenshot('visitors_custom_vars').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=CustomVariables_CustomVariables");
         }, done);
     });
 
-    it('should load the visitors > real-time map page correctly', async function ()  {
+    it('should load the visitors > real-time map page correctly', async function () {
         expect.screenshot('visitors_realtime_map').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=UserCountryMap_RealTimeMap"
                     + "&showDateTime=0&realtimeWindow=last2&changeVisitAlpha=0&enableAnimation=0&doNotRefreshVisits=1"
@@ -176,14 +176,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // actions pages
-    it('should load the actions > pages page correctly', async function ()  {
+    it('should load the actions > pages page correctly', async function () {
         expect.screenshot('actions_pages').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
         }, done);
     });
 
     // actions pages
-    it('should load the actions > pages help tooltip, including the "Report generated time"', async function ()  {
+    it('should load the actions > pages help tooltip, including the "Report generated time"', async function () {
         expect.screenshot('actions_pages_tooltip_help').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
             page.mouseMove('[piwik-enriched-headline]');
@@ -194,145 +194,145 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the actions > entry pages page correctly', async function ()  {
+    it('should load the actions > entry pages page correctly', async function () {
         expect.screenshot('actions_entry_pages').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPagesEntry");
         }, done);
     });
 
-    it('should load the actions > exit pages page correctly', async function ()  {
+    it('should load the actions > exit pages page correctly', async function () {
         expect.screenshot('actions_exit_pages').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPagesExit");
         }, done);
     });
 
-    it('should load the actions > page titles page correctly', async function ()  {
+    it('should load the actions > page titles page correctly', async function () {
         expect.screenshot('actions_page_titles').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPageTitles");
         }, done);
     });
 
-    it('should load the actions > site search page correctly', async function ()  {
+    it('should load the actions > site search page correctly', async function () {
         expect.screenshot('actions_site_search').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuSitesearch");
         }, done);
     });
 
-    it('should load the actions > outlinks page correctly', async function ()  {
+    it('should load the actions > outlinks page correctly', async function () {
         expect.screenshot('actions_outlinks').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Outlinks");
         }, done);
     });
 
-    it('should load the actions > downloads page correctly', async function ()  {
+    it('should load the actions > downloads page correctly', async function () {
         expect.screenshot('actions_downloads').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Downloads");
         }, done);
     });
 
-    it('should load the actions > contents page correctly', async function ()  {
+    it('should load the actions > contents page correctly', async function () {
         expect.screenshot('actions_contents').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Contents_Contents&period=day&date=2012-01-01");
         }, done);
     });
 
-    it("should show all corresponding content pieces when clicking on a content name", async function ()  {
+    it("should show all corresponding content pieces when clicking on a content name", async function () {
         expect.screenshot("actions_content_name_piece").to.be.captureSelector('.pageWrap', function (page) {
             page.click('.dataTable .subDataTable .value:contains(ImageAd)');
         }, done);
     });
 
-    it("should show all tracked content pieces when clicking on the table", async function ()  {
+    it("should show all tracked content pieces when clicking on the table", async function () {
         expect.screenshot("actions_content_piece").to.be.captureSelector('.pageWrap', function (page) {
             page.click('.reportDimension .dimension:contains(Content Piece)');
         }, done);
     });
 
-    it("should show all corresponding content names when clicking on a content piece", async function ()  {
+    it("should show all corresponding content names when clicking on a content piece", async function () {
         expect.screenshot("actions_content_piece_name").to.be.captureSelector('.pageWrap', function (page) {
             page.click('.dataTable .subDataTable .value:contains(Click NOW)');
         }, done);
     });
 
     // referrers pages
-    it('should load the referrers > overview page correctly', async function ()  {
+    it('should load the referrers > overview page correctly', async function () {
         expect.screenshot('referrers_overview').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=General_Overview");
         }, done);
     });
 
     // referrers pages
-    it('should load the referrers > overview page correctly', async function ()  {
+    it('should load the referrers > overview page correctly', async function () {
         expect.screenshot('referrers_allreferrers').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_WidgetGetAll");
         }, done);
     });
 
-    it('should display metric tooltip correctly', async function ()  {
+    it('should display metric tooltip correctly', async function () {
         expect.screenshot("metric_tooltip").to.be.captureSelector('.pageWrap,.columnDocumentation:visible', function (page) {
             page.mouseMove('[data-report="Referrers.getReferrerType"] #nb_visits .thDIV', 500);
         }, done);
     });
 
-    it('should load the referrers > search engines & keywords page correctly', async function ()  {
+    it('should load the referrers > search engines & keywords page correctly', async function () {
         this.retries(3);
         expect.screenshot('referrers_search_engines_keywords').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_SubmenuSearchEngines");
         }, done);
     });
 
-    it('should load the referrers > websites correctly', async function ()  {
+    it('should load the referrers > websites correctly', async function () {
         expect.screenshot('referrers_websites').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_SubmenuWebsitesOnly");
         }, done);
     });
 
-    it('should load the referrers > social page correctly', async function ()  {
+    it('should load the referrers > social page correctly', async function () {
         expect.screenshot('referrers_socials').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_Socials");
         }, done);
     });
 
-    it('should load the referrers > campaigns page correctly', async function ()  {
+    it('should load the referrers > campaigns page correctly', async function () {
         expect.screenshot('referrers_campaigns').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_Campaigns");
         }, done);
     });
 
     // goals pages
-    it('should load the goals > ecommerce page correctly', async function ()  {
+    it('should load the goals > ecommerce page correctly', async function () {
         expect.screenshot('goals_ecommerce').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
             page.goto( "?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=General_Overview")
         }, done);
     });
 
-    it('should load the goals > overview page correctly', async function ()  {
+    it('should load the goals > overview page correctly', async function () {
         expect.screenshot('goals_overview').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
             page.goto( "?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=General_Overview");
         }, done);
     });
 
-    it('should load the goals > management page correctly', async function ()  {
+    it('should load the goals > management page correctly', async function () {
         expect.screenshot('goals_manage').to.be.captureSelector('#content,.top_bar_sites_selector,.entityContainer', function (page) {
             page.goto("?" + generalParams + "&module=Goals&action=manage");
             page.wait(200);
         }, done);
     });
 
-    it('should load the goals > single goal page correctly', async function ()  {
+    it('should load the goals > single goal page correctly', async function () {
         expect.screenshot('goals_individual_goal').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=1");
         }, done);
     });
 
-    it('should update the evolution chart if a sparkline is clicked', async function ()  {
+    it('should update the evolution chart if a sparkline is clicked', async function () {
         expect.screenshot('goals_individual_goal_updated').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
             page.click('.sparkline.linked:contains(%)');
         }, done);
     });
 
     // should load the row evolution [see #11526]
-    it('should show rov evolution for goal tables', async function ()  {
+    it('should show rov evolution for goal tables', async function () {
         expect.screenshot('goals_individual_row_evolution').to.be.captureSelector('.ui-dialog', function (page) {
             page.mouseMove('table.dataTable tbody tr:first-child');
             page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
@@ -342,57 +342,57 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // Events pages
-    it('should load the Events > index page correctly', async function ()  {
+    it('should load the Events > index page correctly', async function () {
         expect.screenshot('events_overview').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Events_Events");
         }, done);
     });
 
     // one page w/ segment
-    it('should load the visitors > overview page correctly when a segment is specified', async function ()  {
+    it('should load the visitors > overview page correctly when a segment is specified', async function () {
         expect.screenshot('visitors_overview_segment').to.be.captureSelector('.pageWrap,.top_controls', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&segment=" + segment);
         }, done);
     });
 
     // example ui pages
-    it('should load the example ui > dataTables page correctly', async function ()  {
+    it('should load the example ui > dataTables page correctly', async function () {
         expect.screenshot('exampleui_dataTables').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=ExampleUI_GetTemperaturesDataTable");
         }, done);
     });
 
-    it('should load the example ui > barGraph page correctly', async function ()  {
+    it('should load the example ui > barGraph page correctly', async function () {
         expect.screenshot('exampleui_barGraph').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Bar%20graph");
         }, done);
     });
 
-    it('should load the example ui > pieGraph page correctly', async function ()  {
+    it('should load the example ui > pieGraph page correctly', async function () {
         expect.screenshot('exampleui_pieGraph').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Pie%20graph");
         }, done);
     });
 
-    it('should load the example ui > tagClouds page correctly', async function ()  {
+    it('should load the example ui > tagClouds page correctly', async function () {
         expect.screenshot('exampleui_tagClouds').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Tag%20clouds");
         }, done);
     });
 
-    it('should load the example ui > sparklines page correctly', async function ()  {
+    it('should load the example ui > sparklines page correctly', async function () {
         expect.screenshot('exampleui_sparklines').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Sparklines");
         }, done);
     });
 
-    it('should load the example ui > evolution graph page correctly', async function ()  {
+    it('should load the example ui > evolution graph page correctly', async function () {
         expect.screenshot('exampleui_evolutionGraph').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Evolution%20Graph");
         }, done);
     });
 
-    it('should load the example ui > treemap page correctly', async function ()  {
+    it('should load the example ui > treemap page correctly', async function () {
         expect.screenshot('exampleui_treemap').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=ExampleUI_UiFramework&subcategory=Treemap");
             page.wait(2000);
@@ -400,7 +400,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // widgetize
-    it('should load the widgetized visitor log correctly', async function ()  {
+    it('should load the widgetized visitor log correctly', async function () {
         this.retries(3);
         expect.screenshot('widgetize_visitor_log').to.be.capture(function (page) {
             expect.screenshot("widgetize_visitor_log").to.be.skippedOnAbort();
@@ -411,7 +411,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the widgetized all websites dashboard correctly', async function ()  {
+    it('should load the widgetized all websites dashboard correctly', async function () {
         this.retries(3);
         expect.screenshot('widgetize_allwebsites').to.be.capture(function (page) {
             page.goto("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=MultiSites&actionToWidgetize=standalone");
@@ -419,7 +419,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should widgetize the ecommerce log correctly', async function ()  {
+    it('should widgetize the ecommerce log correctly', async function () {
         this.retries(3);
         expect.screenshot('widgetize_ecommercelog').to.be.capture(function (page) {
             page.goto("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=Ecommerce&actionToWidgetize=getEcommerceLog&filter_limit=-1");
@@ -427,13 +427,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // Do not allow API response to be displayed
-    it('should not allow to widgetize an API call', async function ()  {
+    it('should not allow to widgetize an API call', async function () {
         expect.screenshot('widgetize_apidisallowed').to.be.capture(function (page) {
             page.goto("?" + widgetizeParams + "&" + generalParams + "&moduleToWidgetize=API&actionToWidgetize=index&method=SitesManager.getImageTrackingCode&piwikUrl=test");
         }, done);
     });
 
-    it('should not display API response in the content and redirect to dashboard instead', async function ()  {
+    it('should not display API response in the content and redirect to dashboard instead', async function () {
         expect.page().contains('#dashboardWidgetsArea', /*'menu_apidisallowed',*/ function (page) {
             var url = "?" + urlBase + "#?" + generalParams + "&module=API&action=SitesManager.getImageTrackingCode";
             page.goto(url, 2000);
@@ -441,46 +441,46 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // Ecommerce
-    it('should load the ecommerce overview page', async function ()  {
+    it('should load the ecommerce overview page', async function () {
         expect.screenshot('ecommerce_overview').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
         }, done);
     });
 
-    it('should load the ecommerce log page', async function ()  {
+    it('should load the ecommerce log page', async function () {
         this.retries(3);
         expect.screenshot('ecommerce_log').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog");
         }, done);
     });
 
-    it('should load the ecommerce log page with segment', async function ()  {
+    it('should load the ecommerce log page with segment', async function () {
         this.retries(3);
         expect.screenshot('ecommerce_log_segmented').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + urlBase + "&segment=countryCode%3D%3DUS#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_EcommerceLog&segment=countryCode%3D%3DUS");
         }, done);
     });
 
-    it('should load the ecommerce products page', async function ()  {
+    it('should load the ecommerce products page', async function () {
         expect.screenshot('ecommerce_products').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Goals_Products");
         }, done);
     });
 
-    it('should load the ecommerce sales page', async function ()  {
+    it('should load the ecommerce sales page', async function () {
         expect.screenshot('ecommerce_sales').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Ecommerce&subcategory=Ecommerce_Sales");
         }, done);
     });
 
-    it('should load the Admin home page correct', async function ()  {
+    it('should load the Admin home page correct', async function () {
         expect.screenshot('admin_home').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=CoreAdminHome&action=home");
         }, done);
     });
 
     // Admin user settings (plugins not displayed)
-    it('should load the Manage > Websites admin page correctly', async function ()  {
+    it('should load the Manage > Websites admin page correctly', async function () {
         expect.screenshot('admin_manage_websites').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=SitesManager&action=index");
             page.evaluate(function () {
@@ -489,7 +489,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the user settings admin page correctly', async function () {
+    it('should load the user settings admin page correctly', asyncfunction () {
         expect.screenshot('admin_user_settings').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=UsersManager&action=userSettings");
         }, done);
@@ -511,13 +511,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the Manage > Tracking Code admin page correctly', async function ()  {
+    it('should load the Manage > Tracking Code admin page correctly', async function () {
         expect.screenshot('admin_manage_tracking_code').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
         }, done);
     });
 
-    it('should load the Settings > General Settings admin page correctly', async function ()  {
+    it('should load the Settings > General Settings admin page correctly', async function () {
         expect.screenshot('admin_settings_general').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=CoreAdminHome&action=generalSettings");
             // angular might need a little to render after page has loaded
@@ -529,19 +529,19 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the Privacy Opt out iframe correctly', async function ()  {
+    it('should load the Privacy Opt out iframe correctly', async function () {
         expect.screenshot('admin_privacy_optout_iframe').to.be.capture(function (page) {
             page.goto("?module=CoreAdminHome&action=optOut&language=de");
         }, done);
     });
 
-    it('should load the Settings > Mobile Messaging admin page correctly', async function ()  {
+    it('should load the Settings > Mobile Messaging admin page correctly', async function () {
         expect.screenshot('admin_settings_mobilemessaging').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=MobileMessaging&action=index");
         }, done);
     });
 
-    it('should switch the SMS provider correctly', async function ()  {
+    it('should switch the SMS provider correctly', async function () {
         expect.screenshot('admin_settings_mobilemessaging_provider').to.be.captureSelector('.pageWrap', function (page) {
             page.evaluate(function() {
                 $('[name=smsProviders] ul li:nth-child(2)').click();
@@ -549,13 +549,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the themes admin page correctly', async function ()  {
+    it('should load the themes admin page correctly', async function () {
         expect.screenshot('admin_themes').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=themes");
         }, done);
     });
 
-    it('should load the plugins admin page correctly', function (done) {
+    it('should load the plugins admin page correctly', async function() {
         expect.screenshot('admin_plugins').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
         }, done);
@@ -572,13 +572,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the config file page correctly', function (done) {
+    it('should load the config file page correctly', async function() {
         expect.screenshot('admin_diagnostics_configfile').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=Diagnostics&action=configfile");
         }, done);
     });
 
-    it('should load the Settings > Visitor Generator admin page correctly', function (done) {
+    it('should load the Settings > Visitor Generator admin page correctly', async function() {
         expect.screenshot('admin_visitor_generator').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=VisitorGenerator&action=index");
 
@@ -590,7 +590,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // Notifications
-    it('should load the notifications page correctly', function (done) {
+    it('should load the notifications page correctly', async function() {
         expect.screenshot('notifications').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=ExampleUI&action=notifications&idSite=1&period=day&date=yesterday");
             page.evaluate(function () {
@@ -600,7 +600,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // Fatal error safemode
-    it('should load the safemode fatal error page correctly', function (done) {
+    it('should load the safemode fatal error page correctly', async function() {
         var message = "Call%20to%20undefined%20function%20Piwik%5CPlugins%5CFoobar%5CPiwik_Translate()",
             file = "%2Fhome%2Fvagrant%2Fwww%2Fpiwik%2Fplugins%2FFoobar%2FFoobar.php%20line%205",
             line = 58;
@@ -620,7 +620,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // invalid site parameter
-    it('should show login form for non super user if invalid idsite given', function (done) {
+    it('should show login form for non super user if invalid idsite given', async function() {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.save();
 
@@ -629,26 +629,26 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should show error for super user if invalid idsite given', function (done) {
+    it('should show error for super user if invalid idsite given', async function() {
         expect.screenshot('invalid_idsite_superuser').to.be.capture(function (page) {
             page.goto("?module=CoreHome&action=index&idSite=10006&period=week&date=2017-06-04");
         }, done);
     });
 
-    it('should load the glossary correctly', function (done) {
+    it('should load the glossary correctly', async function() {
         expect.screenshot('glossary').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=API&action=glossary");
         }, done);
     });
 
-    it('should load the glossary correctly widgetized', function (done) {
+    it('should load the glossary correctly widgetized', async function() {
         expect.screenshot('glossary_widgetized').to.be.capture(function (page) {
             page.goto("?" + generalParams + "&module=API&action=glossary&widget=1");
         }, done);
     });
 
     // DB error message
-    it('should fail correctly when db information in config is incorrect', function (done) {
+    it('should fail correctly when db information in config is incorrect', async function() {
 
         testEnvironment.overrideConfig('database', {
             host: config.phpServer.REMOTE_ADDR,
@@ -665,7 +665,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // top bar pages
-    it('should load the widgets listing page correctly', function (done) {
+    it('should load the widgets listing page correctly', async function() {
         expect.screenshot('widgets_listing').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=Widgetize&action=index");
 
@@ -683,13 +683,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the API listing page correctly', function (done) {
+    it('should load the API listing page correctly', async function() {
         expect.screenshot('api_listing').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=API&action=listAllAPI");
         }, done);
     });
 
-    it('should load the email reports page correctly', function (done) {
+    it('should load the email reports page correctly', async function() {
         expect.screenshot('email_reports').to.be.captureSelector('.pageWrap', function (page) {
             page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
             page.evaluate(function () {
@@ -698,13 +698,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the scheduled reports when Edit button is clicked', function (done) {
+    it('should load the scheduled reports when Edit button is clicked', async function() {
         expect.screenshot('email_reports_editor').to.be.captureSelector('.pageWrap', function (page) {
             page.click('.entityTable tr:nth-child(4) button[title=Edit]');
         }, done);
     });
 
-    it('should load the feedback form when the feedback form link is clicked', function (done) {
+    it('should load the feedback form when the feedback form link is clicked', async function() {
         expect.screenshot('feedback_form').to.be.captureSelector('.pageWrap', function (page) {
 
             page.goto("?" + generalParams + "&module=Feedback&action=index");
@@ -721,7 +721,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // date range clicked
-    it('should reload to the correct date when a date range is selected in the period selector', function (done) {
+    it('should reload to the correct date when a date range is selected in the period selector', async function() {
         expect.screenshot('period_select_date_range_click').to.be.capture(function (page) {
             page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
             page.wait(1000);
@@ -739,7 +739,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // visitor profile popup
-    it('should load the visitor profile popup correctly', function (done) {
+    it('should load the visitor profile popup correctly', async function() {
         this.retries(3);
 
         expect.screenshot('visitor_profile_popup').to.be.capture(function (page) {
@@ -757,7 +757,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // opt out page
-    it('should load the opt out page correctly', function (done) {
+    it('should load the opt out page correctly', async function() {
         expect.screenshot('opt_out').to.be.capture(function (page) {
             testEnvironment.testUseMockAuth = 0;
             testEnvironment.save();
@@ -767,7 +767,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     // extra segment tests
-    it('should load the row evolution page correctly when a segment is selected', function (done) {
+    it('should load the row evolution page correctly when a segment is selected', async function() {
         this.retries(3);
         expect.page().contains('.ui-dialog > .ui-dialog-content > div.rowevolution:visible', /*'segmented_rowevolution',*/ function (page) {
             var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
@@ -783,7 +783,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the segmented visitor log correctly when a segment is selected', function (done) {
+    it('should load the segmented visitor log correctly when a segment is selected', async function() {
         this.retries(3);
         expect.screenshot('segmented_visitorlog').to.be.captureSelector('.ui-dialog > .ui-dialog-content > div.dataTableVizVisitorLog', function (page) {
             var url = "?module=CoreHome&action=index&idSite=1&period=year&date=2012-01-13#?category=General_Visitors&subcategory=CustomVariables_CustomVariables&idSite=1&period=year&date=2012-01-13";
@@ -801,7 +801,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should not apply current segmented when opening visitor log', function (done) {
+    it('should not apply current segmented when opening visitor log', async function() {
         this.retries(3);
 
         delete testEnvironment.queryParamOverride.visitorId;
