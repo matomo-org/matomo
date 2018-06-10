@@ -157,12 +157,12 @@ class HorizontalBar extends GridGraph
         $logoInterleave = $this->getGraphHeight(true, $verticalLegend) / $numberOfRows;
         for ($i = 0; $i < $numberOfRows; $i++) {
             if (isset($this->abscissaLogos[$i])) {
-                $logoPath = $this->abscissaLogos[$i];
+                $currentLogoPath = $this->abscissaLogos[$i];
 
-                if (isset($logoPathToHeight[$logoPath])) {
-                    $logoHeight = $logoPathToHeight[$logoPath];
+                if (isset($logoPathToHeight[$currentLogoPath])) {
+                    $logoHeight = $logoPathToHeight[$currentLogoPath];
 
-                    $pathInfo = pathinfo($logoPath);
+                    $pathInfo = pathinfo($currentLogoPath);
                     $logoExtension = strtoupper($pathInfo['extension']);
                     $drawingFunction = 'drawFrom' . $logoExtension;
 
@@ -177,7 +177,7 @@ class HorizontalBar extends GridGraph
                         $this->pImage->$drawingFunction(
                             $gridLeftMarginBeforePadding,
                             $logoYPosition,
-                            $logoPath
+                            $currentLogoPath
                         );
                     }
                 }
