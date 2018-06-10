@@ -20,9 +20,9 @@ describe("PivotByDimension", function () {
         page.mouseMove('.dataTableFeatures');
     }
 
-    it("should pivot a report correctly when the pivot cog option is selected", function (done) {
+    it("should pivot a report correctly when the pivot cog option is selected", async function ()  {
         expect.screenshot('pivoted').to.be.captureSelector('.dataTable,.expandDataTableFooterDrawer', function (page) {
-            page.load(eventsUrl);
+            page.goto(eventsUrl);
             page.click('.dimension:contains(Event Names)');
             showDataTableFooter(page);
             page.evaluate(function(){
@@ -33,13 +33,13 @@ describe("PivotByDimension", function () {
         }, done);
     });
 
-    it("should not display the pivot option on actions reports", function (done) {
+    it("should not display the pivot option on actions reports", async function ()  {
         expect.page(actionsUrl).not.contains('.dataTablePivotBySubtable', function () {}, done);
     });
 
-    it("should display the pivot option on reports that set a custom columns_to_display", function (done) {
+    it("should display the pivot option on reports that set a custom columns_to_display", async function ()  {
         expect.screenshot('pivoted_columns_report').to.be.captureSelector('.dataTable,.expandDataTableFooterDrawer', function (page) {
-            page.load(cvarsUrl);
+            page.goto(cvarsUrl);
             showDataTableFooter(page);
             page.click('.dropdownConfigureIcon');
             page.click('.dataTablePivotBySubtable');

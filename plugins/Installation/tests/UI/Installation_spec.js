@@ -63,7 +63,7 @@ describe("Installation", function () {
     var pageUrl;
     it("should have already created a tmp/sessions/index.htm file to prevent directory listing", function (done) {
         expect.screenshot('nothing_to_see_here').to.be.capture(function (page) {
-            pageUrl = page.getCurrentUrl();
+            pageUrl = page.url();
 
             // page.load will load by default the proxy ie. http://localhost/piwik/tests/PHPUnit/proxy/
             // but we need here to check in: http://localhost/piwik/tmp/sessions/
@@ -113,7 +113,7 @@ describe("Installation", function () {
 
     it("should un-select Professional Services newsletter checkbox when language is German", function (done) {
         expect.screenshot("superuser_de").to.be.capture(function (page) {
-            pageUrl = page.getCurrentUrl();
+            pageUrl = page.url();
             pageUrlDe = pageUrl + '&language=de'
             page.load(pageUrlDe);
         }, done);

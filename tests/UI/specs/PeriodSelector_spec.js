@@ -17,7 +17,7 @@ describe("PeriodSelector", function () {
     
     it("should load correctly", function (done) {
         expect.screenshot("loaded").to.be.captureSelector(selector, function (page) {
-            page.load(url);
+            page.goto(url);
 
             // disable broadcast.propagateNewPage & remove loading gif
             page.evaluate(function () {

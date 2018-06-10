@@ -13,25 +13,25 @@ describe("PieGraph", function () {
     var url = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=year&date=2012-08-09&"
             + "actionToWidgetize=getKeywords&viewDataTable=graphPie&isFooterExpandedInDashboard=1";
 
-    it("should load correctly", function (done) {
+    it("should load correctly", async function ()  {
         expect.screenshot("load").to.be.capture(function (page) {
-            page.load(url);
+            page.goto(url);
         }, done);
     });
 
-    it("should show tooltip on hover", function (done) {
+    it("should show tooltip on hover", async function ()  {
         expect.screenshot("pie_segment_tooltip").to.be.capture(function (page) {
             page.mouseMove('.piwik-graph');
         }, done);
     });
 
-    it("should display the metric picker on hover of metric picker icon", function (done) {
+    it("should display the metric picker on hover of metric picker icon", async function ()  {
         expect.screenshot('metric_picker_shown').to.be.capture(function (page) {
             page.mouseMove('.jqplot-seriespicker');
         }, done);
     });
 
-    it("should change displayed metric when another metric picked", function (done) {
+    it("should change displayed metric when another metric picked", async function ()  {
         expect.screenshot('other_metric').to.be.capture(function (page) {
             page.click('.jqplot-seriespicker-popover input:not(:checked):first + label');
         }, done);

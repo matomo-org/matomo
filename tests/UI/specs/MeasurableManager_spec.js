@@ -24,26 +24,26 @@ describe("MeasurableManager", function () {
         expect.screenshot(screenshotName).to.be.captureSelector('.sitesManagerList,.sitesButtonBar,.sites-manager-header,.ui-dialog.ui-widget,.modal.open', test, done);
     }
 
-    it("should load correctly and should not use SitesManager wording as another type is enabled", function (done) {
+    it("should load correctly and should not use SitesManager wording as another type is enabled", async function ()  {
         assertScreenshotEquals("loaded", done, function (page) {
-            page.load(url);
+            page.goto(url);
         });
     });
 
-    it("should use measurable wording in menu", function (done) {
+    it("should use measurable wording in menu", async function ()  {
         var selector = '#secondNavBar li:contains(Manage):first';
         expect.screenshot('measurable_menu_item').to.be.captureSelector(selector, function (page) {
 
         }, done);
     });
 
-    it("should show selection of available types when adding a type", function (done) {
+    it("should show selection of available types when adding a type", async function ()  {
         assertScreenshotEquals("add_new_dialog", done, function (page) {
             page.click('.SitesManager .addSite:first');
         });
     });
 
-    it("should load mobile app specific fields", function (done) {
+    it("should load mobile app specific fields", async function ()  {
         assertScreenshotEquals("add_measurable_view", done, function (page) {
             page.click('.modal.open .btn:contains(Mobile App)');
             page.evaluate(function () {

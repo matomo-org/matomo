@@ -15,11 +15,11 @@ describe("ReportExporting", function () {
         visitsSummaryGetUrl = baseUrl + "&moduleToWidgetize=VisitsSummary&actionToWidgetize=get&forceView=1&viewDataTable=graphEvolution";
 
     function normalReportTest(format) {
-        it("should export a normal report correctly when the " + format + " export is chosen", function (done) {
+        it("should export a normal report correctly when the " + format + " export is chosen", async function ()  {
             expect.file('Referrers.getWebsites_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
 
-                if (page.getCurrentUrl() != referrersGetWebsitesUrl) {
-                    page.load(referrersGetWebsitesUrl);
+                if (page.url() != referrersGetWebsitesUrl) {
+                    page.goto(referrersGetWebsitesUrl);
                     page.click('.activateExportSelection');
                 }
 
@@ -36,10 +36,10 @@ describe("ReportExporting", function () {
     }
 
     function evolutionReportTest(format) {
-        it("should export an evolution graph report correctly when the " + format + " export is chosen", function (done) {
+        it("should export an evolution graph report correctly when the " + format + " export is chosen", async function ()  {
             expect.file('VisitsSummary.get_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
-                if (page.getCurrentUrl() != visitsSummaryGetUrl) {
-                    page.load(visitsSummaryGetUrl);
+                if (page.url() != visitsSummaryGetUrl) {
+                    page.goto(visitsSummaryGetUrl);
                     page.click('.activateExportSelection');
                 }
 
@@ -55,10 +55,10 @@ describe("ReportExporting", function () {
     }
 
     function rowEvolutionReportTest(format) {
-        it("should export an row evolution graph report correctly when the " + format + " export link is clicked", function (done) {
+        it("should export an row evolution graph report correctly when the " + format + " export link is clicked", async function ()  {
             expect.file('RowEvolution_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
-                if (!page.getCurrentUrl() || page.getCurrentUrl().indexOf('popover') == -1) {
-                    page.load(referrersGetWebsitesUrl);
+                if (!page.url() || page.url().indexOf('popover') == -1) {
+                    page.goto(referrersGetWebsitesUrl);
                     page.mouseMove('tbody tr:first-child');
                     page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
                     page.click('a.actionRowEvolution:visible');

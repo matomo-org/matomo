@@ -33,15 +33,15 @@ describe("Theme", function () {
         clearAssets();
     });
 
-    it("should use the current theme", function (done) {
+    it("should use the current theme", async function ()  {
         expect.screenshot("home").to.be.capture(function (page) {
-            page.load("?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09");
+            page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09");
         }, done);
     });
 
-    it("should theme the UI demo page", function (done) {
+    it("should theme the UI demo page", async function ()  {
         expect.screenshot("demo").to.be.similar(0.002).to.be.capture(function (page) {
-            page.load("?module=Morpheus&action=demo");
+            page.goto("?module=Morpheus&action=demo");
         }, done);
     });
 });
