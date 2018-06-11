@@ -14,6 +14,6 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $menu->addPlatformItem('UI Notifications', $this->urlForAction('notifications'), $order = 10);
+        $menu->addPlatformItem('ExampleUI_UiNotifications', $this->urlForAction('notifications'), $order = 10);
     }
 }

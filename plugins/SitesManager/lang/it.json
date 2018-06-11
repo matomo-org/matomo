@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "Non è stato trovato nel tuo PHP il supporto avanzato dei fusi orari (supportato in PHP> = 5.2). È comunque possibile scegliere manualmente un offset UTC.",
         "AliasUrlHelp": "È raccomandato, ma non necessario, di specificare i diversi URL che i tuoi utenti usano per accedere al sito. Gli URL alias di un sito non compariranno tra i siti Referer. Nota che non è necessario specificare gli URL con e senza 'www' in quanto Matomo li considererà; entrambi automaticamente.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Il cambio del fuso orario interesserà i prossimi report a partire da adesso, mentre quelli precedenti non saranno modificati.",
-        "ChooseCityInSameTimezoneAsYou": "Scegli una città che si trova nel tuo stesso fuso orario.",
         "Currency": "Valuta",
         "CurrencySymbolWillBeUsedForGoals": "Il simbolo della valuta verrà mostrato accanto ai ricavi dei Goal.",
         "DefaultCurrencyForNewWebsites": "Valuta di default per i nuovi siti web",

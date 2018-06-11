@@ -10,7 +10,6 @@
         "TopLinkTooltip": "透過簡單的 API 來取得 json、xml 等格式的網頁分析資料。",
         "UserAuthentication": "使用者驗證",
         "UsingTokenAuth": "如果你想%1$s經由程式碼或工作排程來請求資料。%2$s你需要新增參數 %3$s 至 API 呼叫網址來進行驗證。",
-        "Glossary": "詞彙表",
-        "LearnAboutCommonlyUsedTerms": "了解更多常用的術語來讓 Matomo 分析發揮最大化：%1$s 和 %2$s。"
+        "Glossary": "詞彙表"
     }
 }

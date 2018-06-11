@@ -30,7 +30,7 @@
         "Socials": "Xarxes socials",
         "SocialsReportDocumentation": "Aquest informe mostra quines xarxes socials han portat visitants al vostre lloc web. <br\/> Cliqueu una fila de la taule per mostrar de quines pàgines de les xarxes socials venen els vostres visitants.",
         "SubmenuSearchEngines": "Cercadors i paraules clau",
-        "SubmenuWebsites": "Llocs web",
+        "SubmenuWebsitesOnly": "Llocs",
         "Type": "Tipus de referent",
         "TypeCampaigns": "Hi ha %s visites provinents de campanyes",
         "TypeDirectEntries": "Hi ha %s entrades directes",

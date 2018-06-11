@@ -33,7 +33,7 @@
         "Socials": "Redes sociales",
         "SocialsReportDocumentation": "Este informe muestra que red social conduce visitantes a su sitio de internet.<br \/>Cliqueando en una fila de la tabla, puede observar desde que páginas de determinada red social provienen sus visitantes.",
         "SubmenuSearchEngines": "Motores de búsqueda y palabras clave",
-        "SubmenuWebsites": "Sitios de internet & Redes sociales",
+        "SubmenuWebsitesOnly": "Sitios de internet",
         "Type": "Tipo de referencia",
         "TypeCampaigns": "%s desde campañas",
         "TypeDirectEntries": "%s entradas directas",

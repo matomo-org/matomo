@@ -6,7 +6,7 @@
             "config_browser_version": "17.0",
             "config_cookie": "Yes",
             "config_device_brand": "Unknown",
-            "config_device_model": "",
+            "config_device_model": "generic desktop",
             "config_device_type": "Desktop",
             "config_director": "No",
             "config_flash": "Yes",
@@ -273,7 +273,7 @@
         {
             "buster": "0",
             "config_device_brand": "",
-            "config_device_model": "",
+            "config_device_model": "generic desktop",
             "config_device_type": "0",
             "custom_var_k1": "myCustomUserId",
             "custom_var_v1": "200",

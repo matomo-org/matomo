@@ -110,7 +110,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
         $storedLfsFiles = explode("\n", `git lfs ls-files`);
         $cleanRevision  = function ($value) {
-            $parts = explode(' - ', $value);
+            $parts = explode(' ', $value);
             return array_pop($parts);
         };
         $storedLfsFiles = array_map($cleanRevision, $storedLfsFiles);

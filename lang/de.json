@@ -340,6 +340,7 @@
         "ProductRevenue": "Produkteinnahmen",
         "Measurable": "Messbares",
         "Measurables": "Messbares",
+        "MeasurableId": "Messgrößen ID",
         "PurchasedProducts": "Gekaufte Produkte",
         "Quantity": "Menge",
         "RangeReports": "Benutzerdefinierte Zeitspannen",

@@ -1,7 +1,6 @@
 {
     "SitesManager": {
         "AddSite": "Pievienot jaunu vietni",
-        "ChooseCityInSameTimezoneAsYou": "Izvēlieties pilsētu vienā laika zonā ar Jums",
         "Currency": "Valūta",
         "CurrencySymbolWillBeUsedForGoals": "Valūtas simbols tiks norādīts blakus mērķu ienākumiem.",
         "DefaultCurrencyForNewWebsites": "Noklusētā valūta jaunām vietnēm",

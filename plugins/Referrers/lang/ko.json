@@ -32,7 +32,7 @@
         "Socials": "소셜 네트워크",
         "SocialsReportDocumentation": "이 보고서는 소셜 네트워크에서 웹사이트로 방문자의 유입을 보여줍니다. 표의 행을 클릭하면, 소셜 네트워크의 어떤 페이지에서 방문자가 웹사이트에 들어왔는지 확인할 수 있습니다.",
         "SubmenuSearchEngines": "검색엔진 및 검색어",
-        "SubmenuWebsites": "웹사이트",
+        "SubmenuWebsitesOnly": "웹사이트",
         "Type": "리퍼러 타입",
         "TypeCampaigns": "%s (캠페인을 통해서)",
         "TypeDirectEntries": "%s (직접 입력)",

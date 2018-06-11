@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "Le support avancé des fuseaux horaires n'a pu être trouvé dans votre configuration de PHP (supporté dans PHP>=5.2). Vous pouvez toujours choisir manuellement un décalage UTC.",
         "AliasUrlHelp": "Il est recommandé, mais pas requis, de spécifier les URL différentes que vos utilisateurs utilisent pour accéder au site web. Les URL d'alias pour un site n’apparaîtront pas dans Référents > Sites Internet. Il n'est pas nécessaire d'entrer les URL avec et sans les www, Matomo les traite automatiquement.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Le fait de modifier votre fuseau horaire affectera uniquement les nouvelles données, ce n'est pas rétroactif.",
-        "ChooseCityInSameTimezoneAsYou": "Choisissez une ville qui se trouve dans le même fuseau horaire que vous.",
         "Currency": "Devise",
         "CurrencySymbolWillBeUsedForGoals": "Le symbole de la devise sera affiché à côté des revenus des Objectifs",
         "DefaultCurrencyForNewWebsites": "Devise par défaut pour les nouveaux sites web",

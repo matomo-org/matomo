@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "Avansert støtte for tidssoner ble ikke funnet i din PHP (støttet i PHP>=5.2). Du kan fortsatt velge et manuelt UTC-offset.",
         "AliasUrlHelp": "Det er anbefalt, men ikke påkrevd, å spesifisere ulike URL-er, en per linje, som dine besøkere vil bruke for å nå dette nettstedet. Alias-URLer for et nettsted vil ikke vises i Henvisere > Nettsteder-rapporten. Merk at det ikke er nødvendig å spesifisere URLer med og uten «www», siden Matomo automatisk tar med begge.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Å endre din tidssone vil kun påvirke data fremover, ikke bakover.",
-        "ChooseCityInSameTimezoneAsYou": "Velg en by i samme tidssone som deg.",
         "Currency": "Valuta",
         "CurrencySymbolWillBeUsedForGoals": "Valuta-symbolet vises ved siden av omsetningsmål.",
         "DefaultCurrencyForNewWebsites": "Standard valuta for nye nettsteder",

@@ -72,7 +72,7 @@
                                 {% set col = 0 %}
                             {% endif %}
 			    
-                            {% if action.url is defined %}
+                            {% if action.url is defined and action.url is not empty %}
                             <a href="{{ action.url }}" target="_blank">
                             {% endif %}
                                 {% if action.type == 'action' %}
@@ -98,7 +98,7 @@
                                     <img class='iconPadding' src="{{ action.icon }}"
                                          title="{{ action.goalName }} - {% if action.revenue > 0 %}{{ 'General_ColumnRevenue'|translate }}: {{ action.revenue|money(idSite)|raw }} - {% endif %} {{ action.serverTimePretty }}"/>
                                 {% endif %}
-                            {% if action.url is defined %}
+                            {% if action.url is defined and action.url is not empty %}
                             </a>
                             {% endif %}
                         {% endif %}

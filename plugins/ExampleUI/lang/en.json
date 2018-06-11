@@ -1,6 +1,7 @@
 {
     "ExampleUI": {
         "UiFramework": "UI Framework",
+        "UiNotifications": "UI Notifications",
         "GetTemperaturesDataTable": "Data tables",
         "GetTemperaturesEvolution": "Temperatures evolution over time",
         "TemperaturesEvolution": "Evolution of server temperatures over the last few days"

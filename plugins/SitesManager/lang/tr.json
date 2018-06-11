@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "Kullandığınız PHP sürümü gelişmiş saat dilimlerini desteklemiyor (PHP 5.2 ve üzerindeki sürümler destekler). Gene de UTC sapmasını el ile ayarlayabilirsiniz.",
         "AliasUrlHelp": "Her satırda ziyaretçilerin web sitenize erişmek için kullandığı ayrı bir adres belirtmeniz önerilir ancak zorunlu değildir. Kısaltma adresleri Yönlendirenler > Web siteleri raporunda görüntülenmez. Adresleri başında 'www' olarak ve olmayarak ayrı ayrı yazmanız gerekmez. Matomo her iki durumu da hesaba katar.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Saat dilimi değişikliği, yalnız bundan sonraki verileri etkiler ve geriye dönük olarak uygulanmaz.",
-        "ChooseCityInSameTimezoneAsYou": "Sizinle aynı saat diliminde bulunan bir il seçin.",
         "Currency": "Para Birimi",
         "CurrencySymbolWillBeUsedForGoals": "Hedef gelirlerinin yanında görüntülenecek para birimi.",
         "DefaultCurrencyForNewWebsites": "Yeni web siteleri için varsayılan para birimi",

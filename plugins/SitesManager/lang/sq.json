@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "S’u gjet mbulim i thelluar zonash kohore te PHP-ja juaj (mbuluar nga PHP 5.2 e më të rinj). Mundeni prapëseprapë të zgjidhni dorazi një shmangie UTC.",
         "AliasUrlHelp": "Këshillohet, por s’është e domosdoshme, të jepen URL të ndryshme, një për rresht, që vizitorët tuaj t’i përdorin për të hyrë në këtë sajt. URL-të alias për sajtin nuk kanë për t’u dukur te raporti Sjellës > Sajte. Mbani shënim që s’është e domosdoshme të jepen URL me apo pa 'www', ngaqë Matomo i ka vetvetiu parasysh që të dyja trajtat.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Ndryshimi i zonës suaj kohore do të prekë vetëm të dhënat pas kësaj e tutje, nuk do të zbatohet për të mëparshmet.",
-        "ChooseCityInSameTimezoneAsYou": "Zgjidhni një qytet nën të njëjtën zonë kohore me ju.",
         "Currency": "Monedhë",
         "CurrencySymbolWillBeUsedForGoals": "Simboli i monedhës do të shfaqet në krah të të ardhurave nga Objektivat.",
         "DefaultCurrencyForNewWebsites": "Monedhë Parazgjedhje për sajte të rinj",

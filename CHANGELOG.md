@@ -11,6 +11,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Added new event `API.addGlossaryItems` which lets you add items to the glossary.
 
 ### Breaking Changes
+* Changed some menu items to use translation keys instead (see [PR #12885](https://github.com/matomo-org/matomo/pull/12885)).
 * The methods `assertResponseCode()` and `assertHttpResponseText()` in `Piwik\Tests\Framework\TestCase\SystemTestCase` have been deprecated and will be removed in Matomo 4.0. Please use `Piwik\Http` instead.
 * The classes `PHPUnit\Framework\Constraint\HttpResponseText` and `PHPUnit\Framework\Constraint\ResponseCode` have been deprecated and will be removed in Matomo 4.0. Please use `Piwik\Http` instead.
 

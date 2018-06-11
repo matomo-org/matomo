@@ -1,7 +1,6 @@
 {
     "SitesManager": {
         "AddSite": "Dodaj novo spletno stran",
-        "ChooseCityInSameTimezoneAsYou": "Izberite mesto, ki je v istem časovnem pasu kot vi.",
         "Currency": "Valuta",
         "DefaultCurrencyForNewWebsites": "Privzeta Valuta za nove spletne strani",
         "DefaultTimezoneForNewWebsites": "Privzet časovni pas za nove spletne strani",

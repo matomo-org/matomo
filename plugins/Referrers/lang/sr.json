@@ -33,7 +33,7 @@
         "Socials": "Društvene mreže",
         "SocialsReportDocumentation": "Ovaj izveštaj prikazuje koje društvene mreže su dovele korisnike na vaš sajt.<br \/>Klikom na red tabele možete da vidite sa kojih stranica društvenih mreža posetioci su došli na vaš sajt.",
         "SubmenuSearchEngines": "Pretraživači i ključne reči",
-        "SubmenuWebsites": "Sajtovi",
+        "SubmenuWebsitesOnly": "Sajtovi",
         "Type": "Tip dolaznog linka",
         "TypeCampaigns": "Kampanje: %s",
         "TypeDirectEntries": "Direktni ulasci: %s",

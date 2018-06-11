@@ -87,6 +87,7 @@
         "SystemPluginSettings": "Globale Plugin Einstellungen",
         "TrackAGoal": "Ein Ziel aufzeichnen",
         "TrackingCode": "Tracking-Code",
+        "TrackingCodeIntro": "Matomo bietet Ihnen verschiedene Möglichkeiten, den Tracking-Code für Ihre Website, Ihre Mobile-App und sogar für jedes Gerät oder jede Anwendung einzubetten.",
         "TrustedHostConfirm": "Wollen Sie wirklich den Vertrauten Matomo Hostnamen ändern?",
         "TrustedHostSettings": "Vertrauter Matomo Hostname",
         "UpdateSettings": "Aktualisierungseinstellungen",
@@ -96,7 +97,7 @@
         "YouAreOptedIn": "Ihr Besuch dieser Website wird aktuell von der Matomo Webanalyse erfasst.",
         "YouAreOptedOut": "Ihr Besuch dieser Website wird aktuell von der Matomo Webanalyse nicht erfasst.",
         "YouMayOptOut": "Sie können sich hier entscheiden, ob in Ihrem Browser ein eindeutiger Webanalyse-Cookie abgelegt werden darf, um dem Betreiber der Website die Erfassung und Analyse verschiedener statistischer Daten zu ermöglichen.",
-        "YouMayOptOutBis": "Wenn Sie sich dagegen entscheiden möchten, klicken Sie den folgenden Link, um den Matomo-Deaktivierungs-Cookie in Ihrem Browser abzulegen.",
+        "YouMayOptOutBis": "Wenn Sie sich dagegen entscheiden möchten, entfernen Sie den folgenden Haken, um den Matomo-Deaktivierungs-Cookie in Ihrem Browser abzulegen.",
         "OptingYouOut": "Deaktivierung wird durchgeführt, bitte warten...",
         "ProtocolNotDetectedCorrectly": "Sie betrachten Matomo konnte auf dem Server nur eine nicht sichere Verbindung feststellen.",
         "ProtocolNotDetectedCorrectlySolution": "Um sicherzustellen, dass Matomo jegliche Anfragen und Inhalte via HTTPS ausliefert, ist es zwingend notwendig, die %1$s-Datei zu bearbeiten, die Proxy-Einstellungen zu überprüfen oder die Zeile %2$s unter dem Abschnitt %3$s hinzuzufügen. %4$sMehr erfahren%5$s"

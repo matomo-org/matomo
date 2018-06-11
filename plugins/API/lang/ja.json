@@ -10,7 +10,6 @@
         "TopLinkTooltip": "jsopn、xml等シンプルなAPIを介して、プログラムでWeb Analyticsデータにアクセスできます。",
         "UserAuthentication": "ユーザー認証",
         "UsingTokenAuth": "%1$sスクリプト（crontab 等）でリクエストデータを得たい場合%2$sは、API をコールする URL（認証が必要）にパラメータ %3$s を付加する必要があります。",
-        "Glossary": "用語集",
-        "LearnAboutCommonlyUsedTerms": "Matomo Analytics の最もよく使われる用語について: %1$s と %2$s"
+        "Glossary": "用語集"
     }
 }

@@ -2,7 +2,16 @@
     "Ecommerce": {
         "PluginDescription": "Comércio Eletrônico permite que você controle quando os usuários adicionam produtos nos carrinhos, e quando eles convertem em uma venda de comércio eletrônico. Controla também os produtos e categorias de produtos, visualizações e carrinhos abandonados.",
         "Sales": "Vendas",
+        "Order": "Pedido",
+        "Orders": "Pedidos",
         "SalesBy": "Vendas por %s",
-        "SalesAdjective": "Vendas %s"
+        "SalesAdjective": "Vendas %s",
+        "NumberOfItems": "Números de itens no carrinho",
+        "OrderValue": "Valor do pedido",
+        "LifeTimeValue": "Ecommerce valor do tempo de vida",
+        "LifeTimeValueDescription": "Receita total da loja atribuída a esse cliente em todas as visitas: a soma da receita de todos os pedidos da loja para o ID do visitante %s.",
+        "VisitorProfileLTV": "Gerou uma receita de tempo de vida de %1$s.",
+        "VisitorProfileItemsAndOrders": "Comprou %1$s itens em %2$s pedidos na loja.",
+        "VisitorProfileAbandonedCartSummary": "Abandonou %1$s carrinhos, incluindo %2$s itens no total de %3$s."
     }
 }

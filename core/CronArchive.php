@@ -1701,6 +1701,11 @@ class CronArchive
             $url .= "&testmode=1";
         }
 
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('CronArchive.alterArchivingRequestUrl', [&$url]);
+
         return $url;
     }
 
