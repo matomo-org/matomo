@@ -180,7 +180,9 @@ class OptOutManager
             $reloadUrl = false;
 
             $nonce = Common::getRequestVar('nonce', false);
+            \quickDebug("1\n");
             if ($nonce !== false && Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
+                \quickDebug("2\n");
                 Nonce::discardNonce('Piwik_OptOut');
                 IgnoreCookie::setIgnoreCookie();
                 $trackVisits = !$trackVisits;

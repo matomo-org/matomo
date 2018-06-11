@@ -14,11 +14,21 @@ describe("OptOutForm", function () {
         safariUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A",
         chromeUserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36";
 
+    function expandIframe() {
+        return page.evaluate(() => {
+            const $iframe = $('iframe#optOutIframe');
+            $iframe.width(350);
+            $iframe.height($iframe.contents().outerHeight());
+        });
+    }
+
     it("should display correctly when embedded in another site", async function () {
         // clear cookies?
 
         page.setUserAgent(chromeUserAgent);
         await page.goto(siteUrl);
+
+        await expandIframe();
 
         const element = await page.jQuery('iframe#optOutIframe');
         expect(await element.screenshot()).to.matchImage('loaded');
@@ -28,7 +38,9 @@ describe("OptOutForm", function () {
         await page.evaluate(function () {
             $('iframe#optOutIframe').contents().find('input#trackVisits').click();
         });
-        await page.waitForNetworkIdle(); // TODO: will this work for iframes?
+
+        await page.waitFor(5000); // opt out iframe creates a new page, so we can't wait on it that easily
+        await page.waitForNetworkIdle(); // safety
 
         const element = await page.jQuery('iframe#optOutIframe');
         expect(await element.screenshot()).to.matchImage('opted-out');
@@ -38,8 +50,10 @@ describe("OptOutForm", function () {
         page.setUserAgent(chromeUserAgent);
         await page.goto(siteUrl);
 
+        await expandIframe();
+
         const element = await page.jQuery('iframe#optOutIframe');
-        expect(await element.screenshot()).to.matchImage('opted-out-reload');
+        expect(await element.screenshot()).to.matchImage('opted-out');
     });
 
     it("should correctly show display opted-in form when cookies are cleared", async function () {
@@ -47,6 +61,8 @@ describe("OptOutForm", function () {
 
         page.setUserAgent(safariUserAgent);
         await page.goto(siteUrl);
+
+        await expandIframe();
 
         const element = await page.jQuery('iframe#optOutIframe');
         expect(await element.screenshot()).to.matchImage('safari-loaded');
@@ -56,8 +72,13 @@ describe("OptOutForm", function () {
         await page.evaluate(function () {
             $('iframe#optOutIframe').contents().find('input#trackVisits').click();
         });
-        await page.waitForNetworkIdle();
+
+        await page.waitFor(5000); // opt out iframe creates a new page, so we can't wait on it that easily
+        await page.waitForNetworkIdle(); // safety
+
         await page.goto(siteUrl); // reload to check that cookie was set
+
+        await expandIframe();
 
         const element = await page.jQuery('iframe#optOutIframe');
         expect(await element.screenshot()).to.matchImage('safari-opted-out');
