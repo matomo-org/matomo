@@ -71,7 +71,7 @@ class Nonce
     {
         $ns = new SessionNamespace($id);
         $nonce = $ns->nonce;
-
+        \quickDebug($cnonce . ' - ' . $nonce . "\n");
         // validate token
         if (empty($cnonce) || $cnonce !== $nonce) {
             return false;

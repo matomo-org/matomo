@@ -50,9 +50,10 @@ describe("Menus", function () {
 
     it('should change the admin page correctly when an admin menu item is clicked', async function() {
         await openMenuItem(page, 'Manage');
+        await page.waitForNetworkIdle();
 
         const element = await page.jQuery('#secondNavBar');
-        expect(await element.screenshot()).to.matchImage('admin_loaded');
+        expect(await element.screenshot()).to.matchImage('admin_changed');
     });
 
     // top menu on mobile
