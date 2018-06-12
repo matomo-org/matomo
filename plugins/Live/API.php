@@ -393,18 +393,20 @@ class API extends \Piwik\Plugin\API
     private function loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment = false, $offset = 0, $limit = 100, $minTimestamp = false, $filterSortOrder = false, $visitorId = false)
     {
         $model = new Model();
-        $data = $model->queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder);
-        return $this->makeVisitorTableFromArray($data);
+        list($data, $hasMoreVisits) = $model->queryLogVisits($idSite, $period, $date, $segment, $offset, $limit, $visitorId, $minTimestamp, $filterSortOrder, true);
+        return $this->makeVisitorTableFromArray($data, $hasMoreVisits);
     }
 
     /**
      * @param $data
+     * @param $hasMoreVisits
      * @return DataTable
      * @throws Exception
      */
-    private function makeVisitorTableFromArray($data)
+    private function makeVisitorTableFromArray($data, $hasMoreVisits=null)
     {
         $dataTable = new DataTable();
+
         $dataTable->addRowsFromSimpleArray($data);
 
         if (!empty($data[0])) {
@@ -413,6 +415,10 @@ class API extends \Piwik\Plugin\API
             }, $data[0]);
 
             $dataTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsToNotAggregate);
+        }
+
+        if (null !== $hasMoreVisits) {
+            $dataTable->setMetadata('hasMoreVisits', $hasMoreVisits);
         }
 
         return $dataTable;
