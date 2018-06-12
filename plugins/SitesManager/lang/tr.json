@@ -26,6 +26,7 @@
         "ExcludedIps": "Katılmayan IP Adresleri",
         "ExcludedParameters": "Katılmayan Parametreler",
         "ExcludedUserAgents": "Katılmayan Kullanıcı Uygulamaları",
+        "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Matomo tarafından izlenmeyecek kullanıcı uygulamalarının listesini yazın.",
         "GlobalExcludedUserAgentHelp2": "Burası kullanarak bazı botların izlenmemesi sağlanabilir.",
         "GlobalListExcludedIps": "Genel Katılmayan IP adresleri listesi",

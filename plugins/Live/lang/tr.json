@@ -14,6 +14,8 @@
         "LastVisit": "Son ziyaret",
         "LinkVisitorLog": "Ayrıntılı ziyaretçi günlüğünü görüntüle",
         "LoadMoreVisits": "Diğer ziyaretleri yükle",
+        "LimitedSummary": "Bu profildeki bilgiler son %1$s ziyareti içeriyor. Bu kullanıcının toplam ziyaret sayısı daha fazla.",
+        "LimitedVisitsShown": "Yalnız son %1$s ziyaret görüntüleniyor. Bu kullanıcının toplam ziyaret sayısı daha fazla.",
         "MorePagesNotDisplayed": "sayfa daha var. Bu ziyaretçiye ait ve görüntülenmeyen",
         "NbVisitor": "1 ziyaretçi",
         "NbVisitors": "%s ziyaretçi",

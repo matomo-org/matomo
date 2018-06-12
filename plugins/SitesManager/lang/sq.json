@@ -26,6 +26,7 @@
         "ExcludedIps": "IP të Përjashtuara",
         "ExcludedParameters": "Parametra të Përjashtuar",
         "ExcludedUserAgents": "Agjentë Përdoruesish të Përjashtuar",
+        "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Jepni listën e agjentëve të përdoruesit që duhen përjashtuar nga gjurmimi prej Matomo-s.",
         "GlobalExcludedUserAgentHelp2": "Këtë mund ta përdorni për përjashtim bot-esh nga gjurmimi.",
         "GlobalListExcludedIps": "Listë globale IP-sh të përjashtuara",
