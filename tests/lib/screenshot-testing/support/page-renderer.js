@@ -124,6 +124,90 @@ PageRenderer.prototype.jQuery = function (selector) {
     });
 };
 
+PageRenderer.prototype.screenshotSelector = async function (selector) {
+    const result = await this.webpage.evaluate(function (selector) {
+        window.jQuery('html').addClass('uiTest');
+
+        var docWidth = window.jQuery(document).width(),
+            docHeight = window.jQuery(document).height();
+
+        function isInvalidBoundingRect (rect) {
+            return !rect.width || !rect.height
+                || (rect.left < 0 && rect.right < 0)
+                || (rect.left > docWidth && rect.right > docWidth)
+                || (rect.top < 0 && rect.bottom < 0)
+                || (rect.top > docHeight && rect.bottom > docHeight);
+        }
+
+        var element = window.jQuery(selector);
+        if (element && element.length) {
+            var clipRect = {bottom: null, height: null, left: null, right: null, top: null, width: null};
+
+            element.each(function (index, node) {
+                if (!$(node).is(':visible')) {
+                    return;
+                }
+
+                var rect = $(node).offset();
+                rect.width = $(node).outerWidth();
+                rect.height = $(node).outerHeight();
+                rect.right = rect.left + rect.width;
+                rect.bottom = rect.top + rect.height;
+
+                if (isInvalidBoundingRect(rect)) {
+                    // element is not visible
+                    return;
+                }
+
+                if (null === clipRect.left || rect.left < clipRect.left) {
+                    clipRect.left = rect.left;
+                }
+                if (null === clipRect.top || rect.top < clipRect.top) {
+                    clipRect.top = rect.top;
+                }
+                if (null === clipRect.right || rect.right > clipRect.right) {
+                    clipRect.right = rect.right;
+                }
+                if (null === clipRect.bottom || rect.bottom > clipRect.bottom) {
+                    clipRect.bottom = rect.bottom;
+                }
+            });
+
+            clipRect.width  = clipRect.right - clipRect.left;
+            clipRect.height = clipRect.bottom - clipRect.top;
+
+            return clipRect;
+        }
+    }, selector);
+
+    if (!result) {
+        console.log("Cannot find element " + selector);
+        return;
+    }
+
+    if (result && result.__isCallError) {
+        throw new Error("Error while detecting element clipRect " + selector + ": " + result.message);
+    }
+
+    if (null === result.left
+        || null === result.top
+        || null === result.bottom
+        || null === result.right
+    ) {
+        console.log("Element(s) " + selector + " found but none is visible");
+        return;
+    }
+
+    return await this.webpage.screenshot({
+        clip: {
+            x: result.left,
+            y: result.top,
+            width: result.width,
+            height: result.height,
+        },
+    });
+};
+
 PAGE_METHODS_TO_PROXY.forEach(function (methodName) {
     PageRenderer.prototype[methodName] = function (...args) {
         if (methodName === 'goto') {
