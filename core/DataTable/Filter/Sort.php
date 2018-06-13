@@ -44,6 +44,7 @@ class Sort extends BaseFilter
      * @param bool|callback $doSortBySecondaryColumn If true will sort by a secondary column. The column is automatically
      *                                               detected and will be either nb_visits or label, if possible.
      *                                               If callback given it will sort by the column returned by the callback (if any)
+     *                                               callback will be called with 2 parameters: primaryColumnToSort and table
      */
     public function __construct($table, $columnToSort, $order = 'desc', $naturalSort = true, $recursiveSort = true, $doSortBySecondaryColumn = false)
     {
@@ -94,7 +95,7 @@ class Sort extends BaseFilter
         $config->primarySortOrder      = $sorter->getPrimarySortOrder($this->order);
         $config->primarySortFlags      = $sorter->getBestSortFlags($table, $config->primaryColumnToSort);
         if (!empty($this->secondaryColumnSortCallback)) {
-            $config->secondaryColumnToSort = call_user_func($this->secondaryColumnSortCallback, $config->primaryColumnToSort);
+            $config->secondaryColumnToSort = call_user_func($this->secondaryColumnSortCallback, $config->primaryColumnToSort, $table);
         } else {
             $config->secondaryColumnToSort = $sorter->getSecondaryColumnToSort($row, $config->primaryColumnToSort);
         }
