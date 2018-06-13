@@ -510,6 +510,7 @@
         "LoginCredentials": "Kimlik Doğrulama Bilgileri",
         "LoginToPiwikToChangeSettings": "Web sitesi ve kullanıcı eklemek, güncellemek ya da \"Varsayılan olarak yüklenecek rapor\" gibi Genel Ayarları değiştirmek için Matomo sunucunuzda oturum açın.",
         "LoginUseHttps": "https kullanılsın",
+        "MatomoMobile": "Matomo Mobil Uygulaması",
         "MultiChartLabel": "Çubuk çizelgeler görüntülensin",
         "NavigationBack": "Geri",
         "NetworkError": "Ağ Sorunu",

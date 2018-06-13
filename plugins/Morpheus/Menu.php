@@ -31,7 +31,7 @@ class Menu extends \Piwik\Plugin\Menu
         $menu->registerMenuIcon('MobileAppMeasurable_MobileApps', $manageMeasurablesIcon);
 
         if (Development::isEnabled() && Piwik::isUserHasSomeAdminAccess()) {
-            $menu->addDevelopmentItem('UI Demo', $this->urlForAction('demo'));
+            $menu->addDevelopmentItem('CoreAdminHome_UiDemo', $this->urlForAction('demo'));
         }
     }
 }

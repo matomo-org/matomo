@@ -25,6 +25,8 @@
         "ExcludeRowsWithLowPopulation": "Po shfaqen krejt rreshtat %s Përjashtoni popullatat e ulëta",
         "ExternalHelp": "Ndihmë (hapet në skedë të re)",
         "FlattenDataTable": "Raporti është hierarkik %s Bëjeni të sheshtë",
+        "ShowExportUrl": "Shfaq URL Eksportimi",
+        "HideExportUrl": "Fshihe URL-në e Eksportimit",
         "HomeShortcut": "Kreu",
         "HowMuchIsPiwikWorth": "Sa vlen Matomo për ju?",
         "IncludeRowsWithLowPopulation": "Janë fshehur rreshta me popullatë të ulët %s Shfaqi krejt rreshtat",

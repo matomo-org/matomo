@@ -11,6 +11,8 @@
         "BestReferrers": "Els llocs webs de referència amb més conversions són:",
         "CaseSensitive": "Concidència sensible a minúscules\/majúscules",
         "CategoryTextReferrers_Referrers": "Referents",
+        "CategoryTextVisitsSummary_VisitsSummary": "atribut d'usuari",
+        "CategoryTextDevicesDetection_DevicesDetection": "Dispositius",
         "ClickOutlink": "Click a un enllaç a un lloc web extern",
         "ColumnAverageOrderRevenueDocumentation": "La Mitja de Valor d'una Commanda (MVC) és el nombre total d'ingressos de totes les comandes electròniques dividit pel nombre de comandes.",
         "ColumnAveragePriceDocumentation": "La mitja d'ingresos per aquest %s.",

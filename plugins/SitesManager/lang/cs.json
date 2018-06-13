@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "Pokročilá podpora časových zón nebyla ve vašem PHP (podporována v PHP >=5.2) nalezena. Stále můžete použít ruční UTF offset.",
         "AliasUrlHelp": "Je doporučeno, ale ne vyžadováno, specifikovat různé URL, jednu na řádku, které vaší návštěvníci používají pro přístup ke stránkám. Aliasy se neobjeví hlášení Odkazující stránky>WWW. Všimněte si, že není nutné zadávat URL s a bez 'www'. Matomo automaticky rozezná obě.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Změna vaší časové zóny se projeví pouze v nových datech a nebude aplikována zpětně.",
-        "ChooseCityInSameTimezoneAsYou": "Zvolte město ve stejné časové zóně jako se nacházíte vy",
         "Currency": "Měna",
         "CurrencySymbolWillBeUsedForGoals": "Symbol měny bude zobrazen vedle příjmů z cílů.",
         "DefaultCurrencyForNewWebsites": "Výchozí měna pro nové weby",

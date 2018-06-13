@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "이 서버의 PHP에서는 확장 시간대가 지원되지 않습니다 (PHP> = 5.2에서 지원). 직접 UTC 오프셋을 지정합니다.",
         "AliasUrlHelp": "이것은 권장되지만 필수는 아닙니다. 사용자가이 웹사이트의 접근에 사용하는 다양한 URL을 지정하려면 한 줄에 하나의 URL을 입력합니다. 웹사이트의 URL 별칭은 '소스'> 웹 사이트의 보고서에 표시되지 않습니다. URL의 'www'의 유무는 Matomo가 자동으로 판단합니다.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "시간대 변경은 향후의 데이터에만 적용되고 이전 데이터에는 적용되지 않습니다.",
-        "ChooseCityInSameTimezoneAsYou": "당신과 같은 시간대의 도시를 선택합니다.",
         "Currency": "통화",
         "CurrencySymbolWillBeUsedForGoals": "통화 문자는 목표 수익 옆에 표시됩니다.",
         "DefaultCurrencyForNewWebsites": "새로운 웹사이트의 기본 통화",

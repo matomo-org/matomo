@@ -14,6 +14,8 @@
         "LastVisit": "Vizita e fundit",
         "LinkVisitorLog": "Shihni regjistër të hollësishëm të përdoruesit",
         "LoadMoreVisits": "Ngarko më tepër vizita",
+        "LimitedSummary": "Të dhënat në këtë profil përmbledhin %1$s vizitat e fundit. Ky përdorues ka bërë më tepër vizita gjithsej.",
+        "LimitedVisitsShown": "Shfaqen vetëm %1$s vizitat e fundit. Ky përdorues ka bërë më tepër vizita gjithsej.",
         "MorePagesNotDisplayed": "faqe të tjera nga ky vizitor nuk janë shfaqur",
         "NbVisitor": "1 vizitor",
         "NbVisitors": "%s vizitorë",

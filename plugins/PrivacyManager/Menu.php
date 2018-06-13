@@ -24,10 +24,10 @@ class Menu extends \Piwik\Plugin\Menu
                 $menu->addItem($category, 'PrivacyManager_AnonymizeData', $this->urlForAction('privacySettings'), 5);
             }
 
-            $menu->addItem($category, 'Users opt-out', $this->urlForAction('usersOptOut'), 10);
-            $menu->addItem($category, 'Asking for consent', $this->urlForAction('consent'), 15);
-            $menu->addItem($category, 'GDPR Overview', $this->urlForAction('gdprOverview'), 20);
-            $menu->addItem($category, 'GDPR Tools', $this->urlForAction('gdprTools'), 25);
+            $menu->addItem($category, 'PrivacyManager_UsersOptOut', $this->urlForAction('usersOptOut'), 10);
+            $menu->addItem($category, 'PrivacyManager_AskingForConsent', $this->urlForAction('consent'), 15);
+            $menu->addItem($category, 'PrivacyManager_GdprOverview', $this->urlForAction('gdprOverview'), 20);
+            $menu->addItem($category, 'PrivacyManager_GdprTools', $this->urlForAction('gdprTools'), 25);
         }
     }
 }
