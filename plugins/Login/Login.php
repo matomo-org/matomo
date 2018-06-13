@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Session;
 
 /**
  *
@@ -30,7 +31,8 @@ class Login extends \Piwik\Plugin
             'User.isNotAuthorized'             => 'noAccess',
             'API.Request.authenticate'         => 'ApiRequestAuthenticate',
             'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles'
+            'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
+            'Session.beforeSessionStart'       => 'beforeSessionStart',
         );
         return $hooks;
     }
@@ -44,6 +46,15 @@ class Login extends \Piwik\Plugin
     {
         $stylesheetFiles[] = "plugins/Login/stylesheets/login.less";
         $stylesheetFiles[] = "plugins/Login/stylesheets/variables.less";
+    }
+
+    public function beforeSessionStart()
+    {
+        // if this is a login request & form_rememberme was set, change the session cookie expire time before starting the session
+        $rememberMe = Common::getRequestVar('form_rememberme', false);
+        if ($rememberMe == '1') {
+            Session::rememberMe(Config::getInstance()->General['login_cookie_expire']);
+        }
     }
 
     /**

@@ -11,7 +11,6 @@ namespace Piwik\Session;
 use Exception;
 use Piwik\Auth as AuthInterface;
 use Piwik\AuthResult;
-use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Session;
 
@@ -24,11 +23,9 @@ class SessionInitializer
      * Authenticates the user and, if successful, initializes an authenticated session.
      *
      * @param \Piwik\Auth $auth The Auth implementation to use.
-     * @param bool $rememberMe Whether the authenticated session should be remembered after
-     *                         the browser is closed or not.
      * @throws Exception If authentication fails or the user is not allowed to login for some reason.
      */
-    public function initSession(AuthInterface $auth, $rememberMe)
+    public function initSession(AuthInterface $auth)
     {
         $this->regenerateSessionId();
 
@@ -43,7 +40,7 @@ class SessionInitializer
 
             Piwik::postEvent('Login.authenticate.successful', array($auth->getLogin()));
 
-            $this->processSuccessfulSession($authResult, $rememberMe);
+            $this->processSuccessfulSession($authResult);
         }
     }
 
@@ -82,17 +79,11 @@ class SessionInitializer
      * Executed when the session was successfully authenticated.
      *
      * @param AuthResult $authResult The successful authentication result.
-     * @param bool $rememberMe Whether the authenticated session should be remembered after
-     *                         the browser is closed or not.
      */
-    protected function processSuccessfulSession(AuthResult $authResult, $rememberMe)
+    protected function processSuccessfulSession(AuthResult $authResult)
     {
         $sessionIdentifier = new SessionFingerprint();
         $sessionIdentifier->initialize($authResult->getIdentity());
-
-        if ($rememberMe) {
-            Session::rememberMe(Config::getInstance()->General['login_cookie_expire']);
-        }
     }
 
     protected function regenerateSessionId()

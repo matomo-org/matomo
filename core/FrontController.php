@@ -605,6 +605,11 @@ class FrontController extends Singleton
         if (SettingsPiwik::isPiwikInstalled()
             && ($module !== 'API' || ($action && $action !== 'index'))
         ) {
+            /**
+             * @ignore
+             */
+            Piwik::postEvent('Session.beforeSessionStart');
+
             Session::start();
             return StaticContainer::get(SessionAuth::class);
         }

@@ -100,9 +100,8 @@ class Controller extends \Piwik\Plugin\Controller
                 $login = $this->getLoginFromLoginOrEmail($loginOrEmail);
 
                 $password = $form->getSubmitValue('form_password');
-                $rememberMe = $form->getSubmitValue('form_rememberme') == '1';
                 try {
-                    $this->authenticateAndRedirect($login, $password, $rememberMe);
+                    $this->authenticateAndRedirect($login, $password);
                 } catch (Exception $e) {
                     $messageNoAccess = $e->getMessage();
                 }
@@ -173,7 +172,7 @@ class Controller extends \Piwik\Plugin\Controller
         $urlToRedirect = Common::getRequestVar('url', $currentUrl, 'string');
         $urlToRedirect = Common::unsanitizeInputValue($urlToRedirect);
 
-        $this->authenticateAndRedirect($login, $password, false, $urlToRedirect, $passwordHashed = true);
+        $this->authenticateAndRedirect($login, $password, $urlToRedirect, $passwordHashed = true);
     }
 
     /**
@@ -201,12 +200,11 @@ class Controller extends \Piwik\Plugin\Controller
      *
      * @param string $login user name
      * @param string $password plain-text or hashed password
-     * @param bool $rememberMe Remember me?
      * @param string $urlToRedirect URL to redirect to, if successfully authenticated
      * @param bool $passwordHashed indicates if $password is hashed
      * @return string failure message if unable to authenticate
      */
-    protected function authenticateAndRedirect($login, $password, $rememberMe, $urlToRedirect = false, $passwordHashed = false)
+    protected function authenticateAndRedirect($login, $password, $urlToRedirect = false, $passwordHashed = false)
     {
         Nonce::discardNonce('Login.login');
 
@@ -217,7 +215,7 @@ class Controller extends \Piwik\Plugin\Controller
             $this->auth->setPasswordHash($password);
         }
 
-        $this->sessionInitializer->initSession($this->auth, $rememberMe);
+        $this->sessionInitializer->initSession($this->auth);
 
         // remove password reset entry if it exists
         $this->passwordResetter->removePasswordResetInfo($login);
