@@ -6,7 +6,7 @@
         "Active": "Aktywna",
         "Activity": "Aktywność",
         "AlwaysActivatedPluginsList": "Następujące wtyczki są zawsze aktywne i nie mogą być wyłączone: %s",
-        "AuthorHomepage": "Strona główna Piwik",
+        "AuthorHomepage": "Strona główna Matomo",
         "Changelog": "Log zmian",
         "ChangeSettingsPossible": "Możesz zmienić %1$sustawienia%2$s dla tego plugin'u.",
         "CorePluginTooltip": "Pluginy do Core nie mają wersji, ponieważ są rozpowszechniane z Matomo.",

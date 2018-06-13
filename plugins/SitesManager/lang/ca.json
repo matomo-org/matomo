@@ -42,7 +42,7 @@
         "NoWebsites": "No teniu cap lloc que pugueu administrar",
         "OnlyOneSiteAtTime": "Només podeu editar un lloc web a la vegada. Sisplau, Guardeu o Canceleu les modificacions al lloc web %s.",
         "PiwikOffersEcommerceAnalytics": "EL Matomo permet analítiques avançades per a Eccomerce. Sabeu més de les %1$s Analítiques per a Ecommerce %2$s.",
-        "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik exclourà automàticament els paràmetres de sessió comuns (%s).",
+        "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Matomo exclourà automàticament els paràmetres de sessió comuns (%s).",
         "SearchCategoryDesc": "El Matomo també pot gestionar la categoria de Cerca per cada una de les paraules clau de la carca interna.",
         "SearchCategoryLabel": "Paràmetre de la categoria",
         "SearchCategoryParametersDesc": "Podeu introduir una llista separada per comes de paràmetres que especifíquen la categoria de cerca.",

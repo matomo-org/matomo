@@ -78,7 +78,7 @@
         "UsersManagementMainDescription": "新規ユーザーの作成や、既存ユーザーを更新します。 その後、上でユーザーのパーミッションの設定ができます。",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "未ログインのユーザーが Matomo にアクセスした際に表示する画面",
         "YourUsernameCannotBeChanged": "あなたのユーザー名を変更することはできません。",
-        "YourVisitsAreIgnoredOnDomain": "%1$sあなた自身のビジットは、%2$s の Piwik に無視されています%3$s（ブラウザで Matomo 無視用の Cookie が見つかりました）。",
-        "YourVisitsAreNotIgnored": "%1$sあなた自身のビジットは、Piwik に無視されていません%2$s（ブラウザで Matomo 無視用の Cookie が見つかりませんでした）。"
+        "YourVisitsAreIgnoredOnDomain": "%1$sあなた自身のビジットは、%2$s の Matomo に無視されています%3$s（ブラウザで Matomo 無視用の Cookie が見つかりました）。",
+        "YourVisitsAreNotIgnored": "%1$sあなた自身のビジットは、Matomo に無視されていません%2$s（ブラウザで Matomo 無視用の Cookie が見つかりませんでした）。"
     }
 }

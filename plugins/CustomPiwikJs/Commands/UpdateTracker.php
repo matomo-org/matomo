@@ -55,7 +55,9 @@ class UpdateTracker extends ConsoleCommand
             $pluginTrackerFiles->ignoreMinified();
         }
 
-        $updater = new TrackerUpdater($sourceFile, $targetFile);
+        $updater = StaticContainer::getContainer()->make('Piwik\Plugins\CustomPiwikJs\TrackerUpdater', array(
+            'fromFile' => $sourceFile, 'toFile' => $targetFile
+        ));
         $updater->setTrackerFiles($pluginTrackerFiles);
         $updater->checkWillSucceed();
         $updater->update();

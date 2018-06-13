@@ -4,7 +4,7 @@
         "ConfigurationHelp": "Kartela juaj për formësimin e Matomo-s duket se është e keqformësuar. Ose mund të hiqni config\/config.ini.php dhe rinisni instalimin, ose ndreqni rregullimet për lidhjen me bazën e të dhënave.",
         "ConfirmDeleteExistingTables": "Jeni i sigurt se doni të fshihen tabelat: %s prej bazës së të dhënave? KUJDES: NUK DO TË MUND TË RIKTHENI TË DHËNAT PREJ KËTYRE TABELAVE!",
         "Congratulations": "Urime",
-        "CongratulationsHelp": "<p>Urime! Instalimi juaj i Matomo-s u plotësua.<\/p><p>Sigurohuni që keni futur kodin JavaScript te faqet tuaja, dhe prisni për vizitorët e parë!<\\\/p>",
+        "CongratulationsHelp": "<p>Urime! Instalimi juaj i Matomo-s u plotësua.<\/p><p>Sigurohuni që keni futur kodin JavaScript te faqet tuaja, dhe prisni për vizitorët e parë!<\/p>",
         "DatabaseAbilities": "Aftësi baze të dhënash",
         "DatabaseCreation": "Krijim baze të dhënash",
         "DatabaseErrorConnect": "Gabim gjatë provës për t’u lidhur me shërbyesin e bazës së të dhënave",
@@ -12,7 +12,7 @@
         "DatabaseSetup": "Rregullimi i Bazës së të Dhënave",
         "DatabaseSetupAdapter": "Përshtatës",
         "DatabaseSetupDatabaseName": "Emër Baze të Dhënash",
-        "DatabaseSetupLogin": "hyrje",
+        "DatabaseSetupLogin": "Hyrje",
         "DatabaseSetupServer": "Shërbyes Baze të Dhënash",
         "DatabaseSetupTablePrefix": "Parashtesë Tabele",
         "Email": "Email",
@@ -32,7 +32,7 @@
         "LargePiwikInstances": "Ndihmë për raste Matomo me ngarkesë",
         "Legend": "Legjendë",
         "LoadDataInfileRecommended": "Nëse shërbyesi juaj Matomo gjurmon sajte me trafik të madh (p.sh. > 100,000 faqe në muaj), këshillojmë të përpiqeni ta ndreqni këtë problem.",
-        "LoadDataInfileUnavailableHelp": "Përdorimi i %1$s do ta përshpejtojë mjaft procesin e arkivimit në Piwik. Që Matomo të mund ta përdorë, provoni të përditësoni software-in tuaj PHP & MySQL dhe sigurohuni që përdoruesi i bazës tuaj të të dhënave ka privilegje %2$s.",
+        "LoadDataInfileUnavailableHelp": "Përdorimi i %1$s do ta përshpejtojë mjaft procesin e arkivimit në Matomo. Që Matomo të mund ta përdorë, provoni të përditësoni software-in tuaj PHP & MySQL dhe sigurohuni që përdoruesi i bazës tuaj të të dhënave ka privilegje %2$s.",
         "NfsFilesystemWarning": "Shërbyesi juaj përdor një sistem NFS kartelash.",
         "NfsFilesystemWarningSuffixAdmin": "Kjo do të thotë që Matomo do të jetë tejet i ngadaltë kur të përdorë sesione të bazuar në kartela.",
         "NfsFilesystemWarningSuffixInstall": "Përdorimi për NFS-në i sesioneve të bazuar në kartela është tejet i ngadaltë, ndaj Matomo do të përdorë sesione të bazuar në baza të dhënash. Nëse keni shumë përdorues të njëkohshëm të pultit, mund të keni nevojë të rritni numrin maksimum të lidhjeve nga klientët te shërbyesi i bazës së të dhënave.",
@@ -72,6 +72,12 @@
         "SystemCheckCreateFunctionHelp": "Matomo përdor funksione anonime për \\\"callbacks\\\".",
         "SystemCheckDatabaseExtensions": "Zgjerime MySQL",
         "SystemCheckDatabaseHelp": "Matomo lyp ose zgjerimin mysqli, ose që të dy zgjerimet PDO dhe pdo_mysql.",
+        "SystemCheckDatabaseSSL": "Lidhje SSL Baze të Dhënash",
+        "SystemCheckDatabaseSSLCipher": "Shifër SSL e përdorur",
+        "SystemCheckDatabaseSSLDisabled": "Mbulimi i SSL-së nga shërbyesi i bazës suaj të të dhënave është i çaktivizuar",
+        "SystemCheckDatabaseSSLNo": "Shërbyesi i bazës së të dhënave s’është përpiluar me mbulim të SSL-së",
+        "SystemCheckDatabaseSSLNotWorking": "%s është caktuar si '1', or lidhja SSL nuk funksionon",
+        "SystemCheckDatabaseSSLOn": "Baza juaj e të dhënave i mbulon lidhjet SSL, por lidhja SSL s’është në përdorim. Kontrolloni rregullimet tuaja për SSL baze të dhënash, te kartela e rregullimeve tuaja për Matomo-n",
         "SystemCheckDebugBacktraceHelp": "View::factory nuk do të jetë në gjendje të krijojë parje për modulin thirrës.",
         "SystemCheckError": "Ndodhi një gabim - duhet të ndreqet përpara se të ecni më tej",
         "SystemCheckEvalHelp": "E domosdoshme për HTML QuickForm dhe sistemin Smarty të gjedheve.",
@@ -143,6 +149,7 @@
         "WelcomeHelp": "<p>Matomou është një program analizash web, me burim të hapët, që e bën të lehtë të kihen të dhëna që dëshironi rreth vizitorëve tuaj.<\/p><p>Ky proces është ndarë në %s hapa të kollajtë dhe do të zgjasë rreth 5 minuta.<\/p>",
         "WelcomeToCommunity": "Mirë se vini te bashkësia Matomo!",
         "CannotConnectToDb": "S’lidhet dot me bazën e të dhënave",
-        "CannotConnectToDbResolvingExplanation": "Ky mund të jetë problem i përkohshëm, provoni %1$stë rifreskoni faqen%2$s. Nëse problemi vazhdon, ju lutemi lidhuni me përgjegjësin e Matomo-s tuaj."
+        "CannotConnectToDbResolvingExplanation": "Ky mund të jetë problem i përkohshëm, provoni %1$stë rifreskoni faqen%2$s. Nëse problemi vazhdon, ju lutemi lidhuni me përgjegjësin e Matomo-s tuaj.",
+        "EmailPrivacyNotice": "Adresa juaj email do të përdoret vetëm për t’ju dërguar buletinin e Matomo-s. Mund të shpajtoheni kur të doni, duke klikuar mbi lidhjen e shpajtimit. Nuk do t’i japim kujt email-in tuaj, apo ta përdorim email-in tuaj për qëllime të tjera veç dërgimit të buletinit Matomo. Ju lutemi, për më tepër hollësi, shihni %1$srregullat tona mbi privatësinë%2$s."
     }
 }

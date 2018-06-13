@@ -5,7 +5,7 @@
         "Domain": "Ranah",
         "ErrorNotLoading": "Sesi Penghampar Halaman belum dapat diluncurkan.",
         "ErrorNotLoadingDetails": "Kemungkinan yang dimuat di kanan tidak memiliki kode pelcakan Matomo. Dalam hal ini, silakan mencoba meluncurkan Penghampar untuk halaman yang berbeda dari laporan halaman.",
-        "ErrorNotLoadingDetailsSSL": "Sejak Anda menggunakan Piwik melalui https, kemungkinan besar penyebabnya adalah situs Anda tidak mendukung SSL. Silakan menggunakan Matomo melalui http.",
+        "ErrorNotLoadingDetailsSSL": "Sejak Anda menggunakan Matomo melalui https, kemungkinan besar penyebabnya adalah situs Anda tidak mendukung SSL. Silakan menggunakan Matomo melalui http.",
         "ErrorNotLoadingLink": "Klik di sini untuk memperoleh kiat-kiat pemecahan masalah",
         "Link": "Tautan",
         "Location": "Lokasi",

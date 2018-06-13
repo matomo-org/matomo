@@ -220,6 +220,7 @@
         "NumberOfVisits": "عدد الزيارات",
         "NUsers": "%s المستخدمون",
         "NVisits": "%s الزيارات",
+        "NUniqueVisitors": "%s زيارة فريدة",
         "Ok": "موافق",
         "OneAction": "إجراء 1",
         "OneVisit": "1 زيارة",

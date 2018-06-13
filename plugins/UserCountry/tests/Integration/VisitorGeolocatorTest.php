@@ -364,7 +364,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     protected function getProviderMock()
     {
         return $this->getMockBuilder('\Piwik\Plugins\UserCountry\LocationProvider')
-            ->setMethods(array('getId', 'getLocation', 'isAvailable', 'isWorking', 'getSupportedLocationInfo'))
+            ->setMethods(array('getId', 'getInfo', 'getLocation', 'isAvailable', 'isWorking', 'getSupportedLocationInfo'))
             ->disableOriginalConstructor()
             ->getMock();
     }

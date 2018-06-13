@@ -29,7 +29,7 @@
         };
         vm.onUpdate = function () {
             if (vm.piwikurl) {
-                var value = vm.piwikurl + "index.php?module=CoreAdminHome&action=optOut&language=" + vm.language + "&backgroundColor=" + vm.backgroundColor.substr(1) + "&fontColor=" + vm.fontColor.substr(1) + "&fontSize=" + vm.fontSizeWithUnit + "&fontFamily=" + vm.fontFamily;
+                var value = vm.piwikurl + "index.php?module=CoreAdminHome&action=optOut&language=" + vm.language + "&backgroundColor=" + vm.backgroundColor.substr(1) + "&fontColor=" + vm.fontColor.substr(1) + "&fontSize=" + vm.fontSizeWithUnit + "&fontFamily=" + encodeURIComponent(vm.fontFamily);
                 var isAnimationAlreadyRunning = $('.optOutCustomizer pre').queue('fx').length > 0;
                 if (value !== vm.iframeUrl && !isAnimationAlreadyRunning) {
                     $('.optOutCustomizer pre').effect("highlight", {}, 1500);

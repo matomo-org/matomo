@@ -5,7 +5,7 @@
         "Domain": "Dominio",
         "ErrorNotLoading": "La sessione di Overlay Pagina non può ancora essere lanciata.",
         "ErrorNotLoadingDetails": "Forse la pagina caricata sulla destra non ha il codice tracking di Matomo. In questo caso prova ad avviare Overlay per una pagina diversa.",
-        "ErrorNotLoadingDetailsSSL": "Dal momento che si sta utilizzando Piwik su HTTPS, la causa più probabile è che il vostro sito web non supporti SSL. Prova a utilizzare Matomo su HTTP.",
+        "ErrorNotLoadingDetailsSSL": "Dal momento che si sta utilizzando Matomo su HTTPS, la causa più probabile è che il vostro sito web non supporti SSL. Prova a utilizzare Matomo su HTTP.",
         "ErrorNotLoadingLink": "Ottieni altri suggerimenti sui problemi",
         "Link": "Link",
         "Location": "Posizione",

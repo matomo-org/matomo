@@ -109,11 +109,13 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/quick-access/quick-access.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/selector/selector.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/report-export/reportexport.popover.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/widget-bydimension-container/widget-bydimension-container.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/date-range-picker/date-range-picker.component.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/period-date-picker/period-date-picker.component.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -191,6 +193,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/dropdown-button.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/select-on-focus.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/side-nav.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/common/directives/string-to-number.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/anchorLinkFix.js";
@@ -229,6 +232,8 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/popover-handler/popover-handler.directive.js";
 
+        $jsFiles[] = "plugins/CoreHome/angularjs/report-export/reportexport.directive.js";
+
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.controller.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage-model.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/reporting-page/reportingpage.directive.js";
@@ -249,6 +254,9 @@ class CoreHome extends \Piwik\Plugin
 
         $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.controller.js";
+
+        $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.controller.js";
 
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
@@ -279,12 +287,15 @@ class CoreHome extends \Piwik\Plugin
 
     public function getClientSideTranslationKeys(&$translationKeys)
     {
+        $translationKeys[] = 'General_Export';
         $translationKeys[] = 'General_InvalidDateRange';
         $translationKeys[] = 'General_Loading';
         $translationKeys[] = 'General_Show';
+        $translationKeys[] = 'General_Remove';
         $translationKeys[] = 'General_Hide';
         $translationKeys[] = 'General_Save';
         $translationKeys[] = 'General_Website';
+        $translationKeys[] = 'General_RowsToDisplay';
         $translationKeys[] = 'Intl_Year_Short';
         $translationKeys[] = 'General_MultiSitesSummary';
         $translationKeys[] = 'General_SearchNoResults';
@@ -409,11 +420,18 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ShortcutCalendar';
         $translationKeys[] = 'CoreHome_ShortcutSearch';
         $translationKeys[] = 'CoreHome_ShortcutHelp';
+        $translationKeys[] = 'CoreHome_StandardReport';
+        $translationKeys[] = 'CoreHome_ReportWithMetadata';
+        $translationKeys[] = 'CoreHome_ReportType';
+        $translationKeys[] = 'CoreHome_RowLimit';
+        $translationKeys[] = 'CoreHome_ExportFormat';
+        $translationKeys[] = 'CoreHome_FlattenReport';
+        $translationKeys[] = 'CoreHome_CustomLimit';
+        $translationKeys[] = 'CoreHome_ExpandSubtables';
         $translationKeys[] = 'CoreHome_HomeShortcut';
         $translationKeys[] = 'CoreHome_PageUpShortcutDescription';
         $translationKeys[] = 'CoreHome_EndShortcut';
         $translationKeys[] = 'CoreHome_PageDownShortcutDescription';
-
         $translationKeys[] = 'CoreHome_MacPageUp';
         $translationKeys[] = 'CoreHome_MacPageDown';
 

@@ -42,7 +42,10 @@ matrix:
   include:
     # PDO Mysql
     - php: 5.6
-      env: TEST_SUITE=SystemTests MYSQL_ADAPTER=PDO_MYSQL
+      env: TEST_SUITE=SystemTestsCore MYSQL_ADAPTER=PDO_MYSQL
+      sudo: required
+    - php: 5.6
+      env: TEST_SUITE=SystemTestsPlugins MYSQL_ADAPTER=PDO_MYSQL
       sudo: required
     - php: 5.6
       env: TEST_SUITE=IntegrationTests MYSQL_ADAPTER=PDO_MYSQL
@@ -50,13 +53,20 @@ matrix:
     - php: 5.6
       env: TEST_SUITE=UnitTests MYSQL_ADAPTER=PDO_MYSQL
       sudo: false
+      addons: false
     # Javascript tests
     - php: 5.6
       env: TEST_SUITE=JavascriptTests MYSQL_ADAPTER=PDO_MYSQL
       sudo: false
+      addons:
+        apt:
+          packages:
+            - nginx
+            - realpath
     - php: 5.6
       env: TEST_SUITE=AngularJSTests MYSQL_ADAPTER=PDO_MYSQL SKIP_COMPOSER_INSTALL=1
       sudo: false
+      addons: false
     # All tests after another
     - php: 5.6
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-first-half-only"
@@ -105,27 +115,6 @@ before_script:
   # make tmpfs and run MySQL on it for reasonnable performance
   - ./tests/travis/setup_mysql_tmpfs.sh
 
-  # print out mysql information
-  - mysql --version
-  - mysql -e "SELECT VERSION();"
-
-  # configure mysql
-  - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES'" # Travis default
-  # try to avoid 'mysql has gone away' errors
-  - mysql -e "SET GLOBAL wait_timeout = 36000;"
-  - mysql -e "SET GLOBAL max_allowed_packet = 134209536;"
-  - mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
-  - mysql -e "SHOW VARIABLES LIKE 'wait_timeout';"
-
-  - mysql -e "SELECT @@sql_mode;"
-  # - mysql -e "SHOW GLOBAL VARIABLES;"
-
-  # print out more debugging info
-  - uname -a
-  - date
-  - php -r "var_dump(gd_info());"
-  - mysql -e 'create database piwik_tests;'
-
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
   - ./tests/travis/install_phantomjs.sh; export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH;
@@ -152,6 +141,7 @@ after_success:
 cache:
   directories:
     - "travis_phantomjs"
+    - $HOME/.composer/cache
 
 
 

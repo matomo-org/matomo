@@ -175,6 +175,8 @@
                                 <br />
                             {% endif %}
                         </div>
+                        
+                        {% if plugin.specialOffer is defined and plugin.specialOffer %}<p style="color: green;"><br />{{ plugin.specialOffer }}</p>{% endif %}
 
                         <p><br /></p>
                         <dl>

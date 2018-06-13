@@ -11,6 +11,7 @@ use Piwik\Http;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Tests\Framework\Fixture;
 use Exception;
+use Piwik\Tracker\Cache;
 
 /**
  * Adds one site and sends several invalid tracking requests. The result should be
@@ -93,6 +94,7 @@ class InvalidVisits extends Fixture
             // test with global list of excluded IPs
             $excludedIpBis = '145.5.3.4';
             API::getInstance()->setGlobalExcludedIps($excludedIpBis);
+            Cache::regenerateCacheWebsiteAttributes([1]);
             $t->setIp($excludedIpBis);
             self::checkResponse($t->doTrackPageView('visit from IP globally excluded'));
         }

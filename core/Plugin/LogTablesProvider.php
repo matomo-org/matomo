@@ -9,6 +9,7 @@
 namespace Piwik\Plugin;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Piwik;
 use Piwik\Tracker\LogTable;
 
 class LogTablesProvider {
@@ -53,10 +54,32 @@ class LogTablesProvider {
         if (!isset($this->tablesCache)) {
             $tables = $this->pluginManager->findMultipleComponents('Tracker', 'Piwik\\Tracker\\LogTable');
 
-            $this->tablesCache = array();
+            $logTables = array();
+
+            /**
+             * Only used for tests. Triggered to add custom log tables which are not automatically picked up.
+             * In case you need to define a log table, please put them inside the "Tracker" directory of your plugin.
+             * Please note custom log tables are currently not an official API.
+             *
+             * **Example**
+             *
+             *     public function addLogTable(&$logTables)
+             *     {
+             *         $logTables[] = new LogTable();
+             *     }
+             *
+             * @param array &$logTables An array containing a list of log entries.
+             *
+             * @deprecated Only used for tests
+             * @ignore
+             */
+            Piwik::postEvent('LogTables.addLogTables', array(&$logTables));
+
             foreach ($tables as $table) {
-                $this->tablesCache[] = StaticContainer::get($table);
+                $logTables[] = StaticContainer::get($table);
             }
+
+            $this->tablesCache = $logTables;
         }
 
         return $this->tablesCache;

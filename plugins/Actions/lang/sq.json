@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "Fjalëkyçe Kërkimi në Sajt",
         "WidgetSearchNoResultKeywords": "Fjalëkyça Kërkimesh me Pa Përfundime",
         "ActionType": "Lloj Veprimi",
-        "ActionTypes": "Lloje Veprimesh"
+        "ActionTypes": "Lloje Veprimesh",
+        "Behaviour": "Sjellje"
     }
 }

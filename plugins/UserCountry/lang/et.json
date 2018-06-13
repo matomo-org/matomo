@@ -22,7 +22,7 @@
         "LocationDatabase": "Asukoha andmebaas",
         "LocationProvider": "Asukohainfo pakkuja",
         "Longitude": "Pikkuskraad",
-        "NoDataForGeoIPReport1": "Antud raporti jaoks puuduvad andmed, kuna Piwiku asukoha andmebaas on tühi või külastajate IP aadresse ei ole olnud võimalik kaardil tuvastada.",
+        "NoDataForGeoIPReport1": "Antud raporti jaoks puuduvad andmed, kuna Matomo asukoha andmebaas on tühi või külastajate IP aadresse ei ole olnud võimalik kaardil tuvastada.",
         "Organization": "Organisatsioon",
         "OrgDatabase": "Organisatsiooni andmebaas",
         "Region": "Regioon",

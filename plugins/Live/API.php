@@ -72,6 +72,14 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
         $model = new Model();
 
+        if (is_string($showColumns)) {
+            $showColumns = explode(',', $showColumns);
+        }
+
+        if (is_string($hideColumns)) {
+            $hideColumns = explode(',', $hideColumns);
+        }
+
         $counters = array();
 
         $hasVisits = true;
@@ -154,6 +162,11 @@ class API extends \Piwik\Plugin\API
     public function getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
+        $idSite = Site::getIdSitesFromIdSitesString($idSite);
+        if (is_array($idSite) && count($idSite) === 1) {
+            $idSite = array_shift($idSite);
+        }
+        Piwik::checkUserHasViewAccess($idSite);
 
         if ($countVisitorsToFetch !== false) {
             $filterLimit     = (int) $countVisitorsToFetch;
@@ -207,12 +220,10 @@ class API extends \Piwik\Plugin\API
             $visitorId = $this->getMostRecentVisitorId($idSite, $segment);
         }
 
-        $newSegment = ($segment === false ? '' : $segment . ';') . 'visitorId==' . $visitorId;
-
         $limit = Config::getInstance()->General['live_visitor_profile_max_visits_to_aggregate'];
 
-        $visits = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $newSegment,
-            $offset = 0, $limit);
+        $visits = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $segment,
+            $offset = 0, $limit, false, false, $visitorId);
         $this->addFilterToCleanVisitors($visits, $idSite, $flat = false, $doNotFetchActions = false, $filterNow = true);
 
         if ($visits->getRowsCount() == 0) {
@@ -287,6 +298,32 @@ class API extends \Piwik\Plugin\API
         $visitor        = $visitorFactory->create($visitDetails);
 
         return $visitor->getVisitorId();
+    }
+
+    /**
+     * Returns the very first visit for the given visitorId
+     *
+     * @internal
+     *
+     * @param $idSite
+     * @param $visitorId
+     *
+     * @return DataTable
+     */
+    public function getFirstVisitForVisitorId($idSite, $visitorId)
+    {
+        Piwik::checkUserHasSomeViewAccess();
+
+        if (empty($visitorId)) {
+            return new DataTable();
+        }
+
+        $model = new Model();
+        $data = $model->queryLogVisits($idSite, false, false, false, 0, 1, $visitorId, false, 'ASC');
+        $dataTable = $this->makeVisitorTableFromArray($data);
+        $this->addFilterToCleanVisitors($dataTable, $idSite, false, true);
+
+        return $dataTable;
     }
 
     /**
@@ -380,6 +417,4 @@ class API extends \Piwik\Plugin\API
 
         return $dataTable;
     }
-
-
 }

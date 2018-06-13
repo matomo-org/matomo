@@ -52,7 +52,7 @@
         "UsersManagementMainDescription": "Lumikha ng mga bagong user o i-update ang mga mayroon nang user. Pagkatapos ay maaari mong itakda ang kanilang mga permiso sa itaas.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kung ang gumagamit ay hindi naka log-in at bumisita sa Matomo kailangan nilang mag-access",
         "YourUsernameCannotBeChanged": "Hindi maaaring mabago ang iyong username.",
-        "YourVisitsAreIgnoredOnDomain": "%1$s Ang iyong bisita ay hindi na-ignore ng Piwik %2$s %3$s (ang Matomo ignore cookie ay hindi nakita sa iyong browser).",
-        "YourVisitsAreNotIgnored": "%1$s Ang iyong bisita ay hindi na-ignore ng Piwik%2$s (ang Matomo ignore cookie ay hindi nakita sa iyong browser)."
+        "YourVisitsAreIgnoredOnDomain": "%1$s Ang iyong bisita ay hindi na-ignore ng Matomo %2$s %3$s (ang Matomo ignore cookie ay hindi nakita sa iyong browser).",
+        "YourVisitsAreNotIgnored": "%1$s Ang iyong bisita ay hindi na-ignore ng Matomo%2$s (ang Matomo ignore cookie ay hindi nakita sa iyong browser)."
     }
 }

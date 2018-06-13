@@ -5,7 +5,7 @@
         "Domain": "Domena",
         "ErrorNotLoading": "Sesja Nakładki Strony nie mogła zostać uruchomiona.",
         "ErrorNotLoadingDetails": "Może strona załadowana po prawej stronie nie ma kodu śledzącego Matomo. W takim przypadku spróbuj uruchomić Nakładkę dla innej strony widocznej w raporcie.",
-        "ErrorNotLoadingDetailsSSL": "W związku z faktem, że Piwik korzysta z połączenia HTTPS i jest prawdopodobne, że Twój serwis nie korzysta z SSL'a. Spróbuj użyuć Matomo'a na HTTP.",
+        "ErrorNotLoadingDetailsSSL": "W związku z faktem, że Matomo korzysta z połączenia HTTPS i jest prawdopodobne, że Twój serwis nie korzysta z SSL'a. Spróbuj użyuć Matomo'a na HTTP.",
         "ErrorNotLoadingLink": "Kliknij tu, aby uzyskać więcej podpowiedzi i pomocy",
         "Link": "Odnośnik",
         "Location": "Lokalizacja",

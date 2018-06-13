@@ -52,7 +52,7 @@
         "UsersManagementMainDescription": "Creaza user nou sau actualizeaza userul existent. Poti seta permisiunile lor.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Atunci când utilizatorii nu sunt logati și viziteaza Matomo, acestea ar trebui să acceseze",
         "YourUsernameCannotBeChanged": "Numele tău de utilizator nu poate fi schimbat.",
-        "YourVisitsAreIgnoredOnDomain": "%1$svizitele tale sunt ignorate de Matomo pe %2$s%3$s (piwik ignora cookie care a fost găsit în browser-ul dvs.).",
-        "YourVisitsAreNotIgnored": "%1$s Vizitele tale nu sunt ignorate de Matomo%2$s (piwik ignora cookie care nu au fost găsite în browser-ul dvs.)."
+        "YourVisitsAreIgnoredOnDomain": "%1$svizitele tale sunt ignorate de Matomo pe %2$s%3$s (Matomo ignora cookie care a fost găsit în browser-ul dvs.).",
+        "YourVisitsAreNotIgnored": "%1$s Vizitele tale nu sunt ignorate de Matomo%2$s (Matomo ignora cookie care nu au fost găsite în browser-ul dvs.)."
     }
 }

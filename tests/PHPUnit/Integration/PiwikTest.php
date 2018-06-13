@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Piwik\Access;
+use Piwik\AuthResult;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Translate;
@@ -163,5 +164,93 @@ class PiwikTest extends IntegrationTestCase
     public function testIsAssociativeArray($array, $expected)
     {
         $this->assertEquals($expected, Piwik::isAssociativeArray($array));
+    }
+
+
+    public function test_isUserIsAnonymous_shouldReturnTrueWhenLoginIsAnonymous()
+    {
+        Access::getInstance()->setSuperUserAccess(false);
+
+        $mock = $this->createPiwikAuthMockInstance();
+        $mock->expects($this->once())
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'anonymous', 'token')));
+
+        $mock->expects($this->any())->method('getName')->will($this->returnValue("test name"));
+
+        $this->assertTrue(Access::getInstance()->reloadAccess($mock));
+        $this->assertTrue(Piwik::isUserIsAnonymous());
+    }
+
+    public function test_isUserIsAnonymous_shouldReturnTrueWhenThereIsNoLogin()
+    {
+        Access::getInstance()->setSuperUserAccess(false);
+
+        $mock = $this->createPiwikAuthMockInstance();
+        $mock->expects($this->once())
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult(AuthResult::FAILURE, null, null)));
+
+        $mock->expects($this->any())->method('getName')->will($this->returnValue("test name"));
+
+        $this->assertFalse(Access::getInstance()->reloadAccess($mock));
+        $this->assertTrue(Piwik::isUserIsAnonymous());
+    }
+
+    public function test_isUserIsAnonymous_shouldReturnFalseWhenLoginIsNotAnonymous()
+    {
+        Access::getInstance()->setSuperUserAccess(false);
+
+        $mock = $this->createPiwikAuthMockInstance();
+        $mock->expects($this->once())
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, 'someuser', 'token')));
+
+        $mock->expects($this->any())->method('getName')->will($this->returnValue("test name"));
+
+        $this->assertTrue(Access::getInstance()->reloadAccess($mock));
+        $this->assertFalse(Piwik::isUserIsAnonymous());
+    }
+
+    public function test_isUserIsAnonymous_shouldReturnFalseWhenLoginIsAnonymousButHasSuperUserAccess()
+    {
+        Access::getInstance()->setSuperUserAccess(false);
+
+        $mock = $this->createPiwikAuthMockInstance();
+        $mock->expects($this->once())
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, 'anonymous', 'token')));
+
+        $mock->expects($this->any())->method('getName')->will($this->returnValue("test name"));
+
+        $this->assertTrue(Access::getInstance()->reloadAccess($mock));
+        $this->assertFalse(Piwik::isUserIsAnonymous());
+    }
+
+    public function test_isUserIsAnonymous_shouldReturnFalseWhenLoginIsAnonymousButSetSuperUserAccessUsed()
+    {
+        Access::getInstance()->setSuperUserAccess(false);
+
+        $mock = $this->createPiwikAuthMockInstance();
+        $mock->expects($this->once())
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult(AuthResult::FAILURE, null, null)));
+
+        $mock->expects($this->any())->method('getName')->will($this->returnValue("test name"));
+
+        $this->assertFalse(Access::getInstance()->reloadAccess($mock));
+        $this->assertTrue(Piwik::isUserIsAnonymous());
+
+        Access::doAsSuperUser(function () {
+            $this->assertFalse(Piwik::isUserIsAnonymous());
+        });
+    }
+
+    private function createPiwikAuthMockInstance()
+    {
+        return $this->getMockBuilder('Piwik\\Auth')
+            ->setMethods(array('authenticate', 'getName', 'getTokenAuthSecret', 'getLogin', 'setTokenAuth', 'setLogin',
+                'setPassword', 'setPasswordHash'))
+            ->getMock();
     }
 }

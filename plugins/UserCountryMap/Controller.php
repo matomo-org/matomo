@@ -26,8 +26,8 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    // By default plot up to the last 30 days of visitors on the map, for low traffic sites
-    const REAL_TIME_WINDOW = 'last30';
+    // By default plot up to the last 3 days of visitors on the map, for low traffic sites
+    const REAL_TIME_WINDOW = 'last3';
     
     /**
      * @var Translator
@@ -97,7 +97,7 @@ class Controller extends \Piwik\Plugin\Controller
              'avg_time_on_site'     => $this->translator->translate('VisitsSummary_AverageVisitDuration'),
              'and_n_others'         => $this->translator->translate('UserCountryMap_AndNOthers'),
              'no_data'              => $this->translator->translate('CoreHome_ThereIsNoDataForThisReport'),
-             'nb_uniq_visitors'     => $this->translator->translate('VisitsSummary_NbUniqueVisitors'),
+             'nb_uniq_visitors'     => $this->translator->translate('General_NUniqueVisitors'),
              'nb_users'             => $this->translator->translate('VisitsSummary_NbUsers'),
         ));
 

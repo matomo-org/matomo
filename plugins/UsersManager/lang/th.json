@@ -35,7 +35,7 @@
         "UsersManagementMainDescription": "สร้างผู้ใช้ใหม่หรืออัพเดตผู้ใช้ที่มีอยู่ จากนั้นคุณสามารถกำหนดสิทธิ์ของพวกเขาได้",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "เมื่อผู้ใช้เข้าสู่ระบบและเข้าชม Matomo พวกเขาควรจะเข้าถึงได้",
         "YourUsernameCannotBeChanged": "ชื่อผู้ใช้ของคุณไม่สามารถเปลี่ยนแปลงได้",
-        "YourVisitsAreIgnoredOnDomain": "%1$s ผู้เข้าชมของคุณจะถูกละเว้น โดย Piwik บน %2$s %3$s (Matomo ละเว้นการที่พบคุกกี้ในเบราว์เซอร์ของคุณ)",
-        "YourVisitsAreNotIgnored": "%1$s ผู้เข้าชมของคุณจะถูกละเว้นโดย Piwik %2$s (Matomo ละเว้นไม่พบคุกกี้ในเบราว์เซอร์ของคุณ)"
+        "YourVisitsAreIgnoredOnDomain": "%1$s ผู้เข้าชมของคุณจะถูกละเว้น โดย Matomo บน %2$s %3$s (Matomo ละเว้นการที่พบคุกกี้ในเบราว์เซอร์ของคุณ)",
+        "YourVisitsAreNotIgnored": "%1$s ผู้เข้าชมของคุณจะถูกละเว้นโดย Matomo %2$s (Matomo ละเว้นไม่พบคุกกี้ในเบราว์เซอร์ของคุณ)"
     }
 }

@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "カスタムリポートの作成とスケジュールにはログインする必要があります。",
         "NoRecipients": "このレポートは、受取人がいません",
         "Pagination": "%1$s の %2$s ページ",
-        "PiwikReports": "Piwik リポート",
+        "PiwikReports": "Matomo リポート",
         "PleaseFindAttachedFile": "ウェブサイト %2$s の %1$s のレポートを添付しましたのでご確認ください。",
         "SentFromX": "%s から送信されます。",
         "PleaseFindBelow": "%2$s の %1$s のリポートをお届けします。",

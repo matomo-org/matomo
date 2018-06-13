@@ -10,13 +10,12 @@ namespace Piwik\Tests\Integration\CliMulti;
 
 use Piwik\CliMulti\Process;
 use Piwik\Tests\Framework\Mock\File;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use ReflectionProperty;
 
 /**
  * @group CliMulti
  */
-class ProcessTest extends IntegrationTestCase
+class ProcessTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Process

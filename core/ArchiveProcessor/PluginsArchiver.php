@@ -226,6 +226,11 @@ class PluginsArchiver
         if ($this->params->getRequestedPlugin() == $pluginName) {
             return true;
         }
+
+        if ($this->params->shouldOnlyArchiveRequestedPlugin()) {
+            return false;
+        }
+
         if (Rules::shouldProcessReportsAllPlugins(
             $this->params->getIdSites(),
             $this->params->getSegment(),

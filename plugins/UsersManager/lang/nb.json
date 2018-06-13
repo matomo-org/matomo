@@ -56,7 +56,7 @@
         "UsersManagementMainDescription": "Opprett nye brukere eller oppdater eksisterende. Du kan sette deres rettigheter over.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Brukere som ikke er logget og besøker Matomo, skal sendes til",
         "YourUsernameCannotBeChanged": "Brukernavnet ditt kan ikke endres.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sDine besøk blir ignorert av Piwik på %2$s %3$s (informasjonskapselen for ekskludering fra Matomo ble funnet i din nettleser).",
-        "YourVisitsAreNotIgnored": "%1$sDine besøk blir ikke ignorert av Piwik%2$s (informasjonskapselen for ekskludering fra Matomo ble ikke funnet i din nettleser)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sDine besøk blir ignorert av Matomo på %2$s %3$s (informasjonskapselen for ekskludering fra Matomo ble funnet i din nettleser).",
+        "YourVisitsAreNotIgnored": "%1$sDine besøk blir ikke ignorert av Matomo%2$s (informasjonskapselen for ekskludering fra Matomo ble ikke funnet i din nettleser)."
     }
 }

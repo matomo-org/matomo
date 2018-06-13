@@ -81,6 +81,7 @@ class Mysql implements SchemaInterface
                           `plugin_name` VARCHAR(60) NOT NULL,
                           `setting_name` VARCHAR(255) NOT NULL,
                           `setting_value` LONGTEXT NOT NULL,
+                          `json_encoded` TINYINT UNSIGNED NOT NULL DEFAULT 0,
                           `user_login` VARCHAR(100) NOT NULL DEFAULT '',
                               INDEX(plugin_name, user_login)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
@@ -91,6 +92,7 @@ class Mysql implements SchemaInterface
                           `plugin_name` VARCHAR(60) NOT NULL,
                           `setting_name` VARCHAR(255) NOT NULL,
                           `setting_value` LONGTEXT NOT NULL,
+                          `json_encoded` TINYINT UNSIGNED NOT NULL DEFAULT 0,
                               INDEX(idsite, plugin_name)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
@@ -319,7 +321,7 @@ class Mysql implements SchemaInterface
     {
         $db = $this->getDb();
 
-        $allColumns = $db->fetchAll("SHOW COLUMNS FROM . $tableName");
+        $allColumns = $db->fetchAll("SHOW COLUMNS FROM " . $tableName);
 
         $fields = array();
         foreach ($allColumns as $column) {

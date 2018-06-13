@@ -45,7 +45,7 @@ class Installation extends \Piwik\Plugin
 
         $errorMessage = $exception->getMessage();
 
-        if (Request::isApiRequest($_GET)) {
+        if (Request::isApiRequest(null)) {
             $ex = new DatabaseConnectionFailedException($errorMessage);
             throw $ex;
         }

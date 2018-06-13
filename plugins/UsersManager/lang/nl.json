@@ -72,7 +72,7 @@
         "UsersManagementMainDescription": "Creëer nieuwe of actualiseer bestaande gebruikers",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Wanneer gebruikers niet ingelogd zijn en Matomo bezoeken, moeten ze toegang krijgen",
         "YourUsernameCannotBeChanged": "Je gebruikersnaam kan niet worden gewijzigd.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sUw bezoeken worden door Piwik op %2$s genegeerd %3$s (Matomo-negeercookie is in uw browser gevonden).",
-        "YourVisitsAreNotIgnored": "%1$sUw bezoeken worden niet door Piwik genegeerd%2$s (Matomo-negeercookie is niet in uw browser gevonden)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sUw bezoeken worden door Matomo op %2$s genegeerd %3$s (Matomo-negeercookie is in uw browser gevonden).",
+        "YourVisitsAreNotIgnored": "%1$sUw bezoeken worden niet door Matomo genegeerd%2$s (Matomo-negeercookie is niet in uw browser gevonden)."
     }
 }

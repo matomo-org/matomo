@@ -16,6 +16,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
 
@@ -82,11 +83,20 @@ class Goals extends \Piwik\Plugin
             'SitesManager.deleteSite.end'            => 'deleteSiteGoals',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
-            'Category.addSubcategories' => 'addSubcategories',
-            'Metric.addMetrics' => 'addMetrics',
-            'Metric.addComputedMetrics' => 'addComputedMetrics'
+            'Category.addSubcategories'              => 'addSubcategories',
+            'Metric.addMetrics'                      => 'addMetrics',
+            'Metric.addComputedMetrics'              => 'addComputedMetrics',
+            'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
         );
         return $hooks;
+    }
+
+    public function addSystemSummaryItems(&$systemSummary)
+    {
+        $goalModel = new Model();
+        $numGoals = $goalModel->getActiveGoalCount();
+
+        $systemSummary[] = new SystemSummary\Item($key = 'goals', Piwik::translate('Goals_NGoals', $numGoals), $value = null, array('module' => 'Goals', 'action' => 'manage'), $icon = 'icon-goal', $order = 7);
     }
 
     public function addComputedMetrics(MetricsList $list, ComputedMetricFactory $computedMetricFactory)

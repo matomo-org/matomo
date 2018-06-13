@@ -68,7 +68,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
     protected function concatenateAssets()
     {
-        $mergedContent = '';
+        $concatenatedContent = '';
 
         foreach ($this->getAssetCatalog()->getAssets() as $uiAsset) {
             $uiAsset->validateFile();
@@ -81,15 +81,25 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
             if (!empty($path) && Common::stringEndsWith($path, '.css')) {
                 // to fix #10173
-                $mergedContent .= "\n" . $this->getCssStatementForReplacement($path) . "\n";
+                $concatenatedContent .= "\n" . $this->getCssStatementForReplacement($path) . "\n";
                 $this->cssAssetsToReplace[] = $uiAsset;
             } else {
                 $content = $this->processFileContent($uiAsset);
-                $mergedContent .= $this->getFileSeparator() . $content;
+                $concatenatedContent .= $this->getFileSeparator() . $content;
             }
         }
 
-        $this->mergedContent = $mergedContent;
+        /**
+         * Triggered after all less stylesheets are concatenated into one long string but before it is
+         * minified and merged into one file.
+         *
+         * This event can be used to add less stylesheets that are not located in a file on the disc.
+         *
+         * @param string $concatenatedContent The content of all concatenated less files.
+         */
+        Piwik::postEvent('AssetManager.addStylesheets', array(&$concatenatedContent));
+
+        $this->mergedContent = $concatenatedContent;
     }
     
     /**

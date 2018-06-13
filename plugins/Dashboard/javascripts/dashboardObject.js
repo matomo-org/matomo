@@ -197,9 +197,11 @@
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.setLoadingElement();
             ajaxRequest.addParams({
-                module: 'Dashboard',
-                action: 'removeDashboard',
-                idDashboard: dashboardId
+                module: 'API',
+                method: 'Dashboard.removeDashboard',
+                idDashboard: dashboardId,
+                login: piwik.userLogin,
+                format: 'json'
             }, 'get');
             ajaxRequest.setCallback(
                 function () {

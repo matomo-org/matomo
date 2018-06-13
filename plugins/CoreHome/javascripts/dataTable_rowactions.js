@@ -59,8 +59,7 @@ DataTable_RowActions_Registry.register({
 
     name: 'RowEvolution',
 
-    dataTableIcon: 'plugins/Morpheus/images/row_evolution.png',
-    dataTableIconHover: 'plugins/Morpheus/images/row_evolution_hover.png',
+    dataTableIcon: 'icon-evolution',
 
     order: 50,
 
@@ -374,7 +373,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
             // remember label for multi row evolution
             box.find('.rowevolution-startmulti').click(function () {
                 Piwik_Popover.onClose(false); // unbind listener that resets multiEvolutionRows
-                Piwik_Popover.close();
+                broadcast.propagateNewPopoverParameter(false);
                 return false;
             });
         } else {
@@ -411,6 +410,13 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         idDimension = parseInt(idDimension, 10);
         if (idDimension > 0) {
             requestParams.idDimension = idDimension;
+        }
+    }
+
+    if (self.dataTable && self.dataTable.jsViewDataTable === 'tableGoals') {
+        // remove idGoal param, when it's set for goal visualizations
+        if (extraParams['idGoal']) {
+            delete(extraParams['idGoal']);
         }
     }
 

@@ -28,7 +28,7 @@
         "MainDescription": "รายงานการวิเคราะห์เว็บไซต์ของคุณ ที่ต้องการ! เพิ่ม, ปรับข้อมูล, ลบเว็บไซต์และแสดงการใช้ Javascript เพื่อแทรกในหน้าเว็บของท่าน",
         "NotFound": "ไม่มีเว็บไซต์ที่ค้นพบสำหรับ",
         "NoWebsites": "คุณไม่มีเว็บไซต์ที่จะจัดการ",
-        "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Piwik จะไม่รวมพารามิเตอร์โดยอัตโนมัติในเซสชันทั่วไป (%s)",
+        "PiwikWillAutomaticallyExcludeCommonSessionParameters": "Matomo จะไม่รวมพารามิเตอร์โดยอัตโนมัติในเซสชันทั่วไป (%s)",
         "SearchCategoryLabel": "ค่าพารามิเตอร์สำหรับหมวดหมู่",
         "SelectACity": "เลือกเมือง",
         "SelectDefaultCurrency": "คุณสามารถเลือกสกุลเงินที่กำหนด โดยค่าเริ่มต้นสำหรับเว็บไซต์ใหม่",

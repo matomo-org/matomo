@@ -10,6 +10,7 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Access;
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Exception\PluginDeactivatedException;
@@ -207,8 +208,13 @@ class Request
         // read the format requested for the output data
         $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $this->request));
 
+        $disablePostProcessing = $this->shouldDisablePostProcessing();
+
         // create the response
         $response = new ResponseBuilder($outputFormat, $this->request);
+        if ($disablePostProcessing) {
+            $response->disableDataTablePostProcessor();
+        }
 
         $corsHandler = new CORSHandler();
         $corsHandler->handle();
@@ -232,7 +238,7 @@ class Request
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
             list($module, $method) = self::getRenamedModuleAndAction($module, $method);
-            
+
             PluginManager::getInstance()->checkIsPluginActivated($module);
 
             $apiClassName = self::getClassNameAPI($module);
@@ -289,8 +295,34 @@ class Request
     }
 
     /**
+     * @ignore
+     * @internal
+     * @param bool $isRootRequestApiRequest
+     */
+    public static function setIsRootRequestApiRequest($isRootRequestApiRequest)
+    {
+        Cache::getTransientCache()->save('API.setIsRootRequestApiRequest', $isRootRequestApiRequest);
+    }
+
+    /**
+     * Detect if the root request (the actual request) is an API request or not. To detect whether an API is currently
+     * request within any request, have a look at {@link isApiRequest()}.
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public static function isRootRequestApiRequest()
+    {
+        $isApi = Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
+        return !empty($isApi);
+    }
+
+    /**
      * Detect if request is an API request. Meaning the module is 'API' and an API method having a valid format was
-     * specified.
+     * specified. Note that this method will return true even if the actual request is for example a regular UI
+     * reporting page request but within this request we are currently processing an API request (eg a
+     * controller calls Request::processRequest('API.getMatomoVersion')). To find out if the root request is an API
+     * request or not, call {@link isRootRequestApiRequest()}
      *
      * @param array $request  eg array('module' => 'API', 'method' => 'Test.getMethod')
      * @return bool
@@ -522,5 +554,25 @@ class Request
     private static function getDefaultRequest()
     {
         return $_GET + $_POST;
+    }
+
+    private function shouldDisablePostProcessing()
+    {
+        $shouldDisable = false;
+
+        /**
+         * After an API method returns a value, the value is post processed (eg, rows are sorted
+         * based on the `filter_sort_column` query parameter, rows are truncated based on the
+         * `filter_limit`/`filter_offset` parameters, amongst other things).
+         *
+         * If you're creating a plugin that needs to disable post processing entirely for
+         * certain requests, use this event.
+         *
+         * @param bool &$shouldDisable Set this to true to disable datatable post processing for a request.
+         * @param array $request The request parameters.
+         */
+        Piwik::postEvent('Request.shouldDisablePostProcessing', [&$shouldDisable, $this->request]);
+
+        return $shouldDisable;
     }
 }

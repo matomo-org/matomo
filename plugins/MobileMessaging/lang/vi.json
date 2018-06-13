@@ -34,6 +34,6 @@
         "SMS_Content_Too_Long": "[quá lâu]",
         "TopLinkTooltip": "Nhận các báo cáo Web Analytics đã được gửi đến hộp thư email của bạn hoặc điện thoại di động của bạn!",
         "TopMenu": "Các báo cáo Email & SMS",
-        "VerificationText": "Mã số là %1$s. Để xác nhận số điện thoại của bạn và nhận được báo cáo SMS Piwik hãy sao chép mã này trong mẫu truy cập thông qua Matomo > %2$s> %3$s."
+        "VerificationText": "Mã số là %1$s. Để xác nhận số điện thoại của bạn và nhận được báo cáo SMS Matomo hãy sao chép mã này trong mẫu truy cập thông qua Matomo > %2$s> %3$s."
     }
 }

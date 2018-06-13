@@ -136,8 +136,8 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         }, done);
     });
 
-    it("should display the export options when clicking the export icon", function (done) {
-        expect.screenshot('export_options').to.be.capture(function (page) {
+    it("should display the export popover when clicking the export icon", function (done) {
+        expect.screenshot('export_options').to.be.captureSelector('.ui-dialog', function (page) {
             page.click('.activateExportSelection');
         }, done);
     });

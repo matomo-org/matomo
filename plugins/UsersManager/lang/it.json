@@ -54,7 +54,7 @@
         "NoteNoAnonymousUserAccessSettingsWontBeUsed2": "Nota: Non puoi cambiare le impostazioni in questa sezione perché nessun sito è accessibile dagli utenti anonimi.",
         "NoUsersExist": "Non ci sono ancora utenti.",
         "PluginDescription": "La Gestione Utenti ti permette di aggiungere nuovi utenti, modificare utenti esistenti e dare loro l'accesso per vedere o amministrare i siti web.",
-        "PrivAdmin": "Amministra Piwik",
+        "PrivAdmin": "Amministra Matomo",
         "PrivNone": "Nessun accesso",
         "PrivView": "Vista",
         "RemoveUserAccess": "Togli a '%1$s' l'accesso a %2$s.",
@@ -78,7 +78,7 @@
         "UsersManagementMainDescription": "Crea nuovi utenti o aggiorna quelli esistenti. Puoi anche scegliere quali operazioni permettere tramite la tabella qui sopra.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quando gli utenti non si sono autenticati in Matomo, possono accedere a",
         "YourUsernameCannotBeChanged": "Il tuo nome utente non può essere cambiato.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sLe tue visite sono ignorate da Piwik %2$s %3$s (il cookie 'ignora visite' di Matomo è stato trovato nel tuo browser).",
-        "YourVisitsAreNotIgnored": "%1$sLe tue visite non sono ignorate da Piwik%2$s (il cookie 'ignora visite' di Matomo non è stato trovato nel tuo browser)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sLe tue visite sono ignorate da Matomo %2$s %3$s (il cookie 'ignora visite' di Matomo è stato trovato nel tuo browser).",
+        "YourVisitsAreNotIgnored": "%1$sLe tue visite non sono ignorate da Matomo%2$s (il cookie 'ignora visite' di Matomo non è stato trovato nel tuo browser)."
     }
 }

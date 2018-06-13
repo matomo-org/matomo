@@ -9,6 +9,7 @@
         "PluginDescription": "Skapa och ladda ner ett anpassade SMS rapporter och få dem skickade till din mobil dagligen, en gång i veckan eller en gång i månaden.",
         "Settings_APIKey": "API-nyckel",
         "Settings_CountryCode": "Landskod",
+        "Settings_SelectCountry": "Välj land",
         "Settings_CredentialNotProvided": "Innan du kan skapa och hantera telefonnummer, var snäll och koppa Matomo till ditt SMS konto här ovan.",
         "Settings_CredentialNotProvidedByAdmin": "Innan du kan skapa och hantera telefonnummer, var snäll och fråga din administratör om han eller hon kan koppla Matomo till ett SMS konto",
         "Settings_CredentialProvided": "Dina %s SMS API konton är korrekt konfigurerade!",
@@ -35,6 +36,6 @@
         "SMS_Content_Too_Long": "[för långt]",
         "TopLinkTooltip": "Få Webb Analysrapporter levererade till din mail inkorg eller din mobiltelefon",
         "TopMenu": "E-post och SMS-rapporter",
-        "VerificationText": "Koden är %1$s. För att verifiera ditt telefonnummer och få Piwiks SMS rapporter ber vi dig kopiera den här koden i formuläret för åtkomlighet via Matomo > %2$s > %3$s."
+        "VerificationText": "Koden är %1$s. För att verifiera ditt telefonnummer och få Matomos SMS rapporter ber vi dig kopiera den här koden i formuläret för åtkomlighet via Matomo > %2$s > %3$s."
     }
 }

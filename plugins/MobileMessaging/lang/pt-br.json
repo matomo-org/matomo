@@ -37,6 +37,6 @@
         "SMS_Content_Too_Long": "[muito longo]",
         "TopLinkTooltip": "Obter relatórios analíticos da Web em seu e-mail ou telefone móvel!",
         "TopMenu": "Relatórios de e-mail e SMS",
-        "VerificationText": "O código é %1$s. Para validar o seu número de telefone e receber relatórios Piwik de SMS, copie este código no formulário acessível no Matomo em > %2$s > %3$s."
+        "VerificationText": "O código é %1$s. Para validar o seu número de telefone e receber relatórios Matomo de SMS, copie este código no formulário acessível no Matomo em > %2$s > %3$s."
     }
 }

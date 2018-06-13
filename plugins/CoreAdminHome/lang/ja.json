@@ -7,8 +7,8 @@
         "ReleaseChannel": "リリース チャネル",
         "ClickHereToOptIn": "オプトインするにはここをクリックしてください。",
         "ClickHereToOptOut": "オプトアウトするにはここをクリックしてください。",
-        "CustomLogoFeedbackInfo": "Piwikのロゴをカスタマイズする場合は、トップメニューの%1$sリンクを非表示にすることもできます。 これを行うには、%2$sプラグインの管理ページ%3$ssでフィードバックプラグインを無効にします。",
-        "CustomLogoHelpText": "Piwikのロゴをカスタマイズして、ユーザーインターフェース画面とEメールリポートに表示できます。",
+        "CustomLogoFeedbackInfo": "Matomoのロゴをカスタマイズする場合は、トップメニューの%1$sリンクを非表示にすることもできます。 これを行うには、%2$sプラグインの管理ページ%3$ssでフィードバックプラグインを無効にします。",
+        "CustomLogoHelpText": "Matomoのロゴをカスタマイズして、ユーザーインターフェース画面とEメールリポートに表示できます。",
         "DevelopmentProcess": "%1$s開発プロセス%2$sには何千もの自動テストが含まれていますが、Beta TestersはMatomoの「バグなしポリシー」を達成するために重要な役割を果たします。",
         "EmailServerSettings": "メールサーバの設定",
         "ForBetaTestersOnly": "ベータテスターのみ",
@@ -52,7 +52,7 @@
         "JSTrackingIntro3b": "ほとんどのウェブサイト、ブログ、CMS などでは、あらかじめ作られたプラグインを使って技術的な仕事をすることができます。 プラグインが存在しない場合は、ウェブサイトのテンプレートを編集し、このコードを 'header.php' 、'header.tpl' などのテンプレートファイルで定義されている &lt;\/head&gt; タグに追加することができます( %1$s Matomo の統合に使用されるプラグインのリスト%2$s を参照 ) 。",
         "JSTrackingIntro4": "ビジターの追跡にJavaScriptを使用したくない場合は、%1$s以下の画像によるトラッキングリンクを生成します。%2$s",
         "JSTrackingIntro5": "ページビューを追跡する以外にも、%1$sMatomo Javascript Trackingのドキュメント%2$sで利用可能な機能のリストを確認してください。 これらの機能を使用すると、目標、カスタム変数、eコマース注文、放棄されたカートなどを追跡できます。",
-        "LogoNotWriteableInstruction": "Piwik デフォルトロゴの代わりにカスタムロゴを使用するには、このディレクトリへの書込権限を与えて下さい。 :%1$s ロゴをファイルに保存するには、書込アクセスが必要です。%2$s",
+        "LogoNotWriteableInstruction": "Matomo デフォルトロゴの代わりにカスタムロゴを使用するには、このディレクトリへの書込権限を与えて下さい。 :%1$s ロゴをファイルに保存するには、書込アクセスが必要です。%2$s",
         "FileUploadDisabled": "PHP の設定でファイルのアップロードが有効になっていません。カスタムロゴをアップロードするには、 php.ini で %s を設定し Web サーバを再起動してください。",
         "LogoUploadFailed": "アップロードされたファイルを処理できませんでした。ファイルが有効な形式であることを確認してください。",
         "LogoUpload": "アップロードするロゴを選択",
@@ -66,9 +66,9 @@
         "OptOutComplete": "オプトアウトが完了しました。 このウェブサイトへのあなたの訪問は、ウェブ解析ツールで記録されません。",
         "OptOutCompleteBis": "Cookie をクリアしてオプトアウト Cookie を削除したり、コンピュータやブラウザを変更した場合は、オプトアウト手続きを再度実行する必要があることに注意してください。",
         "OptOutDntFound": "ユーザーにより、このブラウザではトラッキングしない設定になっています。これはブラウザの設定によるもので、'Do Not Track' 機能を無効にするまでオプトインできません。",
-        "OptOutExplanation": "Piwikはインターネット上でのプライバシーを提供することに注力しています。 ビジターにMatomo Web Analyticsオプトアウトの選択肢を提供するため、Webサイトページの1つ、たとえばプライバシーポリシーページに次のHTMLコードを追加することができます。",
+        "OptOutExplanation": "Matomoはインターネット上でのプライバシーを提供することに注力しています。 ビジターにMatomo Web Analyticsオプトアウトの選択肢を提供するため、Webサイトページの1つ、たとえばプライバシーポリシーページに次のHTMLコードを追加することができます。",
         "OptOutForYourVisitors": "ビジター用の Matomo オプトアウト",
-        "PiwikIsInstalledAt": "Piwikがインストールされているのは",
+        "PiwikIsInstalledAt": "Matomoがインストールされているのは",
         "PersonalPluginSettings": "パーソナルプラグインの設定",
         "PluginSettingChangeNotAllowed": "プラグイン \"%2$s\"の設定 \"%1$s\"の値を変更することはできません",
         "PluginSettingReadNotAllowed": "プラグイン \"%2$s\"の設定 \"%1$s\"の値の読み取りは許可されていません。",
@@ -80,7 +80,7 @@
         "SettingsSaveSuccess": "設定が更新されました。",
         "SendPluginUpdateCommunication": "プラグインの更新が利用可能になった時、メールを送信します",
         "SendPluginUpdateCommunicationHelp": "使用可能な新しいプラグインのバージョンがある場合、管理者ユーザーへメールが通知されます。",
-        "StableReleases": "Piwikがビジネスにおいて重要である場合、最新の安定版を使用することを推奨します。また、最新のベータ版を使用し、バグを見つけたり、提案があれば、%1$sこちらをご覧ください%2$s。",
+        "StableReleases": "Matomoがビジネスにおいて重要である場合、最新の安定版を使用することを推奨します。また、最新のベータ版を使用し、バグを見つけたり、提案があれば、%1$sこちらをご覧ください%2$s。",
         "LtsReleases": "LTS (長期サポート) バージョンは、セキュリティとバグ修正のみ受信します。",
         "SystemPluginSettings": "システムプラグイン設定",
         "TrackAGoal": "目標を追跡する",
@@ -97,6 +97,6 @@
         "YouMayOptOutBis": "これを選択するには、以下をクリックしてオプトアウトCookieを受信してください。",
         "OptingYouOut": "オプトアウト中、お待ちください…",
         "ProtocolNotDetectedCorrectly": "現在、安全な SSL 接続 ( httpsを使用 ) で Matomo はサーバー上の非セキュア接続のみを検出できます。",
-        "ProtocolNotDetectedCorrectlySolution": "PiwikがHTTPS経由でコンテンツを安全に要求して配信するには、%1$sファイルを編集してプロキシ設定を行うか、%3$sセクションの下に%2$s行を追加することができます。 %4$sもっと詳しく知る%5$s"
+        "ProtocolNotDetectedCorrectlySolution": "MatomoがHTTPS経由でコンテンツを安全に要求して配信するには、%1$sファイルを編集してプロキシ設定を行うか、%3$sセクションの下に%2$s行を追加することができます。 %4$sもっと詳しく知る%5$s"
     }
 }

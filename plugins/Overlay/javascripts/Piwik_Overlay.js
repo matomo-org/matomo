@@ -8,7 +8,7 @@
 var Piwik_Overlay = (function () {
 
     var $body, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading;
-    var $rowEvolutionLink, $transitionsLink, $fullScreenLink, $visitorLogLink;
+    var $rowEvolutionLink, $transitionsLink, $visitorLogLink;
 
     var idSite, period, date, segment;
 
@@ -103,7 +103,6 @@ var Piwik_Overlay = (function () {
         $sidebar.hide();
         $location.hide();
 
-        $fullScreenLink.hide();
         $rowEvolutionLink.hide();
         $transitionsLink.hide();
         $visitorLogLink.hide();
@@ -114,7 +113,6 @@ var Piwik_Overlay = (function () {
     /** Hide the loading message */
     function hideLoading() {
         $loading.hide();
-        $fullScreenLink.show();
     }
 
     function getOverlaySegment(url) {
@@ -176,7 +174,6 @@ var Piwik_Overlay = (function () {
 
             $rowEvolutionLink = $('#overlayRowEvolution');
             $transitionsLink = $('#overlayTransitions');
-            $fullScreenLink = $('#overlayFullScreen');
             $visitorLogLink = $('#overlaySegmentedVisitorLog');
 
             adjustDimensions();
@@ -259,16 +256,6 @@ var Piwik_Overlay = (function () {
             // handle segmented visitor log link
             $visitorLogLink.click(function () {
                 SegmentedVisitorLog.show('Actions.getPageUrls', $('#segment').val(), {});
-                return false;
-            });
-
-            // handle full screen link
-            $fullScreenLink.click(function () {
-                var href = iframeSrcBase;
-                if (iframeCurrentPage) {
-                    href += '#' + iframeCurrentPage.replace(/#/g, '%23');
-                }
-                window.location.href = href;
                 return false;
             });
         },

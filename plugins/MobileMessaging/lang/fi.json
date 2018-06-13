@@ -34,6 +34,6 @@
         "SMS_Content_Too_Long": "[liian pitkä]",
         "TopLinkTooltip": "Saa verkkoanalyysiraportteja suoraan sähköpostiisi tai puhelimeesi!",
         "TopMenu": "Sähköposti- ja SMS-raportit",
-        "VerificationText": "Koodi on %1$s. Todentaaksesi puhelinnumerosi ja vastaanottaaksesi Piwik SMS raportteja, kopioi tämä koodi lomakkeeseen, jonka löydät Matomoissä > %2$s > %3$s."
+        "VerificationText": "Koodi on %1$s. Todentaaksesi puhelinnumerosi ja vastaanottaaksesi Matomo SMS raportteja, kopioi tämä koodi lomakkeeseen, jonka löydät Matomoissä > %2$s > %3$s."
     }
 }

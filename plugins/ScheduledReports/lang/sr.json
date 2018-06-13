@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "Morate biti prijavljeni na sistem kako biste kreirali i zakazivali izveštaje.",
         "NoRecipients": "Nije definisan primaoc",
         "Pagination": "Strana %1$s od %2$s",
-        "PiwikReports": "Piwik izveštaji",
+        "PiwikReports": "Matomo izveštaji",
         "PleaseFindAttachedFile": "u prilogu se nalazi vaš %1$s izveštaj za %2$s.",
         "SentFromX": "Poslato od strane %s.",
         "PleaseFindBelow": "u nastavku je vaš %1$s izveštaj za %2$s.",

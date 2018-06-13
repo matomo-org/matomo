@@ -33,7 +33,7 @@
         "Socials": "社交网络",
         "SocialsReportDocumentation": "本报表显示哪些社交网站给您带来了访客。<br \/>点击表中的一行，可查看来源链接的社交网站地址。",
         "SubmenuSearchEngines": "搜索引擎和关键词",
-        "SubmenuWebsites": "网站和社交",
+        "SubmenuWebsitesOnly": "网站",
         "Type": "来源类型",
         "TypeCampaigns": "%s 次来自广告活动",
         "TypeDirectEntries": "%s 次来自直接访问",

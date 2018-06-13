@@ -35,6 +35,28 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         if (defined('PDO::MYSQL_ATTR_LOCAL_INFILE')) {
             $config['driver_options'][PDO::MYSQL_ATTR_LOCAL_INFILE] = true;
         }
+        if ($config['enable_ssl']) {
+            if (!empty($config['ssl_key'])) {
+                $config['driver_options'][PDO::MYSQL_ATTR_SSL_KEY] = $config['ssl_key'];
+            }
+            if (!empty($config['ssl_cert'])) {
+                $config['driver_options'][PDO::MYSQL_ATTR_SSL_CERT] = $config['ssl_cert'];
+            }
+            if (!empty($config['ssl_ca'])) {
+                $config['driver_options'][PDO::MYSQL_ATTR_SSL_CA] = $config['ssl_ca'];
+            }
+            if (!empty($config['ssl_ca_path'])) {
+                $config['driver_options'][PDO::MYSQL_ATTR_SSL_CAPATH] = $config['ssl_ca_path'];
+            }
+            if (!empty($config['ssl_cipher'])) {
+                $config['driver_options'][PDO::MYSQL_ATTR_SSL_CIPHER] = $config['ssl_cipher'];
+            }
+            if (!empty($config['ssl_no_verify'])
+                && defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')
+            ) {
+                $config['driver_options'][PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
+            }
+        }
         parent::__construct($config);
     }
 
@@ -110,6 +132,24 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         if (version_compare($serverVersion, $requiredVersion) === -1) {
             throw new Exception(Piwik::translate('General_ExceptionDatabaseVersion', array('MySQL', $serverVersion, $requiredVersion)));
         }
+    }
+
+    /**
+     * Returns the MySQL server version
+     *
+     * @return null|string
+     */
+    public function getServerVersion()
+    {
+        // prioritizing SELECT @@VERSION in case the connection version string is incorrect (which can
+        // occur on Azure)
+        $versionInfo = $this->fetchAll('SELECT @@VERSION');
+
+        if (count($versionInfo)) {
+            return $versionInfo[0]['@@VERSION'];
+        }
+
+        return parent::getServerVersion();
     }
 
     /**

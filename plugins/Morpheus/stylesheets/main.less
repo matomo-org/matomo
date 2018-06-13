@@ -466,7 +466,20 @@ div.dataTableVizHtmlTable:not(.dataTableActions), div.dataTableVizAllColumns, di
 }
 
 div.sparkline {
-    display: block;
+    display: -ms-flexbox;
+    -ms-box-orient: horizontal;
+    -ms-box-pack: center;
+
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: flex;
+   
+    -webkit-justify-content: space-around;
+    -moz-justify-content: space-around;
+    -ms-justify-content: space-around;
+    justify-content: space-around;
+
     border-bottom: 0;
     margin-bottom: 10px;
     &.linked {
@@ -477,6 +490,20 @@ div.sparkline {
         }
     }
 }
+
+div.sparkline img {
+    -webkit-flex-shrink: 0;
+    -moz-flex-shrink: 0;
+    -ms-flex-shrink: 0;
+    flex-shrink: 0;
+}
+
+div.sparkline script+div {
+    -ms-flex: 1 1 auto; // for getting flex to work on IE10's buggy implementation
+
+    margin: 1px 0 0 1px;
+}
+
 
 .widgetpreview-base li.widgetpreview-choosen {
     background: @color-silver-l95;

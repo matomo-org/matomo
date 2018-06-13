@@ -67,6 +67,12 @@ class API extends \Piwik\Plugin\API
      */
     private $processedReport;
 
+    /**
+     * For Testing purpose only
+     * @var int
+     */
+    public static $_autoSuggestLookBack = 60;
+
     public function __construct(SettingsProvider $settingsProvider, ProcessedReport $processedReport)
     {
         $this->settingsProvider = $settingsProvider;
@@ -448,7 +454,7 @@ class API extends \Piwik\Plugin\API
         $apiParameters = array();
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {
-            if ($entityName === 'idGoal' && $idGoal) {
+            if ($entityName === 'idGoal' && is_numeric($idGoal)) {
                 $apiParameters['idGoal'] = $idGoal;
             } elseif ($entityName === 'idDimension' && $idDimension) {
                 $apiParameters['idDimension'] = $idDimension;
@@ -602,7 +608,7 @@ class API extends \Piwik\Plugin\API
 
     private function getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn)
     {
-        $startDate = Date::now()->subDay(60)->toString();
+        $startDate = Date::now()->subDay(self::$_autoSuggestLookBack)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
         &idSite=$idSite
         &period=range
@@ -738,13 +744,19 @@ class Plugin extends \Piwik\Plugin
     }
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'Platform.initialized' => 'detectIsApiRequest'
         );
+    }
+
+    public function detectIsApiRequest()
+    {
+        Request::setIsRootRequestApiRequest(Request::isApiRequest($request = null));
     }
 
     public function getStylesheetFiles(&$stylesheets)

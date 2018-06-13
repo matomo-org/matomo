@@ -16,7 +16,7 @@ body #header {
 }
 
 a#overlayTitle {
-    font-size: 12px;
+    font-size: 16px;
     text-decoration: none;
     color: #4d4d4d;
     margin-left: 10px;
@@ -27,8 +27,14 @@ a#overlayTitle .icon-help {
 
 #overlayDateRangeSelection {
     padding: 0 0 0 25px;
-    background: url(../../Morpheus/images/icon-calendar.png) 2px center no-repeat;
     margin: 20px 10px;
+    position: relative;
+}
+
+#overlayDateRangeSelection .icon-calendar {
+    position: absolute;
+    top: 18px;
+    left: 2px;
 }
 
 #overlayLocation, .overlaySegment {
@@ -62,7 +68,6 @@ a#overlayTitle .icon-help {
 #overlaySidebar h2 {
     font-size: 15px;
     margin: 0 0 8px 0;
-    color: #255792;
 }
 
 .overlayMainMetrics {
@@ -70,7 +75,6 @@ a#overlayTitle .icon-help {
 }
 
 a#overlaySegmentedVisitorLog,
-a#overlayFullScreen,
 a#overlayRowEvolution,
 a#overlayTransitions {
     display: block;
@@ -78,30 +82,24 @@ a#overlayTransitions {
     font-size: 13px;
     line-height: 15px;
     margin: 0 0 0 10px;
-    padding: 8px 10px 3px 25px;
+    padding: 8px 10px 3px 0;
     text-decoration: none;
+}
+
+a#overlaySegmentedVisitorLog .icon,
+a#overlayRowEvolution .icon,
+a#overlayTransitions .icon {
+    font-size: 18px;
+    display: block;
+    float: left;
+    margin-right: 5px;
 }
 
 a#overlayRowEvolution {
     margin-top: 20px;
-    background: url(../../Morpheus/images/row_evolution_hover.png) no-repeat 0 7px;
-}
-
-a#overlayTransitions {
-    background: url(../../Transitions/images/transitions_icon_hover.png) no-repeat 0 6px;
-}
-
-a#overlaySegmentedVisitorLog {
-    background: url(../../Live/images/visitorlog-hover.png) no-repeat 0 8px;
-}
-
-a#overlayFullScreen {
-    margin-top: 20px;
-    background: url(../../Morpheus/images/fullscreen.png) no-repeat 3px 8px;
 }
 
 a#overlaySegmentedVisitorLog:hover,
-a#overlayFullScreen:hover,
 a#overlayRowEvolution:hover,
 a#overlayTransitions:hover {
     color: #E87500;

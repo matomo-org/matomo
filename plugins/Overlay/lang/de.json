@@ -5,7 +5,7 @@
         "Domain": "Domain",
         "ErrorNotLoading": "Die Seiten Overlay Sitzung kann gerade nicht aufgerufen werden.",
         "ErrorNotLoadingDetails": "Möglicherweise hat die rechte Seite keinen Matomo Tracking Code. In diesem Fall bitte versuchen das Overlay für eine andere Seite aus dem Seitenbericht zu benutzen.",
-        "ErrorNotLoadingDetailsSSL": "Da Sie Piwik über https nutzen, ist es wahrscheinlich, dass Ihre Website kein SSL unterstützt. Bitte benutzen Sie Matomo über http.",
+        "ErrorNotLoadingDetailsSSL": "Da Sie Matomo über https nutzen, ist es wahrscheinlich, dass Ihre Website kein SSL unterstützt. Bitte benutzen Sie Matomo über http.",
         "ErrorNotLoadingLink": "Klicken Sie hier für weitere Tipps zur Fehlerbehebung",
         "Link": "Link",
         "Location": "Seite",

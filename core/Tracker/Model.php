@@ -410,7 +410,7 @@ class Model
     }
 
     /**
-     * Returns true if the site doesn't have log data.
+     * Returns true if the site doesn't have raw data.
      *
      * @param int $siteId
      * @return bool

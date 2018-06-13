@@ -10,13 +10,12 @@ namespace Piwik\Tests\Integration\CliMulti;
 
 use Piwik\CliMulti\Output;
 use Piwik\Tests\Framework\Mock\File;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Url;
 
 /**
  * @group CliMulti
  */
-class OutputTest extends IntegrationTestCase
+class OutputTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Output

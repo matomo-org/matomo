@@ -20,4 +20,5 @@ $(document).ready(function() {
             $row.append($help);
         }
     });
+    $(".should-get-hidden-by-js").hide();
 });

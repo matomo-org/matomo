@@ -117,7 +117,7 @@ class ReportsProvider
     public function getAllReports()
     {
         $reports = $this->getAllReportClasses();
-        $cacheId = CacheId::languageAware('Reports' . md5(implode('', $reports)));
+        $cacheId = CacheId::siteAware(CacheId::languageAware('Reports' . md5(implode('', $reports))));
         $cache   = PiwikCache::getTransientCache();
 
         if (!$cache->contains($cacheId)) {
@@ -181,7 +181,21 @@ class ReportsProvider
      */
     private function sort($a, $b)
     {
-        return $this->compareCategories($a->getCategoryId(), $a->getSubcategoryId(), $a->getOrder(), $b->getCategoryId(), $b->getSubcategoryId(), $b->getOrder());
+        $result = $this->compareCategories($a->getCategoryId(), $a->getSubcategoryId(), $a->getOrder(), $b->getCategoryId(), $b->getSubcategoryId(), $b->getOrder());
+
+        // if categories are equal, sort by ID
+        if (!$result) {
+            $aId = $a->getId();
+            $bId = $b->getId();
+
+            if ($aId == $bId) {
+                return 0;
+            }
+
+            return $aId < $bId ? -1 : 1;
+        }
+
+        return $result;
     }
 
     public function compareCategories($catIdA, $subcatIdA, $orderA, $catIdB, $subcatIdB, $orderB)

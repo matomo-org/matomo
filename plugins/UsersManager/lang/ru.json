@@ -31,7 +31,7 @@
         "ExcludeVisitsViaCookie": "Cookie исключения из статистики",
         "ForAnonymousUsersReportDateToLoadByDefault": "Отчет для анонимных пользователей отображается за",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "Если вы хотите сменить пароль, введите новый. Иначе оставьте поле пустым.",
-        "InjectedHostCannotChangePwd": "В данный момент вы находитесь в Piwik с неизвестного хоста (%1$s). Вы не можете изменить пароль, пока эта проблема не будет решена.",
+        "InjectedHostCannotChangePwd": "В данный момент вы находитесь в Matomo с неизвестного хоста (%1$s). Вы не можете изменить пароль, пока эта проблема не будет решена.",
         "LastSeen": "Последнее посещение",
         "ManageAccess": "Управление правами доступа",
         "MenuAnonymousUserSettings": "Настройки анонимности",
@@ -57,7 +57,7 @@
         "UsersManagementMainDescription": "Создание новых пользователей или редактирование существующих. Также Вы можете задать права доступа для пользователя.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Когда незарегистрированные пользователи посещают систему Matomo, они должны видеть",
         "YourUsernameCannotBeChanged": "Имя вашего пользователя не может быть изменено.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sВаші відвідування ігноруються системою Piwik в %2$s %3$s (Matomo знашов cookie у вашому браузері з вказівкою ігнорувати).",
-        "YourVisitsAreNotIgnored": "%1$sВаші відвідування відслідковуються системою Piwik %2$s (Matomo не знашов cookie у вашому браузері)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sВаші відвідування ігноруються системою Matomo в %2$s %3$s (Matomo знашов cookie у вашому браузері з вказівкою ігнорувати).",
+        "YourVisitsAreNotIgnored": "%1$sВаші відвідування відслідковуються системою Matomo %2$s (Matomo не знашов cookie у вашому браузері)."
     }
 }

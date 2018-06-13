@@ -27,6 +27,44 @@ var piwikHelper = {
         return $('<div/>').html(value).text();
     },
 
+    sendContentAsDownload: function (filename, content, mimeType) {
+        if (!mimeType) {
+            mimeType = 'text/plain';
+        }
+        function downloadFile(content)
+        {
+            var node = document.createElement('a');
+            node.style.display = 'none';
+            if ('string' === typeof content) {
+                node.setAttribute('href', 'data:' + mimeType + ';charset=utf-8,' + encodeURIComponent(content));
+            } else {
+                node.href = window.URL.createObjectURL(blob);
+            }
+            node.setAttribute('download', filename);
+            document.body.appendChild(node);
+            node.click();
+            document.body.removeChild(node);
+        }
+
+        var node;
+        if ('function' === typeof Blob) {
+            // browser supports blob
+            try {
+                var blob = new Blob([content], {type: mimeType});
+                if (window.navigator.msSaveOrOpenBlob) {
+                    window.navigator.msSaveBlob(blob, filename);
+                    return;
+                } else {
+                    downloadFile(blob);
+                    return;
+                }
+            } catch (e) {
+                downloadFile(content);
+            }
+        }
+        downloadFile(content);
+    },
+
     /**
      * a nice cross-browser logging function
      */
@@ -109,8 +147,9 @@ var piwikHelper = {
      *
      * @param selector
      * @param {object} options
-     * @param {object} options.scope if supplied, a new isolate scope is created as the parent scope of the
-     *                               compiled angular components. The properties in this object are
+     * @param {object} options.scope if supplied, the given scope will be used when compiling the template. Shouldn't
+     *                               be a plain object but an actual angular scope.
+     * @param {object} options.params if supplied, the properties in this object are
      *                               added to the new scope.
      */
     compileAngularComponents: function (selector, options) {
@@ -122,15 +161,19 @@ var piwikHelper = {
             return;
         }
 
-        angular.element(document).injector().invoke(function($compile) {
-            var scope = angular.element($element).scope();
+        angular.element(document).injector().invoke(function($compile, $rootScope) {
+            var scope = null;
+            if (options.scope) {
+                scope = options.scope;
+            } else {
+                scope = angular.element($element).scope();
+            }
             if (!scope) {
-                return;
+                scope = $rootScope.$new(true);
             }
 
-            if (options.scope) {
-                scope = scope.$new(true);
-                $.extend(scope, options.scope);
+            if (options.params) {
+                $.extend(scope, options.params);
             }
 
             $compile($element)(scope);
@@ -194,13 +237,14 @@ var piwikHelper = {
 
     /**
      * Displays a Modal dialog. Text will be taken from the DOM node domSelector.
-     * Given callback handles will be mapped to the buttons having a role attriute
+     * Given callback handles will be mapped to the buttons having a role attribute
      *
      * Dialog will be closed when a button is clicked and callback handle will be
      * called, if one was given for the clicked role
      *
      * @param {string} domSelector   domSelector for modal window
      * @param {object} handles       callback functions for available roles
+     * @param {object} options       options for modal
      * @return {void}
      */
     modalConfirm: function(domSelector, handles, options)
@@ -248,9 +292,20 @@ var piwikHelper = {
             delete options.fixedFooter;
         }
 
+        if (options && options.extraWide) {
+            // if given, the modal will be shown larger than usual and almost consume the full width.
+            $content.addClass('modal-extra-wide');
+            delete options.extraWide;
+        }
+
         if (options && !options.ready) {
             options.ready = function () {
                 $(".modal.open a").focus();
+                var modalContent = $(".modal.open");
+                if (modalContent && modalContent[0]) {
+                    // make sure to scroll to the top of the content
+                    modalContent[0].scrollTop = 0;
+                }
             };
         }
 

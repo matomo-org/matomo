@@ -91,7 +91,7 @@ class FrontController extends Singleton
             $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
         } catch(Exception $e) {
             // may fail in safe mode (eg. global.ini.php not found)
-            $message = sprintf("Matomo encoutered an error: %s (which lead to: %s)", $lastError['message'], $e->getMessage());
+            $message = sprintf("Matomo encountered an error: %s (which lead to: %s)", $lastError['message'], $e->getMessage());
         }
 
         return $message;
@@ -335,10 +335,13 @@ class FrontController extends Singleton
 
         $this->throwIfPiwikVersionIsOlderThanDBSchema();
 
-        if (empty($_GET['module'])
-            || empty($_GET['action'])
-            || $_GET['module'] !== 'Installation'
-            || !in_array($_GET['action'], array('getInstallationCss', 'getInstallationJs'))) {
+        $module = Piwik::getModule();
+        $action = Piwik::getAction();
+
+        if (empty($module)
+            || empty($action)
+            || $module !== 'Installation'
+            || !in_array($action, array('getInstallationCss', 'getInstallationJs'))) {
             \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
         }
 

@@ -5,7 +5,7 @@
         "Domain": "Verkkotunnus",
         "ErrorNotLoading": "Sivun leijuke sessiota ei voitu käynnistää vielä.",
         "ErrorNotLoadingDetails": "On mahdollista, ettei ladatulla sivulla ole Matomo seurantakoodia. Yritä käynnistää leijuke toiselle sivulle sivuraportista.",
-        "ErrorNotLoadingDetailsSSL": "Koska käytät Piwikiä https:llä, todennäköisin syy on, ettei verkkosivusi tue SSL:ää. Kokeile käyttää Matomoiä http:llä.",
+        "ErrorNotLoadingDetailsSSL": "Koska käytät Matomo https:llä, todennäköisin syy on, ettei verkkosivusi tue SSL:ää. Kokeile käyttää Matomoiä http:llä.",
         "ErrorNotLoadingLink": "Klikkaa tästä saadaksesi lisää vinkkejä vianetsintään",
         "Link": "Linkki",
         "Location": "Sijainti",

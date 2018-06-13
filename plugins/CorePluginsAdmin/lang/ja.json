@@ -52,7 +52,7 @@
         "PluginActivated": "プラグイン有効化",
         "Status": "状態",
         "SuccessfullyActicated": "<strong> %s <\/strong> の有効化に成功しました。",
-        "TeaserExtendPiwik": "Piwik のプラグインとテーマを拡張",
+        "TeaserExtendPiwik": "Matomo のプラグインとテーマを拡張",
         "TeaserExtendPiwikByPlugin": "%1$sマーケットプレイスからプラグインをインストール%2$sするか、%3$s.zip形式のプラグインをアップロード%4$sしてMatomoを拡張します。",
         "TeaserExtendPiwikByTheme": "%1$s新しいテーマをインストール%2$s し、別の外観と雰囲気をお楽しみください。",
         "InstallingNewPluginViaMarketplaceOrUpload": "自動的にマーケットプレイスからプラグインをインストールまたは.zip形式のプラグイン %1$s を %2$s アップロードすることができます。",

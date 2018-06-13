@@ -35,7 +35,7 @@
         "UsersManagementMainDescription": "Стварэнне новых карыстачоў ці рэдагаванне існуючых. Таксама Вы можаце задаць правы дазволу для карыстача.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Калі карыстальнікі не аўтарызаваны і наведваюць Matomo, яны павінны атрымліваць доступ да",
         "YourUsernameCannotBeChanged": "Ваша імя карыстальніка не можа быць зменена.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sВашы наведванні ігнаруюцца Piwik на %2$s %3$s (Matomo знайшоў ў вашым браўзэры ігнаруючыя cookie).",
-        "YourVisitsAreNotIgnored": "%1$sВашы наведванні не ігнаруюцца Piwik%2$s (Matomo не знайшоў ў вашым браўзэры ігнаруючыя cookie)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sВашы наведванні ігнаруюцца Matomo на %2$s %3$s (Matomo знайшоў ў вашым браўзэры ігнаруючыя cookie).",
+        "YourVisitsAreNotIgnored": "%1$sВашы наведванні не ігнаруюцца Matomo%2$s (Matomo не знайшоў ў вашым браўзэры ігнаруючыя cookie)."
     }
 }

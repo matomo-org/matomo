@@ -78,7 +78,7 @@
         "UsersManagementMainDescription": "Skapa eller ändra befintliga användare. Du kan sedan ändra deras rättigheter ovan.",
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "När användare inte är inloggade och besöker Matomo, ska de komma åt",
         "YourUsernameCannotBeChanged": "Ditt användarnamn kan inte ändras.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sDina besök ignoreras av Piwik för webbplatsen %2$s %3$s (Matomos kaka hittades i din webbläsare).",
-        "YourVisitsAreNotIgnored": "%1$sSus visitas no son ignoradas por Piwik%2$s (la cookie de ignorar a Matomo no fue encontrada en su navegador)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sDina besök ignoreras av Matomo för webbplatsen %2$s %3$s (Matomos kaka hittades i din webbläsare).",
+        "YourVisitsAreNotIgnored": "%1$sSus visitas no son ignoradas por Matomo%2$s (la cookie de ignorar a Matomo no fue encontrada en su navegador)."
     }
 }

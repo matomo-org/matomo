@@ -36,7 +36,7 @@
         "OptOutComplete": "Odhlásenie nastavené. Vaše návštevy nebudú sledované nástrojom webovej analýzy.",
         "OptOutCompleteBis": "Poznámka: ak zmažete cookie, odstránite vylučovací cookie alebo zmeníte počítač alebo prehliadač, budete musieť vykonať procedúru nastavenia odhlásenia znova.",
         "OptOutForYourVisitors": "Odhlásenie pre Vašich návštevníkov",
-        "PiwikIsInstalledAt": "Piwik je nainštalovaný na",
+        "PiwikIsInstalledAt": "Matomo je nainštalovaný na",
         "PersonalPluginSettings": "Osobné nastavenia modulu",
         "PluginSettings": "Nastavenia modulov",
         "PluginSettingsSaveFailed": "Uloženie nastavení modulu zlyhalo",

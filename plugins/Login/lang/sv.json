@@ -8,6 +8,7 @@
         "InvalidOrExpiredToken": "Lösenordsbevis är felaktigt eller har utgått.",
         "InvalidUsernameEmail": "Felaktigt användarnamn och\/eller e-postadress",
         "LogIn": "Logga in",
+        "LoginOrEmail": "Användarnamn eller e-postadress",
         "LoginPasswordNotCorrect": "Användarnamn & Lösenord är inte korrekta",
         "LostYourPassword": "Glömt ditt lösenord?",
         "ChangeYourPassword": "Ändra ditt lösenord",
