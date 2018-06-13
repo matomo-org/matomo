@@ -2,7 +2,7 @@
 
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
-class PhpSettingsCheckService
+class RequiredPhpSetting
 {
     
     /** @var string */
@@ -37,7 +37,7 @@ class PhpSettingsCheckService
         $this->requiredValues[] = array(
             'requiredValue' => $requiredValue,
             'operator' => $operator,
-            'isOk' => null,
+            'isValid' => null,
         );
         
         return $this;
@@ -54,9 +54,9 @@ class PhpSettingsCheckService
         
         $return = false;
         foreach($this->requiredValues as $key => $requiredValue){
-            $this->requiredValues[$key]['isOk'] = version_compare($currentValue, $requiredValue['requiredValue'], $requiredValue['operator']);
+            $this->requiredValues[$key]['isValid'] = version_compare($currentValue, $requiredValue['requiredValue'], $requiredValue['operator']);
             
-            if($this->requiredValues[$key]['isOk']){
+            if($this->requiredValues[$key]['isValid']){
                 $return = true;
             }
         }
@@ -71,7 +71,7 @@ class PhpSettingsCheckService
             $checks[] = $requiredValue['operator'] . ' ' . $requiredValue['requiredValue'];
         }
         
-        return $this->setting . ' ' . implode(' || ', $checks);
+        return $this->setting . ' ' . implode(' OR ', $checks);
     }
     
 }

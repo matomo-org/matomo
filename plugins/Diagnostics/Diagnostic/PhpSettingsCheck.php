@@ -51,20 +51,20 @@ class PhpSettingsCheck implements Diagnostic
     }
 
     /**
-     * @return PhpSettingsCheckService[]
+     * @return RequiredPhpSetting[]
      */
     private function getRequiredSettings()
     {
-        $requiredSettings[] = new PhpSettingsCheckService('session.auto_start', 0);
+        $requiredSettings[] = new RequiredPhpSetting('session.auto_start', 0);
         
-        $maxExecutionTime = new PhpSettingsCheckService('max_execution_time', 0);
+        $maxExecutionTime = new RequiredPhpSetting('max_execution_time', 0);
         $maxExecutionTime->addRequiredValue(30, '>=');
         $requiredSettings[] = $maxExecutionTime;
 
         if ($this->isPhpVersionAtLeast56() && ! defined("HHVM_VERSION") && !$this->isPhpVersionAtLeast70()) {
             // always_populate_raw_post_data must be -1
             // removed in PHP 7
-            $requiredSettings[] = new PhpSettingsCheckService('always_populate_raw_post_data', -1);
+            $requiredSettings[] = new RequiredPhpSetting('always_populate_raw_post_data', -1);
         }
         
         return $requiredSettings;
