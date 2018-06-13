@@ -20,6 +20,7 @@
         "EvolutionDocumentationMoreInfo": "查看更多關於不同參照連結類型的資訊，請見 %s 表格的說明文件。",
         "Keywords": "關鍵字",
         "KeywordsReportDocumentation": "這份報表顯示當使用者被導入你的網站前是使用什麼關鍵字搜尋。%s點擊表格中的資料列以查看每個搜尋引擎搜尋時所使用的關鍵字。",
+        "KeywordsReportDocumentationNote": "注意：這份報表中多數關鍵字未定義，因為多數搜尋引擎並不會傳送搜尋時真正使用的關鍵字。",
         "PluginDescription": "報告參照連結資料：搜尋引擎、關鍵字、網站、廣告活動、社群媒體或是直接進入。",
         "Referrer": "參照連結",
         "ReferrerName": "參照連結名稱",
@@ -35,7 +36,7 @@
         "Socials": "社群網站",
         "SocialsReportDocumentation": "這份報表顯示哪個社群網站引導訪客到你的網站。<br \/>點擊表格中的資料列以查看訪客從哪個社群網站頁面訪問你的網站。",
         "SubmenuSearchEngines": "搜尋引擎和關鍵字",
-        "SubmenuWebsites": "網站和社群",
+        "SubmenuWebsitesOnly": "網站",
         "Type": "參造連結類型",
         "TypeCampaigns": "%s 個來自廣告活動",
         "TypeDirectEntries": "%s 個來自直接流量",
@@ -52,6 +53,7 @@
         "WidgetGetAll": "所有參照連結",
         "WidgetSocials": "社群網站清單",
         "WidgetTopKeywordsForPages": "網頁網址的熱門關鍵字",
-        "XPercentOfVisits": "佔整體訪問 %s"
+        "XPercentOfVisits": "佔整體訪問 %s",
+        "Acquisition": "收穫"
     }
 }

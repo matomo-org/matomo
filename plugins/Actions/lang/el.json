@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "Λέξεις-κλειδιά Αναζήτησης Ιστοσελίδας",
         "WidgetSearchNoResultKeywords": "Λέξεις-κλειδιά Χωρίς Αποτελέσματα",
         "ActionType": "Τύπος Ενέργειας",
-        "ActionTypes": "Τύποι ενεργειών"
+        "ActionTypes": "Τύποι ενεργειών",
+        "Behaviour": "Συμπεριφορά"
     }
 }

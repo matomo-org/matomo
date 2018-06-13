@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "Parole Chiave di Ricerca sul Sito",
         "WidgetSearchNoResultKeywords": "Parole Chiave di Ricerca senza risultati",
         "ActionType": "Tipo di Azione",
-        "ActionTypes": "Tipi di Azione"
+        "ActionTypes": "Tipi di Azione",
+        "Behaviour": "Comportamento"
     }
 }

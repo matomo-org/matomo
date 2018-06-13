@@ -86,7 +86,7 @@
 			<deviceType>Desktop</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Generic Desktop</deviceModel>
 			<operatingSystem>Windows XP</operatingSystem>
 			<operatingSystemName>Windows</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -221,7 +221,7 @@
 			<deviceType>Desktop</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Generic Desktop</deviceModel>
 			<operatingSystem>Windows XP</operatingSystem>
 			<operatingSystemName>Windows</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -317,7 +317,7 @@
 			<icon>plugins/Morpheus/icons/dist/devices/desktop.png</icon>
 			<devices>
 				<row>
-					<name>Unknown</name>
+					<name>Generic Desktop</name>
 					<count>2</count>
 				</row>
 			</devices>

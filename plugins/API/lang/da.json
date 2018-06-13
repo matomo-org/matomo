@@ -10,7 +10,6 @@
         "TopLinkTooltip": "Få adgang til dine webanalyse data programmeringsmæssigt gennem en simpel API i JSON, XML, etc.",
         "UserAuthentication": "Brugergodkendelse",
         "UsingTokenAuth": "Hvis du ønsker at %1$s hente data i et script, med crontab, m.m. %2$s skal du tilføje parameteren %3$s til API-kaldes netadresse, som kræver godkendelse.",
-        "Glossary": "Ordliste",
-        "LearnAboutCommonlyUsedTerms": "Lær om de hyppigst brugter termer for at få det bedste ud af Matomo Analytics: %1$s og %2$s"
+        "Glossary": "Ordliste"
     }
 }
