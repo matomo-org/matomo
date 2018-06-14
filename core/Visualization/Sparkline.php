@@ -52,13 +52,17 @@ class Sparkline implements ViewInterface
         $sparkline = new \Davaxi\Sparkline();
 
         $seconds = Piwik::translate('Intl_NSecondsShort');
-        $toRemove = array('%', str_replace('%s', '', $seconds));
+        $percent = Piwik::translate('Intl_NumberSymbolPercent');
+        $thousandSeparator = Piwik::translate('Intl_NumberSymbolGroup');
+        $decimalSeparator = Piwik::translate('Intl_NumberSymbolGroup');
+        $toRemove = array('%', $percent, str_replace('%s', '', $seconds));
         $values = [];
         foreach ($this->values as $value) {
             // 50% and 50s should be plotted as 50
             $value = str_replace($toRemove, '', $value);
             // replace localized decimal separator
-            $value = str_replace(',', '.', $value);
+            $value = str_replace($thousandSeparator, '', $value);
+            $value = str_replace($decimalSeparator, '.', $value);
             if ($value == '') {
                 $value = 0;
             }
