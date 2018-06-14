@@ -43,6 +43,12 @@ class Updates_3_6_0_b1 extends Updates
     public function getMigrations(Updater $updater)
     {
         $migrations = [];
+
+        // in the previous 2.14.0-b2 idsite was added w/ AUTO_INCREMENT, but it should not have been. (note: this
+        // should have been undone in the 3.0.0-b1 update, but at least one instance out there still has the
+        // AUTO_INCREMENT modifier).
+        $migrations[] = $this->migration->db->changeColumn($this->siteSettingsTable, 'idsite', 'idsite', 'INTEGER(10) UNSIGNED NOT NULL');
+
         $migrations = $this->getPluginSettingsMigrations($migrations);
         $migrations = $this->getSiteSettingsMigrations($migrations);
         $migrations = $this->getLogProfilingMigrations($migrations);
