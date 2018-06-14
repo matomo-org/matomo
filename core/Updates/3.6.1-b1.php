@@ -19,7 +19,7 @@ use Piwik\Updates;
 /**
  * Update for version 3.2.1.
  */
-class Updates_3_2_1 extends Updates
+class Updates_3_6_1_b1 extends Updates
 {
     /**
      * @var MigrationFactory
