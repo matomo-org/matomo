@@ -25,6 +25,7 @@ use Piwik\Plugin;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Settings\Storage as SettingsStorage;
 use Piwik\Theme;
 use Piwik\Translation\Translator;
@@ -896,16 +897,21 @@ class Manager
                     $cache = Cache::getLazyCache();
 
                     if ($cache->contains($cacheKey)) {
-                        $isMissingLicense = $cache->fetch($cacheKey);
+                        $pluginLicenseInfo = $cache->fetch($cacheKey);
                     } else {
                         $plugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
-                        $pluginInfo = $plugins->getPluginInfo($pluginName);
 
-                        $isMissingLicense = !empty($pluginInfo['isMissingLicense']);
-                        $cache->save($cacheKey, $isMissingLicense, 3600);
+                        try {
+                            $pluginInfo = $plugins->getPluginInfo($pluginName);
+                        } catch (\Exception $e) {
+                            $pluginInfo = array();
+                        }
+
+                        $pluginLicenseInfo = array('missing' => !empty($pluginInfo['isMissingLicense']));
+                        $cache->save($cacheKey, $pluginLicenseInfo, Client::CACHE_TIMEOUT_IN_SECONDS);
                     }
 
-                    if ($isMissingLicense) {
+                    if (!empty($pluginLicenseInfo['missing'])) {
                         $this->unloadPluginFromMemory($pluginName);
                         return $pluginsToPostPendingEventsTo;
                     }
