@@ -39,6 +39,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking Changes
 `piwik` font is deprecated and will be removed in Matomo 4.0. Please use new `matomo` font instead
+Sending synchronous requests using ajaxHelper is now deprecated. All requests will be send async as of Matomo 4.0
 
 ### New APIs
 * A new JavaScript tracker method `resetUserId` has been added to allow clearing user and visitor id.
