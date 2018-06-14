@@ -882,6 +882,37 @@ class Manager
             return $pluginsToPostPendingEventsTo;
         }
 
+        if (!$this->isPluginBundledWithCore($pluginName)
+            && $this->isPluginActivated('Marketplace')
+            && $this->isPluginActivated($pluginName)) {
+
+            $info = $newPlugin->getInformation();
+
+            if (!empty($info['price']['base'])) {
+                try {
+
+                    $cacheKey = 'MarketplacePluginMissingLicense' . $pluginName;
+                    $cache = Cache::getLazyCache();
+
+                    if ($cache->contains($cacheKey)) {
+                        $isMissingLicense = $cache->fetch($cacheKey);
+                    } else {
+                        $plugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+                        $pluginInfo = $plugins->getPluginInfo($pluginName);
+
+                        $isMissingLicense = !empty($pluginInfo['isMissingLicense']);
+                        $cache->save($cacheKey, $isMissingLicense, 3600);
+                    }
+
+                    if ($isMissingLicense) {
+                        $this->unloadPluginFromMemory($pluginName);
+                        return $pluginsToPostPendingEventsTo;
+                    }
+                } catch (\Exception $e) {
+                }
+            }
+        }
+
         $pluginsToPostPendingEventsTo[] = $newPlugin;
 
         return $pluginsToPostPendingEventsTo;

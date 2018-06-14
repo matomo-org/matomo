@@ -238,8 +238,10 @@ class Plugins
         $plugin['isInvalid']    = $this->pluginManager->isPluginThirdPartyAndBogus($plugin['name']);
         $plugin['canBeUpdated'] = $plugin['isInstalled'] && $this->hasPluginUpdate($plugin);
         $plugin['lastUpdated'] = $this->toShortDate($plugin['lastUpdated']);
-        $plugin['hasExceededLicense'] = !empty($plugin['isInstalled']) && !empty($plugin['shop']) && empty($plugin['isFree']) && empty($plugin['isDownloadable']) && !empty($plugin['consumer']['license']['isValid']) && !empty($plugin['consumer']['license']['isExceeded']);
-        $plugin['isMissingLicense'] = !empty($plugin['isInstalled']) && !empty($plugin['shop']) && empty($plugin['isFree']) && empty($plugin['isDownloadable']) && empty($plugin['consumer']['license']);
+
+        $isProFeature = !empty($plugin['isInstalled']) && !empty($plugin['shop']) && empty($plugin['isFree']) && empty($plugin['isDownloadable']);
+        $plugin['hasExceededLicense'] = $isProFeature && !empty($plugin['consumer']['license']['isValid']) && !empty($plugin['consumer']['license']['isExceeded']);
+        $plugin['isMissingLicense'] = $isProFeature && (empty($plugin['consumer']['license']) || (!empty($plugin['consumer']['license']['status']) && $plugin['consumer']['license']['status'] === 'Cancelled'));
 
         if (!empty($plugin['owner'])
             && strtolower($plugin['owner']) === 'piwikpro'
