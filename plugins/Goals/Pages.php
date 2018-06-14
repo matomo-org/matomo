@@ -302,7 +302,11 @@ class Pages
                 $widget->setCategoryId($categoryText);
                 $widget->setSubcategoryId($categoryText);
                 $widget->setOrder($order);
-                $widget->setIsNotWidgetizable();
+                if ($ecommerce) {
+                    $widget->setIsWidgetizable();
+                } else {
+                    $widget->setIsNotWidgetizable();
+                }
 
                 if (!empty($report['viewDataTable'])) {
                     $widget->forceViewDataTable($report['viewDataTable']);

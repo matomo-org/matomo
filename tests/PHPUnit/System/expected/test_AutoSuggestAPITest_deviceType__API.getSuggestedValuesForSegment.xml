@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<row>Desktop</row>
-	<row>Smartphone</row>
-	<row>Phablet</row>
-	<row>Tablet</row>
+	<row>desktop</row>
+	<row>smartphone</row>
+	<row>tablet</row>
+	<row>feature phone</row>
+	<row>console</row>
+	<row>tv</row>
+	<row>car browser</row>
+	<row>smart display</row>
+	<row>camera</row>
+	<row>portable media player</row>
+	<row>phablet</row>
 </result>

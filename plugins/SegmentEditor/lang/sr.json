@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "samo ovaj sajt",
         "SegmentIsDisplayedForWebsite": "i procesiran za",
         "SegmentNotApplied": "Segment '%s' nije primenjen.",
-        "SegmentNotAppliedMessage": "Zahtevali ste podatke za korisnički definisani segment '%s' a trenutne postavke Piwik-a sprečavaju procesiranje izveštaja u realnom vremenu zbog očuvanja nivoa performansi.",
+        "SegmentNotAppliedMessage": "Zahtevali ste podatke za korisnički definisani segment '%s' a trenutne postavke Matomo-a sprečavaju procesiranje izveštaja u realnom vremenu zbog očuvanja nivoa performansi.",
         "SelectSegmentOfVisits": "Izaberite segment poseta:",
         "ThisSegmentIsVisibleTo": "Ovaj segment je vidljiv:",
         "VisibleToAllUsers": "svi korisnici",

@@ -19,7 +19,7 @@
         "MustBeLoggedIn": "Heu d'estar identificat per crear i programar informes personalitzats",
         "NoRecipients": "Aquest informe no té destinataris",
         "Pagination": "Pàgina %1$s de %2$s",
-        "PiwikReports": "Informes Piwik",
+        "PiwikReports": "Informes Matomo",
         "PleaseFindBelow": "A continuació podeu trobar el vostre informe %1$s per a %2$s.",
         "ReportFormat": "Format de l'informe",
         "ReportIncludeNWebsites": "L'informe incloura les mètriques més importants de tots els llocs webs que tinguin almenys una visita (dels %s llocs web actualment disponibles)",
@@ -30,7 +30,7 @@
         "SentToMe": "Enviam l'informe a mi",
         "TableOfContent": "Llista d'informes",
         "ThereIsNoReportToManage": "No hi ha cap informe per administrar el lloc web %s",
-        "TopLinkTooltip": "Creeu informes per correu electrònic per a que les estadístiques del Piwik es dipositin al vostre correu electrònic (o als dels vostres clients) automàticament",
+        "TopLinkTooltip": "Creeu informes per correu electrònic per a que les estadístiques del Matomo es dipositin al vostre correu electrònic (o als dels vostres clients) automàticament",
         "TopOfReport": "Torna a dalt",
         "UpdateReport": "Actualitza l'informe",
         "WeeklyScheduleHelp": "Programació semanal: L'informe s'enviara el Dilluns de cada setmana."

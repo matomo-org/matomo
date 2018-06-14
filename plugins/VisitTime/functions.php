@@ -47,3 +47,14 @@ function translateDayOfWeek($dayOfWeek)
 {
     return Piwik::translate('Intl_Day_Long_StandAlone_' . $dayOfWeek);
 }
+
+/**
+ * Returns translated long name for month.
+ *
+ * @param int $month 1-12, for January-December
+ * @return string
+ */
+function translateMonth($month)
+{
+    return Piwik::translate('Intl_Month_Long_StandAlone_' . $month);
+}

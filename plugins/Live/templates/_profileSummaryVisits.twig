@@ -1,0 +1,39 @@
+<div class="visitor-profile-summary visitor-profile-important-visits">
+    {%- set keywordNotDefined = 'General_NotDefined'|translate('General_ColumnKeyword'|translate) -%}
+    <div>
+        <h1>{% if visitorData.visitsAggregated == 100 %}{{ 'General_Visit'|translate }}# 100{% else %}{{ 'Live_FirstVisit'|translate }}{% endif %}</h1>
+        <div>
+            <p><strong>{{ visitorData.firstVisit.prettyDate }}</strong>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.firstVisit.daysAgo) }}</p>
+            <p>
+                {{ 'General_FromReferrer'|translate }} <strong {% if visitorData.firstVisit.referrerType == 'search' and '(' not in visitorData.firstVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>
+                    {%- if visitorData.firstVisit.referrerType == 'website' %}
+                        <a href="{{ visitorData.firstVisit.referrerUrl }}" target="_blank">
+                            {{ visitorData.firstVisit.referralSummary }}
+                        </a>
+                    {% else %}
+                        {{ visitorData.firstVisit.referralSummary }}
+                    {% endif %}
+                </strong>
+            </p>
+        </div>
+    </div>
+    {% if visitorData.lastVisits.getRowsCount() != 1 %}
+        <div>
+            <h1>{{ 'Live_LastVisit'|translate }}</h1>
+            <div>
+                <p><strong>{{ visitorData.lastVisit.prettyDate }}</strong>&nbsp;- {{ 'UserCountryMap_DaysAgo'|translate(visitorData.lastVisit.daysAgo) }}</p>
+                <p>
+                    {{ 'General_FromReferrer'|translate }} <strong {% if visitorData.lastVisit.referrerType == 'search' and '(' not in visitorData.lastVisit.referralSummary %}title="{{ keywordNotDefined }}"{% endif %}>
+                        {%- if visitorData.lastVisit.referrerType == 'website' %}
+                            <a href="{{ visitorData.lastVisit.referrerUrl }}" target="_blank">
+                                {{ visitorData.lastVisit.referralSummary }}
+                            </a>
+                        {% else %}
+                            {{ visitorData.lastVisit.referralSummary }}
+                        {% endif %}
+                    </strong>
+                </p>
+            </div>
+        </div>
+    {% endif %}
+</div>

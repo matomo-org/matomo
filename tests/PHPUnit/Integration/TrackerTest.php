@@ -11,7 +11,6 @@ namespace Piwik\Tests\Integration;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\SettingsServer;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -251,7 +250,7 @@ class TrackerTest extends IntegrationTestCase
 
         $response = $this->tracker->main($this->getDefaultHandler(), $requestSet);
 
-        $expected = "This resource is part of Piwik. Keep full control of your data with the leading free and open source <a href='https://piwik.org' target='_blank'>digital analytics platform</a> for web and mobile.";
+        $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer'>digital analytics platform</a> for web and mobile.";
         $this->assertEquals($expected, $response);
     }
 

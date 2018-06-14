@@ -12,9 +12,7 @@ use Piwik\Cache;
 use Piwik\DataTable;
 use Piwik\DataTable\Map;
 use Piwik\Metrics;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugin\Segment;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryApi;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -29,24 +27,17 @@ class UserId extends VisitDimension
      * @var string
      */
     protected $columnName = 'user_id';
+    protected $type = self::TYPE_TEXT;
+    protected $allowAnonymous = false;
+    protected $segmentName = 'userId';
+    protected $nameSingular = 'General_UserId';
+    protected $namePlural = 'General_UserIds';
+    protected $acceptValues = 'any non empty unique string identifying the user (such as an email address or a username).';
 
     /**
      * @var string
      */
     protected $columnType = 'VARCHAR(200) NULL';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setType('dimension');
-        $segment->setSegment('userId');
-        $segment->setCategory(Piwik::translate('General_Visit'));
-        $segment->setName('General_UserId');
-        $segment->setAcceptedValues('any non empty unique string identifying the user (such as an email address or a username).');
-        $segment->setSqlSegment('log_visit.user_id');
-        $segment->setRequiresAtLeastViewAccess(true);
-        $this->addSegment($segment);
-    }
 
     /**
      * @param Request $request

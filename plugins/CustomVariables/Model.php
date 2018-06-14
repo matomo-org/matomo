@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Log;
+use Piwik\Piwik;
 
 class Model
 {
@@ -23,6 +24,7 @@ class Model
 
     private $scope = null;
     private $table = null;
+    private $tableUnprefixed = null;
 
     public function __construct($scope)
     {
@@ -31,7 +33,13 @@ class Model
         }
 
         $this->scope = $scope;
-        $this->table = Common::prefixTable($this->getTableNameFromScope($scope));
+        $this->tableUnprefixed = $this->getTableNameFromScope($scope);
+        $this->table = Common::prefixTable($this->tableUnprefixed);
+    }
+
+    public function getUnprefixedTableName()
+    {
+        return $this->tableUnprefixed;
     }
 
     private function getTableNameFromScope($scope)
@@ -47,8 +55,27 @@ class Model
         }
     }
 
+    public function getScope()
+    {
+        return $this->scope;
+    }
+
     public function getScopeName()
     {
+        return ucfirst($this->scope);
+    }
+
+    public function getScopeDescription()
+    {
+        switch ($this->scope) {
+            case Model::SCOPE_PAGE:
+                return Piwik::translate('CustomVariables_ScopePage');
+            case Model::SCOPE_VISIT:
+                return Piwik::translate('CustomVariables_ScopeVisit');
+            case Model::SCOPE_CONVERSION:
+                return Piwik::translate('CustomVariables_ScopeConversion');
+        }
+
         return ucfirst($this->scope);
     }
 

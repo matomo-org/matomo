@@ -1,0 +1,80 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'PrivacyManager_GDPR'|translate }}{% endset %}
+
+{% block content %}
+<div class="gdprOverview">
+    <div piwik-content-intro>
+        <h2>GDPR overview</h2>
+        <p>
+            The General Data Protection Regulation (GDPR) is a regulation which strengthens and unifies data protection for all individuals within the European Union (EU).
+<br /><br />
+            If you take steps to ensure no personal data is collected in Matomo, then you may not be concerned by the GDPR for Matomo (if you track no IP addresses, no user IDs, no geolocation data, etc.).
+
+        </p>
+    </div>
+
+    {{ postEvent('Template.afterGDPROverviewIntro') }}
+
+    <div piwik-content-block content-title="GDPR checklists">
+        <p>If you are processing personal data of European citizens through Matomo, even if your company is located outside Europe, you need to fulfill GDPR obligations and this guide will help you.
+<br /><br />
+            Find below our tools that let you exercise your users’ rights easily, and the list of actions to take in order to make your use of Matomo compliant with the GDPR and safeguard your data. Visit our <a rel="noreferrer noopener" target="_blank" href="https://matomo.org/docs/gdpr">GDPR User guide</a> to learn even more.</p>
+    </div>
+    <div piwik-content-block content-title="Individuals' rights">
+        <p>Exercise the rights of your users with our GDPR-friendly procedures:
+        </p>
+        <ol>
+            <li>The right to be informed: inform your users with a clear privacy notice.</li>
+            <li>The right of access: <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({module: 'PrivacyManager', action: 'gdprTools'}) }}">search for a data subject</a> and export all of their data.</li>
+            <li>The right to erasure: <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({module: 'PrivacyManager', action: 'gdprTools'}) }}">search for a data subject</a> and delete some or all of their data.</li>
+            <li>The right to rectification: you can <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({module: 'PrivacyManager', action: 'gdprTools'}) }}">search for a data subject</a> and delete some or all of their data.</li>
+            <li>The right to data portability: <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({module: 'PrivacyManager', action: 'gdprTools'}) }}">search for a data subject</a> and export all of their data.</li>
+            <li>The right to object: <a target="_blank" rel="noreferrer noopener" href="{{ linkTo({module: 'PrivacyManager', action: 'usersOptOut'}) }}">let your users easily opt-out</a> on your privacy policy page.</li>
+            <li>If you offer online services to children and rely on consent to collect information about them, then you may need a parent or guardian’s consent in order to process the children’s personal data lawfully.</li>
+        </ol>
+    </div>
+
+    <div piwik-content-block content-title="Awareness & documentation">
+        <p>Inform your users clearly and transparently, and make your colleagues aware of the data being collected and how it is used:</p>
+        <ol>
+            <li>Inform your visitors through a clear privacy notice whenever you’re collecting personal data.</li>
+            <li>Inform your users in your privacy policy about what data you collect and how the data is used.</li>
+            <li>Make your team aware that you are using Matomo Analytics and <a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/general/faq_18254/">what data is being collected by your analytics platform</a>.</li>
+            <li>Document your use of Matomo within your <a href="https://matomo.org/blog/2018/04/gdpr-how-to-fill-in-the-information-asset-register-when-using-matomo/" target="_blank" rel="noreferrer noopener">information asset register</a>.</li>
+        </ol>
+    </div>
+    <div piwik-content-block content-title="Security procedures">
+        <p>Inform your users clearly and transparently, and make your colleagues aware of the data being collected and how it is used:</p>
+        <ol>
+            <li>Apply our <a href="https://matomo.org/docs/security/" target="_blank" rel="noreferrer noopener">security recommendations</a> in order to keep your Matomo data safe.</li>
+            <li>Check that you have a written contract with the company providing you the Matomo server or hosting which ensures <a href="https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/international-transfers/" target="_blank" rel="noreferrer noopener">appropriate safeguards are provided</a>.</li>
+            <li>Include Matomo in your <a href="https://ico.org.uk/for-organisations/guide-to-the-general-data-protection-regulation-gdpr/personal-data-breaches/" target="_blank" rel="noreferrer noopener">data breach procedure</a>.</li>
+            <li>Include Matomo in your <a href="https://www.cnil.fr/en/guidelines-dpia" target="_blank" rel="noreferrer noopener">data privacy impact assessment (DPIA)</a>, if applicable.</li>
+        </ol>
+    </div>
+
+    <div piwik-content-block content-title="Data retention">
+        <p>
+            Data retention for data stored in Matomo:
+        </p>
+        <ul>
+            {% if deleteLogsEnable %}
+                <li>all visits and actions raw data are deleted after <strong>{{ rawDataRetention }}</strong>.</li>
+            {% else %}
+                <li>visits and actions raw data are <strong>never</strong> deleted.</li>
+            {% endif %}
+            {% if deleteReportsEnable %}
+                <li>all aggregated reports are deleted after <strong>{{ reportRetention }}</strong>.</li>
+            {% else %}
+                <li>aggregated reports are <strong>never</strong> deleted.</li>
+            {% endif %}
+        </ul>
+        <p>
+            <br />
+            The overall data retention rate for your privacy policy is the raw data retention rate. Please note that aggregated reports may contain personal data as well. If you are using features like User ID, Custom Variables, Custom Dimension, or track personal data in other ways such as events, page URLs or page titles, etc, then the overall data retention rate for your privacy policy is the higher of the two.
+        </p>
+    </div>
+
+</div>
+{% endblock %}

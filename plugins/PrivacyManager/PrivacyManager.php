@@ -12,6 +12,7 @@ use HTML_QuickForm2_DataSource_Array;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Db;
@@ -39,6 +40,8 @@ class PrivacyManager extends Plugin
     const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
     const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
     const OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL = "lastDelete_piwik_logs_initial";
+    const OPTION_USERID_SALT = 'useridsalt';
+
 
     // options for data purging feature array[configName => configSection]
     public static $purgeDataOptions = array(
@@ -47,6 +50,7 @@ class PrivacyManager extends Plugin
         'delete_logs_older_than'               => 'Deletelogs',
         'delete_logs_max_rows_per_query'       => 'Deletelogs',
         'enable_auto_database_size_estimate'   => 'Deletelogs',
+        'enable_database_size_estimate'        => 'Deletelogs',
         'delete_reports_enable'                => 'Deletereports',
         'delete_reports_older_than'            => 'Deletereports',
         'delete_reports_keep_basic_metrics'    => 'Deletereports',
@@ -72,6 +76,16 @@ class PrivacyManager extends Plugin
         $this->ipAnonymizer = new IPAnonymizer();
     }
 
+    public function install()
+    {
+        StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations')->install();
+    }
+
+    public function uninstall()
+    {
+        StaticContainer::get('Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations')->install();
+    }
+
     /**
      * Returns true if it is likely that the data for this report has been purged and if the
      * user should be told about that.
@@ -93,29 +107,10 @@ class PrivacyManager extends Plugin
             && (is_null($dataTable)
                 || (!empty($dataTable) && $dataTable->getRowsCount() == 0))
         ) {
-            // if range, only look at the first date
-            if ($strPeriod == 'range') {
+            $reportDate = self::getReportDate($strPeriod, $strDate);
 
-                $idSite = Common::getRequestVar('idSite', '');
-
-                if (intval($idSite) != 0) {
-                    $site     = new Site($idSite);
-                    $timezone = $site->getTimezone();
-                } else {
-                    $timezone = 'UTC';
-                }
-
-                $period     = new Range('range', $strDate, $timezone);
-                $reportDate = $period->getDateStart();
-
-            } elseif (Period::isMultiplePeriod($strDate, $strPeriod)) {
-
-                // if a multiple period, this function is irrelevant
+            if (empty($reportDate)) {
                 return false;
-
-            }  else {
-                // otherwise, use the date as given
-                $reportDate = Date::factory($strDate);
             }
 
             $reportYear = $reportDate->toString('Y');
@@ -130,12 +125,53 @@ class PrivacyManager extends Plugin
     }
 
     /**
+     * @param DataTable $dataTable
+     * @param int|null $logsOlderThan If set, it is assumed that log deletion is enabled with the given amount of days
+     * @return bool|void
+     */
+    public static function haveLogsBeenPurged($dataTable, $logsOlderThan = null)
+    {
+        if (!empty($dataTable) && $dataTable->getRowsCount() != 0) {
+            return false;
+        }
+
+        if ($logsOlderThan === null) {
+            $settings = PrivacyManager::getPurgeDataSettings();
+
+            if ($settings['delete_logs_enable'] == 0) {
+                return false;
+            }
+
+            $logsOlderThan = $settings['delete_logs_older_than'];
+        }
+
+        $logsOlderThan = (int) $logsOlderThan;
+
+        $strPeriod = Common::getRequestVar('period', false);
+        $strDate   = Common::getRequestVar('date', false);
+
+        if (false === $strPeriod || false === $strDate) {
+            return false;
+        }
+
+        $logsOlderThan = Date::now()->subDay(1 + $logsOlderThan);
+        $reportDate = self::getReportDate($strPeriod, $strDate);
+
+        if (empty($reportDate)) {
+            return false;
+        }
+
+        return $reportDate->isEarlier($logsOlderThan);
+    }
+
+    /**
      * @see Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
         return array(
             'AssetManager.getJavaScriptFiles'         => 'getJsFiles',
+            'AssetManager.getStylesheetFiles'         => 'getStylesheetFiles',
             'Tracker.setTrackerCacheGeneral'          => 'setTrackerCacheGeneral',
             'Tracker.isExcludedVisit'                 => array($this->dntChecker, 'checkHeaderInTracker'),
             'Tracker.setVisitorIp'                    => array($this->ipAnonymizer, 'setVisitorIpAddress'),
@@ -145,15 +181,23 @@ class PrivacyManager extends Plugin
         );
     }
 
+    public function isTrackerPlugin()
+    {
+        return true;
+    }
+
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
+        $translationKeys[] = 'CoreAdminHome_OptOutExplanation';
+        $translationKeys[] = 'CoreAdminHome_OptOutExplanationIntro';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
     {
         $config       = new Config();
         $cacheContent = $config->setTrackerCacheGeneral($cacheContent);
+        $cacheContent[self::OPTION_USERID_SALT] = self::getUserIdSalt();
     }
 
     public function getJsFiles(&$jsFiles)
@@ -164,6 +208,20 @@ class PrivacyManager extends Plugin
         $jsFiles[] = "plugins/PrivacyManager/angularjs/do-not-track-preference/do-not-track-preference.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-logs/delete-old-logs.controller.js";
         $jsFiles[] = "plugins/PrivacyManager/angularjs/delete-old-reports/delete-old-reports.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.controller.js";
+        $jsFiles[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.js";
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/PrivacyManager/angularjs/opt-out-customizer/opt-out-customizer.directive.less";
+        $stylesheets[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.less";
+        $stylesheets[] = "plugins/PrivacyManager/stylesheets/gdprOverview.less";
+        $stylesheets[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.less";
     }
 
     /**
@@ -298,14 +356,14 @@ class PrivacyManager extends Plugin
     }
 
     /**
-     * Deletes old log data based on the options set in the Deletelogs config
+     * Deletes old raw data based on the options set in the Deletelogs config
      * section. This is a scheduled task and will only execute every N days. The number
      * of days is determined by the delete_logs_schedule_lowest_interval config option.
      *
      * If delete_logs_enable is set to 1, old data in the log_visit, log_conversion,
      * log_conversion_item and log_link_visit_action tables is deleted. The following
      * options can tweak this behavior:
-     * - delete_logs_older_than: The number of days after which log data is considered old.
+     * - delete_logs_older_than: The number of days after which raw data is considered old.
      *
      * @ToDo: return number of Rows deleted in last run; Display age of "oldest" row to help the user setting
      *        the day offset;
@@ -341,7 +399,7 @@ class PrivacyManager extends Plugin
     }
 
     /**
-     * Returns an array describing what data would be purged if both log data & report
+     * Returns an array describing what data would be purged if both raw data & report
      * purging is invoked.
      *
      * The returned array maps table names with the number of rows that will be deleted.
@@ -371,6 +429,36 @@ class PrivacyManager extends Plugin
         }
 
         return $result;
+    }
+
+    private static function getReportDate($strPeriod, $strDate)
+    {
+        // if range, only look at the first date
+        if ($strPeriod == 'range') {
+
+            $idSite = Common::getRequestVar('idSite', '');
+
+            if (intval($idSite) != 0) {
+                $site     = new Site($idSite);
+                $timezone = $site->getTimezone();
+            } else {
+                $timezone = 'UTC';
+            }
+
+            $period     = new Range('range', $strDate, $timezone);
+            $reportDate = $period->getDateStart();
+
+        } elseif (Period::isMultiplePeriod($strDate, $strPeriod)) {
+
+            // if a multiple period, this function is irrelevant
+            return false;
+
+        }  else {
+            // otherwise, use the date as given
+            $reportDate = Date::factory($strDate);
+        }
+
+        return $reportDate;
     }
 
     /**
@@ -497,5 +585,20 @@ class PrivacyManager extends Plugin
     private static function getMaxGoalId()
     {
         return Db::fetchOne("SELECT MAX(idgoal) FROM " . Common::prefixTable('goal'));
+    }
+
+    /**
+     * Returns a unique salt used for pseudonimisation of user id only
+     *
+     * @return string
+     */
+    public static function getUserIdSalt()
+    {
+        $salt = Option::get(self::OPTION_USERID_SALT);
+        if (empty($salt)) {
+            $salt = Common::getRandomString($len = 40, $alphabet = "abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ0123456789_-$");
+            Option::set(self::OPTION_USERID_SALT, $salt, 1);
+        }
+        return $salt;
     }
 }

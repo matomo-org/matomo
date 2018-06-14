@@ -58,14 +58,14 @@ class MySQLMetadataProvider
      * Gets the MySQL table status of the requested Piwik table.
      *
      * @param string $table The name of the table. Should not be prefixed (ie, 'log_visit' is
-     *                      correct, 'piwik_log_visit' is not).
+     *                      correct, 'matomo_log_visit' is not).
      * @return array See http://dev.mysql.com/doc/refman/5.1/en/show-table-status.html .
      */
     public function getTableStatus($table)
     {
         $prefixed = Common::prefixTable($table);
 
-        // if we've already gotten every table status, don't issue an uneeded query
+        // if we've already gotten every table status, don't issue an un-needed query
         if (!is_null($this->tableStatuses) && isset($this->tableStatuses[$prefixed])) {
             return $this->tableStatuses[$prefixed];
         } else {

@@ -66,7 +66,7 @@ class Updates_0_5_4 extends Updates
                     throw new \Exception('optional update failed');
                 }
             } catch (\Exception $e) {
-                throw new \Exception("You can now enable the new MultiSites plugin in the Plugins screen in the Piwik admin!");
+                throw new \Exception("You can now enable the new MultiSites plugin in the Plugins screen in the Matomo admin!");
             }
         }
 

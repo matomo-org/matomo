@@ -13,8 +13,5 @@ use Piwik\Piwik;
 
 class Configuration extends Dimension
 {
-    public function getName()
-    {
-        return Piwik::translate('Resolution_ColumnConfiguration');
-    }
+    protected $nameSingular = 'Resolution_ColumnConfiguration';
 }

@@ -99,43 +99,12 @@
 	</row>
 	<row>
 		<category>Visitors</category>
-		<subcategory>Users</subcategory>
-		<name>Users</name>
-		<module>UserId</module>
-		<action>getUsers</action>
-		<dimension>UserId</dimension>
-		<metrics>
-			<label>Label</label>
-			<nb_visits>Visits</nb_visits>
-			<nb_actions>Actions</nb_actions>
-			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
-		</metricsDocumentation>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
-		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserId&amp;apiAction=getUsers&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserId&amp;apiAction=getUsers&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>UserId_getUsers</uniqueId>
-	</row>
-	<row>
-		<category>Visitors</category>
 		<subcategory>Custom Variables</subcategory>
 		<name>Custom Variables</name>
 		<module>CustomVariables</module>
 		<action>getCustomVariables</action>
 		<dimension>Custom Variable name</dimension>
-		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;http://piwik.org/docs/custom-variables/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -332,7 +301,7 @@
 		<name>Operating System versions</name>
 		<module>DevicesDetection</module>
 		<action>getOsVersions</action>
-		<dimension>Operating System versions</dimension>
+		<dimension>Operating system version</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -585,6 +554,256 @@
 	</row>
 	<row>
 		<category>Visitors</category>
+		<subcategory>Engagement</subcategory>
+		<name>Length of Visits</name>
+		<module>VisitorInterest</module>
+		<action>getNumberOfVisitsPerVisitDuration</action>
+		<dimension>Visit duration</dimension>
+		<documentation>In this report, you can see how many visits had a certain total duration. Initially, the report is shown as a tag cloud, more common durations are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+		</metricsDocumentation>
+		<constantRowsCount>1</constantRowsCount>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerVisitDuration&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
+	</row>
+	<row>
+		<category>Visitors</category>
+		<subcategory>Engagement</subcategory>
+		<name>Pages per Visit</name>
+		<module>VisitorInterest</module>
+		<action>getNumberOfVisitsPerPage</action>
+		<dimension>Pages per visit</dimension>
+		<documentation>In this report, you can see how many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, more common numbers of pages are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+		</metricsDocumentation>
+		<constantRowsCount>1</constantRowsCount>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerPage&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
+	</row>
+	<row>
+		<category>Visitors</category>
+		<subcategory>Engagement</subcategory>
+		<name>Visits by Visit Number</name>
+		<module>VisitorInterest</module>
+		<action>getNumberOfVisitsByVisitCount</action>
+		<dimension>Visits by Visit Number</dimension>
+		<documentation>In this report, you can see the number of visits who were the Nth visit, ie. visitors who visited your website at least N times.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+		</metricsDocumentation>
+		<processedMetrics>
+			<nb_visits_percentage>% Visits</nb_visits_percentage>
+		</processedMetrics>
+		<constantRowsCount>1</constantRowsCount>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByVisitCount&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<uniqueId>VisitorInterest_getNumberOfVisitsByVisitCount</uniqueId>
+	</row>
+	<row>
+		<category>Visitors</category>
+		<subcategory>Engagement</subcategory>
+		<name>Visits by days since last visit</name>
+		<module>VisitorInterest</module>
+		<action>getNumberOfVisitsByDaysSinceLast</action>
+		<dimension>Visits by days since last visit</dimension>
+		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+		</metricsDocumentation>
+		<constantRowsCount>1</constantRowsCount>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByDaysSinceLast&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<uniqueId>VisitorInterest_getNumberOfVisitsByDaysSinceLast</uniqueId>
+	</row>
+	<row>
+		<category>Visitors</category>
+		<subcategory>Engagement</subcategory>
+		<name>Returning Visits</name>
+		<module>VisitFrequency</module>
+		<action>get</action>
+		<metrics>
+			<nb_visits_returning>Returning Visits</nb_visits_returning>
+			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
+			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
+			<nb_users_returning>Returning Users</nb_users_returning>
+			<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
+		</metrics>
+		<processedMetrics>
+			<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
+			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
+			<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
+		</processedMetrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>VisitFrequency_get</uniqueId>
+	</row>
+	<row>
+		<category>Visitors</category>
+		<subcategory>Times</subcategory>
+		<name>Visits per local time</name>
+		<module>VisitTime</module>
+		<action>getVisitInformationPerLocalTime</action>
+		<dimension>Local time - hour (Start of visit)</dimension>
+		<documentation>This graph shows what time it was in the &lt;strong&gt; visitors' time zones &lt;/strong&gt; during their visits.</documentation>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+			<nb_users>Users</nb_users>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
+			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
+			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+		</processedMetrics>
+		<constantRowsCount>1</constantRowsCount>
+		<relatedReports>
+			<row>
+				<name>Visits by Day of Week</name>
+				<module>VisitTime</module>
+				<action>getByDayOfWeek</action>
+			</row>
+		</relatedReports>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerLocalTime&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<uniqueId>VisitTime_getVisitInformationPerLocalTime</uniqueId>
+	</row>
+	<row>
+		<category>Visitors</category>
+		<subcategory>Times</subcategory>
+		<name>Visits per server time</name>
+		<module>VisitTime</module>
+		<action>getVisitInformationPerServerTime</action>
+		<dimension>Server time - hour (End of visit)</dimension>
+		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+			<nb_users>Users</nb_users>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
+			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
+			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+		</processedMetrics>
+		<constantRowsCount>1</constantRowsCount>
+		<metricsGoal>
+			<nb_conversions>Conversions</nb_conversions>
+			<revenue>Revenue</revenue>
+		</metricsGoal>
+		<processedMetricsGoal>
+			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
+		</processedMetricsGoal>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerServerTime&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
+	</row>
+	<row>
+		<category>Visitors</category>
+		<subcategory>Times</subcategory>
+		<name>Visits by Day of Week</name>
+		<module>VisitTime</module>
+		<action>getByDayOfWeek</action>
+		<dimension>Day of the week</dimension>
+		<documentation>This graph shows the number of visits your website received on each day of the week.</documentation>
+		<metrics>
+			<nb_visits>Visits</nb_visits>
+			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+			<nb_actions>Actions</nb_actions>
+			<nb_users>Users</nb_users>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
+			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
+			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+		</processedMetrics>
+		<constantRowsCount>1</constantRowsCount>
+		<relatedReports>
+			<row>
+				<name>Visits per local time</name>
+				<module>VisitTime</module>
+				<action>getVisitInformationPerLocalTime</action>
+			</row>
+		</relatedReports>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getByDayOfWeek&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<uniqueId>VisitTime_getByDayOfWeek</uniqueId>
+	</row>
+	<row>
+		<category>Visitors</category>
+		<subcategory>User IDs</subcategory>
+		<name>User IDs</name>
+		<module>UserId</module>
+		<action>getUsers</action>
+		<dimension>UserId</dimension>
+		<metrics>
+			<label>Label</label>
+			<nb_visits>Visits</nb_visits>
+			<nb_actions>Actions</nb_actions>
+			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
+		</metrics>
+		<metricsDocumentation>
+			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
+			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
+			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
+			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
+			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
+			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+			<bounce_rate>Bounce Rate</bounce_rate>
+			<conversion_rate>Conversion Rate</conversion_rate>
+		</processedMetrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserId&amp;apiAction=getUsers&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserId&amp;apiAction=getUsers&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>UserId_getUsers</uniqueId>
+	</row>
+	<row>
+		<category>Visitors</category>
 		<subcategory>Locations</subcategory>
 		<name>Country</name>
 		<module>UserCountry</module>
@@ -814,225 +1033,6 @@
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserLanguage&amp;apiAction=getLanguageCode&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserLanguage&amp;apiAction=getLanguageCode&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserLanguage_getLanguageCode</uniqueId>
-	</row>
-	<row>
-		<category>Visitors</category>
-		<subcategory>Engagement</subcategory>
-		<name>Length of Visits</name>
-		<module>VisitorInterest</module>
-		<action>getNumberOfVisitsPerVisitDuration</action>
-		<dimension>Visit duration</dimension>
-		<documentation>In this report, you can see how many visits had a certain total duration. Initially, the report is shown as a tag cloud, more common durations are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
-		</metricsDocumentation>
-		<constantRowsCount>1</constantRowsCount>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerVisitDuration&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
-	</row>
-	<row>
-		<category>Visitors</category>
-		<subcategory>Engagement</subcategory>
-		<name>Pages per Visit</name>
-		<module>VisitorInterest</module>
-		<action>getNumberOfVisitsPerPage</action>
-		<dimension>Pages per visit</dimension>
-		<documentation>In this report, you can see how many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, more common numbers of pages are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
-		</metricsDocumentation>
-		<constantRowsCount>1</constantRowsCount>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerPage&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
-	</row>
-	<row>
-		<category>Visitors</category>
-		<subcategory>Engagement</subcategory>
-		<name>Visits by Visit Number</name>
-		<module>VisitorInterest</module>
-		<action>getNumberOfVisitsByVisitCount</action>
-		<dimension>Visits by Visit Number</dimension>
-		<documentation>In this report, you can see the number of visits who were the Nth visit, ie. visitors who visited your website at least N times.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
-		</metricsDocumentation>
-		<processedMetrics>
-			<nb_visits_percentage>% Visits</nb_visits_percentage>
-		</processedMetrics>
-		<constantRowsCount>1</constantRowsCount>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByVisitCount&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<uniqueId>VisitorInterest_getNumberOfVisitsByVisitCount</uniqueId>
-	</row>
-	<row>
-		<category>Visitors</category>
-		<subcategory>Engagement</subcategory>
-		<name>Visits by days since last visit</name>
-		<module>VisitorInterest</module>
-		<action>getNumberOfVisitsByDaysSinceLast</action>
-		<dimension>Visits by days since last visit</dimension>
-		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
-		</metricsDocumentation>
-		<constantRowsCount>1</constantRowsCount>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByDaysSinceLast&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<uniqueId>VisitorInterest_getNumberOfVisitsByDaysSinceLast</uniqueId>
-	</row>
-	<row>
-		<category>Visitors</category>
-		<subcategory>Engagement</subcategory>
-		<name>Returning Visits</name>
-		<module>VisitFrequency</module>
-		<action>get</action>
-		<metrics>
-			<nb_visits_returning>Returning Visits</nb_visits_returning>
-			<nb_actions_returning>Actions by Returning Visits</nb_actions_returning>
-			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
-			<nb_users_returning>Returning Users</nb_users_returning>
-			<max_actions_returning>Maximum actions in one returning visit</max_actions_returning>
-		</metrics>
-		<processedMetrics>
-			<avg_time_on_site_returning>Avg. Duration of a Returning Visit (in sec)</avg_time_on_site_returning>
-			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
-			<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
-		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>VisitFrequency_get</uniqueId>
-	</row>
-	<row>
-		<category>Visitors</category>
-		<subcategory>Times</subcategory>
-		<name>Visits per local time</name>
-		<module>VisitTime</module>
-		<action>getVisitInformationPerLocalTime</action>
-		<dimension>Local time</dimension>
-		<documentation>This graph shows what time it was in the &lt;strong&gt; visitors' time zones &lt;/strong&gt; during their visits.</documentation>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
-			<nb_actions>Actions</nb_actions>
-			<nb_users>Users</nb_users>
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
-			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
-		</metricsDocumentation>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
-		</processedMetrics>
-		<constantRowsCount>1</constantRowsCount>
-		<relatedReports>
-			<row>
-				<name>Visits by Day of Week</name>
-				<module>VisitTime</module>
-				<action>getByDayOfWeek</action>
-			</row>
-		</relatedReports>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerLocalTime&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<uniqueId>VisitTime_getVisitInformationPerLocalTime</uniqueId>
-	</row>
-	<row>
-		<category>Visitors</category>
-		<subcategory>Times</subcategory>
-		<name>Visits per server time</name>
-		<module>VisitTime</module>
-		<action>getVisitInformationPerServerTime</action>
-		<dimension>Server time</dimension>
-		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
-			<nb_actions>Actions</nb_actions>
-			<nb_users>Users</nb_users>
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
-			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
-		</metricsDocumentation>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-		</processedMetrics>
-		<constantRowsCount>1</constantRowsCount>
-		<metricsGoal>
-			<nb_conversions>Conversions</nb_conversions>
-			<revenue>Revenue</revenue>
-		</metricsGoal>
-		<processedMetricsGoal>
-			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerServerTime&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
-	</row>
-	<row>
-		<category>Visitors</category>
-		<subcategory>Times</subcategory>
-		<name>Visits by Day of Week</name>
-		<module>VisitTime</module>
-		<action>getByDayOfWeek</action>
-		<dimension>Day of the week</dimension>
-		<documentation>This graph shows the number of visits your website received on each day of the week.</documentation>
-		<metrics>
-			<nb_visits>Visits</nb_visits>
-			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
-			<nb_actions>Actions</nb_actions>
-			<nb_users>Users</nb_users>
-		</metrics>
-		<metricsDocumentation>
-			<nb_visits>If a visitor comes to your website for the first time or if they visit a page more than 30 minutes after their last page view, this will be recorded as a new visit.</nb_visits>
-			<nb_uniq_visitors>The number of unduplicated visitors coming to your website. Every user is only counted once, even if they visit the website multiple times a day.</nb_uniq_visitors>
-			<nb_actions>The number of actions performed by your visitors. Actions can be page views, internal site searches, downloads or outlinks.</nb_actions>
-			<nb_users>The number of users logged in your website. It is the number of unique active users that have a User ID set (via the Tracking code function 'setUserId').</nb_users>
-			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
-			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
-			<conversion_rate>The percentage of visits that triggered a goal conversion.</conversion_rate>
-		</metricsDocumentation>
-		<processedMetrics>
-			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
-			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
-			<bounce_rate>Bounce Rate</bounce_rate>
-			<conversion_rate>Conversion Rate</conversion_rate>
-		</processedMetrics>
-		<constantRowsCount>1</constantRowsCount>
-		<relatedReports>
-			<row>
-				<name>Visits per local time</name>
-				<module>VisitTime</module>
-				<action>getVisitInformationPerLocalTime</action>
-			</row>
-		</relatedReports>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getByDayOfWeek&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<uniqueId>VisitTime_getByDayOfWeek</uniqueId>
 	</row>
 	<row>
 		<category>Actions</category>
@@ -1265,7 +1265,7 @@
 		<name>Page titles</name>
 		<module>Actions</module>
 		<action>getPageTitles</action>
-		<dimension>Page Name</dimension>
+		<dimension>Page Title</dimension>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<metrics>
 			<nb_hits>Pageviews</nb_hits>
@@ -1309,7 +1309,7 @@
 		<module>Actions</module>
 		<action>getSiteSearchKeywords</action>
 		<dimension>Keyword</dimension>
-		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;http://piwik.org/docs/site-search/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
+		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;https://matomo.org/docs/site-search/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
 		<metrics>
 			<nb_visits>Searches</nb_visits>
 			<nb_pages_per_search>Search Results pages</nb_pages_per_search>
@@ -1336,7 +1336,7 @@
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
-			<nb_hits>Total Pageviews</nb_hits>
+			<nb_hits>Pageviews</nb_hits>
 		</metrics>
 		<metricsDocumentation>
 			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
@@ -1385,7 +1385,7 @@
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
-			<nb_hits>Total Pageviews</nb_hits>
+			<nb_hits>Pageviews</nb_hits>
 		</metrics>
 		<metricsDocumentation>
 			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
@@ -1452,7 +1452,7 @@
 		<module>Actions</module>
 		<action>getDownloads</action>
 		<dimension>Download URL</dimension>
-		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Piwik counts as a download is the click on a download link. Whether the download was completed or not isn't known to Piwik.</documentation>
+		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Matomo counts as a download is the click on a download link. Whether the download was completed or not isn't known to Matomo.</documentation>
 		<metrics>
 			<nb_visits>Unique Downloads</nb_visits>
 			<nb_hits>Downloads</nb_hits>
@@ -1474,10 +1474,10 @@
 		<action>getCategory</action>
 		<dimension>Event Category</dimension>
 		<metrics>
-			<nb_events>Total events</nb_events>
-			<sum_event_value>Total value</sum_event_value>
-			<min_event_value>Minimum value</min_event_value>
-			<max_event_value>Maximum value</max_event_value>
+			<nb_events>Events</nb_events>
+			<sum_event_value>Event value</sum_event_value>
+			<min_event_value>Minimum Event value</min_event_value>
+			<max_event_value>Maximum Event value</max_event_value>
 			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
@@ -1504,10 +1504,10 @@
 		<action>getAction</action>
 		<dimension>Event Action</dimension>
 		<metrics>
-			<nb_events>Total events</nb_events>
-			<sum_event_value>Total value</sum_event_value>
-			<min_event_value>Minimum value</min_event_value>
-			<max_event_value>Maximum value</max_event_value>
+			<nb_events>Events</nb_events>
+			<sum_event_value>Event value</sum_event_value>
+			<min_event_value>Minimum Event value</min_event_value>
+			<max_event_value>Maximum Event value</max_event_value>
 			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
@@ -1534,10 +1534,10 @@
 		<action>getName</action>
 		<dimension>Event Name</dimension>
 		<metrics>
-			<nb_events>Total events</nb_events>
-			<sum_event_value>Total value</sum_event_value>
-			<min_event_value>Minimum value</min_event_value>
-			<max_event_value>Maximum value</max_event_value>
+			<nb_events>Events</nb_events>
+			<sum_event_value>Event value</sum_event_value>
+			<min_event_value>Minimum Event value</min_event_value>
+			<max_event_value>Maximum Event value</max_event_value>
 			<nb_events_with_value>Events with a value</nb_events_with_value>
 		</metrics>
 		<metricsDocumentation>
@@ -1611,7 +1611,7 @@
 		<module>Referrers</module>
 		<action>getReferrerType</action>
 		<dimension>Referrer Type</dimension>
-		<documentation>This table contains information about the distribution of the referrer types.&lt;br /&gt;&lt;b&gt;Direct Entry:&lt;/b&gt; A visitor has entered the URL in their browser and started browsing on your website - they entered the website directly.&lt;br /&gt;&lt;b&gt;Search Engines:&lt;/b&gt; A visitor was referred to your website by a search engine. &lt;br /&gt; See the &quot;Search Engines &amp; Keywords&quot; report for more details.&lt;br /&gt;&lt;b&gt;Websites:&lt;/b&gt; The visitor followed a link on another website that led to your site. &lt;br /&gt; See the &quot;Websites &amp; Social&quot; report for more details.&lt;br /&gt;&lt;b&gt;Campaigns:&lt;/b&gt; Visitors that came to your website as the result of a campaign. &lt;br /&gt; See the &quot;Campaigns&quot; report for more details.</documentation>
+		<documentation>This table contains information about the distribution of the referrer types.&lt;br /&gt;&lt;b&gt;Direct Entry:&lt;/b&gt; A visitor has entered the URL in their browser and started browsing on your website - they entered the website directly.&lt;br /&gt;&lt;b&gt;Search Engines:&lt;/b&gt; A visitor was referred to your website by a search engine. &lt;br /&gt; See the &quot;Search Engines &amp; Keywords&quot; report for more details.&lt;br /&gt;&lt;b&gt;Websites:&lt;/b&gt; The visitor followed a link on another website that led to your site. &lt;br /&gt; See the &quot;Websites&quot; report for more details.&lt;br /&gt;&lt;b&gt;Campaigns:&lt;/b&gt; Visitors that came to your website as the result of a campaign. &lt;br /&gt; See the &quot;Campaigns&quot; report for more details.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1685,7 +1685,7 @@
 		<module>Referrers</module>
 		<action>getKeywords</action>
 		<dimension>Keyword</dimension>
-		<documentation>This report shows which keywords users were searching for before they were referred to your website. &lt;br /&gt; By clicking on a row in the table, you can see the distribution of search engines that were queried for the keyword.</documentation>
+		<documentation>This report shows which keywords users were searching for before they were referred to your website. &lt;br /&gt;&lt;br /&gt; By clicking on a row in the table, you can see the distribution of search engines that were queried for the keyword.&lt;br /&gt;&lt;br /&gt;Note: This report lists most keywords as not defined, because most search engines do not send the exact keyword used on the search engine.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1762,7 +1762,7 @@
 	</row>
 	<row>
 		<category>Referrers</category>
-		<subcategory>Websites &amp; Social</subcategory>
+		<subcategory>Websites</subcategory>
 		<name>Websites</name>
 		<module>Referrers</module>
 		<action>getWebsites</action>
@@ -1803,7 +1803,7 @@
 	</row>
 	<row>
 		<category>Referrers</category>
-		<subcategory>Websites &amp; Social</subcategory>
+		<subcategory>Social Networks</subcategory>
 		<name>Social Networks</name>
 		<module>Referrers</module>
 		<action>getSocials</action>
@@ -1843,7 +1843,7 @@
 		<module>Referrers</module>
 		<action>getCampaigns</action>
 		<dimension>Campaign</dimension>
-		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;http://piwik.org/docs/tracking-campaigns/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;campaigns documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;https://matomo.org/docs/tracking-campaigns/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;campaigns documentation on piwik.org&lt;/a&gt;</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1997,28 +1997,6 @@
 	<row>
 		<category>Ecommerce</category>
 		<subcategory>Products</subcategory>
-		<name>Product SKU</name>
-		<module>Goals</module>
-		<action>getItemsSku</action>
-		<dimension>Product SKU</dimension>
-		<metrics>
-			<revenue>Product Revenue</revenue>
-			<quantity>Quantity</quantity>
-			<orders>Unique Purchases</orders>
-			<nb_visits>Visits</nb_visits>
-		</metrics>
-		<processedMetrics>
-			<avg_price>Average Price</avg_price>
-			<avg_quantity>Average Quantity</avg_quantity>
-			<conversion_rate>Product Conversion Rate</conversion_rate>
-		</processedMetrics>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>Goals_getItemsSku</uniqueId>
-	</row>
-	<row>
-		<category>Ecommerce</category>
-		<subcategory>Products</subcategory>
 		<name>Product Name</name>
 		<module>Goals</module>
 		<action>getItemsName</action>
@@ -2037,6 +2015,28 @@
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsName&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsName&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_getItemsName</uniqueId>
+	</row>
+	<row>
+		<category>Ecommerce</category>
+		<subcategory>Products</subcategory>
+		<name>Product SKU</name>
+		<module>Goals</module>
+		<action>getItemsSku</action>
+		<dimension>Product SKU</dimension>
+		<metrics>
+			<revenue>Product Revenue</revenue>
+			<quantity>Quantity</quantity>
+			<orders>Unique Purchases</orders>
+			<nb_visits>Visits</nb_visits>
+		</metrics>
+		<processedMetrics>
+			<avg_price>Average Price</avg_price>
+			<avg_quantity>Average Quantity</avg_quantity>
+			<conversion_rate>Product Conversion Rate</conversion_rate>
+		</processedMetrics>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>Goals_getItemsSku</uniqueId>
 	</row>
 	<row>
 		<category>Ecommerce</category>

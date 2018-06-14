@@ -9,13 +9,12 @@ namespace Piwik\Tests\Integration\Application\Kernel;
 
 use Piwik\Application\Kernel\PluginList;
 use Piwik\Container\StaticContainer;
-use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group PluginListTest
  * @group Core
  */
-class PluginListTest extends IntegrationTestCase
+class PluginListTest extends \PHPUnit_Framework_TestCase
 {
 
     /**

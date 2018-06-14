@@ -90,6 +90,7 @@ class Response
     private function normalizeApiResponse($apiResponse)
     {
         $apiResponse = $this->removeSubtableIdsFromXml($apiResponse);
+        $apiResponse = $this->removePageViewIds($apiResponse);
 
         if ($this->shouldDeleteLiveIds()) {
             $apiResponse = $this->removeAllIdsFromXml($apiResponse);
@@ -129,6 +130,15 @@ class Response
     private function normalizeEncodingPhp533($apiResponse)
     {
         return str_replace('&amp;#039;', "'", $apiResponse);
+    }
+
+    private function removePageViewIds($apiResponse)
+    {
+        $toRemove = array(
+            'idpageview',
+        );
+
+        return $this->removeXmlFields($apiResponse, $toRemove);
     }
 
     private function removeAllIdsFromXml($apiResponse)
@@ -213,6 +223,7 @@ class Response
 
         $oldInput = $input;
         $input = preg_replace('/(<' . $xmlElement . '>.+?<\/' . $xmlElement . '>)/', '', $input);
+        $input = str_replace('<' . $xmlElement . ' />', '', $input);
 
         // check we didn't delete the whole string
         if ($testNotSmallAfter && $input != $oldInput) {
@@ -284,6 +295,11 @@ class Response
      */
     private function replacePiwikUrl($apiResponse)
     {
-        return str_replace(Fixture::getRootUrl(), "http://example.com/piwik/", $apiResponse);
+        $rootUrl = Fixture::getRootUrl();
+        $rootUrlRel = str_replace(array('http://', 'https://'), '//', $rootUrl);
+
+        $apiResponse = str_replace($rootUrl, "http://example.com/piwik/", $apiResponse);
+        $apiResponse = str_replace($rootUrlRel, "//example.com/piwik/", $apiResponse);
+        return $apiResponse;
     }
 }

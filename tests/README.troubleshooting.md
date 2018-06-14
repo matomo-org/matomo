@@ -2,7 +2,7 @@
 
 If you have problems with running Piwik tests see below.
 
-If you cannot solve your issues please [ask in the forums](http://forum.piwik.org/list.php?9)
+If you cannot solve your issues please [ask in the forums](https://forum.piwik.org/list.php?9)
 
 
 ## Important note for Linux users: fix for slow tests

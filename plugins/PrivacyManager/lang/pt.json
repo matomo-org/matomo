@@ -1,6 +1,5 @@
 {
     "PrivacyManager": {
-        "AnonymizeIpDescription": "Selecione \"Sim\" para o Piwik não rastrear totalmente endereços IP qualificados.",
         "AnonymizeIpInlineHelp": "Torna o último byte dos endereços IP de visitantes anónimo para obedecer às suas leis\/regulamentos de privacidade locais.",
         "AnonymizeIpMaskLengtDescription": "Selecione quantos bytes dos IPs dos visitantes devem ser mascarados.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - por exemplo %2$s",

@@ -48,7 +48,22 @@ class JoinTables extends \ArrayObject
 
     public function hasJoinedTable($tableName)
     {
-        return in_array($tableName, $this->getTables());
+        $tables = in_array($tableName, $this->getTables());
+        if ($tables) {
+            return true;
+        }
+
+        foreach ($this as $table) {
+            if (is_array($table)) {
+                if (!isset($table['tableAlias']) && $table['table'] === $table) {
+                    return true;
+                } elseif (isset($table['tableAlias']) && $table['tableAlias'] === $table) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public function hasJoinedTableManually($tableToFind, $joinToFind)

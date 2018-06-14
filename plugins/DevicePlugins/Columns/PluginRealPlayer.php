@@ -17,6 +17,7 @@ class PluginRealPlayer extends DevicePluginColumn
 {
     protected $columnName = 'config_realplayer';
     protected $columnType = 'TINYINT(1) NULL';
+    protected $type = self::TYPE_BOOL;
 
     /**
      * @param Request $request

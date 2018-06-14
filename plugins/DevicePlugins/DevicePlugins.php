@@ -25,16 +25,7 @@ class DevicePlugins extends \Piwik\Plugin
     {
         return array(
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
-            'Live.getAllVisitorDetails'            => 'extendVisitorDetails',
         );
-    }
-
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $instance = new Visitor($details);
-
-        $visitor['plugins']                  = $instance->getPlugins();
-        $visitor['pluginsIcons']             = $instance->getPluginIcons();
     }
 
     public function addMetricTranslations(&$translations)

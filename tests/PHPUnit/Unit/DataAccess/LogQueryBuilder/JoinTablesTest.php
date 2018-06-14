@@ -150,6 +150,17 @@ class JoinTablesTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $tables->getTables());
     }
 
+    public function test_sort_ifAllReturn0_ThenSortByGivenOrder()
+    {
+        $tables = $this->makeTables(array('log_conversion', 'log_visit', 'log_action', 'log_conversion_item'));
+        $tables->sort(function($a, $b) {
+            return 0;
+        });
+
+        $expected = array('log_conversion', 'log_visit', 'log_action', 'log_conversion_item');
+        $this->assertEquals($expected, $tables->getTables());
+    }
+
     private function makeTables($tables)
     {
         return new JoinTables(new LogTablesProvider(), $tables);

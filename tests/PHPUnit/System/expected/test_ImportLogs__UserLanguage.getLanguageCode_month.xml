@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>Unknown (xx)</label>
-		<nb_visits>39</nb_visits>
-		<nb_actions>46</nb_actions>
+		<nb_visits>44</nb_visits>
+		<nb_actions>51</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>551</sum_visit_length>
-		<bounce_count>34</bounce_count>
-		<nb_visits_converted>35</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>37</sum_daily_nb_uniq_visitors>
+		<bounce_count>39</bounce_count>
+		<nb_visits_converted>40</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>42</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>3</sum_daily_nb_users>
 		<segment>languageCode==xx</segment>
 	</row>

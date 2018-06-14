@@ -8,7 +8,6 @@
         "country_a2": "Satelliidi pakkuja",
         "country_cat": "Katalaani kommuunid",
         "country_o1": "Muu riik",
-        "country_ti": "Tiibet",
         "CurrentLocationIntro": "Antud pakkuja andmete alusel on sinu praegune asukoht",
         "DistinctCountries": "%s eri riigist",
         "DownloadingDb": "Laen alla %s",
@@ -16,14 +15,14 @@
         "FromDifferentCities": "erinevad linnad",
         "GeoIPDatabases": "GeoIP andmebaas",
         "Geolocation": "Geolokatsioon",
-        "GeolocationPageDesc": "Sellel lehel saad muuta, kuidas Piwik tuvastab külastajate asukoha infot.",
+        "GeolocationPageDesc": "Sellel lehel saad muuta, kuidas Matomo tuvastab külastajate asukoha infot.",
         "ISPDatabase": "ISP andmebaas",
         "Latitude": "Laiuskraad",
         "Location": "Asukoht",
         "LocationDatabase": "Asukoha andmebaas",
         "LocationProvider": "Asukohainfo pakkuja",
         "Longitude": "Pikkuskraad",
-        "NoDataForGeoIPReport1": "Antud raporti jaoks puuduvad andmed, kuna Piwiku asukoha andmebaas on tühi või külastajate IP aadresse ei ole olnud võimalik kaardil tuvastada.",
+        "NoDataForGeoIPReport1": "Antud raporti jaoks puuduvad andmed, kuna Matomo asukoha andmebaas on tühi või külastajate IP aadresse ei ole olnud võimalik kaardil tuvastada.",
         "Organization": "Organisatsioon",
         "OrgDatabase": "Organisatsiooni andmebaas",
         "Region": "Regioon",
@@ -31,8 +30,5 @@
         "SubmenuLocations": "Asukohad",
         "UpdaterWasLastRun": "Uuendaja käivitus viimati %s.",
         "WidgetLocation": "Külastajate asukohad"
-    },
-    "Intl": {
-        "Country_TI": "Tiibet"
     }
 }

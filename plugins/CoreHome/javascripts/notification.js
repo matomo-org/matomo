@@ -107,8 +107,22 @@
             $notificationNode.css(options.style);
         }
 
+        var notificationPosition = '#notificationContainer';
+        var method = 'append';
+        if (options.placeat) {
+            notificationPosition = options.placeat;
+        } else {
+            // If a modal is open, we want to make sure the error message is visible and therefore show it within the opened modal
+            var modalSelector = '.modal.open .modal-content';
+            var modalOpen = $(modalSelector);
+            if (modalOpen.length) {
+                notificationPosition = modalSelector;
+                method = 'prepend';
+            }
+        }
+
         $notificationNode = $notificationNode.hide();
-        $(options.placeat || '#notificationContainer').append($notificationNode);
+        $(notificationPosition)[method]($notificationNode);
 
         if (false === options.animate) {
             $notificationNode.show();

@@ -1,6 +1,6 @@
 {% extends 'layout.twig' %}
 
-{% set title %}Piwik UI demo{% endset %}
+{% set title %}Matomo UI demo{% endset %}
 
 {% block head %}
     {{ parent() }}
@@ -66,7 +66,7 @@
 
         <h1>{{ title }}</h1>
         <p>
-            This page is intended to show all the UI components and styles available to use in Piwik.
+            This page is intended to show all the UI components and styles available to use in Matomo.
         </p>
 
         <h2>Grid system</h2>
@@ -337,6 +337,49 @@
                      options='{1: "0123456789",2:"9876543210",3:"5432109876"}'>
                 </div>
 
+                <div piwik-field uicontrol="expandable-select" name="selectexpand"
+                     title="{{ "{{ view.selectedExpand ? view.selectedExpand : 'Select word' }}"|raw }}"
+                     value="Select value"
+                     inline-help="Expandable select"
+                     ng-model="view.selectedExpand"
+                     options='[{group: "Group 1",key:"1",value:"Hello"}, {group: "Group 1",key:"2",value:"How",tooltip: "Help text"}, {group: "Group 1",key:"3",value:"Are"}, {group: "Group 2",key:"4",value:"You"}]'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multitupletext"
+                     title="Multiple values"
+                     value="[]"
+                     inline-help="Multi Tuple text and text"
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multitupletextvalue"
+                     title="Multiple values with values"
+                     value='[{"index": "test", "value":"myfoo"},{"index": "test 2", "value":"myfoo 2"}]'
+                     inline-help="Multi Tuple again."
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multitupleselect"
+                     title="Multiple values with select"
+                     value='[{"index": "test", "value": "myfoo"}]'
+                     inline-help="Multi Tuple select and text"
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multituplesingleselect"
+                     title="Multi One Select"
+                     value='[{"index": "test", "value": "myfoo"}]'
+                     inline-help="Multi values with one select"
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}}}'>
+                </div>
+
+                <div piwik-field uicontrol="multituple" name="multituplesingletext"
+                     title="Multi One Text"
+                     value='[{"index": "test", "value": "myfoo"}]'
+                     inline-help="Multi values with one text"
+                     ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null}}'>
+                </div>
+
                 <div piwik-field uicontrol="checkbox" name="enableFeature"
                      title="Enable feature"
                      introduction="Radio and checkboxes"
@@ -357,7 +400,7 @@
                 </div>
 
                 <div piwik-field uicontrol="site" name="currentsite"
-                     introduction="Piwik specific form fields"
+                     introduction="Matomo specific form fields"
                      title="Select a website">
                 </div>
 
@@ -441,6 +484,49 @@
          options='{1: &quot;0123456789&quot;,2:&quot;9876543210&quot;,3:&quot;5432109876&quot;}'&gt;
     &lt;/div&gt;
 
+    &lt;div piwik-field uicontrol=&quot;expandable-select&quot; name=&quot;selectexpand&quot;
+         title=&quot;{{ "{{ view.selectedExpand ? view.selectedExpand : 'Select word' }}"|raw }}&quot;
+         value=&quot;Select value&quot;
+         inline-help=&quot;Expandable select&quot;
+         ng-model=&quot;view.selectedExpand&quot;
+         options='[{group: &quot;Group 1&quot;,key:&quot;1&quot;,value:&quot;Hello&quot;}, {group: &quot;Group 1&quot;,key:&quot;2&quot;,value:&quot;How&quot;,tooltip: &quot;Help text&quot;}, {group: &quot;Group 1&quot;,key:&quot;3&quot;,value:&quot;Are&quot;}, {group: &quot;Group 2&quot;,key:&quot;4&quot;,value:&quot;You&quot;}]'&gt;
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multitupletext"
+         title="Multiple values"
+         value="[]"
+         inline-help="Multi Pair text and text"
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multitupletextvalue"
+         title="Multiple values with values"
+         value='[{"index": "test", "value":"myfoo"},{"index": "test 2", "value":"myfoo 2"}]'
+         inline-help="Multi Pair again."
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multitupleselect"
+         title="Multiple values with select"
+         value='[{"index": "test", "value": "myfoo"}]'
+         inline-help="Multi Pair select and text"
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}},"field2":{"key":"value","title":"Value","uiControl":"text","availableValues":null}}'>
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multituplesingleselect"
+         title="Multi One Select"
+         value='[{"index": "test", "value": "myfoo"}]'
+         inline-help="Multi values with one select"
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"select","availableValues":{"test":"test"}}}'>
+    &lt;/div&gt;
+
+    &lt;div piwik-field uicontrol="multituple" name="multituplesingletext"
+         title="Multi One Text"
+         value='[{"index": "test", "value": "myfoo"}]'
+         inline-help="Multi values with one text"
+         ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null}}'>
+    &lt;/div&gt;
+
     &lt;div piwik-field uicontrol=&quot;checkbox&quot; name=&quot;enableFeature&quot;
          title=&quot;Enable feature&quot;
          introduction=&quot;Radio and checkboxes&quot;
@@ -461,7 +547,7 @@
     &lt;/div&gt;
 
     &lt;div piwik-field uicontrol=&quot;site&quot; name=&quot;currentsite&quot;
-         introduction=&quot;Piwik specific form fields&quot;
+         introduction=&quot;Matomo specific form fields&quot;
          title=&quot;Select a website&quot;&gt;
     &lt;/div&gt;
 
@@ -493,10 +579,10 @@
 
         <div class="demo">
             <p>Or you can display a code block:</p>
-            <pre piwik-select-on-focus>&lt;!-- Piwik --&gt;
+            <pre piwik-select-on-focus>&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
 &lt;/script&gt;
-&lt;!-- End Piwik Code --&gt;</pre>
+&lt;!-- End Matomo Code --&gt;</pre>
         </div>
         <div class="demo-code">
             &lt;pre piwik-select-on-focus&gt;...&lt;/pre&gt;
@@ -555,12 +641,12 @@
         <h2>Content blocks</h2>
 
         <div class="demo">
-            <div piwik-content-block content-title="My title" help-url="https://piwik.org">
+            <div piwik-content-block content-title="My title" help-url="https://matomo.org">
                 <p>My text goes is in here</p>
             </div>
         </div>
         <div class="demo-code">
-            <pre>&lt;div piwik-content-block content-title=&quot;My title&quot; help-url=&quot;https://piwik.org&quot;&gt;
+            <pre>&lt;div piwik-content-block content-title=&quot;My title&quot; help-url=&quot;https://matomo.org&quot;&gt;
     &lt;p&gt;My text goes is in here&lt;/p&gt;
 &lt;/div&gt;</pre>
         </div>
@@ -568,19 +654,19 @@
         <h3>Content Table</h3>
 
         <div class="demo">
-            <div piwik-content-block content-title="My title" help-url="https://piwik.org">
+            <div piwik-content-block content-title="My title" help-url="https://matomo.org">
                 <p>My intro text is here</p>
                 <table piwik-content-table>
                     <thead><tr><th>Column 1</th><th>Column 2</th></tr></thead>
                     <tbody>
-                        <tr><td>Value 1</td><td>Value 2</td></tr>
-                        <tr><td>Value 1</td><td>Value 2</td></tr>
+                    <tr><td>Value 1</td><td>Value 2</td></tr>
+                    <tr><td>Value 1</td><td>Value 2</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="demo-code">
-            <pre>&lt;div piwik-content-block content-title=&quot;My title&quot; help-url=&quot;https://piwik.org&quot;&gt;
+            <pre>&lt;div piwik-content-block content-title=&quot;My title&quot; help-url=&quot;https://matomo.org&quot;&gt;
     &lt;p&gt;My intro text is here&lt;/p&gt;
     &lt;table piwik-content-table&gt;
         &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Column 1&lt;/th&gt;&lt;th&gt;Column 2&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
@@ -635,7 +721,9 @@
                         'search',
                         'menu-hamburger',
                         'more-horiz',
-                        'more-verti'
+                        'more-verti',
+                        'arrowup',
+                        'arrowdown'
                     ],
                     'Window-Widget': [
                         'minimise',
@@ -644,7 +732,7 @@
                         'maximise',
                         'newtab',
                         'refresh',
-                        'reload',
+                        'reload'
                     ],
                     'Reports': [
                         'table',
@@ -653,43 +741,46 @@
                         'chart-pie',
                         'chart-line',
                         'chart-line-details',
+                        'evolution',
                         'funnel',
                         'form',
+                        'transition',
+                        'overlay',
                         'lab'
                     ],
                     'Users': [
                         'user',
                         'user-add',
                         'users',
-                        'alien',
+                        'alien'
                     ],
                     'Date-picker': [
-                        'calendar',
+                        'calendar'
                     ],
                     'Annotations': [
-                        'annotation',
+                        'annotation'
                     ],
                     'E-commerce': [
                         'ecommerce-order',
-                        'ecommerce-abandoned-cart',
+                        'ecommerce-abandoned-cart'
                     ],
                     'Goals': [
-                        'goal',
+                        'goal'
                     ],
                     'Insights': [
-                        'insights',
+                        'insights'
                     ],
                     'Segments': [
-                        'segment',
+                        'segment'
                     ],
                     'Visitors': [
-                        'visitor-profile',
+                        'visitor-profile'
                     ],
                     'Lock': [
                         'locked',
                         'locked-2',
                         'locked-3',
-                        'locked-4',
+                        'locked-4'
                     ],
                     'Other': [
                         'configure',
@@ -711,6 +802,7 @@
                         'server',
                         'server-alt',
                         'tag-cloud',
+                        'audio',
                         'play',
                         'pause',
                         'replay',
@@ -721,8 +813,12 @@
                         'skip-previous',
                         'sign-in',
                         'sign-out',
-                        'settings'
-                    ],
+                        'settings',
+                        'rocket',
+                        'bug',
+                        'upload',
+                        'embed'
+                    ]
                 };
 
                 var iconsDiv = $('#icons');

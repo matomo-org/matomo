@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>WebKit (Safari, Chrome)</label>
-		<nb_visits>18</nb_visits>
-		<nb_actions>21</nb_actions>
+		<nb_visits>23</nb_visits>
+		<nb_actions>26</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>16</bounce_count>
-		<nb_visits_converted>17</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>18</sum_daily_nb_uniq_visitors>
+		<bounce_count>21</bounce_count>
+		<nb_visits_converted>22</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>23</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>1</sum_daily_nb_users>
 		<segment>browserEngine==WebKit</segment>
 	</row>

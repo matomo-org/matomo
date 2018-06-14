@@ -151,11 +151,11 @@ class RssRendererTest extends IntegrationTestCase
         $this->assertEquals('<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>piwik statistics - RSS</title>
-    <link>http://piwik.org</link>
-    <description>Piwik RSS feed</description>
+    <title>matomo statistics - RSS</title>
+    <link>https://matomo.org</link>
+    <description>Matomo RSS feed</description>
     
-    <generator>piwik</generator>
+    <generator>matomo</generator>
     <language>en</language>
     	</channel>
 </rss>', $response);

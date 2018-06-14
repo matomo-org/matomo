@@ -455,7 +455,12 @@ abstract class ViewDataTable implements ViewInterface
     protected function getPropertyFromQueryParam($name, $defaultValue)
     {
         $type = is_numeric($defaultValue) ? 'int' : null;
-        return Common::getRequestVar($name, $defaultValue, $type);
+        $value = Common::getRequestVar($name, $defaultValue, $type);
+        // convert comma separated values to arrays if needed
+        if (is_array($defaultValue)) {
+            $value = Piwik::getArrayFromApiParameter($value);
+        }
+        return $value;
     }
 
     /**
@@ -525,7 +530,7 @@ abstract class ViewDataTable implements ViewInterface
         $nonOverridableParams = $this->getNonOverridableParams($overrideParams);
         if(count($nonOverridableParams) > 0) {
             throw new \Exception(sprintf(
-                "Setting parameters %s is not allowed. Please report this bug to the Piwik team.",
+                "Setting parameters %s is not allowed. Please report this bug to the Matomo team.",
                 implode(" and ", $nonOverridableParams)
             ));
         }

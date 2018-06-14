@@ -35,7 +35,7 @@
         "DaysToConv": "Dias para Conversão",
         "DefaultGoalConvertedOncePerVisit": "(por omissão) Um Objectivo só pode ser convertido uma vez por visita",
         "DefaultRevenue": "Rendimento padrão do objectivo é",
-        "DefaultRevenueHelp": "Por exemplo, um Formulário de Contacto submetido por um visitante pode valer em média $10. Piwik ajuda-o a perceber como os seus segmentos de visitantes se estão a sair.",
+        "DefaultRevenueHelp": "Por exemplo, um Formulário de Contacto submetido por um visitante pode valer em média $10. Matomo ajuda-o a perceber como os seus segmentos de visitantes se estão a sair.",
         "DeleteGoalConfirm": "Tem a certeza que deseja eliminar o Objectivo %s?",
         "DocumentationRevenueGeneratedByProductSales": "Venda de Produtos. Excluindo taxas, transporte e descontos.",
         "Download": "Transferir um ficheiro",

@@ -42,7 +42,7 @@ class PageSpeedCheck implements Diagnostic
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
         }
 
-        $comment = $this->translator->translate('Installation_SystemCheckPageSpeedWarn', array(
+        $comment = $this->translator->translate('Installation_SystemCheckPageSpeedWarning', array(
             '(eg. Apache, Nginx or IIS)',
         ));
 

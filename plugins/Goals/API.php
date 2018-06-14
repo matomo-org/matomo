@@ -28,12 +28,14 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
+use Piwik\Validators\Regex;
+use Piwik\Validators\WhitelistedValue;
 
 /**
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
  * or list existing Goals for one or several websites via "getGoals"
  *
- * If you are <a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'>tracking Ecommerce orders and products</a> on your site, the functions "getItemsSku", "getItemsName" and "getItemsCategory"
+ * If you are <a href='http://matomo.org/docs/ecommerce-analytics/' target='_blank'>tracking Ecommerce orders and products</a> on your site, the functions "getItemsSku", "getItemsName" and "getItemsCategory"
  * will return the list of products purchased on your site, either grouped by Product SKU, Product Name or Product Category. For each name, SKU or category, the following
  * metrics are returned: Total revenue, Total quantity, average price, average quantity, number of orders (or abandoned carts) containing this product, number of visits on the Product page,
  * Conversion rate.
@@ -45,7 +47,7 @@ use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
  * If you wish to request specific metrics about Ecommerce goals, you can set the parameter &idGoal=ecommerceAbandonedCart to get metrics about abandoned carts (including Lost revenue, and number of items left in the cart)
  * or &idGoal=ecommerceOrder to get metrics about Ecommerce orders (number of orders, visits with an order, subtotal, tax, shipping, discount, revenue, items ordered)
  *
- * See also the documentation about <a href='http://piwik.org/docs/tracking-goals-web-analytics/' rel='noreferrer' target='_blank'>Tracking Goals</a> in Piwik.
+ * See also the documentation about <a href='http://matomo.org/docs/tracking-goals-web-analytics/' rel='noreferrer' target='_blank'>Tracking Goals</a> in Matomo.
  *
  * @method static \Piwik\Plugins\Goals\API getInstance()
  */
@@ -136,6 +138,7 @@ class API extends \Piwik\Plugin\API
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
         $name        = $this->checkName($name);
         $pattern     = $this->checkPattern($pattern);
+        $patternType = $this->checkPatternType($patternType);
         $description = $this->checkDescription($description);
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
@@ -188,6 +191,7 @@ class API extends \Piwik\Plugin\API
 
         $name        = $this->checkName($name);
         $description = $this->checkDescription($description);
+        $patternType = $this->checkPatternType($patternType);
         $pattern     = $this->checkPattern($pattern);
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
 
@@ -218,6 +222,11 @@ class API extends \Piwik\Plugin\API
         ) {
             throw new Exception(Piwik::translate('Goals_ExceptionInvalidMatchingString', array("http:// or https://", "http://www.yourwebsite.com/newsletter/subscribed.html")));
         }
+
+        if ($patternType == 'regex') {
+            $validator = new Regex();
+            $validator->validate(GoalManager::formatRegex($pattern));
+        }
     }
 
     private function checkName($name)
@@ -228,6 +237,20 @@ class API extends \Piwik\Plugin\API
     private function checkDescription($description)
     {
         return urldecode($description);
+    }
+
+    private function checkPatternType($patternType)
+    {
+        if (empty($patternType)) {
+            return '';
+        }
+
+        $patternType = strtolower($patternType);
+
+        $validator = new WhitelistedValue(['exact', 'contains', 'regex']);
+        $validator->validate($patternType);
+
+        return $patternType;
     }
 
     private function checkPattern($pattern)

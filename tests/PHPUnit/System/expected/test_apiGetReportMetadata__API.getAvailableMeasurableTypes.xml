@@ -26,7 +26,7 @@
 						</uiControlAttributes>
 						<availableValues />
 						<description />
-						<inlineHelp>It is recommended, but not required, to specify the various URLs, one per line, that your visitors use to access this website. Alias URLs for a website will not appear in the Referrers &gt; Websites report. Note that it is not necessary to specify the URLs with and without 'www' as Piwik automatically considers both.</inlineHelp>
+						<inlineHelp>It is recommended, but not required, to specify the various URLs, one per line, that your visitors use to access this website. Alias URLs for a website will not appear in the Referrers &gt; Websites report. Note that it is not necessary to specify the URLs with and without 'www' as Matomo automatically considers both.</inlineHelp>
 						<templateFile />
 						<introduction />
 						<condition />
@@ -42,7 +42,7 @@
 						</uiControlAttributes>
 						<availableValues />
 						<description />
-						<inlineHelp>When enabled, Piwik will only track internal actions when the Page URL is one of the known URLs for your website. This prevents people from spamming your analytics with URLs for other websites.&lt;br /&gt;The domain and the path has to be an exact match and each valid subdomain has to be specified separately. For example when the known URLs are 'http://example.com/path' and 'http://good.example.com', tracking requests for 'http://example.com/otherpath' or 'http://bad.example.com' are ignored.</inlineHelp>
+						<inlineHelp>When enabled, Matomo will only track internal actions when the Page URL is one of the known URLs for your website. This prevents people from spamming your analytics with URLs for other websites.&lt;br /&gt;The domain and the path has to be an exact match and each valid subdomain has to be specified separately. For example when the known URLs are 'http://example.com/path' and 'http://good.example.com', tracking requests for 'http://example.com/otherpath' or 'http://bad.example.com' are ignored.</inlineHelp>
 						<templateFile />
 						<introduction />
 						<condition />
@@ -83,7 +83,7 @@
 						</uiControlAttributes>
 						<availableValues />
 						<description />
-						<inlineHelp>Enter the list of IPs, one per line, that you wish to exclude from being tracked by Piwik. You can use wildcards, eg. 1.2.3.* or 1.2.*.*&lt;br /&gt;&lt;br /&gt;Your current IP address is &lt;i&gt;127.0.0.1&lt;/i&gt;</inlineHelp>
+						<inlineHelp>Enter the list of IPs, one per line, that you wish to exclude from being tracked by Matomo. You can use CIDR notation eg. 1.2.3.4/24 or you can use wildcards, eg. 1.2.3.* or 1.2.*.*&lt;br /&gt;&lt;br /&gt;Your current IP address is &lt;i&gt;127.0.0.1&lt;/i&gt;</inlineHelp>
 						<templateFile />
 						<introduction />
 						<condition />
@@ -103,7 +103,7 @@
 						</uiControlAttributes>
 						<availableValues />
 						<description />
-						<inlineHelp>Enter the list of URL Query Parameters, one per line, to exclude from the Page URLs reports. Regular expressions such as /^sess.*|.*[dD]ate$/ are suported.&lt;br /&gt;&lt;br /&gt;Piwik will automatically exclude the common session parameters (phpsessid, sessionid, ...).</inlineHelp>
+						<inlineHelp>Enter the list of URL Query Parameters, one per line, to exclude from the Page URLs reports. Regular expressions such as /^sess.*|.*[dD]ate$/ are suported.&lt;br /&gt;&lt;br /&gt;Matomo will automatically exclude the common session parameters (phpsessid, sessionid, ...).</inlineHelp>
 						<templateFile />
 						<introduction />
 						<condition />
@@ -123,7 +123,7 @@
 						</uiControlAttributes>
 						<availableValues />
 						<description />
-						<inlineHelp>Enter the list of user agents to exclude from being tracked by Piwik.&lt;br /&gt;&lt;br /&gt;If the visitor's user agent string contains any of the strings you specify, the visitor will be excluded from Piwik.&lt;br /&gt;You can use this to exclude some bots from being tracked.</inlineHelp>
+						<inlineHelp>Enter the list of user agents to exclude from being tracked by Matomo.&lt;br /&gt;&lt;br /&gt;If the visitor's user agent string contains any of the strings you specify, the visitor will be excluded from Matomo.&lt;br /&gt;You can use this to exclude some bots from being tracked.</inlineHelp>
 						<templateFile />
 						<introduction />
 						<condition />
@@ -142,7 +142,7 @@
 							<row key="0">Do not track Site Search</row>
 						</availableValues>
 						<description />
-						<inlineHelp>You can use Piwik to track and report what visitors are searching in your website's internal search engine.</inlineHelp>
+						<inlineHelp>You can use Matomo to track and report what visitors are searching in your website's internal search engine.</inlineHelp>
 						<templateFile />
 						<introduction />
 						<condition />
@@ -213,7 +213,7 @@
 							<row>Ecommerce enabled</row>
 						</availableValues>
 						<description />
-						<inlineHelp>When enabled, the &quot;Goals&quot; report will have a new &quot;Ecommerce&quot; section.&lt;br /&gt;Piwik allows for advanced Ecommerce Analytics tracking &amp; reporting. Learn more about &lt;a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'&gt; Ecommerce Analytics&lt;/a&gt;.</inlineHelp>
+						<inlineHelp>When enabled, the &quot;Goals&quot; report will have a new &quot;Ecommerce&quot; section.&lt;br /&gt;Matomo allows for advanced Ecommerce Analytics tracking &amp; reporting. Learn more about &lt;a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'&gt; Ecommerce Analytics&lt;/a&gt;.</inlineHelp>
 						<templateFile />
 						<introduction />
 						<condition />

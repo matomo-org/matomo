@@ -183,7 +183,7 @@ table.dataTable img {
   position: absolute;
 }
 
-.datatableFooterMessage {
+.datatableHeaderMessage, .datatableFooterMessage {
   color: #888;
   text-align: left;
   margin: 10px;
@@ -281,6 +281,9 @@ table.dataTable img {
   &:hover {
     text-decoration: underline;
   }
+  @media print{
+    display: none;
+  }
 }
 
 .datatableRelatedReports {
@@ -288,6 +291,9 @@ table.dataTable img {
   font-size: 12px;
   padding-bottom: 5px;
   margin-top: 6px;
+  @media print{
+    display: none;
+  }
 }
 
 .datatableRelatedReports span {
@@ -543,7 +549,6 @@ td.cellSubDataTable .loadingPiwik {
 
 .dataTableControls {
   text-align: left;
-  position: relative;
   padding-left: 0 !important;
 
   &.col {

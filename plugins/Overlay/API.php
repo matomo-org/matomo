@@ -104,6 +104,10 @@ class API extends \Piwik\Plugin\API
     /** Do cookie authentication. This way, the token can remain secret. */
     private function authenticate($idSite)
     {
+        if (Piwik::isUserHasViewAccess($idSite)) {
+            return; // user is already authenticated (e.g. API call with token_auth)
+        }
+
         /**
          * Triggered immediately before the user is authenticated.
          *

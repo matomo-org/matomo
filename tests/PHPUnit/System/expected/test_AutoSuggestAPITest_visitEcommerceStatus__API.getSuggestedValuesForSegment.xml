@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>none</row>
+	<row>ordered</row>
+	<row>abandonedCart</row>
+	<row>orderedThenAbandonedCart</row>
 </result>

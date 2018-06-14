@@ -46,8 +46,7 @@ class RssRenderer
             $content = Http::fetchRemoteFile($this->url);
             $rss = simplexml_load_string($content);
         } catch (\Exception $e) {
-            echo "Error while importing feed: {$e->getMessage()}\n";
-            exit;
+            throw new \Exception("Error while importing feed: {$e->getMessage()}\n");
         }
 
         $output = '<div style="padding:10px 15px;"><ul class="rss">';

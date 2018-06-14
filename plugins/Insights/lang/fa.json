@@ -1,5 +1,6 @@
 {
     "Insights": {
+        "ControlComparedToDescription": "رشد در مقایسه با",
         "DayComparedToPreviousDay": "روز گذشته",
         "DayComparedToPreviousWeek": "همان روز در هفته گذشته",
         "DayComparedToPreviousYear": "همان روز در سال گذشته",
@@ -7,6 +8,8 @@
         "FilterOnlyNew": "فقط جدید",
         "MonthComparedToPreviousMonth": "ماه گذشته",
         "MonthComparedToPreviousYear": "همان ماه در سال گذشته",
+        "NoResultMatchesCriteria": "هیچ رکوردی مطابق معیار نیست",
+        "TitleRowMoverAndShaker": "این رکورد تاثیری بیش از میانگین داشته است.",
         "WeekComparedToPreviousWeek": "هفته گذشته",
         "YearComparedToPreviousYear": "سال گذشته"
     }

@@ -9,22 +9,19 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
-use Piwik\Db;
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Log;
-use Piwik\Mail;
 use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\Model as UserModel;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
-use Piwik\Plugins\UsersManager\Model as UserModel;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Schedule;
-use Piwik\SettingsPiwik;
 use Piwik\Tracker;
 use Piwik\View;
-use Zend_Mime;
-use Piwik\Config;
 
 /**
  *
@@ -71,7 +68,7 @@ class ScheduledReports extends \Piwik\Plugin
     const OPTION_KEY_LAST_SENT_DATERANGE = 'report_last_sent_daterange_';
 
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -305,90 +302,21 @@ class ScheduledReports extends \Piwik\Plugin
             return;
         }
 
-        $periods = self::getPeriodToFrequencyAsAdjective();
-        $subject = Piwik::translate('General_Report') . ' ' . $reportTitle . " - " . $prettyDate;
+        $generatedReport = new GeneratedReport($report, $reportTitle, $prettyDate, $contents, $additionalFiles);
 
-        $mail = new Mail();
-        $mail->setDefaultFromPiwik();
-        $mail->setSubject($subject);
-        $attachmentName = $subject;
+        $reportFormat = $generatedReport->getReportFormat();
 
-        $this->setReplyToAsSender($mail, $report);
-
-        $displaySegmentInfo = false;
-        $segmentInfo = null;
-        $segment = API::getSegment($report['idsegment']);
-        if ($segment != null) {
-            $displaySegmentInfo = true;
-            $segmentInfo = Piwik::translate('ScheduledReports_SegmentAppliedToReports', $segment['name']);
+        $customReplyTo = null;
+        if (Config::getInstance()->General['scheduled_reports_replyto_is_user_email_and_alias']
+            || !isset($reportDetails['login'])
+        ) {
+            $userModel = new UserModel();
+            $customReplyTo = $userModel->getUser($report['login']);
         }
 
-        $messageFindAttached = Piwik::translate('ScheduledReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
-        $messageFindBelow    = Piwik::translate('ScheduledReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
-        $messageSentFrom     = '';
-
-        $piwikUrl = SettingsPiwik::getPiwikUrl();
-        if (!empty($piwikUrl)) {
-            $messageSentFrom = Piwik::translate('ScheduledReports_SentFromX', $piwikUrl);
-        }
-
-        switch ($report['format']) {
-            case 'html':
-
-                // Needed when using images as attachment with cid
-                $mail->setType(Zend_Mime::MULTIPART_RELATED);
-                $mail->setBodyHtml($contents);
-                break;
-
-            case 'csv':
-                $message = "\n$messageFindAttached\n$messageSentFrom";
-
-                if ($displaySegmentInfo) {
-                    $message .= " " . $segmentInfo;
-                }
-
-                $mail->setBodyText($message);
-                $mail->createAttachment(
-                    $contents,
-                    'application/csv',
-                    Zend_Mime::DISPOSITION_INLINE,
-                    Zend_Mime::ENCODING_BASE64,
-                    $attachmentName . '.csv'
-                );
-                break;
-
-            default:
-            case 'pdf':
-                $message = "\n$messageFindAttached\n$messageSentFrom";
-
-                if ($displaySegmentInfo) {
-                    $message .= " " . $segmentInfo;
-                }
-
-                $mail->setBodyText($message);
-                $mail->createAttachment(
-                    $contents,
-                    'application/pdf',
-                    Zend_Mime::DISPOSITION_INLINE,
-                    Zend_Mime::ENCODING_BASE64,
-                    $attachmentName . '.pdf'
-                );
-                break;
-        }
-
-        foreach ($additionalFiles as $additionalFile) {
-            $fileContent = $additionalFile['content'];
-            $at = $mail->createAttachment(
-                $fileContent,
-                $additionalFile['mimeType'],
-                Zend_Mime::DISPOSITION_INLINE,
-                $additionalFile['encoding'],
-                $additionalFile['filename']
-            );
-            $at->id = $additionalFile['cid'];
-
-            unset($fileContent);
-        }
+        /** @var ReportEmailGenerator $reportGenerator */
+        $reportGenerator = StaticContainer::get(ReportEmailGenerator::class . '.' . $reportFormat);
+        $mail = $reportGenerator->makeEmail($generatedReport, $customReplyTo);
 
         // Get user emails and languages
         $reportParameters = $report['parameters'];
@@ -643,33 +571,6 @@ class ScheduledReports extends \Piwik\Plugin
             Schedule::PERIOD_WEEK  => Piwik::translate('General_Weekly'),
             Schedule::PERIOD_MONTH => Piwik::translate('General_Monthly'),
         );
-    }
-
-    /**
-     * Used in the Report's email content, ie "monthly report"
-     * @ignore
-     */
-    public static function getPeriodToFrequencyAsAdjective()
-    {
-        return array(
-            Schedule::PERIOD_DAY   => Piwik::translate('General_DailyReport'),
-            Schedule::PERIOD_WEEK  => Piwik::translate('General_WeeklyReport'),
-            Schedule::PERIOD_MONTH => Piwik::translate('General_MonthlyReport'),
-            Schedule::PERIOD_YEAR  => Piwik::translate('General_YearlyReport'),
-            Schedule::PERIOD_RANGE => Piwik::translate('General_RangeReports'),
-        );
-    }
-
-    protected function setReplyToAsSender(Mail $mail, array $report)
-    {
-        if (Config::getInstance()->General['scheduled_reports_replyto_is_user_email_and_alias']) {
-            if (isset($report['login'])) {
-                $userModel = new UserModel();
-                $user = $userModel->getUser($report['login']);
-
-                $mail->setReplyTo($user['email'], $user['alias']);
-            }
-        }
     }
 
     private function reportAlreadySent($report, Period $period)

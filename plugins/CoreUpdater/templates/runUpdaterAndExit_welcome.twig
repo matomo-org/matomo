@@ -11,7 +11,7 @@
     <div class="content" style="text-align:left;">
 
         {% set helpMessage %}
-            {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/">','</a>','</li><li>')|raw }}
+            {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=https://matomo.org/faq/">','</a>','</li><li>')|raw }}
         {% endset %}
 
         {% if coreError %}
@@ -51,7 +51,7 @@
                 {% endif %}
                 <p>{{ 'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate('') }}</p>
                 <pre>{{ commandUpgradePiwik }}</pre>
-                <p>{{ 'CoreUpdater_HighTrafficPiwikServerEnableMaintenance'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http%3A%2F%2Fpiwik.org%2Ffaq%2Fhow-to%2F%23faq_111">', '</a>')|raw }}</p>
+                <p>{{ 'CoreUpdater_HighTrafficPiwikServerEnableMaintenance'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http%3A%2F%2Fmatomo.org%2Ffaq%2Fhow-to%2F%23faq_111">', '</a>')|raw }}</p>
 
                 {% if queries is not empty %}
                     <p><a href="#" id="showSql">› {{ 'CoreUpdater_ClickHereToViewSqlQueries'|translate }}</a></p>
@@ -61,7 +61,7 @@
                 {% endif %}
 
                 <h2>{{ 'CoreUpdater_NeedHelpUpgrading'|translate }}</h2>
-                <p>{{ 'CoreUpdater_NeedHelpUpgradingText'|translate("<a rel='noreferrer' target='_blank' href='https://piwik.org/support/upgrading-piwik/'>", "</a>")|raw }}</p>
+                <p>{{ 'CoreUpdater_NeedHelpUpgradingText'|translate("<a rel='noreferrer' target='_blank' href='https://matomo.org/support/upgrading-piwik/'>", "</a>")|raw }}</p>
 
                 <h2>{{ 'CoreUpdater_ReadyToGo'|translate }}</h2>
                 <p>{{ 'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate }}</p>

@@ -2,96 +2,96 @@
 <result>
 	<row>
 		<label>blog</label>
-		<nb_visits>10</nb_visits>
-		<nb_hits>13</nb_hits>
+		<nb_visits>15</nb_visits>
+		<nb_hits>18</nb_hits>
 		<sum_time_spent>166</sum_time_spent>
 		<nb_hits_with_time_generation>7</nb_hits_with_time_generation>
 		<min_time_generation>0.023</min_time_generation>
 		<max_time_generation>1.324</max_time_generation>
-		<sum_bandwidth>21530</sum_bandwidth>
-		<nb_hits_with_bandwidth>8</nb_hits_with_bandwidth>
+		<sum_bandwidth>39400</sum_bandwidth>
+		<nb_hits_with_bandwidth>13</nb_hits_with_bandwidth>
 		<min_bandwidth>86</min_bandwidth>
 		<max_bandwidth>86</max_bandwidth>
-		<entry_nb_visits>9</entry_nb_visits>
-		<entry_nb_actions>18</entry_nb_actions>
+		<entry_nb_visits>14</entry_nb_visits>
+		<entry_nb_actions>23</entry_nb_actions>
 		<entry_sum_visit_length>54</entry_sum_visit_length>
-		<entry_bounce_count>8</entry_bounce_count>
-		<exit_nb_visits>8</exit_nb_visits>
-		<avg_bandwidth>2691</avg_bandwidth>
-		<avg_time_on_page>13</avg_time_on_page>
-		<bounce_rate>89%</bounce_rate>
-		<exit_rate>80%</exit_rate>
+		<entry_bounce_count>13</entry_bounce_count>
+		<exit_nb_visits>13</exit_nb_visits>
+		<avg_bandwidth>3030</avg_bandwidth>
+		<avg_time_on_page>9</avg_time_on_page>
+		<bounce_rate>93%</bounce_rate>
+		<exit_rate>87%</exit_rate>
 		<avg_time_generation>0.389</avg_time_generation>
 		<subtable>
 			<row>
 				<label>category</label>
-				<nb_visits>7</nb_visits>
-				<nb_hits>10</nb_hits>
+				<nb_visits>12</nb_visits>
+				<nb_hits>15</nb_hits>
 				<sum_time_spent>166</sum_time_spent>
 				<nb_hits_with_time_generation>5</nb_hits_with_time_generation>
 				<min_time_generation>0.023</min_time_generation>
 				<max_time_generation>1.324</max_time_generation>
-				<sum_bandwidth>17870</sum_bandwidth>
-				<nb_hits_with_bandwidth>5</nb_hits_with_bandwidth>
+				<sum_bandwidth>35740</sum_bandwidth>
+				<nb_hits_with_bandwidth>10</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
-				<entry_nb_visits>6</entry_nb_visits>
-				<entry_nb_actions>15</entry_nb_actions>
+				<entry_nb_visits>11</entry_nb_visits>
+				<entry_nb_actions>20</entry_nb_actions>
 				<entry_sum_visit_length>54</entry_sum_visit_length>
-				<entry_bounce_count>5</entry_bounce_count>
-				<exit_nb_visits>5</exit_nb_visits>
-				<avg_time_on_page>17</avg_time_on_page>
-				<bounce_rate>83%</bounce_rate>
-				<exit_rate>71%</exit_rate>
+				<entry_bounce_count>10</entry_bounce_count>
+				<exit_nb_visits>10</exit_nb_visits>
+				<avg_time_on_page>11</avg_time_on_page>
+				<bounce_rate>91%</bounce_rate>
+				<exit_rate>83%</exit_rate>
 				<avg_time_generation>0.443</avg_time_generation>
 				<subtable>
 					<row>
 						<label>meta</label>
-						<nb_visits>5</nb_visits>
-						<nb_hits>7</nb_hits>
+						<nb_visits>10</nb_visits>
+						<nb_hits>12</nb_hits>
 						<sum_time_spent>151</sum_time_spent>
 						<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
 						<min_time_generation>0.023</min_time_generation>
 						<max_time_generation>0.123</max_time_generation>
-						<sum_bandwidth>14296</sum_bandwidth>
-						<nb_hits_with_bandwidth>4</nb_hits_with_bandwidth>
+						<sum_bandwidth>32166</sum_bandwidth>
+						<nb_hits_with_bandwidth>9</nb_hits_with_bandwidth>
 						<min_bandwidth>0</min_bandwidth>
 						<max_bandwidth>0</max_bandwidth>
-						<entry_nb_visits>5</entry_nb_visits>
-						<entry_nb_actions>14</entry_nb_actions>
+						<entry_nb_visits>10</entry_nb_visits>
+						<entry_nb_actions>19</entry_nb_actions>
 						<entry_sum_visit_length>54</entry_sum_visit_length>
-						<entry_bounce_count>4</entry_bounce_count>
-						<exit_nb_visits>4</exit_nb_visits>
-						<avg_time_on_page>22</avg_time_on_page>
-						<bounce_rate>80%</bounce_rate>
-						<exit_rate>80%</exit_rate>
+						<entry_bounce_count>9</entry_bounce_count>
+						<exit_nb_visits>9</exit_nb_visits>
+						<avg_time_on_page>13</avg_time_on_page>
+						<bounce_rate>90%</bounce_rate>
+						<exit_rate>90%</exit_rate>
 						<avg_time_generation>0.089</avg_time_generation>
 						<subtable>
 							<row>
 								<label>/index</label>
-								<nb_visits>5</nb_visits>
-								<nb_hits>7</nb_hits>
+								<nb_visits>10</nb_visits>
+								<nb_hits>12</nb_hits>
 								<sum_time_spent>151</sum_time_spent>
 								<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
 								<min_time_generation>0.023</min_time_generation>
 								<max_time_generation>0.123</max_time_generation>
-								<sum_bandwidth>14296</sum_bandwidth>
-								<nb_hits_with_bandwidth>4</nb_hits_with_bandwidth>
+								<sum_bandwidth>32166</sum_bandwidth>
+								<nb_hits_with_bandwidth>9</nb_hits_with_bandwidth>
 								<min_bandwidth>0</min_bandwidth>
 								<max_bandwidth>0</max_bandwidth>
-								<entry_nb_visits>5</entry_nb_visits>
-								<entry_nb_actions>14</entry_nb_actions>
+								<entry_nb_visits>10</entry_nb_visits>
+								<entry_nb_actions>19</entry_nb_actions>
 								<entry_sum_visit_length>54</entry_sum_visit_length>
-								<entry_bounce_count>4</entry_bounce_count>
-								<exit_nb_visits>4</exit_nb_visits>
-								<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
-								<sum_daily_entry_nb_uniq_visitors>5</sum_daily_entry_nb_uniq_visitors>
-								<sum_daily_exit_nb_uniq_visitors>4</sum_daily_exit_nb_uniq_visitors>
-								<avg_time_on_page>22</avg_time_on_page>
-								<bounce_rate>80%</bounce_rate>
-								<exit_rate>80%</exit_rate>
+								<entry_bounce_count>9</entry_bounce_count>
+								<exit_nb_visits>9</exit_nb_visits>
+								<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
+								<sum_daily_entry_nb_uniq_visitors>10</sum_daily_entry_nb_uniq_visitors>
+								<sum_daily_exit_nb_uniq_visitors>9</sum_daily_exit_nb_uniq_visitors>
+								<avg_time_on_page>13</avg_time_on_page>
+								<bounce_rate>90%</bounce_rate>
+								<exit_rate>90%</exit_rate>
 								<avg_time_generation>0.089</avg_time_generation>
-								<url>http://piwik.net/blog/category/meta/</url>
+								<url>http://included1.com/blog/category/meta/</url>
 							</row>
 						</subtable>
 					</row>

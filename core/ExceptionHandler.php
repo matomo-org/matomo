@@ -67,7 +67,13 @@ class ExceptionHandler
     {
         Common::sendHeader('Content-Type: text/html; charset=utf-8');
 
-        echo self::getErrorResponse($exception);
+        try {
+            echo self::getErrorResponse($exception);
+        } catch(Exception $e) {
+            // When there are failures while generating the HTML error response itself,
+            // we simply print out the error message instead.
+            echo $exception->getMessage();
+        }
 
         exit(1);
     }

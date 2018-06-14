@@ -9,8 +9,6 @@ namespace Piwik\Tests\Fixtures;
 
 use Exception;
 use Piwik\API\Request;
-use Piwik\AssetManager;
-use Piwik\Access;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
@@ -18,14 +16,13 @@ use Piwik\DbHelper;
 use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
-use Piwik\Tests\Framework\Fixture;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
-use Piwik\Config as PiwikConfig;
 
 /**
  * Fixture for UI tests.
@@ -42,8 +39,6 @@ class UITestFixture extends SqlDump
 
     public function setUp()
     {
-        self::downloadGeoIpDbs();
-
         parent::setUp();
 
         self::resetPluginsInstalledConfig();
@@ -57,7 +52,8 @@ class UITestFixture extends SqlDump
         );
 
         // for proper geolocation
-        LocationProvider::setCurrentProvider(LocationProvider\GeoIp\Php::ID);
+        GeoIp2::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+        LocationProvider::setCurrentProvider(GeoIp2\Php::ID);
         IPAnonymizer::deactivate();
 
         $this->addOverlayVisits();
@@ -262,6 +258,16 @@ class UITestFixture extends SqlDump
                 'uniqueId' => $widget['uniqueId'],
                 'parameters' => $widget['parameters']
             );
+
+            // for realtime map, disable some randomness
+            if ($widget['uniqueId'] == 'widgetUserCountryMaprealtimeMap') {
+                $widgetEntry['parameters']['showDateTime'] = '0';
+                $widgetEntry['parameters']['realtimeWindow'] = 'last2';
+                $widgetEntry['parameters']['changeVisitAlpha'] = '0';
+                $widgetEntry['parameters']['enableAnimation'] = '0';
+                $widgetEntry['parameters']['doNotRefreshVisits'] = '1';
+                $widgetEntry['parameters']['removeOldVisits'] = '0';
+            }
 
             // dashboard images must have height of less than 4000px to avoid odd discoloration of last line of image
             $widgetEntry['parameters']['filter_limit'] = 5;

@@ -18,10 +18,20 @@ use Piwik\Plugins\SEO\API;
 
 class GetRank extends \Piwik\Widget\Widget
 {
+    public static function getCategory()
+    {
+        return 'SEO';
+    }
+
+    public static function getName()
+    {
+        return 'SEO_SeoRankings';
+    }
+
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('SEO');
-        $config->setName('SEO_SeoRankings');
+        $config->setCategoryId(self::getCategory());
+        $config->setName(self::getName());
     }
 
     public function render()

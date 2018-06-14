@@ -59,17 +59,11 @@ describe("EvolutionGraph", function () {
         }, done);
     });
 
-    it("should show export formats on click including image", function (done) {
-        expect.screenshot('export_formats').to.be.capture(function (page) {
-            page.click('.activateExportSelection');
-        }, done);
-    });
-
     it("should show graph as image when export as image icon clicked", function (done) {
-        expect.screenshot('export_image').to.be.capture(function (page) {
+        expect.screenshot('export_image').to.be.captureSelector('.ui-dialog', function (page) {
             page.click('#dataTableFooterExportAsImageIcon');
         }, done);
-    });
+    })  ;
 
     it("should display more periods when limit selection changed", function (done) {
         expect.screenshot('limit_changed').to.be.capture(function (page) {

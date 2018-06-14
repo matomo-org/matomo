@@ -163,7 +163,7 @@ class Controller extends Plugin\ControllerAdmin
         $view->deactivateNonce = Nonce::getNonce(static::DEACTIVATE_NONCE);
         $view->pluginsInfo = $this->getPluginsInfo($themesOnly);
 
-        $users = Request::processRequest('UsersManager.getUsers');
+        $users = Request::processRequest('UsersManager.getUsers', array('filter_limit' => '-1'));
         $view->otherUsersCount = count($users) - 1;
         $view->themeEnabled = $this->pluginManager->getThemeEnabled()->getPluginName();
 
@@ -229,7 +229,7 @@ class Controller extends Plugin\ControllerAdmin
 
             if (isset($plugin['info']) && isset($plugin['info']['authors'])) {
                 foreach ($plugin['info']['authors'] as $author) {
-                    if (in_array(strtolower($author['name']), array('piwik', 'innocraft'))) {
+                    if (in_array(strtolower($author['name']), array('piwik', 'innocraft', 'matomo', 'matomo-org'))) {
                         $plugin['isOfficialPlugin'] = true;
                         break;
                     }

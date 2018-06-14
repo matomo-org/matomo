@@ -1,71 +1,71 @@
 [submodule "plugins/SecurityInfo"]
     path = plugins/SecurityInfo
-    url = https://github.com/piwik/plugin-SecurityInfo.git
+    url = https://github.com/matomo-org/plugin-SecurityInfo.git
     branch = master
 [submodule "plugins/TreemapVisualization"]
     path = plugins/TreemapVisualization
-    url = https://github.com/piwik/plugin-TreemapVisualization.git
+    url = https://github.com/matomo-org/plugin-TreemapVisualization.git
     branch = master
 [submodule "plugins/VisitorGenerator"]
     path = plugins/VisitorGenerator
-    url = https://github.com/piwik/plugin-VisitorGenerator.git
+    url = https://github.com/matomo-org/plugin-VisitorGenerator.git
     branch = master
 [submodule "plugins/CustomAlerts"]
     path = plugins/CustomAlerts
-    url = https://github.com/piwik/plugin-CustomAlerts.git
+    url = https://github.com/matomo-org/plugin-CustomAlerts.git
     branch = master
 [submodule "plugins/TasksTimetable"]
     path = plugins/TasksTimetable
-    url = https://github.com/piwik/plugin-TasksTimetable.git
+    url = https://github.com/matomo-org/plugin-TasksTimetable.git
     branch = master
 [submodule "plugins/LoginHttpAuth"]
     path = plugins/LoginHttpAuth
-    url = https://github.com/piwik/plugin-LoginHttpAuth.git
+    url = https://github.com/matomo-org/plugin-LoginHttpAuth.git
     branch = master
 [submodule "plugins/QueuedTracking"]
     path = plugins/QueuedTracking
-    url = https://github.com/piwik/plugin-QueuedTracking.git
+    url = https://github.com/matomo-org/plugin-QueuedTracking.git
     branch = master
 [submodule "tests/travis"]
     path = tests/travis
-    url = https://github.com/piwik/travis-scripts.git
+    url = https://github.com/matomo-org/travis-scripts.git
     branch = master
 [submodule "plugins/LogViewer"]
 	path = plugins/LogViewer
-	url = https://github.com/piwik/plugin-LogViewer.git
+	url = https://github.com/matomo-org/plugin-LogViewer.git
     branch = master
 [submodule "plugins/AnonymousPiwikUsageMeasurement"]
 	path = plugins/AnonymousPiwikUsageMeasurement
-	url = https://github.com/piwik/plugin-AnonymousPiwikUsageMeasurement.git
+	url = https://github.com/matomo-org/plugin-AnonymousPiwikUsageMeasurement.git
     branch = master
 [submodule "plugins/CustomDimensions"]
 	path = plugins/CustomDimensions
-	url = https://github.com/piwik/plugin-CustomDimensions.git
+	url = https://github.com/matomo-org/plugin-CustomDimensions.git
     branch = master
 [submodule "plugins/Bandwidth"]
 	path = plugins/Bandwidth
-	url = https://github.com/piwik/plugin-Bandwidth.git
+	url = https://github.com/matomo-org/plugin-Bandwidth.git
     branch = master
 [submodule "plugins/LoginLdap"]
 	path = plugins/LoginLdap
-	url = https://github.com/piwik/plugin-LoginLdap.git
+	url = https://github.com/matomo-org/plugin-LoginLdap.git
     branch = master
 [submodule "plugins/MarketingCampaignsReporting"]
 	path = plugins/MarketingCampaignsReporting
-	url = https://github.com/piwik/plugin-MarketingCampaignsReporting.git
+	url = https://github.com/matomo-org/plugin-MarketingCampaignsReporting.git
     branch = master
 
 # Add new Plugin submodule above this line ^^
 # 
 # Note: when you add a submodule that SHOULD be left in the packaged release such as the few submodules below,
 #       then you MUST add these submodules names in the SUBMODULES_PACKAGED_WITH_CORE variable in:
-#       https://github.com/piwik/piwik-package/blob/master/scripts/build-package.sh
+#       https://github.com/matomo-org/matomo-package/blob/master/scripts/build-package.sh
 [submodule "misc/log-analytics"]
     path = misc/log-analytics
-    url = https://github.com/piwik/piwik-log-analytics.git
+    url = https://github.com/matomo-org/matomo-log-analytics.git
     branch = master
 [submodule "plugins/Morpheus/icons"]
 	path = plugins/Morpheus/icons
-	url = https://github.com/piwik/piwik-icons.git
+	url = https://github.com/matomo-org/matomo-icons.git
 
 # Note: do not add new plugin submodules here, but a few lines above

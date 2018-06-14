@@ -1,3 +1,3 @@
-/* Piwik Javascript - cb={{{CACHE-BUSTER-JS}}}*/
+/* Matomo Javascript - cb={{{CACHE-BUSTER-JS}}}*/
 
 alert('test');

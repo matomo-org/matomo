@@ -22,11 +22,13 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class TrackerUpdaterTest extends IntegrationTestCase
 {
     private $dir;
+    private $piwikJsChangedEventPath = null;
 
     public function setUp()
     {
         parent::setUp();
         $this->dir = PIWIK_DOCUMENT_ROOT . '/plugins/CustomPiwikJs/tests/resources/';
+        $this->piwikJsChangedEventPath = null;
 
         $this->cleanUp();
     }
@@ -43,6 +45,11 @@ class TrackerUpdaterTest extends IntegrationTestCase
         $target = $this->dir . 'MyTestTarget.js';
         if (file_exists($target)) {
             unlink($target);
+        }
+
+        $nonExistentFile = $this->dir . 'MyNotExisIngFilessss.js';
+        if (file_exists($nonExistentFile)) {
+            unlink($nonExistentFile);
         }
     }
 
@@ -175,9 +182,10 @@ var myArray = [];
 
     public function test_update_shouldNotThrowAnError_IfTargetFileIsNotWritable()
     {
-        $updater = $this->makeUpdater(null, $this->dir . 'MyNotExisIngFilessss.js');
+        $updater = $this->makeUpdater(null, $this->dir . 'not-writable/MyNotExisIngFilessss.js');
         $updater->update();
         $this->assertTrue(true);
+        $this->assertNull($this->piwikJsChangedEventPath);
     }
 
     public function test_update_shouldNotWriteToFileIfThereIsNothingToChange()
@@ -191,6 +199,7 @@ var myArray = [];
         $updater->update();
 
         $this->assertSame(file_get_contents($source), file_get_contents($target));
+        $this->assertNull($this->piwikJsChangedEventPath);
     }
 
     public function test_update_targetFileIfPluginsDefineDifferentFiles()
@@ -221,6 +230,17 @@ var PiwikJs = "mytest";
 
 var myArray = [];
 ', file_get_contents($target));
+        $this->assertEquals($target, $this->piwikJsChangedEventPath);
     }
 
+    public function provideContainerConfig()
+    {
+        return [
+            'observers.global' => \DI\add([
+                ['CustomPiwikJs.piwikJsChanged', function ($path) {
+                    $this->piwikJsChangedEventPath = $path;
+                }],
+            ]),
+        ];
+    }
 }

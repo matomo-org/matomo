@@ -5,7 +5,7 @@
         "EmailReports": "E-pasta atskaites",
         "FrontPage": "Pirmā lapa",
         "Pagination": "%1$s. lapa no %2$s",
-        "PiwikReports": "Piwik atskaites",
+        "PiwikReports": "Matomo atskaites",
         "ReportFormat": "Atskaites formāts",
         "ReportsIncluded": "Iekļautā statistika",
         "SendReportNow": "Sūtīt atskaiti tagad",

@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "Du måste vara inloggad för att skapa och schemalägga anpassade rapporter.",
         "NoRecipients": "Rapporten har ingen mottagare",
         "Pagination": "Sida %1$s av %2$s",
-        "PiwikReports": "Piwik Rapporter",
+        "PiwikReports": "Matomo Rapporter",
         "PleaseFindAttachedFile": "Se din %1$s-rapport för %2$s i den bifogade filen.",
         "SentFromX": "Skickat från %s.",
         "PleaseFindBelow": "Nedan hittar du din %1$s rapport för %2$s.",
@@ -43,7 +43,7 @@
         "SentToMe": "Skicka rapport till mig",
         "TableOfContent": "Rapportlista",
         "ThereIsNoReportToManage": "Det finns ingen rapport att hantera för webbplatsen %s",
-        "TopLinkTooltip": "Skapa e-postrapporter för att få statistik från Piwik skickat till din e-post eller dina kunders adresser automatiskt!",
+        "TopLinkTooltip": "Skapa e-postrapporter för att få statistik från Matomo skickat till din e-post eller dina kunders adresser automatiskt!",
         "TopOfReport": "Tillbaka till toppen",
         "UpdateReport": "Uppdatera rapport",
         "WeeklyScheduleHelp": "Veckans schema: rapporten kommer att skickas ut den första måndagen i varje vecka."

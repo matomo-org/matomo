@@ -23,7 +23,7 @@
         "SearchEnginesDocumentation": "O visitante foi referenciado para o seu website a partir de um motor de busca. %1$s Veja o relatório %2$s para mais detalhes.",
         "SearchEnginesReportDocumentation": "Este relatório mostra quais os motores de pesquisa que referenciaram utilizadores para o seu website. %s Ao clicar numa linha da tabela pode ver o que os utilizadores pesquisaram num motor de pesquisa específico.",
         "SubmenuSearchEngines": "Motores de Buscas & Palvras Chaves",
-        "SubmenuWebsites": "Websites",
+        "SubmenuWebsitesOnly": "Websites",
         "Type": "Tipo de Referente",
         "TypeCampaigns": "%s de campanhas",
         "TypeDirectEntries": "%s entradas directas",

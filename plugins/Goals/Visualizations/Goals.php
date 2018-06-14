@@ -48,7 +48,7 @@ class Goals extends HtmlTable
         if (1 == Common::getRequestVar('documentationForGoalsPage', 0, 'int')) {
             // TODO: should not use query parameter
             $this->config->documentation = Piwik::translate('Goals_ConversionByTypeReportDocumentation',
-                array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" rel="noreferrer"  target="_blank">', '</a>'));
+                array('<br />', '<br />', '<a href="https://matomo.org/docs/tracking-goals-web-analytics/" rel="noreferrer"  target="_blank">', '</a>'));
         }
 
         parent::beforeRender();

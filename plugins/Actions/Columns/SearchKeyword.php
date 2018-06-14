@@ -8,23 +8,27 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
-use Piwik\Piwik;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
 use Piwik\Plugin\Dimension\ActionDimension;
-use Piwik\Plugins\Actions\Segment;
+use Piwik\Tracker\Action;
 
 class SearchKeyword extends ActionDimension
 {
-    protected function configureSegments()
+    protected $columnName = 'idaction_name';
+    protected $segmentName = 'siteSearchKeyword';
+    protected $nameSingular = 'Actions_SiteSearchKeyword';
+    protected $namePlural = 'Actions_SiteSearchKeywords';
+    protected $type = self::TYPE_TEXT;
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
+
+    public function getDbColumnJoin()
     {
-        $segment = new Segment();
-        $segment->setSegment('siteSearchKeyword');
-        $segment->setName('Actions_SiteSearchKeyword');
-        $segment->setSqlSegment('log_link_visit_action.idaction_name');
-        $this->addSegment($segment);
+        return new ActionNameJoin();
     }
 
-    public function getName()
+    public function getDbDiscriminator()
     {
-        return Piwik::translate('General_ColumnKeyword');
+        return new Discriminator('log_action', 'type', Action::TYPE_SITE_SEARCH);
     }
 }

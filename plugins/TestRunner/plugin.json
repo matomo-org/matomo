@@ -1,16 +1,16 @@
 {
     "name": "TestRunner",
     "version": "0.1.0",
-    "description": "Developer tool that lets you run Piwik automated tests suite. Only needed in development.",
+    "description": "Developer tool that lets you run the automated tests suite. Only needed in development.",
     "theme": false,
     "require": {
         "piwik": ">=2.9.0"
     },
     "authors": [
         {
-            "name": "Piwik",
-            "email": "hello@piwik.org",
-            "homepage": "http:\/\/piwik.org"
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "http:\/\/matomo.org"
         }
     ],
     "license": "GPL v3+",
@@ -18,5 +18,5 @@
         "test",
         "runner"
     ],
-    "homepage": "http:\/\/piwik.org"
+    "homepage": "http:\/\/matomo.org"
 }

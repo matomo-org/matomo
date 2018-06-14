@@ -175,7 +175,7 @@ class Visit implements VisitInterface
         }
 
         // update the cookie with the new visit information
-        $this->request->setThirdPartyCookie($this->visitProperties->getProperty('idvisitor'));
+        $this->request->setThirdPartyCookie($this->request->getVisitorIdForThirdPartyCookie());
 
         foreach ($this->requestProcessors as $processor) {
             Common::printDebug("Executing " . get_class($processor) . "::recordLogs()...");
@@ -369,7 +369,7 @@ class Visit implements VisitInterface
         }
 
         $idSite = $this->request->getIdSite();
-        $idVisit = (int)$this->visitProperties->getProperty('idvisit');
+        $idVisit = $this->visitProperties->getProperty('idvisit');
 
         $wasInserted = $this->getModel()->updateVisit($idSite, $idVisit, $valuesToUpdate);
 

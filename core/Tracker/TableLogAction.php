@@ -24,7 +24,7 @@ use Piwik\Segment\SegmentExpression;
 class TableLogAction
 {
     /**
-     * This function will find the idaction from the lookup table piwik_log_action,
+     * This function will find the idaction from the lookup table log_action,
      * given an Action name, type, and an optional URL Prefix.
      *
      * This is used to record Page URLs, Page Titles, Ecommerce items SKUs, item names, item categories
@@ -180,7 +180,7 @@ class TableLogAction
             $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE type = ' . $actionType . ' )';
         } else {
             $actionType = self::guessActionTypeFromSegment($segmentName);
-            if ($actionType == Action::TYPE_PAGE_URL) {
+            if ($actionType == Action::TYPE_PAGE_URL || $segmentName == 'eventUrl') {
                 // for urls trim protocol and www because it is not recorded in the db
                 $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
             }
@@ -217,6 +217,7 @@ class TableLogAction
         $exactMatch = array(
             'outlinkUrl'         => Action::TYPE_OUTLINK,
             'downloadUrl'        => Action::TYPE_DOWNLOAD,
+            'eventUrl'           => Action::TYPE_EVENT,
             'eventAction'        => Action::TYPE_EVENT_ACTION,
             'eventCategory'      => Action::TYPE_EVENT_CATEGORY,
             'eventName'          => Action::TYPE_EVENT_NAME,

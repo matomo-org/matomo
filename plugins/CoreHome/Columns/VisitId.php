@@ -8,7 +8,10 @@
 
 namespace Piwik\Plugins\CoreHome\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\MetricsList;
 use Piwik\Piwik;
+use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 
@@ -18,18 +21,28 @@ use Piwik\Plugin\Segment;
  */
 class VisitId extends VisitDimension
 {
+    protected $columnName = 'idvisit';
+    protected $acceptValues = 'Any integer.';
+    protected $nameSingular = 'General_Visit';
+    protected $namePlural = 'General_ColumnNbVisits';
+    protected $segmentName = 'visitId';
+    protected $allowAnonymous = false;
+    protected $metricId = 'visits';
+    protected $type = self::TYPE_TEXT;
+
     protected function configureSegments()
     {
-        parent::configureSegments();
-
         $segment = new Segment();
-        $segment->setType('dimension');
-        $segment->setCategory(Piwik::translate('General_Visit'));
-        $segment->setName(Piwik::translate('General_Visit') . " ID");
-        $segment->setSegment('visitId');
-        $segment->setAcceptedValues('Any integer.');
-        $segment->setSqlSegment('log_visit.idvisit');
-        $segment->setRequiresAtLeastViewAccess(true);
+        $segment->setName('General_VisitId');
         $this->addSegment($segment);
+    }
+
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
+    {
+        $metric = $dimensionMetricFactory->createMetric(ArchivedMetric::AGGREGATION_UNIQUE);
+        $metric->setTranslatedName(Piwik::translate('General_ColumnNbVisits'));
+        $metric->setDocumentation(Piwik::translate('General_ColumnNbVisitsDocumentation'));
+        $metric->setName('nb_visits');
+        $metricsList->addMetric($metric);
     }
 }

@@ -1,5 +1,6 @@
 {
     "Transitions": {
-        "FromPreviousSiteSearches": "Iš vidinės paieškos"
+        "FromPreviousSiteSearches": "Iš vidinės paieškos",
+        "ToFollowingSiteSearches": "Vidinės paieškos"
     }
 }

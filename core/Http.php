@@ -213,7 +213,7 @@ class Http
                 throw new Exception('Invalid protocol/scheme: ' . $url['scheme']);
             }
             $host = $url['host'];
-            $port = isset($url['port']) ? $url['port'] : 80;
+            $port = isset($url['port']) ? $url['port'] : ('https' == $url['scheme'] ? 443 : 80);
             $path = isset($url['path']) ? $url['path'] : '/';
             if (isset($url['query'])) {
                 $path .= '?' . $url['query'];
@@ -241,6 +241,10 @@ class Http
                 $connectHost = $host;
                 $connectPort = $port;
                 $requestHeader = "$httpMethod $path HTTP/$httpVer\r\n";
+
+                if ('https' == $url['scheme']) {
+                    $connectHost = 'ssl://' . $connectHost;
+                }
             }
 
             // connection attempt
@@ -258,7 +262,7 @@ class Http
 
             // send HTTP request header
             $requestHeader .=
-                "Host: $host" . ($port != 80 ? ':' . $port : '') . "\r\n"
+                "Host: $host" . ($port != 80 && ('https' == $url['scheme'] && $port != 443) ? ':' . $port : '') . "\r\n"
                 . ($httpAuth ? $httpAuth : '')
                 . ($proxyAuth ? $proxyAuth : '')
                 . 'User-Agent: ' . $userAgent . "\r\n"
@@ -651,7 +655,7 @@ class Http
     /**
      * Downloads the next chunk of a specific file. The next chunk's byte range
      * is determined by the existing file's size and the expected file size, which
-     * is stored in the piwik_option table before starting a download. The expected
+     * is stored in the option table before starting a download. The expected
      * file size is obtained through a `HEAD` HTTP request.
      *
      * _Note: this function uses the **Range** HTTP header to accomplish downloading in

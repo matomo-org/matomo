@@ -84,13 +84,13 @@ class GeneratePlugin extends GeneratePluginBase
         if ($isTheme) {
             $this->writeSuccessMessage($output, array(
                 sprintf('Theme %s %s generated.', $pluginName, $version),
-                'If you have not done yet check out our Theming guide <comment>http://developer.piwik.org/guides/theming</comment>',
+                'If you have not done yet check out our Theming guide <comment>https://developer.matomo.org/guides/theming</comment>',
                 'Enjoy!'
             ));
         } else {
             $this->writeSuccessMessage($output, array(
                 sprintf('Plugin %s %s generated.', $pluginName, $version),
-                'Our developer guides will help you developing this plugin, check out <comment>http://developer.piwik.org/guides</comment>',
+                'Our developer guides will help you developing this plugin, check out <comment>https://developer.matomo.org/guides</comment>',
                 'To see a list of available generators execute <comment>./console list generate</comment>',
                 'Enjoy!'
             ));

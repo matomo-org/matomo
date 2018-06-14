@@ -1,14 +1,18 @@
 {
     "Actions": {
         "ColumnClickedURL": "조회한 URL",
+        "ColumnClickedURLs": "조회한 URL들",
         "ColumnActionURL": "활동 URL",
         "ColumnClicks": "조회수",
         "ColumnClicksDocumentation": "이 링크를 클릭 한 횟수입니다.",
         "ColumnDownloadURL": "다운로드 URL",
+        "ColumnDownloadURLs": "다운로드 URL들",
         "ColumnEntryPageTitle": "진입 페이지 제목",
         "ColumnEntryPageURL": "진입 페이지 URL",
+        "ColumnEntryPageURLs": "진입 페이지 URL들",
         "ColumnExitPageTitle": "이탈 페이지 제목",
         "ColumnExitPageURL": "이탈 페이지 URL",
+        "ColumnExitPageURLs": "이탈 페이지 URL들",
         "ColumnNoResultKeyword": "검색 결과 없음",
         "ColumnPageName": "페이지 이름",
         "ColumnPagesPerSearch": "검색 결과 페이지",
@@ -27,7 +31,7 @@
         "ColumnUniqueOutlinks": "고유한 외부 링크 수",
         "ColumnIdPageview": "페이지뷰 아이디",
         "ColumnInteractionPosition": "상호작용 위치",
-        "DownloadsReportDocumentation": "이 보고서는 방문자가 어떤 파일을 다운로드했는지에 대한 정보입니다. %s Piwik는 다운로드 링크의 클릭 수를 계산합니다. 하지만 다운로드가 완료되었는지 여부는 확인할 수 없습니다.",
+        "DownloadsReportDocumentation": "이 보고서는 방문자가 어떤 파일을 다운로드했는지에 대한 정보입니다. %s Matomo는 다운로드 링크의 클릭 수를 계산합니다. 하지만 다운로드가 완료되었는지 여부는 확인할 수 없습니다.",
         "EntryPageTitles": "진입 페이지 제목",
         "EntryPageTitlesReportDocumentation": "이 보고서는 기간별 진입 페이지 제목에 대한 정보입니다.",
         "ExitPageTitles": "이탈 페이지 제목",
@@ -61,6 +65,7 @@
         "WidgetSearchCategories": "검색 카테고리",
         "WidgetSearchKeywords": "사이트 검색어",
         "WidgetSearchNoResultKeywords": "검색 결과 없음",
-        "ActionType": "활동 종류"
+        "ActionType": "활동 종류",
+        "ActionTypes": "활동 종류들"
     }
 }

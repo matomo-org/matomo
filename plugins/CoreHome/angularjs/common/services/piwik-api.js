@@ -72,7 +72,10 @@ var hasBlockedContent = false;
                     id: 'ajaxHelper',
                     placeat: options.placeat
                 });
-                notification.scrollToNotification();
+                setTimeout(function () {
+                    // give some time for angular to render it
+                    notification.scrollToNotification();
+                }, 100);
             }
         }
 
@@ -168,8 +171,12 @@ var hasBlockedContent = false;
             var request = addAbortMethod(promise, deferred);
 
             allRequests.push(request);
-
-            return request;
+            return request.finally(function() {
+                var index = allRequests.indexOf(request);
+                if (index !== -1) {
+                    allRequests.splice(index, 1);
+                }
+            });
         }
 
         /**
@@ -214,7 +221,7 @@ var hasBlockedContent = false;
             }
 
             for (var key in defaultParams) {
-                if (!getParamsToMixin[key] && !postParams[key] && defaultParams[key]) {
+                if (!(key in getParamsToMixin) && !(key in postParams) && defaultParams[key]) {
                     getParamsToMixin[key] = defaultParams[key];
                 }
             }

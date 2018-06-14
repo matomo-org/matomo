@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\SettingsPiwik;
 use Piwik\View;
 
 /**
@@ -135,6 +136,11 @@ class TrackerCodeGenerator
             'loadAsync'               => true,
             'trackNoScript'           => $trackNoScript
         );
+
+        if (SettingsPiwik::isHttpsForced()) {
+            $codeImpl['protocol'] = 'https://';
+        }
+
         $parameters = compact('mergeSubdomains', 'groupPageTitlesByDomain', 'mergeAliasUrls', 'visitorCustomVariables',
             'pageCustomVariables', 'customCampaignNameQueryParam', 'customCampaignKeywordParam',
             'doNotTrack');
@@ -169,14 +175,14 @@ class TrackerCodeGenerator
             $setTrackerUrl = 'var u=((document.location.protocol === "https:") ? "https://{$httpsPiwikUrl}/" : "http://{$piwikUrl}/");';
             $codeImpl['httpsPiwikUrl'] = rtrim($codeImpl['httpsPiwikUrl'], "/");
         }
-        $codeImpl = array('setTrackerUrl' => htmlentities($setTrackerUrl)) + $codeImpl;
+        $codeImpl = array('setTrackerUrl' => htmlentities($setTrackerUrl, ENT_COMPAT | ENT_HTML401, 'UTF-8')) + $codeImpl;
 
         $view = new View('@Morpheus/javascriptCode');
         $view->disableCacheBuster();
         $view->loadAsync = $codeImpl['loadAsync'];
         $view->trackNoScript = $codeImpl['trackNoScript'];
         $jsCode = $view->render();
-        $jsCode = htmlentities($jsCode);
+        $jsCode = htmlentities($jsCode, ENT_COMPAT | ENT_HTML401, 'UTF-8');
 
         foreach ($codeImpl as $keyToReplace => $replaceWith) {
             $jsCode = str_replace('{$' . $keyToReplace . '}', $replaceWith, $jsCode);

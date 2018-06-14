@@ -14,24 +14,39 @@ use Piwik\Plugins\RssWidget\RssRenderer;
 
 class RssPiwik extends \Piwik\Widget\Widget
 {
+    public static function getCategory()
+    {
+        return 'About Matomo';
+    }
+
+    public static function getName()
+    {
+        return 'Matomo.org Blog';
+    }
+
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('About Piwik');
-        $config->setName('Piwik.org Blog');
+        $config->setCategoryId(self::getCategory());
+        $config->setName(self::getName());
+    }
+
+    private function getFeed($URL){
+        $rss = new RssRenderer($URL);
+        $rss->showDescription(true);
+        return $rss->get();
     }
 
     public function render()
     {
         try {
-            $rss = new RssRenderer('http://feeds.feedburner.com/Piwik');
-            $rss->showDescription(true);
-
-            return $rss->get();
-
+            return $this->getFeed('https://feeds.feedburner.com/Piwik');
         } catch (\Exception $e) {
-
-            return $this->error($e);
-        }
+            try {
+                return $this->getFeed('http://feeds.feedburner.com/Piwik');
+            } catch (\Exception $e) {
+                return $this->error($e);
+            }
+        }  
     }
 
     /**

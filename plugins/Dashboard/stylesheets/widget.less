@@ -53,10 +53,10 @@
             float: right;
         }
         .buttons {
+            right: 8px;
             float: right;
             position: absolute;
             padding-left: 50px;
-            right: 8px;
             display: none;
             color: @theme-color-widget-title-text;
             background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
@@ -64,7 +64,7 @@
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, @theme-color-widget-title-background 45px);
             filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='@{theme-color-widget-title-background}',GradientType=1 );
         }
-
+        
         &:hover .buttons {
             display:block;
         }
@@ -87,6 +87,7 @@
         /** We do not want to show a material-card in a widget which is already a card */
         .card {
             box-shadow: 0 0;
+            padding: 0 10px;
 
             .card-content {
                 padding: 0;
@@ -95,6 +96,9 @@
         }
         .jqplot-graph {
             margin-top: 6px;
+        }
+        .sparkline {
+            padding: 0 10px;
         }
     }
 
@@ -140,10 +144,24 @@
   background-color: @theme-color-widget-background;
 }
 
-.widget .datatableFooterMessage {
-  padding-left: 12px;
+.widget {
+  .datatableHeaderMessage, .datatableFooterMessage {
+    padding-left: 12px;
+  }
 }
 
 .bar-graph-colors[data-name=grid-background] {
     color: @theme-color-widget-background !important;
+}
+
+
+.widgetoverlay {
+  .widget, .ui-dialog-content {
+      position: static;
+  }
+}
+
+
+.ui-dialog .widget .widgetTop .buttons {
+    right: 25px;
 }

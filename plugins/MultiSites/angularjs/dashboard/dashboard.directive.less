@@ -43,10 +43,28 @@
     padding-bottom: 5px;
   }
 
+  @media print{
+    .add_new_site{
+      display: none;
+    }
+
+    .row .col.s6{
+      width: 100%;
+    }
+
+    .row .col.s3{
+      display: none;
+    }
+
+  }
+
   .site_search {
     padding: 0;
     text-align: center;
     border: 0 !important;
+    @media print{
+      display: none;
+    }
   }
 
   .multisites-evolution,
@@ -134,6 +152,11 @@
   td.multisites-label {
     text-align: left;
     width: 250px;
+    max-width: 250px;
+
+    a {
+      width: auto;
+    }
   }
   td.multisites-label a:hover {
     text-decoration: underline;

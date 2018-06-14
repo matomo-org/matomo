@@ -9,9 +9,10 @@
 
     {{ ajax.errorDiv() }}
     {{ ajax.loadingDiv() }}
-<div piwik-content-block content-title="{{ 'CoreAdminHome_ArchivingSettings'|translate|e('html_attr') }}">
-    <div ng-controller="ArchivingController as archivingSettings">
-        {% if isGeneralSettingsAdminEnabled %}
+
+{% if isGeneralSettingsAdminEnabled %}
+    <div piwik-content-block content-title="{{ 'CoreAdminHome_ArchivingSettings'|translate|e('html_attr') }}">
+        <div ng-controller="ArchivingController as archivingSettings">
             <div class="form-group row">
                 <h3 class="col s12">{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate }}</h3>
                 <div class="col s12 m6">
@@ -33,58 +34,49 @@
 
                     <label for="enableBrowserTriggerArchiving2">
                         {{ 'General_No'|translate }}
-                        <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}</span>
+                        <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=https://matomo.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}</span>
                     </label>
                     </p>
                 </div><div class="col s12 m6">
                     <div class="form-help">
                         {{ 'General_ArchivingInlineHelp'|translate }}
                         <br/>
-                        {{ 'General_SeeTheOfficialDocumentationForMoreInformation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}
+                        {{ 'General_SeeTheOfficialDocumentationForMoreInformation'|translate("<a href='?module=Proxy&action=redirect&url=https://matomo.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}
                     </div>
                 </div>
             </div>
-        {% else %}
-            <div piwik-field uicontrol="radio" name="mailUseSmtp"
-                 disabled="true"
-                 introduction="{{ 'General_AllowPiwikArchivingToTriggerBrowser'|translate|e('html_attr') }}"
-                 title="{{ 'General_Yes'|translate|e('html_attr') }}"
-                 value="1">
-            </div>
-        {% endif %}
 
-        <div class="form-group row">
-            <h3 class="col s12">
-                {{ 'General_ReportsContainingTodayWillBeProcessedAtMostEvery'|translate }}
-            </h3>
-            <div class="input-field col s12 m6">
-                <input  type="text" value='{{ todayArchiveTimeToLive  }}' id='todayArchiveTimeToLive' {% if not isGeneralSettingsAdminEnabled %}disabled="disabled"{% endif %} />
-                <span class="form-description">
-                    {{ 'General_RearchiveTimeIntervalOnlyForTodayReports'|translate }}
-                </span>
+            <div class="form-group row">
+                <h3 class="col s12">
+                    {{ 'General_ReportsContainingTodayWillBeProcessedAtMostEvery'|translate }}
+                </h3>
+                <div class="input-field col s12 m6">
+                    <input  type="text" value='{{ todayArchiveTimeToLive  }}' id='todayArchiveTimeToLive' {% if not isGeneralSettingsAdminEnabled %}disabled="disabled"{% endif %} />
+                    <span class="form-description">
+                        {{ 'General_RearchiveTimeIntervalOnlyForTodayReports'|translate }}
+                    </span>
+                </div>
+                <div class="col s12 m6">
+                    {% if isGeneralSettingsAdminEnabled %}
+                        <div class="form-help">
+                            {% if showWarningCron %}
+                                <strong>
+                                    {{ 'General_NewReportsWillBeProcessedByCron'|translate }}<br/>
+                                    {{ 'General_ReportsWillBeProcessedAtMostEveryHour'|translate }}
+                                    {{ 'General_IfArchivingIsFastYouCanSetupCronRunMoreOften'|translate }}<br/>
+                                </strong>
+                            {% endif %}
+                            {{ 'General_SmallTrafficYouCanLeaveDefault'|translate( todayArchiveTimeToLiveDefault ) }}
+                            <br/>
+                            {{ 'General_MediumToHighTrafficItIsRecommendedTo'|translate(1800,3600) }}
+                        </div>
+                    {% endif %}
+                </div>
             </div>
-            <div class="col s12 m6">
-                {% if isGeneralSettingsAdminEnabled %}
-                    <div class="form-help">
-                        {% if showWarningCron %}
-                            <strong>
-                                {{ 'General_NewReportsWillBeProcessedByCron'|translate }}<br/>
-                                {{ 'General_ReportsWillBeProcessedAtMostEveryHour'|translate }}
-                                {{ 'General_IfArchivingIsFastYouCanSetupCronRunMoreOften'|translate }}<br/>
-                            </strong>
-                        {% endif %}
-                        {{ 'General_SmallTrafficYouCanLeaveDefault'|translate( todayArchiveTimeToLiveDefault ) }}
-                        <br/>
-                        {{ 'General_MediumToHighTrafficItIsRecommendedTo'|translate(1800,3600) }}
-                    </div>
-                {% endif %}
-            </div>
+
+            <div onconfirm="archivingSettings.save()" saving="archivingSettings.isLoading" piwik-save-button></div>
         </div>
-
-        <div onconfirm="archivingSettings.save()" saving="archivingSettings.isLoading" piwik-save-button></div>
     </div>
-</div>
-{% if isGeneralSettingsAdminEnabled %}
     <div piwik-content-block content-title="{{ 'CoreAdminHome_EmailServerSettings'|translate|e('html_attr') }}">
 
         <div piwik-form ng-controller="MailSmtpController as mailSettings">
@@ -120,7 +112,8 @@
                 <div piwik-field uicontrol="text" name="mailUsername"
                      ng-model="mailSettings.mailUsername"
                      title="{{ 'General_SmtpUsername'|translate|e('html_attr') }}"
-                     value="{{ mail.username }}" inline-help="{{ 'General_OnlyEnterIfRequired'|translate|e('html_attr') }}">
+                     value="{{ mail.username }}" inline-help="{{ 'General_OnlyEnterIfRequired'|translate|e('html_attr') }}"
+                     autocomplete="off">
                 </div>
 
                 {% set help -%}
@@ -132,7 +125,8 @@
                      ng-model="mailSettings.mailPassword"
                      ng-change="mailSettings.passwordChanged = true"
                      title="{{ 'General_SmtpPassword'|translate|e('html_attr') }}"
-                     value="{{ mail.password ? '******' }}" inline-help="{{ help|e('html_attr') }}">
+                     value="{{ mail.password ? '******' }}" inline-help="{{ help|e('html_attr') }}"
+                     autocomplete="off">
                 </div>
 
                 <div piwik-field uicontrol="select" name="mailEncryption"

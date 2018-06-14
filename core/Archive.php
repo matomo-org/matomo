@@ -8,12 +8,13 @@
  */
 namespace Piwik;
 
+use Piwik\Archive\ArchiveQuery;
+use Piwik\Archive\ArchiveQueryFactory;
 use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveSelector;
-use Piwik\Period\Factory as PeriodFactory;
 
 /**
  * The **Archive** class is used to query cached analytics statistics
@@ -106,7 +107,7 @@ use Piwik\Period\Factory as PeriodFactory;
  *
  * @api
  */
-class Archive
+class Archive implements ArchiveQuery
 {
     const REQUEST_ALL_WEBSITES_FLAG = 'all';
     const ARCHIVE_ALL_PLUGINS_FLAG = 'all';
@@ -176,7 +177,7 @@ class Archive
      * @param bool $forceIndexedBySite Whether to force index the result of a query by site ID.
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
      */
-    protected function __construct(Parameters $params, $forceIndexedBySite = false,
+    public function __construct(Parameters $params, $forceIndexedBySite = false,
                                    $forceIndexedByDate = false)
     {
         $this->params = $params;
@@ -203,30 +204,12 @@ class Archive
      *                             or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD').
      * @param bool|false|string $segment Segment definition or false if no segment should be used. {@link Piwik\Segment}
      * @param bool|false|string $_restrictSitesToLogin Used only when running as a scheduled task.
-     * @return static
+     * @return ArchiveQuery
      */
     public static function build($idSites, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
     {
-        $websiteIds = Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
-
-        $timezone = false;
-        if (count($websiteIds) == 1) {
-            $timezone = Site::getTimezoneFor($websiteIds[0]);
-        }
-
-        if (Period::isMultiplePeriod($strDate, $period)) {
-            $oPeriod    = PeriodFactory::build($period, $strDate, $timezone);
-            $allPeriods = $oPeriod->getSubperiods();
-        } else {
-            $oPeriod    = PeriodFactory::makePeriodFromQueryParams($timezone, $period, $strDate);
-            $allPeriods = array($oPeriod);
-        }
-
-        $segment        = new Segment($segment, $websiteIds);
-        $idSiteIsAll    = $idSites == self::REQUEST_ALL_WEBSITES_FLAG;
-        $isMultipleDate = Period::isMultiplePeriod($strDate, $period);
-
-        return static::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll, $isMultipleDate);
+        return StaticContainer::get(ArchiveQueryFactory::class)->build($idSites, $period, $strDate, $segment,
+            $_restrictSitesToLogin);
     }
 
     /**
@@ -249,24 +232,13 @@ class Archive
      *                             the result of querying functions will be indexed by period,
      *                             regardless of whether `count($periods) == 1`.
      *
-     * @return Archive
+     * @return ArchiveQuery
      */
-    public static function factory(Segment $segment, array $periods, array $idSites, $idSiteIsAll = false, $isMultipleDate = false)
+    public static function factory(Segment $segment, array $periods, array $idSites, $idSiteIsAll = false,
+                                   $isMultipleDate = false)
     {
-        $forceIndexedBySite = false;
-        $forceIndexedByDate = false;
-
-        if ($idSiteIsAll || count($idSites) > 1) {
-            $forceIndexedBySite = true;
-        }
-
-        if (count($periods) > 1 || $isMultipleDate) {
-            $forceIndexedByDate = true;
-        }
-
-        $params = new Parameters($idSites, $periods, $segment);
-
-        return new static($params, $forceIndexedBySite, $forceIndexedByDate);
+        return StaticContainer::get(ArchiveQueryFactory::class)->factory($segment, $periods, $idSites, $idSiteIsAll,
+            $isMultipleDate);
     }
 
     /**
@@ -838,7 +810,7 @@ class Archive
      * @throws \Exception If a plugin cannot be found or if the plugin for the report isn't
      *                    activated.
      */
-    private static function getPluginForReport($report)
+    public static function getPluginForReport($report)
     {
         // Core metrics are always processed in Core, for the requested date/period/segment
         if (in_array($report, Metrics::getVisitsMetricNames())) {

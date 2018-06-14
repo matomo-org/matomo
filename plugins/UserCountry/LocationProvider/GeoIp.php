@@ -10,6 +10,7 @@ namespace Piwik\Plugins\UserCountry\LocationProvider;
 
 use Exception;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\UserCountry\LocationProvider;
 
 /**
@@ -54,7 +55,6 @@ abstract class GeoIp extends LocationProvider
      */
     public function completeLocationResult(&$location)
     {
-        $this->fixupLocation($location);
         parent::completeLocationResult($location);
 
         // set region name if region code is set
@@ -68,19 +68,9 @@ abstract class GeoIp extends LocationProvider
         }
     }
 
-    /**
-     * Fix up data to work with our SVG maps which include 'Tib' boundaries
-     */
-    protected function fixupLocation(&$location)
+    public function isVisible()
     {
-        if (!empty($location[self::REGION_CODE_KEY])
-            && $location[self::REGION_CODE_KEY] == '14'
-            && !empty($location[self::COUNTRY_CODE_KEY])
-            && strtoupper($location[self::COUNTRY_CODE_KEY]) == 'CN'
-        ) {
-            $location[self::COUNTRY_CODE_KEY] = 'ti';
-            $location[self::REGION_CODE_KEY] = '1';
-        }
+        return !Manager::getInstance()->isPluginActivated('GeoIp2') || self::getCurrentProvider() instanceof GeoIp;
     }
 
     /**
@@ -154,6 +144,12 @@ abstract class GeoIp extends LocationProvider
 
         $countryCode = strtoupper($countryCode);
         $regionCode = strtoupper($regionCode);
+
+        // ensure tibet is shown as region of china
+        if ($countryCode == 'TI' && $regionCode == '1') {
+            $regionCode = '14';
+            $countryCode = 'CN';
+        }
 
         if (isset($regionNames[$countryCode][$regionCode])) {
             return $regionNames[$countryCode][$regionCode];

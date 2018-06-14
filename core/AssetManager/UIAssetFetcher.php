@@ -106,7 +106,7 @@ abstract class UIAssetFetcher
     private function getBaseDirectory()
     {
         // served by web server directly, so must be a public path
-        return PIWIK_USER_PATH;
+        return PIWIK_DOCUMENT_ROOT;
     }
 
     /**

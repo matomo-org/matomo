@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<result>&lt;!-- Piwik --&gt;
+<result>&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
   var _paq = _paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
@@ -13,5 +13,5 @@
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
-&lt;!-- End Piwik Code --&gt;
+&lt;!-- End Matomo Code --&gt;
 </result>

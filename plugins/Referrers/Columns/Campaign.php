@@ -24,15 +24,11 @@ class Campaign extends Base
      * @var bool
      */
     protected $createNewVisitWhenCampaignChanges;
+    protected $nameSingular = 'Referrers_ColumnCampaign';
 
     public function __construct()
     {
         $this->createNewVisitWhenCampaignChanges = TrackerConfig::getConfigValue('create_new_visit_when_campaign_changes') == 1;
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('Referrers_ColumnCampaign');
     }
 
     /**

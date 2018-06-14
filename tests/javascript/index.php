@@ -47,6 +47,12 @@ function getContentToken() {
 function getHeartbeatToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getConsentToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
+function getOptInToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 <?php
 
 if ($mysql) {
@@ -77,6 +83,14 @@ testTrackPageViewAsync();
  <script src="piwiktest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
  <link rel="stylesheet" href="jash/Jash.css" type="text/css" media="screen" />
+
+    <?php
+    include_once $root . '/core/Filesystem.php';
+    $files = \Piwik\Filesystem::globr($root . '/plugins/*/tests/javascript', 'head.php');
+    foreach ($files as $file) {
+        include_once $file;
+    }
+    ?>
 <style>
     .assertSize {
         height: 1px;
@@ -113,7 +127,7 @@ function _e(id){
  }
 
 function _s(selector) { // select node within content test scope
- $nodes = $('#contenttest ' + selector);
+ var $nodes = $('#contenttest ' + selector);
  if ($nodes.length) {
      return $nodes[0];
  } else {
@@ -354,6 +368,16 @@ function deleteCookies() {
     }
 }
 
+function mockDateMethods() {
+    var oldGetTime = Date.prototype.getTime;
+    Date.prototype.getTime = function getTime() {
+        if (mockNowValue) {
+            return mockNowValue;
+        }
+        return oldGetTime.apply(this, [].slice.call(arguments));
+    };
+}
+
 var contentTestHtml = {};
 
  function removeContentTrackingFixture()
@@ -420,8 +444,8 @@ function setupContentTrackingFixture(name, targetNode) {
   <div id="clickDiv"></div>
  </div>
  <map name="map">
-     <area id="area1" shape="rect" coords="0,0,10,10" href="img.jpg" alt="Piwik">
-     <area shape="circle" coords="10,10,10,20" href="img2.jpg" alt="Piwik2">
+     <area id="area1" shape="rect" coords="0,0,10,10" href="img.jpg" alt="Matomo">
+     <area shape="circle" coords="10,10,10,20" href="img2.jpg" alt="Matomo2">
  </map>
 
  <ol id="qunit-tests"></ol>
@@ -442,15 +466,17 @@ function setupContentTrackingFixture(name, targetNode) {
      })();
  }
 
+var mockNowValue = null;
 var hasLoaded = false;
 function PiwikTest() {
     hasLoaded = true;
 
     module('externals');
 
-
     // Delete cookies to prevent cookie store from impacting tests
     deleteCookies();
+
+    mockDateMethods();
 
     test("JSLint", function() {
         expect(1);
@@ -602,9 +628,11 @@ function PiwikTest() {
 
     module("core", {
         setup: function () {
+            mockNowValue = null;
             Piwik.getTracker().clearTrackedContentImpressions();
         },
         teardown: function () {
+            mockNowValue = null;
             $('#other #content').remove();
         }
     });
@@ -2104,7 +2132,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(88);
+        expect(100);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2131,6 +2159,7 @@ function PiwikTest() {
         equal( typeof tracker.getCurrentUrl, 'function', 'getCurrentUrl' );
         equal( typeof tracker.getRequest, 'function', 'getRequest' );
         equal( typeof tracker.addPlugin, 'function', 'addPlugin' );
+        equal( typeof tracker.resetUserId, 'function', 'resetUserId' );
         equal( typeof tracker.setUserId, 'function', 'setUserId' );
         equal( typeof tracker.setSiteId, 'function', 'setSiteId' );
         equal( typeof tracker.setCustomData, 'function', 'setCustomData' );
@@ -2153,6 +2182,7 @@ function PiwikTest() {
         equal( typeof tracker.disableCrossDomainLinking, 'function', 'disableCrossDomainLinking' );
         equal( typeof tracker.isCrossDomainLinkingEnabled, 'function', 'isCrossDomainLinkingEnabled' );
         equal( typeof tracker.setCrossDomainLinkingTimeout, 'function', 'isCrossDomainLinkingEnabled' );
+        equal( typeof tracker.getCrossDomainLinkingUrlParameter, 'function', 'getCrossDomainLinkingUrlParameter');
         equal( typeof tracker.setIgnoreClasses, 'function', 'setIgnoreClasses' );
         equal( typeof tracker.setRequestMethod, 'function', 'setRequestMethod' );
         equal( typeof tracker.setRequestContentType, 'function', 'setRequestContentType' );
@@ -2168,6 +2198,7 @@ function PiwikTest() {
         equal( typeof tracker.setCookieDomain, 'function', 'setCookieDomain' );
         equal( typeof tracker.setCookiePath, 'function', 'setCookiePath' );
         equal( typeof tracker.setSessionCookie, 'function', 'setSessionCookie' );
+        equal( typeof tracker.setSecureCookie, 'function', 'setSecureCookie' );
         equal( typeof tracker.getCookie, 'function', 'getCookie' );
         equal( typeof tracker.hasCookies, 'function', 'hasCookies' );
         equal( typeof tracker.getCookiePath, 'function', 'getCookiePath' );
@@ -2203,9 +2234,27 @@ function PiwikTest() {
         equal( typeof tracker.addEcommerceItem, 'function', 'addEcommerceItem' );
         equal( typeof tracker.trackEcommerceOrder, 'function', 'trackEcommerceOrder' );
         equal( typeof tracker.trackEcommerceCartUpdate, 'function', 'trackEcommerceCartUpdate' );
+        // consent
+        equal( typeof tracker.getRememberedConsent, 'function', 'getRememberedConsent' );
+        equal( typeof tracker.hasRememberedConsent, 'function', 'hasRememberedConsent' );
+        equal( typeof tracker.requireConsent, 'function', 'requireConsent' );
+        equal( typeof tracker.setConsentGiven, 'function', 'setConsentGiven' );
+        equal( typeof tracker.rememberConsentGiven, 'function', 'rememberConsentGiven' );
+        equal( typeof tracker.forgetConsentGiven, 'function', 'forgetConsentGiven' );
+        // opt out (via consent)
+        equal( typeof tracker.isUserOptedOut, 'function', 'isUserOptedOut' );
+        equal( typeof tracker.optUserOut, 'function', 'optUserOut' );
+        equal( typeof tracker.forgetUserOptOut, 'function', 'forgetUserOptOut' );
     });
 
-    module("API and internals");
+    module("API and internals", {
+        setup: function () {
+            mockNowValue = null;
+        },
+        teardown: function () {
+            mockNowValue = null;
+        },
+    });
 
     test("Tracker is_a functions", function() {
         expect(22);
@@ -2266,7 +2315,7 @@ function PiwikTest() {
     });
 
     test("Managing multiple trackers", function() {
-        expect(23);
+        expect(25);
 
         var asyncTracker = Piwik.getAsyncTracker();
         var i, tracker;
@@ -2321,6 +2370,10 @@ function PiwikTest() {
         var fetchedTracker = Piwik.getAsyncTracker('customTrackerUrl', '71');
         var createdTracker = fetchedTracker.addTracker(null, 55);
         equal('customTrackerUrl', createdTracker.getTrackerUrl(), 'addTracker() should be default use tracker url of current tracker, not first tracker');
+
+        var createPiwikTracker = Piwik.addTracker('customTrackerUrl2', 59);
+        equal(59, createPiwikTracker.getSiteId(), 'Piwik.addTracker() was created with correct idsite ' + createPiwikTracker.getSiteId());
+        equal('customTrackerUrl2', createPiwikTracker.getTrackerUrl(), 'Piwik.addTracker() was created with correct piwikUrl ' + createPiwikTracker.getTrackerUrl());
 
         asyncTracker.removeAllAsyncTrackersButFirst();
     });
@@ -2783,7 +2836,7 @@ function PiwikTest() {
     });
 
     test("Tracker CrossDomainLinking()", function() {
-        expect(55);
+        expect(57);
 
         var tracker = Piwik.getTracker();
 
@@ -2871,14 +2924,14 @@ function PiwikTest() {
         strictEqual('', makeReplaceHrefForCrossDomainLink(''), 'replaceHrefForCrossDomainLink, should not change URL if nothing is set');
         strictEqual(tracker.getTrackerUrl(), makeReplaceHrefForCrossDomainLink(tracker.getTrackerUrl()), 'replaceHrefForCrossDomainLink, should not change URL if href is a tracker URL');
         strictEqual(tracker.getTrackerUrl(), makeReplaceHrefForCrossDomainLink(tracker.getTrackerUrl()), 'replaceHrefForCrossDomainLink, should not change URL if href is a tracker URL');
-        
-        tracker.setUserId('test');
-        var replacedUrl = makeReplaceHrefForCrossDomainLink('http://www.example.com');
-        ok(replacedUrl.indexOf('http://www.example.com?pk_vid=a94a8fe5ccb19ba61') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
+
+            tracker.setVisitorId('082ea0f319e784f6');
+            var replacedUrl = makeReplaceHrefForCrossDomainLink('http://www.example.com/');
+            ok(replacedUrl.indexOf('http://www.example.com/?pk_vid=082ea0f319e784f6') === 0, 'replaceHrefForCrossDomainLink, should set parameters if a URL is given');
         ok(replacedUrl.indexOf(browserId) > 20, 'replaceHrefForCrossDomainLink, should set browserId if a url is given');
 
         replacedUrl = makeReplaceHrefForCrossDomainLink(makeUrlWithVisitorId(true, currentTimestamp, 'foobar'));
-        ok(replacedUrl.indexOf('http://www.example.com/?pk_vid=a94a8fe5ccb19ba61') === 0, 'replaceHrefForCrossDomainLink, should replace parameters if a URL is given');
+            ok(replacedUrl.indexOf('http://www.example.com/?pk_vid=082ea0f319e784f6') === 0, 'replaceHrefForCrossDomainLink, should replace parameters if a URL is given');
         ok(replacedUrl.indexOf(browserId) > 20, 'replaceHrefForCrossDomainLink, should replace browserId if a URL is given');
 
 
@@ -2921,6 +2974,14 @@ function PiwikTest() {
         strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('http://' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, if outlink starting with http:// but not going to same website');
         strictEqual(false, makeIsLinkToDifferentDomainButSamePiwikWebsite('https://' + document.domain), 'isLinkToDifferentDomainButSamePiwikWebsite, same website but also same domain => no need to add visitorIdUrl, if outlink starting with https:// but not going to same website');
 
+        // getCrossDomainLinkingUrlParameter() tests
+        mockNowValue = 1520391713308;
+        browserId = generateBrowserSpecificId();
+            var expectedCrossDomainParam = 'pk_vid=082ea0f319e784f6' + Math.floor(mockNowValue / 1000) + browserId;
+            equal(expectedCrossDomainParam, tracker.getCrossDomainLinkingUrlParameter(), "the cross domain parameter was not as expected");
+
+        // sanity check (test that getCrossDomainLinkingUrlParameter() uses the same value as makeReplaceHrefForCrossDomainLink)
+        equal('http://www.example.com?' + expectedCrossDomainParam, makeReplaceHrefForCrossDomainLink('http://www.example.com'));
     });
 
     test("Tracker getClassesRegExp()", function() {
@@ -3099,7 +3160,7 @@ function PiwikTest() {
     }
 
     test("User ID and Visitor UUID", function() {
-        expect(23);
+        expect(26);
         deleteCookies();
 
         var userIdString = 'userid@mydomain.org';
@@ -3144,33 +3205,32 @@ function PiwikTest() {
         notEqual("", tracker2.getVisitorId(), "Visitor ID 2 is not empty");
         notEqual(tracker.getVisitorId(), tracker2.getVisitorId(), "Setting a new namespace forces Visitor ID " + tracker.getVisitorId() + " to be different from Visitor ID 2 " + tracker2.getVisitorId());
 
-
+            // Set the same Visitor IDs in both trackers
+            tracker2.setVisitorId(tracker.getVisitorId());
 
         // Set User ID and verify it was set
         tracker.setUserId(userIdString);
         equal(userIdString, tracker.getUserId(), "getUserId() returns User Id");
-        equal(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker.getVisitorId(), "Visitor ID is the sha1 of User ID");
+            notEqual(tracker.hook.test._sha1(userIdString).substr(0, 16), tracker.getVisitorId(), "Visitor ID is not the sha1 of User ID (it used to be)");
+            equal(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting a User ID, Visitor ID does not change");
+
+            // Set the User ID and verify nothing's changed
+            tracker2.setUserId(userIdString);
+            equal(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting the same User ID, Visitor ID are the same");
 
         // Check that calling trackPageView does not change the visitor ID
         var visitorId = tracker.getVisitorId();
         tracker.trackPageView();
         equal(getVisitorIdFromCookie(tracker), visitorId, "Visitor ID from cookie is the same as Visitor ID in object ("+ visitorId +"), but got: " + getVisitorIdFromCookie(tracker));
 
-        // Verify that Visitor ID is tied to User ID
-        notEqual(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting a User ID, Visitor ID " + tracker.getVisitorId() + " is now different from Visitor ID2 " + tracker2.getVisitorId());
-
-        // Verify that setting the same user ID on two objects results in the same Visitor ID
-        tracker2.setUserId(userIdString);
-        equal(tracker.getVisitorId(), tracker2.getVisitorId(), "After setting the same User ID, Visitor ID are the same");
-
-
         // Verify that when resetting the User ID, it also changes the Visitor ID
-        tracker.setUserId(false);
-        ok(getVisitorIdFromCookie(tracker).length == 16, "after setting empty user id, visitor ID from cookie should still be 16 chars, got: " + getVisitorIdFromCookie(tracker));
-        equal(getVisitorIdFromCookie(tracker), visitorId, "after setting empty user id, visitor ID from cookie should be the same as previously ("+ visitorId +")");
+        tracker.resetUserId();
+        equal(tracker.getUserId(), '', "after reset, user ID is set to empty string");
+        ok(tracker.getVisitorId().length == 16, "after resetting user id, visitor ID should still be 16 chars, got: " + tracker.getVisitorId());
+            equal(tracker.getVisitorId(), visitorId, "after resetting user id, visitor ID should be the same ("+ tracker.getVisitorId() +")");
         tracker.trackPageView("Track some data to write the cookies...");
-        // Currently it does not work to setUserId(false)
-//        notEqual(getVisitorIdFromCookie(tracker), visitorId, "after setting empty user id, visitor ID from cookie should different ("+ visitorId +")");
+        ok(getVisitorIdFromCookie(tracker).length == 16, "after resetting user id, visitor ID from cookie should still be 16 chars, got: " + getVisitorIdFromCookie(tracker));
+            equal(getVisitorIdFromCookie(tracker), visitorId, "after resetting user id, visitor ID from cookie should be the same ("+ getVisitorIdFromCookie(tracker) +")");
 
     });
 
@@ -3495,6 +3555,7 @@ if ($mysql) {
 
     module("request", {
         setup: function () {
+            mockNowValue = null;
             ok(true, "request.setup");
 
             deleteCookies();
@@ -3502,6 +3563,7 @@ if ($mysql) {
             ok(document.cookie === "", "deleteCookies");
         },
         teardown: function () {
+            mockNowValue = null;
             ok(true, "request.teardown");
         }
     });
@@ -4671,7 +4733,112 @@ if ($mysql) {
             start();
         }, 4000);
     });
-    <?php
+
+    test("Test API - consent", function() {
+        expect(24);
+
+        var queue;
+        var tracker = Piwik.getTracker();
+        tracker.setCustomData('token', getConsentToken());
+        deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, by default is empty" );
+        strictEqual(tracker.hasRememberedConsent(), false, "hasRememberedConsent, has no consent given by default" );
+        strictEqual(tracker.getRememberedConsent(), null, "getConsentRequestsQueue, does not return consent cookie content as no consent given" );
+        strictEqual(tracker.hasConsent(), true, "hasConsent, assumes consent by default" );
+
+        tracker.requireConsent();
+        deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, still empty after requiring consent" );
+
+        tracker.trackRequest('myFoo=bar&baz=1');
+        queue = tracker.getConsentRequestsQueue();
+        strictEqual(1, queue.length, "getConsentRequestsQueue, did not execute tracking request when requiring consent but added this request to the queue" );
+        strictEqual(0, queue[0].indexOf('myFoo=bar&baz=1'), "getConsentRequestsQueue, the request contains the tracking request" );
+
+        tracker.trackRequest('myFoo=bar&baz=2');
+        queue = tracker.getConsentRequestsQueue();
+        strictEqual(2, queue.length, "getConsentRequestsQueue, did not execute tracking request again and added a second request to the queue" );
+        strictEqual(0, queue[1].indexOf('myFoo=bar&baz=2'), "getConsentRequestsQueue, the request contains the tracking request" );
+
+        tracker.setConsentGiven();
+        deepEqual(tracker.getConsentRequestsQueue(), [], "setConsentGiven, should reset queued requests" );
+        strictEqual(tracker.hasRememberedConsent(), false, "getConsentRequestsQueue, has not remembered consent" );
+        strictEqual(tracker.getRememberedConsent(), null, "getConsentRequestsQueue, does not return consent cookie content as no consent given" );
+
+        tracker.rememberConsentGiven();
+
+        strictEqual(tracker.hasRememberedConsent(), true, "rememberConsentGiven, sets cookie to remember consent" );
+        var rememberedConsent = tracker.getRememberedConsent();
+        strictEqual(String(rememberedConsent).length, 13, "getRememberedConsent, returns the data in milliseconds eg '1522200406749'" );
+        strictEqual(String(rememberedConsent).substr(0, 2), '15', "getRememberedConsent, starts with correct data" );
+
+        tracker.requireConsent();
+        strictEqual(tracker.hasConsent(), true, "when requiring consent, and we remembered consent, consent should be given" );
+
+        tracker.forgetConsentGiven();
+        strictEqual(tracker.hasConsent(), false, "forgetConsentGiven(), will remove remembered consent and require consent again" );
+        strictEqual(tracker.hasRememberedConsent(), false, "forgetConsentGiven, has forgotten consent" );
+        strictEqual(tracker.getRememberedConsent(), null, "forgetConsentGiven, has no longer a date for consent given stored" );
+
+        stop();
+        setTimeout(function() {
+            var results = fetchTrackedRequests(getConsentToken());
+            strictEqual(true, results.indexOf('myFoo=bar&baz=1') > 0, "setConsentGiven does replay all queued requests" );
+            strictEqual(true, results.indexOf('myFoo=bar&baz=2') > 0, "setConsentGiven does replay all queued requests" );
+            start();
+        }, 2000);
+    });
+
+    test("Test API - optOut (via consent feature)", function () {
+        expect(9);
+
+        var token = getOptInToken();
+
+        var tracker = Piwik.getTracker();
+        tracker.setCustomData({ "token" : token });
+
+        // test default consent w/o cookie
+        strictEqual(tracker.hasConsent(), true, "hasConsent(), should be true by default" );
+
+        stop();
+        Q.delay(1).then(function () {
+            // test track w/ assumed consent
+            tracker.trackRequest('myFoo=bar&baz=1');
+
+            return Q.delay(500);
+        }).then(function () {
+            // opt user out & track w/ consent_removed
+            tracker.optUserOut();
+            strictEqual(tracker.hasConsent(), false, "optUserOut(), should have set the cookie" );
+
+            tracker.trackRequest('myFoo=bar&baz=2');
+
+            return Q.delay(500);
+        }).then(function () {
+            // new tracker (so new consent request queue), check it detects cookie
+            var tracker2 = Piwik.getTracker();
+            tracker2.setCustomData({ "token" : token });
+            strictEqual(tracker.hasConsent(), false, "hasConsent(), should be false in the second tracker since we opted out before");
+
+            // forget user opt out & check new tracker sends request
+            tracker2.forgetUserOptOut();
+            tracker2.trackRequest('myFoo=bar&baz=3');
+
+            return Q.delay(500);
+        }).then(function () {
+            var results = fetchTrackedRequests(token);
+            var requests = results.match(/<span\>(.*?)\<\/span\>/g);
+            requests.shift();
+
+            strictEqual(2, requests.length, "should have only sent two requests");
+            strictEqual(true, requests[0].indexOf('myFoo=bar&baz=1') >= 0, "should have sent first request since user was not opted out");
+            strictEqual(true, requests[1].indexOf('myFoo=bar&baz=3') >= 0, "should have sent third request since user was opted back in");
+            start();
+        }).catch(function (e) {
+            console.log('caught', e.stack || e.message || e);
+        });
+    });
+
+
+<?php
 }
 ?>
 }

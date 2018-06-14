@@ -41,6 +41,9 @@ class Date
 
     /** The default date time string format. */
     const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    
+    /** Timestamp when first website came online - Tue, 06 Aug 1991 00:00:00 GMT. */
+    const FIRST_WEBSITE_TIMESTAMP = 681436800;
 
     const DATETIME_FORMAT_LONG    = DateTimeFormatProvider::DATE_FORMAT_LONG;
     const DATETIME_FORMAT_SHORT   = DateTimeFormatProvider::DATETIME_FORMAT_SHORT;
@@ -141,11 +144,17 @@ class Date
             $date = new Date($dateString);
         }
         $timestamp = $date->getTimestamp();
-        // can't be doing web analytics before the 1st website
-        // Tue, 06 Aug 1991 00:00:00 GMT
-        if ($timestamp < 681436800) {
-            throw self::getInvalidDateFormatException($dateString);
+    
+        if ($timestamp < self::FIRST_WEBSITE_TIMESTAMP) {
+            $dateOfFirstWebsite = new self(self::FIRST_WEBSITE_TIMESTAMP);
+            $message = Piwik::translate('General_ExceptionInvalidDateBeforeFirstWebsite', array(
+                $date->toString(),
+                $dateOfFirstWebsite->getLocalized(self::DATE_FORMAT_SHORT),
+                $dateOfFirstWebsite->getTimestamp()
+            ));
+            throw new Exception($message . ": $dateString");
         }
+        
         if (empty($timezone)) {
             return $date;
         }
@@ -178,17 +187,34 @@ class Date
     }
 
     /**
-     * Returns the start of the day of the current timestamp in UTC. For example,
-     * if the current timestamp is `'2007-07-24 14:04:24'` in UTC, the result will
-     * be `'2007-07-24'`.
-     *
      * @return string
+     * @deprecated
      */
     public function getDateStartUTC()
     {
+        return $this->getStartOfDay()->toString(self::DATE_TIME_FORMAT);
+    }
+
+    /**
+     * Returns the start of the day of the current timestamp in UTC. For example,
+     * if the current timestamp is `'2007-07-24 14:04:24'` in UTC, the result will
+     * be `'2007-07-24'` as a Date.
+     *
+     * @return Date
+     */
+    public function getStartOfDay()
+    {
         $dateStartUTC = gmdate('Y-m-d', $this->timestamp);
-        $date = Date::factory($dateStartUTC)->setTimezone($this->timezone);
-        return $date->toString(self::DATE_TIME_FORMAT);
+        return Date::factory($dateStartUTC)->setTimezone($this->timezone);
+    }
+
+    /**
+     * @return string
+     * @deprecated
+     */
+    public function getDateEndUTC()
+    {
+        return $this->getEndOfDay()->toString(self::DATE_TIME_FORMAT);
     }
 
     /**
@@ -196,13 +222,12 @@ class Date
      * if the current timestamp is `'2007-07-24 14:03:24'` in UTC, the result will
      * be `'2007-07-24 23:59:59'`.
      *
-     * @return string
+     * @return Date
      */
-    public function getDateEndUTC()
+    public function getEndOfDay()
     {
         $dateEndUTC = gmdate('Y-m-d 23:59:59', $this->timestamp);
-        $date = Date::factory($dateEndUTC)->setTimezone($this->timezone);
-        return $date->toString(self::DATE_TIME_FORMAT);
+        return Date::factory($dateEndUTC)->setTimezone($this->timezone);
     }
 
     /**
@@ -222,8 +247,8 @@ class Date
     /**
      * Returns the offset to UTC time for the given timezone
      *
-     * @param $timezone
-     * @return int offest in minutes
+     * @param string $timezone
+     * @return int offset in seconds
      */
     public static function getUtcOffset($timezone)
     {

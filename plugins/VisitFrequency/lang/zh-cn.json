@@ -12,9 +12,9 @@
         "ColumnUniqueReturningVisitors": "独立老访客数",
         "ColumnReturningUsers": "老访客",
         "ReturningVisitDocumentation": "老访客 (相对于新访客) 指至少访问过这个网站一次的访客。",
-        "ReturningVisitsDocumentation": "这是老访客的总表。",
+        "ReturningVisitsDocumentation": "这是老访客的概览。",
         "SubmenuFrequency": "频率",
         "WidgetGraphReturning": "老访客趋势",
-        "WidgetOverview": "频率总表"
+        "WidgetOverview": "频率概览"
     }
 }

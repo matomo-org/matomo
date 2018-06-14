@@ -1,0 +1,5 @@
+{
+    "GeoIp2": {
+        "CannotFindGeoIPDatabaseInArchive": "Im TAR Archiv %1$s konnte keine gültige GeoIP Datenbank gefunden werden!"
+    }
+}

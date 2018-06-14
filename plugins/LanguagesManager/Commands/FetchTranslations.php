@@ -45,7 +45,7 @@ class FetchTranslations extends TranslationBase
         $plugin = $input->getOption('plugin');
         $lastUpdate = $input->getOption('lastupdate');
 
-        $resource = 'piwik-'. ($plugin ? 'plugin-'.strtolower($plugin) : 'base');
+        $resource = 'matomo-'. ($plugin ? 'plugin-'.strtolower($plugin) : 'base');
 
         $transifexApi = new API($username, $password);
 

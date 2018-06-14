@@ -13,8 +13,7 @@ use Piwik\Piwik;
 
 class VisitDuration extends Dimension
 {
-    public function getName()
-    {
-        return Piwik::translate('VisitorInterest_ColumnVisitDuration');
-    }
+
+    protected $type = self::TYPE_DURATION_S;
+    protected $nameSingular = 'VisitorInterest_ColumnVisitDuration';
 }

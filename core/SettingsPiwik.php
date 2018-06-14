@@ -46,6 +46,16 @@ class SettingsPiwik
     }
 
     /**
+     * Should Piwik show the update notification to superusers only?
+     *
+     * @return bool  True if show to superusers only; false otherwise
+     */
+    public static function isShowUpdateNotificationToSuperUsersOnlyEnabled()
+    {
+        return Config::getInstance()->General['show_update_notification_to_superusers_only'] == 1;
+    }
+
+    /**
      * Returns every stored segment to pre-process for each site during cron archiving.
      *
      * @return array The list of stored segments that apply to all sites.
@@ -236,7 +246,7 @@ class SettingsPiwik
 
     /**
      * Check if outgoing internet connections are enabled
-     * This is often disable in an intranet enviroment
+     * This is often disable in an intranet environment
      * 
      * @return bool
      */
@@ -383,7 +393,7 @@ class SettingsPiwik
         $hasError = false !== strpos($fetched, PAGE_TITLE_WHEN_ERROR);
 
         if ($hasError || $expectedStringNotFound) {
-            throw new Exception("\nPiwik should be running at: "
+            throw new Exception("\nMatomo should be running at: "
                 . $piwikServerUrl
                 . " but this URL returned an unexpected response: '"
                 . $fetched . "'\n\n");

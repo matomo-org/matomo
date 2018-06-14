@@ -8,8 +8,8 @@
  */
 namespace Piwik\Plugins\Referrers\Columns;
 
-use Piwik\Piwik;
-use Piwik\Plugins\Referrers\Segment;
+use Piwik\Common;
+use Piwik\Metrics\Formatter;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -18,20 +18,27 @@ class ReferrerType extends Base
 {
     protected $columnName = 'referer_type';
     protected $columnType = 'TINYINT(1) UNSIGNED NULL';
+    protected $type = self::TYPE_ENUM;
+    protected $segmentName = 'referrerType';
+    protected $nameSingular = 'Referrers_Type';
+    protected $namePlural = 'Referrers_ReferrerTypes';
+    protected $sqlFilterValue = 'Piwik\Plugins\Referrers\getReferrerTypeFromShortName';
+    protected $acceptValues = 'direct, search, website, campaign';
+    protected $category = 'Referrers_Referrers';
 
-    protected function configureSegments()
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
-        $segment = new Segment();
-        $segment->setSegment('referrerType');
-        $segment->setName('Referrers_Type');
-        $segment->setSqlFilterValue('Piwik\Plugins\Referrers\getReferrerTypeFromShortName');
-        $segment->setAcceptedValues('direct, search, website, campaign');
-        $this->addSegment($segment);
+        return \Piwik\Plugins\Referrers\getReferrerTypeLabel($value);
     }
 
-    public function getName()
+    public function getEnumColumnValues()
     {
-        return Piwik::translate('Referrers_Type');
+        return array(
+            Common::REFERRER_TYPE_DIRECT_ENTRY  => 'direct',
+            Common::REFERRER_TYPE_WEBSITE       => 'website',
+            Common::REFERRER_TYPE_SEARCH_ENGINE => 'search',
+            Common::REFERRER_TYPE_CAMPAIGN      => 'campaign',
+        );
     }
 
     /**

@@ -12,7 +12,6 @@ use Piwik\Category\Category;
 use Piwik\Category\CategoryList;
 use Piwik\Category\Subcategory;
 use Piwik\Container\StaticContainer;
-use Piwik\Db;
 use Piwik\Tests\Framework\Mock\Category\Categories;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -42,7 +41,10 @@ class CategoryListTest extends IntegrationTestCase
             'Referrers_Referrers',
             'Goals_Goals',
             'Goals_Ecommerce',
+            'Events_Events',
+            'UserCountry_VisitLocation',
             'Live!',
+            'CustomVariables_CustomVariables',
             'ExampleUI_UiFramework'
         ), array_keys($list->getCategories()));
     }

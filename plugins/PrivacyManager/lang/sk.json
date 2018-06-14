@@ -1,6 +1,5 @@
 {
     "PrivacyManager": {
-        "AnonymizeIpDescription": "Vyberte \"Áno\" ak chcete aby Piwik nesledoval plne kvalifikované IP adresy",
         "AnonymizeIpInlineHelp": "Anonymnosť posledný bajt IP adresy návštevníkov v súlade s miestnymi zákonmi na ochranu súkromia.",
         "AnonymizeIpMaskLengtDescription": "Vyberte koľko bajtov IP adresy návštevníkov by malo byť maskovaných.",
         "AnonymizeIpMaskLength": "%1$s bajt(y) - napr. %2$s",

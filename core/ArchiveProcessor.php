@@ -536,6 +536,10 @@ class ArchiveProcessor
             $columnsToRenameAfterAggregation = self::$columnsToRenameAfterAggregation;
         }
 
+        if (empty($columnsToRenameAfterAggregation)) {
+            return;
+        }
+        
         foreach ($table->getRows() as $row) {
             foreach ($columnsToRenameAfterAggregation as $oldName => $newName) {
                 $row->renameColumn($oldName, $newName);

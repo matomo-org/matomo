@@ -13,8 +13,6 @@ use Piwik\Piwik;
 
 class DaysToConversion extends Dimension
 {
-    public function getName()
-    {
-        return Piwik::translate('Goals_DaysToConv');
-    }
+    protected $type = self::TYPE_NUMBER;
+    protected $nameSingular = 'Goals_DaysToConv';
 }

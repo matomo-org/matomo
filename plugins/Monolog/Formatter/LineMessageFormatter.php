@@ -38,7 +38,7 @@ class LineMessageFormatter implements FormatterInterface
     public function format(array $record)
     {
         $class = isset($record['extra']['class']) ? $record['extra']['class'] : '';
-        $date = $record['datetime']->format('Y-m-d H:i:s');
+        $date = $record['datetime']->format('Y-m-d H:i:s T');
 
         $message = trim($record['message']);
 

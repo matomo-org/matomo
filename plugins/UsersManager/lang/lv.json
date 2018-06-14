@@ -4,7 +4,7 @@
         "Alias": "Aizstājējvārds",
         "AllWebsites": "Visas vietnes",
         "ApplyToAllWebsites": "Apstipriniet visām vietnēm",
-        "ClickHereToDeleteTheCookie": "Klikšķiniet šeit, lai dzēstu sīkdatni un atļautu Piwik izsekot Jūsu pašu apmeklējumus",
+        "ClickHereToDeleteTheCookie": "Klikšķiniet šeit, lai dzēstu sīkdatni un atļautu Matomo izsekot Jūsu pašu apmeklējumus",
         "ClickHereToSetTheCookieOnDomain": "Klikšķiniet šeit, lai iestatītu sīkdatni, kas aizliegs izsekot Jūsu pašu apmeklējumus %s",
         "DeleteConfirm": "Vai Jūs tiešām vēlaties dzēst lietotāju %s?",
         "Email": "E-pasta adrese",
@@ -34,8 +34,8 @@
         "User": "Lietotājs",
         "UsersManagement": "Lietotāju pārvaldīšana",
         "UsersManagementMainDescription": "Izveidojiet jaunus vai labojiet esošu lietotāju iestatījumus. Augstāk Jūs varat uzstādīt šo lietotāju pieejas atļaujas.",
-        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kad lietotāji nav pieteikušies un apmeklē Piwik, tiem rādam",
+        "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kad lietotāji nav pieteikušies un apmeklē Matomo, tiem rādam",
         "YourUsernameCannotBeChanged": "Jūsu lietotājvārdu nav iespējams izmainīt.",
-        "YourVisitsAreIgnoredOnDomain": "%1$sJūsu apmeklējumi tiek ignorēti %2$s %3$s (pārlūkā tika atrasta Piwik ignorēšanas sīkdatne)."
+        "YourVisitsAreIgnoredOnDomain": "%1$sJūsu apmeklējumi tiek ignorēti %2$s %3$s (pārlūkā tika atrasta Matomo ignorēšanas sīkdatne)."
     }
 }

@@ -1,5 +1,6 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "Opsi tampilan",
         "AggregateReportsFormat_GraphsOnly": "Hanya tampilkan Grafik (tanpa tabel laporan)",
         "AggregateReportsFormat_TablesAndGraphs": "Tampilkan tabel dan Grafik Laporan untuk seluruh Laporan",
         "AggregateReportsFormat_TablesOnly": "(asali) Tampilkan tabel Laporan (Grafik hanya kunci metrik)",
@@ -20,10 +21,12 @@
         "MustBeLoggedIn": "Anda harus masuk-log untuk membuat dan mengatur jadwal laporan.",
         "NoRecipients": "Laporan ini tidak memiliki penerima",
         "Pagination": "Halaman %1$s dari %2$s",
-        "PiwikReports": "Laporan Piwik",
+        "PiwikReports": "Laporan Matomo",
         "PleaseFindBelow": "Silakan temukan di bawah laporan %1$s Anda untuk %2$s.",
         "ReportFormat": "Bentuk Laporan",
+        "ReportHour": "Kirim laporan pada jam %s",
         "ReportIncludeNWebsites": "Laporan akan dimasukkan dalam matriks utama untuk setiap situs dengan sekurangnya satu kunjungan (dari situs %s saat ini yang tersedia).",
+        "ReportSent": "Laporan telah dikirim",
         "ReportsIncluded": "Sertakan Statistik",
         "ReportType": "Kirim laporan melalui",
         "Segment_Help": "Anda dapat menyeleksi pecahan kustom untuk diterapkan pada laporan surel ini. Anda dapat membuat dan menyunting pecahan kustom dalam panel kendali Anda %1$s(klik di sini untuk membuka)%2$s, lalu klik di kotak \"%3$s\", kemudian \"%4$s\".",
@@ -33,7 +36,7 @@
         "SentToMe": "Kirimi saya",
         "TableOfContent": "Daftar Laporan",
         "ThereIsNoReportToManage": "Tidak ada laporan yang dapat diatur untuk situs %s",
-        "TopLinkTooltip": "Buat Laporan Surel agar statistik Piwik dikirim ke surel Anda atau alamat pelanggan Anda secara otomatis!",
+        "TopLinkTooltip": "Buat Laporan Surel agar statistik Matomo dikirim ke surel Anda atau alamat pelanggan Anda secara otomatis!",
         "TopOfReport": "Kembali ke atas",
         "UpdateReport": "Perbarui Laporan",
         "WeeklyScheduleHelp": "Laporan mingguan: laporan akan dikirim setiap hari Senin pertama tiap minggu."

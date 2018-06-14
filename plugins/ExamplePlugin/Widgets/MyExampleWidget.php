@@ -26,7 +26,7 @@ class MyExampleWidget extends Widget
          * Set the category the widget belongs to. You can reuse any existing widget category or define
          * your own category.
          */
-        $config->setCategoryId('About Piwik');
+        $config->setCategoryId('About Matomo');
 
         /**
          * Set the subcategory the widget belongs to. If a subcategory is set, the widget will be shown in the UI.

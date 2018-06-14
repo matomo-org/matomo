@@ -43,28 +43,27 @@ class ExampleConversionDimension extends ConversionDimension
     protected $columnType = 'INTEGER(11) DEFAULT 0 NULL';
 
     /**
+     * The type of the dimension is automatically detected by the columnType. If the type of the dimension is not
+     * detected correctly, you may want to adjust the type manually. The configured type will affect how the dimension
+     * is formatted in the UI.
+     * @var string
+     */
+    // protected $type = self::TYPE_NUMBER;
+
+    /**
      * The name of the dimension which will be visible for instance in the UI of a related report and in the mobile app.
      * @return string
      */
-    public function getName()
-    {
-        return Piwik::translate('ExampleTracker_DimensionName');
-    }
+    protected $nameSingular = 'ExampleTracker_DimensionName';
 
     /**
-     * By defining one or multiple segments a user will be able to filter their visitors by this column. For instance
+     * By defining a segment a user will be able to filter their visitors by this column. For instance
      * show all reports only considering users having more than 10 achievement points. If you do not want to define a
-     * segment for this dimension just remove the column.
+     * segment for this dimension, simply leave the name empty.
      */
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('myConversionSegmentName');
-        $segment->setCategory('General_Visit');
-        $segment->setName('ExampleTracker_DimensionName');
-        $segment->setAcceptedValues('Here you should explain which values are accepted/useful: Any number, for instance 1, 2, 3 , 99');
-        $this->addSegment($segment);
-    }
+    protected $segmentName = 'myConversionSegmentName';
+
+    protected $acceptValues = 'Here you should explain which values are accepted/useful for segments: Any number, for instance 1, 2, 3 , 99';
 
     /**
      * This event is triggered when an ecommerce order is converted. In this example we would store a "0" in case it

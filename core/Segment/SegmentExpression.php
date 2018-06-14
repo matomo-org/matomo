@@ -218,7 +218,7 @@ class SegmentExpression
             } else {
                 // it is not expected to reach this code path
                 throw new Exception("Unexpected match type $matchType for your segment. " .
-                    "Please report this issue to the Piwik team with the segment you are using.");
+                    "Please report this issue to the Matomo team with the segment you are using.");
             }
 
             return array($sqlExpression, $value = null);
@@ -325,9 +325,23 @@ class SegmentExpression
         $table = preg_replace('/^[A-Z_]+\(/', '', $table);
         $tableExists = !$table || in_array($table, $availableTables);
 
-        if (!$tableExists) {
-            $availableTables[] = $table;
+        if ($tableExists) {
+            return;
         }
+
+        if (is_array($availableTables)) {
+            foreach ($availableTables as $availableTable) {
+                if (is_array($availableTable)) {
+                    if (!isset($availableTable['tableAlias']) && $availableTable['table'] === $table) {
+                        return;
+                    } elseif (isset($availableTable['tableAlias']) && $availableTable['tableAlias'] === $table) {
+                        return;
+                    }
+                }
+            }
+        }
+
+        $availableTables[] = $table;
     }
 
     /**

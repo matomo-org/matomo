@@ -9,15 +9,8 @@
 namespace Piwik\ReportRenderer;
 
 use Piwik\Piwik;
-use Piwik\Plugin;
-use Piwik\Plugins\API\API;
-use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\ReportRenderer;
-use Piwik\SettingsPiwik;
-use Piwik\Site;
-use Piwik\Date;
 use Piwik\View;
-use Piwik\Plugins\ScheduledReports\ScheduledReports;
 
 /**
  * HTML report renderer
@@ -26,11 +19,6 @@ class Html extends ReportRenderer
 {
     const IMAGE_GRAPH_WIDTH = 700;
     const IMAGE_GRAPH_HEIGHT = 200;
-
-    const REPORT_TITLE_TEXT_SIZE = 24;
-    const REPORT_TABLE_HEADER_TEXT_SIZE = 11;
-    const REPORT_TABLE_ROW_TEXT_SIZE = '13px';
-    const REPORT_BACK_TO_TOP_TEXT_SIZE = 9;
 
     const HTML_CONTENT_TYPE = 'text/html';
     const HTML_FILE_EXTENSION = 'html';
@@ -86,68 +74,21 @@ class Html extends ReportRenderer
 
     private function epilogue()
     {
-        $view = new View('@CoreHome/ReportRenderer/_htmlReportFooter');
-        $view->hasWhiteLabel = Plugin\Manager::getInstance()->isPluginLoaded('WhiteLabel');
+        $view = new View\HtmlEmailFooterView();
         $this->rendering .= $view->render();
     }
 
     public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)
     {
-        $frontPageView = new View('@CoreHome/ReportRenderer/_htmlReportHeader');
-        $this->assignCommonParameters($frontPageView);
-
-        $period = $this->report['period'];
-
-        $periods = ScheduledReports::getPeriodToFrequencyAsAdjective();
-        $frontPageView->assign("period", $periods[$period]);
-        $frontPageView->assign("reportTitle", $reportTitle);
-        $frontPageView->assign("prettyDate", $prettyDate);
-        $frontPageView->assign("description", $description);
-        $frontPageView->assign("reportMetadata", $reportMetadata);
-        $frontPageView->assign("websiteName", Site::getNameFor($this->idSite));
-        $frontPageView->assign("idSite", $this->idSite);
-        $frontPageView->assign("period", $period);
-
-        $customLogo = new CustomLogo();
-        $frontPageView->assign("isCustomLogo", $customLogo->isEnabled() && CustomLogo::hasUserLogo());
-        $frontPageView->assign("logoHeader", $customLogo->getHeaderLogoUrl($pathOnly = false));
-
-        $date = Date::now()->setTimezone(Site::getTimezoneFor($this->idSite))->toString();
-        $frontPageView->assign("date", $date);
-
-        // segment
-        $displaySegment = ($segment != null);
-        $frontPageView->assign("displaySegment", $displaySegment);
-        if ($displaySegment) {
-            $frontPageView->assign("segmentName", $segment['name']);
-        }
-
+        $frontPageView = new View\HtmlReportEmailHeaderView($reportTitle, $prettyDate, $description, $reportMetadata,
+            $segment, $this->idSite, $this->report['period']);
         $this->rendering .= $frontPageView->render();
-    }
-
-    private function assignCommonParameters(View $view)
-    {
-        $view->assign("reportFontFamily", ReportRenderer::DEFAULT_REPORT_FONT_FAMILY);
-        $view->assign("reportTitleTextColor", ReportRenderer::REPORT_TITLE_TEXT_COLOR);
-        $view->assign("reportTitleTextSize", self::REPORT_TITLE_TEXT_SIZE);
-        $view->assign("reportTextColor", ReportRenderer::REPORT_TEXT_COLOR);
-        $view->assign("tableHeaderBgColor", ReportRenderer::TABLE_HEADER_BG_COLOR);
-        $view->assign("tableHeaderTextColor", ReportRenderer::TABLE_HEADER_TEXT_COLOR);
-        $view->assign("tableCellBorderColor", ReportRenderer::TABLE_CELL_BORDER_COLOR);
-        $view->assign("tableBgColor", ReportRenderer::TABLE_BG_COLOR);
-        $view->assign("reportTableHeaderTextWeight", self::TABLE_HEADER_TEXT_WEIGHT);
-        $view->assign("reportTableHeaderTextSize", self::REPORT_TABLE_HEADER_TEXT_SIZE);
-        $view->assign("reportTableHeaderTextTransform", ReportRenderer::TABLE_HEADER_TEXT_TRANSFORM);
-        $view->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);
-        $view->assign("reportBackToTopTextSize", self::REPORT_BACK_TO_TOP_TEXT_SIZE);
-        $view->assign("currentPath", SettingsPiwik::getPiwikUrl());
-        $view->assign("logoHeader", API::getInstance()->getHeaderLogoUrl());
     }
 
     public function renderReport($processedReport)
     {
         $reportView = new View('@CoreHome/ReportRenderer/_htmlReportBody');
-        $this->assignCommonParameters($reportView);
+        View\HtmlReportEmailHeaderView::assignCommonParameters($reportView);
 
         $reportMetadata = $processedReport['metadata'];
         $reportData = $processedReport['reportData'];

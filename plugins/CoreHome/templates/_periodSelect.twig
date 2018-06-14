@@ -1,46 +1,7 @@
-<div id="periodString" piwik-expand-on-click class="piwikTopControl piwikSelector borderedControl periodSelector">
-    <a id="date" class="title" title="{{ 'General_ChooseDate'|translate(prettyDateLong|default(''))|e('html_attr') }}" tabindex="4">
-        <span class="icon icon-calendar"></span>
-        {{ prettyDate }}
-    </a>
-    <div id="periodMore" class="dropdown">
-        <table>
-            <tr>
-                <td>
-                    <div class="period-range" style="display:none;">
-                        <div id="calendarRangeFrom">
-                            <h6>{{ 'General_DateRangeFrom'|translate }}<input tabindex="4" type="text" id="inputCalendarFrom" name="inputCalendarFrom" class="browser-default"/></h6>
-
-                            <div id="calendarFrom"></div>
-                        </div>
-                        <div id="calendarRangeTo">
-                            <h6>{{ 'General_DateRangeTo'|translate }}<input tabindex="4" type="text" id="inputCalendarTo" name="inputCalendarTo" class="browser-default"/></h6>
-
-                            <div id="calendarTo"></div>
-                        </div>
-                    </div>
-                    <div class="period-date">
-                        <div id="datepicker"></div>
-                    </div>
-                </td>
-                <td>
-                    <div class="period-type">
-                        <h6>{{ 'General_Period'|translate }}</h6>
-                        <span id="otherPeriods">
-                            {% for label,thisPeriod in periodsNames %}
-                                <p>
-                                    <input type="radio" name="period"  tabindex="4" id="period_id_{{ label }}" value="{{ linkTo( { 'period': label} ) }}"{% if label==period %} checked="checked"{% endif %} />
-                                    <label for="period_id_{{ label }}">{{ thisPeriod.singular }}</label>
-                                </p>
-                            {% endfor %}
-                        </span>
-                        <input tabindex="4" type="submit" value="{{ 'General_Apply'|translate }}" id="calendarApply" class="btn"/>
-                        {% import 'ajaxMacros.twig' as ajax %}
-                        {{ ajax.loadingDiv('ajaxLoadingCalendar') }}
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="period-click-tooltip" style="display:none;">{{ 'General_ClickToChangePeriod'|translate }}</div>
+<div
+    id="periodString"
+    piwik-period-selector
+    periods="{{ enabledPeriods|json_encode|e('html_attr') }}"
+    class="borderedControl piwikTopControl"
+>
 </div>

@@ -113,6 +113,34 @@
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>
+		<label>China</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>5</nb_actions>
+		<max_actions>4</max_actions>
+		<sum_visit_length>1621</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>3</nb_conversions>
+		<revenue>15</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>0</sum_daily_nb_users>
+		<code>cn</code>
+		<logo>plugins/Morpheus/icons/dist/flags/cn.png</logo>
+		<segment>countryCode==cn</segment>
+		<logoHeight>16</logoHeight>
+	</row>
+	<row>
 		<label>France</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>6</nb_actions>
@@ -222,34 +250,6 @@
 		<code>mk</code>
 		<logo>plugins/Morpheus/icons/dist/flags/mk.png</logo>
 		<segment>countryCode==mk</segment>
-		<logoHeight>16</logoHeight>
-	</row>
-	<row>
-		<label>Tibet</label>
-		<nb_visits>2</nb_visits>
-		<nb_actions>5</nb_actions>
-		<max_actions>4</max_actions>
-		<sum_visit_length>1621</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>2</nb_conversions>
-				<nb_visits_converted>2</nb_visits_converted>
-				<revenue>10</revenue>
-			</row>
-			<row idgoal='2'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>5</revenue>
-			</row>
-		</goals>
-		<nb_conversions>3</nb_conversions>
-		<revenue>15</revenue>
-		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>0</sum_daily_nb_users>
-		<code>ti</code>
-		<logo>plugins/Morpheus/icons/dist/flags/ti.png</logo>
-		<segment>countryCode==ti</segment>
 		<logoHeight>16</logoHeight>
 	</row>
 	<row>

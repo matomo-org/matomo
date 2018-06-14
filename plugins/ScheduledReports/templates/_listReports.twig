@@ -1,7 +1,7 @@
 <div id='entityEditContainer' class="entityTableContainer"
      piwik-content-block
      content-title="{{ title|e('html_attr') }}"
-     help-url="http://piwik.org/docs/email-reports/"
+     help-url="https://matomo.org/docs/email-reports/"
      feature="true"
      ng-show="manageScheduledReport.showReportsList">
 
@@ -32,7 +32,7 @@
 
             <td colspan='7'>
                 <br/>
-                {{ 'ScheduledReports_ThereIsNoReportToManage'|translate(siteName)|raw }}.
+                {{ 'ScheduledReports_ThereIsNoReportToManage'|translate(siteName)|rawSafeDecoded }}.
                 <br/><br/>
             </td>
         </tr>

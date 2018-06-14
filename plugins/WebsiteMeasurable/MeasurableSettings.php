@@ -176,7 +176,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $ip = IP::getIpFromHeader();
 
             $field->title = Piwik::translate('SitesManager_ExcludedIps');
-            $field->inlineHelp = Piwik::translate('SitesManager_HelpExcludedIps', array('1.2.3.*', '1.2.*.*'))
+            $field->inlineHelp = Piwik::translate('SitesManager_HelpExcludedIpAddresses', array('1.2.3.4/24', '1.2.3.*', '1.2.*.*'))
                 . '<br /><br />'
                 . Piwik::translate('SitesManager_YourCurrentIpAddressIs', array('<i>' . $ip . '</i>'));
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
@@ -334,7 +334,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $field->inlineHelp = Piwik::translate('SitesManager_EcommerceHelp')
                 . '<br />'
                 . Piwik::translate('SitesManager_PiwikOffersEcommerceAnalytics',
-                    array("<a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'>", '</a>'));
+                    array("<a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'>", '</a>'));
             $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
             $field->availableValues = array(
                 0 => Piwik::translate('SitesManager_NotAnEcommerceSite'),

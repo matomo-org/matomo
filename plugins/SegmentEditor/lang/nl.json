@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "alleen deze website",
         "SegmentIsDisplayedForWebsite": "en verwerkt voor",
         "SegmentNotApplied": "Segment '%s' niet toegepast",
-        "SegmentNotAppliedMessage": "Je probeert data op te vragen voor aangepast segment '%s', deze Piwik omgeving is op dit moment, vanwege performance redenen, ingericht om geen rapporten in realtime te verwerken.",
+        "SegmentNotAppliedMessage": "Je probeert data op te vragen voor aangepast segment '%s', deze Matomo omgeving is op dit moment, vanwege performance redenen, ingericht om geen rapporten in realtime te verwerken.",
         "SelectSegmentOfVisits": "Selecteer een segment van bezoeken:",
         "ThisSegmentIsVisibleTo": "Dit segment is zichtbaar voor:",
         "VisibleToAllUsers": "alle gebruikers",

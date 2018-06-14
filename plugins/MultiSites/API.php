@@ -24,7 +24,7 @@ use Piwik\SettingsPiwik;
 use Piwik\Site;
 
 /**
- * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Piwik.
+ * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Matomo.
  * @method static \Piwik\Plugins\MultiSites\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -160,10 +160,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Same as getAll but for a unique Piwik site
+     * Same as getAll but for a unique Matomo site
      * @see Piwik\Plugins\MultiSites\API::getAll()
      *
-     * @param int $idSite Id of the Piwik site
+     * @param int $idSite Id of the Matomo site
      * @param string $period The period type to get data for.
      * @param string $date The date(s) to get data for.
      * @param bool|string $segment The segments to get data for.

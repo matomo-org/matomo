@@ -14,18 +14,14 @@
         "Events": "Eventi",
         "EventsWithValue": "Eventi con un valore",
         "EventsWithValueDocumentation": "Numero di eventi dove è stato impostato un valore Evento",
-        "EventValue": "Valore Evento",
         "EventValueTooltip": "Il valore totale Evento è la somma dei %1$s valori degli eventi %2$s tra un minimo di %3$s e un massimo di %4$s.",
-        "MaxValue": "Valore massimo",
         "MaxValueDocumentation": "Valore massimo per questo evento",
-        "MinValue": "Valore minimo",
         "MinValueDocumentation": "Valore minimo per questo evento",
         "SecondaryDimension": "La dimensione secondaria è %s.",
         "SwitchToSecondaryDimension": "Passa a %s",
         "TopEvents": "Eventi Top",
         "TotalEvents": "Totale eventi",
         "TotalEventsDocumentation": "Numero totale degli eventi",
-        "TotalValue": "Valore totale",
         "TotalValueDocumentation": "Somma dei valori degli eventi",
         "ViewEvents": "Vedi Eventi"
     }

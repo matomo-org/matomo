@@ -797,7 +797,7 @@ abstract class Controller
                                                                                        '</a>'
                                                                                   ));
             }
-            $view->invalidHostMessageHowToFix = '<p><b>How do I fix this problem and how do I login again?</b><br/> The Piwik Super User can manually edit the file piwik/config/config.ini.php
+            $view->invalidHostMessageHowToFix = '<p><b>How do I fix this problem and how do I login again?</b><br/> The Matomo Super User can manually edit the file piwik/config/config.ini.php
 						and add the following lines: <pre>[General]' . "\n" . 'trusted_hosts[] = "' . $invalidHost . '"</pre>After making the change, you will be able to login again.</p>
 						<p>You may also <i>disable this security feature (not recommended)</i>. To do so edit config/config.ini.php and add:
 						<pre>[General]' . "\n" . 'enable_trusted_host_check=0</pre>';
@@ -841,6 +841,7 @@ abstract class Controller
 
         $view->period = $currentPeriod;
         $view->otherPeriods = $availablePeriods;
+        $view->enabledPeriods = self::getEnabledPeriodsInUI();
         $view->periodsNames = self::getEnabledPeriodsNames();
     }
 
@@ -868,8 +869,8 @@ abstract class Controller
 
         if (Piwik::hasUserSuperUserAccess()) {
             $siteTableName = Common::prefixTable('site');
-            $message = "Error: no website was found in this Piwik installation.
-			<br />Check the table '$siteTableName' in your database, it should contain your Piwik websites.";
+            $message = "Error: no website was found in this Matomo installation.
+			<br />Check the table '$siteTableName' in your database, it should contain your Matomo websites.";
 
             $ex = new NoWebsiteFoundException($message);
             $ex->setIsHtmlMessage();
@@ -880,7 +881,7 @@ abstract class Controller
         if (!Piwik::isUserIsAnonymous()) {
             $currentLogin = Piwik::getCurrentUserLogin();
             $emails = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
-            $errorMessage  = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . $emails . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
+            $errorMessage  = sprintf(Piwik::translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . $emails . "?subject=Access to Matomo for user $currentLogin'>", "</a>");
             $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Piwik::getLoginPluginName() . "&amp;action=logout'>&rsaquo; " . Piwik::translate('General_Logout') . "</a></b><br />";
 
             $ex = new NoPrivilegesException($errorMessage);
@@ -958,7 +959,7 @@ abstract class Controller
             throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $this->idSite)));
         } elseif (empty($this->site) || empty($this->idSite)) {
             throw new Exception("The requested website idSite is not found in the request, or is invalid.
-				Please check that you are logged in Piwik and have permission to access the specified website.");
+				Please check that you are logged in Matomo and have permission to access the specified website.");
         }
     }
 

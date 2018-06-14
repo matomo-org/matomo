@@ -18,20 +18,18 @@ class VisitTotalInteractions extends VisitDimension
 {
     protected $columnName = 'visit_total_interactions';
     protected $columnType = 'SMALLINT UNSIGNED DEFAULT 0';
+    protected $type = self::TYPE_NUMBER;
+    protected $segmentName = 'interactions';
+    protected $nameSingular = 'General_NbInteractions';
+    protected $acceptValues = 'Any positive integer';
 
-    protected function configureSegments()
+    public function __construct()
     {
-        $segment = new Segment();
-        $segment->setType(Segment::TYPE_METRIC);
-        $segment->setSegment('interactions');
-        $segment->setName('General_NbInteractions');
-        $segment->setAcceptedValues('Any positive integer');
-        $segment->setSuggestedValuesCallback(function ($idSite, $maxValuesToReturn) {
+        $this->suggestedValuesCallback = function ($idSite, $maxValuesToReturn) {
             $positions = range(1,50);
 
             return array_slice($positions, 0, $maxValuesToReturn);
-        });
-        $this->addSegment($segment);
+        };
     }
 
     /**
@@ -73,6 +71,17 @@ class VisitTotalInteractions extends VisitDimension
     public static function getCurrentInteractionPosition($request)
     {
         $position = $request->getMetadata('Actions', 'visit_total_interactions');
+
+        return (int) $position;
+    }
+
+    /**
+     * @param Request $request
+     * @return int
+     */
+    public static function getNextInteractionPosition($request)
+    {
+        $position = self::getCurrentInteractionPosition($request);
 
         $position = $position + 1;
 

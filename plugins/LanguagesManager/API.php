@@ -18,11 +18,11 @@ use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Translation\Loader\DevelopmentLoader;
 
 /**
- * The LanguagesManager API lets you access existing Piwik translations, and change Users languages preferences.
+ * The LanguagesManager API lets you access existing Matomo translations, and change Users languages preferences.
  *
  * "getTranslationsForLanguage" will return all translation strings for a given language,
- * so you can leverage Piwik translations in your application (and automatically benefit from the <a href='http://piwik.org/translations/' rel='noreferrer' target='_blank'>40+ translations</a>!).
- * This is mostly useful to developers who integrate Piwik API results in their own application.
+ * so you can leverage Matomo translations in your application (and automatically benefit from the <a href='https://matomo.org/translations/' rel='noreferrer' target='_blank'>40+ translations</a>!).
+ * This is mostly useful to developers who integrate Matomo API results in their own application.
  *
  * You can also request the default language to load for a user via "getLanguageForUser",
  * or update it via "setLanguageForUser".
@@ -73,7 +73,7 @@ class API extends \Piwik\Plugin\API
         /**
          * Hook called after loading available language files.
          *
-         * Use this hook to customise the list of languagesPath available in Piwik.
+         * Use this hook to customise the list of languagesPath available in Matomo.
          *
          * @param array
          */

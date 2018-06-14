@@ -9,11 +9,14 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<serverTimePretty>Mar 6, 2010 11:22:33</serverTimePretty>
 				<pageId>1</pageId>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1267874553</timestamp>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 11:22:33</lastActionDateTime>
@@ -29,24 +32,30 @@
 				<url>http://example.org/index2.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>3</pageIdAction>
+				
 				<serverTimePretty>Mar 6, 2010 11:25:33</serverTimePretty>
 				<pageId>2</pageId>
-				<interactionPosition>1</interactionPosition>
+				<bandwidth />
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1267874733</timestamp>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://example.org/index3.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>4</pageIdAction>
+				
 				<serverTimePretty>Mar 6, 2010 11:28:33</serverTimePretty>
 				<pageId>3</pageId>
+				<bandwidth />
 				<interactionPosition>2</interactionPosition>
 				<icon />
 				<timestamp>1267874913</timestamp>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 11:28:33</lastActionDateTime>
@@ -62,37 +71,46 @@
 				<url>http://example.org/no-user-id-set-but-should-appear-in-user-id-visit</url>
 				<pageTitle>no User Id set but it should appear in email@example.com!</pageTitle>
 				<pageIdAction>6</pageIdAction>
+				
 				<serverTimePretty>Mar 6, 2010 13:16:33</serverTimePretty>
 				<pageId>4</pageId>
-				<interactionPosition>1</interactionPosition>
+				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1267881393</timestamp>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
 				<pageTitle>incredible title!</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<serverTimePretty>Mar 6, 2010 13:22:33</serverTimePretty>
 				<pageId>5</pageId>
-				<interactionPosition>2</interactionPosition>
+				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
 				<icon />
 				<timestamp>1267881753</timestamp>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
 				<pageTitle>second page</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<serverTimePretty>Mar 6, 2010 13:28:33</serverTimePretty>
 				<pageId>6</pageId>
+				<bandwidth />
 				<interactionPosition>3</interactionPosition>
 				<icon />
 				<timestamp>1267882113</timestamp>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 13:28:33</lastActionDateTime>
@@ -108,11 +126,14 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>a new user id was set -&gt; new visit</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<serverTimePretty>Mar 6, 2010 13:34:33</serverTimePretty>
 				<pageId>7</pageId>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1267882473</timestamp>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 13:34:33</lastActionDateTime>
@@ -128,11 +149,14 @@
 				<url>http://example.org/home</url>
 				<pageTitle>pageview - should not be tracked by our user id but in a new visit</pageTitle>
 				<pageIdAction>10</pageIdAction>
+				
 				<serverTimePretty>Mar 6, 2010 16:28:33</serverTimePretty>
 				<pageId>10</pageId>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1267892913</timestamp>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-06 16:28:33</lastActionDateTime>
@@ -148,26 +172,32 @@
 				<url>http://example.org/home</url>
 				<pageTitle>same user id was set -&gt; this is the same unique user</pageTitle>
 				<pageIdAction>10</pageIdAction>
+				
 				<serverTimePretty>Mar 6, 2010 16:22:33</serverTimePretty>
 				<pageId>8</pageId>
-				<interactionPosition>1</interactionPosition>
+				<bandwidth />
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1267892553</timestamp>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>action</type>
 				<url>http://example.org/home</url>
 				<pageTitle>second pageview - by this user id</pageTitle>
 				<pageIdAction>10</pageIdAction>
+				
 				<serverTimePretty>Mar 6, 2010 16:28:33</serverTimePretty>
 				<pageId>9</pageId>
-				<interactionPosition>2</interactionPosition>
+				<bandwidth />
 				<timeSpent>721</timeSpent>
 				<timeSpentPretty>12 min 1s</timeSpentPretty>
+				<interactionPosition>2</interactionPosition>
 				<icon />
 				<timestamp>1267892913</timestamp>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
@@ -211,11 +241,14 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>Page view by email@example.com</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<serverTimePretty>Mar 14, 2010 11:22:33</serverTimePretty>
 				<pageId>11</pageId>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1268565753</timestamp>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-14 11:22:33</lastActionDateTime>
@@ -231,11 +264,14 @@
 				<url>http://example.org/index.htm</url>
 				<pageTitle>A page view by new-user-id@one-weeklater</pageTitle>
 				<pageIdAction>2</pageIdAction>
+				
 				<serverTimePretty>Mar 14, 2010 11:46:33</serverTimePretty>
 				<pageId>12</pageId>
+				<bandwidth />
 				<interactionPosition>1</interactionPosition>
 				<icon />
 				<timestamp>1268567193</timestamp>
+				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 		</actionDetails>
 		<lastActionDateTime>2010-03-14 11:46:33</lastActionDateTime>

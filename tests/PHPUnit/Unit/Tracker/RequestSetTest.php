@@ -201,7 +201,8 @@ class RequestSetTest extends \PHPUnit_Framework_TestCase
     public function test_getEnvironment_shouldReturnCurrentServerVar()
     {
         $this->assertEquals(array(
-            'server' => $_SERVER
+            'server' => $_SERVER,
+            'cookie' => $_COOKIE
         ), $this->requestSet->getEnvironment());
     }
 
@@ -222,26 +223,30 @@ class RequestSetTest extends \PHPUnit_Framework_TestCase
     public function test_restoreEnvironment_shouldRestoreAPreviouslySetEnvironment()
     {
         $serverBackup = $_SERVER;
-
+        $cookieBackup = $_COOKIE;
+        
         $this->requestSet->setEnvironment($this->getFakeEnvironment());
         $this->requestSet->restoreEnvironment();
 
         $this->assertEquals(array('mytest' => 'test'), $_SERVER);
+        $this->assertEquals(array('mytest2' => 'test2'), $_COOKIE);
 
         $_SERVER = $serverBackup;
+        $_COOKIE = $cookieBackup;
     }
 
     public function test_rememberEnvironment_shouldSaveCurrentEnvironment()
     {
-        $expected = $_SERVER;
+        $expected = array('server' => $_SERVER, 'cookie' => $_COOKIE);
 
         $this->requestSet->rememberEnvironment();
 
-        $this->assertEquals(array('server' => $expected), $this->requestSet->getEnvironment());
+        $this->assertEquals($expected, $this->requestSet->getEnvironment());
 
         // should not change anything
         $this->requestSet->restoreEnvironment();
-        $this->assertEquals($expected, $_SERVER);
+        $this->assertEquals($expected['server'], $_SERVER);
+        $this->assertEquals($expected['cookie'], $_COOKIE);
     }
 
     public function test_getState_shouldReturnCurrentStateOfRequestSet()
@@ -262,7 +267,7 @@ class RequestSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedRequests, $state['requests']);
         $this->assertEquals('mytoken', $state['tokenAuth']);
         $this->assertTrue(is_numeric($state['time']));
-        $this->assertEquals(array('server' => $_SERVER), $state['env']);
+        $this->assertEquals(array('server' => $_SERVER, 'cookie' => $_COOKIE), $state['env']);
     }
 
     public function test_getState_shouldRememberAnyAddedParamsFromRequestConstructor()
@@ -442,7 +447,7 @@ class RequestSetTest extends \PHPUnit_Framework_TestCase
 
     private function getFakeEnvironment()
     {
-        return array('server' => array('mytest' => 'test'));
+        return array('server' => array('mytest' => 'test'), 'cookie' => array('mytest2' => 'test2'));
     }
 }
 

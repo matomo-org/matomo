@@ -116,11 +116,11 @@ class Tasks extends \Piwik\Plugin\Tasks
     /**
      * Update the referrer spam blacklist
      *
-     * @see https://github.com/piwik/referrer-spam-blacklist
+     * @see https://github.com/matomo-org/referrer-spam-blacklist
      */
     public function updateSpammerBlacklist()
     {
-        $url = 'https://raw.githubusercontent.com/piwik/referrer-spam-blacklist/master/spammers.txt';
+        $url = 'https://raw.githubusercontent.com/matomo-org/referrer-spam-blacklist/master/spammers.txt';
         $list = Http::sendHttpRequest($url, 30);
         $list = preg_split("/\r\n|\n|\r/", $list);
         if (count($list) < 10) {

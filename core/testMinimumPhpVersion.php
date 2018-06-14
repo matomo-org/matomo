@@ -9,7 +9,7 @@
 
 /**
  * This file is executed before anything else.
- * It checks the minimum PHP version required to run Piwik.
+ * It checks the minimum PHP version required to run Matomo.
  * This file must be compatible PHP4.
  */
 
@@ -17,7 +17,7 @@ $piwik_errorMessage = '';
 
 // Minimum requirement: stream_resolve_include_path, working json_encode in 5.3.3, namespaces in 5.3
 // NOTE: when changing this variable, we also need to update
-// 1) api.piwik.org
+// 1) api.matomo.org
 // 2) tests/travis/generator/Generator.php
 // 3) composer.json (in two places)
 // 4) tests/PHPUnit/Integration/ReleaseCheckListTest.php
@@ -25,54 +25,54 @@ $piwik_minimumPHPVersion = '5.5.9';
 $piwik_currentPHPVersion = PHP_VERSION;
 $minimumPhpInvalid = version_compare($piwik_minimumPHPVersion, $piwik_currentPHPVersion) > 0;
 if ($minimumPhpInvalid) {
-    $piwik_errorMessage .= "<p><strong>To run Piwik you need at least PHP version $piwik_minimumPHPVersion</strong></p>
+    $piwik_errorMessage .= "<p><strong>To run Matomo you need at least PHP version $piwik_minimumPHPVersion</strong></p>
 				<p>Unfortunately it seems your webserver is using PHP version $piwik_currentPHPVersion. </p>
-				<p>Please try to update your PHP version, Piwik is really worth it! Nowadays most web hosts
+				<p>Please try to update your PHP version, Matomo is really worth it! Nowadays most web hosts
 				support PHP $piwik_minimumPHPVersion.</p>
-				<p>Also see the FAQ: <a href='https://piwik.org/faq/how-to-install/#faq_77'>My Web host supports PHP4 by default. How can I enable PHP5?</a></p>";
+				<p>Also see the FAQ: <a href='https://matomo.org/faq/how-to-install/#faq_77'>My Web host supports PHP4 by default. How can I enable PHP5?</a></p>";
 } else {
     if (!extension_loaded('session')) {
-        $piwik_errorMessage .= "<p><strong>Piwik and Zend_Session require the session extension</strong></p>
+        $piwik_errorMessage .= "<p><strong>Matomo and Zend_Session require the session extension</strong></p>
 					<p>It appears your PHP was compiled with <pre>--disable-session</pre>.
-					To enjoy Piwik, you need PHP compiled without that configure option.</p>";
+					To enjoy Matomo, you need PHP compiled without that configure option.</p>";
     }
 
     if (!function_exists('ini_set')) {
-        $piwik_errorMessage .= "<p><strong>Piwik and Zend_Session require the <code>ini_set()</code> function</strong></p>
+        $piwik_errorMessage .= "<p><strong>Matomo and Zend_Session require the <code>ini_set()</code> function</strong></p>
 					<p>It appears your PHP has disabled this function.
-					To enjoy Piwik, you need remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
+					To enjoy Matomo, you need remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
     }
 
     if (ini_get('mbstring.func_overload')) {
-        $piwik_errorMessage .= "<p><strong>Piwik does not work when PHP is configured with <pre>mbstring.func_overload = " . ini_get('mbstring.func_overload') . "</pre></strong></p>
+        $piwik_errorMessage .= "<p><strong>Matomo does not work when PHP is configured with <pre>mbstring.func_overload = " . ini_get('mbstring.func_overload') . "</pre></strong></p>
 					<p>It appears your mbstring extension in PHP is configured to override string functions.
-					To enjoy Piwik, you need to modify php.ini <pre>mbstring.func_overload = 0</pre>, and restart your webserver.</p>";
+					To enjoy Matomo, you need to modify php.ini <pre>mbstring.func_overload = 0</pre>, and restart your webserver.</p>";
     }
 
     if (!function_exists('json_encode')) {
-        $piwik_errorMessage .= "<p><strong>Piwik requires the php5-json extension which provides the functions <code>json_encode()</code> and <code>json_decode()</code></strong></p>
+        $piwik_errorMessage .= "<p><strong>Matomo requires the php5-json extension which provides the functions <code>json_encode()</code> and <code>json_decode()</code></strong></p>
 					<p>It appears your PHP has not yet installed the php5-json extension.
-					To use Piwik, please ask your web host to install php5-json or install it yourself, for example on debian system: <code>sudo apt-get install php5-json</code>. <br/>Then restart your webserver and refresh this page.</p>";
+					To use Matomo, please ask your web host to install php5-json or install it yourself, for example on debian system: <code>sudo apt-get install php5-json</code>. <br/>Then restart your webserver and refresh this page.</p>";
     }
 
     if (!file_exists(PIWIK_VENDOR_PATH . '/autoload.php')) {
-        $composerInstall = "In the piwik directory, run in the command line the following (eg. via ssh): \n\n"
+        $composerInstall = "In the matomo directory, run in the command line the following (eg. via ssh): \n\n"
             . "<pre> curl -sS https://getcomposer.org/installer | php \n\n php composer.phar install\n\n</pre> ";
         if (DIRECTORY_SEPARATOR === '\\' /* ::isWindows() */) {
             $composerInstall = "Download and run <a href=\"https://getcomposer.org/Composer-Setup.exe\"><b>Composer-Setup.exe</b></a>, it will install the latest Composer version and set up your PATH so that you can just call composer from any directory in your command line. "
-                . " <br>Then run this command in a terminal in the piwik directory: <br> $ php composer.phar install ";
+                . " <br>Then run this command in a terminal in the matomo directory: <br> $ php composer.phar install ";
         }
         $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' rel='noreferrer' target='_blank'>composer</a> tool is not yet installed. You can install Composer in a few easy steps:\n\n".
                     "<br/>" . $composerInstall.
-                    " This will initialize composer for Piwik and download libraries we use in vendor/* directory.".
+                    " This will initialize composer for Matomo and download libraries we use in vendor/* directory.".
                     "\n\n<br/><br/>Then reload this page to access your analytics reports." .
-                    "\n\n<br/><br/>For more information check out this FAQ: <a href='https://piwik.org/faq/how-to-install/faq_18271/' rel='noreferrer' target='_blank'>How do I use Piwik from the Git repository?</a>." .
-                    "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Piwik release from ".
-                    "<a href='https://builds.piwik.org/piwik.zip'>builds.piwik.org</a>.</p>";
+                    "\n\n<br/><br/>For more information check out this FAQ: <a href='https://matomo.org/faq/how-to-install/faq_18271/' rel='noreferrer' target='_blank'>How do I use Matomo from the Git repository?</a>." .
+                    "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Matomo release from ".
+                    "<a href='https://builds.matomo.org/piwik.zip'>builds.matomo.org</a>.</p>";
     }
 }
 
-define('PAGE_TITLE_WHEN_ERROR', 'Piwik &rsaquo; Error');
+define('PAGE_TITLE_WHEN_ERROR', 'Matomo &rsaquo; Error');
 
 if (!function_exists('Piwik_GetErrorMessagePage')) {
     /**
@@ -106,7 +106,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
     function Piwik_GetErrorMessagePage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false,
                                        $logoUrl = false, $faviconUrl = false, $isCli = null)
     {
-        error_log(sprintf("Error in Piwik: %s", str_replace("\n", " ", strip_tags($message))));
+        error_log(sprintf("Error in Matomo: %s", str_replace("\n", " ", strip_tags($message))));
 
         if (!headers_sent()) {
             header('Content-Type: text/html; charset=utf-8');
@@ -133,7 +133,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         if ($optionalTrace) {
-            $optionalTrace = '<h2>Stack trace</h2><pre>' . htmlentities($optionalTrace) . '</pre>';
+            $optionalTrace = '<h2>Stack trace</h2><pre>' . htmlentities($optionalTrace, ENT_COMPAT | ENT_HTML401, 'UTF-8') . '</pre>';
         }
 
         if ($isCli === null) {
@@ -142,11 +142,11 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
 
         if ($optionalLinks) {
             $optionalLinks = '<ul>
-                            <li><a rel="noreferrer" target="_blank" href="https://piwik.org">Piwik.org homepage</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="https://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="https://piwik.org/docs/">Piwik Documentation</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="https://forum.piwik.org/">Piwik Forums</a></li>
-                            <li><a rel="noreferrer" target="_blank" href="https://piwik.org/support/?pk_campaign=App_AnErrorOccured&pk_source=Piwik_App&pk_medium=ProfessionalServicesLink">Professional help for Piwik</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="https://matomo.org">Matomo.org homepage</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="https://matomo.org/faq/">Matomo Frequently Asked Questions</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="https://matomo.org/docs/">Matomo Documentation</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="https://forum.matomo.org/">Matomo Forums</a></li>
+                            <li><a rel="noreferrer" target="_blank" href="https://matomo.org/support/?pk_campaign=App_AnErrorOccured&pk_source=Piwik_App&pk_medium=ProfessionalServicesLink">Professional help for Matomo</a></li>
                             </ul>';
         }
         if ($optionalLinkBack) {
@@ -164,7 +164,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         $content = '<h2>' . $message . '</h2>
                     <p>'
             . $optionalLinkBack
-            . ' | <a href="index.php">Go to Piwik</a>'
+            . ' | <a href="index.php">Go to Matomo</a>'
             . '</p>'
             . ' ' . (Piwik_ShouldPrintBackTraceWithMessage() ? $optionalTrace : '')
             . ' ' . $optionalLinks;

@@ -16,7 +16,7 @@
         "MonthlyScheduleHelp": "Agenda mensal: o relatório será enviado no primeiro dia de cada mês.",
         "MustBeLoggedIn": "Deve estar autenticado para criar e agendar relatórios personalizados.",
         "Pagination": "Página %1$s de %2$s",
-        "PiwikReports": "Relatórios Piwik",
+        "PiwikReports": "Relatórios Matomo",
         "PleaseFindBelow": "Veja abaixo o relatório %1$s para %2$s.",
         "ReportFormat": "Formato do relatório",
         "ReportsIncluded": "Incluir Estatísticas",

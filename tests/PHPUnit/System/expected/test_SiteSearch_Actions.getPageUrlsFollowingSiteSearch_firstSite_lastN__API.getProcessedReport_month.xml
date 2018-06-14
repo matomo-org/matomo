@@ -12,7 +12,7 @@
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<metrics>
 			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
-			<nb_hits>Total Pageviews</nb_hits>
+			<nb_hits>Pageviews</nb_hits>
 		</metrics>
 		<metricsDocumentation>
 			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
@@ -32,7 +32,7 @@
 	<columns>
 		<label>Destination Page</label>
 		<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
-		<nb_hits>Total Pageviews</nb_hits>
+		<nb_hits>Pageviews</nb_hits>
 	</columns>
 	<reportData>
 		<result prettyDate="January 2010">

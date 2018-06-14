@@ -2,21 +2,21 @@
 <result>
 	<row>
 		<label>Asia</label>
-		<nb_visits>12</nb_visits>
-		<nb_actions>15</nb_actions>
+		<nb_visits>17</nb_visits>
+		<nb_actions>20</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>10</bounce_count>
+		<bounce_count>15</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>11</nb_conversions>
-				<nb_visits_converted>11</nb_visits_converted>
-				<revenue>55</revenue>
+				<nb_conversions>16</nb_conversions>
+				<nb_visits_converted>16</nb_visits_converted>
+				<revenue>80</revenue>
 			</row>
 		</goals>
-		<nb_conversions>11</nb_conversions>
-		<revenue>55</revenue>
-		<sum_daily_nb_uniq_visitors>12</sum_daily_nb_uniq_visitors>
+		<nb_conversions>16</nb_conversions>
+		<revenue>80</revenue>
+		<sum_daily_nb_uniq_visitors>17</sum_daily_nb_uniq_visitors>
 		<sum_daily_nb_users>0</sum_daily_nb_users>
 		<code>Asia</code>
 	</row>

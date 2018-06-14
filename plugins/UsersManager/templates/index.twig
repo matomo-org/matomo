@@ -8,7 +8,7 @@
      content-title="{{ title|e('html_attr') }}"
      feature="true"
      style="width:800px;"
-     help-url="https://piwik.org/docs/manage-users/"
+     help-url="https://matomo.org/docs/manage-users/"
     >
 <div ng-controller="ManageUserAccessController as manageUserAccess">
     <div id="sites" class="usersManager">
@@ -54,8 +54,8 @@
             <th class='first'>{{ 'UsersManager_User'|translate }}</th>
             <th>{{ 'UsersManager_Alias'|translate }}</th>
             <th>{{ 'UsersManager_PrivNone'|translate }}</th>
-            <th>{{ 'UsersManager_PrivView'|translate }} <a href="https://piwik.org/faq/general/faq_70/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
-            <th>{{ 'UsersManager_PrivAdmin'|translate }} <a href="https://piwik.org/faq/general/faq_69/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
+            <th>{{ 'UsersManager_PrivView'|translate }} <a href="https://matomo.org/faq/general/faq_70/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
+            <th>{{ 'UsersManager_PrivAdmin'|translate }} <a href="https://matomo.org/faq/general/faq_69/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
         </tr>
         </thead>
 
@@ -214,7 +214,7 @@
             {% for i,user in users %}
                 {% if user.login != 'anonymous' %}
                     <tr class="editable" id="row{{ i }}">
-                        <td id="userLogin" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.login }}</td>
+                        <td id="userLogin" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.login }}</td>
                         <td id="password" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>-</td>
                         <td id="email" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.email }}</td>
                         <td id="alias" class="editable" ng-click='manageUsers.editUser("row{{ i|e('js') }}")'>{{ user.alias|raw }}</td>
@@ -268,7 +268,7 @@
             <tr>
                 <th class='first'>{{ 'UsersManager_User'|translate }}</th>
                 <th>{{ 'UsersManager_Alias'|translate }}</th>
-                <th>{{ 'Installation_SuperUser'|translate }} <a href="https://piwik.org/faq/general/faq_35/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
+                <th>{{ 'Installation_SuperUser'|translate }} <a href="https://matomo.org/faq/general/faq_35/" rel="noreferrer" target="_blank" class="helpLink"><span class="icon-help"></span></a></th>
             </tr>
             </thead>
 

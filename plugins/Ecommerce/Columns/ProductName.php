@@ -9,12 +9,27 @@
 namespace Piwik\Plugins\Ecommerce\Columns;
 
 use Piwik\Columns\Dimension;
-use Piwik\Piwik;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join\ActionNameJoin;
+use Piwik\Tracker\Action;
 
 class ProductName extends Dimension
 {
-    public function getName()
+    protected $type = self::TYPE_TEXT;
+    protected $dbTableName = 'log_conversion_item';
+    protected $columnName = 'idaction_name';
+    protected $nameSingular = 'Goals_ProductName';
+    protected $namePlural = 'Goals_ProductNames';
+    protected $category = 'Goals_Ecommerce';
+
+    public function getDbColumnJoin()
     {
-        return Piwik::translate('Goals_ProductName');
+        return new ActionNameJoin();
     }
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator('log_action', 'type', Action::TYPE_ECOMMERCE_ITEM_NAME);
+    }
+
 }

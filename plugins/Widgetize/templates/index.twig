@@ -14,7 +14,7 @@
 <div class="widgetize" ng-controller="ExportWidgetController as exportWidget">
 <div piwik-content-intro>
     <h2 piwik-enriched-headline>{{ title|e('html_attr') }}</h2>
-    <p>With Piwik, you can export your Web Analytics reports on your blog, website, or intranet dashboard... in one click.</p>
+    <p>With Matomo, you can <a rel="noreferrer" target="_blank"  href="https://matomo.org/docs/embed-piwik-report/">export your Web Analytics reports</a> on your blog, website, or intranet dashboard... in one click.</p>
 </div>
 <div piwik-content-block content-title="Authentication">
     <p>
@@ -26,7 +26,7 @@
     </p>
 </div>
 <div piwik-content-block content-title="Widgetize dashboards">
-    <p>You can also display the full Piwik dashboard in your application or website in an IFRAME
+    <p>You can also display the full Matomo dashboard in your application or website in an IFRAME
         (<a ng-href='{{ '{{ exportWidget.dashboardUrl }}'|raw }}' rel='noreferrer' target='_blank' >see example</a>).
         The date parameter can be set to a specific calendar date, "today", or "yesterday". The period parameter can be set to "day", "week", "month", or
         "year".

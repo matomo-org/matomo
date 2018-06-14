@@ -84,7 +84,6 @@
 .ngdialog.ngdialog-theme-plain .ngdialog-input input[type="password"]:focus,
 .ngdialog.ngdialog-theme-plain .ngdialog-input input[type="email"]:focus,
 .ngdialog.ngdialog-theme-plain .ngdialog-input input[type="url"]:focus {
-  -webkit-box-shadow: inset 0 0 0 2px rgba(0,0,0,0.2);
   box-shadow: inset 0 0 0 2px rgba(0,0,0,0.2);
   outline: none;
 }

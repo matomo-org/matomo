@@ -8,8 +8,11 @@
 {% block body %}
     {% set topMenuModule = 'CoreAdminHome' %}
     {% set topMenuAction = 'home' %}
+    {{ postEvent("Template.header", "admin") }}
     {{ parent() }}
+    {{ postEvent("Template.footer", "admin") }}
 {% endblock %}
+
 
 {% block root %}
     {% include "@CoreHome/_topScreen.twig" %}
@@ -34,6 +37,7 @@
             {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction) }}
         {% endif %}
 
+
         <div class="pageWrap">
             <a name="main"></a>
             {% block notification %}
@@ -50,6 +54,7 @@
 
                 {% block content %}
                 {% endblock %}
+
 
             </div>
         </div>

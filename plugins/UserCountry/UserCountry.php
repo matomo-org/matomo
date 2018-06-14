@@ -37,25 +37,7 @@ class UserCountry extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
             'Insights.addReportToOverview'           => 'addReportToInsightsOverview',
-            'Live.getAllVisitorDetails'              => 'extendVisitorDetails'
         );
-    }
-
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $instance = new Visitor($details);
-
-        $visitor['continent']     = $instance->getContinent();
-        $visitor['continentCode'] = $instance->getContinentCode();
-        $visitor['country']       = $instance->getCountryName();
-        $visitor['countryCode']   = $instance->getCountryCode();
-        $visitor['countryFlag']   = $instance->getCountryFlag();
-        $visitor['region']        = $instance->getRegionName();
-        $visitor['regionCode']    = $instance->getRegionCode();
-        $visitor['city']          = $instance->getCityName();
-        $visitor['location']      = $instance->getPrettyLocation();
-        $visitor['latitude']      = $instance->getLatitude();
-        $visitor['longitude']     = $instance->getLongitude();
     }
 
     public function addReportToInsightsOverview(&$reports)
@@ -75,7 +57,6 @@ class UserCountry extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/UserCountry/javascripts/userCountry.js";
         $jsFiles[] = "plugins/UserCountry/angularjs/location-provider-selection/location-provider-selection.controller.js";
         $jsFiles[] = "plugins/UserCountry/angularjs/location-provider-selection/location-provider-selection.directive.js";
         $jsFiles[] = "plugins/UserCountry/angularjs/location-provider-updater/location-provider-updater.controller.js";

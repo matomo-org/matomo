@@ -78,7 +78,7 @@ class ReferrerSpamFilter
             $this->spammerList = unserialize($list);
         } else {
             // Fallback to reading the bundled list
-            $file = PIWIK_VENDOR_PATH . '/piwik/referrer-spam-blacklist/spammers.txt';
+            $file = PIWIK_VENDOR_PATH . '/matomo/referrer-spam-blacklist/spammers.txt';
             $this->spammerList = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         }
 

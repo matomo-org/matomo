@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "solo questo sito",
         "SegmentIsDisplayedForWebsite": "ed elaborato per",
         "SegmentNotApplied": "Segmento '%s' non applicato",
-        "SegmentNotAppliedMessage": "Stai richiedendo i dati per il Segmento Personalizzato '%s', questa configurazione di Piwik attualmente esclude l'elaborazione in tempo reale dei report per ragioni di velocità.",
+        "SegmentNotAppliedMessage": "Stai richiedendo i dati per il Segmento Personalizzato '%s', questa configurazione di Matomo attualmente esclude l'elaborazione in tempo reale dei report per ragioni di velocità.",
         "SelectSegmentOfVisits": "Seleziona un segmento di visite:",
         "ThisSegmentIsVisibleTo": "Questo segmento è visibile a:",
         "VisibleToAllUsers": "tutti gli utenti",

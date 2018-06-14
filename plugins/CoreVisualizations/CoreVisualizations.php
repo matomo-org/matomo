@@ -39,12 +39,17 @@ class CoreVisualizations extends \Piwik\Plugin
 
     public function getStylesheetFiles(&$stylesheets)
     {
+        $stylesheets[] = "plugins/CoreVisualizations/angularjs/series-picker/series-picker.component.less";
+
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/dataTableVisualizations.less";
         $stylesheets[] = "plugins/CoreVisualizations/stylesheets/jqplot.css";
     }
 
     public function getJsFiles(&$jsFiles)
     {
+        $jsFiles[] = "plugins/CoreVisualizations/angularjs/series-picker/series-picker.component.js";
+        $jsFiles[] = "plugins/CoreVisualizations/angularjs/series-picker/series-picker.component.js";
+
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/seriesPicker.js";
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/jqplot.js";
         $jsFiles[] = "plugins/CoreVisualizations/javascripts/jqplotBarGraph.js";

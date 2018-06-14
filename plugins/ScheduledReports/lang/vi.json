@@ -20,7 +20,7 @@
         "MustBeLoggedIn": "Bạn phải đăng nhập để tạo và lập lịch các báo cáo tùy chỉnh.",
         "NoRecipients": "Báo cáo này không có người nhận",
         "Pagination": "Trang %1$s của %2$s",
-        "PiwikReports": "Các báo cáo Piwik",
+        "PiwikReports": "Các báo cáo Matomo",
         "PleaseFindBelow": "Hãy tìm dưới đây %1$s báo cáo của bạn cho %2$s.",
         "ReportFormat": "Định dạng báo cáo",
         "ReportIncludeNWebsites": "Báo cáo này sẽ bao gồm các số liệu chính cho tất cả các trang web có ít nhất một lần truy cập( từ trang web %s hiện đang có sẵn).",
@@ -36,7 +36,7 @@
         "SentToMe": "Gửi tới tôi",
         "TableOfContent": "Danh sách báo cáo",
         "ThereIsNoReportToManage": "Không có báo cáo để quản lý website %s",
-        "TopLinkTooltip": "Tạo báo cáo Email để nhận được số liệu thống kê Piwik đã tự động cung cấp tới email của bạn hoặc địa chỉ của khách hàng của bạn!",
+        "TopLinkTooltip": "Tạo báo cáo Email để nhận được số liệu thống kê Matomo đã tự động cung cấp tới email của bạn hoặc địa chỉ của khách hàng của bạn!",
         "TopOfReport": "Quay lại đầu trang",
         "UpdateReport": "Cập nhật báo cáo",
         "WeeklyScheduleHelp": "Lịch hàng tuần: báo cáo sẽ được gửi vào thứ Hai mỗi tuần."

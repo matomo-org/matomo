@@ -8,7 +8,7 @@
 		<name>Visits per server time</name>
 		<module>VisitTime</module>
 		<action>getVisitInformationPerServerTime</action>
-		<dimension>Server time</dimension>
+		<dimension>Server time - hour (End of visit)</dimension>
 		<documentation>This graph shows what time it was in the &lt;strong&gt; server's time zone &lt;/strong&gt; during the visits.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -43,7 +43,7 @@
 		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
 	</metadata>
 	<columns>
-		<label>Server time</label>
+		<label>Server time - hour (End of visit)</label>
 		<nb_visits>Visits</nb_visits>
 		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 		<nb_actions>Actions</nb_actions>

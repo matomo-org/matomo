@@ -12,6 +12,7 @@ use Piwik\Application\Environment;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Plugins\API\API;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableName;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableValue;
 use Piwik\Plugins\CustomVariables\Model;
@@ -19,6 +20,20 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tracker\Cache;
 use Piwik\Cache as PiwikCache;
+
+// Class to cache results of getSuggestedValuesForSegment to prevent it beeing called multiple time for each segment
+class CachedAPI extends API
+{
+    public static $cache = [];
+
+    public function getSuggestedValuesForSegment($segmentName, $idSite)
+    {
+        if (empty(self::$cache[$segmentName . $idSite])) {
+            self::$cache[$segmentName . $idSite] = parent::getSuggestedValuesForSegment($segmentName, $idSite);
+        }
+        return self::$cache[$segmentName . $idSite];
+    }
+}
 
 /**
  * testing a the auto suggest API for all known segments
@@ -32,6 +47,21 @@ class AutoSuggestAPITest extends SystemTestCase
 
     protected static $processed = 0;
     protected static $skipped = array();
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+
+        API::setSingletonInstance(CachedAPI::getInstance());
+    }
+
+    public static function tearDownAfterClass()
+    {
+        parent::tearDownAfterClass();
+
+        CachedAPI::$cache = [];
+        API::unsetInstance();
+    }
 
     /**
      * @dataProvider getApiForTesting
@@ -104,7 +134,7 @@ class AutoSuggestAPITest extends SystemTestCase
                 $topSegmentValue = Common::forceDotAsSeparatorForDecimalPoint($topSegmentValue);
             }
             // Now build the segment request
-            $segmentValue = rawurlencode(html_entity_decode($topSegmentValue));
+            $segmentValue = rawurlencode(html_entity_decode($topSegmentValue, ENT_COMPAT | ENT_HTML401, 'UTF-8'));
             $params['segment'] = $params['segmentToComplete'] . '==' . $segmentValue;
             unset($params['segmentToComplete']);
             $this->runApiTests($api, $params);
@@ -213,5 +243,11 @@ class AutoSuggestAPITest extends SystemTestCase
     }
 }
 
+$date = mktime(0, 0, 0, 1, 1, 2018);
+
+$lookBack = ceil((time() - $date) / 86400);
+
+API::$_autoSuggestLookBack = $lookBack;
+
 AutoSuggestAPITest::$fixture = new ManyVisitsWithGeoIP();
-AutoSuggestAPITest::$fixture->dateTime = Date::yesterday()->subDay(30)->getDatetime();
+AutoSuggestAPITest::$fixture->dateTime = Date::factory($date)->getDatetime();

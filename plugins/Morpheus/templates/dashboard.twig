@@ -10,13 +10,14 @@
 
 {% set title %}{{ siteName|raw }}{% if prettyDateLong is defined %} - {{ prettyDateLong }}{% endif %} - {{ 'CoreHome_WebAnalyticsReports'|translate }}{% endset %}
 
-{% block pageDescription %}Web Analytics report for {{ siteName|escape("html_attr") }} - Piwik{% endblock %}
+{% block pageDescription %}Web Analytics report for {{ siteName|escape("html_attr") }} - Matomo{% endblock %}
 
 {% set bodyClass = postEvent('Template.bodyClass', 'dashboard') %}
 
 {% block body %}
+    {{ postEvent("Template.header", "dashboard") }}
     {{ parent() }}
-    {{ postEvent("Template.footer") }}
+    {{ postEvent("Template.footer", "dashboard") }}
 {% endblock %}
 
 {% block root %}
@@ -25,9 +26,9 @@
 
     <div class="top_controls">
         <div piwik-quick-access ng-cloak class="piwikTopControl borderedControl"></div>
-
         {% block topcontrols %}
         {% endblock %}
+
     </div>
 
     <div class="ui-confirm" id="alert">

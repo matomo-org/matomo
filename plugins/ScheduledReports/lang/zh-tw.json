@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "你必須登入以建立或排程自定報表。",
         "NoRecipients": "這份報表沒有收件人",
         "Pagination": "第 %1$s 頁，共 %2$s 頁",
-        "PiwikReports": "Piwik 報表",
+        "PiwikReports": "Matomo 報表",
         "PleaseFindAttachedFile": "請從附件檔中確認你 %2$s 的 %1$s。",
         "SentFromX": "寄送自 %s。",
         "PleaseFindBelow": "請從下方確認你 %2$s 的 %1$s。",
@@ -43,7 +43,7 @@
         "SentToMe": "寄給我自己",
         "TableOfContent": "報表列表",
         "ThereIsNoReportToManage": "%s 中沒有任何報表可管理",
-        "TopLinkTooltip": "建立報表信件讓 Piwik 統計資料自動送達你或你客戶的信箱！",
+        "TopLinkTooltip": "建立報表信件讓 Matomo 統計資料自動送達你或你客戶的信箱！",
         "TopOfReport": "回到頂端",
         "UpdateReport": "更新報表",
         "WeeklyScheduleHelp": "每週排程：報表將會在每週星一寄送。"

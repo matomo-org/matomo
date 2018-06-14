@@ -12,41 +12,33 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
+use Piwik\Metrics\Formatter;
 use Piwik\Network\IP;
-use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Provider\Provider as ProviderProvider;
 use Piwik\Plugins\UserCountry\LocationProvider;
-use Piwik\Plugins\UserCountry\Segment;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
+
 class Country extends Base
 {
     protected $columnName = 'location_country';
     protected $columnType = 'CHAR(3) NULL';
+    protected $type = self::TYPE_TEXT;
 
-    protected function configureSegments()
+    protected $category =  'UserCountry_VisitLocation';
+    protected $nameSingular = 'UserCountry_Country';
+    protected $namePlural = 'UserCountryMap_Countries';
+    protected $segmentName = 'countryCode';
+    protected $acceptValues = 'de, us, fr, in, es, etc.';
+
+    public function formatValue($value, $idSite, Formatter $formatter)
     {
-        $segment = new Segment();
-        $segment->setSegment('countryCode');
-        $segment->setName('UserCountry_Country');
-        $segment->setAcceptedValues('de, us, fr, in, es, etc.');
-        $this->addSegment($segment);
-
-        $segment = new Segment();
-        $segment->setSegment('continentCode');
-        $segment->setName('UserCountry_Continent');
-        $segment->setSqlFilter('Piwik\Plugins\UserCountry\UserCountry::getCountriesForContinent');
-        $segment->setAcceptedValues('eur, asi, amc, amn, ams, afr, ant, oce');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('UserCountry_Country');
+        return \Piwik\Plugins\UserCountry\countryTranslate($value);
     }
 
     /**

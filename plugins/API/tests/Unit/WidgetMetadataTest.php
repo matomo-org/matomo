@@ -183,6 +183,45 @@ class WidgetMetadataTest extends \PHPUnit_Framework_TestCase
         ), $widget2);
     }
 
+    public function test_buildWidgetMetadata_ShouldUseOverrideValues_IfSupplied()
+    {
+        $categoryList = $this->createCategoryList([
+            'Category' => ['Subcategory'],
+            'Category2' => ['Subcategory2'],
+        ]);
+
+        $config = $this->createWidgetConfig('name', 'Category', 'Subcategory');
+        $metadata = $this->metadata->buildWidgetMetadata($config, $categoryList, [
+            'name' => 'changed name',
+            'category' => 'Category2',
+            'subcategory' => 'Subcategory2',
+        ]);
+
+        $this->assertEquals([
+            'name' => 'changed name',
+            'category' => [
+                'id' => 'Category2',
+                'name' => 'Category2',
+                'order' => 99,
+                'icon' => '',
+            ],
+            'subcategory' => [
+                'id' => 'Subcategory2',
+                'name' => 'Subcategory2Name',
+                'order' => 99,
+            ],
+            'module' => 'CoreHome',
+            'action' => 'render',
+            'order' => 99,
+            'parameters' => [
+                'module' => 'CoreHome',
+                'action' => 'render',
+            ],
+            'uniqueId' => 'widgetCoreHomerender',
+            'isWide' => false,
+        ], $metadata);
+    }
+
     public function test_buildPageMetadata_ShouldAddContainerInformtion_IfWidgetContainerConfigGiven()
     {
         $config = new WidgetContainerConfig();

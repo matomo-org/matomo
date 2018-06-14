@@ -87,7 +87,7 @@ class UpdateCommunication
         $message .= "\n\n";
         $message .= Piwik::translate('CoreUpdater_FeedbackRequest');
         $message .= "\n";
-        $message .= 'http://piwik.org/contact/';
+        $message .= 'https://matomo.org/contact/';
 
         $this->sendEmailNotification($subject, $message);
     }
@@ -96,7 +96,7 @@ class UpdateCommunication
     {
         $version = str_replace('.', '-', $version);
 
-        $link = sprintf('http://piwik.org/changelog/piwik-%s/', $version);
+        $link = sprintf('https://matomo.org/changelog/matomo-%s/', $version);
 
         return $link;
     }

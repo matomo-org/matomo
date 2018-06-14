@@ -41,12 +41,11 @@
 }
 
 .metricMatchBlock {
-    width: 120px;
     margin-right: 11px;
 }
 
 .metricValueBlock {
-    width: 352px;
+    width: 500px;
 }
 
 div.scrollable {
@@ -98,81 +97,16 @@ div.scrollable {
     background: url(plugins/SegmentEditor/images/reset_search.png);
 }
 
-.segment-element .segment-nav {
-    position: absolute;
-    top: 7px;
-    left: 5px;
-    bottom: 135px;
-    float: left;
-    width: 170px;
-}
-
-.segment-element .segment-nav h4 {
-    font-size: 14px;
-    font-weight: bold;
-    padding: 0 0 8px 0;
-}
-
-.segment-element .segment-nav h4 a {
-    color: #255792;
-    text-decoration: none;
-}
-
-.segment-element .segment-nav div > ul {
-    padding: 0 0 0 15px;
-}
-
-.segment-element .segment-nav div > ul > li {
-    padding: 2px 0;
-    line-height: 14px;
-}
-
-.segment-element .segment-nav div > ul > li li {
-    padding: 1px;
-    border-radius: 3px 3px 3px 3px;
-}
-
-.segment-element .segment-nav div > ul > li li:hover {
-    padding: 0;
-    border: 1px solid #cfccbd;
-    border-bottom: 1px solid #7c7a72;
-}
-
-.segment-element .segment-nav div > ul > li li:hover a {
-    cursor: move;
-    padding: 1px 0 2px 8px;
-    border-top: 1px solid #fff;
-    background: #eae8e3 url(plugins/SegmentEditor/images/segment-move.png) 100% 50% no-repeat;
-}
-
-.segment-element .segment-nav div > ul > li li a {
-    padding: 2px 0 2px 8px;
-    font-weight: normal;
-    display: block;
-}
-
-.segment-element .segment-nav div > ul > li ul {
-    margin: 2px 0 -3px 10px;
-}
-
-.segment-element .segment-nav div > ul > li a {
-    color: @theme-color-text-light;
-    font-size: 11px;
-    font-weight: bold;
-    text-decoration: none;
-    text-shadow: 0 1px 0 #fff;
-}
-
 .segment-element .segment-content {
     min-height: 300px;
-    padding: 0 0 20px 203px;
+    padding: 0 0 20px 0;
 }
 
 .segment-element .segment-content h3 {
     font-size: 16px;
     font-weight: bold;
     color: #505050;
-    margin: 11px 0 0 0;
+    margin: 0 0 0 0;
     text-shadow: 0 1px 0 #fff;
 }
 
@@ -182,194 +116,10 @@ div.scrollable {
     margin: -1px 0 0 0;
 }
 
-.segment-element .segment-content .segment-rows {
-    padding: 4px;
-    margin: 0 3px 0 0;
-    border: 1px solid #a9a399;
-    border-radius: 3px 3px 3px 3px;
-    position: relative;
-    box-shadow: 0 12px 6px -10px rgba(0, 0, 0, 0.42);
-}
-
-.segment-element .segment-content .segment-add-row,
-.segment-element .segment-content .segment-add-or {
-    font-size: 14px;
-    font-weight: bold;
-    background: @theme-color-background-contrast;
-    color: #b9b9b9;
-    text-align: center;
-    position: relative;
-}
-
-.segment-element .segment-content .segment-add-row > div,
-.segment-element .segment-content .segment-add-or > div {
-    border-radius: 4px;
-    border: 2px dashed #fff;
-    padding: 10px 0;
-}
-
-.segment-element .segment-content .segment-add-row > div a,
-.segment-element .segment-content .segment-add-or > div a {
-    color: #b9b9b9;
-    text-decoration: none;
-}
-
-.segment-element .segment-content .segment-add-row > div a span,
-.segment-element .segment-content .segment-add-or > div a span {
-    color: #255792;
-}
-
-.segment-element .segment-content .segment-add-row {
-    margin: 0 3px 0 0;
-    padding: 0 12px;
-    border: 1px solid #a9a399;
-    border-radius: 3px 3px 3px 3px;
-    box-shadow: 0 12px 6px -10px rgba(0, 0, 0, 0.42);
-}
-
-.segment-element .segment-content .segment-add-or {
-    text-shadow: 0 1px 0 #fff;
-    display: inline-block;
-    width: 100%;
-    padding: 0 1%;
-    background: #efefeb;
-    border-radius: 3px 3px 3px 3px;
-}
-
-.segment-element .segment-content .segment-add-or > div {
-    border: 2px dashed #EFEFEB;
-    background-color: #efefeb;
-}
-
-.segment-element .segment-content .segment-row {
-    border-radius: 3px;
-    display: inline-block;
-    position: relative;
-    width: 811px;
-    padding: 12px 1%;
-    background: #efefeb;
-    padding: 7px 5px 0 5px;
-}
-
-.segment-element .segment-content .segment-row .segment-close {
-    top: 15px;
-    right: 6px;
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background: url(plugins/SegmentEditor/images/segment-close.png) 0 0 no-repeat;
-}
-
-.segment-element .segment-content .segment-row .segment-loading {
-    display: none;
-    top: 25px;
-    right: 30px;
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background: url(plugins/Morpheus/images/loading-blue.gif) 0 0 no-repeat;
-}
-
-.segment-element .segment-content .segment-or {
-    display: inline-block;
-    margin: 0 0 0 6%;
-    position: relative;
-    background: #efefeb;
-    padding: 5px 28px;
-    color: #4f4f4f;
-    font-weight: bold;
-    font-size: 14px;
-    text-shadow: 0 1px 0 #fff;
-}
-
-.segment-element .segment-content .segment-or:before,
-.segment-element .segment-content .segment-or:after {
-    content: '';
-    position: absolute;
-    background: @theme-color-background-base;
-    border: 1px solid #efefeb;
-    width: 10px;
-    top: -1px;
-    bottom: -1px;
-}
-
-.segment-element .segment-content .segment-or:before {
-    border-left: none;
-    left: 0px;
-    border-radius: 0 5px 5px 0;
-}
-
-.segment-element .segment-content .segment-or:after {
-    border-right: none;
-    right: 0px;
-    border-radius: 5px 0 0 5px;
-}
-
 .segment-element .edit_segment_name {
     width: 200px;
 }
 
-.segment-element .segment-content .segment-and {
-    display: inline-block;
-    margin: -1px 0 -1px 6%;
-    z-index: 1;
-    position: relative;
-    background: @theme-color-background-contrast;
-    padding: 5px 35px;
-    color: #4f4f4f;
-    font-size: 14px;
-    font-weight: bold;
-    text-shadow: 0 1px 0 #fff;
-}
-
-.segment-element .segment-content .segment-and:before,
-.segment-element .segment-content .segment-and:after {
-    content: '';
-    position: absolute;
-    background: url(plugins/SegmentEditor/images/bg-inverted-corners.png);
-    border: 1px solid #a9a399;
-    width: 10px;
-    top: 0px;
-    bottom: 0px;
-}
-
-.segment-element .segment-content .segment-and:before {
-    border-left: none;
-    left: 0px;
-    border-radius: 0 5px 5px 0;
-}
-
-.segment-element .segment-content .segment-and:after {
-    border-right: none;
-    right: 0px;
-    border-radius: 5px 0 0 5px;
-}
-
-.segment-element .segment-content .segment-input {
-    float: left;
-    padding: 6px 0 5px 3px;
-    border: 2px dashed #EFEFEB;
-    margin-right: 3px;
-}
-
-.segment-element .segment-content .segment-input label {
-    display: block;
-    margin: 0 0 5px 0;
-    font-size: 11px;
-    color: #505050;
-}
-
-.segment-element .segment-content .segment-input select,
-.segment-element .segment-content .segment-input input {
-    display: block;
-    width: 96%;
-    padding-top: 7px;
-    padding-bottom: 7px;
-}
-
-.segment-element .segment-content .segment-input input {
-    padding: 8px 2%;
-}
 
 .segment-element .segment-top {
     font-size: 11px;
@@ -627,7 +377,7 @@ a.metric_category {
 
 .segment-element {
     z-index: 999;
-    width: 1040px;
+    width: 908px;
 }
 
 .segmentationSelectorContainer {
@@ -686,12 +436,6 @@ a.metric_category {
 .segment-element.anchorRight {
     right: -1px;
     left: auto;
-}
-
-.available_segments {
-    display: inline-block;
-    width: 150px;
-    padding-left: 5px;
 }
 
 .segmentationTitle,

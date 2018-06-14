@@ -26,12 +26,12 @@ class LogTest extends IntegrationTestCase
 {
     const TESTMESSAGE = 'test%smessage';
     const STRING_MESSAGE_FORMAT = '[%tag%] %message%';
-    const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] %s";
+    const STRING_MESSAGE_FORMAT_SPRINTF = "[%s] [%s] %s";
 
-    public static $expectedExceptionOutput = '[Monolog] LogTest.php(112): dummy error message
+    public static $expectedExceptionOutput = '[Monolog] [%s] LogTest.php(112): dummy error message
   dummy backtrace';
 
-    public static $expectedErrorOutput = '[Monolog] dummyerrorfile.php(145): Unknown error (102) - dummy error string
+    public static $expectedErrorOutput = '[Monolog] [%s] dummyerrorfile.php(145): Unknown error (102) - dummy error string
   dummy backtrace';
 
     public function setUp()
@@ -99,7 +99,7 @@ class LogTest extends IntegrationTestCase
         $error = new \ErrorException("dummy error string", 0, 102, "dummyerrorfile.php", 145);
         Log::error($error);
 
-        $this->checkBackend($backend, self::$expectedErrorOutput, $formatMessage = false, $tag = 'Monolog');
+        $this->checkBackend($backend, sprintf(self::$expectedErrorOutput, getmypid()), $formatMessage = false, $tag = 'Monolog');
     }
 
     /**
@@ -112,7 +112,7 @@ class LogTest extends IntegrationTestCase
         $exception = new Exception("dummy error message");
         Log::error($exception);
 
-        $this->checkBackend($backend, self::$expectedExceptionOutput, $formatMessage = false, $tag = 'Monolog');
+        $this->checkBackend($backend, sprintf(self::$expectedExceptionOutput, getmypid()), $formatMessage = false, $tag = 'Monolog');
     }
 
     /**
@@ -192,7 +192,7 @@ class LogTest extends IntegrationTestCase
     private function checkBackend($backend, $expectedMessage, $formatMessage = false, $tag = false)
     {
         if ($formatMessage) {
-            $expectedMessage = sprintf(self::STRING_MESSAGE_FORMAT_SPRINTF, $tag, $expectedMessage);
+            $expectedMessage = sprintf(self::STRING_MESSAGE_FORMAT_SPRINTF, $tag, getmypid(), $expectedMessage);
         }
 
         if ($backend == 'file') {
@@ -201,7 +201,7 @@ class LogTest extends IntegrationTestCase
             $fileContents = file_get_contents(self::getLogFileLocation());
             $fileContents = $this->removePathsFromBacktrace($fileContents);
 
-            $expectedMessage = str_replace("\n ", "\n[Monolog]", $expectedMessage);
+            $expectedMessage = str_replace("\n ", "\n[Monolog] [" . getmypid() . "]", $expectedMessage);
 
             $this->assertEquals($expectedMessage . "\n", $fileContents);
         } else if ($backend == 'database') {

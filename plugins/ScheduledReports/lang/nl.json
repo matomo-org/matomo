@@ -22,7 +22,7 @@
         "MustBeLoggedIn": "Je moet ingelogd zijn om aangepaste rapporten aan te maken en in te plannen.",
         "NoRecipients": "Dit rapport heeft geen ontvangers",
         "Pagination": "Pagina %1$s van %2$s",
-        "PiwikReports": "Piwik-rapporten",
+        "PiwikReports": "Matomo-rapporten",
         "PleaseFindAttachedFile": "In de bijlage treft u uw %1$s rapport voor %2$s.",
         "SentFromX": "Verzonden vanaf %s.",
         "PleaseFindBelow": "Hieronder treft u uw %1$s rapport voor %2$s.",
@@ -43,7 +43,7 @@
         "SentToMe": "Zend naar mij",
         "TableOfContent": "Rapport lijst",
         "ThereIsNoReportToManage": "Er is geen rapport te beheren voor website %s",
-        "TopLinkTooltip": "Creeer Email Rapporten om Piwik statistieken automatisch naar je email adres of die van een klant te versturen!",
+        "TopLinkTooltip": "Creeer Email Rapporten om Matomo statistieken automatisch naar je email adres of die van een klant te versturen!",
         "TopOfReport": "Terug naar boven",
         "UpdateReport": "Rapport bijwerken",
         "WeeklyScheduleHelp": "Wekelijks versturen: Rapport zal worden verzonden elke maandag van de week."

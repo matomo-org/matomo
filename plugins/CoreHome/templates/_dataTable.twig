@@ -49,6 +49,10 @@
         {% if error is defined %}
             {{ error.message }}
         {% else %}
+            {% if properties.show_header_message is defined and properties.show_header_message is not empty %}
+                <div class='datatableHeaderMessage'>{{ properties.show_header_message | raw }}</div>
+            {% endif %}
+
             {% if isDataTableEmpty %}
                 <div class="pk-emptyDataTable">
                 {% if showReportDataWasPurgedMessage is defined and showReportDataWasPurgedMessage %}

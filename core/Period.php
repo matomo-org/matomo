@@ -135,6 +135,26 @@ abstract class Period
     }
 
     /**
+     * Returns the start date & time of this period.
+     *
+     * @return Date
+     */
+    public function getDateTimeStart()
+    {
+        return $this->getDateStart()->getStartOfDay();
+    }
+
+    /**
+     * Returns the end date & time of this period.
+     *
+     * @return Date
+     */
+    public function getDateTimeEnd()
+    {
+        return $this->getDateEnd()->getEndOfDay();
+    }
+
+    /**
      * Returns the last day of the period.
      *
      * @return Date

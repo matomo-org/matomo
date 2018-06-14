@@ -1,9 +1,11 @@
 {
     "SEO": {
-        "AlexaRank": "Alexa Rank",
-        "DomainAge": "Domain életkora",
-        "Rank": "Lekérdezés",
-        "SeoRankings": "Keresőoptimalizálási adatok",
-        "SEORankingsFor": "Keresőoptimalizálási adatok a %s oldalhoz"
+        "AlexaRank": "Alexa rangsor",
+        "Bing_IndexedPages": "Bing által indexelt oldalak",
+        "DomainAge": "Domain életkor",
+        "Google_IndexedPages": "Google által indexelt oldalak",
+        "Rank": "Rangsor",
+        "SeoRankings": "Keresőoptimalizálási rangsor",
+        "SEORankingsFor": "%s oldalhoz tartozó keresőoptimalizálási adatok"
     }
 }

@@ -2,7 +2,7 @@
 <html id="ng-app" ng-app="piwikApp">
 <head>
     <meta charset="utf-8">
-    <title>Piwik &rsaquo; {{ pageTitle|default('CoreUpdater_UpdateTitle'|translate) }}</title>
+    <title>Matomo &rsaquo; {{ pageTitle|default('CoreUpdater_UpdateTitle'|translate) }}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1"/>
     <meta name="viewport" content="initial-scale=1.0" />
     <meta name="robots" content="noindex,nofollow">
@@ -21,10 +21,11 @@
 <div class="logo">
     {% if hasSVGLogo %}
         <img src='{{ logoSVG }}' tabindex="3"
-             alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik"
+             style="height: 40px;"
+             alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo"
              class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" />
     {% else %}
-        <img src='{{ logoHeader }}' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik" />
+        <img src='{{ logoHeader }}' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo" />
     {% endif %}
 </div>
 

@@ -78,7 +78,7 @@ class LoadDataInfileCheck implements Diagnostic
                 '<br/><strong>%s:</strong> %s<br/>%s',
                 $this->translator->translate('General_Error'),
                 $errorMessage,
-                'Troubleshooting: <a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/troubleshooting/%23faq_194">FAQ on piwik.org</a>'
+                'Troubleshooting: <a target="_blank" href="?module=Proxy&action=redirect&url=https://matomo.org/faq/troubleshooting/%23faq_194">FAQ on matomo.org</a>'
             );
         }
 

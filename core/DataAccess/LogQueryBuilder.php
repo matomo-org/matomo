@@ -22,9 +22,24 @@ class LogQueryBuilder
      */
     private $logTableProvider;
 
+    /**
+     * Forces to use a subselect when generating the query. Set value to `false` to force not using a subselect.
+     * @var string
+     */
+    private $forcedInnerGroupBy = '';
+
     public function __construct(LogTablesProvider $logTablesProvider)
     {
         $this->logTableProvider = $logTablesProvider;
+    }
+
+    /**
+     * Forces to use a subselect when generating the query.
+     * @var string
+     */
+    public function forceInnerGroupBySubselect($innerGroupBy)
+    {
+        $this->forcedInnerGroupBy = $innerGroupBy;
     }
 
     public function getSelectQueryString(SegmentExpression $segmentExpression, $select, $from, $where, $bind, $groupBy,
@@ -55,11 +70,13 @@ class LogQueryBuilder
             && $fromInitially == array('log_conversion')
             && strpos($from, 'log_link_visit_action') !== false);
 
-        if ($useSpecialConversionGroupBy) {
+        if (!empty($this->forcedInnerGroupBy)) {
+            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables, $this->forcedInnerGroupBy);
+        } elseif ($useSpecialConversionGroupBy) {
             $innerGroupBy = "CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)";
-            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $innerGroupBy);
+            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables, $innerGroupBy);
         } elseif ($joinWithSubSelect) {
-            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset);
+            $sql = $this->buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $tables);
         } else {
             $sql = $this->buildSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset);
         }
@@ -91,15 +108,50 @@ class LogQueryBuilder
      * @throws Exception
      * @return string
      */
-    private function buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, $innerGroupBy = null)
+    private function buildWrappedSelectQuery($select, $from, $where, $groupBy, $orderBy, $limitAndOffset, JoinTables $tables, $innerGroupBy = null)
     {
-        $matchTables = '(' . implode('|', $this->getKnownTables()) . ')';
+        $matchTables = $this->getKnownTables();
+        foreach ($tables as $table) {
+            if (is_array($table) && isset($table['tableAlias']) && !in_array($table['tableAlias'], $matchTables, $strict = true)) {
+                $matchTables[] = $table['tableAlias'];
+            } elseif (is_array($table) && isset($table['table']) && !in_array($table['table'], $matchTables, $strict = true)) {
+                $matchTables[] = $table['table'];
+            } elseif (is_string($table) && !in_array($table, $matchTables, $strict = true)) {
+                $matchTables[] = $table;
+            }
+        }
+
+        $matchTables = '(' . implode('|', $matchTables) . ')';
         preg_match_all("/". $matchTables ."\.[a-z0-9_\*]+/", $select, $matches);
         $neededFields = array_unique($matches[0]);
 
         if (count($neededFields) == 0) {
             throw new Exception("No needed fields found in select expression. "
                 . "Please use a table prefix.");
+        }
+
+        $fieldNames = array();
+        $toBeReplaced = array();
+        $epregReplace = array();
+        foreach ($neededFields as &$neededField) {
+            $parts = explode('.', $neededField);
+            if (count($parts) === 2 && !empty($parts[1])) {
+                if (in_array($parts[1], $fieldNames, $strict = true)) {
+                    // eg when selecting 2 dimensions log_action_X.name
+                    $columnAs = $parts[1] . md5($neededField);
+                    $fieldNames[] = $columnAs;
+                    // we make sure to not replace a idvisitor column when duplicate column is idvisit
+                    $toBeReplaced[$neededField . ' '] = $parts[0] . '.' . $columnAs . ' ';
+                    $toBeReplaced[$neededField . ')'] = $parts[0] . '.' . $columnAs . ')';
+                    $toBeReplaced[$neededField . '`'] = $parts[0] . '.' . $columnAs . '`';
+                    $toBeReplaced[$neededField . ','] = $parts[0] . '.' . $columnAs . ',';
+                    // replace when string ends this, we need to use regex to check for this
+                    $epregReplace["/(" . $neededField . ")$/"] = $parts[0] . '.' . $columnAs;
+                    $neededField .= ' as ' .  $columnAs;
+                } else {
+                    $fieldNames[] = $parts[1];
+                }
+            }
         }
 
         preg_match_all("/". $matchTables . "/", $from, $matchesFrom);
@@ -109,12 +161,6 @@ class LogQueryBuilder
         $innerWhere = $where;
 
         $innerLimitAndOffset = $limitAndOffset;
-
-        if (!isset($innerGroupBy) && in_array('log_visit', $matchesFrom[1])) {
-            $innerGroupBy = "log_visit.idvisit";
-        } elseif (!isset($innerGroupBy)) {
-            throw new Exception('Cannot use subselect for join as no group by rule is specified');
-        }
 
         $innerOrderBy = "NULL";
         if ($innerLimitAndOffset && $orderBy) {
@@ -126,9 +172,29 @@ class LogQueryBuilder
             $innerGroupBy = false;
         }
 
+        if (!isset($innerGroupBy) && in_array('log_visit', $matchesFrom[1])) {
+            $innerGroupBy = "log_visit.idvisit";
+        } elseif (!isset($innerGroupBy)) {
+            throw new Exception('Cannot use subselect for join as no group by rule is specified');
+        }
+
+        if (!empty($toBeReplaced)) {
+            $select = preg_replace(array_keys($epregReplace), array_values($epregReplace), $select);
+            $select = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $select);
+            if (!empty($groupBy)) {
+                $groupBy = preg_replace(array_keys($epregReplace), array_values($epregReplace), $groupBy);
+                $groupBy = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $groupBy);
+            }
+            if (!empty($orderBy)) {
+                $orderBy = preg_replace(array_keys($epregReplace), array_values($epregReplace), $orderBy);
+                $orderBy = str_replace(array_keys($toBeReplaced), array_values($toBeReplaced), $orderBy);
+            }
+        }
+
         $innerQuery = $this->buildSelectQuery($innerSelect, $innerFrom, $innerWhere, $innerGroupBy, $innerOrderBy, $innerLimitAndOffset);
 
         $select = preg_replace('/'.$matchTables.'\./', 'log_inner.', $select);
+
         $from = "
         (
             $innerQuery

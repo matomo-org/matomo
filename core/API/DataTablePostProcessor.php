@@ -397,7 +397,7 @@ class DataTablePostProcessor
         // this is needed because Proxy uses Common::getRequestVar which in turn
         // uses Common::sanitizeInputValue. This causes the > that separates recursive labels
         // to become &gt; and we need to undo that here.
-        $label = str_replace( htmlentities('>'), '>', $label);
+        $label = str_replace( htmlentities('>', ENT_COMPAT | ENT_HTML401, 'UTF-8'), '>', $label);
         return $label;
     }
 

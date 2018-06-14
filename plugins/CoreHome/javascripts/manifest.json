@@ -1,6 +1,6 @@
 {
-  "short_name": "Piwik",
-  "name": "Piwik - Open Source Analytics",
+  "short_name": "Matomo",
+  "name": "Matomo - Open Source Analytics",
   "icons": [
     {
       "src": "../images/applogo_32.png",
@@ -36,6 +36,8 @@
   "start_url": "../../../",
   "display": "standalone",
   "orientation": "portrait",
+  "background_color": "#edecec",
+  "theme_color": "#37474f",
   "prefer_related_applications": true,
   "related_applications": [
     {

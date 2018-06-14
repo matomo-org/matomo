@@ -268,7 +268,11 @@ class GeoIPAutoUpdater extends Task
             }
 
             $tempFile = GeoIp::getPathForGeoIpDatabase($tempFilename);
-            rename($tempFile, $oldDbFile);
+            if (@rename($tempFile, $oldDbFile) !== true) {
+                //In case the $tempfile cannot be renamed, we copy the file.
+                copy($tempFile, $oldDbFile);
+                unlink($tempFile);
+            }
 
             // delete original archive
             if ($unlink) {
@@ -352,6 +356,17 @@ class GeoIPAutoUpdater extends Task
 
             $scheduler->rescheduleTask(new GeoIPAutoUpdater());
         }
+    }
+
+    /**
+     * Removes all options to disable any configured automatic updates
+     */
+    public static function clearOptions()
+    {
+        foreach (self::$urlOptions as $optionKey => $optionName) {
+            Option::delete($optionName);
+        }
+        Option::delete(self::SCHEDULE_PERIOD_OPTION_NAME);
     }
 
     /**

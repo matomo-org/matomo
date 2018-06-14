@@ -1866,7 +1866,7 @@
 		<uniqueId>widgetReferrersgetKeywordsForPage</uniqueId>
 	</row>
 	<row>
-		<name>Piwik Changelog</name>
+		<name>Matomo Changelog</name>
 		<category>
 			<name>Example Widgets</name>
 			<order>99</order>
@@ -1968,7 +1968,7 @@
 		<uniqueId>widgetCoreHomegetPromoVideo</uniqueId>
 	</row>
 	<row>
-		<name>Support Piwik!</name>
+		<name>Support Matomo!</name>
 		<category>
 			<name>Example Widgets</name>
 			<order>99</order>

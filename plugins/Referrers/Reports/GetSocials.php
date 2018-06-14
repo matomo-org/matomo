@@ -28,7 +28,7 @@ class GetSocials extends Base
         $this->actionToLoadSubTables = 'getUrlsForSocial';
         $this->order = 11;
 
-        $this->subcategoryId = 'Referrers_SubmenuWebsites';
+        $this->subcategoryId = 'Referrers_Socials';
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)

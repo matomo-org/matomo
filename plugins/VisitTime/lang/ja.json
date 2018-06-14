@@ -1,7 +1,15 @@
 {
     "VisitTime": {
         "ColumnLocalTime": "ローカルタイム",
+        "ColumnLocalHour": "現地時間 - 時間 ( 訪問開始 )",
+        "ColumnLocalMinute": "現地時間 - 分 ( 訪問開始 )",
         "ColumnServerTime": "サーバタイム",
+        "ColumnServerHour": "サーバータイム - 時間",
+        "ColumnVisitEndServerHour": "サーバータイム - 時間 ( 訪問終了 )",
+        "ColumnVisitEndServerMinute": "サーバータイム - 分 ( 訪問終了 )",
+        "ColumnVisitStartServerHour": "サーバータイム - 時間 ( 訪問開始 )",
+        "ColumnVisitStartServerMinute": "サーバータイム - 分 ( 訪問開始 )",
+        "ColumnServerMinute": "サーバータイム - 分",
         "DayOfWeek": "曜日",
         "LocalTime": "ローカルタイム単位のビジット",
         "NHour": "%s時",

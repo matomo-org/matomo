@@ -11,7 +11,6 @@ namespace Piwik;
 use Exception;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
-use Piwik\Config;
 use Piwik\Tracker\Db as TrackerDb;
 use Piwik\Tracker\Db\DbException;
 use Piwik\Tracker\Handler;
@@ -94,6 +93,7 @@ class Tracker
         try {
             $this->init();
             $handler->init($this, $requestSet);
+
             $this->track($handler, $requestSet);
         } catch (Exception $e) {
             $handler->onException($this, $requestSet, $e);
@@ -262,6 +262,11 @@ class Tracker
         // Tests can force the use of 3rd party cookie for ID visitor
         if (Common::getRequestVar('forceEnableFingerprintingAcrossWebsites', false, null, $args) == 1) {
             TrackerConfig::setConfigValue('enable_fingerprinting_across_websites', 1);
+        }
+
+        // Tests can simulate the tracker API maintenance mode
+        if (Common::getRequestVar('forceEnableTrackerMaintenanceMode', false, null, $args) == 1) {
+            TrackerConfig::setConfigValue('record_statistics', 0);
         }
 
         // Tests can force the use of 3rd party cookie for ID visitor

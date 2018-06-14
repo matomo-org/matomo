@@ -3,7 +3,7 @@
      menu-title="{{ currentLanguageName|e('html_attr') }}"
      piwik-menudropdown>
     <a class="item"
-        href="?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/translations/">{{ 'LanguagesManager_AboutPiwikTranslations'|translate }}</a>
+        href="?module=Proxy&amp;action=redirect&amp;url=https://matomo.org/translations/">{{ 'LanguagesManager_AboutPiwikTranslations'|translate }}</a>
     {% for language in languages %}
         <a class="item {% if language.code == currentLanguageCode %}active{% endif %}"
            value="{{ language.code }}"

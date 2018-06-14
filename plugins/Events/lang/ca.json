@@ -7,10 +7,7 @@
         "Events": "Esdeveniments",
         "EventsWithValue": "Esdeveniments amb valor",
         "EventsWithValueDocumentation": "Nombre d'esdeveniments que tenen un valor",
-        "EventValue": "Valor de l'esdeveniment",
-        "MaxValue": "Valor màxim",
         "MaxValueDocumentation": "El valor màxim per aquest esdeveniment",
-        "MinValue": "Valor mínim",
         "MinValueDocumentation": "El valor mínim per aquest esdeveniment"
     }
 }

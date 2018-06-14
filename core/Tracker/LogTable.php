@@ -56,6 +56,21 @@ abstract class LogTable {
     }
 
     /**
+     * If a table can neither be joined via idVisit nor idAction, it should be given a way to join with other tables
+     * so the log table can be joined via idvisit through a different table joins.
+     *
+     * For this to work it requires the same column to be present in two tables. If for example you have a table
+     * `log_foo_bar (idlogfoobar, idlogfoo)` and a table `log_foo(idlogfoo, idsite, idvisit)`, then you can in the
+     * log table instance for `log_foo_bar` return `array('log_foo' => 'idlogfoo')`. This tells the core that a join
+     * with that other log table is possible using the specified column.
+     * @return array
+     */
+    public function getWaysToJoinToOtherLogTables()
+    {
+        return array();
+    }
+
+    /**
      * Defines whether this table should be joined via a subselect. Return true if a complex join is needed. (eg when
      * having visits and needing actions, or when having visits and needing conversions, or vice versa).
      * @return bool
@@ -82,4 +97,15 @@ abstract class LogTable {
         return;
     }
 
+    /**
+     * Get the names of the columns that represents the primary key. For example "idvisit" or "idlink_va". If the table
+     * defines the primary key based on multiple columns, you must specify them all
+     * (eg array('idvisit', 'idgoal', 'buster')).
+     *
+     * @return array
+     */
+    public function getPrimaryKey()
+    {
+        return array();
+    }
 }

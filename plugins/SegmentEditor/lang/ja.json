@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "このウェブサイトのみ",
         "SegmentIsDisplayedForWebsite": "処理された",
         "SegmentNotApplied": "セグメント '%s' が適用されませんでした",
-        "SegmentNotAppliedMessage": "カスタムセグメント '%s' のデータをリクエストしました。この Piwik の構成は現在、パフォーマンス上の理由からレポートのリアルタイム処理をおこないません。",
+        "SegmentNotAppliedMessage": "カスタムセグメント '%s' のデータをリクエストしました。この Matomo の構成は現在、パフォーマンス上の理由からレポートのリアルタイム処理をおこないません。",
         "SelectSegmentOfVisits": "訪問セグメントを選択する：",
         "ThisSegmentIsVisibleTo": "このセグメント設定の表示：",
         "VisibleToAllUsers": "すべてのユーザー",
@@ -35,7 +35,7 @@
         "AddingSegmentForAllWebsitesDisabled": "全ウェブサイトに対するセグメントは追加できませんでした。",
         "SegmentXIsAUnionOf": "%s はこれらのセグメントの結合体です：",
         "CustomSegment": "カスタムセグメント",
-        "SegmentOperatorIsNullOrEmpty": "は、nullまたは空です",
+        "SegmentOperatorIsNullOrEmpty": "は、null または空です",
         "SegmentOperatorIsNotNullNorEmpty": "null でも空でもありません"
     }
 }

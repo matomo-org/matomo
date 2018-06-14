@@ -9,7 +9,7 @@
         "PluginDescription": "ایجاد و دانلود گزارش اس ام اس های سفارشی و آنها را به تلفن همراه خود را بر اساس بارگیری در این هفته و یا ماهانه روزانه میفرسته.",
         "Settings_APIKey": "کلیدAPI",
         "Settings_CountryCode": "کد کشور",
-        "Settings_CredentialNotProvided": "قبل از اینکه شما بتوانید شماره تلفن ایجاد کنید و یا آن را مدیریت نمایید، لطفا Piwik را با اکانت SMS بالا متصل نمایید.",
+        "Settings_CredentialNotProvided": "قبل از اینکه شما بتوانید شماره تلفن ایجاد کنید و یا آن را مدیریت نمایید، لطفا Matomo را با اکانت SMS بالا متصل نمایید.",
         "Settings_CredentialProvided": "اکانت SMS API %s شما به درستی پیکربندی شد.",
         "Settings_DeleteAccountConfirm": "آیا شما مطمئن هستید که می خواهید این حساب پیامک را حذف کنید؟",
         "Settings_InvalidActivationCode": "کد وارد شده صحیح نمی باشد , لطفا دوباره تلاش نمایید.",

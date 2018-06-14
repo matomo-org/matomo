@@ -1,11 +1,9 @@
 {
     "Live": {
-        "AbandonedCartSummary": "%1$s napuštenih koripi%2$s i %3$s napuštenih artikala%4$s ukupne vrednosti %5$s%6$s.",
         "AveragePageGenerationTime": "Ovom korisniku je za svaku stranicu u proseku potrebno %1$s kako bi se učitala.",
         "CalculatedOverNPageViews": "Izračunato na osnovu poslednjih %1$s prikaza stranica ovog korisnika",
         "ClickToViewMoreAboutVisit": "Kliknite kako biste videli više informacija o ovoj poseti.",
         "ConvertedNGoals": "Ispunjeno ciljeva: %s",
-        "EcommerceSummaryConversions": "%1$s narudžbina%2$s od ukupno %3$s%4$s, naručeno %5$s artikala%6$s.",
         "FirstVisit": "Prva poseta",
         "GoalType": "Tip",
         "HideMap": "sakrij mapu",

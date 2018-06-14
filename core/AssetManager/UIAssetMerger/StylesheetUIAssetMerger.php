@@ -38,7 +38,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     protected function getMergedAssets()
     {
         // note: we're using setImportDir on purpose (not addImportDir)
-        $this->lessCompiler->setImportDir(PIWIK_USER_PATH);
+        $this->lessCompiler->setImportDir(PIWIK_DOCUMENT_ROOT);
         $concatenatedAssets = $this->getConcatenatedAssets();
 
         $this->lessCompiler->setFormatter('classic');
@@ -68,7 +68,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
     protected function concatenateAssets()
     {
-        $mergedContent = '';
+        $concatenatedContent = '';
 
         foreach ($this->getAssetCatalog()->getAssets() as $uiAsset) {
             $uiAsset->validateFile();
@@ -81,15 +81,25 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
             if (!empty($path) && Common::stringEndsWith($path, '.css')) {
                 // to fix #10173
-                $mergedContent .= "\n" . $this->getCssStatementForReplacement($path) . "\n";
+                $concatenatedContent .= "\n" . $this->getCssStatementForReplacement($path) . "\n";
                 $this->cssAssetsToReplace[] = $uiAsset;
             } else {
                 $content = $this->processFileContent($uiAsset);
-                $mergedContent .= $this->getFileSeparator() . $content;
+                $concatenatedContent .= $this->getFileSeparator() . $content;
             }
         }
 
-        $this->mergedContent = $mergedContent;
+        /**
+         * Triggered after all less stylesheets are concatenated into one long string but before it is
+         * minified and merged into one file.
+         *
+         * This event can be used to add less stylesheets that are not located in a file on the disc.
+         *
+         * @param string $concatenatedContent The content of all concatenated less files.
+         */
+        Piwik::postEvent('AssetManager.addStylesheets', array(&$concatenatedContent));
+
+        $this->mergedContent = $concatenatedContent;
     }
     
     /**
@@ -114,7 +124,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
     protected function getPreamble()
     {
         return $this->getCacheBusterValue() . "\n"
-        . "/* Piwik CSS file is compiled with Less. You may be interested in writing a custom Theme for Piwik! */\n";
+        . "/* Matomo CSS file is compiled with Less. You may be interested in writing a custom Theme for Matomo! */\n";
     }
 
     protected function postEvent(&$mergedContent)
@@ -183,7 +193,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
         $baseDirectory = dirname($uiAsset->getRelativeLocation());
 
         return function ($matches) use ($baseDirectory) {
-            $absolutePath = PIWIK_USER_PATH . "/$baseDirectory/" . $matches[2];
+            $absolutePath = PIWIK_DOCUMENT_ROOT . "/$baseDirectory/" . $matches[2];
 
             // Allow to import extension less file
             if (strpos($matches[2], '.') === false) {

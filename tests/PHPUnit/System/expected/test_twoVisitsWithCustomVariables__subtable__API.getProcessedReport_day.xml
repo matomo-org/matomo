@@ -8,7 +8,7 @@
 		<module>CustomVariables</module>
 		<action>getCustomVariablesValuesFromNameId</action>
 		<dimension>Custom Variable value</dimension>
-		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;http://piwik.org/docs/custom-variables/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
 		<isSubtableReport>1</isSubtableReport>
 		<metrics>
 			<nb_visits>Visits</nb_visits>

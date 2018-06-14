@@ -192,7 +192,8 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
                 var failures = [];
                 for (var i = 0; i < app.diffViewerGenerator.failures.length; i++) {
                     if (app.diffViewerGenerator.failures[i].name == testInfo.name &&
-                        app.diffViewerGenerator.failures[i].baseDirectory == testInfo.baseDirectory) {
+                        app.diffViewerGenerator.failures[i].baseDirectory == testInfo.baseDirectory &&
+                        app.runner.failures > 0) {
                         app.runner.failures--;
                         continue;
                     }

@@ -2,7 +2,6 @@
     "Login": {
         "InvalidUsernameEmail": "שם משתמש ו\/או אימייל לא תקניים",
         "LogIn": "התחברות",
-        "LoginOrEmail": "שם משתמש או אימייל",
         "LoginPasswordNotCorrect": "שם משתמש וסיסמה אינם תואמים",
         "LostYourPassword": "שכחת סיסמה?",
         "PasswordRepeat": "סיסמה (שוב)",

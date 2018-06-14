@@ -20,10 +20,13 @@
         "dataTableLabelTypes": "類型",
         "Device": "裝置",
         "DeviceBrand": "裝置品牌",
+        "DeviceBrands": "裝置品牌",
         "DeviceDetection": "裝置偵測",
         "DeviceModel": "裝置型號",
+        "DeviceModels": "裝置型號",
         "DevicesDetection": "訪客裝置",
         "DeviceType": "裝置類型",
+        "DeviceTypes": "裝置類型",
         "FeaturePhone": "功能型手機",
         "OperatingSystemFamilies": "作業系統家族",
         "OperatingSystemFamily": "作業系統家族",
@@ -38,6 +41,7 @@
         "Phablet": "平板手機",
         "TV": "電視",
         "UserAgent": "User Agent",
+        "XVisitsFromDevices": "來自%2$s裝置的%1$s個訪問數",
         "WidgetBrowsers": "訪客瀏覽器",
         "WidgetBrowsersDocumentation": "這份報表包含訪客所使用的瀏覽器資訊。每個瀏覽器的版本都會分開排列。"
     }

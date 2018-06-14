@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta name="robots" content="noindex,nofollow">
@@ -21,6 +22,7 @@
                 text-decoration: underline;
             }
         </style>
+        <title>A fatal error occurred</title>
     </head>
     <body>
 
@@ -30,11 +32,11 @@
 
         {% if isAllowedToTroubleshootAsSuperUser or not isAnonymousUser %}
             <p>
-                The following error just broke Piwik{% if showVersion %} (v{{ piwikVersion }}){%  endif %}:
-                <pre>{{ lastError.message }}</pre>
-                in
-                <pre>{{ lastError.file }} line {{ lastError.line }}</pre>
+                The following error just broke Matomo{% if showVersion %} (v{{ piwikVersion }}){% endif %}:
             </p>
+            <pre>{{ lastError.message }}</pre>
+            <p>in</p>
+            <pre>{{ lastError.file }} line {{ lastError.line }}</pre>
 
             <hr>
             <h3>Troubleshooting</h3>
@@ -42,7 +44,7 @@
             Follow these steps to solve the issue or report it to the team:
             <ul>
                 <li>
-                    If you have just updated Piwik to the latest version, please try to restart your web server.
+                    If you have just updated Matomo to the latest version, please try to restart your web server.
                     This will clear the PHP opcache which may solve the problem.
                 </li>
                 <li>
@@ -50,8 +52,8 @@
                 </li>
                 <li>
                     <strong>If this error continues to happen</strong>, we appreciate if you send the
-                    <a href="mailto:hello@piwik.org?subject={{ 'Fatal error in Piwik ' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}%20using%20PHP%20{{ constant('PHP_VERSION') }}">error report</a>
-                    to the Piwik team.
+                    <a href="mailto:hello@matomo.org?subject={{ 'Fatal error in Matomo ' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}%20using%20PHP%20{{ constant('PHP_VERSION') }}">error report</a>
+                    to the Matomo team.
                 </li>
             </ul>
             <hr/>
@@ -63,7 +65,7 @@
             <h3>Further troubleshooting</h3>
             <p>
                 If this error continues to happen, you may be able to fix this issue by disabling one or more of
-                the Third-Party plugins. If you don't know which plugin is causing this error, we recommend to first disable any plugin not created by "Piwik" and not created by "InnoCraft".
+                the Third-Party plugins. If you don't know which plugin is causing this error, we recommend to first disable any plugin not created by "Matomo" and not created by "InnoCraft".
                 You can enable plugin again afterwards in the
                 <a rel="noreferrer" target="_blank" href="index.php?module=CorePluginsAdmin&action=plugins">Plugins</a>
                 or <a target="_blank" href="index.php?module=CorePluginsAdmin&action=themes">Themes</a> page under
@@ -119,12 +121,12 @@
 
         {% elseif isAnonymousUser %}
 
-            <p>Please contact the system administrator, or <a href="?module={{ loginModule }}">login to Piwik</a> to learn more.</p>
+            <p>Please contact the system administrator, or <a href="?module={{ loginModule }}">login to Matomo</a> to learn more.</p>
 
         {% else %}
             <p>
                 If this error continues to happen you may want to send an
-                <a href="mailto:{{ emailSuperUser }}?subject={{ 'Fatal error in Piwik ' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}%20using%20PHP%20{{ constant('PHP_VERSION') }}">error report</a>
+                <a href="mailto:{{ emailSuperUser }}?subject={{ 'Fatal error in Matomo ' ~ piwikVersion|e('url') }}&body={{ lastError.message|e('url') }}%20in%20{{ lastError.file|e('url') }}%20{{ lastError.line|e('url') }}%20using%20PHP%20{{ constant('PHP_VERSION') }}">error report</a>
                 to your system administrator.
             </p>
         {% endif %}

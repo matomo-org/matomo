@@ -17,7 +17,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class FakeActionDimension extends ActionDimension
 {
     protected $columnName  = 'fake_action_dimension_column';
-    protected $columnType  = 'INTEGER (10) DEFAULT 0';
+    protected $columnType  = 'VARCHAR (255) DEFAULT 0';
 
     public function set($param, $value)
     {
@@ -79,7 +79,7 @@ class ActionDimensionTest extends IntegrationTestCase
     {
         $expected = array(
             'log_link_visit_action' => array(
-                "ADD COLUMN `fake_action_dimension_column` INTEGER (10) DEFAULT 0"
+                "ADD COLUMN `fake_action_dimension_column` VARCHAR (255) DEFAULT 0"
             )
         );
 
@@ -90,7 +90,7 @@ class ActionDimensionTest extends IntegrationTestCase
     {
         $expected = array(
             'log_link_visit_action' => array(
-                "MODIFY COLUMN `fake_action_dimension_column` INTEGER (10) DEFAULT 0"
+                "MODIFY COLUMN `fake_action_dimension_column` VARCHAR (255) DEFAULT 0"
             )
         );
 
@@ -99,7 +99,7 @@ class ActionDimensionTest extends IntegrationTestCase
 
     public function test_getVersion_shouldUseColumnTypeAsVersion()
     {
-        $this->assertEquals('INTEGER (10) DEFAULT 0', $this->dimension->getVersion());
+        $this->assertEquals('VARCHAR (255) DEFAULT 0', $this->dimension->getVersion());
     }
 
     public function test_getSegment_ShouldReturnConfiguredSegments()

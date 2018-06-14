@@ -1,0 +1,24 @@
+<div class="expandableSelector" piwik-focus-anywhere-but-here="formField.showSelect  = false">
+    <div ng-click="formField.showSelect = !formField.showSelect" class="select-wrapper"
+        ><span class="caret">▼</span><input type="text" class="select-dropdown"
+                                            readonly="true" value="{{ formField.title }}">
+    </div>
+
+    <div ng-show="formField.showSelect" class="expandableList z-depth-2">
+
+        <div class="searchContainer">
+            <input type="text" placeholder="Search"
+                   ng-model="formField.searchTerm" class="expandableSearch browser-default"
+                   piwik-focus-if="formField.showSelect">
+        </div>
+        <ul class="collection firstLevel">
+            <li ng-repeat="options in formField.availableOptions" class="collection-item" ng-show="options.values|filter:formField.searchTerm|length">
+                <h4 class="expandableListCategory" ng-click="formField.showCategory == options.group ? formField.showCategory = '' : formField.showCategory = options.group">{{ options.group }} <span class="secondary-content" ng-class='{"icon-arrow-right": formField.showCategory != options.group, "icon-arrow-bottom": formField.showCategory == options.group}'></span></h4>
+
+                <ul ng-show="formField.showCategory == options.group || formField.searchTerm" class="collection secondLevel">
+                    <li class="expandableListItem collection-item valign-wrapper" ng-repeat="children in options.values|filter:formField.searchTerm" ng-click="formField.value = children.key;formField.showSelect = false;"><span class="primary-content">{{ children.value }}</span> <span ng-show="children.tooltip" title="{{ children.tooltip }}" class="secondary-content icon-help"></span></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

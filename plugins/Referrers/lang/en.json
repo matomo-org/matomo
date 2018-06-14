@@ -20,12 +20,15 @@
         "EvolutionDocumentationMoreInfo": "For more information about the different referrer types, see the documentation of the %s table.",
         "Keywords": "Keywords",
         "KeywordsReportDocumentation": "This report shows which keywords users were searching for before they were referred to your website. %s By clicking on a row in the table, you can see the distribution of search engines that were queried for the keyword.",
+        "KeywordsReportDocumentationNote": "Note: This report lists most keywords as not defined, because most search engines do not send the exact keyword used on the search engine.",
         "PluginDescription": "Reports the Referrers data: Search Engines, Keywords, Websites, Campaigns, Social media, Direct entry.",
         "Referrer": "Referrer",
         "ReferrerName": "Referrer Name",
+        "ReferrerNames": "Referrer Names",
         "Referrers": "Referrers",
         "ReferrersOverview": "Referrers Overview",
         "ReferrerTypes": "Referrer Types",
+        "ReferrerURLs": "Referrer URLs",
         "SearchEngines": "Search Engines",
         "SearchEnginesDocumentation": "A visitor was referred to your website by a search engine. %1$s See the %2$s report for more details.",
         "SearchEnginesReportDocumentation": "This report shows which search engines referred users to your website. %s By clicking on a row in the table, you can see what users were searching for using a specific search engine.",
@@ -33,7 +36,7 @@
         "Socials": "Social Networks",
         "SocialsReportDocumentation": "This report shows which social networks led visitors to your website.<br \/>By clicking on a row in the table, you can see from which social network pages visitors came to your website.",
         "SubmenuSearchEngines": "Search Engines & Keywords",
-        "SubmenuWebsites": "Websites & Social",
+        "SubmenuWebsitesOnly": "Websites",
         "Type": "Referrer Type",
         "TypeCampaigns": "%s from campaigns",
         "TypeDirectEntries": "%s direct entries",
@@ -50,6 +53,7 @@
         "WidgetGetAll": "All Referrers",
         "WidgetSocials": "List of social networks",
         "WidgetTopKeywordsForPages": "Top Keywords for Page URL",
-        "XPercentOfVisits": "%s of visits"
+        "XPercentOfVisits": "%s of visits",
+        "Acquisition": "Acquisition"
     }
 }

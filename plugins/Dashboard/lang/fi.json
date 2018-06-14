@@ -9,7 +9,7 @@
         "DashboardCopied": "Nykyinen paneeli on kopioitu onnistuneesti valitulle käyttäjälle.",
         "DashboardEmptyNotification": "Työpöytäsi on tyhjä. Voit aloittaa lisäämällä elementtejä tai resetoimalla työpöydän oletusasetuksiin.",
         "DashboardName": "Näkymän nimi:",
-        "DashboardOf": "Työpöytä %s",
+        "DashboardOf": "Työpöytä: %s",
         "DefaultDashboard": "Oletusnäkymä - käytössä on oletusvalikoima ja -asettelu",
         "DeleteWidgetConfirm": "Haluatko varmasti poistaa vimpaimen työpöydältä?",
         "EmptyDashboard": "Tyhjä näkymä - valitse vimpaimia",

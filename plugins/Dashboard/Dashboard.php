@@ -30,8 +30,16 @@ class Dashboard extends \Piwik\Plugin
             'UsersManager.deleteUser'                => 'deleteDashboardLayout',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Widget.addWidgetConfigs'                => 'addWidgetConfigs',
-            'Category.addSubcategories'              => 'addSubcategories'
+            'Category.addSubcategories'              => 'addSubcategories',
+            'Widgetize.shouldEmbedIframeEmpty'       => 'shouldEmbedIframeEmpty'
         );
+    }
+
+    public function shouldEmbedIframeEmpty(&$shouldEmbedEmpty, $controllerName, $actionName)
+    {
+        if ($controllerName == 'Dashboard' && $actionName == 'index') {
+            $shouldEmbedEmpty = true;
+        }
     }
 
     public function addWidgetConfigs(&$widgets)
@@ -243,7 +251,7 @@ class Dashboard extends \Piwik\Plugin
             return $layout;
         }
 
-        $layout = html_entity_decode($layout);
+        $layout = html_entity_decode($layout, ENT_COMPAT | ENT_HTML401, 'UTF-8');
         $layout = str_replace("\\\"", "\"", $layout);
         $layout = str_replace("\n", "", $layout);
 

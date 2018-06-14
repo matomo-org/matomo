@@ -20,10 +20,13 @@
         "dataTableLabelTypes": "Typ",
         "Device": "Zařízení",
         "DeviceBrand": "Značka zařízení",
+        "DeviceBrands": "Značky zařízení",
         "DeviceDetection": "Detekce zařízení",
         "DeviceModel": "Model zařízení",
+        "DeviceModels": "Modely zařízení",
         "DevicesDetection": "Zařízení návštěvníků",
         "DeviceType": "Typ zařízení",
+        "DeviceTypes": "Device types",
         "FeaturePhone": "Ukázkový telefon",
         "OperatingSystemFamilies": "Rodiny operačních systémů",
         "OperatingSystemFamily": "Operační systém",
@@ -38,6 +41,7 @@
         "Phablet": "Phablet",
         "TV": "Tv",
         "UserAgent": "User-Agent",
+        "XVisitsFromDevices": "%1$s návštěv ze zařízení %2$s",
         "WidgetBrowsers": "Web prohlížeče návštěvníků",
         "WidgetBrowsersDocumentation": "Toto hlášení obsahuje informace o tom, jaký druh prohlížeče vaši návštěvníci použili. Každá verze je počítána samostatně."
     }

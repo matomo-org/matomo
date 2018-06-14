@@ -8,8 +8,11 @@
  */
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Columns\DimensionMetricFactory;
+use Piwik\Columns\Discriminator;
+use Piwik\Columns\Join;
+use Piwik\Columns\MetricsList;
 use Piwik\Piwik;
-use Piwik\Plugins\Actions\Segment;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -19,13 +22,26 @@ class ExitPageUrl extends VisitDimension
 {
     protected $columnName = 'visit_exit_idaction_url';
     protected $columnType = 'INTEGER(10) UNSIGNED NULL DEFAULT 0';
+    protected $type = self::TYPE_URL;
+    protected $segmentName = 'exitPageUrl';
+    protected $nameSingular = 'Actions_ColumnExitPageURL';
+    protected $namePlural = 'Actions_ColumnExitPageURLs';
+    protected $category = 'General_Actions';
+    protected $sqlFilter = '\\Piwik\\Tracker\\TableLogAction::getIdActionFromSegment';
 
-    protected function configureSegments()
+    public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {
-        $segment = new Segment();
-        $segment->setSegment('exitPageUrl');
-        $segment->setName('Actions_ColumnExitPageURL');
-        $this->addSegment($segment);
+        parent::configureMetrics($metricsList, $dimensionMetricFactory);
+    }
+
+    public function getDbColumnJoin()
+    {
+        return new Join\ActionNameJoin();
+    }
+
+    public function getDbDiscriminator()
+    {
+        return new Discriminator('log_action', 'type', Action::TYPE_PAGE_URL);
     }
 
     /**
@@ -64,10 +80,5 @@ class ExitPageUrl extends VisitDimension
         }
 
         return $id;
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('Actions_ColumnExitPageURL');
     }
 }

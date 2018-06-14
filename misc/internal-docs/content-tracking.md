@@ -1,6 +1,6 @@
 # Technical concept for implementing Content Tracking [#4996](#4996)
 
-See https://github.com/piwik/piwik/issues/4996 for explanation of the actual feature.
+See https://github.com/matomo-org/piwik/issues/4996 for explanation of the actual feature.
 
 This is the technical concept for implementing content tracking. We won't plan anything to death but a little bit of thinking upfront makes sense :) Feel free to contribute and let us know if you have any objections! If your thoughts are not technical please comment on the actual issue [#4996](#4996).
 

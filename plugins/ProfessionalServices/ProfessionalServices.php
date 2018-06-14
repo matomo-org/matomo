@@ -26,7 +26,10 @@ class ProfessionalServices extends \Piwik\Plugin
             'Template.afterGoalCannotAddNewGoal' => array('function' => 'getGoalOverviewPromo', 'after' => true),
             'Template.endGoalEditTable' => array('function' => 'getGoalFunnelOverviewPromo', 'after' => true),
             'Template.afterEventsReport' => 'getEventsPromo',
+            'Template.afterCampaignsReport' => 'getCampaignsPromo',
+            'Template.afterReferrerTypeReport' => 'getReferrerTypePromo',
             'Template.afterReferrersKeywordsReport' => 'getSearchKeywordsPerformancePromo',
+            'Template.afterCustomVariablesReport' => 'getCustomVariablesPromo',
             'Template.afterOverlaySidebar' => 'getHeatmapPromo',
             'Template.afterVisitorProfileOverview' => 'getSessionRecordingPromo',
         );
@@ -95,22 +98,26 @@ class ProfessionalServices extends \Piwik\Plugin
 
     public function getGoalFunnelOverviewPromo(&$out)
     {
-        if (!$this->shouldShowPromoForPlugin('Funnels')) {
-            return;
+        if ($this->shouldShowPromoForPlugin('Funnels')) {
+            $view = new View('@ProfessionalServices/promoFunnel');
+            $out .= $view->render();
         }
-
-        $view = new View('@ProfessionalServices/promoFunnel');
-        $out .= $view->render();
     }
 
     public function getGoalOverviewPromo(&$out)
     {
-        if (!$this->shouldShowPromoForPlugin('AbTesting')) {
-            return;
+        if ($this->shouldShowPromoForPlugin('AbTesting')) {
+            $view = new View('@ProfessionalServices/promoExperiments.twig');
+            $out .= $view->render();
         }
+    }
 
-        $view = new View('@ProfessionalServices/promoExperiments.twig');
-        $out .= $view->render();
+    public function getCustomVariablesPromo(&$out)
+    {
+        if ($this->shouldShowPromoForPlugin('CustomReports')) {
+            $view = new View('@ProfessionalServices/promoCustomVariables.twig');
+            $out .= $view->render();
+        }
     }
 
     public function getEventsPromo(&$out)
@@ -122,6 +129,26 @@ class ProfessionalServices extends \Piwik\Plugin
         $view = new View('@ProfessionalServices/promoBelowEvents');
         $view->displayMediaAnalyticsAd = !$this->isPluginActivated('MediaAnalytics');
         $out .= $view->render();
+    }
+
+    public function getCampaignsPromo(&$out)
+    {
+        if ($this->isRequestForDashboardWidget()) {
+            return;
+        }
+
+        $view = new View('@ProfessionalServices/promoBelowCampaigns');
+        $view->displayMarketingCampaignsReportingAd = !$this->isPluginActivated('MarketingCampaignsReporting');
+        $view->multiChannelConversionAttributionAd = !$this->isPluginActivated('MultiChannelConversionAttribution') && !empty($_REQUEST['idGoal']);
+        $out .= $view->render();
+    }
+
+    public function getReferrerTypePromo(&$out)
+    {
+        if ($this->shouldShowPromoForPlugin('MultiChannelConversionAttribution') && !empty($_REQUEST['idGoal'])) {
+            $view = new View('@ProfessionalServices/promoBelowReferrerTypes');
+            $out .= $view->render();
+        }
     }
 
     private function shouldShowPromoForPlugin($pluginName)

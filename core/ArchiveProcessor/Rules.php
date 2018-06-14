@@ -115,8 +115,10 @@ class Rules
     public static function getMinTimeProcessedForTemporaryArchive(
         Date $dateStart, \Piwik\Period $period, Segment $segment, Site $site)
     {
+        $todayArchiveTimeToLive = self::getPeriodArchiveTimeToLiveDefault($period->getLabel());
+
         $now = time();
-        $minimumArchiveTime = $now - Rules::getTodayArchiveTimeToLive();
+        $minimumArchiveTime = $now - $todayArchiveTimeToLive;
 
         $idSites = array($site->getId());
         $isArchivingDisabled = Rules::isArchivingDisabledFor($idSites, $segment, $period->getLabel());
@@ -156,6 +158,23 @@ class Rules
             }
         }
         return self::getTodayArchiveTimeToLiveDefault();
+    }
+
+    public static function getPeriodArchiveTimeToLiveDefault($periodLabel)
+    {
+        if (empty($periodLabel) || strtolower($periodLabel) === 'day') {
+            return self::getTodayArchiveTimeToLive();
+        }
+
+        $config = Config::getInstance();
+        $general = $config->General;
+
+        $key = sprintf('time_before_%s_archive_considered_outdated', $periodLabel);
+        if (isset($general[$key]) && is_numeric($general[$key]) && $general[$key] > 0) {
+            return $general[$key];
+        }
+
+        return self::getTodayArchiveTimeToLive();
     }
 
     public static function getTodayArchiveTimeToLiveDefault()

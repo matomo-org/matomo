@@ -380,7 +380,7 @@ function DisplayTopKeywords($url = "")
 	}
 
 	// Display the list in HTML
-	$url = htmlspecialchars($url, ENT_QUOTES);
+	$url = htmlspecialchars($url, ENT_QUOTES, \'UTF-8\');
 	$output = "<h2>Top Keywords for <a href=\'$url\'>$url</a></h2><ul>";
 	foreach($keywords as $keyword) {
 		$output .= "<li>". $keyword . "</li>";
@@ -418,7 +418,7 @@ function DisplayTopKeywords($url = "")
             }
 
             // Display the list in HTML
-            $url = htmlspecialchars($url, ENT_QUOTES);
+            $url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
             $output = "<h2>Top Keywords for <a href=\'$url\'>$url</a></h2><ul>";
             foreach ($keywords as $keyword) {
                 $output .= "<li>" . $keyword . "</li>";
@@ -434,7 +434,7 @@ function DisplayTopKeywords($url = "")
 
         echo "</div><br/>
 		<p style='padding: 0 12px;'>Here is the PHP function that you can paste in your pages:</P>
-		<textarea style='padding: 0 12px;height:auto;width:auto;margin-left:12px;' cols=60 rows=8>&lt;?php\n" . htmlspecialchars($code) . "\n DisplayTopKeywords();</textarea>
+		<textarea style='padding: 0 12px;height:auto;width:auto;margin-left:12px;' cols=60 rows=8>&lt;?php\n" . htmlspecialchars($code, ENT_COMPAT | ENT_HTML401, 'UTF-8') . "\n DisplayTopKeywords();</textarea>
 		";
 
         echo "

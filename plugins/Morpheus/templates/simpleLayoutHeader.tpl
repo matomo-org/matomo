@@ -10,7 +10,7 @@
 <body id="simple">
 
 <div class="logo">
-	<img title="Piwik" alt="Piwik" src="%logoUrl%"/>
+	<img title="Matomo" alt="Matomo" style="height: 40px;" src="%logoUrl%"/>
 </div>
 
 <div class="box">

@@ -178,8 +178,7 @@ class ArchiveSelector
             $bind = array();
 
             if ($firstPeriod instanceof Range) {
-                $dateCondition = "period = ? AND date1 = ? AND date2 = ?";
-                $bind[] = $firstPeriod->getId();
+                $dateCondition = "date1 = ? AND date2 = ?";
                 $bind[] = $firstPeriod->getDateStart()->toString('Y-m-d');
                 $bind[] = $firstPeriod->getDateEnd()->toString('Y-m-d');
             } else {

@@ -7,9 +7,19 @@ h1, h2, h3, h4 {
   }
 }
 
+.card.hoverable:hover{
+  @media print{
+    box-shadow:0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+  }
+}
+
 .card {
   h1, h2, h3, h4 {
     color: @theme-color-text;
+  }
+
+  .card-action a:not(.btn):not(.btn-large):not(.btn-floating) {
+    color: @theme-color-link !important;
   }
 
   > .card-content {

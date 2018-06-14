@@ -22,7 +22,7 @@
         "SegmentDisplayedThisWebsiteOnly": "pouze tento web",
         "SegmentIsDisplayedForWebsite": "a zpracováno pro",
         "SegmentNotApplied": "Segment %s není aplikován",
-        "SegmentNotAppliedMessage": "Požadujete data pro vlastní segment %s, ale konfigurace Piwiku aktuálně nedovoluje z důvodů výkonu zpracování hlášení v reálném čase.",
+        "SegmentNotAppliedMessage": "Požadujete data pro vlastní segment %s, ale konfigurace Matomou aktuálně nedovoluje z důvodů výkonu zpracování hlášení v reálném čase.",
         "SelectSegmentOfVisits": "Vyberte segment návštěv:",
         "ThisSegmentIsVisibleTo": "Tento segment je viditelný",
         "VisibleToAllUsers": "Všem uživatelům",

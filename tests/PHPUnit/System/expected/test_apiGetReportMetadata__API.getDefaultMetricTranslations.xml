@@ -66,10 +66,10 @@
 		<revenue_shipping>Shipping</revenue_shipping>
 		<revenue_discount>Discount</revenue_discount>
 		<avg_order_revenue>Average Order Value</avg_order_revenue>
-		<nb_events>Total events</nb_events>
-		<sum_event_value>Total value</sum_event_value>
-		<min_event_value>Minimum value</min_event_value>
-		<max_event_value>Maximum value</max_event_value>
+		<nb_events>Events</nb_events>
+		<sum_event_value>Event value</sum_event_value>
+		<min_event_value>Minimum Event value</min_event_value>
+		<max_event_value>Maximum Event value</max_event_value>
 		<avg_event_value>Average value</avg_event_value>
 		<nb_events_with_value>Events with a value</nb_events_with_value>
 		<nb_visits_returning>Returning Visits</nb_visits_returning>

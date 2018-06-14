@@ -29,7 +29,7 @@ class GetPageTitles extends Base
         $this->dimension     = new PageTitle();
         $this->name          = Piwik::translate('Actions_SubmenuPageTitles');
         $this->documentation = Piwik::translate('Actions_PageTitlesReportDocumentation',
-                                                array('<br />', htmlentities('<title>')));
+                                                array('<br />', htmlentities('<title>', ENT_COMPAT | ENT_HTML401, 'UTF-8')));
 
         $this->order   = 5;
         $this->metrics = array('nb_hits', 'nb_visits');

@@ -38,7 +38,7 @@ class Console extends Application
         $option = new InputOption('piwik-domain',
             null,
             InputOption::VALUE_OPTIONAL,
-            'Piwik URL (protocol and domain) eg. "http://piwik.example.org"'
+            'Matomo URL (protocol and domain) eg. "http://matomo.example.org"'
         );
 
         $this->getDefinition()->addOption($option);
