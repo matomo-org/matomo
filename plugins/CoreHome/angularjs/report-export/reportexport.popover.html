@@ -18,6 +18,11 @@
              ng-model="$parent.optionExpanded" ng-show="$parent.hasSubtables && !$parent.optionFlat"
         >
         </div>
+        <div piwik-field uicontrol="checkbox" name="option_format_metrics"
+             title="{{ 'CoreHome_FormatMetrics'|translate }}"
+             ng-model="$parent.optionFormatMetrics"
+        >
+        </div>
     </div>
 
     <div class="col l6">
@@ -44,8 +49,16 @@
         </div>
     </div>
 
+    <div class="col l12" ng-show="showUrl">
+        <textarea readonly>{{ getExportLink() }}</textarea>
+    </div>
+
     <div class="col l12">
-        <div piwik-save-button value="{{ 'General_Export'|translate }}" ng-click="processExport()"></div>
+        <a class="btn" ng-attr-href="{{ getExportLink() }}" target="_new">{{ 'General_Export'|translate }}</a>
+        <a href="javascript:;" ng-click="showUrl=!showUrl" class="toggle-export-url">
+            <span ng-show="!showUrl">{{ 'CoreHome_ShowExportUrl'|translate }}</span>
+            <span ng-show="showUrl">{{ 'CoreHome_HideExportUrl'|translate }}</span>
+        </a>
     </div>
 
 </div>

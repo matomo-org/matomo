@@ -37,6 +37,8 @@
         "Smartphone": "Έξυπνο κινητό",
         "PortableMediaPlayer": "Φορητή συσκευή αναπαραγωγής",
         "Devices": "Συσκευές",
+        "GenericDevice": "Γενικό %s",
+        "MobileDevice": "Συσκευή κινητής",
         "Tablet": "Ταμπλέτα",
         "Phablet": "Phablet",
         "TV": "Τηλεόραση",

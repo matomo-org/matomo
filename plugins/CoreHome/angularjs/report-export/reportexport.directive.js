@@ -27,7 +27,9 @@
 
                 var popoverParamBackup;
 
-                scope.processExport = function() {
+                scope.showUrl = false;
+
+                scope.getExportLink = function() {
 
                     var dataTable = scope.dataTable;
                     var format    = scope.reportFormat;
@@ -117,6 +119,10 @@
                         exportUrlParams.expanded = 1;
                     }
 
+                    if (scope.optionFormatMetrics) {
+                        exportUrlParams.format_metrics = 1;
+                    }
+
                     if (dataTable.param.pivotBy) {
                         exportUrlParams.pivotBy = dataTable.param.pivotBy;
                         exportUrlParams.pivotByColumnLimit = 20;
@@ -155,7 +161,12 @@
                     exportUrlParams.token_auth = piwik.token_auth;
                     exportUrlParams.filter_limit = limit;
 
-                    window.open('index.php?' + $httpParamSerializerJQLike(exportUrlParams));
+                    var currentUrl = $location.absUrl();
+                    var urlParts = currentUrl.split('/');
+                    urlParts.pop();
+                    var url = urlParts.join('/');
+
+                    return url + '/index.php?' + $httpParamSerializerJQLike(exportUrlParams);
                 };
 
                 element.on('click', function () {
@@ -166,12 +177,13 @@
                     var popover   = Piwik_Popover.showLoading('Export');
                     var formats   = JSON.parse(scope.reportFormats);
 
-                    scope.reportType     = 'default';
-                    scope.reportLimit    = dataTable.param.filter_limit > 0 ? dataTable.param.filter_limit : 100;
-                    scope.reportLimitAll = dataTable.param.filter_limit == -1 ? 'yes' : 'no';
-                    scope.optionFlat     = dataTable.param.flat;
-                    scope.optionExpanded = 1;
-                    scope.hasSubtables   = dataTable.param.flat == 1 || dataTable.numberOfSubtables > 0;
+                    scope.reportType          = 'default';
+                    scope.reportLimit         = dataTable.param.filter_limit > 0 ? dataTable.param.filter_limit : 100;
+                    scope.reportLimitAll      = dataTable.param.filter_limit == -1 ? 'yes' : 'no';
+                    scope.optionFlat          = dataTable.param.flat;
+                    scope.optionExpanded      = 1;
+                    scope.optionFormatMetrics = 0;
+                    scope.hasSubtables        = dataTable.param.flat == 1 || dataTable.numberOfSubtables > 0;
 
                     scope.availableReportFormats = {
                         default: formats,

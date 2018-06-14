@@ -14,6 +14,8 @@
         "LastVisit": "Last visit",
         "LinkVisitorLog": "View detailed visitor log",
         "LoadMoreVisits": "Load more visits",
+        "LimitedSummary": "The information in this profile summarizes the last %1$s visits. This user had more visits in total.",
+        "LimitedVisitsShown": "Only the last %1$s visits are shown. This user had more visits in total.",
         "MorePagesNotDisplayed": "more pages by this visitor are not displayed",
         "NbVisitor": "1 visitor",
         "NbVisitors": "%s visitors",

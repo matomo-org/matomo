@@ -91,6 +91,7 @@
         "TrackingCodeIntro": "Matomo offers you various ways to embed the tracking code for your website, mobile app, and even for any device or application.",
         "TrustedHostConfirm": "Are you sure you want to change the trusted Matomo hostname?",
         "TrustedHostSettings": "Trusted Matomo Hostname",
+        "UiDemo": "UI Demo",
         "UpdateSettings": "Update settings",
         "UseCustomLogo": "Use a custom logo",
         "ValidPiwikHostname": "Valid Matomo Hostname",

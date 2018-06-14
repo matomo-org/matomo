@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "Dukungan wilayah waktu tingkat lanjut tidak ditemukan dalam PHP Anda (didukung di PHP>=5.2). Anda dapat memilih secara manual perbedaan UTC.",
         "AliasUrlHelp": "Disarankan, tetapi tak diharuskan, menentukan bermacam URL, satu tiap baris, yang pengunjung Anda gunakan untuk mengakses situs ini. Nama pengganti URL untuk situs tidak akan tampil di Pengarah > Laporan Situs. Harap diperhatikan bahwa tidak perlu menentukan URL dengan atau tanpa 'www' sebagai kedua pertimbangan otomatis Matomo.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Mengubah wilayah waktu Anda hanya berpengaruh terhadap data berikutnya, bukan data sebelumnya.",
-        "ChooseCityInSameTimezoneAsYou": "Pilih kota yang sama dengan wilayah waktu dengan Anda.",
         "Currency": "Mata Uang",
         "CurrencySymbolWillBeUsedForGoals": "Simbol Mata Uang akan menampilkan pendapatan pada Tujuan berikutnya.",
         "DefaultCurrencyForNewWebsites": "Mata Uang asali untuk situs baru",

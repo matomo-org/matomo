@@ -6,6 +6,7 @@
         "AnonymizeIpExtendedHelp": "Kullanıcılar web sitenizi ziyaret ettiğinde, Matomo tam IP adresini (%1$s gibi) kullanmaz. Bunun yerine Matomo önce IP adresini anonimleştirir (%2$s gibi). IP adresi anonimleştirme Almanya gibi bazı ülkelerde kişisel verilerin korunması yasalarına göre zorunludur.",
         "AnonymizeIpMaskLengtDescription": "Ziyaretçi IP adreslerinin kaç baytının maskeleneceğini seçin.",
         "AnonymizeIpMaskLength": "%1$s bayt - Örnek: %2$s",
+        "AskingForConsent": "Onay soruluyor",
         "CannotLockSoDeleteLogActions": "log_action tablosu temizlenmeyecek: Lütfen '%s' MySQL kullanıcısına LOCK TABLES iznini verin.",
         "ClickHereSettings": "%s ayarlarına erişmek için buraya tıklayın.",
         "CurrentDBSize": "Geçerli veritabanı boyutu",
@@ -43,6 +44,8 @@
         "GeolocationAnonymizeIpNote": "Not: Coğrafi konum yaklaşık olarak 1 bayt anonimleştirme ile aynı sonucu verir. 2 ya da daha fazla bayt ile yapılan anonimleştirmelerde coğrafi konum doğruluğu kalmaz.",
         "GDPR": "GVKY (GDPR)",
         "GdprManager": "GVKY Yönetimi",
+        "GdprOverview": "Kişisel Veri Güvenliği Yönergesi Özeti",
+        "GdprTools": "Kişisel Veri Güvenliği Yönergesi Araçları",
         "GetPurgeEstimate": "Temizlik öngörüsünü görüntüle",
         "KeepBasicMetrics": "Temel ölçütler korunur (ziyaretler, sayfa görüntülemeleri, hemen çıkma oranı, hedef tutturma, e-ticarete dönüşme gibi)",
         "KeepDataFor": "Şunun için tüm veriler korunsun",
@@ -73,6 +76,7 @@
         "PseudonymizeUserId": "Kullanıcı Kodu Sahte Kullanıcı Koduna Dönüştürülsün",
         "UseAnonymizeOrderId": "Sipariş Kodu Anonimleştirilsin",
         "UseDeleteLog": "Veritabanından eski ziyaretçi günlüğü kayıtları düzenli olarak silinsin",
-        "UseDeleteReports": "Veritabanından eski raporlar düzenli olarak silinsin"
+        "UseDeleteReports": "Veritabanından eski raporlar düzenli olarak silinsin",
+        "UsersOptOut": "Kabul etmeyen kullanıcılar"
     }
 }

@@ -4,7 +4,6 @@
         "AdvancedTimezoneSupportNotFound": "Ang support para sa advanced timezones ay hindi nakita sa iyong PHP (Ito ay supported sa PHP>=5.2). Maaari mo paring mapili ng manu-mano ang UTC offset.",
         "AliasUrlHelp": "Ito ay nirerekomenda ngunit hindi kinakailangan upang tukuyin ang iba't ibang mga URL sa kada linya na ginagamit ng mga bumibisita sa iyong website. Ang Alyas sa URLs ng website ay hindi ipapakita na Referrers > Ulat ng webistes. Tandaan na hindi kinakailangan na ilagay ang URLs na may kasamang 'www' dahil ang Matomo ay automatik ng kinokonsidera ang parehas.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Ang pagbabago ng iyong time zone ay makakaapekto lamang sa pasulong ng data at hindi e-aapply sa nakaraan.",
-        "ChooseCityInSameTimezoneAsYou": "Pumili ng lungsod na may kaparehong timezone sa iyo.",
         "Currency": "Pera",
         "CurrencySymbolWillBeUsedForGoals": "Ang simbolo ng Pera ay ipapakita sa tabi ng Goals revenues.",
         "DefaultCurrencyForNewWebsites": "Default na Pera para sa mga bagong website.",

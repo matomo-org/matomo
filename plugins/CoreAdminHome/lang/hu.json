@@ -55,6 +55,7 @@
         "MenuDiagnostic": "Diagnosztika",
         "MenuGeneralSettings": "Alapbeállítások",
         "MenuDevelopment": "Fejlesztés",
+        "MenuMeasurables": "mérhetők",
         "OptOutComplete": "Követés kikapcsolva; a látogatások semmilyen statisztikában nem fognak szerepelni.",
         "OptOutCompleteBis": "Megjegyzés: abban az esetben, ha a követést tiltó süti törlődik, más számítógépről vagy böngészőből látogatja meg a weboldalt, a követést ismét le kell tiltania.",
         "OptOutDntFound": "Ön nem lekövethető, mert a böngészője azt jelzni, hogy ön ezt nem kívánta. Ez az állapot nem fog addig változni, amíg le nem tiltja a 'Do Not Track' funkciót.",

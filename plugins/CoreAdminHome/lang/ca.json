@@ -15,6 +15,7 @@
         "ImportingServerLogs": "Important els Registres del Servidor",
         "ImportingServerLogsDesc": "Una alternativa a seguir els visitants a través del navegador (tant amb JavaScript com amb un enllaç de imatge) és important continuament els registres del servidor. Informeu-vos més a %1$sServer Log File Analytics%2$s.",
         "JavaScriptTracking": "Seguiment amb Javascript",
+        "JSTrackingIntro5": "Si desitja fer més que rastrejar visites de pàgina, revisa la %1$sDocumentació javascript de Matomo %2$s sobre la llista de funcions disponibles. Utilitzant aquestes funcions, pots rastrejar objectius, variables personalitzades, compres d'e-comerç, compres abandonades i més.",
         "LogoUpload": "Seleccioneu un logo per pujar",
         "MenuGeneralSettings": "Configuració general",
         "OptOutComplete": "Baixa complerta. Les teves visites en aquest lloc web no es tindrán en compte per l'eina d'anàlisis Web.",

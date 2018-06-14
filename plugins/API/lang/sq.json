@@ -10,6 +10,7 @@
         "TopLinkTooltip": "Hyni programatikisht te të dhënat tuaja të Analizave Web përmes një API-je të thjeshtë json, xml, etj.",
         "UserAuthentication": "Mirëfilltësim përdoruesi",
         "UsingTokenAuth": "Nëse doni të %1$s kërkoni të dhëna brenda një programthi, një crontab-i, etj. %2$s lypset të shtoni parametrin %3$s te URL-të për thirrje API që lypin mirëfilltësim.",
-        "Glossary": "Fjalorth"
+        "Glossary": "Fjalorth",
+        "LearnAboutCommonlyUsedTerms2": "Mësoni më tepër rreth termash të përdorur rëndom, që të përfitoni maksimumin prej Matomo Analytics."
     }
 }

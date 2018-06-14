@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Intl\Commands;
 
+use DateTimeZone;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Development;
@@ -97,6 +98,7 @@ class GenerateIntl extends ConsoleCommand
             $this->fetchLanguageData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchTerritoryData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchCalendarData($output, $transformedLangCode, $requestLangCode, $translations);
+            $this->fetchTimeZoneData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchLayoutDirection($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchUnitData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchNumberFormattingData($output, $transformedLangCode, $requestLangCode, $translations);
@@ -318,6 +320,54 @@ class GenerateIntl extends ConsoleCommand
             $output->writeln('Saved date fields for ' . $langCode);
         } catch (\Exception $e) {
             $output->writeln('Unable to import date fields for ' . $langCode);
+        }
+    }
+
+    protected function fetchTimeZoneData(OutputInterface $output, $langCode, $requestLangCode, &$translations)
+    {
+        $timeZoneDataUrl = 'https://raw.githubusercontent.com/unicode-cldr/cldr-dates-full/master/main/%s/timeZoneNames.json';
+
+        try {
+            $timeZoneData = Http::fetchRemoteFile(sprintf($timeZoneDataUrl, $requestLangCode));
+            $timeZoneData = json_decode($timeZoneData, true);
+            $timeZoneData = $timeZoneData['main'][$requestLangCode]['dates']['timeZoneNames'];
+
+            $cities = array();
+            foreach ($timeZoneData['zone'] as $key1 => $level1) {
+                foreach ($level1 as $key2 => $level2) {
+                    if (isset($level2['exemplarCity'])) {
+                        $level2 = array($level2);
+                    }
+                    foreach ($level2 as $key3 => $level3) {
+                        if (isset($level3['exemplarCity'])) {
+                            $timezone = $key1 . '/' . $key2;
+                            if ($key3) {
+                                $timezone .= '/' . $key3;
+                            }
+                            $cities[$timezone] = $level3['exemplarCity'];
+                        }
+                    }
+                }
+            }
+
+            foreach ($cities as $timezone => $city) {
+                try {
+                    $zone = new DateTimeZone($timezone);
+                } catch (\Exception $e) {
+                    continue;
+                }
+                $location = $zone->getLocation();
+                if (!isset($location['country_code'])) {
+                    continue;
+                }
+                // We only need translations for countries with more than one timezone.
+                $timezonesInCountry = DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $location['country_code']);
+                if (count($timezonesInCountry) > 1) {
+                    $translations['Intl']['Timezone_' . str_replace(array('_', '/'), array('', '_'), $timezone)] = $city;
+                }
+            }
+        } catch (\Exception $e) {
+            $output->writeln('Unable to import time zone data for ' . $langCode);
         }
     }
 
