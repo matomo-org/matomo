@@ -887,8 +887,9 @@ class Manager
             && $this->isPluginActivated($pluginName)) {
 
             $info = $newPlugin->getInformation();
+            $hasInternet = Config::getInstance()->General['enable_internet_features'];
 
-            if (!empty($info['price']['base'])) {
+            if (!empty($info['price']['base']) && $hasInternet) {
                 try {
 
                     $cacheKey = 'MarketplacePluginMissingLicense' . $pluginName;
