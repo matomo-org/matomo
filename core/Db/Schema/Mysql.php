@@ -77,21 +77,25 @@ class Mysql implements SchemaInterface
             ",
 
             'plugin_setting' => "CREATE TABLE {$prefixTables}plugin_setting (
-                          `plugin_name` VARCHAR(60) NOT NULL,
-                          `setting_name` VARCHAR(255) NOT NULL,
-                          `setting_value` LONGTEXT NOT NULL,
-                          `json_encoded` TINYINT UNSIGNED NOT NULL DEFAULT 0,
-                          `user_login` VARCHAR(100) NOT NULL DEFAULT '',
+                              `plugin_name` VARCHAR(60) NOT NULL,
+                              `setting_name` VARCHAR(255) NOT NULL,
+                              `setting_value` LONGTEXT NOT NULL,
+                              `json_encoded` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+                              `user_login` VARCHAR(100) NOT NULL DEFAULT '',
+                              `idplugin_setting` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                              PRIMARY KEY (idplugin_setting),
                               INDEX(plugin_name, user_login)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
             'site_setting'    => "CREATE TABLE {$prefixTables}site_setting (
-                          idsite INTEGER(10) UNSIGNED NOT NULL,
-                          `plugin_name` VARCHAR(60) NOT NULL,
-                          `setting_name` VARCHAR(255) NOT NULL,
-                          `setting_value` LONGTEXT NOT NULL,
-                          `json_encoded` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+                              idsite INTEGER(10) UNSIGNED NOT NULL,
+                              `plugin_name` VARCHAR(60) NOT NULL,
+                              `setting_name` VARCHAR(255) NOT NULL,
+                              `setting_value` LONGTEXT NOT NULL,
+                              `json_encoded` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+                              `idsite_setting` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                              PRIMARY KEY (idsite_setting),
                               INDEX(idsite, plugin_name)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
@@ -210,6 +214,8 @@ class Mysql implements SchemaInterface
                                   query TEXT NOT NULL,
                                   count INTEGER UNSIGNED NULL,
                                   sum_time_ms FLOAT NULL,
+                                  idprofiling BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                    PRIMARY KEY (idprofiling),
                                     UNIQUE KEY query(query(100))
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
