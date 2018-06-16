@@ -62,7 +62,7 @@ class OptOutManager
      * @param string $javascript
      * @param bool $inline
      */
-    public function addJavascript($javascript, $inline = true)
+    public function addJavaScript($javascript, $inline = true)
     {
         $type = $inline ? 'inline' : 'external';
         $this->javascripts[$type][] = $javascript;
@@ -71,7 +71,7 @@ class OptOutManager
     /**
      * @return array
      */
-    public function getJavascripts()
+    public function getJavaScripts()
     {
         return $this->javascripts;
     }
@@ -203,7 +203,7 @@ class OptOutManager
 
         $this->view = new View("@CoreAdminHome/optOut");
 
-        $this->addJavaScript('plugins/CoreAdminHome/javascripts/optOut.js', $false);
+        $this->addJavaScript('plugins/CoreAdminHome/javascripts/optOut.js', false);
 
         $this->view->setXFrameOptions('allow');
         $this->view->dntFound = $dntFound;
@@ -212,7 +212,7 @@ class OptOutManager
         $this->view->language = $lang;
         $this->view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
         $this->view->reloadUrl = $reloadUrl;
-        $this->view->javascripts = $this->getJavascripts();
+        $this->view->javascripts = $this->getJavaScripts();
         $this->view->stylesheets = $this->getStylesheets();
         $this->view->title = $this->getTitle();
         $this->view->queryParameters = $this->getQueryParameters();
