@@ -140,6 +140,10 @@ var Piwik_Overlay = (function () {
         var location = getOverlayLocationFromHash(urlHash);
         location = Overlay_Helper.decodeFrameUrl(location);
 
+        if (location == iframeCurrentPageNormalized) {
+            return;
+        }
+
         if (!updateComesFromInsideFrame) {
             var iframeUrl = iframeSrcBase;
             if (location) {
@@ -186,26 +190,19 @@ var Piwik_Overlay = (function () {
             }, 50);
 
             // handle window resize
-            // we manipulate broadcast.pageload because it unbinds all resize events on window
-            var originalPageload = broadcast.pageload;
-            broadcast.pageload = function (hash) {
-                originalPageload(hash);
-                $(window).resize(function () {
-                    adjustDimensions();
-                });
-            };
             $(window).resize(function () {
                 adjustDimensions();
             });
 
-            // handle hash change
-            broadcast.loadAjaxContent = hashChangeCallback;
+            angular.element(document).injector().invoke(function ($rootScope) {
+                $rootScope.$on('$locationChangeSuccess', function () {
+                    hashChangeCallback(broadcast.getHash());
+                });
 
-            broadcast._isInit = false;
-            broadcast.init();
+                hashChangeCallback(broadcast.getHash());
+            });
 
             if (window.location.href.split('#').length == 1) {
-                // if there's no hash, broadcast won't trigger the callback - we have to do it here
                 hashChangeCallback('');
             }
 
@@ -270,14 +267,23 @@ var Piwik_Overlay = (function () {
                 currentLocation = getOverlayLocationFromHash(locationParts[1]);
             }
 
-            var newLocation = Overlay_Helper.encodeFrameUrl(currentUrl);
+            var newFrameLocation = Overlay_Helper.encodeFrameUrl(currentUrl);
 
-            if (newLocation != currentLocation) {
+            if (newFrameLocation != currentLocation) {
                 updateComesFromInsideFrame = true;
-                // put the current iframe url in the main url to enable refresh and deep linking.
-                // use disableHistory=true to make sure that the back and forward buttons can be
-                // used on the iframe (which in turn notifies the parent about the location change)
-                broadcast.propagateAjax('l=' + newLocation, true);
+
+                // available in global scope
+                var currentHashStr = broadcast.getHash();
+
+                if (currentHashStr.charAt(0) == '?') {
+                    currentHashStr = currentHashStr.substr(1);
+                }
+
+                currentHashStr = broadcast.updateParamValue('l=' + newFrameLocation, currentHashStr);
+
+                var newLocation = window.location.href.split('#')[0] + '#?' + currentHashStr;
+                // window.location.replace changes the current url without pushing it on the browser's history stack
+                window.location.replace(newLocation);
             } else {
                 // happens when the url is changed by hand or when the l parameter is there on page load
                 loadSidebar(currentUrl);

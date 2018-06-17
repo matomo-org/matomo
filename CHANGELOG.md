@@ -60,6 +60,12 @@ Piwik is now Matomo. Read more about this change in the [official announcement](
 
 * New HTTP API `API.getMatomoVersion` was introduced. The previous HTTP API `API.getPiwikVersion` will still work but will now be hidden from the API reference page.
 
+## Piwik 3.2.2
+
+### Breaking Changes
+* The `historyService` along with `broadcast.init`, `broadcast.propagateAjax`, `broadcast.pageLoad` have been deprecated and will be removed in Piwik 4. 
+
+
 ## Piwik 3.2.1
 
 ### New APIs
