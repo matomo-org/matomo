@@ -29,7 +29,7 @@ class CurrencyDataProvider
         if ($this->currencyList === null) {
             $this->currencyList = require __DIR__ . '/../Resources/currencies.php';
 
-            $custom = Config::getInstance()->General['currency'];
+            $custom = Config::getInstance()->General['currencies'];
             foreach ($custom as $code => $name) {
                 $this->currencyList[$code] = array($code, $name);
             }

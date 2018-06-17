@@ -6,6 +6,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 3.6.0
 
+### New Features
+
+* Custom currencies can now be added using the `currencies[]` configuration key.
+
 ### New APIs
 
 * Added new event `API.addGlossaryItems` which lets you add items to the glossary.
