@@ -478,8 +478,8 @@ class API extends \Piwik\Plugin\API
                 }
             }
         }
-        $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', array(true));
         $dataTable->filter('AddSegmentByLabel', array('referrerUrl'));
+        $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', array(true));
         $dataTable->queueFilter('ReplaceColumnNames');
         return $dataTable;
     }
