@@ -33,6 +33,11 @@ class LoginWhitelist
             return false;
         }
 
+        // ignore whitelist checks for opt out iframe
+        if ('CoreAdminHome' === Piwik::getModule() && 'optOut' === Piwik::getAction()) {
+            return false;
+        }
+
         $ips = $this->getWhitelistedLoginIps();
         return !empty($ips);
     }
