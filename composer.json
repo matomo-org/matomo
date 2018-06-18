@@ -47,7 +47,8 @@
         "piwik/piwik-php-tracker": "^1.0",
         "composer/semver": "~1.3.0",
         "szymach/c-pchart": "^2.0",
-        "geoip2/geoip2": "^2.8"
+        "geoip2/geoip2": "^2.8",
+        "davaxi/sparkline": "^1.1"
     },
     "require-dev": {
         "aws/aws-sdk-php": "2.7.1",

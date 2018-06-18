@@ -314,7 +314,7 @@ class RowEvolution
 
         // base64 encode the image and put it in an img tag
         $spark = base64_encode($spark);
-        return '<img src="data:image/png;base64,' . $spark . '" />';
+        return '<img width="100" height="25" src="data:image/png;base64,' . $spark . '" />';
     }
 
     /** Use the available metrics for the metrics of the last requested graph. */
