@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Http;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -58,7 +59,10 @@ class TrackerResponseTest extends SystemTestCase
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
 
-        $this->assertResponseCode(200, $url);
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(200, $response['status']);
+        $this->assertArrayHasKey('Cache-Control', $response['headers']);
+        $this->assertEquals('no-store', $response['headers']['Cache-Control']);
     }
 
     public function test_response_ShouldSend204ResponseCode_IfImageIsDisabled()
@@ -66,7 +70,10 @@ class TrackerResponseTest extends SystemTestCase
         $url = $this->tracker->getUrlTrackPageView('Test');
         $url .= '&send_image=0';
 
-        $this->assertResponseCode(204, $url);
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(204, $response['status']);
+        $this->assertArrayHasKey('Cache-Control', $response['headers']);
+        $this->assertEquals('no-store', $response['headers']['Cache-Control']);
     }
 
     public function test_response_ShouldSend400ResponseCode_IfSiteIdIsInvalid()
@@ -74,7 +81,8 @@ class TrackerResponseTest extends SystemTestCase
         $url = $this->tracker->getUrlTrackPageView('Test');
         $url .= '&idsite=100';
 
-        $this->assertResponseCode(400, $url);
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(400, $response['status']);
     }
 
     public function test_response_ShouldSend400ResponseCode_IfSiteIdIsZero()
@@ -82,7 +90,8 @@ class TrackerResponseTest extends SystemTestCase
         $url = $this->tracker->getUrlTrackPageView('Test');
         $url .= '&idsite=0';
 
-        $this->assertResponseCode(400, $url);
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(400, $response['status']);
     }
 
     public function test_response_ShouldSend400ResponseCode_IfInvalidRequestParameterIsGiven()
@@ -90,8 +99,13 @@ class TrackerResponseTest extends SystemTestCase
         $url = $this->tracker->getUrlTrackPageView('Test');
         $url .= '&cid=' . str_pad('1', 16, '1');
 
-        $this->assertResponseCode(200, $url);
-        $this->assertResponseCode(400, $url . '1'); // has to be 16 char, but is 17 now
+        $response = $this->sendHttpRequest($url);
+        $this->assertArrayHasKey('Cache-Control', $response['headers']);
+        $this->assertEquals('no-store', $response['headers']['Cache-Control']);
+        $this->assertEquals(200, $response['status']);
+
+        $response = $this->sendHttpRequest($url . '1'); // has to be 16 char, but is 17 now
+        $this->assertEquals(400, $response['status']);
     }
 
     // See https://github.com/piwik/piwik/issues/7850 piwik.php is used by plugins and monitoring systems to test for Piwik installation.
@@ -99,29 +113,37 @@ class TrackerResponseTest extends SystemTestCase
     public function test_response_ShouldReturnPiwikMessageWithHttp200_InCaseOfEmptyGETRequest()
     {
         $url = Fixture::getTrackerUrl();
-        $this->assertResponseCode(200, $url);
+        $response = Http::sendHttpRequest($url, 10, null, null, 0, false, false, true);
+        $this->assertEquals(200, $response['status']);
 
         $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer'>digital analytics platform</a> for web and mobile.";
-        $this->assertHttpResponseText($expected, $url);
+        $this->assertEquals($expected, $response['data']);
     }
 
     public function test_response_ShouldReturnPiwikMessageWithHttp400_InCaseOfInvalidRequestOrIfNothingIsTracked()
     {
         $url = Fixture::getTrackerUrl();
-        $this->assertResponseCode(400, $url . '?rec=1');
+        $response = $this->sendHttpRequest($url . '?rec=1');
+        $this->assertEquals(400, $response['status']);
 
+        $response = $this->sendHttpRequest($url);
         $expected = "This resource is part of Matomo. Keep full control of your data with the leading free and open source <a href='https://matomo.org' target='_blank' rel='noopener noreferrer'>digital analytics platform</a> for web and mobile.";
-        $this->assertHttpResponseText($expected, $url);
+        $this->assertEquals($expected, $response['data']);
     }
-
 
     public function test_response_ShouldReturnPiwikMessageWithHttp503_InCaseOfMaintenanceMode()
     {
         $url = $this->tracker->getUrlTrackPageView('Test');
-        $this->assertResponseCode(200, $url);
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(200, $response['status']);
 
         $url = $url . "&forceEnableTrackerMaintenanceMode=1";
-        $this->assertResponseCode(503, $url);
+        $response = $this->sendHttpRequest($url);
+        $this->assertEquals(503, $response['status']);
     }
 
+    protected function sendHttpRequest($url)
+    {
+        return Http::sendHttpRequest($url, 10, null, null, 0, false, false, true);
+    }
 }

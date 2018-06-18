@@ -7,6 +7,9 @@
  */
 namespace Piwik\Tests\Framework\Constraint;
 
+/**
+ * @deprecated
+ */
 class HttpResponseText extends \PHPUnit_Framework_Constraint
 {
     private $actualCode;
