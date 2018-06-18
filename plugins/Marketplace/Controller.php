@@ -84,6 +84,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function subscriptionOverview()
     {
         Piwik::checkUserHasSuperUserAccess();
+        Piwik::checkInternetConnectionAvailable();
 
         // we want to make sure to fetch the latest results, eg in case user has purchased a subscription meanwhile
         // this is also like a self-repair to clear the caches :)
@@ -131,6 +132,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function pluginDetails()
     {
+        Piwik::checkInternetConnectionAvailable();
+
         $view = $this->configureViewAndCheckPermission('@Marketplace/plugin-details');
 
         $pluginName = new PluginName();
@@ -167,6 +170,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function download()
     {
         Piwik::checkUserHasSuperUserAccess();
+        Piwik::checkInternetConnectionAvailable();
 
         $this->dieIfPluginsAdminIsDisabled();
 
@@ -192,6 +196,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function overview()
     {
+        Piwik::checkInternetConnectionAvailable();
+
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
 
         $show  = Common::getRequestVar('show', 'plugins', 'string');
@@ -281,6 +287,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function installAllPaidPlugins()
     {
         Piwik::checkUserHasSuperUserAccess();
+        Piwik::checkInternetConnectionAvailable();
 
         $this->dieIfPluginsAdminIsDisabled();
         Plugin\ControllerAdmin::displayWarningIfConfigFileNotWritable();
@@ -375,12 +382,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     public function updatePlugin()
     {
+        Piwik::checkInternetConnectionAvailable();
         $view = $this->createUpdateOrInstallView('updatePlugin', static::UPDATE_NONCE);
         return $view->render();
     }
 
     public function installPlugin()
     {
+        Piwik::checkInternetConnectionAvailable();
         $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);
         $view->nonce = Nonce::getNonce(PluginsController::ACTIVATE_NONCE);
 
@@ -390,6 +399,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private function createUpdateOrInstallView($template, $nonceName)
     {
         Piwik::checkUserHasSuperUserAccess();
+        Piwik::checkInternetConnectionAvailable();
         $this->dieIfPluginsAdminIsDisabled();
         $this->displayWarningIfConfigFileNotWritable();
 

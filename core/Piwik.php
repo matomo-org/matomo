@@ -472,6 +472,18 @@ class Piwik
         Access::getInstance()->checkUserHasSomeViewAccess();
     }
 
+    /**
+     * Checks that internet features are enabled
+     *
+     * @throws Exception if internet features are disabled
+     */
+    public static function checkInternetConnectionAvailable()
+    {
+        if (!SettingsPiwik::isInternetEnabled()) {
+            throw new Exception('This feature requires an internet connection. Please check your config value for `enable_internet_features` if you want to use this feature.');
+        }
+    }
+
     /*
      * Current module, action, plugin
      */
