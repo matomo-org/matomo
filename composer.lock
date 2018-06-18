@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "ed95573aa1d50a430cc55428d46160b6",
@@ -660,7 +660,7 @@
                 "archive",
                 "tar"
             ],
-            "time": "2016-02-25T10:30:39+00:00"
+            "time": "2017-06-11T17:28:11+00:00"
         },
         {
             "name": "pear/console_getopt",
@@ -1182,12 +1182,12 @@
             ],
             "authors": [
                 {
-                    "name": "The Piwik Team",
+                    "name": "The Matomo Team",
                     "email": "hello@piwik.org",
                     "homepage": "http://piwik.org/the-piwik-team/"
                 }
             ],
-            "description": "PHP Client for Piwik Analytics Tracking API",
+            "description": "PHP Client for Matomo Analytics Tracking API",
             "homepage": "http://piwik.org",
             "keywords": [
                 "analytics",
@@ -1854,7 +1854,7 @@
                 "performance",
                 "profiling"
             ],
-            "time": "2015-02-26T14:37:51+00:00"
+            "time": "2015-02-26 14:37:51"
         },
         {
             "name": "guzzle/guzzle",
