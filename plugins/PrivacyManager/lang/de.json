@@ -6,6 +6,7 @@
         "AnonymizeIpExtendedHelp": "Wenn Benutzer Ihre Website besuchen, wird Matomo nicht die komplette IP-Adresse (so wie %1$s) benützen, sondern sie stattdessen zuerst anonymisieren (zu %2$s). Die Anonymisierung der IP-Adresse ist in einigen Ländern eine gesetzliche Pflicht, zum Beispiel in Deutschland vorgegeben durch das Datenschutzrecht.",
         "AnonymizeIpMaskLengtDescription": "Wählen Sie aus, wieviele Bytes der Besucher-IP maskiert werden sollen.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - z.B. %2$s",
+        "AskingForConsent": "Um Erlaubnis bitten",
         "CannotLockSoDeleteLogActions": "Die log_action Tabelle wird nicht geleert: Bitte geben Sie dem MySQL Benutzer '%s' das LOCK TABLES Privileg.",
         "ClickHereSettings": "Hier klicken, um die %s Einstellungen zu bearbeiten.",
         "CurrentDBSize": "Aktuelle Größe der Datenbank",
@@ -43,6 +44,8 @@
         "GeolocationAnonymizeIpNote": "Hinweis: Standorterkennung wird ungefähr das gleiche Ergebnis haben, wenn 1 Byte anonymisiert ist. Bei 2 Bytes oder mehr wird Geolokalisierung sehr ungenau werden.",
         "GDPR": "DSGVO",
         "GdprManager": "DSGVO Verwaltung",
+        "GdprOverview": "DSGVO Übersicht",
+        "GdprTools": "DSGVO Hilfsmittel",
         "GetPurgeEstimate": "Hochrechnung der Auswirkungen anzeigen",
         "KeepBasicMetrics": "Behalte Basismetriken (Besuche, Seitenansichten, Absprungrate, Ziel-Konversionen, Ecommerce-Konversionen, etc.)",
         "KeepDataFor": "Behalte alle Daten für",
@@ -73,6 +76,7 @@
         "PseudonymizeUserId": "Benutzer ID mit Pseudonym austauschen",
         "UseAnonymizeOrderId": "Bestellnummer anonymisieren",
         "UseDeleteLog": "Alte Besucher-Logs automatisch aus der Datenbank entfernen",
-        "UseDeleteReports": "Lösche regelmäßig alte Berichte aus der Datenbank"
+        "UseDeleteReports": "Lösche regelmäßig alte Berichte aus der Datenbank",
+        "UsersOptOut": "Benutzer Opt-Out"
     }
 }

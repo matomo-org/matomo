@@ -1,10 +1,35 @@
 {
     "Insights": {
+        "PluginDescription": "Fornece perspetivas sobre o seu tráfego. As perspetivas estão disponíveis como widgets nos painéis bem como um novo ícone nos relatórios para que possa ver as tendências mais importantes nos seus dados.",
+        "ControlComparedToDescription": "Crescimento comparado ao",
+        "ControlFilterByDescription": "Mostrar tudo, apenas movidos, apenas novos ou apenas os que desapareceram",
+        "DatePeriodCombinationNotSupported": "Não é possível gerar perspetivas para esta combinação de datas e de períodos.",
         "DayComparedToPreviousDay": "dia anterior",
         "DayComparedToPreviousWeek": "mesmo dia da semana anterior",
-        "DayComparedToPreviousYear": "mesmo dia do ano anterior",
+        "DayComparedToPreviousYear": "mesmo dia no ano anterior",
+        "Filter": "Filtro",
+        "FilterIncreaserAndDecreaser": "Crescente e decrescente",
+        "FilterOnlyDecreaser": "Apenas decrescente",
+        "FilterOnlyDisappeared": "Apenas desaparecidos",
+        "FilterOnlyIncreaser": "Apenas crescente",
+        "FilterOnlyMovers": "Apenas movidos",
+        "FilterOnlyNew": "Apenas novos",
+        "IgnoredChanges": "Alterações que afetem menos de %s visitas foram ignoradas.",
         "MonthComparedToPreviousMonth": "mês anterior",
         "MonthComparedToPreviousYear": "mesmo mês no ano anterior",
-        "WeekComparedToPreviousWeek": "semana anterior"
+        "MoversAndShakersWidgetTitle": "Apenas movidos e agitados",
+        "NoResultMatchesCriteria": "Sem linhas correspondentes aos critérios",
+        "OverviewWidgetTitle": "Visão geral das perspetivas",
+        "TitleConsideredInsightsChanges": "As linhas que cresceram ou decresceram por, pelo menos, %1$s visitas (%2$s%% de um total de %3$s visitas).",
+        "TitleConsideredInsightsGrowth": "As linhas seguintes tiveram um crescimento de, pelo menos, %1$s%% comparativamente a %2$s.",
+        "TitleConsideredMoversAndShakersChanges": "Os movidos apenas foram considerados se cresceram mais do que %1$s%% visitas ou reduziram menos do que %2$s%% visitas, novas entradas apenas se cresceram mais do que %3$s%% visitas (%4$s), e as linhas desaparecidas se reduziram por menos do que %5$s%% visitas (%6$s).",
+        "TitleConsideredMoversAndShakersGrowth": "%1$s mudaram de %2$s para %3$s comparativamente a %4$s. Com base nesta evolução para cada linha de %5$s%% é esperado.",
+        "TitleRowChangeDetails": "'%1$s' mudou de %2$s (%3$s) para %4$s (%5$s) %6$s.",
+        "TitleRowDisappearedDetails": "'%1$s' decresceu por %2$s e desapareceu em %3$s comparativamente a %4$s.",
+        "TitleRowMoverAndShaker": "Esta linha teve um impacto maior do que a média.",
+        "TitleRowNewDetails": "'%1$s' cresceu por %2$s e é nova comparativamente a %3$s.",
+        "WeekComparedToPreviousWeek": "semana anterior",
+        "WidgetCategory": "Perspetivas",
+        "YearComparedToPreviousYear": "ano anterior"
     }
 }

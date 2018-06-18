@@ -87,6 +87,7 @@
         "TrackingCodeIntro": "Matomo tilbyder forskellige metoder til indlejring af sporingskoden på din hjemmesiden, i din mobilapp eller anden enhed eller applikation.",
         "TrustedHostConfirm": "Er du sikker på, at du vil ændre det betroede Matomo værtsnavn?",
         "TrustedHostSettings": "Betroet Matomo værtsnavn",
+        "UiDemo": "UI-demo",
         "UpdateSettings": "Opdater indstillinger",
         "UseCustomLogo": "Anvend brugerdefineret logo",
         "ValidPiwikHostname": "Gyldigt Matomo værtsnavn",
