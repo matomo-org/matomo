@@ -43,7 +43,7 @@
         "DaysToConv": "Dage til konvertering",
         "Details": "Mål detaljer",
         "DefaultGoalConvertedOncePerVisit": "(standard) Målet kan kun konverteres én gang pr. besøg",
-        "DefaultRevenue": "Målets standardindtægter er",
+        "DefaultRevenue": "Målets standardindtægt er",
         "DefaultRevenueHelp": "F.eks. en kontaktformular sendt af en besøgende kan være 10 kr. værd i gennemsnit. Matomo vil hjælpe dig med at forstå, hvor godt dine besøgssegmenter klarer sig.",
         "DeleteGoalConfirm": "Bekræft sletning af mål %s?",
         "DocumentationRevenueGeneratedByProductSales": "Produktsalg. Omfatter ikke moms, forsendelse og rabat",

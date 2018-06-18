@@ -1,10 +1,34 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Tem algum erro para reportar ou um pedido de funcionalidade?",
+        "HowToCreateTicket": "Por favor, leia as recomendações sobre como escrever bons %1$srelatórios de erro%2$s ou %3$spedidos de funcionalidades%4$s. Depois registe-se ou autentique-se no %5$snosso rastreador de problemas%6$s e crie um %7$snovo problema%8$s.",
         "IWantTo": "Eu quero:",
-        "LearnWaysToParticipate": "Aprenda todas as formas como pode %1$s participar%2$s",
-        "ManuallySendEmailTo": "Por favor envie a sua mensagem manualmente para",
-        "SendFeedback": "Enviar Opinião",
-        "ThankYou": "Obrigado por nos ajudar a melhorar o Matomo!"
+        "LearnWaysToParticipate": "Aprender sobre todas as formas como posso %1$s participar%2$s",
+        "ManuallySendEmailTo": "Por favor, envie manualmente a sua mensagem para",
+        "PluginDescription": "Envie os seus comentários para a equipa do Matomo. Partilhe as suas ideias e sugestões para tornar o Matomo a melhor plataforma de análise do mundo!",
+        "PrivacyClaim": "O Matomo respeita a sua %1$sprivacidade%2$s e dá-lhe controlo absoluto sob os seus dados.",
+        "RateFeatureLeaveMessageDislike": "Lamentamos em saber que não gosta! Por favor, diga-nos como podemos melhorar.",
+        "RateFeatureLeaveMessageLike": "Ficamos contentes que goste! Por favor, diga-nos o que mais gosta ou se tem um pedido de funcionalidade.",
+        "RateFeatureSendFeedbackInformation": "A sua plataforma Matomo irá enviar um e-mail à equipa do Matomo (incluindo o seu endereço de e-mail) para que o possamos contactar se tiver qualquer questão.",
+        "RateFeatureThankYouTitle": "Obrigado por avaliar '%s'!",
+        "RateFeatureTitle": "Gosta da funcionalidade '%s'? Por favor, avalie e deixe um comentário",
+        "SendFeedback": "Enviar comentário",
+        "ThankYou": "Obrigado por nos ajudar a melhorar o Matomo!",
+        "TopLinkTooltip": "Diga-nos o que acha ou solicite apoio profissional.",
+        "ViewAnswersToFAQ": "Ver respostas às %1$sperguntas frequentes%2$s",
+        "ViewUserGuides": "Saiba como configurar o Matomo e como analisar eficazmente os seus dados com os nossos %1$sguias do utilizador%2$s",
+        "CommunityHelp": "Ajuda da comunidade",
+        "ProfessionalHelp": "Ajuda profissional",
+        "ProfessionalServicesIntro": "A nossa rede mundial de consultores profissionais do Matomo apoia clientes que alojam o Matomo nas suas próprias infraestruturas.",
+        "ProfessionalServicesOfferIntro": "Quais os serviços que pode beneficiar?",
+        "ProfessionalServicesReviewPiwikSetup": "Uma análise da sua configuração do Matomo",
+        "ProfessionalServicesOptimizationMaintenance": "Serviços de otimização e manutenção do Matomo",
+        "ProfessionalServicesPhoneEmailSupport": "Apoio por telefone ou e-mail",
+        "ProfessionalServicesTraining": "Formação de utilizadores, de técnicos e de programadores",
+        "ProfessionalServicesPremiumFeatures": "Funcionalidades exclusivas",
+        "ProfessionalServicesCustomDevelopment": "Serviços de programação à medida",
+        "ProfessionalServicesAnalystConsulting": "Serviços de consultoria de analistas",
+        "ContactUs": "Contacte-nos",
+        "VisitTheForums": "Visite os %1$s fóruns%2$s e obtenha ajuda da comunidade de utilizadores do Matomo"
     }
 }

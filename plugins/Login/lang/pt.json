@@ -1,14 +1,26 @@
 {
     "Login": {
+        "ConfirmationLinkSent": "Uma ligação de confirmação foi enviada para a sua caixa de correio. Confirme o seu e-mail e visite a respetiva ligação para autorizar o seu pedido de alteração de palavra-passe.",
+        "ContactAdmin": "Possível motivo: o seu servidor pode ter a função mail() desativada. <br \/>Por favor, contacte o seu administrador do Matomo.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Um utilizador com acesso de super-utilizador não pode ser autenticado utilizando o mecanismo '%s'.",
         "ExceptionPasswordMD5HashExpected": "Espera-se que o parâmetro da palavra-passe seja uma hash MD5 da palavra-passe.",
-        "InvalidNonceOrHeadersOrReferrer": "Erro de Segurança do formulário. Por favor, recarregar o formulário e verificar se os cookies estão activos. Se você usar um servidor proxy, você deve configurar %1$s Matomo para aceitar os cabeçalhos proxy %2$s que encaminha o cabeçalho do Host. Além disso, verifique se o cabeçalho Referer é enviado corretamente.",
+        "InvalidNonceOrHeadersOrReferrer": "Erro de segurança do formulário. Por favor, recarregue o formulário e confirme que os seus cookies estão ativos. Se utilizar um servidor proxy, deve %1$s configurar o Matomo para aceitar o cabeçalho proxy %2$s que reencaminha o cabeçalho do Host. Além disso, verifique se o cabeçalho Referer é enviado corretamente.",
+        "InvalidNonceSSLMisconfigured": "Também pode %1$s forçar o Matomo a utilizar uma ligação segura%2$s: no seu ficheiro de configuração %3$s defina %4$s abaixo da secção %5$s",
         "InvalidOrExpiredToken": "O código é inválido ou expirou.",
         "InvalidUsernameEmail": "Nome de utilizador e\/ou endereço de e-mail inválido",
         "LogIn": "Entrar",
-        "LoginPasswordNotCorrect": "Nome de Utilizador & Palavra-passe incorrectos",
+        "LoginOrEmail": "Nome de utilizador ou e-mail",
+        "LoginPasswordNotCorrect": "Combinação de nome de utilizador e palavra-passe incorreta.",
         "LostYourPassword": "Perdeu a sua palavra-passe?",
+        "ChangeYourPassword": "Alterar a sua palavra-passe",
+        "MailPasswordChangeBody": "Olá %1$s,\n\nFoi recebido um pedido de reposição de palavra-passe de %2$s. Para confirmar esta alteração de palavra-passe, para que possa iniciar sessão com as suas novas credenciais, visite a seguinte ligação:\n\n%3$s\n\nAtenção: A alteração da palavra-passe vai também alterar o seu token_auth. Pode consultar o seu novo token_auth na sua página de definições.\n\nSe estiver a utilizar o seu token_auth da API em quaisquer aplicações externas ou para arquivo, confirme que atualizar o token_auth, caso contrário os pedidos à API irão falhar.\n\nNota: esta ligação irá expirar em 24 horas.\n\nE obrigado por utilizar o Matomo!",
+        "MailTopicPasswordChange": "Confirmar alteração de palavra-passe",
+        "NewPassword": "Nova palavra-passe",
+        "NewPasswordRepeat": "Nova palavra-passe (repetir)",
+        "PasswordChanged": "A sua palavra-passe foi alterada.",
         "PasswordRepeat": "Palavra-passe (repetir)",
         "PasswordsDoNotMatch": "As palavras-passe não coincidem.",
-        "RememberMe": "Manter sessão iniciada"
+        "PluginDescription": "Fornece autenticação via nome de utilizador e palavra-passe bem como a funcionalidade de reposição de palavra-passe. O método de autenticação pode ser alterado utilizando outra extensão de autenticação, como o LoginLdap disponível na loja.",
+        "RememberMe": "Recordar-me"
     }
 }

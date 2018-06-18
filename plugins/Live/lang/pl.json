@@ -14,6 +14,8 @@
         "LastVisit": "Ostatnia wizyta",
         "LinkVisitorLog": "Zobacz szczegółowy log odwiedzających",
         "LoadMoreVisits": "Załaduj więcej odwiedzin",
+        "LimitedSummary": "Informacja w tym profilu podsumowuje ostatnie %1$s wizyt. Użytkownik złożył więcej wizyt łącznie.",
+        "LimitedVisitsShown": "Wyświetlane jest tylko ostatnich %1$s wizyt. Użytkownik złożył więcej wizyt.",
         "MorePagesNotDisplayed": "pozostałe podstrony dla tego oglądającego nie zostaną wyświetlone",
         "NbVisitor": "1 gość",
         "NbVisitors": "%s gości",
