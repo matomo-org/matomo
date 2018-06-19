@@ -12,10 +12,8 @@ use Exception;
 use Piwik\API\ResponseBuilder;
 use Piwik\Archive;
 use Piwik\Common;
-use Piwik\DataTable\Row;
 use Piwik\DataTable;
 use Piwik\Date;
-use Piwik\Metrics;
 use Piwik\Piwik;
 
 /**
@@ -347,6 +345,17 @@ class API extends \Piwik\Plugin\API
 
     private function completeSocialTablesWithOldReports($dataTable, $idSite, $period, $date, $segment, $expanded, $flat)
     {
+        return $this->combineDataTables($dataTable, function() use ($idSite, $period, $date, $segment, $expanded, $flat) {
+            $dataTableFiltered = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, false);
+
+            $this->filterWebsitesForSocials($dataTableFiltered, $idSite, $period, $date, $segment, $expanded, $flat);
+
+            return $dataTableFiltered;
+        });
+    }
+
+    protected function combineDataTables($dataTable, $callbackForAdditionalData)
+    {
         $isMap = false;
         $hasEmptyTable = false;
         if ($dataTable instanceof DataTable\Map) {
@@ -364,15 +373,14 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($hasEmptyTable) {
-            $dataTableFiltered = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, false);
 
-            $this->filterWebsitesForSocials($dataTableFiltered, $idSite, $period, $date, $segment, $expanded, $flat);
+            $dataTablesForCompletion = $callbackForAdditionalData();
 
             if (!$isMap) {
-                $dataTable = $dataTableFiltered;
+                $dataTable = $dataTablesForCompletion;
             } else {
-                $filteredTables = $dataTableFiltered->getDataTables();
-                foreach ($dataTables as $label => $table) {
+                $filteredTables = $dataTablesForCompletion->getDataTables();
+                foreach ($dataTable as $label => $table) {
                     if ($table instanceof DataTable && !$table->getRowsCountWithoutSummaryRow() && !empty($filteredTables[$label])) {
                         $dataTable->addTable($filteredTables[$label], $label);
                     }
@@ -428,33 +436,12 @@ class API extends \Piwik\Plugin\API
             $dataTable = $dataTable->mergeSubtables();
         }
 
-        $isMap = false;
-        $hasEmptyTable = false;
-        if ($dataTable instanceof DataTable\Map) {
-            $isMap = true;
-            $dataTables = $dataTable->getDataTables();
-        } else {
-            $dataTables = [$dataTable];
-        }
-        foreach ($dataTables as $table) {
-            if ($table instanceof DataTable && !$table->getRowsCountWithoutSummaryRow()) {
-                $hasEmptyTable = true;
-                break;
-            }
-        }
-        if ($hasEmptyTable) {
+        $dataTable = $this->combineDataTables($dataTable, function() use ($idSite, $period, $date, $segment, $idSubtable) {
             $dataTableFiltered = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true);
-            // get the social network domain referred to by $idSubtable
-            $socialNetworks = Social::getInstance()->getDefinitions();
-            $social = false;
-            if ($idSubtable !== false) {
-                --$idSubtable;
-                reset($socialNetworks);
-                for ($i = 0; $i != (int)$idSubtable; ++$i) {
-                    next($socialNetworks);
-                }
-                $social = current($socialNetworks);
-            }
+
+            $socialNetworks = array_values(Social::getInstance()->getDefinitions());
+            $social = isset($socialNetworks[$idSubtable - 1]) ? $socialNetworks[$idSubtable - 1] : false;
+
             // filter out everything but social network indicated by $idSubtable
             $dataTableFiltered->filter(
                 'ColumnCallbackDeleteRow',
@@ -465,19 +452,9 @@ class API extends \Piwik\Plugin\API
                 )
             );
 
-            $dataTableFiltered = $dataTableFiltered->mergeSubtables();
+            return $dataTableFiltered->mergeSubtables();
+        });
 
-            if (!$isMap) {
-                $dataTable = $dataTableFiltered;
-            } else {
-                $filteredTables = $dataTableFiltered->getDataTables();
-                foreach ($dataTables as $label => $table) {
-                    if (!$table->getRowsCountWithoutSummaryRow() && !empty($filteredTables[$label])) {
-                        $dataTable->addTable($filteredTables[$label], $label);
-                    }
-                }
-            }
-        }
         $dataTable->filter('AddSegmentByLabel', array('referrerUrl'));
         $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', array(true));
         $dataTable->queueFilter('ReplaceColumnNames');
