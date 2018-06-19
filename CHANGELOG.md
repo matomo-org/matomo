@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 
 * Added new event `API.addGlossaryItems` which lets you add items to the glossary.
+* Added new event `Tracker.detectReferrerSocialNetwork` which lets you add custom social network detections
 * A new role has introduced called "write" which has less permissions than an admin but more than a view only user.
 * Added new API method `UsersManager.getAvailableRoles` to fetch a list of all available roles that can be granted to a user.
 * Added new API method `UsersManager.getAvailableCapabilities` to fetch a list of all available capabilities that can be granted to a user.
@@ -22,6 +23,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Changed some menu items to use translation keys instead (see [PR #12885](https://github.com/matomo-org/matomo/pull/12885)).
 * The methods `assertResponseCode()` and `assertHttpResponseText()` in `Piwik\Tests\Framework\TestCase\SystemTestCase` have been deprecated and will be removed in Matomo 4.0. Please use `Piwik\Http` instead.
 * The classes `PHPUnit\Framework\Constraint\HttpResponseText` and `PHPUnit\Framework\Constraint\ResponseCode` have been deprecated and will be removed in Matomo 4.0. Please use `Piwik\Http` instead.
+* Social networks are now detected as new referrer type (ID=7), which allows improved reports and better segmentation
 
 ## Matomo 3.5.1
 
