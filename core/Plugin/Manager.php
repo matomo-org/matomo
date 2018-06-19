@@ -15,6 +15,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Config;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Development;
 use Piwik\EventDispatcher;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Filesystem;
@@ -890,7 +891,7 @@ class Manager
             $info = $newPlugin->getInformation();
             $hasInternet = Config::getInstance()->General['enable_internet_features'];
 
-            if (!empty($info['price']['base']) && $hasInternet) {
+            if (!empty($info['price']['base']) && $hasInternet && !Development::isEnabled()) {
                 try {
 
                     $cacheKey = 'MarketplacePluginMissingLicense' . $pluginName;
@@ -902,12 +903,12 @@ class Manager
                         $plugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
 
                         try {
-                            $pluginInfo = $plugins->getPluginInfo($pluginName);
+                            $licenseInfo = $plugins->getLicenseValidInfo($pluginName);
                         } catch (\Exception $e) {
-                            $pluginInfo = array();
+                            $licenseInfo = array();
                         }
 
-                        $pluginLicenseInfo = array('missing' => !empty($pluginInfo['isMissingLicense']));
+                        $pluginLicenseInfo = array('missing' => !empty($licenseInfo['isMissingLicense']));
                         $cache->save($cacheKey, $pluginLicenseInfo, Client::CACHE_TIMEOUT_IN_SECONDS);
                     }
 
