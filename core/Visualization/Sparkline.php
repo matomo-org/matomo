@@ -73,7 +73,7 @@ class Sparkline implements ViewInterface
         $sparkline->setWidth($this->getWidth());
         $sparkline->setHeight($this->getHeight());
         $this->setSparklineColors($sparkline);
-        $sparkline->setLineThickness(3);
+        $sparkline->setLineThickness(1);
         $sparkline->setPadding('5');
 
         $this->sparkline = $sparkline;
@@ -134,7 +134,7 @@ class Sparkline implements ViewInterface
                 'minPointColor' => '#ff7f7f',
                 'maxPointColor' => '#75BF7C',
                 'lastPointColor' => '#55AAFF',
-                'fillColor' => '#fce8e7'
+                'fillColor' => '#ffffff'
             );
         }
 
