@@ -135,6 +135,7 @@ class Php extends GeoIp2
                     case 'GeoLite2-ASN':
                         $lookupResult = $ispGeoIp->asn($ip);
                         $result[self::ISP_KEY] = $lookupResult->autonomousSystemOrganization;
+                        $result[self::ORG_KEY] = $lookupResult->autonomousSystemOrganization;
                         break;
                 }
             } catch (AddressNotFoundException $e) {
