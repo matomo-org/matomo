@@ -34,9 +34,6 @@ abstract class Base extends VisitDimension
     protected $currentUrlParse;
     protected $idsite;
 
-    private static $cachedReferrerSearchEngine   = array();
-    private static $cachedReferrerSocialNetworks = array();
-
     // Used to prefix when a adsense referrer is detected
     const LABEL_PREFIX_ADWORDS_KEYWORD = '(adwords) ';
     const LABEL_ADWORDS_NAME = 'AdWords';
@@ -144,8 +141,16 @@ abstract class Base extends VisitDimension
      */
     protected function detectReferrerSearchEngine()
     {
-        if (isset(self::$cachedReferrerSearchEngine[$this->referrerUrl])) {
-            $searchEngineInformation = self::$cachedReferrerSearchEngine[$this->referrerUrl];
+        $cache    = \Piwik\Cache::getTransientCache();
+        $cacheKey = 'cachedReferrerSearchEngine';
+
+        $cachedReferrerSearchEngine = [];
+        if ($cache->contains($cacheKey)) {
+            $cachedReferrerSearchEngine = $cache->fetch($cacheKey);
+        }
+
+        if (isset($cachedReferrerSearchEngine[$this->referrerUrl])) {
+            $searchEngineInformation = $cachedReferrerSearchEngine[$this->referrerUrl];
         } else {
             $searchEngineInformation = SearchEngineDetection::getInstance()->extractInformationFromUrl($this->referrerUrl);
 
@@ -167,7 +172,8 @@ abstract class Base extends VisitDimension
              */
             Piwik::postEvent('Tracker.detectReferrerSearchEngine', array(&$searchEngineInformation, $this->referrerUrl));
 
-            self::$cachedReferrerSearchEngine[$this->referrerUrl] = $searchEngineInformation;
+            $cachedReferrerSearchEngine[$this->referrerUrl] = $searchEngineInformation;
+            $cache->save($cacheKey, $cachedReferrerSearchEngine);
         }
 
         if ($searchEngineInformation === false) {
@@ -186,9 +192,17 @@ abstract class Base extends VisitDimension
      */
     protected function detectReferrerSocialNetwork()
     {
+        $cache    = \Piwik\Cache::getTransientCache();
+        $cacheKey = 'cachedReferrerSocialNetworks';
+
+        $cachedReferrerSocialNetworks = [];
+        if ($cache->contains($cacheKey)) {
+            $cachedReferrerSocialNetworks = $cache->fetch($cacheKey);
+        }
+
         $socialNetworkName = false;
-        if (isset(self::$cachedReferrerSocialNetworks[$this->referrerUrl])) {
-            $socialNetworkName = self::$cachedReferrerSocialNetworks[$this->referrerUrl];
+        if (isset($cachedReferrerSocialNetworks[$this->referrerUrl])) {
+            $socialNetworkName = $cachedReferrerSocialNetworks[$this->referrerUrl];
         } else {
             if (SocialNetworkDetection::getInstance()->isSocialUrl($this->referrerUrl)) {
                 $socialNetworkName = SocialNetworkDetection::getInstance()->getSocialNetworkFromDomain($this->referrerUrl);
@@ -209,7 +223,8 @@ abstract class Base extends VisitDimension
              */
             Piwik::postEvent('Tracker.detectReferrerSocialNetwork', array(&$socialNetworkName, $this->referrerUrl));
 
-            self::$cachedReferrerSocialNetworks[$this->referrerUrl] = $socialNetworkName;
+            $cachedReferrerSocialNetworks[$this->referrerUrl] = $socialNetworkName;
+            $cache->save($cacheKey, $cachedReferrerSocialNetworks);
         }
 
         if ($socialNetworkName === false) {
