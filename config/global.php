@@ -98,6 +98,7 @@ return array(
         'misc/*.mmdb.gz',
         'misc/*.bin',
         'misc/user/*png',
+        'misc/user/*svg',
         'misc/user/*js',
         'misc/package',
         'misc/package/WebAppGallery/*.xml',
