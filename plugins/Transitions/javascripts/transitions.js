@@ -1359,7 +1359,6 @@ Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, s
                 } else if (referrer.shortName == 'social') {
                     self.socialNetworksNbTransitions = referrer.visits;
                     self.socialNetworks = referrer.details;
-                    console.log(referrer);
                     self.groupTitles.socialNetworks = referrer.label;
                 } else if (referrer.shortName == 'website') {
                     self.websitesNbTransitions = referrer.visits;
