@@ -237,8 +237,8 @@ class RowEvolution
 
             list($first, $last) = $this->getFirstAndLastDataPointsForMetric($metric);
             $details = Piwik::translate('RowEvolution_MetricBetweenText', array(
-                NumberFormatter::getInstance()->format($first),
-                NumberFormatter::getInstance()->format($last)
+                NumberFormatter::getInstance()->format($first) . $unit,
+                NumberFormatter::getInstance()->format($last) . $unit
             ));
 
             if ($change !== false) {
