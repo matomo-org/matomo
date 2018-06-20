@@ -13,7 +13,7 @@ use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 /**
  * @group GeoIp2
  */
-class ConvertRegionCodesToIsoTest extends \PHPUnit_Framework_TestCase
+class LocationProviderTest extends \PHPUnit_Framework_TestCase
 {
     public function testGeoIP2City()
     {
@@ -60,6 +60,7 @@ class ConvertRegionCodesToIsoTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals([
             'isp' => 'Matomo Internet',
+            'org' => 'Matomo Internet',
         ], $result);
     }
 
