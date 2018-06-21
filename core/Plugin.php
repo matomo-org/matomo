@@ -194,6 +194,11 @@ class Plugin
         return $this->pluginInformation;
     }
 
+    final public function isPremiumFeature()
+    {
+        return !empty($this->pluginInformation['price']['base']);
+    }
+
     /**
      * Returns a list of events with associated event observers.
      *

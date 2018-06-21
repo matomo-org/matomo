@@ -28,6 +28,7 @@ use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Settings\Storage as SettingsStorage;
+use Piwik\SettingsPiwik;
 use Piwik\Theme;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -884,40 +885,32 @@ class Manager
             return $pluginsToPostPendingEventsTo;
         }
 
-        if (!$this->isPluginBundledWithCore($pluginName)
+        if ($newPlugin->isPremiumFeature()
+            && SettingsPiwik::isInternetEnabled()
+            && !Development::isEnabled()
             && $this->isPluginActivated('Marketplace')
             && $this->isPluginActivated($pluginName)) {
 
-            $info = $newPlugin->getInformation();
-            $hasInternet = Config::getInstance()->General['enable_internet_features'];
+            $cacheKey = 'MarketplacePluginMissingLicense' . $pluginName;
+            $cache = Cache::getLazyCache();
 
-            if (!empty($info['price']['base']) && $hasInternet && !Development::isEnabled()) {
+            if ($cache->contains($cacheKey)) {
+                $pluginLicenseInfo = $cache->fetch($cacheKey);
+            } else {
                 try {
-
-                    $cacheKey = 'MarketplacePluginMissingLicense' . $pluginName;
-                    $cache = Cache::getLazyCache();
-
-                    if ($cache->contains($cacheKey)) {
-                        $pluginLicenseInfo = $cache->fetch($cacheKey);
-                    } else {
-                        $plugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
-
-                        try {
-                            $licenseInfo = $plugins->getLicenseValidInfo($pluginName);
-                        } catch (\Exception $e) {
-                            $licenseInfo = array();
-                        }
-
-                        $pluginLicenseInfo = array('missing' => !empty($licenseInfo['isMissingLicense']));
-                        $cache->save($cacheKey, $pluginLicenseInfo, Client::CACHE_TIMEOUT_IN_SECONDS);
-                    }
-
-                    if (!empty($pluginLicenseInfo['missing'])) {
-                        $this->unloadPluginFromMemory($pluginName);
-                        return $pluginsToPostPendingEventsTo;
-                    }
+                    $plugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+                    $licenseInfo = $plugins->getLicenseValidInfo($pluginName);
                 } catch (\Exception $e) {
+                    $licenseInfo = array();
                 }
+
+                $pluginLicenseInfo = array('missing' => !empty($licenseInfo['isMissingLicense']));
+                $cache->save($cacheKey, $pluginLicenseInfo, Client::CACHE_TIMEOUT_IN_SECONDS);
+            }
+
+            if (!empty($pluginLicenseInfo['missing'])) {
+                $this->unloadPluginFromMemory($pluginName);
+                return $pluginsToPostPendingEventsTo;
             }
         }
 
