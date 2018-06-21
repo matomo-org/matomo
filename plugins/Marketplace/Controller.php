@@ -89,6 +89,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // this is also like a self-repair to clear the caches :)
         $this->marketplaceApi->clearAllCacheEntries();
         $this->consumer->clearCache();
+        // invalidate cache for plugin/manager
+        Plugin\Manager::getLicenseCache()->flushAll();
 
         $hasLicenseKey = $this->licenseKey->has();
 

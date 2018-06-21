@@ -892,7 +892,7 @@ class Manager
             && $this->isPluginActivated($pluginName)) {
 
             $cacheKey = 'MarketplacePluginMissingLicense' . $pluginName;
-            $cache = Cache::getLazyCache();
+            $cache = self::getLicenseCache();
 
             if ($cache->contains($cacheKey)) {
                 $pluginLicenseInfo = $cache->fetch($cacheKey);
@@ -905,7 +905,8 @@ class Manager
                 }
 
                 $pluginLicenseInfo = array('missing' => !empty($licenseInfo['isMissingLicense']));
-                $cache->save($cacheKey, $pluginLicenseInfo, Client::CACHE_TIMEOUT_IN_SECONDS);
+                $sixHours = 3600 * 6;
+                $cache->save($cacheKey, $pluginLicenseInfo, $sixHours);
             }
 
             if (!empty($pluginLicenseInfo['missing'])) {
@@ -917,6 +918,11 @@ class Manager
         $pluginsToPostPendingEventsTo[] = $newPlugin;
 
         return $pluginsToPostPendingEventsTo;
+    }
+
+    public static function getLicenseCache()
+    {
+        return Cache::getLazyCache();
     }
 
     public function getIgnoredBogusPlugins()
