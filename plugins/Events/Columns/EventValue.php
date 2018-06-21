@@ -23,6 +23,7 @@ class EventValue extends ActionDimension
     protected $columnName = 'custom_float';
     protected $category = 'Events_Events';
     protected $type = self::TYPE_FLOAT;
+    protected $segmentName = 'eventValue';
 
     public function getDbDiscriminator()
     {
