@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 
 * Added new event `API.addGlossaryItems` which lets you add items to the glossary.
+* There is a new widget metadata property, `isReusable`, that marks whether a widget can be added multiple times to a dashboard. It is up to the consumer of widget metadata to respect this property.
 
 ### Breaking Changes
 * Changed some menu items to use translation keys instead (see [PR #12885](https://github.com/matomo-org/matomo/pull/12885)).

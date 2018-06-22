@@ -25,6 +25,7 @@ class SingleMetricView extends \Piwik\Widget\Widget
         $config->setCategoryId('Generic'); // TODO: translate
         $config->setName('Single Metric View'); // TODO: translate
         $config->setIsWidgetizable();
+        $config->setIsReusable();
     }
 
     public function render()
