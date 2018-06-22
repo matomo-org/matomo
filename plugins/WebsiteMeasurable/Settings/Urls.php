@@ -41,7 +41,7 @@ class Urls extends \Piwik\Settings\Measurable\MeasurableProperty
         $config->uiControlAttributes = array(
           'cols' => '25',
           'rows' => '3',
-          'placeholder' => "https://siteUrl.invalid/\nhttps://siteUrl2.invalid/",
+          'placeholder' => "https://siteUrl.invalid/                                                                                                                                                   https://siteUrl2.invalid/",
         );
 
         $self = $this;
