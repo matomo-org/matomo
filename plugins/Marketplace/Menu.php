@@ -10,7 +10,6 @@ namespace Piwik\Plugins\Marketplace;
 
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
-use Piwik\SettingsPiwik;
 
 /**
  */

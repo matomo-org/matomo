@@ -447,6 +447,10 @@ class Plugin
      */
     public function getMissingDependenciesAsString($piwikVersion = null)
     {
+        if ($this->requiresInternetConnection() && !SettingsPiwik::isInternetEnabled()) {
+            return Piwik::translate('CorePluginsAdmin_PluginRequiresInternet');
+        }
+
         if (empty($this->pluginInformation['require'])) {
             return '';
         }
