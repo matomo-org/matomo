@@ -106,6 +106,13 @@ class Manager
     {
         $pluginsToLoad = $this->getActivatedPluginsFromConfig();
         $this->loadPlugins($pluginsToLoad);
+        if (!SettingsPiwik::isInternetEnabled()) {
+            foreach ($this->loadedPlugins as $plugin) {
+                if ($plugin->requiresInternetConnection()) {
+                    $this->unloadPlugin($plugin);
+                }
+            }
+        }
     }
 
     /**

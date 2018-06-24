@@ -244,6 +244,18 @@ class Plugin
     }
 
     /**
+     * Defines weather the whole plugin requires a working internet connection
+     * If set to true, the plugin will be automatically unloaded if `enable_internet_features` is 0,
+     * even if the plugin is activated
+     *
+     * @return bool
+     */
+    public function requiresInternetConnection()
+    {
+        return false;
+    }
+
+    /**
      * Installs the plugin. Derived classes should implement this class if the plugin
      * needs to:
      *

@@ -19,7 +19,7 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        if (!Piwik::isUserIsAnonymous() && SettingsPiwik::isInternetEnabled()) {
+        if (!Piwik::isUserIsAnonymous()) {
             $menu->addPlatformItem('Marketplace_Marketplace',
                 $this->urlForAction('overview', array('activated' => '', 'mode' => 'admin', 'type' => '', 'show' => '')),
                 $order = 5);
