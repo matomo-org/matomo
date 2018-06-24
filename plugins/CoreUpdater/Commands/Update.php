@@ -39,7 +39,7 @@ class Update extends ConsoleCommand
     {
         $this->setName('core:update');
 
-        $this->setDescription('Triggers upgrades. Use it after Piwik core or any plugin files have been updated.');
+        $this->setDescription('Triggers upgrades. Use it after Matomo core or any plugin files have been updated.');
 
         $this->addOption('yes', null, InputOption::VALUE_NONE, 'Directly execute the update without asking for confirmation');
     }
@@ -249,7 +249,7 @@ class Update extends ConsoleCommand
             ));
         }
 
-        throw new \RuntimeException("Piwik could not be updated! See above for more information.");
+        throw new \RuntimeException("Matomo could not be updated! See above for more information.");
     }
 
     private function outputUpdaterWarnings(OutputInterface $output, $warnings)
@@ -367,11 +367,11 @@ class Update extends ConsoleCommand
         $fileOwnerUserAndGroup = Filechecks::getOwnerOfPiwikFiles();
 
         if (!$fileOwnerUserAndGroup || $processUserAndGroup == $fileOwnerUserAndGroup) {
-            // current process user/group appear to be same as the Piwik filesystem user/group -> OK
+            // current process user/group appear to be same as the Matomo filesystem user/group -> OK
             return;
         }
         $output->writeln(
-            sprintf("<comment>It appears you have executed this update with user %s, while your Piwik files are owned by %s. \n\nTo ensure that the Piwik files are readable by the correct user, you may need to run the following command (or a similar command depending on your server configuration):\n\n$ %s</comment>",
+            sprintf("<comment>It appears you have executed this update with user %s, while your Matomo files are owned by %s. \n\nTo ensure that the Matomo files are readable by the correct user, you may need to run the following command (or a similar command depending on your server configuration):\n\n$ %s</comment>",
                 $processUserAndGroup,
                 $fileOwnerUserAndGroup,
                 Filechecks::getCommandToChangeOwnerOfPiwikFiles()
