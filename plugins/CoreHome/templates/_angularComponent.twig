@@ -1,0 +1,5 @@
+<{{ componentName }}
+    {% for key, value in componentParameters %}
+    {{ key }}="{{ value|e('html') }}"
+    {% endfor %}
+/>

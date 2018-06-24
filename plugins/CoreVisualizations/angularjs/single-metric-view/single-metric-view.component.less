@@ -1,14 +1,43 @@
 .singleMetricView {
-  text-align: center;
+  margin: 5px 12px 10px;
+  display: inline-block;
 
   .metric-value {
-    font-size: 64px;
-    line-height: 1em;
-    height: 1em;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 25px;
+    vertical-align: top;
+    margin-left: 7px;
   }
 
   .metric-sparkline {
-    margin: 25px 0;
+    display: inline-block;
+    vertical-align: top;
+    height: 25px;
+  }
+
+  .metricEvolution {
+    font-weight: bold;
+    font-size: 12px;
+
+    > span {
+      display: inline-block;
+    }
+
+    .positive-evolution::before {
+      content: "";
+      background: url(plugins/MultiSites/images/arrow_up.png) no-repeat center center;
+      display: inline-block;
+      height: 7px;
+      width: 12px;
+    }
+    .negative-evolution::before {
+      content: "";
+      background: url(plugins/MultiSites/images/arrow_down.png) no-repeat center center;
+      display: inline-block;
+      height: 7px;
+      width: 12px;
+    }
   }
 }
 

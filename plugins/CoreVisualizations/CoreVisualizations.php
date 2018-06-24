@@ -66,5 +66,6 @@ class CoreVisualizations extends \Piwik\Plugin
         $translationKeys[] = 'General_SaveImageOnYourComputer';
         $translationKeys[] = 'General_ExportAsImage';
         $translationKeys[] = 'General_NoDataForGraph';
+        $translationKeys[] = 'General_EvolutionSummaryGeneric';
     }
 }

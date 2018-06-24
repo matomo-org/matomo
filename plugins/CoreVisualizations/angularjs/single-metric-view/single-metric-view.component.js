@@ -14,8 +14,13 @@
         templateUrl: 'plugins/CoreVisualizations/angularjs/single-metric-view/single-metric-view.component.html?cb=' + piwik.cacheBuster,
         bindings: {
             metric: '<',
-            metricTranslations: '<',
-            sparklineRange: '<'
+            metricValue: '<',
+            pastValue: '<',
+            metricChangePercent: '<',
+            metricName: '<',
+            metricDocumentation: '<',
+            sparklineRange: '<',
+            pastPeriod: '<',
         },
         controller: SingleMetricViewController
     });
@@ -25,30 +30,21 @@
     function SingleMetricViewController(piwik, piwikApi, $element, $httpParamSerializer) {
         var vm = this;
         vm.metricValue = null;
+        vm.metricDocumentation = null;
         vm.$onChanges = $onChanges;
         vm.getSparklineUrl = getSparklineUrl;
+        vm.getCurrentPeriod = getCurrentPeriod;
 
-        function $onChanges(changes) {
+        function $onChanges() {
             setWidgetTitle();
-
-            if (vm.metric === changes.metric) {
-                return;
-            }
 
             // done manually due to 'random' query param. since it changes the URL on each digest, depending on angular
             // results in an infinite digest
             updateSparklineSrc();
-
-            piwikApi.fetch({
-                method: 'API.get',
-            }).then(function (response) {
-                vm.metricValue = response[vm.metric];
-            });
         }
 
         function setWidgetTitle() {
-            var translation = vm.metricTranslations[vm.metric];
-            $element.closest('[widgetId').find('.widgetTop > .widgetName > span').text(translation);
+            $element.closest('[widgetId').find('.widgetTop > .widgetName > span').text(vm.metricName);
         }
 
         function updateSparklineSrc() {
@@ -70,6 +66,13 @@
             });
 
             return '?' + $httpParamSerializer(urlParams);
+        }
+
+        function getCurrentPeriod() {
+            if (piwik.startDateString === piwik.endDateString) {
+                return piwik.endDateString;
+            }
+            return piwik.startDateString + ', ' + piwik.endDateString;
         }
     }
 })();
