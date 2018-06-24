@@ -65,7 +65,7 @@ class Update extends ConsoleCommand
 
                 $this->makeUpdate($input, $output, false);
 
-                $this->writeSuccessMessage($output, array("Piwik has been successfully updated!"));
+                $this->writeSuccessMessage($output, array(Piwik::translate('CoreUpdater_PiwikHasBeenSuccessfullyUpgraded')));
             } else {
                 $this->writeSuccessMessage($output, array('Database upgrade not executed.'));
             }
