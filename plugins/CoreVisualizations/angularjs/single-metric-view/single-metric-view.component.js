@@ -80,7 +80,7 @@
         }
 
         function setWidgetTitle() {
-            $element.closest('[widgetId').find('.widgetTop > .widgetName > span').text(vm.getMetricTranslation());
+            $element.closest('div.widget').find('.widgetTop > .widgetName > span').text(vm.getMetricTranslation());
         }
 
         function getSparklineUrl() {
@@ -108,6 +108,8 @@
         }
 
         function createSeriesPicker() {
+            var $widgetName = $element.closest('div.widget').find('.widgetTop > .widgetName');
+
             var $seriesPicker = $('<piwik-series-picker class="single-metric-view-picker" multiselect="false" ' +
                 'selectable-columns="$ctrl.selectableColumns" selectable-rows="[]" selected-columns="$ctrl.selectedColumns" ' +
                 'selected-rows="[]" on-select="$ctrl.setMetric(columns[0])" />');
@@ -115,11 +117,11 @@
             seriesPickerScope = $scope.$new();
             $compile($seriesPicker)(seriesPickerScope);
 
-            $element.closest('[widgetId').find('.widgetTop > .widgetName').append($seriesPicker);
+            $widgetName.append($seriesPicker);
         }
 
         function destroySeriesPicker() {
-            $element.closest('[widgetId]').find('.single-metric-view-picker').remove();
+            $element.closest('div.widget').find('.single-metric-view-picker').remove();
 
             seriesPickerScope.$destroy();
             seriesPickerScope = null;
@@ -161,7 +163,7 @@
             $element.find('img').attr('src', getSparklineUrl());
 
             // notify widget of parameter change so it is replaced
-            $element.closest('[widgetId]').trigger('setParameters', { column: vm.metric });
+            $element.closest('div.widget').trigger('setParameters', { column: vm.metric });
         }
 
         function setMetric(newColumn) {

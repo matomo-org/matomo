@@ -10,11 +10,8 @@
 namespace Piwik\Plugins\CoreVisualizations\Widgets;
 
 use Piwik\Common;
-use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Period\Range;
 use Piwik\Period;
-use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Site;
 use Piwik\View;
@@ -28,8 +25,6 @@ class SingleMetricView extends \Piwik\Widget\Widget
 
         $column = Common::getRequestVar('column', '', 'string');
 
-        // TODO: adding the widget again causes all of them to reload...
-        // TODO: widget preview doesn't seem to work
         $config->addParameters(['column' => $column]);
         $config->setCategoryId('General_Generic');
         $config->setName('General_Metric');

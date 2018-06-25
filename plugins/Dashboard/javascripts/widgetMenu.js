@@ -407,7 +407,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 
                     var emptyWidgetHtml = require('piwik/UI/Dashboard').WidgetFactory.make(
                         widgetUniqueId,
-                        $('<div/>')
+                        $('<span/>')
                             .attr('title', _pk_translate("Dashboard_AddPreviewedWidget"))
                             .text(_pk_translate('Dashboard_WidgetPreview'))
                     );
