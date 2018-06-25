@@ -39,9 +39,9 @@ class Update extends ConsoleCommand
     {
         $this->setName('core:update');
 
-        $this->setDescription('Triggers upgrades. Use it after Piwik core or any plugin files have been updated.');
+        $this->setDescription(Piwik::translate('CoreUpdater_ConsoleCommandDescription'));
 
-        $this->addOption('yes', null, InputOption::VALUE_NONE, 'Directly execute the update without asking for confirmation');
+        $this->addOption('yes', null, InputOption::VALUE_NONE, Piwik::translate('CoreUpdater_ConsoleParameterDescription'));
     }
 
     /**
@@ -61,13 +61,13 @@ class Update extends ConsoleCommand
             }
 
             if ($yes) {
-                $output->writeln("\nStarting the database upgrade process now. This may take a while, so please be patient.");
+                $output->writeln("\n" . Piwik::translate('CoreUpdater_ConsoleStartingDbUpgrade'));
 
                 $this->makeUpdate($input, $output, false);
 
-                $this->writeSuccessMessage($output, array("Piwik has been successfully updated!"));
+                $this->writeSuccessMessage($output, array(Piwik::translate('CoreUpdater_PiwikHasBeenSuccessfullyUpgraded')));
             } else {
-                $this->writeSuccessMessage($output, array('Database upgrade not executed.'));
+                $this->writeSuccessMessage($output, array(Piwik::translate('CoreUpdater_DbUpgradeNotExecuted')));
             }
 
             $this->writeAlertMessageWhenCommandExecutedWithUnexpectedUser($output);
@@ -82,7 +82,7 @@ class Update extends ConsoleCommand
     private function askForUpdateConfirmation(InputInterface $input, OutputInterface $output)
     {
         $helper   = $this->getHelper('question');
-        $question = new ConfirmationQuestion('<comment>A database upgrade is required. Execute update? (y/N) </comment>', false);
+        $question = new ConfirmationQuestion('<comment>'.Piwik::translate('CoreUpdater_ExecuteDbUpgrade').' (y/N) </comment>', false);
 
         return $helper->ask($input, $output, $question);
     }
@@ -100,7 +100,7 @@ class Update extends ConsoleCommand
 
         $componentsWithUpdateFile = $updater->getComponentUpdates();
         if (empty($componentsWithUpdateFile)) {
-            throw new NoUpdatesFoundException("Everything is already up to date.");
+            throw new NoUpdatesFoundException(Piwik::translate('CoreUpdater_AlreadyUpToDate'));
         }
 
         $output->writeln(array(
@@ -159,7 +159,7 @@ class Update extends ConsoleCommand
         $migrationQueries = $this->getMigrationQueriesToExecute($updater);
 
         if(empty($migrationQueries)) {
-            $output->writeln(array("    *** Note: There are no SQL queries to execute. ***", ""));
+            $output->writeln(array("    *** ".Piwik::translate('CoreUpdater_ConsoleUpdateNoSqlQueries')." ***", ""));
             return;
         }
 
@@ -171,13 +171,13 @@ class Update extends ConsoleCommand
             ));
         }
 
-        $output->writeln(array("    *** Note: this is a Dry Run ***", ""));
+        $output->writeln(array("    *** ".Piwik::translate('CoreUpdater_DryRun')." ***", ""));
 
         foreach ($migrationQueries as $query) {
             $output->writeln("    " . $query->__toString());
         }
 
-        $output->writeln(array("", "    *** End of Dry Run ***", ""));
+        $output->writeln(array("", "    *** " . Piwik::translate('CoreUpdater_DryRunEnd') . " ***", ""));
     }
 
     private function doRealUpdate(Updater $updater, $componentsWithUpdateFile, OutputInterface $output)
@@ -249,7 +249,7 @@ class Update extends ConsoleCommand
             ));
         }
 
-        throw new \RuntimeException("Piwik could not be updated! See above for more information.");
+        throw new \RuntimeException(Piwik::translate('CoreUpdater_ConsoleUpdateFailure'));
     }
 
     private function outputUpdaterWarnings(OutputInterface $output, $warnings)
@@ -367,15 +367,15 @@ class Update extends ConsoleCommand
         $fileOwnerUserAndGroup = Filechecks::getOwnerOfPiwikFiles();
 
         if (!$fileOwnerUserAndGroup || $processUserAndGroup == $fileOwnerUserAndGroup) {
-            // current process user/group appear to be same as the Piwik filesystem user/group -> OK
+            // current process user/group appear to be same as the Matomo filesystem user/group -> OK
             return;
         }
         $output->writeln(
-            sprintf("<comment>It appears you have executed this update with user %s, while your Piwik files are owned by %s. \n\nTo ensure that the Piwik files are readable by the correct user, you may need to run the following command (or a similar command depending on your server configuration):\n\n$ %s</comment>",
+            sprintf("<comment>%s</comment>", Piwik::translate('CoreUpdater_ConsoleUpdateUnexpectedUserWarning', [
                 $processUserAndGroup,
                 $fileOwnerUserAndGroup,
                 Filechecks::getCommandToChangeOwnerOfPiwikFiles()
-            )
+            ]))
         );
     }
 }
