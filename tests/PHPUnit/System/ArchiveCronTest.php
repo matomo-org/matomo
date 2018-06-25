@@ -33,6 +33,8 @@ class ArchiveCronTest extends SystemTestCase
 
     public function getApiForTesting()
     {
+        $apiRequiringSegments = ['Goals.get', 'VisitFrequency.get'];
+
         $results = array();
 
         foreach (self::$fixture->getDefaultSegments() as $segmentName => $info) {
@@ -49,6 +51,9 @@ class ArchiveCronTest extends SystemTestCase
         $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
                                                       'date'    => '2012-08-09',
                                                       'periods' => array('day', 'month', 'year',  'week')));
+        $results[] = array($apiRequiringSegments, array('idSite'  => 'all',
+            'date'    => '2012-08-09',
+            'periods' => array('month')));
 
         $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
                                                       'date'       => '2012-08-09',
