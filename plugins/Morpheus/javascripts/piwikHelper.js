@@ -165,7 +165,7 @@ var piwikHelper = {
             var scope = null;
             if (options.scope) {
                 scope = options.scope;
-            } else {
+            } else if (!options.forceNewScope) { // TODO: docs
                 scope = angular.element($element).scope();
             }
             if (!scope) {

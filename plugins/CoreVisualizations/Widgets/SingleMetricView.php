@@ -45,37 +45,17 @@ class SingleMetricView extends \Piwik\Widget\Widget
 
         $metricTranslations = $report->getMetrics();
 
-        $currentData = $report->fetch();
-        $metricValue = $currentData->getRowsCount() == 0 ? 0 : (int)$currentData->getFirstRow()->getColumn($column);
-
-        $documentations = $report->getMetricDocumentationForReport();
-        $metricDocumentation = $documentations[$column];
-
-        $changePercent = null;
-
-        list($lastPeriodDate, $ignore) = Range::getLastDate();
-        if ($lastPeriodDate !== false) {
-            $pastData = $report->fetch([
-                'date' => $lastPeriodDate,
-            ]);
-
-            $pastValue = $pastData->getRowsCount() == 0 ? 0 : $pastData->getFirstRow()->getColumn($column);
-            $changePercent = CalculateEvolutionFilter::calculate($metricValue, $pastValue, $precision = 1);
-        }
-
         $view = new View("@CoreHome/_angularComponent.twig");
         $view->componentName = 'piwik-single-metric-view';
         $view->componentParameters = [
             'metric' => json_encode($column),
-            'metric-name' => json_encode($metricTranslations[$column]),
             'sparkline-range' => json_encode($this->getSparklineRange()),
-            'metric-value' => json_encode($metricValue),
-            'metric-documentation' => json_encode($metricDocumentation),
+            'metric-translations' => json_encode($metricTranslations),
+            'metric-documentations' => json_encode($report->getMetricDocumentationForReport()),
         ];
 
-        if (isset($changePercent)) {
-            $view->componentParameters['metric-change-percent'] = json_encode($changePercent);
-            $view->componentParameters['past-value'] = json_encode($pastValue);
+        list($lastPeriodDate, $ignore) = Range::getLastDate();
+        if ($lastPeriodDate !== false) {
             $view->componentParameters['past-period'] = json_encode($this->getPeriodStr($lastPeriodDate));
         }
 

@@ -49,12 +49,12 @@ class EvolutionMetric extends ProcessedMetric
      * Constructor.
      *
      * @param string|Metric $wrapped The metric used to calculate the evolution.
-     * @param DataTable $pastData The data in the past to use when calculating evolutions.
+     * @param DataTable|null $pastData The data in the past to use when calculating evolutions.
      * @param string|false $evolutionMetricName The name of the evolution processed metric. Defaults to
      *                                          $wrapped's name with `'_evolution'` appended.
      * @param int $quotientPrecision The percent's quotient precision.
      */
-    public function __construct($wrapped, DataTable $pastData, $evolutionMetricName = false, $quotientPrecision = 0)
+    public function __construct($wrapped, DataTable $pastData = null, $evolutionMetricName = false, $quotientPrecision = 0)
     {
         $this->wrapped = $wrapped;
         $this->pastData = $pastData;
@@ -118,6 +118,11 @@ class EvolutionMetric extends ProcessedMetric
      */
     public function getPastRowFromCurrent(Row $row)
     {
-        return $this->pastData->getRowFromLabel($row->getColumn('label'));
+        if (empty($this->pastData)) {
+            return null;
+        }
+
+        $label = $row->getColumn('label');
+        return $label ? $this->pastData->getRowFromLabel($label) : $this->pastData->getFirstRow();
     }
 }
