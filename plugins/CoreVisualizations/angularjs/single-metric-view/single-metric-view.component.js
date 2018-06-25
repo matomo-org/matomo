@@ -15,7 +15,7 @@
         bindings: {
             metric: '<',
 
-            // TODO: could also use processed report instead of setting these?
+            // TODO: could also use processed report instead of setting these? would be better.
             metricTranslations: '<',
             metricDocumentations: '<',
 
@@ -33,6 +33,8 @@
 
         var vm = this;
         vm.metricValue = null;
+        vm.isLoading = false;
+        vm.metricTranslation = null;
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.$onDestroy = $onDestroy;
@@ -64,6 +66,7 @@
         }
 
         function fetchData() {
+            vm.isLoading = true;
             piwikApi.fetch({
                 method: 'API.get',
                 filter_last_period_evolution: '1'
@@ -71,6 +74,11 @@
                 vm.metricValue = response[vm.metric];
                 vm.pastValue = response[vm.metric + '_past'];
                 vm.metricChangePercent = response[vm.metric + '_evolution'];
+
+                vm.isLoading = false;
+
+                // don't change the metric translation until data is fetched to avoid loading state confusion
+                vm.metricTranslation = getMetricTranslation();
             });
         }
 

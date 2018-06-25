@@ -1,10 +1,10 @@
-<div class="singleMetricView">
+<div class="singleMetricView" ng-class="{'loading': $ctrl.isLoading}">
     <div class="metric-sparkline">
         <img width="100" height="25" />
     </div>
     <div class="metric-value">
         <span title="{{ $ctrl.getMetricDocumentation() }}">
-            <strong>{{ $ctrl.metricValue }}</strong> {{ $ctrl.getMetricTranslation().toLowerCase() }}
+            <strong>{{ $ctrl.metricValue }}</strong> {{ ($ctrl.metricTranslation || '').toLowerCase() }}
         </span>
         <span class="metricEvolution" title="{{ 'General_EvolutionSummaryGeneric'|translate:$ctrl.metricValue:$ctrl.getCurrentPeriod():$ctrl.pastValue:$ctrl.pastPeriod:$ctrl.metricChangePercent }}">
             <span ng-class="{'positive-evolution': $ctrl.metricValue > $ctrl.pastValue, 'negative-evolution': $ctrl.metricValue < $ctrl.pastValue}">
