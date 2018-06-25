@@ -1356,7 +1356,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 module: 'CoreHome',
                 action: 'saveViewDataTableParameters',
                 report_id: reportId,
-                containerId: containerId,
+                containerId: containerId
             }, 'get');
             ajaxRequest.withTokenInUrl();
             ajaxRequest.addParams({
