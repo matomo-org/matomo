@@ -417,6 +417,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                         var widgetElement = $(document.getElementById(widgetUniqueId));
                         // document.getElementById needed for widgets with uniqueid like widgetOpens+Contact+Form
                         $('.widgetContent', widgetElement).html($(response));
+                        piwikHelper.compileAngularComponents($('.widgetContent', widgetElement), { forceNewScope: true });
                         $('.widgetContent', widgetElement).trigger('widget:create');
                         settings.onPreviewLoaded(widgetUniqueId, widgetElement);
                         $('.' + settings.widgetpreviewClass + ' .widgetTop', widgetPreview).on('click', function () {
