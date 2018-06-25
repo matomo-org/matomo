@@ -456,8 +456,15 @@ class DataTablePostProcessor
             return $dataTable;
         }
 
-        $method = Common::getRequestVar('method');
-        list($module, $action) = explode('.', $method);
+        $module = Common::getRequestVar('apiModule', '', 'string');
+        $action = Common::getRequestVar('apiAction', '', 'string');
+
+        if (empty($module) || empty($action)) {
+            $method = Common::getRequestVar('method');
+            list($module, $action) = explode('.', $method);
+        } else {
+            $method = "$module.$action";
+        }
 
         $pastData = Request::processRequest($method, [
             'date' => $lastPeriodDate,

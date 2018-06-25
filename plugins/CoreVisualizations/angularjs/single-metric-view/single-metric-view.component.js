@@ -14,13 +14,10 @@
         templateUrl: 'plugins/CoreVisualizations/angularjs/single-metric-view/single-metric-view.component.html?cb=' + piwik.cacheBuster,
         bindings: {
             metric: '<',
-
-            // TODO: could also use processed report instead of setting these? would be better.
             metricTranslations: '<',
             metricDocumentations: '<',
-
-            sparklineRange: '<', // TODO: should not be bound
-            pastPeriod: '<', // TODO: should not be bound
+            sparklineRange: '<',
+            pastPeriod: '<',
         },
         controller: SingleMetricViewController
     });
@@ -29,7 +26,6 @@
 
     function SingleMetricViewController(piwik, piwikApi, $element, $httpParamSerializer, $compile, $scope) {
         var seriesPickerScope;
-        var $seriesPicker;
 
         var vm = this;
         vm.metricValue = null;
@@ -51,18 +47,19 @@
             createSeriesPicker();
 
             $element.closest('.widgetContent')
-                .on('widget:destroy', destroyComponent)
-                .on('widget:reload', destroyComponent);
-        }
-
-        function destroyComponent() {
-            $scope.$parent.$destroy();
+                .on('widget:destroy', function() { $scope.$parent.$destroy(); })
+                .on('widget:reload', function() { $scope.$parent.$destroy(); });
         }
 
         function $onChanges(changes) {
             if (changes.metric && changes.metric.previousValue !== changes.metric.currentValue) {
                 onMetricChanged();
             }
+        }
+
+        function $onDestroy() {
+            $element.closest('.widgetContent').off('widget:destroy').off('widget:reload');
+            destroySeriesPicker();
         }
 
         function fetchData() {
@@ -82,17 +79,8 @@
             });
         }
 
-        function $onDestroy() {
-            $element.closest('.widgetContent').off('widget:destroy').off('widget:reload');
-            destroySeriesPicker();
-        }
-
         function setWidgetTitle() {
             $element.closest('[widgetId').find('.widgetTop > .widgetName > span').text(vm.getMetricTranslation());
-        }
-
-        function updateSparklineSrc() {
-            $element.find('img').attr('src', getSparklineUrl());
         }
 
         function getSparklineUrl() {
@@ -120,7 +108,7 @@
         }
 
         function createSeriesPicker() {
-            $seriesPicker = $('<piwik-series-picker class="single-metric-view-picker" multiselect="false" ' +
+            var $seriesPicker = $('<piwik-series-picker class="single-metric-view-picker" multiselect="false" ' +
                 'selectable-columns="$ctrl.selectableColumns" selectable-rows="[]" selected-columns="$ctrl.selectedColumns" ' +
                 'selected-rows="[]" on-select="$ctrl.setMetric(columns[0])" />');
 
@@ -131,8 +119,10 @@
         }
 
         function destroySeriesPicker() {
-            $seriesPicker.remove();
+            $element.closest('[widgetId]').find('.single-metric-view-picker').remove();
+
             seriesPickerScope.$destroy();
+            seriesPickerScope = null;
         }
 
         function getMetricDocumentation() {
@@ -168,7 +158,7 @@
 
             // done manually due to 'random' query param. since it changes the URL on each digest, depending on angular
             // results in an infinite digest
-            updateSparklineSrc();
+            $element.find('img').attr('src', getSparklineUrl());
 
             // notify widget of parameter change so it is replaced
             $element.closest('[widgetId]').trigger('setParameters', { column: vm.metric });
