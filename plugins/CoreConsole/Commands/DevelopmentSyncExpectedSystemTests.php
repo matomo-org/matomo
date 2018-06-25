@@ -21,7 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
+class DevelopmentSyncExpectedSystemTests extends ConsoleCommand
 {
     public function isEnabled()
     {
@@ -30,10 +30,10 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 
     protected function configure()
     {
-        $this->setName('development:sync-system-test-processed');
-        $this->setDescription('For Piwik core devs. Copies processed system tests from travis artifacts to local processed directories');
+        $this->setName('development:sync-system-test-expected');
+        $this->setDescription('For Matomo core devs. Copies processed system tests from travis artifacts to local exptected directories');
         $this->addArgument('buildnumber', InputArgument::REQUIRED, 'Travis build number you want to sync, eg "14820".');
-        $this->addOption('expected', 'e', InputOption::VALUE_NONE, 'If given file will be copied in expected directories instead of processed');
+        $this->addOption('processed', 'p', InputOption::VALUE_NONE, 'If given files will be copied in processed directories instead of expected');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -45,8 +45,8 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
     protected function updateCoreFiles(InputInterface $input, OutputInterface $output)
     {
         $buildNumber = $input->getArgument('buildnumber');
-        $expected    = $input->getOption('expected');
-        $targetDir   = sprintf(PIWIK_INCLUDE_PATH . '/tests/PHPUnit/System/%s', $expected ? 'expected' : 'processed');
+        $processed   = $input->getOption('processed');
+        $targetDir   = sprintf(PIWIK_INCLUDE_PATH . '/tests/PHPUnit/System/%s', $processed ? 'processed' : 'expected');
         $tmpDir      = StaticContainer::get('path.tmp') . '/';
 
         $this->validate($buildNumber, $targetDir, $tmpDir);
@@ -79,8 +79,8 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
     protected function updatePluginsFiles(InputInterface $input, OutputInterface $output)
     {
         $buildNumber = $input->getArgument('buildnumber');
-        $expected    = $input->getOption('expected');
-        $targetDir   = sprintf(PIWIK_INCLUDE_PATH . '/plugins/%%s/tests/System/%s/', $expected ? 'expected' : 'processed');
+        $processed   = $input->getOption('processed');
+        $targetDir   = sprintf(PIWIK_INCLUDE_PATH . '/plugins/%%s/tests/System/%s/', $processed ? 'processed' : 'expected');
         $tmpDir      = StaticContainer::get('path.tmp') . '/';
 
         if (Common::stringEndsWith($buildNumber, '.1')) {
