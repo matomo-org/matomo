@@ -161,6 +161,9 @@
             // done manually due to 'random' query param. since it changes the URL on each digest, depending on angular
             // results in an infinite digest
             updateSparklineSrc();
+
+            // notify widget of parameter change so it is replaced
+            $element.closest('[widgetId]').trigger('setParameters', { column: vm.metric });
         }
 
         function setMetric(newColumn) {
