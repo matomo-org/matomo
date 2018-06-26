@@ -1,3 +1,50 @@
 <div class="pagedUsersList">
-    {{ pagedUsersList.myProperty }}
+    <div class="access-display-control">
+        <label>Show access for</label>
+
+        <div piwik-siteselector show-selected-site="true" class="sites_autocomplete"></div>
+    </div>
+
+    <piwik-users-list-pagination></piwik-users-list-pagination>
+
+    <div
+            piwik-content-block
+    >
+        <table piwik-content-table id="manageUserAccess">
+            <thead>
+            <tr>
+                <th class='first'>Username</th>
+                <th>Access</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th>Alias</th>
+                <th>Last Seen</th>
+                <th>Actions</th> <!-- TODO: translate -->
+            </tr>
+            </thead>
+
+            <tbody>
+
+                <tr class="editable" id="row1">
+                    <td id="userLogin" class="editable">enterprise</td>
+                    <td>View</td>
+                    <td id="password" class="editable">-</td>
+                    <td id="email" class="editable">contact+1@innocraft.com</td>
+                    <td id="alias" class="editable">enterprise</td>
+                    <td id="last_seen">00:00:35 ago</td>
+                    <td class="center">
+                        <button class="edituser table-action" title="Edit">
+                            <span class="icon-edit"></span>
+                        </button>
+                        <button class="deleteuser table-action" title="Delete">
+                            <span class="icon-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <piwik-users-list-pagination></piwik-users-list-pagination>
 </div>

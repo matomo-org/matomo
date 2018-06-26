@@ -13,22 +13,19 @@
     angular.module('piwikApp').component('piwikUserListFilters', {
         templateUrl: 'plugins/UsersManager/angularjs/user-list-filters/user-list-filters.component.html?cb=' + piwik.cacheBuster,
         bindings: {
-            // showAllSitesItem: '<'
+            // TODO
         },
         controller: UserListFiltersController
     });
 
-    UserListFiltersController.$inject = [];
+    UserListFiltersController.$inject = ['$element'];
 
-    function UserListFiltersController() {
-        // remember to keep controller very simple. Create a service/factory (model) if needed
-
+    function UserListFiltersController($element) {
         var vm = this;
-        vm.myProperty  = 'component';
-        vm.doSomething = doSomething;
+        vm.$onInit = $onInit;
 
-        function doSomething() {
-
+        function $onInit() {
+            $element.find('select').material_select();
         }
     }
 })();

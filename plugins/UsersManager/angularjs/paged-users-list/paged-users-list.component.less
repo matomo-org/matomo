@@ -1,3 +1,27 @@
-.pagedUsersList {
-  // ...
+piwik-paged-users-list {
+  display: block;
+  position: relative;
+
+  [piwik-siteselector] {
+    display: inline-block;
+    margin-left: 1rem;
+  }
+
+  piwik-users-list-pagination {
+    margin: 0 auto;
+  }
+
+  .access-display-control {
+    position: absolute;
+  }
+
+  .card {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .card .card-content {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }

@@ -1,3 +1,18 @@
-<div class="userListFilters">
-    {{ userListFilters.myProperty }}
+<div class="userListFilters row">
+    <div class="input-field col s12 m3">
+        <a class="btn">
+            Add a new user
+        </a>
+    </div>
+    <div class="input-field col s12 m3 push-m3">
+        <input type="text" placeholder="Filter by login, alias, email"/>
+    </div>
+    <div class="input-field col s12 m3 push-m3">
+        <select>
+            <option value="" disabled selected>Filter by access level</option>
+            <option value="view">View</option>
+            <option value="admin">Admin</option>
+            <option value="superuser">Superuser</option>
+        </select>
+    </div>
 </div>

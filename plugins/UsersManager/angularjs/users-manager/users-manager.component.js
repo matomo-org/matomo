@@ -13,7 +13,7 @@
     angular.module('piwikApp').component('piwikUsersManager', {
         templateUrl: 'plugins/UsersManager/angularjs/users-manager/users-manager.component.html?cb=' + piwik.cacheBuster,
         bindings: {
-            // showAllSitesItem: '<'
+            // TODO
         },
         controller: UsersManagerController
     });
@@ -21,14 +21,7 @@
     UsersManagerController.$inject = [];
 
     function UsersManagerController() {
-        // remember to keep controller very simple. Create a service/factory (model) if needed
-
         var vm = this;
-        vm.myProperty  = 'component';
-        vm.doSomething = doSomething;
-
-        function doSomething() {
-
-        }
+        // TODO
     }
 })();

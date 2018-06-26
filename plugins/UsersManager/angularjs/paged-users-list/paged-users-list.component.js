@@ -13,7 +13,7 @@
     angular.module('piwikApp').component('piwikPagedUsersList', {
         templateUrl: 'plugins/UsersManager/angularjs/paged-users-list/paged-users-list.component.html?cb=' + piwik.cacheBuster,
         bindings: {
-            // showAllSitesItem: '<'
+            // TODO
         },
         controller: PagedUsersListController
     });
@@ -21,14 +21,7 @@
     PagedUsersListController.$inject = [];
 
     function PagedUsersListController() {
-        // remember to keep controller very simple. Create a service/factory (model) if needed
-
         var vm = this;
-        vm.myProperty  = 'component';
-        vm.doSomething = doSomething;
-
-        function doSomething() {
-
-        }
+        // TODO
     }
 })();
