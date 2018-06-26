@@ -4,7 +4,7 @@ piwik-paged-users-list {
 
   [piwik-siteselector] {
     display: inline-block;
-    margin-left: 1rem;
+    margin-left: .3rem;
   }
 
   piwik-users-list-pagination {
@@ -13,6 +13,11 @@ piwik-paged-users-list {
 
   .access-display-control {
     position: absolute;
+    margin-left: .1rem;
+
+    label {
+      color: @theme-color-text;
+    }
   }
 
   .card {
@@ -24,4 +29,9 @@ piwik-paged-users-list {
     padding-top: 0;
     padding-bottom: 0;
   }
+}
+
+#root piwik-paged-users-list .siteSelector.borderedControl {
+  background-color: white;
+  min-width: 150px;
 }
