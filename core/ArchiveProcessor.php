@@ -17,6 +17,8 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Row;
+use Piwik\Segment\SegmentExpression;
+
 /**
  * Used by {@link Piwik\Plugin\Archiver} instances to insert and aggregate archive data.
  *
@@ -583,5 +585,32 @@ class ArchiveProcessor
         }
 
         return $metrics;
+    }
+
+    /**
+     * TODO
+     *
+     * @param string $plugin
+     * @param string $segment
+     */
+    public function processDependentArchive($plugin, $segment)
+    {
+        $params = $this->getParams();
+        if ($params->isRootArchiveRequest()) { // prevent all recursion
+            return;
+        }
+
+        $newSegment = $params->getSegment()->combine(SegmentExpression::AND_DELIMITER, $segment);
+        if (ArchiveProcessor\Rules::isSegmentPreProcessed([$params->getSite()->getId()], $newSegment)) {
+            // will be processed anyway
+            return;
+        }
+
+        $parameters = new ArchiveProcessor\Parameters($params->getSite(), $params->getPeriod(), $newSegment);
+        $parameters->onlyArchiveRequestedPlugin();
+        $parameters->setIsRootArchiveRequest(false);
+
+        $archiveLoader = new ArchiveProcessor\Loader($parameters);
+        $archiveLoader->prepareArchive($plugin);
     }
 }

@@ -46,6 +46,11 @@ class Parameters
     private $onlyArchiveRequestedPlugin = false;
 
     /**
+     * @var bool
+     */
+    private $isRootArchiveRequest;
+
+    /**
      * Constructor.
      *
      * @ignore
@@ -226,5 +231,25 @@ class Parameters
             $this->getDateStart()->getDateStartUTC(),
             $this->getDateEnd()->getDateEndUTC()
         );
+    }
+
+    /**
+     * TODO
+     *
+     * @return mixed
+     */
+    public function isRootArchiveRequest()
+    {
+        return $this->isRootArchiveRequest;
+    }
+
+    /**
+     * TODO
+     *
+     * @param $isRootArchive
+     */
+    public function setIsRootArchiveRequest($isRootArchiveRequest)
+    {
+        $this->isRootArchiveRequest = $isRootArchiveRequest;
     }
 }

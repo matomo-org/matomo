@@ -88,15 +88,8 @@ class Goals extends \Piwik\Plugin
             'Metric.addMetrics'                      => 'addMetrics',
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
-            'Segments.getKnownSegmentsToArchiveAllSites' => 'getKnownSegmentsToArchiveAllSites',
         );
         return $hooks;
-    }
-
-    public function getKnownSegmentsToArchiveAllSites(&$segments)
-    {
-        $segments[] = API::NEW_VISIT_SEGMENT;
-        $segments[] = VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT;
     }
 
     public function addSystemSummaryItems(&$systemSummary)

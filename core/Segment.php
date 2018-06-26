@@ -350,4 +350,24 @@ class Segment
     {
         return (string) $this->getString();
     }
+
+    /**
+     * TODO
+     * TODO: unit tests
+     *
+     * @param string $operator
+     * @param string $segmentExpression
+     * @returns Segment
+     * @throws Exception
+     */
+    public function combine($operator, $segmentExpression)
+    {
+        if (strpos($this->string, $operator . $segmentExpression) !== false
+            || strpos($this->string, $segmentExpression . $operator) !== false
+        ) {
+            return $this->string;
+        }
+
+        return new Segment($operator . $segmentExpression . $this->string, $this->idSites);
+    }
 }
