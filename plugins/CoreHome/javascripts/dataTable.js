@@ -1338,22 +1338,25 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         }
     },
 
-    // Tell parent widget that the parameters of this table was updated,
     notifyWidgetParametersChange: function (domWidget, parameters) {
-        var widget = $(domWidget).closest('[widgetId]');
+        var widget = $(domWidget).closest('[widgetId],[containerid]');
         // trigger setParameters event on base element
 
-        if (widget && widget.length) {
+        // Tell parent widget that the parameters of this table were updated, but only if we're not part of a widget
+        // container. widget containers send ajax requests for each child widget, and the child widgets' parameters
+        // are not saved with the container widget.
+        if (widget && widget.length && widget[0].hasAttribute('widgetId')) {
             widget.trigger('setParameters', parameters);
         } else {
-
+            var containerId = widget && widget.length ? widget.attr('containerid') : undefined;
             var reportId = $(domWidget).closest('[data-report]').attr('data-report');
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams({
                 module: 'CoreHome',
                 action: 'saveViewDataTableParameters',
-                report_id: reportId
+                report_id: reportId,
+                containerId: containerId
             }, 'get');
             ajaxRequest.withTokenInUrl();
             ajaxRequest.addParams({
