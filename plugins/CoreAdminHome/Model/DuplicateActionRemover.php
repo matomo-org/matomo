@@ -115,19 +115,13 @@ class DuplicateActionRemover
         $idactionColumns = array_values($idactionColumns[$table]);
         $table = Common::prefixTable($table);
 
-        $inFromIdsExpression = $this->getInFromIdsExpression($duplicateIdActions);
-        $setExpression = "%1\$s = IF(($inFromIdsExpression), $realIdAction, %1\$s)";
 
-        $sql = "UPDATE $table SET\n";
+        $baseSql = "UPDATE $table SET %1\$s = $realIdAction WHERE " . $this->getInFromIdsExpression($duplicateIdActions);
         foreach ($idactionColumns as $index => $column) {
-            if ($index != 0) {
-                $sql .= ",\n";
-            }
-            $sql .= sprintf($setExpression, $column);
-        }
-        $sql .= $this->getWhereToGetRowsUsingDuplicateActions($idactionColumns, $duplicateIdActions);
+            $sql = sprintf($baseSql, $column);
 
-        Db::query($sql);
+            Db::query($sql);
+        }
     }
 
     /**
@@ -145,9 +139,19 @@ class DuplicateActionRemover
         $idactionColumns = array_values($idactionColumns[$table]);
         $table = Common::prefixTable($table);
 
-        $sql = "SELECT idsite, DATE(server_time) as server_time FROM $table ";
-        $sql .= $this->getWhereToGetRowsUsingDuplicateActions($idactionColumns, $duplicateIdActions);
-        return Db::fetchAll($sql);
+        $allRows = array();
+        $baseSql = "SELECT idsite, DATE(server_time) as server_time FROM $table WHERE " . $this->getInFromIdsExpression($duplicateIdActions);
+        foreach ($idactionColumns as $column) {
+            $sql = sprintf($baseSql, $column);
+
+            $rows = Db::fetchAll($sql);
+            foreach ($rows as $row) {
+                if (!in_array($row, $allRows, TRUE)) {
+                    $allRows[] = $row;
+                }
+            }
+        }
+        return $allRows;
     }
 
     private function getIdActionTableColumnsFromMetadata()
@@ -166,19 +170,6 @@ class DuplicateActionRemover
             }
         }
         return $this->idactionColumns;
-    }
-
-    private function getWhereToGetRowsUsingDuplicateActions($idactionColumns, $fromIdActions)
-    {
-        $sql = "WHERE ";
-        foreach ($idactionColumns as $index => $column) {
-            if ($index != 0) {
-                $sql .= "OR ";
-            }
-
-            $sql .= sprintf($this->getInFromIdsExpression($fromIdActions), $column) . " ";
-        }
-        return $sql;
     }
 
     private function getInFromIdsExpression($fromIdActions)
