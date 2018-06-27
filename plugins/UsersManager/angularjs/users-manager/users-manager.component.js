@@ -22,6 +22,7 @@
 
     function UsersManagerController($element) {
         var vm = this;
+        vm.isEditing = false;
         vm.$onInit = $onInit;
         vm.$onDestroy = $onDestroy;
 

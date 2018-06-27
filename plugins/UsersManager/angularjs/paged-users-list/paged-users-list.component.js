@@ -13,7 +13,7 @@
     angular.module('piwikApp').component('piwikPagedUsersList', {
         templateUrl: 'plugins/UsersManager/angularjs/paged-users-list/paged-users-list.component.html?cb=' + piwik.cacheBuster,
         bindings: {
-            // TODO
+            onEditUser: '&',
         },
         controller: PagedUsersListController
     });

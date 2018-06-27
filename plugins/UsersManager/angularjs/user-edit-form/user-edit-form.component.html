@@ -1,0 +1,74 @@
+<!-- TODO: also edit user
+TODO: also max lengths
+
+$userLogin, $password, $email, $alias
+-->
+<div
+    piwik-content-block
+    content-title="Add New User"
+    class="userEditForm"
+>
+    <div piwik-form>
+        <div
+            piwik-field
+            uicontrol="text"
+            name="user_login"
+            ng-model="$ctrl.user.userLogin"
+            title="Username"
+        >
+        </div>
+
+        <div
+                piwik-field
+                uicontrol="password"
+                name="user_password"
+                ng-model="$ctrl.user.password"
+                title="Password"
+        >
+        </div>
+
+        <div
+                piwik-field
+                uicontrol="text"
+                name="user_alias"
+                ng-model="$ctrl.user.alias"
+                title="Alias"
+        >
+        </div>
+
+        <div
+                piwik-field
+                uicontrol="text"
+                name="user_email"
+                ng-model="$ctrl.user.email"
+                title="Email"
+        >
+        </div>
+
+        <!-- TODO: add help text here and/or add confirm modal when setting it or something? -->
+        <div
+                piwik-field
+                uicontrol="checkbox"
+                name="superuser_access"
+                ng-model="$ctrl.user.isSuperuser"
+                title="Superuser Access"
+        >
+        </div>
+
+        <div>
+            PERMISSIONS (TODO)
+        </div>
+
+        <div piwik-save-button
+             saving="$ctrl.isLoading"
+             onconfirm="$ctrl.onDoneEditing()"
+             ng-value="Create User"></div>
+
+        <div
+            class='entityCancel'
+            ng-click="$ctrl.onDoneEditing()"
+            ng-bind-html="'General_OrCancel'|translate:'<a class=&quot;entityCancelLink&quot;>':'</a>'"
+        >
+        </div>
+    </div>
+</div>
