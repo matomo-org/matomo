@@ -5,7 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\System;
+namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Interop\Container\ContainerInterface;
 use Piwik\Date;
@@ -188,6 +188,11 @@ class ArchiveCronTest extends SystemTestCase
                 return new \Piwik\Translation\Translator($c->get('Piwik\Translation\Loader\LoaderInterface'));
             }
         );
+    }
+
+    public static function getPathToTestDirectory()
+    {
+        return dirname(__FILE__);
     }
 }
 
