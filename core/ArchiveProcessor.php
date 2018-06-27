@@ -609,13 +609,16 @@ class ArchiveProcessor
         $idSites = [$params->getSite()->getId()];
 
         $newSegment = Segment::combine($params->getSegment()->getString(), SegmentExpression::AND_DELIMITER, $segment);
-        $newSegment = new Segment($newSegment, $idSites);
+        if ($newSegment === $segment && $params->getRequestedPlugin() === $plugin) { // being processed now
+            return;
+        }
 
+        $newSegment = new Segment($newSegment, $idSites);
         if (ArchiveProcessor\Rules::isSegmentPreProcessed($idSites, $newSegment)) {
             // will be processed anyway
             return;
         }
-\quickDebug("processing dependent: {$newSegment->getString()}\nold segment: {$params->getSegment()->getString()}\n");
+
         $parameters = new ArchiveProcessor\Parameters($params->getSite(), $params->getPeriod(), $newSegment);
         $parameters->onlyArchiveRequestedPlugin();
         $parameters->setIsRootArchiveRequest(false);
