@@ -18,10 +18,13 @@
         controller: PagedUsersListController
     });
 
-    PagedUsersListController.$inject = [];
+    PagedUsersListController.$inject = ['$element'];
 
-    function PagedUsersListController() {
+    function PagedUsersListController($element) {
         var vm = this;
-        // TODO
+        vm.$onInit = $onInit;
+
+        function $onInit() {
+        }
     }
 })();

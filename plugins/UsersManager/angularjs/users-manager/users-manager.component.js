@@ -18,10 +18,32 @@
         controller: UsersManagerController
     });
 
-    UsersManagerController.$inject = [];
+    UsersManagerController.$inject = ['$element'];
 
-    function UsersManagerController() {
+    function UsersManagerController($element) {
         var vm = this;
-        // TODO
+        vm.$onInit = $onInit;
+        vm.$onDestroy = $onDestroy;
+
+        function $onInit() {
+            // TODO: maybe this should go in another directive...
+            $element.tooltip({
+                track: true,
+                content: function() {
+                    var title = $(this).attr('title');
+                    return piwikHelper.escape(title.replace(/\n/g, '<br />'));
+                },
+                show: false,
+                hide: false
+            });
+        }
+
+        function $onDestroy() {
+            try {
+                $element.tooltip('destroy');
+            } catch (e) {
+                // empty
+            }
+        }
     }
 })();

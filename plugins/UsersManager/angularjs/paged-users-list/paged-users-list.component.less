@@ -29,6 +29,43 @@ piwik-paged-users-list {
     padding-top: 0;
     padding-bottom: 0;
   }
+
+  table.entityTable tbody tr td.actions-cell {
+    width: 130px;
+    padding: 0;
+  }
+
+  table#manageUserAccess .select-wrapper {
+    transform: scale(.8);
+    width: 100px;
+
+    input {
+      margin-bottom: 0;
+      padding-bottom: .3em;
+      height: 1em;
+      line-height: 1em;
+    }
+
+    span.caret {
+      top: 0;
+    }
+  }
+
+  td.superuser-cell {
+    label {
+      transform: scale(.8);
+      height: 1em;
+      line-height: 1em;
+
+      &::before {
+        top: -8px;
+      }
+    }
+
+    [type="checkbox"]:not(:checked) + label::before {
+      top: -4px;
+    }
+  }
 }
 
 #root piwik-paged-users-list .siteSelector.borderedControl {

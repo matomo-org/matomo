@@ -25,7 +25,6 @@
         vm.$onInit = $onInit;
 
         function $onInit() {
-            $element.find('select').material_select();
         }
     }
 })();

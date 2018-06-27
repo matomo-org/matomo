@@ -14,8 +14,8 @@
             <thead>
             <tr>
                 <th class='first'>Username</th>
-                <th>Access</th>
-                <th>Password</th>
+                <th>Permissions</th>
+                <th>Superuser</th>
                 <th>Email</th>
                 <th>Alias</th>
                 <th>Last Seen</th>
@@ -25,14 +25,19 @@
 
             <tbody>
 
-                <tr class="editable" id="row1">
-                    <td id="userLogin" class="editable">enterprise</td>
-                    <td>View</td>
-                    <td id="password" class="editable">-</td>
-                    <td id="email" class="editable">contact+1@innocraft.com</td>
-                    <td id="alias" class="editable">enterprise</td>
+                <tr id="row1">
+                    <td id="userLogin">enterprise</td>
+                    <td class="access-cell">
+                        <span title="This user can view reports for SITENAME, but cannot make any changes to them.">View</span>
+                    </td>
+                    <td class="superuser-cell">
+                        <input type="checkbox" id="row1_superuser" checked="checked" />
+                        <label for="row1_superuser">Yes</label>
+                    </td>
+                    <td id="email">contact+1@innocraft.com</td>
+                    <td id="alias">enterprise</td>
                     <td id="last_seen">00:00:35 ago</td>
-                    <td class="center">
+                    <td class="center actions-cell">
                         <button class="edituser table-action" title="Edit">
                             <span class="icon-edit"></span>
                         </button>
