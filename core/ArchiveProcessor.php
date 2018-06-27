@@ -588,7 +588,13 @@ class ArchiveProcessor
     }
 
     /**
-     * TODO
+     * Initiate archiving for a plugin during an ongoing archiving. The plugin can be another
+     * plugin or the same plugin.
+     *
+     * This method should be called during archiving when one plugin uses the report of another
+     * plugin with a segment. It will ensure reports for that segment & plugin will be archived
+     * without initiating archiving for every plugin with that segment (which would be a performance
+     * killer).
      *
      * @param string $plugin
      * @param string $segment
@@ -596,16 +602,20 @@ class ArchiveProcessor
     public function processDependentArchive($plugin, $segment)
     {
         $params = $this->getParams();
-        if ($params->isRootArchiveRequest()) { // prevent all recursion
+        if (!$params->isRootArchiveRequest()) { // prevent all recursion
             return;
         }
 
-        $newSegment = $params->getSegment()->combine(SegmentExpression::AND_DELIMITER, $segment);
-        if (ArchiveProcessor\Rules::isSegmentPreProcessed([$params->getSite()->getId()], $newSegment)) {
+        $idSites = [$params->getSite()->getId()];
+
+        $newSegment = Segment::combine($params->getSegment()->getString(), SegmentExpression::AND_DELIMITER, $segment);
+        $newSegment = new Segment($newSegment, $idSites);
+
+        if (ArchiveProcessor\Rules::isSegmentPreProcessed($idSites, $newSegment)) {
             // will be processed anyway
             return;
         }
-
+\quickDebug("processing dependent: {$newSegment->getString()}\nold segment: {$params->getSegment()->getString()}\n");
         $parameters = new ArchiveProcessor\Parameters($params->getSite(), $params->getPeriod(), $newSegment);
         $parameters->onlyArchiveRequestedPlugin();
         $parameters->setIsRootArchiveRequest(false);

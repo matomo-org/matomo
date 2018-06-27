@@ -48,7 +48,7 @@ class Parameters
     /**
      * @var bool
      */
-    private $isRootArchiveRequest;
+    private $isRootArchiveRequest = true;
 
     /**
      * Constructor.
@@ -234,9 +234,11 @@ class Parameters
     }
 
     /**
-     * TODO
+     * Returns `true` if these parameters are part of an initial archiving request.
+     * Returns `false` if these parameters are for an archiving request that was initiated
+     * during archiving.
      *
-     * @return mixed
+     * @return bool
      */
     public function isRootArchiveRequest()
     {
@@ -244,9 +246,10 @@ class Parameters
     }
 
     /**
-     * TODO
+     * Sets whether these parameters are part of the initial archiving request or if they are
+     * for a request that was initiated during archiving.
      *
-     * @param $isRootArchive
+     * @param $isRootArchiveRequest
      */
     public function setIsRootArchiveRequest($isRootArchiveRequest)
     {

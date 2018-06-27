@@ -23,6 +23,7 @@ use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Segment;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -54,7 +55,7 @@ use Piwik\Validators\WhitelistedValue;
 class API extends \Piwik\Plugin\API
 {
     const AVG_PRICE_VIEWED = 'avg_price_viewed';
-    const NEW_VISIT_SEGMENT = 'visitorType%3D%3Dnew'; // visitorType==new
+    const NEW_VISIT_SEGMENT = 'visitorType==new';
 
     /**
      * Return a single goal.
@@ -519,18 +520,7 @@ class API extends \Piwik\Plugin\API
 
     protected function appendSegment($segment, $segmentToAppend)
     {
-        if (empty($segment)) {
-            return $segmentToAppend;
-        }
-
-        if (empty($segmentToAppend)) {
-            return $segment;
-        }
-
-        $segment .= urlencode(SegmentExpression::AND_DELIMITER);
-        $segment .= $segmentToAppend;
-
-        return $segment;
+        return Segment::combine($segment, SegmentExpression::AND_DELIMITER, $segmentToAppend);
     }
 
     protected function getNumeric($idSite, $period, $date, $segment, $toFetch)

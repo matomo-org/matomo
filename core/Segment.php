@@ -352,22 +352,32 @@ class Segment
     }
 
     /**
-     * TODO
-     * TODO: unit tests
+     * Combines this segment with another segment condition, if the segment condition is not already
+     * in the segment.
      *
-     * @param string $operator
-     * @param string $segmentExpression
-     * @returns Segment
+     * The combination is naive in that it does not take order of operations into account.
+     *
+     * @param string $segment
+     * @param string $operator The operator to use. Should be either SegmentExpression::AND_DELIMITER
+     *                         or SegmentExpression::OR_DELIMITER.
+     * @param string $segmentCondition The segment condition to add.
+     * @return string
      * @throws Exception
      */
-    public function combine($operator, $segmentExpression)
+    public static function combine($segment, $operator, $segmentCondition)
     {
-        if (strpos($this->string, $operator . $segmentExpression) !== false
-            || strpos($this->string, $segmentExpression . $operator) !== false
-        ) {
-            return $this->string;
+        if (empty($segment)) {
+            return $segmentCondition;
         }
 
-        return new Segment($operator . $segmentExpression . $this->string, $this->idSites);
+        if (empty($segmentCondition)
+            || strpos($segment, $operator . $segmentCondition) !== false
+            || strpos($segment, $segmentCondition . $operator) !== false
+            || $segment === $segmentCondition
+        ) {
+            return $segment;
+        }
+
+        return $segment . $operator . $segmentCondition;
     }
 }

@@ -1742,6 +1742,30 @@ log_visit.visit_total_actions
         $this->assertWillBeArchived(false);
     }
 
+    /**
+     * @dataProvider getTestDataForCombine
+     */
+    public function test_combine_shouldCombineSegmentConditionsProperly($segment, $operator, $toCombine, $expected)
+    {
+        $newSegment = Segment::combine($segment, $operator, $toCombine);
+        $this->assertEquals($expected, $newSegment);
+    }
+
+    public function getTestDataForCombine()
+    {
+        return [
+            ['', ';', '', ''],
+            ['browserCode==ff;visitCount>1', ';', '', 'browserCode==ff;visitCount>1'],
+            ['', ';', 'visitCount>1', 'visitCount>1'],
+            ['browserCode==ff;visitCount>1', ';', 'visitCount>1', 'browserCode==ff;visitCount>1'],
+            ['visitCount>1;browserCode==ff', ';', 'visitCount>1', 'visitCount>1;browserCode==ff'],
+            ['visitCount>1,browserCode==ff', ';', 'visitCount>1', 'visitCount>1,browserCode==ff;visitCount>1'],
+            ['browserCode==ff', ';', 'visitCount>1', 'browserCode==ff;visitCount>1'],
+            ['browserCode==ff;visitCount>1', ',', 'visitCount>2', 'browserCode==ff;visitCount>1,visitCount>2'],
+            ['visitorType==new', ';', 'visitorType==new', 'visitorType==new'],
+        ];
+    }
+
     private function assertWillBeArchived($segmentString)
     {
         $this->assertTrue($this->willSegmentByArchived($segmentString));
