@@ -1,0 +1,50 @@
+.userPermissionsEdit {
+  .permission-select .select-wrapper {
+    display: inline-block;
+    transform: scale(.8);
+    margin-right: -10px;
+    margin-left: -10px;
+    z-index: 999;
+
+    input {
+      margin-bottom: 0;
+      height: 1.1em;
+      line-height: 1.1em;
+    }
+
+    .caret {
+      top: 0;
+    }
+  }
+
+  [piwik-siteselector] {
+    display: inline-block;
+    margin-left: 8px;
+    margin-right: 8px;
+
+    .siteSelector {
+      position: static !important;
+    }
+  }
+
+  #sitesForPermission {
+    margin-left: 0;
+    margin-right: 0;
+    width: calc(100%);
+  }
+
+  .add-permission {
+    float: right;
+  }
+
+  .sites-for-permission-pagination {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: .9em;
+
+    .counter {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+  }
+}

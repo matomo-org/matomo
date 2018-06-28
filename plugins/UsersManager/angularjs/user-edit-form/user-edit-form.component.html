@@ -1,13 +1,10 @@
-<!-- TODO: also edit user
-TODO: also max lengths
-
-$userLogin, $password, $email, $alias
--->
 <div
     piwik-content-block
-    content-title="Add New User"
+    content-title="{{ $ctrl.getFormTitle() }}"
     class="userEditForm"
 >
+    <h3>Basic Information</h3>
+
     <div piwik-form>
         <div
             piwik-field
@@ -15,6 +12,7 @@ $userLogin, $password, $email, $alias
             name="user_login"
             ng-model="$ctrl.user.userLogin"
             title="Username"
+            maxlength="100"
         >
         </div>
 
@@ -33,6 +31,7 @@ $userLogin, $password, $email, $alias
                 name="user_alias"
                 ng-model="$ctrl.user.alias"
                 title="Alias"
+                maxlength="45"
         >
         </div>
 
@@ -42,21 +41,41 @@ $userLogin, $password, $email, $alias
                 name="user_email"
                 ng-model="$ctrl.user.email"
                 title="Email"
+                maxlength="100"
         >
         </div>
 
-        <!-- TODO: add help text here and/or add confirm modal when setting it or something? -->
-        <div
-                piwik-field
-                uicontrol="checkbox"
-                name="superuser_access"
-                ng-model="$ctrl.user.isSuperuser"
-                title="Superuser Access"
-        >
+        <div class="user-permissions">
+            <h3>Permissions</h3>
+
+            <div class="row">
+            <div class="col s12 m6">
+                <piwik-user-permissions-edit></piwik-user-permissions-edit>
+            </div>
+            </div>
         </div>
 
-        <div>
-            PERMISSIONS (TODO)
+        <!-- TODO: add confirm modal when setting it or something? -->
+        <div class="superuser-access">
+            <h3>Superuser Access</h3>
+
+            <div class="row">
+                <div class="col s12">
+                    <p>Super users have the highest permissions. They can perform all administrative tasks such as adding new websites to monitor, adding users, changing user permissions, activating and deactivating plugins and even installing new plugins from the Marketplace.
+                        You can grant Super User access to other users of Divezone here.</p>
+
+                    <p><strong>Please use this feature carefully.</strong></p>
+                </div>
+            </div>
+
+            <div
+                    piwik-field
+                    uicontrol="checkbox"
+                    name="superuser_access"
+                    ng-model="$ctrl.user.isSuperuser"
+                    title="Has Superuser Access"
+            >
+            </div>
         </div>
 
         <div piwik-save-button

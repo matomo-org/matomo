@@ -13,6 +13,7 @@
     angular.module('piwikApp').component('piwikUserEditForm', {
         templateUrl: 'plugins/UsersManager/angularjs/user-edit-form/user-edit-form.component.html?cb=' + piwik.cacheBuster,
         bindings: {
+            isAdd: '<',
             onDoneEditing: '&'
         },
         controller: UserEditFormController
@@ -23,6 +24,10 @@
     function UserEditFormController() {
         var vm = this;
         vm.user = {};
-        // TODO
+        vm.getFormTitle = getFormTitle;
+
+        function getFormTitle() {
+            return vm.isAdd ? 'Add New User' : 'Edit User';
+        }
     }
 })();

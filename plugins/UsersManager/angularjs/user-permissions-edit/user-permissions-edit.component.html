@@ -1,0 +1,53 @@
+<div class="userPermissionsEdit">
+    <p class="permission-select">
+        <span>Show websites this user has</span>
+        <select piwik-material-select ng-model="$ctrl.accessLevel">
+            <option value="">No Access</option>
+            <option value="view">View Access</option>
+            <option value="admin">Admin Access</option>
+            <option value="">Tag Manager Write Access</option>
+        </select>
+        <span>to:</span>
+    </p>
+
+    <table piwik-content-table id="sitesForPermission">
+        <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Some website</td>
+        </tr>
+        <tr>
+            <td>Some other website</td>
+        </tr>
+        <tr>
+            <td><em>Another site (added)</em></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="col s12 sites-for-permission-pagination">
+        <a class="prev" disabled="disabled">
+            <span class="pointer">« Previous</span>
+        </a>
+
+        <span class="counter">
+                        <span>
+                                0 - 10 of 10001
+                        </span>
+                    </span>
+
+        <a class="next">
+            <span class="pointer">Next »</span>
+        </a>
+    </div>
+
+    <div>
+        <span>Give this user <strong>View Access</strong> to</span>
+        <div piwik-siteselector show-selected-site="true" class="sites_autocomplete"></div>
+        <input type="button" value="Add" class="btn add-permission" />
+    </div>
+</div>
