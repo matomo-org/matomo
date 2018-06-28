@@ -13,21 +13,44 @@
     <table piwik-content-table id="sitesForPermission">
         <thead>
         <tr>
-            <th>Name</th>
+            <th>
+                Name
+            </th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td>Some website</td>
+            <td>
+                <span>Some website</span>
+                <button class="delete-site-permission table-action" title="Remove">
+                    <span class="icon-minus"></span>
+                </button>
+            </td>
         </tr>
         <tr>
-            <td>Some other website</td>
+            <td>
+                <span>Some other website</span>
+
+                <button class="delete-site-permission table-action" title="Remove">
+                    <span class="icon-minus"></span>
+                </button>
+            </td>
         </tr>
         <tr>
-            <td><em>Another site (added)</em></td>
+            <td>
+                <span><em>Another site (added)</em></span>
+
+                <button class="delete-site-permission table-action" title="Remove">
+                    <span class="icon-minus"></span>
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>
+
+    <div class="input-field site-filter">
+        <input type="text" placeholder="Filter by name"/>
+    </div>
 
     <div class="col s12 sites-for-permission-pagination">
         <a class="prev" disabled="disabled">

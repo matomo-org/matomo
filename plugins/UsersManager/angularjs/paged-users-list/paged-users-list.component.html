@@ -28,7 +28,11 @@
                 <tr id="row1">
                     <td id="userLogin">enterprise</td>
                     <td class="access-cell">
-                        <span title="This user can view reports for SITENAME, but cannot make any changes to them.">View</span>
+                        <select piwik-material-select>
+                            <option value="">None</option>
+                            <option value="view" selected>View</option>
+                            <option value="admin">Admin</option>
+                        </select>
                     </td>
                     <td class="superuser-cell">
                         <input type="checkbox" id="row1_superuser" checked="checked" />

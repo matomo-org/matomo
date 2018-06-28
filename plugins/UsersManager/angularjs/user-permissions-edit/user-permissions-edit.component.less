@@ -31,6 +31,16 @@
     margin-left: 0;
     margin-right: 0;
     width: calc(100%);
+
+    td {
+      padding: 0;
+      padding-left: 0 !important;
+
+      > span {
+        display:inline-block;
+        padding: 16px;
+      }
+    }
   }
 
   .add-permission {
@@ -46,5 +56,22 @@
       margin-left: 8px;
       margin-right: 8px;
     }
+  }
+
+  .site-filter {
+    width: 150px;
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+
+    input {
+      margin-bottom: 24px;
+      height: 2em;
+      line-height: 2em;
+    }
+  }
+
+  .delete-site-permission {
+    float: right;
   }
 }
