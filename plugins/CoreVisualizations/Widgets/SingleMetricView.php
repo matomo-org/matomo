@@ -44,33 +44,10 @@ class SingleMetricView extends \Piwik\Widget\Widget
         $view->componentName = 'piwik-single-metric-view';
         $view->componentParameters = [
             'metric' => json_encode($column),
-            'sparkline-range' => json_encode($this->getSparklineRange()),
             'metric-translations' => json_encode($metricTranslations),
             'metric-documentations' => json_encode($report->getMetricDocumentationForReport()),
         ];
 
-        list($lastPeriodDate, $ignore) = Range::getLastDate();
-        if ($lastPeriodDate !== false) {
-            $view->componentParameters['past-period'] = json_encode($this->getPeriodStr($lastPeriodDate));
-        }
-
         return $view->render();
-    }
-
-    private function getSparklineRange()
-    {
-        $period = Common::getRequestVar('period');
-        $endDate = Common::getRequestVar('date', 'yesterday', 'string');
-        $idSite = Common::getRequestVar('idSite');
-
-        $sparklineRange = Range::getRelativeToEndDate($period, 'last30', $endDate, new Site($idSite));
-        return $sparklineRange;
-    }
-
-    private function getPeriodStr($lastPeriodDate)
-    {
-        $period = Common::getRequestVar('period');
-        $period = Period\Factory::build($period, $lastPeriodDate);
-        return $period instanceof Period\Day ? $period->getDateStart()->toString() : $period->getRangeString();
     }
 }

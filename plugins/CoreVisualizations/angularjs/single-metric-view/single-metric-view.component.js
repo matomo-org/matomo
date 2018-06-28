@@ -15,16 +15,14 @@
         bindings: {
             metric: '<',
             metricTranslations: '<',
-            metricDocumentations: '<',
-            sparklineRange: '<',
-            pastPeriod: '<',
+            metricDocumentations: '<'
         },
         controller: SingleMetricViewController
     });
 
-    SingleMetricViewController.$inject = ['piwik', 'piwikApi', '$element', '$httpParamSerializer', '$compile', '$scope'];
+    SingleMetricViewController.$inject = ['piwik', 'piwikApi', '$element', '$httpParamSerializer', '$compile', '$scope', 'piwikPeriods'];
 
-    function SingleMetricViewController(piwik, piwikApi, $element, $httpParamSerializer, $compile, $scope) {
+    function SingleMetricViewController(piwik, piwikApi, $element, $httpParamSerializer, $compile, $scope, piwikPeriods) {
         var seriesPickerScope;
 
         var vm = this;
@@ -34,7 +32,6 @@
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.$onDestroy = $onDestroy;
-        vm.getSparklineUrl = getSparklineUrl;
         vm.getCurrentPeriod = getCurrentPeriod;
         vm.getMetricTranslation = getMetricTranslation;
         vm.getMetricDocumentation = getMetricDocumentation;
@@ -42,7 +39,9 @@
 
         function $onInit() {
             setSelectableColumns();
+
             vm.selectedColumns = [vm.metric];
+            vm.pastPeriod = getPastPeriodStr();
 
             createSeriesPicker();
 
@@ -81,23 +80,6 @@
 
         function setWidgetTitle() {
             $element.closest('div.widget').find('.widgetTop > .widgetName > span').text(vm.getMetricTranslation());
-        }
-
-        function getSparklineUrl() {
-            var urlParams = piwikApi.mixinDefaultGetParams({
-                forceView: '1',
-                viewDataTable: 'sparkline',
-                module: 'API',
-                action: 'get',
-                widget: '1',
-                showtitle: '1',
-                columns: vm.metric,
-                colors: JSON.stringify(piwik.getSparklineColors()),
-                date: vm.sparklineRange,
-                random: Date.now()
-            });
-
-            return '?' + $httpParamSerializer(urlParams);
         }
 
         function getCurrentPeriod() {
@@ -158,10 +140,6 @@
 
             fetchData();
 
-            // done manually due to 'random' query param. since it changes the URL on each digest, depending on angular
-            // results in an infinite digest
-            $element.find('img').attr('src', getSparklineUrl());
-
             // notify widget of parameter change so it is replaced
             $element.closest('div.widget').trigger('setParameters', { column: vm.metric });
         }
@@ -169,6 +147,12 @@
         function setMetric(newColumn) {
             vm.metric = newColumn;
             onMetricChanged();
+        }
+
+        function getPastPeriodStr() {
+            var startDate = piwikPeriods.get('range').getLastNRange(piwik.period, 2, piwik.currentDateString).startDate;
+            var dateRange = piwikPeriods.get(piwik.period).parse(startDate).getDateRange();
+            return $.datepicker.formatDate('yy-mm-dd', dateRange[0]) + ',' + $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
         }
     }
 })();

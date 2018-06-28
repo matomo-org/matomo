@@ -1,7 +1,9 @@
 <div class="singleMetricView" ng-class="{'loading': $ctrl.isLoading}">
-    <div class="metric-sparkline">
-        <img width="100" height="25" />
-    </div>
+    <piwik-sparkline
+        class="metric-sparkline"
+        params="{module: 'API', action: 'get', columns: $ctrl.metric}"
+    >
+    </piwik-sparkline>
     <div class="metric-value">
         <span title="{{ $ctrl.getMetricDocumentation() }}">
             <strong>{{ $ctrl.metricValue }}</strong> {{ ($ctrl.metricTranslation || '').toLowerCase() }}

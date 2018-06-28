@@ -116,6 +116,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/period-date-picker/period-date-picker.component.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -204,6 +205,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/activity-indicator/activityindicator.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/alert/alert.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";
