@@ -41,12 +41,7 @@ function getHostnameUrl($in)
         return null;
     }
 
-    // if the name looks like it can be used in a URL, use it in one, otherwise link to startpage
-    if (preg_match("/^[-a-zA-Z0-9_.]+$/", $in)) {
-        return "http://www." . $in . "/";
-    } else {
-        return "https://startpage.com/do/search?q=" . urlencode($in);
-    }
+    return "https://startpage.com/do/search?q=" . urlencode($in);
 }
 
 /**
