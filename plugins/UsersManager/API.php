@@ -436,6 +436,7 @@ class API extends \Piwik\Plugin\API
      */
     public function addUser($userLogin, $password, $email, $alias = false, $_isPasswordHashed = false)
     {
+	$email = mb_convert_encoding($email, "UTF-8", "HTML-ENTITIES");
         Piwik::checkUserHasSuperUserAccess();
 
         $this->checkLogin($userLogin);
@@ -575,6 +576,7 @@ class API extends \Piwik\Plugin\API
     public function updateUser($userLogin, $password = false, $email = false, $alias = false,
                                $_isPasswordHashed = false)
     {
+
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserExists($userLogin);
@@ -610,7 +612,9 @@ class API extends \Piwik\Plugin\API
 
         if (empty($email)) {
             $email = $userInfo['email'];
-        }
+        } else {
+  	    $email = mb_convert_encoding($email, "UTF-8", "HTML-ENTITIES");
+	}
 
         if ($email != $userInfo['email']) {
             $this->checkEmail($email);
