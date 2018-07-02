@@ -177,17 +177,17 @@ class API extends \Piwik\Plugin\API
 
         $sites   = (is_array($idSites) ? implode('.', $idSites) : (int) $idSites);
         $cache   = Cache::getTransientCache();
-        $cachKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
-        $cachKey = CacheId::pluginAware($cachKey);
+        $cacheKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
+        $cacheKey = CacheId::pluginAware($cacheKey);
 
-        if ($cache->contains($cachKey)) {
-            return $cache->fetch($cachKey);
+        if ($cache->contains($cacheKey)) {
+            return $cache->fetch($cacheKey);
         }
 
         $metadata = new SegmentMetadata();
         $segments = $metadata->getSegmentsMetadata($idSites, $_hideImplementationData, $isNotAnonymous);
 
-        $cache->save($cachKey, $segments);
+        $cache->save($cacheKey, $segments);
 
         return $segments;
     }

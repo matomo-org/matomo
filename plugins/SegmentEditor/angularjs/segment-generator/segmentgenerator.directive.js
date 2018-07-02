@@ -18,6 +18,7 @@
         var defaults = {
             segmentDefinition: '',
             addInitialCondition: false,
+            visitSegmentsOnly: false,
             idsite: piwik.idSite
         };
 
@@ -26,6 +27,7 @@
             scope: {
                 segmentDefinition: '@',
                 addInitialCondition: '=',
+                visitSegmentsOnly: '=',
                 idsite: '='
             },
             require: "?ngModel",
