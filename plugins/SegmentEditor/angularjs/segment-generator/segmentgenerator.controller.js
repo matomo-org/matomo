@@ -274,14 +274,14 @@
 
         $scope.$watch('idsite', function (newValue, oldValue) {
             if (newValue != oldValue) {
-                reloadSegments(newValue);
+                reloadSegments(newValue, $scope.visitSegmentsOnly);
             }
         });
 
-        reloadSegments($scope.idsite);
+        reloadSegments($scope.idsite, $scope.visitSegmentsOnly);
 
-        function reloadSegments(idsite) {
-            segmentGeneratorModel.loadSegments(idsite).then(function (segments) {
+        function reloadSegments(idsite, visitSegmentsOnly) {
+            segmentGeneratorModel.loadSegments(idsite, visitSegmentsOnly).then(function (segments) {
 
                 self.segmentList = [];
 
