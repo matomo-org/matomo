@@ -43,6 +43,8 @@ class Parameters
      */
     private $requestedPlugin = false;
 
+    private $onlyArchiveRequestedPlugin = false;
+
     /**
      * Constructor.
      *
@@ -61,6 +63,22 @@ class Parameters
     public function setRequestedPlugin($plugin)
     {
         $this->requestedPlugin = $plugin;
+    }
+
+    /**
+     * @ignore
+     */
+    public function onlyArchiveRequestedPlugin()
+    {
+        $this->onlyArchiveRequestedPlugin = true;
+    }
+
+    /**
+     * @ignore
+     */
+    public function shouldOnlyArchiveRequestedPlugin()
+    {
+        return $this->onlyArchiveRequestedPlugin;
     }
 
     /**

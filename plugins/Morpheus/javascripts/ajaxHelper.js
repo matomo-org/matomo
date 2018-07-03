@@ -357,6 +357,9 @@ function ajaxHelper() {
 
     /**
      * Send the request
+     *
+     * Note: Sending synchronous requests will be removed in Matomo 4
+     *
      * @param {Boolean} [sync]  indicates if the request should be synchronous (defaults to false)
      * @return {void}
      */

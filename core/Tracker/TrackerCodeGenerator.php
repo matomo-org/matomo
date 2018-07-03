@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\SettingsPiwik;
 use Piwik\View;
 
 /**
@@ -135,6 +136,11 @@ class TrackerCodeGenerator
             'loadAsync'               => true,
             'trackNoScript'           => $trackNoScript
         );
+
+        if (SettingsPiwik::isHttpsForced()) {
+            $codeImpl['protocol'] = 'https://';
+        }
+
         $parameters = compact('mergeSubdomains', 'groupPageTitlesByDomain', 'mergeAliasUrls', 'visitorCustomVariables',
             'pageCustomVariables', 'customCampaignNameQueryParam', 'customCampaignKeywordParam',
             'doNotTrack');

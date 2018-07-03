@@ -15,6 +15,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
 use Piwik\Period;
@@ -59,15 +60,26 @@ class ArchiveInvalidator
 
     public function rememberToInvalidateArchivedReportsLater($idSite, Date $date)
     {
-        $key   = $this->buildRememberArchivedReportId($idSite, $date->toString());
-        $value = Option::get($key);
+        // To support multiple transactions at once, look for any other process to have set (and committed)
+        // this report to be invalidated.
+        $key   = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date->toString());
 
         // we do not really have to get the value first. we could simply always try to call set() and it would update or
         // insert the record if needed but we do not want to lock the table (especially since there are still some
         // MyISAM installations)
+        $value = Option::getLike($key . '%');
 
-        if (false === $value) {
-            Option::set($key, '1');
+        // In order to support multiple concurrent transactions, add our pid to the end of the key so that it will just insert
+        // rather than waiting on some other process to commit before proceeding.The issue is that with out this, more than
+        // one process is trying to add the exact same value to the table, which causes contention. With the pid suffixed to
+        // the value, each process can successfully enter its own row in the table. The net result will be the same. We could
+        // always just set this, but it would result in a lot of rows in the options table.. more than needed.  With this
+        // change you'll have at most N rows per date/site, where N is the number of parallel requests on this same idsite/date
+        // that happen to run in overlapping transactions.
+        $mykey = $this->buildRememberArchivedReportIdProcessSafe($idSite, $date->toString());
+        // getLike() returns an empty array rather than 'false'
+        if (empty($value)) {
+            Option::set($mykey, '1');
         }
     }
 
@@ -93,7 +105,12 @@ class ArchiveInvalidator
         return $sitesPerDay;
     }
 
-    private function buildRememberArchivedReportId($idSite, $date)
+    private function buildRememberArchivedReportIdForSite($idSite)
+    {
+        return $this->rememberArchivedReportIdStart . (int) $idSite;
+    }
+    
+    private function buildRememberArchivedReportIdForSiteAndDate($idSite, $date)
     {
         $id  = $this->buildRememberArchivedReportIdForSite($idSite);
         $id .= '_' . trim($date);
@@ -101,9 +118,12 @@ class ArchiveInvalidator
         return $id;
     }
 
-    private function buildRememberArchivedReportIdForSite($idSite)
+    // This version is multi process safe on the insert of a new date to invalidate.
+    private function buildRememberArchivedReportIdProcessSafe($idSite, $date)
     {
-        return $this->rememberArchivedReportIdStart . (int) $idSite;
+        $id  = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date);
+        $id .= '_' . getmypid();
+        return $id;
     }
 
     public function forgetRememberedArchivedReportsToInvalidateForSite($idSite)
@@ -117,9 +137,11 @@ class ArchiveInvalidator
      */
     public function forgetRememberedArchivedReportsToInvalidate($idSite, Date $date)
     {
-        $id = $this->buildRememberArchivedReportId($idSite, $date->toString());
+        $id = $this->buildRememberArchivedReportIdForSiteAndDate($idSite, $date->toString());
 
-        Option::delete($id);
+        // The process pid is added to the end of the entry in order to support multiple concurrent transactions.
+        //  So this must be a deleteLike call to get all the entries, where there used to only be one.
+        Option::deleteLike($id . '%');
     }
 
     /**
@@ -134,6 +156,29 @@ class ArchiveInvalidator
     public function markArchivesAsInvalidated(array $idSites, array $dates, $period, Segment $segment = null, $cascadeDown = false)
     {
         $invalidationInfo = new InvalidationResult();
+
+        /**
+         * Triggered when a Matomo user requested the invalidation of some reporting archives. Using this event, plugin
+         * developers can automatically invalidate another site, when a site is being invalidated. A plugin may even
+         * remove an idSite from the list of sites that should be invalidated to prevent it from ever being
+         * invalidated.
+         *
+         * **Example**
+         *
+         *     public function getIdSitesToMarkArchivesAsInvalidates(&$idSites)
+         *     {
+         *         if (in_array(1, $idSites)) {
+         *             $idSites[] = 5; // when idSite 1 is being invalidated, also invalidate idSite 5
+         *         }
+         *     }
+         *
+         * @param array &$idSites An array containing a list of site IDs which are requested to be invalidated.
+         */
+        Piwik::postEvent('Archiving.getIdSitesToMarkArchivesAsInvalidated', array(&$idSites));
+        // we trigger above event on purpose here and it is good that the segment was created like
+        // `new Segment($segmentString, $idSites)` because when a user adds a site via this event, the added idSite
+        // might not have this segment meaning we avoid a possible error. For the workflow to work, any added or removed
+        // idSite does not need to be added to $segment.
 
         $datesToInvalidate = $this->removeDatesThatHaveBeenPurged($dates, $invalidationInfo);
 

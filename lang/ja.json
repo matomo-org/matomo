@@ -284,6 +284,7 @@
         "NumberOfVisits": "ビジット数",
         "NUsers": "%s ユーザー",
         "NVisits": "%s ビジット",
+        "NUniqueVisitors": "%s ユニークビジター数",
         "Ok": "OK",
         "OneAction": "1 アクション",
         "OneVisit": "1 ビジット",

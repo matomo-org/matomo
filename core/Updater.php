@@ -528,9 +528,7 @@ class Updater
         if (count($componentsWithUpdateFile) == 0) {
             $this->columnsUpdater->onNoUpdateAvailable($columnsVersions);
 
-            if (!$this->hasNewVersion('core')) {
-                return null;
-            }
+            return null;
         }
 
         return $componentsWithUpdateFile;

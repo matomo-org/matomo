@@ -19,12 +19,12 @@ class RequestIdProcessor
 
     public function __invoke(array $record)
     {
-        if (Common::isPhpCliMode()) {
-            return $record;
-        }
-
         if (empty($this->currentRequestKey)) {
-            $this->currentRequestKey = substr(Common::generateUniqId(), 0, 5);
+            if (Common::isPhpCliMode()) {
+                $this->currentRequestKey = getmypid();
+            } else {
+                $this->currentRequestKey = substr(Common::generateUniqId(), 0, 5);
+            }
         }
 
         $record['extra']['request_id'] = $this->currentRequestKey;

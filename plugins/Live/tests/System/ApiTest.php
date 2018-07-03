@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\Live\tests\System;
 
+use Piwik\Config;
 use Piwik\Plugins\Live\tests\Fixtures\ManyVisitsOfSameVisitor;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -57,7 +58,39 @@ class ApiTest extends SystemTestCase
             )
         );
 
+        $apiToTest[] = array(array('Live.getLastVisitsDetails'),
+            array(
+                'idSite'     => 'all',
+                'date'       => self::$fixture->dateTime,
+                'periods'    => array('day'),
+                'otherRequestParameters' => array('limitVisits' => 20),
+                'testSuffix' => 'allSites'
+            )
+        );
+
+        $apiToTest[] = array(array('Live.getLastVisitsDetails'),
+            array(
+                'idSite'     => '1,2',
+                'date'       => self::$fixture->dateTime,
+                'periods'    => array('day'),
+                'otherRequestParameters' => array('limitVisits' => 40),
+                'testSuffix' => 'multiSites'
+            )
+        );
+
         return $apiToTest;
+    }
+
+    public function testApiWithLowerMaxVisitsLimit()
+    {
+        Config::getInstance()->General['live_visitor_profile_max_visits_to_aggregate'] = 20;
+
+        $this->runApiTests('Live.getVisitorProfile', array(
+            'idSite'     => 1,
+            'date'       => self::$fixture->dateTime,
+            'periods'    => array('day'),
+            'testSuffix' => 'maxVisitLimit'
+        ));
     }
 
     public static function getOutputPrefix()

@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "No se encuentra soporte avanzado para zonas horarias en su PHP (apoyado en PHP>=5.2). Todavía puede elegir un desplazamiento UTC manual.",
         "AliasUrlHelp": "Se recomienda, pero no es obligatorio, especificar las diferentes URLs que sus visitantes utilizan para acceder a este sitio web. Los alias de las URLs para un sitio de internet no aparecerán en el informe Referencias > Informe de sitios de internet. Tenga en cuenta que no es necesario especificar las direcciones URL con y sin 'www' ya que Matomo considera automáticamente ambas.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Cambiar su zona horaria sólo afectará a los datos en adelante, y no se aplicará retroactivamente.",
-        "ChooseCityInSameTimezoneAsYou": "Escoja una ciudad en la misma zona horaria que la suya.",
         "Currency": "Moneda",
         "CurrencySymbolWillBeUsedForGoals": "El símbolo de moneda se mostrará próximo a los ingresos de las Metas.",
         "DefaultCurrencyForNewWebsites": "Moneda predeterminada para los nuevos sitios de internet",

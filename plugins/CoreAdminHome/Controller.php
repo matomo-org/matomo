@@ -173,6 +173,14 @@ class Controller extends ControllerAdmin
         $defaultIdSite = reset($viewableIdSites);
         $view->idSite = Common::getRequestVar('idSite', $defaultIdSite, 'int');
 
+        if ($view->idSite) {
+            try {
+                $view->siteName = Site::getNameFor($view->idSite);
+            } catch (Exception $e) {
+                // ignore if site no longer exists
+            }
+        }
+
         $view->defaultReportSiteName = Site::getNameFor($view->idSite);
         $view->defaultSiteRevenue = Site::getCurrencySymbolFor($view->idSite);
         $view->maxCustomVariables = CustomVariables::getNumUsableCustomVariables();

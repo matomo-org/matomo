@@ -64,6 +64,17 @@ class Plugins
         return $plugin;
     }
 
+    public function getLicenseValidInfo($pluginName)
+    {
+        $plugin = $this->marketplaceClient->getPluginInfo($pluginName);
+        $plugin = $this->enrichLicenseInformation($plugin);
+
+        return array(
+            'hasExceededLicense' => !empty($plugin['hasExceededLicense']),
+            'isMissingLicense' => !empty($plugin['isMissingLicense'])
+        );
+    }
+
     public function getAvailablePluginNames($themesOnly)
     {
         if ($themesOnly) {
@@ -238,8 +249,13 @@ class Plugins
         $plugin['isInvalid']    = $this->pluginManager->isPluginThirdPartyAndBogus($plugin['name']);
         $plugin['canBeUpdated'] = $plugin['isInstalled'] && $this->hasPluginUpdate($plugin);
         $plugin['lastUpdated'] = $this->toShortDate($plugin['lastUpdated']);
-        $plugin['hasExceededLicense'] = !empty($plugin['isInstalled']) && !empty($plugin['shop']) && empty($plugin['isFree']) && empty($plugin['isDownloadable']) && !empty($plugin['consumer']['license']['isValid']) && !empty($plugin['consumer']['license']['isExceeded']);
-        $plugin['isMissingLicense'] = !empty($plugin['isInstalled']) && !empty($plugin['shop']) && empty($plugin['isFree']) && empty($plugin['isDownloadable']) && empty($plugin['consumer']['license']);
+
+        if ($plugin['isInstalled']) {
+            $plugin = $this->enrichLicenseInformation($plugin);
+        } else {
+            $plugin['hasExceededLicense'] = false;
+            $plugin['isMissingLicense'] = false;
+        }
 
         if (!empty($plugin['owner'])
             && strtolower($plugin['owner']) === 'piwikpro'
@@ -269,6 +285,19 @@ class Plugins
         }
 
         $plugin = $this->addMissingRequirements($plugin);
+
+        return $plugin;
+    }
+
+    private function enrichLicenseInformation($plugin)
+    {
+        if (empty($plugin)) {
+            return $plugin;
+        }
+
+        $isPremiumFeature = !empty($plugin['shop']) && empty($plugin['isFree']) && empty($plugin['isDownloadable']);
+        $plugin['hasExceededLicense'] = $isPremiumFeature && !empty($plugin['consumer']['license']['isValid']) && !empty($plugin['consumer']['license']['isExceeded']);
+        $plugin['isMissingLicense'] = $isPremiumFeature && (empty($plugin['consumer']['license']) || (!empty($plugin['consumer']['license']['status']) && $plugin['consumer']['license']['status'] === 'Cancelled'));
 
         return $plugin;
     }

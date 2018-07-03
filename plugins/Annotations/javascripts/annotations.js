@@ -28,7 +28,7 @@
             ajaxRequest.addParams(ajaxParams, 'get');
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         },
 
         // calls Annotations.addAnnotation
@@ -49,7 +49,7 @@
             ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         },
 
         // calls Annotations.saveAnnotation
@@ -72,7 +72,7 @@
             ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         },
 
         // calls Annotations.deleteAnnotation
@@ -92,7 +92,7 @@
             ajaxRequest.withTokenInUrl();
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         },
 
         // calls Annotations.getEvolutionIcons
@@ -114,7 +114,7 @@
             ajaxRequest.addParams(ajaxParams, 'get');
             ajaxRequest.setFormat('html');
             ajaxRequest.setCallback(callback);
-            ajaxRequest.send(false);
+            ajaxRequest.send();
         }
     };
 

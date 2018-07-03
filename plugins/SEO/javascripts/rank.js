@@ -20,7 +20,7 @@ $(document).ready(function () {
             }
         );
         ajaxRequest.setFormat('html');
-        ajaxRequest.send(false);
+        ajaxRequest.send();
     }
 
     // click on Rank button

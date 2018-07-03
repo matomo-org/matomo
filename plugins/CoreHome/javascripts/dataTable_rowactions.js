@@ -373,7 +373,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
             // remember label for multi row evolution
             box.find('.rowevolution-startmulti').click(function () {
                 Piwik_Popover.onClose(false); // unbind listener that resets multiEvolutionRows
-                Piwik_Popover.close();
+                broadcast.propagateNewPopoverParameter(false);
                 return false;
             });
         } else {
@@ -413,11 +413,18 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
         }
     }
 
+    if (self.dataTable && self.dataTable.jsViewDataTable === 'tableGoals') {
+        // remove idGoal param, when it's set for goal visualizations
+        if (extraParams['idGoal']) {
+            delete(extraParams['idGoal']);
+        }
+    }
+
     $.extend(requestParams, extraParams);
 
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams(requestParams, 'get');
     ajaxRequest.setCallback(callback);
     ajaxRequest.setFormat('html');
-    ajaxRequest.send(false);
+    ajaxRequest.send();
 };

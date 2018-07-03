@@ -23,7 +23,7 @@
         "SearchEnginesDocumentation": "یک بازدیدکننده توسط موتورجستجو به وبسایت شما ارجاع داده شده است.%1$s برای جزئیات بیشتر %2$sاین گزارش را ببینید.",
         "Socials": "شبکه های اجتماعی",
         "SubmenuSearchEngines": "موتورهای جستجو و کلمات کلیدی",
-        "SubmenuWebsites": "وب سایت ها",
+        "SubmenuWebsitesOnly": "وب سایت ها",
         "Type": "نوع ارجاع دهنده",
         "TypeCampaigns": "%s از کمپین",
         "TypeDirectEntries": "%s ورودی مستقیم",

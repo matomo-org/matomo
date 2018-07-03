@@ -69,6 +69,21 @@ describe("Live", function () {
         }, done);
     });
 
+    it('should show limited profile message', function (done) {
+        expect.screenshot('visitor_profile_limited').to.be.captureSelector('.ui-dialog', function (page) {
+
+            // Limit number of shown visits to 5
+            testEnvironment.overrideConfig('General', 'live_visitor_profile_max_visits_to_aggregate', 5);
+            testEnvironment.save();
+
+            page.load("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
+            page.evaluate(function(){
+                $('.card:first-child .visitor-log-visitor-profile-link').click();
+            });
+            page.wait(6000);
+        }, done);
+    });
+
     it('should show visitor log purge message when purged and no data', function (done) {
         expect.screenshot('visitor_log_purged').to.be.captureSelector('.reporting-page', function (page) {
 

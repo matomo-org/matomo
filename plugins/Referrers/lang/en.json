@@ -20,6 +20,7 @@
         "EvolutionDocumentationMoreInfo": "For more information about the different referrer types, see the documentation of the %s table.",
         "Keywords": "Keywords",
         "KeywordsReportDocumentation": "This report shows which keywords users were searching for before they were referred to your website. %s By clicking on a row in the table, you can see the distribution of search engines that were queried for the keyword.",
+        "KeywordsReportDocumentationNote": "Note: This report lists most keywords as not defined, because most search engines do not send the exact keyword used on the search engine.",
         "PluginDescription": "Reports the Referrers data: Search Engines, Keywords, Websites, Campaigns, Social media, Direct entry.",
         "Referrer": "Referrer",
         "ReferrerName": "Referrer Name",
@@ -35,7 +36,7 @@
         "Socials": "Social Networks",
         "SocialsReportDocumentation": "This report shows which social networks led visitors to your website.<br \/>By clicking on a row in the table, you can see from which social network pages visitors came to your website.",
         "SubmenuSearchEngines": "Search Engines & Keywords",
-        "SubmenuWebsites": "Websites & Social",
+        "SubmenuWebsitesOnly": "Websites",
         "Type": "Referrer Type",
         "TypeCampaigns": "%s from campaigns",
         "TypeDirectEntries": "%s direct entries",
@@ -52,6 +53,7 @@
         "WidgetGetAll": "All Referrers",
         "WidgetSocials": "List of social networks",
         "WidgetTopKeywordsForPages": "Top Keywords for Page URL",
-        "XPercentOfVisits": "%s of visits"
+        "XPercentOfVisits": "%s of visits",
+        "Acquisition": "Acquisition"
     }
 }

@@ -21,16 +21,16 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureTopMenu(MenuTop $menu)
     {
-        // $menu->addItem('My Top Item', null, $this->urlForDefaultAction(), $orderId = 30);
+        // $menu->addItem('ExamplePlugin_MyTopItem', null, $this->urlForDefaultAction(), $orderId = 30);
     }
 
     public function configureAdminMenu(MenuAdmin $menu)
     {
         // reuse an existing category. Execute the showList() method within the controller when menu item was clicked
-        // $menu->addManageItem('My User Item', $this->urlForAction('showList'), $orderId = 30);
-        // $menu->addPlatformItem('My User Item', $this->urlForDefaultAction(), $orderId = 30);
+        // $menu->addManageItem('ExamplePlugin_MyUserItem', $this->urlForAction('showList'), $orderId = 30);
+        // $menu->addPlatformItem('ExamplePlugin_MyUserItem', $this->urlForDefaultAction(), $orderId = 30);
 
         // or create a custom category
-        // $menu->addItem('CoreAdminHome_MenuManage', 'My User Item', $this->urlForDefaultAction(), $orderId = 30);
+        // $menu->addItem('CoreAdminHome_MenuManage', 'ExamplePlugin_MyUserItem', $this->urlForDefaultAction(), $orderId = 30);
     }
 }

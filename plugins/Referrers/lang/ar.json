@@ -16,7 +16,7 @@
         "Referrers": "مرسلو الزوار",
         "SearchEngines": "محركات البحث",
         "SubmenuSearchEngines": "محركات البحث والكلمات الدلالية",
-        "SubmenuWebsites": "مواقع ويب",
+        "SubmenuWebsitesOnly": "المواقع",
         "Type": "نوع المرسل",
         "TypeDirectEntries": "%s وصول مباشر",
         "TypeSearchEngines": "%s من محركات البحث",

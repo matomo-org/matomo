@@ -21,6 +21,20 @@ use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
 use Piwik\Tracker\Cache;
 use Piwik\Cache as PiwikCache;
 
+// Class to cache results of getSuggestedValuesForSegment to prevent it beeing called multiple time for each segment
+class CachedAPI extends API
+{
+    public static $cache = [];
+
+    public function getSuggestedValuesForSegment($segmentName, $idSite)
+    {
+        if (empty(self::$cache[$segmentName . $idSite])) {
+            self::$cache[$segmentName . $idSite] = parent::getSuggestedValuesForSegment($segmentName, $idSite);
+        }
+        return self::$cache[$segmentName . $idSite];
+    }
+}
+
 /**
  * testing a the auto suggest API for all known segments
  *
@@ -33,6 +47,21 @@ class AutoSuggestAPITest extends SystemTestCase
 
     protected static $processed = 0;
     protected static $skipped = array();
+
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+
+        API::setSingletonInstance(CachedAPI::getInstance());
+    }
+
+    public static function tearDownAfterClass()
+    {
+        parent::tearDownAfterClass();
+
+        CachedAPI::$cache = [];
+        API::unsetInstance();
+    }
 
     /**
      * @dataProvider getApiForTesting

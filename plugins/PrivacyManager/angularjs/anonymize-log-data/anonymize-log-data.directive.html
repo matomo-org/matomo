@@ -1,0 +1,142 @@
+<div class="anonymizeLogData">
+
+    <div class="form-group row">
+        <div class="col s12 input-field">
+            <div>
+                <label for="anonymizeSite" class="siteSelectorLabel">Anonymize the data of this site(s)</label>
+                <div piwik-siteselector
+                     class="sites_autocomplete"
+                     ng-model="anonymizeLogData.site"
+                     id="anonymizeSite"
+                     show-all-sites-item="true"
+                     switch-site-on-select="false"
+                     show-selected-site="true"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col s6 input-field">
+            <div>
+                <label for="anonymizeStartDate" class="active">Anonymize all raw data starting from:</label>
+                <input type="text" ng-model="anonymizeLogData.start_date"
+                       class="anonymizeStartDate"
+                       name="anonymizeStartDate">
+            </div>
+        </div>
+        <div class="col s6 input-field">
+            <div>
+                <label for="anonymizeEndDate" class="active">Anonymize all raw data up to:</label>
+                <input type="text" ng-model="anonymizeLogData.end_date"
+                       class="anonymizeEndDate"
+                       name="anonymizeEndDate">
+            </div>
+        </div>
+    </div>
+
+    <div piwik-field uicontrol="checkbox" name="anonymizeIp"
+         title="Anonymize IP"
+         ng-model="anonymizeLogData.anonymizeIp"
+         introduction="Visit"
+         inline-help="This action cannot be undone. If enabled, for all visits during this duration the IP will be anonymized by at least 2 bytes, for example '192.168.xxx.xxx'. If you have currently configured to anonymize by 3 bytes, then this setting will be respected and all IPs will be anonymized by 3 bytes.">
+    </div>
+
+    <div piwik-field uicontrol="checkbox" name="anonymizeLocation"
+         title="Anonymize Location"
+         ng-model="anonymizeLogData.anonymizeLocation"
+         inline-help="This action cannot be undone. Re-evaluates the location based on the anonymized IP (at least 2 bytes of the IP will be anonymized).">
+    </div>
+
+    <div piwik-field uicontrol="checkbox" name="anonymizeTheUserId"
+         title="Replace User ID with a pseudonym"
+         ng-model="anonymizeLogData.anonymizeUserId"
+         inline-help="When you enable this option, the User ID will be replaced by a pseudonym to avoid directly storing and displaying personally identifiable information such as an email address. In technical terms: given your User ID, Matomo will process the User ID pseudonym using a salted hash function.<br/><br/><em>Note: replacing with a pseudonym is not the same as anonymisation. In GDPR terms: the User ID pseudonym still counts as personal data. The original User ID could still be identified if certain additional information is available (which only Matomo and your data processor has access to).</em>">
+    </div>
+
+    <div class="form-group row">
+        <div class="col s12 m6">
+            <div>
+                <label for="visit_columns">Unset visit columns</label>
+
+                <div ng-repeat="(index, visitColumn) in anonymizeLogData.selectedVisitColumns"
+                     class="selectedVisitColumns selectedVisitColumns{{ index }} multiple valign-wrapper">
+
+                    <div piwik-field uicontrol="select" name="visit_columns"
+                         class="innerFormField"
+                         full-width="true"
+                         ng-model="anonymizeLogData.selectedVisitColumns[index].column"
+                         ng-change="anonymizeLogData.onVisitColumnChange();"
+                         options="anonymizeLogData.availableVisitColumns">
+                    </div>
+
+                    <span ng-click="anonymizeLogData.removeVisitColumn(index)"
+                          title="{{ 'General_Remove'|translate }}"
+                          ng-hide="(index + 1) == (anonymizeLogData.selectedVisitColumns|length)"
+                          class="icon-minus valign"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m6">
+            <div class="form-help">
+                <span class="inline-help">
+                    This action cannot be undone. A list of database columns in scope visit that you want to unset.
+                    Each value for that column will be set to its default value. Please note that if the same
+                    column exists in scope 'conversion', then this column will be deleted as well
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col s12"><h3>Action</h3></div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col s12 m6">
+            <div>
+                <label for="action_columns">Unset action columns</label>
+
+                <div ng-repeat="(index, actionColumn) in anonymizeLogData.selectedActionColumns"
+                     class="selectedActionColumns selectedActionColumns{{ index }} multiple valign-wrapper">
+
+                    <div piwik-field uicontrol="select" name="action_columns"
+                         class="innerFormField"
+                         full-width="true"
+                         ng-model="anonymizeLogData.selectedActionColumns[index].column"
+                         ng-change="anonymizeLogData.onActionColumnChange();"
+                         options="anonymizeLogData.availableActionColumns">
+                    </div>
+
+                    <span ng-click="anonymizeLogData.removeActionColumn(index)"
+                          title="{{ 'General_Remove'|translate }}"
+                          ng-hide="(index + 1) == (anonymizeLogData.selectedActionColumns|length)"
+                          class="icon-minus valign"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m6">
+            <div class="form-help">
+                <span class="inline-help">
+                    This action cannot be undone. A list of database columns in scope action that you want to unset. Each value for that column will be set to its default value.
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <p><span class="icon-info"></span> This action may take a long time and will therefore not be executed right away. You will be able to follow the current state of the process below. The anonymization should typically start within one hour.</p>
+
+    <div piwik-save-button
+         class="anonymizePastData"
+         onconfirm="anonymizeLogData.scheduleAnonymization()"
+         disabled="!anonymizeLogData.anonymizeIp && !anonymizeLogData.anonymizeLocation && !anonymizeLogData.selectedVisitColumns && !anonymizeLogData.selectedActionColumns"
+         value="Anonymize past data for the selected site and time">
+    </div>
+
+    <div class="ui-confirm" id="confirmAnonymizeLogData">
+        <h2>Are you sure you want to anonymize the data for the selected website(s) and time range? This action cannot be undone, data may be deleted as requested, and this process may take a long time.</h2>
+        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+    </div>
+</div>

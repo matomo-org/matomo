@@ -14,7 +14,7 @@
         "Distinct": "Forskellige kilder efter kildetype",
         "DistinctCampaigns": "forskellige kampagner",
         "DistinctKeywords": "forskellige søgeord",
-        "DistinctSearchEngines": "forskellige søgemaskine",
+        "DistinctSearchEngines": "forskellige søgemaskiner",
         "DistinctWebsites": "forskellige hjemmesider",
         "EvolutionDocumentation": "Oversigt over henvisninger, der førte besøgende til hjemmesiden.",
         "EvolutionDocumentationMoreInfo": "Flere oplysninger om de forskellige henvisnings typer findes i dokumentationen af tabellen %s.",
@@ -33,7 +33,7 @@
         "Socials": "Sociale netværk",
         "SocialsReportDocumentation": "Rapporten viser, hvilke sociale netværk der førte besøgende til hjemmesiden.<br\/> Ved at klikke på en række i tabellen, kan du se, fra hvilke sociale netværkssider besøgende kom til hjemmesiden.",
         "SubmenuSearchEngines": "Søgemaskine og søgeord",
-        "SubmenuWebsites": "Hjemmesider",
+        "SubmenuWebsitesOnly": "Hjemmesider",
         "Type": "Henvisningstype",
         "TypeCampaigns": "%s fra kampagner",
         "TypeDirectEntries": "%s direkte træf",
@@ -50,6 +50,7 @@
         "WidgetGetAll": "Alle henvisninger",
         "WidgetSocials": "Liste af sociale netværk",
         "WidgetTopKeywordsForPages": "Top søgeord til side URL",
-        "XPercentOfVisits": "%s af besøg"
+        "XPercentOfVisits": "%s af besøg",
+        "Acquisition": "Anskaffelse"
     }
 }

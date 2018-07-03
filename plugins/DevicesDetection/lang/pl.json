@@ -37,6 +37,8 @@
         "Smartphone": "Smartfon",
         "PortableMediaPlayer": "Odtwarzacz przenośny",
         "Devices": "Urządzenia",
+        "GenericDevice": "Nieznany %s",
+        "MobileDevice": "Urządzenie przenośne",
         "Tablet": "Tablet",
         "Phablet": "Phablet",
         "TV": "TV",

@@ -18,7 +18,7 @@ describe("Morpheus", function () {
 
     it("should show all UI components and CSS classes", function (done) {
         expect.screenshot('load').to.be.capture(function (page) {
-            page.load(url, 2500);
+            page.load(url, 4000);
         }, done);
     });
 });

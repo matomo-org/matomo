@@ -108,7 +108,7 @@
       "documentation":"",
       "changelog":""},"download":null}],"isDownloadable":false,"changelog":{"url":""},"consumer":{"license":{"startDate":"2014-05-27 04:46:05",
     "endDate":"2014-06-01 06:22:35",
-    "nextPaymentDate":null,"status":"Cancelled",
+    "nextPaymentDate":null,"status":"On Hold",
     "productType":"Up to 4 users",
     "isValid":false,"isExceeded":false,"isExpiredSoon":false},"loginUrl":"https:\/\/shop.piwik.org\/my-account"}},{"name":"PaidPlugin2",
   "displayName":"Paid Plugin 2",

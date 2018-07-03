@@ -30,7 +30,7 @@
         "Socials": "Jejaring Sosial",
         "SocialsReportDocumentation": "Laporan ini menampilkan jejaring sosial yang mengarahkan pengunjung ke situs Anda.<br \/>Dengan mengeklik sebuah baris di tabel, Anda dapat melihat dari halaman jejaring sosial mana pengunjung mendatangi situs Anda.",
         "SubmenuSearchEngines": "Mesin Pencari & Kata Kunci",
-        "SubmenuWebsites": "Situs",
+        "SubmenuWebsitesOnly": "Situs",
         "Type": "Jenis Pengarah",
         "TypeCampaigns": "%s dari kampanye",
         "TypeDirectEntries": "%s masukkan langsung",

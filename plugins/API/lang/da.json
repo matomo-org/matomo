@@ -11,6 +11,6 @@
         "UserAuthentication": "Brugergodkendelse",
         "UsingTokenAuth": "Hvis du ønsker at %1$s hente data i et script, med crontab, m.m. %2$s skal du tilføje parameteren %3$s til API-kaldes netadresse, som kræver godkendelse.",
         "Glossary": "Ordliste",
-        "LearnAboutCommonlyUsedTerms": "Lær om de hyppigst brugter termer for at få det bedste ud af Matomo Analytics: %1$s og %2$s"
+        "LearnAboutCommonlyUsedTerms2": "Forstå de hyppigst anvendte ord for at få mest muligt ud af Matomo."
     }
 }

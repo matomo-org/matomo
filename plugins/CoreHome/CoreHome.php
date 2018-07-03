@@ -13,6 +13,7 @@ use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
+use Piwik\SettingsServer;
 
 /**
  *
@@ -45,7 +46,7 @@ class CoreHome extends \Piwik\Plugin
     {
         $isApi = Piwik::getModule() === 'API' && (Piwik::getAction() == '' || Piwik::getAction() == 'index');
 
-        if ($isApi) {
+        if (!SettingsServer::isTrackerApiRequest() && $isApi) {
             // will be checked in API itself to make sure we return an API response in the proper format.
             return;
         }
@@ -115,6 +116,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/date-range-picker/date-range-picker.component.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/period-date-picker/period-date-picker.component.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -254,6 +256,9 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/period-selector/period-selector.controller.js";
 
+        $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.controller.js";
+
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
@@ -287,9 +292,11 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_InvalidDateRange';
         $translationKeys[] = 'General_Loading';
         $translationKeys[] = 'General_Show';
+        $translationKeys[] = 'General_Remove';
         $translationKeys[] = 'General_Hide';
         $translationKeys[] = 'General_Save';
         $translationKeys[] = 'General_Website';
+        $translationKeys[] = 'General_RowsToDisplay';
         $translationKeys[] = 'Intl_Year_Short';
         $translationKeys[] = 'General_MultiSitesSummary';
         $translationKeys[] = 'General_SearchNoResults';
@@ -302,6 +309,9 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_DataTableExcludeAggregateRows';
         $translationKeys[] = 'CoreHome_Default';
         $translationKeys[] = 'CoreHome_PageOf';
+        $translationKeys[] = 'CoreHome_FormatMetrics';
+        $translationKeys[] = 'CoreHome_ShowExportUrl';
+        $translationKeys[] = 'CoreHome_HideExportUrl';
         $translationKeys[] = 'CoreHome_FlattenDataTable';
         $translationKeys[] = 'CoreHome_UnFlattenDataTable';
         $translationKeys[] = 'CoreHome_ExternalHelp';

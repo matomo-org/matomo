@@ -177,6 +177,7 @@
         "NumberOfVisits": "Külastuste arv",
         "NUsers": "%s kasutajaid",
         "NVisits": "%s külastust",
+        "NUniqueVisitors": "%s unikaalset külastajat",
         "Ok": "Ok",
         "OneAction": "1 tegevus",
         "OneVisit": "1 külastus",

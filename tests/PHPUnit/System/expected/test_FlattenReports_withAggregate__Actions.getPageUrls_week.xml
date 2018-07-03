@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>dir1</label>
+		<label>/dir1</label>
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -25,7 +25,7 @@
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
-		<label>dir1/sub</label>
+		<label>/dir1/sub</label>
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -49,7 +49,7 @@
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
-		<label>dir1/sub/dir</label>
+		<label>/dir1/sub/dir</label>
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -73,7 +73,7 @@
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
-		<label>dir2</label>
+		<label>/dir2</label>
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -97,7 +97,7 @@
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
-		<label>dir2/sub</label>
+		<label>/dir2/sub</label>
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -121,7 +121,7 @@
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
-		<label>dir2/sub/dir</label>
+		<label>/dir2/sub/dir</label>
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -145,7 +145,7 @@
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
-		<label>dir3</label>
+		<label>/dir3</label>
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -169,7 +169,7 @@
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
-		<label>dir3/sub</label>
+		<label>/dir3/sub</label>
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -193,7 +193,7 @@
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
-		<label>dir3/sub/dir</label>
+		<label>/dir3/sub/dir</label>
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -217,7 +217,7 @@
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
-		<label>dir1/sub/dir/page0.html</label>
+		<label>/dir1/sub/dir/page0.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -244,7 +244,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir1%2Fsub%2Fdir%2Fpage0.html</segment>
 	</row>
 	<row>
-		<label>dir1/sub/dir/page1.html</label>
+		<label>/dir1/sub/dir/page1.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -266,7 +266,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir1%2Fsub%2Fdir%2Fpage1.html</segment>
 	</row>
 	<row>
-		<label>dir1/sub/dir/page2.html</label>
+		<label>/dir1/sub/dir/page2.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -290,7 +290,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir1%2Fsub%2Fdir%2Fpage2.html</segment>
 	</row>
 	<row>
-		<label>dir2/sub/dir/page0.html</label>
+		<label>/dir2/sub/dir/page0.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -317,7 +317,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir2%2Fsub%2Fdir%2Fpage0.html</segment>
 	</row>
 	<row>
-		<label>dir2/sub/dir/page1.html</label>
+		<label>/dir2/sub/dir/page1.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -339,7 +339,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir2%2Fsub%2Fdir%2Fpage1.html</segment>
 	</row>
 	<row>
-		<label>dir2/sub/dir/page2.html</label>
+		<label>/dir2/sub/dir/page2.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -363,7 +363,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir2%2Fsub%2Fdir%2Fpage2.html</segment>
 	</row>
 	<row>
-		<label>dir3/sub/dir/page0.html</label>
+		<label>/dir3/sub/dir/page0.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -390,7 +390,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir3%2Fsub%2Fdir%2Fpage0.html</segment>
 	</row>
 	<row>
-		<label>dir3/sub/dir/page1.html</label>
+		<label>/dir3/sub/dir/page1.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -412,7 +412,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir3%2Fsub%2Fdir%2Fpage1.html</segment>
 	</row>
 	<row>
-		<label>dir3/sub/dir/page2.html</label>
+		<label>/dir3/sub/dir/page2.html</label>
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -436,7 +436,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fdir3%2Fsub%2Fdir%2Fpage2.html</segment>
 	</row>
 	<row>
-		<label>page1.html</label>
+		<label>/page1.html</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -460,7 +460,7 @@
 		<segment>pageUrl==http%3A%2F%2Fexample.org%2Fpage1.html</segment>
 	</row>
 	<row>
-		<label>sub</label>
+		<label>/sub</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -483,7 +483,7 @@
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
-		<label>sub/dir</label>
+		<label>/sub/dir</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -506,7 +506,7 @@
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
-		<label>sub/dir/dir1</label>
+		<label>/sub/dir/dir1</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
@@ -529,7 +529,7 @@
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
-		<label>sub/dir/dir1/page1.html</label>
+		<label>/sub/dir/dir1/page1.html</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
 		<sum_time_spent>0</sum_time_spent>

@@ -10,24 +10,6 @@
 describe("ReportExporting", function () {
     this.timeout(0);
 
-    function setWindowOpen(page) {
-        page.evaluate(function(){
-            window.downloadUrl = null;
-            window.openBackup = window.open;
-
-            window.open = function(url) {
-                window.downloadUrl = url;
-                return false;
-            }
-        })
-    }
-
-    function unsetWindowOpen(page) {
-        page.evaluate(function() {
-            window.open = window.openBackup;
-        });
-    }
-
     var baseUrl = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&isFooterExpandedInDashboard=1",
         referrersGetWebsitesUrl = baseUrl + "&moduleToWidgetize=Referrers&actionToWidgetize=getWebsites&filter_limit=5",
         visitsSummaryGetUrl = baseUrl + "&moduleToWidgetize=VisitsSummary&actionToWidgetize=get&forceView=1&viewDataTable=graphEvolution";
@@ -39,29 +21,16 @@ describe("ReportExporting", function () {
                 if (page.getCurrentUrl() != referrersGetWebsitesUrl) {
                     page.load(referrersGetWebsitesUrl);
                     page.click('.activateExportSelection');
-                    page.evaluate(function(){
-                        $('<a>').attr('id', 'downloadLink').appendTo('body');
-                    });
                 }
 
-                setWindowOpen(page);
 
                 page.click('[name=format] input[value='+format+'] + label', 100);
                 page.click('[name=filter_limit_all] input[value=no] + label', 100);
                 page.evaluate(function(){
                     $('[name=filter_limit] input').val(100).trigger('change');
                 });
-                page.click('[ng-click="processExport()"]', 100);
 
-                unsetWindowOpen(page);
-
-                page.execCallback(function () {
-                    page.webpage.evaluate(function () {
-                        $('a#downloadLink').attr('href', window.downloadUrl);
-                    });
-                });
-
-                page.downloadLink('a#downloadLink');
+                page.downloadLink('#reportExport a.btn');
             }, done);
         });
     }
@@ -72,29 +41,15 @@ describe("ReportExporting", function () {
                 if (page.getCurrentUrl() != visitsSummaryGetUrl) {
                     page.load(visitsSummaryGetUrl);
                     page.click('.activateExportSelection');
-                    page.evaluate(function(){
-                        $('<a>').attr('id', 'downloadLink').appendTo('body');
-                    });
                 }
-
-                setWindowOpen(page);
 
                 page.click('[name=format] input[value='+format+'] + label', 100);
                 page.click('[name=filter_limit_all] input[value=no] + label', 100);
                 page.evaluate(function(){
                     $('[name=filter_limit] input').val(100).trigger('change');
                 });
-                page.click('[ng-click="processExport()"]', 100);
 
-                unsetWindowOpen(page);
-
-                page.execCallback(function () {
-                    page.webpage.evaluate(function () {
-                        $('a#downloadLink').attr('href', window.downloadUrl);
-                    });
-                });
-
-                page.downloadLink('a#downloadLink');
+                page.downloadLink('#reportExport a.btn');
             }, done);
         });
     }
@@ -108,29 +63,15 @@ describe("ReportExporting", function () {
                     page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
                     page.click('a.actionRowEvolution:visible');
                     page.click('.ui-dialog .activateExportSelection');
-                    page.evaluate(function(){
-                        $('<a>').attr('id', 'downloadLink').appendTo('body');
-                    });
                 }
-
-                setWindowOpen(page);
 
                 page.click('[name=format] input[value='+format+'] + label', 100);
                 page.click('[name=filter_limit_all] input[value=no] + label', 100);
                 page.evaluate(function(){
                     $('[name=filter_limit] input').val(100).trigger('change');
                 });
-                page.click('[ng-click="processExport()"]', 100);
 
-                unsetWindowOpen(page);
-
-                page.execCallback(function () {
-                    page.webpage.evaluate(function () {
-                        $('a#downloadLink').attr('href', window.downloadUrl);
-                    });
-                });
-
-                page.downloadLink('a#downloadLink');
+                page.downloadLink('#reportExport a.btn');
             }, done);
         });
     }

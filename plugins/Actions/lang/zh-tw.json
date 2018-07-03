@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "站內搜尋關鍵字",
         "WidgetSearchNoResultKeywords": "查無資料的關鍵字",
         "ActionType": "活動類型",
-        "ActionTypes": "活動類型"
+        "ActionTypes": "活動類型",
+        "Behaviour": "行為"
     }
 }

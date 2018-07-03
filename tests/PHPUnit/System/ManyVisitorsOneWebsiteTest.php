@@ -53,13 +53,13 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
                                     'date'       => $dateTime,
                                     'periods'    => array('month'),
                                     'testSuffix' => '_segment_region',
-                                    'segment'    => 'regionCode==P3;countryCode==gb')),
+                                    'segment'    => 'regionCode==WAR;countryCode==gb')),
 
             array($apiToCall, array('idSite'     => $idSite,
                                     'date'       => $dateTime,
                                     'periods'    => array('month'),
                                     'testSuffix' => '_segment_city',
-                                    'segment'    => 'city==Stratford-upon-Avon;regionCode==P3;countryCode==gb')),
+                                    'segment'    => 'city==Stratford-upon-Avon;regionCode==WAR;countryCode==gb')),
 
             array($apiToCall, array('idSite'     => $idSite,
                                     'date'       => $dateTime,
@@ -110,7 +110,7 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
             array(array('UserCountry.getLocationFromIP'), array(
                 'testSuffix' => '_IPv6',
                 'otherRequestParameters' => array(
-                    'ip' => '2001:db8:85a3:0:0:8a2e:370:7334',
+                    'ip' => '2003:f6:93bf:26f:9ec7:a6ff:fe29:27df',
                 )
             )),
         );

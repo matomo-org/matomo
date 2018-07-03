@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('LocationProviderUpdaterController', LocationProviderUpdaterController);
 
-    LocationProviderUpdaterController.$inject = ['piwikApi'];
+    LocationProviderUpdaterController.$inject = ['piwikApi', '$window'];
 
-    function LocationProviderUpdaterController(piwikApi) {
+    function LocationProviderUpdaterController(piwikApi, $window) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
         var self = this;
 
@@ -33,7 +33,7 @@
                     callback(response);
                 } else {
                     // update progress bar
-                    var newProgressVal = Math.ceil((response.current_size / response.expected_file_size) * 100);
+                    var newProgressVal = Math.floor((response.current_size / response.expected_file_size) * 100);
                     self[progressBarId] = Math.min(newProgressVal, 100);
 
                     // if incomplete, download next chunk, otherwise, show updater manager
@@ -66,7 +66,7 @@
                         $('#geoipdb-update-info').html(response.error);
                         self.geoipDatabaseInstalled = true;
                     } else {
-                        self.showGeoIpUpdateInfo();
+                        $window.location.reload();
                     }
                 }
             );
@@ -136,7 +136,7 @@
             piwikApi.post({
                 period: this.updatePeriod,
                 module: 'UserCountry',
-                action: 'updateGeoIPLinks',
+                action: 'updateGeoIPLinks'
             }, {
                 loc_db: this.locationDbUrl,
                 isp_db: this.ispDbUrl,

@@ -121,7 +121,7 @@ class NumberFormatterTest extends \PHPUnit_Framework_TestCase
             array('en', -5000000, 0, 0, '-5,000,000%'),
 
             // foreign languages
-            array('ar', 51239.56, 3, 0, '51٬239٫56 ٪؜'),
+            array('ar', 51239.56, 3, 0, '51٬239٫56٪؜'),
             array('be', 51239.56, 3, 0, '51 239,56 %'),
             array('de', 51239.56, 3, 0, '51.239,56 %'),
             array('bn', 152551239.56, 3, 0, '152,551,239.56%'),

@@ -45,6 +45,7 @@
                                 widget.parameters.widget = '1';
                                 angular.forEach(widget.widgets, function (widget) {
                                     widget.parameters.widget = '1';
+                                    widget.parameters.containerId = containerId;
                                 });
                             }
                             scope.widget = widget;
@@ -96,6 +97,25 @@
                     } else if (attrs.containerid) {
                         findContainerWidget(attrs.containerid, scope);
                     }
+
+                    $(element).tooltip({
+                        track: true,
+                        content: function() {
+                            var title = $(this).attr('title');
+                            return piwikHelper.escape(title.replace(/\n/g, '<br />'));
+                        },
+                        show: false,
+                        hide: false
+                    });
+
+                    scope.$on(
+                        "$destroy",
+                        function () {
+                            try {
+                                $(element).tooltip('destroy');
+                            } catch (e) {}
+                        }
+                    );
                 }
             }
         };

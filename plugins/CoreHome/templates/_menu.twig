@@ -27,7 +27,13 @@
                                     >
                                         <a class="item" tabindex="5" target="_self"
                                            title="{{ urlParameters._tooltip|default('')|translate|e('html_attr') }}"
-                                           href="index.php?{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}">
+                                            {% if urlParameters._onclick is defined and urlParameters._onclick %}
+                                                onclick="{{ urlParameters._onclick|e('html_attr') }};return false;"
+                                            {% endif %}
+                                            {% if urlParameters._url %}
+                                                href="index.php?{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}"
+                                            {% endif %}>
+                                            {% if urlParameters._icon is defined and urlParameters._icon %}<span class="icon {{ urlParameters._icon|e('html_attr') }}" style="margin-right: 5px;"></span>{% endif %}
                                             {{ name|translate }}
                                         </a>
                                     </li>

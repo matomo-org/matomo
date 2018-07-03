@@ -98,9 +98,9 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
                     // The `getUTCFullYear`, `Month`, and `Date` methods return nonsensical
                     // results for certain dates in Opera >= 10.53.
                     isExtended = isExtended.getUTCFullYear() == -109252 && isExtended.getUTCMonth() === 0 && isExtended.getUTCDate() === 1 &&
-                            // Safari < 2.0.2 stores the internal millisecond time value correctly,
-                            // but clips the values returned by the date methods to the range of
-                            // signed 32-bit integers ([-2 ** 31, 2 ** 31 - 1]).
+                        // Safari < 2.0.2 stores the internal millisecond time value correctly,
+                        // but clips the values returned by the date methods to the range of
+                        // signed 32-bit integers ([-2 ** 31, 2 ** 31 - 1]).
                         isExtended.getUTCHours() == 10 && isExtended.getUTCMinutes() == 37 && isExtended.getUTCSeconds() == 6 && isExtended.getUTCMilliseconds() == 708;
                 } catch (exception) {}
 
@@ -135,54 +135,54 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
                                         // Firefox 3.1b1 and b2 serialize string, number, and boolean
                                         // primitives as object literals.
                                         stringify(0) === "0" &&
-                                            // FF 3.1b1, b2, and JSON 2 serialize wrapped primitives as object
-                                            // literals.
+                                        // FF 3.1b1, b2, and JSON 2 serialize wrapped primitives as object
+                                        // literals.
                                         stringify(new Number()) === "0" &&
                                         stringify(new String()) == '""' &&
-                                            // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
-                                            // does not define a canonical JSON representation (this applies to
-                                            // objects with `toJSON` properties as well, *unless* they are nested
-                                            // within an object or array).
+                                        // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
+                                        // does not define a canonical JSON representation (this applies to
+                                        // objects with `toJSON` properties as well, *unless* they are nested
+                                        // within an object or array).
                                         stringify(getClass) === undef &&
-                                            // IE 8 serializes `undefined` as `"undefined"`. Safari <= 5.1.7 and
-                                            // FF 3.1b3 pass this test.
+                                        // IE 8 serializes `undefined` as `"undefined"`. Safari <= 5.1.7 and
+                                        // FF 3.1b3 pass this test.
                                         stringify(undef) === undef &&
-                                            // Safari <= 5.1.7 and FF 3.1b3 throw `Error`s and `TypeError`s,
-                                            // respectively, if the value is omitted entirely.
+                                        // Safari <= 5.1.7 and FF 3.1b3 throw `Error`s and `TypeError`s,
+                                        // respectively, if the value is omitted entirely.
                                         stringify() === undef &&
-                                            // FF 3.1b1, 2 throw an error if the given value is not a number,
-                                            // string, array, object, Boolean, or `null` literal. This applies to
-                                            // objects with custom `toJSON` methods as well, unless they are nested
-                                            // inside object or array literals. YUI 3.0.0b1 ignores custom `toJSON`
-                                            // methods entirely.
+                                        // FF 3.1b1, 2 throw an error if the given value is not a number,
+                                        // string, array, object, Boolean, or `null` literal. This applies to
+                                        // objects with custom `toJSON` methods as well, unless they are nested
+                                        // inside object or array literals. YUI 3.0.0b1 ignores custom `toJSON`
+                                        // methods entirely.
                                         stringify(value) === "1" &&
                                         stringify([value]) == "[1]" &&
-                                            // Prototype <= 1.6.1 serializes `[undefined]` as `"[]"` instead of
-                                            // `"[null]"`.
+                                        // Prototype <= 1.6.1 serializes `[undefined]` as `"[]"` instead of
+                                        // `"[null]"`.
                                         stringify([undef]) == "[null]" &&
-                                            // YUI 3.0.0b1 fails to serialize `null` literals.
+                                        // YUI 3.0.0b1 fails to serialize `null` literals.
                                         stringify(null) == "null" &&
-                                            // FF 3.1b1, 2 halts serialization if an array contains a function:
-                                            // `[1, true, getClass, 1]` serializes as "[1,true,],". FF 3.1b3
-                                            // elides non-JSON values from objects and arrays, unless they
-                                            // define custom `toJSON` methods.
+                                        // FF 3.1b1, 2 halts serialization if an array contains a function:
+                                        // `[1, true, getClass, 1]` serializes as "[1,true,],". FF 3.1b3
+                                        // elides non-JSON values from objects and arrays, unless they
+                                        // define custom `toJSON` methods.
                                         stringify([undef, getClass, null]) == "[null,null,null]" &&
-                                            // Simple serialization test. FF 3.1b1 uses Unicode escape sequences
-                                            // where character escape codes are expected (e.g., `\b` => `\u0008`).
+                                        // Simple serialization test. FF 3.1b1 uses Unicode escape sequences
+                                        // where character escape codes are expected (e.g., `\b` => `\u0008`).
                                         stringify({ "a": [value, true, false, null, "\x00\b\n\f\r\t"] }) == serialized &&
-                                            // FF 3.1b1 and b2 ignore the `filter` and `width` arguments.
+                                        // FF 3.1b1 and b2 ignore the `filter` and `width` arguments.
                                         stringify(null, value) === "1" &&
                                         stringify([1, 2], null, 1) == "[\n 1,\n 2\n]" &&
-                                            // JSON 2, Prototype <= 1.7, and older WebKit builds incorrectly
-                                            // serialize extended years.
+                                        // JSON 2, Prototype <= 1.7, and older WebKit builds incorrectly
+                                        // serialize extended years.
                                         stringify(new Date(-8.64e15)) == '"-271821-04-20T00:00:00.000Z"' &&
-                                            // The milliseconds are optional in ES 5, but required in 5.1.
+                                        // The milliseconds are optional in ES 5, but required in 5.1.
                                         stringify(new Date(8.64e15)) == '"+275760-09-13T00:00:00.000Z"' &&
-                                            // Firefox <= 11.0 incorrectly serializes years prior to 0 as negative
-                                            // four-digit years instead of six-digit years. Credits: @Yaffle.
+                                        // Firefox <= 11.0 incorrectly serializes years prior to 0 as negative
+                                        // four-digit years instead of six-digit years. Credits: @Yaffle.
                                         stringify(new Date(-621987552e5)) == '"-000001-01-01T00:00:00.000Z"' &&
-                                            // Safari <= 5.1.5 and Opera >= 10.53 incorrectly serialize millisecond
-                                            // values less than 1000. Credits: @Yaffle.
+                                        // Safari <= 5.1.5 and Opera >= 10.53 incorrectly serialize millisecond
+                                        // values less than 1000. Credits: @Yaffle.
                                         stringify(new Date(-1)) == '"1969-12-31T23:59:59.999Z"';
                                 } catch (exception) {
                                     stringifySupported = false;
@@ -470,10 +470,10 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
                                         // Serialize extended years correctly.
                                         value = (year <= 0 || year >= 1e4 ? (year < 0 ? "-" : "+") + toPaddedString(6, year < 0 ? -year : year) : toPaddedString(4, year)) +
                                             "-" + toPaddedString(2, month + 1) + "-" + toPaddedString(2, date) +
-                                                // Months, dates, hours, minutes, and seconds should have two
-                                                // digits; milliseconds should have three.
+                                            // Months, dates, hours, minutes, and seconds should have two
+                                            // digits; milliseconds should have three.
                                             "T" + toPaddedString(2, hours) + ":" + toPaddedString(2, minutes) + ":" + toPaddedString(2, seconds) +
-                                                // Milliseconds are optional in ES 5.0, but required in 5.1.
+                                            // Milliseconds are optional in ES 5.0, but required in 5.1.
                                             "." + toPaddedString(3, milliseconds) + "Z";
                                     } else {
                                         value = null;
@@ -986,6 +986,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle, getPiwikUrl, getCurrentUrl,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
+    getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, setConsentGiven,
+    rememberConsentGiven, forgetConsentGiven, unload, hasConsent,
     discardHashTag,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
@@ -1012,7 +1014,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     CONTENT_ATTR, CONTENT_CLASS, CONTENT_NAME_ATTR, CONTENT_PIECE_ATTR, CONTENT_PIECE_CLASS,
     CONTENT_TARGET_ATTR, CONTENT_TARGET_CLASS, CONTENT_IGNOREINTERACTION_ATTR, CONTENT_IGNOREINTERACTION_CLASS,
     trackCallbackOnLoad, trackCallbackOnReady, buildContentImpressionsRequests, wasContentImpressionAlreadyTracked,
-    getQuery, getContent, getContentImpressionsRequestsFromNodes, buildContentInteractionTrackingRedirectUrl,
+    getQuery, getContent, setVisitorId, getContentImpressionsRequestsFromNodes, buildContentInteractionTrackingRedirectUrl,
     buildContentInteractionRequestNode, buildContentInteractionRequest, buildContentImpressionRequest,
     appendContentInteractionToRequestIfPossible, setupInteractionsTracking, trackContentImpressionClickInteraction,
     internalIsNodeVisible, clearTrackedContentImpressions, getTrackerUrl, trackAllContentImpressions,
@@ -1027,7 +1029,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     getConfigIdPageView, newVisitor, uuid, createTs, visitCount, currentVisitTs, lastVisitTs, lastEcommerceOrderTs,
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
-    sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst
+    sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
+    optUserOut, forgetUserOptOut, isUserOptedOut
  */
 /*global _paq:true */
 /*members push */
@@ -1092,6 +1095,8 @@ if (typeof window.Piwik !== 'object') {
             Piwik,
 
             missedPluginTrackerCalls = [],
+
+            coreConsentCounter = 0,
 
             isPageUnloading = false;
 
@@ -1287,7 +1292,7 @@ if (typeof window.Piwik !== 'object') {
             if (documentAlias.readyState === 'complete') {
                 callback();
             } else if (windowAlias.addEventListener) {
-                windowAlias.addEventListener('load', callback);
+                windowAlias.addEventListener('load', callback, false);
             } else if (windowAlias.attachEvent) {
                 windowAlias.attachEvent('onload', callback);
             }
@@ -1668,18 +1673,18 @@ if (typeof window.Piwik !== 'object') {
             }
 
             switch (str_len & 3) {
-            case 0:
-                i = 0x080000000;
-                break;
-            case 1:
-                i = str.charCodeAt(str_len - 1) << 24 | 0x0800000;
-                break;
-            case 2:
-                i = str.charCodeAt(str_len - 2) << 24 | str.charCodeAt(str_len - 1) << 16 | 0x08000;
-                break;
-            case 3:
-                i = str.charCodeAt(str_len - 3) << 24 | str.charCodeAt(str_len - 2) << 16 | str.charCodeAt(str_len - 1) << 8 | 0x80;
-                break;
+                case 0:
+                    i = 0x080000000;
+                    break;
+                case 1:
+                    i = str.charCodeAt(str_len - 1) << 24 | 0x0800000;
+                    break;
+                case 2:
+                    i = str.charCodeAt(str_len - 2) << 24 | str.charCodeAt(str_len - 1) << 16 | 0x08000;
+                    break;
+                case 3:
+                    i = str.charCodeAt(str_len - 3) << 24 | str.charCodeAt(str_len - 2) << 16 | str.charCodeAt(str_len - 1) << 8 | 0x80;
+                    break;
             }
 
             word_array.push(i);
@@ -1778,8 +1783,8 @@ if (typeof window.Piwik !== 'object') {
                 href = getUrlParameter(href, 'u');
                 hostName = getHostName(href);
             } else if (hostName === 'cc.bingj.com' ||                   // Bing
-                    hostName === 'webcache.googleusercontent.com' ||    // Google
-                    hostName.slice(0, 5) === '74.6.') {                 // Yahoo (via Inktomi 74.6.0.0/16)
+                hostName === 'webcache.googleusercontent.com' ||    // Google
+                hostName.slice(0, 5) === '74.6.') {                 // Yahoo (via Inktomi 74.6.0.0/16)
                 href = documentAlias.links[0].href;
                 hostName = getHostName(href);
             }
@@ -1991,11 +1996,11 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 if (!isDefined(t) ||
-                        !isDefined(r) ||
-                        !isDefined(b) ||
-                        !isDefined(l) ||
-                        !isDefined(w) ||
-                        !isDefined(h)) {
+                    !isDefined(r) ||
+                    !isDefined(b) ||
+                    !isDefined(l) ||
+                    !isDefined(w) ||
+                    !isDefined(h)) {
                     t = el.offsetTop;
                     l = el.offsetLeft;
                     b = t + el.offsetHeight;
@@ -2016,11 +2021,11 @@ if (typeof window.Piwik !== 'object') {
                         if (
                             //-- If the target element is to the right of the parent elm
                         l + VISIBLE_PADDING > p.offsetWidth + p.scrollLeft ||
-                            //-- If the target element is to the left of the parent elm
+                        //-- If the target element is to the left of the parent elm
                         l + w - VISIBLE_PADDING < p.scrollLeft ||
-                            //-- If the target element is under the parent elm
+                        //-- If the target element is under the parent elm
                         t + VISIBLE_PADDING > p.offsetHeight + p.scrollTop ||
-                            //-- If the target element is above the parent elm
+                        //-- If the target element is above the parent elm
                         t + h - VISIBLE_PADDING < p.scrollTop
                         ) {
                             //-- Our target element is out of bounds:
@@ -2710,7 +2715,7 @@ if (typeof window.Piwik !== 'object') {
             buildImpressionRequestParams: function (name, piece, target)
             {
                 var params = 'c_n=' + encodeWrapper(name) +
-                             '&c_p=' + encodeWrapper(piece);
+                    '&c_p=' + encodeWrapper(piece);
 
                 if (target) {
                     params += '&c_t=' + encodeWrapper(target);
@@ -2904,7 +2909,7 @@ if (typeof window.Piwik !== 'object') {
 
             // check whether we were redirected from the piwik overlay plugin
             var referrerRegExp = new RegExp('index\\.php\\?module=Overlay&action=startOverlaySession'
-                               + '&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)(&segment=.*)?$');
+                + '&idSite=([0-9]+)&period=([^&]+)&date=([^&]+)(&segment=.*)?$');
 
             var match = referrerRegExp.exec(documentAlias.referrer);
 
@@ -2995,14 +3000,19 @@ if (typeof window.Piwik !== 'object') {
              ************************************************************/
 
             var
-/*<DEBUG>*/
+                /*<DEBUG>*/
                 /*
                  * registered test hooks
                  */
                 registeredHooks = {},
-/*</DEBUG>*/
+                /*</DEBUG>*/
 
                 trackerInstance = this,
+
+                // constants
+                CONSENT_COOKIE_NAME = 'mtm_consent',
+                CONSENT_REMOVED_COOKIE_NAME = 'mtm_consent_removed',
+
                 // Current URL and Referrer URL
                 locationArray = urlFixup(documentAlias.domain, windowAlias.location.href, getReferrer()),
                 domainAlias = domainFixup(locationArray[0]),
@@ -3209,7 +3219,14 @@ if (typeof window.Piwik !== 'object') {
                 // pageview was already tracked or not
                 numTrackedPageviews = 0,
 
-                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'];
+                configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
+
+                // we always have the concept of consent. by default consent is assumed unless the end user removes it,
+                // or unless a matomo user explicitly requires consent (via requireConsent())
+                configHasConsent = null, // initialized below
+
+                // holds all pending tracking requests that have not been tracked because we need consent
+                consentRequestsQueue = [];
 
             // Document title
             try {
@@ -3254,6 +3271,8 @@ if (typeof window.Piwik !== 'object') {
 
                 return cookieMatch ? decodeWrapper(cookieMatch[2]) : 0;
             }
+
+            configHasConsent = !getCookie(CONSENT_REMOVED_COOKIE_NAME);
 
             /*
              * Removes hash tag from the URL
@@ -3599,6 +3618,7 @@ if (typeof window.Piwik !== 'object') {
             function heartBeatUp(delay) {
                 if (heartBeatTimeout
                     || !configHeartBeatDelay
+                    || !configHasConsent
                 ) {
                     return;
                 }
@@ -3710,9 +3730,12 @@ if (typeof window.Piwik !== 'object') {
              * Send request
              */
             function sendRequest(request, delay, callback) {
+                if (!configHasConsent) {
+                    consentRequestsQueue.push(request);
+                    return;
+                }
                 if (!configDoNotTrack && request) {
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-
                         if (configRequestMethod === 'POST' || String(request).length > 2000) {
                             sendXmlHttpRequest(request, callback);
                         } else {
@@ -3722,7 +3745,6 @@ if (typeof window.Piwik !== 'object') {
                         setExpireDateTime(delay);
                     });
                 }
-
                 if (!heartBeatSetUp) {
                     setUpHeartBeat(); // setup window events too, but only once
                 } else {
@@ -3745,6 +3767,11 @@ if (typeof window.Piwik !== 'object') {
             function sendBulkRequest(requests, delay)
             {
                 if (!canSendBulkRequest(requests)) {
+                    return;
+                }
+
+                if (!configHasConsent) {
+                    consentRequestsQueue.push(requests);
                     return;
                 }
 
@@ -4107,7 +4134,7 @@ if (typeof window.Piwik !== 'object') {
 
                 for (index = 0; index < configCookiesToDelete.length; index++) {
                     cookieName = getCookieName(configCookiesToDelete[index]);
-                    if (0 !== getCookie(cookieName)) {
+                    if (cookieName !== CONSENT_REMOVED_COOKIE_NAME && cookieName !== CONSENT_COOKIE_NAME && 0 !== getCookie(cookieName)) {
                         deleteCookie(cookieName, configCookiePath, configCookieDomain);
                     }
                 }
@@ -4267,8 +4294,8 @@ if (typeof window.Piwik !== 'object') {
                     if (currentReferrerHostName.length && // there is a referrer
                         !isSiteHostName(currentReferrerHostName) && // domain is not the current domain
                         (!configConversionAttributionFirstReferrer || // attribute to last known referrer
-                        !originalReferrerHostName.length || // previously empty
-                        isSiteHostName(originalReferrerHostName))) { // previously set but in current domain
+                            !originalReferrerHostName.length || // previously empty
+                            isSiteHostName(originalReferrerHostName))) { // previously set but in current domain
                         referralUrl = configReferrerUrl;
                     }
 
@@ -4289,22 +4316,22 @@ if (typeof window.Piwik !== 'object') {
 
                 // build out the rest of the request
                 request += '&idsite=' + configTrackerSiteId +
-                '&rec=1' +
-                '&r=' + String(Math.random()).slice(2, 8) + // keep the string to a minimum
-                '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
-                '&url=' + encodeWrapper(purify(currentUrl)) +
-                (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
-                ((configUserId && configUserId.length) ? '&uid=' + encodeWrapper(configUserId) : '') +
-                '&_id=' + cookieVisitorIdValues.uuid + '&_idts=' + cookieVisitorIdValues.createTs + '&_idvc=' + cookieVisitorIdValues.visitCount +
-                '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
-                (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
-                (campaignKeywordDetected.length ? '&_rck=' + encodeWrapper(campaignKeywordDetected) : '') +
-                '&_refts=' + referralTs +
-                '&_viewts=' + cookieVisitorIdValues.lastVisitTs +
-                (String(cookieVisitorIdValues.lastEcommerceOrderTs).length ? '&_ects=' + cookieVisitorIdValues.lastEcommerceOrderTs : '') +
-                (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
-                (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
-                '&send_image=0';
+                    '&rec=1' +
+                    '&r=' + String(Math.random()).slice(2, 8) + // keep the string to a minimum
+                    '&h=' + now.getHours() + '&m=' + now.getMinutes() + '&s=' + now.getSeconds() +
+                    '&url=' + encodeWrapper(purify(currentUrl)) +
+                    (configReferrerUrl.length ? '&urlref=' + encodeWrapper(purify(configReferrerUrl)) : '') +
+                    ((configUserId && configUserId.length) ? '&uid=' + encodeWrapper(configUserId) : '') +
+                    '&_id=' + cookieVisitorIdValues.uuid + '&_idts=' + cookieVisitorIdValues.createTs + '&_idvc=' + cookieVisitorIdValues.visitCount +
+                    '&_idn=' + cookieVisitorIdValues.newVisitor + // currently unused
+                    (campaignNameDetected.length ? '&_rcn=' + encodeWrapper(campaignNameDetected) : '') +
+                    (campaignKeywordDetected.length ? '&_rck=' + encodeWrapper(campaignKeywordDetected) : '') +
+                    '&_refts=' + referralTs +
+                    '&_viewts=' + cookieVisitorIdValues.lastVisitTs +
+                    (String(cookieVisitorIdValues.lastEcommerceOrderTs).length ? '&_ects=' + cookieVisitorIdValues.lastEcommerceOrderTs : '') +
+                    (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
+                    (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
+                    '&send_image=0';
 
                 // browser features
                 for (i in browserFeatures) {
@@ -4477,13 +4504,13 @@ if (typeof window.Piwik !== 'object') {
 
                             // Set price to zero
                             if (!isDefined(ecommerceItems[sku][3])
-                                    || String(ecommerceItems[sku][3]).length === 0) {
+                                || String(ecommerceItems[sku][3]).length === 0) {
                                 ecommerceItems[sku][3] = 0;
                             }
 
                             // Set quantity to 1
                             if (!isDefined(ecommerceItems[sku][4])
-                                    || String(ecommerceItems[sku][4]).length === 0) {
+                                || String(ecommerceItems[sku][4]).length === 0) {
                                 ecommerceItems[sku][4] = 1;
                             }
 
@@ -4502,7 +4529,7 @@ if (typeof window.Piwik !== 'object') {
 
             function logEcommerceOrder(orderId, grandTotal, subTotal, tax, shipping, discount) {
                 if (String(orderId).length
-                        && isDefined(grandTotal)) {
+                    && isDefined(grandTotal)) {
                     logEcommerce(orderId, grandTotal, subTotal, tax, shipping, discount);
                 }
             }
@@ -4558,7 +4585,7 @@ if (typeof window.Piwik !== 'object') {
                 var downloadPattern = getClassesRegExp(configDownloadClasses, 'download'),
                     linkPattern = getClassesRegExp(configLinkClasses, 'link'),
 
-                // does file extension indicate that it is a download?
+                    // does file extension indicate that it is a download?
                     downloadExtensionsPattern = new RegExp('\\.(' + configDownloadExtensions.join('|') + ')([?&#]|$)', 'i');
 
                 if (linkPattern.test(className)) {
@@ -4582,7 +4609,7 @@ if (typeof window.Piwik !== 'object') {
 
                 parentElement = sourceElement.parentNode;
                 while (parentElement !== null &&
-                    /* buggy IE5.5 */
+                /* buggy IE5.5 */
                 isDefined(parentElement)) {
 
                     if (query.isLinkElement(sourceElement)) {
@@ -5016,9 +5043,9 @@ if (typeof window.Piwik !== 'object') {
             function buildEventRequest(category, action, name, value)
             {
                 return 'e_c=' + encodeWrapper(category)
-                     + '&e_a=' + encodeWrapper(action)
-                     + (isDefined(name) ? '&e_n=' + encodeWrapper(name) : '')
-                     + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : '');
+                    + '&e_a=' + encodeWrapper(action)
+                    + (isDefined(name) ? '&e_n=' + encodeWrapper(name) : '')
+                    + (isDefined(value) ? '&e_v=' + encodeWrapper(value) : '');
             }
 
             /*
@@ -5032,10 +5059,10 @@ if (typeof window.Piwik !== 'object') {
                     return false;
                 }
                 var request = getRequest(
-                        buildEventRequest(category, action, name, value),
-                        customData,
-                        'event'
-                    );
+                    buildEventRequest(category, action, name, value),
+                    customData,
+                    'event'
+                );
 
                 sendRequest(request, configTrackerPause, callback);
             }
@@ -5045,8 +5072,8 @@ if (typeof window.Piwik !== 'object') {
              */
             function logSiteSearch(keyword, category, resultsCount, customData) {
                 var request = getRequest('search=' + encodeWrapper(keyword)
-                                + (category ? '&search_cat=' + encodeWrapper(category) : '')
-                                + (isDefined(resultsCount) ? '&search_count=' + resultsCount : ''), customData, 'sitesearch');
+                    + (category ? '&search_cat=' + encodeWrapper(category) : '')
+                    + (isDefined(resultsCount) ? '&search_count=' + resultsCount : ''), customData, 'sitesearch');
 
                 sendRequest(request, configTrackerPause);
             }
@@ -5182,8 +5209,8 @@ if (typeof window.Piwik !== 'object') {
                 targetLink = String(targetLink);
 
                 var isOutlink = targetLink.indexOf('//') === 0
-                             || targetLink.indexOf('http://') === 0
-                             || targetLink.indexOf('https://') === 0;
+                    || targetLink.indexOf('http://') === 0
+                    || targetLink.indexOf('https://') === 0;
 
                 if (!isOutlink) {
                     return false;
@@ -5450,7 +5477,7 @@ if (typeof window.Piwik !== 'object') {
                         events = ['scroll', 'resize'];
                         for (index = 0; index < events.length; index++) {
                             if (documentAlias.addEventListener) {
-                                documentAlias.addEventListener(events[index], setDidScroll);
+                                documentAlias.addEventListener(events[index], setDidScroll, false);
                             } else {
                                 windowAlias.attachEvent('on' + events[index], setDidScroll);
                             }
@@ -5508,9 +5535,9 @@ if (typeof window.Piwik !== 'object') {
                     // IE6/IE7 navigator.javaEnabled can't be aliased, so test directly
                     // on Edge navigator.javaEnabled() always returns `true`, so ignore it
                     if (!((new RegExp('Edge[ /](\\d+[\\.\\d]+)')).test(navigatorAlias.userAgent)) &&
-                            typeof navigator.javaEnabled !== 'unknown' &&
-                            isDefined(navigatorAlias.javaEnabled) &&
-                            navigatorAlias.javaEnabled()) {
+                        typeof navigator.javaEnabled !== 'unknown' &&
+                        isDefined(navigatorAlias.javaEnabled) &&
+                        navigatorAlias.javaEnabled()) {
                         browserFeatures.java = '1';
                     }
 
@@ -5528,7 +5555,7 @@ if (typeof window.Piwik !== 'object') {
                 browserFeatures.res = parseInt(width, 10) + 'x' + parseInt(height, 10);
             }
 
-/*<DEBUG>*/
+            /*<DEBUG>*/
             /*
              * Register a test hook. Using eval() permits access to otherwise
              * privileged members.
@@ -5550,7 +5577,7 @@ if (typeof window.Piwik !== 'object') {
 
                 return hookObj;
             }
-/*</DEBUG>*/
+            /*</DEBUG>*/
 
             /************************************************************
              * Constructor
@@ -5563,19 +5590,19 @@ if (typeof window.Piwik !== 'object') {
             updateDomainHash();
             setVisitorIdCookie();
 
-/*<DEBUG>*/
+            /*<DEBUG>*/
             /*
              * initialize test plugin
              */
             executePluginMethod('run', null, registerHook);
-/*</DEBUG>*/
+            /*</DEBUG>*/
 
             /************************************************************
              * Public data and methods
              ************************************************************/
 
 
-/*<DEBUG>*/
+            /*<DEBUG>*/
             /*
              * Test hook accessors
              */
@@ -5588,6 +5615,9 @@ if (typeof window.Piwik !== 'object') {
             };
             this.getContent = function () {
                 return content;
+            };
+            this.setVisitorId = function (visitorId) {
+                visitorUUID = visitorId;
             };
 
             this.buildContentImpressionRequest = buildContentImpressionRequest;
@@ -5638,8 +5668,14 @@ if (typeof window.Piwik !== 'object') {
                 var firstTracker = asyncTrackers[0];
                 asyncTrackers = [firstTracker];
             };
+            this.getConsentRequestsQueue = function () {
+                return consentRequestsQueue;
+            };
+            this.hasConsent = function () {
+                return configHasConsent;
+            };
             this.getRemainingVisitorCookieTimeout = getRemainingVisitorCookieTimeout;
-/*</DEBUG>*/
+            /*</DEBUG>*/
 
             /**
              * Get visitor ID (from first party cookie)
@@ -5785,7 +5821,6 @@ if (typeof window.Piwik !== 'object') {
              */
             this.resetUserId = function() {
                 configUserId = '';
-                visitorUUID = generateRandomUuid();
             };
 
             /**
@@ -5798,7 +5833,6 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
                 configUserId = userId;
-                visitorUUID = hash(configUserId).substr(0, 16);
             };
 
             /**
@@ -5999,7 +6033,7 @@ if (typeof window.Piwik !== 'object') {
                 }
 
                 if (!isDefined(cvar)
-                        || (cvar && cvar[0] === '')) {
+                    || (cvar && cvar[0] === '')) {
                     return false;
                 }
 
@@ -6195,6 +6229,7 @@ if (typeof window.Piwik !== 'object') {
             this.isCrossDomainLinkingEnabled = function () {
                 return crossDomainTrackingEnabled;
             };
+
 
             /**
              * By default, the two visits across domains will be linked together
@@ -6667,7 +6702,7 @@ if (typeof window.Piwik !== 'object') {
              */
             this.disableHeartBeatTimer = function () {
                 heartBeatDown();
-                
+
                 if (configHeartBeatDelay || heartBeatSetUp) {
                     if (windowAlias.removeEventListener) {
                         windowAlias.removeEventListener('focus', heartBeatOnFocus, true);
@@ -6754,6 +6789,7 @@ if (typeof window.Piwik !== 'object') {
              */
             this.trackPageView = function (customTitle, customData, callback) {
                 trackedContentImpressions = [];
+                consentRequestsQueue = [];
 
                 if (isOverlaySession(configTrackerSiteId)) {
                     trackCallback(function () {
@@ -7048,7 +7084,7 @@ if (typeof window.Piwik !== 'object') {
 
                 // On a category page, do not track Product name not defined
                 if ((!isDefined(sku) || !sku.length)
-                        && (!isDefined(name) || !name.length)) {
+                    && (!isDefined(name) || !name.length)) {
                     return;
                 }
 
@@ -7130,6 +7166,163 @@ if (typeof window.Piwik !== 'object') {
                 });
             };
 
+            /**
+             * If the user has given consent previously and this consent was remembered, it will return the number
+             * in milliseconds since 1970/01/01 which is the date when the user has given consent. Please note that
+             * the returned time depends on the users local time which may not always be correct.
+             *
+             * @returns number|string
+             */
+            this.getRememberedConsent = function () {
+                var value = getCookie(CONSENT_COOKIE_NAME);
+                if (getCookie(CONSENT_REMOVED_COOKIE_NAME)) {
+                    // if for some reason the consent_removed cookie is also set with the consent cookie, the
+                    // consent_removed cookie overrides the consent one, and we make sure to delete the consent
+                    // cookie.
+                    if (value) {
+                        deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
+                    }
+                    return null;
+                }
+
+                if (!value || value === 0) {
+                    return null;
+                }
+                return value;
+            };
+
+            /**
+             * Detects whether the user has given consent previously.
+             *
+             * @returns bool
+             */
+            this.hasRememberedConsent = function () {
+                return !!this.getRememberedConsent();
+            };
+
+            /**
+             * When called, no tracking request will be sent to the Matomo server until you have called `setConsentGiven()`
+             * unless consent was given previously AND you called {@link rememberConsentGiven()} when the user gave her
+             * or his consent.
+             *
+             * This may be useful when you want to implement for example a popup to ask for consent before tracking the user.
+             * Once the user has given consent, you should call {@link setConsentGiven()} or {@link rememberConsentGiven()}.
+             *
+             * Please note that when consent is required, we will temporarily set cookies but not track any data. Those
+             * cookies will only exist during this page view and deleted as soon as the user navigates to a different page
+             * or closes the browser.
+             *
+             * If you require consent for tracking personal data for example, you should first call
+             * `_paq.push(['requireConsent'])`.
+             *
+             * If the user has already given consent in the past, you can either decide to not call `requireConsent` at all
+             * or call `_paq.push(['setConsentGiven'])` on each page view at any time after calling `requireConsent`.
+             *
+             * When the user gives you the consent to track data, you can also call `_paq.push(['rememberConsentGiven', optionalTimeoutInHours])`
+             * and for the duration while the consent is remembered, any call to `requireConsent` will be automatically ignored until you call `forgetConsentGiven`.
+             * `forgetConsentGiven` needs to be called when the user removes consent for tracking. This means if you call `rememberConsentGiven` at the
+             * time the user gives you consent, you do not need to ever call `_paq.push(['setConsentGiven'])`.
+             */
+            this.requireConsent = function () {
+                configHasConsent = this.hasRememberedConsent();
+                // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
+                // We also want to make sure to define an unload listener for each tracker, not only one tracker.
+                coreConsentCounter++;
+                plugins['CoreConsent' + coreConsentCounter] = {
+                    unload: function () {
+                        if (!configHasConsent) {
+                            // we want to make sure to remove all previously set cookies again
+                            deleteCookies();
+                        }
+                    }
+                };
+            };
+
+            /**
+             * Call this method once the user has given consent. This will cause all tracking requests from this
+             * page view to be sent. Please note that the given consent won't be remembered across page views. If you
+             * want to remember consent across page views, call {@link rememberConsentGiven()} instead.
+             */
+            this.setConsentGiven = function () {
+                configHasConsent = true;
+                deleteCookie(CONSENT_REMOVED_COOKIE_NAME, configCookiePath, configCookieDomain);
+                var i, requestType;
+                for (i = 0; i < consentRequestsQueue.length; i++) {
+                    requestType = typeof consentRequestsQueue[i];
+                    if (requestType === 'string') {
+                        sendRequest(consentRequestsQueue[i], configTrackerPause);
+                    } else if (requestType === 'object') {
+                        sendBulkRequest(consentRequestsQueue[i], configTrackerPause);
+                    }
+                }
+                consentRequestsQueue = [];
+            };
+
+            /**
+             * Calling this method will remember that the user has given consent across multiple requests by setting
+             * a cookie. You can optionally define the lifetime of that cookie in milliseconds using a parameter.
+             *
+             * When you call this method, we imply that the user has given consent for this page view, and will also
+             * imply consent for all future page views unless the cookie expires (if timeout defined) or the user
+             * deletes all her or his cookies. This means even if you call {@link requireConsent()}, then all requests
+             * will still be tracked.
+             *
+             * Please note that this feature requires you to set the `cookieDomain` and `cookiePath` correctly and requires
+             * that you do not disable cookies. Please also note that when you call this method, consent will be implied
+             * for all sites that match the configured cookieDomain and cookiePath. Depending on your website structure,
+             * you may need to restrict or widen the scope of the cookie domain/path to ensure the consent is applied
+             * to the sites you want.
+             */
+            this.rememberConsentGiven = function (hoursToExpire) {
+                if (configCookiesDisabled) {
+                    logConsoleError('rememberConsentGiven is called but cookies are disabled, consent will not be remembered');
+                    return;
+                }
+                if (hoursToExpire) {
+                    hoursToExpire = hoursToExpire * 60 * 60 * 1000;
+                }
+                this.setConsentGiven();
+                var now = new Date().getTime();
+                setCookie(CONSENT_COOKIE_NAME, now, hoursToExpire, configCookiePath, configCookieDomain, configCookieIsSecure);
+            };
+
+            /**
+             * Calling this method will remove any previously given consent and during this page view no request
+             * will be sent anymore ({@link requireConsent()}) will be called automatically to ensure the removed
+             * consent will be enforced. You may call this method if the user removes consent manually, or if you
+             * want to re-ask for consent after a specific time period.
+             */
+            this.forgetConsentGiven = function () {
+                if (configCookiesDisabled) {
+                    logConsoleError('forgetConsentGiven is called but cookies are disabled, consent will not be forgotten');
+                    return;
+                }
+
+                deleteCookie(CONSENT_COOKIE_NAME, configCookiePath, configCookieDomain);
+                setCookie(CONSENT_REMOVED_COOKIE_NAME, new Date().getTime(), 0, configCookiePath, configCookieDomain, configCookieIsSecure);
+                this.requireConsent();
+            };
+
+            /**
+             * Returns true if user is opted out, false if otherwise.
+             *
+             * @returns {boolean}
+             */
+            this.isUserOptedOut = function () {
+                return !configHasConsent;
+            };
+
+            /**
+             * Alias for forgetConsentGiven(). After calling this function, the user will no longer be tracked,
+             * (even if they come back to the site).
+             */
+            this.optUserOut = this.forgetConsentGiven;
+
+            /**
+             * Alias for rememberConsentGiven(). After calling this function, the current user will be tracked.
+             */
+            this.forgetUserOptOut = this.rememberConsentGiven;
+
             Piwik.trigger('TrackerSetup', [this]);
         }
 
@@ -7182,7 +7375,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
@@ -7495,12 +7688,12 @@ if (typeof window.Piwik !== 'object') {
             window.Piwik.addTracker();
         } else {
             _paq = {push: function (args) {
-                // needed to write it this way for jslint
-                var consoleType = typeof console;
-                if (consoleType !== 'undefined' && console && console.error) {
-                    console.error('_paq.push() was used but Piwik tracker was not initialized before the piwik.js file was loaded. Make sure to configure the tracker via _paq.push before loading piwik.js. Alternatively, you can create a tracker via Piwik.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
-                }
-            }};
+                    // needed to write it this way for jslint
+                    var consoleType = typeof console;
+                    if (consoleType !== 'undefined' && console && console.error) {
+                        console.error('_paq.push() was used but Piwik tracker was not initialized before the piwik.js file was loaded. Make sure to configure the tracker via _paq.push before loading piwik.js. Alternatively, you can create a tracker via Piwik.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
+                    }
+                }};
         }
     }
 

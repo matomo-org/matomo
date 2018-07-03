@@ -15,6 +15,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Config;
 use Piwik\Config as PiwikConfig;
 use Piwik\Container\StaticContainer;
+use Piwik\Development;
 use Piwik\EventDispatcher;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\Filesystem;
@@ -25,7 +26,9 @@ use Piwik\Plugin;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\Marketplace\Api\Client;
 use Piwik\Settings\Storage as SettingsStorage;
+use Piwik\SettingsPiwik;
 use Piwik\Theme;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -882,9 +885,44 @@ class Manager
             return $pluginsToPostPendingEventsTo;
         }
 
+        if ($newPlugin->isPremiumFeature()
+            && SettingsPiwik::isInternetEnabled()
+            && !Development::isEnabled()
+            && $this->isPluginActivated('Marketplace')
+            && $this->isPluginActivated($pluginName)) {
+
+            $cacheKey = 'MarketplacePluginMissingLicense' . $pluginName;
+            $cache = self::getLicenseCache();
+
+            if ($cache->contains($cacheKey)) {
+                $pluginLicenseInfo = $cache->fetch($cacheKey);
+            } else {
+                try {
+                    $plugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+                    $licenseInfo = $plugins->getLicenseValidInfo($pluginName);
+                } catch (\Exception $e) {
+                    $licenseInfo = array();
+                }
+
+                $pluginLicenseInfo = array('missing' => !empty($licenseInfo['isMissingLicense']));
+                $sixHours = 3600 * 6;
+                $cache->save($cacheKey, $pluginLicenseInfo, $sixHours);
+            }
+
+            if (!empty($pluginLicenseInfo['missing'])) {
+                $this->unloadPluginFromMemory($pluginName);
+                return $pluginsToPostPendingEventsTo;
+            }
+        }
+
         $pluginsToPostPendingEventsTo[] = $newPlugin;
 
         return $pluginsToPostPendingEventsTo;
+    }
+
+    public static function getLicenseCache()
+    {
+        return Cache::getLazyCache();
     }
 
     public function getIgnoredBogusPlugins()

@@ -1,5 +1,17 @@
 {
     "Ecommerce": {
-        "Sales": "Vender"
+        "PluginDescription": "O Ecommerce permite-lhe acompanhar quando os utilizadores adicionam produtos a carrinhos e quando estes são convertidos numa venda de comércio eletrónico. Também permite acompanhar visualizações de produtos e categorias de produtos, e carrinhos abandonados.",
+        "Sales": "Vendas",
+        "Order": "Pedido",
+        "Orders": "Pedidos",
+        "SalesBy": "Vendas por %s",
+        "SalesAdjective": "%s vendas",
+        "NumberOfItems": "Número de itens no carrinho",
+        "OrderValue": "Valor do pedido",
+        "LifeTimeValue": "Valor do tempo de vida do comércio eletrónico",
+        "LifeTimeValueDescription": "Receita total de comércio eletrónico atribuído a este cliente globalmente em todas as visitas: o somatório da receita de todos os pedidos de comércio eletrónico para o ID do visitante %s.",
+        "VisitorProfileLTV": "Gerou uma receita ao longo do tempo de vida de %1$s.",
+        "VisitorProfileItemsAndOrders": "Adquiriu %1$s itens em %2$s pedidos de comércio eletrónico.",
+        "VisitorProfileAbandonedCartSummary": "Abandonou %1$s carrinhos que incluíam %2$s itens com um valor total de %3$s."
     }
 }

@@ -84,10 +84,20 @@
         "MenuEntries": "選單項目",
         "Segments": "區隔",
         "OneClickUpdateNotPossibleAsMultiServerEnvironment": "不支援一鍵更新因為你在數個伺服器上使用 Matomo。請從 %1$s 下載最新版本以繼續。",
+        "CssDidntLoad": "你的瀏覽器無法載入此頁面的樣式。",
+        "JsDidntLoad": "你的瀏覽器無法載入此頁面的程式碼。",
         "AdblockIsMaybeUsed": "假如你正在使用廣告封鎖外掛，請將它在此網站上關閉來確保 Matomo 可以正常運作。",
         "ChangeCurrentWebsite": "選擇一個網站，目前選擇的網站為：%s",
         "LeadingAnalyticsPlatformRespectsYourPrivacy": "尊重你隱私的開放式分析平台領導。",
         "MacPageUp": "Fn + ← 鍵",
-        "MacPageDown": "Fn + → 鍵"
+        "MacPageDown": "Fn + → 鍵",
+        "ReportType": "報表類型",
+        "RowLimit": "行數限制",
+        "CustomLimit": "自訂限制",
+        "ExportFormat": "匯出格式",
+        "ExpandSubtables": "展開子表格",
+        "StandardReport": "標準報表",
+        "FlattenReport": "平滑化報表",
+        "ReportWithMetadata": "含中繼資料報表"
     }
 }

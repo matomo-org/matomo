@@ -42,7 +42,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
-
+    
     // dashboard tests
     it("should load dashboard1 correctly", function (done) {
         expect.screenshot("dashboard1").to.be.captureSelector('.pageWrap', function (page) {
@@ -62,7 +62,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     });
 
     it("should load dashboard3 correctly", function (done) {
-        this.retries(3);
         expect.screenshot("dashboard3").to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=Dashboard_Dashboard&subcategory=3");
         }, done);
@@ -163,7 +162,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.mouseMove('circle');
             page.evaluate(function(){
                 $('.ui-tooltip:visible .rel-time').data('actiontime', Math.floor(new Date((new Date()).getTime()-(4*3600*24000))/1000));
-            });
+            }, 100);
         }, done);
     });
 
@@ -179,22 +178,22 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         expect.screenshot('actions_pages_tooltip_help').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
             page.mouseMove('[piwik-enriched-headline]');
-            page.click(".helpIcon");
+            page.click('.helpIcon');
             page.evaluate(function () {
                 $('.helpDate:visible').hide();
-            });
+            }, 100);
         }, done);
     });
 
     it('should load the actions > entry pages page correctly', function (done) {
         expect.screenshot('actions_entry_pages').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPagesEntry");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPagesEntry", 2000);
         }, done);
     });
 
     it('should load the actions > exit pages page correctly', function (done) {
         expect.screenshot('actions_exit_pages').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPagesExit");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPagesExit", 2000);
         }, done);
     });
 
@@ -212,7 +211,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load the actions > outlinks page correctly', function (done) {
         expect.screenshot('actions_outlinks').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Outlinks");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Outlinks", 1500);
         }, done);
     });
 
@@ -273,9 +272,15 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the referrers > websites & social page correctly', function (done) {
-        expect.screenshot('referrers_websites_social').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_SubmenuWebsites");
+    it('should load the referrers > websites correctly', function (done) {
+        expect.screenshot('referrers_websites').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_SubmenuWebsitesOnly");
+        }, done);
+    });
+
+    it('should load the referrers > social page correctly', function (done) {
+        expect.screenshot('referrers_socials').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_Socials");
         }, done);
     });
 
@@ -300,8 +305,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load the goals > management page correctly', function (done) {
         expect.screenshot('goals_manage').to.be.captureSelector('#content,.top_bar_sites_selector,.entityContainer', function (page) {
-            page.load("?" + generalParams + "&module=Goals&action=manage");
-            page.wait(200);
+            page.load("?" + generalParams + "&module=Goals&action=manage", 2000);
         }, done);
     });
 
@@ -314,6 +318,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should update the evolution chart if a sparkline is clicked', function (done) {
         expect.screenshot('goals_individual_goal_updated').to.be.captureSelector('.pageWrap,.dataTable', function (page) {
             page.click('.sparkline.linked:contains(%)');
+        }, done);
+    });
+
+    // should load the row evolution [see #11526]
+    it('should show rov evolution for goal tables', function (done) {
+        expect.screenshot('goals_individual_row_evolution').to.be.captureSelector('.ui-dialog', function (page) {
+            page.mouseMove('table.dataTable tbody tr:first-child');
+            page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
+            page.click('a.actionRowEvolution:visible');
+            page.wait(2000);
         }, done);
     });
 
@@ -505,12 +519,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the Settings > Privacy admin page correctly', function (done) {
-        expect.screenshot('admin_privacy_settings').to.be.captureSelector('.pageWrap,.ui-inline-help', function (page) {
-            page.load("?" + generalParams + "&module=PrivacyManager&action=privacySettings");
-        }, done);
-    });
-
     it('should load the Privacy Opt out iframe correctly', function (done) {
         expect.screenshot('admin_privacy_optout_iframe').to.be.capture(function (page) {
             page.load("?module=CoreAdminHome&action=optOut&language=de");
@@ -603,6 +611,18 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     it('should show error for super user if invalid idsite given', function (done) {
         expect.screenshot('invalid_idsite_superuser').to.be.capture(function (page) {
             page.load("?module=CoreHome&action=index&idSite=10006&period=week&date=2017-06-04");
+        }, done);
+    });
+
+    it('should load the glossary correctly', function (done) {
+        expect.screenshot('glossary').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + generalParams + "&module=API&action=glossary");
+        }, done);
+    });
+
+    it('should load the glossary correctly widgetized', function (done) {
+        expect.screenshot('glossary_widgetized').to.be.capture(function (page) {
+            page.load("?" + generalParams + "&module=API&action=glossary&widget=1");
         }, done);
     });
 
@@ -756,6 +776,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
                 var visitorLogLinkSelector = 'table.dataTable tbody tr:first-child a.actionSegmentVisitorLog';
                 $(visitorLogLinkSelector).click();
             }, 2000);
+            page.mouseMove('#secondNavBar');
         }, done);
     });
 

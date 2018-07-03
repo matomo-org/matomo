@@ -468,7 +468,7 @@ datatable_archiving_maximum_rows_subtable_actions = 100
 ; maximum number of rows for any of the Events tables (Categories, Actions, Names)
 datatable_archiving_maximum_rows_events = 500
 ; maximum number of rows for sub-tables of the Events tables (eg. for the subtables Categories>Actions or Categories>Names).
-datatable_archiving_maximum_rows_subtable_events = 100
+datatable_archiving_maximum_rows_subtable_events = 500
 
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500
@@ -622,7 +622,7 @@ enable_installer = 1
 ; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
 enable_geolocation_admin = 1
 
-; By setting this option to 0, the old log data and old report data features will be hidden from the UI
+; By setting this option to 0, the old raw data and old report data purging features will be hidden from the UI
 ; Note: log purging and old data purging still occurs, just the Super User cannot change the settings.
 enable_delete_old_data_settings_admin = 1
 
@@ -819,6 +819,7 @@ delete_logs_schedule_lowest_interval = 7
 delete_logs_older_than = 180
 delete_logs_max_rows_per_query = 100000
 enable_auto_database_size_estimate = 1
+enable_database_size_estimate = 1
 
 [Deletereports]
 delete_reports_enable                = 0
@@ -873,6 +874,7 @@ Plugins[] = Ecommerce
 Plugins[] = SEO
 Plugins[] = Events
 Plugins[] = UserCountry
+Plugins[] = GeoIp2
 Plugins[] = VisitsSummary
 Plugins[] = VisitFrequency
 Plugins[] = VisitTime

@@ -10,6 +10,7 @@ namespace Piwik\Tracker;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ConversionDimension;
@@ -817,19 +818,12 @@ class GoalManager
      * @param $pattern_type
      * @param $url
      * @return bool
-     * @throws Exception
      */
     protected function isGoalPatternMatchingUrl($goal, $pattern_type, $url)
     {
         switch ($pattern_type) {
             case 'regex':
-                $pattern = $goal['pattern'];
-                if (strpos($pattern, '/') !== false
-                    && strpos($pattern, '\\/') === false
-                ) {
-                    $pattern = str_replace('/', '\\/', $pattern);
-                }
-                $pattern = '/' . $pattern . '/';
+                $pattern = self::formatRegex($goal['pattern']);
                 if (!$goal['case_sensitive']) {
                     $pattern .= 'i';
                 }
@@ -852,9 +846,29 @@ class GoalManager
                 $match = ($matched == 0);
                 break;
             default:
-                throw new Exception(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
+                try {
+                    StaticContainer::get('Psr\Log\LoggerInterface')->warning(Piwik::translate('General_ExceptionInvalidGoalPattern', array($pattern_type)));
+                } catch (\Exception $e) {
+                }
+                $match = false;
                 break;
         }
         return $match;
+    }
+
+    /**
+     * Formats a goal regex pattern to a usable regex
+     *
+     * @param string $pattern
+     * @return string
+     */
+    public static function formatRegex($pattern)
+    {
+        if (strpos($pattern, '/') !== false
+            && strpos($pattern, '\\/') === false
+        ) {
+            $pattern = str_replace('/', '\\/', $pattern);
+        }
+        return '/' . $pattern . '/';
     }
 }

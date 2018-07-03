@@ -96,7 +96,7 @@ class UpdateCommunication
     {
         $version = str_replace('.', '-', $version);
 
-        $link = sprintf('https://matomo.org/changelog/piwik-%s/', $version);
+        $link = sprintf('https://matomo.org/changelog/matomo-%s/', $version);
 
         return $link;
     }

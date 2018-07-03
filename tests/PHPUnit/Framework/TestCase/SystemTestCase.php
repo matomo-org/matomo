@@ -441,7 +441,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         return array($processedPath, $path . '/expected/');
     }
 
-    private function getProcessedAndExpectedPaths($testName, $testId, $format = null, $compareAgainst = false)
+    protected function getProcessedAndExpectedPaths($testName, $testId, $format = null, $compareAgainst = false)
     {
         $filenameSuffix = '__' . $testId;
         if ($format) {
@@ -703,11 +703,17 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         DbHelper::deleteArchiveTables();
     }
 
+    /**
+     * @deprecated
+     */
     public function assertHttpResponseText($expectedResponseText, $url, $message = '')
     {
         self::assertThat($url, new HttpResponseText($expectedResponseText), $message);
     }
 
+    /**
+     * @deprecated
+     */
     public function assertResponseCode($expectedResponseCode, $url, $message = '')
     {
         self::assertThat($url, new ResponseCode($expectedResponseCode), $message);

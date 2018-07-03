@@ -56,6 +56,7 @@ class TestsRunUI extends ConsoleCommand
         $storeInUiTestsRepo = $input->getOption('store-in-ui-tests-repo');
         $screenshotRepo = $input->getOption('screenshot-repo');
         $debug = $input->getOption('debug');
+        $piwikDomain = $input->getOption('piwik-domain');
 
         if (!$skipDeleteAssets) {
             AssetManager::getInstance()->removeMergedAssets();
@@ -65,6 +66,11 @@ class TestsRunUI extends ConsoleCommand
 
         $options = array();
         $phantomJsOptions = array();
+
+        if ($piwikDomain) {
+            $options[] = "--piwik-domain=$piwikDomain";
+        }
+
         if ($persistFixtureData) {
             $options[] = "--persist-fixture-data";
         }

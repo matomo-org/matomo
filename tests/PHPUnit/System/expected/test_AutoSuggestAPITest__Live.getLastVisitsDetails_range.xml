@@ -39,6 +39,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -73,7 +74,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -249,6 +250,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -283,7 +285,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -393,6 +395,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -427,7 +430,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -589,6 +592,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -623,7 +627,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -648,10 +652,10 @@
 		<country>Macedonia</country>
 		<countryCode>mk</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
-		<region>Miravci</region>
-		<regionCode>66</regionCode>
+		<region>Gevgelija</region>
+		<regionCode>18</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Miravci, Macedonia</location>
+		<location>Stratford-upon-Avon, Gevgelija, Macedonia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -733,6 +737,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -767,7 +772,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -792,10 +797,10 @@
 		<country>Macedonia</country>
 		<countryCode>mk</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/mk.png</countryFlag>
-		<region>Miravci</region>
-		<regionCode>66</regionCode>
+		<region>Gevgelija</region>
+		<regionCode>18</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Miravci, Macedonia</location>
+		<location>Stratford-upon-Avon, Gevgelija, Macedonia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -951,6 +956,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -985,7 +991,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1010,10 +1016,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
+		<region>Sankt-Peterburg</region>
+		<regionCode>SPE</regionCode>
 		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, Saint Petersburg City, Russia</location>
+		<location>Hluboká nad Vltavou, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -1095,6 +1101,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -1129,7 +1136,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1154,10 +1161,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
+		<region>Sankt-Peterburg</region>
+		<regionCode>SPE</regionCode>
 		<city>Hluboká nad Vltavou</city>
-		<location>Hluboká nad Vltavou, Saint Petersburg City, Russia</location>
+		<location>Hluboká nad Vltavou, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -1291,6 +1298,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -1325,7 +1333,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1350,10 +1358,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
+		<region>Sankt-Peterburg</region>
+		<regionCode>SPE</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Saint Petersburg City, Russia</location>
+		<location>Stratford-upon-Avon, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -1435,6 +1443,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -1469,7 +1478,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1494,10 +1503,10 @@
 		<country>Russia</country>
 		<countryCode>ru</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/ru.png</countryFlag>
-		<region>Saint Petersburg City</region>
-		<regionCode>66</regionCode>
+		<region>Sankt-Peterburg</region>
+		<regionCode>SPE</regionCode>
 		<city>Stratford-upon-Avon</city>
-		<location>Stratford-upon-Avon, Saint Petersburg City, Russia</location>
+		<location>Stratford-upon-Avon, Sankt-Peterburg, Russia</location>
 		<latitude />
 		<longitude />
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -1653,6 +1662,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -1687,7 +1697,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1713,7 +1723,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Kent</region>
-		<regionCode>G5</regionCode>
+		<regionCode>KEN</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Kent, United Kingdom</location>
 		<latitude />
@@ -1797,6 +1807,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -1831,7 +1842,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1857,7 +1868,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Kent</region>
-		<regionCode>G5</regionCode>
+		<regionCode>KEN</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Kent, United Kingdom</location>
 		<latitude />
@@ -1993,6 +2004,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -2027,7 +2039,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -2053,7 +2065,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>London, City of</region>
-		<regionCode>H9</regionCode>
+		<regionCode>LND</regionCode>
 		<city>London</city>
 		<location>London, London, City of, United Kingdom</location>
 		<latitude />
@@ -2189,6 +2201,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -2249,7 +2262,7 @@
 		<countryCode>cn</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region>Xizang</region>
-		<regionCode>14</regionCode>
+		<regionCode>XZ</regionCode>
 		<city>Lhasa</city>
 		<location>Lhasa, Xizang, China</location>
 		<latitude>29.650000</latitude>
@@ -2325,6 +2338,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -2359,7 +2373,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -2385,7 +2399,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>London, City of</region>
-		<regionCode>H9</regionCode>
+		<regionCode>LND</regionCode>
 		<city>London</city>
 		<location>London, London, City of, United Kingdom</location>
 		<latitude />
@@ -2469,6 +2483,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -2529,7 +2544,7 @@
 		<countryCode>cn</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/cn.png</countryFlag>
 		<region>Xizang</region>
-		<regionCode>14</regionCode>
+		<regionCode>XZ</regionCode>
 		<city>Lhasa</city>
 		<location>Lhasa, Xizang, China</location>
 		<latitude>29.650000</latitude>
@@ -2687,6 +2702,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -2721,7 +2737,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -2747,7 +2763,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
+		<regionCode>WAR</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
 		<latitude>124.456000</latitude>
@@ -2785,7 +2801,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>28</idVisit>
-		<visitIp>2001:db8:85a3::8a2e:370:7334</visitIp>
+		<visitIp>2003:f6:93bf:26f:9ec7:a6ff:fe29:27df</visitIp>
 		
 		<actionDetails>
 			<row>
@@ -2905,6 +2921,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -2939,7 +2956,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Dell</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -3041,6 +3058,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -3075,7 +3093,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -3101,7 +3119,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
+		<regionCode>WAR</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
 		<latitude>124.456000</latitude>
@@ -3139,7 +3157,7 @@
 	<row>
 		<idSite>1</idSite>
 		<idVisit>27</idVisit>
-		<visitIp>2001:db8:85a3::8a2e:370:7334</visitIp>
+		<visitIp>2003:f6:93bf:26f:9ec7:a6ff:fe29:27df</visitIp>
 		
 		<actionDetails>
 			<row>
@@ -3185,6 +3203,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -3219,7 +3238,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Dell</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -3381,6 +3400,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -3415,7 +3435,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -3441,7 +3461,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
+		<regionCode>WAR</regionCode>
 		<city>Nuneaton and Bedworth</city>
 		<location>Nuneaton and Bedworth, Warwickshire, United Kingdom</location>
 		<latitude />
@@ -3577,6 +3597,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -3773,6 +3794,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -3807,7 +3829,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -3961,6 +3983,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -3995,7 +4018,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Ubuntu 9.04</operatingSystem>
 		<operatingSystemName>Ubuntu</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UBT.png</operatingSystemIcon>
@@ -4105,6 +4128,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -4139,7 +4163,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -4165,7 +4189,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
+		<regionCode>WAR</regionCode>
 		<city>Nuneaton and Bedworth</city>
 		<location>Nuneaton and Bedworth, Warwickshire, United Kingdom</location>
 		<latitude />
@@ -4249,6 +4273,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -4393,6 +4418,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -4427,7 +4453,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -4537,6 +4563,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -4571,7 +4598,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Ubuntu 9.04</operatingSystem>
 		<operatingSystemName>Ubuntu</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UBT.png</operatingSystemIcon>
@@ -4755,6 +4782,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -4789,7 +4817,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -4815,7 +4843,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
+		<regionCode>WAR</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
 		<latitude>123.456000</latitude>
@@ -4973,6 +5001,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -5032,10 +5061,10 @@
 		<country>France</country>
 		<countryCode>fr</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
-		<region>Franche-Comte</region>
-		<regionCode>A6</regionCode>
+		<region>Bourgogne-Franche-Comté</region>
+		<regionCode>BFC</regionCode>
 		<city>Besançon</city>
-		<location>Besançon, Franche-Comte, France</location>
+		<location>Besançon, Bourgogne-Franche-Comté, France</location>
 		<latitude>47.249000</latitude>
 		<longitude>6.018000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -5191,6 +5220,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -5225,7 +5255,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 8.1</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -5401,6 +5431,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -5545,6 +5576,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -5579,7 +5611,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -5605,7 +5637,7 @@
 		<countryCode>gb</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/gb.png</countryFlag>
 		<region>Warwickshire</region>
-		<regionCode>P3</regionCode>
+		<regionCode>WAR</regionCode>
 		<city>Stratford-upon-Avon</city>
 		<location>Stratford-upon-Avon, Warwickshire, United Kingdom</location>
 		<latitude>123.456000</latitude>
@@ -5689,6 +5721,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -5748,10 +5781,10 @@
 		<country>France</country>
 		<countryCode>fr</countryCode>
 		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
-		<region>Franche-Comte</region>
-		<regionCode>A6</regionCode>
+		<region>Bourgogne-Franche-Comté</region>
+		<regionCode>BFC</regionCode>
 		<city>Besançon</city>
-		<location>Besançon, Franche-Comte, France</location>
+		<location>Besançon, Bourgogne-Franche-Comté, France</location>
 		<latitude>47.249000</latitude>
 		<longitude>6.018000</longitude>
 		<visitLocalTime>12:34:06</visitLocalTime>
@@ -5833,6 +5866,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		
@@ -5867,7 +5901,7 @@
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 8.1</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -5977,6 +6011,7 @@
 		
 		
 		
+		<siteName>Site 1</siteName>
 		
 		
 		

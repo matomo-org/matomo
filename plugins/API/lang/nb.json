@@ -9,7 +9,6 @@
         "TopLinkTooltip": "Få tilgang til dine analysedata programmatisk gjennom en enkel API i json, xml, etc.",
         "UserAuthentication": "Brukerautentisering",
         "UsingTokenAuth": "Hvis du vil %1$s spørre etter data i et script, en crontab, etc. %2$s må du legge til parameteret %3$s til API-spørringer som krever autentisering.",
-        "Glossary": "Ordliste",
-        "LearnAboutCommonlyUsedTerms": "Lær mer om vanlige termer for å få mest mulig ut av Matomo Analytics: %1$s og %2$s."
+        "Glossary": "Ordliste"
     }
 }

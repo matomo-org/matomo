@@ -2,7 +2,7 @@
     "Installation": {
         "CollaborativeProject": "Matomo jest wspólnym projektem, tworzonym z miłością przez ludzi z całego świata.",
         "ConfigurationHelp": "Twój plik konfiguracyjny Matomo zdaje się zawierać niewłaściwe dane. Możesz usunąć plik config\/config.ini.php i wznowić instalację lub poprawić ustawienia połączenia z bazą danych.",
-        "ConfirmDeleteExistingTables": "Czy masz pewność, że chcesz skasować tabele: %s ze swojej bazy danych? OSTRZEŻENIE: DANE Z TYCH TABEL NIE ZOSTANĄ ODTWORZONE CZY ZABEZPIECZONE!",
+        "ConfirmDeleteExistingTables": "Czy masz pewność, że chcesz skasować tabele: %s ze swojej bazy danych? OSTRZEŻENIE: DANYCH Z TYCH TABEL NIE DA SIĘ ODTWORZYĆ!",
         "Congratulations": "Gratulacje",
         "CongratulationsHelp": "<p>Gratulujemy! Instalacja Twojego Matomo zakończyła się powodzeniem.<\/p><p>Upewnij się, że Twój kod śledzący JavaScript został dodany na stronach i czekaj na pierwszych odwiedzających!<\/p>",
         "DatabaseAbilities": "Możliwości bazy danych",
@@ -72,6 +72,12 @@
         "SystemCheckCreateFunctionHelp": "Matomo używa funkcji anonimowych dla wywołań zwrotnych.",
         "SystemCheckDatabaseExtensions": "Rozszerzenia MySQL",
         "SystemCheckDatabaseHelp": "Do prawidłowego działania Matomo wymaga rozszerzenia mysqli lub jednocześnie działających rozszerzeń PDO i pdo_mysql.",
+        "SystemCheckDatabaseSSL": "Połączenie SSL z bazą danych",
+        "SystemCheckDatabaseSSLCipher": "Wykorzystywany szyfr SSL",
+        "SystemCheckDatabaseSSLDisabled": "Wsparcie SSL na Twoim serwerze bazy danych jest wyłączone",
+        "SystemCheckDatabaseSSLNo": "Serwer bazy danych nie został skompilowany ze wsparciem SSL",
+        "SystemCheckDatabaseSSLNotWorking": "%s jest ustawione na '1', ale połączenie SSL nie działa",
+        "SystemCheckDatabaseSSLOn": "Twoja baza danych wspiera połączenia SSL, ale połączenie SSL nie jest wykorzystywane. Sprawdź ustawienia SSL bazy danych w pliku konfiguracyjnym Twojego Matomo",
         "SystemCheckDebugBacktraceHelp": "Widok::fabryka nie będzie zdolna do wygenerowania widoku modułu.",
         "SystemCheckError": "Wystąpił błąd - musi go naprawić przed wykonaniem kolejnego kroku",
         "SystemCheckEvalHelp": "Wymagane przez HTML QuickForm system szablonów Smarty.",
@@ -143,6 +149,7 @@
         "WelcomeHelp": "<p>Matomo to bezpłatne\/wolne statystyki dla stron www pozwalające Ci łatwo uzyskać informacje o Twoich odwiedzających.<\/p><p>Ten proces jest podzielony na %s proste kroki i zajmie około 5 minut.<\/p>",
         "WelcomeToCommunity": "Witamy w społeczności Matomo",
         "CannotConnectToDb": "Nie można połączyć się z bazą danych",
-        "CannotConnectToDbResolvingExplanation": "To może być sytuacja przejściowa, spróbuj %1$sodświeżyć stronę%2$s. Jeśli to nie rozwiąże sytuacji skontaktuj się ze swoim administratorem Matomo."
+        "CannotConnectToDbResolvingExplanation": "To może być sytuacja przejściowa, spróbuj %1$sodświeżyć stronę%2$s. Jeśli to nie rozwiąże sytuacji skontaktuj się ze swoim administratorem Matomo.",
+        "EmailPrivacyNotice": "Twój adres e-mail posłuży jedynie do wysyłki newslettera Matomo. Możesz zrezygnować w dowolnym momencie klikając link rezygnacji. Nie przekażemy Twojego adresu nikomu, ani nie użyjemy go w żadnym innym celu niż wysyłka newslettera Matomo. Przeczytaj naszą %1$spolitykę prywatności%2$s, aby poznać szczegóły."
     }
 }

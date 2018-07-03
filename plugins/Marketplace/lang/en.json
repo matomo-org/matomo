@@ -31,7 +31,7 @@
     "LicenseKeyDeletedSuccess": "License key successfully deleted.",
     "Exceeded": "Exceeded",
     "LicenseMissing": "License missing",
-    "LicenseMissingDescription": "You are using the following plugins without a license: %1$s. %2$sTo resolve this issue either update your license key, %3$sget a subscription now%4$s or deactivate the plugin.",
+    "LicenseMissingDeactivatedDescription": "The following plugins have been deactivated because you are using them without a license: %1$s. %2$sTo resolve this issue either update your license key, %3$sget a subscription now%4$s or deactivate the plugin.",
     "PluginLicenseMissingDescription": "You are not allowed to download this plugin because there is no license for this plugin. To resolve this issue either update your license key, get a subscription or uninstall the plugin.",
     "LicenseExceeded": "License exceeded",
     "LicenseExceededDescription": "The licenses for the following plugins are no longer valid as the number of authorized users for the license is exceeded: %1$s. %2$sYou will not be able to download updates for these plugins. To resolve this issue either delete some users or %3$supgrade the subscription now%4$s.",

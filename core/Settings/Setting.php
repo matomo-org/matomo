@@ -12,6 +12,7 @@ namespace Piwik\Settings;
 use Piwik\Piwik;
 use Piwik\Settings\Storage\Storage;
 use Exception;
+use Piwik\Validators\BaseValidator;
 
 /**
  * Base setting type class.
@@ -237,6 +238,10 @@ class Setting
     {
         $config = $this->configureField();
 
+        if (!empty($config->validators)) {
+            BaseValidator::check($config->title, $value, $config->validators);
+        }
+
         if ($config->validate && $config->validate instanceof \Closure) {
             call_user_func($config->validate, $value, $this);
         } elseif (is_array($config->availableValues)) {
@@ -314,6 +319,11 @@ class Setting
         if ($field->uiControl === FieldConfig::UI_CONTROL_MULTI_SELECT &&
             $this->type !== FieldConfig::TYPE_ARRAY) {
             throw new Exception('Type must be an array when using a multi select');
+        }
+
+        if ($field->uiControl === FieldConfig::UI_CONTROL_MULTI_TUPLE &&
+            $this->type !== FieldConfig::TYPE_ARRAY) {
+            throw new Exception('Type must be an array when using a multi pair');
         }
 
         $types = array(

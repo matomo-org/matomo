@@ -1,7 +1,6 @@
 {
     "SitesManager": {
         "AddSite": "Legg til ein ny nettstad",
-        "ChooseCityInSameTimezoneAsYou": "Vel ein by i same tidssone som deg.",
         "Currency": "Valuta",
         "DeleteConfirm": "Er du sikker på at du vil sletta denne nettstaden %s?",
         "ExceptionDeleteSite": "It is not possible to delete this website as it is the only registered website. Add a new website first, then delete this one. Det er ikkje mulig å sletta denne nettstaden, ettersom det er den einaste registrerte nettstaden. Legg til ein ny nettstad først, så kan du sletta denne etterpå.",
