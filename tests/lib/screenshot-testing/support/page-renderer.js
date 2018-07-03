@@ -104,6 +104,10 @@ var PageRenderer = function (baseUrl, page) {
 
 PageRenderer.prototype._reset = function () {
     this.pageLogs = [];
+    this.webpage.setViewport({
+        width: 1350,
+        height: 768,
+    });
 };
 
 PageRenderer.prototype.isVisible = function (selector) {
