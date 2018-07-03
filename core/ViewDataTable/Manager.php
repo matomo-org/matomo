@@ -243,9 +243,9 @@ class Manager
         Option::deleteLike('viewDataTableParameters_' . $userLogin . '_%');
     }
 
-    public static function getViewDataTableParameters($login, $controllerAction)
+    public static function getViewDataTableParameters($login, $controllerAction, $containerId = null)
     {
-        $paramsKey = self::buildViewDataTableParametersOptionKey($login, $controllerAction);
+        $paramsKey = self::buildViewDataTableParametersOptionKey($login, $controllerAction, $containerId);
         $params    = Option::get($paramsKey);
 
         if (empty($params)) {
@@ -273,9 +273,10 @@ class Manager
      * @param $login
      * @param $controllerAction
      * @param $parametersToOverride
+     * @param string|null $containerId
      * @throws \Exception
      */
-    public static function saveViewDataTableParameters($login, $controllerAction, $parametersToOverride)
+    public static function saveViewDataTableParameters($login, $controllerAction, $parametersToOverride, $containerId = null)
     {
         $params = self::getViewDataTableParameters($login, $controllerAction);
 
@@ -294,7 +295,7 @@ class Manager
             $params[$key] = $value;
         }
 
-        $paramsKey = self::buildViewDataTableParametersOptionKey($login, $controllerAction);
+        $paramsKey = self::buildViewDataTableParametersOptionKey($login, $controllerAction, $containerId);
 
         // when setting an invalid parameter, we fail and let user know
         self::errorWhenSettingNonOverridableParameter($controllerAction, $params);
@@ -302,9 +303,13 @@ class Manager
         Option::set($paramsKey, json_encode($params));
     }
 
-    private static function buildViewDataTableParametersOptionKey($login, $controllerAction)
+    private static function buildViewDataTableParametersOptionKey($login, $controllerAction, $containerId)
     {
-        return sprintf('viewDataTableParameters_%s_%s', $login, $controllerAction);
+        $result = sprintf('viewDataTableParameters_%s_%s', $login, $controllerAction);
+        if (!empty($containerId)) {
+            $result .= '_' . $containerId;
+        }
+        return $result;
     }
 
     /**

@@ -198,7 +198,7 @@ class SettingsPiwik
             // if URL changes, always update the cache
             || $currentUrl != $url
         ) {
-            $host = Url::getHostFromUrl($url);
+            $host = Url::getHostFromUrl($currentUrl);
 
             if (strlen($currentUrl) >= strlen('http://a/')
                 && !Url::isLocalHost($host)) {
