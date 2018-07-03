@@ -1,5 +1,5 @@
-<{{ componentName }}
+<{{ componentName|e('html') }}
     {% for key, value in componentParameters %}
-    {{ key }}="{{ value|e('html') }}"
+    {{ key|e('html') }}="{{ value|e('html_attr') }}"
     {% endfor %}
 />
