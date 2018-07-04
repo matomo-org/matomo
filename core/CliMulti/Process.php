@@ -177,8 +177,8 @@ class Process
             return false;
         }
 
-        if (count(self::getRunningProcesses()) > 0) {
-            return true;
+        if (!in_array(getmypid(), self::getRunningProcesses())) {
+            return false;
         }
 
         if (!self::isProcFSMounted()) {
