@@ -888,7 +888,6 @@ class Manager
         if ($newPlugin->isPremiumFeature()
             && SettingsPiwik::isInternetEnabled()
             && !Development::isEnabled()
-            && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)
             && $this->isPluginActivated('Marketplace')
             && $this->isPluginActivated($pluginName)) {
 
@@ -910,7 +909,7 @@ class Manager
                 $cache->save($cacheKey, $pluginLicenseInfo, $sixHours);
             }
 
-            if (!empty($pluginLicenseInfo['missing'])) {
+            if (!empty($pluginLicenseInfo['missing']) && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)) {
                 $this->unloadPluginFromMemory($pluginName);
                 return $pluginsToPostPendingEventsTo;
             }
