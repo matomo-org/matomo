@@ -31,7 +31,7 @@
         {% endfor %}
     {% endspaceless %}
 </ul>
-<ul class="side-nav" id="mobile-top-menu">
+<ul class="side-nav hide-on-large-only" id="mobile-top-menu">
     {% for label,menu in topMenu %}
         <li role="menuitem" class="{{ _self.isActiveItem(menu, topMenuModule, topMenuAction) }}"
             >{{ _self.topMenuItem(label, '', menu) }}</li>
