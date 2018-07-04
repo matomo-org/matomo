@@ -19,7 +19,6 @@ use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
-use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
 
 /**
  *
