@@ -888,6 +888,7 @@ class Manager
         if ($newPlugin->isPremiumFeature()
             && SettingsPiwik::isInternetEnabled()
             && !Development::isEnabled()
+            && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)
             && $this->isPluginActivated('Marketplace')
             && $this->isPluginActivated($pluginName)) {
 
