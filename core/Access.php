@@ -9,6 +9,14 @@
 namespace Piwik;
 
 use Exception;
+use Piwik\Access\Capability\Admin;
+use Piwik\Access\Capability\AnalyticsView;
+use Piwik\Access\Capability\AnalyticsWrite;
+use Piwik\Access\Capability\PublishLiveContainer;
+use Piwik\Access\Capability\SegmentsWrite;
+use Piwik\Access\Capability\TagManagerView;
+use Piwik\Access\Capability\TagManagerWrite;
+use Piwik\Access\Capability\WebContent;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 
@@ -98,7 +106,10 @@ class Access
      */
     public static function getListAccess()
     {
-        return self::$availableAccess;
+        return array(
+            Admin::ID, AnalyticsView::ID, AnalyticsWrite::ID, PublishLiveContainer::ID,
+            SegmentsWrite::ID, TagManagerView::ID, TagManagerWrite::ID, WebContent::ID
+        );
     }
 
     /**
@@ -427,6 +438,48 @@ class Access
                 throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
             }
         }
+    }
+
+    private function getSitesIdWithCapability($capability)
+    {
+        if (!empty($this->idsitesByAccess[$capability])) {
+            return $this->idsitesByAccess[$capability];
+        }
+        return array();
+    }
+
+    public function checkUserCanCapability($idSites, $capability)
+    {
+        if ($this->hasSuperUserAccess()) {
+            return;
+        }
+
+        $idSites = $this->getIdSites($idSites);
+        $idSitesAccessible = $this->getSitesIdWithCapability($capability);
+
+        foreach ($idSites as $idsite) {
+            if (!in_array($idsite, $idSitesAccessible)) {
+                throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
+            }
+        }
+    }
+
+    public function hasUserCapability($idSites, $capability)
+    {
+        if ($this->hasSuperUserAccess()) {
+            return true;
+        }
+
+        $idSites = $this->getIdSites($idSites);
+        $idSitesAccessible = $this->getSitesIdWithCapability($capability);
+
+        foreach ($idSites as $idsite) {
+            if (!in_array($idsite, $idSitesAccessible)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

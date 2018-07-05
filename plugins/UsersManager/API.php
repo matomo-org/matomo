@@ -734,12 +734,16 @@ class API extends \Piwik\Plugin\API
      * @throws Exception if the user doesn't exist
      * @throws Exception if the access parameter doesn't have a correct value
      * @throws Exception if any of the given website ID doesn't exist
-     *
-     * @return bool true on success
      */
     public function setUserAccess($userLogin, $access, $idSites)
     {
-        $this->checkAccessType($access);
+        if (is_array($access)) {
+            foreach ($access as $entry) {
+                $this->checkAccessType($entry);
+            }
+        } else {
+            $this->checkAccessType($access);
+        }
         $this->checkUserExists($userLogin);
         $this->checkUserHasNotSuperUserAccess($userLogin);
 
@@ -769,7 +773,13 @@ class API extends \Piwik\Plugin\API
         // if the access is noaccess then we don't save it as this is the default value
         // when no access are specified
         if ($access != 'noaccess') {
-            $this->model->addUserAccess($userLogin, $access, $idSites);
+            if (is_array($access)) {
+                foreach ($access as $entry) {
+                    $this->model->addUserAccess($userLogin, $entry, $idSites);
+                }
+            } else {
+                $this->model->addUserAccess($userLogin, $access, $idSites);
+            }
         } else {
             if (!empty($idSites) && !is_array($idSites)) {
                 $idSites = array($idSites);
