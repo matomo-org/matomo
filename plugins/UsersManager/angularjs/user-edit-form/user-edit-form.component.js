@@ -23,6 +23,7 @@
 
     function UserEditFormController() {
         var vm = this;
+        vm.activeTab = 'basic';
         vm.user = {};
         vm.getFormTitle = getFormTitle;
 

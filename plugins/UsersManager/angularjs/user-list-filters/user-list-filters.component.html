@@ -1,13 +1,21 @@
 <div class="userListFilters row">
-    <div class="input-field col s12 m3">
+    <div class="input-field col s12 m2">
         <a class="btn">
             Add a new user
         </a>
     </div>
-    <div class="input-field col s12 m3 push-m3">
+    <div class="input-field col s12 m2">
+        <select piwik-material-select>
+            <option value="" selected placeholder>Bulk set access</option>
+            <option value="none">None</option>
+            <option value="view">View</option>
+            <option value="admin">Admin</option>
+        </select>
+    </div>
+    <div class="input-field col s12 m3 push-m2">
         <input type="text" placeholder="Filter by login, alias, email"/>
     </div>
-    <div class="input-field col s12 m3 push-m3">
+    <div class="input-field col s12 m3 push-m2">
         <select piwik-material-select>
             <option value="" selected placeholder>Filter by access level</option>
             <option value="">None</option>

@@ -51,7 +51,7 @@ piwik-paged-users-list {
     }
   }
 
-  td.superuser-cell {
+  tbody span.checkbox-container {
     label {
       transform: scale(.8);
       height: 1em;
@@ -65,6 +65,15 @@ piwik-paged-users-list {
     [type="checkbox"]:not(:checked) + label::before {
       top: -4px;
     }
+  }
+
+  .select-cell {
+    width: 32px;
+  }
+
+  table.entityTable tbody tr.select-all-row > td {
+    padding: 6px;
+    text-align: center;
   }
 }
 

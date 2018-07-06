@@ -7,12 +7,16 @@
 
     <piwik-users-list-pagination></piwik-users-list-pagination>
 
-    <div
-            piwik-content-block
-    >
+    <div piwik-content-block>
         <table piwik-content-table id="manageUsersTable">
             <thead>
             <tr>
+                <th class="select-cell">
+                    <span class="checkbox-container">
+                        <input type="checkbox" id="select_all" checked="checked" />
+                        <label for="select_all"></label>
+                    </span>
+                </th>
                 <th class='first'>Username</th>
                 <th>Permissions</th>
                 <th>Superuser</th>
@@ -24,8 +28,19 @@
             </thead>
 
             <tbody>
+                <tr class="select-all-row">
+                    <td colspan="8">
+                        <div>The <strong>5</strong> users displayed are selected. <a href="#">Select all <strong>10000</strong> users below.</a></div>
+                    </td>
+                </tr>
 
                 <tr id="row1">
+                    <td class="select-cell">
+                        <span class="checkbox-container">
+                            <input type="checkbox" id="select_row1" checked="checked" />
+                            <label for="select_row1"></label>
+                        </span>
+                    </td>
                     <td id="userLogin">enterprise</td>
                     <td class="access-cell">
                         <select piwik-material-select>
@@ -35,8 +50,10 @@
                         </select>
                     </td>
                     <td class="superuser-cell">
-                        <input type="checkbox" id="row1_superuser" checked="checked" />
-                        <label for="row1_superuser">Yes</label>
+                        <span class="checkbox-container">
+                            <input type="checkbox" id="row1_superuser" checked="checked" />
+                            <label for="row1_superuser">Yes</label>
+                        </span>
                     </td>
                     <td id="email">contact+1@innocraft.com</td>
                     <td id="alias">enterprise</td>

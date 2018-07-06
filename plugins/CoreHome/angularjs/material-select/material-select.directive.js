@@ -38,6 +38,11 @@
                         }
                     });
                 }
+
+                // when the dropdown is shown, set a high z-index on this select so it will be over other selects
+                $element.closest('.select-wrapper').find('input').click(function () {
+                    // TODO
+                });
             },
         };
     }

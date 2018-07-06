@@ -1,56 +1,109 @@
 <div class="userPermissionsEdit">
-    <p class="permission-select">
-        <span>Show websites this user has</span>
-        <select piwik-material-select ng-model="$ctrl.accessLevel">
-            <option value="">No Access</option>
-            <option value="view">View Access</option>
-            <option value="admin">Admin Access</option>
-            <option value="">Tag Manager Write Access</option>
-        </select>
-        <span>to:</span>
-    </p>
+    <div class="filters">
+        <div class="input-field bulk-set-access">
+            <select piwik-material-select>
+                <option value="" placeholder selected>Bulk set access</option>
+                <option value="none">None</option>
+                <option value="view">View</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+
+        <div class="input-field site-filter">
+            <input type="text" placeholder="Filter by name"/>
+        </div>
+
+        <div class="input-field access-filter">
+            <select piwik-material-select>
+                <option value="" selected placeholder>Filter by access level</option>
+                <option value="none">None</option>
+                <option value="some">At least View access</option>
+                <option value="view">View</option>
+                <option value="admin">Admin</option>
+                <option value="superuser">Superuser</option>
+            </select>
+        </div>
+    </div>
 
     <table piwik-content-table id="sitesForPermission">
         <thead>
         <tr>
+            <th class="select-cell">
+                <span class="checkbox-container">
+                    <input type="checkbox" id="select_all" checked="checked" />
+                    <label for="select_all"></label>
+                </span>
+            </th>
             <th>
                 Name
+            </th>
+            <th>
+                Access
             </th>
         </tr>
         </thead>
         <tbody>
+        <tr class="select-all-row">
+            <td colspan="3">
+                <div>The <strong>5</strong> websites displayed are selected. <a href="#">Select all <strong>10000</strong> websites below.</a></div>
+            </td>
+        </tr>
         <tr>
+            <td class="select-cell">
+                <span class="checkbox-container">
+                    <input type="checkbox" id="select_row1" checked="checked" />
+                    <label for="select_row1"></label>
+                </span>
+            </td>
             <td>
                 <span>Some website</span>
-                <button class="delete-site-permission table-action" title="Remove">
-                    <span class="icon-minus"></span>
-                </button>
+            </td>
+            <td>
+                <select piwik-material-select>
+                    <option value="">None</option>
+                    <option value="view" selected>View</option>
+                    <option value="admin">Admin</option>
+                </select>
             </td>
         </tr>
         <tr>
+            <td class="select-cell">
+                    <span class="checkbox-container">
+                    <input type="checkbox" id="select_row2" checked="checked" />
+                    <label for="select_row2"></label>
+                </span>
+            </td>
             <td>
                 <span>Some other website</span>
-
-                <button class="delete-site-permission table-action" title="Remove">
-                    <span class="icon-minus"></span>
-                </button>
+            </td>
+            <td>
+                <select piwik-material-select>
+                    <option value="">None</option>
+                    <option value="view" selected>View</option>
+                    <option value="admin">Admin</option>
+                </select>
             </td>
         </tr>
         <tr>
+            <td class="select-cell">
+                    <span class="checkbox-container">
+                    <input type="checkbox" id="select_row3" checked="checked" />
+                    <label for="select_row3"></label>
+                </span>
+            </td>
             <td>
-                <span><em>Another site (added)</em></span>
-
-                <button class="delete-site-permission table-action" title="Remove">
-                    <span class="icon-minus"></span>
-                </button>
+                <span>Another site</span>
+            </td>
+            <td>
+                <select piwik-material-select>
+                    <option value="">None</option>
+                    <option value="view" selected>View</option>
+                    <option value="admin">Admin</option>
+                </select>
             </td>
         </tr>
         </tbody>
     </table>
-
-    <div class="input-field site-filter">
-        <input type="text" placeholder="Filter by name"/>
-    </div>
 
     <div class="col s12 sites-for-permission-pagination">
         <a class="prev" disabled="disabled">
@@ -66,11 +119,5 @@
         <a class="next">
             <span class="pointer">Next »</span>
         </a>
-    </div>
-
-    <div>
-        <span>Give this user <strong>View Access</strong> to</span>
-        <div piwik-siteselector show-selected-site="true" class="sites_autocomplete"></div>
-        <input type="button" value="Add" class="btn add-permission" />
     </div>
 </div>
