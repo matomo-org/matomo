@@ -1,12 +1,4 @@
 <div class="pagedUsersList">
-    <div class="access-display-control">
-        <label>Show access for</label>
-
-        <div piwik-siteselector show-selected-site="true" class="sites_autocomplete"></div>
-    </div>
-
-    <piwik-users-list-pagination></piwik-users-list-pagination>
-
     <div piwik-content-block>
         <table piwik-content-table id="manageUsersTable">
             <thead>
@@ -18,7 +10,11 @@
                     </span>
                 </th>
                 <th class='first'>Username</th>
-                <th>Permissions</th>
+                <th>
+                    <span>Permissions for</span>
+
+                    <div piwik-siteselector show-selected-site="true" class="sites_autocomplete"></div>
+                </th>
                 <th>Superuser</th>
                 <th>Email</th>
                 <th>Alias</th>
@@ -30,7 +26,7 @@
             <tbody>
                 <tr class="select-all-row">
                     <td colspan="8">
-                        <div>The <strong>5</strong> users displayed are selected. <a href="#">Select all <strong>10000</strong> users below.</a></div>
+                        <div>The <strong>5</strong> displayed users are selected. <a href="#">Click to select all <strong>10000</strong>.</a></div>
                     </td>
                 </tr>
 
@@ -71,6 +67,4 @@
             </tbody>
         </table>
     </div>
-
-    <piwik-users-list-pagination></piwik-users-list-pagination>
 </div>

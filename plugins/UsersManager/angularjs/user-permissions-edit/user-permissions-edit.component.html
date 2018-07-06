@@ -1,6 +1,6 @@
 <div class="userPermissionsEdit">
-    <div class="filters">
-        <div class="input-field bulk-set-access">
+    <div class="filters row">
+        <div class="input-field bulk-set-access col s12 m3">
             <select piwik-material-select>
                 <option value="" placeholder selected>Bulk set access</option>
                 <option value="none">None</option>
@@ -9,11 +9,11 @@
             </select>
         </div>
 
-        <div class="input-field site-filter">
+        <div class="input-field site-filter col s12 m3">
             <input type="text" placeholder="Filter by name"/>
         </div>
 
-        <div class="input-field access-filter">
+        <div class="input-field access-filter col s12 m3">
             <select piwik-material-select>
                 <option value="" selected placeholder>Filter by access level</option>
                 <option value="none">None</option>
@@ -34,18 +34,15 @@
                     <label for="select_all"></label>
                 </span>
             </th>
-            <th>
-                Name
-            </th>
-            <th>
-                Access
-            </th>
+            <th>Name</th>
+            <th>Access</th>
+            <th class="actions-cell">Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr class="select-all-row">
-            <td colspan="3">
-                <div>The <strong>5</strong> websites displayed are selected. <a href="#">Select all <strong>10000</strong> websites below.</a></div>
+            <td colspan="4">
+                <div>The <strong>5</strong> displayed websites are selected. <a href="#">Click to select all <strong>10000</strong>.</a></div>
             </td>
         </tr>
         <tr>
@@ -65,6 +62,11 @@
                     <option value="admin">Admin</option>
                 </select>
             </td>
+            <td class="center actions-cell">
+                <button class="deleteaccess table-action" title="Remove all access to this website">
+                    <span class="icon-delete"></span>
+                </button>
+            </td>
         </tr>
         <tr>
             <td class="select-cell">
@@ -82,6 +84,11 @@
                     <option value="view" selected>View</option>
                     <option value="admin">Admin</option>
                 </select>
+            </td>
+            <td class="center actions-cell">
+                <button class="deleteaccess table-action" title="Remove all access to this website">
+                    <span class="icon-delete"></span>
+                </button>
             </td>
         </tr>
         <tr>
@@ -101,23 +108,30 @@
                     <option value="admin">Admin</option>
                 </select>
             </td>
+            <td class="center actions-cell">
+                <button class="deleteaccess table-action" title="Remove all access to this website">
+                    <span class="icon-delete"></span>
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>
 
-    <div class="col s12 sites-for-permission-pagination">
-        <a class="prev" disabled="disabled">
-            <span class="pointer">« Previous</span>
-        </a>
+    <div class="row">
+        <div class="input-field col sites-for-permission-pagination s12">
+            <a class="prev" disabled="disabled">
+                <span class="pointer">« Previous</span>
+            </a>
 
-        <span class="counter">
+            <span class="counter">
                         <span>
                                 0 - 10 of 10001
                         </span>
                     </span>
 
-        <a class="next">
-            <span class="pointer">Next »</span>
-        </a>
+            <a class="next">
+                <span class="pointer">Next »</span>
+            </a>
+        </div>
     </div>
 </div>

@@ -27,6 +27,11 @@
     }
   }
 
+  .filters.row {
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+  }
+
   #sitesForPermission {
     margin-left: 0;
     margin-right: 0;
@@ -68,6 +73,10 @@
     }
   }
 
+  table.entityTable tbody tr td {
+    vertical-align: middle !important;
+  }
+
   .add-permission {
     float: right;
   }
@@ -80,7 +89,6 @@
 
   .sites-for-permission-pagination {
     text-align: center;
-    font-size: .9em;
 
     .counter {
       margin-left: 8px;
@@ -88,17 +96,15 @@
     }
   }
 
-  .filters {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    > div {
-      display: inline-block;
-    }
-  }
-
   .delete-site-permission {
     float: right;
+  }
+
+  td.actions-cell {
+    padding: 0;
+  }
+
+  .actions-cell {
+    width: 96px;
   }
 }

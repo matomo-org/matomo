@@ -13,11 +13,17 @@
                 Create new users or update the existing users. You can then set their permissions here too. There are currently <strong>1</strong> registered users.
             </p>
 
+            <div class="row add-user-container">
+                <div class="input-field col s12 m3">
+                    <a class="btn">
+                        Add a new user
+                    </a>
+                </div>
+            </div>
+
             <piwik-user-list-filters class="top-filter"></piwik-user-list-filters>
 
             <piwik-paged-users-list on-edit-user="$ctrl.isEditing = true"></piwik-paged-users-list>
-
-            <piwik-user-list-filters class="bottom-filter"></piwik-user-list-filters>
         </div>
     </div>
 

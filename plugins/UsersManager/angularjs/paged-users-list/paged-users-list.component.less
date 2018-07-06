@@ -30,6 +30,10 @@ piwik-paged-users-list {
     padding-bottom: 0;
   }
 
+  table.entityTable tbody tr td {
+    vertical-align: middle !important;
+  }
+
   table.entityTable tbody tr td.actions-cell {
     width: 130px;
     padding: 0;
@@ -75,9 +79,18 @@ piwik-paged-users-list {
     padding: 6px;
     text-align: center;
   }
+
+  .sites_autocomplete {
+    display: block;
+    margin-left: 0;
+  }
 }
 
 #root piwik-paged-users-list .siteSelector.borderedControl {
   background-color: white;
-  min-width: 150px;
+  width: 150px;
+}
+
+#content piwik-paged-users-list .sites_autocomplete > .siteSelector {
+  position: static;
 }
