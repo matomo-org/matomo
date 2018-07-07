@@ -1,19 +1,27 @@
 <div class="userPermissionsEdit">
     <div class="filters row">
-        <div class="input-field bulk-set-access col s12 m3">
-            <select piwik-material-select>
-                <option value="" placeholder selected>Bulk set access</option>
-                <option value="none">None</option>
-                <option value="view">View</option>
-                <option value="admin">Admin</option>
-            </select>
+        <div class="input-field bulk-actions col">
+            <a class='dropdown-trigger btn' href='' data-activates='user-permissions-edit-bulk-actions' piwik-dropdown-menu>Bulk Actions</a>
+            <ul id='user-permissions-edit-bulk-actions' class='dropdown-content'>
+                <li>
+                    <a class='dropdown-trigger' data-activates="bulk-set-access" piwik-dropdown-submenu>Set Access</a>
+                    <ul id="bulk-set-access" class="dropdown-content">
+                        <li ng-repeat="access in $ctrl.accessLevels">
+                            <a href="" ng-click="$ctrl.setAccessBulk(access.key)">{{ access.value }}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="">Remove Access</a>
+                </li>
+            </ul>
         </div>
 
-        <div class="input-field site-filter col s12 m3">
+        <div class="input-field site-filter col">
             <input type="text" placeholder="Filter by name"/>
         </div>
 
-        <div class="input-field access-filter col s12 m3">
+        <div class="input-field access-filter col">
             <select piwik-material-select>
                 <option value="" selected placeholder>Filter by access level</option>
                 <option value="none">None</option>
@@ -30,7 +38,7 @@
         <tr>
             <th class="select-cell">
                 <span class="checkbox-container">
-                    <input type="checkbox" id="select_all" checked="checked" />
+                    <input type="checkbox" id="select_all" ng-model="$ctrl.isAllCheckboxSelected" ng-change="$ctrl.onAllCheckboxChange()" />
                     <label for="select_all"></label>
                 </span>
             </th>
@@ -40,76 +48,44 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="select-all-row">
+        <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected">
             <td colspan="4">
-                <div>The <strong>5</strong> displayed websites are selected. <a href="#">Click to select all <strong>10000</strong>.</a></div>
+                <div ng-if="!$ctrl.areAllResultsSelected">
+                    The <strong>{{ $ctrl.siteAccess.length }}</strong> displayed websites are selected.
+                    <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select all <strong>{{ $ctrl.totalEntries }}</strong>.</a>
+                </div>
+
+                <div ng-if="$ctrl.areAllResultsSelected">
+                    All <strong>{{ $ctrl.totalEntries }}</strong> websites are selected.
+                    <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select the <strong>{{ $ctrl.siteAccess.length }}</strong> displayed websites.</a>
+                </div>
             </td>
         </tr>
-        <tr>
+        <tr ng-repeat="entry in $ctrl.siteAccess">
             <td class="select-cell">
                 <span class="checkbox-container">
-                    <input type="checkbox" id="select_row1" checked="checked" />
-                    <label for="select_row1"></label>
+                    <input type="checkbox" ng-attr-id="select_row{{ $index }}" ng-model="$ctrl.selectedRows[$index]" />
+                    <label ng-attr-for="select_row{{ $index }}"></label>
                 </span>
             </td>
             <td>
-                <span>Some website</span>
+                <span>{{ entry.name }}</span>
             </td>
             <td>
-                <select piwik-material-select>
-                    <option value="">None</option>
-                    <option value="view" selected>View</option>
-                    <option value="admin">Admin</option>
-                </select>
+                <div
+                    piwik-field
+                    uicontrol="select"
+                    ng-model="entry.access"
+                    options="$ctrl.accessLevels"
+                    ng-change="$ctrl.onAccessChange(entry)"
+                ></div>
             </td>
             <td class="center actions-cell">
-                <button class="deleteaccess table-action" title="Remove all access to this website">
-                    <span class="icon-delete"></span>
-                </button>
-            </td>
-        </tr>
-        <tr>
-            <td class="select-cell">
-                    <span class="checkbox-container">
-                    <input type="checkbox" id="select_row2" checked="checked" />
-                    <label for="select_row2"></label>
-                </span>
-            </td>
-            <td>
-                <span>Some other website</span>
-            </td>
-            <td>
-                <select piwik-material-select>
-                    <option value="">None</option>
-                    <option value="view" selected>View</option>
-                    <option value="admin">Admin</option>
-                </select>
-            </td>
-            <td class="center actions-cell">
-                <button class="deleteaccess table-action" title="Remove all access to this website">
-                    <span class="icon-delete"></span>
-                </button>
-            </td>
-        </tr>
-        <tr>
-            <td class="select-cell">
-                    <span class="checkbox-container">
-                    <input type="checkbox" id="select_row3" checked="checked" />
-                    <label for="select_row3"></label>
-                </span>
-            </td>
-            <td>
-                <span>Another site</span>
-            </td>
-            <td>
-                <select piwik-material-select>
-                    <option value="">None</option>
-                    <option value="view" selected>View</option>
-                    <option value="admin">Admin</option>
-                </select>
-            </td>
-            <td class="center actions-cell">
-                <button class="deleteaccess table-action" title="Remove all access to this website">
+                <button
+                    class="deleteaccess table-action"
+                    title="Remove all access to this website"
+                    ng-click="$ctrl.onRemoveAllAccess(entry)"
+                >
                     <span class="icon-delete"></span>
                 </button>
             </td>
@@ -125,7 +101,7 @@
 
             <span class="counter">
                         <span>
-                                0 - 10 of 10001
+                                0 - {{ $ctrl.limit }} of {{ $ctrl.totalEntries }}
                         </span>
                     </span>
 

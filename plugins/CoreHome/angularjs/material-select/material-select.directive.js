@@ -14,6 +14,7 @@
 
     piwikMaterialSelect.$inject = [];
 
+    // TODO: use field directive instead
     function piwikMaterialSelect() {
         return {
             restrict: 'A',

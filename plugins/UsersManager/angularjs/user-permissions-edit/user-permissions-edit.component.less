@@ -30,6 +30,11 @@
   .filters.row {
     margin-left: -0.75rem;
     margin-right: -0.75rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
   }
 
   #sitesForPermission {
@@ -71,6 +76,17 @@
       padding: 6px;
       text-align: center;
     }
+
+    .row.form-group {
+      margin: 0;
+      .col {
+        padding: 0;
+      }
+    }
+
+    tr .input-field {
+      margin-top: 0;
+    }
   }
 
   table.entityTable tbody tr td {
@@ -79,12 +95,6 @@
 
   .add-permission {
     float: right;
-  }
-
-  .bulk-actions {
-    .select-wrapper {
-      display: inline-block;
-    }
   }
 
   .sites-for-permission-pagination {

@@ -25,7 +25,7 @@
             <div piwik-save-button
                  saving="$ctrl.isLoading"
                  onconfirm="$ctrl.onDoneEditing()"
-                 ng-value="Create User"
+                 ng-value="$ctrl.getSaveButtonLabel()"
             ></div>
 
             <div
@@ -42,7 +42,7 @@
                         piwik-field
                         uicontrol="text"
                         name="user_login"
-                        ng-model="$ctrl.user.userLogin"
+                        ng-model="$ctrl.user.login"
                         title="Username"
                         maxlength="100"
                 >
@@ -79,7 +79,10 @@
             </div>
 
             <div ng-if="$ctrl.activeTab === 'permissions'" class="user-permissions">
-                <piwik-user-permissions-edit></piwik-user-permissions-edit>
+                <piwik-user-permissions-edit
+                    user-login="$ctrl.user.login"
+                >
+                </piwik-user-permissions-edit>
             </div>
 
             <!-- TODO: add confirm modal when setting it or something? -->
@@ -93,7 +96,7 @@
                         piwik-field
                         uicontrol="checkbox"
                         name="superuser_access"
-                        ng-model="$ctrl.user.isSuperuser"
+                        ng-model="$ctrl.user.superuser_access"
                         title="Has Superuser Access"
                 >
                 </div>

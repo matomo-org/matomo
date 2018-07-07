@@ -1,0 +1,14 @@
+[piwik-dropdown-submenu]::after {
+  float: right;
+  content: "►";
+  color: @color-black-piwik;
+  font-size: .6em;
+}
+
+.submenu-dropdown-content.dropdown-content {
+  left: 100% !important;
+}
+
+.submenu-container.dropdown-content {
+  overflow:visible; // required for submenus to display TODO: note this since it means you can't have vertical scrollbars w/ these menus
+}

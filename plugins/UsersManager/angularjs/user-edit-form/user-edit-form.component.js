@@ -13,6 +13,7 @@
     angular.module('piwikApp').component('piwikUserEditForm', {
         templateUrl: 'plugins/UsersManager/angularjs/user-edit-form/user-edit-form.component.html?cb=' + piwik.cacheBuster,
         bindings: {
+            user: '<',
             isAdd: '<',
             onDoneEditing: '&'
         },
@@ -24,11 +25,15 @@
     function UserEditFormController() {
         var vm = this;
         vm.activeTab = 'basic';
-        vm.user = {};
         vm.getFormTitle = getFormTitle;
+        vm.getSaveButtonLabel = getSaveButtonLabel;
 
         function getFormTitle() {
             return vm.isAdd ? 'Add New User' : 'Edit User';
+        }
+
+        function getSaveButtonLabel() {
+            return vm.isAdd ? 'Create User' : 'Save';
         }
     }
 })();

@@ -16,6 +16,19 @@
 
     function piwikFormField(piwik, $timeout){
 
+        function initMaterialSelect($select) {
+            $select.material_select();
+
+            // to prevent overlapping selects, when a select is opened, we set the z-index to a high value on focus & remove on blur
+            $select.closest('.select-wrapper').find('input.select-dropdown')
+                .focus(function () {
+                    console.log('in', this);
+                    $(this).closest('.select-wrapper').css('z-index', 999);
+                }).blur(function () {
+                    $(this).closest('.select-wrapper').css('z-index', '');
+                });
+        }
+
         function syncMultiCheckboxKeysWithFieldValue(field)
         {
             angular.forEach(field.availableOptions, function (option, index) {
@@ -73,12 +86,12 @@
 
                 if (isSelectControl(field)) {
                     var $select = element.find('select');
-                    $select.material_select();
+                    initMaterialSelect($select);
 
                     scope.$watch('formField.value', function (val, oldVal) {
                         if (val !== oldVal) {
                             $timeout(function () {
-                                $select.material_select();
+                                initMaterialSelect($select);
                             });
                         }
                     });
@@ -86,7 +99,7 @@
                     scope.$watch('formField.uiControlAttributes.disabled', function (val, oldVal) {
                         if (val !== oldVal) {
                             $timeout(function () {
-                                $select.material_select();
+                                initMaterialSelect($select);
                             });
                         }
                     });
@@ -378,7 +391,7 @@
 
                             if (isSelectControl(scope.formField)) {
                                 $timeout(function () {
-                                    element.find('select').material_select();
+                                    initMaterialSelect(element.find('select'));
                                 });
                             }
                         }
@@ -386,7 +399,6 @@
                     scope.templateLoaded = function () {
                         $timeout(whenRendered(scope, element, inlineHelpNode));
                     };
-
                 };
             }
         };

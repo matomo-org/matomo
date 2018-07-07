@@ -29,6 +29,6 @@
 
     <!-- TODO: whether a user is being edited should be part of the URL -->
     <div ng-if="$ctrl.isEditing">
-        <piwik-user-edit-form on-done-editing="$ctrl.isEditing = false"></piwik-user-edit-form>
+        <piwik-user-edit-form on-done-editing="$ctrl.isEditing = false" user="$ctrl.user"></piwik-user-edit-form>
     </div>
 </div>
