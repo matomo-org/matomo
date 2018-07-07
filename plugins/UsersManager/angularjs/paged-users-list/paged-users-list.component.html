@@ -1,11 +1,56 @@
 <div class="pagedUsersList">
+    <div class="userListFilters row">
+        <div class="input-field col s12 m2">
+            <a class='dropdown-trigger btn' href='' data-activates='user-list-bulk-actions' piwik-dropdown-menu>Bulk Actions</a>
+            <ul id='user-list-bulk-actions' class='dropdown-content'>
+                <li>
+                    <a class='dropdown-trigger' data-activates="bulk-set-access" piwik-dropdown-menu>Set Access</a>
+                    <ul id="bulk-set-access" class="dropdown-content">
+                        <li ng-repeat="access in $ctrl.accessLevels">
+                            <a href="" ng-click="$ctrl.setAccessBulk(access.key)">{{ access.value }}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="">Remove Access</a>
+                </li>
+                <li>
+                    <a href="">Delete Users</a>
+                </li>
+            </ul>
+        </div>
+        <div class="input-field col s12 m3">
+            <div
+                piwik-field
+                class="permissions-for-selector"
+                uicontrol="text"
+                ng-model="$ctrl.userTextFilter"
+                placeholder="Filter by login/alias/email"
+                full-width="true"
+            ></div>
+        </div>
+        <div class="input-field col s12 m3">
+            <div
+                piwik-field
+                uicontrol="select"
+                ng-model="$ctrl.accessLevelFilter"
+                placeholder="Filter by access level"
+                options="$ctrl.accessLevelFilterOptions"
+                full-width="true"
+            ></div>
+        </div>
+        <div class="input-field col s12 m4" ng-if="$ctrl.users.length > $ctrl.limit">
+            <piwik-users-list-pagination></piwik-users-list-pagination>
+        </div>
+    </div>
+
     <div piwik-content-block>
         <table piwik-content-table id="manageUsersTable">
             <thead>
             <tr>
                 <th class="select-cell">
                     <span class="checkbox-container">
-                        <input type="checkbox" id="select_all" checked="checked" />
+                        <input type="checkbox" id="select_all" checked="checked" ng-model="$ctrl.isAllCheckboxSelected" ng-change="$ctrl.onAllCheckboxChange()" />
                         <label for="select_all"></label>
                     </span>
                 </th>
@@ -13,7 +58,12 @@
                 <th>
                     <span>Permissions for</span>
 
-                    <div piwik-siteselector show-selected-site="true" class="sites_autocomplete"></div>
+                    <div
+                        piwik-field
+                        class="permissions-for-selector"
+                        uicontrol="site"
+                        ng-model="$ctrl.permissionsForSite"
+                    ></div>
                 </th>
                 <th>Superuser</th>
                 <th>Email</th>
@@ -24,41 +74,51 @@
             </thead>
 
             <tbody>
-                <tr class="select-all-row">
+                <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected">
                     <td colspan="8">
-                        <div>The <strong>5</strong> displayed users are selected. <a href="#">Click to select all <strong>10000</strong>.</a></div>
+                        <div ng-if="!$ctrl.areAllResultsSelected">
+                            The <strong>{{ $ctrl.users.length }}</strong> displayed users are selected.
+                            <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select all <strong>{{ $ctrl.totalEntries }}</strong>.</a>
+                        </div>
+
+                        <div ng-if="$ctrl.areAllResultsSelected">
+                            All <strong>{{ $ctrl.totalEntries }}</strong> websites are selected.
+                            <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select the <strong>{{ $ctrl.users.length }}</strong> displayed users.</a>
+                        </div>
                     </td>
                 </tr>
 
-                <tr id="row1">
+                <tr ng-repeat="user in $ctrl.users" ng-attr-id="row{{ $index }}">
                     <td class="select-cell">
                         <span class="checkbox-container">
-                            <input type="checkbox" id="select_row1" checked="checked" />
-                            <label for="select_row1"></label>
+                            <input type="checkbox" ng-attr-id="select_row{{:: $index }}" checked="checked" ng-model="$ctrl.selectedRows[$index]" />
+                            <label ng-attr-for="select_row{{:: $index }}"></label>
                         </span>
                     </td>
-                    <td id="userLogin">enterprise</td>
+                    <td id="userLogin">{{:: user.login }}</td>
                     <td class="access-cell">
-                        <select piwik-material-select>
-                            <option value="">None</option>
-                            <option value="view" selected>View</option>
-                            <option value="admin">Admin</option>
-                        </select>
+                        <div
+                                piwik-field
+                                uicontrol="select"
+                                ng-model="$ctrl.userAccess[user.login]"
+                                options="$ctrl.accessLevels"
+                                ng-change="$ctrl.onAccessChange(entry)"
+                        ></div>
                     </td>
                     <td class="superuser-cell">
                         <span class="checkbox-container">
-                            <input type="checkbox" id="row1_superuser" checked="checked" />
-                            <label for="row1_superuser">Yes</label>
+                            <input type="checkbox" ng-attr-id="row{{:: $index }}_superuser" checked="checked" disabled="disabled" ng-checked="user.superuser_access" />
+                            <label ng-attr-for="row{{:: $index }}_superuser">{{:: user.superuser_access ? 'Yes' : 'No' }}</label>
                         </span>
                     </td>
-                    <td id="email">contact+1@innocraft.com</td>
-                    <td id="alias">enterprise</td>
-                    <td id="last_seen">00:00:35 ago</td>
+                    <td id="email">{{:: user.email }}</td>
+                    <td id="alias">{{:: user.alias }}</td>
+                    <td id="last_seen">{{:: user.last_seen }} ago</td>
                     <td class="center actions-cell">
-                        <button class="edituser table-action" title="Edit" ng-click="$ctrl.onEditUser()">
+                        <button class="edituser table-action" title="Edit" ng-click="$ctrl.onEditUser({ user: user })">
                             <span class="icon-edit"></span>
                         </button>
-                        <button class="deleteuser table-action" title="Delete">
+                        <button class="deleteuser table-action" title="Delete" ng-click="$ctrl.onDeleteUser({ user: user })">
                             <span class="icon-delete"></span>
                         </button>
                     </td>

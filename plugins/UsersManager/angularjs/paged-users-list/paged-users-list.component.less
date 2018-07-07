@@ -39,19 +39,31 @@ piwik-paged-users-list {
     padding: 0;
   }
 
-  table#manageUsersTable .select-wrapper {
-    transform: scale(.8);
-    width: 100px;
-
-    input {
-      margin-bottom: 0;
-      padding-bottom: .3em;
-      height: 1em;
-      line-height: 1em;
+  table#manageUsersTable {
+    [piwik-field] {
+      .form-group {
+        margin: 0;
+      }
+      .input-field {
+        margin-top: 0;
+        padding: 0;
+      }
     }
 
-    span.caret {
-      top: 0;
+    .select-wrapper {
+      transform: scale(.8);
+      width: 100px;
+
+      input {
+        margin-bottom: 0;
+        padding-bottom: .3em;
+        height: 1em;
+        line-height: 1em;
+      }
+
+      span.caret {
+        top: 0;
+      }
     }
   }
 
@@ -60,14 +72,6 @@ piwik-paged-users-list {
       transform: scale(.8);
       height: 1em;
       line-height: 1em;
-
-      &::before {
-        top: -8px;
-      }
-    }
-
-    [type="checkbox"]:not(:checked) + label::before {
-      top: -4px;
     }
   }
 
@@ -83,6 +87,28 @@ piwik-paged-users-list {
   .sites_autocomplete {
     display: block;
     margin-left: 0;
+  }
+
+  .userListFilters {
+    .form-group, [piwik-form-field] .input-field {
+      margin: 0;
+    }
+
+    .input-field .btn {
+      margin-top: .7rem;
+    }
+
+    &.row {
+      margin-bottom: 0;
+      margin-left: -0.75rem;
+      margin-right: -0.75rem;
+    }
+
+    span.counter {
+      display: inline-block;
+      line-height: 36px;
+      vertical-align: bottom;
+    }
   }
 }
 

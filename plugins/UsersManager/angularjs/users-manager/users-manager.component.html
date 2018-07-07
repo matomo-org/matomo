@@ -2,9 +2,9 @@
     <div ng-if="!$ctrl.isEditing">
         <div piwik-content-intro>
             <h2
-                    piwik-enriched-headline
-                    help-url="https://matomo.org/docs/manage-users/"
-                    feature-name="Users Management"
+                piwik-enriched-headline
+                help-url="https://matomo.org/docs/manage-users/"
+                feature-name="Users Management"
             ><!-- TODO: translate -->
                 Manage Users
             </h2>
@@ -15,19 +15,13 @@
 
             <div class="row add-user-container">
                 <div class="input-field col s12 m3">
-                    <a class="btn">
+                    <a class="btn" ng-click="$ctrl.isEditing = true; $ctrl.userBeingEdited = null;">
                         Add a new user
                     </a>
                 </div>
             </div>
 
-            <piwik-user-list-filters
-                class="top-filter"
-                access-levels="$ctrl.accessLevels"
-            >
-            </piwik-user-list-filters>
-
-            <piwik-paged-users-list on-edit-user="$ctrl.isEditing = true"></piwik-paged-users-list>
+            <piwik-paged-users-list on-edit-user="$ctrl.isEditing = true; $ctrl.userBeingEdited = user;"></piwik-paged-users-list>
         </div>
     </div>
 
@@ -35,7 +29,7 @@
     <div ng-if="$ctrl.isEditing">
         <piwik-user-edit-form
             on-done-editing="$ctrl.isEditing = false"
-            initial-user="$ctrl.user"
+            user="$ctrl.userBeingEdited"
             allow-superuser-edit="$ctrl.isCurrentUserSuperUser"
         ></piwik-user-edit-form>
     </div>

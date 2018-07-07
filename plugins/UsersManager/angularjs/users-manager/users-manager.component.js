@@ -24,15 +24,6 @@
         var vm = this;
         vm.isEditing = false;
         vm.isCurrentUserSuperUser = true;
-        vm.user = {
-            login: 'testuser',
-            password: 'abcdefghijkl',
-            alias: 'testalias',
-            email: 'somewhere@something.com',
-            token_auth: 'alsjfdlsdakjflsakdjf',
-            superuser_access: 1,
-            date_registered: '2018-01-23 03:45:45',
-        };
         vm.accessLevels = [
             { key: 'view', value: 'View' },
             { key: 'admin', value: 'Admin' }

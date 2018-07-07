@@ -93,7 +93,7 @@
         </tbody>
     </table>
 
-    <div class="row">
+    <div class="row" ng-if="$ctrl.totalEntries > $ctrl.limit">
         <div class="input-field col sites-for-permission-pagination s12">
             <a class="prev" disabled="disabled">
                 <span class="pointer">« Previous</span>
@@ -101,7 +101,7 @@
 
             <span class="counter">
                         <span>
-                                0 - {{ $ctrl.limit }} of {{ $ctrl.totalEntries }}
+                                {{ $ctrl.offset }} - {{ $ctrl.offset + $ctrl.siteAccess.length }} of {{ $ctrl.totalEntries }}
                         </span>
                     </span>
 

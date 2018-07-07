@@ -14,7 +14,6 @@
         templateUrl: 'plugins/UsersManager/angularjs/user-edit-form/user-edit-form.component.html?cb=' + piwik.cacheBuster,
         bindings: {
             user: '<',
-            isAdd: '<',
             onDoneEditing: '&',
             allowSuperuserEdit: '<'
         },
@@ -26,10 +25,22 @@
     function UserEditFormController($element) {
         var vm = this;
         vm.activeTab = 'basic';
+        vm.permissionsForIdSite = 1;
+        vm.$onInit = $onInit;
         vm.confirmSuperUserChange = confirmSuperUserChange;
         vm.getFormTitle = getFormTitle;
         vm.getSaveButtonLabel = getSaveButtonLabel;
         vm.toggleSuperuserAccess = toggleSuperuserAccess;
+
+        function $onInit() {
+            if (vm.user) {
+                vm.isAdd = false;
+                vm.user.password = 'XXXXXXXX';
+            } else {
+                vm.isAdd = true;
+                vm.user = {};
+            }
+        }
 
         function getFormTitle() {
             return vm.isAdd ? 'Add New User' : 'Edit User';

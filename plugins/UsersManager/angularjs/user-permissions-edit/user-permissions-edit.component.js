@@ -37,6 +37,7 @@
                 access: 'view',
             },
         ];
+        vm.offset = 50;
         vm.totalEntries = 1000;
         vm.isAllCheckboxSelected = false;
         vm.selectedRows = {};
@@ -83,7 +84,7 @@
         }
 
         function setAccessBulk(access) {
-            alert('set acces ' + access);
+            alert('set access ' + access);
             // TODO
         }
     }

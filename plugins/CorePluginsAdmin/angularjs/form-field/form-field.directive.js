@@ -16,17 +16,22 @@
 
     function piwikFormField(piwik, $timeout){
 
-        function initMaterialSelect($select) {
+        function initMaterialSelect($select, placeholder) {
             $select.material_select();
 
             // to prevent overlapping selects, when a select is opened, we set the z-index to a high value on focus & remove on blur
             $select.closest('.select-wrapper').find('input.select-dropdown')
                 .focus(function () {
-                    console.log('in', this);
                     $(this).closest('.select-wrapper').css('z-index', 999);
                 }).blur(function () {
                     $(this).closest('.select-wrapper').css('z-index', '');
                 });
+
+            // use default option as input placeholder for proper styling
+            if (placeholder) {
+                var $materialInput = $select.closest('.select-wrapper').find('input');
+                $materialInput.attr('placeholder', placeholder);
+            }
         }
 
         function syncMultiCheckboxKeysWithFieldValue(field)
@@ -86,12 +91,13 @@
 
                 if (isSelectControl(field)) {
                     var $select = element.find('select');
-                    initMaterialSelect($select);
+                    console.log('here', field.uiControlAttributes.placeholder);
+                    initMaterialSelect($select, field.uiControlAttributes.placeholder);
 
                     scope.$watch('formField.value', function (val, oldVal) {
                         if (val !== oldVal) {
                             $timeout(function () {
-                                initMaterialSelect($select);
+                                initMaterialSelect($select, field.uiControlAttributes.placeholder);
                             });
                         }
                     });
@@ -99,7 +105,7 @@
                     scope.$watch('formField.uiControlAttributes.disabled', function (val, oldVal) {
                         if (val !== oldVal) {
                             $timeout(function () {
-                                initMaterialSelect($select);
+                                initMaterialSelect($select, field.uiControlAttributes.placeholder);
                             });
                         }
                     });
@@ -391,7 +397,7 @@
 
                             if (isSelectControl(scope.formField)) {
                                 $timeout(function () {
-                                    initMaterialSelect(element.find('select'));
+                                    initMaterialSelect(element.find('select'), field.uiControlAttributes.placeholder);
                                 });
                             }
                         }
