@@ -13,7 +13,7 @@
     angular.module('piwikApp').component('piwikUserListFilters', {
         templateUrl: 'plugins/UsersManager/angularjs/user-list-filters/user-list-filters.component.html?cb=' + piwik.cacheBuster,
         bindings: {
-            // TODO
+            accessLevels: '<'
         },
         controller: UserListFiltersController
     });

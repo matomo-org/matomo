@@ -15,18 +15,21 @@
         bindings: {
             user: '<',
             isAdd: '<',
-            onDoneEditing: '&'
+            onDoneEditing: '&',
+            allowSuperuserEdit: '<'
         },
         controller: UserEditFormController
     });
 
-    UserEditFormController.$inject = [];
+    UserEditFormController.$inject = ['$element'];
 
-    function UserEditFormController() {
+    function UserEditFormController($element) {
         var vm = this;
         vm.activeTab = 'basic';
+        vm.confirmSuperUserChange = confirmSuperUserChange;
         vm.getFormTitle = getFormTitle;
         vm.getSaveButtonLabel = getSaveButtonLabel;
+        vm.toggleSuperuserAccess = toggleSuperuserAccess;
 
         function getFormTitle() {
             return vm.isAdd ? 'Add New User' : 'Edit User';
@@ -34,6 +37,14 @@
 
         function getSaveButtonLabel() {
             return vm.isAdd ? 'Create User' : 'Save';
+        }
+
+        function confirmSuperUserChange() {
+            $element.find('.superuser-confirm-modal').openModal();
+        }
+
+        function toggleSuperuserAccess() {
+            alert('toggle superuser access');
         }
     }
 })();

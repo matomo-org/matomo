@@ -14,7 +14,7 @@
                     <a href="" ng-click="$ctrl.activeTab = 'permissions'">Permissions</a>
                 </li>
 
-                <li ng-class="{active: $ctrl.activeTab === 'superuser'}" class="menuSuperuser">
+                <li ng-class="{active: $ctrl.activeTab === 'superuser'}" class="menuSuperuser" ng-if="$ctrl.allowSuperuserEdit">
                     <a href="" ng-click="$ctrl.activeTab = 'superuser'">Superuser Access</a>
                 </li>
             </ul>
@@ -81,12 +81,15 @@
             <div ng-if="$ctrl.activeTab === 'permissions'" class="user-permissions">
                 <piwik-user-permissions-edit
                     user-login="$ctrl.user.login"
+                    ng-if="!$ctrl.user.superuser_access"
                 >
                 </piwik-user-permissions-edit>
+                <p ng-if="$ctrl.user.superuser_access">
+                    Super users have admin access to all websites, so there's no need to manage their permissions per website.
+                </p>
             </div>
 
-            <!-- TODO: add confirm modal when setting it or something? -->
-            <div ng-if="$ctrl.activeTab === 'superuser'" class="superuser-access">
+            <div ng-if="$ctrl.activeTab === 'superuser' && $ctrl.allowSuperuserEdit" class="superuser-access">
                 <p>Super users have the highest permissions. They can perform all administrative tasks such as adding new websites to monitor, adding users, changing user permissions, activating and deactivating plugins and even installing new plugins from the Marketplace.
                     You can grant Super User access to other users of Divezone here.</p>
 
@@ -98,7 +101,24 @@
                         name="superuser_access"
                         ng-model="$ctrl.user.superuser_access"
                         title="Has Superuser Access"
+                        ng-click="$ctrl.confirmSuperUserChange()"
                 >
+                </div>
+
+                <div class="superuser-confirm-modal modal">
+                    <div class="modal-content">
+                        <h2>Are you sure?</h2>
+                        <p ng-if="!$ctrl.user.superuser_access">
+                            Removing superuser access will restore the per-website permissions the user previously had. Do you wish to continue?
+                        </p>
+                        <p ng-if="$ctrl.user.superuser_access">
+                            Giving a user superuser access will allow the user to have full control over Matomo and should be done sparingly. Do you wish to continue?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="" class="modal-action modal-close btn" ng-click="$ctrl.toggleSuperuserAccess()">Yes</a>
+                        <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.user.superuser_access = !$ctrl.user.superuser_access">No</a>
+                    </div>
                 </div>
             </div>
         </div>
