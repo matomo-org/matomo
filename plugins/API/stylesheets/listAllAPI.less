@@ -31,3 +31,14 @@
     margin-bottom: 5px;
     margin-left: 20px;
 }
+
+.pageWrap .table-of-contents a {
+    box-sizing: content-box;
+    padding: 0 10px 5px;
+    &:hover, &.active {
+        text-decoration: none;
+        padding: 0 10px 3px;
+        border-left: none;
+        border-bottom: 2px solid @color-blue-piwik;
+    }
+}
