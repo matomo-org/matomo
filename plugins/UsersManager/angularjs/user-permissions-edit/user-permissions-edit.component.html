@@ -4,7 +4,7 @@
             <a class='dropdown-trigger btn' href='' data-activates='user-permissions-edit-bulk-actions' piwik-dropdown-menu>Bulk Actions</a>
             <ul id='user-permissions-edit-bulk-actions' class='dropdown-content'>
                 <li>
-                    <a class='dropdown-trigger' data-activates="bulk-set-access" piwik-dropdown-submenu>Set Access</a>
+                    <a class='dropdown-trigger' data-activates="bulk-set-access" piwik-dropdown-menu>Set Access</a>
                     <ul id="bulk-set-access" class="dropdown-content">
                         <li ng-repeat="access in $ctrl.accessLevels">
                             <a href="" ng-click="$ctrl.setAccessBulk(access.key)">{{ access.value }}</a>
