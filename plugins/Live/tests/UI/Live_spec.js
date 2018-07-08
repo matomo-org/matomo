@@ -20,79 +20,97 @@ describe("Live", function () {
     });
 
     it('should show visitor log', async function() {
-        expect.screenshot('visitor_log').to.be.captureSelector('.reporting-page', function (page) {
-            page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
-            page.wait(4500);
-        }, done);
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
+
+        await page.waitForNetworkIdle();
+
+        var report = await page.$('.reporting-page');
+        expect(await report.screenshot()).to.matchImage('visitor_log');
     });
 
     it('should expand grouped actions', async function() {
-        expect.screenshot('visitor_log_expand_actions').to.be.captureSelector('.dataTableVizVisitorLog .card.row:first-child', function (page) {
-            page.click('.dataTableVizVisitorLog .repeat.icon-refresh');
-        }, done);
+        await page.click('.dataTableVizVisitorLog .repeat.icon-refresh');
+        await page.mouse.move(-10, -10);
+
+        var report = await page.$('.dataTableVizVisitorLog .card.row:first-child');
+        expect(await report.screenshot()).to.matchImage('visitor_log_expand_actions');
     });
 
     it('should show visitor profile', async function() {
-        expect.screenshot('visitor_profile').to.be.captureSelector('.ui-dialog', function (page) {
-            page.evaluate(function(){
-                $('.card:first-child .visitor-log-visitor-profile-link').click();
-            });
-            page.wait(6000);
-        }, done);
+        await page.evaluate(function(){
+            $('.card:first-child .visitor-log-visitor-profile-link').click();
+        });
+
+        await page.waitForSelector('.ui-dialog');
+        await page.waitForNetworkIdle();
+
+        var dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('visitor_profile');
     });
 
     it('should hide all action details', async function() {
-        expect.screenshot('visitor_profile_actions_hidden').to.be.captureSelector('.ui-dialog', function (page) {
-            page.evaluate(function(){
-                $('.visitor-profile-toggle-actions').click();
-            }, 500);
-        }, done);
+        await page.evaluate(function(){
+            $('.visitor-profile-toggle-actions').click();
+        });
+
+        await page.mouse.move(0, 0);
+
+        var dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('visitor_profile_actions_hidden');
     });
 
     it('should show visit details', async function() {
-        expect.screenshot('visitor_profile_visit_details').to.be.captureSelector('.ui-dialog', function (page) {
-            page.evaluate(function(){
-                $('.visitor-profile-visit-title')[0].click();
-            }, 200);
-        }, done);
+        await page.evaluate(function(){
+            $('.visitor-profile-visit-title')[0].click();
+        });
+
+        var dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('visitor_profile_visit_details');
     });
 
     it('should show action details', async function() {
-        expect.screenshot('visitor_profile_action_details').to.be.captureSelector('.ui-dialog', function (page) {
-            page.click('.visitor-profile-visits li:first-child .visitor-profile-show-actions', 200);
-        }, done);
+        await page.click('.visitor-profile-visits li:first-child .visitor-profile-show-actions');
+
+        var dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('visitor_profile_action_details');
     });
 
     it('should show action tooltip', async function() {
-        expect.screenshot('visitor_profile_action_tooltip').to.be.captureSelector('.ui-tooltip:visible', function (page) {
-            page.mouseMove('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child', 200);
-        }, done);
+        var action = await page.jQuery('.visitor-profile-visits li:first-child .visitor-profile-actions .action:first-child');
+        await action.hover();
+        await page.waitForSelector('.ui-tooltip');
+
+        expect(await page.screenshotSelector('.ui-tooltip')).to.matchImage('visitor_profile_action_tooltip');
     });
 
-    it('should show limited profile message', async function (done) {
-        expect.screenshot('visitor_profile_limited').to.be.captureSelector('.ui-dialog', function (page) {
+    it('should show limited profile message', async function () {
+        // Limit number of shown visits to 5
+        testEnvironment.overrideConfig('General', 'live_visitor_profile_max_visits_to_aggregate', 5);
+        testEnvironment.save();
 
-            // Limit number of shown visits to 5
-            testEnvironment.overrideConfig('General', 'live_visitor_profile_max_visits_to_aggregate', 5);
-            testEnvironment.save();
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
+        await page.evaluate(function(){
+            $('.card:first-child .visitor-log-visitor-profile-link').click();
+        });
 
-            page.load("?module=CoreHome&action=index&idSite=1&period=year&date=2010-01-03#?idSite=1&period=year&date=2010-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
-            page.evaluate(function(){
-                $('.card:first-child .visitor-log-visitor-profile-link').click();
-            });
-            page.wait(6000);
-        }, done);
+        await page.waitForSelector('.ui-dialog');
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+
+        var dialog = await page.$('.ui-dialog');
+        expect(await dialog.screenshot()).to.matchImage('visitor_profile_limited');
     });
 
     it('should show visitor log purge message when purged and no data', async function() {
-        expect.screenshot('visitor_log_purged').to.be.captureSelector('.reporting-page', function (page) {
+        testEnvironment.overrideConfig('Deletelogs', 'delete_logs_enable', 1);
+        testEnvironment.overrideConfig('Deletelogs', 'delete_logs_older_than', 4000);
+        testEnvironment.save();
 
-            testEnvironment.overrideConfig('Deletelogs', 'delete_logs_enable', 1);
-            testEnvironment.overrideConfig('Deletelogs', 'delete_logs_older_than', 4000);
-            testEnvironment.save();
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2005-01-03#?idSite=1&period=year&date=2005-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
 
-            page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2005-01-03#?idSite=1&period=year&date=2005-01-03&category=General_Visitors&subcategory=Live_VisitorLog");
-            page.wait(4000);
-        }, done);
+        await page.waitForNetworkIdle();
+
+        var report = await page.$('.reporting-page');
+        expect(await report.screenshot()).to.matchImage('visitor_log_purged');
     });
 });
