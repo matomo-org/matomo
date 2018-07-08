@@ -52,6 +52,7 @@ class Controller extends ControllerAdmin
      */
     function index()
     {
+        // TODO: clean this up, not everything is required
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeAdminAccess();
 

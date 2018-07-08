@@ -1,0 +1,126 @@
+<div
+    piwik-content-block
+    content-title="{{ $ctrl.getFormTitle() }}"
+    class="userEditForm"
+>
+    <div class="row" piwik-form>
+        <div class="col m2 entityList">
+            <ul class="listCircle">
+                <li ng-class="{active: $ctrl.activeTab === 'basic'}" class="menuBasicInfo">
+                    <a href="" ng-click="$ctrl.activeTab = 'basic'">Basic Information</a>
+                </li>
+
+                <li ng-class="{active: $ctrl.activeTab === 'permissions'}" class="menuPermissions">
+                    <a href="" ng-click="$ctrl.activeTab = 'permissions'">Permissions</a>
+                </li>
+
+                <li ng-class="{active: $ctrl.activeTab === 'superuser'}" class="menuSuperuser" ng-if="$ctrl.allowSuperuserEdit">
+                    <a href="" ng-click="$ctrl.activeTab = 'superuser'">Superuser Access</a>
+                </li>
+            </ul>
+
+            <div class="save-button-spacer hide-on-small-only">
+            </div>
+
+            <div piwik-save-button
+                 saving="$ctrl.isLoading"
+                 onconfirm="$ctrl.onDoneEditing()"
+                 ng-value="$ctrl.getSaveButtonLabel()"
+            ></div>
+
+            <div
+                    class='entityCancel'
+                    ng-click="$ctrl.onDoneEditing()"
+                    ng-bind-html="'General_OrCancel'|translate:'<a class=&quot;entityCancelLink&quot;>':'</a>'"
+            >
+            </div>
+        </div>
+
+        <div class="visibleTab col m10">
+            <div ng-if="$ctrl.activeTab === 'basic'">
+                <div
+                        piwik-field
+                        uicontrol="text"
+                        name="user_login"
+                        ng-model="$ctrl.user.login"
+                        title="Username"
+                        maxlength="100"
+                >
+                </div>
+
+                <div
+                        piwik-field
+                        uicontrol="password"
+                        name="user_password"
+                        ng-model="$ctrl.user.password"
+                        title="Password"
+                >
+                </div>
+
+                <div
+                        piwik-field
+                        uicontrol="text"
+                        name="user_alias"
+                        ng-model="$ctrl.user.alias"
+                        title="Alias"
+                        maxlength="45"
+                >
+                </div>
+
+                <div
+                        piwik-field
+                        uicontrol="text"
+                        name="user_email"
+                        ng-model="$ctrl.user.email"
+                        title="Email"
+                        maxlength="100"
+                >
+                </div>
+            </div>
+
+            <div ng-if="$ctrl.activeTab === 'permissions'" class="user-permissions">
+                <piwik-user-permissions-edit
+                    user-login="$ctrl.user.login"
+                    ng-if="!$ctrl.user.superuser_access"
+                >
+                </piwik-user-permissions-edit>
+                <p ng-if="$ctrl.user.superuser_access">
+                    Super users have admin access to all websites, so there's no need to manage their permissions per website.
+                </p>
+            </div>
+
+            <div ng-if="$ctrl.activeTab === 'superuser' && $ctrl.allowSuperuserEdit" class="superuser-access">
+                <p>Super users have the highest permissions. They can perform all administrative tasks such as adding new websites to monitor, adding users, changing user permissions, activating and deactivating plugins and even installing new plugins from the Marketplace.
+                    You can grant Super User access to other users of Divezone here.</p>
+
+                <p><strong>Please use this feature carefully.</strong></p>
+
+                <div
+                        piwik-field
+                        uicontrol="checkbox"
+                        name="superuser_access"
+                        ng-model="$ctrl.user.superuser_access"
+                        title="Has Superuser Access"
+                        ng-click="$ctrl.confirmSuperUserChange()"
+                >
+                </div>
+
+                <div class="superuser-confirm-modal modal">
+                    <div class="modal-content">
+                        <h2>Are you sure?</h2>
+                        <p ng-if="!$ctrl.user.superuser_access">
+                            Removing superuser access will restore the per-website permissions the user previously had. Do you wish to continue?
+                        </p>
+                        <p ng-if="$ctrl.user.superuser_access">
+                            Giving a user superuser access will allow the user to have full control over Matomo and should be done sparingly. Do you wish to continue?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="" class="modal-action modal-close btn" ng-click="$ctrl.toggleSuperuserAccess()">Yes</a>
+                        <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.user.superuser_access = !$ctrl.user.superuser_access">No</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

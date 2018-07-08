@@ -1,0 +1,120 @@
+.userPermissionsEdit {
+  .permission-select .select-wrapper {
+    display: inline-block;
+    transform: scale(.8);
+    margin-right: -10px;
+    margin-left: -10px;
+    z-index: 999;
+
+    input {
+      margin-bottom: 0;
+      height: 1.1em;
+      line-height: 1.1em;
+    }
+
+    .caret {
+      top: 0;
+    }
+  }
+
+  [piwik-siteselector] {
+    display: inline-block;
+    margin-left: 8px;
+    margin-right: 8px;
+
+    .siteSelector {
+      position: static !important;
+    }
+  }
+
+  .filters.row {
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  #sitesForPermission {
+    margin-left: 0;
+    margin-right: 0;
+    width: calc(100%);
+    font-size: 100%;
+
+    td > span {
+      display:inline-block;
+    }
+
+    .select-cell {
+      width: 32px;
+    }
+
+    span.checkbox-container {
+      transform: scale(.8);
+      margin-top: -4px;
+    }
+
+    .select-wrapper {
+      transform: scale(.8) translate(-1.3rem);
+      margin-top: -0.5rem;
+      max-width: 160px;
+
+      span.caret {
+        top: 8px;
+      }
+
+      input {
+        margin-bottom: 0;
+        height: 2rem;
+        line-height: 2rem;
+      }
+    }
+
+    tr.select-all-row > td {
+      padding: 6px;
+      text-align: center;
+    }
+
+    .row.form-group {
+      margin: 0;
+      .col {
+        padding: 0;
+      }
+    }
+
+    tr .input-field {
+      margin-top: 0;
+    }
+  }
+
+  table.entityTable tbody tr td {
+    vertical-align: middle !important;
+  }
+
+  .add-permission {
+    float: right;
+  }
+
+  .sites-for-permission-pagination {
+    text-align: center;
+
+    .counter {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+  }
+
+  .delete-site-permission {
+    float: right;
+  }
+
+  td.actions-cell {
+    padding: 0;
+  }
+
+  .actions-cell {
+    width: 96px;
+  }
+}

@@ -1,0 +1,121 @@
+<div class="userPermissionsEdit">
+    <div class="filters row">
+        <div class="input-field bulk-actions col">
+            <a
+                class='dropdown-trigger btn'
+                href=''
+                data-activates='user-permissions-edit-bulk-actions'
+                piwik-dropdown-menu
+                ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
+            >
+                Bulk Actions
+            </a>
+            <ul id='user-permissions-edit-bulk-actions' class='dropdown-content'>
+                <li>
+                    <a class='dropdown-trigger' data-activates="bulk-set-access" piwik-dropdown-menu>Set Access</a>
+                    <ul id="bulk-set-access" class="dropdown-content">
+                        <li ng-repeat="access in $ctrl.accessLevels">
+                            <a href="" ng-click="$ctrl.setAccessBulk(access.key)">{{ access.value }}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="">Remove Access</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="input-field site-filter col">
+            <input type="text" placeholder="Filter by name"/>
+        </div>
+
+        <div class="input-field access-filter col">
+            <select piwik-material-select>
+                <option value="" selected placeholder>Filter by access level</option>
+                <option value="none">None</option>
+                <option value="some">At least View access</option>
+                <option value="view">View</option>
+                <option value="admin">Admin</option>
+                <option value="superuser">Superuser</option>
+            </select>
+        </div>
+    </div>
+
+    <table piwik-content-table id="sitesForPermission">
+        <thead>
+        <tr>
+            <th class="select-cell">
+                <span class="checkbox-container">
+                    <input type="checkbox" id="select_all" ng-model="$ctrl.isAllCheckboxSelected" ng-change="$ctrl.onAllCheckboxChange()" />
+                    <label for="select_all"></label>
+                </span>
+            </th>
+            <th>Name</th>
+            <th>Access</th>
+            <th class="actions-cell">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected">
+            <td colspan="4">
+                <div ng-if="!$ctrl.areAllResultsSelected">
+                    The <strong>{{ $ctrl.siteAccess.length }}</strong> displayed websites are selected.
+                    <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select all <strong>{{ $ctrl.totalEntries }}</strong>.</a>
+                </div>
+
+                <div ng-if="$ctrl.areAllResultsSelected">
+                    All <strong>{{ $ctrl.totalEntries }}</strong> websites are selected.
+                    <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select the <strong>{{ $ctrl.siteAccess.length }}</strong> displayed websites.</a>
+                </div>
+            </td>
+        </tr>
+        <tr ng-repeat="entry in $ctrl.siteAccess">
+            <td class="select-cell">
+                <span class="checkbox-container">
+                    <input type="checkbox" ng-attr-id="select_row{{ $index }}" ng-model="$ctrl.selectedRows[$index]" ng-click="$ctrl.onRowSelected()" />
+                    <label ng-attr-for="select_row{{ $index }}"></label>
+                </span>
+            </td>
+            <td>
+                <span>{{ entry.name }}</span>
+            </td>
+            <td>
+                <div
+                    piwik-field
+                    uicontrol="select"
+                    ng-model="entry.access"
+                    options="$ctrl.accessLevels"
+                    ng-change="$ctrl.onAccessChange(entry)"
+                ></div>
+            </td>
+            <td class="center actions-cell">
+                <button
+                    class="deleteaccess table-action"
+                    title="Remove all access to this website"
+                    ng-click="$ctrl.onRemoveAllAccess(entry)"
+                >
+                    <span class="icon-delete"></span>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="row" ng-if="$ctrl.totalEntries > $ctrl.limit">
+        <div class="input-field col sites-for-permission-pagination s12">
+            <a class="prev" disabled="disabled">
+                <span class="pointer">« Previous</span>
+            </a>
+
+            <span class="counter">
+                        <span>
+                                {{ $ctrl.offset }} - {{ $ctrl.offset + $ctrl.siteAccess.length }} of {{ $ctrl.totalEntries }}
+                        </span>
+                    </span>
+
+            <a class="next">
+                <span class="pointer">Next »</span>
+            </a>
+        </div>
+    </div>
+</div>

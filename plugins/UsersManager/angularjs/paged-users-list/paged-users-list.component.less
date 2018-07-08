@@ -1,0 +1,122 @@
+piwik-paged-users-list {
+  display: block;
+  position: relative;
+
+  [piwik-siteselector] {
+    display: inline-block;
+    margin-left: .3rem;
+  }
+
+  piwik-users-list-pagination {
+    margin: 0 auto;
+  }
+
+  .access-display-control {
+    position: absolute;
+    margin-left: .1rem;
+
+    label {
+      color: @theme-color-text;
+    }
+  }
+
+  .card {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .card .card-content {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  table.entityTable tbody tr td {
+    vertical-align: middle !important;
+  }
+
+  table.entityTable tbody tr td.actions-cell {
+    width: 130px;
+    padding: 0;
+  }
+
+  table#manageUsersTable {
+    [piwik-field] {
+      .form-group {
+        margin: 0;
+      }
+      .input-field {
+        margin-top: 0;
+        padding: 0;
+      }
+    }
+
+    .select-wrapper {
+      transform: scale(.8);
+      width: 100px;
+
+      input {
+        margin-bottom: 0;
+        padding-bottom: .3em;
+        height: 1em;
+        line-height: 1em;
+      }
+
+      span.caret {
+        top: 0;
+      }
+    }
+  }
+
+  tbody span.checkbox-container {
+    label {
+      transform: scale(.8);
+      height: 1em;
+      line-height: 1em;
+    }
+  }
+
+  .select-cell {
+    width: 32px;
+  }
+
+  table.entityTable tbody tr.select-all-row > td {
+    padding: 6px;
+    text-align: center;
+  }
+
+  .sites_autocomplete {
+    display: block;
+    margin-left: 0;
+  }
+
+  .userListFilters {
+    .form-group, [piwik-form-field] .input-field {
+      margin: 0;
+    }
+
+    .input-field .btn {
+      margin-top: .7rem;
+    }
+
+    &.row {
+      margin-bottom: 0;
+      margin-left: -0.75rem;
+      margin-right: -0.75rem;
+    }
+
+    span.counter {
+      display: inline-block;
+      line-height: 36px;
+      vertical-align: bottom;
+    }
+  }
+}
+
+#root piwik-paged-users-list .siteSelector.borderedControl {
+  background-color: white;
+  width: 150px;
+}
+
+#content piwik-paged-users-list .sites_autocomplete > .siteSelector {
+  position: static;
+}
