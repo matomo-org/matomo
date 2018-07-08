@@ -10,11 +10,12 @@
 describe("DBStats", function () {
     this.timeout(0);
 
-    var url = "?module=DBStats&action=index&idSite=1&period=day&date=yesterday";
+    const url = "?module=DBStats&action=index&idSite=1&period=day&date=yesterday";
 
     it("should load correctly", async function() {
-        expect.screenshot('admin_page').to.be.captureSelector('#content', function (page) {
-            page.load(url);
-        }, done);
+        await page.goto(url);
+
+        const content = await page.$('#content');
+        expect(await content.screenshot()).to.matchImage('admin_page');
     });
 });
