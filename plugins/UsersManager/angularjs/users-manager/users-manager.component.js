@@ -13,7 +13,8 @@
     angular.module('piwikApp').component('piwikUsersManager', {
         templateUrl: 'plugins/UsersManager/angularjs/users-manager/users-manager.component.html?cb=' + piwik.cacheBuster,
         bindings: {
-            // TODO
+            initialSiteName: '@',
+            initialSiteId: '@'
         },
         controller: UsersManagerController
     });
@@ -30,6 +31,7 @@
         ];
         vm.$onInit = $onInit;
         vm.$onDestroy = $onDestroy;
+        vm.onDeleteUser = onDeleteUser;
 
         function $onInit() {
             // TODO: maybe this should go in another directive...
@@ -50,6 +52,10 @@
             } catch (e) {
                 // empty
             }
+        }
+
+        function onDeleteUser(user) {
+            alert('try to delete user ' + user.login);
         }
     }
 })();

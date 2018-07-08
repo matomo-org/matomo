@@ -19,12 +19,12 @@
         function initMaterialSelect($select, placeholder) {
             $select.material_select();
 
-            // to prevent overlapping selects, when a select is opened, we set the z-index to a high value on focus & remove on blur
+            // to prevent overlapping selects, when a select is opened, we set the z-index to a high value on focus & remove z-index for all others
+            // NOTE: we can't remove it on blur since the blur causes the select to overlap, aborting the select click.
             $select.closest('.select-wrapper').find('input.select-dropdown')
                 .focus(function () {
+                    $('.select-wrapper').css('z-index', '');
                     $(this).closest('.select-wrapper').css('z-index', 999);
-                }).blur(function () {
-                    $(this).closest('.select-wrapper').css('z-index', '');
                 });
 
             // use default option as input placeholder for proper styling
@@ -91,7 +91,6 @@
 
                 if (isSelectControl(field)) {
                     var $select = element.find('select');
-                    console.log('here', field.uiControlAttributes.placeholder);
                     initMaterialSelect($select, field.uiControlAttributes.placeholder);
 
                     scope.$watch('formField.value', function (val, oldVal) {

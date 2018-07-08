@@ -1,10 +1,24 @@
 <div class="pagedUsersList">
     <div class="userListFilters row">
         <div class="input-field col s12 m2">
-            <a class='dropdown-trigger btn' href='' data-activates='user-list-bulk-actions' piwik-dropdown-menu>Bulk Actions</a>
+            <a
+                class='dropdown-trigger btn'
+                href=''
+                data-activates='user-list-bulk-actions'
+                piwik-dropdown-menu
+                ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
+            >
+                Bulk Actions
+            </a>
             <ul id='user-list-bulk-actions' class='dropdown-content'>
                 <li>
-                    <a class='dropdown-trigger' data-activates="bulk-set-access" piwik-dropdown-menu>Set Access</a>
+                    <a
+                        class='dropdown-trigger'
+                        data-activates="bulk-set-access"
+                        piwik-dropdown-menu
+                    >
+                        Set Access
+                    </a>
                     <ul id="bulk-set-access" class="dropdown-content">
                         <li ng-repeat="access in $ctrl.accessLevels">
                             <a href="" ng-click="$ctrl.setAccessBulk(access.key)">{{ access.value }}</a>
@@ -12,10 +26,10 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="">Remove Access</a>
+                    <a href="" ng-click="$ctrl.removeAccessBulk()">Remove Access</a>
                 </li>
                 <li>
-                    <a href="">Delete Users</a>
+                    <a href="" ng-click="$ctrl.deleteUsersBulk()">Delete Users</a>
                 </li>
             </ul>
         </div>
@@ -91,7 +105,7 @@
                 <tr ng-repeat="user in $ctrl.users" ng-attr-id="row{{ $index }}">
                     <td class="select-cell">
                         <span class="checkbox-container">
-                            <input type="checkbox" ng-attr-id="select_row{{:: $index }}" checked="checked" ng-model="$ctrl.selectedRows[$index]" />
+                            <input type="checkbox" ng-attr-id="select_row{{:: $index }}" checked="checked" ng-model="$ctrl.selectedRows[$index]" ng-click="$ctrl.onRowSelected()" />
                             <label ng-attr-for="select_row{{:: $index }}"></label>
                         </span>
                     </td>
@@ -102,7 +116,7 @@
                                 uicontrol="select"
                                 ng-model="$ctrl.userAccess[user.login]"
                                 options="$ctrl.accessLevels"
-                                ng-change="$ctrl.onAccessChange(entry)"
+                                ng-change="$ctrl.onAccessChange(user, $ctrl.userAccess[user.login])"
                         ></div>
                     </td>
                     <td class="superuser-cell">

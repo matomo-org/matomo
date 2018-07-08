@@ -21,7 +21,12 @@
                 </div>
             </div>
 
-            <piwik-paged-users-list on-edit-user="$ctrl.isEditing = true; $ctrl.userBeingEdited = user;"></piwik-paged-users-list>
+            <piwik-paged-users-list
+                on-edit-user="$ctrl.isEditing = true; $ctrl.userBeingEdited = user;"
+                on-delete-user="$ctrl.onDeleteUser(user)"
+                initial-site-name="$ctrl.initialSiteName"
+                initial-site-id="$ctrl.initialSiteId"
+            ></piwik-paged-users-list>
         </div>
     </div>
 

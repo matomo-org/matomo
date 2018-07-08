@@ -4,7 +4,10 @@
 
 {% block content %}
 
-<piwik-users-manager>
+<piwik-users-manager
+    initial-site-id="{{ idSiteSelected }}"
+    initial-site-name="{{ defaultReportSiteName }}"
+>
 </piwik-users-manager>
 
 {% endblock %}
