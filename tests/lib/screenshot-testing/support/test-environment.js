@@ -106,6 +106,10 @@ TestingEnvironment.prototype._call = async function (params) {
         }, {}),
     });
 
+    if (response === '') {
+        return '';
+    }
+
     response = response.replace(/\s*/g, "");
 
     try {
