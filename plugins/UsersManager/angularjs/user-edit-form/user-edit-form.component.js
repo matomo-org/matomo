@@ -55,7 +55,7 @@
         }
 
         function toggleSuperuserAccess() {
-            alert('toggle superuser access');
+            alert('toggle superuser access'); // TODO
         }
     }
 })();

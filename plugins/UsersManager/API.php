@@ -52,16 +52,22 @@ class API extends \Piwik\Plugin\API
      */
     private $userFilter;
 
+    /**
+     * @var Access
+     */
+    private $access;
+
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
 
     private static $instance = null;
 
-    public function __construct(Model $model, UserAccessFilter $filter, Password $password)
+    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access $access)
     {
         $this->model = $model;
         $this->userFilter = $filter;
         $this->password = $password;
+        $this->access = $access;
     }
 
     /**
@@ -200,6 +206,43 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * TODO
+     *
+     * @param null $idSite
+     * @param null $limit
+     * @param int $offset
+     * @param null $filter_search
+     * @param null $filter_access
+     */
+    public function getUsersWithAccessLevel($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
+    {
+        /* UI todo:
+         * - do not allow editing access if user is not admin to specific site
+         * - only allow editing permissions to sites the current user has admin access to in user edit form
+         * - do not display certain columns in table if not admin for site
+         */
+
+        if (!$this->access->hasSuperUserAccess() && !$this->access->isUserHasAdminAccessTo($idSite)) {
+            // if the user is not an admin to $idSite, they can only see their own user
+            if ($offset > 1) {
+                return [];
+            }
+
+            $users = [$this->model->getUser($this->access->getLogin())];
+        } else {
+            $users = $this->model->getUsersWithAccessLevel($idSite, $limit, $offset, $filter_search, $filter_access);
+        }
+
+        $users = $this->enrichUsers($users);
+        $users = $this->removeUserInfoForNonSuperUsers($users);
+
+        return $users;
+        // TODO:
+        // - select users that have X access to site ID
+        //   - select from users join on access where users.login = access.login and idsite = ? and access IN (...)
+    }
+
+    /**
      * Returns the list of all the users
      *
      * @param string $userLogins Comma separated list of users to select. If not specified, will return all users
@@ -219,11 +262,7 @@ class API extends \Piwik\Plugin\API
         $users = $this->enrichUsers($users);
 
         // Non Super user can only access login & alias
-        if (!Piwik::hasUserSuperUserAccess()) {
-            foreach ($users as &$user) {
-                $user = array('login' => $user['login'], 'alias' => $user['alias']);
-            }
-        }
+        $users = $this->removeUserInfoForNonSuperUsers($users);
 
         return $users;
     }
@@ -877,5 +916,15 @@ class API extends \Piwik\Plugin\API
         }
 
         return $user['token_auth'];
+    }
+
+    private function removeUserInfoForNonSuperUsers($users)
+    {
+        if (!Piwik::hasUserSuperUserAccess()) {
+            foreach ($users as &$user) {
+                $user = array('login' => $user['login'], 'alias' => $user['alias']);
+            }
+        }
+        return $users;
     }
 }

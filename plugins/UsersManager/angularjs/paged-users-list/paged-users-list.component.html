@@ -54,12 +54,25 @@
             ></div>
         </div>
         <div class="input-field col s12 m4" ng-if="$ctrl.users.length > $ctrl.limit">
-            <piwik-users-list-pagination></piwik-users-list-pagination>
+            <div class="usersListPagination">
+                <a class="btn prev" disabled="disabled">
+                    <span class="pointer">« Previous</span>
+                </a>
+
+                <span class="counter">
+                    <span>
+                            {{ $ctrl.offset }} - {{ $ctrl.offset + $ctrl.limit }} of {{ $ctrl.totalEntries }}
+                    </span>
+                </span>
+                <a class="btn next">
+                    <span class="pointer">Next »</span>
+                </a>
+            </div>
         </div>
     </div>
 
     <div piwik-content-block>
-        <table piwik-content-table id="manageUsersTable">
+        <table piwik-content-table id="manageUsersTable" ng-class="{ loading: $ctrl.isLoadingUsers }">
             <thead>
             <tr>
                 <th class="select-cell">
@@ -140,5 +153,15 @@
 
             </tbody>
         </table>
+    </div>
+
+    <div class="delete-user-confirm-modal modal">
+        <div class="modal-content">
+            <p>Are you sure you want to delete the selected user(s)?</p>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.deleteRequestedUsers()">Yes</a>
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.user.usersRequestedToDelete = null">No</a>
+        </div>
     </div>
 </div>

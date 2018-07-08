@@ -22,40 +22,16 @@
         controller: PagedUsersListController
     });
 
-    PagedUsersListController.$inject = ['piwik'];
+    PagedUsersListController.$inject = ['piwikApi'];
 
-    function PagedUsersListController(piwik) {
+    function PagedUsersListController(piwikApi) {
         var vm = this;
         vm.userAccess = {
             testuser: 'admin',
             testuser2: 'view'
         };
-        vm.users = [
-            {
-                login: 'testuser',
-                alias: 'testalias',
-                email: 'somewhere@something.com',
-                token_auth: 'alsjfdlsdakjflsakdjf',
-                superuser_access: 1,
-                date_registered: '2018-01-23 03:45:45',
-                last_seen: '00:00:35'
-            },
-            {
-                login: 'testuser2',
-                alias: 'testalias2',
-                email: 'email2@something.com',
-                token_auth: 'alsjfdlabasdakjflsakdjf',
-                superuser_access: 0,
-                date_registered: '2018-01-23 03:45:45',
-                last_seen: '00:00:05'
-            },
-        ];
-        vm.areAllResultsSelected = false;
-        vm.totalEntries = 10000;
-        vm.selectedRows = {};
-        vm.isAllCheckboxSelected = false;
-        vm.userTextFilter = '';
-        vm.accessLevelFilter = '';
+
+        // options for selects
         vm.accessLevels = [
             { key: 'view', value: 'View' },
             { key: 'admin', value: 'Admin' }
@@ -67,7 +43,23 @@
             { key: 'admin', value: 'Admin' },
             { key: 'superuser', value: 'Superuser' }
         ];
+
+        // pagination state
+        vm.offset = 0;
+        vm.users = [];
+        vm.totalEntries = 10000;
+        vm.userTextFilter = '';
+        vm.accessLevelFilter = '';
+        vm.isLoadingUsers = false;
+
+        // selection state
+        vm.areAllResultsSelected = false;
+        vm.selectedRows = {};
+        vm.isAllCheckboxSelected = false;
+
+        // intermediate state
         vm.isBulkActionsDisabled = true;
+
         vm.$onInit = $onInit;
         vm.onAllCheckboxChange = onAllCheckboxChange;
         vm.setAccessBulk = setAccessBulk;
@@ -75,6 +67,7 @@
         vm.deleteUsersBulk = deleteUsersBulk;
         vm.onAccessChange = onAccessChange;
         vm.onRowSelected = onRowSelected;
+        vm.deleteRequestedUsers = deleteRequestedUsers;
 
         function $onInit() {
             vm.limit = vm.limit || 20;
@@ -82,6 +75,8 @@
                 id: vm.initialSiteId,
                 name: vm.initialSiteName
             };
+
+            fetchUsers();
         }
 
         function onAllCheckboxChange() {
@@ -95,6 +90,24 @@
                 }
                 vm.isBulkActionsDisabled = false;
             }
+        }
+
+        function fetchUsers() {
+            // TODO: also filters
+            vm.isLoadingUsers = true;
+            piwikApi.fetch({
+                method: 'UsersManager.getUsers',
+                limit: vm.limit,
+                offset: vm.offset,
+                filter_search: vm.userTextFilter,
+                filter_access: vm.accessLevelFilter,
+                idSite: vm.permissionsForSite ? vm.permissionsForSite.id : null
+            }).then(function (response) {
+                vm.users = response;
+                vm.isLoadingUsers = false;
+            }).catch(function () {
+                vm.isLoadingUsers = fasle;
+            });
         }
 
         function setAccessBulk(accessLevel) {
@@ -123,8 +136,12 @@
                     vm.isBulkActionsDisabled = false;
                 }
             });
-console.log(selectedRowKeyCount, vm.users.length);
+
             vm.isAllCheckboxSelected = selectedRowKeyCount === vm.users.length;
+        }
+
+        function deleteRequestedUsers() {
+            alert('delete requested users'); // TODO
         }
     }
 })();
