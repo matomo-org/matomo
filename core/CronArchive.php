@@ -938,7 +938,7 @@ class CronArchive
         // already processed above for "day"
         if ($period != "day") {
 
-            $periodInProgress = $this->isAlreadyArchivingAnyLowerPeriod($idSite, $period);
+            $periodInProgress = $this->isAlreadyArchivingAnyLowerOrThisPeriod($idSite, $period);
             if ($periodInProgress) {
                 $this->logger->info("- skipping archiving for period '{period}' because processing the period '{periodcheck}' is already in progress.", array('period' => $period, 'periodcheck' => $periodInProgress));
                 $success = false;
@@ -1742,7 +1742,7 @@ class CronArchive
             $urlWithSegment = $this->getVisitsRequestUrl($idSite, $period, $dateParamForSegment, $segment);
             $urlWithSegment = $this->makeRequestUrl($urlWithSegment);
 
-            $periodInProgress = $this->isAlreadyArchivingAnyLowerPeriod($idSite, $period);
+            $periodInProgress = $this->isAlreadyArchivingAnyLowerOrThisPeriod($idSite, $period);
             if ($periodInProgress) {
                 $this->logger->info("- skipping segment archiving for period '{period}' with segment '{segment}' because processing the period '{periodcheck}' is already in progress.", array('segment' => $segment, 'period' => $period, 'periodcheck' => $periodInProgress));
                 continue;
@@ -1771,17 +1771,17 @@ class CronArchive
         return $urlsWithSegment;
     }
 
-    private function isAlreadyArchivingAnyLowerPeriod($idSite, $period, $segment = false)
+    private function isAlreadyArchivingAnyLowerOrThisPeriod($idSite, $period, $segment = false)
     {
         $periodOrder = array('day', 'week', 'month', 'year');
         $cliMulti = $this->makeCliMulti();
 
         $index = array_search($period, $periodOrder);
-        if ($index > 0) {
+        if ($index !== false) {
             // we only need to check for week, month, year if any earlier period is already running
             // so when period = month, then we check for day and week
 
-            for ($i = 0; $i < $index; $i++) {
+            for ($i = 0; $i <= $index; $i++) {
                 $periodToCheck = $periodOrder[$i];
 
                 // the date will be ignored in isCommandAlreadyRunning() because it could be any date
