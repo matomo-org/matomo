@@ -110,6 +110,12 @@ class LoginWhitelistTest extends IntegrationTestCase
         $this->assertSame(['192.168.33.1', '127.0.0.1', '2001:0db8:85a3:0000:0000:8a2e:0370:7334'], $this->whitelist->getWhitelistedLoginIps());
     }
 
+    public function test_getWhitelistedLoginIps_shouldResolveIp()
+    {
+        $this->setGeneralConfig('login_whitelist_ip', ['192.168.33.1', 'matomo.org', '127.0.0.1']);
+        $this->assertSame(['192.168.33.1', '185.31.40.177', '127.0.0.1'], $this->whitelist->getWhitelistedLoginIps());
+    }
+
     public function test_getWhitelistedLoginIps_shouldNotBeCheckedIfOnlyEmptyEntries()
     {
         $this->setGeneralConfig('login_whitelist_ip', ['', '192.168.33.1 ', ' ']);
