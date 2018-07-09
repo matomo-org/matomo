@@ -2,6 +2,16 @@ piwik-paged-users-list {
   display: block;
   position: relative;
 
+  .pagedUsersList.loading {
+    table {
+      opacity: 0.5;
+    }
+
+    a, input, select, button, label {
+      pointer-events: none;
+    }
+  }
+
   [piwik-siteselector] {
     display: inline-block;
     margin-left: .3rem;
@@ -21,7 +31,7 @@ piwik-paged-users-list {
   }
 
   .card {
-    margin-top: 20px;
+    margin-top: 0;
     margin-bottom: 20px;
   }
 
@@ -93,8 +103,11 @@ piwik-paged-users-list {
     .form-group, [piwik-form-field] .input-field {
       margin: 0;
     }
+    [piwik-form-field] input {
+      margin-bottom: 0;
+    }
 
-    .input-field .btn {
+    .input-field > .btn {
       margin-top: .7rem;
     }
 
@@ -112,13 +125,20 @@ piwik-paged-users-list {
   }
 
   .usersListPagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: .7rem;
+    float: right;
+
     .pointer {
       cursor: pointer;
     }
 
-    .counter {
-      margin-left: 10px;
-      margin-right: 10px;
+    span.counter {
+      flex: 1;
+      text-align: center;
     }
   }
 

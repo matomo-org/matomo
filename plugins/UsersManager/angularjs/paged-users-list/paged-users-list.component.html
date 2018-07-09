@@ -1,4 +1,4 @@
-<div class="pagedUsersList">
+<div class="pagedUsersList" ng-class="{loading: $ctrl.isLoadingUsers}">
     <div class="userListFilters row">
         <div class="input-field col s12 m2">
             <a
@@ -33,27 +33,31 @@
                 </li>
             </ul>
         </div>
-        <div class="input-field col s12 m3">
+        <div class="input-field col s12 m2">
             <div
                 piwik-field
                 class="permissions-for-selector"
                 uicontrol="text"
                 ng-model="$ctrl.userTextFilter"
+                ng-model-options="{debounce: 500}"
                 placeholder="User search"
                 full-width="true"
+                ng-change="$ctrl.fetchUsers()"
             ></div>
         </div>
-        <div class="input-field col s12 m3">
+        <div class="input-field col s12 m2">
             <div
                 piwik-field
                 uicontrol="select"
                 ng-model="$ctrl.accessLevelFilter"
-                placeholder="Filter by access level"
+                ng-model-options="{debounce: 500}"
+                placeholder="Filter by access"
                 options="$ctrl.accessLevelFilterOptions"
                 full-width="true"
+                ng-change="$ctrl.fetchUsers()"
             ></div>
         </div>
-        <div class="input-field col s12 m4" ng-if="$ctrl.totalEntries > $ctrl.limit">
+        <div class="input-field col s12 m6" ng-if="$ctrl.totalEntries > $ctrl.limit">
             <div class="usersListPagination">
                 <a class="btn prev" ng-class="{ disabled: $ctrl.offset <= 0 }" ng-click="$ctrl.gotoPreviousPage()">
                     <span class="pointer">« Previous</span>
@@ -61,7 +65,7 @@
 
                 <span class="counter">
                     <span>
-                            {{ $ctrl.offset }} - {{ $ctrl.offset + $ctrl.limit }} of {{ $ctrl.totalEntries }}
+                            {{ $ctrl.offset }} - {{ $ctrl.getPaginationUpperBound() }} of {{ $ctrl.totalEntries }}
                     </span>
                 </span>
                 <a class="btn next" ng-class="{ disabled: $ctrl.offset + $ctrl.limit >= $ctrl.totalEntries }" ng-click="$ctrl.gotoNextPage()">

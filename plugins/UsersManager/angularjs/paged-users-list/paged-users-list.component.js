@@ -27,8 +27,9 @@
     function PagedUsersListController(piwikApi) {
         var vm = this;
 
-        // options for selects
+        // options for selects (TODO: should be supplied server side)
         vm.accessLevels = [
+            { key: 'noaccess', value: 'No Access' },
             { key: 'view', value: 'View' },
             { key: 'admin', value: 'Admin' }
         ];
@@ -66,6 +67,8 @@
         vm.deleteRequestedUsers = deleteRequestedUsers;
         vm.gotoPreviousPage = gotoPreviousPage;
         vm.gotoNextPage = gotoNextPage;
+        vm.fetchUsers = fetchUsers;
+        vm.getPaginationUpperBound = getPaginationUpperBound;
 
         function $onInit() {
             vm.limit = vm.limit || 20;
@@ -157,6 +160,10 @@
 
             vm.offset = newOffset;
             fetchUsers();
+        }
+
+        function getPaginationUpperBound() {
+            return Math.min(vm.offset + vm.limit, vm.totalEntries);
         }
     }
 })();

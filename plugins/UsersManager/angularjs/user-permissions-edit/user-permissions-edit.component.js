@@ -53,6 +53,7 @@
         vm.onAllCheckboxChange = onAllCheckboxChange;
         vm.setAccessBulk = setAccessBulk;
         vm.onRowSelected = onRowSelected;
+        vm.getPaginationUpperBound = getPaginationUpperBound;
 
         function $onInit() {
             vm.limit = vm.limit || 10;
@@ -103,6 +104,10 @@
             });
 
             vm.isAllCheckboxSelected = selectedRowKeyCount === vm.siteAccess.length;
+        }
+
+        function getPaginationUpperBound() {
+            return Math.min(vm.offset + vm.limit, vm.totalEntries);
         }
     }
 

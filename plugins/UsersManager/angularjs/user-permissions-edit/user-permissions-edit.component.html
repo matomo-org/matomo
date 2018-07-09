@@ -31,7 +31,7 @@
 
         <div class="input-field access-filter col">
             <select piwik-material-select>
-                <option value="" selected placeholder>Filter by access level</option>
+                <option value="" selected placeholder>Filter by access</option>
                 <option value="none">None</option>
                 <option value="some">At least View access</option>
                 <option value="view">View</option>
@@ -109,7 +109,7 @@
 
             <span class="counter">
                         <span>
-                                {{ $ctrl.offset }} - {{ $ctrl.offset + $ctrl.siteAccess.length }} of {{ $ctrl.totalEntries }}
+                                {{ $ctrl.offset }} - {{ $ctrl.getPaginationUpperBound() }} of {{ $ctrl.totalEntries }}
                         </span>
                     </span>
 
