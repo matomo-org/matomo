@@ -16,26 +16,26 @@ describe("ImageGraph", function () {
     }
 
     it("should render evolution graphs correctly", async function() {
-        expect.screenshot('evolution_graph').to.be.similar(.95).to.capture(function (page) {
-            page.load(getImageGraphUrl('VisitsSummary', 'get', 'evolution', 'month', '2011-06-01,2012-06-01'));
-        }, done);
+        await page.goto(getImageGraphUrl('VisitsSummary', 'get', 'evolution', 'month', '2011-06-01,2012-06-01'));
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('evolution_graph');
     });
 
     it("should render horizontal bar graphs correctly", async function() {
-        expect.screenshot('horizontal_bar').to.be.similar(.95).to.capture(function (page) {
-            page.load(getImageGraphUrl('UserSettings', 'getBrowser', 'horizontalBar', 'year', '2012-01-01'));
-        }, done);
+        await page.goto(getImageGraphUrl('UserSettings', 'getBrowser', 'horizontalBar', 'year', '2012-01-01'));
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('horizontal_bar');
     });
 
     it("should render vertical bar graphs correctly", async function() {
-        expect.screenshot('vertical_bar').to.be.similar(.95).to.capture(function (page) {
-            page.load(getImageGraphUrl('UserCountry', 'getCountry', 'verticalBar', 'year', '2012-01-01'));
-        }, done);
+        await page.goto(getImageGraphUrl('UserCountry', 'getCountry', 'verticalBar', 'year', '2012-01-01'));
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('vertical_bar');
     });
 
     it("should render pie graphs correctly", async function() {
-        expect.screenshot('pie').to.be.similar(.95).to.capture(function (page) {
-            page.load(getImageGraphUrl('DevicesDetection', 'getOsVersions', 'pie', 'year', '2012-01-01'));
-        }, done);
+        await page.goto(getImageGraphUrl('DevicesDetection', 'getOsVersions', 'pie', 'year', '2012-01-01'));
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('pie');
     });
 });
