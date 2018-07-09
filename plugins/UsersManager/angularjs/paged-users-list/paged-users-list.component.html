@@ -50,7 +50,6 @@
                 piwik-field
                 uicontrol="select"
                 ng-model="$ctrl.accessLevelFilter"
-                ng-model-options="{debounce: 500}"
                 placeholder="Filter by access"
                 options="$ctrl.accessLevelFilterOptions"
                 full-width="true"
@@ -87,7 +86,7 @@
                 </th>
                 <th class='first'>Username</th>
                 <th>
-                    <span>Permissions for</span>
+                    <span>Role for</span>
 
                     <div
                         piwik-field
@@ -96,7 +95,6 @@
                         ng-model="$ctrl.permissionsForSite"
                     ></div>
                 </th>
-                <th>Superuser</th>
                 <th>Email</th>
                 <th>Alias</th>
                 <th>Last Seen</th>
@@ -106,7 +104,7 @@
 
             <tbody>
                 <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected">
-                    <td colspan="8">
+                    <td colspan="7">
                         <div ng-if="!$ctrl.areAllResultsSelected">
                             The <strong>{{ $ctrl.users.length }}</strong> displayed users are selected.
                             <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select all <strong>{{ $ctrl.totalEntries }}</strong>.</a>
@@ -131,16 +129,10 @@
                         <div
                                 piwik-field
                                 uicontrol="select"
-                                ng-model="user.access"
+                                ng-model="user.role"
                                 options="$ctrl.accessLevels"
-                                ng-change="$ctrl.onAccessChange(user, user.access)"
+                                ng-change="$ctrl.onAccessChange(user, user.role)"
                         ></div>
-                    </td>
-                    <td class="superuser-cell">
-                        <span class="checkbox-container">
-                            <input type="checkbox" ng-attr-id="row{{:: $index }}_superuser" checked="checked" disabled="disabled" ng-checked="user.superuser_access" />
-                            <label ng-attr-for="row{{:: $index }}_superuser">{{:: user.superuser_access ? 'Yes' : 'No' }}</label>
-                        </span>
                     </td>
                     <td id="email">{{:: user.email }}</td>
                     <td id="alias">{{:: user.alias }}</td>

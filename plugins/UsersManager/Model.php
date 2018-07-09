@@ -377,7 +377,7 @@ class Model
      * @param string|null $access 'noaccess','some','view','admin' or 'superuser'
      * @return array
      */
-    public function getUsersWithAccessLevel($idSite, $limit = null, $offset = null, $pattern = null, $access = null)
+    public function getUsersWithRole($idSite, $limit = null, $offset = null, $pattern = null, $access = null)
     {
         $where = '(a.idsite IS NULL OR a.idsite IN (?))';
         $bind = [$idSite];
@@ -404,7 +404,7 @@ class Model
             $offsetSql = "OFFSET " . (int)$offset;
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, IF(u.superuser_access = 1, "admin", IFNULL(a.access, "noaccess")) as access
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, IF(u.superuser_access = 1, "admin", IF(u.superuser_access = 1, "superuser", IFNULL(a.access, "noaccess"))) as role
                   FROM ' . $this->table . " u
              LEFT JOIN " . Common::prefixTable('access') . " a ON u.login = a.login
                  WHERE $where

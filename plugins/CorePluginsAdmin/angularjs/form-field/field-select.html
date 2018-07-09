@@ -1,7 +1,7 @@
 <div>
     <select name="{{ formField.name }}"
             ng-model="formField.value"
-            ng-options="t.key as t.value group by t.group for t in formField.availableOptions"
+            ng-options="t.key as t.value group by t.group disable when t.disabled for t in formField.availableOptions"
             piwik-attributes="{{formField.uiControlAttributes}}"
             ng-click="onShowSelect()"
     >

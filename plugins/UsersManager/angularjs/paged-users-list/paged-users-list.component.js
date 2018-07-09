@@ -31,11 +31,12 @@
         vm.accessLevels = [
             { key: 'noaccess', value: 'No Access' },
             { key: 'view', value: 'View' },
-            { key: 'admin', value: 'Admin' }
+            { key: 'admin', value: 'Admin' },
+            { key: 'superuser', value: 'Superuser', disabled: true  }
         ];
         vm.accessLevelFilterOptions = [
             { key: 'noaccess', value: 'No Access' },
-            { key: 'some', value: 'At least View access' },
+            { key: 'some', value: 'At least View' },
             { key: 'view', value: 'View' },
             { key: 'admin', value: 'Admin' },
             { key: 'superuser', value: 'Superuser' }
@@ -103,7 +104,7 @@
         function fetchUsers() {
             vm.isLoadingUsers = true;
             piwikApi.fetch({
-                method: 'UsersManager.getUsersPlusAccessLevel',
+                method: 'UsersManager.getUsersPlusRole',
                 limit: vm.limit,
                 offset: vm.offset,
                 filter_search: vm.userTextFilter,

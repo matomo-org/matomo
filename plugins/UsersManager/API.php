@@ -208,7 +208,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns all users with their access level to $idSite.
+     * Returns all users with their role for $idSite.
      *
      * @param int $idSite
      * @param int|null $limit
@@ -218,7 +218,7 @@ class API extends \Piwik\Plugin\API
      *                                   Filtering by 'superuser' is only allowed for other superusers.
      * @return array
      */
-    public function getUsersPlusAccessLevel($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
+    public function getUsersPlusRole($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
     {
         if (!$this->isUserHasAdminAccessTo($idSite)) {
             // if the user is not an admin to $idSite, they can only see their own user
@@ -230,7 +230,7 @@ class API extends \Piwik\Plugin\API
             }
 
             $user = $this->model->getUser($this->access->getLogin());
-            $user['access'] = $this->access->getAccessForSite($idSite);
+            $user['role'] = $this->access->getAccessForSite($idSite);
             $users = [$user];
             $totalResults = 1;
         } else {
@@ -241,7 +241,7 @@ class API extends \Piwik\Plugin\API
                 $filter_access = null;
             }
 
-            list($users, $totalResults) = $this->model->getUsersWithAccessLevel($idSite, $limit, $offset, $filter_search, $filter_access);
+            list($users, $totalResults) = $this->model->getUsersWithRole($idSite, $limit, $offset, $filter_search, $filter_access);
         }
 
         $users = $this->enrichUsers($users);

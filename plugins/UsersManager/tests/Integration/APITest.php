@@ -226,12 +226,12 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $access);
     }
 
-    public function test_getUsersPlusAccessLevel_shouldReturnSelfIfUserDoesNotHaveAdminAccessToSite()
+    public function test_getUsersPlusRole_shouldReturnSelfIfUserDoesNotHaveAdminAccessToSite()
     {
         $this->addUserWithAccess('userLogin2', 'view', 1);
         $this->setCurrentUser('userLogin2', 'view', 1);
 
-        $users = $this->api->getUsersPlusAccessLevel(1);
+        $users = $this->api->getUsersPlusRole(1);
         $this->cleanUsers($users['results']);
         $expected = [
             'total' => 1,
@@ -242,13 +242,13 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $users);
     }
 
-    public function test_getUsersPlusAccessLevel_shouldNotAllowSuperuserFilter_ifUserIsNotSuperUser()
+    public function test_getUsersPlusRole_shouldNotAllowSuperuserFilter_ifUserIsNotSuperUser()
     {
         $this->addUserWithAccess('userLogin2', 'view', 1);
         $this->addUserWithAccess('userLogin3', 'superuser', 1);
         $this->setCurrentUser('userLogin2', 'view', 1);
 
-        $users = $this->api->getUsersPlusAccessLevel(1, null, null, null, 'superuser');
+        $users = $this->api->getUsersPlusRole(1, null, null, null, 'superuser');
         $this->cleanUsers($users['results']);
         $expected = [
             'total' => 1,
@@ -259,7 +259,7 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $users);
     }
 
-    public function test_getUsersPlusAccessLevel_shouldReturnAllUsersAndAccess_ifUserHasAdminAccess()
+    public function test_getUsersPlusRole_shouldReturnAllUsersAndAccess_ifUserHasAdminAccess()
     {
         $this->addUserWithAccess('userLogin2', 'admin', 1);
         $this->addUserWithAccess('userLogin3', 'view', 1);
@@ -267,7 +267,7 @@ class APITest extends IntegrationTestCase
         $this->addUserWithAccess('userLogin5', null, 1);
         $this->setCurrentUser('userLogin2', 'admin', 1);
 
-        $users = $this->api->getUsersPlusAccessLevel(1);
+        $users = $this->api->getUsersPlusRole(1);
         $this->cleanUsers($users['results']);
         $expected = [
             'total' => 5,
@@ -282,7 +282,7 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $users);
     }
 
-    public function test_getUsersPlusAccessLevel_shouldReturnAllUsersAndAccess_ifUserHasSuperuserAccess()
+    public function test_getUsersPlusRole_shouldReturnAllUsersAndAccess_ifUserHasSuperuserAccess()
     {
         $this->addUserWithAccess('userLogin2', 'superuser', 1);
         $this->addUserWithAccess('userLogin3', 'view', 1);
@@ -290,7 +290,7 @@ class APITest extends IntegrationTestCase
         $this->addUserWithAccess('userLogin5', null, 1);
         $this->setCurrentUser('userLogin2', 'superuser', 1);
 
-        $users = $this->api->getUsersPlusAccessLevel(1);
+        $users = $this->api->getUsersPlusRole(1);
         $this->cleanUsers($users['results']);
         $expected = [
             'total' => 5,
@@ -305,7 +305,7 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $users);
     }
 
-    public function test_getUsersPlusAccessLevel_shouldFilterUsersByAccessCorrectly()
+    public function test_getUsersPlusRole_shouldFilterUsersByAccessCorrectly()
     {
         $this->addUserWithAccess('userLogin2', 'admin', 1);
         $this->addUserWithAccess('userLogin3', 'view', 1);
@@ -313,7 +313,7 @@ class APITest extends IntegrationTestCase
         $this->addUserWithAccess('userLogin5', 'admin', 1);
         $this->setCurrentUser('userLogin2', 'admin', 1);
 
-        $users = $this->api->getUsersPlusAccessLevel(1, null, null, null, 'admin');
+        $users = $this->api->getUsersPlusRole(1, null, null, null, 'admin');
         $this->cleanUsers($users['results']);
         $expected = [
             'total' => 2,
@@ -325,7 +325,7 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $users);
     }
 
-    public function test_getUsersPlusAccessLevel_shouldSearchForSuperUsersCorrectly()
+    public function test_getUsersPlusRole_shouldSearchForSuperUsersCorrectly()
     {
         $this->addUserWithAccess('userLogin2', 'admin', 1);
         $this->api->setSuperUserAccess('userLogin2', true);
@@ -334,7 +334,7 @@ class APITest extends IntegrationTestCase
         $this->addUserWithAccess('userLogin5', null, 1);
         $this->setCurrentUser('userLogin2', 'superuser', 1);
 
-        $users = $this->api->getUsersPlusAccessLevel(1, null, null, null, 'superuser');
+        $users = $this->api->getUsersPlusRole(1, null, null, null, 'superuser');
         $this->cleanUsers($users['results']);
         $expected = [
             'total' => 2,
@@ -346,7 +346,7 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $users);
     }
 
-    public function test_getUsersPlusAccessLevel_shouldSearchByTextCorrectly()
+    public function test_getUsersPlusRole_shouldSearchByTextCorrectly()
     {
         $this->addUserWithAccess('searchTextLogin', 'superuser', 1, 'someemail@email.com', 'alias');
         $this->addUserWithAccess('userLogin2', 'view', 1, 'searchTextdef@email.com');
@@ -354,7 +354,7 @@ class APITest extends IntegrationTestCase
         $this->addUserWithAccess('userLogin4', null, 1);
         $this->setCurrentUser('searchTextLogin', 'superuser', 1);
 
-        $users = $this->api->getUsersPlusAccessLevel(1, null, null, 'searchText');
+        $users = $this->api->getUsersPlusRole(1, null, null, 'searchText');
         $this->cleanUsers($users['results']);
         $expected = [
             'total' => 3,
@@ -367,7 +367,7 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $users);
     }
 
-    public function test_getUsersPlusAccessLevel_shouldApplyLimitAndOffsetCorrectly()
+    public function test_getUsersPlusRole_shouldApplyLimitAndOffsetCorrectly()
     {
         $this->addUserWithAccess('searchTextLogin', 'superuser', 1, 'someemail@email.com');
         $this->addUserWithAccess('userLogin2', 'view', 1, 'searchTextdef@email.com');
@@ -375,7 +375,7 @@ class APITest extends IntegrationTestCase
         $this->addUserWithAccess('userLogin4', null, 1);
         $this->setCurrentUser('searchTextLogin', 'superuser', 1);
 
-        $users = $this->api->getUsersPlusAccessLevel(1, $limit = 2, $offset = 1);
+        $users = $this->api->getUsersPlusRole(1, $limit = 2, $offset = 1);
         $this->cleanUsers($users['results']);
         $expected = [
             'total' => 5,
