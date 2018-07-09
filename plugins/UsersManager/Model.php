@@ -12,6 +12,7 @@ use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
+use Piwik\Plugins\SitesManager\SitesManager;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -147,8 +148,7 @@ class Model
     {
         $db = $this->getDb();
         $users = $db->fetchAll("SELECT idsite,access FROM " . Common::prefixTable("access")
-                                        . " WHERE login = ?", $userLogin);
-
+            . " WHERE login = ?", $userLogin);
         $return = array();
         foreach ($users as $user) {
             $return[] = array(
@@ -156,8 +156,45 @@ class Model
                 'access' => $user['access'],
             );
         }
-
         return $return;
+    }
+
+    public function getSitesAccessFromUserWithFilters($userLogin, $limit = null, $offset = 0, $pattern = null, $access = null)
+    {
+        $bind = [$userLogin];
+        $where = 'u.login = ?';
+
+        if ($pattern) {
+            $bind = array_merge($bind, \Piwik\Plugins\SitesManager\Model::getPatternMatchSqlBind($pattern));
+            $where .= ' AND ' . \Piwik\Plugins\SitesManager\Model::getPatternMatchSqlQuery('s');
+        }
+
+        if ($access) {
+            $where .= ' AND a.access = ?';
+            $bind[] = $access;
+        }
+
+        $limitSql = '';
+        if ($limit) {
+            $limitSql = "LIMIT " . (int)$limit;
+        }
+
+        $offsetSql = '';
+        if ($offset) {
+            $offsetSql = "OFFSET " . (int)$offset;
+        }
+
+        $sql = 'SELECT a.idsite as idsite, s.name as site_name, IF(u.superuser_access = 1, "admin", a.access) as access
+                  FROM access a
+            INNER JOIN user u ON u.login = a.login
+            INNER JOIN site s ON s.idsite = a.idsite
+                 WHERE ' . $where . '
+              ORDER BY s.name ASC, a.idsite ASC '. "
+              $limitSql $offsetSql";
+
+        $db = $this->getDb();
+        $access = $db->fetchAll($sql, $bind);
+        return $access;
     }
 
     public function getUser($userLogin)
@@ -330,8 +367,6 @@ class Model
         return Db::get();
     }
 
-    // TODO: tests + docs
-
     /**
      * Returns all users and their access to `$idSite`.
      *
@@ -369,7 +404,7 @@ class Model
             $offsetSql = "OFFSET " . (int)$offset;
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, IFNULL(a.access, "noaccess") as access
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, IF(u.superuser_access = 1, "admin", IFNULL(a.access, "noaccess")) as access
                   FROM ' . $this->table . " u
              LEFT JOIN " . Common::prefixTable('access') . " a ON u.login = a.login
                  WHERE $where

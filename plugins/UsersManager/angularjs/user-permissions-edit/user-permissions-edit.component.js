@@ -19,48 +19,77 @@
         controller: UserPermissionsEditController
     });
 
-    UserPermissionsEditController.$inject = ['$element', '$timeout'];
+    UserPermissionsEditController.$inject = ['piwikApi'];
 
-    function UserPermissionsEditController($element, $timeout) {
+    function UserPermissionsEditController(piwikApi) {
         var vm = this;
-        vm.siteAccess = [
-            {
-                name: 'Some website',
-                access: 'none',
-            },
-            {
-                name: 'Some other website',
-                access: 'admin',
-            },
-            {
-                name: 'A third website',
-                access: 'view',
-            },
-        ];
-        vm.offset = 50;
-        vm.totalEntries = 1000;
-        vm.isAllCheckboxSelected = false;
-        vm.selectedRows = {};
-        vm.isBulkActionsDisabled = true;
-        vm.areAllResultsSelected = false;
+
+        // TODO: code redundancy w/ paged-users-list
+        // access level select options
         vm.accessLevels = [
             { key: 'view', value: 'View' },
             { key: 'admin', value: 'Admin' }
         ];
+        vm.accessLevelFilterOptions = [
+            { key: 'some', value: 'At least View access' },
+            { key: 'view', value: 'View' },
+            { key: 'admin', value: 'Admin' },
+            { key: 'superuser', value: 'Superuser' }
+        ];
+
+        // search/pagination state
+        vm.siteAccess = [];
+        vm.offset = 0;
+        vm.totalEntries = null;
+        vm.accessLevelFilter = 'some';
+        vm.siteNameFilter = '';
+        vm.isLoadingAccess = false;
+
+        // row selection state
+        vm.isAllCheckboxSelected = false;
+        vm.selectedRows = {};
+        vm.isBulkActionsDisabled = true;
+        vm.areAllResultsSelected = false;
+
+        // TODO: how to know which site is the first this user doesn't have access to?
+        vm.siteToAdd = {
+            id: 1,
+            siteName: 'TODO'
+        };
+
         vm.$onInit = $onInit;
+        vm.$onChanges = $onChanges;
         vm.onAccessChange = onAccessChange;
         vm.onRemoveAllAccess = onRemoveAllAccess;
         vm.onAllCheckboxChange = onAllCheckboxChange;
         vm.setAccessBulk = setAccessBulk;
         vm.onRowSelected = onRowSelected;
         vm.getPaginationUpperBound = getPaginationUpperBound;
+        vm.addAccessToSite = addAccessToSite;
 
         function $onInit() {
             vm.limit = vm.limit || 10;
+        }
 
-            // if this isn't in a $timeout, angular will throw an exception
-            $timeout(function () {
-                $element.find('.bulk-actions > .dropdown-trigger').dropdown();
+        function $onChanges() {
+            fetchAccess();
+        }
+
+        function fetchAccess() {
+            vm.isLoadingAccess = true;
+            piwikApi.fetch({
+                method: 'UsersManager.getSitesAccessForUser',
+                limit: vm.limit,
+                offset: vm.offset,
+                filter_search: vm.siteNameFilter,
+                filter_access: vm.accessLevelFilter,
+                userLogin: vm.userLogin
+            }).then(function (response) {
+                vm.isLoadingAccess = false;
+                vm.siteAccess = response.results;
+                vm.totalEntries = response.total;
+            }).catch(function () {
+                vm.isLoadingAccess = false;
             });
         }
 
@@ -108,6 +137,11 @@
 
         function getPaginationUpperBound() {
             return Math.min(vm.offset + vm.limit, vm.totalEntries);
+        }
+
+        function addAccessToSite(idSite) {
+            alert('add access ' + idSite);
+            // TODO
         }
     }
 

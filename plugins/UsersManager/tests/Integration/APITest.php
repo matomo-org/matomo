@@ -11,6 +11,7 @@ namespace Piwik\Plugins\UsersManager\tests;
 use Piwik\Auth\Password;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tests\Framework\Fixture;
@@ -295,9 +296,9 @@ class APITest extends IntegrationTestCase
             'total' => 5,
             'results' => [
                 ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => 0, 'access' => 'noaccess'],
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => 1, 'access' => 'noaccess'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => 1, 'access' => 'admin'],
                 ['login' => 'userLogin3', 'alias' => 'userLogin3', 'email' => 'userLogin3@password.de', 'superuser_access' => 0, 'access' => 'view'],
-                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => 1, 'access' => 'noaccess'],
+                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => 1, 'access' => 'admin'],
                 ['login' => 'userLogin5', 'alias' => 'userLogin5', 'email' => 'userLogin5@password.de', 'superuser_access' => 0, 'access' => 'noaccess'],
             ],
         ];
@@ -338,8 +339,8 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => 2,
             'results' => [
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => '1', 'access' => 'noaccess'],
-                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => '1', 'access' => 'noaccess'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => '1', 'access' => 'admin'],
+                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => '1', 'access' => 'admin'],
             ],
         ];
         $this->assertEquals($expected, $users);
@@ -358,9 +359,9 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => 3,
             'results' => [
-                ['login' => 'searchTextLogin', 'alias' => 'alias', 'email' => 'someemail@email.com', 'superuser_access' => '1', 'access' => 'noaccess'],
+                ['login' => 'searchTextLogin', 'alias' => 'alias', 'email' => 'someemail@email.com', 'superuser_access' => '1', 'access' => 'admin'],
                 ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => '0', 'access' => 'view'],
-                ['login' => 'userLogin3', 'alias' => 'alias-searchTextABC', 'email' => 'someemail2@email.com', 'superuser_access' => '1', 'access' => 'noaccess'],
+                ['login' => 'userLogin3', 'alias' => 'alias-searchTextABC', 'email' => 'someemail2@email.com', 'superuser_access' => '1', 'access' => 'admin'],
             ],
         ];
         $this->assertEquals($expected, $users);
@@ -384,6 +385,71 @@ class APITest extends IntegrationTestCase
             ],
         ];
         $this->assertEquals($expected, $users);
+    }
+
+    public function test_getSitesAccessForUser_shouldReturnAccessForUser()
+    {
+        $this->api->setUserAccess('userLogin', 'admin', [1]);
+        $this->api->setUserAccess('userLogin', 'view', [2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+
+        $access = $this->api->getSitesAccessForUser('userLogin');
+        $expected = [
+            ['idsite' => '1', 'site_name' => 'Piwik test', 'access' => 'admin'],
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'access' => 'view'],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'access' => 'view'],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_getSitesAccessForUser_shouldApplyLimitAndOffsetCorrectly()
+    {
+        $this->api->setUserAccess('userLogin', 'admin', [1]);
+        $this->api->setUserAccess('userLogin', 'view', [2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+
+        $access = $this->api->getSitesAccessForUser('userLogin', $limit = 2, $offset = 1);
+        $expected = [
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'access' => 'view'],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'access' => 'view'],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_getSitesAccessForUser_shouldSearchSitesCorrectly()
+    {
+        Fixture::createWebsite('2010-01-02 00:00:00');
+
+        $this->api->setUserAccess('userLogin', 'admin', [1]);
+        $this->api->setUserAccess('userLogin', 'view', [2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+        $this->api->setUserAccess('userLogin', 'view', [4]);
+
+        SitesManagerAPI::getInstance()->updateSite(1, 'searchTerm site');
+        SitesManagerAPI::getInstance()->updateSite(2, null, ['http://searchTerm.com']);
+        SitesManagerAPI::getInstance()->updateSite(3, null, null, null, null, null, null, null, null, null, null, 'the searchTerm group');
+
+        $access = $this->api->getSitesAccessForUser('userLogin', null, null, 'searchTerm');
+        $expected = [
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'access' => 'view'],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'access' => 'view'],
+            ['idsite' => '1', 'site_name' => 'searchTerm site', 'access' => 'admin'],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_getSitesAccessForUser_shouldFilterByAccessCorrectly()
+    {
+        $this->api->setUserAccess('userLogin', 'admin', [1]);
+        $this->api->setUserAccess('userLogin', 'view', [2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+
+        $access = $this->api->getSitesAccessForUser('userLogin', null, null, null, 'view');
+        $expected = [
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'access' => 'view'],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'access' => 'view'],
+        ];
+        $this->assertEquals($expected, $access);
     }
 
     private function getPreferenceId($preferenceName)

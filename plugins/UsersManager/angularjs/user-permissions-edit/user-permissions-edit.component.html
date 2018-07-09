@@ -26,18 +26,32 @@
         </div>
 
         <div class="input-field site-filter col">
-            <input type="text" placeholder="Filter by name"/>
+            <input type="text" placeholder="Site search" ng-model="$ctrl.siteNameFilter"/>
         </div>
 
         <div class="input-field access-filter col">
-            <select piwik-material-select>
-                <option value="" selected placeholder>Filter by access</option>
-                <option value="none">None</option>
-                <option value="some">At least View access</option>
-                <option value="view">View</option>
-                <option value="admin">Admin</option>
-                <option value="superuser">Superuser</option>
-            </select>
+            <div
+                piwik-field
+                uicontrol="select"
+                ng-model="$ctrl.accessLevelFilter"
+                ng-model-options="{debounce: 500}"
+                placeholder="Filter by access"
+                options="$ctrl.accessLevelFilterOptions"
+                full-width="true"
+                ng-change="$ctrl.fetchAccess()"
+            ></div>
+        </div>
+
+        <div class="input-field add-site col">
+            <!-- TODO: site selector must support filters on site so we can ignore those in table -->
+            <div
+                    piwik-field
+                    class="add-site-selector"
+                    uicontrol="site"
+                    ng-model="$ctrl.siteToAdd"
+                    placeholder="Add access"
+                    ng-change="$ctrl.addAccessToSite($ctrl.siteToAdd.id)"
+            ></div>
         </div>
     </div>
 

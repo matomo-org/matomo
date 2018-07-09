@@ -386,7 +386,6 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserExists($userLogin);
-
         // Super users have 'admin' access for every site
         if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
             $return = array();
@@ -397,12 +396,42 @@ class API extends \Piwik\Plugin\API
                     'site' => $site['idsite'],
                     'access' => 'admin'
                 );
-
             }
             return $return;
         }
-
         return $this->model->getSitesAccessFromUser($userLogin);
+    }
+
+    /**
+     * For each website ID, returns the access level of the given $userLogin (if the user is not a superuser).
+     * If the user doesn't have any access to a website ('noaccess'),
+     * this website will not be in the returned array.
+     * If the user doesn't have any access, the returned array will be an empty array.
+     *
+     * @param string $userLogin User that has to be valid
+     *
+     * @param int|null $limit
+     * @param int|null $offset
+     * @param string|null $filter_search text to search for in site name, URLs, or group.
+     * @param string|null $filter_access access level to select for, can be 'view' or 'admin' (by default sites with either are returned)
+     * @return array    The returned array has the format
+     *                    array(
+     *                        ['idsite' => 1, 'site_name' => 'the site', 'access' => 'admin'],
+     *                        ['idsite' => 2, 'site_name' => 'the other site', 'access' => 'view'],
+     *                        ...
+     *                    )
+     * @throws Exception
+     */
+    public function getSitesAccessForUser($userLogin, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->checkUserExists($userLogin);
+
+        if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
+            throw new \Exception("This method should not be used with superusers.");
+        }
+
+        return $this->model->getSitesAccessFromUserWithFilters($userLogin, $limit, $offset, $filter_search, $filter_access);
     }
 
     /**

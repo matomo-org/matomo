@@ -58,6 +58,7 @@
         vm.isBulkActionsDisabled = true;
 
         vm.$onInit = $onInit;
+        vm.$onChanges = $onChanges;
         vm.onAllCheckboxChange = onAllCheckboxChange;
         vm.setAccessBulk = setAccessBulk;
         vm.removeAccessBulk = removeAccessBulk;
@@ -76,8 +77,12 @@
                 id: vm.initialSiteId,
                 name: vm.initialSiteName
             };
+        }
 
-            fetchUsers();
+        function $onChanges(changes) {
+            if (changes.limit) {
+                fetchUsers();
+            }
         }
 
         function onAllCheckboxChange() {
