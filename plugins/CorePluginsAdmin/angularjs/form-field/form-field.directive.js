@@ -343,6 +343,11 @@
                     // availableValues and in the watch change availableValues could trigger lots of more watch events
                     field.availableOptions = formatAvailableValues(field);
 
+                    // for selects w/ a placeholder, add an option to unset the select
+                    if (field.uiControl === 'select' && field.uiControlAttributes.placeholder) {
+                        field.availableOptions.splice(0, 0, { key: '', value: '' });
+                    }
+
                     field.defaultValuePretty = formatPrettyDefaultValue(defaultValue, field.availableOptions);
 
                     field.showField = true;
