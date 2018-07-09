@@ -37,6 +37,7 @@ class APITest extends IntegrationTestCase
 
         $this->api = API::getInstance();
 
+        FakeAccess::clearAccess();
         FakeAccess::$superUser = true;
 
         Fixture::createWebsite('2014-01-01 00:00:00');
@@ -224,6 +225,167 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $access);
     }
 
+    public function test_getUsersPlusAccessLevel_shouldReturnSelfIfUserDoesNotHaveAdminAccessToSite()
+    {
+        $this->addUserWithAccess('userLogin2', 'view', 1);
+        $this->setCurrentUser('userLogin2', 'view', 1);
+
+        $users = $this->api->getUsersPlusAccessLevel(1);
+        $this->cleanUsers($users['results']);
+        $expected = [
+            'total' => 1,
+            'results' => [
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'access' => 'view'],
+            ],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusAccessLevel_shouldNotAllowSuperuserFilter_ifUserIsNotSuperUser()
+    {
+        $this->addUserWithAccess('userLogin2', 'view', 1);
+        $this->addUserWithAccess('userLogin3', 'superuser', 1);
+        $this->setCurrentUser('userLogin2', 'view', 1);
+
+        $users = $this->api->getUsersPlusAccessLevel(1, null, null, null, 'superuser');
+        $this->cleanUsers($users['results']);
+        $expected = [
+            'total' => 1,
+            'results' => [
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'access' => 'view'],
+            ],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusAccessLevel_shouldReturnAllUsersAndAccess_ifUserHasAdminAccess()
+    {
+        $this->addUserWithAccess('userLogin2', 'admin', 1);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'admin', 1);
+        $this->addUserWithAccess('userLogin5', null, 1);
+        $this->setCurrentUser('userLogin2', 'admin', 1);
+
+        $users = $this->api->getUsersPlusAccessLevel(1);
+        $this->cleanUsers($users['results']);
+        $expected = [
+            'total' => 5,
+            'results' => [
+                ['login' => 'userLogin', 'alias' => 'userLogin', 'access' => 'noaccess'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'access' => 'admin'],
+                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'access' => 'view'],
+                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'access' => 'admin'],
+                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'access' => 'noaccess'],
+            ],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusAccessLevel_shouldReturnAllUsersAndAccess_ifUserHasSuperuserAccess()
+    {
+        $this->addUserWithAccess('userLogin2', 'superuser', 1);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'superuser', 1);
+        $this->addUserWithAccess('userLogin5', null, 1);
+        $this->setCurrentUser('userLogin2', 'superuser', 1);
+
+        $users = $this->api->getUsersPlusAccessLevel(1);
+        $this->cleanUsers($users['results']);
+        $expected = [
+            'total' => 5,
+            'results' => [
+                ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => 0, 'access' => 'noaccess'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => 1, 'access' => 'noaccess'],
+                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'email' => 'userLogin3@password.de', 'superuser_access' => 0, 'access' => 'view'],
+                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => 1, 'access' => 'noaccess'],
+                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'email' => 'userLogin5@password.de', 'superuser_access' => 0, 'access' => 'noaccess'],
+            ],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusAccessLevel_shouldFilterUsersByAccessCorrectly()
+    {
+        $this->addUserWithAccess('userLogin2', 'admin', 1);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'superuser', 1);
+        $this->addUserWithAccess('userLogin5', 'admin', 1);
+        $this->setCurrentUser('userLogin2', 'admin', 1);
+
+        $users = $this->api->getUsersPlusAccessLevel(1, null, null, null, 'admin');
+        $this->cleanUsers($users['results']);
+        $expected = [
+            'total' => 2,
+            'results' => [
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'access' => 'admin'],
+                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'access' => 'admin'],
+            ],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusAccessLevel_shouldSearchForSuperUsersCorrectly()
+    {
+        $this->addUserWithAccess('userLogin2', 'admin', 1);
+        $this->api->setSuperUserAccess('userLogin2', true);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'superuser', 1);
+        $this->addUserWithAccess('userLogin5', null, 1);
+        $this->setCurrentUser('userLogin2', 'superuser', 1);
+
+        $users = $this->api->getUsersPlusAccessLevel(1, null, null, null, 'superuser');
+        $this->cleanUsers($users['results']);
+        $expected = [
+            'total' => 2,
+            'results' => [
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => '1', 'access' => 'noaccess'],
+                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => '1', 'access' => 'noaccess'],
+            ],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusAccessLevel_shouldSearchByTextCorrectly()
+    {
+        $this->addUserWithAccess('searchTextLogin', 'superuser', 1, 'someemail@email.com', 'alias');
+        $this->addUserWithAccess('userLogin2', 'view', 1, 'searchTextdef@email.com');
+        $this->addUserWithAccess('userLogin3', 'superuser', 1, 'someemail2@email.com', 'alias-searchTextABC');
+        $this->addUserWithAccess('userLogin4', null, 1);
+        $this->setCurrentUser('searchTextLogin', 'superuser', 1);
+
+        $users = $this->api->getUsersPlusAccessLevel(1, null, null, 'searchText');
+        $this->cleanUsers($users['results']);
+        $expected = [
+            'total' => 3,
+            'results' => [
+                ['login' => 'searchTextLogin', 'alias' => 'alias', 'email' => 'someemail@email.com', 'superuser_access' => '1', 'access' => 'noaccess'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => '0', 'access' => 'view'],
+                ['login' => 'userLogin3', 'alias' => 'alias-searchTextABC', 'email' => 'someemail2@email.com', 'superuser_access' => '1', 'access' => 'noaccess'],
+            ],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusAccessLevel_shouldApplyLimitAndOffsetCorrectly()
+    {
+        $this->addUserWithAccess('searchTextLogin', 'superuser', 1, 'someemail@email.com');
+        $this->addUserWithAccess('userLogin2', 'view', 1, 'searchTextdef@email.com');
+        $this->addUserWithAccess('userLogin3', 'superuser', 1, 'someemail2@email.com', 'alias-searchTextABC');
+        $this->addUserWithAccess('userLogin4', null, 1);
+        $this->setCurrentUser('searchTextLogin', 'superuser', 1);
+
+        $users = $this->api->getUsersPlusAccessLevel(1, $limit = 2, $offset = 1);
+        $this->cleanUsers($users['results']);
+        $expected = [
+            'total' => 5,
+            'results' => [
+                ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => '0', 'access' => 'noaccess'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => '0', 'access' => 'view'],
+            ],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
     private function getPreferenceId($preferenceName)
     {
         return $this->login . '_' . $preferenceName;
@@ -234,5 +396,33 @@ class APITest extends IntegrationTestCase
         return array(
             'Piwik\Access' => new FakeAccess()
         );
+    }
+
+    private function addUserWithAccess($username, $accessLevel, $idSite, $email = null, $alias = null)
+    {
+        $this->api->addUser($username, 'password', $email ?: "$username@password.de", $alias);
+        if ($accessLevel == 'superuser') {
+            $this->api->setSuperUserAccess($username, true);
+        } else if ($accessLevel) {
+            $this->api->setUserAccess($username, $accessLevel, $idSite);
+        }
+    }
+
+    public function setCurrentUser($username, $accessLevel, $idSite)
+    {
+        FakeAccess::$identity = $username;
+        FakeAccess::$superUser = $accessLevel == 'superuser';
+        if ($accessLevel == 'view') {
+            FakeAccess::$idSitesView = [$idSite];
+        } else if ($accessLevel == 'admin') {
+            FakeAccess::$idSitesAdmin = [$idSite];
+        }
+    }
+
+    private function cleanUsers(&$users)
+    {
+        foreach ($users as &$user) {
+            unset($user['date_registered']);
+        }
     }
 }

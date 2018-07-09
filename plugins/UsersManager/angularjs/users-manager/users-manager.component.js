@@ -25,10 +25,6 @@
         var vm = this;
         vm.isEditing = false;
         vm.isCurrentUserSuperUser = true;
-        vm.accessLevels = [
-            { key: 'view', value: 'View' },
-            { key: 'admin', value: 'Admin' }
-        ];
         vm.$onInit = $onInit;
         vm.$onDestroy = $onDestroy;
         vm.onDeleteUser = onDeleteUser;

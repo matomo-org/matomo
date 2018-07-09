@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
@@ -206,40 +207,53 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * TODO
+     * Returns all users with their access level to $idSite.
      *
-     * @param null $idSite
-     * @param null $limit
-     * @param int $offset
-     * @param null $filter_search
-     * @param null $filter_access
+     * @param int $idSite
+     * @param int|null $limit
+     * @param int|null $offset
+     * @param string|null $filter_search text to search for in the user's login, email and alias (if any)
+     * @param string|null $filter_access only select users with this access to $idSite. can be 'noaccess', 'some', 'view', 'admin', 'superuser'
+     *                                   Filtering by 'superuser' is only allowed for other superusers.
+     * @return array
      */
-    public function getUsersWithAccessLevel($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
+    public function getUsersPlusAccessLevel($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
     {
-        /* UI todo:
-         * - do not allow editing access if user is not admin to specific site
-         * - only allow editing permissions to sites the current user has admin access to in user edit form
-         * - do not display certain columns in table if not admin for site
-         */
-
-        if (!$this->access->hasSuperUserAccess() && !$this->access->isUserHasAdminAccessTo($idSite)) {
+        if (!$this->isUserHasAdminAccessTo($idSite)) {
             // if the user is not an admin to $idSite, they can only see their own user
             if ($offset > 1) {
-                return [];
+                return [
+                    'total' => 1,
+                    'results' => [],
+                ];
             }
 
-            $users = [$this->model->getUser($this->access->getLogin())];
+            $user = $this->model->getUser($this->access->getLogin());
+            $user['access'] = $this->access->getAccessForSite($idSite);
+            $users = [$user];
+            $totalResults = 1;
         } else {
-            $users = $this->model->getUsersWithAccessLevel($idSite, $limit, $offset, $filter_search, $filter_access);
+            // can only filter by superuser if current user is a superuser
+            if ($filter_access == 'superuser'
+                && !$this->access->hasSuperUserAccess()
+            ) {
+                $filter_access = null;
+            }
+
+            list($users, $totalResults) = $this->model->getUsersWithAccessLevel($idSite, $limit, $offset, $filter_search, $filter_access);
         }
 
         $users = $this->enrichUsers($users);
         $users = $this->removeUserInfoForNonSuperUsers($users);
 
-        return $users;
-        // TODO:
-        // - select users that have X access to site ID
-        //   - select from users join on access where users.login = access.login and idsite = ? and access IN (...)
+        foreach ($users as &$user) {
+            unset($user['password']);
+        }
+
+        return [
+            'total' => $totalResults,
+            'results' => $users,
+        ];
     }
 
     /**
@@ -921,10 +935,24 @@ class API extends \Piwik\Plugin\API
     private function removeUserInfoForNonSuperUsers($users)
     {
         if (!Piwik::hasUserSuperUserAccess()) {
-            foreach ($users as &$user) {
-                $user = array('login' => $user['login'], 'alias' => $user['alias']);
+            foreach ($users as $key => $user) {
+                $newUser = array('login' => $user['login'], 'alias' => $user['alias']);
+                if (isset($user['access'])) {
+                    $newUser['access'] = $user['access'];
+                }
+                $users[$key] = $newUser;
             }
         }
         return $users;
+    }
+
+    private function isUserHasAdminAccessTo($idSite)
+    {
+        try {
+            $this->access->checkUserHasAdminAccess([$idSite]);
+            return true;
+        } catch (NoAccessException $ex) {
+            return false;
+        }
     }
 }

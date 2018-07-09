@@ -26,10 +26,6 @@
 
     function PagedUsersListController(piwikApi) {
         var vm = this;
-        vm.userAccess = {
-            testuser: 'admin',
-            testuser2: 'view'
-        };
 
         // options for selects
         vm.accessLevels = [
@@ -37,7 +33,7 @@
             { key: 'admin', value: 'Admin' }
         ];
         vm.accessLevelFilterOptions = [
-            { key: 'none', value: 'None' },
+            { key: 'noaccess', value: 'No Access' },
             { key: 'some', value: 'At least View access' },
             { key: 'view', value: 'View' },
             { key: 'admin', value: 'Admin' },
@@ -68,6 +64,8 @@
         vm.onAccessChange = onAccessChange;
         vm.onRowSelected = onRowSelected;
         vm.deleteRequestedUsers = deleteRequestedUsers;
+        vm.gotoPreviousPage = gotoPreviousPage;
+        vm.gotoNextPage = gotoNextPage;
 
         function $onInit() {
             vm.limit = vm.limit || 20;
@@ -93,20 +91,21 @@
         }
 
         function fetchUsers() {
-            // TODO: also filters
             vm.isLoadingUsers = true;
             piwikApi.fetch({
-                method: 'UsersManager.getUsers',
+                method: 'UsersManager.getUsersPlusAccessLevel',
                 limit: vm.limit,
                 offset: vm.offset,
                 filter_search: vm.userTextFilter,
                 filter_access: vm.accessLevelFilter,
                 idSite: vm.permissionsForSite ? vm.permissionsForSite.id : null
             }).then(function (response) {
-                vm.users = response;
+                // TODO: can response have an error?
+                vm.totalEntries = response.total;
+                vm.users = response.results;
                 vm.isLoadingUsers = false;
             }).catch(function () {
-                vm.isLoadingUsers = fasle;
+                vm.isLoadingUsers = false;
             });
         }
 
@@ -142,6 +141,22 @@
 
         function deleteRequestedUsers() {
             alert('delete requested users'); // TODO
+        }
+
+        function gotoPreviousPage() {
+            vm.offset = Math.max(0, vm.offset - vm.limit);
+
+            fetchUsers();
+        }
+
+        function gotoNextPage() {
+            var newOffset = vm.offset + vm.limit;
+            if (newOffset >= vm.totalEntries) {
+                return;
+            }
+
+            vm.offset = newOffset;
+            fetchUsers();
         }
     }
 })();

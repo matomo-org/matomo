@@ -477,6 +477,29 @@ class Access
 
         return $result;
     }
+
+    /**
+     * Returns the level of access the current user has to the given site.
+     *
+     * @param int $idSite The site to check.
+     * @return string The access level, eg, 'view', 'admin', 'noaccess'.
+     */
+    public function getAccessForSite($idSite)
+    {
+        if ($this->hasSuperUserAccess) {
+            return 'admin';
+        }
+
+        if (in_array($idSite, $this->getSitesIdWithAdminAccess())) {
+            return 'admin';
+        }
+
+        if (in_array($idSite, $this->getSitesIdWithViewAccess())) {
+            return 'view';
+        }
+
+        return 'noaccess';
+    }
 }
 
 /**

@@ -39,7 +39,7 @@
                 class="permissions-for-selector"
                 uicontrol="text"
                 ng-model="$ctrl.userTextFilter"
-                placeholder="Filter by login/alias/email"
+                placeholder="User search"
                 full-width="true"
             ></div>
         </div>
@@ -53,9 +53,9 @@
                 full-width="true"
             ></div>
         </div>
-        <div class="input-field col s12 m4" ng-if="$ctrl.users.length > $ctrl.limit">
+        <div class="input-field col s12 m4" ng-if="$ctrl.totalEntries > $ctrl.limit">
             <div class="usersListPagination">
-                <a class="btn prev" disabled="disabled">
+                <a class="btn prev" ng-class="{ disabled: $ctrl.offset <= 0 }" ng-click="$ctrl.gotoPreviousPage()">
                     <span class="pointer">« Previous</span>
                 </a>
 
@@ -64,7 +64,7 @@
                             {{ $ctrl.offset }} - {{ $ctrl.offset + $ctrl.limit }} of {{ $ctrl.totalEntries }}
                     </span>
                 </span>
-                <a class="btn next">
+                <a class="btn next" ng-class="{ disabled: $ctrl.offset + $ctrl.limit >= $ctrl.totalEntries }" ng-click="$ctrl.gotoNextPage()">
                     <span class="pointer">Next »</span>
                 </a>
             </div>
@@ -127,9 +127,9 @@
                         <div
                                 piwik-field
                                 uicontrol="select"
-                                ng-model="$ctrl.userAccess[user.login]"
+                                ng-model="user.access"
                                 options="$ctrl.accessLevels"
-                                ng-change="$ctrl.onAccessChange(user, $ctrl.userAccess[user.login])"
+                                ng-change="$ctrl.onAccessChange(user, user.access)"
                         ></div>
                     </td>
                     <td class="superuser-cell">

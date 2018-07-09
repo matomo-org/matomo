@@ -330,4 +330,81 @@ class Model
         return Db::get();
     }
 
+    // TODO: tests + docs
+
+    /**
+     * Returns all users and their access to `$idSite`.
+     *
+     * @param int $idSite
+     * @param int|null $limit
+     * @param int|null $offset
+     * @param string|null $pattern text to search for if any
+     * @param string|null $access 'noaccess','some','view','admin' or 'superuser'
+     * @return array
+     */
+    public function getUsersWithAccessLevel($idSite, $limit = null, $offset = null, $pattern = null, $access = null)
+    {
+        $where = '(a.idsite IS NULL OR a.idsite IN (?))';
+        $bind = [$idSite];
+
+        if ($pattern) {
+            $where .= ' AND (u.login LIKE ? OR u.alias LIKE ? OR u.email LIKE ?)';
+            $bind = array_merge($bind, ['%' . $pattern . '%', '%' . $pattern . '%', '%' . $pattern . '%']);
+        }
+
+        if ($access) {
+            list($accessSql, $accessBind) = $this->getAccessSelectSqlCondition($access);
+
+            $where .= ' AND ' . $accessSql;
+            $bind = array_merge($bind, $accessBind);
+        }
+
+        $limitSql = '';
+        if ($limit) {
+            $limitSql = "LIMIT " . (int)$limit;
+        }
+
+        $offsetSql = '';
+        if ($offset) {
+            $offsetSql = "OFFSET " . (int)$offset;
+        }
+
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, IFNULL(a.access, "noaccess") as access
+                  FROM ' . $this->table . " u
+             LEFT JOIN " . Common::prefixTable('access') . " a ON u.login = a.login
+                 WHERE $where
+              ORDER BY u.login ASC
+                 $limitSql $offsetSql";
+
+        $db = $this->getDb();
+        $users = $db->fetchAll($sql, $bind);
+        $count = $db->fetchOne("SELECT FOUND_ROWS()");
+        return [$users, $count];
+    }
+
+    private function getAccessSelectSqlCondition($access)
+    {
+        $sql = '';
+        $bind = [];
+
+        switch ($access) {
+            case 'noaccess':
+                $sql = "a.access IS NULL";
+                break;
+            case 'some':
+                $sql = "(a.access IS NOT NULL OR u.superuser_access = 1)";
+                break;
+            case 'view':
+            case 'admin':
+                $sql = "a.access = ?";
+                $bind[] = $access;
+                break;
+            case 'superuser':
+                $sql = "u.superuser_access = 1";
+                break;
+        }
+
+        return [$sql, $bind];
+    }
+
 }
