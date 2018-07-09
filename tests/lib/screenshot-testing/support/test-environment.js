@@ -219,7 +219,7 @@ TestingEnvironment.prototype.readDbInfoFromConfig = function () {
 
     var pathConfigIni = path.join(PIWIK_INCLUDE_PATH, "/config/config.ini.php");
 
-    var configFile = fs.read(pathConfigIni);
+    var configFile = fs.readFileSync(pathConfigIni);
 
     if (configFile) {
         var match = ('' + configFile).match(/password\s?=\s?"(.*)"/);
