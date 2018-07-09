@@ -72,15 +72,17 @@
         vm.getPaginationUpperBound = getPaginationUpperBound;
 
         function $onInit() {
-            vm.limit = vm.limit || 20;
             vm.permissionsForSite = {
                 id: vm.initialSiteId,
                 name: vm.initialSiteName
             };
+            vm.limit = vm.limit || 20;
+
+            fetchUsers();
         }
 
         function $onChanges(changes) {
-            if (changes.limit) {
+            if (changes.limit && vm.permissionsForSite) {
                 fetchUsers();
             }
         }
@@ -106,7 +108,7 @@
                 offset: vm.offset,
                 filter_search: vm.userTextFilter,
                 filter_access: vm.accessLevelFilter,
-                idSite: vm.permissionsForSite ? vm.permissionsForSite.id : null
+                idSite: vm.permissionsForSite.id
             }).then(function (response) {
                 // TODO: can response have an error?
                 vm.totalEntries = response.total;

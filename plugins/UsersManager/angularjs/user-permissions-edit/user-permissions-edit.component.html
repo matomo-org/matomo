@@ -1,12 +1,12 @@
 <div class="userPermissionsEdit">
-    <div class="filters row">
-        <div class="input-field bulk-actions col">
+    <div class="row">
+        <div class="input-field bulk-actions">
             <a
-                class='dropdown-trigger btn'
-                href=''
-                data-activates='user-permissions-edit-bulk-actions'
-                piwik-dropdown-menu
-                ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
+                    class='dropdown-trigger btn'
+                    href=''
+                    data-activates='user-permissions-edit-bulk-actions'
+                    piwik-dropdown-menu
+                    ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
             >
                 Bulk Actions
             </a>
@@ -24,34 +24,38 @@
                 </li>
             </ul>
         </div>
+    </div>
 
-        <div class="input-field site-filter col">
-            <input type="text" placeholder="Site search" ng-model="$ctrl.siteNameFilter"/>
+    <div class="filters row">
+        <div class=" col s12 m6">
+            <div class="input-field site-filter">
+                <input type="text" placeholder="Site search" ng-model="$ctrl.siteNameFilter"/>
+            </div>
+
+            <div class="input-field access-filter">
+                <div
+                        piwik-field
+                        uicontrol="select"
+                        ng-model="$ctrl.accessLevelFilter"
+                        ng-model-options="{debounce: 500}"
+                        options="$ctrl.accessLevelFilterOptions"
+                        full-width="true"
+                        ng-change="$ctrl.fetchAccess()"
+                ></div>
+            </div>
         </div>
-
-        <div class="input-field access-filter col">
-            <div
-                piwik-field
-                uicontrol="select"
-                ng-model="$ctrl.accessLevelFilter"
-                ng-model-options="{debounce: 500}"
-                placeholder="Filter by access"
-                options="$ctrl.accessLevelFilterOptions"
-                full-width="true"
-                ng-change="$ctrl.fetchAccess()"
-            ></div>
-        </div>
-
-        <div class="input-field add-site col">
-            <!-- TODO: site selector must support filters on site so we can ignore those in table -->
-            <div
-                    piwik-field
-                    class="add-site-selector"
-                    uicontrol="site"
-                    ng-model="$ctrl.siteToAdd"
-                    placeholder="Add access"
-                    ng-change="$ctrl.addAccessToSite($ctrl.siteToAdd.id)"
-            ></div>
+        <div class="col m6">
+            <div class="input-field add-site">
+                <!-- TODO: site selector must support filters on site so we can ignore those in table -->
+                <div
+                        piwik-field
+                        class="add-site-selector"
+                        uicontrol="site"
+                        ng-model="$ctrl.siteToAdd"
+                        ng-change="$ctrl.addAccessToSite($ctrl.siteToAdd.id)"
+                ></div>
+                <a class='btn'>Add Access</a>
+            </div>
         </div>
     </div>
 

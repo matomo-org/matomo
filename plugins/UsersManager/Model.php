@@ -185,9 +185,9 @@ class Model
         }
 
         $sql = 'SELECT a.idsite as idsite, s.name as site_name, IF(u.superuser_access = 1, "admin", a.access) as access
-                  FROM access a
-            INNER JOIN user u ON u.login = a.login
-            INNER JOIN site s ON s.idsite = a.idsite
+                  FROM ' . Common::prefixTable('access') . ' a
+            INNER JOIN ' . $this->table . ' u ON u.login = a.login
+            INNER JOIN ' . Common::prefixTable('site') . ' s ON s.idsite = a.idsite
                  WHERE ' . $where . '
               ORDER BY s.name ASC, a.idsite ASC '. "
               $limitSql $offsetSql";
@@ -414,6 +414,11 @@ class Model
         $db = $this->getDb();
         $users = $db->fetchAll($sql, $bind);
         $count = $db->fetchOne("SELECT FOUND_ROWS()");
+
+        foreach ($users as &$user) {
+            $user['superuser_access'] = $user['superuser_access'] == 1;
+        }
+
         return [$users, $count];
     }
 

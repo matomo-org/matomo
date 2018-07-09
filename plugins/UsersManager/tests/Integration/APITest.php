@@ -295,11 +295,11 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => 5,
             'results' => [
-                ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => 0, 'access' => 'noaccess'],
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => 1, 'access' => 'admin'],
-                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'email' => 'userLogin3@password.de', 'superuser_access' => 0, 'access' => 'view'],
-                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => 1, 'access' => 'admin'],
-                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'email' => 'userLogin5@password.de', 'superuser_access' => 0, 'access' => 'noaccess'],
+                ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'access' => 'noaccess'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'access' => 'admin'],
+                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'email' => 'userLogin3@password.de', 'superuser_access' => false, 'access' => 'view'],
+                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'access' => 'admin'],
+                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'email' => 'userLogin5@password.de', 'superuser_access' => false, 'access' => 'noaccess'],
             ],
         ];
         $this->assertEquals($expected, $users);

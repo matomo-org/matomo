@@ -20,8 +20,16 @@
   .add-site {
     float: right;
 
+    [piwik-field] {
+      display:inline-block;
+    }
+
     [piwik-siteselector] {
       display: inline-block;
+
+      a.title {
+        width: 180px;
+      }
 
       .siteSelector {
         position: static !important;
@@ -29,14 +37,23 @@
     }
   }
 
-  .filters.row {
+  .filters {
     margin-left: -0.75rem;
     margin-right: -0.75rem;
 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
+    > div > .input-field {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .form-group, .input-field, input {
+      margin: 0;
+    }
+
+    .add-site > div {
+      vertical-align: bottom;
+      margin-top: .8rem;
+    }
   }
 
   #sitesForPermission {
