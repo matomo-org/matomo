@@ -144,7 +144,9 @@
                     </td>
                     <td id="email">{{:: user.email }}</td>
                     <td id="alias">{{:: user.alias }}</td>
-                    <td id="last_seen">{{:: user.last_seen }} ago</td>
+                    <td id="last_seen">
+                        {{:: user.last_seen ? (user.last_seen + ' ago') : '-' }}
+                    </td>
                     <td class="center actions-cell">
                         <button class="edituser table-action" title="Edit" ng-click="$ctrl.onEditUser({ user: user })">
                             <span class="icon-edit"></span>

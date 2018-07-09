@@ -68,4 +68,16 @@ class LastSeenTimeLogger
         $optionName = self::OPTION_PREFIX . $userName;
         return Option::get($optionName);
     }
+
+    public static function getLastSeenTimesForAllUsers()
+    {
+        $results = [];
+        foreach (Option::getLike(self::OPTION_PREFIX . '%') as $name => $value) {
+            preg_match('/^' . preg_quote(self::OPTION_PREFIX) . '(.*)$/', $name, $matches);
+            if (isset($matches[1])) {
+                $results[$matches[1]] = $value;
+            }
+        }
+        return $results;
+    }
 }

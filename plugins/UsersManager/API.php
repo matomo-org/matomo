@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Metrics\Formatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -244,6 +245,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $users = $this->enrichUsers($users);
+        $users = $this->enrichUsersWithLastSeen($users);
         $users = $this->removeUserInfoForNonSuperUsers($users);
 
         foreach ($users as &$user) {
@@ -573,6 +575,20 @@ class API extends \Piwik\Plugin\API
         // we do not filter these users by access and return them all since we need to print this information in the
         // UI and they are allowed to see this.
 
+        return $users;
+    }
+
+    private function enrichUsersWithLastSeen($users)
+    {
+        $formatter = new Formatter();
+
+        $lastSeenTimes = LastSeenTimeLogger::getLastSeenTimesForAllUsers();
+        foreach ($users as &$user) {
+            $login = $user['login'];
+            if (isset($lastSeenTimes[$login])) {
+                $user['last_seen'] = $formatter->getPrettyTimeFromSeconds(time() - $lastSeenTimes[$login]);
+            }
+        }
         return $users;
     }
 
