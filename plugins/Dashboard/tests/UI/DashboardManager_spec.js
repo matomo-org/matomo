@@ -86,11 +86,6 @@ describe("DashboardManager", function () {
         await page.waitFor(500);
         await page.waitForNetworkIdle();
 
-        /*await page.mouseMove('.dashboard-manager');
-        await page.evaluate(function () {
-            $('.widgetTop').removeClass('widgetTopHover');
-        });*/
-
         expect(await page.screenshot({ fullPage: true })).to.matchImage('removed');
     });
 });
