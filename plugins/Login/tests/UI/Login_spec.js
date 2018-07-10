@@ -43,111 +43,138 @@ describe("Login", function () {
         testEnvironment.save();
     });
 
-    it("should show error when trying to log in through login form", function (done) {
+    it("should show error when trying to log in through login form", async function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.bruteForceBlockThisIp = 1;
         delete testEnvironment.bruteForceBlockIps;
         delete testEnvironment.queryParamOverride;
         testEnvironment.save();
 
-        expect.screenshot("bruteforcelog_blockedlogin").to.be.capture(function (page) {
-            page.load("");
-        }, done);
+        await page.goto("");
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('bruteforcelog_blockedlogin');
     });
 
     it("should load correctly", async function() {
-        expect.screenshot("login_form").to.be.capture(function (page) {
-            page.load("");
-        }, done);
+        await page.goto("");
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('login_form');
     });
 
     it("should fail when incorrect credentials are supplied", async function() {
-        expect.screenshot("login_fail").to.be.capture(function (page) {
-            page.sendKeys('#login_form_login', 'superUserLogin');
-            page.sendKeys('#login_form_password', 'wrongpassword');
-            page.click('#login_form_submit');
-        }, done);
+        await page.type('#login_form_login', 'superUserLogin');
+        await page.type('#login_form_password', 'wrongpassword');
+        await page.evaluate(function(){
+            $('#login_form_submit').click();
+        });
+        await page.waitForNetworkIdle();
+        await page.mouse.click(0, 0);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('login_fail');
     });
 
-    it("should redirect to Piwik when correct credentials are supplied", async function() {
-        expect.current_page.contains("#dashboard", function (page) {
-            page.sendKeys("#login_form_login", "superUserLogin");
-            page.sendKeys("#login_form_password", "superUserPass");
-            page.click("#login_form_submit");
-        }, done);
+    it("should redirect to Matomo when correct credentials are supplied", async function() {
+        await page.type("#login_form_login", "superUserLogin");
+        await page.type("#login_form_password", "superUserPass");
+        await page.evaluate(function(){
+            $('#login_form_submit').click();
+        });
+        await page.waitForNetworkIdle();
+
+        // check dashboard is shown
+        await page.waitForSelector('#dashboard');
+        await page.waitForNetworkIdle();
     });
 
     it("should redirect to login when logout link clicked", async function() {
-        expect.screenshot("login_form").to.be.capture("logout_form", function (page) {
-            page.click("nav .right .icon-sign-out");
-        }, done);
+        await page.click("nav .right .icon-sign-out");
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('login_form');
     });
 
     it("login with email and password should work", async function() {
-        expect.current_page.contains("#dashboard", function (page) {
-            page.sendKeys("#login_form_login", "hello@example.org");
-            page.sendKeys("#login_form_password", "superUserPass");
-            page.click("#login_form_submit");
-        }, done);
+        await page.type("#login_form_login", "hello@example.org");
+        await page.type("#login_form_password", "superUserPass");
+        await page.evaluate(function(){
+            $('#login_form_submit').click();
+        });
+
+        // check dashboard is shown
+        await page.waitForSelector('#dashboard');
+        await page.waitForNetworkIdle();
     });
 
     it("should display password reset form when forgot password link clicked", async function() {
-        expect.screenshot("forgot_password").to.be.capture(function (page) {
-            page.click("nav .right .icon-sign-out");
-            page.click("a#login_form_nav");
-        }, done);
+        await page.click("nav .right .icon-sign-out");
+        await page.waitForNetworkIdle();
+        await page.click("a#login_form_nav");
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('forgot_password');
     });
 
     it("should show reset password form and error message on error", async function() {
-        expect.screenshot("password_reset_error").to.be.capture(function (page) {
-            page.sendKeys("#reset_form_login", "superUserLogin");
-            page.sendKeys("#reset_form_password", "superUserPass2");
-            page.click("#reset_form_submit", 3000);
-        }, done);
+        await page.type("#reset_form_login", "superUserLogin");
+        await page.type("#reset_form_password", "superUserPass2");
+        await page.click("#reset_form_submit");
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_error');
     });
 
     it("should send email when password reset form submitted", async function() {
-        expect.screenshot("password_reset").to.be.capture(function (page) {
-            page.reload();
-            page.click("a#login_form_nav");
-            page.sendKeys("#reset_form_login", "superUserLogin");
-            page.sendKeys("#reset_form_password", "superUserPass2");
-            page.sendKeys("#reset_form_password_bis", "superUserPass2");
-            page.click("#reset_form_submit", 3000);
-        }, done);
+        await page.reload();
+        await page.click("a#login_form_nav");
+        await page.type("#reset_form_login", "superUserLogin");
+        await page.type("#reset_form_password", "superUserPass2");
+        await page.type("#reset_form_password_bis", "superUserPass2");
+        await page.click("#reset_form_submit");
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset');
     });
 
     it("should reset password when password reset link is clicked", async function() {
-        expect.screenshot("password_reset_complete").to.be.capture(function (page) {
-            var expectedMailOutputFile = PIWIK_INCLUDE_PATH + '/tmp/Login.resetPassword.mail.json',
-                mailSent = JSON.parse(require("fs").read(expectedMailOutputFile)),
-                resetUrl = mailSent.contents.match(/http:\/\/.*/)[0];
+        var expectedMailOutputFile = PIWIK_INCLUDE_PATH + '/tmp/Login.resetPassword.mail.json',
+            mailSent = JSON.parse(require("fs").readFileSync(expectedMailOutputFile)),
+            resetUrl = mailSent.contents.match(/http:\/\/.*/)[0];
 
-            page.load(resetUrl);
-        }, done);
+        await page.goto(resetUrl);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_complete');
     });
 
     it("should login successfully when new credentials used", async function() {
-        expect.page("").contains("#dashboard", function (page) {
-            page.sendKeys("#login_form_login", "superUserLogin");
-            page.sendKeys("#login_form_password", "superUserPass2");
-            page.click("#login_form_submit");
-        }, done);
+        await page.type("#login_form_login", "superUserLogin");
+        await page.type("#login_form_password", "superUserPass2");
+        await page.evaluate(function(){
+            $('#login_form_submit').click();
+        });
+
+        // check dashboard is shown
+        await page.waitForSelector('#dashboard');
+        await page.waitForNetworkIdle();
     });
 
     it("should login successfully when formless login used", async function() {
-        expect.page("").contains('#dashboard', /*'formless_login',*/ function (page) {
-            page.click("nav .right .icon-sign-out");
-            page.load(formlessLoginUrl);
-        }, done);
+        await page.click("nav .right .icon-sign-out");
+        await page.goto(formlessLoginUrl);
+
+        // check dashboard is shown
+        await page.waitForSelector('#dashboard');
+        await page.waitForNetworkIdle();
     });
 
     it('should not show login page when ips whitelisted and ip is not matching', async function() {
-        expect.screenshot('ip_not_whitelisted').to.be.captureSelector('.box', function (page) {
-            testEnvironment.overrideConfig('General', 'login_whitelist_ip', ['199.199.199.199']);
-            testEnvironment.save();
-            page.load('');
-        }, done);
+        testEnvironment.overrideConfig('General', 'login_whitelist_ip', ['199.199.199.199']);
+        testEnvironment.save();
+        await page.goto('');
+        await page.waitForNetworkIdle();
+
+        const element = await page.$('.box');
+        expect(await element.screenshot()).to.matchImage('ip_not_whitelisted');
     });
 
     it("should show brute force log url when there are no entries", function (done) {
