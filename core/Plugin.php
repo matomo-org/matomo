@@ -244,7 +244,7 @@ class Plugin
     }
 
     /**
-     * Defines weather the whole plugin requires a working internet connection
+     * Defines whether the whole plugin requires a working internet connection
      * If set to true, the plugin will be automatically unloaded if `enable_internet_features` is 0,
      * even if the plugin is activated
      *
