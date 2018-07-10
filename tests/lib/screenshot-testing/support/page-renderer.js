@@ -242,6 +242,18 @@ PageRenderer.prototype.waitForNetworkIdle = async function () {
     }
 };
 
+PageRenderer.prototype.downloadUrl = async function (url) {
+    return await this.webpage.evaluate(function (url) {
+        var $ = window.jQuery;
+
+        return $.ajax({
+            type: "GET",
+            url: url,
+            async: false
+        }).responseText;
+    }, url);
+};
+
 PageRenderer.prototype._isUrlThatWeCareAbout = function (url) {
     return -1 === url.indexOf('proxy/misc/user/favicon.png?r=') && -1 === url.indexOf('proxy/misc/user/logo.png?r=');
 };
