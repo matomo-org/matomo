@@ -13,9 +13,9 @@ describe("Insights", function () {
     var url = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&isFooterExpandedInDashboard=1&viewDataTable=insightsVisualization";
 
     it("should load correctly", async function() {
-        expect.screenshot('initial').to.be.capture(function (page) {
-            page.goto(url);
-        }, done);
+        await page.goto(url);
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('initial');
     });
 
 });
