@@ -420,7 +420,6 @@ class API extends \Piwik\Plugin\API
      *                        ...
      *                    )
      * @throws Exception
-     * TODO: can probably merge this + above, the docs for above method are misleading, return is actualy array of arrays.
      */
     public function getSitesAccessForUser($userLogin, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
     {
@@ -431,7 +430,12 @@ class API extends \Piwik\Plugin\API
             throw new \Exception("This method should not be used with superusers.");
         }
 
-        return $this->model->getSitesAccessFromUserWithFilters($userLogin, $limit, $offset, $filter_search, $filter_access);
+        list($access, $totalResults) = $this->model->getSitesAccessFromUserWithFilters($userLogin, $limit, $offset, $filter_search, $filter_access);
+
+        return [
+            'results' => $access,
+            'total' => $totalResults,
+        ];
     }
 
     /**

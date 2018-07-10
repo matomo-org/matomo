@@ -33,8 +33,7 @@
         vm.accessLevelFilterOptions = [
             { key: 'some', value: 'At least View access' },
             { key: 'view', value: 'View' },
-            { key: 'admin', value: 'Admin' },
-            { key: 'superuser', value: 'Superuser' }
+            { key: 'admin', value: 'Admin' }
         ];
 
         // search/pagination state

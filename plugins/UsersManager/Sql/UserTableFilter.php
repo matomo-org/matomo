@@ -49,29 +49,32 @@ class UserTableFilter
 
     public function getJoins($userTable)
     {
-        return "LEFT JOIN " . Common::prefixTable('access') . " a ON $userTable.login = a.login";
+        $result = "LEFT JOIN " . Common::prefixTable('access') . " a ON $userTable.login = a.login AND (a.idsite IS NULL OR a.idsite = ?)";
+        $bind = [$this->filterByRoleSite];
+
+        return [$result, $bind];
     }
 
     public function getWhere()
     {
-        $result = '';
+        $conditions = [];
         $bind = [];
-
-        if ($this->filterByRoleSite) {
-            $result .= '(a.idsite IS NULL OR a.idsite = ?)';
-            $bind[] = $this->filterByRoleSite;
-        }
 
         if ($this->filterByRole) {
             list($filterByRoleSql, $filterByRoleBind) = $this->getAccessSelectSqlCondition();
 
-            $result .= ' AND ' . $filterByRoleSql;
+            $conditions[] = $filterByRoleSql;
             $bind = array_merge($bind, $filterByRoleBind);
         }
 
         if ($this->filterSearch) {
-            $result .= ' AND (u.login LIKE ? OR u.alias LIKE ? OR u.email LIKE ?)';
+            $conditions[] = '(u.login LIKE ? OR u.alias LIKE ? OR u.email LIKE ?)';
             $bind = array_merge($bind, ['%' . $this->filterSearch . '%', '%' . $this->filterSearch . '%', '%' . $this->filterSearch . '%']);
+        }
+
+        $result = implode(' AND ', $conditions);
+        if (!empty($result)) {
+            $result = 'WHERE ' . $result;
         }
 
         return [$result, $bind];

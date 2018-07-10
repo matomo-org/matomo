@@ -103,6 +103,7 @@
                         class="permissions-for-selector"
                         uicontrol="site"
                         ng-model="$ctrl.permissionsForSite"
+                        ng-change="$ctrl.fetchUsers()"
                     ></div>
                 </th>
                 <th>Email</th>

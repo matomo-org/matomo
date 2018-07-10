@@ -170,7 +170,7 @@ class Model
             $where .= ' AND ' . \Piwik\Plugins\SitesManager\Model::getPatternMatchSqlQuery('s');
         }
 
-        if ($access) {
+        if ($access != 'some') { // TODO: test w/ 'some'
             $where .= ' AND a.access = ?';
             $bind[] = $access;
         }
@@ -185,17 +185,19 @@ class Model
             $offsetSql = "OFFSET " . (int)$offset;
         }
 
-        $sql = 'SELECT a.idsite as idsite, s.name as site_name, a.access as role
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS a.idsite as idsite, s.name as site_name, a.access as role
                   FROM ' . Common::prefixTable('access') . ' a
             INNER JOIN ' . $this->table . ' u ON u.login = a.login
             INNER JOIN ' . Common::prefixTable('site') . ' s ON s.idsite = a.idsite
                  WHERE ' . $where . '
               ORDER BY s.name ASC, a.idsite ASC '. "
               $limitSql $offsetSql";
-
         $db = $this->getDb();
+
         $access = $db->fetchAll($sql, $bind);
-        return $access;
+        $count = $db->fetchOne("SELECT FOUND_ROWS()");
+
+        return [$access, $count];
     }
 
     public function getUser($userLogin)
@@ -391,7 +393,7 @@ class Model
         $joins = $filter->getJoins('u');
         list($where, $bind) = $filter->getWhere();
 
-        $sql = 'SELECT u.login FROM ' . $this->table . " u $joins WHERE $where";
+        $sql = 'SELECT u.login FROM ' . $this->table . " u $joins $where";
 
         $db = $this->getDb();
 
@@ -414,8 +416,10 @@ class Model
     {
         $filter = new UserTableFilter($access, $idSite, $pattern);
 
-        $joins = $filter->getJoins('u');
-        list($where, $bind) = $filter->getWhere();
+        list($joins, $bind) = $filter->getJoins('u');
+        list($where, $whereBind) = $filter->getWhere();
+
+        $bind = array_merge($bind, $whereBind);
 
         $limitSql = '';
         if ($limit) {
@@ -430,7 +434,7 @@ class Model
         $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, IF(u.superuser_access = 1, "superuser", IFNULL(a.access, "noaccess")) as role
                   FROM ' . $this->table . " u
                 $joins
-                 WHERE $where
+                $where
               ORDER BY u.login ASC
                  $limitSql $offsetSql";
 

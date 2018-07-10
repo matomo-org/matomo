@@ -2,11 +2,11 @@
     <div class="row">
         <div class="input-field bulk-actions">
             <a
-                    class='dropdown-trigger btn'
-                    href=''
-                    data-activates='user-permissions-edit-bulk-actions'
-                    piwik-dropdown-menu
-                    ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
+                class='dropdown-trigger btn'
+                href=''
+                data-activates='user-permissions-edit-bulk-actions'
+                piwik-dropdown-menu
+                ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
             >
                 Bulk Actions
             </a>
@@ -34,13 +34,13 @@
 
             <div class="input-field access-filter">
                 <div
-                        piwik-field
-                        uicontrol="select"
-                        ng-model="$ctrl.accessLevelFilter"
-                        ng-model-options="{debounce: 500}"
-                        options="$ctrl.accessLevelFilterOptions"
-                        full-width="true"
-                        ng-change="$ctrl.fetchAccess()"
+                    piwik-field
+                    uicontrol="select"
+                    ng-model="$ctrl.accessLevelFilter"
+                    ng-model-options="{debounce: 500}"
+                    options="$ctrl.accessLevelFilterOptions"
+                    full-width="true"
+                    ng-change="$ctrl.fetchAccess()"
                 ></div>
             </div>
         </div>
@@ -48,11 +48,11 @@
             <div class="input-field add-site">
                 <!-- TODO: site selector must support filters on site so we can ignore those in table -->
                 <div
-                        piwik-field
-                        class="add-site-selector"
-                        uicontrol="site"
-                        ng-model="$ctrl.siteToAdd"
-                        ng-change="$ctrl.addAccessToSite($ctrl.siteToAdd.id)"
+                    piwik-field
+                    class="add-site-selector"
+                    uicontrol="site"
+                    ng-model="$ctrl.siteToAdd"
+                    ng-change="$ctrl.addAccessToSite($ctrl.siteToAdd.id)"
                 ></div>
                 <a class='btn'>Add Access</a>
             </div>
@@ -95,7 +95,7 @@
                 </span>
             </td>
             <td>
-                <span>{{ entry.name }}</span>
+                <span>{{ entry.site_name }}</span>
             </td>
             <td>
                 <div
@@ -126,10 +126,10 @@
             </a>
 
             <span class="counter">
-                        <span>
-                                {{ $ctrl.offset }} - {{ $ctrl.getPaginationUpperBound() }} of {{ $ctrl.totalEntries }}
-                        </span>
-                    </span>
+                <span>
+                    {{ $ctrl.offset }} - {{ $ctrl.getPaginationUpperBound() }} of {{ $ctrl.totalEntries }}
+                </span>
+            </span>
 
             <a class="next">
                 <span class="pointer">Next »</span>
