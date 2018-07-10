@@ -11,6 +11,7 @@ var fs = require('fs'),
     fsExtra = require('fs-extra'),
     path = require('path'),
     chai = require('chai'),
+    chaiFiles = require('chai-files'),
     AssertionError = chai.AssertionError;
 const { spawnSync } = require('child_process');
 
@@ -146,6 +147,13 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
             }
         }
     };
+};
+
+expect.file = function (filename) {
+    prefix = app.runner.suite.title; // note: runner is made global by run-tests.js
+    filename = prefix + '_' + filename;
+
+    return chai.expect(chaiFiles.file(getExpectedFilePath(filename)));
 };
 
 function isCommandNotFound(result) {

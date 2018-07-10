@@ -14,6 +14,7 @@ const puppeteer = require('puppeteer');
 const setUpGlobals = require('./support/globals.js');
 const Mocha = require('mocha');
 const chai = require('chai');
+const chaiFiles = require('chai-files');
 const resemble = require('resemblejs');
 require('./support/fs-extras');
 
@@ -43,11 +44,12 @@ async function main() {
         reporter: config.reporter,
         bail: false,
         useColors: true,
-        timeout: 240000, // TODO: make configurable via CLI
+        timeout: 240000 // TODO: make configurable via CLI
     });
 
     const imageAssert = require('./support/chai-extras');
     chai.use(imageAssert());
+    chai.use(chaiFiles);
 
     // TODO: outputSettings is deprecated, should use in chai
     resemble.outputSettings({

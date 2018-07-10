@@ -8,6 +8,7 @@
     "canvas-prebuilt": "^1.6.5-prerelease.1",
     "chai": "^4.1.2",
     "chai-image-assert": "^1.2.0",
+    "chai-files": "^1.4.0",
     "fs-extra": "^6.0.1",
     "mocha": "^5.2.0",
     "puppeteer": "^1.4.0",

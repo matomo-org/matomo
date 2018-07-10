@@ -14,63 +14,83 @@ describe("ReportExporting", function () {
 
     function normalReportTest(format) {
         it("should export a normal report correctly when the " + format + " export is chosen", async function () {
-            expect.file('Referrers.getWebsites_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
+            if (await page.url() != referrersGetWebsitesUrl) {
+                await page.goto(referrersGetWebsitesUrl);
+                await page.click('.activateExportSelection');
+            }
 
-                if (page.url() != referrersGetWebsitesUrl) {
-                    page.goto(referrersGetWebsitesUrl);
-                    page.click('.activateExportSelection');
-                }
+            await page.waitForSelector('[name="format"] input[value="'+format+'"] + label');
 
+            await page.click('[name="format"] input[value="' + format + '"] + label');
+            await page.click('[name="filter_limit_all"] input[value="no"] + label');
+            await page.evaluate(function () {
+                $('[name=filter_limit] input').val(100).trigger('change');
+            });
 
-                page.click('[name=format] input[value='+format+'] + label', 100);
-                page.click('[name=filter_limit_all] input[value=no] + label', 100);
-                page.evaluate(function(){
-                    $('[name=filter_limit] input').val(100).trigger('change');
-                });
+            var url = await page.evaluate(function () {
+                return $('#reportExport a.btn').attr('href');
+            });
+            var pageContents = await page.downloadUrl(url);
 
-                page.downloadLink('#reportExport a.btn');
-            }, done);
+            expect.file('Referrers.getWebsites_exported.' + format.toLowerCase() + '.txt').to.equal(pageContents);
         });
     }
 
     function evolutionReportTest(format) {
         it("should export an evolution graph report correctly when the " + format + " export is chosen", async function () {
-            expect.file('VisitsSummary.get_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
-                if (page.url() != visitsSummaryGetUrl) {
-                    page.goto(visitsSummaryGetUrl);
-                    page.click('.activateExportSelection');
-                }
+            if (await page.url() != visitsSummaryGetUrl) {
+                await page.goto(visitsSummaryGetUrl);
+                await page.click('.activateExportSelection');
+            }
 
-                page.click('[name=format] input[value='+format+'] + label', 100);
-                page.click('[name=filter_limit_all] input[value=no] + label', 100);
-                page.evaluate(function(){
-                    $('[name=filter_limit] input').val(100).trigger('change');
-                });
+            await page.waitForSelector('[name="format"] input[value="'+format+'"] + label');
 
-                page.downloadLink('#reportExport a.btn');
-            }, done);
+            await page.click('[name="format"] input[value="'+format+'"] + label');
+            await page.click('[name="filter_limit_all"] input[value="no"] + label');
+            await page.evaluate(function(){
+                $('[name=filter_limit] input').val(100).trigger('change');
+            });
+
+            var url = await page.evaluate(function() {
+                return $('#reportExport a.btn').attr('href');
+            });
+            var pageContents = await page.downloadUrl(url);
+
+            expect.file('VisitsSummary.get_exported.' + format.toLowerCase() + '.txt').to.equal(pageContents);
         });
     }
 
     function rowEvolutionReportTest(format) {
         it("should export an row evolution graph report correctly when the " + format + " export link is clicked", async function () {
-            expect.file('RowEvolution_exported.' + format.toLowerCase() + '.txt').to.be.pageContents(function (page) {
-                if (!page.url() || page.url().indexOf('popover') == -1) {
-                    page.goto(referrersGetWebsitesUrl);
-                    page.mouseMove('tbody tr:first-child');
-                    page.mouseMove('a.actionRowEvolution:visible'); // necessary to get popover to display
-                    page.click('a.actionRowEvolution:visible');
-                    page.click('.ui-dialog .activateExportSelection');
-                }
+            if (!page.url() || page.url().indexOf('popover') == -1) {
+                await page.goto(referrersGetWebsitesUrl);
 
-                page.click('[name=format] input[value='+format+'] + label', 100);
-                page.click('[name=filter_limit_all] input[value=no] + label', 100);
-                page.evaluate(function(){
-                    $('[name=filter_limit] input').val(100).trigger('change');
-                });
+                const row = await page.waitForSelector('tbody tr:first-child');
+                await row.hover();
 
-                page.downloadLink('#reportExport a.btn');
-            }, done);
+                const icon = await page.waitForSelector('tbody tr:first-child a.actionRowEvolution');
+                await icon.click();
+
+                await page.waitForSelector('.ui-dialog');
+                await page.waitForNetworkIdle();
+
+                await page.click('.ui-dialog .activateExportSelection');
+            }
+
+            await page.waitForSelector('[name="format"] input[value="'+format+'"] + label');
+
+            await page.click('[name="format"] input[value="'+format+'"] + label');
+            await page.click('[name="filter_limit_all"] input[value="no"] + label');
+            await page.evaluate(function(){
+                $('[name=filter_limit] input').val(100).trigger('change');
+            });
+
+            var url = await page.evaluate(function() {
+                return $('#reportExport a.btn').attr('href');
+            });
+            var pageContents = await page.downloadUrl(url);
+
+            expect.file('RowEvolution_exported.' + format.toLowerCase() + '.txt').to.equal(pageContents);
         });
     }
 
