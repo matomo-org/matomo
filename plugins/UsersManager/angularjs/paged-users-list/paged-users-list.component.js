@@ -56,14 +56,16 @@
 
         // intermediate state
         vm.isBulkActionsDisabled = true;
-        vm.userToDelete = null;
+        vm.userToChange = null;
+        vm.roleToChangeTo = null;
+        vm.previousRole = null;
 
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.onAllCheckboxChange = onAllCheckboxChange;
         vm.setAccessBulk = setAccessBulk;
         vm.removeAccessBulk = removeAccessBulk;
-        vm.onAccessChange = onAccessChange;
+        vm.changeUserRole = changeUserRole;
         vm.onRowSelected = onRowSelected;
         vm.deleteRequestedUsers = deleteRequestedUsers;
         vm.gotoPreviousPage = gotoPreviousPage;
@@ -73,6 +75,8 @@
         vm.showDeleteConfirm = showDeleteConfirm;
         vm.getSelectedCount = getSelectedCount;
         vm.getAffectedUsersCount = getAffectedUsersCount;
+        vm.showAccessChangeConfirm = showAccessChangeConfirm;
+        vm.getRoleDisplay = getRoleDisplay;
 
         function $onInit() {
             vm.permissionsForSite = {
@@ -140,8 +144,23 @@
             alert('remove access bulk'); // TODO
         }
 
-        function onAccessChange(user, changeTo) {
-            alert('on access change ' + user.login + ' - ' + changeTo); // TODO
+        function changeUserRole() {
+            vm.isLoadingUsers = true;
+
+            piwikApi.post({
+                method: 'UsersManager.setUserAccess',
+                userLogin: vm.userToChange.login,
+                access: vm.roleToChangeTo,
+                idSites: vm.permissionsForSite.id
+            }).catch(function () {
+                // ignore (errors will still be displayed to the user)
+            }).then(function () {
+                return fetchUsers();
+            });
+        }
+
+        function showAccessChangeConfirm() {
+            $element.find('.change-user-role-confirm-modal').openModal();
         }
 
         function getAffectedUsersCount() {
@@ -169,7 +188,7 @@
         }
 
         function deleteRequestedUsers() {
-            if (vm.userToDelete) {
+            if (vm.userToChange) {
                 deleteSingleUser();
             } else {
                 deleteMultipleUsers();
@@ -177,13 +196,13 @@
         }
 
         function deleteSingleUser() {
-            var userToDelete = vm.userToDelete;
-            vm.userToDelete = null;
+            var userToChange = vm.userToChange;
+            vm.userToChange = null;
 
             vm.isLoadingUsers = true;
             piwikApi.post({
                 method: 'UsersManager.deleteUser',
-                userLogin: userToDelete.login,
+                userLogin: userToChange.login,
             }).catch(function () {
                 // ignore (errors will still be displayed to the user)
             }).then(function () {
@@ -255,6 +274,16 @@
 
         function showDeleteConfirm() {
             $element.find('.delete-user-confirm-modal').openModal();
+        }
+
+        function getRoleDisplay(role) {
+            var result = null;
+            vm.accessLevels.forEach(function (entry) {
+                if (entry.key === role) {
+                    result = entry.value;
+                }
+            });
+            return result;
         }
     }
 })();

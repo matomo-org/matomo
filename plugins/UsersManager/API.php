@@ -763,8 +763,6 @@ class API extends \Piwik\Plugin\API
         Cache::deleteTrackerCache();
     }
 
-    // TODO: tests
-
     /**
      * Deletes users matching a filter.
      *

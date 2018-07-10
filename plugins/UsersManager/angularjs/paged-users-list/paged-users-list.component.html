@@ -131,7 +131,7 @@
                                 uicontrol="select"
                                 ng-model="user.role"
                                 options="$ctrl.accessLevels"
-                                ng-change="$ctrl.onAccessChange(user, user.role)"
+                                ng-change="$ctrl.userToChange = user; $ctrl.roleToChangeTo = user.role; $ctrl.previousRole = '{{ user.role }}'; $ctrl.showAccessChangeConfirm();"
                         ></div>
                     </td>
                     <td id="email">{{:: user.email }}</td>
@@ -143,7 +143,7 @@
                         <button class="edituser table-action" title="Edit" ng-click="$ctrl.onEditUser({ user: user })">
                             <span class="icon-edit"></span>
                         </button>
-                        <button class="deleteuser table-action" title="Delete" ng-click="$ctrl.userToDelete = user; $ctrl.showDeleteConfirm()">
+                        <button class="deleteuser table-action" title="Delete" ng-click="$ctrl.userToChange = user; $ctrl.showDeleteConfirm()">
                             <span class="icon-delete"></span>
                         </button>
                     </td>
@@ -155,12 +155,23 @@
 
     <div class="delete-user-confirm-modal modal">
         <div class="modal-content">
-            <h3 ng-if="$ctrl.userToDelete">Are you sure you want to delete <strong>{{ $ctrl.userToDelete.login }}</strong>?</h3>
-            <p ng-if="!$ctrl.userToDelete">Are you sure you want to delete the <strong>{{ $ctrl.getAffectedUsersCount() }}</strong> selected users?</p>
+            <h3 ng-if="$ctrl.userToChange">Are you sure you want to delete <strong>{{ $ctrl.userToChange.login }}</strong>?</h3>
+            <p ng-if="!$ctrl.userToChange">Are you sure you want to delete the <strong>{{ $ctrl.getAffectedUsersCount() }}</strong> selected users?</p>
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.deleteRequestedUsers()">Yes</a>
-            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.userToDelete = null">No</a>
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.userToChange = null">No</a>
+        </div>
+    </div>
+
+    <div class="change-user-role-confirm-modal modal">
+        <div class="modal-content">
+            <h3 ng-if="$ctrl.userToChange">Are you sure you want to change the role of <strong>{{ $ctrl.userToChange.login }}</strong> to <strong>"{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}"</strong>?</h3>
+            <p ng-if="!$ctrl.userToChange">Are you sure you want to set the role of all <strong>{{ $ctrl.getAffectedUsersCount() }}</strong> selected users to <strong>"{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}"</strong>?</p>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.changeUserRole()">Yes</a>
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.userToChange.role = $ctrl.previousRole; $ctrl.userToChange = null; $ctrl.roleToChangeTo = null;">No</a>
         </div>
     </div>
 </div>
