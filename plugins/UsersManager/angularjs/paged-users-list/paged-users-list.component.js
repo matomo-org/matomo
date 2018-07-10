@@ -72,6 +72,7 @@
         vm.getPaginationUpperBound = getPaginationUpperBound;
         vm.showDeleteConfirm = showDeleteConfirm;
         vm.getSelectedCount = getSelectedCount;
+        vm.getAffectedUsersCount = getAffectedUsersCount;
 
         function $onInit() {
             vm.permissionsForSite = {
@@ -91,15 +92,20 @@
 
         function onAllCheckboxChange() {
             if (!vm.isAllCheckboxSelected) {
-                vm.selectedRows = {};
-                vm.areAllResultsSelected = false;
-                vm.isBulkActionsDisabled = true;
+                clearSelection();
             } else {
                 for (var i = 0; i !== vm.limit; ++i) {
                     vm.selectedRows[i] = true;
                 }
                 vm.isBulkActionsDisabled = false;
             }
+        }
+
+        function clearSelection() {
+            vm.selectedRows = {};
+            vm.areAllResultsSelected = false;
+            vm.isBulkActionsDisabled = true;
+            vm.isAllCheckboxSelected = false;
         }
 
         function fetchUsers() {
@@ -117,10 +123,12 @@
                 vm.users = response.results;
 
                 vm.isLoadingUsers = false;
-                vm.selectedRows = {};
+
+                clearSelection();
             }).catch(function () {
                 vm.isLoadingUsers = false;
-                vm.selectedRows = {};
+
+                clearSelection();
             });
         }
 
@@ -134,6 +142,14 @@
 
         function onAccessChange(user, changeTo) {
             alert('on access change ' + user.login + ' - ' + changeTo); // TODO
+        }
+
+        function getAffectedUsersCount() {
+            if (vm.areAllResultsSelected) {
+                return vm.totalEntries;
+            }
+
+            return getSelectedCount();
         }
 
         function onRowSelected() {
@@ -176,6 +192,32 @@
         }
 
         function deleteMultipleUsers() {
+            vm.isLoadingUsers = true;
+
+            var apiPromise;
+            if (vm.areAllResultsSelected) {
+                apiPromise = deleteUsersMatchingSearch();
+            } else {
+                apiPromise = deleteSelectedUsers();
+            }
+
+            apiPromise.catch(function () {
+                // ignore (errors will still be displayed to the user)
+            }).then(function () {
+                return fetchUsers();
+            })
+        }
+
+        function deleteUsersMatchingSearch() {
+            return piwikApi.post({
+                method: 'UsersManager.deleteUsersMatching',
+                filter_search: vm.userTextFilter,
+                filter_access: vm.accessLevelFilter,
+                idSite: vm.permissionsForSite.id
+            });
+        }
+
+        function deleteSelectedUsers() {
             var usersToDelete = [];
             Object.keys(vm.selectedRows).forEach(function (index) {
                 if (vm.selectedRows[index]
@@ -185,15 +227,10 @@
                 }
             });
 
-            vm.isLoadingUsers = true;
-            piwikApi.post({
+            return piwikApi.post({
                 method: 'UsersManager.deleteUser',
                 'userLogin[]': usersToDelete
-            }).catch(function () {
-                // ignore (errors will still be displayed to the user)
-            }).then(function () {
-                return fetchUsers();
-            })
+            });
         }
 
         function gotoPreviousPage() {

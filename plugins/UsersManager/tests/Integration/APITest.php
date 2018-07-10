@@ -452,6 +452,48 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $access);
     }
 
+    public function test_deleteUsersMatching_shouldSearchByTextCorrectly()
+    {
+        $this->addUserWithAccess('searchTextLogin', 'superuser', 1, 'someemail@email.com', 'alias');
+        $this->addUserWithAccess('userLogin2', 'view', 1, 'searchTextdef@email.com');
+        $this->addUserWithAccess('userLogin3', null, 1, 'someemail2@email.com', 'alias-searchTextABC');
+        $this->addUserWithAccess('userLogin4', 'superuser', 1);
+
+        $this->api->deleteUsersMatching(1, 'searchText');
+        $this->assertFalse($this->api->userExists('searchTextLogin'));
+        $this->assertFalse($this->api->userExists('userLogin2'));
+        $this->assertFalse($this->api->userExists('userLogin3'));
+        $this->assertTrue($this->api->userExists('userLogin4'));
+    }
+
+    public function test_deleteUsersMatching_shouldSearchByAccessCorrectly()
+    {
+        $this->addUserWithAccess('userLogin2', 'admin', 1);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'superuser', 1);
+        $this->addUserWithAccess('userLogin5', 'admin', 1);
+
+        $this->api->deleteUsersMatching(1, null, 'admin');
+        $this->assertFalse($this->api->userExists('userLogin2'));
+        $this->assertFalse($this->api->userExists('userLogin5'));
+        $this->assertTrue($this->api->userExists('userLogin3'));
+        $this->assertTrue($this->api->userExists('userLogin4'));
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess UsersManager_ExceptionYouMustGrantSuperUserAccessFirst
+     */
+    public function test_deleteUsersMatching_shouldNotAllowDeletingAllSuperusers()
+    {
+        $this->addUserWithAccess('userLogin2', 'admin', 1);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'superuser', 1);
+        $this->addUserWithAccess('userLogin5', 'admin', 1);
+
+        $this->api->deleteUsersMatching(1, 'userLogin');
+    }
+
     private function getPreferenceId($preferenceName)
     {
         return $this->login . '_' . $preferenceName;

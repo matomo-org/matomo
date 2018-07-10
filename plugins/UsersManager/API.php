@@ -731,11 +731,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Delete a user and all its access, given its login.
+     * Delete one or more users and all its access, given its login.
      *
-     * @param string|string[] $userLogin the user login.
+     * @param string|string[] $userLogin the user login(s).
      *
-     * @throws Exception if the user doesn't exist
+     * @throws Exception if the user doesn't exist or if deleting the users would leave no superusers.
      *
      * @return bool true on success
      */
@@ -761,6 +761,29 @@ class API extends \Piwik\Plugin\API
         $this->model->deleteUserAccess($userLogin);
 
         Cache::deleteTrackerCache();
+    }
+
+    // TODO: tests
+
+    /**
+     * Deletes users matching a filter.
+     *
+     * @param int $idSite the site to get access for
+     * @param string|null $filter_search text to search for in the user's login, email and alias (if any)
+     * @param string|null $filter_access only select users with this access to $idSite. can be 'noaccess', 'some', 'view', 'admin', 'superuser'
+     *                                   Filtering by 'superuser' is only allowed for other superusers.
+     * @throws Exception if the user doesn't exist or if deleting the users would leave no superusers.
+     */
+    public function deleteUsersMatching($idSite, $filter_search = null, $filter_access = null)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $usersToDelete = $this->model->getUserLoginsMatching($idSite, $filter_search, $filter_access);
+        if (empty($usersToDelete)) {
+            return;
+        }
+
+        $this->deleteUser($usersToDelete);
     }
 
     /**

@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\SitesManager;
+use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -379,6 +380,22 @@ class Model
         return Db::get();
     }
 
+    public function getUserLoginsMatching($idSite = null, $pattern = null, $access = null)
+    {
+        $filter = new UserTableFilter($access, $idSite, $pattern);
+
+        $joins = $filter->getJoins('u');
+        list($where, $bind) = $filter->getWhere();
+
+        $sql = 'SELECT u.login FROM ' . $this->table . " u $joins WHERE $where";
+
+        $db = $this->getDb();
+
+        $result = $db->fetchAll($sql, $bind);
+        $result = array_column($result, 'login');
+        return $result;
+    }
+
     /**
      * Returns all users and their access to `$idSite`.
      *
@@ -391,20 +408,10 @@ class Model
      */
     public function getUsersWithRole($idSite, $limit = null, $offset = null, $pattern = null, $access = null)
     {
-        $where = '(a.idsite IS NULL OR a.idsite IN (?))';
-        $bind = [$idSite];
+        $filter = new UserTableFilter($access, $idSite, $pattern);
 
-        if ($pattern) {
-            $where .= ' AND (u.login LIKE ? OR u.alias LIKE ? OR u.email LIKE ?)';
-            $bind = array_merge($bind, ['%' . $pattern . '%', '%' . $pattern . '%', '%' . $pattern . '%']);
-        }
-
-        if ($access) {
-            list($accessSql, $accessBind) = $this->getAccessSelectSqlCondition($access);
-
-            $where .= ' AND ' . $accessSql;
-            $bind = array_merge($bind, $accessBind);
-        }
+        $joins = $filter->getJoins('u');
+        list($where, $bind) = $filter->getWhere();
 
         $limitSql = '';
         if ($limit) {
@@ -418,7 +425,7 @@ class Model
 
         $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, IF(u.superuser_access = 1, "superuser", IFNULL(a.access, "noaccess")) as role
                   FROM ' . $this->table . " u
-             LEFT JOIN " . Common::prefixTable('access') . " a ON u.login = a.login
+                $joins
                  WHERE $where
               ORDER BY u.login ASC
                  $limitSql $offsetSql";
@@ -432,31 +439,6 @@ class Model
         }
 
         return [$users, $count];
-    }
-
-    private function getAccessSelectSqlCondition($access)
-    {
-        $sql = '';
-        $bind = [];
-
-        switch ($access) {
-            case 'noaccess':
-                $sql = "a.access IS NULL";
-                break;
-            case 'some':
-                $sql = "(a.access IS NOT NULL OR u.superuser_access = 1)";
-                break;
-            case 'view':
-            case 'admin':
-                $sql = "a.access = ?";
-                $bind[] = $access;
-                break;
-            case 'superuser':
-                $sql = "u.superuser_access = 1";
-                break;
-        }
-
-        return [$sql, $bind];
     }
 
 }

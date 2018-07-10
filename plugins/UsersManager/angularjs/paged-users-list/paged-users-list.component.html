@@ -39,7 +39,7 @@
                 class="permissions-for-selector"
                 uicontrol="text"
                 ng-model="$ctrl.userTextFilter"
-                ng-model-options="{debounce: 500}"
+                ng-model-options="{debounce: 300}"
                 placeholder="User search"
                 full-width="true"
                 ng-change="$ctrl.fetchUsers()"
@@ -103,7 +103,7 @@
             </thead>
 
             <tbody>
-                <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected">
+                <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected && $ctrl.users.length">
                     <td colspan="7">
                         <div ng-if="!$ctrl.areAllResultsSelected">
                             The <strong>{{ $ctrl.users.length }}</strong> displayed users are selected.
@@ -111,7 +111,7 @@
                         </div>
 
                         <div ng-if="$ctrl.areAllResultsSelected">
-                            All <strong>{{ $ctrl.totalEntries }}</strong> websites are selected.
+                            All <strong>{{ $ctrl.totalEntries }}</strong> users are selected.
                             <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select the <strong>{{ $ctrl.users.length }}</strong> displayed users.</a>
                         </div>
                     </td>
@@ -156,7 +156,7 @@
     <div class="delete-user-confirm-modal modal">
         <div class="modal-content">
             <h3 ng-if="$ctrl.userToDelete">Are you sure you want to delete <strong>{{ $ctrl.userToDelete.login }}</strong>?</h3>
-            <p ng-if="!$ctrl.userToDelete">Are you sure you want to delete the <strong>{{ $ctrl.getSelectedCount() }}</strong> selected users?</p>
+            <p ng-if="!$ctrl.userToDelete">Are you sure you want to delete the <strong>{{ $ctrl.getAffectedUsersCount() }}</strong> selected users?</p>
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.deleteRequestedUsers()">Yes</a>
