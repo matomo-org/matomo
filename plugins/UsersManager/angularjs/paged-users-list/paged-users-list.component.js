@@ -27,6 +27,7 @@
         var vm = this;
 
         // options for selects (TODO: should be supplied server side)
+        vm.bulkActionAccessLevels = ['view', 'admin'];
         vm.accessLevels = [
             { key: 'noaccess', value: 'No Access' },
             { key: 'view', value: 'View' },
@@ -41,7 +42,7 @@
             { key: 'superuser', value: 'Superuser' }
         ];
 
-        // pagination state
+        // search state
         vm.offset = 0;
         vm.users = [];
         vm.totalEntries = 10000;
@@ -63,8 +64,6 @@
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.onAllCheckboxChange = onAllCheckboxChange;
-        vm.setAccessBulk = setAccessBulk;
-        vm.removeAccessBulk = removeAccessBulk;
         vm.changeUserRole = changeUserRole;
         vm.onRowSelected = onRowSelected;
         vm.deleteRequestedUsers = deleteRequestedUsers;
@@ -136,27 +135,46 @@
             });
         }
 
-        function setAccessBulk(accessLevel) {
-            alert('set access ' + accessLevel); // TODO
-        }
-
-        function removeAccessBulk() {
-            alert('remove access bulk'); // TODO
-        }
-
         function changeUserRole() {
             vm.isLoadingUsers = true;
 
-            piwikApi.post({
-                method: 'UsersManager.setUserAccess',
-                userLogin: vm.userToChange.login,
-                access: vm.roleToChangeTo,
-                idSites: vm.permissionsForSite.id
-            }).catch(function () {
+            var apiPromise;
+            if (vm.userToChange) {
+                apiPromise = piwikApi.post({
+                    method: 'UsersManager.setUserAccess',
+                    userLogin: vm.userToChange.login,
+                    access: vm.roleToChangeTo,
+                    idSites: vm.permissionsForSite.id
+                });
+            } else {
+                apiPromise = changeUserRoleBulk();
+            }
+
+            apiPromise.catch(function () {
                 // ignore (errors will still be displayed to the user)
             }).then(function () {
                 return fetchUsers();
             });
+        }
+
+        function changeUserRoleBulk() {
+            if (vm.areAllResultsSelected) {
+                return piwikApi.post({
+                    method: 'UsersManager.setUserAccessMatching',
+                    access: vm.roleToChangeTo,
+                    filter_search: vm.userTextFilter,
+                    filter_access: vm.accessLevelFilter,
+                    idSite: vm.permissionsForSite.id
+                });
+            } else {
+                var usersToChange = getSelectedUsers();
+                return piwikApi.post({
+                    method: 'UsersManager.setUserAccess',
+                    'userLogin[]': usersToChange,
+                    access: vm.roleToChangeTo,
+                    idSites: vm.permissionsForSite.id
+                });
+            }
         }
 
         function showAccessChangeConfirm() {
@@ -224,7 +242,7 @@
                 // ignore (errors will still be displayed to the user)
             }).then(function () {
                 return fetchUsers();
-            })
+            });
         }
 
         function deleteUsersMatchingSearch() {
@@ -237,19 +255,23 @@
         }
 
         function deleteSelectedUsers() {
-            var usersToDelete = [];
-            Object.keys(vm.selectedRows).forEach(function (index) {
-                if (vm.selectedRows[index]
-                    && vm.users[index] // safety check
-                ) {
-                    usersToDelete.push(vm.users[index].login);
-                }
-            });
-
+            var usersToDelete = getSelectedUsers();
             return piwikApi.post({
                 method: 'UsersManager.deleteUser',
                 'userLogin[]': usersToDelete
             });
+        }
+
+        function getSelectedUsers() {
+            var result = [];
+            Object.keys(vm.selectedRows).forEach(function (index) {
+                if (vm.selectedRows[index]
+                    && vm.users[index] // safety check
+                ) {
+                    result.push(vm.users[index].login);
+                }
+            });
+            return result;
         }
 
         function gotoPreviousPage() {

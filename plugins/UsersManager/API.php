@@ -11,6 +11,7 @@ namespace Piwik\Plugins\UsersManager;
 use Exception;
 use Piwik\Access;
 use Piwik\Auth\Password;
+use Piwik\Cache\Transient;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -58,6 +59,11 @@ class API extends \Piwik\Plugin\API
      * @var Access
      */
     private $access;
+
+    /**
+     * @var Transient
+     */
+    private $transientCache;
 
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
@@ -234,13 +240,6 @@ class API extends \Piwik\Plugin\API
             $users = [$user];
             $totalResults = 1;
         } else {
-            // can only filter by superuser if current user is a superuser
-            if ($filter_access == 'superuser'
-                && !$this->access->hasSuperUserAccess()
-            ) {
-                $filter_access = null;
-            }
-
             list($users, $totalResults) = $this->model->getUsersWithRole($idSite, $limit, $offset, $filter_search, $filter_access);
         }
 
@@ -421,6 +420,7 @@ class API extends \Piwik\Plugin\API
      *                        ...
      *                    )
      * @throws Exception
+     * TODO: can probably merge this + above, the docs for above method are misleading, return is actualy array of arrays.
      */
     public function getSitesAccessForUser($userLogin, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
     {
@@ -847,7 +847,7 @@ class API extends \Piwik\Plugin\API
      * If access = 'noaccess' the current access (if any) will be deleted.
      * If access = 'view' or 'admin' the current access level is deleted and updated with the new value.
      *
-     * @param string $userLogin The user login
+     * @param string|string[] $userLogin The user login(s)
      * @param string $access Access to grant. Must have one of the following value : noaccess, view, admin
      * @param int|array $idSites The array of idSites on which to apply the access level for the user.
      *       If the value is "all" then we apply the access level to all the websites ID for which the current authentificated user has an 'admin' access.
@@ -861,13 +861,18 @@ class API extends \Piwik\Plugin\API
     public function setUserAccess($userLogin, $access, $idSites)
     {
         $this->checkAccessType($access);
-        $this->checkUserExists($userLogin);
-        $this->checkUserHasNotSuperUserAccess($userLogin);
 
-        if ($userLogin == 'anonymous'
-            && $access == 'admin'
-        ) {
-            throw new Exception(Piwik::translate("UsersManager_ExceptionAdminAnonymous"));
+        $userLogins = is_array($userLogin) ? $userLogin : [$userLogin];
+
+        $this->checkUsersExist($userLogins);
+        $this->checkUsersHasNotSuperUserAccess($userLogins);
+
+        foreach ($userLogins as $login) {
+            if ($login == 'anonymous'
+                && $access == 'admin'
+            ) {
+                throw new Exception(Piwik::translate("UsersManager_ExceptionAdminAnonymous"));
+            }
         }
 
         // in case idSites is all we grant access to all the websites on which the current connected user has an 'admin' access
@@ -885,23 +890,46 @@ class API extends \Piwik\Plugin\API
         // basically an admin can give the view or the admin access to any user for the websites they manage
         Piwik::checkUserHasAdminAccess($idSites);
 
-        $this->model->deleteUserAccess($userLogin, $idSites);
+        $this->model->deleteUserAccess($userLogins, $idSites);
 
         // if the access is noaccess then we don't save it as this is the default value
         // when no access are specified
         if ($access != 'noaccess') {
-            $this->model->addUserAccess($userLogin, $access, $idSites);
+            $this->model->addUserAccess($userLogins, $access, $idSites);
         } else {
             if (!empty($idSites) && !is_array($idSites)) {
                 $idSites = array($idSites);
             }
 
-            Piwik::postEvent('UsersManager.removeSiteAccess', array($userLogin, $idSites));
+            foreach ($userLogins as $login) {
+                Piwik::postEvent('UsersManager.removeSiteAccess', array($login, $idSites));
+            }
         }
 
         // we reload the access list which doesn't yet take in consideration this new user access
         Access::getInstance()->reloadAccess();
         Cache::deleteTrackerCache();
+    }
+
+    /**
+     * Sets access for users matching text search or role.
+     *
+     * @param int $idSite
+     * @param string $access
+     * @param string|null $filter_search text to search for in the user's login, email and alias (if any)
+     * @param string|null $filter_access only modify users with this access to $idSite. can be 'noaccess', 'some', 'view', 'admin'
+     * @throws Exception
+     */
+    public function setUserAccessMatching($idSite, $access, $filter_search = null, $filter_access = null)
+    {
+        Piwik::checkUserHasAdminAccess($idSite);
+
+        $usersToModify = $this->model->getUserLoginsMatching($idSite, $filter_search, $filter_access);
+        if (empty($usersToModify)) {
+            return;
+        }
+
+        $this->setUserAccess($usersToModify, $access, $idSite);
     }
 
     /**
@@ -937,10 +965,15 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private function checkUserHasNotSuperUserAccess($userLogin)
+    private function checkUsersHasNotSuperUserAccess($userLogins)
     {
-        if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
-            throw new Exception(Piwik::translate("UsersManager_ExceptionSuperUserAccess"));
+        $superusers = $this->getUsersHavingSuperUserAccess();
+        $superusers = array_column($superusers, null, 'login');
+
+        foreach ($userLogins as $userLogin) {
+            if (isset($superusers[$userLogin])) {
+                throw new Exception(Piwik::translate("UsersManager_ExceptionUserHasSuperUserAccess", $userLogin));
+            }
         }
     }
 

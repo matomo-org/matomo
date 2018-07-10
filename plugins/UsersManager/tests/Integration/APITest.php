@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UsersManager\tests;
 
 use Piwik\Auth\Password;
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
@@ -72,6 +73,59 @@ class APITest extends IntegrationTestCase
         $this->api->setUserAccess($this->login, 'admin', array(1, 2));
 
         $this->assertFalse($eventTriggered, 'UsersManager.removeSiteAccess event was triggered but should not');
+    }
+
+    public function test_setUserAccess_ShouldSetAccessForMultipleUsers()
+    {
+        $this->api->addUser('userLogin2', 'password', 'userlogin2@password.de');
+        $this->api->addUser('userLogin3', 'password', 'userlogin3@password.de');
+        $this->api->addUser('userLogin4', 'password', 'userlogin4@password.de');
+
+        $this->api->setUserAccess(['userLogin2', 'userLogin3'], 'view', [1, 2]);
+
+        $expected = [
+            ['site' => 1, 'access' => 'view'],
+            ['site' => 2, 'access' => 'view'],
+        ];
+        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin2'));
+        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin3'));
+        $this->assertEquals([], $this->api->getSitesAccessFromUser('userLogin4'));
+    }
+
+    public function test_setUserAccessMatching_shouldSearchByTextCorrectly()
+    {
+        $this->addUserWithAccess('searchTextLogin', 'view', 1, 'someemail@email.com', 'alias');
+        $this->addUserWithAccess('userLogin2', 'view', 1, 'searchTextdef@email.com');
+        $this->addUserWithAccess('userLogin3', null, 1, 'someemail2@email.com', 'alias-searchTextABC');
+        $this->addUserWithAccess('userLogin4', null, 1);
+
+        $this->api->setUserAccessMatching(1, 'admin', 'searchText');
+
+        $expected = [
+            ['site' => 1, 'access' => 'admin'],
+        ];
+        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('searchTextLogin'));
+        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin2'));
+        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin3'));
+        $this->assertEquals([], $this->api->getSitesAccessFromUser('userLogin4'));
+    }
+
+    public function test_setUserAccessMatching_shouldSearchByAccessCorrectly()
+    {
+        $this->addUserWithAccess('userLogin2', 'admin', 1);
+        $this->addUserWithAccess('userLogin3', 'admin', 1);
+        $this->addUserWithAccess('userLogin4', 'admin', 1);
+        $this->addUserWithAccess('userLogin5', null, 1);
+
+        $this->api->setUserAccessMatching(1, 'view', null, 'admin'); // set all admin users to view
+
+        $expected = [
+            ['site' => 1, 'access' => 'view'],
+        ];
+        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin2'));
+        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin3'));
+        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin4'));
+        $this->assertEquals([], $this->api->getSitesAccessFromUser('userLogin5'));
     }
 
     public function test_getAllUsersPreferences_isEmpty_whenNoPreference()

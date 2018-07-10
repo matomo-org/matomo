@@ -31,6 +31,7 @@
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth is expecting a MD5-hashed password (32 chars long string). Please call the md5() function on the password before calling this method.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Removing the Super User access from user '%s' is not possible.",
         "ExceptionSuperUserAccess": "This user has Super User access and has already permission to access and modify all websites in Matomo. You may remove the Super User access from this user and try again.",
+        "ExceptionUserHasSuperUserAccess": "The user '%s' has Super User access and has already permission to access and modify all websites in Matomo. You may remove the Super User access from this user and try again.",
         "ExceptionUserDoesNotExist": "User '%s' doesn't exist.",
         "ExceptionYouMustGrantSuperUserAccessFirst": "There has to be at least one user with Super User access. Please grant Super User access to another user first.",
         "ExceptionUserHasViewAccessAlready": "This user has access to this website already.",

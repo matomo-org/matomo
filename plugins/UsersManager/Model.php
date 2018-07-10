@@ -318,14 +318,18 @@ class Model
 
     public function addUserAccess($userLogin, $access, $idSites)
     {
+        $userLogins = is_array($userLogin) ? $userLogin : [$userLogin];
+
         $db = $this->getDb();
 
-        foreach ($idSites as $idsite) {
-            $db->insert(Common::prefixTable("access"),
-                array("idsite" => $idsite,
-                      "login"  => $userLogin,
-                      "access" => $access)
-            );
+        foreach ($userLogins as $login) {
+            foreach ($idSites as $idsite) {
+                $db->insert(Common::prefixTable("access"),
+                    array("idsite" => $idsite,
+                        "login" => $login,
+                        "access" => $access)
+                );
+            }
         }
     }
 

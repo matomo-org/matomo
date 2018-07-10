@@ -20,13 +20,23 @@
                         Set Access
                     </a>
                     <ul id="bulk-set-access" class="dropdown-content">
-                        <li ng-repeat="access in $ctrl.accessLevels">
-                            <a href="" ng-click="$ctrl.setAccessBulk(access.key)">{{ access.value }}</a>
+                        <li ng-repeat="access in $ctrl.bulkActionAccessLevels">
+                            <a
+                                href=""
+                                ng-click="$ctrl.userToChange = null; $ctrl.roleToChangeTo = access; $ctrl.showAccessChangeConfirm();"
+                            >
+                                {{ access }} <!-- TODO: translate -->
+                            </a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="" ng-click="$ctrl.removeAccessBulk()">Remove Access</a>
+                    <a
+                        href=""
+                        ng-click="$ctrl.userToChange = null; $ctrl.roleToChangeTo = 'noaccess'; $ctrl.showAccessChangeConfirm();"
+                    >
+                        Remove Access
+                    </a>
                 </li>
                 <li>
                     <a href="" ng-click="$ctrl.showDeleteConfirm()">Delete Users</a>
