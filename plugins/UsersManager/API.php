@@ -733,7 +733,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Delete a user and all its access, given its login.
      *
-     * @param string $userLogin the user login.
+     * @param string|string[] $userLogin the user login.
      *
      * @throws Exception if the user doesn't exist
      *
@@ -744,9 +744,11 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserIsNotAnonymous($userLogin);
 
-        if (!$this->userExists($userLogin)) {
-            throw new Exception(Piwik::translate("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
+        if (!is_array($userLogin)) {
+            $userLogin = [$userLogin];
         }
+
+        $this->checkUsersExist($userLogin);
 
         if ($this->isUserTheOnlyUserHavingSuperUserAccess($userLogin)) {
             $message = Piwik::translate("UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess", $userLogin)
@@ -933,11 +935,24 @@ class API extends \Piwik\Plugin\API
         }
     }
 
+    /**
+     * @param string|string[] $userLogin
+     * @return bool
+     */
     private function isUserTheOnlyUserHavingSuperUserAccess($userLogin)
     {
-        $superUsers = $this->getUsersHavingSuperUserAccess();
+        if (!is_array($userLogin)) {
+            $userLogin = [$userLogin];
+        }
 
-        return 1 >= count($superUsers) && Piwik::hasTheUserSuperUserAccess($userLogin);
+        $superusers = $this->getUsersHavingSuperUserAccess();
+        $superusersByLogin = array_column($superusers, null, 'login');
+
+        foreach ($userLogin as $login) {
+            unset($superusersByLogin[$login]);
+        }
+
+        return empty($superusersByLogin);
     }
 
     /**
@@ -982,8 +997,8 @@ class API extends \Piwik\Plugin\API
         if (!Piwik::hasUserSuperUserAccess()) {
             foreach ($users as $key => $user) {
                 $newUser = array('login' => $user['login'], 'alias' => $user['alias']);
-                if (isset($user['access'])) {
-                    $newUser['access'] = $user['access'];
+                if (isset($user['role'])) {
+                    $newUser['role'] = $user['role'];
                 }
                 $users[$key] = $newUser;
             }
@@ -998,6 +1013,18 @@ class API extends \Piwik\Plugin\API
             return true;
         } catch (NoAccessException $ex) {
             return false;
+        }
+    }
+
+    private function checkUsersExist($userLogin)
+    {
+        $users = $this->model->getUsers($userLogin);
+        $usersByLogin = array_column($users, null, 'login');
+
+        foreach ($userLogin as $loginToCheck) {
+            if (empty($usersByLogin[$loginToCheck])) {
+                throw new Exception(Piwik::translate("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
+            }
         }
     }
 }

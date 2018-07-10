@@ -14,6 +14,7 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Exception;
@@ -309,10 +310,29 @@ class UsersManagerTest extends IntegrationTestCase
     }
 
     /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess
+     */
+    public function testDeleteUser_ShouldFail_WhenDeletingMultipleSuperUsers_InCaseTheUserIsTheOnlyRemainingSuperUser()
+    {
+        //add user and set some rights
+        $this->api->addUser("regularuser", "geqgeagae1", "test1@test.com", "alias1");
+        $this->api->addUser("superuser", "geqgeagae2", "test2@test.com", "alias2");
+        $this->api->setSuperUserAccess('superuser', true);
+        $this->api->addUser("superuser2", "geqgeagae3", "test3@test.com", "alias3");
+        $this->api->setSuperUserAccess('superuser', true);
+
+        // delete the user
+        $this->api->deleteUser(["superuser", "superuser2", "regularuser"]);
+    }
+
+    /**
      * normal case, user deleted
      */
     public function testDeleteUser()
     {
+        Fixture::createSuperUser();
+
         $this->addSites(3);
 
         //add user and set some rights
@@ -340,6 +360,33 @@ class UsersManagerTest extends IntegrationTestCase
         //checks access have been deleted
         //to do so we recreate the same user login and check if the rights are still there
         $this->assertEquals(array(), $this->api->getSitesAccessFromUser("geggeqgeqag"));
+    }
+
+    public function test_deleteUser_shouldDeleteMultipleUsers()
+    {
+        Fixture::createSuperUser();
+
+        $this->addSites(3);
+
+        //add users and set some rights
+        $this->api->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
+        $this->api->setUserAccess("geggeqgeqag", "view", array(1, 2));
+        $this->api->setUserAccess("geggeqgeqag", "admin", array(1, 3));
+        $this->assertNotEquals(array(), $this->api->getSitesAccessFromUser("geggeqgeqag"));
+
+        $this->api->addUser("user2", "geqgeagae", "test2@test.com", "alias2");
+        $this->api->setUserAccess("user2", "view", array(1, 2));
+        $this->assertNotEquals(array(), $this->api->getSitesAccessFromUser("user2"));
+
+        $this->api->addUser("user3", "geqgeagae", "test3@test.com", "alias2");
+        $this->api->setUserAccess("user3", "admin", array(2, 3));
+        $this->assertNotEquals(array(), $this->api->getSitesAccessFromUser("user3"));
+
+        // delete the user
+        $this->api->deleteUser(["geggeqgeqag", "user2"]);
+
+        $this->assertUserNotExists("geggeqgeqag");
+        $this->assertUserNotExists("user2");
     }
 
     /**
@@ -986,5 +1033,20 @@ class UsersManagerTest extends IntegrationTestCase
         return array(
             'Piwik\Access' => new FakeAccess()
         );
+    }
+
+    private function assertUserNotExists($login)
+    {
+        try {
+            $this->api->getUser($login);
+            $this->fail("User $login still exists!");
+        } catch (Exception $expected) {
+            $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
+        }
+    }
+
+    public function testName()
+    {
+
     }
 }

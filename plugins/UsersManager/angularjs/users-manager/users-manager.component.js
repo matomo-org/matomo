@@ -27,7 +27,6 @@
         vm.isCurrentUserSuperUser = true;
         vm.$onInit = $onInit;
         vm.$onDestroy = $onDestroy;
-        vm.onDeleteUser = onDeleteUser;
 
         function $onInit() {
             // TODO: maybe this should go in another directive...
@@ -48,10 +47,6 @@
             } catch (e) {
                 // empty
             }
-        }
-
-        function onDeleteUser(user) {
-            alert('try to delete user ' + user.login);
         }
     }
 })();

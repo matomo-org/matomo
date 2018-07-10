@@ -14,7 +14,6 @@
         templateUrl: 'plugins/UsersManager/angularjs/paged-users-list/paged-users-list.component.html?cb=' + piwik.cacheBuster,
         bindings: {
             onEditUser: '&',
-            onDeleteUser: '&',
             limit: '<',
             initialSiteId: '<',
             initialSiteName: '<'
@@ -22,9 +21,9 @@
         controller: PagedUsersListController
     });
 
-    PagedUsersListController.$inject = ['piwikApi'];
+    PagedUsersListController.$inject = ['piwikApi', '$element'];
 
-    function PagedUsersListController(piwikApi) {
+    function PagedUsersListController(piwikApi, $element) {
         var vm = this;
 
         // options for selects (TODO: should be supplied server side)
@@ -57,13 +56,13 @@
 
         // intermediate state
         vm.isBulkActionsDisabled = true;
+        vm.userToDelete = null;
 
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.onAllCheckboxChange = onAllCheckboxChange;
         vm.setAccessBulk = setAccessBulk;
         vm.removeAccessBulk = removeAccessBulk;
-        vm.deleteUsersBulk = deleteUsersBulk;
         vm.onAccessChange = onAccessChange;
         vm.onRowSelected = onRowSelected;
         vm.deleteRequestedUsers = deleteRequestedUsers;
@@ -71,6 +70,8 @@
         vm.gotoNextPage = gotoNextPage;
         vm.fetchUsers = fetchUsers;
         vm.getPaginationUpperBound = getPaginationUpperBound;
+        vm.showDeleteConfirm = showDeleteConfirm;
+        vm.getSelectedCount = getSelectedCount;
 
         function $onInit() {
             vm.permissionsForSite = {
@@ -103,7 +104,7 @@
 
         function fetchUsers() {
             vm.isLoadingUsers = true;
-            piwikApi.fetch({
+            return piwikApi.fetch({
                 method: 'UsersManager.getUsersPlusRole',
                 limit: vm.limit,
                 offset: vm.offset,
@@ -114,9 +115,12 @@
                 // TODO: can response have an error?
                 vm.totalEntries = response.total;
                 vm.users = response.results;
+
                 vm.isLoadingUsers = false;
+                vm.selectedRows = {};
             }).catch(function () {
                 vm.isLoadingUsers = false;
+                vm.selectedRows = {};
             });
         }
 
@@ -128,30 +132,68 @@
             alert('remove access bulk'); // TODO
         }
 
-        function deleteUsersBulk() {
-            alert('delete users bulk'); // TODO
-        }
-
         function onAccessChange(user, changeTo) {
             alert('on access change ' + user.login + ' - ' + changeTo); // TODO
         }
 
         function onRowSelected() {
-            vm.isBulkActionsDisabled = true;
+            var selectedRowKeyCount = getSelectedCount();
+            vm.isBulkActionsDisabled = selectedRowKeyCount === 0;
+            vm.isAllCheckboxSelected = selectedRowKeyCount === vm.users.length;
+        }
 
+        function getSelectedCount() {
             var selectedRowKeyCount = 0;
             Object.keys(vm.selectedRows).forEach(function (key) {
                 if (vm.selectedRows[key]) {
                     ++selectedRowKeyCount;
-                    vm.isBulkActionsDisabled = false;
                 }
             });
-
-            vm.isAllCheckboxSelected = selectedRowKeyCount === vm.users.length;
+            return selectedRowKeyCount;
         }
 
         function deleteRequestedUsers() {
-            alert('delete requested users'); // TODO
+            if (vm.userToDelete) {
+                deleteSingleUser();
+            } else {
+                deleteMultipleUsers();
+            }
+        }
+
+        function deleteSingleUser() {
+            var userToDelete = vm.userToDelete;
+            vm.userToDelete = null;
+
+            vm.isLoadingUsers = true;
+            piwikApi.post({
+                method: 'UsersManager.deleteUser',
+                userLogin: userToDelete.login,
+            }).catch(function () {
+                // ignore (errors will still be displayed to the user)
+            }).then(function () {
+                return fetchUsers();
+            });
+        }
+
+        function deleteMultipleUsers() {
+            var usersToDelete = [];
+            Object.keys(vm.selectedRows).forEach(function (index) {
+                if (vm.selectedRows[index]
+                    && vm.users[index] // safety check
+                ) {
+                    usersToDelete.push(vm.users[index].login);
+                }
+            });
+
+            vm.isLoadingUsers = true;
+            piwikApi.post({
+                method: 'UsersManager.deleteUser',
+                'userLogin[]': usersToDelete
+            }).catch(function () {
+                // ignore (errors will still be displayed to the user)
+            }).then(function () {
+                return fetchUsers();
+            })
         }
 
         function gotoPreviousPage() {
@@ -172,6 +214,10 @@
 
         function getPaginationUpperBound() {
             return Math.min(vm.offset + vm.limit, vm.totalEntries);
+        }
+
+        function showDeleteConfirm() {
+            $element.find('.delete-user-confirm-modal').openModal();
         }
     }
 })();

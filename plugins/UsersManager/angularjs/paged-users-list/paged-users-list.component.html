@@ -29,7 +29,7 @@
                     <a href="" ng-click="$ctrl.removeAccessBulk()">Remove Access</a>
                 </li>
                 <li>
-                    <a href="" ng-click="$ctrl.deleteUsersBulk()">Delete Users</a>
+                    <a href="" ng-click="$ctrl.showDeleteConfirm()">Delete Users</a>
                 </li>
             </ul>
         </div>
@@ -143,7 +143,7 @@
                         <button class="edituser table-action" title="Edit" ng-click="$ctrl.onEditUser({ user: user })">
                             <span class="icon-edit"></span>
                         </button>
-                        <button class="deleteuser table-action" title="Delete" ng-click="$ctrl.onDeleteUser({ user: user })">
+                        <button class="deleteuser table-action" title="Delete" ng-click="$ctrl.userToDelete = user; $ctrl.showDeleteConfirm()">
                             <span class="icon-delete"></span>
                         </button>
                     </td>
@@ -155,11 +155,12 @@
 
     <div class="delete-user-confirm-modal modal">
         <div class="modal-content">
-            <p>Are you sure you want to delete the selected user(s)?</p>
+            <h3 ng-if="$ctrl.userToDelete">Are you sure you want to delete <strong>{{ $ctrl.userToDelete.login }}</strong>?</h3>
+            <p ng-if="!$ctrl.userToDelete">Are you sure you want to delete the <strong>{{ $ctrl.getSelectedCount() }}</strong> selected users?</p>
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.deleteRequestedUsers()">Yes</a>
-            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.user.usersRequestedToDelete = null">No</a>
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.userToDelete = null">No</a>
         </div>
     </div>
 </div>

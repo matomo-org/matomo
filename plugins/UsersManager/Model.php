@@ -184,7 +184,7 @@ class Model
             $offsetSql = "OFFSET " . (int)$offset;
         }
 
-        $sql = 'SELECT a.idsite as idsite, s.name as site_name, IF(u.superuser_access = 1, "admin", a.access) as access
+        $sql = 'SELECT a.idsite as idsite, s.name as site_name, a.access as role
                   FROM ' . Common::prefixTable('access') . ' a
             INNER JOIN ' . $this->table . ' u ON u.login = a.login
             INNER JOIN ' . Common::prefixTable('site') . ' s ON s.idsite = a.idsite
@@ -328,36 +328,48 @@ class Model
         }
     }
 
-    public function deleteUserOnly($userLogin)
+    /**
+     * @param string|string[] $userLogins
+     */
+    public function deleteUserOnly($userLogins)
     {
-        $db = $this->getDb();
-        $db->query("DELETE FROM " . $this->table . " WHERE login = ?", $userLogin);
+        if (!is_array($userLogins)) {
+            $userLogins = [$userLogins];
+        }
 
-        /**
-         * Triggered after a user has been deleted.
-         *
-         * This event should be used to clean up any data that is related to the now deleted user.
-         * The **Dashboard** plugin, for example, uses this event to remove the user's dashboards.
-         *
-         * @param string $userLogin The login handle of the deleted user.
-         */
-        Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
+        $db = $this->getDb();
+        $db->query("DELETE FROM " . $this->table . " WHERE login IN (" . Common::getSqlStringFieldsArray($userLogins) . ")", $userLogins);
+
+        foreach ($userLogins as $login) {
+            /**
+             * Triggered after a user has been deleted.
+             *
+             * This event should be used to clean up any data that is related to the now deleted user.
+             * The **Dashboard** plugin, for example, uses this event to remove the user's dashboards.
+             *
+             * @param string $userLogins The login handle of the deleted user.
+             */
+            Piwik::postEvent('UsersManager.deleteUser', array($login));
+        }
     }
 
-    public function deleteUserAccess($userLogin, $idSites = null)
+    /**
+     * @param string|string[] $userLogins
+     */
+    public function deleteUserAccess($userLogins, $idSites = null)
     {
+        if (!is_array($userLogins)) {
+            $userLogins = [$userLogins];
+        }
+
         $db = $this->getDb();
 
+        $placeholders = Common::getSqlStringFieldsArray($userLogins);
         if (is_null($idSites)) {
-            $db->query("DELETE FROM " . Common::prefixTable("access") .
-                " WHERE login = ?",
-                array($userLogin));
+            $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE login IN ($placeholders)", $userLogins);
         } else {
             foreach ($idSites as $idsite) {
-                $db->query("DELETE FROM " . Common::prefixTable("access") .
-                    " WHERE idsite = ? AND login = ?",
-                    array($idsite, $userLogin)
-                );
+                $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE idsite = ? AND login IN ($placeholders)", array_merge([$idsite], $userLogins));
             }
         }
     }
@@ -404,7 +416,7 @@ class Model
             $offsetSql = "OFFSET " . (int)$offset;
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, IF(u.superuser_access = 1, "admin", IF(u.superuser_access = 1, "superuser", IFNULL(a.access, "noaccess"))) as role
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, IF(u.superuser_access = 1, "superuser", IFNULL(a.access, "noaccess")) as role
                   FROM ' . $this->table . " u
              LEFT JOIN " . Common::prefixTable('access') . " a ON u.login = a.login
                  WHERE $where
