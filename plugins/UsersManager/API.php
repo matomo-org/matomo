@@ -57,17 +57,23 @@ class API extends \Piwik\Plugin\API
      */
     private $roleProvider;
 
+    /**
+     * @var Access\CapabilitiesProvider
+     */
+    private $capabilityProvider;
+
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
 
     private static $instance = null;
 
-    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access\RolesProvider $roleProvider)
+    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access\RolesProvider $roleProvider, Access\CapabilitiesProvider $capabilityProvider)
     {
         $this->model = $model;
         $this->userFilter = $filter;
         $this->password = $password;
         $this->roleProvider = $roleProvider;
+        $this->capabilityProvider = $capabilityProvider;
     }
 
     /**
@@ -267,12 +273,23 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        Access::getInstance()->checkAccessType($access);
+        $this->checkAccessType($access);
 
         $userSites = $this->model->getUsersSitesFromAccess($access);
         $userSites = $this->userFilter->filterLoginIndexedArray($userSites);
 
         return $userSites;
+    }
+
+    private function checkAccessType($access)
+    {
+        $roles = $this->roleProvider->getAllRoleIds();
+        $capabilities = $this->capabilityProvider->getAllCapabilityIds();
+        $list = array_merge($roles, $capabilities);
+
+        if (!in_array($access, $list, true)) {
+            throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", implode(", ", $list)));
+        }
     }
 
     /**
@@ -303,7 +320,7 @@ class API extends \Piwik\Plugin\API
     public function getUsersWithSiteAccess($idSite, $access)
     {
         Piwik::checkUserHasAdminAccess($idSite);
-        Access::getInstance()->checkAccessType($access);
+        $this->checkAccessType($access);
 
         $logins = $this->model->getUsersLoginWithSiteAccess($idSite, $access);
 
@@ -743,6 +760,27 @@ class API extends \Piwik\Plugin\API
      */
     public function setUserAccess($userLogin, $access, $idSites)
     {
+        // in case idSites is all we grant access to all the websites on which the current connected user has an 'admin' access
+        if ($idSites === 'all') {
+            $idSites = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAdminAccess();
+        } // in case the idSites is an integer we build an array
+        else {
+            $idSites = Site::getIdSitesFromIdSitesString($idSites);
+        }
+
+        if (empty($idSites)) {
+            throw new Exception('Specify at least one website ID in &idSites=');
+        }
+
+        // it is possible to set user access on websites only for the websites admin
+        // basically an admin can give the view or the admin access to any user for the websites they manage
+        Piwik::checkUserHasAdminAccess($idSites);
+
+        if ($userLogin === 'anonymous' && (is_array($access) || !in_array($access, array('view', 'noaccess')))) {
+            // todo correct message
+            throw new Exception(Piwik::translate("UsersManager_ExceptionAdminAnonymous"));
+        }
+
         if (is_array($access)) {
             // we require one role, and optionally multiple capabilties
             $setRoles = array();
@@ -750,7 +788,7 @@ class API extends \Piwik\Plugin\API
                 if ($this->roleProvider->isValidRole($entry)) {
                     $setRoles[] = $entry;
                 } else {
-                    Access::getInstance()->checkAccessType($entry);
+                    $this->checkAccessType($entry);
                 }
             }
             if (count($setRoles) !== 1) {
@@ -765,27 +803,6 @@ class API extends \Piwik\Plugin\API
 
         $this->checkUserExists($userLogin);
         $this->checkUserHasNotSuperUserAccess($userLogin);
-
-        if ($userLogin == 'anonymous'
-            && $access == 'admin'
-        ) {
-            throw new Exception(Piwik::translate("UsersManager_ExceptionAdminAnonymous"));
-        }
-
-        // in case idSites is all we grant access to all the websites on which the current connected user has an 'admin' access
-        if ($idSites === 'all') {
-            $idSites = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAdminAccess();
-        } // in case the idSites is an integer we build an array
-        else {
-            $idSites = Site::getIdSitesFromIdSitesString($idSites);
-        }
-
-        if (empty($idSites)) {
-            throw new Exception('Specify at least one website ID in &idSites=');
-        }
-        // it is possible to set user access on websites only for the websites admin
-        // basically an admin can give the view or the admin access to any user for the websites they manage
-        Piwik::checkUserHasAdminAccess($idSites);
 
         $this->model->deleteUserAccess($userLogin, $idSites);
 
@@ -805,6 +822,56 @@ class API extends \Piwik\Plugin\API
             }
 
             Piwik::postEvent('UsersManager.removeSiteAccess', array($userLogin, $idSites));
+        }
+
+        // we reload the access list which doesn't yet take in consideration this new user access
+        Access::getInstance()->reloadAccess();
+        Cache::deleteTrackerCache();
+    }
+
+    public function addCapabilities($userLogin, $capabilities, $idSites)
+    {
+        // in case idSites is all we grant access to all the websites on which the current connected user has an 'admin' access
+        if ($idSites === 'all') {
+            $idSites = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAdminAccess();
+        } // in case the idSites is an integer we build an array
+        else {
+            $idSites = Site::getIdSitesFromIdSitesString($idSites);
+        }
+
+        if (empty($idSites)) {
+            throw new Exception('Specify at least one website ID in &idSites=');
+        }
+
+        // it is possible to set user access on websites only for the websites admin
+        // basically an admin can give the view or the admin access to any user for the websites they manage
+        Piwik::checkUserHasAdminAccess($idSites);
+
+        if (is_array($capabilities)) {
+            foreach ($capabilities as $entry) {
+                $this->capabilityProvider->checkValidCapability($entry);
+            }
+        } else {
+            $this->capabilityProvider->checkValidCapability($capabilities);
+        }
+
+        $this->checkUserExists($userLogin);
+        $this->checkUserHasNotSuperUserAccess($userLogin);
+
+        if ($userLogin == 'anonymous') {
+            throw new Exception(Piwik::translate("UsersManager_ExceptionAdminAnonymous"));
+        }
+
+        // todo: check user has at least one role!
+
+        // if the access is noaccess then we don't save it as this is the default value
+        // when no access are specified
+        if (is_array($capabilities)) {
+            foreach ($capabilities as $entry) {
+                $this->model->addUserAccess($userLogin, $entry, $idSites);
+            }
+        } else {
+            $this->model->addUserAccess($userLogin, $capabilities, $idSites);
         }
 
         // we reload the access list which doesn't yet take in consideration this new user access

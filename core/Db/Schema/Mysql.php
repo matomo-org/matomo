@@ -49,7 +49,7 @@ class Mysql implements SchemaInterface
             'access'  => "CREATE TABLE {$prefixTables}access (
                           login VARCHAR(100) NOT NULL,
                           idsite INTEGER UNSIGNED NOT NULL,
-                          access VARCHAR(10) NULL,
+                          access VARCHAR(40) NULL,
                             PRIMARY KEY(login, idsite)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
