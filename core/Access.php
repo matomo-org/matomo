@@ -9,9 +9,7 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Access\Capability;
 use Piwik\Access\CapabilitiesProvider;
-use Piwik\Access\Role;
 use Piwik\Access\RolesProvider;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
@@ -85,7 +83,6 @@ class Access
     {
         return StaticContainer::get('Piwik\Access');
     }
-
 
     /**
      * @var CapabilitiesProvider
@@ -367,6 +364,20 @@ class Access
         $this->loadSitesIfNeeded();
 
         return $this->idsitesByAccess['view'];
+    }
+
+    /**
+     * Returns an array of ID sites for which the user has a WRITE access only.
+     *
+     * @return array  Example if the user is ADMIN for 4
+     *                and has WRITE access for 1 and 7, it returns array(1, 7);
+     * @see getSitesIdWithAtLeastWriteAccess()
+     */
+    public function getSitesIdWithWriteAccess()
+    {
+        $this->loadSitesIfNeeded();
+
+        return $this->idsitesByAccess['write'];
     }
 
     /**

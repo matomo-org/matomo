@@ -78,7 +78,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function manage()
     {
-        Piwik::checkUserHasAdminAccess($this->idSite);
+        Piwik::checkUserHasWriteAccess($this->idSite);
 
         $view = new View('@Goals/manageGoals');
         $this->setGeneralVariablesView($view);
@@ -349,7 +349,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function setGoalOptions(View $view)
     {
-        $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
+        $view->userCanEditGoals = Piwik::isUserHasWriteAccess($this->idSite);
         $view->goalTriggerTypeOptions = array(
             'visitors' => Piwik::translate('Goals_WhenVisitors'),
             'manually' => Piwik::translate('Goals_Manually')

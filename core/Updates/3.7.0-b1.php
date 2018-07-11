@@ -31,7 +31,7 @@ class Updates_3_7_0_b1 extends Updates
     public function getMigrations(Updater $updater)
     {
         $migrations = array();
-        $migrations[] = $this->migration->db->changeColumnType('access', 'access', 'VARCHAR(40) NULL');
+        $migrations[] = $this->migration->db->changeColumnType('access', 'access', 'VARCHAR(50) NULL');
 
         return $migrations;
     }
