@@ -2,6 +2,7 @@
     piwik-content-block
     content-title="{{ $ctrl.getFormTitle() }}"
     class="userEditForm"
+    ng-class="{ loading: $ctrl.isSavingUserInfo }"
 >
     <div class="row" piwik-form>
         <div class="col m2 entityList">
@@ -36,6 +37,7 @@
                         ng-model="$ctrl.user.login"
                         title="Username"
                         maxlength="100"
+                        disabled="$ctrl.isSavingUserInfo || !$ctrl.isAdd"
                 >
                 </div>
 
@@ -45,6 +47,8 @@
                         name="user_password"
                         ng-model="$ctrl.user.password"
                         title="Password"
+                        ng-change="$ctrl.isPasswordChanged = true;"
+                        disabled="$ctrl.isSavingUserInfo"
                 >
                 </div>
 
@@ -55,6 +59,7 @@
                         ng-model="$ctrl.user.alias"
                         title="Alias"
                         maxlength="45"
+                        disabled="$ctrl.isSavingUserInfo"
                 >
                 </div>
 
@@ -65,12 +70,13 @@
                         ng-model="$ctrl.user.email"
                         title="Email"
                         maxlength="100"
+                        disabled="$ctrl.isSavingUserInfo"
                 >
                 </div>
 
                 <div piwik-save-button
-                     saving="$ctrl.isLoading"
-                     onconfirm="$ctrl.onDoneEditing()"
+                     saving="$ctrl.isSavingUserInfo"
+                     onconfirm="$ctrl.saveUserInfo()"
                      ng-value="$ctrl.getSaveButtonLabel()"
                 ></div>
             </div>
