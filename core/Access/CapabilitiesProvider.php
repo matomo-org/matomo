@@ -80,7 +80,6 @@ class CapabilitiesProvider
      */
     public function getCapability($capabilityId)
     {
-        $ids = array();
         foreach ($this->getAllCapabilities() as $capability) {
             if ($capabilityId === $capability->getId()) {
                 return $capability;

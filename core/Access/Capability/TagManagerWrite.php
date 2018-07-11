@@ -33,7 +33,7 @@ class TagManagerWrite extends Capability
 
     public function getDescription()
     {
-        return 'Lets you admin ...';
+        return 'Lets you use the Tag Manager and manage for example containers, tags, triggers, and variables, create versions, etc.';
     }
 
     public function getIncludedInRoles()

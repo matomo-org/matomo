@@ -85,6 +85,12 @@ class AccessTest extends IntegrationTestCase
         $this->assertEmpty($access->getSitesIdWithAdminAccess());
     }
 
+    public function testGetSitesIdWithWriteAccessWithEmptyAccess()
+    {
+        $access = $this->getAccess();
+        $this->assertEmpty($access->getSitesIdWithWriteAccess());
+    }
+
     public function testGetSitesIdWithViewAccessWithEmptyAccess()
     {
         $access = $this->getAccess();
