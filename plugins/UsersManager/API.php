@@ -52,16 +52,22 @@ class API extends \Piwik\Plugin\API
      */
     private $userFilter;
 
+    /**
+     * @var Access\RolesProvider
+     */
+    private $roleProvider;
+
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
 
     private static $instance = null;
 
-    public function __construct(Model $model, UserAccessFilter $filter, Password $password)
+    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access\RolesProvider $roleProvider)
     {
         $this->model = $model;
         $this->userFilter = $filter;
         $this->password = $password;
+        $this->roleProvider = $roleProvider;
     }
 
     /**
@@ -261,7 +267,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $this->checkAccessType($access);
+        Access::getInstance()->checkAccessType($access);
 
         $userSites = $this->model->getUsersSitesFromAccess($access);
         $userSites = $this->userFilter->filterLoginIndexedArray($userSites);
@@ -297,7 +303,7 @@ class API extends \Piwik\Plugin\API
     public function getUsersWithSiteAccess($idSite, $access)
     {
         Piwik::checkUserHasAdminAccess($idSite);
-        $this->checkAccessType($access);
+        Access::getInstance()->checkAccessType($access);
 
         $logins = $this->model->getUsersLoginWithSiteAccess($idSite, $access);
 
@@ -738,12 +744,25 @@ class API extends \Piwik\Plugin\API
     public function setUserAccess($userLogin, $access, $idSites)
     {
         if (is_array($access)) {
+            // we require one role, and optionally multiple capabilties
+            $setRoles = array();
             foreach ($access as $entry) {
-                $this->checkAccessType($entry);
+                if ($this->roleProvider->isValidRole($entry)) {
+                    $setRoles[] = $entry;
+                } else {
+                    Access::getInstance()->checkAccessType($entry);
+                }
+            }
+            if (count($setRoles) !== 1) {
+                throw new Exception('Only one role can be set but multiple or no roles have been set: ' . implode(', ', $setRoles));
             }
         } else {
-            $this->checkAccessType($access);
+            // as only one access is set, we require it to be a role...
+            if ($access !== 'noaccess') {
+                $this->roleProvider->checkValidRole($access);
+            }
         }
+
         $this->checkUserExists($userLogin);
         $this->checkUserHasNotSuperUserAccess($userLogin);
 
@@ -830,18 +849,6 @@ class API extends \Piwik\Plugin\API
     {
         if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionSuperUserAccess"));
-        }
-    }
-
-    private function checkAccessType($access)
-    {
-        $accessList = Access::getListAccess();
-
-        // do not allow to set the superUser access
-        unset($accessList[array_search("superuser", $accessList)]);
-
-        if (!in_array($access, $accessList)) {
-            throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", implode(", ", $accessList)));
         }
     }
 

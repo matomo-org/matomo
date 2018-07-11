@@ -9,14 +9,15 @@
 namespace Piwik\Access\Capability;
 
 use Piwik\Access\Capability;
+use Piwik\Access\Role\Admin;
 
-class WebContent extends Capability
+class UseCustomTemplates extends Capability
 {
-    const ID = 'web_content';
+    const ID = 'tagmanager_use_custom_templates';
 
     public function getName()
     {
-        return 'Web Content';
+        return 'Tag Manager Use Custom Templates';
     }
 
     public function getId()
@@ -29,8 +30,10 @@ class WebContent extends Capability
         return 'Lets you write content that will be executed on the website. Useful for example in tag manager.';
     }
 
-    public function requiresRole()
+    public function getIncludedInRoles()
     {
-        return array(Admin::ID);
+        return array(
+            Admin::ID
+        );
     }
 }

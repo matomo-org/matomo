@@ -13,19 +13,16 @@ abstract class Capability
     abstract public function getName();
     abstract public function getId();
     abstract public function getDescription();
+    abstract public function getIncludedInRoles();
+
     public function getHelpUrl()
     {
         return '';
     }
 
-    public function requiresRole()
+    public function hasRoleCapability($idRole)
     {
-        return array();
+        return in_array($idRole, $this->getIncludedInRoles(), true);
     }
 
-    public function requiresCapability()
-    {
-        throw new \Exception('We could implement this any time later...');
-        return array();
-    }
 }

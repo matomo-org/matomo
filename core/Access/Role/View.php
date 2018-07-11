@@ -10,7 +10,6 @@ namespace Piwik\Access\Role;
 
 use Piwik\Access\Role;
 
-// TO BE IGNORED
 class View extends Role
 {
     const ID = 'view';
@@ -35,12 +34,5 @@ class View extends Role
         return 'https://matomo.org/faq/general/faq_70/';
     }
 
-    public function can()
-    {
-        return array(
-            new \Piwik\Access\Capability\AnalyticsView(),
-            new \Piwik\Access\Capability\TagManagerView()
-        );
-    }
 
 }

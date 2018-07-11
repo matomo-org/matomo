@@ -13,14 +13,10 @@ abstract class Role
     abstract public function getName();
     abstract public function getId();
     abstract public function getDescription();
-    abstract public function can();
+
     public function getHelpUrl()
     {
         return '';
-    }
-    public function requires()
-    {
-        return array();
     }
 
 }

@@ -9,6 +9,7 @@
 namespace Piwik\Access\Capability;
 
 use Piwik\Access\Capability;
+use Piwik\Access\Role\Admin;
 
 class PublishLiveContainer extends Capability
 {
@@ -16,7 +17,7 @@ class PublishLiveContainer extends Capability
 
     public function getName()
     {
-        return 'Publish Live Container';
+        return 'Tag Manager Publish Live Container';
     }
 
     public function getId()
@@ -29,8 +30,10 @@ class PublishLiveContainer extends Capability
         return 'If allowed, lets you publish to the live container';
     }
 
-    public function requiresRole()
+    public function getIncludedInRoles()
     {
-        return array(AnalyticsView::ID);
+        return array(
+            Admin::ID
+        );
     }
 }

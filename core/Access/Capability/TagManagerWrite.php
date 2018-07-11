@@ -9,8 +9,9 @@
 namespace Piwik\Access\Capability;
 
 use Piwik\Access\Capability;
+use Piwik\Access\Role\Admin;
+use Piwik\Access\Role\Write;
 
-// TO BE IGNORED
 class TagManagerWrite extends Capability
 {
     const ID = 'tagmanager_write';
@@ -30,5 +31,12 @@ class TagManagerWrite extends Capability
         return 'Lets you admin ...';
     }
 
+    public function getIncludedInRoles()
+    {
+        return array(
+            Write::ID,
+            Admin::ID
+        );
+    }
 
 }

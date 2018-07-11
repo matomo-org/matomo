@@ -9,14 +9,10 @@
 namespace Piwik;
 
 use Exception;
-use Piwik\Access\Capability\Admin;
-use Piwik\Access\Capability\AnalyticsView;
-use Piwik\Access\Capability\AnalyticsWrite;
-use Piwik\Access\Capability\PublishLiveContainer;
-use Piwik\Access\Capability\SegmentsWrite;
-use Piwik\Access\Capability\TagManagerView;
-use Piwik\Access\Capability\TagManagerWrite;
-use Piwik\Access\Capability\WebContent;
+use Piwik\Access\Capability;
+use Piwik\Access\CapabilitiesProvider;
+use Piwik\Access\Role;
+use Piwik\Access\RolesProvider;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 
@@ -74,13 +70,6 @@ class Access
     protected $hasSuperUserAccess = false;
 
     /**
-     * List of available permissions in Piwik
-     *
-     * @var array
-     */
-    private static $availableAccess = array('noaccess', 'view', 'admin', 'superuser');
-
-    /**
      * Authentification object (see Auth)
      *
      * @var Auth
@@ -97,26 +86,25 @@ class Access
         return StaticContainer::get('Piwik\Access');
     }
 
+
     /**
-     * Returns the list of the existing Access level.
-     * Useful when a given API method requests a given acccess Level.
-     * We first check that the required access level exists.
-     *
-     * @return array
+     * @var CapabilitiesProvider
      */
-    public static function getListAccess()
-    {
-        return array(
-            Admin::ID, AnalyticsView::ID, AnalyticsWrite::ID, PublishLiveContainer::ID,
-            SegmentsWrite::ID, TagManagerView::ID, TagManagerWrite::ID, WebContent::ID
-        );
-    }
+    private $capabilityProvider;
+
+    /**
+     * @var RolesProvider
+     */
+    private $roleProvider;
 
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(RolesProvider $roleProvider, CapabilitiesProvider $capabilityProvider)
     {
+        $this->roleProvider = $roleProvider;
+        $this->capabilityProvider = $capabilityProvider;
+
         $this->resetSites();
     }
 
@@ -124,9 +112,21 @@ class Access
     {
         $this->idsitesByAccess = array(
             'view'      => array(),
+            'write'     => array(),
             'admin'     => array(),
             'superuser' => array()
         );
+    }
+
+    public function checkAccessType($access)
+    {
+        $roles = $this->roleProvider->getAllRoleIds();
+        $capabilities = $this->capabilityProvider->getAllCapabilityIds();
+        $list = array_merge($roles, $capabilities);
+
+        if (!in_array($access, $list, true)) {
+            throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", implode(", ", $list)));
+        }
     }
 
     /**
@@ -228,6 +228,7 @@ class Access
             }
         } elseif (isset($this->login)) {
             if (empty($this->idsitesByAccess['view'])
+                && empty($this->idsitesByAccess['write'])
                 && empty($this->idsitesByAccess['admin'])) {
 
                 // we join with site in case there are rows in access for an idsite that doesn't exist anymore
@@ -235,7 +236,20 @@ class Access
                 $accessRaw = $this->getRawSitesWithSomeViewAccess($this->login);
 
                 foreach ($accessRaw as $access) {
-                    $this->idsitesByAccess[$access['access']][] = $access['idsite'];
+                    $accessType = $access['access'];
+                    $this->idsitesByAccess[$accessType][] = $access['idsite'];
+
+                    if ($this->roleProvider->isValidRole($access)) {
+                        foreach ($this->capabilityProvider->getAllCapabilities() as $capability) {
+                            if ($capability->hasRoleCapability($accessType)) {
+                                // we automatically add this capability
+                                if (!isset($this->idsitesByAccess[$capability->getId()])) {
+                                    $this->idsitesByAccess[$capability->getId()] = array();
+                                }
+                                $this->idsitesByAccess[$capability->getId()][] = $access['idsite'];
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -290,7 +304,7 @@ class Access
 
     /**
      * Returns an array of ID sites for which the user has at least a VIEW access.
-     * Which means VIEW or ADMIN or SUPERUSER.
+     * Which means VIEW OR WRITE or ADMIN or SUPERUSER.
      *
      * @return array  Example if the user is ADMIN for 4
      *                and has VIEW access for 1 and 7, it returns array(1, 4, 7);
@@ -301,6 +315,25 @@ class Access
 
         return array_unique(array_merge(
                 $this->idsitesByAccess['view'],
+                $this->idsitesByAccess['write'],
+                $this->idsitesByAccess['admin'],
+                $this->idsitesByAccess['superuser'])
+        );
+    }
+
+    /**
+     * Returns an array of ID sites for which the user has at least a WRITE access.
+     * Which means WRITE or ADMIN or SUPERUSER.
+     *
+     * @return array  Example if the user is WRITE for 4 and 8
+     *                and has VIEW access for 1 and 7, it returns array(4, 8);
+     */
+    public function getSitesIdWithAtLeastWriteAccess()
+    {
+        $this->loadSitesIfNeeded();
+
+        return array_unique(array_merge(
+                $this->idsitesByAccess['write'],
                 $this->idsitesByAccess['admin'],
                 $this->idsitesByAccess['superuser'])
         );
@@ -353,6 +386,22 @@ class Access
      *
      * @return bool
      */
+    public function isUserHasSomeWriteAccess()
+    {
+        if ($this->hasSuperUserAccess()) {
+            return true;
+        }
+
+        $idSitesAccessible = $this->getSitesIdWithAtLeastWriteAccess();
+
+        return count($idSitesAccessible) > 0;
+    }
+
+    /**
+     * Returns `true` if the current user has admin access to at least one site.
+     *
+     * @return bool
+     */
     public function isUserHasSomeAdminAccess()
     {
         if ($this->hasSuperUserAccess()) {
@@ -362,6 +411,18 @@ class Access
         $idSitesAccessible = $this->getSitesIdWithAdminAccess();
 
         return count($idSitesAccessible) > 0;
+    }
+
+    /**
+     * If the user doesn't have an WRITE access for at least one website, throws an exception
+     *
+     * @throws \Piwik\NoAccessException
+     */
+    public function checkUserHasSomeWriteAccess()
+    {
+        if (!$this->isUserHasSomeWriteAccess()) {
+            throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAtLeastOneWebsite', array('write')));
+        }
     }
 
     /**
@@ -440,6 +501,29 @@ class Access
         }
     }
 
+    /**
+     * This method checks that the user has VIEW or ADMIN access for the given list of websites.
+     * If the user doesn't have VIEW or ADMIN access for at least one website of the list, we throw an exception.
+     *
+     * @param int|array|string $idSites List of ID sites to check (integer, array of integers, string comma separated list of integers)
+     * @throws \Piwik\NoAccessException  If for any of the websites the user doesn't have an VIEW or ADMIN access
+     */
+    public function checkUserHasWriteAccess($idSites)
+    {
+        if ($this->hasSuperUserAccess()) {
+            return;
+        }
+
+        $idSites = $this->getIdSites($idSites);
+        $idSitesAccessible = $this->getSitesIdWithAtLeastWriteAccess();
+
+        foreach ($idSites as $idsite) {
+            if (!in_array($idsite, $idSitesAccessible, true)) {
+                throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'write'", $idsite)));
+            }
+        }
+    }
+
     private function getSitesIdWithCapability($capability)
     {
         if (!empty($this->idsitesByAccess[$capability])) {
@@ -448,7 +532,7 @@ class Access
         return array();
     }
 
-    public function checkUserCanCapability($idSites, $capability)
+    public function checkUserHasCapability($idSites, $capability)
     {
         if ($this->hasSuperUserAccess()) {
             return;
@@ -458,13 +542,13 @@ class Access
         $idSitesAccessible = $this->getSitesIdWithCapability($capability);
 
         foreach ($idSites as $idsite) {
-            if (!in_array($idsite, $idSitesAccessible)) {
+            if (!in_array($idsite, $idSitesAccessible, true)) {
                 throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
             }
         }
     }
 
-    public function hasUserCapability($idSites, $capability)
+    public function isUserHasCapability($idSites, $capability)
     {
         if ($this->hasSuperUserAccess()) {
             return true;
@@ -474,7 +558,7 @@ class Access
         $idSitesAccessible = $this->getSitesIdWithCapability($capability);
 
         foreach ($idSites as $idsite) {
-            if (!in_array($idsite, $idSitesAccessible)) {
+            if (!in_array($idsite, $idSitesAccessible, true)) {
                 return false;
             }
         }

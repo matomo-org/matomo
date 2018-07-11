@@ -10,14 +10,13 @@ namespace Piwik\Access\Role;
 
 use Piwik\Access\Role;
 
-// TO BE IGNORED!
-class Admin extends Role
+class Write extends Role
 {
-    const ID = 'admin';
+    const ID = 'write';
 
     public function getName()
     {
-        return 'Admin';
+        return 'Write';
     }
 
     public function getId()
@@ -27,20 +26,12 @@ class Admin extends Role
 
     public function getDescription()
     {
-        return 'Lets you admin ...';
+        return 'Lets you write ...';
     }
 
     public function getHelpUrl()
     {
-        return 'https://matomo.org/faq/general/faq_69/';
-    }
-
-    public function can()
-    {
-        return array(
-            new \Piwik\Access\Capability\AnalyticsWrite(),
-            new \Piwik\Access\Capability\TagManagerWrite(),
-        );
+        return 'TBD';
     }
 
 }

@@ -10,7 +10,6 @@ namespace Piwik\Access\Role;
 
 use Piwik\Access\Role;
 
-// TO BE IGNORED!
 class Admin extends Role
 {
     const ID = 'admin';
@@ -33,18 +32,6 @@ class Admin extends Role
     public function getHelpUrl()
     {
         return 'https://matomo.org/faq/general/faq_69/';
-    }
-
-    public function can()
-    {
-        return array(
-            new \Piwik\Access\Capability\Admin(),
-            new \Piwik\Access\Capability\PublishLiveContainer(),
-            new \Piwik\Access\Capability\WebContent(),
-            new \Piwik\Access\Capability\SegmentsWrite(),
-            new \Piwik\Access\Capability\AnalyticsWrite(),
-            new \Piwik\Access\Capability\TagManagerWrite(),
-        );
     }
 
 }
