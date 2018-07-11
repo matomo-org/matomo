@@ -412,7 +412,7 @@ class API extends \Piwik\Plugin\API
      * @param int|null $limit
      * @param int|null $offset
      * @param string|null $filter_search text to search for in site name, URLs, or group.
-     * @param string|null $filter_access access level to select for, can be 'view' or 'admin' (by default sites with either are returned)
+     * @param string|null $filter_access access level to select for, can be 'some', 'view' or 'admin' (by default 'some')
      * @return array    The returned array has the format
      *                    array(
      *                        ['idsite' => 1, 'site_name' => 'the site', 'access' => 'admin'],
@@ -436,6 +436,34 @@ class API extends \Piwik\Plugin\API
             'results' => $access,
             'total' => $totalResults,
         ];
+    }
+
+    /**
+     * Sets access of all sites matching the given filters. The access levels that are changed are for sites the user already has
+     * access to.
+     *
+     * @param string $userLogin The user whose access will be set.
+     * @param string $access The access to set.
+     * @param string|null $filter_search The
+     * @param string|null $filter_search text to search for in site name, URLs, or group.
+     * @param string|null $filter_access access level to select for, can be 'some', 'view' or 'admin' (by default set to 'some')
+     * @throws Exception
+     */
+    public function setSiteAccessMatching($userLogin, $access, $filter_search = null, $filter_access = null)
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->checkUserExists($userLogin);
+
+        if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
+            throw new \Exception("This method should not be used with superusers.");
+        }
+
+        $idSites = $this->model->getIdSitesAccessMatching($userLogin, $filter_search, $filter_access);
+        if (empty($idSites)) {
+            return;
+        }
+
+        $this->setUserAccess($userLogin, $access, $idSites);
     }
 
     /**
@@ -855,6 +883,7 @@ class API extends \Piwik\Plugin\API
      * @param string $access Access to grant. Must have one of the following value : noaccess, view, admin
      * @param int|array $idSites The array of idSites on which to apply the access level for the user.
      *       If the value is "all" then we apply the access level to all the websites ID for which the current authentificated user has an 'admin' access.
+     * @param bool $ignoreExisting If true, existing access entries are not changed, only access for new sites are added.
      *
      * @throws Exception if the user doesn't exist
      * @throws Exception if the access parameter doesn't have a correct value
@@ -862,22 +891,19 @@ class API extends \Piwik\Plugin\API
      *
      * @return bool true on success
      */
-    public function setUserAccess($userLogin, $access, $idSites)
+    public function setUserAccess($userLogin, $access, $idSites, $ignoreExisting = false)
     {
         $this->checkAccessType($access);
+        if ($access == 'noaccess' && $ignoreExisting) {
+            throw new \Exception("UsersManager.setUserAccess cannot be called with access = noaccess and ignoreExisting = 0");
+        }
 
+        $ignoreExisting = $ignoreExisting == 1;
         $userLogins = is_array($userLogin) ? $userLogin : [$userLogin];
 
         $this->checkUsersExist($userLogins);
         $this->checkUsersHasNotSuperUserAccess($userLogins);
-
-        foreach ($userLogins as $login) {
-            if ($login == 'anonymous'
-                && $access == 'admin'
-            ) {
-                throw new Exception(Piwik::translate("UsersManager_ExceptionAdminAnonymous"));
-            }
-        }
+        $this->checkNotGivingAnonymousAdmin($userLogins, $access);
 
         // in case idSites is all we grant access to all the websites on which the current connected user has an 'admin' access
         if ($idSites === 'all') {
@@ -894,12 +920,14 @@ class API extends \Piwik\Plugin\API
         // basically an admin can give the view or the admin access to any user for the websites they manage
         Piwik::checkUserHasAdminAccess($idSites);
 
-        $this->model->deleteUserAccess($userLogins, $idSites);
+        if (!$ignoreExisting) {
+            $this->model->deleteUserAccess($userLogins, $idSites);
+        }
 
         // if the access is noaccess then we don't save it as this is the default value
         // when no access are specified
         if ($access != 'noaccess') {
-            $this->model->addUserAccess($userLogins, $access, $idSites);
+            $this->model->addUserAccess($userLogins, $access, $idSites, $ignoreExisting);
         } else {
             if (!empty($idSites) && !is_array($idSites)) {
                 $idSites = array($idSites);
@@ -1082,6 +1110,17 @@ class API extends \Piwik\Plugin\API
         foreach ($userLogin as $loginToCheck) {
             if (empty($usersByLogin[$loginToCheck])) {
                 throw new Exception(Piwik::translate("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
+            }
+        }
+    }
+
+    private function checkNotGivingAnonymousAdmin($userLogins, $access)
+    {
+        foreach ($userLogins as $login) {
+            if ($login == 'anonymous'
+                && $access == 'admin'
+            ) {
+                throw new Exception(Piwik::translate("UsersManager_ExceptionAdminAnonymous"));
             }
         }
     }

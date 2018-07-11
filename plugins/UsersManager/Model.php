@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\SitesManager;
+use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
 use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
 
 /**
@@ -162,18 +163,12 @@ class Model
 
     public function getSitesAccessFromUserWithFilters($userLogin, $limit = null, $offset = 0, $pattern = null, $access = null)
     {
-        $bind = [$userLogin];
-        $where = 'u.login = ?';
+        $siteAccessFilter = new SiteAccessFilter($userLogin, $pattern, $access);
 
-        if ($pattern) {
-            $bind = array_merge($bind, \Piwik\Plugins\SitesManager\Model::getPatternMatchSqlBind($pattern));
-            $where .= ' AND ' . \Piwik\Plugins\SitesManager\Model::getPatternMatchSqlQuery('s');
-        }
+        list($joins, $bind) = $siteAccessFilter->getJoins('a');
 
-        if ($access != 'some') { // TODO: test w/ 'some'
-            $where .= ' AND a.access = ?';
-            $bind[] = $access;
-        }
+        list($where, $whereBind) = $siteAccessFilter->getWhere();
+        $bind = array_merge($bind, $whereBind);
 
         $limitSql = '';
         if ($limit) {
@@ -186,11 +181,10 @@ class Model
         }
 
         $sql = 'SELECT SQL_CALC_FOUND_ROWS a.idsite as idsite, s.name as site_name, a.access as role
-                  FROM ' . Common::prefixTable('access') . ' a
-            INNER JOIN ' . $this->table . ' u ON u.login = a.login
-            INNER JOIN ' . Common::prefixTable('site') . ' s ON s.idsite = a.idsite
-                 WHERE ' . $where . '
-              ORDER BY s.name ASC, a.idsite ASC '. "
+                  FROM ' . Common::prefixTable('access') . " a
+                $joins
+                $where
+              ORDER BY s.name ASC, a.idsite ASC
               $limitSql $offsetSql";
         $db = $this->getDb();
 
@@ -198,6 +192,24 @@ class Model
         $count = $db->fetchOne("SELECT FOUND_ROWS()");
 
         return [$access, $count];
+    }
+
+    public function getIdSitesAccessMatching($userLogin, $filter_search = null, $filter_access = null)
+    {
+        $siteAccessFilter = new SiteAccessFilter($userLogin, $filter_search, $filter_access);
+
+        list($joins, $bind) = $siteAccessFilter->getJoins('a');
+
+        list($where, $whereBind) = $siteAccessFilter->getWhere();
+        $bind = array_merge($bind, $whereBind);
+
+        $sql = 'SELECT a.idsite FROM ' . Common::prefixTable('access') . " a $joins $where";
+
+        $db = $this->getDb();
+
+        $sites = $db->fetchAll($sql, $bind);
+        $sites = array_column($sites, 'idsite');
+        return $sites;
     }
 
     public function getUser($userLogin)
@@ -318,19 +330,16 @@ class Model
         return $count != 0;
     }
 
-    public function addUserAccess($userLogin, $access, $idSites)
+    public function addUserAccess($userLogin, $access, $idSites, $ignoreExisting = false)
     {
         $userLogins = is_array($userLogin) ? $userLogin : [$userLogin];
 
         $db = $this->getDb();
 
+        $insertSql = "INSERT " . ($ignoreExisting ? 'IGNORE ' : '') . 'INTO ' . Common::prefixTable("access") . ' (idsite, login, access) VALUES (?, ?, ?)';
         foreach ($userLogins as $login) {
             foreach ($idSites as $idsite) {
-                $db->insert(Common::prefixTable("access"),
-                    array("idsite" => $idsite,
-                        "login" => $login,
-                        "access" => $access)
-                );
+                $db->query($insertSql, [$idsite, $login, $access]);
             }
         }
     }
@@ -390,8 +399,10 @@ class Model
     {
         $filter = new UserTableFilter($access, $idSite, $pattern);
 
-        $joins = $filter->getJoins('u');
-        list($where, $bind) = $filter->getWhere();
+        list($joins, $bind) = $filter->getJoins('u');
+        list($where, $whereBind) = $filter->getWhere();
+
+        $bind = array_merge($bind, $whereBind);
 
         $sql = 'SELECT u.login FROM ' . $this->table . " u $joins $where";
 

@@ -92,6 +92,25 @@ class APITest extends IntegrationTestCase
         $this->assertEquals([], $this->api->getSitesAccessFromUser('userLogin4'));
     }
 
+    public function test_setUserAccess_ShouldOnlyAddAccess_IfIgnoreExistingSitesSet()
+    {
+        $this->api->addUser('userLogin2', 'password', 'userlogin2@password.de');
+
+        $this->api->setUserAccess('userLogin2', 'view', [1]);
+        $expected = [
+            ['site' => 1, 'access' => 'view'],
+        ];
+        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin2'));
+
+        $this->api->setUserAccess('userLogin2', 'admin', 'all', true);
+        $expected = [
+            ['site' => 1, 'access' => 'view'],
+            ['site' => 2, 'access' => 'admin'],
+            ['site' => 3, 'access' => 'admin'],
+        ];
+        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin2'));
+    }
+
     public function test_setUserAccessMatching_shouldSearchByTextCorrectly()
     {
         $this->addUserWithAccess('searchTextLogin', 'view', 1, 'someemail@email.com', 'alias');
@@ -449,9 +468,12 @@ class APITest extends IntegrationTestCase
 
         $access = $this->api->getSitesAccessForUser('userLogin');
         $expected = [
-            ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'admin'],
-            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
-            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
+            'total' => '3',
+            'results' => [
+                ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'admin'],
+                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
+                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
+            ],
         ];
         $this->assertEquals($expected, $access);
     }
@@ -464,8 +486,11 @@ class APITest extends IntegrationTestCase
 
         $access = $this->api->getSitesAccessForUser('userLogin', $limit = 2, $offset = 1);
         $expected = [
-            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
-            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
+            'total' => '3',
+            'results' => [
+                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
+                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
+            ],
         ];
         $this->assertEquals($expected, $access);
     }
@@ -485,9 +510,12 @@ class APITest extends IntegrationTestCase
 
         $access = $this->api->getSitesAccessForUser('userLogin', null, null, 'searchTerm');
         $expected = [
-            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
-            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
-            ['idsite' => '1', 'site_name' => 'searchTerm site', 'role' => 'admin'],
+            'total' => '3',
+            'results' => [
+                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
+                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
+                ['idsite' => '1', 'site_name' => 'searchTerm site', 'role' => 'admin'],
+            ],
         ];
         $this->assertEquals($expected, $access);
     }
@@ -500,8 +528,70 @@ class APITest extends IntegrationTestCase
 
         $access = $this->api->getSitesAccessForUser('userLogin', null, null, null, 'view');
         $expected = [
-            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
-            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
+            'total' => '2',
+            'results' => [
+                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
+                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
+            ],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_setSiteAccessMatching_shouldSetAllSitesIfNoFiltersUsed()
+    {
+        $this->api->setUserAccess('userLogin', 'view', [1]);
+        $this->api->setUserAccess('userLogin', 'view', [2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+
+        $this->api->setSiteAccessMatching('userLogin', 'admin');
+
+        $access = $this->api->getSitesAccessFromUser('userLogin');
+        $expected = [
+            ['site' => '1', 'access' => 'admin'],
+            ['site' => '2', 'access' => 'admin'],
+            ['site' => '3', 'access' => 'admin'],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_setSiteAccessMatching_shouldFilterBySiteNameCorrectly()
+    {
+        Fixture::createWebsite('2010-01-02 00:00:00');
+
+        $this->api->setUserAccess('userLogin', 'view', [1]);
+        $this->api->setUserAccess('userLogin', 'view', [2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+        $this->api->setUserAccess('userLogin', 'view', [4]);
+
+        SitesManagerAPI::getInstance()->updateSite(1, 'searchTerm site');
+        SitesManagerAPI::getInstance()->updateSite(2, null, ['http://searchTerm.com']);
+        SitesManagerAPI::getInstance()->updateSite(3, null, null, null, null, null, null, null, null, null, null, 'the searchTerm group');
+
+        $this->api->setSiteAccessMatching('userLogin', 'admin', 'searchTerm');
+
+        $access = $this->api->getSitesAccessFromUser('userLogin');
+        $expected = [
+            ['site' => '1', 'access' => 'admin'],
+            ['site' => '2', 'access' => 'admin'],
+            ['site' => '3', 'access' => 'admin'],
+            ['site' => '4', 'access' => 'view'],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_setSiteAccessMatching_shouldFilterByAccessCorrectly()
+    {
+        $this->api->setUserAccess('userLogin', 'admin', [1]);
+        $this->api->setUserAccess('userLogin', 'view', [2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+
+        $this->api->setSiteAccessMatching('userLogin', 'admin', null, 'view');
+
+        $access = $this->api->getSitesAccessFromUser('userLogin');
+        $expected = [
+            ['site' => '1', 'access' => 'admin'],
+            ['site' => '2', 'access' => 'admin'],
+            ['site' => '3', 'access' => 'admin']
         ];
         $this->assertEquals($expected, $access);
     }

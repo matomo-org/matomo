@@ -1,4 +1,4 @@
-<div class="userPermissionsEdit">
+<div class="userPermissionsEdit" ng-class="{ loading: $ctrl.isLoadingAccess }">
     <div class="row">
         <div class="input-field bulk-actions">
             <a
@@ -15,12 +15,12 @@
                     <a class='dropdown-trigger' data-activates="bulk-set-access" piwik-dropdown-menu>Set Access</a>
                     <ul id="bulk-set-access" class="dropdown-content">
                         <li ng-repeat="access in $ctrl.accessLevels">
-                            <a href="" ng-click="$ctrl.setAccessBulk(access.key)">{{ access.value }}</a>
+                            <a href="" ng-click="$ctrl.siteAccessToChange = null; $ctrl.roleToChangeTo = access.key; $ctrl.showChangeAccessConfirm();">{{ access.value }}</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="">Remove Access</a>
+                    <a href="" ng-click="$ctrl.siteAccessToChange = null; $ctrl.roleToChangeTo = 'noaccess'; $ctrl.showRemoveAccessConfirm();">Remove Access</a>
                 </li>
             </ul>
         </div>
@@ -29,7 +29,7 @@
     <div class="filters row">
         <div class=" col s12 m6">
             <div class="input-field site-filter">
-                <input type="text" placeholder="Site search" ng-model="$ctrl.siteNameFilter"/>
+                <input type="text" placeholder="Site search" ng-model="$ctrl.siteNameFilter" ng-change="$ctrl.fetchAccess()" />
             </div>
 
             <div class="input-field access-filter">
@@ -37,7 +37,6 @@
                     piwik-field
                     uicontrol="select"
                     ng-model="$ctrl.accessLevelFilter"
-                    ng-model-options="{debounce: 500}"
                     options="$ctrl.accessLevelFilterOptions"
                     full-width="true"
                     ng-change="$ctrl.fetchAccess()"
@@ -52,9 +51,9 @@
                     class="add-site-selector"
                     uicontrol="site"
                     ng-model="$ctrl.siteToAdd"
-                    ng-change="$ctrl.addAccessToSite($ctrl.siteToAdd.id)"
+                    ui-control-attributes="{showAllSitesItem: true}"
                 ></div>
-                <a class='btn'>Add Access</a>
+                <a class='btn' ng-click="$ctrl.roleToChangeTo = 'view'; $ctrl.siteAccessToChange = { idsite: $ctrl.siteToAdd.id }; $ctrl.addUserRole()">Add Access</a>
             </div>
         </div>
     </div>
@@ -69,7 +68,7 @@
                 </span>
             </th>
             <th>Name</th>
-            <th>Access</th>
+            <th>Role</th>
             <th class="actions-cell">Actions</th>
         </tr>
         </thead>
@@ -103,14 +102,14 @@
                     uicontrol="select"
                     ng-model="entry.role"
                     options="$ctrl.accessLevels"
-                    ng-change="$ctrl.onAccessChange(entry)"
+                    ng-change="$ctrl.previousRole = '{{ entry.role }}'; $ctrl.roleToChangeTo = entry.role; $ctrl.siteAccessToChange = entry; $ctrl.showChangeAccessConfirm();"
                 ></div>
             </td>
             <td class="center actions-cell">
                 <button
                     class="deleteaccess table-action"
                     title="Remove all access to this website"
-                    ng-click="$ctrl.onRemoveAllAccess(entry)"
+                    ng-click="$ctrl.roleToChangeTo = 'noaccess'; $ctrl.siteAccessToChange = entry; $ctrl.showRemoveAccessConfirm();"
                 >
                     <span class="icon-delete"></span>
                 </button>
@@ -122,7 +121,7 @@
     <div class="row" ng-if="$ctrl.totalEntries > $ctrl.limit">
         <div class="input-field col sites-for-permission-pagination s12">
             <a class="prev" disabled="disabled">
-                <span class="pointer">« Previous</span>
+                <span class="pointer" ng-click="$ctrl.gotoPreviousPage()">« Previous</span>
             </a>
 
             <span class="counter">
@@ -132,8 +131,30 @@
             </span>
 
             <a class="next">
-                <span class="pointer">Next »</span>
+                <span class="pointer" ng-click="$ctrl.gotoNextPage()">Next »</span>
             </a>
+        </div>
+    </div>
+
+    <div class="delete-access-confirm-modal modal">
+        <div class="modal-content">
+            <h3 ng-if="$ctrl.siteAccessToChange">Are you sure you want to remove <strong>{{ $ctrl.userLogin }}</strong>'s access to <strong>{{ $ctrl.siteAccessToChange.site_name }}</strong>?</h3>
+            <p ng-if="!$ctrl.siteAccessToChange">Are you sure you want to remove <strong>{{ $ctrl.userLogin }}</strong>'s access the <strong>{{ $ctrl.getAffectedSitesCount() }}</strong> selected websites?</p>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.changeUserRole()">Yes</a>
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.siteAccessToChange = null; $ctrl.roleToChangeTo = null;">No</a>
+        </div>
+    </div>
+
+    <div class="change-access-confirm-modal modal">
+        <div class="modal-content">
+            <h3 ng-if="$ctrl.siteAccessToChange">Are you sure you want to change <strong>{{ $ctrl.userLogin }}</strong>'s access to <strong>{{ $ctrl.siteAccessToChange.site_name }}</strong> to <strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong>?</h3>
+            <p ng-if="!$ctrl.siteAccessToChange">Are you sure you want to remove <strong>{{ $ctrl.userLogin }}</strong>'s access the <strong>{{ $ctrl.getAffectedSitesCount() }}</strong> selected websites to <strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong>?</p>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.changeUserRole()">Yes</a>
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.siteAccessToChange.role = $ctrl.previousRole; $ctrl.siteAccessToChange = null; $ctrl.roleToChangeTo = null;">No</a>
         </div>
     </div>
 </div>

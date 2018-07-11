@@ -97,7 +97,7 @@
             if (!vm.isAllCheckboxSelected) {
                 clearSelection();
             } else {
-                for (var i = 0; i !== vm.limit; ++i) {
+                for (var i = 0; i !== vm.users.length; ++i) {
                     vm.selectedRows[i] = true;
                 }
                 vm.isBulkActionsDisabled = false;
@@ -109,6 +109,7 @@
             vm.areAllResultsSelected = false;
             vm.isBulkActionsDisabled = true;
             vm.isAllCheckboxSelected = false;
+            vm.userToChange = null;
         }
 
         function fetchUsers() {
@@ -295,7 +296,7 @@
         }
 
         function showDeleteConfirm() {
-            $element.find('.delete-user-confirm-modal').openModal();
+            $element.find('.change-user-role-confirm-modal').openModal();
         }
 
         function getRoleDisplay(role) {

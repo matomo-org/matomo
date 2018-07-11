@@ -19,9 +19,9 @@
         controller: UserPermissionsEditController
     });
 
-    UserPermissionsEditController.$inject = ['piwikApi'];
+    UserPermissionsEditController.$inject = ['piwikApi', '$element'];
 
-    function UserPermissionsEditController(piwikApi) {
+    function UserPermissionsEditController(piwikApi, $element) {
         var vm = this;
 
         // TODO: code redundancy w/ paged-users-list
@@ -49,29 +49,43 @@
         vm.selectedRows = {};
         vm.isBulkActionsDisabled = true;
         vm.areAllResultsSelected = false;
+        vm.previousRole = null;
 
+        // intermediate state
+        vm.roleToChangeTo = null;
+        vm.siteAccessToChange = null;
+        // TODO: need to display in site selector only sites user has admin access to.
         // TODO: how to know which site is the first this user doesn't have access to?
         vm.siteToAdd = {
-            id: 1,
-            siteName: 'TODO'
+            id: null,
+            name: ''
         };
 
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
-        vm.onAccessChange = onAccessChange;
-        vm.onRemoveAllAccess = onRemoveAllAccess;
         vm.onAllCheckboxChange = onAllCheckboxChange;
-        vm.setAccessBulk = setAccessBulk;
         vm.onRowSelected = onRowSelected;
         vm.getPaginationUpperBound = getPaginationUpperBound;
-        vm.addAccessToSite = addAccessToSite;
+        vm.fetchAccess = fetchAccess;
+        vm.gotoPreviousPage = gotoPreviousPage;
+        vm.gotoNextPage = gotoNextPage;
+        vm.showRemoveAccessConfirm = showRemoveAccessConfirm;
+        vm.getSelectedRowsCount = getSelectedRowsCount;
+        vm.getAffectedSitesCount = getAffectedSitesCount;
+        vm.changeUserRole = changeUserRole;
+        vm.showChangeAccessConfirm = showChangeAccessConfirm;
+        vm.getRoleDisplay = getRoleDisplay;
+        vm.addUserRole = addUserRole;
 
         function $onInit() {
             vm.limit = vm.limit || 10;
+            fetchAccess();
         }
 
         function $onChanges() {
-            fetchAccess();
+            if (vm.limit) {
+                fetchAccess();
+            }
         }
 
         function fetchAccess() {
@@ -87,50 +101,37 @@
                 vm.isLoadingAccess = false;
                 vm.siteAccess = response.results;
                 vm.totalEntries = response.total;
+
+                clearSelection();
             }).catch(function () {
                 vm.isLoadingAccess = false;
+
+                clearSelection();
             });
         }
 
-        function onAccessChange(entry) {
-            alert('access change');
-            // TODO
-        }
-
-        function onRemoveAllAccess(entry) {
-            alert('remove all access');
-            // TODO
+        function clearSelection() {
+            vm.selectedRows = {};
+            vm.areAllResultsSelected = false;
+            vm.isBulkActionsDisabled = true;
+            vm.isAllCheckboxSelected = false;
+            vm.siteAccessToChange = null;
         }
 
         function onAllCheckboxChange() {
             if (!vm.isAllCheckboxSelected) {
-                vm.selectedRows = {};
-                vm.areAllResultsSelected = false;
-                vm.isBulkActionsDisabled = true;
+                clearSelection();
             } else {
-                for (var i = 0; i !== vm.limit; ++i) {
+                for (var i = 0; i !== vm.siteAccess.length; ++i) {
                     vm.selectedRows[i] = true;
                 }
                 vm.isBulkActionsDisabled = false;
             }
         }
 
-        function setAccessBulk(access) {
-            alert('set access ' + access);
-            // TODO
-        }
-
         function onRowSelected() {
-            vm.isBulkActionsDisabled = true;
-
-            var selectedRowKeyCount = 0;
-            Object.keys(vm.selectedRows).forEach(function (key) {
-                if (vm.selectedRows[key]) {
-                    ++selectedRowKeyCount;
-                    vm.isBulkActionsDisabled = false;
-                }
-            });
-
+            var selectedRowKeyCount = getSelectedRowsCount();
+            vm.isBulkActionsDisabled = selectedRowKeyCount === 0;
             vm.isAllCheckboxSelected = selectedRowKeyCount === vm.siteAccess.length;
         }
 
@@ -138,9 +139,125 @@
             return Math.min(vm.offset + vm.limit, vm.totalEntries);
         }
 
-        function addAccessToSite(idSite) {
-            alert('add access ' + idSite);
-            // TODO
+        function addUserRole() {
+            vm.isLoadingAccess = true;
+            piwikApi.post({
+                method: 'UsersManager.setUserAccess',
+                userLogin: vm.userLogin,
+                access: vm.roleToChangeTo,
+                idSites: vm.siteAccessToChange.idsite,
+                ignoreExisting: 1
+            }).catch(function () {
+                // ignore (errors will still be displayed to the user)
+            }).then(function () {
+                return fetchAccess();
+            });
+        }
+
+        function changeUserRole() {
+            vm.isLoadingAccess = true;
+
+            var apiPromise;
+            if (vm.siteAccessToChange) {
+                apiPromise = piwikApi.post({
+                    method: 'UsersManager.setUserAccess',
+                    userLogin: vm.userLogin,
+                    access: vm.roleToChangeTo,
+                    idSites: vm.siteAccessToChange.idsite
+                });
+            } else {
+                apiPromise = bulkChangeUserRole();
+            }
+
+            apiPromise.catch(function () {
+                // ignore (errors will still be displayed to the user)
+            }).then(function () {
+                return fetchAccess();
+            });
+        }
+
+        function bulkChangeUserRole() {
+            if (vm.areAllResultsSelected) {
+                return piwikApi.post({
+                    method: 'UsersManager.setSiteAccessMatching',
+                    userLogin: vm.userLogin,
+                    access: vm.roleToChangeTo,
+                    filter_search: vm.siteNameFilter,
+                    filter_access: vm.accessLevelFilter,
+                });
+            } else {
+                var idSites = getSelectedSites();
+                return piwikApi.post({
+                    method: 'UsersManager.setUserAccess',
+                    userLogin: vm.userLogin,
+                    access: vm.roleToChangeTo,
+                    'idSites[]': idSites
+                });
+            }
+        }
+
+        function getSelectedSites() {
+            var result = [];
+            Object.keys(vm.selectedRows).forEach(function (index) {
+                if (vm.selectedRows[index]
+                    && vm.siteAccess[index] // safety check
+                ) {
+                    result.push(vm.siteAccess[index].idsite);
+                }
+            });
+            return result;
+        }
+
+        function gotoPreviousPage() {
+            vm.offset = Math.max(0, vm.offset - vm.limit);
+
+            fetchAccess();
+        }
+
+        function gotoNextPage() {
+            var newOffset = vm.offset + vm.limit;
+            if (newOffset >= vm.totalEntries) {
+                return;
+            }
+
+            vm.offset = newOffset;
+            fetchAccess();
+        }
+
+        function showRemoveAccessConfirm() {
+            $element.find('.delete-access-confirm-modal').openModal();
+        }
+
+        function showChangeAccessConfirm() {
+            $element.find('.change-access-confirm-modal').openModal();
+        }
+
+        function getSelectedRowsCount() {
+            var selectedRowKeyCount = 0;
+            Object.keys(vm.selectedRows).forEach(function (key) {
+                if (vm.selectedRows[key]) {
+                    ++selectedRowKeyCount;
+                }
+            });
+            return selectedRowKeyCount;
+        }
+
+        function getAffectedSitesCount() {
+            if (vm.areAllResultsSelected) {
+                return vm.totalEntries;
+            }
+
+            return getSelectedRowsCount();
+        }
+
+        function getRoleDisplay(role) {
+            var result = null;
+            vm.accessLevels.forEach(function (entry) {
+                if (entry.key === role) {
+                    result = entry.value;
+                }
+            });
+            return result;
         }
     }
 

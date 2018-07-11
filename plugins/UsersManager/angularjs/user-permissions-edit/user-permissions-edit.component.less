@@ -1,4 +1,10 @@
 .userPermissionsEdit {
+  &.loading {
+    .sites-for-permission-pagination, table {
+      opacity: .5;
+    }
+  }
+
   .permission-select .select-wrapper {
     display: inline-block;
     transform: scale(.8);
@@ -33,6 +39,7 @@
 
       .siteSelector {
         position: static !important;
+        margin-top: 1px;
       }
     }
   }
@@ -135,5 +142,13 @@
 
   .actions-cell {
     width: 96px;
+  }
+
+  .delete-access-confirm-modal, .change-access-confirm-modal {
+    .modal-no {
+      float: right;
+      margin-right: 1em;
+      margin-top: 1em;
+    }
   }
 }
