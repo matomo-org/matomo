@@ -2,16 +2,6 @@ piwik-paged-users-list {
   display: block;
   position: relative;
 
-  .pagedUsersList.loading {
-    table {
-      opacity: 0.5;
-    }
-
-    a, input, select, button, label {
-      pointer-events: none;
-    }
-  }
-
   [piwik-siteselector] {
     display: inline-block;
     margin-left: .3rem;
@@ -116,12 +106,6 @@ piwik-paged-users-list {
       margin-left: -0.75rem;
       margin-right: -0.75rem;
     }
-
-    span.counter {
-      display: inline-block;
-      line-height: 36px;
-      vertical-align: bottom;
-    }
   }
 
   .usersListPagination {
@@ -136,7 +120,10 @@ piwik-paged-users-list {
       cursor: pointer;
     }
 
-    span.counter {
+    div.counter {
+      display: inline-block;
+      line-height: 36px;
+      vertical-align: bottom;
       flex: 1;
       text-align: center;
     }
@@ -152,6 +139,35 @@ piwik-paged-users-list {
       float: right;
       margin-right: 1em;
       margin-top: 1em;
+    }
+  }
+
+
+  .pagedUsersList.loading {
+    table {
+      opacity: 0.5;
+    }
+
+    a, input, select, button, label {
+      pointer-events: none;
+    }
+
+    div.counter {
+      position: relative;
+      > span {
+        opacity: 0;
+      }
+    }
+
+    div[piwik-activity-indicator] {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      span {
+        display: none;
+      }
     }
   }
 }

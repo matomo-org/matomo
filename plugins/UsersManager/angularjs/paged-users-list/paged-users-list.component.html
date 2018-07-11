@@ -72,11 +72,13 @@
                     <span class="pointer">« Previous</span>
                 </a>
 
-                <span class="counter">
+                <div class="counter">
                     <span>
                             {{ $ctrl.offset }} - {{ $ctrl.getPaginationUpperBound() }} of {{ $ctrl.totalEntries }}
                     </span>
-                </span>
+                    <div piwik-activity-indicator ng-if="$ctrl.isLoadingUsers" loading="$ctrl.isLoadingUsers"></div>
+                </div>
+
                 <a class="btn next" ng-class="{ disabled: $ctrl.offset + $ctrl.limit >= $ctrl.totalEntries }" ng-click="$ctrl.gotoNextPage()">
                     <span class="pointer">Next »</span>
                 </a>
