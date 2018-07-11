@@ -118,6 +118,17 @@ class Access
         );
     }
 
+    public function checkAccessType($access)
+    {
+        $roles = $this->roleProvider->getAllRoleIds();
+        $capabilities = $this->capabilityProvider->getAllCapabilityIds();
+        $list = array_merge($roles, $capabilities);
+
+        if (!in_array($access, $list, true)) {
+            throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", implode(", ", $list)));
+        }
+    }
+
     /**
      * Loads the access levels for the current user.
      *
@@ -535,30 +546,9 @@ class Access
                 throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idsite)));
             }
         }
-    }
 
-    public function isUserHasCapability($idSites, $capability)
-    {
-        if ($this->hasSuperUserAccess()) {
-            return true;
-        }
-
-        $idSites = $this->getIdSites($idSites);
-        $idSitesAccessible = $this->getSitesIdWithCapability($capability);
-
-        foreach ($idSites as $idsite) {
-            if (!in_array($idsite, $idSitesAccessible, true)) {
-                return false;
-            }
-        }
-
-        try {
-            // we also require at least view access so far
-            $this->checkUserHasViewAccess($idSites);
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
+        // a capability applies only when the user also has at least view access
+        $this->checkUserHasViewAccess($idSites);
     }
 
     /**

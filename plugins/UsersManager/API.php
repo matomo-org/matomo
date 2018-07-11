@@ -750,7 +750,8 @@ class API extends \Piwik\Plugin\API
      * If access = 'view' or 'admin' the current access level is deleted and updated with the new value.
      *
      * @param string $userLogin The user login
-     * @param string $access Access to grant. Must have one of the following value : noaccess, view, admin
+     * @param string|array $access Access to grant. Must have one of the following value : noaccess, view, write, admin.
+     *                              May also be an array to sent additional capabilities
      * @param int|array $idSites The array of idSites on which to apply the access level for the user.
      *       If the value is "all" then we apply the access level to all the websites ID for which the current authentificated user has an 'admin' access.
      *
@@ -760,21 +761,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setUserAccess($userLogin, $access, $idSites)
     {
-        // in case idSites is all we grant access to all the websites on which the current connected user has an 'admin' access
-        if ($idSites === 'all') {
-            $idSites = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAdminAccess();
-        } // in case the idSites is an integer we build an array
-        else {
-            $idSites = Site::getIdSitesFromIdSitesString($idSites);
-        }
-
-        if (empty($idSites)) {
-            throw new Exception('Specify at least one website ID in &idSites=');
-        }
-
-        // it is possible to set user access on websites only for the websites admin
-        // basically an admin can give the view or the admin access to any user for the websites they manage
-        Piwik::checkUserHasAdminAccess($idSites);
+        $idSites = $this->getIdSitesCheckAdminAccess($idSites);
 
         if ($userLogin === 'anonymous' &&
             (is_array($access) || !in_array($access, array('view', 'noaccess'), true))) {
@@ -807,7 +794,6 @@ class API extends \Piwik\Plugin\API
         if (count($roles) !== 1) {
             throw new Exception('Only one role can be set but multiple or no roles have been set: ' . implode(', ', $setRoles));
         }
-        $role = array_shift($roles);
 
         $this->checkUserExists($userLogin);
         $this->checkUserHasNotSuperUserAccess($userLogin);
@@ -817,23 +803,80 @@ class API extends \Piwik\Plugin\API
         if ($access === 'noaccess') {
             // if the access is noaccess then we don't save it as this is the default value
             // when no access are specified
-            if (!empty($idSites) && !is_array($idSites)) {
-                $idSites = array($idSites);
-            }
-
             Piwik::postEvent('UsersManager.removeSiteAccess', array($userLogin, $idSites));
         } else {
+            $role = array_shift($roles);
             $this->model->addUserAccess($userLogin, $role, $idSites);
         }
 
         $this->addCapabilities($userLogin, $capabilities, $idSites);
 
         // we reload the access list which doesn't yet take in consideration this new user access
+        $this->reloadPermissions();
+    }
+
+    public function addCapabilities($userLogin, $capabilities, $idSites)
+    {
+        $idSites = $this->getIdSitesCheckAdminAccess($idSites);
+
+        if ($userLogin == 'anonymous') {
+            // todo adjust message
+            throw new Exception(Piwik::translate("UsersManager_ExceptionAdminAnonymous"));
+        }
+
+        $this->checkUserExists($userLogin);
+        $this->checkUserHasNotSuperUserAccess($userLogin);
+
+        if (!is_array($capabilities)){
+            $capabilities = array($capabilities);
+        }
+
+        $sites = Access::getInstance()->getRawSitesWithSomeViewAccess($userLogin);
+        $roleIds = $this->roleProvider->getAllRoleIds();
+
+        $sitesIdWithRole = array();
+        foreach ($sites as $site) {
+            if (in_array($site['access'], $roleIds, true)) {
+                $sitesIdWithRole[(int) $site['idsite']] = $site['access'];
+            }
+        }
+
+        foreach ($capabilities as $entry) {
+            $this->capabilityProvider->checkValidCapability($entry);
+        }
+
+        foreach ($capabilities as $entry) {
+            foreach ($idSites as $idSite) {
+
+                // so far we are adding the capability only to people that also have a role...
+                // to be defined how to handle this... eg we are not throwing an exception currently
+                // as it might be used as part of bulk action etc.
+                if (array_key_exists($idSite, $sitesIdWithRole)) {
+
+                    $theRole = $sitesIdWithRole[$idSite];
+                    $cap = $this->capabilityProvider->getCapability($theRole);
+                    if ($cap->hasRoleCapability($theRole)) {
+                        // todo this behaviour needs to be defined...
+                        // when the role already supports this capability we do not add it again
+                        continue;
+                    }
+                    $this->model->addUserAccess($userLogin, $entry, array($idSite));
+                }
+            }
+
+        }
+
+        // we reload the access list which doesn't yet take in consideration this new user access
+        $this->reloadPermissions();
+    }
+
+    private function reloadPermissions()
+    {
         Access::getInstance()->reloadAccess();
         Cache::deleteTrackerCache();
     }
 
-    public function addCapabilities($userLogin, $capabilities, $idSites)
+    private function getIdSitesCheckAdminAccess($idSites)
     {
         // in case idSites is all we grant access to all the websites on which the current connected user has an 'admin' access
         if ($idSites === 'all') {
@@ -851,31 +894,33 @@ class API extends \Piwik\Plugin\API
         // basically an admin can give the view or the admin access to any user for the websites they manage
         Piwik::checkUserHasAdminAccess($idSites);
 
-        if ($userLogin == 'anonymous') {
-            // todo adjust message
-            throw new Exception(Piwik::translate("UsersManager_ExceptionAdminAnonymous"));
+        if (!is_array($idSites)) {
+            $idSites = array($idSites);
         }
+
+        return $idSites;
+    }
+
+    public function removeCapabilities($userLogin, $capabilities, $idSites)
+    {
+        $idSites = $this->getIdSitesCheckAdminAccess($idSites);
 
         if (!is_array($capabilities)){
             $capabilities = array($capabilities);
         }
 
-        foreach ($capabilities as $entry) {
-            $this->capabilityProvider->checkValidCapability($entry);
+        foreach ($capabilities as $capability) {
+            $this->capabilityProvider->checkValidCapability($capability);
         }
 
         $this->checkUserExists($userLogin);
-        $this->checkUserHasNotSuperUserAccess($userLogin);
 
-        // todo: check user has at least one role!
-
-        foreach ($capabilities as $entry) {
-            $this->model->addUserAccess($userLogin, $entry, $idSites);
+        foreach ($capabilities as $capability) {
+            $this->model->removeUserAccess($userLogin, $capability, $idSites);
         }
 
-        // we reload the access list which doesn't yet take in consideration this new user access
-        Access::getInstance()->reloadAccess();
-        Cache::deleteTrackerCache();
+        // we reload the access list which doesn't yet take in consideration this removed capability
+        $this->reloadPermissions();
     }
 
     /**

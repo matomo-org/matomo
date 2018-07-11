@@ -440,7 +440,12 @@ class Piwik
      */
     public static function isUserHasCapability($idSites, $capability)
     {
-        return Access::getInstance()->isUserHasCapability($idSites, $capability);
+        try {
+            self::checkUserHasCapability($idSites, $capability);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

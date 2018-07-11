@@ -64,6 +64,20 @@ class CapabilitiesProvider
         return $capabilities;
     }
 
+    /**
+     * @param $capabilityId
+     * @return Capability|null
+     */
+    public function getCapability($capabilityId)
+    {
+        $ids = array();
+        foreach ($this->getAllCapabilities() as $capability) {
+            if ($capabilityId === $capability->getId()) {
+                return $capability;
+            }
+        }
+    }
+
     public function getAllCapabilityIds()
     {
         $ids = array();

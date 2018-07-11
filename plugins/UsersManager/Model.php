@@ -291,6 +291,16 @@ class Model
         }
     }
 
+    public function removeUserAccess($userLogin, $access, $idSites)
+    {
+        $db = $this->getDb();
+
+        foreach ($idSites as $idsite) {
+            $bind = array($userLogin, $idsite, $access);
+            $db->query("DELETE FROM " . $this->table . " WHERE login = ? and idsite = ? and access = ?", $bind);
+        }
+    }
+
     public function deleteUserOnly($userLogin)
     {
         $db = $this->getDb();
