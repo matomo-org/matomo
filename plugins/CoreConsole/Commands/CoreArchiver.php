@@ -49,6 +49,7 @@ class CoreArchiver extends ConsoleCommand
 
         $archiver->dateLastForced = $input->getOption('force-date-last-n');
         $archiver->concurrentRequestsPerWebsite = $input->getOption('concurrent-requests-per-website');
+        $archiver->maxConcurrentArchivers = $input->getOption('concurrent-archivers');
 
         $archiver->disableSegmentsArchiving = $input->getOption('skip-all-segments');
 
@@ -112,6 +113,8 @@ class CoreArchiver extends ConsoleCommand
             . "\nNote: if identical segments exist w/ different IDs, they will both be skipped, even if you only supply one ID.");
         $command->addOption('concurrent-requests-per-website', null, InputOption::VALUE_OPTIONAL,
             "When processing a website and its segments, number of requests to process in parallel", CronArchive::MAX_CONCURRENT_API_REQUESTS);
+        $command->addOption('concurrent-archivers', null, InputOption::VALUE_OPTIONAL,
+            "The number of max archivers to run in parallel", false);
         $command->addOption('disable-scheduled-tasks', null, InputOption::VALUE_NONE,
             "Skips executing Scheduled tasks (sending scheduled reports, db optimization, etc.).");
         $command->addOption('accept-invalid-ssl-certificate', null, InputOption::VALUE_NONE,
