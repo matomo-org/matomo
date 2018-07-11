@@ -3591,6 +3591,8 @@ if (typeof window.Piwik !== 'object') {
 
                         xhr.setRequestHeader('Content-Type', configRequestContentType);
 
+                        xhr.withCredentials = true;
+
                         xhr.send(request);
                     } catch (e) {
                         sentViaBeacon = isPageUnloading && sendPostRequestViaSendBeacon(request);
