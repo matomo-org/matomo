@@ -240,6 +240,15 @@ class Process
         return strpos($type, 'proc') === 0;
     }
 
+    public static function getListOfRunningProcesses()
+    {
+        $processes = `ps ex 2>/dev/null`;
+        if (empty($processes)) {
+            return array();
+        }
+        return explode("\n", $processes);
+    }
+
     /**
      * @return int[] The ids of the currently running processes
      */
