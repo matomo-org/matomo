@@ -15,14 +15,19 @@ class PublishLiveContainer extends Capability
 {
     const ID = 'tagmanager_publish_live_container';
 
-    public function getName()
-    {
-        return 'Tag Manager Publish Live Container';
-    }
-
     public function getId()
     {
         return self::ID;
+    }
+
+    public function getCategory()
+    {
+        return 'Tag Manager';
+    }
+
+    public function getName()
+    {
+        return 'Publish Live Container';
     }
 
     public function getDescription()

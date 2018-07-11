@@ -15,14 +15,19 @@ class UseCustomTemplates extends Capability
 {
     const ID = 'tagmanager_use_custom_templates';
 
-    public function getName()
-    {
-        return 'Tag Manager Use Custom Templates';
-    }
-
     public function getId()
     {
         return self::ID;
+    }
+
+    public function getCategory()
+    {
+        return 'Tag Manager';
+    }
+
+    public function getName()
+    {
+        return 'Use Custom Templates';
     }
 
     public function getDescription()

@@ -16,14 +16,19 @@ class TagManagerWrite extends Capability
 {
     const ID = 'tagmanager_write';
 
-    public function getName()
-    {
-        return 'Tag Manager Write';
-    }
-
     public function getId()
     {
         return self::ID;
+    }
+
+    public function getCategory()
+    {
+        return 'Tag Manager';
+    }
+
+    public function getName()
+    {
+        return 'Write';
     }
 
     public function getDescription()

@@ -10,8 +10,9 @@ namespace Piwik\Access;
 
 abstract class Capability
 {
-    abstract public function getName();
     abstract public function getId();
+    abstract public function getName();
+    abstract public function getCategory();
     abstract public function getDescription();
     abstract public function getIncludedInRoles();
 
