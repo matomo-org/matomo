@@ -226,5 +226,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "UsersManager_UserHasPermission";
         $translationKeys[] = "UsersManager_UserHasNoPermission";
         $translationKeys[] = "UsersManager_PrivNone";
+        $translationKeys[] = 'Mobile_NavigationBack';
     }
 }
