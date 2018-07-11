@@ -12,7 +12,9 @@ use Piwik\Access\Capability\PublishLiveContainer;
 use Piwik\Access\Capability\TagManagerWrite;
 use Piwik\Access\Capability\UseCustomTemplates;
 use Exception;
+use Piwik\CacheId;
 use Piwik\Piwik;
+use Piwik\Cache as PiwikCache;
 
 class CapabilitiesProvider
 {
@@ -21,47 +23,55 @@ class CapabilitiesProvider
      */
     public function getAllCapabilities()
     {
-        $capabilities = array();
+        $cacheId = CacheId::siteAware(CacheId::languageAware('Capabilities'));
+        $cache   = PiwikCache::getTransientCache();
 
-        /**
-         * Triggered to add new capabilities.
-         *
-         * **Example**
-         *
-         *     public function addCapabilities(&$capabilities)
-         *     {
-         *         $capabilities[] = new MyNewCapabilitiy();
-         *     }
-         *
-         * @param Capability[] $reports An array of reports
-         */
-        Piwik::postEvent('Access.Capability.addCapabilities', array(&$capabilities));
+        if (!$cache->contains($cacheId)) {
+            $capabilities = array();
 
-        $capabilities[] = new TagManagerWrite();
-        $capabilities[] = new PublishLiveContainer();
-        $capabilities[] = new UseCustomTemplates();
+            /**
+             * Triggered to add new capabilities.
+             *
+             * **Example**
+             *
+             *     public function addCapabilities(&$capabilities)
+             *     {
+             *         $capabilities[] = new MyNewCapabilitiy();
+             *     }
+             *
+             * @param Capability[] $reports An array of reports
+             */
+            Piwik::postEvent('Access.Capability.addCapabilities', array(&$capabilities));
 
-        /**
-         * Triggered to filter / restrict capabilities.
-         *
-         * **Example**
-         *
-         *     public function filterCapabilities(&$capabilities)
-         *     {
-         *         foreach ($capabilities as $index => $capability) {
-         *              if ($capability->getId() === 'tagmanager_write') {}
-         *                  unset($capabilities[$index]); // remove the given capability
-         *              }
-         *         }
-         *     }
-         *
-         * @param Capability[] $reports An array of reports
-         */
-        Piwik::postEvent('Access.Capability.filterCapabilities', array(&$capabilities));
+            $capabilities[] = new TagManagerWrite();
+            $capabilities[] = new PublishLiveContainer();
+            $capabilities[] = new UseCustomTemplates();
 
-        $capabilities = array_values($capabilities);
+            /**
+             * Triggered to filter / restrict capabilities.
+             *
+             * **Example**
+             *
+             *     public function filterCapabilities(&$capabilities)
+             *     {
+             *         foreach ($capabilities as $index => $capability) {
+             *              if ($capability->getId() === 'tagmanager_write') {}
+             *                  unset($capabilities[$index]); // remove the given capability
+             *              }
+             *         }
+             *     }
+             *
+             * @param Capability[] $reports An array of reports
+             */
+            Piwik::postEvent('Access.Capability.filterCapabilities', array(&$capabilities));
 
-        return $capabilities;
+            $capabilities = array_values($capabilities);
+
+            $cache->save($cacheId, $capabilities);
+            return $capabilities;
+        }
+
+        return $cache->fetch($cacheId);
     }
 
     /**
