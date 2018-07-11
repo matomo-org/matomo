@@ -225,11 +225,11 @@
         }
 
         function showRemoveAccessConfirm() {
-            $element.find('.delete-access-confirm-modal').openModal();
+            $element.find('.delete-access-confirm-modal').openModal({ dismissible: false });
         }
 
         function showChangeAccessConfirm() {
-            $element.find('.change-access-confirm-modal').openModal();
+            $element.find('.change-access-confirm-modal').openModal({ dismissible: false });
         }
 
         function getSelectedRowsCount() {

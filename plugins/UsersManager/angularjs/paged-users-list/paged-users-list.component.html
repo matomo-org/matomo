@@ -138,11 +138,12 @@
                     <td id="userLogin">{{:: user.login }}</td>
                     <td class="access-cell">
                         <div
-                                piwik-field
-                                uicontrol="select"
-                                ng-model="user.role"
-                                options="$ctrl.accessLevels"
-                                ng-change="$ctrl.userToChange = user; $ctrl.roleToChangeTo = user.role; $ctrl.previousRole = '{{ user.role }}'; $ctrl.showAccessChangeConfirm();"
+                            piwik-field
+                            uicontrol="select"
+                            ng-model="user.role"
+                            options="$ctrl.accessLevels"
+                            ng-change="$ctrl.userToChange = user; $ctrl.roleToChangeTo = user.role; $ctrl.previousRole = '{{ user.role }}'; $ctrl.showAccessChangeConfirm();"
+                            disabled="user.role == 'superuser'"
                         ></div>
                     </td>
                     <td id="email">{{:: user.email }}</td>

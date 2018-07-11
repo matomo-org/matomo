@@ -61,11 +61,20 @@
         }
 
         function confirmSuperUserChange() {
-            $element.find('.superuser-confirm-modal').openModal();
+            $element.find('.superuser-confirm-modal').openModal({ dismissible: false });
         }
 
         function toggleSuperuserAccess() {
-            alert('toggle superuser access'); // TODO
+            vm.isSavingUserInfo = true;
+            piwikApi.post({
+                method: 'UsersManager.setSuperUserAccess',
+                userLogin: vm.user.login,
+                hasSuperUserAccess: vm.user.superuser_access ? '1' : '0'
+            }).catch(function () {
+                // ignore error (still displayed to user)
+            }).then(function () {
+                vm.isSavingUserInfo = false;
+            });
         }
 
         function saveUserInfo() {

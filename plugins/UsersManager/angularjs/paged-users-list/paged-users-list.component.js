@@ -179,7 +179,7 @@
         }
 
         function showAccessChangeConfirm() {
-            $element.find('.change-user-role-confirm-modal').openModal();
+            $element.find('.change-user-role-confirm-modal').openModal({ dismissible: false });
         }
 
         function getAffectedUsersCount() {
@@ -296,7 +296,7 @@
         }
 
         function showDeleteConfirm() {
-            $element.find('.change-user-role-confirm-modal').openModal();
+            $element.find('.change-user-role-confirm-modal').openModal({ dismissible: false });
         }
 
         function getRoleDisplay(role) {

@@ -99,12 +99,13 @@
                 <p><strong>Please use this feature carefully.</strong></p>
 
                 <div
-                        piwik-field
-                        uicontrol="checkbox"
-                        name="superuser_access"
-                        ng-model="$ctrl.user.superuser_access"
-                        title="Has Superuser Access"
-                        ng-click="$ctrl.confirmSuperUserChange()"
+                    piwik-field
+                    uicontrol="checkbox"
+                    name="superuser_access"
+                    ng-model="$ctrl.user.superuser_access"
+                    title="Has Superuser Access"
+                    ng-click="$ctrl.confirmSuperUserChange()"
+                    disabled="$ctrl.isSavingUserInfo"
                 >
                 </div>
 
@@ -112,7 +113,7 @@
                     <div class="modal-content">
                         <h2>Are you sure?</h2>
                         <p ng-if="!$ctrl.user.superuser_access">
-                            Removing superuser access will restore the per-website permissions the user previously had. Do you wish to continue?
+                            Removing superuser access will leave the user with no permissions (you will have to add them afterwards). Do you wish to continue?
                         </p>
                         <p ng-if="$ctrl.user.superuser_access">
                             Giving a user superuser access will allow the user to have full control over Matomo and should be done sparingly. Do you wish to continue?
