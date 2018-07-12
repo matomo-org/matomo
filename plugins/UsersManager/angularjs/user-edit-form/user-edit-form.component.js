@@ -50,10 +50,6 @@
             if (!vm.isAdd) {
                 vm.user.password = 'XXXXXXXX'; // make sure password is not stored in the client after update/save
             }
-
-            if (vm.currentUserRole !== 'superuser') {
-                vm.activeTab = 'permissions';
-            }
         }
 
         function getFormTitle() {
@@ -96,18 +92,11 @@
                 userLogin: vm.user.login,
                 password: vm.user.password,
                 email: vm.user.email,
-                alias: vm.user.alias
-            }).then(function () {
-                if (vm.firstSiteAccess) {
-                    return piwikApi.post({
-                        method: 'UsersManager.setUserAccess',
-                        userLogin: vm.user.login,
-                        access: 'view',
-                        idSites: vm.firstSiteAccess.id
-                    });
-                }
-            }).catch(function () {
-                // ignore (error is still displayed to user)
+                alias: vm.user.alias,
+                initialIdSite: vm.firstSiteAccess ? vm.firstSiteAccess.id : undefined
+            }).catch(function (e) {
+                vm.isSavingUserInfo = false;
+                throw e;
             }).then(function () {
                 vm.firstSiteAccess = null;
                 vm.isSavingUserInfo = false;
@@ -125,8 +114,9 @@
                 password: vm.isPasswordChanged ? vm.user.password : undefined,
                 email: vm.user.email,
                 alias: vm.user.alias
-            }).catch(function () {
-                // ignore (error is still displayed to user)
+            }).catch(function (e) {
+                vm.isSavingUserInfo = false;
+                throw e;
             }).then(function () {
                 vm.isSavingUserInfo = false;
                 vm.isPasswordChanged = false;

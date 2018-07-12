@@ -80,6 +80,7 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "When users are not logged in and visit Matomo, they should access",
         "YourUsernameCannotBeChanged": "Your username cannot be changed.",
         "YourVisitsAreIgnoredOnDomain": "%1$sYour visits are ignored by Matomo on %2$s %3$s (the Matomo ignore cookie was found in your browser).",
-        "YourVisitsAreNotIgnored": "%1$sYour visits are not ignored by Matomo%2$s (the Matomo ignore cookie was not found in your browser)."
+        "YourVisitsAreNotIgnored": "%1$sYour visits are not ignored by Matomo%2$s (the Matomo ignore cookie was not found in your browser).",
+        "AddUserNoInitialAccessError": "New users must be given access to a website, please set the 'initialIdSite' parameter."
     }
 }

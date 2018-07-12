@@ -257,6 +257,7 @@
         }
 
         function showChangeAccessConfirm() {
+            console.log('here', $element.find('.change-access-confirm-modal')[0]);
             $element.find('.change-access-confirm-modal').openModal({ dismissible: false });
         }
 

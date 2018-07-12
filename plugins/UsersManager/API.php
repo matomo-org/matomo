@@ -567,9 +567,17 @@ class API extends \Piwik\Plugin\API
      *
      * @exception in case of an invalid parameter
      */
-    public function addUser($userLogin, $password, $email, $alias = false, $_isPasswordHashed = false)
+    public function addUser($userLogin, $password, $email, $alias = false, $_isPasswordHashed = false, $initialIdSite = null)
     {
-        Piwik::checkUserHasSuperUserAccess();
+        Piwik::checkUserHasSomeAdminAccess();
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            if (empty($initialIdSite)) {
+                throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
+            }
+
+            Piwik::checkUserHasAdminAccess($initialIdSite);
+        }
 
         $this->checkLogin($userLogin);
         $this->checkEmail($email);
@@ -600,6 +608,10 @@ class API extends \Piwik\Plugin\API
          * @param string $userLogin The new user's login handle.
          */
         Piwik::postEvent('UsersManager.addUser.end', array($userLogin, $email, $password, $alias));
+
+        if ($initialIdSite) {
+            $this->setUserAccess($userLogin, 'view', $initialIdSite);
+        }
     }
 
     /**
@@ -1126,7 +1138,7 @@ class API extends \Piwik\Plugin\API
 
         foreach ($userLogin as $loginToCheck) {
             if (empty($usersByLogin[$loginToCheck])) {
-                throw new Exception(Piwik::translate("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
+                throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userLogin));
             }
         }
     }

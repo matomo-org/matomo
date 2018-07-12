@@ -194,7 +194,7 @@
         }
 
         function showAccessChangeConfirm() {
-            $element.find('.change-user-role-confirm-modal').openModal({ dismissible: false });
+            $element.find('.pagedUsersList .change-user-role-confirm-modal').openModal({ dismissible: false });
         }
 
         function getAffectedUsersCount() {

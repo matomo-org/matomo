@@ -19,8 +19,8 @@
                 </a>
                 <ul id='user-permissions-edit-bulk-actions' class='dropdown-content'>
                     <li>
-                        <a class='dropdown-trigger' data-activates="bulk-set-access" piwik-dropdown-menu>Set Access</a>
-                        <ul id="bulk-set-access" class="dropdown-content">
+                        <a class='dropdown-trigger' data-activates="user-permissions-bulk-set-access" piwik-dropdown-menu>Set Access</a>
+                        <ul id="user-permissions-bulk-set-access" class="dropdown-content">
                             <li ng-repeat="access in $ctrl.accessLevels">
                                 <a href="" ng-click="$ctrl.siteAccessToChange = null; $ctrl.roleToChangeTo = access.key; $ctrl.showChangeAccessConfirm();">{{ access.value }}</a>
                             </li>
@@ -73,8 +73,8 @@
         <tr>
             <th class="select-cell">
                 <span class="checkbox-container">
-                    <input type="checkbox" id="select_all" ng-model="$ctrl.isAllCheckboxSelected" ng-change="$ctrl.onAllCheckboxChange()" />
-                    <label for="select_all"></label>
+                    <input type="checkbox" id="perm_edit_select_all" ng-model="$ctrl.isAllCheckboxSelected" ng-change="$ctrl.onAllCheckboxChange()" />
+                    <label for="perm_edit_select_all"></label>
                 </span>
             </th>
             <th>Name</th>
@@ -104,8 +104,8 @@
         <tr ng-repeat="entry in $ctrl.siteAccess">
             <td class="select-cell">
                 <span class="checkbox-container">
-                    <input type="checkbox" ng-attr-id="select_row{{ $index }}" ng-model="$ctrl.selectedRows[$index]" ng-click="$ctrl.onRowSelected()" />
-                    <label ng-attr-for="select_row{{ $index }}"></label>
+                    <input type="checkbox" ng-attr-id="perm_edit_select_row{{ $index }}" ng-model="$ctrl.selectedRows[$index]" ng-click="$ctrl.onRowSelected()" />
+                    <label ng-attr-for="perm_edit_select_row{{ $index }}"></label>
                 </span>
             </td>
             <td>

@@ -266,11 +266,62 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertTrue($passwordHelper->verify(UsersManager::getPasswordHash($password), $user['password']));
     }
 
+    public function test_addUser_shouldAllowAdminUsersToCreateUsers()
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesAdmin = [1];
+
+        $login = "geggeq55eqag";
+        $password = "mypassword";
+        $email = "mgeag4544i@geq.com";
+        $alias = "her is my alias )(&|\" '£%*(&%+))";
+
+        $this->api->addUser($login, $password, $email, $alias, false, 1);
+
+        FakeAccess::$superUser = true;
+        $user = $this->api->getUser($login);
+
+        $this->assertEquals($login, $user['login']);
+        $this->assertEquals($email, $user['email']);
+        $this->assertEquals($alias, $user['alias']);
+
+        FakeAccess::$superUser = true;
+
+        $access = $this->api->getSitesAccessFromUser($login);
+        $this->assertEquals([
+            ['site' => 1, 'access' => 'view'],
+        ], $access);
+    }
+
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionDeleteDoesNotExist
+     * @expectedExceptionMessage UsersManager_AddUserNoInitialAccessError
      */
-    public function testSeleteUserDoesntExist()
+    public function test_addUser_shouldNotAllowAdminUsersToCreateUsers_WithNoInitialSiteWithAccess()
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesAdmin = [1];
+
+        $this->api->addUser('userLogin2', 'password', 'userlogin2@email.com', 'userLogin2');
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage checkUserHasAdminAccess Fake exception
+     */
+    public function test_addUser_shouldNotAllowAdminUsersToCreateUsersWithAccessToSite_ThatAdminUserDoesNotHaveAccessTo()
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesAdmin = [2];
+
+        $this->api->addUser('userLogin2', 'password', 'userlogin2@email.com', 'userLogin2', false, 1);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
+     */
+    public function testDeleteUserDoesntExist()
     {
         $this->api->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
         $this->api->deleteUser("geggeqggnew");
@@ -278,7 +329,7 @@ class UsersManagerTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionDeleteDoesNotExist
+     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
      */
     public function testDeleteUserEmptyUser()
     {
@@ -287,7 +338,7 @@ class UsersManagerTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionDeleteDoesNotExist
+     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
      */
     public function testDeleteUserNullUser()
     {
@@ -561,7 +612,7 @@ class UsersManagerTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionSuperUserAccess
+     * @expectedExceptionMessage UsersManager_ExceptionUserHasSuperUserAccess
      */
     public function testSetUserAccess_ShouldFail_IfLoginIsUserWithSuperUserAccess()
     {
