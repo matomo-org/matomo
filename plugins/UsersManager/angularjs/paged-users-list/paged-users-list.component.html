@@ -86,6 +86,10 @@
         </div>
     </div>
 
+    <div piwik-notification context="info" type="persistent" noclear="true" ng-if="$ctrl.isRoleHelpToggled" class="roles-help-notification">
+        Roles determine what a user can do in Matomo with regard to a specific website. Learn more about the <a href='https://matomo.org/faq/general/faq_70/' target='_blank' rel='noreferrer noopener'>View</a> and <a href='https://matomo.org/faq/general/faq_69/' target='_blank' rel='noreferrer noopener'>Admin</a> roles.
+    </div>
+
     <div piwik-content-block>
         <table piwik-content-table id="manageUsersTable" ng-class="{ loading: $ctrl.isLoadingUsers }">
             <thead>
@@ -97,8 +101,11 @@
                     </span>
                 </th>
                 <th class='first'>Username</th>
-                <th>
+                <th class="role_header">
                     <span>Role for</span>
+                    <a href="" class="helpIcon" ng-click="$ctrl.isRoleHelpToggled = !$ctrl.isRoleHelpToggled" ng-class="{ sticky: $ctrl.isRoleHelpToggled }">
+                        <span class="icon-help"></span>
+                    </a>
 
                     <div
                         piwik-field

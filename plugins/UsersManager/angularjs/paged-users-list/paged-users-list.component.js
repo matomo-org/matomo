@@ -64,6 +64,9 @@
         vm.roleToChangeTo = null;
         vm.previousRole = null;
 
+        // other state
+        vm.isRoleHelpToggled = false;
+
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.onAllCheckboxChange = onAllCheckboxChange;

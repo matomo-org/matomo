@@ -55,6 +55,7 @@
 
         // other state
         vm.hasAccessToAtLeastOneSite = true;
+        vm.isRoleHelpToggled = false;
 
         // intermediate state
         vm.roleToChangeTo = null;
