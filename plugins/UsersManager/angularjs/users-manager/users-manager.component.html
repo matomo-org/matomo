@@ -1,5 +1,5 @@
 <div class="usersManager">
-    <div ng-if="!$ctrl.isEditing">
+    <div ng-show="!$ctrl.isEditing">
         <div piwik-content-intro>
             <h2
                 piwik-enriched-headline
@@ -32,7 +32,7 @@
     </div>
 
     <!-- TODO: whether a user is being edited should be part of the URL -->
-    <div ng-show="$ctrl.isEditing">
+    <div ng-if="$ctrl.isEditing">
         <piwik-user-edit-form
             on-done-editing="$ctrl.isEditing = false"
             user="$ctrl.userBeingEdited"
