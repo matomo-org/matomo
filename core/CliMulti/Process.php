@@ -242,7 +242,7 @@ class Process
 
     public static function getListOfRunningProcesses()
     {
-        $processes = `ps ex 2>/dev/null`;
+        $processes = `ps x 2>/dev/null`;
         if (empty($processes)) {
             return array();
         }
