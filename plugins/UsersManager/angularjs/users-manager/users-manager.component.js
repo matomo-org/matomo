@@ -20,14 +20,15 @@
         controller: UsersManagerController
     });
 
-    UsersManagerController.$inject = ['$element'];
+    UsersManagerController.$inject = ['$element', '$scope'];
 
-    function UsersManagerController($element) {
+    function UsersManagerController($element, $scope) {
         var vm = this;
         vm.isEditing = false;
         vm.isCurrentUserSuperUser = true;
         vm.$onInit = $onInit;
         vm.$onDestroy = $onDestroy;
+        vm.onDoneEditing = onDoneEditing;
 
         function $onInit() {
             // TODO: maybe this should go in another directive...
@@ -47,6 +48,13 @@
                 $element.tooltip('destroy');
             } catch (e) {
                 // empty
+            }
+        }
+
+        function onDoneEditing(isUserModified) {
+            vm.isEditing = false;
+            if (isUserModified) { // if a user was modified, we must reload the users list
+                $scope.$broadcast('paged-users-list:reload');
             }
         }
     }

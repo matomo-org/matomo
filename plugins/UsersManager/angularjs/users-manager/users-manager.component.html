@@ -34,7 +34,7 @@
     <!-- TODO: whether a user is being edited should be part of the URL -->
     <div ng-if="$ctrl.isEditing">
         <piwik-user-edit-form
-            on-done-editing="$ctrl.isEditing = false"
+            on-done-editing="$ctrl.onDoneEditing(isUserModified);"
             user="$ctrl.userBeingEdited"
             current-user-role="$ctrl.currentUserRole"
             allow-superuser-edit="$ctrl.isCurrentUserSuperUser"

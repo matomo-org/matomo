@@ -1101,7 +1101,7 @@ class API extends \Piwik\Plugin\API
             foreach ($users as $key => $user) {
                 $newUser = array('login' => $user['login'], 'alias' => $user['alias']);
                 if (isset($user['role'])) {
-                    $newUser['role'] = $user['role'];
+                    $newUser['role'] = $user['role'] == 'superuser' ? 'admin' : $user['role'];
                 }
                 $users[$key] = $newUser;
             }

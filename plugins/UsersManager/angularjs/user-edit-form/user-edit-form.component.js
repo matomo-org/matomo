@@ -29,6 +29,8 @@
         vm.isSavingUserInfo = false;
         vm.isPasswordChanged = false;
         vm.userHasAccess = true;
+        vm.firstSiteAccess = null;
+        vm.isUserModified = false;
 
         vm.$onChanges = $onChanges;
         vm.confirmSuperUserChange = confirmSuperUserChange;
@@ -95,12 +97,23 @@
                 password: vm.user.password,
                 email: vm.user.email,
                 alias: vm.user.alias
+            }).then(function () {
+                if (vm.firstSiteAccess) {
+                    return piwikApi.post({
+                        method: 'UsersManager.setUserAccess',
+                        userLogin: vm.user.login,
+                        access: 'view',
+                        idSites: vm.firstSiteAccess.id
+                    });
+                }
             }).catch(function () {
                 // ignore (error is still displayed to user)
             }).then(function () {
+                vm.firstSiteAccess = null;
                 vm.isSavingUserInfo = false;
                 vm.isAdd = false;
                 vm.isPasswordChanged = false;
+                vm.isUserModified = true;
             });
         }
 
@@ -117,6 +130,7 @@
             }).then(function () {
                 vm.isSavingUserInfo = false;
                 vm.isPasswordChanged = false;
+                vm.isUserModified = true;
             });
         }
     }

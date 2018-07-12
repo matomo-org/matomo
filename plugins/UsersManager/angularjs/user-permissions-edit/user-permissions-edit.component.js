@@ -15,7 +15,8 @@
         bindings: {
             userLogin: '<',
             limit: '<',
-            onUserHasAccessDetected: '&'
+            onUserHasAccessDetected: '&',
+            onAccessChange: '&'
         },
         controller: UserPermissionsEditController
     });
@@ -159,6 +160,8 @@
             }).catch(function () {
                 // ignore (errors will still be displayed to the user)
             }).then(function () {
+                vm.onAccessChange();
+
                 return fetchAccess();
             }).then(function () {
                 setTimeout(function () { // timeout to let angularjs finish rendering
@@ -194,6 +197,8 @@
             apiPromise.catch(function () {
                 // ignore (errors will still be displayed to the user)
             }).then(function () {
+                vm.onAccessChange();
+
                 return fetchAccess();
             });
         }

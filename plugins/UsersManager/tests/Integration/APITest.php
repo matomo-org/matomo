@@ -572,7 +572,7 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $access);
 
         // test when search returns empty result
-        $this->addUserWithAccess('userLogin', 'view', [1], 'userlogin2@email.com');
+        $this->api->setUserAccess('userLogin', 'view', 1);
 
         $access = $this->api->getSitesAccessForUser('userLogin', null, null, 'asdklfjds');
         $expected = [

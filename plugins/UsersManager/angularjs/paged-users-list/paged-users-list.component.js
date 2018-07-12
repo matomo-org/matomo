@@ -22,9 +22,9 @@
         controller: PagedUsersListController
     });
 
-    PagedUsersListController.$inject = ['piwikApi', '$element'];
+    PagedUsersListController.$inject = ['piwikApi', '$element', '$scope'];
 
-    function PagedUsersListController(piwikApi, $element) {
+    function PagedUsersListController(piwikApi, $element, $scope) {
         var vm = this;
 
         // options for selects (TODO: should be supplied server side)
@@ -36,14 +36,13 @@
             { key: 'noaccess', value: 'No Access' },
             { key: 'view', value: 'View' },
             { key: 'admin', value: 'Admin' },
-            { key: 'superuser', value: 'Superuser', disabled: true  }
+            { key: 'superuser', value: 'Superuser', disabled: true }
         ];
         vm.accessLevelFilterOptions = [
             { key: 'noaccess', value: 'No Access' },
             { key: 'some', value: 'At least View' },
             { key: 'view', value: 'View' },
-            { key: 'admin', value: 'Admin' },
-            { key: 'superuser', value: 'Superuser' }
+            { key: 'admin', value: 'Admin' }
         ];
 
         // search state
@@ -81,12 +80,21 @@
         vm.showAccessChangeConfirm = showAccessChangeConfirm;
         vm.getRoleDisplay = getRoleDisplay;
 
+        // if another component requests we reload, reload
+        $scope.$on('paged-users-list:reload', function () {
+            fetchUsers();
+        });
+
         function $onInit() {
             vm.permissionsForSite = {
                 id: vm.initialSiteId,
                 name: vm.initialSiteName
             };
             vm.limit = vm.limit || 20;
+
+            if (vm.currentUserRole === 'superuser') {
+                vm.accessLevelFilterOptions.push({ key: 'superuser', value: 'Superuser' });
+            }
 
             fetchUsers();
         }

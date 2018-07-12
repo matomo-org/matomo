@@ -15,10 +15,10 @@
                     <a href="" ng-click="$ctrl.activeTab = 'permissions'">
                         Permissions
                     </a>
-                    <span class="icon-warning" ng-if="!$ctrl.userHasAccess"></span>
+                    <span class="icon-warning" ng-if="!$ctrl.userHasAccess && !$ctrl.user.superuser_access"></span>
                 </li>
 
-                <li ng-class="{active: $ctrl.activeTab === 'superuser'}" class="menuSuperuser" ng-if="$ctrl.currentUserRole == 'superuser' && !rctrl.isAdd">
+                <li ng-class="{active: $ctrl.activeTab === 'superuser'}" class="menuSuperuser" ng-if="$ctrl.currentUserRole == 'superuser' && !$ctrl.isAdd">
                     <a href="" ng-click="$ctrl.activeTab = 'superuser'">Superuser Access</a>
                 </li>
             </ul>
@@ -26,13 +26,13 @@
             <div class="save-button-spacer hide-on-small-only">
             </div>
 
-            <div class='entityCancel' ng-click="$ctrl.onDoneEditing()">
+            <div class='entityCancel' ng-click="$ctrl.onDoneEditing({ isUserModified: $ctrl.isUserModified })">
                 <a href="" class="entityCancelLink">{{:: 'Mobile_NavigationBack'|translate }}</a>
             </div>
         </div>
 
         <div class="visibleTab col m10">
-            <div ng-if="$ctrl.activeTab === 'basic'">
+            <div ng-if="$ctrl.activeTab === 'basic'" class="basic-info-tab">
                 <div
                         piwik-field
                         uicontrol="text"
@@ -66,10 +66,22 @@
                 >
                 </div>
 
+                <div
+                        piwik-field
+                        uicontrol="site"
+                        name="user_site"
+                        ng-model="$ctrl.firstSiteAccess"
+                        title="First website permission"
+                        disabled="$ctrl.isSavingUserInfo"
+                        ng-if="$ctrl.isAdd"
+                >
+                </div>
+
                 <div piwik-save-button
                      saving="$ctrl.isSavingUserInfo"
                      onconfirm="$ctrl.saveUserInfo()"
                      ng-value="$ctrl.getSaveButtonLabel()"
+                     disabled="$ctrl.isAdd && !$ctrl.firstSiteAccess"
                 ></div>
             </div>
 
@@ -78,6 +90,7 @@
                     user-login="$ctrl.user.login"
                     ng-if="!$ctrl.user.superuser_access"
                     on-user-has-access-detected="$ctrl.userHasAccess = hasAccess"
+                    on-access-change="$ctrl.isUserModified = true"
                 >
                 </piwik-user-permissions-edit>
                 <p ng-if="$ctrl.user.superuser_access">
@@ -85,7 +98,7 @@
                 </p>
             </div>
 
-            <div ng-if="$ctrl.activeTab === 'superuser' && $ctrl.allowSuperuserEdit && !$ctrl.isAdd" class="superuser-access">
+            <div ng-if="$ctrl.activeTab === 'superuser' && $ctrl.currentUserRole == 'superuser' && !$ctrl.isAdd" class="superuser-access">
                 <p>Super users have the highest permissions. They can perform all administrative tasks such as adding new websites to monitor, adding users, changing user permissions, activating and deactivating plugins and even installing new plugins from the Marketplace.
                     You can grant Super User access to other users of Divezone here.</p>
 
