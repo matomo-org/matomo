@@ -67,11 +67,18 @@ class API extends \Piwik\Plugin\API
 
     private static $instance = null;
 
-    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access\RolesProvider $roleProvider, Access\CapabilitiesProvider $capabilityProvider)
+    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access\RolesProvider $roleProvider = null, Access\CapabilitiesProvider $capabilityProvider = null)
     {
         $this->model = $model;
         $this->userFilter = $filter;
         $this->password = $password;
+
+        if (!isset($roleProvider)) {
+            $roleProvider = StaticContainer::get('Piwik\Access\RolesProvider');
+        }
+        if (!isset($capabilityProvider)) {
+            $capabilityProvider = StaticContainer::get('Piwik\Access\CapabilitiesProvider');
+        }
         $this->roleProvider = $roleProvider;
         $this->capabilityProvider = $capabilityProvider;
     }
