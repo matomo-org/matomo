@@ -295,9 +295,11 @@ class Model
     {
         $db = $this->getDb();
 
+        $table = Common::prefixTable("access");
+
         foreach ($idSites as $idsite) {
             $bind = array($userLogin, $idsite, $access);
-            $db->query("DELETE FROM " . $this->table . " WHERE login = ? and idsite = ? and access = ?", $bind);
+            $db->query("DELETE FROM " . $table . " WHERE login = ? and idsite = ? and access = ?", $bind);
         }
     }
 

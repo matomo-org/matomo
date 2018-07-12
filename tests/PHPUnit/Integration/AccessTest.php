@@ -216,6 +216,31 @@ class AccessTest extends IntegrationTestCase
         $mock->checkUserHasSomeViewAccess();
     }
 
+    public function testCheckUserHasSomeWriteAccessWithSomeAccess()
+    {
+        $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeViewAccess'));
+
+        $mock->expects($this->once())
+            ->method('getRawSitesWithSomeViewAccess')
+            ->will($this->returnValue($this->buildWriteAccessForSiteIds(array(1, 2, 3, 4))));
+
+        $mock->checkUserHasSomeWriteAccess();
+    }
+
+    /**
+     * @expectedException \Piwik\NoAccessException
+     */
+    public function testCheckUserHasSomeWriteAccessWithSomeAccessDoesNotHaveAccess()
+    {
+        $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeViewAccess'));
+
+        $mock->expects($this->once())
+            ->method('getRawSitesWithSomeViewAccess')
+            ->will($this->returnValue($this->buildWriteAccessForSiteIds(array())));
+
+        $mock->checkUserHasSomeWriteAccess();
+    }
+
     /**
      * @expectedException \Piwik\NoAccessException
      */
@@ -268,6 +293,60 @@ class AccessTest extends IntegrationTestCase
             ->will($this->returnValue(array(1, 2, 3, 4)));
 
         $mock->checkUserHasViewAccess(array(1, 5));
+    }
+
+    /**
+     * @expectedException \Piwik\NoAccessException
+     */
+    public function testCheckUserHasWriteAccessWithEmptyAccessNoSiteIdsGiven()
+    {
+        $access = $this->getAccess();
+        $access->checkUserHasWriteAccess(array());
+    }
+
+    public function testCheckUserHasWriteAccessWithSuperUserAccess()
+    {
+        $access = Access::getInstance();
+        $access->setSuperUserAccess(true);
+        $access->checkUserHasWriteAccess(array());
+    }
+
+    public function testCheckUserHasWriteAccessWithSomeAccessSuccessIdSitesAsString()
+    {
+        /** @var Access $mock */
+        $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeWriteAccess'));
+
+        $mock->expects($this->once())
+            ->method('getRawSitesWithSomeWriteAccess')
+            ->will($this->returnValue($this->buildWriteAccessForSiteIds(array(1, 2, 3, 4))));
+
+        $mock->checkUserHasWriteAccess('1,3');
+    }
+
+    public function testCheckUserHasViewAccessWithWriteAccessSuccessAllSites()
+    {
+        /** @var Access $mock */
+        $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeWriteAccess'));
+
+        $mock->expects($this->any())
+            ->method('getRawSitesWithSomeWriteAccess')
+            ->will($this->returnValue($this->buildViewAccessForSiteIds(array(1, 2, 3, 4))));
+
+        $mock->checkUserHasWriteAccess('all');
+    }
+
+    /**
+     * @expectedException \Piwik\NoAccessException
+     */
+    public function testCheckUserHasWriteAccessWithSomeAccessFailure()
+    {
+        $mock = $this->getMockBuilder('Piwik\Access')->setMethods(array('getSitesIdWithAtLeastWriteAccess'))->getMock();
+
+        $mock->expects($this->once())
+            ->method('getSitesIdWithAtLeastWriteAccess')
+            ->will($this->returnValue(array(1, 2, 3, 4)));
+
+        $mock->checkUserHasWriteAccess(array(1, 5));
     }
 
     public function testCheckUserHasAdminAccessWithSuperUserAccess()
@@ -475,6 +554,17 @@ class AccessTest extends IntegrationTestCase
 
         foreach ($siteIds as $siteId) {
             $access[] = array('access' => 'admin', 'idsite' => $siteId);
+        }
+
+        return $access;
+    }
+
+    private function buildWriteAccessForSiteIds($siteIds)
+    {
+        $access = array();
+
+        foreach ($siteIds as $siteId) {
+            $access[] = array('access' => 'write', 'idsite' => $siteId);
         }
 
         return $access;

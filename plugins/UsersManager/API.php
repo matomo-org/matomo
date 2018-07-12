@@ -765,8 +765,7 @@ class API extends \Piwik\Plugin\API
 
         if ($userLogin === 'anonymous' &&
             (is_array($access) || !in_array($access, array('view', 'noaccess'), true))) {
-            // todo correct message
-            throw new Exception(Piwik::translate("UsersManager_ExceptionAdminAnonymous"));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionAnonymousAccessNotPossible", array('noaccess', 'view')));
         }
 
         $roles = array();
@@ -783,16 +782,23 @@ class API extends \Piwik\Plugin\API
                     $capabilities[] = $entry;
                 }
             }
+
+            if (count($roles) < 1) {
+                $ids = implode(', ', $this->roleProvider->getAllRoleIds());
+                throw new Exception(Piwik::translate('UsersManager_ExceptionNoRoleSet', $ids));
+            }
+
+            if (count($roles) > 1) {
+                $ids = implode(', ', $this->roleProvider->getAllRoleIds());
+                throw new Exception(Piwik::translate('UsersManager_ExceptionMultipleRoleSet', $ids));
+            }
+
         } else {
-            // as only one access is set, we require it to be a role...
+            // as only one access is set, we require it to be a role or "noaccess"...
             if ($access !== 'noaccess') {
                 $this->roleProvider->checkValidRole($access);
                 $roles[] = $access;
             }
-        }
-
-        if (count($roles) !== 1) {
-            throw new Exception('Only one role can be set but multiple or no roles have been set: ' . implode(', ', $setRoles));
         }
 
         $this->checkUserExists($userLogin);
@@ -809,7 +815,9 @@ class API extends \Piwik\Plugin\API
             $this->model->addUserAccess($userLogin, $role, $idSites);
         }
 
-        $this->addCapabilities($userLogin, $capabilities, $idSites);
+        if (!empty($capabilities)) {
+            $this->addCapabilities($userLogin, $capabilities, $idSites);
+        }
 
         // we reload the access list which doesn't yet take in consideration this new user access
         $this->reloadPermissions();
@@ -820,8 +828,7 @@ class API extends \Piwik\Plugin\API
         $idSites = $this->getIdSitesCheckAdminAccess($idSites);
 
         if ($userLogin == 'anonymous') {
-            // todo adjust message
-            throw new Exception(Piwik::translate("UsersManager_ExceptionAdminAnonymous"));
+            throw new Exception(Piwik::translate("UsersManager_ExceptionAnonymousNoCapabilities"));
         }
 
         $this->checkUserExists($userLogin);
@@ -831,35 +838,44 @@ class API extends \Piwik\Plugin\API
             $capabilities = array($capabilities);
         }
 
-        $sites = Access::getInstance()->getRawSitesWithSomeViewAccess($userLogin);
-        $roleIds = $this->roleProvider->getAllRoleIds();
-
-        $sitesIdWithRole = array();
-        foreach ($sites as $site) {
-            if (in_array($site['access'], $roleIds, true)) {
-                $sitesIdWithRole[(int) $site['idsite']] = $site['access'];
-            }
-        }
-
         foreach ($capabilities as $entry) {
             $this->capabilityProvider->checkValidCapability($entry);
         }
 
+        $sites = $this->model->getSitesAccessFromUser($userLogin);
+        $roleIds = $this->roleProvider->getAllRoleIds();
+
+        $sitesIdWithRole = array();
+        $sitesIdWithCapability = array();
+        foreach ($sites as $site) {
+            if (in_array($site['access'], $roleIds, true)) {
+                $sitesIdWithRole[(int) $site['site']] = $site['access'];
+            } else {
+                if (!isset($sitesIdWithCapability[(int) $site['site']])) {
+                    $sitesIdWithCapability[(int) $site['site']] = array();
+                }
+                $sitesIdWithCapability[(int) $site['site']][] = $site['access'];
+            }
+        }
+
         foreach ($capabilities as $entry) {
+            $cap = $this->capabilityProvider->getCapability($entry);
+
             foreach ($idSites as $idSite) {
+                $hasRole = array_key_exists($idSite, $sitesIdWithRole);
+                $hasCapabilityAlready = array_key_exists($idSite, $sitesIdWithCapability) && in_array($entry, $sitesIdWithCapability[$idSite], true);
 
                 // so far we are adding the capability only to people that also have a role...
                 // to be defined how to handle this... eg we are not throwing an exception currently
                 // as it might be used as part of bulk action etc.
-                if (array_key_exists($idSite, $sitesIdWithRole)) {
-
+                if ($hasRole && !$hasCapabilityAlready) {
                     $theRole = $sitesIdWithRole[$idSite];
-                    $cap = $this->capabilityProvider->getCapability($theRole);
                     if ($cap->hasRoleCapability($theRole)) {
                         // todo this behaviour needs to be defined...
                         // when the role already supports this capability we do not add it again
                         continue;
                     }
+
                     $this->model->addUserAccess($userLogin, $entry, array($idSite));
                 }
             }
@@ -867,6 +883,28 @@ class API extends \Piwik\Plugin\API
         }
 
         // we reload the access list which doesn't yet take in consideration this new user access
+        $this->reloadPermissions();
+    }
+
+    public function removeCapabilities($userLogin, $capabilities, $idSites)
+    {
+        $idSites = $this->getIdSitesCheckAdminAccess($idSites);
+
+        $this->checkUserExists($userLogin);
+
+        if (!is_array($capabilities)){
+            $capabilities = array($capabilities);
+        }
+
+        foreach ($capabilities as $capability) {
+            $this->capabilityProvider->checkValidCapability($capability);
+        }
+
+        foreach ($capabilities as $capability) {
+            $this->model->removeUserAccess($userLogin, $capability, $idSites);
+        }
+
+        // we reload the access list which doesn't yet take in consideration this removed capability
         $this->reloadPermissions();
     }
 
@@ -899,28 +937,6 @@ class API extends \Piwik\Plugin\API
         }
 
         return $idSites;
-    }
-
-    public function removeCapabilities($userLogin, $capabilities, $idSites)
-    {
-        $idSites = $this->getIdSitesCheckAdminAccess($idSites);
-
-        if (!is_array($capabilities)){
-            $capabilities = array($capabilities);
-        }
-
-        foreach ($capabilities as $capability) {
-            $this->capabilityProvider->checkValidCapability($capability);
-        }
-
-        $this->checkUserExists($userLogin);
-
-        foreach ($capabilities as $capability) {
-            $this->model->removeUserAccess($userLogin, $capability, $idSites);
-        }
-
-        // we reload the access list which doesn't yet take in consideration this removed capability
-        $this->reloadPermissions();
     }
 
     /**

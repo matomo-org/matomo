@@ -47,10 +47,12 @@ class Mysql implements SchemaInterface
             ",
 
             'access'  => "CREATE TABLE {$prefixTables}access (
+                          idaccess INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
                           login VARCHAR(100) NOT NULL,
                           idsite INTEGER UNSIGNED NOT NULL,
                           access VARCHAR(50) NULL,
-                            PRIMARY KEY(login, idsite)
+                            PRIMARY KEY(idaccess),
+                            INDEX index_loginidsite (login, idsite)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
