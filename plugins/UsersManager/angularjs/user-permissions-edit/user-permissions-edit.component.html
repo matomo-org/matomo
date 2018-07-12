@@ -33,7 +33,7 @@
             </div>
 
             <div class="input-field site-filter">
-                <input type="text" placeholder="Filter by website" ng-model="$ctrl.siteNameFilter" ng-change="$ctrl.fetchAccess()" />
+                <input type="text" placeholder="Filter by website" ng-model="$ctrl.siteNameFilter" ng-change="$ctrl.offset = 0; $ctrl.fetchAccess()" />
             </div>
 
             <div class="input-field access-filter">
@@ -43,7 +43,7 @@
                     ng-model="$ctrl.accessLevelFilter"
                     options="$ctrl.accessLevelFilterOptions"
                     full-width="true"
-                    ng-change="$ctrl.fetchAccess()"
+                    ng-change="$ctrl.offset = 0; $ctrl.fetchAccess()"
                 ></div>
             </div>
         </div>

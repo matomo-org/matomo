@@ -52,7 +52,7 @@
                 ng-model-options="{debounce: 300}"
                 placeholder="User search"
                 full-width="true"
-                ng-change="$ctrl.fetchUsers()"
+                ng-change="$ctrl.offset = 0; $ctrl.fetchUsers()"
             ></div>
         </div>
         <div class="input-field col s12 m2">
@@ -63,7 +63,7 @@
                 placeholder="Filter by access"
                 options="$ctrl.accessLevelFilterOptions"
                 full-width="true"
-                ng-change="$ctrl.fetchUsers()"
+                ng-change="$ctrl.offset = 0; $ctrl.fetchUsers()"
             ></div>
         </div>
         <div class="input-field col s12 m6" ng-if="$ctrl.totalEntries > $ctrl.limit">
@@ -119,7 +119,7 @@
                 <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected && $ctrl.users.length && $ctrl.users.length < $ctrl.totalEntries">
                     <td colspan="7">
                         <div ng-if="!$ctrl.areAllResultsSelected">
-                            The <strong>{{ $ctrl.users.length }}</strong> displayed users are selected.
+                            The <strong>{{$ctrl.offset = 0;  $ctrl.users.length }}</strong> displayed users are selected.
                             <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select all <strong>{{ $ctrl.totalEntries }}</strong>.</a>
                         </div>
 
