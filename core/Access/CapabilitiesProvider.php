@@ -8,9 +8,6 @@
  */
 namespace Piwik\Access;
 
-use Piwik\Access\Capability\PublishLiveContainer;
-use Piwik\Access\Capability\TagManagerWrite;
-use Piwik\Access\Capability\UseCustomTemplates;
 use Exception;
 use Piwik\CacheId;
 use Piwik\Piwik;
@@ -40,12 +37,9 @@ class CapabilitiesProvider
              *     }
              *
              * @param Capability[] $reports An array of reports
+             * @internal
              */
             Piwik::postEvent('Access.Capability.addCapabilities', array(&$capabilities));
-
-            $capabilities[] = new TagManagerWrite();
-            $capabilities[] = new PublishLiveContainer();
-            $capabilities[] = new UseCustomTemplates();
 
             /**
              * Triggered to filter / restrict capabilities.
@@ -62,6 +56,7 @@ class CapabilitiesProvider
              *     }
              *
              * @param Capability[] $reports An array of reports
+             * @internal
              */
             Piwik::postEvent('Access.Capability.filterCapabilities', array(&$capabilities));
 

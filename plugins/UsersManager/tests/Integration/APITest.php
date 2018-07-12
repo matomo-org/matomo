@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\UsersManager\tests;
 
-use Piwik\Access\Capability\PublishLiveContainer;
 use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
 use Piwik\Auth\Password;
@@ -20,9 +19,103 @@ use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
-use Piwik\Access\Capability\TagManagerWrite;
-use Piwik\Access\Capability\UseCustomTemplates;
 use Piwik\Access\Role\Admin;
+use Piwik\Access\Capability;
+
+class TestCap1 extends Capability
+{
+    const ID = 'test_cap1';
+
+    public function getId()
+    {
+        return self::ID;
+    }
+
+    public function getCategory()
+    {
+        return 'Test';
+    }
+
+    public function getName()
+    {
+        return 'Cap1';
+    }
+
+    public function getDescription()
+    {
+        return '';
+    }
+
+    public function getIncludedInRoles()
+    {
+        return array(
+            Admin::ID
+        );
+    }
+}
+
+class TestCap2 extends Capability
+{
+    const ID = 'test_cap2';
+
+    public function getId()
+    {
+        return self::ID;
+    }
+
+    public function getCategory()
+    {
+        return 'Test';
+    }
+
+    public function getName()
+    {
+        return 'Cap2';
+    }
+
+    public function getDescription()
+    {
+        return '';
+    }
+
+    public function getIncludedInRoles()
+    {
+        return array(
+            Write::ID, Admin::ID
+        );
+    }
+}
+
+class TestCap3 extends Capability
+{
+    const ID = 'test_cap3';
+
+    public function getId()
+    {
+        return self::ID;
+    }
+
+    public function getCategory()
+    {
+        return 'Test';
+    }
+
+    public function getName()
+    {
+        return 'Cap3';
+    }
+
+    public function getDescription()
+    {
+        return '';
+    }
+
+    public function getIncludedInRoles()
+    {
+        return array(Admin::ID);
+    }
+}
+
 
 /**
  * @group UsersManager
@@ -252,7 +345,7 @@ class APITest extends IntegrationTestCase
      */
     public function test_setUserAccess_NeedsAtLeastOneRole()
     {
-        $this->api->setUserAccess($this->login, array(TagManagerWrite::ID), array(1));
+        $this->api->setUserAccess($this->login, array(TestCap2::ID), array(1));
     }
 
     /**
@@ -261,7 +354,7 @@ class APITest extends IntegrationTestCase
      */
     public function test_setUserAccess_NeedsAtLeastOneRoleAsString()
     {
-        $this->api->setUserAccess($this->login, TagManagerWrite::ID, array(1));
+        $this->api->setUserAccess($this->login, TestCap2::ID, array(1));
     }
 
     /**
@@ -311,15 +404,15 @@ class APITest extends IntegrationTestCase
 
     public function test_setUserAccess_SetRoleAndCapabilities()
     {
-        $access = array(TagManagerWrite::ID, View::ID, UseCustomTemplates::ID);
+        $access = array(TestCap2::ID, View::ID, TestCap3::ID);
         $this->api->setUserAccess($this->login, $access, array(1));
 
         $access = $this->model->getSitesAccessFromUser($this->login);
 
         $expected = array(
             array('site' => '1', 'access' => 'view'),
-            array('site' => '1', 'access' => TagManagerWrite::ID),
-            array('site' => '1', 'access' => UseCustomTemplates::ID),
+            array('site' => '1', 'access' => TestCap2::ID),
+            array('site' => '1', 'access' => TestCap3::ID),
         );
         $this->assertEquals($expected, $access);
     }
@@ -355,7 +448,7 @@ class APITest extends IntegrationTestCase
      */
     public function test_addCapabilities_failsWhenNotCapabilityIsGivenAsArray()
     {
-        $this->api->addCapabilities($this->login, array(TagManagerWrite::ID, View::ID), array(1));
+        $this->api->addCapabilities($this->login, array(TestCap2::ID, View::ID), array(1));
     }
 
     /**
@@ -364,31 +457,31 @@ class APITest extends IntegrationTestCase
      */
     public function test_addCapabilities_failsWhenUserDoesNotExist()
     {
-        $this->api->addCapabilities('foobar', array(TagManagerWrite::ID), array(1));
+        $this->api->addCapabilities('foobar', array(TestCap2::ID), array(1));
     }
 
     public function test_addCapabilities_DoesNotAddSameCapabilityTwice()
     {
-        $addAccess = array(TagManagerWrite::ID, View::ID, UseCustomTemplates::ID);
+        $addAccess = array(TestCap2::ID, View::ID, TestCap3::ID);
         $this->api->setUserAccess($this->login, $addAccess, array(1));
 
         $access = $this->model->getSitesAccessFromUser($this->login);
 
         $expected = array(
             array('site' => '1', 'access' => 'view'),
-            array('site' => '1', 'access' => TagManagerWrite::ID),
-            array('site' => '1', 'access' => UseCustomTemplates::ID),
+            array('site' => '1', 'access' => TestCap2::ID),
+            array('site' => '1', 'access' => TestCap3::ID),
         );
         $this->assertEquals($expected, $access);
 
-        $this->api->addCapabilities($this->login, array(TagManagerWrite::ID, UseCustomTemplates::ID), array(1));
+        $this->api->addCapabilities($this->login, array(TestCap2::ID, TestCap3::ID), array(1));
 
         $access = $this->model->getSitesAccessFromUser($this->login);
         $this->assertEquals($expected, $access);
 
-        $this->api->addCapabilities($this->login, array(TagManagerWrite::ID, PublishLiveContainer::ID, UseCustomTemplates::ID), array(1));
+        $this->api->addCapabilities($this->login, array(TestCap2::ID, TestCap1::ID, TestCap3::ID), array(1));
 
-        $expected[] = array('site' => '1', 'access' => PublishLiveContainer::ID);
+        $expected[] = array('site' => '1', 'access' => TestCap1::ID);
         $access = $this->model->getSitesAccessFromUser($this->login);
         $this->assertEquals($expected, $access);
     }
@@ -399,7 +492,7 @@ class APITest extends IntegrationTestCase
 
         $this->assertEquals(array(), $access);
 
-        $this->api->addCapabilities($this->login, array(TagManagerWrite::ID, UseCustomTemplates::ID), array(1));
+        $this->api->addCapabilities($this->login, array(TestCap2::ID, TestCap3::ID), array(1));
 
         $this->assertEquals(array(), $access);
     }
@@ -415,12 +508,12 @@ class APITest extends IntegrationTestCase
         );
         $this->assertEquals($expected, $access);
 
-        $this->api->addCapabilities($this->login, array(TagManagerWrite::ID, UseCustomTemplates::ID), array(1));
+        $this->api->addCapabilities($this->login, array(TestCap2::ID, TestCap3::ID), array(1));
 
-        $expected[] = array('site' => '1', 'access' => UseCustomTemplates::ID);
+        $expected[] = array('site' => '1', 'access' => TestCap3::ID);
         $access = $this->model->getSitesAccessFromUser($this->login);
 
-        // did not add tagmanagerwrite
+        // did not add TestCap2
         $this->assertEquals($expected, $access);
     }
 
@@ -435,7 +528,7 @@ class APITest extends IntegrationTestCase
         );
         $this->assertEquals($expected, $access);
 
-        $this->api->addCapabilities($this->login, array(TagManagerWrite::ID, PublishLiveContainer::ID, UseCustomTemplates::ID), array(1));
+        $this->api->addCapabilities($this->login, array(TestCap2::ID, TestCap1::ID, TestCap3::ID), array(1));
 
         $access = $this->model->getSitesAccessFromUser($this->login);
         $this->assertEquals($expected, $access);
@@ -456,7 +549,7 @@ class APITest extends IntegrationTestCase
      */
     public function test_removeCapabilities_failsWhenNotCapabilityIsGivenAsArray()
     {
-        $this->api->removeCapabilities($this->login, array(TagManagerWrite::ID, View::ID), array(1));
+        $this->api->removeCapabilities($this->login, array(TestCap2::ID, View::ID), array(1));
     }
 
     /**
@@ -465,21 +558,21 @@ class APITest extends IntegrationTestCase
      */
     public function test_removeCapabilities_failsWhenUserDoesNotExist()
     {
-        $this->api->removeCapabilities('foobar', array(TagManagerWrite::ID), array(1));
+        $this->api->removeCapabilities('foobar', array(TestCap2::ID), array(1));
     }
 
     public function test_removeCapabilities()
     {
-        $addAccess = array(View::ID, TagManagerWrite::ID, UseCustomTemplates::ID, PublishLiveContainer::ID);
+        $addAccess = array(View::ID, TestCap2::ID, TestCap3::ID, TestCap1::ID);
         $this->api->setUserAccess($this->login, $addAccess, array(1));
 
         $access = $this->getAccessInSite($this->login, 1);
         $this->assertEquals($addAccess, $access);
 
-        $this->api->removeCapabilities($this->login, array(UseCustomTemplates::ID, TagManagerWrite::ID), 1);
+        $this->api->removeCapabilities($this->login, array(TestCap3::ID, TestCap2::ID), 1);
 
         $access = $this->getAccessInSite($this->login, 1);
-        $this->assertEquals(array(View::ID, PublishLiveContainer::ID), $access);
+        $this->assertEquals(array(View::ID, TestCap1::ID), $access);
     }
 
     private function getAccessInSite($login, $idSite)
@@ -502,7 +595,14 @@ class APITest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
+            'observers.global' => \DI\add([
+                ['Access.Capability.addCapabilities', function (&$capabilities) {
+                    $capabilities[] = new TestCap1();
+                    $capabilities[] = new TestCap2();
+                    $capabilities[] = new TestCap3();
+                }],
+            ]),
         );
     }
 }

@@ -9,6 +9,7 @@
 namespace Piwik\Access\Role;
 
 use Piwik\Access\Role;
+use Piwik\Piwik;
 
 class View extends Role
 {
@@ -16,7 +17,7 @@ class View extends Role
 
     public function getName()
     {
-        return 'View';
+        return Piwik::translate('UsersManager_PrivView');
     }
 
     public function getId()
@@ -26,7 +27,7 @@ class View extends Role
 
     public function getDescription()
     {
-        return 'Lets you view ...';
+        return Piwik::translate('UsersManager_PrivViewDescription');
     }
 
     public function getHelpUrl()

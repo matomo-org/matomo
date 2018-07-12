@@ -9,6 +9,7 @@
 namespace Piwik\Access\Role;
 
 use Piwik\Access\Role;
+use Piwik\Piwik;
 
 class Admin extends Role
 {
@@ -16,7 +17,7 @@ class Admin extends Role
 
     public function getName()
     {
-        return 'Admin';
+        return Piwik::translate('UsersManager_PrivAdmin');
     }
 
     public function getId()
@@ -26,7 +27,9 @@ class Admin extends Role
 
     public function getDescription()
     {
-        return 'Lets you admin ...';
+        return Piwik::translate('UsersManager_PrivAdminDescription', array(
+            Piwik::translate('UsersManager_PrivWrite')
+        ));
     }
 
     public function getHelpUrl()

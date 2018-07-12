@@ -9,6 +9,7 @@
 namespace Piwik\Access\Role;
 
 use Piwik\Access\Role;
+use Piwik\Piwik;
 
 class Write extends Role
 {
@@ -16,7 +17,7 @@ class Write extends Role
 
     public function getName()
     {
-        return 'Write';
+        return Piwik::translate('UsersManager_PrivWrite');
     }
 
     public function getId()
@@ -26,12 +27,12 @@ class Write extends Role
 
     public function getDescription()
     {
-        return 'Lets you write ...';
+        return Piwik::translate('UsersManager_PrivWriteDescription');
     }
 
     public function getHelpUrl()
     {
-        return 'TBD';
+        return '';
     }
 
 }

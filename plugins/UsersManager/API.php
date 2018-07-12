@@ -112,6 +112,52 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Get the list of all available roles.
+     * It does not return the super user role, and neither the "noaccess" role.
+     * @return array[]  Returns an array containing information about each role
+     */
+    public function getAvailableRoles()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $response = array();
+
+        foreach ($this->roleProvider->getAllRoles() as $role) {
+            $response[] = array(
+                'id' => $role->getId(),
+                'name' => $role->getName(),
+                'description' => $role->getDescription(),
+                'helpUrl' => $role->getHelpUrl()
+            );
+        }
+
+        return $response;
+    }
+
+    /**
+     * Get the list of all available capabilities.
+     * @return array[]  Returns an array containing information about each capability
+     */
+    public function getAvailableCapabilities()
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+
+        $response = array();
+
+        foreach ($this->capabilityProvider->getAllCapabilities() as $capability) {
+            $response[] = array(
+                'id' => $capability->getId(),
+                'name' => $capability->getName(),
+                'description' => $capability->getDescription(),
+                'helpUrl' => $capability->getHelpUrl(),
+                'includedInRoles' => $capability->getIncludedInRoles()
+            );
+        }
+
+        return $response;
+    }
+
+    /**
      * Sets a user preference
      * @param string $userLogin
      * @param string $preferenceName
@@ -830,6 +876,18 @@ class API extends \Piwik\Plugin\API
         $this->reloadPermissions();
     }
 
+    /**
+     * Adds the given capabilities to the given user for the given sites.
+     * The capability will be added only when the user also has access to a site, for example View, Write, or Admin.
+     * Note: You can neither add any capability to a super user, nor to the anonymous user.
+     * Note: If the user has assigned a role which already grants the given capability, the capability will not be added in
+     * the backend.
+     *
+     * @param string $userLogin The user login
+     * @param string|string[] $capabilities  To fetch a list of available capabilities call "UsersManager.getAvailableCapabilities".
+     * @param int|int[] $idSites
+     * @throws Exception
+     */
     public function addCapabilities($userLogin, $capabilities, $idSites)
     {
         $idSites = $this->getIdSitesCheckAdminAccess($idSites);
@@ -893,6 +951,17 @@ class API extends \Piwik\Plugin\API
         $this->reloadPermissions();
     }
 
+    /**
+     * Removes the given capabilities from the given user for the given sites.
+     * The capability will be only removed if it is actually granted as a separate capability. If the user has a role
+     * that includes a specific capability, for example "Admin", then the capability will not be removed because the
+     * assigned role will always include this capability.
+     *
+     * @param string $userLogin The user login
+     * @param string|string[] $capabilities  To fetch a list of available capabilities call "UsersManager.getAvailableCapabilities".
+     * @param int|int[] $idSites
+     * @throws Exception
+     */
     public function removeCapabilities($userLogin, $capabilities, $idSites)
     {
         $idSites = $this->getIdSitesCheckAdminAccess($idSites);
