@@ -151,6 +151,17 @@
                 // ignore (errors will still be displayed to the user)
             }).then(function () {
                 return fetchAccess();
+            }).then(function () {
+                var UI = require('piwik/UI');
+                var notification = new UI.Notification();
+                notification.toast(_pk_translate('General_Done'), {
+                    placeat: '.userPermissionsEdit .add-site .title',
+                    context: 'success',
+                    noclear: true,
+                    type: 'toast',
+                    class: 'user-permission-toast',
+                    toastLength: 3000
+                });
             });
         }
 

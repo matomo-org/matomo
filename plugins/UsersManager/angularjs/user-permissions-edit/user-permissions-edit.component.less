@@ -28,6 +28,10 @@
 
     [piwik-field] {
       display:inline-block;
+
+      .input-field {
+        width: 180px;
+      }
     }
 
     [piwik-siteselector] {
@@ -41,6 +45,10 @@
         position: static !important;
         margin-top: 1px;
       }
+    }
+
+    .btn-flat:hover {
+      background: none;
     }
   }
 
@@ -57,10 +65,21 @@
       margin: 0;
     }
 
-    .add-site > div {
-      vertical-align: bottom;
-      margin-top: .8rem;
+    .add-site {
+      > div {
+        vertical-align: bottom;
+        margin-top: .8rem;
+      }
+
+      > a {
+        padding: 0 1rem 0 0;
+      }
     }
+  }
+
+  .bulk-actions > a.dropdown-trigger {
+    margin-top: .8rem;
+    margin-right: 1rem;
   }
 
   #sitesForPermission {
@@ -150,5 +169,12 @@
       margin-right: 1em;
       margin-top: 1em;
     }
+  }
+}
+
+.user-permission-toast .notification {
+  padding-left: 20px;
+  &::before {
+    display:none;
   }
 }

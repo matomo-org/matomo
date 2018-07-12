@@ -50,7 +50,8 @@
                 onlySitesWithAdminAccess: '=',
                 inputName: '@name',
                 allSitesText: '@',
-                allSitesLocation: '@'
+                allSitesLocation: '@',
+                placeholder: '@'
             },
             require: "?ngModel",
             templateUrl: 'plugins/CoreHome/angularjs/siteselector/siteselector.directive.html?cb=' + piwik.cacheBuster,

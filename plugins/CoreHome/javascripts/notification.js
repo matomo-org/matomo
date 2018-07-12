@@ -41,14 +41,8 @@
      *                                                wherever you want.
      */
     Notification.prototype.show = function (message, options) {
-        if (!message) {
-            throw new Error('No message given, cannot display notification');
-        }
-        if (options && !$.isPlainObject(options)) {
-            throw new Error('Options has the wrong format, cannot display notification');
-        } else if (!options) {
-            options = {};
-        }
+        checkMessage(message);
+        options = checkOptions(options);
 
         var template = generateNotificationHtmlMarkup(options, message);
         this.$node   = placeNotification(template, options);
@@ -70,6 +64,47 @@
         }
     };
 
+    /**
+     * Shows a notification at a certain point with a quick upwards animation.
+     *
+     * TODO: if the materializecss version matomo uses is updated, should use their toasts.
+     *
+     * @type {Notification}
+     */
+    Notification.prototype.toast = function (message, options) {
+        checkMessage(message);
+        options = checkOptions(options);
+
+        var $placeat = $(options.placeat);
+        if (!$placeat.length) {
+            throw new Error("A valid selector is required for the placeat option when using Notification.toast().");
+        }
+
+        var $template = $(generateNotificationHtmlMarkup(options, message)).hide();
+        $('body').append($template);
+
+        compileNotification($template);
+
+        $template.css({
+            position: 'absolute',
+            left: $placeat.offset().left,
+            top: $placeat.offset().top
+        });
+        setTimeout(function () {
+            $template.animate(
+                {
+                    top: $placeat.offset().top - $template.height()
+                },
+                {
+                    duration: 300,
+                    start: function () {
+                        $template.show();
+                    }
+                }
+            );
+        });
+    };
+
     exports.Notification = Notification;
 
     function generateNotificationHtmlMarkup(options, message) {
@@ -78,7 +113,9 @@
                 title: 'notification-title',
                 context: 'context',
                 type: 'type',
-                noclear: 'noclear'
+                noclear: 'noclear',
+                class: 'class',
+                toastLength: 'toast-length'
             },
             html = '<div piwik-notification';
 
@@ -95,13 +132,17 @@
         return html;
     }
 
+    function compileNotification($node) {
+        angular.element(document).injector().invoke(function ($compile, $rootScope) {
+            $compile($node)($rootScope.$new(true));
+        });
+    }
+
     function placeNotification(template, options) {
         var $notificationNode = $(template);
 
         // compile the template in angular
-        angular.element(document).injector().invoke(function ($compile, $rootScope) {
-            $compile($notificationNode)($rootScope.$new(true));
-        });
+        compileNotification($notificationNode);
 
         if (options.style) {
             $notificationNode.css(options.style);
@@ -131,6 +172,21 @@
         }
 
         return $notificationNode;
+    }
+
+    function checkMessage(message) {
+        if (!message) {
+            throw new Error('No message given, cannot display notification');
+        }
+    }
+
+    function checkOptions(options) {
+        if (options && !$.isPlainObject(options)) {
+            throw new Error('Options has the wrong format, cannot display notification');
+        } else if (!options) {
+            options = {};
+        }
+        return options;
     }
 
 })(jQuery, require);

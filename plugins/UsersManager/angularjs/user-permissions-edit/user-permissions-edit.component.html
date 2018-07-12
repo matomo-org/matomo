@@ -1,33 +1,31 @@
 <div class="userPermissionsEdit" ng-class="{ loading: $ctrl.isLoadingAccess }">
-    <div class="row">
-        <div class="input-field bulk-actions">
-            <a
-                class='dropdown-trigger btn'
-                href=''
-                data-activates='user-permissions-edit-bulk-actions'
-                piwik-dropdown-menu
-                ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
-            >
-                Bulk Actions
-            </a>
-            <ul id='user-permissions-edit-bulk-actions' class='dropdown-content'>
-                <li>
-                    <a class='dropdown-trigger' data-activates="bulk-set-access" piwik-dropdown-menu>Set Access</a>
-                    <ul id="bulk-set-access" class="dropdown-content">
-                        <li ng-repeat="access in $ctrl.accessLevels">
-                            <a href="" ng-click="$ctrl.siteAccessToChange = null; $ctrl.roleToChangeTo = access.key; $ctrl.showChangeAccessConfirm();">{{ access.value }}</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="" ng-click="$ctrl.siteAccessToChange = null; $ctrl.roleToChangeTo = 'noaccess'; $ctrl.showRemoveAccessConfirm();">Remove Access</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
     <div class="filters row">
-        <div class=" col s12 m6">
+        <div class=" col s12 m8">
+            <div class="input-field bulk-actions">
+                <a
+                        class='dropdown-trigger btn'
+                        href=''
+                        data-activates='user-permissions-edit-bulk-actions'
+                        piwik-dropdown-menu
+                        ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
+                >
+                    Bulk Actions
+                </a>
+                <ul id='user-permissions-edit-bulk-actions' class='dropdown-content'>
+                    <li>
+                        <a class='dropdown-trigger' data-activates="bulk-set-access" piwik-dropdown-menu>Set Access</a>
+                        <ul id="bulk-set-access" class="dropdown-content">
+                            <li ng-repeat="access in $ctrl.accessLevels">
+                                <a href="" ng-click="$ctrl.siteAccessToChange = null; $ctrl.roleToChangeTo = access.key; $ctrl.showChangeAccessConfirm();">{{ access.value }}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="" ng-click="$ctrl.siteAccessToChange = null; $ctrl.roleToChangeTo = 'noaccess'; $ctrl.showRemoveAccessConfirm();">Remove Access</a>
+                    </li>
+                </ul>
+            </div>
+
             <div class="input-field site-filter">
                 <input type="text" placeholder="Filter by website" ng-model="$ctrl.siteNameFilter" ng-change="$ctrl.fetchAccess()" />
             </div>
@@ -43,17 +41,19 @@
                 ></div>
             </div>
         </div>
-        <div class="col m6">
+        <div class="col m4">
             <div class="input-field add-site">
-                <!-- TODO: site selector must support filters on site so we can ignore those in table -->
                 <div
                     piwik-field
                     class="add-site-selector"
                     uicontrol="site"
                     ng-model="$ctrl.siteToAdd"
                     ui-control-attributes="{showAllSitesItem: true}"
+                    placeholder="Give access to..."
                 ></div>
-                <a class='btn' ng-click="$ctrl.roleToChangeTo = 'view'; $ctrl.siteAccessToChange = { idsite: $ctrl.siteToAdd.id }; $ctrl.addUserRole()">Add Access</a>
+                <a class='btn-flat' ng-click="$ctrl.roleToChangeTo = 'view'; $ctrl.siteAccessToChange = { idsite: $ctrl.siteToAdd.id }; $ctrl.addUserRole()">
+                    <span class="icon-add"></span>
+                </a>
             </div>
         </div>
     </div>

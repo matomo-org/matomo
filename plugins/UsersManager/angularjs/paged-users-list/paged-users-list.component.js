@@ -16,7 +16,8 @@
             onEditUser: '&',
             limit: '<',
             initialSiteId: '<',
-            initialSiteName: '<'
+            initialSiteName: '<',
+            currentUserRole: '<'
         },
         controller: PagedUsersListController
     });
