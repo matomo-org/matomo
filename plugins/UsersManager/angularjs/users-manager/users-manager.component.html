@@ -13,7 +13,7 @@
                 Create new users or update the existing users. You can then set their permissions here too.
             </p>
 
-            <div class="row add-user-container">
+            <div class="row add-user-container" ng-if="$ctrl.currentUserRole == 'superuser'">
                 <div class="input-field col s12 m3">
                     <a class="btn" ng-click="$ctrl.isEditing = true; $ctrl.userBeingEdited = null;">
                         Add a new user
@@ -26,15 +26,17 @@
                 on-delete-user="$ctrl.onDeleteUser(user)"
                 initial-site-name="$ctrl.initialSiteName"
                 initial-site-id="$ctrl.initialSiteId"
+                current-user-role="$ctrl.currentUserRole"
             ></piwik-paged-users-list>
         </div>
     </div>
 
     <!-- TODO: whether a user is being edited should be part of the URL -->
-    <div ng-if="$ctrl.isEditing">
+    <div ng-show="$ctrl.isEditing">
         <piwik-user-edit-form
             on-done-editing="$ctrl.isEditing = false"
             user="$ctrl.userBeingEdited"
+            current-user-role="$ctrl.currentUserRole"
             allow-superuser-edit="$ctrl.isCurrentUserSuperUser"
         ></piwik-user-edit-form>
     </div>

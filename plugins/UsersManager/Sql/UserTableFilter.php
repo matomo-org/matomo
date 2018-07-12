@@ -68,8 +68,8 @@ class UserTableFilter
         }
 
         if ($this->filterSearch) {
-            $conditions[] = '(u.login LIKE ? OR u.alias LIKE ? OR u.email LIKE ?)';
-            $bind = array_merge($bind, ['%' . $this->filterSearch . '%', '%' . $this->filterSearch . '%', '%' . $this->filterSearch . '%']);
+            $conditions[] = '(u.login LIKE ? OR u.email LIKE ?)';
+            $bind = array_merge($bind, ['%' . $this->filterSearch . '%', '%' . $this->filterSearch . '%']);
         }
 
         $result = implode(' AND ', $conditions);

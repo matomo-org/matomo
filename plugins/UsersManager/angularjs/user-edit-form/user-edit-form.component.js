@@ -15,7 +15,7 @@
         bindings: {
             user: '<',
             onDoneEditing: '&',
-            allowSuperuserEdit: '<'
+            currentUserRole: '<'
         },
         controller: UserEditFormController
     });
@@ -29,7 +29,6 @@
         vm.isSavingUserInfo = false;
         vm.isPasswordChanged = false;
 
-        vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.confirmSuperUserChange = confirmSuperUserChange;
         vm.getFormTitle = getFormTitle;
@@ -37,18 +36,20 @@
         vm.toggleSuperuserAccess = toggleSuperuserAccess;
         vm.saveUserInfo = saveUserInfo;
 
-        function $onInit() {
+        function $onChanges() {
             if (vm.user) {
                 vm.isAdd = false;
             } else {
                 vm.isAdd = true;
                 vm.user = {};
             }
-        }
 
-        function $onChanges() {
             if (!vm.isAdd) {
                 vm.user.password = 'XXXXXXXX'; // make sure password is not stored in the client after update/save
+            }
+
+            if (vm.currentUserRole !== 'superuser') {
+                vm.activeTab = 'permissions';
             }
         }
 

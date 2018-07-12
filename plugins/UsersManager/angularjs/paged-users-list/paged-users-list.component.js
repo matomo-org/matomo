@@ -27,7 +27,10 @@
         var vm = this;
 
         // options for selects (TODO: should be supplied server side)
-        vm.bulkActionAccessLevels = ['view', 'admin'];
+        vm.bulkActionAccessLevels = [
+            { key: 'view', value: 'View' },
+            { key: 'admin', value: 'Admin' },
+        ];
         vm.accessLevels = [
             { key: 'noaccess', value: 'No Access' },
             { key: 'view', value: 'View' },
@@ -45,7 +48,7 @@
         // search state
         vm.offset = 0;
         vm.users = [];
-        vm.totalEntries = 10000;
+        vm.totalEntries = null;
         vm.userTextFilter = '';
         vm.accessLevelFilter = '';
         vm.isLoadingUsers = false;

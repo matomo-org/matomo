@@ -423,14 +423,19 @@ class API extends \Piwik\Plugin\API
      */
     public function getSitesAccessForUser($userLogin, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
     {
-        Piwik::checkUserHasSuperUserAccess();
+        Piwik::checkUserHasSomeAdminAccess();
         $this->checkUserExists($userLogin);
 
         if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
             throw new \Exception("This method should not be used with superusers.");
         }
 
-        list($access, $totalResults) = $this->model->getSitesAccessFromUserWithFilters($userLogin, $limit, $offset, $filter_search, $filter_access);
+        $idSites = null;
+        if (!Piwik::hasUserSuperUserAccess()) {
+            $idSites = $this->access->getSitesIdWithAdminAccess();
+        }
+
+        list($access, $totalResults) = $this->model->getSitesAccessFromUserWithFilters($userLogin, $limit, $offset, $filter_search, $filter_access, $idSites);
 
         return [
             'results' => $access,
@@ -451,19 +456,24 @@ class API extends \Piwik\Plugin\API
      */
     public function setSiteAccessMatching($userLogin, $access, $filter_search = null, $filter_access = null)
     {
-        Piwik::checkUserHasSuperUserAccess();
+        Piwik::checkUserHasSomeAdminAccess();
         $this->checkUserExists($userLogin);
 
         if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
             throw new \Exception("This method should not be used with superusers.");
         }
 
-        $idSites = $this->model->getIdSitesAccessMatching($userLogin, $filter_search, $filter_access);
-        if (empty($idSites)) {
+        $idSites = null;
+        if (!Piwik::hasUserSuperUserAccess()) {
+            $idSites = $this->access->getSitesIdWithAdminAccess();
+        }
+
+        $idSitesMatching = $this->model->getIdSitesAccessMatching($userLogin, $filter_search, $filter_access, $idSites);
+        if (empty($idSitesMatching)) {
             return;
         }
 
-        $this->setUserAccess($userLogin, $access, $idSites);
+        $this->setUserAccess($userLogin, $access, $idSitesMatching);
     }
 
     /**

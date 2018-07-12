@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
@@ -145,6 +146,8 @@ class Controller extends ControllerAdmin
         uasort($websites, array('Piwik\Plugins\UsersManager\Controller', 'orderByName'));
         $view->websites = $websites;
         $this->setBasicVariablesView($view);
+
+        $view->currentUserRole = Piwik::hasUserSuperUserAccess() ? 'superuser' : 'admin';
 
         return $view->render();
     }

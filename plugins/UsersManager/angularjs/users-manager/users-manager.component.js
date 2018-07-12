@@ -13,6 +13,7 @@
     angular.module('piwikApp').component('piwikUsersManager', {
         templateUrl: 'plugins/UsersManager/angularjs/users-manager/users-manager.component.html?cb=' + piwik.cacheBuster,
         bindings: {
+            currentUserRole: '<',
             initialSiteName: '@',
             initialSiteId: '@'
         },

@@ -125,7 +125,7 @@ class APITest extends IntegrationTestCase
         ];
         $this->assertEquals($expected, $this->api->getSitesAccessFromUser('searchTextLogin'));
         $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin2'));
-        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin3'));
+        $this->assertEquals([], $this->api->getSitesAccessFromUser('userLogin3'));
         $this->assertEquals([], $this->api->getSitesAccessFromUser('userLogin4'));
     }
 
@@ -430,11 +430,10 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1, null, null, 'searchText');
         $this->cleanUsers($users['results']);
         $expected = [
-            'total' => 3,
+            'total' => 2,
             'results' => [
                 ['login' => 'searchTextLogin', 'alias' => 'alias', 'email' => 'someemail@email.com', 'superuser_access' => true, 'role' => 'superuser'],
                 ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view'],
-                ['login' => 'userLogin3', 'alias' => 'alias-searchTextABC', 'email' => 'someemail2@email.com', 'superuser_access' => true, 'role' => 'superuser'],
             ],
         ];
         $this->assertEquals($expected, $users);
@@ -537,6 +536,26 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $access);
     }
 
+    public function test_getSitesAccessForUser_shouldLimitSitesIfUserIsAdmin()
+    {
+        $this->addUserWithAccess('userLogin2', 'view', [1, 2, 3], 'userlogin2@email.com');
+
+        $this->api->setUserAccess('userLogin', 'admin', [1, 2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+
+        $this->setCurrentUser('userLogin', 'admin', [1, 2]);
+
+        $access = $this->api->getSitesAccessForUser('userLogin2', null, null, null, 'view');
+        $expected = [
+            'total' => '2',
+            'results' => [
+                ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'view'],
+                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
+            ],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
     public function test_setSiteAccessMatching_shouldSetAllSitesIfNoFiltersUsed()
     {
         $this->api->setUserAccess('userLogin', 'view', [1]);
@@ -596,6 +615,27 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $access);
     }
 
+    public function test_setSiteAccessMatching_shouldLimitSitesIfCurrentUserIsAdminUser()
+    {
+        $this->addUserWithAccess('userLogin2', 'view', [1, 2, 3], 'userlogin2@email.com');
+
+        $this->api->setUserAccess('userLogin', 'admin', [1, 2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+
+        $this->setCurrentUser('userLogin', 'admin', [1, 2]);
+
+        $this->api->setSiteAccessMatching('userLogin2', 'admin', null, 'view');
+
+        FakeAccess::clearAccess(true);
+        $access = $this->api->getSitesAccessFromUser('userLogin2');
+        $expected = [
+            ['site' => '1', 'access' => 'admin'],
+            ['site' => '2', 'access' => 'admin'],
+            ['site' => '3', 'access' => 'view']
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
     public function test_deleteUsersMatching_shouldSearchByTextCorrectly()
     {
         $this->addUserWithAccess('searchTextLogin', 'superuser', 1, 'someemail@email.com', 'alias');
@@ -606,7 +646,7 @@ class APITest extends IntegrationTestCase
         $this->api->deleteUsersMatching(1, 'searchText');
         $this->assertFalse($this->api->userExists('searchTextLogin'));
         $this->assertFalse($this->api->userExists('userLogin2'));
-        $this->assertFalse($this->api->userExists('userLogin3'));
+        $this->assertTrue($this->api->userExists('userLogin3'));
         $this->assertTrue($this->api->userExists('userLogin4'));
     }
 
@@ -665,9 +705,9 @@ class APITest extends IntegrationTestCase
         FakeAccess::$identity = $username;
         FakeAccess::$superUser = $accessLevel == 'superuser';
         if ($accessLevel == 'view') {
-            FakeAccess::$idSitesView = [$idSite];
+            FakeAccess::$idSitesView = is_array($idSite) ? $idSite : [$idSite];
         } else if ($accessLevel == 'admin') {
-            FakeAccess::$idSitesAdmin = [$idSite];
+            FakeAccess::$idSitesAdmin = is_array($idSite) ? $idSite : [$idSite];
         }
     }
 

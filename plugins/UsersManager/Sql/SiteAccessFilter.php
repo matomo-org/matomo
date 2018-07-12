@@ -28,7 +28,14 @@ class SiteAccessFilter
      */
     private $filterSearch;
 
-    public function __construct($userLogin, $filterSearch, $filterByRole)
+    /**
+     * List of sites to limit the search to.
+     *
+     * @var int[]|null
+     */
+    private $idSites;
+
+    public function __construct($userLogin, $filterSearch, $filterByRole, $idSites)
     {
         if (empty($userLogin)) {
             throw new \InvalidArgumentException("filtering by role is only supported for a single site");
@@ -37,6 +44,7 @@ class SiteAccessFilter
         $this->userLogin = $userLogin;
         $this->filterSearch = $filterSearch;
         $this->filterByRole = $filterByRole;
+        $this->idSites = empty($idSites) ? null : array_map('intval', $idSites);
     }
 
     public function getJoins($accessTable)
@@ -61,6 +69,10 @@ class SiteAccessFilter
         if ($this->filterByRole && $this->filterByRole != 'some') { // TODO: automated test w/ 'some' in methods that use it
             $result .= ' AND a.access = ?';
             $bind[] = $this->filterByRole;
+        }
+
+        if (!empty($this->idSites)) {
+            $result .= ' AND a.idsite IN (' . implode(',', $this->idSites) . ')';
         }
 
         return [$result, $bind];

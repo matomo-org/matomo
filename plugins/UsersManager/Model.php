@@ -161,9 +161,9 @@ class Model
         return $return;
     }
 
-    public function getSitesAccessFromUserWithFilters($userLogin, $limit = null, $offset = 0, $pattern = null, $access = null)
+    public function getSitesAccessFromUserWithFilters($userLogin, $limit = null, $offset = 0, $pattern = null, $access = null, $idSites = null)
     {
-        $siteAccessFilter = new SiteAccessFilter($userLogin, $pattern, $access);
+        $siteAccessFilter = new SiteAccessFilter($userLogin, $pattern, $access, $idSites);
 
         list($joins, $bind) = $siteAccessFilter->getJoins('a');
 
@@ -194,9 +194,9 @@ class Model
         return [$access, $count];
     }
 
-    public function getIdSitesAccessMatching($userLogin, $filter_search = null, $filter_access = null)
+    public function getIdSitesAccessMatching($userLogin, $filter_search = null, $filter_access = null, $idSites = null)
     {
-        $siteAccessFilter = new SiteAccessFilter($userLogin, $filter_search, $filter_access);
+        $siteAccessFilter = new SiteAccessFilter($userLogin, $filter_search, $filter_access, $idSites);
 
         list($joins, $bind) = $siteAccessFilter->getJoins('a');
 

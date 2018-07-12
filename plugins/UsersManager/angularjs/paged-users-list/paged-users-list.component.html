@@ -23,9 +23,9 @@
                         <li ng-repeat="access in $ctrl.bulkActionAccessLevels">
                             <a
                                 href=""
-                                ng-click="$ctrl.userToChange = null; $ctrl.roleToChangeTo = access; $ctrl.showAccessChangeConfirm();"
+                                ng-click="$ctrl.userToChange = null; $ctrl.roleToChangeTo = access.key; $ctrl.showAccessChangeConfirm();"
                             >
-                                {{ access }} <!-- TODO: translate -->
+                                {{ access.value }}
                             </a>
                         </li>
                     </ul>
@@ -38,7 +38,7 @@
                         Remove Access
                     </a>
                 </li>
-                <li>
+                <li ng-if="$ctrl.currentUserRole == 'superuser'">
                     <a href="" ng-click="$ctrl.showDeleteConfirm()">Delete Users</a>
                 </li>
             </ul>
@@ -106,17 +106,17 @@
                         uicontrol="site"
                         ng-model="$ctrl.permissionsForSite"
                         ng-change="$ctrl.fetchUsers()"
+                        ui-control-attributes="{ onlySitesWithAdminAccess: $ctrl.currentUserRole !== 'superuser' }"
                     ></div>
                 </th>
-                <th>Email</th>
-                <th>Alias</th>
-                <th>Last Seen</th>
-                <th>Actions</th> <!-- TODO: translate -->
+                <th ng-if="$ctrl.currentUserRole == 'superuser'">Email</th>
+                <th ng-if="$ctrl.currentUserRole == 'superuser'">Last Seen</th>
+                <th class="actions-cell-header"><div>Actions</div></th> <!-- TODO: translate -->
             </tr>
             </thead>
 
             <tbody>
-                <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected && $ctrl.users.length">
+                <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected && $ctrl.users.length && $ctrl.users.length < $ctrl.totalEntries">
                     <td colspan="7">
                         <div ng-if="!$ctrl.areAllResultsSelected">
                             The <strong>{{ $ctrl.users.length }}</strong> displayed users are selected.
@@ -148,16 +148,15 @@
                             disabled="user.role == 'superuser'"
                         ></div>
                     </td>
-                    <td id="email">{{:: user.email }}</td>
-                    <td id="alias">{{:: user.alias }}</td>
-                    <td id="last_seen">
+                    <td id="email" ng-if="$ctrl.currentUserRole == 'superuser'">{{:: user.email }}</td>
+                    <td id="last_seen" ng-if="$ctrl.currentUserRole == 'superuser'">
                         {{:: user.last_seen ? (user.last_seen + ' ago') : '-' }}
                     </td>
                     <td class="center actions-cell">
                         <button class="edituser table-action" title="Edit" ng-click="$ctrl.onEditUser({ user: user })">
                             <span class="icon-edit"></span>
                         </button>
-                        <button class="deleteuser table-action" title="Delete" ng-click="$ctrl.userToChange = user; $ctrl.showDeleteConfirm()">
+                        <button class="deleteuser table-action" title="Delete" ng-click="$ctrl.userToChange = user; $ctrl.showDeleteConfirm()" ng-if="$ctrl.currentUserRole == 'superuser'">
                             <span class="icon-delete"></span>
                         </button>
                     </td>
@@ -180,8 +179,8 @@
 
     <div class="change-user-role-confirm-modal modal">
         <div class="modal-content">
-            <h3 ng-if="$ctrl.userToChange">Are you sure you want to change the role of <strong>{{ $ctrl.userToChange.login }}</strong> to <strong>"{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}"</strong>?</h3>
-            <p ng-if="!$ctrl.userToChange">Are you sure you want to set the role of all <strong>{{ $ctrl.getAffectedUsersCount() }}</strong> selected users to <strong>"{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}"</strong>?</p>
+            <h3 ng-if="$ctrl.userToChange">Are you sure you want to change <strong>{{ $ctrl.userToChange.login }}</strong>'s role to <strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong> for <strong>{{ $ctrl.permissionsForSite.name }}</strong>?</h3>
+            <p ng-if="!$ctrl.userToChange">Are you sure you want to change the <strong>{{ $ctrl.getAffectedUsersCount() }}</strong> selected users' role to <strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong> form <strong>{{ $ctrl.permissionsForSite.name }}</strong>?</p>
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.changeUserRole()">Yes</a>

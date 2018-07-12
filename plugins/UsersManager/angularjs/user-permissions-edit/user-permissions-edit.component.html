@@ -29,7 +29,7 @@
     <div class="filters row">
         <div class=" col s12 m6">
             <div class="input-field site-filter">
-                <input type="text" placeholder="Site search" ng-model="$ctrl.siteNameFilter" ng-change="$ctrl.fetchAccess()" />
+                <input type="text" placeholder="Filter by website" ng-model="$ctrl.siteNameFilter" ng-change="$ctrl.fetchAccess()" />
             </div>
 
             <div class="input-field access-filter">
@@ -73,7 +73,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected">
+        <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected && $ctrl.siteAccess.length < $ctrl.totalEntries">
             <td colspan="4">
                 <div ng-if="!$ctrl.areAllResultsSelected">
                     The <strong>{{ $ctrl.siteAccess.length }}</strong> displayed websites are selected.

@@ -7,7 +7,7 @@
     <div class="row" piwik-form>
         <div class="col m2 entityList">
             <ul class="listCircle">
-                <li ng-class="{active: $ctrl.activeTab === 'basic'}" class="menuBasicInfo">
+                <li ng-class="{active: $ctrl.activeTab === 'basic'}" class="menuBasicInfo" ng-if="$ctrl.currentUserRole == 'superuser'">
                     <a href="" ng-click="$ctrl.activeTab = 'basic'">Basic Information</a>
                 </li>
 
@@ -15,7 +15,7 @@
                     <a href="" ng-click="$ctrl.activeTab = 'permissions'">Permissions</a>
                 </li>
 
-                <li ng-class="{active: $ctrl.activeTab === 'superuser', disabled: $ctrl.isAdd}" class="menuSuperuser" ng-if="$ctrl.allowSuperuserEdit">
+                <li ng-class="{active: $ctrl.activeTab === 'superuser', disabled: $ctrl.isAdd}" class="menuSuperuser" ng-if="$ctrl.currentUserRole == 'superuser'">
                     <a href="" ng-click="$ctrl.activeTab = 'superuser'">Superuser Access</a>
                 </li>
             </ul>
@@ -48,17 +48,6 @@
                         ng-model="$ctrl.user.password"
                         title="Password"
                         ng-change="$ctrl.isPasswordChanged = true;"
-                        disabled="$ctrl.isSavingUserInfo"
-                >
-                </div>
-
-                <div
-                        piwik-field
-                        uicontrol="text"
-                        name="user_alias"
-                        ng-model="$ctrl.user.alias"
-                        title="Alias"
-                        maxlength="45"
                         disabled="$ctrl.isSavingUserInfo"
                 >
                 </div>
