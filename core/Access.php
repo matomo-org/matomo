@@ -97,8 +97,14 @@ class Access
     /**
      * Constructor
      */
-    public function __construct(RolesProvider $roleProvider, CapabilitiesProvider $capabilityProvider)
+    public function __construct(RolesProvider $roleProvider = null, CapabilitiesProvider $capabilityProvider = null)
     {
+        if (!isset($roleProvider)) {
+            $roleProvider = StaticContainer::get('Piwik\Access\RolesProvider');
+        }
+        if (!isset($capabilityProvider)) {
+            $capabilityProvider = StaticContainer::get('Piwik\Access\CapabilitiesProvider');
+        }
         $this->roleProvider = $roleProvider;
         $this->capabilityProvider = $capabilityProvider;
 
