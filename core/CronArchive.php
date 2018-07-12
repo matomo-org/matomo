@@ -12,6 +12,7 @@ use Exception;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archiver\Request;
+use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\FixedSiteIds;
 use Piwik\CronArchive\SharedSiteIds;
@@ -201,6 +202,13 @@ class CronArchive
     public $concurrentRequestsPerWebsite = false;
 
     /**
+     * The number of concurrent archivers to run at once max.
+     *
+     * @var int|false
+     */
+    public $maxConcurrentArchivers = false;
+
+    /**
      * List of segment strings to force archiving for. If a stored segment is not in this list, it will not
      * be archived.
      *
@@ -367,6 +375,29 @@ class CronArchive
 
         $numWebsitesScheduled = $this->websites->getNumSites();
         $numWebsitesArchived = 0;
+
+        $cliMulti = $this->makeCliMulti();
+        if ($this->maxConcurrentArchivers && $cliMulti->supportsAsync()) {
+            $numRunning = 0;
+            $processes = Process::getListOfRunningProcesses();
+            $instanceId = SettingsPiwik::getPiwikInstanceId();
+
+            foreach ($processes as $process) {
+                if (strpos($process, 'console core:archive') !== false &&
+                    (!$instanceId
+                      || strpos($process, '--piwik-domain=' . $instanceId) !== false
+                      || strpos($process, '--piwik-domain="' . $instanceId . '"') !== false
+                      || strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)) {
+                    $numRunning++;
+                }
+            }
+            if ($this->maxConcurrentArchivers < $numRunning) {
+                $this->logger->info(sprintf("Archiving will stop now because %s archivers are already running and max %s are supposed to run at once.", $numRunning, $this->maxConcurrentArchivers));
+                return;
+            } else {
+                $this->logger->info(sprintf("%s out of %s archivers running currently", $numRunning, $this->maxConcurrentArchivers));
+            }
+        }
 
         do {
             if ($this->isMaintenanceModeEnabled()) {
