@@ -484,7 +484,7 @@ class APITest extends IntegrationTestCase
 
     private function getAccessInSite($login, $idSite)
     {
-        $access = $this->model->getSitesAccessFromUser($this->login);
+        $access = $this->model->getSitesAccessFromUser($login);
         $ids = array();
         foreach ($access as $entry) {
             if ($entry['site'] == $idSite) {
