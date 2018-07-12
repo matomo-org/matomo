@@ -14,7 +14,8 @@
         templateUrl: 'plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.html?cb=' + piwik.cacheBuster,
         bindings: {
             userLogin: '<',
-            limit: '<'
+            limit: '<',
+            onUserHasAccessDetected: '&'
         },
         controller: UserPermissionsEditController
     });
@@ -50,6 +51,9 @@
         vm.isBulkActionsDisabled = true;
         vm.areAllResultsSelected = false;
         vm.previousRole = null;
+
+        // other state
+        vm.hasAccessToAtLeastOneSite = true;
 
         // intermediate state
         vm.roleToChangeTo = null;
@@ -101,6 +105,11 @@
                 vm.isLoadingAccess = false;
                 vm.siteAccess = response.results;
                 vm.totalEntries = response.total;
+                vm.hasAccessToAtLeastOneSite = !! response.has_access_to_any;
+
+                if (vm.onUserHasAccessDetected) {
+                    vm.onUserHasAccessDetected({ hasAccess: vm.hasAccessToAtLeastOneSite });
+                }
 
                 clearSelection();
             }).catch(function () {
@@ -152,16 +161,18 @@
             }).then(function () {
                 return fetchAccess();
             }).then(function () {
-                var UI = require('piwik/UI');
-                var notification = new UI.Notification();
-                notification.toast(_pk_translate('General_Done'), {
-                    placeat: '.userPermissionsEdit .add-site .title',
-                    context: 'success',
-                    noclear: true,
-                    type: 'toast',
-                    class: 'user-permission-toast',
-                    toastLength: 3000
-                });
+                setTimeout(function () { // timeout to let angularjs finish rendering
+                    var UI = require('piwik/UI');
+                    var notification = new UI.Notification();
+                    notification.toast(_pk_translate('General_Done'), {
+                        placeat: '.userPermissionsEdit .add-site .title',
+                        context: 'success',
+                        noclear: true,
+                        type: 'toast',
+                        class: 'user-permission-toast',
+                        toastLength: 3000
+                    });
+                }, 500);
             });
         }
 

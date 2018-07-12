@@ -3,11 +3,12 @@
     font-weight: bold;
   }
 
-  .entityList ul li.disabled {
-    pointer-events: none;
-
-    a {
-      color: #838383;
+  .entityList ul {
+    .icon-warning {
+      .alert-warning;
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 

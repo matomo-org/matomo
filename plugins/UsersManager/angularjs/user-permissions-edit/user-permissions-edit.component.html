@@ -1,4 +1,10 @@
 <div class="userPermissionsEdit" ng-class="{ loading: $ctrl.isLoadingAccess }">
+    <div class="row" ng-if="!$ctrl.hasAccessToAtLeastOneSite">
+        <div piwik-notification context="warning" type="persistent" noclear="true">
+            <strong>Warning:</strong> This user has not been granted access to a website. When they login, they will see an error message. To prevent this,
+            add access to a website below.
+        </div>
+    </div>
     <div class="filters row">
         <div class=" col s12 m8">
             <div class="input-field bulk-actions">

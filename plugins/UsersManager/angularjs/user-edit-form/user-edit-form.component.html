@@ -11,11 +11,14 @@
                     <a href="" ng-click="$ctrl.activeTab = 'basic'">Basic Information</a>
                 </li>
 
-                <li ng-class="{active: $ctrl.activeTab === 'permissions', disabled: $ctrl.isAdd}" class="menuPermissions">
-                    <a href="" ng-click="$ctrl.activeTab = 'permissions'">Permissions</a>
+                <li ng-class="{active: $ctrl.activeTab === 'permissions'}" class="menuPermissions" ng-if="!$ctrl.isAdd">
+                    <a href="" ng-click="$ctrl.activeTab = 'permissions'">
+                        Permissions
+                    </a>
+                    <span class="icon-warning" ng-if="!$ctrl.userHasAccess"></span>
                 </li>
 
-                <li ng-class="{active: $ctrl.activeTab === 'superuser', disabled: $ctrl.isAdd}" class="menuSuperuser" ng-if="$ctrl.currentUserRole == 'superuser'">
+                <li ng-class="{active: $ctrl.activeTab === 'superuser'}" class="menuSuperuser" ng-if="$ctrl.currentUserRole == 'superuser' && !rctrl.isAdd">
                     <a href="" ng-click="$ctrl.activeTab = 'superuser'">Superuser Access</a>
                 </li>
             </ul>
@@ -74,6 +77,7 @@
                 <piwik-user-permissions-edit
                     user-login="$ctrl.user.login"
                     ng-if="!$ctrl.user.superuser_access"
+                    on-user-has-access-detected="$ctrl.userHasAccess = hasAccess"
                 >
                 </piwik-user-permissions-edit>
                 <p ng-if="$ctrl.user.superuser_access">

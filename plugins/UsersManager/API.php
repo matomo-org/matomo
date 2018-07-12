@@ -437,9 +437,16 @@ class API extends \Piwik\Plugin\API
 
         list($access, $totalResults) = $this->model->getSitesAccessFromUserWithFilters($userLogin, $limit, $offset, $filter_search, $filter_access, $idSites);
 
+        if ($totalResults > 0) {
+            $hasAccessToAny = true;
+        } else {
+            $hasAccessToAny = $this->model->getSiteAccessCount($userLogin) > 0;
+        }
+
         return [
             'results' => $access,
             'total' => $totalResults,
+            'has_access_to_any' => $hasAccessToAny
         ];
     }
 

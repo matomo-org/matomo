@@ -28,6 +28,7 @@
         vm.permissionsForIdSite = 1;
         vm.isSavingUserInfo = false;
         vm.isPasswordChanged = false;
+        vm.userHasAccess = true;
 
         vm.$onChanges = $onChanges;
         vm.confirmSuperUserChange = confirmSuperUserChange;

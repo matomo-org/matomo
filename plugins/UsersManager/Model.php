@@ -460,4 +460,14 @@ class Model
         return [$users, $count];
     }
 
+    // TODO: api tests
+    public function getSiteAccessCount($userLogin)
+    {
+        $sql = "SELECT COUNT(*) FROM " . Common::prefixTable('access') . " WHERE login = ?";
+        $bind = [$userLogin];
+
+        $db = $this->getDb();
+        return $db->fetchOne($sql, $bind);
+    }
+
 }

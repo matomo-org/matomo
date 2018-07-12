@@ -473,6 +473,7 @@ class APITest extends IntegrationTestCase
                 ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
                 ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
             ],
+            'has_access_to_any' => true,
         ];
         $this->assertEquals($expected, $access);
     }
@@ -490,6 +491,7 @@ class APITest extends IntegrationTestCase
                 ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
                 ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
             ],
+            'has_access_to_any' => true,
         ];
         $this->assertEquals($expected, $access);
     }
@@ -515,6 +517,7 @@ class APITest extends IntegrationTestCase
                 ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
                 ['idsite' => '1', 'site_name' => 'searchTerm site', 'role' => 'admin'],
             ],
+            'has_access_to_any' => true,
         ];
         $this->assertEquals($expected, $access);
     }
@@ -532,6 +535,7 @@ class APITest extends IntegrationTestCase
                 ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
                 ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
             ],
+            'has_access_to_any' => true,
         ];
         $this->assertEquals($expected, $access);
     }
@@ -552,6 +556,29 @@ class APITest extends IntegrationTestCase
                 ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'view'],
                 ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
             ],
+            'has_access_to_any' => true,
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function test_getSitesAccessForUser_shouldReportIfUserHasNoAccessToSites()
+    {
+        $access = $this->api->getSitesAccessForUser('userLogin');
+        $expected = [
+            'total' => '0',
+            'results' => [],
+            'has_access_to_any' => false,
+        ];
+        $this->assertEquals($expected, $access);
+
+        // test when search returns empty result
+        $this->addUserWithAccess('userLogin', 'view', [1], 'userlogin2@email.com');
+
+        $access = $this->api->getSitesAccessForUser('userLogin', null, null, 'asdklfjds');
+        $expected = [
+            'total' => '0',
+            'results' => [],
+            'has_access_to_any' => true,
         ];
         $this->assertEquals($expected, $access);
     }
