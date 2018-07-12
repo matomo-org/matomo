@@ -53,6 +53,12 @@ class Updates_3_6_0_b1 extends Updates
         $migrations = $this->getSiteSettingsMigrations($migrations);
         $migrations = $this->getLogProfilingMigrations($migrations);
 
+        // changes for ACL
+        $migrations[] = $this->migration->db->changeColumnType('access', 'access', 'VARCHAR(50) NULL');
+        $migrations[] = $this->migration->db->dropPrimaryKey('access');
+        $migrations[] = $this->migration->db->addColumn('access', 'idaccess', 'INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT');
+        $migrations[] = $this->migration->db->addIndex('access', array('login', 'idsite'), 'index_loginidsite');
+
         return $migrations;
     }
 
