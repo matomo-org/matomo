@@ -24,7 +24,7 @@ class AccessTest extends IntegrationTestCase
     {
         $roleProvider = new Access\RolesProvider();
         $accessList = $roleProvider->getAllRoleIds();
-        $shouldBe = array('view', 'admin', 'superuser');
+        $shouldBe = array('view', 'write', 'admin');
         $this->assertEquals($shouldBe, $accessList);
     }
     
@@ -309,30 +309,6 @@ class AccessTest extends IntegrationTestCase
         $access = Access::getInstance();
         $access->setSuperUserAccess(true);
         $access->checkUserHasWriteAccess(array());
-    }
-
-    public function testCheckUserHasWriteAccessWithSomeAccessSuccessIdSitesAsString()
-    {
-        /** @var Access $mock */
-        $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeWriteAccess'));
-
-        $mock->expects($this->once())
-            ->method('getRawSitesWithSomeWriteAccess')
-            ->will($this->returnValue($this->buildWriteAccessForSiteIds(array(1, 2, 3, 4))));
-
-        $mock->checkUserHasWriteAccess('1,3');
-    }
-
-    public function testCheckUserHasViewAccessWithWriteAccessSuccessAllSites()
-    {
-        /** @var Access $mock */
-        $mock = $this->createAccessMockWithAuthenticatedUser(array('getRawSitesWithSomeWriteAccess'));
-
-        $mock->expects($this->any())
-            ->method('getRawSitesWithSomeWriteAccess')
-            ->will($this->returnValue($this->buildViewAccessForSiteIds(array(1, 2, 3, 4))));
-
-        $mock->checkUserHasWriteAccess('all');
     }
 
     /**
