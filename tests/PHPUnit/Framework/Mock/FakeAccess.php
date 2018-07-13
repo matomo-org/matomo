@@ -131,8 +131,7 @@ class FakeAccess extends Access
 
     public function checkUserHasCapability($idSites, $capability)
     {
-        $provider = new Access\CapabilitiesProvider();
-        $cap = $provider->getCapability($capability);
+        $cap = $this->capabilityProvider->getCapability($capability);
 
         if ($cap && Piwik::isUserHasAdminAccess($idSites) && $cap->hasRoleCapability(Access\Role\Admin::ID)) {
             return;
