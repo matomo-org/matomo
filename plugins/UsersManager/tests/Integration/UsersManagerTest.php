@@ -974,6 +974,38 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals('yesterday', $this->api->getUserPreference('someUser', $defaultReportDatePref));
     }
 
+    public function testGetAvailableRoles()
+    {
+        $this->addSites(1);
+        $roles = $this->api->getAvailableRoles();
+        $expected = array(
+            array (
+                'id' => 'view',
+                'name' => 'UsersManager_PrivView',
+                'description' => 'UsersManager_PrivViewDescription',
+                'helpUrl' => 'https://matomo.org/faq/general/faq_70/'
+            ), array (
+                'id' => 'write',
+                'name' => 'UsersManager_PrivWrite',
+                'description' => 'UsersManager_PrivWriteDescription',
+                'helpUrl' => ''
+             ),
+            array (
+                'id' => 'admin',
+                'name' => 'UsersManager_PrivAdmin',
+                'description' => 'UsersManager_PrivAdminDescription',
+                'helpUrl' => 'https://matomo.org/faq/general/faq_69/',
+             )
+        );
+        $this->assertEquals($expected, $roles);
+    }
+
+    public function testGetAvailableCapabilities()
+    {
+        $this->addSites(1);
+        $this->assertSame(array(), $this->api->getAvailableCapabilities());
+    }
+
     private function addSites($numberOfSites)
     {
         $idSites = array();
