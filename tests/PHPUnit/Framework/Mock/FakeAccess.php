@@ -11,6 +11,7 @@ use Piwik\Access;
 use Piwik\Auth;
 use Piwik\Container\StaticContainer;
 use Piwik\NoAccessException;
+use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Site as PiwikSite;
 
@@ -24,16 +25,18 @@ class FakeAccess extends Access
     public static $idSitesAdmin = array();
     public static $idSitesWrite = array();
     public static $idSitesView = array();
+    public static $idSitesCapabilities = array();
     public static $identity = 'superUserLogin';
     public static $superUserLogin = 'superUserLogin';
 
-    public static function clearAccess($superUser = false, $idSitesAdmin = array(), $idSitesView = array(), $identity = 'superUserLogin', $idSitesWrite = array())
+    public static function clearAccess($superUser = false, $idSitesAdmin = array(), $idSitesView = array(), $identity = 'superUserLogin', $idSitesWrite = array(), $idSitesCapabilities = array())
     {
         self::$superUser    = $superUser;
         self::$idSitesAdmin = $idSitesAdmin;
         self::$idSitesWrite = $idSitesWrite;
         self::$idSitesView  = $idSitesView;
         self::$identity     = $identity;
+        self::$idSitesCapabilities = $idSitesCapabilities;
     }
 
     public function getTokenAuth()
@@ -123,6 +126,25 @@ class FakeAccess extends Access
             if (!in_array($idsite, $websitesAccess)) {
                 throw new NoAccessException("checkUserHasWriteAccess Fake exception // string not to be tested");
             }
+        }
+    }
+
+    public function checkUserHasCapability($idSites, $capability)
+    {
+        $provider = new Access\CapabilitiesProvider();
+        $cap = $provider->getCapability($capability);
+
+        if ($cap && Piwik::isUserHasAdminAccess($idSites) && $cap->hasRoleCapability(Access\Role\Admin::ID)) {
+            return;
+        } elseif ($cap && Piwik::isUserHasWriteAccess($idSites) && $cap->hasRoleCapability(Access\Role\Write::ID)) {
+            return;
+        } elseif ($cap && Piwik::isUserHasViewAccess($idSites) && $cap->hasRoleCapability(Access\Role\View::ID)) {
+            return;
+        }
+
+        if (!isset(self::$idSitesCapabilities[$idSites]) ||
+            !in_array($capability, self::$idSitesCapabilities[$idSites], true)) {
+            throw new NoAccessException("checkUserHasCapability " . $capability ." Fake exception // string not to be tested");
         }
     }
 

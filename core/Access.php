@@ -87,7 +87,7 @@ class Access
     /**
      * @var CapabilitiesProvider
      */
-    private $capabilityProvider;
+    protected $capabilityProvider;
 
     /**
      * @var RolesProvider
