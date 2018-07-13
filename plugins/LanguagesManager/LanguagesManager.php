@@ -18,6 +18,7 @@ use Piwik\Cookie;
 use Piwik\Db;
 use Piwik\Intl\Locale;
 use Piwik\Piwik;
+use Piwik\ProxyHttp;
 use Piwik\Translate;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -222,6 +223,7 @@ class LanguagesManager extends \Piwik\Plugin
         $cookieName = Config::getInstance()->General['language_cookie_name'];
         $cookie = new Cookie($cookieName, 0);
         $cookie->set('language', $languageCode);
+        $cookie->setSecure(ProxyHttp::isHttps());
         $cookie->save();
         return true;
     }

@@ -141,7 +141,9 @@ class Db
      */
     public static function destroyDatabaseObject()
     {
-        DbHelper::disconnectDatabase();
+        if (self::hasDatabaseObject()) {
+            DbHelper::disconnectDatabase();
+        }
         self::$connection = null;
     }
 

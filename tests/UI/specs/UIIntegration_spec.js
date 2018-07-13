@@ -33,6 +33,9 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         if (testEnvironment.configOverride.database) {
             delete testEnvironment.configOverride.database;
         }
+        if (testEnvironment.configOverride.General) {
+            delete testEnvironment.configOverride.General;
+        }
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
     });
@@ -547,6 +550,17 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load the plugins admin page correctly', function (done) {
         expect.screenshot('admin_plugins').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
+        }, done);
+    });
+
+    it('should load the plugins admin page correctly', function (done) {
+        testEnvironment.overrideConfig('General', {
+            enable_internet_features: 0
+        });
+        testEnvironment.save();
+
+        expect.screenshot('admin_plugins_no_internet').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
         }, done);
     });

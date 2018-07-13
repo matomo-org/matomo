@@ -138,7 +138,21 @@ return array(
         if (!empty($general['login_whitelist_ip']) && is_array($general['login_whitelist_ip'])) {
             $ips = $general['login_whitelist_ip'];
         }
-        return $ips;
+        
+        $ipsResolved = array();
+
+        foreach ($ips as $ip) {
+            if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                $ipsResolved[] = $ip;
+            } else {
+                $ipFromHost = @gethostbyname($ip);
+                if (!empty($ipFromHost)) {
+                    $ipsResolved[] = $ipFromHost;
+                }
+            }
+        }
+
+        return $ipsResolved;
     },
 
     'Zend_Validate_EmailAddress' => function () {
