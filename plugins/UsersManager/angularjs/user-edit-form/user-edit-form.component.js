@@ -15,7 +15,9 @@
         bindings: {
             user: '<',
             onDoneEditing: '&',
-            currentUserRole: '<'
+            currentUserRole: '<',
+            accessLevels: '<',
+            filterAccessLevels: '<'
         },
         controller: UserEditFormController
     });

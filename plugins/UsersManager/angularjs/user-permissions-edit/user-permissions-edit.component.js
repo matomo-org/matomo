@@ -16,7 +16,9 @@
             userLogin: '<',
             limit: '<',
             onUserHasAccessDetected: '&',
-            onAccessChange: '&'
+            onAccessChange: '&',
+            accessLevels: '<',
+            filterAccessLevels: '<'
         },
         controller: UserPermissionsEditController
     });
@@ -25,18 +27,6 @@
 
     function UserPermissionsEditController(piwikApi, $element) {
         var vm = this;
-
-        // TODO: code redundancy w/ paged-users-list
-        // access level select options
-        vm.accessLevels = [
-            { key: 'view', value: 'View' },
-            { key: 'admin', value: 'Admin' }
-        ];
-        vm.accessLevelFilterOptions = [
-            { key: 'some', value: 'At least View access' },
-            { key: 'view', value: 'View' },
-            { key: 'admin', value: 'Admin' }
-        ];
 
         // search/pagination state
         vm.siteAccess = [];
@@ -60,8 +50,7 @@
         // intermediate state
         vm.roleToChangeTo = null;
         vm.siteAccessToChange = null;
-        // TODO: need to display in site selector only sites user has admin access to.
-        // TODO: how to know which site is the first this user doesn't have access to?
+
         vm.siteToAdd = {
             id: null,
             name: ''
@@ -85,12 +74,20 @@
 
         function $onInit() {
             vm.limit = vm.limit || 10;
+
             fetchAccess();
         }
 
         function $onChanges() {
+            vm.accessLevels = vm.accessLevels.filter(shouldShowAccessLevel);
+            vm.filterAccessLevels = vm.filterAccessLevels.filter(shouldShowAccessLevel);
+
             if (vm.limit) {
                 fetchAccess();
+            }
+
+            function shouldShowAccessLevel(entry) {
+                return entry.key !== 'superuser' && entry.key !== 'noaccess';
             }
         }
 

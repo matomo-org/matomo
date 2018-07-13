@@ -70,6 +70,18 @@
      * TODO: if the materializecss version matomo uses is updated, should use their toasts.
      *
      * @type {Notification}
+     * @param    {string}  message    The actual message that will be displayed. Must be set.
+     * @param    {Object}  options
+     * @param    {string}  options.placeat          Where to place the notification. Required.
+     * @param    {string}  [options.id]         Only needed for persistent notifications. The id will be sent to the
+     *                                          frontend once the user closes the notifications. The notification has to
+     *                                          be registered/notified under this name
+     * @param    {string}  [options.title]      The title of the notification. For instance the plugin name.
+     * @param    {string}  [options.context=warning]  Context of the notification: 'info', 'warning', 'success' or
+     *                                                'error'
+     * @param    {string}  [options.type=transient]   The type of the notification: Either 'toast' or 'transitent'
+     * @param    {bool}    [options.noclear=false]    If set, the close icon is not displayed.
+     * @param    {object}  [options.style]            Optional style/css dictionary. For instance {'display': 'inline-block'}
      */
     Notification.prototype.toast = function (message, options) {
         checkMessage(message);

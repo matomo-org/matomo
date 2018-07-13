@@ -15,7 +15,10 @@
         bindings: {
             currentUserRole: '<',
             initialSiteName: '@',
-            initialSiteId: '@'
+            initialSiteId: '@',
+            accessLevels: '<',
+            filterAccessLevels: '<'
+
         },
         controller: UsersManagerController
     });
@@ -41,6 +44,11 @@
                 show: false,
                 hide: false
             });
+
+
+            if (vm.currentUserRole === 'superuser') {
+                vm.filterAccessLevels.push({ key: 'superuser', value: 'Superuser' });
+            }
         }
 
         function $onDestroy() {

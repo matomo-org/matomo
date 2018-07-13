@@ -93,6 +93,8 @@
                     ng-if="!$ctrl.user.superuser_access"
                     on-user-has-access-detected="$ctrl.userHasAccess = hasAccess"
                     on-access-change="$ctrl.isUserModified = true"
+                    access-levels="$ctrl.accessLevels"
+                    filter-access-levels="$ctrl.filterAccessLevels"
                 >
                 </piwik-user-permissions-edit>
                 <p ng-if="$ctrl.user.superuser_access">

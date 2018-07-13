@@ -398,6 +398,27 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $users);
     }
 
+    public function test_getUsersPlusRole_shouldReturnUsersWithNoAccessCorrectly()
+    {
+        $this->addUserWithAccess('userLogin2', 'noaccess', 1);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'superuser', 1);
+        $this->addUserWithAccess('userLogin5', 'noaccess', 1);
+        $this->setCurrentUser('userLogin2', 'admin', 1);
+
+        $users = $this->api->getUsersPlusRole(1, null, null, null, 'noaccess');
+        $this->cleanUsers($users['results']);
+        $expected = [
+            'total' => 3,
+            'results' => [
+                ['login' => 'userLogin', 'alias' => 'userLogin', 'role' => 'noaccess'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'noaccess'],
+                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess'],
+            ],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
     public function test_getUsersPlusRole_shouldSearchForSuperUsersCorrectly()
     {
         $this->addUserWithAccess('userLogin2', 'admin', 1);

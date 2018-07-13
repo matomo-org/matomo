@@ -486,11 +486,9 @@ class Access
      */
     public function getAccessForSite($idSite)
     {
-        if ($this->hasSuperUserAccess) {
-            return 'admin';
-        }
-
-        if (in_array($idSite, $this->getSitesIdWithAdminAccess())) {
+        if ($this->hasSuperUserAccess
+            || in_array($idSite, $this->getSitesIdWithAdminAccess())
+        ) {
             return 'admin';
         }
 

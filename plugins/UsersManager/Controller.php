@@ -76,6 +76,19 @@ class Controller extends ControllerAdmin
         $view->idSiteSelected = $idSiteSelected;
         $view->defaultReportSiteName = $defaultReportSiteName;
         $view->currentUserRole = Piwik::hasUserSuperUserAccess() ? 'superuser' : 'admin';
+        $view->accessLevels = [
+            ['key' => 'noaccess', 'value' => Piwik::translate('UsersManager_PrivNone')],
+            ['key' => 'view', 'value' => Piwik::translate('UsersManager_PrivView')],
+            ['key' => 'admin', 'value' => Piwik::translate('UsersManager_PrivAdmin')],
+            ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser'), 'disabled' => true],
+        ];
+        $view->filterAccessLevels = [
+            ['key' => 'noaccess', 'value' => Piwik::translate('UsersManager_PrivNone')],
+            ['key' => 'some', 'value' => Piwik::translate('UsersManager_AtLeastView')],
+            ['key' => 'view', 'value' => Piwik::translate('UsersManager_PrivView')],
+            ['key' => 'admin', 'value' => Piwik::translate('UsersManager_PrivAdmin')],
+        ];
+
         $this->setBasicVariablesView($view);
 
         return $view->render();

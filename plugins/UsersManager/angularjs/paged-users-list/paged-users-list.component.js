@@ -17,7 +17,9 @@
             limit: '<',
             initialSiteId: '<',
             initialSiteName: '<',
-            currentUserRole: '<'
+            currentUserRole: '<',
+            accessLevels: '<',
+            filterAccessLevels: '<'
         },
         controller: PagedUsersListController
     });
@@ -27,23 +29,8 @@
     function PagedUsersListController(piwikApi, $element, $scope) {
         var vm = this;
 
-        // options for selects (TODO: should be supplied server side)
-        vm.bulkActionAccessLevels = [
-            { key: 'view', value: 'View' },
-            { key: 'admin', value: 'Admin' },
-        ];
-        vm.accessLevels = [
-            { key: 'noaccess', value: 'No Access' },
-            { key: 'view', value: 'View' },
-            { key: 'admin', value: 'Admin' },
-            { key: 'superuser', value: 'Superuser', disabled: true }
-        ];
-        vm.accessLevelFilterOptions = [
-            { key: 'noaccess', value: 'No Access' },
-            { key: 'some', value: 'At least View' },
-            { key: 'view', value: 'View' },
-            { key: 'admin', value: 'Admin' }
-        ];
+        // options for selects
+        vm.bulkActionAccessLevels = null;
 
         // search state
         vm.offset = 0;
@@ -95,9 +82,12 @@
             };
             vm.limit = vm.limit || 20;
 
-            if (vm.currentUserRole === 'superuser') {
-                vm.accessLevelFilterOptions.push({ key: 'superuser', value: 'Superuser' });
-            }
+            vm.bulkActionAccessLevels = [];
+            vm.accessLevels.forEach(function (entry) {
+                if (entry.key !== 'noaccess' && entry.key !== 'superuser') {
+                    vm.bulkActionAccessLevels.push(entry);
+                }
+            });
 
             fetchUsers();
         }
@@ -137,7 +127,6 @@
                 filter_access: vm.accessLevelFilter,
                 idSite: vm.permissionsForSite.id
             }).then(function (response) {
-                // TODO: can response have an error?
                 vm.totalEntries = response.total;
                 vm.users = response.results;
 
@@ -194,7 +183,7 @@
         }
 
         function showAccessChangeConfirm() {
-            $element.find('.pagedUsersList .change-user-role-confirm-modal').openModal({ dismissible: false });
+            $element.find('.change-user-role-confirm-modal').openModal({ dismissible: false });
         }
 
         function getAffectedUsersCount() {
@@ -311,7 +300,7 @@
         }
 
         function showDeleteConfirm() {
-            $element.find('.change-user-role-confirm-modal').openModal({ dismissible: false });
+            $element.find('.delete-user-confirm-modal').openModal({ dismissible: false });
         }
 
         function getRoleDisplay(role) {

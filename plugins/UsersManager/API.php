@@ -11,7 +11,6 @@ namespace Piwik\Plugins\UsersManager;
 use Exception;
 use Piwik\Access;
 use Piwik\Auth\Password;
-use Piwik\Cache\Transient;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -59,11 +58,6 @@ class API extends \Piwik\Plugin\API
      * @var Access
      */
     private $access;
-
-    /**
-     * @var Transient
-     */
-    private $transientCache;
 
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';

@@ -27,6 +27,8 @@
                 initial-site-name="$ctrl.initialSiteName"
                 initial-site-id="$ctrl.initialSiteId"
                 current-user-role="$ctrl.currentUserRole"
+                access-levels="$ctrl.accessLevels"
+                filter-access-levels="$ctrl.filterAccessLevels"
             ></piwik-paged-users-list>
         </div>
     </div>
@@ -38,6 +40,8 @@
             user="$ctrl.userBeingEdited"
             current-user-role="$ctrl.currentUserRole"
             allow-superuser-edit="$ctrl.isCurrentUserSuperUser"
+            access-levels="$ctrl.accessLevels"
+            filter-access-levels="$ctrl.filterAccessLevels"
         ></piwik-user-edit-form>
     </div>
 </div>

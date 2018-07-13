@@ -8,6 +8,8 @@
     initial-site-id="{{ idSiteSelected }}"
     initial-site-name="{{ defaultReportSiteName }}"
     current-user-role="'{{ currentUserRole }}'"
+    access-levels="{{ accessLevels|json_encode|e('html_attr') }}"
+    filter-access-levels="{{ filterAccessLevels|json_encode|e('html_attr') }}"
 >
 </piwik-users-manager>
 

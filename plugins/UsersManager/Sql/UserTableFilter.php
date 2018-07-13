@@ -87,7 +87,7 @@ class UserTableFilter
 
         switch ($this->filterByRole) {
             case 'noaccess':
-                $sql = "a.access IS NULL";
+                $sql = "(a.access IS NULL AND u.superuser_access <> 1)";
                 break;
             case 'some':
                 $sql = "(a.access IS NOT NULL OR u.superuser_access = 1)";

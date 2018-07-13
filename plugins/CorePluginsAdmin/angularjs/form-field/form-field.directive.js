@@ -27,7 +27,7 @@
                     $(this).closest('.select-wrapper').css('z-index', 999);
                 });
 
-            // use default option as input placeholder for proper styling
+            // add placeholder to input
             if (placeholder) {
                 var $materialInput = $select.closest('.select-wrapper').find('input');
                 $materialInput.attr('placeholder', placeholder);
