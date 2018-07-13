@@ -31,7 +31,10 @@
         vm.isSavingUserInfo = false;
         vm.isPasswordChanged = false;
         vm.userHasAccess = true;
-        vm.firstSiteAccess = null;
+        vm.firstSiteAccess = {
+            id: null,
+            name: ''
+        };
         vm.isUserModified = false;
 
         vm.$onChanges = $onChanges;

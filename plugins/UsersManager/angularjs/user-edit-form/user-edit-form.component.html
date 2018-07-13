@@ -51,7 +51,7 @@
                         ng-model="$ctrl.user.password"
                         title="Password"
                         ng-change="$ctrl.isPasswordChanged = true;"
-                        disabled="$ctrl.isSavingUserInfo"
+                        disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
                 >
                 </div>
 
@@ -62,7 +62,7 @@
                         ng-model="$ctrl.user.email"
                         title="Email"
                         maxlength="100"
-                        disabled="$ctrl.isSavingUserInfo"
+                        disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
                 >
                 </div>
 
@@ -83,7 +83,8 @@
                      saving="$ctrl.isSavingUserInfo"
                      onconfirm="$ctrl.saveUserInfo()"
                      ng-value="$ctrl.getSaveButtonLabel()"
-                     disabled="$ctrl.isAdd && !$ctrl.firstSiteAccess"
+                     disabled="$ctrl.isAdd && (!$ctrl.firstSiteAccess || !$ctrl.firstSiteAccess.id)"
+                     ng-if="$ctrl.currentUserRole == 'superuser' || $ctrl.isAdd"
                 ></div>
             </div>
 
