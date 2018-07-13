@@ -43,8 +43,10 @@ class FakeAccess extends Access
 
     public function __construct($superUser = false, $idSitesAdmin = array(), $idSitesView = array(), $identity = 'superUserLogin', $idSitesWrite = array())
     {
-        $role = StaticContainer::get('Piwik\Access\RolesProvider');
-        $capabilities = StaticContainer::get('Piwik\Access\CapabilitiesProvider');
+        // couldn't use DI here as tests seem to fail cause at this time when it is called eg in
+        // plugins/Live/tests/System/ApiCounterTest.php the environment is not set up yet
+        $role = new Access\RolesProvider();
+        $capabilities = new Access\CapabilitiesProvider();
         parent::__construct($role, $capabilities);
 
         self::clearAccess($superUser, $idSitesAdmin, $idSitesView, $identity, $idSitesWrite);
