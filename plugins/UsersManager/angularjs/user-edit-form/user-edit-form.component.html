@@ -5,20 +5,20 @@
     ng-class="{ loading: $ctrl.isSavingUserInfo }"
 >
     <div class="row" piwik-form>
-        <div class="col m2 entityList">
+        <div class="col m2 entityList" ng-if="!$ctrl.isAdd">
             <ul class="listCircle">
                 <li ng-class="{active: $ctrl.activeTab === 'basic'}" class="menuBasicInfo">
                     <a href="" ng-click="$ctrl.activeTab = 'basic'">Basic Information</a>
                 </li>
 
-                <li ng-class="{active: $ctrl.activeTab === 'permissions'}" class="menuPermissions" ng-if="!$ctrl.isAdd">
+                <li ng-class="{active: $ctrl.activeTab === 'permissions'}" class="menuPermissions">
                     <a href="" ng-click="$ctrl.activeTab = 'permissions'">
                         Permissions
                     </a>
                     <span class="icon-warning" ng-if="!$ctrl.userHasAccess && !$ctrl.user.superuser_access"></span>
                 </li>
 
-                <li ng-class="{active: $ctrl.activeTab === 'superuser'}" class="menuSuperuser" ng-if="$ctrl.currentUserRole == 'superuser' && !$ctrl.isAdd">
+                <li ng-class="{active: $ctrl.activeTab === 'superuser'}" class="menuSuperuser" ng-if="$ctrl.currentUserRole == 'superuser'">
                     <a href="" ng-click="$ctrl.activeTab = 'superuser'">Superuser Access</a>
                 </li>
             </ul>
@@ -75,7 +75,7 @@
                         disabled="$ctrl.isSavingUserInfo"
                         ng-if="$ctrl.isAdd"
                         ui-control-attributes="{ onlySitesWithAdminAccess: true }"
-                        inline-help="It is required to give a new user access to at least one website upon creation. If no access is given, the user will see an error when logging in. You can give more access after the user is created in the 'Permissions' tab that will appear on the left."
+                        inline-help="It is required to give a new user a view role for a website upon creation. If no access is given, the user will see an error when logging in. You can give more permissions after the user is created in the 'Permissions' tab that will appear on the left."
                 >
                 </div>
 
@@ -86,6 +86,10 @@
                      disabled="$ctrl.isAdd && (!$ctrl.firstSiteAccess || !$ctrl.firstSiteAccess.id)"
                      ng-if="$ctrl.currentUserRole == 'superuser' || $ctrl.isAdd"
                 ></div>
+
+                <div class='entityCancel' ng-click="$ctrl.onDoneEditing({ isUserModified: $ctrl.isUserModified })" ng-if="$ctrl.isAdd">
+                    <a href="" class="entityCancelLink">{{:: 'General_Cancel'|translate }}</a>
+                </div>
             </div>
 
             <div ng-if="$ctrl.activeTab === 'permissions' && !$ctrl.isAdd" class="user-permissions">
@@ -98,9 +102,9 @@
                     filter-access-levels="$ctrl.filterAccessLevels"
                 >
                 </piwik-user-permissions-edit>
-                <p ng-if="$ctrl.user.superuser_access">
+                <div ng-if="$ctrl.user.superuser_access" class="alert alert-info">
                     Super users have admin access to all websites, so there's no need to manage their permissions per website.
-                </p>
+                </div>
             </div>
 
             <div ng-if="$ctrl.activeTab === 'superuser' && $ctrl.currentUserRole == 'superuser' && !$ctrl.isAdd" class="superuser-access">

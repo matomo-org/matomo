@@ -343,9 +343,30 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1);
         $this->cleanUsers($users['results']);
         $expected = [
-            'total' => 5,
+            'total' => 3,
             'results' => [
-                ['login' => 'userLogin', 'alias' => 'userLogin', 'role' => 'noaccess'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin'],
+                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view'],
+                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin'],
+            ],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
+    public function test_getUsersPlusRole_shouldLimitUsersReturnedToThoseWithAccessToSitesAsCurrentUsersAdminSites_IfCurrentUserIsAdmin()
+    {
+        $this->addUserWithAccess('userLogin2', 'admin', [1, 2]);
+        $this->addUserWithAccess('userLogin3', 'view', 1);
+        $this->addUserWithAccess('userLogin4', 'admin', 1);
+        $this->addUserWithAccess('userLogin5', null, [1, 2]);
+        $this->api->setUserAccess('userLogin5', 'view', 2);
+        $this->setCurrentUser('userLogin2', 'admin', [1, 2]);
+
+        $users = $this->api->getUsersPlusRole(1);
+        $this->cleanUsers($users['results']);
+        $expected = [
+            'total' => '4',
+            'results' => [
                 ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin'],
                 ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view'],
                 ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin'],
@@ -404,16 +425,15 @@ class APITest extends IntegrationTestCase
         $this->addUserWithAccess('userLogin3', 'view', 1);
         $this->addUserWithAccess('userLogin4', 'superuser', 1);
         $this->addUserWithAccess('userLogin5', 'noaccess', 1);
-        $this->setCurrentUser('userLogin2', 'admin', 1);
 
         $users = $this->api->getUsersPlusRole(1, null, null, null, 'noaccess');
         $this->cleanUsers($users['results']);
         $expected = [
             'total' => 3,
             'results' => [
-                ['login' => 'userLogin', 'alias' => 'userLogin', 'role' => 'noaccess'],
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'noaccess'],
-                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess'],
+                ['login' => 'userLogin', 'alias' => 'userLogin', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userlogin@password.de'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin2@password.de'],
+                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin5@password.de'],
             ],
         ];
         $this->assertEquals($expected, $users);

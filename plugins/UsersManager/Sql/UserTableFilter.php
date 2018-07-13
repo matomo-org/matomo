@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\UsersManager\Sql;
 
 
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\Piwik;
 
@@ -70,6 +71,21 @@ class UserTableFilter
         if ($this->filterSearch) {
             $conditions[] = '(u.login LIKE ? OR u.email LIKE ?)';
             $bind = array_merge($bind, ['%' . $this->filterSearch . '%', '%' . $this->filterSearch . '%']);
+        }
+
+        // if the current user is not the superuser, only select users that have access to a site this user
+        // has admin access to
+        if (!Piwik::hasUserSuperUserAccess()) {
+            $adminIdSites = Access::getInstance()->getSitesIdWithAdminAccess();
+
+            $loginSql = 'SELECT DISTINCT ia.login FROM ' . Common::prefixTable('access') . ' ia WHERE ia.idsite IN ('
+                . implode(',', $adminIdSites) . ')';
+
+            $logins = \Piwik\Db::fetchAll($loginSql);
+            $logins = array_column($logins, 'login');
+            $logins = array_map('json_encode', $logins);
+
+            $conditions[] = 'u.login IN (' . implode(',', $logins) . ')';
         }
 
         $result = implode(' AND ', $conditions);
