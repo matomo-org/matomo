@@ -81,6 +81,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
     it("should show the limit selector when the limit selector is clicked", async function () {
         await page.click('.limitSelection input');
         await page.waitFor(200);
+        await page.mouse.move(-10, -10);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('limit_selector_open');
     });
 
@@ -96,6 +97,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableFlatten');
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('11_flattened');
     });
 
@@ -103,6 +105,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableIncludeAggregateRows');
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('12_aggregate_shown');
     });
 
@@ -110,6 +113,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableFlatten');
         await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('13_make_hierarchical');
     });
 
@@ -158,6 +162,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
         await page.goto(url);
         await page.click('.dropdownConfigureIcon');
         await page.click('.dataTableShowTotalsRow');
+        await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('totals_row');
     });
 
