@@ -141,10 +141,19 @@ class FakeAccess extends Access
             return;
         }
 
-        if (!isset(self::$idSitesCapabilities[$idSites]) ||
-            !in_array($capability, self::$idSitesCapabilities[$idSites], true)) {
-            throw new NoAccessException("checkUserHasCapability " . $capability ." Fake exception // string not to be tested");
+        if (isset(self::$idSitesCapabilities[$capability]) && is_array(self::$idSitesCapabilities[$capability])) {
+            if (!is_array($idSites)) {
+                $idSites = array($idSites);
+            }
+            $idSites = array_map('intval', $idSites);
+            $idSitesCap = array_map('intval', self::$idSitesCapabilities[$capability]);
+            $missingSites = array_diff($idSites, $idSitesCap);
+            if (empty($missingSites)) {
+                return;
+            }
         }
+
+        throw new NoAccessException("checkUserHasCapability " . $capability ." Fake exception // string not to be tested");
     }
 
     //means at least view access
