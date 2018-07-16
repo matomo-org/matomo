@@ -49,6 +49,12 @@ class PluginsArchiver
      */
     public static $archivers = array();
 
+    /**
+     * Defines if we should aggregate from raw data by using MySQL queries (when true) or aggregate archives (when false)
+     * @var bool
+     */
+    private $shouldAggregateFromRawData;
+
     public function __construct(Parameters $params, $isTemporaryArchive, ArchiveWriter $archiveWriter = null)
     {
         $this->params = $params;
@@ -60,7 +66,20 @@ class PluginsArchiver
 
         $this->archiveProcessor = new ArchiveProcessor($this->params, $this->archiveWriter, $this->logAggregator);
 
-        $this->isSingleSiteDayArchive = $this->params->isSingleSiteDayArchive();
+        $shouldAggregateFromRawData = $this->params->isSingleSiteDayArchive();
+
+        /**
+         * Triggered to detect if the archiver should aggregate from raw data by using MySQL queries (when true)
+         * or by aggregate archives (when false). Typically, data is aggregated from raw data for "day" period, and
+         * aggregregated from archives for all other periods.
+         *
+         * @param bool $shouldAggregateFromRawData  Set to true, to aggregate from raw data, or false to aggregate multiple reports.
+         * @param Parameters $params
+         * @ignore
+         */
+        Piwik::postEvent('ArchiveProcessor.shouldAggregateFromRawData', array(&$shouldAggregateFromRawData, $this->params));
+
+        $this->shouldAggregateFromRawData = $shouldAggregateFromRawData;
     }
 
     /**
@@ -72,7 +91,7 @@ class PluginsArchiver
     {
         $this->logAggregator->setQueryOriginHint('Core');
 
-        if ($this->isSingleSiteDayArchive) {
+        if ($this->shouldAggregateFromRawData) {
             $metrics = $this->aggregateDayVisitsMetrics();
         } else {
             $metrics = $this->aggregateMultipleVisitsMetrics();
@@ -126,7 +145,7 @@ class PluginsArchiver
 
                 try {
                     $timer = new Timer();
-                    if ($this->isSingleSiteDayArchive) {
+                    if ($this->shouldAggregateFromRawData) {
                         Log::debug("PluginsArchiver::%s: Archiving day reports for plugin '%s'.", __FUNCTION__, $pluginName);
 
                         $archiver->aggregateDayReport();

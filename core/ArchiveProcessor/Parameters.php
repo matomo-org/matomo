@@ -196,13 +196,19 @@ class Parameters
      */
     public function isSingleSiteDayArchive()
     {
-        $oneSite = $this->isSingleSite();
+        return $this->isDayArchive() && $this->isSingleSite();
+    }
 
+    /**
+     * @return bool
+     */
+    public function isDayArchive()
+    {
         $period = $this->getPeriod();
         $secondsInPeriod = $period->getDateEnd()->getTimestampUTC() - $period->getDateStart()->getTimestampUTC();
         $oneDay = $secondsInPeriod <= Date::NUM_SECONDS_IN_DAY;
 
-        return $oneDay && $oneSite;
+        return $oneDay;
     }
 
     public function isSingleSite()
