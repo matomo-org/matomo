@@ -267,8 +267,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/jstrackingcode.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/imagetrackingcode.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/archiving/archiving.controller.js";
-        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trustedhosts/trustedhosts.directive.js";
-        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trustedhosts/trustedhosts.controller.js";
 
 
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
