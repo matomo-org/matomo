@@ -451,6 +451,7 @@
         "ValidatorErrorCharacterTooLong": "Değerde \"%1$s\" karakter var ancak en fazla %2$s karakter olmalı.",
         "ValidatorErrorNotUrlLike": "\"%s\" değeri geçerli bir İnternet adresi gibi görünmüyor.",
         "ValidatorErrorNotEmailLike": "\"%s\" değeri geçerli bir e-posta adresi gibi görünmüyor.",
+        "ValidatorErrorNoValidRegex": "\"%s\" değeri geçerli bir kurallı ifade değil.",
         "ValidatorErrorXNotWhitelisted": "\"%1$s\" değeri kullanılamaz. Şunlardan birini kullanın: %2$s.",
         "ValidatorErrorInvalidDateTimeFormat": "\"%1$s\" tarih biçimi geçersiz. Lütfen %2$s biçimini kullanın",
         "WarningFileIntegrityNoManifest": "manifest.inc.php dosyası bulunamadığı için dosya bütünlüğü denetimi yapılamadı.",

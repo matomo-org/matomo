@@ -46,7 +46,7 @@
         "Theme": "Tema",
         "Themes": "Temaer",
         "ThemesDescription": "Temaer kan ændre udseendet af Matomo brugergrænsefladen,og giver en helt ny visuel oplevelse af dine analytiske rapporter.",
-        "ThemesManagement": "Håndtere temaer",
+        "ThemesManagement": "Administrer temaer",
         "UninstallConfirm": "Du er ved at afinstallere et udvidelsesmodul %s. Udvidelsesmodulet vil blive fjernet helt fra dit system og vil ikke kunne genskabes. Er du sikker på du vil gøre det?",
         "Version": "Version",
         "Websites": "Websteder"

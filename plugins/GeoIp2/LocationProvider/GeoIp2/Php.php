@@ -86,54 +86,87 @@ class Php extends GeoIp2
      */
     public function getLocation($info)
     {
+    		
         $ip = $this->getIpFromInfo($info);
-
+				
         if (empty($ip)) {
             return false;
         }
 
         $result = [];
-        $reader = $this->getGeoIpInstance('loc');
-        if ($reader) {
-            try {
-                switch ($reader->metadata()->databaseType) {
-                    case 'GeoLite2-Country':
-                    case 'GeoIP2-Country':
-                        $lookupResult = $reader->country($ip);
-                        $this->setCountryResults($lookupResult, $result);
-                        break;
-                    case 'GeoIP2-Enterprise':
-                    case 'GeoLite2-City':
-                    case 'GeoIP2-City':
-                        if ($reader->metadata()->databaseType === 'GeoIP2-Enterprise') {
-                            $lookupResult = $reader->enterprise($ip);
-                        } else {
-                            $lookupResult = $reader->city($ip);
-                        }
-                        $this->setCountryResults($lookupResult, $result);
-                        $this->setCityResults($lookupResult, $result);
-                        break;
-                    default: // unknown database type log warning
-                        Log::warning("Found unrecognized database type: %s", $reader->metadata()->databaseType);
-                        break;
-                }
-            } catch (AddressNotFoundException $e) {
-                // ignore - do nothing
-            }
-        }
+      
+        	
+        	$intra = new \Piwik\Plugins\IntranetGeoIP\IntranetGeoIP();
+        	//$intra_result=[];
+        	$intra_result=$intra->getResult($info);
+        	if(isset($intra_result['location_provider'])){
+        		$ipam_found=1;
+        	}else{
+        		$ipam_found=0;
+        	}
+        	/*
+        	$result[self::CITY_NAME_KEY]="city";
+        	$result[self::REGION_CODE_KEY]="region";
+        	$result[self::COUNTRY_CODE_KEY]="country";
+        	$result[self::CONTINENT_NAME_KEY]="CONTINENT_NAME_KEY";
+        	$result[self::CONTINENT_CODE_KEY]="CONTINENT_CODE_KEY"; //.print_r($intra_result,1);
+        	$result[self::COUNTRY_NAME_KEY]="COUNTRY_NAME_KEY";
+        	$result[self::COUNTRY_CODE_KEY]="COUNTRY_CODE_KEY";
+        	$result[self::ISP_KEY]="company";
+        	*/
+        	$result[self::ORG_KEY]="company";
+        	
+        	foreach ($intra_result as  $ikey => $ivalue) {
+        	 	 // loop through values 
+        	 	 $result[$ikey]=$ivalue;
+        	} 
+        	
+        	
+        if($ipam_found){	
+        }else{
+        	$reader = $this->getGeoIpInstance('loc');
+	        if ($reader) {
+	            try {
+	                switch ($reader->metadata()->databaseType) {
+	                    case 'GeoLite2-Country':
+	                    case 'GeoIP2-Country':
+	                        $lookupResult = $reader->country($ip);
+	                        $this->setCountryResults($lookupResult, $result);
+	                        break;
+	                    case 'GeoIP2-Enterprise':
+	                    case 'GeoLite2-City':
+	                    case 'GeoIP2-City':
+	                        if ($reader->metadata()->databaseType === 'GeoIP2-Enterprise') {
+	                            $lookupResult = $reader->enterprise($ip);
+	                        } else {
+	                            $lookupResult = $reader->city($ip);
+	                        }
+	                        $this->setCountryResults($lookupResult, $result);
+	                        $this->setCityResults($lookupResult, $result);
+	                        break;
+	                    default: // unknown database type log warning
+	                        Log::warning("Found unrecognized database type: %s", $reader->metadata()->databaseType);
+	                        break;
+	                }
+	            } catch (AddressNotFoundException $e) {
+	                // ignore - do nothing
+	            }
+	        }
 
-        // NOTE: ISP & ORG require commercial dbs to test.
-        $ispGeoIp = $this->getGeoIpInstance($key = 'isp');
-        if ($ispGeoIp) {
-            try {
-                $lookupResult          = $ispGeoIp->isp($ip);
-                $result[self::ISP_KEY] = $lookupResult->isp;
-                $result[self::ORG_KEY] = $lookupResult->organization;
-            } catch (AddressNotFoundException $e) {
-                // ignore - do nothing
-            }
-        }
+	        // NOTE: ISP & ORG require commercial dbs to test.
+	        $ispGeoIp = $this->getGeoIpInstance($key = 'isp');
+	        if ($ispGeoIp) {
+	            try {
+	                $lookupResult          = $ispGeoIp->isp($ip);
+	                $result[self::ISP_KEY] = $lookupResult->isp;
+	                $result[self::ORG_KEY] = $lookupResult->organization;
+	            } catch (AddressNotFoundException $e) {
+	                // ignore - do nothing
+	            }
+	        }
 
+        }
+        
         if (empty($result)) {
             return false;
         }
@@ -270,7 +303,7 @@ class Php extends GeoIp2
         if (self::getPathToGeoIpDatabase(['GeoIP2-Country.mmdb', 'GeoLite2-Country.mmdb']) !== false) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_Country');
         }
-        if (self::getPathToGeoIpDatabase(['GeoIP2-ISP.mmdb']) !== false) {
+        if (self::getPathToGeoIpDatabase(self::$dbNames['isp']) !== false) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_ISPDatabase');
         }
 

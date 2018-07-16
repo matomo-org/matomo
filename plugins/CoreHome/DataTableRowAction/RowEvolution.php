@@ -83,10 +83,6 @@ class RowEvolution
      */
     public function __construct($idSite, $date, $graphType = 'graphEvolution')
     {
-        if (!($date instanceof Date)) {
-            throw new Exception("Expected date to be an instance of \\Piwik\\Date");
-        }
-
         $this->apiMethod = Common::getRequestVar('apiMethod', '', 'string');
         if (empty($this->apiMethod)) {
             throw new Exception("Parameter apiMethod not set.");
@@ -102,6 +98,10 @@ class RowEvolution
 
         $this->period = Common::getRequestVar('period', '', 'string');
         PeriodFactory::checkPeriodIsEnabled($this->period);
+
+        if ($this->period != 'range' && !($date instanceof Date)) {
+            throw new Exception("Expected date to be an instance of \\Piwik\\Date");
+        }
 
         $this->idSite = $idSite;
         $this->graphType = $graphType;

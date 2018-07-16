@@ -31,6 +31,7 @@
         "LtsSupportVersion": "Long Term Support version",
         "MajorUpdateWarning1": "Dette er en stor opdatering! Den vil tage længere tid end normalt.",
         "MajorUpdateWarning2": "Det følgende råd er især vigtigt for store installationer.",
+        "NeedHelpUpgrading": "Har du brug for hjælp til at opgradere Matomo?",
         "NoteForLargePiwikInstances": "Vigtig bemærkning til store Matomo installationer",
         "NotificationClickToUpdatePlugins": "Klik her for at opdatere dit programudvidelser nu:",
         "NotificationClickToUpdateThemes": "Klik her for at opdatere dine temaer nu:",

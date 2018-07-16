@@ -31,6 +31,7 @@
         "GeoIPCannotFindMbstringExtension": "S’gjendet dot funksioni %1$s. Ju lutemi, sigurohuni që zgjerimi %2$s është i instaluar dhe i ngarkuar.",
         "GeoIPDatabases": "Baza të dhënash GeoIP",
         "GeoIPDocumentationSuffix": "Që të mund të shihni të dhëna për këtë raport, duhet të rregulloni GeoIP-në te skeda e përgjegjësit për Gjeovendëzimin. Bazat komerciale të të dhënave GeoIP %1$sMaxmind%2$s janë më të sakta se sa ato falas. Që të shihni se sa të sakta janë, klikoni %3$skëtu%4$s.",
+        "GeoIPNoDatabaseFound": "Ky sendërtim i GeoIP-së s’qe në gjendje të gjente ndonjë bazë të dhënash.",
         "GeoIPImplHasAccessTo": "Ky sendërtim i GeoIP-së mund të përdorë llojet vijuese të bazave të të dhënave",
         "GeoIPIncorrectDatabaseFormat": "Baza juaj e të dhënave GeoIP nuk duket se është në formatin e duhur. Mund të jetë e dëmtuar. Sigurohuni se po përdorni versionin dyor dhe provoni ta zëvendësoni me një kopje tjetër.",
         "GeoIpLocationProviderDesc_Pecl1": "Ky furnizues vendesh përdor një bazë të dhënash GeoIP dhe një modul PECL për të përcaktuar me saktësi dhe efikasitet vendin e vizitorëve tuaj.",

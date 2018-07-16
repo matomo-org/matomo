@@ -64,11 +64,11 @@
         "TeaserHeadline": "Ustawienia prywatności",
         "UseAnonymizedIpForVisitEnrichment": "Korzystaj z Anonimizowanych adresów IP przy analizowaniu wizyt.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Wtyczki takie jak Geolokalizacja (bazując na IP i dostawcy) wzbogacają metadane odwiedzających. Domyślnie te wtyczki wykorzystują anonimizowane adresy IP. Wybierając 'Nie', wybierasz wykorzystanie pełnego, nie anonimizowanego adresu IP, co zwiększa dokładność danych kosztem prywatności.",
-        "AnonymizeUserIdNote": "Włączenie tej opcji, zanonimizuje ID użytkownika w celu uniknięcia śledzenia potencjalnych danych osobowych takich jak adres email.",
         "AnonymizeOrderIdNote": "Ze względu na możliwość powiązania ID zamówienia z innym systemem, na przykład w sklepie internetowym, ID zamówienia może zostać zaliczone jako dane osobowe w myśl RODO. Po włączeniu tej opcji ID zamówienia zostanie automatycznie zanonimizowane, co wykluczy śledzenie danych osobowych.",
         "UseAnonymizeIp": "Anonimizacja adresów IP odwiedzających",
         "UseAnonymizeTrackingData": "Anonimizuj dane śledzenia",
         "UseAnonymizeUserId": "Anonimizuj ID użytkownika",
+        "PseudonymizeUserId": "Zamień ID użytkownika na pseudonim",
         "UseAnonymizeOrderId": "Anonimizuj ID zamówienia",
         "UseDeleteLog": "Regularnie usuwanie starych logów odwiedzających z bazy danych",
         "UseDeleteReports": "Regularnie usuwaj stare raporty z bazy danych"
