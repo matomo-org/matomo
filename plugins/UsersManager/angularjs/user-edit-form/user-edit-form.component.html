@@ -63,6 +63,7 @@
                         title="Email"
                         maxlength="100"
                         disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
+                        ng-if="$ctrl.currentUserRole == 'superuser'"
                 >
                 </div>
 

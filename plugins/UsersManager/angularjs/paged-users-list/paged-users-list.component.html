@@ -2,7 +2,7 @@
     <div class="userListFilters row">
         <div class="input-field col s12 m2">
             <a
-                class='dropdown-trigger btn'
+                class='dropdown-trigger btn bulk-actions'
                 href=''
                 data-activates='user-list-bulk-actions'
                 piwik-dropdown-menu
@@ -129,12 +129,12 @@
                     <td colspan="7">
                         <div ng-if="!$ctrl.areAllResultsSelected">
                             The <strong>{{ $ctrl.users.length }}</strong> displayed users are selected.
-                            <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select all <strong>{{ $ctrl.totalEntries }}</strong>.</a>
+                            <a class="toggle-select-all-in-search" href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select all <strong>{{ $ctrl.totalEntries }}</strong>.</a>
                         </div>
 
                         <div ng-if="$ctrl.areAllResultsSelected">
                             All <strong>{{ $ctrl.totalEntries }}</strong> users are selected.
-                            <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select the <strong>{{ $ctrl.users.length }}</strong> displayed users.</a>
+                            <a class="toggle-select-all-in-search" href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select the <strong>{{ $ctrl.users.length }}</strong> displayed users.</a>
                         </div>
                     </td>
                 </tr>

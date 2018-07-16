@@ -15,12 +15,12 @@
 
             <div class="row add-user-container">
                 <div class="input-field col s12 m2">
-                    <a class="btn" ng-click="$ctrl.isEditing = true; $ctrl.userBeingEdited = null;">
+                    <a class="btn add-new-user" ng-click="$ctrl.isEditing = true; $ctrl.userBeingEdited = null;">
                         Add a new user
                     </a>
                 </div>
                 <div class="input-field col s12 m3" ng-if="$ctrl.currentUserRole !== 'superuser'">
-                    <a class="btn" ng-click="$ctrl.showAddExistingUserModal();">
+                    <a class="btn add-existing-user" ng-click="$ctrl.showAddExistingUserModal();">
                         Add an existing user
                     </a>
                 </div>
