@@ -201,7 +201,17 @@ class Setting
      */
     public function getValue()
     {
-        return $this->storage->getValue($this->name, $this->defaultValue, $this->type);
+        $value = $this->storage->getValue($this->name, $this->defaultValue, $this->type);
+
+        $config = $this->configureField();
+
+        $this->validateValue($value);
+
+        if ($config->prepareValue && $config->prepareValue instanceof \Closure) {
+            $value = call_user_func($config->prepareValue, $value, $this);
+        }
+
+        return $value;
     }
 
     /**

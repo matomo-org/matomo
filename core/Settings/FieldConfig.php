@@ -215,6 +215,19 @@ class FieldConfig
     public $transform = null;
 
     /**
+     * A closure that prepares the setting value when loaded from storage.
+     *
+     * **Example**
+     *
+     *     $setting->prepareValue = function ($value, Setting $setting) {
+     *         return split(',', $value);
+     *     }
+     *
+     * @var null|\Closure
+     */
+    public $prepareValue = null;
+
+    /**
      * This setting's display name, for example, `'Refresh Interval'`.
      *
      * Be sure to escape any user input as HTML can be used here.
