@@ -77,7 +77,6 @@ use ReflectionClass;
 class Fixture extends \PHPUnit_Framework_Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
-    const IMAGES_GENERATED_FOR_PHP = '5.6';
     const IMAGES_GENERATED_FOR_GD = '2.1.0';
     const DEFAULT_SITE_NAME = 'Piwik test';
 
@@ -805,7 +804,6 @@ class Fixture extends \PHPUnit_Framework_Assert
         $gdInfo = gd_info();
         return
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&
-            strpos( phpversion(), self::IMAGES_GENERATED_FOR_PHP) !== false &&
             strpos( $gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD) !== false;
     }
 
