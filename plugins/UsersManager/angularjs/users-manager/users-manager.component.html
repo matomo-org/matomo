@@ -19,7 +19,7 @@
                         Add a new user
                     </a>
                 </div>
-                <div class="input-field col s12 m2" ng-if="$ctrl.currentUserRole !== 'superuser'">
+                <div class="input-field col s12 m3" ng-if="$ctrl.currentUserRole !== 'superuser'">
                     <a class="btn" ng-click="$ctrl.showAddExistingUserModal();">
                         Add an existing user
                     </a>
@@ -65,12 +65,11 @@
                 uicontrol="text"
                 ng-model="$ctrl.addNewUserLoginEmail"
             >
-
             </div>
         </div>
         <div class="modal-footer">
-            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.addExistingUser()">Yes</a>
-            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.addNewUserLoginEmail = null;">No</a>
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.addExistingUser()">Add</a>
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.addNewUserLoginEmail = null;">Cancel</a>
         </div>
     </div>
 </div>

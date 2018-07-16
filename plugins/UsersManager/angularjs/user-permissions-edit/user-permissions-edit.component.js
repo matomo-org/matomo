@@ -71,6 +71,7 @@
         vm.showChangeAccessConfirm = showChangeAccessConfirm;
         vm.getRoleDisplay = getRoleDisplay;
         vm.addUserRole = addUserRole;
+        vm.showAddExistingUserModal = showAddExistingUserModal;
 
         function $onInit() {
             vm.limit = vm.limit || 10;
@@ -242,6 +243,10 @@
 
         function showChangeAccessConfirm() {
             $element.find('.change-access-confirm-modal').openModal({ dismissible: false });
+        }
+
+        function showAddExistingUserModal() {
+            $element.find('.add-existing-user-modal').openModal({ dismissible: false });
         }
 
         function getSelectedRowsCount() {

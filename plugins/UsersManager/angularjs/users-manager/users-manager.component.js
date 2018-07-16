@@ -43,6 +43,7 @@
         vm.onChangeUserRole = onChangeUserRole;
         vm.onDeleteUser = onDeleteUser;
         vm.fetchUsers = fetchUsers;
+        vm.addExistingUser = addExistingUser;
 
         function onChangeUserRole(users, role) {
             vm.isLoadingUsers = true;
@@ -141,7 +142,7 @@
         function fetchUsers() {
             vm.isLoadingUsers = true;
             return piwikApi.fetch($.extend({}, vm.searchParams, {
-                method: 'UsersManager.getUsersPlusRole',
+                method: 'UsersManager.getUsersPlusRole'
             })).then(function (response) {
                 vm.totalEntries = response.total;
                 vm.users = response.results;
@@ -161,6 +162,41 @@
 
         function showAddExistingUserModal() {
             $element.find('.add-existing-user-modal').openModal({ dismissible: false });
+        }
+
+        function addExistingUser() {
+            vm.isLoadingUsers = true;
+            return piwikApi.fetch({
+                method: 'UsersManager.userExists',
+                userLogin: vm.addNewUserLoginEmail
+            }).then(function (response) {
+                if (response && response.value) {
+                    return vm.addNewUserLoginEmail;
+                }
+
+                return piwikApi.fetch({
+                    method: 'UsersManager.getUserLoginFromUserEmail',
+                    userEmail: vm.addNewUserLoginEmail
+                }).then(function (response) {
+                    if (!response || !response.value) {
+                        throw new Error("User '" + vm.addNewUserLoginEmail + "' does not exist."); // TODO: use translation
+                    }
+
+                    return response.value;
+                });
+            }).then(function (login) {
+                return piwikApi.post({
+                    method: 'UsersManager.setUserAccess',
+                    userLogin: login,
+                    access: 'view',
+                    idSites: vm.searchParams.idSite
+                });
+            }).catch(function (error) {
+                vm.isLoadingUsers = false;
+                throw error;
+            }).then(function () {
+                return fetchUsers();
+            });
         }
     }
 })();
