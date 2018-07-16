@@ -23,7 +23,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     protected function init()
     {
-        $this->title = ' ';
+        $this->title = ' '; // intentionally left blank as it's hidden with css
 
         $isWritable = Piwik::hasUserSuperUserAccess() && CoreAdminController::isGeneralSettingsAdminEnabled();
         $this->trustedHostnames = $this->createTrustedHostnames();
