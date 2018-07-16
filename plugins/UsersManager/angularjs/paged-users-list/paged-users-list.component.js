@@ -14,31 +14,29 @@
         templateUrl: 'plugins/UsersManager/angularjs/paged-users-list/paged-users-list.component.html?cb=' + piwik.cacheBuster,
         bindings: {
             onEditUser: '&',
-            limit: '<',
+            onChangeUserRole: '&',
+            onDeleteUser: '&',
+            onSearchChange: '&',
             initialSiteId: '<',
             initialSiteName: '<',
             currentUserRole: '<',
+            isLoadingUsers: '<',
             accessLevels: '<',
-            filterAccessLevels: '<'
+            filterAccessLevels: '<',
+            totalEntries: '<',
+            users: '<',
+            searchParams: '<'
         },
         controller: PagedUsersListController
     });
 
-    PagedUsersListController.$inject = ['piwikApi', '$element', '$scope'];
+    PagedUsersListController.$inject = ['$element'];
 
-    function PagedUsersListController(piwikApi, $element, $scope) {
+    function PagedUsersListController($element) {
         var vm = this;
 
         // options for selects
         vm.bulkActionAccessLevels = null;
-
-        // search state
-        vm.offset = 0;
-        vm.users = [];
-        vm.totalEntries = null;
-        vm.userTextFilter = '';
-        vm.accessLevelFilter = '';
-        vm.isLoadingUsers = false;
 
         // selection state
         vm.areAllResultsSelected = false;
@@ -50,37 +48,37 @@
         vm.userToChange = null;
         vm.roleToChangeTo = null;
         vm.previousRole = null;
+        vm.accessLevelFilter = '';
 
         // other state
         vm.isRoleHelpToggled = false;
 
+        // TODO: make sure all these methods rae used in templates (same for users manager)
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.onAllCheckboxChange = onAllCheckboxChange;
         vm.changeUserRole = changeUserRole;
         vm.onRowSelected = onRowSelected;
         vm.deleteRequestedUsers = deleteRequestedUsers;
-        vm.gotoPreviousPage = gotoPreviousPage;
-        vm.gotoNextPage = gotoNextPage;
-        vm.fetchUsers = fetchUsers;
         vm.getPaginationUpperBound = getPaginationUpperBound;
         vm.showDeleteConfirm = showDeleteConfirm;
-        vm.getSelectedCount = getSelectedCount;
         vm.getAffectedUsersCount = getAffectedUsersCount;
         vm.showAccessChangeConfirm = showAccessChangeConfirm;
         vm.getRoleDisplay = getRoleDisplay;
+        vm.changeSearch = changeSearch;
+        vm.gotoPreviousPage = gotoPreviousPage;
+        vm.gotoNextPage = gotoNextPage;
 
-        // if another component requests we reload, reload
-        $scope.$on('paged-users-list:reload', function () {
-            fetchUsers();
-        });
+        function changeSearch(changes) {
+            var newParams = $.extend({}, vm.searchParams, changes);
+            vm.onSearchChange({ params: newParams });
+        }
 
         function $onInit() {
             vm.permissionsForSite = {
                 id: vm.initialSiteId,
                 name: vm.initialSiteName
             };
-            vm.limit = vm.limit || 20;
 
             vm.bulkActionAccessLevels = [];
             vm.accessLevels.forEach(function (entry) {
@@ -88,13 +86,11 @@
                     vm.bulkActionAccessLevels.push(entry);
                 }
             });
-
-            fetchUsers();
         }
 
         function $onChanges(changes) {
-            if (changes.limit && vm.permissionsForSite) {
-                fetchUsers();
+            if (changes.isLoadingUsers) {
+                clearSelection();
             }
         }
 
@@ -117,68 +113,26 @@
             vm.userToChange = null;
         }
 
-        function fetchUsers() {
-            vm.isLoadingUsers = true;
-            return piwikApi.fetch({
-                method: 'UsersManager.getUsersPlusRole',
-                limit: vm.limit,
-                offset: vm.offset,
-                filter_search: vm.userTextFilter,
-                filter_access: vm.accessLevelFilter,
-                idSite: vm.permissionsForSite.id
-            }).then(function (response) {
-                vm.totalEntries = response.total;
-                vm.users = response.results;
-
-                vm.isLoadingUsers = false;
-
-                clearSelection();
-            }).catch(function () {
-                vm.isLoadingUsers = false;
-
-                clearSelection();
-            });
-        }
-
         function changeUserRole() {
-            vm.isLoadingUsers = true;
-
-            var apiPromise;
-            if (vm.userToChange) {
-                apiPromise = piwikApi.post({
-                    method: 'UsersManager.setUserAccess',
-                    userLogin: vm.userToChange.login,
-                    access: vm.roleToChangeTo,
-                    idSites: vm.permissionsForSite.id
-                });
-            } else {
-                apiPromise = changeUserRoleBulk();
-            }
-
-            apiPromise.catch(function () {
-                // ignore (errors will still be displayed to the user)
-            }).then(function () {
-                return fetchUsers();
+            vm.onChangeUserRole({
+                users: getUserOperationSubject(),
+                role: vm.roleToChangeTo
             });
         }
 
-        function changeUserRoleBulk() {
-            if (vm.areAllResultsSelected) {
-                return piwikApi.post({
-                    method: 'UsersManager.setUserAccessMatching',
-                    access: vm.roleToChangeTo,
-                    filter_search: vm.userTextFilter,
-                    filter_access: vm.accessLevelFilter,
-                    idSite: vm.permissionsForSite.id
-                });
+        function deleteRequestedUsers() {
+            vm.onDeleteUser({
+                users: getUserOperationSubject(),
+            });
+        }
+
+        function getUserOperationSubject() {
+            if (vm.userToChange) {
+                return [vm.userToChange.login];
+            } else if (vm.areAllResultsSelected) {
+                return 'all';
             } else {
-                var usersToChange = getSelectedUsers();
-                return piwikApi.post({
-                    method: 'UsersManager.setUserAccess',
-                    'userLogin[]': usersToChange,
-                    access: vm.roleToChangeTo,
-                    idSites: vm.permissionsForSite.id
-                });
+                return getSelectedUsers();
             }
         }
 
@@ -210,63 +164,6 @@
             return selectedRowKeyCount;
         }
 
-        function deleteRequestedUsers() {
-            if (vm.userToChange) {
-                deleteSingleUser();
-            } else {
-                deleteMultipleUsers();
-            }
-        }
-
-        function deleteSingleUser() {
-            var userToChange = vm.userToChange;
-            vm.userToChange = null;
-
-            vm.isLoadingUsers = true;
-            piwikApi.post({
-                method: 'UsersManager.deleteUser',
-                userLogin: userToChange.login,
-            }).catch(function () {
-                // ignore (errors will still be displayed to the user)
-            }).then(function () {
-                return fetchUsers();
-            });
-        }
-
-        function deleteMultipleUsers() {
-            vm.isLoadingUsers = true;
-
-            var apiPromise;
-            if (vm.areAllResultsSelected) {
-                apiPromise = deleteUsersMatchingSearch();
-            } else {
-                apiPromise = deleteSelectedUsers();
-            }
-
-            apiPromise.catch(function () {
-                // ignore (errors will still be displayed to the user)
-            }).then(function () {
-                return fetchUsers();
-            });
-        }
-
-        function deleteUsersMatchingSearch() {
-            return piwikApi.post({
-                method: 'UsersManager.deleteUsersMatching',
-                filter_search: vm.userTextFilter,
-                filter_access: vm.accessLevelFilter,
-                idSite: vm.permissionsForSite.id
-            });
-        }
-
-        function deleteSelectedUsers() {
-            var usersToDelete = getSelectedUsers();
-            return piwikApi.post({
-                method: 'UsersManager.deleteUser',
-                'userLogin[]': usersToDelete
-            });
-        }
-
         function getSelectedUsers() {
             var result = [];
             Object.keys(vm.selectedRows).forEach(function (index) {
@@ -279,24 +176,8 @@
             return result;
         }
 
-        function gotoPreviousPage() {
-            vm.offset = Math.max(0, vm.offset - vm.limit);
-
-            fetchUsers();
-        }
-
-        function gotoNextPage() {
-            var newOffset = vm.offset + vm.limit;
-            if (newOffset >= vm.totalEntries) {
-                return;
-            }
-
-            vm.offset = newOffset;
-            fetchUsers();
-        }
-
         function getPaginationUpperBound() {
-            return Math.min(vm.offset + vm.limit, vm.totalEntries);
+            return Math.min(vm.searchParams.offset + vm.searchParams.limit, vm.totalEntries);
         }
 
         function showDeleteConfirm() {
@@ -311,6 +192,23 @@
                 }
             });
             return result;
+        }
+
+        function gotoPreviousPage() {
+            changeSearch({
+                offset: Math.max(0, vm.searchParams.offset - vm.searchParams.limit)
+            });
+        }
+
+        function gotoNextPage() {
+            var newOffset = vm.searchParams.offset + vm.searchParams.limit;
+            if (newOffset >= vm.totalEntries) {
+                return;
+            }
+
+            changeSearch({
+                offset: newOffset,
+            });
         }
     }
 })();

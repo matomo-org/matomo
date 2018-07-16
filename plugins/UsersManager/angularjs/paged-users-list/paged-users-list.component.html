@@ -46,40 +46,42 @@
         <div class="input-field col s12 m2">
             <div
                 piwik-field
+                name="user-text-filter"
                 class="permissions-for-selector"
                 uicontrol="text"
                 ng-model="$ctrl.userTextFilter"
                 ng-model-options="{debounce: 300}"
                 placeholder="User search"
                 full-width="true"
-                ng-change="$ctrl.offset = 0; $ctrl.fetchUsers()"
+                ng-change="$ctrl.changeSearch({ filter_search: $ctrl.userTextFilter })"
             ></div>
         </div>
         <div class="input-field col s12 m2">
             <div
                 piwik-field
+                name="access-level-filter"
                 uicontrol="select"
                 ng-model="$ctrl.accessLevelFilter"
                 placeholder="Filter by access"
                 options="$ctrl.filterAccessLevels"
                 full-width="true"
-                ng-change="$ctrl.offset = 0; $ctrl.fetchUsers()"
+                ng-change="$ctrl.changeSearch({ filter_access: $ctrl.accessLevelFilter })"
             ></div>
         </div>
-        <div class="input-field col s12 m6" ng-if="$ctrl.totalEntries > $ctrl.limit">
+        <div class="input-field col s12 m6" ng-if="$ctrl.totalEntries > $ctrl.searchParams.limit">
             <div class="usersListPagination">
-                <a class="btn prev" ng-class="{ disabled: $ctrl.offset <= 0 }" ng-click="$ctrl.gotoPreviousPage()">
+                <a class="btn prev" ng-class="{ disabled: $ctrl.searchParams.offset <= 0 }" ng-click="$ctrl.gotoPreviousPage()">
                     <span class="pointer">« Previous</span>
                 </a>
 
                 <div class="counter">
                     <span>
-                            {{ $ctrl.offset }} - {{ $ctrl.getPaginationUpperBound() }} of {{ $ctrl.totalEntries }}
+                            {{ $ctrl.searchParams.offset }} - {{ $ctrl.getPaginationUpperBound() }} of {{ $ctrl.totalEntries }}
                     </span>
                     <div piwik-activity-indicator ng-if="$ctrl.isLoadingUsers" loading="$ctrl.isLoadingUsers"></div>
                 </div>
 
-                <a class="btn next" ng-class="{ disabled: $ctrl.offset + $ctrl.limit >= $ctrl.totalEntries }" ng-click="$ctrl.gotoNextPage()">
+                <a class="btn next" ng-class="{ disabled: $ctrl.searchParams.offset + $ctrl.searchParams.limit >= $ctrl.totalEntries }" ng-click="$ctrl.gotoNextPage()">
                     <span class="pointer">Next »</span>
                 </a>
             </div>
@@ -112,7 +114,7 @@
                         class="permissions-for-selector"
                         uicontrol="site"
                         ng-model="$ctrl.permissionsForSite"
-                        ng-change="$ctrl.fetchUsers()"
+                        ng-change="$ctrl.changeSearch({ idSite: $ctrl.permissionsForSite.id })"
                         ui-control-attributes="{ onlySitesWithAdminAccess: $ctrl.currentUserRole !== 'superuser' }"
                     ></div>
                 </th>
@@ -126,7 +128,7 @@
                 <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected && $ctrl.users.length && $ctrl.users.length < $ctrl.totalEntries">
                     <td colspan="7">
                         <div ng-if="!$ctrl.areAllResultsSelected">
-                            The <strong>{{$ctrl.offset = 0;  $ctrl.users.length }}</strong> displayed users are selected.
+                            The <strong>{{ $ctrl.users.length }}</strong> displayed users are selected.
                             <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select all <strong>{{ $ctrl.totalEntries }}</strong>.</a>
                         </div>
 
@@ -140,11 +142,11 @@
                 <tr ng-repeat="user in $ctrl.users" ng-attr-id="row{{ $index }}">
                     <td class="select-cell">
                         <span class="checkbox-container">
-                            <input type="checkbox" ng-attr-id="paged_users_select_row{{:: $index }}" checked="checked" ng-model="$ctrl.selectedRows[$index]" ng-click="$ctrl.onRowSelected()" />
-                            <label ng-attr-for="paged_users_select_row{{:: $index }}"></label>
+                            <input type="checkbox" ng-attr-id="paged_users_select_row{{ $index }}" checked="checked" ng-model="$ctrl.selectedRows[$index]" ng-click="$ctrl.onRowSelected()" />
+                            <label ng-attr-for="paged_users_select_row{{ $index }}"></label>
                         </span>
                     </td>
-                    <td id="userLogin">{{:: user.login }}</td>
+                    <td id="userLogin">{{ user.login }}</td>
                     <td class="access-cell">
                         <div
                             piwik-field
@@ -155,9 +157,9 @@
                             disabled="user.role == 'superuser'"
                         ></div>
                     </td>
-                    <td id="email" ng-if="$ctrl.currentUserRole == 'superuser'">{{:: user.email }}</td>
+                    <td id="email" ng-if="$ctrl.currentUserRole == 'superuser'">{{ user.email }}</td>
                     <td id="last_seen" ng-if="$ctrl.currentUserRole == 'superuser'">
-                        {{:: user.last_seen ? (user.last_seen + ' ago') : '-' }}
+                        {{ user.last_seen ? (user.last_seen + ' ago') : '-' }}
                     </td>
                     <td class="center actions-cell">
                         <button class="edituser table-action" title="Edit" ng-click="$ctrl.onEditUser({ user: user })">
@@ -186,8 +188,8 @@
 
     <div class="change-user-role-confirm-modal modal">
         <div class="modal-content">
-            <h3 ng-if="$ctrl.userToChange">Are you sure you want to change <strong>{{ $ctrl.userToChange.login }}</strong>'s role to <strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong> for <strong>{{ $ctrl.permissionsForSite.name }}</strong>?</h3>
-            <p ng-if="!$ctrl.userToChange">Are you sure you want to change the <strong>{{ $ctrl.getAffectedUsersCount() }}</strong> selected users' role to <strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong> form <strong>{{ $ctrl.permissionsForSite.name }}</strong>?</p>
+            <h3 ng-if="$ctrl.userToChange">Are you sure you want to change <strong>{{ $ctrl.userToChange.login }}</strong>'s role to <strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong> for <strong ng-bind-html="$ctrl.permissionsForSite.name"></strong>?</h3>
+            <p ng-if="!$ctrl.userToChange">Are you sure you want to change the <strong>{{ $ctrl.getAffectedUsersCount() }}</strong> selected users' role to <strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong> for <strong ng-bind-html="$ctrl.permissionsForSite.name"></strong>?</p>
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.changeUserRole()">Yes</a>

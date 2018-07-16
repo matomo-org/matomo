@@ -14,21 +14,32 @@
             </p>
 
             <div class="row add-user-container">
-                <div class="input-field col s12 m3">
+                <div class="input-field col s12 m2">
                     <a class="btn" ng-click="$ctrl.isEditing = true; $ctrl.userBeingEdited = null;">
                         Add a new user
+                    </a>
+                </div>
+                <div class="input-field col s12 m2" ng-if="$ctrl.currentUserRole !== 'superuser'">
+                    <a class="btn" ng-click="$ctrl.showAddExistingUserModal();">
+                        Add an existing user
                     </a>
                 </div>
             </div>
 
             <piwik-paged-users-list
                 on-edit-user="$ctrl.isEditing = true; $ctrl.userBeingEdited = user;"
-                on-delete-user="$ctrl.onDeleteUser(user)"
-                initial-site-name="$ctrl.initialSiteName"
+                on-change-user-role="$ctrl.onChangeUserRole(users, role)"
+                on-delete-user="$ctrl.onDeleteUser(users)"
+                on-search-change="$ctrl.searchParams = params; $ctrl.fetchUsers();"
                 initial-site-id="$ctrl.initialSiteId"
+                initial-site-name="$ctrl.initialSiteName"
+                is-loading-users="$ctrl.isLoadingUsers"
                 current-user-role="$ctrl.currentUserRole"
                 access-levels="$ctrl.accessLevels"
                 filter-access-levels="$ctrl.filterAccessLevels"
+                search-params="$ctrl.searchParams"
+                users="$ctrl.users"
+                total-entries="$ctrl.totalEntries"
             ></piwik-paged-users-list>
         </div>
     </div>
@@ -43,5 +54,23 @@
             access-levels="$ctrl.accessLevels"
             filter-access-levels="$ctrl.filterAccessLevels"
         ></piwik-user-edit-form>
+    </div>
+
+    <div class="add-existing-user-modal modal">
+        <div class="modal-content">
+            <h3>Add an existing user</h3>
+            <p>Enter the user's login or email address:</p>
+            <div
+                piwik-field
+                uicontrol="text"
+                ng-model="$ctrl.addNewUserLoginEmail"
+            >
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.addExistingUser()">Yes</a>
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.addNewUserLoginEmail = null;">No</a>
+        </div>
     </div>
 </div>

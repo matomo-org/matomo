@@ -181,15 +181,22 @@
             vm.isLoadingAccess = true;
 
             var apiPromise;
-            if (vm.siteAccessToChange) {
+            if (vm.siteAccessToChange || !vm.areAllResultsSelected) {
+                var idSites = vm.siteAccessToChange ? [vm.siteAccessToChange.idsite] : getSelectedSites();
                 apiPromise = piwikApi.post({
                     method: 'UsersManager.setUserAccess',
                     userLogin: vm.userLogin,
                     access: vm.roleToChangeTo,
-                    idSites: vm.siteAccessToChange.idsite
+                    'idSites[]': idSites
                 });
             } else {
-                apiPromise = bulkChangeUserRole();
+                apiPromise = piwikApi.post({
+                    method: 'UsersManager.setSiteAccessMatching',
+                    userLogin: vm.userLogin,
+                    access: vm.roleToChangeTo,
+                    filter_search: vm.siteNameFilter,
+                    filter_access: vm.accessLevelFilter,
+                });
             }
 
             apiPromise.catch(function () {
@@ -199,26 +206,6 @@
 
                 return fetchAccess();
             });
-        }
-
-        function bulkChangeUserRole() {
-            if (vm.areAllResultsSelected) {
-                return piwikApi.post({
-                    method: 'UsersManager.setSiteAccessMatching',
-                    userLogin: vm.userLogin,
-                    access: vm.roleToChangeTo,
-                    filter_search: vm.siteNameFilter,
-                    filter_access: vm.accessLevelFilter,
-                });
-            } else {
-                var idSites = getSelectedSites();
-                return piwikApi.post({
-                    method: 'UsersManager.setUserAccess',
-                    userLogin: vm.userLogin,
-                    access: vm.roleToChangeTo,
-                    'idSites[]': idSites
-                });
-            }
         }
 
         function getSelectedSites() {
@@ -254,7 +241,6 @@
         }
 
         function showChangeAccessConfirm() {
-            console.log('here', $element.find('.change-access-confirm-modal')[0]);
             $element.find('.change-access-confirm-modal').openModal({ dismissible: false });
         }
 
