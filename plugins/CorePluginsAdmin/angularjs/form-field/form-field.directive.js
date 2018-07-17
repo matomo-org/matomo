@@ -394,6 +394,7 @@
                     }
 
                     scope.formField = field;
+                    console.log(field.uiControlAttributes);
 
                     scope.$watch('formField.availableValues', function (val, oldVal) {
                         if (val !== oldVal) {

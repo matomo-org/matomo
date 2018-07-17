@@ -89,7 +89,7 @@
         }
 
         function $onChanges(changes) {
-            if (changes.isLoadingUsers) {
+            if (changes.users) {
                 clearSelection();
             }
         }

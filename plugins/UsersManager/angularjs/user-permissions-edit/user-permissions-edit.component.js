@@ -51,11 +51,6 @@
         vm.roleToChangeTo = null;
         vm.siteAccessToChange = null;
 
-        vm.siteToAdd = {
-            id: null,
-            name: ''
-        };
-
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.onAllCheckboxChange = onAllCheckboxChange;
@@ -76,6 +71,7 @@
         function $onInit() {
             vm.limit = vm.limit || 10;
 
+            resetSiteToAdd();
             fetchAccess();
         }
 
@@ -148,6 +144,13 @@
             return Math.min(vm.offset + vm.limit, vm.totalEntries);
         }
 
+        function resetSiteToAdd() {
+            vm.siteToAdd = {
+                id: null,
+                name: ''
+            };
+        }
+
         function addUserRole() {
             vm.isLoadingAccess = true;
             piwikApi.post({
@@ -159,6 +162,8 @@
             }).catch(function () {
                 // ignore (errors will still be displayed to the user)
             }).then(function () {
+                resetSiteToAdd();
+
                 vm.onAccessChange();
 
                 return fetchAccess();

@@ -3,9 +3,15 @@
     margin-bottom: 0;
   }
 
-  .add-user-container.row {
-    margin-left: -0.75rem;
-    margin-right: -0.75rem;
+  .add-user-container {
+    &.row {
+      margin-left: -0.75rem;
+      margin-right: -0.75rem;
+    }
+
+    > .col > .input-field {
+      display: inline-block;
+    }
   }
 
   .add-existing-user-modal {

@@ -54,7 +54,7 @@
                     class="add-site-selector"
                     uicontrol="site"
                     ng-model="$ctrl.siteToAdd"
-                    ui-control-attributes="{showAllSitesItem: true}"
+                    ui-control-attributes="{showAllSitesItem: true, onlySitesWithAdminAccess: $ctrl.currentUserRole !== 'superuser'}"
                     placeholder="Give access to..."
                 ></div>
                 <a class='btn-flat' ng-click="$ctrl.roleToChangeTo = 'view'; $ctrl.siteAccessToChange = { idsite: $ctrl.siteToAdd.id }; $ctrl.addUserRole()">

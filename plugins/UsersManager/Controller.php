@@ -87,6 +87,7 @@ class Controller extends ControllerAdmin
             ['key' => 'some', 'value' => Piwik::translate('UsersManager_AtLeastView')],
             ['key' => 'view', 'value' => Piwik::translate('UsersManager_PrivView')],
             ['key' => 'admin', 'value' => Piwik::translate('UsersManager_PrivAdmin')],
+            ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser')],
         ];
 
         $this->setBasicVariablesView($view);
