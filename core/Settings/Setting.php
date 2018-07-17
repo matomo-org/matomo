@@ -207,8 +207,8 @@ class Setting
 
         $this->validateValue($value);
 
-        if ($config->prepareValue && $config->prepareValue instanceof \Closure) {
-            $value = call_user_func($config->prepareValue, $value, $this);
+        if ($config->decodeValue && $config->decodeValue instanceof \Closure) {
+            $value = call_user_func($config->decodeValue, $value, $this);
         }
 
         return $value;

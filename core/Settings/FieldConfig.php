@@ -219,13 +219,13 @@ class FieldConfig
      *
      * **Example**
      *
-     *     $setting->prepareValue = function ($value, Setting $setting) {
+     *     $setting->decodeValue = function ($value, Setting $setting) {
      *         return split(',', $value);
      *     }
      *
      * @var null|\Closure
      */
-    public $prepareValue = null;
+    public $decodeValue = null;
 
     /**
      * This setting's display name, for example, `'Refresh Interval'`.

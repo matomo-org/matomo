@@ -41,15 +41,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field1 = new FieldConfig\MultiPair(Piwik::translate('Overlay_Domain'), 'domain', FieldConfig::UI_CONTROL_TEXT);
             $field->uiControlAttributes['field1'] = $field1->toArray();
             $field->transform = function($values) {
-                $corsDomains = [];
-                foreach ($values as $value) {
-                    if (!empty($value['domain'])) {
-                        $corsDomains[] = $value['domain'];
-                    }
-                }
-                return $corsDomains;
+                return array_column($values, 'domain');
             };
-            $field->prepareValue = function($value) {
+            $field->decodeValue = function($value) {
                 $domains = [];
                 foreach ($value as $domain) {
                     $domains[] = ['domain' => $domain];
@@ -68,15 +62,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field1 = new FieldConfig\MultiPair(Piwik::translate('CoreAdminHome_ValidPiwikHostname'), 'host', FieldConfig::UI_CONTROL_TEXT);
             $field->uiControlAttributes['field1'] = $field1->toArray();
             $field->transform = function($values) {
-                $hostnames = [];
-                foreach ($values as $value) {
-                    if (!empty($value['host'])) {
-                        $hostnames[] = $value['host'];
-                    }
-                }
-                return $hostnames;
+                return array_column($values, 'host');
             };
-            $field->prepareValue = function($value) {
+            $field->decodeValue = function($value) {
                 $domains = [];
                 foreach ($value as $domain) {
                     $domains[] = ['host' => $domain];
