@@ -63,7 +63,7 @@
         "PrivWriteDescription": "Users with this role can view all content plus create, manage and delete entities such as Goals, Funnels, Heatmaps, Session Recordings and Forms for this website.",
         "PrivNone": "No access",
         "PrivView": "View",
-        "PrivViewDescription": "A user with this role can you view all reports.",
+        "PrivViewDescription": "A user with this role can view all reports.",
         "RemoveUserAccess":"Remove access for '%1$s' for %2$s.",
         "ReportDateToLoadByDefault": "Report date to load by default",
         "ReportToLoadByDefault": "Report to load by default",

@@ -427,13 +427,19 @@ class Piwik
         return Access::getInstance()->isUserHasSomeWriteAccess();
     }
 
+    /**
+     * Checks whether the user has the given capability or not.
+     * @param array $idSites
+     * @param string $capability
+     * @throws NoAccessException Thrown if the user does not have the given capability
+     */
     public static function checkUserHasCapability($idSites, $capability)
     {
         Access::getInstance()->checkUserHasCapability($idSites, $capability);
     }
 
     /**
-     * Returns `true` if the current user has write access to at least one site.
+     * Returns `true` if the current user has the given capability for the given sites.
      *
      * @return bool
      * @api

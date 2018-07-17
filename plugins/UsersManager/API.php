@@ -907,21 +907,7 @@ class API extends \Piwik\Plugin\API
             $this->capabilityProvider->checkValidCapability($entry);
         }
 
-        $sites = $this->model->getSitesAccessFromUser($userLogin);
-        $roleIds = $this->roleProvider->getAllRoleIds();
-
-        $sitesIdWithRole = array();
-        $sitesIdWithCapability = array();
-        foreach ($sites as $site) {
-            if (in_array($site['access'], $roleIds, true)) {
-                $sitesIdWithRole[(int) $site['site']] = $site['access'];
-            } else {
-                if (!isset($sitesIdWithCapability[(int) $site['site']])) {
-                    $sitesIdWithCapability[(int) $site['site']] = array();
-                }
-                $sitesIdWithCapability[(int) $site['site']][] = $site['access'];
-            }
-        }
+        list($sitesIdWithRole, $sitesIdWithCapability) = $this->getRolesAndCapabilitiesForLogin($userLogin);
 
         foreach ($capabilities as $entry) {
             $cap = $this->capabilityProvider->getCapability($entry);
@@ -949,6 +935,26 @@ class API extends \Piwik\Plugin\API
 
         // we reload the access list which doesn't yet take in consideration this new user access
         $this->reloadPermissions();
+    }
+
+    private function getRolesAndCapabilitiesForLogin($userLogin)
+    {
+        $sites = $this->model->getSitesAccessFromUser($userLogin);
+        $roleIds = $this->roleProvider->getAllRoleIds();
+
+        $sitesIdWithRole = array();
+        $sitesIdWithCapability = array();
+        foreach ($sites as $site) {
+            if (in_array($site['access'], $roleIds, true)) {
+                $sitesIdWithRole[(int) $site['site']] = $site['access'];
+            } else {
+                if (!isset($sitesIdWithCapability[(int) $site['site']])) {
+                    $sitesIdWithCapability[(int) $site['site']] = array();
+                }
+                $sitesIdWithCapability[(int) $site['site']][] = $site['access'];
+            }
+        }
+        return [$sitesIdWithRole, $sitesIdWithCapability];
     }
 
     /**

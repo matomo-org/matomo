@@ -701,7 +701,7 @@ abstract class Controller
 
         $capabilities = array();
         if ($this->idSite && $this->site) {
-            $capabilityProvider = StaticContainer::get('Piwik\Access\CapabilitiesProvider');
+            $capabilityProvider = StaticContainer::get(Access\CapabilitiesProvider::class);
             foreach ($capabilityProvider->getAllCapabilities() as $capability) {
                 if (Piwik::isUserHasCapability($this->idSite, $capability->getId())) {
                     $capabilities[] = $capability->getId();
