@@ -630,6 +630,12 @@
 		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
 	</row>
 	<row>
+		<type>metric</type>
+		<category>Events</category>
+		<name>Event value</name>
+		<segment>eventValue</segment>
+	</row>
+	<row>
 		<type>dimension</type>
 		<category>Events</category>
 		<name>Event Action</name>
