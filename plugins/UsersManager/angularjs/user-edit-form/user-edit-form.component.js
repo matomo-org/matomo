@@ -17,7 +17,9 @@
             onDoneEditing: '&',
             currentUserRole: '<',
             accessLevels: '<',
-            filterAccessLevels: '<'
+            filterAccessLevels: '<',
+            initialSiteId: '<',
+            initialSiteName: '<'
         },
         controller: UserEditFormController
     });
@@ -31,18 +33,23 @@
         vm.isSavingUserInfo = false;
         vm.isPasswordChanged = false;
         vm.userHasAccess = true;
-        vm.firstSiteAccess = {
-            id: null,
-            name: ''
-        };
+        vm.firstSiteAccess = null;
         vm.isUserModified = false;
 
+        vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.confirmSuperUserChange = confirmSuperUserChange;
         vm.getFormTitle = getFormTitle;
         vm.getSaveButtonLabel = getSaveButtonLabel;
         vm.toggleSuperuserAccess = toggleSuperuserAccess;
         vm.saveUserInfo = saveUserInfo;
+
+        function $onInit() {
+            vm.firstSiteAccess = {
+                id: vm.initialSiteId,
+                name: vm.initialSiteName
+            };
+        }
 
         function $onChanges() {
             if (vm.user) {

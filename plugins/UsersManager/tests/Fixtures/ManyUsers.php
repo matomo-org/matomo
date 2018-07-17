@@ -23,10 +23,12 @@ class ManyUsers extends Fixture
 
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;
+    public $siteCount;
+    public $userCount;
 
     public $baseUsers = array(
         'login1' => array('superuser' => 1),
-        'login2' => array('view' => array(1,3,5),   'admin' => array(2,6)),
+        'login2' => array('view' => array(3,5),   'admin' => array(1,2,6)),
         'login3' => array('view' => array(),        'admin' => array()), // no access to any site
         'login4' => array('view' => array(6),       'admin' => array()), // only access to one with view
         'login5' => array('view' => array(),        'admin' => array(3)), // only access to one with admin
@@ -57,6 +59,12 @@ class ManyUsers extends Fixture
         'conchords',
     ];
 
+    public function __construct($userCount = self::USER_COUNT, $siteCount = self::SITE_COUNT)
+    {
+        $this->userCount = $userCount;
+        $this->siteCount = $siteCount;
+    }
+
     public function setUp()
     {
         $this->setUpWebsite();
@@ -72,6 +80,9 @@ class ManyUsers extends Fixture
     {
         for ($i = 0; $i < self::SITE_COUNT; $i++) {
             $siteName = $this->baseSites[$i % count($this->baseSites)];
+            if ($i != 0) {
+                $siteName .= $i;
+            }
             Fixture::createWebsite('2010-01-01 00:00:00', $ecommerce = 0, $siteName);
         }
     }
@@ -82,19 +93,22 @@ class ManyUsers extends Fixture
 
         $model = new Model();
         $api = API::getInstance();
-        foreach ($this->users as $login => $permissions) {
-            for ($i = 0; $i != self::USER_COUNT; ++$i) {
+        for ($i = 0; $i != self::USER_COUNT; ++$i) {
+            $addToEmail = $i % 2 == 0;
+
+            foreach ($this->baseUsers as $baseLogin => $permissions) {
                 ++$totalUserCount;
 
-                $email = $login . '@example.com';
-
                 $textAddition = $this->textAdditions[$totalUserCount % count($this->textAdditions)];
-                $addToEmail = $i % 2 == 0;
 
+                $login = $i . '_' . $baseLogin;
+                if (!$addToEmail) {
+                    $login .= $textAddition;
+                }
+
+                $email = $login . '@example.com';
                 if ($addToEmail) {
                     $email = $login . $textAddition . '@example.com';
-                } else {
-                    $login .= $textAddition;
                 }
 
                 $api->addUser($login, 'password', $email);

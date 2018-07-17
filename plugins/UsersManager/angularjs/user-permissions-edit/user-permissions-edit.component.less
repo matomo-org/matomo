@@ -56,6 +56,15 @@
     margin-left: -0.75rem;
     margin-right: -0.75rem;
 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    > div:first-child {
+      flex: 1;
+    }
+
     > div > .input-field {
       display: inline-block;
       vertical-align: top;

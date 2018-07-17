@@ -54,7 +54,8 @@
                     method: 'UsersManager.setUserAccess',
                     'userLogin[]': users,
                     access: role,
-                    idSites: vm.searchParams.idSite
+                    idSites: vm.searchParams.idSite,
+                    ignoreSuperusers: 1
                 });
             } else {
                 apiPromise = piwikApi.post({
@@ -62,11 +63,12 @@
                     access: role,
                     filter_search: vm.searchParams.filter_search,
                     filter_access: vm.searchParams.filter_access,
-                    idSite: vm.searchParams.idSite
+                    idSite: vm.searchParams.idSite,
+                    ignoreSuperusers: 1
                 });
             }
 
-            apiPromise.catch(function () {
+            apiPromise.catch(function (e) {
                 // ignore (errors will still be displayed to the user)
             }).then(function () {
                 return fetchUsers();

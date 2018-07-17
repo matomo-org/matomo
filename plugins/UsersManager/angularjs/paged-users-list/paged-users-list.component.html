@@ -1,74 +1,76 @@
 <div class="pagedUsersList" ng-class="{loading: $ctrl.isLoadingUsers}">
     <div class="userListFilters row">
-        <div class="input-field col s12 m2">
-            <a
-                class='dropdown-trigger btn bulk-actions'
-                href=''
-                data-activates='user-list-bulk-actions'
-                piwik-dropdown-menu
-                ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
-            >
-                Bulk Actions
-            </a>
-            <ul id='user-list-bulk-actions' class='dropdown-content'>
-                <li>
-                    <a
-                        class='dropdown-trigger'
-                        data-activates="bulk-set-access"
+        <div class="col s12 m12 l6">
+            <div class="input-field col s12 m4 l4">
+                <a
+                        class='dropdown-trigger btn bulk-actions'
+                        href=''
+                        data-activates='user-list-bulk-actions'
                         piwik-dropdown-menu
-                    >
-                        Set Access
-                    </a>
-                    <ul id="bulk-set-access" class="dropdown-content">
-                        <li ng-repeat="access in $ctrl.bulkActionAccessLevels">
-                            <a
+                        ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
+                >
+                    Bulk Actions
+                </a>
+                <ul id='user-list-bulk-actions' class='dropdown-content'>
+                    <li>
+                        <a
+                                class='dropdown-trigger'
+                                data-activates="bulk-set-access"
+                                piwik-dropdown-menu
+                        >
+                            Set Access
+                        </a>
+                        <ul id="bulk-set-access" class="dropdown-content">
+                            <li ng-repeat="access in $ctrl.bulkActionAccessLevels">
+                                <a
+                                        href=""
+                                        ng-click="$ctrl.userToChange = null; $ctrl.roleToChangeTo = access.key; $ctrl.showAccessChangeConfirm();"
+                                >
+                                    {{ access.value }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a
                                 href=""
-                                ng-click="$ctrl.userToChange = null; $ctrl.roleToChangeTo = access.key; $ctrl.showAccessChangeConfirm();"
-                            >
-                                {{ access.value }}
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a
-                        href=""
-                        ng-click="$ctrl.userToChange = null; $ctrl.roleToChangeTo = 'noaccess'; $ctrl.showAccessChangeConfirm();"
-                    >
-                        Remove Access
-                    </a>
-                </li>
-                <li ng-if="$ctrl.currentUserRole == 'superuser'">
-                    <a href="" ng-click="$ctrl.showDeleteConfirm()">Delete Users</a>
-                </li>
-            </ul>
+                                ng-click="$ctrl.userToChange = null; $ctrl.roleToChangeTo = 'noaccess'; $ctrl.showAccessChangeConfirm();"
+                        >
+                            Remove Access
+                        </a>
+                    </li>
+                    <li ng-if="$ctrl.currentUserRole == 'superuser'">
+                        <a href="" ng-click="$ctrl.showDeleteConfirm()">Delete Users</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="input-field col s12 m4 l4">
+                <div
+                        piwik-field
+                        name="user-text-filter"
+                        class="permissions-for-selector"
+                        uicontrol="text"
+                        ng-model="$ctrl.userTextFilter"
+                        ng-model-options="{debounce: 300}"
+                        placeholder="User search"
+                        full-width="true"
+                        ng-change="$ctrl.changeSearch({ filter_search: $ctrl.userTextFilter })"
+                ></div>
+            </div>
+            <div class="input-field col s12 m4 l4">
+                <div
+                        piwik-field
+                        name="access-level-filter"
+                        uicontrol="select"
+                        ng-model="$ctrl.accessLevelFilter"
+                        placeholder="Filter by access"
+                        options="$ctrl.filterAccessLevels"
+                        full-width="true"
+                        ng-change="$ctrl.changeSearch({ filter_access: $ctrl.accessLevelFilter })"
+                ></div>
+            </div>
         </div>
-        <div class="input-field col s12 m2">
-            <div
-                piwik-field
-                name="user-text-filter"
-                class="permissions-for-selector"
-                uicontrol="text"
-                ng-model="$ctrl.userTextFilter"
-                ng-model-options="{debounce: 300}"
-                placeholder="User search"
-                full-width="true"
-                ng-change="$ctrl.changeSearch({ filter_search: $ctrl.userTextFilter })"
-            ></div>
-        </div>
-        <div class="input-field col s12 m2">
-            <div
-                piwik-field
-                name="access-level-filter"
-                uicontrol="select"
-                ng-model="$ctrl.accessLevelFilter"
-                placeholder="Filter by access"
-                options="$ctrl.filterAccessLevels"
-                full-width="true"
-                ng-change="$ctrl.changeSearch({ filter_access: $ctrl.accessLevelFilter })"
-            ></div>
-        </div>
-        <div class="input-field col s12 m6" ng-if="$ctrl.totalEntries > $ctrl.searchParams.limit">
+        <div class="input-field col s12 m12 l6 users-list-pagination-container" ng-if="$ctrl.totalEntries > $ctrl.searchParams.limit">
             <div class="usersListPagination">
                 <a class="btn prev" ng-class="{ disabled: $ctrl.searchParams.offset <= 0 }" ng-click="$ctrl.gotoPreviousPage()">
                     <span class="pointer">« Previous</span>

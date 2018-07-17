@@ -907,14 +907,14 @@ class API extends \Piwik\Plugin\API
      * @param int|array $idSites The array of idSites on which to apply the access level for the user.
      *       If the value is "all" then we apply the access level to all the websites ID for which the current authentificated user has an 'admin' access.
      * @param bool $ignoreExisting If true, existing access entries are not changed, only access for new sites are added.
-     *
+     * @param bool $ignoreSuperusers If true, superusers will be ignored. Normally an error is thrown.
      * @throws Exception if the user doesn't exist
      * @throws Exception if the access parameter doesn't have a correct value
      * @throws Exception if any of the given website ID doesn't exist
      *
      * @return bool true on success
      */
-    public function setUserAccess($userLogin, $access, $idSites, $ignoreExisting = false)
+    public function setUserAccess($userLogin, $access, $idSites, $ignoreExisting = false, $ignoreSuperusers = false)
     {
         $this->checkAccessType($access);
         if ($access == 'noaccess' && $ignoreExisting) {
@@ -923,9 +923,13 @@ class API extends \Piwik\Plugin\API
 
         $ignoreExisting = $ignoreExisting == 1;
         $userLogins = is_array($userLogin) ? $userLogin : [$userLogin];
-
+// TODO: test for ignoreSuperusers
         $this->checkUsersExist($userLogins);
-        $this->checkUsersHasNotSuperUserAccess($userLogins);
+        if ($ignoreSuperusers == 1) {
+            $userLogins = $this->removeSuperusers($userLogins);
+        } else {
+            $this->checkUsersHasNotSuperUserAccess($userLogins);
+        }
         $this->checkNotGivingAnonymousAdmin($userLogins, $access);
 
         // in case idSites is all we grant access to all the websites on which the current connected user has an 'admin' access
@@ -973,9 +977,10 @@ class API extends \Piwik\Plugin\API
      * @param string $access
      * @param string|null $filter_search text to search for in the user's login, email and alias (if any)
      * @param string|null $filter_access only modify users with this access to $idSite. can be 'noaccess', 'some', 'view', 'admin'
+     * @param bool $ignoreSuperusers If true, superusers will be ignored. Normally an error is thrown.
      * @throws Exception
      */
-    public function setUserAccessMatching($idSite, $access, $filter_search = null, $filter_access = null)
+    public function setUserAccessMatching($idSite, $access, $filter_search = null, $filter_access = null, $ignoreSuperusers = false)
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -984,7 +989,7 @@ class API extends \Piwik\Plugin\API
             return;
         }
 
-        $this->setUserAccess($usersToModify, $access, $idSite);
+        $this->setUserAccess($usersToModify, $access, $idSite, false, $ignoreSuperusers);
     }
 
     /**
@@ -1030,6 +1035,20 @@ class API extends \Piwik\Plugin\API
                 throw new Exception(Piwik::translate("UsersManager_ExceptionUserHasSuperUserAccess", $userLogin));
             }
         }
+    }
+
+    private function removeSuperusers($userLogins)
+    {
+        $superusers = $this->getUsersHavingSuperUserAccess();
+        $superusers = array_column($superusers, null, 'login');
+
+        $result = [];
+        foreach ($userLogins as $login) {
+            if (empty($superusers[$login])) {
+                $result[] = $login;
+            }
+        }
+        return $result;
     }
 
     private function checkAccessType($access)

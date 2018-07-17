@@ -14,15 +14,17 @@
             </p>
 
             <div class="row add-user-container">
-                <div class="input-field col s12 m2">
-                    <a class="btn add-new-user" ng-click="$ctrl.isEditing = true; $ctrl.userBeingEdited = null;">
-                        Add a new user
-                    </a>
-                </div>
-                <div class="input-field col s12 m3" ng-if="$ctrl.currentUserRole !== 'superuser'">
-                    <a class="btn add-existing-user" ng-click="$ctrl.showAddExistingUserModal();">
-                        Add an existing user
-                    </a>
+                <div class="col s12">
+                    <div class="input-field">
+                        <a class="btn add-new-user" ng-click="$ctrl.isEditing = true; $ctrl.userBeingEdited = null;">
+                            Add a new user
+                        </a>
+                    </div>
+                    <div class="input-field" ng-if="$ctrl.currentUserRole !== 'superuser'">
+                        <a class="btn add-existing-user" ng-click="$ctrl.showAddExistingUserModal();">
+                            Add an existing user
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -53,6 +55,8 @@
             allow-superuser-edit="$ctrl.isCurrentUserSuperUser"
             access-levels="$ctrl.accessLevels"
             filter-access-levels="$ctrl.filterAccessLevels"
+            initial-site-id="$ctrl.initialSiteId"
+            initial-site-name="$ctrl.initialSiteName"
         ></piwik-user-edit-form>
     </div>
 
@@ -62,6 +66,7 @@
             <p>Enter the user's login or email address:</p>
             <div
                 piwik-field
+                name="add-existing-user-email"
                 uicontrol="text"
                 ng-model="$ctrl.addNewUserLoginEmail"
             >
