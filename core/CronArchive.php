@@ -1841,7 +1841,16 @@ class CronArchive
 
     public function isAlreadyArchivingSegment($urlWithSegment, $idSite, $period, $segment)
     {
-        $periodInProgress = $this->isAlreadyArchivingAnyLowerOrThisPeriod($idSite, $period);
+        // we can check for this or lower period only when the below condition is given. Otherwise the archiver might launch
+        // the following requests at once:
+        // - week
+        // - week segment1
+        // - week segment2
+        // and it would always skip archiving the segments cause the week was launched first and would be running when
+        // it starts them all 3 "at the same time".
+        $isProcessingOne = $this->concurrentRequestsPerWebsite == 1;
+
+        $periodInProgress = $isProcessingOne && $this->isAlreadyArchivingAnyLowerOrThisPeriod($idSite, $period);
         if ($periodInProgress) {
             $this->logger->info("- skipping segment archiving for period '{period}' with segment '{segment}' because processing the period '{periodcheck}' is already in progress.", array('segment' => $segment, 'period' => $period, 'periodcheck' => $periodInProgress));
             return true;
