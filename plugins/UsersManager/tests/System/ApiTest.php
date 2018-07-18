@@ -74,4 +74,4 @@ class ApiTest extends SystemTestCase
 
 }
 
-ApiTest::$fixture = new ManyUsers(10, 7);
+ApiTest::$fixture = new ManyUsers(10, 7, false);

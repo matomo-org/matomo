@@ -25,6 +25,7 @@ class ManyUsers extends Fixture
     public $idSite = 1;
     public $siteCount;
     public $userCount;
+    public $addTextSuffixes;
 
     public $baseUsers = array(
         'login1' => array('superuser' => 1),
@@ -59,10 +60,11 @@ class ManyUsers extends Fixture
         'conchords',
     ];
 
-    public function __construct($userCount = self::USER_COUNT, $siteCount = self::SITE_COUNT)
+    public function __construct($userCount = self::USER_COUNT, $siteCount = self::SITE_COUNT, $addTextSuffixes = true)
     {
         $this->userCount = $userCount;
         $this->siteCount = $siteCount;
+        $this->addTextSuffixes = $addTextSuffixes;
     }
 
     public function setUp()
@@ -102,12 +104,12 @@ class ManyUsers extends Fixture
                 $textAddition = $this->textAdditions[$totalUserCount % count($this->textAdditions)];
 
                 $login = $i . '_' . $baseLogin;
-                if (!$addToEmail) {
+                if ($this->addTextSuffixes && !$addToEmail) {
                     $login .= $textAddition;
                 }
 
                 $email = $login . '@example.com';
-                if ($addToEmail) {
+                if ($this->addTextSuffixes &&$addToEmail) {
                     $email = $login . $textAddition . '@example.com';
                 }
 

@@ -64,12 +64,12 @@ class API extends \Piwik\Plugin\API
 
     private static $instance = null;
 
-    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access $access)
+    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access $access = null)
     {
         $this->model = $model;
         $this->userFilter = $filter;
         $this->password = $password;
-        $this->access = $access;
+        $this->access = $access ?: StaticContainer::get(Access::class);
     }
 
     /**
