@@ -50,7 +50,7 @@ describe("UsersManager", function () {
                 $('select[name=access-level-filter]').val('string:').change();
             });
 
-            page.click('th.role_header .siteSelector');
+            page.click('th.role_header .siteSelector a.title');
             page.click('.siteSelector .custom_select_container a:contains(relentless)');
         }, done);
     });
@@ -96,7 +96,6 @@ describe("UsersManager", function () {
             page.setViewportSize(1250);
 
             // remove filters
-            page.sendKeys('#user-text-filter', '');
             page.evaluate(function () {
                 $('select[name=access-level-filter]').val('string:').change();
             });
@@ -170,11 +169,11 @@ describe("UsersManager", function () {
         expect.screenshot("user_created").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
 
-            page.sendKeys('#user_login', 'aaanewuser');
+            page.sendKeys('#user_login', '000newuser');
             page.sendKeys('#user_password', 'thepassword');
             page.sendKeys('#user_email', 'theuser@email.com');
 
-            page.click('piwik-user-edit-form .siteSelector');
+            page.click('piwik-user-edit-form .siteSelector a.title');
             page.click('piwik-user-edit-form .siteSelector .custom_select_container a:eq(1)');
 
             page.click('piwik-user-edit-form [piwik-save-button]');
@@ -194,10 +193,10 @@ describe("UsersManager", function () {
         expect.screenshot("permissions_all_sites_access").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
 
-            page.click('.add-site-selector .siteSelector');
+            page.click('.add-site-selector .siteSelector a.title');
             page.click('.add-site-selector .siteSelector a:contains(All Websites)');
 
-            page.click('.btn-flat .icon-add');
+            page.click('.userPermissionsEdit .btn-flat .icon-add');
             page.wait(500); // wait for toast to show
         }, done);
     });
@@ -209,12 +208,13 @@ describe("UsersManager", function () {
             page.click('.sites-for-permission-pagination a.next');
         }, done);
     });
-    return;
+
     it('should remove access to a single site when the trash icon is used', function (done) {
         expect.screenshot("permissions_remove_single").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
 
             page.click('#sitesForPermission .deleteaccess');
+            page.click('.delete-access-confirm-modal .modal-close:not(.modal-no)');
         }, done);
     });
 
@@ -222,9 +222,9 @@ describe("UsersManager", function () {
         expect.screenshot("permissions_select_multiple").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
 
-            page.click('td.select-cell label:eq(0)');
-            page.click('td.select-cell label:eq(3)');
-            page.click('td.select-cell label:eq(8)');
+            page.click('#sitesForPermission td.select-cell label:eq(0)');
+            page.click('#sitesForPermission td.select-cell label:eq(3)');
+            page.click('#sitesForPermission td.select-cell label:eq(8)');
         }, done);
     });
 
@@ -232,8 +232,11 @@ describe("UsersManager", function () {
         expect.screenshot("permissions_bulk_access_set").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
 
-            page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger-btn');
+            page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
+            page.mouseMove('#user-permissions-edit-bulk-actions>li:first');
             page.click('#user-permissions-edit-bulk-actions a:contains(Admin)');
+
+            page.click('.change-access-confirm-modal .modal-close:not(.modal-no)');
         }, done);
     });
 
@@ -241,8 +244,10 @@ describe("UsersManager", function () {
         expect.screenshot("permissions_filters").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
 
-            page.sendKeys('div.site-filter>input', 'ight');
-            $('.access-filter select').val('string:admin').change();
+            page.sendKeys('div.site-filter>input', 'hunter');
+            page.evaluate(function () {
+                $('.access-filter select').val('string:admin').change();
+            });
         }, done);
     });
 
@@ -250,37 +255,23 @@ describe("UsersManager", function () {
         expect.screenshot("permissions_select_all").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
 
-            page.click('th.select-cell label');
+            page.click('.userPermissionsEdit th.select-cell label');
         }, done);
     });
 
-    it('should remove access to displayed rows when remove bulk access is clicked', function (done) {
-        expect.screenshot("permissions_remove_access").to.be.captureSelector('.admin#content', function (page) {
+    it('should set access to all sites selected when set bulk access is used', function (done) {
+        expect.screenshot("permissions_bulk_access_set_all").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
 
-            page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger-btn');
-            page.click('.userPermissionsEdit a:contains(Remove Access)');
-        }, done);
-    });
-
-    it('should select all sites in search when in table link is clicked', function (done) {
-        expect.screenshot("permissions_all_rows_in_search").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
-
-            page.click('tr.select-all-row a');
-        }, done);
-    });
-
-    it('should set access to all sites in search when set bulk access is used', function (done) {
-        expect.screenshot("permissions_bulk_access_set").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
-
-            page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger-btn');
+            page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
+            page.mouseMove('#user-permissions-edit-bulk-actions>li:first');
             page.click('#user-permissions-edit-bulk-actions a:contains(View)');
 
-            // remove filters
-            page.sendKeys('div.site-filter>input', '');
-            $('.access-filter select').val('string:some').change();
+            page.click('.change-access-confirm-modal .modal-close:not(.modal-no)');
+
+            page.evaluate(function () { // remove filter
+                $('.access-filter select').val('string:some').change();
+            });
         }, done);
     });
 
@@ -291,6 +282,43 @@ describe("UsersManager", function () {
             page.evaluate(function () {
                 $('.userPermissionsEdit tr select:eq(0)').val('string:admin').change();
             });
+
+            page.click('.change-access-confirm-modal .modal-close:not(.modal-no)');
+        }, done);
+    });
+
+    it('should select all sites in search when in table link is clicked (after re-adding access to all)', function (done) {
+        expect.screenshot("permissions_all_rows_in_search").to.be.captureSelector('.admin#content', function (page) {
+            page.setViewportSize(1250);
+
+            // remove filters
+            page.evaluate(function () {
+                $('div.site-filter>input').val('').change();
+                $('.access-filter select').val('string:some').change();
+            });
+
+            // re-add all sites
+            page.click('.add-site-selector .siteSelector a.title');
+            page.click('.add-site-selector .siteSelector a:contains(All Websites)');
+
+            page.click('.userPermissionsEdit .btn-flat .icon-add');
+            page.evaluate(function () {
+                $('[piwik-notification]').hide(); // hide the alert
+            });
+
+            page.click('.userPermissionsEdit th.select-cell label');
+            page.click('.userPermissionsEdit tr.select-all-row a');
+        }, done);
+    });
+
+    it('should remove access to displayed rows when remove bulk access is clicked', function (done) {
+        expect.screenshot("permissions_remove_access").to.be.captureSelector('.admin#content', function (page) {
+            page.setViewportSize(1250);
+
+            page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
+            page.click('.userPermissionsEdit a:contains(Remove Access)');
+
+            page.click('.delete-access-confirm-modal .modal-close:not(.modal-no)');
         }, done);
     });
 
@@ -299,11 +327,12 @@ describe("UsersManager", function () {
             page.setViewportSize(1250);
 
             page.click('.userEditForm .menuSuperuser');
+            page.sendMouseEvent('mousemove', { x: 0, y: 0 });
         }, done);
     });
 
     it('should show superuser confirm modal when the superuser toggle is clicked', function (done) {
-        expect.screenshot("superuser_confirm").to.be.captureSelector('.admin#content', function (page) {
+        expect.screenshot("superuser_confirm").to.be.captureSelector('.superuser-confirm-modal', function (page) {
             page.setViewportSize(1250);
 
             page.click('.userEditForm #superuser_access+label');
@@ -314,7 +343,7 @@ describe("UsersManager", function () {
         expect.screenshot("superuser_set").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
 
-            page.click('.superuser-confirm-modal .modal-yes');
+            page.click('.superuser-confirm-modal .modal-close:not(.modal-no)');
         }, done);
     });
 
@@ -323,6 +352,10 @@ describe("UsersManager", function () {
             page.setViewportSize(1250);
 
             page.click('.userEditForm .entityCancelLink');
+
+            page.evaluate(function () { // remove filter so new user shows
+                $('#user-text-filter').val('').change();
+            });
         }, done);
     });
 
@@ -335,7 +368,7 @@ describe("UsersManager", function () {
     });
 
     // admin user tests
-    describe('admin view', function () {
+    describe('admin_view', function () {
         before(function () {
             var idSites = [];
             for (var i = 1; i !== 46; ++i) {
@@ -371,6 +404,9 @@ describe("UsersManager", function () {
             expect.screenshot("edit_user_basic_info").to.be.captureSelector('.admin#content', function (page) {
                 page.setViewportSize(1250);
 
+                page.evaluate(function () {
+                    $('.userEditForm .entityCancelLink').click();
+                });
                 page.click('button.edituser:eq(0)');
             }, done);
         });
@@ -384,10 +420,14 @@ describe("UsersManager", function () {
         });
 
         it('should show the add existing user modal', function (done) {
-            expect.screenshot("admin_existing_user_modal").to.be.captureSelector('.admin#content', function (page) {
+            expect.screenshot("admin_existing_user_modal").to.be.captureSelector('.add-existing-user-modal', function (page) {
                 page.setViewportSize(1250);
 
-                page.click('.userEditForm .add-existing-user');
+                page.evaluate(function () {
+                    $('.userEditForm .entityCancelLink').click();
+                });
+
+                page.click('.add-existing-user');
             }, done);
         });
 
@@ -395,8 +435,12 @@ describe("UsersManager", function () {
             expect.screenshot("admin_add_user_by_email").to.be.captureSelector('.admin#content', function (page) {
                 page.setViewportSize(1250);
 
-                page.sendKeys('input[name=add-existing-user-email]', 'login3life@example.com');
+                page.sendKeys('input[name=add-existing-user-email]', '0_login3conchords@example.com');
                 page.click('.add-existing-user-modal .modal-close:not(.modal-no)');
+
+                page.evaluate(function () { // show new user
+                    $('#user-text-filter').val('0_login3conchords@example.com').change();
+                });
             }, done);
         });
 
@@ -404,9 +448,13 @@ describe("UsersManager", function () {
             expect.screenshot("admin_add_user_by_login").to.be.captureSelector('.admin#content', function (page) {
                 page.setViewportSize(1250);
 
-                page.click('.userEditForm .add-existing-user');
-                page.sendKeys('input[name=add-existing-user-email]', 'login3light');
+                page.click('.add-existing-user');
+                page.sendKeys('input[name=add-existing-user-email]', '10_login8');
                 page.click('.add-existing-user-modal .modal-close:not(.modal-no)');
+
+                page.evaluate(function () { // show new user
+                    $('#user-text-filter').val('10_login8').change();
+                });
             }, done);
         });
 
@@ -414,9 +462,13 @@ describe("UsersManager", function () {
             expect.screenshot("admin_add_user_not_exists").to.be.captureSelector('.admin#content', function (page) {
                 page.setViewportSize(1250);
 
-                page.click('.userEditForm .add-existing-user');
+                page.click('.add-existing-user');
                 page.sendKeys('input[name=add-existing-user-email]', 'sldkjfsdlkfjsdkl');
                 page.click('.add-existing-user-modal .modal-close:not(.modal-no)');
+
+                page.evaluate(function () { // show no user added
+                    $('#user-text-filter').val('sldkjfsdlkfjsdkl').change();
+                });
             }, done);
         });
     });
