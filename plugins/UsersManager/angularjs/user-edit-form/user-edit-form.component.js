@@ -24,9 +24,9 @@
         controller: UserEditFormController
     });
 
-    UserEditFormController.$inject = ['$element', 'piwikApi'];
+    UserEditFormController.$inject = ['$element', 'piwikApi', '$translate'];
 
-    function UserEditFormController($element, piwikApi) {
+    function UserEditFormController($element, piwikApi, $translate) {
         var vm = this;
         vm.activeTab = 'basic';
         vm.permissionsForIdSite = 1;
@@ -65,11 +65,11 @@
         }
 
         function getFormTitle() {
-            return vm.isAdd ? 'Add New User' : 'Edit User';
+            return vm.isAdd ? $translate('UsersManager_AddNewUser') : $translate('UsersManager_EditUser');
         }
 
         function getSaveButtonLabel() {
-            return vm.isAdd ? 'Create User' : 'Save Basic Info';
+            return vm.isAdd ? $translate('UsersManager_CreateUser') : $translate('UsersManager_SaveBasicInfo');
         }
 
         function confirmSuperUserChange() {

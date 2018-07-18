@@ -8,18 +8,18 @@
         <div class="col m2 entityList" ng-if="!$ctrl.isAdd">
             <ul class="listCircle">
                 <li ng-class="{active: $ctrl.activeTab === 'basic'}" class="menuBasicInfo">
-                    <a href="" ng-click="$ctrl.activeTab = 'basic'">Basic Information</a>
+                    <a href="" ng-click="$ctrl.activeTab = 'basic'">{{:: 'UsersManager_BasicInformation'|translate }}</a>
                 </li>
 
                 <li ng-class="{active: $ctrl.activeTab === 'permissions'}" class="menuPermissions">
                     <a href="" ng-click="$ctrl.activeTab = 'permissions'">
-                        Permissions
+                        {{:: 'UsersManager_Permissions'|translate }}
                     </a>
                     <span class="icon-warning" ng-if="!$ctrl.userHasAccess && !$ctrl.user.superuser_access"></span>
                 </li>
 
                 <li ng-class="{active: $ctrl.activeTab === 'superuser'}" class="menuSuperuser" ng-if="$ctrl.currentUserRole == 'superuser'">
-                    <a href="" ng-click="$ctrl.activeTab = 'superuser'">Superuser Access</a>
+                    <a href="" ng-click="$ctrl.activeTab = 'superuser'">{{:: 'UsersManager_SuperUserAccess'|translate }}</a>
                 </li>
             </ul>
 
@@ -76,7 +76,7 @@
                         disabled="$ctrl.isSavingUserInfo"
                         ng-if="$ctrl.isAdd"
                         ui-control-attributes="{ onlySitesWithAdminAccess: true }"
-                        inline-help="It is required to give a new user a view role for a website upon creation. If no access is given, the user will see an error when logging in. You can give more permissions after the user is created in the 'Permissions' tab that will appear on the left."
+                        ng-attr-inline-help="{{:: 'UsersManager_FirstSiteInlineHelp'|translate }}"
                 >
                 </div>
 
@@ -104,22 +104,21 @@
                 >
                 </piwik-user-permissions-edit>
                 <div ng-if="$ctrl.user.superuser_access" class="alert alert-info">
-                    Super users have admin access to all websites, so there's no need to manage their permissions per website.
+                    {{:: 'UsersManager_SuperUsersPermissionsNotice'|translate }}
                 </div>
             </div>
 
             <div ng-if="$ctrl.activeTab === 'superuser' && $ctrl.currentUserRole == 'superuser' && !$ctrl.isAdd" class="superuser-access">
-                <p>Super users have the highest permissions. They can perform all administrative tasks such as adding new websites to monitor, adding users, changing user permissions, activating and deactivating plugins and even installing new plugins from the Marketplace.
-                    You can grant Super User access to other users of Divezone here.</p>
+                <p>{{:: 'UsersManager_SuperUserIntro1'|translate }}</p>
 
-                <p><strong>Please use this feature carefully.</strong></p>
+                <p><strong>{{:: 'UsersManager_SuperUserIntro2'|translate }}</strong></p>
 
                 <div
                     piwik-field
                     uicontrol="checkbox"
                     name="superuser_access"
                     ng-model="$ctrl.user.superuser_access"
-                    title="Has Superuser Access"
+                    ng-attr-title="{{:: 'UsersManager_HasSuperUserAccess'|translate }}"
                     ng-click="$ctrl.confirmSuperUserChange()"
                     disabled="$ctrl.isSavingUserInfo"
                 >
@@ -127,17 +126,17 @@
 
                 <div class="superuser-confirm-modal modal">
                     <div class="modal-content">
-                        <h2>Are you sure?</h2>
+                        <h2>{{:: 'UsersManager_AreYouSure'|translate }}</h2>
                         <p ng-if="!$ctrl.user.superuser_access">
-                            Removing superuser access will leave the user with no permissions (you will have to add them afterwards). Do you wish to continue?
+                            {{:: 'UsersManager_RemoveSuperuserAccessConfirm'|translate }}
                         </p>
                         <p ng-if="$ctrl.user.superuser_access">
-                            Giving a user superuser access will allow the user to have full control over Matomo and should be done sparingly. Do you wish to continue?
+                            {{:: 'UsersManager_AddSuperuserAccessConfirm'|translate }}
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <a href="" class="modal-action modal-close btn" ng-click="$ctrl.toggleSuperuserAccess()">Yes</a>
-                        <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.user.superuser_access = !$ctrl.user.superuser_access">No</a>
+                        <a href="" class="modal-action modal-close btn" ng-click="$ctrl.toggleSuperuserAccess()">{{:: 'General_Yes'|translate }}</a>
+                        <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.user.superuser_access = !$ctrl.user.superuser_access">{{:: 'General_No'|translate }}</a>
                     </div>
                 </div>
             </div>

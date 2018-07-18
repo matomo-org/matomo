@@ -9,7 +9,7 @@
                         piwik-dropdown-menu
                         ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
                 >
-                    Bulk Actions
+                    {{:: 'UsersManager_BulkActions'|translate }}
                 </a>
                 <ul id='user-list-bulk-actions' class='dropdown-content'>
                     <li>
@@ -18,7 +18,7 @@
                                 data-activates="bulk-set-access"
                                 piwik-dropdown-menu
                         >
-                            Set Access
+                            {{:: 'UsersManager_SetPermission'|translate }}
                         </a>
                         <ul id="bulk-set-access" class="dropdown-content">
                             <li ng-repeat="access in $ctrl.bulkActionAccessLevels">
@@ -36,11 +36,11 @@
                                 href=""
                                 ng-click="$ctrl.userToChange = null; $ctrl.roleToChangeTo = 'noaccess'; $ctrl.showAccessChangeConfirm();"
                         >
-                            Remove Access
+                            {{:: 'UsersManager_RemovePermissions'|translate }}
                         </a>
                     </li>
                     <li ng-if="$ctrl.currentUserRole == 'superuser'">
-                        <a href="" ng-click="$ctrl.showDeleteConfirm()">Delete Users</a>
+                        <a href="" ng-click="$ctrl.showDeleteConfirm()">{{:: 'UsersManager_DeleteUsers'|translate }}</a>
                     </li>
                 </ul>
             </div>
@@ -52,7 +52,7 @@
                         uicontrol="text"
                         ng-model="$ctrl.userTextFilter"
                         ng-model-options="{debounce: 300}"
-                        placeholder="User search"
+                        placeholder="{{:: 'UsersManager_UserSearch'|translate }}"
                         full-width="true"
                         ng-change="$ctrl.changeSearch({ filter_search: $ctrl.userTextFilter })"
                 ></div>
@@ -63,7 +63,7 @@
                         name="access-level-filter"
                         uicontrol="select"
                         ng-model="$ctrl.accessLevelFilter"
-                        placeholder="Filter by access"
+                        placeholder="{{:: 'UsersManager_FilterByAccess'|translate }}"
                         options="$ctrl.filterAccessLevels"
                         full-width="true"
                         ng-change="$ctrl.changeSearch({ filter_access: $ctrl.accessLevelFilter })"
@@ -73,25 +73,25 @@
         <div class="input-field col s12 m12 l6 users-list-pagination-container" ng-if="$ctrl.totalEntries > $ctrl.searchParams.limit">
             <div class="usersListPagination">
                 <a class="btn prev" ng-class="{ disabled: $ctrl.searchParams.offset <= 0 }" ng-click="$ctrl.gotoPreviousPage()">
-                    <span class="pointer">« Previous</span>
+                    <span class="pointer">« {{:: 'General_Previous'|translate }}</span>
                 </a>
 
                 <div class="counter">
                     <span>
-                            {{ $ctrl.searchParams.offset }} - {{ $ctrl.getPaginationUpperBound() }} of {{ $ctrl.totalEntries }}
+                        {{ 'UsersManager_XtoYofN'|translate:$ctrl.searchParams.offset:$ctrl.getPaginationUpperBound():$ctrl.totalEntries }}
                     </span>
                     <div piwik-activity-indicator ng-if="$ctrl.isLoadingUsers" loading="$ctrl.isLoadingUsers"></div>
                 </div>
 
                 <a class="btn next" ng-class="{ disabled: $ctrl.searchParams.offset + $ctrl.searchParams.limit >= $ctrl.totalEntries }" ng-click="$ctrl.gotoNextPage()">
-                    <span class="pointer">Next »</span>
+                    <span class="pointer">{{:: 'General_Next'|translate }} »</span>
                 </a>
             </div>
         </div>
     </div>
 
     <div piwik-notification context="info" type="persistent" noclear="true" ng-if="$ctrl.isRoleHelpToggled" class="roles-help-notification">
-        Roles determine what a user can do in Matomo with regard to a specific website. Learn more about the <a href='https://matomo.org/faq/general/faq_70/' target='_blank' rel='noreferrer noopener'>View</a> and <a href='https://matomo.org/faq/general/faq_69/' target='_blank' rel='noreferrer noopener'>Admin</a> roles.
+        {{:: 'UsersManager_RolesHelp'|translate:"<a href='https://matomo.org/faq/general/faq_70/' target='_blank' rel='noreferrer noopener'>":"</a>":"<a href='https://matomo.org/faq/general/faq_69/' target='_blank' rel='noreferrer noopener'>":"</a>" }}
     </div>
 
     <div piwik-content-block>
@@ -104,9 +104,9 @@
                         <label for="paged_users_select_all"></label>
                     </span>
                 </th>
-                <th class='first'>Username</th>
+                <th class='first'>{{:: 'UsersManager_Username'|translate }}</th>
                 <th class="role_header">
-                    <span>Role for</span>
+                    <span>{{:: 'UsersManager_RoleFor'|translate }}</span>
                     <a href="" class="helpIcon" ng-click="$ctrl.isRoleHelpToggled = !$ctrl.isRoleHelpToggled" ng-class="{ sticky: $ctrl.isRoleHelpToggled }">
                         <span class="icon-help"></span>
                     </a>
@@ -120,9 +120,9 @@
                         ui-control-attributes="{ onlySitesWithAdminAccess: $ctrl.currentUserRole !== 'superuser' }"
                     ></div>
                 </th>
-                <th ng-if="$ctrl.currentUserRole == 'superuser'">Email</th>
-                <th ng-if="$ctrl.currentUserRole == 'superuser'">Last Seen</th>
-                <th class="actions-cell-header"><div>Actions</div></th> <!-- TODO: translate -->
+                <th ng-if="$ctrl.currentUserRole == 'superuser'">{{:: 'UsersManager_Email'|translate }}</th>
+                <th ng-if="$ctrl.currentUserRole == 'superuser'">{{:: 'UsersManager_LastSeen'|translate }}</th>
+                <th class="actions-cell-header"><div>{{:: 'General_Actions'|translate }}</div></th>
             </tr>
             </thead>
 
@@ -130,13 +130,13 @@
                 <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected && $ctrl.users.length && $ctrl.users.length < $ctrl.totalEntries">
                     <td colspan="7">
                         <div ng-if="!$ctrl.areAllResultsSelected">
-                            The <strong>{{ $ctrl.users.length }}</strong> displayed users are selected.
-                            <a class="toggle-select-all-in-search" href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select all <strong>{{ $ctrl.totalEntries }}</strong>.</a>
+                            {{ 'UsersManager_TheDisplayedUsersAreSelected'|translate:"<strong>{{ $ctrl.users.length }}</strong>" }}
+                            <a class="toggle-select-all-in-search" href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">{{ 'UsersManager_ClickToSelectAll'|translate:"<strong>{{ $ctrl.totalEntries }}</strong>" }}</a>
                         </div>
 
                         <div ng-if="$ctrl.areAllResultsSelected">
-                            All <strong>{{ $ctrl.totalEntries }}</strong> users are selected.
-                            <a class="toggle-select-all-in-search" href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">Click to select the <strong>{{ $ctrl.users.length }}</strong> displayed users.</a>
+                            {{ 'UsersManager_AllUsersAreSelected'|translate:"<strong>{{ $ctrl.totalEntries }}</strong>" }}
+                            <a class="toggle-select-all-in-search" href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">{{ 'UsersManager_ClickToSelectDisplayedUsers'|translate:"<strong>{{ $ctrl.users.length }}</strong>" }}</a>
                         </div>
                     </td>
                 </tr>
@@ -179,23 +179,23 @@
 
     <div class="delete-user-confirm-modal modal">
         <div class="modal-content">
-            <h3 ng-if="$ctrl.userToChange">Are you sure you want to delete <strong>{{ $ctrl.userToChange.login }}</strong>?</h3>
-            <p ng-if="!$ctrl.userToChange">Are you sure you want to delete the <strong>{{ $ctrl.getAffectedUsersCount() }}</strong> selected users?</p>
+            <h3 ng-if="$ctrl.userToChange">{{ 'UsersManager_DeleteUserConfirmSingle'|translate:"<strong>{{ $ctrl.userToChange.login }}</strong>" }}</h3>
+            <p ng-if="!$ctrl.userToChange">{{ 'UsersManager_DeleteUserConfirmMultiple'|translate:"<strong>{{ $ctrl.getAffectedUsersCount() }}</strong>" }}</p>
         </div>
         <div class="modal-footer">
-            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.deleteRequestedUsers()">Yes</a>
-            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.userToChange = null; $ctrl.roleToChangeTo = null;">No</a>
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.deleteRequestedUsers()">{{:: 'General_Yes'|translate }}</a>
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.userToChange = null; $ctrl.roleToChangeTo = null;">{{:: 'General_No'|translate }}</a>
         </div>
     </div>
 
     <div class="change-user-role-confirm-modal modal">
         <div class="modal-content">
-            <h3 ng-if="$ctrl.userToChange">Are you sure you want to change <strong>{{ $ctrl.userToChange.login }}</strong>'s role to <strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong> for <strong ng-bind-html="$ctrl.permissionsForSite.name"></strong>?</h3>
-            <p ng-if="!$ctrl.userToChange">Are you sure you want to change the <strong>{{ $ctrl.getAffectedUsersCount() }}</strong> selected users' role to <strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong> for <strong ng-bind-html="$ctrl.permissionsForSite.name"></strong>?</p>
+            <h3 ng-if="$ctrl.userToChange">{{ 'UsersManager_DeleteUserPermConfirmSingle'|translate:"<strong>{{ $ctrl.userToChange.login }}</strong>":"<strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong>":"<strong ng-bind-html="$ctrl.permissionsForSite.name"></strong>" }}</h3>
+            <p ng-if="!$ctrl.userToChange">{{ 'UsersManager_DeleteUserPermConfirmMultiple'|translate:"<strong>{{ $ctrl.getAffectedUsersCount() }}</strong>":"<strong>{{ $ctrl.getAffectedUsersCount() }}</strong>":"<strong ng-bind-html="$ctrl.permissionsForSite.name"></strong>" }}</p>
         </div>
         <div class="modal-footer">
-            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.changeUserRole()">Yes</a>
-            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.userToChange.role = $ctrl.previousRole; $ctrl.userToChange = null; $ctrl.roleToChangeTo = null;">No</a>
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.changeUserRole()">{{:: 'General_Yes'|translate }}</a>
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.userToChange.role = $ctrl.previousRole; $ctrl.userToChange = null; $ctrl.roleToChangeTo = null;">{{:: 'General_No'|translate }}</a>
         </div>
     </div>
 </div>

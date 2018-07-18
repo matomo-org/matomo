@@ -17,12 +17,12 @@
                 <div class="col s12">
                     <div class="input-field">
                         <a class="btn add-new-user" ng-click="$ctrl.isEditing = true; $ctrl.userBeingEdited = null;">
-                            Add a new user
+                            {{:: 'UsersManager_AddUser'|translate }}
                         </a>
                     </div>
                     <div class="input-field" ng-if="$ctrl.currentUserRole !== 'superuser'">
                         <a class="btn add-existing-user" ng-click="$ctrl.showAddExistingUserModal();">
-                            Add an existing user
+                            {{:: 'UsersManager_AddExistingUser'|translate }}
                         </a>
                     </div>
                 </div>
@@ -62,8 +62,8 @@
 
     <div class="add-existing-user-modal modal">
         <div class="modal-content">
-            <h3>Add an existing user</h3>
-            <p>Enter the user's login or email address:</p>
+            <h3>{{:: 'UsersManager_AddExistingUser'|translate }}</h3>
+            <p>{{:: 'UsersManager_EnterUsernameOrEmail'|translate }}:</p>
             <div
                 piwik-field
                 name="add-existing-user-email"
@@ -73,8 +73,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.addExistingUser()">Add</a>
-            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.addNewUserLoginEmail = null;">Cancel</a>
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.addExistingUser()">{{:: 'General_Add'|translate }}</a>
+            <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.addNewUserLoginEmail = null;">{{:: 'General_Cancel'|translate }}</a>
         </div>
     </div>
 </div>
