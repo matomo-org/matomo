@@ -14,69 +14,70 @@ describe("MultiSitesTest", function () {
     var rangeParams = 'idSite=1&period=range&date=2012-08-05,2012-08-15';
     var selector = '#multisites,.expandDataTableFooterDrawer';
 
-    var createdSiteId = null;
+    var createdSiteIds = [];
 
     before(async function() {
-        var callback = function (error, response) {
-            if (error) {
-                done(error, response);
-                return;
-            }
-            
-            createdSiteId = response.value;
-            done();
-        };
-
-        testEnvironment.callApi("SitesManager.addSite", {
+        var response = await testEnvironment.callApi("SitesManager.addSite", {
             siteName: '%3CMy%20website%22%27%3E%3B%2C%3F with a very very very very long stupid name',
-            urls: 'http%3A%2F%2Fpiwik.org'},
-        callback);
-    });
+            urls: 'http%3A%2F%2Fpiwik.org%2F'
+        });
 
-    after(async function() {
-        if (createdSiteId) {
-            testEnvironment.callApi("SitesManager.deleteSite", {idSite: createdSiteId}, done);
+        createdSiteIds.push(response.value);
+
+        for (var i = 0; i < 50; i++) {
+            var response = await testEnvironment.callApi("SitesManager.addSite", {
+                siteName: 'dynamically created page ' + i,
+                urls: 'http%3A%2F%2Fpiwik.org%2F' + i
+            });
+
+            createdSiteIds.push(response.value);
         }
     });
 
-    it('should load the all websites dashboard correctly', async function() {
-        this.retries(3);
+    after(async function() {
+        await createdSiteIds.forEach(async function(createdSiteId) {
+            await testEnvironment.callApi("SitesManager.deleteSite", {idSite: createdSiteId});
+        });
+    });
 
-        expect.screenshot('all_websites').to.be.captureSelector(selector, function (page) {
-            page.goto("?" + generalParams + "&module=MultiSites&action=index");
-            page.wait(3000);
-        }, done);
+    it('should load the all websites dashboard correctly', async function() {
+        await page.goto("?" + generalParams + "&module=MultiSites&action=index");
+        await page.waitFor(500);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('all_websites');
     });
 
     it('should load next page correctly', async function() {
-        this.retries(3);
+        await page.click('.paging .next');
+        await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
 
-        expect.screenshot('all_websites_page_1').to.be.captureSelector(selector, function (page) {
-            page.click('.paging .next');
-            page.wait(1000);
-        }, done);
+        expect(await page.screenshotSelector(selector)).to.matchImage('all_websites_page_1');
     });
 
     it('should search correctly', async function() {
-        expect.screenshot('all_websites_search').to.be.captureSelector(selector, function (page) {
-            page.sendKeys('.site_search input', 'Site');
-            page.click('.site_search .search_ico');
-        }, done);
+        await page.type('.site_search input', 'Site');
+        await page.evaluate(function() {
+            $('.site_search .search_ico').click();
+        });
+        await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('all_websites_search');
     });
 
     it('should toggle sort order when click on current metric', async function() {
-        expect.screenshot('all_websites_changed_sort_order').to.be.captureSelector(selector, function (page) {
-            page.click('#visits .heading');
-        }, done);
+        await page.click('#visits .heading');
+        await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('all_websites_changed_sort_order');
     });
 
-    it('should load the all websites dashboard correctly when period is range', function (done) {
-        this.retries(3);
-
-        expect.screenshot('all_websites_range').to.be.captureSelector(selector, function (page) {
-            page.load("?" + rangeParams + "&module=MultiSites&action=index");
-            page.wait(3000);
-        }, done);
+    it('should load the all websites dashboard correctly when period is range', async function () {
+        await page.goto("?" + rangeParams + "&module=MultiSites&action=index");
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector(selector)).to.matchImage('all_websites_range');
     });
-
 });
