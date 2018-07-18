@@ -201,17 +201,7 @@ class Setting
      */
     public function getValue()
     {
-        $value = $this->storage->getValue($this->name, $this->defaultValue, $this->type);
-
-        $config = $this->configureField();
-
-        $this->validateValue($value);
-
-        if ($config->decodeValue && $config->decodeValue instanceof \Closure) {
-            $value = call_user_func($config->decodeValue, $value, $this);
-        }
-
-        return $value;
+        return $this->storage->getValue($this->name, $this->defaultValue, $this->type);
     }
 
     /**

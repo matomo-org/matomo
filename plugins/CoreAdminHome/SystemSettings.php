@@ -37,19 +37,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         return $this->makeSettingManagedInConfigOnly('General', 'cors_domains', $default = [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
             $field->introduction = Piwik::translate('CoreAdminHome_CorsDomains');
-            $field->uiControl = FieldConfig::UI_CONTROL_MULTI_TUPLE;
-            $field1 = new FieldConfig\MultiPair(Piwik::translate('Overlay_Domain'), 'domain', FieldConfig::UI_CONTROL_TEXT);
-            $field->uiControlAttributes['field1'] = $field1->toArray();
-            $field->transform = function($values) {
-                return array_column($values, 'domain');
-            };
-            $field->decodeValue = function($value) {
-                $domains = [];
-                foreach ($value as $domain) {
-                    $domains[] = ['domain' => $domain];
-                }
-                return $domains;
-            };
+            $field->uiControl = FieldConfig::UI_CONTROL_FIELD_ARRAY;
+            $arrayField = new FieldConfig\ArrayField(Piwik::translate('Overlay_Domain'), FieldConfig::UI_CONTROL_TEXT);
+            $field->uiControlAttributes['field'] = $arrayField->toArray();
             $field->inlineHelp = Piwik::translate('CoreAdminHome_CorsDomainsHelp');
         });
     }
@@ -58,19 +48,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         return $this->makeSettingManagedInConfigOnly('General', 'trusted_hosts', $default = [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
             $field->introduction = Piwik::translate('CoreAdminHome_TrustedHostSettings');
-            $field->uiControl = FieldConfig::UI_CONTROL_MULTI_TUPLE;
-            $field1 = new FieldConfig\MultiPair(Piwik::translate('CoreAdminHome_ValidPiwikHostname'), 'host', FieldConfig::UI_CONTROL_TEXT);
-            $field->uiControlAttributes['field1'] = $field1->toArray();
-            $field->transform = function($values) {
-                return array_column($values, 'host');
-            };
-            $field->decodeValue = function($value) {
-                $domains = [];
-                foreach ($value as $domain) {
-                    $domains[] = ['host' => $domain];
-                }
-                return $domains;
-            };
+            $field->uiControl = FieldConfig::UI_CONTROL_FIELD_ARRAY;
+            $arrayField = new FieldConfig\ArrayField(Piwik::translate('CoreAdminHome_ValidPiwikHostname'), FieldConfig::UI_CONTROL_TEXT);
+            $field->uiControlAttributes['field'] = $arrayField->toArray();
         });
     }
 
