@@ -13,393 +13,375 @@ describe("UsersManager", function () {
 
     var url = "?module=UsersManager&action=index";
 
-    it('should display the manage users page correctly', function (done) {
-        expect.screenshot("load").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
-
-            page.load(url);
-        }, done);
+    before(async function() {
+        await page.webpage.setViewport({
+            width: 1250,
+            height: 768
+        });
     });
 
-    it('should change the results page when next is clicked', function (done) {
-        expect.screenshot("next_click").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should display the manage users page correctly', async function () {
+        await page.goto(url);
 
-            page.click('.usersListPagination .btn.next');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('load');
     });
 
-    it('should filter by username and access level when the inputs are filled', function (done) {
-        expect.screenshot("filters").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should change the results page when next is clicked', async function () {
+        await page.click('.usersListPagination .btn.next');
+        await page.mouse.move(-10, -10);
+        await page.waitForNetworkIdle();
 
-            page.sendKeys('#user-text-filter', 'ight');
-            page.evaluate(function () {
-                $('select[name=access-level-filter]').val('string:view').change();
-            });
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('next_click');
     });
 
-    it('should display access for a different site when the roles for select is changed', function (done) {
-        expect.screenshot("role_for").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should filter by username and access level when the inputs are filled', async function () {
+        await page.evaluate(function () {
+            $('#user-text-filter').val('ight').change();
+        });
+        await page.waitForNetworkIdle();
+        await page.evaluate(function () {
+            $('select[name=access-level-filter]').val('string:view').change();
+        });
+        await page.waitForNetworkIdle();
+        await page.waitFor(200); // wait for rendering
 
-            // remove access filter
-            page.evaluate(function () {
-                $('select[name=access-level-filter]').val('string:').change();
-            });
-
-            page.click('th.role_header .siteSelector a.title');
-            page.click('.siteSelector .custom_select_container a:contains(relentless)');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('filters');
     });
 
-    it('should select rows when individual row select is clicked', function (done) {
-        expect.screenshot("rows_selected").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should display access for a different site when the roles for select is changed', async function () {
+        // remove access filter
+        await page.evaluate(function () {
+            $('select[name=access-level-filter]').val('string:').change();
+        });
 
-            page.click('td.select-cell label:eq(0)');
-            page.click('td.select-cell label:eq(3)');
-            page.click('td.select-cell label:eq(8)');
-        }, done);
+        await page.click('th.role_header .siteSelector a.title');
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.siteSelector .custom_select_container a');
+        await page.waitFor(500);
+        await page.evaluate(function () {
+            $('.siteSelector .custom_select_container a:contains(relentless)').click();
+        });
+        await page.waitForNetworkIdle();
+        await page.waitFor(500);
+
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('role_for');
     });
 
-    it('should select all rows when all row select is clicked', function (done) {
-        expect.screenshot("all_rows_selected").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should select rows when individual row select is clicked', async function () {
+        await (await page.jQuery('td.select-cell label:eq(0)')).click();
+        await (await page.jQuery('td.select-cell label:eq(3)')).click();
+        await (await page.jQuery('td.select-cell label:eq(8)')).click();
+        await page.mouse.move(0, 0);
 
-            page.click('th.select-cell label');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('rows_selected');
     });
 
-    it('should select all rows in search when link in table is clicked', function (done) {
-        expect.screenshot("all_rows_in_search").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should select all rows when all row select is clicked', async function () {
+        await page.click('th.select-cell label');
+        await page.mouse.move(0, 0);
 
-            page.click('.toggle-select-all-in-search');
-            page.sendMouseEvent('mousemove', { x: 0, y: 0 });
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('all_rows_selected');
     });
 
-    it('should deselect all rows in search except for displayed rows when link in table is clicked again', function (done) {
-        expect.screenshot("all_rows_selected").to.be.captureSelector('all_rows_in_search_deselected', '.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should select all rows in search when link in table is clicked', async function () {
+        await page.click('.toggle-select-all-in-search');
+        await page.mouse.move(0, 0);
 
-            page.click('.toggle-select-all-in-search');
-            page.sendMouseEvent('mousemove', { x: 0, y: 0 });
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('all_rows_in_search');
     });
 
-    it('should show bulk action confirm when bulk change access option used', function (done) {
-        expect.screenshot("bulk_set_access_confirm").to.be.captureSelector('.change-user-role-confirm-modal', function (page) {
-            page.setViewportSize(1250);
+    it('should deselect all rows in search except for displayed rows when link in table is clicked again', async function () {
+        await page.click('.toggle-select-all-in-search');
+        await page.mouse.move(0, 0);
 
-            // remove filters
-            page.evaluate(function () {
-                $('select[name=access-level-filter]').val('string:').change();
-            });
-
-            page.click('.toggle-select-all-in-search'); // reselect all in search
-
-            page.click('.bulk-actions.btn');
-            page.mouseMove('#user-list-bulk-actions>li:first');
-            page.click('#bulk-set-access a:contains(Admin)');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('all_rows_selected');
     });
 
-    it('should change access for all rows in search when confirmed', function (done) {
-        expect.screenshot("bulk_set_access").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should show bulk action confirm when bulk change access option used', async function () {
+        // remove filters
+        await page.evaluate(function () {
+            $('select[name=access-level-filter]').val('string:').change();
+        });
 
-            page.click('.change-user-role-confirm-modal .modal-close:not(.modal-no)');
-        }, done);
+        await page.click('.toggle-select-all-in-search'); // reselect all in search
+
+        await page.click('.bulk-actions.btn');
+        await (await page.jQuery('#user-list-bulk-actions>li:first')).hover();
+        await (await page.jQuery('#bulk-set-access a:contains(Admin)')).click();
+        await page.waitFor(350); // wait for animation
+
+        expect(await page.screenshotSelector('.change-user-role-confirm-modal')).to.matchImage('bulk_set_access_confirm');
     });
 
-    it('should remove access to the currently selected site when the bulk remove access option is clicked', function (done) {
-        expect.screenshot("bulk_remove_access").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should change access for all rows in search when confirmed', async function () {
+        await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no)')).click();
+        await page.waitForNetworkIdle();
 
-            page.click('th.select-cell label'); // select displayed rows
-
-            page.click('.bulk-actions.btn');
-            page.click('#user-list-bulk-actions a:contains(Remove Permissions)');
-            page.click('.change-user-role-confirm-modal .modal-close:not(.modal-no)');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('bulk_set_access');
     });
 
-    it('should go back to first page when previous button is clicked', function (done) {
-        expect.screenshot("previous").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should remove access to the currently selected site when the bulk remove access option is clicked', async function () {
+        await page.click('th.select-cell label'); // select displayed rows
 
-            page.click('.usersListPagination .btn.prev');
-        }, done);
+        await page.click('.bulk-actions.btn');
+        await (await page.jQuery('#user-list-bulk-actions a:contains(Remove Permissions)')).click();
+        await (await page.jQuery('.change-user-role-confirm-modal .modal-close:not(.modal-no)')).click();
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('bulk_remove_access');
     });
 
-    it('should delete a single user when the modal is confirmed is clicked', function (done) {
-        expect.screenshot("delete_single").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should go back to first page when previous button is clicked', async function () {
+        await page.click('.usersListPagination .btn.prev');
+        await page.waitForNetworkIdle();
 
-            page.click('.deleteuser:eq(0)');
-            page.click('.delete-user-confirm-modal .modal-close:not(.modal-no)');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('previous');
     });
 
-    it('should delete selected users when delete users bulk action is used', function (done) {
-        expect.screenshot("delete_bulk_access").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should delete a single user when the modal is confirmed is clicked', async function () {
+        await (await page.jQuery('.deleteuser:eq(0)')).click();
+        await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no)')).click();
+        await page.waitForNetworkIdle();
 
-            page.click('th.select-cell label'); // select displayed rows
-
-            page.click('.bulk-actions.btn');
-            page.click('#user-list-bulk-actions a:contains(Delete Users)');
-            page.click('.delete-user-confirm-modal .modal-close:not(.modal-no)');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('delete_single');
     });
 
-    it('should show the add new user form when the add new user button is clicked', function (done) {
-        expect.screenshot("add_new_user_form").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should delete selected users when delete users bulk action is used', async function () {
+        await page.click('th.select-cell label'); // select displayed rows
 
-            page.click('.add-user-container .btn');
-        }, done);
+        await page.click('.bulk-actions.btn');
+        await (await page.jQuery('#user-list-bulk-actions a:contains(Delete Users)')).click();
+        await (await page.jQuery('.delete-user-confirm-modal .modal-close:not(.modal-no)')).click();
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('delete_bulk_access');
     });
 
-    it('should create a user and show the edit user form when the create user button is clicked', function (done) {
-        expect.screenshot("user_created").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should show the add new user form when the add new user button is clicked', async function () {
+        await page.click('.add-user-container .btn');
+        await page.waitForNetworkIdle();
 
-            page.sendKeys('#user_login', '000newuser');
-            page.sendKeys('#user_password', 'thepassword');
-            page.sendKeys('#user_email', 'theuser@email.com');
-
-            page.click('piwik-user-edit-form .siteSelector a.title');
-            page.click('piwik-user-edit-form .siteSelector .custom_select_container a:eq(1)');
-
-            page.click('piwik-user-edit-form [piwik-save-button]');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('add_new_user_form');
     });
 
-    it('should show the permissions edit when the permissions tab is clicked', function (done) {
-        expect.screenshot("permissions_edit").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should create a user and show the edit user form when the create user button is clicked', async function () {
+        await page.type('#user_login', '000newuser');
+        await page.type('#user_password', 'thepassword');
+        await page.type('#user_email', 'theuser@email.com');
 
-            page.click('.userEditForm .menuPermissions');
-            page.sendMouseEvent('mousemove', { x: 0, y: 0 });
-        }, done);
+        await page.click('piwik-user-edit-form .siteSelector a.title');
+        await page.waitForSelector('piwik-user-edit-form .siteSelector .custom_select_container a');
+        await (await page.jQuery('piwik-user-edit-form .siteSelector .custom_select_container a:eq(1)')).click();
+
+        await page.click('piwik-user-edit-form [piwik-save-button]');
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('user_created');
     });
 
-    it('should select all sites in search when in table link is clicked', function (done) {
-        expect.screenshot("permissions_all_rows_in_search").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should show the permissions edit when the permissions tab is clicked', async function () {
+        await page.click('.userEditForm .menuPermissions');
+        await page.mouse.move(0, 0);
 
-            // remove filters
-            page.evaluate(function () {
-                $('div.site-filter>input').val('').change();
-                $('.access-filter select').val('string:').change();
-            });
-
-            page.click('.userPermissionsEdit th.select-cell label');
-            page.click('.userPermissionsEdit tr.select-all-row a');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_edit');
     });
 
-    it('should add access to all websites when bulk access is used on all websites in search', function (done) {
-        expect.screenshot("permissions_all_sites_access").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should select all sites in search when in table link is clicked', async function () {
+        // remove filters
+        await page.evaluate(function () {
+            $('div.site-filter>input').val('').change();
+            $('.access-filter select').val('string:').change();
+        });
+        await page.waitForNetworkIdle();
 
-            page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
-            page.mouseMove('#user-permissions-edit-bulk-actions>li:first');
-            page.click('#user-permissions-edit-bulk-actions a:contains(Write)');
+        await page.click('.userPermissionsEdit th.select-cell label');
+        await page.evaluate(function(){
+            $('.toggle-select-all-in-search').click();
+        });
 
-            page.click('.change-access-confirm-modal .modal-close:not(.modal-no)');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_all_rows_in_search');
     });
 
-    it('should go to the next results page when the next button is clicked', function (done) {
-        expect.screenshot("permissions_next").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should add access to all websites when bulk access is used on all websites in search', async function () {
+        await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
+        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first')).hover();
+        await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Write)')).click();
 
-            page.click('.sites-for-permission-pagination a.next');
-        }, done);
+        await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no)')).click();
+
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_all_sites_access');
     });
 
-    it('should remove access to a single site when the trash icon is used', function (done) {
-        expect.screenshot("permissions_remove_single").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should go to the next results page when the next button is clicked', async function () {
+        await page.click('.sites-for-permission-pagination a.next');
+        await page.waitForNetworkIdle();
 
-            page.click('#sitesForPermission .deleteaccess');
-            page.click('.delete-access-confirm-modal .modal-close:not(.modal-no)');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_next');
     });
 
-    it('should select multiple rows when individual row selects are clicked', function (done) {
-        expect.screenshot("permissions_select_multiple").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should remove access to a single site when the trash icon is used', async function () {
+        await page.click('#sitesForPermission .deleteaccess');
+        await (await page.jQuery('.delete-access-confirm-modal .modal-close:not(.modal-no)')).click();
+        await page.waitForNetworkIdle();
 
-            page.click('#sitesForPermission td.select-cell label:eq(0)');
-            page.click('#sitesForPermission td.select-cell label:eq(3)');
-            page.click('#sitesForPermission td.select-cell label:eq(8)');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_remove_single');
     });
 
-    it('should set access to selected sites when set bulk access is used', function (done) {
-        expect.screenshot("permissions_bulk_access_set").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should select multiple rows when individual row selects are clicked', async function () {
+        await (await page.jQuery('#sitesForPermission td.select-cell label:eq(0)')).click();
+        await (await page.jQuery('#sitesForPermission td.select-cell label:eq(3)')).click();
+        await (await page.jQuery('#sitesForPermission td.select-cell label:eq(8)')).click();
 
-            page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
-            page.mouseMove('#user-permissions-edit-bulk-actions>li:first');
-            page.click('#user-permissions-edit-bulk-actions a:contains(Admin)');
-
-            page.click('.change-access-confirm-modal .modal-close:not(.modal-no)');
-        }, done);
+        pageWrap = await page.$('.usersManager');
+        expect(await pageWrap.screenshot()).to.matchImage('permissions_select_multiple');
     });
 
-    it('should filter the permissions when the filters are used', function (done) {
-        expect.screenshot("permissions_filters").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should set access to selected sites when set bulk access is used', async function () {
+        await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
+        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first')).hover();
+        await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(Admin)')).click();
 
-            page.sendKeys('div.site-filter>input', 'nova');
-            page.evaluate(function () {
-                $('.access-filter select').val('string:admin').change();
-            });
-        }, done);
+        await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no)')).click();
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_bulk_access_set');
     });
 
-    it('should select all displayed rows when the select all checkbox is clicked', function (done) {
-        expect.screenshot("permissions_select_all").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should filter the permissions when the filters are used', async function () {
+        await page.type('div.site-filter>input', 'nova');
+        await page.evaluate(function () {
+            $('.access-filter select').val('string:admin').change();
+        });
+        await page.waitForNetworkIdle();
 
-            page.click('.userPermissionsEdit th.select-cell label');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_filters');
     });
 
-    it('should set access to all sites selected when set bulk access is used', function (done) {
-        expect.screenshot("permissions_bulk_access_set_all").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should select all displayed rows when the select all checkbox is clicked', async function () {
+        await page.click('.userPermissionsEdit th.select-cell label');
 
-            page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
-            page.mouseMove('#user-permissions-edit-bulk-actions>li:first');
-            page.click('#user-permissions-edit-bulk-actions a:contains(View)');
-
-            page.click('.change-access-confirm-modal .modal-close:not(.modal-no)');
-
-            page.evaluate(function () { // remove filter
-                $('.access-filter select').val('string:some').change();
-            });
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_select_all');
     });
 
-    it('should set access to single site when select in table is used', function (done) {
-        expect.screenshot("permissions_single_site_access").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should set access to all sites selected when set bulk access is used', async function () {
+        await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
+        await (await page.jQuery('#user-permissions-edit-bulk-actions>li:first')).hover();
+        await (await page.jQuery('#user-permissions-edit-bulk-actions a:contains(View)')).click();
 
-            page.evaluate(function () {
-                $('.capability-checkbox tr select:eq(0)').val('string:admin').change();
-            });
+        await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no)')).click();
 
-            page.click('.change-access-confirm-modal .modal-close:not(.modal-no)');
-        }, done);
+        await page.evaluate(function () { // remove filter
+            $('.access-filter select').val('string:some').change();
+        });
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_bulk_access_set_all');
     });
 
-    it('should set a capability to single site when capability checkbox is clicked', function (done) {
-        expect.screenshot("permissions_capability_single_site").to.be.captureSelector('.admin#content', function (page) {
-            page.evaluate(function () {
-                $('.capability-checkbox:not(:checked):not(:disabled):eq(0)').click();
-            });
+    it('should set access to single site when select in table is used', async function () {
+        await page.evaluate(function () {
+            $('.capability-checkbox tr select:eq(0)').val('string:admin').change();
+        });
 
-            page.click('.confirmCapabilityToggle .modal-close:not(.modal-no)');
-        }, done);
+        await (await page.jQuery('.change-access-confirm-modal .modal-close:not(.modal-no)')).click();
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_single_site_access');
     });
 
-    it('should remove access to displayed rows when remove bulk access is clicked', function (done) {
-        expect.screenshot("permissions_remove_access").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should set a capability to single site when capability checkbox is clicked', async function () {
+        await page.evaluate(function () {
+            $('.capability-checkbox:not(:checked):not(:disabled):eq(0)').click();
+        });
 
-            // remove filters
-            page.evaluate(function () {
-                $('div.site-filter>input').val('').change();
-                $('.access-filter select').val('string:').change();
-            });
+        await (await page.jQuery('.confirmCapabilityToggle .modal-close:not(.modal-no)')).click();
 
-            page.click('.userPermissionsEdit th.select-cell label');
-            page.click('.userPermissionsEdit tr.select-all-row a');
-
-            page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
-            page.click('.userPermissionsEdit a:contains(Remove Permissions)');
-
-            page.click('.delete-access-confirm-modal .modal-close:not(.modal-no)');
-        }, done);
+        expect(await page.screenshotSelector('.admin#content')).to.matchImage('permissions_capability_single_site');
     });
 
-    it('should display the superuser access tab when the superuser tab is clicked', function (done) {
-        expect.screenshot("superuser_tab").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should remove access to displayed rows when remove bulk access is clicked', async function () {
+        // remove filters
+        await page.evaluate(function () {
+            $('div.site-filter>input').val('').change();
+            $('.access-filter select').val('string:').change();
+        });
 
-            page.click('.userEditForm .menuSuperuser');
-            page.sendMouseEvent('mousemove', { x: 0, y: 0 });
-        }, done);
+        await page.click('.userPermissionsEdit th.select-cell label');
+        await page.waitFor(250);
+        await page.click('.userPermissionsEdit tr.select-all-row a');
+        await page.waitFor(250);
+
+        await page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
+        await (await page.jQuery('.userPermissionsEdit a:contains(Remove Permissions)')).click();
+
+        await (await page.jQuery('.delete-access-confirm-modal .modal-close:not(.modal-no)')).click();
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('permissions_remove_access');
     });
 
-    it('should show superuser confirm modal when the superuser toggle is clicked', function (done) {
-        expect.screenshot("superuser_confirm").to.be.captureSelector('.superuser-confirm-modal', function (page) {
-            page.setViewportSize(1250);
+    it('should display the superuser access tab when the superuser tab is clicked', async function () {
+        await page.click('.userEditForm .menuSuperuser');
+        await page.mouse.move(0, 0);
 
-            page.click('.userEditForm #superuser_access+label');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_tab');
     });
 
-    it('should give the user superuser access when the superuser modal is confirmed', function (done) {
-        expect.screenshot("superuser_set").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should show superuser confirm modal when the superuser toggle is clicked', async function () {
+        await page.click('.userEditForm #superuser_access+label');
 
-            page.click('.superuser-confirm-modal .modal-close:not(.modal-no)');
-        }, done);
+        expect(await page.screenshotSelector('.superuser-confirm-modal')).to.matchImage('superuser_confirm');
     });
 
-    it('should go back to the manage users page when the back link is clicked', function (done) {
-        expect.screenshot("manage_users_back").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should give the user superuser access when the superuser modal is confirmed', async function () {
+        await page.click('.superuser-confirm-modal .modal-close:not(.modal-no)');
+        await page.waitForNetworkIdle();
 
-            page.click('.userEditForm .entityCancelLink');
-
-            page.evaluate(function () { // remove filter so new user shows
-                $('#user-text-filter').val('').change();
-            });
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_set');
     });
 
-    it('should show the edit user form when the edit icon in a row is clicked', function (done) {
-        expect.screenshot("edit_user_form").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
+    it('should go back to the manage users page when the back link is clicked', async function () {
+        await page.click('.userEditForm .entityCancelLink');
 
-            page.click('button.edituser:eq(1)');
-        }, done);
+        await page.evaluate(function () { // remove filter so new user shows
+            $('#user-text-filter').val('').change();
+        });
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('manage_users_back');
     });
 
-    it('should ask for password confirmation when trying to change email', function (done) {
-        expect.screenshot("edit_user_basic_asks_confirmation").to.be.captureSelector('.modal.open', function (page) {
-            page.setViewportSize(1250);
+    it('should show the edit user form when the edit icon in a row is clicked', async function () {
+        await (await page.jQuery('button.edituser:eq(1)')).click();
+        await page.waitFor(250);
+        await page.waitForNetworkIdle();
 
-            page.evaluate(function () {
-                $('.userEditForm #user_email').val('testlogin3@example.com').change();
-            });
-
-            page.click('.userEditForm .basic-info-tab [piwik-save-button] .btn');
-        }, done);
+        expect(await page.screenshotSelector('.usersManager')).to.matchImage('edit_user_form');
     });
 
-    it('should show error when wrong password entered', function (done) {
-        expect.screenshot("edit_user_basic_confirmed_wrong_password").to.be.captureSelector('.admin#content,#notificationContainer', function (page) {
-            page.setViewportSize(1250);
+    it('should ask for password confirmation when trying to change email', async function () {
+        await page.evaluate(function () {
+            $('.userEditForm #user_email').val('testlogin3@example.com').change();
+        });
 
-            page.sendKeys('.modal.open #currentUserPassword', 'test123456');
-            page.click('.change-password-modal .modal-close:not(.modal-no)');
-        }, done);
+        var btnSave = await page.jQuery('.userEditForm .basic-info-tab [piwik-save-button] .btn');
+        await btnSave.click();
+
+        expect(await page.screenshotSelector('.modal.open')).to.matchImage('edit_user_basic_asks_confirmation');
+    });
+
+    it('should show error when wrong password entered', async function () {
+        await page.type('.modal.open #currentUserPassword', 'test123456');
+
+        var btnNo = await page.jQuery('.change-password-modal .modal-close:not(.modal-no)');
+        await btnNo.click();
+
+        expect(await page.screenshotSelector('.admin#content,#notificationContainer')).to.matchImage('edit_user_basic_confirmed_wrong_password');
     });
 
     // admin user tests
     describe('UsersManager_admin_view', function () {
-        before(function () {
+        before(async function () {
             var idSites = [];
             for (var i = 1; i !== 46; ++i) {
                 idSites.push(i);
@@ -407,6 +389,11 @@ describe("UsersManager", function () {
 
             testEnvironment.idSitesAdminAccess = idSites;
             testEnvironment.save();
+
+            await page.webpage.setViewport({
+                width: 1250,
+                height: 768
+            });
         });
 
         after(function () {
@@ -414,92 +401,91 @@ describe("UsersManager", function () {
             testEnvironment.save();
         });
 
-        it('should hide columns & functionality if an admin user views the manage user page', function (done) {
-            expect.screenshot("admin_load").to.be.captureSelector('.admin#content', function (page) {
-                page.setViewportSize(1250);
+        it('should hide columns & functionality if an admin user views the manage user page', async function () {
+            await page.goto(url);
 
-                page.load(url);
-            }, done);
+            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_load');
         });
 
-        it('should show the add user form for admin users', function (done) {
-            expect.screenshot("admin_add_user").to.be.captureSelector('.admin#content', function (page) {
-                page.setViewportSize(1250);
+        it('should show the add user form for admin users', async function () {
+            await page.click('.add-user-container .btn');
+            await page.waitForNetworkIdle();
 
-                page.click('.add-user-container .btn');
-            }, done);
+            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user');
         });
 
-        it('should not allow editing basic info for admin users', function (done) {
-            expect.screenshot("edit_user_basic_info").to.be.captureSelector('.admin#content', function (page) {
-                page.setViewportSize(1250);
+        it('should not allow editing basic info for admin users', async function () {
+            await page.evaluate(function () {
+                $('.userEditForm .entityCancelLink').click();
+            });
+            await (await page.jQuery('button.edituser:eq(0)')).click();
+            await page.waitForNetworkIdle();
 
-                page.evaluate(function () {
-                    $('.userEditForm .entityCancelLink').click();
-                });
-                page.click('button.edituser:eq(0)');
-            }, done);
+            expect(await page.screenshotSelector('.usersManager')).to.matchImage('edit_user_basic_info');
         });
 
-        it('should allow editing user permissions for admin users', function (done) {
-            expect.screenshot("admin_edit_permissions").to.be.captureSelector('.admin#content', function (page) {
-                page.setViewportSize(1250);
+        it('should allow editing user permissions for admin users', async function () {
+            await page.click('.userEditForm .menuPermissions');
 
-                page.click('.userEditForm .menuPermissions');
-            }, done);
+            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_edit_permissions');
         });
 
-        it('should show the add existing user modal', function (done) {
-            expect.screenshot("admin_existing_user_modal").to.be.captureSelector('.add-existing-user-modal', function (page) {
-                page.setViewportSize(1250);
+        it('should show the add existing user modal', async function () {
+            await page.evaluate(function () {
+                $('.userEditForm .entityCancelLink').click();
+            });
 
-                page.evaluate(function () {
-                    $('.userEditForm .entityCancelLink').click();
-                });
+            await page.click('.add-existing-user');
+            await page.waitFor(500); // wait for animation
 
-                page.click('.add-existing-user');
-            }, done);
+            expect(await page.screenshotSelector('.add-existing-user-modal')).to.matchImage('admin_existing_user_modal');
         });
 
-        it('should add a user by email when an email is entered', function (done) {
-            expect.screenshot("admin_add_user_by_email").to.be.captureSelector('.admin#content', function (page) {
-                page.setViewportSize(1250);
+        it('should add a user by email when an email is entered', async function () {
+            await page.type('input[name="add-existing-user-email"]', '0_login3conchords@example.com');
+            await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no)')).click();
+            await page.waitForNetworkIdle();
 
-                page.sendKeys('input[name=add-existing-user-email]', '0_login3conchords@example.com');
-                page.click('.add-existing-user-modal .modal-close:not(.modal-no)');
+            await page.evaluate(function () { // show new user
+                $('#user-text-filter').val('0_login3conchords@example.com').change();
+            });
+            await page.waitFor(250);
+            await page.waitForNetworkIdle();
+            await page.waitFor(250);
 
-                page.evaluate(function () { // show new user
-                    $('#user-text-filter').val('0_login3conchords@example.com').change();
-                });
-            }, done);
+            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user_by_email');
         });
 
-        it('should add a user by username when a username is entered', function (done) {
-            expect.screenshot("admin_add_user_by_login").to.be.captureSelector('.admin#content', function (page) {
-                page.setViewportSize(1250);
+        it('should add a user by username when a username is entered', async function () {
+            await page.click('.add-existing-user');
+            await page.type('input[name="add-existing-user-email"]', '10_login8');
+            await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no)')).click();
+            await page.waitForNetworkIdle();
 
-                page.click('.add-existing-user');
-                page.sendKeys('input[name=add-existing-user-email]', '10_login8');
-                page.click('.add-existing-user-modal .modal-close:not(.modal-no)');
+            await page.evaluate(function () { // show new user
+                $('#user-text-filter').val('10_login8').change();
+            });
+            await page.waitFor(250);
+            await page.waitForNetworkIdle();
+            await page.waitFor(250);
 
-                page.evaluate(function () { // show new user
-                    $('#user-text-filter').val('10_login8').change();
-                });
-            }, done);
+            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user_by_login');
         });
 
-        it('should fail if an email/username that does not exist is entered', function (done) {
-            expect.screenshot("admin_add_user_not_exists").to.be.captureSelector('.admin#content', function (page) {
-                page.setViewportSize(1250);
+        it('should fail if an email/username that does not exist is entered', async function () {
+            await page.click('.add-existing-user');
+            await page.type('input[name="add-existing-user-email"]', 'sldkjfsdlkfjsdkl');
+            await (await page.jQuery('.add-existing-user-modal .modal-close:not(.modal-no)')).click();
+            await page.waitForNetworkIdle();
 
-                page.click('.add-existing-user');
-                page.sendKeys('input[name=add-existing-user-email]', 'sldkjfsdlkfjsdkl');
-                page.click('.add-existing-user-modal .modal-close:not(.modal-no)');
+            await page.evaluate(function () { // show no user added
+                $('#user-text-filter').val('sldkjfsdlkfjsdkl').change();
+            });
+            await page.waitFor(250);
+            await page.waitForNetworkIdle();
+            await page.waitFor(250);
 
-                page.evaluate(function () { // show no user added
-                    $('#user-text-filter').val('sldkjfsdlkfjsdkl').change();
-                });
-            }, done);
+            expect(await page.screenshotSelector('.usersManager')).to.matchImage('admin_add_user_not_exists');
         });
     });
 });
