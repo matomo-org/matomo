@@ -15,7 +15,12 @@
         piwik.broadcast = broadcast;
         piwik.updatePeriodParamsFromUrl = updatePeriodParamsFromUrl;
         piwik.updateDateInTitle = updateDateInTitle;
+        piwik.hasUserCapability = hasUserCapability;
         return piwik;
+
+        function hasUserCapability(capability) {
+            return angular.isArray(piwik.userCapabilities) && piwik.userCapabilities.indexOf(capability) !== -1;
+        }
 
         function updatePeriodParamsFromUrl() {
             var date = piwik.broadcast.getValueFromHash('date');

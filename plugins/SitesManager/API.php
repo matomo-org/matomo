@@ -405,6 +405,17 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Returns the list of websites ID with the 'write' access for the current user.
+     * For the superUser it doesn't return any result because the superUser has write access on all the websites (use getSitesIdWithAtLeastWriteAccess() instead).
+     *
+     * @return array list of websites ID
+     */
+    public function getSitesIdWithWriteAccess()
+    {
+        return Access::getInstance()->getSitesIdWithWriteAccess();
+    }
+
+    /**
      * Returns the list of websites ID with the 'view' or 'admin' access for the current user.
      * For the superUser it returns all the websites in the database.
      *

@@ -133,7 +133,7 @@ class API extends \Piwik\Plugin\API
      */
     public function addGoal($idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '')
     {
-        Piwik::checkUserHasAdminAccess($idSite);
+        Piwik::checkUserHasWriteAccess($idSite);
 
         $this->checkPatternIsValid($patternType, $pattern, $matchAttribute);
         $name        = $this->checkName($name);
@@ -187,7 +187,7 @@ class API extends \Piwik\Plugin\API
      */
     public function updateGoal($idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '')
     {
-        Piwik::checkUserHasAdminAccess($idSite);
+        Piwik::checkUserHasWriteAccess($idSite);
 
         $name        = $this->checkName($name);
         $description = $this->checkDescription($description);
@@ -268,7 +268,7 @@ class API extends \Piwik\Plugin\API
      */
     public function deleteGoal($idSite, $idGoal)
     {
-        Piwik::checkUserHasAdminAccess($idSite);
+        Piwik::checkUserHasWriteAccess($idSite);
 
         $this->getModel()->deleteGoal($idSite, $idGoal);
         $this->getModel()->deleteGoalConversions($idSite, $idGoal);

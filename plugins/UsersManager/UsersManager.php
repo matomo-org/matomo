@@ -9,7 +9,10 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
+use Piwik\Access\Role\Admin;
+use Piwik\Access\Role\Write;
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
@@ -69,22 +72,30 @@ class UsersManager extends \Piwik\Plugin
      */
     public function recordAdminUsersInCache(&$attributes, $idSite)
     {
-        // add the 'hosts' entry in the website array
         $model = new Model();
-        $logins = $model->getUsersLoginWithSiteAccess($idSite, 'admin');
+        $adminLogins = $model->getUsersLoginWithSiteAccess($idSite, Admin::ID);
+        $writeLogins = $model->getUsersLoginWithSiteAccess($idSite, Write::ID);
 
-        if (empty($logins)) {
-            return;
+        $attributes['tracking_token_auth'] = array();
+
+        if (!empty($adminLogins)) {
+            $users = $model->getUsers($adminLogins);
+            foreach ($users as $user) {
+                $attributes['tracking_token_auth'][] = self::hashTrackingToken($user['token_auth'], $idSite);
+            }
         }
 
-        $users = $model->getUsers($logins);
-
-        $tokens = array();
-        foreach ($users as $user) {
-            $tokens[] = $user['token_auth'];
+        if (!empty($writeLogins)) {
+            $users = $model->getUsers($writeLogins);
+            foreach ($users as $user) {
+                $attributes['tracking_token_auth'][] = self::hashTrackingToken($user['token_auth'], $idSite);
+            }
         }
+    }
 
-        $attributes['admin_token_auth'] = $tokens;
+    public static function hashTrackingToken($tokenAuth, $idSite)
+    {
+        return sha1($idSite . $tokenAuth . SettingsPiwik::getSalt());
     }
 
     public function getCronArchiveTokenAuth(&$tokens)
