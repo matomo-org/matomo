@@ -91,7 +91,7 @@
     </div>
 
     <div piwik-notification context="info" type="persistent" noclear="true" ng-if="$ctrl.isRoleHelpToggled" class="roles-help-notification">
-        {{:: 'UsersManager_RolesHelp'|translate:"<a href='https://matomo.org/faq/general/faq_70/' target='_blank' rel='noreferrer noopener'>":"</a>":"<a href='https://matomo.org/faq/general/faq_69/' target='_blank' rel='noreferrer noopener'>":"</a>" }}
+        <span piwik-translate="UsersManager_RolesHelp"><a href='https://matomo.org/faq/general/faq_70/' target='_blank' rel='noreferrer noopener'>::</a>::<a href='https://matomo.org/faq/general/faq_69/' target='_blank' rel='noreferrer noopener'>::</a></span>
     </div>
 
     <div piwik-content-block>
@@ -130,13 +130,13 @@
                 <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected && $ctrl.users.length && $ctrl.users.length < $ctrl.totalEntries">
                     <td colspan="7">
                         <div ng-if="!$ctrl.areAllResultsSelected">
-                            {{ 'UsersManager_TheDisplayedUsersAreSelected'|translate:"<strong>{{ $ctrl.users.length }}</strong>" }}
-                            <a class="toggle-select-all-in-search" href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">{{ 'UsersManager_ClickToSelectAll'|translate:"<strong>{{ $ctrl.totalEntries }}</strong>" }}</a>
+                            <span piwik-translate="UsersManager_TheDisplayedUsersAreSelected"><strong>{{ $ctrl.users.length }}</strong></span>
+                            <a class="toggle-select-all-in-search" href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected" piwik-translate="UsersManager_ClickToSelectAll"><strong>{{ $ctrl.totalEntries }}</strong></a>
                         </div>
 
                         <div ng-if="$ctrl.areAllResultsSelected">
-                            {{ 'UsersManager_AllUsersAreSelected'|translate:"<strong>{{ $ctrl.totalEntries }}</strong>" }}
-                            <a class="toggle-select-all-in-search" href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">{{ 'UsersManager_ClickToSelectDisplayedUsers'|translate:"<strong>{{ $ctrl.users.length }}</strong>" }}</a>
+                            <span piwik-translate="UsersManager_AllUsersAreSelected"><strong>{{ $ctrl.totalEntries }}</strong></span>
+                            <a class="toggle-select-all-in-search" href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected" piwik-translate="UsersManager_ClickToSelectDisplayedUsers"><strong>{{ $ctrl.users.length }}</strong></a>
                         </div>
                     </td>
                 </tr>
@@ -179,8 +179,8 @@
 
     <div class="delete-user-confirm-modal modal">
         <div class="modal-content">
-            <h3 ng-if="$ctrl.userToChange">{{ 'UsersManager_DeleteUserConfirmSingle'|translate:"<strong>{{ $ctrl.userToChange.login }}</strong>" }}</h3>
-            <p ng-if="!$ctrl.userToChange">{{ 'UsersManager_DeleteUserConfirmMultiple'|translate:"<strong>{{ $ctrl.getAffectedUsersCount() }}</strong>" }}</p>
+            <h3 ng-if="$ctrl.userToChange" piwik-translate="UsersManager_DeleteUserConfirmSingle"><strong>{{ $ctrl.userToChange.login }}</strong></h3>
+            <p ng-if="!$ctrl.userToChange" piwik-translate="UsersManager_DeleteUserConfirmMultiple"><strong>{{ $ctrl.getAffectedUsersCount() }}</strong></p>
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.deleteRequestedUsers()">{{:: 'General_Yes'|translate }}</a>
@@ -190,8 +190,8 @@
 
     <div class="change-user-role-confirm-modal modal">
         <div class="modal-content">
-            <h3 ng-if="$ctrl.userToChange">{{ 'UsersManager_DeleteUserPermConfirmSingle'|translate:"<strong>{{ $ctrl.userToChange.login }}</strong>":"<strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong>":"<strong ng-bind-html="$ctrl.permissionsForSite.name"></strong>" }}</h3>
-            <p ng-if="!$ctrl.userToChange">{{ 'UsersManager_DeleteUserPermConfirmMultiple'|translate:"<strong>{{ $ctrl.getAffectedUsersCount() }}</strong>":"<strong>{{ $ctrl.getAffectedUsersCount() }}</strong>":"<strong ng-bind-html="$ctrl.permissionsForSite.name"></strong>" }}</p>
+            <h3 ng-if="$ctrl.userToChange" piwik-translate="UsersManager_DeleteUserPermConfirmSingle"><strong>{{ $ctrl.userToChange.login }}</strong>::<strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong>::<strong ng-bind-html="$ctrl.permissionsForSite.name"></strong></h3>
+            <p ng-if="!$ctrl.userToChange" piwik-translate="UsersManager_DeleteUserPermConfirmMultiple"><strong>{{ $ctrl.getAffectedUsersCount() }}</strong>::<strong>{{ $ctrl.getAffectedUsersCount() }}</strong>::<strong ng-bind-html="$ctrl.permissionsForSite.name"></strong></p>
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.changeUserRole()">{{:: 'General_Yes'|translate }}</a>

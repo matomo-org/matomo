@@ -93,7 +93,7 @@
                 </div>
             </div>
 
-            <div ng-if="$ctrl.activeTab === 'permissions' && !$ctrl.isAdd" class="user-permissions">
+            <div ng-if="!$ctrl.isAdd" ng-show="$ctrl.activeTab === 'permissions'" class="user-permissions">
                 <piwik-user-permissions-edit
                     user-login="$ctrl.user.login"
                     ng-if="!$ctrl.user.superuser_access"

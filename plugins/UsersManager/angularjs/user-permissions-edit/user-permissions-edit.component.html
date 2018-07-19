@@ -1,7 +1,7 @@
 <div class="userPermissionsEdit" ng-class="{ loading: $ctrl.isLoadingAccess }">
     <div class="row" ng-if="!$ctrl.hasAccessToAtLeastOneSite">
         <div piwik-notification context="warning" type="persistent" noclear="true">
-            <strong>{{:: 'UsersManager_GeneralWarning'|translate }}:</strong>
+            <strong>{{:: 'General_Warning'|translate }}:</strong>
 
             {{:: 'UsersManager_NoAccessWarning'|translate }}
         </div>
@@ -92,13 +92,13 @@
         <tr class="select-all-row" ng-if="$ctrl.isAllCheckboxSelected && $ctrl.siteAccess.length < $ctrl.totalEntries">
             <td colspan="4">
                 <div ng-if="!$ctrl.areAllResultsSelected">
-                    {{ 'UsersManager_TheDisplayedWebsitesAreSelected'|translate:"<strong>{{ $ctrl.siteAccess.length }}</strong>" }}
-                    <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">{{ 'UsersManager_ClickToSelectAll'|translate:"<strong>{{ $ctrl.totalEntries }}</strong>" }}</a>
+                    <span piwik-translate="UsersManager_TheDisplayedWebsitesAreSelected"><strong>{{ $ctrl.siteAccess.length }}</strong></span>
+                    <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected" piwik-translate="UsersManager_ClickToSelectAll"><strong>{{ $ctrl.totalEntries }}</strong></a>
                 </div>
 
                 <div ng-if="$ctrl.areAllResultsSelected">
-                    {{ 'UsersManager_AllWebsitesAreSelected'|translate:"<strong>{{ $ctrl.totalEntries }}</strong>" }}
-                    <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected">{{ 'UsersManager_ClickToSelectDisplayedWebsites'|translate:"<strong>{{ $ctrl.siteAccess.length }}</strong>" }}</a>
+                    <span piwik-translate="UsersManager_AllWebsitesAreSelected"><strong>{{ $ctrl.totalEntries }}</strong></span>
+                    <a href="#" ng-click="$ctrl.areAllResultsSelected = !$ctrl.areAllResultsSelected" piwik-translate="UsersManager_ClickToSelectDisplayedWebsites"><strong>{{ $ctrl.siteAccess.length }}</strong></a>
                 </div>
             </td>
         </tr>
@@ -154,8 +154,8 @@
 
     <div class="delete-access-confirm-modal modal">
         <div class="modal-content">
-            <h3 ng-if="$ctrl.siteAccessToChange">{{ 'UsersManager_DeletePermConfirmSingle'|translate:"<strong>{{ $ctrl.userLogin }}</strong>":"<strong>{{ $ctrl.siteAccessToChange.site_name }}</strong>" }}</h3>
-            <p ng-if="!$ctrl.siteAccessToChange">{{ 'UsersManager_DeletePermConfirmMultiple'|translate:"<strong>{{ $ctrl.userLogin }}</strong>":"<strong>{{ $ctrl.getAffectedSitesCount() }}</strong>" }}</p>
+            <h3 ng-if="$ctrl.siteAccessToChange" piwik-translate="UsersManager_DeletePermConfirmSingle"><strong>{{ $ctrl.userLogin }}</strong>::<strong>{{ $ctrl.siteAccessToChange.site_name }}</strong></h3>
+            <p ng-if="!$ctrl.siteAccessToChange" piwik-translate="UsersManager_DeletePermConfirmMultiple"><strong>{{ $ctrl.userLogin }}</strong>::<strong>{{ $ctrl.getAffectedSitesCount() }}</strong></p>
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.changeUserRole()">{{:: 'General_Yes'|translate }}</a>
@@ -165,8 +165,8 @@
 
     <div class="change-access-confirm-modal modal">
         <div class="modal-content">
-            <h3 ng-if="$ctrl.siteAccessToChange">{{ 'UsersManager_ChangePermToSiteConfirmSingle'|translate:"<strong>{{ $ctrl.userLogin }}</strong>":"<strong>{{ $ctrl.siteAccessToChange.site_name }}</strong>":"<strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong>" }}</h3>
-            <p ng-if="!$ctrl.siteAccessToChange">{{ 'UsersManager_ChangePermToSiteConfirmMultiple'|translate:"<strong>{{ $ctrl.userLogin }}</strong>":"<strong>{{ $ctrl.getAffectedSitesCount() }}</strong>":"<strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong>" }}</p>
+            <h3 ng-if="$ctrl.siteAccessToChange" piwik-translate="UsersManager_ChangePermToSiteConfirmSingle"><strong>{{ $ctrl.userLogin }}</strong>::<strong>{{ $ctrl.siteAccessToChange.site_name }}</strong>::<strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong></h3>
+            <p ng-if="!$ctrl.siteAccessToChange" piwik-translate="UsersManager_ChangePermToSiteConfirmMultiple"><strong>{{ $ctrl.userLogin }}</strong>::<strong>{{ $ctrl.getAffectedSitesCount() }}</strong>::<strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong></p>
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.changeUserRole()">{{:: 'General_Yes'|translate }}</a>

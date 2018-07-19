@@ -116,6 +116,8 @@ class UsersManager extends \Piwik\Plugin
         $jsFiles[] = "plugins/UsersManager/angularjs/paged-users-list/paged-users-list.component.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/user-edit-form/user-edit-form.component.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.js";
+        $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/personal-settings.controller.js";
+        $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/anonymous-settings.controller.js";
     }
 
     /**
@@ -237,6 +239,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_ChangePermToSiteConfirmMultiple';
         $translationKeys[] = 'UsersManager_BasicInformation';
         $translationKeys[] = 'UsersManager_Permissions';
+        $translationKeys[] = 'UsersManager_RemovePermissions';
         $translationKeys[] = 'UsersManager_FirstSiteInlineHelp';
         $translationKeys[] = 'UsersManager_SuperUsersPermissionsNotice';
         $translationKeys[] = 'UsersManager_SuperUserIntro1';
@@ -263,5 +266,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_EditUser';
         $translationKeys[] = 'UsersManager_CreateUser';
         $translationKeys[] = 'UsersManager_SaveBasicInfo';
+        $translationKeys[] = 'UsersManager_Email';
+        $translationKeys[] = 'UsersManager_LastSeen';
+        $translationKeys[] = 'UsersManager_SuperUserAccess';
+        $translationKeys[] = 'General_Warning';
     }
 }
