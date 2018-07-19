@@ -23,8 +23,8 @@ class ManyUsers extends Fixture
 
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;
-    public $siteCount;
-    public $userCount;
+    public $siteCopyCount;
+    public $userCopyCount;
     public $addTextSuffixes;
 
     public $baseUsers = array(
@@ -60,10 +60,10 @@ class ManyUsers extends Fixture
         'conchords',
     ];
 
-    public function __construct($userCount = self::USER_COUNT, $siteCount = self::SITE_COUNT, $addTextSuffixes = true)
+    public function __construct($userCopyCount = self::USER_COUNT, $siteCopyCount = self::SITE_COUNT, $addTextSuffixes = true)
     {
-        $this->userCount = $userCount;
-        $this->siteCount = $siteCount;
+        $this->userCopyCount = $userCopyCount;
+        $this->siteCopyCount = $siteCopyCount;
         $this->addTextSuffixes = $addTextSuffixes;
     }
 
@@ -95,7 +95,7 @@ class ManyUsers extends Fixture
 
         $model = new Model();
         $api = API::getInstance();
-        for ($i = 0; $i != self::USER_COUNT; ++$i) {
+        for ($i = 0; $i != $this->userCopyCount; ++$i) {
             $addToEmail = $i % 2 == 0;
 
             foreach ($this->baseUsers as $baseLogin => $permissions) {
@@ -103,7 +103,7 @@ class ManyUsers extends Fixture
 
                 $textAddition = $this->textAdditions[$totalUserCount % count($this->textAdditions)];
 
-                $login = $i . '_' . $baseLogin;
+                $login = $this->addTextSuffixes ? ($i . '_' . $baseLogin) : $baseLogin;
                 if ($this->addTextSuffixes && !$addToEmail) {
                     $login .= $textAddition;
                 }

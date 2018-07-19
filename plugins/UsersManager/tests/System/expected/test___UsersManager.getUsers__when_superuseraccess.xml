@@ -9,6 +9,14 @@
 		
 	</row>
 	<row>
+		<login>login10</login>
+		
+		<alias>login10</alias>
+		<email>login10@example.com</email>
+		<superuser_access>1</superuser_access>
+		
+	</row>
+	<row>
 		<login>login2</login>
 		
 		<alias>login2</alias>
@@ -61,6 +69,14 @@
 		
 		<alias>login8</alias>
 		<email>login8@example.com</email>
+		<superuser_access>0</superuser_access>
+		
+	</row>
+	<row>
+		<login>login9</login>
+		
+		<alias>login9</alias>
+		<email>login9@example.com</email>
 		<superuser_access>0</superuser_access>
 		
 	</row>
