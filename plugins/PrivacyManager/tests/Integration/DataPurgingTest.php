@@ -508,7 +508,7 @@ class DataPurgingTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 49);
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 69);
     }
 
     /**
