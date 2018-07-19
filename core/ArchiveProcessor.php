@@ -17,6 +17,8 @@ use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Map;
 use Piwik\DataTable\Row;
+use Piwik\Segment\SegmentExpression;
+
 /**
  * Used by {@link Piwik\Plugin\Archiver} instances to insert and aggregate archive data.
  *
@@ -583,5 +585,45 @@ class ArchiveProcessor
         }
 
         return $metrics;
+    }
+
+    /**
+     * Initiate archiving for a plugin during an ongoing archiving. The plugin can be another
+     * plugin or the same plugin.
+     *
+     * This method should be called during archiving when one plugin uses the report of another
+     * plugin with a segment. It will ensure reports for that segment & plugin will be archived
+     * without initiating archiving for every plugin with that segment (which would be a performance
+     * killer).
+     *
+     * @param string $plugin
+     * @param string $segment
+     */
+    public function processDependentArchive($plugin, $segment)
+    {
+        $params = $this->getParams();
+        if (!$params->isRootArchiveRequest()) { // prevent all recursion
+            return;
+        }
+
+        $idSites = [$params->getSite()->getId()];
+
+        $newSegment = Segment::combine($params->getSegment()->getString(), SegmentExpression::AND_DELIMITER, $segment);
+        if ($newSegment === $segment && $params->getRequestedPlugin() === $plugin) { // being processed now
+            return;
+        }
+
+        $newSegment = new Segment($newSegment, $idSites);
+        if (ArchiveProcessor\Rules::isSegmentPreProcessed($idSites, $newSegment)) {
+            // will be processed anyway
+            return;
+        }
+
+        $parameters = new ArchiveProcessor\Parameters($params->getSite(), $params->getPeriod(), $newSegment);
+        $parameters->onlyArchiveRequestedPlugin();
+        $parameters->setIsRootArchiveRequest(false);
+
+        $archiveLoader = new ArchiveProcessor\Loader($parameters);
+        $archiveLoader->prepareArchive($plugin);
     }
 }
