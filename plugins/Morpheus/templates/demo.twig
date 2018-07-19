@@ -380,6 +380,20 @@
                      ui-control-attributes='{"field1":{"key":"index","title":"Index","uiControl":"text","availableValues":null}}'>
                 </div>
 
+                <div piwik-field uicontrol="field-array" name="text-field-array"
+                     title="Text field array"
+                     value='["text one", "text two"]'
+                     inline-help="Multiple text inputs"
+                     ui-control-attributes='{"field":{"title":"Index","uiControl":"text"}}'>
+                </div>
+
+                <div piwik-field uicontrol="field-array" name="select-field-array"
+                     title="Select field array"
+                     value='["one", "two"]'
+                     inline-help="Multiple selects"
+                     ui-control-attributes='{"field":{"title":"Index","uiControl":"select","availableValues":{"one":"text onw", "two":"text two", "three":"text three"}}}'>
+                </div>
+
                 <div piwik-field uicontrol="checkbox" name="enableFeature"
                      title="Enable feature"
                      introduction="Radio and checkboxes"

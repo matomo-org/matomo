@@ -7,7 +7,7 @@
         "ReleaseChannel": "Release channel",
         "ClickHereToOptIn": "Click here to opt in.",
         "ClickHereToOptOut": "Click here to opt out.",
-        "CorsDomains": "Cross-origin resource sharing domains",
+        "CorsDomains": "Cross-Origin Resource Sharing (CORS) domains",
         "CorsDomainsHelp": "You can define domains or subdomains like http://example.com or http://stats.example.com. Or to allow cross domain requests for all domains simply add a *",
         "CustomLogoFeedbackInfo": "If you customize the Matomo logo, you might also be interested to hide the %1$s link in the top menu. To do so, you can disable the Feedback plugin in the %2$sManage Plugins%3$s page.",
         "CustomLogoHelpText": "You can customize the Matomo logo which will be displayed in the user interface and email reports.",
