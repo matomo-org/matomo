@@ -191,7 +191,7 @@
     <div class="change-user-role-confirm-modal modal">
         <div class="modal-content">
             <h3 ng-if="$ctrl.userToChange" piwik-translate="UsersManager_DeleteUserPermConfirmSingle"><strong>{{ $ctrl.userToChange.login }}</strong>::<strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong>::<strong ng-bind-html="$ctrl.permissionsForSite.name"></strong></h3>
-            <p ng-if="!$ctrl.userToChange" piwik-translate="UsersManager_DeleteUserPermConfirmMultiple"><strong>{{ $ctrl.getAffectedUsersCount() }}</strong>::<strong>{{ $ctrl.getAffectedUsersCount() }}</strong>::<strong ng-bind-html="$ctrl.permissionsForSite.name"></strong></p>
+            <p ng-if="!$ctrl.userToChange" piwik-translate="UsersManager_DeleteUserPermConfirmMultiple"><strong>{{ $ctrl.getAffectedUsersCount() }}</strong>::<strong>{{ $ctrl.getRoleDisplay($ctrl.roleToChangeTo) }}</strong>::<strong ng-bind-html="$ctrl.permissionsForSite.name"></strong></p>
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.changeUserRole()">{{:: 'General_Yes'|translate }}</a>

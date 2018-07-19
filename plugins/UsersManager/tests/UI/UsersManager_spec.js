@@ -123,7 +123,7 @@ describe("UsersManager", function () {
             page.click('th.select-cell label'); // select displayed rows
 
             page.click('.bulk-actions.btn');
-            page.click('#user-list-bulk-actions a:contains(Remove Access)');
+            page.click('#user-list-bulk-actions a:contains(Remove Permissions)');
             page.click('.change-user-role-confirm-modal .modal-close:not(.modal-no)');
         }, done);
     });
@@ -316,7 +316,7 @@ describe("UsersManager", function () {
             page.setViewportSize(1250);
 
             page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
-            page.click('.userPermissionsEdit a:contains(Remove Access)');
+            page.click('.userPermissionsEdit a:contains(Remove Permissions)');
 
             page.click('.delete-access-confirm-modal .modal-close:not(.modal-no)');
         }, done);

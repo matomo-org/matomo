@@ -270,5 +270,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_LastSeen';
         $translationKeys[] = 'UsersManager_SuperUserAccess';
         $translationKeys[] = 'General_Warning';
+        $translationKeys[] = 'General_Add';
     }
 }
