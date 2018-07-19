@@ -1763,6 +1763,11 @@ log_visit.visit_total_actions
             ['browserCode==ff', ';', 'visitCount>1', 'browserCode==ff;visitCount>1'],
             ['browserCode==ff;visitCount>1', ',', 'visitCount>2', 'browserCode==ff;visitCount>1,visitCount>2'],
             ['visitorType==new', ';', 'visitorType==new', 'visitorType==new'],
+
+            // urlencoding test
+            [urlencode('browserCode==ff;visitCount>1'), ';', 'visitCount>1', urlencode('browserCode==ff;visitCount>1')],
+            ['browserCode==ff;visitCount>1', ';', urlencode('visitCount>1'), 'browserCode==ff;visitCount>1'],
+            ['browserCode==ff;'.urlencode('visitCount>1'), ';', 'visitCount>1', 'browserCode==ff;'.urlencode('visitCount>1')],
         ];
     }
 

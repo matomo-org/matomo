@@ -371,13 +371,34 @@ class Segment
         }
 
         if (empty($segmentCondition)
-            || strpos($segment, $operator . $segmentCondition) !== false
-            || strpos($segment, $segmentCondition . $operator) !== false
-            || $segment === $segmentCondition
+            || self::containsCondition($segment, $operator, $segmentCondition)
         ) {
             return $segment;
         }
 
         return $segment . $operator . $segmentCondition;
+    }
+
+    private static function containsCondition($segment, $operator, $segmentCondition)
+    {
+        // check when segment/condition are of same encoding
+        return strpos($segment, $operator . $segmentCondition) !== false
+            || strpos($segment, $segmentCondition . $operator) !== false
+
+            // check when both operator & condition are urlencoded in $segment
+            || strpos($segment, urlencode($operator . $segmentCondition)) !== false
+            || strpos($segment, urlencode($segmentCondition . $operator)) !== false
+
+            // check when operator is not urlencoded, but condition is in $segment
+            || strpos($segment, $operator . urlencode($segmentCondition)) !== false
+            || strpos($segment, urlencode($segmentCondition) . $operator) !== false
+
+            // check when segment condition is urlencoded & $segment isn't
+            || strpos($segment, $operator . urldecode($segmentCondition)) !== false
+            || strpos($segment, urldecode($segmentCondition) . $operator) !== false
+
+            || $segment === $segmentCondition
+            || $segment === urlencode($segmentCondition)
+            || $segment === urldecode($segmentCondition);
     }
 }
