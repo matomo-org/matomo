@@ -129,7 +129,6 @@ class UsersManager extends \Piwik\Plugin
         $jsFiles[] = "plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/personal-settings.controller.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/anonymous-settings.controller.js";
-        $jsFiles[] = "plugins/UsersManager/angularjs/capability-edit/capability-edit.component.js";
     }
 
     /**
@@ -143,7 +142,6 @@ class UsersManager extends \Piwik\Plugin
         $stylesheets[] = "plugins/UsersManager/angularjs/paged-users-list/paged-users-list.component.less";
         $stylesheets[] = "plugins/UsersManager/angularjs/user-edit-form/user-edit-form.component.less";
         $stylesheets[] = "plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.less";
-        $stylesheets[] = "plugins/UsersManager/angularjs/capability-edit/capability-edit.component.less";
     }
 
     /**
