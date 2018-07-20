@@ -106,8 +106,10 @@ class Factory
 
         $params = array();
 
+        $containerId = Common::getRequestVar('containerId', '', 'string');
+
         if (!isset($loadViewDataTableParametersForUser)) {
-            $loadViewDataTableParametersForUser = ('0' == Common::getRequestVar('widget', '0', 'string'));
+            $loadViewDataTableParametersForUser = ($containerId != '' || '0' == Common::getRequestVar('widget', '0', 'string'));
         }
 
         if ($loadViewDataTableParametersForUser) {
@@ -116,7 +118,7 @@ class Factory
             if (!empty($report) && $controllerAction === $apiAction) {
                 $paramsKey = $report->getId();
             }
-            $params = Manager::getViewDataTableParameters($login, $paramsKey);
+            $params = Manager::getViewDataTableParameters($login, $paramsKey, $containerId);
         }
 
         if (!self::isDefaultViewTypeForReportFixed($report)) {

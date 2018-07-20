@@ -394,7 +394,9 @@ login_password_recovery_replyto_email_address = "no-reply@{DOMAIN}"
 login_password_recovery_replyto_email_name = "No-reply"
 
 ; When configured, only users from a configured IP can log into your Matomo. You can define one or multiple
-; IPv4, IPv6, and IP ranges. This whitelist also affects API requests unless you disabled it via the setting
+; IPv4, IPv6, and IP ranges. You may also define hostnames. However, resolving hostnames in each request 
+; may slightly slow down your Matomo.
+; This whitelist also affects API requests unless you disabled it via the setting
 ; "login_whitelist_apply_to_reporting_api_requests" below. Note that neither this setting, nor the
 ; "login_whitelist_apply_to_reporting_api_requests" restricts authenticated tracking requests (tracking requests
 ; with a "token_auth" URL parameter).
@@ -404,6 +406,7 @@ login_password_recovery_replyto_email_name = "No-reply"
 ; login_whitelist_ip[] = 204.93.177.0/24
 ; login_whitelist_ip[] = 199.27.128.0/21
 ; login_whitelist_ip[] = 2001:db8::/48
+; login_whitelist_ip[] = matomo.org
 
 ; By default, if a whitelisted IP address is specified via "login_whitelist_ip[]", the reporting user interface as
 ; well as HTTP Reporting API requests will only work for these whitelisted IPs.

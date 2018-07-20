@@ -151,8 +151,20 @@
     float: right;
   }
 
+  .sites-for-permission-pagination-container {
+    position: relative;
+  }
+
   .sites-for-permission-pagination {
+    position: absolute;
+    bottom: 0;
+    width: calc(100%);
     text-align: center;
+
+    a.disabled {
+      pointer-events: none;
+      color: #9e9e9e;
+    }
 
     .counter {
       margin-left: 8px;
@@ -162,14 +174,6 @@
 
   .delete-site-permission {
     float: right;
-  }
-
-  td.actions-cell {
-    padding: 0;
-  }
-
-  .actions-cell {
-    width: 96px;
   }
 
   .delete-access-confirm-modal, .change-access-confirm-modal {

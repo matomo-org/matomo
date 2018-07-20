@@ -65,7 +65,6 @@
         vm.changeUserRole = changeUserRole;
         vm.showChangeAccessConfirm = showChangeAccessConfirm;
         vm.getRoleDisplay = getRoleDisplay;
-        vm.addUserRole = addUserRole;
         vm.showAddExistingUserModal = showAddExistingUserModal;
 
         function $onInit() {
@@ -84,7 +83,7 @@
             }
 
             function shouldShowAccessLevel(entry) {
-                return entry.key !== 'superuser' && entry.key !== 'noaccess';
+                return entry.key !== 'superuser';
             }
         }
 
@@ -149,38 +148,6 @@
                 id: null,
                 name: ''
             };
-        }
-
-        function addUserRole() {
-            vm.isLoadingAccess = true;
-            piwikApi.post({
-                method: 'UsersManager.setUserAccess',
-                userLogin: vm.userLogin,
-                access: vm.roleToChangeTo,
-                idSites: vm.siteAccessToChange.idsite,
-                ignoreExisting: 1
-            }).catch(function () {
-                // ignore (errors will still be displayed to the user)
-            }).then(function () {
-                resetSiteToAdd();
-
-                vm.onAccessChange();
-
-                return fetchAccess();
-            }).then(function () {
-                setTimeout(function () { // timeout to let angularjs finish rendering
-                    var UI = require('piwik/UI');
-                    var notification = new UI.Notification();
-                    notification.toast(_pk_translate('General_Done'), {
-                        placeat: '.userPermissionsEdit .add-site .title',
-                        context: 'success',
-                        noclear: true,
-                        type: 'toast',
-                        class: 'user-permission-toast',
-                        toastLength: 3000
-                    });
-                }, 500);
-            });
         }
 
         function changeUserRole() {

@@ -180,7 +180,7 @@ class Model
             $offsetSql = "OFFSET " . (int)$offset;
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS a.idsite as idsite, s.name as site_name, a.access as role
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, IFNULL(a.access, "noaccess") as role
                   FROM ' . Common::prefixTable('access') . " a
                 $joins
                 $where
@@ -216,7 +216,7 @@ class Model
     {
         $db = $this->getDb();
 
-        $matchedUsers = $db->fetchAll("SELECT * FROM " . $this->table . " WHERE login = ?", $userLogin);
+        $matchedUsers = $db->fetchAll("SELECT * FROM {$this->table} WHERE login = ?", $userLogin);
 
         // for BC in 2.15 LTS, if there is a user w/ an exact match to the requested login, return that user.
         // this is done since before this change, login was case sensitive. until 3.0, we want to maintain
@@ -330,13 +330,25 @@ class Model
         return $count != 0;
     }
 
-    public function addUserAccess($userLogin, $access, $idSites, $ignoreExisting = false)
+    public function removeUserAccess($userLogin, $access, $idSites)
+    {
+        $db = $this->getDb();
+
+        $table = Common::prefixTable("access");
+
+        foreach ($idSites as $idsite) {
+            $bind = array($userLogin, $idsite, $access);
+            $db->query("DELETE FROM " . $table . " WHERE login = ? and idsite = ? and access = ?", $bind);
+        }
+    }
+
+    public function addUserAccess($userLogin, $access, $idSites)
     {
         $userLogins = is_array($userLogin) ? $userLogin : [$userLogin];
 
         $db = $this->getDb();
 
-        $insertSql = "INSERT " . ($ignoreExisting ? 'IGNORE ' : '') . 'INTO ' . Common::prefixTable("access") . ' (idsite, login, access) VALUES (?, ?, ?)';
+        $insertSql = "INSERT INTO " . Common::prefixTable("access") . ' (idsite, login, access) VALUES (?, ?, ?)';
         foreach ($userLogins as $login) {
             foreach ($idSites as $idsite) {
                 $db->query($insertSql, [$idsite, $login, $access]);

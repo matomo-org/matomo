@@ -10,11 +10,11 @@
         <div class="col s12 m12 l8">
             <div class="input-field bulk-actions">
                 <a
-                        class='dropdown-trigger btn'
-                        href=''
-                        data-activates='user-permissions-edit-bulk-actions'
-                        piwik-dropdown-menu
-                        ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
+                    class='dropdown-trigger btn'
+                    href=''
+                    data-activates='user-permissions-edit-bulk-actions'
+                    piwik-dropdown-menu
+                    ng-class="{ disabled: $ctrl.isBulkActionsDisabled }"
                 >
                     {{:: 'UsersManager_BulkActions'|translate }}
                 </a>
@@ -34,7 +34,7 @@
             </div>
 
             <div class="input-field site-filter">
-                <input type="text" placeholder="Filter by website" ng-model="$ctrl.siteNameFilter" ng-change="$ctrl.offset = 0; $ctrl.fetchAccess()" />
+                <input type="text" placeholder="Filter by website" ng-model="$ctrl.siteNameFilter" ng-model-options="{debounce: 300}" ng-change="$ctrl.offset = 0; $ctrl.fetchAccess()" />
             </div>
 
             <div class="input-field access-filter">
@@ -45,21 +45,25 @@
                     options="$ctrl.filterAccessLevels"
                     full-width="true"
                     ng-change="$ctrl.offset = 0; $ctrl.fetchAccess()"
+                    placeholder="{{ 'UsersManager_FilterByAccess'|translate }}"
                 ></div>
             </div>
         </div>
-        <div class="col s12 m12 l4">
-            <div class="input-field add-site">
-                <div
-                    piwik-field
-                    class="add-site-selector"
-                    uicontrol="site"
-                    ng-model="$ctrl.siteToAdd"
-                    ui-control-attributes="{showAllSitesItem: true, onlySitesWithAdminAccess: $ctrl.currentUserRole !== 'superuser'}"
-                    placeholder="Give access to..."
-                ></div>
-                <a class='btn-flat' ng-click="$ctrl.roleToChangeTo = 'view'; $ctrl.siteAccessToChange = { idsite: $ctrl.siteToAdd.id }; $ctrl.addUserRole()">
-                    <span class="icon-add"></span>
+
+        <div class="col s12 m12 l4 sites-for-permission-pagination-container" ng-if="$ctrl.totalEntries > $ctrl.limit">
+            <div class="input-field sites-for-permission-pagination">
+                <a class="prev" ng-class="{ disabled: $ctrl.offset <= 0 }">
+                    <span class="pointer" ng-click="$ctrl.gotoPreviousPage()">« {{:: 'General_Previous'|translate }}</span>
+                </a>
+
+                <span class="counter">
+                    <span>
+                        {{ 'UsersManager_XtoYofN'|translate:$ctrl.offset:$ctrl.getPaginationUpperBound():$ctrl.totalEntries }}
+                    </span>
+                </span>
+
+                <a class="next" ng-class="{ disabled: $ctrl.offset + $ctrl.limit >= $ctrl.totalEntries }">
+                    <span class="pointer" ng-click="$ctrl.gotoNextPage()">{{:: 'General_Next'|translate }} »</span>
                 </a>
             </div>
         </div>
@@ -85,7 +89,6 @@
                     <span class="icon-help"></span>
                 </a>
             </th>
-            <th class="actions-cell">{{:: 'General_Actions'|translate }}</th>
         </tr>
         </thead>
         <tbody>
@@ -121,36 +124,9 @@
                     ng-change="$ctrl.previousRole = '{{ entry.role }}'; $ctrl.roleToChangeTo = entry.role; $ctrl.siteAccessToChange = entry; $ctrl.showChangeAccessConfirm();"
                 ></div>
             </td>
-            <td class="center actions-cell">
-                <button
-                    class="deleteaccess table-action"
-                    ng-attr-title="{{:: 'UsersManager_RemoveAllAccessToThisSite'|translate }}"
-                    ng-click="$ctrl.roleToChangeTo = 'noaccess'; $ctrl.siteAccessToChange = entry; $ctrl.showRemoveAccessConfirm();"
-                >
-                    <span class="icon-delete"></span>
-                </button>
-            </td>
         </tr>
         </tbody>
     </table>
-
-    <div class="row" ng-if="$ctrl.totalEntries > $ctrl.limit">
-        <div class="input-field col sites-for-permission-pagination s12">
-            <a class="prev" disabled="disabled">
-                <span class="pointer" ng-click="$ctrl.gotoPreviousPage()">« {{:: 'General_Previous'|translate }}</span>
-            </a>
-
-            <span class="counter">
-                <span>
-                    {{ 'UsersManager_XtoYofN'|translate:$ctrl.offset:$ctrl.getPaginationUpperBound():$ctrl.totalEntries }}
-                </span>
-            </span>
-
-            <a class="next">
-                <span class="pointer" ng-click="$ctrl.gotoNextPage()">{{:: 'General_Next'|translate }} »</span>
-            </a>
-        </div>
-    </div>
 
     <div class="delete-access-confirm-modal modal">
         <div class="modal-content">

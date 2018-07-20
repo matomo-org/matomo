@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Exception\PluginDeactivatedException;
+use Piwik\Exception\PluginRequiresInternetException;
 use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
@@ -421,6 +422,10 @@ class FrontController extends Singleton
         }
 
         list($module, $action) = Request::getRenamedModuleAndAction($module, $action);
+
+        if (!SettingsPiwik::isInternetEnabled() && \Piwik\Plugin\Manager::getInstance()->doesPluginRequireInternetConnection($module)) {
+            throw new PluginRequiresInternetException($module);
+        }
 
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated($module)) {
             throw new PluginDeactivatedException($module);

@@ -17,7 +17,8 @@
 				<uiControlAttributes>
 					<cols>25</cols>
 					<rows>3</rows>
-					<placeholder>https://siteUrl.com/                                                 https://siteUrl2.com/</placeholder>
+					<placeholder>http://example.com/
+https://www.example.org/</placeholder>
 				</uiControlAttributes>
 				<availableValues />
 				<description />

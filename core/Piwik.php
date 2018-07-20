@@ -406,6 +406,55 @@ class Piwik
     }
 
     /**
+     * Checks that the current user has write access to at least one site.
+     *
+     * @throws Exception if user doesn't have write access to any site.
+     * @api
+     */
+    public static function checkUserHasSomeWriteAccess()
+    {
+        Access::getInstance()->checkUserHasSomeWriteAccess();
+    }
+
+    /**
+     * Returns `true` if the current user has write access to at least one site.
+     *
+     * @return bool
+     * @api
+     */
+    public static function isUserHasSomeWriteAccess()
+    {
+        return Access::getInstance()->isUserHasSomeWriteAccess();
+    }
+
+    /**
+     * Checks whether the user has the given capability or not.
+     * @param array $idSites
+     * @param string $capability
+     * @throws NoAccessException Thrown if the user does not have the given capability
+     */
+    public static function checkUserHasCapability($idSites, $capability)
+    {
+        Access::getInstance()->checkUserHasCapability($idSites, $capability);
+    }
+
+    /**
+     * Returns `true` if the current user has the given capability for the given sites.
+     *
+     * @return bool
+     * @api
+     */
+    public static function isUserHasCapability($idSites, $capability)
+    {
+        try {
+            self::checkUserHasCapability($idSites, $capability);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
      * Checks that the current user has admin access to at least one site.
      *
      * @throws Exception if user doesn't have admin access to any site.
@@ -434,6 +483,23 @@ class Piwik
     }
 
     /**
+     * Returns `true` if the user has write access to the requested list of sites.
+     *
+     * @param int|array $idSites One or more site IDs to check access for.
+     * @return bool
+     * @api
+     */
+    public static function isUserHasWriteAccess($idSites)
+    {
+        try {
+            self::checkUserHasWriteAccess($idSites);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
      * Checks that the current user has view access to the requested list of sites
      *
      * @param int|array $idSites The list of site IDs to check access for.
@@ -443,6 +509,18 @@ class Piwik
     public static function checkUserHasViewAccess($idSites)
     {
         Access::getInstance()->checkUserHasViewAccess($idSites);
+    }
+
+    /**
+     * Checks that the current user has write access to the requested list of sites
+     *
+     * @param int|array $idSites The list of site IDs to check access for.
+     * @throws Exception if the current user does not have write access to every site in the list.
+     * @api
+     */
+    public static function checkUserHasWriteAccess($idSites)
+    {
+        Access::getInstance()->checkUserHasWriteAccess($idSites);
     }
 
     /**

@@ -103,10 +103,8 @@ class Archiver extends \Piwik\Plugin\Archiver
             )
         );
 
-        $where = "log_link_visit_action.server_time >= ?
-                    AND log_link_visit_action.server_time <= ?
-                    AND log_link_visit_action.idsite = ?
-                    AND log_link_visit_action.idaction_content_name IS NOT NULL
+        $where = $this->getLogAggregator()->getWhereStatement('log_link_visit_action', 'server_time');
+        $where .= " AND log_link_visit_action.idaction_content_name IS NOT NULL
                     AND log_link_visit_action.idaction_content_interaction IS NULL";
 
         $groupBy = "log_link_visit_action.idaction_content_piece,
@@ -161,10 +159,8 @@ class Archiver extends \Piwik\Plugin\Archiver
             )
         );
 
-        $where = "log_link_visit_action.server_time >= ?
-                    AND log_link_visit_action.server_time <= ?
-                    AND log_link_visit_action.idsite = ?
-                    AND log_link_visit_action.idaction_content_name IS NOT NULL
+        $where  = $this->getLogAggregator()->getWhereStatement('log_link_visit_action', 'server_time');
+        $where .= " AND log_link_visit_action.idaction_content_name IS NOT NULL
                     AND log_link_visit_action.idaction_content_interaction IS NOT NULL";
 
         $groupBy = "log_action_content_piece.idaction,

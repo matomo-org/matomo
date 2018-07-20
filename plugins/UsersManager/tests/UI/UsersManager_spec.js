@@ -13,7 +13,6 @@ describe("UsersManager", function () {
 
     var url = "?module=UsersManager&action=index";
 
-    // TODO: lots of modals are missing...
     it('should display the manage users page correctly', function (done) {
         expect.screenshot("load").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
@@ -189,15 +188,30 @@ describe("UsersManager", function () {
         }, done);
     });
 
-    it('should add access to all websites when all websites selected in the site selector', function (done) {
+    it('should select all sites in search when in table link is clicked', function (done) {
+        expect.screenshot("permissions_all_rows_in_search").to.be.captureSelector('.admin#content', function (page) {
+            page.setViewportSize(1250);
+
+            // remove filters
+            page.evaluate(function () {
+                $('div.site-filter>input').val('').change();
+                $('.access-filter select').val('string:').change();
+            });
+
+            page.click('.userPermissionsEdit th.select-cell label');
+            page.click('.userPermissionsEdit tr.select-all-row a');
+        }, done);
+    });
+
+    it('should add access to all websites when bulk access is used on all websites in search', function (done) {
         expect.screenshot("permissions_all_sites_access").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
 
-            page.click('.add-site-selector .siteSelector a.title');
-            page.click('.add-site-selector .siteSelector a:contains(All Websites)');
+            page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
+            page.mouseMove('#user-permissions-edit-bulk-actions>li:first');
+            page.click('#user-permissions-edit-bulk-actions a:contains(Write)');
 
-            page.click('.userPermissionsEdit .btn-flat .icon-add');
-            page.wait(500); // wait for toast to show
+            page.click('.change-access-confirm-modal .modal-close:not(.modal-no)');
         }, done);
     });
 
@@ -287,33 +301,18 @@ describe("UsersManager", function () {
         }, done);
     });
 
-    it('should select all sites in search when in table link is clicked (after re-adding access to all)', function (done) {
-        expect.screenshot("permissions_all_rows_in_search").to.be.captureSelector('.admin#content', function (page) {
+    it('should remove access to displayed rows when remove bulk access is clicked', function (done) {
+        expect.screenshot("permissions_remove_access").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
 
             // remove filters
             page.evaluate(function () {
                 $('div.site-filter>input').val('').change();
-                $('.access-filter select').val('string:some').change();
-            });
-
-            // re-add all sites
-            page.click('.add-site-selector .siteSelector a.title');
-            page.click('.add-site-selector .siteSelector a:contains(All Websites)');
-
-            page.click('.userPermissionsEdit .btn-flat .icon-add');
-            page.evaluate(function () {
-                $('[piwik-notification]').hide(); // hide the alert
+                $('.access-filter select').val('string:').change();
             });
 
             page.click('.userPermissionsEdit th.select-cell label');
             page.click('.userPermissionsEdit tr.select-all-row a');
-        }, done);
-    });
-
-    it('should remove access to displayed rows when remove bulk access is clicked', function (done) {
-        expect.screenshot("permissions_remove_access").to.be.captureSelector('.admin#content', function (page) {
-            page.setViewportSize(1250);
 
             page.click('.userPermissionsEdit .bulk-actions > .dropdown-trigger.btn');
             page.click('.userPermissionsEdit a:contains(Remove Permissions)');
