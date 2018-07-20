@@ -118,9 +118,8 @@ class Model
     public function getUsersLoginWithSiteAccess($idSite, $access)
     {
         $db = $this->getDb();
-        $users = $db->fetchAll("SELECT login
-                                           FROM " . Common::prefixTable("access")
-                                       . " WHERE idsite = ? AND access = ?", array($idSite, $access));
+        $users = $db->fetchAll("SELECT login FROM " . Common::prefixTable("access")
+                               . " WHERE idsite = ? AND access = ?", array($idSite, $access));
 
         $logins = array();
         foreach ($users as $user) {
@@ -180,15 +179,20 @@ class Model
             $offsetSql = "OFFSET " . (int)$offset;
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, IFNULL(a.access, "noaccess") as role
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, GROUP_CONCAT(a.access SEPARATOR "|") as access
                   FROM ' . Common::prefixTable('access') . " a
                 $joins
                 $where
+              GROUP BY s.idsite
               ORDER BY s.name ASC, a.idsite ASC
               $limitSql $offsetSql";
         $db = $this->getDb();
 
         $access = $db->fetchAll($sql, $bind);
+        foreach ($access as &$entry) {
+            $entry['access'] = explode('|', $entry['access']);
+        }
+
         $count = $db->fetchOne("SELECT FOUND_ROWS()");
 
         return [$access, $count];
@@ -454,20 +458,22 @@ class Model
             $offsetSql = "OFFSET " . (int)$offset;
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, IF(u.superuser_access = 1, "superuser", IFNULL(a.access, "noaccess")) as role
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, GROUP_CONCAT(a.access SEPARATOR "|") as access
                   FROM ' . $this->table . " u
                 $joins
                 $where
+              GROUP BY u.login
               ORDER BY u.login ASC
                  $limitSql $offsetSql";
 
         $db = $this->getDb();
-        $users = $db->fetchAll($sql, $bind);
-        $count = $db->fetchOne("SELECT FOUND_ROWS()");
 
+        $users = $db->fetchAll($sql, $bind);
         foreach ($users as &$user) {
-            $user['superuser_access'] = $user['superuser_access'] == 1;
+            $user['access'] = explode('|', $user['access']);
         }
+
+        $count = $db->fetchOne("SELECT FOUND_ROWS()");
 
         return [$users, $count];
     }

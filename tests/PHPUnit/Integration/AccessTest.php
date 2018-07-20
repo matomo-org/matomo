@@ -535,7 +535,7 @@ class AccessTest extends IntegrationTestCase
         $this->switchUser('testuser');
 
         Access::getInstance()->setSuperUserAccess(false);
-        $this->assertEquals('admin', Access::getInstance()->getAccessForSite($idSite));
+        $this->assertEquals('admin', Access::getInstance()->getRoleForSite($idSite));
     }
 
     public function test_getAccessForSite_whenUserHasViewAccess()
@@ -547,7 +547,7 @@ class AccessTest extends IntegrationTestCase
         $this->switchUser('testuser');
 
         Access::getInstance()->setSuperUserAccess(false);
-        $this->assertEquals('view', Access::getInstance()->getAccessForSite($idSite));
+        $this->assertEquals('view', Access::getInstance()->getRoleForSite($idSite));
     }
 
     public function test_getAccessForSite_whenUserHasNoAccess()
@@ -558,7 +558,7 @@ class AccessTest extends IntegrationTestCase
         $this->switchUser('testuser');
 
         Access::getInstance()->setSuperUserAccess(false);
-        $this->assertEquals('noaccess', Access::getInstance()->getAccessForSite($idSite));
+        $this->assertEquals('noaccess', Access::getInstance()->getRoleForSite($idSite));
     }
 
     public function test_getAccessForSite_whenUserIsSuperUser()
@@ -566,7 +566,7 @@ class AccessTest extends IntegrationTestCase
         $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
 
         Access::getInstance()->setSuperUserAccess(true);
-        $this->assertEquals('admin', Access::getInstance()->getAccessForSite($idSite));
+        $this->assertEquals('admin', Access::getInstance()->getRoleForSite($idSite));
     }
 
     private function switchUser($user)

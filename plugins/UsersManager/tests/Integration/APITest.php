@@ -396,7 +396,7 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => 1,
             'results' => [
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => []],
             ],
         ];
         $this->assertEquals($expected, $users);
@@ -413,7 +413,7 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => 1,
             'results' => [
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => []],
             ],
         ];
         $this->assertEquals($expected, $users);
@@ -432,9 +432,9 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => 3,
             'results' => [
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin'],
-                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view'],
-                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => []],
+                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view', 'capabilities' => []],
+                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin', 'capabilities' => []],
             ],
         ];
         $this->assertEquals($expected, $users);
@@ -454,10 +454,10 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => '4',
             'results' => [
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin'],
-                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view'],
-                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin'],
-                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => []],
+                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view', 'capabilities' => []],
+                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin', 'capabilities' => []],
+                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'capabilities' => []],
             ],
         ];
         $this->assertEquals($expected, $users);
@@ -474,13 +474,13 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1);
         $this->cleanUsers($users['results']);
         $expected = [
-            'total' => 5,
+            'total' => '5',
             'results' => [
-                ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess'],
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser'],
-                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'email' => 'userLogin3@password.de', 'superuser_access' => false, 'role' => 'view'],
-                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser'],
-                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'email' => 'userLogin5@password.de', 'superuser_access' => false, 'role' => 'noaccess'],
+                ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => []],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
+                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'email' => 'userLogin3@password.de', 'superuser_access' => false, 'role' => 'view', 'capabilities' => []],
+                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
+                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'email' => 'userLogin5@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => []],
             ],
         ];
         $this->assertEquals($expected, $users);
@@ -499,8 +499,8 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => 2,
             'results' => [
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin'],
-                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'admin'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => []],
+                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'admin', 'capabilities' => []],
             ],
         ];
         $this->assertEquals($expected, $users);
@@ -518,9 +518,9 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => 3,
             'results' => [
-                ['login' => 'userLogin', 'alias' => 'userLogin', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userlogin@password.de'],
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin2@password.de'],
-                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin5@password.de'],
+                ['login' => 'userLogin', 'alias' => 'userLogin', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userlogin@password.de', 'capabilities' => []],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin2@password.de', 'capabilities' => []],
+                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin5@password.de', 'capabilities' => []],
             ],
         ];
         $this->assertEquals($expected, $users);
@@ -540,8 +540,8 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => 2,
             'results' => [
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser'],
-                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser'],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
+                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
             ],
         ];
         $this->assertEquals($expected, $users);
@@ -560,8 +560,8 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => 2,
             'results' => [
-                ['login' => 'searchTextLogin', 'alias' => 'alias', 'email' => 'someemail@email.com', 'superuser_access' => true, 'role' => 'superuser'],
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view'],
+                ['login' => 'searchTextLogin', 'alias' => 'alias', 'email' => 'someemail@email.com', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view', 'capabilities' => []],
             ],
         ];
         $this->assertEquals($expected, $users);
@@ -580,8 +580,8 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => 5,
             'results' => [
-                ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess'],
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view'],
+                ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => []],
+                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view', 'capabilities' => []],
             ],
         ];
         $this->assertEquals($expected, $users);
@@ -597,9 +597,9 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => '3',
             'results' => [
-                ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'admin'],
-                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
-                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
+                ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'admin', 'capabilities' => []],
+                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
             ],
             'has_access_to_any' => true,
         ];
@@ -616,8 +616,8 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => '3',
             'results' => [
-                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
-                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
+                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
             ],
             'has_access_to_any' => true,
         ];
@@ -641,9 +641,9 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => '3',
             'results' => [
-                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
-                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
-                ['idsite' => '1', 'site_name' => 'searchTerm site', 'role' => 'admin'],
+                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+                ['idsite' => '1', 'site_name' => 'searchTerm site', 'role' => 'admin', 'capabilities' => []],
             ],
             'has_access_to_any' => true,
         ];
@@ -660,8 +660,8 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => '2',
             'results' => [
-                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
-                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view'],
+                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
             ],
             'has_access_to_any' => true,
         ];
@@ -681,8 +681,8 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => '2',
             'results' => [
-                ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'view'],
-                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view'],
+                ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
             ],
             'has_access_to_any' => true,
         ];
@@ -695,9 +695,9 @@ class APITest extends IntegrationTestCase
         $expected = [
             'total' => '3',
             'results' => [
-                ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'noaccess'],
-                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'noaccess'],
-                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'noaccess'],
+                ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
+                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
+                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
             ],
             'has_access_to_any' => false,
         ];

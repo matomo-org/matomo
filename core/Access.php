@@ -612,7 +612,7 @@ class Access
      * @param int $idSite The site to check.
      * @return string The access level, eg, 'view', 'admin', 'noaccess'.
      */
-    public function getAccessForSite($idSite)
+    public function getRoleForSite($idSite)
     {
         if ($this->hasSuperUserAccess
             || in_array($idSite, $this->getSitesIdWithAdminAccess())
@@ -625,6 +625,27 @@ class Access
         }
 
         return 'noaccess';
+    }
+
+    /**
+     * Returns the capabilities the current user has for a given site.
+     *
+     * @param int $idSite The site to check.
+     * @return string[] The capabilities the user has.
+     */
+    public function getCapabilitiesForSite($idSite)
+    {
+        $result = [];
+        foreach ($this->capabilityProvider->getAllCapabilityIds() as $capabilityId) {
+            if (empty($this->idsitesByAccess[$capabilityId])) {
+                continue;
+            }
+
+            if (in_array($idSite, $this->idsitesByAccess[$capabilityId])) {
+                $result[] = $capabilityId;
+            }
+        }
+        return $result;
     }
 }
 

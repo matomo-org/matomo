@@ -290,11 +290,25 @@ class API extends \Piwik\Plugin\API
             }
 
             $user = $this->model->getUser($this->access->getLogin());
-            $user['role'] = $this->access->getAccessForSite($idSite);
+            $user['role'] = $this->access->getRoleForSite($idSite);
+            $user['capabilities'] = $this->access->getCapabilitiesForSite($idSite);
             $users = [$user];
             $totalResults = 1;
         } else {
             list($users, $totalResults) = $this->model->getUsersWithRole($idSite, $limit, $offset, $filter_search, $filter_access);
+
+            foreach ($users as &$user) {
+                $user['superuser_access'] = $user['superuser_access'] == 1;
+                if ($user['superuser_access']) {
+                    $user['role'] = 'superuser';
+                    $user['capabilities'] = [];
+                } else {
+                    list($user['role'], $user['capabilities']) = $this->getRoleAndCapabilitiesFromAccess($user['access']);
+                    $user['role'] = empty($user['role']) ? 'noaccess' : reset($user['role']);
+                }
+
+                unset($user['access']);
+            }
         }
 
         $users = $this->enrichUsers($users);
@@ -504,12 +518,17 @@ class API extends \Piwik\Plugin\API
             $idSites = $this->access->getSitesIdWithAdminAccess();
         }
 
-        list($access, $totalResults) = $this->model->getSitesAccessFromUserWithFilters($userLogin, $limit, $offset, $filter_search, $filter_access, $idSites);
+        list($sites, $totalResults) = $this->model->getSitesAccessFromUserWithFilters($userLogin, $limit, $offset, $filter_search, $filter_access, $idSites);
+        foreach ($sites as &$siteAccess) {
+            list($siteAccess['role'], $siteAccess['capabilities']) = $this->getRoleAndCapabilitiesFromAccess($siteAccess['access']);
+            $siteAccess['role'] = empty($siteAccess['role']) ? 'noaccess' : reset($siteAccess['role']);
+            unset($siteAccess['access']);
+        }
 
         $hasAccessToAny = $this->model->getSiteAccessCount($userLogin) > 0;
 
         return [
-            'results' => $access,
+            'results' => $sites,
             'total' => $totalResults,
             'has_access_to_any' => $hasAccessToAny
         ];
@@ -1006,15 +1025,7 @@ class API extends \Piwik\Plugin\API
 
         if (is_array($access)) {
             // we require one role, and optionally multiple capabilties
-            $roles = array();
-            foreach ($access as $entry) {
-                if ($this->roleProvider->isValidRole($entry)) {
-                    $roles[] = $entry;
-                } else {
-                    $this->checkAccessType($entry);
-                    $capabilities[] = $entry;
-                }
-            }
+            list($roles, $capabilities) = $this->getRoleAndCapabilitiesFromAccess($access);
 
             if (count($roles) < 1) {
                 $ids = implode(', ', $this->roleProvider->getAllRoleIds());
@@ -1228,7 +1239,7 @@ class API extends \Piwik\Plugin\API
             return;
         }
 
-        $this->setUserAccess($usersToModify, $access, $idSite, false, $ignoreSuperusers);
+        $this->setUserAccess($usersToModify, $access, $idSite, $ignoreSuperusers);
     }
 
     /**
@@ -1355,6 +1366,9 @@ class API extends \Piwik\Plugin\API
                 if (isset($user['role'])) {
                     $newUser['role'] = $user['role'] == 'superuser' ? 'admin' : $user['role'];
                 }
+                if (isset($user['capabilities'])) {
+                    $newUser['capabilities'] = $user['capabilities'];
+                }
                 $users[$key] = $newUser;
             }
         }
@@ -1381,5 +1395,25 @@ class API extends \Piwik\Plugin\API
                 throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userLogin));
             }
         }
+    }
+
+    private function getRoleAndCapabilitiesFromAccess($access)
+    {
+        $roles = [];
+        $capabilities = [];
+
+        foreach ($access as $entry) {
+            if (empty($entry)) {
+                continue;
+            }
+
+            if ($this->roleProvider->isValidRole($entry)) {
+                $roles[] = $entry;
+            } else {
+                $this->checkAccessType($entry);
+                $capabilities[] = $entry;
+            }
+        }
+        return [$roles, $capabilities];
     }
 }

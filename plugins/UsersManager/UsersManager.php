@@ -129,6 +129,7 @@ class UsersManager extends \Piwik\Plugin
         $jsFiles[] = "plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/personal-settings.controller.js";
         $jsFiles[] = "plugins/UsersManager/angularjs/personal-settings/anonymous-settings.controller.js";
+        $jsFiles[] = "plugins/UsersManager/angularjs/capability-edit/capability-edit.component.js";
     }
 
     /**
@@ -142,6 +143,7 @@ class UsersManager extends \Piwik\Plugin
         $stylesheets[] = "plugins/UsersManager/angularjs/paged-users-list/paged-users-list.component.less";
         $stylesheets[] = "plugins/UsersManager/angularjs/user-edit-form/user-edit-form.component.less";
         $stylesheets[] = "plugins/UsersManager/angularjs/user-permissions-edit/user-permissions-edit.component.less";
+        $stylesheets[] = "plugins/UsersManager/angularjs/capability-edit/capability-edit.component.less";
     }
 
     /**
@@ -184,8 +186,7 @@ class UsersManager extends \Piwik\Plugin
         Piwik::postEvent('UsersManager.checkPassword', array($password));
 
         if (!self::isValidPasswordString($password)) {
-            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH
-            )));
+            throw new Exception(Piwik::translate('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH)));
         }
     }
 
