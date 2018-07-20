@@ -184,7 +184,7 @@ class Model
                 $joins
                 $where
               GROUP BY s.idsite
-              ORDER BY s.name ASC, a.idsite ASC
+              ORDER BY s.name ASC, s.idsite ASC
               $limitSql $offsetSql";
         $db = $this->getDb();
 
@@ -207,7 +207,7 @@ class Model
         list($where, $whereBind) = $siteAccessFilter->getWhere();
         $bind = array_merge($bind, $whereBind);
 
-        $sql = 'SELECT a.idsite FROM ' . Common::prefixTable('access') . " a $joins $where";
+        $sql = 'SELECT s.idsite FROM ' . Common::prefixTable('access') . " a $joins $where";
 
         $db = $this->getDb();
 
