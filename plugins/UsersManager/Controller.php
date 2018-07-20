@@ -79,6 +79,7 @@ class Controller extends ControllerAdmin
         $view->accessLevels = [
             ['key' => 'noaccess', 'value' => Piwik::translate('UsersManager_PrivNone')],
             ['key' => 'view', 'value' => Piwik::translate('UsersManager_PrivView')],
+            ['key' => 'write', 'value' => Piwik::translate('UsersManager_PrivWrite')],
             ['key' => 'admin', 'value' => Piwik::translate('UsersManager_PrivAdmin')],
             ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser'), 'disabled' => true],
         ];
@@ -86,6 +87,7 @@ class Controller extends ControllerAdmin
             ['key' => 'noaccess', 'value' => Piwik::translate('UsersManager_PrivNone')],
             ['key' => 'some', 'value' => Piwik::translate('UsersManager_AtLeastView')],
             ['key' => 'view', 'value' => Piwik::translate('UsersManager_PrivView')],
+            ['key' => 'write', 'value' => Piwik::translate('UsersManager_PrivWrite')],
             ['key' => 'admin', 'value' => Piwik::translate('UsersManager_PrivAdmin')],
             ['key' => 'superuser', 'value' => Piwik::translate('Installation_SuperUser')],
         ];
