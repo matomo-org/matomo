@@ -258,7 +258,7 @@ describe("UsersManager", function () {
         expect.screenshot("permissions_filters").to.be.captureSelector('.admin#content', function (page) {
             page.setViewportSize(1250);
 
-            page.sendKeys('div.site-filter>input', 'hunter');
+            page.sendKeys('div.site-filter>input', 'nova');
             page.evaluate(function () {
                 $('.access-filter select').val('string:admin').change();
             });
