@@ -99,7 +99,10 @@ TestingEnvironment.prototype._call = async function (params) {
         uri: resolveUrl(config.piwikUrl, '/tests/PHPUnit/proxy/index.php'),
         qs: Object.keys(params).reduce(function (obj, name) {
             if (params[name] instanceof Array) {
-                name += '[]';
+                params[name].forEach(function(value, index) {
+                    obj[name+'['+index+']'] = value;
+                });
+                return obj;
             }
             obj[name] = params[name];
             return obj;
