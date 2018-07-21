@@ -20,262 +20,271 @@ describe("PrivacyManager", function () {
         testEnvironment.save();
     });
 
-    function setAnonymizeStartEndDate(page)
+    async function setAnonymizeStartEndDate()
     {
         // make sure tests do not fail every day
-        page.evaluate(function () {
+        await page.evaluate(function () {
             $('input.anonymizeStartDate').val('2018-03-02').change();
             $('input.anonymizeEndDate').val('2018-03-02').change();
-        }, 50);
+        });
     }
     
-    function loadActionPage(page, action)
+    async function loadActionPage(action)
     {
-        page.goto(urlBase + action);
+        await page.goto(urlBase + action);
+        await page.waitForNetworkIdle();
 
         if (action === 'privacySettings') {
-            setAnonymizeStartEndDate(page);
+            await setAnonymizeStartEndDate();
         }
     }
 
-    function selectModalButton(page, button)
+    async function selectModalButton(button)
     {
-        page.click('.modal.open .modal-footer a:contains('+button+')');
+        var elem = await page.jQuery('.modal.open .modal-footer a:contains('+button+')');
+        await elem.click();
+        await page.waitFor(500);
+        await page.waitForNetworkIdle();
     }
 
-    function findDataSubjects(page)
+    async function findDataSubjects()
     {
-        page.click('.findDataSubjects .btn');
+        await page.click('.findDataSubjects .btn');
+        await page.waitForNetworkIdle();
     }
 
-    function anonymizePastData(page)
+    async function anonymizePastData()
     {
-        page.click('.anonymizePastData .btn');
+        await page.click('.anonymizePastData .btn');
+        await page.waitFor(1000); // wait for animation
     }
 
-    function deleteDataSubjects(page)
+    async function deleteDataSubjects()
     {
-        page.click('.deleteDataSubjects input');
+        await page.click('.deleteDataSubjects input');
+        await page.waitFor(500); // wait for animation
     }
 
-    function enterSegmentMatchValue(page, value) {
-        page.execCallback(function () {
-            page.webpage.evaluate(function (theVal) {
-                $('.metricValueBlock input').each(function (index) {
-                    $(this).val(theVal).change();
-                });
-            }, value);
-        });
+    async function enterSegmentMatchValue(value) {
+        await page.evaluate(theVal => {
+            $('.metricValueBlock input').each(function (index) {
+                $(this).val(theVal).change();
+            });
+        }, value);
     }
 
-    function selectVisitColumn(page, title)
+    async function selectVisitColumn(title)
     {
-        page.evaluate(function () {
+        await page.evaluate(function () {
             $('.selectedVisitColumns:last input.select-dropdown').click();
         });
-        page.click('.selectedVisitColumns:last .dropdown-content li:contains(' + title + ')');
+        var selector = '.selectedVisitColumns:last .dropdown-content li:contains(' + title + ')';
+        await page.waitForFunction('$("'+selector+'").length > 0');
+        var elem = await page.jQuery(selector);
+        await elem.click();
+        await page.waitFor(100);
     }
 
-    function selectActionColumn(page, title)
+    async function selectActionColumn(title)
     {
-        page.evaluate(function () {
+        await page.evaluate(function () {
             $('.selectedActionColumns:last input.select-dropdown').click();
         });
-        page.execCallback(function () {
-            page.webpage.evaluate(function (theTitle) {
-                $('.selectedActionColumns:last .dropdown-content li:contains(' + theTitle + ')').click();
-            }, title);
-        });
+        await page.evaluate(theTitle => {
+            $('.selectedActionColumns:last .dropdown-content li:contains(' + theTitle + ')').click();
+        }, title);
     }
 
-    function capturePage(screenshotName, test, done) {
-        expect.screenshot(screenshotName).to.be.captureSelector('.pageWrap,#notificationContainer,.modal.open', test, done);
+    async function capturePage(screenshotName) {
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('.pageWrap,#notificationContainer,.modal.open')).to.matchImage(screenshotName);
     }
 
-    function captureAnonymizeLogData(screenshotName, test, done) {
-        expect.screenshot(screenshotName).to.be.captureSelector('.logDataAnonymizer,#notificationContainer,.modal.open,.logDataAnonymizer table', test, done);
+    async function captureAnonymizeLogData(screenshotName) {
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('.logDataAnonymizer,#notificationContainer,.modal.open,.logDataAnonymizer table')).to.matchImage(screenshotName);
     }
 
-    function captureModal(screenshotName, test, done) {
-        expect.screenshot(screenshotName).to.be.captureSelector('.modal.open', test, done);
+    async function captureModal(screenshotName) {
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('.modal.open')).to.matchImage(screenshotName);
     }
 
     it('should load privacy opt out page', async function() {
-        capturePage('users_opt_out_default', function (page) {
-            loadActionPage(page, 'usersOptOut');
-        }, done);
+        await loadActionPage('usersOptOut');
+        await capturePage('users_opt_out_default');
     });
 
     it('should load privacy asking for consent page', async function() {
-        capturePage('consent_default', function (page) {
-            loadActionPage(page, 'consent');
-        }, done);
+        await loadActionPage('consent');
+        await capturePage('consent_default');
     });
 
     it('should load GDPR overview page', async function() {
-        capturePage('gdpr_overview', function (page) {
-            testEnvironment.overrideConfig('Deletelogs', 'delete_logs_enable', '1');
-            testEnvironment.overrideConfig('Deletelogs', 'delete_logs_older_than', '95');
-            testEnvironment.overrideConfig('Deletereports', 'delete_reports_enable', '1');
-            testEnvironment.overrideConfig('Deletereports', 'delete_reports_older_than', '131');
-            testEnvironment.save();
-            loadActionPage(page, 'gdprOverview');
-        }, done);
+        testEnvironment.overrideConfig('Deletelogs', 'delete_logs_enable', '1');
+        testEnvironment.overrideConfig('Deletelogs', 'delete_logs_older_than', '95');
+        testEnvironment.overrideConfig('Deletereports', 'delete_reports_enable', '1');
+        testEnvironment.overrideConfig('Deletereports', 'delete_reports_older_than', '131');
+        testEnvironment.save();
+        await loadActionPage('gdprOverview');
+
+        await capturePage('gdpr_overview');
     });
 
     it('should load GDPR overview page', async function() {
-        capturePage('gdpr_overview_no_retention', function (page) {
-            testEnvironment.overrideConfig('Deletelogs', 'delete_logs_enable', '0');
-            testEnvironment.overrideConfig('Deletereports', 'delete_reports_enable', '0');
-            testEnvironment.save();
-            loadActionPage(page, 'gdprOverview');
-        }, done);
+        testEnvironment.overrideConfig('Deletelogs', 'delete_logs_enable', '0');
+        testEnvironment.overrideConfig('Deletereports', 'delete_reports_enable', '0');
+        testEnvironment.save();
+        await loadActionPage('gdprOverview');
+
+        await capturePage('gdpr_overview_no_retention');
     });
 
     it('should load privacy settings page', async function() {
-        capturePage('privacy_settings_default', function (page) {
-            loadActionPage(page, 'privacySettings');
-        }, done);
+        await loadActionPage('privacySettings');
+        await page.waitForNetworkIdle();
+        await capturePage('privacy_settings_default');
     });
 
     it('should anonymize ip and visit column', async function() {
-        captureAnonymizeLogData('anonymizelogdata_anonymizeip_and_visit_column_prefilled', function (page) {
-            page.click('[name=anonymizeIp] label');
-            page.wait(500);
-            selectVisitColumn(page, 'config_browser_name');
-            selectVisitColumn(page, 'config_cookie');
-        }, done);
+        await page.waitForSelector('[name="anonymizeIp"] label');
+        await page.click('[name="anonymizeIp"] label');
+        await selectVisitColumn('config_browser_name');
+        await selectVisitColumn('config_cookie');
+
+        await captureAnonymizeLogData('anonymizelogdata_anonymizeip_and_visit_column_prefilled');
     });
 
     it('should show a confirmation message before executing any anonymization', async function() {
-        captureModal('anonymizelogdata_anonymizeip_and_visit_column_confirmation_message', function (page) {
-            anonymizePastData(page);
-        }, done);
+        await anonymizePastData();
+
+        await captureModal('anonymizelogdata_anonymizeip_and_visit_column_confirmation_message');
     });
 
     it('should be able to cancel anonymization of past data', async function() {
-        captureAnonymizeLogData('anonymizelogdata_anonymizeip_and_visit_column_cancelled', function (page) {
-            selectModalButton(page, 'No');
-        }, done);
+        await selectModalButton('No');
+
+        await captureAnonymizeLogData('anonymizelogdata_anonymizeip_and_visit_column_cancelled');
     });
 
     it('should be able to confirm anonymization of past data', async function() {
-        captureAnonymizeLogData('anonymizelogdata_anonymizeip_and_visit_column_confirmed', function (page) {
-            anonymizePastData(page);
-            selectModalButton(page, 'Yes');
-            setAnonymizeStartEndDate(page);
-        }, done);
+        await anonymizePastData();
+        await selectModalButton('Yes');
+        await setAnonymizeStartEndDate();
+
+        await captureAnonymizeLogData('anonymizelogdata_anonymizeip_and_visit_column_confirmed');
     });
 
     it('should prefill anonymize location and action column', async function() {
-        captureAnonymizeLogData('anonymizelogdata_anonymizelocation_anduserid_and_action_column_prefilled', function (page) {
-            loadActionPage(page, 'privacySettings');
-            page.click('[name=anonymizeLocation] label');
-            page.click('[name=anonymizeTheUserId] label');
-            page.wait(500);
-            selectActionColumn(page, 'time_spent_ref_action');
-            selectActionColumn(page, 'idaction_content_name');
-        }, done);
+        await loadActionPage('privacySettings');
+        await page.click('[name="anonymizeLocation"] label');
+        await page.click('[name="anonymizeTheUserId"] label');
+        await page.waitFor(500);
+        await selectActionColumn('time_spent_ref_action');
+        await selectActionColumn('idaction_content_name');
+
+        await captureAnonymizeLogData('anonymizelogdata_anonymizelocation_anduserid_and_action_column_prefilled');
     });
 
     it('should confirm anonymize location and action column', async function() {
-        captureAnonymizeLogData('anonymizelogdata_anonymizelocation_anduserid_and_action_column_confirmed', function (page) {
-            anonymizePastData(page);
-            selectModalButton(page, 'Yes');
-            page.wait(1000);
-            setAnonymizeStartEndDate(page);
-        }, done);
+        await anonymizePastData();
+        await selectModalButton('Yes');
+        await page.waitFor(1000);
+        await setAnonymizeStartEndDate();
+
+        await captureAnonymizeLogData('anonymizelogdata_anonymizelocation_anduserid_and_action_column_confirmed');
     });
 
     it('should anonymize only one site and different date pre filled', async function() {
-        captureAnonymizeLogData('anonymizelogdata_one_site_and_custom_date_prefilled', function (page) {
-            page.click('.form-group #anonymizeSite .title');
-            page.wait(1000);
-            page.click(".form-group #anonymizeSite [title='Site 1']");
-            page.click('[name=anonymizeIp] label');
-            page.evaluate(function () {
-                $('input.anonymizeStartDate').val('2017-01-01').change();
-                $('input.anonymizeEndDate').val('2017-02-14').change();
-            });
-        }, done);
+        await page.click('.form-group #anonymizeSite .title');
+        await page.waitFor(1000);
+        await page.click(".form-group #anonymizeSite [title='Site 1']");
+        await page.click('[name="anonymizeIp"] label');
+        await page.evaluate(function () {
+            $('input.anonymizeStartDate').val('2017-01-01').change();
+            $('input.anonymizeEndDate').val('2017-02-14').change();
+        });
+
+        await captureAnonymizeLogData('anonymizelogdata_one_site_and_custom_date_prefilled');
     });
 
     it('should anonymize only one site and different date confirmed', async function() {
-        captureAnonymizeLogData('anonymizelogdata_one_site_and_custom_date_confirmed', function (page) {
-            anonymizePastData(page);
-            selectModalButton(page, 'Yes');
-            page.wait(1000);
-            setAnonymizeStartEndDate(page);
-        }, done);
+        await anonymizePastData();
+        await selectModalButton('Yes');
+        await page.waitFor(1000);
+        await setAnonymizeStartEndDate();
+
+        await captureAnonymizeLogData('anonymizelogdata_one_site_and_custom_date_confirmed');
     });
 
     it('should load GDPR tools page', async function() {
-        capturePage('gdpr_tools_default', function (page) {
-            loadActionPage(page, 'gdprTools');
-        }, done);
+        await loadActionPage('gdprTools');
+
+        await capturePage('gdpr_tools_default');
     });
 
     it('should show no visitor found message', async function() {
-        capturePage('gdpr_tools_no_visits_found', function (page) {
-            enterSegmentMatchValue(page, 'userfoobar')
-            findDataSubjects(page);
-        }, done);
+        await enterSegmentMatchValue('userfoobar');
+        await findDataSubjects();
+
+        await capturePage('gdpr_tools_no_visits_found');
     });
 
     it('should find visits', async function() {
-        capturePage('gdpr_tools_visits_found', function (page) {
-            enterSegmentMatchValue(page, 'userId203');
+        await enterSegmentMatchValue('userId203');
+        await findDataSubjects();
 
-            findDataSubjects(page);
-        }, done);
+        await capturePage('gdpr_tools_visits_found');
     });
 
     it('should be able to show visitor profile', async function() {
-        capturePage('gdpr_tools_visits_showprofile', function (page) {
-            page.click('.visitorLogTooltip:first');
-        }, done);
+        var elem = await page.jQuery('.visitorLogTooltip:first');
+        await elem.click();
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshotSelector('.ui-dialog')).to.matchImage('gdpr_tools_visits_showprofile');
     });
 
     it('should be able to add IP to segment search with one click', async function() {
-        capturePage('gdpr_tools_enrich_segment_by_ip', function (page) {
-            page.click('#Piwik_Popover .visitor-profile-close');
-            page.click('.visitorIp:first a');
-        }, done);
+        await page.click('#Piwik_Popover .visitor-profile-close');
+        var elem = await page.jQuery('.visitorIp:first a');
+        await elem.click();
+        await page.waitForNetworkIdle();
+
+        await capturePage('gdpr_tools_enrich_segment_by_ip');
     });
 
     it('should be able to uncheck a visit', async function() {
-        capturePage('gdpr_tools_uncheck_one_visit', function (page) {
-            page.click('.entityTable tbody tr:nth-child(2) .checkInclude label');
-        }, done);
+        await page.click('.entityTable tbody tr:nth-child(2) .checkInclude label');
+        await capturePage('gdpr_tools_uncheck_one_visit');
     });
 
     it('should ask for confirmation before deleting any visit', async function() {
-        capturePage('gdpr_tools_delete_visit_unconfirmed', function (page) {
-            deleteDataSubjects(page);
-        }, done);
+        await deleteDataSubjects();
+        expect(await page.screenshotSelector('.modal.open')).to.matchImage('gdpr_tools_delete_visit_unconfirmed');
     });
 
     it('should be able to cancel deletion and not delete any data', async function() {
-        capturePage('gdpr_tools_delete_visit_cancelled', function (page) {
-            selectModalButton(page, 'No');
-        }, done);
+        await selectModalButton('No');
+        await page.waitFor(250);
+        await capturePage('gdpr_tools_delete_visit_cancelled');
     });
 
     it('should verify really no data deleted', async function() {
-        capturePage('gdpr_tools_delete_visit_cancelled_verified_no_data_deleted', function (page) {
-            loadActionPage(page, 'gdprTools');
-            page.wait(1000);
-            enterSegmentMatchValue(page, 'userId203');
-            findDataSubjects(page);
-            page.click('.entityTable tbody tr:nth-child(2) .checkInclude label');
-        }, done);
+        await loadActionPage('gdprTools');
+        await page.waitFor(1000);
+        await enterSegmentMatchValue('userId203');
+        await findDataSubjects();
+        await page.click('.entityTable tbody tr:nth-child(2) .checkInclude label');
+
+        await capturePage('gdpr_tools_delete_visit_cancelled_verified_no_data_deleted');
     });
 
     it('should be able to confirm deletion and then actually delete data', async function() {
-        capturePage('gdpr_tools_delete_visit_confirmed', function (page) {
-            deleteDataSubjects(page);
-            selectModalButton(page, 'Yes');
-        }, done);
+        await deleteDataSubjects();
+        await selectModalButton('Yes');
+
+        await capturePage('gdpr_tools_delete_visit_confirmed');
     });
 
 });
