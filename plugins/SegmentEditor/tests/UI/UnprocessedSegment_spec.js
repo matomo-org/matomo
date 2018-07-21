@@ -16,17 +16,17 @@ describe("UnprocessedSegmentTest", function () {
     var customSegment = 'languageCode==fr';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Visitors&subcategory=General_Overview';
 
-    before(function (done) {
-        testEnvironment.callApi('SegmentEditor.add', {
+    before(async function () {
+        await testEnvironment.callApi('SegmentEditor.add', {
             name: '<script>alert("testsegment");</script>',
             definition: segment,
             idSite: 1,
             autoArchive: 1,
             enableAllUsers: 1,
-        }, done);
+        });
     });
 
-    before(function () {
+    before(async function () {
         testEnvironment.configOverride.General = {
             browser_archiving_disabled_enforce: '1',
             enable_browser_archiving_triggering: '0',
@@ -37,19 +37,21 @@ describe("UnprocessedSegmentTest", function () {
         testEnvironment.save();
     });
 
-    after(function (done) {
-        testEnvironment.callApi('SegmentEditor.delete', { idSegment: 1 }, done);
+    after(async function () {
+        await testEnvironment.callApi('SegmentEditor.delete', { idSegment: 1 });
     });
 
-    it("should show a notification for unprocessed segments", function (done) {
-        expect.screenshot("unprocessed_segment").to.be.captureSelector('.pageWrap', function (page) {
-            page.load(url + '&segment=' + encodeURIComponent(segment));
-        }, done);
+    it("should show a notification for unprocessed segments", async function () {
+        await page.goto(url + '&segment=' + encodeURIComponent(segment));
+
+        pageWrap = await page.$('.pageWrap');
+        expect(await pageWrap.screenshot()).to.matchImage('unprocessed_segment');
     });
 
-    it('should not show a notification for custom segments that are not preprocessed', function (done) {
-        expect.screenshot("custom_segment").to.be.captureSelector('.pageWrap', function (page) {
-            page.load(url + '&segment=' + encodeURIComponent(customSegment));
-        }, done);
+    it('should not show a notification for custom segments that are not preprocessed', async function () {
+        await page.goto(url + '&segment=' + encodeURIComponent(customSegment));
+
+        pageWrap = await page.$('.pageWrap');
+        expect(await pageWrap.screenshot()).to.matchImage('custom_segment');
     });
 });
