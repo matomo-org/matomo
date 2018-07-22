@@ -367,7 +367,7 @@ describe("UsersManager", function () {
     });
 
     // admin user tests
-    describe('admin_view', function () {
+    describe('UsersManager_admin_view', function () {
         before(function () {
             var idSites = [];
             for (var i = 1; i !== 46; ++i) {
