@@ -47,6 +47,7 @@ describe("PeriodSelector", function () {
         await page.evaluate(function () {
             $('.ui-datepicker-month').val(1).trigger('change');
         });
+        await page.mouse.move(-10, -10);
 
         expect(await page.screenshotSelector(selector)).to.matchImage('month_changed');
     });
