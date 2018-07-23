@@ -32,7 +32,6 @@
         "SearchEngines": "Wyszukiwarki",
         "SearchEnginesDocumentation": "Odwiedzający trafił na Twoją stronę dzięki odnośnikowi w wyszukiwarce. %1$sZobacz%2$s szczegółowy raport.",
         "SearchEnginesReportDocumentation": "Raport pokazuje odnośniki, których wyszukiwarek sprowadziły Twoich odwiedzających. %s Kliknij na rząd w tabeli, aby zobaczyć, czego odwiedzający szukali w danej wyszukiwarce.",
-        "SocialFooterMessage": "Ten raport jest podzbiorem raportu z lewej strony. Odfiltrowane zostały pozostałe serwisy, aby ułatwić porównanie odnośników przychodzących z sieci społecznościowych.",
         "Socials": "Sieci społecznościowe",
         "SocialsReportDocumentation": "Ten raport pokazuje, które sieci społecznościowe prowadzą do Twojego serwisu. <br \/>Klikając na rząd w tabeli, możesz sprawdzić, z której strony sieci społecznościowej odwiedzający trafili do Ciebie.",
         "SubmenuSearchEngines": "Wyszukiwarki i słowa kluczowe",

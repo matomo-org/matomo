@@ -54,11 +54,6 @@ class GetSocials extends Base
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_subtable_when_show_goals = true;
         }
-
-        $widget = Common::getRequestVar('widget', false);
-        if (empty($widget)) {
-            $view->config->show_footer_message = Piwik::translate('Referrers_SocialFooterMessage');
-        }
     }
 
 }

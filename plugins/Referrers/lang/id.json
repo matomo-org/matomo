@@ -26,7 +26,6 @@
         "SearchEngines": "Mesin Pencari",
         "SearchEnginesDocumentation": "Pengunjung telah diarahkan ke situs Anda oleh mesin pencari. %1$s Lihat laporan %2$s untuk selengkapnya.",
         "SearchEnginesReportDocumentation": "Laporan ini menampilakan mesin pencari yang mengarahkan pengguna ke situs Anda. %s Dengan mengeklik baris dalam tabel, Anda dapat mengetahui pengguna mana yang menggunakan mesin pencari tertentu.",
-        "SocialFooterMessage": "Merupakan himpunan laporan Situs di sebelah kiri. Ini akan menapis keluar situs lain sehingga Anda dapat bandingkan dengan pengarah jejaring sosial secara langsung.",
         "Socials": "Jejaring Sosial",
         "SocialsReportDocumentation": "Laporan ini menampilkan jejaring sosial yang mengarahkan pengunjung ke situs Anda.<br \/>Dengan mengeklik sebuah baris di tabel, Anda dapat melihat dari halaman jejaring sosial mana pengunjung mendatangi situs Anda.",
         "SubmenuSearchEngines": "Mesin Pencari & Kata Kunci",
