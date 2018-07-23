@@ -26,7 +26,6 @@
         "SearchEngines": "Search Engines",
         "SearchEnginesDocumentation": "Ang isang bisita na mula sa iyong website sa ay galing sa isang search engine. %1$s Tingnan ang mga ulat ang %2$s para sa karagdagang detalye.",
         "SearchEnginesReportDocumentation": "Ang ulat na ito ay mag-papakita kung saang search engines na referred ang user papunta sa iyong website. %s Sa pamamagitan ng pag-click sa hilera ng table maari mong makita kung ano-ano ang hinahanap ng user sa partikular na search engine.",
-        "SocialFooterMessage": "Ito ay isang subset ng mga ulat ng website mula sa kaliwa. Ito ay nagsasala ng ibat-ibang website upang e-kumpara mismo sa mga referrer social network.",
         "Socials": "Social Networks",
         "SocialsReportDocumentation": "Ang ulat na ito ay nagpapakita kung alin sa mga social networks ang pinang-galingan papunta sa iyong website.<br\/>Sa pamamagitan ng pag-click sa isang hilera sa table maari mong makita kung saang social network nagmula ang iyong bisita papunta sa iyong website.",
         "SubmenuSearchEngines": "Mga Search Engine at Keyword",

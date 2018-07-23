@@ -26,7 +26,6 @@
         "SearchEngines": "Các công cụ tìm kiếm",
         "SearchEnginesDocumentation": "Một du khách được chỉ dẫn đến trang web của bạn bởi một công cụ tìm kiếm. %1$s Xem báo cáo %2$s để biết thêm chi tiết.",
         "SearchEnginesReportDocumentation": "Báo cáo này cho thấy những công cụ tìm kiếm đã chỉ dẫn người dùng tới website của bạn. %s bằng cách click trên một hàng trong bảng, bạn có thể thấy những người dùng đã tìm kiếm để sử dụng một công cụ tìm kiếm cụ thể.",
-        "SocialFooterMessage": "Đây là một tập hợp các trang web báo cáo bên trái. Nó lọc ra các trang web khác để bạn có thể so sánh trực tiếp các sự chỉ dẫn mạng xã hội của bạn.",
         "Socials": "Các mạng xã hội",
         "SocialsReportDocumentation": "Báo cáo này cho thấy những mạng xã hội dẫn khách truy cập vào trang web của bạn.<br\/> bằng cách click trên một hàng trong bảng, bạn có thể thấy các trang mạng xã hội đã đến website của bạn.",
         "SubmenuSearchEngines": "Các công cụ tìm kiếm và từ khóa",
