@@ -1,4 +1,4 @@
-  <?php
+<?php
 /**
  * Piwik - free/libre analytics platform
  *
