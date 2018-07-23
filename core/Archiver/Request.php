@@ -10,6 +10,7 @@ namespace Piwik\Archiver;
 
 class Request
 {
+    const ABORT = 'abort';
     /**
      * @var string
      */
@@ -36,8 +37,7 @@ class Request
     public function start()
     {
         if ($this->before) {
-            $callable = $this->before;
-            $callable();
+            return call_user_func($this->before);
         }
     }
 
