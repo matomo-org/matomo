@@ -69,6 +69,8 @@
 		<referrerUrl>http://google.com/?q=Wikileaks FTW</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -280,6 +282,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -425,6 +429,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -622,6 +628,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -767,6 +775,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -986,6 +996,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -1131,6 +1143,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -1328,6 +1342,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -1473,6 +1489,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -1692,6 +1710,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -1837,6 +1857,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -2034,6 +2056,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -2231,6 +2255,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Tablet</deviceType>
@@ -2368,6 +2394,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -2513,6 +2541,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Tablet</deviceType>
@@ -2732,6 +2762,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -2951,6 +2983,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -3088,6 +3122,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -3233,6 +3269,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -3430,6 +3468,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -3627,6 +3667,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Smartphone</deviceType>
@@ -3824,6 +3866,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -4013,6 +4057,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -4158,6 +4204,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -4303,6 +4351,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Smartphone</deviceType>
@@ -4448,6 +4498,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -4593,6 +4645,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -4812,6 +4866,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -5031,6 +5087,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Smartphone</deviceType>
@@ -5250,6 +5308,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -5461,6 +5521,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Phablet</deviceType>
@@ -5606,6 +5668,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -5751,6 +5815,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Smartphone</deviceType>
@@ -5896,6 +5962,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -6041,6 +6109,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Phablet</deviceType>

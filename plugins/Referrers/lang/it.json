@@ -31,7 +31,6 @@
         "SearchEngines": "Motori di ricerca",
         "SearchEnginesDocumentation": "Un visitatore è stato portato sul tuo sito da un motore di ricerca. %1$s Vedi il%2$s report per maggiori dettagli.",
         "SearchEnginesReportDocumentation": "Questo report mostra quali motori di ricerca hanno portato gli utenti sul tuo sito web. %s Cliccando su una riga della tabella è possibile vedere ciò che gli utenti stavano cercando utilizzando un determinato motore di ricerca.",
-        "SocialFooterMessage": "Questo è un sottoinsieme dei siti web riportati a sinistra. Esso filtra altri siti web in modo da poter confrontare direttamente i vostri referenti di social network.",
         "Socials": "Social Networks",
         "SocialsReportDocumentation": "Questo report mostra quali social networks hanno portato i visitatori sul tuo sito web. <br \/> Cliccando su una riga della tabella si può vedere da quali pagine di social network i visitatori sono venuti sul tuo sito web.",
         "SubmenuSearchEngines": "Motori di ricerca e parole chiave",

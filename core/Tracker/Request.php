@@ -19,6 +19,7 @@ use Piwik\IP;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 
@@ -150,7 +151,7 @@ class Request
             }
 
             try {
-                $this->isAuthenticated = self::authenticateSuperUserOrAdmin($tokenAuth, $idSite);
+                $this->isAuthenticated = self::authenticateSuperUserOrAdminOrWrite($tokenAuth, $idSite);
                 $cache->save($cacheKey, $this->isAuthenticated);
             } catch (Exception $e) {
                 Common::printDebug("could not authenticate, caught exception: " . $e->getMessage());
@@ -167,7 +168,7 @@ class Request
         }
     }
 
-    public static function authenticateSuperUserOrAdmin($tokenAuth, $idSite)
+    public static function authenticateSuperUserOrAdminOrWrite($tokenAuth, $idSite)
     {
         if (empty($tokenAuth)) {
             return false;
@@ -190,13 +191,15 @@ class Request
         // Now checking the list of admin token_auth cached in the Tracker config file
         if (!empty($idSite) && $idSite > 0) {
             $website = Cache::getCacheWebsiteAttributes($idSite);
+            $hashedToken = UsersManager::hashTrackingToken((string) $tokenAuth, $idSite);
 
-            if (array_key_exists('admin_token_auth', $website) && in_array((string) $tokenAuth, $website['admin_token_auth'])) {
+            if (array_key_exists('tracking_token_auth', $website)
+                && in_array($hashedToken, $website['tracking_token_auth'], true)) {
                 return true;
             }
         }
 
-        Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
+        Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin / Write was NOT authenticated");
 
         return false;
     }

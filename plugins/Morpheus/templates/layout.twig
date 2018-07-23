@@ -4,9 +4,9 @@
         {% block head %}
             <meta charset="utf-8">
             <title>
-                {%- block pageTitle -%}
-                    {%- if title is defined %}{{ title }} - {% endif %}
-                    {%- if categoryTitle is defined %}{{ categoryTitle }} - {% endif %}
+                {%- block pageTitle %}
+                    {%- if title is defined -%}{{ title }} - {% endif -%}
+                    {%- if categoryTitle is defined -%}{{ categoryTitle }} - {% endif -%}
                     Matomo
                 {%- endblock -%}
             </title>

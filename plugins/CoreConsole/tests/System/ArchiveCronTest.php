@@ -5,7 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\System;
+namespace Piwik\Plugins\CoreConsole\tests\System;
 
 use Interop\Container\ContainerInterface;
 use Piwik\Date;
@@ -33,6 +33,8 @@ class ArchiveCronTest extends SystemTestCase
 
     public function getApiForTesting()
     {
+        $apiRequiringSegments = ['Goals.get', 'VisitFrequency.get'];
+
         $results = array();
 
         foreach (self::$fixture->getDefaultSegments() as $segmentName => $info) {
@@ -49,6 +51,9 @@ class ArchiveCronTest extends SystemTestCase
         $results[] = array('VisitsSummary.get', array('idSite'  => 'all',
                                                       'date'    => '2012-08-09',
                                                       'periods' => array('day', 'month', 'year',  'week')));
+        $results[] = array($apiRequiringSegments, array('idSite'  => 'all',
+            'date'    => '2012-08-09',
+            'periods' => array('month')));
 
         $results[] = array('VisitsSummary.get', array('idSite'     => 'all',
                                                       'date'       => '2012-08-09',
@@ -183,6 +188,11 @@ class ArchiveCronTest extends SystemTestCase
                 return new \Piwik\Translation\Translator($c->get('Piwik\Translation\Loader\LoaderInterface'));
             }
         );
+    }
+
+    public static function getPathToTestDirectory()
+    {
+        return dirname(__FILE__);
     }
 }
 

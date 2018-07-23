@@ -188,7 +188,7 @@ class Get extends Base
                 }
             }
         } else if ($view->isViewDataTableId(Evolution::ID)) {
-            if (!empty($idSite) && Piwik::isUserHasAdminAccess($idSite)) {
+            if (!empty($idSite) && Piwik::isUserHasWriteAccess($idSite)) {
                 $view->config->title_edit_entity_url = 'index.php' . Url::getCurrentQueryStringWithParametersModified(array(
                     'module' => 'Goals',
                     'action' => 'manage',
