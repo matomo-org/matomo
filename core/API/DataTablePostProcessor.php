@@ -18,10 +18,12 @@ use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\PivotByDimension;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Range;
+use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
+use Piwik\Plugins\CoreHome\Columns\Metrics\PastDataMetric;
 
 /**
  * Processes DataTables that should be served through Piwik's APIs. This processing handles
@@ -474,17 +476,20 @@ class DataTablePostProcessor
             'date' => $lastPeriodDate,
             'disable_queued_filters' => '1',
             'filter_last_period_evolution' => '0',
+            'format_metrics' => '0',
         ]);
 
         $report = ReportsProvider::factory($module, $action);
-        $columns = array_keys($report->getMetrics());
+        $columns = array_merge(
+            $report->getMetrics(),
+            $report->getProcessedMetricsById()
+        );
 
         $this->addEvolutionMetrics($columns, $dataTable, $pastData);
 
         return $dataTable;
     }
 
-    // TODO: need system tests
     private function addEvolutionMetrics($columns, DataTableInterface $dataTable,  DataTableInterface $pastData = null)
     {
         if ($dataTable instanceof DataTable\Map) {
@@ -493,26 +498,10 @@ class DataTablePostProcessor
                 $this->addEvolutionMetrics($columns, $childTable, $pastChildTable);
             }
         } else if ($dataTable instanceof DataTable) {
-            // add ..._past values used to compute evolution
-            foreach ($columns as $column) {
-                $dataTable->filter('ColumnCallbackAddColumn', ['label', $column . '_past', function ($label) use ($pastData, $column) {
-                    /** @var DataTable $pastData */
-                    if (empty($pastData)) {
-                        return null;
-                    }
-
-                    $pastRow = $label ? $pastData->getRowFromLabel($label) : $pastData->getFirstRow();
-                    if ($pastRow) {
-                        return $pastRow->getColumn($column);
-                    }
-
-                    return null;
-                }]);
-            }
-
-            // add evolution processed metric
+            // add past value & evolution processed metrics
             $processedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
-            foreach ($columns as $column) {
+            foreach ($columns as $column => $metric) {
+                $processedMetrics[] = new PastDataMetric($metric instanceof Metric ? $metric : $column, $pastData);
                 $processedMetrics[] = new EvolutionMetric($column, $pastData);
             }
             $dataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $processedMetrics);
