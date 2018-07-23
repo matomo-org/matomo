@@ -301,6 +301,7 @@
         "Password": "Adgangskode",
         "Period": "Periode",
         "Piechart": "Cirkeldiagram",
+        "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s, tidligere kendt under navnet Piwik, er et open source-projekt udviklet af %7$sMatomo-teamet%8$s og mange andre bidragsydere verden over. <br\/> Hvis du er fan af Matomo, kan du også hjælpe til: Læs om, %3$shvordan du bidrager til Matomo%4$s, eller %5$sgiv et økonomisk bidrag%6$s til udviklingen af den næste fantastiske Matomo-version!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s er tilængelig. Kontakt venligst %2$sMatomo administrator%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s er tilgængelig. %2$sOpdater nu!%3$s (se %4$sændringer%5$s).",
         "PleaseContactYourPiwikAdministrator": "Kontakt venligst din Matomo administrator.",

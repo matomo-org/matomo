@@ -510,6 +510,7 @@
         "LoginCredentials": "Zugangsdaten",
         "LoginToPiwikToChangeSettings": "Melden Sie sich in Matomo an, um Websites und User zu erstellen und zu aktualisieren oder um allgemeine Einstellungen wie \"Bericht, der standardmäßig geladen wird\" zu ändern.",
         "LoginUseHttps": "Benutze HTTPS",
+        "MatomoMobile": "Matomo Mobile App",
         "MultiChartLabel": "Multisite Graphen anzeigen",
         "NavigationBack": "Zurück",
         "NetworkError": "Netzwerkfehler",

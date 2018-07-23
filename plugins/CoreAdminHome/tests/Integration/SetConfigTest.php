@@ -192,8 +192,7 @@ class SetConfigTest extends ConsoleCommandTestCase
 
                 // copy over sections required for tests
                 $config->tests = $actualGlobalSettingsProvider->getSection('tests');
-                $config->database = $actualGlobalSettingsProvider->getSection('database');
-                $config->database_tests = $actualGlobalSettingsProvider->getSection('database_tests');
+                $config->database = $actualGlobalSettingsProvider->getSection('database_tests');
 
                 return $config;
             },

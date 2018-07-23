@@ -223,7 +223,7 @@ class InvalidLicensesTest extends IntegrationTestCase
 
         $this->assertEquals('', $expired->getMessageExceededLicenses());
         $this->assertEquals('', $expired->getMessageExpiredLicenses());
-        $this->assertEquals('You are using the following plugins without a license: <strong>PaidPlugin1</strong>. <br/>To resolve this issue either update your license key, <strong><a href="https://shop.piwik.org/my-account" target="_blank" rel="noreferrer">get a subscription now</a></strong> or deactivate the plugin. <br/><a href="?module=Marketplace&action=subscriptionOverview">View your plugin subscriptions.</a>', $expired->getMessageNoLicense());
+        $this->assertEquals('The following plugins have been deactivated because you are using them without a license: <strong>PaidPlugin1</strong>. <br/>To resolve this issue either update your license key, <strong><a href="https://shop.piwik.org/my-account" target="_blank" rel="noreferrer">get a subscription now</a></strong> or deactivate the plugin. <br/><a href="?module=Marketplace&action=subscriptionOverview">View your plugin subscriptions.</a>', $expired->getMessageNoLicense());
     }
 
     public function test_getMessageExceededLicenses_getMessageExpiredLicenses_invalidLicenses_PaidPluginActivated()
@@ -244,7 +244,7 @@ class InvalidLicensesTest extends IntegrationTestCase
     public function test_getMessageMissingLicenses_getMessageMissingLicenses_PaidPluginActivated()
     {
         $expired = $this->buildWithNoLicense();
-        $this->assertEquals('You are using the following plugins without a license: <strong>PaidPlugin1</strong>. <br/>To resolve this issue either update your license key, <strong><a href="https://shop.piwik.org/my-account" target="_blank" rel="noreferrer">get a subscription now</a></strong> or deactivate the plugin. <br/><a href="?module=Marketplace&action=subscriptionOverview">View your plugin subscriptions.</a>', $expired->getMessageNoLicense());
+        $this->assertEquals('The following plugins have been deactivated because you are using them without a license: <strong>PaidPlugin1</strong>. <br/>To resolve this issue either update your license key, <strong><a href="https://shop.piwik.org/my-account" target="_blank" rel="noreferrer">get a subscription now</a></strong> or deactivate the plugin. <br/><a href="?module=Marketplace&action=subscriptionOverview">View your plugin subscriptions.</a>', $expired->getMessageNoLicense());
     }
 
     private function buildWithValidLicense()

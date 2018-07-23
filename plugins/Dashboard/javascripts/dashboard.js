@@ -37,7 +37,7 @@ function createDashboard() {
                 });
             }
         );
-        ajaxRequest.send(true);
+        ajaxRequest.send();
     }});
 }
 
@@ -120,7 +120,7 @@ function copyDashboardToUser() {
             });
         }
     );
-    ajaxRequest.send(true);
+    ajaxRequest.send();
 
     piwikHelper.modalConfirm(makeSelectorLastId('copyDashboardToUserConfirm'), {
         yes: function () {
@@ -145,7 +145,7 @@ function copyDashboardToUser() {
                 }
             );
             ajaxRequest.withTokenInUrl();
-            ajaxRequest.send(true);
+            ajaxRequest.send();
         }
     });
 }
@@ -199,10 +199,11 @@ function copyDashboardToUser() {
                 return self.isWidgetAvailable(widgetUniqueId);
             },
             onSelect: function (widgetUniqueId) {
-                var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
-                self.$element.removeClass('expanded');
+                widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId, function(widget){
+                    self.$element.removeClass('expanded');
+                    self.widgetSelected(widget);
+                });
 
-                self.widgetSelected(widget);
             },
             resetOnSelect: true
         });

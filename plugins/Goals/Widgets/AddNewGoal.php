@@ -31,11 +31,7 @@ class AddNewGoal extends \Piwik\Widget\Widget
 
         $goals  = API::getInstance()->getGoals($idSite);
 
-        if (Piwik::isUserHasAdminAccess($idSite)) {
-            $config->setName('Goals_AddNewGoal');
-        } else {
-            $config->setName('Goals_CreateNewGoal');
-        }
+        $config->setName('Goals_AddNewGoal');
 
         if (count($goals) !== 0) {
             $config->disable();

@@ -509,6 +509,7 @@
         "LoginCredentials": "Uprawnienia",
         "LoginToPiwikToChangeSettings": "Zaloguj się na swój serwer Matomo, aby tworzyć i aktualizować serwisy, użytkowników lub aby zmienić na przykład \"Domyślny raport do wczytania\" w sekcji Konfiguracja",
         "LoginUseHttps": "Użyj https",
+        "MatomoMobile": "Aplikacja mobilna Matomo",
         "MultiChartLabel": "Wyświetlanie linią z gwiazdek",
         "NavigationBack": "Powrót",
         "NetworkError": "Błąd sieci",

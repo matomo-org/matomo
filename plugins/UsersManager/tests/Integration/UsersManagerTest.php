@@ -495,6 +495,7 @@ class UsersManagerTest extends IntegrationTestCase
      */
     public function testSetUserAccessNoLogin()
     {
+        FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
         $this->api->setUserAccess("nologin", "view", 1);
     }
 
@@ -505,6 +506,7 @@ class UsersManagerTest extends IntegrationTestCase
     public function testSetUserAccessWrongAccessSpecified()
     {
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
         $this->api->setUserAccess("gegg4564eqgeqag", "viewnotknown", 1);
     }
 
@@ -515,6 +517,7 @@ class UsersManagerTest extends IntegrationTestCase
     public function testSetUserAccess_ShouldFail_SuperUserAccessIsNotAllowed()
     {
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
         $this->api->setUserAccess("gegg4564eqgeqag", "superuser", 1);
     }
 
@@ -524,6 +527,7 @@ class UsersManagerTest extends IntegrationTestCase
      */
     public function testSetUserAccess_ShouldFail_IfLoginIsConfigSuperUserLogin()
     {
+        FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
         $this->api->setUserAccess('superusertest', 'view', 1);
     }
 
@@ -536,6 +540,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
         $this->api->setSuperUserAccess('gegg4564eqgeqag', true);
 
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = array(1));
         $this->api->setUserAccess('gegg4564eqgeqag', 'view', 1);
     }
 
@@ -982,6 +987,38 @@ class UsersManagerTest extends IntegrationTestCase
 
         $this->assertEquals(1, $this->api->getUserPreference('someUser', $defaultReportPref));
         $this->assertEquals('yesterday', $this->api->getUserPreference('someUser', $defaultReportDatePref));
+    }
+
+    public function testGetAvailableRoles()
+    {
+        $this->addSites(1);
+        $roles = $this->api->getAvailableRoles();
+        $expected = array(
+            array (
+                'id' => 'view',
+                'name' => 'UsersManager_PrivView',
+                'description' => 'UsersManager_PrivViewDescription',
+                'helpUrl' => 'https://matomo.org/faq/general/faq_70/'
+            ), array (
+                'id' => 'write',
+                'name' => 'UsersManager_PrivWrite',
+                'description' => 'UsersManager_PrivWriteDescription',
+                'helpUrl' => ''
+             ),
+            array (
+                'id' => 'admin',
+                'name' => 'UsersManager_PrivAdmin',
+                'description' => 'UsersManager_PrivAdminDescription',
+                'helpUrl' => 'https://matomo.org/faq/general/faq_69/',
+             )
+        );
+        $this->assertEquals($expected, $roles);
+    }
+
+    public function testGetAvailableCapabilities()
+    {
+        $this->addSites(1);
+        $this->assertSame(array(), $this->api->getAvailableCapabilities());
     }
 
     private function addSites($numberOfSites)

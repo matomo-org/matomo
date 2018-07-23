@@ -30,11 +30,7 @@ class EditGoals extends \Piwik\Widget\Widget
 
         $goals  = API::getInstance()->getGoals($idSite);
 
-        if (Piwik::isUserHasAdminAccess($idSite)) {
-            $config->setName('Goals_ManageGoals');
-        } else {
-            $config->setName('Goals_CreateNewGOal');
-        }
+        $config->setName('Goals_ManageGoals');
 
         if (count($goals) === 0) {
             $config->disable();

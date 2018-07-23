@@ -1292,7 +1292,7 @@ if (typeof window.Piwik !== 'object') {
             if (documentAlias.readyState === 'complete') {
                 callback();
             } else if (windowAlias.addEventListener) {
-                windowAlias.addEventListener('load', callback);
+                windowAlias.addEventListener('load', callback, false);
             } else if (windowAlias.attachEvent) {
                 windowAlias.attachEvent('onload', callback);
             }
@@ -5477,7 +5477,7 @@ if (typeof window.Piwik !== 'object') {
                         events = ['scroll', 'resize'];
                         for (index = 0; index < events.length; index++) {
                             if (documentAlias.addEventListener) {
-                                documentAlias.addEventListener(events[index], setDidScroll);
+                                documentAlias.addEventListener(events[index], setDidScroll, false);
                             } else {
                                 windowAlias.attachEvent('on' + events[index], setDidScroll);
                             }

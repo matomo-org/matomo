@@ -12,6 +12,8 @@
  * This service replaces the previously used jQuery history extension.
  *
  * Should only be used by the broadcast object.
+ *
+ * @deprecated in 3.2.2, will be removed in Piwik 4
  */
 (function (window, $, broadcast) {
     angular.module('piwikApp').service('historyService', historyService);

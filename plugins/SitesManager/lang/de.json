@@ -26,6 +26,7 @@
         "ExcludedIps": "Ignorierte IPs",
         "ExcludedParameters": "Ignorierte Parameter",
         "ExcludedUserAgents": "Ausgeschlossene Browser Agenten",
+        "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Geben Sie eine Liste aller Browser Agenten ein, die von Matomo ignoriert werden sollen.",
         "GlobalExcludedUserAgentHelp2": "Dies kann benutzt werden um Bots vom Tracking auszuschließen.",
         "GlobalListExcludedIps": "Globale Liste ignorierter IPs",

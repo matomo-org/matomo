@@ -7,10 +7,7 @@
 ## Code Status
 
 [![Build Status](https://travis-ci.org/matomo-org/matomo.svg?branch=master)](https://travis-ci.org/matomo-org/matomo/branches)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/piwik/piwik.svg)](https://scrutinizer-ci.com/g/piwik/piwik?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/piwik/piwik/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/piwik/piwik/?branch=master "Unit tests code coverage. Does not include coverage of integration tests, system tests or UI screenshot tests.")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/piwik/piwik.svg)](http://isitmaintained.com/project/piwik/piwik "Percentage of issues still open")
-[![Dependency Status](https://gemnasium.com/piwik/piwik.svg)](https://gemnasium.com/piwik/piwik)
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/matomo-org/matomo.svg)](http://isitmaintained.com/project/matomo-org/matomo "Percentage of issues still open")
 
 ## Description
 

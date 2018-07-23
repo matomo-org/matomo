@@ -32,6 +32,16 @@ class Marketplace extends \Piwik\Plugin
         );
     }
 
+    public function isTrackerPlugin()
+    {
+        return true;
+    }
+
+    public function requiresInternetConnection()
+    {
+        return true;
+    }
+
     public function checkForUpdates()
     {
         $marketplace = StaticContainer::get('Piwik\Plugins\Marketplace\Api\Client');

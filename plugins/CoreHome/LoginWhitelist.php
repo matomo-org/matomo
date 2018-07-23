@@ -14,6 +14,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Network\IP as NetworkIp;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
+use Piwik\SettingsServer;
 
 /**
  * This class is in CoreHome since some alternative Login plugins disable the Login plugin and we want to ensure the
@@ -30,6 +31,11 @@ class LoginWhitelist
     public function shouldCheckWhitelist()
     {
         if (Common::isPhpCliMode()) {
+            return false;
+        }
+
+        // ignore whitelist checks for opt out iframe
+        if (!SettingsServer::isTrackerApiRequest() && 'CoreAdminHome' === Piwik::getModule() && 'optOut' === Piwik::getAction()) {
             return false;
         }
 

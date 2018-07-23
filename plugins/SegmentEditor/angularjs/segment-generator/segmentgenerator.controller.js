@@ -151,7 +151,7 @@
                 format: 'json',
                 method: 'API.getSuggestedValuesForSegment',
                 segmentName: orCondition.segment
-            }, {createErrorNotification: false})
+            }, {createErrorNotification: false});
 
             promise.then(function(response) {
                 orCondition.isLoading = false;
@@ -196,7 +196,7 @@
                     promise.abort();
                 }
             }, 20000);
-        }
+        };
 
         this.removeOrCondition = function (condition, orCondition) {
             var index = condition.orConditions.indexOf(orCondition);
@@ -229,7 +229,7 @@
                     }
 
                     subSegmentStr += orCondition.segment + orCondition.matches +  encodeURIComponent(orCondition.value);
-                })
+                });
 
                 if (segmentStr !== '') {
                     segmentStr += ";"; // add AND operator between segment blocks
@@ -253,7 +253,7 @@
             var blocks = segmentStr.split(';');
 
             for (var key = 0; key < blocks.length; key++) {
-                var condition = {orConditions: []};
+                condition = {orConditions: []};
                 this.addAndCondition(condition);
 
                 blocks[key] = blocks[key].split(',');
@@ -266,7 +266,7 @@
 
         this.updateSegmentDefinition = function () {
             $scope.segmentDefinition = this.getSegmentString();
-        }
+        };
 
         if ($scope.segmentDefinition) {
             this.setSegmentString($scope.segmentDefinition);
@@ -274,14 +274,14 @@
 
         $scope.$watch('idsite', function (newValue, oldValue) {
             if (newValue != oldValue) {
-                reloadSegments(newValue);
+                reloadSegments(newValue, $scope.visitSegmentsOnly);
             }
         });
 
-        reloadSegments($scope.idsite);
+        reloadSegments($scope.idsite, $scope.visitSegmentsOnly);
 
-        function reloadSegments(idsite) {
-            segmentGeneratorModel.loadSegments(idsite).then(function (segments) {
+        function reloadSegments(idsite, visitSegmentsOnly) {
+            segmentGeneratorModel.loadSegments(idsite, visitSegmentsOnly).then(function (segments) {
 
                 self.segmentList = [];
 

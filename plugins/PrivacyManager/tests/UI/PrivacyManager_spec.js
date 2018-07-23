@@ -26,7 +26,7 @@ describe("PrivacyManager", function () {
         page.evaluate(function () {
             $('input.anonymizeStartDate').val('2018-03-02').change();
             $('input.anonymizeEndDate').val('2018-03-02').change();
-        });
+        }, 50);
     }
     
     function loadActionPage(page, action)
