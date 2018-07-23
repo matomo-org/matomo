@@ -72,6 +72,13 @@ use Piwik\UrlHelper;
  */
 class Request
 {
+    /**
+     * The count of nested API request invocations. Used to determine if the currently executing request is the root or not.
+     *
+     * @var int
+     */
+    private static $nestedApiInvocationCount = 0;
+
     private $request = null;
 
     /**
@@ -223,6 +230,7 @@ class Request
         $shouldReloadAuth = false;
 
         try {
+            ++self::$nestedApiInvocationCount;
 
             // IP check is needed here as we cannot listen to API.Request.authenticate as it would then not return proper API format response.
             // We can also not do it by listening to API.Request.dispatch as by then the user is already authenticated and we want to make sure
@@ -258,6 +266,8 @@ class Request
             Log::debug($e);
 
             $toReturn = $response->getResponseException($e);
+        } finally {
+            --self::$nestedApiInvocationCount;
         }
 
         if ($shouldReloadAuth) {
@@ -318,21 +328,17 @@ class Request
     }
 
     /**
-     * Checks if the API method of the root API request is == to $methodToCheck.
+     * Checks if the currently executing API request is the root API request or not.
      *
-     * @param string|null $methodToCheck The API method to check, eg, VisitsSummary.get. If null, gets the
-     *                                   current value of the 'method' query parameter.
+     * Note: the "root" API request is the request that was made over HTTP. Within that request, further API methods
+     * can be called programmatically. These requests are considered "child" API requests.
+     *
      * @return bool
      * @throws Exception
      */
-    public static function isRootApiRequestHandlingMethod($methodToCheck = null)
+    public static function isCurrentApiRequestTheRootApiRequest()
     {
-        if (empty($methodToCheck)) {
-            $methodToCheck = Common::getRequestVar('method', '', 'string');
-        }
-
-        $apiMethod = Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
-        return $apiMethod == $methodToCheck;
+        return self::$nestedApiInvocationCount == 0;
     }
 
     /**

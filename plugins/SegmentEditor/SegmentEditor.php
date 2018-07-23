@@ -90,7 +90,7 @@ class SegmentEditor extends \Piwik\Plugin
     public function onNoArchiveData()
     {
         // don't do check unless this is the root API request
-        if (Request::isRootApiRequestHandlingMethod()) {
+        if (!Request::isCurrentApiRequestTheRootApiRequest()) {
             return null;
         }
 

@@ -28,8 +28,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 
 * Added new method `Piwik\API\Request::isRootRequestApiRequest()` to detect if the root request is an API request.
-* New event `Archive.noArchivedData` which can be used to execute code when no archive data is found for an API method.
-* New event `Visualization.onLoadingError` which can be used to customize the view when an error is thrown by an API method.
 
 ## Matomo 3.5.0
 
