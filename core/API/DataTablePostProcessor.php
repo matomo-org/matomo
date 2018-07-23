@@ -370,7 +370,11 @@ class DataTablePostProcessor
             $metricsToFormat = $this->apiInconsistencies->getPercentMetricsToFormat();
         }
 
-        $dataTable->filter(array($this->formatter, 'formatMetrics'), array($this->report, $metricsToFormat));
+        // 'all' is a special value that indicates we should format non-processed metrics that are identified
+        // by string, like 'revenue'. this should be removed when all metrics are using the `Metric` class.
+        $formatAll = $formatMetrics === 'all';
+
+        $dataTable->filter(array($this->formatter, 'formatMetrics'), array($this->report, $metricsToFormat, $formatAll));
         return $dataTable;
     }
 

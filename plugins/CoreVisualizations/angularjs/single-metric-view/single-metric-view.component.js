@@ -66,7 +66,7 @@
             piwikApi.fetch({
                 method: 'API.get',
                 filter_last_period_evolution: '1',
-                format_metrics: '1'
+                format_metrics: 'all'
             }).then(function (response) {
                 vm.metricValue = response[vm.metric];
                 vm.pastValue = response[vm.metric + '_past'];
