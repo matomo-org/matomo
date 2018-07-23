@@ -32,7 +32,6 @@
         "SearchEngines": "Suchmaschinen",
         "SearchEnginesDocumentation": "Ein Besucher kam durch eine Suchmaschine auf die Website. %1$sDer Bericht%2$s enthält weitere Details.",
         "SearchEnginesReportDocumentation": "Dieser Bericht zeigt Ihnen, welche Suchmaschinen Besucher auf die Website geführt haben. %s Wenn Sie auf eine Zeile der Tabelle klicken, werden die Suchbegriffe angezeigt, nach denen die Besucher gesucht haben.",
-        "SocialFooterMessage": "Dies ist eine Teilansicht des Berichtes auf der linken Seite. Er filtert andere Websites heraus, so dass Sie die Verweise von Sozialen Netzwerken direkt vergleichen können.",
         "Socials": "Soziale Netzwerke",
         "SocialsReportDocumentation": "Dieser Bericht zeigt, welche sozialen Netzwerke Besucher auf Ihre Website führten.<br \/>Wenn Sie eine Zeile in der Tabelle anklicken, können Sie sehen von welcher Seite des sozialen Netzwerks der Besucher auf Ihre Website kam.",
         "SubmenuSearchEngines": "Suchmaschinen und Suchbegriffe",

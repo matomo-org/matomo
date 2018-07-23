@@ -29,7 +29,6 @@
         "SearchEngines": "Pretraživači",
         "SearchEnginesDocumentation": "Korisnik je upućen na vaš sajt od strane pretraživača. %1$s Pogledajte %2$s izveštaj za više detalja.",
         "SearchEnginesReportDocumentation": "Ovaj izveštaj prikazuje koji pretraživači upućuju posetioce na vaš sajt. %s Klikom na red tabele možete videti šta su korisnici tražili preko pojedinih pretraživača.",
-        "SocialFooterMessage": "Ovo je podskup izveštaja koje vidite na levoj strani. Ostali sajtovi su izostavljeni kako biste mogli direktno da uporedite vaše reference sa društvenih mreža.",
         "Socials": "Društvene mreže",
         "SocialsReportDocumentation": "Ovaj izveštaj prikazuje koje društvene mreže su dovele korisnike na vaš sajt.<br \/>Klikom na red tabele možete da vidite sa kojih stranica društvenih mreža posetioci su došli na vaš sajt.",
         "SubmenuSearchEngines": "Pretraživači i ključne reči",

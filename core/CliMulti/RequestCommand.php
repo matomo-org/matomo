@@ -95,7 +95,8 @@ class RequestCommand extends ConsoleCommand
     {
         $_GET = array();
 
-        $hostname = $input->getOption('piwik-domain');
+        // @todo remove piwik-domain fallback in Matomo 4
+        $hostname = $input->getOption('matomo-domain') ?: $input->getOption('piwik-domain');
         Url::setHost($hostname);
 
         $query = $input->getArgument('url-query');
