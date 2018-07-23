@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\Config;
+use Piwik\ProxyHttp;
 use Piwik\Translation\Translator;
 
 /**
@@ -35,7 +36,11 @@ class ForceSSLCheck implements Diagnostic
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
         }
 
-        $comment = $this->translator->translate('General_ForceSSLRecommended');
+        $comment = $this->translator->translate('General_ForceSSLRecommended', ['<code>force_ssl = 1</code>', '<code>General</code>']);
+
+        if (!ProxyHttp::isHttps()) {
+            $comment .= '<br /><br />' . $this->translator->translate('General_NotPossibleWithoutHttps');
+        }
 
         return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
     }
