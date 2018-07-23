@@ -49,11 +49,11 @@
              options="manageScheduledReport.reportHours"
              ng-change="manageScheduledReport.updateReportHourUtc()"
              ng-model="manageScheduledReport.report.hour"
-             {% if timeZoneDifference != 0 %}inline-help="#reportHourHelpText"{% endif %}
+             {% if timezoneOffset != 0 %}inline-help="#reportHourHelpText"{% endif %}
              title="{{ 'ScheduledReports_ReportHour'|translate('X')|e('html_attr') }}">
         </div>
 
-        {% if timeZoneDifference != 0 %}
+        {% if timezoneOffset != 0 %}
             <div id="reportHourHelpText" class="inline-help-node">
                 <span ng-bind="manageScheduledReport.report.hourUtc"></span>
             </div>
