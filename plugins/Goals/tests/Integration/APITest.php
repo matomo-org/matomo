@@ -123,7 +123,7 @@ class APITest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasAdminAccess Fake exception
+     * @expectedExceptionMessage checkUserHasWriteAccess Fake exception
      */
     public function test_addGoal_shouldThrowException_IfNotEnoughPermission()
     {
@@ -133,7 +133,7 @@ class APITest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage checkUserHasAdminAccess Fake exception
+     * @expectedExceptionMessage checkUserHasWriteAccess Fake exception
      */
     public function test_updateGoal_shouldThrowException_IfNotEnoughPermission()
     {

@@ -23,7 +23,7 @@
 
         return model;
 
-        function loadSegments(siteId) {
+        function loadSegments(siteId, visitSegmentsOnly) {
             if (model.isLoading) {
                 if (limitPromise) {
                     limitPromise.abort();
@@ -40,7 +40,7 @@
             }
 
             if (!limitPromise) {
-                var params = {method: 'API.getSegmentsMetadata',filter_limit: '-1'};
+                var params = {method: 'API.getSegmentsMetadata',filter_limit: '-1', '_hideImplementationData': 0};
 
                 if (siteId === 'all' || !siteId) {
                     params.idSites = 'all';
@@ -57,10 +57,19 @@
                 model.isLoading = false;
 
                 if (angular.isDefined(response)) {
-                    model.segments = response;
+                    if (visitSegmentsOnly) {
+                        model.segments = [];
+                        angular.forEach(response, function (segment) {
+                            if (segment.sqlSegment && segment.sqlSegment.match(/log_visit\./)) {
+                                model.segments.push(segment);
+                            }
+                        });
+                    } else {
+                        model.segments = response;
+                    }
                 }
 
-                return response;
+                return model.segments;
             }).finally(function () {
                 model.isLoading = false;
             });

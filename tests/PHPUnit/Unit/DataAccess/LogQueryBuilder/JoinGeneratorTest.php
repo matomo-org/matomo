@@ -168,6 +168,34 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $generator->getJoinString());
     }
 
+    public function test_generate_getJoinString_manuallyJoinedAlreadyPlusCustomJoinButAlsoLeftNeedsKeepOrder()
+    {
+        $generator = $this->generate(array(
+            'log_visit',
+            array('table' => 'log_link_visit_action', 'join' => 'RIGHT JOIN'),
+            'log_action'
+        ));
+
+        $expected  = 'log_visit AS log_visit ';
+        $expected  .= 'RIGHT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit ';
+        $expected  .= 'LEFT JOIN log_action AS log_action ON log_link_visit_action.idaction_url = log_action.idaction';
+        $this->assertEquals($expected, $generator->getJoinString());
+    }
+
+    public function test_generate_getJoinString_manuallyJoinedAlreadyPlusCustomJoinAtEndButAlsoLeftNeedsKeepOrder()
+    {
+        $generator = $this->generate(array(
+            'log_visit',
+            'log_action',
+            array('table' => 'log_link_visit_action', 'join' => 'RIGHT JOIN'),
+        ));
+
+        $expected  = 'log_visit AS log_visit ';
+        $expected  .= 'RIGHT JOIN log_link_visit_action AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit ';
+        $expected  .= 'LEFT JOIN log_action AS log_action ON log_link_visit_action.idaction_url = log_action.idaction';
+        $this->assertEquals($expected, $generator->getJoinString());
+    }
+
     public function test_generate_getJoinString_manualJoin()
     {
         $generator = $this->generate(array(

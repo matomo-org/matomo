@@ -192,6 +192,7 @@
         "ExceptionNonceMismatch": "Could not verify the security token on this form.",
         "ExceptionPrivilege": "You can't access this resource as it requires a %s access.",
         "ExceptionPrivilegeAccessWebsite": "You can't access this resource as it requires %s access for the website id = %d.",
+        "ExceptionCapabilityAccessWebsite": "You can't access this resource as it requires %s capability for the website id = %d.",
         "ExceptionPrivilegeAtLeastOneWebsite": "You can't access this resource as it requires %s access for at least one website.",
         "ExceptionUnableToStartSession": "Unable to start session.",
         "ExceptionUndeletableFile": "Unable to delete %s",

@@ -120,9 +120,16 @@ class JoinGenerator
                     $this->joinString .= ' LEFT JOIN';
                 }
 
-                if (!isset($table['joinOn']) && $this->tables->getLogTable($table['table']) && !empty($availableLogTables)) {
+                if (!isset($table['joinOn']) && $this->tables->getLogTable($table['table'])) {
                     $logTable = $this->tables->getLogTable($table['table']);
-                    $table['joinOn'] = $this->findJoinCriteriasForTables($logTable, $availableLogTables);
+                    if (!empty($availableLogTables)) {
+                        $table['joinOn'] = $this->findJoinCriteriasForTables($logTable, $availableLogTables);
+                    }
+                    if (!isset($table['tableAlias'])) {
+                        // eg array('table' => 'log_link_visit_action', 'join' => 'RIGHT JOIN')
+                        // we treat this like a regular string table which we can join automatically
+                        $availableLogTables[$table['table']] = $logTable;
+                    }
                 }
 
                 $this->joinString .= ' ' . Common::prefixTable($table['table']) . " AS " . $alias
@@ -297,22 +304,36 @@ class JoinGenerator
             return 0;
         }
 
+        $weightA = null;
+        $weightB = null;
+
         if (is_array($tA)) {
-            return 1;
+            if (isset($tA['table']) && isset($coreSort[$tA['table']]) && !isset($tA['tableAlias']) && !isset($tA['joinOn'])) {
+                // eg array('table' => 'log_link_visit_action', 'join' => 'RIGHT JOIN')
+                // we treat this like a regular string table which we can join automatically
+                $weightA = $coreSort[$tA['table']];
+            } else {
+                return 1;
+            }
         }
 
         if (is_array($tB)) {
-            return -1;
+            if (isset($tB['table']) && isset($coreSort[$tB['table']]) && !isset($tB['tableAlias']) && !isset($tB['joinOn'])) {
+                $weightB = $coreSort[$tB['table']];
+            } else {
+                return -1;
+            }
         }
 
-        if (isset($coreSort[$tA])) {
+        if (!isset($weightA) && isset($coreSort[$tA])) {
             $weightA = $coreSort[$tA];
-        } else {
+        } elseif (!isset($weightA)) {
             $weightA = 999;
         }
-        if (isset($coreSort[$tB])) {
+
+        if (!isset($weightB) && isset($coreSort[$tB])) {
             $weightB = $coreSort[$tB];
-        } else {
+        } elseif (!isset($weightB)) {
             $weightB = 999;
         }
 

@@ -71,7 +71,6 @@ class SegmentExpression
 
     protected $joins = array();
     protected $valuesBind = array();
-    protected $parsedTree = array();
     protected $tree = array();
     protected $parsedSubExpressions = array();
 

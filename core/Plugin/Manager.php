@@ -105,6 +105,12 @@ class Manager
     public function loadActivatedPlugins()
     {
         $pluginsToLoad = $this->getActivatedPluginsFromConfig();
+        if (!SettingsPiwik::isInternetEnabled()) {
+            $pluginsToLoad = array_filter($pluginsToLoad, function($name) {
+                $plugin = Manager::makePluginClass($name);
+                return !$plugin->requiresInternetConnection();
+            });
+        }
         $this->loadPlugins($pluginsToLoad);
     }
 
@@ -263,6 +269,19 @@ class Manager
     {
         return in_array($name, $this->pluginsToLoad)
         || ($this->doLoadAlwaysActivatedPlugins && $this->isPluginAlwaysActivated($name));
+    }
+
+    /**
+     * Returns `true` if a plugin requires an working internet connection
+     *
+     * @param string $name Name of plugin, eg, `'Actions'`.
+     * @return bool
+     * @throws \Exception
+     */
+    public function doesPluginRequireInternetConnection($name)
+    {
+        $plugin = $this->makePluginClass($name);
+        return $plugin->requiresInternetConnection();
     }
 
     /**
@@ -597,6 +616,7 @@ class Manager
             $this->pluginList->getActivatedPlugins()
         );
         $listPlugins = array_unique($listPlugins);
+        $internetFeaturesEnabled = SettingsPiwik::isInternetEnabled();
         foreach ($listPlugins as $pluginName) {
             // Hide plugins that are never going to be used
             if ($this->isPluginBogus($pluginName)) {
@@ -909,7 +929,7 @@ class Manager
                 $cache->save($cacheKey, $pluginLicenseInfo, $sixHours);
             }
 
-            if (!empty($pluginLicenseInfo['missing'])) {
+            if (!empty($pluginLicenseInfo['missing']) && (!defined('PIWIK_TEST_MODE') || !PIWIK_TEST_MODE)) {
                 $this->unloadPluginFromMemory($pluginName);
                 return $pluginsToPostPendingEventsTo;
             }
@@ -1120,7 +1140,8 @@ class Manager
 
         foreach ($plugins as $pluginName) {
             // if a plugin is listed in the config, but is not loaded, it does not exist in the folder
-            if (!$this->isPluginLoaded($pluginName) && !$this->isPluginBogus($pluginName) ) {
+            if (!$this->isPluginLoaded($pluginName) && !$this->isPluginBogus($pluginName) &&
+                !($this->doesPluginRequireInternetConnection($pluginName) && !SettingsPiwik::isInternetEnabled())) {
                 $missingPlugins[] = $pluginName;
             }
         }

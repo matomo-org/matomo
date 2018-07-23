@@ -177,8 +177,8 @@ class Process
             return false;
         }
 
-        if (count(self::getRunningProcesses()) > 0) {
-            return true;
+        if (!in_array(getmypid(), self::getRunningProcesses())) {
+            return false;
         }
 
         if (!self::isProcFSMounted()) {
@@ -238,6 +238,15 @@ class Process
         // by using stat we not only test the existence of /proc but also confirm it's a 'proc' filesystem
         $type = @shell_exec('stat -f -c "%T" /proc 2>/dev/null');
         return strpos($type, 'proc') === 0;
+    }
+
+    public static function getListOfRunningProcesses()
+    {
+        $processes = `ps ex 2>/dev/null`;
+        if (empty($processes)) {
+            return array();
+        }
+        return explode("\n", $processes);
     }
 
     /**
