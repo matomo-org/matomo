@@ -126,12 +126,21 @@ class CliMulti
     private function start($piwikUrls)
     {
         foreach ($piwikUrls as $index => $url) {
+            $shouldStart = null;
             if ($url instanceof Request) {
-                $url->start();
+                $shouldStart = $url->start();
             }
 
             $cmdId = $this->generateCommandId($url) . $index;
-            $this->executeUrlCommand($cmdId, $url);
+
+            if ($shouldStart === Request::ABORT) {
+                // output is needed to ensure same order of url to response
+                $output = new Output($cmdId);
+                $output->write('Skipped');
+                $this->outputs[] = $output;
+            } else {
+                $this->executeUrlCommand($cmdId, $url);
+            }
         }
     }
 
