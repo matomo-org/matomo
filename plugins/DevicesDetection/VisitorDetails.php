@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\DevicesDetection;
 
+use Piwik\Piwik;
 use Piwik\Plugins\Live\VisitorDetailsAbstract;
-use Piwik\View;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
@@ -53,7 +53,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     protected function getDeviceModel()
     {
-        return $this->details['config_device_model'];
+        return getModelName($this->details['config_device_model']);
     }
 
     protected function getOperatingSystemCode()
@@ -130,7 +130,11 @@ class VisitorDetails extends VisitorDetailsAbstract
         $deviceTypeIcon = $visit->getColumn('deviceTypeIcon');
         $deviceBrand    = $visit->getColumn('deviceBrand');
         $deviceModel    = $visit->getColumn('deviceModel');
-        $deviceName     = trim($deviceBrand . " " . $deviceModel);
+        if ($deviceBrand == Piwik::translate('General_Unknown')) {
+            $deviceName = $deviceModel;
+        } else {
+            $deviceName = trim($deviceBrand . " " . $deviceModel);
+        }
 
         if (!isset($this->devices[$deviceType])) {
             $this->devices[$deviceType] = array(

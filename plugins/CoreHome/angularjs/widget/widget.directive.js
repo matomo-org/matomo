@@ -45,6 +45,7 @@
                                 widget.parameters.widget = '1';
                                 angular.forEach(widget.widgets, function (widget) {
                                     widget.parameters.widget = '1';
+                                    widget.parameters.containerId = containerId;
                                 });
                             }
                             scope.widget = widget;

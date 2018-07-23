@@ -262,6 +262,7 @@
                 </div>
             </div>
 
+            {% if deleteData.config.enable_database_size_estimate == '1' %}
             <div id="deleteDataEstimateSect" class="form-group row">
 
                 <h3 class="col s12" id="databaseSizeHeadline">
@@ -283,6 +284,7 @@
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
 
             <div piwik-save-button onconfirm="reportDeletionSchedule.save()" saving="reportDeletionSchedule.isLoading"></div>
 

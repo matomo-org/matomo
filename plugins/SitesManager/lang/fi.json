@@ -4,7 +4,6 @@
         "AdvancedTimezoneSupportNotFound": "PHP-asennuksessasi ei ole edistyneiden aikavyöhykkeiden tukea (tuettu PHP>=5.2:ssa). Voit silti valita manuaalisesti poikkeaman UTC:stä.",
         "AliasUrlHelp": "On suositeltavaa, mutta ei pakollista, määrittää sivuston osoitteet. Alias-osoitteita ei näytetä viittaajaraporteissa. Osoitteita ei tarvitse määritellä www-alkuosalla ja ilman, koska Matomo huomioi molemmat automaattisesti.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Aikavyöhykkeen vaihtaminen vaikuttaa vain uusiin tietoihin, eikä vanhoja muutetaan.",
-        "ChooseCityInSameTimezoneAsYou": "Valitse kaupunki samalta aikavyöhykkeeltä.",
         "Currency": "Valuutta",
         "CurrencySymbolWillBeUsedForGoals": "Valuutan symboli näytetään tavoitteiden tuloissa.",
         "DefaultCurrencyForNewWebsites": "Oletusvaluutta uusille verkkosivuille",

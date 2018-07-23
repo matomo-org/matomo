@@ -25,6 +25,8 @@
         "ExcludeRowsWithLowPopulation": "Toutes les lignes sont affichées %s Exclure celles peu signifiantes",
         "ExternalHelp": "Aide (nouvel onglet)",
         "FlattenDataTable": "Le rapport est hiérarchique %s L'aplatir",
+        "ShowExportUrl": "Afficher l'URL d'export",
+        "HideExportUrl": "Masquer l'URL d'export",
         "HomeShortcut": "Accueil",
         "HowMuchIsPiwikWorth": "Combien vaut Matomo pour vous ?",
         "IncludeRowsWithLowPopulation": "Les lignes peu signifiantes sont cachées %s Afficher toutes les lignes",

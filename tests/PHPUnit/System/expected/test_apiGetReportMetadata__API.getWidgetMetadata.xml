@@ -973,7 +973,7 @@
 		<name>Pages</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -998,7 +998,7 @@
 		<name>Entry Page Titles</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1023,7 +1023,7 @@
 		<name>Entry pages</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1048,7 +1048,7 @@
 		<name>Exit page titles</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1073,7 +1073,7 @@
 		<name>Exit pages</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1098,7 +1098,7 @@
 		<name>Page titles</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1123,7 +1123,7 @@
 		<name>Page Titles Following a Site Search</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1148,7 +1148,7 @@
 		<name>Pages Following a Site Search</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1173,7 +1173,7 @@
 		<name>Search Categories</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1198,7 +1198,7 @@
 		<name>Site Search Keywords</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1223,7 +1223,7 @@
 		<name>Search Keywords with No Results</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1248,7 +1248,7 @@
 		<name>Outlinks</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1273,7 +1273,7 @@
 		<name>Downloads</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1298,7 +1298,7 @@
 		<name>Actions: Event Actions</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1324,7 +1324,7 @@
 		<name>Actions: Event Actions</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1350,7 +1350,7 @@
 		<name>Actions: Event Categories</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1376,7 +1376,7 @@
 		<name>Actions: Event Categories</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1402,7 +1402,7 @@
 		<name>Actions: Event Names</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1428,7 +1428,7 @@
 		<name>Actions: Event Names</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1454,7 +1454,7 @@
 		<name>Actions: Content Name</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1479,7 +1479,7 @@
 		<name>Actions: Content Name</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1504,7 +1504,7 @@
 		<name>Actions: Content Piece</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1529,7 +1529,7 @@
 		<name>Actions: Content Piece</name>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1554,7 +1554,7 @@
 		<name>Referrers</name>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
@@ -1579,7 +1579,7 @@
 		<name>Referrer Types</name>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
@@ -1604,7 +1604,7 @@
 		<name>Keywords</name>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
@@ -1629,7 +1629,7 @@
 		<name>Search Engines</name>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
@@ -1651,17 +1651,42 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
-		<name>Social Networks</name>
+		<name>Websites</name>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
-			<id>Referrers_SubmenuWebsites</id>
-			<name>Websites &amp; Social</name>
+			<id>Referrers_SubmenuWebsitesOnly</id>
+			<name>Websites</name>
 			<order>15</order>
+		</subcategory>
+		<module>Referrers</module>
+		<action>getWebsites</action>
+		<order>105</order>
+		<parameters>
+			<module>Referrers</module>
+			<action>getWebsites</action>
+		</parameters>
+		<uniqueId>widgetReferrersgetWebsites</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>tableAllColumns</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
+		<name>Social Networks</name>
+		<category>
+			<id>Referrers_Referrers</id>
+			<name>Acquisition</name>
+			<order>15</order>
+			<icon>icon-reporting-referer</icon>
+		</category>
+		<subcategory>
+			<id>Referrers_Socials</id>
+			<name>Social Networks</name>
+			<order>16</order>
 		</subcategory>
 		<module>Referrers</module>
 		<action>getSocials</action>
@@ -1676,35 +1701,10 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
-		<name>Websites</name>
-		<category>
-			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
-			<order>15</order>
-			<icon>icon-reporting-referer</icon>
-		</category>
-		<subcategory>
-			<id>Referrers_SubmenuWebsites</id>
-			<name>Websites &amp; Social</name>
-			<order>15</order>
-		</subcategory>
-		<module>Referrers</module>
-		<action>getWebsites</action>
-		<order>105</order>
-		<parameters>
-			<module>Referrers</module>
-			<action>getWebsites</action>
-		</parameters>
-		<uniqueId>widgetReferrersgetWebsites</uniqueId>
-		<isWide>0</isWide>
-		<viewDataTable>table</viewDataTable>
-		<isReport>1</isReport>
-	</row>
-	<row>
 		<name>Campaigns</name>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
@@ -1928,7 +1928,7 @@
 		</subcategory>
 		<module>Goals</module>
 		<action>getItemsName</action>
-		<order>131</order>
+		<order>130</order>
 		<parameters>
 			<module>Goals</module>
 			<action>getItemsName</action>
@@ -1953,7 +1953,7 @@
 		</subcategory>
 		<module>Goals</module>
 		<action>getItemsName</action>
-		<order>131</order>
+		<order>130</order>
 		<parameters>
 			<module>Goals</module>
 			<action>getItemsName</action>
@@ -1978,7 +1978,7 @@
 		</subcategory>
 		<module>Goals</module>
 		<action>getItemsSku</action>
-		<order>130</order>
+		<order>131</order>
 		<parameters>
 			<module>Goals</module>
 			<action>getItemsSku</action>
@@ -2003,7 +2003,7 @@
 		</subcategory>
 		<module>Goals</module>
 		<action>getItemsSku</action>
-		<order>130</order>
+		<order>131</order>
 		<parameters>
 			<module>Goals</module>
 			<action>getItemsSku</action>

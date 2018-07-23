@@ -141,6 +141,7 @@ after_success:
 cache:
   directories:
     - "travis_phantomjs"
+    - $HOME/.composer/cache
 
 
 

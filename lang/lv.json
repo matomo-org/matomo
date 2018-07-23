@@ -175,6 +175,7 @@
         "NotValid": "%s nekorekts",
         "NumberOfVisits": "Apmeklējumu skaits",
         "NVisits": "%s apmeklējumi",
+        "NUniqueVisitors": "%s unikāli apmeklētāji",
         "Ok": "Labi",
         "OneVisit": "1 apmeklējums",
         "OnlyEnterIfRequired": "Ievadiet lietotājvārdu tikai tad, ja Jūsu SMTP serveris to pieprasa.",

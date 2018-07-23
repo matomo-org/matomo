@@ -13,6 +13,7 @@ use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
+use Piwik\SettingsServer;
 
 /**
  *
@@ -45,7 +46,7 @@ class CoreHome extends \Piwik\Plugin
     {
         $isApi = Piwik::getModule() === 'API' && (Piwik::getAction() == '' || Piwik::getAction() == 'index');
 
-        if ($isApi) {
+        if (!SettingsServer::isTrackerApiRequest() && $isApi) {
             // will be checked in API itself to make sure we return an API response in the proper format.
             return;
         }
@@ -308,6 +309,9 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_DataTableExcludeAggregateRows';
         $translationKeys[] = 'CoreHome_Default';
         $translationKeys[] = 'CoreHome_PageOf';
+        $translationKeys[] = 'CoreHome_FormatMetrics';
+        $translationKeys[] = 'CoreHome_ShowExportUrl';
+        $translationKeys[] = 'CoreHome_HideExportUrl';
         $translationKeys[] = 'CoreHome_FlattenDataTable';
         $translationKeys[] = 'CoreHome_UnFlattenDataTable';
         $translationKeys[] = 'CoreHome_ExternalHelp';

@@ -258,6 +258,7 @@
         "NumberOfVisits": "Broj poseta",
         "NUsers": "%s korisnici",
         "NVisits": "%s poseta",
+        "NUniqueVisitors": "Broj jedinstvenih posetilaca: %s",
         "Ok": "U redu",
         "OneAction": "1 akcija",
         "OneVisit": "1 poseta",

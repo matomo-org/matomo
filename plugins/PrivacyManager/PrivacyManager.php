@@ -24,7 +24,6 @@ use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
-use Piwik\Plugins\PrivacyManager\Tracker\RequestProcessor;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 
@@ -51,6 +50,7 @@ class PrivacyManager extends Plugin
         'delete_logs_older_than'               => 'Deletelogs',
         'delete_logs_max_rows_per_query'       => 'Deletelogs',
         'enable_auto_database_size_estimate'   => 'Deletelogs',
+        'enable_database_size_estimate'        => 'Deletelogs',
         'delete_reports_enable'                => 'Deletereports',
         'delete_reports_older_than'            => 'Deletereports',
         'delete_reports_keep_basic_metrics'    => 'Deletereports',

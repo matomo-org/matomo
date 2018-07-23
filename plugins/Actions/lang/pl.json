@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "Słowa kluczowe wyszukiwarki",
         "WidgetSearchNoResultKeywords": "Słowa Kluczowe bez Wyników",
         "ActionType": "Typ Akcji",
-        "ActionTypes": "Typy Akcji"
+        "ActionTypes": "Typy Akcji",
+        "Behaviour": "Zachowanie"
     }
 }

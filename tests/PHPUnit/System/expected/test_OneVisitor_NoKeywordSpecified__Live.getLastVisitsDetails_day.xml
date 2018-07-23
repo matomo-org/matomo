@@ -63,7 +63,7 @@
 		<deviceType>Inconnu</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Inconnu</deviceBrand>
-		<deviceModel />
+		<deviceModel>Inconnu</deviceModel>
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemName>Bot</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -192,7 +192,7 @@
 		<deviceType>Inconnu</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Inconnu</deviceBrand>
-		<deviceModel />
+		<deviceModel>Inconnu</deviceModel>
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemName>Bot</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>

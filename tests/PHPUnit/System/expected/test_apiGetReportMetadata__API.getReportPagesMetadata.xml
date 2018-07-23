@@ -4,7 +4,7 @@
 		<uniqueId>General_Actions.General_Downloads</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -34,7 +34,7 @@
 		<uniqueId>General_Actions.Actions_SubmenuPagesEntry</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -78,7 +78,7 @@
 		<uniqueId>General_Actions.Actions_SubmenuPagesExit</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -122,7 +122,7 @@
 		<uniqueId>General_Actions.General_Outlinks</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -152,7 +152,7 @@
 		<uniqueId>General_Actions.Actions_SubmenuPageTitles</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -182,7 +182,7 @@
 		<uniqueId>General_Actions.General_Pages</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -212,7 +212,7 @@
 		<uniqueId>General_Actions.Actions_SubmenuSitesearch</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -298,7 +298,7 @@
 		<uniqueId>General_Actions.Events_Events</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -409,7 +409,7 @@
 		<uniqueId>General_Actions.Contents_Contents</uniqueId>
 		<category>
 			<id>General_Actions</id>
-			<name>Actions</name>
+			<name>Behaviour</name>
 			<order>10</order>
 			<icon>icon-reporting-actions</icon>
 		</category>
@@ -1203,7 +1203,7 @@
 		<uniqueId>Referrers_Referrers.Referrers_WidgetGetAll</uniqueId>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
@@ -1247,7 +1247,7 @@
 		<uniqueId>Referrers_Referrers.Referrers_Campaigns</uniqueId>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
@@ -1277,7 +1277,7 @@
 		<uniqueId>Referrers_Referrers.General_Overview</uniqueId>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
@@ -1328,7 +1328,7 @@
 		<uniqueId>Referrers_Referrers.Referrers_SubmenuSearchEngines</uniqueId>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
@@ -1369,16 +1369,46 @@
 		</widgets>
 	</row>
 	<row>
-		<uniqueId>Referrers_Referrers.Referrers_SubmenuWebsites</uniqueId>
+		<uniqueId>Referrers_Referrers.Referrers_Socials</uniqueId>
 		<category>
 			<id>Referrers_Referrers</id>
-			<name>Referrers</name>
+			<name>Acquisition</name>
 			<order>15</order>
 			<icon>icon-reporting-referer</icon>
 		</category>
 		<subcategory>
-			<id>Referrers_SubmenuWebsites</id>
-			<name>Websites &amp; Social</name>
+			<id>Referrers_Socials</id>
+			<name>Social Networks</name>
+			<order>16</order>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>Social Networks</name>
+				<module>Referrers</module>
+				<action>getSocials</action>
+				<order>111</order>
+				<parameters>
+					<module>Referrers</module>
+					<action>getSocials</action>
+				</parameters>
+				<uniqueId>widgetReferrersgetSocials</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>graphPie</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+		</widgets>
+	</row>
+	<row>
+		<uniqueId>Referrers_Referrers.Referrers_SubmenuWebsitesOnly</uniqueId>
+		<category>
+			<id>Referrers_Referrers</id>
+			<name>Acquisition</name>
+			<order>15</order>
+			<icon>icon-reporting-referer</icon>
+		</category>
+		<subcategory>
+			<id>Referrers_SubmenuWebsitesOnly</id>
+			<name>Websites</name>
 			<order>15</order>
 		</subcategory>
 		<widgets>
@@ -1393,21 +1423,7 @@
 				</parameters>
 				<uniqueId>widgetReferrersgetWebsites</uniqueId>
 				<isWide>0</isWide>
-				<viewDataTable>table</viewDataTable>
-				<isReport>1</isReport>
-			</row>
-			<row>
-				<name>Social Networks</name>
-				<module>Referrers</module>
-				<action>getSocials</action>
-				<order>111</order>
-				<parameters>
-					<module>Referrers</module>
-					<action>getSocials</action>
-				</parameters>
-				<uniqueId>widgetReferrersgetSocials</uniqueId>
-				<isWide>0</isWide>
-				<viewDataTable>graphPie</viewDataTable>
+				<viewDataTable>tableAllColumns</viewDataTable>
 				<isReport>1</isReport>
 			</row>
 		</widgets>
@@ -4101,31 +4117,6 @@
 				<isContainer>1</isContainer>
 				<widgets>
 					<row>
-						<name>Product SKU</name>
-						<category>
-							<id>Goals_Ecommerce</id>
-							<name>Ecommerce</name>
-							<order>99</order>
-							<icon />
-						</category>
-						<subcategory>
-							<id>Goals_Products</id>
-							<name>Products</name>
-							<order>99</order>
-						</subcategory>
-						<module>Goals</module>
-						<action>getItemsSku</action>
-						<order>130</order>
-						<parameters>
-							<module>Goals</module>
-							<action>getItemsSku</action>
-						</parameters>
-						<uniqueId>widgetGoalsgetItemsSku</uniqueId>
-						<isWide>0</isWide>
-						<viewDataTable>table</viewDataTable>
-						<isReport>1</isReport>
-					</row>
-					<row>
 						<name>Product Name</name>
 						<category>
 							<id>Goals_Ecommerce</id>
@@ -4140,12 +4131,37 @@
 						</subcategory>
 						<module>Goals</module>
 						<action>getItemsName</action>
-						<order>131</order>
+						<order>130</order>
 						<parameters>
 							<module>Goals</module>
 							<action>getItemsName</action>
 						</parameters>
 						<uniqueId>widgetGoalsgetItemsName</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>table</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
+						<name>Product SKU</name>
+						<category>
+							<id>Goals_Ecommerce</id>
+							<name>Ecommerce</name>
+							<order>99</order>
+							<icon />
+						</category>
+						<subcategory>
+							<id>Goals_Products</id>
+							<name>Products</name>
+							<order>99</order>
+						</subcategory>
+						<module>Goals</module>
+						<action>getItemsSku</action>
+						<order>131</order>
+						<parameters>
+							<module>Goals</module>
+							<action>getItemsSku</action>
+						</parameters>
+						<uniqueId>widgetGoalsgetItemsSku</uniqueId>
 						<isWide>0</isWide>
 						<viewDataTable>table</viewDataTable>
 						<isReport>1</isReport>

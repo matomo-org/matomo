@@ -266,6 +266,7 @@
         "NumberOfVisits": "访问次数",
         "NUsers": "%s 名用户",
         "NVisits": "%s 次访问",
+        "NUniqueVisitors": "%s 个独立访客数",
         "Ok": "OK",
         "OneAction": "1 次活动",
         "OneVisit": "1 次访问",

@@ -59,7 +59,7 @@ class Menu extends \Piwik\Plugin\Menu
             $url = $this->urlForModuleAction('Proxy', 'redirect', array('url' => 'https://matomo.org/mobile/'));
 
             if ($url) {
-                $menu->addItem('Piwik Mobile App', null, $url, 4);
+                $menu->addItem('Mobile_MatomoMobile', null, $url, 4);
             }
         }
     }

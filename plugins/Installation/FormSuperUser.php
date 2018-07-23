@@ -62,9 +62,13 @@ class FormSuperUser extends QuickForm2
             array("<a href='https://matomo.org/support/?pk_medium=App_Newsletter_link&pk_source=Piwik_App&pk_campaign=App_Installation' style='color:#444;' rel='noreferrer' target='_blank'>", "</a>")
         );
 
+        $privacyNoticeLink = '<a href="https://matomo.org/privacy-policy/" target="_blank" rel="noreferrer noopener">';
+        $privacyNotice = '<div class="form-help email-privacy-notice">' . Piwik::translate('Installation_EmailPrivacyNotice', [$privacyNoticeLink, '</a>'])
+            . '</div>';
+
         $this->addElement('checkbox', 'subscribe_newsletter_professionalservices', null,
             array(
-                'content' => '&nbsp;&nbsp;' . $professionalServicesNewsletter,
+                'content' => $privacyNotice . '&nbsp;&nbsp;' . $professionalServicesNewsletter
             ));
 
         $this->addElement('submit', 'submit', array('value' => Piwik::translate('General_Next') . ' »', 'class' => 'btn'));

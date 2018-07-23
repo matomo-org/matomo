@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	
+	<hasMoreVisits>0</hasMoreVisits>
 	<totalVisits>2</totalVisits>
 	<totalVisitDuration>361</totalVisitDuration>
 	<totalActions>2</totalActions>
@@ -86,7 +87,7 @@
 			<deviceType>Desktop</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Generic Desktop</deviceModel>
 			<operatingSystem>Windows XP</operatingSystem>
 			<operatingSystemName>Windows</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -221,7 +222,7 @@
 			<deviceType>Desktop</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Generic Desktop</deviceModel>
 			<operatingSystem>Windows XP</operatingSystem>
 			<operatingSystemName>Windows</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -317,7 +318,7 @@
 			<icon>plugins/Morpheus/icons/dist/devices/desktop.png</icon>
 			<devices>
 				<row>
-					<name>Unknown</name>
+					<name>Generic Desktop</name>
 					<count>2</count>
 				</row>
 			</devices>

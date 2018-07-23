@@ -90,6 +90,7 @@
         "TrackingCodeIntro": "Matomo dostarcza szereg sposobów załączania kodu śledzącego dla Twojej strony, aplikacji mobilnej jak i dla dowolnego urządzenia lub aplikacji.",
         "TrustedHostConfirm": "Czy na pewno chcesz zmienić zaufaną nazwę hosta Matomo?",
         "TrustedHostSettings": "Zaufana nazwa hosta Matomo",
+        "UiDemo": "UI Demo",
         "UpdateSettings": "Zaktualizuj ustawienia",
         "UseCustomLogo": "Użyj niestandardowego logo",
         "ValidPiwikHostname": "Prawidłowa nazwa hosta Matomo",

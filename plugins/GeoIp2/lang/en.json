@@ -9,6 +9,7 @@
     "LocationProviderDesc_ServerModule2": "If you have to import log files or do something else that requires setting IP addresses, use the %3$sPHP GeoIP 2 implementation%4$s and install %1$smaxminddb extension%2$s.",
     "ServerBasedVariablesConfiguration": "Configuration for server variables used by GeoIP 2 server modules",
     "GeoIPVariablesConfigurationHere": "You can configure used server variables %1$shere%2$s.",
+    "ShowCustomServerVariablesConfig": "I use the Geoip2 server module (Nginx, Apache...) and want to configure server variables",
     "ServerVariableFor": "Server variable for %s"
   }
 }

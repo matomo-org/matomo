@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "Napredna podrška za vremenske zone nije pronađena u vašoj PHP instalaciji (podržana u PHP>=5.2). Kako bilo, još uvek možete ručno izabrati UTC pomeraj.",
         "AliasUrlHelp": "Savetuje se ali nije neophodno da navedete više adresa, po jednu u svakoj liniji, koje korisnici koriste kako bi pristupili ovom sajtu. Alias adrese se neće pojaviti u izveštaju Reference > Sajtovi. Imajte na umu da nije neophodno navesti adrese sa i bez 'www' zato što Matomo automatski vodi računa o obe.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Promena vremenske zone će uticati samo na potonje podatke i neće se primenjivati retroaktivno.",
-        "ChooseCityInSameTimezoneAsYou": "Izaberite grad koji se nalazi u istoj vremenskoj zoni kao i vi",
         "Currency": "Valuta",
         "CurrencySymbolWillBeUsedForGoals": "Znak za valutu će biti prikazan kod prihoda po ciljevima",
         "DefaultCurrencyForNewWebsites": "Podrazumevana valuta za nove sajtove",

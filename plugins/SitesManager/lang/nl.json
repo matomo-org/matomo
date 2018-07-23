@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "Geavanceerde tijdzone ondersteuning is niet gevonden in uw PHP-installatie (ondersteund vanaf versie 5.2). U kunt wel een handmatige UTC offset kiezen.",
         "AliasUrlHelp": "Het is niet verplicht, maar we raden aan om hier de diverse domeinnamen te noemen waarmee de bezoekers uit kunnen komen op uw website. Als u de alias-domeinnamen hier noemt, verschijnen ze niet in het websiterapport van de herkomst, maar als een directe binnenkomst. Het is niet nodig om URL's met of zonder WWW op te nemen, omdat Matomo dit automatisch detecteert.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Het veranderen van uw tijdszone heeft alleen effect op nieuwe data en zal niet met terugwerkende kracht gelden voor de reeds verzamelde data.",
-        "ChooseCityInSameTimezoneAsYou": "Kies een stad in dezelfde tijdzone als u.",
         "Currency": "Valuta",
         "CurrencySymbolWillBeUsedForGoals": "Het valutasymbool wordt weergegeven bij de inkomsten uit doelconversies.",
         "DefaultCurrencyForNewWebsites": "Standaard valuta voor nieuwe websites",

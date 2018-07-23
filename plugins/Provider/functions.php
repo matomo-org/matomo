@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Provider;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Piwik;
+use Zend_Validate_Hostname as HostnameValidator;
 
 /**
  * Return hostname portion of a domain name
@@ -40,12 +41,13 @@ function getHostnameUrl($in)
     if ($in == DataTable::LABEL_SUMMARY_ROW || empty($in) || strtolower($in) === 'ip') {
         return null;
     }
-
-    // if the name looks like it can be used in a URL, use it in one, otherwise link to startpage
-    if (preg_match("/^[-a-zA-Z0-9_.]+$/", $in)) {
-        return "http://www." . $in . "/";
+    
+    // if the name is a valid hostname, return a URL - otherwise link to startpage
+    $validator = new HostnameValidator;
+    if ($validator->isValid($in)) {
+        return "http://" . $in . "/";
     } else {
-        return "https://startpage.com/do/search?q=" . urlencode($in);
+        return "https://startpage.com/do/search?q=" . urlencode(getPrettyProviderName($in));
     }
 }
 

@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "Busca local por Palavras-Chave",
         "WidgetSearchNoResultKeywords": "Palavras-Chave de Pesquisas Sem Resultados",
         "ActionType": "Tipo de Ação",
-        "ActionTypes": "Tipo de Ação"
+        "ActionTypes": "Tipo de Ação",
+        "Behaviour": "Comportamento"
     }
 }

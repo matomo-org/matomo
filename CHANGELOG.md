@@ -4,6 +4,25 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.6.0
+
+### New APIs
+
+* Added new event `API.addGlossaryItems` which lets you add items to the glossary.
+* A new role has introduced called "write" which has less permissions than an admin but more than a view only user.
+* Added new API method `UsersManager.getAvailableRoles` to fetch a list of all available roles that can be granted to a user.
+* Added new API method `UsersManager.getAvailableCapabilities` to fetch a list of all available capabilities that can be granted to a user.
+* Added new API method `UsersManager.addCapabilities` to grant one or multiple capabilities to a user.
+* Added new API method `UsersManager.removeCapabilities` to remove one or multiple capabilities from a user.
+* The API method `UsersManager.setUserAccess` now accepts an array to pass a role and multiple capabilities at once.
+* Plugin classes can overwrite the method `requiresInternetConnection` to define if they should be automatically unloaded if no internet connection is available (enable_internet_features = 0)
+
+
+### Breaking Changes
+* Changed some menu items to use translation keys instead (see [PR #12885](https://github.com/matomo-org/matomo/pull/12885)).
+* The methods `assertResponseCode()` and `assertHttpResponseText()` in `Piwik\Tests\Framework\TestCase\SystemTestCase` have been deprecated and will be removed in Matomo 4.0. Please use `Piwik\Http` instead.
+* The classes `PHPUnit\Framework\Constraint\HttpResponseText` and `PHPUnit\Framework\Constraint\ResponseCode` have been deprecated and will be removed in Matomo 4.0. Please use `Piwik\Http` instead.
+
 ## Matomo 3.5.1
 
 ### New APIs
@@ -21,6 +40,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 
 * New JavaScript tracker functions to [ask for consent](https://developer.matomo.org/guides/tracking-javascript-guide#asking-for-consent): `requireConsent`, `rememberConsentGiven`, `setConsentGiven`, `forgetConsentGiven`.
+
+### New Features
 * New events `PrivacyManager.deleteLogsOlderThan`, `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` to enable plugins to be GDPR compliant.  
 * New event `AssetManager.addStylesheets` to add additional less styles which are not located in a file.
 * New event `Archiving.getIdSitesToMarkArchivesAsInvalidated` that lets plugins customize the behaviour of report invalidations.
@@ -31,6 +52,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking Changes
 `piwik` font is deprecated and will be removed in Matomo 4.0. Please use new `matomo` font instead
+Sending synchronous requests using ajaxHelper is now deprecated. All requests will be send async as of Matomo 4.0
 
 ### New APIs
 * A new JavaScript tracker method `resetUserId` has been added to allow clearing user and visitor id.
@@ -50,6 +72,12 @@ Piwik is now Matomo. Read more about this change in the [official announcement](
 ### New APIs
 
 * New HTTP API `API.getMatomoVersion` was introduced. The previous HTTP API `API.getPiwikVersion` will still work but will now be hidden from the API reference page.
+
+## Piwik 3.2.2
+
+### Breaking Changes
+* The `historyService` along with `broadcast.init`, `broadcast.propagateAjax`, `broadcast.pageLoad` have been deprecated and will be removed in Piwik 4. 
+
 
 ## Piwik 3.2.1
 

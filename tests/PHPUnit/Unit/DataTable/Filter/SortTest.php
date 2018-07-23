@@ -254,6 +254,34 @@ class SortTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(DataTable::isEqual($table, $expectedtableReverse));
     }
 
+    public function testSecondarySort()
+    {
+        $table = new DataTable();
+        $table->addRowsFromArray(array(
+            array(Row::COLUMNS => array('label' => 'ask', 'count' => 10, 'count2' => 10)),
+            array(Row::COLUMNS => array('label' => 'nintendo', 'count' => 10, 'count2' => 5)),
+            array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 10, 'count2' => 100)
+            )));
+        $filter = new Sort($table, 'count', 'desc', true, true, function(){return 'count2';});
+        $filter->filter($table);
+        $expectedOrder = array('yahoo', 'ask', 'nintendo');
+        $this->assertEquals($expectedOrder, $table->getColumn('label'));
+    }
+
+    public function testSecondarySort2()
+    {
+        $table = new DataTable();
+        $table->addRowsFromArray(array(
+            array(Row::COLUMNS => array('label' => 'ask', 'count' => 1, 'count2' => 10)),
+            array(Row::COLUMNS => array('label' => 'nintendo', 'count' => 10, 'count2' => 5)),
+            array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 10, 'count2' => 100)
+            )));
+        $filter = new Sort($table, 'count', 'desc', true, true, function(){return 'count2';});
+        $filter->filter($table);
+        $expectedOrder = array('yahoo', 'nintendo', 'ask');
+        $this->assertEquals($expectedOrder, $table->getColumn('label'));
+    }
+
     private function createDataTable($rows)
     {
         $table = new DataTable();

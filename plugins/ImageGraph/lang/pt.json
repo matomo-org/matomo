@@ -1,5 +1,6 @@
 {
     "ImageGraph": {
-        "PluginDescription": "Gera uma imagem de gráfico PNG estática para qualquer relatório Matomo"
+        "ColumnOrdinateMissing": "A coluna '%1$s' não foi encontrada neste relatório. Experimente qualquer uma de %2$s",
+        "PluginDescription": "Gerar bonitas imagens PNG estáticas de gráficos para qualquer um dos seus relatórios de dados."
     }
 }

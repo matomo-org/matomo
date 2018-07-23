@@ -671,7 +671,7 @@ Segmentation = (function($) {
                                 ajaxHandler.setCallback(function (response) {
                                     self.updateMethod(params);
                                 });
-                                ajaxHandler.send(true);
+                                ajaxHandler.send();
                             } else {
                                 self.updateMethod(params);
                             }

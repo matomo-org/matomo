@@ -150,6 +150,7 @@ class PrivacyManagerTest extends IntegrationTestCase
             'delete_logs_older_than' => 180,
             'delete_logs_max_rows_per_query' => 100000,
             'enable_auto_database_size_estimate' => 1,
+            'enable_database_size_estimate' => 1,
             'delete_reports_enable' => 0,
             'delete_reports_older_than' => 12,
             'delete_reports_keep_basic_metrics' => 1,

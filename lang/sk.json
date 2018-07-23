@@ -258,6 +258,7 @@
         "NumberOfVisits": "Počet návštev",
         "NUsers": "%s užívateľov",
         "NVisits": "%s návštev",
+        "NUniqueVisitors": "Počet unikátnych návštevníkov: %s",
         "Ok": "Ok",
         "OneAction": "1 akcia",
         "OneVisit": "1 návšteva",

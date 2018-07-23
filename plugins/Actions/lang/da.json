@@ -67,6 +67,7 @@
         "WidgetSearchCategories": "Søge kategorier",
         "WidgetSearchKeywords": "Websted søgeord",
         "WidgetSearchNoResultKeywords": "Søgeord uden nogen resultater",
-        "ActionType": "Handlings type"
+        "ActionType": "Handlings type",
+        "Behaviour": "Adfærd"
     }
 }

@@ -122,8 +122,7 @@ var SegmentedVisitorLog = function() {
             action: 'indexVisitorLog',
             segment: segment,
             disableLink: 1,
-            small: 1,
-            hideProfileLink: 1
+            small: 1
         };
 
         $.extend(requestParams, extraParams);
@@ -132,7 +131,7 @@ var SegmentedVisitorLog = function() {
         ajaxRequest.addParams(requestParams, 'get');
         ajaxRequest.setCallback(callback);
         ajaxRequest.setFormat('html');
-        ajaxRequest.send(false);
+        ajaxRequest.send();
     }
 
     return {

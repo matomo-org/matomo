@@ -33,7 +33,7 @@
         "Socials": "Sociala Nätverk",
         "SocialsReportDocumentation": "Den här rapporten visar vilka sociala nätverk som tagit besökare till din webbplatser.<br \/>Genom att klicka på en rad i tabellen kan du se vilken sida på det sociala nätverket besökarna kom ifrån.",
         "SubmenuSearchEngines": "Sökmotorer och nyckelord",
-        "SubmenuWebsites": "Webbplatser",
+        "SubmenuWebsitesOnly": "Webbsidor",
         "Type": "Typ av källa",
         "TypeCampaigns": "%s från kampanjer",
         "TypeDirectEntries": "%s direkttrafik",

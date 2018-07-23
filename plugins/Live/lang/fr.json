@@ -1,6 +1,6 @@
 {
     "Live": {
-        "AveragePageGenerationTime": "Chaque page a pris une moyenne de %1$s à charger pour ce visiteur.",
+        "AveragePageGenerationTime": "Chaque page a pris en moyenne %1$s à charger pour ce visiteur.",
         "CalculatedOverNPageViews": "Calculé sur la base des %1$s dernières pages vues par ce visiteur.",
         "ClickToViewMoreAboutVisit": "Cliquez pour afficher plus d'informations à propos de cette visite",
         "ClickToViewAllActions": "Cliquez pour visualiser l'ensemble des actions de ce groupe en détails",

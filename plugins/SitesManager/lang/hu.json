@@ -4,7 +4,6 @@
         "AdvancedTimezoneSupportNotFound": "Advanced timezones támogatás nem áll rendelkezésre a szerveren használt PHP verzióhoz (pedig PHP 5.2-től ez támogatott). Kézzel megadhatsz manual UTC offset-et.",
         "AliasUrlHelp": "Javasolt, de nem kötelező megadni azokat a különböző URL-eket, melyek segítségével a látogatók elérhetik a weboldalt. Ezek az alternatív URL-ek nem fognak megjelenni a \\\"Forgalmi források » Weboldalak\\\" jelentésben. Nem szükséges azonban külön megadni www-vel és www nélkül is a domainneveket, mivel a Matomo mindkettőt automatikusan figyelembe veszi.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Az időzóna megváltoztatása csak a jövőben gyűjtött adatokat érinti, visszamenőlegesen nem kerülnek módosításra a statisztikák az új időzónának megfelelően.",
-        "ChooseCityInSameTimezoneAsYou": "Válassz egy várost a te időzónádban",
         "Currency": "Pénznem",
         "CurrencySymbolWillBeUsedForGoals": "A választott pénznem szimbóluma a Célokat és bevételeket érintő jelentésekben jelenik meg.",
         "DefaultCurrencyForNewWebsites": "Alapértelmezett pénznem új weboldalaknál",

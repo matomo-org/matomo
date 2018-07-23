@@ -123,8 +123,8 @@ describe("Dashboard", function () {
             page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
             page.click('.widgetpreview-categorylist>li:contains(Live!)');
 
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Actions):first');
-            page.click('.widgetpreview-categorylist>li:contains(Actions):first');
+            page.mouseMove('.widgetpreview-categorylist>li:contains(Behaviour):first');
+            page.click('.widgetpreview-categorylist>li:contains(Behaviour):first');
 
             page.mouseMove('.widgetpreview-widgetlist>li:contains(Pages):first');
             page.click('.widgetpreview-widgetlist>li:contains(Pages):first');

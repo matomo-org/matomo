@@ -5,6 +5,22 @@
 		<title>Configuration for server variables used by GeoIP 2 server modules</title>
 		<settings>
 			<row>
+				<name>geoip2usecustom</name>
+				<title>I use the Geoip2 server module (Nginx, Apache...) and want to configure server variables</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
 				<name>geoip2var_continent_code</name>
 				<title>Server variable for &lt;strong&gt;continent code&lt;/strong&gt;</title>
 				<value>MM_CONTINENT_CODE</value>
@@ -18,7 +34,7 @@
 				<inlineHelp />
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>geoip2usecustom==1</condition>
 			</row>
 			<row>
 				<name>geoip2var_continent_name</name>
@@ -34,7 +50,7 @@
 				<inlineHelp />
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>geoip2usecustom==1</condition>
 			</row>
 			<row>
 				<name>geoip2var_country_code</name>
@@ -50,7 +66,7 @@
 				<inlineHelp />
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>geoip2usecustom==1</condition>
 			</row>
 			<row>
 				<name>geoip2var_country_name</name>
@@ -66,7 +82,7 @@
 				<inlineHelp />
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>geoip2usecustom==1</condition>
 			</row>
 			<row>
 				<name>geoip2var_region_code</name>
@@ -82,7 +98,7 @@
 				<inlineHelp />
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>geoip2usecustom==1</condition>
 			</row>
 			<row>
 				<name>geoip2var_region_name</name>
@@ -98,7 +114,7 @@
 				<inlineHelp />
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>geoip2usecustom==1</condition>
 			</row>
 			<row>
 				<name>geoip2var_lat</name>
@@ -114,7 +130,7 @@
 				<inlineHelp />
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>geoip2usecustom==1</condition>
 			</row>
 			<row>
 				<name>geoip2var_long</name>
@@ -130,7 +146,7 @@
 				<inlineHelp />
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>geoip2usecustom==1</condition>
 			</row>
 			<row>
 				<name>geoip2var_postal_code</name>
@@ -146,7 +162,7 @@
 				<inlineHelp />
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>geoip2usecustom==1</condition>
 			</row>
 			<row>
 				<name>geoip2var_city_name</name>
@@ -162,7 +178,7 @@
 				<inlineHelp />
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>geoip2usecustom==1</condition>
 			</row>
 			<row>
 				<name>geoip2var_isp</name>
@@ -178,7 +194,7 @@
 				<inlineHelp />
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>geoip2usecustom==1</condition>
 			</row>
 			<row>
 				<name>geoip2var_org</name>
@@ -194,7 +210,7 @@
 				<inlineHelp />
 				<templateFile />
 				<introduction />
-				<condition />
+				<condition>geoip2usecustom==1</condition>
 			</row>
 		</settings>
 	</row>

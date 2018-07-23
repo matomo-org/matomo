@@ -26,6 +26,7 @@ use Piwik\Scheduler\Task;
 use Piwik\Scheduler\Timetable;
 use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\Weekly;
+use Piwik\SettingsPiwik;
 use Piwik\Unzip;
 
 /**
@@ -63,6 +64,11 @@ class GeoIPAutoUpdater extends Task
      */
     public function __construct()
     {
+        if (!SettingsPiwik::isInternetEnabled()) {
+            // no automatic updates possible if no internet available
+            return;
+        }
+
         $schedulePeriodStr = self::getSchedulePeriod();
 
         // created the scheduledtime instance, also, since GeoIP updates are done on tuesdays,

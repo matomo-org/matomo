@@ -311,6 +311,21 @@ class Factory
     }
 
     /**
+     * Drops an existing index from a database table.
+     *
+     * @param string $table  Unprefixed database table name, eg 'log_visit'.
+     * @return DropIndex
+     */
+    public function dropPrimaryKey($table)
+    {
+        $table = $this->prefixTable($table);
+
+        return $this->container->make('Piwik\Updater\Migration\Db\DropPrimaryKey', array(
+            'table' => $table
+        ));
+    }
+
+    /**
      * Adds a primary key to an existing database table.
      *
      * This is equivalent to an `ADD PRIMARY KEY(column_name_1, column_name_2)` in SQL.

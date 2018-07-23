@@ -350,4 +350,55 @@ class Segment
     {
         return (string) $this->getString();
     }
+
+    /**
+     * Combines this segment with another segment condition, if the segment condition is not already
+     * in the segment.
+     *
+     * The combination is naive in that it does not take order of operations into account.
+     *
+     * @param string $segment
+     * @param string $operator The operator to use. Should be either SegmentExpression::AND_DELIMITER
+     *                         or SegmentExpression::OR_DELIMITER.
+     * @param string $segmentCondition The segment condition to add.
+     * @return string
+     * @throws Exception
+     */
+    public static function combine($segment, $operator, $segmentCondition)
+    {
+        if (empty($segment)) {
+            return $segmentCondition;
+        }
+
+        if (empty($segmentCondition)
+            || self::containsCondition($segment, $operator, $segmentCondition)
+        ) {
+            return $segment;
+        }
+
+        return $segment . $operator . $segmentCondition;
+    }
+
+    private static function containsCondition($segment, $operator, $segmentCondition)
+    {
+        // check when segment/condition are of same encoding
+        return strpos($segment, $operator . $segmentCondition) !== false
+            || strpos($segment, $segmentCondition . $operator) !== false
+
+            // check when both operator & condition are urlencoded in $segment
+            || strpos($segment, urlencode($operator . $segmentCondition)) !== false
+            || strpos($segment, urlencode($segmentCondition . $operator)) !== false
+
+            // check when operator is not urlencoded, but condition is in $segment
+            || strpos($segment, $operator . urlencode($segmentCondition)) !== false
+            || strpos($segment, urlencode($segmentCondition) . $operator) !== false
+
+            // check when segment condition is urlencoded & $segment isn't
+            || strpos($segment, $operator . urldecode($segmentCondition)) !== false
+            || strpos($segment, urldecode($segmentCondition) . $operator) !== false
+
+            || $segment === $segmentCondition
+            || $segment === urlencode($segmentCondition)
+            || $segment === urldecode($segmentCondition);
+    }
 }

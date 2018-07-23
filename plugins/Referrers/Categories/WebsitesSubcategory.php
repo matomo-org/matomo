@@ -13,7 +13,7 @@ use Piwik\Category\Subcategory;
 class WebsitesSubcategory extends Subcategory
 {
     protected $categoryId = 'Referrers_Referrers';
-    protected $id = 'Referrers_SubmenuWebsites';
+    protected $id = 'Referrers_SubmenuWebsitesOnly';
     protected $order = 15;
 
 }

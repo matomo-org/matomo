@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	
+	<hasMoreVisits>0</hasMoreVisits>
 	<totalVisits>31</totalVisits>
 	<totalVisitDuration>0</totalVisitDuration>
 	<totalActions>31</totalActions>
@@ -82,7 +83,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -198,7 +199,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -314,7 +315,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -430,7 +431,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -546,7 +547,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -662,7 +663,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -778,7 +779,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -894,7 +895,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1010,7 +1011,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1126,7 +1127,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1242,7 +1243,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1358,7 +1359,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1474,7 +1475,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1590,7 +1591,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1706,7 +1707,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1822,7 +1823,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1938,7 +1939,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2054,7 +2055,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2170,7 +2171,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2286,7 +2287,7 @@
 			<deviceType>Unknown</deviceType>
 			<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 			<deviceBrand>Unknown</deviceBrand>
-			<deviceModel />
+			<deviceModel>Unknown</deviceModel>
 			<operatingSystem>Unknown</operatingSystem>
 			<operatingSystemName>Unknown</operatingSystemName>
 			<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2397,7 +2398,7 @@
 			<icon>plugins/Morpheus/icons/dist/devices/desktop.png</icon>
 			<devices>
 				<row>
-					<name>Unknown</name>
+					<name>Generic Desktop</name>
 					<count>1</count>
 				</row>
 			</devices>

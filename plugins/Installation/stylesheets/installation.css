@@ -125,3 +125,7 @@ p.next-step:first-child {
 .should-get-hidden-by-css {
     display: none;
 }
+
+.email-privacy-notice {
+    margin-top: -4rem;
+}

@@ -228,6 +228,7 @@
         "NumberOfVisits": "Số lượt truy cập",
         "NUsers": "%s users",
         "NVisits": "%s lượt truy cập",
+        "NUniqueVisitors": "%s khách truy cập duy nhất",
         "Ok": "Đồng ý",
         "OneAction": "1 Hành động",
         "OneVisit": "1 lượt truy cập",

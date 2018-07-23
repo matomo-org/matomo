@@ -238,6 +238,7 @@
         "NumberOfVisits": "방문수",
         "NUsers": "%s 사용자",
         "NVisits": "%s회 방문",
+        "NUniqueVisitors": "%s 고유 방문자",
         "Ok": "확인",
         "OneAction": "1회 활동",
         "OneVisit": "1회 방문",

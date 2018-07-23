@@ -7,9 +7,14 @@
         "Engagement": "التفاعل",
         "NPages": "%s صفحات",
         "OnePage": "صفحة واحدة",
+        "VisitNum": "رقم الزيارة",
+        "VisitsByDaysSinceLast": "الزيارات حسب الأيام منذ آخر زيارة",
+        "visitsByVisitCount": "الزيارات برقم الزيارة",
         "VisitsPerDuration": "الزيارات لزمن الزيارة",
         "VisitsPerNbOfPages": "الزيارات لعدد الصفحات",
         "WidgetLengths": "طول الزيارة",
-        "WidgetPages": "الصفحات لكل زيارة"
+        "WidgetLengthsDocumentation": "يمكنك مشاهدة كم الزيارات التي لها مدة كلية معيّنة في هذا التقرير. يُعرض التقرير في البداية على صورة غيمة وسوم ثم تُعرض المدد الأكثر شيوعاً بخط أكبر.",
+        "WidgetPages": "الصفحات لكل زيارة",
+        "WidgetVisitsByDaysSinceLast": "الزيارات حسب الأيام منذ آخر زيارة"
     }
 }
