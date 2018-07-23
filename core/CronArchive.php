@@ -385,6 +385,9 @@ class CronArchive
             foreach ($processes as $process) {
                 if (strpos($process, 'console core:archive') !== false &&
                     (!$instanceId
+                      || strpos($process, '--matomo-domain=' . $instanceId) !== false
+                      || strpos($process, '--matomo-domain="' . $instanceId . '"') !== false
+                      || strpos($process, '--matomo-domain=\'' . $instanceId . "'") !== false
                       || strpos($process, '--piwik-domain=' . $instanceId) !== false
                       || strpos($process, '--piwik-domain="' . $instanceId . '"') !== false
                       || strpos($process, '--piwik-domain=\'' . $instanceId . "'") !== false)) {

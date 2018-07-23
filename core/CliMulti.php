@@ -167,7 +167,7 @@ class CliMulti
             $query = escapeshellarg($query);
         }
 
-        return sprintf('%s %s %s/console climulti:request -q --piwik-domain=%s %s %s > %s 2>&1 &',
+        return sprintf('%s %s %s/console climulti:request -q --matomo-domain=%s %s %s > %s 2>&1 &',
                        $bin, $this->phpCliOptions, PIWIK_INCLUDE_PATH, $hostname, $superuserCommand, $query, $outputFile);
     }
 
@@ -300,7 +300,7 @@ class CliMulti
         $posStart = strpos($commandToCheck, 'console climulti');
         $posPid = strpos($commandToCheck, '&pid='); // the pid is random each time so we need to ignore it.
         $shortendCommand = substr($commandToCheck, $posStart, $posPid - $posStart);
-        // equals eg console climulti:request -q --piwik-domain= --superuser module=API&method=API.get&idSite=1&period=month&date=2018-04-08,2018-04-30&format=php&trigger=archivephp
+        // equals eg console climulti:request -q --matomo-domain= --superuser module=API&method=API.get&idSite=1&period=month&date=2018-04-08,2018-04-30&format=php&trigger=archivephp
         $shortendCommand      = preg_replace("/([&])date=.*?(&|$)/", "", $shortendCommand);
         $currentlyRunningJobs = preg_replace("/([&])date=.*?(&|$)/", "", $currentlyRunningJobs);
 
