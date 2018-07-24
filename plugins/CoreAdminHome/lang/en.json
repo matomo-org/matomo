@@ -96,7 +96,7 @@
         "UseCustomLogo": "Use a custom logo",
         "ValidPiwikHostname": "Valid Matomo Hostname",
         "WithOptionalRevenue": "with optional revenue",
-        "YouAreOptedIn": "You are not currently opted out.",
+        "YouAreOptedIn": "You are currently not opted out.",
         "YouAreOptedOut": "You are currently opted out.",
         "YouMayOptOut": "You may choose not to have a unique web analytics cookie identification number assigned to your computer to avoid the aggregation and analysis of data collected on this website.",
         "YouMayOptOutBis": "To make that choice, please click below to receive an opt-out cookie.",
