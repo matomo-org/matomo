@@ -11,6 +11,7 @@ namespace Piwik\Updates;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Updater;
 use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -52,6 +53,21 @@ class Updates_3_6_0_b1 extends Updates
         $migrations = $this->getPluginSettingsMigrations($migrations);
         $migrations = $this->getSiteSettingsMigrations($migrations);
         $migrations = $this->getLogProfilingMigrations($migrations);
+
+        $accessColumns = DbHelper::getTableColumns(Common::prefixTable('access'));
+
+        // changes for ACL
+        $migrations[] = $this->migration->db->changeColumnType('access', 'access', 'VARCHAR(50) NULL');
+        if (!isset($accessColumns['idaccess'])) {
+            // the test UpdaterTest::testUpdateWorksAfterPiwikIsAlreadyUpToDate() runs this update on the new DB schema which
+            // already includes the idaccess column including auto_increment statement. It then fails cause it cannot drop
+            // the primary key from idaccess as it also has an auto_increment. But in normal case when not executed in that test
+            // it would remove the primary key (login,idsite). So we ensure to execute this only if the idaccess column not already
+            // exists
+            $migrations[] = $this->migration->db->dropPrimaryKey('access');
+            $migrations[] = $this->migration->db->addColumn('access', 'idaccess', 'INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT');
+            $migrations[] = $this->migration->db->addIndex('access', array('login', 'idsite'), 'index_loginidsite');
+        }
 
         return $migrations;
     }

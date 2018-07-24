@@ -15,6 +15,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
 use Piwik\Exception\NoPrivilegesException;
@@ -697,6 +698,18 @@ abstract class Controller
         if (!Piwik::isUserIsAnonymous()) {
             $view->emailSuperUser = implode(',', Piwik::getAllSuperUserAccessEmailAddresses());
         }
+
+        $capabilities = array();
+        if ($this->idSite && $this->site) {
+            $capabilityProvider = StaticContainer::get(Access\CapabilitiesProvider::class);
+            foreach ($capabilityProvider->getAllCapabilities() as $capability) {
+                if (Piwik::isUserHasCapability($this->idSite, $capability->getId())) {
+                    $capabilities[] = $capability->getId();
+                }
+            }
+        }
+
+        $view->userCapabilities = $capabilities;
 
         $this->addCustomLogoInfo($view);
 

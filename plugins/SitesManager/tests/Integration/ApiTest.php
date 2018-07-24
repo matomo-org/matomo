@@ -12,7 +12,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\MobileAppMeasurable;
-use Piwik\Plugins\MobileAppMeasurable\Type;
 use Piwik\Plugins\WebsiteMeasurable\Type as WebsiteType;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\Model;

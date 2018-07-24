@@ -200,7 +200,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->addCustomLogoInfo($view);
         $view->message = $message;
 
-        if (Piwik::isUserHasAdminAccess($idSite)) {
+        if (Piwik::isUserHasWriteAccess($idSite)) {
             // TODO use $idSite to link to the correct row. This is tricky because the #rowX ids don't match
             // the site ids when sites have been deleted.
             $url = 'index.php?module=SitesManager&action=index';

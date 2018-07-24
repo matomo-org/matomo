@@ -76,6 +76,9 @@ class Referrers extends \Piwik\Plugin
             case Common::REFERRER_TYPE_SEARCH_ENGINE:
                 $indexTranslation = 'General_ColumnKeyword';
                 break;
+            case Common::REFERRER_TYPE_SOCIAL_NETWORK:
+                $indexTranslation = 'Referrers_ColumnSocial';
+                break;
             case Common::REFERRER_TYPE_WEBSITE:
                 $indexTranslation = 'Referrers_ColumnWebsite';
                 break;

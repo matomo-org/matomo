@@ -32,7 +32,6 @@
         "SearchEngines": "Arama Motorları",
         "SearchEnginesDocumentation": "Web sitenize bir arama motoru üzerinden yönlendirilen ziyaretçiler. %1$s Ayrıntılı bilgi almak için %2$s raporuna bakın.",
         "SearchEnginesReportDocumentation": "Bu rapor ziyaretçileri web sitenize yönlendiren arama motorlarını görüntüler. %s Tablodaki bir satıra tıklayarak kullanıcıların arama motorlarına göre dağılımını görebilirsiniz.",
-        "SocialFooterMessage": "Soldaki web siteleri raporunun bir alt kümesi. Diğer web sitelerini süzerek sosyal ağ yönlendirenlerini doğrudan karşılaştırabilirsiniz.",
         "Socials": "Sosyal Ağlar",
         "SocialsReportDocumentation": "Bu rapor ziyaretçileri web sitenize yönlendiren sosyal ağları görüntüler. <br \/> Tablodaki bir satıra tıklayarak kullanıcıların sosyal ağ sayfalarına göre dağılımını görebilirsiniz.",
         "SubmenuSearchEngines": "Arama Motorları ve Anahtar Sözcükler",

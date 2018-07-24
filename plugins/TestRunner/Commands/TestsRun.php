@@ -41,7 +41,8 @@ class TestsRun extends ConsoleCommand
         $options = $input->getOption('options');
         $groups  = $input->getOption('group');
         $magics  = $input->getArgument('variables');
-        $piwikDomain = $input->getOption('piwik-domain');
+        // @todo remove piwik-domain fallback in Matomo 4
+        $matomoDomain = $input->getOption('matomo-domain') ?: $input->getOption('piwik-domain');
 
         $groups = $this->getGroupsFromString($groups);
 
@@ -114,7 +115,7 @@ class TestsRun extends ConsoleCommand
             }
         }
 
-        $this->executeTests($piwikDomain, $suite, $testFile, $groups, $options, $command, $output);
+        $this->executeTests($matomoDomain, $suite, $testFile, $groups, $options, $command, $output);
 
         return $this->returnVar;
     }

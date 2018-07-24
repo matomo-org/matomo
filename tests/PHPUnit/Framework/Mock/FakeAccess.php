@@ -9,10 +9,11 @@ namespace Piwik\Tests\Framework\Mock;
 
 use Piwik\Access;
 use Piwik\Auth;
+use Piwik\Container\StaticContainer;
 use Piwik\NoAccessException;
+use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Site as PiwikSite;
-use Exception;
 
 /**
  * FakeAccess for UnitTests
@@ -22,16 +23,20 @@ class FakeAccess extends Access
 {
     public static $superUser = false;
     public static $idSitesAdmin = array();
+    public static $idSitesWrite = array();
     public static $idSitesView = array();
+    public static $idSitesCapabilities = array();
     public static $identity = 'superUserLogin';
     public static $superUserLogin = 'superUserLogin';
 
-    public static function clearAccess($superUser = false, $idSitesAdmin = array(), $idSitesView = array(), $identity = 'superUserLogin')
+    public static function clearAccess($superUser = false, $idSitesAdmin = array(), $idSitesView = array(), $identity = 'superUserLogin', $idSitesWrite = array(), $idSitesCapabilities = array())
     {
         self::$superUser    = $superUser;
         self::$idSitesAdmin = $idSitesAdmin;
+        self::$idSitesWrite = $idSitesWrite;
         self::$idSitesView  = $idSitesView;
         self::$identity     = $identity;
+        self::$idSitesCapabilities = $idSitesCapabilities;
     }
 
     public function getTokenAuth()
@@ -39,11 +44,15 @@ class FakeAccess extends Access
         return false;
     }
 
-    public function __construct($superUser = false, $idSitesAdmin = array(), $idSitesView = array(), $identity = 'superUserLogin')
+    public function __construct($superUser = false, $idSitesAdmin = array(), $idSitesView = array(), $identity = 'superUserLogin', $idSitesWrite = array())
     {
-        parent::__construct();
+        // couldn't use DI here as tests seem to fail cause at this time when it is called eg in
+        // plugins/Live/tests/System/ApiCounterTest.php the environment is not set up yet
+        $role = new Access\RolesProvider();
+        $capabilities = new Access\CapabilitiesProvider();
+        parent::__construct($role, $capabilities);
 
-        self::clearAccess($superUser, $idSitesAdmin, $idSitesView, $identity);
+        self::clearAccess($superUser, $idSitesAdmin, $idSitesView, $identity, $idSitesWrite);
     }
 
     public static function setIdSitesAdmin($ids)
@@ -56,6 +65,12 @@ class FakeAccess extends Access
     {
         self::$superUser   = false;
         self::$idSitesView = $ids;
+    }
+
+    public static function setIdSitesWrite($ids)
+    {
+        self::$superUser    = false;
+        self::$idSitesWrite = $ids;
     }
 
     public function hasSuperUserAccess()
@@ -97,6 +112,50 @@ class FakeAccess extends Access
         }
     }
 
+    public function checkUserHasWriteAccess($idSites)
+    {
+        if (!self::$superUser) {
+            $websitesAccess = array_merge(self::$idSitesWrite, self::$idSitesAdmin);
+        } else {
+            $websitesAccess = API::getInstance()->getAllSitesId();
+        }
+
+        $idSites = PiwikSite::getIdSitesFromIdSitesString($idSites);
+
+        foreach ($idSites as $idsite) {
+            if (!in_array($idsite, $websitesAccess)) {
+                throw new NoAccessException("checkUserHasWriteAccess Fake exception // string not to be tested");
+            }
+        }
+    }
+
+    public function checkUserHasCapability($idSites, $capability)
+    {
+        $cap = $this->capabilityProvider->getCapability($capability);
+
+        if ($cap && Piwik::isUserHasAdminAccess($idSites) && $cap->hasRoleCapability(Access\Role\Admin::ID)) {
+            return;
+        } elseif ($cap && Piwik::isUserHasWriteAccess($idSites) && $cap->hasRoleCapability(Access\Role\Write::ID)) {
+            return;
+        } elseif ($cap && Piwik::isUserHasViewAccess($idSites) && $cap->hasRoleCapability(Access\Role\View::ID)) {
+            return;
+        }
+
+        if (isset(self::$idSitesCapabilities[$capability]) && is_array(self::$idSitesCapabilities[$capability])) {
+            if (!is_array($idSites)) {
+                $idSites = array($idSites);
+            }
+            $idSites = array_map('intval', $idSites);
+            $idSitesCap = array_map('intval', self::$idSitesCapabilities[$capability]);
+            $missingSites = array_diff($idSites, $idSitesCap);
+            if (empty($missingSites)) {
+                return;
+            }
+        }
+
+        throw new NoAccessException("checkUserHasCapability " . $capability ." Fake exception // string not to be tested");
+    }
+
     //means at least view access
     public function checkUserHasViewAccess($idSites)
     {
@@ -104,7 +163,7 @@ class FakeAccess extends Access
             return;
         }
 
-        $websitesAccess = array_merge(self::$idSitesView, self::$idSitesAdmin);
+        $websitesAccess = array_merge(self::$idSitesView, self::$idSitesWrite, self::$idSitesAdmin);
 
         if (!is_array($idSites)) {
             if ($idSites == 'all') {
@@ -128,7 +187,7 @@ class FakeAccess extends Access
     public function checkUserHasSomeViewAccess()
     {
         if (!self::$superUser) {
-            if (count(array_merge(self::$idSitesView, self::$idSitesAdmin)) == 0) {
+            if (count(array_merge(self::$idSitesView, self::$idSitesWrite, self::$idSitesAdmin)) == 0) {
                 throw new NoAccessException("checkUserHasSomeViewAccess Fake exception // string not to be tested");
             }
         } else {
@@ -136,7 +195,7 @@ class FakeAccess extends Access
         }
     }
 
-    //means at least view access
+    //means at least admin access
     public function isUserHasSomeAdminAccess()
     {
         if (self::$superUser) {
@@ -146,11 +205,29 @@ class FakeAccess extends Access
         return count(self::$idSitesAdmin) > 0;
     }
 
-    //means at least view access
+    //means at least write access
+    public function isUserHasSomeWriteAccess()
+    {
+        if (self::$superUser) {
+            return true;
+        }
+
+        return count(self::$idSitesAdmin) > 0 || count(self::$idSitesWrite) > 0;
+    }
+
+    //means at least admin access
     public function checkUserHasSomeAdminAccess()
     {
         if (!$this->isUserHasSomeAdminAccess()) {
             throw new NoAccessException("checkUserHasSomeAdminAccess Fake exception // string not to be tested");
+        }
+    }
+
+    //means at least write access
+    public function checkUserHasSomeWriteAccess()
+    {
+        if (!$this->isUserHasSomeWriteAccess()) {
+            throw new NoAccessException("checkUserHasSomeWriteAccess Fake exception // string not to be tested");
         }
     }
 
@@ -177,20 +254,29 @@ class FakeAccess extends Access
         return self::$idSitesView;
     }
 
+    public function getSitesIdWithWriteAccess()
+    {
+        if (self::$superUser) {
+            return API::getInstance()->getAllSitesId();
+        }
+
+        return self::$idSitesWrite;
+    }
+
     public function getSitesIdWithAtLeastViewAccess()
     {
         if (self::$superUser) {
             return API::getInstance()->getAllSitesId();
         }
 
-        return array_merge(self::$idSitesView, self::$idSitesAdmin);
+        return array_merge(self::$idSitesView, self::$idSitesWrite, self::$idSitesAdmin);
     }
 
     public function getRawSitesWithSomeViewAccess($login)
     {
         $result = array();
 
-        foreach (array_merge(self::$idSitesView, self::$idSitesAdmin) as $idSite) {
+        foreach (array_merge(self::$idSitesView, self::$idSitesWrite, self::$idSitesAdmin) as $idSite) {
             $result[] = array('idsite' => $idSite);
         }
 

@@ -293,6 +293,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -411,6 +413,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -537,6 +541,8 @@
 		<referrerUrl>http://piwik.org/contribute%</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -672,6 +678,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -794,6 +802,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -938,6 +948,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1093,6 +1105,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1215,6 +1229,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -1337,6 +1353,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1448,6 +1466,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>

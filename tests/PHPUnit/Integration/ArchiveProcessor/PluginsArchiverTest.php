@@ -9,6 +9,7 @@ namespace Piwik\Tests\Integration\Archive;
 
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Db;
@@ -64,6 +65,8 @@ class PluginsArchiverTest extends IntegrationTestCase
         parent::setUp();
 
         Fixture::createWebsite('2015-01-01 00:00:00');
+        Fixture::createWebsite('2015-01-01 00:00:00');
+        Fixture::createWebsite('2015-01-01 00:00:00');
 
         $this->pluginsArchiver = new CustomPluginsArchiver($this->createArchiveProcessorParamaters(), $isTemporary = false);
     }
@@ -86,6 +89,26 @@ class PluginsArchiverTest extends IntegrationTestCase
     public function test_purgeOutdatedArchives_PurgesCorrectTemporaryArchives_WhileKeepingNewerTemporaryArchives_WithBrowserTriggeringEnabled()
     {
         $this->pluginsArchiver->callAggregateAllPlugins(1, 1);
+    }
+
+    public function test_archiveMultipleSites()
+    {
+        Piwik::addAction('ArchiveProcessor.Parameters.getIdSites', function (&$idSites, $period) {
+            if (count($idSites) === 1 && reset($idSites) === 1) {
+                $idSites = array(2,3);
+            }
+        });
+
+        Piwik::addAction('ArchiveProcessor.shouldAggregateFromRawData', function (&$shouldAggregateRawData, Parameters $params) {
+            // needed as by default we would only aggregate for single site
+            if ($params->isDayArchive()) {
+                $shouldAggregateRawData = true;
+            }
+        });
+
+        $this->pluginsArchiver = new PluginsArchiver($this->createArchiveProcessorParamaters(), $isTemporary = false);
+        $this->pluginsArchiver->callAggregateCoreMetrics();
+        $this->pluginsArchiver->callAggregateAllPlugins(1, 1, $forceArchivingWithoutVisits = true);
     }
 
 }
