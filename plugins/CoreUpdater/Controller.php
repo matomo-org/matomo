@@ -117,6 +117,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function newVersionAvailable()
     {
+        if (!SettingsPiwik::isAutoUpdatePossible()) {
+          Piwik::redirectToModule('CoreHome');
+        }
+
         Piwik::checkUserHasSuperUserAccess();
         $this->checkNewVersionIsAvailableOrDie();
 
@@ -149,6 +153,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function oneClickUpdate()
     {
+        if (!SettingsPiwik::isAutoUpdatePossible()) {
+          Piwik::redirectToModule('CoreHome');
+        }
+
         Piwik::checkUserHasSuperUserAccess();
 
         $view = new OneClickDone(Piwik::getCurrentUserTokenAuth());
@@ -175,6 +183,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function oneClickResults()
     {
+        if (!SettingsPiwik::isAutoUpdatePossible()) {
+          Piwik::redirectToModule('CoreHome');
+        }
+
         $httpsFail = (bool) Common::getRequestVar('httpsFail', 0, 'int', $_POST);
         $error = Common::getRequestVar('error', '', 'string', $_POST);
 
@@ -215,6 +227,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function index()
     {
+        if (!SettingsPiwik::isAutoUpdatePossible()) {
+          Piwik::redirectToModule('CoreHome');
+        }
+
         $language = Common::getRequestVar('language', '');
         if (!empty($language)) {
             LanguagesManager::setLanguageForSession($language);
@@ -229,6 +245,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function runUpdaterAndExit($doDryRun = null)
     {
+        if (!SettingsPiwik::isAutoUpdatePossible()) {
+          Piwik::redirectToModule('CoreHome');
+        }
+
         $updater = new DbUpdater();
         $componentsWithUpdateFile = $updater->getComponentUpdates();
         if (empty($componentsWithUpdateFile)) {
