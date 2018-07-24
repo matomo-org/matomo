@@ -424,7 +424,37 @@ class DataTablePostProcessor
 
         $dataTable->setMetadata(self::PROCESSED_METRICS_COMPUTED_FLAG, true);
 
-        $this->computeSpecificProcessedMetrics($dataTable, $processedMetrics);
+        foreach ($processedMetrics as $name => $processedMetric) {
+            if (!$processedMetric->beforeCompute($this->report, $dataTable)) {
+                continue;
+            }
+
+            foreach ($dataTable->getRows() as $row) {
+                if ($row->getColumn($name) !== false) { // only compute the metric if it has not been computed already
+                    continue;
+                }
+
+                $computedValue = $processedMetric->compute($row);
+                if ($computedValue !== false) {
+                    $row->addColumn($name, $computedValue);
+                }
+            }
+        }
+
+        foreach ($dataTable->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if (!empty($subtable)) {
+                foreach ($processedMetrics as $name => $processedMetric) {
+                    $processedMetric->beforeComputeSubtable($row);
+                }
+
+                $this->computeProcessedMetrics($subtable);
+
+                foreach ($processedMetrics as $name => $processedMetric) {
+                    $processedMetric->afterComputeSubtable($row);
+                }
+            }
+        }
     }
 
     /**
@@ -440,16 +470,28 @@ class DataTablePostProcessor
             }
 
             foreach ($dataTable->getRows() as $row) {
-                if ($row->getColumn($name) === false) { // only compute the metric if it has not been computed already
-                    $computedValue = $processedMetric->compute($row);
-                    if ($computedValue !== false) {
-                        $row->addColumn($name, $computedValue);
-                    }
+                if ($row->getColumn($name) !== false) { // only compute the metric if it has not been computed already
+                    continue;
+                }
 
-                    $subtable = $row->getSubtable();
-                    if (!empty($subtable)) {
-                        $this->computeProcessedMetrics($subtable);
-                    }
+                $computedValue = $processedMetric->compute($row);
+                if ($computedValue !== false) {
+                    $row->addColumn($name, $computedValue);
+                }
+            }
+        }
+
+        foreach ($dataTable->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if (!empty($subtable)) {
+                foreach ($processedMetrics as $name => $processedMetric) {
+                    $processedMetric->beforeComputeSubtable($row);
+                }
+
+                $this->computeSpecificProcessedMetrics($subtable, $processedMetrics);
+
+                foreach ($processedMetrics as $name => $processedMetric) {
+                    $processedMetric->afterComputeSubtable($row);
                 }
             }
         }
@@ -524,10 +566,8 @@ class DataTablePostProcessor
             $dataTable->filter(function (DataTable $table) use ($processedMetrics) {
                 $this->computeSpecificProcessedMetrics($table, $processedMetrics);
             });
-
-            // TODO: this won't work...
             $dataTable->queueFilter(function (DataTable $table) use ($processedMetrics) {
-                $this->formatter->formatMetrics($table, $this->report, $processedMetrics);
+                $this->formatter->formatSpecificMetrics($table, $this->report, $processedMetrics);
             });
         }
     }

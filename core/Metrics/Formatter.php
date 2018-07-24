@@ -234,11 +234,13 @@ class Formatter
                 if ($columnValue !== false) {
                     $row->setColumn($name, $metric->format($columnValue, $this));
                 }
+            }
+        }
 
-                $subtable = $row->getSubtable();
-                if (!empty($subtable)) {
-                    $this->formatMetrics($subtable, $report, $metricsToFormat);
-                }
+        foreach ($dataTable->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if (!empty($subtable)) {
+                $this->formatMetrics($subtable, $report, $metricsToFormat);
             }
         }
 
@@ -263,6 +265,34 @@ class Formatter
                         $row->setColumn($column, $this->getPrettyMoney($columnValue, $idSite));
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * @param DataTable $dataTable
+     * @param Report|null $report
+     * @param Metric[] $metrics
+     */
+    public function formatSpecificMetrics(DataTable $dataTable, Report $report = null, $metrics)
+    {
+        foreach ($metrics as $name => $metric) {
+            if (!$metric->beforeFormat($report, $dataTable)) {
+                continue;
+            }
+
+            foreach ($dataTable->getRows() as $row) {
+                $columnValue = $row->getColumn($name);
+                if ($columnValue !== false) {
+                    $row->setColumn($name, $metric->format($columnValue, $this));
+                }
+            }
+        }
+
+        foreach ($dataTable->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if (!empty($subtable)) {
+                $this->formatSpecificMetrics($subtable, $report, $metrics);
             }
         }
     }

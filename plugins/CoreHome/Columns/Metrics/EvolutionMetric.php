@@ -46,6 +46,14 @@ class EvolutionMetric extends ProcessedMetric
     private $pastData;
 
     /**
+     * The list of labels leading to the current subtable being processed. Used to get the proper subtable in
+     * $pastData.
+     *
+     * @var string[]
+     */
+    private $labelPath = [];
+
+    /**
      * Constructor.
      *
      * @param string|Metric $wrapped The metric used to calculate the evolution.
@@ -108,6 +116,16 @@ class EvolutionMetric extends ProcessedMetric
         return array($this->getWrappedName());
     }
 
+    public function beforeComputeSubtable(Row $row)
+    {
+        $this->labelPath[] = $row->getColumn('label');
+    }
+
+    public function afterComputeSubtable(Row $row)
+    {
+        array_pop($this->labelPath);
+    }
+
     protected function getWrappedName()
     {
         return $this->wrapped instanceof Metric ? $this->wrapped->getName() : $this->wrapped;
@@ -118,11 +136,31 @@ class EvolutionMetric extends ProcessedMetric
      */
     public function getPastRowFromCurrent(Row $row)
     {
-        if (empty($this->pastData)) {
+        $pastData = $this->getPastDataTable();
+        if (empty($pastData)) {
             return null;
         }
 
         $label = $row->getColumn('label');
-        return $label ? $this->pastData->getRowFromLabel($label) : $this->pastData->getFirstRow();
+        return $label ? $pastData->getRowFromLabel($label) : $pastData->getFirstRow();
+    }
+
+    private function getPastDataTable()
+    {
+        $result = $this->pastData;
+        foreach ($this->labelPath as $label) {
+            $row = $result->getRowFromLabel($label);
+            if (empty($row)) {
+                return null;
+            }
+
+            $subtable = $row->getSubtable();
+            if (empty($subtable)) {
+                return null;
+            }
+
+            $result = $subtable;
+        }
+        return $result;
     }
 }
