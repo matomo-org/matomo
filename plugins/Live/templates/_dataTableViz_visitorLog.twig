@@ -3,7 +3,7 @@
 {% set cycleIndex=0 %}
 {% for visitor in dataTable.getRows() %}
     {% set visitorRow %}
-        <div class="card row hoverable">
+        <div class="card row">
 
             {% if visitor.getColumn('visitorId') is not empty and not clientSideParameters.hideProfileLink %}
                 <a class="visitor-log-visitor-profile-link visitorLogTooltip" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.getColumn("visitorId") }}">
