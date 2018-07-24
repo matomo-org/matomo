@@ -981,7 +981,7 @@ class CronArchive
             $request = new Request($url);
             $request->before(function () use ($self, $url, $idSite, $period, $date) {
                 if ($self->isAlreadyArchivingUrl($url, $idSite, $period, $date)) {
-                    return Request::ABORT;
+                     return Request::ABORT;
                 }
             });
             $urls[] = $request;
@@ -1006,7 +1006,7 @@ class CronArchive
             $content = array_key_exists($index, $response) ? $response[$index] : null;
             $success = $success && $this->checkResponse($content, $url);
 
-            if ($noSegmentUrl === $url && $success) {
+            if ($noSegmentUrl == $url && $success) {
                 $stats = @unserialize($content);
 
                 if (!is_array($stats)) {
