@@ -121,8 +121,8 @@ class DataTablePostProcessor
         }
 
         $dataTable = $this->applyGenericFilters($dataTable);
-        $dataTable = $this->applyEvolutionFilter($dataTable);
         $this->applyComputeProcessedMetrics($dataTable);
+        $dataTable = $this->applyEvolutionFilter($dataTable);
 
         if ($this->callbackAfterGenericFilters) {
             call_user_func($this->callbackAfterGenericFilters, $dataTable);
@@ -424,6 +424,16 @@ class DataTablePostProcessor
 
         $dataTable->setMetadata(self::PROCESSED_METRICS_COMPUTED_FLAG, true);
 
+        $this->computeSpecificProcessedMetrics($dataTable, $processedMetrics);
+    }
+
+    /**
+     * @param DataTable $dataTable
+     * @param ProcessedMetric[] $processedMetrics
+     * @throws Exception
+     */
+    private function computeSpecificProcessedMetrics(DataTable $dataTable, $processedMetrics)
+    {
         foreach ($processedMetrics as $name => $processedMetric) {
             if (!$processedMetric->beforeCompute($this->report, $dataTable)) {
                 continue;
@@ -462,8 +472,8 @@ class DataTablePostProcessor
             return $dataTable;
         }
 
-        $module = Common::getRequestVar('apiModule', '', 'string');
-        $action = Common::getRequestVar('apiAction', '', 'string');
+        $module = Common::getRequestVar('apiModule', '', 'string', $this->request);
+        $action = Common::getRequestVar('apiAction', '', 'string', $this->request);
 
         if (empty($module) || empty($action)) {
             $method = Common::getRequestVar('method');
@@ -475,7 +485,7 @@ class DataTablePostProcessor
         $pastData = Request::processRequest($method, [
             'date' => $lastPeriodDate,
             'disable_queued_filters' => '1',
-            'filter_last_period_evolution' => '0',
+            'filter_last_period_evolution' => '0', // avoid infinite recursion
             'format_metrics' => '0',
         ]);
 
@@ -498,13 +508,27 @@ class DataTablePostProcessor
                 $this->addEvolutionMetrics($columns, $childTable, $pastChildTable);
             }
         } else if ($dataTable instanceof DataTable) {
-            // add past value & evolution processed metrics
-            $processedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
+            // add past value & evolution processed metrics. we compute them here explicitly since it's not guaranteed that
+            // a datatable at this point will already have processed metrics computed. eg, the Goals.get method uses a
+            // datatable merging strategy that modifies a table in place. That table will have processed metrics already computed,
+            // so if we try to re-compute here, computeProcessedMetrics() will do nothing.
+            $processedMetrics = [];
             foreach ($columns as $column => $metric) {
-                $processedMetrics[] = new PastDataMetric($metric instanceof Metric ? $metric : $column, $pastData);
-                $processedMetrics[] = new EvolutionMetric($column, $pastData);
+                $processedMetric = new PastDataMetric($metric instanceof Metric ? $metric : $column, $pastData);
+                $processedMetrics[$processedMetric->getName()] = $processedMetric;
+
+                $processedMetric = new EvolutionMetric($column, $pastData);
+                $processedMetrics[$processedMetric->getName()] = $processedMetric;
             }
-            $dataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $processedMetrics);
+
+            $dataTable->filter(function (DataTable $table) use ($processedMetrics) {
+                $this->computeSpecificProcessedMetrics($table, $processedMetrics);
+            });
+
+            // TODO: this won't work...
+            $dataTable->queueFilter(function (DataTable $table) use ($processedMetrics) {
+                $this->formatter->formatMetrics($table, $this->report, $processedMetrics);
+            });
         }
     }
 }
