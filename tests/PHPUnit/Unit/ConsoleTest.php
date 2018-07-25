@@ -19,7 +19,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
     {
         $console = new Console();
 
-        $this->assertEquals('Piwik', $console->getName());
+        $this->assertEquals('Matomo', $console->getName());
         $this->assertEquals(Version::VERSION, $console->getVersion());
     }
 }

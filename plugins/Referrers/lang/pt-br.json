@@ -28,7 +28,6 @@
         "SearchEngines": "Motores de Busca",
         "SearchEnginesDocumentation": "Um visitante foi encaminhado para o seu site por um motor de busca. %1$s Ver o relatório %2$s para mais detalhes.",
         "SearchEnginesReportDocumentation": "Este relatório mostra quais motores de busca encaminhou usuários ao seu site. %s Ao clicar em uma linha na tabela, você pode ver o que os usuários estavam procurando utilizando um motor de busca específico.",
-        "SocialFooterMessage": "Este é um subconjunto do relatório de Websites listados à esquerda. Filtra outros websites para que você possa comparar diretamente os referenciadores de suas redes sociais .",
         "Socials": "Redes Sociais",
         "SocialsReportDocumentation": "Este relatório mostra quais as redes sociais levaram visitantes ao seu site. <br \/> Ao clicar em uma linha na tabela, você pode ver de quais páginas os visitantes de redes sociais vieram para o seu site.",
         "SubmenuSearchEngines": "Motores de Busca & Palavras-Chave",

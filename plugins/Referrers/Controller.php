@@ -123,6 +123,20 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->config->addSparkline($searchEngineParams, $values, $descriptions, @$metrics['visitorsFromSearchEnginesEvolution']);
 
+        // SOCIAL NETWORKS
+        $metrics['visitorsFromSocialNetworks'] = $numberFormatter->formatNumber($metrics['visitorsFromSocialNetworks']);
+        $values = array($metrics['visitorsFromSocialNetworks']);
+        $descriptions = array(Piwik::translate('Referrers_TypeSocialNetworks'));
+
+        if (!empty($metrics['visitorsFromSocialNetworksPercent'])) {
+            $metrics['visitorsFromSocialNetworksPercent'] = $numberFormatter->formatPercent($metrics['visitorsFromSocialNetworksPercent'], $precision = 1);
+            $values[] = $metrics['visitorsFromSocialNetworksPercent'];
+            $descriptions[] = Piwik::translate('Referrers_XPercentOfVisits');
+        }
+        $socialNetworkParams = $this->getReferrerSparklineParams(Common::REFERRER_TYPE_SOCIAL_NETWORK);
+
+        $view->config->addSparkline($socialNetworkParams, $values, $descriptions, @$metrics['visitorsFromSocialNetworksEvolution']);
+
 
         // CAMPAIGNS
         $metrics['visitorsFromCampaigns'] = $numberFormatter->formatNumber($metrics['visitorsFromCampaigns']);
@@ -147,6 +161,15 @@ class Controller extends \Piwik\Plugin\Controller
         $description = Piwik::translate('Referrers_DistinctSearchEngines');
 
         $view->config->addSparkline($sparklineParams, $value, $description, @$distinctMetrics['numberDistinctSearchEnginesEvolution']);
+
+
+        // DISTINCT SOCIAL NETWORKS
+        $sparklineParams = $this->getDistinctSparklineUrlParams('getLastDistinctSocialNetworksGraph');
+        $value = $distinctMetrics['numberDistinctSocialNetworks'];
+        $value = $numberFormatter->formatNumber($value);
+        $description = Piwik::translate('Referrers_DistinctSocialNetworks');
+
+        $view->config->addSparkline($sparklineParams, $value, $description, @$distinctMetrics['numberDistinctSocialNetworksEvolution']);
 
 
         // DISTINCT WEBSITES
@@ -199,10 +222,11 @@ class Controller extends \Piwik\Plugin\Controller
             "Referrers.getReferrerType", array('disable_queued_filters' => '1', 'date' => $date));
 
         $nameToColumnId = array(
-            'visitorsFromSearchEngines' => Common::REFERRER_TYPE_SEARCH_ENGINE,
-            'visitorsFromDirectEntry'   => Common::REFERRER_TYPE_DIRECT_ENTRY,
-            'visitorsFromWebsites'      => Common::REFERRER_TYPE_WEBSITE,
-            'visitorsFromCampaigns'     => Common::REFERRER_TYPE_CAMPAIGN,
+            'visitorsFromSearchEngines'  => Common::REFERRER_TYPE_SEARCH_ENGINE,
+            'visitorsFromSocialNetworks' => Common::REFERRER_TYPE_SOCIAL_NETWORK,
+            'visitorsFromDirectEntry'    => Common::REFERRER_TYPE_DIRECT_ENTRY,
+            'visitorsFromWebsites'       => Common::REFERRER_TYPE_WEBSITE,
+            'visitorsFromCampaigns'      => Common::REFERRER_TYPE_CAMPAIGN,
         );
         $return = array();
         foreach ($nameToColumnId as $nameVar => $columnId) {
@@ -217,10 +241,11 @@ class Controller extends \Piwik\Plugin\Controller
     }
 
     protected $referrerTypeToLabel = array(
-        Common::REFERRER_TYPE_DIRECT_ENTRY  => 'Referrers_DirectEntry',
-        Common::REFERRER_TYPE_SEARCH_ENGINE => 'Referrers_SearchEngines',
-        Common::REFERRER_TYPE_WEBSITE       => 'Referrers_Websites',
-        Common::REFERRER_TYPE_CAMPAIGN      => 'Referrers_Campaigns',
+        Common::REFERRER_TYPE_DIRECT_ENTRY   => 'Referrers_DirectEntry',
+        Common::REFERRER_TYPE_SEARCH_ENGINE  => 'Referrers_SearchEngines',
+        Common::REFERRER_TYPE_SOCIAL_NETWORK => 'Referrers_Socials',
+        Common::REFERRER_TYPE_WEBSITE        => 'Referrers_Websites',
+        Common::REFERRER_TYPE_CAMPAIGN       => 'Referrers_Campaigns',
     );
 
     public function getEvolutionGraph($typeReferrer = false, array $columns = array(), array $defaultColumns = array())
@@ -296,6 +321,14 @@ class Controller extends \Piwik\Plugin\Controller
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctSearchEngines");
         $view->config->translations['Referrers_distinctSearchEngines'] = ucfirst($this->translator->translate('Referrers_DistinctSearchEngines'));
         $view->config->columns_to_display = array('Referrers_distinctSearchEngines');
+        return $this->renderView($view);
+    }
+
+    public function getLastDistinctSocialNetworksGraph()
+    {
+        $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, "Referrers.getNumberOfDistinctSocialNetworks");
+        $view->config->translations['Referrers_distinctSocialNetworks'] = ucfirst($this->translator->translate('Referrers_DistinctSocialNetworks'));
+        $view->config->columns_to_display = array('Referrers_distinctSocialNetworks');
         return $this->renderView($view);
     }
 
@@ -486,11 +519,12 @@ function DisplayTopKeywords($url = "")
     private function getDistinctReferrersMetrics($date = false)
     {
         $propertyToAccessorMapping = array(
-            'numberDistinctSearchEngines' => 'getNumberOfDistinctSearchEngines',
-            'numberDistinctKeywords'      => 'getNumberOfDistinctKeywords',
-            'numberDistinctWebsites'      => 'getNumberOfDistinctWebsites',
-            'numberDistinctWebsitesUrls'  => 'getNumberOfDistinctWebsitesUrls',
-            'numberDistinctCampaigns'     => 'getNumberOfDistinctCampaigns',
+            'numberDistinctSearchEngines'  => 'getNumberOfDistinctSearchEngines',
+            'numberDistinctSocialNetworks' => 'getNumberOfDistinctSocialNetworks',
+            'numberDistinctKeywords'       => 'getNumberOfDistinctKeywords',
+            'numberDistinctWebsites'       => 'getNumberOfDistinctWebsites',
+            'numberDistinctWebsitesUrls'   => 'getNumberOfDistinctWebsitesUrls',
+            'numberDistinctCampaigns'      => 'getNumberOfDistinctCampaigns',
         );
 
         $result = array();
