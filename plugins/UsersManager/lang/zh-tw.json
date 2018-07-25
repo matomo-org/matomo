@@ -19,7 +19,6 @@
         "EmailYourAdministrator": "%1$s透過信件傳送此問題給你的系統管理員%2$s。",
         "EnterUsernameOrEmail": "輸入使用者名稱或 Email",
         "ExceptionAccessValues": "參數存取必須包含其中一個值：[ %s ]",
-        "ExceptionAdminAnonymous": "你不能給匿名使用者「管理員」存取權限。",
         "ExceptionDeleteDoesNotExist": "使用者「%s」不存在，所以無法刪除它。",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "無法刪除使用者「%s」",
         "ExceptionEditAnonymous": "匿名使用者無法修改或刪除。因為 Matomo 用來定義一個還未登入的使用者。舉例來說，你可以把「檢視」權限給匿名使用者來公開你的統計資料。",

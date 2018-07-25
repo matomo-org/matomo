@@ -49,6 +49,7 @@
         "NotDownloadable": "E pashkarkueshme",
         "PluginNotDownloadable": "Shtojca s’është e shkarkueshme.",
         "PluginNotDownloadablePaidReason": "Arsye të mundshme mund të jenë licencë e skaduar ose tejkaluar.",
+        "PluginRequiresInternet": "Kjo shtojcë lyp një lidhje internet funksionale. Ju lutemi, kontrolloni vlerën e formësimit tuaj për `enable_internet_features`, nëse doni ta përdorni këtë veçori.",
         "PluginActivated": "Shtojca u aktivizua",
         "Status": "Gjendje",
         "SuccessfullyActicated": "E aktivizuat me sukses <strong>%s<\/strong>.",

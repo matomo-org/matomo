@@ -78,7 +78,7 @@
         "MatchesExpression": "përputhet me shprehjen %s",
         "NewGoalIntro": "Gjurmimi i Shndërrimeve të Objektivave është një rrugët më të efektshme për të matur dhe përmirësuar objektivat e biznesit tuaj.",
         "NewVisitorsConversionRateIs": "Koeficienti i shndërrimit për vizitorë të rinj është %s",
-        "NoGoalsNeedAccess": "Objektivat për një sajt të dhënë mund t’i administrojë vetëm Përgjegjësi ose një përdorues me leje Superpërdoruesi. Ju lutemi, kërkojini përgjegjësit të Matomo-s tuaj të caktojë një Objektiv për sajtin tuaj. <br>Gjurmimi i Objektivave është një rrugë e fuqishme për të ndihmuar të kuptohet si ecën dhe si të maksimizohet funksionimi i sajtit tuaj!",
+        "NoGoalsNeedAccess2": "Objektivat për një sajt të dhënë mund t’i administrojë vetëm një përdorues Shkrimesh, një Përgjegjës ose një përdorues me të drejta hyrjeje Superpërdoruesi. Ju lutemi, kërkojini përgjegjësit të Matomo-s tuaj të caktojë një Objektiv për sajtin tuaj. <br>Ndjekja e Objektivave është një mënyrë e bukur për t’ju ndihmuar të kuptoni dhe maksimizoni funksionimin e sajtit tuaj!",
         "NoConversionsNoReportsMessage": "Raportet nuk shfaqen, ngaqë nuk ka të dhëna shndërrimesh për objektivin dhe periudhën e zgjedhur.",
         "NeedAccess": "Objektivat për një sajt të dhënë mund t’i administrojë vetëm Përgjegjësi ose një përdorues me leje Superpërdoruesi.",
         "Optional": "(opsionale)",

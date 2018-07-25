@@ -10,7 +10,6 @@
         "Email": "Correu-e",
         "EmailYourAdministrator": "%1$sEnvieu un email al vostre administrador explicant el problema%2$s.",
         "ExceptionAccessValues": "El paràmetre permisos ha de tenir un dels següents valors: [ %s ]",
-        "ExceptionAdminAnonymous": "No podeu donar permisos d'administració a l'usuari 'anonymous' (anònim).",
         "ExceptionDeleteDoesNotExist": "L'usuari '%s' no existeix i, per tant, no es pot esborrar.",
         "ExceptionEditAnonymous": "L'usuari anònim no es pot editar o esborrar. El Matomo el fa servir per als usuaris que no han iniciat encara la sessió. Per exemple, podeu fer públiques les vostres estadístiques garantint el permís 'vista' a l'usuari 'anonymous' (anònim).",
         "ExceptionEmailExists": "La direcció de correu-e '%s' ja està en un altre compte.",

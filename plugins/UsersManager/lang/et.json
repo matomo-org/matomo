@@ -8,7 +8,6 @@
         "ClickHereToSetTheCookieOnDomain": "Vajuta siia, et käesolevasse veebisirvikusse tekitada küpsis, mis ei lase sinu külastusi arvestada veebilehel %s",
         "DeleteConfirm": "Kas oled kindel, et soovid %s kustutada?",
         "Email": "E-post",
-        "ExceptionAdminAnonymous": "Sa ei saa anda 'admin' õiguseid 'anonymous' kasutajale.",
         "ExceptionDeleteDoesNotExist": "Kasutajat nimega '%s' ei eksisteeri seepärast ei saa teda ka kustutada.",
         "ExceptionEditAnonymous": "Anonüümset kasutajat ei saa muuta ega kustutada. Matomo kasutab seda määratlemaks kasutajat, kes ei ole veel sisse loginud. Näiteks, saad teha statistika lubada 'view' statistikat õigused 'anonymous' kasutajale.",
         "ExceptionEmailExists": "Sellise e-mailiga '%s' kasutaja on olemas.",

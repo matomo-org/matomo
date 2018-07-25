@@ -20,6 +20,7 @@
         "EvolutionDocumentationMoreInfo": "Pour plus d'informations sur les différents types de référents, consultez la documentation du tableau %s.",
         "Keywords": "Mots-clés",
         "KeywordsReportDocumentation": "Ce rapport affiche quels mots-clés les utilisateurs recherchaient avant d'être conduit sur votre site web. %s En cliquant sur une ligne vous pouvez visualiser la distribution des moteurs de recherche qui ont été utilisés pour le mot-clé.",
+        "KeywordsReportDocumentationNote": "Note: ce rapport affiche la plupart des mots clefs comme indéfinis, ceci parce que la plupart des moteurs de recherche ne transmettent pas le mot clef exact utilisé.",
         "PluginDescription": "Rapporte des données sur les Référents : Moteurs de recherche, mots clefs, Sites web, Campagnes, Réseaux sociaux et entrées directes.",
         "Referrer": "Référent",
         "ReferrerName": "Nom du référent",

@@ -1,0 +1,14 @@
+{
+    "GeoIp2": {
+        "CannotFindGeoIPDatabaseInArchive": "在 tar 壓縮檔 %1$s 中找不到可用的 GeoIP 資料庫。",
+        "CannotUnzipGeoIPFile": "無法解壓縮 %1$s 中的 GeoIP 檔案：%2$s",
+        "PluginDescription": "提供 GeoIP2 地理位置供應商。",
+        "LocationProviderDesc_Php": "這個地理位置供應商是安裝方式最簡單的，因為它不需要更動任何伺服器設定（共享主機適用！）。它使用 GeoIP 2 資料庫和 MaxMind 的 PHP API 來精準的判別訪客的位置。",
+        "LocationProviderDesc_Php_WithExtension": "這個地理位置供應商已透過安裝的 %1$smaxminddb%2$s 擴充功能加速。",
+        "LocationProviderDesc_ServerModule": "這個地理位置供應商使用安裝在你 HTTP 伺服器上的 GeoIP 2 模組。這個供應商快又精準，但是%1$s只適用於一般瀏覽器上的追蹤%2$s。",
+        "LocationProviderDesc_ServerModule2": "如果你需要匯入紀錄檔或是其他需要設定 IP 位址的事情，使用 %3$sPHP GeoIP 2 implementation%4$s 並安裝 %1$smaxminddb 擴充功能%2$s。",
+        "ServerBasedVariablesConfiguration": "GeoIP 2 伺服器模組所使用的伺服器變數設定檔",
+        "GeoIPVariablesConfigurationHere": "你可以在%1$s這裡%2$s設置已使用的伺服器變數。",
+        "ServerVariableFor": "%s 的伺服器變數"
+    }
+}

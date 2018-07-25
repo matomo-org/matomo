@@ -18,7 +18,6 @@
         "EmailYourAdministrator": "%1$sE-mail uw beheerder over dit probleem%2$s.",
         "EnterUsernameOrEmail": "Vul een gebruikersnaam of e-mailadres in",
         "ExceptionAccessValues": "De parameter toegang moet één van de volgede waarden bevatten: [ %s ]",
-        "ExceptionAdminAnonymous": "U kunt geen adminrechten toekennen aan de 'anonieme' gebruiker.",
         "ExceptionDeleteDoesNotExist": "Gebruiker '%s' bestaat niet en kan dus niet verwijderd worden.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Verwijderen gebruiker '%s' is niet mogelijk.",
         "ExceptionEditAnonymous": "De anonieme gebruiker kan niet gewijzigd of verwijderd worden. Deze wordt door Matomo gebruikt voor gebruikers die nog niet zijn ingelogd. U kunt bijvoorbeeld uw statistieken publiekelijk maken door de 'anonieme' gebruiker 'kijkers rechten' te geven.",

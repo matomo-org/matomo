@@ -14,7 +14,6 @@
         "DeleteConfirm": "Ar tikrai norite pašalinti naudotoją %s?",
         "Email": "El. paštas",
         "ExceptionAccessValues": "Parametras access privalo turėti vieną iš šių reikšmių: [ %s ]",
-        "ExceptionAdminAnonymous": "Negalite priskirti \"administratoriaus\" teisių \"anoniminiam\" naudotojui.",
         "ExceptionDeleteDoesNotExist": "Naudotojas '%s' neegzistuoja, todėl negali būti ištrintas.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Naudotojo \"%s\" ištrynimas yra negalimas.",
         "ExceptionEditAnonymous": "Anoniminis naudotojas negali būti keičiamas ar šalinamas. Matomo jį naudoja, kad apibrėžtų neprisijungusį naudotoją. Pavyzdžiui, jūs galite padaryti savo statistinius duomenis viešus, suteikdami \"anoniminiam\" naudotojui \"matymo\" teises.",

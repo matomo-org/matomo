@@ -19,7 +19,6 @@
         "EmailYourAdministrator": "%1$sE-posta din administratör om det här problemet%2$s.",
         "EnterUsernameOrEmail": "Ange ett användarnamn eller en e-postadress.",
         "ExceptionAccessValues": "Parameter-tillgången måste ha ett av följande värden: [ %s ]",
-        "ExceptionAdminAnonymous": "Du kan inte bevilja 'admin' tillgång för \"anonyma\" användare.",
         "ExceptionDeleteDoesNotExist": "Användaren '%s' finns inte och kan därför inte tas bort.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Att radera användare '%s' är inte möjligt.",
         "ExceptionEditAnonymous": "Den anonyma användaren kan inte redigeras eller tas bort. Den används av Matomo för att definiera en användare som inte har loggat in ännu. Till exempel kan du göra din statistik publik genom att bevilja \\\"Visa\\\" tillgång till \\\"anonyma\\\" användare.",
