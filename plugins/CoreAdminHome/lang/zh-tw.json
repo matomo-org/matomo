@@ -91,6 +91,7 @@
         "TrackingCodeIntro": "Matomo 提供你多種方法讓你在網站、行動應用程式甚至任何裝置或應用程式中嵌入追蹤程式碼。",
         "TrustedHostConfirm": "你確定要變更受 Matomo 信任的域名？",
         "TrustedHostSettings": "受 Matomo 信任的域名",
+        "UiDemo": "UI 範例",
         "UpdateSettings": "更新設定",
         "UseCustomLogo": "使用自訂標誌",
         "ValidPiwikHostname": "有效的 Matomo 域名",

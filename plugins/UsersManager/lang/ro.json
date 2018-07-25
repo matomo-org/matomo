@@ -14,7 +14,6 @@
         "Email": "Email",
         "EmailYourAdministrator": "%1$sTrimite email administratorului despre aceasta problema%2$s.",
         "ExceptionAccessValues": "Accesul parametru trebuie să aibă una din următoarele valori: [ %s ]",
-        "ExceptionAdminAnonymous": "Nu poti autoriza 'admin' accesul la 'anonymous' user.",
         "ExceptionDeleteDoesNotExist": "Userul '%s' nu exista pentru ca a fost sters.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Stergerea utilizatorului '%s' nu este posibila.",
         "ExceptionEditAnonymous": "Userul anonim nu poate fi editat sau sters.De exemplu poti face ca statisticile tale sa fie publice autorizand 'view' accesul la 'anonymous' user.",

@@ -1,7 +1,10 @@
 {
     "SEO": {
+        "PluginDescription": "Esta extensão extrai e apresenta métricas de SEO: Classificação web da Alexa, Google Pagerank, número de páginas indexadas e de ligações de retorno para o site atualmente selecionado.",
         "AlexaRank": "Classificação Alexa",
-        "DomainAge": "Idade do Domínio",
+        "Bing_IndexedPages": "Páginas indexadas pelo Bing",
+        "DomainAge": "Idade do domínio",
+        "Google_IndexedPages": "Páginas indexadas pelo Google",
         "Rank": "Classificação",
         "SeoRankings": "Classificações SEO",
         "SEORankingsFor": "Classificações SEO para %s"

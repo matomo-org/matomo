@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "Поисковые ключевые слова сайта",
         "WidgetSearchNoResultKeywords": "Поисковые ключевые слова без результатов",
         "ActionType": "Тип действия",
-        "ActionTypes": "Типы действия"
+        "ActionTypes": "Типы действия",
+        "Behaviour": "Содержание"
     }
 }

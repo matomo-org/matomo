@@ -18,7 +18,6 @@
         "EmailYourAdministrator": "%1$sEnviar un correo electrónico a su administrador acerca de este problema%2$s.",
         "EnterUsernameOrEmail": "Introduce un nombre de usuario o correo electrónico",
         "ExceptionAccessValues": "El parámetro de acceso debe tener uno de los siguientes valores: [ %s ]",
-        "ExceptionAdminAnonymous": "No puede concederle el acceso de 'administrador' a un usuario 'anónimo'.",
         "ExceptionDeleteDoesNotExist": "El usuario '%s' no existe, por lo tanto, no puede ser borrado.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "No es posible eliminar el usuario '%s'.",
         "ExceptionEditAnonymous": "El usuario anónimo no puede ser borrado o editado. Matomo lo utiliza para definir un usuario que no se ha conectado todavía. Por ejemplo, puede hacer públicas sus estadísticas mediante el acceso 'ver' al usuario 'anónimo'.",

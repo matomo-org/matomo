@@ -34,6 +34,7 @@
         "GlobalListExcludedUserAgents_Desc": "ビジターのユーザーエージェント文字列に、指定した文字列のいずれかが含まれている場合は、ビジターは Matomo の対象から除外されます。",
         "GlobalSettings": "全体設定",
         "GlobalWebsitesSettings": "全般的なウェブサイト設定",
+        "HelpExcludedIpAddresses": "Matomoのトラッキングから除外したい IP のリストを、1 行に 1 つずつ入力します。 IP にはCIDR表記（例： %1$s）や ワイルドカード（例： %2$s や %3$s）を使用することができます。",
         "JsTrackingTagHelp": "以下は、すべてのページに埋め込むべき JavaScript トラッキングタグです",
         "KeepURLFragments": "ページ URL フラグメントトラッキング",
         "KeepURLFragmentsHelp": "以下のチェックボックスをオフにすると、トラッキング時にページURLのフラグメント( %1$s以降すべて ) が削除されます：%2$sは%3$sとしてトラッキングされます",

@@ -31,7 +31,7 @@
         "LicenseKeyDeletedSuccess": "Lisans anahtarı silindi.",
         "Exceeded": "Aşım",
         "LicenseMissing": "Lisans bulunamadı",
-        "LicenseMissingDescription": "Şu uygulama eklerini bir lisans olmadan kullanıyorsunuz: %1$s. %2$sBu sorunu çözmek için lisans anahtarınızı güncelleyin, %3$sbir abonelik satın alın%4$s ya da uygulama ekini devre dışı bırakın.",
+        "LicenseMissingDeactivatedDescription": "Geçerli bir lisansınız olmadığı için şu uygulama ekleri devre dışı bırakılmış: %1$s. %2$sBu sorunu çözmek için lisans anahtarınızı güncelleyin, %3$sbir abonelik satın alın%4$s ya da uygulama ekini devre dışı bırakın.",
         "PluginLicenseMissingDescription": "Bu uygulama ekini bir lisans olmadan kullanıyorsunuz. Bu sorunu çözmek için lisans anahtarınızı güncelleyin, bir abonelik satın alın ya da uygulama ekini devre dışı bırakın.",
         "LicenseExceeded": "Lisans aşımı",
         "LicenseExceededDescription": "Şu uygulama ekleri için izin verilen kullanıcı sayısı aşıldığından lisansınız artık geçerli değil: %1$s. %2$s Bu uygulama eklerinin güncellemelerini alamayacaksınız. Bu sorunu çözmek için bazı kullanıcıları silin ya da %3$saboneliğinizi yükseltin%4$s.",
