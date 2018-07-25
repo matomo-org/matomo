@@ -620,6 +620,10 @@ class Access
             return 'admin';
         }
 
+        if (in_array($idSite, $this->getSitesIdWithWriteAccess())) {
+            return 'write';
+        }
+
         if (in_array($idSite, $this->getSitesIdWithViewAccess())) {
             return 'view';
         }

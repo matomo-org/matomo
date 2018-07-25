@@ -96,11 +96,11 @@
                 filter_search: vm.siteNameFilter,
                 filter_access: vm.accessLevelFilter,
                 userLogin: vm.userLogin
-            }).then(function (response) {
+            }, { includeHeaders: true }).then(function (result) {
                 vm.isLoadingAccess = false;
-                vm.siteAccess = response.results;
-                vm.totalEntries = response.total;
-                vm.hasAccessToAtLeastOneSite = !! response.has_access_to_any;
+                vm.siteAccess = result.response;
+                vm.totalEntries = parseInt(result.headers('x-matomo-total-results')) || 0;
+                vm.hasAccessToAtLeastOneSite = !! result.headers('x-matomo-has-some');
 
                 if (vm.onUserHasAccessDetected) {
                     vm.onUserHasAccessDetected({ hasAccess: vm.hasAccessToAtLeastOneSite });

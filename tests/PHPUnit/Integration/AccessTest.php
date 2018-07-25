@@ -550,6 +550,18 @@ class AccessTest extends IntegrationTestCase
         $this->assertEquals('view', Access::getInstance()->getRoleForSite($idSite));
     }
 
+    public function test_getAccessForSite_whenUserHasWriteAccess()
+    {
+        $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+        UsersManagerAPI::getInstance()->setUserAccess('testuser', 'write', $idSite);
+
+        $this->switchUser('testuser');
+
+        Access::getInstance()->setSuperUserAccess(false);
+        $this->assertEquals('write', Access::getInstance()->getRoleForSite($idSite));
+    }
+
     public function test_getAccessForSite_whenUserHasNoAccess()
     {
         $idSite = Fixture::createWebsite('2010-01-03 00:00:00');

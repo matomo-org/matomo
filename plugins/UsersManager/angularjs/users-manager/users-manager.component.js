@@ -145,9 +145,9 @@
             vm.isLoadingUsers = true;
             return piwikApi.fetch($.extend({}, vm.searchParams, {
                 method: 'UsersManager.getUsersPlusRole'
-            })).then(function (response) {
-                vm.totalEntries = response.total;
-                vm.users = response.results;
+            }), { includeHeaders: true }).then(function (result) {
+                vm.totalEntries = parseInt(result.headers('x-matomo-total-results')) || 0;
+                vm.users = result.response;
 
                 vm.isLoadingUsers = false;
             }).catch(function () {

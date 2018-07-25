@@ -283,10 +283,8 @@ class API extends \Piwik\Plugin\API
         if (!$this->isUserHasAdminAccessTo($idSite)) {
             // if the user is not an admin to $idSite, they can only see their own user
             if ($offset > 1) {
-                return [
-                    'total' => 1,
-                    'results' => [],
-                ];
+                Common::sendHeader('X-Matomo-Total-Results: 1');
+                return [];
             }
 
             $user = $this->model->getUser($this->access->getLogin());
@@ -319,10 +317,8 @@ class API extends \Piwik\Plugin\API
             unset($user['password']);
         }
 
-        return [
-            'total' => $totalResults,
-            'results' => $users,
-        ];
+        Common::sendHeader('X-Matomo-Total-Results: ' . $totalResults);
+        return $users;
     }
 
     /**
@@ -527,11 +523,11 @@ class API extends \Piwik\Plugin\API
 
         $hasAccessToAny = $this->model->getSiteAccessCount($userLogin) > 0;
 
-        return [
-            'results' => $sites,
-            'total' => $totalResults,
-            'has_access_to_any' => $hasAccessToAny
-        ];
+        Common::sendHeader('X-Matomo-Total-Results: ' . $totalResults);
+        if ($hasAccessToAny) {
+            Common::sendHeader('X-Matomo-Has-Some: 1');
+        }
+        return $sites;
     }
 
     /**
