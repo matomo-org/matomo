@@ -84,11 +84,11 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             };
 
             $field->inlineHelp = Piwik::translate('CoreAdminHome_DevelopmentProcess',
-                                                  array("<a href='?module=Proxy&action=redirect&url=https://matomo.org/participate/development-process/' target='_blank'>",
+                                                  array("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/participate/development-process/'>",
                                                         "</a>"))
                             . Piwik::translate('<br/>')
                             . Piwik::translate('CoreAdminHome_StableReleases',
-                                               array("<a href='?module=Proxy&action=redirect&url=https%3A%2F%2Fdeveloper.matomo.org%2Fguides%2Fcore-team-workflow%23influencing-piwik-development' target='_blank'>",
+                                               array("<a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development'>",
                                                      "</a>"))
                             . Piwik::translate('<br />')
                             . Piwik::translate('CoreAdminHome_LtsReleases');
