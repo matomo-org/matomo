@@ -148,10 +148,24 @@ class ConfigReader
                 continue;
             }
 
-            $configs[$pluginName] = array();
+            if (!array_key_exists($pluginName, $configValues)) {
+                $configValues[$pluginName] = array();
+            }
 
             foreach ($pluginSetting->getSettingsWritableByCurrentUser() as $setting) {
+
                 $name = $setting->getName();
+
+                $configSection = $pluginName;
+
+                if ($setting instanceof PiwikSettings\Plugin\SystemConfigSetting) {
+                    $configSection = $setting->getConfigSectionName();
+
+                    if ($this->shouldSkipCategory($configSection)) {
+                        continue;
+                    }
+                }
+
                 $config = $setting->configureField();
 
                 $description = '';
@@ -163,16 +177,16 @@ class ConfigReader
                     $description .= $config->inlineHelp;
                 }
 
-                if (isset($configValues[$pluginName][$name])) {
-                    $configValues[$pluginName][$name]['defaultValue'] = $setting->getDefaultValue();
-                    $configValues[$pluginName][$name]['description']  = trim($description);
+                if (isset($configValues[$configSection][$name])) {
+                    $configValues[$configSection][$name]['defaultValue'] = $setting->getDefaultValue();
+                    $configValues[$configSection][$name]['description']  = trim($description);
 
                     if ($config->uiControl === PiwikSettings\FieldConfig::UI_CONTROL_PASSWORD) {
-                        $configValues[$pluginName][$name]['value'] = $this->getMaskedPassword();
+                        $configValues[$configSection][$name]['value'] = $this->getMaskedPassword();
                     }
                 } else {
                     $defaultValue = $setting->getValue();
-                    $configValues[$pluginName][$name] = array(
+                    $configValues[$configSection][$name] = array(
                         'value' => null,
                         'description' => trim($description),
                         'isCustomValue' => false,

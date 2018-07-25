@@ -25,6 +25,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The classes `PHPUnit\Framework\Constraint\HttpResponseText` and `PHPUnit\Framework\Constraint\ResponseCode` have been deprecated and will be removed in Matomo 4.0. Please use `Piwik\Http` instead.
 * The console option `--piwik-domain` has been deprecated and will be removed in Matomo 4.0. Use `--matomo-domain` instead
 * Social networks are now detected as new referrer type (ID=7), which allows improved reports and better segmentation
+* New settings form field UI component "Field Array" that lets users enter multiple values for one setting as a flat array
 
 ## Matomo 3.5.1
 

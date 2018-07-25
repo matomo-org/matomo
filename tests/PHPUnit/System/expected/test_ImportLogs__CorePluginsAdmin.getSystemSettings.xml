@@ -1,6 +1,60 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<pluginName>CoreAdminHome</pluginName>
+		<title> </title>
+		<settings>
+			<row>
+				<name>trusted_hosts</name>
+				<title />
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>field-array</uiControl>
+				<uiControlAttributes>
+					<field>
+						<title>Valid Matomo Hostname</title>
+						<uiControl>text</uiControl>
+						<templateFile />
+						<availableValues />
+					</field>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<templateFile />
+				<introduction>Trusted Matomo Hostname</introduction>
+				<condition />
+			</row>
+			<row>
+				<name>cors_domains</name>
+				<title />
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>field-array</uiControl>
+				<uiControlAttributes>
+					<field>
+						<title>Domain</title>
+						<uiControl>text</uiControl>
+						<templateFile />
+						<availableValues />
+					</field>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>You can define domains or subdomains like http://example.com or http://stats.example.com. Or to allow cross domain requests for all domains simply add a *</inlineHelp>
+				<templateFile />
+				<introduction>Cross-Origin Resource Sharing (CORS) domains</introduction>
+				<condition />
+			</row>
+		</settings>
+	</row>
+	<row>
 		<pluginName>GeoIp2</pluginName>
 		<title>Configuration for server variables used by GeoIP 2 server modules</title>
 		<settings>

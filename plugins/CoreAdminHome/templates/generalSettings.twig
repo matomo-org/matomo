@@ -215,48 +215,6 @@
     </div>
 </div>
 
-<div piwik-content-block content-title="{{ 'CoreAdminHome_TrustedHostSettings'|translate|e('html_attr') }}">
-    <a name="trustedHostsSection"></a>
-    <div class="ui-confirm" id="confirmTrustedHostChange">
-        <h2>{{ 'CoreAdminHome_TrustedHostConfirm'|translate }}</h2>
-        <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-        <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
-    </div>
-    <div id='trustedHostSettings' piwik-trusted-hosts-setting='{{ trustedHosts|json_encode }}'>
-
-        {% include "@CoreHome/_warningInvalidHost.twig" %}
-
-        {% if not isGeneralSettingsAdminEnabled %}
-            {{ 'CoreAdminHome_PiwikIsInstalledAt'|translate }}: {{ trustedHosts|join(", ") }}
-        {% else %}
-            <div class="form-group row">
-                <label>{{ 'CoreAdminHome_ValidPiwikHostname'|translate }}</label>
-            </div>
-            <ul>
-                <li ng-repeat="trustedHost in trustedHosts.hosts">
-                    <input ng-model="trustedHost.host" type="text"/>
-                    <a href="javascript:;" ng-click="trustedHosts.removeTrustedHost($index);"
-                       class="remove-trusted-host btn-flat btn-large" title="{{ 'General_Delete'|translate }}">
-                        <span class="icon-minus"></span>
-                    </a>
-                </li>
-            </ul>
-
-            <div class="add-trusted-host">
-                <input type="text" ng-click="trustedHosts.addTrustedHost();"
-                       placeholder="{{ 'CoreAdminHome_AddNewTrustedHost'|translate|e('html_attr') }}" readonly/>
-
-                <a href="#" ng-click="trustedHosts.addTrustedHost();"
-                   class="btn-flat btn-large" title="{{ 'General_Add'|translate }}">
-                    <span class="icon-add"></span>
-                </a>
-            </div>
-
-            <div onconfirm="trustedHosts.save()" saving="trustedHosts.isLoading" piwik-save-button></div>
-        {% endif %}
-    </div>
-
-</div>
 {% if isDataPurgeSettingsEnabled %}
     <div piwik-content-block content-title="{{ 'PrivacyManager_DeleteDataSettings'|translate|e('html_attr') }}">
         <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}</p>
