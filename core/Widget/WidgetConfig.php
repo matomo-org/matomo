@@ -30,7 +30,6 @@ class WidgetConfig
     protected $isEnabled = true;
     protected $isWidgetizable = true;
     protected $isWide = false;
-    protected $isReusable = false;
 
     /**
      * Set the id of the category the widget belongs to.
@@ -365,33 +364,5 @@ class WidgetConfig
     public function isWide()
     {
         return $this->isWide;
-    }
-
-    /**
-     * Returns whether it makes sense to have more than one of this widget in a single dashboard. For
-     * most reports, eg "Visits Over Time", having more than one of them would be redundant. Some widgets,
-     * like the "single metric view" are generic and it would make sense to have more than one of them.
-     *
-     * Note: it is up to the widget metadata consumer to respect or ignore this property.
-     *
-     * @return bool
-     */
-    public function isReusable()
-    {
-        return $this->isReusable;
-    }
-
-    /**
-     * Sets whether this widget can be added more than once to a dashboard.
-     *
-     * Note: it is up to the widget metadata consumer to respect or ignore this property.
-     *
-     * @param bool $isGeneric
-     * @return self
-     */
-    public function setIsReusable()
-    {
-        $this->isReusable = true;
-        return $this;
     }
 }

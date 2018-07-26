@@ -29,7 +29,6 @@ class SingleMetricView extends \Piwik\Widget\Widget
         $config->setCategoryId('General_Generic');
         $config->setName('General_Metric');
         $config->setIsWidgetizable();
-        $config->setIsReusable();
     }
 
     public function render()

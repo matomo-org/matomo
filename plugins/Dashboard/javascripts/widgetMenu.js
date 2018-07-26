@@ -327,8 +327,9 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 for (var j = 0; j < widgets.length; j++) {
                     var widgetName = widgets[j]["name"];
                     var widgetUniqueId = widgets[j]["uniqueId"];
+                    var widgetCategoryId = widgets[j].category ? widgets[j].category.id : null;
                     var widgetClass = '';
-                    if (!settings.isWidgetAvailable(widgetUniqueId) && !widgets[j].isReusable) {
+                    if (!settings.isWidgetAvailable(widgetUniqueId) && widgetCategoryId !== 'General_Generic') {
                         widgetClass += ' ' + settings.unavailableClass;
                     }
 

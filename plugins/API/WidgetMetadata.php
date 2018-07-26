@@ -108,7 +108,6 @@ class WidgetMetadata
         $item['parameters']  = $widget->getParameters();
         $item['uniqueId']    = $widget->getUniqueId();
         $item['isWide']      = $widget->isWide();
-        $item['isReusable'] = $widget->isReusable();
 
         $middleware = $widget->getMiddlewareParameters();
 
