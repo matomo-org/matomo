@@ -22,9 +22,9 @@
         controller: UsersManagerController
     });
 
-    UsersManagerController.$inject = ['$element', 'piwikApi'];
+    UsersManagerController.$inject = ['$element', 'piwikApi', '$q'];
 
-    function UsersManagerController($element, piwikApi) {
+    function UsersManagerController($element, piwikApi, $q) {
         var vm = this;
         vm.isEditing = false;
         vm.isCurrentUserSuperUser = true;
@@ -48,27 +48,29 @@
         function onChangeUserRole(users, role) {
             vm.isLoadingUsers = true;
 
-            var apiPromise;
-            if (users !== 'all') {
-                apiPromise = piwikApi.post({
-                    method: 'UsersManager.setUserAccess',
-                    'userLogin[]': users,
-                    access: role,
-                    idSites: vm.searchParams.idSite,
-                    ignoreSuperusers: 1
+            $q.resolve().then(function () {
+                if (users === 'all') {
+                    return getAllUsersInSearch();
+                }
+                return users;
+            }).then(function (users) {
+                return users.filter(function (user) {
+                    return user.role !== 'superuser';
+                }).map(function (user) {
+                    return user.login;
                 });
-            } else {
-                apiPromise = piwikApi.post({
-                    method: 'UsersManager.setUserAccessMatching',
-                    access: role,
-                    filter_search: vm.searchParams.filter_search,
-                    filter_access: vm.searchParams.filter_access,
-                    idSite: vm.searchParams.idSite,
-                    ignoreSuperusers: 1
+            }).then(function (userLogins) {
+                var requests = userLogins.map(function (login) {
+                    return {
+                        method: 'UsersManager.setUserAccess',
+                        userLogin: login,
+                        access: role,
+                        idSites: vm.searchParams.idSite,
+                        ignoreSuperusers: 1
+                    };
                 });
-            }
-
-            apiPromise.catch(function (e) {
+                return piwikApi.bulkFetch(requests, { createErrorNotification: true });
+            }).catch(function (e) {
                 // ignore (errors will still be displayed to the user)
             }).then(function () {
                 return fetchUsers();
@@ -78,22 +80,22 @@
         function onDeleteUser(users) {
             vm.isLoadingUsers = true;
 
-            var apiPromise;
-            if (users !== 'all') {
-                apiPromise = piwikApi.post({
-                    method: 'UsersManager.deleteUser',
-                    'userLogin[]': users
+            $q.resolve().then(function () {
+                if (users === 'all') {
+                    return getAllUsersInSearch();
+                }
+                return users;
+            }).then(function (users) {
+                return users.map(function (user) { return user.login; });
+            }).then(function (userLogins) {
+                var requests = userLogins.map(function (login) {
+                    return {
+                        method: 'UsersManager.deleteUser',
+                        userLogin: login
+                    };
                 });
-            } else {
-                apiPromise = piwikApi.post({
-                    method: 'UsersManager.deleteUsersMatching',
-                    filter_search: vm.searchParams.filter_search,
-                    filter_access: vm.searchParams.filter_access,
-                    idSite: vm.searchParams.idSite
-                });
-            }
-
-            apiPromise.catch(function () {
+                return piwikApi.bulkFetch(requests, { createErrorNotification: true });
+            }).catch(function () {
                 // ignore (errors will still be displayed to the user)
             }).then(function () {
                 return fetchUsers();
@@ -155,6 +157,15 @@
             });
         }
 
+        function getAllUsersInSearch() {
+            return piwikApi.fetch({
+                method: 'UsersManager.getUsersPlusRole',
+                filter_search: vm.searchParams.filter_search,
+                filter_access: vm.searchParams.filter_access,
+                idSite: vm.searchParams.idSite
+            });
+        }
+
         function onDoneEditing(isUserModified) {
             vm.isEditing = false;
             if (isUserModified) { // if a user was modified, we must reload the users list
@@ -180,10 +191,6 @@
                     method: 'UsersManager.getUserLoginFromUserEmail',
                     userEmail: vm.addNewUserLoginEmail
                 }).then(function (response) {
-                    if (!response || !response.value) {
-                        throw new Error("User '" + vm.addNewUserLoginEmail + "' does not exist."); // TODO: use translation
-                    }
-
                     return response.value;
                 });
             }).then(function (login) {

@@ -348,60 +348,45 @@ class Model
 
     public function addUserAccess($userLogin, $access, $idSites)
     {
-        $userLogins = is_array($userLogin) ? $userLogin : [$userLogin];
-
         $db = $this->getDb();
 
         $insertSql = "INSERT INTO " . Common::prefixTable("access") . ' (idsite, login, access) VALUES (?, ?, ?)';
-        foreach ($userLogins as $login) {
-            foreach ($idSites as $idsite) {
-                $db->query($insertSql, [$idsite, $login, $access]);
-            }
+        foreach ($idSites as $idsite) {
+            $db->query($insertSql, [$idsite, $userLogin, $access]);
         }
     }
 
     /**
-     * @param string|string[] $userLogins
+     * @param string $userLogin
      */
-    public function deleteUserOnly($userLogins)
+    public function deleteUserOnly($userLogin)
     {
-        if (!is_array($userLogins)) {
-            $userLogins = [$userLogins];
-        }
-
         $db = $this->getDb();
-        $db->query("DELETE FROM " . $this->table . " WHERE login IN (" . Common::getSqlStringFieldsArray($userLogins) . ")", $userLogins);
+        $db->query("DELETE FROM " . $this->table . " WHERE login = ?", $userLogin);
 
-        foreach ($userLogins as $login) {
-            /**
-             * Triggered after a user has been deleted.
-             *
-             * This event should be used to clean up any data that is related to the now deleted user.
-             * The **Dashboard** plugin, for example, uses this event to remove the user's dashboards.
-             *
-             * @param string $userLogins The login handle of the deleted user.
-             */
-            Piwik::postEvent('UsersManager.deleteUser', array($login));
-        }
+        /**
+         * Triggered after a user has been deleted.
+         *
+         * This event should be used to clean up any data that is related to the now deleted user.
+         * The **Dashboard** plugin, for example, uses this event to remove the user's dashboards.
+         *
+         * @param string $userLogins The login handle of the deleted user.
+         */
+        Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
     }
 
     /**
-     * @param string|string[] $userLogins
+     * @param string $userLogin
      */
-    public function deleteUserAccess($userLogins, $idSites = null)
+    public function deleteUserAccess($userLogin, $idSites = null)
     {
-        if (!is_array($userLogins)) {
-            $userLogins = [$userLogins];
-        }
-
         $db = $this->getDb();
 
-        $placeholders = Common::getSqlStringFieldsArray($userLogins);
         if (is_null($idSites)) {
-            $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE login IN ($placeholders)", $userLogins);
+            $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE login = ?", $userLogin);
         } else {
             foreach ($idSites as $idsite) {
-                $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE idsite = ? AND login IN ($placeholders)", array_merge([$idsite], $userLogins));
+                $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE idsite = ? AND login = ?", [$idsite, $userLogin]);
             }
         }
     }

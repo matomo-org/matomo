@@ -86,6 +86,7 @@
                 // ignore error (still displayed to user)
             }).then(function () {
                 vm.isSavingUserInfo = false;
+                vm.isUserModified = true;
             });
         }
 

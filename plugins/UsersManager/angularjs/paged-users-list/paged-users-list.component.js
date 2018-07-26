@@ -128,7 +128,7 @@
 
         function getUserOperationSubject() {
             if (vm.userToChange) {
-                return [vm.userToChange.login];
+                return [vm.userToChange];
             } else if (vm.areAllResultsSelected) {
                 return 'all';
             } else {
@@ -168,9 +168,9 @@
             var result = [];
             Object.keys(vm.selectedRows).forEach(function (index) {
                 if (vm.selectedRows[index]
-                    && vm.users[index] // safety check
+                    && vm.users[index] // sanity check
                 ) {
-                    result.push(vm.users[index].login);
+                    result.push(vm.users[index]);
                 }
             });
             return result;

@@ -181,59 +181,6 @@ class APITest extends IntegrationTestCase
         $this->assertFalse($eventTriggered, 'UsersManager.removeSiteAccess event was triggered but should not');
     }
 
-    public function test_setUserAccess_ShouldSetAccessForMultipleUsers()
-    {
-        $this->api->addUser('userLogin2', 'password', 'userlogin2@password.de');
-        $this->api->addUser('userLogin3', 'password', 'userlogin3@password.de');
-        $this->api->addUser('userLogin4', 'password', 'userlogin4@password.de');
-
-        $this->api->setUserAccess(['userLogin2', 'userLogin3'], 'view', [1, 2]);
-
-        $expected = [
-            ['site' => 1, 'access' => 'view'],
-            ['site' => 2, 'access' => 'view'],
-        ];
-        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin2'));
-        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin3'));
-        $this->assertEquals([], $this->api->getSitesAccessFromUser('userLogin4'));
-    }
-
-    public function test_setUserAccessMatching_shouldSearchByTextCorrectly()
-    {
-        $this->addUserWithAccess('searchTextLogin', 'view', 1, 'someemail@email.com', 'alias');
-        $this->addUserWithAccess('userLogin2', 'view', 1, 'searchTextdef@email.com');
-        $this->addUserWithAccess('userLogin3', null, 1, 'someemail2@email.com', 'alias-searchTextABC');
-        $this->addUserWithAccess('userLogin4', null, 1);
-
-        $this->api->setUserAccessMatching(1, 'admin', 'searchText');
-
-        $expected = [
-            ['site' => 1, 'access' => 'admin'],
-        ];
-        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('searchTextLogin'));
-        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin2'));
-        $this->assertEquals([], $this->api->getSitesAccessFromUser('userLogin3'));
-        $this->assertEquals([], $this->api->getSitesAccessFromUser('userLogin4'));
-    }
-
-    public function test_setUserAccessMatching_shouldSearchByAccessCorrectly()
-    {
-        $this->addUserWithAccess('userLogin2', 'admin', 1);
-        $this->addUserWithAccess('userLogin3', 'admin', 1);
-        $this->addUserWithAccess('userLogin4', 'admin', 1);
-        $this->addUserWithAccess('userLogin5', null, 1);
-
-        $this->api->setUserAccessMatching(1, 'view', null, 'admin'); // set all admin users to view
-
-        $expected = [
-            ['site' => 1, 'access' => 'view'],
-        ];
-        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin2'));
-        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin3'));
-        $this->assertEquals($expected, $this->api->getSitesAccessFromUser('userLogin4'));
-        $this->assertEquals([], $this->api->getSitesAccessFromUser('userLogin5'));
-    }
-
     public function test_getAllUsersPreferences_isEmpty_whenNoPreference()
     {
         $preferences = $this->api->getAllUsersPreferences(array('preferenceName'));
@@ -346,7 +293,8 @@ class APITest extends IntegrationTestCase
     {
         $this->api->updateUser($this->login, 'newPassword', 'email@example.com', 'newAlias', false);
 
-        $user = $this->api->getUser($this->login);
+        $model = new Model();
+        $user = $model->getUser($this->login);
 
         $this->assertSame('email@example.com', $user['email']);
         $this->assertSame('newAlias', $user['alias']);
@@ -392,12 +340,9 @@ class APITest extends IntegrationTestCase
         $this->setCurrentUser('userLogin2', 'view', 1);
 
         $users = $this->api->getUsersPlusRole(1);
-        $this->cleanUsers($users['results']);
+        $this->cleanUsers($users);
         $expected = [
-            'total' => 1,
-            'results' => [
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => []],
-            ],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -409,12 +354,9 @@ class APITest extends IntegrationTestCase
         $this->setCurrentUser('userLogin2', 'view', 1);
 
         $users = $this->api->getUsersPlusRole(1, null, null, null, 'superuser');
-        $this->cleanUsers($users['results']);
+        $this->cleanUsers($users);
         $expected = [
-            'total' => 1,
-            'results' => [
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => []],
-            ],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -428,14 +370,11 @@ class APITest extends IntegrationTestCase
         $this->setCurrentUser('userLogin2', 'admin', 1);
 
         $users = $this->api->getUsersPlusRole(1);
-        $this->cleanUsers($users['results']);
+        $this->cleanUsers($users);
         $expected = [
-            'total' => 3,
-            'results' => [
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => []],
-                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view', 'capabilities' => []],
-                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin', 'capabilities' => []],
-            ],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => []],
+            ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view', 'capabilities' => []],
+            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -450,15 +389,12 @@ class APITest extends IntegrationTestCase
         $this->setCurrentUser('userLogin2', 'admin', [1, 2]);
 
         $users = $this->api->getUsersPlusRole(1);
-        $this->cleanUsers($users['results']);
+        $this->cleanUsers($users);
         $expected = [
-            'total' => '4',
-            'results' => [
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => []],
-                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view', 'capabilities' => []],
-                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin', 'capabilities' => []],
-                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'capabilities' => []],
-            ],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => []],
+            ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view', 'capabilities' => []],
+            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin', 'capabilities' => []],
+            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -472,16 +408,13 @@ class APITest extends IntegrationTestCase
         $this->setCurrentUser('userLogin2', 'superuser', 1);
 
         $users = $this->api->getUsersPlusRole(1);
-        $this->cleanUsers($users['results']);
+        $this->cleanUsers($users);
         $expected = [
-            'total' => '5',
-            'results' => [
-                ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => []],
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
-                ['login' => 'userLogin3', 'alias' => 'userLogin3', 'email' => 'userLogin3@password.de', 'superuser_access' => false, 'role' => 'view', 'capabilities' => []],
-                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
-                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'email' => 'userLogin5@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => []],
-            ],
+            ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => []],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
+            ['login' => 'userLogin3', 'alias' => 'userLogin3', 'email' => 'userLogin3@password.de', 'superuser_access' => false, 'role' => 'view', 'capabilities' => []],
+            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
+            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'email' => 'userLogin5@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -495,13 +428,10 @@ class APITest extends IntegrationTestCase
         $this->setCurrentUser('userLogin2', 'admin', 1);
 
         $users = $this->api->getUsersPlusRole(1, null, null, null, 'admin');
-        $this->cleanUsers($users['results']);
+        $this->cleanUsers($users);
         $expected = [
-            'total' => 2,
-            'results' => [
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => []],
-                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'admin', 'capabilities' => []],
-            ],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => []],
+            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'admin', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -514,14 +444,11 @@ class APITest extends IntegrationTestCase
         $this->addUserWithAccess('userLogin5', 'noaccess', 1);
 
         $users = $this->api->getUsersPlusRole(1, null, null, null, 'noaccess');
-        $this->cleanUsers($users['results']);
+        $this->cleanUsers($users);
         $expected = [
-            'total' => 3,
-            'results' => [
-                ['login' => 'userLogin', 'alias' => 'userLogin', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userlogin@password.de', 'capabilities' => []],
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin2@password.de', 'capabilities' => []],
-                ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin5@password.de', 'capabilities' => []],
-            ],
+            ['login' => 'userLogin', 'alias' => 'userLogin', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userlogin@password.de', 'capabilities' => []],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin2@password.de', 'capabilities' => []],
+            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin5@password.de', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -536,13 +463,10 @@ class APITest extends IntegrationTestCase
         $this->setCurrentUser('userLogin2', 'superuser', 1);
 
         $users = $this->api->getUsersPlusRole(1, null, null, null, 'superuser');
-        $this->cleanUsers($users['results']);
+        $this->cleanUsers($users);
         $expected = [
-            'total' => 2,
-            'results' => [
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
-                ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
-            ],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
+            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -556,13 +480,10 @@ class APITest extends IntegrationTestCase
         $this->setCurrentUser('searchTextLogin', 'superuser', 1);
 
         $users = $this->api->getUsersPlusRole(1, null, null, 'searchText');
-        $this->cleanUsers($users['results']);
+        $this->cleanUsers($users);
         $expected = [
-            'total' => 2,
-            'results' => [
-                ['login' => 'searchTextLogin', 'alias' => 'alias', 'email' => 'someemail@email.com', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view', 'capabilities' => []],
-            ],
+            ['login' => 'searchTextLogin', 'alias' => 'alias', 'email' => 'someemail@email.com', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -576,13 +497,10 @@ class APITest extends IntegrationTestCase
         $this->setCurrentUser('searchTextLogin', 'superuser', 1);
 
         $users = $this->api->getUsersPlusRole(1, $limit = 2, $offset = 1);
-        $this->cleanUsers($users['results']);
+        $this->cleanUsers($users);
         $expected = [
-            'total' => 5,
-            'results' => [
-                ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => []],
-                ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view', 'capabilities' => []],
-            ],
+            ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => []],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -595,13 +513,9 @@ class APITest extends IntegrationTestCase
 
         $access = $this->api->getSitesAccessForUser('userLogin');
         $expected = [
-            'total' => '3',
-            'results' => [
-                ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'admin', 'capabilities' => []],
-                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
-                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
-            ],
-            'has_access_to_any' => true,
+            ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'admin', 'capabilities' => []],
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $access);
     }
@@ -614,12 +528,8 @@ class APITest extends IntegrationTestCase
 
         $access = $this->api->getSitesAccessForUser('userLogin', $limit = 2, $offset = 1);
         $expected = [
-            'total' => '3',
-            'results' => [
-                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
-                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
-            ],
-            'has_access_to_any' => true,
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $access);
     }
@@ -639,13 +549,9 @@ class APITest extends IntegrationTestCase
 
         $access = $this->api->getSitesAccessForUser('userLogin', null, null, 'searchTerm');
         $expected = [
-            'total' => '3',
-            'results' => [
-                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
-                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
-                ['idsite' => '1', 'site_name' => 'searchTerm site', 'role' => 'admin', 'capabilities' => []],
-            ],
-            'has_access_to_any' => true,
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '1', 'site_name' => 'searchTerm site', 'role' => 'admin', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $access);
     }
@@ -658,12 +564,8 @@ class APITest extends IntegrationTestCase
 
         $access = $this->api->getSitesAccessForUser('userLogin', null, null, null, 'view');
         $expected = [
-            'total' => '2',
-            'results' => [
-                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
-                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
-            ],
-            'has_access_to_any' => true,
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $access);
     }
@@ -679,12 +581,8 @@ class APITest extends IntegrationTestCase
 
         $access = $this->api->getSitesAccessForUser('userLogin2', null, null, null, 'view');
         $expected = [
-            'total' => '2',
-            'results' => [
-                ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
-                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
-            ],
-            'has_access_to_any' => true,
+            ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $access);
     }
@@ -693,13 +591,9 @@ class APITest extends IntegrationTestCase
     {
         $access = $this->api->getSitesAccessForUser('userLogin');
         $expected = [
-            'total' => '3',
-            'results' => [
-                ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
-                ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
-                ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
-            ],
-            'has_access_to_any' => false,
+            ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $access);
 
@@ -707,120 +601,8 @@ class APITest extends IntegrationTestCase
         $this->api->setUserAccess('userLogin', 'view', 1);
 
         $access = $this->api->getSitesAccessForUser('userLogin', null, null, 'asdklfjds');
-        $expected = [
-            'total' => '0',
-            'results' => [],
-            'has_access_to_any' => true,
-        ];
+        $expected = [];
         $this->assertEquals($expected, $access);
-    }
-
-    public function test_setSiteAccessMatching_shouldSetAllSitesIfNoFiltersUsed()
-    {
-        $this->api->setUserAccess('userLogin', 'view', [1]);
-        $this->api->setUserAccess('userLogin', 'view', [2]);
-        $this->api->setUserAccess('userLogin', 'view', [3]);
-
-        $this->api->setSiteAccessMatching('userLogin', 'admin');
-
-        $access = $this->api->getSitesAccessFromUser('userLogin');
-        $expected = [
-            ['site' => '1', 'access' => 'admin'],
-            ['site' => '2', 'access' => 'admin'],
-            ['site' => '3', 'access' => 'admin'],
-        ];
-        $this->assertEquals($expected, $access);
-    }
-
-    public function test_setSiteAccessMatching_shouldFilterBySiteNameCorrectly()
-    {
-        Fixture::createWebsite('2010-01-02 00:00:00');
-
-        $this->api->setUserAccess('userLogin', 'view', [1]);
-        $this->api->setUserAccess('userLogin', 'view', [2]);
-        $this->api->setUserAccess('userLogin', 'view', [3]);
-        $this->api->setUserAccess('userLogin', 'view', [4]);
-
-        SitesManagerAPI::getInstance()->updateSite(1, 'searchTerm site');
-        SitesManagerAPI::getInstance()->updateSite(2, null, ['http://searchTerm.com']);
-        SitesManagerAPI::getInstance()->updateSite(3, null, null, null, null, null, null, null, null, null, null, 'the searchTerm group');
-
-        $this->api->setSiteAccessMatching('userLogin', 'admin', 'searchTerm');
-
-        $access = $this->api->getSitesAccessFromUser('userLogin');
-        $expected = [
-            ['site' => '4', 'access' => 'view'],
-            ['site' => '1', 'access' => 'admin'],
-            ['site' => '2', 'access' => 'admin'],
-            ['site' => '3', 'access' => 'admin'],
-        ];
-        $this->assertEquals($expected, $access);
-    }
-
-    public function test_setSiteAccessMatching_shouldFilterByAccessCorrectly()
-    {
-        $this->api->setUserAccess('userLogin', 'admin', [1]);
-        $this->api->setUserAccess('userLogin', 'view', [2]);
-        $this->api->setUserAccess('userLogin', 'view', [3]);
-
-        $this->api->setSiteAccessMatching('userLogin', 'admin', null, 'view');
-
-        $access = $this->api->getSitesAccessFromUser('userLogin');
-        $expected = [
-            ['site' => '1', 'access' => 'admin'],
-            ['site' => '2', 'access' => 'admin'],
-            ['site' => '3', 'access' => 'admin']
-        ];
-        $this->assertEquals($expected, $access);
-    }
-
-    public function test_setSiteAccessMatching_shouldLimitSitesIfCurrentUserIsAdminUser()
-    {
-        $this->addUserWithAccess('userLogin2', 'view', [1, 2, 3], 'userlogin2@email.com');
-
-        $this->api->setUserAccess('userLogin', 'admin', [1, 2]);
-        $this->api->setUserAccess('userLogin', 'view', [3]);
-
-        $this->setCurrentUser('userLogin', 'admin', [1, 2]);
-
-        $this->api->setSiteAccessMatching('userLogin2', 'admin', null, 'view');
-
-        FakeAccess::clearAccess(true);
-        $access = $this->api->getSitesAccessFromUser('userLogin2');
-        $expected = [
-            ['site' => '3', 'access' => 'view'],
-            ['site' => '1', 'access' => 'admin'],
-            ['site' => '2', 'access' => 'admin'],
-        ];
-        $this->assertEquals($expected, $access);
-    }
-
-    public function test_deleteUsersMatching_shouldSearchByTextCorrectly()
-    {
-        $this->addUserWithAccess('searchTextLogin', 'superuser', 1, 'someemail@email.com', 'alias');
-        $this->addUserWithAccess('userLogin2', 'view', 1, 'searchTextdef@email.com');
-        $this->addUserWithAccess('userLogin3', null, 1, 'someemail2@email.com', 'alias-searchTextABC');
-        $this->addUserWithAccess('userLogin4', 'superuser', 1);
-
-        $this->api->deleteUsersMatching(1, 'searchText');
-        $this->assertFalse($this->api->userExists('searchTextLogin'));
-        $this->assertFalse($this->api->userExists('userLogin2'));
-        $this->assertTrue($this->api->userExists('userLogin3'));
-        $this->assertTrue($this->api->userExists('userLogin4'));
-    }
-
-    public function test_deleteUsersMatching_shouldSearchByAccessCorrectly()
-    {
-        $this->addUserWithAccess('userLogin2', 'admin', 1);
-        $this->addUserWithAccess('userLogin3', 'view', 1);
-        $this->addUserWithAccess('userLogin4', 'superuser', 1);
-        $this->addUserWithAccess('userLogin5', 'admin', 1);
-
-        $this->api->deleteUsersMatching(1, null, 'admin');
-        $this->assertFalse($this->api->userExists('userLogin2'));
-        $this->assertFalse($this->api->userExists('userLogin5'));
-        $this->assertTrue($this->api->userExists('userLogin3'));
-        $this->assertTrue($this->api->userExists('userLogin4'));
     }
 
     /**
@@ -1043,20 +825,6 @@ class APITest extends IntegrationTestCase
     public function test_removeCapabilities_failsWhenNotCapabilityIsGivenAsArray()
     {
         $this->api->removeCapabilities($this->login, array(TestCap2::ID, View::ID), array(1));
-    }
-
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess UsersManager_ExceptionYouMustGrantSuperUserAccessFirst
-     */
-    public function test_deleteUsersMatching_shouldNotAllowDeletingAllSuperusers()
-    {
-        $this->addUserWithAccess('userLogin2', 'admin', 1);
-        $this->addUserWithAccess('userLogin3', 'view', 1);
-        $this->addUserWithAccess('userLogin4', 'superuser', 1);
-        $this->addUserWithAccess('userLogin5', 'admin', 1);
-
-        $this->api->deleteUsersMatching(1, 'userLogin');
     }
 
     /**

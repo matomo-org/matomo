@@ -23,9 +23,9 @@
         controller: UserPermissionsEditController
     });
 
-    UserPermissionsEditController.$inject = ['piwikApi', '$element'];
+    UserPermissionsEditController.$inject = ['piwikApi', '$element', '$q'];
 
-    function UserPermissionsEditController(piwikApi, $element) {
+    function UserPermissionsEditController(piwikApi, $element, $q) {
         var vm = this;
 
         // search/pagination state
@@ -114,6 +114,17 @@
             });
         }
 
+        function getAllSitesInSearch() {
+            return piwikApi.fetch({
+                method: 'UsersManager.getSitesAccessForUser',
+                filter_search: vm.siteNameFilter,
+                filter_access: vm.accessLevelFilter,
+                userLogin: vm.userLogin
+            }).then(function (access) {
+                return access.map(function (a) { return a.idsite; });
+            });
+        }
+
         function clearSelection() {
             vm.selectedRows = {};
             vm.areAllResultsSelected = false;
@@ -153,26 +164,24 @@
         function changeUserRole() {
             vm.isLoadingAccess = true;
 
-            var apiPromise;
-            if (vm.siteAccessToChange || !vm.areAllResultsSelected) {
-                var idSites = vm.siteAccessToChange ? [vm.siteAccessToChange.idsite] : getSelectedSites();
-                apiPromise = piwikApi.post({
+            return $q.resolve().then(function () {
+                if (vm.siteAccessToChange) {
+                    return [vm.siteAccessToChange.idsite];
+                }
+
+                if (vm.areAllResultsSelected) {
+                    return getAllSitesInSearch();
+                }
+
+                return getSelectedSites();
+            }).then(function (idSites) {
+                return piwikApi.post({
                     method: 'UsersManager.setUserAccess',
                     userLogin: vm.userLogin,
                     access: vm.roleToChangeTo,
                     'idSites[]': idSites
                 });
-            } else {
-                apiPromise = piwikApi.post({
-                    method: 'UsersManager.setSiteAccessMatching',
-                    userLogin: vm.userLogin,
-                    access: vm.roleToChangeTo,
-                    filter_search: vm.siteNameFilter,
-                    filter_access: vm.accessLevelFilter,
-                });
-            }
-
-            apiPromise.catch(function () {
+            }).catch(function () {
                 // ignore (errors will still be displayed to the user)
             }).then(function () {
                 vm.onAccessChange();
