@@ -370,15 +370,14 @@ session_save_handler = files
 ; it is recommended for security reasons to always use Matomo over https
 force_ssl = 0
 
-; login cookie name
+; (DEPRECATED) has no effect
 login_cookie_name = piwik_auth
 
 ; By default, the auth cookie is set only for the duration of session.
 ; if "Remember me" is checked, the auth cookie will be valid for 14 days by default
 login_cookie_expire = 1209600
 
-; The path on the server in which the cookie will be available on.
-; Defaults to empty. See spec in https://curl.haxx.se/rfc/cookie_spec.html
+; (DEPRECATED) has no effect
 login_cookie_path =
 
 ; email address that appears as a Sender in the password recovery email

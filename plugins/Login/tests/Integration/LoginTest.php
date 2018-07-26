@@ -261,16 +261,6 @@ class LoginTest extends IntegrationTestCase
         $this->assertSuperUserLogin($rc, 'user');
     }
 
-    public function test_authenticate_successLoginAndHashedTokenAuth()
-    {
-        $user = $this->_setUpUser();
-        $hash = \Piwik\Plugins\Login\SessionInitializer::getHashTokenAuth($user['login'], $user['tokenAuth']);
-
-        // valid login & hashed token auth
-        $rc = $this->authenticate($user['login'], $tokenAuth = $hash);
-        $this->assertUserLogin($rc);
-    }
-
     public function test_authenticate_successWithValidPassword()
     {
         $user = $this->_setUpUser();
