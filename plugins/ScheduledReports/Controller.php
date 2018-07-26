@@ -28,9 +28,6 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@ScheduledReports/index');
         $this->setGeneralVariablesView($view);
 
-        $siteTimezone = $this->site->getTimezone();
-
-        $view->timeZoneDifference = Date::getUtcOffset($siteTimezone) / 3600;
         $view->countWebsites      = count(APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess());
 
         // get report types
