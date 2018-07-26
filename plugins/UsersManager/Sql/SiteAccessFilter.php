@@ -65,7 +65,7 @@ class SiteAccessFilter
             $result[] = \Piwik\Plugins\SitesManager\Model::getPatternMatchSqlQuery('s');
         }
 
-        if ($this->filterByRole) { // TODO: automated test w/ 'some' in methods that use it
+        if ($this->filterByRole) {
             if ($this->filterByRole == 'noaccess') {
                 $result[] = 'a.access IS NULL';
             } else if ($this->filterByRole == 'some') {

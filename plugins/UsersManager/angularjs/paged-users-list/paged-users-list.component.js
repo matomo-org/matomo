@@ -53,7 +53,6 @@
         // other state
         vm.isRoleHelpToggled = false;
 
-        // TODO: make sure all these methods rae used in templates (same for users manager)
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.onAllCheckboxChange = onAllCheckboxChange;
