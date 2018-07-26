@@ -1,0 +1,167 @@
+<?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ */
+namespace Piwik\Plugins\ScheduledReports;
+
+use Piwik\Access;
+use Piwik\API\Request;
+use Piwik\Common;
+use Piwik\Db;
+use Piwik\DbHelper;
+
+class SubscriptionModel
+{
+    private static $rawPrefix = 'report_subscriptions';
+    private $table;
+
+    public function __construct()
+    {
+        $this->table = Common::prefixTable(self::$rawPrefix);
+    }
+
+    public function unsubscribe($token)
+    {
+        $details = $this->getSubscription($token);
+        $email = $details['email'];
+
+        $report = Access::doAsSuperUser(function() use ($details) {
+            $reports = Request::processRequest('ScheduledReports.getReports', array(
+                'idReport'    => $details['idreport'],
+            ));
+            return reset($reports);
+        });
+
+        if (empty($report)) {
+            return false;
+        }
+
+        $reportParameters = $report['parameters'];
+
+        $emailFound = false;
+
+        if (!empty($reportParameters['additionalEmails'])) {
+            $additionalEmails = $reportParameters['additionalEmails'];
+            $filteredEmails = [];
+            foreach ($additionalEmails as $additionalEmail) {
+                if ($additionalEmail == $email) {
+                    $emailFound = true;
+                    continue;
+                }
+                $filteredEmails[] = $additionalEmail;
+            }
+            if ($emailFound) {
+                $report['parameters']['additionalEmails'] = implode("\n", $additionalEmails);
+            }
+        }
+
+        if ($reportParameters['emailMe']) {
+            $login = $report['login'];
+
+            $userModel = new \Piwik\Plugins\UsersManager\Model();
+            $userData = $userModel->getUser($login);
+
+            if ($userData['email'] == $email) {
+                $emailFound = true;
+                $report['parameters']['emailMe'] = false;
+            }
+        }
+
+        if ($emailFound) {
+            Access::doAsSuperUser(function() use ($report) {
+                Request::processRequest('ScheduledReports.updateReport', [
+                    'idReport'     => $report['idreport'],
+                    'idSite'       => $report['idsite'],
+                    'description'  => $report['description'],
+                    'period'       => $report['period'],
+                    'hour'         => $report['hour'],
+                    'reportType'   => $report['type'],
+                    'reportFormat' => $report['format'],
+                    'reports'      => $report['reports'],
+                    'parameters'   => $report['parameters'],
+                    'idSegment'    => $report['idsegment'],
+                ]);
+            });
+
+            $this->removeSubscription($token);
+        }
+
+        return $emailFound;
+    }
+
+    public function getReportSubscriptions($idReport)
+    {
+        return $this->getDb()->fetchAll('SELECT * FROM ' . $this->table . ' WHERE idreport = ?', [$idReport]);
+    }
+
+    public function getSubscription($token)
+    {
+        return $this->getDb()->fetchRow('SELECT * FROM ' . $this->table . ' WHERE token = ?', [$token]);
+    }
+
+    public function updateReportSubscriptions($idReport, $emails)
+    {
+        $availableSubscriptions = $this->getReportSubscriptions($idReport);
+        $availableEmails = array_column($availableSubscriptions, 'email');
+
+        // remove available subscriptions that aren't present anymore
+        foreach ($availableSubscriptions as $availableSubscription) {
+            if (!in_array($availableSubscription['email'], $emails)) {
+                $this->removeSubscription($availableSubscription['token']);
+            }
+        }
+
+        // add new subscriptions
+        foreach ($emails as $email) {
+            while($token = $this->generateToken($email)) {
+                if (!$this->tokenExists($token)) {
+                    break;
+                }
+            }
+
+            if (!in_array($email, $availableEmails)) {
+                $subscription = [
+                    'idreport' => $idReport,
+                    'token' => $token,
+                    'email' => $email
+                ];
+                $this->getDb()->insert($this->table, $subscription);
+            }
+        }
+
+    }
+
+    private function removeSubscription($token)
+    {
+        $this->getDb()->query('DELETE FROM ' . $this->table . ' WHERE token = ?', [$token]);
+    }
+
+    private function generateToken($email)
+    {
+        return Common::hash($email . time() . Common::getRandomString(5));
+    }
+
+    private function tokenExists($token)
+    {
+        return !!$this->getDb()->fetchOne('SELECT token FROM ' . $this->table . ' WHERE token = ?', [$token]);
+    }
+
+    private function getDb()
+    {
+        return Db::get();
+    }
+
+    public static function install()
+    {
+        $reportTable = "`idreport` INT(11) NOT NULL AUTO_INCREMENT,
+					    `token` VARCHAR(100) NOT NULL,
+					    `email` VARCHAR(100) NOT NULL,
+					    PRIMARY KEY (`token`)";
+
+        DbHelper::createTable(self::$rawPrefix, $reportTable);
+    }
+}

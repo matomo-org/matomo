@@ -8,6 +8,8 @@
  */
 namespace Piwik\Plugins\ScheduledReports;
 
+use Piwik\Access;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Piwik;
@@ -99,6 +101,43 @@ class Controller extends \Piwik\Plugin\Controller
             }
             $view->savedSegmentsById = $savedSegmentsById;
             $view->segmentEditorActivated = true;
+        }
+
+        return $view->render();
+    }
+
+    public function unsubscribe()
+    {
+        $token = Common::getRequestVar('token', null, 'string');
+
+        if (empty($token)) {
+            throw new \Exception('The provided token is invalid');
+        }
+
+        $subscriptionModel = new SubscriptionModel();
+        $subscription      = $subscriptionModel->getSubscription($token);
+
+        $report = Access::doAsSuperUser(function() use ($subscription) {
+            $reports = Request::processRequest('ScheduledReports.getReports', array(
+                'idReport'    => $subscription['idreport'],
+            ));
+            return reset($reports);
+        });
+
+        if (empty($subscription)) {
+            throw new \Exception('No subscription found. Maybe already unsubscribed');
+        }
+
+        $confirm = Common::getRequestVar('confirm', '', 'string');
+
+        $view = new View('@ScheduledReports/unsubscribe');
+        $this->setBasicVariablesView($view);
+        $view->linkTitle = Piwik::getRandomTitle();
+        $view->reportName = $report['description'];
+
+        if (!empty($confirm)) {
+            $subscriptionModel->unsubscribe($token);
+            $view->success = true;
         }
 
         return $view->render();

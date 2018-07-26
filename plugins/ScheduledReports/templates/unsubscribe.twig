@@ -1,0 +1,73 @@
+{% extends '@Morpheus/layout.twig' %}
+
+{% block meta %}
+    <meta name="robots" content="noindex,nofollow">
+{% endblock %}
+
+{% set title %}{{ 'ScheduledReports_ReportUnsubscribe'|translate }}{% endset %}
+
+{% set bodyId = 'loginPage' %}
+
+{% block body %}
+
+    {{ postEvent("Template.beforeTopBar", "login") }}
+    {{ postEvent("Template.beforeContent", "login") }}
+
+    {% include "_iframeBuster.twig" %}
+
+    <div id="notificationContainer">
+    </div>
+    <nav>
+        <div class="nav-wrapper">
+            <span id="logo" class="brand-logo center">
+
+                {% if isCustomLogo == false %}
+                    <a href="https://matomo.org" title="{{ linkTitle }}">
+                {% endif %}
+                {% if hasSVGLogo %}
+                    <img src='{{ logoSVG }}' class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" title="{{ linkTitle }}" alt="Matomo"/>
+                {% else %}
+                    <img src='{{ logoLarge }}' title="{{ linkTitle }}" alt="Matomo" />
+                {% endif %}
+
+                {% if isCustomLogo == false %}
+                    </a>
+                {% endif %}
+
+            </span>
+        </div>
+    </nav>
+
+    <section class="loginSection row">
+        <div class="col s12 m6 push-m3 l4 push-l4">
+
+            <div class="contentForm loginForm">
+                {% embed 'contentBlock.twig' with {'title': 'ScheduledReports_ReportUnsubscribe'|translate} %}
+                {% block content %}
+                    {% if success is defined %}
+                        <p class="message">{{ 'ScheduledReports_SuccessfullyUnsubscribed'|translate('<strong>'~reportName~'</strong>')|raw }}</p>
+                    {% else %}
+                        <form method="POST" ng-non-bindable>
+                            <div class="row">
+                                <div class="col s12">
+                                    <br/>
+                                    <p>{{ 'ScheduledReports_UnsubscribeReportConfirmation'|translate('<strong>'~reportName~'</strong>')|raw }}</p>
+                                    <br /><br /><br />
+                                    <input class="submit btn" type="submit" name="confirm" value="{{ 'ScheduledReports_Unsubscribe'|translate }}"/>
+                                </div>
+                            </div>
+
+                        </form>
+                    {% endif %}
+                    {% if isCustomLogo %}
+                        <p id="piwik">
+                            <i><a href="https://matomo.org/" rel="noreferrer noopener" target="_blank">{{ linkTitle }}</a></i>
+                        </p>
+                    {% endif %}
+                {% endblock %}
+                {% endembed %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
