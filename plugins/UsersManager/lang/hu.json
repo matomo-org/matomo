@@ -9,7 +9,6 @@
         "DeleteConfirm": "Biztosan törölni akarod a következő felhasználót: %s?",
         "Email": "E-mail cím",
         "ExceptionAccessValues": "A belépési paraméternek meg kell felelnie a következő értékek egyikének: [ %s ]",
-        "ExceptionAdminAnonymous": "Nem adhatsz 'adminisztrációs' jogosultságot 'névtelen' felhasználónak.",
         "ExceptionDeleteDoesNotExist": "'%s' felhasználó nem létezik, ezért nem törölhető!",
         "ExceptionEditAnonymous": "'Névtelen' felhasználó nem szerkeszthető vagy törölhető. Ezt a Matomo használja a be nem lépett felhasználók azonosítására. Nyilvánossá teheted például statisztikáidat, ha 'megtekintési' jogosultságot adsz a 'névtelen' felhasználók számára.",
         "ExceptionEmailExists": "'%s' e-mail címmel már létezik felhasználó.",

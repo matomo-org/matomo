@@ -19,7 +19,6 @@
         "EmailYourAdministrator": "%1$sEnvoyez un courriel à votre administrateur à propos de ce problème%2$s.",
         "EnterUsernameOrEmail": "Entrez un nom d'usager ou une adresse courriel",
         "ExceptionAccessValues": "Le paramètre access doit contenir une des valeurs suivantes: [ %s ]",
-        "ExceptionAdminAnonymous": "Vous ne pouvez pas autoriser l'accès administrateur à l'utilisateur Anonyme.",
         "ExceptionDeleteDoesNotExist": "L'utilisateur '%s' est inexistant, il n'a pu être supprimé.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Impossible de supprimer l'utilisateur \"%s\".",
         "ExceptionEditAnonymous": "L'utilisateur Anonyme ne peut être édité ou supprimé. Il est utilisé pour identifier un utilisateur qui ne s'est pas encore connecté. Par exemple vous pouvez rendre vos statistiques publiques en accordant l'accès 'vue' à l'utilisateur 'anonyme'.",

@@ -18,11 +18,11 @@
 	</row>
 	<row>
 		<name>Campaigns (Referrers)</name>
-		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;https://matomo.org/docs/tracking-campaigns/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;campaigns documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;https://matomo.org/docs/tracking-campaigns/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;campaigns documentation on piwik.org&lt;/a&gt;</documentation>
 	</row>
 	<row>
 		<name>City (Visitors)</name>
-		<documentation>This report shows the cities your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer&quot;  target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer&quot;  target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
+		<documentation>This report shows the cities your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
 	</row>
 	<row>
 		<name>Configurations (Visitors)</name>
@@ -38,7 +38,7 @@
 	</row>
 	<row>
 		<name>Custom Variables (Visitors)</name>
-		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
+		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
 	</row>
 	<row>
 		<name>Downloads (Actions)</name>
@@ -98,7 +98,7 @@
 	</row>
 	<row>
 		<name>Region (Visitors)</name>
-		<documentation>This report shows which region your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer&quot;  target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer&quot;  target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
+		<documentation>This report shows which region your visitors were in when they accessed your website.&lt;br/&gt;In order to see data for this report, you must setup GeoIP in the Geolocation admin tab. The commercial &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;Maxmind&lt;/a&gt; GeoIP databases are more accurate than the free ones. To see how accurate they are, click &lt;a rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;here&lt;/a&gt;.</documentation>
 	</row>
 	<row>
 		<name>Search Categories (Actions)</name>
@@ -114,7 +114,7 @@
 	</row>
 	<row>
 		<name>Site Search Keywords (Actions)</name>
-		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;https://matomo.org/docs/site-search/&quot; rel=&quot;noreferrer&quot;  target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
+		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;https://matomo.org/docs/site-search/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more about Tracking how your visitors use your Search engine.&lt;/a&gt;</documentation>
 	</row>
 	<row>
 		<name>Social Networks (Referrers)</name>

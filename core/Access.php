@@ -524,7 +524,7 @@ class Access
         $idSitesAccessible = $this->getSitesIdWithAtLeastWriteAccess();
 
         foreach ($idSites as $idsite) {
-            if (!in_array($idsite, $idSitesAccessible, true)) {
+            if (!in_array($idsite, $idSitesAccessible)) {
                 throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'write'", $idsite)));
             }
         }
@@ -548,7 +548,7 @@ class Access
         $idSitesAccessible = $this->getSitesIdWithCapability($capability);
 
         foreach ($idSites as $idsite) {
-            if (!in_array($idsite, $idSitesAccessible, true)) {
+            if (!in_array($idsite, $idSitesAccessible)) {
                 throw new NoAccessException(Piwik::translate('ExceptionCapabilityAccessWebsite', array("'" . $capability ."'", $idsite)));
             }
         }

@@ -18,9 +18,9 @@ use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * TODO: This could be a unit test if we could inject the ArchiveTableDao in the command
  * @group Diagnostics
  * @group Plugins
+ * @group ConfigReader
  */
 class ConfigReaderTest extends IntegrationTestCase
 {
@@ -270,5 +270,3 @@ Another line',
         return PIWIK_INCLUDE_PATH . '/tests/resources/Config/' . $file;
     }
 }
-
-AnalyzeArchiveTableTest::$fixture = new OneVisitorTwoVisits();

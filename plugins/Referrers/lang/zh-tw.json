@@ -32,7 +32,6 @@
         "SearchEngines": "搜尋引擎",
         "SearchEnginesDocumentation": "訪客透過搜尋引擎導向你的網站。%1$s查看 %2$s 報表以取得更多細節。",
         "SearchEnginesReportDocumentation": "這份報表顯示哪個搜尋引擎將使用者導入你的網站。%s點擊表格中的資料列即可查看使用者在搜尋引擎中使用什麼關鍵字搜尋。",
-        "SocialFooterMessage": "這是從左側網站報表中篩選出來的網站，你可以直接比較你來自的社群網站的參照連結。",
         "Socials": "社群網站",
         "SocialsReportDocumentation": "這份報表顯示哪個社群網站引導訪客到你的網站。<br \/>點擊表格中的資料列以查看訪客從哪個社群網站頁面訪問你的網站。",
         "SubmenuSearchEngines": "搜尋引擎和關鍵字",

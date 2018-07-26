@@ -1,8 +1,10 @@
 {
     "Installation": {
         "CollaborativeProject": "Matomo è un progetto in collaborazione, costruito con amore da persone di tutto il mondo.",
+        "ConfigurationHelp": "La tua configurazione di Matomo risulta essere errata. Puoi rimuovere il file config\/config.ini.php e riprendere l'installazione, oppure correggere le impostazioni di connessione al database.",
         "ConfirmDeleteExistingTables": "Sei sicuro di voler cancellare le tabelle %s dal tuo database? ATTENZIONE: I DATI NON POTRANNO ESSERE RECUPERATI!",
         "Congratulations": "Congratulazioni",
+        "CongratulationsHelp": "<p>Congratulazioni! La tua installazione di Matomo è completa.<\/p><p>Assicurati che nelle tue pagine sia stato inserito il codice JavaScript, e attendi il tuo primo visitatore!<\/p>",
         "DatabaseAbilities": "Capacità del database",
         "DatabaseCreation": "Creazione del database",
         "DatabaseErrorConnect": "Errore durante la connessione al server del database",
@@ -43,6 +45,7 @@
         "PasswordRepeat": "Password (ripeti)",
         "PercentDone": "%s %% Fatto",
         "ProfessionalServicesAdTitle": "Analisi Avanzate e Servizi",
+        "ProfessionalServicesfessionalServicesAdText": "La nostra rete di esperti può aiutare la tua organizzazione a sbloccare tutta la potenza delle statistiche di Matomo.",
         "ProfessionalServicesfessionalDiscoverHow": "Impara altro sui %1$sprodotti supplementari e i servizi%2$s di Matomo e come su come incrementare conversioni e ricavi.",
         "PleaseFixTheFollowingErrors": "Per favore, risolvi i seguenti errori",
         "DefaultSettings": "Impostazioni predefinite di Matomo",
@@ -69,6 +72,12 @@
         "SystemCheckCreateFunctionHelp": "Matomo usa funzioni anonime per i callbacks.",
         "SystemCheckDatabaseExtensions": "Estensioni MySQL",
         "SystemCheckDatabaseHelp": "Matomo necessita dell'estensione mysqli o in alternativa sia l'estensione PDO che l'estensione pdo_mysql",
+        "SystemCheckDatabaseSSL": "Connessione SSL al Database",
+        "SystemCheckDatabaseSSLCipher": "Cifratura SSL da utilizzare",
+        "SystemCheckDatabaseSSLDisabled": "Il supporto SSL del tuo server del database è disabilitato",
+        "SystemCheckDatabaseSSLNo": "Il server del database non è compilato con il supporto SSL",
+        "SystemCheckDatabaseSSLNotWorking": "%s è impostato a '1' ma la connessione SSL non sta funzionando",
+        "SystemCheckDatabaseSSLOn": "Il tuo database supporta le connessioni SSL ma non è utilizzata una connessione SSL. Controlla le impostazioni SSL del tuo database nel tuo file di configurazione di Matomo",
         "SystemCheckDebugBacktraceHelp": "View::factory non può creare viste (view) per il modulo chiamante.",
         "SystemCheckError": "Si è verificato un errore - deve essere corretto prima di proseguire",
         "SystemCheckEvalHelp": "Richiesto da HTML QuickForm e Smarty templating system.",
@@ -123,6 +132,7 @@
         "SystemCheckCronArchiveProcessCLI": "Gestione processi tramite CLI",
         "SystemCheckPhpSetting": "Per prevenire alcuni problemi critici, devi impostare ciò che segue nel php.ini: %s",
         "SystemCheckUpdateHttps": "Aggiorna tramite HTTPS",
+        "SystemCheckUpdateHttpsNotSupported": "Matomo non può utilizzare HTTPS per l'aggiornamento, esso tornerà al non sicuro aggiornamento HTTP. Controlla che CURL o allow_url_fopen siano supportati e che sia installata l'estensione PHP openssl: http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/.",
         "NotSupported": "non supportato",
         "Tables": "Sto creando le tabelle",
         "TablesCreatedSuccess": "Tabelle create con successo!",
@@ -136,8 +146,10 @@
         "Timezone": "Fuso orario del sito web",
         "WeHopeYouWillEnjoyPiwik": "Noi speriamo che tu gradirai utilizzare Matomo come a noi piace realizzarlo.",
         "Welcome": "Benvenuto!",
+        "WelcomeHelp": "<p>Matomo è un software di analisi web libero e gratuito che ti rende facile prendere dai tuoi visitatori le informazioni che desideri.<\/p><p>Questo processo è suddiviso in %s semplici step e richiederà circa 5 minuti.<\/p>",
         "WelcomeToCommunity": "Benevenuto nella comunità di Matomo!",
         "CannotConnectToDb": "Impossibile connettersi al database",
-        "CannotConnectToDbResolvingExplanation": "Potrebbe trattarsi di un problema temporaneo, prova a %1$sricaricare la pagina%2$s. Se il problema persiste, contatta il tuo amministratore di Matomo."
+        "CannotConnectToDbResolvingExplanation": "Potrebbe trattarsi di un problema temporaneo, prova a %1$sricaricare la pagina%2$s. Se il problema persiste, contatta il tuo amministratore di Matomo.",
+        "EmailPrivacyNotice": "Il tuo indirizzo email verrà utilizzato solamente per inviarti la newsletter di Matomo. Puoi cancellare l'iscrizione in qualunque momento cliccando sul link cancellazione. Non condivideremo con nessun altro la tua email, né la utilizzereme per altro scopo che non sia inviarti la newsletter di Matomo. Consulta la nostra %1$s informativa sulla privacy%2$s per avere altre informazioni."
     }
 }

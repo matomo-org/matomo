@@ -16,7 +16,6 @@
         "Email": "E-post",
         "EmailYourAdministrator": "%1$sSend e-post til din administrator om dette problemet%2$s.",
         "ExceptionAccessValues": "Tilgangsparameteret må minst ha en av de følgende verdier: [ %s ]",
-        "ExceptionAdminAnonymous": "Du kan ikke gi administrator-tilgang til 'anonymous'-brukeren.",
         "ExceptionDeleteDoesNotExist": "Bruker «%s» eksisterer ikke og kan derfor ikke bli slettet.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Sletting av brukeren «%s» er ikke mulig.",
         "ExceptionEditAnonymous": "Den anonyme brukeren kan ikke bli redigert eller slettet. Den blir brukt av Matomo for å definere en bruker som ikke har blitt logget inn ennå. Du kan for eksempel gjøre statistikken din offentlig ved å gi 'view'-tilgang til 'anonymous'-brukeren.",

@@ -18,7 +18,6 @@
         "EmailYourAdministrator": "%1$s E-mail a seu administrador sobre este problema %2$s.",
         "EnterUsernameOrEmail": "Digite um nome de usuário ou endereço de e-mail",
         "ExceptionAccessValues": "O parâmetro de acesso deve conter os seguintes valores: [ %s ]",
-        "ExceptionAdminAnonymous": "Você não pode conceder acesso 'admin' para o usuário 'anonymous' .",
         "ExceptionDeleteDoesNotExist": "O usuário '%s' não existe assim não é possível excluí-lo.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Não é possível excluir o usuário '%s'",
         "ExceptionEditAnonymous": "O usuário anonymous não pode ser editado ou apagado. Ele é usado pelo sistema para definir um usuário que ainda não não entrou. Por examplo, você pode tornar as estatísticas públicas concedendo acesso 'view' para o usuário 'anonymous'.",

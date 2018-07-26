@@ -45,6 +45,7 @@
         "PeriodRange": "期間",
         "ReportGeneratedOn": "%s に生成されたリポート",
         "ReportGeneratedXAgo": "%s 前に生成されたリポート",
+        "SharePiwikLong": "素晴らしい無償ソフトウェアが見つかりました ! : Matomo です! \n\nMatomoはあなたのウェブサイトのビジターを無料で追跡します。要チェック !",
         "SharePiwikShort": "Matomo ！フリーでオープンソースのウェブ解析、自身でデータを所有できます",
         "ShareThis": "共有する",
         "ShowJSCode": "挿入する javascript コードを表示",

@@ -10,6 +10,8 @@
         "ClickHereSettings": "%s 設定はこちらをクリック",
         "CurrentDBSize": "現在のデータベースサイズ",
         "DBPurged": "データベースがパージされました。",
+        "DeleteDataDescription": "データベースのサイズを小さく保つために、古い訪問者のログ、かつ\/または生成されたレポートを定期的に削除するようMatomoを設定できます。",
+        "DeleteDataDescription2": "必要であれば、事前処理されたレポートは削除せず、ビジットとページビューとコンバージョンの生データのみの削除もできます。あるいは、事前処理されたレポートを削除し、生データを保存することもできます。",
         "DeleteDataInterval": "古いデータを削除：毎",
         "DeleteOldVisitorLogs": "古いビジターログを削除",
         "DeleteOldArchivedReports": "古いアーカイブレポートを削除",
