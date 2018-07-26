@@ -29,7 +29,6 @@
         "SearchEngines": "搜索引擎",
         "SearchEnginesDocumentation": "访客来自搜索引擎。%1$s 查看 %2$s 报表了解详情。",
         "SearchEnginesReportDocumentation": "本报表显示哪些搜索引擎给您带来了访客。%s 点击表中的一行，可查看访客使用该搜索引擎搜索的内容。",
-        "SocialFooterMessage": "这是左边的网站报表的子集，过滤了其他的网站，这样您就能直接比较社交网络来源。",
         "Socials": "社交网络",
         "SocialsReportDocumentation": "本报表显示哪些社交网站给您带来了访客。<br \/>点击表中的一行，可查看来源链接的社交网站地址。",
         "SubmenuSearchEngines": "搜索引擎和关键词",

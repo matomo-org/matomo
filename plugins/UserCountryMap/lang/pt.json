@@ -1,6 +1,25 @@
 {
     "UserCountryMap": {
+        "PluginDescription": "Esta extensão fornece as widgets do Mapa de visitantes e o Mapa em tempo real. Nota: Requer que a extensão UserCountry esteja ativa.",
+        "AndNOthers": "e %s outros",
         "Cities": "Cidades",
-        "map": "mapa"
+        "Countries": "Países",
+        "DaysAgo": "Há %s dias",
+        "GoalConversions": "%s conversões de objetivos",
+        "HoursAgo": "Há %s horas",
+        "map": "mapa",
+        "MinutesAgo": "Há %s minutos",
+        "None": "Nenhum",
+        "NoVisit": "Nenhuma visita",
+        "RealTimeMap": "Mapa em tempo real",
+        "Regions": "Regiões",
+        "Searches": "%s pesquisas",
+        "SecondsAgo": "Há %s segundos",
+        "ShowingVisits": "Visitas geolocalizadas dos últimos",
+        "Unlocated": "<b>%s<\/b> %p das visitas de %c não puderam ser geolocalizadas.",
+        "VisitorMap": "Mapa de visitantes",
+        "WorldWide": "Mundial",
+        "WithUnknownRegion": "%s com uma região desconhecida",
+        "WithUnknownCity": "%s com uma cidade desconhecida"
     }
 }

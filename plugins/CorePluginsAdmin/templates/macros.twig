@@ -23,7 +23,7 @@
                 <td class="vers">
                     {% if plugin.changelog is defined and plugin.changelog and plugin.changelog.url is defined and plugin.changelog.url %}
                         <a href="{{ plugin.changelog.url|e('html_attr') }}" title="{{ 'CorePluginsAdmin_Changelog'|translate }}"
-                           target="_blank" rel="noreferrer"
+                           target="_blank" rel="noreferrer noopener"
                         >{{ plugin.currentVersion }} => {{ plugin.latestVersion }}</a>
                     {% else %}
                         {{ plugin.currentVersion }} => {{ plugin.latestVersion }}
@@ -181,7 +181,7 @@
                         </div>
                         {% if plugin.info.license is defined %}
                             <div class="plugin-license">
-                                {% if plugin.info.license_file is defined %}<a title="{{ 'CorePluginsAdmin_LicenseHomepage'|translate }}" rel="noreferrer" target="_blank" href="index.php?module=CorePluginsAdmin&action=showLicense&pluginName={{ name }}">{% endif %}{{ plugin.info.license }}{% if plugin.info.license_file is defined %}</a>{% endif %}
+                                {% if plugin.info.license_file is defined %}<a title="{{ 'CorePluginsAdmin_LicenseHomepage'|translate }}" rel="noreferrer noopener" target="_blank" href="index.php?module=CorePluginsAdmin&action=showLicense&pluginName={{ name }}">{% endif %}{{ plugin.info.license }}{% if plugin.info.license_file is defined %}</a>{% endif %}
                             </div>
                         {% endif %}
                         {% if plugin.info.authors is defined %}
@@ -191,7 +191,7 @@
                                     {% spaceless %}
                                         {% for author in plugin.info.authors if author.name %}
                                             {% if author.homepage is defined %}
-                                                <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ author.homepage }}" rel="noreferrer" target="_blank">{{ author.name }}</a>
+                                                <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ author.homepage }}" rel="noreferrer noopener" target="_blank">{{ author.name }}</a>
                                             {% else %}
                                                 {{ author.name }}
                                             {% endif %}

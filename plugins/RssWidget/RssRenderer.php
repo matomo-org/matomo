@@ -61,7 +61,7 @@ class RssRenderer
             $date = @strftime("%B %e, %Y", strtotime($post->pubDate));
             $link = $post->link;
 
-            $output .= '<li><a class="rss-title" title="" target="_blank" href="?module=Proxy&action=redirect&url=' . $link . '">' . $title . '</a>' .
+            $output .= '<li><a class="rss-title" title="" target="_blank" rel="noreferrer noopener" href="' . htmlspecialchars($link, ENT_COMPAT, 'UTF-8') . '">' . $title . '</a>' .
                 '<span class="rss-date">' . $date . '</span>';
             if ($this->showDescription) {
                 $output .= '<div class="rss-description">' . $post->description . '</div>';

@@ -33,7 +33,7 @@
                 <li>
                     <span class="title">{{ 'SitesManager_Urls'|translate }}</span>:
                     <span ng-repeat="url in site.alias_urls">
-                        <a target=_blank rel=noreferrer ng-href="{{ url }}">{{ url }}{{$last ? '' : ', '}}</a>
+                        <a target=_blank rel="noreferrer noopener" ng-href="{{ url }}">{{ url }}{{$last ? '' : ', '}}</a>
                     </span>
                 </li>
                 <li ng-show="site.excluded_ips.length">

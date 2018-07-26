@@ -549,10 +549,7 @@ function ajaxHelper() {
 
         // handle default date & period if not already set
         if (this._useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
-            params.date = piwik.currentDateString || broadcast.getValueFromUrl('date');
-            if (params.period == 'range' && piwik.currentDateString) {
-                params.date = piwik.startDateString + ',' + params.date;
-            }
+            params.date = piwik.currentDateString;
         }
 
         return params;

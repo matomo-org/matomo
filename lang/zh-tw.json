@@ -510,6 +510,7 @@
         "LoginCredentials": "憑證",
         "LoginToPiwikToChangeSettings": "登入到你的 Matomo 伺服器以建立或更新網站、使用者或變更像是「預設載入報表」的設定。",
         "LoginUseHttps": "使用 HTTPS",
+        "MatomoMobile": "Matomo 行動版",
         "MultiChartLabel": "顯示迷你圖",
         "NavigationBack": "返回",
         "NetworkError": "網路錯誤",

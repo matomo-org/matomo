@@ -31,14 +31,23 @@ class Console extends Application
     {
         $this->setServerArgsIfPhpCgi();
 
-        parent::__construct('Piwik', Version::VERSION);
+        parent::__construct('Matomo', Version::VERSION);
 
         $this->environment = $environment;
 
-        $option = new InputOption('piwik-domain',
+        $option = new InputOption('matomo-domain',
             null,
             InputOption::VALUE_OPTIONAL,
             'Matomo URL (protocol and domain) eg. "http://matomo.example.org"'
+        );
+
+        $this->getDefinition()->addOption($option);
+
+        // @todo  Remove this alias in Matomo 4.0
+        $option = new InputOption('piwik-domain',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            '[DEPRECATED] Matomo URL (protocol and domain) eg. "http://matomo.example.org"'
         );
 
         $this->getDefinition()->addOption($option);
@@ -58,7 +67,7 @@ class Console extends Application
             Profiler::setupProfilerXHProf(true, true);
         }
 
-        $this->initPiwikHost($input);
+        $this->initMatomoHost($input);
         $this->initEnvironment($output);
         $this->initLoggerOutput($output);
 
@@ -157,16 +166,20 @@ class Console extends Application
         return Common::isPhpCliMode() && !Common::isPhpCgiType();
     }
 
-    protected function initPiwikHost(InputInterface $input)
+    protected function initMatomoHost(InputInterface $input)
     {
-        $piwikHostname = $input->getParameterOption('--piwik-domain');
+        $matomoHostname = $input->getParameterOption('--matomo-domain');
 
-        if (empty($piwikHostname)) {
-            $piwikHostname = $input->getParameterOption('--url');
+        if (empty($matomoHostname)) {
+            $matomoHostname = $input->getParameterOption('--piwik-domain');
         }
 
-        $piwikHostname = UrlHelper::getHostFromUrl($piwikHostname);
-        Url::setHost($piwikHostname);
+        if (empty($matomoHostname)) {
+            $matomoHostname = $input->getParameterOption('--url');
+        }
+
+        $matomoHostname = UrlHelper::getHostFromUrl($matomoHostname);
+        Url::setHost($matomoHostname);
     }
 
     protected function initEnvironment(OutputInterface $output)

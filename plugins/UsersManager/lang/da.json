@@ -16,7 +16,6 @@
         "EmailYourAdministrator": "%1$sE-mail din administrator om dette problem%2$s.",
         "EnterUsernameOrEmail": "Indtast brugernavn eller e-mailadresse",
         "ExceptionAccessValues": "Parameteren skal have en af de følgende værdier: [ %s ]",
-        "ExceptionAdminAnonymous": "Administrator-adgang kan ikke gives til 'anonyme'-bruger.",
         "ExceptionDeleteDoesNotExist": "Bruger '%s' eksisterer ikke og kan derfor ikke slettes.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Sletning af bruger '%s' er ikke mulig.",
         "ExceptionEditAnonymous": "Anonyme brugere kan ikke redigeres eller slettet. Anvendes af Matomo til at definere en bruger, som ikke er blevet logget på endnu. F. eks. kan du gøre statistikken offentlig ved at give 'se' adgang til 'anonym' bruger",

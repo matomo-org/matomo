@@ -38,17 +38,17 @@ class ASPSMS extends SMSProvider
 
     public function getDescription()
     {
-        return 'You can use <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.aspsms.com/en/?REF=227830"><img src="plugins/MobileMessaging/images/ASPSMS.png"/></a> to send SMS Reports from Piwik.<br/>
+        return 'You can use <a target="_blank" rel="noreferrer noopener" href="http://www.aspsms.com/en/?REF=227830"><img src="plugins/MobileMessaging/images/ASPSMS.png"/></a> to send SMS Reports from Piwik.<br/>
 			<ul>
-			<li> First, <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.aspsms.com/en/registration/?REF=227830">get an Account at ASPSMS</a> (Signup is free!)
+			<li> First, <a target="_blank" rel="noreferrer noopener" href="http://www.aspsms.com/en/registration/?REF=227830">get an Account at ASPSMS</a> (Signup is free!)
 			</li><li> Enter your ASPSMS credentials on this page. </li>
 			</ul>
 			<br/>About ASPSMS.com: <ul>
 			<li>ASPSMS provides fast and reliable high quality worldwide SMS delivery, over 900 networks in every corner of the globe.
 			</li><li>Cost per SMS message depends on the target country and starts from ~0.06USD (0.04EUR).
-			</li><li>Most countries and networks are supported but we suggest you check the latest position on their supported networks list <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.aspsms.com/en/networks/?REF=227830">here</a>.
+			</li><li>Most countries and networks are supported but we suggest you check the latest position on their supported networks list <a href="http://www.aspsms.com/en/networks/?REF=227830" target="_blank" rel="noreferrer noopener">here</a>.
 			</li><li>For sending an SMS, you need so-called ASPSMS credits, which are purchased in advance. The ASPSMS credits do not expire. 
-			</li><li><a href="?module=Proxy&action=redirect&url=https://www.aspsms.com/instruction/payment.asp?REF=227830">Payment</a> by bank transfer, various credit cards such as Eurocard/Mastercard, Visa, American Express or Diners Club, PayPal or Swiss Postcard.
+			</li><li><a target="_blank" rel="noreferrer noopener" href="https://www.aspsms.com/instruction/payment.asp?REF=227830">Payment</a> by bank transfer, various credit cards such as Eurocard/Mastercard, Visa, American Express or Diners Club, PayPal or Swiss Postcard.
 			</li>
 			</ul>
 			';

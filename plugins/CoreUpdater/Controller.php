@@ -282,7 +282,7 @@ class Controller extends \Piwik\Plugin\Controller
         $instanceId = SettingsPiwik::getPiwikInstanceId();
 
         if ($instanceId) {
-            $view->commandUpgradePiwik .= ' --piwik-domain="' . $instanceId . '"';
+            $view->commandUpgradePiwik .= ' --matomo-domain="' . $instanceId . '"';
         }
 
         $pluginNamesToUpdate = array();

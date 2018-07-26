@@ -762,5 +762,6 @@ class Plugin extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/API/stylesheets/listAllAPI.less";
+        $stylesheets[] = "plugins/API/stylesheets/glossary.less";
     }
 }

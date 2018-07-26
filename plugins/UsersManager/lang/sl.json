@@ -6,7 +6,6 @@
         "ApplyToAllWebsites": "Uveljavi za vse spletne strani",
         "DeleteConfirm": "Ste prepričani, da želite izbrisati uporabnika %s?",
         "Email": "Email",
-        "ExceptionAdminAnonymous": "\"Anonimnemu\" uporabniku ne morate dodeliti administrativnih dovoljenj.",
         "ExceptionDeleteDoesNotExist": "Uporabnik '%s' ne obstaja, ter ga tako ni moč izbrisati.",
         "ExceptionEmailExists": "Uporabnik z emailom \"%s\" že obstaja.",
         "ExceptionInvalidEmail": "Email ni veljavnega formata.",

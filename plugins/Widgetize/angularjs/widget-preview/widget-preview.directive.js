@@ -73,7 +73,7 @@
                             '</div>' +
                             '</div>' +
                             '<div> <label for="embedThisWidgetDirectLink">&rsaquo; Direct Link</label>' +
-                            '<div id="embedThisWidgetDirectLink"> ' + self.getInputFormWithHtml('directLinkEmbed', urlIframe) + ' - <a href="' + urlIframe + '" rel="noreferrer"  target="_blank">' + _pk_translate('Widgetize_OpenInNewWindow') + '</a></div>'
+                            '<div id="embedThisWidgetDirectLink"> ' + self.getInputFormWithHtml('directLinkEmbed', urlIframe) + ' - <a href="' + urlIframe + '" rel="noreferrer noopener" target="_blank">' + _pk_translate('Widgetize_OpenInNewWindow') + '</a></div>'
                             + '</div>'
                         );
 

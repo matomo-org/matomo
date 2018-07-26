@@ -19,7 +19,6 @@
         "EmailYourAdministrator": "%1$sYöneticiye bu sorunla ilgili bir e-posta gönderin%2$s.",
         "EnterUsernameOrEmail": "Bir kullanıcı adı ya da e-posta adresi yazın",
         "ExceptionAccessValues": "Parametre erişim izni şu değerlerden biri olmalıdır: [ %s ]",
-        "ExceptionAdminAnonymous": "'İsimsiz' kullanıcıya 'yönetici' erişim izni verilemez.",
         "ExceptionDeleteDoesNotExist": "'%s' kullanıcısı bulunamadığından silinemiyor.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "%s",
         "ExceptionEditAnonymous": "İsimsiz kullanıcı düzenlenemez ya da silinemez. Bu kullanıcı Matomo tarafından henüz oturum açmamış ziyaretçiler için kullanılır. Örneğin herkese açık olarak görüntülenmesine izin vermek istediğinizde istatistikler için 'isimsiz' kullanıcıya 'görüntüleme' izni verin.",

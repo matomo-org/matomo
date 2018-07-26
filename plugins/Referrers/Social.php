@@ -156,6 +156,25 @@ class Social extends Singleton
         return $url;
     }
 
+    /**
+     * Returns the main url of the given social network
+     *
+     * @param string  $social
+     *
+     * @return string
+     */
+    public function getMainUrlFromName($social)
+    {
+        foreach ($this->getDefinitions() as $domain => $name) {
+
+            if ($name == $social) {
+
+                return $domain;
+            }
+        }
+        return null;
+    }
+
 
     /**
      * Return social network logo path by URL

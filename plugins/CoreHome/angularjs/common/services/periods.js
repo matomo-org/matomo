@@ -274,7 +274,10 @@
             return getToday();
         }
 
-        if (strDate === 'yesterday') {
+        if (strDate === 'yesterday'
+            // note: ignoring the 'same time' part since the frontend doesn't care about the time
+            || strDate === 'yesterdaySameTime'
+        ) {
             var yesterday = getToday();
             yesterday.setDate(yesterday.getDate() - 1);
             return yesterday;
@@ -290,8 +293,15 @@
     }
 
     function getToday() {
-        var date = new Date();
-        date.setHours(0);
+        var date = new Date(Date.now());
+
+        // undo browser timezone
+        date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+
+        // apply piwik site timezone (if it exists)
+        date.setHours((piwik.timezoneOffset || 0) / 3600);
+
+        // get rid of minutes/seconds/etc.
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);
