@@ -16,6 +16,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\PivotByDimension;
+use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 use Piwik\Period\Range;
 use Piwik\Plugin\Metric;
@@ -109,6 +110,8 @@ class DataTablePostProcessor
      */
     public function process(DataTableInterface $dataTable)
     {
+        $dataTable = $this->applyEvolutionFilter($dataTable);
+
         // TODO: when calculating metrics before hand, only calculate for needed metrics, not all. NOTE:
         //       this is non-trivial since it will require, eg, to make sure processed metrics aren't added
         //       after pivotBy is handled.
@@ -122,7 +125,6 @@ class DataTablePostProcessor
 
         $dataTable = $this->applyGenericFilters($dataTable);
         $this->applyComputeProcessedMetrics($dataTable);
-        $dataTable = $this->applyEvolutionFilter($dataTable);
 
         if ($this->callbackAfterGenericFilters) {
             call_user_func($this->callbackAfterGenericFilters, $dataTable);
@@ -457,46 +459,6 @@ class DataTablePostProcessor
         }
     }
 
-    /**
-     * @param DataTable $dataTable
-     * @param ProcessedMetric[] $processedMetrics
-     * @throws Exception
-     */
-    private function computeSpecificProcessedMetrics(DataTable $dataTable, $processedMetrics)
-    {
-        foreach ($processedMetrics as $name => $processedMetric) {
-            if (!$processedMetric->beforeCompute($this->report, $dataTable)) {
-                continue;
-            }
-
-            foreach ($dataTable->getRows() as $row) {
-                if ($row->getColumn($name) !== false) { // only compute the metric if it has not been computed already
-                    continue;
-                }
-
-                $computedValue = $processedMetric->compute($row);
-                if ($computedValue !== false) {
-                    $row->addColumn($name, $computedValue);
-                }
-            }
-        }
-
-        foreach ($dataTable->getRows() as $row) {
-            $subtable = $row->getSubtable();
-            if (!empty($subtable)) {
-                foreach ($processedMetrics as $name => $processedMetric) {
-                    $processedMetric->beforeComputeSubtable($row);
-                }
-
-                $this->computeSpecificProcessedMetrics($subtable, $processedMetrics);
-
-                foreach ($processedMetrics as $name => $processedMetric) {
-                    $processedMetric->afterComputeSubtable($row);
-                }
-            }
-        }
-    }
-
     public function applyComputeProcessedMetrics(DataTableInterface $dataTable)
     {
         $dataTable->filter(array($this, 'computeProcessedMetrics'));
@@ -550,25 +512,26 @@ class DataTablePostProcessor
                 $this->addEvolutionMetrics($columns, $childTable, $pastChildTable);
             }
         } else if ($dataTable instanceof DataTable) {
-            // add past value & evolution processed metrics. we compute them here explicitly since it's not guaranteed that
-            // a datatable at this point will already have processed metrics computed. eg, the Goals.get method uses a
-            // datatable merging strategy that modifies a table in place. That table will have processed metrics already computed,
-            // so if we try to re-compute here, computeProcessedMetrics() will do nothing.
-            $processedMetrics = [];
+            /*
+             * TODO
+            alternative strategy:
+            - queue filter to copy past data
+            - use evolution filter to add metric data
+            */
+
+            // NOTE: these processed metrics are not currently added to subtables, since the extra processed metrics
+            // metadata is specific to one table
+            // TODO: create issue for that
+            $processedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
             foreach ($columns as $column => $metric) {
+                // TODO: doc + translated name for these metrics
                 $processedMetric = new PastDataMetric($metric instanceof Metric ? $metric : $column, $pastData);
-                $processedMetrics[$processedMetric->getName()] = $processedMetric;
+                $processedMetrics[] = $processedMetric;
 
                 $processedMetric = new EvolutionMetric($column, $pastData);
-                $processedMetrics[$processedMetric->getName()] = $processedMetric;
+                $processedMetrics[] = $processedMetric;
             }
-
-            $dataTable->filter(function (DataTable $table) use ($processedMetrics) {
-                $this->computeSpecificProcessedMetrics($table, $processedMetrics);
-            });
-            $dataTable->queueFilter(function (DataTable $table) use ($processedMetrics) {
-                $this->formatter->formatSpecificMetrics($table, $this->report, $processedMetrics);
-            });
+            $dataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $processedMetrics);
         }
     }
 }

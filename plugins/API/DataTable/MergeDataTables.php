@@ -8,8 +8,10 @@
  */
 namespace Piwik\Plugins\API\DataTable;
 
+use Piwik\API\DataTablePostProcessor;
 use Piwik\DataTable\Row;
 use Piwik\DataTable;
+use Piwik\Metrics\Formatter;
 
 class MergeDataTables
 {
