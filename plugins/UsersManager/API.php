@@ -280,6 +280,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getUsersPlusRole($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
     {
+        Piwik::checkUserHasSomeAdminAccess();
+
         if (!$this->isUserHasAdminAccessTo($idSite)) {
             // if the user is not an admin to $idSite, they can only see their own user
             if ($offset > 1) {
@@ -293,7 +295,15 @@ class API extends \Piwik\Plugin\API
             $users = [$user];
             $totalResults = 1;
         } else {
-            list($users, $totalResults) = $this->model->getUsersWithRole($idSite, $limit, $offset, $filter_search, $filter_access);
+            // if the current user is not the superuser, only select users that have access to a site this user
+            // has admin access to
+            $loginsToLimit = null;
+            if (!Piwik::hasUserSuperUserAccess()) {
+                $adminIdSites = Access::getInstance()->getSitesIdWithAdminAccess();
+                $loginsToLimit = $this->model->getUsersWithAccessToSites($adminIdSites);
+            }
+
+            list($users, $totalResults) = $this->model->getUsersWithRole($idSite, $limit, $offset, $filter_search, $filter_access, $loginsToLimit);
 
             foreach ($users as &$user) {
                 $user['superuser_access'] = $user['superuser_access'] == 1;
@@ -512,6 +522,9 @@ class API extends \Piwik\Plugin\API
         $idSites = null;
         if (!Piwik::hasUserSuperUserAccess()) {
             $idSites = $this->access->getSitesIdWithAdminAccess();
+            if (empty($idSites)) { // sanity check
+                throw new \Exception("The current admin user does not have access to any sites.");
+            }
         }
 
         list($sites, $totalResults) = $this->model->getSitesAccessFromUserWithFilters($userLogin, $limit, $offset, $filter_search, $filter_access, $idSites);
@@ -536,7 +549,6 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $userLogin The user whose access will be set.
      * @param string $access The access to set.
-     * @param string|null $filter_search The
      * @param string|null $filter_search text to search for in site name, URLs, or group.
      * @param string|null $filter_access access level to select for, can be 'some', 'view' or 'admin' (by default set to 'some')
      * @throws Exception
@@ -553,6 +565,9 @@ class API extends \Piwik\Plugin\API
         $idSites = null;
         if (!Piwik::hasUserSuperUserAccess()) {
             $idSites = $this->access->getSitesIdWithAdminAccess();
+            if (empty($idSites)) { // sanity check
+                throw new \Exception("The current admin user does not have access to any sites.");
+            }
         }
 
         $idSitesMatching = $this->model->getIdSitesAccessMatching($userLogin, $filter_search, $filter_access, $idSites);
@@ -776,6 +791,7 @@ class API extends \Piwik\Plugin\API
     {
         if (!empty($user)) {
             unset($user['token_auth']);
+            unset($user['password']);
         }
 
         return $user;
@@ -917,7 +933,15 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $usersToDelete = $this->model->getUserLoginsMatching($idSite, $filter_search, $filter_access);
+        // if the current user is not the superuser, only select users that have access to a site this user
+        // has admin access to
+        $loginsToLimit = null;
+        if (!Piwik::hasUserSuperUserAccess()) {
+            $adminIdSites = Access::getInstance()->getSitesIdWithAdminAccess();
+            $loginsToLimit = $this->model->getUsersWithAccessToSites($adminIdSites);
+        }
+
+        $usersToDelete = $this->model->getUserLoginsMatching($idSite, $filter_search, $filter_access, $loginsToLimit);
         if (empty($usersToDelete)) {
             return;
         }
@@ -1230,7 +1254,15 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
-        $usersToModify = $this->model->getUserLoginsMatching($idSite, $filter_search, $filter_access);
+        // if the current user is not the superuser, only select users that have access to a site this user
+        // has admin access to
+        $loginsToLimit = null;
+        if (!Piwik::hasUserSuperUserAccess()) {
+            $adminIdSites = Access::getInstance()->getSitesIdWithAdminAccess();
+            $loginsToLimit = $this->model->getUsersWithAccessToSites($adminIdSites);
+        }
+
+        $usersToModify = $this->model->getUserLoginsMatching($idSite, $filter_search, $filter_access, $loginsToLimit);
         if (empty($usersToModify)) {
             return;
         }
@@ -1374,7 +1406,7 @@ class API extends \Piwik\Plugin\API
     private function isUserHasAdminAccessTo($idSite)
     {
         try {
-            $this->access->checkUserHasAdminAccess([$idSite]);
+            Piwik::checkUserHasAdminAccess([$idSite]);
             return true;
         } catch (NoAccessException $ex) {
             return false;

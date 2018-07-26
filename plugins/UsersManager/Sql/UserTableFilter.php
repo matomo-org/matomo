@@ -30,11 +30,17 @@ class UserTableFilter
      */
     private $filterSearch;
 
-    public function __construct($filterByRole, $filterByRoleSite, $filterSearch)
+    /**
+     * @var string[]
+     */
+    private $logins;
+
+    public function __construct($filterByRole, $filterByRoleSite, $filterSearch, $logins = null)
     {
         $this->filterByRole = $filterByRole;
         $this->filterByRoleSite = $filterByRoleSite;
         $this->filterSearch = $filterSearch;
+        $this->logins = $logins;
 
         if (isset($this->filterByRole) && !isset($this->filterByRoleSite)) {
             throw new \InvalidArgumentException("filtering by role is only supported for a single site");
@@ -73,18 +79,8 @@ class UserTableFilter
             $bind = array_merge($bind, ['%' . $this->filterSearch . '%', '%' . $this->filterSearch . '%']);
         }
 
-        // if the current user is not the superuser, only select users that have access to a site this user
-        // has admin access to
-        if (!Piwik::hasUserSuperUserAccess()) {
-            $adminIdSites = Access::getInstance()->getSitesIdWithAdminAccess();
-
-            $loginSql = 'SELECT DISTINCT ia.login FROM ' . Common::prefixTable('access') . ' ia WHERE ia.idsite IN ('
-                . implode(',', $adminIdSites) . ')';
-
-            $logins = \Piwik\Db::fetchAll($loginSql);
-            $logins = array_column($logins, 'login');
-            $logins = array_map('json_encode', $logins);
-
+        if ($this->logins !== null) {
+            $logins = array_map('json_encode', $this->logins);
             $conditions[] = 'u.login IN (' . implode(',', $logins) . ')';
         }
 

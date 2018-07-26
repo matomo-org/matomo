@@ -411,9 +411,9 @@ class Model
         return Db::get();
     }
 
-    public function getUserLoginsMatching($idSite = null, $pattern = null, $access = null)
+    public function getUserLoginsMatching($idSite = null, $pattern = null, $access = null, $logins = null)
     {
-        $filter = new UserTableFilter($access, $idSite, $pattern);
+        $filter = new UserTableFilter($access, $idSite, $pattern, $logins);
 
         list($joins, $bind) = $filter->getJoins('u');
         list($where, $whereBind) = $filter->getWhere();
@@ -437,11 +437,12 @@ class Model
      * @param int|null $offset
      * @param string|null $pattern text to search for if any
      * @param string|null $access 'noaccess','some','view','admin' or 'superuser'
+     * @param string[]|null $logins the logins to limit the search to (if any)
      * @return array
      */
-    public function getUsersWithRole($idSite, $limit = null, $offset = null, $pattern = null, $access = null)
+    public function getUsersWithRole($idSite, $limit = null, $offset = null, $pattern = null, $access = null, $logins = null)
     {
-        $filter = new UserTableFilter($access, $idSite, $pattern);
+        $filter = new UserTableFilter($access, $idSite, $pattern, $logins);
 
         list($joins, $bind) = $filter->getJoins('u');
         list($where, $whereBind) = $filter->getWhere();
@@ -485,6 +486,18 @@ class Model
 
         $db = $this->getDb();
         return $db->fetchOne($sql, $bind);
+    }
+
+    public function getUsersWithAccessToSites($idSites)
+    {
+        $idSites = array_map('intval', $idSites);
+
+        $loginSql = 'SELECT DISTINCT ia.login FROM ' . Common::prefixTable('access') . ' ia WHERE ia.idsite IN ('
+            . implode(',', $idSites) . ')';
+
+        $logins = \Piwik\Db::fetchAll($loginSql);
+        $logins = array_column($logins, 'login');
+        return $logins;
     }
 
 }
