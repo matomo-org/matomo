@@ -58,6 +58,11 @@ class CliMulti
 
     private $phpCliOptions = '';
 
+    /**
+     * @var callable
+     */
+    private $onProcessFinish = null;
+
     public function __construct()
     {
         $this->supportsAsync = $this->supportsAsync();
@@ -211,6 +216,11 @@ class CliMulti
             if ($process->hasFinished()) {
                 // prevent from checking this process over and over again
                 unset($this->processes[$index]);
+
+                if ($this->onProcessFinish) {
+                    $onProcessFinish = $this->onProcessFinish;
+                    $onProcessFinish($pid);
+                }
             }
         }
 
@@ -317,7 +327,7 @@ class CliMulti
         $this->processes[] = new Process($cmdId);
 
         $url = $this->appendTestmodeParamToUrlIfNeeded($url);
-        $query = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId));
+        $query = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId, 'runid' => getmypid()));
         $hostname = Url::getHost($checkIfTrusted = false);
         $command = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
@@ -419,5 +429,10 @@ class CliMulti
     public function setUrlToPiwik($urlToPiwik)
     {
         $this->urlToPiwik = $urlToPiwik;
+    }
+
+    public function onProcessFinish(callable $callback)
+    {
+        $this->onProcessFinish = $callback;
     }
 }

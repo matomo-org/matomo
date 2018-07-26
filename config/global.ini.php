@@ -143,6 +143,9 @@ tracker_always_new_visitor = 0
 ; if set to 1, all SQL queries will be logged using the DEBUG log level
 log_sql_queries = 0
 
+; if set to 1, profiling information will be printed in the core:archive command output
+archiving_profile = 0
+
 [DebugTests]
 ; When set to 1, standalone plugins (those with their own git repositories)
 ; will be loaded when executing tests.
