@@ -13,6 +13,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Piwik;
 
 class SubscriptionModel
 {
@@ -86,6 +87,8 @@ class SubscriptionModel
                     'idSegment'    => $report['idsegment'],
                 ]);
             });
+
+            Piwik::postEvent('Report.unsubscribe', [$report['idreport'], $email]);
 
             $this->removeSubscription($token);
         }
