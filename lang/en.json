@@ -214,6 +214,7 @@
         "ForcedSSL": "Forced SSL Connection",
         "ForceSSLRecommended": "We recommend using Matomo over secure SSL connections only. To prevent insecure access over http, add %1$s to the %2$s section in your Matomo config/config.ini.php file.",
         "NotPossibleWithoutHttps": "Attention: Doing this without having set up a SSL certificate for using HTTPS will break Matomo.",
+        "UseSSLInstall": "We recommend using Matomo over secure SSL connections only. Please %1$sclick here continue the installation process over SSL%2$s.",
         "ForExampleShort": "eg.",
         "Forums": "Forums",
         "FromReferrer": "from",
