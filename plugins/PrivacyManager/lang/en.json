@@ -77,6 +77,15 @@
         "UseAnonymizeOrderId": "Anonymize Order ID",
         "UseDeleteLog": "Regularly delete old visitor logs from the database",
         "UseDeleteReports": "Regularly delete old reports from the database",
-        "UsersOptOut": "Users opt-out"
+        "UsersOptOut": "Users opt-out",
+        "PrivacyPolicyUrl": "Privacy Policy URL",
+        "PrivacyPolicyUrlDescription": "A link to your Privacy Policy page.",
+        "TermsAndConditionUrl": "Terms & Conditions URL",
+        "TermsAndConditionUrlDescription": "A link to your Terms & Conditions page.",
+        "PrivacyPolicyUrlDescriptionSuffix": "If you set this, it will be displayed at the bottom of the login page and on pages that the '%1$s' user can access.",
+        "ShowInEmbeddedWidgets": "Show in embedded widgets",
+        "ShowInEmbeddedWidgetsDescription": "If checked, a link to your Privacy Policy and your Terms & Conditions will be displayed at the bottom of embedded widgets.",
+        "PrivacyPolicy": "Privacy Policy",
+        "TermsAndConditions": "Terms & Conditions"
     }
 }

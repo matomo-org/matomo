@@ -26,6 +26,7 @@ use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
+use Piwik\View;
 
 /**
  * Specifically include this for Tracker API (which does not use autoloader)
@@ -177,7 +178,8 @@ class PrivacyManager extends Plugin
             'Tracker.setVisitorIp'                    => array($this->ipAnonymizer, 'setVisitorIpAddress'),
             'Installation.defaultSettingsForm.init'   => 'installationFormInit',
             'Installation.defaultSettingsForm.submit' => 'installationFormSubmit',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Template.pageFooter' => 'renderPrivacyPolicyLinks',
         );
     }
 
@@ -222,6 +224,7 @@ class PrivacyManager extends Plugin
         $stylesheets[] = "plugins/PrivacyManager/angularjs/manage-gdpr/managegdpr.directive.less";
         $stylesheets[] = "plugins/PrivacyManager/stylesheets/gdprOverview.less";
         $stylesheets[] = "plugins/PrivacyManager/angularjs/anonymize-log-data/anonymize-log-data.directive.less";
+        $stylesheets[] = "plugins/PrivacyManager/stylesheets/footerLinks.less";
     }
 
     /**
@@ -600,5 +603,37 @@ class PrivacyManager extends Plugin
             Option::set(self::OPTION_USERID_SALT, $salt, 1);
         }
         return $salt;
+    }
+
+    public function renderPrivacyPolicyLinks(&$out)
+    {
+        $settings = new SystemSettings();
+
+        if (!$this->shouldRenderFooterLinks($settings)) {
+            return;
+        }
+
+        $view = new View('@PrivacyManager/footerLinks.twig');
+        $view->privacyPolicyUrl = $settings->privacyPolicyUrl->getValue();
+        $view->termsAndCondition = $settings->termsAndConditionUrl->getValue();
+        $out .= $view->render();
+    }
+
+    private function shouldRenderFooterLinks(SystemSettings $settings)
+    {
+        $module = Common::getRequestVar('module', false);
+        if ($module == 'Login') {
+            return true;
+        }
+
+        if (Piwik::getCurrentUserLogin() == 'anonymous') {
+            return true;
+        }
+
+        if ($module == 'Widgetize') {
+            return (bool)$settings->showInEmbeddedWidgets->getValue();
+        }
+
+        return false;
     }
 }
