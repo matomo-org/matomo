@@ -5,7 +5,7 @@
     >
     </piwik-sparkline>
     <div class="metric-value">
-        <span title="{{ $ctrl.getMetricDocumentation() }}">
+        <span title="{{ $ctrl.metricDocumentation }}">
             <strong>{{ $ctrl.metricValue }}</strong> {{ ($ctrl.metricTranslation || '').toLowerCase() }}
         </span>
         <span class="metricEvolution"

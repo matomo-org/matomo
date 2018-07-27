@@ -27,13 +27,13 @@
         vm.metricValue = null;
         vm.isLoading = false;
         vm.metricTranslation = null;
+        vm.metricDocumentation = null;
         vm.selectableColumns = [];
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.$onDestroy = $onDestroy;
         vm.getCurrentPeriod = getCurrentPeriod;
         vm.getMetricTranslation = getMetricTranslation;
-        vm.getMetricDocumentation = getMetricDocumentation;
         vm.setMetric = setMetric;
 
         function $onInit() {
@@ -92,9 +92,12 @@
                 vm.metricTranslations = responses[0].metadata.metrics;
                 vm.metricDocumentations = responses[0].metadata.metricsDocumentation;
 
+                // update display based on processed report metadata
                 setSelectableColumns();
                 setWidgetTitle();
+                vm.metricDocumentation = getMetricDocumentation();
 
+                // update data
                 var currentData = responses[0].reportData;
                 vm.metricValue = currentData[vm.metric] || 0;
 
