@@ -16,7 +16,7 @@ use Piwik\Timer;
 use Piwik\Url;
 use Psr\Log\LoggerInterface;
 
-// TODO: need scheduled task to clean up old ones?
+// TODO: need scheduled task to clean up old ones? maybe cronarchive should delete them
 class Logger
 {
     /**
@@ -58,7 +58,7 @@ class Logger
 
         $measurement = new Measurement($category, $name, $activeArchivingParams->getSite()->getId(),
             $activeArchivingParams->getPeriod()->getRangeString(), $activeArchivingParams->getPeriod()->getLabel(),
-            $activeArchivingParams->getSegment()->getString(), $timer->getTime(), $timer->getMemoryLeak());
+            $activeArchivingParams->getSegment()->getString(), $timer->getTime(), $timer->getMemoryLeakValue());
 
         $this->measurements[] = $measurement;
 
@@ -91,6 +91,7 @@ class Logger
             return null;
         }
 
+        $data = json_decode($data, $isAssoc = true);
         $data['measurements'] = array_map(function ($m) { return Measurement::fromArray($m); }, $data['measurements']);
         return $data;
     }

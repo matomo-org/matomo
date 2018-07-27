@@ -61,7 +61,15 @@ class Timer
      */
     public function getMemoryLeak()
     {
-        return "Memory delta: " . $this->formatter->getPrettySizeFromBytes($this->getMemoryUsage() - $this->memoryStart);
+        return "Memory delta: " . $this->getMemoryLeakValue();
+    }
+
+    /**
+     * @return string
+     */
+    public function getMemoryLeakValue()
+    {
+        return $this->formatter->getPrettySizeFromBytes($this->getMemoryUsage() - $this->memoryStart);
     }
 
     /**

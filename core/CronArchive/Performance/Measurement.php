@@ -65,12 +65,11 @@ class Measurement implements \JsonSerializable
     public function __toString()
     {
         $parts = [
-            "Category: {$this->category}",
-            "measured: {$this->measuredName}",
+            ucfirst($this->category) . ": {$this->measuredName}",
             "idSite: {$this->idSite}",
             "period: {$this->periodType} ({$this->dateRange})",
             "segment: " . (!empty($this->segment) ? $this->segment : 'none'),
-            "duration: {$this->time}",
+            "duration: {$this->time}s",
             "memory leak: {$this->memory}",
         ];
 
@@ -85,6 +84,7 @@ class Measurement implements \JsonSerializable
             'idSite' => $this->idSite,
             'date_range' => $this->dateRange,
             'period' => $this->periodType,
+            'segment' => $this->segment,
             'time' => $this->time,
             'memory' => $this->memory,
         ];
