@@ -376,14 +376,6 @@ class ProcessedReport
             throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()) . ":" . $e->getLine() . "\n");
         }
 
-        // add extra processed metrics to report metadata
-        $extraProcessedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
-        foreach ($extraProcessedMetrics as $metric) {
-            if ($metric instanceof Metric) {
-                $reportMetadata['processedMetrics'][$metric->getName()] = $metric->getTranslatedName();
-            }
-        }
-
         list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics, $formatMetrics);
 
         if (function_exists('mb_substr')) {
