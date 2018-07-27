@@ -298,8 +298,8 @@ class API extends \Piwik\Plugin\API
             $loginsToLimit = null;
             if (!Piwik::hasUserSuperUserAccess()) {
                 $adminIdSites = Access::getInstance()->getSitesIdWithAdminAccess();
-                if (empty($adminIdSites)) {
-                    throw new \Exception('Unexpected state: admin user has no admin access to sites.');
+                if (empty($adminIdSites)) { // sanity check
+                    throw new \Exception("The current admin user does not have access to any sites.");
                 }
 
                 $loginsToLimit = $this->model->getUsersWithAccessToSites($adminIdSites);
