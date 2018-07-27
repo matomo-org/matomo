@@ -53,6 +53,7 @@
                                     <br/>
                                     <p>{{ 'ScheduledReports_UnsubscribeReportConfirmation'|translate('<strong>'~reportName~'</strong>')|raw }}</p>
                                     <br /><br /><br />
+                                    <input type="hidden" name="nonce" id="unsubscribe_form_nonce" value="{{ nonce }}"/>
                                     <input class="submit btn" type="submit" name="confirm" value="{{ 'ScheduledReports_Unsubscribe'|translate }}"/>
                                 </div>
                             </div>

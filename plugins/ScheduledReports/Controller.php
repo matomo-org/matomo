@@ -12,6 +12,7 @@ use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
@@ -135,9 +136,14 @@ class Controller extends \Piwik\Plugin\Controller
         $view->linkTitle = Piwik::getRandomTitle();
         $view->reportName = $report['description'];
 
-        if (!empty($confirm)) {
+        $nonce = Common::getRequestVar('nonce', '', 'string');
+
+        if (!empty($confirm) && Nonce::verifyNonce('Report.Unsubscribe', $nonce)) {
+            Nonce::discardNonce('Report.Unsubscribe');
             $subscriptionModel->unsubscribe($token);
             $view->success = true;
+        } else {
+            $view->nonce = Nonce::getNonce('Report.Unsubscribe');
         }
 
         return $view->render();

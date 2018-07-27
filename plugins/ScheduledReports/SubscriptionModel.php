@@ -142,7 +142,7 @@ class SubscriptionModel
 
     private function generateToken($email)
     {
-        return Common::hash($email . time() . Common::getRandomString(5));
+        return substr(Common::hash($email . time() . Common::getRandomString(5)), 0, 100);
     }
 
     private function tokenExists($token)
