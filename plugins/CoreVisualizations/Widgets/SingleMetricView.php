@@ -35,16 +35,10 @@ class SingleMetricView extends \Piwik\Widget\Widget
     {
         $column = Common::getRequestVar('column', 'nb_visits', 'string');
 
-        $report = ReportsProvider::factory('API', 'get');
-
-        $metricTranslations = $report->getMetrics();
-
         $view = new View("@CoreHome/_angularComponent.twig");
         $view->componentName = 'piwik-single-metric-view';
         $view->componentParameters = [
             'metric' => json_encode($column),
-            'metric-translations' => json_encode($metricTranslations),
-            'metric-documentations' => json_encode($report->getMetricDocumentationForReport()),
         ];
 
         return $view->render();

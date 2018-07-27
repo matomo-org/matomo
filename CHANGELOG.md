@@ -9,7 +9,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 
 * Added new event `API.addGlossaryItems` which lets you add items to the glossary.
-* There is a new widget metadata property, `isReusable`, that marks whether a widget can be added multiple times to a dashboard. It is up to the consumer of widget metadata to respect this property.
 * Added new event `Tracker.detectReferrerSocialNetwork` which lets you add custom social network detections
 * A new role has introduced called "write" which has less permissions than an admin but more than a view only user.
 * Added new API method `UsersManager.getAvailableRoles` to fetch a list of all available roles that can be granted to a user.

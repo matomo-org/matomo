@@ -443,18 +443,6 @@ class Report
     }
 
     /**
-     * Add a processed metric dynamically to this report instance. Can be done within DataTableProcessor, eg,
-     * to add new columns that will also appear in processed report output.
-     *
-     * @param ProcessedMetric $metric
-     * @ignore
-     */
-    public function addProcessedMetric(ProcessedMetric $metric)
-    {
-        $this->processedMetrics[] = $metric;
-    }
-
-    /**
      * Returns the array of all metrics displayed by this report.
      *
      * @return array
@@ -478,18 +466,6 @@ class Report
     public function getMetricNamesToProcessReportTotals()
     {
         return array();
-    }
-
-    /**
-     * Returns the documentation for each metric in this report. See {@link self::getMetricsDocumentation()}.
-     *
-     * @return array
-     * @ignore
-     */
-    public function getMetricDocumentationForReport()
-    {
-        // TODO: get processed report in API and remove this
-        return $this->getMetricsDocumentation();
     }
 
     /**

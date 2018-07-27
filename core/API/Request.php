@@ -435,7 +435,6 @@ class Request
         $params['serialize'] = '0';
         $params['module'] = 'API';
         $params['method'] = $method;
-        $params['filter_last_period_evolution'] = '0';
         $params = $paramOverride + $params;
 
         // process request

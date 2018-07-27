@@ -13,9 +13,7 @@
     angular.module('piwikApp').component('piwikSingleMetricView', {
         templateUrl: 'plugins/CoreVisualizations/angularjs/single-metric-view/single-metric-view.component.html?cb=' + piwik.cacheBuster,
         bindings: {
-            metric: '<',
-            metricTranslations: '<',
-            metricDocumentations: '<'
+            metric: '<'
         },
         controller: SingleMetricViewController
     });
@@ -29,6 +27,7 @@
         vm.metricValue = null;
         vm.isLoading = false;
         vm.metricTranslation = null;
+        vm.selectableColumns = [];
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.$onDestroy = $onDestroy;
@@ -38,8 +37,6 @@
         vm.setMetric = setMetric;
 
         function $onInit() {
-            setSelectableColumns();
-
             vm.selectedColumns = [vm.metric];
             if (piwik.period !== 'range') {
                 vm.pastPeriod = getPastPeriodStr();
@@ -67,29 +64,47 @@
             vm.isLoading = true;
 
             var promises = [];
+
+            // first request for formatted data
             promises.push(piwikApi.fetch({
-                method: 'API.get',
+                method: 'API.getProcessedReport',
+                apiModule: 'API',
+                apiAction: 'get',
                 format_metrics: 'all'
             }));
 
+            // third request for past data (unformatted)
             if (piwik.period !== 'range') {
+                // second request for unformatted data so we can calculate evolution
+                promises.push(piwikApi.fetch({
+                    method: 'API.get',
+                    format_metrics: '0'
+                }));
+
                 promises.push(piwikApi.fetch({
                     method: 'API.get',
                     date: getLastPeriodDate(),
-                    format_metrics: 'all',
+                    format_metrics: '0',
                 }));
             }
 
             $q.all(promises).then(function (responses) {
-                var currentData = responses[0];
-                var pastData = responses[1];
+                vm.metricTranslations = responses[0].metadata.metrics;
+                vm.metricDocumentations = responses[0].metadata.metricsDocumentation;
 
+                setSelectableColumns();
+                setWidgetTitle();
+
+                var currentData = responses[0].reportData;
                 vm.metricValue = currentData[vm.metric] || 0;
 
-                if (pastData) {
+                if (responses[1]) {
+                    vm.metricValueUnformatted = responses[1][vm.metric];
+
+                    var pastData = responses[2];
                     vm.pastValue = pastData[vm.metric] || 0;
 
-                    var evolution = piwik.helper.calculateEvolution(vm.metricValue, vm.pastValue);
+                    var evolution = piwik.helper.calculateEvolution(vm.metricValueUnformatted, vm.pastValue);
                     vm.metricChangePercent = (evolution * 100).toFixed(2) + ' %';
                 } else {
                     vm.pastValue = null;
@@ -166,8 +181,6 @@
 
         function onMetricChanged() {
             vm.selectedColumns = [vm.metric];
-
-            setWidgetTitle();
 
             fetchData();
 
