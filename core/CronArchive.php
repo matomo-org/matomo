@@ -1977,7 +1977,7 @@ class CronArchive
             return;
         }
 
-        $message = $data['request'] . "\n  " . implode("\n  ", $data['measurements']);
+        $message = "PERFORMANCE FOR " . $data['request'] . "\n  " . implode("\n  ", $data['measurements']);
         $this->logger->info($message);
     }
 }

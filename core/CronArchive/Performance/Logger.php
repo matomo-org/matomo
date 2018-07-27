@@ -77,7 +77,7 @@ class Logger
         $originalMeasurements = isset($existing['measurements']) ? $existing['measurements'] : [];
 
         $serialized = json_encode([
-            'request' => Url::getCurrentQueryString(),
+            'request' => Url::getQueryStringFromParameters($_GET),
             'measurements' => array_merge($originalMeasurements, $this->measurements),
         ]);
 
