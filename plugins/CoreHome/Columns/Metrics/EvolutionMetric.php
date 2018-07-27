@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreHome\Columns\Metrics;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\Metric;
@@ -83,7 +84,13 @@ class EvolutionMetric extends ProcessedMetric
 
     public function getTranslatedName()
     {
-        return $this->wrapped instanceof Metric ? $this->wrapped->getTranslatedName() : $this->getName();
+        if ($this->wrapped instanceof Metric) {
+            $metricName = $this->wrapped->getTranslatedName();
+        } else {
+            $defaultMetricTranslations = Metrics::getDefaultMetricTranslations();
+            $metricName = isset($defaultMetricTranslations[$this->wrapped]) ? $defaultMetricTranslations[$this->wrapped] : $this->wrapped;
+        }
+        return Piwik::translate('CoreHome_EvolutionMetricName', [$metricName]);
     }
 
     public function compute(Row $row)

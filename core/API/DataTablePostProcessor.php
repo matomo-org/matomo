@@ -16,15 +16,10 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\PivotByDimension;
-use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
-use Piwik\Period\Range;
-use Piwik\Plugin\Metric;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
-use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
-use Piwik\Plugins\CoreHome\Columns\Metrics\PastDataMetric;
 
 /**
  * Processes DataTables that should be served through Piwik's APIs. This processing handles
@@ -110,8 +105,6 @@ class DataTablePostProcessor
      */
     public function process(DataTableInterface $dataTable)
     {
-        $dataTable = $this->applyEvolutionFilter($dataTable);
-
         // TODO: when calculating metrics before hand, only calculate for needed metrics, not all. NOTE:
         //       this is non-trivial since it will require, eg, to make sure processed metrics aren't added
         //       after pivotBy is handled.
@@ -462,77 +455,6 @@ class DataTablePostProcessor
     public function applyComputeProcessedMetrics(DataTableInterface $dataTable)
     {
         $dataTable->filter(array($this, 'computeProcessedMetrics'));
-    }
-
-    private function applyEvolutionFilter(DataTableInterface $dataTable)
-    {
-        $shouldCalculateEvolution = Common::getRequestVar('filter_last_period_evolution', false, 'string', $this->request);
-        if (empty($shouldCalculateEvolution)) {
-            return $dataTable;
-        }
-
-        list($lastPeriodDate, $ignore) = Range::getLastDate();
-        if (empty($lastPeriodDate)) {
-            return $dataTable;
-        }
-
-        $module = Common::getRequestVar('apiModule', '', 'string', $this->request);
-        $action = Common::getRequestVar('apiAction', '', 'string', $this->request);
-
-        if (empty($module) || empty($action)) {
-            $method = Common::getRequestVar('method');
-            list($module, $action) = explode('.', $method);
-        } else {
-            $method = "$module.$action";
-        }
-
-        $pastData = Request::processRequest($method, [
-            'date' => $lastPeriodDate,
-            'disable_queued_filters' => '1',
-            'filter_last_period_evolution' => '0', // avoid infinite recursion
-            'format_metrics' => '0',
-        ]);
-
-        $report = ReportsProvider::factory($module, $action);
-        $columns = array_merge(
-            $report->getMetrics(),
-            $report->getProcessedMetricsById()
-        );
-
-        $this->addEvolutionMetrics($columns, $dataTable, $pastData);
-
-        return $dataTable;
-    }
-
-    private function addEvolutionMetrics($columns, DataTableInterface $dataTable,  DataTableInterface $pastData = null)
-    {
-        if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getDataTables() as $key => $childTable) {
-                $pastChildTable = $pastData ? $pastData->getTable($key) : null;
-                $this->addEvolutionMetrics($columns, $childTable, $pastChildTable);
-            }
-        } else if ($dataTable instanceof DataTable) {
-            /*
-             * TODO
-            alternative strategy:
-            - queue filter to copy past data
-            - use evolution filter to add metric data
-            */
-
-            // NOTE: these processed metrics are not currently added to subtables, since the extra processed metrics
-            // metadata is specific to one table
-            // TODO: create issue for that
-            $processedMetrics = $dataTable->getMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME);
-            foreach ($columns as $column => $metric) {
-                // TODO: doc + translated name for these metrics
-                $processedMetric = new PastDataMetric($metric instanceof Metric ? $metric : $column, $pastData);
-                $processedMetrics[] = $processedMetric;
-
-                $processedMetric = new EvolutionMetric($column, $pastData);
-                $processedMetrics[] = $processedMetric;
-            }
-            $dataTable->setMetadata(DataTable::EXTRA_PROCESSED_METRICS_METADATA_NAME, $processedMetrics);
-        }
     }
 }
 

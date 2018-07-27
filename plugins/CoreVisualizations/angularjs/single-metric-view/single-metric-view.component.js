@@ -20,9 +20,9 @@
         controller: SingleMetricViewController
     });
 
-    SingleMetricViewController.$inject = ['piwik', 'piwikApi', '$element', '$httpParamSerializer', '$compile', '$scope', 'piwikPeriods'];
+    SingleMetricViewController.$inject = ['piwik', 'piwikApi', '$element', '$httpParamSerializer', '$compile', '$scope', 'piwikPeriods', '$q'];
 
-    function SingleMetricViewController(piwik, piwikApi, $element, $httpParamSerializer, $compile, $scope, piwikPeriods) {
+    function SingleMetricViewController(piwik, piwikApi, $element, $httpParamSerializer, $compile, $scope, piwikPeriods, $q) {
         var seriesPickerScope;
 
         var vm = this;
@@ -41,7 +41,9 @@
             setSelectableColumns();
 
             vm.selectedColumns = [vm.metric];
-            vm.pastPeriod = getPastPeriodStr();
+            if (piwik.period !== 'range') {
+                vm.pastPeriod = getPastPeriodStr();
+            }
 
             createSeriesPicker();
 
@@ -63,20 +65,48 @@
 
         function fetchData() {
             vm.isLoading = true;
-            piwikApi.fetch({
+
+            var promises = [];
+            promises.push(piwikApi.fetch({
                 method: 'API.get',
-                filter_last_period_evolution: '1',
                 format_metrics: 'all'
-            }).then(function (response) {
-                vm.metricValue = response[vm.metric];
-                vm.pastValue = response[vm.metric + '_past'];
-                vm.metricChangePercent = response[vm.metric + '_evolution'];
+            }));
+
+            if (piwik.period !== 'range') {
+                promises.push(piwikApi.fetch({
+                    method: 'API.get',
+                    date: getLastPeriodDate(),
+                    format_metrics: 'all',
+                }));
+            }
+
+            $q.all(promises).then(function (responses) {
+                var currentData = responses[0];
+                var pastData = responses[1];
+
+                vm.metricValue = currentData[vm.metric] || 0;
+
+                if (pastData) {
+                    vm.pastValue = pastData[vm.metric] || 0;
+
+                    var evolution = piwik.helper.calculateEvolution(vm.metricValue, vm.pastValue);
+                    vm.metricChangePercent = (evolution * 100).toFixed(2) + ' %';
+                } else {
+                    vm.pastValue = null;
+                    vm.metricChangePercent = null;
+                }
 
                 vm.isLoading = false;
 
                 // don't change the metric translation until data is fetched to avoid loading state confusion
                 vm.metricTranslation = getMetricTranslation();
             });
+        }
+
+        function getLastPeriodDate() {
+            var RangePeriod = piwikPeriods.get('range');
+            var result = RangePeriod.getLastNRange(piwik.period, 2, piwik.currentDateString).startDate;
+            return $.datepicker.formatDate('yy-mm-dd', result);
         }
 
         function setWidgetTitle() {
