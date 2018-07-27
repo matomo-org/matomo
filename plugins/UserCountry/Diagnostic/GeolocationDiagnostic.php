@@ -56,12 +56,12 @@ class GeolocationDiagnostic implements Diagnostic
             $comment = $this->translator->translate('UserCountry_GeoIpLocationProviderNotRecomnended') . ' ';
             $message = Manager::getInstance()->isPluginActivated('GeoIp2') ? 'GeoIp2_LocationProviderDesc_ServerModule2' : 'UserCountry_GeoIpLocationProviderDesc_ServerBased2';
             $comment .= $this->translator->translate($message, array(
-                '<a href="https://matomo.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>'
+                '<a href="https://matomo.org/docs/geo-locate/" rel="noreferrer noopener" target="_blank">', '', '', '</a>'
             ));
         } else {
             $comment = $this->translator->translate('UserCountry_DefaultLocationProviderDesc1') . ' ';
             $comment .= $this->translator->translate('UserCountry_DefaultLocationProviderDesc2', array(
-                '<a href="https://matomo.org/docs/geo-locate/" rel="noreferrer" target="_blank">', '', '', '</a>'
+                '<a href="https://matomo.org/docs/geo-locate/" rel="noreferrer noopener" target="_blank">', '', '', '</a>'
             ));
         }
 

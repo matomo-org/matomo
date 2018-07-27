@@ -1,15 +1,35 @@
 {
     "VisitTime": {
         "ColumnLocalTime": "Hora local",
+        "ColumnLocalHour": "Hora local - hora (início da visita)",
+        "ColumnLocalMinute": "Hora local - minuto (início da visita)",
         "ColumnServerTime": "Hora do servidor",
+        "ColumnServerHour": "Hora do servidor - hora",
+        "ColumnVisitEndServerHour": "Hora do servidor - hora (fim da visita)",
+        "ColumnVisitEndServerMinute": "Hora do servidor - minuto (fim da visita)",
+        "ColumnVisitStartServerHour": "Hora do servidor - hora (início da visita)",
+        "ColumnVisitStartServerMinute": "Hora do servidor - minuto (início da visita)",
+        "ColumnVisitEndServerDate": "Hora do servidor - data (fim da visita)",
+        "ColumnVisitEndServerDayOfMonth": "Hora do servidor - dia do mês (fim da visita)",
+        "ColumnVisitEndServerDayOfWeek": "Hora do servidor - dia da semana (fim da visita)",
+        "ColumnVisitEndServerDayOfYear": "Hora do servidor - dia do ano (fim da visita)",
+        "ColumnVisitEndServerQuarter": "Hora do servidor - trimestre (fim da visita)",
+        "ColumnVisitEndServerSecond": "Hora do servidor - segundo (fim da visita)",
+        "ColumnVisitEndServerWeekOfYear": "Hora do servidor - semana do ano (fim da visita)",
+        "ColumnVisitEndServerMonth": "Hora do servidor - mês (fim da visita)",
+        "ColumnVisitEndServerYear": "Hora do servidor - ano (fim da visita)",
+        "ColumnServerMinute": "Hora do servidor - minuto",
         "DayOfWeek": "Dia da semana",
         "LocalTime": "Visitas por hora local",
         "NHour": "%sh",
+        "PluginDescription": "Apresenta a hora local e do servidor quando os seus visitantes viram o seu site ou aplicação.",
         "ServerTime": "Vistas por hora do servidor",
         "SubmenuTimes": "Horas",
+        "VisitsByDayOfWeek": "Visitas por dia da semana",
+        "WidgetByDayOfWeekDocumentation": "Este gráfico apresenta o número de visitas que o seu site recebeu a cada dia da semana.",
         "WidgetLocalTime": "Visitas pela hora local",
-        "WidgetLocalTimeDocumentation": "Este gráfico mostra que horas eram no %1$s fuso horário dos visitantes %2$s durante suas visitas.",
+        "WidgetLocalTimeDocumentation": "Este gráfico mostra as horas do %1$s fuso horário dos visitantes %2$s durante as respetivas visitas.",
         "WidgetServerTime": "Vistas pela hora do servidor",
-        "WidgetServerTimeDocumentation": "Este gráfico mostra que horas eram no %1$s fuso horário do servidor %2$s durante suas visitas."
+        "WidgetServerTimeDocumentation": "Este gráfico mostra as horas do %1$s fuso horário do servidor %2$s durante as visitas."
     }
 }

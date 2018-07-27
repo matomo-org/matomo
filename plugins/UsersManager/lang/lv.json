@@ -9,7 +9,6 @@
         "DeleteConfirm": "Vai Jūs tiešām vēlaties dzēst lietotāju %s?",
         "Email": "E-pasta adrese",
         "ExceptionAccessValues": "Pieejas parametriem jāsatur kāda no šīm vērtībām: [ %s ]",
-        "ExceptionAdminAnonymous": "Jūs nevarat atļaut administrēšanas pieeju anonīmiem lietotājiem.",
         "ExceptionDeleteDoesNotExist": "Lietotāju '%s' nevar izdzēst, jo tāds neeksistē.",
         "ExceptionEditAnonymous": "Anonīmo lietotāju nav iespējams labot vai dzēst. Tas tiek izmantots, lai definētu lietotāju, kurš vēl nav pieteicies. Piemēram, Jūs varat publiskot statistiku atļaujot apskates pieeju anonīmajam lietotājam.",
         "ExceptionEmailExists": "Lietotājs ar e-pasta adresi '%s' jau eksistē.",

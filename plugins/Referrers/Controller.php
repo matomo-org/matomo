@@ -428,8 +428,8 @@ function DisplayTopKeywords($url = "")
         echo "<p style='padding: 0 12px;'>This widget is designed to work in your website directly.
 		This widget makes it easy to use Piwik to <i>automatically display the list of Top Keywords</i>, for each of your website Page URLs.</p>
 		<p style='padding: 0 12px;'>
-		<b>Example API URL</b> - For example if you would like to get the top 10 keywords, used last week, to land on the page <a rel='noreferrer' target='_blank' href='$topPageUrl'>$topPageUrl</a>,
-		in format JSON: you would dynamically fetch the data using <a rel='noreferrer' target='_blank' href='$jsonRequest&url=" . urlencode($topPageUrl) . "'>this API request URL</a>. Make sure you encode the 'url' parameter in the URL.</p>
+		<b>Example API URL</b> - For example if you would like to get the top 10 keywords, used last week, to land on the page <a rel='noreferrer noopener' target='_blank' href='$topPageUrl'>$topPageUrl</a>,
+		in format JSON: you would dynamically fetch the data using <a rel='noreferrer noopener' target='_blank' href='$jsonRequest&url=" . urlencode($topPageUrl) . "'>this API request URL</a>. Make sure you encode the 'url' parameter in the URL.</p>
 
 		<p style='padding: 0 12px;'><b>PHP Function ready to use!</b> - If you use PHP on your website, we have prepared a small code snippet that you can copy paste in your Website PHP files. You can then simply call the function <code>DisplayTopKeywords();</code> anywhere in your template, at the bottom of the content or in your blog sidebar.
 		If you run this code in your page $topPageUrl, it would output the following:";

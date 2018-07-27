@@ -20,6 +20,7 @@
         "EvolutionDocumentationMoreInfo": "Per ulteriori informazioni sui diversi tipi referenti, consulta la documentazione della %s tabella.",
         "Keywords": "Keywords",
         "KeywordsReportDocumentation": "Questo report mostra le parole chiave che gli utenti hanno ricercato prima di venire indirizzati sul tuo sito web. %s Cliccando su una riga della tabella, è possibile vedere la distribuzione dei motori di ricerca che sono stati interrogati per la parola chiave.",
+        "KeywordsReportDocumentationNote": "Nota: questo report elenca la maggior parte delle parole chiave come non definite, poiché la maggior parte dei motori di ricerca non invia la parola chiave esatta utilizzata nel motore di ricerca.",
         "PluginDescription": "Restituisce i dati dei Referrer: Motori di Ricerca, Keywords, Siti, Campagne, Social media, Ingressi diretti.",
         "Referrer": "Referente",
         "ReferrerName": "Nome Referente",
@@ -40,6 +41,7 @@
         "TypeDirectEntries": "%s ingressi diretti",
         "TypeReportDocumentation": "Questa tabella contiene informazioni sulla distribuzione dei tipi di referente.",
         "TypeSearchEngines": "%s da motori di ricerca",
+        "TypeSocialNetworks": "%s dai social networks",
         "TypeWebsites": "%s da siti web",
         "UsingNDistinctUrls": "(usando %s URL distinti)",
         "ViewAllReferrers": "Vedi tutti i Referenti",
@@ -51,6 +53,7 @@
         "WidgetGetAll": "Tutti i Referenti",
         "WidgetSocials": "Elenco di social network",
         "WidgetTopKeywordsForPages": "Top Keyword per URL Pagina",
-        "XPercentOfVisits": "%s di visite"
+        "XPercentOfVisits": "%s di visite",
+        "Acquisition": "Acquisizione"
     }
 }

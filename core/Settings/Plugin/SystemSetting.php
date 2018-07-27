@@ -16,7 +16,7 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\Storage;
 
 /**
- * Describes a system wide setting. Only the Super User can change this type of setting by d efault and
+ * Describes a system wide setting. Only the Super User can change this type of setting by default and
  * the value of this setting will affect all users.
  *
  * See {@link \Piwik\Settings\Setting}.

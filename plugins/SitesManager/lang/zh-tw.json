@@ -26,6 +26,7 @@
         "ExcludedIps": "排除 IP",
         "ExcludedParameters": "排除參數",
         "ExcludedUserAgents": "排除 User Agent",
+        "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "輸入要被 Matomo 排除追蹤的 User Agent 列表。",
         "GlobalExcludedUserAgentHelp2": "你可以將此功能用來排除一些網路爬蟲。",
         "GlobalListExcludedIps": "全域排除的 IP 列表",

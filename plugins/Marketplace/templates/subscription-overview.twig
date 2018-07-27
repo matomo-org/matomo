@@ -13,7 +13,7 @@
             <p>
                 {{ 'Marketplace_PluginSubscriptionsList'|translate }}
                 {% if loginUrl %}
-                    <a target="_blank" rel="noreferrer" href="{{ loginUrl }}">{{ 'Marketplace_OverviewPluginSubscriptionsAllDetails'|translate }}</a>
+                    <a target="_blank" rel="noreferrer noopener" href="{{ loginUrl }}">{{ 'Marketplace_OverviewPluginSubscriptionsAllDetails'|translate }}</a>
                 {% endif %}
                 <br/>
                 {{ 'Marketplace_OverviewPluginSubscriptionsMissingInfo'|translate }}
@@ -42,7 +42,7 @@
                         <tr>
                             <td class="subscriptionName">
                                 {% if subscription.plugin.htmlUrl %}
-                                    <a href="{{ subscription.plugin.htmlUrl }}" rel="noreferrer" target="_blank">
+                                    <a href="{{ subscription.plugin.htmlUrl }}" rel="noreferrer noopener" target="_blank">
                                 {% endif %}
 
                                 {{ subscription.plugin.displayName }}

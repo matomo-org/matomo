@@ -559,8 +559,8 @@ class ApiTest extends IntegrationTestCase
         Translate::loadAllTranslations();
 
         $resultWanted = array(
-            0 => array("idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'timezone_name' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0),
-            1 => array("idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Japan', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0),
+            0 => array("idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'timezone_name' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'US Dollar'),
+            1 => array("idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'Asia/Tokyo', 'timezone_name' => 'Japan', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'currency_name' => 'US Dollar'),
         );
 
         FakeAccess::setIdSitesAdmin(array(1, 3));
@@ -668,8 +668,8 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("site3", array("http://piwik.org"));
 
         $resultWanted = array(
-            0 => array("idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', "excluded_ips" => "", 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc'),
-            1 => array("idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', "excluded_ips" => "", 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc'),
+            0 => array("idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', "excluded_ips" => "", 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc', 'currency_name' => 'USD'),
+            1 => array("idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', "excluded_ips" => "", 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc', 'currency_name' => 'USD'),
         );
 
         FakeAccess::setIdSitesView(array(1, 3));
@@ -706,8 +706,8 @@ class ApiTest extends IntegrationTestCase
         API::getInstance()->addSite("site3", array("http://piwik.org"));
 
         $resultWanted = array(
-            0 => array("idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 1, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc'),
-            1 => array("idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc'),
+            0 => array("idsite" => 1, "name" => "site1", "main_url" => "http://piwik.net", "ecommerce" => 1, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc', 'currency_name' => 'USD'),
+            1 => array("idsite" => 3, "name" => "site3", "main_url" => "http://piwik.org", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => '', 'keep_url_fragment' => 0, 'type' => 'website', 'exclude_unknown_urls' => 0, 'timezone_name' => 'SitesManager_Format_Utc', 'currency_name' => 'USD'),
         );
 
         FakeAccess::setIdSitesView(array(1, 3));

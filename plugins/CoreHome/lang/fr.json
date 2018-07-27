@@ -25,6 +25,7 @@
         "ExcludeRowsWithLowPopulation": "Toutes les lignes sont affichées %s Exclure celles peu signifiantes",
         "ExternalHelp": "Aide (nouvel onglet)",
         "FlattenDataTable": "Le rapport est hiérarchique %s L'aplatir",
+        "FormatMetrics": "Format des métriques",
         "ShowExportUrl": "Afficher l'URL d'export",
         "HideExportUrl": "Masquer l'URL d'export",
         "HomeShortcut": "Accueil",

@@ -41,6 +41,7 @@ class Mysql implements SchemaInterface
                           token_auth CHAR(32) NOT NULL,
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
+                          ts_password_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                             PRIMARY KEY(login),
                             UNIQUE KEY uniq_keytoken(token_auth)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
@@ -457,11 +458,13 @@ class Mysql implements SchemaInterface
      */
     public function createAnonymousUser()
     {
+        $now = Date::factory('now')->getDatetime();
+
         // The anonymous user is the user that is assigned by default
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
-                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', 0, '" . Date::factory('now')->getDatetime() . "' );");
+                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', 0, '$now', '$now' );");
     }
 
     /**

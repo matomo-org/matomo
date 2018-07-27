@@ -10,6 +10,7 @@ namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Auth\Password;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\Piwik;
 
@@ -199,7 +200,8 @@ class Model
             'email'            => $email,
             'token_auth'       => $tokenAuth,
             'date_registered'  => $dateRegistered,
-            'superuser_access' => 0
+            'superuser_access' => 0,
+            'ts_password_modified' => Date::now()->getDatetime(),
         );
 
         $db = $this->getDb();
@@ -221,6 +223,11 @@ class Model
         foreach ($fields as $key => $val) {
             $set[]  = "`$key` = ?";
             $bind[] = $val;
+        }
+
+        if (!empty($fields['password'])) {
+            $set[] = "ts_password_modified = ?";
+            $bind[] = Date::now()->getDatetime();
         }
 
         $bind[] = $userLogin;

@@ -19,7 +19,6 @@
         "EmailYourAdministrator": "%1$sE-mail your administrator about this problem%2$s 。",
         "EnterUsernameOrEmail": "ユーザー名または電子メールアドレスを入力してください",
         "ExceptionAccessValues": "パラメータ access は、次の値のいずれかを持つ必要があります： [ %s ]",
-        "ExceptionAdminAnonymous": "'anonymous' ユーザーに '管理' 権限を与えることはできません。",
         "ExceptionDeleteDoesNotExist": "ユーザー '%s' は存在しないため、削除することができません。",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "ユーザー '%s' の削除は、不可能です。",
         "ExceptionEditAnonymous": "anonymous ユーザーは、Matomo がログインしていないユーザーを定義するために使用するため、編集や削除はできません。 例えば、'anonymous' ユーザーに '表示' 権限を与えることによって、統計をパブリックにすることができます。",

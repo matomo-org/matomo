@@ -6,6 +6,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 3.6.0
 
+### New Features
+
+* Custom currencies can now be added using the `currencies[]` configuration key.
+
 ### New APIs
 
 * Added new event `API.addGlossaryItems` which lets you add items to the glossary.
@@ -22,8 +26,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Changed some menu items to use translation keys instead (see [PR #12885](https://github.com/matomo-org/matomo/pull/12885)).
 * The methods `assertResponseCode()` and `assertHttpResponseText()` in `Piwik\Tests\Framework\TestCase\SystemTestCase` have been deprecated and will be removed in Matomo 4.0. Please use `Piwik\Http` instead.
 * The classes `PHPUnit\Framework\Constraint\HttpResponseText` and `PHPUnit\Framework\Constraint\ResponseCode` have been deprecated and will be removed in Matomo 4.0. Please use `Piwik\Http` instead.
+* Creating links through the Proxy has been deprecated. Use rel="nofollow" instead.
 * The console option `--piwik-domain` has been deprecated and will be removed in Matomo 4.0. Use `--matomo-domain` instead
 * Social networks are now detected as new referrer type (ID=7), which allows improved reports and better segmentation
+* New settings form field UI component "Field Array" that lets users enter multiple values for one setting as a flat array
 
 ## Matomo 3.5.1
 

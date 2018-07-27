@@ -25,6 +25,7 @@ use Piwik\Settings\Storage;
  */
 class SystemConfigSetting extends Setting
 {
+    protected $configSection = null;
     /**
      * Constructor.
      *
@@ -38,6 +39,7 @@ class SystemConfigSetting extends Setting
         parent::__construct($name, $defaultValue, $type, $pluginName);
 
         $factory = StaticContainer::get('Piwik\Settings\Storage\Factory');
+        $this->configSection = $configSectionName;
         $this->storage = $factory->getConfigStorage($configSectionName);
     }
 
@@ -59,4 +61,13 @@ class SystemConfigSetting extends Setting
         return $this->hasWritePermission;
     }
 
+    /**
+     * Returns the config section the setting is for
+     *
+     * @return string
+     */
+    public function getConfigSectionName()
+    {
+        return $this->configSection;
+    }
 }

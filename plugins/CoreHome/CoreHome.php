@@ -118,6 +118,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -158,6 +159,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/notification_parser.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/numberFormatter.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/zen-mode.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/noreferrer.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/piwikApp.config.js";
 
@@ -261,6 +263,9 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.controller.js";
 
+        $jsFiles[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/field-array/field-array.controller.js";
+
         // we have to load these CoreAdminHome files here. If we loaded them in CoreAdminHome,
         // there would be JS errors as CoreAdminHome is loaded first. Meaning it is loaded before
         // any angular JS file is loaded etc.
@@ -269,8 +274,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/jstrackingcode.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/trackingcode/imagetrackingcode.controller.js";
         $jsFiles[] = "plugins/CoreAdminHome/angularjs/archiving/archiving.controller.js";
-        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trustedhosts/trustedhosts.directive.js";
-        $jsFiles[] = "plugins/CoreAdminHome/angularjs/trustedhosts/trustedhosts.controller.js";
 
 
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,

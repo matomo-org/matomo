@@ -275,11 +275,17 @@ var piwikHelper = {
                 button.attr('title', title);
             }
 
-            if(typeof handles[role] == 'function') {
+            if (typeof handles !== 'undefined' && typeof handles[role] == 'function') {
                 button.on('click', function(){
                     handles[role].apply()
                 });
             }
+            if (typeof $button.data('href') !== 'undefined') {
+                button.on('click', function () {
+                    window.location.href = $button.data('href');
+                })
+            }
+            
 
             $footer.append(button);
         });

@@ -78,7 +78,7 @@
         "MatchesExpression": "entspricht dem Ausdruck %s",
         "NewGoalIntro": "Tracken von Konversions-Zielen ist eine der effizientesten Möglichkeiten zur Messung und Verbesserung Ihrer geschäftlichen Ziele.",
         "NewVisitorsConversionRateIs": "Umsätze pro neuem Besucher: %s",
-        "NoGoalsNeedAccess": "Nur ein (Haupt-)Administrator kann Ziele für eine gegebene Website verwalten. Bitte fragen Sie ihren Matomo Administrator, um Ziele für ihre Webseite aufzustellen. <br> Tracking Ziele sind ein großartiger Weg, ihre Webseite-Performance zu verstehen und zu maximieren!",
+        "NoGoalsNeedAccess2": "Nur ein Benutzer mit Schreibberechtigung, ein Administrator oder ein Benutzer mit Super User Berechtigung kann Ziele für eine bestimmte Website verwalten. Bitte fragen Sie bei Ihrem Matomo Administrator nach, um ein Ziel für Ihre Website vorzugeben. <br>Ziele zu tracken ist gut geeignet um die Leistungsfähigkeit Ihrer Website zu verstehen und zu maximieren!",
         "NoConversionsNoReportsMessage": "Es werden keine Berichte angezeigt, da keine Konversionen für das gewählte Ziel und den Zeitraum existieren.",
         "NeedAccess": "Nur ein (Haupt-)Administrator kann Ziele für eine gegebene Website verwalten.",
         "Optional": "(optional)",

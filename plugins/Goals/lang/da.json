@@ -78,7 +78,6 @@
         "MatchesExpression": "matcher udtrykket %s",
         "NewGoalIntro": "Sporing af målkonvertering er et af de mest effektive måder at måle og forbedre dine forretningsmæssige målsætninger.",
         "NewVisitorsConversionRateIs": "Nye besøgendes konverteringsrate er %s",
-        "NoGoalsNeedAccess": "Kun en administrator eller en bruger med Super User adgang kan behandle mål for et givet website. Bed din Matomo administrator om at opsætte mål for dit website. <br>Sporing af mål er en god måde at forstå og maksimere dit websites ydeevne!",
         "NoConversionsNoReportsMessage": "Rapporter bliver ikke vist fordi der ikke er nogen salgsdata for det valgte mål og periode.",
         "NeedAccess": "Kun en administrator eller en bruger med superbrugeradgang kan administrere mål for en given hjemmeside.",
         "Optional": "(valgfri)",

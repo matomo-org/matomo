@@ -49,6 +49,7 @@
         "NotDownloadable": "Não transferível",
         "PluginNotDownloadable": "A extensão não é transferível.",
         "PluginNotDownloadablePaidReason": "Os motivos são uma licença expirada ou excedida.",
+        "PluginRequiresInternet": "Esta extensão requer uma ligação funcional à Internet. Por favor, confirme configuração do valor `enable_internet_features` se quiser utilizar esta funcionalidade.",
         "PluginActivated": "Extensão ativada",
         "Status": "Estado",
         "SuccessfullyActicated": "Ativou com sucesso <strong>%s<\/strong>.",
