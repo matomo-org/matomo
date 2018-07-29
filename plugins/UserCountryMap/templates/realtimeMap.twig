@@ -25,7 +25,7 @@
         </span>
     </div>
 
-    {% if shouldShowNoVisitsInfo %}
+    {% if userIsSuperUser %}
         <div style="display:none;margin-top:20px;margin-bottom:0;" id="realTimeMapNoVisitsInfo" class="alert alert-info">
             <p>{{ 'UserCountryMap_NoVisitsInfo'|translate }}</p>
             <p>{{ 'UserCountryMap_NoVisitsInfo2'|translate }}</p>

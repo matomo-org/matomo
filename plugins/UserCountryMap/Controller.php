@@ -226,8 +226,6 @@ class Controller extends \Piwik\Plugin\Controller
             'forceNowValue'      => Common::getRequestVar('forceNowValue', false, 'int')
         );
 
-        $view->shouldShowNoVisitsInfo = Piwik::hasUserSuperUserAccess();
-
         return $view->render();
     }
 
