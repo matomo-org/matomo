@@ -51,6 +51,8 @@
         "ReportUnsubscribe": "Unsubscribe a report",
         "UnsubscribeReportConfirmation": "Are you sure you would like to unsubscribe from the report %1$s?",
         "SuccessfullyUnsubscribed": "You have been successfully unsubscribed from the report %1$s.",
-        "UnsubscribeFooter": "To unsubscribe from this report please follow this link: %1$s"
+        "UnsubscribeFooter": "To unsubscribe from this report please follow this link: %1$s",
+        "NoTokenProvided": "No token was provided in the URL",
+        "NoSubscriptionFound": "No subscription found. Maybe the report was already unsubscribed or removed."
     }
 }

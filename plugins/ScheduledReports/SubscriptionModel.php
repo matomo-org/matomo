@@ -56,7 +56,7 @@ class SubscriptionModel
                 $filteredEmails[] = $additionalEmail;
             }
             if ($emailFound) {
-                $report['parameters']['additionalEmails'] = implode("\n", $additionalEmails);
+                $report['parameters']['additionalEmails'] = $filteredEmails;
             }
         }
 
@@ -118,6 +118,8 @@ class SubscriptionModel
             }
         }
 
+        $emails = array_unique($emails);
+
         // add new subscriptions
         foreach ($emails as $email) {
             while($token = $this->generateToken($email)) {
@@ -160,7 +162,7 @@ class SubscriptionModel
 
     public static function install()
     {
-        $reportTable = "`idreport` INT(11) NOT NULL AUTO_INCREMENT,
+        $reportTable = "`idreport` INT(11) NOT NULL,
 					    `token` VARCHAR(100) NOT NULL,
 					    `email` VARCHAR(100) NOT NULL,
 					    PRIMARY KEY (`token`)";
