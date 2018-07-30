@@ -93,6 +93,11 @@
                     $timeout(); // trigger new digest
                 });
 
+                // overrides jquery UI handler that unhighlights a cell when the mouse leaves it
+                element.on('mouseout', 'tbody td a', function () {
+                    setDatePickerCellColors();
+                });
+
                 // call scope.cellHover() when mouse leaves table body (can't do event on tbody, for some reason
                 // that fails, so we do two events, one on the table & one on thead)
                 element

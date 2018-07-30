@@ -105,7 +105,7 @@ class Cookie
      */
     public function isCookieFound()
     {
-        return isset($_COOKIE[$this->name]);
+        return self::isCookieInRequest($this->name);
     }
 
     /**
@@ -257,7 +257,7 @@ class Cookie
      *
      * @return string  Cookie content
      */
-    protected function generateContentString()
+    public function generateContentString()
     {
         $cookieStr = '';
 
@@ -370,6 +370,14 @@ class Cookie
     }
 
     /**
+     * Removes all values from the cookie.
+     */
+    public function clear()
+    {
+        $this->value = [];
+    }
+
+    /**
      * Returns an easy to read cookie dump
      *
      * @return string  The cookie dump
@@ -393,5 +401,17 @@ class Cookie
     protected static function escapeValue($value)
     {
         return Common::sanitizeInputValues($value);
+    }
+
+    /**
+     * Returns true if a cookie named '$name' is in the current HTTP request,
+     * false if otherwise.
+     *
+     * @param string $name the name of the cookie
+     * @return boolean
+     */
+    public static function isCookieInRequest($name)
+    {
+        return isset($_COOKIE[$name]);
     }
 }

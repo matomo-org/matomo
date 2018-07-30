@@ -31,7 +31,7 @@
         "LicenseKeyDeletedSuccess": "A chave da licença foi eliminada com sucesso!",
         "Exceeded": "Excedido",
         "LicenseMissing": "Licença em falta",
-        "LicenseMissingDescription": "Está a utilizar as seguintes extensões sem uma licença: %1$s. %2$sPara resolver este problema, atualize a sua chave da licença, %3$sobtenha uma subscrição agora%4$s ou desative a extensão.",
+        "LicenseMissingDeactivatedDescription": "As extensões seguintes foram desativadas porque está a utilizá-las sem uma licença: %1$s. %2$sPara resolver este problema, atualize a chave da sua licença, %3$sobtenha agora uma subscrição%4$s ou desative a extensão.",
         "PluginLicenseMissingDescription": "Não está autorizado a transferir esta extensão porque não existe nenhuma licença para esta extensão. Para resolver este problema, atualize a sua chave da licença, obtenha uma subscrição ou remova a extensão.",
         "LicenseExceeded": "Licença excedida",
         "LicenseExceededDescription": "As licenças para as extensões seguintes já não são válidas dado que o número de utilizadores autorizados para a licença foi excedido: %1$s. %2$sNão poderá transferir atualizações para estas extensões. Para resolver este problema, elimine alguns utilizadores ou %3$satualize a subscrição agora%4$s.",

@@ -12,7 +12,6 @@
         "Email": "邮箱",
         "EmailYourAdministrator": "%1$s发邮件给管理员报告问题%2$s。",
         "ExceptionAccessValues": "参数必须包含一个下面的值: [ %s ]",
-        "ExceptionAdminAnonymous": "您不能把 '管理员' 权限授予 'anonymous' 用户！",
         "ExceptionDeleteDoesNotExist": "用户 '%s' 不存在，无法删除！",
         "ExceptionEditAnonymous": "anonymous 用户不能被修改或删除，因为他是被 Matomo 使用来定义一个还未登入的用户！例如，您可以把 '查看' 权限授予 'anonymous' 用户以公开您的统计资料！",
         "ExceptionEmailExists": "使用邮箱 '%s' 的用户已存在！",

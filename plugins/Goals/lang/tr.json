@@ -78,7 +78,6 @@
         "MatchesExpression": "%s ifadesine uyan",
         "NewGoalIntro": "İş amaçlarınızı gerçekleştirmek için en etkili ölçme yöntemlerinden biri hedef tutturma izlemesidir.",
         "NewVisitorsConversionRateIs": "Yeni ziyaretçilerin hedef tutturma oranı %s",
-        "NoGoalsNeedAccess": "Belirli bir web sitesinin hedeflerini yalnız Yöneticiler ya da Süper Kullanıcılar yönetebilir. Bu yüzden web sitenize bir Hedef ataması için Matomo yöneticiniz ile görüşmelisiniz. <br> Hedefleri izlemek web sitesinizin başarımını anlamak ve arttırmak için harika bir yöntemdir!",
         "NoConversionsNoReportsMessage": "Seçilmiş amaç ve zaman aralığı için bir hedef tutturma verisi bulunmadığından rapor görüntülenemiyor.",
         "NeedAccess": "Belirtilen bir web sitesi için hedefleri yalnız yöneticiler ya da Süper Kullanıcılar değiştirebilir.",
         "Optional": "(isteğe bağlı)",

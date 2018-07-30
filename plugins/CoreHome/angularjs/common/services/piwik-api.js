@@ -228,10 +228,7 @@ var hasBlockedContent = false;
 
             // handle default date & period if not already set
             if (!getParamsToMixin.date && !postParams.date) {
-                getParamsToMixin.date = piwik.currentDateString || piwik.broadcast.getValueFromUrl('date');
-                if (getParamsToMixin.period == 'range' && piwik.currentDateString) {
-                    getParamsToMixin.date = piwik.startDateString + ',' + getParamsToMixin.date;
-                }
+                getParamsToMixin.date = piwik.currentDateString;
             }
 
             return getParamsToMixin;

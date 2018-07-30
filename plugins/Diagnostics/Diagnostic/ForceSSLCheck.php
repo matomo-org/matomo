@@ -1,0 +1,62 @@
+<?php
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+namespace Piwik\Plugins\Diagnostics\Diagnostic;
+
+use Piwik\Config;
+use Piwik\ProxyHttp;
+use Piwik\Translation\Translator;
+use Piwik\Url;
+
+/**
+ * Check that Matomo is configured to force SSL.
+ */
+class ForceSSLCheck implements Diagnostic
+{
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    public function execute()
+    {
+        $label = $this->translator->translate('General_ForcedSSL');
+
+        // special handling during install
+        $isPiwikInstalling = !Config::getInstance()->existsLocalConfig();
+        if ($isPiwikInstalling) {
+            if (ProxyHttp::isHttps()) {
+                return [];
+            }
+
+            $message = $this->translator->translate('General_UseSSLInstall', [
+                '<a href="https://'. Url::getCurrentHost() . Url::getCurrentScriptName(false) . Url::getCurrentQueryString() .'">',
+                '</a>'
+            ]);
+            return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $message)];
+        }
+
+        $forceSSLEnabled = (Config::getInstance()->General['force_ssl'] == 1);
+
+        if ($forceSSLEnabled) {
+            return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK));
+        }
+
+        $comment = $this->translator->translate('General_ForceSSLRecommended', ['<code>force_ssl = 1</code>', '<code>General</code>']);
+
+        if (!ProxyHttp::isHttps()) {
+            $comment .= '<br /><br />' . $this->translator->translate('General_NotPossibleWithoutHttps');
+        }
+
+        return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
+    }
+}

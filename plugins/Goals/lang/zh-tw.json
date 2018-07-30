@@ -78,7 +78,6 @@
         "MatchesExpression": "符合正規表示式 %s",
         "NewGoalIntro": "目標轉換追蹤是衡量並改善你業務目標最有效的方法之一。",
         "NewVisitorsConversionRateIs": "新訪客轉換率為 %s",
-        "NoGoalsNeedAccess": "只有管理員或是擁有超級使用者權限的使用者可以管理網站中的目標。請向你的 Matomo 管理員要求幫你的網站建立目標。<br>追蹤目標是一個幫助你了解你的網站以及讓它性能最大化很棒的方法。",
         "NoConversionsNoReportsMessage": "報表未顯示，因為所選的目標和期間沒有轉換資料。",
         "NeedAccess": "只有管理員或是擁有超級使用者權限的使用者可以管理網站中的目標。",
         "Optional": "（選填）",

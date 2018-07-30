@@ -1,5 +1,32 @@
 {
     "Transitions": {
-        "DirectEntries": "Entradas diretas"
+        "BouncesInline": "%s ressaltos",
+        "DirectEntries": "Entradas diretas",
+        "ErrorBack": "Voltar à ação anterior",
+        "ExitsInline": "%s saídas",
+        "NumPageviews": "%s visualizações de páginas",
+        "NumDownloads": "%s transferências",
+        "NumOutlinks": "%s ligações de saída",
+        "FromCampaigns": "De campanhas",
+        "FromPreviousPages": "De páginas internas",
+        "FromPreviousPagesInline": "%s de páginas internas",
+        "FromPreviousSiteSearches": "Da pesquisa interna",
+        "FromPreviousSiteSearchesInline": "%s de pesquisas internas",
+        "FromSearchEngines": "De motores de pesquisa",
+        "FromSocialNetworks": "A partir de redes sociais",
+        "FromWebsites": "De sites",
+        "IncomingTraffic": "Tráfego de entrada",
+        "LoopsInline": "%s recarregamentos de páginas",
+        "NoDataForAction": "Não existem dados para %s",
+        "NoDataForActionDetails": "A ação não teve visualizações de páginas durante o período %s ou é inválido.",
+        "OutgoingTraffic": "Tráfego de saída",
+        "PluginDescription": "Documenta as ações anteriores e seguintes para cada endereço de página no novo relatório de Transições, disponível nos relatórios de Ações através de um novo ícone.",
+        "ShareOfAllPageviews": "Esta página teve %1$s visualizações (de todas as %2$s visualizações)",
+        "ToFollowingPages": "Para páginas internas",
+        "ToFollowingPagesInline": "%s para páginas internas",
+        "ToFollowingSiteSearches": "Pesquisas internas",
+        "ToFollowingSiteSearchesInline": "%s pesquisas internas",
+        "XOfAllPageviews": "%s de todas as visualizações desta página",
+        "XOutOfYVisits": "%1$s (de %2$s)"
     }
 }

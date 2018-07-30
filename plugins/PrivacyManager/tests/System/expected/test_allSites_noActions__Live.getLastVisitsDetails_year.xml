@@ -44,6 +44,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -150,6 +152,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -256,6 +260,8 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -362,6 +368,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -468,6 +476,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -574,6 +584,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -680,6 +692,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -782,6 +796,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -888,6 +904,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -994,6 +1012,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -1100,6 +1120,8 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -1206,6 +1228,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -1312,6 +1336,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -1418,6 +1444,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -1524,6 +1552,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -1626,6 +1656,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -1732,6 +1764,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -1838,6 +1872,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -1944,6 +1980,8 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -2050,6 +2088,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -2156,6 +2196,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -2262,6 +2304,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -2368,6 +2412,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -2470,6 +2516,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -2576,6 +2624,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -2682,6 +2732,8 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -2788,6 +2840,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -2894,6 +2948,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -3000,6 +3056,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -3106,6 +3164,8 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -3212,6 +3272,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -3318,6 +3380,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -3424,6 +3488,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -3530,6 +3596,8 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -3636,6 +3704,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -3742,6 +3812,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -3848,6 +3920,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -3954,6 +4028,8 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -4060,6 +4136,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -4166,6 +4244,8 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -4272,6 +4352,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -4378,6 +4460,8 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -4484,6 +4568,8 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -4582,14 +4668,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -4692,6 +4780,8 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -4790,14 +4880,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -4900,6 +4992,8 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -4998,14 +5092,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -5108,6 +5204,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -5214,6 +5312,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -5320,6 +5420,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -5426,6 +5528,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -5532,6 +5636,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -5630,14 +5736,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -5744,6 +5852,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -5850,6 +5960,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -5948,14 +6060,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -6062,6 +6176,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -6168,6 +6284,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -6266,14 +6384,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -6380,6 +6500,8 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -6486,6 +6608,8 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -6592,6 +6716,8 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -6698,6 +6824,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -6804,6 +6932,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -6910,6 +7040,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -7016,6 +7148,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -7122,6 +7256,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -7228,6 +7364,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -7334,6 +7472,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -7440,6 +7580,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -7546,6 +7688,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -7652,6 +7796,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -7758,6 +7904,8 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -7864,6 +8012,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -7970,6 +8120,8 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -8076,6 +8228,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -8182,6 +8336,8 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -8288,6 +8444,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -8394,6 +8552,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -8500,6 +8660,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -8598,14 +8760,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -8712,6 +8876,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -8810,14 +8976,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -8924,6 +9092,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -9022,14 +9192,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -9136,6 +9308,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -9242,6 +9416,8 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -9348,6 +9524,8 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -9454,6 +9632,8 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -9560,6 +9740,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -9666,6 +9848,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -9772,6 +9956,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -9878,6 +10064,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -9984,6 +10172,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -10090,6 +10280,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -10196,6 +10388,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -10302,6 +10496,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -10408,6 +10604,8 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -10514,6 +10712,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -10620,6 +10820,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -10726,6 +10928,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -10832,6 +11036,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -10934,6 +11140,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -11040,6 +11248,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -11146,6 +11356,8 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -11252,6 +11464,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -11358,6 +11572,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -11464,6 +11680,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -11570,6 +11788,8 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -11676,6 +11896,8 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -11774,14 +11996,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -11884,6 +12108,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -11990,6 +12216,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -12096,6 +12324,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -12194,14 +12424,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -12308,6 +12540,8 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -12414,6 +12648,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -12520,6 +12756,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -12626,6 +12864,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -12732,6 +12972,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -12838,6 +13080,8 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -12944,6 +13188,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -13042,14 +13288,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -13156,6 +13404,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -13262,6 +13512,8 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -13368,6 +13620,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -13474,6 +13728,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -13580,6 +13836,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -13686,6 +13944,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -13792,6 +14052,8 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -13898,6 +14160,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -14004,6 +14268,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -14110,6 +14376,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -14216,6 +14484,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -14318,6 +14588,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -14424,6 +14696,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -14530,6 +14804,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -14636,6 +14912,8 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -14742,6 +15020,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -14848,6 +15128,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -14954,6 +15236,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -15060,6 +15344,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -15162,6 +15448,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -15268,6 +15556,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -15374,6 +15664,8 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -15480,6 +15772,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -15586,6 +15880,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -15692,6 +15988,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -15798,6 +16096,8 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -15904,6 +16204,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -16010,6 +16312,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -16116,6 +16420,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -16222,6 +16528,8 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -16328,6 +16636,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -16434,6 +16744,8 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -16540,6 +16852,8 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -16638,14 +16952,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -16748,6 +17064,8 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -16846,14 +17164,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -16956,6 +17276,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -17062,6 +17384,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -17168,6 +17492,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -17274,6 +17600,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -17372,14 +17700,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -17486,6 +17816,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -17592,6 +17924,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -17690,14 +18024,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -17804,6 +18140,8 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -17910,6 +18248,8 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -18016,6 +18356,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -18122,6 +18464,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -18228,6 +18572,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -18334,6 +18680,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -18440,6 +18788,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -18546,6 +18896,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -18652,6 +19004,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -18758,6 +19112,8 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -18864,6 +19220,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -18970,6 +19328,8 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -19076,6 +19436,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -19182,6 +19544,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -19280,14 +19644,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -19394,6 +19760,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -19492,14 +19860,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -19606,6 +19976,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -19712,6 +20084,8 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -19818,6 +20192,8 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -19924,6 +20300,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -20030,6 +20408,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -20136,6 +20516,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -20242,6 +20624,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -20348,6 +20732,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
@@ -20454,6 +20840,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -20560,6 +20948,8 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -20666,6 +21056,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -20772,6 +21164,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -20878,6 +21272,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -20984,6 +21380,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -21086,6 +21484,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -21192,6 +21592,8 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -21298,6 +21700,8 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -21404,6 +21808,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -21510,6 +21916,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -21616,6 +22024,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -21722,6 +22132,8 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -21828,6 +22240,8 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -21926,14 +22340,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -22036,6 +22452,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -22142,6 +22560,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -22248,6 +22668,8 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -22346,14 +22768,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -22460,6 +22884,8 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -22566,6 +22992,8 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -22672,6 +23100,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -22778,6 +23208,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -22884,6 +23316,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -22990,6 +23424,8 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -23096,6 +23532,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -23194,14 +23632,16 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -23308,6 +23748,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -23414,6 +23856,8 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>

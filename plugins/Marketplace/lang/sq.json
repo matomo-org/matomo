@@ -31,7 +31,7 @@
         "LicenseKeyDeletedSuccess": "Kyçi i licencës u çaktivizua me sukses.",
         "Exceeded": "E tejkaluar",
         "LicenseMissing": "Mungon licenca",
-        "LicenseMissingDescription": "Po i përdorni shtojcat vijuese pa një licencë: %1$s. %2$sQë ta zgjidhni këtë problem, ose përditësoni kyçin tuaj të licencës, %3$smerrni një pajtim tani%4$s ose çaktivizojeni shtojcën.",
+        "LicenseMissingDeactivatedDescription": "Shtojcat vijuese janë çaktivizuar, ngaqë i përdorni pa licencë: %1$s. %2$sQë ta zgjidhni këtë çështje, ose përditësoni kyçin tuaj të licencës, %3$sbëni një pajtim%4$s ose çaktivizoni shtojcën.",
         "PluginLicenseMissingDescription": "Nuk keni leje ta shkarkoni këtë shtojcë, ngaqë për të s’ka licencë. Që ta zgjidhni këtë problem, ose përditësoni kyçin tuaj të licencës, merrni një kyç të ri ose çinstalojeni shtojcën.",
         "LicenseExceeded": "Licencë e tejkaluar",
         "LicenseExceededDescription": "Licencat për shtojcat vijuese s’janë më të vlefshme, ngaqë është tejkaluar numri i përdoruesve të autorizuar për licencë: %1$s. %2$sS’do të jeni në gjendje të shkarkoni përditësime për këto shtojca. Që ta zgjidhni këtë problem, ose fshini disa nga përdoruesit ose %3$spërmirësojeni pajtimin tani%4$s.",

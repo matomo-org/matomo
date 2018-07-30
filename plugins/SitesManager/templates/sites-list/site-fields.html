@@ -19,7 +19,7 @@
         <div class="col m4">
             <ul>
                 <li><span class="title">{{ 'SitesManager_Timezone'|translate }}:</span> {{ site.timezone_name }}</li>
-                <li><span class="title">{{ 'SitesManager_Currency'|translate }}:</span> {{ site.currency }}</li>
+                <li><span class="title">{{ 'SitesManager_Currency'|translate }}:</span> {{ site.currency_name }}</li>
                 <li ng-show="site.ecommerce == 1">
                     <span class="title">{{ 'Goals_Ecommerce'|translate }}:</span> {{ 'General_Yes'|translate }}
                 </li>
@@ -33,7 +33,7 @@
                 <li>
                     <span class="title">{{ 'SitesManager_Urls'|translate }}</span>:
                     <span ng-repeat="url in site.alias_urls">
-                        <a target=_blank rel=noreferrer ng-href="{{ url }}">{{ url }}{{$last ? '' : ', '}}</a>
+                        <a target=_blank rel="noreferrer noopener" ng-href="{{ url }}">{{ url }}{{$last ? '' : ', '}}</a>
                     </span>
                 </li>
                 <li ng-show="site.excluded_ips.length">

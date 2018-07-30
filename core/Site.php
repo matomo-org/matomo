@@ -586,14 +586,15 @@ class Site
      */
     public static function getCurrencySymbolFor($idsite)
     {
-        $currency = self::getCurrencyFor($idsite);
-        $symbols  = self::getCurrencyList();
+        $currencyCode = self::getCurrencyFor($idsite);
+        $key = 'Intl_CurrencySymbol_' . $currencyCode;
+        $symbol = Piwik::translate($key);
 
-        if (isset($symbols[$currency])) {
-            return $symbols[$currency][0];
+        if ($key === $symbol) {
+            return $currencyCode;
         }
 
-        return '';
+        return $symbol;
     }
 
 
