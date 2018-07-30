@@ -23,7 +23,7 @@ class ExampleTheme extends Plugin
 
     public function setEmailThemeVariables(&$vars)
     {
-        $vars['themeFontFamilyBase'] = 'serif';//'Arial, Verdana, sans-serif';
+        $vars['themeFontFamilyBase'] = 'Arial, Verdana, sans-serif';
         $vars['themeColorBrand'] = '#5793d4';
         $vars['themeColorHeaderBackground'] = '#0091ea';
         $vars['themeColorHeaderText'] = '#0d0d0d';
