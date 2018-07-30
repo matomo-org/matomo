@@ -621,15 +621,11 @@ class PrivacyManager extends Plugin
 
     private function shouldRenderFooterLinks(SystemSettings $settings)
     {
-        $module = Common::getRequestVar('module', false);
-        if ($module == 'Login') {
-            return true;
-        }
-
         if (Piwik::getCurrentUserLogin() == 'anonymous') {
             return true;
         }
 
+        $module = Common::getRequestVar('module', false);
         if ($module == 'Widgetize') {
             return (bool)$settings->showInEmbeddedWidgets->getValue();
         }
