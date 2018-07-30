@@ -92,7 +92,7 @@
         "UseCustomLogo": "Anvend brugerdefineret logo",
         "ValidPiwikHostname": "Gyldigt Matomo værtsnavn",
         "WithOptionalRevenue": "med valgfri indtægter",
-        "YouAreOptedIn": "Du tildeles automatisk et identifikationsnummer. Klik for at fravælge.",
+        "YouAreNotOptedOut": "Du tildeles automatisk et identifikationsnummer. Klik for at fravælge.",
         "YouAreOptedOut": "Du har fravalgt af få tildelt et identifikationsnummer.",
         "YouMayOptOut": "Når du besøger websitet bliver du tildelt et unikt identifikationsnummer, som er placeret i en cookie på din computer. Dette identifikationsnummer bruger vi til en simpel statistikanalyse af antallet af besøgende på websitet.",
         "YouMayOptOutBis": "Du kan herunder fravælge at blive tildelt et unikt identifikationsnummer.",

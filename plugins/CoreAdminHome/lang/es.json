@@ -89,7 +89,7 @@
         "UseCustomLogo": "Usar un logo personalizado",
         "ValidPiwikHostname": "Hostname Matomo válido",
         "WithOptionalRevenue": "con una facturación opcional",
-        "YouAreOptedIn": "Actualmente ha optado.",
+        "YouAreNotOptedOut": "Actualmente ha optado.",
         "YouAreOptedOut": "Actualmente no hay optado.",
         "YouMayOptOut": "Puede escojer no tener un único número de identificación de la cookie de análisis de internet asignado a su ordenador para prevenir la agregación y el análisis de datos recogidos en este sitio de internet.",
         "YouMayOptOutBis": "Para escoger esto, por favor haga clic debajo para recibir una cookie opt-out (para no ser seguido).",
