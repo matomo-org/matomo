@@ -378,5 +378,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "General_Measurables";
         $translationKeys[] = "Goals_Ecommerce";
         $translationKeys[] = "SitesManager_NotFound";
+        $translationKeys[] = "SitesManager_DeleteSiteExplanation";
     }
 }

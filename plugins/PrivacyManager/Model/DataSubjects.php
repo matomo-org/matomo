@@ -31,11 +31,53 @@ class DataSubjects
         $this->logTablesProvider = $logTablesProvider;
     }
 
+    public function deleteDataSubjectsForDeletedSites($allExistingIdSites)
+    {
+        if (empty($allExistingIdSites)) {
+            return array();
+        }
+
+        $results = [];
+
+        /**
+         * Lets you delete data subjects for sites that have been deleted.
+         * If you have developed a plugin which stores data for visits but doesn't use core logic to do so, then this
+         * event can be used to manually delete the data your plugin collects when a site is deleted.
+         * If core APIs are used, for example log tables, then the data may be deleted automatically.
+         *
+         * **Example**
+         *
+         *     public function deleteDataSubjectsForDeletedSites(&$results, $allExistingIdSites)
+         *     {
+         *         $numDeletes = $this->deleteVisitsWhereSitesNotIn($allExistingIdSites);
+         *         $result['myplugin'] = $numDeletes;
+         *     }
+         *
+         * @param array &$results An array storing the result of how much data was deleted for .
+         * @param array &$allExistingIdSites The list of sites that currently exist. When a site is deleted, the site
+         *                                   is removed from the database, so we don't know exactly which idSites no
+         *                                   longer exist. Instead, we must delete log data that have unrecognized idSites.
+         *
+         *                                   Note: when deleting sites, it is important to also make sure you do not
+         *                                   delete data for idSites that are > the max idSite in $allExistingIdSites.
+         *                                   This is because the deletion process can take a long time, and users
+         *                                   can add new sites while the process is running. In this case, we don't want
+         *                                   to delete data for these new sites.
+         */
+        Piwik::postEvent('PrivacyManager.deleteDataSubjectsForDeletedSites', [&$results, $allExistingIdSites]);
+
+        $logTables = $this->getLogTablesToDeleteFrom();
+        $deleteCounts = $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($allExistingIdSites) {
+            return $this->getWhereToChooseVisitsForOtherSites($tableToSelectFrom, $allExistingIdSites);
+        });
+
+        $results = array_merge($results, $deleteCounts);
+        krsort($results); // make sure test results are always in same order
+        return $results;
+    }
+
     public function deleteDataSubjects($visits)
     {
-        $logTables = $this->logTablesProvider->getAllLogTables();
-        $logTables = $this->sortLogTablesToEnsureDataErasureFromAllTablesIsPossible($logTables);
-
         if (empty($visits)) {
             return array();
         }
@@ -62,11 +104,40 @@ class DataSubjects
          */
         Piwik::postEvent('PrivacyManager.deleteDataSubjects', array(&$results, $visits));
 
+        $logTables = $this->getLogTablesToDeleteFrom();
+        $deleteCounts = $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($visits) {
+            return $this->visitsToWhereAndBind($tableToSelectFrom, $visits);
+        });
+
+        $results = array_merge($results, $deleteCounts);
+        krsort($results); // make sure test results are always in same order
+        return $results;
+    }
+
+    private function getLogTablesToDeleteFrom()
+    {
+        $logTables = $this->logTablesProvider->getAllLogTables();
+
+        // log_action will be deleted via cron job automatically if the action is no longer in use
+        $logTables = array_filter($logTables, function (LogTable $table) {
+            return $table->getName() != 'log_action';
+        });
+
+        $logTables = $this->sortLogTablesToEnsureDataErasureFromAllTablesIsPossible($logTables);
+
+        return $logTables;
+    }
+
+    /**
+     * @param LogTable[] $logTables
+     * @param callable $generateWhere
+     * @throws \Zend_Db_Statement_Exception
+     */
+    private function deleteLogDataFrom($logTables, callable $generateWhere)
+    {
+        $results = [];
         foreach ($logTables as $logTable) {
             $logTableName = $logTable->getName();
-            if ($logTableName === 'log_action') {
-                continue; // will be deleted via cron job automatically if the action is no longer in use
-            }
 
             $from = array($logTableName);
             $tableToSelect = $this->findNeededTables($logTable, $from);
@@ -75,7 +146,7 @@ class DataSubjects
                 throw new \Exception('Cannot join table ' . $logTable->getName());
             }
 
-            list($where, $bind) = $this->visitsToWhereAndBind($tableToSelect, $visits);
+            list($where, $bind) = $generateWhere($tableToSelect);
 
             $sql = "DELETE $logTableName FROM " . $this->makeFromStatement($from) . " WHERE $where";
 
@@ -83,9 +154,6 @@ class DataSubjects
 
             $results[$logTableName] = $result;
         }
-
-        krsort($results); // make sure test results are always in same order
-
         return $results;
     }
 
@@ -350,6 +418,18 @@ class DataSubjects
         $where = implode(' OR ', $where);
 
         return array($where, $bind);
+    }
+
+    private function getWhereToChooseVisitsForOtherSites($tableToSelect, $idSites)
+    {
+        $idSites = array_map('intval', $idSites);
+
+        // we also make sure we don't delete sites greater than the max idSite. this way if a site is added during
+        // an ongoing delete, the new valid data won't be deleted.
+        $maxIdSite = max($idSites);
+
+        $where = "$tableToSelect.idsite NOT IN (" . implode(',', $idSites) . ") AND $tableToSelect.idsite <= ?";
+        return [$where, [$maxIdSite]];
     }
 
     private function joinNonCoreTable(LogTable $logTable, &$from)
