@@ -7,6 +7,8 @@
         "ReleaseChannel": "Canale release",
         "ClickHereToOptIn": "Clicca qui per accettare (opt-in).",
         "ClickHereToOptOut": "Clicca qui per rifiutare (opt-out).",
+        "CorsDomains": "Domini CORS",
+        "CorsDomainsHelp": "Puoi definire domini o sottodomini come http:\/\/example.com o http:\/\/stats.example.com. Oppure, per consentire le richieste \"cross domains\" per tutti i domini è sufficiente aggiungere un *",
         "CustomLogoFeedbackInfo": "Se si personalizza il logo Matomo, si potrebbe anche essere interessati a nascondere il link %1$s nel menu in alto. A tale scopo, è possibile disattivare il plugin Feedback nella pagina di %2$sGestione Plugin%3$s.",
         "CustomLogoHelpText": "È possibile personalizzare il logo Matomo che verrà visualizzato nell'interfaccia utente e nei report via e-mail.",
         "DevelopmentProcess": "Poiché il nostro %1$sprocesso di sviluppo%2$s include migliaia di test automatizzati, i Beta Tester giocano un ruolo chiave nel raggiungimento della \"Politica no bug\" di Matomo.",
