@@ -717,7 +717,7 @@
                 "archive",
                 "tar"
             ],
-            "time": "2017-06-11T17:28:11+00:00"
+            "time": "2016-02-25T10:30:39+00:00"
         },
         {
             "name": "pear/console_getopt",
@@ -1095,16 +1095,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.10.2",
+            "version": "3.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "67e96595cd7649b7967533053fcbfbe02d5c55a3"
+                "reference": "9e778c0c046987c6c4a949d5d9e000f072301962"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/67e96595cd7649b7967533053fcbfbe02d5c55a3",
-                "reference": "67e96595cd7649b7967533053fcbfbe02d5c55a3",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/9e778c0c046987c6c4a949d5d9e000f072301962",
+                "reference": "9e778c0c046987c6c4a949d5d9e000f072301962",
                 "shasum": ""
             },
             "require": {
@@ -1145,7 +1145,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2018-05-07T19:33:29+00:00"
+            "time": "2018-07-31T15:47:21+00:00"
         },
         {
             "name": "piwik/ini",
@@ -1239,12 +1239,12 @@
             ],
             "authors": [
                 {
-                    "name": "The Matomo Team",
+                    "name": "The Piwik Team",
                     "email": "hello@piwik.org",
                     "homepage": "http://piwik.org/the-piwik-team/"
                 }
             ],
-            "description": "PHP Client for Matomo Analytics Tracking API",
+            "description": "PHP Client for Piwik Analytics Tracking API",
             "homepage": "http://piwik.org",
             "keywords": [
                 "analytics",
@@ -3228,7 +3228,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "davaxi/sparkline": 20,
         "facebook/xhprof": 20
     },
     "prefer-stable": false,
