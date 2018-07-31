@@ -3221,6 +3221,9 @@ if (typeof window.Piwik !== 'object') {
 
                 configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
 
+                // whether requireConsent() was called or not
+                configConsentRequired = false,
+
                 // we always have the concept of consent. by default consent is assumed unless the end user removes it,
                 // or unless a matomo user explicitly requires consent (via requireConsent())
                 configHasConsent = null, // initialized below
@@ -3731,6 +3734,7 @@ if (typeof window.Piwik !== 'object') {
              */
             function sendRequest(request, delay, callback) {
                 if (!configHasConsent) {
+                    console.log('pushing', request);
                     consentRequestsQueue.push(request);
                     return;
                 }
@@ -4331,7 +4335,9 @@ if (typeof window.Piwik !== 'object') {
                     (String(cookieVisitorIdValues.lastEcommerceOrderTs).length ? '&_ects=' + cookieVisitorIdValues.lastEcommerceOrderTs : '') +
                     (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
-                    '&send_image=0';
+                    '&send_image=0' +
+                    (configConsentRequired ? '&consent=1' : '') // send a consent=1 when explicit consent is given for the apache logs
+                ;
 
                 // browser features
                 for (i in browserFeatures) {
@@ -7224,6 +7230,7 @@ if (typeof window.Piwik !== 'object') {
              * time the user gives you consent, you do not need to ever call `_paq.push(['setConsentGiven'])`.
              */
             this.requireConsent = function () {
+                configConsentRequired = true;
                 configHasConsent = this.hasRememberedConsent();
                 // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
                 // We also want to make sure to define an unload listener for each tracker, not only one tracker.
