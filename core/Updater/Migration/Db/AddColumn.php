@@ -23,5 +23,4 @@ class AddColumn extends Sql
 
         parent::__construct($sql, static::ERROR_CODE_DUPLICATE_COLUMN);
     }
-
 }

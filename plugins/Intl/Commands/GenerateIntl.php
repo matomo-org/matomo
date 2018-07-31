@@ -65,6 +65,8 @@ class GenerateIntl extends ConsoleCommand
         $aliasesData = json_decode($aliasesData, true);
         $aliasesData = $aliasesData['supplemental']['metadata']['alias']['languageAlias'];
 
+        $this->checkCurrencies($output);
+
         $writePath = Filesystem::getPathToPiwikRoot() . '/plugins/Intl/lang/%s.json';
 
         foreach ($piwikLanguages AS $langCode) {
@@ -97,6 +99,7 @@ class GenerateIntl extends ConsoleCommand
 
             $this->fetchLanguageData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchTerritoryData($output, $transformedLangCode, $requestLangCode, $translations);
+            $this->fetchCurrencyData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchCalendarData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchTimeZoneData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchLayoutDirection($output, $transformedLangCode, $requestLangCode, $translations);
@@ -106,6 +109,39 @@ class GenerateIntl extends ConsoleCommand
             ksort($translations['Intl']);
 
             file_put_contents(sprintf($writePath, $langCode), json_encode($translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        }
+    }
+
+    protected function checkCurrencies(OutputInterface $output)
+    {
+        $currencyDataUrl = 'https://raw.githubusercontent.com/unicode-cldr/cldr-core/master/supplemental/currencyData.json';
+
+        $currencyData = Http::fetchRemoteFile(sprintf($currencyDataUrl, 'en'));
+        $currencyData = json_decode($currencyData, true);
+        $currencyData = $currencyData['supplemental']['currencyData']['region'];
+
+        $cldrCurrencies = array();
+        foreach ($currencyData as $region) {
+            foreach ($region as $regionCurrencies) {
+                foreach ($regionCurrencies as $currencyCode => $validity) {
+                    if (!isset($validity['_to']) && !isset($validity['_tender'])) {
+                       $cldrCurrencies[] = $currencyCode;
+                    }
+                }
+            }
+        }
+
+        $file = Filesystem::getPathToPiwikRoot() . '/core/Intl/Data/Resources/currencies.php';
+        $matomoCurrencies = array_keys(include $file);
+
+        $missing = array_diff($cldrCurrencies, $matomoCurrencies);
+        $additional = array_diff($matomoCurrencies, $cldrCurrencies);
+
+        if ($missing) {
+            $output->writeln('Warning: Currencies missing from ' . $file . ': ' . implode(', ', $missing));
+        }
+        if ($additional) {
+            $output->writeln('Warning: Unknown currencies in ' . $file . ': ' . implode(', ', $additional));
         }
     }
 
@@ -366,6 +402,8 @@ class GenerateIntl extends ConsoleCommand
                     $translations['Intl']['Timezone_' . str_replace(array('_', '/'), array('', '_'), $timezone)] = $city;
                 }
             }
+
+            $output->writeln('Saved time zone data for ' . $langCode);
         } catch (\Exception $e) {
             $output->writeln('Unable to import time zone data for ' . $langCode);
         }
@@ -457,6 +495,35 @@ class GenerateIntl extends ConsoleCommand
             $output->writeln('Saved unit data for ' . $langCode);
         } catch (\Exception $e) {
             $output->writeln('Unable to import unit data for ' . $langCode);
+        }
+    }
+
+    protected function fetchCurrencyData(OutputInterface $output, $langCode, $requestLangCode, &$translations)
+    {
+        $currenciesUrl = 'https://raw.githubusercontent.com/unicode-cldr/cldr-numbers-full/master/main/%s/currencies.json';
+
+        try {
+            $currencyData = Http::fetchRemoteFile(sprintf($currenciesUrl, $requestLangCode));
+            $currencyData = json_decode($currencyData, true);
+            $currencyData = $currencyData['main'][$requestLangCode]['numbers']['currencies'];
+
+            $dataProvider = StaticContainer::get('Piwik\Intl\Data\Provider\CurrencyDataProvider');
+            foreach ($dataProvider->getCurrencyList() as $code => $currency) {
+                if (isset($currencyData[$code]['displayName'])) {
+                    $translations['Intl']['Currency_' . $code] = $this->transform($currencyData[$code]['displayName']);
+                } else {
+                    $translations['Intl']['Currency_' . $code] = $currency[1];
+                }
+                if (isset($currencyData[$code]['symbol'])) {
+                    $translations['Intl']['CurrencySymbol_' . $code] = $currencyData[$code]['symbol'];
+                } else {
+                    $translations['Intl']['CurrencySymbol_' . $code] = $currency[0];
+                }
+            }
+
+            $output->writeln('Saved currency data for ' . $langCode);
+        } catch (\Exception $e) {
+            $output->writeln('Unable to import currency data for ' . $langCode);
         }
     }
 

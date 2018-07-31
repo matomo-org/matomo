@@ -239,6 +239,9 @@ anonymous_user_enable_use_segments_API = 1
 ; The only time that the browser will still trigger archiving is when requesting a custom date range that is not pre-processed yet
 browser_archiving_disabled_enforce = 0
 
+; Add custom currencies to Sites Manager.
+currencies[BTC] = Bitcoin
+
 ; By default, users can create Segments which are to be processed in Real-time.
 ; Setting this to 0 will force all newly created Custom Segments to be "Pre-processed (faster, requires archive.php cron)"
 ; This can be useful if you want to prevent users from adding much load on the server.
@@ -377,15 +380,14 @@ session_save_handler = files
 ; it is recommended for security reasons to always use Matomo over https
 force_ssl = 0
 
-; login cookie name
+; (DEPRECATED) has no effect
 login_cookie_name = piwik_auth
 
 ; By default, the auth cookie is set only for the duration of session.
 ; if "Remember me" is checked, the auth cookie will be valid for 14 days by default
 login_cookie_expire = 1209600
 
-; The path on the server in which the cookie will be available on.
-; Defaults to empty. See spec in https://curl.haxx.se/rfc/cookie_spec.html
+; (DEPRECATED) has no effect
 login_cookie_path =
 
 ; email address that appears as a Sender in the password recovery email

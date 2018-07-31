@@ -7,16 +7,20 @@
 (function () {
     angular.module('piwikApp').controller('ManageScheduledReportController', ManageScheduledReportController);
 
-    ManageScheduledReportController.$inject = ['piwik', '$timeout'];
+    ManageScheduledReportController.$inject = ['piwik'];
 
-    function ManageScheduledReportController(piwik, $timeout) {
+    function ManageScheduledReportController(piwik) {
         // remember to keep controller very simple. Create a service/factory (model) if needed
 
         var self = this;
 
+        function getTimeZoneDifferenceInHours() {
+            return piwik.timezoneOffset / 3600;
+        }
+
         this.reportHours = [];
         for (var i = 0; i < 24; i++) {
-            if ((timeZoneDifference*2) % 2 != 0) {
+            if ((getTimeZoneDifferenceInHours()*2) % 2 != 0) {
                 this.reportHours.push({key: i + '.5', value: i + ':30'});
             } else {
                 this.reportHours.push({key: i + '', value: i + ''});
@@ -47,7 +51,7 @@
         }
 
         function updateReportHourUtc (report) {
-            var reportHour = adjustHourToTimezone(report.hour, -timeZoneDifference);
+            var reportHour = adjustHourToTimezone(report.hour, -getTimeZoneDifferenceInHours());
             report.hourUtc = _pk_translate('ScheduledReports_ReportHourWithUTC', [reportHour]);
         }
 
@@ -70,7 +74,7 @@
                 resetParameters(report.type, report);
             }
 
-            report.hour = adjustHourToTimezone(report.hour, timeZoneDifference);
+            report.hour = adjustHourToTimezone(report.hour, getTimeZoneDifferenceInHours());
             updateReportHourUtc(report);
 
             $('[name=reportsList] input').prop('checked', false);
@@ -133,7 +137,7 @@
             apiParameters.reportFormat = this.report['format' + this.report.type];
 
             var period = self.report.period;
-            var hour = adjustHourToTimezone(this.report.hour, -timeZoneDifference);
+            var hour = adjustHourToTimezone(this.report.hour, -getTimeZoneDifferenceInHours());
 
             var reports = [];
             $('[name=reportsList].' + apiParameters.reportType + ' input:checked').each(function () {

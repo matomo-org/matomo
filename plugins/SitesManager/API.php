@@ -188,7 +188,7 @@ class API extends \Piwik\Plugin\API
         $sites = $this->getModel()->getSitesFromGroup($group);
 
         foreach ($sites as &$site) {
-            $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
+            $this->enrichSite($site);
         }
 
         Site::setSitesFromArray($sites);
@@ -225,7 +225,7 @@ class API extends \Piwik\Plugin\API
         $site = $this->getModel()->getSiteFromId($idSite);
 
         if ($site) {
-            $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
+            $this->enrichSite($site);
         }
 
         Site::setSiteFromArray($idSite, $site);
@@ -268,7 +268,7 @@ class API extends \Piwik\Plugin\API
         $sites  = $this->getModel()->getAllSites();
         $return = array();
         foreach ($sites as $site) {
-            $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
+            $this->enrichSite($site);
             $return[$site['idsite']] = $site;
         }
 
@@ -340,7 +340,7 @@ class API extends \Piwik\Plugin\API
             $sites = $this->getModel()->getPatternMatchSites($sitesId, $pattern, $limit);
 
             foreach ($sites as &$site) {
-                $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
+                $this->enrichSite($site);
             }
 
             Site::setSitesFromArray($sites);
@@ -469,7 +469,7 @@ class API extends \Piwik\Plugin\API
         $sites = $this->getModel()->getSitesFromIds($idSites, $limit);
 
         foreach ($sites as &$site) {
-            $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
+            $this->enrichSite($site);
         }
 
         Site::setSitesFromArray($sites);
@@ -537,6 +537,16 @@ class API extends \Piwik\Plugin\API
         }
 
         return $return;
+    }
+
+    private function enrichSite(&$site)
+    {
+        $site['timezone_name'] = $this->getTimezoneName($site['timezone']);
+
+        $key = 'Intl_Currency_' . $site['currency'];
+        $name = Piwik::translate($key);
+
+        $site['currency_name'] = ($key === $name) ? $site['currency'] : $name;
     }
 
     /**
@@ -1346,10 +1356,17 @@ class API extends \Piwik\Plugin\API
      */
     public function getCurrencyList()
     {
-        $currencies = Site::getCurrencyList();
-        return array_map(function ($a) {
-            return $a[1] . " (" . $a[0] . ")";
-        }, $currencies);
+        $currency = Site::getCurrencyList();
+
+        $return = array();
+        foreach (array_keys(Site::getCurrencyList()) as $currencyCode) {
+            $return[$currencyCode] = Piwik::translate('Intl_Currency_' . $currencyCode) .
+              ' (' . Piwik::translate('Intl_CurrencySymbol_' . $currencyCode) . ')';
+        }
+
+        asort($return);
+
+        return $return;
     }
 
     /**

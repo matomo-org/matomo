@@ -9,18 +9,17 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Common;
-use Piwik\Db;
-use Piwik\DbHelper;
 use Piwik\Updater;
+use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
-use Piwik\Updates;
+use Piwik\Common;
+use Piwik\DbHelper;
 
 /**
  * Update for version 3.6.0-b1.
  */
-class Updates_3_6_0_b1 extends Updates
+class Updates_3_6_0_b1 extends PiwikUpdates
 {
     /**
      * @var MigrationFactory
@@ -36,7 +35,7 @@ class Updates_3_6_0_b1 extends Updates
         $this->migration = $factory;
     }
 
-    /**
+     /**
      * Here you can define one or multiple SQL statements that should be executed during the update.
      * @param Updater $updater
      * @return Migration[]
@@ -68,6 +67,10 @@ class Updates_3_6_0_b1 extends Updates
             $migrations[] = $this->migration->db->addColumn('access', 'idaccess', 'INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT');
             $migrations[] = $this->migration->db->addIndex('access', array('login', 'idsite'), 'index_loginidsite');
         }
+
+        // changes for session auth
+        $migrations[] = $this->migration->db->addColumn('user', 'ts_password_modified',
+            'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
 
         return $migrations;
     }

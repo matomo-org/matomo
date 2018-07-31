@@ -4,10 +4,15 @@
         "ArchivingSettings": "Archyvavimo nustatymai",
         "EmailServerSettings": "El. pašto serverio nustatymai",
         "ForBetaTestersOnly": "Tik beta testuotojams",
+        "JavaScriptTracking": "JavaScript sekimas",
+        "HttpTrackingApi": "HTTP sekimo API",
+        "JSTracking_DisableCookies": "Išjungti visus sekimo slapukus",
         "MenuGeneralSettings": "Pagrindiniai nustatymai",
         "PluginSettings": "Papildinio nustatymai",
         "PluginSettingsSaveFailed": "Nepavyko įrašyti papildinio nustatymų",
         "PluginSettingsSaveSuccess": "Papildinio nustatymai atnaujinti.",
-        "SystemPluginSettings": "Sistemos papildinio nustatymai"
+        "SettingsSaveSuccess": "Nustatymai atnaujinti.",
+        "SystemPluginSettings": "Sistemos papildinio nustatymai",
+        "UpdateSettings": "Atnaujinti nustatymus"
     }
 }
