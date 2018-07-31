@@ -18,6 +18,7 @@ use Piwik\Container\StaticContainer;
  */
 class CliMulti
 {
+    const BASE_WAIT_TIME = 250000; // 250 * 1000 = 250ms
 
     /**
      * If set to true or false it will overwrite whether async is supported or not.
@@ -390,11 +391,15 @@ class CliMulti
     {
         $this->start($piwikUrls);
 
+        $startTime = time();
         do {
-            usleep(100000); // 100 * 1000 = 100ms
+            $elapsed = time() - $startTime;
+            $timeToWait = $this->getTimeToWaitBeforeNextCheck($elapsed);
+
+            usleep($timeToWait);
         } while (!$this->hasFinished());
 
-        $results = $this->getResponse($piwikUrls);
+        $results = $this->getResponse();
         $this->cleanup();
 
         self::cleanupNotRemovedFiles();
@@ -419,5 +424,12 @@ class CliMulti
     public function setUrlToPiwik($urlToPiwik)
     {
         $this->urlToPiwik = $urlToPiwik;
+    }
+
+    // every minute that passes adds an extra 100ms to the wait time. so 5 minutes results in 500ms extra, 20mins results in 2s extra.
+    private function getTimeToWaitBeforeNextCheck($elapsed)
+    {
+        $minutes = floor($elapsed / 60);
+        return self::BASE_WAIT_TIME + $minutes * 100000; // 100 * 1000 = 100ms
     }
 }
