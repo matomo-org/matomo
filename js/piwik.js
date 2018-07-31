@@ -3734,11 +3734,14 @@ if (typeof window.Piwik !== 'object') {
              */
             function sendRequest(request, delay, callback) {
                 if (!configHasConsent) {
-                    console.log('pushing', request);
                     consentRequestsQueue.push(request);
                     return;
                 }
                 if (!configDoNotTrack && request) {
+                    if (configConsentRequired) { // send a consent=1 when explicit consent is given for the apache logs
+                        request += '&consent=1';
+                    }
+
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                         if (configRequestMethod === 'POST' || String(request).length > 2000) {
                             sendXmlHttpRequest(request, callback);
@@ -4335,9 +4338,7 @@ if (typeof window.Piwik !== 'object') {
                     (String(cookieVisitorIdValues.lastEcommerceOrderTs).length ? '&_ects=' + cookieVisitorIdValues.lastEcommerceOrderTs : '') +
                     (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
                     (charSet ? '&cs=' + encodeWrapper(charSet) : '') +
-                    '&send_image=0' +
-                    (configConsentRequired ? '&consent=1' : '') // send a consent=1 when explicit consent is given for the apache logs
-                ;
+                    '&send_image=0';
 
                 // browser features
                 for (i in browserFeatures) {
