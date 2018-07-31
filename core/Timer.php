@@ -75,6 +75,14 @@ class Timer
     /**
      * @return string
      */
+    public function getPeakMemoryValue()
+    {
+        return $this->formatter->getPrettySizeFromBytes($this->getPeakMemoryUsage());
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return "Time elapsed: " . $this->getTime() . "s";
@@ -98,6 +106,14 @@ class Timer
     {
         if (function_exists('memory_get_usage')) {
             return memory_get_usage();
+        }
+        return 0;
+    }
+
+    public function getPeakMemoryUsage()
+    {
+        if (function_exists('memory_get_peak_usage')) {
+            return memory_get_peak_usage();
         }
         return 0;
     }

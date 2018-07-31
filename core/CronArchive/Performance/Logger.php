@@ -52,7 +52,8 @@ class Logger
 
         $measurement = new Measurement($category, $name, $activeArchivingParams->getSite()->getId(),
             $activeArchivingParams->getPeriod()->getRangeString(), $activeArchivingParams->getPeriod()->getLabel(),
-            $activeArchivingParams->getSegment()->getString(), $timer->getTime(), $timer->getMemoryLeakValue());
+            $activeArchivingParams->getSegment()->getString(), $timer->getTime(), $timer->getMemoryLeakValue(),
+            $timer->getPeakMemoryValue());
 
         $params = array_merge($_GET);
         unset($params['pid']);

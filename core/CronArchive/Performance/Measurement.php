@@ -46,11 +46,16 @@ class Measurement
     private $time;
 
     /**
-     * @var int
+     * @var string
      */
     private $memory;
 
-    public function __construct($category, $name, $idSite, $dateRange, $periodType, $segment, $time, $memory)
+    /**
+     * @var string
+     */
+    private $peakMemory;
+
+    public function __construct($category, $name, $idSite, $dateRange, $periodType, $segment, $time, $memory, $peakMemory)
     {
         $this->category = $category;
         $this->measuredName = $name;
@@ -60,6 +65,7 @@ class Measurement
         $this->segment = trim($segment);
         $this->time = $time;
         $this->memory = $memory;
+        $this->peakMemory = $peakMemory;
     }
 
     public function __toString()
@@ -71,6 +77,7 @@ class Measurement
             "segment: " . (!empty($this->segment) ? $this->segment : 'none'),
             "duration: {$this->time}s",
             "memory leak: {$this->memory}",
+            "peak memory usage: {$this->peakMemory}",
         ];
 
         return implode(', ', $parts);
