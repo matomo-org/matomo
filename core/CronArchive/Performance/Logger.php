@@ -16,18 +16,12 @@ use Piwik\Timer;
 use Piwik\Url;
 use Psr\Log\LoggerInterface;
 
-// TODO: need scheduled task to clean up old ones? maybe cronarchive should delete them
 class Logger
 {
     /**
      * @var int
      */
     private $isEnabled;
-
-    /**
-     * @var array[]
-     */
-    private $measurements = [];
 
     /**
      * @var LoggerInterface
@@ -39,7 +33,7 @@ class Logger
      */
     private $archivingRunId;
 
-    public function __construct(Config $config, LoggerInterface $logger)
+    public function __construct(Config $config, LoggerInterface $logger = null)
     {
         $this->isEnabled = $config->Debug['archiving_profile'] == 1;
         $this->logger = $logger;
@@ -52,7 +46,7 @@ class Logger
 
     public function logMeasurement($category, $name, ArchiveProcessor\Parameters $activeArchivingParams, Timer $timer)
     {
-        if (!$this->isEnabled) {
+        if (!$this->isEnabled || !$this->logger) {
             return;
         }
 
@@ -60,49 +54,65 @@ class Logger
             $activeArchivingParams->getPeriod()->getRangeString(), $activeArchivingParams->getPeriod()->getLabel(),
             $activeArchivingParams->getSegment()->getString(), $timer->getTime(), $timer->getMemoryLeakValue());
 
-        $this->measurements[] = $measurement;
+        $params = array_merge($_GET);
+        unset($params['pid']);
+        unset($params['runid']);
 
-        $this->logger->info($measurement);
-    }
-
-    public function flush()
-    {
-        if (!$this->isEnabled) {
-            return;
-        }
-
-        $optionName = $this->getOptionName();
-
-        $existing = Option::get($optionName);
-        $originalMeasurements = isset($existing['measurements']) ? $existing['measurements'] : [];
-
-        $serialized = json_encode([
-            'request' => Url::getQueryStringFromParameters($_GET),
-            'measurements' => array_merge($originalMeasurements, $this->measurements),
+        $this->logger->info("[runid={runid},pid={pid}] {request}: {measurement}", [
+            'pid' => Common::getRequestVar('pid', false),
+            'runid' => $this->getArchivingRunId(),
+            'request' => Url::getQueryStringFromParameters($params),
+            'measurement' => $measurement,
         ]);
-
-        Option::set($optionName, $serialized);
     }
 
-    public static function getMeasurementsFor($archivingRunId, $pid)
+    public static function getMeasurementsFor($runId, $childPid)
     {
-        $data = Option::get($archivingRunId . '_' . $pid);
-        if (empty($data)) {
-            return null;
+        $profilingLogFile = preg_replace('/[\'"]/', '', Config::getInstance()->Debug['archive_profiling_log']);
+        if (!is_readable($profilingLogFile)) {
+            return [];
         }
 
-        $data = json_decode($data, $isAssoc = true);
-        $data['measurements'] = array_map(function ($m) { return Measurement::fromArray($m); }, $data['measurements']);
-        return $data;
-    }
+        $runId = self::cleanId($runId);
+        $childPid = self::cleanId($childPid);
 
-    private function getOptionName()
-    {
-        return $this->archivingRunId . '_' . Common::getRequestVar('pid', false);
+        $lineIdentifier = "[runid=$runId,pid=$childPid]";
+        $lines = `grep "$childPid" "$profilingLogFile"`;
+        $lines = explode("\n", $lines);
+        $lines = array_map(function ($line) use ($lineIdentifier) {
+            $index = strpos($line, $lineIdentifier);
+            if ($index === false) {
+                return null;
+            }
+            $line = substr($line, $index + strlen($lineIdentifier));
+            return trim($line);
+        }, $lines);
+        $lines = array_filter($lines);
+        $lines = array_map(function ($line) {
+            $parts = explode(":", $line, 2);
+            $parts = array_map('trim', $parts);
+            return $parts;
+        }, $lines);
+
+        $data = [];
+        foreach ($lines as $line) {
+            if (count($line) != 2) {
+                continue;
+            }
+
+            list($request, $measurement) = $line;
+            $data[$request][] = $measurement;
+        }
+        return $data;
     }
 
     private function getArchivingRunId()
     {
         return Common::getRequestVar('runid', false);
+    }
+
+    private static function cleanId($id)
+    {
+        return preg_replace('/[^a-zA-Z0-9_-]/', '', $id);
     }
 }

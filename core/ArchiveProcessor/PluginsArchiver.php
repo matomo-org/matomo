@@ -192,8 +192,6 @@ class PluginsArchiver
 
             Manager::getInstance()->deleteAll($latestUsedTableId);
             unset($archiver);
-
-            $performanceLogger->flush();
         }
     }
 

@@ -8,7 +8,7 @@
 
 namespace Piwik\CronArchive\Performance;
 
-class Measurement implements \JsonSerializable
+class Measurement
 {
     /**
      * @var string
@@ -74,20 +74,6 @@ class Measurement implements \JsonSerializable
         ];
 
         return implode(', ', $parts);
-    }
-
-    public function jsonSerialize()
-    {
-        return [
-            'category' => $this->category,
-            'name' => $this->measuredName,
-            'idSite' => $this->idSite,
-            'date_range' => $this->dateRange,
-            'period' => $this->periodType,
-            'segment' => $this->segment,
-            'time' => $this->time,
-            'memory' => $this->memory,
-        ];
     }
 
     /**
@@ -168,11 +154,5 @@ class Measurement implements \JsonSerializable
     public function setPeriodType($periodType)
     {
         $this->periodType = $periodType;
-    }
-
-    public static function fromArray(array $data)
-    {
-        return new Measurement($data['category'], $data['name'], $data['idSite'], $data['date_range'], $data['period'],
-            $data['segment'], $data['time'], $data['memory']);
     }
 }

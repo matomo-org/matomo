@@ -3,6 +3,7 @@
 use Interop\Container\ContainerInterface;
 use Monolog\Logger;
 use Piwik\Log;
+use Piwik\Plugins\Monolog\Handler\FileHandler;
 
 return array(
 
@@ -105,4 +106,17 @@ return array(
         return '%level% %tag%[%datetime%] %message%';
     }),
 
+    'archiving.performance.handlers' => function (ContainerInterface $c) {
+        $logFile = trim($c->get('ini.Debug.archive_profiling_log'));
+        if (empty($logFile)) {
+            return [new \Monolog\Handler\NullHandler()];
+        }
+
+        $fileHandler = new FileHandler($logFile, \Psr\Log\LogLevel::INFO);
+        $fileHandler->setFormatter($c->get('log.lineMessageFormatter.file'));
+        return [$fileHandler];
+    },
+
+    'archiving.performance.logger' => DI\object(Logger::class)
+        ->constructor('matomo.archiving.performance', DI\get('archiving.performance.handlers'), DI\get('log.processors')),
 );
