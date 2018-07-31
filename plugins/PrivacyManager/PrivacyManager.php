@@ -613,9 +613,16 @@ class PrivacyManager extends Plugin
             return;
         }
 
+        $privacyPolicyUrl     = $settings->privacyPolicyUrl->getValue();
+        $termsAndConditionUrl = $settings->termsAndConditionUrl->getValue();
+
+        if (empty($privacyPolicyUrl) && empty($termsAndConditionUrl)) {
+            return;
+        }
+
         $view = new View('@PrivacyManager/footerLinks.twig');
-        $view->privacyPolicyUrl = $settings->privacyPolicyUrl->getValue();
-        $view->termsAndCondition = $settings->termsAndConditionUrl->getValue();
+        $view->privacyPolicyUrl  = $privacyPolicyUrl;
+        $view->termsAndCondition = $termsAndConditionUrl;
         $out .= $view->render();
     }
 
