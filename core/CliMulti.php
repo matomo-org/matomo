@@ -59,6 +59,11 @@ class CliMulti
 
     private $phpCliOptions = '';
 
+    /**
+     * @var callable
+     */
+    private $onProcessFinish = null;
+
     public function __construct()
     {
         $this->supportsAsync = $this->supportsAsync();
@@ -212,6 +217,11 @@ class CliMulti
             if ($process->hasFinished()) {
                 // prevent from checking this process over and over again
                 unset($this->processes[$index]);
+
+                if ($this->onProcessFinish) {
+                    $onProcessFinish = $this->onProcessFinish;
+                    $onProcessFinish($pid);
+                }
             }
         }
 
@@ -318,7 +328,7 @@ class CliMulti
         $this->processes[] = new Process($cmdId);
 
         $url = $this->appendTestmodeParamToUrlIfNeeded($url);
-        $query = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId));
+        $query = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId, 'runid' => getmypid()));
         $hostname = Url::getHost($checkIfTrusted = false);
         $command = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
@@ -424,6 +434,11 @@ class CliMulti
     public function setUrlToPiwik($urlToPiwik)
     {
         $this->urlToPiwik = $urlToPiwik;
+    }
+
+    public function onProcessFinish(callable $callback)
+    {
+        $this->onProcessFinish = $callback;
     }
 
     // every minute that passes adds an extra 100ms to the wait time. so 5 minutes results in 500ms extra, 20mins results in 2s extra.
