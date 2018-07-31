@@ -101,6 +101,7 @@
         "ExpandSubtables": "Expand subtables",
         "StandardReport": "Standard report",
         "FlattenReport": "Flatten report",
-        "ReportWithMetadata": "Report with metadata"
+        "ReportWithMetadata": "Report with metadata",
+        "SeeAvailableVersions": "See Available Versions"
     }
 }
