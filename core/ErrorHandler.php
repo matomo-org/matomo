@@ -15,6 +15,37 @@ use Piwik\Exception\ErrorException;
  */
 class ErrorHandler
 {
+    private static $fatalErrorStackTrace = [];
+
+    /**
+     * TODO: docs
+     */
+    public static function pushFatalErrorBreadcrumb($className = null)
+    {
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $limit = 1);
+        $backtrace[0]['class'] = $className; // knowing the derived class name is far more useful
+        array_unshift(self::$fatalErrorStackTrace, $backtrace[0]);
+    }
+
+    public static function popFatalErrorBreadcrumb()
+    {
+        array_shift(self::$fatalErrorStackTrace);
+    }
+
+    public static function getFatalErrorPartialBacktrace()
+    {
+        $result = '';
+        foreach (self::$fatalErrorStackTrace as $index => $entry) {
+            $function = $entry['function'];
+            if (!empty($entry['class'])) {
+                $function = $entry['class'] . $entry['type'] . $function;
+            }
+
+            $result .= sprintf("#%s %s(%s): %s()\n", $index, $entry['file'], $entry['line'], $function);
+        }
+        return $result;
+    }
+
     /**
      * Returns a string description of a PHP error number.
      *

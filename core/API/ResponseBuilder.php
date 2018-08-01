@@ -28,16 +28,18 @@ class ResponseBuilder
 
     private $apiModule = false;
     private $apiMethod = false;
+    private $shouldPrintBacktrace = false;
 
     /**
      * @param string $outputFormat
      * @param array $request
      */
-    public function __construct($outputFormat, $request = array())
+    public function __construct($outputFormat, $request = array(), $shouldPrintBacktrace = null)
     {
         $this->outputFormat = $outputFormat;
         $this->request      = $request;
         $this->apiRenderer  = ApiRenderer::factory($outputFormat, $request);
+        $this->shouldPrintBacktrace = $shouldPrintBacktrace === null ? \Piwik_ShouldPrintBackTraceWithMessage() : $shouldPrintBacktrace;
     }
 
     public function disableSendHeader()
@@ -164,7 +166,7 @@ class ResponseBuilder
     private function formatExceptionMessage($exception)
     {
         $message = $exception->getMessage();
-        if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+        if ($this->shouldPrintBackTrace) {
             $message .= "\n" . $exception->getTraceAsString();
         }
 

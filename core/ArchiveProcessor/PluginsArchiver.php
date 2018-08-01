@@ -16,6 +16,7 @@ use Piwik\CronArchive\Performance\Logger;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable\Manager;
+use Piwik\ErrorHandler;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Archiver;
@@ -157,11 +158,11 @@ class PluginsArchiver
                     if ($this->shouldAggregateFromRawData) {
                         Log::debug("PluginsArchiver::%s: Archiving day reports for plugin '%s'.", __FUNCTION__, $pluginName);
 
-                        $archiver->aggregateDayReport();
+                        $archiver->callAggregateDayReport();
                     } else {
                         Log::debug("PluginsArchiver::%s: Archiving period reports for plugin '%s'.", __FUNCTION__, $pluginName);
 
-                        $archiver->aggregateMultipleReports();
+                        $archiver->callAggregateMultipleReports();
                     }
 
                     $this->logAggregator->setQueryOriginHint('');
