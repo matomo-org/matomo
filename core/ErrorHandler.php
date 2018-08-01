@@ -18,7 +18,26 @@ class ErrorHandler
     private static $fatalErrorStackTrace = [];
 
     /**
-     * TODO: docs
+     * Fatal errors in PHP do not leave behind backtraces, which can make it impossible to determine
+     * the exact cause of one. We can, however, save a partial stack trace by remembering certain execution
+     * points. This method and popFatalErrorBreadcrumb() are used for that purpose.
+     *
+     * To use this method, surround a function call w/ pushFatalErrorBreadcrumb() & popFatalErrorBreadcrumb()
+     * like so:
+     *
+     *     public function theMethodIWantToAppearInFatalErrorStackTraces()
+     *     {
+     *         try {
+     *             ErrorHandler::pushFatalErrorBreadcrumb(static::class);
+     *
+     *             // ...
+     *         } finally {
+     *             ErrorHandler::popFatalErrorBreadcrumb();
+     *         }
+     *     }
+     *
+     * If a fatal error occurs, theMethodIWantToAppearInFatalErrorStackTraces will appear in the stack trace,
+     * if PIWIK_PRINT_ERROR_BACKTRACE is true.
      */
     public static function pushFatalErrorBreadcrumb($className = null)
     {

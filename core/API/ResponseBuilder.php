@@ -147,7 +147,7 @@ class ResponseBuilder
     {
         // If we are in tests, show full backtrace
         if (defined('PIWIK_PATH_TEST_TO_ROOT')) {
-            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+            if ($this->shouldPrintBacktrace) {
                 $message = $e->getMessage() . " in \n " . $e->getFile() . ":" . $e->getLine() . " \n " . $e->getTraceAsString();
             } else {
                 $message = $e->getMessage() . "\n \n --> To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php";
@@ -166,7 +166,7 @@ class ResponseBuilder
     private function formatExceptionMessage($exception)
     {
         $message = $exception->getMessage();
-        if ($this->shouldPrintBackTrace) {
+        if ($this->shouldPrintBacktrace) {
             $message .= "\n" . $exception->getTraceAsString();
         }
 
