@@ -92,7 +92,12 @@ p {
 }
 
 #pageFooter {
+  min-height: 20px;
   margin-bottom: 60px;
+
+  .widgetized & {
+    min-height: 0;
+  }
 }
 
 .dashboardSettings {
