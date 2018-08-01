@@ -96,9 +96,15 @@ class SubscriptionModel
         return $emailFound;
     }
 
-    public function getReportSubscriptions($idReport)
+    public function getReportSubscriptions($idReport, $includeUnsubscribed = false)
     {
-        return $this->getDb()->fetchAll('SELECT * FROM ' . $this->table . ' WHERE idreport = ?', [$idReport]);
+        $query = 'SELECT * FROM ' . $this->table . ' WHERE idreport = ?';
+
+        if (!$includeUnsubscribed) {
+            $query .= ' AND ts_unsubscribed IS NULL';
+        }
+
+        return $this->getDb()->fetchAll($query, [$idReport]);
     }
 
     public function getSubscription($token)
@@ -113,7 +119,7 @@ class SubscriptionModel
 
         // remove available subscriptions that aren't present anymore
         foreach ($availableSubscriptions as $availableSubscription) {
-            if (!in_array($availableSubscription['email'], $emails)) {
+            if (!in_array($availableSubscription['email'], $emails) && !empty($availableSubscription['token'])) {
                 $this->removeSubscription($availableSubscription['token']);
             }
         }
@@ -134,6 +140,8 @@ class SubscriptionModel
                     'token' => $token,
                     'email' => $email
                 ];
+                // remove possible "unsubscribe" entry
+                $this->getDb()->query('DELETE FROM ' . $this->table . ' WHERE idreport = ? AND email = ?', [$idReport, $email]);
                 $this->getDb()->insert($this->table, $subscription);
             }
         }
@@ -142,7 +150,7 @@ class SubscriptionModel
 
     private function removeSubscription($token)
     {
-        $this->getDb()->query('DELETE FROM ' . $this->table . ' WHERE token = ?', [$token]);
+        $this->getDb()->query('UPDATE ' . $this->table . ' SET token = "", ts_unsubscribed = NOW() WHERE token = ?', [$token]);
     }
 
     private function generateToken($email)
@@ -163,9 +171,12 @@ class SubscriptionModel
     public static function install()
     {
         $reportTable = "`idreport` INT(11) NOT NULL,
-					    `token` VARCHAR(100) NOT NULL,
+					    `token` VARCHAR(100) NULL,
 					    `email` VARCHAR(100) NOT NULL,
-					    PRIMARY KEY (`token`)";
+					    `ts_subscribed` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+					    `ts_unsubscribed` TIMESTAMP NULL,
+					    PRIMARY KEY (`idreport`, `email`),
+					    UNIQUE INDEX `unique_token` (`token`)";
 
         DbHelper::createTable(self::$rawPrefix, $reportTable);
     }

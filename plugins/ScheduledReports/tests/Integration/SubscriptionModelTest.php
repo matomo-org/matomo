@@ -72,6 +72,14 @@ class SubscriptionModelTest extends IntegrationTestCase
 
         $this->assertEquals($expectedEmailMe, $report['parameters'][ScheduledReports::EMAIL_ME_PARAMETER]);
         $this->assertEquals($expectedAdditionalEmails, $report['parameters'][ScheduledReports::ADDITIONAL_EMAILS_PARAMETER]);
+
+        $subscriptions = $model->getReportSubscriptions($reportId, true);
+        foreach ($subscriptions as $subscription) {
+            if ($subscription['email'] == $emailToUnsubscribe) {
+                $this->assertEmpty($subscription['token']);
+                $this->assertNotEmpty($subscription['ts_unsubscribed']);
+            }
+        }
     }
 
     public function getUnsubscribeTests()

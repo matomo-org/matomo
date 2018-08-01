@@ -33,11 +33,14 @@ class Updates_3_6_0_b3 extends Updates
     {
         $columns = array(
             'idreport' => 'INT(11) NOT NULL',
-            'token' => ' VARCHAR(100) NOT NULL',
-            'email' => 'VARCHAR(100) NOT NULL'
+            'token' => ' VARCHAR(100) NULL',
+            'email' => 'VARCHAR(100) NOT NULL',
+            'ts_subscribed' => 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP',
+            'ts_unsubscribed' => 'TIMESTAMP NULL',
         );
         return array(
-            $this->migration->db->createTable('report_subscriptions', $columns, $primary = 'token'),
+            $this->migration->db->createTable('report_subscriptions', $columns, ['idreport', 'email']),
+            $this->migration->db->addUniqueKey('report_subscriptions', 'token', 'unique_token')
         );
     }
 
