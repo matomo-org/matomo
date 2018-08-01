@@ -83,6 +83,7 @@
             var extraParams = {};
             if (vm.idGoal) {
                 extraParams.idGoal = vm.idGoal;
+                // the conversion rate added by the AddColumnsProcessedMetrics filter conflicts w/ the goals one, so don't run it
                 extraParams.filter_add_columns_when_show_all_columns = 0;
 
                 apiModule = 'Goals';

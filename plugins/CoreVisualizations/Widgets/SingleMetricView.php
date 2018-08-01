@@ -11,11 +11,6 @@ namespace Piwik\Plugins\CoreVisualizations\Widgets;
 
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Period\Range;
-use Piwik\Period;
-use Piwik\Plugin\ReportsProvider;
-use Piwik\Plugins\API\API;
-use Piwik\Site;
 use Piwik\View;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Plugin\Manager as PluginManager;
