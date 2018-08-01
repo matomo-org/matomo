@@ -12,7 +12,7 @@
               ng-if="$ctrl.pastValue !== null"
               title="{{ 'General_EvolutionSummaryGeneric'|translate:$ctrl.metricValue:$ctrl.getCurrentPeriod():$ctrl.pastValue:$ctrl.pastPeriod:$ctrl.metricChangePercent }}"
         >
-            <span ng-class="{'positive-evolution': $ctrl.metricValueUnformatted > $ctrl.pastValue, 'negative-evolution': $ctrl.metricValueUnformatted < $ctrl.pastValue}">
+            <span ng-class="{'positive-evolution': $ctrl.metricValueUnformatted > $ctrl.pastValueUnformatted, 'negative-evolution': $ctrl.metricValueUnformatted < $ctrl.pastValueUnformatted}">
                 {{ $ctrl.metricChangePercent }}
             </span>
         </span>

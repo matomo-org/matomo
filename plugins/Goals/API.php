@@ -427,7 +427,7 @@ class API extends \Piwik\Plugin\API
                 'date'    => $date,
                 'idGoal'  => $idGoal,
                 'columns' => $columns,
-                'format_metrics' => 'bc'
+                'format_metrics' => Common::getRequestVar('format_metrics', 'bc'),
             ));
 
             $tableSegmented->filter('Piwik\Plugins\Goals\DataTable\Filter\AppendNameToColumnNames',

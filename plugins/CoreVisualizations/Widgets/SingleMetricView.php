@@ -9,13 +9,17 @@
 
 namespace Piwik\Plugins\CoreVisualizations\Widgets;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Period\Range;
 use Piwik\Period;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Plugins\API\API;
 use Piwik\Site;
 use Piwik\View;
 use Piwik\Widget\WidgetConfig;
+use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugins\Goals\API as GoalsAPI;
 
 class SingleMetricView extends \Piwik\Widget\Widget
 {
@@ -35,10 +39,48 @@ class SingleMetricView extends \Piwik\Widget\Widget
     {
         $column = Common::getRequestVar('column', 'nb_visits', 'string');
 
+        $goalMetrics = [];
+        $goals = [];
+
+        $idSite = Common::getRequestVar('idSite');
+        $idGoal = Common::getRequestVar('idGoal', false);
+
+        $reportMetadata = Request::processRequest('API.getMetadata', [
+            'idSites' => $idSite,
+            'apiModule' => 'API',
+            'apiAction' => 'get',
+        ]);
+        $reportMetadata = reset($reportMetadata);
+
+        $metricTranslations = array_merge($reportMetadata['metrics'], $reportMetadata['processedMetrics']);
+        $metricDocumentations = $reportMetadata['metricsDocumentation'];
+
+        if (PluginManager::getInstance()->isPluginActivated('Goals')) {
+            $reportMetadata = Request::processRequest('API.getMetadata', [
+                'idSites' => $idSite,
+                'apiModule' => 'Goals',
+                'apiAction' => 'get',
+            ]);
+            $reportMetadata = reset($reportMetadata);
+
+            $goalMetrics = array_merge(
+                array_keys($reportMetadata['metrics']),
+                array_keys($reportMetadata['processedMetrics'])
+            );
+            $metricDocumentations = array_merge($metricDocumentations, $reportMetadata['metricsDocumentation']);
+
+            $goals = GoalsAPI::getInstance()->getGoals($idSite);
+        }
+
         $view = new View("@CoreHome/_angularComponent.twig");
         $view->componentName = 'piwik-single-metric-view';
         $view->componentParameters = [
             'metric' => json_encode($column),
+            'id-goal' => $idGoal === false ? 'undefined' : $idGoal,
+            'goal-metrics' => json_encode($goalMetrics),
+            'goals' => json_encode($goals),
+            'metric-translations' => json_encode($metricTranslations),
+            'metric-documentations' => json_encode($metricDocumentations),
         ];
 
         return $view->render();
