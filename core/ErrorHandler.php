@@ -22,8 +22,9 @@ class ErrorHandler
      */
     public static function pushFatalErrorBreadcrumb($className = null)
     {
-        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $limit = 1);
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $limit = 2);
         $backtrace[0]['class'] = $className; // knowing the derived class name is far more useful
+        $backtrace[0]['function'] = $backtrace[1]['function']; // $backtrace[0]['function'] is originally pushFatalErrorBreadcrumb()
         array_unshift(self::$fatalErrorStackTrace, $backtrace[0]);
     }
 
