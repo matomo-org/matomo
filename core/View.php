@@ -44,6 +44,8 @@ if (!defined('PIWIK_USER_PATH')) {
  * - **show_autocompleter**: Whether the site selector should be shown or not.
  * - **loginModule**: The name of the currently used authentication module.
  * - **userAlias**: The alias of the current user.
+ * - **isInternetEnabled**: Whether the matomo server is allowed to connect to
+ *                          external networks.
  *
  * ### Template Naming Convention
  *
@@ -245,6 +247,7 @@ class View implements ViewInterface
             $this->disableLink = Common::getRequestVar('disableLink', 0, 'int');
             $this->isWidget = Common::getRequestVar('widget', 0, 'int');
             $this->isMultiServerEnvironment = SettingsPiwik::isMultiServerEnvironment();
+            $this->isInternetEnabled = SettingsPiwik::isInternetEnabled();
 
             $piwikAds = StaticContainer::get('Piwik\ProfessionalServices\Advertising');
             $this->areAdsForProfessionalServicesEnabled = $piwikAds->areAdsForProfessionalServicesEnabled();
