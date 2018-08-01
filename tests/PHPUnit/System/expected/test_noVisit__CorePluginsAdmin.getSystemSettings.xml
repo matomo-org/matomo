@@ -315,6 +315,60 @@
 		</settings>
 	</row>
 	<row>
+		<pluginName>PrivacyManager</pluginName>
+		<title>PrivacyManager</title>
+		<settings>
+			<row>
+				<name>privacyPolicyUrl</name>
+				<title>Privacy Policy URL</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>A link to your Privacy Policy page. If you set this, it will be displayed at the bottom of the login page and on pages that the 'anonymous' user can access.</description>
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>termsAndConditionUrl</name>
+				<title>Terms &amp; Conditions URL</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>A link to your Terms &amp; Conditions page. If you set this, it will be displayed at the bottom of the login page and on pages that the 'anonymous' user can access.</description>
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>showInEmbeddedWidgets</name>
+				<title>Show in embedded widgets</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>If checked, a link to your Privacy Policy and your Terms &amp; Conditions will be displayed at the bottom of embedded widgets.</description>
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+		</settings>
+	</row>
+	<row>
 		<pluginName>ExampleSettingsPlugin</pluginName>
 		<title>ExampleSettingsPlugin</title>
 		<settings>
