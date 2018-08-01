@@ -2132,7 +2132,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(100);
+        expect(102);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
