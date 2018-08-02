@@ -99,6 +99,7 @@ class HtmlReportEmailHeaderView extends View
          * - **themeColorHeadlineAlternative**
          * - **themeColorHeaderBackground**
          * - **themeColorHeaderText**
+         * - **brandNameLong**
          *
          * These variables have the same meaning as their LESS variable counterparts (the LESS variables in a theme w/ the "@theme-...-..." format).
          *

@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Morpheus;
 
 
+use Piwik\Piwik;
 use Piwik\ReportRenderer;
 
 class Emails
@@ -36,6 +37,7 @@ class Emails
             'reportTableRowTextSize' => self::REPORT_TABLE_ROW_TEXT_SIZE,
             'reportBackToTopTextSize' => self::REPORT_BACK_TO_TOP_TEXT_SIZE,
 
+            'brandNameLong' => 'Matomo, ' . Piwik::translate('General_OpenSourceWebAnalytics'),
             'themeFontFamilyBase' => '-apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Oxygen-Sans, Cantarell, \'Helvetica Neue\', sans-serif',
             'themeColorBrand' => '#d4291f',
             'themeColorBrandContrast' => '#fff',
