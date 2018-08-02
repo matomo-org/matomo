@@ -348,11 +348,7 @@ class ScheduledReports extends \Piwik\Plugin
         $subscriptionModel->updateReportSubscriptions($report['idreport'], $emails);
         $subscriptions = $subscriptionModel->getReportSubscriptions($report['idreport']);
 
-        $tokens = [];
-
-        foreach ($subscriptions as $subscription) {
-            $tokens[$subscription['email']] = $subscription['token'];
-        }
+        $tokens = array_column($subscriptions, 'token', 'email');
 
         $textContent = $mail->getBodyText();
         $htmlContent = $mail->getBodyHtml();
