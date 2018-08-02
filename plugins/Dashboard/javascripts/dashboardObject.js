@@ -160,7 +160,6 @@
          */
         addWidget: function (uniqueId, columnNumber, widgetParameters, addWidgetOnTop, isHidden) {
             addWidgetTemplate(uniqueId, columnNumber, widgetParameters, addWidgetOnTop, isHidden);
-            reloadWidget(uniqueId);
             saveLayout();
         },
 
@@ -445,10 +444,14 @@
     /**
      * Reloads the widget with the given uniqueId
      *
-     * @param {String} uniqueId
+     * @param {String|jQuery} $widget
      */
-    function reloadWidget(uniqueId) {
-        $('[widgetId="' + uniqueId + '"]', dashboardElement).dashboardWidget('reload', false, true);
+    function reloadWidget($widget) {
+        if (typeof widget === 'string') {
+            $widget = $('[widgetId="' + uniqueId + '"]', dashboardElement);
+        }
+
+        $widget.dashboardWidget('reload', false, true);
     }
 
     /**
@@ -469,15 +472,15 @@
             return;
         }
 
-        var widgetContent = '<div class="sortable" widgetId="' + uniqueId + '"></div>';
+        var $widgetContent = $('<div class="sortable" widgetId="' + uniqueId + '"></div>');
 
         if (addWidgetOnTop) {
-            $('> .col:nth-child(' + columnNumber + ')', dashboardElement).prepend(widgetContent);
+            $('> .col:nth-child(' + columnNumber + ')', dashboardElement).prepend($widgetContent);
         } else {
-            $('> .col:nth-child(' + columnNumber + ')', dashboardElement).append(widgetContent);
+            $('> .col:nth-child(' + columnNumber + ')', dashboardElement).append($widgetContent);
         }
 
-        $('[widgetId="' + uniqueId + '"]', dashboardElement).dashboardWidget({
+        return $widgetContent.dashboardWidget({
             uniqueId: uniqueId,
             widgetParameters: widgetParameters,
             onChange: function () {
