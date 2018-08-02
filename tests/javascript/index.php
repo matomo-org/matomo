@@ -2132,7 +2132,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(100);
+        expect(102);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2232,6 +2232,8 @@ function PiwikTest() {
         // ecommerce
         equal( typeof tracker.setEcommerceView, 'function', 'setEcommerceView' );
         equal( typeof tracker.addEcommerceItem, 'function', 'addEcommerceItem' );
+        equal( typeof tracker.removeEcommerceItem, 'function', 'removeEcommerceItem' );
+        equal( typeof tracker.clearEcommerceCart, 'function', 'clearEcommerceCart' );
         equal( typeof tracker.trackEcommerceOrder, 'function', 'trackEcommerceOrder' );
         equal( typeof tracker.trackEcommerceCartUpdate, 'function', 'trackEcommerceCartUpdate' );
         // consent
@@ -3891,14 +3893,21 @@ if ($mysql) {
 
         //Ecommerce tests
         tracker3.addEcommerceItem("SKU PRODUCT", "PRODUCT NAME", "PRODUCT CATEGORY", 11.1111, 2);
+        tracker3.addEcommerceItem("SKU TO REMOVE");
         tracker3.addEcommerceItem("SKU PRODUCT", "random", "random PRODUCT CATEGORY", 11.1111, 2);
         tracker3.addEcommerceItem("SKU ONLY SKU", "", "", "", "");
         tracker3.addEcommerceItem("SKU ONLY NAME", "PRODUCT NAME 2", "", "");
         tracker3.addEcommerceItem("SKU NO PRICE NO QUANTITY", "PRODUCT NAME 3", "CATEGORY", "", "" );
         tracker3.addEcommerceItem("SKU ONLY" );
+        tracker3.removeEcommerceItem("SKU TO REMOVE");
         tracker3.trackEcommerceCartUpdate( 555.55 );
 
         tracker3.trackEcommerceOrder( "ORDER ID YES", 666.66, 333, 222, 111, 1 );
+
+        tracker3.addEcommerceItem("SKU TO REMOVE 1");
+        tracker3.addEcommerceItem("SKU TO REMOVE 2");
+        tracker3.addEcommerceItem("SKU TO REMOVE 3");
+        tracker3.clearEcommerceCart();
 
         // the same order tracked once more, should have no items
         tracker3.trackEcommerceOrder( "ORDER WITHOUT ANY ITEM", 777, 444, 222, 111, 1 );

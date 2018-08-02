@@ -15,6 +15,7 @@ use Piwik\Archiver\Request;
 use Piwik\CliMulti\Process;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\FixedSiteIds;
+use Piwik\CronArchive\Performance\Logger;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\DataAccess\RawLogDao;
@@ -258,6 +259,11 @@ class CronArchive
     private $invalidator;
 
     /**
+     * @var bool
+     */
+    private $isArchiveProfilingEnabled = false;
+
+    /**
      * Returns the option name of the option that stores the time core:archive was last executed.
      *
      * @param int $idSite
@@ -285,6 +291,8 @@ class CronArchive
         $this->segmentArchivingRequestUrlProvider = new SegmentArchivingRequestUrlProvider($processNewSegmentsFrom);
 
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
+
+        $this->isArchiveProfilingEnabled = Config::getInstance()->Debug['archiving_profile'] == 1;
     }
 
     private function isMaintenanceModeEnabled()
@@ -1940,17 +1948,40 @@ class CronArchive
      */
     private function makeCliMulti()
     {
-        $cliMulti = StaticContainer::get('Piwik\CliMulti');
+        /** @var CliMulti $cliMulti */
+        $cliMulti = StaticContainer::getContainer()->make('Piwik\CliMulti');
         $cliMulti->setUrlToPiwik($this->urlToPiwik);
         $cliMulti->setPhpCliConfigurationOptions($this->phpCliConfigurationOptions);
         $cliMulti->setAcceptInvalidSSLCertificate($this->acceptInvalidSSLCertificate);
         $cliMulti->setConcurrentProcessesLimit($this->getConcurrentRequestsPerWebsite());
         $cliMulti->runAsSuperUser();
+        $cliMulti->onProcessFinish(function ($pid) {
+            $this->printPerformanceStatsForProcess($pid);
+        });
         return $cliMulti;
     }
 
     public function setUrlToPiwik($url)
     {
         $this->urlToPiwik = $url;
+    }
+
+    private function printPerformanceStatsForProcess($childPid)
+    {
+        if (!$this->isArchiveProfilingEnabled) {
+            return;
+        }
+
+        $data = Logger::getMeasurementsFor(getmypid(), $childPid);
+        if (empty($data)) {
+            return;
+        }
+
+        $message = "";
+        foreach ($data as $request => $measurements) {
+            $message .= "PERFORMANCE FOR " . $request . "\n  ";
+            $message .= implode("\n  ", $measurements) . "\n";
+        }
+        $this->logger->info($message);
     }
 }
