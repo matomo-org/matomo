@@ -17,9 +17,9 @@ use Piwik\Common;
 use Piwik\DbHelper;
 
 /**
- * Update for version 3.6.0-b1.
+ * Update for version 3.6.0-b2
  */
-class Updates_3_6_0_b1 extends PiwikUpdates
+class Updates_3_6_0_b2 extends PiwikUpdates
 {
     /**
      * @var MigrationFactory
