@@ -4744,11 +4744,11 @@ if ($mysql) {
     });
 
     test("Test API - consent", function() {
-        expect(24);
+        expect(27);
 
         var queue;
         var tracker = Piwik.getTracker();
-        tracker.setCustomData('token', getConsentToken());
+        tracker.setCustomData('token', getConsentToken() + '1');
         deepEqual(tracker.getConsentRequestsQueue(), [], "getConsentRequestsQueue, by default is empty" );
         strictEqual(tracker.hasRememberedConsent(), false, "hasRememberedConsent, has no consent given by default" );
         strictEqual(tracker.getRememberedConsent(), null, "getConsentRequestsQueue, does not return consent cookie content as no consent given" );
@@ -4787,11 +4787,24 @@ if ($mysql) {
         strictEqual(tracker.hasRememberedConsent(), false, "forgetConsentGiven, has forgotten consent" );
         strictEqual(tracker.getRememberedConsent(), null, "forgetConsentGiven, has no longer a date for consent given stored" );
 
+        tracker.trackRequest('myFoo=bar&baz=3');
+
+        deleteCookies();
+
+        var tracker2 = Piwik.getTracker();
+        tracker2.setCustomData({ "token" : getConsentToken() + '2' });
+        tracker2.trackRequest('myFoo=bar&baz=3');
+
         stop();
         setTimeout(function() {
-            var results = fetchTrackedRequests(getConsentToken());
+            var results = fetchTrackedRequests(getConsentToken() + '1');
             strictEqual(true, results.indexOf('myFoo=bar&baz=1') > 0, "setConsentGiven does replay all queued requests" );
             strictEqual(true, results.indexOf('myFoo=bar&baz=2') > 0, "setConsentGiven does replay all queued requests" );
+            strictEqual(2, (results.match(/consent=1/g) || []).length, "consent=1 parameter appears in URL when explicit consent given");
+
+            var results2 = fetchTrackedRequests(getConsentToken() + '2');
+            strictEqual(true, results2.indexOf('myFoo=bar&baz=3') > 0, "normal request" );
+            strictEqual(0, (results2.match(/consent=1/g) || []).length, "consent=1 parameter not added when consent is assumed");
             start();
         }, 2000);
     });
