@@ -1,9 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: benakamoorthi
- * Date: 5/21/18
- * Time: 5:25 PM
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
  */
 
 namespace Piwik\Plugins\SegmentEditor;
@@ -59,7 +60,7 @@ class UnprocessedSegmentException extends \Exception
 
     private static function getErrorMessage(Segment $segment, $isSegmentToPreprocess, array $storedSegment = null)
     {
-        if (!$isSegmentToPreprocess) {
+        if (empty($storedSegment)) {
             // the segment was not created through the segment editor
             return Piwik::translate('SegmentEditor_CustomUnprocessedSegmentApiError1')
                 . ' ' . Piwik::translate('SegmentEditor_CustomUnprocessedSegmentApiError2')
@@ -70,11 +71,21 @@ class UnprocessedSegmentException extends \Exception
                 . ' ' . Piwik::translate('SegmentEditor_UnprocessedSegmentInVisitorLog3');
         }
 
-        // the segment was created in the segment editor, but set to be processed in real time
         $segmentName = !empty($storedSegment['name']) ? $storedSegment['name'] : $segment->getString();
-        return Piwik::translate('SegmentEditor_UnprocessedSegmentApiError1', [$segmentName, Piwik::translate('SegmentEditor_AutoArchiveRealTime')])
-            . ' ' . Piwik::translate('SegmentEditor_UnprocessedSegmentApiError2', [Piwik::translate('SegmentEditor_AutoArchivePreProcessed')])
-            . ' ' . Piwik::translate('SegmentEditor_UnprocessedSegmentApiError3');
+
+        if (!$isSegmentToPreprocess) {
+            // the segment was created in the segment editor, but set to be processed in real time
+            return Piwik::translate('SegmentEditor_UnprocessedSegmentApiError1', [$segmentName, Piwik::translate('SegmentEditor_AutoArchiveRealTime')])
+                . ' ' . Piwik::translate('SegmentEditor_UnprocessedSegmentApiError2', [Piwik::translate('SegmentEditor_AutoArchivePreProcessed')])
+                . ' ' . Piwik::translate('SegmentEditor_UnprocessedSegmentApiError3');
+        }
+
+        // the segment is set to be processed during cron archiving, but has not been processed yet
+        return Piwik::translate('SegmentEditor_UnprocessedSegmentNoData1', ['(' . $segmentName . ')'])
+                . ' ' . Piwik::translate('SegmentEditor_UnprocessedSegmentNoData2')
+                . ' ' . Piwik::translate('SegmentEditor_CustomUnprocessedSegmentApiError5')
+                . ' ' . Piwik::translate('SegmentEditor_CustomUnprocessedSegmentApiError6')
+                . ' ' . Piwik::translate('SegmentEditor_UnprocessedSegmentInVisitorLog3');
     }
 
     /**

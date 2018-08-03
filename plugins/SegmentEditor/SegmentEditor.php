@@ -104,6 +104,18 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
+        $idSites = Site::getIdSitesFromIdSitesString(Common::getRequestVar('idSite'));
+        $period = Common::getRequestVar('period');
+        $date = Common::getRequestVar('date');
+        $segment = Common::getRequestVar('segment', '');
+
+        // if no visits recorded, data will not appear, so don't show the message
+        $liveModel = new \Piwik\Plugins\Live\Model();
+        $visits = $liveModel->queryLogVisits($idSites, $period, $date, $segment, $offset = 0, $limit = 1, null, null, 'ASC');
+        if (empty($visits)) {
+            return;
+        }
+
         list($segment, $isSegmentToPreprocess) = $segmentInfo;
 
         // this archive has no data, the report is for a segment that gets preprocessed, and the archive for this

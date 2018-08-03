@@ -100,7 +100,7 @@ class FakeAccess extends Access
         if (!self::$superUser) {
             $websitesAccess = self::$idSitesAdmin;
         } else {
-            $websitesAccess = API::getInstance()->getAllSitesId();
+            return;
         }
 
         $idSites = PiwikSite::getIdSitesFromIdSitesString($idSites);
@@ -117,7 +117,7 @@ class FakeAccess extends Access
         if (!self::$superUser) {
             $websitesAccess = array_merge(self::$idSitesWrite, self::$idSitesAdmin);
         } else {
-            $websitesAccess = API::getInstance()->getAllSitesId();
+            return;
         }
 
         $idSites = PiwikSite::getIdSitesFromIdSitesString($idSites);

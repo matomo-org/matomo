@@ -330,7 +330,7 @@ class Request
     /**
      * Checks if the currently executing API request is the root API request or not.
      *
-     * Note: the "root" API request is the request that was made over HTTP. Within that request, further API methods
+     * Note: the "root" API request is the first request made. Within that request, further API methods
      * can be called programmatically. These requests are considered "child" API requests.
      *
      * @return bool
@@ -338,7 +338,7 @@ class Request
      */
     public static function isCurrentApiRequestTheRootApiRequest()
     {
-        return self::$nestedApiInvocationCount == 0;
+        return self::$nestedApiInvocationCount == 1;
     }
 
     /**
