@@ -11,8 +11,9 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Http;
 use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
-class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
+class ErrorHandlerTest extends IntegrationTestCase
 {
     public function test_fatalErrorStackTracesReturned()
     {
@@ -25,7 +26,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('error', $response['result']);
 
         $expectedFormat = <<<FORMAT
-Allowed memory size of %s bytes exhausted (tried to allocate %s bytes) on {includePath}/tests/resources/trigger-fatal.php(20)#0 {includePath}/tests/resources/trigger-fatal.php(32): MyClass-&gt;triggerError()#1 {includePath}/tests/resources/trigger-fatal.php(48): MyDerivedClass::staticMethod()#2 {includePath}/tests/resources/trigger-fatal.php(54): myFunction()
+Allowed memory size of %s bytes exhausted (tried to allocate %s bytes) on {includePath}/tests/resources/trigger-fatal.php(22)#0 {includePath}/tests/resources/trigger-fatal.php(35): MyClass-&gt;triggerError()#1 {includePath}/tests/resources/trigger-fatal.php(51): MyDerivedClass::staticMethod()#2 {includePath}/tests/resources/trigger-fatal.php(57): myFunction()
 FORMAT;
 
         $this->assertStringMatchesFormat($expectedFormat, $response['message']);
