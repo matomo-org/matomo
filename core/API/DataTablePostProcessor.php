@@ -367,7 +367,11 @@ class DataTablePostProcessor
             $metricsToFormat = $this->apiInconsistencies->getPercentMetricsToFormat();
         }
 
-        $dataTable->filter(array($this->formatter, 'formatMetrics'), array($this->report, $metricsToFormat));
+        // 'all' is a special value that indicates we should format non-processed metrics that are identified
+        // by string, like 'revenue'. this should be removed when all metrics are using the `Metric` class.
+        $formatAll = $formatMetrics === 'all';
+
+        $dataTable->filter(array($this->formatter, 'formatMetrics'), array($this->report, $metricsToFormat, $formatAll));
         return $dataTable;
     }
 
@@ -421,16 +425,28 @@ class DataTablePostProcessor
             }
 
             foreach ($dataTable->getRows() as $row) {
-                if ($row->getColumn($name) === false) { // only compute the metric if it has not been computed already
-                    $computedValue = $processedMetric->compute($row);
-                    if ($computedValue !== false) {
-                        $row->addColumn($name, $computedValue);
-                    }
+                if ($row->getColumn($name) !== false) { // only compute the metric if it has not been computed already
+                    continue;
+                }
 
-                    $subtable = $row->getSubtable();
-                    if (!empty($subtable)) {
-                        $this->computeProcessedMetrics($subtable);
-                    }
+                $computedValue = $processedMetric->compute($row);
+                if ($computedValue !== false) {
+                    $row->addColumn($name, $computedValue);
+                }
+            }
+        }
+
+        foreach ($dataTable->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if (!empty($subtable)) {
+                foreach ($processedMetrics as $name => $processedMetric) {
+                    $processedMetric->beforeComputeSubtable($row);
+                }
+
+                $this->computeProcessedMetrics($subtable);
+
+                foreach ($processedMetrics as $name => $processedMetric) {
+                    $processedMetric->afterComputeSubtable($row);
                 }
             }
         }
@@ -441,3 +457,4 @@ class DataTablePostProcessor
         $dataTable->filter(array($this, 'computeProcessedMetrics'));
     }
 }
+

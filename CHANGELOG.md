@@ -21,7 +21,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Added new API method `UsersManager.removeCapabilities` to remove one or multiple capabilities from a user.
 * The API method `UsersManager.setUserAccess` now accepts an array to pass a role and multiple capabilities at once.
 * Plugin classes can overwrite the method `requiresInternetConnection` to define if they should be automatically unloaded if no internet connection is available (enable_internet_features = 0)
-
+* Added two new methods to the JS tracker: `removeEcommerceItem` and `clearEcommerceCart` to allow better control over what is in the ecommerce cart.
 
 ### Breaking Changes
 * Changed some menu items to use translation keys instead (see [PR #12885](https://github.com/matomo-org/matomo/pull/12885)).

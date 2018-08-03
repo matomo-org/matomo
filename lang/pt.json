@@ -212,8 +212,6 @@
         "First": "Primeiro",
         "Flatten": "Nivelar",
         "ForcedSSL": "Ligação SSL forçada",
-        "ForceSSLRecommended": "Recomendamos que utilize o Matomo apenas sob ligações SSL seguras. Para impedir acessos inseguros sob http, adicione %1$s à secção %2$s na configuração do Matomo.",
-        "NotPossibleWithoutHttps": "Atenção: fazer isto sem ter um certificado SSL configurado para utilizar HTTPS irá fazer com que o Matomo deixe de funcionar.",
         "ForExampleShort": "ex.",
         "Forums": "Fóruns",
         "FromReferrer": "de",

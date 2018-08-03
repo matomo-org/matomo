@@ -7,6 +7,8 @@
         "ReleaseChannel": "Kanal hedhjesh në qarkullim",
         "ClickHereToOptIn": "Klikoni këtu për të kryer \"opt in\"",
         "ClickHereToOptOut": "Klikoni këtu për të kryer \"opt out\".",
+        "CorsDomains": "Përkatësi Cross-Origin Resource Sharing (CORS)",
+        "CorsDomainsHelp": "Mund të përkufizoni përkatësi ose nënpërkatësi të tilla si http:\/\/shembull.com ose http:\/\/stats.shembull.com. Ose, që të lejoni kërkesa <em>cross domain<\/em> për krejt përkatësitë, thjesht shtoni *",
         "CustomLogoFeedbackInfo": "Nëse e përshtatni logon e Matomo-s, mund t’ju interesonte edhe fshehja lidhjes %1$s te menuja në krye. Për ta bërë këtë, mund të çaktivizoni shtojcën e Përshtypjeve te faqja e %2$sAdministrimit të Shtojcave%3$s.",
         "CustomLogoHelpText": "Logon e Matomo-s, që do të shfaqet në ndërfaqen e përdoruesit dhe raportet email, mund ta personalizoni.",
         "DevelopmentProcess": "Edhe pse %1$sprocesi ynë i zhvillimit%2$s përfshin mijëra prova të automatizuara, Testuesit Beta luajnë një rol kyç në arritjen e \"No bug policy\" te Matomo.",

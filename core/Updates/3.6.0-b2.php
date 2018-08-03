@@ -17,9 +17,9 @@ use Piwik\Common;
 use Piwik\DbHelper;
 
 /**
- * Update for version 3.6.0-b1.
+ * Update for version 3.6.0-b2
  */
-class Updates_3_6_0_b1 extends PiwikUpdates
+class Updates_3_6_0_b2 extends PiwikUpdates
 {
     /**
      * @var MigrationFactory
@@ -71,6 +71,7 @@ class Updates_3_6_0_b1 extends PiwikUpdates
         // changes for session auth
         $migrations[] = $this->migration->db->addColumn('user', 'ts_password_modified',
             'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+        $migrations[] = $this->migration->db->sql('UPDATE ' . Common::prefixTable('user') . ' SET ts_password_modified = NOW()');
 
         return $migrations;
     }

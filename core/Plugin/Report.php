@@ -934,6 +934,42 @@ class Report
      */
     public static function getProcessedMetricsForTable(DataTable $dataTable, Report $report = null)
     {
-        return self::getMetricsForTable($dataTable, $report, 'Piwik\\Plugin\\ProcessedMetric');
+        /** @var ProcessedMetric[] $metrics */
+        $metrics = self::getMetricsForTable($dataTable, $report, 'Piwik\\Plugin\\ProcessedMetric');
+
+        // sort metrics w/ dependent metrics calculated before the metrics that depend on them
+        $result = [];
+        self::processedMetricDfs($metrics, function ($metricName) use (&$result, $metrics) {
+            $result[$metricName] = $metrics[$metricName];
+        });
+        return $result;
+    }
+
+    /**
+     * @param ProcessedMetric[] $metrics
+     * @param $callback
+     * @param array $visited
+     */
+    private static function processedMetricDfs($metrics, $callback, &$visited = [], $toVisit = null)
+    {
+        $toVisit = $toVisit === null ? $metrics : $toVisit;
+        foreach ($toVisit as $name => $metric) {
+            if (!empty($visited[$name])) {
+                continue;
+            }
+
+            $visited[$name] = true;
+
+            $dependentMetrics = [];
+            foreach ($metric->getDependentMetrics() as $metricName) {
+                if (!empty($metrics[$metricName])) {
+                    $dependentMetrics[$metricName] = $metrics[$metricName];
+                }
+            }
+
+            self::processedMetricDfs($metrics, $callback, $visited, $dependentMetrics);
+
+            $callback($name);
+        }
     }
 }

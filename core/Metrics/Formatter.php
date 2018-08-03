@@ -7,6 +7,7 @@
  */
 namespace Piwik\Metrics;
 
+use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\NumberFormatter;
@@ -200,9 +201,11 @@ class Formatter
      * @param DataTable $dataTable The table to format metrics for.
      * @param Report|null $report The report the table belongs to.
      * @param string[]|null $metricsToFormat Whitelist of names of metrics to format.
+     * @param boolean $formatAll If true, will also apply formatting to non-processed metrics like revenue.
+     *                           This parameter is not currently supported and subject to change.
      * @api
      */
-    public function formatMetrics(DataTable $dataTable, Report $report = null, $metricsToFormat = null)
+    public function formatMetrics(DataTable $dataTable, Report $report = null, $metricsToFormat = null, $formatAll = false)
     {
         $metrics = $this->getMetricsToFormat($dataTable, $report);
         if (empty($metrics)
@@ -231,10 +234,36 @@ class Formatter
                 if ($columnValue !== false) {
                     $row->setColumn($name, $metric->format($columnValue, $this));
                 }
+            }
+        }
 
-                $subtable = $row->getSubtable();
-                if (!empty($subtable)) {
-                    $this->formatMetrics($subtable, $report, $metricsToFormat);
+        foreach ($dataTable->getRows() as $row) {
+            $subtable = $row->getSubtable();
+            if (!empty($subtable)) {
+                $this->formatMetrics($subtable, $report, $metricsToFormat);
+            }
+        }
+
+        $idSite = DataTableFactory::getSiteIdFromMetadata($dataTable);
+        if (empty($idSite)) {
+            // possible when using search in visualization
+            $idSite = Common::getRequestVar('idSite', 0, 'int');
+        }
+
+        // @todo for matomo 4, should really use the Metric class to house this kind of logic
+        // format other metrics
+        if ($formatAll) {
+            foreach ($dataTable->getRows() as $row) {
+                foreach ($row->getColumns() as $column => $columnValue) {
+                    if (strpos($column, 'revenue') === false
+                        || !is_numeric($columnValue)
+                    ) {
+                        continue;
+                    }
+
+                    if ($columnValue !== false) {
+                        $row->setColumn($column, $this->getPrettyMoney($columnValue, $idSite));
+                    }
                 }
             }
         }

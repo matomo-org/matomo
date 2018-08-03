@@ -137,7 +137,7 @@ var hasBlockedContent = false;
                 method: 'POST',
                 url: url,
                 responseType: requestFormat,
-                params: _mixinDefaultGetParams(getParams),
+                params: mixinDefaultGetParams(getParams),
                 data: $.param(getPostParams(postParams)),
                 timeout: requestPromise,
                 headers: headers
@@ -201,7 +201,7 @@ var hasBlockedContent = false;
          * @return {object}
          * @private
          */
-        function _mixinDefaultGetParams (getParamsToMixin) {
+        function mixinDefaultGetParams (getParamsToMixin) {
             var segment = piwik.broadcast.getValueFromHash('segment', $window.location.href.split('#')[1]);
 
             // we have to decode the value manually because broadcast will not decode anything itself. if we don't,
@@ -338,7 +338,8 @@ var hasBlockedContent = false;
              * @deprecated
              */
             abort: abort,
-            abortAll: abortAll
+            abortAll: abortAll,
+            mixinDefaultGetParams: mixinDefaultGetParams
         };
     }
 })();
