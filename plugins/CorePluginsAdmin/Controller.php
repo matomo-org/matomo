@@ -12,6 +12,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\ErrorHandler;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -315,11 +316,15 @@ class Controller extends Plugin\ControllerAdmin
 
             $errorMessage = $lastError['message'];
 
+            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+                $errorMessage .= ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n" . ErrorHandler::getFatalErrorPartialBacktrace();
+            }
+
             if (Piwik::isUserIsAnonymous()) {
                 $errorMessage = 'A fatal error occurred.';
             }
 
-            $response = new \Piwik\API\ResponseBuilder($outputFormat);
+            $response = new \Piwik\API\ResponseBuilder($outputFormat, [], false); // don't print the exception backtrace since it will be useless
             $message  = $response->getResponseException(new Exception($errorMessage));
 
             return $message;

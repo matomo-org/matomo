@@ -11,6 +11,7 @@ namespace Piwik\Plugin;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Config as PiwikConfig;
+use Piwik\ErrorHandler;
 
 /**
  * The base class that should be extended by plugins that compute their own
@@ -75,6 +76,34 @@ abstract class Archiver
         $this->maximumRows = PiwikConfig::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $this->processor = $processor;
         $this->enabled = true;
+    }
+
+    /**
+     * @ignore
+     */
+    final public function callAggregateDayReport()
+    {
+        try {
+            ErrorHandler::pushFatalErrorBreadcrumb(static::class);
+
+            $this->aggregateDayReport();
+        } finally {
+            ErrorHandler::popFatalErrorBreadcrumb();
+        }
+    }
+
+    /**
+     * @ignore
+     */
+    final public function callAggregateMultipleReports()
+    {
+        try {
+            ErrorHandler::pushFatalErrorBreadcrumb(static::class);
+
+            $this->aggregateMultipleReports();
+        } finally {
+            ErrorHandler::popFatalErrorBreadcrumb();
+        }
     }
 
     /**
