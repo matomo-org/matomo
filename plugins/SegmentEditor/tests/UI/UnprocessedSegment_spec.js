@@ -13,7 +13,8 @@ describe("UnprocessedSegmentTest", function () {
 
     var generalParams = 'idSite=1&period=day&date=2010-03-06';
     var segment = 'browserCode==ff';
-    var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Visitors&subcategory=General_Overview&segment=' + encodeURIComponent(segment);
+    var customSegment = 'languageCode==fr';
+    var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Visitors&subcategory=General_Overview';
 
     before(function (done) {
         testEnvironment.callApi('SegmentEditor.add', {
@@ -42,7 +43,13 @@ describe("UnprocessedSegmentTest", function () {
 
     it("should show a notification for unprocessed segments", function (done) {
         expect.screenshot("unprocessed_segment").to.be.captureSelector('.pageWrap', function (page) {
-            page.load(url);
+            page.load(url + '&segment=' + encodeURIComponent(segment));
+        }, done);
+    });
+
+    it('should not show a notification for custom segments that are not preprocessed', function (done) {
+        expect.screenshot("custom_segment").to.be.captureSelector('.pageWrap', function (page) {
+            page.load(url + '&segment=' + encodeURIComponent(customSegment));
         }, done);
     });
 });

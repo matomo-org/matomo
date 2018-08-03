@@ -179,7 +179,6 @@ class Visualization extends ViewDataTable
     {
         $this->overrideSomeConfigPropertiesIfNeeded();
 
-        $caughtException = null;
         try {
             $this->beforeLoadDataTable();
             $this->loadDataTableFromAPI();
@@ -207,8 +206,6 @@ class Visualization extends ViewDataTable
             Log::error($logMessage);
 
             $loadingError = array('message' => $message);
-
-            $caughtException = $e;
         }
 
         $view = new View("@CoreHome/_dataTable");
@@ -235,7 +232,6 @@ class Visualization extends ViewDataTable
             $view->deleteReportsOlderThan         = Option::get('delete_reports_older_than');
         }
 
-
         $view->idSubtable  = $this->requestConfig->idSubtable;
         $clientSideParameters = $this->getClientSideParametersToSet();
         if (isset($clientSideParameters['showtitle'])) {
@@ -249,24 +245,25 @@ class Visualization extends ViewDataTable
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
         $view->notifications = [];
 
-        if (!empty($caughtException)) {
-            $this->onLoadingError($caughtException, $view);
+        if (empty($this->dataTable) || !$this->hasAnyData($this->dataTable)) {
+            /**
+             * @ignore
+             */
+            Piwik::postEvent('Visualization.onNoData', [$view]);
         }
 
         return $view->render();
     }
 
-    private function onLoadingError(\Exception $ex, View $view)
+    private function hasAnyData(DataTable\DataTableInterface $dataTable)
     {
-        /**
-         * This event is triggered in Visualizations if an error occurs when getting the data for a report. Use this event
-         * to customize the appearance of the report when any error or even a specific error is thrown.
-         *
-         * @param \Exception $ex The exception that was caught.
-         * @param View $view The View that will render the report.
-         * @ignore
-         */
-        Piwik::postEvent('Visualization.onLoadingError', [$ex, $view]);
+        $hasData = false;
+        $dataTable->filter(function (DataTable $table) use (&$hasData) {
+            if ($table->getRowsCount() > 0) {
+                $hasData = true;
+            }
+        });
+        return $hasData;
     }
 
     /**

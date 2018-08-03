@@ -44,7 +44,7 @@ class SegmentEditor extends \Piwik\Plugin
             'Template.nextToCalendar'                    => 'getSegmentEditorHtml',
             'System.addSystemSummaryItems'               => 'addSystemSummaryItems',
             'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
-            'Visualization.onLoadingError' => 'onLoadingError',
+            'Visualization.onNoData' => 'onNoData',
             'Archive.noArchivedData' => 'onNoArchiveData',
         );
     }
@@ -89,8 +89,10 @@ class SegmentEditor extends \Piwik\Plugin
 
     public function onNoArchiveData()
     {
-        // don't do check unless this is the root API request
-        if (!Request::isCurrentApiRequestTheRootApiRequest()) {
+        // don't do check unless this is the root API request and it is an HTTP API request
+        if (!Request::isCurrentApiRequestTheRootApiRequest()
+            || !Request::isRootRequestApiRequest()
+        ) {
             return null;
         }
 
@@ -104,60 +106,28 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
-        // don't throw exceptions when we're loading sparklines
-        $viewDataTable = Common::getRequestVar('viewDataTable', false);
-        if ($viewDataTable === 'sparkline' || $viewDataTable === 'sparklines') {
-            return;
-        }
-
-        $idSites = Site::getIdSitesFromIdSitesString(Common::getRequestVar('idSite'));
-        $period = Common::getRequestVar('period');
-        $date = Common::getRequestVar('date');
-        $segment = Common::getRequestVar('segment', '');
-
-        if (strpos($date, ',') !== false) { // if getting multiple periods, check the whole range for visits
-            $period = 'range';
-        }
-
-        // if no visits recorded, data will not appear, so don't show the message
-        $liveModel = new \Piwik\Plugins\Live\Model();
-        $visits = $liveModel->queryLogVisits($idSites, $period, $date, $segment, $offset = 0, $limit = 1, null, null, 'ASC');
-        if (empty($visits)) {
-            return;
-        }
-
-        list($segment, $isSegmentToPreprocess) = $segmentInfo;
-
-        // this archive has no data, the report is for a segment that gets preprocessed, and the archive for this
-        // data does not exist. this means the data will be processed later. we let the user know so they will not
-        // be confused.
-        $model = new Model();
-        $storedSegment = $model->getSegmentByDefinition($segment->getString()) ?: null;
+        list($segment, $storedSegment, $isSegmentToPreprocess) = $segmentInfo;
 
         throw new UnprocessedSegmentException($segment, $isSegmentToPreprocess, $storedSegment);
     }
 
-    public function onLoadingError(\Exception $ex, View $dataTableView)
+    public function onNoData(View $dataTableView)
     {
-        if (!($ex instanceof UnprocessedSegmentException)) {
+        $segmentInfo = $this->getSegmentIfIsUnprocessed();
+        if (empty($segmentInfo)) {
             return;
         }
 
-        // don't display error in the datatable, we'll use a notification
-        unset($dataTableView->error);
-        $dataTableView->dataTableHasNoData = true;
+        list($segment, $storedSegment, $isSegmentToPreprocess) = $segmentInfo;
 
-        if (!$ex->isSegmentToPreprocess()) {
+        if (!$isSegmentToPreprocess) {
             return; // do not display the notification for custom segments
         }
 
-        $segment = $ex->getSegment();
-        $segmentToPreprocess = $ex->getStoredSegment();
-
-        $segmentDisplayName = !empty($segmentToPreprocess['name']) ? $segmentToPreprocess['name'] : $segment->getString();
+        $segmentDisplayName = !empty($storedSegment['name']) ? $storedSegment['name'] : $segment;
 
         $view = new View('@SegmentEditor/_unprocessedSegmentMessage.twig');
-        $view->isSegmentToPreprocess = $ex->isSegmentToPreprocess();
+        $view->isSegmentToPreprocess = $isSegmentToPreprocess;
         $view->segmentName = $segmentDisplayName;
         $view->visitorLogLink = '#' . Url::getCurrentQueryStringWithParametersModified([
             'category' => 'General_Visitors',
@@ -171,7 +141,6 @@ class SegmentEditor extends \Piwik\Plugin
         $notification->type = Notification::TYPE_TRANSIENT;
         $notification->raw = true;
 
-        unset($dataTableView->error); // don't display the API error
         $dataTableView->notifications[self::NO_DATA_UNPROCESSED_SEGMENT_ID] = $notification;
     }
 
@@ -194,8 +163,8 @@ class SegmentEditor extends \Piwik\Plugin
 
         // get period
         $date = Common::getRequestVar('date', false);
-        $period = Common::getRequestVar('period', false);
-        $period = Period\Factory::build($period, $date);
+        $periodStr = Common::getRequestVar('period', false);
+        $period = Period\Factory::build($periodStr, $date);
 
         // check if archiving is enabled. if so, the segment should have been processed.
         $isArchivingDisabled = Rules::isArchivingDisabledFor([$idSite], $segment, $period);
@@ -210,10 +179,29 @@ class SegmentEditor extends \Piwik\Plugin
             return null;
         }
 
+        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+
+        if (strpos($date, ',') !== false) { // if getting multiple periods, check the whole range for visits
+            $periodStr = 'range';
+        }
+
+        // if no visits recorded, data will not appear, so don't show the message
+        $liveModel = new \Piwik\Plugins\Live\Model();
+        $visits = $liveModel->queryLogVisits($idSites, $periodStr, $date, $segment->getString(), $offset = 0, $limit = 1, null, null, 'ASC');
+        if (empty($visits)) {
+            return null;
+        }
+
         // check if requested segment is segment to preprocess
         $isSegmentToPreprocess = Rules::isSegmentPreProcessed([$idSite], $segment);
 
-        return [$segment, $isSegmentToPreprocess];
+        // this archive has no data, the report is for a segment that gets preprocessed, and the archive for this
+        // data does not exist. this means the data will be processed later. we let the user know so they will not
+        // be confused.
+        $model = new Model();
+        $storedSegment = $model->getSegmentByDefinition($segment->getString()) ?: null;
+
+        return [$segment, $storedSegment, $isSegmentToPreprocess];
     }
 
     public function install()
