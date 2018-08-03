@@ -3738,7 +3738,7 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
                 if (!configDoNotTrack && request) {
-                    if (configConsentRequired) { // send a consent=1 when explicit consent is given for the apache logs
+                    if (configConsentRequired && configHasConsent) { // send a consent=1 when explicit consent is given for the apache logs
                         request += '&consent=1';
                     }
 
