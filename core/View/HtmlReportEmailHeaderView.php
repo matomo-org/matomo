@@ -10,9 +10,10 @@
 namespace Piwik\View;
 
 use Piwik\Date;
+use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
-use Piwik\ReportRenderer;
+use Piwik\Plugins\Morpheus\Emails as MorpheusEmails;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -21,11 +22,6 @@ use Piwik\View;
 class HtmlReportEmailHeaderView extends View
 {
     const TEMPLATE_FILE = '@CoreHome/ReportRenderer/_htmlReportHeader';
-
-    const REPORT_TITLE_TEXT_SIZE = 24;
-    const REPORT_TABLE_HEADER_TEXT_SIZE = 11;
-    const REPORT_TABLE_ROW_TEXT_SIZE = '13px';
-    const REPORT_BACK_TO_TOP_TEXT_SIZE = 9;
 
     private static $reportFrequencyTranslationByPeriod = [
         Schedule::PERIOD_DAY   => 'General_DailyReport',
@@ -68,25 +64,50 @@ class HtmlReportEmailHeaderView extends View
 
     public static function assignCommonParameters(View $view)
     {
-        $view->assign("reportFontFamily", ReportRenderer::DEFAULT_REPORT_FONT_FAMILY);
-        $view->assign("reportTitleTextColor", ReportRenderer::REPORT_TITLE_TEXT_COLOR);
-        $view->assign("reportTitleTextSize", self::REPORT_TITLE_TEXT_SIZE);
-        $view->assign("reportTextColor", ReportRenderer::REPORT_TEXT_COLOR);
-        $view->assign("tableHeaderBgColor", ReportRenderer::TABLE_HEADER_BG_COLOR);
-        $view->assign("tableHeaderTextColor", ReportRenderer::TABLE_HEADER_TEXT_COLOR);
-        $view->assign("tableCellBorderColor", ReportRenderer::TABLE_CELL_BORDER_COLOR);
-        $view->assign("tableBgColor", ReportRenderer::TABLE_BG_COLOR);
-        $view->assign("reportTableHeaderTextWeight", ReportRenderer::TABLE_HEADER_TEXT_WEIGHT);
-        $view->assign("reportTableHeaderTextSize", self::REPORT_TABLE_HEADER_TEXT_SIZE);
-        $view->assign("reportTableHeaderTextTransform", ReportRenderer::TABLE_HEADER_TEXT_TRANSFORM);
-        $view->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);
-        $view->assign("reportBackToTopTextSize", self::REPORT_BACK_TO_TOP_TEXT_SIZE);
-        $view->assign("currentPath", SettingsPiwik::getPiwikUrl());
-        $view->assign("logoHeader", API::getInstance()->getHeaderLogoUrl());
+        $parameters = self::getEmailStyleParameters();
+
+        $parameters['currentPath'] = SettingsPiwik::getPiwikUrl();
+        $parameters['logoHeader'] = API::getInstance()->getHeaderLogoUrl();
+
+        foreach ($parameters as $name => $value) {
+            $view->assign($name, $value);
+        }
     }
 
     private static function getPeriodToFrequencyAsAdjective()
     {
         return array_map(['\Piwik\Piwik', 'translate'], self::$reportFrequencyTranslationByPeriod);
+    }
+
+    private static function getEmailStyleParameters()
+    {
+        $vars = MorpheusEmails::getDefaultEmailStyles();
+
+        /**
+         * Use this event to change the colors and fonts used in HTML email reports by setting properties in $vars.
+         *
+         * The following properties are supported:
+         * - **themeFontFamilyBase**
+         * - **themeColorBrand**
+         * - **themeColorBrandContrast**
+         * - **themeColorText**
+         * - **themeColorTextLight**
+         * - **themeColorTextLighter**
+         * - **themeColorTextContrast**
+         * - **themeColorLink**
+         * - **themeColorBaseSeries**
+         * - **themeColorHeadlineAlternative**
+         * - **themeColorHeaderBackground**
+         * - **themeColorHeaderText**
+         * - **brandNameLong**
+         *
+         * These variables have the same meaning as their LESS variable counterparts (the LESS variables in a theme w/ the "@theme-...-..." format).
+         *
+         * @param string[] &$vars
+         * @internal
+         */
+        Piwik::postEvent('Emails.setThemeVariables', [&$vars]);
+
+        return $vars;
     }
 }

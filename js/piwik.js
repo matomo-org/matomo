@@ -998,7 +998,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, trackSiteSearch, trackEvent,
-    setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
+    setEcommerceView, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
     getAttribute, hasAttribute, attributes, nodeName, findContentNodes, findContentNodes, findContentNodesWithinNode,
@@ -7105,6 +7105,9 @@ if (typeof window.Piwik !== 'object') {
              * The only required parameter is sku.
              * The items are deleted from this JavaScript object when the Ecommerce order is tracked via the method trackEcommerceOrder.
              *
+             * If there is already a saved item for the given sku, it will be updated with the
+             * new information.
+             *
              * @param string sku (required) Item's SKU Code. This is the unique identifier for the product.
              * @param string name (optional) Item's name
              * @param string name (optional) Item's category, or array of up to 5 categories
@@ -7115,6 +7118,25 @@ if (typeof window.Piwik !== 'object') {
                 if (sku.length) {
                     ecommerceItems[sku] = [ sku, name, category, price, quantity ];
                 }
+            };
+
+            /**
+             * Removes a single ecommerce item by SKU from the current cart.
+             *
+             * @param string sku (required) Item's SKU Code. This is the unique identifier for the product.
+             */
+            this.removeEcommerceItem = function (sku) {
+                if (sku.length) {
+                    delete ecommerceItems[sku];
+                }
+            };
+
+            /**
+             * Clears the current cart, removing all saved ecommerce items. Call this method to manually clear
+             * the cart before sending an ecommerce order.
+             */
+            this.clearEcommerceCart = function () {
+                ecommerceItems = {};
             };
 
             /**

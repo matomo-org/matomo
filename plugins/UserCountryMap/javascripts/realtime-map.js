@@ -409,6 +409,9 @@
                         report = $.grep(report, function (r) {
                             return r.latitude !== null;
                         });
+
+                        // show warning if no visits w/ latitude
+                        $('#realTimeMapNoVisitsInfo').toggle(!report.length);
                     }
 
                     // check wether we got any geolocated visits left

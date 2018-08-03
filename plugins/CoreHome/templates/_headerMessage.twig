@@ -22,9 +22,15 @@
             <span class="icon-warning"></span>
           </a>
         {% elseif isSuperUser and isAdminArea is defined and isAdminArea %}
-        <a class="title">
-            {{ updateCheck|raw }}
-          </a>
+            {% if isInternetEnabled %}
+            <a class="title">{{ updateCheck|raw }}</a>
+            {% else %}
+            <a class="title" href="https://matomo.org/changelog/" target="_blank" rel="noreferrer noopener">
+                <span id="updateCheckLinkContainer">
+                    {{ 'CoreHome_SeeAvailableVersions'|translate }}
+                </span>
+            </a>
+            {% endif %}
         {% endif %}
 
     <div class="dropdown positionInViewport">

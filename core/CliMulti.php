@@ -18,6 +18,7 @@ use Piwik\Container\StaticContainer;
  */
 class CliMulti
 {
+    const BASE_WAIT_TIME = 250000; // 250 * 1000 = 250ms
 
     /**
      * If set to true or false it will overwrite whether async is supported or not.
@@ -57,6 +58,11 @@ class CliMulti
     private $urlToPiwik = null;
 
     private $phpCliOptions = '';
+
+    /**
+     * @var callable
+     */
+    private $onProcessFinish = null;
 
     public function __construct()
     {
@@ -211,6 +217,11 @@ class CliMulti
             if ($process->hasFinished()) {
                 // prevent from checking this process over and over again
                 unset($this->processes[$index]);
+
+                if ($this->onProcessFinish) {
+                    $onProcessFinish = $this->onProcessFinish;
+                    $onProcessFinish($pid);
+                }
             }
         }
 
@@ -317,7 +328,7 @@ class CliMulti
         $this->processes[] = new Process($cmdId);
 
         $url = $this->appendTestmodeParamToUrlIfNeeded($url);
-        $query = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId));
+        $query = UrlHelper::getQueryFromUrl($url, array('pid' => $cmdId, 'runid' => getmypid()));
         $hostname = Url::getHost($checkIfTrusted = false);
         $command = $this->buildCommand($hostname, $query, $output->getPathToFile());
 
@@ -390,11 +401,15 @@ class CliMulti
     {
         $this->start($piwikUrls);
 
+        $startTime = time();
         do {
-            usleep(100000); // 100 * 1000 = 100ms
+            $elapsed = time() - $startTime;
+            $timeToWait = $this->getTimeToWaitBeforeNextCheck($elapsed);
+
+            usleep($timeToWait);
         } while (!$this->hasFinished());
 
-        $results = $this->getResponse($piwikUrls);
+        $results = $this->getResponse();
         $this->cleanup();
 
         self::cleanupNotRemovedFiles();
@@ -419,5 +434,17 @@ class CliMulti
     public function setUrlToPiwik($urlToPiwik)
     {
         $this->urlToPiwik = $urlToPiwik;
+    }
+
+    public function onProcessFinish(callable $callback)
+    {
+        $this->onProcessFinish = $callback;
+    }
+
+    // every minute that passes adds an extra 100ms to the wait time. so 5 minutes results in 500ms extra, 20mins results in 2s extra.
+    private function getTimeToWaitBeforeNextCheck($elapsed)
+    {
+        $minutes = floor($elapsed / 60);
+        return self::BASE_WAIT_TIME + $minutes * 100000; // 100 * 1000 = 100ms
     }
 }

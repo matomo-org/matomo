@@ -327,9 +327,9 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 for (var j = 0; j < widgets.length; j++) {
                     var widgetName = widgets[j]["name"];
                     var widgetUniqueId = widgets[j]["uniqueId"];
-                    // var widgetParameters = widgets[j]["parameters"];
+                    var widgetCategoryId = widgets[j].category ? widgets[j].category.id : null;
                     var widgetClass = '';
-                    if (!settings.isWidgetAvailable(widgetUniqueId)) {
+                    if (!settings.isWidgetAvailable(widgetUniqueId) && widgetCategoryId !== 'General_Generic') {
                         widgetClass += ' ' + settings.unavailableClass;
                     }
 
@@ -408,7 +408,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 
                     var emptyWidgetHtml = require('piwik/UI/Dashboard').WidgetFactory.make(
                         widgetUniqueId,
-                        $('<div/>')
+                        $('<span/>')
                             .attr('title', _pk_translate("Dashboard_AddPreviewedWidget"))
                             .text(_pk_translate('Dashboard_WidgetPreview'))
                     );
@@ -418,6 +418,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                         var widgetElement = $(document.getElementById(widgetUniqueId));
                         // document.getElementById needed for widgets with uniqueid like widgetOpens+Contact+Form
                         $('.widgetContent', widgetElement).html($(response));
+                        piwikHelper.compileAngularComponents($('.widgetContent', widgetElement), { forceNewScope: true });
                         $('.widgetContent', widgetElement).trigger('widget:create');
                         settings.onPreviewLoaded(widgetUniqueId, widgetElement);
                         $('.' + settings.widgetpreviewClass + ' .widgetTop', widgetPreview).on('click', function () {
