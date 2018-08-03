@@ -104,10 +104,20 @@ class SegmentEditor extends \Piwik\Plugin
             return;
         }
 
+        // don't throw exceptions when we're loading sparklines
+        $viewDataTable = Common::getRequestVar('viewDataTable', false);
+        if ($viewDataTable === 'sparkline' || $viewDataTable === 'sparklines') {
+            return;
+        }
+
         $idSites = Site::getIdSitesFromIdSitesString(Common::getRequestVar('idSite'));
         $period = Common::getRequestVar('period');
         $date = Common::getRequestVar('date');
         $segment = Common::getRequestVar('segment', '');
+
+        if (strpos($date, ',') !== false) { // if getting multiple periods, check the whole range for visits
+            $period = 'range';
+        }
 
         // if no visits recorded, data will not appear, so don't show the message
         $liveModel = new \Piwik\Plugins\Live\Model();
@@ -132,6 +142,10 @@ class SegmentEditor extends \Piwik\Plugin
         if (!($ex instanceof UnprocessedSegmentException)) {
             return;
         }
+
+        // don't display error in the datatable, we'll use a notification
+        unset($dataTableView->error);
+        $dataTableView->dataTableHasNoData = true;
 
         if (!$ex->isSegmentToPreprocess()) {
             return; // do not display the notification for custom segments
