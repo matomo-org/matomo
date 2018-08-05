@@ -25,7 +25,7 @@
           </a>
       </td>
       <td align="right">
-          <a style="{{ fontStyle }}; font-size:16px; padding:0 15px; color: {{ themeColorHeaderText }}" title="{{'Dashboard_TopLinkTooltip'|translate(websiteName)}}" target="_blank" href="{{ piwikUrl }}{{ linkTo({'module': 'CoreHome', 'action': 'index', 'idSite': idSite, 'period': period, 'date': date, 'token_auth': null, 'method': null, 'idReport': null, 'outputType': null, 'format': null})|raw }}">
+          <a style="{{ fontStyle }}; font-size:16px; padding:0 15px; color: {{ themeStyles.colorHeaderText }}" title="{{'Dashboard_TopLinkTooltip'|translate(websiteName)}}" target="_blank" href="{{ piwikUrl }}{{ linkTo({'module': 'CoreHome', 'action': 'index', 'idSite': idSite, 'period': period, 'date': date, 'token_auth': null, 'method': null, 'idReport': null, 'outputType': null, 'format': null})|raw }}">
               {{ 'Dashboard_Dashboard'|translate }}
           </a>
       </td>
@@ -61,7 +61,7 @@
         <ul>
             {% for metadata in reportMetadata %}
                 <li>
-                    <a href="#{{ metadata.uniqueId }}" style="text-decoration:none; color: {{ reportTextColor }};">
+                    <a href="#{{ metadata.uniqueId }}" style="text-decoration:none; color: {{ emailStyles.reportTextColor }};">
                         {{ metadata.name }}
                     </a>
                 </li>
