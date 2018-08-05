@@ -13,6 +13,7 @@ use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
+use Piwik\Plugin\ThemeStyles;
 use Piwik\SettingsServer;
 
 /**
@@ -39,7 +40,14 @@ class CoreHome extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
             'Request.initAuthenticationObject' => 'initAuthenticationObject',
+            'AssetManager.addStylesheets' => 'addStylesheets',
         );
+    }
+
+    public function addStylesheets(&$mergedContent)
+    {
+        $themeStyles = ThemeStyles::get();
+        $mergedContent .= "\n" . $themeStyles->toLessCode();
     }
 
     public function initAuthenticationObject()

@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\ExampleTheme;
 
-
 use Piwik\Plugin;
 
 class ExampleTheme extends Plugin
@@ -17,15 +16,15 @@ class ExampleTheme extends Plugin
     public function getListHooksRegistered()
     {
         return [
-            'Emails.setThemeVariables' => 'setEmailThemeVariables',
+            'Theme.configureThemeVariables' => 'configureThemeVariables',
         ];
     }
 
-    public function setEmailThemeVariables(&$vars)
+    public function configureThemeVariables(Plugin\ThemeStyles $vars)
     {
-        $vars['themeFontFamilyBase'] = 'Arial, Verdana, sans-serif';
-        $vars['themeColorBrand'] = '#5793d4';
-        $vars['themeColorHeaderBackground'] = '#0091ea';
-        $vars['themeColorHeaderText'] = '#0d0d0d';
+        $vars->fontFamilyBase = 'Arial, Verdana, sans-serif';
+        $vars->colorBrand = '#5793d4';
+        $vars->colorHeaderBackground = '#0091ea';
+        $vars->colorHeaderText = '#0d0d0d';
     }
 }
