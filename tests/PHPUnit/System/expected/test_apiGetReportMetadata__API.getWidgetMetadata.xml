@@ -2998,6 +2998,26 @@
 		</widgets>
 	</row>
 	<row>
+		<name>Metric</name>
+		<category>
+			<id>General_Generic</id>
+			<name>Generic</name>
+			<order>70</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>CoreVisualizations</module>
+		<action>singleMetricView</action>
+		<order>99</order>
+		<parameters>
+			<module>CoreVisualizations</module>
+			<action>singleMetricView</action>
+			<column />
+		</parameters>
+		<uniqueId>widgetCoreVisualizationssingleMetricViewcolumn</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
 		<name>Pie graph</name>
 		<category>
 			<id>ExampleUI_UiFramework</id>

@@ -212,8 +212,6 @@
         "First": "I pari",
         "Flatten": "Sheshoje",
         "ForcedSSL": "Lidhje SSL e Detyrueshme",
-        "ForceSSLRecommended": "Këshillojmë përdorimin e Matomo-s vetëm përmes lidhjesh SSL të sigurta. Për të parandaluar hyrje jo të sigurta përmes http-je, shtoni%1$s te ndarja %2$s në formësimin e Matomo-s.",
-        "NotPossibleWithoutHttps": "Kujdes: Kryerja e kësaj pa patur të rregulluar një dëshmi SSL për përdorim të HTTPS-së, do të ndalë funksionimin e Matomo-s.",
         "ForExampleShort": "p.sh.",
         "Forums": "Forume",
         "FromReferrer": "prej",

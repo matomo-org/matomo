@@ -52,7 +52,6 @@ describe("Dashboard", function () {
             []
         ];
 
-        // TODO: should probably include an async lib
         testEnvironment.callController("Dashboard.saveLayout", {name: 'D4', layout: JSON.stringify(layout), idDashboard: 5, idSite: 2}, function () {
             // reset default widget selection
             testEnvironment.callController("Dashboard.saveLayoutAsDefault", {layout: 0}, function () {

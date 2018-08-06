@@ -67,4 +67,22 @@ abstract class ProcessedMetric extends Metric
     {
         return true;
     }
+
+    /**
+     * @param Row $row
+     * @ignore
+     */
+    public function beforeComputeSubtable(Row $row)
+    {
+        // empty
+    }
+
+    /**
+     * @param Row $row
+     * @ignore
+     */
+    public function afterComputeSubtable(Row $row)
+    {
+        // empty
+    }
 }

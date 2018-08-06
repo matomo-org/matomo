@@ -8,6 +8,8 @@
 
 namespace Piwik\Intl\Data\Provider;
 
+use Piwik\Config;
+
 /**
  * Provides currency data.
  */
@@ -26,6 +28,11 @@ class CurrencyDataProvider
     {
         if ($this->currencyList === null) {
             $this->currencyList = require __DIR__ . '/../Resources/currencies.php';
+
+            $custom = Config::getInstance()->General['currencies'];
+            foreach ($custom as $code => $name) {
+                $this->currencyList[$code] = array($code, $name);
+            }
         }
 
         return $this->currencyList;

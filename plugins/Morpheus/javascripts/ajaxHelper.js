@@ -532,6 +532,7 @@ function ajaxHelper() {
         var defaultParams = {
             idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite'),
             period:  piwik.period || broadcast.getValueFromUrl('period'),
+            date: piwik.date || broadcast.getValueFromUrl('date'),
             segment: broadcast.getValueFromHash('segment', window.location.href.split('#')[1])
         };
 
@@ -549,10 +550,7 @@ function ajaxHelper() {
 
         // handle default date & period if not already set
         if (this._useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
-            params.date = piwik.currentDateString || broadcast.getValueFromUrl('date');
-            if (params.period == 'range' && piwik.currentDateString) {
-                params.date = piwik.startDateString + ',' + params.date;
-            }
+            params.date = piwik.currentDateString;
         }
 
         return params;

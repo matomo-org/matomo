@@ -303,8 +303,25 @@
                 }
 
                 function formatPrettyDefaultValue(defaultValue, availableOptions) {
+                    if (angular.isString(defaultValue) && defaultValue) {
+                        // eg default value for multi tuple
+                        var defaultParsed = null;
+                        try {
+                            defaultParsed = JSON.parse(defaultValue);
+                        } catch (e) {
+                            // invalid JSON
+                        }
 
+                        if (angular.isObject(defaultParsed)) {
+                            return null;
+                        }
+                    }
+                    
                     if (!angular.isArray(availableOptions)) {
+                        if (angular.isArray(defaultValue)) {
+                            return null;
+                        }
+                        
                         return defaultValue;
                     }
 
@@ -315,7 +332,7 @@
                     }
 
                     angular.forEach(availableOptions, function (value, key) {
-                        if (defaultValue.indexOf(value.key) !== -1) {
+                        if (defaultValue.indexOf(value.key) !== -1 && typeof value.value !== 'undefined') {
                             prettyValues.push(value.value);
                         }
                     });

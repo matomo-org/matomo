@@ -7,12 +7,14 @@
  *
  */
 namespace Piwik\Plugins\CoreHome;
+
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
+use Piwik\Plugin\ThemeStyles;
 use Piwik\SettingsServer;
 
 /**
@@ -39,7 +41,15 @@ class CoreHome extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
             'Request.initAuthenticationObject' => 'initAuthenticationObject',
+            'AssetManager.addStylesheets' => 'addStylesheets',
+            'Request.dispatchCoreAndPluginUpdatesScreen' => 'initAuthenticationObject',
         );
+    }
+
+    public function addStylesheets(&$mergedContent)
+    {
+        $themeStyles = ThemeStyles::get();
+        $mergedContent .= "\n" . $themeStyles->toLessCode();
     }
 
     public function initAuthenticationObject()
@@ -118,6 +128,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/period-selector/period-selector.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/multipairfield/multipairfield.directive.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/dropdown-menu/dropdown-menu.directive.less";
+        $stylesheets[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/field-array/field-array.directive.less";
     }
 
@@ -208,6 +219,7 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/activity-indicator/activityindicator.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/progressbar/progressbar.directive.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/alert/alert.directive.js";
+        $jsFiles[] = "plugins/CoreHome/angularjs/sparkline/sparkline.component.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector-model.service.js";
         $jsFiles[] = "plugins/CoreHome/angularjs/siteselector/siteselector.controller.js";
@@ -443,6 +455,5 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_PageDownShortcutDescription';
         $translationKeys[] = 'CoreHome_MacPageUp';
         $translationKeys[] = 'CoreHome_MacPageDown';
-
     }
 }

@@ -6,10 +6,16 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 3.6.0
 
+### New Features
+
+* Custom currencies can now be added using the `currencies[]` configuration key.
+
 ### New APIs
 
+* Reports send by mail now contain unsubscribe-links, which lets every recipient unsubscribe from a specific report, even without access to Matomo
 * Added new event `API.addGlossaryItems` which lets you add items to the glossary.
 * Added new event `Tracker.detectReferrerSocialNetwork` which lets you add custom social network detections
+* Added new event `Report.unsubscribe` which is triggered whenever someone unsubscribe from a report
 * A new role has introduced called "write" which has less permissions than an admin but more than a view only user.
 * Added new API method `UsersManager.getAvailableRoles` to fetch a list of all available roles that can be granted to a user.
 * Added new API method `UsersManager.getAvailableCapabilities` to fetch a list of all available capabilities that can be granted to a user.
@@ -17,7 +23,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Added new API method `UsersManager.removeCapabilities` to remove one or multiple capabilities from a user.
 * The API method `UsersManager.setUserAccess` now accepts an array to pass a role and multiple capabilities at once.
 * Plugin classes can overwrite the method `requiresInternetConnection` to define if they should be automatically unloaded if no internet connection is available (enable_internet_features = 0)
-
+* Added two new methods to the JS tracker: `removeEcommerceItem` and `clearEcommerceCart` to allow better control over what is in the ecommerce cart.
 
 ### Breaking Changes
 * Changed some menu items to use translation keys instead (see [PR #12885](https://github.com/matomo-org/matomo/pull/12885)).

@@ -998,7 +998,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, trackSiteSearch, trackEvent,
-    setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
+    setEcommerceView, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
     getAttribute, hasAttribute, attributes, nodeName, findContentNodes, findContentNodes, findContentNodesWithinNode,
@@ -3221,6 +3221,9 @@ if (typeof window.Piwik !== 'object') {
 
                 configCookiesToDelete = ['id', 'ses', 'cvar', 'ref'],
 
+                // whether requireConsent() was called or not
+                configConsentRequired = false,
+
                 // we always have the concept of consent. by default consent is assumed unless the end user removes it,
                 // or unless a matomo user explicitly requires consent (via requireConsent())
                 configHasConsent = null, // initialized below
@@ -3735,6 +3738,10 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
                 if (!configDoNotTrack && request) {
+                    if (configConsentRequired && configHasConsent) { // send a consent=1 when explicit consent is given for the apache logs
+                        request += '&consent=1';
+                    }
+
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
                         if (configRequestMethod === 'POST' || String(request).length > 2000) {
                             sendXmlHttpRequest(request, callback);
@@ -7105,6 +7112,9 @@ if (typeof window.Piwik !== 'object') {
              * The only required parameter is sku.
              * The items are deleted from this JavaScript object when the Ecommerce order is tracked via the method trackEcommerceOrder.
              *
+             * If there is already a saved item for the given sku, it will be updated with the
+             * new information.
+             *
              * @param string sku (required) Item's SKU Code. This is the unique identifier for the product.
              * @param string name (optional) Item's name
              * @param string name (optional) Item's category, or array of up to 5 categories
@@ -7115,6 +7125,25 @@ if (typeof window.Piwik !== 'object') {
                 if (sku.length) {
                     ecommerceItems[sku] = [ sku, name, category, price, quantity ];
                 }
+            };
+
+            /**
+             * Removes a single ecommerce item by SKU from the current cart.
+             *
+             * @param string sku (required) Item's SKU Code. This is the unique identifier for the product.
+             */
+            this.removeEcommerceItem = function (sku) {
+                if (sku.length) {
+                    delete ecommerceItems[sku];
+                }
+            };
+
+            /**
+             * Clears the current cart, removing all saved ecommerce items. Call this method to manually clear
+             * the cart before sending an ecommerce order.
+             */
+            this.clearEcommerceCart = function () {
+                ecommerceItems = {};
             };
 
             /**
@@ -7224,6 +7253,7 @@ if (typeof window.Piwik !== 'object') {
              * time the user gives you consent, you do not need to ever call `_paq.push(['setConsentGiven'])`.
              */
             this.requireConsent = function () {
+                configConsentRequired = true;
                 configHasConsent = this.hasRememberedConsent();
                 // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make JSLint happy
                 // We also want to make sure to define an unload listener for each tracker, not only one tracker.

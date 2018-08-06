@@ -20,7 +20,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\Login\SessionInitializer;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -28,6 +27,7 @@ use Piwik\Tracker\IgnoreCookie;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\Session\SessionInitializer;
 
 class Controller extends ControllerAdmin
 {
