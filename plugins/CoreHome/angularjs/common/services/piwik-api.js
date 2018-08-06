@@ -94,6 +94,7 @@ var hasBlockedContent = false;
 
             function onSuccess(response)
             {
+                var headers = response.headers;
                 response = response.data;
 
                 if (!angular.isDefined(response) || response === null) {
@@ -105,7 +106,7 @@ var hasBlockedContent = false;
 
                     return $q.reject(response.message || null);
                 } else {
-                    return response;
+                    return options.includeHeaders ? { headers: headers, response: response } : response;
                 }
             }
 

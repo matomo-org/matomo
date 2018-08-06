@@ -13,6 +13,8 @@ use Piwik\Access;
 use Piwik\AuthResult;
 use Piwik\Db;
 use Piwik\NoAccessException;
+use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -522,6 +524,73 @@ class AccessTest extends IntegrationTestCase
             $access->reloadAccess();
             AccessTest::assertTrue($access->hasSuperUserAccess());
         });
+    }
+
+    public function test_getAccessForSite_whenUserHasAdminAccess()
+    {
+        $idSite = Fixture::createWebsite('2010-01-02 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+        UsersManagerAPI::getInstance()->setUserAccess('testuser', 'admin', $idSite);
+
+        $this->switchUser('testuser');
+
+        Access::getInstance()->setSuperUserAccess(false);
+        $this->assertEquals('admin', Access::getInstance()->getRoleForSite($idSite));
+    }
+
+    public function test_getAccessForSite_whenUserHasViewAccess()
+    {
+        $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+        UsersManagerAPI::getInstance()->setUserAccess('testuser', 'view', $idSite);
+
+        $this->switchUser('testuser');
+
+        Access::getInstance()->setSuperUserAccess(false);
+        $this->assertEquals('view', Access::getInstance()->getRoleForSite($idSite));
+    }
+
+    public function test_getAccessForSite_whenUserHasWriteAccess()
+    {
+        $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+        UsersManagerAPI::getInstance()->setUserAccess('testuser', 'write', $idSite);
+
+        $this->switchUser('testuser');
+
+        Access::getInstance()->setSuperUserAccess(false);
+        $this->assertEquals('write', Access::getInstance()->getRoleForSite($idSite));
+    }
+
+    public function test_getAccessForSite_whenUserHasNoAccess()
+    {
+        $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
+        UsersManagerAPI::getInstance()->addUser('testuser', 'testpass', 'testuser@email.com');
+
+        $this->switchUser('testuser');
+
+        Access::getInstance()->setSuperUserAccess(false);
+        $this->assertEquals('noaccess', Access::getInstance()->getRoleForSite($idSite));
+    }
+
+    public function test_getAccessForSite_whenUserIsSuperUser()
+    {
+        $idSite = Fixture::createWebsite('2010-01-03 00:00:00');
+
+        Access::getInstance()->setSuperUserAccess(true);
+        $this->assertEquals('admin', Access::getInstance()->getRoleForSite($idSite));
+    }
+
+    private function switchUser($user)
+    {
+        $mock = $this->createPiwikAuthMockInstance();
+        $mock->expects($this->once())
+            ->method('authenticate')
+            ->will($this->returnValue(new AuthResult(AuthResult::SUCCESS, $user, 'token')));
+
+        Access::getInstance()->setSuperUserAccess(false);
+        Access::getInstance()->reloadAccess($mock);
+        Access::getInstance()->setSuperUserAccess(true);
     }
 
     private function buildAdminAccessForSiteIds($siteIds)

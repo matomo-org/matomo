@@ -605,6 +605,52 @@ class Access
 
         return $result;
     }
+
+    /**
+     * Returns the level of access the current user has to the given site.
+     *
+     * @param int $idSite The site to check.
+     * @return string The access level, eg, 'view', 'admin', 'noaccess'.
+     */
+    public function getRoleForSite($idSite)
+    {
+        if ($this->hasSuperUserAccess
+            || in_array($idSite, $this->getSitesIdWithAdminAccess())
+        ) {
+            return 'admin';
+        }
+
+        if (in_array($idSite, $this->getSitesIdWithWriteAccess())) {
+            return 'write';
+        }
+
+        if (in_array($idSite, $this->getSitesIdWithViewAccess())) {
+            return 'view';
+        }
+
+        return 'noaccess';
+    }
+
+    /**
+     * Returns the capabilities the current user has for a given site.
+     *
+     * @param int $idSite The site to check.
+     * @return string[] The capabilities the user has.
+     */
+    public function getCapabilitiesForSite($idSite)
+    {
+        $result = [];
+        foreach ($this->capabilityProvider->getAllCapabilityIds() as $capabilityId) {
+            if (empty($this->idsitesByAccess[$capabilityId])) {
+                continue;
+            }
+
+            if (in_array($idSite, $this->idsitesByAccess[$capabilityId])) {
+                $result[] = $capabilityId;
+            }
+        }
+        return $result;
+    }
 }
 
 /**

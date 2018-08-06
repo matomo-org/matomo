@@ -16,6 +16,30 @@
 
     function piwikFormField(piwik, $timeout){
 
+        function initMaterialSelect($select, placeholder) {
+            $select.material_select();
+
+            // to prevent overlapping selects, when a select is opened, we set the z-index to a high value on focus & remove z-index for all others
+            // NOTE: we can't remove it directly blur since the blur causes the select to overlap, aborting the select click. (a timeout is used
+            // to make sure the z-index is removed however, in case a non-select dropdown is displayed over it)
+            $select.closest('.select-wrapper').find('input.select-dropdown')
+                .focus(function () {
+                    $('.select-wrapper').css('z-index', '');
+                    $(this).closest('.select-wrapper').css('z-index', 999);
+                }).blur(function () {
+                    var self = this;
+                    setTimeout(function () {
+                        $(self).closest('.select-wrapper').css('z-index', '');
+                    }, 250);
+                });
+
+            // add placeholder to input
+            if (placeholder) {
+                var $materialInput = $select.closest('.select-wrapper').find('input');
+                $materialInput.attr('placeholder', placeholder);
+            }
+        }
+
         function syncMultiCheckboxKeysWithFieldValue(field)
         {
             angular.forEach(field.availableOptions, function (option, index) {
@@ -73,12 +97,12 @@
 
                 if (isSelectControl(field)) {
                     var $select = element.find('select');
-                    $select.material_select();
+                    initMaterialSelect($select, field.uiControlAttributes.placeholder);
 
                     scope.$watch('formField.value', function (val, oldVal) {
                         if (val !== oldVal) {
                             $timeout(function () {
-                                $select.material_select();
+                                initMaterialSelect($select, field.uiControlAttributes.placeholder);
                             });
                         }
                     });
@@ -86,7 +110,7 @@
                     scope.$watch('formField.uiControlAttributes.disabled', function (val, oldVal) {
                         if (val !== oldVal) {
                             $timeout(function () {
-                                $select.material_select();
+                                initMaterialSelect($select, field.uiControlAttributes.placeholder);
                             });
                         }
                     });
@@ -342,6 +366,11 @@
                     // availableValues and in the watch change availableValues could trigger lots of more watch events
                     field.availableOptions = formatAvailableValues(field);
 
+                    // for selects w/ a placeholder, add an option to unset the select
+                    if (field.uiControl === 'select' && field.uiControlAttributes.placeholder) {
+                        field.availableOptions.splice(0, 0, { key: '', value: '' });
+                    }
+
                     field.defaultValuePretty = formatPrettyDefaultValue(defaultValue, field.availableOptions);
 
                     field.showField = true;
@@ -395,7 +424,7 @@
 
                             if (isSelectControl(scope.formField)) {
                                 $timeout(function () {
-                                    element.find('select').material_select();
+                                    initMaterialSelect(element.find('select'), field.uiControlAttributes.placeholder);
                                 });
                             }
                         }
@@ -403,7 +432,6 @@
                     scope.templateLoaded = function () {
                         $timeout(whenRendered(scope, element, inlineHelpNode));
                     };
-
                 };
             }
         };
