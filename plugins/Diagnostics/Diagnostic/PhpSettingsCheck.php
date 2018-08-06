@@ -32,7 +32,7 @@ class PhpSettingsCheck implements Diagnostic
         
         foreach ($this->getRequiredSettings() as $setting) {
             if (!$setting->check()) {
-                $status = DiagnosticResult::STATUS_ERROR;
+                $status = $setting->getErrorResult();
                 $comment = sprintf(
                     '%s <br/><br/><em>%s</em><br/><em>%s</em><br/>',
                     $setting,
@@ -56,9 +56,10 @@ class PhpSettingsCheck implements Diagnostic
     private function getRequiredSettings()
     {
         $requiredSettings[] = new RequiredPhpSetting('session.auto_start', 0);
-        
+    
         $maxExecutionTime = new RequiredPhpSetting('max_execution_time', 0);
         $maxExecutionTime->addRequiredValue(30, '>=');
+        $maxExecutionTime->setErrorResult(DiagnosticResult::STATUS_WARNING);
         $requiredSettings[] = $maxExecutionTime;
 
         if ($this->isPhpVersionAtLeast56() && ! defined("HHVM_VERSION") && !$this->isPhpVersionAtLeast70()) {

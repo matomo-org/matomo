@@ -11,6 +11,9 @@ class RequiredPhpSetting
     /** @var array */
     private $requiredValues;
     
+    /** @var string */
+    private $errorResult = DiagnosticResult::STATUS_ERROR;
+    
     /**
      * @param string $setting
      * @param int $requiredValue
@@ -41,6 +44,30 @@ class RequiredPhpSetting
         );
         
         return $this;
+    }
+    
+    /**
+     * @param $errorResult
+     *
+     * @return $this
+     */
+    public function setErrorResult($errorResult)
+    {
+        if ($errorResult !== DiagnosticResult::STATUS_WARNING && $errorResult !== DiagnosticResult::STATUS_ERROR) {
+            throw new \InvalidArgumentException('Error result must be either DiagnosticResult::STATUS_WARNING or DiagnosticResult::STATUS_ERROR.');
+        }
+        
+        $this->errorResult = $errorResult;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getErrorResult()
+    {
+        return $this->errorResult;
     }
     
     /**
