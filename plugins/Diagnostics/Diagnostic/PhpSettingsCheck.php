@@ -29,14 +29,10 @@ class PhpSettingsCheck implements Diagnostic
         $label = $this->translator->translate('Installation_SystemCheckSettings');
 
         $result = new DiagnosticResult($label);
-
+        
         foreach ($this->getRequiredSettings() as $setting) {
-            list($settingName, $requiredValue) = explode('=', $setting);
-
-            $currentValue = (int) ini_get($settingName);
-
-            if ($currentValue != $requiredValue) {
-                $status = DiagnosticResult::STATUS_ERROR;
+            if (!$setting->check()) {
+                $status = $setting->getErrorResult();
                 $comment = sprintf(
                     '%s <br/><br/><em>%s</em><br/><em>%s</em><br/>',
                     $setting,
@@ -55,22 +51,23 @@ class PhpSettingsCheck implements Diagnostic
     }
 
     /**
-     * @return string[]
+     * @return RequiredPhpSetting[]
      */
     private function getRequiredSettings()
     {
-        $requiredSettings = array(
-            // setting = required value
-            // Note: value must be an integer only
-            'session.auto_start=0',
-        );
+        $requiredSettings[] = new RequiredPhpSetting('session.auto_start', 0);
+    
+        $maxExecutionTime = new RequiredPhpSetting('max_execution_time', 0);
+        $maxExecutionTime->addRequiredValue(30, '>=');
+        $maxExecutionTime->setErrorResult(DiagnosticResult::STATUS_WARNING);
+        $requiredSettings[] = $maxExecutionTime;
 
         if ($this->isPhpVersionAtLeast56() && ! defined("HHVM_VERSION") && !$this->isPhpVersionAtLeast70()) {
             // always_populate_raw_post_data must be -1
             // removed in PHP 7
-            $requiredSettings[] = 'always_populate_raw_post_data=-1';
+            $requiredSettings[] = new RequiredPhpSetting('always_populate_raw_post_data', -1);
         }
-
+        
         return $requiredSettings;
     }
 
@@ -83,4 +80,5 @@ class PhpSettingsCheck implements Diagnostic
     {
         return version_compare(PHP_VERSION, '7.0.0-dev', '>=');
     }
+    
 }
