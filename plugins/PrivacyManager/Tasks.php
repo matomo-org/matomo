@@ -8,7 +8,9 @@
  */
 namespace Piwik\Plugins\PrivacyManager;
 
+use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
@@ -18,9 +20,21 @@ class Tasks extends \Piwik\Plugin\Tasks
      */
     private $logDataAnonymizations;
 
-    public function __construct(LogDataAnonymizations $logDataAnonymizations)
+    /**
+     * @var DataSubjects
+     */
+    private $dataSubjects;
+
+    /**
+     * @var SitesManagerAPI
+     */
+    private $sitesManagerAPI;
+
+    public function __construct(LogDataAnonymizations $logDataAnonymizations, DataSubjects $dataSubjects, SitesManagerAPI $sitesManagerAPI)
     {
         $this->logDataAnonymizations = $logDataAnonymizations;
+        $this->dataSubjects = $dataSubjects;
+        $this->sitesManagerAPI = $sitesManagerAPI;
     }
 
     public function schedule()
@@ -28,6 +42,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         $this->daily('deleteReportData', null, self::LOW_PRIORITY);
         $this->daily('deleteLogData', null, self::LOW_PRIORITY);
         $this->hourly('anonymizePastData', null, self::LOW_PRIORITY);
+        $this->weekly('deleteLogDataForDeletedSites', null, self::LOW_PRIORITY);
     }
 
     public function anonymizePastData()
@@ -53,5 +68,11 @@ class Tasks extends \Piwik\Plugin\Tasks
     {
         $privacyManager = new PrivacyManager();
         $privacyManager->deleteLogData();
+    }
+
+    public function deleteLogDataForDeletedSites()
+    {
+        $allSiteIds = $this->sitesManagerAPI->getAllSitesId();
+        $this->dataSubjects->deleteDataSubjectsForDeletedSites($allSiteIds);
     }
 }

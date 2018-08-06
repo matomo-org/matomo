@@ -12,8 +12,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New APIs
 
+* Reports send by mail now contain unsubscribe-links, which lets every recipient unsubscribe from a specific report, even without access to Matomo
 * Added new event `API.addGlossaryItems` which lets you add items to the glossary.
 * Added new event `Tracker.detectReferrerSocialNetwork` which lets you add custom social network detections
+* Added new event `Report.unsubscribe` which is triggered whenever someone unsubscribe from a report
 * A new role has introduced called "write" which has less permissions than an admin but more than a view only user.
 * Added new API method `UsersManager.getAvailableRoles` to fetch a list of all available roles that can be granted to a user.
 * Added new API method `UsersManager.getAvailableCapabilities` to fetch a list of all available capabilities that can be granted to a user.

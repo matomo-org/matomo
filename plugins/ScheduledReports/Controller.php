@@ -8,8 +8,11 @@
  */
 namespace Piwik\Plugins\ScheduledReports;
 
+use Piwik\Access;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
@@ -99,6 +102,51 @@ class Controller extends \Piwik\Plugin\Controller
             }
             $view->savedSegmentsById = $savedSegmentsById;
             $view->segmentEditorActivated = true;
+        }
+
+        return $view->render();
+    }
+
+    public function unsubscribe()
+    {
+        $view = new View('@ScheduledReports/unsubscribe');
+        $this->setBasicVariablesView($view);
+        $view->linkTitle = Piwik::getRandomTitle();
+
+        $token = Common::getRequestVar('token', '', 'string');
+
+        if (empty($token)) {
+            $view->error = Piwik::translate('ScheduledReports_NoTokenProvided');
+            return $view->render();
+        }
+
+        $subscriptionModel = new SubscriptionModel();
+        $subscription      = $subscriptionModel->getSubscription($token);
+
+        $report = Access::doAsSuperUser(function() use ($subscription) {
+            $reports = Request::processRequest('ScheduledReports.getReports', array(
+                'idReport'    => $subscription['idreport'],
+            ));
+            return reset($reports);
+        });
+
+        if (empty($subscription)) {
+            $view->error = Piwik::translate('ScheduledReports_NoSubscriptionFound');
+            return $view->render();
+        }
+
+        $confirm = Common::getRequestVar('confirm', '', 'string');
+
+        $view->reportName = $report['description'];
+
+        $nonce = Common::getRequestVar('nonce', '', 'string');
+
+        if (!empty($confirm) && Nonce::verifyNonce('Report.Unsubscribe', $nonce)) {
+            Nonce::discardNonce('Report.Unsubscribe');
+            $subscriptionModel->unsubscribe($token);
+            $view->success = true;
+        } else {
+            $view->nonce = Nonce::getNonce('Report.Unsubscribe');
         }
 
         return $view->render();

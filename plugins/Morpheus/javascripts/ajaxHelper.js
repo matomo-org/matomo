@@ -532,6 +532,7 @@ function ajaxHelper() {
         var defaultParams = {
             idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite'),
             period:  piwik.period || broadcast.getValueFromUrl('period'),
+            date: piwik.date || broadcast.getValueFromUrl('date'),
             segment: broadcast.getValueFromHash('segment', window.location.href.split('#')[1])
         };
 
