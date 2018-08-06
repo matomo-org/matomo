@@ -281,7 +281,13 @@
                 function formatPrettyDefaultValue(defaultValue, availableOptions) {
                     if (angular.isString(defaultValue) && defaultValue) {
                         // eg default value for multi tuple
-                        var defaultParsed = JSON.parse(defaultValue);
+                        var defaultParsed = null;
+                        try {
+                            defaultParsed = JSON.parse(defaultValue);
+                        } catch (e) {
+                            // invalid JSON
+                        }
+
                         if (angular.isObject(defaultParsed)) {
                             return null;
                         }
