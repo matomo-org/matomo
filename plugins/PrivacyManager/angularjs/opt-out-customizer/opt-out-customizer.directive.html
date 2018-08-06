@@ -5,41 +5,76 @@
     </p>
 
     <h3>Customize the Opt-out iframe</h3>
-        <div>
-            <p>
-                <span>
-                Font Color:
-                <input type="color" ng-model="optOutCustomizer.fontColor" ng-change="optOutCustomizer.onUpdate()">
-                </span>
+    <div>
+        <p>
+            <span>
+            Font Color:
+            <input type="color" ng-model="optOutCustomizer.fontColor" ng-change="optOutCustomizer.onUpdate()">
+            </span>
 
-                <span>
-                Background Color:
-                <input type="color" ng-model="optOutCustomizer.backgroundColor" ng-change="optOutCustomizer.onUpdate()">
-                </span>
+            <span>
+            Background Color:
+            <input type="color" ng-model="optOutCustomizer.backgroundColor" ng-change="optOutCustomizer.onUpdate()">
+            </span>
 
-                <span>
-                Font Size:
-                <input id=FontSizeInput type="number" min="1" max="100" ng-model="optOutCustomizer.fontSize" ng-change="optOutCustomizer.updateFontSize()">
-                </span>
+            <span>
+            Font Size:
+            <input id=FontSizeInput type="number" min="1" max="100" ng-model="optOutCustomizer.fontSize" ng-change="optOutCustomizer.updateFontSize()">
+            </span>
 
-                <span>
-                        <select class="browser-default" ng-model="optOutCustomizer.fontSizeUnit" ng-change="optOutCustomizer.updateFontSize()">
-                                <option value="px">px</option>
-                                <option value="pt">pt</option>
-                                <option value="em">em</option>
-                                <option value="rem">rem</option>
-                                <option value="%">%</option>
-                        </select>
-                </span>
+            <span>
+                    <select class="browser-default" ng-model="optOutCustomizer.fontSizeUnit" ng-change="optOutCustomizer.updateFontSize()">
+                            <option value="px">px</option>
+                            <option value="pt">pt</option>
+                            <option value="em">em</option>
+                            <option value="rem">rem</option>
+                            <option value="%">%</option>
+                    </select>
+            </span>
 
-                <span>
-                Font Family:
-                <input id=FontFamilyInput type="text" ng-model="optOutCustomizer.fontFamily" ng-change="optOutCustomizer.onUpdate()">
-                </span>
-                
-            </p>
+            <span>
+            Font Family:
+            <input id=FontFamilyInput type="text" ng-model="optOutCustomizer.fontFamily" ng-change="optOutCustomizer.onUpdate()">
+            </span>
+
+        </p>
+    </div>
+
+    <h3>Customize opt-out text</h3>
+    <div>
+        <p>
+            <input type="radio" name="opt-out-form-mode" id="opt-out-form-mode-in" value="opted-in" ng-model="optOutCustomizer.optOutFormMode">
+            <label for="opt-out-form-mode-in"> When the user is opted-in</label>
+            <br/>
+            <input type="radio" name="opt-out-form-mode" id="opt-out-form-mode-out" value="opted-out" ng-model="optOutCustomizer.optOutFormMode">
+            <label for="opt-out-form-mode-out"> When the user is opted-out</label>
+            <br/><br/>
+        </p>
+
+        <div
+            piwik-field
+            class="opt-out-text-field"
+            uicontrol="textarea"
+            ng-model="optOutCustomizer.optedOutText"
+        >
         </div>
-    </p>
+
+        <div
+                piwik-field
+                ng-if=""
+                class="opt-out-text-field"
+                uicontrol="textarea"
+                ng-model="optOutCustomizer.optedInText"
+        >
+        </div>
+
+        <div piwik-save-button
+             saving="optOutCustomizer.isSavingCustomText"
+             onconfirm="optOutCustomizer.saveOptOutText()"
+             ng-value="{{ 'General_Save'|translate }}"
+        ></div>
+    </div>
+
     <h3>HTML code to embed on your website</h3>
     <pre piwik-select-on-focus>&lt;iframe
         style="border: 0; height: 200px; width: 600px;"

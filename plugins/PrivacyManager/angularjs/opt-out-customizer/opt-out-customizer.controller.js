@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('OptOutCustomizerController', OptOutCustomizerController);
 
-    OptOutCustomizerController.$inject = ["$scope"];
+    OptOutCustomizerController.$inject = ['$scope', 'piwikApi'];
 
-    function OptOutCustomizerController($scope) {
+    function OptOutCustomizerController($scope, piwikApi) {
         var vm = this;
         vm.piwikurl = $scope.piwikurl;
         vm.language = $scope.language;
@@ -19,6 +19,17 @@
         vm.fontColor = ''; 
         vm.fontSize = ''; 
         vm.fontFamily = '';
+        vm.optOutFormMode = 'opted-in';
+        vm.isSavingCustomText = false;
+        vm.saveOptOutText = function () {
+            piwikApi.post({
+                method: 'SitesManager.updateSite',
+                settingValues: JSON.stringify({
+                    optedOutText: vm.optedOutText,
+                    optedInText: vm.optedInText,
+                }),
+            });
+        };
         vm.updateFontSize = function () {
             if (vm.fontSize) {
                 vm.fontSizeWithUnit = vm.fontSize + vm.fontSizeUnit;
@@ -38,12 +49,24 @@
                 
             } else {
                 vm.iframeUrl = "";
-            };
-        }
-        vm.onUpdate();
+            }
+        };
+
+        fetchOptOutText().then(function () {
+            vm.onUpdate();
+        });
 
         $scope.$watch('piwikurl', function (val, oldVal) {
             vm.onUpdate();
         });
+
+        function fetchOptOutText() {
+            return piwikApi.fetch({
+                method: 'SitesManager.getSiteSettings',
+            }).then(function (response) {
+                vm.optedOutText = response.PrivacyManager.optedOutText;
+                vm.optedInText = response.PrivacyManager.optedInText;
+            });
+        }
     }
 })();
