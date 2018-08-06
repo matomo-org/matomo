@@ -759,6 +759,7 @@ class API extends \Piwik\Plugin\API
         if (!empty($user)) {
             unset($user['token_auth']);
             unset($user['password']);
+            unset($user['ts_password_modified']);
         }
 
         return $user;

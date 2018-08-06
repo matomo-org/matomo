@@ -78,7 +78,7 @@ class UsersManagerTest extends IntegrationTestCase
             $newAlias = $user['alias'];
         }
 
-        $userAfter = $this->api->getUser($user["login"]);
+        $userAfter = $this->model->getUser($user["login"]);
 
         $this->assertArrayHasKey('date_registered', $userAfter);
         $this->assertRegExp(self::DATETIME_REGEX, $userAfter['date_registered']);
