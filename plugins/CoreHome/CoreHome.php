@@ -38,7 +38,7 @@ class CoreHome extends \Piwik\Plugin
             'AssetManager.filterMergedJavaScripts'   => 'filterMergedJavaScripts',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
-            'Request.initAuthenticationObject' => 'initAuthenticationObject',
+            'Request.dispatchCoreAndPluginUpdatesScreen' => 'initAuthenticationObject',
         );
     }
 
