@@ -28,7 +28,7 @@
 
     {% if displayTable %}
         <table style="border-collapse:collapse; border:1px solid rgb(231,231,231); padding:5px;">
-            <thead style="background-color: {{tableBgColor}};">
+            <thead style="background-color: {{ emailStyles.tableBgColor }};">
             {% for columnId, columnName in reportColumns %}
                 <th style="{{ styleTableHeader }}{% if columnId == 'label' %}{%  else %} text-align:right;{% endif %}">
                     &nbsp;{{ columnName }}&nbsp;&nbsp;
@@ -36,7 +36,7 @@
             {% endfor %}
             </thead>
             <tbody>
-            {% set cycleValues=['background-color: '~tableBgColor,''] %}
+            {% set cycleValues=['background-color: '~emailStyles.tableBgColor,''] %}
             {% set cycleIndex=1 %}
             {% for rowId,row in reportRows %}
                 {% set rowMetrics=row.columns %}
@@ -59,7 +59,7 @@
                                         &nbsp;
                                     {% endif %}
                                     {% if rowMetadata.url is defined %}
-                                        <a style="color: {{ reportTextColor }};" href='{% if rowMetadata.url|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ rowMetadata.url }}'>
+                                        <a style="color: {{ emailStyles.reportTextColor }};" href='{% if rowMetadata.url|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ rowMetadata.url }}'>
                                     {% endif %}
                                     {{ rowMetrics[columnId] | raw }}{# labels are escaped by SafeDecodeLabel filter in core/API/Response.php #}
                                     {% if rowMetadata.url is defined %}
