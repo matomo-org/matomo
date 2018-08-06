@@ -308,7 +308,7 @@
                     }
 
                     angular.forEach(availableOptions, function (value, key) {
-                        if (defaultValue.indexOf(value.key) !== -1) {
+                        if (defaultValue.indexOf(value.key) !== -1 && typeof value.value !== 'undefined') {
                             prettyValues.push(value.value);
                         }
                     });
