@@ -49,7 +49,7 @@ class CoreHome extends \Piwik\Plugin
     public function addStylesheets(&$mergedContent)
     {
         $themeStyles = ThemeStyles::get();
-        $mergedContent .= "\n" . $themeStyles->toLessCode();
+        $mergedContent = $themeStyles->toLessCode() . "\n" . $mergedContent;
     }
 
     public function initAuthenticationObject()
