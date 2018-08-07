@@ -7,9 +7,12 @@
  *
  */
 
-namespace Piwik;
+namespace Piwik\Updates;
 
+use Piwik\Common;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
+use Piwik\Updates;
+use Piwik\Updater;
 
 /**
  * Update for version 3.6.0-b4.
