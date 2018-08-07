@@ -35,7 +35,7 @@ class Updates_3_6_0_b4 extends Updates
         // use php date since mysql date/time might be different and might lock users out for a while. and subtract days just to be safe.
         $passwordModified = Date::factory('now')->subDay(14);
         return array(
-            $this->migration->db->sql('UPDATE ' . Common::prefixTable('user') . ' SET ts_password_modified = ' . $passwordModified),
+            $this->migration->db->sql('UPDATE ' . Common::prefixTable('user') . ' SET ts_password_modified = "' . $passwordModified->getDatetime() . '"'),
         );
     }
 
