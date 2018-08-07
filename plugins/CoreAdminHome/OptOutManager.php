@@ -8,14 +8,18 @@
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Nonce;
+use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
+use Piwik\Settings\Setting;
 use Piwik\Tracker\IgnoreCookie;
 use Piwik\Url;
 use Piwik\View;
+use Piwik\Plugin\Manager as PluginManager;
 
 class OptOutManager
 {
@@ -216,8 +220,22 @@ class OptOutManager
         $this->view->stylesheets = $this->getStylesheets();
         $this->view->title = $this->getTitle();
         $this->view->queryParameters = $this->getQueryParameters();
-
+        $this->setOptOutText();
         return $this->view;
+    }
+
+    private function setOptOutText()
+    {
+        if (!PluginManager::getInstance()->isPluginActivated('PrivacyManager')) {
+            $this->view->optedInText = self::getDefaultOptedInText();
+            $this->view->optedOutText = self::getDefaultOptedOutText();
+            return;
+        }
+
+        // TODO: these values should probably be cached
+        $settings = new \Piwik\Plugins\PrivacyManager\SystemSettings();
+        $this->view->optedInText = $this->getCachedSettingValue($settings->defaultOptedInText);
+        $this->view->optedOutText = $this->getCachedSettingValue($settings->defaultOptedOutText);
     }
 
     private function optOutStyling()
@@ -266,5 +284,35 @@ class OptOutManager
     protected function getDoNotTrackHeaderChecker()
     {
         return $this->doNotTrackHeaderChecker;
+    }
+
+    public static function getDefaultOptedInText()
+    {
+        return Piwik::translate('CoreAdminHome_YouMayOptOut') . "\n\n" . Piwik::translate('CoreAdminHome_YouMayOptOutBis');
+    }
+
+    public static function getDefaultOptedOutText()
+    {
+        return Piwik::translate('CoreAdminHome_OptOutComplete') . "\n\n" . Piwik::translate('CoreAdminHome_OptOutCompleteBis');
+    }
+
+    private function getCachedSettingValue(Setting $setting)
+    {
+        $cacheKey = 'OptOutManager.' . $setting->getName();
+        $eagerCache = Cache::getEagerCache();
+
+        if (!$eagerCache->contains($cacheKey)) {
+            $value = $this->addParagraphs($setting->getValue());
+            $eagerCache->save($cacheKey, $value);
+        }
+        return $eagerCache->fetch($cacheKey);
+    }
+
+    private function addParagraphs($value)
+    {
+        $value = preg_replace('/\n\n+/', '__PARAGRAPH__', $value); // using a placeholder since Common::sanitizeInputValue removes newlines
+        $value = Common::sanitizeInputValue($value);
+        $value = '<p>' . str_replace('__PARAGRAPH__', '</p><p>', $value) . '</p>';
+        return $value;
     }
 }

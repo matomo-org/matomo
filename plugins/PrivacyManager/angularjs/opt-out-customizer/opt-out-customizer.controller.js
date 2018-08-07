@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('OptOutCustomizerController', OptOutCustomizerController);
 
-    OptOutCustomizerController.$inject = ['$scope', 'piwikApi'];
+    OptOutCustomizerController.$inject = ['$scope', 'piwikApi', '$element'];
 
-    function OptOutCustomizerController($scope, piwikApi) {
+    function OptOutCustomizerController($scope, piwikApi, $element) {
         var vm = this;
         vm.piwikurl = $scope.piwikurl;
         vm.language = $scope.language;
@@ -20,14 +20,21 @@
         vm.fontSize = ''; 
         vm.fontFamily = '';
         vm.optOutFormMode = 'opted-in';
-        vm.isSavingCustomText = false;
         vm.saveOptOutText = function () {
+            var optOutSetting = getSetting(vm.privacyManagerSettings, 'defaultOptOutFormOptedOutText');
+            optOutSetting.value = vm.optedOutText;
+
+            var optInSetting = getSetting(vm.privacyManagerSettings, 'defaultOptOutFormOptedInText');
+            optInSetting.value = vm.optedInText;
+
+            vm.isSavingCustomText = true;
             piwikApi.post({
-                method: 'SitesManager.updateSite',
-                settingValues: JSON.stringify({
-                    optedOutText: vm.optedOutText,
-                    optedInText: vm.optedInText,
-                }),
+                method: 'CorePluginsAdmin.setSystemSettings'
+            }, {
+                settingValues: { PrivacyManager: [optOutSetting, optInSetting] }
+            }).then(function () {
+                var iframe = $element.find('iframe')[0];
+                iframe.src = iframe.src; // force iframe to reload
             });
         };
         vm.updateFontSize = function () {
@@ -62,11 +69,29 @@
 
         function fetchOptOutText() {
             return piwikApi.fetch({
-                method: 'SitesManager.getSiteSettings',
+                method: 'CorePluginsAdmin.getSystemSettings',
             }).then(function (response) {
-                vm.optedOutText = response.PrivacyManager.optedOutText;
-                vm.optedInText = response.PrivacyManager.optedInText;
+                var plugin = response.filter(function (p) { return p.pluginName === 'PrivacyManager'; })[0];
+                if (!plugin) {
+                    return;
+                }
+
+                vm.privacyManagerSettings = plugin.settings;
+                vm.optedOutText = getSettingValue(vm.privacyManagerSettings, 'defaultOptOutFormOptedOutText');
+                vm.optedInText = getSettingValue(vm.privacyManagerSettings, 'defaultOptOutFormOptedInText');
             });
+        }
+
+        function getSettingValue(settings, settingName) {
+            var setting = getSetting(settings, settingName);
+            if (!setting) {
+                return null;
+            }
+            return setting.value;
+        }
+
+        function getSetting(settings, settingName) {
+            return settings.filter(function (s) { return s.name === settingName; })[0];
         }
     }
 })();

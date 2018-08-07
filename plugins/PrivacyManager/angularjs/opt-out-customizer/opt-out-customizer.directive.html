@@ -53,26 +53,25 @@
 
         <div
             piwik-field
+            ng-if="optOutCustomizer.optOutFormMode == 'opted-out'"
             class="opt-out-text-field"
             uicontrol="textarea"
             ng-model="optOutCustomizer.optedOutText"
+            ng-change="optOutCustomizer.saveOptOutText()"
+            ng-model-options="{debounce: 200}"
         >
         </div>
 
         <div
-                piwik-field
-                ng-if=""
-                class="opt-out-text-field"
-                uicontrol="textarea"
-                ng-model="optOutCustomizer.optedInText"
+            piwik-field
+            ng-if="optOutCustomizer.optOutFormMode == 'opted-in'"
+            class="opt-out-text-field"
+            uicontrol="textarea"
+            ng-model="optOutCustomizer.optedInText"
+            ng-change="optOutCustomizer.saveOptOutText()"
+            ng-model-options="{debounce: 200}"
         >
         </div>
-
-        <div piwik-save-button
-             saving="optOutCustomizer.isSavingCustomText"
-             onconfirm="optOutCustomizer.saveOptOutText()"
-             ng-value="{{ 'General_Save'|translate }}"
-        ></div>
     </div>
 
     <h3>HTML code to embed on your website</h3>

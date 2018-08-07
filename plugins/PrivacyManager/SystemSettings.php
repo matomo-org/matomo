@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\OptOutManager;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 
@@ -72,21 +73,22 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createDefaultOptedInTextSetting()
     {
-        $defaultOptedInText = Piwik::translate('CoreAdminHome_YouAreOptedIn') . ' ' . Piwik::translate('CoreAdminHome_ClickHereToOptOut');
+        $defaultOptedInText = OptOutManager::getDefaultOptedInText();
+
         return $this->makeSetting('defaultOptOutFormOptedInText', $defaultOptedInText, FieldConfig::TYPE_STRING, function (FieldConfig $field) {
-            $field->title = Piwik::translate('PrivacyManager_DefaultOptOutFormText') . ' (' . Piwik::translate('PrivacyManager_WhenUserOptedIn') . ')';
+            $field->title = Piwik::translate('PrivacyManager_OptOutFormText') . ' (' . Piwik::translate('PrivacyManager_WhenUserOptedIn') . ')';
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
-            $field->description = Piwik::translate('PrivacyManager_DefaultOptOutFormOptedInTextDescription');
+            $field->description = Piwik::translate('PrivacyManager_OptOutFormOptedInTextDescription');
         });
     }
 
     private function createDefaultOptedOutTextSetting()
     {
-        $defaultOptedOutText = Piwik::translate('CoreAdminHome_YouAreOptedOut') . ' ' . Piwik::translate('CoreAdminHome_ClickHereToOptIn');
+        $defaultOptedOutText = OptOutManager::getDefaultOptedOutText();
         return $this->makeSetting('defaultOptOutFormOptedOutText', $defaultOptedOutText, FieldConfig::TYPE_STRING, function (FieldConfig $field) {
-            $field->title = Piwik::translate('PrivacyManager_DefaultOptOutFormText') . ' (' . Piwik::translate('PrivacyManager_WhenUserOptedOut') . ')';
+            $field->title = Piwik::translate('PrivacyManager_OptOutFormText') . ' (' . Piwik::translate('PrivacyManager_WhenUserOptedOut') . ')';
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
-            $field->description = Piwik::translate('PrivacyManager_DefaultOptOutFormOptedOutTextDescription');
+            $field->description = Piwik::translate('PrivacyManager_OptOutFormOptedOutTextDescription');
         });
     }
 }
