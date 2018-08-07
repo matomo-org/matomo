@@ -288,7 +288,7 @@ class OptOutManager
 
     public static function getDefaultOptedInText()
     {
-        return Piwik::translate('CoreAdminHome_YouMayOptOut') . "\n\n" . Piwik::translate('CoreAdminHome_YouMayOptOutBis');
+        return Piwik::translate('CoreAdminHome_YouMayOptOut2') . " " . Piwik::translate('CoreAdminHome_YouMayOptOut3');
     }
 
     public static function getDefaultOptedOutText()

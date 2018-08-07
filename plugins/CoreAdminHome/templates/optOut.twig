@@ -52,9 +52,9 @@
         <input onclick="submitForm(event, this.form);" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
         <label for="trackVisits"><strong>
         {% if trackVisits %}
-            {{ 'CoreAdminHome_YouAreOptedIn'|translate }} {{ 'CoreAdminHome_ClickHereToOptOut'|translate }}
+            {{ 'CoreAdminHome_YouAreOptedIn'|translate }} {{ 'CoreAdminHome_UncheckToOptOut'|translate }}
         {% else %}
-            {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_ClickHereToOptIn'|translate }}
+            {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_CheckToOptIn'|translate }}
         {% endif %}
         </strong></label>
         <noscript>
