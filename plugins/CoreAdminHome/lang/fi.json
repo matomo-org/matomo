@@ -81,7 +81,7 @@
         "UseCustomLogo": "Käytä kustomoitua logoa",
         "ValidPiwikHostname": "Voimassaoleva Matomoin konenimi",
         "WithOptionalRevenue": "valinnaisten tuottojen kanssa",
-        "YouAreOptedIn": "Olet mukana seurannassa.",
+        "YouAreNotOptedOut": "Olet mukana seurannassa.",
         "YouAreOptedOut": "Et ole mukana seurannassa.",
         "YouMayOptOut": "Jos haluat, voit estää yksilöllisen tunnisteen tallentamisen tietokoneellesi, ja samalla estää tämän sivun analytiikan osaltasi.",
         "YouMayOptOutBis": "Tee valinta klikkaamalla alla olevaa linkkiä."
