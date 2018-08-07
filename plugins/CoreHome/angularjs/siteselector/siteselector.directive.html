@@ -21,7 +21,9 @@
        class="title" tabindex="4">
         <span class="icon icon-arrow-bottom"
               ng-class="{'iconHidden': model.isLoading, 'collapsed': !view.showSitesList}"></span>
-        <span><span ng-bind-html="selectedSite.name || model.firstSiteName">?</span>
+        <span>
+            <span ng-bind-html="selectedSite.name || model.firstSiteName" ng-if="selectedSite.name || !placeholder">?</span>
+            <span ng-if="!selectedSite.name && placeholder" class="placeholder">{{ placeholder }}</span>
         </span>
     </a>
 

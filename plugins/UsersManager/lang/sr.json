@@ -18,7 +18,6 @@
         "EmailYourAdministrator": "%1$sObavestite administratora o ovom problemu%2$s.",
         "EnterUsernameOrEmail": "Upišite korisničko ime ili mejl adresu",
         "ExceptionAccessValues": "Parametar pristupa mora da ima jednu od sledećih vrednosti: [ %s ]",
-        "ExceptionAdminAnonymous": "Ne možete dozvoliti 'admin' privilegije anonimnom korisniku.",
         "ExceptionDeleteDoesNotExist": "Korisnik '%s' ne postoji pa stoga ni ne može biti obrisan.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Nije moguće obrisati korisnika '%s'.",
         "ExceptionEditAnonymous": "Podaci o anonimnom korisniku ne mogu biti menjani ili obrisani. Anonimni korisnik služi da bi Matomo mogao da razlikuje korisnika koji se još nije prijavio na sistem. Primera radi, svoju statistiku možete učiniti javnom tako što ćete anonimnom korisniku dozvoliti 'prikaz' pristup.",

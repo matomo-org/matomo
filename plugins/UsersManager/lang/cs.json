@@ -19,7 +19,6 @@
         "EmailYourAdministrator": "%1$sPošlete administrátorovi email o tomto problému%2$s.",
         "EnterUsernameOrEmail": "Zadejte uživatelské jméno nebo emailovou adresu",
         "ExceptionAccessValues": "Parametr přístupu musí mít jednu z následujících hodnot: [ %s ]",
-        "ExceptionAdminAnonymous": "Nemůžete dát 'admin' přístup 'anonymous' uživateli.",
         "ExceptionDeleteDoesNotExist": "Uživatel '%s' neexistuje a proto nemůže být vymazán.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Smazání uživatele %s není možné.",
         "ExceptionEditAnonymous": "'Anonymous' uživatel nemůže být upraven, nebo vymazán. Je použit Matomoem k definici uživatele, který ještě není přihlášen. Například můžete zveřejnit vaše statistiky udělením oprávnění 'view' uživateli 'anonymous'.",

@@ -27,6 +27,7 @@ class Common
     const REFERRER_TYPE_SEARCH_ENGINE = 2;
     const REFERRER_TYPE_WEBSITE = 3;
     const REFERRER_TYPE_CAMPAIGN = 6;
+    const REFERRER_TYPE_SOCIAL_NETWORK = 7;
 
     // Flag used with htmlspecialchar. See php.net/htmlspecialchars.
     const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;

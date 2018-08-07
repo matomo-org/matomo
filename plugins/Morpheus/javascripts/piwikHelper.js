@@ -165,7 +165,7 @@ var piwikHelper = {
             var scope = null;
             if (options.scope) {
                 scope = options.scope;
-            } else {
+            } else if (!options.forceNewScope) { // TODO: docs
                 scope = angular.element($element).scope();
             }
             if (!scope) {
@@ -275,11 +275,17 @@ var piwikHelper = {
                 button.attr('title', title);
             }
 
-            if(typeof handles[role] == 'function') {
+            if (typeof handles !== 'undefined' && typeof handles[role] == 'function') {
                 button.on('click', function(){
                     handles[role].apply()
                 });
             }
+            if (typeof $button.data('href') !== 'undefined') {
+                button.on('click', function () {
+                    window.location.href = $button.data('href');
+                })
+            }
+            
 
             $footer.append(button);
         });
@@ -546,6 +552,19 @@ var piwikHelper = {
         piwikHelper.shortcuts[key] = description;
 
         Mousetrap.bind(key, callback);
+    },
+
+    calculateEvolution: function (currentValue, pastValue) {
+        var dividend = currentValue - pastValue;
+        var divisor = pastValue;
+
+        if (dividend == 0) {
+            return 0;
+        } else if (divisor == 0) {
+            return 1;
+        } else {
+            return Math.round((dividend / divisor) * 1000) / 1000;
+        }
     }
 };
 

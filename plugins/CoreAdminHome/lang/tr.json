@@ -7,6 +7,8 @@
         "ReleaseChannel": "Dağıtım kanalı",
         "ClickHereToOptIn": "İzin vermek için tıklayın.",
         "ClickHereToOptOut": "İzni iptal etmek için tıklayın.",
+        "CorsDomains": "Çapraz Kaynak Paylaşma (CORS) etki alanları",
+        "CorsDomainsHelp": "http:\/\/websitem.com or http:\/\/stats.websitem.com gibi etki alanları tanımlayabilirsiniz ya da * ekleyerek tüm çapraz etki alanı isteklerine izin verebilirsiniz",
         "CustomLogoFeedbackInfo": "Matomo logosunu değiştirdiyseniz, üst menüden %1$s bağlantısını da kaldırmak isteyebilirsiniz. Bunun için, %2$sUygulama Eki Yönetimi%3$s bölümünden Geribildirim ( Feedback ) uygulama ekini devre dışı bırakabilirsiniz.",
         "CustomLogoHelpText": "E-posta raporlarında ve kullanıcı arayüzünde kullanılacak olan Matomo logosunu değiştirebilirsiniz.",
         "DevelopmentProcess": "%1$sGeliştirme işlemi%2$s sırasında binlerce otomatik sınama yapılır. Bununla birlikte Matomo \"Hatasızlık ilkesi\" hedefine ulaşmak için Beta Testi yapan kullanıcılar önemli bir rol üstlenir.",

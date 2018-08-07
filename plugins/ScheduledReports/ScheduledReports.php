@@ -20,6 +20,7 @@ use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Schedule;
+use Piwik\SettingsPiwik;
 use Piwik\Tracker;
 use Piwik\View;
 
@@ -343,11 +344,34 @@ class ScheduledReports extends \Piwik\Plugin
             $this->markReportAsSent($report, $period);
         }
 
+        $subscriptionModel = new SubscriptionModel();
+        $subscriptionModel->updateReportSubscriptions($report['idreport'], $emails);
+        $subscriptions = $subscriptionModel->getReportSubscriptions($report['idreport']);
+
+        $tokens = array_column($subscriptions, 'token', 'email');
+
+        $textContent = $mail->getBodyText();
+        $htmlContent = $mail->getBodyHtml();
+        if ($htmlContent instanceof \Zend_Mime_Part) {
+            $htmlContent = $htmlContent->getRawContent();
+        }
+
         foreach ($emails as $email) {
             if (empty($email)) {
                 continue;
             }
             $mail->addTo($email);
+
+            // add unsubscribe links to content
+            if ($htmlContent) {
+                $link = SettingsPiwik::getPiwikUrl() . 'index.php?module=ScheduledReports&action=unsubscribe&token=' . $tokens[$email];
+                $mail->setBodyHtml($htmlContent . '<br /><br /><hr /><br />'.Piwik::translate('ScheduledReports_UnsubscribeFooter', [' <a href="' . $link . '">' . $link . '</a>']));
+            }
+
+            if ($textContent) {
+                $link = SettingsPiwik::getPiwikUrl() . 'index.php?module=ScheduledReports&action=unsubscribe&token=' . $tokens[$email];
+                $mail->setBodyText($textContent . "\n\n".Piwik::translate('ScheduledReports_UnsubscribeFooter', [$link]));
+            }
 
             try {
                 $mail->send();
@@ -529,6 +553,7 @@ class ScheduledReports extends \Piwik\Plugin
     public function install()
     {
         Model::install();
+        SubscriptionModel::install();
     }
 
     private static function checkAdditionalEmails($additionalEmails)

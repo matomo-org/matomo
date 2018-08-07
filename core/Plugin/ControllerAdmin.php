@@ -156,7 +156,7 @@ abstract class ControllerAdmin extends Controller
         $message .= " ";
 
         $message .= Piwik::translate('General_ReadThisToLearnMore',
-            array('<a rel="noreferrer" target="_blank" href="https://matomo.org/faq/how-to/faq_91/">', '</a>')
+            array('<a rel="noreferrer noopener" target="_blank" href="https://matomo.org/faq/how-to/faq_91/">', '</a>')
           );
 
         $notification = new Notification($message);
@@ -193,7 +193,7 @@ abstract class ControllerAdmin extends Controller
         $message = sprintf("You are using the PHP accelerator & optimizer eAccelerator which is known to be not compatible with Matomo.
             We have disabled eAccelerator, which might affect the performance of Matomo.
             Read the %srelated ticket%s for more information and how to fix this problem.",
-            '<a rel="noreferrer" target="_blank" href="https://github.com/matomo-org/piwik/issues/4439">', '</a>');
+            '<a rel="noreferrer noopener" target="_blank" href="https://github.com/matomo-org/matomo/issues/4439">', '</a>');
 
         $notification = new Notification($message);
         $notification->context = Notification::CONTEXT_WARNING;

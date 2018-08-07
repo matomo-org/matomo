@@ -19,7 +19,6 @@
         "EmailYourAdministrator": "%1$sNapisz o tej sytuacji swojemu adminsitratorowi%2$s.",
         "EnterUsernameOrEmail": "Wpisz nazwę użytkownika lub adres e-mail",
         "ExceptionAccessValues": "Parametr dostępu musi zawierać jedną z następujących wartości: [ %s ]",
-        "ExceptionAdminAnonymous": "Nie możesz przyznać dostępu 'admina' dla użytkownika 'anonymous'.",
         "ExceptionDeleteDoesNotExist": "Konto takiego użytkownik '%s' nie istnieje, a więc nie może być skasowane.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Usunięcie użytkownika '%s' jest niemożliwe.",
         "ExceptionEditAnonymous": "Konto użytkownika anonimowego nie może być zmienione czy skasowane. Jest stosowane przez Matomo by zdefiniować użytkownika, który się nie loguje. Dla przykładu, możesz uczynić swoje statystyki powszechnie publiczne, udzielając prawa 'podglądu' dla 'anonimowego' użytkownika.",

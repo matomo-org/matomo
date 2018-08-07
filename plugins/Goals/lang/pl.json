@@ -78,7 +78,6 @@
         "MatchesExpression": "odpowiada wyrażeniu %s",
         "NewGoalIntro": "Śledzenie konwersji celu jest jedną z najwydajniejszych metod pomiaru i polepszania osiągania celów biznesowych przy pomocy serwisu www.",
         "NewVisitorsConversionRateIs": "Współczynnik konwersji dla nowych odwiedzających to %s",
-        "NoGoalsNeedAccess": "Tylko Administrator lub użytkownik z uprawnieniami Super Użytkownika może zarządzać Celami wybranej strony. Skontaktuj się z Administratorem Matomo w celu konfiguracji Celu. <br> Śledzenie Celów jest świetnym sposobem na zrozumienie i maksymalizację wydajności Twojej strony!",
         "NoConversionsNoReportsMessage": "Raporty nie są wyświetlane, ponieważ nie odnotowano danych konwersji dla wybranego celu i przedziału czasowego.",
         "NeedAccess": "Tylko Administrator lub użytkownik z uprawnieniami Super Użytkownika może zarządzać Celami wybranej strony.",
         "Optional": "(opcjonalnie)",

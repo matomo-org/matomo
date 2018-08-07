@@ -31,7 +31,6 @@
         "SearchEngines": "Hakukoneet",
         "SearchEnginesDocumentation": "Kävijä tuli sivullesi hakukoneesta. %1$s Katso %2$s raportista lisätietoja.",
         "SearchEnginesReportDocumentation": "Tämä raportti näyttää, mitkä hakukoneet viittasivat kävijöitä sivuillesi. %s Näet hakusanat klikkaamalla hakukoneen nimeä.",
-        "SocialFooterMessage": "Tämä on osajoukko verkkosivuraportista vasemmalla. Se suodattaa pois toiset verkkosivut, jotta voit verrata sosiaalisia verkostojasi suoraan.",
         "Socials": "Sosiaaliset verkostot",
         "SocialsReportDocumentation": "Tämä raportti näyttää mitkä sosiaaliset verkostot johtivat kävijöitä verkkosivullesi.<br \/>Klikkaamalla riviä taulukossa näet mistä sosiaalisesta verkostosta kävijät tulivat verkkosivullesi.",
         "SubmenuSearchEngines": "Search engines & keywords",

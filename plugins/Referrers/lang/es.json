@@ -29,7 +29,6 @@
         "SearchEngines": "Motores de búsqueda",
         "SearchEnginesDocumentation": "Un visitante fue remitido a su sitio web por un motor de búsqueda. %1$s Vea el informe %2$s para más detalles.",
         "SearchEnginesReportDocumentation": "Este reporte muestra qué motores de búsqueda enviaron usuarios a su sitio de internet. %s Haciendo clic en una fila en la tabla, puede ver lo que los usuarios estaban buscando en un motor de búsqueda específico.",
-        "SocialFooterMessage": "A la izquierda, este es un subconjunto de los informes de los sitios de internet. Filtra respecto de otros sitios de internet, así puede comparar sus referencias de las redes sociales directamente.",
         "Socials": "Redes sociales",
         "SocialsReportDocumentation": "Este informe muestra que red social conduce visitantes a su sitio de internet.<br \/>Cliqueando en una fila de la tabla, puede observar desde que páginas de determinada red social provienen sus visitantes.",
         "SubmenuSearchEngines": "Motores de búsqueda y palabras clave",

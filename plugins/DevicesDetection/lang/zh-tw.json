@@ -37,6 +37,8 @@
         "Smartphone": "智慧型手機",
         "PortableMediaPlayer": "可攜式媒體播放器",
         "Devices": "裝置",
+        "GenericDevice": "通用 %s",
+        "MobileDevice": "行動裝置",
         "Tablet": "平板電腦",
         "Phablet": "平板手機",
         "TV": "電視",

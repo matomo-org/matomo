@@ -16,14 +16,16 @@ class VisitorDetails extends VisitorDetailsAbstract
 {
     public function extendVisitorDetails(&$visitor)
     {
-        $visitor['referrerType']             = $this->getReferrerType();
-        $visitor['referrerTypeName']         = $this->getReferrerTypeName();
-        $visitor['referrerName']             = $this->getReferrerName();
-        $visitor['referrerKeyword']          = $this->getKeyword();
-        $visitor['referrerKeywordPosition']  = $this->getKeywordPosition();
-        $visitor['referrerUrl']              = $this->getReferrerUrl();
-        $visitor['referrerSearchEngineUrl']  = $this->getSearchEngineUrl();
-        $visitor['referrerSearchEngineIcon'] = $this->getSearchEngineIcon();
+        $visitor['referrerType']              = $this->getReferrerType();
+        $visitor['referrerTypeName']          = $this->getReferrerTypeName();
+        $visitor['referrerName']              = $this->getReferrerName();
+        $visitor['referrerKeyword']           = $this->getKeyword();
+        $visitor['referrerKeywordPosition']   = $this->getKeywordPosition();
+        $visitor['referrerUrl']               = $this->getReferrerUrl();
+        $visitor['referrerSearchEngineUrl']   = $this->getSearchEngineUrl();
+        $visitor['referrerSearchEngineIcon']  = $this->getSearchEngineIcon();
+        $visitor['referrerSocialNetworkUrl']  = $this->getSocialNetworkUrl();
+        $visitor['referrerSocialNetworkIcon'] = $this->getSocialNetworkIcon();
     }
 
     public function renderVisitorDetails($visitorDetails)
@@ -114,6 +116,30 @@ class VisitorDetails extends VisitorDetailsAbstract
         if (!is_null($searchEngineUrl)) {
 
             return SearchEngine::getInstance()->getLogoFromUrl($searchEngineUrl);
+        }
+
+        return null;
+    }
+
+    protected function getSocialNetworkUrl()
+    {
+        if ($this->getReferrerType() == 'social'
+            && !empty($this->details['referer_name'])
+        ) {
+
+            return Social::getInstance()->getMainUrl($this->details['referer_url']);
+        }
+
+        return null;
+    }
+
+    protected function getSocialNetworkIcon()
+    {
+        $socialNetworkUrl = $this->getSocialNetworkUrl();
+
+        if (!is_null($socialNetworkUrl)) {
+
+            return Social::getInstance()->getLogoFromUrl($socialNetworkUrl);
         }
 
         return null;

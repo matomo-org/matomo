@@ -70,6 +70,11 @@ class FieldConfig
     const UI_CONTROL_SINGLE_EXPANDABLE_SELECT = 'expandable-select';
 
     /**
+     * Lets a user configure an array of form fields.
+     */
+    const UI_CONTROL_FIELD_ARRAY = 'field-array';
+
+    /**
      * Lets a user configure two form fields next to each other, and add multiple entries of those two pairs.
      */
     const UI_CONTROL_MULTI_TUPLE = 'multituple';

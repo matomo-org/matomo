@@ -184,51 +184,51 @@
 		<result prettyDate="Tuesday, January 5, 2010">
 			<row>
 				
-				<idsubdatatable>2111</idsubdatatable>
+				<idsubdatatable>2145</idsubdatatable>
 			</row>
 			<row>
 				
-				<idsubdatatable>2110</idsubdatatable>
+				<idsubdatatable>2144</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Wednesday, January 6, 2010">
 			<row>
 				
-				<idsubdatatable>2115</idsubdatatable>
+				<idsubdatatable>2149</idsubdatatable>
 			</row>
 			<row>
 				
-				<idsubdatatable>2114</idsubdatatable>
+				<idsubdatatable>2148</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Thursday, January 7, 2010">
 			<row>
 				
-				<idsubdatatable>2119</idsubdatatable>
+				<idsubdatatable>2153</idsubdatatable>
 			</row>
 			<row>
 				
-				<idsubdatatable>2118</idsubdatatable>
+				<idsubdatatable>2152</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Friday, January 8, 2010">
 			<row>
 				
-				<idsubdatatable>2123</idsubdatatable>
+				<idsubdatatable>2157</idsubdatatable>
 			</row>
 			<row>
 				
-				<idsubdatatable>2122</idsubdatatable>
+				<idsubdatatable>2156</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Saturday, January 9, 2010">
 			<row>
 				
-				<idsubdatatable>2127</idsubdatatable>
+				<idsubdatatable>2161</idsubdatatable>
 			</row>
 			<row>
 				
-				<idsubdatatable>2126</idsubdatatable>
+				<idsubdatatable>2160</idsubdatatable>
 			</row>
 		</result>
 	</reportMetadata>

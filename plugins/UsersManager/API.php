@@ -10,11 +10,15 @@ namespace Piwik\Plugins\UsersManager;
 
 use Exception;
 use Piwik\Access;
+use Piwik\Access\CapabilitiesProvider;
+use Piwik\Access\RolesProvider;
 use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Metrics\Formatter;
+use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
@@ -53,6 +57,11 @@ class API extends \Piwik\Plugin\API
     private $userFilter;
 
     /**
+     * @var Access
+     */
+    private $access;
+
+    /**
      * @var Access\RolesProvider
      */
     private $roleProvider;
@@ -67,20 +76,14 @@ class API extends \Piwik\Plugin\API
 
     private static $instance = null;
 
-    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access\RolesProvider $roleProvider = null, Access\CapabilitiesProvider $capabilityProvider = null)
+    public function __construct(Model $model, UserAccessFilter $filter, Password $password, Access $access = null, Access\RolesProvider $roleProvider = null, Access\CapabilitiesProvider $capabilityProvider = null)
     {
         $this->model = $model;
         $this->userFilter = $filter;
         $this->password = $password;
-
-        if (!isset($roleProvider)) {
-            $roleProvider = StaticContainer::get('Piwik\Access\RolesProvider');
-        }
-        if (!isset($capabilityProvider)) {
-            $capabilityProvider = StaticContainer::get('Piwik\Access\CapabilitiesProvider');
-        }
-        $this->roleProvider = $roleProvider;
-        $this->capabilityProvider = $capabilityProvider;
+        $this->access = $access ?: StaticContainer::get(Access::class);
+        $this->roleProvider = $roleProvider ?: StaticContainer::get(RolesProvider::class);
+        $this->capabilityProvider = $capabilityProvider ?: StaticContainer::get(CapabilitiesProvider::class);
     }
 
     /**
@@ -265,6 +268,72 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Returns all users with their role for $idSite.
+     *
+     * @param int $idSite
+     * @param int|null $limit
+     * @param int|null $offset
+     * @param string|null $filter_search text to search for in the user's login, email and alias (if any)
+     * @param string|null $filter_access only select users with this access to $idSite. can be 'noaccess', 'some', 'view', 'admin', 'superuser'
+     *                                   Filtering by 'superuser' is only allowed for other superusers.
+     * @return array
+     */
+    public function getUsersPlusRole($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
+    {
+        if (!$this->isUserHasAdminAccessTo($idSite)) {
+            // if the user is not an admin to $idSite, they can only see their own user
+            if ($offset > 1) {
+                Common::sendHeader('X-Matomo-Total-Results: 1');
+                return [];
+            }
+
+            $user = $this->model->getUser($this->access->getLogin());
+            $user['role'] = $this->access->getRoleForSite($idSite);
+            $user['capabilities'] = $this->access->getCapabilitiesForSite($idSite);
+            $users = [$user];
+            $totalResults = 1;
+        } else {
+            // if the current user is not the superuser, only select users that have access to a site this user
+            // has admin access to
+            $loginsToLimit = null;
+            if (!Piwik::hasUserSuperUserAccess()) {
+                $adminIdSites = Access::getInstance()->getSitesIdWithAdminAccess();
+                if (empty($adminIdSites)) { // sanity check
+                    throw new \Exception("The current admin user does not have access to any sites.");
+                }
+
+                $loginsToLimit = $this->model->getUsersWithAccessToSites($adminIdSites);
+            }
+
+            list($users, $totalResults) = $this->model->getUsersWithRole($idSite, $limit, $offset, $filter_search, $filter_access, $loginsToLimit);
+
+            foreach ($users as &$user) {
+                $user['superuser_access'] = $user['superuser_access'] == 1;
+                if ($user['superuser_access']) {
+                    $user['role'] = 'superuser';
+                    $user['capabilities'] = [];
+                } else {
+                    list($user['role'], $user['capabilities']) = $this->getRoleAndCapabilitiesFromAccess($user['access']);
+                    $user['role'] = empty($user['role']) ? 'noaccess' : reset($user['role']);
+                }
+
+                unset($user['access']);
+            }
+        }
+
+        $users = $this->enrichUsers($users);
+        $users = $this->enrichUsersWithLastSeen($users);
+        $users = $this->removeUserInfoForNonSuperUsers($users);
+
+        foreach ($users as &$user) {
+            unset($user['password']);
+        }
+
+        Common::sendHeader('X-Matomo-Total-Results: ' . $totalResults);
+        return $users;
+    }
+
+    /**
      * Returns the list of all the users
      *
      * @param string $userLogins Comma separated list of users to select. If not specified, will return all users
@@ -284,11 +353,7 @@ class API extends \Piwik\Plugin\API
         $users = $this->enrichUsers($users);
 
         // Non Super user can only access login & alias
-        if (!Piwik::hasUserSuperUserAccess()) {
-            foreach ($users as &$user) {
-                $user = array('login' => $user['login'], 'alias' => $user['alias']);
-            }
-        }
+        $users = $this->removeUserInfoForNonSuperUsers($users);
 
         return $users;
     }
@@ -336,12 +401,16 @@ class API extends \Piwik\Plugin\API
 
     private function checkAccessType($access)
     {
+        $access = (array) $access;
+
         $roles = $this->roleProvider->getAllRoleIds();
         $capabilities = $this->capabilityProvider->getAllCapabilityIds();
         $list = array_merge($roles, $capabilities);
 
-        if (!in_array($access, $list, true)) {
-            throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", implode(", ", $list)));
+        foreach ($access as $entry) {
+            if (!in_array($entry, $list, true)) {
+                throw new Exception(Piwik::translate("UsersManager_ExceptionAccessValues", implode(", ", $list), $entry));
+            }
         }
     }
 
@@ -407,7 +476,6 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserExists($userLogin);
-
         // Super users have 'admin' access for every site
         if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
             $return = array();
@@ -418,12 +486,63 @@ class API extends \Piwik\Plugin\API
                     'site' => $site['idsite'],
                     'access' => 'admin'
                 );
-
             }
             return $return;
         }
-
         return $this->model->getSitesAccessFromUser($userLogin);
+    }
+
+    /**
+     * For each website ID, returns the access level of the given $userLogin (if the user is not a superuser).
+     * If the user doesn't have any access to a website ('noaccess'),
+     * this website will not be in the returned array.
+     * If the user doesn't have any access, the returned array will be an empty array.
+     *
+     * @param string $userLogin User that has to be valid
+     *
+     * @param int|null $limit
+     * @param int|null $offset
+     * @param string|null $filter_search text to search for in site name, URLs, or group.
+     * @param string|null $filter_access access level to select for, can be 'some', 'view' or 'admin' (by default 'some')
+     * @return array    The returned array has the format
+     *                    array(
+     *                        ['idsite' => 1, 'site_name' => 'the site', 'access' => 'admin'],
+     *                        ['idsite' => 2, 'site_name' => 'the other site', 'access' => 'view'],
+     *                        ...
+     *                    )
+     * @throws Exception
+     */
+    public function getSitesAccessForUser($userLogin, $limit = null, $offset = 0, $filter_search = null, $filter_access = null)
+    {
+        Piwik::checkUserHasSomeAdminAccess();
+        $this->checkUserExists($userLogin);
+
+        if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
+            throw new \Exception("This method should not be used with superusers.");
+        }
+
+        $idSites = null;
+        if (!Piwik::hasUserSuperUserAccess()) {
+            $idSites = $this->access->getSitesIdWithAdminAccess();
+            if (empty($idSites)) { // sanity check
+                throw new \Exception("The current admin user does not have access to any sites.");
+            }
+        }
+
+        list($sites, $totalResults) = $this->model->getSitesAccessFromUserWithFilters($userLogin, $limit, $offset, $filter_search, $filter_access, $idSites);
+        foreach ($sites as &$siteAccess) {
+            list($siteAccess['role'], $siteAccess['capabilities']) = $this->getRoleAndCapabilitiesFromAccess($siteAccess['access']);
+            $siteAccess['role'] = empty($siteAccess['role']) ? 'noaccess' : reset($siteAccess['role']);
+            unset($siteAccess['access']);
+        }
+
+        $hasAccessToAny = $this->model->getSiteAccessCount($userLogin) > 0;
+
+        Common::sendHeader('X-Matomo-Total-Results: ' . $totalResults);
+        if ($hasAccessToAny) {
+            Common::sendHeader('X-Matomo-Has-Some: 1');
+        }
+        return $sites;
     }
 
     /**
@@ -510,9 +629,17 @@ class API extends \Piwik\Plugin\API
      *
      * @exception in case of an invalid parameter
      */
-    public function addUser($userLogin, $password, $email, $alias = false, $_isPasswordHashed = false)
+    public function addUser($userLogin, $password, $email, $alias = false, $_isPasswordHashed = false, $initialIdSite = null)
     {
-        Piwik::checkUserHasSuperUserAccess();
+        Piwik::checkUserHasSomeAdminAccess();
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            if (empty($initialIdSite)) {
+                throw new \Exception(Piwik::translate("UsersManager_AddUserNoInitialAccessError"));
+            }
+
+            Piwik::checkUserHasAdminAccess($initialIdSite);
+        }
 
         $this->checkLogin($userLogin);
         $this->checkEmail($email);
@@ -543,6 +670,10 @@ class API extends \Piwik\Plugin\API
          * @param string $userLogin The new user's login handle.
          */
         Piwik::postEvent('UsersManager.addUser.end', array($userLogin, $email, $password, $alias));
+
+        if ($initialIdSite) {
+            $this->setUserAccess($userLogin, 'view', $initialIdSite);
+        }
     }
 
     /**
@@ -599,6 +730,20 @@ class API extends \Piwik\Plugin\API
         return $users;
     }
 
+    private function enrichUsersWithLastSeen($users)
+    {
+        $formatter = new Formatter();
+
+        $lastSeenTimes = LastSeenTimeLogger::getLastSeenTimesForAllUsers();
+        foreach ($users as &$user) {
+            $login = $user['login'];
+            if (isset($lastSeenTimes[$login])) {
+                $user['last_seen'] = $formatter->getPrettyTimeFromSeconds(time() - $lastSeenTimes[$login]);
+            }
+        }
+        return $users;
+    }
+
     private function enrichUsers($users)
     {
         if (!empty($users)) {
@@ -613,6 +758,8 @@ class API extends \Piwik\Plugin\API
     {
         if (!empty($user)) {
             unset($user['token_auth']);
+            unset($user['password']);
+            unset($user['ts_password_modified']);
         }
 
         return $user;
@@ -709,11 +856,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Delete a user and all its access, given its login.
+     * Delete one or more users and all its access, given its login.
      *
-     * @param string $userLogin the user login.
+     * @param string $userLogin the user login(s).
      *
-     * @throws Exception if the user doesn't exist
+     * @throws Exception if the user doesn't exist or if deleting the users would leave no superusers.
      *
      * @return bool true on success
      */
@@ -722,9 +869,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserIsNotAnonymous($userLogin);
 
-        if (!$this->userExists($userLogin)) {
-            throw new Exception(Piwik::translate("UsersManager_ExceptionDeleteDoesNotExist", $userLogin));
-        }
+        $this->checkUserExist($userLogin);
 
         if ($this->isUserTheOnlyUserHavingSuperUserAccess($userLogin)) {
             $message = Piwik::translate("UsersManager_ExceptionDeleteOnlyUserWithSuperUserAccess", $userLogin)
@@ -807,17 +952,21 @@ class API extends \Piwik\Plugin\API
      *                              May also be an array to sent additional capabilities
      * @param int|array $idSites The array of idSites on which to apply the access level for the user.
      *       If the value is "all" then we apply the access level to all the websites ID for which the current authentificated user has an 'admin' access.
-     *
      * @throws Exception if the user doesn't exist
      * @throws Exception if the access parameter doesn't have a correct value
      * @throws Exception if any of the given website ID doesn't exist
      */
     public function setUserAccess($userLogin, $access, $idSites)
     {
+        if ($access != 'noaccess') {
+            $this->checkAccessType($access);
+        }
+
         $idSites = $this->getIdSitesCheckAdminAccess($idSites);
 
         if ($userLogin === 'anonymous' &&
-            (is_array($access) || !in_array($access, array('view', 'noaccess'), true))) {
+            (is_array($access) || !in_array($access, array('view', 'noaccess'), true))
+        ) {
             throw new Exception(Piwik::translate("UsersManager_ExceptionAnonymousAccessNotPossible", array('noaccess', 'view')));
         }
 
@@ -826,15 +975,7 @@ class API extends \Piwik\Plugin\API
 
         if (is_array($access)) {
             // we require one role, and optionally multiple capabilties
-            $roles = array();
-            foreach ($access as $entry) {
-                if ($this->roleProvider->isValidRole($entry)) {
-                    $roles[] = $entry;
-                } else {
-                    $this->checkAccessType($entry);
-                    $capabilities[] = $entry;
-                }
-            }
+            list($roles, $capabilities) = $this->getRoleAndCapabilitiesFromAccess($access);
 
             if (count($roles) < 1) {
                 $ids = implode(', ', $this->roleProvider->getAllRoleIds());
@@ -854,8 +995,8 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        $this->checkUserExists($userLogin);
-        $this->checkUserHasNotSuperUserAccess($userLogin);
+        $this->checkUserExist($userLogin);
+        $this->checkUsersHasNotSuperUserAccess($userLogin);
 
         $this->model->deleteUserAccess($userLogin, $idSites);
 
@@ -897,7 +1038,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $this->checkUserExists($userLogin);
-        $this->checkUserHasNotSuperUserAccess($userLogin);
+        $this->checkUsersHasNotSuperUserAccess([$userLogin]);
 
         if (!is_array($capabilities)){
             $capabilities = array($capabilities);
@@ -1054,18 +1195,37 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private function checkUserHasNotSuperUserAccess($userLogin)
+    private function checkUsersHasNotSuperUserAccess($userLogins)
     {
-        if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
-            throw new Exception(Piwik::translate("UsersManager_ExceptionSuperUserAccess"));
+        $userLogins = (array) $userLogins;
+        $superusers = $this->getUsersHavingSuperUserAccess();
+        $superusers = array_column($superusers, null, 'login');
+
+        foreach ($userLogins as $userLogin) {
+            if (isset($superusers[$userLogin])) {
+                throw new Exception(Piwik::translate("UsersManager_ExceptionUserHasSuperUserAccess", $userLogin));
+            }
         }
     }
 
+    /**
+     * @param string|string[] $userLogin
+     * @return bool
+     */
     private function isUserTheOnlyUserHavingSuperUserAccess($userLogin)
     {
-        $superUsers = $this->getUsersHavingSuperUserAccess();
+        if (!is_array($userLogin)) {
+            $userLogin = [$userLogin];
+        }
 
-        return 1 >= count($superUsers) && Piwik::hasTheUserSuperUserAccess($userLogin);
+        $superusers = $this->getUsersHavingSuperUserAccess();
+        $superusersByLogin = array_column($superusers, null, 'login');
+
+        foreach ($userLogin as $login) {
+            unset($superusersByLogin[$login]);
+        }
+
+        return empty($superusersByLogin);
     }
 
     /**
@@ -1103,5 +1263,60 @@ class API extends \Piwik\Plugin\API
         }
 
         return $user['token_auth'];
+    }
+
+    private function removeUserInfoForNonSuperUsers($users)
+    {
+        if (!Piwik::hasUserSuperUserAccess()) {
+            foreach ($users as $key => $user) {
+                $newUser = array('login' => $user['login'], 'alias' => $user['alias']);
+                if (isset($user['role'])) {
+                    $newUser['role'] = $user['role'] == 'superuser' ? 'admin' : $user['role'];
+                }
+                if (isset($user['capabilities'])) {
+                    $newUser['capabilities'] = $user['capabilities'];
+                }
+                $users[$key] = $newUser;
+            }
+        }
+        return $users;
+    }
+
+    private function isUserHasAdminAccessTo($idSite)
+    {
+        try {
+            Piwik::checkUserHasAdminAccess([$idSite]);
+            return true;
+        } catch (NoAccessException $ex) {
+            return false;
+        }
+    }
+
+    private function checkUserExist($userLogin)
+    {
+        $userExists = $this->model->userExists($userLogin);
+        if (!$userExists) {
+            throw new Exception(Piwik::translate("UsersManager_ExceptionUserDoesNotExist", $userLogin));
+        }
+    }
+
+    private function getRoleAndCapabilitiesFromAccess($access)
+    {
+        $roles = [];
+        $capabilities = [];
+
+        foreach ($access as $entry) {
+            if (empty($entry)) {
+                continue;
+            }
+
+            if ($this->roleProvider->isValidRole($entry)) {
+                $roles[] = $entry;
+            } else {
+                $this->checkAccessType($entry);
+                $capabilities[] = $entry;
+            }
+        }
+        return [$roles, $capabilities];
     }
 }

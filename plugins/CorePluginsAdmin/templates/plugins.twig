@@ -19,7 +19,7 @@
 
             {% if isMarketplaceEnabled %}
                 {{ 'CorePluginsAdmin_TeaserExtendPiwikByPlugin'|translate(
-                    '<a href="' ~ linkTo({'action':'browsePlugins', 'sort': ''}) ~ '">',
+                    '<a href="' ~ linkTo({'action':'browsePlugins', 'sort': null, 'activated': null})|e('html_attr') ~ '">',
                     '</a>',
                     '<a href="#" class="uploadPlugin">',
                     '</a>'
@@ -30,7 +30,7 @@
                 <br/>{{ 'CorePluginsAdmin_DoMoreContactPiwikAdmins'|translate }}
             {% endif %}
 
-            {{ 'CorePluginsAdmin_ChangeLookByManageThemes'|translate('<a href="' ~ linkTo({'action': 'themes'}) ~'">', '</a>')|raw }}
+            {{ 'CorePluginsAdmin_ChangeLookByManageThemes'|translate('<a href="' ~ linkTo({'action': 'themes', 'activated': null})|e('html_attr') ~'">', '</a>')|raw }}
         </p>
     </div>
 

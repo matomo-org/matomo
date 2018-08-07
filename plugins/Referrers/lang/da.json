@@ -29,7 +29,6 @@
         "SearchEngines": "Søgemaskiner",
         "SearchEnginesDocumentation": "Besøgende blev henvist til hjemmesiden fra en søgemaskine. %1$s Se rapporten %2$s for yderligere oplysninger.",
         "SearchEnginesReportDocumentation": "Rapporten viser hvilke søgemaskiner, der henviser brugere til hjemmesiden. %s Klik på en række i tabellen for at se, hvad brugerne søgte efter ved brug af en bestemt søgemaskine.",
-        "SocialFooterMessage": "Dette er en delmængde af hjemmesiderapporterne til venstre. Den filtrerer andre hjemmesider, så du kan sammenligne dine sociale netværk henvisningssteder direkte.",
         "Socials": "Sociale netværk",
         "SocialsReportDocumentation": "Rapporten viser, hvilke sociale netværk der førte besøgende til hjemmesiden.<br\/> Ved at klikke på en række i tabellen, kan du se, fra hvilke sociale netværkssider besøgende kom til hjemmesiden.",
         "SubmenuSearchEngines": "Søgemaskine og søgeord",

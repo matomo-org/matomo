@@ -323,7 +323,7 @@
         "Password": "Mot de passe",
         "Period": "Période",
         "Piechart": "Camembert",
-        "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo %2$s, anciennement Piwik, est un projet collaboratif qui vous est fournit par les membres de%7$sl'équipe Matomo%8$sainsi que de nombreux contributeurs du monde entier. <br\/>Si vous êtes un(e) fan de Matomo vous pouvez aider : apprenez %3$sComment participer à Matomo%4$s ou %5$sdonnez maintenant%6$spour aider à financer la prochaine version de Matomo!",
+        "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s, anciennement Piwik, est un projet collaboratif qui vous est fourni par les membres de %7$sl'équipe Matomo%8$s ainsi que de nombreux contributeurs du monde entier. <br\/>Si vous êtes un(e) fan de Matomo vous pouvez aider : apprenez %3$sComment participer à Matomo%4$s ou %5$sdonnez maintenant%6$s pour aider à financer la prochaine version de Matomo!",
         "PiwikXIsAvailablePleaseNotifyPiwikAdmin": "%1$s est disponible. Veuillez informer %2$sl'administrateur Matomo%3$s.",
         "PiwikXIsAvailablePleaseUpdateNow": "Matomo %1$s est maintenant disponible. %2$s Merci de mettre à jour!%3$s (voir %4$s les modifications%5$s).",
         "PleaseContactYourPiwikAdministrator": "Merci de contacter votre administrateur Matomo.",
