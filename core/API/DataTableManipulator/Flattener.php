@@ -157,8 +157,16 @@ class Flattener extends DataTableManipulator
             }
             $prefix = $label . $this->recursiveLabelSeparator;
 
-            $report           = ReportsProvider::factory($this->apiModule, $this->getApiMethodForSubtable($this->request));
-            $subDimension     = $report->getDimension();
+            $report        = ReportsProvider::factory($this->apiModule, $this->apiMethod);
+            if (!empty($report)) {
+                $subDimension = $report->getSubtableDimension();
+            }
+
+            if (empty($subDimension)) {
+                $report           = ReportsProvider::factory($this->apiModule, $this->getApiMethodForSubtable($this->request));
+                $subDimension     = $report->getDimension();
+            }
+
             $subDimensionName = $subDimension ? str_replace('.', '_', $subDimension->getId()) : 'label' . (substr_count($prefix, $this->recursiveLabelSeparator) + 1);
 
             if ($origLabel !== false) {
