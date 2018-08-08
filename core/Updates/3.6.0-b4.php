@@ -10,7 +10,6 @@
 namespace Piwik\Updates;
 
 use Piwik\Common;
-use Piwik\Date;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Updates;
 use Piwik\Updater;
@@ -32,10 +31,9 @@ class Updates_3_6_0_b4 extends Updates
 
     public function getMigrations(Updater $updater)
     {
-        // use php date since mysql date/time might be different and might lock users out for a while. and subtract days just to be safe.
-        $passwordModified = Date::factory('now')->subDay(14);
         return array(
-            $this->migration->db->sql('UPDATE ' . Common::prefixTable('user') . ' SET ts_password_modified = "' . $passwordModified->getDatetime() . '"'),
+            $this->migration->db->changeColumn('user', 'ts_password_modified', 'ts_password_modified', 'ts_password_modified TIMESTAMP NULL'),
+            $this->migration->db->sql('UPDATE `' . Common::prefixTable('user') . '` SET ts_password_modified = NULL'),
         );
     }
 
