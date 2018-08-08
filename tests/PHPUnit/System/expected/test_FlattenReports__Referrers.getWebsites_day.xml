@@ -11,7 +11,7 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://www.referrer1.com/sub/dir/page1.html</url>
-		<Referrers_Website>www.referrer1.com</Referrers_Website>
+		<label1>www.referrer1.com</label1>
 		<Referrers_WebsitePage>sub/dir/page1.html</Referrers_WebsitePage>
 	</row>
 	<row>
@@ -25,7 +25,7 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://www.referrer1.com/sub/dir/page2.html</url>
-		<Referrers_Website>www.referrer1.com</Referrers_Website>
+		<label1>www.referrer1.com</label1>
 		<Referrers_WebsitePage>sub/dir/page2.html</Referrers_WebsitePage>
 	</row>
 	<row>
@@ -39,7 +39,7 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://www.referrer2.com/sub/dir/page1.html</url>
-		<Referrers_Website>www.referrer2.com</Referrers_Website>
+		<label1>www.referrer2.com</label1>
 		<Referrers_WebsitePage>sub/dir/page1.html</Referrers_WebsitePage>
 	</row>
 	<row>
@@ -53,7 +53,7 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://www.referrer2.com/sub/dir/page2.html</url>
-		<Referrers_Website>www.referrer2.com</Referrers_Website>
+		<label1>www.referrer2.com</label1>
 		<Referrers_WebsitePage>sub/dir/page2.html</Referrers_WebsitePage>
 	</row>
 	<row>
@@ -67,7 +67,7 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://www.referrer3.com/sub/dir/page1.html</url>
-		<Referrers_Website>www.referrer3.com</Referrers_Website>
+		<label1>www.referrer3.com</label1>
 		<Referrers_WebsitePage>sub/dir/page1.html</Referrers_WebsitePage>
 	</row>
 	<row>
@@ -81,7 +81,7 @@
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<url>http://www.referrer3.com/sub/dir/page2.html</url>
-		<Referrers_Website>www.referrer3.com</Referrers_Website>
+		<label1>www.referrer3.com</label1>
 		<Referrers_WebsitePage>sub/dir/page2.html</Referrers_WebsitePage>
 	</row>
 </result>
