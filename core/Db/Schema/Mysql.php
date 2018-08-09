@@ -41,7 +41,7 @@ class Mysql implements SchemaInterface
                           token_auth CHAR(32) NOT NULL,
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
-                          ts_password_modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          ts_password_modified TIMESTAMP NULL,
                             PRIMARY KEY(login),
                             UNIQUE KEY uniq_keytoken(token_auth)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
