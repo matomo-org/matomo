@@ -209,12 +209,12 @@ class Visualization extends ViewDataTable
         }
 
         $view = new View("@CoreHome/_dataTable");
+        $view->assign($this->templateVars);
 
         if (!empty($loadingError)) {
             $view->error = $loadingError;
         }
 
-        $view->assign($this->templateVars);
         $view->visualization         = $this;
         $view->visualizationTemplate = static::TEMPLATE_FILE;
         $view->visualizationCssClass = $this->getDefaultDataTableCssClass();
@@ -243,8 +243,27 @@ class Visualization extends ViewDataTable
         $view->reportLastUpdatedMessage = $this->reportLastUpdatedMessage;
         $view->footerIcons = $this->config->footer_icons;
         $view->isWidget    = Common::getRequestVar('widget', 0, 'int');
+        $view->notifications = [];
+
+        if (empty($this->dataTable) || !$this->hasAnyData($this->dataTable)) {
+            /**
+             * @ignore
+             */
+            Piwik::postEvent('Visualization.onNoData', [$view]);
+        }
 
         return $view->render();
+    }
+
+    private function hasAnyData(DataTable\DataTableInterface $dataTable)
+    {
+        $hasData = false;
+        $dataTable->filter(function (DataTable $table) use (&$hasData) {
+            if ($table->getRowsCount() > 0) {
+                $hasData = true;
+            }
+        });
+        return $hasData;
     }
 
     /**

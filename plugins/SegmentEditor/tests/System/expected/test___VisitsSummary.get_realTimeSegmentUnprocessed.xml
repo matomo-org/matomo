@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<error message="The Segment 'testsegment' is set to 'segmented reports are processed in real time' but Matomo is not currently configured to process segmented reports in API requests. To see data for this report in the future, you will need to edit your segment and choose the option labeled 'segmented reports are pre-processed (faster, requires cron)'. Then after a few hours your segment data should become available through the API. (If it does not, there may be a problem.)" />
+</result>

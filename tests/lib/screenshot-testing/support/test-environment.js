@@ -26,6 +26,7 @@ TestingEnvironment.prototype.reload = function () {
     this['loadRealTranslations'] = true; // UI tests should test w/ real translations, not translation keys
     this['testUseMockAuth'] = true;
     this['configOverride'] = {};
+    this['optionsOverride'] = {};
 
     if (fs.exists(testingEnvironmentOverridePath)) {
         var data = JSON.parse(fs.read(testingEnvironmentOverridePath));

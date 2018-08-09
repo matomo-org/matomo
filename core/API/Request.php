@@ -72,6 +72,13 @@ use Piwik\UrlHelper;
  */
 class Request
 {
+    /**
+     * The count of nested API request invocations. Used to determine if the currently executing request is the root or not.
+     *
+     * @var int
+     */
+    private static $nestedApiInvocationCount = 0;
+
     private $request = null;
 
     /**
@@ -223,6 +230,7 @@ class Request
         $shouldReloadAuth = false;
 
         try {
+            ++self::$nestedApiInvocationCount;
 
             // IP check is needed here as we cannot listen to API.Request.authenticate as it would then not return proper API format response.
             // We can also not do it by listening to API.Request.dispatch as by then the user is already authenticated and we want to make sure
@@ -258,6 +266,8 @@ class Request
             Log::debug($e);
 
             $toReturn = $response->getResponseException($e);
+        } finally {
+            --self::$nestedApiInvocationCount;
         }
 
         if ($shouldReloadAuth) {
@@ -297,11 +307,11 @@ class Request
     /**
      * @ignore
      * @internal
-     * @param bool $isRootRequestApiRequest
+     * @param string $currentApiMethod
      */
-    public static function setIsRootRequestApiRequest($isRootRequestApiRequest)
+    public static function setIsRootRequestApiRequest($currentApiMethod)
     {
-        Cache::getTransientCache()->save('API.setIsRootRequestApiRequest', $isRootRequestApiRequest);
+        Cache::getTransientCache()->save('API.setIsRootRequestApiRequest', $currentApiMethod);
     }
 
     /**
@@ -313,8 +323,22 @@ class Request
      */
     public static function isRootRequestApiRequest()
     {
-        $isApi = Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
-        return !empty($isApi);
+        $apiMethod = Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
+        return !empty($apiMethod);
+    }
+
+    /**
+     * Checks if the currently executing API request is the root API request or not.
+     *
+     * Note: the "root" API request is the first request made. Within that request, further API methods
+     * can be called programmatically. These requests are considered "child" API requests.
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public static function isCurrentApiRequestTheRootApiRequest()
+    {
+        return self::$nestedApiInvocationCount == 1;
     }
 
     /**
@@ -330,10 +354,24 @@ class Request
      */
     public static function isApiRequest($request)
     {
+        $method = self::getMethodIfApiRequest($request);
+        return !empty($method);
+    }
+
+    /**
+     * Returns the current API method being executed, if the current request is an API request.
+     *
+     * @param array $request  eg array('module' => 'API', 'method' => 'Test.getMethod')
+     * @return string|null
+     * @throws Exception
+     */
+    public static function getMethodIfApiRequest($request)
+    {
         $module = Common::getRequestVar('module', '', 'string', $request);
         $method = Common::getRequestVar('method', '', 'string', $request);
 
-        return $module === 'API' && !empty($method) && (count(explode('.', $method)) === 2);
+        $isApi = $module === 'API' && !empty($method) && (count(explode('.', $method)) === 2);
+        return $isApi ? $method : null;
     }
 
     /**

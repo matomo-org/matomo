@@ -897,6 +897,7 @@ class UsersManagerTest extends IntegrationTestCase
      */
     public function testGetUsersAccessFromSiteWrongIdSite()
     {
+        FakeAccess::$superUser = false;
         $this->api->getUsersAccessFromSite(1);
     }
 

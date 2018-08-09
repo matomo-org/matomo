@@ -139,6 +139,10 @@
                 }
                 $widgetContent.removeClass('loading');
                 $widgetContent.trigger('widget:create', [self]);
+
+                angular.element(document).injector().invoke(['notifications', function (notifications) {
+                    notifications.parseNotificationDivs();
+                }]);
             }
 
             // Reading segment from hash tag (standard case) or from the URL (when embedding dashboard)

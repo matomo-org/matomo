@@ -214,6 +214,16 @@ class View implements ViewInterface
         return isset($this->templateVars[$name]);
     }
 
+    /**
+     * Unsets a template variable.
+     *
+     * @param string $name The name of the template variable.
+     */
+    public function __unset($name)
+    {
+        unset($this->templateVars[$name]);
+    }
+
     /** @var Twig */
     static $twigCached = null;
 
