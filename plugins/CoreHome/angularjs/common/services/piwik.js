@@ -23,9 +23,8 @@
         }
 
         function updatePeriodParamsFromUrl() {
-            var date = piwik.broadcast.getValueFromHash('date');
-            var period = piwik.broadcast.getValueFromHash('period');
-
+            var date = piwik.broadcast.getValueFromHash('date') || piwik.broadcast.getValueFromUrl('date');
+            var period = piwik.broadcast.getValueFromHash('period') || piwik.broadcast.getValueFromUrl('period');
             if (!isValidPeriod(period, date)) {
                 // invalid data in URL
                 return;
