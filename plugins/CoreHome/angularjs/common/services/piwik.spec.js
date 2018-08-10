@@ -35,7 +35,7 @@
             });
         });
 
-        describe.only('#updatePeriodParamsFromUrl()', function() {
+        describe('#updatePeriodParamsFromUrl()', function() {
             DATE_PERIODS_TO_TEST = [
                 {
                     date: '2012-01-02',
