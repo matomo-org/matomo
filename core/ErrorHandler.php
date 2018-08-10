@@ -43,7 +43,7 @@ class ErrorHandler
     {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $limit = 2);
         $backtrace[1]['class'] = $className; // knowing the derived class name is far more useful
-        $backtrace[1]['args'] = array_map('strval', $importantArgs);
+        $backtrace[1]['args'] = empty($importantArgs) ? [] : array_map('strval', $importantArgs);
         array_unshift(self::$fatalErrorStackTrace, $backtrace[1]);
     }
 
