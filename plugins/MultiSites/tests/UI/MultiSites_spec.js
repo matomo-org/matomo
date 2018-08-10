@@ -70,7 +70,7 @@ describe("MultiSitesTest", function () {
         }, done);
     });
 
-    it.only('should load the all websites dashboard correctly when period is range', function (done) {
+    it('should load the all websites dashboard correctly when period is range', function (done) {
         this.retries(3);
 
         expect.screenshot('all_websites_range').to.be.captureSelector(selector, function (page) {

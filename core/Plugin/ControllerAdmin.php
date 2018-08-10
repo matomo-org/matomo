@@ -151,10 +151,6 @@ abstract class ControllerAdmin extends Controller
             return;
         }
 
-        if (defined('PIWIK_TEST_MODE')) {
-            return;
-        }
-
         $message = Piwik::translate('General_CurrentlyUsingUnsecureHttp');
 
         $message .= " ";
