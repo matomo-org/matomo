@@ -70,10 +70,10 @@ describe("MultiSitesTest", function () {
         }, done);
     });
 
-    it('should load the all websites dashboard correctly when period is range', function (done) {
+    it.only('should load the all websites dashboard correctly when period is range', function (done) {
         this.retries(3);
 
-        expect.screenshot('all_websites').to.be.captureSelector(selector, function (page) {
+        expect.screenshot('all_websites_range').to.be.captureSelector(selector, function (page) {
             page.load("?" + rangeParams + "&module=MultiSites&action=index");
             page.wait(3000);
         }, done);
