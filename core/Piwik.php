@@ -651,7 +651,7 @@ class Piwik
     {
         /** @var \Zend_Validate_EmailAddress $zendEmailValidator */
         $zendEmailValidator = StaticContainer::get('Zend_Validate_EmailAddress');
-        return $zendEmailValidator->isValid($emailAddress);
+        return $zendEmailValidator->isValid(Common::unsanitizeInputValue($emailAddress));
     }
 
     /**
