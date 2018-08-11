@@ -12,6 +12,7 @@ use Piwik\Application\Environment;
 use Piwik\Config\ConfigNotFoundException;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
+use Piwik\Plugins\Monolog\Handler\FailureLogMessageDetector;
 use Piwik\Version;
 use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
 use Symfony\Component\Console\Application;
@@ -85,9 +86,17 @@ class Console extends Application
         }
 
         $self = $this;
-        return Access::doAsSuperUser(function () use ($input, $output, $self) {
+        $exitCode = Access::doAsSuperUser(function () use ($input, $output, $self) {
             return call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
         });
+
+        $importantLogDetector = StaticContainer::get(FailureLogMessageDetector::class);
+        if ($exitCode === 0 && $importantLogDetector->hasEncounteredImportantLog()) {
+            $output->writeln("Error: error or warning logs detected, exit 1");
+            $exitCode = 1;
+        }
+
+        return $exitCode;
     }
 
     private function addCommandIfExists($command)
