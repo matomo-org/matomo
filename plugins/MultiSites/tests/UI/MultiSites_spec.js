@@ -11,6 +11,7 @@ describe("MultiSitesTest", function () {
     this.timeout(0);
 
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
+    var rangeParams = 'idSite=1&period=range&date=2012-08-05,2012-08-15';
     var selector = '#multisites,.expandDataTableFooterDrawer';
 
     var createdSiteId = null;
@@ -66,6 +67,15 @@ describe("MultiSitesTest", function () {
     it('should toggle sort order when click on current metric', function (done) {
         expect.screenshot('all_websites_changed_sort_order').to.be.captureSelector(selector, function (page) {
             page.click('#visits .heading');
+        }, done);
+    });
+
+    it('should load the all websites dashboard correctly when period is range', function (done) {
+        this.retries(3);
+
+        expect.screenshot('all_websites_range').to.be.captureSelector(selector, function (page) {
+            page.load("?" + rangeParams + "&module=MultiSites&action=index");
+            page.wait(3000);
         }, done);
     });
 
