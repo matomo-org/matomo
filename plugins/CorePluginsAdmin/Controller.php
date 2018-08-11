@@ -316,8 +316,8 @@ class Controller extends Plugin\ControllerAdmin
 
             $errorMessage = $lastError['message'];
 
-            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-                $errorMessage .= ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n" . ErrorHandler::getFatalErrorPartialBacktrace();
+            if (!empty($lastError['backtrace'])) {
+                $errorMessage .= $lastError['backtrace'];
             }
 
             if (Piwik::isUserIsAnonymous()) {

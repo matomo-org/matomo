@@ -109,6 +109,11 @@ class FrontController extends Singleton
             'file' => $e->getFile(),
             'line' => $e->getLine()
         );
+
+        if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+            $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n" . $e->getTraceAsString();
+        }
+
         return self::generateSafeModeOutputFromError($error);
     }
 
@@ -230,6 +235,11 @@ class FrontController extends Singleton
     {
         $lastError = error_get_last();
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
+            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+                $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
+                    . ErrorHandler::getFatalErrorPartialBacktrace();
+            }
+
             $message = self::generateSafeModeOutputFromError($lastError);
             echo $message;
         }
