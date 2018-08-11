@@ -71,7 +71,9 @@ class AnalyzeArchiveTable extends ConsoleCommand
             $totalTemporary += $row['count_temporary_archives'];
             $totalError += $row['count_error_archives'];
             $totalSegment += $row['count_segment_archives'];
-            $totalBlobLength += $row['sum_blob_length'];
+            if (isset($row['sum_blob_length'])) {
+                $totalBlobLength += $row['sum_blob_length'];
+            }
         }
 
         $formatter = new Formatter();
