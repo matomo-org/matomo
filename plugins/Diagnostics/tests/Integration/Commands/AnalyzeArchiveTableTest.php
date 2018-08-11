@@ -84,6 +84,7 @@ Total # Error Archives: 0
 Total # Segment Archives: 72
 Total Size of Blobs: 21.2 K
 
+
 OUTPUT;
 
         $this->applicationTester->run(array(
