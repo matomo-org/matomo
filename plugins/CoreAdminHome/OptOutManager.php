@@ -10,6 +10,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Piwik\Cache;
 use Piwik\Common;
+use Piwik\Db;
 use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
@@ -232,7 +233,6 @@ class OptOutManager
             return;
         }
 
-        // TODO: these values should probably be cached
         $settings = new \Piwik\Plugins\PrivacyManager\SystemSettings();
         $this->view->optedInText = $this->getCachedSettingValue($settings->defaultOptedInText);
         $this->view->optedOutText = $this->getCachedSettingValue($settings->defaultOptedOutText);
@@ -296,6 +296,7 @@ class OptOutManager
         return Piwik::translate('CoreAdminHome_OptOutComplete') . "\n\n" . Piwik::translate('CoreAdminHome_OptOutCompleteBis');
     }
 
+    // TODO: need to clear cache when setting somehow...
     private function getCachedSettingValue(Setting $setting)
     {
         $cacheKey = 'OptOutManager.' . $setting->getName();

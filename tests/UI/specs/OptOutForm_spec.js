@@ -18,6 +18,8 @@ describe("OptOutForm", function () {
 
     it("should display correctly when embedded in another site", function (done) {
         expect.screenshot('loaded').to.be.captureSelector('iframe#optOutIframe', function (page) {
+            phantom.clearCookies();
+
             page.userAgent = chromeUserAgent;
             page.load(siteUrl);
         }, done);
@@ -56,36 +58,5 @@ describe("OptOutForm", function () {
             page.wait(1000); // wait for iframe to reload
             page.load(siteUrl); // reload to check that cookie was set
         }, done);
-    });
-
-    describe('OptOutForm_customText', function () {
-        before(function (done) {
-            testEnvironment.callApi('CorePluginsAdmin.setSystemSettings', {
-                settingValues: {
-                    PrivacyManager: [
-                        { name: 'defaultOptOutFormOptedInText', value: 'opted in\n\npar 2\n\n par3\nstillpar3' },
-                        { name: 'defaultOptOutFormOptedOutText', value: 'opted out\nmore\n\ntext' }
-                    ]
-                }
-            }, done);
-        });
-
-        it('should show custom opt out text when opted in', function (done) {
-            expect.screenshot('opted_in').to.be.captureSelector('iframe#optOutIframe', function (page) {
-                phantom.clearCookies();
-
-                page.userAgent = chromeUserAgent;
-                page.load(siteUrl);
-            }, done);
-        });
-
-        it('should show custom opt out text when opted out', function (done) {
-            expect.screenshot('opted_out').to.be.captureSelector('iframe#optOutIframe', function (page) {
-                page.evaluate(function () {
-                    $('iframe#optOutIframe').contents().find('input#trackVisits').click();
-                });
-                page.wait(2000); // wait for iframe to reload
-            }, done);
-        });
     });
 });
