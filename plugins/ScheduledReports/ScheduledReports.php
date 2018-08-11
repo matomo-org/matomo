@@ -365,7 +365,7 @@ class ScheduledReports extends \Piwik\Plugin
             // add unsubscribe links to content
             if ($htmlContent) {
                 $link = SettingsPiwik::getPiwikUrl() . 'index.php?module=ScheduledReports&action=unsubscribe&token=' . $tokens[$email];
-                $mail->setBodyHtml($htmlContent . '<br /><br /><hr /><br />'.Piwik::translate('ScheduledReports_UnsubscribeFooter', [' <a href="' . $link . '">' . $link . '</a>']));
+                $mail->setBodyHtml($htmlContent . '<br /><br /><hr /><br />'.Piwik::translate('ScheduledReports_UnsubscribeFooter', [' <a href="' . $link . '">' . Piwik::translate('ScheduledReports_Unsubscribe') . '</a>']));
             }
 
             if ($textContent) {
