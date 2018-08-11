@@ -208,10 +208,10 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $reqParams = $this->getEnrichedRequest($params, $encode = false);
-
+        //Change on svgBasePath to work with reverse proxy
         $view->config = array(
             'metrics'            => array(),
-            'svgBasePath'        => $view->piwikUrl . 'plugins/UserCountryMap/svg/',
+            'svgBasePath'        => 'plugins/UserCountryMap/svg/',
             'liveRefreshAfterMs' => $liveRefreshAfterMs,
             '_'                  => $locale,
             'reqParams'          => $reqParams,
