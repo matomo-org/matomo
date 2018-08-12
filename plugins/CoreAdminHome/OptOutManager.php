@@ -235,7 +235,14 @@ class OptOutManager
 
         $settings = new \Piwik\Plugins\PrivacyManager\SystemSettings();
         $this->view->optedInText = $this->getCachedSettingValue($settings->defaultOptedInText);
+        if (empty($this->view->optedInText)) {
+            $this->view->optedInText = self::getDefaultOptedInText();
+        }
+
         $this->view->optedOutText = $this->getCachedSettingValue($settings->defaultOptedOutText);
+        if (empty($this->view->optedOutText)) {
+            $this->view->optedOutText = self::getDefaultOptedOutText();
+        }
     }
 
     private function optOutStyling()
@@ -288,17 +295,17 @@ class OptOutManager
 
     public static function getDefaultOptedInText()
     {
-        return Piwik::translate('CoreAdminHome_YouMayOptOut2') . " " . Piwik::translate('CoreAdminHome_YouMayOptOut3');
+        return '<p>' . Piwik::translate('CoreAdminHome_YouMayOptOut2') . " " . Piwik::translate('CoreAdminHome_YouMayOptOut3') . '</p>';
     }
 
     public static function getDefaultOptedOutText()
     {
-        return Piwik::translate('CoreAdminHome_OptOutComplete') . "\n\n" . Piwik::translate('CoreAdminHome_OptOutCompleteBis');
+        return '<p>' . Piwik::translate('CoreAdminHome_OptOutComplete') . "\n\n" . Piwik::translate('CoreAdminHome_OptOutCompleteBis') . '</p>';
     }
 
-    // TODO: need to clear cache when setting somehow...
     private function getCachedSettingValue(Setting $setting)
     {
+        // Note: eager cache is cleared on setting save
         $cacheKey = 'OptOutManager.' . $setting->getName();
         $eagerCache = Cache::getEagerCache();
 
@@ -311,6 +318,11 @@ class OptOutManager
 
     private function addParagraphs($value)
     {
+        $value = trim($value);
+        if (empty($value)) {
+            return $value;
+        }
+
         $value = preg_replace('/\n\n+/', '__PARAGRAPH__', $value); // using a placeholder since Common::sanitizeInputValue removes newlines
         $value = Common::sanitizeInputValue($value);
         $value = '<p>' . str_replace('__PARAGRAPH__', '</p><p>', $value) . '</p>';
