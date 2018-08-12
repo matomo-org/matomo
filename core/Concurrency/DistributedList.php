@@ -7,6 +7,7 @@
  */
 namespace Piwik\Concurrency;
 
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Psr\Log\LoggerInterface;
@@ -160,7 +161,7 @@ class DistributedList
 
         $result = array();
         if ($array
-            && ($array = unserialize($array))
+            && ($array = Common::safe_unserialize($array))
             && count($array)
         ) {
             $result = $array;

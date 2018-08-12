@@ -9,6 +9,7 @@
 namespace Piwik\DataTable\Renderer;
 
 use Exception;
+use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable;
@@ -77,7 +78,7 @@ class Php extends Renderer
 
         if ($this->prettyDisplay) {
             if (!is_array($toReturn)) {
-                $toReturn = unserialize($toReturn);
+                $toReturn = Common::safe_unserialize($toReturn);
             }
             $toReturn = "<pre>" . var_export($toReturn, true) . "</pre>";
         }

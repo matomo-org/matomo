@@ -256,6 +256,23 @@ class Common
         return $string;
     }
 
+    /**
+     * Secure wrapper for unserialize, which by default disallows unserializing classes
+     *
+     * @param string $string String to unserrialize
+     * @param array $allowedClasses Class names that should be allowed to unserialize
+     *
+     * @return mixed
+     */
+    public static function safe_unserialize($string, $allowedClasses = [])
+    {
+        if (PHP_MAJOR_VERSION >= 7) {
+            return @unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+        }
+
+        return @unserialize($string);
+    }
+
     /*
      * Escaping input
      */
