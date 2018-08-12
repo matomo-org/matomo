@@ -8,7 +8,12 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Access;
+use Piwik\Auth;
+use Piwik\Container\StaticContainer;
+use Piwik\FrontController;
 use Piwik\Http;
+use Piwik\Session\SessionFingerprint;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -48,8 +53,34 @@ FORMAT;
         $this->assertStringMatchesFormat($expectedFormat, $response['message']);
     }
 
+    public function test_authImplementationConfigured_EvenIfSessionAuthSucceeds()
+    {
+        Access::getInstance()->setSuperUserAccess(false);
+
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize('superUserLogin');
+
+        FrontController::getInstance()->init();
+
+        /** @var \Piwik\Plugins\Login\Auth $auth */
+        $auth = StaticContainer::get(Auth::class);
+        $this->assertInstanceOf(\Piwik\Plugins\Login\Auth::class, $auth);
+
+        $this->assertEquals('superUserLogin', $auth->getLogin());
+        $this->assertEquals(Fixture::getTokenAuth(), $auth->getTokenAuth());
+    }
+
     private function cleanMessage($message)
     {
         return str_replace(PIWIK_INCLUDE_PATH, '{includePath}', $message);
+    }
+
+    /**
+     * @param Fixture $fixture
+     */
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+        $fixture->createSuperUser = true;
     }
 }

@@ -191,4 +191,10 @@ class Auth implements \Piwik\Auth
 
         $this->hashedPassword = $passwordHash;
     }
+
+    // for tests
+    public function getTokenAuth()
+    {
+        return $this->token_auth;
+    }
 }

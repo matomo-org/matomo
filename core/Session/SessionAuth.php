@@ -39,7 +39,7 @@ class SessionAuth implements Auth
      *
      * @var string
      */
-    private $token_auth;
+    private $user;
 
     public function __construct(UsersModel $userModel = null, $shouldDestroySession = true)
     {
@@ -54,12 +54,12 @@ class SessionAuth implements Auth
 
     public function setTokenAuth($token_auth)
     {
-        $this->token_auth = $token_auth;
+        // empty
     }
 
     public function getLogin()
     {
-        // empty
+        return $this->user['login'];
     }
 
     public function getTokenAuthSecret()
@@ -136,7 +136,7 @@ class SessionAuth implements Auth
 
     private function makeAuthSuccess($user)
     {
-        $this->setTokenAuth($user['token_auth']);
+        $this->user = $user;
 
         $isSuperUser = (int) $user['superuser_access'];
         $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
@@ -175,6 +175,6 @@ class SessionAuth implements Auth
 
     public function getTokenAuth()
     {
-        return $this->token_auth;
+        return $this->user['token_auth'];
     }
 }
