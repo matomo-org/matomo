@@ -34,6 +34,13 @@ class SessionAuth implements Auth
      */
     private $userModel;
 
+    /**
+     * Set internally so it can be queried in FrontController.
+     *
+     * @var string
+     */
+    private $token_auth;
+
     public function __construct(UsersModel $userModel = null, $shouldDestroySession = true)
     {
         $this->userModel = $userModel ?: new UsersModel();
@@ -47,7 +54,7 @@ class SessionAuth implements Auth
 
     public function setTokenAuth($token_auth)
     {
-        // empty
+        $this->token_auth = $token_auth;
     }
 
     public function getLogin()
@@ -164,5 +171,10 @@ class SessionAuth implements Auth
         if ($this->shouldDestroySession) {
             Session::regenerateId();
         }
+    }
+
+    public function getTokenAuth()
+    {
+        return $this->token_auth;
     }
 }
