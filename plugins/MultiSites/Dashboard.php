@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\MultiSites;
 
 use Piwik\API\DataTablePostProcessor;
+use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Config;
 use Piwik\Metrics\Formatter;
@@ -47,9 +48,15 @@ class Dashboard
      */
     public function __construct($period, $date, $segment)
     {
-        $sites = API::getInstance()->getAll($period, $date, $segment, $_restrictSitesToLogin = false,
-                                            $enhanced = true, $searchTerm = false,
-                                            $this->displayedMetricColumns);
+        $sites = Request::processRequest('MultiSites.getAll', [
+            'period' => $period,
+            'date' => $date,
+            'segment' => $segment,
+            'enhanced' => '1',
+            'showColumns' => implode(',', $this->displayedMetricColumns),
+            'disable_queued_filters' => '1',
+        ]);
+
         $sites->deleteRow(DataTable::ID_SUMMARY_ROW);
 
         /** @var DataTable $pastData */
