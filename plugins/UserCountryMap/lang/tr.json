@@ -20,6 +20,8 @@
         "VisitorMap": "Ziyaretçi Haritası",
         "WorldWide": "Dünya Geneli",
         "WithUnknownRegion": "%s ziyaretin bölgesi bilinmiyor",
-        "WithUnknownCity": "%s ziyaretin ili bilinmiyor"
+        "WithUnknownCity": "%s ziyaretin ili bilinmiyor",
+        "NoVisitsInfo": "Bu aralıkta doğru coğrafi konum bilgilerine (enlem ve boylam) sahip herhangi bir ziyaret olmadığından, şu anda görüntülenecek bir ziyaret yok.",
+        "NoVisitsInfo2": "Bu sorunu çözmek için GeoIP il veritabanı ile bir GeoIP hizmeti sağlayıcısını kullandığınızdan emin olun. Sorun çözülmez ise (pek olası olmamakla birlikte) ziyaretçilerinizin IP adresleri coğrafi kodlaması yapılamayan adreslerdir."
     }
 }

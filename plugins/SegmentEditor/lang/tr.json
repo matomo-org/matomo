@@ -36,6 +36,8 @@
         "SegmentXIsAUnionOf": "%s şu dilimlerden oluşuyor:",
         "CustomSegment": "Özel Dilim",
         "SegmentOperatorIsNullOrEmpty": "null ya da boş olan",
-        "SegmentOperatorIsNotNullNorEmpty": "null ya da boş olmayan"
+        "SegmentOperatorIsNotNullNorEmpty": "null ya da boş olmayan",
+        "UnprocessedSegmentNoData1": "Veri istediğiniz %1$s özel dilimi henüz sistem tarafından işlenmemiş olduğundan bu raporlarda herhangi bir veri yok.",
+        "UnprocessedSegmentNoData2": "Bu dilimin verileri işlem bir kaç saat içinde tamamlandıktan sonra hazır olabilir. Daha sonra da herhangi bir veri görüntülenmiyorsa bir sorun olabilir."
     }
 }

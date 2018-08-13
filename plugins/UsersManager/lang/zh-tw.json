@@ -18,7 +18,6 @@
         "Email": "Email",
         "EmailYourAdministrator": "%1$s透過信件傳送此問題給你的系統管理員%2$s。",
         "EnterUsernameOrEmail": "輸入使用者名稱或 Email",
-        "ExceptionAccessValues": "參數存取必須包含其中一個值：[ %s ]",
         "ExceptionDeleteDoesNotExist": "使用者「%s」不存在，所以無法刪除它。",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "無法刪除使用者「%s」",
         "ExceptionEditAnonymous": "匿名使用者無法修改或刪除。因為 Matomo 用來定義一個還未登入的使用者。舉例來說，你可以把「檢視」權限給匿名使用者來公開你的統計資料。",
@@ -78,6 +77,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "當使用者未登入並且訪問 Matomo 時，他們應該前往",
         "YourUsernameCannotBeChanged": "你的使用者名稱無法變更。",
         "YourVisitsAreIgnoredOnDomain": "%1$s你的訪問紀錄已在 %2$s 被 Matomo 忽略%3$s（在你的瀏覽器中找到忽略 Matomo 的 cookie）",
-        "YourVisitsAreNotIgnored": "%1$s你的訪問紀錄沒有被 Matomo 忽略%2$s（在你的瀏覽器中找不到忽略 Matomo 的 cookie）"
+        "YourVisitsAreNotIgnored": "%1$s你的訪問紀錄沒有被 Matomo 忽略%2$s（在你的瀏覽器中找不到忽略 Matomo 的 cookie）",
+        "XtoYofN": "第 %1$s - %2$s 項，共 %3$s 項",
+        "Username": "使用者名稱"
     }
 }

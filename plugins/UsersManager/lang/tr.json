@@ -1,6 +1,11 @@
 {
     "UsersManager": {
         "AddUser": "Yeni kullanıcı ekle",
+        "AddExistingUser": "Var olan bir kullanıcı ekle",
+        "AddNewUser": "Yeni kullanıcı ekle",
+        "EditUser": "Kullanıcıyı düzenle",
+        "CreateUser": "Kullanıcı ekle",
+        "SaveBasicInfo": "Temel Bilgileri Kaydet",
         "Alias": "Kısaltma",
         "AllWebsites": "Tüm web siteleri",
         "AnonymousAccessConfirmation": "Web sitenizde isimsiz kullanıcılara 'görüntüleme' izni vermek üzeresiniz. Bu izni verdiğinizde istatistik raporlarınız ve ziyaretçi bilgileriniz oturum açmamış bile olsalar herkes tarafından görüntülenebilir. Bu izni vermek istediğinize emin misiniz?",
@@ -18,7 +23,6 @@
         "Email": "E-posta",
         "EmailYourAdministrator": "%1$sYöneticiye bu sorunla ilgili bir e-posta gönderin%2$s.",
         "EnterUsernameOrEmail": "Bir kullanıcı adı ya da e-posta adresi yazın",
-        "ExceptionAccessValues": "Parametre erişim izni şu değerlerden biri olmalıdır: [ %s ]",
         "ExceptionNoRoleSet": "Herhangi bir rol ayarlanmamış ancak şunlardan birinin ayarlanması gerekli: %s",
         "ExceptionMultipleRoleSet": "Yalnız bir rol ayarlanması gerekli ancak birden çok rol ayarlanmış. Yalnız birini kullanın: %s",
         "ExceptionAnonymousNoCapabilities": "'Anonim' kullanıcıya herhangi bir yetki verilemez.",
@@ -86,6 +90,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kullanıcılar oturum açmadan Matomo ziyareti yaptığında şuraya erişebilmeli",
         "YourUsernameCannotBeChanged": "Kullanıcı adınız değiştirilemez.",
         "YourVisitsAreIgnoredOnDomain": "%1$s%2$s üzerine yaptığınız ziyaretler Matomo tarafından izlenmiyor%3$s (web tarayıcınızda Matomo izlemeyi engelleme çerezi bulundu).",
-        "YourVisitsAreNotIgnored": "%1$sZiyaretleriniz Matomo tarafından izleniyor%2$s (web tarayıcınızda Matomo izlemeyi engelleme çerezi bulunamadı)."
+        "YourVisitsAreNotIgnored": "%1$sZiyaretleriniz Matomo tarafından izleniyor%2$s (web tarayıcınızda Matomo izlemeyi engelleme çerezi bulunamadı).",
+        "XtoYofN": "%1$s - %2$s \/ %3$s",
+        "Username": "Kullanıcı Adı"
     }
 }

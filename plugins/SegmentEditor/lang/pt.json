@@ -22,7 +22,6 @@
         "SegmentDisplayedThisWebsiteOnly": "apenas este site",
         "SegmentIsDisplayedForWebsite": "e processado para",
         "SegmentNotApplied": "Segmento '%s' não aplicado",
-        "SegmentNotAppliedMessage": "Está a solicitar dados para o Segmento personalizado '%s'; esta configuração do Matomo atualmente previne o processamento em tempo real de relatórios por questões de desempenho.",
         "SelectSegmentOfVisits": "Selecione um segmento de visitas:",
         "ThisSegmentIsVisibleTo": "Este segmento é visível para:",
         "VisibleToAllUsers": "todos os utilizadores",

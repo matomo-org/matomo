@@ -46,6 +46,13 @@
         "TopLinkTooltip": "Matomo istatistiklerini otomatik olarak e-posta ile almak ya da müşterilerinize iletmek için e-posta raporları oluşturun!",
         "TopOfReport": "Başa dön",
         "UpdateReport": "Raporu Güncelle",
-        "WeeklyScheduleHelp": "Haftalık zamanlama: Rapor her hafta Pazartesi günü gönderilir."
+        "WeeklyScheduleHelp": "Haftalık zamanlama: Rapor her hafta Pazartesi günü gönderilir.",
+        "Unsubscribe": "Abonelikten Ayrıl",
+        "ReportUnsubscribe": "Bir raporun aboneliğinden ayrılın",
+        "UnsubscribeReportConfirmation": "%1$s raporunun aboneliğinden ayrılmak istediğinize emin misiniz?",
+        "SuccessfullyUnsubscribed": "%1$s raporunun aboneliğinden ayrıldınız.",
+        "UnsubscribeFooter": "Bu raporun aboneliğinden ayrılmak için şu bağlantıyı kullanın: %1$s",
+        "NoTokenProvided": "Adreste bir kod belirtilmemiş",
+        "NoSubscriptionFound": "Herhangi bir abonelik bulunamadı. Rapor aboneliğinden daha önce ayrılmış olabilirsiniz ya da rapor silinmiş olabilir."
     }
 }
