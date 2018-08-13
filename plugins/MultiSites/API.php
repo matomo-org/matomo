@@ -278,7 +278,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // replace record names with user friendly metric names
-        $dataTable->queueFilter('ReplaceColumnNames', array($columnNameRewrites));
+        $dataTable->filter('ReplaceColumnNames', array($columnNameRewrites));
 
         // filter rows without visits
         // note: if only one website is queried and there are no visits, we can not remove the row otherwise

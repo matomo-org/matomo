@@ -55,6 +55,8 @@ class Dashboard
             'enhanced' => '1',
             'showColumns' => implode(',', $this->displayedMetricColumns),
             'disable_queued_filters' => '1',
+            'filter_limit' => '-1',
+            'filter_offset' => '0',
         ]);
 
         $sites->deleteRow(DataTable::ID_SUMMARY_ROW);
