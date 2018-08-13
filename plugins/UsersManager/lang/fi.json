@@ -16,7 +16,6 @@
         "Email": "Sähköposti",
         "EmailYourAdministrator": "%1$sLähetä ylläpitäjällesi sähköpostia ongelmasta%2$s.",
         "EnterUsernameOrEmail": "Kirjoita käyttäjätunnus tai sähköpostiosoite",
-        "ExceptionAccessValues": "Oikeuksien täytyy olla yksi seuraavista arvoista: [ %s ]",
         "ExceptionDeleteDoesNotExist": "Käyttäjää '%s' ei ole eikä sitä siksi voida poistaa.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Käyttäjän '%s' poistaminen ei ole mahdollista.",
         "ExceptionEditAnonymous": "Anonyymikäyttäjää ei voi muokata tai poistaa. Se on Matomoin sisäinen tunnus käyttäjälle, joka ei ole kirjautunut sisään. Voit esimerkiksi julkaista tilastoja kaikille sallimalla anonyymikäyttäjälle katsomisoikeuden.",
@@ -67,6 +66,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kun käyttäjä ei ole kirjautunut sisään ja käy Matomoissä, heillä on pääsy",
         "YourUsernameCannotBeChanged": "Käyttäjätunnusta ei voi vaihtaa.",
         "YourVisitsAreIgnoredOnDomain": "%1$sMatomo ei seuraa käyntejäsi sivulla %2$s %3$s (Matomoin cookie löytyi selaimestasi).",
-        "YourVisitsAreNotIgnored": "%1$sMatomo seuraa käyntejäsi%2$s (Matomoin evästettä ei löytynyt selaimestasi)."
+        "YourVisitsAreNotIgnored": "%1$sMatomo seuraa käyntejäsi%2$s (Matomoin evästettä ei löytynyt selaimestasi).",
+        "XtoYofN": "%1$s - %2$s %3$s:sta.",
+        "Username": "Käyttäjätunnus"
     }
 }

@@ -7,7 +7,6 @@
         "ClickHereToDeleteTheCookie": "Націсніце тут, каб выдаліць cookie і пачаць адсочванне вашых наведванняў Matomo",
         "ClickHereToSetTheCookieOnDomain": "Націсніце тут, каб усталяваць cookie, які выключыць адсочванне вашых наведванняў на вэб-сайтах з Matomo на %s",
         "DeleteConfirm": "Вы сапраўды жадаеце выдаліць карыстача %s?",
-        "ExceptionAccessValues": "Параметр доступу можа мець толькі адно з наступных значэнняў: [ %s ]",
         "ExceptionDeleteDoesNotExist": "Карыстача '%s' не існуе, таму ён не можа быць выдалены.",
         "ExceptionEditAnonymous": "Ананімны карыстач не можа быць выдалены. Ён неабходзен Matomo для ідэнтыфікацыі карыстачоў, якія не ўвайшлі ў сістэму. Дапушчальна, вы можаце зрабіць статыстыку публічнай, падаючы права 'Прагляд' ананімнаму карыстачу.",
         "ExceptionEmailExists": "Карыстач з Email '%s' ужо існуе.",
@@ -35,6 +34,7 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Калі карыстальнікі не аўтарызаваны і наведваюць Matomo, яны павінны атрымліваць доступ да",
         "YourUsernameCannotBeChanged": "Ваша імя карыстальніка не можа быць зменена.",
         "YourVisitsAreIgnoredOnDomain": "%1$sВашы наведванні ігнаруюцца Matomo на %2$s %3$s (Matomo знайшоў ў вашым браўзэры ігнаруючыя cookie).",
-        "YourVisitsAreNotIgnored": "%1$sВашы наведванні не ігнаруюцца Matomo%2$s (Matomo не знайшоў ў вашым браўзэры ігнаруючыя cookie)."
+        "YourVisitsAreNotIgnored": "%1$sВашы наведванні не ігнаруюцца Matomo%2$s (Matomo не знайшоў ў вашым браўзэры ігнаруючыя cookie).",
+        "Username": "Імя карыстальніка"
     }
 }

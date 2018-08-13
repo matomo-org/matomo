@@ -18,7 +18,6 @@
         "Email": "E-post",
         "EmailYourAdministrator": "%1$sE-posta din administratör om det här problemet%2$s.",
         "EnterUsernameOrEmail": "Ange ett användarnamn eller en e-postadress.",
-        "ExceptionAccessValues": "Parameter-tillgången måste ha ett av följande värden: [ %s ]",
         "ExceptionDeleteDoesNotExist": "Användaren '%s' finns inte och kan därför inte tas bort.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Att radera användare '%s' är inte möjligt.",
         "ExceptionEditAnonymous": "Den anonyma användaren kan inte redigeras eller tas bort. Den används av Matomo för att definiera en användare som inte har loggat in ännu. Till exempel kan du göra din statistik publik genom att bevilja \\\"Visa\\\" tillgång till \\\"anonyma\\\" användare.",
@@ -78,6 +77,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "När användare inte är inloggade och besöker Matomo, ska de komma åt",
         "YourUsernameCannotBeChanged": "Ditt användarnamn kan inte ändras.",
         "YourVisitsAreIgnoredOnDomain": "%1$sDina besök ignoreras av Matomo för webbplatsen %2$s %3$s (Matomos kaka hittades i din webbläsare).",
-        "YourVisitsAreNotIgnored": "%1$sSus visitas no son ignoradas por Matomo%2$s (la cookie de ignorar a Matomo no fue encontrada en su navegador)."
+        "YourVisitsAreNotIgnored": "%1$sSus visitas no son ignoradas por Matomo%2$s (la cookie de ignorar a Matomo no fue encontrada en su navegador).",
+        "XtoYofN": "%1$s - %2$s av %3$s",
+        "Username": "Användarnamn"
     }
 }

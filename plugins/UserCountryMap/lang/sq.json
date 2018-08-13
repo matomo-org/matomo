@@ -20,6 +20,8 @@
         "VisitorMap": "Hartë Vizitorësh",
         "WorldWide": "Anembanë Botës",
         "WithUnknownRegion": "%s me rajon të panjohur",
-        "WithUnknownCity": "%s me qytet të panjohur"
+        "WithUnknownCity": "%s me qytet të panjohur",
+        "NoVisitsInfo": "Hëpërhë s’ka vizita të shfaqura, ngaqë për këtë periudhë asnjë vizitë nuk ka të dhëna të sakta gjeolokalizimi (gjerësi & gjatësi gjeografike).",
+        "NoVisitsInfo2": "Për ta zgjidhur këtë problem, sigurohuni që po përdorni një shërbim gjeolokalizimi GeoIP me një bazë të dhënash GeoIP qytetesh. Nëse kjo nuk e zgjidh problemin tuaj, atëherë ka mundësi (edhe pse zor) që vizitat tuaja të kenë adresa IP që nuk gjeolokalizohen dot."
     }
 }

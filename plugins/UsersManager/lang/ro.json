@@ -13,7 +13,6 @@
         "DeleteConfirm": "Eşti sigur că vrei să ştergi utilizatorul %s?",
         "Email": "Email",
         "EmailYourAdministrator": "%1$sTrimite email administratorului despre aceasta problema%2$s.",
-        "ExceptionAccessValues": "Accesul parametru trebuie să aibă una din următoarele valori: [ %s ]",
         "ExceptionDeleteDoesNotExist": "Userul '%s' nu exista pentru ca a fost sters.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Stergerea utilizatorului '%s' nu este posibila.",
         "ExceptionEditAnonymous": "Userul anonim nu poate fi editat sau sters.De exemplu poti face ca statisticile tale sa fie publice autorizand 'view' accesul la 'anonymous' user.",
@@ -52,6 +51,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Atunci când utilizatorii nu sunt logati și viziteaza Matomo, acestea ar trebui să acceseze",
         "YourUsernameCannotBeChanged": "Numele tău de utilizator nu poate fi schimbat.",
         "YourVisitsAreIgnoredOnDomain": "%1$svizitele tale sunt ignorate de Matomo pe %2$s%3$s (Matomo ignora cookie care a fost găsit în browser-ul dvs.).",
-        "YourVisitsAreNotIgnored": "%1$s Vizitele tale nu sunt ignorate de Matomo%2$s (Matomo ignora cookie care nu au fost găsite în browser-ul dvs.)."
+        "YourVisitsAreNotIgnored": "%1$s Vizitele tale nu sunt ignorate de Matomo%2$s (Matomo ignora cookie care nu au fost găsite în browser-ul dvs.).",
+        "XtoYofN": "%1$s - %2$s of %3$s",
+        "Username": "Nume utilizator"
     }
 }

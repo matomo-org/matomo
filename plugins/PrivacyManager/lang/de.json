@@ -77,6 +77,15 @@
         "UseAnonymizeOrderId": "Bestellnummer anonymisieren",
         "UseDeleteLog": "Alte Besucher-Logs automatisch aus der Datenbank entfernen",
         "UseDeleteReports": "Lösche regelmäßig alte Berichte aus der Datenbank",
-        "UsersOptOut": "Benutzer Opt-Out"
+        "UsersOptOut": "Benutzer Opt-Out",
+        "PrivacyPolicyUrl": "URL für Datenschutzrichtlinie",
+        "PrivacyPolicyUrlDescription": "Ein Link zu Ihrer Datenschutzrichtlinienseite.",
+        "TermsAndConditionUrl": "URL für Geschäftsbedingungen",
+        "TermsAndConditionUrlDescription": "Ein Link zu Ihrer Geschäftsbedingungenseite.",
+        "PrivacyPolicyUrlDescriptionSuffix": "Wenn Sie etwas angeben, wird es am Ende der Anmeldeseite und auf Seiten angezeigt, auf die der '%1$s' Benutzer Zugriff hat.",
+        "ShowInEmbeddedWidgets": "In eingebetteten Widgets anzeigen",
+        "ShowInEmbeddedWidgetsDescription": "Wenn angewählt, wird am Ende der eingebetteten Widgets ein Link zu Ihren Datenschutzrichtlinien und zu Ihren Geschäftsbedingungen angezeigt.",
+        "PrivacyPolicy": "Datenschutzrichtlinie",
+        "TermsAndConditions": "Geschäftsbedingungen"
     }
 }

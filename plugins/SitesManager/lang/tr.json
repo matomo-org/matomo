@@ -91,6 +91,7 @@
         "XManagement": "%s Yönetimi",
         "ChooseMeasurableTypeHeadline": "Neyi ölçmek istiyorsunuz?",
         "YouCurrentlyHaveAccessToNWebsites": "%s web sitesine erişme izniniz var.",
-        "YourCurrentIpAddressIs": "Geçerli IP adresiniz: %s"
+        "YourCurrentIpAddressIs": "Geçerli IP adresiniz: %s",
+        "DeleteSiteExplanation": "Bir web sitesi silindiğinde ilgili tüm günlük verileri silinir. Bu işlem geri alınamaz."
     }
 }

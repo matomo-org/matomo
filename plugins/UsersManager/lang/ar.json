@@ -7,7 +7,6 @@
         "ClickHereToDeleteTheCookie": "انقر هنا لحذف الكوكيز وليتتبع Matomo زياراتك",
         "DeleteConfirm": "هل ترغب حقاً في حذف المستخدم %s؟",
         "Email": "البريد الإلكتروني",
-        "ExceptionAccessValues": "بارامتيرات الوصول يجب أن تتضمن أحد القيم التالية: [%s]",
         "ExceptionDeleteDoesNotExist": "المستخدم '%s' غير موجود ولذلك لا يمكن حذفه.",
         "ExceptionEditAnonymous": "لا يمكن تحرير أو حذف المستخدم \\\"مجهول\\\"، فهو يستخدم من قبل Matomo لتعريف المستخدم الذي لم يقم بتسجيل الدخول بعد. على سبيل المثال، يمكنك جعل صفحة الإحصائيات عامة من خلال منح المستخدم \\\"مجهول\\\" صلاحيات \\\"المشاهدة\\\".",
         "ExceptionEmailExists": "المستخدم بعنوان البريد '%s' موجود مسبقاً.",
@@ -35,6 +34,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "عندما لا يسجل المستخدمون دخولهم ويزورون Matomo،فسيمكنهم الوصول إلى",
         "YourUsernameCannotBeChanged": "لا يمكن تغيير اسم المستخدم الخاص بك.",
         "YourVisitsAreIgnoredOnDomain": "%1$s زياراتك يتم تجاهلها في Matomo%2$s %3$s(تم العثور على كوكيز التجاهل في متصفحك).",
-        "YourVisitsAreNotIgnored": "%1$s لا يتم تجاهل زياراتك في Matomo%2$s (كوكيز التجاهل غير موجودة في متصفحك)."
+        "YourVisitsAreNotIgnored": "%1$s لا يتم تجاهل زياراتك في Matomo%2$s (كوكيز التجاهل غير موجودة في متصفحك).",
+        "XtoYofN": "%1$s - %2$s من %3$s",
+        "Username": "اسم المستخدم"
     }
 }

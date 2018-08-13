@@ -77,6 +77,15 @@
         "UseAnonymizeOrderId": "Rendi anonimo l'ID dell'Ordine",
         "UseDeleteLog": "Cancella regolarmente i vecchi log delle visite dal database",
         "UseDeleteReports": "Cancella regolarmente i vecchi report dal database",
-        "UsersOptOut": "Opt-out Utenti"
+        "UsersOptOut": "Opt-out Utenti",
+        "PrivacyPolicyUrl": "URL Politiche sulla Privacy",
+        "PrivacyPolicyUrlDescription": "Link alla pagina con le tue Politiche sulla Privacy.",
+        "TermsAndConditionUrl": "URL Termini e Condizioni",
+        "TermsAndConditionUrlDescription": "Link alla pagina con i tuoi Termini e Condizioni.",
+        "PrivacyPolicyUrlDescriptionSuffix": "Se imposti questo, esso verrà mostrato in fondo alla pagina di login e sulle pagine alle quali può accedere l'utente '%1$s'.",
+        "ShowInEmbeddedWidgets": "Mostra in widget incorporati",
+        "ShowInEmbeddedWidgetsDescription": "Se spuntato, verrà mostrato un link alle tue Politiche sulla Privacy e ai Termini e Condizioni in fondo ai widget incorporati.",
+        "PrivacyPolicy": "Politiche sulla Privacy",
+        "TermsAndConditions": "Termini e Condizioni"
     }
 }
