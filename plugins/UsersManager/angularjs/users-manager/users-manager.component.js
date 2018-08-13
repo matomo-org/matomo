@@ -163,7 +163,7 @@
                 filter_search: vm.searchParams.filter_search,
                 filter_access: vm.searchParams.filter_access,
                 idSite: vm.searchParams.idSite,
-                filter_limit: '-1',
+                filter_limit: '-1'
             });
         }
 
