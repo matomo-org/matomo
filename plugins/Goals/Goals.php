@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals;
 
+use Piwik\API\Request;
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\Dimension;
 use Piwik\Columns\MetricsList;
@@ -102,7 +103,7 @@ class Goals extends \Piwik\Plugin
     public function addComputedMetrics(MetricsList $list, ComputedMetricFactory $computedMetricFactory)
     {
         $idSite = Common::getRequestVar('idSite', 0, 'int');
-        $goals = API::getInstance()->getGoals($idSite);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
 
         foreach ($goals as $goal) {
             $metric = $computedMetricFactory->createComputedMetric('goal_' .  $goal['idgoal'] . '_conversion', 'nb_uniq_visitors', ComputedMetric::AGGREGATION_RATE);
@@ -116,7 +117,7 @@ class Goals extends \Piwik\Plugin
     public function addMetrics(MetricsList $metricsList)
     {
         $idSite = Common::getRequestVar('idSite', 0, 'int');
-        $goals = API::getInstance()->getGoals($idSite);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
 
         foreach ($goals as $goal) {
             $custom = new GoalDimension($goal, 'idgoal', 'Conversions goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');
@@ -173,7 +174,7 @@ class Goals extends \Piwik\Plugin
             }
         }
 
-        $goals = API::getInstance()->getGoals($idSite);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
 
         $order = 900;
         foreach ($goals as $goal) {
@@ -336,7 +337,7 @@ class Goals extends \Piwik\Plugin
     public function fetchGoalsFromDb(&$array, $idSite)
     {
         // add the 'goal' entry in the website array
-        $array['goals'] = API::getInstance()->getGoals($idSite);
+        $array['goals'] = Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)

@@ -44,7 +44,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             $goalDefinition['name'] = $this->translator->translate('Goals_Ecommerce');
             $goalDefinition['allow_multiple'] = true;
         } else {
-            $goals = GoalsApi::getInstance()->getGoals($this->idSite);
+            $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite]);
             if (!isset($goals[$idGoal])) {
                 Piwik::redirectToModule('Goals', 'index', array('idGoal' => null));
             }
