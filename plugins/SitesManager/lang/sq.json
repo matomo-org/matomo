@@ -91,6 +91,7 @@
         "XManagement": "Administroni %s",
         "ChooseMeasurableTypeHeadline": "Ç’do të donit të matnit?",
         "YouCurrentlyHaveAccessToNWebsites": "Deri tani keni hyrje te %s sajte.",
-        "YourCurrentIpAddressIs": "Adresa juaj IP e tanishme është %s"
+        "YourCurrentIpAddressIs": "Adresa juaj IP e tanishme është %s",
+        "DeleteSiteExplanation": "Fshirja e një sajti do të shkaktojë fshirjen e krejt të dhënave regjistër që janë grumbulluar për të. Ky veprim është pakthyeshëm dhe s’mund të zhbëhet."
     }
 }

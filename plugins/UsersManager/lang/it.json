@@ -18,7 +18,6 @@
         "Email": "Email",
         "EmailYourAdministrator": "%1$sManda un'email al tuo amministratore su questo problema%2$s.",
         "EnterUsernameOrEmail": "Inserisci nome utente o indirizzo email",
-        "ExceptionAccessValues": "Il parametro per l'accesso deve avere uno dei seguenti valori: [ %s ]",
         "ExceptionNoRoleSet": "Non è impostato alcun ruolo ma deve essere impostato uno di questi: %s",
         "ExceptionMultipleRoleSet": "Può essere impostato un solo ruolo ma ne sono stati impostati diversi. Usane uno solo tra: %s",
         "ExceptionAnonymousNoCapabilities": "Non puoi conferire alcuna facoltà a un utente 'anonimo'.",
@@ -86,6 +85,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quando gli utenti non si sono autenticati in Matomo, possono accedere a",
         "YourUsernameCannotBeChanged": "Il tuo nome utente non può essere cambiato.",
         "YourVisitsAreIgnoredOnDomain": "%1$sLe tue visite sono ignorate da Matomo %2$s %3$s (il cookie 'ignora visite' di Matomo è stato trovato nel tuo browser).",
-        "YourVisitsAreNotIgnored": "%1$sLe tue visite non sono ignorate da Matomo%2$s (il cookie 'ignora visite' di Matomo non è stato trovato nel tuo browser)."
+        "YourVisitsAreNotIgnored": "%1$sLe tue visite non sono ignorate da Matomo%2$s (il cookie 'ignora visite' di Matomo non è stato trovato nel tuo browser).",
+        "XtoYofN": "%1$s - %2$s di %3$s",
+        "Username": "Nome utente"
     }
 }

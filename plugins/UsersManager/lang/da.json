@@ -15,7 +15,6 @@
         "Email": "E-mail",
         "EmailYourAdministrator": "%1$sE-mail din administrator om dette problem%2$s.",
         "EnterUsernameOrEmail": "Indtast brugernavn eller e-mailadresse",
-        "ExceptionAccessValues": "Parameteren skal have en af de følgende værdier: [ %s ]",
         "ExceptionDeleteDoesNotExist": "Bruger '%s' eksisterer ikke og kan derfor ikke slettes.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Sletning af bruger '%s' er ikke mulig.",
         "ExceptionEditAnonymous": "Anonyme brugere kan ikke redigeres eller slettet. Anvendes af Matomo til at definere en bruger, som ikke er blevet logget på endnu. F. eks. kan du gøre statistikken offentlig ved at give 'se' adgang til 'anonym' bruger",
@@ -60,6 +59,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Når ingen brugere er logget på Matomo bør de tilgå",
         "YourUsernameCannotBeChanged": "Brugernavnet kan ikke ændres.",
         "YourVisitsAreIgnoredOnDomain": "%1$sDine besøg ignoreres af Matomo på %2$s %3$s (Matomo ignorer cookie blev fundet i netlæseren).",
-        "YourVisitsAreNotIgnored": "%1$sDine besøg bliver ikke ignoreret af Matomo%2$s (Matomos ignorer-cookie blev ikke fundet i browseren)."
+        "YourVisitsAreNotIgnored": "%1$sDine besøg bliver ikke ignoreret af Matomo%2$s (Matomos ignorer-cookie blev ikke fundet i browseren).",
+        "XtoYofN": "%1$s - %2$s af %3$s",
+        "Username": "Brugernavn"
     }
 }

@@ -18,7 +18,6 @@
         "Email": "E-mail",
         "EmailYourAdministrator": "%1$sPošlete administrátorovi email o tomto problému%2$s.",
         "EnterUsernameOrEmail": "Zadejte uživatelské jméno nebo emailovou adresu",
-        "ExceptionAccessValues": "Parametr přístupu musí mít jednu z následujících hodnot: [ %s ]",
         "ExceptionDeleteDoesNotExist": "Uživatel '%s' neexistuje a proto nemůže být vymazán.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Smazání uživatele %s není možné.",
         "ExceptionEditAnonymous": "'Anonymous' uživatel nemůže být upraven, nebo vymazán. Je použit Matomoem k definici uživatele, který ještě není přihlášen. Například můžete zveřejnit vaše statistiky udělením oprávnění 'view' uživateli 'anonymous'.",
@@ -77,6 +76,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Když uživatelé nejsou přihlášeni do Matomou, mohou přistupovat k",
         "YourUsernameCannotBeChanged": "Vaše uživatelské jméno nemůže být změněno",
         "YourVisitsAreIgnoredOnDomain": "%1$sVaše návštěvy jsou vynechávány Matomoem na %2$s %3$s (cookie pro vynechání byla nalezena ve vašem prohlížeči).",
-        "YourVisitsAreNotIgnored": "%1$sVaše návštěvy nejsou vynechávány Matomoem%2$s (cookie pro vynechání nebyla nalezena ve vašem prohlížeči)."
+        "YourVisitsAreNotIgnored": "%1$sVaše návštěvy nejsou vynechávány Matomoem%2$s (cookie pro vynechání nebyla nalezena ve vašem prohlížeči).",
+        "XtoYofN": "%1$s - %2$s z %3$s",
+        "Username": "Uživatelské jméno"
     }
 }

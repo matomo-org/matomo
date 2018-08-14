@@ -18,7 +18,6 @@
         "Email": "Ηλεκτρονική Διεύθυνση",
         "EmailYourAdministrator": "%1$sΣτείλτε e-mail στον διαχειριστή σχετικά με το πρόβλημα %2$s.",
         "EnterUsernameOrEmail": "Εισάγετε ένα όνομα χρήστη ή διεύθυνση ηλ. ταχυδρομείου",
-        "ExceptionAccessValues": "Η πρόσβαση παραμέτρου πρέπει να έχει τις ακόλουθες τιμές: [ %s ]",
         "ExceptionNoRoleSet": "Δεν έχει οριστεί κανόνας αλλά ένα από τα παρακάτω θα πρέπει να οριστεί: %s",
         "ExceptionMultipleRoleSet": "Μόνος ένας ρόλος μπορεί να οριστεί, αλλά έχουν οριστεί πολλοί. Χρησιμοποιήστε έναν από τους: %s",
         "ExceptionAnonymousNoCapabilities": "Δεν μπορείτε να εκχωρήσετε οποιαδήποτε δυνατότητα στον χρήστη 'ανώνυμο'.",
@@ -86,6 +85,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Όταν οι χρήστες δεν έχουν συνδεθεί και επισκέπτονται το Matomo, θα έχουν πρόσβαση",
         "YourUsernameCannotBeChanged": "Το όνομα χρήστη δεν μπορεί να αλλαχτεί.",
         "YourVisitsAreIgnoredOnDomain": "%1$sΟι επισκέψεις σας παραβλέπονται από το Matomo στο %2$s %3$s (το Matomo βρήκε το cookie παράβλεψης παρακολούθησης στο φυλλομετρητή σας).",
-        "YourVisitsAreNotIgnored": "%1$sΟι επισκέψεις δεν αγνοούνται από το Matomo%2$s (δεν βρέθηκε το cookie παράληψης παρακολούθησης του Matomo στον φυλλομετρητή σας)."
+        "YourVisitsAreNotIgnored": "%1$sΟι επισκέψεις δεν αγνοούνται από το Matomo%2$s (δεν βρέθηκε το cookie παράληψης παρακολούθησης του Matomo στον φυλλομετρητή σας).",
+        "XtoYofN": "%1$s - %2$s από %3$s",
+        "Username": "Όνομα χρήστη"
     }
 }

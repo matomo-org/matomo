@@ -9,7 +9,6 @@
         "DeleteConfirm": "Esteu segur que voleu eliminar l'usuari %s?",
         "Email": "Correu-e",
         "EmailYourAdministrator": "%1$sEnvieu un email al vostre administrador explicant el problema%2$s.",
-        "ExceptionAccessValues": "El paràmetre permisos ha de tenir un dels següents valors: [ %s ]",
         "ExceptionDeleteDoesNotExist": "L'usuari '%s' no existeix i, per tant, no es pot esborrar.",
         "ExceptionEditAnonymous": "L'usuari anònim no es pot editar o esborrar. El Matomo el fa servir per als usuaris que no han iniciat encara la sessió. Per exemple, podeu fer públiques les vostres estadístiques garantint el permís 'vista' a l'usuari 'anonymous' (anònim).",
         "ExceptionEmailExists": "La direcció de correu-e '%s' ja està en un altre compte.",
@@ -38,6 +37,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quan un usuari no esta identificat i visita el Matomo, han d'accedir",
         "YourUsernameCannotBeChanged": "No es pot canviar el vostre nom d'usuari",
         "YourVisitsAreIgnoredOnDomain": "%1$sLes vostres visites són ignorades pel Matomo %2$s %3$s (la galeta d'ignorància del Matomo s'ha trobat al vostre navegador).",
-        "YourVisitsAreNotIgnored": "%1$sLes vostres visites no són ignorades pel Matomo%2$s (la galeta d'ignorància del Matomo no s'ha trobat al vostre navegador)."
+        "YourVisitsAreNotIgnored": "%1$sLes vostres visites no són ignorades pel Matomo%2$s (la galeta d'ignorància del Matomo no s'ha trobat al vostre navegador).",
+        "XtoYofN": "%1$s - %2$s de %3$s",
+        "Username": "Usuari"
     }
 }

@@ -8,7 +8,6 @@
         "ClickHereToSetTheCookieOnDomain": "คลิกที่นี่เพื่อตั้งค่าคุกกี้ ที่จะไม่รวมการเข้าชมของคุณบนเว็บไซต์ที่ถูกติดตาม โดย Matomo บน %s",
         "DeleteConfirm": "คุณแน่ใจหรือไม่ที่จะลบผู้ใช้ %s ?",
         "Email": "อีเมล์",
-        "ExceptionAccessValues": "พารามิเตอร์เข้าถึงต้องมีหนึ่งค่าต่อไปนี้: [ %s ]",
         "ExceptionDeleteDoesNotExist": "ผู้ใช้ '%s' ไม่มีในระบบ ดังนั้นจึงไม่สามารถลบได้",
         "ExceptionEditAnonymous": "ผู้ใช้งานที่ไม่ระบุชื่อไม่สามารถแก้ไขหรือลบได้ มันถูกใช้งานโดย Matomo เพื่อระบุผู้ใช้ที่ไม่ได้เข้าสู่ระบบยัง ตัวอย่างเช่น คุณสามารถอนุญาตให้ผู้ใช้งานทั่วไปสามารถดูสถิติของเว็บคุณได้",
         "ExceptionEmailExists": "ผู้ใช้มีอีเมล์ '%s' อยู่แล้ว",
@@ -35,6 +34,7 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "เมื่อผู้ใช้เข้าสู่ระบบและเข้าชม Matomo พวกเขาควรจะเข้าถึงได้",
         "YourUsernameCannotBeChanged": "ชื่อผู้ใช้ของคุณไม่สามารถเปลี่ยนแปลงได้",
         "YourVisitsAreIgnoredOnDomain": "%1$s ผู้เข้าชมของคุณจะถูกละเว้น โดย Matomo บน %2$s %3$s (Matomo ละเว้นการที่พบคุกกี้ในเบราว์เซอร์ของคุณ)",
-        "YourVisitsAreNotIgnored": "%1$s ผู้เข้าชมของคุณจะถูกละเว้นโดย Matomo %2$s (Matomo ละเว้นไม่พบคุกกี้ในเบราว์เซอร์ของคุณ)"
+        "YourVisitsAreNotIgnored": "%1$s ผู้เข้าชมของคุณจะถูกละเว้นโดย Matomo %2$s (Matomo ละเว้นไม่พบคุกกี้ในเบราว์เซอร์ของคุณ)",
+        "Username": "ชื่อผู้ใช้"
     }
 }

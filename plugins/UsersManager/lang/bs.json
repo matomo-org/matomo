@@ -1,6 +1,7 @@
 {
     "UsersManager": {
         "PrivAdmin": "Administracija",
-        "PrivView": "Vidi"
+        "PrivView": "Vidi",
+        "Username": "Korisničko ime"
     }
 }

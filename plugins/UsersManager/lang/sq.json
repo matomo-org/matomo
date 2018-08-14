@@ -1,6 +1,11 @@
 {
     "UsersManager": {
         "AddUser": "Shtoni përdorues të ri",
+        "AddExistingUser": "Shtoni një përdorues ekzistues",
+        "AddNewUser": "Shtoni një përdorues të ri",
+        "EditUser": "Përpunoni përdorues",
+        "CreateUser": "Krijoni përdorues",
+        "SaveBasicInfo": "Ruaj të Dhëna të Thjeshta",
         "Alias": "Alias",
         "AllWebsites": "Tërë sajtet",
         "AnonymousAccessConfirmation": "Ju ndan një hap nga akordimi përdoruesit anonim hyrje 'parjesh' në këtë sajt. Kjo do të thotë që raportet tuaja analitike dhe të dhënat e vizitorëve tuaj do të mund të shihen publikisht nga cilido, madje edhe pa kredenciale hyrjeje. Jeni i sigurt se doni të vazhdohet?",
@@ -18,7 +23,6 @@
         "Email": "Email",
         "EmailYourAdministrator": "%1$sDërgojini përgjegjësit tuaj email rreth këtij problemi%2$s.",
         "EnterUsernameOrEmail": "Jepni një emër përdoruesi ose adresë email",
-        "ExceptionAccessValues": "Parametri duhet të ketë një nga vlerat vijuese: [ %s ]",
         "ExceptionNoRoleSet": "S’është caktuar ndonjë rol, por lypset të caktohet një prej këtyre: %s",
         "ExceptionMultipleRoleSet": "Mund të caktohet vetëm një rol, por janë caktuar disa njëherësh. Përdorni vetëm një nga: %s",
         "ExceptionAnonymousNoCapabilities": "S’mund t’i caktoni ndonjë aftësi përdoruesit 'anonim'.",
@@ -84,6 +88,14 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kur përdoruesit nuk janë të futur dhe vizitojnë Matomo-n, do të duhej të hynin",
         "YourUsernameCannotBeChanged": "Emri juaj i përdoruesit s’mund të ndryshohet.",
         "YourVisitsAreIgnoredOnDomain": "%1$sVizitat tuaja te %2$s %3$s janë shpërfillur nga Matomo (te shfletuesi juaj u gjet \\\"cookie\\\" për shpërfillje nga Matomo).",
-        "YourVisitsAreNotIgnored": "%1$sVizitat tuaja nuk janë shpërfillur nga Matomou%2$s (te shfletuesi juaj nuk u gjet \\\"cookie\\\" për shpërfillje nga Matomo)."
+        "YourVisitsAreNotIgnored": "%1$sVizitat tuaja nuk janë shpërfillur nga Matomou%2$s (te shfletuesi juaj nuk u gjet \\\"cookie\\\" për shpërfillje nga Matomo).",
+        "ManageUsers": "Administroni Përdorues",
+        "ManageUsersDesc": "Krijoni përdorues të rinj ose përditësoni përdoruesit ekzistues. Mandej këtu mund të caktoni edhe lejet për ta.",
+        "NoAccessWarning": "Këtij përdoruesi s’i është lejuar hyrje në ndonjë sajt. Kur të bëjë hyrjen në llogari, do të shohë një mesazh gabimi. Për ta parandaluar këtë, shtoni më poshtë hyrjen në një sajt.",
+        "SetPermission": "Caktoni Leje",
+        "RemovePermissions": "Hiqni Leje",
+        "Role": "Rol",
+        "XtoYofN": "%1$s - %2$s of %3$s",
+        "Username": "Emër përdoruesi"
     }
 }

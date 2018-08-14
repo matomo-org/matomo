@@ -18,7 +18,6 @@
         "Email": "メール",
         "EmailYourAdministrator": "%1$sE-mail your administrator about this problem%2$s 。",
         "EnterUsernameOrEmail": "ユーザー名または電子メールアドレスを入力してください",
-        "ExceptionAccessValues": "パラメータ access は、次の値のいずれかを持つ必要があります： [ %s ]",
         "ExceptionDeleteDoesNotExist": "ユーザー '%s' は存在しないため、削除することができません。",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "ユーザー '%s' の削除は、不可能です。",
         "ExceptionEditAnonymous": "anonymous ユーザーは、Matomo がログインしていないユーザーを定義するために使用するため、編集や削除はできません。 例えば、'anonymous' ユーザーに '表示' 権限を与えることによって、統計をパブリックにすることができます。",
@@ -78,6 +77,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "未ログインのユーザーが Matomo にアクセスした際に表示する画面",
         "YourUsernameCannotBeChanged": "あなたのユーザー名を変更することはできません。",
         "YourVisitsAreIgnoredOnDomain": "%1$sあなた自身のビジットは、%2$s の Matomo に無視されています%3$s（ブラウザで Matomo 無視用の Cookie が見つかりました）。",
-        "YourVisitsAreNotIgnored": "%1$sあなた自身のビジットは、Matomo に無視されていません%2$s（ブラウザで Matomo 無視用の Cookie が見つかりませんでした）。"
+        "YourVisitsAreNotIgnored": "%1$sあなた自身のビジットは、Matomo に無視されていません%2$s（ブラウザで Matomo 無視用の Cookie が見つかりませんでした）。",
+        "XtoYofN": "%1$s の %2$s - %3$s",
+        "Username": "ユーザー名"
     }
 }

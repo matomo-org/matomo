@@ -46,6 +46,13 @@
         "TopLinkTooltip": "Krijoni Raporte Me Email, që statistikat Matomo të dërgohen vetvetiu në email-in tuaj ose në adresat e klientëve tuaj!",
         "TopOfReport": "Mbrapsht në krye",
         "UpdateReport": "Përditësoje Raportin",
-        "WeeklyScheduleHelp": "Planifikim javor: raporti do të dërgohet të Hënën e parë të çdo jave."
+        "WeeklyScheduleHelp": "Planifikim javor: raporti do të dërgohet të Hënën e parë të çdo jave.",
+        "Unsubscribe": "Shpajtomëni",
+        "ReportUnsubscribe": "Shpajtohuni nga një raport",
+        "UnsubscribeReportConfirmation": "Jeni i sigurt se doni të shpajtoheni nga raporti %1$s?",
+        "SuccessfullyUnsubscribed": "U shpajtuat me sukses nga raporti %1$s.",
+        "UnsubscribeFooter": "Që të shpajtoheni nga ky raport, ju lutemi, ndiqni këtë lidhje: %1$s",
+        "NoTokenProvided": "Te URL-ja s’u dha token",
+        "NoSubscriptionFound": "S’u gjet pajtim. Ndoshta jeni shpajtuar tashmë nga raporti ose ai është hequr."
     }
 }

@@ -17,7 +17,6 @@
         "Email": "E-mail",
         "EmailYourAdministrator": "%1$s E-mail a seu administrador sobre este problema %2$s.",
         "EnterUsernameOrEmail": "Digite um nome de usuário ou endereço de e-mail",
-        "ExceptionAccessValues": "O parâmetro de acesso deve conter os seguintes valores: [ %s ]",
         "ExceptionDeleteDoesNotExist": "O usuário '%s' não existe assim não é possível excluí-lo.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Não é possível excluir o usuário '%s'",
         "ExceptionEditAnonymous": "O usuário anonymous não pode ser editado ou apagado. Ele é usado pelo sistema para definir um usuário que ainda não não entrou. Por examplo, você pode tornar as estatísticas públicas concedendo acesso 'view' para o usuário 'anonymous'.",
@@ -74,6 +73,8 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Quando usuários não estão logados e visitam o Matomo, eles deveriam acessar",
         "YourUsernameCannotBeChanged": "Seu nome de usuário não pode ser alterado.",
         "YourVisitsAreIgnoredOnDomain": "%1$s Suas visitas são ignoradas pelo Matomo em %2$s %3$s (o Matomo ignora o cookie encontrado em seu navegador).",
-        "YourVisitsAreNotIgnored": "%1$sSuas visitas não são ignoradas pelo Matomo%2$s (o Matomo ignora o cookie não encotrado em seu navegador)"
+        "YourVisitsAreNotIgnored": "%1$sSuas visitas não são ignoradas pelo Matomo%2$s (o Matomo ignora o cookie não encotrado em seu navegador)",
+        "XtoYofN": "%1$s - %2$s de %3$s",
+        "Username": "Nome de Usuário"
     }
 }
