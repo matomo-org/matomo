@@ -1224,10 +1224,6 @@
 	<visitsAggregated>10</visitsAggregated>
 	<visitedPages>
 		<row>
-			<url>http://example.org/my/dir/page3</url>
-			<count>5</count>
-		</row>
-		<row>
 			<url>http://example.org/my/dir/page0</url>
 			<count>5</count>
 		</row>
@@ -1237,6 +1233,10 @@
 		</row>
 		<row>
 			<url>http://example.org/my/dir/page2</url>
+			<count>5</count>
+		</row>
+		<row>
+			<url>http://example.org/my/dir/page3</url>
 			<count>5</count>
 		</row>
 	</visitedPages>
