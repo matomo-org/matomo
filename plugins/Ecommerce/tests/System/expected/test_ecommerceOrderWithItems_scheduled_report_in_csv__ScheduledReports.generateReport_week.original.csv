@@ -9,7 +9,7 @@ nb_uniq_visitors,nb_visits,nb_actions,max_actions,nb_actions_per_visit,avg_time_
 
 Custom Variables
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
-ValueIsZero - Custom Variable value not defined,5,16,$ 13361.11,3.2,00:22:49,20%
+ValueIsZero - 0,5,16,$ 13361.11,3.2,00:22:49,20%
 VisitorType - NewLoggedOut,5,16,$ 13361.11,3.2,00:22:49,20%
 VisitorName - Great name!,4,12,$ 13351.11,3,00:25:32,25%
 
