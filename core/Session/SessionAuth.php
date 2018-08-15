@@ -137,7 +137,7 @@ class SessionAuth implements Auth
         return new AuthResult($code, $user['login'], $user['token_auth']);
     }
 
-    private function initNewBlankSession(SessionFingerprint $sessionFingerprint)
+    protected function initNewBlankSession(SessionFingerprint $sessionFingerprint)
     {
         // this user should be using a different session, so generate a new ID
         // NOTE: Zend_Session cannot be used since it will destroy the old
@@ -152,7 +152,7 @@ class SessionAuth implements Auth
         $sessionFingerprint->clear();
     }
 
-    private function destroyCurrentSession(SessionFingerprint $sessionFingerprint)
+    protected function destroyCurrentSession(SessionFingerprint $sessionFingerprint)
     {
         // Note: Piwik will attempt to create another session in the LoginController
         // when rendering the login form (the nonce for the form is stored in the session).
