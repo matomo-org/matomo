@@ -308,7 +308,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * @var array
      */
-    private $metadata = array();
+    protected $metadata = array();
 
     /**
      * Maximum number of rows allowed in this datatable (including the summary row).
