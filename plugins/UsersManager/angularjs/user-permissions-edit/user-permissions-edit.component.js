@@ -119,7 +119,8 @@
                 method: 'UsersManager.getSitesAccessForUser',
                 filter_search: vm.siteNameFilter,
                 filter_access: vm.accessLevelFilter,
-                userLogin: vm.userLogin
+                userLogin: vm.userLogin,
+                filter_limit: '-1'
             }).then(function (access) {
                 return access.map(function (a) { return a.idsite; });
             });

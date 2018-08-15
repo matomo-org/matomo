@@ -88,8 +88,8 @@
                      ng-if="$ctrl.currentUserRole == 'superuser' || $ctrl.isAdd"
                 ></div>
 
-                <div class='entityCancel' ng-click="$ctrl.onDoneEditing({ isUserModified: $ctrl.isUserModified })" ng-if="$ctrl.isAdd">
-                    <a href="" class="entityCancelLink">{{:: 'General_Cancel'|translate }}</a>
+                <div class='entityCancel' ng-if="$ctrl.isAdd">
+                    <a href="" class="entityCancelLink" ng-click="$ctrl.onDoneEditing({ isUserModified: $ctrl.isUserModified })">{{:: 'General_Cancel'|translate }}</a>
                 </div>
             </div>
 
