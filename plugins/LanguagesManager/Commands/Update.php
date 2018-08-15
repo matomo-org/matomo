@@ -29,6 +29,7 @@ class Update extends TranslationBase
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force update of all language files')
             ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
             ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
+            ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'Transifex project slug')
             ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
     }
 
@@ -174,7 +175,8 @@ class Update extends TranslationBase
             'command' => 'translations:fetch',
             '--username' => $input->getOption('username'),
             '--password' => $input->getOption('password'),
-            '--plugin' => $plugin
+            '--slug'     => $input->getOption('slug'),
+            '--plugin'   => $plugin
         );
 
         if ($input->getOption('force')) {
