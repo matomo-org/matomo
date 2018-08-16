@@ -53,11 +53,13 @@ class Dashboard
             'date' => $date,
             'segment' => $segment,
             'enhanced' => '1',
-            'showColumns' => implode(',', $this->displayedMetricColumns),
+            // NOTE: have to select everything since with queued filters disabled some metrics won't be renamed to
+            // their display name, and so showColumns will end up removing those.
+            'showColumns' => '',
             'disable_queued_filters' => '1',
             'filter_limit' => '-1',
             'filter_offset' => '0',
-        ]);
+        ], $default = []);
 
         $sites->deleteRow(DataTable::ID_SUMMARY_ROW);
 
