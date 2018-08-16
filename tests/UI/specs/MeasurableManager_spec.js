@@ -37,8 +37,8 @@ describe("MeasurableManager", function () {
         const element = await page.jQuery('.SitesManager .addSite:first');
         await element.click();
         await page.waitFor('.modal.open');
-        await page.waitFor(250); // wait for modal animation
-        await assertScreenshotEquals("add_new_dialog", '#content.admin');
+        await page.waitFor(350); // wait for modal animation
+        await assertScreenshotEquals("add_new_dialog", '.modal.open');
     });
 
     it("should load mobile app specific fields", async function () {
@@ -46,6 +46,7 @@ describe("MeasurableManager", function () {
         await element.click();
 
         await page.waitFor('input.btn[value=Save]');
+        await page.waitForNetworkIdle();
         await page.evaluate(function () {
             $('.form-help:contains(UTC time is)').hide();
         });
