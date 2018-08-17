@@ -17,17 +17,7 @@
 </head>
 <body id="simple" ng-app="app">
 
-
-<div class="logo">
-    {% if hasSVGLogo %}
-        <img src='{{ logoSVG }}' tabindex="3"
-             style="height: 40px;"
-             alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo"
-             class="{% if not isCustomLogo %}default-piwik-logo{% endif %}" />
-    {% else %}
-        <img src='{{ logoHeader }}' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Matomo" />
-    {% endif %}
-</div>
+{% include "@CoreHome/_logo.twig" with { 'logoLink': false } %}
 
 <div class="box">
     {% block content %}
