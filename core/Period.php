@@ -65,6 +65,18 @@ abstract class Period
         $this->translator = StaticContainer::get('Piwik\Translation\Translator');
     }
 
+    public function __sleep()
+    {
+        return [
+            'date',
+        ];
+    }
+
+    public function __wakeup()
+    {
+        $this->translator = StaticContainer::get('Piwik\Translation\Translator');
+    }
+
     /**
      * Returns true if `$dateString` and `$period` represent multiple periods.
      *
