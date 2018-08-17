@@ -373,6 +373,8 @@ class FrontController extends Singleton
         if (!$loggedIn) {
             $authAdapter = $this->makeAuthenticator();
             Access::getInstance()->reloadAccess($authAdapter);
+        } else {
+            $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
         }
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
@@ -632,7 +634,7 @@ class FrontController extends Singleton
         return null;
     }
 
-    private function makeAuthenticator()
+    private function makeAuthenticator(SessionAuth $auth = null)
     {
         /**
          * Triggered before the user is authenticated, when the global authentication object
@@ -662,8 +664,13 @@ class FrontController extends Singleton
             throw $ex;
         }
 
-        $authAdapter->setLogin(self::DEFAULT_LOGIN);
-        $authAdapter->setTokenAuth(self::DEFAULT_TOKEN_AUTH);
+        if ($auth) {
+            $authAdapter->setLogin($auth->getLogin());
+            $authAdapter->setTokenAuth($auth->getTokenAuth());
+        } else {
+            $authAdapter->setLogin(self::DEFAULT_LOGIN);
+            $authAdapter->setTokenAuth(self::DEFAULT_TOKEN_AUTH);
+        }
 
         return $authAdapter;
     }
