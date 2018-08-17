@@ -124,7 +124,9 @@ class Response
 
     private function removeTodaysDate($apiResponse)
     {
-        return str_replace(date('Y-m-d'), 'today-date-removed-in-tests', $apiResponse);
+        $result = preg_replace('/' . date('Y-m-d') . ' [0-9]{2}:[0-9]{2}:[0-9]{2}/', 'today-date-removed-in-tests', $apiResponse);
+        $result = str_replace(date('Y-m-d'), 'today-date-removed-in-tests', $result);;
+        return $result;
     }
 
     private function normalizeEncodingPhp533($apiResponse)
