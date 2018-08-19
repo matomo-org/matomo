@@ -337,7 +337,7 @@ class Goals extends \Piwik\Plugin
     public function fetchGoalsFromDb(&$array, $idSite)
     {
         // add the 'goal' entry in the website array
-        $array['goals'] = Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
+        $array['goals'] = API::getInstance()->getGoals($idSite);
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
