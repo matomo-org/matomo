@@ -241,6 +241,10 @@ Application.prototype.doRunTests = function (mocha) {
         process.exit(failures);
     });
 
+    this.runner.on('suite', function() {
+        page.webpage.mouse.move(-10, -10);
+    });
+
     this.runner.on('test', function () {
         page._reset();
     });
