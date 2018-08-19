@@ -15,17 +15,21 @@
         "DistinctCampaigns": "distinkta kampanjer",
         "DistinctKeywords": "distinkta nyckelord",
         "DistinctSearchEngines": "distinkta sökmotorer",
+        "DistinctSocialNetworks": "distinkta sociala nätverk",
         "DistinctWebsites": "distinkta webbplatser",
         "EvolutionDocumentation": "Detta är en översikt av hänvisningsadresserna som ledde besökarna till din webbplats.",
         "EvolutionDocumentationMoreInfo": "Mer information om de olika hänvisningsadressernas typer finns i dokumentationen för %s tabell.",
         "Keywords": "Nyckelord",
         "KeywordsReportDocumentation": "Rapporten visar vilka nyckelord som användarna sökte efter innan de hänvisades till din webbplats. %s Genom att klicka på en rad i tabellen kan du se fördelningen av sökmotorer som användes för nyckelordet.",
+        "KeywordsReportDocumentationNote": "OBS! I den här rapporten anges de flesta sökord som 'not defined', eftersom de flesta sökmotorer inte skickar det exakta sökordet som användes på sökmotorn.",
         "PluginDescription": "Visar hänvisningsdata: sökmotorer, nyckelord, webbplatser, kampanjer, sociala medier, direktbesök.",
         "Referrer": "Hänvisningar",
         "ReferrerName": "Hänvisningsadress Namn",
+        "ReferrerNames": "Hänvisningsnamn",
         "Referrers": "Hänvisningar",
         "ReferrersOverview": "Översikt för hänvisningar",
         "ReferrerTypes": "Hänvisningstyper",
+        "ReferrerURLs": "Hänvisningsadresser",
         "SearchEngines": "Sökmotorer",
         "SearchEnginesDocumentation": "En besökare hänvisades till din webbplats genom en sökmotor. %1$s se %2$s rapport för mer detaljer.",
         "SearchEnginesReportDocumentation": "Rapporten visar vilka sökmotorer som hänvisat användare till din webbplats. %s Genom att klicka på en rad i tabellen så kan du se vad användarna sökte på, på en specifik sökmotor.",
@@ -38,6 +42,7 @@
         "TypeDirectEntries": "%s direkttrafik",
         "TypeReportDocumentation": "Denna tabell innehåller information om fördelningen av hänvisningsadressernas typer.",
         "TypeSearchEngines": "%s från sökmotorer",
+        "TypeSocialNetworks": "%s från sociala nätverk",
         "TypeWebsites": "%s från webbplatser",
         "UsingNDistinctUrls": "(använder %s distinkta urler)",
         "ViewAllReferrers": "Visa alla hänvisningar",
@@ -49,6 +54,7 @@
         "WidgetGetAll": "Alla hänvisningar",
         "WidgetSocials": "Lista över sociala nätverk",
         "WidgetTopKeywordsForPages": "Toppnyckelord för sid-URL",
-        "XPercentOfVisits": "%s av besökare"
+        "XPercentOfVisits": "%s av besökare",
+        "Acquisition": "Förvärv"
     }
 }
