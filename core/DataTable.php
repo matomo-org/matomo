@@ -306,6 +306,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * Any data that describes the data held in the table's rows should go here.
      *
+     * Note: this field is protected so derived classes will serialize it.
+     *
      * @var array
      */
     protected $metadata = array();
