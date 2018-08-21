@@ -587,6 +587,22 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $access);
     }
 
+    public function test_getSitesAccessForUser_shouldLimitSitesIfUserIsAdmin_AndStillSelectNoAccessSitesCorrectly()
+    {
+        $this->addUserWithAccess('userLogin2', 'view', [1], 'userlogin2@email.com');
+
+        $this->api->setUserAccess('userLogin', 'admin', [1, 2, 3]);
+
+        $this->setCurrentUser('userLogin', 'admin', [1, 2, 3]);
+
+        $access = $this->api->getSitesAccessForUser('userLogin2', null, null, null, 'noaccess');
+        $expected = [
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'noaccess', 'capabilities' => []],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
     public function test_getSitesAccessForUser_shouldSelectSitesCorrectlyIfAtLeastViewRequested()
     {
         $this->addUserWithAccess('userLogin2', 'view', [1], 'userlogin2@email.com');
