@@ -45,7 +45,7 @@ class Get extends Base
     private function getGoals()
     {
         $idSite = $this->getIdSite();
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
         return $goals;
     }
 

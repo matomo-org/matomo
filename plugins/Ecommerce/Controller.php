@@ -77,7 +77,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         $view = new View('@Ecommerce/conversionOverview');
         $idGoal = Common::getRequestVar('idGoal', null, 'string');
 
-        $goalMetrics = Request::processRequest('Goals.get', array('idGoal' => $idGoal));
+        $goalMetrics = Request::processRequest('Goals.get', array('idGoal' => $idGoal, 'filter_limit' => '-1'), $default = []);
         $dataRow = $goalMetrics->getFirstRow();
 
         $view->idSite = Common::getRequestVar('idSite', null, 'int');

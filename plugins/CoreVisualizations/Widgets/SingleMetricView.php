@@ -64,7 +64,7 @@ class SingleMetricView extends \Piwik\Widget\Widget
             );
             $metricDocumentations = array_merge($metricDocumentations, $reportMetadata['metricsDocumentation']);
 
-            $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
+            $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
         }
 
         $view = new View("@CoreHome/_angularComponent.twig");

@@ -38,7 +38,7 @@ class Summary extends ProfileSummaryAbstract
     {
         $idSite            = Common::getRequestVar('idSite', null, 'int');
         $view              = new View('@Live/_profileSummary.twig');
-        $view->goals       = Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
+        $view->goals       = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
         $view->visitorData = $this->profile;
         return $view->render();
     }

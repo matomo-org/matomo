@@ -30,7 +30,7 @@ class AddNewGoal extends \Piwik\Widget\Widget
             return;
         }
 
-        $goals  = Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
+        $goals  = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
         $config->setName('Goals_AddNewGoal');
 

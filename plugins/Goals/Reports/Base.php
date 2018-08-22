@@ -57,6 +57,6 @@ abstract class Base extends \Piwik\Plugin\Report
             return array();
         }
 
-        return Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
+        return Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
     }
 }

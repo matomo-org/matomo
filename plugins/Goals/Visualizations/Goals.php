@@ -172,7 +172,7 @@ class Goals extends HtmlTable
             }
 
             // add the site's goals (and escape all goal names)
-            $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
+            $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
             foreach ($siteGoals as &$goal) {
                 $goal['name'] = Common::sanitizeInputValue($goal['name']);

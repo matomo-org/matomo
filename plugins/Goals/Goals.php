@@ -103,7 +103,7 @@ class Goals extends \Piwik\Plugin
     public function addComputedMetrics(MetricsList $list, ComputedMetricFactory $computedMetricFactory)
     {
         $idSite = Common::getRequestVar('idSite', 0, 'int');
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
         foreach ($goals as $goal) {
             $metric = $computedMetricFactory->createComputedMetric('goal_' .  $goal['idgoal'] . '_conversion', 'nb_uniq_visitors', ComputedMetric::AGGREGATION_RATE);
@@ -117,7 +117,7 @@ class Goals extends \Piwik\Plugin
     public function addMetrics(MetricsList $metricsList)
     {
         $idSite = Common::getRequestVar('idSite', 0, 'int');
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
         foreach ($goals as $goal) {
             $custom = new GoalDimension($goal, 'idgoal', 'Conversions goal "' . $goal['name'] . '" (ID ' . $goal['idgoal'] .' )');
@@ -174,7 +174,7 @@ class Goals extends \Piwik\Plugin
             }
         }
 
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite]);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
         $order = 900;
         foreach ($goals as $goal) {
