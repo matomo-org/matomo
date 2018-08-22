@@ -105,6 +105,7 @@ class Php extends GeoIp2
                     case 'GeoIP2-Enterprise':
                     case 'GeoLite2-City':
                     case 'GeoIP2-City':
+                    case 'GeoIP2-City-Europe':
                         if ($reader->metadata()->databaseType === 'GeoIP2-Enterprise') {
                             $lookupResult = $reader->enterprise($ip);
                         } else {
@@ -228,6 +229,7 @@ class Php extends GeoIp2
             switch ($reader->metadata()->databaseType) {
                 case 'GeoIP2-Enterprise':
                 case 'GeoIP2-City':
+                case 'GeoIP2-City-Europe':
                 case 'GeoLite2-City':
                     $result[self::REGION_CODE_KEY] = true;
                     $result[self::REGION_NAME_KEY] = true;
@@ -273,7 +275,7 @@ class Php extends GeoIp2
             . '</a>';
 
         $availableDatabaseTypes = array();
-        if (self::getPathToGeoIpDatabase(['GeoIP2-Enterprise.mmdb', 'GeoIP2-City.mmdb', 'GeoLite2-City.mmdb']) !== false) {
+        if (self::getPathToGeoIpDatabase(['GeoIP2-Enterprise.mmdb', 'GeoIP2-City.mmdb', 'GeoIP2-City-Europe.mmdb', 'GeoLite2-City.mmdb']) !== false) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_City');
         }
         if (self::getPathToGeoIpDatabase(['GeoIP2-Country.mmdb', 'GeoLite2-Country.mmdb']) !== false) {
