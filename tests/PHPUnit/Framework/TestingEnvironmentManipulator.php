@@ -17,6 +17,7 @@ use Piwik\Config;
 use Piwik\DbHelper;
 use Piwik\Option;
 use Piwik\Plugin;
+use Piwik\SettingsServer;
 
 class FakePluginList extends PluginList
 {
@@ -136,6 +137,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
     {
         $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource($this->vars);
 
+        $fixturePluginsToLoad = [];
+
         $diConfigs = array($testVarDefinitionSource);
         if ($this->vars->testCaseClass) {
             $testCaseClass = $this->vars->testCaseClass;
@@ -160,6 +163,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
             if ($this->classExists($fixtureClass)) {
                 $fixture = new $fixtureClass();
+                $fixturePluginsToLoad = $fixture->extraPluginsToLoad;
 
                 if (method_exists($fixture, 'provideContainerConfig')) {
                     $diConfigs[] = $fixture->provideContainerConfig();
@@ -167,7 +171,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             }
         }
 
-        $plugins = $this->getPluginsToLoadDuringTest();
+        $plugins = $this->getPluginsToLoadDuringTest($fixturePluginsToLoad);
         $diConfigs[] = array(
             'observers.global' => \DI\add($this->globalObservers),
 
@@ -197,7 +201,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         return $result;
     }
 
-    private function getPluginsToLoadDuringTest()
+    private function getPluginsToLoadDuringTest($extraPlugins = [])
     {
         $plugins = $this->vars->getCoreAndSupportedPlugins();
 
@@ -210,7 +214,8 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                 Plugin::getPluginNameFromNamespace($this->vars->testCaseClass),
                 Plugin::getPluginNameFromNamespace($this->vars->fixtureClass),
                 Plugin::getPluginNameFromNamespace(get_called_class())
-            )
+            ),
+            $extraPlugins
         );
 
         foreach ($extraPlugins as $pluginName) {
