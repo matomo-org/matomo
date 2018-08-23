@@ -22,10 +22,17 @@ class Original extends ApiRenderer
      * @param $message
      * @param \Exception|\Throwable $exception
      * @throws \Exception|\Throwable
-     * @return void
+     * @return string
      */
     public function renderException($message, $exception)
     {
+        if ($this->shouldSerialize()) {
+            return serialize([
+                'result' => 'error',
+                'message' => $message,
+            ]);
+        }
+
         throw $exception;
     }
 
