@@ -108,6 +108,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     public $persistFixtureData = false;
     public $resetPersistedFixture = false;
     public $printToScreen = false;
+    public $forceEnableLogging = false;
 
     public $testCaseClass = false;
     public $extraPluginsToLoad = array();
@@ -213,6 +214,10 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         foreach ($this->extraTestEnvVars as $name => $value) {
             $testEnv->$name = $value;
+        }
+
+        if ($this->forceEnableLogging) {
+            $testEnv->environmentVariables['MATOMO_TESTS_ENABLE_LOGGING'] = '1';
         }
 
         $testEnv->save();

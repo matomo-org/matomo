@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New Features
 
 * Custom currencies can now be added using the `currencies[]` configuration key.
+* Logging to a file can now be easily enabled during tests. A new `[tests] enable_logging` INI option has been added, which you can set to `1` to enable logging for all tests. The `tests:run` and `tests:run-ui` commands now both have an `--enable-logging` option to enable logging for a specific run.
 
 ### New APIs
 

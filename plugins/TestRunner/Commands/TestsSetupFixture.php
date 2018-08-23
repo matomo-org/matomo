@@ -87,6 +87,7 @@ class TestsSetupFixture extends ConsoleCommand
             "Used by UI tests. Sets the \$_SERVER global variable from a JSON string.");
         $this->addOption('plugins', null, InputOption::VALUE_REQUIRED,
             "Used by UI tests. Comma separated list of plugin names to activate and install when setting up a fixture.");
+        $this->addOption('enable-logging', null, InputOption::VALUE_NONE, 'If enabled, tests will log to the configured log file.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -231,6 +232,10 @@ class TestsSetupFixture extends ConsoleCommand
 
         if ($input->getOption('drop')) {
             $fixture->resetPersistedFixture = true;
+        }
+
+        if ($input->getOption('enable-logging')) {
+            $fixture->forceEnableLogging = true;
         }
 
         $extraPluginsToLoad = $input->getOption('plugins');
