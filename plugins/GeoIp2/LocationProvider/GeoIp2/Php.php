@@ -104,11 +104,6 @@ class Php extends GeoIp2
                         break;
                     case 'GeoIP2-Enterprise':
                     case 'GeoLite2-City':
-                    case 'GeoLite2-City-Africa':
-                    case 'GeoLite2-City-Asia-Pacific':
-                    case 'GeoLite2-City-Europe':
-                    case 'GeoLite2-City-North-America':
-                    case 'GeoLite2-City-South-America':
                     case 'GeoIP2-City':
                     case 'GeoIP2-City-Africa':
                     case 'GeoIP2-City-Asia-Pacific':
@@ -238,11 +233,6 @@ class Php extends GeoIp2
             switch ($reader->metadata()->databaseType) {
                 case 'GeoIP2-Enterprise':
                 case 'GeoLite2-City':
-                case 'GeoLite2-City-Africa':
-                case 'GeoLite2-City-Asia-Pacific':
-                case 'GeoLite2-City-Europe':
-                case 'GeoLite2-City-North-America':
-                case 'GeoLite2-City-South-America':
                 case 'GeoIP2-City':
                 case 'GeoIP2-City-Africa':
                 case 'GeoIP2-City-Asia-Pacific':
@@ -293,7 +283,7 @@ class Php extends GeoIp2
             . '</a>';
 
         $availableDatabaseTypes = array();
-        if (self::getPathToGeoIpDatabase(['GeoIP2-City.mmdb', 'GeoIP2-City-Africa.mmdb', 'GeoIP2-City-Asia-Pacific.mmdb', 'GeoIP2-City-Europe.mmdb', 'GeoIP2-City-North-America.mmdb', 'GeoIP2-City-South-America.mmdb', 'GeoIP2-Enterprise.mmdb', 'GeoIP2-Country.mmdb', 'GeoLite2-City.mmdb', 'GeoLite2-Country.mmdb', 'GeoLite2-City.mmdb', 'GeoLite2-City-Africa.mmdb', 'GeoLite2-City-Asia-Pacific.mmdb', 'GeoLite2-City-Europe.mmdb', 'GeoLite2-City-North-America.mmdb', 'GeoLite2-City-South-America.mmdb']) !== false) {
+        if (self::getPathToGeoIpDatabase(['GeoIP2-City.mmdb', 'GeoIP2-City-Africa.mmdb', 'GeoIP2-City-Asia-Pacific.mmdb', 'GeoIP2-City-Europe.mmdb', 'GeoIP2-City-North-America.mmdb', 'GeoIP2-City-South-America.mmdb', 'GeoIP2-Enterprise.mmdb', 'GeoIP2-Country.mmdb', 'GeoLite2-City.mmdb', 'GeoLite2-Country.mmdb']) !== false) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_City');
         }
         if (self::getPathToGeoIpDatabase(['GeoIP2-Country.mmdb', 'GeoLite2-Country.mmdb']) !== false) {
