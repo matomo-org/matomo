@@ -148,6 +148,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                 // Apply DI config from the fixture
                 if (isset($testCaseClass::$fixture)) {
                     $diConfigs[] = $testCaseClass::$fixture->provideContainerConfig();
+                    $fixturePluginsToLoad = $testCaseClass::$fixture->extraPluginsToLoad;
                 }
 
                 if (method_exists($testCaseClass, 'provideContainerConfigBeforeClass')) {
@@ -201,7 +202,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
         return $result;
     }
 
-    private function getPluginsToLoadDuringTest($extraPlugins = [])
+    private function getPluginsToLoadDuringTest($fixtureExtraPlugins = [])
     {
         $plugins = $this->vars->getCoreAndSupportedPlugins();
 
@@ -215,7 +216,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                 Plugin::getPluginNameFromNamespace($this->vars->fixtureClass),
                 Plugin::getPluginNameFromNamespace(get_called_class())
             ),
-            $extraPlugins
+            $fixtureExtraPlugins
         );
 
         foreach ($extraPlugins as $pluginName) {
