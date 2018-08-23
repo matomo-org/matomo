@@ -16,45 +16,51 @@ describe("VisitorMap", function () {
             + "actionToWidgetize=visitorMap&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1";
 
     it("should display the bounce rate metric correctly", async function() {
-        this.retries(3);
+        await page.goto(url);
+        await page.evaluate(function () {
+            $('.userCountryMapSelectMetrics').val('bounce_rate').trigger('change');
+        });
+        await page.mouse.move(900, 140);
+        await page.waitFor(100); // wait for tooltip
 
-        expect.screenshot('bounce_rate').to.be.similar(0.002).to.capture(function (page) {
-            page.load(url);
-            page.evaluate(function () {
-                $('.userCountryMapSelectMetrics').val('bounce_rate').trigger('change');
-            });
-            page.mouseMove('.UserCountryMap_map.kartograph');
-        }, done);
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('bounce_rate');
     });
 
     it("should display the average time on site metric correctly", async function() {
-        expect.screenshot('avg_time_on_site').to.be.similar(0.002).to.capture(function (page) {
-            page.evaluate(function () {
-                $('.userCountryMapSelectMetrics').val('avg_time_on_site').trigger('change');
-            });
-            page.mouseMove('.UserCountryMap_map.kartograph');
-        }, done);
+        await page.mouse.move(0, 0);
+        await page.evaluate(function () {
+            $('.userCountryMapSelectMetrics').val('avg_time_on_site').trigger('change');
+        });
+        await page.mouse.move(900, 140);
+        await page.waitFor(100); // wait for tooltip
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('avg_time_on_site');
     });
 
     it("should display the regions layer correctly", async function() {
-        expect.screenshot('regions').to.be.similar(0.002).to.capture(function (page) {
-            page.load(urlWithCities);
-            page.evaluate(function () {
-                // zoom into USA
-                var path = window.visitorMap.map.getLayer('countries').getPaths({iso: "USA"})[0].svgPath[0];
-                $(path).click();
-            });
-            page.evaluate(function () {
-                // go to regions view
-                var path = window.visitorMap.map.getLayer('countries').getPaths({iso: "USA"})[0].svgPath[0];
-                $(path).click();
-            });
-        }, done);
+        await page.goto(urlWithCities);
+        await page.waitForNetworkIdle();
+        await page.waitFor(1000);
+        await page.webpage.evaluate(function () {
+            // zoom into USA
+            var path = window.visitorMap.map.getLayer('countries').getPaths({iso: "USA"})[0].svgPath[0];
+            $(path).click();
+        });
+        await page.waitFor(1000);
+        await page.webpage.evaluate(function () {
+            // go to regions view
+            var path = window.visitorMap.map.getLayer('countries').getPaths({iso: "USA"})[0].svgPath[0];
+            $(path).click();
+        });
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('regions');
     });
 
     it("should display the cities layer correctly", async function() {
-        expect.screenshot('cities').to.be.similar(0.002).to.capture(function (page) {
-            page.click('.UserCountryMap-btn-city');
-        }, done);
+        await page.click('.UserCountryMap-btn-city');
+        await page.waitForNetworkIdle();
+        await page.waitFor(500); // wait for map
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('cities');
     });
 });
