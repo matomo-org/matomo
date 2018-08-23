@@ -96,6 +96,10 @@ class TestsSetupFixture extends ConsoleCommand
             define('PIWIK_TEST_MODE', true);
         }
 
+        if ($input->getOption('enable-logging')) {
+            putenv("MATOMO_TESTS_ENABLE_LOGGING=1");
+        }
+
         Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables()));
 
         $serverGlobal = $input->getOption('server-global');
@@ -232,10 +236,6 @@ class TestsSetupFixture extends ConsoleCommand
 
         if ($input->getOption('drop')) {
             $fixture->resetPersistedFixture = true;
-        }
-
-        if ($input->getOption('enable-logging')) {
-            $fixture->forceEnableLogging = true;
         }
 
         $extraPluginsToLoad = $input->getOption('plugins');
