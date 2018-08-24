@@ -283,7 +283,7 @@ class Php extends GeoIp2
             . '</a>';
 
         $availableDatabaseTypes = array();
-        if (self::getPathToGeoIpDatabase(['GeoIP2-City.mmdb', 'GeoIP2-City-Africa.mmdb', 'GeoIP2-City-Asia-Pacific.mmdb', 'GeoIP2-City-Europe.mmdb', 'GeoIP2-City-North-America.mmdb', 'GeoIP2-City-South-America.mmdb', 'GeoIP2-Enterprise.mmdb', 'GeoIP2-Country.mmdb', 'GeoLite2-City.mmdb', 'GeoLite2-Country.mmdb']) !== false) {
+        if (self::getPathToGeoIpDatabase(['GeoIP2-City.mmdb', 'GeoIP2-City-Africa.mmdb', 'GeoIP2-City-Asia-Pacific.mmdb', 'GeoIP2-City-Europe.mmdb', 'GeoIP2-City-North-America.mmdb', 'GeoIP2-City-South-America.mmdb', 'GeoIP2-Enterprise.mmdb', 'GeoLite2-City.mmdb']) !== false) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_City');
         }
         if (self::getPathToGeoIpDatabase(['GeoIP2-Country.mmdb', 'GeoLite2-Country.mmdb']) !== false) {
