@@ -1,0 +1,29 @@
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "tiempo promedio de generación",
+        "AverageVisitDuration": "duración promedio de la visita",
+        "GenerateQueries": "%s consultas ejecutadas",
+        "GenerateTime": "%s segundos para generar la página",
+        "MaxNbActions": "máximas acciones en una visita",
+        "NbActionsDescription": "%s acciones",
+        "NbActionsPerVisit": "acciones (vistas de páginas, descargas, enlaces salientes y búsquedas internas) por visita",
+        "NbDownloadsDescription": "descargas",
+        "NbKeywordsDescription": "palabras claves únicas",
+        "NbOutlinksDescription": "enlaces salientes",
+        "NbPageviewsDescription": "vistas de página",
+        "NbSearchesDescription": "búsquedas totales en tu sitio web",
+        "NbUniqueDownloadsDescription": "descargas únicas",
+        "NbUniqueOutlinksDescription": "enlaces salientes únicos",
+        "NbUniquePageviewsDescription": "vistas de página únicas",
+        "NbUniqueVisitors": "visitantes únicos",
+        "NbUsersDescription": "usuarios",
+        "NbVisitsDescription": "visitas",
+        "NbVisitsBounced": "visitas que rebotaron (abandonaron el sitio luego de una página)",
+        "PluginDescription": "Informa de mediciones en general: visitas, visitantes únicos, números de acciones, tasa de rebote, etc.",
+        "VisitsSummary": "Resumen de visitas",
+        "VisitsSummaryDocumentation": "Este es un pantallazo de la evolución de las visitas.",
+        "WidgetLastVisits": "Visitas a través del tiempo",
+        "WidgetOverviewGraph": "Pantallazo de visitas (con gráfico)",
+        "WidgetVisits": "Pantallazo de visitas"
+    }
+}

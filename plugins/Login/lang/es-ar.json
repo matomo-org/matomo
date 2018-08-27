@@ -1,0 +1,21 @@
+{
+    "Login": {
+        "ConfirmationLinkSent": "Se envió un enlace de confirmación a tu cuenta de correo. Revisá tu email y visitá ese enlace para autorizar tu solicitud de cambio de contraseña.",
+        "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un usuario con acceso a súperusuario no puede ser autenticado usando el mecanismo \"%s\".",
+        "ExceptionPasswordMD5HashExpected": "Se espera que el parámetro contraseña sea un chequeo de integridad MD5 de la contraseña.",
+        "InvalidOrExpiredToken": "El indicio no es válido o venció.",
+        "InvalidUsernameEmail": "Nombre de usuario y\/o dirección de correo electrónico no válidos.",
+        "LogIn": "Iniciar sesión",
+        "LoginPasswordNotCorrect": "Combinación no válida de usuario y contraseña.",
+        "LostYourPassword": "¿Te olvidaste la contraseña?",
+        "ChangeYourPassword": "Cambiá tu contraseña",
+        "MailTopicPasswordChange": "Confirmar el cambio de contraseña",
+        "NewPassword": "Nueva contraseña",
+        "NewPasswordRepeat": "Nueva contraseña (repetirla)",
+        "PasswordChanged": "Se cambió tu contraseña.",
+        "PasswordRepeat": "Contraseña (repetirla)",
+        "PasswordsDoNotMatch": "Las contraseñas no coinciden.",
+        "PluginDescription": "Ofrece autenticación vía nombre de usuario y contraseña, así como función de restablecimiento de contraseña. El método de autenticación se puede cambiar al usar otro plugin de inicio de sesión, como LoginLdap, disponible en el mercado.",
+        "RememberMe": "Recordarme"
+    }
+}
