@@ -115,6 +115,26 @@
         "BasicInformation": "Temel Bilgiler",
         "Permissions": "İzinler",
         "SuperUserAccess": "Süper Kullanıcı İzni",
-        "Username": "Kullanıcı Adı"
+        "FirstSiteInlineHelp": "Yeni bir kullanıcıya eklendikten sonra bir web sitesi görüntüleme izni verilmelidir. Herhangi bir izin verilmez ize kullanıcı oturum açtığında bir hata iletisi görür. Kullanıcı eklendikten sonra sol tarafta görüntülenecek 'İzinler' sekmesinden başka izinler verebilirsiniz.",
+        "SuperUsersPermissionsNotice": "Süper kullanıcılar tüm web sitelerine erişebilir. Bu nedenle süper kullanıcılara her web sitesi için izin vermeye gerek yoktur.",
+        "SuperUserIntro1": "Süper kullanıcılar en yüksek izinlere sahiptir. İzlenecek yeni web sitelerini eklemek, kullanıcı eklemek, kullanıcı izinlerini değiştirmek, uygulama eklerini etkinleştirmek ve devre dışı bırakmak, mağazadan yeni uygulama ekleri kurmak gibi tüm yönetici işlemlerini yapabilirler. Diğer Divezone kullanıcılarına bu bölümden Süper Kullanıcı rolü atayabilirsiniz.",
+        "SuperUserIntro2": "Lütfen bu özelliği kullanırken dikkatli olun.",
+        "HasSuperUserAccess": "Süper Kullanıcı İzinlerine Sahip",
+        "AreYouSure": "Emin misiniz?",
+        "RemoveSuperuserAccessConfirm": "Super kullanıcı izinlerini kaldırmak kullanıcının tüm izinlerini kaldıracak (gerekli izinleri daha sonra vermeniz gerekir). Devam etmek ister misiniz?",
+        "AddSuperuserAccessConfirm": "Bir kullanıcıya süper kullanıcı izinleri verildiğinde, bu kullanıcının Matomo üzerinde tam denetime sahip olmasını sağlar. Bu yüzden tedbirli davranılması önerilir. Devam etmek ister misiniz?",
+        "DeleteUsers": "Kullanıcıları Sil",
+        "UserSearch": "Kullanıcı arama",
+        "FilterByAccess": "İzinlere göre süz",
+        "Username": "Kullanıcı Adı",
+        "RoleFor": "Şunun rolü",
+        "TheDisplayedUsersAreSelected": "Görüntülenen %1$s kullanıcı seçildi.",
+        "AllUsersAreSelected": "%1$s kullanıcının tümü seçildi.",
+        "ClickToSelectDisplayedUsers": "Görüntülenen %1$s kullanıcıyı seçmek için tıklayın.",
+        "RemoveAllAccessToThisSite": "Bu web sitesindeki tüm izinleri kaldır",
+        "DeleteUserConfirmSingle": "%1$s kullanıcısını silmek istediğinize emin misiniz?",
+        "DeleteUserConfirmMultiple": "%1$s seçilmiş kullanıcıyı silmek istediğinize emin misiniz?",
+        "DeleteUserPermConfirmSingle": "%1$s kullanıcısının rolünü %3$s için %2$s olarak değiştirmek istediğinize emin misiniz?",
+        "DeleteUserPermConfirmMultiple": "Seçilmiş %1$s kullanıcının rolünü %3$s için %2$s olarak değiştirmek istediğinize emin misiniz?"
     }
 }
