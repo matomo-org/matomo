@@ -8,15 +8,26 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### New Features
 
+* A new role has introduced called "write" which has less permissions than an admin but more than a view only user ([see FAQ](https://matomo.org/faq/general/faq_26910/)).
 * Custom currencies can now be added using the `currencies[]` configuration key.
+* A new segment `eventValue` lets you select all users who tracked a custom event with a given value or range of values.
+
+### New config.ini.php settings
+
+* `archiving_profile = 0`, if set to 1, core:archive profiling information will be recorded in a log file. the log file is determined by the `archive_profiling_log` option.
+* `archive_profiling_log = `, if set to an absolute path, core:archive profiling information will be logged to specified file.
+* `enable_internet_features=0` will now fully disable Internet access by preventing all outgoing connections. Note: changing this setting is not recommended for security, because you will lose the easy auto-update and email notifications.
+* `login_whitelist_ip[]` now supports hostnames so you can [whitelist](https://matomo.org/faq/how-to/faq_25543/) your IP addresses and/or Hostnames and keep your Matomo secure.
+
+### Updated commands
+
+* New parameter `--concurrent-archivers` to define the number of maximum archivers to run in parallel on this server. Useful to prevent archiving processes piling up and ultimately failing.
 
 ### New APIs
 
-* Reports send by mail now contain unsubscribe-links, which lets every recipient unsubscribe from a specific report, even without access to Matomo
 * Added new event `API.addGlossaryItems` which lets you add items to the glossary.
 * Added new event `Tracker.detectReferrerSocialNetwork` which lets you add custom social network detections
 * Added new event `Report.unsubscribe` which is triggered whenever someone unsubscribe from a report
-* A new role has introduced called "write" which has less permissions than an admin but more than a view only user.
 * Added new API method `UsersManager.getAvailableRoles` to fetch a list of all available roles that can be granted to a user.
 * Added new API method `UsersManager.getAvailableCapabilities` to fetch a list of all available capabilities that can be granted to a user.
 * Added new API method `UsersManager.addCapabilities` to grant one or multiple capabilities to a user.
@@ -24,6 +35,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * The API method `UsersManager.setUserAccess` now accepts an array to pass a role and multiple capabilities at once.
 * Plugin classes can overwrite the method `requiresInternetConnection` to define if they should be automatically unloaded if no internet connection is available (enable_internet_features = 0)
 * Added two new methods to the JS tracker: `removeEcommerceItem` and `clearEcommerceCart` to allow better control over what is in the ecommerce cart.
+* Tracking API requests now include `&consent=1` in the Tracking API URL When [consent](https://developer.matomo.org/guides/tracking-javascript-guide#asking-for-consent) has been given by a user.
 
 ### Breaking Changes
 * Changed some menu items to use translation keys instead (see [PR #12885](https://github.com/matomo-org/matomo/pull/12885)).
