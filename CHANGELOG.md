@@ -11,7 +11,6 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * A new role has introduced called "write" which has less permissions than an admin but more than a view only user ([see FAQ](https://matomo.org/faq/general/faq_26910/)).
 * Custom currencies can now be added using the `currencies[]` configuration key.
 * A new segment `eventValue` lets you select all users who tracked a custom event with a given value or range of values.
-* Reports sent by email now contain unsubscribe links to let recipient unsubscribe from a specific report.
 
 ### New config.ini.php settings
 
