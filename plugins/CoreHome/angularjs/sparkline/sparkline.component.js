@@ -54,6 +54,12 @@
             }
 
             var dateRange = piwikPeriods.get('range').getLastNRange(piwik.period, 30, piwik.currentDateString).getDateRange();
+
+            var piwikMinDate = new Date(piwik.minDateYear, piwik.minDateMonth - 1, piwik.minDateDay);
+            if (dateRange[0] < piwikMinDate) {
+                dateRange[0] = piwikMinDate;
+            }
+
             var startDateStr = $.datepicker.formatDate('yy-mm-dd', dateRange[0]);
             var endDateStr = $.datepicker.formatDate('yy-mm-dd', dateRange[1]);
             return startDateStr + ',' + endDateStr;
