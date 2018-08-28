@@ -81,10 +81,6 @@
         }
 
         function fetchData() {
-            if (vm.responses && vm.responses.length && typeof vm.idGoal === 'undefined') {
-                return $q.resolve();
-            }
-
             vm.isLoading = true;
 
             var promises = [];
