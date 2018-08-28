@@ -314,10 +314,13 @@ PageRenderer.prototype._setupWebpageEvents = function () {
         // tests when Piwik is on a port, w/o having to have different UI screenshots. (This is one half of the
         // solution, the other half is in config/environment/ui-test.php, where we remove all ports from Piwik URLs.)
         if (piwikPort && piwikPort !== 0) {
-            const parsedRequestUrl = parseUrl(parsedPiwikUrl);
+            const parsedRequestUrl = parseUrl(url);
 
-            if (parsedRequestUrl.hostname === piwikHost && (!parsedRequestUrl.port || parsedRequestUrl.port === 0 || parsedRequestUrl.port === 80)) {
+            if (parsedRequestUrl.hostname === piwikHost && (!parsedRequestUrl.port || parseInt(parsedRequestUrl.port) === 0 || parseInt(parsedRequestUrl.port) === 80)) {
+
                 parsedRequestUrl.port = piwikPort;
+                parsedRequestUrl.host = piwikHost + ':' + piwikPort;
+
                 url = formatUrl(parsedRequestUrl);
 
                 request.continue({
