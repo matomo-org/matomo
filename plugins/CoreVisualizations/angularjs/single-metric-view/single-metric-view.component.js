@@ -255,16 +255,17 @@
         }
 
         function setMetric(newColumn) {
+            var idGoal;
+
             var m = newColumn.match(/^goal([0-9]+)_(.*)/);
             if (m) {
-                vm.idGoal = +m[1];
+                idGoal = +m[1];
                 newColumn = m[2];
-            } else {
-                vm.idGoal = undefined;
             }
 
-            if (vm.metric !== newColumn) {
+            if (vm.metric !== newColumn || idGoal !== vm.idGoal) {
                 vm.metric = newColumn;
+                vm.idGoal = idGoal;
                 onMetricChanged();
             }
         }
