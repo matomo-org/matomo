@@ -87,7 +87,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->defaultMetric = 'nb_visits';
 
         // some translations
-        $view->localeJSON = json_encode(array(
+        $translations = array(
              'nb_visits'            => $this->translator->translate('General_NVisits'),
              'one_visit'            => $this->translator->translate('General_OneVisit'),
              'no_visit'             => $this->translator->translate('UserCountryMap_NoVisit'),
@@ -99,7 +99,15 @@ class Controller extends \Piwik\Plugin\Controller
              'no_data'              => $this->translator->translate('CoreHome_ThereIsNoDataForThisReport'),
              'nb_uniq_visitors'     => $this->translator->translate('General_NUniqueVisitors'),
              'nb_users'             => $this->translator->translate('VisitsSummary_NbUsers'),
-        ));
+        );
+
+        foreach ($translations as &$translation) {
+            if (false === strpos($translation, '%s')) {
+                $translation = '%s ' . $translation;
+            }
+        }
+
+        $view->localeJSON = json_encode($translations);
 
         $view->reqParamsJSON = $this->getEnrichedRequest($params = array(
             'period'                      => $period,
