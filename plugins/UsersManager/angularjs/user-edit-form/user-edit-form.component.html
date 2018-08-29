@@ -50,7 +50,7 @@
                         name="user_password"
                         ng-model="$ctrl.user.password"
                         title="Password"
-                        ng-change="$ctrl.isPasswordChanged = true;"
+                        ng-change="$ctrl.isPasswordChanged = !! $ctrl.user.password;"
                         disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
                 >
                 </div>
