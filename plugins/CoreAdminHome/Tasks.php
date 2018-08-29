@@ -8,17 +8,26 @@
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
+use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchivePurger;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Http;
 use Piwik\Option;
+use Piwik\Piwik;
+use Piwik\Plugins\CoreAdminHome\Emails\JsTrackingCodeMissingEmail;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
+use Piwik\Plugins\SitesManager\SitesManager;
+use Piwik\Scheduler\Schedule\Monthly;
+use Piwik\Tests\Framework\Mock\Site;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
+use Piwik\Url;
 use Psr\Log\LoggerInterface;
 use Piwik\SettingsPiwik;
+use Piwik\Tracker\Model as TrackerModel;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
@@ -52,6 +61,53 @@ class Tasks extends \Piwik\Plugin\Tasks
         if(SettingsPiwik::isInternetEnabled() === true){
             $this->weekly('updateSpammerBlacklist');
         }
+
+        $this->scheduleTrackingCodeReminderChecks();
+    }
+
+    private function scheduleTrackingCodeReminderChecks()
+    {
+        // add check for a site's tracked visits
+        $sites = Request::processRequest('SitesManager.getAllSites');
+
+        $daysToTrackedVisitsCheck = StaticContainer::get('CoreAdminHome.daysToTrackedVisitsCheck');
+        foreach ($sites as $site) {
+            $createdTime = Date::factory($site['ts_created']);
+
+            $scheduledJobTime = $createdTime->addDay($daysToTrackedVisitsCheck);
+            if ($scheduledJobTime->isEarlier(Date::now())) {
+                continue; // job for this site should already have been run
+            }
+
+            $monthly = new Monthly();
+            $monthly->setTimezone('Pacific/Auckland');
+            $monthly->setDay($scheduledJobTime->toString('j'));
+            $monthly->setHour(2);
+            $this->custom($this, 'checkSiteHasTrackedVisits', $site['idsite'], $monthly);
+        }
+    }
+
+    public function checkSiteHasTrackedVisits($idSite)
+    {
+        if (!SitesManager::isSiteEmpty($idSite)) {
+            return;
+        }
+
+        // site is still empty after N days, so send an email to the user that created the site
+        $user = Site::getCreationUserFor($idSite);
+        if (empty($user)) {
+            return;
+        }
+
+        $instanceHost = Url::getHostFromUrl(SettingsPiwik::getPiwikUrl());
+
+        $email = new JsTrackingCodeMissingEmail(
+            $instanceHost,
+            $user['login'],
+            $user['email'],
+            [$idSite]
+        );
+        $email->send();
     }
 
     /**

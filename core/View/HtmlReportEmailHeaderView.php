@@ -72,6 +72,9 @@ class HtmlReportEmailHeaderView extends View
 
         $view->themeStyles = $themeStyles;
         $view->emailStyles = $emailStyles;
+
+        $view->fontStyle = 'color:' . $themeStyles->colorText . ';font-family:' . $themeStyles->fontFamilyBase.';';
+        $view->styleParagraph = 'font-size:15px;line-height:24px;margin:0 0 16px;';
     }
 
     private static function getPeriodToFrequencyAsAdjective()
