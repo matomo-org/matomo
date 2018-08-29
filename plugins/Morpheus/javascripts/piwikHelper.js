@@ -27,6 +27,44 @@ var piwikHelper = {
         return $('<div/>').html(value).text();
     },
 
+    sendContentAsDownload: function (filename, content, mimeType) {
+        if (!mimeType) {
+            mimeType = 'text/plain';
+        }
+        function downloadFile(content)
+        {
+            var node = document.createElement('a');
+            node.style.display = 'none';
+            if ('string' === typeof content) {
+                node.setAttribute('href', 'data:' + mimeType + ';charset=utf-8,' + encodeURIComponent(content));
+            } else {
+                node.href = window.URL.createObjectURL(blob);
+            }
+            node.setAttribute('download', filename);
+            document.body.appendChild(node);
+            node.click();
+            document.body.removeChild(node);
+        }
+
+        var node;
+        if ('function' === typeof Blob) {
+            // browser supports blob
+            try {
+                var blob = new Blob([content], {type: mimeType});
+                if (window.navigator.msSaveOrOpenBlob) {
+                    window.navigator.msSaveBlob(blob, filename);
+                    return;
+                } else {
+                    downloadFile(blob);
+                    return;
+                }
+            } catch (e) {
+                downloadFile(content);
+            }
+        }
+        downloadFile(content);
+    },
+
     /**
      * a nice cross-browser logging function
      */
@@ -127,7 +165,7 @@ var piwikHelper = {
             var scope = null;
             if (options.scope) {
                 scope = options.scope;
-            } else {
+            } else if (!options.forceNewScope) { // TODO: docs
                 scope = angular.element($element).scope();
             }
             if (!scope) {
@@ -237,11 +275,17 @@ var piwikHelper = {
                 button.attr('title', title);
             }
 
-            if(typeof handles[role] == 'function') {
+            if (typeof handles !== 'undefined' && typeof handles[role] == 'function') {
                 button.on('click', function(){
                     handles[role].apply()
                 });
             }
+            if (typeof $button.data('href') !== 'undefined') {
+                button.on('click', function () {
+                    window.location.href = $button.data('href');
+                })
+            }
+            
 
             $footer.append(button);
         });
@@ -508,6 +552,19 @@ var piwikHelper = {
         piwikHelper.shortcuts[key] = description;
 
         Mousetrap.bind(key, callback);
+    },
+
+    calculateEvolution: function (currentValue, pastValue) {
+        var dividend = currentValue - pastValue;
+        var divisor = pastValue;
+
+        if (dividend == 0) {
+            return 0;
+        } else if (divisor == 0) {
+            return 1;
+        } else {
+            return Math.round((dividend / divisor) * 1000) / 1000;
+        }
     }
 };
 

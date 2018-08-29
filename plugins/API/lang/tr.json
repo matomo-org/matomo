@@ -11,6 +11,7 @@
         "UserAuthentication": "Kullanıcı kimlik doğrulaması",
         "UsingTokenAuth": "Bir betik, zamanlanmış görev vb içerisinden %1$s veri almak isterseniz, %2$s kimlik doğrulaması gerektiren API bağlantılarına %3$s parametresini eklemelisiniz.",
         "Glossary": "Sözlük",
-        "LearnAboutCommonlyUsedTerms": "Matomo İstatistikleri:%1$s ve%2$s üzerinde yaygın kullanılan terimler hakkında bilgi alın.."
+        "LearnAboutCommonlyUsedTerms2": "Matomo istatistiklerini daha iyi anlamak için kullanılan terimler hakkında bilgi alın.",
+        "EvolutionMetricName": "%s Gelişme"
     }
 }

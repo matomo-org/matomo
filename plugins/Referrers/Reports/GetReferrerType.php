@@ -31,7 +31,7 @@ class GetReferrerType extends Base
                              . '<b>' . Piwik::translate('Referrers_SearchEngines') . ':</b> ' . Piwik::translate('Referrers_SearchEnginesDocumentation',
                                  array('<br />', '&quot;' . Piwik::translate('Referrers_SubmenuSearchEngines') . '&quot;')) . '<br />'
                              . '<b>' . Piwik::translate('Referrers_Websites') . ':</b> ' . Piwik::translate('Referrers_WebsitesDocumentation',
-                                 array('<br />', '&quot;' . Piwik::translate('Referrers_SubmenuWebsites') . '&quot;')) . '<br />'
+                                 array('<br />', '&quot;' . Piwik::translate('Referrers_SubmenuWebsitesOnly') . '&quot;')) . '<br />'
                              . '<b>' . Piwik::translate('Referrers_Campaigns') . ':</b> ' . Piwik::translate('Referrers_CampaignsDocumentation',
                                  array('<br />', '&quot;' . Piwik::translate('Referrers_Campaigns') . '&quot;'));
         $this->constantRowsCount = true;
@@ -85,6 +85,9 @@ class GetReferrerType extends Base
         switch ($idSubtable) {
             case Common::REFERRER_TYPE_SEARCH_ENGINE:
                 $labelColumnTitle = Piwik::translate('General_ColumnKeyword');
+                break;
+            case Common::REFERRER_TYPE_SOCIAL_NETWORK:
+                $labelColumnTitle = Piwik::translate('Referrers_ColumnSocial');
                 break;
             case Common::REFERRER_TYPE_WEBSITE:
                 $labelColumnTitle = Piwik::translate('Referrers_ColumnWebsite');

@@ -4,6 +4,54 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.6.0
+
+### New Features
+
+* A new role has introduced called "write" which has less permissions than an admin but more than a view only user ([see FAQ](https://matomo.org/faq/general/faq_26910/)).
+* Custom currencies can now be added using the `currencies[]` configuration key.
+* A new segment `eventValue` lets you select all users who tracked a custom event with a given value or range of values.
+
+### New config.ini.php settings
+
+* `archiving_profile = 0`, if set to 1, core:archive profiling information will be recorded in a log file. the log file is determined by the `archive_profiling_log` option.
+* `archive_profiling_log = `, if set to an absolute path, core:archive profiling information will be logged to specified file.
+* `enable_internet_features=0` will now fully disable Internet access by preventing all outgoing connections. Note: changing this setting is not recommended for security, because you will lose the easy auto-update and email notifications.
+* `login_whitelist_ip[]` now supports hostnames so you can [whitelist](https://matomo.org/faq/how-to/faq_25543/) your IP addresses and/or Hostnames and keep your Matomo secure.
+
+### Updated commands
+
+* New parameter `--concurrent-archivers` to define the number of maximum archivers to run in parallel on this server. Useful to prevent archiving processes piling up and ultimately failing.
+
+### New APIs
+
+* Added new event `API.addGlossaryItems` which lets you add items to the glossary.
+* Added new event `Tracker.detectReferrerSocialNetwork` which lets you add custom social network detections
+* Added new event `Report.unsubscribe` which is triggered whenever someone unsubscribe from a report
+* Added new API method `UsersManager.getAvailableRoles` to fetch a list of all available roles that can be granted to a user.
+* Added new API method `UsersManager.getAvailableCapabilities` to fetch a list of all available capabilities that can be granted to a user.
+* Added new API method `UsersManager.addCapabilities` to grant one or multiple capabilities to a user.
+* Added new API method `UsersManager.removeCapabilities` to remove one or multiple capabilities from a user.
+* The API method `UsersManager.setUserAccess` now accepts an array to pass a role and multiple capabilities at once.
+* Plugin classes can overwrite the method `requiresInternetConnection` to define if they should be automatically unloaded if no internet connection is available (enable_internet_features = 0)
+* Added two new methods to the JS tracker: `removeEcommerceItem` and `clearEcommerceCart` to allow better control over what is in the ecommerce cart.
+* Tracking API requests now include `&consent=1` in the Tracking API URL When [consent](https://developer.matomo.org/guides/tracking-javascript-guide#asking-for-consent) has been given by a user.
+
+### Breaking Changes
+* Changed some menu items to use translation keys instead (see [PR #12885](https://github.com/matomo-org/matomo/pull/12885)).
+* The methods `assertResponseCode()` and `assertHttpResponseText()` in `Piwik\Tests\Framework\TestCase\SystemTestCase` have been deprecated and will be removed in Matomo 4.0. Please use `Piwik\Http` instead.
+* The classes `PHPUnit\Framework\Constraint\HttpResponseText` and `PHPUnit\Framework\Constraint\ResponseCode` have been deprecated and will be removed in Matomo 4.0. Please use `Piwik\Http` instead.
+* Creating links through the Proxy has been deprecated. Use rel="nofollow" instead.
+* The console option `--piwik-domain` has been deprecated and will be removed in Matomo 4.0. Use `--matomo-domain` instead
+* Social networks are now detected as new referrer type (ID=7), which allows improved reports and better segmentation
+* New settings form field UI component "Field Array" that lets users enter multiple values for one setting as a flat array
+
+## Matomo 3.5.1
+
+### New APIs
+
+* Added new method `Piwik\API\Request::isRootRequestApiRequest()` to detect if the root request is an API request.
+
 ## Matomo 3.5.0
 
 ### Breaking Changes
@@ -13,6 +61,8 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 
 * New JavaScript tracker functions to [ask for consent](https://developer.matomo.org/guides/tracking-javascript-guide#asking-for-consent): `requireConsent`, `rememberConsentGiven`, `setConsentGiven`, `forgetConsentGiven`.
+
+### New Features
 * New events `PrivacyManager.deleteLogsOlderThan`, `PrivacyManager.exportDataSubjects` and `PrivacyManager.deleteDataSubjects` to enable plugins to be GDPR compliant.  
 * New event `AssetManager.addStylesheets` to add additional less styles which are not located in a file.
 * New event `Archiving.getIdSitesToMarkArchivesAsInvalidated` that lets plugins customize the behaviour of report invalidations.
@@ -23,6 +73,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking Changes
 `piwik` font is deprecated and will be removed in Matomo 4.0. Please use new `matomo` font instead
+Sending synchronous requests using ajaxHelper is now deprecated. All requests will be send async as of Matomo 4.0
 
 ### New APIs
 * A new JavaScript tracker method `resetUserId` has been added to allow clearing user and visitor id.
@@ -42,6 +93,12 @@ Piwik is now Matomo. Read more about this change in the [official announcement](
 ### New APIs
 
 * New HTTP API `API.getMatomoVersion` was introduced. The previous HTTP API `API.getPiwikVersion` will still work but will now be hidden from the API reference page.
+
+## Piwik 3.2.2
+
+### Breaking Changes
+* The `historyService` along with `broadcast.init`, `broadcast.propagateAjax`, `broadcast.pageLoad` have been deprecated and will be removed in Piwik 4. 
+
 
 ## Piwik 3.2.1
 

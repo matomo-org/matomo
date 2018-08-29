@@ -33,6 +33,7 @@ class FetchTranslations extends TranslationBase
              ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
              ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
              ->addOption('lastupdate', 'l', InputOption::VALUE_OPTIONAL, 'Last time update ran', time()-30*24*3600)
+             ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'project slug on transifex', 'matomo')
              ->addOption('plugin', 'r', InputOption::VALUE_OPTIONAL, 'Plugin to update');
     }
 
@@ -44,10 +45,11 @@ class FetchTranslations extends TranslationBase
         $password = $input->getOption('password');
         $plugin = $input->getOption('plugin');
         $lastUpdate = $input->getOption('lastupdate');
+        $slug = $input->getOption('slug');
 
         $resource = 'matomo-'. ($plugin ? 'plugin-'.strtolower($plugin) : 'base');
 
-        $transifexApi = new API($username, $password);
+        $transifexApi = new API($username, $password, $slug);
 
         // remove all existing translation files in download path
         $files = glob($this->getDownloadPath() . DIRECTORY_SEPARATOR . '*.json');

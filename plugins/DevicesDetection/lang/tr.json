@@ -37,6 +37,8 @@
         "Smartphone": "Akıllı Telefon",
         "PortableMediaPlayer": "Taşınabilir Ortam Oynatıcısı",
         "Devices": "Aygıtlar",
+        "GenericDevice": "Genel %s",
+        "MobileDevice": "Mobil Aygıt",
         "Tablet": "Tablet",
         "Phablet": "Phablet",
         "TV": "TV",

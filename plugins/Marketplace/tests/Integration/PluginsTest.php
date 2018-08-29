@@ -128,6 +128,60 @@ class PluginsTest extends IntegrationTestCase
         $this->assertSame('plugins', $this->service->action);
     }
 
+    public function test_getLicenseValidInfo_noSuchPluginExists()
+    {
+        $plugin = $this->plugins->getPluginInfo('fooBarBaz');
+        $this->assertSame(array(), $plugin);
+    }
+
+    public function test_getLicenseValidInfo_shouldEnrichLicenseInformation()
+    {
+        $this->service->returnFixture('v2.0_plugins_Barometer_info.json');
+        $plugin = $this->plugins->getLicenseValidInfo('PaidPlugin1');
+
+        unset($plugin['versions']);
+
+        $expected = array (
+            'hasExceededLicense' => false,
+            'isMissingLicense' => false,
+        );
+        $this->assertEquals($expected, $plugin);
+    }
+
+    public function test_getLicenseValidInfo_missingLicense()
+    {
+        $this->service->returnFixture('v2.0_plugins_PaidPlugin1_info.json');
+        $plugin = $this->plugins->getLicenseValidInfo('PaidPlugin1');
+
+        unset($plugin['versions']);
+
+        $expected = array (
+            'hasExceededLicense' => false,
+            'isMissingLicense' => true,
+        );
+        $this->assertEquals($expected, $plugin);
+    }
+
+    public function test_getLicenseValidInfo_validLicense()
+    {
+        $this->service->returnFixture('v2.0_consumer-access_token-consumer2_paid1.json');
+        $plugin = $this->plugins->getLicenseValidInfo('Barometer');
+
+        unset($plugin['versions']);
+
+        $expected = array (
+            'hasExceededLicense' => false,
+            'isMissingLicense' => false,
+        );
+        $this->assertEquals($expected, $plugin);
+    }
+
+    public function test_getLicenseValidInfo_notInstalledPlugin_shouldCallCorrectService()
+    {
+        $this->plugins->getLicenseValidInfo('Barometer');
+        $this->assertSame('plugins/Barometer/info', $this->service->action);
+    }
+
     public function test_getPluginInfo_noSuchPluginExists()
     {
         $plugin = $this->plugins->getPluginInfo('fooBarBaz');

@@ -19,6 +19,7 @@ use Piwik\Plugins\GeoIp2\GeoIP2AutoUpdater;
 use Piwik\Plugins\UserCountry\LocationProvider\GeoIp;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider\DefaultProvider;
+use Piwik\SettingsPiwik;
 use Piwik\View;
 
 /**
@@ -78,6 +79,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         ) {
             $view->showGeoIPUpdateSection = false;
         }
+
+        $view->isInternetEnabled = SettingsPiwik::isInternetEnabled();
 
         $this->setUpdaterManageVars($view);
         $this->setBasicVariablesView($view);

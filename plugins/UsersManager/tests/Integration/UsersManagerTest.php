@@ -14,6 +14,7 @@ use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Exception;
@@ -26,6 +27,8 @@ use Exception;
  */
 class UsersManagerTest extends IntegrationTestCase
 {
+    const DATETIME_REGEX = '/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/';
+
     /**
      * @var API
      */
@@ -74,8 +77,20 @@ class UsersManagerTest extends IntegrationTestCase
         if (is_null($newAlias)) {
             $newAlias = $user['alias'];
         }
-        $userAfter = $this->api->getUser($user["login"]);
+
+        $userAfter = $this->model->getUser($user["login"]);
+
+        $this->assertArrayHasKey('date_registered', $userAfter);
+        $this->assertRegExp(self::DATETIME_REGEX, $userAfter['date_registered']);
+
+        $this->assertArrayHasKey('ts_password_modified', $userAfter);
+        $this->assertRegExp(self::DATETIME_REGEX, $userAfter['date_registered']);
+
+        $this->assertArrayHasKey('password', $userAfter);
+        $this->assertNotEmpty($userAfter['password']);
+
         unset($userAfter['date_registered']);
+        unset($userAfter['ts_password_modified']);
         unset($userAfter['password']);
 
         // implicitly checks password!
@@ -239,7 +254,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         $time = time();
         $this->api->addUser($login, $password, $email, $alias);
-        $user = $this->api->getUser($login);
+        $user = $this->model->getUser($login);
 
         // check that the date registered is correct
         $this->assertTrue($time <= strtotime($user['date_registered']) && strtotime($user['date_registered']) <= time(),
@@ -265,11 +280,62 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertTrue($passwordHelper->verify(UsersManager::getPasswordHash($password), $user['password']));
     }
 
+    public function test_addUser_shouldAllowAdminUsersToCreateUsers()
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesAdmin = [1];
+
+        $login = "geggeq55eqag";
+        $password = "mypassword";
+        $email = "mgeag4544i@geq.com";
+        $alias = "her is my alias )(&|\" '£%*(&%+))";
+
+        $this->api->addUser($login, $password, $email, $alias, false, 1);
+
+        FakeAccess::$superUser = true;
+        $user = $this->api->getUser($login);
+
+        $this->assertEquals($login, $user['login']);
+        $this->assertEquals($email, $user['email']);
+        $this->assertEquals($alias, $user['alias']);
+
+        FakeAccess::$superUser = true;
+
+        $access = $this->api->getSitesAccessFromUser($login);
+        $this->assertEquals([
+            ['site' => 1, 'access' => 'view'],
+        ], $access);
+    }
+
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionDeleteDoesNotExist
+     * @expectedExceptionMessage UsersManager_AddUserNoInitialAccessError
      */
-    public function testSeleteUserDoesntExist()
+    public function test_addUser_shouldNotAllowAdminUsersToCreateUsers_WithNoInitialSiteWithAccess()
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesAdmin = [1];
+
+        $this->api->addUser('userLogin2', 'password', 'userlogin2@email.com', 'userLogin2');
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage checkUserHasAdminAccess Fake exception
+     */
+    public function test_addUser_shouldNotAllowAdminUsersToCreateUsersWithAccessToSite_ThatAdminUserDoesNotHaveAccessTo()
+    {
+        FakeAccess::$superUser = false;
+        FakeAccess::$idSitesAdmin = [2];
+
+        $this->api->addUser('userLogin2', 'password', 'userlogin2@email.com', 'userLogin2', false, 1);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
+     */
+    public function testDeleteUserDoesntExist()
     {
         $this->api->addUser("geggeqgeqag", "geqgeagae", "test@test.com", "alias");
         $this->api->deleteUser("geggeqggnew");
@@ -277,7 +343,7 @@ class UsersManagerTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionDeleteDoesNotExist
+     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
      */
     public function testDeleteUserEmptyUser()
     {
@@ -286,7 +352,7 @@ class UsersManagerTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionDeleteDoesNotExist
+     * @expectedExceptionMessage UsersManager_ExceptionUserDoesNotExist
      */
     public function testDeleteUserNullUser()
     {
@@ -313,6 +379,8 @@ class UsersManagerTest extends IntegrationTestCase
      */
     public function testDeleteUser()
     {
+        Fixture::createSuperUser();
+
         $this->addSites(3);
 
         //add user and set some rights
@@ -363,7 +431,7 @@ class UsersManagerTest extends IntegrationTestCase
         $alias = "";
 
         $this->api->addUser($login, $password, $email, $alias);
-        $user = $this->api->getUser($login);
+        $user = $this->model->getUser($login);
 
         // check that all fields are the same
         $this->assertEquals($login, $user['login']);
@@ -425,6 +493,7 @@ class UsersManagerTest extends IntegrationTestCase
             unset($user['password']);
             unset($user['token_auth']);
             unset($user['date_registered']);
+            unset($user['ts_password_modified']);
         }
         return $users;
     }
@@ -480,6 +549,7 @@ class UsersManagerTest extends IntegrationTestCase
      */
     public function testSetUserAccessNoLogin()
     {
+        FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
         $this->api->setUserAccess("nologin", "view", 1);
     }
 
@@ -490,6 +560,7 @@ class UsersManagerTest extends IntegrationTestCase
     public function testSetUserAccessWrongAccessSpecified()
     {
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
         $this->api->setUserAccess("gegg4564eqgeqag", "viewnotknown", 1);
     }
 
@@ -500,6 +571,7 @@ class UsersManagerTest extends IntegrationTestCase
     public function testSetUserAccess_ShouldFail_SuperUserAccessIsNotAllowed()
     {
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
+        FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
         $this->api->setUserAccess("gegg4564eqgeqag", "superuser", 1);
     }
 
@@ -509,18 +581,20 @@ class UsersManagerTest extends IntegrationTestCase
      */
     public function testSetUserAccess_ShouldFail_IfLoginIsConfigSuperUserLogin()
     {
+        FakeAccess::clearAccess($superUser = false, $admin =array(1), $view = array());
         $this->api->setUserAccess('superusertest', 'view', 1);
     }
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage UsersManager_ExceptionSuperUserAccess
+     * @expectedExceptionMessage UsersManager_ExceptionUserHasSuperUserAccess
      */
     public function testSetUserAccess_ShouldFail_IfLoginIsUserWithSuperUserAccess()
     {
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
         $this->api->setSuperUserAccess('gegg4564eqgeqag', true);
 
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = array(1));
         $this->api->setUserAccess('gegg4564eqgeqag', 'view', 1);
     }
 
@@ -823,6 +897,7 @@ class UsersManagerTest extends IntegrationTestCase
      */
     public function testGetUsersAccessFromSiteWrongIdSite()
     {
+        FakeAccess::$superUser = false;
         $this->api->getUsersAccessFromSite(1);
     }
 
@@ -969,6 +1044,38 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals('yesterday', $this->api->getUserPreference('someUser', $defaultReportDatePref));
     }
 
+    public function testGetAvailableRoles()
+    {
+        $this->addSites(1);
+        $roles = $this->api->getAvailableRoles();
+        $expected = array(
+            array (
+                'id' => 'view',
+                'name' => 'UsersManager_PrivView',
+                'description' => 'UsersManager_PrivViewDescription',
+                'helpUrl' => 'https://matomo.org/faq/general/faq_70/'
+            ), array (
+                'id' => 'write',
+                'name' => 'UsersManager_PrivWrite',
+                'description' => 'UsersManager_PrivWriteDescription',
+                'helpUrl' => ''
+             ),
+            array (
+                'id' => 'admin',
+                'name' => 'UsersManager_PrivAdmin',
+                'description' => 'UsersManager_PrivAdminDescription',
+                'helpUrl' => 'https://matomo.org/faq/general/faq_69/',
+             )
+        );
+        $this->assertEquals($expected, $roles);
+    }
+
+    public function testGetAvailableCapabilities()
+    {
+        $this->addSites(1);
+        $this->assertSame(array(), $this->api->getAvailableCapabilities());
+    }
+
     private function addSites($numberOfSites)
     {
         $idSites = array();
@@ -986,5 +1093,20 @@ class UsersManagerTest extends IntegrationTestCase
         return array(
             'Piwik\Access' => new FakeAccess()
         );
+    }
+
+    private function assertUserNotExists($login)
+    {
+        try {
+            $this->api->getUser($login);
+            $this->fail("User $login still exists!");
+        } catch (Exception $expected) {
+            $this->assertRegExp("(UsersManager_ExceptionUserDoesNotExist)", $expected->getMessage());
+        }
+    }
+
+    public function testName()
+    {
+
     }
 }

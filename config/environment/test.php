@@ -15,6 +15,9 @@ return array(
     },
     'cache.eager.cache_id' => 'eagercache-test-',
 
+    // set in individual tests to override now value when needed
+    'Tests.now' => false,
+
     // Disable loading core translations
     'Piwik\Translation\Translator' => DI\decorate(function ($previous, ContainerInterface $c) {
         $loadRealTranslations = $c->get('test.vars.loadRealTranslations');
@@ -42,13 +45,21 @@ return array(
         if ($testUseMockAuth) {
             $idSitesAdmin = $c->get('test.vars.idSitesAdminAccess');
             $idSitesView = $c->get('test.vars.idSitesViewAccess');
+            $idSitesWrite = $c->get('test.vars.idSitesWriteAccess');
+            $idSitesCapabilities = $c->get('test.vars.idSitesCapabilities');
             $access = new FakeAccess();
 
             if (!empty($idSitesView)) {
                 FakeAccess::$superUser = false;
                 FakeAccess::$idSitesView = $idSitesView;
+                FakeAccess::$idSitesWrite = !empty($idSitesWrite) ? $idSitesWrite : array();
                 FakeAccess::$idSitesAdmin = !empty($idSitesAdmin) ? $idSitesAdmin : array();
                 FakeAccess::$identity = 'viewUserLogin';
+            } elseif (!empty($idSitesWrite)) {
+                FakeAccess::$superUser = false;
+                FakeAccess::$idSitesWrite = !empty($idSitesWrite) ? $idSitesWrite : array();
+                FakeAccess::$idSitesAdmin = !empty($idSitesAdmin) ? $idSitesAdmin : array();
+                FakeAccess::$identity = 'writeUserLogin';
             } elseif (!empty($idSitesAdmin)) {
                 FakeAccess::$superUser = false;
                 FakeAccess::$idSitesAdmin = $idSitesAdmin;
@@ -56,6 +67,9 @@ return array(
             } else {
                 FakeAccess::$superUser = true;
                 FakeAccess::$superUserLogin = 'superUserLogin';
+            }
+            if (!empty($idSitesCapabilities)) {
+                FakeAccess::$idSitesCapabilities = (array) $idSitesCapabilities;
             }
             return $access;
         } else {

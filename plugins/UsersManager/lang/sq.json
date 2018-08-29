@@ -1,6 +1,11 @@
 {
     "UsersManager": {
         "AddUser": "Shtoni përdorues të ri",
+        "AddExistingUser": "Shtoni një përdorues ekzistues",
+        "AddNewUser": "Shtoni një përdorues të ri",
+        "EditUser": "Përpunoni përdorues",
+        "CreateUser": "Krijoni përdorues",
+        "SaveBasicInfo": "Ruaj të Dhëna të Thjeshta",
         "Alias": "Alias",
         "AllWebsites": "Tërë sajtet",
         "AnonymousAccessConfirmation": "Ju ndan një hap nga akordimi përdoruesit anonim hyrje 'parjesh' në këtë sajt. Kjo do të thotë që raportet tuaja analitike dhe të dhënat e vizitorëve tuaj do të mund të shihen publikisht nga cilido, madje edhe pa kredenciale hyrjeje. Jeni i sigurt se doni të vazhdohet?",
@@ -18,8 +23,10 @@
         "Email": "Email",
         "EmailYourAdministrator": "%1$sDërgojini përgjegjësit tuaj email rreth këtij problemi%2$s.",
         "EnterUsernameOrEmail": "Jepni një emër përdoruesi ose adresë email",
-        "ExceptionAccessValues": "Parametri duhet të ketë një nga vlerat vijuese: [ %s ]",
-        "ExceptionAdminAnonymous": "S’mund t’i jepni hyrje 'administratori' përdoruesit 'anonim'.",
+        "ExceptionNoRoleSet": "S’është caktuar ndonjë rol, por lypset të caktohet një prej këtyre: %s",
+        "ExceptionMultipleRoleSet": "Mund të caktohet vetëm një rol, por janë caktuar disa njëherësh. Përdorni vetëm një nga: %s",
+        "ExceptionAnonymousNoCapabilities": "S’mund t’i caktoni ndonjë aftësi përdoruesit 'anonim'.",
+        "ExceptionAnonymousAccessNotPossible": "Përdoruesit 'anonim' mund t’i caktoni vetëm hyrje %1$s ose %2$s.",
         "ExceptionDeleteDoesNotExist": "Përdoruesi '%s' s'ekziston, ndaj s’mund të fshihet.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Fshirja e përdoruesit '%s' s’është e mundur.",
         "ExceptionEditAnonymous": "Përdoruesi anonim nuk mund të fshihet, as mund të përpunohet të dhënat e tij. Përdoret nga Matomo për të përkufizuar një përdorues që s’ka bërë ende hyrjen. Për shembull, mund t’i bëni statistikat tuaja publike duke lejuar hyrje për 'parje' për përdoruesin 'anonim'.",
@@ -55,8 +62,10 @@
         "NoUsersExist": "Ende nuk ka përdorues.",
         "PluginDescription": "Administrimi i Përdoruesve ju lejon të shtoni përdorues të rinj, përpunoni përdoruesit ekzistues dhe t’u jepni atyre hyrje për të parë ose administruar sajte.",
         "PrivAdmin": "Përgjegjës",
+        "PrivAdminDescription": "Përdoruesit me këtë rol mund të administrojnë një sajt dhe t’u japin përdoruesve të tjerë të drejta hyrjeje në sajt. Ata mund të bëjnë gjithashtu gjithçka që mund të bëjë roli %s.",
         "PrivNone": "Pa hyrje",
         "PrivView": "Pamje",
+        "PrivViewDescription": "Një përdorues me këtë rol mund të shohë krejt raportet.",
         "RemoveUserAccess": "Hiqjani '%1$s' hyrjen për te %2$s.",
         "ReportDateToLoadByDefault": "Datë raporti që duhet ngarkuar si parazgjedhje",
         "ReportToLoadByDefault": "Raport që duhet ngarkuar si parazgjedhje",
@@ -79,6 +88,14 @@
         "WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess": "Kur përdoruesit nuk janë të futur dhe vizitojnë Matomo-n, do të duhej të hynin",
         "YourUsernameCannotBeChanged": "Emri juaj i përdoruesit s’mund të ndryshohet.",
         "YourVisitsAreIgnoredOnDomain": "%1$sVizitat tuaja te %2$s %3$s janë shpërfillur nga Matomo (te shfletuesi juaj u gjet \\\"cookie\\\" për shpërfillje nga Matomo).",
-        "YourVisitsAreNotIgnored": "%1$sVizitat tuaja nuk janë shpërfillur nga Matomou%2$s (te shfletuesi juaj nuk u gjet \\\"cookie\\\" për shpërfillje nga Matomo)."
+        "YourVisitsAreNotIgnored": "%1$sVizitat tuaja nuk janë shpërfillur nga Matomou%2$s (te shfletuesi juaj nuk u gjet \\\"cookie\\\" për shpërfillje nga Matomo).",
+        "ManageUsers": "Administroni Përdorues",
+        "ManageUsersDesc": "Krijoni përdorues të rinj ose përditësoni përdoruesit ekzistues. Mandej këtu mund të caktoni edhe lejet për ta.",
+        "NoAccessWarning": "Këtij përdoruesi s’i është lejuar hyrje në ndonjë sajt. Kur të bëjë hyrjen në llogari, do të shohë një mesazh gabimi. Për ta parandaluar këtë, shtoni më poshtë hyrjen në një sajt.",
+        "SetPermission": "Caktoni Leje",
+        "RemovePermissions": "Hiqni Leje",
+        "Role": "Rol",
+        "XtoYofN": "%1$s - %2$s of %3$s",
+        "Username": "Emër përdoruesi"
     }
 }

@@ -54,6 +54,12 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('', $this->category->getId());
     }
 
+    public function test_getDisplayName_shouldUseId()
+    {
+        $this->category->setId('myCustomId');
+        $this->assertSame('myCustomId', $this->category->getDisplayName());
+    }
+
     public function test_getSubcategories_ShouldReturnAnEmptyArray_ByDefault()
     {
         $this->assertSame(array(), $this->category->getSubcategories());

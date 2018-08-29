@@ -15,10 +15,12 @@ use Piwik\Container\StaticContainer;
 use Piwik\Exception\AuthenticationFailedException;
 use Piwik\Exception\DatabaseSchemaIsNewerThanCodebaseException;
 use Piwik\Exception\PluginDeactivatedException;
+use Piwik\Exception\PluginRequiresInternetException;
 use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Http\ControllerResolver;
 use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
+use Piwik\Session\SessionAuth;
 
 /**
  * This singleton dispatches requests to the appropriate plugin Controller.
@@ -59,6 +61,8 @@ use Piwik\Plugins\CoreAdminHome\CustomLogo;
 class FrontController extends Singleton
 {
     const DEFAULT_MODULE = 'CoreHome';
+    const DEFAULT_LOGIN = 'anonymous';
+    const DEFAULT_TOKEN_AUTH = 'anonymous';
 
     /**
      * Set to false and the Front Controller will not dispatch the request
@@ -88,7 +92,7 @@ class FrontController extends Singleton
             $message = $controller->dispatch('CorePluginsAdmin', 'safemode', array($lastError));
         } catch(Exception $e) {
             // may fail in safe mode (eg. global.ini.php not found)
-            $message = sprintf("Matomo encoutered an error: %s (which lead to: %s)", $lastError['message'], $e->getMessage());
+            $message = sprintf("Matomo encountered an error: %s (which lead to: %s)", $lastError['message'], $e->getMessage());
         }
 
         return $message;
@@ -105,6 +109,11 @@ class FrontController extends Singleton
             'file' => $e->getFile(),
             'line' => $e->getLine()
         );
+
+        if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+            $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n" . $e->getTraceAsString();
+        }
+
         return self::generateSafeModeOutputFromError($error);
     }
 
@@ -226,6 +235,11 @@ class FrontController extends Singleton
     {
         $lastError = error_get_last();
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
+            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+                $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
+                    . ErrorHandler::getFatalErrorPartialBacktrace();
+            }
+
             $message = self::generateSafeModeOutputFromError($lastError);
             echo $message;
         }
@@ -347,34 +361,21 @@ class FrontController extends Singleton
             SettingsPiwik::getPiwikUrl();
         }
 
-        /**
-         * Triggered before the user is authenticated, when the global authentication object
-         * should be created.
-         *
-         * Plugins that provide their own authentication implementation should use this event
-         * to set the global authentication object (which must derive from {@link Piwik\Auth}).
-         *
-         * **Example**
-         *
-         *     Piwik::addAction('Request.initAuthenticationObject', function() {
-         *         StaticContainer::getContainer()->set('Piwik\Auth', new MyAuthImplementation());
-         *     });
-         */
-        Piwik::postEvent('Request.initAuthenticationObject');
-        try {
-            $authAdapter = StaticContainer::get('Piwik\Auth');
-        } catch (Exception $e) {
-            $message = "Authentication object cannot be found in the container. Maybe the Login plugin is not activated?
-                        <br />You can activate the plugin by adding:<br />
-                        <code>Plugins[] = Login</code><br />
-                        under the <code>[Plugins]</code> section in your config/config.ini.php";
+        $loggedIn = false;
 
-            $ex = new AuthenticationFailedException($message);
-            $ex->setIsHtmlMessage();
-
-            throw $ex;
+        // try authenticating w/ session first...
+        $sessionAuth = $this->makeSessionAuthenticator();
+        if ($sessionAuth) {
+            $loggedIn = Access::getInstance()->reloadAccess($sessionAuth);
         }
-        Access::getInstance()->reloadAccess($authAdapter);
+
+        // ... if session auth fails try normal auth (which will login the anonymous user)
+        if (!$loggedIn) {
+            $authAdapter = $this->makeAuthenticator();
+            Access::getInstance()->reloadAccess($authAdapter);
+        } else {
+            $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
+        }
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
@@ -404,11 +405,7 @@ class FrontController extends Singleton
             $action = Common::getRequestVar('action', false);
         }
 
-        if (SettingsPiwik::isPiwikInstalled()
-            && ($module !== 'API' || ($action && $action !== 'index'))
-        ) {
-            Session::start();
-
+        if (Session::isSessionStarted()) {
             $this->closeSessionEarlyForFasterUI();
         }
 
@@ -421,6 +418,10 @@ class FrontController extends Singleton
         }
 
         list($module, $action) = Request::getRenamedModuleAndAction($module, $action);
+
+        if (!SettingsPiwik::isInternetEnabled() && \Piwik\Plugin\Manager::getInstance()->doesPluginRequireInternetConnection($module)) {
+            throw new PluginRequiresInternetException($module);
+        }
 
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated($module)) {
             throw new PluginDeactivatedException($module);
@@ -609,5 +610,68 @@ class FrontController extends Singleton
             );
             throw new DatabaseSchemaIsNewerThanCodebaseException(implode(" ", $messages));
         }
+    }
+
+    private function makeSessionAuthenticator()
+    {
+        $module = Common::getRequestVar('module', self::DEFAULT_MODULE, 'string');
+        $action = Common::getRequestVar('action', false);
+
+        // the session must be started before using the session authenticator,
+        // so we do it here, if this is not an API request.
+        if (SettingsPiwik::isPiwikInstalled()
+            && ($module !== 'API' || ($action && $action !== 'index'))
+        ) {
+            /**
+             * @ignore
+             */
+            Piwik::postEvent('Session.beforeSessionStart');
+
+            Session::start();
+            return StaticContainer::get(SessionAuth::class);
+        }
+
+        return null;
+    }
+
+    private function makeAuthenticator(SessionAuth $auth = null)
+    {
+        /**
+         * Triggered before the user is authenticated, when the global authentication object
+         * should be created.
+         *
+         * Plugins that provide their own authentication implementation should use this event
+         * to set the global authentication object (which must derive from {@link Piwik\Auth}).
+         *
+         * **Example**
+         *
+         *     Piwik::addAction('Request.initAuthenticationObject', function() {
+         *         StaticContainer::getContainer()->set('Piwik\Auth', new MyAuthImplementation());
+         *     });
+         */
+        Piwik::postEvent('Request.initAuthenticationObject');
+        try {
+            $authAdapter = StaticContainer::get('Piwik\Auth');
+        } catch (Exception $e) {
+            $message = "Authentication object cannot be found in the container. Maybe the Login plugin is not activated?
+                        <br />You can activate the plugin by adding:<br />
+                        <code>Plugins[] = Login</code><br />
+                        under the <code>[Plugins]</code> section in your config/config.ini.php";
+
+            $ex = new AuthenticationFailedException($message);
+            $ex->setIsHtmlMessage();
+
+            throw $ex;
+        }
+
+        if ($auth) {
+            $authAdapter->setLogin($auth->getLogin());
+            $authAdapter->setTokenAuth($auth->getTokenAuth());
+        } else {
+            $authAdapter->setLogin(self::DEFAULT_LOGIN);
+            $authAdapter->setTokenAuth(self::DEFAULT_TOKEN_AUTH);
+        }
+
+        return $authAdapter;
     }
 }

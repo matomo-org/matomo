@@ -62,7 +62,7 @@ class OptOutManager
      * @param string $javascript
      * @param bool $inline
      */
-    public function addJavascript($javascript, $inline = true)
+    public function addJavaScript($javascript, $inline = true)
     {
         $type = $inline ? 'inline' : 'external';
         $this->javascripts[$type][] = $javascript;
@@ -71,7 +71,7 @@ class OptOutManager
     /**
      * @return array
      */
-    public function getJavascripts()
+    public function getJavaScripts()
     {
         return $this->javascripts;
     }
@@ -198,10 +198,13 @@ class OptOutManager
             'language' => $lang,
             'setCookieInNewWindow' => 1
         ), false);
-        
+
         $this->addStylesheet($this->optOutStyling());
 
         $this->view = new View("@CoreAdminHome/optOut");
+
+        $this->addJavaScript('plugins/CoreAdminHome/javascripts/optOut.js', false);
+
         $this->view->setXFrameOptions('allow');
         $this->view->dntFound = $dntFound;
         $this->view->trackVisits = $trackVisits;
@@ -209,7 +212,7 @@ class OptOutManager
         $this->view->language = $lang;
         $this->view->showConfirmOnly = Common::getRequestVar('showConfirmOnly', false, 'int');
         $this->view->reloadUrl = $reloadUrl;
-        $this->view->javascripts = $this->getJavascripts();
+        $this->view->javascripts = $this->getJavaScripts();
         $this->view->stylesheets = $this->getStylesheets();
         $this->view->title = $this->getTitle();
         $this->view->queryParameters = $this->getQueryParameters();
@@ -241,7 +244,7 @@ class OptOutManager
             throw new \Exception("The URL parameter fontSize value of '$cssfontsize' is not valid. Expected value is for example '15pt', '1.2em' or '13px'.\n");
         }
 
-        if ($cssfontfamily && (preg_match('/^[a-zA-Z-\ ,\'"]+$/', $cssfontfamily))) {
+        if ($cssfontfamily && (preg_match('/^[a-zA-Z0-9-\ ,\'"]+$/', $cssfontfamily))) {
             $cssbody .= 'font-family: ' . $cssfontfamily . '; ';
         } else if ($cssfontfamily) {
             throw new \Exception("The URL parameter fontFamily value of '$cssfontfamily' is not valid. Expected value is for example 'sans-serif' or 'Monaco, monospace'.\n");

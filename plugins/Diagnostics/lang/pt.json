@@ -1,0 +1,8 @@
+{
+    "Diagnostics": {
+        "ConfigFileTitle": "Ficheiro de configuração",
+        "ConfigFileIntroduction": "Aqui, pode consultar a configuração do Matomo. Se estiver a executar o Matomo no ambiente distribuído, a páginas pode ser diferente dependendo do servidor a partir do qual esta página foi carregada. As linhas com uma cor de fundo diferente são valores de configuração alterados e diferentes dos especificados como exemplo, no ficheiro %1$s.",
+        "HideUnchanged": "Se quiser ver apenas os valores alterados, pode %1$socultar todos os valores inalterados%2$s.",
+        "Sections": "Secções"
+    }
+}

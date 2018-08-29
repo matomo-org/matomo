@@ -22,7 +22,6 @@
         "SegmentDisplayedThisWebsiteOnly": "只有這個網站",
         "SegmentIsDisplayedForWebsite": "也處理",
         "SegmentNotApplied": "未套用區隔「%s」",
-        "SegmentNotAppliedMessage": "你正在請求自訂區隔「%s」的資料，它目前在 Matomo 的設置因性能因素不會即時處理報表。",
         "SelectSegmentOfVisits": "選擇區隔：",
         "ThisSegmentIsVisibleTo": "這個區隔分享給",
         "VisibleToAllUsers": "所有使用者",

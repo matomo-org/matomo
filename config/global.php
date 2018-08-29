@@ -98,6 +98,7 @@ return array(
         'misc/*.mmdb.gz',
         'misc/*.bin',
         'misc/user/*png',
+        'misc/user/*svg',
         'misc/user/*js',
         'misc/package',
         'misc/package/WebAppGallery/*.xml',
@@ -137,7 +138,21 @@ return array(
         if (!empty($general['login_whitelist_ip']) && is_array($general['login_whitelist_ip'])) {
             $ips = $general['login_whitelist_ip'];
         }
-        return $ips;
+        
+        $ipsResolved = array();
+
+        foreach ($ips as $ip) {
+            if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                $ipsResolved[] = $ip;
+            } else {
+                $ipFromHost = @gethostbyname($ip);
+                if (!empty($ipFromHost)) {
+                    $ipsResolved[] = $ipFromHost;
+                }
+            }
+        }
+
+        return $ipsResolved;
     },
 
     'Zend_Validate_EmailAddress' => function () {
@@ -155,4 +170,8 @@ return array(
 
     'Piwik\Tracker\Settings' => DI\object()
         ->constructorParameter('isSameFingerprintsAcrossWebsites', DI\get('ini.Tracker.enable_fingerprinting_across_websites')),
+
+    'archiving.performance.logger' => null,
+
+    \Piwik\CronArchive\Performance\Logger::class => DI\object()->constructorParameter('logger', DI\get('archiving.performance.logger')),
 );

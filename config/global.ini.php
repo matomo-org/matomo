@@ -143,6 +143,13 @@ tracker_always_new_visitor = 0
 ; if set to 1, all SQL queries will be logged using the DEBUG log level
 log_sql_queries = 0
 
+; if set to 1, core:archive profiling information will be recorded in a log file. the log file is determined by the
+; archive_profiling_log option.
+archiving_profile = 0
+
+; if set to an absolute path, core:archive profiling information will be logged to specified file
+archive_profiling_log =
+
 [DebugTests]
 ; When set to 1, standalone plugins (those with their own git repositories)
 ; will be loaded when executing tests.
@@ -231,6 +238,9 @@ anonymous_user_enable_use_segments_API = 1
 ; You can force the browser archiving to be disabled in most cases by setting this setting to 1
 ; The only time that the browser will still trigger archiving is when requesting a custom date range that is not pre-processed yet
 browser_archiving_disabled_enforce = 0
+
+; Add custom currencies to Sites Manager.
+currencies[BTC] = Bitcoin
 
 ; By default, users can create Segments which are to be processed in Real-time.
 ; Setting this to 0 will force all newly created Custom Segments to be "Pre-processed (faster, requires archive.php cron)"
@@ -370,15 +380,14 @@ session_save_handler = files
 ; it is recommended for security reasons to always use Matomo over https
 force_ssl = 0
 
-; login cookie name
+; (DEPRECATED) has no effect
 login_cookie_name = piwik_auth
 
 ; By default, the auth cookie is set only for the duration of session.
 ; if "Remember me" is checked, the auth cookie will be valid for 14 days by default
 login_cookie_expire = 1209600
 
-; The path on the server in which the cookie will be available on.
-; Defaults to empty. See spec in https://curl.haxx.se/rfc/cookie_spec.html
+; (DEPRECATED) has no effect
 login_cookie_path =
 
 ; email address that appears as a Sender in the password recovery email
@@ -394,7 +403,9 @@ login_password_recovery_replyto_email_address = "no-reply@{DOMAIN}"
 login_password_recovery_replyto_email_name = "No-reply"
 
 ; When configured, only users from a configured IP can log into your Matomo. You can define one or multiple
-; IPv4, IPv6, and IP ranges. This whitelist also affects API requests unless you disabled it via the setting
+; IPv4, IPv6, and IP ranges. You may also define hostnames. However, resolving hostnames in each request 
+; may slightly slow down your Matomo.
+; This whitelist also affects API requests unless you disabled it via the setting
 ; "login_whitelist_apply_to_reporting_api_requests" below. Note that neither this setting, nor the
 ; "login_whitelist_apply_to_reporting_api_requests" restricts authenticated tracking requests (tracking requests
 ; with a "token_auth" URL parameter).
@@ -404,6 +415,7 @@ login_password_recovery_replyto_email_name = "No-reply"
 ; login_whitelist_ip[] = 204.93.177.0/24
 ; login_whitelist_ip[] = 199.27.128.0/21
 ; login_whitelist_ip[] = 2001:db8::/48
+; login_whitelist_ip[] = matomo.org
 
 ; By default, if a whitelisted IP address is specified via "login_whitelist_ip[]", the reporting user interface as
 ; well as HTTP Reporting API requests will only work for these whitelisted IPs.
@@ -622,7 +634,7 @@ enable_installer = 1
 ; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
 enable_geolocation_admin = 1
 
-; By setting this option to 0, the old log data and old report data features will be hidden from the UI
+; By setting this option to 0, the old raw data and old report data purging features will be hidden from the UI
 ; Note: log purging and old data purging still occurs, just the Super User cannot change the settings.
 enable_delete_old_data_settings_admin = 1
 
@@ -819,6 +831,7 @@ delete_logs_schedule_lowest_interval = 7
 delete_logs_older_than = 180
 delete_logs_max_rows_per_query = 100000
 enable_auto_database_size_estimate = 1
+enable_database_size_estimate = 1
 
 [Deletereports]
 delete_reports_enable                = 0

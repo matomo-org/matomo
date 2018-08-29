@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\Installation\tests\System;
 
 use Piwik\Config;
-use Piwik\Tests\Framework\Constraint\HttpResponseText;
+use Piwik\Http;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -36,30 +36,29 @@ class APITest extends SystemTestCase
 
     public function test_shouldReturnHttp500_IfWrongDbInfo()
     {
-        $this->assertResponseCode(500, $this->getUrl());
+        $response = $this->sendHttpRequest($this->getUrl());
+        $this->assertEquals(500, $response['status']);
     }
 
     public function test_shouldReturnValidApiResponse_IfWrongDbInfo_formatXML()
     {
-        $http = new HttpResponseText('');
-        $response = $http->getResponse($this->getUrl());
+        $response = $this->sendHttpRequest($this->getUrl());
 
-        $response = str_replace("\n", "", $response);
+        $data = str_replace("\n", "", $response['data']);
 
-        $this->assertStringStartsWith('<?xml version="1.0" encoding="utf-8" ?><result>	<error message=', $response);
-        $this->assertContains('Access denied', $response);
-        $this->assertStringEndsWith('</result>', $response);
+        $this->assertStringStartsWith('<?xml version="1.0" encoding="utf-8" ?><result>	<error message=', $data);
+        $this->assertContains('Access denied', $data);
+        $this->assertStringEndsWith('</result>', $data);
     }
 
     public function test_shouldReturnValidApiResponse_IfWrongDbInfo_formatJSON()
     {
-        $http = new HttpResponseText('');
-        $response = $http->getResponse($this->getUrl() . '&format=json');
+        $response = $this->sendHttpRequest($this->getUrl() . '&format=json');
 
-        $response = str_replace("\n", "", $response);
+        $data = str_replace("\n", "", $response['data']);
 
-        $this->assertStringStartsWith('{"result":"error","message":"', $response);
-        $this->assertContains('Access denied', $response);
+        $this->assertStringStartsWith('{"result":"error","message":"', $data);
+        $this->assertContains('Access denied', $data);
     }
 
     private function getUrl()
@@ -77,4 +76,8 @@ class APITest extends SystemTestCase
         return dirname(__FILE__);
     }
 
+    protected function sendHttpRequest($url)
+    {
+        return Http::sendHttpRequest($url, 10, null, null, 0, false, false, true);
+    }
 }

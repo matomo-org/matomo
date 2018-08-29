@@ -93,6 +93,7 @@
         "NoDataForTagCloud": "Engin gögn fyrir þetta klisjuský.",
         "NotValid": "%s er ekki gilt",
         "NVisits": "%s heimsóknir",
+        "NUniqueVisitors": "%s einstakir gestir",
         "Ok": "Ok",
         "OnlyEnterIfRequired": "Einungis slá inn notendanafn ef SMTP þjónninn krefst þess.",
         "OnlyEnterIfRequiredPassword": "Einungis slá inn lykilorð ef SMTP þjónninn krefst þess.",

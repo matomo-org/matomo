@@ -1,0 +1,5 @@
+<{{ componentName|e('html') }}
+    {% for key, value in componentParameters %}
+    {{ key|e('html') }}="{{ value|e('html_attr') }}"
+    {% endfor %}
+/>

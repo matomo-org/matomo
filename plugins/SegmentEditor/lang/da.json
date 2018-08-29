@@ -16,7 +16,6 @@
         "SegmentDisplayedAllWebsites": "alle websteder",
         "SegmentDisplayedThisWebsiteOnly": "kun dette websted",
         "SegmentNotApplied": "Segment '%s' anvendes ikke",
-        "SegmentNotAppliedMessage": "Du beder om data til brugerdefineret segment '%s', Matomo-konfigurationen forhindrer live-behandling af rapporter af hensyn til systemets ydeevne.",
         "ThisSegmentIsVisibleTo": "Segmentet er synligt for:",
         "VisibleToAllUsers": "alle brugere",
         "VisibleToMe": "mig",

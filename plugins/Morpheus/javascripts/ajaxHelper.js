@@ -357,6 +357,9 @@ function ajaxHelper() {
 
     /**
      * Send the request
+     *
+     * Note: Sending synchronous requests will be removed in Matomo 4
+     *
      * @param {Boolean} [sync]  indicates if the request should be synchronous (defaults to false)
      * @return {void}
      */
@@ -546,10 +549,7 @@ function ajaxHelper() {
 
         // handle default date & period if not already set
         if (this._useGETDefaultParameter('date') && !params.date && !this.postParams.date) {
-            params.date = piwik.currentDateString || broadcast.getValueFromUrl('date');
-            if (params.period == 'range' && piwik.currentDateString) {
-                params.date = piwik.startDateString + ',' + params.date;
-            }
+            params.date = piwik.currentDateString;
         }
 
         return params;

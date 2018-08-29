@@ -5,7 +5,6 @@
         "AdvancedTimezoneSupportNotFound": "Kullandığınız PHP sürümü gelişmiş saat dilimlerini desteklemiyor (PHP 5.2 ve üzerindeki sürümler destekler). Gene de UTC sapmasını el ile ayarlayabilirsiniz.",
         "AliasUrlHelp": "Her satırda ziyaretçilerin web sitenize erişmek için kullandığı ayrı bir adres belirtmeniz önerilir ancak zorunlu değildir. Kısaltma adresleri Yönlendirenler > Web siteleri raporunda görüntülenmez. Adresleri başında 'www' olarak ve olmayarak ayrı ayrı yazmanız gerekmez. Matomo her iki durumu da hesaba katar.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Saat dilimi değişikliği, yalnız bundan sonraki verileri etkiler ve geriye dönük olarak uygulanmaz.",
-        "ChooseCityInSameTimezoneAsYou": "Sizinle aynı saat diliminde bulunan bir il seçin.",
         "Currency": "Para Birimi",
         "CurrencySymbolWillBeUsedForGoals": "Hedef gelirlerinin yanında görüntülenecek para birimi.",
         "DefaultCurrencyForNewWebsites": "Yeni web siteleri için varsayılan para birimi",
@@ -27,6 +26,7 @@
         "ExcludedIps": "Katılmayan IP Adresleri",
         "ExcludedParameters": "Katılmayan Parametreler",
         "ExcludedUserAgents": "Katılmayan Kullanıcı Uygulamaları",
+        "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Matomo tarafından izlenmeyecek kullanıcı uygulamalarının listesini yazın.",
         "GlobalExcludedUserAgentHelp2": "Burası kullanarak bazı botların izlenmemesi sağlanabilir.",
         "GlobalListExcludedIps": "Genel Katılmayan IP adresleri listesi",
@@ -91,6 +91,7 @@
         "XManagement": "%s Yönetimi",
         "ChooseMeasurableTypeHeadline": "Neyi ölçmek istiyorsunuz?",
         "YouCurrentlyHaveAccessToNWebsites": "%s web sitesine erişme izniniz var.",
-        "YourCurrentIpAddressIs": "Geçerli IP adresiniz: %s"
+        "YourCurrentIpAddressIs": "Geçerli IP adresiniz: %s",
+        "DeleteSiteExplanation": "Bir web sitesi silindiğinde ilgili tüm günlük verileri silinir. Bu işlem geri alınamaz."
     }
 }

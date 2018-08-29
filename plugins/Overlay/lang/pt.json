@@ -1,6 +1,21 @@
 {
     "Overlay": {
+        "Clicks": "%s cliques",
+        "ClicksFromXLinks": "%1$s cliques de uma destas %2$s ligações",
         "Domain": "Domínio",
-        "Location": "Localização"
+        "ErrorNotLoading": "A sessão de Sobreposição na página ainda não pode ser lançada.",
+        "ErrorNotLoadingDetails": "Talvez a página carregada à direita não tem o código de acompanhamento do Matomo. Neste caso, tente executar a Sobreposição para um página diferente no relatório de páginas.",
+        "ErrorNotLoadingDetailsSSL": "Se estiver a utilizar o Matomo sob https, o motivo mais comum é que o seu site não suporta SSL. Tente utilizar o Matomo sob http.",
+        "ErrorNotLoadingLink": "Clique aqui para obter mais dicas para diagnóstico",
+        "Link": "Ligação",
+        "Location": "Localização",
+        "NoData": "Não existem dados para esta página durante o período selecionado.",
+        "OneClick": "1 clique",
+        "OpenFullScreen": "Ir para ecrã inteiro (sem barra lateral)",
+        "Overlay": "Sobreposição na página",
+        "PluginDescription": "Veja os seus dados de análise como uma Sobreposição no seu próprio site. Veja quantas vezes os seus utilizadores clicaram em cada ligação. Nota: requer que a extensão Transições esteja ativa.",
+        "RedirectUrlError": "Está a tentar abrir uma Sobreposição na página para o endereço \"%1$s\". %2$s Nenhum dos domínios nas definições do Matomo coincide com esta ligação.",
+        "RedirectUrlErrorAdmin": "Pode adicionar o domínio como um endereço adicional %1$snas definições%2$s.",
+        "RedirectUrlErrorUser": "Peça ao seu administrador para adicionar o domínio como um endereço adicional."
     }
 }

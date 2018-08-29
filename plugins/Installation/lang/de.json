@@ -73,9 +73,11 @@
         "SystemCheckDatabaseExtensions": "MySQL Erweiterungen",
         "SystemCheckDatabaseHelp": "Matomo erfordert entweder die mysqli Erweiterung oder die PDO und pdo_mysql Erweiterung.",
         "SystemCheckDatabaseSSL": "Datenbank SSL Verbindung",
+        "SystemCheckDatabaseSSLCipher": "SSL Chipher wird verwendet",
         "SystemCheckDatabaseSSLDisabled": "SSL-Unterstützung ist auf Ihrem Datenbank-Server deaktiviert",
         "SystemCheckDatabaseSSLNo": "Der Datenbank-Server wurde nicht mit SSL-Unterstützung kompiliert",
         "SystemCheckDatabaseSSLNotWorking": "%s ist auf '1' gesetzt, jedoch funktioniert die SSL-Verbindung nicht",
+        "SystemCheckDatabaseSSLOn": "Ihre Datenbank unterstützt SSL-Verbindungen, es wird aber keine SSL-Verbindung verwendet. Überprüfen Sie die SSL-Einstellungen für die Datenbank in Ihrer Matomo Konfigurationdatei.",
         "SystemCheckDebugBacktraceHelp": "View::factory wird nicht in der Lage sein, die Module für die Anzeige zu laden.",
         "SystemCheckError": "Ein Fehler ist aufgetreten - dieser muss behoben werden, bevor Sie weiter machen können.",
         "SystemCheckEvalHelp": "Wird von HTML QuickForm und der Template-Engine Smarty benötigt.",
@@ -147,6 +149,7 @@
         "WelcomeHelp": "<p>Matomo ist eine frei verfügbare Webanalyse-Software, welche erlaubt, einfach die gewünschten Informationen über die Besucher Ihrer Website zu erhalten.<\/p><p>Dieser Prozess ist aufgeteilt in %s einfache Schritte und wird rund 5 Minuten dauern.<\/p>",
         "WelcomeToCommunity": "Willkommen in der Matomo Community!",
         "CannotConnectToDb": "Verbindung zur Datenbank ist fehlgeschlagen",
-        "CannotConnectToDbResolvingExplanation": "Dies könnte ein temporäres Problem sein. Versuchen Sie diese %1$sSeite neu zu laden%2$s. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an Ihren Matomo Administrator."
+        "CannotConnectToDbResolvingExplanation": "Dies könnte ein temporäres Problem sein. Versuchen Sie diese %1$sSeite neu zu laden%2$s. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an Ihren Matomo Administrator.",
+        "EmailPrivacyNotice": "Ihre E-Mail-Adresse wird ausschließlich dafür verwendet Ihnen den Matomo Newsletter zuzusenden. Sie können sich jederzeit davon Abmelden indem Sie den Abmelden Link klicken. Ihre E-Mail-Adresse wird an niemanden weitergegeben und auch nicht zu einem anderen Zweck verwendet, als Ihnen den Matomo Newsletter zuzusenden. Bitte lesen Sie unsere %1$sDatenschutzerklärung%2$s für weitere Informationen."
     }
 }

@@ -77,12 +77,14 @@
 		<referrerUrl>http://blog.comperiosearch.com/blog/2014/02/05/dynamic-search-ranking-using-elasticsearch-neo4j-and-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 8.1</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -240,12 +242,14 @@
 		<referrerUrl>http://piwik.org/what-is-piwik/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -366,12 +370,14 @@
 		<referrerUrl>http://demo.piwik.org/index.php?module=MultiSites&amp;action=index&amp;date=yesterday&amp;period=day&amp;idSite=32</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -541,12 +547,14 @@
 		<referrerUrl>http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CCcQFjAA&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=8vwgU8TYDZTI2wWTi4CQCA&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;bvm=bv.62922401,d.b2I</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.9</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -675,12 +683,14 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -822,12 +832,14 @@
 		<referrerUrl>https://www.google.com/</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.9</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -975,12 +987,14 @@
 		<referrerUrl>https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=2&amp;ved=0CDAQFjAB&amp;url=https%3A%2F%2Fpiwik.org%2Flog-analytics%2F&amp;ei=rogdU5OuK43pkgXZmYGICA&amp;usg=AFQjCNH4nR8bKYaliCj2egiJ0H_CX4sFJg&amp;bvm=bv.62578216,d.dGI</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.9</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -1118,12 +1132,14 @@
 		<referrerUrl>http://berndjung.com/piwik/index.php?module=CoreHome&amp;action=index&amp;idSite=1&amp;period=day&amp;date=today</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/smartphone.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Smartphone</deviceModel>
 		<operatingSystem>Android</operatingSystem>
 		<operatingSystemName>Android</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/AND.png</operatingSystemIcon>
@@ -1253,12 +1269,14 @@
 		<referrerUrl>http://forum.golem.de/kommentare/security/urteil-zu-tracking-nutzer-muessen-piwik-analyse-widersprechen-koennen/piwik-log-analytics/80715,3669355,3669355,read.html</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1454,12 +1472,14 @@
 		<referrerUrl>http://www.google.ru/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CCoQFjAA&amp;url=http%3A%2F%2Fpiwik.org%2F&amp;ei=ffwgU57VGuf44QT3-oCQCw&amp;usg=AFQjCNF_MGJRqKPvaKuUokHtZ3VvNG9ALw&amp;bvm=bv.62922401,d.bGE&amp;cad=rjt</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 8</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1593,12 +1613,14 @@
 		<referrerUrl>http://piwik.org/docs/installation/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1740,12 +1762,14 @@
 		<referrerUrl>http://musicforeveryoneradio.be:2222/CMD_PLUGINS/installatron/index.raw</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -2103,12 +2127,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2225,12 +2251,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -2345,12 +2373,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -2487,12 +2517,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -2617,12 +2649,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.10</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -2797,6 +2831,8 @@
 		<referrerUrl>http://example.com/Search/SearchResults.pg?informationRecipient.languageCode.c=en</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
@@ -2923,12 +2959,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.10</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -3077,12 +3115,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.10</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -3205,12 +3245,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.10</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -3337,12 +3379,14 @@
 		<referrerUrl>http://piwik.org/contribute%</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -3474,12 +3518,14 @@
 		<referrerUrl>http://sn110w.snt110.mail.live.com/mail/InboxLight.aspx?n=184083971</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -3629,12 +3675,14 @@
 		<referrerUrl>https://www.test.nl/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows XP</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -3751,6 +3799,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
@@ -3862,12 +3912,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -3972,12 +4024,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -4092,12 +4146,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -4216,12 +4272,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -4362,12 +4420,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -4519,12 +4579,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -4643,12 +4705,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Bot</operatingSystem>
 		<operatingSystemName>Bot</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -4767,12 +4831,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -4880,12 +4946,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -5004,6 +5072,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
@@ -5128,12 +5198,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -5252,12 +5324,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -5372,12 +5446,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemName>GNU/Linux</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
@@ -5492,12 +5568,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -5612,12 +5690,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemName>GNU/Linux</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
@@ -5732,12 +5812,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -5852,12 +5934,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemName>GNU/Linux</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
@@ -5972,12 +6056,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -6092,12 +6178,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -6212,12 +6300,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -6332,12 +6422,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -6452,12 +6544,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.8</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -6572,12 +6666,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemName>GNU/Linux</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
@@ -6692,12 +6788,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemName>GNU/Linux</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
@@ -6812,12 +6910,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemName>GNU/Linux</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
@@ -6932,12 +7032,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows 7</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -7052,12 +7154,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemName>GNU/Linux</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
@@ -7172,12 +7276,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>GNU/Linux</operatingSystem>
 		<operatingSystemName>GNU/Linux</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/LIN.png</operatingSystemIcon>
@@ -7292,6 +7398,8 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
@@ -7412,12 +7520,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -7532,12 +7642,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>
@@ -7652,12 +7764,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceBrand>Apple</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Mac 10.6</operatingSystem>
 		<operatingSystemName>Mac</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/MAC.png</operatingSystemIcon>

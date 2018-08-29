@@ -44,12 +44,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -150,12 +152,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -256,12 +260,14 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -362,12 +368,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -468,12 +476,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -574,12 +584,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -680,12 +692,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -782,12 +796,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -888,12 +904,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -994,12 +1012,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1100,12 +1120,14 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1206,12 +1228,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1312,12 +1336,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1418,12 +1444,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1524,12 +1552,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1626,12 +1656,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1732,12 +1764,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -1838,12 +1872,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -1944,12 +1980,14 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2050,12 +2088,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2156,12 +2196,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2262,12 +2304,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2368,12 +2412,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2470,12 +2516,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2576,12 +2624,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2682,12 +2732,14 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2788,12 +2840,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -2894,12 +2948,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -3000,12 +3056,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -3106,12 +3164,14 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -3212,12 +3272,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -3318,12 +3380,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -3424,12 +3488,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -3530,12 +3596,14 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -3636,12 +3704,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -3742,12 +3812,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -3848,12 +3920,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -3954,12 +4028,14 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -4060,12 +4136,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -4166,12 +4244,14 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -4272,12 +4352,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -4378,12 +4460,14 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -4484,12 +4568,14 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -4582,20 +4668,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -4692,12 +4780,14 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -4790,20 +4880,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -4900,12 +4992,14 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -4998,20 +5092,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -5108,12 +5204,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -5214,12 +5312,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -5320,12 +5420,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -5426,12 +5528,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -5532,12 +5636,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -5630,20 +5736,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -5744,12 +5852,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -5850,12 +5960,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -5948,20 +6060,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -6062,12 +6176,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -6168,12 +6284,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -6266,20 +6384,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -6380,12 +6500,14 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -6486,12 +6608,14 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -6592,12 +6716,14 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -6698,12 +6824,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -6804,12 +6932,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -6910,12 +7040,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -7016,12 +7148,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -7122,12 +7256,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -7228,12 +7364,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -7334,12 +7472,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -7440,12 +7580,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -7546,12 +7688,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -7652,12 +7796,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -7758,12 +7904,14 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -7864,12 +8012,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -7970,12 +8120,14 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -8076,12 +8228,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -8182,12 +8336,14 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -8288,12 +8444,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -8394,12 +8552,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -8500,12 +8660,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -8598,20 +8760,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -8712,12 +8876,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -8810,20 +8976,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -8924,12 +9092,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -9022,20 +9192,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -9136,12 +9308,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -9242,12 +9416,14 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -9348,12 +9524,14 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -9454,12 +9632,14 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -9560,12 +9740,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -9666,12 +9848,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -9772,12 +9956,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -9878,12 +10064,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -9984,12 +10172,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -10090,12 +10280,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -10196,12 +10388,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -10302,12 +10496,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -10408,12 +10604,14 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -10514,12 +10712,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -10620,12 +10820,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -10726,12 +10928,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -10832,12 +11036,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -10934,12 +11140,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -11040,12 +11248,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -11146,12 +11356,14 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -11252,12 +11464,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -11358,12 +11572,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -11464,12 +11680,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -11570,12 +11788,14 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -11676,12 +11896,14 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -11774,20 +11996,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -11884,12 +12108,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -11990,12 +12216,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -12096,12 +12324,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -12194,20 +12424,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -12308,12 +12540,14 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -12414,12 +12648,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -12520,12 +12756,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -12626,12 +12864,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -12732,12 +12972,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -12838,12 +13080,14 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -12944,12 +13188,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -13042,20 +13288,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -13156,12 +13404,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -13262,12 +13512,14 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -13368,12 +13620,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -13474,12 +13728,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -13580,12 +13836,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -13686,12 +13944,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -13792,12 +14052,14 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -13898,12 +14160,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -14004,12 +14268,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -14110,12 +14376,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -14216,12 +14484,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -14318,12 +14588,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -14424,12 +14696,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -14530,12 +14804,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -14636,12 +14912,14 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -14742,12 +15020,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -14848,12 +15128,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -14954,12 +15236,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -15060,12 +15344,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -15162,12 +15448,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -15268,12 +15556,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -15374,12 +15664,14 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -15480,12 +15772,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -15586,12 +15880,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -15692,12 +15988,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -15798,12 +16096,14 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -15904,12 +16204,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -16010,12 +16312,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -16116,12 +16420,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -16222,12 +16528,14 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -16328,12 +16636,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -16434,12 +16744,14 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -16540,12 +16852,14 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -16638,20 +16952,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -16748,12 +17064,14 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -16846,20 +17164,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -16956,12 +17276,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -17062,12 +17384,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -17168,12 +17492,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -17274,12 +17600,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -17372,20 +17700,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -17486,12 +17816,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -17592,12 +17924,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -17690,20 +18024,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -17804,12 +18140,14 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -17910,12 +18248,14 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -18016,12 +18356,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -18122,12 +18464,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -18228,12 +18572,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -18334,12 +18680,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -18440,12 +18788,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -18546,12 +18896,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -18652,12 +19004,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -18758,12 +19112,14 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -18864,12 +19220,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -18970,12 +19328,14 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -19076,12 +19436,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -19182,12 +19544,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -19280,20 +19644,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -19394,12 +19760,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -19492,20 +19860,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -19606,12 +19976,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -19712,12 +20084,14 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -19818,12 +20192,14 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -19924,12 +20300,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -20030,12 +20408,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -20136,12 +20516,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -20242,12 +20624,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -20348,12 +20732,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode>fr</languageCode>
 		<language>French</language>
 		<deviceType>Desktop</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Generic Desktop</deviceModel>
 		<operatingSystem>Windows Vista</operatingSystem>
 		<operatingSystemName>Windows</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
@@ -20454,12 +20840,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -20560,12 +20948,14 @@
 		<referrerUrl>http://www.innocraft.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -20666,12 +21056,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -20772,12 +21164,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -20878,12 +21272,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -20984,12 +21380,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -21086,12 +21484,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -21192,12 +21592,14 @@
 		<referrerUrl>http://www.example.com/</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -21298,12 +21700,14 @@
 		<referrerUrl>http://developer.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -21404,12 +21808,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -21510,12 +21916,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -21616,12 +22024,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -21722,12 +22132,14 @@
 		<referrerUrl>http://developer.matomo.org?x=1</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -21828,12 +22240,14 @@
 		<referrerUrl>http://ios.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -21926,20 +22340,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -22036,12 +22452,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -22142,12 +22560,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -22248,12 +22668,14 @@
 		<referrerUrl>http://www.matomo.org</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -22346,20 +22768,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/bar</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -22460,12 +22884,14 @@
 		<referrerUrl>http://hello.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -22566,12 +22992,14 @@
 		<referrerUrl>http://www.google.com?q=test</referrerUrl>
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -22672,12 +23100,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -22778,12 +23208,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -22884,12 +23316,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -22990,12 +23424,14 @@
 		<referrerUrl>http://example.matomo.org/mypath</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -23096,12 +23532,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -23194,20 +23632,22 @@
 		<searches>0</searches>
 		<actions>3</actions>
 		<interactions>3</interactions>
-		<referrerType>website</referrerType>
-		<referrerTypeName>Websites</referrerTypeName>
-		<referrerName>www.facebook.com</referrerName>
+		<referrerType>social</referrerType>
+		<referrerTypeName>Social Networks</referrerTypeName>
+		<referrerName>Facebook</referrerName>
 		<referrerKeyword />
 		<referrerKeywordPosition />
 		<referrerUrl>http://www.facebook.com/foo</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl>facebook.com</referrerSocialNetworkUrl>
+		<referrerSocialNetworkIcon>plugins/Morpheus/icons/dist/socials/facebook.com.png</referrerSocialNetworkIcon>
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -23308,12 +23748,14 @@
 		<referrerUrl />
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>
@@ -23414,12 +23856,14 @@
 		<referrerUrl>http://www.example.com</referrerUrl>
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
 		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/unknown.png</deviceTypeIcon>
 		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel />
+		<deviceModel>Unknown</deviceModel>
 		<operatingSystem>Unknown</operatingSystem>
 		<operatingSystemName>Unknown</operatingSystemName>
 		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/UNK.png</operatingSystemIcon>

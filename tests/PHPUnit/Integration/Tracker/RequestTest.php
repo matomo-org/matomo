@@ -227,10 +227,10 @@ class RequestTest extends IntegrationTestCase
 
     public function test_authenticateSuperUserOrAdmin_ShouldFailIfTokenIsEmpty()
     {
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin('', 2);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite('', 2);
         $this->assertFalse($isAuthenticated);
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin(null, 2);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite(null, 2);
         $this->assertFalse($isAuthenticated);
     }
 
@@ -241,16 +241,16 @@ class RequestTest extends IntegrationTestCase
             $called++;
         });
 
-        Request::authenticateSuperUserOrAdmin('', 2);
+        Request::authenticateSuperUserOrAdminOrWrite('', 2);
         $this->assertSame(0, $called);
 
-        Request::authenticateSuperUserOrAdmin('atoken', 2);
+        Request::authenticateSuperUserOrAdminOrWrite('atoken', 2);
         $this->assertSame(1, $called);
 
-        Request::authenticateSuperUserOrAdmin('anothertoken', 2);
+        Request::authenticateSuperUserOrAdminOrWrite('anothertoken', 2);
         $this->assertSame(2, $called);
 
-        Request::authenticateSuperUserOrAdmin(null, 2);
+        Request::authenticateSuperUserOrAdminOrWrite(null, 2);
         $this->assertSame(2, $called);
     }
 
@@ -258,10 +258,10 @@ class RequestTest extends IntegrationTestCase
     {
         $token = $this->createAdminUserForSite(2);
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin($token, -2);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite($token, -2);
         $this->assertFalse($isAuthenticated);
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin($token, 0);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite($token, 0);
         $this->assertFalse($isAuthenticated);
     }
 
@@ -269,10 +269,10 @@ class RequestTest extends IntegrationTestCase
     {
         $token = $this->createAdminUserForSite(2);
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin($token, 1);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite($token, 1);
         $this->assertFalse($isAuthenticated);
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin($token, 2);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite($token, 2);
         $this->assertTrue($isAuthenticated);
     }
 
@@ -281,10 +281,10 @@ class RequestTest extends IntegrationTestCase
         Fixture::createSuperUser(false);
         $token = Fixture::getTokenAuth();
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin($token, 1);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite($token, 1);
         $this->assertTrue($isAuthenticated);
 
-        $isAuthenticated = Request::authenticateSuperUserOrAdmin($token, 2);
+        $isAuthenticated = Request::authenticateSuperUserOrAdminOrWrite($token, 2);
         $this->assertTrue($isAuthenticated);
     }
 

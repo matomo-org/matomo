@@ -177,17 +177,17 @@ class API extends \Piwik\Plugin\API
 
         $sites   = (is_array($idSites) ? implode('.', $idSites) : (int) $idSites);
         $cache   = Cache::getTransientCache();
-        $cachKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
-        $cachKey = CacheId::pluginAware($cachKey);
+        $cacheKey = 'API.getSegmentsMetadata' . $sites . '_' . (int) $_hideImplementationData . '_' . (int) $isNotAnonymous;
+        $cacheKey = CacheId::pluginAware($cacheKey);
 
-        if ($cache->contains($cachKey)) {
-            return $cache->fetch($cachKey);
+        if ($cache->contains($cacheKey)) {
+            return $cache->fetch($cacheKey);
         }
 
         $metadata = new SegmentMetadata();
         $segments = $metadata->getSegmentsMetadata($idSites, $_hideImplementationData, $isNotAnonymous);
 
-        $cache->save($cachKey, $segments);
+        $cache->save($cacheKey, $segments);
 
         return $segments;
     }
@@ -454,7 +454,7 @@ class API extends \Piwik\Plugin\API
         $apiParameters = array();
         $entityNames = StaticContainer::get('entities.idNames');
         foreach ($entityNames as $entityName) {
-            if ($entityName === 'idGoal' && $idGoal) {
+            if ($entityName === 'idGoal' && is_numeric($idGoal)) {
                 $apiParameters['idGoal'] = $idGoal;
             } elseif ($entityName === 'idDimension' && $idDimension) {
                 $apiParameters['idDimension'] = $idDimension;
@@ -749,12 +749,19 @@ class Plugin extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles'
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'Platform.initialized' => 'detectIsApiRequest'
         );
+    }
+
+    public function detectIsApiRequest()
+    {
+        Request::setIsRootRequestApiRequest(Request::getMethodIfApiRequest($request = null));
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/API/stylesheets/listAllAPI.less";
+        $stylesheets[] = "plugins/API/stylesheets/glossary.less";
     }
 }

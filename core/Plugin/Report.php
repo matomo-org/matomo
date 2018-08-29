@@ -10,16 +10,13 @@ namespace Piwik\Plugin;
 
 use Piwik\API\Proxy;
 use Piwik\API\Request;
-use Piwik\Cache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\Sort;
 use Piwik\Metrics;
-use Piwik\Cache as PiwikCache;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Exception;
 use Piwik\Widget\WidgetsList;
@@ -649,6 +646,30 @@ class Report
     }
 
     /**
+     * Allows to define a callback that will be used to determine the secondary column to sort by
+     *
+     * ```
+     * public function getSecondarySortColumnCallback()
+     * {
+     *     return function ($primaryColumn) {
+     *         switch ($primaryColumn) {
+     *             case Metrics::NB_CLICKS:
+     *                 return Metrics::NB_IMPRESSIONS;
+     *             case 'label':
+     *             default:
+     *                 return Metrics::NB_CLICKS;
+     *         }
+     *     };
+     * }
+     * ```
+     * @return null|callable
+     */
+    public function getSecondarySortColumnCallback()
+    {
+        return null;
+    }
+
+    /**
      * Get the list of related reports if there are any. They will be displayed for instance below a report as a
      * recommended related report.
      *
@@ -913,6 +934,42 @@ class Report
      */
     public static function getProcessedMetricsForTable(DataTable $dataTable, Report $report = null)
     {
-        return self::getMetricsForTable($dataTable, $report, 'Piwik\\Plugin\\ProcessedMetric');
+        /** @var ProcessedMetric[] $metrics */
+        $metrics = self::getMetricsForTable($dataTable, $report, 'Piwik\\Plugin\\ProcessedMetric');
+
+        // sort metrics w/ dependent metrics calculated before the metrics that depend on them
+        $result = [];
+        self::processedMetricDfs($metrics, function ($metricName) use (&$result, $metrics) {
+            $result[$metricName] = $metrics[$metricName];
+        });
+        return $result;
+    }
+
+    /**
+     * @param ProcessedMetric[] $metrics
+     * @param $callback
+     * @param array $visited
+     */
+    private static function processedMetricDfs($metrics, $callback, &$visited = [], $toVisit = null)
+    {
+        $toVisit = $toVisit === null ? $metrics : $toVisit;
+        foreach ($toVisit as $name => $metric) {
+            if (!empty($visited[$name])) {
+                continue;
+            }
+
+            $visited[$name] = true;
+
+            $dependentMetrics = [];
+            foreach ($metric->getDependentMetrics() as $metricName) {
+                if (!empty($metrics[$metricName])) {
+                    $dependentMetrics[$metricName] = $metrics[$metricName];
+                }
+            }
+
+            self::processedMetricDfs($metrics, $callback, $visited, $dependentMetrics);
+
+            $callback($name);
+        }
     }
 }

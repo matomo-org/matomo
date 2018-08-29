@@ -16,6 +16,7 @@
         "NoThemesFound": "لم يتم العثور علي ثيمات",
         "PluginKeywords": "كلمات دلالية",
         "PluginUpdateAvailable": "أنت تستخدم الإصدار %1$s %2$sويوجد إصدار جديد متاح",
+        "PluginVersionInfo": "%1$s من %2$s",
         "PluginWebsite": "الموقع الإلكتروني للإضافة",
         "Screenshots": "صور العرض",
         "StepUnzippingPlugin": "إستخراج الإضافة",

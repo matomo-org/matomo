@@ -1,8 +1,10 @@
 {
     "Installation": {
         "CollaborativeProject": "Matomo är ett projekt som arbetats fram av människor från hela världen, med samma mål och mycket kärlek!",
+        "ConfigurationHelp": "Din Matomo konfigurationsfil verkar vara felkonfigurerad. Du kan antingen ta bort config\/config.ini.php och återuppta installationen, eller korrigera inställningarna för databasanslutningen.",
         "ConfirmDeleteExistingTables": "Är du säker på att du vill ta bort tabellerna: %s från din databas? Varning: Data från dessa tabeller kommer inte kunna återskapas!",
         "Congratulations": "Grattis",
+        "CongratulationsHelp": "<p>Grattis! Din installation av Matomo är klar. <\/p><p>Se till att din JavaScript-kod lagts in på dina sidor, och vänta på dina första besökare! <\/p>",
         "DatabaseAbilities": "Databasförmågor",
         "DatabaseCreation": "Databas skapas",
         "DatabaseErrorConnect": "Fel uppstod när anslutningsförsök till databasservern gjordes.",
@@ -43,6 +45,7 @@
         "PasswordRepeat": "Lösenord (bekräfta)",
         "PercentDone": "%s %% Klar",
         "ProfessionalServicesAdTitle": "Avancerad analys & tjänster",
+        "ProfessionalServicesfessionalServicesAdText": "Vårt nätverk av experter kan hjälpa din organisation att ta tillvara på alla möjligheter som finns i Matomo analytics.",
         "ProfessionalServicesfessionalDiscoverHow": "Lär dig mer om %1$sytterligare produkter och tjänster%2$still för Matomo och hur du kan öka konvertering och intäkter.",
         "PleaseFixTheFollowingErrors": "Vänligen fixa följande fel",
         "DefaultSettings": "Grundinställningar för Matomo",
@@ -69,6 +72,12 @@
         "SystemCheckCreateFunctionHelp": "Matomo använder anonyma funktioner för återanropning.",
         "SystemCheckDatabaseExtensions": "MySQL-tillägg",
         "SystemCheckDatabaseHelp": "Matomo kräver antingen tillägget mysqli eller båda tilläggen PDO och pdo_mysql.",
+        "SystemCheckDatabaseSSL": "Säker databasanslutning (SSL)",
+        "SystemCheckDatabaseSSLCipher": "SSL-kryptering används",
+        "SystemCheckDatabaseSSLDisabled": "SSL-stöd i din databasserver är inaktiverat",
+        "SystemCheckDatabaseSSLNo": "Databasservern är inte kompilerad med SSL-stöd",
+        "SystemCheckDatabaseSSLNotWorking": "%s är inställd på '1' men SSL-anslutning fungerar inte",
+        "SystemCheckDatabaseSSLOn": "Din databas stöder SSL-anslutningar men en SSL-anslutning används inte. Kontrollera dina SSL-inställningar i din Matomos konfigurationsfil",
         "SystemCheckDebugBacktraceHelp": "View::factory kommer inte att kunna skapa vyer för den anropande modulen.",
         "SystemCheckError": "Ett fel uppstod - detta måste fixas innan du fortsätter",
         "SystemCheckEvalHelp": "Krävs av HTML QuickForm och Smarty templating system.",
@@ -123,6 +132,7 @@
         "SystemCheckCronArchiveProcessCLI": "Hantering av processer via CLI",
         "SystemCheckPhpSetting": "För att det inte ska uppstå problem måste du ställa in följande i din php.ini-fil: %s",
         "SystemCheckUpdateHttps": "Uppdatera över HTTPS",
+        "SystemCheckUpdateHttpsNotSupported": "Matomo kan inte använda HTTPS för att uppdatera, den kommer att återgå till osäker HTTP-uppdatering. Kontrollera att CURL eller allow_url_fopen stöds och att OpenSSL PHP-tillägget är installerat: http:\/\/piwik.org\/faq\/troubleshooting\/faq_177\/.",
         "NotSupported": "stöds inte",
         "Tables": "Skapar tabellerna",
         "TablesCreatedSuccess": "Tabeller skapades utan problem!",
@@ -136,8 +146,10 @@
         "Timezone": "Webbplatsens tidszon",
         "WeHopeYouWillEnjoyPiwik": "Vi hoppas att du kommer tycka om att använda Matomo lika mycket som vi tyckte om att skapa det!",
         "Welcome": "Välkommen!",
+        "WelcomeHelp": "<p>Matomo är ett open source webbanalysprogram som gör det enkelt att få den information du vill ha från dina besökare.<\/p><p>Denna process är uppdelad i %s enkla steg och tar ca 5 minuter.<\/p>",
         "WelcomeToCommunity": "Välkommen till Matomos gemenskap!",
         "CannotConnectToDb": "Kan inte ansluta till databasen",
-        "CannotConnectToDbResolvingExplanation": "Det här kan vara ett tillfälligt problem, försök att %1$shämta sidan igen%2$s. Kontakta din Matomo administratör om problemet kvarstår."
+        "CannotConnectToDbResolvingExplanation": "Det här kan vara ett tillfälligt problem, försök att %1$shämta sidan igen%2$s. Kontakta din Matomo administratör om problemet kvarstår.",
+        "EmailPrivacyNotice": "Din e-postadress kommer endast användas för att skicka dig Matomos nyhetsbrev. Du kan när som helst avregistrera dig genom att klicka på länken avsluta prenumeration. Vi delar inte din e-postadress med någon annan eller använder din e-post för något annat ändamål än att skicka nyhetsbrevet till dig. Vänligen se vår %1$ssekretesspolicy%2$s för mer information."
     }
 }

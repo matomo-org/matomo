@@ -9,7 +9,7 @@
     <h2 piwik-enriched-headline help-url="https://matomo.org/docs/privacy/">{{ title }}</h2>
 
     <p>{{ 'PrivacyManager_TeaserHeader'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#anonymizeHistoricalData">',"</a>")|raw }}
-        {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<a href="https://matomo.org/privacy/" rel="noreferrer"  target="_blank">','</a>')|raw }}</p>
+        {{'PrivacyManager_SeeAlsoOurOfficialGuidePrivacy'|translate('<a href="https://matomo.org/privacy/" rel="noreferrer noopener" target="_blank">','</a>')|raw }}</p>
 </div>
 
 <div piwik-content-block
@@ -107,7 +107,7 @@
 
                 <div class="alert alert-warning" style="width: 50%;">
                     {{ 'PrivacyManager_DeleteLogDescription2'|translate|raw }}
-                    <a href="https://matomo.org/faq/general/#faq_125" rel="noreferrer"  target="_blank">
+                    <a href="https://matomo.org/faq/general/#faq_125" rel="noreferrer noopener" target="_blank">
                         {{ 'General_ClickHere'|translate }}
                     </a>
                 </div>
@@ -262,6 +262,7 @@
                 </div>
             </div>
 
+            {% if deleteData.config.enable_database_size_estimate == '1' %}
             <div id="deleteDataEstimateSect" class="form-group row">
 
                 <h3 class="col s12" id="databaseSizeHeadline">
@@ -283,6 +284,7 @@
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
 
             <div piwik-save-button onconfirm="reportDeletionSchedule.save()" saving="reportDeletionSchedule.isLoading"></div>
 
@@ -305,7 +307,7 @@
         {% endif %}
 
         <br />
-        <h3>Previous log data anonymizations</h3>
+        <h3>Previous raw data anonymizations</h3>
         <table piwik-content-table>
             <thead>
             <tr>

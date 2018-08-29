@@ -395,7 +395,7 @@ class Model
         }
         $ids_str .= (int) $id_val;
 
-        $bind = array('%' . $pattern . '%', 'http%' . $pattern . '%', '%' . $pattern . '%');
+        $bind = self::getPatternMatchSqlBind($pattern);
 
         // Also match the idsite
         $where = '';
@@ -406,9 +406,7 @@ class Model
 
         $query = "SELECT *
                   FROM " . $this->table . " s
-                  WHERE (    s.name like ?
-                          OR s.main_url like ?
-                          OR s.`group` like ?
+                  WHERE ( " . self::getPatternMatchSqlQuery('s') . "
                           $where )
                      AND idsite in ($ids_str)";
 
@@ -420,6 +418,16 @@ class Model
         $sites = $db->fetchAll($query, $bind);
 
         return $sites;
+    }
+
+    public static function getPatternMatchSqlQuery($table)
+    {
+        return "($table.name like ? OR $table.main_url like ? OR $table.group like ?)";
+    }
+
+    public static function getPatternMatchSqlBind($pattern)
+    {
+        return array('%' . $pattern . '%', 'http%' . $pattern . '%', '%' . $pattern . '%');
     }
 
     /**

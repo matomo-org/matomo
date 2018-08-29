@@ -25,6 +25,9 @@
         "ExcludeRowsWithLowPopulation": "Tüm satırlar görüntüleniyor %s Düşük dağılımlar katılmasın",
         "ExternalHelp": "Yardım (yeni sekmede açılır)",
         "FlattenDataTable": "Rapor hiyerarşik yapıda %s Düz yap",
+        "FormatMetrics": "Biçim ölçümleri",
+        "ShowExportUrl": "Dışa Aktarma Adresi Görüntülensin",
+        "HideExportUrl": "Dışa Aktarma Adresi Gizlensin",
         "HomeShortcut": "Ana Sayfa",
         "HowMuchIsPiwikWorth": "Matomo sizin için ne kadar değerli?",
         "IncludeRowsWithLowPopulation": "Düşük dağılımlı satırlar gizlendi %s Tüm satırları görüntüle",
@@ -98,6 +101,7 @@
         "ExpandSubtables": "Alt tabloları genişlet",
         "StandardReport": "Standart rapor",
         "FlattenReport": "Düz rapor",
-        "ReportWithMetadata": "Üst veriler ile rapor"
+        "ReportWithMetadata": "Üst veriler ile rapor",
+        "SeeAvailableVersions": "Kullanılabilecek Sürümlere Bakın"
     }
 }

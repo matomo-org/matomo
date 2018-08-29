@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "サイト検索キーワード",
         "WidgetSearchNoResultKeywords": "検索結果無しの検索キーワード",
         "ActionType": "アクションタイプ",
-        "ActionTypes": "アクションタイプ"
+        "ActionTypes": "アクションタイプ",
+        "Behaviour": "行動"
     }
 }

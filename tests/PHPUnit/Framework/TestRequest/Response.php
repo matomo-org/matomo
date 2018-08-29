@@ -124,7 +124,9 @@ class Response
 
     private function removeTodaysDate($apiResponse)
     {
-        return str_replace(date('Y-m-d'), 'today-date-removed-in-tests', $apiResponse);
+        $result = preg_replace('/' . date('Y-m-d') . ' [0-9]{2}:[0-9]{2}:[0-9]{2}/', 'today-date-removed-in-tests', $apiResponse);
+        $result = str_replace(date('Y-m-d'), 'today-date-removed-in-tests', $result);;
+        return $result;
     }
 
     private function normalizeEncodingPhp533($apiResponse)
@@ -295,6 +297,11 @@ class Response
      */
     private function replacePiwikUrl($apiResponse)
     {
-        return str_replace(Fixture::getRootUrl(), "http://example.com/piwik/", $apiResponse);
+        $rootUrl = Fixture::getRootUrl();
+        $rootUrlRel = str_replace(array('http://', 'https://'), '//', $rootUrl);
+
+        $apiResponse = str_replace($rootUrl, "http://example.com/piwik/", $apiResponse);
+        $apiResponse = str_replace($rootUrlRel, "//example.com/piwik/", $apiResponse);
+        return $apiResponse;
     }
 }

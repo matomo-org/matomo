@@ -1,7 +1,7 @@
 {
     "UserId": {
         "UserId": "ID përdoruesi",
-        "UserReportTitle": "Përdorues",
+        "UserReportTitle": "ID-ra përdoruesish",
         "PluginDescription": "Shfaq raporte përdoruesi"
     }
 }

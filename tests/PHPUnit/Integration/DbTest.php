@@ -20,7 +20,7 @@ class DbTest extends IntegrationTestCase
 {
     public function test_getColumnNamesFromTable()
     {
-        $this->assertColumnNames('access', array('login', 'idsite', 'access'));
+        $this->assertColumnNames('access', array('idaccess', 'login', 'idsite', 'access'));
         $this->assertColumnNames('option', array('option_name', 'option_value', 'autoload'));
     }
 

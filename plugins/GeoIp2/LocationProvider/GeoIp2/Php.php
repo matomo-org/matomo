@@ -105,6 +105,11 @@ class Php extends GeoIp2
                     case 'GeoIP2-Enterprise':
                     case 'GeoLite2-City':
                     case 'GeoIP2-City':
+                    case 'GeoIP2-City-Africa':
+                    case 'GeoIP2-City-Asia-Pacific':
+                    case 'GeoIP2-City-Europe':
+                    case 'GeoIP2-City-North-America':
+                    case 'GeoIP2-City-South-America':
                         if ($reader->metadata()->databaseType === 'GeoIP2-Enterprise') {
                             $lookupResult = $reader->enterprise($ip);
                         } else {
@@ -126,9 +131,18 @@ class Php extends GeoIp2
         $ispGeoIp = $this->getGeoIpInstance($key = 'isp');
         if ($ispGeoIp) {
             try {
-                $lookupResult          = $ispGeoIp->isp($ip);
-                $result[self::ISP_KEY] = $lookupResult->isp;
-                $result[self::ORG_KEY] = $lookupResult->organization;
+                switch ($ispGeoIp->metadata()->databaseType) {
+                    case 'GeoIP2-ISP':
+                        $lookupResult = $ispGeoIp->isp($ip);
+                        $result[self::ISP_KEY] = $lookupResult->isp;
+                        $result[self::ORG_KEY] = $lookupResult->organization;
+                        break;
+                    case 'GeoLite2-ASN':
+                        $lookupResult = $ispGeoIp->asn($ip);
+                        $result[self::ISP_KEY] = $lookupResult->autonomousSystemOrganization;
+                        $result[self::ORG_KEY] = $lookupResult->autonomousSystemOrganization;
+                        break;
+                }
             } catch (AddressNotFoundException $e) {
                 // ignore - do nothing
             }
@@ -218,8 +232,13 @@ class Php extends GeoIp2
         if ($reader) {
             switch ($reader->metadata()->databaseType) {
                 case 'GeoIP2-Enterprise':
-                case 'GeoIP2-City':
                 case 'GeoLite2-City':
+                case 'GeoIP2-City':
+                case 'GeoIP2-City-Africa':
+                case 'GeoIP2-City-Asia-Pacific':
+                case 'GeoIP2-City-Europe':
+                case 'GeoIP2-City-North-America':
+                case 'GeoIP2-City-South-America':
                     $result[self::REGION_CODE_KEY] = true;
                     $result[self::REGION_NAME_KEY] = true;
                     $result[self::CITY_NAME_KEY] = true;
@@ -264,13 +283,13 @@ class Php extends GeoIp2
             . '</a>';
 
         $availableDatabaseTypes = array();
-        if (self::getPathToGeoIpDatabase(['GeoIP2-Enterprise.mmdb', 'GeoIP2-City.mmdb', 'GeoLite2-City.mmdb']) !== false) {
+        if (self::getPathToGeoIpDatabase(['GeoIP2-City.mmdb', 'GeoIP2-City-Africa.mmdb', 'GeoIP2-City-Asia-Pacific.mmdb', 'GeoIP2-City-Europe.mmdb', 'GeoIP2-City-North-America.mmdb', 'GeoIP2-City-South-America.mmdb', 'GeoIP2-Enterprise.mmdb', 'GeoLite2-City.mmdb']) !== false) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_City');
         }
         if (self::getPathToGeoIpDatabase(['GeoIP2-Country.mmdb', 'GeoLite2-Country.mmdb']) !== false) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_Country');
         }
-        if (self::getPathToGeoIpDatabase(['GeoIP2-ISP.mmdb']) !== false) {
+        if (self::getPathToGeoIpDatabase(self::$dbNames['isp']) !== false) {
             $availableDatabaseTypes[] = Piwik::translate('UserCountry_ISPDatabase');
         }
 

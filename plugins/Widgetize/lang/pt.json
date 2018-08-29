@@ -1,5 +1,7 @@
 {
     "Widgetize": {
-        "OpenInNewWindow": "Abrir em nova janela"
+        "OpenInNewWindow": "Abrir numa nova janela",
+        "PluginDescription": "Mostra qualquer relatório do Matomo no seu site ou aplicação com uma simples tag HTML incorporável.",
+        "TopLinkTooltip": "Exporte relatórios do Matomo como Widgets e incorpore o painel da sua aplicação como uma iframe."
     }
 }

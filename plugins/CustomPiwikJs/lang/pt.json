@@ -1,0 +1,8 @@
+{
+    "CustomPiwikJs": {
+        "PluginDescription": "Permite que qualquer extensão complemente o ficheiro de JavaScript de acompanhamento do Matomo (piwik.js) e adicione novas funcionalidades e capacidades de medição de sites.",
+        "DiagnosticPiwikJsWritable": "Permissões de escrita no JavaScript de acompanhamento (\"\/piwik.js\")",
+        "DiagnosticPiwikJsNotWritable": "O ficheiro JavaScript de acompanhamento do Matomo \"\/piwik.js\" não tem permissões de escrita o que significa que outras extensões não podem complementar o tracker JavaScript. No futuro, até algumas funcionalidades centrais podem não funcionar como seria suposto.",
+        "DiagnosticPiwikJsMakeWritable": "Recomendamos que dê permissões de escrita ao piwik.js, executando o seguinte comando: %s"
+    }
+}

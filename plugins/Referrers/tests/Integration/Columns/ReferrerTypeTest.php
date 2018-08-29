@@ -107,6 +107,8 @@ class ReferrerTypeTest extends IntegrationTestCase
 
             array(Common::REFERRER_TYPE_SEARCH_ENGINE, $this->idSite3, $url, 'http://google.com/search?q=piwik'),
 
+            array(Common::REFERRER_TYPE_SOCIAL_NETWORK, $this->idSite3, $url, 'https://twitter.com/matomo_org'),
+
             // testing case for backwards compatibility where url has same domain as urlref but the domain is not known to any website
             array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite3, 'http://example.com/foo', 'http://example.com/bar'),
             array(Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite3, 'http://example.com/foo', 'http://example.com'),

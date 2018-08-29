@@ -52,7 +52,6 @@ describe("Dashboard", function () {
             []
         ];
 
-        // TODO: should probably include an async lib
         testEnvironment.callController("Dashboard.saveLayout", {name: 'D4', layout: JSON.stringify(layout), idDashboard: 5, idSite: 2}, function () {
             // reset default widget selection
             testEnvironment.callController("Dashboard.saveLayoutAsDefault", {layout: 0}, function () {
@@ -123,8 +122,8 @@ describe("Dashboard", function () {
             page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
             page.click('.widgetpreview-categorylist>li:contains(Live!)');
 
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Actions):first');
-            page.click('.widgetpreview-categorylist>li:contains(Actions):first');
+            page.mouseMove('.widgetpreview-categorylist>li:contains(Behaviour):first');
+            page.click('.widgetpreview-categorylist>li:contains(Behaviour):first');
 
             page.mouseMove('.widgetpreview-widgetlist>li:contains(Pages):first');
             page.click('.widgetpreview-widgetlist>li:contains(Pages):first');

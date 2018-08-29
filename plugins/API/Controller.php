@@ -146,9 +146,53 @@ class Controller extends \Piwik\Plugin\Controller
     {
         Piwik::checkUserHasSomeViewAccess();
 
+        $reports = Request::processRequest('API', array('method' => 'API.getGlossaryReports', 'filter_limit' => -1));
+        $metrics = Request::processRequest('API', array('method' => 'API.getGlossaryMetrics', 'filter_limit' => -1));
+
+        $glossaryItems = array(
+            'metrics' => array(
+                'title' => Piwik::translate('General_Metrics'),
+                'entries' => $metrics
+            ),
+            'reports' => array(
+                'title' => Piwik::translate('General_Reports'),
+                'entries' => $reports
+            )
+        );
+
+        /**
+         * Triggered to add or modify glossary items. You can either modify one of the existing core categories
+         * 'reports' and 'metrics' or add your own category.
+         *
+         * **Example**
+         *
+         *     public function addGlossaryItems(&$glossaryItems)
+         *     {
+         *          $glossaryItems['users'] = array('title' => 'Users', 'entries' => array(
+         *              array('name' => 'User1', 'documentation' => 'This user has ...'),
+         *              array('name' => 'User2', 'documentation' => 'This user has ...'),
+         *          ));
+         *          $glossaryItems['reports']['entries'][] = array('name' => 'My Report', 'documentation' => 'This report has ...');
+         *     }
+         *
+         * @param array &$glossaryItems An array containing all glossary items.
+         */
+        Piwik::postEvent('API.addGlossaryItems', array(&$glossaryItems));
+
+        foreach ($glossaryItems as &$item) {
+            $item['letters'] = array();
+            foreach ($item['entries'] as &$entry) {
+                $cleanEntryName = preg_replace('/["\']/', '', $entry['name']);
+                $entry['letter'] = Common::mb_strtoupper(substr($cleanEntryName, 0, 1));
+                $item['letters'][] = $entry['letter'];
+            }
+
+            $item['letters'] = array_unique($item['letters']);
+            sort($item['letters']);
+        }
+
         return $this->renderTemplate('glossary', array(
-            'reports' => Request::processRequest('API', array('method' => 'API.getGlossaryReports', 'filter_limit' => -1)),
-            'metrics' => Request::processRequest('API', array('method' => 'API.getGlossaryMetrics', 'filter_limit' => -1)),
+            'glossaryItems' => $glossaryItems,
         ));
     }
 }

@@ -72,6 +72,12 @@
         "SystemCheckCreateFunctionHelp": "Matomo utilise des fonctions anonymes pour les callbacks.",
         "SystemCheckDatabaseExtensions": "Extensions MySQL",
         "SystemCheckDatabaseHelp": "Matomo requiert ou l'extension mysqli ou les extensions pdo et pdo_mysql.",
+        "SystemCheckDatabaseSSL": "Connexion SSL à la base de données",
+        "SystemCheckDatabaseSSLCipher": "Chiffrement SSL utilisé",
+        "SystemCheckDatabaseSSLDisabled": "Le support SSL de votre serveur de base de données est désactivé",
+        "SystemCheckDatabaseSSLNo": "Le serveur de base de données n'est pas compilé avec le support SSL",
+        "SystemCheckDatabaseSSLNotWorking": "%sest définit à \"1\" mais la connexion SSL ne fonctionne pas",
+        "SystemCheckDatabaseSSLOn": "Votre base de donnée support les connexions SSL mais cela n'est pas utilisé. Vérifiez les paramètres de votre base de données dans le fichier de configuration Matomo.",
         "SystemCheckDebugBacktraceHelp": "View::factory ne pourra pas créer des vues pour le module appelé.",
         "SystemCheckError": "Une erreur s'est produite — elle doit être corrigée avant de pouvoir continuer",
         "SystemCheckEvalHelp": "Requis part le système de modèle HTML QuickForm et Smarty.",
@@ -143,6 +149,7 @@
         "WelcomeHelp": "<p>Matomo est une application d'analyse du web Open Source qui vous permet d'obtenir facilement les informations que vous désirez sur vos visiteurs.<\/p>\t<p>Ce procédé est divisé en %s étapes faciles et vous prendra 5 minutes environ.<\/p>",
         "WelcomeToCommunity": "Bienvenue dans la communauté Matomo !",
         "CannotConnectToDb": "Impossible de se connecter à la base de données",
-        "CannotConnectToDbResolvingExplanation": "Cela peut être un problème temporaire, essayer de %1$srafraichir la page%2$s. Si le problème persiste veuillez contacter votre administrateur Matomo."
+        "CannotConnectToDbResolvingExplanation": "Cela peut être un problème temporaire, essayer de %1$srafraichir la page%2$s. Si le problème persiste veuillez contacter votre administrateur Matomo.",
+        "EmailPrivacyNotice": "Votre adresse courriel ne sera utilisée que pour vous envoyer l'infolettre Matomo. Vous pouvez vous désinscrire à tout moment en cliquant sur le lien de désinscription. Nous ne partagerons pas votre courriel avec qui que ce soit d'autre et n'utiliserons pas votre courriel pour tout motif autre que l'infolettre Matomo. Veuillez consulter notre %1$spolitique de respect de la vie privée%2$s pour plus d'information."
     }
 }

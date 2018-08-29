@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed95573aa1d50a430cc55428d46160b6",
+    "content-hash": "53d9ab304551df4691f2057dc8b12c99",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -154,6 +154,63 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "davaxi/sparkline",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/davaxi/Sparkline.git",
+                "reference": "d563481f0960bac1acb4e24743ab884f4ce251e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/d563481f0960bac1acb4e24743ab884f4ce251e2",
+                "reference": "d563481f0960bac1acb4e24743ab884f4ce251e2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "ext-gd": "*",
+                "friendsofphp/php-cs-fixer": "^2.8",
+                "jakub-onderka/php-parallel-lint": "^0.9.2",
+                "php": ">=5.3.0",
+                "phpro/grumphp": "^0.12.0",
+                "povils/phpmnd": "^1.1",
+                "sebastian/phpcpd": "^3.0",
+                "sensiolabs/security-checker": "^4.1",
+                "squizlabs/php_codesniffer": "^3.1",
+                "wearejust/grumphp-extra-tasks": "^2.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Davaxi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Patiashvili",
+                    "email": "stratagem.david@gmail.com",
+                    "homepage": "https://www.patiashvili.fr/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Class (using GD) to generate sparklines",
+            "keywords": [
+                "php",
+                "picture",
+                "sparkline"
+            ],
+            "time": "2017-12-15T15:45:18+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -346,16 +403,16 @@
         },
         {
             "name": "matomo/searchengine-and-social-list",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "70d35969cbd5812f015db251988080c579327814"
+                "reference": "5c29a58c6cab8a78c3e625ffc615e759ef8466d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/70d35969cbd5812f015db251988080c579327814",
-                "reference": "70d35969cbd5812f015db251988080c579327814",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/5c29a58c6cab8a78c3e625ffc615e759ef8466d3",
+                "reference": "5c29a58c6cab8a78c3e625ffc615e759ef8466d3",
                 "shasum": ""
             },
             "replace": {
@@ -367,7 +424,7 @@
                 "CC0-1.0"
             ],
             "description": "Search engine and social network definitions used by Matomo (formerly Piwik)",
-            "time": "2018-02-20T14:04:26+00:00"
+            "time": "2018-05-25T11:09:26+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -598,16 +655,16 @@
         },
         {
             "name": "pear/archive_tar",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pear/Archive_Tar.git",
-                "reference": "bdd47347df76dbaa89227c5e1afd6f6809985b4c"
+                "reference": "43455c960da70e655c6bdf8ea2bc8cc1a6034afb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pear/Archive_Tar/zipball/bdd47347df76dbaa89227c5e1afd6f6809985b4c",
-                "reference": "bdd47347df76dbaa89227c5e1afd6f6809985b4c",
+                "url": "https://api.github.com/repos/pear/Archive_Tar/zipball/43455c960da70e655c6bdf8ea2bc8cc1a6034afb",
+                "reference": "43455c960da70e655c6bdf8ea2bc8cc1a6034afb",
                 "shasum": ""
             },
             "require": {
@@ -1038,16 +1095,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.10.1",
+            "version": "3.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "76a9e32ac6842239ac66a3877079cbfb84f29789"
+                "reference": "0ec14d28cbf71c48b21697e65b892cfd8c3ca519"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/76a9e32ac6842239ac66a3877079cbfb84f29789",
-                "reference": "76a9e32ac6842239ac66a3877079cbfb84f29789",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/0ec14d28cbf71c48b21697e65b892cfd8c3ca519",
+                "reference": "0ec14d28cbf71c48b21697e65b892cfd8c3ca519",
                 "shasum": ""
             },
             "require": {
@@ -1088,7 +1145,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2018-03-23T15:19:45+00:00"
+            "time": "2018-08-10T18:28:32+00:00"
         },
         {
             "name": "piwik/ini",

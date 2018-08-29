@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Referrers\Reports;
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
@@ -28,7 +29,15 @@ class GetWebsites extends Base
         $this->hasGoalMetrics = true;
         $this->order = 5;
 
-        $this->subcategoryId = 'Referrers_SubmenuWebsites';
+        $this->subcategoryId = 'Referrers_SubmenuWebsitesOnly';
+    }
+
+    public function getDefaultTypeViewDataTable()
+    {
+        if (Common::getRequestVar('widget', 0, 'int')) {
+            return parent::getDefaultTypeViewDataTable();
+        }
+        return HtmlTable\AllColumns::ID;
     }
 
     public function configureView(ViewDataTable $view)

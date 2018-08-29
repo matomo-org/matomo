@@ -297,7 +297,8 @@ class Controller extends \Piwik\Plugin\Controller
         $reportId   = Common::getRequestVar('report_id', null, 'string');
         $parameters = (array) Common::getRequestVar('parameters', null, 'json');
         $login      = Piwik::getCurrentUserLogin();
+        $containerId = Common::getRequestVar('containerId', '', 'string');
 
-        ViewDataTableManager::saveViewDataTableParameters($login, $reportId, $parameters);
+        ViewDataTableManager::saveViewDataTableParameters($login, $reportId, $parameters, $containerId);
     }
 }

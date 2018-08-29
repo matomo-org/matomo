@@ -547,8 +547,12 @@ class Archive implements ArchiveQuery
             $dataNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
 
         $archiveIds = $this->getArchiveIds($archiveNames);
-
         if (empty($archiveIds)) {
+            /**
+             * Triggered when no archive data is found in an API request.
+             * @ignore
+             */
+            Piwik::postEvent('Archive.noArchivedData');
             return $result;
         }
 

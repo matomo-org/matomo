@@ -28,7 +28,7 @@ class GetSocials extends Base
         $this->actionToLoadSubTables = 'getUrlsForSocial';
         $this->order = 11;
 
-        $this->subcategoryId = 'Referrers_SubmenuWebsites';
+        $this->subcategoryId = 'Referrers_Socials';
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
@@ -53,11 +53,6 @@ class GetSocials extends Base
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_subtable_when_show_goals = true;
-        }
-
-        $widget = Common::getRequestVar('widget', false);
-        if (empty($widget)) {
-            $view->config->show_footer_message = Piwik::translate('Referrers_SocialFooterMessage');
         }
     }
 

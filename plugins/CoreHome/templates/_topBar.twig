@@ -13,12 +13,17 @@
             {{ menu._html|raw }}
         {% else %}
             <a {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}
-               id="topmenu-{{ menu._url.module|lower }}" target="_self"
-               href="index.php{{ menu._url|urlRewriteWithParameters }}" tabindex="3">{{ _self.menuItemLabel(label, icon) }}</a>
+               {% if menu._url.module is defined %}
+                  id="topmenu-{{ menu._url.module|lower }}"
+                  href="index.php{{ menu._url|urlRewriteWithParameters }}"
+               {% else %}
+                  href="{{ menu._url }}" rel="noreferrer noopener"
+               {% endif %}
+               target="_self" tabindex="3">{{ _self.menuItemLabel(label, icon) }}</a>
         {% endif %}
     {% endmacro %}
 
-    {% macro isActiveItem(menu, currentModule, currentAction) %}{% if (menu and menu._url and menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}active{% endif %}{% endmacro %}
+    {% macro isActiveItem(menu, currentModule, currentAction) %}{% if (menu and menu._url and menu._url.module is defined and menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}active{% endif %}{% endmacro %}
 
     {% if topMenuModule is not defined %}
         {% set topMenuModule = currentModule %}
@@ -31,7 +36,7 @@
         {% endfor %}
     {% endspaceless %}
 </ul>
-<ul class="side-nav" id="mobile-top-menu">
+<ul class="side-nav hide-on-large-only" id="mobile-top-menu">
     {% for label,menu in topMenu %}
         <li role="menuitem" class="{{ _self.isActiveItem(menu, topMenuModule, topMenuAction) }}"
             >{{ _self.topMenuItem(label, '', menu) }}</li>

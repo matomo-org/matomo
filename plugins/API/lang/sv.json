@@ -11,6 +11,7 @@
         "UserAuthentication": "Användarautentisering",
         "UsingTokenAuth": "Om du vill %1$s begära uppgifter inom ett skript, ett crontab-jobb, etc. %2$s måste du lägga till parametern %3$s till API-anrop webbadresser som kräver autentisering.",
         "Glossary": "Ordbok",
-        "LearnAboutCommonlyUsedTerms": "Lär dig mer om de vanligaste termerna för att få ut mest av Matomo Analytics: %1$s och %2$s."
+        "LearnAboutCommonlyUsedTerms2": "Lär dig mer om de vanligaste termerna för att få ut mest av Matomo Analytics.",
+        "EvolutionMetricName": "%s Utveckling"
     }
 }

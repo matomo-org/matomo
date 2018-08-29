@@ -46,6 +46,13 @@
         "TopLinkTooltip": "Erstellen Sie E-Mailberichte, um Matomo Statistiken automatisch an Ihre E-Mailadresse oder die eines Kunden zu senden!",
         "TopOfReport": "Zurück zum Anfang",
         "UpdateReport": "Bericht ändern",
-        "WeeklyScheduleHelp": "Wöchentlich: Bericht wird jede Woche montags verschickt."
+        "WeeklyScheduleHelp": "Wöchentlich: Bericht wird jede Woche montags verschickt.",
+        "Unsubscribe": "Abmelden",
+        "ReportUnsubscribe": "Abo eines Berichts auflösen",
+        "UnsubscribeReportConfirmation": "Sind Sie sicher, dass sie sich vom Bericht %1$s abmelden wollen?",
+        "SuccessfullyUnsubscribed": "Sie wurden erfolgreich vom Bericht %1$s abgemeldet.",
+        "UnsubscribeFooter": "Um sich von diesem Bericht abzumelden, klicken Sie bitte folgenden Link: %1$s",
+        "NoTokenProvided": "Die URL enthielt keinen Token",
+        "NoSubscriptionFound": "Kein Abonnement gefunden. Möglicherweise war der Bericht bereits abgemeldet oder er wurde entfernt."
     }
 }

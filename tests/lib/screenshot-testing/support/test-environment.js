@@ -26,6 +26,7 @@ TestingEnvironment.prototype.reload = function () {
     this['loadRealTranslations'] = true; // UI tests should test w/ real translations, not translation keys
     this['testUseMockAuth'] = true;
     this['configOverride'] = {};
+    this['optionsOverride'] = {};
 
     if (fs.exists(testingEnvironmentOverridePath)) {
         var data = JSON.parse(fs.read(testingEnvironmentOverridePath));
@@ -191,6 +192,10 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
         args.push('--plugins=' + options['plugin']);
     }
 
+    if (options['piwik-domain']) {
+        args.push('--piwik-domain=' + options['piwik-domain']);
+    }
+
     var self = this;
     this.executeConsoleCommand('tests:setup-fixture', args, function (code) {
         self.reload();
@@ -250,6 +255,11 @@ TestingEnvironment.prototype.teardownFixture = function (fixtureClass, done) {
     console.log("    Tearing down fixture " + fixtureClass + "...");
 
     var args = [fixtureClass || DEFAULT_UI_TEST_FIXTURE_NAME, "--teardown", '--server-global=' + JSON.stringify(config.phpServer)];
+
+    if (options['piwik-domain']) {
+        args.push('--piwik-domain=' + options['piwik-domain']);
+    }
+
     this.executeConsoleCommand('tests:setup-fixture', args, function (code) {
         if (code) {
             done(new Error("Failed to teardown fixture " + fixtureClass + " (error code = " + code + ")"));

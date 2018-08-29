@@ -10,7 +10,6 @@
         "TopLinkTooltip": "Akses data Analisis Ramatraya terprogram melalui API sederhana dalam json, xml, dan lain lain.",
         "UserAuthentication": "Otentikasi pengguna",
         "UsingTokenAuth": "Jika Anda ingin melakukan permintaan data %1$s menggunakan skrip, crontab, dll. %2$s Anda harus menambah parameter %3$s agar API memanggil URL yang membutuhkan otentikasi.",
-        "Glossary": "Glosarium",
-        "LearnAboutCommonlyUsedTerms": "Pelajari tentang istilah yang umum digunakan untuk memanfaatkan Analitik Matomo:%1$s dan %2$s."
+        "Glossary": "Glosarium"
     }
 }

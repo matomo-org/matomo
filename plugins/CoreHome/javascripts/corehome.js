@@ -19,9 +19,14 @@
 
         // when 'check for updates...' link is clicked, force a check & display the result
         headerMessageParent.on('click', '#updateCheckLinkContainer', function (e) {
-            e.preventDefault();
-
             var headerMessage = $(this).closest('#header_message');
+
+            var $titleElement = headerMessage.find('.title');
+            if ($titleElement.attr('target')) { // if this is an external link, internet access is not available on the server
+                return;
+            }
+
+            e.preventDefault();
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.setLoadingElement('#header_message .loadingPiwik');
@@ -32,16 +37,15 @@
 
             ajaxRequest.withTokenInUrl();
 
-            var $titleElement = headerMessage.find('.title');
             $titleElement.addClass('activityIndicator');
 
             ajaxRequest.setCallback(function (response) {
                 headerMessage.fadeOut('slow', function () {
-                    response = $(response);
+                    response = $('#header_message', $('<div>' + response + '</div>'));
 
                     $titleElement.removeClass('activityIndicator');
 
-                    var newVersionAvailable = response.hasClass('header_alert');
+                    var newVersionAvailable = response.hasClass('update_available');
                     if (newVersionAvailable) {
                         headerMessage.replaceWith(response);
                         headerMessage.show();
@@ -58,7 +62,7 @@
                 });
             });
             ajaxRequest.setFormat('html');
-            ajaxRequest.send(false);
+            ajaxRequest.send();
 
             return false;
         });

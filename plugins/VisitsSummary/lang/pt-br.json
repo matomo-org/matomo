@@ -18,6 +18,7 @@
         "NbUniqueVisitors": "visitantes únicos",
         "NbUsersDescription": "usuários",
         "NbVisitsDescription": "visitas",
+        "NbVisitsBounced": "as visitas foram devolvidas (saiu do site após uma página)",
         "PluginDescription": "Informa métricas analíticas gerais: visitas, visitantes únicos, número de ações, taxa de rejeição, etc.",
         "VisitsSummary": "Resumo dos Visitantes",
         "VisitsSummaryDocumentation": "Esta é uma visão geral da evolução da visita.",

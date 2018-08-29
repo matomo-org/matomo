@@ -17,11 +17,13 @@ use Piwik\Metrics;
 class Archiver extends \Piwik\Plugin\Archiver
 {
     const SEARCH_ENGINES_RECORD_NAME = 'Referrers_keywordBySearchEngine';
+    const SOCIAL_NETWORKS_RECORD_NAME = 'Referrers_urlBySocialNetwork';
     const KEYWORDS_RECORD_NAME = 'Referrers_searchEngineByKeyword';
     const CAMPAIGNS_RECORD_NAME = 'Referrers_keywordByCampaign';
     const WEBSITES_RECORD_NAME = 'Referrers_urlByWebsite';
     const REFERRER_TYPE_RECORD_NAME = 'Referrers_type';
     const METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME = 'Referrers_distinctSearchEngines';
+    const METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME = 'Referrers_distinctSocialNetworks';
     const METRIC_DISTINCT_KEYWORD_RECORD_NAME = 'Referrers_distinctKeywords';
     const METRIC_DISTINCT_CAMPAIGN_RECORD_NAME = 'Referrers_distinctCampaigns';
     const METRIC_DISTINCT_WEBSITE_RECORD_NAME = 'Referrers_distinctWebsites';
@@ -66,6 +68,7 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::REFERRER_TYPE_RECORD_NAME,
             self::KEYWORDS_RECORD_NAME,
             self::SEARCH_ENGINES_RECORD_NAME,
+            self::SOCIAL_NETWORKS_RECORD_NAME,
             self::WEBSITES_RECORD_NAME,
             self::CAMPAIGNS_RECORD_NAME,
         );
@@ -91,6 +94,11 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $keywordsDataArray = $this->getDataArray(self::KEYWORDS_RECORD_NAME);
                 $keywordsDataArray->sumMetricsVisits($row['referer_keyword'], $row);
                 $keywordsDataArray->sumMetricsVisitsPivot($row['referer_keyword'], $row['referer_name'], $row);
+                break;
+
+            case Common::REFERRER_TYPE_SOCIAL_NETWORK:
+                $this->getDataArray(self::SOCIAL_NETWORKS_RECORD_NAME)->sumMetricsVisits($row['referer_name'], $row);
+                $this->getDataArray(self::SOCIAL_NETWORKS_RECORD_NAME)->sumMetricsVisitsPivot($row['referer_name'], $row['referer_url'], $row);
                 break;
 
             case Common::REFERRER_TYPE_WEBSITE:
@@ -163,6 +171,10 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $this->getDataArray(self::KEYWORDS_RECORD_NAME)->sumMetricsGoals($row['referer_keyword'], $row);
                 break;
 
+            case Common::REFERRER_TYPE_SOCIAL_NETWORK:
+                $this->getDataArray(self::SOCIAL_NETWORKS_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
+                break;
+
             case Common::REFERRER_TYPE_WEBSITE:
                 $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
                 break;
@@ -204,11 +216,12 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function insertDayNumericMetrics()
     {
         $numericRecords = array(
-            self::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME => count($this->getDataArray(self::SEARCH_ENGINES_RECORD_NAME)->getDataArray()),
-            self::METRIC_DISTINCT_KEYWORD_RECORD_NAME       => count($this->getDataArray(self::KEYWORDS_RECORD_NAME)->getDataArray()),
-            self::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME      => count($this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->getDataArray()),
-            self::METRIC_DISTINCT_WEBSITE_RECORD_NAME       => count($this->getDataArray(self::WEBSITES_RECORD_NAME)->getDataArray()),
-            self::METRIC_DISTINCT_URLS_RECORD_NAME          => count($this->distinctUrls),
+            self::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME  => count($this->getDataArray(self::SEARCH_ENGINES_RECORD_NAME)->getDataArray()),
+            self::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME => count($this->getDataArray(self::SOCIAL_NETWORKS_RECORD_NAME)->getDataArray()),
+            self::METRIC_DISTINCT_KEYWORD_RECORD_NAME        => count($this->getDataArray(self::KEYWORDS_RECORD_NAME)->getDataArray()),
+            self::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME       => count($this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->getDataArray()),
+            self::METRIC_DISTINCT_WEBSITE_RECORD_NAME        => count($this->getDataArray(self::WEBSITES_RECORD_NAME)->getDataArray()),
+            self::METRIC_DISTINCT_URLS_RECORD_NAME           => count($this->distinctUrls),
         );
 
         $this->getProcessor()->insertNumericRecords($numericRecords);
@@ -232,6 +245,10 @@ class Archiver extends \Piwik\Plugin\Archiver
             self::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME =>
                 array('typeCountToUse' => 'level0',
                       'nameTableToUse' => self::SEARCH_ENGINES_RECORD_NAME,
+                ),
+            self::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME =>
+                array('typeCountToUse' => 'level0',
+                      'nameTableToUse' => self::SOCIAL_NETWORKS_RECORD_NAME,
                 ),
             self::METRIC_DISTINCT_KEYWORD_RECORD_NAME       =>
                 array('typeCountToUse' => 'level0',

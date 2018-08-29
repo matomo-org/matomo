@@ -78,7 +78,7 @@ class TestsSetupFixture extends ConsoleCommand
         $this->addOption('sqldump', null, InputOption::VALUE_REQUIRED,
             "Creates an SQL dump after setting up the fixture and outputs the dump to the file specified by this option.");
         $this->addOption('save-config', null, InputOption::VALUE_NONE,
-            "Saves the current configuration file as a config for a new Piwik domain. For example save-config --piwik-domain=mytest.localhost.com will create "
+            "Saves the current configuration file as a config for a new Piwik domain. For example save-config --matomo-domain=mytest.localhost.com will create "
           . "a mytest.config.ini.php file in the config/ directory. Using /etc/hosts you can redirect to 127.0.0.1 and use the saved "
           . "config.");
         $this->addOption('set-phantomjs-symlinks', null, InputOption::VALUE_NONE,
@@ -162,7 +162,7 @@ class TestsSetupFixture extends ConsoleCommand
                 // setting symlink might fail when the symlink already exists but pointing to a no longer existing path/file
                 // eg when sometimes running it on a VM and sometimes on the VM's host itself.
                 if (!$success) {
-                    unlink($target);
+                    unlink($linkPath);
                     symlink($target, $linkPath);
                 }
             }

@@ -56,6 +56,8 @@ class TestsRunUI extends ConsoleCommand
         $storeInUiTestsRepo = $input->getOption('store-in-ui-tests-repo');
         $screenshotRepo = $input->getOption('screenshot-repo');
         $debug = $input->getOption('debug');
+        // @todo remove piwik-domain fallback in Matomo 4
+        $matomoDomain = $input->getOption('matomo-domain') ?: $input->getOption('piwik-domain');
 
         if (!$skipDeleteAssets) {
             AssetManager::getInstance()->removeMergedAssets();
@@ -65,6 +67,11 @@ class TestsRunUI extends ConsoleCommand
 
         $options = array();
         $phantomJsOptions = array();
+
+        if ($matomoDomain) {
+            $options[] = "--matomo-domain=$matomoDomain";
+        }
+
         if ($persistFixtureData) {
             $options[] = "--persist-fixture-data";
         }

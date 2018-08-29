@@ -31,7 +31,6 @@
         "LicenseKeyDeletedSuccess": "註冊碼已刪除。",
         "Exceeded": "超出限額",
         "LicenseMissing": "遺失憑證",
-        "LicenseMissingDescription": "下列使用的外掛沒有憑證：%1$s。%2$s要解決這個問題請更新你的註冊碼、%3$s立即訂閱%4$s或是停用外掛。",
         "PluginLicenseMissingDescription": "你無法下載這個外掛，因為沒有屬於此外掛的憑證。要解決這個問題請更新你的註冊碼、訂閱或是移除外掛。",
         "LicenseExceeded": "憑證超出限額",
         "LicenseExceededDescription": "下列外掛的憑證超出使用者授權限制因此不再有效：%1$s。%2$s你將無法下載這些外掛的更新。要解決這個問題請刪除一些使用者，或是%3$s立即升級訂閱項目%4$s。",

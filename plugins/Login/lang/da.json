@@ -12,6 +12,8 @@
         "LostYourPassword": "Glemt adgangskoden?",
         "ChangeYourPassword": "Skift din adgangskode",
         "MailTopicPasswordChange": "Bekræft ændring af adgangskode",
+        "NewPassword": "Ny adgangskode",
+        "NewPasswordRepeat": "Ny adgangskode (gentag)",
         "PasswordChanged": "Din adgangskode er blevet ændret.",
         "PasswordRepeat": "Adgangskode (gentag)",
         "PasswordsDoNotMatch": "Adgangskoder er ikke ens.",

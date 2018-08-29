@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "Suchbegriffe (interne Suche)",
         "WidgetSearchNoResultKeywords": "Suchbegriffe ohne Ergebnisse",
         "ActionType": "Typ der Aktion",
-        "ActionTypes": "Aktionstypen"
+        "ActionTypes": "Aktionstypen",
+        "Behaviour": "Verhalten"
     }
 }

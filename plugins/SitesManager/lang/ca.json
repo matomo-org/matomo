@@ -4,7 +4,6 @@
         "AdvancedTimezoneSupportNotFound": "El suport per a zones horaries avançat no està disponible a la vostra versió de PHP (suportat a partir de la versio 5.2). Encara podeu utilitzar la diferencia UTC de forma manual.",
         "AliasUrlHelp": "Es recomanat, però no obligatori, especificar totes les URL (una per líniea) que els vostres visitants utilizen per accedir al lloc web. Les URL de Alias no apareixeran al informe de Referents > LLocs web. No es necessàri especificar les URL amb i sense 'www' ja que el Matomo té en compte les dos de forma automàtica.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Canviar la vostra zona horaria només afecta les dades futures, no s'aplicarà de forma retroactiva.",
-        "ChooseCityInSameTimezoneAsYou": "Seleccioneu una ciutat de la mateixa zona horaria que la vosatra",
         "Currency": "Moneda",
         "CurrencySymbolWillBeUsedForGoals": "El simbol de la moneda es mostrarà al costat dels ingresos dels objectius.",
         "DefaultCurrencyForNewWebsites": "Moneda per defecte per als nous llocs web",

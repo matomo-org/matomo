@@ -30,6 +30,8 @@ class Controller extends \Piwik\Plugin\Controller
         'fromPreviousSiteSearchesInline' => 'Transitions_FromPreviousSiteSearchesInline',
         'fromSearchEngines'              => 'Transitions_FromSearchEngines',
         'fromSearchEnginesInline'        => 'Referrers_TypeSearchEngines',
+        'fromSocialNetworks'             => 'Transitions_FromSocialNetworks',
+        'fromSocialNetworksInline'       => 'Referrers_TypeSocialNetworks',
         'fromWebsites'                   => 'Transitions_FromWebsites',
         'fromWebsitesInline'             => 'Referrers_TypeWebsites',
         'fromCampaigns'                  => 'Transitions_FromCampaigns',

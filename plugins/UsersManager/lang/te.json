@@ -12,6 +12,7 @@
         "MenuUserSettings": "వాడుకరి అమరికలు",
         "User": "వాడుకరి",
         "UsersManagement": "వాడుకరుల నిర్వహణ",
-        "YourUsernameCannotBeChanged": "మీ వాడుకరి పేరుని మార్చలేరు."
+        "YourUsernameCannotBeChanged": "మీ వాడుకరి పేరుని మార్చలేరు.",
+        "Username": "వాడుకరి పేరు"
     }
 }

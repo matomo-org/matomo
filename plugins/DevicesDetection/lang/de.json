@@ -37,6 +37,8 @@
         "Smartphone": "Smartphone",
         "PortableMediaPlayer": "Portable Mediengeräte",
         "Devices": "Geräte",
+        "GenericDevice": "Allgemeines %s",
+        "MobileDevice": "Mobilgerät",
         "Tablet": "Tablet",
         "Phablet": "Phablet",
         "TV": "TV",

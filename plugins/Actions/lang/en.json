@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "Site Search Keywords",
         "WidgetSearchNoResultKeywords": "Search Keywords with No Results",
         "ActionType": "Action Type",
-        "ActionTypes": "Action Types"
+        "ActionTypes": "Action Types",
+        "Behaviour": "Behaviour"
     }
 }

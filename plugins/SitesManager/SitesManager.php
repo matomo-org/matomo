@@ -346,7 +346,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "SitesManager_CurrencySymbolWillBeUsedForGoals";
         $translationKeys[] = "SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward";
         $translationKeys[] = "SitesManager_AdvancedTimezoneSupportNotFound";
-        $translationKeys[] = "SitesManager_ChooseCityInSameTimezoneAsYou";
         $translationKeys[] = "SitesManager_UTCTimeIs";
         $translationKeys[] = "SitesManager_EnableEcommerce";
         $translationKeys[] = "SitesManager_NotAnEcommerceSite";
@@ -379,5 +378,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "General_Measurables";
         $translationKeys[] = "Goals_Ecommerce";
         $translationKeys[] = "SitesManager_NotFound";
+        $translationKeys[] = "SitesManager_DeleteSiteExplanation";
     }
 }

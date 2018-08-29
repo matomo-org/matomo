@@ -23,6 +23,7 @@ use Piwik\Metrics;
 use Piwik\Metrics\Formatter;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin\Metric;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Site;
 use Piwik\Timer;

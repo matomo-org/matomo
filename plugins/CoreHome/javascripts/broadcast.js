@@ -35,6 +35,12 @@ var broadcast = {
     popoverHandlers: [],
 
     /**
+     * Holds the stack of popovers opened in sequence. When closing a popover, the last popover in the stack
+     * is opened (if any).
+     */
+    popoverParamStack: [],
+
+    /**
      * Force reload once
      */
     forceReload: false,
@@ -46,6 +52,9 @@ var broadcast = {
 
     /**
      * Initializes broadcast object
+     *
+     * @deprecated in 3.2.2, will be removed in Piwik 4
+     *
      * @return {void}
      */
     init: function (noLoadingMessage) {
@@ -71,6 +80,8 @@ var broadcast = {
      * 3. after pushing "Go Back" button of a browser
      *
      * * Note: the method is manipulated in Overlay/javascripts/Piwik_Overlay.js - keep this in mind when making changes.
+     *
+     * @deprecated since 3.2.2, will be removed in Piwik 4
      *
      * @param {string}  hash to load page with
      * @return {void}
@@ -145,9 +156,9 @@ var broadcast = {
             broadcast.currentHashUrl = hashUrl;
             broadcast.currentPopoverParameter = popoverParam;
 
-            if (popoverParamUpdated && popoverParam == '') {
-                Piwik_Popover.close();
-            } else if (popoverParamUpdated) {
+            Piwik_Popover.close();
+
+            if (popoverParamUpdated) {
                 var popoverParamParts = popoverParam.split(':');
                 var handlerName = popoverParamParts[0];
                 popoverParamParts.shift();
@@ -179,7 +190,6 @@ var broadcast = {
     },
 
     /**
-     * ONLY USED BY OVERLAY
      * propagateAjax -- update hash values then make ajax calls.
      *    example :
      *       1) <a href="javascript:broadcast.propagateAjax('module=Referrers&action=getKeywords')">View keywords report</a>
@@ -188,6 +198,8 @@ var broadcast = {
      * Will propagate your new value into the current hash string and make ajax calls.
      *
      * NOTE: this method will only make ajax call and replacing main content.
+     *
+     * @deprecated in 3.2.2, will be removed in Piwik 4.
      *
      * @param {string} ajaxUrl  querystring with parameters to be updated
      * @param {boolean} [disableHistory]  the hash change won't be available in the browser history
@@ -285,8 +297,6 @@ var broadcast = {
      * Example:
      *         1) We want to update idSite to both search query and hash then reload the page,
      *         2) update period to both search query and hash then reload page.
-     *
-     * ** If you'd like to make ajax call with new values then use propagateAjax ** *
      *
      * Expecting:
      *         str = "param1=newVal1&param2=newVal2";
@@ -436,15 +446,11 @@ var broadcast = {
      *                       handler.
      */
     propagateNewPopoverParameter: function (handlerName, value) {
-        // init broadcast if not already done (it is required to make popovers work in widgetize mode)
-        if (broadcast.isWidgetizedDashboard()) {
-            broadcast.init(true);
-        }
 
         var $location = angular.element(document).injector().get('$location');
 
         var popover = '';
-        if (handlerName) {
+        if (handlerName && '' != value && 'undefined' != typeof value) {
             popover = handlerName + ':' + value;
 
             // between jquery.history and different browser bugs, it's impossible to ensure
@@ -452,17 +458,28 @@ var broadcast = {
             // make sure it doesn't change, we have to manipulate the url encoding a bit.
             popover = encodeURIComponent(popover);
             popover = popover.replace(/%/g, '\$');
+
+            broadcast.popoverParamStack.push(popover);
+        } else {
+            broadcast.popoverParamStack.pop();
+            if (broadcast.popoverParamStack.length) {
+                popover = broadcast.popoverParamStack[broadcast.popoverParamStack.length - 1];
+            }
         }
 
-        if ('' == value || 'undefined' == typeof value) {
-            $location.search('popover', '');
-        } else {
-            $location.search('popover', popover);
-        }
+        $location.search('popover', popover);
 
         setTimeout(function () {
             angular.element(document).injector().get('$rootScope').$apply();
         }, 1);
+    },
+
+    /**
+     * Resets the popover param stack ensuring when a popover is closed, no new popover will
+     * be loaded.
+     */
+    resetPopoverStack: function () {
+        broadcast.popoverParamStack = [];
     },
 
     /**

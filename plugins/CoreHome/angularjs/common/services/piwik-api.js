@@ -94,6 +94,7 @@ var hasBlockedContent = false;
 
             function onSuccess(response)
             {
+                var headers = response.headers;
                 response = response.data;
 
                 if (!angular.isDefined(response) || response === null) {
@@ -105,7 +106,7 @@ var hasBlockedContent = false;
 
                     return $q.reject(response.message || null);
                 } else {
-                    return response;
+                    return options.includeHeaders ? { headers: headers, response: response } : response;
                 }
             }
 
@@ -137,7 +138,7 @@ var hasBlockedContent = false;
                 method: 'POST',
                 url: url,
                 responseType: requestFormat,
-                params: _mixinDefaultGetParams(getParams),
+                params: mixinDefaultGetParams(getParams),
                 data: $.param(getPostParams(postParams)),
                 timeout: requestPromise,
                 headers: headers
@@ -201,7 +202,7 @@ var hasBlockedContent = false;
          * @return {object}
          * @private
          */
-        function _mixinDefaultGetParams (getParamsToMixin) {
+        function mixinDefaultGetParams (getParamsToMixin) {
             var segment = piwik.broadcast.getValueFromHash('segment', $window.location.href.split('#')[1]);
 
             // we have to decode the value manually because broadcast will not decode anything itself. if we don't,
@@ -228,10 +229,7 @@ var hasBlockedContent = false;
 
             // handle default date & period if not already set
             if (!getParamsToMixin.date && !postParams.date) {
-                getParamsToMixin.date = piwik.currentDateString || piwik.broadcast.getValueFromUrl('date');
-                if (getParamsToMixin.period == 'range' && piwik.currentDateString) {
-                    getParamsToMixin.date = piwik.startDateString + ',' + getParamsToMixin.date;
-                }
+                getParamsToMixin.date = piwik.currentDateString;
             }
 
             return getParamsToMixin;
@@ -341,7 +339,8 @@ var hasBlockedContent = false;
              * @deprecated
              */
             abort: abort,
-            abortAll: abortAll
+            abortAll: abortAll,
+            mixinDefaultGetParams: mixinDefaultGetParams
         };
     }
 })();
