@@ -547,6 +547,11 @@ class API extends \Piwik\Plugin\API
         $name = Piwik::translate($key);
 
         $site['currency_name'] = ($key === $name) ? $site['currency'] : $name;
+
+        // don't want to expose other user logins here
+        if (!Piwik::hasUserSuperUserAccess()) {
+            unset($site['user_created']);
+        }
     }
 
     /**
@@ -647,6 +652,8 @@ class API extends \Piwik\Plugin\API
         } else {
             $bind['group'] = "";
         }
+
+        $bind['user_created'] = Piwik::getCurrentUserLogin();
 
         $allSettings = $this->setAndValidateMeasurableSettings(0, 'website', $coreProperties);
 
