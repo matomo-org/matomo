@@ -550,7 +550,7 @@ class API extends \Piwik\Plugin\API
 
         // don't want to expose other user logins here
         if (!Piwik::hasUserSuperUserAccess()) {
-            unset($site['user_created']);
+            unset($site['creator_login']);
         }
     }
 
@@ -653,7 +653,7 @@ class API extends \Piwik\Plugin\API
             $bind['group'] = "";
         }
 
-        $bind['user_created'] = Piwik::getCurrentUserLogin();
+        $bind['creator_login'] = Piwik::getCurrentUserLogin();
 
         $allSettings = $this->setAndValidateMeasurableSettings(0, 'website', $coreProperties);
 
