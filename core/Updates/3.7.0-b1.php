@@ -32,7 +32,7 @@ class Updates_3_7_0_b1 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->db->addColumn('site', 'user_created', ' VARCHAR(100) NULL'),
+            $this->migration->db->addColumn('site', 'creator_login', ' VARCHAR(100) NULL'),
         );
     }
 

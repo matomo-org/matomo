@@ -645,6 +645,6 @@ class Site
      */
     public static function getCreationUserFor($idsite)
     {
-        return self::getFor($idsite, 'user_created');
+        return self::getFor($idsite, 'creator_login');
     }
 }
