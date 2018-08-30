@@ -11,15 +11,11 @@ namespace Piwik\Plugins\CoreAdminHome\Emails;
 
 use Piwik\Mail;
 use Piwik\Piwik;
+use Piwik\Site;
 use Piwik\View;
 
 class JsTrackingCodeMissingEmail extends Mail
 {
-    /**
-     * @var string
-     */
-    private $siteUrl;
-
     /**
      * @var string
      */
@@ -31,28 +27,19 @@ class JsTrackingCodeMissingEmail extends Mail
     private $emailAddress;
 
     /**
-     * @var int[]
+     * @var int
      */
-    private $idSites;
+    private $idSite;
 
-    public function __construct($siteUrl, $login, $emailAddress, $idSites)
+    public function __construct($login, $emailAddress, $idSite)
     {
         parent::__construct();
 
-        $this->siteUrl = $siteUrl;
         $this->login = $login;
         $this->emailAddress = $emailAddress;
-        $this->idSites = $idSites;
+        $this->idSite = $idSite;
 
         $this->setUpEmail();
-    }
-
-    /**
-     * @return string
-     */
-    public function getSiteUrl()
-    {
-        return $this->siteUrl;
     }
 
     /**
@@ -72,11 +59,11 @@ class JsTrackingCodeMissingEmail extends Mail
     }
 
     /**
-     * @return int[]
+     * @return int
      */
-    public function getIdSites()
+    public function getIdSite()
     {
-        return $this->idSites;
+        return $this->idSite;
     }
 
     private function setUpEmail()
@@ -89,16 +76,16 @@ class JsTrackingCodeMissingEmail extends Mail
 
     private function getDefaultSubject()
     {
-        return Piwik::translate('CoreAdminHome_MissingTrackingCodeEmailSubject', [$this->siteUrl]);
+        return Piwik::translate('CoreAdminHome_MissingTrackingCodeEmailSubject', [Site::getMainUrlFor($this->idSite)]);
     }
 
     private function getDefaultBodyView()
     {
         $view = new View('@CoreAdminHome/_jsTrackingCodeMissingEmail.twig');
-        $view->siteUrl = $this->siteUrl;
         $view->login = $this->login;
         $view->emailAddress = $this->emailAddress;
-        $view->idSites = $this->idSites;
+        $view->idSite = $this->idSite;
+        $view->siteUrl = Site::getMainUrlFor($this->idSite);
         return $view;
     }
 }
