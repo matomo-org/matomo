@@ -20,6 +20,6 @@ class HtmlEmailFooterView extends View
     {
         parent::__construct(self::TEMPLATE_FILE);
 
-        $this->hasWhiteLabel = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('WhiteLabel');
+        HtmlReportEmailHeaderView::assignCommonParameters($this);
     }
 }

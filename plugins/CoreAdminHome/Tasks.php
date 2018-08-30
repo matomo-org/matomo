@@ -17,17 +17,14 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Http;
 use Piwik\Option;
-use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\JsTrackingCodeMissingEmail;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Tests\Framework\Mock\Site;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
-use Piwik\Url;
 use Psr\Log\LoggerInterface;
 use Piwik\SettingsPiwik;
-use Piwik\Tracker\Model as TrackerModel;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {

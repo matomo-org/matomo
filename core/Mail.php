@@ -51,7 +51,6 @@ class Mail extends Zend_Mail
 
         $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
         $this->setFrom($fromEmailAddress, $fromEmailName);
-        $this->setReplyTo($fromEmailAddress);
     }
 
     public function setWrappedHtmlBody(View $body)
@@ -65,9 +64,10 @@ class Mail extends Zend_Mail
 
         $footer = new View("@CoreHome/_htmlEmailFooter.twig");
         HtmlReportEmailHeaderView::assignCommonParameters($footer);
-        $footerHtml = $header->render();
+        $footerHtml = $footer->render();
 
-        return $headerHtml . $bodyHtml . $footerHtml;
+        $body = $headerHtml . $bodyHtml . $footerHtml;
+        $this->setBodyHtml($body);
     }
 
     /**

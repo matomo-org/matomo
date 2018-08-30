@@ -72,10 +72,11 @@ class HtmlReportEmailHeaderView extends View
         $view->fontStyle = 'color:' . $themeStyles->colorText . ';font-family:' . $themeStyles->fontFamilyBase.';';
         $view->styleParagraph = 'font-size:15px;line-height:24px;margin:0 0 16px;';
 
-
         $customLogo = new CustomLogo();
         $view->isCustomLogo = $customLogo->isEnabled() && CustomLogo::hasUserLogo();
         $view->logoHeader = $customLogo->getHeaderLogoUrl($pathOnly = false);
+
+        $view->hasWhiteLabel = \Piwik\Plugin\Manager::getInstance()->isPluginLoaded('WhiteLabel');
     }
 
     private static function getPeriodToFrequencyAsAdjective()
