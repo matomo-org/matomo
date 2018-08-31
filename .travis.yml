@@ -16,12 +16,7 @@ services:
 
 addons:
   apt:
-    sources:
-      - deadsnakes
-
     packages:
-      - python2.6
-      - python2.6-dev
       - nginx
       - realpath
       - lftp
