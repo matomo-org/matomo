@@ -1,0 +1,8 @@
+{
+    "Provider": {
+        "ColumnProvider": "Proveedor",
+        "PluginDescription": "Informa el proveedor de Internet de los visitantes.",
+        "WidgetProviders": "Proveedores",
+        "ProviderReportFooter": "Un proveedor desconocido significa que la dirección IP no pudo ser resuelta."
+    }
+}

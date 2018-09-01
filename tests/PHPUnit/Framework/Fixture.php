@@ -140,7 +140,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         if (SystemTestCase::isTravisCI()) {
-            return 'python2.6';
+            return 'python2.7';
         }
 
         return 'python';

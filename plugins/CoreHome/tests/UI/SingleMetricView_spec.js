@@ -35,9 +35,18 @@ describe('SingleMetricView', function () {
         }, done);
     });
 
+    it('should handle individual goal metrics properly', function (done) {
+        expect.screenshot("goal_metric").to.be.captureSelector('#widgetCoreVisualizationssingleMetricViewcolumn', function (page) {
+            page.mouseMove('#widgetCoreVisualizationssingleMetricViewcolumn .single-metric-view-picker');
+            page.click('.jqplot-seriespicker-popover label:contains(two - Conversions)');
+        }, done);
+    });
+
     it('should handle range periods correctly', function (done) {
         expect.screenshot("range").to.be.captureSelector('#widgetCoreVisualizationssingleMetricViewcolumn', function (page) {
             page.load(rangeUrl, 8000);
+            page.mouseMove('#widgetCoreVisualizationssingleMetricViewcolumn .single-metric-view-picker');
+            page.click('.jqplot-seriespicker-popover label:contains(Revenue):eq(0)');
         }, done);
     });
 });
