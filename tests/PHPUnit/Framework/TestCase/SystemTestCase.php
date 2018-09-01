@@ -13,6 +13,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable\Manager;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Http;
@@ -90,6 +91,13 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         }
 
         $fixture->performTearDown();
+    }
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        Manager::getInstance()->deleteAll();
     }
 
     /**
