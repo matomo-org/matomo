@@ -13,6 +13,7 @@ use Piwik\Application\Environment;
 use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
+use Piwik\DataTable\Manager;
 use Piwik\Date;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableName;
@@ -62,6 +63,13 @@ class AutoSuggestAPITest extends SystemTestCase
 
         CachedAPI::$cache = [];
         API::unsetInstance();
+    }
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        Manager::getInstance()->deleteAll();
     }
 
     /**

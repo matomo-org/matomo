@@ -93,13 +93,6 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $fixture->performTearDown();
     }
 
-    protected function setUp()
-    {
-        parent::setUp();
-
-        Manager::getInstance()->deleteAll();
-    }
-
     /**
      * Returns true if continuous integration running this request
      * Useful to exclude tests which may fail only on this setup
