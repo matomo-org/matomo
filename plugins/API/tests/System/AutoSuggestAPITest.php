@@ -40,7 +40,7 @@ class CachedAPI extends API
  * testing a the auto suggest API for all known segments
  *
  * @group AutoSuggestAPITest
- * @group Core
+ * @group Plugins
  */
 class AutoSuggestAPITest extends SystemTestCase
 {
