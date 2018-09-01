@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Monolog\tests\System;
 
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Plugins\Monolog\Handler\EchoHandler;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
@@ -92,7 +93,14 @@ DEBUG:   'apiv' => '1',", $response);
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+            Config::class => \DI\decorate(function (Config $config) {
+                $config->tests['enable_logging'] = 1;
+                return $config;
+            }),
+            'log.handlers' => [
+                \DI\get(EchoHandler::class),
+            ],
         );
     }
 
