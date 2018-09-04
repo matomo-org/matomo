@@ -5,21 +5,23 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Tests\System;
+
+namespace Piwik\Plugins\API\tests\System;
 
 use Piwik\API\Request;
 use Piwik\Application\Environment;
+use Piwik\Cache as PiwikCache;
 use Piwik\Columns\Dimension;
 use Piwik\Common;
+use Piwik\DataTable\Manager;
 use Piwik\Date;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableName;
 use Piwik\Plugins\CustomVariables\Columns\CustomVariableValue;
 use Piwik\Plugins\CustomVariables\Model;
-use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\ManyVisitsWithGeoIP;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tracker\Cache;
-use Piwik\Cache as PiwikCache;
 
 // Class to cache results of getSuggestedValuesForSegment to prevent it beeing called multiple time for each segment
 class CachedAPI extends API
@@ -39,7 +41,7 @@ class CachedAPI extends API
  * testing a the auto suggest API for all known segments
  *
  * @group AutoSuggestAPITest
- * @group Core
+ * @group Plugins
  */
 class AutoSuggestAPITest extends SystemTestCase
 {
@@ -90,10 +92,10 @@ class AutoSuggestAPITest extends SystemTestCase
             echo "Skipped test \n";
         } else {
             $apiForTesting[] = array('Live.getLastVisitsDetails',
-                                     array('idSite' => $idSite,
-                                           'date'   => '1998-07-12,today',
-                                           'period' => 'range',
-                                           'otherRequestParameters' => array('filter_limit' => 1000)));
+                array('idSite' => $idSite,
+                    'date' => '1998-07-12,today',
+                    'period' => 'range',
+                    'otherRequestParameters' => array('filter_limit' => 1000)));
 
         }
         return $apiForTesting;
@@ -107,9 +109,9 @@ class AutoSuggestAPITest extends SystemTestCase
     protected function getApiForTestingForSegment($idSite, $segment)
     {
         return array('API.getSuggestedValuesForSegment',
-                     array('idSite'                 => $idSite,
-                           'testSuffix'             => '_' . $segment,
-                           'otherRequestParameters' => array('segmentName' => $segment)));
+            array('idSite' => $idSite,
+                'testSuffix' => '_' . $segment,
+                'otherRequestParameters' => array('segmentName' => $segment)));
     }
 
     /**
@@ -121,9 +123,9 @@ class AutoSuggestAPITest extends SystemTestCase
         // Get the top segment value
         $request = new Request(
             'method=API.getSuggestedValuesForSegment'
-                . '&segmentName=' . $params['segmentToComplete']
-                . '&idSite=' . $params['idSite']
-                . '&format=php&serialize=0'
+            . '&segmentName=' . $params['segmentToComplete']
+            . '&idSite=' . $params['idSite']
+            . '&format=php&serialize=0'
         );
         $response = $request->process();
         $this->assertApiResponseHasNoError($response);
@@ -152,11 +154,11 @@ class AutoSuggestAPITest extends SystemTestCase
         $apiForTesting = array();
         foreach ($segments as $segment) {
             $apiForTesting[] = array('VisitsSummary.get',
-                                     array('idSite'            => self::$fixture->idSite,
-                                           'date'              => date("Y-m-d", strtotime(self::$fixture->dateTime)) . ',today',
-                                           'period'            => 'range',
-                                           'testSuffix'        => '_' . $segment,
-                                           'segmentToComplete' => $segment));
+                array('idSite' => self::$fixture->idSite,
+                    'date' => date("Y-m-d", strtotime(self::$fixture->dateTime)) . ',today',
+                    'period' => 'range',
+                    'testSuffix' => '_' . $segment,
+                    'segmentToComplete' => $segment));
         }
         return $apiForTesting;
     }
@@ -168,7 +170,7 @@ class AutoSuggestAPITest extends SystemTestCase
     {
         // Check that only a few haven't been tested specifically (these are all custom variables slots since we only test slot 1, 2, 5 (see the fixture) and example dimension slots and bandwidth)
         $maximumSegmentsToSkip = 17;
-        $this->assertLessThan($maximumSegmentsToSkip, count(self::$skipped) , 'SKIPPED ' . count(self::$skipped) . ' segments --> some segments had no "auto-suggested values"
+        $this->assertLessThan($maximumSegmentsToSkip, count(self::$skipped), 'SKIPPED ' . count(self::$skipped) . ' segments --> some segments had no "auto-suggested values"
             but we should try and test the autosuggest for all new segments. Segments skipped were: ' . implode(', ', self::$skipped));
 
         // and check that most others have been tested
@@ -212,7 +214,7 @@ class AutoSuggestAPITest extends SystemTestCase
         } catch (\Exception $ex) {
             $exception = $ex;
 
-            echo $ex->getMessage()."\n".$ex->getTraceAsString()."\n";
+            echo $ex->getMessage() . "\n" . $ex->getTraceAsString() . "\n";
         }
 
         $environment->destroy();
@@ -241,6 +243,11 @@ class AutoSuggestAPITest extends SystemTestCase
 
         return $result;
     }
+
+    public static function getPathToTestDirectory()
+    {
+        return dirname(__FILE__);
+    }
 }
 
 $date = mktime(0, 0, 0, 1, 1, 2018);
@@ -249,5 +256,5 @@ $lookBack = ceil((time() - $date) / 86400);
 
 API::$_autoSuggestLookBack = $lookBack;
 
-AutoSuggestAPITest::$fixture = new ManyVisitsWithGeoIP();
-AutoSuggestAPITest::$fixture->dateTime = Date::factory($date)->getDatetime();
+\Piwik\Plugins\API\tests\System\AutoSuggestAPITest::$fixture = new ManyVisitsWithGeoIP();
+\Piwik\Plugins\API\tests\System\AutoSuggestAPITest::$fixture->dateTime = Date::factory($date)->getDatetime();
