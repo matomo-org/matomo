@@ -21,6 +21,8 @@ class Session extends Zend_Session
 {
     const SESSION_NAME = 'PIWIK_SESSID';
 
+    public static $sessionName = self::SESSION_NAME;
+
     protected static $sessionStarted = false;
 
     /**
@@ -69,7 +71,7 @@ class Session extends Zend_Session
         @ini_set('session.cookie_httponly', '1');
 
         // don't use the default: PHPSESSID
-        @ini_set('session.name', self::SESSION_NAME);
+        @ini_set('session.name', self::$sessionName);
 
         // proxies may cause the referer check to fail and
         // incorrectly invalidate the session

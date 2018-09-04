@@ -162,7 +162,8 @@
                 method: 'UsersManager.getUsersPlusRole',
                 filter_search: vm.searchParams.filter_search,
                 filter_access: vm.searchParams.filter_access,
-                idSite: vm.searchParams.idSite
+                idSite: vm.searchParams.idSite,
+                filter_limit: '-1'
             });
         }
 

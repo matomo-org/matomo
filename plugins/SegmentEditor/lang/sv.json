@@ -35,6 +35,10 @@
         "SegmentXIsAUnionOf": "%s är en sammanslagning av dessa segment:",
         "CustomSegment": "Anpassat segment",
         "SegmentOperatorIsNullOrEmpty": "är null eller tom",
-        "SegmentOperatorIsNotNullNorEmpty": "är inte null och inte tom"
+        "SegmentOperatorIsNotNullNorEmpty": "är inte null och inte tom",
+        "UnprocessedSegmentNoData1": "Dessa rapporter saknar data eftersom Segmentet som du valde %1$s inte har bearbetats av systemet.",
+        "UnprocessedSegmentNoData2": "Data för detta Segment bör vara tillgänglig inom några timmar när bearbetningen slutförts. (Om så inte är fallet, kan det ha uppstått ett problem.)",
+        "UnprocessedSegmentInVisitorLog1": "%1$sUnder tiden kan du använda Besöksloggen%2$s för att testa om ditt segment kommer matcha dina användare korrekt genom att använda det där.",
+        "UnprocessedSegmentInVisitorLog2": "När du tillämpar detta kan du omedelbart se vilka besök och åtgärder som matchades av ditt segment."
     }
 }

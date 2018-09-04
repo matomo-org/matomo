@@ -77,7 +77,7 @@ class SiteAccessFilter
         }
 
         if (!empty($this->idSites)) {
-            $result[] = 'a.idsite IN (' . implode(',', $this->idSites) . ')';
+            $result[] = 's.idsite IN (' . implode(',', $this->idSites) . ')';
         }
 
         if (!empty($result)) {
