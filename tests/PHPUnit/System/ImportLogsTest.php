@@ -39,7 +39,6 @@ class ImportLogsTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
-        print "\n  $api\n";@ob_flush();
         $this->runApiTests($api, $params);
     }
 
@@ -112,7 +111,6 @@ class ImportLogsTest extends SystemTestCase
      */
     public function test_LogImporter_CreatesSitesWhenDynamicResolverUsed_AndReportsOnInvalidRequests()
     {
-        print "\n  ".__FUNCTION__."\n";@ob_flush();
         $this->simulateInvalidTrackerRequest();
 
         $output = self::$fixture->logVisitsWithDynamicResolver($maxPayloadSize = 3);

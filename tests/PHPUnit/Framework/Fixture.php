@@ -836,15 +836,18 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $cmd .= '"' . $logFile . '" 2>&1';
 
+        print "command; $cmd\n";@ob_flush();
         // run the command
-        exec($cmd, $output, $result);
-        if ($result !== 0
+        passthru($cmd);
+        @ob_flush();
+        //exec($cmd, $output, $result);
+        /*if ($result !== 0
             && !$allowFailure
         ) {
             throw new Exception("log importer failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
-        }
+        }*/
 
-        return $output;
+        return '';
     }
 
     public static function siteCreated($idSite)
