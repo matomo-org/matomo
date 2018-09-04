@@ -809,7 +809,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             strpos( $gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD) !== false;
     }
 
-    public static function executeLogImporter($logFile, $options, $allowFailure = false, $passthru = false)
+    public static function executeLogImporter($logFile, $options, $allowFailure = false)
     {
         $python = self::getPythonBinary();
 
@@ -836,16 +836,13 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $cmd .= '"' . $logFile . '" 2>&1';
 
-        if ($passthru) {
+        // on travis ci make sure log importer won't hang forever, otherwise the output will never be printed
+        // and no one will know why the build fails.
+        if (SystemTestCase::isTravisCI()) {
             $cmd = "timeout 5m $cmd";
-            print "command; $cmd\n";
-            @ob_flush();
-            // run the command
-            exec($cmd, $output, $result);
-            print "done: ".implode("\n", $output)."\n";@ob_flush();
-        } else {
-            exec($cmd, $output, $result);
         }
+
+        exec($cmd, $output, $result);
         if ($result !== 0
             && !$allowFailure
         ) {

@@ -57,7 +57,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        print "Setting up " . get_called_class() . "\n";@ob_flush();
+        Log::debug("Setting up " . get_called_class());
 
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();
@@ -82,7 +82,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        print "Tearing down " . get_called_class() . "\n";@ob_flush();
+        Log::debug("Tearing down " . get_called_class());
 
         if (!isset(static::$fixture)) {
             $fixture = new Fixture();

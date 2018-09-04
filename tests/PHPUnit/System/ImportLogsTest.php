@@ -146,7 +146,7 @@ class ImportLogsTest extends SystemTestCase
             '--retry-delay'               => 1
         );
 
-        $output = Fixture::executeLogImporter($logFile, $options, $allowFailure = true, true);
+        $output = Fixture::executeLogImporter($logFile, $options, $allowFailure = true);
         $output = implode("\n", $output);
 
         for ($i = 2; $i != 6; ++$i) {
