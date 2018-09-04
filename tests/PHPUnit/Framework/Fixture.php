@@ -837,11 +837,12 @@ class Fixture extends \PHPUnit_Framework_Assert
         $cmd .= '"' . $logFile . '" 2>&1';
 
         if ($passthru) {
+            $cmd = "timeout 5m $cmd";
             print "command; $cmd\n";
             @ob_flush();
             // run the command
-            exec($cmd . ' > ' . PIWIK_INCLUDE_PATH . '/log.out', $output, $result);
-            @ob_flush();
+            exec($cmd, $output, $result);
+            print "done?\n";@ob_flush();
 
             return '';
         } else {
