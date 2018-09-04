@@ -371,7 +371,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $params = array())
     {
-        Manager::getInstance()->deleteAll();
+        Manager::getInstance()->deleteAll(); // clearing the datatable cache here GREATLY speeds up system tests on travis CI
 
         list($processedFilePath, $expectedFilePath) =
             $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst);

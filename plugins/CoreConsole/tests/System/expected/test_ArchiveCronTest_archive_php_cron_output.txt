@@ -10,96 +10,96 @@ try 'php archive.php --url=http://your.piwik/path'
 -------------------------------------------------------
 
 
-INFO [2018-08-14 20:22:02] 7680  ---------------------------
-INFO [2018-08-14 20:22:02] 7680  INIT
-INFO [2018-08-14 20:22:02] 7680  Running Matomo 3.6.0-b5 as Super User
-INFO [2018-08-14 20:22:02] 7680  ---------------------------
-INFO [2018-08-14 20:22:02] 7680  NOTES
-INFO [2018-08-14 20:22:02] 7680  - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.
-INFO [2018-08-14 20:22:02] 7680    See the doc at: https://matomo.org/docs/setup-auto-archiving/
-INFO [2018-08-14 20:22:02] 7680  - Reports for today will be processed at most every 150 seconds. You can change this value in Matomo UI > Settings > General Settings.
-INFO [2018-08-14 20:22:02] 7680  - Reports for the current week/month/year will be requested at most every 3600 seconds.
-INFO [2018-08-14 20:22:02] 7680  - Will invalidate archived reports for 2012-08-09 for following websites ids: 1
-INFO [2018-08-14 20:22:02] 7680  - Will invalidate archived reports for 2012-08-10 for following websites ids: 1
-INFO [2018-08-14 20:22:02] 7680  - Will invalidate archived reports for 2012-08-11 for following websites ids: 1
-INFO [2018-08-14 20:22:02] 7680  - Will invalidate archived reports for 2012-08-15 for following websites ids: 1,2,3
-INFO [2018-08-14 20:22:02] 7680  - Will invalidate archived reports for 2012-08-19 for following websites ids: 1
-INFO [2018-08-14 20:22:02] 7680  - Will invalidate archived reports for 2012-09-30 for following websites ids: 1
-INFO [2018-08-14 20:22:02] 7680  - Will invalidate archived reports for 2014-03-12 for following websites ids: 1,3
-INFO [2018-08-14 20:22:02] 7680  - Will invalidate archived reports for 2014-03-13 for following websites ids: 1,3
-INFO [2018-08-14 20:22:02] 7680  - Will process 3 other websites because some old data reports have been invalidated (eg. using the Log Import script or the InvalidateReports plugin) , IDs: 1, 2, 3
-INFO [2018-08-14 20:22:02] 7680  ---------------------------
-INFO [2018-08-14 20:22:02] 7680  START
-INFO [2018-08-14 20:22:02] 7680  Starting Matomo reports archiving...
-INFO [2018-08-14 20:22:02] 7680  Old report was invalidated for website id 1
-INFO [2018-08-14 20:22:02] 7680  Will pre-process for website id = 1, period = day, date = last52
-INFO [2018-08-14 20:22:02] 7680  - pre-processing all visits
-INFO [2018-08-14 20:22:05] 7680  - pre-processing segment 1/3 browserCode==IE
-INFO [2018-08-14 20:22:05] 7680  - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
-INFO [2018-08-14 20:22:05] 7680  - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
-INFO [2018-08-14 20:22:10] 7680  Archived website id = 1, period = day, 3 segments, 0 visits in last 52 days, 0 visits today, Time elapsed: 8.314s
-INFO [2018-08-14 20:22:11] 7680  Will pre-process for website id = 1, period = week, date = last260
-INFO [2018-08-14 20:22:11] 7680  - pre-processing all visits
-INFO [2018-08-14 20:22:11] 7680  - pre-processing segment 1/3 browserCode==IE
-INFO [2018-08-14 20:22:11] 7680  - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
-INFO [2018-08-14 20:23:51] 7680  - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
-INFO [2018-08-14 20:24:43] 7680  Archived website id = 1, period = week, 3 segments, 12 visits in last 260 weeks, 0 visits this week, Time elapsed: 152.529s
-INFO [2018-08-14 20:24:43] 7680  Will pre-process for website id = 1, period = month, date = last52
-INFO [2018-08-14 20:24:43] 7680  - pre-processing all visits
-INFO [2018-08-14 20:24:43] 7680  - pre-processing segment 1/3 browserCode==IE
-INFO [2018-08-14 20:24:43] 7680  - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
-INFO [2018-08-14 20:24:55] 7680  - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
-INFO [2018-08-14 20:25:01] 7680  Archived website id = 1, period = month, 3 segments, 0 visits in last 52 months, 0 visits this month, Time elapsed: 17.932s
-INFO [2018-08-14 20:25:01] 7680  Will pre-process for website id = 1, period = year, date = last7
-INFO [2018-08-14 20:25:01] 7680  - pre-processing all visits
-INFO [2018-08-14 20:25:01] 7680  - pre-processing segment 1/3 browserCode==IE
-INFO [2018-08-14 20:25:01] 7680  - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
-INFO [2018-08-14 20:25:37] 7680  - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
-INFO [2018-08-14 20:25:55] 7680  Archived website id = 1, period = year, 3 segments, 46 visits in last 7 years, 0 visits this year, Time elapsed: 54.369s
-INFO [2018-08-14 20:25:55] 7680  Archived website id = 1, 16 API requests, Time elapsed: 233.154s [1/3 done]
-INFO [2018-08-14 20:25:55] 7680  Old report was invalidated for website id 2
-INFO [2018-08-14 20:25:55] 7680  Will pre-process for website id = 2, period = day, date = last52
-INFO [2018-08-14 20:25:55] 7680  - pre-processing all visits
-INFO [2018-08-14 20:25:58] 7680  Archived website id = 2, period = day, 0 segments, 0 visits in last 52 days, 0 visits today, Time elapsed: 2.555s
-INFO [2018-08-14 20:25:58] 7680  Will pre-process for website id = 2, period = week, date = last260
-INFO [2018-08-14 20:25:58] 7680  - pre-processing all visits
-INFO [2018-08-14 20:26:39] 7680  Archived website id = 2, period = week, 0 segments, 0 visits in last 260 weeks, 0 visits this week, Time elapsed: 40.740s
-INFO [2018-08-14 20:26:39] 7680  Will pre-process for website id = 2, period = month, date = last52
-INFO [2018-08-14 20:26:39] 7680  - pre-processing all visits
-INFO [2018-08-14 20:26:44] 7680  Archived website id = 2, period = month, 0 segments, 0 visits in last 52 months, 0 visits this month, Time elapsed: 5.372s
-INFO [2018-08-14 20:26:44] 7680  Will pre-process for website id = 2, period = year, date = last7
-INFO [2018-08-14 20:26:44] 7680  - pre-processing all visits
-INFO [2018-08-14 20:26:54] 7680  Archived website id = 2, period = year, 0 segments, 1 visits in last 7 years, 0 visits this year, Time elapsed: 10.032s
-INFO [2018-08-14 20:26:54] 7680  Archived website id = 2, 4 API requests, Time elapsed: 58.703s [2/3 done]
-INFO [2018-08-14 20:26:54] 7680  Old report was invalidated for website id 3
-INFO [2018-08-14 20:26:54] 7680  Will pre-process for website id = 3, period = day, date = last52
-INFO [2018-08-14 20:26:54] 7680  - pre-processing all visits
-INFO [2018-08-14 20:26:57] 7680  Archived website id = 3, period = day, 0 segments, 0 visits in last 52 days, 0 visits today, Time elapsed: 2.570s
-INFO [2018-08-14 20:26:57] 7680  Will pre-process for website id = 3, period = week, date = last260
-INFO [2018-08-14 20:26:57] 7680  - pre-processing all visits
-INFO [2018-08-14 20:27:37] 7680  Archived website id = 3, period = week, 0 segments, 12 visits in last 260 weeks, 0 visits this week, Time elapsed: 40.605s
-INFO [2018-08-14 20:27:37] 7680  Will pre-process for website id = 3, period = month, date = last52
-INFO [2018-08-14 20:27:37] 7680  - pre-processing all visits
-INFO [2018-08-14 20:27:42] 7680  Archived website id = 3, period = month, 0 segments, 0 visits in last 52 months, 0 visits this month, Time elapsed: 5.093s
-INFO [2018-08-14 20:27:42] 7680  Will pre-process for website id = 3, period = year, date = last7
-INFO [2018-08-14 20:27:42] 7680  - pre-processing all visits
-INFO [2018-08-14 20:27:54] 7680  Archived website id = 3, period = year, 0 segments, 15 visits in last 7 years, 0 visits this year, Time elapsed: 11.985s
-INFO [2018-08-14 20:27:54] 7680  Archived website id = 3, 4 API requests, Time elapsed: 60.258s [3/3 done]
-INFO [2018-08-14 20:27:54] 7680  Done archiving!
-INFO [2018-08-14 20:27:54] 7680  ---------------------------
-INFO [2018-08-14 20:27:54] 7680  SUMMARY
-INFO [2018-08-14 20:27:54] 7680  Total visits for today across archived websites: 0
-INFO [2018-08-14 20:27:54] 7680  Archived today's reports for 3 websites
-INFO [2018-08-14 20:27:54] 7680  Archived week/month/year for 3 websites
-INFO [2018-08-14 20:27:54] 7680  Skipped 0 websites
-INFO [2018-08-14 20:27:54] 7680  - 0 skipped because no new visit since the last script execution
-INFO [2018-08-14 20:27:54] 7680  - 0 skipped because existing daily reports are less than 150 seconds old
-INFO [2018-08-14 20:27:54] 7680  - 0 skipped because existing week/month/year periods reports are less than 3600 seconds old
-INFO [2018-08-14 20:27:54] 7680  Total API requests: 24
-INFO [2018-08-14 20:27:54] 7680  done: 3/3 100%, 0 vtoday, 3 wtoday, 3 wperiods, 24 req, 352323 ms, no error
-INFO [2018-08-14 20:27:54] 7680  Time elapsed: 352.324s
-INFO [2018-08-14 20:27:54] 7680  ---------------------------
-INFO [2018-08-14 20:27:54] 7680  SCHEDULED TASKS
-INFO [2018-08-14 20:27:54] 7680  Starting Scheduled tasks...
-INFO [2018-08-14 20:27:54] 7680  done
-INFO [2018-08-14 20:27:54] 7680  ---------------------------
+INFO [2018-09-04 21:39:12] 7982  ---------------------------
+INFO [2018-09-04 21:39:12] 7982  INIT
+INFO [2018-09-04 21:39:12] 7982  Running Matomo 3.6.1-b1 as Super User
+INFO [2018-09-04 21:39:12] 7982  ---------------------------
+INFO [2018-09-04 21:39:12] 7982  NOTES
+INFO [2018-09-04 21:39:12] 7982  - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.
+INFO [2018-09-04 21:39:12] 7982    See the doc at: https://matomo.org/docs/setup-auto-archiving/
+INFO [2018-09-04 21:39:12] 7982  - Reports for today will be processed at most every 150 seconds. You can change this value in Matomo UI > Settings > General Settings.
+INFO [2018-09-04 21:39:12] 7982  - Reports for the current week/month/year will be requested at most every 3600 seconds.
+INFO [2018-09-04 21:39:12] 7982  - Will invalidate archived reports for 2012-08-09 for following websites ids: 1
+INFO [2018-09-04 21:39:12] 7982  - Will invalidate archived reports for 2012-08-10 for following websites ids: 1
+INFO [2018-09-04 21:39:12] 7982  - Will invalidate archived reports for 2012-08-11 for following websites ids: 1
+INFO [2018-09-04 21:39:12] 7982  - Will invalidate archived reports for 2012-08-15 for following websites ids: 1,2,3
+INFO [2018-09-04 21:39:12] 7982  - Will invalidate archived reports for 2012-08-19 for following websites ids: 1
+INFO [2018-09-04 21:39:12] 7982  - Will invalidate archived reports for 2012-09-30 for following websites ids: 1
+INFO [2018-09-04 21:39:12] 7982  - Will invalidate archived reports for 2014-03-12 for following websites ids: 1,3
+INFO [2018-09-04 21:39:12] 7982  - Will invalidate archived reports for 2014-03-13 for following websites ids: 1,3
+INFO [2018-09-04 21:39:12] 7982  - Will process 3 other websites because some old data reports have been invalidated (eg. using the Log Import script or the InvalidateReports plugin) , IDs: 1, 2, 3
+INFO [2018-09-04 21:39:13] 7982  ---------------------------
+INFO [2018-09-04 21:39:13] 7982  START
+INFO [2018-09-04 21:39:13] 7982  Starting Matomo reports archiving...
+INFO [2018-09-04 21:39:13] 7982  Old report was invalidated for website id 1
+INFO [2018-09-04 21:39:13] 7982  Will pre-process for website id = 1, period = day, date = last52
+INFO [2018-09-04 21:39:13] 7982  - pre-processing all visits
+INFO [2018-09-04 21:39:15] 7982  - pre-processing segment 1/3 browserCode==IE
+INFO [2018-09-04 21:39:15] 7982  - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
+INFO [2018-09-04 21:39:15] 7982  - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
+INFO [2018-09-04 21:39:19] 7982  Archived website id = 1, period = day, 3 segments, 0 visits in last 52 days, 0 visits today, Time elapsed: 6.672s
+INFO [2018-09-04 21:39:19] 7982  Will pre-process for website id = 1, period = week, date = last260
+INFO [2018-09-04 21:39:19] 7982  - pre-processing all visits
+INFO [2018-09-04 21:39:20] 7982  - pre-processing segment 1/3 browserCode==IE
+INFO [2018-09-04 21:39:20] 7982  - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
+INFO [2018-09-04 21:40:47] 7982  - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
+INFO [2018-09-04 21:41:27] 7982  Archived website id = 1, period = week, 3 segments, 12 visits in last 260 weeks, 0 visits this week, Time elapsed: 127.931s
+INFO [2018-09-04 21:41:27] 7982  Will pre-process for website id = 1, period = month, date = last52
+INFO [2018-09-04 21:41:27] 7982  - pre-processing all visits
+INFO [2018-09-04 21:41:27] 7982  - pre-processing segment 1/3 browserCode==IE
+INFO [2018-09-04 21:41:28] 7982  - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
+INFO [2018-09-04 21:41:37] 7982  - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
+INFO [2018-09-04 21:41:42] 7982  Archived website id = 1, period = month, 3 segments, 0 visits in last 52 months, 0 visits this month, Time elapsed: 15.024s
+INFO [2018-09-04 21:41:42] 7982  Will pre-process for website id = 1, period = year, date = last7
+INFO [2018-09-04 21:41:42] 7982  - pre-processing all visits
+INFO [2018-09-04 21:41:42] 7982  - pre-processing segment 1/3 browserCode==IE
+INFO [2018-09-04 21:41:43] 7982  - pre-processing segment 2/3 visitCount<=5;visitorType!=non-existing-type;daysSinceFirstVisit<=50
+INFO [2018-09-04 21:42:13] 7982  - pre-processing segment 3/3 visitCount<=5;visitorType!=re%2C%3Btest%20is%20encoded;daysSinceFirstVisit<=50
+INFO [2018-09-04 21:42:30] 7982  Archived website id = 1, period = year, 3 segments, 46 visits in last 7 years, 0 visits this year, Time elapsed: 47.457s
+INFO [2018-09-04 21:42:30] 7982  Archived website id = 1, 16 API requests, Time elapsed: 197.094s [1/3 done]
+INFO [2018-09-04 21:42:30] 7982  Old report was invalidated for website id 2
+INFO [2018-09-04 21:42:30] 7982  Will pre-process for website id = 2, period = day, date = last52
+INFO [2018-09-04 21:42:30] 7982  - pre-processing all visits
+INFO [2018-09-04 21:42:32] 7982  Archived website id = 2, period = day, 0 segments, 0 visits in last 52 days, 0 visits today, Time elapsed: 1.987s
+INFO [2018-09-04 21:42:32] 7982  Will pre-process for website id = 2, period = week, date = last260
+INFO [2018-09-04 21:42:32] 7982  - pre-processing all visits
+INFO [2018-09-04 21:43:02] 7982  Archived website id = 2, period = week, 0 segments, 0 visits in last 260 weeks, 0 visits this week, Time elapsed: 29.919s
+INFO [2018-09-04 21:43:02] 7982  Will pre-process for website id = 2, period = month, date = last52
+INFO [2018-09-04 21:43:02] 7982  - pre-processing all visits
+INFO [2018-09-04 21:43:06] 7982  Archived website id = 2, period = month, 0 segments, 0 visits in last 52 months, 0 visits this month, Time elapsed: 4.214s
+INFO [2018-09-04 21:43:06] 7982  Will pre-process for website id = 2, period = year, date = last7
+INFO [2018-09-04 21:43:06] 7982  - pre-processing all visits
+INFO [2018-09-04 21:43:14] 7982  Archived website id = 2, period = year, 0 segments, 1 visits in last 7 years, 0 visits this year, Time elapsed: 8.528s
+INFO [2018-09-04 21:43:14] 7982  Archived website id = 2, 4 API requests, Time elapsed: 44.652s [2/3 done]
+INFO [2018-09-04 21:43:14] 7982  Old report was invalidated for website id 3
+INFO [2018-09-04 21:43:14] 7982  Will pre-process for website id = 3, period = day, date = last52
+INFO [2018-09-04 21:43:14] 7982  - pre-processing all visits
+INFO [2018-09-04 21:43:16] 7982  Archived website id = 3, period = day, 0 segments, 0 visits in last 52 days, 0 visits today, Time elapsed: 1.998s
+INFO [2018-09-04 21:43:17] 7982  Will pre-process for website id = 3, period = week, date = last260
+INFO [2018-09-04 21:43:17] 7982  - pre-processing all visits
+INFO [2018-09-04 21:43:47] 7982  Archived website id = 3, period = week, 0 segments, 12 visits in last 260 weeks, 0 visits this week, Time elapsed: 30.536s
+INFO [2018-09-04 21:43:47] 7982  Will pre-process for website id = 3, period = month, date = last52
+INFO [2018-09-04 21:43:47] 7982  - pre-processing all visits
+INFO [2018-09-04 21:43:51] 7982  Archived website id = 3, period = month, 0 segments, 0 visits in last 52 months, 0 visits this month, Time elapsed: 4.243s
+INFO [2018-09-04 21:43:51] 7982  Will pre-process for website id = 3, period = year, date = last7
+INFO [2018-09-04 21:43:51] 7982  - pre-processing all visits
+INFO [2018-09-04 21:44:01] 7982  Archived website id = 3, period = year, 0 segments, 15 visits in last 7 years, 0 visits this year, Time elapsed: 9.612s
+INFO [2018-09-04 21:44:01] 7982  Archived website id = 3, 4 API requests, Time elapsed: 46.393s [3/3 done]
+INFO [2018-09-04 21:44:01] 7982  Done archiving!
+INFO [2018-09-04 21:44:01] 7982  ---------------------------
+INFO [2018-09-04 21:44:01] 7982  SUMMARY
+INFO [2018-09-04 21:44:01] 7982  Total visits for today across archived websites: 0
+INFO [2018-09-04 21:44:01] 7982  Archived today's reports for 3 websites
+INFO [2018-09-04 21:44:01] 7982  Archived week/month/year for 3 websites
+INFO [2018-09-04 21:44:01] 7982  Skipped 0 websites
+INFO [2018-09-04 21:44:01] 7982  - 0 skipped because no new visit since the last script execution
+INFO [2018-09-04 21:44:01] 7982  - 0 skipped because existing daily reports are less than 150 seconds old
+INFO [2018-09-04 21:44:01] 7982  - 0 skipped because existing week/month/year periods reports are less than 3600 seconds old
+INFO [2018-09-04 21:44:01] 7982  Total API requests: 24
+INFO [2018-09-04 21:44:01] 7982  done: 3/3 100%, 0 vtoday, 3 wtoday, 3 wperiods, 24 req, 288339 ms, no error
+INFO [2018-09-04 21:44:01] 7982  Time elapsed: 288.339s
+INFO [2018-09-04 21:44:01] 7982  ---------------------------
+INFO [2018-09-04 21:44:01] 7982  SCHEDULED TASKS
+INFO [2018-09-04 21:44:01] 7982  Starting Scheduled tasks...
+INFO [2018-09-04 21:44:01] 7982  done
+INFO [2018-09-04 21:44:01] 7982  ---------------------------
