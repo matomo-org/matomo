@@ -842,7 +842,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             @ob_flush();
             // run the command
             exec($cmd, $output, $result);
-            print "done: $output\n";@ob_flush();
+            print "done: ".implode("\n", $output)."\n";@ob_flush();
         } else {
             exec($cmd, $output, $result);
         }
