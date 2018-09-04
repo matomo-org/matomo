@@ -39,6 +39,7 @@ class ImportLogsTest extends SystemTestCase
      */
     public function testApi($api, $params)
     {
+        print "\n  $api\n";@ob_flush();
         $this->runApiTests($api, $params);
     }
 
@@ -111,6 +112,7 @@ class ImportLogsTest extends SystemTestCase
      */
     public function test_LogImporter_CreatesSitesWhenDynamicResolverUsed_AndReportsOnInvalidRequests()
     {
+        print "\n  ".__FUNCTION__."\n";@ob_flush();
         $this->simulateInvalidTrackerRequest();
 
         $output = self::$fixture->logVisitsWithDynamicResolver($maxPayloadSize = 3);
@@ -135,6 +137,7 @@ class ImportLogsTest extends SystemTestCase
 
     public function test_LogImporter_RetriesWhenServerFails()
     {
+        print "\n  ".__FUNCTION__."\n";@ob_flush();
         $this->simulateTrackerFailure();
 
         $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_enable_all.log';
