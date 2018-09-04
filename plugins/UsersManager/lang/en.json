@@ -135,6 +135,7 @@
         "DeleteUserConfirmSingle": "Are you sure you want to delete %1$s?",
         "DeleteUserConfirmMultiple": "Are you sure you want to delete the %1$s selected users?",
         "DeleteUserPermConfirmSingle": "Are you sure you want to change %1$s's role to %2$s for %3$s?",
-        "DeleteUserPermConfirmMultiple": "Are you sure you want to change the %1$s selected users' role to %2$s for %3$s?"
+        "DeleteUserPermConfirmMultiple": "Are you sure you want to change the %1$s selected users' role to %2$s for %3$s?",
+        "AreYouSureChangePassword": "Are you sure you want to change the password for %s?"
     }
 }
