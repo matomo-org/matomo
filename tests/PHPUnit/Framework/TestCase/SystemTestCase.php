@@ -371,6 +371,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $params = array())
     {
+        Manager::getInstance()->deleteAll();
+
         list($processedFilePath, $expectedFilePath) =
             $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst);
 

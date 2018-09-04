@@ -65,13 +65,6 @@ class AutoSuggestAPITest extends SystemTestCase
         API::unsetInstance();
     }
 
-    public function setUp()
-    {
-        parent::setUp();
-
-        Manager::getInstance()->deleteAll();
-    }
-
     /**
      * @dataProvider getApiForTesting
      */
