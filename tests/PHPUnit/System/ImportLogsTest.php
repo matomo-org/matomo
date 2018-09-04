@@ -135,7 +135,6 @@ class ImportLogsTest extends SystemTestCase
 
     public function test_LogImporter_RetriesWhenServerFails()
     {
-        print "\n  ".__FUNCTION__."\n";@ob_flush();
         $this->simulateTrackerFailure();
 
         $logFile = PIWIK_INCLUDE_PATH . '/tests/resources/access-logs/fake_logs_enable_all.log';
@@ -147,7 +146,7 @@ class ImportLogsTest extends SystemTestCase
             '--retry-delay'               => 1
         );
 
-        $output = Fixture::executeLogImporter($logFile, $options, $allowFailure = true);
+        $output = Fixture::executeLogImporter($logFile, $options, $allowFailure = true, true);
         $output = implode("\n", $output);
 
         for ($i = 2; $i != 6; ++$i) {

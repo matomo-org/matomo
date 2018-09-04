@@ -809,7 +809,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             strpos( $gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD) !== false;
     }
 
-    public static function executeLogImporter($logFile, $options, $allowFailure = false)
+    public static function executeLogImporter($logFile, $options, $allowFailure = false, $passthru = false)
     {
         $python = self::getPythonBinary();
 
@@ -836,18 +836,24 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $cmd .= '"' . $logFile . '" 2>&1';
 
-        print "command; $cmd\n";@ob_flush();
-        // run the command
-        passthru($cmd);
-        @ob_flush();
-        //exec($cmd, $output, $result);
-        /*if ($result !== 0
-            && !$allowFailure
-        ) {
-            throw new Exception("log importer failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
-        }*/
+        if ($passthru) {
+            print "command; $cmd\n";
+            @ob_flush();
+            // run the command
+            passthru($cmd);
+            @ob_flush();
 
-        return '';
+            return '';
+        } else {
+            exec($cmd, $output, $result);
+            if ($result !== 0
+                && !$allowFailure
+            ) {
+                throw new Exception("log importer failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
+            }
+
+            return $output;
+        }
     }
 
     public static function siteCreated($idSite)
