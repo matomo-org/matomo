@@ -87,8 +87,8 @@ before_install:
 install:
   - git fetch -q
 
-  - export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --core --verbose"
-  - '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
+  #- export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --core --verbose"
+  #- '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
 
   - ./tests/travis/configure_git.sh
 
@@ -131,6 +131,7 @@ after_script:
 
 after_success:
   - cd $PIWIK_ROOT_DIR
+  - cat ./log.out
   - ./tests/travis/generate_docs.sh
 
 cache:

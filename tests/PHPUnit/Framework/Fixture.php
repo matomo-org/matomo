@@ -840,20 +840,20 @@ class Fixture extends \PHPUnit_Framework_Assert
             print "command; $cmd\n";
             @ob_flush();
             // run the command
-            passthru($cmd);
+            exec($cmd . ' > ' . PIWIK_INCLUDE_PATH . '/log.out', $output, $result);
             @ob_flush();
 
             return '';
         } else {
             exec($cmd, $output, $result);
-            if ($result !== 0
-                && !$allowFailure
-            ) {
-                throw new Exception("log importer failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
-            }
-
-            return $output;
         }
+        if ($result !== 0
+            && !$allowFailure
+        ) {
+            throw new Exception("log importer failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
+        }
+
+        return $output;
     }
 
     public static function siteCreated($idSite)
