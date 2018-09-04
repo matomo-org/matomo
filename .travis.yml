@@ -121,6 +121,7 @@ after_script:
   - cd $PIWIK_ROOT_DIR
 
   # output contents of files w/ debugging info to screen
+  - cat $PIWIK_ROOT_DIR/log.out
   - cat $PIWIK_ROOT_DIR/tests/travis/error.log
   - cat $PIWIK_ROOT_DIR/tmp/php-fpm.log
   - cat $PIWIK_ROOT_DIR/tmp/logs/piwik.log
@@ -131,7 +132,6 @@ after_script:
 
 after_success:
   - cd $PIWIK_ROOT_DIR
-  - cat ./log.out
   - ./tests/travis/generate_docs.sh
 
 cache:
