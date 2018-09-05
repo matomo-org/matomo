@@ -8,7 +8,26 @@ use Piwik\Tests\Framework\Mock\TestConfig;
 return array(
 
     // Disable logging
-    'Psr\Log\LoggerInterface' => DI\object('Psr\Log\NullLogger'),
+    'Psr\Log\LoggerInterface' => \DI\decorate(function ($previous, ContainerInterface $c) {
+        $enableLogging = $c->get('ini.tests.enable_logging') == 1 || !empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'));
+        if ($enableLogging) {
+            return $previous;
+        } else {
+            return $c->get(\Psr\Log\NullLogger::class);
+        }
+    }),
+
+    'Tests.log.allowAllHandlers' => false,
+
+    'log.handlers' => \DI\decorate(function ($previous, ContainerInterface $c) {
+        if ($c->get('Tests.log.allowAllHandlers')) {
+            return $previous;
+        }
+
+        return [
+            $c->get('Piwik\Plugins\Monolog\Handler\FileHandler'),
+        ];
+    }),
 
     'Piwik\Cache\Backend' => function () {
         return \Piwik\Cache::buildBackend('file');

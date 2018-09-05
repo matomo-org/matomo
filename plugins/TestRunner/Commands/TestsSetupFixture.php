@@ -87,12 +87,17 @@ class TestsSetupFixture extends ConsoleCommand
             "Used by UI tests. Sets the \$_SERVER global variable from a JSON string.");
         $this->addOption('plugins', null, InputOption::VALUE_REQUIRED,
             "Used by UI tests. Comma separated list of plugin names to activate and install when setting up a fixture.");
+        $this->addOption('enable-logging', null, InputOption::VALUE_NONE, 'If enabled, tests will log to the configured log file.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (!defined('PIWIK_TEST_MODE')) {
             define('PIWIK_TEST_MODE', true);
+        }
+
+        if ($input->getOption('enable-logging')) {
+            putenv("MATOMO_TESTS_ENABLE_LOGGING=1");
         }
 
         Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator(new TestingEnvironmentVariables()));

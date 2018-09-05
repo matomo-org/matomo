@@ -215,6 +215,10 @@ class Fixture extends \PHPUnit_Framework_Assert
             $testEnv->$name = $value;
         }
 
+        if (!empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'))) {
+            $testEnv->environmentVariables['MATOMO_TESTS_ENABLE_LOGGING'] = '1';
+        }
+
         $testEnv->save();
 
         $this->createEnvironmentInstance();

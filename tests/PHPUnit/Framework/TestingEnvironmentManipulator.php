@@ -90,6 +90,12 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
             }
         }
 
+        if ($this->vars->environmentVariables) {
+            foreach ($this->vars->environmentVariables as $key => $value) {
+                putenv("$key=$value");
+            }
+        }
+
         if ($this->vars->hostOverride) {
             \Piwik\Url::setHost($this->vars->hostOverride);
         }
