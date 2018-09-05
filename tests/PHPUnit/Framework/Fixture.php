@@ -350,10 +350,9 @@ class Fixture extends \PHPUnit_Framework_Assert
         // with error Error while sending QUERY packet. PID=XX
         $this->tearDown();
 
-        self::unloadAllPlugins();
-
-
         if ($this->dropDatabaseInTearDown) {
+            self::unloadAllPlugins();
+
             $this->dropDatabase();
         }
 

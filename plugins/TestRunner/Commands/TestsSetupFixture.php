@@ -240,7 +240,8 @@ class TestsSetupFixture extends ConsoleCommand
 
         $extraPluginsToLoad = $input->getOption('plugins');
         if ($extraPluginsToLoad) {
-            $fixture->extraPluginsToLoad = explode(',', $extraPluginsToLoad);
+            $fixture->extraPluginsToLoad = array_merge($fixture->extraPluginsToLoad, explode(',', $extraPluginsToLoad));
+            $fixture->extraPluginsToLoad = array_unique($fixture->extraPluginsToLoad);
         }
 
         $fixture->extraDiEnvironments = array('ui-test');
