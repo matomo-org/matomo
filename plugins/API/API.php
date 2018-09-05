@@ -693,7 +693,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param $values
-     * @param $value
+     *
      * @return array
      */
     private function getMostFrequentValues($values)
@@ -710,9 +710,25 @@ class API extends \Piwik\Plugin\API
         // we have a list of all values. let's show the most frequently used first.
         $values = array_count_values($values);
 
-        arsort($values);
-        $values = array_keys($values);
-        return $values;
+        // Sort this list by converting and sorting the array with custom method, so the result doesn't differ between PHP versions
+        $sortArray = [];
+
+        foreach ($values as $value => $count) {
+            $sortArray[] = [
+                'value' => $value,
+                'count' => $count
+            ];
+        }
+
+        usort($sortArray, function($a, $b) {
+            if ($a['count'] == $b['count']) {
+                return strcmp($a['value'], $b['value']);
+            }
+
+            return $a['count'] > $b['count'] ? -1 : 1;
+        });
+
+        return array_column($sortArray, 'value');
     }
 
     private function doesSuggestedValuesCallbackNeedData($suggestedValuesCallback)

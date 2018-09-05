@@ -120,39 +120,39 @@
 			<row>
 				
 				<segment>eventCategory==Movie</segment>
-				<idsubdatatable>1533</idsubdatatable>
+				<idsubdatatable>2</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==Music</segment>
-				<idsubdatatable>1534</idsubdatatable>
+				<idsubdatatable>3</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>1535</idsubdatatable>
+				<idsubdatatable>4</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==CategoryTriggersGoal+here</segment>
-				<idsubdatatable>1536</idsubdatatable>
+				<idsubdatatable>5</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
 				
 				<segment>eventCategory==Movie</segment>
-				<idsubdatatable>1538</idsubdatatable>
+				<idsubdatatable>7</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==Music</segment>
-				<idsubdatatable>1539</idsubdatatable>
+				<idsubdatatable>8</idsubdatatable>
 			</row>
 			<row>
 				
 				<segment>eventCategory==event+category+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+Extremely+long+---%26gt%3B+SHOULD+APPEAR+IN+TEST+OUTPUT+NOT+TRUNCATED+%26lt%3B---</segment>
-				<idsubdatatable>1540</idsubdatatable>
+				<idsubdatatable>9</idsubdatatable>
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010" />
