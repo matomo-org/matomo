@@ -215,6 +215,10 @@ class Fixture extends \PHPUnit_Framework_Assert
             $testEnv->$name = $value;
         }
 
+        if (!empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'))) {
+            $testEnv->environmentVariables['MATOMO_TESTS_ENABLE_LOGGING'] = '1';
+        }
+
         $testEnv->save();
 
         $this->createEnvironmentInstance();
@@ -346,10 +350,9 @@ class Fixture extends \PHPUnit_Framework_Assert
         // with error Error while sending QUERY packet. PID=XX
         $this->tearDown();
 
-        self::unloadAllPlugins();
-
-
         if ($this->dropDatabaseInTearDown) {
+            self::unloadAllPlugins();
+
             $this->dropDatabase();
         }
 
