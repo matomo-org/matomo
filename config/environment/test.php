@@ -17,9 +17,17 @@ return array(
         }
     }),
 
-    'log.handlers' => [
-        \DI\get('Piwik\Plugins\Monolog\Handler\FileHandler'),
-    ],
+    'Tests.log.allowAllHandlers' => false,
+
+    'log.handlers' => \DI\decorate(function ($previous, ContainerInterface $c) {
+        if ($c->get('Tests.log.allowAllHandlers')) {
+            return $previous;
+        }
+
+        return [
+            $c->get('Piwik\Plugins\Monolog\Handler\FileHandler'),
+        ];
+    }),
 
     'Piwik\Cache\Backend' => function () {
         return \Piwik\Cache::buildBackend('file');
