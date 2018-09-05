@@ -155,6 +155,7 @@ class Site
      *                             array('idsite' => '1', 'name' => 'Site 1', ...),
      *                             array('idsite' => '2', 'name' => 'Site 2', ...),
      *                         )
+     * @return array The modified array.
      */
     public static function setSitesFromArray($sites)
     {
@@ -168,6 +169,8 @@ class Site
 
             self::setSiteFromArray($idSite, $site);
         }
+
+        return $sites;
     }
 
     /**
