@@ -7,6 +7,7 @@
  */
 namespace Piwik\Tests\System;
 
+use Piwik\Plugins\API\tests\System\AutoSuggestAPITest;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoVisitsWithCustomVariables;
 use Piwik\Tests\Framework\Fixture;
