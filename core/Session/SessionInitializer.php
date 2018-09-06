@@ -88,7 +88,11 @@ class SessionInitializer
 
     protected function regenerateSessionId()
     {
-        Session::regenerateId();
+        if (Session::isStarted()) {
+            Session::regenerateId();
+        } else {
+            Session::start();
+        }
     }
 
     /**

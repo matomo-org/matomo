@@ -15,6 +15,7 @@ use Piwik\DbHelper;
 use Piwik\NoAccessException;
 use Piwik\Plugins\Login\Auth;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -324,6 +325,26 @@ class LoginTest extends IntegrationTestCase
         // Check that the login + token auth is correct in the result
         $this->assertEquals($user['login'], $rc->getIdentity());
         $this->assertEquals($user['tokenAuth'], $rc->getTokenAuth());
+    }
+
+    public function test_logme_onlyReturnsASingleSessionId()
+    {
+        $this->_setUpUser();
+
+        $url = Fixture::getTestRootUrl() . 'index.php?module=Login&action=logme&login=user&password=' . md5('geqgeagae');
+
+        $context = stream_context_create([
+            'http' => ['ignore_errors' => true, 'follow_location' => false],
+        ]);
+        file_get_contents($url, false, $context);
+
+        $cookies = [];
+        foreach ($http_response_header as $header) {
+            if (preg_match('/^set-cookie:/i', $header)) {
+                $cookies[] = $header;
+            }
+        }
+        $this->assertCount(1, $cookies);
     }
 
     protected function _setUpUser()
