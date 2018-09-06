@@ -304,6 +304,19 @@ class APITest extends IntegrationTestCase
         $this->assertTrue($passwordHelper->verify(UsersManager::getPasswordHash('newPassword'), $user['password']));
     }
 
+    public function test_updateUser_doesNotChangePasswordIfFalsey()
+    {
+        $model = new Model();
+        $userBefore = $model->getUser($this->login);
+
+        $this->api->updateUser($this->login, false, 'email@example.com', 'newAlias', false);
+
+        $user = $model->getUser($this->login);
+
+        $this->assertSame($userBefore['password'], $user['password']);
+        $this->assertSame($userBefore['ts_password_modified'], $user['ts_password_modified']);
+    }
+
     public function test_getSitesAccessFromUser_forSuperUser()
     {
         $user2 = 'userLogin2';
