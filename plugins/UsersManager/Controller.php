@@ -410,6 +410,7 @@ class Controller extends ControllerAdmin
         $alias = Common::getRequestVar('alias');
         $email = Common::getRequestVar('email');
         $newPassword = false;
+
         $password = Common::getRequestvar('password', false);
         $passwordBis = Common::getRequestvar('passwordBis', false);
         if (!empty($password)
@@ -439,7 +440,7 @@ class Controller extends ControllerAdmin
             $auth = StaticContainer::get('Piwik\Auth');
             $auth->setLogin($userLogin);
             $auth->setPassword($newPassword);
-            $sessionInitializer->initSession($auth, $rememberMe = false);
+            $sessionInitializer->initSession($auth);
         }
     }
 

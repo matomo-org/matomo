@@ -304,6 +304,19 @@ class APITest extends IntegrationTestCase
         $this->assertTrue($passwordHelper->verify(UsersManager::getPasswordHash('newPassword'), $user['password']));
     }
 
+    public function test_updateUser_doesNotChangePasswordIfFalsey()
+    {
+        $model = new Model();
+        $userBefore = $model->getUser($this->login);
+
+        $this->api->updateUser($this->login, false, 'email@example.com', 'newAlias', false);
+
+        $user = $model->getUser($this->login);
+
+        $this->assertSame($userBefore['password'], $user['password']);
+        $this->assertSame($userBefore['ts_password_modified'], $user['ts_password_modified']);
+    }
+
     public function test_getSitesAccessFromUser_forSuperUser()
     {
         $user2 = 'userLogin2';
@@ -425,6 +438,7 @@ class APITest extends IntegrationTestCase
         $this->addUserWithAccess('userLogin3', 'view', 1);
         $this->addUserWithAccess('userLogin4', 'superuser', 1);
         $this->addUserWithAccess('userLogin5', 'admin', 1);
+        $this->addUserWithAccess('userLogin6', 'write', 1);
         $this->setCurrentUser('userLogin2', 'admin', 1);
 
         $users = $this->api->getUsersPlusRole(1, null, null, null, 'admin');
@@ -432,6 +446,14 @@ class APITest extends IntegrationTestCase
         $expected = [
             ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => []],
             ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'admin', 'capabilities' => []],
+        ];
+        $this->assertEquals($expected, $users);
+
+        // check new write role filtering works
+        $users = $this->api->getUsersPlusRole(1, null, null, null, 'write');
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'userLogin6', 'alias' => 'userLogin6', 'role' => 'write', 'capabilities' => []],
         ];
         $this->assertEquals($expected, $users);
     }

@@ -93,7 +93,8 @@ class ArchiveWebTest extends SystemTestCase
     public static function provideContainerConfigBeforeClass()
     {
         return array(
-            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger')
+            'Psr\Log\LoggerInterface' => \DI\get('Monolog\Logger'),
+            'Tests.log.allowAllHandlers' => true,
         );
     }
 }
