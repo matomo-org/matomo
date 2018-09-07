@@ -1629,6 +1629,10 @@ class API extends \Piwik\Plugin\API
 
         $sites = $this->getModel()->getPatternMatchSites($ids, $pattern, $limit);
 
+        foreach ($sites as &$site) {
+            $this->enrichSite($site);
+        }
+
         return $sites;
     }
 
