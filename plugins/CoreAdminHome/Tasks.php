@@ -91,7 +91,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         }
 
         // site is still empty after N days, so send an email to the user that created the site
-        $creatingUser = Site::getCreationUserFor($idSite);
+        $creatingUser = Site::getCreatorLoginFor($idSite);
         if (empty($creatingUser)) {
             return;
         }
