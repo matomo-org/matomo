@@ -50,7 +50,7 @@
                         name="user_password"
                         ng-model="$ctrl.user.password"
                         title="Password"
-                        ng-change="$ctrl.isPasswordChanged = true;"
+                        ng-change="$ctrl.isPasswordChanged = !! $ctrl.user.password;"
                         disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
                 >
                 </div>
@@ -140,6 +140,19 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="change-password-modal modal">
+        <div class="modal-content">
+            <h2>{{:: 'UsersManager_AreYouSure'|translate }}</h2>
+            <p piwik-translate="UsersManager_AreYouSureChangePassword">
+                <strong>{{ $ctrl.user.login }}</strong>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.updateUser()">{{:: 'General_Yes'|translate }}</a>
+            <a href="" class="modal-action modal-close modal-no">{{:: 'General_No'|translate }}</a>
         </div>
     </div>
 </div>

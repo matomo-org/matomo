@@ -4,6 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.6.1
+
+### New Developer Features
+
+* Logging to a file can now be easily enabled during tests. A new `[tests] enable_logging` INI option has been added, which you can set to `1` to enable logging for all tests. The `tests:run` and `tests:run-ui` commands now both have an `--enable-logging` option to enable logging for a specific run.
+
 ## Matomo 3.6.0
 
 ### New Features

@@ -643,7 +643,7 @@ class Site
      * @param int $idsite The site ID.
      * @return string|null If null, the site was created before the creation user was tracked.
      */
-    public static function getCreationUserFor($idsite)
+    public static function getCreatorLoginFor($idsite)
     {
         return self::getFor($idsite, 'creator_login');
     }

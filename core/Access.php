@@ -231,7 +231,7 @@ class Access
                     $accessType = $access['access'];
                     $this->idsitesByAccess[$accessType][] = $access['idsite'];
 
-                    if ($this->roleProvider->isValidRole($access)) {
+                    if ($this->roleProvider->isValidRole($accessType)) {
                         foreach ($this->capabilityProvider->getAllCapabilities() as $capability) {
                             if ($capability->hasRoleCapability($accessType)) {
                                 // we automatically add this capability
