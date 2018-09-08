@@ -42,7 +42,7 @@ class FormFirstWebsiteSetup extends QuickForm2
         // Use server timezone as default. If server timezone is UTC, it is likely
         // a default not specified explicitly by the sysadm, so ignore this.
         $timezone = PIWIK_DEFAULT_TIMEZONE;
-        if (in_array($timezone, array('UTC', 'Etc/UTC', 'GMT', 'Etc/GMT'))) {
+        if (in_array(strtolower($timezone), array('utc', 'etc/utc', 'gmt', 'etc/gmt'))) {
             $timezone = null;
         }
 
