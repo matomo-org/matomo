@@ -136,6 +136,7 @@ class Site
      * @param $idSite
      * @param $infoSite
      * @throws Exception if website or idsite is invalid
+     * @internal
      */
     public static function setSiteFromArray($idSite, $infoSite)
     {
@@ -149,6 +150,10 @@ class Site
     /**
      * Sets the cached Site data with a non-associated array of site data.
      *
+     * This method will trigger the `Sites.setSites` event modifying `$sites` before setting cached
+     * site data. In other words, this method will change the site data before it is cached and then
+     * return the modified array.
+     *
      * @param array $sites The array of sites data. eg,
      *
      *                         array(
@@ -156,6 +161,8 @@ class Site
      *                             array('idsite' => '2', 'name' => 'Site 2', ...),
      *                         )
      * @return array The modified array.
+     * @deprecated
+     * @internal
      */
     public static function setSitesFromArray($sites)
     {
