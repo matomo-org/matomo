@@ -808,7 +808,7 @@ class API extends \Piwik\Plugin\API
         $passwordHasBeenUpdated = false;
 
         if (empty($password)) {
-            $password = $userInfo['password'];
+            $password = false;
         } else {
             $password = Common::unsanitizeInputValue($password);
 

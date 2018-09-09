@@ -72,6 +72,7 @@ http_host   = localhost
 remote_addr = "127.0.0.1"
 request_uri = "@REQUEST_URI@"
 port =
+enable_logging = 0
 
 ; access key and secret as listed in AWS -> IAM -> Users
 aws_accesskey = ""
