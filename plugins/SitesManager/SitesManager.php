@@ -68,7 +68,7 @@ class SitesManager extends \Piwik\Plugin
             return;
         }
 
-        if (self::isSiteEmpty($siteId)) {
+        if (self::hasTrackedAnyTraffic($siteId)) {
             $session = new SessionNamespace('siteWithoutData');
             if (!empty($session->ignoreMessage)) {
                 return;
@@ -79,7 +79,7 @@ class SitesManager extends \Piwik\Plugin
         }
     }
 
-    public static function isSiteEmpty($siteId)
+    public static function hasTrackedAnyTraffic($siteId)
     {
         $shouldPerformEmptySiteCheck = true;
 

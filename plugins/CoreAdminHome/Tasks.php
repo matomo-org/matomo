@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchivePurger;
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
@@ -67,7 +68,11 @@ class Tasks extends \Piwik\Plugin\Tasks
         // add check for a site's tracked visits
         $sites = Request::processRequest('SitesManager.getAllSites');
 
-        $daysToTrackedVisitsCheck = StaticContainer::get('CoreAdminHome.daysToTrackedVisitsCheck');
+        $daysToTrackedVisitsCheck = (int) Config::getInstance()->General['num_days_before_tracking_code_reminder'];
+        if ($daysToTrackedVisitsCheck <= 0) {
+            return;
+        }
+
         foreach ($sites as $site) {
             $createdTime = Date::factory($site['ts_created']);
 
@@ -86,7 +91,7 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function checkSiteHasTrackedVisits($idSite)
     {
-        if (!SitesManager::isSiteEmpty($idSite)) {
+        if (!SitesManager::hasTrackedAnyTraffic($idSite)) {
             return;
         }
 
