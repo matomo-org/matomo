@@ -87,6 +87,7 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             'segment'      => $segment,
             'filter_limit' => '-1'
         ], $default = []);
+
         $dataRow = $goalMetrics->getFirstRow();
 
         $view->idSite = $this->idSite;
