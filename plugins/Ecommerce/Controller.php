@@ -76,11 +76,21 @@ class Controller extends \Piwik\Plugins\Goals\Controller
     {
         $view = new View('@Ecommerce/conversionOverview');
         $idGoal = Common::getRequestVar('idGoal', null, 'string');
+        $period = Common::getRequestVar('period', null, 'string');
+        $segment = Common::getRequestVar('segment', '', 'string');
 
-        $goalMetrics = Request::processRequest('Goals.get', array('idGoal' => $idGoal, 'filter_limit' => '-1', 'filter_offset' => '0'));
+        $goalMetrics = Request::processRequest('Goals.get', [
+            'idGoal'       => $idGoal,
+            'idSite'       => $this->idSite,
+            'date'         => $this->strDate,
+            'period'       => $period,
+            'segment'      => $segment,
+            'filter_limit' => '-1'
+        ], $default = []);
+
         $dataRow = $goalMetrics->getFirstRow();
 
-        $view->idSite = Common::getRequestVar('idSite', null, 'int');
+        $view->idSite = $this->idSite;
         $view->idGoal = $idGoal;
 
         if ($dataRow) {
