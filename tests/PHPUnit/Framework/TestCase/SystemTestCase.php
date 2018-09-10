@@ -297,11 +297,17 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     protected function runAnyApiTest($apiMethod, $apiId, $requestParams, $options = array())
     {
         $requestParams['module'] = 'API';
-        $requestParams['format'] = 'XML';
+        if (empty($requestParams['format'])) {
+            $requestParams['format'] = 'XML';
+        }
         $requestParams['method'] = $apiMethod;
 
-        $apiId = $apiMethod . '_' . $apiId . '.xml';
+        $apiId = $apiMethod . '_' . $apiId . '.' . strtolower($requestParams['format']);
         $testName = 'test_' . static::getOutputPrefix();
+
+        if (!empty($options['testSuffix'])) {
+            $testName .= '_' . $options['testSuffix'];
+        }
 
         list($processedFilePath, $expectedFilePath) =
             $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst = false);
