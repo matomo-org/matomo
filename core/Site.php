@@ -646,4 +646,15 @@ class Site
     {
         return self::getFor($idsite, 'excluded_parameters');
     }
+
+    /**
+     * Returns the user that created this site.
+     *
+     * @param int $idsite The site ID.
+     * @return string|null If null, the site was created before the creation user was tracked.
+     */
+    public static function getCreatorLoginFor($idsite)
+    {
+        return self::getFor($idsite, 'creator_login');
+    }
 }

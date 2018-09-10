@@ -75,6 +75,7 @@ class Mysql implements SchemaInterface
                             `group` VARCHAR(250) NOT NULL,
                             `type` VARCHAR(255) NOT NULL,
                             keep_url_fragment TINYINT NOT NULL DEFAULT 0,
+                            creator_login VARCHAR(100) NULL,
                               PRIMARY KEY(idsite)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
