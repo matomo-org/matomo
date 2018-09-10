@@ -121,7 +121,7 @@ class Controller extends \Piwik\Plugin\Controller
         
         $view = new View('@Live/getVisitorProfilePopup.twig');
         $view->idSite = $this->idSite;
-        $view->goals = APIGoals::getInstance()->getGoals($this->idSite);
+        $view->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
         $view->visitorData = $visitorData;
         $view->exportLink = $this->getVisitorProfileExportLink();
 

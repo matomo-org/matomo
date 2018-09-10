@@ -73,7 +73,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->translator = $translator;
 
         $this->idSite = Common::getRequestVar('idSite', null, 'int');
-        $this->goals = API::getInstance()->getGoals($this->idSite);
+        $this->goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
     }
 
     public function manage()
