@@ -280,7 +280,7 @@ class VisitorDetails extends VisitorDetailsAbstract
                 return strcmp($a['url'], $b['url']);
             }
 
-            return strcmp($b['count'], $a['count']);
+            return $a['count'] > $b['count'] ? -1 : 1;
         });
 
         $this->handleSiteSearches($profile);

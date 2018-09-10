@@ -567,11 +567,11 @@ var piwikHelper = {
         }
     }
 };
-
-String.prototype.trim = function() {
-    return this.replace(/^\s+|\s+$/g,"");
-};
-
+if (typeof String.prototype.trim !== 'function') {
+    String.prototype.trim = function() {
+        return this.replace(/^\s+|\s+$/g,"");
+    };
+}
 /**
  * Returns true if the event keypress passed in parameter is the ENTER key
  * @param {Event} e   current window event

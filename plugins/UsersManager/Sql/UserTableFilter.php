@@ -104,13 +104,12 @@ class UserTableFilter
             case 'some':
                 $sql = "(a.access IS NOT NULL OR u.superuser_access = 1)";
                 break;
-            case 'view':
-            case 'admin':
-                $sql = "a.access = ?";
-                $bind[] = $this->filterByRole;
-                break;
             case 'superuser':
                 $sql = "u.superuser_access = 1";
+                break;
+            default:
+                $sql = "a.access = ?";
+                $bind[] = $this->filterByRole;
                 break;
         }
 

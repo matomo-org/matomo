@@ -191,7 +191,7 @@ class API extends \Piwik\Plugin\API
             $this->enrichSite($site);
         }
 
-        Site::setSitesFromArray($sites);
+        $sites = Site::setSitesFromArray($sites);
         return $sites;
     }
 
@@ -272,7 +272,7 @@ class API extends \Piwik\Plugin\API
             $return[$site['idsite']] = $site;
         }
 
-        Site::setSitesFromArray($return);
+        $return = Site::setSitesFromArray($return);
 
         return $return;
     }
@@ -343,7 +343,7 @@ class API extends \Piwik\Plugin\API
                 $this->enrichSite($site);
             }
 
-            Site::setSitesFromArray($sites);
+            $sites = Site::setSitesFromArray($sites);
         }
 
         if ($fetchAliasUrls) {
@@ -472,7 +472,7 @@ class API extends \Piwik\Plugin\API
             $this->enrichSite($site);
         }
 
-        Site::setSitesFromArray($sites);
+        $sites = Site::setSitesFromArray($sites);
 
         return $sites;
     }
@@ -547,6 +547,11 @@ class API extends \Piwik\Plugin\API
         $name = Piwik::translate($key);
 
         $site['currency_name'] = ($key === $name) ? $site['currency'] : $name;
+
+        // don't want to expose other user logins here
+        if (!Piwik::hasUserSuperUserAccess()) {
+            unset($site['creator_login']);
+        }
     }
 
     /**
@@ -647,6 +652,8 @@ class API extends \Piwik\Plugin\API
         } else {
             $bind['group'] = "";
         }
+
+        $bind['creator_login'] = Piwik::getCurrentUserLogin();
 
         $allSettings = $this->setAndValidateMeasurableSettings(0, 'website', $coreProperties);
 
@@ -1621,6 +1628,12 @@ class API extends \Piwik\Plugin\API
         }
 
         $sites = $this->getModel()->getPatternMatchSites($ids, $pattern, $limit);
+
+        foreach ($sites as &$site) {
+            $this->enrichSite($site);
+        }
+
+        $sites = Site::setSitesFromArray($sites);
 
         return $sites;
     }

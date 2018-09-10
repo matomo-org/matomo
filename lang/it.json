@@ -213,7 +213,7 @@
         "Flatten": "Piano",
         "ForcedSSL": "Connessione SSL Forzata",
         "ForceSSLRecommended": "Si consiglia di utilizzare Matomo solo tramite connessioni SSL protette. Per impedire l'accesso non sicuro tramite http, aggiungi %1$s alla sezione %2$s del tuo file Matomo config\/config.ini.php.",
-        "NotPossibleWithoutHttps": "Attenzione: questa operazione senza aver impostato un certificato SSL per l'utilizzo di HTTPS interromperà Matomo.",
+        "NotPossibleWithoutHttps": "Attenzione: questa operazione senza aver impostato un certificato SSL per l'utilizzo di HTTPS interromperà il funzionamento di Matomo.",
         "UseSSLInstall": "Raccomandiamo di utilizzare Matomo solo con connessioni sicure SSL. Si prega di %1$scliccare qui per continuare il processo di installazione sotto SSL%2$s.",
         "ForExampleShort": "es.",
         "Forums": "Forum",

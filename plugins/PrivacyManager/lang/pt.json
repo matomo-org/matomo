@@ -77,6 +77,15 @@
         "UseAnonymizeOrderId": "Anonimizar o ID de um pedido",
         "UseDeleteLog": "Apagar com regularidade os registos de visitantes antigos da base de dados",
         "UseDeleteReports": "Apagar com regularidade os relatórios antigos da base de dados",
-        "UsersOptOut": "Participação dos utilizadores"
+        "UsersOptOut": "Participação dos utilizadores",
+        "PrivacyPolicyUrl": "Endereço da política de privacidade",
+        "PrivacyPolicyUrlDescription": "Uma ligação para a página com a sua política de privacidade.",
+        "TermsAndConditionUrl": "Endereços dos termos e condições",
+        "TermsAndConditionUrlDescription": "Uma ligação para a página com os seus termos e condições.",
+        "PrivacyPolicyUrlDescriptionSuffix": "Se definir isto, isto será mostrado no rodapé da página de autenticação e em páginas a que o utilizador '%1$s' possa aceder.",
+        "ShowInEmbeddedWidgets": "Mostrar em widgets incorporados",
+        "ShowInEmbeddedWidgetsDescription": "Se marcado, será apresentada uma ligação para a sua política de privacidade e para os seus termos e condições no final das widgets incorporadas.",
+        "PrivacyPolicy": "Política de privacidade",
+        "TermsAndConditions": "Termos e condições"
     }
 }

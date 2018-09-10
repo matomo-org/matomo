@@ -140,7 +140,7 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
 
         if (SystemTestCase::isTravisCI()) {
-            return 'python2.6';
+            return 'python2.7';
         }
 
         return 'python';
@@ -213,6 +213,10 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         foreach ($this->extraTestEnvVars as $name => $value) {
             $testEnv->$name = $value;
+        }
+
+        if (!empty(getenv('MATOMO_TESTS_ENABLE_LOGGING'))) {
+            $testEnv->environmentVariables['MATOMO_TESTS_ENABLE_LOGGING'] = '1';
         }
 
         $testEnv->save();
@@ -346,10 +350,9 @@ class Fixture extends \PHPUnit_Framework_Assert
         // with error Error while sending QUERY packet. PID=XX
         $this->tearDown();
 
-        self::unloadAllPlugins();
-
-
         if ($this->dropDatabaseInTearDown) {
+            self::unloadAllPlugins();
+
             $this->dropDatabase();
         }
 
@@ -836,7 +839,12 @@ class Fixture extends \PHPUnit_Framework_Assert
 
         $cmd .= '"' . $logFile . '" 2>&1';
 
-        // run the command
+        // on travis ci make sure log importer won't hang forever, otherwise the output will never be printed
+        // and no one will know why the build fails.
+        if (SystemTestCase::isTravisCI()) {
+            $cmd = "timeout 5m $cmd";
+        }
+
         exec($cmd, $output, $result);
         if ($result !== 0
             && !$allowFailure

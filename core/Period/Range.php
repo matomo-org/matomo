@@ -40,6 +40,10 @@ class Range extends Period
      */
     protected $defaultEndDate;
 
+    protected $strPeriod;
+    protected $strDate;
+    protected $timezone;
+
     /**
      * Constructor.
      *
@@ -63,6 +67,22 @@ class Range extends Period
 
         $this->today = $today;
 
+        $this->translator = StaticContainer::get('Piwik\Translation\Translator');
+    }
+
+    public function __sleep()
+    {
+        return [
+            'strPeriod',
+            'strDate',
+            'timezone',
+            'defaultEndDate',
+            'today',
+        ];
+    }
+
+    public function __wakeup()
+    {
         $this->translator = StaticContainer::get('Piwik\Translation\Translator');
     }
 

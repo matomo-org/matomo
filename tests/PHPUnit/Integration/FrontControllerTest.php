@@ -8,7 +8,12 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Access;
+use Piwik\Auth;
+use Piwik\Container\StaticContainer;
+use Piwik\FrontController;
 use Piwik\Http;
+use Piwik\Session\SessionFingerprint;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -42,14 +47,40 @@ FORMAT;
         $this->assertEquals('error', $response['result']);
 
         $expectedFormat = <<<FORMAT
-test message on {includePath}/tests/resources/trigger-fatal-exception.php(23)#0 [internal function]: {closure}('CoreHome', 'index', Array)#1 {includePath}/core/EventDispatcher.php(141): call_user_func_array(Object(Closure), Array)#2 {includePath}/core/Piwik.php(780): Piwik\EventDispatcher-&gt;postEvent('Request.dispatc...', Array, false, NULL)#3 {includePath}/core/FrontController.php(538): Piwik\Piwik::postEvent('Request.dispatc...', Array)#4 {includePath}/core/FrontController.php(146): Piwik\FrontController-&gt;doDispatch('CoreHome', 'index', NULL)#5 {includePath}/tests/resources/trigger-fatal-exception.php(31): Piwik\FrontController-&gt;dispatch('CoreHome', 'index')#6 {main}
+test message on {includePath}/tests/resources/trigger-fatal-exception.php(23)#0 [internal function]: {closure}('CoreHome', 'index', Array)#1 {includePath}/core/EventDispatcher.php(141): call_user_func_array(Object(Closure), Array)#2 {includePath}/core/Piwik.php(780): Piwik\EventDispatcher-&gt;postEvent('Request.dispatc...', Array, false, NULL)#3 {includePath}/core/FrontController.php(540): Piwik\Piwik::postEvent('Request.dispatc...', Array)#4 {includePath}/core/FrontController.php(146): Piwik\FrontController-&gt;doDispatch('CoreHome', 'index', NULL)#5 {includePath}/tests/resources/trigger-fatal-exception.php(31): Piwik\FrontController-&gt;dispatch('CoreHome', 'index')#6 {main}
 FORMAT;
 
         $this->assertStringMatchesFormat($expectedFormat, $response['message']);
     }
 
+    public function test_authImplementationConfigured_EvenIfSessionAuthSucceeds()
+    {
+        Access::getInstance()->setSuperUserAccess(false);
+
+        $sessionFingerprint = new SessionFingerprint();
+        $sessionFingerprint->initialize('superUserLogin');
+
+        FrontController::getInstance()->init();
+
+        /** @var \Piwik\Plugins\Login\Auth $auth */
+        $auth = StaticContainer::get(Auth::class);
+        $this->assertInstanceOf(\Piwik\Plugins\Login\Auth::class, $auth);
+
+        $this->assertEquals('superUserLogin', $auth->getLogin());
+        $this->assertEquals(Fixture::getTokenAuth(), $auth->getTokenAuth());
+    }
+
     private function cleanMessage($message)
     {
         return str_replace(PIWIK_INCLUDE_PATH, '{includePath}', $message);
+    }
+
+    /**
+     * @param Fixture $fixture
+     */
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+        $fixture->createSuperUser = true;
     }
 }

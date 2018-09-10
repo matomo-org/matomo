@@ -310,12 +310,15 @@ class Model
 
     public function updateUser($userLogin, $hashedPassword, $email, $alias, $tokenAuth)
     {
-        $this->updateUserFields($userLogin, array(
-            'password'   => $hashedPassword,
+        $fields = array(
             'alias'      => $alias,
             'email'      => $email,
             'token_auth' => $tokenAuth
-        ));
+        );
+        if (!empty($hashedPassword)) {
+            $fields['password'] = $hashedPassword;
+        }
+        $this->updateUserFields($userLogin, $fields);
     }
 
     public function updateUserTokenAuth($userLogin, $tokenAuth)
