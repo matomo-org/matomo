@@ -9,6 +9,7 @@
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Email\ContentGenerator;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Translation\Translator;
 use Piwik\View\HtmlReportEmailHeaderView;
@@ -55,19 +56,9 @@ class Mail extends Zend_Mail
 
     public function setWrappedHtmlBody(View $body)
     {
-        HtmlReportEmailHeaderView::assignCommonParameters($body);
-        $bodyHtml = $body->render();
-
-        $header = new View("@CoreHome/_htmlEmailHeader.twig");
-        HtmlReportEmailHeaderView::assignCommonParameters($header);
-        $headerHtml = $header->render();
-
-        $footer = new View("@CoreHome/_htmlEmailFooter.twig");
-        HtmlReportEmailHeaderView::assignCommonParameters($footer);
-        $footerHtml = $footer->render();
-
-        $body = $headerHtml . $bodyHtml . $footerHtml;
-        $this->setBodyHtml($body);
+        $contentGenerator = StaticContainer::get(ContentGenerator::class);
+        $bodyHtml = $contentGenerator->generateHtmlContent($body);
+        $this->setBodyHtml($bodyHtml);
     }
 
     /**
