@@ -33,7 +33,8 @@ class TagManagerTeaser
         $pluginManager = Plugin\Manager::getInstance();
 
         return CorePluginsAdmin::isPluginsAdminEnabled()
-                && !$pluginManager->isPluginActivated('TagManager')
+                && (!$pluginManager->isPluginActivated('TagManager')
+                || !$pluginManager->isPluginLoaded('TagManager'))
                 && $pluginManager->isPluginInFilesystem('TagManager')
                 && Piwik::isUserHasSomeAdminAccess()
                 && $this->isEnabledGlobally()
@@ -58,7 +59,13 @@ class TagManagerTeaser
 
     public function disableGlobally()
     {
+        $this->reset();
         Option::set(self::DISABLE_GLOBALLY_KEY, 1, true);
+    }
+
+    public function reset()
+    {
+        Option::delete(self::DISABLE_GLOBALLY_KEY);
 
         // no need to keep any old login entries
         $this->getTable()->save(array());

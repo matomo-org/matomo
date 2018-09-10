@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link    http://piwik.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -29,6 +29,8 @@ class TagManagerTeaserTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        Plugin\Manager::getInstance()->deactivatePlugin('TagManager');
+
         $this->teaser = $this->makeTeaser('mylogin');
     }
 
@@ -46,6 +48,14 @@ class TagManagerTeaserTest extends IntegrationTestCase
     {
         $this->teaser->disableGlobally();
         $this->assertFalse($this->teaser->isEnabledGlobally());
+    }
+
+    public function test_reset()
+    {
+        $this->teaser->disableGlobally();
+        $this->assertFalse($this->teaser->isEnabledGlobally());
+        $this->teaser->reset();
+        $this->assertTrue($this->teaser->isEnabledGlobally());
     }
 
     public function test_disableGlobally_removesUserSettings()

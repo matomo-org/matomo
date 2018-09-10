@@ -19,6 +19,12 @@ describe("TagManagerTeaser", function () {
         testEnvironment.save();
     }
 
+    function unloadTagManager()
+    {
+        testEnvironment.unloadTagManager = 1;
+        testEnvironment.save();
+    }
+
     function setAdminUser()
     {
         delete testEnvironment.idSitesViewAccess;
@@ -27,12 +33,13 @@ describe("TagManagerTeaser", function () {
         testEnvironment.save();
     }
 
-    function resetUser()
+    function reset()
     {
         delete testEnvironment.idSitesViewAccess;
         delete testEnvironment.idSitesWriteAccess;
         delete testEnvironment.idSitesAdminAccess;
         delete testEnvironment.idSitesCapabilities;
+        delete testEnvironment.unloadTagManager;
         testEnvironment.save();
     }
 
@@ -40,7 +47,7 @@ describe("TagManagerTeaser", function () {
         setPluginsToLoad(['CorePluginsAdmin']);
     });
 
-    afterEach(resetUser);
+    afterEach(reset);
 
     function capturePage(done, screenshotName, test, selector)
     {
@@ -51,7 +58,9 @@ describe("TagManagerTeaser", function () {
     }
 
     it('should show teaser to super user', function (done) {
+        unloadTagManager();
         capturePage(done, 'superuser_page', function (page) {
+            unloadTagManager();
             page.load(urlBase);
         });
     });
@@ -63,8 +72,10 @@ describe("TagManagerTeaser", function () {
     });
 
     it('should show teaser to admin', function (done) {
+        unloadTagManager();
         setAdminUser();
         capturePage(done, 'admin_page', function (page) {
+            unloadTagManager();
             setAdminUser();
             page.load(urlBase);
         });
@@ -72,7 +83,7 @@ describe("TagManagerTeaser", function () {
 
     it('should be possible to disable page and redirect to home', function (done) {
         capturePage(done, 'admin_page_disable', function (page) {
-            page.click('.activateTagManager .disableActivateTagManagerPage');
+            page.click('.activateTagManager .dontShowAgainBtn');
         }, '.pageWrap');
     });
 
