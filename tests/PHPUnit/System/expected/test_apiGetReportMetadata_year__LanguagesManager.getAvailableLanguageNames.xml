@@ -66,6 +66,11 @@
 		<english_name>English</english_name>
 	</row>
 	<row>
+		<code>es-ar</code>
+		<name>Español (Argentina)</name>
+		<english_name>Spanish (Argentina)</english_name>
+	</row>
+	<row>
 		<code>es</code>
 		<name>Español</name>
 		<english_name>Spanish</english_name>

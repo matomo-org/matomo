@@ -1,0 +1,12 @@
+{
+    "API": {
+        "ChangeTokenHint": "Si querés cambiar esta clave, por favor, andá a tu %1$spágina personal de configuración%2$s.",
+        "KeepTokenSecret": "Esta token_auth es tan secreta como tu nombre de usuario y contraseña, %1$s ¡no la compartás%2$s!",
+        "LoadedAPIs": "Se cargaron %s APIs exitosamente",
+        "ReportingApiReference": "Informe de referencia de API",
+        "TopLinkTooltip": "Accedé a tus datos de análisis web programáticamente, a través de una sencilla API en JSON, XML, etc.",
+        "UserAuthentication": "Autenticación de usuario",
+        "UsingTokenAuth": "Si querés %1$s solicitar datos dentro de un script, un crontab, etc %2$s tenés que agregar el parámetro %3$s a las direcciones web de llamadas a la API que requiere autenticación.",
+        "Glossary": "Glosario"
+    }
+}

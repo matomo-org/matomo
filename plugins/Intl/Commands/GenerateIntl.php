@@ -106,6 +106,24 @@ class GenerateIntl extends ConsoleCommand
             $this->fetchUnitData($output, $transformedLangCode, $requestLangCode, $translations);
             $this->fetchNumberFormattingData($output, $transformedLangCode, $requestLangCode, $translations);
 
+            // fix missing language name for territory specific languages (like es-AR)
+            if (empty($translations['Intl']['OriginalLanguageName']) && strpos($transformedLangCode, '-')) {
+                list($language, $territory) = explode('-', $transformedLangCode);
+
+                if (!empty($translations['Intl']['Language_'.$language])) {
+
+                    $originalName = $this->transform($translations['Intl']['Language_'.$language]);
+
+                    if (!empty($translations['Intl']['Country_'.$territory])) {
+                        $originalName .= ' (' . $translations['Intl']['Country_'.$territory] . ')';
+                    } else {
+                        $originalName .= ' (' . strtoupper($language) . ')';
+                    }
+
+                    $translations['Intl']['OriginalLanguageName'] = $originalName;
+                }
+            }
+
             ksort($translations['Intl']);
 
             file_put_contents(sprintf($writePath, $langCode), json_encode($translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
@@ -145,7 +163,7 @@ class GenerateIntl extends ConsoleCommand
         }
     }
 
-    protected function getEnglishLanguageName($code)
+    protected function getEnglishLanguageName($code, $alternateCode)
     {
         $languageDataUrl = 'https://raw.githubusercontent.com/unicode-cldr/cldr-localenames-full/master/main/%s/languages.json';
 
@@ -158,7 +176,42 @@ class GenerateIntl extends ConsoleCommand
                 $languageData = $languageData['main']['en']['localeDisplayNames']['languages'];
             }
 
-            return (array_key_exists($code, $languageData) && $languageData[$code] != $code) ? $this->transform($languageData[$code]) : '';
+            if (array_key_exists($code, $languageData) && $languageData[$code] != $code) {
+                return $this->transform($languageData[$code]);
+            }
+
+            if (array_key_exists($alternateCode, $languageData) && $languageData[$alternateCode] != $alternateCode) {
+                return $this->transform($languageData[$alternateCode]);
+            }
+
+            if (strpos($code, '-')) {
+                list($language, $territory) = explode('-', $code);
+
+                if (!array_key_exists($language, $languageData)) {
+                    return '';
+                }
+
+                $englishName = $this->transform($languageData[$language]);
+
+                $territoryDataUrl = 'https://raw.githubusercontent.com/unicode-cldr/cldr-localenames-full/master/main/%s/territories.json';
+
+                try {
+                    $territoryData = Http::fetchRemoteFile(sprintf($territoryDataUrl, 'en'));
+                    $territoryData = json_decode($territoryData, true);
+                    $territoryData = $territoryData['main']['en']['localeDisplayNames']['territories'];
+
+                    if (array_key_exists($territory, $territoryData)) {
+                        $englishName .= ' ('.$territoryData[$territory].')';
+                    } else {
+                        $englishName .= ' ('.strtoupper($language).')';
+                    }
+                } catch (\Exception $e) {
+                    $englishName .= ' ('.strtoupper($language).')';
+                }
+
+                return $englishName;
+            }
+
         } catch (\Exception $e) {
         }
 
@@ -191,7 +244,7 @@ class GenerateIntl extends ConsoleCommand
             } else if (array_key_exists($requestLangCode, $languageData) && $languageData[$requestLangCode] != $requestLangCode) {
                 $translations['Intl']['OriginalLanguageName'] = $this->transform($languageData[$requestLangCode]);
             }
-            $translations['Intl']['EnglishLanguageName'] = $this->getEnglishLanguageName($langCode) ? $this->getEnglishLanguageName($langCode) : $this->getEnglishLanguageName($requestLangCode);
+            $translations['Intl']['EnglishLanguageName'] = $this->getEnglishLanguageName($langCode, $requestLangCode);
 
             $output->writeln('Saved language data for ' . $langCode);
         } catch (\Exception $e) {

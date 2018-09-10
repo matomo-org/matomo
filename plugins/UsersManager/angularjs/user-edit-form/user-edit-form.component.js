@@ -24,9 +24,9 @@
         controller: UserEditFormController
     });
 
-    UserEditFormController.$inject = ['$element', 'piwikApi'];
+    UserEditFormController.$inject = ['$element', 'piwikApi', '$q'];
 
-    function UserEditFormController($element, piwikApi) {
+    function UserEditFormController($element, piwikApi, $q) {
         var vm = this;
         vm.activeTab = 'basic';
         vm.permissionsForIdSite = 1;
@@ -43,6 +43,7 @@
         vm.getSaveButtonLabel = getSaveButtonLabel;
         vm.toggleSuperuserAccess = toggleSuperuserAccess;
         vm.saveUserInfo = saveUserInfo;
+        vm.updateUser = updateUser;
 
         function $onInit() {
             vm.firstSiteAccess = {
@@ -76,6 +77,10 @@
             $element.find('.superuser-confirm-modal').openModal({ dismissible: false });
         }
 
+        function confirmPasswordChange() {
+            $element.find('.change-password-modal').openModal({ dismissible: false });
+        }
+
         function toggleSuperuserAccess() {
             vm.isSavingUserInfo = true;
             piwikApi.post({
@@ -93,14 +98,22 @@
         function saveUserInfo() {
             if (vm.isAdd) {
                 createUser();
+            } else if (vm.isPasswordChanged) {
+                confirmPasswordChange();
             } else {
                 updateUser();
             }
         }
 
+        function showUserSavedNotification() {
+            var UI = require('piwik/UI');
+            var notification = new UI.Notification();
+            notification.show(_pk_translate('General_YourChangesHaveBeenSaved'), { context: 'success', type: 'toast' });
+        }
+
         function createUser() {
             vm.isSavingUserInfo = true;
-            piwikApi.post({
+            return piwikApi.post({
                 method: 'UsersManager.addUser',
                 userLogin: vm.user.login,
                 password: vm.user.password,
@@ -116,12 +129,14 @@
                 vm.isAdd = false;
                 vm.isPasswordChanged = false;
                 vm.isUserModified = true;
+
+                showUserSavedNotification();
             });
         }
 
         function updateUser() {
             vm.isSavingUserInfo = true;
-            piwikApi.post({
+            return piwikApi.post({
                 method: 'UsersManager.updateUser',
                 userLogin: vm.user.login,
                 password: vm.isPasswordChanged ? vm.user.password : undefined,
@@ -134,6 +149,8 @@
                 vm.isSavingUserInfo = false;
                 vm.isPasswordChanged = false;
                 vm.isUserModified = true;
+
+                showUserSavedNotification();
             });
         }
     }

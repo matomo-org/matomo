@@ -34,6 +34,13 @@ class SessionAuth implements Auth
      */
     private $userModel;
 
+    /**
+     * Set internally so it can be queried in FrontController.
+     *
+     * @var string
+     */
+    private $user;
+
     public function __construct(UsersModel $userModel = null, $shouldDestroySession = true)
     {
         $this->userModel = $userModel ?: new UsersModel();
@@ -52,7 +59,7 @@ class SessionAuth implements Auth
 
     public function getLogin()
     {
-        // empty
+        return $this->user['login'];
     }
 
     public function getTokenAuthSecret()
@@ -129,7 +136,7 @@ class SessionAuth implements Auth
 
     private function makeAuthSuccess($user)
     {
-        $this->setTokenAuth($user['token_auth']);
+        $this->user = $user;
 
         $isSuperUser = (int) $user['superuser_access'];
         $code = $isSuperUser ? AuthResult::SUCCESS_SUPERUSER_AUTH_CODE : AuthResult::SUCCESS;
@@ -137,7 +144,7 @@ class SessionAuth implements Auth
         return new AuthResult($code, $user['login'], $user['token_auth']);
     }
 
-    private function initNewBlankSession(SessionFingerprint $sessionFingerprint)
+    protected function initNewBlankSession(SessionFingerprint $sessionFingerprint)
     {
         // this user should be using a different session, so generate a new ID
         // NOTE: Zend_Session cannot be used since it will destroy the old
@@ -152,7 +159,7 @@ class SessionAuth implements Auth
         $sessionFingerprint->clear();
     }
 
-    private function destroyCurrentSession(SessionFingerprint $sessionFingerprint)
+    protected function destroyCurrentSession(SessionFingerprint $sessionFingerprint)
     {
         // Note: Piwik will attempt to create another session in the LoginController
         // when rendering the login form (the nonce for the form is stored in the session).
@@ -164,5 +171,10 @@ class SessionAuth implements Auth
         if ($this->shouldDestroySession) {
             Session::regenerateId();
         }
+    }
+
+    public function getTokenAuth()
+    {
+        return $this->user['token_auth'];
     }
 }

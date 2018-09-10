@@ -1,0 +1,17 @@
+{
+    "Overlay": {
+        "Clicks": "%s clicks",
+        "ClicksFromXLinks": "%1$s clics desde uno de %2$s links",
+        "Domain": "Dominio",
+        "ErrorNotLoading": "La sesión de superposición de página no puede ser aun iniciada.",
+        "ErrorNotLoadingLink": "Clic aquí para obtener más ayuda acerca de soluciones de problemas.",
+        "Link": "Enlace",
+        "Location": "Ubicación",
+        "NoData": "No hay información para esta página en el período seleccionado.",
+        "OneClick": "1 clic",
+        "OpenFullScreen": "Ir a pantalla completa",
+        "Overlay": "Vísta general de página",
+        "RedirectUrlErrorAdmin": "Puede agregar el dominio como una dirección de internet %1$sen la configuración%2$s.",
+        "RedirectUrlErrorUser": "Pregunte a su administrador para agregar el dominio como una dirección de internet adicional."
+    }
+}

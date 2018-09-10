@@ -65,7 +65,7 @@ class Login extends \Piwik\Plugin
     {
         $module = Common::getRequestVar('module', false);
         $action = Common::getRequestVar('action', false);
-        return $module == 'Login' && (empty($action) || $action == 'login');
+        return ($module == 'Login' || $module == 'CoreHome') && (empty($action) || $action == 'index' || $action == 'login');
     }
 
     /**
