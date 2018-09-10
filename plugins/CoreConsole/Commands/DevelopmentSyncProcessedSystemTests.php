@@ -107,7 +107,9 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
         foreach($artifacts as $artifact) {
             $artifactName = basename($artifact);
             list($plugin, $file) = explode('~~', $artifactName);
-            Filesystem::copy($artifact, sprintf($targetDir, $plugin) . $file);
+            $pluginTargetDir = sprintf($targetDir, $plugin);
+            Filesystem::mkdir($pluginTargetDir);
+            Filesystem::copy($artifact, $pluginTargetDir . $file);
         }
 
         Filesystem::unlinkRecursive($extractionTarget, true);
