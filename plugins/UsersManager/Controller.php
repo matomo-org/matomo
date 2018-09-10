@@ -376,8 +376,15 @@ class Controller extends ControllerAdmin
             $this->processPasswordChange($userLogin);
 
             LanguagesManager::setLanguageForSession($language);
-            APILanguagesManager::getInstance()->setLanguageForUser($userLogin, $language);
-            APILanguagesManager::getInstance()->set12HourClockForUser($userLogin, $timeFormat);
+
+            Request::processRequest('LanguagesManager.setLanguageForUser', [
+                'login' => $userLogin,
+                'languageCode' => $language,
+            ]);
+            Request::processRequest('LanguagesManager.set12HourClockForUser', [
+                'login' => $userLogin,
+                'use12HourClock' => $timeFormat,
+            ]);
 
             APIUsersManager::getInstance()->setUserPreference($userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,
