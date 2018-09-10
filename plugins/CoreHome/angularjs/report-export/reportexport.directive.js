@@ -104,6 +104,11 @@
 
                     if ($.isPlainObject(params)) {
                         $.each(params, function (index, param) {
+                            if (param === true) {
+                                param = 1;
+                            } else if (param === false) {
+                                param = 0;
+                            }
                             exportUrlParams[index] = param;
                         });
                     }

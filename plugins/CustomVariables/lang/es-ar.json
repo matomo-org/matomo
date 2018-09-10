@@ -1,0 +1,10 @@
+{
+    "CustomVariables": {
+        "ColumnCustomVariableName": "Nombre de la Variable Personalizada",
+        "ColumnCustomVariableValue": "Valor de la Variable Personalizada",
+        "CustomVariables": "Variables Personalizadas",
+        "CustomVariablesReportDocumentation": "Este reporte contiene información sobre sus Variables Personalizadas. Haga clic en el nombre de una variable para ver la distribución de los valores. %1$s Para más información sobre las Variables Personalizadas en general, lea la %2$sdocumentación de Variables Personalizadas en piwik.org%3$s",
+        "ScopePage": "ámbito de la página",
+        "ScopeVisit": "ámbito de la visita"
+    }
+}

@@ -91,6 +91,7 @@
         "XManagement": "Gerir %s",
         "ChooseMeasurableTypeHeadline": "O que quer medir?",
         "YouCurrentlyHaveAccessToNWebsites": "Atualmente tem acesso a %s sites.",
-        "YourCurrentIpAddressIs": "O seu endereço IP atual é %s"
+        "YourCurrentIpAddressIs": "O seu endereço IP atual é %s",
+        "DeleteSiteExplanation": "A eliminação de um site irá remover todos os registos de dados que foram recolhidos para o mesmo. Esta ação é permanente e não pode ser anulada."
     }
 }

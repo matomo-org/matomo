@@ -46,6 +46,13 @@
         "TopLinkTooltip": "Crie Relatórios por e-mail para ter as estatísticas do Matomo entregues automaticamente no seu e-mail ou endereço do seu cliente!",
         "TopOfReport": "Voltar ao topo",
         "UpdateReport": "Atualizar relatório",
-        "WeeklyScheduleHelp": "Agenda semanal: o relatório será enviado na primeira Segunda-feira de cada semana."
+        "WeeklyScheduleHelp": "Agenda semanal: o relatório será enviado na primeira Segunda-feira de cada semana.",
+        "Unsubscribe": "Anular subscrição",
+        "ReportUnsubscribe": "Anular subscrição de um relatório",
+        "UnsubscribeReportConfirmation": "Tem a certeza que pretende anular a subscrição do relatório %1$s?",
+        "SuccessfullyUnsubscribed": "A sua subscrição do relatório %1$s foi anulada com sucesso.",
+        "UnsubscribeFooter": "Para anular a subscrição neste relatório, por favor siga a seguinte ligação: %1$s",
+        "NoTokenProvided": "Não foi fornecido nenhum código neste endereço",
+        "NoSubscriptionFound": "Não foi encontrada nenhuma subscrição. Talvez a subscrição neste relatório já tenha sido anulada ou removida."
     }
 }

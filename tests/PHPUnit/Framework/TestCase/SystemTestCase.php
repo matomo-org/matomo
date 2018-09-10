@@ -13,6 +13,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable\Manager;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Http;
@@ -296,11 +297,17 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
     protected function runAnyApiTest($apiMethod, $apiId, $requestParams, $options = array())
     {
         $requestParams['module'] = 'API';
-        $requestParams['format'] = 'XML';
+        if (empty($requestParams['format'])) {
+            $requestParams['format'] = 'XML';
+        }
         $requestParams['method'] = $apiMethod;
 
-        $apiId = $apiMethod . '_' . $apiId . '.xml';
+        $apiId = $apiMethod . '_' . $apiId . '.' . strtolower($requestParams['format']);
         $testName = 'test_' . static::getOutputPrefix();
+
+        if (!empty($options['testSuffix'])) {
+            $testName .= '_' . $options['testSuffix'];
+        }
 
         list($processedFilePath, $expectedFilePath) =
             $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst = false);
@@ -370,6 +377,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
 
     protected function _testApiUrl($testName, $apiId, $requestUrl, $compareAgainst, $params = array())
     {
+        Manager::getInstance()->deleteAll(); // clearing the datatable cache here GREATLY speeds up system tests on travis CI
+
         list($processedFilePath, $expectedFilePath) =
             $this->getProcessedAndExpectedPaths($testName, $apiId, $format = null, $compareAgainst);
 

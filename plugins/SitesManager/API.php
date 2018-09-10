@@ -191,7 +191,7 @@ class API extends \Piwik\Plugin\API
             $this->enrichSite($site);
         }
 
-        Site::setSitesFromArray($sites);
+        $sites = Site::setSitesFromArray($sites);
         return $sites;
     }
 
@@ -272,7 +272,7 @@ class API extends \Piwik\Plugin\API
             $return[$site['idsite']] = $site;
         }
 
-        Site::setSitesFromArray($return);
+        $return = Site::setSitesFromArray($return);
 
         return $return;
     }
@@ -343,7 +343,7 @@ class API extends \Piwik\Plugin\API
                 $this->enrichSite($site);
             }
 
-            Site::setSitesFromArray($sites);
+            $sites = Site::setSitesFromArray($sites);
         }
 
         if ($fetchAliasUrls) {
@@ -472,7 +472,7 @@ class API extends \Piwik\Plugin\API
             $this->enrichSite($site);
         }
 
-        Site::setSitesFromArray($sites);
+        $sites = Site::setSitesFromArray($sites);
 
         return $sites;
     }
@@ -1622,6 +1622,7 @@ class API extends \Piwik\Plugin\API
 
         $sites = $this->getModel()->getPatternMatchSites($ids, $pattern, $limit);
 
+        $sites = Site::setSitesFromArray($sites);
         return $sites;
     }
 
