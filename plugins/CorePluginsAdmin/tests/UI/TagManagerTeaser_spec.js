@@ -83,6 +83,8 @@ describe("TagManagerTeaser", function () {
 
     it('should be possible to disable page and redirect to home', function (done) {
         capturePage(done, 'admin_page_disable', function (page) {
+            unloadTagManager();
+            setAdminUser();
             page.click('.activateTagManager .dontShowAgainBtn');
         }, '.pageWrap');
     });

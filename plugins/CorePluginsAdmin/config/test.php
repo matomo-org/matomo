@@ -6,7 +6,7 @@ return array(
             $pluginName = 'TagManager';
             $unloadTagManager = \Piwik\Container\StaticContainer::get('test.vars.unloadTagManager');
             $tagManagerTeaser = new \Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser(\Piwik\Piwik::getCurrentUserLogin());
-            if ($unloadTagManager && $tagManagerTeaser->isEnabledGlobally()) {
+            if ($unloadTagManager) {
                 $pluginManager = \Piwik\Plugin\Manager::getInstance();
                 if ($pluginManager->isPluginActivated($pluginName)
                     && $pluginManager->isPluginLoaded($pluginName)) {
