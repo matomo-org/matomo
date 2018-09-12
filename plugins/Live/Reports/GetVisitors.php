@@ -67,12 +67,17 @@ class GetVisitors extends \Piwik\Plugin\Report
         $view->config->show_pie_chart = false;
         $view->config->show_tag_cloud = false;
         $view->config->show_offset_information = false;
+
+        // disabled cause we filter in the API itself... we can probably enable this later by adding support in the API for this
+        $view->config->show_search = false;
+        
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             // it should work in general but would query the data live for each day/period
-            $view->config->disable_row_evolution = false;
+            $view->config->disable_row_evolution = true;
         }
 
         $view->config->filters[] = function (DataTable $table) use ($view) {
+
             if ($view->isViewDataTableId(AllColumns::ID)) {
                 $view->config->columns_to_display = array_merge(
                     array('label'),
