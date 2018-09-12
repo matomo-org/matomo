@@ -154,7 +154,7 @@
                             piwik-field
                             uicontrol="select"
                             ng-model="user.role"
-                            options="$ctrl.accessLevels"
+                            options="user.login != 'anonymous' ? $ctrl.accessLevels : $ctrl.anonymousAccessLevels"
                             ng-change="$ctrl.userToChange = user; $ctrl.roleToChangeTo = user.role; $ctrl.previousRole = '{{ user.role }}'; $ctrl.showAccessChangeConfirm();"
                             disabled="user.role == 'superuser'"
                         ></div>
@@ -164,10 +164,10 @@
                         {{ user.last_seen ? (user.last_seen + ' ago') : '-' }}
                     </td>
                     <td class="center actions-cell">
-                        <button class="edituser table-action" title="Edit" ng-click="$ctrl.onEditUser({ user: user })">
+                        <button class="edituser table-action" title="Edit" ng-click="$ctrl.onEditUser({ user: user })" ng-if="user.login != 'anonymous'">
                             <span class="icon-edit"></span>
                         </button>
-                        <button class="deleteuser table-action" title="Delete" ng-click="$ctrl.userToChange = user; $ctrl.showDeleteConfirm()" ng-if="$ctrl.currentUserRole == 'superuser'">
+                        <button class="deleteuser table-action" title="Delete" ng-click="$ctrl.userToChange = user; $ctrl.showDeleteConfirm()" ng-if="$ctrl.currentUserRole == 'superuser' && user.login != 'anonymous'">
                             <span class="icon-delete"></span>
                         </button>
                     </td>
