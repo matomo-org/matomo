@@ -89,6 +89,21 @@ class EmailStyles
      */
     public $brandNameLong;
 
+    /**
+     * @var string
+     */
+    public $paragraphStyle = 'font-size:15px;line-height:24px;margin:0 0 16px;';
+
+    /**
+     * @var string
+     */
+    public $footerLinkColor = '#439fe0';
+
+    /**
+     * @var string
+     */
+    public $footerParagraphSyyles = 'text-align:center;font-size:13px; color:#666; padding:30px;';
+
     public function __construct()
     {
         $this->reportTitleTextColor = self::rgbToHex(ReportRenderer::REPORT_TITLE_TEXT_COLOR);
