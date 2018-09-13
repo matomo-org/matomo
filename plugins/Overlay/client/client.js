@@ -143,9 +143,8 @@ var Piwik_Overlay_Client = (function () {
         },
 
         /** Piwik Overlay API Request */
-        api: function (method, callback, additionalParams) {
-            var url = piwikRoot + 'index.php?module=API&method=Overlay.' + method
-                + '&idSite=' + idSite + '&period=' + period + '&date=' + date + '&format=JSON&filter_limit=-1';
+        controller: function (method, callback, additionalParams) {
+            var url = piwikRoot + 'index.php?module=Overlay&action=' + method + '&idSite=' + idSite + '&period=' + period + '&date=' + date + '&format=JSON&filter_limit=-1';
 
             if (segment) {
                 url += '&segment=' + segment;

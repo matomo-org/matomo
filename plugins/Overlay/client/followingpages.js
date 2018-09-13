@@ -29,7 +29,7 @@ var Piwik_Overlay_FollowingPages = (function () {
         var followingPagesLoaded = false;
 
         // load excluded params
-        Piwik_Overlay_Client.api('getExcludedQueryParameters', function (data) {
+        Piwik_Overlay_Client.controller('getExcludedQueryParameters', function (data) {
             for (var i = 0; i < data.length; i++) {
                 if (typeof data[i] == 'object') {
                     data[i] = data[i][0];
@@ -44,7 +44,7 @@ var Piwik_Overlay_FollowingPages = (function () {
         });
 
         // load following pages
-        Piwik_Overlay_Client.api('getFollowingPages', function (data) {
+        Piwik_Overlay_Client.controller('getFollowingPages', function (data) {
             followingPages = data;
             processFollowingPages();
 

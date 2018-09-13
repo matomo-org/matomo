@@ -12,6 +12,7 @@ use Piwik\API\CORSHandler;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\FrontController;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
@@ -35,6 +36,21 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $this->segmentFormatter = $segmentFormatter;
         parent::__construct();
+    }
+
+    public function getTranslations()
+    {
+        return $this->apiRequest('getTranslations');
+    }
+
+    public function getExcludedQueryParameters()
+    {
+        return $this->apiRequest('getExcludedQueryParameters');
+    }
+
+    public function getFollowingPages()
+    {
+        return $this->apiRequest('getFollowingPages');
     }
 
     /** The index of the plugin */
@@ -234,5 +250,11 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $corsHandler = new CORSHandler();
         $corsHandler->handle();
+    }
+
+    private function apiRequest($methodName)
+    {
+        $_GET['method'] = $_POST['method'] = 'Overlay.' . $methodName;
+        return FrontController::getInstance()->dispatch('API', 'index');
     }
 }
