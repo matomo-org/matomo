@@ -24,6 +24,7 @@
         "PageRefreshed": "Number of times this page was viewed \/ refreshed in a row.",
         "PluginDescription": "Provides the live Visitor Log and lets you watch your visitors live in the real-time dashboard widget. The plugin also lets you see a Visitor profile for any given user.",
         "PreviousVisitor": "Previous visitor",
+        "RealTimeVisitors": "Real-time Visitors",
         "RealTimeVisitorCount": "Real Time Visitor Count",
         "Referrer_URL": "Referrer URL",
         "ShowMap": "show map",
