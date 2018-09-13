@@ -70,7 +70,7 @@ class GetVisitors extends \Piwik\Plugin\Report
 
         // disabled cause we filter in the API itself... we can probably enable this later by adding support in the API for this
         $view->config->show_search = false;
-        
+
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             // it should work in general but would query the data live for each day/period
             $view->config->disable_row_evolution = true;

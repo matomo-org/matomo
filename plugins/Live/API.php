@@ -219,6 +219,7 @@ class API extends \Piwik\Plugin\API
         list($data, $hasMoreVisits) = $model->queryLogVisitors($idSite, $period, $date, $segment, $filterOffset, $filterLimit, $filterSortColumn, $filterSortOrder, true);
         $dataTable = $this->makeVisitorTableFromArray($data, $hasMoreVisits);
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'idvisitor'));
+        $dataTable->filter('AddSegmentByLabel', array('visitorId'));
 
         $dataTable->disableFilter('Limit'); // limit is already applied here
 

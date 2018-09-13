@@ -48,6 +48,7 @@
         "ColumnBounceRate": "Bounce Rate",
         "ColumnBounceRateDocumentation": "The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.",
         "ColumnBounces": "Bounces",
+        "RealTime": "Real-time",
         "ColumnBouncesDocumentation": "Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.",
         "ColumnConversionRate": "Conversion Rate",
         "ColumnConversionRateDocumentation": "The percentage of visits that triggered a goal conversion.",
