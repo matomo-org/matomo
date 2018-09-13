@@ -12,15 +12,12 @@ use Piwik\API\CORSHandler;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\FrontController;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\SegmentEditor\SegmentFormatter;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ProxyHttp;
-use Piwik\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\View;
@@ -254,7 +251,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     private function apiRequest($methodName)
     {
-        $_GET['method'] = $_POST['method'] = 'Overlay.' . $methodName;
-        return FrontController::getInstance()->dispatch('API', 'index');
+        $request = new Request('method=Overlay.'.$methodName);
+        return $request->process();
     }
 }
