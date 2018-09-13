@@ -22,7 +22,7 @@ class Html extends ReportRenderer
 
     const HTML_CONTENT_TYPE = 'text/html';
     const HTML_FILE_EXTENSION = 'html';
-    const UNSUBSCRIBE_LINK_PLACEHOLDER = '%unsubscribeLink%';
+    const UNSUBSCRIBE_LINK_PLACEHOLDER = '__unsubscribeLink__';
 
     protected $renderImageInline = false;
 
