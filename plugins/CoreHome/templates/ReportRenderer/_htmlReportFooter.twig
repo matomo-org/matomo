@@ -18,7 +18,7 @@
 
 {% if unsubscribeLink|default is not empty %}
 {% set unsubLink %}<a style="color:#439fe0;" href="{{ unsubscribeLink|e('html_attr') }}">{{ 'ScheduledReports_Unsubscribe'|translate }}</a>{% endset %}
-<p style='{{ footerParagraphStyle }}'>{{ 'ScheduledReports_UnsubscribeFooter'|translate(unsubLink)|raw }}.</p>
+<p style='{{ footerParagraphStyle }}{% if hasWhiteLabel %}padding-top:30px;{% endif %}'>{{ 'ScheduledReports_UnsubscribeFooter'|translate(unsubLink)|raw }}.</p>
 {% endif %}
 
 </div>
