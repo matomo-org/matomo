@@ -10,6 +10,7 @@ namespace Piwik\DataTable\Filter;
 
 use Exception;
 use Piwik\Columns\Dimension;
+use Piwik\Columns\DimensionsProvider;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
@@ -317,7 +318,8 @@ class PivotByDimension extends BaseFilter
 
     private function setPivotByDimension($pivotByDimension)
     {
-        $this->pivotByDimension = Dimension::factory($pivotByDimension);
+        $factory = new DimensionsProvider();
+        $this->pivotByDimension = $factory->factory($pivotByDimension);
         if (empty($this->pivotByDimension)) {
             throw new Exception("Invalid dimension '$pivotByDimension'.");
         }
