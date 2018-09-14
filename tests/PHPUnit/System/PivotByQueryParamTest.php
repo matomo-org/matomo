@@ -203,7 +203,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'date' => Date::factory(self::$fixture->dateTime)->toString(),
             'period' => 'week',
             'pivotBy' => 'CustomDimension.CustomDimension' . self::$fixture->customDimensionId,
-            'idDimension' => self::$fixture->customDimensionId,
+            'idDimension' => self::$fixture->customDimensionId, // TODO: must remove this param. otherwise not so useful.
         ]);
     }
 
