@@ -26,6 +26,7 @@ class SessionNamespace extends Zend_Session_Namespace
     {
         if (Common::isPhpCliMode()) {
             self::$_readable = true;
+            self::$_writable = true;
             return;
         }
 
