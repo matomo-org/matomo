@@ -105,6 +105,8 @@ class DataTablePostProcessor
      */
     public function process(DataTableInterface $dataTable)
     {
+        $dataTable = $this->convertSegmentValueToSegment($dataTable);
+
         // TODO: when calculating metrics before hand, only calculate for needed metrics, not all. NOTE:
         //       this is non-trivial since it will require, eg, to make sure processed metrics aren't added
         //       after pivotBy is handled.
@@ -125,7 +127,6 @@ class DataTablePostProcessor
 
         // we automatically safe decode all datatable labels (against xss)
         $dataTable->queueFilter('SafeDecodeLabel');
-        $dataTable = $this->convertSegmentValueToSegment($dataTable);
         $dataTable = $this->applyQueuedFilters($dataTable);
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
         $dataTable = $this->applyLabelFilter($dataTable);
@@ -155,10 +156,10 @@ class DataTablePostProcessor
             $pivotByColumn = Common::getRequestVar('pivotByColumn', false, 'string', $this->request);
             $pivotByColumnLimit = Common::getRequestVar('pivotByColumnLimit', false, 'int', $this->request);
 
-            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
-            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segment'));
             $dataTable->filter('PivotByDimension', array($reportId, $pivotBy, $pivotByColumn, $pivotByColumnLimit,
                 PivotByDimension::isSegmentFetchingEnabledInConfig()));
+            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
+            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segment'));
         }
         return $dataTable;
     }

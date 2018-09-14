@@ -123,9 +123,6 @@ class PivotByQueryParamTest extends SystemTestCase
     // of city, region & country dimensions, so the segment to get an intersected table needs all 3 of those.
     public function SHOULD_test_PivotByParam_PlaysNiceWithQueuedFilters()
     {
-
-        $this->markTestSkipped("Not working right now.");
-
         $this->assertApiResponseEqualsExpected("DevicesDetection.getBrowsers", array( // should have logo metadata in output
             'idSite' => self::$fixture->idSite,
             'date' => Date::factory(self::$fixture->dateTime)->toString(),
@@ -201,7 +198,7 @@ class PivotByQueryParamTest extends SystemTestCase
     public function test_PivotByParam_WorksWithCustomDimension()
     {
         // TODO: test pivot by other direction + test multiple dates + test multiple sites (should fail)
-        $this->assertApiResponseEqualsExpected("UserCountry.getCity", [
+        $this->assertApiResponseEqualsExpected("UserCountry.getCountry", [
             'idSite' => self::$fixture->idSite,
             'date' => Date::factory(self::$fixture->dateTime)->toString(),
             'period' => 'week',

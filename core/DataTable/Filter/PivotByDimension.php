@@ -268,8 +268,12 @@ class PivotByDimension extends BaseFilter
         }
 
         if ($this->isFetchingBySegmentEnabled) {
-            $segmentValue = $row->getColumn('label');
-            return $this->fetchIntersectedWithThisBySegment($table, $segmentValue);
+            $segment = $row->getMetadata('segment');
+            if (empty($segment)) {
+                $segmentValue = $row->getMetadata('segmentValue') ?: $row->getColumn('label');
+                $segment = $this->thisReportDimensionSegment->getSegment() . "==" . urlencode($segmentValue);
+            }
+            return $this->fetchIntersectedWithThisBySegment($table, $segment);
         }
 
         // should never occur, unless checkSupportedPivot() fails to catch an unsupported pivot
@@ -300,10 +304,8 @@ class PivotByDimension extends BaseFilter
         return $subtable;
     }
 
-    private function fetchIntersectedWithThisBySegment(DataTable $table, $segmentValue)
+    private function fetchIntersectedWithThisBySegment(DataTable $table, $segmentStr)
     {
-        $segmentStr = $this->thisReportDimensionSegment->getSegment() . "==" . urlencode($segmentValue);
-
         // TODO: segment + report API method query params should be stored in DataTable metadata so we don't have to access it here
         $originalSegment = Common::getRequestVar('segment', false);
         if (!empty($originalSegment)) {
