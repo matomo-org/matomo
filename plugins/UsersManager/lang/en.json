@@ -136,6 +136,7 @@
         "DeleteUserConfirmMultiple": "Are you sure you want to delete the %1$s selected users?",
         "DeleteUserPermConfirmSingle": "Are you sure you want to change %1$s's role to %2$s for %3$s?",
         "DeleteUserPermConfirmMultiple": "Are you sure you want to change the %1$s selected users' role to %2$s for %3$s?",
-        "AreYouSureChangePassword": "Are you sure you want to change the password for %s?"
+        "AreYouSureChangePassword": "Are you sure you want to change the password for %s?",
+        "AnonymousUserRoleChangeWarning": "Giving the %1$s user the %2$s role will make this website's data public and available to everyone, even if they do not have a Matomo login."
     }
 }
