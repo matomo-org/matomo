@@ -436,7 +436,13 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change password with untrusted hostname!");
         }
 
-        APIUsersManager::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
+        Request::processRequest('UsersManager.updateUser', [
+            'userLogin' => $userLogin,
+            'password' => $newPassword,
+            'email' => $email,
+            'alias' => $alias,
+        ], $default = []);
+
         if ($newPassword !== false) {
             $newPassword = Common::unsanitizeInputValue($newPassword);
         }
