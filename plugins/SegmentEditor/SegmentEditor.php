@@ -199,7 +199,13 @@ class SegmentEditor extends \Piwik\Plugin
         // data does not exist. this means the data will be processed later. we let the user know so they will not
         // be confused.
         $model = new Model();
-        $storedSegment = $model->getSegmentByDefinition($segment->getString()) ?: null;
+        $storedSegment = $model->getSegmentByDefinition($segment->getString());
+        if (empty($storedSegment)) {
+            $storedSegment = $model->getSegmentByDefinition(urldecode($segment->getString()));
+        }
+        if (empty($storedSegment)) {
+            $storedSegment = null;
+        }
 
         return [$segment, $storedSegment, $isSegmentToPreprocess];
     }

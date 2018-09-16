@@ -87,6 +87,26 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
         ]);
     }
 
+    public function test_apiOutput_whenUnprocessedAutoArchiveSegmentUsed_WithBrowserArchivingDisabled_AndEncodedSegment()
+    {
+        $idSegment = API::getInstance()->add('testsegment', self::TEST_SEGMENT, self::$fixture->idSite, $autoArchive = true);
+
+        $storedSegment = API::getInstance()->get($idSegment);
+        $this->assertNotEmpty($storedSegment);
+
+        Rules::setBrowserTriggerArchiving(false);
+
+        $segments = Rules::getSegmentsToProcess([self::$fixture->idSite]);
+        $this->assertContains(self::TEST_SEGMENT, $segments);
+
+        $this->runAnyApiTest('VisitsSummary.get', 'autoArchiveSegmentUnprocessedEncoded', [
+            'idSite' => self::$fixture->idSite,
+            'date' => Date::factory(self::$fixture->dateTime)->toString(),
+            'period' => 'week',
+            'segment' => urlencode(self::TEST_SEGMENT),
+        ]);
+    }
+
     public function test_apiOutput_whenPreprocessedSegmentUsed_WithBrowserArchivingDisabled()
     {
         $idSegment = API::getInstance()->add('testsegment', self::TEST_SEGMENT, self::$fixture->idSite, $autoArchive = true);
