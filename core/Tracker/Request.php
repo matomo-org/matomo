@@ -86,12 +86,14 @@ class Request
             }
         }
 
-        // check for 4byte utf8 characters in url and replace them with �
+        // check for 4byte utf8 characters in all tracking params and replace them with �
         // @TODO Remove as soon as our database tables use utf8mb4 instead of utf8
-        if (array_key_exists('url', $this->params) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $this->params['url'])) {
-            Common::printDebug("Unsupport character detected. Replacing with \xEF\xBF\xBD");
-            $this->params['url'] = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $this->params['url']);
-        }
+        array_walk_recursive ($this->params, function(&$value, $key){
+            if (is_string($value) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $value)) {
+                Common::printDebug("Unsupport character detected in $key. Replacing with \xEF\xBF\xBD");
+                $value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
+            }
+        });
     }
 
     /**
