@@ -221,6 +221,19 @@ class Controller extends \Piwik\Plugin\Controller
         $this->passwordResetter->removePasswordResetInfo($login);
 
         if (empty($urlToRedirect)) {
+            $referrer = Url::getReferrer();
+            $module = Common::getRequestVar('module', '', 'string');
+            // when module is login, we redirect to home...
+            if ($module !== 'Login' && $module !== Piwik::getLoginPluginName() && $referrer) {
+                $host = Url::getHostFromUrl($referrer);
+                // we only redirect to a trusted host
+                if ($host && Url::isValidHost($host)) {
+                    $urlToRedirect = $referrer;
+                }
+            }
+        }
+
+        if (empty($urlToRedirect)) {
             $urlToRedirect = Url::getCurrentUrlWithoutQueryString();
         }
 
