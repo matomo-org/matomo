@@ -33,6 +33,7 @@ class Login extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
             'Session.beforeSessionStart'       => 'beforeSessionStart',
+            'Session.shouldStartSession' => 'shouldStartSession',
         );
         return $hooks;
     }
@@ -42,10 +43,17 @@ class Login extends \Piwik\Plugin
         $jsFiles[] = "plugins/Login/javascripts/login.js";
     }
 
-   public function getStylesheetFiles(&$stylesheetFiles)
+    public function getStylesheetFiles(&$stylesheetFiles)
     {
         $stylesheetFiles[] = "plugins/Login/stylesheets/login.less";
         $stylesheetFiles[] = "plugins/Login/stylesheets/variables.less";
+    }
+
+    public function shouldStartSession(&$shouldStartSession, $module, $action)
+    {
+        if ($module == 'Login' && $action == 'logme') {
+            $shouldStartSession = false;
+        }
     }
 
     public function beforeSessionStart()

@@ -172,7 +172,7 @@ class Controller extends \Piwik\Plugin\Controller
         $urlToRedirect = Common::getRequestVar('url', $currentUrl, 'string');
         $urlToRedirect = Common::unsanitizeInputValue($urlToRedirect);
 
-        $this->authenticateAndRedirect($login, $password, $urlToRedirect, $passwordHashed = true);
+        $this->authenticateAndRedirect($login, $password, $urlToRedirect, $passwordHashed = true, $discardNonce = false);
     }
 
     /**
@@ -204,9 +204,11 @@ class Controller extends \Piwik\Plugin\Controller
      * @param bool $passwordHashed indicates if $password is hashed
      * @return string failure message if unable to authenticate
      */
-    protected function authenticateAndRedirect($login, $password, $urlToRedirect = false, $passwordHashed = false)
+    protected function authenticateAndRedirect($login, $password, $urlToRedirect = false, $passwordHashed = false, $discardNonce = true)
     {
-        Nonce::discardNonce('Login.login');
+        if ($discardNonce) { // the nonce is stored in the session, and for "automatic login" we don't want to start a session here
+            Nonce::discardNonce('Login.login');
+        }
 
         $this->auth->setLogin($login);
         if ($passwordHashed === false) {

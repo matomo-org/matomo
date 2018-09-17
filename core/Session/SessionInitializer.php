@@ -88,7 +88,16 @@ class SessionInitializer
 
     protected function regenerateSessionId()
     {
-        Session::regenerateId();
+        $isSessionCookieExists = isset($_COOKIE[Session::SESSION_NAME]);
+
+        if (Session::isStarted()) { // session already exist, regenerate ID so old session is still unauthenticated (in case an attacker has it)
+            Session::regenerateId();
+        } else if ($isSessionCookieExists) { // session not started, but session cookie exists: start session & regenerate ID
+            Session::start();
+            Session::regenerateId();
+        } else { // session not started and no sesssion cookie exists: start session, which will create a new ID.
+            Session::start();
+        }
     }
 
     /**

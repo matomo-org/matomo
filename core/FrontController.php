@@ -614,24 +614,43 @@ class FrontController extends Singleton
 
     private function makeSessionAuthenticator()
     {
-        $module = Common::getRequestVar('module', self::DEFAULT_MODULE, 'string');
-        $action = Common::getRequestVar('action', false);
+        if (!$this->shouldStartSession()) {
+            return null;
+        }
 
         // the session must be started before using the session authenticator,
         // so we do it here, if this is not an API request.
-        if (SettingsPiwik::isPiwikInstalled()
-            && ($module !== 'API' || ($action && $action !== 'index'))
-        ) {
-            /**
-             * @ignore
-             */
-            Piwik::postEvent('Session.beforeSessionStart');
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('Session.beforeSessionStart');
 
-            Session::start();
-            return StaticContainer::get(SessionAuth::class);
+        Session::start();
+        return StaticContainer::get(SessionAuth::class);
+    }
+
+    private function shouldStartSession()
+    {
+        $module = Common::getRequestVar('module', self::DEFAULT_MODULE, 'string');
+        $action = Common::getRequestVar('action', false);
+
+        if (!SettingsPiwik::isPiwikInstalled()) {
+            return false;
         }
 
-        return null;
+        // 'API.' or 'API.index'
+        if ($module === 'API' && (!$action || $action === 'index')) {
+            return false;
+        }
+
+        $shouldStartSession = true;
+
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('Session.shouldStartSession', [&$shouldStartSession, $module, $action]);
+
+        return $shouldStartSession;
     }
 
     private function makeAuthenticator(SessionAuth $auth = null)

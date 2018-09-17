@@ -15,6 +15,7 @@ use Piwik\DbHelper;
 use Piwik\NoAccessException;
 use Piwik\Plugins\Login\Auth;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -324,6 +325,60 @@ class LoginTest extends IntegrationTestCase
         // Check that the login + token auth is correct in the result
         $this->assertEquals($user['login'], $rc->getIdentity());
         $this->assertEquals($user['tokenAuth'], $rc->getTokenAuth());
+    }
+
+    public function test_logme_onlyReturnsASingleSessionId()
+    {
+        $this->_setUpUser();
+
+        $url = Fixture::getTestRootUrl() . 'index.php?module=Login&action=logme&login=user&password=' . md5('geqgeagae');
+
+        $context = stream_context_create([
+            'http' => ['ignore_errors' => true, 'follow_location' => false],
+        ]);
+        file_get_contents($url, false, $context);
+
+        $cookies = [];
+        foreach ($http_response_header as $header) {
+            if (preg_match('/^set-cookie:/i', $header)) {
+                $cookies[] = $header;
+            }
+        }
+        $this->assertCount(1, $cookies);
+    }
+
+    public function test_logme_onlyReturnsASingleSessionId_ifSessionInProgress()
+    {
+        $this->_setUpUser();
+
+        $context = stream_context_create([
+            'http' => ['ignore_errors' => true, 'follow_location' => false],
+        ]);
+        file_get_contents(Fixture::getRootUrl() . 'index.php', false, $context); // using non-test URL so it won't auto-login (since FakeAccess is used here)
+
+        $sessionId = $this->findSessionId($http_response_header);
+        $this->assertNotNull($sessionId);
+
+        $url = Fixture::getTestRootUrl() . 'index.php?module=Login&action=logme&login=user&password=' . md5('geqgeagae');
+
+        $context = stream_context_create([
+            'http' => ['ignore_errors' => true, 'follow_location' => false, 'header' => "Cookie: PIWIK_SESSID=$sessionId;"],
+        ]);
+        file_get_contents($url, false, $context);
+
+        $newSessionId = $this->findSessionId($http_response_header);
+        $this->assertNotNull($newSessionId);
+        $this->assertNotEquals($sessionId, $newSessionId);
+    }
+
+    private function findSessionId($headers)
+    {
+        foreach ($headers as $header) {
+            if (preg_match('/^set-cookie:\s*PIWIK_SESSID=([^;]+)/i', $header, $matches)) {
+                return $matches[1];
+            }
+        }
+        return null;
     }
 
     protected function _setUpUser()
