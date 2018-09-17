@@ -14,12 +14,10 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Metrics;
 use Piwik\Piwik;
-use Piwik\Plugin\Report;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\SegmentEditor\SegmentFormatter;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\ProxyHttp;
-use Piwik\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\View;
@@ -35,6 +33,21 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $this->segmentFormatter = $segmentFormatter;
         parent::__construct();
+    }
+
+    public function getTranslations()
+    {
+        return $this->apiRequest('getTranslations');
+    }
+
+    public function getExcludedQueryParameters()
+    {
+        return $this->apiRequest('getExcludedQueryParameters');
+    }
+
+    public function getFollowingPages()
+    {
+        return $this->apiRequest('getFollowingPages');
     }
 
     /** The index of the plugin */
@@ -234,5 +247,11 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $corsHandler = new CORSHandler();
         $corsHandler->handle();
+    }
+
+    private function apiRequest($methodName)
+    {
+        $request = new Request('method=Overlay.'.$methodName);
+        return $request->process();
     }
 }
