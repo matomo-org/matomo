@@ -78,6 +78,7 @@
         "MatchesExpression": "correspond à l'expression %s",
         "NewGoalIntro": "Le suivi de la conversion des objectifs et une des manières les plus efficaces de mesurer et améliorer vos objectifs d'affaires.",
         "NewVisitorsConversionRateIs": "Le taux de conversion des nouveaux visiteurs est %s",
+        "NoGoalsNeedAccess2": "Seulement un utilisateur de type Ecriture, Administrateur ou avec un accès super utilisateur peut gérer les objectifs pour un site web. Veuillez demander à votre administrateur Matomo de mettre en place un objectif pour votre site web. <br>Suivre des objectifs est une très bonne façon de comprendre et maximiser les performances de votre site web!",
         "NoConversionsNoReportsMessage": "Aucun rapport n'est affiché car il n'y a pas de données de conversion pour l'objectif et la période sélectionnée.",
         "NeedAccess": "Uniquement un administrateur ou un utilisateur avec le rôle super utilisateur peut gérer les objectifs pour un site web.",
         "Optional": "(optionnel)",
