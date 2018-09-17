@@ -62,6 +62,10 @@
         }
 
         function updateDateInTitle( date, period ) {
+            if (!$('.top_controls #periodString').length) {
+                return;
+            }
+
             // Cache server-rendered page title
             originalTitle = originalTitle || document.title;
             var titleParts = originalTitle.split('-');
