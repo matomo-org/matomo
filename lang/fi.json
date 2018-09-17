@@ -474,7 +474,7 @@
         "YearsDays": "%1$s vuotta %2$s päivää",
         "Yes": "Kyllä",
         "YouAreCurrentlyUsing": "Käytät Matomo %s:ää",
-        "YouAreViewingDemoMessage": "Katselet %1$sMatomo%2$s-demoa.",
+        "YouAreViewingDemoMessage": "Katselet %1$sMatomo%2$s -demoa.",
         "YouMustBeLoggedIn": "Sinun täytyy kirjautua sisään ennen tämän toiminnallisuuden käyttämistä.",
         "YourChangesHaveBeenSaved": "Muutokset on tallennettu"
     },

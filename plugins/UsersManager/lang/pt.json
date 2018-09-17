@@ -135,6 +135,7 @@
         "DeleteUserConfirmSingle": "Tem a certeza que deseja eliminar o %1$s?",
         "DeleteUserConfirmMultiple": "Tem a certeza que deseja eliminar os %1$s utilizadores selecionados?",
         "DeleteUserPermConfirmSingle": "Tem a certeza que pretende alterar o papel de %1$s para %2$s para %3$s?",
-        "DeleteUserPermConfirmMultiple": "Tem a certeza que pretende alterar o papel dos %1$s utilizadores selecionados para %2$s para %3$s?"
+        "DeleteUserPermConfirmMultiple": "Tem a certeza que pretende alterar o papel dos %1$s utilizadores selecionados para %2$s para %3$s?",
+        "AreYouSureChangePassword": "Tem a certeza que deseja alterar a palavra-passe para %s?"
     }
 }

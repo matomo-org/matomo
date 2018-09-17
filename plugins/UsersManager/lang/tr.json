@@ -135,6 +135,7 @@
         "DeleteUserConfirmSingle": "%1$s kullanıcısını silmek istediğinize emin misiniz?",
         "DeleteUserConfirmMultiple": "%1$s seçilmiş kullanıcıyı silmek istediğinize emin misiniz?",
         "DeleteUserPermConfirmSingle": "%1$s kullanıcısının rolünü %3$s için %2$s olarak değiştirmek istediğinize emin misiniz?",
-        "DeleteUserPermConfirmMultiple": "Seçilmiş %1$s kullanıcının rolünü %3$s için %2$s olarak değiştirmek istediğinize emin misiniz?"
+        "DeleteUserPermConfirmMultiple": "Seçilmiş %1$s kullanıcının rolünü %3$s için %2$s olarak değiştirmek istediğinize emin misiniz?",
+        "AreYouSureChangePassword": "%s parolasını değiştirmek istediğinize emin misiniz?"
     }
 }

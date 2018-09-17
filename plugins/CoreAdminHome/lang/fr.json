@@ -8,6 +8,7 @@
         "ClickHereToOptIn": "Cliquez ici pour inclure votre ordinateur.",
         "ClickHereToOptOut": "Cliquez ici pour exclure votre ordinateur.",
         "CorsDomains": "Domaines CORS (Cross-Origin Resource Sharing)",
+        "CorsDomainsHelp": "Vous pouvez définir des noms de domaines ou sous-domaines tels que http:\/\/exemple.com ou http:\/\/stats.exemple.com. Pour autoriser les requêtes entre tous les domaines ajoutez simplement *.",
         "CustomLogoFeedbackInfo": "Si vous personnalisez le logo Matomo, vous pouvez être aussi vouloir cacher le lien %1$s du menu du haut. Pour ce faire, vous pouvez désactiver le plugin de Feedback dans la page de %2$sGestionnaire de Plugins%3$s.",
         "CustomLogoHelpText": "Vous pouvez personnaliser le logo Matomo qui sera affiché dans l'interface utilisateur et les rapports par courriel.",
         "DevelopmentProcess": "Bien que notre %1$sprocessus de développement%2$s inclue des milliers de tests automatisés, les béta testeurs jouent un rôle clef dans la réalisation de la \"politique zéro bugs\" de Matomo.",
