@@ -150,7 +150,7 @@ class PivotByDimension extends BaseFilter
      * @param bool $isFetchingBySegmentEnabled Whether to allow fetching by segment.
      * @throws Exception if pivoting the report by a dimension is unsupported.
      */
-    public function __construct($table, $report, $pivotByDimension, $pivotColumn, $pivotByColumnLimit = false,
+    public function __construct($table, Report $report, $pivotByDimension, $pivotColumn, $pivotByColumnLimit = false,
                                 $isFetchingBySegmentEnabled = true)
     {
         parent::__construct($table);
@@ -314,7 +314,8 @@ class PivotByDimension extends BaseFilter
 
         Log::debug("PivotByDimension: Fetching intersected with segment '%s'", $segmentStr);
 
-        $params = array('segment' => $segmentStr) + $this->getRequestParamOverride($table);
+        $params = array_merge($this->pivotDimensionReport->getParameters() ?: [], ['segment' => $segmentStr]);
+        $params = $params + $this->getRequestParamOverride($table);
         return $this->pivotDimensionReport->fetch($params);
     }
 
@@ -329,14 +330,9 @@ class PivotByDimension extends BaseFilter
         $this->pivotDimensionReport = Report::getForDimension($this->pivotByDimension);
     }
 
-    private function setThisReportMetadata($report)
+    private function setThisReportMetadata(Report $report)
     {
-        list($module, $method) = explode('.', $report);
-
-        $this->thisReport = ReportsProvider::factory($module, $method);
-        if (empty($this->thisReport)) {
-            throw new Exception("Unable to find report '$report'.");
-        }
+        $this->thisReport = $report;
 
         $this->subtableDimension = $this->thisReport->getSubtableDimension();
 
@@ -349,7 +345,7 @@ class PivotByDimension extends BaseFilter
 
     private function checkSupportedPivot()
     {
-        $reportId = $this->thisReport->getModule() . '.' . $this->thisReport->getName();
+        $reportId = $this->thisReport->getModule() . '.' . $this->thisReport->getAction();
 
         if (!$this->isFetchingBySegmentEnabled) {
             // if fetching by segment is disabled, then there must be a subtable for the current report and
@@ -371,7 +367,7 @@ class PivotByDimension extends BaseFilter
                 return;
             }
 
-            // if fetching by segment is enabled, and we cannot fetch by subtable, then there has to be a report
+            // iΩf fetching by segment is enabled, and we cannot fetch by subtable, then there has to be a report
             // for the pivot dimension (so we can fetch the report), and there has to be a segment for this report's
             // dimension (so we can use it when fetching)
 

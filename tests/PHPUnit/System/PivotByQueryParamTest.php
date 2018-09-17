@@ -11,7 +11,6 @@ use Piwik\Config;
 use Piwik\Date;
 use Piwik\Tests\Fixtures\ManyVisitsWithMockLocationProvider;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
-use Piwik\Tests\Unit\CommonTest;
 
 /**
  * @group Core
@@ -197,13 +196,32 @@ class PivotByQueryParamTest extends SystemTestCase
 
     public function test_PivotByParam_WorksWithCustomDimension()
     {
-        // TODO: test pivot by other direction + test multiple dates + test multiple sites (should fail)
         $this->assertApiResponseEqualsExpected("UserCountry.getCountry", [
             'idSite' => self::$fixture->idSite,
             'date' => Date::factory(self::$fixture->dateTime)->toString(),
             'period' => 'week',
             'pivotBy' => 'CustomDimension.CustomDimension' . self::$fixture->customDimensionId,
-            'idDimension' => self::$fixture->customDimensionId, // TODO: must remove this param. otherwise not so useful.
+        ]);
+    }
+
+    public function test_PivotByParam_WorksWithCustomDimensionReport()
+    {
+        $this->assertApiResponseEqualsExpected("CustomDimensions.getCustomDimension", [
+            'idSite' => self::$fixture->idSite,
+            'date' => Date::factory(self::$fixture->dateTime)->toString(),
+            'period' => 'week',
+            'idDimension' => self::$fixture->customDimensionId,
+            'pivotBy' => 'UserCountry.City',
+        ]);
+    }
+
+    public function test_PivotByParam_FailsWithCustomDimension_AndMultipleSites()
+    {
+        $this->assertApiResponseEqualsExpected("UserCountry.getCountry", [
+            'idSite' => 'all',
+            'date' => Date::factory(self::$fixture->dateTime)->toString(),
+            'period' => 'week',
+            'pivotBy' => 'CustomDimension.CustomDimension' . self::$fixture->customDimensionId,
         ]);
     }
 
