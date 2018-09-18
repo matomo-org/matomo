@@ -1,10 +1,15 @@
 var Piwik_Overlay_Client = (function () {
 
+    var DOMAIN_PARSE_REGEX = /http(s)?:\/\/(www\.)?([^\/]*)/i;
+
     /** jQuery */
     var $;
 
     /** Url of the Piwik root */
     var piwikRoot;
+
+    /** protocol and domain of Piwik root */
+    var piwikOrigin;
 
     /** Piwik idsite */
     var idSite;
@@ -95,7 +100,7 @@ var Piwik_Overlay_Client = (function () {
 
     function handlePostMessages() {
         window.addEventListener("message", function (event) {
-            if (event.origin !== piwikRoot) {
+            if (event.origin !== piwikOrigin) {
                 return;
             }
 
@@ -127,7 +132,8 @@ var Piwik_Overlay_Client = (function () {
 
         /** Initialize in-site analytics */
         initialize: function (pPiwikRoot, pIdSite, pPeriod, pDate, pSegment) {
-            piwikRoot = pPiwikRoot.replace(/[\/]+$/, '');
+            piwikRoot = pPiwikRoot;
+            piwikOrigin = piwikRoot.match(DOMAIN_PARSE_REGEX)[0];
             idSite = pIdSite;
             period = pPeriod;
             date = pDate;
@@ -202,7 +208,7 @@ var Piwik_Overlay_Client = (function () {
             requestCallbacks[requestId] = callback;
 
             var matomoFrame = window.parent;
-            matomoFrame.postMessage('overlay.call:' + requestId + ':' + encodeURIComponent(url), piwikRoot);
+            matomoFrame.postMessage('overlay.call:' + requestId + ':' + encodeURIComponent(url), piwikOrigin);
         },
 
         /**
