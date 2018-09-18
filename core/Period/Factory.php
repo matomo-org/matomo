@@ -75,11 +75,13 @@ abstract class Factory
 
         if (is_string($date)) {
             if (Period::isMultiplePeriod($date, $period)
-                || $period == 'range') {
+                || $period == 'range'
+            ) {
+
                 return new Range($period, $date, $timezone);
             }
 
-            $dateObject = Date::factory($date);
+            $dateObject = Date::factory($date, $timezone);
         } else if (!empty($date)) {
             $dateObject = $date;
         } else {

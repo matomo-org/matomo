@@ -503,8 +503,9 @@ class Range extends Period
      */
     public static function getRelativeToEndDate($period, $lastN, $endDate, $site)
     {
-        $last30Relative = new Range($period, $lastN, $site->getTimezone());
-        $last30Relative->setDefaultEndDate(Date::factory($endDate));
+        $timezone = $site->getTimezone();
+        $last30Relative = new Range($period, $lastN, $timezone);
+        $last30Relative->setDefaultEndDate(Date::factory($endDate, $timezone));
         $date = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
 
         return $date;
