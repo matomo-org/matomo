@@ -88,8 +88,8 @@ class JsTrackingCodeMissingEmail extends Mail
         $view->login = $this->login;
         $view->emailAddress = $this->emailAddress;
         $view->idSite = $this->idSite;
-        $view->siteUrl = Site::getMainUrlFor($this->idSite);
-        $view->trackingCodeUrl = SettingsPiwik::getPiwikUrl() . '/index.php' . Url::getQueryStringFromParameters([
+        $view->siteName = Site::getNameFor($this->idSite);
+        $view->trackingCodeUrl = SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
             'idSite' => $this->idSite,
             'module' => 'CoreAdminHome',
             'action' => 'trackingCodeGenerator',

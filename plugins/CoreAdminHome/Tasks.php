@@ -78,8 +78,11 @@ class Tasks extends \Piwik\Plugin\Tasks
             $today = Date::factory('today');
 
             $daysSinceCreation = floor(($today->getTimestamp() - $createdTime->getTimestamp()) / 86400);
-            if ($daysSinceCreation != $daysToTrackedVisitsCheck) {
-                continue; // job should not be run today
+            if ($daysSinceCreation != $daysToTrackedVisitsCheck - 1
+                && $daysSinceCreation != $daysToTrackedVisitsCheck
+            ) {
+                continue; // job should not be run tomorrow (note: the scheduler will schedule the task for the NEXT day, so i
+                          // has to be in the list for today & yesterday
             }
 
             $daily = new Daily();
