@@ -11,7 +11,9 @@ namespace Piwik\Plugins\CoreAdminHome\Emails;
 
 use Piwik\Mail;
 use Piwik\Piwik;
+use Piwik\SettingsPiwik;
 use Piwik\Site;
+use Piwik\Url;
 use Piwik\View;
 
 class JsTrackingCodeMissingEmail extends Mail
@@ -77,7 +79,7 @@ class JsTrackingCodeMissingEmail extends Mail
 
     private function getDefaultSubject()
     {
-        return Piwik::translate('CoreAdminHome_MissingTrackingCodeEmailSubject', [Site::getMainUrlFor($this->idSite)]);
+        return Piwik::translate('CoreAdminHome_MissingTrackingCodeEmailSubject', [Site::getNameFor($this->idSite)]);
     }
 
     private function getDefaultBodyView()
@@ -87,6 +89,13 @@ class JsTrackingCodeMissingEmail extends Mail
         $view->emailAddress = $this->emailAddress;
         $view->idSite = $this->idSite;
         $view->siteUrl = Site::getMainUrlFor($this->idSite);
+        $view->trackingCodeUrl = SettingsPiwik::getPiwikUrl() . '/index.php' . Url::getQueryStringFromParameters([
+            'idSite' => $this->idSite,
+            'module' => 'CoreAdminHome',
+            'action' => 'trackingCodeGenerator',
+            'period' => 'day',
+            'date' => 'yesterday',
+        ]);
         return $view;
     }
 }

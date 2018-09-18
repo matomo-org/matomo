@@ -130,9 +130,7 @@ class TasksTest extends IntegrationTestCase
             'purgeInvalidatedArchives.',
             'optimizeArchiveTable.',
             'updateSpammerBlacklist.',
-            'checkSiteHasTrackedVisits.3',
-            'checkSiteHasTrackedVisits.4',
-            'checkSiteHasTrackedVisits.5',
+            'checkSiteHasTrackedVisits.2',
         ];
         $this->assertEquals($expected, $tasks);
     }
@@ -154,7 +152,7 @@ class TasksTest extends IntegrationTestCase
     public function test_checkSiteHasTrackedVisits_doesNothingIfSiteHasNoCreationUser()
     {
         $idSite = Fixture::createWebsite('2012-01-01 00:00:00');
-        Db::query("UPDATE " . Common::prefixTable('site') . ' SET user_created = NULL WHERE idsite = ' . $idSite . ';');
+        Db::query("UPDATE " . Common::prefixTable('site') . ' SET creator_login = NULL WHERE idsite = ' . $idSite . ';');
 
         $this->assertEquals(0, Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('log_visit')));
 

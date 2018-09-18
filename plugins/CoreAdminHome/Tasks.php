@@ -12,7 +12,6 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchivePurger;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
@@ -21,6 +20,7 @@ use Piwik\Option;
 use Piwik\Plugins\CoreAdminHome\Emails\JsTrackingCodeMissingEmail;
 use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\SitesManager\SitesManager;
+use Piwik\Scheduler\Schedule\Daily;
 use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Tests\Framework\Mock\Site;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
@@ -75,17 +75,16 @@ class Tasks extends \Piwik\Plugin\Tasks
 
         foreach ($sites as $site) {
             $createdTime = Date::factory($site['ts_created']);
+            $today = Date::factory('today');
 
-            $scheduledJobTime = $createdTime->addDay($daysToTrackedVisitsCheck);
-            if ($scheduledJobTime->isEarlier(Date::now())) {
-                continue; // job for this site should already have been run
+            $daysSinceCreation = floor(($today->getTimestamp() - $createdTime->getTimestamp()) / 86400);
+            if ($daysSinceCreation != $daysToTrackedVisitsCheck) {
+                continue; // job should not be run today
             }
 
-            $monthly = new Monthly();
-            $monthly->setTimezone('Pacific/Auckland');
-            $monthly->setDay($scheduledJobTime->toString('j'));
-            $monthly->setHour(2);
-            $this->custom($this, 'checkSiteHasTrackedVisits', $site['idsite'], $monthly);
+            $daily = new Daily();
+            $daily->setHour(2);
+            $this->custom($this, 'checkSiteHasTrackedVisits', $site['idsite'], $daily);
         }
     }
 
