@@ -150,7 +150,7 @@ class PivotByDimension extends BaseFilter
      * @param bool $isFetchingBySegmentEnabled Whether to allow fetching by segment.
      * @throws Exception if pivoting the report by a dimension is unsupported.
      */
-    public function __construct($table, Report $report, $pivotByDimension, $pivotColumn, $pivotByColumnLimit = false,
+    public function __construct($table, $report, $pivotByDimension, $pivotColumn, $pivotByColumnLimit = false,
                                 $isFetchingBySegmentEnabled = true)
     {
         parent::__construct($table);
@@ -167,6 +167,7 @@ class PivotByDimension extends BaseFilter
         $this->metricIndexValue = isset($namesToId[$this->pivotColumn]) ? $namesToId[$this->pivotColumn] : null;
 
         $this->setPivotByDimension($pivotByDimension);
+
         $this->setThisReportMetadata($report);
 
         $this->checkSupportedPivot();
@@ -330,8 +331,16 @@ class PivotByDimension extends BaseFilter
         $this->pivotDimensionReport = Report::getForDimension($this->pivotByDimension);
     }
 
-    private function setThisReportMetadata(Report $report)
+    private function setThisReportMetadata($report)
     {
+        if (is_string($report)) {
+            list($module, $action) = explode('.', $report);
+            $report = ReportsProvider::factory($module, $action);
+            if (empty($report)) {
+                throw new \Exception("Unable to find report '$module.$action'.");
+            }
+        }
+
         $this->thisReport = $report;
 
         $this->subtableDimension = $this->thisReport->getSubtableDimension();
