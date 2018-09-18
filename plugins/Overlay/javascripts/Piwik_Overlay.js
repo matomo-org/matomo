@@ -7,6 +7,8 @@
 
 var Piwik_Overlay = (function () {
 
+    var DOMAIN_PARSE_REGEX = /http(s)?:\/\/(www\.)?([^\/]*)/i;
+
     var $body, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading;
     var $rowEvolutionLink, $transitionsLink, $visitorLogLink;
 
@@ -18,6 +20,7 @@ var Piwik_Overlay = (function () {
     var iframeCurrentPageNormalized = '';
     var iframeCurrentActionLabel = '';
     var updateComesFromInsideFrame = false;
+    var iframeOrigin = '';
 
     /** Load the sidebar for a url */
     function loadSidebar(currentUrl) {
@@ -26,7 +29,9 @@ var Piwik_Overlay = (function () {
         $location.html('&nbsp;').unbind('mouseenter').unbind('mouseleave');
 
         iframeCurrentPage = currentUrl;
-        iframeDomain = currentUrl.match(/http(s)?:\/\/(www\.)?([^\/]*)/i)[3];
+        var m = currentUrl.match(DOMAIN_PARSE_REGEX);
+        iframeDomain = m[3];
+        iframeOrigin = m[0];
 
         var params = {
             module: 'Overlay',
@@ -139,6 +144,7 @@ var Piwik_Overlay = (function () {
     function hashChangeCallback(urlHash) {
         var location = getOverlayLocationFromHash(urlHash);
         location = Overlay_Helper.decodeFrameUrl(location);
+        iframeOrigin = location.match(DOMAIN_PARSE_REGEX)[0];
 
         if (location == iframeCurrentPageNormalized) {
             return;
@@ -156,6 +162,41 @@ var Piwik_Overlay = (function () {
         }
 
         updateComesFromInsideFrame = false;
+    }
+
+    function handleApiRequests() {
+        window.addEventListener("message", function (event) {
+            if (event.origin !== iframeOrigin) {
+                return;
+            }
+
+            var strData = event.data.split(':', 3);
+            if (strData[0] !== 'overlay.call') {
+                return;
+            }
+
+            var requestId = strData[1];
+            var url = decodeURIComponent(strData[2]);
+
+            var params = broadcast.getValuesFromUrl(url);
+
+            angular.element(document).injector().invoke(['piwikApi', function (piwikApi) {
+                piwikApi.fetch(params)
+                    .then(function (response) {
+                        sendResponse(response);
+                    }).catch(function (err) {
+                        sendResponse({
+                            result: 'error',
+                            message: err.message,
+                        });
+                    });
+            }]);
+
+            function sendResponse(data) {
+                var message = 'overlay.response:' + requestId + ':' + encodeURIComponent(JSON.stringify(data));
+                $iframe[0].contentWindow.postMessage(message, iframeOrigin);
+            }
+        }, false);
     }
 
     return {
@@ -181,7 +222,6 @@ var Piwik_Overlay = (function () {
             $visitorLogLink = $('#overlaySegmentedVisitorLog');
 
             adjustDimensions();
-
             showLoading();
 
             // apply initial dimensions
@@ -205,6 +245,8 @@ var Piwik_Overlay = (function () {
             if (window.location.href.split('#').length == 1) {
                 hashChangeCallback('');
             }
+
+            handleApiRequests();
 
             // handle date selection
             var $select = $('select#overlayDateRangeSelect').change(function () {
