@@ -2259,7 +2259,7 @@ function PiwikTest() {
     });
 
     test("Tracker is_a functions", function() {
-        expect(22);
+        expect(29);
 
         var tracker = Piwik.getTracker();
 
@@ -2288,6 +2288,15 @@ function PiwikTest() {
         ok( !tracker.hook.test._isString(window), 'isString(window)' );
         ok( !tracker.hook.test._isString(function () { }), 'isString(function)' );
         ok( tracker.hook.test._isString(new String), 'isString(String)' ); // String is a string
+        
+        var arrayChunk = tracker.hook.test._arrayChunk;
+        deepEqual([[]], arrayChunk([]), 'empty array, no chunk size' ); 
+        deepEqual([[]], arrayChunk([], 50), 'empty array, with chunk size' );
+        deepEqual([[5]], arrayChunk([5], 50), 'one item, much larger chunk size' );
+        deepEqual([[5,10,15,20,25]], arrayChunk([5,10,15,20,25]), 'multiple items, no chunk size' );
+        deepEqual([[5,10,15,20,25]], arrayChunk([5,10,15,20,25], 50), 'multiple items, much larger chunk size' );
+        deepEqual([[5,10],[15,20],[25]], arrayChunk([5,10,15,20,25], 2), 'multiple items, small chunk size' );
+        deepEqual([[5,10,15,20,25]], arrayChunk([5,10,15,20,25], 5), 'multiple items, equals chunk size' );
     });
     
     test("Default visitorId should be equal across Trackers", function() {
