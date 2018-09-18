@@ -505,9 +505,15 @@ class Range extends Period
     {
         $timezone = $site->getTimezone();
         $last30Relative = new Range($period, $lastN, $timezone);
-        $last30Relative->setDefaultEndDate(Date::factory($endDate, $timezone));
-        $date = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
 
+        if (strpos($endDate, '-') === false) {
+            $endDate = Date::factory($endDate, $timezone);
+        } else {
+            $endDate = Date::factory($endDate);
+        }
+        $last30Relative->setDefaultEndDate($endDate);
+
+        $date = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
         return $date;
     }
 
