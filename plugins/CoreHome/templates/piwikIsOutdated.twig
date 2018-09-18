@@ -1,0 +1,58 @@
+{% extends 'dashboard.twig' %}
+
+{% block topcontrols %}
+        <div class="top_controls">
+        </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container" id="multisites">
+
+        <div id="main">
+            <h1>Your Piwik is outdated and insecure. Upgrade now to Matomo 3, the most efficient and secure Matomo version</h1>
+            <p>You are using Piwik 2 which is no longer supported since December 2017. This means your Piwik will no longer receive any updates or security fixes and therefore this version is considered insecure.</p>
+
+            <h2>Piwik is now Matomo</h2>
+            <p>
+                You may be surprised, but no stress, take a deep breath, it is only our name that changed and nothing else.
+                In January 2018 we have renamed <strong>Piwik to Matomo</strong>. <a href="https://matomo.org/blog/2018/01/piwik-is-now-matomo">Learn more</a>
+            </p>
+
+            <h2>What is new in Matomo 3?</h2>
+            <p>
+                In December 2016, we have released <a href="https://matomo.org/changelog/piwik-3-0-0/">Piwik 3.0</a> which brings heaps of awesome new features, a new improved user interface, and lots of performance and security improvements.
+                Since then, many <a href="https://matomo.org/changelog/">new major updates have been released</a> that further improve the security and performance and bring new features such as a GDPR manager, a revamped user management, cross domain tracking, and hundreds of other new features.
+                <br /><br />
+                Matomo 3 also supports premium features which are made directly by the makers of Piwik/Matomo:<br />
+                <a href="https://plugins.matomo.org/CustomReports">Custom Reports</a>, <a href="https://plugins.matomo.org/HeatmapSessionRecording">Heatmaps & Session Recordings</a>, <a href="https://plugins.matomo.org/SearchEngineKeywordsPerformance">Search Engine Keywords Performance</a>, <a href="https://plugins.matomo.org/Funnels">Funnels</a>, <a href="https://plugins.matomo.org/AbTesting">A/B Testing</a>, <a href="https://plugins.matomo.org/RollUpReporting">Roll-Up Reporting</a>, <a href="https://plugins.matomo.org/UsersFlow">Users Flow</a>, <a href="https://plugins.matomo.org/FormAnalytics">Form Analytics</a>, <a href="https://plugins.matomo.org/MediaAnalytics">Media Analytics</a>, <a href="https://plugins.matomo.org/MultiChannelConversionAttribution">Multi Channel Conversion Attribution</a>, and <a href="https://plugins.matomo.org/premium">more</a>.
+            </p>
+
+            <h2>How to upgrade</h2>
+            <p>The update to Matomo (Piwik) 3 should be smooth, but may take a while depending on the amount of data you have. If you have any problem with the update, feel free to  <a href="https://matomo.org/support">get in touch</a> with us. At Matomo and at <a href="https://www.innocraft.com" onclick="javascript:window.open('https://www.innocraft.com/'); return false;">InnoCraft</a>, the company of the makers of Matomo, we have successfully updated many Matomo installations.</p>
+            <p>    If your server meets the requirements for Matomo 3, you can <a href="https://matomo.org/docs/update/">upgrade your Piwik with our automatic updater</a>.
+                If not, you may need to upgrade your server before you can update to the latest server version.
+            </p>
+
+            <h2>Don't want the hassle of updating and maintaining your Piwik? Migrate to the Matomo Analytics Cloud</h2>
+            <p>
+                We can migrate your Piwik database to our Matomo Analytics Cloud without the loss of any data while you keep 100% data ownership.<br />
+                The Cloud is operated directly by the makers of Piwik/Matomo and is reliable, secure, comes with bonus features, and always kept up to date.
+                <br /><br />
+                <a href="https://www.innocraft.cloud/">Learn more about the Matomo Analytics Cloud</a><br />
+                <a href="https://www.innocraft.cloud/#pricing">View Pricing</a><br />
+                <a href="https://www.innocraft.cloud/#contact">Get in touch with our support team to learn more about the migration</a><br />
+            </p>
+
+            {% if isSuperUser %}
+            <h2>Want to disable this warning? (not recommended)</h2>
+            <p>
+                A user with access to the server can edit the <code>config/config.ini.php</code> file and add the following lines (the line with <code>[General]</code> may already exist):
+                <br />
+                <br />
+                <pre><code>[General]
+show_piwik2_end_of_life_warning = 0</code></pre>
+            </p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

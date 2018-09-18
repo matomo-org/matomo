@@ -133,6 +133,8 @@ enabled = 0
 disable_merged_assets = 0
 
 [General]
+; If enabled, shows a warning to users that current version is outdated
+show_piwik2_end_of_life_warning = 1
 
 ; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Piwik instances

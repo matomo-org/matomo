@@ -642,6 +642,8 @@ abstract class Controller
         $view->topMenu  = MenuTop::getInstance()->getMenu();
         $view->userMenu = MenuUser::getInstance()->getMenu();
 
+        ControllerAdmin::notifyPiwik2EndOfLife();
+
         $notifications = $view->notifications;
         if (empty($notifications)) {
             $view->notifications = NotificationManager::getAllNotificationsToDisplay();

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugin;
 
+use Piwik\Common;
 use Piwik\Config as PiwikConfig;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -18,6 +19,7 @@ use Piwik\Menu\MenuUser;
 use Piwik\Notification;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Marketplace;
 use Piwik\Tracker\TrackerConfig;
 use Piwik\Url;
@@ -213,6 +215,43 @@ abstract class ControllerAdmin extends Controller
         return version_compare( PHP_VERSION, self::getNextRequiredMinimumPHP(), '>=' );
     }
 
+    public static function notifyPiwik2EndOfLife()
+    {
+        if (!Piwik::isUserHasSomeAdminAccess()) {
+            return;
+        }
+
+        $general = Config::getInstance()->General;
+        if (empty($general['show_piwik2_end_of_life_warning'])) {
+            return;
+        }
+
+        if (Piwik::getModule() === 'CoreHome' && Piwik::getAction() === 'piwikIsOutdated') {
+            return;
+        }
+
+        if (Piwik::getLoginPluginName() === Piwik::getModule()) {
+            return;
+        }
+
+        if (Common::getRequestVar('widget', 0,'int') === 1) {
+            return;
+        }
+
+        if (Plugin\Manager::getInstance()->isPluginActivated('WhiteLabel')) {
+            return;
+        }
+
+        $message = 'Piwik 2 is no longer supported and does not receive any security updates anymore.<br /><a href="';
+        $message .= 'index.php' . Url::getCurrentQueryStringWithParametersModified(array('module' => 'CoreHome', 'action' => 'piwikIsOutdated'));
+        $message .= '">Learn more about how to make your Piwik secure again.</a>';
+        $notification = new Notification($message);
+        $notification->raw = true;
+        $notification->context = Notification::CONTEXT_ERROR;
+        $notification->title = 'This version of Piwik is outdated and not supported anymore.';
+        Notification\Manager::notify('ControllerAdmin_EndOfLife', $notification);
+    }
+
     private static function notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik()
     {
         if(self::isUsingPhpVersionCompatibleWithNextPiwik()) {
@@ -322,12 +361,15 @@ abstract class ControllerAdmin extends Controller
 
         $view->isSuperUser = Piwik::hasUserSuperUserAccess();
 
+        self::notifyPiwik2EndOfLife();
         self::notifyAnyInvalidLicense();
         self::notifyAnyInvalidPlugin();
         self::notifyWhenPhpVersionIsEOL();
         self::notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik();
         self::notifyWhenDebugOnDemandIsEnabled('debug');
         self::notifyWhenDebugOnDemandIsEnabled('debug_on_demand');
+
+
 
         $adminMenu = MenuAdmin::getInstance()->getMenu();
         $view->adminMenu = $adminMenu;
