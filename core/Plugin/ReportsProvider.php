@@ -51,7 +51,6 @@ class ReportsProvider
         return new $klassName();
     }
 
-    // TODO: tests for these changes
     private static function findReportMatchingParameters($reports)
     {
         $requestParams = $_GET + $_POST;

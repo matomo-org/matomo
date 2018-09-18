@@ -376,7 +376,7 @@ class PivotByDimension extends BaseFilter
                 return;
             }
 
-            // iΩf fetching by segment is enabled, and we cannot fetch by subtable, then there has to be a report
+            // if fetching by segment is enabled, and we cannot fetch by subtable, then there has to be a report
             // for the pivot dimension (so we can fetch the report), and there has to be a segment for this report's
             // dimension (so we can use it when fetching)
 
