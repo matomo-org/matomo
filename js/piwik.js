@@ -3804,7 +3804,7 @@ if (typeof window.Piwik !== 'object') {
 
                     var i = 0, bulk;
                     for (i; i < chunks.length; i++) {
-                        bulk = '{"requests":["?' + requests.join('","?') + '"]}';
+                        bulk = '{"requests":["?' + chunks[i].join('","?') + '"]}';
                         sendXmlHttpRequest(bulk, null, false);
                     }
 
