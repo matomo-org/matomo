@@ -81,7 +81,7 @@ abstract class Factory
                 return new Range($period, $date, $timezone);
             }
 
-            $dateObject = Date::factory($date, $timezone);
+            $dateObject = Date::factory($date);
         } else if (!empty($date)) {
             $dateObject = $date;
         } else {
