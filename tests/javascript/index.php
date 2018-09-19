@@ -53,6 +53,9 @@ function getConsentToken() {
 function getOptInToken() {
     return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
 }
+function getAlwaysUseSendBeaconToken() {
+    return "<?php $token = md5(uniqid(mt_rand(), true)); echo $token; ?>";
+}
 <?php
 
 if ($mysql) {
@@ -133,6 +136,14 @@ function _s(selector) { // select node within content test scope
  } else {
      ok(false, 'selector not found but should: #contenttest ' + selector);
  }
+}
+
+function makeXhr()
+{
+    var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
+        window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
+            null;
+    return xhr;
 }
 
  // Polyfill for IndexOf for IE6-IE8
@@ -270,9 +281,7 @@ function triggerEvent(element, type, buttonNumber) {
 
  function fetchTrackedRequests(token, parse)
  {
-     var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
-         window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
-             null;
+     var xhr = makeXhr();
 
      xhr.open("GET", "piwik.php?requests=" + token, false);
      xhr.send(null);
@@ -2132,7 +2141,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(102);
+        expect(103);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2174,6 +2183,7 @@ function PiwikTest() {
         equal( typeof tracker.deleteCustomVariables, 'function', 'deleteCustomVariables' );
         equal( typeof tracker.setLinkTrackingTimer, 'function', 'setLinkTrackingTimer' );
         equal( typeof tracker.getLinkTrackingTimer, 'function', 'getLinkTrackingTimer' );
+        equal( typeof tracker.alwaysUseSendBeacon, 'function', 'alwaysUseSendBeacon' );
         equal( typeof tracker.setDownloadExtensions, 'function', 'setDownloadExtensions' );
         equal( typeof tracker.addDownloadExtensions, 'function', 'addDownloadExtensions' );
         equal( typeof tracker.removeDownloadExtensions, 'function', 'removeDownloadExtensions' );
@@ -3570,6 +3580,36 @@ if ($mysql) {
         }
     });
 
+    test("tracking with sendBeacon", function() {
+        expect(6);
+
+        var tracker = Piwik.getTracker();
+        tracker.setTrackerUrl("piwik.php");
+        tracker.setSiteId(1);
+        tracker.setCustomData({ "token" : getAlwaysUseSendBeaconToken() });
+        tracker.alwaysUseSendBeacon();
+
+        var shortTitle = 'CustomShortTitleTest';
+        var longTitle = "CustomLongTitleTest" + (Array(2500).join('f'));
+        tracker.trackPageView(shortTitle);
+        tracker.trackPageView(longTitle);
+
+        stop();
+        setTimeout(function() {
+            var xhr = makeXhr();
+            xhr.open("GET", "piwik.php?requests=" + getAlwaysUseSendBeaconToken(), false);
+            xhr.send(null);
+            var results = xhr.responseText;
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "2", "count tracking events" );
+
+            ok(results.indexOf('piwik.php?action_name=' + shortTitle + '&') >= 0, "trackPageView() sends small request");
+            ok(results.indexOf('piwik.php?action_name=' + longTitle + '&') >= 0, "trackPageView() sends long request");
+
+            start();
+        }, 2000);
+    });
+
+
     test("tracking", function() {
         expect(152);
 
@@ -3767,9 +3807,7 @@ if ($mysql) {
         triggerEvent(_e('click7'), 'mousedown', 1);
         triggerEvent(_e('click7'), 'mouseup', 1); // middleclick
 
-        var xhr = window.XMLHttpRequest ? new window.XMLHttpRequest() :
-            window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") :
-            null;
+        var xhr = makeXhr();
 
         var clickDiv = _e("clickDiv"),
             anchor = document.createElement("a");
