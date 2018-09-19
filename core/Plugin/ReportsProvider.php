@@ -40,45 +40,9 @@ class ReportsProvider
             return null;
         }
 
-        $reports = $listApiToReport[$api];
+        $klassName = $listApiToReport[$api];
 
-        $report = self::findReportMatchingParameters($reports);
-        if (empty($report)) { // sanity check
-            return null;
-        }
-
-        $klassName = $report['class'];
-        return new $klassName();
-    }
-
-    private static function findReportMatchingParameters($reports)
-    {
-        $requestParams = $_GET + $_POST;
-
-        $match = null;
-        $matchParamCount = -1;
-
-        foreach ($reports as $report) {
-            $isMatchedWithThisReport = self::isReportParamsMatchingCurrentParams($report, $requestParams);
-            if ($isMatchedWithThisReport && count($report['parameters']) > $matchParamCount) {
-                $match = $report;
-            }
-        }
-
-        return $match;
-    }
-
-    private static function isReportParamsMatchingCurrentParams($report, $currentParams)
-    {
-        foreach ($report['parameters'] as $name => $value) {
-            if (empty($currentParams[$name])
-                || $currentParams[$name] != $value
-            ) {
-                return false;
-            }
-        }
-
-        return true;
+        return new $klassName;
     }
 
     private static function getMapOfModuleActionsToReport()
@@ -129,10 +93,13 @@ class ReportsProvider
             foreach ($reports as $report) {
                 $key = $report->getModule() . '.' . ucfirst($report->getAction());
 
-                $mapApiToReport[$key][] = [
-                    'class' => get_class($report),
-                    'parameters' => $report->getParameters() ?: [],
-                ];
+                if (isset($mapApiToReport[$key]) && $report->getParameters()) {
+                    // sometimes there are multiple reports with same module/action but different parameters.
+                    // we might pick the "wrong" one. At some point we should compare all parameters and if there is
+                    // a report which parameters mach $_REQUEST then we should prefer that report
+                    continue;
+                }
+                $mapApiToReport[$key] = get_class($report);
             }
 
             $cache->save($lazyCacheId, $mapApiToReport, $lifeTime = 3600);
