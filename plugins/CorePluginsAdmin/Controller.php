@@ -316,7 +316,9 @@ class Controller extends Plugin\ControllerAdmin
 
             $errorMessage = $lastError['message'];
 
-            if (!empty($lastError['backtrace'])) {
+            if (!empty($lastError['backtrace'])
+                && \Piwik_ShouldPrintBackTraceWithMessage()
+            ) {
                 $errorMessage .= $lastError['backtrace'];
             }
 
