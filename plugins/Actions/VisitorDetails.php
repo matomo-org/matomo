@@ -148,34 +148,32 @@ class VisitorDetails extends VisitorDetailsAbstract
         switch ($action['type']) {
             case 'goal':
                 $action['icon'] = 'plugins/Morpheus/images/goal.png';
-                $action['title'] = 'Converted goal';
+                $action['title'] = Piwik::translate('Goals_GoalConversion');
                 $action['subtitle'] = $action['goalName'];
                 if (!empty($action['revenue'])) {
-                    $action['subtitle'] .= ' (' . $formatter->getPrettyMoney($action['revenue'], $visitorDetails['idSite']) . ' revenue)';
+                    $action['subtitle'] .= ' (' . Piwik::translate('Goals_NRevenue', $formatter->getPrettyMoney($action['revenue'], $visitorDetails['idSite'])) . ')';
                 }
                 break;
             case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER:
             case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART:
                 $action['icon'] = 'plugins/Morpheus/images/' . $action['type'] . '.png';
                 if ($action['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-                    $action['title'] = 'Ordered';
-                    $action['subtitle'] = 'Order ID ' . $action['orderId'] . '.';
+                    $action['title'] = Piwik::translate('CoreHome_VisitStatusOrdered') . ' (' . $action['orderId'] . ')';
                 } else {
-                    $action['title'] = 'Updated cart';
-                    $action['subtitle'] = '';
+                    $action['title'] = Piwik::translate('Goals_AbandonedCart');
                 }
 
                 $itemNames = implode(', ', array_column($action['itemDetails'], 'itemName'));
-                $action['subtitle'] .= $formatter->getPrettyMoney($action['revenue'], $visitorDetails['idSite']) . ' revenue';
-                $action['subtitle'] .= ' (' .  $action['items'] . ' items: ' . $itemNames .')';
+                $action['subtitle'] = Piwik::translate('Goals_NRevenue', $formatter->getPrettyMoney($action['revenue'], $visitorDetails['idSite']));
+                $action['subtitle'] .= ' - ' .  Piwik::translate('Goals_NItems', $action['items']) . ': ' . $itemNames .')';
                 break;
             case Action::TYPE_CONTENT:
                 if (!empty($action['contentInteraction'])) {
                     $action['icon'] = 'plugins/Morpheus/images/contentinteraction.png';
-                    $action['title'] = 'Content interaction (' . $action['contentInteraction'] . ')';
+                    $action['title'] = Piwik::translate('Contents_ContentInteraction') . ' (' . $action['contentInteraction'] . ')';
                 } else {
                     $action['icon'] = 'plugins/Morpheus/images/contentimpression.png';
-                    $action['title'] = 'Content impression';
+                    $action['title'] = Piwik::translate('Contents_ContentImpression');
                 }
 
                 $action['subtitle'] = $action['contentName'];
@@ -186,26 +184,26 @@ class VisitorDetails extends VisitorDetailsAbstract
             case Action::TYPE_DOWNLOAD:
                 $action['type'] = 'download';
                 $action['icon'] = 'plugins/Morpheus/images/download.png';
-                $action['title'] = 'Download';
+                $action['title'] = Piwik::translate('General_Download');
                 $action['subtitle'] = $action['url'];
                 break;
             case Action::TYPE_OUTLINK:
                 $action['type'] = 'outlink';
                 $action['icon'] = 'plugins/Morpheus/images/link.png';
-                $action['title'] = 'Outlink';
+                $action['title'] = Piwik::translate('General_Outlink');
                 $action['subtitle'] = $action['url'];
                 break;
             case Action::TYPE_SITE_SEARCH:
                 $action['type'] = 'search';
                 $action['icon'] = 'plugins/Morpheus/images/search_ico.png';
-                $action['title'] = 'Site search';
+                $action['title'] = Piwik::translate('Actions_SubmenuSitesearch');
                 $action['subtitle'] = $action['siteSearchKeyword'];
                 break;
             case Action::TYPE_PAGE_URL:
             case Action::TYPE_PAGE_TITLE:
             case '':
                 if (!isset($action['title'])) {
-                    $action['title'] = 'Viewed "' . $action['pageTitle'] . '"';
+                    $action['title'] = $action['pageTitle'];
                     $action['subtitle'] = $action['url'];
                 }
                 $action['type'] = 'action';
