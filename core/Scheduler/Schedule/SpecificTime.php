@@ -9,7 +9,7 @@
 
 namespace Piwik\Scheduler\Schedule;
 
-class OneTime extends Schedule
+class SpecificTime extends Schedule
 {
     /**
      * @var int

@@ -22,7 +22,7 @@ use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Scheduler\Schedule\Daily;
 use Piwik\Scheduler\Schedule\Monthly;
-use Piwik\Scheduler\Schedule\OneTime;
+use Piwik\Scheduler\Schedule\SpecificTime;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Tests\Framework\Mock\Site;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
@@ -90,7 +90,7 @@ class Tasks extends \Piwik\Plugin\Tasks
                 continue;
             }
 
-            $schedule = new OneTime($scheduledTime->getTimestamp());
+            $schedule = new SpecificTime($scheduledTime->getTimestamp());
             $this->custom($this, 'checkSiteHasTrackedVisits', $site['idsite'], $schedule);
         }
     }
