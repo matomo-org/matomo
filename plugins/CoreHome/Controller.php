@@ -51,7 +51,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function piwikIsOutdated()
     {
-        Piwik::checkUserHasSomeAdminAccess();
+        Piwik::checkUserHasSomeViewAccess();
 
         return $this->renderTemplate('piwikIsOutdated');
     }
