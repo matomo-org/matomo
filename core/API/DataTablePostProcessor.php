@@ -157,7 +157,6 @@ class DataTablePostProcessor
 
             $dataTable->filter('PivotByDimension', array($this->report, $pivotBy, $pivotByColumn, $pivotByColumnLimit,
                 PivotByDimension::isSegmentFetchingEnabledInConfig()));
-            $dataTable->filter('ColumnCallbackDeleteMetadata', array('segmentValue'));
             $dataTable->filter('ColumnCallbackDeleteMetadata', array('segment'));
         }
         return $dataTable;

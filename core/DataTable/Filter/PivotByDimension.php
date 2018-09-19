@@ -271,8 +271,17 @@ class PivotByDimension extends BaseFilter
         if ($this->isFetchingBySegmentEnabled) {
             $segment = $row->getMetadata('segment');
             if (empty($segment)) {
-                $segmentValue = $row->getMetadata('segmentValue') ?: $row->getColumn('label');
-                $segment = $this->thisReportDimensionSegment->getSegment() . "==" . urlencode($segmentValue);
+                $segmentValue = $row->getMetadata('segmentValue');
+                if ($segmentValue === false) {
+                    $segmentValue = $row->getColumn('label');
+                }
+
+                $segmentName = $this->thisReportDimensionSegment->getSegment();
+                if (empty($segmentName)) {
+                    throw new \Exception("Invalid segment found when pivoting: " . $this->thisReportDimensionSegment->getName());
+                }
+
+                $segment = $segmentName . "==" . urlencode($segmentValue);
             }
             return $this->fetchIntersectedWithThisBySegment($table, $segment);
         }
