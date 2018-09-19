@@ -22,6 +22,8 @@ use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Scheduler\Schedule\Daily;
 use Piwik\Scheduler\Schedule\Monthly;
+use Piwik\Scheduler\Schedule\OneTime;
+use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
 use Piwik\Tests\Framework\Mock\Site;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
 use Psr\Log\LoggerInterface;
@@ -29,6 +31,7 @@ use Piwik\SettingsPiwik;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
+    const TRACKING_CODE_CHECK_FLAG = 'trackingCodeExistsCheck';
     /**
      * @var ArchivePurger
      */
@@ -75,24 +78,27 @@ class Tasks extends \Piwik\Plugin\Tasks
 
         foreach ($sites as $site) {
             $createdTime = Date::factory($site['ts_created']);
-            $today = Date::factory('today');
+            $scheduledTime = $createdTime->addDay($daysToTrackedVisitsCheck)->setTime('02:00:00');
 
-            $daysSinceCreation = floor(($today->getTimestamp() - $createdTime->getTimestamp()) / 86400);
-            if ($daysSinceCreation != $daysToTrackedVisitsCheck - 1
-                && $daysSinceCreation != $daysToTrackedVisitsCheck
+            // we don't want to run this check for every site in an install when this code is introduced,
+            // so if the site is over 2 * $daysToTrackedVisitsCheck days old, assume the check has run.
+            $isSiteOld = $createdTime->isEarlier(Date::today()->subDay($daysToTrackedVisitsCheck * 2));
+
+            if ($this->hasTrackingCodeReminderRun($site['idsite'])
+                || $isSiteOld
             ) {
-                continue; // job should not be run tomorrow (note: the scheduler will schedule the task for the NEXT day, so i
-                          // has to be in the list for today & yesterday
+                continue;
             }
 
-            $daily = new Daily();
-            $daily->setHour(2);
-            $this->custom($this, 'checkSiteHasTrackedVisits', $site['idsite'], $daily);
+            $schedule = new OneTime($scheduledTime->getTimestamp());
+            $this->custom($this, 'checkSiteHasTrackedVisits', $site['idsite'], $schedule);
         }
     }
 
     public function checkSiteHasTrackedVisits($idSite)
     {
+        $this->rememberTrackingCodeReminderRan($idSite);
+
         if (!SitesManager::hasTrackedAnyTraffic($idSite)) {
             return;
         }
@@ -112,6 +118,20 @@ class Tasks extends \Piwik\Plugin\Tasks
 
         $email = new JsTrackingCodeMissingEmail($user['login'], $user['email'], $idSite);
         $email->send();
+    }
+
+    private function hasTrackingCodeReminderRun($idSite)
+    {
+        $table = new MeasurableSettingsTable($idSite, 'CoreAdminHome');
+        $settings = $table->load();
+        return !empty($settings[self::TRACKING_CODE_CHECK_FLAG]);
+    }
+
+    private function rememberTrackingCodeReminderRan($idSite)
+    {
+        $table = new MeasurableSettingsTable($idSite, 'CoreAdminHome');
+        $settings = $table->load();
+        $settings[self::TRACKING_CODE_CHECK_FLAG] = 1;
     }
 
     /**

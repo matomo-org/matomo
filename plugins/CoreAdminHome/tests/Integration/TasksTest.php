@@ -131,6 +131,9 @@ class TasksTest extends IntegrationTestCase
             'optimizeArchiveTable.',
             'updateSpammerBlacklist.',
             'checkSiteHasTrackedVisits.2',
+            'checkSiteHasTrackedVisits.3',
+            'checkSiteHasTrackedVisits.4',
+            'checkSiteHasTrackedVisits.5',
         ];
         $this->assertEquals($expected, $tasks);
     }
