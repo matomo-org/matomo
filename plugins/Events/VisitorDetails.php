@@ -22,6 +22,18 @@ class VisitorDetails extends VisitorDetailsAbstract
         if (!empty($action['eventType'])) {
             $action['type'] = 'event';
             $action['icon'] = 'plugins/Morpheus/images/event.png';
+            $action['title'] = 'Event';
+            $action['subtitle'] = 'Category "' . $action['eventCategory'] . "'";
+
+            if (!empty($action['eventName'])) {
+                $action['subtitle'] .= ', Name "' . $action['eventName'] . '"';
+            }
+            if (!empty($action['eventAction'])) {
+                $action['subtitle'] .= ', Action "' . $action['eventAction'] . '"';
+            }
+            if (!empty($action['eventValue'])) {
+                $action['subtitle'] .= ', Value "' . $action['eventValue'] . '"';
+            }
 
             if (strlen($action['pageTitle']) > 0) {
                 $action['eventName'] = $action['pageTitle'];
