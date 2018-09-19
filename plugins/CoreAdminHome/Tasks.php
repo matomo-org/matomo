@@ -68,13 +68,13 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     private function scheduleTrackingCodeReminderChecks()
     {
-        // add check for a site's tracked visits
-        $sites = Request::processRequest('SitesManager.getAllSites');
-
         $daysToTrackedVisitsCheck = (int) Config::getInstance()->General['num_days_before_tracking_code_reminder'];
         if ($daysToTrackedVisitsCheck <= 0) {
             return;
         }
+
+        // add check for a site's tracked visits
+        $sites = Request::processRequest('SitesManager.getAllSites');
 
         foreach ($sites as $site) {
             $createdTime = Date::factory($site['ts_created']);
@@ -84,9 +84,7 @@ class Tasks extends \Piwik\Plugin\Tasks
             // so if the site is over 2 * $daysToTrackedVisitsCheck days old, assume the check has run.
             $isSiteOld = $createdTime->isEarlier(Date::today()->subDay($daysToTrackedVisitsCheck * 2));
 
-            if ($this->hasTrackingCodeReminderRun($site['idsite'])
-                || $isSiteOld
-            ) {
+            if ($isSiteOld || $this->hasTrackingCodeReminderRun($site['idsite'])) {
                 continue;
             }
 

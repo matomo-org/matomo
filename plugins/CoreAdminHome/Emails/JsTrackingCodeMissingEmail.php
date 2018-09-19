@@ -79,7 +79,7 @@ class JsTrackingCodeMissingEmail extends Mail
 
     private function getDefaultSubject()
     {
-        return Piwik::translate('CoreAdminHome_MissingTrackingCodeEmailSubject', [Site::getNameFor($this->idSite)]);
+        return Piwik::translate('CoreAdminHome_MissingTrackingCodeEmailSubject', ["'" . Site::getNameFor($this->idSite) . "'"]);
     }
 
     private function getDefaultBodyView()
