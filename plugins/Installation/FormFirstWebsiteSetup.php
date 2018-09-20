@@ -15,6 +15,7 @@ use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
 use NumberFormatter;
 use Piwik\Access;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\QuickForm2;
@@ -39,9 +40,11 @@ class FormFirstWebsiteSetup extends QuickForm2
         $timezones = API::getInstance()->getTimezonesList();
         $timezones = array_merge(array('No timezone' => Piwik::translate('SitesManager_SelectACity')), $timezones);
 
-        // Use server timezone as default. If server timezone is UTC, it is likely
-        // a default not specified explicitly by the sysadm, so ignore this.
-        $timezone = PIWIK_DEFAULT_TIMEZONE;
+        // Use server timezone as default, unless a default timezone has already
+        // been defined from outside the installation wizard.
+        // If the server timezone is UTC, it is likely a default not specified
+        // explicitly by the sysadm, so ignore this.
+        $timezone = Option::get(API::OPTION_DEFAULT_TIMEZONE) ?: PIWIK_DEFAULT_TIMEZONE;
         if (in_array(strtolower($timezone), array('utc', 'etc/utc', 'gmt', 'etc/gmt'))) {
             $timezone = null;
         }
@@ -99,7 +102,7 @@ class Rule_isValidTimezone extends HTML_QuickForm2_Rule
         }
 
         // If intl extension is installed, get default currency from timezone country.
-        if ($timezone && class_exists('NumberFormatter')) {
+        if (!Option::get(API::OPTION_DEFAULT_CURRENCY) && $timezone && class_exists('NumberFormatter')) {
             try {
                 $zone = new DateTimeZone($timezone);
                 $location = $zone->getLocation();
