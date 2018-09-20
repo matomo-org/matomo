@@ -132,6 +132,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         $table = new MeasurableSettingsTable($idSite, 'CoreAdminHome');
         $settings = $table->load();
         $settings[self::TRACKING_CODE_CHECK_FLAG] = 1;
+        $table->save($settings);
     }
 
     /**
