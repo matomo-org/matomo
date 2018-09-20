@@ -49,6 +49,7 @@
         "NotDownloadable": "Non téléchargeable",
         "PluginNotDownloadable": "Ce composant n'est pas téléchargeable.",
         "PluginNotDownloadablePaidReason": "Certaines des raisons peuvent être une licence expirée ou insuffisante.",
+        "PluginRequiresInternet": "Ce composant requiert une connexion internet fonctionnelle. Veuillez vérifier la valeur `enable_internet_features` de votre configuration si vous souhaitez utiliser cette fonctionnalité.",
         "PluginActivated": "Composant activé",
         "Status": "État",
         "SuccessfullyActicated": "Vous avez activé avec succès <strong>%s<\/strong>.",

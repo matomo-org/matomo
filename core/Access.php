@@ -221,8 +221,8 @@ class Access
         } elseif (isset($this->login)) {
             if (empty($this->idsitesByAccess['view'])
                 && empty($this->idsitesByAccess['write'])
-                && empty($this->idsitesByAccess['admin'])) {
-
+                && empty($this->idsitesByAccess['admin'])
+            ) {
                 // we join with site in case there are rows in access for an idsite that doesn't exist anymore
                 // (backward compatibility ; before we deleted the site without deleting rows in _access table)
                 $accessRaw = $this->getRawSitesWithSomeViewAccess($this->login);
@@ -243,6 +243,35 @@ class Access
                         }
                     }
                 }
+
+                /**
+                 * Triggered after the initial access levels and permissions for the current user are loaded. Use this
+                 * event to modify the current user's permissions (for example, making sure every user has view access
+                 * to a specific site).
+                 *
+                 * **Example**
+                 *
+                 *     function (&$idsitesByAccess, $login) {
+                 *         if ($login == 'somespecialuser') {
+                 *             return;
+                 *         }
+                 *
+                 *         $idsitesByAccess['view'][] = $mySpecialIdSite;
+                 *     }
+                 *
+                 * @param array[] &$idsitesByAccess The current user's access levels for individual sites. Maps role and
+                 *                                  capability IDs to list of site IDs, eg:
+                 *
+                 *                                  ```
+                 *                                  [
+                 *                                      'view' => [1, 2, 3],
+                 *                                      'write' => [4, 5],
+                 *                                      'admin' => [],
+                 *                                  ]
+                 *                                  ```
+                 * @param string $login The current user's login.
+                 */
+                Piwik::postEvent('Access.modifyUserAccess', [&$this->idsitesByAccess, $this->login]);
             }
         }
     }

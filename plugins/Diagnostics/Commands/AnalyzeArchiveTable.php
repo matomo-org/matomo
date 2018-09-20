@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Diagnostics\Commands;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -50,7 +51,7 @@ class AnalyzeArchiveTable extends ConsoleCommand
         }
 
         $headers = array('Group', '# Archives', '# Invalidated', '# Temporary', '# Error', '# Segment',
-            '# Numeric Rows', '# Blob Rows');
+            '# Numeric Rows', '# Blob Rows', '# Blob Data');
 
         // display all rows
         $table = new Table($output);
@@ -63,13 +64,19 @@ class AnalyzeArchiveTable extends ConsoleCommand
         $totalTemporary = 0;
         $totalError = 0;
         $totalSegment = 0;
+        $totalBlobLength = 0;
         foreach ($rows as $row) {
             $totalArchives += $row['count_archives'];
             $totalInvalidated += $row['count_invalidated_archives'];
             $totalTemporary += $row['count_temporary_archives'];
             $totalError += $row['count_error_archives'];
             $totalSegment += $row['count_segment_archives'];
+            if (isset($row['sum_blob_length'])) {
+                $totalBlobLength += $row['sum_blob_length'];
+            }
         }
+
+        $formatter = new Formatter();
 
         $output->writeln("");
         $output->writeln("Total # Archives: <comment>$totalArchives</comment>");
@@ -77,6 +84,7 @@ class AnalyzeArchiveTable extends ConsoleCommand
         $output->writeln("Total # Temporary Archives: <comment>$totalTemporary</comment>");
         $output->writeln("Total # Error Archives: <comment>$totalError</comment>");
         $output->writeln("Total # Segment Archives: <comment>$totalSegment</comment>");
+        $output->writeln("Total Size of Blobs: <comment>" . $formatter->getPrettySizeFromBytes($totalBlobLength) . "</comment>");
         $output->writeln("");
     }
 }

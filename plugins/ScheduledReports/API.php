@@ -125,9 +125,15 @@ class API extends \Piwik\Plugin\API
 
     private static function ensureLanguageSetForUser($currentUser)
     {
-        $lang = \Piwik\Plugins\LanguagesManager\API::getInstance()->getLanguageForUser($currentUser);
+        $lang = Request::processRequest('LanguagesManager.getLanguageForUser', [
+            'login' => $currentUser,
+        ]);
+
         if (empty($lang)) {
-            \Piwik\Plugins\LanguagesManager\API::getInstance()->setLanguageForUser($currentUser, LanguagesManager::getLanguageCodeForCurrentUser());
+            Request::processRequest('LanguagesManager.setLanguageForUser', [
+                'login' => $currentUser,
+                'languageCode' => LanguagesManager::getLanguageCodeForCurrentUser(),
+            ]);
         }
     }
 
