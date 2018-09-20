@@ -864,11 +864,17 @@ class Report
      */
     public static function getForDimension(Dimension $dimension)
     {
-        return ComponentFactory::getComponentIf(__CLASS__, $dimension->getModule(), function (Report $report) use ($dimension) {
-            return !$report->isSubtableReport()
+        $provider = new ReportsProvider();
+        $reports = $provider->getAllReports();
+        foreach ($reports as $report) {
+            if (!$report->isSubtableReport()
                 && $report->getDimension()
-                && $report->getDimension()->getId() == $dimension->getId();
-        });
+                && $report->getDimension()->getId() == $dimension->getId()
+            ) {
+                return $report;
+            }
+        }
+        return null;
     }
 
     /**

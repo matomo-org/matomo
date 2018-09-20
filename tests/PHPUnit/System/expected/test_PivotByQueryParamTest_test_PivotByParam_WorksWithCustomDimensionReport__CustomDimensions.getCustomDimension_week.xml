@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<col name="label">0</col>
+		<col name="1. Nice, Provence-Alpes-Côte-d’Azur, France">1</col>
+		<col name="2. Toronto, Ontario, Canada">1</col>
+		<col name="3. Melbourne, Victoria, Australia">1</col>
+		<col name="4. Yokohama, Kanagawa, Japan">0</col>
+	</row>
+	<row>
+		<col name="label">5</col>
+		<col name="1. Nice, Provence-Alpes-Côte-d’Azur, France">1</col>
+		<col name="2. Toronto, Ontario, Canada">0</col>
+		<col name="3. Melbourne, Victoria, Australia">1</col>
+		<col name="4. Yokohama, Kanagawa, Japan">1</col>
+	</row>
+	<row>
+		<col name="label">10</col>
+		<col name="1. Nice, Provence-Alpes-Côte-d’Azur, France">0</col>
+		<col name="2. Toronto, Ontario, Canada">1</col>
+		<col name="3. Melbourne, Victoria, Australia">1</col>
+		<col name="4. Yokohama, Kanagawa, Japan">1</col>
+	</row>
+	<row>
+		<col name="label">15</col>
+		<col name="1. Nice, Provence-Alpes-Côte-d’Azur, France">1</col>
+		<col name="2. Toronto, Ontario, Canada">1</col>
+		<col name="3. Melbourne, Victoria, Australia">0</col>
+		<col name="4. Yokohama, Kanagawa, Japan">1</col>
+	</row>
+	<row>
+		<col name="label">20</col>
+		<col name="1. Nice, Provence-Alpes-Côte-d’Azur, France">1</col>
+		<col name="2. Toronto, Ontario, Canada">1</col>
+		<col name="3. Melbourne, Victoria, Australia">1</col>
+		<col name="4. Yokohama, Kanagawa, Japan">0</col>
+	</row>
+</result>
