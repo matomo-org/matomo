@@ -1,17 +1,1 @@
-{% set fontStyle = 'color:#0d0d0d;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Cantarell, "Helvetica Neue", sans-serif; '%}
-{% set styleParagraph = 'font-size:15px;line-height:24px;margin:0 0 16px;' %}
-
-{% if not hasWhiteLabel %}
-  <hr style=" border: 0; margin-top: 50px;  height: 1px; background-image: linear-gradient(to right, rgba(231, 231, 231, 0), rgba(231, 231, 231, 1), rgba(2311, 2311, 231, 0));">
-
-  <p style='{{styleParagraph}}{{fontStyle}}text-align:center;font-size:13px; color:#666; padding:30px'>
-    {{'General_PoweredBy'|translate}}
-    <a style="color:#439fe0; " href="https://matomo.org/" title="Matomo Analytics">Matomo Analytics</a>
-    <br />
-    {{ 'CoreHome_LeadingAnalyticsPlatformRespectsYourPrivacy'|translate }}
-  </p>
-{% endif %}
-
-</div>
-</body>
-</html>
+{% include "@CoreHome/_htmlEmailFooter.twig" %}

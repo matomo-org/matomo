@@ -1,0 +1,16 @@
+{% set fontStyle %}color:{{ themeStyles.colorText|e('html_attr') }};font-family:{{ themeStyles.fontFamilyBase|e('html_attr') }};{% endset %}
+
+{% if not hasWhiteLabel %}
+    <hr style=" border: 0; margin-top: 50px;  height: 1px; background-image: linear-gradient(to right, rgba(231, 231, 231, 0), rgba(231, 231, 231, 1), rgba(2311, 2311, 231, 0));">
+
+    <p style='{{styleParagraph|raw}}{{fontStyle|raw}}text-align:center;font-size:13px; color:#666; padding:30px'>
+        {{'General_PoweredBy'|translate}}
+        <a style="color:#439fe0; " href="https://matomo.org/" title="Matomo Analytics">Matomo Analytics</a>
+        <br />
+        {{ 'CoreHome_LeadingAnalyticsPlatformRespectsYourPrivacy'|translate }}
+    </p>
+{% endif %}
+
+</div>
+</body>
+</html>
