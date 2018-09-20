@@ -39,10 +39,11 @@ class ErrorHandler
      * If a fatal error occurs, theMethodIWantToAppearInFatalErrorStackTraces will appear in the stack trace,
      * if PIWIK_PRINT_ERROR_BACKTRACE is true.
      */
-    public static function pushFatalErrorBreadcrumb($className = null)
+    public static function pushFatalErrorBreadcrumb($className = null, $importantArgs = null)
     {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $limit = 2);
         $backtrace[1]['class'] = $className; // knowing the derived class name is far more useful
+        $backtrace[1]['args'] = empty($importantArgs) ? [] : array_map('json_encode', $importantArgs);
         array_unshift(self::$fatalErrorStackTrace, $backtrace[1]);
     }
 
@@ -60,7 +61,20 @@ class ErrorHandler
                 $function = $entry['class'] . $entry['type'] . $function;
             }
 
-            $result .= sprintf("#%s %s(%s): %s()\n", $index, $entry['file'], $entry['line'], $function);
+            $args = '';
+            if (!empty($entry['args'])) {
+                $isFirst = true;
+                foreach ($entry['args'] as $name => $value) {
+                    if ($isFirst) {
+                        $isFirst = false;
+                    } else {
+                        $args .= ', ';
+                    }
+                    $args .= $name . '=' . $value;
+                }
+            }
+
+            $result .= sprintf("#%s %s(%s): %s(%s)\n", $index, $entry['file'], $entry['line'], $function, $args);
         }
         return $result;
     }

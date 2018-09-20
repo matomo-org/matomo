@@ -4,7 +4,7 @@
         "MobileReport_AdditionalPhoneNumbers": "Voit lisätä puhelinnumeroita",
         "MobileReport_MobileMessagingSettingsLink": "Mobiiliviestinnän asetukset",
         "MobileReport_NoPhoneNumbers": "Ota käyttöön vähintään yksi puhelinnumero",
-        "MultiSites_Must_Be_Activated": "Saadaksesi SMS-viestejä verkkosivusi tilastoista, sinun tulee sallia MultiSite liitännäinen Matomoissä.",
+        "MultiSites_Must_Be_Activated": "Saadaksesi SMS-viestejä verkkosivusi tilastoista, sinun tulee ottaa käyttöön MultiSite-liitännäinen Matomossa.",
         "PhoneNumbers": "Puhelinnumerot",
         "PluginDescription": "Luo ja lataa sovellettuja SMS raportteja ja saa ne puhelimeesi päivittäin, viikoittain tai kuukausittain.",
         "Settings_APIKey": "API-avain",
@@ -34,6 +34,6 @@
         "SMS_Content_Too_Long": "[liian pitkä]",
         "TopLinkTooltip": "Saa verkkoanalyysiraportteja suoraan sähköpostiisi tai puhelimeesi!",
         "TopMenu": "Sähköposti- ja SMS-raportit",
-        "VerificationText": "Koodi on %1$s. Todentaaksesi puhelinnumerosi ja vastaanottaaksesi Matomo SMS raportteja, kopioi tämä koodi lomakkeeseen, jonka löydät Matomoissä > %2$s > %3$s."
+        "VerificationText": "Koodi on %1$s. Todentaaksesi puhelinnumerosi ja vastaanottaaksesi Matomon SMS raportteja, kopioi tämä koodi lomakkeeseen, jonka löydät Matomosta kohdasta %2$s > %3$s."
     }
 }

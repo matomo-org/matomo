@@ -77,6 +77,15 @@
         "UseAnonymizeOrderId": "Anonymiser l'identifiant de la commande",
         "UseDeleteLog": "Supprimer régulièrement les anciens logs de la base de données.",
         "UseDeleteReports": "Supprimer régulièrement les anciens rapports de la base de données",
-        "UsersOptOut": "Désinscription des utilisateurs"
+        "UsersOptOut": "Désinscription des utilisateurs",
+        "PrivacyPolicyUrl": "URL de politique de vie privée",
+        "PrivacyPolicyUrlDescription": "Un lien vers votre page de Politique de la vie privée",
+        "TermsAndConditionUrl": "URL de termes et conditions",
+        "TermsAndConditionUrlDescription": "Un lien vers votre page de termes et conditions.",
+        "PrivacyPolicyUrlDescriptionSuffix": "Si vous définissez ceci, ce sera affiché au bas de votre page d'identification et sur les pages auxquelles l'utilisateur \"%1$s\" a accès.",
+        "ShowInEmbeddedWidgets": "Afficher dans les gadgets embarqués",
+        "ShowInEmbeddedWidgetsDescription": "Si coché, un lien vers votre Politique de vie privée et vos Termes et conditions sera affiché en bas des gadgets embarqués.",
+        "PrivacyPolicy": "Politique de la vie privée",
+        "TermsAndConditions": "Termes et conditions"
     }
 }
