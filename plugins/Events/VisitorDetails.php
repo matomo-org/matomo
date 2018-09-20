@@ -23,7 +23,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $action['type'] = 'event';
             $action['icon'] = 'plugins/Morpheus/images/event.png';
             $action['title'] = Piwik::translate('Events_Event');
-            $action['subtitle'] = Piwik::translate('Event_Category'). ': "' . $action['eventCategory'] . "'";
+            $action['subtitle'] = Piwik::translate('Event_Category') . ': "' . $action['eventCategory'] . "'";
 
             if (!empty($action['eventName'])) {
                 $action['subtitle'] .= ', ' . Piwik::translate('General_Name') . ': "' . $action['eventName'] . '"';
@@ -35,21 +35,22 @@ class VisitorDetails extends VisitorDetailsAbstract
                 $action['subtitle'] .= ', ' . Piwik::translate('General_Value') . ': "' . $action['eventValue'] . '"';
 
 
-            if (strlen($action['pageTitle']) > 0) {
-                $action['eventName'] = $action['pageTitle'];
-            }
+                if (strlen($action['pageTitle']) > 0) {
+                    $action['eventName'] = $action['pageTitle'];
+                }
 
-            if (isset($action['custom_float']) && strlen($action['custom_float']) > 0) {
-                $action['eventValue'] = round($action['custom_float'], self::EVENT_VALUE_PRECISION);
-            }
+                if (isset($action['custom_float']) && strlen($action['custom_float']) > 0) {
+                    $action['eventValue'] = round($action['custom_float'], self::EVENT_VALUE_PRECISION);
+                }
 
-            unset($action['pageTitle']);
-            unset($action['custom_float']);
-        } else {
-            unset($action['eventCategory']);
-            unset($action['eventAction']);
+                unset($action['pageTitle']);
+                unset($action['custom_float']);
+            } else {
+                unset($action['eventCategory']);
+                unset($action['eventAction']);
+            }
+            unset($action['eventType']);
         }
-        unset($action['eventType']);
     }
 
     public function extendVisitorDetails(&$visitor)
