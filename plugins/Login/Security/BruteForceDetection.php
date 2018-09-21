@@ -73,7 +73,8 @@ class BruteForceDetection {
 
     public function cleanupOldEntries()
     {
-        Db::get()->query('DELETE from brute_force_block WHERE attempted_at < DATE_SUB(NOW(), INTERVAL '.((int) $this->time_frame_minutes_auto_delete).' MINUTE)');
+        $minutes = max($this->time_frame_minutes_auto_delete, $this->settings->loginAttemptsTimeRange);
+        Db::get()->query('DELETE from brute_force_block WHERE attempted_at < DATE_SUB(NOW(), INTERVAL '.((int) $minutes).' MINUTE)');
     }
 
     /**
