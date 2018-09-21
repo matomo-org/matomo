@@ -281,7 +281,8 @@ class Mysql implements SchemaInterface
                                       `id_brute_force_log` bigint(11) NOT NULL AUTO_INCREMENT,
                                       `login` VARCHAR(100) NULL,
                                       `ip_address` VARCHAR(60) DEFAULT NULL,
-                                      `attempted_at` datetime NOT NULL,
+                                      `attempted_at` datetime NOT NULL,,
+                                        INDEX index_ip_address(ip_address)
                                       PRIMARY KEY(`id_brute_force_log`)
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",

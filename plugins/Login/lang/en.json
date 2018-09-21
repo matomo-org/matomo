@@ -1,5 +1,6 @@
 {
     "Login": {
+        "BruteForceLog": "Brute Force Log",
         "ConfirmationLinkSent": "A confirmation link has been sent to your inbox. Check your e-mail and visit this link to authorize your password change request.",
         "ContactAdmin": "Possible reason: your host may have disabled the mail() function. <br \/>Please contact your Matomo administrator.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "A user with Super User access cannot be authenticated using the '%s' mechanism.",

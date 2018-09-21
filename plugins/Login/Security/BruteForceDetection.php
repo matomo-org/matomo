@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\Login\Securit;
+namespace Piwik\Plugins\Login\Security;
 
 use Piwik\Common;
 use Piwik\Db;
@@ -14,7 +14,7 @@ use Piwik\Plugins\Login\SystemSettings;
 
 class BruteForceDetection {
 
-    private $lockAttemptsPerMinute;
+    private $lockAttemptsMinutes;
     private $maxLogAttempts;
 
     private $table = 'brute_force_log';
@@ -32,7 +32,7 @@ class BruteForceDetection {
     {
         $this->tablePrefixed = Common::prefixTable($this->table);
         $this->settings = $systemSettings;
-        $this->lockAttemptsPerMinute = $systemSettings->loginAttemptsTimeRange->getValue();
+        $this->lockAttemptsMinutes = $systemSettings->loginAttemptsTimeRange->getValue();
         $this->maxLogAttempts = $systemSettings->maxFailedLoginsPerMinutes->getValue();
     }
 
@@ -65,16 +65,40 @@ class BruteForceDetection {
 
         $db = Db::get();
 
-        $sql = 'SELECT count(*) as numLogins FROM brute_force_block WHERE ip_address = ? AND attempted_at > DATE_SUB(NOW(), INTERVAL '.(int) $this->lockAttemptsPerMinute.' MINUTE)';
+        $sql = 'SELECT count(*) as numLogins FROM '.$this->tablePrefixed.' WHERE ip_address = ? AND attempted_at > DATE_SUB(NOW(), INTERVAL '.(int) $this->lockAttemptsMinutes.' MINUTE)';
         $numLogins = $db->fetchOne($sql, array($ipAddress));
 
         return empty($numLogins) || $numLogins <= $this->maxLogAttempts;
     }
 
+    public function getCurrentlyBlockedIps()
+    {
+        $sql = 'SELECT ip_address
+                FROM '.$this->tablePrefixed.' 
+                WHERE attempted_at > DATE_SUB(NOW(), INTERVAL '.(int) $this->lockAttemptsMinutes.' MINUTE)
+                GROUP BY ip_address HAVING count(*) > ' . $this->lockAttemptsMinutes;
+        $rows = Db::get()->fetchAll($sql);
+        $ips = array();
+        foreach ($rows as $row) {
+            $ips[] = $row['ip_address'];
+        }
+        return $ips;
+    }
+
+    public function unblockIp($ip)
+    {
+        Db::get()->query('DELETE FROM '.$this->tablePrefixed.' WHERE ip_address = ? and attempted_at < DATE_SUB(NOW(), INTERVAL '.((int) $this->lockAttemptsMinutes).' MINUTE)', array($ip));
+    }
+
     public function cleanupOldEntries()
     {
-        $minutes = max($this->time_frame_minutes_auto_delete, $this->settings->loginAttemptsTimeRange);
-        Db::get()->query('DELETE from brute_force_block WHERE attempted_at < DATE_SUB(NOW(), INTERVAL '.((int) $minutes).' MINUTE)');
+        $minutes = max($this->time_frame_minutes_auto_delete, $this->lockAttemptsMinutes);
+        $this->removeEntriesSinceMinutes($minutes);
+    }
+
+    private function removeEntriesSinceMinutes($minutes)
+    {
+        Db::get()->query('DELETE FROM '.$this->tablePrefixed.' WHERE attempted_at < DATE_SUB(NOW(), INTERVAL '.((int) $minutes).' MINUTE)');
     }
 
     /**

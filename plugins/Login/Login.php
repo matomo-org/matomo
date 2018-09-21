@@ -35,15 +35,32 @@ class Login extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
             'Session.beforeSessionStart'       => 'beforeSessionStart',
+            'Tracker.authenticationAttempt' => 'onTrackerLoginAttempt',
+            'API.UsersManager.getTokenAuth' => 'onLoginAttempt',
             'Login.authenticate.failed' => 'onFailedSession',
             'Login.authenticate' => 'beforeLogin',
         );
         return $hooks;
     }
 
+    public function isTrackerPlugin()
+    {
+        return true;
+    }
+
+    public function onTrackerLoginAttempt()
+    {
+        $this->onFailedSession(null);
+    }
+
+    public function onLoginAttempt($login, $md5Password)
+    {
+        $this->onFailedSession($login);
+    }
+
     public function onFailedSession($login)
     {
-        $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Securit\BruteForceDetection');
+        $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         if ($bruteForce->isEnabled()) {
             $bruteForce->addFailedLoginAttempt(IP::getIpFromHeader(), $login);
         }
@@ -51,7 +68,7 @@ class Login extends \Piwik\Plugin
 
     public function beforeLogin($login)
     {
-        $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Securit\BruteForceDetection');
+        $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         if ($bruteForce->isEnabled() && !$bruteForce->canLogin(IP::getIpFromHeader(), $login)) {
             throw new Exception('You cannot log in');
         }
@@ -60,6 +77,7 @@ class Login extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Login/javascripts/login.js";
+        $jsFiles[] = "plugins/Login/javascripts/bruteforcelog.js";
     }
 
    public function getStylesheetFiles(&$stylesheetFiles)

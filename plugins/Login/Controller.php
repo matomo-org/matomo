@@ -16,6 +16,7 @@ use Piwik\Cookie;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
+use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\UsersManager\Model AS UsersModel;
 use Piwik\QuickForm2;
 use Piwik\Session;
@@ -26,7 +27,7 @@ use Piwik\View;
  * Login controller
  * @api
  */
-class Controller extends \Piwik\Plugin\Controller
+class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     /**
      * @var PasswordResetter
@@ -44,13 +45,18 @@ class Controller extends \Piwik\Plugin\Controller
     protected $sessionInitializer;
 
     /**
+     * @var BruteForceDetection
+     */
+    protected $bruteForceDetection;
+
+    /**
      * Constructor.
      *
      * @param PasswordResetter $passwordResetter
      * @param AuthInterface $auth
      * @param SessionInitializer $authenticatedSessionFactory
      */
-    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null)
+    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null, $bruteForceDetection = null)
     {
         parent::__construct();
 
@@ -68,6 +74,11 @@ class Controller extends \Piwik\Plugin\Controller
             $sessionInitializer = new \Piwik\Session\SessionInitializer();
         }
         $this->sessionInitializer = $sessionInitializer;
+
+        if (empty($bruteForceDetection)) {
+            $bruteForceDetection = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
+        }
+        $this->bruteForceDetection = $bruteForceDetection;
     }
 
     /**
@@ -173,6 +184,15 @@ class Controller extends \Piwik\Plugin\Controller
         $urlToRedirect = Common::unsanitizeInputValue($urlToRedirect);
 
         $this->authenticateAndRedirect($login, $password, $urlToRedirect, $passwordHashed = true);
+    }
+
+    public function bruteForceLog()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        return $this->renderTemplate('bruteForceLog', array(
+            'blockedIps' => $this->bruteForceDetection->getCurrentlyBlockedIps()
+        ));
     }
 
     /**
