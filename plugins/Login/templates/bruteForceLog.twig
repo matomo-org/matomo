@@ -8,28 +8,27 @@
         {% if blockedIps is empty %}
             <p>Currently no IPs are blocked.</p>
         {% else %}
-        <ul>
+            <p>Currently blocked IPs because they have attempted to many failed log ins:</p>
+        <ul style="margin-left: 20px;">
             {% for blockedIp in blockedIps %}
-            <li>{{ blockedIp }}</li>
+            <li style="list-style: disc;">{{ blockedIp }}</li>
             {% endfor %}
         </ul>
         {% endif %}
+
+        {% if blockedIps is not empty %}
+            <p><br /><br />You can unblock IPs that are currently blocked so they can log in again in case they were falsely flagged and need to be able to log in again.</p>
+
+            <div>
+                <input type="button" class="btn" value="Unblock all IPs" onclick="bruteForceLog.unblockAllIps();">
+            </div>
+
+            <div id="confirmUnblockAllIps" class="ui-confirm">
+                <h2>Are you sure you want to unblock all currently blocked IPs?</h2>
+                <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+                <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+            </div>
+        {% endif %}
     </div>
-
-    {% if blockedIps is not empty %}
-    <div piwik-content-block content-title="Unblock IPs">
-        <p>You can unblock IPs that are currently blocked so they can log in again in case they were falsely flagged and need to be able to log in again.</p>
-
-        <div>
-            <input type="button" class="btn" value="Unblock all IPs" onclick="bruteForceLog.unblockAllIps();">
-        </div>
-
-        <div id="confirmUnblockAllIps" class="ui-confirm">
-            <h2>Are you sure you want to unblock all currently blocked IPs?</h2>
-            <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
-            <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
-        </div>
-    </div>
-    {% endif %}
 
 {% endblock %}

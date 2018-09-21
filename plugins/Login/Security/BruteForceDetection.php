@@ -78,7 +78,7 @@ class BruteForceDetection {
                 WHERE attempted_at > DATE_SUB(NOW(), INTERVAL '.(int) $this->lockAttemptsMinutes.' MINUTE)
                 GROUP BY ip_address HAVING count(*) > ' . $this->lockAttemptsMinutes;
         $rows = Db::get()->fetchAll($sql);
-        $ips = array();
+        $ips = array('123.1.2.2');
         foreach ($rows as $row) {
             $ips[] = $row['ip_address'];
         }
