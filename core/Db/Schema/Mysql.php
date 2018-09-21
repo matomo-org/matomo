@@ -277,6 +277,14 @@ class Mysql implements SchemaInterface
                                       PRIMARY KEY(`name`)
                                   ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
+            'brute_force_log'        => "CREATE TABLE {$prefixTables}brute_force_block (
+                                      `id_brute_force_log` bigint(11) NOT NULL AUTO_INCREMENT,
+                                      `login` VARCHAR(100) NULL,
+                                      `ip_address` VARCHAR(60) DEFAULT NULL,
+                                      `attempted_at` datetime NOT NULL,
+                                      PRIMARY KEY(`id_brute_force_log`)
+                                  ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
         );
 
         return $tables;

@@ -14,7 +14,9 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
 use Piwik\FrontController;
+use Piwik\IP;
 use Piwik\Piwik;
+use Piwik\Plugins\Login\Securit\BruteForceDetection;
 use Piwik\Session;
 
 /**
@@ -33,8 +35,26 @@ class Login extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
             'Session.beforeSessionStart'       => 'beforeSessionStart',
+            'Login.authenticate.failed' => 'onFailedSession',
+            'Login.authenticate' => 'beforeLogin',
         );
         return $hooks;
+    }
+
+    public function onFailedSession($login)
+    {
+        $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Securit\BruteForceDetection');
+        if ($bruteForce->isEnabled()) {
+            $bruteForce->addFailedLoginAttempt(IP::getIpFromHeader(), $login);
+        }
+    }
+
+    public function beforeLogin($login)
+    {
+        $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Securit\BruteForceDetection');
+        if ($bruteForce->isEnabled() && !$bruteForce->canLogin(IP::getIpFromHeader(), $login)) {
+            throw new Exception('You cannot log in');
+        }
     }
 
     public function getJsFiles(&$jsFiles)
