@@ -35,10 +35,10 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     protected function init()
     {
         $this->enableBruteForceDetection = $this->createEnableBruteForceDetection();
-        $this->whitelisteBruteForceIps = $this->createWhitelisteBruteForceIps();
-        $this->blacklistedBruteForceIps = $this->createBlacklistedBruteForceIps();
         $this->maxFailedLoginsPerMinutes = $this->createMaxFailedLoginsPerMinutes();
         $this->loginAttemptsTimeRange = $this->createLoginAttemptsTimeRange();
+        $this->blacklistedBruteForceIps = $this->createBlacklistedBruteForceIps();
+        $this->whitelisteBruteForceIps = $this->createWhitelisteBruteForceIps();
     }
 
     private function createEnableBruteForceDetection()
