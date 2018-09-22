@@ -119,6 +119,31 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
     }
 
+    public function test_forceNewVisit_shouldNotForceANewVisitWhenNoKeywordIsSetAndCampaignNameIsUpperCase()
+    {
+        $dateTime = '2015-01-03';
+        $idSite = self::$fixture->idSite;
+
+        $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
+        // track a campaign that was opened directly (w/ saved referrer cookie info)
+        $t->setUrlReferrer('http://www.google.com');
+        $t->setUrl('http://piwik.net/?pk_campaign=adwBuCcc');
+        $t->doTrackPageView('My Title');
+
+        // navigate to same page but from different URL w/ same campaign
+        $t->setUrlReferrer('http://links.piwik.net/?pk_campaign=adwBuCcc');
+        $t->setCustomTrackingParameter('_rcn', 'adwBuCcc'); // this parameter would be set by piwik.js from cookie / attributionInfo
+        $t->setCustomTrackingParameter('_rck', ''); // no keyword was used in previous tracking request
+        $t->setUrl('http://piwik.net/page1');
+        $t->doTrackPageView('Page 1');
+
+        /** @var DataTable $visits */
+        $visits = Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+
+        $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
+        $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
+    }
+
     public static function getOutputPrefix()
     {
         return '';
