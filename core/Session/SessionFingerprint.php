@@ -56,12 +56,11 @@ class SessionFingerprint
         return null;
     }
 
-    public function initialize($userName, $time = null, $userAgent = null)
+    public function initialize($userName, $time = null)
     {
         $_SESSION[self::USER_NAME_SESSION_VAR_NAME] = $userName;
         $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME] = [
             'ts' => $time ?: Date::now()->getTimestampUTC(),
-            'ua' => $userAgent ?: $this->getUserAgent(),
         ];
     }
 
@@ -69,18 +68,6 @@ class SessionFingerprint
     {
         unset($_SESSION[self::USER_NAME_SESSION_VAR_NAME]);
         unset($_SESSION[self::SESSION_INFO_SESSION_VAR_NAME]);
-    }
-
-    public function isMatchingCurrentRequest()
-    {
-        $requestUa = $this->getUserAgent();
-
-        $userInfo = $this->getUserInfo();
-        if (empty($userInfo)) {
-            return false;
-        }
-
-        return $userInfo['ua'] == $requestUa;
     }
 
     public function getSessionStartTime()
@@ -93,10 +80,5 @@ class SessionFingerprint
         }
 
         return $userInfo['ts'];
-    }
-
-    private function getUserAgent()
-    {
-        return array_key_exists('HTTP_USER_AGENT', $_SERVER) ? $_SERVER['HTTP_USER_AGENT'] : null;
     }
 }
