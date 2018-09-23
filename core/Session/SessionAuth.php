@@ -99,11 +99,6 @@ class SessionAuth implements Auth
             return $this->makeAuthFailure();
         }
 
-        if (!$sessionFingerprint->isMatchingCurrentRequest()) {
-            $this->initNewBlankSession($sessionFingerprint);
-            return $this->makeAuthFailure();
-        }
-
         $tsPasswordModified = !empty($user['ts_password_modified']) ? $user['ts_password_modified'] : null;
         if ($this->isSessionStartedBeforePasswordChange($sessionFingerprint, $tsPasswordModified)) {
             $this->destroyCurrentSession($sessionFingerprint);
