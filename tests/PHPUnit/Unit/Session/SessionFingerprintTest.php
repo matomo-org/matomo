@@ -43,7 +43,6 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
     {
         $sessionVarValue = [
             'ip' => 'someip',
-            'ua' => 'someua',
         ];
 
         $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = $sessionVarValue;
@@ -57,24 +56,11 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 
     public function test_initialize_SetsSessionVarsToCurrentRequest()
     {
-        $_SERVER['HTTP_USER_AGENT'] = 'test-user-agent';
         $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
 
         $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
         $this->assertEquals(
-            ['ts' => self::TEST_TIME_VALUE, 'ua' => 'test-user-agent'],
-            $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
-        );
-    }
-
-    public function test_initialize_DoesNotSetUserAgent_IfUserAgentIsNotInHttpRequest()
-    {
-        unset($_SERVER['HTTP_USER_AGENT']);
-        $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
-
-        $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
-        $this->assertEquals(
-            ['ts' => self::TEST_TIME_VALUE, 'ua' => null],
+            ['ts' => self::TEST_TIME_VALUE],
             $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
         );
     }
