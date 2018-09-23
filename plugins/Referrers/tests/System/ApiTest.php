@@ -66,6 +66,16 @@ class ApiTest extends SystemTestCase
             ],
         ];
 
+        $apiToTest[] = [
+            array('Referrers.getAll', 'Referrers.getReferrerType'),
+            [
+                'idSite' => 'all',
+                'date' => '2010-01-01',
+                'periods' => 'year',
+                'testSuffix' => 'allSites',
+            ],
+        ];
+
         return $apiToTest;
     }
 

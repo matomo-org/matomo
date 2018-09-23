@@ -35,6 +35,7 @@ class API extends \Piwik\Plugin\API
      */
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
         $segment = $this->appendReturningVisitorSegment($segment);
 
         $this->unprefixColumns($columns);
