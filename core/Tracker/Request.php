@@ -88,12 +88,23 @@ class Request
 
         // check for 4byte utf8 characters in all tracking params and replace them with �
         // @TODO Remove as soon as our database tables use utf8mb4 instead of utf8
-        array_walk_recursive ($this->params, function(&$value, $key){
-            if (is_string($value) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $value)) {
-                Common::printDebug("Unsupport character detected in $key. Replacing with \xEF\xBF\xBD");
-                $value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
-            }
-        });
+        $this->params = $this->replaceUnsupportedUtf8Chars($this->params);
+    }
+
+    protected function replaceUnsupportedUtf8Chars($value, $key=false)
+    {
+        if (is_string($value) && preg_match('/[\x{10000}-\x{10FFFF}]/u', $value)) {
+            Common::printDebug("Unsupport character detected in $key. Replacing with \xEF\xBF\xBD");
+            return preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
+        }
+
+        if (is_array($value)) {
+            array_walk_recursive ($value, function(&$value, $key){
+                $value = $this->replaceUnsupportedUtf8Chars($value, $key);
+            });
+        }
+
+        return $value;
     }
 
     /**
@@ -402,7 +413,7 @@ class Request
         $paramType = $supportedParams[$name][1];
 
         if ($this->hasParam($name)) {
-            $this->paramsCache[$name] = Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params);
+            $this->paramsCache[$name] = $this->replaceUnsupportedUtf8Chars(Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params), $name);
         } else {
             $this->paramsCache[$name] = $paramDefaultValue;
         }
