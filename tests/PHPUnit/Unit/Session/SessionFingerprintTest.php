@@ -79,46 +79,6 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @dataProvider getTestDataForIsMatchingCurrentRequest
-     */
-    public function test_isMatchingCurrentRequest_ChecksIfSessionVarsMatchRequest(
-        $sessionUa, $requestUa, $expectedResult
-    ) {
-        $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [
-            'ua' => $sessionUa,
-        ];
-
-        $_SERVER['HTTP_USER_AGENT'] = $requestUa;
-
-        $this->assertEquals($expectedResult, $this->testInstance->isMatchingCurrentRequest());
-    }
-
-    public function getTestDataForIsMatchingCurrentRequest()
-    {
-        return [
-            ['test ua', 'test ua', true],
-            ['nontest ua', 'test ua', false],
-            [null, 'test ua', false],
-        ];
-    }
-
-    public function test_isMatchingCurrentRequest_ReturnsFalse_IfUserInfoSessionVarDoesNotExist()
-    {
-        $_SERVER['HTTP_USER_AGENT'] = 'test-ua';
-
-        $this->assertEquals(false, $this->testInstance->isMatchingCurrentRequest());
-    }
-
-    public function test_isMatchingCurrentRequest_ReturnsFalse_IfRequestDetailsDoNotExist()
-    {
-        $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [
-            'ua' => 'test-ua',
-        ];
-
-        $this->assertEquals(false, $this->testInstance->isMatchingCurrentRequest());
-    }
-
     public function test_getSessionStartTime_()
     {
         $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [
