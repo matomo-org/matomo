@@ -62,15 +62,15 @@ class Login extends \Piwik\Plugin
     {
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         if ($bruteForce->isEnabled()) {
-            $bruteForce->addFailedLoginAttempt(IP::getIpFromHeader(), $login);
+            $bruteForce->addFailedLoginAttempt(IP::getIpFromHeader());
         }
     }
 
     public function beforeLogin($login)
     {
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
-        if ($bruteForce->isEnabled() && !$bruteForce->canLogin(IP::getIpFromHeader(), $login)) {
-            throw new Exception('You cannot log in');
+        if ($bruteForce->isEnabled() && !$bruteForce->canLogin(IP::getIpFromHeader())) {
+            throw new Exception('You cannot log in, try again later.');
         }
     }
 

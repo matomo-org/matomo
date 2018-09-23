@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Login;
 use Piwik\Network\IP;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
+use Piwik\Validators\IpRanges;
 
 /**
  * Defines Settings for Login.
@@ -55,6 +56,16 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->title = 'Never block any of the following IPs from logging in';
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
             $field->description = 'Enter one IP or one IP range per line';
+            $field->validators[] = new IpRanges();
+            $field->transform = function ($value) {
+                if (empty($value)) {
+                    return array();
+                }
+
+                $ips = array_map('trim', $value);
+                $ips = array_filter($ips, 'strlen');
+                return $ips;
+            };
         });
     }
 
@@ -64,15 +75,26 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->title = 'Never allow these IPs to log in';
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
             $field->description = 'Enter one IP or one IP range per line';
+            $field->validators[] = new IpRanges();
+            $field->transform = function ($value) {
+                if (empty($value)) {
+                    return array();
+                }
+
+                $ips = array_map('trim', $value);
+                $ips = array_filter($ips, 'strlen');
+                return $ips;
+            };
         });
     }
 
     private function createMaxFailedLoginsPerMinutes()
     {
-        return $this->makeSetting('maxFailedLoginsPerMinutes', 25, FieldConfig::TYPE_INT, function (FieldConfig $field) {
+        return $this->makeSetting('maxFailedLoginsPerMinutes', 20, FieldConfig::TYPE_INT, function (FieldConfig $field) {
             $field->title = 'Number of allowed failed logins within the configured time range';
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
             $field->description = 'Enter one IP or one IP range per line';
+
         });
     }
 
@@ -87,25 +109,26 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     public function isWhitelistedIp($ipAddress)
     {
-        $ip = IP::fromStringIP($ipAddress);
-
-        $ips = $this->whitelisteBruteForceIps->getValue();
-        if (empty($ips)) {
-            return false;
-        }
-        return $ip->isInRanges($ips);
+        return $this->isIpInList($ipAddress, $this->whitelisteBruteForceIps->getValue());
     }
 
     public function isBlacklistedIp($ipAddress)
     {
+        return $this->isIpInList($ipAddress, $this->blacklistedBruteForceIps->getValue());
+    }
+
+    private function isIpInList($ipAddress, $ips)
+    {
+        if (empty($ipAddress)) {
+            return false;
+        }
+
         $ip = IP::fromStringIP($ipAddress);
 
-        $ips = $this->blacklistedBruteForceIps->getValue();
         if (empty($ips)) {
             return false;
         }
 
         return $ip->isInRanges($ips);
     }
-
 }
