@@ -111,9 +111,6 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             return;
         }
 
-        $pluginNameBackup = $this->pluginName;
-        // workaround to make it possible to save website properties, otherwise the values will be discarded
-        $this->pluginName = 'WebsiteMeasurable';
         $this->urls = new Urls($this->idSite);
         $this->addSetting($this->urls);
 
@@ -140,7 +137,6 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
          */
 
         $this->ecommerce = $this->makeEcommerce();
-        $this->pluginName = $pluginNameBackup;
     }
 
     private function makeExcludeUnknownUrls()
