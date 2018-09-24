@@ -76,11 +76,11 @@ class Controller extends \Piwik\Plugin\Controller
     public function renderPopover()
     {
         $view = new View('@Transitions/renderPopover');
-        $view->translations = $this->getTranslations();
+        $view->translations = self::getTranslations();
         return $view->render();
     }
 
-    public function getTranslations()
+    public static function getTranslations()
     {
         $translations = self::$metricTranslations + self::$jsTranslations;
         foreach ($translations as &$message) {

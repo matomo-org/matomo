@@ -183,15 +183,20 @@ Piwik_Transitions.prototype.reset = function (actionType, actionName, segment) {
 };
 
 /** Open the popover */
-Piwik_Transitions.prototype.showPopover = function () {
+Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
     var self = this;
 
-    this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
-    Piwik_Popover.addHelpButton('https://matomo.org/docs/transitions');
+    if (!showEmbeddedInReport) {
+        this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
+        Piwik_Popover.addHelpButton('https://matomo.org/docs/transitions');
+    } else {
+        this.popover = $('#transitions_report');
+    }
 
     var bothLoaded = function () {
-        Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);
-
+        if (!showEmbeddedInReport) {
+            Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);
+        }
         self.preparePopover();
         self.model.htmlLoaded();
 
@@ -206,7 +211,7 @@ Piwik_Transitions.prototype.showPopover = function () {
 
     // load the popover HTML (only done once)
     var callbackForHtml = false;
-    if (typeof Piwik_Transitions.popoverHtml == 'undefined') {
+    if (typeof Piwik_Transitions.popoverHtml == 'undefined' && !showEmbeddedInReport) {
         this.ajax.callTransitionsController('renderPopover', function (html) {
             Piwik_Transitions.popoverHtml = html;
             if (callbackForHtml !== false) {
@@ -217,7 +222,7 @@ Piwik_Transitions.prototype.showPopover = function () {
 
     // load the data
     self.model.loadData(self.actionType, self.actionName, self.segment, function () {
-        if (typeof Piwik_Transitions.popoverHtml == 'undefined') {
+        if (typeof Piwik_Transitions.popoverHtml == 'undefined' && !showEmbeddedInReport) {
             // html not there yet
             callbackForHtml = bothLoaded;
         } else {

@@ -617,4 +617,22 @@ class API extends \Piwik\Plugin\API
             $this->totalTransitionsToFollowingPages += $actions;
         }
     }
+
+    /**
+     * Another example method that returns a data table.
+     * @param int    $idSite
+     * @param string $period
+     * @param string $date
+     * @param bool|string $segment
+     * @return DataTable
+     */
+    public function getPageURLTransitions($idSite, $period, $date, $segment = false)
+    {
+        $table = new DataTable();
+
+        $table->addRowFromArray(array(Row::COLUMNS => array('nb_visits' => 5)));
+
+        return $table;
+    }
+
 }

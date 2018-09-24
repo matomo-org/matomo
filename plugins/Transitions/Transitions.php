@@ -14,7 +14,7 @@ namespace Piwik\Plugins\Transitions;
 class Transitions extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -33,6 +33,7 @@ class Transitions extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = 'plugins/Transitions/javascripts/transitions.js';
+        $jsFiles[] = 'plugins/Transitions/angularjs/transitionswitcher/transitionswitcher.controller.js';
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
