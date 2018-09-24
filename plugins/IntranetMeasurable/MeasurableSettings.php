@@ -25,14 +25,18 @@ class MeasurableSettings extends \Piwik\Plugins\WebsiteMeasurable\MeasurableSett
     protected function init()
     {
         $this->trustvisitorcookies = $this->makeTrustVisitorCookies();
+        $pluginNameBackup = $this->pluginName;
+        // workaround to make it possible to save website properties, otherwise the values will be discarded
+        $this->pluginName = 'WebsiteMeasurable';
         parent::init();
+        $this->pluginName = $pluginNameBackup;
     }
 
     private function makeTrustVisitorCookies()
     {
         return $this->makeSetting('trust_visitors_cookies', $default = true, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->title = Piwik::translate('IntranetMeasurable_TrustVisitorCookies');
-            $field->inlineHelp = Piwik::translate('IntranetMeasurable_TrustVisitorCookiesHelp');
+            $field->inlineHelp = Piwik::translate('IntranetMeasurable_TrustVisitorCookiesHelp', array('<a rel="noreferrer noopener" href="https://matomo.org/faq/how-to/faq_175/">', '</a>'));
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
     }
