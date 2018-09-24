@@ -4,30 +4,38 @@
 
 {% block content %}
 
-    <div piwik-content-block content-title="Currently blocked IPs">
+    <div piwik-content-block content-title="{{ 'Login_CurrentlyBlockedIPs'|translate|e('html_attr') }}">
         {% if blockedIps is empty %}
-            <p>Currently no IPs are blocked.</p>
+            <p>{{ 'UserCountryMap_None'|translate }}</p>
         {% else %}
-            <p>Currently blocked IPs because they have attempted to many failed log ins:</p>
-        <ul style="margin-left: 20px;">
-            {% for blockedIp in blockedIps %}
-            <li style="list-style: disc;">{{ blockedIp }}</li>
-            {% endfor %}
-        </ul>
+            <ul style="margin-left: 20px;">
+                {% for blockedIp in blockedIps %}
+                <li style="list-style: disc;">{{ blockedIp }}</li>
+                {% endfor %}
+            </ul>
         {% endif %}
 
         {% if blockedIps is not empty %}
-            <p><br /><br />You can unblock IPs that are currently blocked so they can log in again in case they were falsely flagged and need to be able to log in again.</p>
+            <p><br />{{ 'Login_CurrentlyBlockedIPsUnblockInfo'|translate }}</p>
 
             <div>
-                <input type="button" class="btn" value="Unblock all IPs" onclick="bruteForceLog.unblockAllIps();">
+                <input type="button" class="btn" value="{{ 'Login_UnblockAllIPs'|translate }}" onclick="bruteForceLog.unblockAllIps();">
             </div>
 
             <div id="confirmUnblockAllIps" class="ui-confirm">
-                <h2>Are you sure you want to unblock all currently blocked IPs?</h2>
+                <h2>{{ 'Login_CurrentlyBlockedIPsUnblockConfirm'|translate }}</h2>
                 <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
                 <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
             </div>
+        {% endif %}
+
+        {% if blacklistedIps is not empty %}
+            <h3>{{ 'Login_IPsAlwaysBlocked'|translate }}</h3>
+            <ul style="margin-left: 20px;">
+                {% for blacklistedIp in blacklistedIps %}
+                    <li style="list-style: disc;">{{ blacklistedIp }}</li>
+                {% endfor %}
+            </ul>
         {% endif %}
     </div>
 

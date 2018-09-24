@@ -184,12 +184,6 @@ class Request
         $auth->setPasswordHash(null);
         $access = $auth->authenticate();
 
-        /**
-         * @ignore
-         * @deprecated only internal usage
-         */
-        Piwik::postEvent('Tracker.authenticationAttempt');
-
         if (!empty($access) && $access->hasSuperUserAccess()) {
             return true;
         }

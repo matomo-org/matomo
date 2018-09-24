@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Login;
 
 use Piwik\Network\IP;
+use Piwik\Piwik;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\Validators\IpRanges;
@@ -44,18 +45,19 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createEnableBruteForceDetection()
     {
-        return $this->makeSetting('enable_brute_force_detection', $default = true, FieldConfig::TYPE_STRING, function (FieldConfig $field) {
-            $field->title = 'Enable Brute Force Detection';
+        return $this->makeSetting('enableBruteForceDetection', $default = true, FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+            $field->title = Piwik::translate('Login_SettingBruteForceEnable');
+            $field->description = Piwik::translate('Login_SettingBruteForceEnableHelp');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
     }
 
     private function createWhitelisteBruteForceIps()
     {
-        return $this->makeSetting('browsers', array(), FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
-            $field->title = 'Never block any of the following IPs from logging in';
+        return $this->makeSetting('whitelisteBruteForceIps', array(), FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
+            $field->title = Piwik::translate('Login_SettingBruteForceWhitelistIp');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
-            $field->description = 'Enter one IP or one IP range per line';
+            $field->description = Piwik::translate('Login_HelpIpRange', array('1.2.3.4/24', '1.2.3.*', '1.2.*.*'));
             $field->validators[] = new IpRanges();
             $field->transform = function ($value) {
                 if (empty($value)) {
@@ -71,10 +73,10 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createBlacklistedBruteForceIps()
     {
-        return $this->makeSetting('description', array(), FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
-            $field->title = 'Never allow these IPs to log in';
+        return $this->makeSetting('blacklistedBruteForceIps', array(), FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
+            $field->title = Piwik::translate('Login_SettingBruteForceBlacklistIp');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
-            $field->description = 'Enter one IP or one IP range per line';
+            $field->description = Piwik::translate('Login_HelpIpRange', array('1.2.3.4/24', '1.2.3.*', '1.2.*.*'));
             $field->validators[] = new IpRanges();
             $field->transform = function ($value) {
                 if (empty($value)) {
@@ -90,20 +92,19 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createMaxFailedLoginsPerMinutes()
     {
-        return $this->makeSetting('maxFailedLoginsPerMinutes', 20, FieldConfig::TYPE_INT, function (FieldConfig $field) {
-            $field->title = 'Number of allowed failed logins within the configured time range';
+        return $this->makeSetting('maxAllowedRetries', 20, FieldConfig::TYPE_INT, function (FieldConfig $field) {
+            $field->title = Piwik::translate('Login_SettingBruteForceMaxFailedLogins');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
-            $field->description = 'Enter one IP or one IP range per line';
-
+            $field->description = Piwik::translate('Login_SettingBruteForceMaxFailedLoginsHelp');
         });
     }
 
     private function createLoginAttemptsTimeRange()
     {
-        return $this->makeSetting('loginAttemptsTimeRange', 60, FieldConfig::TYPE_INT, function (FieldConfig $field) {
-            $field->title = 'Watch failed logins within this time range in minutes';
+        return $this->makeSetting('allowedRetriesTimeRange', 60, FieldConfig::TYPE_INT, function (FieldConfig $field) {
+            $field->title = Piwik::translate('Login_SettingBruteForceTimeRange');
+            $field->description = Piwik::translate('Login_SettingBruteForceTimeRangeHelp');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
-            $field->description = 'Enter a value in minutes';
         });
     }
 

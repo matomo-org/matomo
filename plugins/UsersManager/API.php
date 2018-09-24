@@ -1254,7 +1254,13 @@ class API extends \Piwik\Plugin\API
 
         $user = $this->model->getUser($userLogin);
 
-        if (!$this->password->verify($md5Password, $user['password'])) {
+        if (empty($user) || !$this->password->verify($md5Password, $user['password'])) {
+            /**
+             * @ignore
+             * @internal
+             */
+            Piwik::postEvent('Login.authenticate.failed', array($userLogin));
+
             return md5($userLogin . microtime(true) . Common::generateUniqId());
         }
 

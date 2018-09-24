@@ -12,11 +12,9 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Cookie;
 use Piwik\FrontController;
 use Piwik\IP;
 use Piwik\Piwik;
-use Piwik\Plugins\Login\Securit\BruteForceDetection;
 use Piwik\Session;
 
 /**
@@ -25,7 +23,7 @@ use Piwik\Session;
 class Login extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {
@@ -35,10 +33,11 @@ class Login extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
             'Session.beforeSessionStart'       => 'beforeSessionStart',
-            'Tracker.authenticationAttempt' => 'onTrackerLoginAttempt',
-            'API.UsersManager.getTokenAuth' => 'onLoginAttempt',
-            'Login.authenticate.failed' => 'onFailedSession',
-            'Login.authenticate' => 'beforeLogin',
+            'Request.initAuthenticationObject' => 'beforeLoginCheckBruteForce',
+            'API.UsersManager.getTokenAuth' => 'beforeLoginCheckBruteForce',
+            'Controller.Login.logme' => 'beforeLoginCheckBruteForce',
+            'Controller.Login.login' => 'beforeLoginCheckBruteForce',
+            'Login.authenticate.failed' => 'onFailedLoginRecordAttempt',
         );
         return $hooks;
     }
@@ -48,17 +47,7 @@ class Login extends \Piwik\Plugin
         return true;
     }
 
-    public function onTrackerLoginAttempt()
-    {
-        $this->onFailedSession(null);
-    }
-
-    public function onLoginAttempt($login, $md5Password)
-    {
-        $this->onFailedSession($login);
-    }
-
-    public function onFailedSession($login)
+    public function onFailedLoginRecordAttempt($login)
     {
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         if ($bruteForce->isEnabled()) {
@@ -66,11 +55,11 @@ class Login extends \Piwik\Plugin
         }
     }
 
-    public function beforeLogin($login)
+    public function beforeLoginCheckBruteForce()
     {
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         if ($bruteForce->isEnabled() && !$bruteForce->canLogin(IP::getIpFromHeader())) {
-            throw new Exception('You cannot log in, try again later.');
+            throw new Exception(Piwik::translate('Login_LoginNotAllowedBecauseBlocked'));
         }
     }
 

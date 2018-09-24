@@ -33,8 +33,10 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         $ips = $this->bruteForceDetection->getCurrentlyBlockedIps();
-        foreach ($ips as $ip) {
-            $this->bruteForceDetection->unblockIp($ip);
+        if (!empty($ips)) {
+            foreach ($ips as $ip) {
+                $this->bruteForceDetection->unblockIp($ip);
+            }
         }
     }
 }

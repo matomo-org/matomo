@@ -103,6 +103,14 @@ class BruteForceDetection {
     /**
      * @internal tests only
      */
+    public function deleteAll()
+    {
+        return Db::get()->fetchAll('DELETE FROM ' . $this->tablePrefixed);
+    }
+
+    /**
+     * @internal tests only
+     */
     public function getAll()
     {
         return Db::get()->fetchAll('SELECT * FROM ' . $this->tablePrefixed);

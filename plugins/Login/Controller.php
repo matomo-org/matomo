@@ -50,13 +50,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     protected $bruteForceDetection;
 
     /**
+     * @var SystemSettings
+     */
+    protected $systemSettings;
+
+    /**
      * Constructor.
      *
      * @param PasswordResetter $passwordResetter
      * @param AuthInterface $auth
      * @param SessionInitializer $authenticatedSessionFactory
+     * @param BruteForceDetection $bruteForceDetection
+     * @param SystemSettings $systemSettings
      */
-    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null, $bruteForceDetection = null)
+    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null, $bruteForceDetection = null, $systemSettings = null)
     {
         parent::__construct();
 
@@ -79,6 +86,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $bruteForceDetection = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         }
         $this->bruteForceDetection = $bruteForceDetection;
+
+        if (empty($systemSettings)) {
+            $systemSettings = StaticContainer::get('Piwik\Plugins\Login\SystemSettings');
+        }
+        $this->systemSettings = $systemSettings;
     }
 
     /**
@@ -191,7 +203,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Piwik::checkUserHasSuperUserAccess();
 
         return $this->renderTemplate('bruteForceLog', array(
-            'blockedIps' => $this->bruteForceDetection->getCurrentlyBlockedIps()
+            'blockedIps' => $this->bruteForceDetection->getCurrentlyBlockedIps(),
+            'blacklistedIps' => $this->systemSettings->blacklistedBruteForceIps->getValue()
         ));
     }
 
