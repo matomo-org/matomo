@@ -158,6 +158,8 @@ class Login extends \Piwik\Plugin
      */
     public function ApiRequestAuthenticate($tokenAuth)
     {
+        $this->beforeLoginCheckBruteForce();
+
         /** @var \Piwik\Auth $auth */
         $auth = StaticContainer::get('Piwik\Auth');
         $auth->setLogin($login = null);
