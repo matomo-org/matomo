@@ -58,8 +58,9 @@ class BruteForceDetection {
 
         $db = Db::get();
 
+        $startTime = $this->getStartTimeRange();
         $sql = 'SELECT count(*) as numLogins FROM '.$this->tablePrefixed.' WHERE ip_address = ? AND attempted_at > ?';
-        $numLogins = $db->fetchOne($sql, array($ipAddress, $this->getStartTimeRange()));
+        $numLogins = $db->fetchOne($sql, array($ipAddress, $startTime));
 
         return empty($numLogins) || $numLogins <= $this->maxLogAttempts;
     }

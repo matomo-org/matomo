@@ -201,6 +201,12 @@ class Request
 
         Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin / Write was NOT authenticated");
 
+        /**
+         * @ignore
+         * @internal
+         */
+        Piwik::postEvent('Tracker.Request.authenticate.failed');
+
         return false;
     }
 

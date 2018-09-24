@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -16,12 +17,16 @@ use Piwik\FrontController;
 use Piwik\IP;
 use Piwik\Piwik;
 use Piwik\Session;
+use Piwik\SettingsServer;
 
 /**
  *
  */
 class Login extends \Piwik\Plugin
 {
+    private $hasAddedFailedAttempt = false;
+    private $hasPerformedBruteForceCheck = false;
+
     /**
      * @see \Piwik\Plugin::registerEvents
      */
@@ -33,11 +38,20 @@ class Login extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
             'Session.beforeSessionStart'       => 'beforeSessionStart',
-            'Request.initAuthenticationObject' => 'beforeLoginCheckBruteForce',
-            'API.UsersManager.getTokenAuth' => 'beforeLoginCheckBruteForce',
-            'Controller.Login.logme' => 'beforeLoginCheckBruteForce',
-            'Controller.Login.login' => 'beforeLoginCheckBruteForce',
-            'Login.authenticate.failed' => 'onFailedLoginRecordAttempt',
+
+            // for brute force prevention of all tracking + reporting api requests
+            'Request.initAuthenticationObject' => 'onInitAuthenticationObject',
+            'API.UsersManager.getTokenAuth' => 'beforeLoginCheckBruteForce', // doesn't require auth but can be used to authenticate
+
+            // for brute force prevention of all UI requests
+            'Controller.Login.logme'           => 'beforeLoginCheckBruteForce',
+            'Controller.Login.'                => 'beforeLoginCheckBruteForce',
+            'Controller.Login.index'           => 'beforeLoginCheckBruteForce',
+            'Controller.Login.login'           => 'beforeLoginCheckBruteForce',
+            'Login.authenticate.successful'    => 'beforeLoginCheckBruteForce',
+            'Login.authenticate.failed'        => 'onFailedLoginRecordAttempt', // record any failed attempt in UI
+            'API.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Reporting API
+            'Tracker.Request.authenticate.failed' => 'onFailedLoginRecordAttempt', // record any failed attempt in Tracker API
         );
         return $hooks;
     }
@@ -47,20 +61,47 @@ class Login extends \Piwik\Plugin
         return true;
     }
 
-    public function onFailedLoginRecordAttempt($login)
+    public function onInitAuthenticationObject()
     {
+        if (SettingsServer::isTrackerApiRequest() || Request::isRootRequestApiRequest()) {
+            // we check it for all API requests...
+            // we do not check it for other UI requests as otherwise we would be logging out someone possibly already
+            // logged in with a valid session which we don't want currently... regular UI requests are checked through
+            // 1) any successful or failed login attempt, plus through specific controller action that a user can use
+            // to log in
+            $this->beforeLoginCheckBruteForce();
+        }
+    }
+
+    public function onFailedLoginRecordAttempt()
+    {
+        // we're always making sure on any success or failed login to check if user is actually allowed to log in
+        // in case for some reason it forgot to run the check
+        $this->beforeLoginCheckBruteForce();
+
+        // we are recording new failed attempts only when user can currently log in and is not blocked...
+        // this is to kind of block eg a certain IP continuously. could alternatively also still keep writing those failed
+        // attempts into the log and only allow login attempts again after the user had no login attempts for the configured
+        // time frame
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
         if ($bruteForce->isEnabled()) {
-            $bruteForce->addFailedLoginAttempt(IP::getIpFromHeader());
+            if (!$this->hasAddedFailedAttempt) {
+                $bruteForce->addFailedLoginAttempt(IP::getIpFromHeader());
+                // we make sure to log max one failed login attempt per request... otherwise we might log 3 or many more
+                // if eg API is called etc.
+                $this->hasAddedFailedAttempt = true;
+            }
         }
     }
 
     public function beforeLoginCheckBruteForce()
     {
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
-        if ($bruteForce->isEnabled() && !$bruteForce->canLogin(IP::getIpFromHeader())) {
+        if (!$this->hasPerformedBruteForceCheck && $bruteForce->isEnabled() && !$bruteForce->canLogin(IP::getIpFromHeader())) {
             throw new Exception(Piwik::translate('Login_LoginNotAllowedBecauseBlocked'));
         }
+        // for performance reasons we make sure to execute it only once per request
+        $this->hasPerformedBruteForceCheck = true;
     }
 
     public function getJsFiles(&$jsFiles)

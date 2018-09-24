@@ -45,7 +45,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createEnableBruteForceDetection()
     {
-        return $this->makeSetting('enableBruteForceDetection', $default = true, FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+        return $this->makeSetting('enableBruteForceDetection', $default = true, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->title = Piwik::translate('Login_SettingBruteForceEnable');
             $field->description = Piwik::translate('Login_SettingBruteForceEnableHelp');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;

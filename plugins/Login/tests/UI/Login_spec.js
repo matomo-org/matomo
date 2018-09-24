@@ -160,7 +160,7 @@ describe("Login", function () {
         }, done);
     });
 
-    it("should show error when trying to log in regularly", function (done) {
+    it("should show error when trying to log in through login form", function (done) {
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.bruteForceBlockThisIp = 1;
         delete testEnvironment.bruteForceBlockIps;
@@ -169,6 +169,18 @@ describe("Login", function () {
 
         expect.screenshot("bruteforcelog_blockedlogin").to.be.capture(function (page) {
             page.load("");
+        }, done);
+    });
+
+    it("should show error when trying to log in through logme", function (done) {
+        testEnvironment.testUseMockAuth = 1;
+        testEnvironment.bruteForceBlockThisIp = 1;
+        delete testEnvironment.bruteForceBlockIps;
+        delete testEnvironment.queryParamOverride;
+        testEnvironment.save();
+
+        expect.screenshot("bruteforcelog_blockedlogme").to.be.capture(function (page) {
+            page.load(formlessLoginUrl);
         }, done);
     });
 });
