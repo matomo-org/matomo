@@ -18,26 +18,34 @@ describe("IntranetMeasurable", function () {
         testEnvironment.save();
     });
 
-    function assertScreenshotEquals(screenshotName, done, test)
+    function assertScreenshotEquals(screenshotName, done, test, selector)
     {
-        expect.screenshot(screenshotName).to.be.captureSelector('.sitesManagerList,.sitesButtonBar,.sites-manager-header,.ui-dialog.ui-widget,.modal.open', test, done);
+        expect.screenshot(screenshotName).to.be.captureSelector(selector, test, done);
     }
 
     it("should show intranet selection", function (done) {
         assertScreenshotEquals("add_new_dialog", done, function (page) {
             page.load(url);
             page.click('.SitesManager .addSite:first');
-        });
+        }, '.modal.open');
     });
 
     it("should load intranet specific fields", function (done) {
-        assertScreenshotEquals("intranet_view", done, function (page) {
+        assertScreenshotEquals("intranet_create", done, function (page) {
             page.click('.modal.open .btn:contains(Intranet)');
             page.evaluate(function () {
                 $('.form-help:contains(UTC time is)').hide();
             });
             page.wait(250);
-        });
+        }, '.editingSite');
+    });
+
+    it("should load intranet specific fields", function (done) {
+        assertScreenshotEquals("intranet_created", done, function (page) {
+            page.sendKeys('.editingSite [placeholder="Name"]', 'My intranet');
+            page.sendKeys('.editingSite [name="urls"]', 'https://www.example.com');
+            page.click('.editingSiteFooter input.btn');
+        }, '.site[type=intranet]');
     });
 
 });
