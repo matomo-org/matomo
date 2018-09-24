@@ -1,0 +1,9 @@
+{
+    "IntranetMeasurable": {
+        "Intranet": "Intranet",
+        "Intranets": "Intranets",
+        "IntranetDescription": "An intranet measurable is just like a website but hosted on an internal network.",
+        "TrustVisitorCookies": "Trust Visitor Cookies",
+        "TrustVisitorCookiesHelp": "This should be enabled when most visitors have the same configuration (browsers, operating systems); and the same IP for better unique visitors recognition. If disabled, all visitors will be counted as one single visitor."
+    }
+}
