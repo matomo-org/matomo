@@ -48,10 +48,4 @@ describe("IntranetMeasurable", function () {
         }, '.site[type=intranet]');
     });
 
-    it("should load intranet specific fields", function (done) {
-        assertScreenshotEquals("intranet_reloaded", done, function (page) {
-            page.reload();
-        }, '.site[type=intranet]');
-    });
-
 });
