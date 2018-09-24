@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\IntranetMeasurable\Tracker;
 
 use Piwik\Container\StaticContainer;
-use Piwik\Plugins\IntranetMeasurable\MeasurableSettings;
 use Piwik\Plugins\IntranetMeasurable\Type;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Request;
@@ -23,7 +22,6 @@ class RequestProcessor extends \Piwik\Tracker\RequestProcessor
         $idSite = $request->getIdSite();
         if ($idSite && !StaticContainer::get($this->settingName)) {
             // we may need to enable it for an intranet site...
-
             $site = Cache::getCacheWebsiteAttributes($idSite);
             if (!empty($site['type'])
                 && $site['type'] === Type::ID

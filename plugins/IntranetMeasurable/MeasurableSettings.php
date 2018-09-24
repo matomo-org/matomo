@@ -25,11 +25,7 @@ class MeasurableSettings extends \Piwik\Plugins\WebsiteMeasurable\MeasurableSett
     protected function init()
     {
         $this->trustvisitorcookies = $this->makeTrustVisitorCookies();
-        $pluginNameBackup = $this->pluginName;
-        // workaround to make it possible to save website properties, otherwise the values will be discarded
-        $this->pluginName = 'WebsiteMeasurable';
         parent::init();
-        $this->pluginName = $pluginNameBackup;
     }
 
     private function makeTrustVisitorCookies()
