@@ -8,7 +8,7 @@
 
 namespace Piwik\Plugins\Login;
 
-use Piwik\Plugins\Login\Securit\BruteForceDetection;
+use Piwik\Plugins\Login\Security\BruteForceDetection;
 
 class Tasks extends \Piwik\Plugin\Tasks
 {
