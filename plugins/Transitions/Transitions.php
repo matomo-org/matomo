@@ -40,5 +40,10 @@ class Transitions extends \Piwik\Plugin
     {
         $translationKeys[] = 'General_TransitionsRowActionTooltipTitle';
         $translationKeys[] = 'General_TransitionsRowActionTooltip';
+        $translationKeys[] = 'Actions_PageUrls';
+        $translationKeys[] = 'Actions_WidgetPageTitles';
+        $translationKeys[] = 'Transitions_NumPageviews';
+        $translationKeys[] = 'CoreHome_ThereIsNoDataForThisReport';
+        $translationKeys[] = 'General_Others';
     }
 }

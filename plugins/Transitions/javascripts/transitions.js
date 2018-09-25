@@ -186,16 +186,24 @@ Piwik_Transitions.prototype.reset = function (actionType, actionName, segment) {
 Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
     var self = this;
 
-    if (!showEmbeddedInReport) {
+    $('#transitions_report .popoverContainer').hide();
+
+    if (showEmbeddedInReport) {
+        this.popover = $('#transitions_report');
+        $('#Transitions_Error_Container').hide();
+        $('#transitions_inline_loading').show();
+    } else {
         this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
         Piwik_Popover.addHelpButton('https://matomo.org/docs/transitions');
-    } else {
-        this.popover = $('#transitions_report');
     }
 
     var bothLoaded = function () {
         if (!showEmbeddedInReport) {
             Piwik_Popover.setContent(Piwik_Transitions.popoverHtml);
+        } else {
+            $('#transitions_inline_loading').hide();
+            $('#transitions_report .popoverContainer').html(Piwik_Transitions.popoverHtml);
+            $('#transitions_report .popoverContainer').show();
         }
         self.preparePopover();
         self.model.htmlLoaded();
@@ -211,7 +219,7 @@ Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
 
     // load the popover HTML (only done once)
     var callbackForHtml = false;
-    if (typeof Piwik_Transitions.popoverHtml == 'undefined' && !showEmbeddedInReport) {
+    if (typeof Piwik_Transitions.popoverHtml == 'undefined') {
         this.ajax.callTransitionsController('renderPopover', function (html) {
             Piwik_Transitions.popoverHtml = html;
             if (callbackForHtml !== false) {
@@ -222,7 +230,7 @@ Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
 
     // load the data
     self.model.loadData(self.actionType, self.actionName, self.segment, function () {
-        if (typeof Piwik_Transitions.popoverHtml == 'undefined' && !showEmbeddedInReport) {
+        if (typeof Piwik_Transitions.popoverHtml == 'undefined') {
             // html not there yet
             callbackForHtml = bothLoaded;
         } else {
@@ -1521,7 +1529,25 @@ Piwik_Transitions_Ajax.prototype.callApi = function (method, params, callback) {
                     }
 
                     errorMessage = sprintf(errorMessage, '<br />');
-                    Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
+                    var inlineErrorNode = $('#Transitions_Error_Container');
+                    if (inlineErrorNode.length) {
+                        // viewing it as report, not popover
+                        inlineErrorNode.html('');
+                        var theContentNode = $(document.createElement('div')).addClass('Piwik_Popover_Error');
+
+                        var p = $(document.createElement('p')).addClass('Piwik_Popover_Error_Title');
+                        theContentNode.append(p.html(errorTitle));
+
+                        if (errorMessage) {
+                            p = $(document.createElement('p')).addClass('Piwik_Popover_Error_Message');
+                            theContentNode.append(p.html(errorMessage));
+                        }
+                        inlineErrorNode.append(theContentNode);
+                        inlineErrorNode.show();
+                        $('#transitions_report .popoverContainer').hide();
+                    } else {
+                        Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
+                    }
                 };
 
                 if (typeof Piwik_Transitions_Translations == 'undefined') {
