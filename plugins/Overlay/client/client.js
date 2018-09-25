@@ -1,6 +1,6 @@
 var Piwik_Overlay_Client = (function () {
 
-    var DOMAIN_PARSE_REGEX = /http(s)?:\/\/(www\.)?([^\/]*)/i;
+    var DOMAIN_PARSE_REGEX = /^http(s)?:\/\/(www\.)?([^\/]*)/i;
 
     /** jQuery */
     var $;

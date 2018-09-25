@@ -7,7 +7,13 @@
 
 var Piwik_Overlay = (function () {
 
-    var DOMAIN_PARSE_REGEX = /http(s)?:\/\/(www\.)?([^\/]*)/i;
+    var DOMAIN_PARSE_REGEX = /^http(s)?:\/\/(www\.)?([^\/]*)/i;
+    var ORIGIN_PARSE_REGEX = /^https?:\/\/[^\/]*/;
+    var ALLOWED_API_REQUEST_WHITELIST = [
+        'Overlay.getTranslations',
+        'Overlay.getExcludedQueryParameters',
+        'Overlay.getFollowingPages',
+    ];
 
     var $body, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading;
     var $rowEvolutionLink, $transitionsLink, $visitorLogLink;
@@ -29,9 +35,7 @@ var Piwik_Overlay = (function () {
         $location.html('&nbsp;').unbind('mouseenter').unbind('mouseleave');
 
         iframeCurrentPage = currentUrl;
-        var m = currentUrl.match(DOMAIN_PARSE_REGEX);
-        iframeDomain = m[3];
-        iframeOrigin = m[0];
+        iframeDomain = currentUrl.match(DOMAIN_PARSE_REGEX)[3];
 
         var params = {
             module: 'Overlay',
@@ -140,11 +144,30 @@ var Piwik_Overlay = (function () {
         return location;
     }
 
+    function setIframeOrigin(location) {
+        iframeOrigin = location.match(ORIGIN_PARSE_REGEX)[0];
+
+        // unset iframe origin if it is not one of the site URLs
+        var validSiteOrigins = Piwik_Overlay.siteUrls.map(function (url) {
+            return url.match(ORIGIN_PARSE_REGEX)[0];
+        });
+
+        if (iframeOrigin && validSiteOrigins.indexOf(iframeOrigin) === -1) {
+            try {
+                console.log('Found invalid iframe origin in hash URL: ' + iframeOrigin);
+            } catch (e) {
+                // ignore
+            }
+            iframeOrigin = null;
+        }
+    }
+
     /** $.history callback for hash change */
     function hashChangeCallback(urlHash) {
         var location = getOverlayLocationFromHash(urlHash);
         location = Overlay_Helper.decodeFrameUrl(location);
-        iframeOrigin = location.match(DOMAIN_PARSE_REGEX)[0];
+
+        setIframeOrigin(location);
 
         if (location == iframeCurrentPageNormalized) {
             return;
@@ -166,7 +189,7 @@ var Piwik_Overlay = (function () {
 
     function handleApiRequests() {
         window.addEventListener("message", function (event) {
-            if (event.origin !== iframeOrigin) {
+            if (event.origin !== iframeOrigin || !iframeOrigin) {
                 return;
             }
 
@@ -179,6 +202,16 @@ var Piwik_Overlay = (function () {
             var url = decodeURIComponent(strData[2]);
 
             var params = broadcast.getValuesFromUrl(url);
+            params.module = 'API';
+            params.action = 'index';
+
+            if (ALLOWED_API_REQUEST_WHITELIST.indexOf(params.method) === -1) {
+                sendResponse({
+                    result: 'error',
+                    message: "'" + params.method + "' method is not allowed.",
+                });
+                return;
+            }
 
             angular.element(document).injector().invoke(['piwikApi', function (piwikApi) {
                 piwikApi.fetch(params)
@@ -328,6 +361,7 @@ var Piwik_Overlay = (function () {
                 window.location.replace(newLocation);
             } else {
                 // happens when the url is changed by hand or when the l parameter is there on page load
+                setIframeOrigin(currentUrl);
                 loadSidebar(currentUrl);
             }
         }
