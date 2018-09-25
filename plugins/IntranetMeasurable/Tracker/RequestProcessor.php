@@ -29,7 +29,7 @@ class RequestProcessor extends \Piwik\Tracker\RequestProcessor
         } elseif ($this->didEnableSetting) {
             // we reset it in case of bulk tracking with different sites etc
             $this->setTrustCookiesSetting(0);
-            $this->didEnableSetting = true;
+            $this->didEnableSetting = false;
         }
     }
 
