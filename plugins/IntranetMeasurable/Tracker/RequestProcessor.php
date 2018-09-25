@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\IntranetMeasurable\Tracker;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Plugins\IntranetMeasurable\Type;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Request;
@@ -20,7 +21,12 @@ class RequestProcessor extends \Piwik\Tracker\RequestProcessor
 
     public function manipulateRequest(Request $request)
     {
-        $site = Cache::getCacheWebsiteAttributes($request->getIdSite());
+        try {
+            $site = Cache::getCacheWebsiteAttributes($request->getIdSite());
+        } catch (UnexpectedWebsiteFoundException $e) {
+            // we do not throw an error to not leak that the site doesn't exist
+            return;
+        }
         $isIntranetSite = !empty($site['type']) && $site['type'] === Type::ID;
 
         if ($isIntranetSite && !StaticContainer::get($this->settingName)) {
