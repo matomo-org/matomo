@@ -222,28 +222,6 @@ https://www.example.org/</placeholder>
 				</settings>
 			</row>
 			<row>
-				<pluginName>IntranetMeasurable</pluginName>
-				<title>IntranetMeasurable</title>
-				<settings>
-					<row>
-						<name>trust_visitors_cookies</name>
-						<title>Trust Visitor Cookies</title>
-						<value>1</value>
-						<defaultValue>1</defaultValue>
-						<type>boolean</type>
-						<uiControl>checkbox</uiControl>
-						<uiControlAttributes>
-						</uiControlAttributes>
-						<availableValues />
-						<description />
-						<inlineHelp>This should be enabled when most visitors have the same configuration (browsers, operating systems); and the same IP for better unique visitors recognition. If disabled, all visitors will be counted as one single visitor. &lt;a rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/faq/how-to/faq_175/&quot;&gt;Learn more&lt;/a&gt;.</inlineHelp>
-						<templateFile />
-						<introduction />
-						<condition />
-					</row>
-				</settings>
-			</row>
-			<row>
 				<pluginName>ExampleSettingsPlugin</pluginName>
 				<title>ExampleSettingsPlugin</title>
 				<settings>
@@ -271,7 +249,7 @@ https://www.example.org/</placeholder>
 	</row>
 	<row>
 		<id>intranet</id>
-		<name>Intranet</name>
+		<name>Intranet Website</name>
 		<description>An intranet measurable is just like a website but hosted on an internal network.</description>
 		<howToSetupUrl>?module=CoreAdminHome&amp;action=trackingCodeGenerator</howToSetupUrl>
 		<settings>
