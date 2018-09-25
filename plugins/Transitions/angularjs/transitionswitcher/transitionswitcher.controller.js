@@ -54,7 +54,7 @@
                         if (report[i].label === othersLabel) {
                             continue;
                         }
-                        
+
                         var key = report[i].url;
                         if (!self.isUrlReport()) {
                             key = report[i].label;

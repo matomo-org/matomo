@@ -37,9 +37,7 @@ class GetTransitions extends Widget
     {
         Piwik::checkUserHasViewAccess(self::getIdSite());
 
-        return $this->renderTemplate('transitions', array(
-            'translations' => Controller::getTranslations()
-        ));
+        return $this->renderTemplate('transitions');
     }
 
 }
