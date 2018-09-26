@@ -161,6 +161,8 @@ class Request
 
             if ($this->isAuthenticated) {
                 Common::printDebug("token_auth is authenticated!");
+            } else {
+                StaticContainer::get('Piwik\Tracker\Failures')->logFailure(Failures::FAILURE_ID_NOT_AUTHENTICATED, $this);
             }
         } else {
             $this->isAuthenticated = true;

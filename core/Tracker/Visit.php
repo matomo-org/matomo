@@ -98,10 +98,7 @@ class Visit implements VisitInterface
         try {
             Cache::getCacheWebsiteAttributes($idSite);
         } catch (UnexpectedWebsiteFoundException $e) {
-            StaticContainer::get(Failures::class)->logFailure($idSite, Failures::FAILURE_INVALID_SITE, array(
-                'url' => $this->request->getParam('url'),
-                'action_name' =>  $this->request->getParam('action_name')
-            ));
+            StaticContainer::get(Failures::class)->logFailure(Failures::FAILURE_ID_INVALID_SITE, $this->request);
 
             throw $e;
         }

@@ -45,6 +45,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/Morpheus/stylesheets/base.less";
         $stylesheets[] = "plugins/Morpheus/stylesheets/main.less";
         $stylesheets[] = "plugins/CoreAdminHome/stylesheets/generalSettings.less";
+        $stylesheets[] = "plugins/CoreAdminHome/angularjs/trackingfailures/trackingfailures.directive.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -82,5 +83,6 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_ProtocolNotDetectedCorrectlySolution';
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
         $translationKeys[] = 'UserCountryMap_None';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailures';
     }
 }

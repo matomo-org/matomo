@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 use Exception;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Piwik\Access;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -22,6 +23,7 @@ use Piwik\Piwik;
 use Piwik\Segment;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Site;
+use Piwik\Tracker\Failures;
 use Piwik\Url;
 
 /**
@@ -39,10 +41,16 @@ class API extends \Piwik\Plugin\API
      */
     private $invalidator;
 
-    public function __construct(Scheduler $scheduler, ArchiveInvalidator $invalidator)
+    /**
+     * @var Failures
+     */
+    private $trackingFailures;
+
+    public function __construct(Scheduler $scheduler, ArchiveInvalidator $invalidator, Failures $trackingFailures)
     {
         $this->scheduler = $scheduler;
         $this->invalidator = $invalidator;
+        $this->trackingFailures = $trackingFailures;
     }
 
     /**
@@ -177,6 +185,40 @@ class API extends \Piwik\Plugin\API
 
         $archiver = new CronArchive();
         $archiver->main();
+    }
+
+    public function deleteAllTrackingFailures()
+    {
+        if (Piwik::hasUserSuperUserAccess()) {
+            $this->trackingFailures->saveFailures(array());
+        } else {
+            $idSite = Access::getInstance()->getSitesIdWithAdminAccess();
+            Piwik::checkUserHasAdminAccess($idSite);
+            $this->trackingFailures->deleteTrackingFailures($idSite);
+        }
+    }
+
+    public function deleteTrackingFailure($idSite, $idFailure)
+    {
+        $idSite = (int) $idSite;
+        Piwik::checkUserHasAdminAccess($idSite);
+
+        $this->trackingFailures->deleteTrackingFailure($idSite, $idFailure);
+    }
+
+    public function getTrackingFailures()
+    {
+        if (Piwik::hasUserSuperUserAccess()) {
+            $failures = $this->trackingFailures->getAllFailures();
+        } else {
+            $idSites = Access::getInstance()->getSitesIdWithAdminAccess();
+            Piwik::checkUserHasAdminAccess($idSites);
+
+            $failures = $this->trackingFailures->getAllFailures();
+            $failures = array_intersect_key($failures, array_flip($idSites));
+        }
+
+        return $this->trackingFailures->makeFailuresHumanReadable($failures);
     }
 
     /**

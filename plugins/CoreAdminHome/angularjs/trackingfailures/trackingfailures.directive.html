@@ -1,0 +1,40 @@
+<div piwik-content-block
+     content-title="{{ 'CoreAdminHome_TrackingFailures'|translate }}"
+     class="matomoTrackingFailures">
+    <p>
+        This page lists tracking failures that happened during the last 2 days.
+        Please note that only the most common kind of tracking failures are recorded and not all of them.
+        <br /><br />
+        <input class="btn" type="button" ng-click="trackingFailures.deleteAll();" value="Clear all failures">
+    </p>
+
+    <div piwik-activity-indicator loading="trackingFailures.isLoading"></div>
+
+    <table piwik-content-table>
+        <thead>
+        <tr>
+            <th ng-click="trackingFailures.changeSortOrder('idsite')">Site</th>
+            <th ng-click="trackingFailures.changeSortOrder('readable_failure')">Failure</th>
+            <th ng-click="trackingFailures.changeSortOrder('solution')">Suggest solution</th>
+            <th ng-click="trackingFailures.changeSortOrder('ts')">Date occurred</th>
+            <th ng-click="trackingFailures.changeSortOrder('date_first_occurred')">URL</th>
+            <th ng-click="trackingFailures.changeSortOrder('url')">Action Name</th>
+            <th ng-click="trackingFailures.changeSortOrder('action_name')">Tracking URL</th>
+            <th class="action">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr><td class="success" colspan="8" ng-show="!trackingFailures.isLoading && trackingFailures.failures.length == 0">No tracking failures were recorded</td></tr>
+            <tr ng-repeat="failure in trackingFailures.failures | orderBy:trackingFailures.sortColumn:trackingFailures.sortReverse">
+                <td>{{ failure.site_name }} (ID Site {{ failure.idsite }})</td>
+                <td>{{ failure.readable_failure }}</td>
+                <td>{{ failure.solution }} <a ng-show="failure.solution_url" href="failure.solution_url">Learn more</a></td>
+                <td class="datetime">{{ failure.date_first_occurred }}</td>
+                <td>{{ failure.url }}</td>
+                <td>{{ failure.action_name }}</td>
+                <td>{{ failure.tracking_url }}</td>
+                <td><span class="table-action icon-delete" ng-click="trackingFailures.deleteFailure(failure.idsite, failure.id_failure)"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

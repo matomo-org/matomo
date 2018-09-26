@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
-use Piwik\Access;
 use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
@@ -24,7 +23,6 @@ use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\PrivacyManager\DoNotTrackHeaderChecker;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Site;
-use Piwik\Tracker\Failures;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 use Piwik\View;
@@ -41,14 +39,10 @@ class Controller extends ControllerAdmin
     /** @var OptOutManager */
     private $optOutManager;
 
-    /** @var Failures */
-    private $trackingFailures;
-
-    public function __construct(Translator $translator, OptOutManager $optOutManager, Failures $trackingFailures)
+    public function __construct(Translator $translator, OptOutManager $optOutManager)
     {
         $this->translator = $translator;
         $this->optOutManager = $optOutManager;
-        $this->trackingFailures = $trackingFailures;
 
         parent::__construct();
     }
@@ -89,11 +83,7 @@ class Controller extends ControllerAdmin
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        $failures = $this->trackingFailures->getAllFailuresDependingOnPermissions();
-
-        return $this->renderTemplate('trackingFailures', array(
-            'failures' => $failures
-        ));
+        return $this->renderTemplate('trackingFailures');
     }
 
     public function generalSettings()
