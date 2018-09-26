@@ -16,8 +16,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IPUtils;
-use Piwik\Piwik;
-use Piwik\Plugin;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
@@ -93,6 +91,22 @@ class Visit implements VisitInterface
         $this->request = $request;
     }
 
+    private function checkSiteExists()
+    {
+        $idSite = $this->request->getIdSite();
+
+        try {
+            Cache::getCacheWebsiteAttributes($idSite);
+        } catch (UnexpectedWebsiteFoundException $e) {
+            StaticContainer::get(Failures::class)->logFailure($idSite, Failures::FAILURE_INVALID_SITE, array(
+                'url' => $this->request->getParam('url'),
+                'action_name' =>  $this->request->getParam('action_name')
+            ));
+
+            throw $e;
+        }
+    }
+
     /**
      *    Main algorithm to handle the visit.
      *
@@ -115,6 +129,8 @@ class Visit implements VisitInterface
      */
     public function handle()
     {
+        $this->checkSiteExists();
+
         foreach ($this->requestProcessors as $processor) {
             Common::printDebug("Executing " . get_class($processor) . "::manipulateRequest()...");
 
