@@ -1772,13 +1772,14 @@
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<eventValue>23</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
 				<type>goal</type>
 				<goalName>event matching</goalName>
 				<goalId>3</goalId>
-				<revenue>0</revenue>
+				<revenue>23</revenue>
 				<goalPageId>9</goalPageId>
 				
 				<url />

@@ -16,6 +16,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Plugins\Events\Actions\ActionEvent;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
 
@@ -157,7 +158,7 @@ class GoalManager
           || ($attribute == 'file' && $actionType != Action::TYPE_DOWNLOAD)
           || ($attribute == 'external_website' && $actionType != Action::TYPE_OUTLINK)
           || ($attribute == 'manually')
-          || in_array($attribute, array('event_action', 'event_name', 'event_category')) && $actionType != Action::TYPE_EVENT
+          || $this->isEventMatchingGoal($goal) && $actionType != Action::TYPE_EVENT
         ) {
             return null;
         }
@@ -677,6 +678,12 @@ class GoalManager
             $conversionDimensions = ConversionDimension::getAllDimensions();
             $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onGoalConversion', $visitor, $action, $conversion);
 
+            if ($this->isEventMatchingGoal($convertedGoal)
+                && !empty($convertedGoal['event_value_as_revenue'])
+            ) {
+                $conversion['revenue'] = ActionEvent::getEventValue($request);
+            }
+
             $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request, $action);
         }
     }
@@ -870,5 +877,10 @@ class GoalManager
             $pattern = str_replace('/', '\\/', $pattern);
         }
         return '/' . $pattern . '/';
+    }
+
+    private function isEventMatchingGoal($goal)
+    {
+        return in_array($goal['match_attribute'], array('event_action', 'event_name', 'event_category'));
     }
 }

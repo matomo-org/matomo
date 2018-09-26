@@ -120,6 +120,13 @@
             </div>
         </div>
 
+        <div piwik-field uicontrol="checkbox" name="use_event_value"
+             ng-model="manageGoals.goal.useEventValueAsRevenue"
+             title="{{ 'Goals_UseEventValueAsRevenue'|translate|e('html_attr') }}"
+             ng-show="manageGoals.goal.matchAttribute == 'event'"
+        >
+        </div>
+
         <div piwik-field uicontrol="checkbox" name="case_sensitive"
              ng-model="manageGoals.goal.caseSensitive"
              ng-show="manageGoals.goal.triggerType != 'manually'"
