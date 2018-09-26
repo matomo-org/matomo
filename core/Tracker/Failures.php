@@ -10,6 +10,7 @@
 namespace Piwik\Tracker;
 
 use Exception;
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
@@ -26,6 +27,7 @@ class Failures
 {
     const OPTION_KEY = 'trackingFailures';
     const FAILURE_INVALID_SITE = 'invsite';
+    const CLEANUP_OLD_FAILURES_MINUTES = 2880; // 2 days
 
     public function logFailure($idSite, $reason, $metadata)
     {
@@ -58,6 +60,9 @@ class Failures
                     unset($failures[$idSite][$reason]);
                 }
             }
+            if (empty($failures[$idSite])) {
+                unset($failures[$idSite]);
+            }
         }
 
         $this->saveFailures($failures);
@@ -75,6 +80,18 @@ class Failures
         if (empty($failures)) {
             $failures = array();
         }
+        return $failures;
+    }
+
+    public function getAllFailuresDependingOnPermissions()
+    {
+        $failures = $this->getAllFailures();
+
+        if (!Piwik::hasUserSuperUserAccess()) {
+            $idSites = Access::getInstance()->getSitesIdWithAdminAccess();
+            $failures = array_intersect_key($failures, array_flip($idSites));
+        }
+
         return $failures;
     }
 }

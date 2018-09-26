@@ -20,7 +20,7 @@ use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 class CoreAdminHome extends \Piwik\Plugin
 {
     /**
-     * @see Piwik\Plugin::registerEvents
+     * @see \Piwik\Plugin::registerEvents
      */
     public function registerEvents()
     {

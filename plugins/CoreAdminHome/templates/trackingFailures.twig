@@ -1,0 +1,28 @@
+{% extends 'admin.twig' %}
+
+{% set title %}{{ 'CoreAdminHome_MenuGeneralSettings'|translate }}{% endset %}
+
+{% block content %}
+    <div piwik-content-block content-title="{{ 'CoreAdminHome_TrackingFailures'|translate }}">
+        <p>
+            This page lists some failures that happened while tracking during the last 2 days
+        </p>
+
+        {% if failures is empty %}
+            <p><span class="success"><span class="icon-check"></span>No known tracking failure has been recorded</span></p>
+        {% else %}
+            <ul>
+                {{ failures|json_encode }}
+            {% for idSite,siteFailures in failures %}
+                <li><strong>idSite: {{ idSite }}</strong></li>
+                {% for reason,failure in failures %}
+                    <li>reason: {{ reason }}
+                        on {{ failure.url }}, {{ failure.action_name }} at {{ failure.ts }}
+                    </li>
+                {% endfor %}
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+{% endblock %}

@@ -82,6 +82,7 @@
         "PluginSettingsValueNotAllowed": "The value for field \"%1$s\" in plugin \"%2$s\" is not allowed",
         "PluginSettingsSaveFailed": "Failed to save plugin settings",
         "PluginSettingsSaveSuccess": "Plugin settings updated.",
+        "TrackingFailures": "Tracking failures",
         "SettingsSaveSuccess": "Settings updated.",
         "SendPluginUpdateCommunication": "Send an email when a plugin update is available",
         "SendPluginUpdateCommunicationHelp": "An email will be sent to Super Users when there is a new version available for a plugin.",

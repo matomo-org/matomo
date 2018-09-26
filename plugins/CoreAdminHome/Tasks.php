@@ -143,8 +143,7 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function cleanupTrackingFailures()
     {
         // we remove possibly outdated/fixed tracking failures that have not occurred again recently
-        $twoDays = 2 * 24 * 60;
-        $this->trackingFailures->removeFailuresOlderThanMinutes($twoDays);
+        $this->trackingFailures->removeFailuresOlderThanMinutes(Failures::CLEANUP_OLD_FAILURES_MINUTES);
     }
 
     /**
