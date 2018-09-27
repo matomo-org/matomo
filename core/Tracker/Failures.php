@@ -121,7 +121,7 @@ class Failures
 
     private function enrichFailures($failures)
     {
-        foreach ($failures as $failure) {
+        foreach ($failures as &$failure) {
             try {
                 $failure['site_name'] = Site::getNameFor($failure['idsite']);
             } catch (UnexpectedWebsiteFoundException $e) {
@@ -134,21 +134,21 @@ class Failures
             }
             $request = new Request($params);
             $failure['url'] = trim($request->getParam('url'));
-            $failure['action_name'] = $request->getParam('action_name');
             $failure['pretty_failure'] = '';
             $failure['suggested_solution'] = '';
             $failure['solution_url'] = '';
 
             switch ($failure['idfailure']) {
                 case self::FAILURE_ID_INVALID_SITE:
-                    $failure['pretty_failure'] = 'The used site does not exist';
-                    $failure['solution'] = 'Update the configured idSite in the tracker';
-                    $failure['solution_url'] = 'https://matomo.org/faq/...';
+                    $failure['pretty_failure'] = Piwik::translate('CoreAdminHome_TrackingFailureInvalidSiteProblem');
+                    $failure['solution'] = Piwik::translate('CoreAdminHome_TrackingFailureInvalidSiteSolution');
+                    $failure['solution_url'] = 'https://matomo.org/faq/todo...';
                     break;
                 case self::FAILURE_ID_NOT_AUTHENTICATED:
+                    $failure['pretty_failure'] = Piwik::translate('CoreAdminHome_TrackingFailureAuthenticationProblem');
+                    $failure['solution'] = Piwik::translate('CoreAdminHome_TrackingFailureAuthenticationSolution');
                     $failure['pretty_failure'] = 'Authentication was required but was missing';
-                    $failure['solution'] = 'Set or correct a "auth token" in your tracking request.';
-                    $failure['solution_url'] = 'https://matomo.org/faq/...';
+                    $failure['solution_url'] = 'https://matomo.org/faq/todo...';
                     break;
             }
         }

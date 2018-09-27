@@ -38,7 +38,7 @@ class CoreAdminHome extends \Piwik\Plugin
     public function addSystemSummaryItems(&$systemSummary)
     {
         if (Piwik::isUserHasSomeAdminAccess()) {
-            $failures = Request::processRequest('CoreAdminHome.getTrackingFailures');
+            $failures = Request::processRequest('CoreAdminHome.getTrackingFailures', [], []);
             $numFailures = count($failures);
             $icon = 'icon-error';
             if ($numFailures === 0) {
@@ -46,7 +46,6 @@ class CoreAdminHome extends \Piwik\Plugin
             }
             $systemSummary[] = new SystemSummary\Item($key = 'trackingfailures', Piwik::translate('CoreAdminHome_NTrackingFailures', $numFailures), $value = null, array('module' => 'CoreAdminHome', 'action' => 'trackingFailures'), $icon, $order = 9);
         }
-
     }
 
     public function cleanupUser($userLogin)
@@ -98,6 +97,21 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_ProtocolNotDetectedCorrectlySolution';
         $translationKeys[] = 'CoreAdminHome_SettingsSaveSuccess';
         $translationKeys[] = 'UserCountryMap_None';
+        $translationKeys[] = 'Actions_ColumnPageURL';
+        $translationKeys[] = 'General_Date';
+        $translationKeys[] = 'General_Measurable';
+        $translationKeys[] = 'General_Action';
+        $translationKeys[] = 'General_Delete';
+        $translationKeys[] = 'General_Id';
+        $translationKeys[] = 'CoreAdminHome_LearnMore';
+        $translationKeys[] = 'CoreAdminHome_ConfirmDeleteAllTrackingFailures';
+        $translationKeys[] = 'CoreAdminHome_ConfirmDeleteThisTrackingFailure';
+        $translationKeys[] = 'CoreAdminHome_DeleteAllFailures';
+        $translationKeys[] = 'CoreAdminHome_NTrackingFailures';
+        $translationKeys[] = 'CoreAdminHome_Problem';
+        $translationKeys[] = 'CoreAdminHome_Solution';
         $translationKeys[] = 'CoreAdminHome_TrackingFailures';
+        $translationKeys[] = 'CoreAdminHome_TrackingFailuresIntroduction';
+        $translationKeys[] = 'CoreAdminHome_TrackingURL';
     }
 }

@@ -7,9 +7,9 @@
 (function () {
     angular.module('piwikApp').controller('TrackingFailuresController', TrackingFailuresController);
 
-    TrackingFailuresController.$inject = ['piwikApi'];
+    TrackingFailuresController.$inject = ['piwikApi', 'piwik'];
 
-    function TrackingFailuresController(piwikApi){
+    function TrackingFailuresController(piwikApi, piwik){
         var self = this;
         this.failures = [];
         this.sortColumn = 'idsite';
@@ -36,17 +36,22 @@
         };
 
         this.deleteAll = function () {
-            this.failures = [];
-            piwikApi.fetch({method: 'CoreAdminHome.deleteAllTrackingFailures'}).then(function () {
-                self.fetchAll();
-            });
+
+            piwik.helper.modalConfirm('#confirmDeleteAllTrackingFailures', {yes: function () {
+                self.failures = [];
+                piwikApi.fetch({method: 'CoreAdminHome.deleteAllTrackingFailures'}).then(function () {
+                    self.fetchAll();
+                });
+            }});
         };
 
         this.deleteFailure = function (idSite, idFailure) {
-            this.failures = [];
-            piwikApi.fetch({method: 'CoreAdminHome.deleteTrackingFailure', idSite: idSite, idFailure: idFailure}).then(function () {
-                self.fetchAll();
-            });
+            piwik.helper.modalConfirm('#confirmDeleteAllTrackingFailures', {yes: function () {
+                self.failures = [];
+                piwikApi.fetch({method: 'CoreAdminHome.deleteTrackingFailure', idSite: idSite, idFailure: idFailure}).then(function () {
+                    self.fetchAll();
+                });
+            }});
         };
 
         this.fetchAll();
