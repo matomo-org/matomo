@@ -13,6 +13,23 @@ namespace Piwik;
  */
 class Context
 {
+    public static function executeWithQueryParameters(array $parametersRequest, callable $callback)
+    {
+        // Temporarily sets the Request array to this API call context
+        $saveGET = $_GET;
+        $saveQUERY_STRING = @$_SERVER['QUERY_STRING'];
+        foreach ($parametersRequest as $param => $value) {
+            $_GET[$param] = $value;
+        }
+
+        try {
+            return $callback();
+        } finally {
+            $_GET = $saveGET;
+            $_SERVER['QUERY_STRING'] = $saveQUERY_STRING;
+        }
+    }
+
     /**
      * Temporarily overwrites the idSite parameter so all code executed by `$callback()`
      * will use that idSite.
