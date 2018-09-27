@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -12,40 +12,48 @@ namespace Piwik\Tracker;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Site;
+use Piwik\Db;
 
 class Failures
 {
     const OPTION_KEY = 'trackingFailures';
-    const CLEANUP_OLD_FAILURES_MINUTES = 2880; // 2 days
+    const CLEANUP_OLD_FAILURES_DAYS = 2;
 
     const FAILURE_ID_INVALID_SITE = 1;
     const FAILURE_ID_NOT_AUTHENTICATED = 2;
 
+    private $table = 'tracking_failure';
+    private $tablePrefixed;
+
+    public function __construct()
+    {
+        $this->tablePrefixed = Common::prefixTable($this->table);
+    }
+
     public function logFailure($idFailure, Request $request)
     {
         $idSite = (int) $request->getIdSite();
-        if ($idSite > 9999999 || $idSite < 0) {
-            return; // we prevent creating a huge array of sites in option
+        $idFailure = (int) $idFailure;
+
+        if ($idSite > 9999999 || $idSite < 0 || $this->hasLoggedFailure($idSite, $idFailure)) {
+            return; // we prevent creating huge amount of entries in the cache
         }
-        $failures = $this->getAllFailures();
-        if (!isset($failures[$idSite][$idFailure])) {
-            if (!isset($failures[$idSite])) {
-                $failures[$idSite] = array();
-            }
-            $params = $this->getParamsWithTokenAnonymized($request);
-            $metadata = array(
-                'ts' => Date::now()->getTimestamp(),
-                'p' => $params
-            );
-            $failures[$idSite][$idFailure] = $metadata;
-            $this->saveFailures($failures);
-        }
+
+        $params = $this->getParamsWithTokenAnonymized($request);
+        $sql = sprintf('INSERT INTO %s (`idsite`, `idfailure`, `date_first_occurred`, `request_url`) VALUES(?,?,?,?)', $this->tablePrefixed);
+
+        Db::get()->query($sql, array($idSite, $idFailure, Date::now()->getDatetime(), http_build_query($params)));
     }
 
-    private function getParamsWithTokenAnonymized(Request $request) {
+    public function hasLoggedFailure($idSite, $idFailure)
+    {
+        return false;
+    }
+
+    private function getParamsWithTokenAnonymized(Request $request)
+    {
         // eg if there is a typo in the token auth we want to replace it as well to not accidentally leak a token
         // eg imagine a super user tries to issue an API request for a site and sending the wrong parameter for a token...
         // an admin may have view access for this and can see the super users token
@@ -67,95 +75,74 @@ class Failures
         return $params;
     }
 
-    public function removeFailuresOlderThanMinutes($minutes)
+    public function removeFailuresOlderThanDays($days)
     {
-        $tsMinutesAgo = Date::now()->subPeriod($minutes, 'minute')->getTimestamp();
+        $minutesAgo = Date::now()->subDay($days)->getDatetime();
 
-        $failures = $this->getAllFailures();
-        foreach ($failures as $idSite => $siteFailures) {
-            foreach ($siteFailures as $reason => $meta) {
-                if (empty($meta['ts']) || $tsMinutesAgo > $meta['ts']) {
-                    unset($failures[$idSite][$reason]);
-                }
-            }
-            if (empty($failures[$idSite])) {
-                unset($failures[$idSite]);
-            }
-        }
-
-        $this->saveFailures($failures);
-    }
-
-    public function saveFailures($failures)
-    {
-        // we do not autoload as it won't be needed in most cases and the entry could be "big" potentially
-        Option::set(self::OPTION_KEY, json_encode($failures), $autoload = 0);
+        Db::query(sprintf('DELETE FROM %s WHERE date_first_occurred >= ?', $this->tablePrefixed), array($minutesAgo));
     }
 
     public function getAllFailures()
     {
-        $failures = json_decode(Option::get(self::OPTION_KEY), true);
-        if (empty($failures)) {
-            $failures = array();
-        }
-        return $failures;
+        return Db::fetchAll(sprintf('SELECT * FROM %s', $this->tablePrefixed));
     }
 
     public function deleteTrackingFailure($idSite, $idFailure)
     {
-        $failures = $this->getAllFailures();
-        unset($failures[$idSite][$idFailure]);
-        $this->saveFailures($failures);
+        Db::query(sprintf('DELETE FROM %s WHERE idsite = ? and idfailure = ?', $this->tablePrefixed), array($idSite, $idFailure));
     }
 
     public function deleteTrackingFailures($idSites)
     {
-        $failures = $this->getAllFailures();
-        $failures = array_diff_key($failures, array_flip($idSites));
-        $this->saveFailures($failures);
+        if (!empty($idSites)) {
+            $idSites = array_map('intval', $idSites);
+            $idSites = implode(',', $idSites);
+            Db::query(sprintf('DELETE FROM %s WHERE idsite = IN(%s)', $this->tablePrefixed, $idSites));
+        }
+    }
+
+    public function deleteAllTrackingFailures()
+    {
+        Db::query(sprintf('DELETE FROM %s', $this->tablePrefixed));
     }
 
     public function makeFailuresHumanReadable($failures)
     {
-        $formatted = array();
-        foreach ($failures as $idSite => $siteFailures) {
-            foreach ($siteFailures as $reason => $siteFailure) {
-                $siteFailure['idsite'] = $idSite;
-                try {
-                    $siteFailure['site_name'] = Site::getNameFor($idSite);
-                } catch (UnexpectedWebsiteFoundException $e) {
-                    $siteFailure['site_name'] = Piwik::translate('General_Unknown');
-                }
-                $siteFailure['date_first_occurred'] = Date::factory($siteFailure['ts'])->getLocalized(Date::DATETIME_FORMAT_SHORT);
-                $siteFailure['tracking_url'] = http_build_query($siteFailure['p']);
-                if (empty($siteFailure['p']['url'])) {
-                    $siteFailure['p']['url'] = ' ';// workaround it using the default provider in request constructor
-                }
-                $request = new Request($siteFailure['p']);
-                $siteFailure['url'] = trim($request->getParam('url'));
-                $siteFailure['action_name'] = $request->getParam('action_name');
-                $siteFailure['id_failure'] = $reason;
-                $siteFailure['readable_failure'] = $reason;
-                $siteFailure['suggested_solution'] = '';
-                $siteFailure['solution_link'] = '';
-
-                switch ($reason) {
-                    case self::FAILURE_ID_INVALID_SITE:
-                        $siteFailure['readable_failure'] = 'The used idSite does not exist';
-                        $siteFailure['solution'] = 'Try to update the configured idSite in the tracker';
-                        $siteFailure['solution_url'] = 'https://matomo.org';
-                        break;
-                    default:
-                        Piwik::postEvent('Tracking.Failure.makeFailureHumanReadable', array(&$siteFailure));
-
-                        break;
-                }
-                unset($siteFailure['p']);
-                $formatted[] = $siteFailure;
+        foreach ($failures as $siteFailure) {
+            try {
+                $siteFailure['site_name'] = Site::getNameFor($siteFailure['idsite']);
+            } catch (UnexpectedWebsiteFoundException $e) {
+                $siteFailure['site_name'] = Piwik::translate('General_Unknown');
             }
+            $siteFailure['pretty_date_first_occurred'] = Date::factory($siteFailure['ts'])->getLocalized(Date::DATETIME_FORMAT_SHORT);
+            parse_str($siteFailure['request_url'], $params);
+            if (empty($params['url'])) {
+                $params['url'] = ' ';// workaround it using the default provider in request constructor
+            }
+            $request = new Request($params);
+            $siteFailure['url'] = trim($request->getParam('url'));
+            $siteFailure['action_name'] = $request->getParam('action_name');
+            $siteFailure['pretty_failure'] = '';
+            $siteFailure['suggested_solution'] = '';
+            $siteFailure['solution_link'] = '';
+            unset($siteFailure['request_url']);
 
+            switch ($siteFailure['idfailure']) {
+                case self::FAILURE_ID_INVALID_SITE:
+                    $siteFailure['readable_failure'] = 'The used idSite does not exist';
+                    $siteFailure['solution'] = 'Try to update the configured idSite in the tracker';
+                    $siteFailure['solution_url'] = 'https://matomo.org';
+                    break;
+                case self::FAILURE_ID_NOT_AUTHENTICATED:
+                    $siteFailure['readable_failure'] = 'The used idSite does not exist';
+                    $siteFailure['solution'] = 'Try to update the configured idSite in the tracker';
+                    $siteFailure['solution_url'] = 'https://matomo.org';
+                    break;
+            }
         }
 
-        return $formatted;
+        Piwik::postEvent('Tracking.makeFailuresHumanReadable', array(&$failures));
+
+        return $failures;
     }
 }

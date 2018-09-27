@@ -190,7 +190,7 @@ class API extends \Piwik\Plugin\API
     public function deleteAllTrackingFailures()
     {
         if (Piwik::hasUserSuperUserAccess()) {
-            $this->trackingFailures->saveFailures(array());
+            $this->trackingFailures->deleteAllTrackingFailures();
         } else {
             $idSite = Access::getInstance()->getSitesIdWithAdminAccess();
             Piwik::checkUserHasAdminAccess($idSite);

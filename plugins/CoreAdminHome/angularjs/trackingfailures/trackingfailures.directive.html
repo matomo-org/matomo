@@ -14,12 +14,12 @@
         <thead>
         <tr>
             <th ng-click="trackingFailures.changeSortOrder('idsite')">Site</th>
-            <th ng-click="trackingFailures.changeSortOrder('readable_failure')">Failure</th>
+            <th ng-click="trackingFailures.changeSortOrder('pretty_failure')">Failure</th>
             <th ng-click="trackingFailures.changeSortOrder('solution')">Suggest solution</th>
-            <th ng-click="trackingFailures.changeSortOrder('ts')">Date occurred</th>
-            <th ng-click="trackingFailures.changeSortOrder('date_first_occurred')">URL</th>
-            <th ng-click="trackingFailures.changeSortOrder('url')">Action Name</th>
-            <th ng-click="trackingFailures.changeSortOrder('action_name')">Tracking URL</th>
+            <th ng-click="trackingFailures.changeSortOrder('date_first_occurred')">Date occurred</th>
+            <th ng-click="trackingFailures.changeSortOrder('url')">URL</th>
+            <th ng-click="trackingFailures.changeSortOrder('action_name')">Action Name</th>
+            <th ng-click="trackingFailures.changeSortOrder('request_url')">Tracking URL</th>
             <th class="action">Action</th>
         </tr>
         </thead>
@@ -27,13 +27,13 @@
             <tr><td class="success" colspan="8" ng-show="!trackingFailures.isLoading && trackingFailures.failures.length == 0">No tracking failures were recorded</td></tr>
             <tr ng-repeat="failure in trackingFailures.failures | orderBy:trackingFailures.sortColumn:trackingFailures.sortReverse">
                 <td>{{ failure.site_name }} (ID Site {{ failure.idsite }})</td>
-                <td>{{ failure.readable_failure }}</td>
+                <td>{{ failure.pretty_failure }}</td>
                 <td>{{ failure.solution }} <a ng-show="failure.solution_url" href="failure.solution_url">Learn more</a></td>
-                <td class="datetime">{{ failure.date_first_occurred }}</td>
+                <td class="datetime">{{ failure.pretty_date_first_occurred }}</td>
                 <td>{{ failure.url }}</td>
                 <td>{{ failure.action_name }}</td>
-                <td>{{ failure.tracking_url }}</td>
-                <td><span class="table-action icon-delete" ng-click="trackingFailures.deleteFailure(failure.idsite, failure.id_failure)"></span></td>
+                <td>{{ failure.request_url }}</td>
+                <td><span class="table-action icon-delete" ng-click="trackingFailures.deleteFailure(failure.idsite, failure.idfailure)"></span></td>
             </tr>
         </tbody>
     </table>
