@@ -32,6 +32,11 @@ class Failures
 
     public function logFailure($idFailure, Request $request)
     {
+        $visitExcluded = new VisitExcluded($request);
+        if ($visitExcluded->isExcluded()) {
+            return;
+        }
+
         $idSite = (int) $request->getIdSite();
         $idFailure = (int) $idFailure;
 
@@ -140,14 +145,13 @@ class Failures
 
             switch ($failure['idfailure']) {
                 case self::FAILURE_ID_INVALID_SITE:
-                    $failure['pretty_failure'] = Piwik::translate('CoreAdminHome_TrackingFailureInvalidSiteProblem');
+                    $failure['problem'] = Piwik::translate('CoreAdminHome_TrackingFailureInvalidSiteProblem');
                     $failure['solution'] = Piwik::translate('CoreAdminHome_TrackingFailureInvalidSiteSolution');
                     $failure['solution_url'] = 'https://matomo.org/faq/todo...';
                     break;
                 case self::FAILURE_ID_NOT_AUTHENTICATED:
-                    $failure['pretty_failure'] = Piwik::translate('CoreAdminHome_TrackingFailureAuthenticationProblem');
+                    $failure['problem'] = Piwik::translate('CoreAdminHome_TrackingFailureAuthenticationProblem');
                     $failure['solution'] = Piwik::translate('CoreAdminHome_TrackingFailureAuthenticationSolution');
-                    $failure['pretty_failure'] = 'Authentication was required but was missing';
                     $failure['solution_url'] = 'https://matomo.org/faq/todo...';
                     break;
             }

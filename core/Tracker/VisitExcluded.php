@@ -11,6 +11,7 @@ namespace Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\DeviceDetectorFactory;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Network\IP;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\SiteUrls;
@@ -263,11 +264,11 @@ class VisitExcluded
      */
     protected function isVisitorIpExcluded()
     {
-        $websiteAttributes = Cache::getCacheWebsiteAttributes($this->idSite);
+        $excludedIps = $this->getAttributes('excluded_ips', 'global_excluded_ips');
 
-        if (!empty($websiteAttributes['excluded_ips'])) {
+        if (!empty($excludedIps)) {
             $ip = IP::fromBinaryIP($this->ip);
-            if ($ip->isInRanges($websiteAttributes['excluded_ips'])) {
+            if ($ip->isInRanges($excludedIps)) {
                 Common::printDebug('Visitor IP ' . $ip->toString() . ' is excluded from being tracked');
                 return true;
             }
@@ -276,15 +277,30 @@ class VisitExcluded
         return false;
     }
 
+    private function getAttributes($siteAttribute, $globalAttribute)
+    {
+        try {
+            $site = Cache::getCacheWebsiteAttributes($this->idSite);
+            if (isset($site[$siteAttribute])) {
+                return $site[$siteAttribute];
+            }
+        } catch (UnexpectedWebsiteFoundException $e) {
+            $cached = Cache::getCacheGeneral();
+            if ($globalAttribute && isset($cached[$globalAttribute])) {
+                return $cached[$globalAttribute];
+            }
+        }
+    }
+
     /**
      * Checks if request URL is excluded
      * @return bool
      */
     protected function isUrlExcluded()
     {
-        $site = Cache::getCacheWebsiteAttributes($this->idSite);
+        $excludedUrls = $this->getAttributes('exclude_unknown_urls', null);
 
-        if (!empty($site['exclude_unknown_urls']) && !empty($site['urls'])) {
+        if (!empty($excludedUrls) && !empty($site['urls'])) {
             $url = $this->request->getParam('url');
             $parsedUrl = parse_url($url);
 
@@ -311,10 +327,10 @@ class VisitExcluded
      */
     protected function isUserAgentExcluded()
     {
-        $websiteAttributes = Cache::getCacheWebsiteAttributes($this->idSite);
+        $excludedAgents = $this->getAttributes('excluded_user_agents', 'global_excluded_user_agents');
 
-        if (!empty($websiteAttributes['excluded_user_agents'])) {
-            foreach ($websiteAttributes['excluded_user_agents'] as $excludedUserAgent) {
+        if (!empty($excludedAgents)) {
+            foreach ($excludedAgents as $excludedUserAgent) {
                 // if the excluded user agent string part is in this visit's user agent, this visit should be excluded
                 if (stripos($this->userAgent, $excludedUserAgent) !== false) {
                     return true;
