@@ -279,7 +279,7 @@ class Mysql implements SchemaInterface
             ",
             'tracking_failure'        => "CREATE TABLE {$prefixTables}tracking_failure (
                                       `idsite` BIGINT(20) UNSIGNED NOT NULL ,
-                                      `idfailure` TINYINT UNSIGNED NOT NULL ,
+                                      `idfailure` SMALLINT UNSIGNED NOT NULL ,
                                       `date_first_occurred` DATETIME NOT NULL ,
                                       `request_url` MEDIUMTEXT NOT NULL ,
                                       PRIMARY KEY(`idsite`, `idfailure`)

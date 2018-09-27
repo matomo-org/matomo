@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\SitesManager;
 
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -167,8 +168,10 @@ class SitesManager extends \Piwik\Plugin
 
     public function setTrackerCacheGeneral(&$cache)
     {
-        $cache['global_excluded_user_agents'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedUserAgentsGlobal());
-        $cache['global_excluded_ips'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedIpsGlobal());
+        Access::doAsSuperUser(function () use (&$cache) {
+            $cache['global_excluded_user_agents'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedUserAgentsGlobal());
+            $cache['global_excluded_ips'] = self::filterBlankFromCommaSepList(API::getInstance()->getExcludedIpsGlobal());
+        });
     }
 
     /**

@@ -14,7 +14,7 @@ use Piwik\Date;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
 use Piwik\Site;
-use Piwik\Db;
+use Piwik\Db as PiwikDb;
 
 class Failures
 {
@@ -24,10 +24,24 @@ class Failures
 
     private $table = 'tracking_failure';
     private $tablePrefixed;
+    private $now;
 
     public function __construct()
     {
         $this->tablePrefixed = Common::prefixTable($this->table);
+    }
+
+    public function setNow(Date $now)
+    {
+        $this->now = $now;
+    }
+
+    private function getNow()
+    {
+        if (isset($this->now)) {
+            return $this->now;
+        }
+        return Date::now();
     }
 
     public function logFailure($idFailure, Request $request)
@@ -47,13 +61,13 @@ class Failures
         $params = $this->getParamsWithTokenAnonymized($request);
         $sql = sprintf('INSERT INTO %s (`idsite`, `idfailure`, `date_first_occurred`, `request_url`) VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE idsite=idsite;', $this->tablePrefixed);
 
-        Db::get()->query($sql, array($idSite, $idFailure, Date::now()->getDatetime(), http_build_query($params)));
+        PiwikDb::get()->query($sql, array($idSite, $idFailure, $this->getNow()->getDatetime(), http_build_query($params)));
     }
 
     private function hasLoggedFailure($idSite, $idFailure)
     {
         $sql = sprintf('SELECT idsite FROM %s WHERE idsite = ? and idfailure = ?', $this->tablePrefixed);
-        $row = Db::fetchRow($sql, array($idSite, $idFailure));
+        $row = PiwikDb::fetchRow($sql, array($idSite, $idFailure));
 
         return !empty($row);
     }
@@ -73,7 +87,7 @@ class Failures
         foreach ($params as $key => $value) {
             if (!empty($token) && $value === $token) {
                 $params[$key] = '__ANONYMIZED__'; // user accidentally posted the token in a wrong field
-            } elseif (!empty($value) && is_string($value) && Common::mb_strlen($value) === 32 && ctype_xdigit($value)) {
+            } elseif (!empty($value) && is_string($value) && Common::mb_strlen($value) >= 29 && Common::mb_strlen($value) <= 36 && ctype_xdigit($value)) {
                 $params[$key] = '__ANONYMIZED__'; // user maybe posted a token in a different field... it looks like it might be a token
             }
         }
@@ -83,14 +97,14 @@ class Failures
 
     public function removeFailuresOlderThanDays($days)
     {
-        $minutesAgo = Date::now()->subDay($days)->getDatetime();
+        $minutesAgo = $this->getNow()->subDay($days)->getDatetime();
 
-        Db::query(sprintf('DELETE FROM %s WHERE date_first_occurred >= ?', $this->tablePrefixed), array($minutesAgo));
+        PiwikDb::query(sprintf('DELETE FROM %s WHERE date_first_occurred < ?', $this->tablePrefixed), array($minutesAgo));
     }
 
     public function getAllFailures()
     {
-        $failures = Db::fetchAll(sprintf('SELECT * FROM %s', $this->tablePrefixed));
+        $failures = PiwikDb::fetchAll(sprintf('SELECT * FROM %s', $this->tablePrefixed));
         return $this->enrichFailures($failures);
     }
 
@@ -101,13 +115,13 @@ class Failures
         }
         $idSites = array_map('intval', $idSites);
         $idSites = implode(',', $idSites);
-        $failures = Db::fetchAll(sprintf('SELECT * FROM %s WHERE idsite IN (%s)', $this->tablePrefixed, $idSites));
+        $failures = PiwikDb::fetchAll(sprintf('SELECT * FROM %s WHERE idsite IN (%s)', $this->tablePrefixed, $idSites));
         return $this->enrichFailures($failures);
     }
 
     public function deleteTrackingFailure($idSite, $idFailure)
     {
-        Db::query(sprintf('DELETE FROM %s WHERE idsite = ? and idfailure = ?', $this->tablePrefixed), array($idSite, $idFailure));
+        PiwikDb::query(sprintf('DELETE FROM %s WHERE idsite = ? and idfailure = ?', $this->tablePrefixed), array($idSite, $idFailure));
     }
 
     public function deleteTrackingFailures($idSites)
@@ -115,13 +129,13 @@ class Failures
         if (!empty($idSites)) {
             $idSites = array_map('intval', $idSites);
             $idSites = implode(',', $idSites);
-            Db::query(sprintf('DELETE FROM %s WHERE idsite = IN(%s)', $this->tablePrefixed, $idSites));
+            PiwikDb::query(sprintf('DELETE FROM %s WHERE idsite IN(%s)', $this->tablePrefixed, $idSites));
         }
     }
 
     public function deleteAllTrackingFailures()
     {
-        Db::query(sprintf('DELETE FROM %s', $this->tablePrefixed));
+        PiwikDb::query(sprintf('DELETE FROM %s', $this->tablePrefixed));
     }
 
     private function enrichFailures($failures)
@@ -139,8 +153,8 @@ class Failures
             }
             $request = new Request($params);
             $failure['url'] = trim($request->getParam('url'));
-            $failure['pretty_failure'] = '';
-            $failure['suggested_solution'] = '';
+            $failure['problem'] = '';
+            $failure['solution'] = '';
             $failure['solution_url'] = '';
 
             switch ($failure['idfailure']) {

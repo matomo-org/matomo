@@ -524,8 +524,11 @@ class Request
          */
         Piwik::postEvent('Tracker.Request.getIdSite', array(&$idSite, $this->params));
 
-        if ($idSite <= 0) {
+        if ($idSite < 0) {
             throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSite . '\'');
+            // we allow 0... the request will fail anyway as the site won't exist... allowing 0 will help us
+            // reporting this tracking problem as it is a common issue. Otherwise we would not be able to report
+            // this problem in tracking failures
         }
 
         $this->idSiteCache = $idSite;

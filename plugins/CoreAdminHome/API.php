@@ -187,18 +187,27 @@ class API extends \Piwik\Plugin\API
         $archiver->main();
     }
 
+    /**
+     * Deletes all tracking failures this user has at least admin access to.
+     * A super user will also delete tracking failures for sites that don't exist.
+     */
     public function deleteAllTrackingFailures()
     {
         if (Piwik::hasUserSuperUserAccess()) {
             $this->trackingFailures->deleteAllTrackingFailures();
         } else {
             Piwik::checkUserHasSomeAdminAccess();
-            $idSite = Access::getInstance()->getSitesIdWithAdminAccess();
-            Piwik::checkUserHasAdminAccess($idSite);
-            $this->trackingFailures->deleteTrackingFailures($idSite);
+            $idSites = Access::getInstance()->getSitesIdWithAdminAccess();
+            Piwik::checkUserHasAdminAccess($idSites);
+            $this->trackingFailures->deleteTrackingFailures($idSites);
         }
     }
 
+    /**
+     * Deletes a specific tracking failure
+     * @param int $idSite
+     * @param int $idFailure
+     */
     public function deleteTrackingFailure($idSite, $idFailure)
     {
         $idSite = (int) $idSite;
@@ -207,6 +216,11 @@ class API extends \Piwik\Plugin\API
         $this->trackingFailures->deleteTrackingFailure($idSite, $idFailure);
     }
 
+    /**
+     * Get all tracking failures. A user retrieves only tracking failures for sites with at least admin access.
+     * A super user will also retrieve failed requests for sites that don't exist.
+     * @return array
+     */
     public function getTrackingFailures()
     {
         if (Piwik::hasUserSuperUserAccess()) {

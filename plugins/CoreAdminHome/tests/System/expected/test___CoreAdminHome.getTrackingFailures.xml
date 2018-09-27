@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idsite>1</idsite>
+		<idfailure>2</idfailure>
+		
+		
+		<site_name>Piwik test</site_name>
+		
+		<url>http://example.com/piwik/</url>
+		<problem>Request was not authenticated but should have.</problem>
+		<solution>Set or correct a &quot;auth_token&quot; in your tracking request.</solution>
+		<solution_url>https://matomo.org/faq/todo...</solution_url>
+	</row>
+	<row>
+		<idsite>99999</idsite>
+		<idfailure>1</idfailure>
+		
+		
+		<site_name>Unknown</site_name>
+		
+		<url>http://example.com/piwik/</url>
+		<problem>The site does not exist.</problem>
+		<solution>Update the configured idSite in the tracker.</solution>
+		<solution_url>https://matomo.org/faq/todo...</solution_url>
+	</row>
+</result>

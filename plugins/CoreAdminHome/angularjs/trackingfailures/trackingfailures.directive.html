@@ -16,7 +16,7 @@
         <thead>
         <tr>
             <th ng-click="trackingFailures.changeSortOrder('idsite')">{{ 'General_Measurable'|translate }}</th>
-            <th ng-click="trackingFailures.changeSortOrder('pretty_failure')">{{ 'CoreAdminHome_Problem'|translate }}</th>
+            <th ng-click="trackingFailures.changeSortOrder('problem')">{{ 'CoreAdminHome_Problem'|translate }}</th>
             <th ng-click="trackingFailures.changeSortOrder('solution')">{{ 'CoreAdminHome_Solution'|translate }}</th>
             <th ng-click="trackingFailures.changeSortOrder('date_first_occurred')">{{ 'General_Date'|translate }}</th>
             <th ng-click="trackingFailures.changeSortOrder('url')">{{ 'Actions_ColumnPageURL'|translate }}</th>
@@ -28,10 +28,10 @@
         <tr><td colspan="7" ng-show="!trackingFailures.isLoading && trackingFailures.failures.length == 0">{{'CoreAdminHome_CoreAdminHome_NoKnownFailures'|translate}} <span class="icon-ok"></span></td></tr>
             <tr ng-repeat="failure in trackingFailures.failures | orderBy:trackingFailures.sortColumn:trackingFailures.sortReverse">
                 <td>{{ failure.site_name }} ({{'General_Id'|translate}} {{ failure.idsite }})</td>
-                <td>{{ failure.pretty_failure }}</td>
+                <td>{{ failure.problem }}</td>
                 <td>{{ failure.solution }} <a ng-show="failure.solution_url" rel="noopener noreferrer" ng-href="{{ failure.solution_url }}">{{'CoreAdminHome_LearnMore'|translate }}</a></td>
                 <td class="datetime">{{ failure.pretty_date_first_occurred }}</td>
-                <td><a ng-href="{{ failure.url }}" ng-show="failure.url.indexOf('http') == 0" rel="noopener noreferrer">{{ failure.url }}</a><span ng-show="failure.url.indexOf('http') != 0">{{ failure.url }}</span></td>
+                <td>{{ failure.url }}</td>
                 <td><span ng-show="!failure.showFullRequestUrl" title="{{'CoreHome_ClickToSeeFullInformation'|translate}}"
                           ng-click="failure.showFullRequestUrl = true">{{ failure.request_url|limitTo:100 }}...</span>
                     <span ng-show="failure.showFullRequestUrl">{{ failure.request_url }}</span></td>

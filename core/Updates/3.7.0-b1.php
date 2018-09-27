@@ -26,7 +26,7 @@ class Updates_3_7_0_b1 extends PiwikUpdates
     {
         $trackingFailureTable = $this->migration->db->createTable('tracking_failure',
             array('idsite' => 'BIGINT(20) UNSIGNED NOT NULL',
-                  'idfailure' => 'TINYINT UNSIGNED NOT NULL',
+                  'idfailure' => 'SMALLINT UNSIGNED NOT NULL',
                   'date_first_occurred' => 'DATETIME NOT NULL',
                   'request_url' => 'MEDIUMTEXT NOT NULL'),
             array('idsite', 'idfailure'));
