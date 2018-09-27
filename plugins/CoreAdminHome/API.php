@@ -192,6 +192,7 @@ class API extends \Piwik\Plugin\API
         if (Piwik::hasUserSuperUserAccess()) {
             $this->trackingFailures->deleteAllTrackingFailures();
         } else {
+            Piwik::checkUserHasSomeAdminAccess();
             $idSite = Access::getInstance()->getSitesIdWithAdminAccess();
             Piwik::checkUserHasAdminAccess($idSite);
             $this->trackingFailures->deleteTrackingFailures($idSite);
@@ -211,14 +212,14 @@ class API extends \Piwik\Plugin\API
         if (Piwik::hasUserSuperUserAccess()) {
             $failures = $this->trackingFailures->getAllFailures();
         } else {
+            Piwik::checkUserHasSomeAdminAccess();
             $idSites = Access::getInstance()->getSitesIdWithAdminAccess();
             Piwik::checkUserHasAdminAccess($idSites);
 
-            $failures = $this->trackingFailures->getAllFailures();
-            $failures = array_intersect_key($failures, array_flip($idSites));
+            $failures = $this->trackingFailures->getFailuresForSites($idSites);
         }
 
-        return $this->trackingFailures->makeFailuresHumanReadable($failures);
+        return $failures;
     }
 
     /**

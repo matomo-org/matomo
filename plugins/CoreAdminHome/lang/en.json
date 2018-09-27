@@ -109,6 +109,10 @@
         "MissingTrackingCodeEmailSubject": "No traffic for %s recorded in Matomo Analytics, get started now",
         "JsTrackingCodeMissingEmail1": "A few days ago you added the website '%s' to your Matomo Analytics. We just checked and your Matomo doesn't seem to have any recorded traffic for this website.",
         "JsTrackingCodeMissingEmail2": "To begin tracking data and getting insights into your users, you'll need to setup tracking in your website or mobile app. For websites simply embed the tracking code right before the %s tag.",
-        "JsTrackingCodeMissingEmail3": "To find and customize your tracking code, %1$sclick here%2$s (or have a look at the %3$sJavaScript Tracking Client guide%4$s)."
+        "JsTrackingCodeMissingEmail3": "To find and customize your tracking code, %1$sclick here%2$s (or have a look at the %3$sJavaScript Tracking Client guide%4$s).",
+        "NTrackingFailures": "%s tracking failures",
+        "TrackingFailuresEmailSubject": "Tracking failures in your Matomo Analytics",
+        "TrackingFailuresEmail1": "This is just to let you know that %s different kind of tracking failures occurred in the last days.",
+        "TrackingFailuresEmail2": "To view all the failed tracking requests %1$sclick here%2$s."
     }
 }

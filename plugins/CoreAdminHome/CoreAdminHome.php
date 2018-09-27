@@ -8,10 +8,10 @@
  */
 namespace Piwik\Plugins\CoreAdminHome;
 
-use Piwik\Db;
+use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\ProxyHttp;
-use Piwik\Settings\Plugin\UserSetting;
+use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 
 /**
@@ -30,8 +30,23 @@ class CoreAdminHome extends \Piwik\Plugin
             'UsersManager.deleteUser'         => 'cleanupUser',
             'API.DocumentationGenerator.@hideExceptForSuperUser' => 'displayOnlyForSuperUser',
             'Template.jsGlobalVariables' => 'addJsGlobalVariables',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys'
+            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'System.addSystemSummaryItems' => 'addSystemSummaryItems',
         );
+    }
+
+    public function addSystemSummaryItems(&$systemSummary)
+    {
+        if (Piwik::isUserHasSomeAdminAccess()) {
+            $failures = Request::processRequest('CoreAdminHome.getTrackingFailures');
+            $numFailures = count($failures);
+            $icon = 'icon-error';
+            if ($numFailures === 0) {
+                $icon = 'icon-ok';
+            }
+            $systemSummary[] = new SystemSummary\Item($key = 'trackingfailures', Piwik::translate('CoreAdminHome_NTrackingFailures', $numFailures), $value = null, array('module' => 'CoreAdminHome', 'action' => 'trackingFailures'), $icon, $order = 9);
+        }
+
     }
 
     public function cleanupUser($userLogin)

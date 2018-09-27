@@ -18,9 +18,7 @@ use Piwik\Db;
 
 class Failures
 {
-    const OPTION_KEY = 'trackingFailures';
     const CLEANUP_OLD_FAILURES_DAYS = 2;
-
     const FAILURE_ID_INVALID_SITE = 1;
     const FAILURE_ID_NOT_AUTHENTICATED = 2;
 
@@ -42,14 +40,17 @@ class Failures
         }
 
         $params = $this->getParamsWithTokenAnonymized($request);
-        $sql = sprintf('INSERT INTO %s (`idsite`, `idfailure`, `date_first_occurred`, `request_url`) VALUES(?,?,?,?)', $this->tablePrefixed);
+        $sql = sprintf('INSERT INTO %s (`idsite`, `idfailure`, `date_first_occurred`, `request_url`) VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE idsite=idsite;', $this->tablePrefixed);
 
         Db::get()->query($sql, array($idSite, $idFailure, Date::now()->getDatetime(), http_build_query($params)));
     }
 
-    public function hasLoggedFailure($idSite, $idFailure)
+    private function hasLoggedFailure($idSite, $idFailure)
     {
-        return false;
+        $sql = sprintf('SELECT idsite FROM %s WHERE idsite = ? and idfailure = ?', $this->tablePrefixed);
+        $row = Db::fetchRow($sql, array($idSite, $idFailure));
+
+        return !empty($row);
     }
 
     private function getParamsWithTokenAnonymized(Request $request)
@@ -59,7 +60,7 @@ class Failures
         // an admin may have view access for this and can see the super users token
         $token = $request->getTokenAuth();
         $params = $request->getRawParams();
-        foreach (array('token_auth', 'token', 'tokenauth') as $key) {
+        foreach (array('token_auth', 'token', 'tokenauth', 'token__auth') as $key) {
             if (isset($params[$key])) {
                 $params[$key] = '__ANONYMIZED__';
             }
@@ -84,7 +85,19 @@ class Failures
 
     public function getAllFailures()
     {
-        return Db::fetchAll(sprintf('SELECT * FROM %s', $this->tablePrefixed));
+        $failures = Db::fetchAll(sprintf('SELECT * FROM %s', $this->tablePrefixed));
+        return $this->enrichFailures($failures);
+    }
+
+    public function getFailuresForSites($idSites)
+    {
+        if (empty($idSites)) {
+            return array();
+        }
+        $idSites = array_map('intval', $idSites);
+        $idSites = implode(',', $idSites);
+        $failures = Db::fetchAll(sprintf('SELECT * FROM %s WHERE idsite IN (%s)', $this->tablePrefixed, $idSites));
+        return $this->enrichFailures($failures);
     }
 
     public function deleteTrackingFailure($idSite, $idFailure)
@@ -106,37 +119,36 @@ class Failures
         Db::query(sprintf('DELETE FROM %s', $this->tablePrefixed));
     }
 
-    public function makeFailuresHumanReadable($failures)
+    private function enrichFailures($failures)
     {
-        foreach ($failures as $siteFailure) {
+        foreach ($failures as $failure) {
             try {
-                $siteFailure['site_name'] = Site::getNameFor($siteFailure['idsite']);
+                $failure['site_name'] = Site::getNameFor($failure['idsite']);
             } catch (UnexpectedWebsiteFoundException $e) {
-                $siteFailure['site_name'] = Piwik::translate('General_Unknown');
+                $failure['site_name'] = Piwik::translate('General_Unknown');
             }
-            $siteFailure['pretty_date_first_occurred'] = Date::factory($siteFailure['ts'])->getLocalized(Date::DATETIME_FORMAT_SHORT);
-            parse_str($siteFailure['request_url'], $params);
+            $failure['pretty_date_first_occurred'] = Date::factory($failure['date_first_occurred'])->getLocalized(Date::DATETIME_FORMAT_SHORT);
+            parse_str($failure['request_url'], $params);
             if (empty($params['url'])) {
                 $params['url'] = ' ';// workaround it using the default provider in request constructor
             }
             $request = new Request($params);
-            $siteFailure['url'] = trim($request->getParam('url'));
-            $siteFailure['action_name'] = $request->getParam('action_name');
-            $siteFailure['pretty_failure'] = '';
-            $siteFailure['suggested_solution'] = '';
-            $siteFailure['solution_link'] = '';
-            unset($siteFailure['request_url']);
+            $failure['url'] = trim($request->getParam('url'));
+            $failure['action_name'] = $request->getParam('action_name');
+            $failure['pretty_failure'] = '';
+            $failure['suggested_solution'] = '';
+            $failure['solution_url'] = '';
 
-            switch ($siteFailure['idfailure']) {
+            switch ($failure['idfailure']) {
                 case self::FAILURE_ID_INVALID_SITE:
-                    $siteFailure['readable_failure'] = 'The used idSite does not exist';
-                    $siteFailure['solution'] = 'Try to update the configured idSite in the tracker';
-                    $siteFailure['solution_url'] = 'https://matomo.org';
+                    $failure['pretty_failure'] = 'The used site does not exist';
+                    $failure['solution'] = 'Update the configured idSite in the tracker';
+                    $failure['solution_url'] = 'https://matomo.org/faq/...';
                     break;
                 case self::FAILURE_ID_NOT_AUTHENTICATED:
-                    $siteFailure['readable_failure'] = 'The used idSite does not exist';
-                    $siteFailure['solution'] = 'Try to update the configured idSite in the tracker';
-                    $siteFailure['solution_url'] = 'https://matomo.org';
+                    $failure['pretty_failure'] = 'Authentication was required but was missing';
+                    $failure['solution'] = 'Set or correct a "auth token" in your tracking request.';
+                    $failure['solution_url'] = 'https://matomo.org/faq/...';
                     break;
             }
         }
