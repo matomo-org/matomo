@@ -36,7 +36,6 @@
         };
 
         this.deleteAll = function () {
-
             piwik.helper.modalConfirm('#confirmDeleteAllTrackingFailures', {yes: function () {
                 self.failures = [];
                 piwikApi.fetch({method: 'CoreAdminHome.deleteAllTrackingFailures'}).then(function () {

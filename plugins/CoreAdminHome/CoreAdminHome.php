@@ -103,6 +103,7 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Action';
         $translationKeys[] = 'General_Delete';
         $translationKeys[] = 'General_Id';
+        $translationKeys[] = 'CoreHome_ClickToSeeFullInformation';
         $translationKeys[] = 'CoreAdminHome_LearnMore';
         $translationKeys[] = 'CoreAdminHome_ConfirmDeleteAllTrackingFailures';
         $translationKeys[] = 'CoreAdminHome_ConfirmDeleteThisTrackingFailure';
@@ -113,5 +114,6 @@ class CoreAdminHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreAdminHome_TrackingFailures';
         $translationKeys[] = 'CoreAdminHome_TrackingFailuresIntroduction';
         $translationKeys[] = 'CoreAdminHome_TrackingURL';
+        $translationKeys[] = 'CoreAdminHome_NoKnownFailures';
     }
 }
