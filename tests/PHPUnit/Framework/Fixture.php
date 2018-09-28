@@ -915,15 +915,15 @@ class Fixture extends \PHPUnit_Framework_Assert
         }
     }
 
-    // NOTE: since API_Request does sanitization, API methods do not. when calling them, we must
-    // sometimes do sanitization ourselves.
+    /**
+     * @param $type
+     * @param bool $sanitize
+     * @deprecated Use XssTesting
+     */
     public static function makeXssContent($type, $sanitize = false)
     {
-        $result = "<script>$('body').html('$type XSS!');</script>";
-        if ($sanitize) {
-            $result = Common::sanitizeInputValue($result);
-        }
-        return $result;
+        $xssTesting = new XssTesting();
+        return $xssTesting->forTwig($type, $sanitize);
     }
 
     public static function updateDatabase($force = false)

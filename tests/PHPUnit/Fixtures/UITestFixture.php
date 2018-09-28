@@ -23,6 +23,7 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
+use Piwik\Tests\Framework\XssTesting;
 
 /**
  * Fixture for UI tests.
@@ -31,10 +32,16 @@ class UITestFixture extends SqlDump
 {
     const FIXTURE_LOCATION = '/tests/resources/OmniFixture-dump.sql';
 
+    /**
+     * @var XssTesting
+     */
+    private $xssTesting;
+
     public function __construct()
     {
         $this->dumpUrl = PIWIK_INCLUDE_PATH . self::FIXTURE_LOCATION;
         $this->tablesPrefix = '';
+        $this->xssTesting = new XssTesting();
     }
 
     public function setUp()
@@ -296,7 +303,9 @@ class UITestFixture extends SqlDump
 
         foreach ($dashboards as $id => $layout) {
             if ($id == 0) {
-                $_GET['name'] = self::makeXssContent('dashboard name' . $id);
+                $_GET['name'] = $this->xssTesting->forTwig('dashboard name' . $id);
+            } else if ($id == 1) {
+                $_GET['name'] = $this->xssTesting->forAngular('dashboard name' . $id);
             } else {
                 $_GET['name'] = 'dashboard name' . $id;
             }
@@ -335,14 +344,15 @@ class UITestFixture extends SqlDump
     {
         Db::exec("TRUNCATE TABLE " . Common::prefixTable('segment'));
 
-        $segmentName = self::makeXssContent('segment');
+        $segmentName = $this->xssTesting->forTwig('segment');
         $segmentDefinition = "browserCode==FF";
         APISegmentEditor::getInstance()->add(
             $segmentName, $segmentDefinition, $idSite = 1, $autoArchive = true, $enabledAllUsers = true);
 
         // create two more segments
+        $segmentName = $this->xssTesting->forAngular("From Europe");
         APISegmentEditor::getInstance()->add(
-            "From Europe", "continentCode==eur", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
+            $segmentName, "continentCode==eur", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
         APISegmentEditor::getInstance()->add(
             "Multiple actions", "actions>=2", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
     }
