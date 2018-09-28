@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreAdminHome\Emails;
 
+use Piwik\Access;
 use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
@@ -87,11 +88,18 @@ class TrackingFailuresEmail extends Mail
         $view->login = $this->login;
         $view->emailAddress = $this->emailAddress;
         $view->numFailures = $this->numFailures;
+
+        $sitesId = Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+        $idSite = false;
+        if (!empty($sitesId)) {
+            $idSite = array_shift($sitesId);
+        }
         $view->trackingFailuresUrl = SettingsPiwik::getPiwikUrl() . 'index.php?' . Url::getQueryStringFromParameters([
             'module' => 'CoreAdminHome',
             'action' => 'trackingFailures',
             'period' => 'day',
             'date' => 'yesterday',
+            'idSite' => $idSite
         ]);
         return $view;
     }

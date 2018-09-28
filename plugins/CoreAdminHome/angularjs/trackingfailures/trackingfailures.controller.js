@@ -45,7 +45,7 @@
         };
 
         this.deleteFailure = function (idSite, idFailure) {
-            piwik.helper.modalConfirm('#confirmDeleteAllTrackingFailures', {yes: function () {
+            piwik.helper.modalConfirm('#confirmDeleteThisTrackingFailure', {yes: function () {
                 self.failures = [];
                 piwikApi.fetch({method: 'CoreAdminHome.deleteTrackingFailure', idSite: idSite, idFailure: idFailure}).then(function () {
                     self.fetchAll();

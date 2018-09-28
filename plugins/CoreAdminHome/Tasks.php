@@ -143,12 +143,24 @@ class Tasks extends \Piwik\Plugin\Tasks
         $table->save($settings);
     }
 
+    /**
+     * To test execute the following command:
+     * `./console core:run-scheduled-tasks "Piwik\Plugins\CoreAdminHome\Tasks.cleanupTrackingFailures"`
+     *
+     * @throws \Exception
+     */
     public function cleanupTrackingFailures()
     {
         // we remove possibly outdated/fixed tracking failures that have not occurred again recently
         $this->trackingFailures->removeFailuresOlderThanDays(Failures::CLEANUP_OLD_FAILURES_DAYS);
     }
 
+    /**
+     * To test execute the following command:
+     * `./console core:run-scheduled-tasks "Piwik\Plugins\CoreAdminHome\Tasks.notifyTrackingFailures"`
+     *
+     * @throws \Exception
+     */
     public function notifyTrackingFailures()
     {
         $failures = $this->trackingFailures->getAllFailures();

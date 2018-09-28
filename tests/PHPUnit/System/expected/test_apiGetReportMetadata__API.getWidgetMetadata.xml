@@ -3232,6 +3232,25 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
+		<name>Tracking failures</name>
+		<category>
+			<id>About Matomo</id>
+			<name>About Matomo</name>
+			<order>99</order>
+			<icon />
+		</category>
+		<subcategory />
+		<module>CoreAdminHome</module>
+		<action>getTrackingFailures</action>
+		<order>5</order>
+		<parameters>
+			<module>CoreAdminHome</module>
+			<action>getTrackingFailures</action>
+		</parameters>
+		<uniqueId>widgetCoreAdminHomegetTrackingFailures</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
 		<name>Support Matomo!</name>
 		<category>
 			<id>About Matomo</id>

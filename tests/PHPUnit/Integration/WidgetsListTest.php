@@ -50,7 +50,7 @@ class WidgetsListTest extends IntegrationTestCase
             'Insights_WidgetCategory' => 2,
             'ExampleUI_UiFramework' => 8,
             'Referrers_Referrers' => 9,
-            'About Matomo' => 10,
+            'About Matomo' => 11,
         );
         // number of main categories
         $this->assertEquals(count($numberOfWidgets), count($widgetsPerCategory));

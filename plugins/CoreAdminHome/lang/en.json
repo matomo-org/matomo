@@ -126,7 +126,7 @@
         "ConfirmDeleteAllTrackingFailures": "Are you sure you want to delete all tracking failures?",
         "ConfirmDeleteThisTrackingFailure": "Are you sure you want to delete this tracking failure?",
         "TrackingFailuresEmailSubject": "Tracking failures in your Matomo Analytics",
-        "TrackingFailuresEmail1": "This is just to let you know that %s different kind of tracking failures occurred in the last days.",
+        "TrackingFailuresEmail1": "This is just to let you know that %s different kind of tracking failures have occurred in the last days.",
         "TrackingFailuresEmail2": "To view all the failed tracking requests %1$sclick here%2$s."
     }
 }

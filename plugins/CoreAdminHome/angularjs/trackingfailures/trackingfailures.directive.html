@@ -4,7 +4,7 @@
     <p>
         {{ 'CoreAdminHome_TrackingFailuresIntroduction'|translate:2 }}
         <br /><br />
-        <input class="btn"
+        <input class="btn deleteAllFailures"
                ng-show="!trackingFailures.isLoading && trackingFailures.failures.length > 0"
                type="button" ng-click="trackingFailures.deleteAll();"
                value="{{'CoreAdminHome_DeleteAllFailures'|translate}}">
@@ -25,7 +25,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr><td colspan="7" ng-show="!trackingFailures.isLoading && trackingFailures.failures.length == 0">{{'CoreAdminHome_CoreAdminHome_NoKnownFailures'|translate}} <span class="icon-ok"></span></td></tr>
+        <tr><td colspan="7" ng-show="!trackingFailures.isLoading && trackingFailures.failures.length == 0">{{'CoreAdminHome_NoKnownFailures'|translate}} <span class="icon-ok"></span></td></tr>
             <tr ng-repeat="failure in trackingFailures.failures | orderBy:trackingFailures.sortColumn:trackingFailures.sortReverse">
                 <td>{{ failure.site_name }} ({{'General_Id'|translate}} {{ failure.idsite }})</td>
                 <td>{{ failure.problem }}</td>
@@ -50,7 +50,7 @@
     </div>
 
     <div class="ui-confirm" id="confirmDeleteThisTrackingFailure">
-        <h2>{{ 'CoreAdminHome_CoreAdminHome_ConfirmDeleteThisTrackingFailure'|translate }}</h2>
+        <h2>{{ 'CoreAdminHome_ConfirmDeleteThisTrackingFailure'|translate }}</h2>
 
         <input type="button" value="{{ 'General_Yes'|translate }}" role="yes"/>
         <input type="button" value="{{ 'General_No'|translate }}" role="no" />
