@@ -9,10 +9,13 @@
 
 namespace Piwik\Plugins\Installation;
 
+use DateTimeZone;
 use HTML_QuickForm2_DataSource_Array;
 use HTML_QuickForm2_Factory;
 use HTML_QuickForm2_Rule;
+use NumberFormatter;
 use Piwik\Access;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\QuickForm2;
@@ -36,6 +39,15 @@ class FormFirstWebsiteSetup extends QuickForm2
 
         $timezones = API::getInstance()->getTimezonesList();
         $timezones = array_merge(array('No timezone' => Piwik::translate('SitesManager_SelectACity')), $timezones);
+
+        // Use server timezone as default, unless a default timezone has already
+        // been defined from outside the installation wizard.
+        // If the server timezone is UTC, it is likely a default not specified
+        // explicitly by the sysadm, so ignore this.
+        $timezone = Option::get(API::OPTION_DEFAULT_TIMEZONE) ?: PIWIK_DEFAULT_TIMEZONE;
+        if (in_array(strtolower($timezone), array('utc', 'etc/utc', 'gmt', 'etc/gmt'))) {
+            $timezone = null;
+        }
 
         $this->addElement('text', 'siteName')
             ->setLabel(Piwik::translate('Installation_SetupWebSiteName'))
@@ -65,6 +77,7 @@ class FormFirstWebsiteSetup extends QuickForm2
         // default values
         $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
                                                                        'url' => $urlExample,
+                                                                       'timezone' => $timezone,
                                                                   )));
     }
 }
@@ -87,6 +100,28 @@ class Rule_isValidTimezone extends HTML_QuickForm2_Rule
         } catch (\Exception $e) {
             return false;
         }
+
+        // If intl extension is installed, get default currency from timezone country.
+        if (!Option::get(API::OPTION_DEFAULT_CURRENCY) && $timezone && class_exists('NumberFormatter')) {
+            try {
+                $zone = new DateTimeZone($timezone);
+                $location = $zone->getLocation();
+            } catch (\Exception $e) {
+            }
+            if (isset($location['country_code']) && $location['country_code'] !== '??') {
+                $formatter = new NumberFormatter('en_' . $location['country_code'], NumberFormatter::CURRENCY);
+                $currencyCode = $formatter->getTextAttribute(NumberFormatter::CURRENCY_CODE);
+                if ($currencyCode) {
+                    try {
+                        Access::doAsSuperUser(function () use ($currencyCode) {
+                            API::getInstance()->setDefaultCurrency($currencyCode);
+                        });
+                    } catch (\Exception $e) {
+                    }
+                }
+            }
+        }
+
         return true;
     }
 }

@@ -74,7 +74,7 @@ class PivotByDimensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: report 'ExampleReport.ExampleReportName' has no subtable dimension.
+     * @expectedExceptionMessage Unsupported pivot: report 'ExampleReport.getExampleReport' has no subtable dimension.
      */
     public function test_construction_ShouldFail_WhenReportHasNoSubtableAndSegmentFetchingIsDisabled()
     {
@@ -85,7 +85,7 @@ class PivotByDimensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: the subtable dimension for 'Referrers.Referrers_Keywords' does not match the requested pivotBy dimension.
+     * @expectedExceptionMessage Unsupported pivot: the subtable dimension for 'Referrers.getKeywords' does not match the requested pivotBy dimension.
      */
     public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsDisabled()
     {
@@ -96,7 +96,7 @@ class PivotByDimensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'Resolution.Resolution_Configurations'
+     * @expectedExceptionMessage Unsupported pivot: No segment for dimension of report 'Resolution.getConfiguration'
      */
     public function test_construction_ShouldFail_WhenDimensionIsNotSubtableAndSegmentFetchingIsEnabledButThereIsNoSegment()
     {

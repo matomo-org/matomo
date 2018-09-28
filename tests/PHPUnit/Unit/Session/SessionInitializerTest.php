@@ -40,7 +40,7 @@ class SessionInitializerTest extends \PHPUnit_Framework_TestCase
     public function test_initSession_Throws_IfAuthenticationFailed($rememberMe)
     {
         $sessionInitializer = new TestSessionInitializer();
-        $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS), $rememberMe);
+        $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS));
     }
 
     /**
@@ -49,7 +49,7 @@ class SessionInitializerTest extends \PHPUnit_Framework_TestCase
     public function test_initSession_InitializesTheSessionCorrectly_IfAuthenticationSucceeds($rememberMe)
     {
         $sessionInitializer = new TestSessionInitializer();
-        $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS), $rememberMe);
+        $sessionInitializer->initSession($this->makeMockAuth(AuthResult::SUCCESS));
 
         $this->assertSessionCreatedCorrectly();
     }
@@ -72,7 +72,7 @@ class SessionInitializerTest extends \PHPUnit_Framework_TestCase
         $fingerprint = new SessionFingerprint();
         $this->assertEquals('testlogin', $fingerprint->getUser());
         $this->assertNotEmpty($fingerprint->getSessionStartTime());
-        $this->assertEquals(['ts', 'ua'], array_keys($fingerprint->getUserInfo()));
+        $this->assertEquals(['ts'], array_keys($fingerprint->getUserInfo()));
     }
 }
 
