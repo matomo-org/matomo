@@ -16,13 +16,13 @@
     <a ng-click="view.showSitesList=!view.showSitesList; view.showSitesList && !model.isLoading && model.loadInitialSites();"
        piwik-onenter="view.showSitesList=!view.showSitesList; view.showSitesList && !model.isLoading && model.loadInitialSites();"
        href="javascript:void(0)"
-       title="{{ 'CoreHome_ChangeCurrentWebsite'|translate:((selectedSite.name || model.firstSiteName)|htmldecode) }}"
+       title="{{ 'CoreHome_ChangeCurrentWebsite'|translate:((selectedSite.name || model.firstSiteName)) }}"
        ng-class="{'loading': model.isLoading}"
        class="title" tabindex="4">
         <span class="icon icon-arrow-bottom"
               ng-class="{'iconHidden': model.isLoading, 'collapsed': !view.showSitesList}"></span>
         <span>
-            <span ng-bind-html="selectedSite.name || model.firstSiteName" ng-if="selectedSite.name || !placeholder">?</span>
+            <span ng-bind="selectedSite.name || model.firstSiteName" ng-if="selectedSite.name || !placeholder">?</span>
             <span ng-if="!selectedSite.name && placeholder" class="placeholder">{{ placeholder }}</span>
         </span>
     </a>
@@ -55,8 +55,8 @@
                     ng-hide="!showSelectedSite && activeSiteId==site.idsite">
                     <a piwik-ignore-click href="{{ getUrlForSiteId(site.idsite) }}"
                        piwik-autocomplete-matched="view.searchTerm"
-                       title="{{ site.name|htmldecode }}"
-                       ng-bind-html="site.name" tabindex="4"></a>
+                       title="{{ site.name }}"
+                       ng-bind="site.name" tabindex="4"></a>
                 </li>
             </ul>
             <ul ng-show="!model.sites.length && view.searchTerm" class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all siteSelect">
