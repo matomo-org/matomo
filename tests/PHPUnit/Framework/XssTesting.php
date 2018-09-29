@@ -23,7 +23,7 @@ class XssTesting
 
     public function forTwig($type, $sanitize = false)
     {
-        $n = $this->addXssEntry($type);
+        $n = $this->addXssEntry($type, 'twig');
 
         $result = "<script>_x($n)</script>";
         if ($sanitize) {
@@ -36,7 +36,7 @@ class XssTesting
 
     public function forAngular($type, $sanitize = false)
     {
-        $n = $this->addXssEntry($type);
+        $n = $this->addXssEntry($type, 'angular');
 
         $result = "{{constructor.constructor(\"_x($n)\")()}}";
         if ($sanitize) {
@@ -45,12 +45,13 @@ class XssTesting
         return $result;
     }
 
-    private function addXssEntry($type)
+    private function addXssEntry($attackVectorType, $injectionType)
     {
         $entries = $this->getXssEntries();
-        $entries[$type] = count($entries);
+        $key = count($entries);
+        $entries[$key] = $injectionType . '-(' . $attackVectorType . ')';
         $this->setXssEntries($entries);
-        return $entries[$type];
+        return $key;
     }
 
     private function getXssEntries()

@@ -16,6 +16,8 @@ use Piwik\DbHelper;
 use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\Report;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
@@ -71,8 +73,12 @@ class UITestFixture extends SqlDump
         SitesManagerAPI::getInstance()->updateSite(1, null, null, true);
 
         // create non super user
-        UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com');
+        UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com', $this->xssTesting->forTwig('useralias'));
         UsersManagerAPI::getInstance()->setUserAccess('oliverqueen', 'view', array(1));
+
+        // another non super user
+        UsersManagerAPI::getInstance()->addUser('anotheruser', 'anotheruser', 'someemail@email.com', $this->xssTesting->forAngular('useralias'));
+        UsersManagerAPI::getInstance()->setUserAccess('anotheruser', 'view', array(1));
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
@@ -356,4 +362,50 @@ class UITestFixture extends SqlDump
         APISegmentEditor::getInstance()->add(
             "Multiple actions", "actions>=2", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
     }
+
+    public function provideContainerConfig()
+    {
+        return [
+            'observers.global' => \DI\add([
+                ['Report.addReports', function (&$reports) {
+                    $report = new XssReport();
+                    $report->initForXss('forTwig');
+                    $reports[] = $report;
+
+                    $report = new XssReport();
+                    $report->initForXss('forAngular');
+                    $reports[] = $report;
+                }],
+                ['Dimension.addDimensions', function (&$instances) {
+                    $instances[] = new XssDimension();
+                }],
+            ]),
+        ];
+    }
+}
+
+class XssReport extends Report
+{
+    protected function init()
+    {
+        parent::init();
+
+        $this->metrics        = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
+        $this->order = 10;
+    }
+
+    public function initForXss($type)
+    {
+        $xssTesting = new XssTesting();
+        $this->dimension      = new XssDimension();
+        $this->name           = $xssTesting->$type('report');
+        $this->documentation  = $xssTesting->$type('reportdoc');
+        $this->categoryId = $xssTesting->$type('category');
+        $this->subcategoryId = $xssTesting->$type('subcategory');
+    }
+}
+
+class XssDimension extends VisitDimension
+{
+    // TODO
 }
