@@ -9,7 +9,10 @@ namespace Piwik\Tests\Fixtures;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Columns\Dimension;
 use Piwik\Common;
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
@@ -17,15 +20,19 @@ use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
+use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
+use Piwik\ReportRenderer;
 use Piwik\Tests\Framework\XssTesting;
+use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 
 /**
  * Fixture for UI tests.
@@ -79,6 +86,28 @@ class UITestFixture extends SqlDump
         // another non super user
         UsersManagerAPI::getInstance()->addUser('anotheruser', 'anotheruser', 'someemail@email.com', $this->xssTesting->forAngular('useralias'));
         UsersManagerAPI::getInstance()->setUserAccess('anotheruser', 'view', array(1));
+
+        // add xss scheduled report
+        APIScheduledReports::getInstance()->addReport(
+            $idSite = 1,
+            $this->xssTesting->forTwig('scheduledreport'),
+            'year',
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            ['XssTest.xssReport.forTwig', 'XssTest.xssReport.forAngular'],
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        );
+        APIScheduledReports::getInstance()->addReport(
+            $idSite = 1,
+            $this->xssTesting->forAngular('scheduledreport'),
+            'year',
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            ['XssTest.xssReport.forTwig', 'XssTest.xssReport.forAngular'],
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        );
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
@@ -379,6 +408,17 @@ class UITestFixture extends SqlDump
                 ['Dimension.addDimensions', function (&$instances) {
                     $instances[] = new XssDimension();
                 }],
+                ['API.Request.intercept', function (&$result, $finalParameters, $pluginName, $methodName) {
+                    if ($pluginName != 'XssTest' && $methodName != 'xssReport') {
+                        return;
+                    }
+
+                    $dataTable = new DataTable();
+                    $dataTable->addRowFromSimpleArray([
+                        'nb_visits' => 10,
+                    ]);
+                    $result = $dataTable;
+                }],
             ]),
         ];
     }
@@ -390,7 +430,7 @@ class XssReport extends Report
     {
         parent::init();
 
-        $this->metrics        = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
+        $this->metrics        = array('nb_visits');
         $this->order = 10;
     }
 
@@ -398,14 +438,81 @@ class XssReport extends Report
     {
         $xssTesting = new XssTesting();
         $this->dimension      = new XssDimension();
-        $this->name           = $xssTesting->$type('report');
+        $this->dimension->initForXss($type);
+        $this->name           = $xssTesting->$type('reportname');
         $this->documentation  = $xssTesting->$type('reportdoc');
         $this->categoryId = $xssTesting->$type('category');
         $this->subcategoryId = $xssTesting->$type('subcategory');
+        $this->processedMetrics = [new XssProcessedMetric($type)];
+        $this->module = 'XssTest';
+        $this->action = 'xssReport';
+        $this->id = 'XssTest.xssReport.' . $type;
     }
 }
 
 class XssDimension extends VisitDimension
 {
-    // TODO
+    public $type = Dimension::TYPE_NUMBER;
+
+    public function initForXss($type)
+    {
+        $xssTesting = new XssTesting();
+
+        $this->id = 'XssTest.XssDimension.' . $type;
+        $this->nameSingular = $xssTesting->$type('dimensionname');
+        $this->columnName = 'xsstestdim';
+        $this->category = $xssTesting->$type('category');
+    }
+}
+
+class XssProcessedMetric extends ProcessedMetric
+{
+    /**
+     * @var string
+     */
+    private $xssType;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $docs;
+
+    public function __construct($type)
+    {
+        $xssTesting = new XssTesting();
+
+        $this->xssType = $type;
+        $this->name = $xssTesting->$type('processedmetricname');
+        $this->docs = $xssTesting->$type('processedmetricdocs');
+    }
+
+    public function getName()
+    {
+        return 'xssmetric';
+    }
+
+    public function getTranslatedName()
+    {
+        return $this->name;
+    }
+
+    public function getDocumentation()
+    {
+        return $this->docs;
+    }
+
+    public function compute(Row $row)
+    {
+        return 5;
+    }
+
+    public function getDependentMetrics()
+    {
+        return [];
+    }
 }
