@@ -27,6 +27,8 @@
             }
         }
 
+        this.evolutionPeriodFor = 'each';
+
         function scrollToTop()
         {
             piwikHelper.lazyScrollTo(".emailReports", 200);
@@ -136,6 +138,10 @@
             apiParameters.reportType = this.report.type;
             apiParameters.reportFormat = this.report['format' + this.report.type];
 
+            if (this.evolutionPeriodFor === 'prev') {
+                apiParameters.evolutionPeriodN = this.report.evolutionPeriodN;
+            }
+
             var period = self.report.period;
             var hour = adjustHourToTimezone(this.report.hour, -getTimeZoneDifferenceInHours());
 
@@ -216,6 +222,14 @@
         this.editReport = function (reportId) {
             this.showAddEditForm();
             formSetEditReport(reportId);
+        };
+
+        // TODO: real logic
+        this.getFrequencyPeriodSingle = function () {
+            return 'week';
+        };
+        this.getFrequencyPeriodPlural = function () {
+            return 'weeks';
         };
 
         this.showListOfReports(false);

@@ -85,6 +85,7 @@ class Model
 					    `ts_created` TIMESTAMP NULL,
 					    `ts_last_sent` TIMESTAMP NULL,
 					    `deleted` tinyint(4) NOT NULL default 0,
+					    `evolution_graph_period_n` INT(11) NULL,
 					    PRIMARY KEY (`idreport`)";
 
         DbHelper::createTable(self::$rawPrefix, $reportTable);
