@@ -174,7 +174,6 @@
         this.editGoal = function (goalId) {
             this.showAddEditForm();
             var goal = piwik.goals[goalId];
-            console.log(goal);
             initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal'), goal.name, goal.description, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, (goal.event_value_as_revenue != '0'), goalId);
             scrollToTop();
         };
