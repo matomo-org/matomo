@@ -5,7 +5,7 @@
         <span data-date="{{ date }}" data-count="{{ counts.count }}" data-starred="{{ counts.starred }}"
               {% if counts.count == 0 %}title="{{ 'Annotations_AddAnnotationsFor'|translate(date) }}"
               {% elseif counts.count == 1 %}title="{{ 'Annotations_AnnotationOnDate'|translate(date,
-              counts.note)|e('html_attr') }}
+                  (counts.note|e('html_attr')))|raw }}
 {{ 'Annotations_ClickToEditOrAdd'|translate }}"
               {% else %}}title="{{ 'Annotations_ViewAndAddAnnotations'|translate(date) }}"{% endif %}>
             <img src="plugins/Morpheus/images/{% if counts.starred > 0 %}annotations_starred.png{% else %}annotations.png{% endif %}" width="16" height="16"/>
