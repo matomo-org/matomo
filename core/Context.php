@@ -17,15 +17,18 @@ class Context
     {
         // Temporarily sets the Request array to this API call context
         $saveGET = $_GET;
+        $savePOST = $_POST;
         $saveQUERY_STRING = @$_SERVER['QUERY_STRING'];
         foreach ($parametersRequest as $param => $value) {
             $_GET[$param] = $value;
+            $_POST[$param] = $value;
         }
 
         try {
             return $callback();
         } finally {
             $_GET = $saveGET;
+            $_POST = $savePOST;
             $_SERVER['QUERY_STRING'] = $saveQUERY_STRING;
         }
     }
