@@ -97,7 +97,7 @@
                 parameters.pattern = encodeURIComponent(this.goal.pattern);
                 parameters.caseSensitive = this.goal.caseSensitive == true ? 1 : 0;
             }
-            parameters.revenue = this.goal.revenue;
+            parameters.revenue = this.goal.revenue || 0;
             parameters.allowMultipleConversionsPerVisit = this.goal.allowMultiple == true ? 1 : 0;
             parameters.useEventValueAsRevenue = this.goal.useEventValueAsRevenue == true ? 1 : 0;
 
@@ -167,9 +167,9 @@
             }
 
             this.showAddEditForm();
-            initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal'), '', '', 'url', '', 'contains', /*caseSensitive = */false, /*allowMultiple = */'0', /*useEventValueAsRevenue = */ false, '0');
+            initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal'), '', '', 'url', '', 'contains', /*caseSensitive = */false, '', /*allowMultiple = */ false, /*useEventValueAsRevenue = */ false, '0');
             scrollToTop();
-        }
+        };
 
         this.editGoal = function (goalId) {
             this.showAddEditForm();
