@@ -219,7 +219,7 @@
                     }
 
                     $compile(elem)(scope, function (compiled){
-                        Piwik_Popover.setTitle(_pk_translate('General_Export') + ' ' + scope.reportTitle);
+                        Piwik_Popover.setTitle(_pk_translate('General_Export') + ' ' + piwikHelper.htmlEntities(scope.reportTitle));
                         Piwik_Popover.setContent(compiled);
 
                         if (popoverParamBackup != '') {
