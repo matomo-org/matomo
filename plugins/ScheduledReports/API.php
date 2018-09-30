@@ -360,7 +360,7 @@ class API extends \Piwik\Plugin\API
         $_GET['filter_truncate'] = Config::getInstance()->General['scheduled_reports_truncate'];
 
         $originalShowEvolutionWithinSelectedPeriod = Config::getInstance()->General['graphs_show_evolution_within_selected_period'];
-        $originalDefaultEvolutionGraphLastPeriodsAmount = Config::getInstance()->General['graphs_default_evolution_graph_last_periods_amount'];
+        $originalDefaultEvolutionGraphLastPeriodsAmount = Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'];
         try {
             Config::getInstance()->General['graphs_show_evolution_within_selected_period'] = (bool)$report['evolution_graph_within_period'];
             Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'] = $report['evolution_graph_period_n'];
@@ -445,7 +445,7 @@ class API extends \Piwik\Plugin\API
             }
         } finally {
             Config::getInstance()->General['graphs_show_evolution_within_selected_period'] = $originalShowEvolutionWithinSelectedPeriod;
-            Config::getInstance()->General['graphs_default_evolution_graph_last_periods_amount'] = $originalDefaultEvolutionGraphLastPeriodsAmount;
+            Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'] = $originalDefaultEvolutionGraphLastPeriodsAmount;
 
             // restore filter truncate parameter value
             if ($initialFilterTruncate !== false) {
@@ -820,7 +820,13 @@ class API extends \Piwik\Plugin\API
             throw new \Exception('Invalid evolutionPeriodFor value, can only be "prev" or "each" (got ' . $evolutionPeriodFor . ').');
         }
 
-        if (!is_numeric($evolutionPeriodN) || (int)$evolutionPeriodN <= 0) {
+        if ($evolutionPeriodFor === 'each' && !empty($evolutionPeriodN)) {
+            throw new \Exception('The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".');
+        }
+
+        if (!empty($evolutionPeriodN)
+            && (!is_numeric($evolutionPeriodN) || (int)$evolutionPeriodN < 0)
+        ) {
             throw new \Exception('Evolution period amount must be a positive number (got ' . $evolutionPeriodN . ').');
         }
     }

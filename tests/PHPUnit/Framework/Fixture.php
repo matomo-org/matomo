@@ -791,7 +791,25 @@ class Fixture extends \PHPUnit_Framework_Assert
                 array(
                      ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
                      ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
-                )
+                ),
+                false,
+                'prev',
+                10
+            );
+            APIScheduledReports::getInstance()->addReport(
+                $idSite,
+                'Mail Test report',
+                'week',
+                0,
+                ScheduledReports::EMAIL_TYPE,
+                ReportRenderer::HTML_FORMAT,
+                array('Actions_getPageTitles'),
+                array(
+                    ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
+                    ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
+                ),
+                false,
+                'each'
             );
         }
     }
