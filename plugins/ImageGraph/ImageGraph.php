@@ -90,7 +90,7 @@ class ImageGraph extends \Piwik\Plugin
 				$periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
 				$dateForMultiplePeriodGraph = Range::getRelativeToEndDate(
 					$periodForSinglePeriodGraph,
-					'last' . self::GRAPH_EVOLUTION_LAST_PERIODS,
+					'last' . self::getDefaultGraphEvolutionLastPeriods(),
 					$dateForSinglePeriodGraph,
 					$piwikSite
 				);
@@ -173,5 +173,11 @@ class ImageGraph extends \Piwik\Plugin
                 $report['imageGraphEvolutionUrl'] = $urlPrefix . Url::getQueryStringFromParameters($parameters);
             }
         }
+    }
+
+    public static function getDefaultGraphEvolutionLastPeriods()
+    {
+        $lastPeriods = Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'];
+        return $lastPeriods > 0 ? $lastPeriods : self::GRAPH_EVOLUTION_LAST_PERIODS;
     }
 }

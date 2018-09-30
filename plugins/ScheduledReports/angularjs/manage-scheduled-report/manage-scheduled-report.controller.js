@@ -27,8 +27,6 @@
             }
         }
 
-        this.evolutionPeriodFor = 'each';
-
         function scrollToTop()
         {
             piwikHelper.lazyScrollTo(".emailReports", 200);
@@ -64,7 +62,9 @@
                 'description': '',
                 'period': ReportPlugin.defaultPeriod,
                 'hour': ReportPlugin.defaultHour,
-                'reports': []
+                'reports': [],
+                'evolutionPeriodFor': 'prev',
+                'evolutionPeriodN': ReportPlugin.defaultEvolutionPeriodN,
             };
 
             if (idReport > 0) {
@@ -137,10 +137,8 @@
             apiParameters.idSegment = this.report.idsegment;
             apiParameters.reportType = this.report.type;
             apiParameters.reportFormat = this.report['format' + this.report.type];
-
-            if (this.evolutionPeriodFor === 'prev') {
-                apiParameters.evolutionPeriodN = this.report.evolutionPeriodN;
-            }
+            apiParameters.evolutionPeriodFor = this.report.evolutionPeriodFor;
+            apiParameters.evolutionPeriodN = this.report.evolutionPeriodN;
 
             var period = self.report.period;
             var hour = adjustHourToTimezone(this.report.hour, -getTimeZoneDifferenceInHours());
@@ -224,12 +222,19 @@
             formSetEditReport(reportId);
         };
 
-        // TODO: real logic
         this.getFrequencyPeriodSingle = function () {
-            return 'week';
+            var translation = ReportPlugin.periodTranslations[this.report.period];
+            if (!translation) {
+                translation = ReportPlugin.periodTranslations.day;
+            }
+            return translation.single;
         };
         this.getFrequencyPeriodPlural = function () {
-            return 'weeks';
+            var translation = ReportPlugin.periodTranslations[this.report.period];
+            if (!translation) {
+                translation = ReportPlugin.periodTranslations.day;
+            }
+            return translation.plural;
         };
 
         this.showListOfReports(false);

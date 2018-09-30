@@ -600,6 +600,24 @@ class ScheduledReports extends \Piwik\Plugin
         );
     }
 
+    public static function getPeriodFrequencyTranslations()
+    {
+        return [
+            Schedule::PERIOD_DAY   => [
+                'single' => Piwik::translate('Intl_PeriodDay'),
+                'plural' => Piwik::translate('Intl_PeriodDays'),
+            ],
+            Schedule::PERIOD_WEEK  => [
+                'single' => Piwik::translate('Intl_PeriodWeek'),
+                'plural' => Piwik::translate('Intl_PeriodWeeks'),
+            ],
+            Schedule::PERIOD_MONTH => [
+                'single' => Piwik::translate('Intl_PeriodMonth'),
+                'plural' => Piwik::translate('Intl_PeriodMonths'),
+            ],
+        ];
+    }
+
     private function reportAlreadySent($report, Period $period)
     {
         $key = self::OPTION_KEY_LAST_SENT_DATERANGE . $report['idreport'];
