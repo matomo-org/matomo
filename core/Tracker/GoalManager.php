@@ -158,7 +158,7 @@ class GoalManager
           || ($attribute == 'file' && $actionType != Action::TYPE_DOWNLOAD)
           || ($attribute == 'external_website' && $actionType != Action::TYPE_OUTLINK)
           || ($attribute == 'manually')
-          || $this->isEventMatchingGoal($goal) && $actionType != Action::TYPE_EVENT
+          || self::isEventMatchingGoal($goal) && $actionType != Action::TYPE_EVENT
         ) {
             return null;
         }
@@ -879,7 +879,7 @@ class GoalManager
         return '/' . $pattern . '/';
     }
 
-    private function isEventMatchingGoal($goal)
+    public static function isEventMatchingGoal($goal)
     {
         return in_array($goal['match_attribute'], array('event_action', 'event_name', 'event_category'));
     }

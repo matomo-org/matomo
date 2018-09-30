@@ -205,7 +205,7 @@ class API extends \Piwik\Plugin\API
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
-        $this->getModel()->updateGoal($idSite, $idGoal, array(
+        $goal = array(
             'name'            => $name,
             'description'     => $description,
             'match_attribute' => $matchAttribute,
@@ -215,11 +215,22 @@ class API extends \Piwik\Plugin\API
             'allow_multiple'  => (int) $allowMultipleConversionsPerVisit,
             'revenue'         => $revenue,
             'event_value_as_revenue' => (int) $useEventValueAsRevenue,
-        ));
+        );
+
+        $this->checkEventValueAsRevenue($goal);
+
+        $this->getModel()->updateGoal($idSite, $idGoal, $goal);
 
         $this->getGoalsInfoStaticCache()->delete(self::getCacheId($idSite));
 
         Cache::regenerateCacheWebsiteAttributes($idSite);
+    }
+
+    private function checkEventValueAsRevenue($goal)
+    {
+        if ($goal['event_value_as_revenue'] && !GoalManager::isEventMatchingGoal($goal)) {
+            throw new \Exception("'useEventValueAsRevenue' can only be 1 if the goal matches an event attribute.");
+        }
     }
 
     private function checkPatternIsValid($patternType, $pattern, $matchAttribute)
