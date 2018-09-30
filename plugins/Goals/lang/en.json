@@ -113,6 +113,7 @@
         "YouCanEnableEcommerceReports": "You can enable %1$s for this website in the %2$s page.",
         "UseEventValueAsRevenue": "Use the event value (if it exists) as the goal conversion revenue.",
         "GoalRevenue": "Goal Revenue",
-        "EventValueAsRevenueHelp": "If the event you are matching has a revenue, and that revenue is tracked as the event value, you can enable this option to record the event value as the goal conversion's revenue. If your goal revenue will not vary per conversion, you can ignore this option and just set a default revenue above."
+        "EventValueAsRevenueHelp": "If the event you are matching has a revenue, and that revenue is tracked as the event value, you can enable this option to record the event value as the goal conversion's revenue. If your goal revenue will not vary per conversion, you can ignore this option and just set a default revenue above.",
+        "EventValueAsRevenueHelp2": "Note: If both a default goal revenue and event value are defined, the event value will be used. If this option is enabled and no event value is sent in a request, the default revenue will be used (if defined)."
     }
 }
