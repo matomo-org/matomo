@@ -449,6 +449,10 @@ class API extends \Piwik\Plugin\API
      */
     public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false)
     {
+        // check if site exists
+        $idSite = (int) $idSite;
+        $site = new Site($idSite);
+
         Piwik::checkUserHasViewAccess($idSite);
 
         $apiParameters = array();
