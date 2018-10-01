@@ -84,7 +84,7 @@ class Controller extends \Piwik\Plugin\Controller
             $idSite, $period, $date, $token_auth, true, $segment);
         $config['countrySummaryUrl'] = $this->getApiRequestUrl('VisitsSummary', 'get',
             $idSite, $period, $date, $token_auth, true, $segment);
-        $view->defaultMetric = 'nb_visits';
+        $view->defaultMetric = array_key_exists('nb_uniq_visitors', $config['visitsSummary']) ? 'nb_uniq_visitors' : 'nb_visits';
 
         // some translations
         $translations = array(
