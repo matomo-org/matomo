@@ -322,6 +322,10 @@ class Visitor implements VisitorInterface
         }
 
         if ($ta == $tb) {
+            if ($a['idlink_va'] == $b['idlink_va']) {
+                return strcmp($a['type'], $b['type']);
+            }
+
             if ($a['idlink_va'] > $b['idlink_va']) {
                return 1;
             }

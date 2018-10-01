@@ -1559,17 +1559,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>triggered js</goalName>
-				<goalId>1</goalId>
-				<revenue>0</revenue>
-				<goalPageId>1</goalPageId>
-				
-				<url>http://example.org/webradio</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://example.org/webradio</url>
 				<pageTitle>Welcome!</pageTitle>
@@ -1586,6 +1575,17 @@
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>triggered js</goalName>
+				<goalId>1</goalId>
+				<revenue>0</revenue>
+				<goalPageId>1</goalPageId>
+				
+				<url>http://example.org/webradio</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>event</type>
@@ -1758,17 +1758,6 @@
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
-				<type>goal</type>
-				<goalName>event matching</goalName>
-				<goalId>3</goalId>
-				<revenue>0</revenue>
-				<goalPageId>9</goalPageId>
-				
-				<url />
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>event</type>
 				<url />
 				<pageIdAction />
@@ -1784,6 +1773,17 @@
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>event matching</goalName>
+				<goalId>3</goalId>
+				<revenue>0</revenue>
+				<goalPageId>9</goalPageId>
+				
+				<url />
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>

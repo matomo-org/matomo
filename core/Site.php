@@ -393,6 +393,16 @@ class Site
     }
 
     /**
+     * Returns the user that created this site.
+     *
+     * @return string|null If null, the site was created before the creation user was tracked.
+     */
+    public function getCreatorLogin()
+    {
+        return $this->get('creator_login');
+    }
+
+    /**
      * Checks the given string for valid site IDs and returns them as an array.
      *
      * @param string|array $ids Comma separated idSite list, eg, `'1,2,3,4'` or an array of IDs, eg,

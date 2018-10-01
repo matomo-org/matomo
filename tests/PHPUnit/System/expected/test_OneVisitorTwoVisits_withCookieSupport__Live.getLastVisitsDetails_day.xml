@@ -7,17 +7,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>matching purchase.htm</goalName>
-				<goalId>2</goalId>
-				<revenue>1</revenue>
-				<goalPageId>9</goalPageId>
-				
-				<url>http://example.org/store/purchase.htm</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://example.org/store/purchase.htm</url>
 				<pageTitle>Checkout/Purchasing...</pageTitle>
@@ -32,6 +21,17 @@
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>matching purchase.htm</goalName>
+				<goalId>2</goalId>
+				<revenue>1</revenue>
+				<goalPageId>9</goalPageId>
+				
+				<url>http://example.org/store/purchase.htm</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 		</actionDetails>
 		<goalConversions>1</goalConversions>

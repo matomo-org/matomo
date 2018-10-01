@@ -425,7 +425,7 @@ abstract class Base extends VisitDimension
 
         $this->detectCampaignKeywordFromReferrerUrl();
 
-        $isCurrentVisitACampaignWithSameName = $visitor->getVisitorColumn('referer_name') == $this->nameReferrerAnalyzed;
+        $isCurrentVisitACampaignWithSameName = Common::mb_strtolower($visitor->getVisitorColumn('referer_name')) == Common::mb_strtolower($this->nameReferrerAnalyzed);
         $isCurrentVisitACampaignWithSameName = $isCurrentVisitACampaignWithSameName && $visitor->getVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN;
 
         // if we detected a campaign but there is still no keyword set, we set the keyword to the Referrer host
@@ -553,6 +553,7 @@ abstract class Base extends VisitDimension
     {
         foreach (array('referer_keyword', 'referer_name', 'referer_type') as $infoName) {
             if ($this->hasReferrerColumnChanged($visitor, $information, $infoName)) {
+                Common::printDebug("Referrers\Base::isReferrerInformationNew: detected change in $infoName.");
                 return true;
             }
         }

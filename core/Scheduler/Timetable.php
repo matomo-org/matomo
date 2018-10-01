@@ -53,6 +53,7 @@ class Timetable
                 unset($this->timetable[$taskName]);
             }
         }
+        $this->save();
     }
 
     public function getScheduledTaskNames()
