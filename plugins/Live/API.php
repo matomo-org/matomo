@@ -198,35 +198,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns visitors tracked in the specified website
-     *
-     * @param int $idSite Site ID
-     * @param bool|string $period Period to restrict to when looking at the logs
-     * @param bool|string $date Date to restrict to
-     * @param bool|string $segment (optional) Number of visits rows to return
-     * @return DataTable
-     */
-    public function getVisitors($idSite, $period = false, $date = false, $segment = false)
-    {
-        Piwik::checkUserHasViewAccess($idSite);
-
-        $filterLimit  = Common::getRequestVar('filter_limit', 10, 'int');
-        $filterOffset = Common::getRequestVar('filter_offset', 0, 'int');
-        $filterSortColumn = Common::getRequestVar('filter_sort_column', 'nb_visits', 'string');
-        $filterSortOrder = Common::getRequestVar('filter_sort_order', 'desc', 'string');
-
-        $model = new Model();
-        list($data, $hasMoreVisits) = $model->queryLogVisitors($idSite, $period, $date, $segment, $filterOffset, $filterLimit, $filterSortColumn, $filterSortOrder, true);
-        $dataTable = $this->makeVisitorTableFromArray($data, $hasMoreVisits);
-        $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'idvisitor'));
-        $dataTable->filter('AddSegmentByLabel', array('visitorId'));
-
-        $dataTable->disableFilter('Limit'); // limit is already applied here
-
-        return $dataTable;
-    }
-
-    /**
      * Returns an array describing a visitor using their last visits (uses a maximum of 100).
      *
      * @param int $idSite Site ID

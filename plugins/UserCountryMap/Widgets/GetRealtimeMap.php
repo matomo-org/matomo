@@ -15,7 +15,7 @@ class GetRealtimeMap extends \Piwik\Widget\Widget
 {
     public static function configure(WidgetConfig $config)
     {
-        $config->setCategoryId('General_Profiles');
+        $config->setCategoryId('General_Visitors');
         $config->setSubcategoryId('UserCountryMap_RealTimeMap');
         $config->setName('UserCountryMap_RealTimeMap');
         $config->setModule('UserCountryMap');

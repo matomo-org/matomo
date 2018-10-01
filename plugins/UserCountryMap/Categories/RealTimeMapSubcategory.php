@@ -12,8 +12,8 @@ use Piwik\Category\Subcategory;
 
 class RealTimeMapSubcategory extends Subcategory
 {
-    protected $categoryId = 'General_Profiles';
+    protected $categoryId = 'General_Visitors';
     protected $id = 'UserCountryMap_RealTimeMap';
-    protected $order = 55;
+    protected $order = 9;
 
 }

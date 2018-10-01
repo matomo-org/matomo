@@ -12,8 +12,8 @@ use Piwik\Category\Subcategory;
 
 class RealTimeVisitorsSubcategory extends Subcategory
 {
-    protected $categoryId = 'General_Profiles';
-    protected $id = 'Live_RealTimeVisitors';
-    protected $order = 50;
+    protected $categoryId = 'General_Visitors';
+    protected $id = 'General_RealTime';
+    protected $order = 7;
 
 }

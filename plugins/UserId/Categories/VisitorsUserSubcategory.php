@@ -12,8 +12,8 @@ use Piwik\Category\Subcategory;
 
 class VisitorsUserSubcategory extends Subcategory
 {
-    protected $categoryId = 'General_Profiles';
+    protected $categoryId = 'General_Visitors';
     protected $id = 'UserId_UserReportTitle';
-    protected $order = 30;
+    protected $order = 40;
 
 }

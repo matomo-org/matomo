@@ -21,7 +21,7 @@ class GetLastVisitsDetails extends Base
     {
         parent::init();
         $this->order = 2;
-        $this->categoryId = 'General_Profiles';
+        $this->categoryId = 'General_Visitors';
         $this->subcategoryId = 'Live_VisitsLog';
     }
 
