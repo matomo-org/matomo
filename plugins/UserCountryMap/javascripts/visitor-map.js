@@ -464,31 +464,33 @@
                 var mapTitle = id.length == 3 ?
                         UserCountryMap.countriesByIso[id].name :
                         $$('.userCountryMapSelectCountry option[value=' + id + ']').html(),
-                    totalVisits = 0;
+                    totalVisits = 0,
+                    totalMetricValue = 0;
                 // update map title
                 $('.map-title').html(mapTitle);
                 $$('.widgetUserCountryMapvisitorMap .widgetName .map-title').html(' – ' + mapTitle);
                 // update total visits for that region
                 if (id.length == 3) {
                     totalVisits = UserCountryMap.countriesByIso[id]['nb_visits'];
+                    totalMetricValue = UserCountryMap.countriesByIso[id][metric];
                 } else if (id.length == 2) {
                     $.each(UserCountryMap.countriesByIso, function (iso, country) {
                         if (UserCountryMap.ISO3toCONT[iso] == id) {
                             totalVisits += country['nb_visits'];
+                            totalMetricValue += country[metric];
                         }
                     });
                 } else {
                     totalVisits = self.config.visitsSummary['nb_visits'];
+                    totalMetricValue = self.config.visitsSummary[metric];
                 }
 
-                if (id.length == 3) {
-                    $('.map-stats').html(formatValueForTooltips(UserCountryMap.countriesByIso[id], metric, 'world'));
-                } else {
-                    $('.map-stats').html(
-                        _.nb_visits.replace('%s', '<strong>' + formatNumber(totalVisits, metric) + '</strong>') + (id != 'world' ? ' (' +
-                            formatPercentage(totalVisits / worldTotalVisits) + ')' : '')
-                    );
-                }
+                var data = {};
+                data[metric] = totalMetricValue;
+                $('.map-stats').html(
+                    '<strong>' + formatValueForTooltips(data, metric, false) + '</strong>' +
+                    (id != 'world' ? (' (' + formatPercentage(totalMetricValue / self.config.visitsSummary[metric]) + ')') : '')
+                );
             }
 
             /*
