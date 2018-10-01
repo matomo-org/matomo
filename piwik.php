@@ -52,6 +52,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
 require_once PIWIK_INCLUDE_PATH . '/core/API/CORSHandler.php';
 
+Tracker\TrackerConfig::setConfigValue('debug', true);
 SettingsServer::setIsTrackerApiRequest();
 
 $environment = new \Piwik\Application\Environment('tracker');
@@ -62,6 +63,7 @@ try {
 }
 
 Tracker::loadTrackerEnvironment();
+$GLOBALS['PIWIK_TRACKER_DEBUG'] = true;
 
 $corsHandler = new CORSHandler();
 $corsHandler->handle();
