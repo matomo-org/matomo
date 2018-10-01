@@ -678,13 +678,7 @@ class GoalManager
             $conversionDimensions = ConversionDimension::getAllDimensions();
             $conversion = $this->triggerHookOnDimensions($request, $conversionDimensions, 'onGoalConversion', $visitor, $action, $conversion);
 
-            if ($this->isEventMatchingGoal($convertedGoal)
-                && !empty($convertedGoal['event_value_as_revenue'])
-            ) {
-                $conversion['revenue'] = ActionEvent::getEventValue($request);
-            }
-
-            $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request, $action);
+            $this->insertNewConversion($conversion, $visitProperties->getProperties(), $request, $action, $convertedGoal);
         }
     }
 
@@ -697,7 +691,7 @@ class GoalManager
      * @param Action|null $action
      * @return bool
      */
-    protected function insertNewConversion($conversion, $visitInformation, Request $request, $action)
+    protected function insertNewConversion($conversion, $visitInformation, Request $request, $action, $convertedGoal = null)
     {
         /**
          * Triggered before persisting a new [conversion entity](/guides/persistence-and-the-mysql-backend#conversions).
@@ -717,6 +711,16 @@ class GoalManager
          * @ignore
          */
         Piwik::postEvent('Tracker.newConversionInformation', array(&$conversion, $visitInformation, $request, $action));
+
+        if (!empty($convertedGoal)
+            && $this->isEventMatchingGoal($convertedGoal)
+            && !empty($convertedGoal['event_value_as_revenue'])
+        ) {
+            $eventValue = ActionEvent::getEventValue($request);
+            if ($eventValue != '') {
+                $conversion['revenue'] = $eventValue;
+            }
+        }
 
         $newGoalDebug = $conversion;
         $newGoalDebug['idvisitor'] = bin2hex($newGoalDebug['idvisitor']);

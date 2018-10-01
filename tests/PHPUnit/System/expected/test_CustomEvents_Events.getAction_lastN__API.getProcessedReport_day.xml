@@ -153,7 +153,7 @@
 			</row>
 			<row>
 				<label>This is an event without a URL</label>
-				<nb_events>1</nb_events>
+				<nb_events>3</nb_events>
 				<nb_events_with_value>1</nb_events_with_value>
 				<sum_event_value>23</sum_event_value>
 				<min_event_value>23</min_event_value>
