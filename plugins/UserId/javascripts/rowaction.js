@@ -48,7 +48,7 @@
         ],
 
         isAvailableOnReport: function (dataTableParams, undefined) {
-            return dataTableParams.module == 'UserId' || (dataTableParams.module=='Live' && dataTableParams.action =='getVisitors');
+            return dataTableParams.module == 'UserId';
         },
 
         isAvailableOnRow: function (dataTableParams, tr) {

@@ -169,6 +169,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should load the visitors > real-time visits page correctly', function (done) {
+        expect.screenshot('visitors_realtime_visits').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=Live_VisitsLog");
+        }, done);
+    });
+
     // actions pages
     it('should load the actions > pages page correctly', function (done) {
         expect.screenshot('actions_pages').to.be.captureSelector('.pageWrap', function (page) {
