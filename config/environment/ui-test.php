@@ -8,7 +8,7 @@ return array(
     // requires the ports in UI tests (eg, Overlay), add the api/controller methods
     // to one of these blacklists
     'tests.ui.url_normalizer_blacklist.api' => array(),
-    'tests.ui.url_normalizer_blacklist.controller' => array('Overlay.index'),
+    'tests.ui.url_normalizer_blacklist.controller' => array(),
 
     'Piwik\Config' => \DI\decorate(function (\Piwik\Config $config) {
         $config->General['cors_domains'][] = '*';
@@ -32,10 +32,8 @@ return array(
             }
 
             $controllerActionblacklist = StaticContainer::get('tests.ui.url_normalizer_blacklist.controller');
-            if (!empty($request['module'])
-                && !empty($request['action'])
-            ) {
-                $controllerAction = $request['module'] . '.' . $request['action'];
+            if (!empty($request['module'])) {
+                $controllerAction = $request['module'] . '.' . (isset($request['action']) ? $request['action'] : 'index');
                 if (in_array($controllerAction, $controllerActionblacklist)) {
                     return;
                 }
