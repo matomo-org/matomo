@@ -171,7 +171,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load the visitors > real-time visits page correctly', function (done) {
         expect.screenshot('visitors_realtime_visits').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=Live_VisitorsInRealTime");
+            page.load("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=General_RealTime");
         }, done);
     });
 
