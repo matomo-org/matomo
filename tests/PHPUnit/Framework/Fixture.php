@@ -782,7 +782,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             // set-up mail report with one row evolution based png graph
             APIScheduledReports::getInstance()->addReport(
                 $idSite,
-                'Mail Test report',
+                'Mail Test report (previous10)',
                 'day',
                 0,
                 ScheduledReports::EMAIL_TYPE,
@@ -798,7 +798,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             );
             APIScheduledReports::getInstance()->addReport(
                 $idSite,
-                'Mail Test report',
+                'Mail Test report (each in period)',
                 'week',
                 0,
                 ScheduledReports::EMAIL_TYPE,
