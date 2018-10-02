@@ -13,7 +13,7 @@ use Piwik\Category\Subcategory;
 class VisitorLogSubcategory extends Subcategory
 {
     protected $categoryId = 'General_Visitors';
-    protected $id = 'Live_VisitsLog';
+    protected $id = 'Live_VisitorLog';
     protected $order = 5;
 
 }

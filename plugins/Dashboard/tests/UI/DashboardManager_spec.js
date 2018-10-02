@@ -30,7 +30,7 @@ describe("DashboardManager", function () {
 
     it("should show widget for a category when category label hovered", function (done) {
         expect.screenshot("widget_list_shown").to.be.captureSelector(selectorToCapture, function (page) {
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
+            page.mouseMove('.widgetpreview-categorylist>li:contains(Goals!)'); // have to mouse move twice... otherwise Live! will just be highlighted
             page.mouseMove('.widgetpreview-categorylist>li:contains(Visitors):first');
             page.click('.widgetpreview-categorylist>li:contains(Visitors):first');
         }, done);

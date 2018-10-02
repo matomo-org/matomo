@@ -36,7 +36,7 @@
         "ToggleActions": "Toggle visibility of all actions",
         "TopVisitedPages": "Top visited pages",
         "VisitsLog": "Visits Log",
-        "VisitorLog": "Visitor Log",
+        "VisitorLog": "Visits Log",
         "VisitorLogDocumentation": "This table shows the latest visits within the selected date range. You can see when a visitor's last visit occurred by hovering over the date of a visit. %1$s If the date range includes today, you can see your visitors real time! %2$s The data displayed here is always live, regardless of whether and how often you are using the archiving cron job.",
         "VisitorLogNoDataMessagePurged": "Likely the data has been purged because the regular deletion of old visitor logs is enabled and the date for this report is more than %s days old. A super user can change this setting by going to Administration => Privacy.",
         "VisitorProfile": "Visitor profile",
