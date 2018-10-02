@@ -507,6 +507,7 @@ class Range extends Period
         $last30Relative = new Range($period, $lastN, $timezone);
 
         if (strpos($endDate, '-') === false) {
+            // eg today, yesterday, ... needs the timezone
             $endDate = Date::factory($endDate, $timezone);
         } else {
             $endDate = Date::factory($endDate);
