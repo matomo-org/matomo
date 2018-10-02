@@ -65,7 +65,7 @@
 		<documentation>This report shows which keywords users were searching for before they were referred to your website. &lt;br /&gt;&lt;br /&gt; By clicking on a row in the table, you can see the distribution of search engines that were queried for the keyword.&lt;br /&gt;&lt;br /&gt;Note: This report lists most keywords as not defined, because most search engines do not send the exact keyword used on the search engine.</documentation>
 	</row>
 	<row>
-		<name>Length of Visits (Visitors)</name>
+		<name>Length of Visits (Actions)</name>
 		<documentation>In this report, you can see how many visits had a certain total duration. Initially, the report is shown as a tag cloud, more common durations are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 	</row>
 	<row>
@@ -89,7 +89,7 @@
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
-		<name>Pages per Visit (Visitors)</name>
+		<name>Pages per Visit (Actions)</name>
 		<documentation>In this report, you can see how many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, more common numbers of pages are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 	</row>
 	<row>
@@ -125,11 +125,11 @@
 		<documentation>This graph shows the number of visits your website received on each day of the week.</documentation>
 	</row>
 	<row>
-		<name>Visits by Visit Number (Visitors)</name>
+		<name>Visits by Visit Number (Actions)</name>
 		<documentation>In this report, you can see the number of visits who were the Nth visit, ie. visitors who visited your website at least N times.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 	</row>
 	<row>
-		<name>Visits by days since last visit (Visitors)</name>
+		<name>Visits by days since last visit (Actions)</name>
 		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
 	</row>
 	<row>

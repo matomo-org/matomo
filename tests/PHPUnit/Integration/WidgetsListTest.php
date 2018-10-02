@@ -41,12 +41,11 @@ class WidgetsListTest extends IntegrationTestCase
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
             'Dashboard_Dashboard' => 1,
-            'General_Actions' => 15,
+            'General_Actions' => 21,
             'General_Generic' => 1,
-            'General_Visitors' => 35,
+            'General_Visitors' => 31,
             'SEO' => 2,
             'Goals_Goals' => 3,
-            'Live!' => 2,
             'Insights_WidgetCategory' => 2,
             'ExampleUI_UiFramework' => 8,
             'Referrers_Referrers' => 9,
@@ -92,7 +91,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(11, count($perCategory));
+        $this->assertEquals(10, count($perCategory));
         $this->assertEquals($initialGoalsWidgets + 2, count($perCategory['Goals_Goals'])); // make sure widgets for that goal were added
     }
 
@@ -106,7 +105,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(12, count($perCategory));
+        $this->assertEquals(11, count($perCategory));
 
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
@@ -128,12 +127,12 @@ class WidgetsListTest extends IntegrationTestCase
 
         $list = WidgetsList::get();
 
-        $this->assertCount(12, $this->getWidgetsPerCategory($list));
+        $this->assertCount(11, $this->getWidgetsPerCategory($list));
 
         $list->remove('SEO', 'NoTeXiStInG');
 
         $perCategory = $this->getWidgetsPerCategory($list);
-        $this->assertCount(12, $perCategory);
+        $this->assertCount(11, $perCategory);
 
         $this->assertArrayHasKey('SEO', $perCategory);
         $this->assertCount(2, $perCategory['SEO']);

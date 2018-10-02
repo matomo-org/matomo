@@ -23,7 +23,7 @@ class GetSimpleLastVisitCount extends Base
     protected function init()
     {
         parent::init();
-        $this->categoryId = 'General_Profiles';
+        $this->categoryId = 'General_Visitors';
         $this->order = 3;
     }
 
