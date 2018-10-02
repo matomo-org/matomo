@@ -8,7 +8,7 @@ return array(
     // requires the ports in UI tests (eg, Overlay), add the api/controller methods
     // to one of these blacklists
     'tests.ui.url_normalizer_blacklist.api' => array(),
-    'tests.ui.url_normalizer_blacklist.controller' => array(),
+    'tests.ui.url_normalizer_blacklist.controller' => array('Overlay.index'),
 
     'Piwik\Config' => \DI\decorate(function (\Piwik\Config $config) {
         $config->General['cors_domains'][] = '*';
