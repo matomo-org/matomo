@@ -166,6 +166,9 @@ class ArchiveSelector
         $monthToPeriods = array();
         foreach ($periods as $period) {
             /** @var Period $period */
+            if ($period->getDateStart()->isLater(Date::now()->addDay(2))) {
+                continue; // avoid creating any archive tables in the future
+            }
             $table = ArchiveTableCreator::getNumericTable($period->getDateStart());
             $monthToPeriods[$table][] = $period;
         }
