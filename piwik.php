@@ -52,11 +52,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
 require_once PIWIK_INCLUDE_PATH . '/core/API/CORSHandler.php';
 
-if (!empty($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] == 'idsite=1'
-    && !empty($_SERVER['REQUEST_URI'])
-    && strpos($_SERVER['REQUEST_URI'], '/js/') !== false) {
-    Tracker\TrackerConfig::setConfigValue('debug', true);
-}
 SettingsServer::setIsTrackerApiRequest();
 
 $environment = new \Piwik\Application\Environment('tracker');
