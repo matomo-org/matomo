@@ -1,5 +1,5 @@
 {% set fontStyle %}color:{{ themeStyles.colorText|e('html_attr') }};font-family:{{ themeStyles.fontFamilyBase|e('html_attr') }};{% endset %}
-c{% set styleParagraph = 'font-size:15px;line-height:24px;margin:0 0 16px;' %}
+{% set styleParagraph = 'font-size:15px;line-height:24px;margin:0 0 16px;' %}
 {% set footerParagraphStyle %}{{styleParagraph}}{{fontStyle}}text-align:center;font-size:13px; color:#666;{% endset %}
 {% set hasHorizontalRule = not hasWhiteLabel or unsubscribeLink|default is not empty  %}
 
