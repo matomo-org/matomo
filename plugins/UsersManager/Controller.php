@@ -63,7 +63,7 @@ class Controller extends ControllerAdmin
 
         if (count($IdSitesAdmin) > 0) {
             $defaultWebsiteId = $IdSitesAdmin[0];
-            $idSiteSelected = Common::getRequestVar('idSite', $defaultWebsiteId);
+            $idSiteSelected = $this->idSite ?: $defaultWebsiteId;
         }
 
         if (!Piwik::isUserHasAdminAccess($idSiteSelected) && count($IdSitesAdmin) > 0) {
