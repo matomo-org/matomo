@@ -202,6 +202,9 @@ var Piwik_Overlay = (function () {
             var url = decodeURIComponent(strData[2]);
 
             var params = broadcast.getValuesFromUrl(url);
+            Object.keys(params).forEach(function (name) {
+                params[name] = decodeURIComponent(params[name]);
+            });
             params.module = 'API';
             params.action = 'index';
 
