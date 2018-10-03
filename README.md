@@ -17,11 +17,11 @@ Matomo is a full featured PHP MySQL software program that you download and insta
 At the end of the five minute installation process you will be given a JavaScript code.
 Simply copy and paste this tag on websites you wish to track and access your analytics reports in real time.
 
-Matomo aims to be a Free software alternative to Google Analytics, and is already used on more than 1,000,000 websites. Privacy is built-in!
+Matomo aims to be a Free software alternative to Google Analytics, and is already used on more than 1,400,000 websites. Privacy is built-in!
 
 ## Mission Statement
 
-> « To create, as a community, the leading international Free/Libre web analytics platform, providing access to all functionality through open components and open APIs. »
+> « To create, as a community, the leading international open source digital analytics platform, that gives every user full control of their data. »
 
 Or in short:
 > « Liberate Web Analytics »
@@ -78,7 +78,7 @@ We use [BrowserStack.com](https://www.browserstack.com/) testing tool to help ch
 
 Security is a top priority at Matomo. As potential issues are discovered, we validate, patch and release fixes as quickly as we can. We have a security bug bounty program in place that rewards researchers for finding security issues and disclosing them to us. 
 
-[Learn more](https://matomo.org/security/)
+[Learn more](https://matomo.org/security/) or check out our [HackerOne program](https://hackerone.com/matomo).
 
 ## Support for Matomo
 
