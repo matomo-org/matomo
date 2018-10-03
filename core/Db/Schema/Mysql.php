@@ -123,6 +123,7 @@ class Mysql implements SchemaInterface
                               `allow_multiple` tinyint(4) NOT NULL,
                               `revenue` float NOT NULL,
                               `deleted` tinyint(4) NOT NULL default '0',
+                              `event_value_as_revenue` tinyint(4) NOT NULL default '0',
                                 PRIMARY KEY  (`idsite`,`idgoal`)
                               ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
