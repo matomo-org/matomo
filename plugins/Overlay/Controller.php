@@ -23,6 +23,7 @@ use Piwik\Segment;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 use Piwik\View;
+use Piwik\Plugins\SitesManager;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -53,6 +54,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->segment = Request::getRawSegmentFromRequest();
 
         $view->ssl = ProxyHttp::isHttps();
+        $view->siteUrls = SitesManager\API::getInstance()->getSiteUrlsFromId($this->site->getId());
 
         $this->outputCORSHeaders();
         return $view->render();
