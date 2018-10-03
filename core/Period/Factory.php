@@ -75,7 +75,9 @@ abstract class Factory
 
         if (is_string($date)) {
             if (Period::isMultiplePeriod($date, $period)
-                || $period == 'range') {
+                || $period == 'range'
+            ) {
+
                 return new Range($period, $date, $timezone);
             }
 
