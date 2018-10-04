@@ -75,7 +75,7 @@ class Flattener extends DataTableManipulator
 
         $dimensionName = !empty($dimension) ? str_replace('.', '_', $dimension->getId()) : 'label1';
 
-        $this->flattenDataTableInto($dataTable, $newDataTable, $dimensionName);
+        $this->flattenDataTableInto($dataTable, $newDataTable, $level = 1, $dimensionName);
 
         return $newDataTable;
     }
@@ -85,10 +85,10 @@ class Flattener extends DataTableManipulator
      * @param $newDataTable
      * @param $dimensionName
      */
-    protected function flattenDataTableInto($dataTable, $newDataTable, $dimensionName, $prefix = '', $logo = false)
+    protected function flattenDataTableInto($dataTable, $newDataTable, $level, $dimensionName, $prefix = '', $logo = false)
     {
         foreach ($dataTable->getRows() as $rowId => $row) {
-            $this->flattenRow($row, $rowId, $newDataTable, $dimensionName, $prefix, $logo);
+            $this->flattenRow($row, $rowId, $newDataTable, $level, $dimensionName, $prefix, $logo);
         }
     }
 
@@ -99,7 +99,8 @@ class Flattener extends DataTableManipulator
      * @param string $dimensionName
      * @param bool $parentLogo
      */
-    private function flattenRow(Row $row, $rowId, DataTable $dataTable, $dimensionName,
+    private function flattenRow
+    (Row $row, $rowId, DataTable $dataTable, $level, $dimensionName,
                                 $labelPrefix = '', $parentLogo = false)
     {
         $origLabel = $label = $row->getColumn('label');
@@ -162,6 +163,10 @@ class Flattener extends DataTableManipulator
                 $subDimension = $report->getSubtableDimension();
             }
 
+            if ($level === 2 && method_exists($report, 'getThirdLeveltableDimension')) {
+                $subDimension = $report->getThirdLeveltableDimension();
+            }
+
             if (empty($subDimension)) {
                 $report           = ReportsProvider::factory($this->apiModule, $this->getApiMethodForSubtable($this->request));
                 $subDimension     = $report->getDimension();
@@ -171,11 +176,15 @@ class Flattener extends DataTableManipulator
 
             if ($origLabel !== false) {
                 foreach ($subTable->getRows() as $subRow) {
+                    foreach ($row->getMetadata() as $name => $value) {
+                        $subRow->setMetadata($name, $value);
+                    }
+
                     $subRow->setMetadata($dimensionName, $origLabel);
                 }
             }
 
-            $this->flattenDataTableInto($subTable, $dataTable, $subDimensionName, $prefix, $logo);
+            $this->flattenDataTableInto($subTable, $dataTable, $level + 1, $subDimensionName, $prefix, $logo);
         }
     }
 
