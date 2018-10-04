@@ -371,9 +371,9 @@ disable_checks_usernames_attributes = 0
 ; For legacy data, fallback or non-security scenarios, we use md5.
 hash_algorithm = whirlpool
 
-; by default, Matomo uses PHP's built-in file-based session save handler with lock files.
-; For clusters, use dbtable.
-session_save_handler = files
+; Matomo uses PHP's dbtable for session. As of Matomo 3.7.0 it is the only supported handler.
+; If you prefer configuring sessions through the php.ini directly, you may unset this value to an empty string
+session_save_handler = dbtable
 
 ; If set to 1, Matomo will automatically redirect all http:// requests to https://
 ; If SSL / https is not correctly configured on the server, this will break Matomo
