@@ -156,6 +156,14 @@ class WidgetTest extends SystemTestCase
                         'action' => 'getKeywordsForPage',
                     ),
             ),array (
+                'name' => 'Campaign URL Builder',
+                'uniqueId' => 'widgetReferrersGetCampaignUrlBuilder',
+                'parameters' =>
+                    array (
+                        'module' => 'Referrers',
+                        'action' => 'GetCampaignUrlBuilder',
+                    ),
+            ),array (
                 'name' => 'Ecommerce Log',
                 'uniqueId' => 'widgetEcommercegetEcommerceLog',
                 'parameters' =>
