@@ -771,6 +771,11 @@ class Report
             $dimensions[$subDimensionId] = $this->getSubtableDimension()->getName();
         }
 
+        if (!empty($this->getThirdLeveltableDimension())) {
+            $subDimensionId = str_replace('.', '_', $this->getThirdLeveltableDimension()->getId());
+            $dimensions[$subDimensionId] = $this->getThirdLeveltableDimension()->getName();
+        }
+
         return $dimensions;
     }
 
@@ -815,6 +820,36 @@ class Report
         }
 
         return $subtableReport->getDimension();
+    }
+
+    /**
+     * Returns the Dimension instance of the subtable report of this report's subtable report.
+     *
+     * @return Dimension|null The subtable report's dimension or null if there is no subtable report or
+     *                        no dimension for the subtable report.
+     * @api
+     */
+    public function getThirdLeveltableDimension()
+    {
+        if (empty($this->actionToLoadSubTables)) {
+            return null;
+        }
+
+        list($subtableReportModule, $subtableReportAction) = $this->getSubtableApiMethod();
+
+        $subtableReport = ReportsProvider::factory($subtableReportModule, $subtableReportAction);
+        if (empty($subtableReport) || empty($subtableReport->actionToLoadSubTables)) {
+            return null;
+        }
+
+        list($subSubtableReportModule, $subSubtableReportAction) = $subtableReport->getSubtableApiMethod();
+
+        $subSubtableReport = ReportsProvider::factory($subSubtableReportModule, $subSubtableReportAction);
+        if (empty($subSubtableReport)) {
+            return null;
+        }
+
+        return $subSubtableReport->getDimension();
     }
 
     /**

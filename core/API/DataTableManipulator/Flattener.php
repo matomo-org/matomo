@@ -163,7 +163,7 @@ class Flattener extends DataTableManipulator
                 $subDimension = $report->getSubtableDimension();
             }
 
-            if ($level === 2 && method_exists($report, 'getThirdLeveltableDimension')) {
+            if ($level === 2) {
                 $subDimension = $report->getThirdLeveltableDimension();
             }
 
