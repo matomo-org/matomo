@@ -96,7 +96,7 @@ var piwikHelper = {
 
     htmlEntities: function(value)
     {
-	if (!value) {
+        if (!value) {
             return value;
         }
         var findReplace = [[/&/g, "&amp;"], [/</g, "&lt;"], [/>/g, "&gt;"], [/"/g, "&quot;"]];
