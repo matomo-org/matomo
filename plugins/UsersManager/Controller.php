@@ -172,7 +172,6 @@ class Controller extends ControllerAdmin
 
         $userLogin = Piwik::getCurrentUserLogin();
         $user = Request::processRequest('UsersManager.getUser', array('userLogin' => $userLogin));
-        $view->userAlias = $user['alias'];
         $view->userEmail = $user['email'];
         $view->userTokenAuth = Piwik::getCurrentUserTokenAuth();
 
@@ -414,7 +413,6 @@ class Controller extends ControllerAdmin
 
     private function processPasswordChange($userLogin)
     {
-        $alias = Common::getRequestVar('alias');
         $email = Common::getRequestVar('email');
         $newPassword = false;
 
@@ -440,7 +438,6 @@ class Controller extends ControllerAdmin
             'userLogin' => $userLogin,
             'password' => $newPassword,
             'email' => $email,
-            'alias' => $alias,
         ], $default = []);
 
         if ($newPassword !== false) {
