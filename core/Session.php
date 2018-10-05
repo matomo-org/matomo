@@ -104,7 +104,7 @@ class Session extends Zend_Session
             // - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
 
             $config = array(
-                'name'           => Common::prefixTable('session'),
+                'name'           => Common::prefixTable(DbTable::TABLE_NAME),
                 'primary'        => 'id',
                 'modifiedColumn' => 'modified',
                 'dataColumn'     => 'data',
