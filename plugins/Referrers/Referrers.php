@@ -44,6 +44,7 @@ class Referrers extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = 'General_Required2';
+        $translationKeys[] = 'General_Clear';
         $translationKeys[] = 'Actions_ColumnPageURL';
         $translationKeys[] = 'CoreAdminHome_JSTracking_CampaignNameParam';
         $translationKeys[] = 'CoreAdminHome_JSTracking_CampaignKwdParam';
@@ -57,6 +58,7 @@ class Referrers extends \Piwik\Plugin
         $translationKeys[] = 'Referrers_CampaignNameHelp';
         $translationKeys[] = 'Referrers_CampaignKeywordHelp';
         $translationKeys[] = 'Referrers_URLCampaignBuilderResult';
+        $translationKeys[] = 'Referrers_GenerateUrl';
         $translationKeys[] = 'Goals_Optional';
     }
 

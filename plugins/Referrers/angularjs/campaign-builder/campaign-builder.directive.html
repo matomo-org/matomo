@@ -44,12 +44,12 @@
              class="generateCampaignUrl"
              onconfirm="campaignBuilder.generateUrl()"
              disabled="!campaignBuilder.websiteUrl || !campaignBuilder.campaignName"
-             value="Generate URL">
+             value="{{ 'Referrers_GenerateUrl'|translate }}">
         </div>
         <div piwik-save-button
              class="resetCampaignUrl"
              onconfirm="campaignBuilder.reset()"
-             value="Clear">
+             value="{{ 'General_Clear'|translate }}">
         </div>
 
         <div ng-show="campaignBuilder.generatedUrl">

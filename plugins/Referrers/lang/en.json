@@ -54,6 +54,7 @@
         "TypeSocialNetworks": "%s from social networks",
         "TypeWebsites": "%s from websites",
         "UsingNDistinctUrls": "(using %s distinct urls)",
+        "GenerateUrl": "Generate URL",
         "URLCampaignBuilder": "Campaign URL Builder",
         "URLCampaignBuilderIntro": "The %1$sURL Builder tool%2$s lets you generate URLs ready to use for Tracking Campaigns in Matomo. See the documentation about %3$sCampaign Tracking%4$s for more information.",
         "URLCampaignBuilderResult": "Generated URL that you can copy paste in your Campaigns, Email newsletter, Facebook Ads or tweets:",
