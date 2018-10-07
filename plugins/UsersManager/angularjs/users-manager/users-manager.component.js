@@ -22,9 +22,9 @@
         controller: UsersManagerController
     });
 
-    UsersManagerController.$inject = ['$element', 'piwikApi', '$q'];
+    UsersManagerController.$inject = ['$element', 'piwik', 'piwikApi', '$q', '$timeout'];
 
-    function UsersManagerController($element, piwikApi, $q) {
+    function UsersManagerController($element, piwik, piwikApi, $q, $timeout) {
         var vm = this;
         vm.isEditing = false;
         vm.isCurrentUserSuperUser = true;
@@ -38,6 +38,7 @@
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.$onDestroy = $onDestroy;
+        vm.onEditUser = onEditUser;
         vm.onDoneEditing = onDoneEditing;
         vm.showAddExistingUserModal = showAddExistingUserModal;
         vm.onChangeUserRole = onChangeUserRole;
@@ -165,6 +166,12 @@
                 idSite: vm.searchParams.idSite,
                 filter_limit: '-1'
             });
+        }
+
+        function onEditUser(user) {
+            piwik.helper.lazyScrollToContent();
+            vm.isEditing = true;
+            vm.userBeingEdited = user;
         }
 
         function onDoneEditing(isUserModified) {
