@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 
+use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Segment;
 
@@ -31,13 +32,13 @@ class UnprocessedSegmentException extends \Exception
     private $isSegmentToPreprocess;
 
     /**
-     * @param $segment
+     * @param string|Segment $segment
      */
-    public function __construct(Segment $segment, $isSegmentToPreprocess, array $storedSegment = null)
+    public function __construct($segment, $isSegmentToPreprocess, array $storedSegment = null)
     {
         parent::__construct(self::getErrorMessage($segment, $isSegmentToPreprocess, $storedSegment));
 
-        $this->segment = $segment;
+        $this->segment = is_string($segment) ? new Segment($segment, [Common::getRequestVar('idSite')]) : $segment;
         $this->storedSegment = $storedSegment;
         $this->isSegmentToPreprocess = $isSegmentToPreprocess;
     }
