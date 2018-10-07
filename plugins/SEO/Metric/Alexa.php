@@ -39,7 +39,7 @@ class Alexa implements MetricsProvider
             $value = $xml ? NumberFormatter::getInstance()->formatNumber((int)$xml->SD->POPULARITY['TEXT']) : null;
         } catch (\Exception $e) {
             $this->logger->warning('Error while getting Alexa SEO stats: {message}', array('message' => $e->getMessage()));
-            $value = null;
+            $value = $this->tryFallbackMethod($domain);
         }
 
         $logo = "plugins/Morpheus/icons/dist/SEO/alexa.com.png";
@@ -48,5 +48,19 @@ class Alexa implements MetricsProvider
         return array(
             new Metric('alexa', 'SEO_AlexaRank', $value, $logo, $link)
         );
+    }
+
+    private function tryFallbackMethod($domain)
+    {
+        try {
+            $response = Http::sendHttpRequest(self::LINK . urlencode($domain), $timeout = 10, @$_SERVER['HTTP_USER_AGENT']);
+            $response = preg_replace(['#\s+#', '#<!--(.*?)-->#'], ' ', $response);
+            if (preg_match('#<strong class="metrics-data align-vmiddle">(.*?)<\/strong>#', $response, $p)) {
+                return NumberFormatter::getInstance()->formatNumber((int)str_replace(array(',', '.'), '', $p[1]));
+            }
+        } catch (\Exception $e) {
+            $this->logger->warning('Error while getting Alexa SEO stats via fallback method: {message}', array('message' => $e->getMessage()));
+        }
+        return null;
     }
 }
