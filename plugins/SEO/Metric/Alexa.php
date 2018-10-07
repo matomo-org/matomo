@@ -54,7 +54,7 @@ class Alexa implements MetricsProvider
     {
         try {
             $response = Http::sendHttpRequest(self::LINK . urlencode($domain), $timeout = 10, @$_SERVER['HTTP_USER_AGENT']);
-            $response = preg_replace(['#\s+#', '#<!--(.*?)-->#'], ' ', $response);
+            $response = preg_replace(array('#\s+#', '#<!--(.*?)-->#'), ' ', $response);
             if (preg_match('#<strong class="metrics-data align-vmiddle">(.*?)<\/strong>#', $response, $p)) {
                 return NumberFormatter::getInstance()->formatNumber((int)str_replace(array(',', '.'), '', $p[1]));
             }
