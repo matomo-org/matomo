@@ -9,7 +9,6 @@
 namespace Piwik\Tests\Integration;
 
 use Exception;
-use function GuzzleHttp\Promise\all;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
