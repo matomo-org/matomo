@@ -21,11 +21,9 @@ use Piwik\Log;
 use Piwik\Metrics\Formatter\Html as HtmlFormatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
-use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API as ApiApi;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
-use Piwik\Plugin\ReportsProvider;
 use Piwik\View;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 use Piwik\Plugin\Manager as PluginManager;
@@ -208,14 +206,6 @@ class Visualization extends ViewDataTable
             $loadingError = array('message' => $message);
         }
 
-        if ($this->dataTable && $this->dataTable instanceof DataTable) {
-            $totals = $this->dataTable->getMetadata('totals');
-            if (!empty($totals)) {
-                $totals['label'] = 'Totals';
-                $this->dataTable->addRow(new DataTable\Row(array(DataTable\Row::COLUMNS => $totals)));
-            }
-        }
-        
         $view = new View("@CoreHome/_dataTable");
         $view->assign($this->templateVars);
 

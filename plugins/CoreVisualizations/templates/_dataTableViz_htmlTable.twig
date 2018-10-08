@@ -50,6 +50,18 @@
                     {% include "@CoreVisualizations/_dataTableViz_htmlTable.twig" with {'dataTable': row.getSubtable(), 'idSubtable': rowSubtableId} %}
                 {% endif %}
             {%- endfor -%}
+            {% if dataTable.getTotalsRow  %}
+                {% set row = dataTable.getTotalsRow %}
+                {% set rowId = 'totalsRow' %}
+                <tr class="{{ row.getMetadata('css_class') }} totalsRow"
+                        title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}">
+                    {% for column in properties.columns_to_display %}
+                        <td>
+                            {% include "@CoreHome/_dataTableCell.twig" with properties %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endif %}
         {% endif %}
     {%- if not showingEmbeddedSubtable -%}
         </tbody>

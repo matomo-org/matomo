@@ -302,6 +302,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     protected $summaryRow = null;
 
     /**
+     * @var \Piwik\DataTable\Row
+     */
+    protected $totalsRow = null;
+
+    /**
      * Table metadata. Read [this](#class-desc-the-basics) to learn more.
      *
      * Any data that describes the data held in the table's rows should go here.
@@ -400,6 +405,16 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
                 }
             }
         }
+    }
+
+    public function setTotalsRow(Row $totalsRow)
+    {
+        $this->totalsRow = $totalsRow;
+    }
+
+    public function getTotalsRow()
+    {
+        return $this->totalsRow;
     }
 
     /**

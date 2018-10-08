@@ -127,6 +127,8 @@ class ReportTotalsCalculator extends DataTableManipulator
             if ($row->getColumn('label') === 'Total12345') {
 
                 $this->totals = $row->getColumns();
+                $row->setColumn('label', 'Totals');
+                $dataTable->setTotalsRow($totalRow);
                 $dataTable->setMetadata('totals', $this->totals);
                 break;
             }
