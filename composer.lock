@@ -1095,16 +1095,16 @@
         },
         {
             "name": "piwik/device-detector",
-            "version": "3.11.1",
+            "version": "3.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "0ec14d28cbf71c48b21697e65b892cfd8c3ca519"
+                "reference": "c8e1760a45c4aed201af3b7deee35131bc47fe3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/0ec14d28cbf71c48b21697e65b892cfd8c3ca519",
-                "reference": "0ec14d28cbf71c48b21697e65b892cfd8c3ca519",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/c8e1760a45c4aed201af3b7deee35131bc47fe3e",
+                "reference": "c8e1760a45c4aed201af3b7deee35131bc47fe3e",
                 "shasum": ""
             },
             "require": {
@@ -1145,7 +1145,7 @@
                 "parser",
                 "useragent"
             ],
-            "time": "2018-08-10T18:28:32+00:00"
+            "time": "2018-10-08T20:45:21+00:00"
         },
         {
             "name": "piwik/ini",
