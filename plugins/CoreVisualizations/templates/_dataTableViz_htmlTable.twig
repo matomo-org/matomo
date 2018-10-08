@@ -54,7 +54,7 @@
                 {% set row = dataTable.getTotalsRow %}
                 {% set rowId = 'totalsRow' %}
                 <tr class="{{ row.getMetadata('css_class') }} totalsRow"
-                        title="{{ 'CoreHome_ClickRowToExpandOrContract'|translate }}">
+                        title="Total values for this table">
                     {% for column in properties.columns_to_display %}
                         <td>
                             {% include "@CoreHome/_dataTableCell.twig" with properties %}

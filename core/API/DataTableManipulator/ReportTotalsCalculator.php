@@ -97,6 +97,7 @@ class ReportTotalsCalculator extends DataTableManipulator
       //  $firstLevelTable->applyQueuedFilters();
 
         $clone = $firstLevelTable->getEmptyClone();
+        $tableMeta = $firstLevelTable->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
 
         /** @var DataTable\Row $totalRow */
         $totalRow = null;
@@ -106,7 +107,7 @@ class ReportTotalsCalculator extends DataTableManipulator
                 $totalRow = new DataTable\Row(array(DataTable\Row::COLUMNS => $columns));
             } else {
                 $totalRow->sumRow(
-                    $row, $enableCopyMetadata = false, $firstLevelTable->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME));
+                    $row, $enableCopyMetadata = false, $tableMeta);
             }
         }
         $clone->addRow($totalRow);
@@ -124,11 +125,14 @@ class ReportTotalsCalculator extends DataTableManipulator
         $clone = $processor->process($clone);
 
         foreach ($clone->getRows() as $row) {
+            /** * @var DataTable\Row $row */
             if ($row->getColumn('label') === 'Total12345') {
 
                 $this->totals = $row->getColumns();
-                $row->setColumn('label', 'Totals');
-                $dataTable->setTotalsRow($totalRow);
+                unset($this->totals['label']);
+                // we remove all metadata
+                $totalsColumns = $this->totals + array('label' => 'Totals');
+                $dataTable->setTotalsRow(new DataTable\Row(array(DataTable\Row::COLUMNS => $totalsColumns)));
                 $dataTable->setMetadata('totals', $this->totals);
                 break;
             }
