@@ -1,6 +1,7 @@
 {
     "Login": {
         "ConfirmationLinkSent": "Un enlace de confirmación ha sido enviado a su casilla de correo. Verifique su correo electrónico y siga ese enlace para autorizar su solicitud de cambio de contraseña.",
+        "ContactAdmin": "Razón posible: el administrador puede haber deshabilitado la función mail(). <br \/>Por favor contáctese con su administrador de Matomo.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un usuario con acceso Super Usuario no puede ser autenticado usando el mecanismo '%s'.",
         "ExceptionPasswordMD5HashExpected": "Se espera que el parámetro contraseña sea un hash MD5 de la contraseña.",
         "InvalidNonceOrHeadersOrReferrer": "La seguridad del formulario falló. Por favor cargue nuevamente el formulario y compruebe que sus cookies están habilitadas. Si usa un proxy, debe %1$s configurar Matomo para aceptar la cabecera proxy%2$s que precede a la cabecera Host. Compruebe también que su cabecera Referrer se envía correctamente.",
@@ -8,9 +9,11 @@
         "InvalidOrExpiredToken": "El Token no es válido o ha caducado",
         "InvalidUsernameEmail": "Nombre de usuario y\/o correo electrónico incorrectos.",
         "LogIn": "Iniciar sesión",
+        "LoginOrEmail": "Nombre de usuario o correo electrónico",
         "LoginPasswordNotCorrect": "Usuario y contraseña incorrectos.",
         "LostYourPassword": "¿Olvidó la contraseña?",
         "ChangeYourPassword": "Cambiar su contraseña",
+        "MailPasswordChangeBody": "Hola %1$s,\n\nSe solicitó una petición de restablecimiento de contraseña desde %2$s. Para confirmar este cambio de contraseña debe iniciar sesión con sus nuevas credenciales, visitando el siguiente enlace:\n\n%3$s\n\nAtención: Cambiar su contraseña también cambiará su token_auth. Puede encontrar su nuevo token_auth en la página de configuraciones.\n\nSi está usando su API token_auth en cualquier aplicación externa o a fines de almacenamiento, asegúrese de actualizar token_auth de lo contrario sus peticiones a la API fallarán.\n\nNota: este enlace finalizará en 24 horas.\n\nY gracias por usar Matomo!",
         "MailTopicPasswordChange": "Confirma el cambio de contraseña",
         "NewPassword": "Nueva contraseña",
         "NewPasswordRepeat": "Nueva contraseña (repetir)",

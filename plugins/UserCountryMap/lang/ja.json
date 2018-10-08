@@ -20,6 +20,7 @@
         "VisitorMap": "ビジターマップ",
         "WorldWide": "世界規模",
         "WithUnknownRegion": "未知の地域と %s",
-        "WithUnknownCity": "未知の都市と %s"
+        "WithUnknownCity": "未知の都市と %s",
+        "NoVisitsInfo": "この期間のビジットには、正しい地理情報（緯度と経度）がないため、現在表示されているビジットはありません。"
     }
 }

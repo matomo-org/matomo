@@ -1,6 +1,8 @@
 {
     "UsersManager": {
         "AddUser": "Añadir un nuevo usuario",
+        "EditUser": "Modificar usuario",
+        "SaveBasicInfo": "Guardar información básica",
         "Alias": "Alias",
         "AllWebsites": "Todos los sitios de internet",
         "AnonymousUser": "Usuario anónimo",

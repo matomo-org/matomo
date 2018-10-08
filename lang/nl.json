@@ -210,7 +210,7 @@
         "First": "Eerste",
         "Flatten": "Plat maken",
         "ForcedSSL": "Geforceerde SSL-connectie",
-        "ForceSSLRecommended": "Wij adviseren om Matomo alleen te gebruiken via een SSL-verbinding. Om onveilige toegang via http te voorkomen, voeg %1$s toe aan de %2$s-sectie van het config\/config.in.php-bestand.",
+        "ForceSSLRecommended": "Wij adviseren om Matomo alleen te gebruiken via een SSL-verbinding. Om onveilige toegang via http te voorkomen, voeg %1$s toe aan de %2$s-sectie van het config\/config.ini.php-bestand.",
         "ForExampleShort": "bijv.",
         "Forums": "Forums",
         "FromReferrer": "van",

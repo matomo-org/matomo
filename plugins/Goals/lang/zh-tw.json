@@ -43,7 +43,6 @@
         "DaysToConv": "訪問天數轉換",
         "Details": "目標詳情",
         "DefaultGoalConvertedOncePerVisit": "一次訪問只轉換一個目標（預設）",
-        "DefaultRevenue": "目標預設收益",
         "DefaultRevenueHelp": "舉例來說，訪客送出聯絡表單可能平均價值為 $10。Matomo 將幫助你瞭解你訪客區隔的表現。",
         "DeleteGoalConfirm": "你確定要刪除目標 %s？",
         "DocumentationRevenueGeneratedByProductSales": "產品銷售數。不包含稅、運費和折扣。",

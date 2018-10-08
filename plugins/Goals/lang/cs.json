@@ -43,7 +43,6 @@
         "DaysToConv": "Dnů do konverze",
         "Details": "Detaily cíle",
         "DefaultGoalConvertedOncePerVisit": "Výchozí cíl může být zkonvertován pouze jednou za návštěvu",
-        "DefaultRevenue": "Výchozí příjem cíle je",
         "DefaultRevenueHelp": "Na příklad kontaktní formulář odeslaný návštěvníkem má průměrnou cenu $10. Matomo vám pomůže dobře pochopit chování skupin uživatelů",
         "DeleteGoalConfirm": "Jste si jisti, že chcete vymazat tento cíl %s?",
         "DocumentationRevenueGeneratedByProductSales": "Tržby produktu. Nepočítají se daně, poplatky za doručení a slevy.",
