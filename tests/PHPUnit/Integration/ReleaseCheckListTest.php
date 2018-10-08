@@ -482,11 +482,11 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
 
         $woff_last_change = strtotime(shell_exec("git log -1 --format='%ad' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/matomo.woff"));
         $woff2_last_change = strtotime(shell_exec("git log -1 --format='%ad' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/matomo.woff2"));
-        $this->assertLessThan(abs($woff_last_change - $woff2_last_change), $allowed_time_difference);
+        $this->assertLessThan($allowed_time_difference, abs($woff_last_change - $woff2_last_change));
 
         $legacy_woff_last_change = strtotime(shell_exec("git log -1 --format='%ad' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/piwik.woff"));
         $legacy_woff2_last_change = strtotime(shell_exec("git log -1 --format='%ad' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/piwik.woff2"));
-        $this->assertLessThan(abs($legacy_woff_last_change - $legacy_woff2_last_change), $allowed_time_difference);
+        $this->assertLessThan($allowed_time_difference, abs($legacy_woff_last_change - $legacy_woff2_last_change));
     }
 
     public function testTmpDirectoryContainsGitKeep()
