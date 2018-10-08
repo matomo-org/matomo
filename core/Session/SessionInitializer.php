@@ -83,7 +83,7 @@ class SessionInitializer
     protected function processSuccessfulSession(AuthResult $authResult)
     {
         $sessionIdentifier = new SessionFingerprint();
-        $sessionIdentifier->initialize($authResult->getIdentity());
+        $sessionIdentifier->initialize($authResult->getIdentity(), $this->isRemembered());
     }
 
     protected function regenerateSessionId()
@@ -102,5 +102,11 @@ class SessionInitializer
     public static function getHashTokenAuth($login, $token_auth)
     {
         return md5($login . $token_auth);
+    }
+
+    private function isRemembered()
+    {
+        $cookieParams = session_get_cookie_params();
+        return $cookieParams['lifetime'] > 0;
     }
 }
