@@ -91,21 +91,21 @@ class UITestFixture extends SqlDump
         APIScheduledReports::getInstance()->addReport(
             $idSite = 1,
             $this->xssTesting->forTwig('scheduledreport'),
-            'year',
+            'month',
             0,
             ScheduledReports::EMAIL_TYPE,
             ReportRenderer::HTML_FORMAT,
-            ['XssTest.xssReport.forTwig', 'XssTest.xssReport.forAngular'],
+            ['XssTest_xssReportforTwig', 'XssTest_xssReportforAngular'],
             array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
         );
         APIScheduledReports::getInstance()->addReport(
             $idSite = 1,
             $this->xssTesting->forAngular('scheduledreport'),
-            'year',
+            'month',
             0,
             ScheduledReports::EMAIL_TYPE,
             ReportRenderer::HTML_FORMAT,
-            ['XssTest.xssReport.forTwig', 'XssTest.xssReport.forAngular'],
+            ['XssTest_xssReportforTwig', 'XssTest_xssReportforAngular'],
             array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
         );
     }
@@ -136,6 +136,8 @@ class UITestFixture extends SqlDump
 
         $this->testEnvironment->forcedNowTimestamp = $forcedNowTimestamp;
         $this->testEnvironment->save();
+
+        $this->xssTesting->sanityCheck();
 
         // launch archiving so tests don't run out of time
         print("Archiving in fixture set up...");
@@ -409,7 +411,7 @@ class UITestFixture extends SqlDump
                     $instances[] = new XssDimension();
                 }],
                 ['API.Request.intercept', function (&$result, $finalParameters, $pluginName, $methodName) {
-                    if ($pluginName != 'XssTest' && $methodName != 'xssReport') {
+                    if ($pluginName != 'XssTest' && $methodName != 'xssReportforTwig' && $methodName != 'xssReportforAngular') {
                         return;
                     }
 
@@ -445,8 +447,8 @@ class XssReport extends Report
         $this->subcategoryId = $xssTesting->$type('subcategory');
         $this->processedMetrics = [new XssProcessedMetric($type)];
         $this->module = 'XssTest';
-        $this->action = 'xssReport';
-        $this->id = 'XssTest.xssReport.' . $type;
+        $this->action = 'xssReport' . $type;
+        $this->id = 'XssTest.xssReport' . $type;
     }
 }
 

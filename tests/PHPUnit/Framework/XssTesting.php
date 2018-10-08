@@ -85,4 +85,97 @@ JS;
             $out .= $xssTesting->getJavaScriptCode();
         }];
     }
+
+    /**
+     * Since the XSS entries option is stored in the OmniFixture dump AND is modified when setting up
+     * UITestFixture, we want to make sure it has all the right entries. Otherwise some failures will be
+     * harder to debug.
+     */
+    public function sanityCheck()
+    {
+        $expectedEntries = [
+            'twig-(site name)',
+            'twig-(goal name)',
+            'twig-(goal description)',
+            'angular-(Piwik test two)',
+            'angular-(second goal)',
+            'angular-(goal description)',
+            'twig-(pageurl)',
+            'twig-(page title)',
+            'twig-(referrerUrl)',
+            'twig-(keyword)',
+            'twig-(customdimension)',
+            'twig-(customvarname)',
+            'twig-(customvarval)',
+            'twig-(userid)',
+            'twig-(lang)',
+            'twig-(city)',
+            'twig-(region)',
+            'twig-(country)',
+            'twig-(useragent)',
+            'angular-(pageurl)',
+            'angular-(page title)',
+            'angular-(referrerUrl)',
+            'angular-(keyword)',
+            'angular-(customdimension)',
+            'angular-(customvarname)',
+            'angular-(customvarval)',
+            'angular-(userid)',
+            'angular-(lang)',
+            'angular-(city)',
+            'angular-(region)',
+            'angular-(country)',
+            'angular-(useragent)',
+            'twig-(annotation)',
+            'angular-(Annotation note 3)',
+            'twig-(useralias)',
+            'angular-(useralias)',
+            'twig-(scheduledreport)',
+            'twig-(dimensionname)',
+            'twig-(category)',
+            'twig-(reportname)',
+            'twig-(reportdoc)',
+            'twig-(category)',
+            'twig-(subcategory)',
+            'twig-(processedmetricname)',
+            'twig-(processedmetricdocs)',
+            'angular-(dimensionname)',
+            'angular-(category)',
+            'angular-(reportname)',
+            'angular-(reportdoc)',
+            'angular-(category)',
+            'angular-(subcategory)',
+            'angular-(processedmetricname)',
+            'angular-(processedmetricdocs)',
+            'angular-(scheduledreport)',
+            'twig-(segment)',
+            'angular-(From Europe)',
+            'twig-(dimensionname)',
+            'twig-(category)',
+            'twig-(reportname)',
+            'twig-(reportdoc)',
+            'twig-(category)',
+            'twig-(subcategory)',
+            'twig-(processedmetricname)',
+            'twig-(processedmetricdocs)',
+            'angular-(dimensionname)',
+            'angular-(category)',
+            'angular-(reportname)',
+            'angular-(reportdoc)',
+            'angular-(category)',
+            'angular-(subcategory)',
+            'angular-(processedmetricname)',
+            'angular-(processedmetricdocs)',
+            'twig-(dashboard name0)',
+            'angular-(dashboard name1)',
+        ];
+
+        try {
+            \PHPUnit_Framework_Assert::assertEquals($expectedEntries, $this->getXssEntries());
+        } catch (\Exception $ex) {
+            print "XssTesting::sanityCheck() failed, got: " . var_export($this->getXssEntries(), true);
+
+            throw $ex;
+        }
+    }
 }
