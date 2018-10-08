@@ -45,8 +45,8 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $this->checkUserCountryPluginEnabled();
 
-        $idSite = Common::getRequestVar('idSite', 1, 'int');
-        Piwik::checkUserHasViewAccess($idSite);
+        $this->checkSitePermission();
+        Piwik::checkUserHasViewAccess($this->idSite);
 
         $period = Common::getRequestVar('period');
         $date = Common::getRequestVar('date');
@@ -67,7 +67,7 @@ class Controller extends \Piwik\Plugin\Controller
         // request visits summary
         $request = new Request(
             'method=VisitsSummary.get&format=PHP'
-            . '&idSite=' . $idSite
+            . '&idSite=' . $this->idSite
             . '&period=' . $period
             . '&date=' . $date
             . '&segment=' . $segment
@@ -77,13 +77,13 @@ class Controller extends \Piwik\Plugin\Controller
         $config = array();
         $config['visitsSummary'] = unserialize($request->process());
         $config['countryDataUrl'] = $this->_report('UserCountry', 'getCountry',
-            $idSite, $period, $date, $token_auth, false, $segment);
+            $this->idSite, $period, $date, $token_auth, false, $segment);
         $config['regionDataUrl'] = $this->_report('UserCountry', 'getRegion',
-            $idSite, $period, $date, $token_auth, true, $segment);
+            $this->idSite, $period, $date, $token_auth, true, $segment);
         $config['cityDataUrl'] = $this->_report('UserCountry', 'getCity',
-            $idSite, $period, $date, $token_auth, true, $segment);
+            $this->idSite, $period, $date, $token_auth, true, $segment);
         $config['countrySummaryUrl'] = $this->getApiRequestUrl('VisitsSummary', 'get',
-            $idSite, $period, $date, $token_auth, true, $segment);
+            $this->idSite, $period, $date, $token_auth, true, $segment);
         $view->defaultMetric = 'nb_visits';
 
         // some translations
@@ -111,7 +111,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $view->reqParamsJSON = $this->getEnrichedRequest($params = array(
             'period'                      => $period,
-            'idSite'                      => $idSite,
+            'idSite'                      => $this->idSite,
             'date'                        => $date,
             'segment'                     => $segment,
             'token_auth'                  => $token_auth,
@@ -119,7 +119,7 @@ class Controller extends \Piwik\Plugin\Controller
             'filter_excludelowpop_value'  => -1
         ));
 
-        $view->metrics = $config['metrics'] = $this->getMetrics($idSite, $period, $date, $token_auth);
+        $view->metrics = $config['metrics'] = $this->getMetrics($this->idSite, $period, $date, $token_auth);
         $config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
         $config['mapCssPath'] = 'plugins/UserCountryMap/stylesheets/map.css';
         $view->config = json_encode($config);
@@ -166,20 +166,20 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $this->checkUserCountryPluginEnabled();
 
-        $idSite = Common::getRequestVar('idSite', 1, 'int');
-        Piwik::checkUserHasViewAccess($idSite);
+        $this->checkSitePermission();
+        Piwik::checkUserHasViewAccess($this->idSite);
 
         $token_auth = Piwik::getCurrentUserTokenAuth();
         $view = new View('@UserCountryMap/realtimeMap');
 
         $view->mapIsStandaloneNotWidget = !(bool) Common::getRequestVar('widget', $standalone, 'int');
 
-        $view->metrics = $this->getMetrics($idSite, 'range', self::REAL_TIME_WINDOW, $token_auth);
+        $view->metrics = $this->getMetrics($this->idSite, 'range', self::REAL_TIME_WINDOW, $token_auth);
         $view->defaultMetric = 'nb_visits';
         $liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
 
-        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
-        $site = new Site($idSite);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
+        $site = new Site($this->idSite);
         $hasGoals = !empty($goals) || $site->isEcommerceEnabled();
 
         // maximum number of visits to be displayed in the map
@@ -205,7 +205,7 @@ class Controller extends \Piwik\Plugin\Controller
         $segment = $segmentOverride ? : Request::getRawSegmentFromRequest() ? : '';
         $params = array(
             'period'     => 'range',
-            'idSite'     => $idSite,
+            'idSite'     => $this->idSite,
             'segment'    => $segment,
             'token_auth' => $token_auth,
         );

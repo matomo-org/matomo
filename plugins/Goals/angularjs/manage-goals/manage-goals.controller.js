@@ -27,7 +27,7 @@
             });
         }
 
-        function initGoalForm(goalMethodAPI, submitText, goalName, description, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, goalId) {
+        function initGoalForm(goalMethodAPI, submitText, goalName, description, matchAttribute, pattern, patternType, caseSensitive, revenue, allowMultiple, useEventValueAsRevenue, goalId) {
 
             $rootScope.$emit('Goals.beforeInitGoalForm', goalMethodAPI, goalId);
 
@@ -56,6 +56,7 @@
             self.goal.caseSensitive = caseSensitive;
             self.goal.revenue = revenue;
             self.goal.apiMethod = goalMethodAPI;
+            self.goal.useEventValueAsRevenue = useEventValueAsRevenue;
 
             self.goal.submitText = submitText;
             self.goal.goalId = goalId;
@@ -96,8 +97,9 @@
                 parameters.pattern = encodeURIComponent(this.goal.pattern);
                 parameters.caseSensitive = this.goal.caseSensitive == true ? 1 : 0;
             }
-            parameters.revenue = this.goal.revenue;
+            parameters.revenue = this.goal.revenue || 0;
             parameters.allowMultipleConversionsPerVisit = this.goal.allowMultiple == true ? 1 : 0;
+            parameters.useEventValueAsRevenue = this.goal.useEventValueAsRevenue == true ? 1 : 0;
 
             parameters.idGoal = this.goal.goalId;
             parameters.method = this.goal.apiMethod;
@@ -165,14 +167,14 @@
             }
 
             this.showAddEditForm();
-            initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal'), '', '', 'url', '', 'contains', /*caseSensitive = */false, /*allowMultiple = */'0', '0');
+            initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal'), '', '', 'url', '', 'contains', /*caseSensitive = */false, '', /*allowMultiple = */ false, /*useEventValueAsRevenue = */ false, '0');
             scrollToTop();
-        }
+        };
 
         this.editGoal = function (goalId) {
             this.showAddEditForm();
             var goal = piwik.goals[goalId];
-            initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal'), goal.name, goal.description, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, goalId);
+            initGoalForm("Goals.updateGoal", _pk_translate('Goals_UpdateGoal'), goal.name, goal.description, goal.match_attribute, goal.pattern, goal.pattern_type, (goal.case_sensitive != '0'), goal.revenue, goal.allow_multiple, (goal.event_value_as_revenue != '0'), goalId);
             scrollToTop();
         };
 
