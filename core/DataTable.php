@@ -197,6 +197,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /** The original label of the Summary Row. */
     const LABEL_SUMMARY_ROW = -1;
+    const LABEL_TOTALS_ROW = -2;
 
     /**
      * Name for metadata that contains extra {@link Piwik\Plugin\ProcessedMetric}s for a DataTable.

@@ -13,6 +13,7 @@ use Piwik\API\DataTablePostProcessor;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Period;
+use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 
@@ -79,6 +80,10 @@ class ReportTotalsCalculator extends DataTableManipulator
      */
     protected function manipulateDataTable($dataTable)
     {
+        if (!$this->report) {
+            return $dataTable; // we require a report
+        }
+
         if (!empty($this->report) && !$this->report->getDimension() && !$this->isAllMetricsReport()) {
             // we currently do not calculate the total value for reports having no dimension
             return $dataTable;
@@ -94,7 +99,6 @@ class ReportTotalsCalculator extends DataTableManipulator
 
         $this->totals    = array();
         $firstLevelTable = $this->makeSureToWorkOnFirstLevelDataTable($dataTable);
-      //  $firstLevelTable->applyQueuedFilters();
 
         $clone = $firstLevelTable->getEmptyClone();
         $tableMeta = $firstLevelTable->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
@@ -103,7 +107,7 @@ class ReportTotalsCalculator extends DataTableManipulator
         $totalRow = null;
         foreach ($firstLevelTable->getRows() as $row) {
             if (!isset($totalRow)) {
-                $columns = array('label' => 'Total12345') + $row->getColumns();
+                $columns = array('label' => DataTable::LABEL_TOTALS_ROW) + $row->getColumns();
                 $totalRow = new DataTable\Row(array(DataTable\Row::COLUMNS => $columns));
             } else {
                 $totalRow->sumRow(
@@ -124,20 +128,27 @@ class ReportTotalsCalculator extends DataTableManipulator
         $processor = new DataTablePostProcessor($this->report->getModule(), $this->report->getAction(), $request);
         $clone = $processor->process($clone);
 
+        $totalRow = null;
         foreach ($clone->getRows() as $row) {
             /** * @var DataTable\Row $row */
-            if ($row->getColumn('label') === 'Total12345') {
-
-                $this->totals = $row->getColumns();
-                unset($this->totals['label']);
-                // we remove all metadata
-                $totalsColumns = $this->totals + array('label' => 'Totals');
-                $dataTable->setTotalsRow(new DataTable\Row(array(DataTable\Row::COLUMNS => $totalsColumns)));
-                $dataTable->setMetadata('totals', $this->totals);
+            if ($row->getColumn('label') === DataTable::LABEL_TOTALS_ROW) {
+                $totalRow = $row;
                 break;
             }
         }
+        if (!isset($totalRow) && $clone->getRowsCount() === 1) {
+            // if for some reason the processor renamed the totals row,
+            $totalRow = $clone->getFirstRow();
+        }
 
+        if (isset($totalRow)) {
+            $this->totals = $row->getColumns();
+            unset($this->totals['label']);
+            $row->deleteMetadata(false);
+            $row->setColumn('label', Piwik::translate('General_Totals'));
+            $dataTable->setTotalsRow($row);
+            $dataTable->setMetadata('totals', $this->totals);
+        }
 
         return $dataTable;
     }

@@ -10,9 +10,9 @@ namespace Piwik\Plugins\CoreVisualizations\Visualizations;
 
 use Piwik\API\Request as ApiRequest;
 use Piwik\Common;
+use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Plugin\Visualization;
-use Piwik\View;
 
 /**
  * DataTable visualization that shows DataTable data in an HTML table.
@@ -46,6 +46,15 @@ class HtmlTable extends Visualization
 
         if ($this->requestConfig->idSubtable) {
             $this->config->show_totals_row = false;
+        }
+
+        foreach (Metrics::getMetricIdsToProcessReportTotal() as $metricId) {
+            $this->config->report_ratio_columns[] = Metrics::getReadableColumnName($metricId);
+        }
+        if (!empty($this->report)) {
+            foreach ($this->report->getMetricNamesToProcessReportTotals() as $metricName) {
+                $this->config->report_ratio_columns[] = $metricName;
+            }
         }
 
         // we do not want to get a datatable\map

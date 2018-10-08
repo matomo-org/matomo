@@ -94,6 +94,12 @@ class Config extends VisualizationConfig
      */
     public $show_totals_row = true;
 
+    /**
+     * A list of columns that support showing the ratio percentage on hover
+     * @var array
+     */
+    public $report_ratio_columns = array();
+
     public function __construct()
     {
         parent::__construct();
@@ -109,6 +115,7 @@ class Config extends VisualizationConfig
             'enable_sort',
             'keep_summary_row',
             'subtable_controller_action',
+            'show_totals_row',
         ));
 
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array(
@@ -120,6 +127,7 @@ class Config extends VisualizationConfig
             'disable_subtable_when_show_goals',
             'keep_summary_row',
             'highlight_summary_row',
+            'show_totals_row',
         ));
     }
 
