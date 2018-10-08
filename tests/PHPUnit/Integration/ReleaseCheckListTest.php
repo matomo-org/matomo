@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Integration;
 
 use Exception;
+use function GuzzleHttp\Promise\all;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
@@ -474,6 +475,18 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             PIWIK_DOCUMENT_ROOT . '/js/piwik.min.js',
             'minified /js/piwik.min.js is out of date, please re-generate the minified files using instructions in /js/README'
         );
+    }
+
+    public function test_woff2_isUpToDate() {
+        $allowed_time_difference = 60 * 60 * 24; #seconds
+
+        $woff_last_change = strtotime(shell_exec("git log -1 --format='%ad' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/matomo.woff"));
+        $woff2_last_change = strtotime(shell_exec("git log -1 --format='%ad' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/matomo.woff2"));
+        $this->assertLessThan(abs($woff_last_change - $woff2_last_change), $allowed_time_difference);
+
+        $legacy_woff_last_change = strtotime(shell_exec("git log -1 --format='%ad' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/piwik.woff"));
+        $legacy_woff2_last_change = strtotime(shell_exec("git log -1 --format='%ad' " . PIWIK_DOCUMENT_ROOT . "/plugins/Morpheus/fonts/piwik.woff2"));
+        $this->assertLessThan(abs($legacy_woff_last_change - $legacy_woff2_last_change), $allowed_time_difference);
     }
 
     public function testTmpDirectoryContainsGitKeep()
