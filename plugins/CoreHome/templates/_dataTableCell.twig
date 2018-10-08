@@ -12,7 +12,7 @@
 {% endif %}
 
 {% set totals = dataTable.getMetadata('totals') %}
-{% if column in totals|keys -%}
+{% if column in totals|keys and totals[column] is reportTotalMetric -%}
     {% set labelColumn   = columns_to_display|first %}
     {% set reportTotal   = totals[column] %}
     {% if siteSummary is defined and siteSummary is not empty and siteSummary.getFirstRow %}

@@ -208,6 +208,14 @@ class Visualization extends ViewDataTable
             $loadingError = array('message' => $message);
         }
 
+        if ($this->dataTable) {
+            $totals = $this->dataTable->getMetadata('totals');
+            if (!empty($totals)) {
+                $totals['label'] = 'Totals';
+                $this->dataTable->addRow(new DataTable\Row(array(DataTable\Row::COLUMNS => $totals)));
+            }
+        }
+        
         $view = new View("@CoreHome/_dataTable");
         $view->assign($this->templateVars);
 

@@ -9,6 +9,7 @@
 namespace Piwik\API\DataTableManipulator;
 
 use Piwik\API\DataTableManipulator;
+use Piwik\API\DataTablePostProcessor;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Period;
@@ -83,30 +84,54 @@ class ReportTotalsCalculator extends DataTableManipulator
             return $dataTable;
         }
 
-        $this->totals       = array();
-        $firstLevelTable    = $this->makeSureToWorkOnFirstLevelDataTable($dataTable);
-        $metricsToCalculate = Metrics::getMetricIdsToProcessReportTotal();
-
-        $metricNames = array();
-        foreach ($metricsToCalculate as $metricId) {
-            $metricNames[$metricId] = Metrics::getReadableColumnName($metricId);
+        if (isset($this->request['totals']) && ($this->request['totals'] === 0 || $this->request['totals'] === '0')) {
+            return $dataTable;
         }
 
-        if (!empty($this->report)) {
-            $reportMetrics = $this->report->getMetricNamesToProcessReportTotals();
-            foreach ($reportMetrics as $metricId => $metricName) {
-                $metricNames[$metricId] = $metricName;
-            }
+        if ($dataTable instanceof DataTable\Simple) {
+            return $dataTable;
         }
 
+        $this->totals    = array();
+        $firstLevelTable = $this->makeSureToWorkOnFirstLevelDataTable($dataTable);
+      //  $firstLevelTable->applyQueuedFilters();
+
+        $clone = $firstLevelTable->getEmptyClone();
+
+        /** @var DataTable\Row $totalRow */
+        $totalRow = null;
         foreach ($firstLevelTable->getRows() as $row) {
-            $columns = $row->getColumns();
-            foreach ($metricNames as $metricId => $metricName) {
-                $this->sumColumnValueToTotal($columns, $metricId, $metricName);
+            if (!isset($totalRow)) {
+                $columns = array('label' => 'Total12345') + $row->getColumns();
+                $totalRow = new DataTable\Row(array(DataTable\Row::COLUMNS => $columns));
+            } else {
+                $totalRow->sumRow(
+                    $row, $enableCopyMetadata = false, $firstLevelTable->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME));
+            }
+        }
+        $clone->addRow($totalRow);
+
+        if (array_keys($this->report->getProcessedMetrics()) === array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate')) {
+            // hack for AllColumns table
+            $clone->filter('AddColumnsProcessedMetrics');
+        }
+
+        $request = $this->request;
+        $request['totals'] = 0;
+        $request['disable_generic_filters'] = 1;
+
+        $processor = new DataTablePostProcessor($this->report->getModule(), $this->report->getAction(), $request);
+        $clone = $processor->process($clone);
+
+        foreach ($clone->getRows() as $row) {
+            if ($row->getColumn('label') === 'Total12345') {
+
+                $this->totals = $row->getColumns();
+                $dataTable->setMetadata('totals', $this->totals);
+                break;
             }
         }
 
-        $dataTable->setMetadata('totals', $this->totals);
 
         return $dataTable;
     }
@@ -152,42 +177,6 @@ class ReportTotalsCalculator extends DataTableManipulator
         }
 
         return $table;
-    }
-
-    private function sumColumnValueToTotal($columns, $metricId, $metricName)
-    {
-        $value = false;
-        if (array_key_exists($metricId, $columns)) {
-            $value = $columns[$metricId];
-        }
-
-        if ($value === false) {
-            // we do not add $metricId to $possibleMetricNames for a small performance improvement since in most cases
-            // $metricId should be present in $columns so we avoid this foreach loop
-            $possibleMetricNames = array(
-                $metricName,
-                // TODO: this and below is a hack to get report totals to work correctly w/ MultiSites.getAll. can be corrected
-                //       when all metrics are described by Metadata classes & internal naming quirks are handled by core system.
-                'Goal_' . $metricName,
-                'Actions_' . $metricName
-            );
-            foreach ($possibleMetricNames as $possibleMetricName) {
-                if (array_key_exists($possibleMetricName, $columns)) {
-                    $value = $columns[$possibleMetricName];
-                    break;
-                }
-            }
-
-            if ($value === false) {
-                return;
-            }
-        }
-
-        if (array_key_exists($metricName, $this->totals)) {
-            $this->totals[$metricName] += $value;
-        } else {
-            $this->totals[$metricName] = $value;
-        }
     }
 
     /**
