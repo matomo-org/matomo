@@ -208,7 +208,7 @@ class Visualization extends ViewDataTable
             $loadingError = array('message' => $message);
         }
 
-        if ($this->dataTable) {
+        if ($this->dataTable && $this->dataTable instanceof DataTable) {
             $totals = $this->dataTable->getMetadata('totals');
             if (!empty($totals)) {
                 $totals['label'] = 'Totals';
