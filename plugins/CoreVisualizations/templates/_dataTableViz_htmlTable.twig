@@ -50,7 +50,7 @@
                     {% include "@CoreVisualizations/_dataTableViz_htmlTable.twig" with {'dataTable': row.getSubtable(), 'idSubtable': rowSubtableId} %}
                 {% endif %}
             {%- endfor -%}
-            {% if dataTable.getTotalsRow  %}
+            {% if dataTable.getTotalsRow and properties.show_totals_row %}
                 {% set row = dataTable.getTotalsRow %}
                 {% set rowId = 'totalsRow' %}
                 <tr class="{{ row.getMetadata('css_class') }} totalsRow"

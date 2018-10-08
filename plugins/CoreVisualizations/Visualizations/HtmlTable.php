@@ -43,6 +43,10 @@ class HtmlTable extends Visualization
 
             $this->config->show_visualization_only = true;
         }
+        
+        if ($this->requestConfig->idSubtable) {
+            $this->config->show_totals_row = false;
+        }
 
         // we do not want to get a datatable\map
         $period = Common::getRequestVar('period', 'day', 'string');

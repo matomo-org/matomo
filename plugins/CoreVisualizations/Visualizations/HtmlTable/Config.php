@@ -87,6 +87,13 @@ class Config extends VisualizationConfig
      */
     public $highlight_summary_row = false;
 
+    /**
+     * If true, the totals row will be hidden
+     *
+     * Default value: false
+     */
+    public $show_totals_row = true;
+
     public function __construct()
     {
         parent::__construct();
