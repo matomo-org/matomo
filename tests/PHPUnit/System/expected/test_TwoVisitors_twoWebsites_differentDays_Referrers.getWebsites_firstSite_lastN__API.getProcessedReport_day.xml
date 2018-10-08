@@ -145,10 +145,17 @@
 		</result>
 	</reportMetadata>
 	<reportTotal>
-		<nb_visits>4</nb_visits>
-		<nb_uniq_visitors>4</nb_uniq_visitors>
-		<nb_actions>12</nb_actions>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>2</max_actions>
+		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<conversion_rate>0</conversion_rate>
+		<nb_actions_per_visit>2</nb_actions_per_visit>
+		<avg_time_on_site>0</avg_time_on_site>
+		<bounce_rate>200</bounce_rate>
 	</reportTotal>
 </result>

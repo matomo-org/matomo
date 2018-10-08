@@ -91,6 +91,10 @@ class ReportTotalsCalculator extends DataTableManipulator
             return $dataTable;
         }
 
+        if (!$dataTable->getRowsCount()) {
+            return $dataTable;
+        }
+
         $firstLevelTable = $this->makeSureToWorkOnFirstLevelDataTable($dataTable);
 
         $clone = $firstLevelTable->getEmptyClone();
