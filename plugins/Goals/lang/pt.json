@@ -43,7 +43,6 @@
         "DaysToConv": "Dias para a conversão",
         "Details": "Detalhes do objetivo",
         "DefaultGoalConvertedOncePerVisit": "(predefinido) Um objetivo só pode ser convertido uma vez por visita",
-        "DefaultRevenue": "A receita predefinida do objetivo é",
         "DefaultRevenueHelp": "Por exemplo, um formulário de contacto submetido por um visitante pode valer em média $10. O Matomo ajuda-o a perceber como os seus segmentos de visitantes se estão a comportar.",
         "DeleteGoalConfirm": "Tem a certeza que deseja eliminar o objetivo %s?",
         "DocumentationRevenueGeneratedByProductSales": "Vendas de produtos. Excluindo taxas, transporte e descontos.",
