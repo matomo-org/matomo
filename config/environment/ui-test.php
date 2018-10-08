@@ -17,7 +17,7 @@ return array(
         return $config;
     }),
 
-    'observers.global' => \DI\add(array_merge([
+    'observers.global' => \DI\add([
 
         // removes port from all URLs to the test Piwik server so UI tests will pass no matter
         // what port is used
@@ -55,6 +55,8 @@ return array(
         array('Controller.RssWidget.rssPiwik.end', function (&$result, $parameters) {
             $result = "";
         }),
-    ], \Piwik\Tests\Framework\XssTesting::getJavaScriptAddEvent())),
+
+        \Piwik\Tests\Framework\XssTesting::getJavaScriptAddEvent(),
+    ]),
 
 );
