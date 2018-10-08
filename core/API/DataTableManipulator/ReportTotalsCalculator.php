@@ -25,12 +25,6 @@ use Piwik\Plugin\ReportsProvider;
 class ReportTotalsCalculator extends DataTableManipulator
 {
     /**
-     * Array [readableMetric] => [summed value]
-     * @var array
-     */
-    private $totals = array();
-
-    /**
      * @var Report
      */
     private $report;
@@ -97,7 +91,6 @@ class ReportTotalsCalculator extends DataTableManipulator
             return $dataTable;
         }
 
-        $this->totals    = array();
         $firstLevelTable = $this->makeSureToWorkOnFirstLevelDataTable($dataTable);
 
         $clone = $firstLevelTable->getEmptyClone();
@@ -107,26 +100,24 @@ class ReportTotalsCalculator extends DataTableManipulator
         $totalRow = null;
         foreach ($firstLevelTable->getRows() as $row) {
             if (!isset($totalRow)) {
-                $columns = array('label' => DataTable::LABEL_TOTALS_ROW) + $row->getColumns();
+                $columns = $row->getColumns();
+                $columns['label'] = DataTable::LABEL_TOTALS_ROW;
                 $totalRow = new DataTable\Row(array(DataTable\Row::COLUMNS => $columns));
             } else {
-                $totalRow->sumRow(
-                    $row, $enableCopyMetadata = false, $tableMeta);
+                $totalRow->sumRow($row, $copyMetadata = false, $tableMeta);
             }
         }
         $clone->addRow($totalRow);
 
         if (array_keys($this->report->getProcessedMetrics()) === array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate')) {
-            // hack for AllColumns table
+            // hack for AllColumns table or default processed metrics
             $clone->filter('AddColumnsProcessedMetrics');
         }
 
-        $request = $this->request;
-        $request['totals'] = 0;
-        $request['disable_generic_filters'] = 1;
-
-        $processor = new DataTablePostProcessor($this->report->getModule(), $this->report->getAction(), $request);
-        $clone = $processor->process($clone);
+        $processor = new DataTablePostProcessor($this->report->getModule(), $this->report->getAction(), $this->request);
+        $processor->applyComputeProcessedMetrics($clone);
+        $clone = $processor->applyQueuedFilters($clone);
+        $clone = $processor->applyMetricsFormatting($clone);
 
         $totalRow = null;
         foreach ($clone->getRows() as $row) {
@@ -142,12 +133,13 @@ class ReportTotalsCalculator extends DataTableManipulator
         }
 
         if (isset($totalRow)) {
-            $this->totals = $row->getColumns();
-            unset($this->totals['label']);
+            $totals = $row->getColumns();
+            unset($totals['label']);
+            $dataTable->setMetadata('totals', $totals);
+
             $row->deleteMetadata(false);
             $row->setColumn('label', Piwik::translate('General_Totals'));
             $dataTable->setTotalsRow($row);
-            $dataTable->setMetadata('totals', $this->totals);
         }
 
         return $dataTable;

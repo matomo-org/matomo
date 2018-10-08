@@ -195,7 +195,6 @@ class Twig
         $this->addTest_false();
         $this->addTest_true();
         $this->addTest_emptyString();
-        $this->addTest_reportTotalMetric();
 
         $this->twig->addExtension(new PiwikTwigFilterExtension());
     }
@@ -228,17 +227,6 @@ class Twig
             'emptyString',
             function ($value) {
                 return '' === $value;
-            }
-        );
-        $this->twig->addTest($test);
-    }
-
-    private function addTest_reportTotalMetric()
-    {
-        $test = new Twig_SimpleTest(
-            'reportTotalMetric',
-            function ($value) {
-                return is_numeric($value) || (is_string($value) && is_numeric(str_replace('%', '', $value)) );
             }
         );
         $this->twig->addTest($test);
