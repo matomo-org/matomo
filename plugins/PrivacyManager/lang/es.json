@@ -33,6 +33,7 @@
         "EstimatedDBSizeAfterPurge": "Tamaño aproximado de la base de datos después de la purga",
         "EstimatedSpaceSaved": "Espacio estimado guardado",
         "GeolocationAnonymizeIpNote": "Nota: Geolocalización tendrá aproximadamente los mismos resultados con 1 byte anónimo. Con 2 bytes o más, la Geolocalización será imprecisa.",
+        "GDPR": "GDPR",
         "GetPurgeEstimate": "Obtener estimación de purga",
         "KeepBasicMetrics": "Mantener métricas básicas (visitantes, vistas de páginas, tasa de rebote, conversiones de meta, conversiones de comercio electrónico, etc.)",
         "KeepDataFor": "Mantener toda la información para",

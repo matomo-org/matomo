@@ -173,6 +173,7 @@
         "ExceptionInvalidAggregateReportsFormat": "Samengesteld rapporten formaat '%1$s' niet geldig. Probeer in plaats daarvan een van de volgende: %2$s.",
         "ExceptionInvalidArchiveTimeToLive": "Het archiveertijdstip van vandaag moet een aantal seconden zijn groter dan nul.",
         "ExceptionInvalidDateFormat": "Datum formaat moet zijn: %1$s of elk sleutelwoord ondersteund door de %2$s functie (zie %3$s voor meer info)",
+        "ExceptionInvalidDateBeforeFirstWebsite": "De datum '%1$s' ligt voor de datum dat de 1e website online was. Probeer een datum na %2$s(tijdstip %3$s).",
         "ExceptionInvalidDateRange": "De datum '%1$s' is geen correct datumbereik. Het moet het volgende formaat hebben: %2$s.",
         "ExceptionInvalidPeriod": "De periode '%1$s' wordt niet ondersteund. Probeer in plaats daarvan een van het volgende: %2$s",
         "ExceptionInvalidRendererFormat": "Renderformaat '%1$s' niet geldig. Probeer anders één van de volgende: %2$s",
