@@ -165,6 +165,7 @@
 		<result prettyDate="Saturday, January 9, 2010" />
 	</reportMetadata>
 	<reportTotal>
+		<nb_uniq_visitors>11</nb_uniq_visitors>
 		<nb_visits>11</nb_visits>
 		<nb_actions>14</nb_actions>
 		<conversion_rate>0</conversion_rate>

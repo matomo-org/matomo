@@ -151,7 +151,8 @@ class RequestConfig
     public $flat = false;
 
     /**
-     * If set to true, the report may show totals information.
+     * If set to true, the report may calculate totals information and show percentage values for each row in relative
+     * to the total value.
      *
      * Default value: false
      */

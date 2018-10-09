@@ -144,9 +144,11 @@ class ReportTotalsCalculator extends DataTableManipulator
             unset($totals['label']);
             $dataTable->setMetadata('totals', $totals);
 
-            $row->deleteMetadata(false);
-            $row->setColumn('label', Piwik::translate('General_Totals'));
-            $dataTable->setTotalsRow($row);
+            if (1 === Common::getRequestVar('keep_totals_row', 0, 'integer', $this->request)) {
+                $row->deleteMetadata(false);
+                $row->setColumn('label', Piwik::translate('General_Totals'));
+                $dataTable->setTotalsRow($row);
+            }
         }
 
         return $dataTable;

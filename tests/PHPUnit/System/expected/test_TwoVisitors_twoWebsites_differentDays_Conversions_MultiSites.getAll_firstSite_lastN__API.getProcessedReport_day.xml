@@ -263,6 +263,11 @@
 	<reportTotal>
 		<nb_visits>9</nb_visits>
 		<nb_actions>31</nb_actions>
+		<nb_pageviews>31</nb_pageviews>
 		<revenue>35</revenue>
+		<visits_evolution>700</visits_evolution>
+		<actions_evolution>700</actions_evolution>
+		<pageviews_evolution>700</pageviews_evolution>
+		<revenue_evolution>600</revenue_evolution>
 	</reportTotal>
 </result>

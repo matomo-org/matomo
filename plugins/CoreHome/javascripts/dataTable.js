@@ -1282,9 +1282,9 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         // handle flatten
         $('.dataTableShowTotalsRow', domElem)
             .each(function () {
-                setText(this, 'totals', 'CoreHome_RemoveTotalsRowDataTable', 'CoreHome_AddTotalsRowDataTable');
+                setText(this, 'keep_totals_row', 'CoreHome_RemoveTotalsRowDataTable', 'CoreHome_AddTotalsRowDataTable');
             })
-            .click(generateClickCallback('totals'));
+            .click(generateClickCallback('keep_totals_row'));
 
         $('.dataTableIncludeAggregateRows', domElem)
             .each(function () {

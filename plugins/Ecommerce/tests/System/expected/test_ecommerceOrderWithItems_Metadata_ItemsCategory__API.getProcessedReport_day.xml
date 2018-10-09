@@ -110,6 +110,7 @@
 	<reportTotal>
 		<revenue>7111.22</revenue>
 		<quantity>18</quantity>
+		<price>4111.22</price>
 		<orders>8</orders>
 		<nb_uniq_visitors>8</nb_uniq_visitors>
 		<nb_visits>12</nb_visits>
