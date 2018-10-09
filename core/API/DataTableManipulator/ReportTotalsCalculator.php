@@ -10,6 +10,7 @@ namespace Piwik\API\DataTableManipulator;
 
 use Piwik\API\DataTableManipulator;
 use Piwik\API\DataTablePostProcessor;
+use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Period;
@@ -74,30 +75,25 @@ class ReportTotalsCalculator extends DataTableManipulator
      */
     protected function manipulateDataTable($dataTable)
     {
-        if (!$this->report) {
-            return $dataTable; // we require a report
-        }
-
         if (!empty($this->report) && !$this->report->getDimension() && !$this->isAllMetricsReport()) {
             // we currently do not calculate the total value for reports having no dimension
             return $dataTable;
         }
 
-        if (isset($this->request['totals']) && ($this->request['totals'] === 0 || $this->request['totals'] === '0')) {
-            return $dataTable;
-        }
-
-        if ($dataTable instanceof DataTable\Simple) {
-            return $dataTable;
-        }
-
-        if (!$dataTable->getRowsCount()) {
+        if (1 != Common::getRequestVar('totals', 1, 'integer', $this->request)) {
             return $dataTable;
         }
 
         $firstLevelTable = $this->makeSureToWorkOnFirstLevelDataTable($dataTable);
 
-        $clone = $firstLevelTable->getEmptyClone();
+        if (!$firstLevelTable->getRowsCount()) {
+            return $dataTable;
+        }
+
+        // keeping queued filters would not only add various metadata but also break the totals calculator for some reports
+        // eg when needed metadata is missing to get site information (multisites.getall) etc
+        $clone = $firstLevelTable->getEmptyClone($keepFilters = false);
+        $clone->queueFilter('ReplaceColumnNames');
         $tableMeta = $firstLevelTable->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
 
         /** @var DataTable\Row $totalRow */
@@ -113,12 +109,14 @@ class ReportTotalsCalculator extends DataTableManipulator
         }
         $clone->addRow($totalRow);
 
-        if (array_keys($this->report->getProcessedMetrics()) === array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate')) {
+        if ($this->report
+            && $this->report->getProcessedMetrics()
+            && array_keys($this->report->getProcessedMetrics()) === array('nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate', 'conversion_rate')) {
             // hack for AllColumns table or default processed metrics
-            $clone->filter('AddColumnsProcessedMetrics');
+            $clone->filter('AddColumnsProcessedMetrics', array($deleteRowsWithNoVisit = false));
         }
 
-        $processor = new DataTablePostProcessor($this->report->getModule(), $this->report->getAction(), $this->request);
+        $processor = new DataTablePostProcessor($this->apiModule, $this->apiMethod, $this->request);
         $processor->applyComputeProcessedMetrics($clone);
         $clone = $processor->applyQueuedFilters($clone);
         $clone = $processor->applyMetricsFormatting($clone);
@@ -131,6 +129,7 @@ class ReportTotalsCalculator extends DataTableManipulator
                 break;
             }
         }
+
         if (!isset($totalRow) && $clone->getRowsCount() === 1) {
             // if for some reason the processor renamed the totals row,
             $totalRow = $clone->getFirstRow();
