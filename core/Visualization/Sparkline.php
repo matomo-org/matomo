@@ -125,7 +125,6 @@ class Sparkline implements ViewInterface
         } else {
             $this->_height = (int)$height;
         }
-
     }
 
     /**
