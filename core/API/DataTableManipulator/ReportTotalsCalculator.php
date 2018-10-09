@@ -93,7 +93,11 @@ class ReportTotalsCalculator extends DataTableManipulator
         // keeping queued filters would not only add various metadata but also break the totals calculator for some reports
         // eg when needed metadata is missing to get site information (multisites.getall) etc
         $clone = $firstLevelTable->getEmptyClone($keepFilters = false);
-        $clone->queueFilter('ReplaceColumnNames');
+        foreach ($firstLevelTable->getQueuedFilters() as $queuedFilter) {
+            if (is_array($queuedFilter) && 'ReplaceColumnNames' === $queuedFilter['className']) {
+                $clone->queueFilter($queuedFilter['className'], $queuedFilter['parameters']);
+            }
+        }
         $tableMeta = $firstLevelTable->getMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME);
 
         /** @var DataTable\Row $totalRow */

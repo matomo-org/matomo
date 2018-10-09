@@ -1880,6 +1880,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $this->queuedFilters = array();
     }
 
+    public function getQueuedFilters()
+    {
+        return $this->queuedFilters;
+    }
+
     /**
      * @return \ArrayIterator|Row[]
      */
