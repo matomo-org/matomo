@@ -94,11 +94,14 @@ class Sparkline implements ViewInterface
      * @param int $width
      */
     public function setWidth($width) {
-        if (!is_numeric($width) || $width <= 0 || $width > self::MAX_WIDTH) {
+        if (!is_numeric($width) || $width <= 0) {
             return;
         }
-
-        $this->_width = (int)$width;
+        if ($width > self::MAX_WIDTH) {
+            $this->_width = self::MAX_WIDTH;
+        } else {
+            $this->_width = (int)$width;
+        }
     }
 
     /**
@@ -114,11 +117,15 @@ class Sparkline implements ViewInterface
      * @param int $height
      */
     public function setHeight($height) {
-        if (!is_numeric($height) || $height <= 0 || $height > self::MAX_HEIGHT) {
+        if (!is_numeric($height) || $height <= 0) {
             return;
         }
+        if ($height > self::MAX_HEIGHT) {
+            $this->_height = self::MAX_HEIGHT;
+        } else {
+            $this->_height = (int)$height;
+        }
 
-        $this->_height = (int)$height;
     }
 
     /**
