@@ -271,9 +271,10 @@ class Common
                 return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
             } catch (\Throwable $e) {
                 $logger = StaticContainer::get('Psr\Log\LoggerInterface');
-                $logger->debug('Unable to unserialize a string: {message}', [
+                $logger->debug('Unable to unserialize a string: {message} (string = {string})', [
                     'message' => $e->getMessage(),
-                    'backtrace' => $e->getTraceAsString()
+                    'backtrace' => $e->getTraceAsString(),
+                    'string' => $string,
                 ]);
                 return false;
             }
