@@ -451,6 +451,10 @@ class Controller extends Plugin\ControllerAdmin
     {
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
 
+        if (!Plugin\Manager::getInstance()->isPluginInFilesystem($pluginName)) {
+            throw new Exception('Invalid plugin');
+        }
+
         $metadata = new Plugin\MetadataLoader($pluginName);
         $license_file = $metadata->getPathToLicenseFile();
 
