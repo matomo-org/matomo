@@ -11,7 +11,9 @@ namespace Piwik;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
+use Piwik\Plugins\Login\Login;
 use Piwik\Session\SaveHandler\DbTable;
+use Piwik\Session\SessionNamespace;
 use Zend_Session;
 
 /**
@@ -20,6 +22,7 @@ use Zend_Session;
 class Session extends Zend_Session
 {
     const SESSION_NAME = 'PIWIK_SESSID';
+    const NON_REMEMBERME_GC_SESSION = 86400;
 
     public static $sessionName = self::SESSION_NAME;
 
@@ -78,8 +81,8 @@ class Session extends Zend_Session
         @ini_set('session.referer_check', '');
 
         // to preserve previous behavior piwik_auth provided when it contained a token_auth, we ensure
-        // the session data won't be deleted until the cookie expires.
-        @ini_set('session.gc_maxlifetime', $config->General['login_cookie_expire']);
+        // the session data won't be deleted until the cookie expires (if form rememberme is used).
+        @ini_set('session.gc_maxlifetime', Login::isRememberMeLogin() ? $config->General['login_cookie_expire'] : self::NON_REMEMBERME_GC_SESSION);
 
         $currentSaveHandler = ini_get('session.save_handler');
 
@@ -164,5 +167,32 @@ class Session extends Zend_Session
     public static function isSessionStarted()
     {
         return self::$sessionStarted;
+    }
+
+    public static function regenerateId()
+    {
+        self::markSessionDestroyed();
+
+        parent::regenerateId();
+
+        self::unmarkSessionDestroyed();
+    }
+
+    public static function markSessionDestroyed()
+    {
+        $ns = new SessionNamespace('Core');
+        $ns->destroyedTime = time();
+    }
+
+    public static function unmarkSessionDestroyed()
+    {
+        $ns = new SessionNamespace('Core');
+        unset($ns->destroyedTime);
+    }
+
+    public static function isDestroyed()
+    {
+        $ns = new SessionNamespace('Core');
+        return !empty($ns->destroyedTime);
     }
 }

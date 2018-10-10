@@ -50,18 +50,23 @@ class Login extends \Piwik\Plugin
 
     public function beforeSessionStart()
     {
-        if (!$this->shouldHandleRememberMe()) {
-            return;
-        }
-
-        // if this is a login request & form_rememberme was set, change the session cookie expire time before starting the session
-        $rememberMe = isset($_POST['form_rememberme']) ? $_POST['form_rememberme'] : null;
-        if ($rememberMe == '1') {
+        if (self::isRememberMeLogin()) {
             Session::rememberMe(Config::getInstance()->General['login_cookie_expire']);
         }
     }
 
-    private function shouldHandleRememberMe()
+    public static function isRememberMeLogin()
+    {
+        if (!self::shouldHandleRememberMe()) {
+            return false;
+        }
+
+        // if this is a login request & form_rememberme was set, change the session cookie expire time before starting the session
+        $rememberMe = isset($_POST['form_rememberme']) ? $_POST['form_rememberme'] : null;
+        return $rememberMe == '1';
+    }
+
+    private static function shouldHandleRememberMe()
     {
         $module = Common::getRequestVar('module', false);
         $action = Common::getRequestVar('action', false);

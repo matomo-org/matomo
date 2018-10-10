@@ -84,6 +84,10 @@ class SessionAuth implements Auth
 
     public function authenticate()
     {
+        if (Session::isDestroyed()) {
+            return $this->makeAuthFailure();
+        }
+
         $sessionFingerprint = new SessionFingerprint();
         $userModel = $this->userModel;
 
