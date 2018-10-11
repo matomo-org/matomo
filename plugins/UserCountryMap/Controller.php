@@ -75,7 +75,7 @@ class Controller extends \Piwik\Plugin\Controller
             . '&filter_limit=-1'
         );
         $config = array();
-        $config['visitsSummary'] = unserialize($request->process());
+        $config['visitsSummary'] = Common::safe_unserialize($request->process());
         $config['countryDataUrl'] = $this->_report('UserCountry', 'getCountry',
             $this->idSite, $period, $date, $token_auth, false, $segment);
         $config['regionDataUrl'] = $this->_report('UserCountry', 'getRegion',
@@ -277,7 +277,7 @@ class Controller extends \Piwik\Plugin\Controller
             . '&token_auth=' . $token_auth
             . '&filter_limit=-1'
         );
-        $metaData = unserialize($request->process());
+        $metaData = Common::safe_unserialize($request->process());
 
         $metrics = array();
         if (!empty($metaData[0]['metrics']) && is_array($metaData[0]['metrics'])) {

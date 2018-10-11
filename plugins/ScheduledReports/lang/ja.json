@@ -46,6 +46,13 @@
         "TopLinkTooltip": "あなたの E メールまたは顧客のアドレスに自動的に Matomo 統計情報を届けるには、E メールレポートを作成してください。",
         "TopOfReport": "トップへ戻る",
         "UpdateReport": "リポートの更新",
-        "WeeklyScheduleHelp": "週間スケジュール： リポートは毎週月曜日に送信されます。"
+        "WeeklyScheduleHelp": "週間スケジュール： リポートは毎週月曜日に送信されます。",
+        "Unsubscribe": "退会する",
+        "ReportUnsubscribe": "レポートの登録を解除する",
+        "UnsubscribeReportConfirmation": "レポート%1$sの登録を解除してもよろしいですか？",
+        "SuccessfullyUnsubscribed": "あなたはレポート%1$sからの登録を解除されました。",
+        "UnsubscribeFooter": "このレポートの登録を解除するには、次のリンクをクリックしてください：%1$s",
+        "NoTokenProvided": "URL にトークンが指定されていません",
+        "NoSubscriptionFound": "サブスクリプションが見つかりませんでした。レポートはすでに解除されていたか、削除された可能性があります。"
     }
 }

@@ -256,6 +256,33 @@ class Common
         return $string;
     }
 
+    /**
+     * Secure wrapper for unserialize, which by default disallows unserializing classes
+     *
+     * @param string $string String to unserialize
+     * @param array $allowedClasses Class names that should be allowed to unserialize
+     *
+     * @return mixed
+     */
+    public static function safe_unserialize($string, $allowedClasses = [])
+    {
+        if (PHP_MAJOR_VERSION >= 7) {
+            try {
+                return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
+            } catch (\Throwable $e) {
+                $logger = StaticContainer::get('Psr\Log\LoggerInterface');
+                $logger->debug('Unable to unserialize a string: {message} (string = {string})', [
+                    'message' => $e->getMessage(),
+                    'backtrace' => $e->getTraceAsString(),
+                    'string' => $string,
+                ]);
+                return false;
+            }
+        }
+
+        return @unserialize($string);
+    }
+
     /*
      * Escaping input
      */

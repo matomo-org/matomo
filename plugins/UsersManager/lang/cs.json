@@ -1,6 +1,11 @@
 {
     "UsersManager": {
         "AddUser": "Přidat nového uživatele",
+        "AddExistingUser": "Přidat existujícího uživatele",
+        "AddNewUser": "Přidat novéhoho uživatele",
+        "EditUser": "Upravit uživatele",
+        "CreateUser": "Vytvořit uživatele",
+        "SaveBasicInfo": "Uložit základní info",
         "Alias": "Alias",
         "AllWebsites": "Všechny weby",
         "AnonymousAccessConfirmation": "Chystáte anonymnímu uživateli poskytnout přístup k tomuto webu. Znamená to, že vaše analytické přehledy a informace o vašich návštěvnících budou veřejně viditelné i bez přihlášení. Opravdu chcete pokračovat?",
@@ -52,6 +57,7 @@
         "NoUsersExist": "Zatím nejsou žádní uživatelé.",
         "PluginDescription": "Správa uživatelů vám umožňuje přidávat nové uživatele, upravovat existující a přidávat oprávnění k zobrazování nebo správě webových stránek.",
         "PrivAdmin": "Administrátor",
+        "PrivWrite": "Zapsat",
         "PrivNone": "Žádné oprávnění",
         "PrivView": "Zobrazit",
         "RemoveUserAccess": "Odebrat '%1$s' přístup k %2$s.",
@@ -77,7 +83,14 @@
         "YourUsernameCannotBeChanged": "Vaše uživatelské jméno nemůže být změněno",
         "YourVisitsAreIgnoredOnDomain": "%1$sVaše návštěvy jsou vynechávány Matomoem na %2$s %3$s (cookie pro vynechání byla nalezena ve vašem prohlížeči).",
         "YourVisitsAreNotIgnored": "%1$sVaše návštěvy nejsou vynechávány Matomoem%2$s (cookie pro vynechání nebyla nalezena ve vašem prohlížeči).",
+        "ManageUsers": "Spravovat uživatele",
+        "SetPermission": "Nastavit oprávnění",
+        "RemovePermissions": "Odebrat oprávnění",
+        "Role": "Role",
         "XtoYofN": "%1$s - %2$s z %3$s",
+        "BasicInformation": "Základní informace",
+        "Permissions": "Oprávnění",
+        "AreYouSure": "Jste si jisti?",
         "Username": "Uživatelské jméno"
     }
 }

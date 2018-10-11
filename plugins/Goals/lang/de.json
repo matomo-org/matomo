@@ -43,7 +43,6 @@
         "DaysToConv": "Tage bis zur Konversion",
         "Details": "Ziel-Details",
         "DefaultGoalConvertedOncePerVisit": "(default) Ziel kann nur einmal pro Besuch erreicht werden",
-        "DefaultRevenue": "Standard Zielumsatz ist",
         "DefaultRevenueHelp": "Das Absenden eines Kontaktformulars durch einen Besucher kann zum Beispiel durchschnittlich 10 € wert sein. Matomo hilft Ihnen, zu verstehen, wie sich Ihre Besucher-Segmente verhalten.",
         "DeleteGoalConfirm": "Wollen sie wirklich das Ziel %s löschen?",
         "DocumentationRevenueGeneratedByProductSales": "Verkaufsumsatz ohne Steuer, Versand und Rabatt",

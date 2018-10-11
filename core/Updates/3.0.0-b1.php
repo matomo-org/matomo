@@ -134,7 +134,7 @@ class Updates_3_0_0_b1 extends Updates
         foreach ($options as $option) {
             $name = $option['option_name'];
             $pluginName = str_replace(array('Plugin_', '_Settings'), '', $name);
-            $values = @unserialize($option['option_value']);
+            $values = Common::safe_unserialize($option['option_value']);
 
             if (empty($values)) {
                 continue;

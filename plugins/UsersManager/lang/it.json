@@ -136,6 +136,7 @@
         "DeleteUserConfirmMultiple": "Sei sicuro di voler eliminare i %1$s utenti selezionati?",
         "DeleteUserPermConfirmSingle": "Sei sicuro di voler cambiare il ruolo di %1$s in %2$s per %3$s?",
         "DeleteUserPermConfirmMultiple": "Sei sicuro di voler cambiare il ruolo dei %1$s utenti selezionati in %2$s per %3$s?",
-        "AreYouSureChangePassword": "Sei sicuro di voler cambiare la password per %s?"
+        "AreYouSureChangePassword": "Sei sicuro di voler cambiare la password per %s?",
+        "AnonymousUserRoleChangeWarning": "Assegnando all'utente %1$s il ruolo di %2$s renderà pubblici e disponibili a tutti i dati di questo sito Web, anche se non hanno un login Matomo."
     }
 }
