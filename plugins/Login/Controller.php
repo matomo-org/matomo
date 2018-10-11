@@ -362,7 +362,7 @@ class Controller extends \Piwik\Plugin\Controller
         $sessionFingerprint = new Session\SessionFingerprint();
         $sessionFingerprint->clear();
 
-        Session::markDestroyed();
+        Session::markSessionDestroyed();
         Session::expireSessionCookie();
     }
 
