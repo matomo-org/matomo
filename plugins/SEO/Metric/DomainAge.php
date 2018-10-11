@@ -76,7 +76,7 @@ class DomainAge implements MetricsProvider
     {
         $response = $this->getUrl('https://archive.org/wayback/available?timestamp=19900101&url=' . urlencode($domain));
         $data = json_decode($response, true);
-        if (empty($data["archived_snapshots"])) {
+        if (empty($data["archived_snapshots"]["closest"]["timestamp"])) {
             return 0;
         }
         return strtotime($data["archived_snapshots"]["closest"]["timestamp"]);
