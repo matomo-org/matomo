@@ -651,6 +651,7 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         }
 
         DbHelper::truncateAllTables();
+        DbHelper::recordInstallVersion();
 
         // insert data
         $existingTables = DbHelper::getTablesInstalled();

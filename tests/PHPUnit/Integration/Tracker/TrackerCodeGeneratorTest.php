@@ -57,13 +57,13 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push(['enableLinkTracking']);
   (function() {
     var u=&quot;//piwik-server/piwik/&quot;;
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
-&lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;//piwik-server/piwik/piwik.php?idsite=1&amp;amp;rec=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
+&lt;noscript&gt;&lt;p&gt;&lt;img src=&quot;//piwik-server/piwik/matomo.php?idsite=1&amp;amp;rec=1&quot; style=&quot;border:0;&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;&lt;/noscript&gt;
 &lt;!-- End Matomo Code --&gt;
 ";
 
@@ -84,10 +84,10 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push(['enableLinkTracking']);
   (function() {
     var u=&quot;//localhost/piwik/&quot;;
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
@@ -131,10 +131,10 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push(['enableLinkTracking']);
   (function() {
     var u=&quot;https://localhost/piwik/&quot;;
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
@@ -179,10 +179,10 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   (function() {
     var u=&quot;//localhost/piwik/&quot;;
     _paq.push(['setAPIUrl', 'http://localhost/statistics']);
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
@@ -214,12 +214,12 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push(['enableLinkTracking']);
   (function() {
     var u=&quot;//localhost/piwik/&quot;;
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '1']);
     
   })();
 &lt;/script&gt;
-&lt;script type='text/javascript' src=&quot;//localhost/piwik/piwik.js&quot;&gt;&lt;/script&gt;
+&lt;script type='text/javascript' src=&quot;//localhost/piwik/matomo.js&quot;&gt;&lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
 ";
 
@@ -257,10 +257,10 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\'enableLinkTracking\']);
   (function() {
     var u=&quot;//abc&quot;def/&quot;;
-    _paq.push([\'setTrackerUrl\', u+\'piwik.php\']);
+    _paq.push([\'setTrackerUrl\', u+\'matomo.php\']);
     _paq.push([\'setSiteId\', \'1\']);
     var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];
-    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'piwik.js\'; s.parentNode.insertBefore(g,s);
+    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'matomo.js\'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;
@@ -284,10 +284,10 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
   _paq.push([\'enableLinkTracking\']);
   (function() {
     var u=&quot;https://localhost/piwik/&quot;;
-    _paq.push([\'setTrackerUrl\', u+\'piwik.php\']);
+    _paq.push([\'setTrackerUrl\', u+\'matomo.php\']);
     _paq.push([\'setSiteId\', \'1\']);
     var d=document, g=d.createElement(\'script\'), s=d.getElementsByTagName(\'script\')[0];
-    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'piwik.js\'; s.parentNode.insertBefore(g,s);
+    g.type=\'text/javascript\'; g.async=true; g.defer=true; g.src=u+\'matomo.js\'; s.parentNode.insertBefore(g,s);
   })();
 &lt;/script&gt;
 &lt;!-- End Matomo Code --&gt;

@@ -10,6 +10,7 @@ namespace Piwik;
 
 use Piwik\Columns\Updater as ColumnUpdater;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Db\Sql;
 use Piwik\Exception\MissingFilePermissionException;
@@ -324,7 +325,7 @@ class Updater
         $this->markComponentSuccessfullyUpdated($componentName, $updatedVersion);
 
         $this->executeListenerHook('onComponentUpdateFinished', array($componentName, $updatedVersion, $warningMessages));
-
+        ServerFilesGenerator::createHtAccessFiles();
         return $warningMessages;
     }
 

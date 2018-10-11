@@ -14,12 +14,17 @@ use Piwik\Date;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Option;
+use Piwik\Plugins\Installation\Installation;
+use Piwik\Version;
 
 /**
  * MySQL schema
  */
 class Mysql implements SchemaInterface
 {
+    const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
+
     private $tablesInstalled = null;
 
     /**
@@ -470,6 +475,26 @@ class Mysql implements SchemaInterface
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
                     VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', 0, '$now', '$now' );");
+    }
+
+    /**
+     * Creates an entry in the User table for the "anonymous" user.
+     */
+    public function recordInstallVersion()
+    {
+        Option::set(self::OPTION_NAME_MATOMO_INSTALL_VERSION, Version::VERSION);
+    }
+
+    /**
+     * Creates an entry in the User table for the "anonymous" user.
+     */
+    public function getInstallVersion()
+    {
+        $version = Option::get(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
+        if (empty($version)) {
+            return null;
+        }
+        return $version;
     }
 
     /**

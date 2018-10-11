@@ -57,8 +57,9 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	Link:  https://github.com/matomo-org/piwik/blob/master/libs/jquery/truncate/
 	License:  New BSD
 
-	Name:  piwik.js - JavaScript tracker
-	Link:  https://github.com/matomo-org/piwik/blob/master/js/piwik.js
+	Name:  matomo.js & piwik.js - JavaScript tracker
+	Link:  https://github.com/matomo-org/matomo/blob/master/js/piwik.js
+	Link:  https://github.com/matomo-org/matomo/blob/master/js/matomo.js
 	License:  New BSD
 
 	Name:  PiwikTracker - server-side tracker (PHP)

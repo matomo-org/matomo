@@ -34,7 +34,7 @@ class PiwikJsCheck implements Diagnostic
     {
         $label = $this->translator->translate('CustomPiwikJs_DiagnosticPiwikJsWritable');
 
-        $file = new File(PIWIK_DOCUMENT_ROOT . '/piwik.js');
+        $file = new File(PIWIK_DOCUMENT_ROOT . '/matomo.js');
 
         if ($file->hasWriteAccess()) {
             return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_OK, ''));
@@ -43,7 +43,7 @@ class PiwikJsCheck implements Diagnostic
         $comment = $this->translator->translate('CustomPiwikJs_DiagnosticPiwikJsNotWritable');
 
         if(!SettingsServer::isWindows()) {
-            $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/piwik.js');
+            $realpath = Filesystem::realpath(PIWIK_INCLUDE_PATH . '/matomo.js');
             $command = "<br/><code> chmod +w $realpath<br/> chown ". Filechecks::getUserAndGroup() ." " . $realpath . "</code><br />";
             $comment .= $this->translator->translate('CustomPiwikJs_DiagnosticPiwikJsMakeWritable', $command);
         }

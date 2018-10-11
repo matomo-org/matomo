@@ -575,7 +575,7 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function getTrackerUrl()
     {
-        return self::getTestRootUrl() . 'piwik.php';
+        return self::getTestRootUrl() . 'matomo.php';
     }
 
     /**

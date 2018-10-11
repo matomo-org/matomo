@@ -9,6 +9,8 @@
 namespace Piwik\Tracker;
 
 use Piwik\Common;
+use Piwik\DbHelper;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -134,7 +136,9 @@ class TrackerCodeGenerator
             'optionsBeforeTrackerUrl' => $optionsBeforeTrackerUrl,
             'protocol'                => '//',
             'loadAsync'               => true,
-            'trackNoScript'           => $trackNoScript
+            'trackNoScript'           => $trackNoScript,
+            'matomoJsFilename'        => $this->getMatomoJsFilename(),
+            'matomoPhpFilename'       => $this->getMatomoPhpFilename(),
         );
 
         if (SettingsPiwik::isHttpsForced()) {
@@ -189,6 +193,30 @@ class TrackerCodeGenerator
         }
 
         return $jsCode;
+    }
+
+    public function getMatomoJsFilename()
+    {
+        $name = 'matomo.js';
+        if ($this->isPreMatomo370User()) {
+            $name = 'piwik.js';
+        }
+        return $name;
+    }
+
+    public function getMatomoPhpFilename()
+    {
+        $name = 'matomo.php';
+        if ($this->isPreMatomo370User()) {
+            $name = 'piwik.php';
+        }
+        return $name;
+    }
+
+    private function isPreMatomo370User()
+    {
+        // only since 3.7.0 we use the default matomo.js|php... for all other installs we need to keep BC
+        return DbHelper::wasMatomoInstalledBeforeVersion('3.7.0-b1');
     }
 
     private function getJavascriptTagOptions($idSite, $mergeSubdomains, $mergeAliasUrls)
