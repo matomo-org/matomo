@@ -34,7 +34,7 @@
                 ng-mouseenter="search.index=(quickAccess.numMenuItems + $index)"
                 ng-class="{selected: (quickAccess.numMenuItems + $index) == search.index}"
                 ng-click="quickAccess.selectSite(site.idsite)"
-                ng-repeat="site in quickAccess.sitesModel.sites"><a ng-bind-html="site.name"></a></li>
+                ng-repeat="site in quickAccess.sitesModel.sites"><a ng-bind="site.name"></a></li>
         </ul>
     </div>
 </div>

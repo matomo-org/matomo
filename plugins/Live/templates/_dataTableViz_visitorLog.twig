@@ -8,7 +8,7 @@
             {% if visitor.getColumn('visitorId') is not empty and not clientSideParameters.hideProfileLink %}
                 <a class="visitor-log-visitor-profile-link visitorLogTooltip" title="{{ 'Live_ViewVisitorProfile'|translate }}" data-visitor-id="{{ visitor.getColumn("visitorId") }}">
                     <img src="plugins/Live/images/visitorProfileLaunch.png"/> <span>{{ 'Live_ViewVisitorProfile'|translate }}
-                        {%- if visitor.getColumn('userId') is not empty %}: {{ visitor.getColumn('userId')|raw }}{% endif %}</span>
+                        {%- if visitor.getColumn('userId') is not empty %}: {{ visitor.getColumn('userId')|rawSafeDecoded }}{% endif %}</span>
                 </a>
             {% endif %}
 

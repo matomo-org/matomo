@@ -58,7 +58,7 @@
              show-selected-site="true"
              class="sites_autocomplete"
              siteid="{{ defaultReportIdSite }}"
-             sitename="{{ defaultReportSiteName }}"
+             sitename="{{ defaultReportSiteName|rawSafeDecoded }}"
              switch-site-on-select="false"
              show-all-sites-item="false"
              showselectedsite="true"

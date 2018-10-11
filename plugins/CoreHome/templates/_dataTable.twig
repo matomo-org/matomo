@@ -41,7 +41,7 @@
     {% endif %}
 
     <div class="reportDocumentation">
-        {% if properties.documentation|default is not empty %}<p>{{ properties.documentation|raw }}</p>{% endif %}
+        {% if properties.documentation|default is not empty %}<p>{{ properties.documentation|rawSafeDecoded }}</p>{% endif %}
         {% if reportLastUpdatedMessage is defined and reportLastUpdatedMessage %}<span class='helpDate'>{{ reportLastUpdatedMessage|raw }}</span>{% endif %}
     </div>
 
