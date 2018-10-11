@@ -137,15 +137,3 @@ cache:
   directories:
     - "travis_phantomjs"
     - $HOME/.composer/cache
-
-
-
-
-
-notifications:
-  slack:
-    rooms:
-      - piwik:3HWhNh21qPfDACQXTrJOb0mW
-    on_success: :change
-    on_failure: :change
-
