@@ -86,6 +86,14 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
                                )
             )),
 
+            array('all', array('idSite' => $idSite,
+                'date' => $dateTime,
+                'format' => 'original',
+                'otherRequestParameters' => array(
+                    'serialize' => '1',
+                )
+            )),
+
             // test API.get (for bug that incorrectly reorders columns of CSV output)
             //   note: bug only affects rows after first
             array('API.get', array('idSite'                 => $idSite,
