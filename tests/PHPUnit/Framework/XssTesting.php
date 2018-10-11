@@ -170,8 +170,12 @@ JS;
             'angular-(dashboard name1)',
         ];
 
+        $actualEntries = $this->getXssEntries();
+        $actualEntries = array_unique($actualEntries);
+        $actualEntries = array_filter($actualEntries);
+
         try {
-            \PHPUnit_Framework_Assert::assertEquals($expectedEntries, $this->getXssEntries());
+            \PHPUnit_Framework_Assert::assertEquals($expectedEntries, $actualEntries);
         } catch (\Exception $ex) {
             print "XssTesting::sanityCheck() failed, got: " . var_export($this->getXssEntries(), true);
 
