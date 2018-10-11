@@ -387,7 +387,7 @@ class Config
                 // simulate whether it would be successful
                 $success = is_writable($localPath);
             } else {
-                $success = @file_put_contents($localPath, $output);
+                $success = @file_put_contents($localPath, $output, LOCK_EX);
             }
 
             if ($success === false) {
