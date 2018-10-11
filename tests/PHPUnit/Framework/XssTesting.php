@@ -173,11 +173,12 @@ JS;
         $actualEntries = $this->getXssEntries();
         $actualEntries = array_unique($actualEntries);
         $actualEntries = array_filter($actualEntries);
+        $actualEntries = array_values($actualEntries);
 
         try {
             \PHPUnit_Framework_Assert::assertEquals($expectedEntries, $actualEntries);
         } catch (\Exception $ex) {
-            print "XssTesting::sanityCheck() failed, got: " . var_export($this->getXssEntries(), true);
+            print "XssTesting::sanityCheck() failed, got: " . var_export($actualEntries, true);
 
             throw $ex;
         }
