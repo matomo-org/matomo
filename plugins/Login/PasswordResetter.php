@@ -176,7 +176,7 @@ class PasswordResetter
 
         $login = $user['login'];
 
-        $keySuffix = time() . Common::getRandomString();
+        $keySuffix = time() . Common::getRandomString($length = 32);
         $this->savePasswordResetInfo($login, $newPassword, $keySuffix);
 
         // ... send email with confirmation link
