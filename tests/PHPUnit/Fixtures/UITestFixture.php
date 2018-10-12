@@ -431,9 +431,9 @@ class UITestFixture extends SqlDump
     public function addDangerousLinks()
     {
         $privacyManagerSettings = new SystemSettings();
-        $privacyManagerSettings->termsAndConditionUrl->setValue('javascript:alert("termsandconditions")');
+        $privacyManagerSettings->termsAndConditionUrl->setValue($this->xssTesting->dangerousLink("termsandconditions"));
         $privacyManagerSettings->termsAndConditionUrl->save();
-        $privacyManagerSettings->privacyPolicyUrl->setValue('javascript:alert("privacypolicyurl")');
+        $privacyManagerSettings->privacyPolicyUrl->setValue($this->xssTesting->dangerousLink("privacypolicyurl"));
         $privacyManagerSettings->privacyPolicyUrl->save();
     }
 }

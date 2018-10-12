@@ -8,7 +8,6 @@
 
 namespace Piwik\Tests\Framework;
 
-
 use Piwik\Common;
 use Piwik\Option;
 
@@ -175,5 +174,10 @@ JS;
 
             throw $ex;
         }
+    }
+
+    public function dangerousLink($desc)
+    {
+        return 'javascript:alert("' . $desc . '")';
     }
 }
