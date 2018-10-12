@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "53d9ab304551df4691f2057dc8b12c99",
+    "content-hash": "58af620cb0a5851205adfedd960f5c59",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1215,16 +1215,16 @@
         },
         {
             "name": "piwik/piwik-php-tracker",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/piwik/piwik-php-tracker.git",
-                "reference": "f9a0168c87f01f2d5de95029a1ba0d1fd6c3d5ab"
+                "url": "https://github.com/matomo-org/matomo-php-tracker.git",
+                "reference": "3b31a6366fdf1f39520d7cbf858967f309d89275"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/piwik/piwik-php-tracker/zipball/f9a0168c87f01f2d5de95029a1ba0d1fd6c3d5ab",
-                "reference": "f9a0168c87f01f2d5de95029a1ba0d1fd6c3d5ab",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/3b31a6366fdf1f39520d7cbf858967f309d89275",
+                "reference": "3b31a6366fdf1f39520d7cbf858967f309d89275",
                 "shasum": ""
             },
             "type": "library",
@@ -1251,7 +1251,7 @@
                 "piwik",
                 "tracker"
             ],
-            "time": "2017-11-09T03:20:23+00:00"
+            "time": "2018-10-12T00:37:52+00:00"
         },
         {
             "name": "psr/container",
