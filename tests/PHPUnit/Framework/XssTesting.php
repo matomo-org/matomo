@@ -79,8 +79,9 @@ class XssTesting
         $js = <<<JS
 window._xssEntryTypes = $entries;
 window._x = function triggerXss(id) {
-    document.body.innerHTML = 'XSS ' + window._xssEntryTypes[id];
-    var e = (new Error("XSS triggered (id = " + id + "): " + window._xssEntryTypes[id]));
+    var message = "XSS triggered (id = " + id + "): " + window._xssEntryTypes[id];
+    $(document.body).append(message);
+    var e = (new Error(message));
     console.log(e.stack || e.message);
 };
 JS;

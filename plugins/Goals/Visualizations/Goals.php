@@ -177,7 +177,7 @@ class Goals extends HtmlTable
             $siteGoals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
             foreach ($siteGoals as &$goal) {
-                $goal['name'] = Common::sanitizeInputValue(\Piwik\piwik_fix_lbrace($goal['name']));
+                $goal['name'] = Common::sanitizeInputValue($goal['name']);
 
                 $goal['quoted_name'] = '"' . $goal['name'] . '"';
                 $allGoals[$goal['idgoal']] = $goal;
