@@ -129,7 +129,7 @@ class EnvironmentValidationTest extends SystemTestCase
 
     private function assertOutputContainsBadConfigFileError($output)
     {
-        $this->assertRegExp("/Unable to read INI file \\{.*\\/piwik.php\\}:/", $output);
+        $this->assertRegExp("/Unable to read INI file \\{.*\\/matomo.php\\}:/", $output);
         $this->assertRegExp("/Your host may have disabled parse_ini_file\\(\\)/", $output);
     }
 

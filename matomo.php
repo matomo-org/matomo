@@ -8,4 +8,8 @@
  * @package Piwik
  */
 
-require_once 'piwik.php';
+if (!defined('PIWIK_DOCUMENT_ROOT')) {
+    define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) == '/' ? '' : dirname(__FILE__));
+}
+
+include PIWIK_DOCUMENT_ROOT . '/piwik.php';

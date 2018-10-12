@@ -8,4 +8,4 @@
  * @package Piwik
  */
 
-require_once 'piwik.php';
+include __DIR__ . '/piwik.php';

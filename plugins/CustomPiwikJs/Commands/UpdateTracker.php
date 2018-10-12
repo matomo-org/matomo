@@ -23,7 +23,7 @@ class UpdateTracker extends ConsoleCommand
         $this->setName('custom-piwik-js:update');
         $this->setAliases(array('custom-matomo-js:update'));
         $this->addOption('source-file', null, InputOption::VALUE_REQUIRED, 'Absolute path to source PiwikJS file.', $this->getPathOriginalPiwikJs());
-        $this->addOption('target-file', null, InputOption::VALUE_REQUIRED, 'Absolute path to target file. Useful if your /matomo.js is not writable and you want to replace the file manually', PIWIK_DOCUMENT_ROOT . TrackerUpdater::TARGET_PIWIK_JS);
+        $this->addOption('target-file', null, InputOption::VALUE_REQUIRED, 'Absolute path to target file. Useful if your /matomo.js is not writable and you want to replace the file manually', PIWIK_DOCUMENT_ROOT . TrackerUpdater::TARGET_MATOMO_JS);
         $this->addOption('ignore-minified', null, InputOption::VALUE_NONE, 'Ignore minified tracker files, useful during development so the original source file can be debugged');
         $this->setDescription('Update the Javascript Tracker with plugin tracker additions');
     }

@@ -24,7 +24,7 @@ class TrackerUpdater
 {
     const DEVELOPMENT_PIWIK_JS = '/js/piwik.js';
     const ORIGINAL_PIWIK_JS = '/js/piwik.min.js';
-    const TARGET_PIWIK_JS = '/matomo.js';
+    const TARGET_MATOMO_JS = '/matomo.js';
 
     /**
      * @var File
@@ -49,7 +49,7 @@ class TrackerUpdater
         }
 
         if (!isset($toFile)) {
-            $toFile = PIWIK_DOCUMENT_ROOT . self::TARGET_PIWIK_JS;
+            $toFile = PIWIK_DOCUMENT_ROOT . self::TARGET_MATOMO_JS;
         }
 
         $this->setFromFile($fromFile);
