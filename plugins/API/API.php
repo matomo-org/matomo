@@ -398,7 +398,7 @@ class API extends \Piwik\Plugin\API
         krsort($columnsByPlugin);
 
         $mergedDataTable = false;
-        $params = compact('idSite', 'period', 'date', 'segment', 'idGoal');
+        $params = compact('idSite', 'period', 'date', 'segment');
         foreach ($columnsByPlugin as $plugin => $columns) {
             // load the data
             $className = Request::getClassNameAPI($plugin);
