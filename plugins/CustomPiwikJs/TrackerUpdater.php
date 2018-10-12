@@ -139,11 +139,11 @@ class TrackerUpdater
              * @param string $absolutePath The path to the new piwik.js file.
              */
             Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$this->toFile->getPath()]);
-
-            // we need to make sure to sync matomo.js / piwik.js
-            $this->updateAlternative('piwik.js', 'matomo.js', $newContent);
-            $this->updateAlternative('matomo.js', 'piwik.js', $newContent);
         }
+
+        // we need to make sure to sync matomo.js / piwik.js
+        $this->updateAlternative('piwik.js', 'matomo.js', $newContent);
+        $this->updateAlternative('matomo.js', 'piwik.js', $newContent);
     }
 
     private function updateAlternative($fromFile, $toFile, $newContent)
@@ -155,7 +155,6 @@ class TrackerUpdater
                 $file->save($newContent);
                 Piwik::postEvent('CustomPiwikJs.piwikJsChanged', [$file->getPath()]);
             }
-
         }
     }
 }
