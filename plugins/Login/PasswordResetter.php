@@ -437,7 +437,7 @@ class PasswordResetter
         $bodyText = str_replace(
                 '\n',
                 "\n",
-                sprintf(Piwik::translate('Login_MailPasswordChangeBody2'), $login, $ip, $url)
+                Piwik::translate('Login_MailPasswordChangeBody2', [$login, $ip, $url])
             ) . "\n";
         $mail->setBodyText($bodyText);
 

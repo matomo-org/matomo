@@ -13,7 +13,8 @@ use Piwik\Access;
 use Piwik\Auth;
 use Piwik\Container\StaticContainer;
 use Piwik\Mail;
-use Piwik\tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Plugin\Manager;
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Login\PasswordResetter;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
@@ -43,6 +44,8 @@ class PasswordResetterTest extends IntegrationTestCase
         $this->passwordResetter = new PasswordResetter();
         $this->userModel = new Model();
         $this->capturedToken = null;
+
+        Manager::getInstance()->loadPluginTranslations();
     }
 
     public function test_passwordReset_processWorksAsExpected()
@@ -122,6 +125,7 @@ class PasswordResetterTest extends IntegrationTestCase
     {
         parent::configureFixture($fixture);
         $fixture->createSuperUser = true;
+        $fixture->extraTestEnvVars['loadRealTranslations'] = true;
     }
 
     private function checkPasswordIs($pwd)
