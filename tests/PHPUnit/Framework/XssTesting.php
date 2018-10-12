@@ -48,8 +48,15 @@ class XssTesting
     private function addXssEntry($attackVectorType, $injectionType)
     {
         $entries = $this->getXssEntries();
+        $xssName = $injectionType . '-(' . $attackVectorType . ')';
+
+        $index = array_search($xssName, $entries);
+        if ($index !== false) {
+            return $index;
+        }
+
         $key = count($entries);
-        $entries[$key] = $injectionType . '-(' . $attackVectorType . ')';
+        $entries[$key] = $xssName;
         $this->setXssEntries($entries);
         return $key;
     }
@@ -69,10 +76,13 @@ class XssTesting
     private function getJavaScriptCode()
     {
         $entries = json_encode($this->getXssEntries());
+
         $js = <<<JS
 window._xssEntryTypes = $entries;
 window._x = function triggerXss(id) {
     document.body.innerHTML = 'XSS ' + window._xssEntryTypes[id];
+    var e = (new Error("XSS triggered (id = " + id + "): " + window._xssEntryTypes[id]));
+    console.log(e.stack || e.message);
 };
 JS;
         return $js;
