@@ -24,6 +24,7 @@ use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
+use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider;
@@ -108,6 +109,8 @@ class UITestFixture extends SqlDump
             ['XssTest_xssReportforTwig', 'XssTest_xssReportforAngular'],
             array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
         );
+
+        $this->addDangerousLinks();
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
@@ -423,6 +426,15 @@ class UITestFixture extends SqlDump
                 }],
             ]),
         ];
+    }
+
+    public function addDangerousLinks()
+    {
+        $privacyManagerSettings = new SystemSettings();
+        $privacyManagerSettings->termsAndConditionUrl->setValue('javascript:alert("termsandconditions")');
+        $privacyManagerSettings->termsAndConditionUrl->save();
+        $privacyManagerSettings->privacyPolicyUrl->setValue('javascript:alert("privacypolicyurl")');
+        $privacyManagerSettings->privacyPolicyUrl->save();
     }
 }
 
