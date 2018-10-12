@@ -2,7 +2,7 @@
     {{ visitInfo.getColumn('serverDatePrettyFirstAction') }}
     {% if isWidget %}<br/>{% else %}-{% endif %} {{ visitInfo.getColumn('serverTimePrettyFirstAction') }}</strong>
 {% if visitInfo.getColumn('visitIp') is not empty %}
-<span class="visitor-log-ip-location visitorLogTooltip" title="{% if visitInfo.getColumn('userId') is not empty %}{{ 'General_UserId'|translate }}: {{ visitInfo.getColumn('userId')|raw }}
+<span class="visitor-log-ip-location visitorLogTooltip" title="{% if visitInfo.getColumn('userId') is not empty %}{{ 'General_UserId'|translate }}: {{ visitInfo.getColumn('userId')|rawSafeDecoded }}
 {% endif %}{% if visitInfo.getColumn('visitorId') is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitInfo.getColumn('visitorId') }}
 {% endif %}{% if visitInfo.getColumn('idVisit') is not empty %}
 {{ 'General_Visit'|translate }} ID: {{ visitInfo.getColumn('idVisit') }}
@@ -15,7 +15,7 @@ GPS (lat/long): {{ visitInfo.getColumn('latitude') }},{{ visitInfo.getColumn('lo
     {% if visitInfo.getColumn('location') != 'General_Unknown'|translate %}<span><img width="16" class="flag" src="{{ visitInfo.getColumn('countryFlag') }}"/>&nbsp;
     {% if visitInfo.getColumn('city') is not empty %}{{ visitInfo.getColumn('city') }}{% else %}{{ visitInfo.getColumn('country') }}{% endif %}</span>{% endif %}
 
-    {% if visitInfo.getColumn('userId') is not empty %}<br/><br/>{{ visitInfo.getColumn('userId')|raw }}{% endif %}
+    {% if visitInfo.getColumn('userId') is not empty %}<br/><br/>{{ visitInfo.getColumn('userId')|rawSafeDecoded }}{% endif %}
 </span>{% endif %}
 {% if isWidget %}
     <br />

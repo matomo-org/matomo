@@ -134,7 +134,9 @@ class UrlHelper
     public static function isLookLikeUrl($url)
     {
         return preg_match('~^(([[:alpha:]][[:alnum:]+.-]*)?:)?//(.*)$~D', $url, $matches) !== 0
-            && strlen($matches[3]) > 0;
+            && strlen($matches[3]) > 0
+            && !in_array($matches[1], array('javascript:', 'vbscript:', 'data:'))
+            ;
     }
 
     /**

@@ -43,7 +43,6 @@
         "DaysToConv": "Giorni alla Conversione",
         "Details": "Dettagli Goal",
         "DefaultGoalConvertedOncePerVisit": "(default) Un Goal può essere convertito solo una volta per ogni visita",
-        "DefaultRevenue": "Il ricavo predefinito per l'obiettivo è",
         "DefaultRevenueHelp": "Per esempio, un Form di Contatto inviato da un visitatore può valere mediamente $10. Matomo può aiutarti a capire quanto rendono i tuoi visitatori.",
         "DeleteGoalConfirm": "Sei sicuro di voler cancellare il Goal %s?",
         "DocumentationRevenueGeneratedByProductSales": "Vendite prodotti. Escluse tasse, spedizione e sconto",

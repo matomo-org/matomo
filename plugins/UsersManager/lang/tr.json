@@ -136,6 +136,7 @@
         "DeleteUserConfirmMultiple": "%1$s seçilmiş kullanıcıyı silmek istediğinize emin misiniz?",
         "DeleteUserPermConfirmSingle": "%1$s kullanıcısının rolünü %3$s için %2$s olarak değiştirmek istediğinize emin misiniz?",
         "DeleteUserPermConfirmMultiple": "Seçilmiş %1$s kullanıcının rolünü %3$s için %2$s olarak değiştirmek istediğinize emin misiniz?",
-        "AreYouSureChangePassword": "%s parolasını değiştirmek istediğinize emin misiniz?"
+        "AreYouSureChangePassword": "%s parolasını değiştirmek istediğinize emin misiniz?",
+        "AnonymousUserRoleChangeWarning": "%1$s kullanıcısına %2$s rolünü atamak web sitesinin verilerini Matomo oturumu açmamış bile olsalar herkese açık hale getirir."
     }
 }

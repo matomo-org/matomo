@@ -141,7 +141,7 @@
 
         this.changeSite = function (trackingCodeChangedManually) {
 
-            $('.current-site-name').html(self.site.name);
+            $('.current-site-name').text(self.site.name);
 
             getSiteData(this.site.id, '#js-code-options', function () {
 

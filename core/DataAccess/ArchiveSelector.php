@@ -316,7 +316,7 @@ class ArchiveSelector
     private static function moveChunkRowToRows(&$rows, $row, Chunk $chunk, $loadAllSubtables, $idSubtable)
     {
         // $blobs = array([subtableID] = [blob of subtableId])
-        $blobs = unserialize($row['value']);
+        $blobs = Common::safe_unserialize($row['value']);
 
         if (!is_array($blobs)) {
             return;

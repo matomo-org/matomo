@@ -957,7 +957,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
 /*global unescape */
 /*global ActiveXObject */
 /*global Blob */
-/*members Piwik, encodeURIComponent, decodeURIComponent, getElementsByTagName,
+/*members Piwik, Matomo, encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift, piwikAsyncInit, piwikPluginAsyncInit, frameElement, self, hasFocus,
     createElement, appendChild, characterSet, charset, all,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
@@ -1053,7 +1053,7 @@ if (typeof _paq !== 'object') {
 
 // Piwik singleton and namespace
 if (typeof window.Piwik !== 'object') {
-    window.Piwik = (function () {
+    window.Matomo = window.Piwik = (function () {
         'use strict';
 
         /************************************************************
@@ -7670,6 +7670,7 @@ if (typeof window.Piwik !== 'object') {
         // Expose Piwik as an AMD module
         if (typeof define === 'function' && define.amd) {
             define('piwik', [], function () { return Piwik; });
+            define('matomo', [], function () { return Piwik; });
         }
 
         return Piwik;

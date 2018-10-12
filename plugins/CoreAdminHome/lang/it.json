@@ -104,6 +104,10 @@
         "YouMayOptOutBis": "Per fare questa scelta, clicca qui di seguito per ricevere un cookie di opt-out.",
         "OptingYouOut": "Sto acquisendo la tua rinuncia, attendi...",
         "ProtocolNotDetectedCorrectly": "Al momento stai guardando Matomo su una connessione sicura SSL (con l'utilizzo di https), ma Matomo ha potuto rilevare sul server solo una connessione non protetta.",
-        "ProtocolNotDetectedCorrectlySolution": "Per assicurarti che Matomo richieda e offra con sicurezza il tuo contenuto tramite HTTPS, puoi modificare il file %1$s e configurare le impostazioni del proxy, o puoi aggiungere la riga %2$s sotto la sezione %3$s. %4$sLeggi di più%5$s"
+        "ProtocolNotDetectedCorrectlySolution": "Per assicurarti che Matomo richieda e offra con sicurezza il tuo contenuto tramite HTTPS, puoi modificare il file %1$s e configurare le impostazioni del proxy, o puoi aggiungere la riga %2$s sotto la sezione %3$s. %4$sLeggi di più%5$s",
+        "MissingTrackingCodeEmailSubject": "Non è stato registrato traffico per %s in Matomo Analytics, comincia ora!",
+        "JsTrackingCodeMissingEmail1": "Qualche giorno fa hai aggiunto il sito web '%s' al tuo Matomo Analytics. Abbiamo appena controllato, e il tuo Matomo non sembra avere alcun traffico registrato per questo sito.",
+        "JsTrackingCodeMissingEmail2": "Per cominciare a monitorare i dati e ottenere informazioni approfondite sui tuoi utenti, devi impostare il monitoraggio nel tuo sito web o nella tua app per dispositivi mobili. Per i siti web è sufficiente incorporare il codice di monitoraggio subito prima del tag %s.",
+        "JsTrackingCodeMissingEmail3": "Per trovare e personalizzare il codice di monitoraggio, %1$sclicca qui%2$s (o dai un'occhiata alla %3$sGuida del Client di Tracking JavaScript%4$s)."
     }
 }
