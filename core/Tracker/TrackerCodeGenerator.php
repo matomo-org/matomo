@@ -23,6 +23,17 @@ use Piwik\View;
 class TrackerCodeGenerator
 {
     /**
+     * whether matomo.js|php should be forced over piwik.js|php
+     * @var bool
+     */
+    private $shouldForceMatomoEndpoint = false;
+
+    public function forceMatomoEndpoint()
+    {
+        $this->shouldForceMatomoEndpoint = true;
+    }
+
+    /**
      * @param int $idSite
      * @param string $piwikUrl http://path/to/piwik/site/
      * @param bool $mergeSubdomains
@@ -137,8 +148,8 @@ class TrackerCodeGenerator
             'protocol'                => '//',
             'loadAsync'               => true,
             'trackNoScript'           => $trackNoScript,
-            'matomoJsFilename'        => $this->getMatomoJsFilename(),
-            'matomoPhpFilename'       => $this->getMatomoPhpFilename(),
+            'matomoJsFilename'        => $this->getJsTrackerEndpoint(),
+            'matomoPhpFilename'       => $this->getPhpTrackerEndpoint(),
         );
 
         if (SettingsPiwik::isHttpsForced()) {
@@ -195,26 +206,30 @@ class TrackerCodeGenerator
         return $jsCode;
     }
 
-    public function getMatomoJsFilename()
+    public function getJsTrackerEndpoint()
     {
         $name = 'matomo.js';
-        if ($this->isPreMatomo370User()) {
+        if ($this->shouldPreferPiwikEndpoint()) {
             $name = 'piwik.js';
         }
         return $name;
     }
 
-    public function getMatomoPhpFilename()
+    public function getPhpTrackerEndpoint()
     {
         $name = 'matomo.php';
-        if ($this->isPreMatomo370User()) {
+        if ($this->shouldPreferPiwikEndpoint()) {
             $name = 'piwik.php';
         }
         return $name;
     }
 
-    public function isPreMatomo370User()
+    public function shouldPreferPiwikEndpoint()
     {
+        if ($this->shouldForceMatomoEndpoint) {
+            return false;
+        }
+
         // only since 3.7.0 we use the default matomo.js|php... for all other installs we need to keep BC
         return DbHelper::wasMatomoInstalledBeforeVersion('3.7.0-b1');
     }

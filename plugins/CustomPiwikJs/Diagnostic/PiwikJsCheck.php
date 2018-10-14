@@ -12,6 +12,7 @@ use Piwik\Filesystem;
 use Piwik\Plugins\CustomPiwikJs\File;
 use Piwik\Plugins\Diagnostics\Diagnostic\Diagnostic;
 use Piwik\Plugins\Diagnostics\Diagnostic\DiagnosticResult;
+use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
@@ -38,7 +39,9 @@ class PiwikJsCheck implements Diagnostic
         $filesToCheck = array('matomo.js');
 
         $jsCodeGenerator = new TrackerCodeGenerator();
-        if ($jsCodeGenerator->isPreMatomo370User()) {
+        if (SettingsPiwik::isMatomoInstalled() && $jsCodeGenerator->shouldPreferPiwikEndpoint()) {
+            // if matomo is not installed yet, we definitely prefer matomo.js... check for isMatomoInstalled is needed
+            // cause otherwise it would perform a db query before matomo DB is configured
             $filesToCheck[] = 'piwik.js';
         }
 
