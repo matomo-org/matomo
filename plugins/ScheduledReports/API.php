@@ -501,6 +501,7 @@ class API extends \Piwik\Plugin\API
             case self::OUTPUT_SAVE_ON_DISK:
 
                 $outputFilename = strtoupper($reportFormat) . ' ' . ucfirst($reportType) . ' Report - ' . $idReport . '.' . $date . '.' . $idSite . '.' . $language;
+                $outputFilename .= ' - ' . Common::getRandomString(40,'abcdefghijklmnoprstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVXYZ_');
                 $outputFilename = $reportRenderer->sendToDisk($outputFilename);
 
                 $additionalFiles = $this->getAttachments($reportRenderer, $report, $processedReports, $prettyDate);
