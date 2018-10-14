@@ -1,8 +1,8 @@
 {
     "CustomPiwikJs": {
         "PluginDescription": "Allows any plugin to extend the Matomo JavaScript Tracking file (matomo.js) and add new functionnality and website measurement capabilities.",
-        "DiagnosticPiwikJsWritable": "Writable JavaScript Tracker (\"/matomo.js\")",
-        "DiagnosticPiwikJsNotWritable": "The Matomo JavaScript tracker file \"/matomo.js\" is not writable which means other plugins cannot extend the JavaScript tracker. In the future even some core features might not work as expected. ",
-        "DiagnosticPiwikJsMakeWritable": "We recommend to matomo.js writable by running this command: %s"
+        "DiagnosticPiwikJsWritable": "Writable JavaScript Tracker (%s)",
+        "DiagnosticPiwikJsNotWritable": "The Matomo JavaScript tracker file %s is not writable which means other plugins cannot extend the JavaScript tracker. In the future even some core features might not work as expected. ",
+        "DiagnosticPiwikJsMakeWritable": "We recommend to make %s writable by running this command: %s"
     }
 }

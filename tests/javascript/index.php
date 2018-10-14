@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>piwik.js: Unit Tests</title>
+    <title>matomo.js: Unit Tests</title>
 <?php
 
 $cacheBuster = md5(uniqid(mt_rand(), true));
@@ -24,7 +24,7 @@ try {
 use \Piwik\Plugins\CustomPiwikJs\TrackerUpdater;
 use \Piwik\Plugins\CustomPiwikJs\TrackingCode\JsTestPluginTrackerFiles;
 
-$targetFileName = '/tests/resources/piwik.test.js';
+$targetFileName = '/tests/resources/matomo.test.js';
 $sourceFile = PIWIK_DOCUMENT_ROOT . TrackerUpdater::DEVELOPMENT_PIWIK_JS;
 $targetFile = PIWIK_DOCUMENT_ROOT . $targetFileName;
 
@@ -80,7 +80,7 @@ testTrackPageViewAsync();
  <script src="../lib/q-1.4.1/q.js" type="text/javascript"></script>
  <script src="../..<?php echo $targetFileName ?>?rand=<?php echo $cacheBuster ?>" type="text/javascript"></script>
  <script src="../../plugins/Overlay/client/urlnormalizer.js" type="text/javascript"></script>
- <script src="piwiktest.js" type="text/javascript"></script>
+ <script src="matomotest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
  <link rel="stylesheet" href="jash/Jash.css" type="text/css" media="screen" />
 
@@ -2509,7 +2509,7 @@ function PiwikTest() {
 
         equal( typeof tracker.hook.test._titleFixup, 'function', 'titleFixup' );
         equal( tracker.hook.test._titleFixup( 'hello' ), 'hello', 'hello string' );
-        equal( tracker.hook.test._titleFixup( document.title ), 'piwik.js: Unit Tests', 'hello string' );
+        equal( tracker.hook.test._titleFixup( document.title ), 'matomo.js: Unit Tests', 'hello string' );
 
         equal( typeof tracker.hook.test._purify, 'function', 'purify' );
 
@@ -3503,7 +3503,7 @@ function PiwikTest() {
         var html = '\
             <html><body> \
             <scr' + 'ipt src="' + hostAndPath + '../../js/piwik.js?rand=<?php echo $cacheBuster; ?>" type="text/javascript"></sc' + 'ript> \
-            <scr' + 'ipt src="' + hostAndPath + 'piwiktest.js" type="text/javascript"></sc' + 'ript> \
+            <scr' + 'ipt src="' + hostAndPath + 'matomotest.js" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt src="' + hostAndPath + '../../libs/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></sc' + 'ript> \
             <scr' + 'ipt type="text/javascript"> \
             window.onload = function() { \
@@ -4913,7 +4913,7 @@ function customAddEventListener(element, eventType, eventHandler, useCapture) {
  
 <?php
     include_once $root . '/core/Filesystem.php';
-    $files = \Piwik\Filesystem::globr($root . '/plugins/*/tests/javascript', 'index.php');
+    $files = \Piwik\Filesystem::globr($root . '/plugins/foo/tests/javascript', 'index.php');
     foreach ($files as $file) {
         include_once $file;
     }

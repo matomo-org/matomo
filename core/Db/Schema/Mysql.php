@@ -482,7 +482,6 @@ class Mysql implements SchemaInterface
      */
     public function recordInstallVersion()
     {
-        Option::clearCachedOption(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
         if (!self::getInstallVersion()) {
             Option::set(self::OPTION_NAME_MATOMO_INSTALL_VERSION, Version::VERSION);
         }
@@ -493,11 +492,11 @@ class Mysql implements SchemaInterface
      */
     public function getInstallVersion()
     {
+        Option::clearCachedOption(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
         $version = Option::get(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
-        if (empty($version)) {
-            return null;
+        if (!empty($version)) {
+            return $version;
         }
-        return $version;
     }
 
     /**

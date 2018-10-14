@@ -65,6 +65,7 @@ php_errors.log
 /tests/PHPUnit/proxy/plugins
 /tests/PHPUnit/proxy/tests
 /tests/resources/piwik.test.js
+/tests/resources/matomo.test.js
 /config/*.config.ini.php
 /Vagrantfile
 /misc/vagrant

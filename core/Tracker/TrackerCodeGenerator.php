@@ -213,7 +213,7 @@ class TrackerCodeGenerator
         return $name;
     }
 
-    private function isPreMatomo370User()
+    public function isPreMatomo370User()
     {
         // only since 3.7.0 we use the default matomo.js|php... for all other installs we need to keep BC
         return DbHelper::wasMatomoInstalledBeforeVersion('3.7.0-b1');
