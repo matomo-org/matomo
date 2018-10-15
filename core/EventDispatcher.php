@@ -30,6 +30,27 @@ class EventDispatcher
     const EVENT_CALLBACK_GROUP_SECOND = 1;
     const EVENT_CALLBACK_GROUP_THIRD = 2;
 
+    private static $lastEventNames = array();
+
+    /**
+     * A list of triggered event names, useful to debug problems and to better understand how something happens
+     * @param  int $limit if a value is set, will return only the last X triggered events
+     * @return string[]
+     */
+    public static function getTriggeredEventNames($limit = 0)
+    {
+        if (empty($limit)) {
+            return self::$lastEventNames;
+        } else {
+            return array_slice(self::$lastEventNames, -1 * $limit, $limit);
+        }
+    }
+
+    private static function logLastEvent($eventName)
+    {
+        self::$lastEventNames[] = $eventName;
+    }
+
     /**
      * Array of observers (callbacks attached to events) that are not methods
      * of plugin classes.
@@ -90,6 +111,8 @@ class EventDispatcher
         if ($pending) {
             $this->pendingEvents[] = array($eventName, $params);
         }
+
+        self::logLastEvent($eventName);
 
         $manager = $this->pluginManager;
 
