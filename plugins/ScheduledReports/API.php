@@ -61,6 +61,8 @@ class API extends \Piwik\Plugin\API
     const OUTPUT_INLINE = 3;
     const OUTPUT_RETURN = 4;
 
+    private $enableSaveReportOnDisk = false;
+
     // static cache storing reports
     public static $cache = array();
 
@@ -282,7 +284,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idReport ID of the report to generate.
      * @param string $date YYYY-MM-DD
      * @param bool|false|string $language If not passed, will use default language.
-     * @param bool|false|int $outputType 1 = download report, 2 = save report to disk, 3 = output report in browser, 4 = return report content to caller, defaults to download
+     * @param bool|false|int $outputType 1 = download report, 3 = output report in browser, 4 = return report content to caller, defaults to download
      * @param bool|false|string $period Defaults to 'day'. If not specified, will default to the report's period set when creating the report
      * @param bool|false|string $reportFormat 'pdf', 'html' or any other format provided via the ScheduledReports.getReportFormats hook
      * @param bool|false|array $parameters array of parameters
@@ -291,6 +293,10 @@ class API extends \Piwik\Plugin\API
     public function generateReport($idReport, $date, $language = false, $outputType = false, $period = false, $reportFormat = false, $parameters = false)
     {
         Piwik::checkUserIsNotAnonymous();
+
+        if (!$this->enableSaveReportOnDisk && $outputType == self::OUTPUT_SAVE_ON_DISK) {
+            $outputType = self::OUTPUT_DOWNLOAD;
+        }
 
         // load specified language
         if (empty($language)) {
@@ -499,6 +505,7 @@ class API extends \Piwik\Plugin\API
         switch ($outputType) {
 
             case self::OUTPUT_SAVE_ON_DISK:
+                // only used for SendReport
 
                 $outputFilename = strtoupper($reportFormat) . ' ' . ucfirst($reportType) . ' Report - ' . $idReport . '.' . $date . '.' . $idSite . '.' . $language;
                 $outputFilename .= ' - ' . Common::getRandomString(40,'abcdefghijklmnoprstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVXYZ_');
@@ -557,14 +564,23 @@ class API extends \Piwik\Plugin\API
             $language = \Piwik\Plugins\LanguagesManager\API::getInstance()->getLanguageForUser($report['login']);
 
             // generate report
-            list($outputFilename, $prettyDate, $reportSubject, $reportTitle, $additionalFiles) =
-                $this->generateReport(
-                    $idReport,
-                    $date,
-                    $language,
-                    self::OUTPUT_SAVE_ON_DISK,
-                    $report['period']
-                );
+            $this->enableSaveReportOnDisk = true;
+            try {
+                list($outputFilename, $prettyDate, $reportSubject, $reportTitle, $additionalFiles) =
+                    $this->generateReport(
+                        $idReport,
+                        $date,
+                        $language,
+                        self::OUTPUT_SAVE_ON_DISK,
+                        $report['period']
+                    );
+
+            } catch (Exception $e) {
+                $this->enableSaveReportOnDisk = false;
+                throw $e;
+            }
+
+            $this->enableSaveReportOnDisk = false;
 
             if (!file_exists($outputFilename)) {
                 throw new Exception("The report file wasn't found in $outputFilename");
