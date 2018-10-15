@@ -23,7 +23,7 @@
         "Email": "Email",
         "EmailYourAdministrator": "%1$sManda un'email al tuo amministratore su questo problema%2$s.",
         "EnterUsernameOrEmail": "Inserisci nome utente o indirizzo email",
-        "ExceptionAccessValues": "Il parametro di accesso deve avere uno dei seguenti valori: [ %1$s] , dati '%2$s'.",
+        "ExceptionAccessValues": "Il parametro accesso deve avere uno dei seguenti valori: [ %1$s] , dati '%2$s'.",
         "ExceptionNoRoleSet": "Non è impostato alcun ruolo ma deve essere impostato uno di questi: %s",
         "ExceptionMultipleRoleSet": "Può essere impostato un solo ruolo ma ne sono stati impostati diversi. Usane uno solo tra: %s",
         "ExceptionAnonymousNoCapabilities": "Non puoi conferire alcuna facoltà a un utente 'anonimo'.",

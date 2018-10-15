@@ -1,8 +1,14 @@
 {
     "UsersManager": {
         "AddUser": "Adicionar novo usuário",
+        "AddExistingUser": "Adicionar um usuário existente",
+        "AddNewUser": "Adicionar novo usuário",
+        "EditUser": "Editar usuário",
+        "CreateUser": "Criar usuário",
+        "SaveBasicInfo": "Salvar Informação Básica",
         "Alias": "Apelido",
         "AllWebsites": "Todos os websites",
+        "AnonymousAccessConfirmation": "Você está prestes a conceder para o usuário anônimo o acesso de 'visualização' para este website. Isso significa que seus relatórios e as informações de seus visitantes serão publicamente visíveis por qualquer pessoa, mesmo sem login. Vocês tem certeza que deseja continuar?",
         "AnonymousUser": "Usuário anônimo",
         "AnonymousUserHasViewAccess": "Nota: o usuário %1$s tem acesso %2$s para este site.",
         "AnonymousUserHasViewAccess2": "Seus relatórios de análise e suas informações de visitantes são visíveis publicamente.",
@@ -17,6 +23,7 @@
         "Email": "E-mail",
         "EmailYourAdministrator": "%1$s E-mail a seu administrador sobre este problema %2$s.",
         "EnterUsernameOrEmail": "Digite um nome de usuário ou endereço de e-mail",
+        "ExceptionAnonymousNoCapabilities": "Você não pode conceder nenhuma capacidade para o usuário 'anônimo'.",
         "ExceptionDeleteDoesNotExist": "O usuário '%s' não existe assim não é possível excluí-lo.",
         "ExceptionDeleteOnlyUserWithSuperUserAccess": "Não é possível excluir o usuário '%s'",
         "ExceptionEditAnonymous": "O usuário anonymous não pode ser editado ou apagado. Ele é usado pelo sistema para definir um usuário que ainda não não entrou. Por examplo, você pode tornar as estatísticas públicas concedendo acesso 'view' para o usuário 'anonymous'.",
@@ -52,8 +59,10 @@
         "NoUsersExist": "Não há usúarios ainda.",
         "PluginDescription": "O Gerenciamento de Usuários permite que você adicione novos usuários, edite usuários existentes e dá-lhes acesso para visualizar ou administrar websites.",
         "PrivAdmin": "Administrador",
+        "PrivAdminDescription": "Usuários com esse papel podem gerenciar um website a dar acesso a esse website para outros usuários. Eles também podem fazer qualquer coisa que o papel %s pode fazer.",
         "PrivNone": "Sem acesso",
         "PrivView": "Visualização",
+        "PrivViewDescription": "Um usuário com esse papel pode visualizar todos os relatórios.",
         "RemoveUserAccess": "Remover acesso para '%1$s' para %2$s.",
         "ReportDateToLoadByDefault": "Relate data para carregar por padrão",
         "ReportToLoadByDefault": "Relate para carregar por padrão",
@@ -74,6 +83,7 @@
         "YourUsernameCannotBeChanged": "Seu nome de usuário não pode ser alterado.",
         "YourVisitsAreIgnoredOnDomain": "%1$s Suas visitas são ignoradas pelo Matomo em %2$s %3$s (o Matomo ignora o cookie encontrado em seu navegador).",
         "YourVisitsAreNotIgnored": "%1$sSuas visitas não são ignoradas pelo Matomo%2$s (o Matomo ignora o cookie não encotrado em seu navegador)",
+        "ManageUsers": "Gerenciar Usuários",
         "XtoYofN": "%1$s - %2$s de %3$s",
         "Username": "Nome de Usuário"
     }

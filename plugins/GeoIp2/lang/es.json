@@ -1,0 +1,5 @@
+{
+    "GeoIp2": {
+        "ServerVariableFor": "Variable del servidor para %s"
+    }
+}
