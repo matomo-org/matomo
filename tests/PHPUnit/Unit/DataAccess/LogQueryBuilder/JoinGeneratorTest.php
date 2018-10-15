@@ -266,13 +266,13 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $tables = array (
             1 => 'log_link_visit_action',
-            2 =>
+            3 =>
                 array (
                     'table' => 'log_action',
                     'tableAlias' => 'log_action_idaction_name',
                     'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
                 ),
-            3 =>
+            2 =>
                 array (
                     'table' => 'log_action',
                     'tableAlias' => 'log_action_visit_exit_idaction_name',
@@ -288,13 +288,13 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
             'log_link_visit_action',
             array (
                 'table' => 'log_action',
-                'tableAlias' => 'log_action_visit_exit_idaction_name',
-                'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
+                'tableAlias' => 'log_action_idaction_name',
+                'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
             ),
             array (
                 'table' => 'log_action',
-                'tableAlias' => 'log_action_idaction_name',
-                'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
+                'tableAlias' => 'log_action_visit_exit_idaction_name',
+                'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
             ),
         );
 
@@ -327,13 +327,13 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
             'log_link_visit_action',
             array (
                 'table' => 'log_action',
-                'tableAlias' => 'log_action_idaction_name',
-                'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
+                'tableAlias' => 'log_action_visit_exit_idaction_name',
+                'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
             ),
             array (
                 'table' => 'log_action',
-                'tableAlias' => 'log_action_visit_exit_idaction_name',
-                'joinOn' => 'log_visit.visit_exit_idaction_name = log_action_visit_exit_idaction_name.idaction',
+                'tableAlias' => 'log_action_idaction_name',
+                'joinOn' => 'log_link_visit_action.idaction_name = log_action_idaction_name.idaction',
             ),
         );
 
@@ -443,14 +443,14 @@ class JoinGeneratorTest extends \PHPUnit_Framework_TestCase
             'log_link_visit_action',
             array(
                 'table' => 'log_action',
-                'tableAlias' => 'log_action_idaction_event_action',
-                'joinOn' => "log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction"
+                'tableAlias' => 'log_action_visit_entry_idaction_name',
+                'joinOn' => "log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction"
             ),
             array(
                 'table' => 'log_action',
-                'tableAlias' => 'log_action_visit_entry_idaction_name',
-                'joinOn' => "log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction"
-            )
+                'tableAlias' => 'log_action_idaction_event_action',
+                'joinOn' => "log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction"
+            ),
         );
 
         $this->assertEquals($expected, $tables);

@@ -338,7 +338,7 @@ class JoinGenerator
         }
 
         if ($weightA === $weightB) {
-            return 0;
+            return strcmp($tA['table'], $tB['table']);
         }
 
         if ($weightA > $weightB) {
