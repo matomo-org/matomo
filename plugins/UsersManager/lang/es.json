@@ -58,6 +58,7 @@
         "NoUsersExist": "Todavía no hay usuarios.",
         "PluginDescription": "La Gestión de Usuarios le permite agregar nuevos usuarios, editar los actuales y otorgarles acceso a observar o administrar sitios de internet.",
         "PrivAdmin": "Administrador",
+        "PrivAdminDescription": "Usuarios con esta función pueden administrar un sitio web y otorgar a otros usuarios acceso al mismo. También pueden llevar a cabo todo lo que el rol %s le es permitido.",
         "PrivWrite": "Escritura",
         "PrivNone": "Sin acceso",
         "PrivView": "Ver",
@@ -94,17 +95,24 @@
         "ClickToSelectAll": "Clic para selecionar todo %1$s.",
         "AllWebsitesAreSelected": "Todos los sitios web %1$s están seleccionados.",
         "XtoYofN": "%1$s - %2$s de %3$s",
+        "DeletePermConfirmSingle": "¿Está seguro que desea quitar a %1$s del acceso a %2$s?",
+        "DeletePermConfirmMultiple": "¿Está seguro que desea quitar a %1$sdel acceso a estos sitios web %2$s?",
+        "ChangePermToSiteConfirmSingle": "¿Está seguro que desea cambiar la función de %1$s de %2$s a %3$s?",
         "BasicInformation": "Información básica",
+        "Permissions": "Autorizaciones",
         "SuperUserAccess": "Acceso Superusuario",
+        "SuperUserIntro1": "Super usuarios poseen las máximas autorizaciones. Pueden realizar tareas administrativas tales como agregar nuevos sitios web para monitorear, agregar usuarios, cambiar permisos a usuarios, activar o desactivar complementos e incluso instalar nuevos desde el Marketplace. Puede conceder atributos de Super Usuario a otros usuarios de Divezone aquí.",
         "SuperUserIntro2": "Por favor use esta función cuidadosamente.",
         "HasSuperUserAccess": "Posee acceso de Superusuario",
         "AreYouSure": "Está seguro?",
         "DeleteUsers": "Eliminar usuarios",
+        "UserSearch": "Buscar usuario",
         "FilterByAccess": "Filtrar por acceso",
         "Username": "Nombre de usuario",
         "RoleFor": "Función por",
         "AllUsersAreSelected": "Todos los usuarios %1$s están seleccionados.",
         "RemoveAllAccessToThisSite": "Quitar todo acceso a este sitio web",
-        "DeleteUserConfirmSingle": "Está seguro que desea eliminar %1$s?"
+        "DeleteUserConfirmSingle": "Está seguro que desea eliminar %1$s?",
+        "AreYouSureChangePassword": "¿Está seguyro que desea eliminar la contraseña para %s?"
     }
 }

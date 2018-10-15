@@ -43,6 +43,7 @@
         "DaysToConv": "Giorni alla Conversione",
         "Details": "Dettagli Goal",
         "DefaultGoalConvertedOncePerVisit": "(default) Un Goal può essere convertito solo una volta per ogni visita",
+        "DefaultRevenueLabel": "Ricavo predefinito obiettivo",
         "DefaultRevenueHelp": "Per esempio, un Form di Contatto inviato da un visitatore può valere mediamente $10. Matomo può aiutarti a capire quanto rendono i tuoi visitatori.",
         "DeleteGoalConfirm": "Sei sicuro di voler cancellare il Goal %s?",
         "DocumentationRevenueGeneratedByProductSales": "Vendite prodotti. Escluse tasse, spedizione e sconto",
@@ -109,6 +110,10 @@
         "WhenVisitors": "quando i visitatori",
         "WhereThe": "dove le",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "La pagina visitata deve contenere una chiamata al metodo JavaScript 'trackGoal' (%1$sleggi di più%2$s)",
-        "YouCanEnableEcommerceReports": "Puoi abilitare %1$s per questo sito nella pagina %2$s."
+        "YouCanEnableEcommerceReports": "Puoi abilitare %1$s per questo sito nella pagina %2$s.",
+        "UseEventValueAsRevenue": "Usa il valore evento (se esiste) come ricavo della conversione obiettivo.",
+        "GoalRevenue": "Ricavi Obiettivo",
+        "EventValueAsRevenueHelp": "Se l'evento di cui si sta eseguendo la corrispondenza ha dei ricavi, ed essi sono tracciati come valore dell'evento, è possibile abilitare questa opzione per registrare il valore dell'evento come ricavi della conversione dell'obiettivo. Se le entrate del tuo obiettivo non variano in base alla conversione, puoi ignorare questa opzione e impostare solo le entrate predefinite qui sopra.",
+        "EventValueAsRevenueHelp2": "Nota: se sono definiti sia un guadagno obiettivo che un valore evento, verrà utilizzato il valore dell'evento. Se questa opzione è abilitata e nessun valore evento viene inviato in una richiesta, verranno utilizzate le entrate predefinite (se definite)."
     }
 }
