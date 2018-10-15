@@ -414,13 +414,18 @@ class UITestFixture extends SqlDump
                     $instances[] = new XssDimension();
                 }],
                 ['API.Request.intercept', function (&$result, $finalParameters, $pluginName, $methodName) {
-                    if ($pluginName != 'XssTest' && $methodName != 'xssReportforTwig' && $methodName != 'xssReportforAngular') {
+                    if ($pluginName != 'ExamplePlugin' && $methodName != 'xssReportforTwig' && $methodName != 'xssReportforAngular') {
                         return;
                     }
 
                     $dataTable = new DataTable();
                     $dataTable->addRowFromSimpleArray([
+                        'label' => $this->xssTesting->forAngular('datatablerow'),
                         'nb_visits' => 10,
+                    ]);
+                    $dataTable->addRowFromSimpleArray([
+                        'label' => $this->xssTesting->forTwig('datatablerow'),
+                        'nb_visits' => 15,
                     ]);
                     $result = $dataTable;
                 }],
@@ -458,9 +463,9 @@ class XssReport extends Report
         $this->categoryId = $xssTesting->$type('category');
         $this->subcategoryId = $xssTesting->$type('subcategory');
         $this->processedMetrics = [new XssProcessedMetric($type)];
-        $this->module = 'XssTest';
+        $this->module = 'ExamplePlugin';
         $this->action = 'xssReport' . $type;
-        $this->id = 'XssTest.xssReport' . $type;
+        $this->id = 'ExamplePlugin.xssReport' . $type;
     }
 }
 

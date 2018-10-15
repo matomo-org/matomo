@@ -38,7 +38,7 @@ describe("QuickAccess", function () {
 
     it("should search for something and update view", function (done) {
         capture('search_1', done, function (page) {
-            enterSearchTerm(page, 'x');
+            enterSearchTerm(page, 's');
         });
     });
 
