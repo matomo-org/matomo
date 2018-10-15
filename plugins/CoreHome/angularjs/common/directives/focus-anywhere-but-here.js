@@ -22,12 +22,16 @@
             restrict: 'A',
             link: function(scope, element, attr, ctrl) {
 
-                var ignoreOutsideElement = false;
-                var scrollTimeout = false;
+                var isMouseDown = false;
+                var hasScrolled = false;
 
                 function onClickOutsideElement (event) {
-                    if (ignoreOutsideElement) {
-                        return; // used scroll bar just before
+                    var hadUsedScrollbar = isMouseDown && hasScrolled;
+                    isMouseDown = false;
+                    hasScrolled = false;
+
+                    if (hadUsedScrollbar) {
+                        return;
                     }
 
                     if (element.has(event.target).length === 0) {
@@ -38,31 +42,32 @@
                 }
 
                 function onScroll (event) {
-                    // see https://github.com/matomo-org/matomo/issues/13489
-                    ignoreOutsideElement = true;
-                    if (scrollTimeout) {
-                        clearTimeout(scrollTimeout);
-                        scrollTimeout = null;
-                    }
-                    scrollTimeout = setTimeout(function () {
-                        ignoreOutsideElement = false;
-                    }, 500);
+                    hasScrolled = true;
+                }
+
+                function onMouseDown (event) {
+                    isMouseDown = true;
+                    hasScrolled = false;
                 }
 
                 function onEscapeHandler (event) {
                     if (event.which === 27) {
                         setTimeout(function () {
+                            isMouseDown = false;
+                            hasScrolled = false;
                             scope.$apply(attr.piwikFocusAnywhereButHere);
                         }, 0);
                     }
                 }
 
                 $document.on('keyup', onEscapeHandler);
+                $document.on('mousedown', onMouseDown);
                 $document.on('mouseup', onClickOutsideElement);
                 $document.on('scroll', onScroll);
                 scope.$on('$destroy', function() {
-                    $document.off('mouseup', onClickOutsideElement);
                     $document.off('keyup', onEscapeHandler);
+                    $document.off('mousedown', onMouseDown);
+                    $document.off('mouseup', onClickOutsideElement);
                     $document.off('scroll', onScroll);
                 });
             }
