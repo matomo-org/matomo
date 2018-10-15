@@ -110,6 +110,61 @@
             ng-click="personalSettings.regenerateTokenAuth()">{{ 'UsersManager_TokenRegenerateTitle'|translate }}</button>
 </div>
 
+<div piwik-content-block
+     content-title="Two Factor Authentication (2FA)">
+
+    <div class="disable2FA ui-confirm">
+        Please enter your password <input type="password">
+    </div>
+
+    <div class="setup2FAStep1 ui-confirm">
+        Please enter your password <input type="password">
+    </div>
+
+    <div class="setup2FAStep2 ui-confirm">
+        <p>Scan this bar code</p>
+        <img src="#test">
+
+        or enter this code
+
+        Please type in the auth code, after updating your Authenticator app with the new secret.
+        <input type="text">
+    </div>
+
+    <div class="setup2FAStep3 ui-confirm">
+        <p>Set up, ... here are the backup codes</p>
+        <img src="#test">
+        <input type="text">
+    </div>
+
+    {% if twoFactorAuthEnabled and canDisable2FA %}
+
+        <button class="btn btn-link"
+                ng-controller="TwoFactorAuthController as twoFactorAuth"
+                ng-click="twoFactorAuth.regenerateTokenAuth()">Disable 2FA</button>
+
+        <button class="btn btn-link"
+                ng-controller="TwoFactorAuthController as twoFactorAuth"
+                ng-click="twoFactorAuth.configureDifferentDevice()">Configure a different device</button>
+
+    {% elseif twoFactorAuthEnabled and not canDisable2FA %}
+        You cannot disable 2FA.
+
+        <button class="btn btn-link"
+                ng-controller="TwoFactorAuthController as twoFactorAuth"
+                ng-click="twoFactorAuth.configureDifferentDevice()">Configure a different device</button>
+
+    {% else %}
+        <p>
+            two factor authentication increase your account security...
+        </p>
+
+        <button class="btn btn-link"
+                ng-controller="TwoFactorAuthController as twoFactorAuth"
+                ng-click="twoFactorAuth.regenerateTokenAuth()">Setup 2FA</button>
+    {% endif %}
+</div>
+
 <div piwik-plugin-settings mode="user"></div>
 
 <div piwik-content-block

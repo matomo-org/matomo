@@ -278,7 +278,7 @@ class Model
         ));
     }
 
-    private function updateUserFields($userLogin, $fields)
+    public function updateUserFields($userLogin, $fields)
     {
         $set  = array();
         $bind = array();

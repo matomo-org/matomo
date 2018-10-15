@@ -8,19 +8,19 @@
  */
 namespace Piwik\Plugins\UsersManager;
 
+use Endroid\QrCode\QrCode;
 use Exception;
-use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Metrics\Formatter;
-use Piwik\NoAccessException;
+use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Session\SessionNamespace;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
@@ -31,14 +31,22 @@ use Piwik\Session\SessionInitializer;
 
 class Controller extends ControllerAdmin
 {
+    const AUTH_CODE_NONCE = 'saveAuthCode';
+
     /**
      * @var Translator
      */
     private $translator;
 
-    public function __construct(Translator $translator)
+    /**
+     * @var SystemSettings
+     */
+    private $settings;
+
+    public function __construct(Translator $translator, SystemSettings $systemSettings)
     {
         $this->translator = $translator;
+        $this->settings = $systemSettings;
 
         parent::__construct();
     }
@@ -173,7 +181,9 @@ class Controller extends ControllerAdmin
         $userLogin = Piwik::getCurrentUserLogin();
         $user = Request::processRequest('UsersManager.getUser', array('userLogin' => $userLogin));
         $view->userEmail = $user['email'];
+        $view->twoFactorAuthEnabled = !empty($user['twofactor_secret']) && Common::mb_strlen($user['twofactor_secret']) === 32;
         $view->userTokenAuth = Piwik::getCurrentUserTokenAuth();
+        $view->canDisable2FA = !$this->settings->twoFactorAuthRequired->getValue();
 
         $view->ignoreSalt = $this->getIgnoreCookieSalt();
 
@@ -460,5 +470,114 @@ class Controller extends ControllerAdmin
     private function getIgnoreCookieSalt()
     {
         return md5(SettingsPiwik::getSalt());
+    }
+
+    public function disableTwoFactorAuth()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        if ($this->settings->twoFactorAuthRequired->getValue()) {
+            throw new Exception('Two Factor Authentication cannot be disabled');
+        }
+
+        $model = new Model();
+        $model->updateUserFields(Piwik::getCurrentUserLogin(), array('twofactor_secret' => ''));
+
+        Url::redirectToUrl(Url::getCurrentUrl());
+
+        // todo also disable back up codes
+    }
+
+    /**
+     * Action to generate a new Google Authenticator secret for the current user
+     *
+     * @return string
+     * @throws \Exception
+     * @throws \Piwik\NoAccessException
+     */
+    public function generateTwoFactorAuth()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $view = new View('@GoogleAuthenticator/regenerate');
+        $this->setGeneralVariablesView($view);
+
+        $googleAuth = StaticContainer::get('GoogleAuthenticator');
+        $session = new SessionNamespace('GoogleAuthenticator');
+
+        if (empty($session->secret)) {
+            $session->secret = $googleAuth->createSecret(32);
+        }
+
+        $secret = $session->secret;
+        $session->setExpirationSeconds(180, 'secret');
+
+        $user = $this->getMyUser();
+        $authCode = Common::getRequestVar('gaauthcode', '', 'string');
+        $authCodeNonce = Common::getRequestVar('authCodeNonce', '', 'string');
+
+        if (!empty($secret) && !empty($authCode) && Nonce::verifyNonce(self::AUTH_CODE_NONCE, $authCodeNonce) &&
+            $googleAuth->verifyCode($secret, $authCode, 2)
+        ) {
+            $this->auth->setAuthCode($authCode);
+            if ($this->auth->validateAuthCode()) {
+                // todo... include twofactor secret in password reset hash? and the regular session to log other
+                // sessions out after changing secret
+                $model = new Model();
+                $model->updateUserFields($user['login'], array('twofactor_secret' => $secret));
+
+                // todo print back up codes
+            }
+            Url::redirectToUrl(Url::getCurrentUrl());
+        }
+
+        $this->secret = $secret;
+
+        $view->gatitle = $this->settings->twoFactorAuthTitle->getValue();
+        $view->description = Piwik::getCurrentUserLogin();
+        $view->authCodeNonce = Nonce::getNonce(self::AUTH_CODE_NONCE);
+        $view->newSecret = $secret;
+        $view->googleAuthImage = $this->getQRUrl($view->description, $view->gatitle);
+
+        return $view->render();
+    }
+
+    private function getMyUser()
+    {
+        $login = Piwik::getCurrentUserLogin();
+        $user = Request::processRequest('UsersManager.getUser', array('userLogin' => $login));
+
+        return $user;
+    }
+
+    public function showQrCode()
+    {
+        $session = new SessionNamespace('GoogleAuthenticator');
+        $secret = $session->secret;
+        if (empty($secret)) {
+            throw new Exception('Not possible');
+        }
+        $title = $this->settings->twoFactorAuthTitle->getValue();
+        $descr = Piwik::getCurrentUserLogin();
+
+        $url = 'otpauth://totp/'.urlencode($descr).'?secret='.$secret;
+        if(isset($title)) {
+            $url .= '&issuer='.urlencode($title);
+        }
+
+        $qrCode = new QrCode($url);
+
+        header('Content-Type: '.$qrCode->getContentType());
+        echo $qrCode->get();
+    }
+
+    protected function getQRUrl($description, $title)
+    {
+        return sprintf('index.php?module=GoogleAuthenticator&action=showQrCode&cb=%s&title=%s&descr=%s', Common::getRandomString(8), urlencode($title), urlencode($description));
+    }
+
+    protected function getCurrentQRUrl()
+    {
+        return sprintf('index.php?module=GoogleAuthenticator&action=showQrCode&cb=%s&current=1', Common::getRandomString(8));
     }
 }
