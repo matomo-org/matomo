@@ -468,14 +468,21 @@ class XssDimension extends VisitDimension
 {
     public $type = Dimension::TYPE_NUMBER;
 
+    private $xssType;
+
     public function initForXss($type)
     {
         $xssTesting = new XssTesting();
 
-        $this->id = 'XssTest.XssDimension.' . $type;
+        $this->xssType = $type;
         $this->nameSingular = $xssTesting->$type('dimensionname');
         $this->columnName = 'xsstestdim';
         $this->category = $xssTesting->$type('category');
+    }
+
+    public function getId()
+    {
+        return 'XssTest.XssDimension.' . $this->xssType;
     }
 }
 
