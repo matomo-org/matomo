@@ -29,10 +29,29 @@
                     }
                 });
 
+                var ignoreOutsideElement = false;
+                var scrollTimeout = false;
+
                 function onClickOutsideElement (event) {
+                    if (ignoreOutsideElement) {
+                        return; // used scroll bar just before
+                    }
+
                     if (element.has(event.target).length === 0) {
                         element.removeClass('expanded');
                     }
+                }
+
+                function onScroll (event) {
+                    // see https://github.com/matomo-org/matomo/issues/13489
+                    ignoreOutsideElement = true;
+                    if (scrollTimeout) {
+                        clearTimeout(scrollTimeout);
+                        scrollTimeout = null;
+                    }
+                    scrollTimeout = setTimeout(function () {
+                        ignoreOutsideElement = false;
+                    }, 500);
                 }
 
                 function onEscapeHandler (event) {
@@ -43,9 +62,11 @@
 
                 $document.on('keyup', onEscapeHandler);
                 $document.on('mouseup', onClickOutsideElement);
+                $document.on('scroll', onScroll);
                 scope.$on('$destroy', function() {
                     $document.off('mouseup', onClickOutsideElement);
                     $document.off('keyup', onEscapeHandler);
+                    $document.off('scroll', onScroll);
                 });
             }
         };
