@@ -1,0 +1,50 @@
+{% extends '@Login/loginLayout.twig' %}
+{% block loginContent %}
+    {% embed 'contentBlock.twig' with {'title': 'Two-factor authentication'|translate} %}
+        {% block content %}
+
+            <div class="message_container">
+
+                {{ include('@Login/_formErrors.twig', {formErrors: form_data.errors } )  }}
+
+                {% if AccessErrorString %}
+                    <div piwik-notification
+                         noclear="true"
+                         context="error">
+                        <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
+                    </div>
+                {% endif %}
+            </div>
+
+            <form {{ form_data.attributes|raw }} ng-non-bindable>
+                <div class="row">
+                    <div class="col s12 input-field">
+                        <input type="text" name="form_authcode" placeholder="" id="login_form_authcode" class="input" value="" size="20"
+                               autocorrect="off" autocapitalize="none"
+                               tabindex="10" autofocus="autofocus"/>
+                        <label for="login_form_authcode"><i class="icon-user icon"></i> Authentication code</label>
+                    </div>
+                </div>
+
+                <div class="row actions">
+                    <div class="col s12">
+                        <input class="submit btn" id='login_form_submit' type="submit" value="Verify"
+                               tabindex="100"/>
+                    </div>
+                </div>
+
+            </form>
+
+            <p>Open the two-factor authentication app on your device to view your authentication code and verify your identity. <a href="#">Learn more</a>
+
+            <br /><br />
+            <strong>Don’t have your phone?</strong>
+            <br />
+                <a href="">Enter one of your backup codes</a>
+                <br />
+                <a href="">Ask super user to reset your authentication code</a>
+            </p>
+
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

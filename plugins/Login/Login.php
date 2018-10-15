@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -33,8 +34,31 @@ class Login extends \Piwik\Plugin
             'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
             'Session.beforeSessionStart'       => 'beforeSessionStart',
+            'Request.dispatch' => array('function' => 'onRequestDispatch', 'after' => true)
         );
         return $hooks;
+    }
+
+    public function onRequestDispatch(&$module, &$action, $parameters)
+    {
+        if (Piwik::isUserIsAnonymous() || !Piwik::isUserHasSomeViewAccess()) {
+            return;
+        }
+
+        $isUsing2FA = Piwik::isUserUsingTwoFactorAuthentication();
+        if ($isUsing2FA && Request::isRootRequestApiRequest()) {
+            $sessionFingerprint = new Session\SessionFingerprint();
+            if (!$sessionFingerprint->hasVerifiedTwoFactor()) {
+                $module = 'Login';
+                $action = 'twoFactorAuth';
+            }
+        } elseif (!$isUsing2FA) {
+            $settings = StaticContainer::get('\Piwik\Plugins\Login\SystemSettings');
+            if ($settings->twoFactorAuthRequired->getValue()) {
+                $module = 'UsersManager';
+                $action = 'generateTwoFactorAuth';
+            }
+        }
     }
 
     public function getJsFiles(&$jsFiles)

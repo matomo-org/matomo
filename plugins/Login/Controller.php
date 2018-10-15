@@ -9,10 +9,10 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Cookie;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
@@ -118,6 +118,56 @@ class Controller extends \Piwik\Plugin\Controller
         self::setHostValidationVariablesView($view);
 
         return $view->render();
+    }
+
+    public function twoFactorAuth()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
+
+        // user needs to have been logged in to confirm 2fa
+        $sessionFingerprint = new Session\SessionFingerprint();
+        if ($sessionFingerprint->hasVerifiedTwoFactor()) {
+            //  throw new Exception('not available');
+        }
+
+        if (!Piwik::isUserUsingTwoFactorAuthentication()) {
+            // throw new Exception('not available');
+        }
+        $messageNoAccess = null;
+
+        $view = new View('@Login/twoFactorAuth');
+        $form = new FormTwoFactorAuthCode();
+        $form->removeAttribute('action'); // remove action attribute, otherwise hash part will be lost
+        if ($form->validate()) {
+            $nonce = $form->getSubmitValue('form_nonce');
+            if (Nonce::verifyNonce('Login.twoFactorAuth', $nonce)) {
+                $authCode = $form->getSubmitValue('form_authcode');
+                $user = $this->getMyUser();
+
+                $twoFactorAuth = StaticContainer::get('TwoFactorAuthenticator');
+                if (!empty($user['twofactor_secret']) && $twoFactorAuth->verifyCode($user['twofactor_secret'], $authCode, 2)) {
+                    $sessionFingerprint->setTwoFactorAuthenticationVerified();
+                    Url::redirectToUrl(Url::getCurrentUrl());
+                }
+            } else {
+                $messageNoAccess = $this->getMessageExceptionNoAccess();
+            }
+        }
+        $view->AccessErrorString = $messageNoAccess;
+        $view->addForm($form);
+        $this->setBasicVariablesView($view);
+        $view->nonce = Nonce::getNonce('Login.twoFactorAuth');
+
+        return $view->render();
+    }
+
+    private function getMyUser()
+    {
+        $login = Piwik::getCurrentUserLogin();
+        $user = Request::processRequest('UsersManager.getUser', array('userLogin' => $login));
+
+        return $user;
     }
 
     private function getLoginFromLoginOrEmail($loginOrEmail)

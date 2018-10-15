@@ -19,6 +19,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\Login\SystemSettings;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Session\SessionNamespace;
 use Piwik\SettingsPiwik;

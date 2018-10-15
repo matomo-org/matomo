@@ -37,6 +37,7 @@ class SessionFingerprint
 {
     const USER_NAME_SESSION_VAR_NAME = 'user.name';
     const SESSION_INFO_SESSION_VAR_NAME = 'session.info';
+    const SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED = 'twofactorauth.verified';
 
     public function getUser()
     {
@@ -56,9 +57,24 @@ class SessionFingerprint
         return null;
     }
 
+    public function hasVerifiedTwoFactor()
+    {
+        if (isset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED])) {
+            return !empty($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED]);
+        }
+
+        return null;
+    }
+
+    public function setTwoFactorAuthenticationVerified()
+    {
+        $_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED] = 1;
+    }
+
     public function initialize($userName, $time = null)
     {
         $_SESSION[self::USER_NAME_SESSION_VAR_NAME] = $userName;
+        $_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED] = 0;
         $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME] = [
             'ts' => $time ?: Date::now()->getTimestampUTC(),
         ];
@@ -68,6 +84,7 @@ class SessionFingerprint
     {
         unset($_SESSION[self::USER_NAME_SESSION_VAR_NAME]);
         unset($_SESSION[self::SESSION_INFO_SESSION_VAR_NAME]);
+        unset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED]);
     }
 
     public function getSessionStartTime()
