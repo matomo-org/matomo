@@ -1,10 +1,9 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
  */
 namespace Piwik\Plugins\Login;
 
@@ -25,7 +24,7 @@ class FormTwoFactorAuthCode extends QuickForm2
     {
         $this->addElement('text', 'form_authcode')
             ->addRule('required',
-                Piwik::translate('General_Required', Piwik::translate('GoogleAuthenticator_AuthCode')));
+                Piwik::translate('General_Required', 'Authentication code'));
 
         $this->addElement('hidden', 'form_nonce');
 

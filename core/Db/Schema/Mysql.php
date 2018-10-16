@@ -48,6 +48,14 @@ class Mysql implements SchemaInterface
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
+            'twofactor_backup_code'    => "CREATE TABLE {$prefixTables}twofactor_backup_code (
+                          idbackupcode BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                          login VARCHAR(100) NOT NULL,
+                          backup_code VARCHAR(20) NOT NULL,
+                            PRIMARY KEY(idbackupcode)
+                          ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+
             'access'  => "CREATE TABLE {$prefixTables}access (
                           idaccess INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
                           login VARCHAR(100) NOT NULL,
