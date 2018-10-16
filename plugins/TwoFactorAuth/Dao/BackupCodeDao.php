@@ -47,6 +47,14 @@ class BackupCodeDao
         return false;
     }
 
+    public function getAllBackupCodesForLogin($login)
+    {
+        $sql = sprintf('SELECT backup_code FROM %s WHERE login = ', $this->tablePrefixed);
+        $rows = Db::fetchAll($sql, array($login));
+        $codes = array_column($rows, 'backup_code');
+        return $codes;
+    }
+
     public function deleteBackupCode($login, $backupCode)
     {
         $sql = sprintf('DELETE FROM %s WHERE login = ? and backup_code = ?', $this->tablePrefixed);

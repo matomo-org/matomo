@@ -219,11 +219,13 @@ class Controller extends \Piwik\Plugin\Controller
             $fingerprint = new SessionFingerprint();
             $fingerprint->setTwoFactorAuthenticationVerified();
 
-            $backupCodes = $this->backupCodeDao->createBackupCodesForLogin($user['login']);
+            $this->backupCodeDao->createBackupCodesForLogin($user['login']);
 
-            return $this->renderTemplate('backupCodes', array(
-                'codes' => $backupCodes
-            ));
+            // make sure some more time is there for password verified
+            $session->setExpirationSeconds(60 * 5, 'passwordVerified');
+
+            $this->redirectToIndex('TwoFactorAuth', 'showBackupCodes');
+            return;
         }
 
         $view->title = $this->settings->twoFactorAuthTitle->getValue();
@@ -233,6 +235,22 @@ class Controller extends \Piwik\Plugin\Controller
         $view->authImage = $this->getQRUrl($view->description, $view->gatitle);
 
         return $view->render();
+    }
+
+    public function showBackupCodes()
+    {
+        Piwik::checkUserIsNotAnonymous();
+
+        $session = $this->make2faSession();
+        if (empty($session->passwordVerified)) {
+            throw new Exception('Not available');
+        }
+
+        $backupCodes = $this->backupCodeDao->getAllBackupCodesForLogin(Piwik::getCurrentUserLogin());
+
+        return $this->renderTemplate('backupCodes', array(
+            'codes' => $backupCodes
+        ));
     }
 
     public function showQrCode()
