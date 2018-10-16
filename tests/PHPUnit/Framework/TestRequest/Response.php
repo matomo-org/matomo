@@ -77,6 +77,10 @@ class Response
             return;
         }
 
+        if ($expected->requestUrl['format'] == 'original' && $expectedText != $actualText) {
+            print "ACTUAL: $actualText\n";
+            print "EXPECTED: $expectedText\n";
+        }
         // check content size to get quick feedback and avoid lengthy diff
         $checkSizeFirst = array('pdf', 'csv', 'html');
         if(!empty($expected->requestUrl['reportFormat'])
