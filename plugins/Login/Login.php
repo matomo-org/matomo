@@ -33,7 +33,7 @@ class Login extends \Piwik\Plugin
             'API.Request.authenticate'         => 'ApiRequestAuthenticate',
             'AssetManager.getJavaScriptFiles'  => 'getJsFiles',
             'AssetManager.getStylesheetFiles'  => 'getStylesheetFiles',
-            'Session.beforeSessionStart'       => 'beforeSessionStart'
+            'Session.beforeSessionStart'       => 'beforeSessionStart',
         );
         return $hooks;
     }

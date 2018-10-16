@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
-use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;

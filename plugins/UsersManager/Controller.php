@@ -8,20 +8,16 @@
  */
 namespace Piwik\Plugins\UsersManager;
 
-use Endroid\QrCode\QrCode;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\Login\SystemSettings;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
-use Piwik\Session\SessionNamespace;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\IgnoreCookie;
@@ -461,6 +457,4 @@ class Controller extends ControllerAdmin
     {
         return md5(SettingsPiwik::getSalt());
     }
-
-
 }
