@@ -617,7 +617,7 @@ class Request
         return substr(trim($input), 0, CustomVariables::getMaxLengthCustomVariables());
     }
 
-    protected function shouldUseThirdPartyCookie()
+    public function shouldUseThirdPartyCookie()
     {
         return (bool)Config::getInstance()->Tracker['use_third_party_id_cookie'];
     }
@@ -640,6 +640,10 @@ class Request
     public function setThirdPartyCookie($idVisitor)
     {
         if (!$this->shouldUseThirdPartyCookie()) {
+            return;
+        }
+
+        if (\Piwik\Tracker\IgnoreCookie::isIgnoreCookieFound()) {
             return;
         }
 
