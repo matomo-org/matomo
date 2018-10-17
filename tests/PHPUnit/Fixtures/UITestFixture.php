@@ -22,6 +22,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\ProcessedMetric;
 use Piwik\Plugin\Report;
+use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\PrivacyManager\SystemSettings;
@@ -96,7 +97,7 @@ class UITestFixture extends SqlDump
             0,
             ScheduledReports::EMAIL_TYPE,
             ReportRenderer::HTML_FORMAT,
-            ['XssTest_xssReportforTwig', 'XssTest_xssReportforAngular'],
+            ['ExampleAPI_xssReportforTwig', 'ExampleAPI_xssReportforAngular'],
             array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
         );
         APIScheduledReports::getInstance()->addReport(
@@ -106,7 +107,7 @@ class UITestFixture extends SqlDump
             0,
             ScheduledReports::EMAIL_TYPE,
             ReportRenderer::HTML_FORMAT,
-            ['XssTest_xssReportforTwig', 'XssTest_xssReportforAngular'],
+            ['ExampleAPI_xssReportforTwig', 'ExampleAPI_xssReportforAngular'],
             array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
         );
 
@@ -414,7 +415,7 @@ class UITestFixture extends SqlDump
                     $instances[] = new XssDimension();
                 }],
                 ['API.Request.intercept', function (&$result, $finalParameters, $pluginName, $methodName) {
-                    if ($pluginName != 'ExamplePlugin' && $methodName != 'xssReportforTwig' && $methodName != 'xssReportforAngular') {
+                    if ($pluginName != 'ExampleAPI' && $methodName != 'xssReportforTwig' && $methodName != 'xssReportforAngular') {
                         return;
                     }
 
@@ -445,16 +446,27 @@ class UITestFixture extends SqlDump
 
 class XssReport extends Report
 {
+    private $xssType;
+
     protected function init()
     {
         parent::init();
 
         $this->metrics        = array('nb_visits');
         $this->order = 10;
+
+        $action = Common::getRequestVar('actionToWidgetize', false) ?: Common::getRequestVar('action', false);
+        if ($action == 'xssReportforTwig') {
+            $this->initForXss('forTwig');
+        } else if ($action == 'xssReportforAngular') {
+            $this->initForXss('forAngular');
+        }
     }
 
     public function initForXss($type)
     {
+        $this->xssType = $type;
+
         $xssTesting = new XssTesting();
         $this->dimension      = new XssDimension();
         $this->dimension->initForXss($type);
@@ -463,9 +475,19 @@ class XssReport extends Report
         $this->categoryId = $xssTesting->$type('category');
         $this->subcategoryId = $xssTesting->$type('subcategory');
         $this->processedMetrics = [new XssProcessedMetric($type)];
-        $this->module = 'ExamplePlugin';
+        $this->module = 'ExampleAPI';
         $this->action = 'xssReport' . $type;
-        $this->id = 'ExamplePlugin.xssReport' . $type;
+        $this->id = 'ExampleAPI.xssReport' . $type;
+    }
+
+    public function configureView(ViewDataTable $view)
+    {
+        parent::configureView($view);
+
+        $type = $this->xssType;
+
+        $xssTesting = new XssTesting();
+        $view->config->show_footer_message = $xssTesting->$type('footermessage');
     }
 }
 
