@@ -975,7 +975,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     exec,
     res, width, height,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    initialized, hook, getHook, resetUserId, getVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
+    initialized, hook, getHook, resetUserId, getVisitorId, getGlobalVisitorId, getVisitorInfo, setUserId, getUserId, setSiteId, getSiteId, setTrackerUrl, getTrackerUrl, appendToTrackingUrl, getRequest, addPlugin,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
@@ -5691,6 +5691,38 @@ if (typeof window.Piwik !== 'object') {
              */
             this.getVisitorId = function () {
                 return getValuesFromVisitorIdCookie().uuid;
+            };
+            
+            /**
+             * Get visitor ID (from third party cookie)
+             *
+             * @return string Visitor ID in hexits (or empty string, if not yet known)
+             */
+            this.getGlobalVisitorId = function () {
+                try {
+                    var pkUid = getCookie('_pk_uid');
+                    
+                    var matches = pkUid.match(/0=(.*):/);
+                    if(typeof matches[1] === 'undefined') {
+                        return null;
+                    }
+                    
+                    var globalVisitorIdBase64 = matches[1];
+                     
+                    var globalVisitorIdRaw = atob(globalVisitorIdBase64);
+                     
+                    matches = globalVisitorIdRaw.match(/s:16:"(.*)";/);
+                    if(typeof matches[1] === 'undefined') {
+                        return null;
+                    }
+                    
+                    var globalVisitorId = matches[1];
+                    
+                    return globalVisitorId;
+                     
+                } catch (e) {
+                    return null;
+                }
             };
 
             /**
