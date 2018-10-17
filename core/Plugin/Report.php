@@ -304,7 +304,7 @@ class Report
         $apiProxy = Proxy::getInstance();
 
         if (!$apiProxy->isExistingApiAction($module, $action)) {
-            throw new Exception("Invalid action name '$module' for '$action' plugin.");
+            throw new Exception("Invalid action name '$action' for '$module' plugin.");
         }
 
         $apiAction = $apiProxy->buildApiActionName($module, $action);
