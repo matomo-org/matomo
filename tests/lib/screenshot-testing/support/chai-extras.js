@@ -504,7 +504,7 @@ function checkForDangerousLinks() {
         var result = [];
         $('a').each(function () {
             var href = $(this).attr('href');
-            if (/^(javascript|vbscript|data):/.test(href)) {
+            if (/^(javascript|vbscript|data):;*[^;]+/.test(href)) {
                 result.push($(this).text() + ' - [href = ' + href + ']');
             }
         });
