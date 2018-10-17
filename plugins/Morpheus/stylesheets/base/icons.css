@@ -497,3 +497,7 @@
 .icon-embed:before {
     content: "\ea80";
 }
+
+.icon-delete:hover {
+    color: #d4291f !important;
+}
