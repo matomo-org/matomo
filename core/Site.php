@@ -77,6 +77,11 @@ class Site
             }
         }
 
+        // for serialized format to be predictable across php/mysql/pdo/mysqli versions, make sure the id is an int
+        if (isset($site['idsite'])) {
+            $site['idsite'] = (int)$site['idsite'];
+        }
+
         $sites = array(&$site);
         self::triggerSetSitesEvent($sites);
         self::setSiteFromArray($this->id, $site);
