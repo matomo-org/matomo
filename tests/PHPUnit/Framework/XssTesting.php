@@ -157,7 +157,7 @@ JS;
             'angular-(processedmetricdocs)',
             'angular-(scheduledreport)',
             'twig-(segment)',
-            'angular-(From Europe)',
+            'angular-(From Europe segment)',
             'twig-(dashboard name0)',
             'angular-(dashboard name1)',
         ];

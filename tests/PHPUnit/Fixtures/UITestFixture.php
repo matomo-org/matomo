@@ -391,9 +391,9 @@ class UITestFixture extends SqlDump
             $segmentName, $segmentDefinition, $idSite = 1, $autoArchive = true, $enabledAllUsers = true);
 
         // create two more segments
-        $segmentName = $this->xssTesting->forAngular("From Europe");
+        $segmentName = $this->xssTesting->forAngular("From Europe segment");
         APISegmentEditor::getInstance()->add(
-            $segmentName, "continentCode==eur", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
+            'From Europe ' . $segmentName, "continentCode==eur", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
         APISegmentEditor::getInstance()->add(
             "Multiple actions", "actions>=2", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
     }
