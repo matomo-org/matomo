@@ -304,7 +304,7 @@ class JoinGenerator
             }
 
             print "h\n";
-            return strcmp($tAName, $tBName);
+            return strcmp(json_encode($tA), json_encode($tB));
         }
 
         $weightA = null;
@@ -344,7 +344,7 @@ class JoinGenerator
 
         if ($weightA === $weightB) {
             print "e\n";
-            return strcmp($tA['table'], $tB['table']);
+            return strcmp(json_encode($tA), json_encode($tB));
         }
 
         if ($weightA > $weightB) {
