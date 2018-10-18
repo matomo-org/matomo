@@ -116,7 +116,7 @@ class JoinTables extends \ArrayObject
         $firstTable = array_shift($tables);
         usort($tables, function ($ta, $tb) use ($tables, $cmpFunction) {
             $return = call_user_func($cmpFunction, $ta, $tb);
-            print "sort value: $return\n";
+            print "sort value (" . json_encode($ta) . "," . json_encode($tb) . "): $return\n";
             if ($return === 0) {
                 $indexA = array_search($ta, $tables);
                 $indexB = array_search($tb, $tables);
