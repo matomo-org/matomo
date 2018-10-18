@@ -111,10 +111,14 @@ class JoinTables extends \ArrayObject
     {
         // we do not use $this->uasort as we do not want to maintain keys
         $tables = $this->getTables();
-        $this->parseDependencies($tables);
 
-        $sorted = [];
-        $this->visitTableListDfs($tables, function ($tableInfo) use (&$sorted) {
+        // the first entry is always the FROM table
+        $firstTable = array_shift($tables);
+
+        $dependencies = $this->parseDependencies($tables);
+
+        $sorted = [$firstTable];
+        $this->visitTableListDfs($tables, $dependencies, function ($tableInfo) use (&$sorted) {
             $sorted[] = $tableInfo;
         });
 
@@ -128,10 +132,39 @@ class JoinTables extends \ArrayObject
         }
     }
 
-    private function parseDependencies(array &$tables)
+    private function parseDependencies(array $tables)
     {
-        foreach ($tables as &$fromInfo) {
+        static $implicitTableDependencies = [
+            'log_action' => [
+                'log_link_visit_action',
+                'log_conversion',
+                'log_conversion_item',
+                'log_visit',
+            ],
+            'log_link_visit_action' => [
+                'log_visit',
+            ],
+            'log_conversion' => [
+                'log_visit',
+                'log_link_visit_action',
+            ],
+            'log_conversion_item' => [
+                'log_conversion',
+                'log_link_visit_action',
+                'log_visit',
+            ],
+        ];
+
+        $dependencies = [];
+        foreach ($tables as $key => &$fromInfo) {
             if (is_string($fromInfo)) {
+                // TODO: comment about implicit dependencies
+                if (isset($implicitTableDependencies[$fromInfo])) {
+                    $dependencies[$key] = array_filter($implicitTableDependencies[$fromInfo], function ($table) use ($tables) {
+                        return $this->isInTableArray($tables, $table);
+                    });
+                }
+
                 continue;
             }
 
@@ -141,8 +174,27 @@ class JoinTables extends \ArrayObject
             }
 
             $tablesInExpr = $this->parseSqlTables($fromInfo['joinOn'], $table);
-            $fromInfo['dependencies'] = $tablesInExpr;
+            $dependencies[$key] = $tablesInExpr;
         }
+        return $dependencies;
+    }
+
+    private function isInTableArray($tables, $table)
+    {
+        foreach ($tables as $entry) {
+            if (is_string($entry)
+                && $entry == $table
+            ) {
+                return true;
+            }
+
+            if (is_array($entry)
+                && $entry['table'] == $table
+            ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private function parseSqlTables($joinOn, $self)
@@ -160,15 +212,17 @@ class JoinTables extends \ArrayObject
         return $tables;
     }
 
-    private function visitTableListDfs($tables, $visitor)
+    private function visitTableListDfs($tables, $dependencies, $visitor)
     {
         $visited = [];
         foreach ($tables as $index => $tableInfo) {
-            $this->visitTableListDfsSingle($tables, $visitor, $index, $visited);
+            if (empty($visited[$index])) {
+                $this->visitTableListDfsSingle($tables, $dependencies, $visitor, $index, $visited);
+            }
         }
     }
 
-    private function visitTableListDfsSingle($tables, $visitor, $tableToVisitIndex, &$visited)
+    private function visitTableListDfsSingle($tables, $dependencies, $visitor, $tableToVisitIndex, &$visited)
     {
         if ($tableToVisitIndex === null) {
             $tableToVisitIndex = 0;
@@ -177,17 +231,15 @@ class JoinTables extends \ArrayObject
         $visited[$tableToVisitIndex] = true;
         $tableToVisit = $tables[$tableToVisitIndex];
 
-        if (is_array($tableToVisit)
-            && !empty($tableToVisit['dependencies'])
-        ) {
-            foreach ($tableToVisit['dependencies'] as $dependencyTableName) {
+        if (!empty($dependencies[$tableToVisitIndex])) {
+            foreach ($dependencies[$tableToVisitIndex] as $dependencyTableName) {
                 $dependentTableToVisit = $this->findTableInfo($tables, $dependencyTableName);
                 if ($dependentTableToVisit === null) {
                     continue;
                 }
 
-                if (empty($visited[$tableToVisitIndex])) {
-                    $this->visitTableListDfsSingle($tables, $visitor, $dependentTableToVisit, $visited);
+                if (empty($visited[$dependentTableToVisit])) {
+                    $this->visitTableListDfsSingle($tables, $dependencies, $visitor, $dependentTableToVisit, $visited);
                 }
             }
         }

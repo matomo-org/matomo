@@ -619,21 +619,20 @@ class SegmentTest extends IntegrationTestCase
             "sql"  => "
                 SELECT
                     log_inner.*
-                FROM
-                    (
+                FROM (
                 SELECT
                     log_visit.*
                 FROM
                     " . Common::prefixTable('log_visit') . " AS log_visit
-                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
                     LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
                 WHERE
-                     log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ?
-                     AND (
-                           log_link_visit_action.idaction_url IS NOT NULL
-                           AND log_link_visit_action.idaction_url <> ''
-                           AND log_link_visit_action.idaction_url <> '0'
-                           )
+                    log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ?
+                    AND (
+                          log_link_visit_action.idaction_url IS NOT NULL
+                          AND log_link_visit_action.idaction_url <> ''
+                          AND log_link_visit_action.idaction_url <> '0'
+                          )
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL
                      ) AS log_inner",
@@ -1503,7 +1502,7 @@ log_visit.visit_total_actions
                           AND ( ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
                       GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
                       ORDER BY NULL )
-                AS log_inner GROUP BY log_inner.idgoal",
+                 AS log_inner GROUP BY log_inner.idgoal",
             "bind" => $expectedBind);
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -1599,13 +1598,11 @@ log_visit.visit_total_actions
                     WHERE ( log_conversion.server_time >= ?
                         AND log_conversion.server_time <= ?
                         AND log_conversion.idsite IN (?) )
-                        AND ( (log_visit.visitor_returning = ?
-                        OR log_visit.visitor_returning = ?)
+                        AND ( (log_visit.visitor_returning = ? OR log_visit.visitor_returning = ?)
                         AND ( log_link_visit_action.idaction_url IN (SELECT idaction FROM log_action WHERE ( name LIKE CONCAT('%', ?, '%') AND type = 1 )) ) )
                     GROUP BY CONCAT(log_conversion.idvisit, '_' , log_conversion.idgoal, '_', log_conversion.buster)
-                    ORDER BY NULL )
-                AS log_inner
-                GROUP BY log_inner.idgoal",
+                    ORDER BY NULL ) AS log_inner
+                    GROUP BY log_inner.idgoal",
             "bind" => $expectedBind);
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
