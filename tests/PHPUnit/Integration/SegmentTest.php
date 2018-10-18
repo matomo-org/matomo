@@ -495,11 +495,12 @@ class SegmentTest extends IntegrationTestCase
         $logVisitTable = Common::prefixTable('log_visit');
 
         $expected = array(
-            "sql"  => "
+            "sql" => "
             SELECT log_link_visit_action.custom_dimension_1,
-                   log_action.name as url, sum(log_link_visit_action.time_spent) as `13`,
+                   log_action.name as url,
+                   sum(log_link_visit_action.time_spent) as `13`,
                    sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
-            FROM $logLinkVisitActionTable AS log_link_visit_action
+            FROM log_link_visit_action AS log_link_visit_action
             LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_url = log_action.idaction
             LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
             LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_foo ON log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit

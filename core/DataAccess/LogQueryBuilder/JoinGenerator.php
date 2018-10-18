@@ -301,7 +301,13 @@ class JoinGenerator
                 return -1;
             }
 
-            return strcmp($tAName, $tBName);
+            $result = strcmp($tAName, $tBName);
+            if ($result == 0) {
+                $tAjoinOn = isset($tA['joinOn']) ? $tA['joinOn'] : '';
+                $tBjoinOn = isset($tB['joinOn']) ? $tB['joinOn'] : '';
+                $result = strcmp($tAjoinOn, $tBjoinOn);
+            }
+            return $result;
         }
 
         $weightA = null;
@@ -338,7 +344,13 @@ class JoinGenerator
         }
 
         if ($weightA === $weightB) {
-            return strcmp($tA['table'], $tB['table']);
+            $result = strcmp($tA['table'], $tB['table']);
+            if ($result == 0) {
+                $tAjoinOn = isset($tA['joinOn']) ? $tA['joinOn'] : '';
+                $tBjoinOn = isset($tB['joinOn']) ? $tB['joinOn'] : '';
+                $result = strcmp($tAjoinOn, $tBjoinOn);
+            }
+            return $result;
         }
 
         if ($weightA > $weightB) {
