@@ -107,7 +107,7 @@ class JoinTables extends \ArrayObject
         return isset($table);
     }
 
-    public function sort($cmpFunction)
+    public function sort()
     {
         // we do not use $this->uasort as we do not want to maintain keys
         $tables = $this->getTables();

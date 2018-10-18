@@ -106,7 +106,7 @@ class JoinGenerator
         /** @var LogTable[] $availableLogTables */
         $availableLogTables = array();
 
-        $this->tables->sort(array($this, 'sortTablesForJoin'));
+        $this->tables->sort();
 
         foreach ($this->tables as $i => $table) {
             if (is_array($table)) {
@@ -267,85 +267,4 @@ class JoinGenerator
         $this->nonVisitJoins[$tableName][$tableNameToJoin] = $nonVisitJoin;
         $this->nonVisitJoins[$tableNameToJoin][$tableName] = $nonVisitJoin;
     }
-
-    public function sortTablesForJoin($tA, $tB)
-    {
-        $coreSort = array(
-            'log_link_visit_action' => 0,
-            'log_action' => 1,
-            'log_visit' => 2,
-            'log_conversion' => 3,
-            'log_conversion_item' => 4
-        );
-
-        if (is_array($tA) && is_array($tB)) {
-            $tAName = '';
-            if (isset($tA['tableAlias'])) {
-                $tAName = $tA['tableAlias'];
-            } elseif (isset($tA['table'])) {
-                $tAName = $tA['table'];
-            }
-
-            $tBName = '';
-            if (isset($tB['tableAlias'])) {
-                $tBName = $tB['tableAlias'];
-            } elseif (isset($tB['table'])) {
-                $tBName = $tB['table'];
-            }
-
-            if ($tBName && isset($tA['joinOn']) && strpos($tA['joinOn'], $tBName) !== false) {
-                return 1;
-            }
-
-            if ($tAName && isset($tB['joinOn']) && strpos($tB['joinOn'], $tAName) !== false) {
-                return -1;
-            }
-
-            return strcmp($tAName, $tBName);
-        }
-
-        $weightA = null;
-        $weightB = null;
-
-        if (is_array($tA)) {
-            if (isset($tA['table']) && isset($coreSort[$tA['table']]) && !isset($tA['tableAlias']) && !isset($tA['joinOn'])) {
-                // eg array('table' => 'log_link_visit_action', 'join' => 'RIGHT JOIN')
-                // we treat this like a regular string table which we can join automatically
-                $weightA = $coreSort[$tA['table']];
-            } else {
-                return 1;
-            }
-        }
-
-        if (is_array($tB)) {
-            if (isset($tB['table']) && isset($coreSort[$tB['table']]) && !isset($tB['tableAlias']) && !isset($tB['joinOn'])) {
-                $weightB = $coreSort[$tB['table']];
-            } else {
-                return -1;
-            }
-        }
-
-        if (!isset($weightA) && isset($coreSort[$tA])) {
-            $weightA = $coreSort[$tA];
-        } elseif (!isset($weightA)) {
-            $weightA = 999;
-        }
-
-        if (!isset($weightB) && isset($coreSort[$tB])) {
-            $weightB = $coreSort[$tB];
-        } elseif (!isset($weightB)) {
-            $weightB = 999;
-        }
-
-        if ($weightA === $weightB) {
-            return strcmp($tA['table'], $tB['table']);
-        }
-
-        if ($weightA > $weightB) {
-            return 1;
-        }
-
-        return -1;
-    }
-    
 }
