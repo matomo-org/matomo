@@ -294,13 +294,16 @@ class JoinGenerator
             }
 
             if ($tBName && isset($tA['joinOn']) && strpos($tA['joinOn'], $tBName) !== false) {
+                print "a\n";
                 return 1;
             }
 
             if ($tAName && isset($tB['joinOn']) && strpos($tB['joinOn'], $tAName) !== false) {
+                print "b\n";
                 return -1;
             }
 
+            print "h\n";
             return strcmp($tAName, $tBName);
         }
 
@@ -313,6 +316,7 @@ class JoinGenerator
                 // we treat this like a regular string table which we can join automatically
                 $weightA = $coreSort[$tA['table']];
             } else {
+                print "c\n";
                 return 1;
             }
         }
@@ -321,6 +325,7 @@ class JoinGenerator
             if (isset($tB['table']) && isset($coreSort[$tB['table']]) && !isset($tB['tableAlias']) && !isset($tB['joinOn'])) {
                 $weightB = $coreSort[$tB['table']];
             } else {
+                print "d\n";
                 return -1;
             }
         }
@@ -338,13 +343,15 @@ class JoinGenerator
         }
 
         if ($weightA === $weightB) {
+            print "e\n";
             return strcmp($tA['table'], $tB['table']);
         }
 
         if ($weightA > $weightB) {
+            print "f\n";
             return 1;
         }
-
+        print "g\n";
         return -1;
     }
     
