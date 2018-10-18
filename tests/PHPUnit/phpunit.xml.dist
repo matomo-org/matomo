@@ -40,7 +40,7 @@
         <exclude>../../plugins/*/Test/Unit</exclude>
     </testsuite>
     <testsuite name="IntegrationTests">
-        <directory>./tests/PHPUnit/Integration/SegmentTest.php</directory>
+        <directory>./Integration/SegmentTest.php</directory>
     </testsuite>
     <testsuite name="UnitTests">
         <directory>./Unit</directory>
