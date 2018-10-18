@@ -111,25 +111,14 @@ class JoinTables extends \ArrayObject
     {
         // we do not use $this->uasort as we do not want to maintain keys
         $tables = $this->getTables();
+        $this->parseDependencies($tables);
 
-        // we need to make sure first table always comes first, only sort tables after the first table
-        $firstTable = array_shift($tables);
-        usort($tables, function ($ta, $tb) use ($tables, $cmpFunction) {
-            $return = call_user_func($cmpFunction, $ta, $tb);
-            print get_class($cmpFunction[0]).".".$cmpFunction[1]."\n";
-            print "sort value (" . json_encode($ta) . "," . json_encode($tb) . "): $return\n";
-            if ($return === 0) {
-                $indexA = array_search($ta, $tables);
-                $indexB = array_search($tb, $tables);
-
-                return $indexA - $indexB;
-            }
-
-            return $return;
+        $sorted = [];
+        $this->visitTableListDfs($tables, function ($tableInfo) use (&$sorted) {
+            $sorted[] = $tableInfo;
         });
-        array_unshift($tables, $firstTable);
 
-        $this->exchangeArray($tables);
+        $this->exchangeArray($sorted);
     }
 
     private function checkTableCanBeUsedForSegmentation($tableName)
@@ -139,5 +128,87 @@ class JoinTables extends \ArrayObject
         }
     }
 
-    
+    private function parseDependencies(array &$tables)
+    {
+        foreach ($tables as &$fromInfo) {
+            if (is_string($fromInfo)) {
+                continue;
+            }
+
+            $table = isset($fromInfo['tableAlias']) ? $fromInfo['tableAlias'] : $fromInfo['table'];
+            if (empty($fromInfo['joinOn'])) {
+                continue;
+            }
+
+            $tablesInExpr = $this->parseSqlTables($fromInfo['joinOn'], $table);
+            $fromInfo['dependencies'] = $tablesInExpr;
+        }
+    }
+
+    private function parseSqlTables($joinOn, $self)
+    {
+        preg_match_all('/\b([a-zA-Z0-9_`]+)\.[a-zA-Z0-9_`]+\b/', $joinOn, $matches);
+
+        $tables = [];
+        foreach ($matches[1] as $table) {
+            if ($table === $self) {
+                continue;
+            }
+
+            $tables[] = $table;
+        }
+        return $tables;
+    }
+
+    private function visitTableListDfs($tables, $visitor)
+    {
+        $visited = [];
+        foreach ($tables as $index => $tableInfo) {
+            $this->visitTableListDfsSingle($tables, $visitor, $index, $visited);
+        }
+    }
+
+    private function visitTableListDfsSingle($tables, $visitor, $tableToVisitIndex, &$visited)
+    {
+        if ($tableToVisitIndex === null) {
+            $tableToVisitIndex = 0;
+        }
+
+        $visited[$tableToVisitIndex] = true;
+        $tableToVisit = $tables[$tableToVisitIndex];
+
+        if (is_array($tableToVisit)
+            && !empty($tableToVisit['dependencies'])
+        ) {
+            foreach ($tableToVisit['dependencies'] as $dependencyTableName) {
+                $dependentTableToVisit = $this->findTableInfo($tables, $dependencyTableName);
+                if ($dependentTableToVisit === null) {
+                    continue;
+                }
+
+                if (empty($visited[$tableToVisitIndex])) {
+                    $this->visitTableListDfsSingle($tables, $visitor, $dependentTableToVisit, $visited);
+                }
+            }
+        }
+
+        $visitor($tableToVisit);
+    }
+
+    private function findTableInfo($tables, $dependencyTableName)
+    {
+        foreach ($tables as $key => $info) {
+            $tableName = null;
+            if (is_string($info)) {
+                $tableName = $info;
+            } else if (is_array($info)) {
+                $tableName = isset($info['tableAlias']) ? $info['tableAlias'] : $info['table'];
+            }
+
+            if ($tableName == $dependencyTableName) {
+                return $key;
+            }
+        }
+        return null;
+    }
 }
