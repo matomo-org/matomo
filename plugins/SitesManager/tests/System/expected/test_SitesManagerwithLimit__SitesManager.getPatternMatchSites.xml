@@ -19,6 +19,7 @@
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
 		<creator_login>superUserLogin</creator_login>
+		<userid_linked_to_visitorid>1</userid_linked_to_visitorid>
 		<timezone_name>UTC</timezone_name>
 		<currency_name>US Dollar</currency_name>
 	</row>
@@ -41,6 +42,7 @@
 		<type>website</type>
 		<keep_url_fragment>0</keep_url_fragment>
 		<creator_login>superUserLogin</creator_login>
+		<userid_linked_to_visitorid>1</userid_linked_to_visitorid>
 		<timezone_name>UTC</timezone_name>
 		<currency_name>US Dollar</currency_name>
 	</row>

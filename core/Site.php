@@ -360,6 +360,17 @@ class Site
     }
 
     /**
+     * Returns whether userid is linked to visitorid for the site.
+     *
+     * @return bool
+     * @throws Exception if data for the site cannot be found.
+     */
+    public function isUserIdLinkedToVisitorId()
+    {
+        return !empty($this->get('userid_linked_to_visitorid'));
+    }
+    
+    /**
      * Returns the site search keyword query parameters for the site.
      *
      * @return string
@@ -576,6 +587,17 @@ class Site
         return self::getFor($idsite, 'ecommerce') == 1;
     }
 
+    /**
+     * Returns whether for the site with the specified ID userid is linked to visitorid or not.
+     *
+     * @param int $idsite The site ID.
+     * @return string
+     */
+    public static function isUserIdLinkedToVisitorIdFor($idsite)
+    {
+        return !empty(self::getFor($idsite, 'userid_linked_to_visitorid'));
+    }
+    
     /**
      * Returns whether the site with the specified ID is Site Search enabled.
      *

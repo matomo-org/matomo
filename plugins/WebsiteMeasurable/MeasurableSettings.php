@@ -63,6 +63,9 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
     /** @var Setting */
     public $ecommerce;
+    
+    /** @var Setting */
+    public $userIdLinkedToVisitorId;
 
     /**
      * @var SitesManager\API
@@ -137,6 +140,8 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
          */
 
         $this->ecommerce = $this->makeEcommerce();
+        
+        $this->userIdLinkedToVisitorId = $this->makeUserIdLinkedToVisitorId();
     }
 
     private function makeExcludeUnknownUrls()
@@ -340,6 +345,21 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
                 0 => Piwik::translate('SitesManager_NotAnEcommerceSite'),
                 1 => Piwik::translate('SitesManager_EnableEcommerce')
             );
+        });
+    }
+
+    private function makeUserIdLinkedToVisitorId()
+    {
+        return $this->makeProperty('userid_linked_to_visitorid', $default = true, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+            $field->title = Piwik::translate('SitesManager_UserIdLinkedToVisitorIdLabel');
+            $field->inlineHelp = Piwik::translate('SitesManager_UserIdLinkedToVisitorIdHelp')
+                . '<br /><br />'
+                . Piwik::translate('SitesManager_UserIdLinkedToVisitorIdDesc')
+                . '<br />'
+                . Piwik::translate('SitesManager_UserIdDocLink',
+                    array("<a href='https://matomo.org/docs/user-id/' target='_blank'>", '</a>'))
+                . '<br />';
+            $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;;
         });
     }
 

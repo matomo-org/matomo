@@ -581,6 +581,7 @@ class API extends \Piwik\Plugin\API
      * @see getKeepURLFragmentsGlobal.
      * @param string $type The website type, defaults to "website" if not set.
      * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
+     * @param bool|null $userIdLinkedToVisitorId Link userid to visitorid
      *
      * @return int the website ID created
      */
@@ -600,7 +601,8 @@ class API extends \Piwik\Plugin\API
                             $keepURLFragments = null,
                             $type = null,
                             $settingValues = null,
-                            $excludeUnknownUrls = null)
+                            $excludeUnknownUrls = null,
+                            $userIdLinkedToVisitorId = null)
     {
         Piwik::checkUserHasSuperUserAccess();
 
@@ -622,6 +624,7 @@ class API extends \Piwik\Plugin\API
         $coreProperties = $this->setSettingValue('excluded_ips', explode(',', $excludedIps), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('userid_linked_to_visitorid', $userIdLinkedToVisitorId, $coreProperties, $settingValues);
 
         $timezone = trim($timezone);
         if (empty($timezone)) {
@@ -1217,6 +1220,7 @@ class API extends \Piwik\Plugin\API
      * @param string $type The Website type, default value is "website"
      * @param array|null $settingValues JSON serialized settings eg {settingName: settingValue, ...}
      * @param bool|null $excludeUnknownUrls Track only URL matching one of website URLs
+     * @param bool|null $userIdLinkedToVisitorId Link userid to visitorid
      * @throws Exception
      * @see getKeepURLFragmentsGlobal. If null, the existing value will
      *                                   not be modified.
@@ -1240,7 +1244,8 @@ class API extends \Piwik\Plugin\API
                                $keepURLFragments = null,
                                $type = null,
                                $settingValues = null,
-                               $excludeUnknownUrls = null)
+                               $excludeUnknownUrls = null,
+                               $userIdLinkedToVisitorId = null)
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -1277,6 +1282,7 @@ class API extends \Piwik\Plugin\API
         $coreProperties = $this->setSettingValue('excluded_ips', explode(',', $excludedIps), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('excluded_parameters', explode(',', $excludedQueryParameters), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('excluded_user_agents', explode(',', $excludedUserAgents), $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('userid_linked_to_visitorid', $userIdLinkedToVisitorId, $coreProperties, $settingValues);
 
         if (isset($currency)) {
             $currency = trim($currency);

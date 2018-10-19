@@ -76,6 +76,7 @@ class Mysql implements SchemaInterface
                             `type` VARCHAR(255) NOT NULL,
                             keep_url_fragment TINYINT NOT NULL DEFAULT 0,
                             creator_login VARCHAR(100) NULL,
+                            userid_linked_to_visitorid TINYINT DEFAULT 1,
                               PRIMARY KEY(idsite)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",

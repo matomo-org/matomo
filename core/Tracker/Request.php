@@ -695,19 +695,22 @@ class Request
      * or from a Visitor ID from 3rd party (optional) cookies,
      * or from a given Visitor Id from 1st party?
      *
+     * @param bool $alwaysCheckForcedUserId
      * @throws Exception
      */
-    public function getVisitorId()
+    public function getVisitorId($alwaysCheckForcedUserId = false)
     {
         $found = false;
         
         // If User ID is set it takes precedence
-        $userId = $this->getForcedUserId();
-        if ($userId) {
-            $userIdHashed = $this->getUserIdHashed($userId);
-            $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
-            Common::printDebug("Request will be recorded for this user_id = " . $userId . " (idvisitor = $idVisitor)");
-            $found = true;
+        if ($alwaysCheckForcedUserId || $this->isUserIdLinkedToVisitorId()) {
+            $userId = $this->getForcedUserId();
+            if ($userId) {
+                $userIdHashed = $this->getUserIdHashed($userId);
+                $idVisitor = $this->truncateIdAsVisitorId($userIdHashed);
+                Common::printDebug("Request will be recorded for this user_id = " . $userId . " (idvisitor = $idVisitor)");
+                $found = true;
+            }
         }
 
         // Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
@@ -904,5 +907,22 @@ class Request
             return $binVisitorId;
         }
         return false;
+    }
+
+    public function isUserIdLinkedToVisitorId()
+    {
+        $idSite = (int)$this->getIdSite();
+        
+        try {
+            $site = Cache::getCacheWebsiteAttributes($idSite);
+        } catch (UnexpectedWebsiteFoundException $e) {
+            return true;
+        }
+        
+        if (!isset($site['userid_linked_to_visitorid'])) {
+            return true;
+        }
+        
+        return !empty($site['userid_linked_to_visitorid']);
     }
 }

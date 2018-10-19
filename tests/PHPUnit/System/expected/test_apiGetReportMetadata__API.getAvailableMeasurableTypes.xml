@@ -219,6 +219,22 @@ https://www.example.org/</placeholder>
 						<introduction />
 						<condition />
 					</row>
+					<row>
+						<name>userid_linked_to_visitorid</name>
+						<title>userId linked to visitorId</title>
+						<value>1</value>
+						<defaultValue>1</defaultValue>
+						<type>boolean</type>
+						<uiControl>checkbox</uiControl>
+						<uiControlAttributes>
+						</uiControlAttributes>
+						<availableValues />
+						<description />
+						<inlineHelp>When the userId is linked to the visitorId (default), different devices with the same userId will share the same visit and visitorId. When the userId is not linked to the visitorId, different devices with the same userId will have different visits and visitorIds.&lt;br /&gt;&lt;br /&gt;Not linking the userId to the visitorId is useful when the third party cookie is activated (the same visitorId is used across all Matomo websites for the same device) and some Matomo websites make use of the userId feature and some not.&lt;br /&gt;Learn more about the userId feature here: &lt;a href='https://matomo.org/docs/user-id/' target='_blank'&gt;userId documentation&lt;/a&gt;&lt;br /&gt;</inlineHelp>
+						<templateFile />
+						<introduction />
+						<condition />
+					</row>
 				</settings>
 			</row>
 			<row>
@@ -462,6 +478,22 @@ https://www.example.org/</placeholder>
 						</availableValues>
 						<description />
 						<inlineHelp>When enabled, the &quot;Goals&quot; report will have a new &quot;Ecommerce&quot; section.&lt;br /&gt;Matomo allows for advanced Ecommerce Analytics tracking &amp; reporting. Learn more about &lt;a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'&gt; Ecommerce Analytics&lt;/a&gt;.</inlineHelp>
+						<templateFile />
+						<introduction />
+						<condition />
+					</row>
+					<row>
+						<name>userid_linked_to_visitorid</name>
+						<title>userId linked to visitorId</title>
+						<value>1</value>
+						<defaultValue>1</defaultValue>
+						<type>boolean</type>
+						<uiControl>checkbox</uiControl>
+						<uiControlAttributes>
+						</uiControlAttributes>
+						<availableValues />
+						<description />
+						<inlineHelp>When the userId is linked to the visitorId (default), different devices with the same userId will share the same visit and visitorId. When the userId is not linked to the visitorId, different devices with the same userId will have different visits and visitorIds.&lt;br /&gt;&lt;br /&gt;Not linking the userId to the visitorId is useful when the third party cookie is activated (the same visitorId is used across all Matomo websites for the same device) and some Matomo websites make use of the userId feature and some not.&lt;br /&gt;Learn more about the userId feature here: &lt;a href='https://matomo.org/docs/user-id/' target='_blank'&gt;userId documentation&lt;/a&gt;&lt;br /&gt;</inlineHelp>
 						<templateFile />
 						<introduction />
 						<condition />

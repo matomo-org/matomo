@@ -516,13 +516,16 @@ class Visit implements VisitInterface
         }
 
         // User ID takes precedence and overwrites idvisitor value
-        $userId = $this->request->getForcedUserId();
-        if ($userId) {
-            $userIdHash = $this->request->getUserIdHashed($userId);
-            $binIdVisitor = Common::hex2bin($userIdHash);
-            $this->visitProperties->setProperty('idvisitor', $binIdVisitor);
-            $valuesToUpdate['idvisitor'] = $binIdVisitor;
+        if ($this->request->isUserIdLinkedToVisitorId()) {
+            $userId = $this->request->getForcedUserId();
+            if ($userId) {
+                $userIdHash = $this->request->getUserIdHashed($userId);
+                $binIdVisitor = Common::hex2bin($userIdHash);
+                $this->visitProperties->setProperty('idvisitor', $binIdVisitor);
+                $valuesToUpdate['idvisitor'] = $binIdVisitor;
+            }
         }
+        
         return $valuesToUpdate;
     }
 

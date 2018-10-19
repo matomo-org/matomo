@@ -163,6 +163,7 @@ class SitesManager extends \Piwik\Plugin
         $array['timezone'] = $this->getTimezoneFromWebsite($website);
         $array['ts_created'] = $website['ts_created'];
         $array['type'] = $website['type'];
+        $array['userid_linked_to_visitorid'] = $website['userid_linked_to_visitorid'];
     }
 
     /**
@@ -383,5 +384,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "Goals_Ecommerce";
         $translationKeys[] = "SitesManager_NotFound";
         $translationKeys[] = "SitesManager_DeleteSiteExplanation";
+        $translationKeys[] = "SitesManager_UserIdLinkedToVisitorIdLabel";
     }
 }
