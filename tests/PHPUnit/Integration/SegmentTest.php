@@ -502,19 +502,19 @@ class SegmentTest extends IntegrationTestCase
                    log_action.name as url,
                    sum(log_link_visit_action.time_spent) as `13`,
                    sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `6`
-              FROM log_link_visit_action AS log_link_visit_action
-         LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
-         LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_foo ON log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit
-         LEFT JOIN $logActionTable AS log_action_foo ON log_link_visit_action_foo.idaction_url = log_action_foo.idaction
-         LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_bar ON log_link_visit_action.idvisit = log_link_visit_action_bar.idvisit
-         LEFT JOIN $logActionTable AS log_action_bar ON log_link_visit_action_bar.idaction_url = log_action_bar.idaction
-         LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_baz ON log_link_visit_action.idvisit = log_link_visit_action_baz.idvisit
-         LEFT JOIN $logActionTable AS log_action_baz ON log_link_visit_action_baz.idaction_url = log_action_baz.idaction
-         LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_url = log_action.idaction
-         WHERE ( log_link_visit_action.server_time >= ?
-             AND log_link_visit_action.server_time <= ?
-             AND log_link_visit_action.idsite = ? )
-             AND ( log_action.type = ? )",
+            FROM log_link_visit_action AS log_link_visit_action
+            LEFT JOIN $logActionTable AS log_action ON log_link_visit_action.idaction_url = log_action.idaction
+            LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
+            LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_foo ON log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit
+            LEFT JOIN $logActionTable AS log_action_foo ON log_link_visit_action_foo.idaction_url = log_action_foo.idaction
+            LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_bar ON log_link_visit_action.idvisit = log_link_visit_action_bar.idvisit
+            LEFT JOIN $logActionTable AS log_action_bar ON log_link_visit_action_bar.idaction_url = log_action_bar.idaction
+            LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action_baz ON log_link_visit_action.idvisit = log_link_visit_action_baz.idvisit
+            LEFT JOIN $logActionTable AS log_action_baz ON log_link_visit_action_baz.idaction_url = log_action_baz.idaction
+            WHERE ( log_link_visit_action.server_time >= ?
+                AND log_link_visit_action.server_time <= ?
+                AND log_link_visit_action.idsite = ? )
+                AND ( log_action.type = ? )",
             "bind" => array('2015-11-30 11:00:00', '2015-12-01 10:59:59', $idSite, $actionType));
 
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
@@ -1592,9 +1592,9 @@ log_visit.visit_total_actions
                 SELECT log_inner.idgoal AS `idgoal`, count(*) AS `1`, count(distinct log_inner.idvisit) AS `3`, ROUND(SUM(log_inner.revenue),2) AS `2`
                 FROM (
                     SELECT log_conversion.idgoal, log_conversion.idvisit, log_conversion.revenue
-                    FROM $logConversionTable AS log_conversion
-                       LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_conversion.idvisit
+                    FROM log_conversion AS log_conversion
                        LEFT JOIN $logLinkVisitActionTable AS log_link_visit_action ON log_link_visit_action.idvisit = log_conversion.idvisit
+                       LEFT JOIN $logVisitTable AS log_visit ON log_visit.idvisit = log_conversion.idvisit
                     WHERE ( log_conversion.server_time >= ?
                         AND log_conversion.server_time <= ?
                         AND log_conversion.idsite IN (?) )

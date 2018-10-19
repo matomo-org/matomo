@@ -134,31 +134,45 @@ class JoinTables extends \ArrayObject
 
     private function parseDependencies(array $tables)
     {
+        /*
+$coreSort = array(
+            'log_link_visit_action' => 0,
+            'log_action' => 1,
+            'log_visit' => 2,
+            'log_conversion' => 3,
+            'log_conversion_item' => 4
+        );         */
+        //' TODO: note about order & implicit dependencies
         static $implicitTableDependencies = [
+            'log_link_visit_action' => [
+                // empty
+            ],
             'log_action' => [
                 'log_link_visit_action',
                 'log_conversion',
                 'log_conversion_item',
                 'log_visit',
             ],
-            'log_link_visit_action' => [
-                'log_visit',
+            'log_visit' => [
+                'log_link_visit_action',
+                'log_action',
             ],
             'log_conversion' => [
-                'log_visit',
                 'log_link_visit_action',
+                'log_action',
+                'log_visit',
             ],
             'log_conversion_item' => [
-                'log_conversion',
                 'log_link_visit_action',
+                'log_action',
                 'log_visit',
+                'log_conversion',
             ],
         ];
 
         $dependencies = [];
         foreach ($tables as $key => &$fromInfo) {
             if (is_string($fromInfo)) {
-                // TODO: comment about implicit dependencies
                 if (isset($implicitTableDependencies[$fromInfo])) {
                     $dependencies[$key] = array_filter($implicitTableDependencies[$fromInfo], function ($table) use ($tables) {
                         return $this->isInTableArray($tables, $table);
