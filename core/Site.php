@@ -83,12 +83,11 @@ class Site
 
         $this->site = $site;
 
-        // for serialized format to be predictable across php/mysql/pdo/mysqli versions, make sure the id is an int
-        if (isset($this->site['idsite'])) {
-            $this->site['idsite'] = (int)$this->site['idsite'];
-        }
-        if (isset($this->site['ecommerce'])) {
-            $this->site['ecommerce'] = (int)$this->site['ecommerce'];
+        // for serialized format to be predictable across php/mysql/pdo/mysqli versions, make sure the int props stay ints
+        foreach ($this->site as $key => $value) {
+            if (is_numeric($value)) {
+                $this->site[$key] = (int)$value;
+            }
         }
     }
 
