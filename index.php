@@ -25,3 +25,4 @@ if (!defined('PIWIK_PRINT_ERROR_BACKTRACE')) {
 }
 
 require_once PIWIK_INCLUDE_PATH . '/core/dispatch.php';
+?>
