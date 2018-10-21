@@ -134,15 +134,13 @@ class JoinTables extends \ArrayObject
 
     private function parseDependencies(array $tables)
     {
-        /*
-$coreSort = array(
-            'log_link_visit_action' => 0,
-            'log_action' => 1,
-            'log_visit' => 2,
-            'log_conversion' => 3,
-            'log_conversion_item' => 4
-        );         */
-        //' TODO: note about order & implicit dependencies
+        // NOTE: joins can be specified explicitly as arrays w/ 'joinOn' keys or implicitly as table names. when
+        // table names are used, the joins dependencies are assumed based on how we want to order those joins.
+        // the below table list the possible dependencies of each table, and is specifically designed to enforce
+        // the following order:
+        // log_link_visit_action, log_action, log_visit, log_conversion, log_conversion_item
+        // which means if an array is supplied where log_visit comes before log_link_visitAction, it will
+        // be moved to after it.
         static $implicitTableDependencies = [
             'log_link_visit_action' => [
                 // empty
