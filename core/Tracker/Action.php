@@ -46,8 +46,8 @@ abstract class Action
 
     private static $factoryPriority = array(
         self::TYPE_PAGE_URL,
-        self::TYPE_CONTENT,
         self::TYPE_SITE_SEARCH,
+        self::TYPE_CONTENT,
         self::TYPE_EVENT,
         self::TYPE_OUTLINK,
         self::TYPE_DOWNLOAD
