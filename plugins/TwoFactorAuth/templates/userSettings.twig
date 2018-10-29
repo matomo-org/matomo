@@ -11,27 +11,22 @@
         {% if isForced %}
             <p>The Super User forces two-factor authentication to be enabled for everyone, you cannot disable it.
 
-                <button class="btn btn-link"
-                        ng-controller="TwoFactorAuthController as twoFactorAuth"
-                        ng-click="twoFactorAuth.configureDifferentDevice()">Configure a different device</button>
+                <a class="btn btn-link"
+                    href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">Configure a different device</a>
             </p>
 
         {% else %}
             <p>
+                <a class="btn btn-link"
+                        href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">Configure a different device</a>
 
-                <button class="btn btn-link"
-                        ng-controller="TwoFactorAuthController as twoFactorAuth"
-                        ng-click="twoFactorAuth.configureDifferentDevice()">Configure a different device</button>
-
-                <button class="btn btn-link"
-                        ng-controller="TwoFactorAuthController as twoFactorAuth"
-                        ng-click="twoFactorAuth.disable2fa()">Disable 2FA</button>
+                <a class="btn btn-link"
+                        href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'disableTwoFactorAuth', 'nonce' => disableNonce}) }}">Disable 2FA</a>
             </p>
         {% endif %}
     {% else %}
-        <button class="btn btn-link"
-                ng-controller="TwoFactorAuthController as twoFactorAuth"
-                ng-click="twoFactorAuth.enable2fa()">Enable 2FA now</button>
+        <a class="btn btn-link"
+                href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">Enable 2FA now</a>
     {% endif %}
 
 </div>

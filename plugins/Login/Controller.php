@@ -147,6 +147,48 @@ class Controller extends \Piwik\Plugin\Controller
         $view->nonce = Nonce::getNonce('Login.login');
     }
 
+    public function confirmPassword()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
+
+        $sessionNamespace = new Session\SessionNamespace('Login');
+
+        $nonceKey = 'confirmPassword';
+        $messageNoAccess = '';
+        if (!empty($_POST)) {
+            $nonce = Common::getRequestVar('nonce', null, 'string', $_POST);
+            if (!Nonce::verifyNonce($nonceKey, $nonce)) {
+                $messageNoAccess = $this->getMessageExceptionNoAccess();
+            } elseif ($this->verifyPasswordCorrect()) {
+                $sessionNamespace->isPasswordAuth = 1;
+                $sessionNamespace->setExpirationSeconds(20 * 60, 'isPasswordAuth');
+                Url::redirectToUrl('index.php' . Url::getCurrentQueryStringWithParametersModified(
+                        $sessionNamespace->redirectParams
+                    ));
+            } else {
+                $messageNoAccess = 'Password is not correct';
+            }
+        }
+
+        return $this->renderTemplate('confirmPassword', array(
+            'nonce' => Nonce::getNonce($nonceKey),
+            'AccessErrorString' => $messageNoAccess
+        ));
+    }
+
+    private function verifyPasswordCorrect()
+    {
+        /** @var \Piwik\Auth $authAdapter */
+        $authAdapter = StaticContainer::get('Piwik\Auth');
+        $authAdapter->setLogin(Piwik::getCurrentUserLogin());
+        $authAdapter->setPasswordHash(null);// ensure authentication happens on password
+        $authAdapter->setPassword(Common::getRequestVar('password', null, 'string', $_POST));
+        $authAdapter->setTokenAuth(null);// ensure authentication happens on password
+        $authResult = $authAdapter->authenticate();
+        return $authResult->wasAuthenticationSuccessful();
+    }
+
     /**
      * Form-less login
      * @see how to use it on http://piwik.org/faq/how-to/#faq_30

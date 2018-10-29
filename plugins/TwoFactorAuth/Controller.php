@@ -10,10 +10,9 @@ namespace Piwik\Plugins\TwoFactorAuth;
 use Endroid\QrCode\QrCode;
 use Piwik\API\Request;
 use Piwik\Common;
-use Piwik\Container\StaticContainer;
 use Piwik\Nonce;
 use Piwik\Piwik;
-use Piwik\Plugins\Login\FormTwoFactorAuthCode;
+use Piwik\Plugins\Login\Login;
 use Piwik\Plugins\TwoFactorAuth\Dao\BackupCodeDao;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Session\SessionFingerprint;
@@ -28,6 +27,7 @@ class Controller extends \Piwik\Plugin\Controller
 {
     const AUTH_CODE_NONCE = 'TwoFactorAuth.saveAuthCode';
     const LOGIN_2FA_NONCE = 'TwoFactorAuth.loginAuthCode';
+    const DISABLE_2FA_NONCE = 'TwoFactorAuth.disableAuthCode';
     const VERIFY_PASSWORD_NONCE = 'TwoFactorAuth.verifyPassword';
 
     /**
@@ -48,7 +48,7 @@ class Controller extends \Piwik\Plugin\Controller
         parent::__construct();
     }
 
-    public function twoFactorAuth()
+    public function loginTwoFactorAuth()
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
@@ -56,15 +56,16 @@ class Controller extends \Piwik\Plugin\Controller
         // user needs to have been logged in to confirm 2fa
         $sessionFingerprint = new SessionFingerprint();
         if ($sessionFingerprint->hasVerifiedTwoFactor()) {
-              throw new Exception('not available');
+            throw new Exception('not available');
         }
 
         if (!Piwik::isUserUsingTwoFactorAuthentication()) {
-             throw new Exception('not available');
+            throw new Exception('not available');
         }
+
         $messageNoAccess = null;
 
-        $view = new View('@TwoFactorAuth/twoFactorAuth');
+        $view = new View('@TwoFactorAuth/loginFactorAuth');
         $form = new FormTwoFactorAuthCode();
         $form->removeAttribute('action'); // remove action attribute, otherwise hash part will be lost
         if ($form->validate()) {
@@ -92,10 +93,12 @@ class Controller extends \Piwik\Plugin\Controller
     public function userSettings()
     {
         Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
 
         return $this->renderTemplate('userSettings', array(
             'isEnabled' => Piwik::isUserUsingTwoFactorAuthentication(),
-            'isForced' => $this->settings->twoFactorAuthRequired->getValue()
+            'isForced' => $this->settings->twoFactorAuthRequired->getValue(),
+            'disableNonce' => Nonce::getNonce(self::DISABLE_2FA_NONCE)
         ));
     }
 
@@ -138,36 +141,16 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('Two Factor Authentication not enabled');
         }
 
-        if ($this->verifyPasswordCorrect()) {
+        $nonce = Common::getRequestVar('nonce', null, 'string');
+
+        if (Login::requirePasswordEnteredRecently(array('module' => 'TwoFactorAuth', 'action' => 'disableTwoFactorAuth', 'nonce' => $nonce))) {
+
+            Nonce::checkNonce(self::DISABLE_2FA_NONCE);
+
             $model = new Model();
             $model->updateUserFields(Piwik::getCurrentUserLogin(), array('twofactor_secret' => ''));
 
             Url::redirectToUrl(Url::getCurrentUrl());
-        }
-    }
-
-    private function verifyPasswordCorrect()
-    {
-        /** @var \Piwik\Auth $authAdapter */
-        $authAdapter = StaticContainer::get('Piwik\Auth');
-        $authAdapter->setLogin(Piwik::getCurrentUserLogin());
-        $authAdapter->setPasswordHash(Common::getRequestVar('password', null, 'string'));
-        $authAdapter->setTokenAuth(null);// ensure authentication happens on password
-        $authAdapter->setPassword(null);// ensure authentication happens on password
-        $authResult = $authAdapter->authenticate();
-        return $authResult->wasAuthenticationSuccessful();
-    }
-
-    public function setupTwoFactorAuthStep1()
-    {
-        Piwik::checkUserIsNotAnonymous();
-
-        if (!empty($_GET['nonce'])) {
-            Nonce::checkNonce(self::VERIFY_PASSWORD_NONCE, $_GET['nonce']);
-            $this->verifyPasswordCorrect();
-            $session = $this->make2faSession();
-            $session->passwordVerified = 1;
-            $session->setExpirationSeconds(60 * 30, 'passwordVerified'); // require re-enter password after 30 minutes
         }
     }
 
@@ -183,17 +166,18 @@ class Controller extends \Piwik\Plugin\Controller
      * @throws \Exception
      * @throws \Piwik\NoAccessException
      */
-    public function setupTwoFactorAuthStep2()
+    public function setupTwoFactorAuth()
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = new View('@GoogleAuthenticator/regenerate');
+        $view = new View('@TwoFactorAuth/setupTwoFactorAuth');
         $this->setGeneralVariablesView($view);
 
         $authentiator = $this->makeAuthenticator();
         $session = $this->make2faSession();
 
-        if (empty($session->passwordVerified)) {
+        if (!Login::requirePasswordEnteredRecently(array('module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth'))) {
+            // should usually not go in here but redirect instead
             throw new Exception('You have to verify your password first.');
         }
 
@@ -256,6 +240,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function showQrCode()
     {
         Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
 
         $session = $this->make2faSession();
         $secret = $session->secret;
@@ -278,12 +263,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     protected function getQRUrl($description, $title)
     {
-        return sprintf('index.php?module=GoogleAuthenticator&action=showQrCode&cb=%s&title=%s&descr=%s', Common::getRandomString(8), urlencode($title), urlencode($description));
-    }
-
-    protected function getCurrentQRUrl()
-    {
-        return sprintf('index.php?module=GoogleAuthenticator&action=showQrCode&cb=%s&current=1', Common::getRandomString(8));
+        return sprintf('index.php?module=TwoFactorAuth&action=showQrCode&cb=%s&title=%s&descr=%s', Common::getRandomString(8), urlencode($title), urlencode($description));
     }
 
 }

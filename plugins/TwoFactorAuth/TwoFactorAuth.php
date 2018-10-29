@@ -41,7 +41,7 @@ class TwoFactorAuth extends \Piwik\Plugin
 
     public function render2FaUserSettings(&$out)
     {
-        if (Piwik::isUserIsAnonymous()) {
+        if (Piwik::isUserIsAnonymous() || !Piwik::isUserHasSomeViewAccess()) {
             return;
         }
 

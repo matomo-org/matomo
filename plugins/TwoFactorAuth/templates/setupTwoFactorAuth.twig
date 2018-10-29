@@ -1,0 +1,22 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+<div piwik-content-block
+     content-title="Two Factor Authentication (2FA)">
+
+    <p>
+        two factor authentication increase your account security...
+    </p>
+
+    <div class="setup2FAStep1">
+        <p>Scan this bar code</p>
+        <img src="{{ authImage|raw }}">
+
+        or enter this code: {{ newSecret }}
+
+        Please type in the auth code, after updating your Authenticator app with the new secret.
+        <input type="text" value="">
+    </div>
+
+</div>
+{% endblock %}
