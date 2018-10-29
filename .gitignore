@@ -34,6 +34,7 @@ php_errors.log
 /robots.txt
 /tmp/*
 !/tmp/.gitkeep
+!/tmp/CACHEDIR.TAG
 /vendor/
 /.cache
 /.externalToolBuilders
