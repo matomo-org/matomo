@@ -10,6 +10,7 @@ namespace Piwik\Plugins\TwoFactorAuth;
 use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Plugins\TwoFactorAuth\Dao\BackupCodeDao;
+use Piwik\Plugins\UsersManager\Model;
 
 require_once PIWIK_DOCUMENT_ROOT . '/libs/Authenticator/TwoFactorAuthenticator.php';
 
@@ -31,9 +32,30 @@ class Validate2FA
         $this->backupCodeDao = $backupCodeDao;
     }
 
-    public function validateAuthCode($authCode)
+    public function isUserUsingTwoFactorAuthentication($login)
     {
-        $user = $this->getMyUser();
+        if ($login === 'anonymous') {
+            return false; // not possible to use auth code with anonymous
+        }
+
+        $user = $this->getUser($login);
+        return !empty($user['twofactor_secret']);
+    }
+
+    private function getUser($login)
+    {
+        $userModel = new Model();
+        return $userModel->getUser($login);
+    }
+
+    public function validateAuthCode($login, $authCode)
+    {
+        if (!$this->isUserUsingTwoFactorAuthentication($login)) {
+            return true; // two factor not enabled
+        }
+
+        $user = $this->getUser($login);
+
         if ($this->validateAuthCodeDuringSetup($authCode, $user['twofactor_secret'])) {
             return true;
         }
@@ -58,14 +80,6 @@ class Validate2FA
     private function makeAuthenticator()
     {
         return new \TwoFactorAuthenticator();
-    }
-
-    private function getMyUser()
-    {
-        $login = Piwik::getCurrentUserLogin();
-        $user = Request::processRequest('UsersManager.getUser', array('userLogin' => $login));
-
-        return $user;
     }
 
 }

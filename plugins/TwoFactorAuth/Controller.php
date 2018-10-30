@@ -70,7 +70,7 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('not available');
         }
 
-        if (!Piwik::isUserUsingTwoFactorAuthentication()) {
+        if (!$this->validate2FA->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin())) {
             throw new Exception('not available');
         }
 
@@ -88,7 +88,7 @@ class Controller extends \Piwik\Plugin\Controller
                     $authCode = strtolower($authCode);
                 }
 
-                if ($this->validate2FA->validateAuthCode($authCode)) {
+                if ($this->validate2FA->validateAuthCode(Piwik::getCurrentUserLogin(), $authCode)) {
                     $sessionFingerprint->setTwoFactorAuthenticationVerified();
                     Url::redirectToUrl(Url::getCurrentUrl());
                 }
@@ -110,7 +110,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->checkPermissions();
 
         return $this->renderTemplate('userSettings', array(
-            'isEnabled' => Piwik::isUserUsingTwoFactorAuthentication(),
+            'isEnabled' => $this->validate2FA->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin()),
             'isForced' => $this->settings->twoFactorAuthRequired->getValue(),
             'disableNonce' => Nonce::getNonce(self::DISABLE_2FA_NONCE)
         ));
@@ -135,15 +135,16 @@ class Controller extends \Piwik\Plugin\Controller
         $this->checkPermissions();
 
         if ($this->settings->twoFactorAuthRequired->getValue()) {
-            throw new Exception('Two Factor Authentication cannot be disabled');
-        }
-        if (!Piwik::isUserUsingTwoFactorAuthentication()) {
-            throw new Exception('Two Factor Authentication not enabled');
+            throw new Exception('Two-factor authentication cannot be disabled as it is enforced');
         }
 
-        $nonce = Common::getRequestVar('nonce', null, 'string');
+        if (!$this->validate2FA->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin())) {
+            throw new Exception('Two-factor authentication is not enabled');
+        }
 
-        if ($this->passwordVerify->requirePasswordVerifiedRecently(array('module' => 'TwoFactorAuth', 'action' => 'disableTwoFactorAuth', 'nonce' => $nonce))) {
+        $nonce = Common::getRequestVar('disableNonce', null, 'string');
+
+        if ($this->passwordVerify->requirePasswordVerifiedRecently(array('module' => 'TwoFactorAuth', 'action' => 'disableTwoFactorAuth', 'disableNonce' => $nonce))) {
 
             Nonce::checkNonce(self::DISABLE_2FA_NONCE);
 
@@ -152,7 +153,7 @@ class Controller extends \Piwik\Plugin\Controller
 
             Url::redirectToUrl(Url::getCurrentUrl());
             $this->redirectToIndex('UsersManager', 'userSettings', null, null, null, array(
-                'nonce' => false
+                'disableNonce' => false
             ));
         }
     }
@@ -205,9 +206,6 @@ class Controller extends \Piwik\Plugin\Controller
                 $fingerprint->setTwoFactorAuthenticationVerified();
 
                 $this->backupCodeDao->createBackupCodesForLogin($user['login']);
-
-                // todo render codes directly here plus show a successful setup message
-                $this->redirectToIndex('TwoFactorAuth', 'showBackupCodes');
 
                 $view = new View('@TwoFactorAuth/setupFinished');
                 $this->setGeneralVariablesView($view);

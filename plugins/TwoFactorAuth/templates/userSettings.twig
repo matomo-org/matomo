@@ -16,7 +16,7 @@
         {% else %}
             <p>
                 <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">Configure a different device</a>
-                <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'disableTwoFactorAuth', 'nonce': disableNonce}) }}">Disable 2FA</a>
+                <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'disableTwoFactorAuth', 'disableNonce': disableNonce}) }}">Disable 2FA</a>
             </p>
         {% endif %}
         <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'showBackupCodes'}) }}">Show Backup Codes</a>

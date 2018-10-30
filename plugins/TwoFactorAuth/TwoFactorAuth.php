@@ -26,8 +26,10 @@ class TwoFactorAuth extends \Piwik\Plugin
         return array(
             'Request.dispatch' => array('function' => 'onRequestDispatch', 'after' => true),
             'API.UsersManager.deleteUser.end' => 'deleteBackupCodes',
-            'API.UsersManager.getTokenAuth' => 'require2FAinAPI',
-            'Template.userSettings.afterTokenAuth' => 'render2FaUserSettings'
+            'API.UsersManager.getTokenAuth.end' => 'onApiGetTokenAuth',
+            // 'UsersManager.API.verifyGetTokenAuthIdentity' => 'onApiGetTokenAuth',
+            'Template.userSettings.afterTokenAuth' => 'render2FaUserSettings',
+            'Login.authenticate.processSuccessfulSession.end' => 'onSuccessfulSession'
         );
     }
 
@@ -43,7 +45,7 @@ class TwoFactorAuth extends \Piwik\Plugin
 
     public function render2FaUserSettings(&$out)
     {
-        if (Piwik::isUserIsAnonymous() || !Piwik::isUserHasSomeViewAccess()) {
+        if (Piwik::isUserIsAnonymous()) {
             return;
         }
 
@@ -53,20 +55,46 @@ class TwoFactorAuth extends \Piwik\Plugin
         }
     }
 
-    public function require2FAinAPI()
+    public function onSuccessfulSession($login)
     {
-        $authCode = Common::getRequestVar('authCode', '', 'string');
-        if (Piwik::isUserUsingTwoFactorAuthentication()) {
-            if (!$authCode) {
-                http_response_code(401);
-                throw new \Exception('Please specify two-factor authentication code.');
-            }
-            $validate2FA = StaticContainer::get('Piwik\Plugins\TwoFactorAuth\Validate2FA');
-            if (!$validate2FA->validateAuthCode($authCode)) {
-                http_response_code(401);
-                throw new \Exception('Please enter correct two-factor authentication code.');
+        if (Piwik::getModule() === 'Login' && Piwik::getAction() === 'logme' && $login) {
+            // we allow user to send an "authCode" along logme to directly log in... if not, user will see the
+            // auth code verification screen after logme
+            $authCode = Common::getRequestVar('authCode', '', 'string');
+
+            if ($authCode) {
+                $validate2FA = StaticContainer::get('Piwik\Plugins\TwoFactorAuth\Validate2FA');
+                if ($validate2FA->validateAuthCode($login, $authCode)) {
+                    $sessionFingerprint = new SessionFingerprint();
+                    $sessionFingerprint->setTwoFactorAuthenticationVerified();
+                }
             }
         }
+    }
+
+    public function onApiGetTokenAuth($returnedValue, $params)
+    {
+        if (!empty($returnedValue)) {
+            $login = $params['parameters']['userLogin'];
+            $authCode = Common::getRequestVar('authCode', '', 'string');
+            $validate2FA = StaticContainer::get('Piwik\Plugins\TwoFactorAuth\Validate2FA');
+
+            $model = new Model();
+            if ($validate2FA->isUserUsingTwoFactorAuthentication($login)
+                && $model->getUserByTokenAuth($returnedValue)) {
+                // we only return an error when the login/password combo was correct. otherwise you could brute force
+                // auth tokens
+                if (!$authCode) {
+                    http_response_code(401);
+                    throw new \Exception('Please specify two-factor authentication code.');
+                }
+                if (!$validate2FA->validateAuthCode($login, $authCode)) {
+                    http_response_code(401);
+                    throw new \Exception('Please enter correct two-factor authentication code.');
+                }
+            }
+        }
+
     }
 
     public function onRequestDispatch(&$module, &$action, $parameters)
@@ -75,7 +103,13 @@ class TwoFactorAuth extends \Piwik\Plugin
             return;
         }
 
-        $isUsing2FA = Piwik::isUserUsingTwoFactorAuthentication();
+        if (Piwik::getModule() === 'Proxy') {
+            return;
+        }
+
+        $validate2FA = StaticContainer::get('Piwik\Plugins\TwoFactorAuth\Validate2FA');
+
+        $isUsing2FA = $validate2FA->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
         if ($isUsing2FA && !Request::isRootRequestApiRequest()) {
             $sessionFingerprint = new SessionFingerprint();
             if (!$sessionFingerprint->hasVerifiedTwoFactor()) {

@@ -238,6 +238,8 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_SetPermission';
         $translationKeys[] = 'UsersManager_RolesHelp';
         $translationKeys[] = 'UsersManager_Role';
+        $translationKeys[] = 'UsersManager_2FA';
+        $translationKeys[] = 'UsersManager_UsesTwoFactorAuthentication';
         $translationKeys[] = 'General_Actions';
         $translationKeys[] = 'UsersManager_TheDisplayedWebsitesAreSelected';
         $translationKeys[] = 'UsersManager_ClickToSelectAll';

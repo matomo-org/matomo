@@ -1,5 +1,7 @@
 {
     "UsersManager": {
+        "2FA": "2FA",
+        "UsesTwoFactorAuthentication": "Uses two-factor authentication",
         "AddUser": "Add a new user",
         "AddExistingUser": "Add an existing user",
         "AddNewUser": "Add new user",

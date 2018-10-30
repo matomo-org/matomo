@@ -177,18 +177,6 @@ class Piwik
     }
 
     /**
-     * Returns the current user's email address.
-     *
-     * @return string
-     * @api
-     */
-    public static function isUserUsingTwoFactorAuthentication()
-    {
-        $user = APIUsersManager::getInstance()->getUser(Piwik::getCurrentUserLogin());
-        return !empty($user['twofactor_secret']);
-    }
-
-    /**
      * Get a list of all email addresses having Super User access.
      *
      * @return array
