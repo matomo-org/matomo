@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\TwoFactorAuth;
 
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Piwik;
@@ -25,6 +26,7 @@ class TwoFactorAuth extends \Piwik\Plugin
         return array(
             'Request.dispatch' => array('function' => 'onRequestDispatch', 'after' => true),
             'API.UsersManager.deleteUser.end' => 'deleteBackupCodes',
+            'API.UsersManager.getTokenAuth' => 'require2FAinAPI',
             'Template.userSettings.afterTokenAuth' => 'render2FaUserSettings'
         );
     }
@@ -51,18 +53,34 @@ class TwoFactorAuth extends \Piwik\Plugin
         }
     }
 
+    public function require2FAinAPI()
+    {
+        $authCode = Common::getRequestVar('authCode', '', 'string');
+        if (Piwik::isUserUsingTwoFactorAuthentication()) {
+            if (!$authCode) {
+                http_response_code(401);
+                throw new \Exception('Please specify two-factor authentication code.');
+            }
+            $validate2FA = StaticContainer::get('Piwik\Plugins\TwoFactorAuth\Validate2FA');
+            if (!$validate2FA->validateAuthCode($authCode)) {
+                http_response_code(401);
+                throw new \Exception('Please enter correct two-factor authentication code.');
+            }
+        }
+    }
+
     public function onRequestDispatch(&$module, &$action, $parameters)
     {
-        if (Piwik::isUserIsAnonymous() || !Piwik::isUserHasSomeViewAccess()) {
+        if (Piwik::isUserIsAnonymous()) {
             return;
         }
 
         $isUsing2FA = Piwik::isUserUsingTwoFactorAuthentication();
-        if ($isUsing2FA && Request::isRootRequestApiRequest()) {
+        if ($isUsing2FA && !Request::isRootRequestApiRequest()) {
             $sessionFingerprint = new SessionFingerprint();
             if (!$sessionFingerprint->hasVerifiedTwoFactor()) {
                 $module = 'TwoFactorAuth';
-                $action = 'twoFactorAuth';
+                $action = 'loginTwoFactorAuth';
             }
         } elseif (!$isUsing2FA) {
             $settings = StaticContainer::get('\Piwik\Plugins\TwoFactorAuth\SystemSettings');

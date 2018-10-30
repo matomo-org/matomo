@@ -1,0 +1,13 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+
+    <div piwik-content-block
+         content-title="Two Factor Authentication (2FA)">
+        <p>Here are your backup codes... please keep them in a safe place in case you lose your phone</p>
+        <ul>{% for code in codes %}
+            <li piwik-select-on-focus>{{ code|upper|split('', 4)|join('-') }}</li>
+        {% endfor %}
+        </ul>
+    <div>
+{% endblock %}

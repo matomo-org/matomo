@@ -49,7 +49,7 @@ class BackupCodeDao
 
     public function getAllBackupCodesForLogin($login)
     {
-        $sql = sprintf('SELECT backup_code FROM %s WHERE login = ', $this->tablePrefixed);
+        $sql = sprintf('SELECT backup_code FROM %s WHERE login = ?', $this->tablePrefixed);
         $rows = Db::fetchAll($sql, array($login));
         $codes = array_column($rows, 'backup_code');
         return $codes;

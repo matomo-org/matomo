@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
@@ -43,13 +44,19 @@ class Controller extends \Piwik\Plugin\Controller
     protected $sessionInitializer;
 
     /**
+     * @var PasswordVerify
+     */
+    protected $passwordVerify;
+
+    /**
      * Constructor.
      *
      * @param PasswordResetter $passwordResetter
      * @param AuthInterface $auth
      * @param SessionInitializer $authenticatedSessionFactory
+     * @param PasswordVerify $passwordVerify
      */
-    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null)
+    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null, $passwordVerify = null)
     {
         parent::__construct();
 
@@ -62,6 +69,11 @@ class Controller extends \Piwik\Plugin\Controller
             $auth = StaticContainer::get('Piwik\Auth');
         }
         $this->auth = $auth;
+
+        if (empty($passwordVerify)) {
+            $passwordVerify = StaticContainer::get('Piwik\Plugins\Login\PasswordVerify');
+        }
+        $this->passwordVerify = $passwordVerify;
 
         if (empty($sessionInitializer)) {
             $sessionInitializer = new \Piwik\Session\SessionInitializer();
@@ -152,7 +164,9 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasSomeViewAccess();
 
-        $sessionNamespace = new Session\SessionNamespace('Login');
+        if (!$this->passwordVerify->hasPasswordVerifyBeenRequested()) {
+            throw new Exception('Not available');
+        }
 
         $nonceKey = 'confirmPassword';
         $messageNoAccess = '';
@@ -161,11 +175,8 @@ class Controller extends \Piwik\Plugin\Controller
             if (!Nonce::verifyNonce($nonceKey, $nonce)) {
                 $messageNoAccess = $this->getMessageExceptionNoAccess();
             } elseif ($this->verifyPasswordCorrect()) {
-                $sessionNamespace->isPasswordAuth = 1;
-                $sessionNamespace->setExpirationSeconds(20 * 60, 'isPasswordAuth');
-                Url::redirectToUrl('index.php' . Url::getCurrentQueryStringWithParametersModified(
-                        $sessionNamespace->redirectParams
-                    ));
+                $this->passwordVerify->setPasswordVerifiedCorrectly();
+                return;
             } else {
                 $messageNoAccess = 'Password is not correct';
             }

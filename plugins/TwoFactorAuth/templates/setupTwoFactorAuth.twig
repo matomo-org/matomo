@@ -8,15 +8,30 @@
         two factor authentication increase your account security...
     </p>
 
-    <div class="setup2FAStep1">
         <p>Scan this bar code</p>
         <img src="{{ authImage|raw }}">
 
-        or enter this code: {{ newSecret }}
+        or enter this code: "{{ newSecret }}"
 
-        Please type in the auth code, after updating your Authenticator app with the new secret.
-        <input type="text" value="">
+    <p>
+    Please type in the auth code, after updating your Authenticator app with the new secret.
+    </p>
+
+    <div class="message_container">
+        {% if AccessErrorString %}
+            <div piwik-notification
+                 noclear="true"
+                 context="error">
+                <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
+            </div>
+        {% endif %}
     </div>
+
+    <form method="post" action="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">
+        <input type="text" name="authcode" value="">
+        <input type="hidden" name="authCodeNonce" value="{{ authCodeNonce }}">
+        <input type="submit" value="Submit">
+    </form>
 
 </div>
 {% endblock %}

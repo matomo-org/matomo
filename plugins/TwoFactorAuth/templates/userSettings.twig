@@ -9,24 +9,20 @@
         <p>Two-factor authentication is currently enabled.</p>
 
         {% if isForced %}
-            <p>The Super User forces two-factor authentication to be enabled for everyone, you cannot disable it.
-
-                <a class="btn btn-link"
-                    href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">Configure a different device</a>
+            <p>Two-factor authentication is required to be enabled for everyone, you cannot disable it.
+                <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">Configure a different device</a>
             </p>
 
         {% else %}
             <p>
-                <a class="btn btn-link"
-                        href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">Configure a different device</a>
-
-                <a class="btn btn-link"
-                        href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'disableTwoFactorAuth', 'nonce' => disableNonce}) }}">Disable 2FA</a>
+                <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">Configure a different device</a>
+                <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'disableTwoFactorAuth', 'nonce': disableNonce}) }}">Disable 2FA</a>
             </p>
         {% endif %}
+        <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'showBackupCodes'}) }}">Show Backup Codes</a>
     {% else %}
-        <a class="btn btn-link"
-                href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">Enable 2FA now</a>
+        <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">Enable 2FA now</a>
     {% endif %}
+
 
 </div>
