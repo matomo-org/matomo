@@ -95,7 +95,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getPhpVersion()
     {
-        Piwik::checkUserHasSomeViewAccess();
+        Piwik::checkUserHasSuperUserAccess();
         return array(
             'version' => PHP_VERSION,
             'major' => PHP_MAJOR_VERSION,
