@@ -1,0 +1,66 @@
+<div ng-controller="SetupTwoFactorAuthController as setup2fa" class="setupTwoFactorAuthentication">
+    <p>
+        Please follow these steps to set up two-factor authentication:
+    </p>
+    <h2>
+        Step 1 - Recovery codes
+    </h2>
+    {% include '@TwoFactorAuth/_showBackupCodes.twig' %}
+
+    <div class="alert alert-info" ng-show="setup2fa.step == 1">Please backup your recovery codes using one of the above methods before continuing the two-factor authentication setup</div>
+
+    <p><button ng-click="setup2fa.nextStep()" ng-show="setup2fa.step == 1" ng-disabled="!setup2fa.hasDownloadedRecoveryCode" class="btn">Next</button></p>
+
+    <div ng-show="setup2fa.step >= 2">
+        <h2>
+            Step 2 - Setup authenticator on your device
+        </h2>
+        <p>Install an authenticator app, for example: <a rel="noreferrer noopener" href="https://authy.com/guides/github/">Authy</a>, <a rel="noreferrer noopener" href="https://support.1password.com/one-time-passwords/">1Password</a>, <a rel="noreferrer noopener" href="https://helpdesk.lastpass.com/multifactor-authentication-options/lastpass-authenticator/">LastPass Authenticator</a>, or <a rel="noreferrer noopener" href="https://support.google.com/accounts/answer/1066447">Google Authenticator</a>.
+        </p>
+        <p>Next, open the app and scan the below bar code with the two-factor authentication app on your phone.
+            If you can’t scan the barcode, <a href="javascript:void(0)" onclick="piwikHelper.modalConfirm('#setupTwoFAsecretConfirm')">enter this code</a> instead.<br />
+        <img src="{{ authImage|raw }}">
+        <br />
+        <button ng-show="setup2fa.step == 2" ng-click="setup2fa.nextStep()" class="btn">Next</button>
+    </p>
+    </div>
+
+    <div ng-show="setup2fa.step >= 3">
+        <h2>Step 3 - Confirm setup</h2>
+        <p>
+            Please enter the six-digit code from your authenticator app below to confirm you have successfully set up on your device.
+        </p>
+
+        {% if AccessErrorString %}
+            <div class="message_container">
+                <div piwik-notification
+                     noclear="true"
+                     context="error">
+                    <strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/>
+                </div>
+            </div>
+        {% endif %}
+
+        <form method="post"
+              action="{{ linkTo({'module': 'TwoFactorAuth', 'action': submitAction}) }}"
+              >
+            <div piwik-field uicontrol="text" name="authcode" maxlength="6"
+                 title="Code"
+                 ng-model="setup2fa.authCode"
+                 inline-help="Please enter the six-digit code that has been generated on your mobile device after scanning the bar code."
+                 placeholder="123456">
+            </div>
+
+            <input type="hidden" name="authCodeNonce" value="{{ authCodeNonce }}">
+            <input type="submit" ng-disabled="setup2fa.authCode.length != 6"
+                   class="btn" value="{{ 'General_Confirm'|translate }}">
+        </form>
+    </div>
+
+</div>
+
+<div id="setupTwoFAsecretConfirm" class="ui-confirm">
+    <h2>Your two-factor authentication secret</h2>
+    <p style="text-align: center;"><code piwik-select-on-focus style="font-size: 30px;">{{ newSecret }}</code></p>
+    <input role="ok" type="button" value="{{ 'General_Ok'|translate }}"/>
+</div>

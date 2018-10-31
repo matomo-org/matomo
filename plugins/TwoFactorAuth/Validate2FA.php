@@ -7,8 +7,6 @@
  */
 namespace Piwik\Plugins\TwoFactorAuth;
 
-use Piwik\API\Request;
-use Piwik\Piwik;
 use Piwik\Plugins\TwoFactorAuth\Dao\BackupCodeDao;
 use Piwik\Plugins\UsersManager\Model;
 
@@ -30,6 +28,23 @@ class Validate2FA
     {
         $this->settings = $systemSettings;
         $this->backupCodeDao = $backupCodeDao;
+    }
+
+    public function disable2FAforUser($login)
+    {
+        $this->save2FASecret($login, '');
+        $this->backupCodeDao->deleteAllBackupCodesForLogin($login);
+    }
+
+    public function save2FASecret($login, $secret)
+    {
+        $model = new Model();
+        $model->updateUserFields($login, array('twofactor_secret' => $secret));
+    }
+
+    public function isUserRequiredToHaveTwoFactorEnabled()
+    {
+        return $this->settings->twoFactorAuthRequired->getValue();
     }
 
     public function isUserUsingTwoFactorAuthentication($login)

@@ -28,6 +28,15 @@ class PasswordVerify
         return !empty($sessionNamespace->redirectParams);
     }
 
+    public function forgetVerifiedPassword()
+    {
+        // call this method if you want the user to enter the password again after some action was finished which needed
+        // the password
+        $sessionNamespace = $this->getLoginSession();
+        unset($sessionNamespace->lastPasswordAuth);
+        unset($sessionNamespace->redirectParams);
+    }
+
     public function setPasswordVerifiedCorrectly()
     {
         $sessionNamespace = $this->getLoginSession();

@@ -8,9 +8,9 @@
 (function () {
     angular.module('piwikApp').controller('SetupTwoFactorAuthController', SetupTwoFactorAuthController);
 
-    SetupTwoFactorAuthController.$inject = ['$timeout', 'piwik'];
+    SetupTwoFactorAuthController.$inject = ['$timeout', 'piwik', '$scope'];
 
-    function SetupTwoFactorAuthController($timeout, piwik) {
+    function SetupTwoFactorAuthController($timeout, piwik, $scope) {
 
         var self = this;
         this.step = 1;
@@ -31,6 +31,9 @@
         $timeout(function () {
             angular.element('.backupRecoveryCode').click(function () {
                 self.hasDownloadedRecoveryCode = true;
+                $timeout(function () {
+                    $scope.$apply();
+                }, 1);
             });
 
             if (angular.element('.setupTwoFactorAuthentication .message_container').length) {

@@ -72,6 +72,12 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('not available');
         }
     }
+    private function check2FaNotEnabled()
+    {
+        if ($this->validate2FA->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin())) {
+            throw new Exception('not available');
+        }
+    }
     private function checkVerified2FA()
     {
         $sessionFingerprint = new SessionFingerprint();
@@ -132,7 +138,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         return $this->renderTemplate('userSettings', array(
             'isEnabled' => $this->validate2FA->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin()),
-            'isForced' => $this->settings->twoFactorAuthRequired->getValue(),
+            'isForced' => $this->validate2FA->isUserRequiredToHaveTwoFactorEnabled(),
             'disableNonce' => Nonce::getNonce(self::DISABLE_2FA_NONCE)
         ));
     }
@@ -143,14 +149,13 @@ class Controller extends \Piwik\Plugin\Controller
         return new \TwoFactorAuthenticator();
     }
 
-
     public function disableTwoFactorAuth()
     {
         $this->checkPermissions();
         $this->check2FaEnabled();
         $this->checkVerified2FA();
 
-        if ($this->settings->twoFactorAuthRequired->getValue()) {
+        if ($this->validate2FA->isUserRequiredToHaveTwoFactorEnabled()) {
             throw new Exception('Two-factor authentication cannot be disabled as it is enforced');
         }
 
@@ -160,10 +165,8 @@ class Controller extends \Piwik\Plugin\Controller
 
             Nonce::checkNonce(self::DISABLE_2FA_NONCE, $nonce);
 
-            $model = new Model();
-            $model->updateUserFields(Piwik::getCurrentUserLogin(), array('twofactor_secret' => ''));
-
-            $this->backupCodeDao->deleteAllBackupCodesForLogin(Piwik::getCurrentUserLogin());
+            $this->validate2FA->disable2FAforUser(Piwik::getCurrentUserLogin());
+            $this->passwordVerify->forgetVerifiedPassword();
 
             $this->redirectToIndex('UsersManager', 'userSettings', null, null, null, array(
                 'disableNonce' => false
@@ -176,6 +179,18 @@ class Controller extends \Piwik\Plugin\Controller
         return new SessionNamespace('TwoFactorAuthenticator');
     }
 
+    public function onLoginSetupTwoFactorAuth()
+    {
+        // called when 2fa is required, but user has not yet set up 2fa
+        $this->checkPermissions();
+        $this->check2FaNotEnabled();
+
+        if (!$this->validate2FA->isUserRequiredToHaveTwoFactorEnabled()) {
+            throw new Exception('not available');
+        }
+        return $this->setupTwoFactorAuth($standalone = true);
+    }
+
     /**
      * Action to generate a new Google Authenticator secret for the current user
      *
@@ -183,26 +198,27 @@ class Controller extends \Piwik\Plugin\Controller
      * @throws \Exception
      * @throws \Piwik\NoAccessException
      */
-    public function setupTwoFactorAuth()
+    public function setupTwoFactorAuth($standalone = false)
     {
         $this->checkPermissions();
 
-        $view = new View('@TwoFactorAuth/setupTwoFactorAuth');
-        $this->setGeneralVariablesView($view);
+        if ($standalone) {
+            $view = new View('@TwoFactorAuth/setupTwoFactorAuthStandalone');
+            $this->setBasicVariablesView($view);
+            $view->submitAction = 'onLoginSetupTwoFactorAuth';
+        } else {
+            $view = new View('@TwoFactorAuth/setupTwoFactorAuth');
+            $this->setGeneralVariablesView($view);
+            $view->submitAction = 'setupTwoFactorAuth';
+
+            if (!$this->passwordVerify->requirePasswordVerifiedRecently(array('module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth'))) {
+                // should usually not go in here but redirect instead
+                throw new Exception('You have to verify your password first.');
+            }
+        }
 
         $authentiator = $this->makeAuthenticator();
         $session = $this->make2faSession();
-
-        if (!$this->passwordVerify->requirePasswordVerifiedRecently(array('module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth'))) {
-            // should usually not go in here but redirect instead
-            throw new Exception('You have to verify your password first.');
-        }
-
-        $login = Piwik::getCurrentUserLogin();
-        if (!$this->backupCodeDao->getAllBackupCodesForLogin($login)
-            || !$this->validate2FA->isUserUsingTwoFactorAuthentication($login)) {
-            $this->backupCodeDao->createBackupCodesForLogin($login);
-        }
 
         if (empty($session->secret)) {
             $session->secret = $authentiator->createSecret(16);
@@ -213,22 +229,39 @@ class Controller extends \Piwik\Plugin\Controller
 
         $authCode = Common::getRequestVar('authcode', '', 'string');
         $authCodeNonce = Common::getRequestVar('authCodeNonce', '', 'string');
+        $hasSubmittedForm = !empty($authCodeNonce) || !empty($authCode);
         $accessErrorString = '';
+        $login = Piwik::getCurrentUserLogin();
 
         if (!empty($secret) && !empty($authCode)
             && Nonce::verifyNonce(self::AUTH_CODE_NONCE, $authCodeNonce)) {
             if ($this->validate2FA->validateAuthCodeDuringSetup($authCode, $secret)) {
-                $model = new Model();
-                $model->updateUserFields(Piwik::getCurrentUserLogin(), array('twofactor_secret' => $secret));
+                $this->validate2FA->save2FASecret($login, $secret);
                 $fingerprint = new SessionFingerprint();
                 $fingerprint->setTwoFactorAuthenticationVerified();
+                unset($session->secret);
+                $this->passwordVerify->forgetVerifiedPassword();
 
-                $view = new View('@TwoFactorAuth/setupFinished');
-                $this->setGeneralVariablesView($view);
+                if ($standalone) {
+                    $this->redirectToIndex('CoreHome', 'index');
+                } else {
+                    $view = new View('@TwoFactorAuth/setupFinished');
+                    $this->setGeneralVariablesView($view);
+                }
                 return $view->render();
             } else {
                 $accessErrorString = 'Wrong authentication code entered. Please try again.';
             }
+        }
+
+        if (!$this->backupCodeDao->getAllBackupCodesForLogin($login)
+            || (!$hasSubmittedForm && !$this->validate2FA->isUserUsingTwoFactorAuthentication($login))) {
+            // we cannot generate new codes after form has been submitted and user is not yet using 2fa cause we would
+            // change backup codes in the background without the user noticing... we cannot simply do this:
+            // if !getAllBackupCodesForLogin => createBackupCodesForLogin. Because it could be a security issue that
+            // user might start the setup but never finishes. Before setting up 2fa the first time we have to change
+            // the backup codes
+            $this->backupCodeDao->createBackupCodesForLogin($login);
         }
 
         $view->title = $this->settings->twoFactorAuthTitle->getValue();
@@ -238,6 +271,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->newSecret = $secret;
         $view->authImage = $this->getQRUrl($view->description, $view->gatitle);
         $view->codes = $this->backupCodeDao->getAllBackupCodesForLogin($login);
+        $view->standalone = $standalone;
 
         return $view->render();
     }

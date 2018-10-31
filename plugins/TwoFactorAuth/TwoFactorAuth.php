@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Plugins\TwoFactorAuth\Dao\BackupCodeDao;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Session\SessionFingerprint;
 
@@ -50,7 +51,7 @@ class TwoFactorAuth extends \Piwik\Plugin
         $model = new Model();
         if (Piwik::hasUserSuperUserAccess() && !$model->userExists($login)) {
             // we delete only if the deletion was really successful
-            $dao = StaticContainer::get('Piwik\Plugins\TwoFactorAuth\Dao\BackupCodeDao');
+            $dao = StaticContainer::get(BackupCodeDao::class);
             $dao->deleteAllBackupCodesForLogin($login);
         }
     }
@@ -75,7 +76,7 @@ class TwoFactorAuth extends \Piwik\Plugin
             $authCode = Common::getRequestVar('authCode', '', 'string');
 
             if ($authCode) {
-                $validate2FA = StaticContainer::get('Piwik\Plugins\TwoFactorAuth\Validate2FA');
+                $validate2FA = StaticContainer::get(Validate2FA::class);
                 if ($validate2FA->validateAuthCode($login, $authCode)) {
                     $sessionFingerprint = new SessionFingerprint();
                     $sessionFingerprint->setTwoFactorAuthenticationVerified();
@@ -89,7 +90,7 @@ class TwoFactorAuth extends \Piwik\Plugin
         if (!empty($returnedValue)) {
             $login = $params['parameters']['userLogin'];
             $authCode = Common::getRequestVar('authCode', '', 'string');
-            $validate2FA = StaticContainer::get('Piwik\Plugins\TwoFactorAuth\Validate2FA');
+            $validate2FA = StaticContainer::get(Validate2FA::class);
 
             $model = new Model();
             if ($validate2FA->isUserUsingTwoFactorAuthentication($login)
@@ -104,9 +105,11 @@ class TwoFactorAuth extends \Piwik\Plugin
                     http_response_code(401);
                     throw new \Exception('Please enter correct two-factor authentication code.');
                 }
+            } else if ($validate2FA->isUserRequiredToHaveTwoFactorEnabled()
+                        && !$validate2FA->isUserUsingTwoFactorAuthentication($login)) {
+                throw new \Exception('You are required to set up two-factor authentication. Please log in to your account.');
             }
         }
-
     }
 
     public function onRequestDispatch(&$module, &$action, $parameters)
@@ -115,11 +118,17 @@ class TwoFactorAuth extends \Piwik\Plugin
             return;
         }
 
-        if (Piwik::getModule() === 'Proxy') {
+        $module = Piwik::getModule();
+
+        if ($module === 'Proxy') {
             return;
         }
 
-        $validate2FA = StaticContainer::get('Piwik\Plugins\TwoFactorAuth\Validate2FA');
+        if ($module === 'TwoFactorAuth' && $action === 'showQrCode') {
+            return;
+        }
+
+        $validate2FA = StaticContainer::get(Validate2FA::class);
 
         $isUsing2FA = $validate2FA->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
         if ($isUsing2FA && !Request::isRootRequestApiRequest()) {
@@ -128,12 +137,9 @@ class TwoFactorAuth extends \Piwik\Plugin
                 $module = 'TwoFactorAuth';
                 $action = 'loginTwoFactorAuth';
             }
-        } elseif (!$isUsing2FA) {
-            $settings = StaticContainer::get('\Piwik\Plugins\TwoFactorAuth\SystemSettings');
-            if ($settings->twoFactorAuthRequired->getValue()) {
-                $module = 'TwoFactorAuth';
-                $action = 'setupTwoFactorAuth';
-            }
+        } elseif (!$isUsing2FA && $validate2FA->isUserRequiredToHaveTwoFactorEnabled()) {
+            $module = 'TwoFactorAuth';
+            $action = 'onLoginSetupTwoFactorAuth';
         }
     }
 
