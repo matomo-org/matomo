@@ -2,12 +2,43 @@
 
 {% block content %}
 
+    <script type="text/javascript">
+        function copyRecoveryCodesToClipboard()
+        {
+            var textarea = document.createElement('textarea');
+            textarea.value = '{{ codes|join("\n")|e('js') }}';
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'absolute';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+    </script>
+
     <div piwik-content-block
-         content-title="Two Factor Authentication (2FA)">
-        <p>Here are your backup codes... please keep them in a safe place in case you lose your phone</p>
-        <ul>{% for code in codes %}
-            <li piwik-select-on-focus>{{ code|upper|split('', 4)|join('-') }}</li>
-        {% endfor %}
-        </ul>
-    <div>
+         content-title="Two Factor Authentication - Recovery Codes">
+
+        {% include '@TwoFactorAuth/_showBackupCodes.twig' %}
+
+        <h2>Generate new recovery codes</h2>
+        <p>When you generate new recovery codes, your old codes won’t work anymore. Make sure to download or print your new codes.
+            <br /><br />
+        </p>
+
+        {% if regenerateSuccess %}
+            <div class="alert alert-success">Recovery codes have been regenerated. Make sure to download or print the newly generated codes</div>
+        {% endif %}
+
+        {% if regenerateError %}
+            <div class="alert alert-danger">{{ 'General_ExceptionNonceMismatch'|translate }}</div>
+        {% endif %}
+
+        <form method="post" action="{{ linkTo({'method': 'TwoFactorAuth', 'action': 'showBackupCodes'}) }}" ng-non-bindable>
+            <input type="hidden" name="regenerateNonce" value="{{ regenerateNonce }}">
+            <input type="submit" class="btn" value="Regenerate backup codes">
+        </form>
+
+        <div>
 {% endblock %}

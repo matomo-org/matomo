@@ -1,15 +1,11 @@
-<div piwik-content-block
-     content-title="Two Factor Authentication (2FA)">
-
-    <h2>
-        Congratulations! You have successfully set up two-factor authentication.
-    </h2>
-    <p>Next time you log in, you will need to also enter the authentication code.</p>
-
-    <p>Here are your backup codes... please keep them in a safe place in case you lose your phone</p>
-    <ul>{% for code in codes %}
-            <li piwik-select-on-focus>{{ code|upper|split('', 4)|join('-') }}</li>
-        {% endfor %}
-    </ul>
-
-</div>
+{% extends 'admin.twig' %}
+{% block content %}
+    <div piwik-content-block class="twoFactorSetupFinished">
+        <h2 class="successMessage">
+            Congratulations! Your account is now more secure.
+        </h2>
+        <h3>You have successfully set up two-factor authentication. Next time you log in, you will need to also enter the authentication code. Make sure you have your mobile device or your backup codes with you.</h3>
+        <p><br />
+        <a class="btn" href="{{ linkTo({'module': 'UsersManager', 'action': 'userSettings'}) }}">Continue</a></p>
+    </div>
+{% endblock %}

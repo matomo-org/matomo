@@ -27,6 +27,7 @@ class BackupCodeDao
 
         for ($i = 0; $i < 10; $i++) {
             $backupCode = Common::getRandomString(16);
+            $backupCode = Common::mb_strtoupper($backupCode);
             $this->insertBackupCode($login, $backupCode);
             $codes[] = $backupCode;
         }

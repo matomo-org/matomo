@@ -35,6 +35,7 @@
         "DoubleClickToChangePeriod": "Double click to apply this period.",
         "Close": "Close",
         "ClickToSearch": "Click to search",
+        "Confirm": "Confirm",
         "ColumnActionsPerVisit": "Actions per Visit",
         "ColumnActionsPerVisitDocumentation": "The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.",
         "ColumnAverageGenerationTime": "Avg. generation time",

@@ -25,12 +25,24 @@ class TwoFactorAuth extends \Piwik\Plugin
     {
         return array(
             'Request.dispatch' => array('function' => 'onRequestDispatch', 'after' => true),
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'API.UsersManager.deleteUser.end' => 'deleteBackupCodes',
             'API.UsersManager.getTokenAuth.end' => 'onApiGetTokenAuth',
             // 'UsersManager.API.verifyGetTokenAuthIdentity' => 'onApiGetTokenAuth',
             'Template.userSettings.afterTokenAuth' => 'render2FaUserSettings',
             'Login.authenticate.processSuccessfulSession.end' => 'onSuccessfulSession'
         );
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/TwoFactorAuth/stylesheets/twofactorauth.less";
+    }
+
+    public function getJsFiles(&$jsFiles)
+    {
+        $jsFiles[] = "plugins/TwoFactorAuth/angularjs/setuptwofactor/setuptwofactor.controller.js";
     }
 
     public function deleteBackupCodes($login)
