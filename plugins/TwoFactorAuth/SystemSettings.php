@@ -30,7 +30,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     private function createRequire2FA()
     {
         return $this->makeSetting('twoFactorAuthRequired', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
-            $field->title = 'Require Two-factor auhentication for everyone';
+            $field->title = 'Require two-factor authentication for everyone';
             $field->description = 'When enabled, every user has to enable two factor authentication.';
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
