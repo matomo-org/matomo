@@ -2,6 +2,9 @@
     "UsersManager": {
         "2FA": "2FA",
         "UsesTwoFactorAuthentication": "Uses two-factor authentication",
+        "TwoFactorAuthentication": "Two-factor authentication",
+        "ResetTwoFactorAuthentication": "Reset two-factor authentication",
+        "ResetTwoFactorAuthenticationInfo": "If the user cannot log in anymore because of lost recovery codes and the authentication device you can reset two-factor authentication so the user can log in again.",
         "AddUser": "Add a new user",
         "AddExistingUser": "Add an existing user",
         "AddNewUser": "Add new user",

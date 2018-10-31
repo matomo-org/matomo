@@ -21,6 +21,10 @@
                 <li ng-class="{active: $ctrl.activeTab === 'superuser'}" class="menuSuperuser" ng-if="$ctrl.currentUserRole == 'superuser'">
                     <a href="" ng-click="$ctrl.activeTab = 'superuser'">{{:: 'UsersManager_SuperUserAccess'|translate }}</a>
                 </li>
+
+                <li ng-class="{active: $ctrl.activeTab === '2fa'}" class="menuSuperuser" ng-if="$ctrl.currentUserRole == 'superuser' && $ctrl.user.uses_2fa && !$ctrl.isAdd">
+                    <a href="" ng-click="$ctrl.activeTab = '2fa'">{{:: 'UsersManager_TwoFactorAuthentication'|translate }}</a>
+                </li>
             </ul>
 
             <div class="save-button-spacer hide-on-small-only">
@@ -139,6 +143,27 @@
                         <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.user.superuser_access = !$ctrl.user.superuser_access">{{:: 'General_No'|translate }}</a>
                     </div>
                 </div>
+            </div>
+
+            <div ng-if="$ctrl.activeTab === '2fa' && $ctrl.currentUserRole == 'superuser' && !$ctrl.isAdd" class="superuser-access">
+                <p>{{:: 'UsersManager_ResetTwoFactorAuthenticationInfo'|translate }}</p>
+
+                <div piwik-save-button
+                     saving="$ctrl.isResetting2FA"
+                     onconfirm="$ctrl.confirmReset2FA()"
+                     value="{{ 'UsersManager_ResetTwoFactorAuthentication'|translate }}"
+                ></div>
+
+                <div class="twofa-confirm-modal modal">
+                    <div class="modal-content">
+                        <h2>{{:: 'UsersManager_AreYouSure'|translate }}</h2>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="" class="modal-action modal-close btn" ng-click="$ctrl.reset2FA()">{{:: 'General_Yes'|translate }}</a>
+                        <a href="" class="modal-action modal-close modal-no">{{:: 'General_No'|translate }}</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

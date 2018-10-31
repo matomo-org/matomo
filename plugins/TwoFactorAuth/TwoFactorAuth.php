@@ -46,13 +46,15 @@ class TwoFactorAuth extends \Piwik\Plugin
         $jsFiles[] = "plugins/TwoFactorAuth/angularjs/setuptwofactor/setuptwofactor.controller.js";
     }
 
-    public function deleteBackupCodes($login)
+    public function deleteBackupCodes($returnedValue, $params)
     {
         $model = new Model();
-        if (Piwik::hasUserSuperUserAccess() && !$model->userExists($login)) {
+        if (!empty($params['parameters']['userLogin'])
+            && Piwik::hasUserSuperUserAccess()
+            && !$model->userExists($params['parameters']['userLogin'])) {
             // we delete only if the deletion was really successful
             $dao = StaticContainer::get(BackupCodeDao::class);
-            $dao->deleteAllBackupCodesForLogin($login);
+            $dao->deleteAllBackupCodesForLogin($params['parameters']['userLogin']);
         }
     }
 
@@ -117,8 +119,6 @@ class TwoFactorAuth extends \Piwik\Plugin
         if (Piwik::isUserIsAnonymous()) {
             return;
         }
-
-        $module = Piwik::getModule();
 
         if ($module === 'Proxy') {
             return;

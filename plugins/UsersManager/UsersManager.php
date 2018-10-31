@@ -273,6 +273,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_DeleteUserConfirmMultiple';
         $translationKeys[] = 'UsersManager_DeleteUserPermConfirmSingle';
         $translationKeys[] = 'UsersManager_DeleteUserPermConfirmMultiple';
+        $translationKeys[] = 'UsersManager_ResetTwoFactorAuthentication';
+        $translationKeys[] = 'UsersManager_ResetTwoFactorAuthenticationInfo';
+        $translationKeys[] = 'UsersManager_TwoFactorAuthentication';
         $translationKeys[] = 'UsersManager_AddNewUser';
         $translationKeys[] = 'UsersManager_EditUser';
         $translationKeys[] = 'UsersManager_CreateUser';

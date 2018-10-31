@@ -112,6 +112,7 @@ class Controller extends \Piwik\Plugin\Controller
                 if ($authCode && is_string($authCode)) {
                     $authCode = str_replace('-', '', $authCode);
                     $authCode = strtoupper($authCode); // backup codes are stored upper case, app codes are only numbers
+                    $authCode = trim($authCode);
                 }
 
                 if ($this->validate2FA->validateAuthCode(Piwik::getCurrentUserLogin(), $authCode)) {
@@ -235,7 +236,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         if (!empty($secret) && !empty($authCode)
             && Nonce::verifyNonce(self::AUTH_CODE_NONCE, $authCodeNonce)) {
-            if ($this->validate2FA->validateAuthCodeDuringSetup($authCode, $secret)) {
+            if ($this->validate2FA->validateAuthCodeDuringSetup(trim($authCode), $secret)) {
                 $this->validate2FA->save2FASecret($login, $secret);
                 $fingerprint = new SessionFingerprint();
                 $fingerprint->setTwoFactorAuthenticationVerified();
