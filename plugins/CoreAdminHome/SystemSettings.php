@@ -25,7 +25,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         $this->title = ' '; // intentionally left blank as it's hidden with css
 
-        $isWritable = Piwik::hasUserSuperUserAccess() && CoreAdminController::isGeneralSettingsAdminEnabled();
+        $isWritable = Piwik::hasUserSuperUserAccess();
         $this->trustedHostnames = $this->createTrustedHostnames();
         $this->trustedHostnames->setIsWritableByCurrentUser($isWritable);
         $this->corsDomains = $this->createCorsDomains();
