@@ -58,6 +58,7 @@
         "UseAnonymizedIpForVisitEnrichment": "Usa también direcciones IP anónimas para enriquecer las visitas.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Los complementos Geo Location a través de IP y Provider mejoran los metadatos de los visitantes. Por defecto estos complementos utilizan las direcciones IP anónimas. Si elige 'No' será utilizada una dirección completa de forma no anónima lo que resulta en una menor privacidad pero una mayor precisión de datos.",
         "UseAnonymizeIp": "Hacer anónimas las direcciones IP de los visitantes",
+        "PseudonymizeUserId": "Reemplazar ID de usuario con un seudónimo",
         "UseDeleteLog": "Eliminar regularmente registros antiguos de la base de datos",
         "UseDeleteReports": "Regularmente borrar los antiguos informes de la base de datos"
     }

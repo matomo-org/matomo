@@ -13,6 +13,7 @@
         "LoginPasswordNotCorrect": "Kullanıcı adı ile parola uyuşmuyor.",
         "LostYourPassword": "Parolamı unuttum",
         "ChangeYourPassword": "Parolanızı değiştirin",
+        "MailPasswordChangeBody2": "Merhaba %1$s,\n\n%2$s tarafından bir parola sıfırlama isteği gönderildi. Parola değişikliğini onaylayarak yeniden oturum açmak için aşağıdaki bağlantıyı kopyalayıp web tarayıcınıza yapıştırın:\n\n%3$s\n\nNot: Bu bağlantı 24 saat sonra geçerliliğini yitirir.\n\nMatomo uygulamasını kullandığınız için teşekkürler.",
         "MailTopicPasswordChange": "Parola Değişikliğini Onayla",
         "NewPassword": "Yeni parola",
         "NewPasswordRepeat": "Yeni parola (yeniden)",
