@@ -1,38 +1,35 @@
 <div piwik-content-block
-     content-title="Two-factor authentication (2FA)" class="userSettings2FA">
+     content-title="{{ 'TwoFactorAuth_TwoFactorAuthentication'|translate }} ({{ 'TwoFactorAuth_TwoFAShort'|translate }})" class="userSettings2FA">
 
     <p>
-        Two-factor authentication increase your account security by adding an additional layer of verification when you log in.
-        Each time you log in you will not only be asked to provide your login and password, but also an additional authentication token
-        which changes periodically and is generated for example on your mobile device. This means that even when someone knows your username and password,
-        they still won't be able to log in unless they have access to your mobile device for example.
+        {{ 'TwoFactorAuth_TwoFactorAuthenticationIntro'|translate }}
     </p>
 
     {% if isEnabled %}
-        <p><strong class="twoFaStatusEnabled">Two-factor authentication is currently enabled.</strong></p>
+        <p><strong class="twoFaStatusEnabled">{{ 'TwoFactorAuth_TwoFactorAuthenticationIsEnabled'|translate }}</strong></p>
 
         <p>
         {% if isForced %}
-            Two-factor authentication is required to be enabled for everyone, you cannot disable it.
+            {{ 'TwoFactorAuth_TwoFactorAuthenticationRequired'|translate }}
             <br />
-            <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">Configure a different device</a>
+            <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">{{ 'TwoFactorAuth_ConfigureDifferentDevice'|translate }}</a>
         {% else %}
-            <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">Configure a different device</a>
+            <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">{{ 'TwoFactorAuth_ConfigureDifferentDevice'|translate }}</a>
             <a href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'disableTwoFactorAuth', 'disableNonce': disableNonce}) }}" style="display:none;" id="disable2fa">disable2fa</a>
-            <input type="button" class="btn btn-link" onclick="piwikHelper.modalConfirm('#confirmDisable2FA', {yes: function () { debugger;$('#disable2fa').click() }})" value="Disable two-factor authentication">
+            <input type="button" class="btn btn-link" onclick="piwikHelper.modalConfirm('#confirmDisable2FA', {yes: function () { debugger;$('#disable2fa').click() }})" value="{{ 'TwoFactorAuth_DisableTwoFA'|translate }}">
         {% endif %}
-            <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'showBackupCodes'}) }}">Show recovery codes</a>
+            <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'showBackupCodes'}) }}">{{ 'TwoFactorAuth_ShowRecoveryCodes'|translate }}</a>
         </p>
     {% else %}
-        <p><strong>Two-factor authentication is currently disabled.</strong>
+        <p><strong>{{ 'TwoFactorAuth_TwoFactorAuthenticationIsDisabled'|translate }}</strong>
             <br />
             <br />
-           <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">Enable two-factor authentication</a>
+           <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">{{ 'TwoFactorAuth_EnableTwoFA'|translate }}</a>
         </p>
     {% endif %}
 
     <div id="confirmDisable2FA" class="ui-confirm">
-        <h2>Are you sure you want to disable two-factor authentication for your account? Having two-factor authentication enabled increases your account security.</h2>
+        <h2>{{ 'TwoFactorAuth_ConfirmDisableTwoFA'|translate }}</h2>
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
         <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
     </div>

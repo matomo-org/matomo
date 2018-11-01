@@ -178,7 +178,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $this->passwordVerify->setPasswordVerifiedCorrectly();
                 return;
             } else {
-                $messageNoAccess = 'Password is not correct';
+                $messageNoAccess = Piwik::translate('Login_WrongPasswordEntered');
             }
         }
 

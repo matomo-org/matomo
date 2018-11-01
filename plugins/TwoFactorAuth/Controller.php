@@ -189,6 +189,7 @@ class Controller extends \Piwik\Plugin\Controller
         if (!$this->validate2FA->isUserRequiredToHaveTwoFactorEnabled()) {
             throw new Exception('not available');
         }
+
         return $this->setupTwoFactorAuth($standalone = true);
     }
 
@@ -251,7 +252,7 @@ class Controller extends \Piwik\Plugin\Controller
                 }
                 return $view->render();
             } else {
-                $accessErrorString = 'Wrong authentication code entered. Please try again.';
+                $accessErrorString = Piwik::translate('TwoFactorAuth_WrongAuthCodeTryAgain');
             }
         }
 

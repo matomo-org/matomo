@@ -1,6 +1,9 @@
 {% extends '@Login/loginLayout.twig' %}
+
+{% set title %}{{ 'TwoFactorAuth_TwoFactorAuthentication'|translate }}{% endset %}
+
 {% block loginContent %}
-    {% embed 'contentBlock.twig' with {'title': 'Two-factor authentication'|translate} %}
+    {% embed 'contentBlock.twig' with {'title': ('TwoFactorAuth_TwoFactorAuthentication'|translate)} %}
         {% block content %}
 
             <div class="message_container">
@@ -23,27 +26,27 @@
                         <input type="text" name="form_authcode" placeholder="" id="login_form_authcode" class="input" value="" size="20"
                                autocorrect="off" autocapitalize="none"
                                tabindex="10" autofocus="autofocus"/>
-                        <label for="login_form_authcode"><i class="icon-user icon"></i> Authentication code</label>
+                        <label for="login_form_authcode"><i class="icon-user icon"></i> {{ 'TwoFactorAuth_AuthenticationCode'|translate }}</label>
                     </div>
                 </div>
 
                 <div class="row actions">
                     <div class="col s12">
-                        <input class="submit btn" id='login_form_submit' type="submit" value="Verify"
+                        <input class="submit btn" id='login_form_submit' type="submit" value="{{ 'TwoFactorAuth_Verify'|translate|e('html_attr') }}"
                                tabindex="100"/>
                     </div>
                 </div>
 
             </form>
 
-            <p>Open the two-factor authentication app on your device to view your authentication code and verify your identity. <a href="#">Learn more</a>
+            <p>{{ 'TwoFactorAuth_VerifyIdentifyExplanation'|translate }} {{ 'General_LearnMore'|translate('<a href="#TODO!!" rel="noreferrer noopener">', '</a>')|raw }}
 
             <br /><br />
-            <strong>Don’t have your phone?</strong>
+            <strong>{{ 'TwoFactorAuth_DontHaveYourMobileDevice'|translate }}</strong>
             <br />
-                <a href="">Enter one of your backup codes</a>
+                <a href="#todo!!" rel="noreferrer noopener">{{ 'TwoFactorAuth_EnterRecoveryCodeInstead'|translate }}</a>
                 <br />
-                <a href="">Ask super user to reset your authentication code</a>
+                <a href="#todo!!" rel="noreferrer noopener">{{ 'TwoFactorAuth_AskSuperUserResetAuthenticationCode'|translate }}</a>
             </p>
 
         {% endblock %}

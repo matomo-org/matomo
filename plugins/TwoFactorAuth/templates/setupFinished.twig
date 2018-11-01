@@ -2,10 +2,10 @@
 {% block content %}
     <div piwik-content-block class="twoFactorSetupFinished">
         <h2 class="successMessage">
-            Congratulations! Your account is now more secure.
+            {{ 'TwoFactorAuth_SetupFinishedTitle'|translate }}
         </h2>
-        <h3>You have successfully set up two-factor authentication. Next time you log in, you will need to also enter the authentication code. Make sure you have your mobile device or your backup codes with you.</h3>
+        <h3>{{ 'TwoFactorAuth_SetupFinishedSubtitle'|translate }}</h3>
         <p><br />
-        <a class="btn" href="{{ linkTo({'module': 'UsersManager', 'action': 'userSettings'}) }}">Continue</a></p>
+        <a class="btn" href="{{ linkTo({'module': 'UsersManager', 'action': 'userSettings'}) }}">{{ 'General_Continue' }}</a></p>
     </div>
 {% endblock %}

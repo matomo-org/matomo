@@ -18,17 +18,15 @@
     </script>
 
     <div piwik-content-block
-         content-title="Two Factor Authentication - Recovery Codes">
+         content-title="{{ 'TwoFactorAuth_TwoFactorAuthentication'|translate }} - {{ 'TwoFactorAuth_RecoveryCodes'|translate }}">
 
         {% include '@TwoFactorAuth/_showBackupCodes.twig' %}
 
-        <h2>Generate new recovery codes</h2>
-        <p>When you generate new recovery codes, your old codes won’t work anymore. Make sure to download or print your new codes.
-            <br /><br />
-        </p>
+        <h2>{{ 'TwoFactorAuth_GenerateNewRecoveryCodes'|translate }}</h2>
+        <p>{{ 'TwoFactorAuth_GenerateNewRecoveryCodesInfo'|translate }}<br /><br /></p>
 
         {% if regenerateSuccess %}
-            <div class="alert alert-success">Recovery codes have been regenerated. Make sure to download or print the newly generated codes</div>
+            <div class="alert alert-success">{{ 'TwoFactorAuth_RecoveryCodesRegenerated'|translate }}</div>
         {% endif %}
 
         {% if regenerateError %}
@@ -37,7 +35,7 @@
 
         <form method="post" action="{{ linkTo({'method': 'TwoFactorAuth', 'action': 'showBackupCodes'}) }}" ng-non-bindable>
             <input type="hidden" name="regenerateNonce" value="{{ regenerateNonce }}">
-            <input type="submit" class="btn" value="Regenerate backup codes">
+            <input type="submit" class="btn" value="{{ 'TwoFactorAuth_GenerateNewRecoveryCodes'|translate }}">
         </form>
 
         <div>

@@ -18,9 +18,8 @@
     }
 </script>
 
-    <p>You can use recovery codes to access your account when you cannot receive two-factor authentication codes, for example when you don't have your mobile device with you.
-    </p>
-    <div class="alert alert-warning">Please treat your recovery codes with the same level of security as you would your password!</div>
+    <p>{{ 'TwoFactorAuth_RecoveryCodesExplanation'|translate }}</p>
+    <div class="alert alert-warning">{{ 'TwoFactorAuth_RecoveryCodesSecurity'|translate }}</div>
 
     {% if codes|length > 0 %}
         <ul piwik-select-on-focus class="twoFactorRecoveryCodes">{% for code in codes %}
@@ -28,12 +27,12 @@
         {% endfor %}
         </ul>
     {% else %}
-        <div class="alert alert-danger">All recovery codes have been used, it is highly recommended you regenerate your backup codes</div>
+        <div class="alert alert-danger">{{ 'TwoFactorAuth_RecoveryCodesAllUsed'|translate }}</div>
     {% endif %}
 
     <p>
         <br />
-        <input type="button" class="btn backupRecoveryCode" onclick="downloadRecoveryCodes()" value="Download">
-        <input type="button" class="btn backupRecoveryCode" onclick="window.print()" value="Print">
-        <input type="button" class="btn backupRecoveryCode" onclick="copyRecoveryCodesToClipboard()" value="Copy">
+        <input type="button" class="btn backupRecoveryCode" onclick="downloadRecoveryCodes()" value="{{ 'General_Download'|translate }}">
+        <input type="button" class="btn backupRecoveryCode" onclick="window.print()" value="{{ 'General_Print'|translate }}">
+        <input type="button" class="btn backupRecoveryCode" onclick="copyRecoveryCodesToClipboard()" value="{{ 'General_Copy'|translate }}">
     </p>
