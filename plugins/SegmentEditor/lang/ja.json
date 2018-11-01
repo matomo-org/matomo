@@ -12,7 +12,7 @@
         "CurrentlySelectedSegment": "現在選択されているセグメント：%s",
         "DataAvailableAtLaterDate": "ご利用中のセグメント化した分析レポートは、後ほど利用できるようになります。ご迷惑をおかけして申し訳ございません。",
         "DefaultAllVisits": "すべてのビジット",
-        "DragDropCondition": "左のメニューから条件をドラッグ&ドロップしてください",
+        "DragDropCondition": "左のメニューから条件をドラッグ & ドロップしてください",
         "HideMessageInFuture": "今後このメッセージを非表示にする",
         "LoadingSegmentedDataMayTakeSomeTime": "ビジターデータのセグメント処理には、数分かかることがあります...",
         "OperatorAND": "AND（および）",

@@ -13,6 +13,7 @@
         "LoginPasswordNotCorrect": "Combinação de nome de utilizador e palavra-passe incorreta.",
         "LostYourPassword": "Perdeu a sua palavra-passe?",
         "ChangeYourPassword": "Alterar a sua palavra-passe",
+        "MailPasswordChangeBody2": "Olá %1$s,\n\nFoi recebido um pedido de reposição de palavra-passe de %2$s. Para confirmar esta alteração de palavra-passe para que possa iniciar sessão com as novas credenciais, por favor, copie e cole a seguinte ligação no seu navegador:\n\n%3$s\n\nNota: esta ligação vai expirar em 24 horas.\n\nE obrigado por utilizar o Matomo!",
         "MailTopicPasswordChange": "Confirmar alteração de palavra-passe",
         "NewPassword": "Nova palavra-passe",
         "NewPasswordRepeat": "Nova palavra-passe (repetir)",

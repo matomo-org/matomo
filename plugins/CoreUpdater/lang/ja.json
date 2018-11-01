@@ -23,7 +23,7 @@
         "HelpMessageContent": "アップグレードの間、最も一般的なエラーを説明している %1$s Matomo FAQ %2$sをチェックしてください。%3$s システム管理者にお尋ねください － 彼らはたいていの場合、サーバや MySQL のセットアップに関係するエラーについて、あなたの手助けができるでしょう。",
         "HelpMessageIntroductionWhenError": "上記はコアのエラーメッセージです。 原因の説明に役立つはずですが、さらなるヘルプが必要であればこちらをどうぞ：",
         "HelpMessageIntroductionWhenWarning": "アップグレードは正常に完了しましたが、処理中に問題がありました。 詳細は上記の説明をお読みください。 さらなるヘルプ：",
-        "HighTrafficPiwikServerEnableMaintenance": "トラフィックの多いMatomoサーバーを管理する場合は、%1$s一時的にビジタートラッキングを無効にし、Matomoユーザーインターフェイスをメンテナンスモードにする%2$sことをお勧めします。",
+        "HighTrafficPiwikServerEnableMaintenance": "トラフィックの多い Matomo サーバーを管理する場合は、%1$s一時的にビジタートラッキングを無効にし、Matomo ユーザーインターフェイスをメンテナンスモードにする%2$sことをお勧めします。",
         "IncompatbilePluginsWillBeDisabledInfo": "注：一部のプラグインは Matomo %s と互換性がありません。マーケットプレイスにアップデートがある場合はアップデートします。それ以外の場合はアップグレード時に無効にします：",
         "InstallingTheLatestVersion": "最新バージョンをインストール中",
         "LatestBetaRelease": "最新のベータ版 リリース",
