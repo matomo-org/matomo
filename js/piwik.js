@@ -3585,7 +3585,7 @@ if (typeof window.Piwik !== 'object') {
                                     getImage(request, callback);
                                 }
                             } else {
-                                if (this.readyState === 4 && (typeof callback === 'function')) { callback(); }
+                                if (this.readyState === 4 && (typeof callback === 'function')) { callback(xhr); }
                             }
                         };
 
