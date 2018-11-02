@@ -9,6 +9,7 @@ namespace Piwik\Plugins\TwoFactorAuth;
 
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\UsersManager\Model;
+use Exception;
 
 require_once PIWIK_DOCUMENT_ROOT . '/libs/Authenticator/TwoFactorAuthenticator.php';
 
@@ -49,7 +50,12 @@ class TwoFactorAuthentication
     public function saveSecret($login, $secret)
     {
         if ($this->isAnonymous($login)) {
-            throw new \Exception('Anonymous cannot use two-factor authentication');
+            throw new Exception('Anonymous cannot use two-factor authentication');
+        }
+
+        if (!empty($secret) && !$this->recoveryCodeDao->getAllRecoveryCodesForLogin($login)) {
+            // ensures the user has seen and ideally backuped the recovery codes... we don't create them here on demand
+            throw new Exception('Cannot enable two-factor authentication, no recovery codes have been created');
         }
 
         $model = $this->getUserModel();

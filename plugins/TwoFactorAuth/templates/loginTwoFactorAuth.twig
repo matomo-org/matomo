@@ -19,7 +19,7 @@
                 {% endif %}
             </div>
 
-            <form {{ form_data.attributes|raw }} ng-non-bindable>
+            <form {{ form_data.attributes|raw }} ng-non-bindable class="loginTwoFaForm">
                 <div class="row">
                     <div class="col s12 input-field">
                         <input type="hidden" name="form_nonce" id="login_form_nonce" value="{{ nonce }}"/>

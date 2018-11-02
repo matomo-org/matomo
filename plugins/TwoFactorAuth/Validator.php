@@ -24,6 +24,11 @@ class Validator
         $this->twoFa = $twoFactorAuthentication;
     }
 
+    public function canUseTwoFa()
+    {
+        return !Piwik::isUserIsAnonymous();
+    }
+
     public function checkCanUseTwoFa()
     {
         Piwik::checkUserIsNotAnonymous();
@@ -49,7 +54,7 @@ class Validator
             throw new Exception('not available');
         }
     }
-    
+
     public function checkVerified2FA()
     {
         $sessionFingerprint = $this->getSessionFingerPrint();

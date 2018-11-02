@@ -62,6 +62,8 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
 
     public function test_saveSecret_disable2FAforUser_isUserUsingTwoFactorAuthentication()
     {
+        $this->dao->createRecoveryCodesForLogin('mylogin');
+
         $this->assertFalse($this->twoFa->isUserUsingTwoFactorAuthentication('mylogin'));
         $this->twoFa->saveSecret('mylogin', '123456');
 
@@ -88,6 +90,15 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
     public function test_saveSecret_neverWorksForAnonymous()
     {
         $this->twoFa->saveSecret('anonymous', '123456');
+    }
+
+    /**
+     * @expectedExceptionMessage no recovery codes have been created
+     * @expectedException \Exception
+     */
+    public function test_saveSecret_notWorksWhenNoRecoveryCodesCreated()
+    {
+        $this->twoFa->saveSecret('not', '123456');
     }
 
     public function test_isUserUsingTwoFactorAuthentication_neverWorksForAnonymous()
@@ -118,6 +129,8 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
     {
         $secret1 = '123456';
         $secret2 = '654321';
+        $this->dao->createRecoveryCodesForLogin('mylogin1');
+        $this->dao->createRecoveryCodesForLogin('mylogin2');
         $this->twoFa->saveSecret('mylogin1', $secret1);
         $this->twoFa->saveSecret('mylogin2', $secret2);
 

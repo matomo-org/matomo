@@ -10,6 +10,7 @@ namespace Piwik\Plugins\TwoFactorAuth\tests\Integration;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\TwoFactorAuth\API;
+use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
 use Piwik\Plugins\UsersManager\API as UsersAPI;
 use Piwik\Tests\Framework\Fixture;
@@ -29,6 +30,11 @@ class APITest extends IntegrationTestCase
     private $api;
 
     /**
+     * @var RecoveryCodeDao
+     */
+    private $recoveryCodes;
+
+    /**
      * @var TwoFactorAuthentication
      */
     private $twoFa;
@@ -38,6 +44,7 @@ class APITest extends IntegrationTestCase
         parent::setUp();
 
         $this->api = API::getInstance();
+        $this->recoveryCodes = new RecoveryCodeDao();
 
         foreach ([1,2,3] as $idsite) {
             Fixture::createWebsite('2014-01-02 03:04:05');
@@ -61,13 +68,18 @@ class APITest extends IntegrationTestCase
 
     public function test_resetTwoFactorAuth_resetsSecret()
     {
+        $this->recoveryCodes->createRecoveryCodesForLogin('mylogin1');
+        $this->recoveryCodes->createRecoveryCodesForLogin('mylogin2');
         $this->twoFa->saveSecret('mylogin1', '1234');
         $this->twoFa->saveSecret('mylogin2', '1234');
+
         $this->assertTrue($this->twoFa->isUserUsingTwoFactorAuthentication('mylogin1'));
         $this->assertTrue($this->twoFa->isUserUsingTwoFactorAuthentication('mylogin2'));
         $this->api->resetTwoFactorAuth('mylogin1');
         $this->assertFalse($this->twoFa->isUserUsingTwoFactorAuthentication('mylogin1'));
         $this->assertTrue($this->twoFa->isUserUsingTwoFactorAuthentication('mylogin2'));
+
+        $this->assertEquals([], $this->recoveryCodes->getAllRecoveryCodesForLogin('mylogin1'));
     }
 
     protected function setAdminUser()
