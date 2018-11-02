@@ -301,9 +301,22 @@ class SegmentExpression
             }
         }
 
-        $this->checkFieldIsAvailable($field, $availableTables);
+        $columns = $this->parseColumnsFromSqlExpr($field);
+        foreach ($columns as $column) {
+            $this->checkFieldIsAvailable($column, $availableTables);
+        }
 
         return array($sqlExpression, $value);
+    }
+
+    /**
+     * @param string $field
+     * @return string[]
+     */
+    private function parseColumnsFromSqlExpr($field)
+    {
+        preg_match_all('/\b([a-zA-Z0-9_`]+\.[a-zA-Z0-9_`]+)\b/', $field, $matches);
+        return isset($matches[1]) ? $matches[1] : [];
     }
 
     /**
