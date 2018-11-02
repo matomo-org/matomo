@@ -38,7 +38,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function create2FATitle()
     {
-        $default = 'Analytics - ' . Url::getCurrentHost();
+        $default = 'Analytics - ' . Url::getCurrentHost('');
         if (Plugin\Manager::getInstance()->isPluginActivated('WhiteLabel')) {
             $default = 'Matomo ' . $default;
         }

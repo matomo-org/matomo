@@ -5,7 +5,7 @@
     <h2>
         {{ 'TwoFactorAuth_StepX'|translate(1) }} - {{ 'TwoFactorAuth_RecoveryCodes'|translate }}
     </h2>
-    {% include '@TwoFactorAuth/_showBackupCodes.twig' %}
+    {% include '@TwoFactorAuth/_showRecoveryCodes.twig' %}
 
     <div class="alert alert-info" ng-show="setup2fa.step == 1">{{ 'TwoFactorAuth_SetupBackupRecoveryCodes'|translate }}</div>
 

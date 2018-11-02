@@ -13,20 +13,19 @@ use Piwik\Piwik;
 class API extends \Piwik\Plugin\API
 {
     /**
-     * @var Validate2FA
+     * @var TwoFactorAuthentication
      */
-    private $validate2FA;
+    private $twoFa;
 
-    public function __construct(Validate2FA $validate2FA)
+    public function __construct(TwoFactorAuthentication $twoFa)
     {
-        $this->validate2FA = $validate2FA;
+        $this->twoFa = $twoFa;
     }
 
     public function resetTwoFactorAuth($userLogin)
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $this->validate2FA->disable2FAforUser($userLogin);
+        $this->twoFa->disable2FAforUser($userLogin);
     }
 }
-

@@ -7,12 +7,12 @@
  */
 namespace Piwik\Plugins\TwoFactorAuth;
 
-use Piwik\Plugins\TwoFactorAuth\Dao\BackupCodeDao;
+use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\UsersManager\Model;
 
 require_once PIWIK_DOCUMENT_ROOT . '/libs/Authenticator/TwoFactorAuthenticator.php';
 
-class Validate2FA
+class TwoFactorAuthentication
 {
     /**
      * @var SystemSettings
@@ -20,25 +20,39 @@ class Validate2FA
     private $settings;
 
     /**
-     * @var BackupCodeDao
+     * @var RecoveryCodeDao
      */
-    private $backupCodeDao;
+    private $recoveryCodeDao;
 
-    public function __construct(SystemSettings $systemSettings, BackupCodeDao $backupCodeDao)
+    public function __construct(SystemSettings $systemSettings, RecoveryCodeDao $recoveryCodeDao)
     {
         $this->settings = $systemSettings;
-        $this->backupCodeDao = $backupCodeDao;
+        $this->recoveryCodeDao = $recoveryCodeDao;
+    }
+
+    private function getUserModel()
+    {
+        return new Model();
     }
 
     public function disable2FAforUser($login)
     {
-        $this->save2FASecret($login, '');
-        $this->backupCodeDao->deleteAllBackupCodesForLogin($login);
+        $this->saveSecret($login, '');
+        $this->recoveryCodeDao->deleteAllRecoveryCodesForLogin($login);
     }
 
-    public function save2FASecret($login, $secret)
+    private function isAnonymous($login)
     {
-        $model = new Model();
+        return strtolower($login) === 'anonymous';
+    }
+
+    public function saveSecret($login, $secret)
+    {
+        if ($this->isAnonymous($login)) {
+            throw new \Exception('Anonymous cannot use two-factor authentication');
+        }
+
+        $model = $this->getUserModel();
         $model->updateUserFields($login, array('twofactor_secret' => $secret));
     }
 
@@ -49,7 +63,7 @@ class Validate2FA
 
     public function isUserUsingTwoFactorAuthentication($login)
     {
-        if ($login === 'anonymous') {
+        if ($this->isAnonymous($login)) {
             return false; // not possible to use auth code with anonymous
         }
 
@@ -59,23 +73,24 @@ class Validate2FA
 
     private function getUser($login)
     {
-        $userModel = new Model();
-        return $userModel->getUser($login);
+        $model = $this->getUserModel();
+        return $model->getUser($login);
     }
 
     public function validateAuthCode($login, $authCode)
     {
         if (!$this->isUserUsingTwoFactorAuthentication($login)) {
-            return true; // two factor not enabled
+            return false;
         }
 
         $user = $this->getUser($login);
 
-        if ($this->validateAuthCodeDuringSetup($authCode, $user['twofactor_secret'])) {
+        if (!empty($user['twofactor_secret'])
+            && $this->validateAuthCodeDuringSetup($authCode, $user['twofactor_secret'])) {
             return true;
         }
 
-        if ($this->backupCodeDao->useBackupCode($user['login'], $authCode)) {
+        if ($this->recoveryCodeDao->useRecoveryCode($user['login'], $authCode)) {
             return true;
         }
 

@@ -18,7 +18,7 @@
             <a href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'disableTwoFactorAuth', 'disableNonce': disableNonce}) }}" style="display:none;" id="disable2fa">disable2fa</a>
             <input type="button" class="btn btn-link" onclick="piwikHelper.modalConfirm('#confirmDisable2FA', {yes: function () { debugger;$('#disable2fa').click() }})" value="{{ 'TwoFactorAuth_DisableTwoFA'|translate }}">
         {% endif %}
-            <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'showBackupCodes'}) }}">{{ 'TwoFactorAuth_ShowRecoveryCodes'|translate }}</a>
+            <a class="btn btn-link" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'showRecoveryCodes'}) }}">{{ 'TwoFactorAuth_ShowRecoveryCodes'|translate }}</a>
         </p>
     {% else %}
         <p><strong>{{ 'TwoFactorAuth_TwoFactorAuthenticationIsDisabled'|translate }}</strong>

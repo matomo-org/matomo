@@ -20,7 +20,7 @@
     <div piwik-content-block
          content-title="{{ 'TwoFactorAuth_TwoFactorAuthentication'|translate }} - {{ 'TwoFactorAuth_RecoveryCodes'|translate }}">
 
-        {% include '@TwoFactorAuth/_showBackupCodes.twig' %}
+        {% include '@TwoFactorAuth/_showRecoveryCodes.twig' %}
 
         <h2>{{ 'TwoFactorAuth_GenerateNewRecoveryCodes'|translate }}</h2>
         <p>{{ 'TwoFactorAuth_GenerateNewRecoveryCodesInfo'|translate }}<br /><br /></p>
@@ -33,7 +33,7 @@
             <div class="alert alert-danger">{{ 'General_ExceptionNonceMismatch'|translate }}</div>
         {% endif %}
 
-        <form method="post" action="{{ linkTo({'method': 'TwoFactorAuth', 'action': 'showBackupCodes'}) }}" ng-non-bindable>
+        <form method="post" action="{{ linkTo({'method': 'TwoFactorAuth', 'action': 'showRecoveryCodes'}) }}" ng-non-bindable>
             <input type="hidden" name="regenerateNonce" value="{{ regenerateNonce }}">
             <input type="submit" class="btn" value="{{ 'TwoFactorAuth_GenerateNewRecoveryCodes'|translate }}">
         </form>

@@ -35,7 +35,7 @@
     "RecoveryCodes": "Recovery codes",
     "RecoveryCodesExplanation": "You can use recovery codes to access your account when you cannot receive two-factor authentication codes, for example when you don't have your mobile device with you.",
     "RecoveryCodesSecurity": "Please treat your recovery codes with the same level of security as you would your password!",
-    "RecoveryCodesAllUsed": "All recovery codes have been used, it is highly recommended you regenerate your backup codes.",
+    "RecoveryCodesAllUsed": "All recovery codes have been used, it is highly recommended you regenerate your recovery codes.",
     "RecoveryCodesRegenerated": "Recovery codes have been regenerated. Make sure to download or print the newly generated codes.",
     "GenerateNewRecoveryCodes": "Generate new recovery codes",
     "GenerateNewRecoveryCodesInfo": "When you generate new recovery codes, your old codes won’t work anymore. Make sure to download or print your new codes."

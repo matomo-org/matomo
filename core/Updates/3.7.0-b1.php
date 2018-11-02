@@ -32,11 +32,11 @@ class Updates_3_7_0_b1 extends PiwikUpdates
     public function getMigrations(Updater $updater)
     {
         $userColumn = $this->migration->db->addColumn('user', 'twofactor_secret', "VARCHAR(40) NOT NULL DEFAULT ''");
-        $backupCode = $this->migration->db->createTable('twofactor_backup_code', array(
-            'idbackupcode' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
+        $backupCode = $this->migration->db->createTable('twofactor_recovery_code', array(
+            'idrecoverycode' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
             'login' => 'VARCHAR(100) NOT NULL',
-            'backup_code' => 'VARCHAR(20) NOT NULL',
-        ));
+            'recovery_code' => 'VARCHAR(20) NOT NULL',
+        ), array('idrecoverycode'));
         $twoFactorAuth = $this->migration->plugin->activate('TwoFactorAuth');
         $googleAuth = $this->migration->plugin->deactivate('GoogleAuthenticator');
 

@@ -13,7 +13,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Piwik;
-use Piwik\Plugins\TwoFactorAuth\Dao\BackupCodeDao;
+use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Session\SessionFingerprint;
 
@@ -28,7 +28,7 @@ class TwoFactorAuth extends \Piwik\Plugin
             'Request.dispatch' => array('function' => 'onRequestDispatch', 'after' => true),
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'API.UsersManager.deleteUser.end' => 'deleteBackupCodes',
+            'API.UsersManager.deleteUser.end' => 'deleteRecoveryCodes',
             'API.UsersManager.getTokenAuth.end' => 'onApiGetTokenAuth',
             // 'UsersManager.API.verifyGetTokenAuthIdentity' => 'onApiGetTokenAuth',
             'Template.userSettings.afterTokenAuth' => 'render2FaUserSettings',
@@ -46,15 +46,15 @@ class TwoFactorAuth extends \Piwik\Plugin
         $jsFiles[] = "plugins/TwoFactorAuth/angularjs/setuptwofactor/setuptwofactor.controller.js";
     }
 
-    public function deleteBackupCodes($returnedValue, $params)
+    public function deleteRecoveryCodes($returnedValue, $params)
     {
         $model = new Model();
         if (!empty($params['parameters']['userLogin'])
             && Piwik::hasUserSuperUserAccess()
             && !$model->userExists($params['parameters']['userLogin'])) {
             // we delete only if the deletion was really successful
-            $dao = StaticContainer::get(BackupCodeDao::class);
-            $dao->deleteAllBackupCodesForLogin($params['parameters']['userLogin']);
+            $dao = StaticContainer::get(RecoveryCodeDao::class);
+            $dao->deleteAllRecoveryCodesForLogin($params['parameters']['userLogin']);
         }
     }
 
@@ -78,8 +78,9 @@ class TwoFactorAuth extends \Piwik\Plugin
             $authCode = Common::getRequestVar('authCode', '', 'string');
 
             if ($authCode) {
-                $validate2FA = StaticContainer::get(Validate2FA::class);
-                if ($validate2FA->validateAuthCode($login, $authCode)) {
+                $twoFa = StaticContainer::get(TwoFactorAuthentication::class);
+                if ($twoFa->isUserUsingTwoFactorAuthentication($login)
+                    && $twoFa->validateAuthCode($login, $authCode)) {
                     $sessionFingerprint = new SessionFingerprint();
                     $sessionFingerprint->setTwoFactorAuthenticationVerified();
                 }
@@ -92,10 +93,10 @@ class TwoFactorAuth extends \Piwik\Plugin
         if (!empty($returnedValue)) {
             $login = $params['parameters']['userLogin'];
             $authCode = Common::getRequestVar('authCode', '', 'string');
-            $validate2FA = StaticContainer::get(Validate2FA::class);
+            $twoFa = StaticContainer::get(TwoFactorAuthentication::class);
 
             $model = new Model();
-            if ($validate2FA->isUserUsingTwoFactorAuthentication($login)
+            if ($twoFa->isUserUsingTwoFactorAuthentication($login)
                 && $model->getUserByTokenAuth($returnedValue)) {
                 // we only return an error when the login/password combo was correct. otherwise you could brute force
                 // auth tokens
@@ -103,12 +104,12 @@ class TwoFactorAuth extends \Piwik\Plugin
                     http_response_code(401);
                     throw new \Exception('Please specify two-factor authentication code.');
                 }
-                if (!$validate2FA->validateAuthCode($login, $authCode)) {
+                if (!$twoFa->validateAuthCode($login, $authCode)) {
                     http_response_code(401);
                     throw new \Exception('Please enter correct two-factor authentication code.');
                 }
-            } else if ($validate2FA->isUserRequiredToHaveTwoFactorEnabled()
-                        && !$validate2FA->isUserUsingTwoFactorAuthentication($login)) {
+            } else if ($twoFa->isUserRequiredToHaveTwoFactorEnabled()
+                        && !$twoFa->isUserUsingTwoFactorAuthentication($login)) {
                 throw new \Exception('You are required to set up two-factor authentication. Please log in to your account.');
             }
         }
@@ -128,16 +129,16 @@ class TwoFactorAuth extends \Piwik\Plugin
             return;
         }
 
-        $validate2FA = StaticContainer::get(Validate2FA::class);
+        $twoFa = StaticContainer::get(TwoFactorAuthentication::class);
 
-        $isUsing2FA = $validate2FA->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
+        $isUsing2FA = $twoFa->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
         if ($isUsing2FA && !Request::isRootRequestApiRequest()) {
             $sessionFingerprint = new SessionFingerprint();
             if (!$sessionFingerprint->hasVerifiedTwoFactor()) {
                 $module = 'TwoFactorAuth';
                 $action = 'loginTwoFactorAuth';
             }
-        } elseif (!$isUsing2FA && $validate2FA->isUserRequiredToHaveTwoFactorEnabled()) {
+        } elseif (!$isUsing2FA && $twoFa->isUserRequiredToHaveTwoFactorEnabled()) {
             $module = 'TwoFactorAuth';
             $action = 'onLoginSetupTwoFactorAuth';
         }
