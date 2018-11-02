@@ -365,5 +365,4 @@ class WidgetConfig
     {
         return $this->isWide;
     }
-
 }

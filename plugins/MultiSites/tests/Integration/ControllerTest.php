@@ -47,6 +47,12 @@ class ControllerTest extends SystemTestCase
             'idsite' => 1,
             'group' => '',
             'main_url' => 'http://piwik.net',
+            'nb_conversions' => 1,
+            'orders' => 1,
+            'ecommerce_revenue' => 2541,
+            'nb_conversions_evolution' => '100%',
+            'orders_evolution' => '100%',
+            'ecommerce_revenue_evolution' => '100%',
         ), $sites['sites'][0]);
 
         unset($sites['sites']);

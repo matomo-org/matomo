@@ -75,6 +75,7 @@
         "WidgetSearchKeywords": "Zoektermen lokale zoekopdracht",
         "WidgetSearchNoResultKeywords": "Zoekwoorden zonder resultaten",
         "ActionType": "Soort actie",
-        "ActionTypes": "Soorten acties"
+        "ActionTypes": "Soorten acties",
+        "Behaviour": "Gedrag"
     }
 }

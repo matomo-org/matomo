@@ -266,7 +266,6 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function finalizeProfile($visits, &$profile)
     {
-        arsort($this->visitedPageUrls);
         $profile['visitedPages'] = [];
 
         foreach ($this->visitedPageUrls as $visitedPageUrl => $count) {
@@ -275,6 +274,14 @@ class VisitorDetails extends VisitorDetailsAbstract
                 'count' => $count
             ];
         }
+
+        usort($profile['visitedPages'], function($a, $b) {
+            if ($a['count'] == $b['count']) {
+                return strcmp($a['url'], $b['url']);
+            }
+
+            return $a['count'] > $b['count'] ? -1 : 1;
+        });
 
         $this->handleSiteSearches($profile);
         $this->handleAveragePageGenerationTime($profile);

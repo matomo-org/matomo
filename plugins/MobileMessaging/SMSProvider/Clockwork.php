@@ -39,15 +39,15 @@ class Clockwork extends SMSProvider
 
     public function getDescription()
     {
-        return 'You can use <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/platforms/piwik/"><img src="plugins/MobileMessaging/images/Clockwork.png"/></a> to send SMS Reports from Piwik.<br/>
+        return 'You can use <a target="_blank" rel="noreferrer noopener" href="https://www.clockworksms.com/platforms/piwik/"><img src="plugins/MobileMessaging/images/Clockwork.png"/></a> to send SMS Reports from Piwik.<br/>
 			<ul>
-			<li> First, <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/platforms/piwik/">get an API Key from Clockwork</a> (Signup is free!)
+			<li> First, <a target="_blank" rel="noreferrer noopener" href="https://www.clockworksms.com/platforms/piwik/">get an API Key from Clockwork</a> (Signup is free!)
 			</li><li> Enter your Clockwork API Key on this page. </li>
 			</ul>
 			<br/>About Clockwork: <ul>
 			<li>Clockwork gives you fast, reliable high quality worldwide SMS delivery, over 450 networks in every corner of the globe.
 			</li><li>Cost per SMS message is around ~0.08USD (0.06EUR).
-			</li><li>Most countries and networks are supported but we suggest you check the latest position on their coverage map <a target="_blank" href="?module=Proxy&action=redirect&url=http://www.clockworksms.com/sms-coverage/">here</a>.
+			</li><li>Most countries and networks are supported but we suggest you check the latest position on their coverage map <a target="_blank" rel="noreferrer noopener" href="https://www.clockworksms.com/sms-coverage/">here</a>.
 			</li>
 			</ul>
 			';

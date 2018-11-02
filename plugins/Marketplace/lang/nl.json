@@ -31,7 +31,6 @@
         "LicenseKeyDeletedSuccess": "Licentiesleutel succesvol verwijderd.",
         "Exceeded": "Overschreden",
         "LicenseMissing": "Licentie ontbreekt",
-        "LicenseMissingDescription": "De volgende plugins worden zonder een licentie gebruikt: %1$s. %2$s om dit op te lossen pas de licentie key aan, %3$sschaf een licentie key aan %4$sof deïnstalleer de plugin.",
         "PluginLicenseMissingDescription": "Deze plugin kan niet meer worden gedownload omdat er geen licentie is voor deze plugin. Om dit op te lossen pas de licentie key aan, vraag een licentie key aan of deïnstalleer de plugin.",
         "LicenseExceeded": "Licentie overschreden",
         "LicenseExpired": "Licentie verlopen",

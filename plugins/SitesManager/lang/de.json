@@ -91,6 +91,7 @@
         "XManagement": "%s verwalten",
         "ChooseMeasurableTypeHeadline": "Was möchten Sie messen?",
         "YouCurrentlyHaveAccessToNWebsites": "Sie haben derzeit Zugriff auf %s Websites.",
-        "YourCurrentIpAddressIs": "Ihre aktuelle IP-Adresse ist %s"
+        "YourCurrentIpAddressIs": "Ihre aktuelle IP-Adresse ist %s",
+        "DeleteSiteExplanation": "Eine Website zu löschen führt dazu, dass alle dafür gesammelten Logdaten gelöscht werden. Diese Aktion ist endgültig und kann nicht rückgängig gemacht werden."
     }
 }

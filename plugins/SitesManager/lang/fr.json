@@ -91,6 +91,7 @@
         "XManagement": "Gérer %s",
         "ChooseMeasurableTypeHeadline": "Que voudriez-vous mesurer ?",
         "YouCurrentlyHaveAccessToNWebsites": "Vous avez actuellement accès à %s sites web.",
-        "YourCurrentIpAddressIs": "Votre adresse IP actuelle est %s"
+        "YourCurrentIpAddressIs": "Votre adresse IP actuelle est %s",
+        "DeleteSiteExplanation": "Supprimer un site web va supprimer tous les journaux et données qui ont été collectés pour ce dernier. Cette action est permanente et ne peut pas être annulée."
     }
 }

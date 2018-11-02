@@ -68,6 +68,19 @@ class SitesManager extends \Piwik\Plugin
             return;
         }
 
+        if (self::hasTrackedAnyTraffic($siteId)) {
+            $session = new SessionNamespace('siteWithoutData');
+            if (!empty($session->ignoreMessage)) {
+                return;
+            }
+
+            $module = 'SitesManager';
+            $action = 'siteWithoutData';
+        }
+    }
+
+    public static function hasTrackedAnyTraffic($siteId)
+    {
         $shouldPerformEmptySiteCheck = true;
 
         /**
@@ -82,17 +95,7 @@ class SitesManager extends \Piwik\Plugin
         Piwik::postEvent('SitesManager.shouldPerformEmptySiteCheck', [&$shouldPerformEmptySiteCheck, $siteId]);
 
         $trackerModel = new TrackerModel();
-        if ($shouldPerformEmptySiteCheck
-            && $trackerModel->isSiteEmpty($siteId)
-        ) {
-            $session = new SessionNamespace('siteWithoutData');
-            if (!empty($session->ignoreMessage)) {
-                return;
-            }
-
-            $module = 'SitesManager';
-            $action = 'siteWithoutData';
-        }
+        return $shouldPerformEmptySiteCheck && $trackerModel->isSiteEmpty($siteId);
     }
 
     public function onSiteDeleted($idSite)
@@ -159,6 +162,7 @@ class SitesManager extends \Piwik\Plugin
         $array['sitesearch_category_parameters'] = $this->getTrackerSearchCategoryParameters($website);
         $array['timezone'] = $this->getTimezoneFromWebsite($website);
         $array['ts_created'] = $website['ts_created'];
+        $array['type'] = $website['type'];
     }
 
     /**
@@ -378,5 +382,6 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = "General_Measurables";
         $translationKeys[] = "Goals_Ecommerce";
         $translationKeys[] = "SitesManager_NotFound";
+        $translationKeys[] = "SitesManager_DeleteSiteExplanation";
     }
 }

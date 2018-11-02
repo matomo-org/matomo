@@ -49,6 +49,7 @@
         "NotDownloadable": "Μη διαθέσιμα για κατέβασμα",
         "PluginNotDownloadable": "Το πρόσθετο δεν είναι διαθέσιμο για κατέβασμα.",
         "PluginNotDownloadablePaidReason": "Πιθανές αιτίες είναι μια ληγμένη ή εκτός ορίων άδεια.",
+        "PluginRequiresInternet": "Το πρόσθετο απαιτεί ενεργή σύνδεση διαδικτύου. Παρακαλούμε ελέγξτε την τιμή για τη ρύθμιση `enable_internet_features` αν επιθυμείτε να χρησιμοποιήσετε αυτό το χαρακτηριστικό.",
         "PluginActivated": "Το πρόσθετο ενεργοποιήθηκε",
         "Status": "Κατάσταση",
         "SuccessfullyActicated": "Ενεργοποιήσατε με επιτυχία το <strong>%s<\/strong>.",

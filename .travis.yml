@@ -16,12 +16,7 @@ services:
 
 addons:
   apt:
-    sources:
-      - deadsnakes
-
     packages:
-      - python2.6
-      - python2.6-dev
       - nginx
       - realpath
       - lftp
@@ -68,10 +63,10 @@ matrix:
       sudo: false
       addons: false
     # All tests after another
-    - php: 5.6
+    - php: 7
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-first-half-only"
       sudo: required
-    - php: 5.6
+    - php: 7
       env: TEST_SUITE=AllTests MYSQL_ADAPTER=MYSQLI ALLTEST_EXTRA_OPTIONS="--run-second-half-only"
       sudo: required
     # UITests use a specific version because the default 5.5 (== 5.5.38) is missing FreeType support
@@ -142,24 +137,3 @@ cache:
   directories:
     - "travis_phantomjs"
     - $HOME/.composer/cache
-
-
-
-
-
-notifications:
-  slack:
-    rooms:
-      - piwik:3HWhNh21qPfDACQXTrJOb0mW
-    on_success: :change
-    on_failure: :change
-
-  irc:
-    skip_join: true
-    on_success: change
-    on_failure: change
-    channels:
-      - "irc.freenode.org#piwik-dev"
-    template:
-      - "%{repository} (%{commit}) : %{message} %{foo} "
-      - "Build details: %{build_url}"

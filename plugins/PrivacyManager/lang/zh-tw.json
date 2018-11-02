@@ -6,6 +6,7 @@
         "AnonymizeIpExtendedHelp": "當使用者訪問你的網站時，Matomo 將不會用完整的 IP 位址（例如 %1$s），會先將其匿名化（成為 %2$s）。在部分國家中，IP 位址匿名化是隱私法中的其中一項要求，例如德國。",
         "AnonymizeIpMaskLengtDescription": "選擇要隱藏多少字節的 IP 位址。",
         "AnonymizeIpMaskLength": "%1$s 字節，例如 %2$s",
+        "AskingForConsent": "要求同意",
         "CannotLockSoDeleteLogActions": "資料表 log_action 將不會被清理：請授予 MySQL 使用者「%s」鎖定資料表（LOCK TABLES）的權限。",
         "ClickHereSettings": "點擊這裡查看 %s 設定。",
         "CurrentDBSize": "目前資料庫大小",
@@ -43,6 +44,8 @@
         "GeolocationAnonymizeIpNote": "注意：選擇 1 字節時地理位置將會顯示與實際位置大略相同的結果。選擇 2 字節或以上，地理位置可能會不準確。",
         "GDPR": "GDPR",
         "GdprManager": "GDPR 管理",
+        "GdprOverview": "GDPR 總覽",
+        "GdprTools": "GDPR 工具",
         "GetPurgeEstimate": "取得清理估計",
         "KeepBasicMetrics": "保留基本數據（訪問數、網頁瀏覽數、跳出率、目標轉換數、電子商務轉換數等等）",
         "KeepDataFor": "保留以下類型的全數資料",
@@ -73,6 +76,7 @@
         "PseudonymizeUserId": "以假名取代使用者 ID",
         "UseAnonymizeOrderId": "訂單 ID 匿名化",
         "UseDeleteLog": "定時從資料庫中移除舊的訪客記錄",
-        "UseDeleteReports": "定時從資料庫中移除舊的報表"
+        "UseDeleteReports": "定時從資料庫中移除舊的報表",
+        "UsersOptOut": "使用者選擇退出"
     }
 }

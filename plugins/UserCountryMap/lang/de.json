@@ -20,6 +20,8 @@
         "VisitorMap": "Besucherkarte",
         "WorldWide": "Weltweit",
         "WithUnknownRegion": "%s mit unbekannter Region",
-        "WithUnknownCity": "%s mit unbekannter Stadt"
+        "WithUnknownCity": "%s mit unbekannter Stadt",
+        "NoVisitsInfo": "Es werden aktuell keine Besuche angezeigt, weil für diesen Zeitraum kein Besuch mit korrekten Geolocation Informationen (Längengrad & Breitengrad) existiert.",
+        "NoVisitsInfo2": "Um das Problem zu lösen, stellen Sie sicher, dass Sie einen GeoIP Geolocation Provider mit einer GeoIP Stadt Datenbank verwenden. Wenn dies Ihr Problem nicht löst, dann ist es möglich (wenn auch unwahrscheinlich) dass Ihre Besuche IP Adressen haben, die nicht geolokalisiert werden können."
     }
 }

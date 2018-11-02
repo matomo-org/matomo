@@ -306,9 +306,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * Any data that describes the data held in the table's rows should go here.
      *
+     * Note: this field is protected so derived classes will serialize it.
+     *
      * @var array
      */
-    private $metadata = array();
+    protected $metadata = array();
 
     /**
      * Maximum number of rows allowed in this datatable (including the summary row).
@@ -1334,7 +1336,11 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     private function unserializeRows($serialized)
     {
         $serialized = str_replace(self::$previousRowClasses, self::$rowClassToUseForUnserialize, $serialized);
-        $rows = unserialize($serialized);
+        $rows = Common::safe_unserialize($serialized, [
+            Row::class,
+            DataTableSummaryRow::class,
+            \Piwik_DataTable_SerializedRow::class
+        ]);
 
         if ($rows === false) {
             throw new Exception("The unserialization has failed!");

@@ -44,6 +44,9 @@ nav {
     &:hover {
       background-color: rgba(0,0,0,0.1);
     }
+    .title {
+      color: @theme-color-header-text;
+    }
   }
 
   ul a {
@@ -107,6 +110,12 @@ nav {
       @media screen and (max-width: 600px) {
         display: none;
       }
+    }
+  }
+
+  @media only screen and (min-width: 993px) {
+    ~ .drag-target {
+      display: none !important;
     }
   }
 
@@ -244,6 +253,8 @@ nav {
           padding: 15px 22px 11px 45px;
           font-size: 13px;
           font-weight: normal;
+          word-wrap: break-word;
+          word-break: break-all;
 
           &:hover, &:focus {
             color: @theme-color-menu-contrast-textActive;

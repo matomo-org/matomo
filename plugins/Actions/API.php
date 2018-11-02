@@ -91,6 +91,8 @@ class API extends \Piwik\Plugin\API
     public function getPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false,
                                 $depth = false, $flat = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = Archive::createDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable, $depth);
 
         $this->filterActionsDataTable($dataTable);
@@ -121,6 +123,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getPageUrlsFollowingSiteSearch($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable);
         $this->keepPagesFollowingSearch($dataTable);
         return $dataTable;
@@ -138,6 +142,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getPageTitlesFollowingSiteSearch($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getPageTitles($idSite, $period, $date, $segment, $expanded, $idSubtable);
         $this->keepPagesFollowingSearch($dataTable);
         return $dataTable;
@@ -163,6 +169,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getEntryPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable);
         $this->filterNonEntryActions($dataTable);
         return $dataTable;
@@ -174,6 +182,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getExitPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable);
         $this->filterNonExitActions($dataTable);
         return $dataTable;
@@ -181,6 +191,8 @@ class API extends \Piwik\Plugin\API
 
     public function getPageUrl($pageUrl, $idSite, $period, $date, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $callBackParameters = array('Actions_actions_url', $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null);
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageUrl, Action::TYPE_PAGE_URL);
         $this->addPageProcessedMetrics($dataTable);
@@ -190,6 +202,8 @@ class API extends \Piwik\Plugin\API
 
     public function getPageTitles($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = Archive::createDataTableFromArchive('Actions_actions', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
 
         $this->filterActionsDataTable($dataTable);
@@ -204,6 +218,8 @@ class API extends \Piwik\Plugin\API
     public function getEntryPageTitles($idSite, $period, $date, $segment = false, $expanded = false,
                                        $idSubtable = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getPageTitles($idSite, $period, $date, $segment, $expanded, $idSubtable);
         $this->filterNonEntryActions($dataTable);
         return $dataTable;
@@ -216,6 +232,8 @@ class API extends \Piwik\Plugin\API
     public function getExitPageTitles($idSite, $period, $date, $segment = false, $expanded = false,
                                       $idSubtable = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getPageTitles($idSite, $period, $date, $segment, $expanded, $idSubtable);
         $this->filterNonExitActions($dataTable);
         return $dataTable;
@@ -223,6 +241,8 @@ class API extends \Piwik\Plugin\API
 
     public function getPageTitle($pageName, $idSite, $period, $date, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $callBackParameters = array('Actions_actions', $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null);
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageName, Action::TYPE_PAGE_TITLE);
         $this->addPageProcessedMetrics($dataTable);
@@ -232,6 +252,8 @@ class API extends \Piwik\Plugin\API
 
     public function getDownloads($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = Archive::createDataTableFromArchive('Actions_downloads', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
@@ -239,6 +261,8 @@ class API extends \Piwik\Plugin\API
 
     public function getDownload($downloadUrl, $idSite, $period, $date, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $callBackParameters = array('Actions_downloads', $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null);
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $downloadUrl, Action::TYPE_DOWNLOAD);
         $this->filterActionsDataTable($dataTable);
@@ -247,6 +271,8 @@ class API extends \Piwik\Plugin\API
 
     public function getOutlinks($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = Archive::createDataTableFromArchive('Actions_outlink', $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
         $this->filterActionsDataTable($dataTable);
         return $dataTable;
@@ -254,6 +280,8 @@ class API extends \Piwik\Plugin\API
 
     public function getOutlink($outlinkUrl, $idSite, $period, $date, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $callBackParameters = array('Actions_outlink', $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null);
         $dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $outlinkUrl, Action::TYPE_OUTLINK);
         $this->filterActionsDataTable($dataTable);
@@ -262,6 +290,8 @@ class API extends \Piwik\Plugin\API
 
     public function getSiteSearchKeywords($idSite, $period, $date, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getSiteSearchKeywordsRaw($idSite, $period, $date, $segment);
         $dataTable->deleteColumn(PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
         $this->filterActionsDataTable($dataTable);
@@ -289,6 +319,8 @@ class API extends \Piwik\Plugin\API
 
     public function getSiteSearchNoResultKeywords($idSite, $period, $date, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         $dataTable = $this->getSiteSearchKeywordsRaw($idSite, $period, $date, $segment);
         // Delete all rows that have some results
         $dataTable->filter('ColumnCallbackDeleteRow',
@@ -316,6 +348,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getSiteSearchCategories($idSite, $period, $date, $segment = false)
     {
+        Piwik::checkUserHasViewAccess($idSite);
+
         Actions::checkCustomVariablesPluginEnabled();
         $customVariables = APICustomVariables::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false, $_leavePiwikCoreVariables = true);
 

@@ -6,8 +6,6 @@
         "ApplyToAllWebsites": "በሁሉም ድር ጣቢያዎች ላይ ተግብር",
         "DeleteConfirm": "እርግጠኛ ነህ ተጠቃሚዎቹን መሰረዝ ትፈልጋለህ %s?",
         "Email": "ኢ-ሜይል",
-        "ExceptionAccessValues": "የግቤት መድረሻ ከሚከተሉት አንዱ እሴት ሊኖረው ይገባል: [ %s ]",
-        "ExceptionAdminAnonymous": "የአስተዳዳሪን ፈቃድ ላልታወቀ ሰው መስጠት አይቻልም",
         "ExceptionDeleteDoesNotExist": "ተጠቃሚው '%s' የለም ስለዚህ ሊሰረዝ አይችልም",
         "ExceptionEditAnonymous": "ያልታወቀው ተጠቃሚን መሰረዝ ወይም አርትእ አይቻልም። በፒዊክ ያልገባን ተጤቃሚ ለመግለፅ ይጠቅማል። ለምሳሌ የርስዎን ስታቲስቲክ 'የትይታ' ፈቃድ 'ላልታወቀ' ተጠቃሚ በመስጠት ግልፅ ማድረግ ትችላለህ።",
         "ExceptionEmailExists": "በዚህ ኢ-ሜይል ተጠቃሚ '%s'አለ.",

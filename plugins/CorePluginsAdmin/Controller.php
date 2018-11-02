@@ -12,6 +12,7 @@ use Exception;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\ErrorHandler;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
@@ -315,11 +316,17 @@ class Controller extends Plugin\ControllerAdmin
 
             $errorMessage = $lastError['message'];
 
+            if (!empty($lastError['backtrace'])
+                && \Piwik_ShouldPrintBackTraceWithMessage()
+            ) {
+                $errorMessage .= $lastError['backtrace'];
+            }
+
             if (Piwik::isUserIsAnonymous()) {
                 $errorMessage = 'A fatal error occurred.';
             }
 
-            $response = new \Piwik\API\ResponseBuilder($outputFormat);
+            $response = new \Piwik\API\ResponseBuilder($outputFormat, [], false); // don't print the exception backtrace since it will be useless
             $message  = $response->getResponseException(new Exception($errorMessage));
 
             return $message;
@@ -328,6 +335,11 @@ class Controller extends Plugin\ControllerAdmin
         if (Common::isPhpCliMode()) {
             throw new Exception("Error: " . var_export($lastError, true));
         }
+
+        if (!\Piwik_ShouldPrintBackTraceWithMessage()) {
+            unset($lastError['backtrace']);
+        }
+
         $view = new View('@CorePluginsAdmin/safemode');
         $view->lastError   = $lastError;
         $view->isAllowedToTroubleshootAsSuperUser = $this->isAllowedToTroubleshootAsSuperUser();
@@ -437,7 +449,13 @@ class Controller extends Plugin\ControllerAdmin
 
     public function showLicense()
     {
+        Piwik::checkUserHasSomeViewAccess();
+        
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
+
+        if (!Plugin\Manager::getInstance()->isPluginInFilesystem($pluginName)) {
+            throw new Exception('Invalid plugin');
+        }
 
         $metadata = new Plugin\MetadataLoader($pluginName);
         $license_file = $metadata->getPathToLicenseFile();

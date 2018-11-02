@@ -221,8 +221,8 @@ class Access
         } elseif (isset($this->login)) {
             if (empty($this->idsitesByAccess['view'])
                 && empty($this->idsitesByAccess['write'])
-                && empty($this->idsitesByAccess['admin'])) {
-
+                && empty($this->idsitesByAccess['admin'])
+            ) {
                 // we join with site in case there are rows in access for an idsite that doesn't exist anymore
                 // (backward compatibility ; before we deleted the site without deleting rows in _access table)
                 $accessRaw = $this->getRawSitesWithSomeViewAccess($this->login);
@@ -231,7 +231,7 @@ class Access
                     $accessType = $access['access'];
                     $this->idsitesByAccess[$accessType][] = $access['idsite'];
 
-                    if ($this->roleProvider->isValidRole($access)) {
+                    if ($this->roleProvider->isValidRole($accessType)) {
                         foreach ($this->capabilityProvider->getAllCapabilities() as $capability) {
                             if ($capability->hasRoleCapability($accessType)) {
                                 // we automatically add this capability
@@ -243,6 +243,35 @@ class Access
                         }
                     }
                 }
+
+                /**
+                 * Triggered after the initial access levels and permissions for the current user are loaded. Use this
+                 * event to modify the current user's permissions (for example, making sure every user has view access
+                 * to a specific site).
+                 *
+                 * **Example**
+                 *
+                 *     function (&$idsitesByAccess, $login) {
+                 *         if ($login == 'somespecialuser') {
+                 *             return;
+                 *         }
+                 *
+                 *         $idsitesByAccess['view'][] = $mySpecialIdSite;
+                 *     }
+                 *
+                 * @param array[] &$idsitesByAccess The current user's access levels for individual sites. Maps role and
+                 *                                  capability IDs to list of site IDs, eg:
+                 *
+                 *                                  ```
+                 *                                  [
+                 *                                      'view' => [1, 2, 3],
+                 *                                      'write' => [4, 5],
+                 *                                      'admin' => [],
+                 *                                  ]
+                 *                                  ```
+                 * @param string $login The current user's login.
+                 */
+                Piwik::postEvent('Access.modifyUserAccess', [&$this->idsitesByAccess, $this->login]);
             }
         }
     }
@@ -524,7 +553,7 @@ class Access
         $idSitesAccessible = $this->getSitesIdWithAtLeastWriteAccess();
 
         foreach ($idSites as $idsite) {
-            if (!in_array($idsite, $idSitesAccessible, true)) {
+            if (!in_array($idsite, $idSitesAccessible)) {
                 throw new NoAccessException(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', array("'write'", $idsite)));
             }
         }
@@ -548,7 +577,7 @@ class Access
         $idSitesAccessible = $this->getSitesIdWithCapability($capability);
 
         foreach ($idSites as $idsite) {
-            if (!in_array($idsite, $idSitesAccessible, true)) {
+            if (!in_array($idsite, $idSitesAccessible)) {
                 throw new NoAccessException(Piwik::translate('ExceptionCapabilityAccessWebsite', array("'" . $capability ."'", $idsite)));
             }
         }
@@ -603,6 +632,52 @@ class Access
 
         $access->setSuperUserAccess($isSuperUser);
 
+        return $result;
+    }
+
+    /**
+     * Returns the level of access the current user has to the given site.
+     *
+     * @param int $idSite The site to check.
+     * @return string The access level, eg, 'view', 'admin', 'noaccess'.
+     */
+    public function getRoleForSite($idSite)
+    {
+        if ($this->hasSuperUserAccess
+            || in_array($idSite, $this->getSitesIdWithAdminAccess())
+        ) {
+            return 'admin';
+        }
+
+        if (in_array($idSite, $this->getSitesIdWithWriteAccess())) {
+            return 'write';
+        }
+
+        if (in_array($idSite, $this->getSitesIdWithViewAccess())) {
+            return 'view';
+        }
+
+        return 'noaccess';
+    }
+
+    /**
+     * Returns the capabilities the current user has for a given site.
+     *
+     * @param int $idSite The site to check.
+     * @return string[] The capabilities the user has.
+     */
+    public function getCapabilitiesForSite($idSite)
+    {
+        $result = [];
+        foreach ($this->capabilityProvider->getAllCapabilityIds() as $capabilityId) {
+            if (empty($this->idsitesByAccess[$capabilityId])) {
+                continue;
+            }
+
+            if (in_array($idSite, $this->idsitesByAccess[$capabilityId])) {
+                $result[] = $capabilityId;
+            }
+        }
         return $result;
     }
 }

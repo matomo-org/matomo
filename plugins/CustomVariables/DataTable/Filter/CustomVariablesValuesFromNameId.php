@@ -34,9 +34,9 @@ class CustomVariablesValuesFromNameId extends BaseFilter
         $notDefinedLabel = Piwik::translate('General_NotDefined', Piwik::translate('CustomVariables_ColumnCustomVariableValue'));
 
         $table->queueFilter('ColumnCallbackReplace', array('label', function ($label) use ($notDefinedLabel) {
-            return $label == \Piwik\Plugins\CustomVariables\Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED
+            return $label === \Piwik\Plugins\CustomVariables\Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED
                 ? $notDefinedLabel
-                : $label;
+                : strval($label);
         }));
     }
 }

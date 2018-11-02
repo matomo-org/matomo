@@ -66,11 +66,6 @@ class Visit implements VisitInterface
     protected $visitProperties;
 
     /**
-     * @var VisitorRecognizer
-     */
-    private $visitorRecognizer;
-
-    /**
      * @var ArchiveInvalidator
      */
     private $invalidator;
@@ -79,7 +74,6 @@ class Visit implements VisitInterface
     {
         $requestProcessors = StaticContainer::get('Piwik\Plugin\RequestProcessors');
         $this->requestProcessors = $requestProcessors->getRequestProcessors();
-        $this->visitorRecognizer = StaticContainer::get('Piwik\Tracker\VisitorRecognizer');
         $this->visitProperties = null;
         $this->userSettings = StaticContainer::get('Piwik\Tracker\Settings');
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');

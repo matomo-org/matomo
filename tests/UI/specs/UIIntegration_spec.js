@@ -482,22 +482,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
-    it('should load the Manage > Users admin page correctly', function (done) {
-        expect.screenshot('admin_manage_users').to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + generalParams + "&module=UsersManager&action=index");
-
-            // remove token auth which can be random
-            page.evaluate(function () {
-                $('td#token_auth').each(function () {
-                    $(this).text('');
-                });
-                $('td#last_seen').each(function () {
-                    $(this).text( '' )
-                });
-            });
-        }, done);
-    });
-
     it('should load the user settings admin page correctly', function (done) {
         expect.screenshot('admin_user_settings').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=UsersManager&action=userSettings");

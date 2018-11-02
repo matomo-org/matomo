@@ -76,6 +76,15 @@
         "PseudonymizeUserId": "Zëvendëso ID Përdoruesi me një pseudonim",
         "UseAnonymizeOrderId": "Anonimizo ID Porosie",
         "UseDeleteLog": "Fshiji rregullisht te baza e të dhënave regjistrimet e vjetra të përdoruesve",
-        "UseDeleteReports": "Fshi rregullisht raporte të vjetër prej bazës së të dhënave"
+        "UseDeleteReports": "Fshi rregullisht raporte të vjetër prej bazës së të dhënave",
+        "PrivacyPolicyUrl": "URL Rregullash Privatësie",
+        "PrivacyPolicyUrlDescription": "Një lidhje për te faqja juaj e Rregullave të Privatësisë",
+        "TermsAndConditionUrl": "URL Termash & Kushtesh",
+        "TermsAndConditionUrlDescription": "Një lidhje për te faqja e Termave & Kushteve tuaja.",
+        "PrivacyPolicyUrlDescriptionSuffix": "Nëse e caktoni këtë, do të shfaqet në fund të faqes së hyrjeve dhe te faqe te të cilat mund të hyjë përdoruesi '%1$s'.",
+        "ShowInEmbeddedWidgets": "Shfaqe në widget-e të trupëzuar",
+        "ShowInEmbeddedWidgetsDescription": "Nëse i vihet shenjë, në fund të widget-eve të trupëzuar do të shfaqet një lidhje për te Rregullat tuaja të Privatësisë dhe Termat & Kushtet tuaja.",
+        "PrivacyPolicy": "Rregulla Privatësie",
+        "TermsAndConditions": "Terma & Kushte"
     }
 }

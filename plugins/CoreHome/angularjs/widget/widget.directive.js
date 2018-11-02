@@ -32,7 +32,6 @@
     piwikWidget.$inject = ['piwik', 'piwikApi', 'reportMetadataModel'];
 
     function piwikWidget(piwik, piwikApi, reportMetadataModel){
-
         function findContainerWidget(containerId, scope) {
             widgetsHelper.getAvailableWidgets(function (categorizedWidgets) {
 
@@ -70,12 +69,12 @@
         function applyMiddleware(scope)
         {
             if (!scope.widget.middlewareParameters) {
-                scope.$eval('view.showWidget = true');
+                scope.$evalAsync('view.showWidget = true');
             } else {
                 var params = angular.copy(scope.widget.middlewareParameters);
                 piwikApi.fetch(params).then(function (response) {
                     var enabled = response ? 'true' : 'false';
-                    scope.$eval('view.showWidget = ' + enabled);
+                    scope.$evalAsync('view.showWidget = ' + enabled);
                 });
             }
         }

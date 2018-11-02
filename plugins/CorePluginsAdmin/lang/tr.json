@@ -49,6 +49,7 @@
         "NotDownloadable": "İndirilemiyor",
         "PluginNotDownloadable": "Uygulama eki indirilemiyor.",
         "PluginNotDownloadablePaidReason": "Lisans süresi geçmiş ya da sayıs aşılmış olabilir.",
+        "PluginRequiresInternet": "Bu uygulama eki için çalışan bir İnternet bağlantısı gereklidir. Bu özelliği kullanmak istiyorsanız lütfen `enable_internet_features` yapılandırma değerini denetleyin.",
         "PluginActivated": "Uygulama eki etkinleştirildi",
         "Status": "Durum",
         "SuccessfullyActicated": "<strong>%s<\/strong> etkinleştirildi.",

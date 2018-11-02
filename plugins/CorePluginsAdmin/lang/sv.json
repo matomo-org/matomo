@@ -49,6 +49,7 @@
         "NotDownloadable": "Ej nedladdningsbar",
         "PluginNotDownloadable": "Insticksprogrammet går inte att ladda ner.",
         "PluginNotDownloadablePaidReason": "Detta kan bero på en utgången licens.",
+        "PluginRequiresInternet": "Detta plugin kräver en fungerande internetanslutning. Vänligen kontrollera värdet för `enable_internet_features` i konfigurationen om du vill använda denna funktion.",
         "PluginActivated": "Insticksprogram aktiverat",
         "Status": "Status",
         "SuccessfullyActicated": "Du har nu aktiverat <strong>%s<\/strong>.",

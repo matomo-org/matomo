@@ -26,6 +26,8 @@ TestingEnvironment.prototype.reload = function () {
     this['loadRealTranslations'] = true; // UI tests should test w/ real translations, not translation keys
     this['testUseMockAuth'] = true;
     this['configOverride'] = {};
+    this['optionsOverride'] = {};
+    this['environmentVariables'] = {};
 
     if (fs.exists(testingEnvironmentOverridePath)) {
         var data = JSON.parse(fs.read(testingEnvironmentOverridePath));
@@ -193,6 +195,10 @@ TestingEnvironment.prototype.setupFixture = function (fixtureClass, done) {
 
     if (options['piwik-domain']) {
         args.push('--piwik-domain=' + options['piwik-domain']);
+    }
+
+    if (options['enable-logging']) {
+        args.push('--enable-logging');
     }
 
     var self = this;

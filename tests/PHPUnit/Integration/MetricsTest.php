@@ -112,7 +112,7 @@ class MetricsTest extends IntegrationTestCase
             array('avg_time_on_page', 's'),
             array('sum_time_spent', 's'),
             array('conversion_rate', '%'),
-            array('revenue', '€'),
+            array('revenue', 'EUR'),
             array('nb_visits', ''),
         );
     }

@@ -81,21 +81,21 @@ class SegmentTest extends IntegrationTestCase
 
             // IS NOT NULL
             array('browserCode==ff;referrerKeyword!=', array(
-                'where' => ' log_visit.config_browser_name = ? AND ( log_visit.referer_keyword IS NOT NULL AND (log_visit.referer_keyword <> \'\' OR log_visit.referer_keyword = 0) ) ',
+                'where' => ' log_visit.config_browser_name = ? AND ( log_visit.referer_keyword IS NOT NULL AND log_visit.referer_keyword <> \'\' AND log_visit.referer_keyword <> \'0\' ) ',
                 'bind'  => array('ff')
             )),
             array('referrerKeyword!=,browserCode==ff', array(
-                'where' => ' (( log_visit.referer_keyword IS NOT NULL AND (log_visit.referer_keyword <> \'\' OR log_visit.referer_keyword = 0) ) OR log_visit.config_browser_name = ? )',
+                'where' => ' (( log_visit.referer_keyword IS NOT NULL AND log_visit.referer_keyword <> \'\' AND log_visit.referer_keyword <> \'0\' ) OR log_visit.config_browser_name = ? )',
                 'bind'  => array('ff')
             )),
 
             // IS NULL
             array('browserCode==ff;referrerKeyword==', array(
-                'where' => ' log_visit.config_browser_name = ? AND ( log_visit.referer_keyword IS NULL OR log_visit.referer_keyword = \'\' ) ',
+                'where' => ' log_visit.config_browser_name = ? AND ( log_visit.referer_keyword IS NULL OR log_visit.referer_keyword = \'\' OR log_visit.referer_keyword = \'0\' ) ',
                 'bind'  => array('ff')
             )),
             array('referrerKeyword==,browserCode==ff', array(
-                'where' => ' (( log_visit.referer_keyword IS NULL OR log_visit.referer_keyword = \'\' ) OR log_visit.config_browser_name = ? )',
+                'where' => ' (( log_visit.referer_keyword IS NULL OR log_visit.referer_keyword = \'\' OR log_visit.referer_keyword = \'0\' ) OR log_visit.config_browser_name = ? )',
                 'bind'  => array('ff')
             )),
 
@@ -630,8 +630,8 @@ class SegmentTest extends IntegrationTestCase
                      log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ?
                       AND (
                             log_link_visit_action.idaction_url IS NOT NULL
-                            AND (log_link_visit_action.idaction_url <> ''
-                                OR log_link_visit_action.idaction_url = 0)
+                            AND log_link_visit_action.idaction_url <> ''
+                            AND log_link_visit_action.idaction_url <> '0'
                             )
                 GROUP BY log_visit.idvisit
                 ORDER BY NULL

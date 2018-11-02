@@ -117,6 +117,8 @@
 
             var self = this, currentWidget = this.element;
 
+            $('.widgetContent', currentWidget).trigger('widget:reload');
+
             function onWidgetLoadedReplaceElementWithContent(loadedContent) {
                 var $widgetContent = $('.widgetContent', currentWidget);
 
@@ -133,10 +135,14 @@
                 if (currentWidget.parents('body').length) {
                     // there might be race conditions, eg widget might be just refreshed while whole dashboard is also
                     // removed from DOM
-                    piwikHelper.compileAngularComponents($widgetContent);
+                    piwikHelper.compileAngularComponents($widgetContent, { forceNewScope: true });
                 }
                 $widgetContent.removeClass('loading');
                 $widgetContent.trigger('widget:create', [self]);
+
+                angular.element(document).injector().invoke(['notifications', function (notifications) {
+                    notifications.parseNotificationDivs();
+                }]);
             }
 
             // Reading segment from hash tag (standard case) or from the URL (when embedding dashboard)

@@ -1,0 +1,158 @@
+<div
+    piwik-content-block
+    content-title="{{ $ctrl.getFormTitle() }}"
+    class="userEditForm"
+    ng-class="{ loading: $ctrl.isSavingUserInfo }"
+>
+    <div class="row" piwik-form>
+        <div class="col m2 entityList" ng-if="!$ctrl.isAdd">
+            <ul class="listCircle">
+                <li ng-class="{active: $ctrl.activeTab === 'basic'}" class="menuBasicInfo">
+                    <a href="" ng-click="$ctrl.activeTab = 'basic'">{{:: 'UsersManager_BasicInformation'|translate }}</a>
+                </li>
+
+                <li ng-class="{active: $ctrl.activeTab === 'permissions'}" class="menuPermissions">
+                    <a href="" ng-click="$ctrl.activeTab = 'permissions'">
+                        {{:: 'UsersManager_Permissions'|translate }}
+                    </a>
+                    <span class="icon-warning" ng-if="!$ctrl.userHasAccess && !$ctrl.user.superuser_access"></span>
+                </li>
+
+                <li ng-class="{active: $ctrl.activeTab === 'superuser'}" class="menuSuperuser" ng-if="$ctrl.currentUserRole == 'superuser'">
+                    <a href="" ng-click="$ctrl.activeTab = 'superuser'">{{:: 'UsersManager_SuperUserAccess'|translate }}</a>
+                </li>
+            </ul>
+
+            <div class="save-button-spacer hide-on-small-only">
+            </div>
+
+            <div class='entityCancel' ng-click="$ctrl.onDoneEditing({ isUserModified: $ctrl.isUserModified })">
+                <a href="" class="entityCancelLink">{{:: 'Mobile_NavigationBack'|translate }}</a>
+            </div>
+        </div>
+
+        <div class="visibleTab col m10">
+            <div ng-if="$ctrl.activeTab === 'basic'" class="basic-info-tab">
+                <div
+                        piwik-field
+                        uicontrol="text"
+                        name="user_login"
+                        ng-model="$ctrl.user.login"
+                        title="Username"
+                        maxlength="100"
+                        disabled="$ctrl.isSavingUserInfo || !$ctrl.isAdd"
+                >
+                </div>
+
+                <div
+                        piwik-field
+                        uicontrol="password"
+                        name="user_password"
+                        ng-model="$ctrl.user.password"
+                        title="Password"
+                        ng-change="$ctrl.isPasswordChanged = !! $ctrl.user.password;"
+                        disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
+                >
+                </div>
+
+                <div
+                        piwik-field
+                        uicontrol="text"
+                        name="user_email"
+                        ng-model="$ctrl.user.email"
+                        title="Email"
+                        maxlength="100"
+                        disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
+                        ng-if="$ctrl.currentUserRole == 'superuser' || $ctrl.isAdd"
+                >
+                </div>
+
+                <div
+                        piwik-field
+                        uicontrol="site"
+                        name="user_site"
+                        ng-model="$ctrl.firstSiteAccess"
+                        title="First website permission"
+                        disabled="$ctrl.isSavingUserInfo"
+                        ng-if="$ctrl.isAdd"
+                        ui-control-attributes="{ onlySitesWithAdminAccess: true }"
+                        ng-attr-inline-help="{{:: 'UsersManager_FirstSiteInlineHelp'|translate }}"
+                >
+                </div>
+
+                <div piwik-save-button
+                     saving="$ctrl.isSavingUserInfo"
+                     onconfirm="$ctrl.saveUserInfo()"
+                     ng-value="$ctrl.getSaveButtonLabel()"
+                     disabled="$ctrl.isAdd && (!$ctrl.firstSiteAccess || !$ctrl.firstSiteAccess.id)"
+                     ng-if="$ctrl.currentUserRole == 'superuser' || $ctrl.isAdd"
+                ></div>
+
+                <div class='entityCancel' ng-if="$ctrl.isAdd">
+                    <a href="" class="entityCancelLink" ng-click="$ctrl.onDoneEditing({ isUserModified: $ctrl.isUserModified })">{{:: 'General_Cancel'|translate }}</a>
+                </div>
+            </div>
+
+            <div ng-if="!$ctrl.isAdd" ng-show="$ctrl.activeTab === 'permissions'" class="user-permissions">
+                <piwik-user-permissions-edit
+                    user-login="$ctrl.user.login"
+                    ng-if="!$ctrl.user.superuser_access"
+                    on-user-has-access-detected="$ctrl.userHasAccess = hasAccess"
+                    on-access-change="$ctrl.isUserModified = true"
+                    access-levels="$ctrl.accessLevels"
+                    filter-access-levels="$ctrl.filterAccessLevels"
+                >
+                </piwik-user-permissions-edit>
+                <div ng-if="$ctrl.user.superuser_access" class="alert alert-info">
+                    {{:: 'UsersManager_SuperUsersPermissionsNotice'|translate }}
+                </div>
+            </div>
+
+            <div ng-if="$ctrl.activeTab === 'superuser' && $ctrl.currentUserRole == 'superuser' && !$ctrl.isAdd" class="superuser-access">
+                <p>{{:: 'UsersManager_SuperUserIntro1'|translate }}</p>
+
+                <p><strong>{{:: 'UsersManager_SuperUserIntro2'|translate }}</strong></p>
+
+                <div
+                    piwik-field
+                    uicontrol="checkbox"
+                    name="superuser_access"
+                    ng-model="$ctrl.user.superuser_access"
+                    ng-attr-title="{{:: 'UsersManager_HasSuperUserAccess'|translate }}"
+                    ng-click="$ctrl.confirmSuperUserChange()"
+                    disabled="$ctrl.isSavingUserInfo"
+                >
+                </div>
+
+                <div class="superuser-confirm-modal modal">
+                    <div class="modal-content">
+                        <h2>{{:: 'UsersManager_AreYouSure'|translate }}</h2>
+                        <p ng-if="!$ctrl.user.superuser_access">
+                            {{:: 'UsersManager_RemoveSuperuserAccessConfirm'|translate }}
+                        </p>
+                        <p ng-if="$ctrl.user.superuser_access">
+                            {{:: 'UsersManager_AddSuperuserAccessConfirm'|translate }}
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="" class="modal-action modal-close btn" ng-click="$ctrl.toggleSuperuserAccess()">{{:: 'General_Yes'|translate }}</a>
+                        <a href="" class="modal-action modal-close modal-no" ng-click="$ctrl.user.superuser_access = !$ctrl.user.superuser_access">{{:: 'General_No'|translate }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="change-password-modal modal">
+        <div class="modal-content">
+            <h2>{{:: 'UsersManager_AreYouSure'|translate }}</h2>
+            <p piwik-translate="UsersManager_AreYouSureChangePassword">
+                <strong>{{ $ctrl.user.login }}</strong>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="modal-action modal-close btn" ng-click="$ctrl.updateUser()">{{:: 'General_Yes'|translate }}</a>
+            <a href="" class="modal-action modal-close modal-no">{{:: 'General_No'|translate }}</a>
+        </div>
+    </div>
+</div>

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals\Reports;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
@@ -44,7 +45,7 @@ class Get extends Base
     private function getGoals()
     {
         $idSite = $this->getIdSite();
-        $goals = API::getInstance()->getGoals($idSite);
+        $goals = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
         return $goals;
     }
 

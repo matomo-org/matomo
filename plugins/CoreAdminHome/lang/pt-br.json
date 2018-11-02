@@ -7,6 +7,8 @@
         "ReleaseChannel": "Canal de liberação",
         "ClickHereToOptIn": "Clique aqui para aceitar",
         "ClickHereToOptOut": "Clique aqui para optar por sair.",
+        "CorsDomains": "Domínio de Compartilhamento de Recursos de Origens Cruzadas (CORS)",
+        "CorsDomainsHelp": "Você pode definir domínios ou subdomínios como http:\/\/example.com ou http:\/\/stats.example.com. Ou para permitir solicitações entre domínios de todos os domínios, basta adicionar um *",
         "CustomLogoFeedbackInfo": "Se você personalizar o logotipo Matomo, você também pode estar interessado em esconder a ligação %1$s no menu superior. Para fazer isso, você pode desabilitar o plug-in Comentários na página de Plugins %2$sManage%3$s.",
         "CustomLogoHelpText": "Você pode personalizar o logo que o Matomo exibe na interface do sistema e nos relatórios enviados por e-mail.",
         "DevelopmentProcess": "Enquanto o nosso %1$sprocesso de desenvolvimento%2$s inclui milhares de testes automatizados, Os Beta Testers desempenham um papel fundamental na realização da política de \"Nenhum bug\" no Matomo.",
@@ -90,16 +92,18 @@
         "TrackingCodeIntro": "Matomo oferece várias maneiras de incorporar o código de rastreamento ao seu site, aplicativos móveis e até mesmo a qualquer dispositivo ou aplicativo.",
         "TrustedHostConfirm": "Tem certeza de que deseja alterar o hostname confiável Matomo?",
         "TrustedHostSettings": "Hostname Matomo confiável",
+        "UiDemo": "Demonstração UI",
         "UpdateSettings": "Configurações de atualização",
         "UseCustomLogo": "Usar logomarca personalizada",
         "ValidPiwikHostname": "Hostname Matomo válido",
         "WithOptionalRevenue": "com rendimento opcional",
-        "YouAreOptedIn": "Você está atualmente dentro do opted",
         "YouAreOptedOut": "Você optou por sair.",
         "YouMayOptOut": "Você pode optar por não ter um único número de identificação web analytics de cookie atribuído ao seu computador para evitar a agregação e análise dos dados coletados neste site.",
         "YouMayOptOutBis": "Para fazer essa escolha, clique abaixo para receber um cookie de opt-out.",
         "OptingYouOut": "Optando por sair, por favor aguarde ...",
         "ProtocolNotDetectedCorrectly": "Você está visualizando o Matomo só pode detectar uma conexão não segura no servidor.",
-        "ProtocolNotDetectedCorrectlySolution": "Para certificar-se que o Matomo solicita e serve o seu conteúdo de forma segura através de HTTPS, você pode editar o seu %1$s arquivo, assim como configurar o proxy, ou você pode adicionar a linha %2$s abaixo da %3$s seção. %4$sSaiba mais%5$s"
+        "ProtocolNotDetectedCorrectlySolution": "Para certificar-se que o Matomo solicita e serve o seu conteúdo de forma segura através de HTTPS, você pode editar o seu %1$s arquivo, assim como configurar o proxy, ou você pode adicionar a linha %2$s abaixo da %3$s seção. %4$sSaiba mais%5$s",
+        "MissingTrackingCodeEmailSubject": "Sem tráfego para %s gravado no Matomo Analytics, comece agora",
+        "JsTrackingCodeMissingEmail1": "Alguns dias atrás você adicionou o website '%s' no seu Matomo Analytics. Nós acabamos de verificar e seu Matomo parece não possuir qualquer tráfego registrado para esse website."
     }
 }

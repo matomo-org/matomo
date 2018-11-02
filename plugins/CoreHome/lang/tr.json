@@ -101,6 +101,7 @@
         "ExpandSubtables": "Alt tabloları genişlet",
         "StandardReport": "Standart rapor",
         "FlattenReport": "Düz rapor",
-        "ReportWithMetadata": "Üst veriler ile rapor"
+        "ReportWithMetadata": "Üst veriler ile rapor",
+        "SeeAvailableVersions": "Kullanılabilecek Sürümlere Bakın"
     }
 }

@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\Goals\Widgets;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugins\Goals\API;
@@ -28,7 +29,7 @@ class EditGoals extends \Piwik\Widget\Widget
             return;
         }
 
-        $goals  = API::getInstance()->getGoals($idSite);
+        $goals  = Request::processRequest('Goals.getGoals', ['idSite' => $idSite, 'filter_limit' => '-1'], $default = []);
 
         $config->setName('Goals_ManageGoals');
 

@@ -101,6 +101,7 @@
         "ExpandSubtables": "Ανάπτυξη υποπινάκων",
         "StandardReport": "Κανονική αναφορά",
         "FlattenReport": "Επίπεδη αναφορά",
-        "ReportWithMetadata": "Αναφορά με μεταδεδομένα"
+        "ReportWithMetadata": "Αναφορά με μεταδεδομένα",
+        "SeeAvailableVersions": "Εμφάνιση Διαθέσιμων Εκδόσεων"
     }
 }

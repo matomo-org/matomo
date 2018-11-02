@@ -13,6 +13,7 @@
         "FromPreviousSiteSearches": "内部検索から",
         "FromPreviousSiteSearchesInline": "内部検索からの %s",
         "FromSearchEngines": "検索エンジンから",
+        "FromSocialNetworks": "ソーシャルネットワークから",
         "FromWebsites": "ウェブサイトから",
         "IncomingTraffic": "受信トラフィック",
         "LoopsInline": "%s ページリロード",

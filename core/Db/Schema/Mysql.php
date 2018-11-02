@@ -41,6 +41,7 @@ class Mysql implements SchemaInterface
                           token_auth CHAR(32) NOT NULL,
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
+                          ts_password_modified TIMESTAMP NULL,
                             PRIMARY KEY(login),
                             UNIQUE KEY uniq_keytoken(token_auth)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
@@ -74,6 +75,7 @@ class Mysql implements SchemaInterface
                             `group` VARCHAR(250) NOT NULL,
                             `type` VARCHAR(255) NOT NULL,
                             keep_url_fragment TINYINT NOT NULL DEFAULT 0,
+                            creator_login VARCHAR(100) NULL,
                               PRIMARY KEY(idsite)
                             ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
@@ -121,6 +123,7 @@ class Mysql implements SchemaInterface
                               `allow_multiple` tinyint(4) NOT NULL,
                               `revenue` float NOT NULL,
                               `deleted` tinyint(4) NOT NULL default '0',
+                              `event_value_as_revenue` tinyint(4) NOT NULL default '0',
                                 PRIMARY KEY  (`idsite`,`idgoal`)
                               ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
@@ -393,7 +396,9 @@ class Mysql implements SchemaInterface
             $dbName = $this->getDbName();
         }
 
-        Db::exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
+        $dbName = str_replace('`', '', $dbName);
+
+        Db::exec("CREATE DATABASE IF NOT EXISTS `" . $dbName . "` DEFAULT CHARACTER SET utf8");
     }
 
     /**
@@ -428,7 +433,8 @@ class Mysql implements SchemaInterface
     public function dropDatabase($dbName = null)
     {
         $dbName = $dbName ?: $this->getDbName();
-        Db::exec("DROP DATABASE IF EXISTS " . $dbName);
+        $dbName = str_replace('`', '', $dbName);
+        Db::exec("DROP DATABASE IF EXISTS `" . $dbName . "`");
     }
 
     /**
@@ -457,11 +463,13 @@ class Mysql implements SchemaInterface
      */
     public function createAnonymousUser()
     {
+        $now = Date::factory('now')->getDatetime();
+
         // The anonymous user is the user that is assigned by default
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
-                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', 0, '" . Date::factory('now')->getDatetime() . "' );");
+                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', 0, '$now', '$now' );");
     }
 
     /**
