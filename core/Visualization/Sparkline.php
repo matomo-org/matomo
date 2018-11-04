@@ -21,6 +21,8 @@ class Sparkline implements ViewInterface
 {
     const DEFAULT_WIDTH = 200;
     const DEFAULT_HEIGHT = 50;
+    const MAX_WIDTH = 1000;
+    const MAX_HEIGHT = 1000;
 
 
     /**
@@ -95,8 +97,11 @@ class Sparkline implements ViewInterface
         if (!is_numeric($width) || $width <= 0) {
             return;
         }
-
-        $this->_width = (int)$width;
+        if ($width > self::MAX_WIDTH) {
+            $this->_width = self::MAX_WIDTH;
+        } else {
+            $this->_width = (int)$width;
+        }
     }
 
     /**
@@ -115,8 +120,11 @@ class Sparkline implements ViewInterface
         if (!is_numeric($height) || $height <= 0) {
             return;
         }
-
-        $this->_height = (int)$height;
+        if ($height > self::MAX_HEIGHT) {
+            $this->_height = self::MAX_HEIGHT;
+        } else {
+            $this->_height = (int)$height;
+        }
     }
 
     /**

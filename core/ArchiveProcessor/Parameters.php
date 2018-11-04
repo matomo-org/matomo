@@ -211,7 +211,7 @@ class Parameters
     {
         $period = $this->getPeriod();
         $secondsInPeriod = $period->getDateEnd()->getTimestampUTC() - $period->getDateStart()->getTimestampUTC();
-        $oneDay = $secondsInPeriod <= Date::NUM_SECONDS_IN_DAY;
+        $oneDay = $secondsInPeriod < Date::NUM_SECONDS_IN_DAY;
 
         return $oneDay;
     }

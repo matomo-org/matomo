@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
  */
 class Bing implements MetricsProvider
 {
-    const URL = 'http://www.bing.com/search?setlang=en-US&rdr=1&q=site%3A';
+    const URL = 'https://www.bing.com/search?setlang=en-US&rdr=1&q=site%3A';
 
     /**
      * @var LoggerInterface
@@ -35,6 +35,7 @@ class Bing implements MetricsProvider
 
         try {
             $response = str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));
+            $response = str_replace('&#160;', '', $response); // number uses nbsp as thousand seperator
 
             if (preg_match('#([0-9,\.]+) results#i', $response, $p)) {
                 $pageCount = NumberFormatter::getInstance()->formatNumber((int)str_replace(array(',', '.'), '', $p[1]));

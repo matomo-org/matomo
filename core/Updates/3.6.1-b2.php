@@ -33,6 +33,7 @@ class Updates_3_6_1_b2 extends Updates
     {
         return array(
             $this->migration->db->addColumn('site', 'creator_login', ' VARCHAR(100) NULL'),
+            $this->migration->plugin->activate('IntranetMeasurable'),
         );
     }
 

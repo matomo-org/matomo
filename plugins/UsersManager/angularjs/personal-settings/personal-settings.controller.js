@@ -57,7 +57,6 @@
         this.save = function () {
 
             var postParams = {
-                alias: this.alias,
                 email: this.email,
                 defaultReport: this.defaultReport == 'MultiSites' ? this.defaultReport : this.site.id,
                 defaultDate: this.defaultDate,

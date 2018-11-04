@@ -141,7 +141,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function getExtraDefinitions()
     {
-        $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource($this->vars);
+        $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource();
 
         $fixturePluginsToLoad = [];
 

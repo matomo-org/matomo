@@ -37,6 +37,8 @@
         "Smartphone": "スマートフォン",
         "PortableMediaPlayer": "ポータブルメディアプレーヤー",
         "Devices": "デバイス",
+        "GenericDevice": "ジェネリック %s",
+        "MobileDevice": "モバイルデバイス",
         "Tablet": "タブレット",
         "Phablet": "ファブレット",
         "TV": "TV",
