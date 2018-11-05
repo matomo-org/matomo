@@ -7,7 +7,7 @@
     </h2>
     {% include '@TwoFactorAuth/_showRecoveryCodes.twig' %}
 
-    <div class="alert alert-info" ng-show="setup2fa.step == 1">{{ 'TwoFactorAuth_SetupBackupRecoveryCodes'|translate }}</div>
+    <div class="alert alert-info backupRecoveryCodesAlert" ng-show="setup2fa.step == 1">{{ 'TwoFactorAuth_SetupBackupRecoveryCodes'|translate }}</div>
 
     <p><button ng-click="setup2fa.nextStep()" ng-show="setup2fa.step == 1" ng-disabled="!setup2fa.hasDownloadedRecoveryCode" class="btn goToStep2">{{ 'General_Next'|translate }}</button></p>
 

@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGeneratorTest' => DI\object('Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator'),
+    'Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator' => DI\object('Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator'),
     'Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeRandomGenerator' => DI\object('Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeStaticGenerator'),
     'Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication' => DI\decorate(function ($previous) {
         /** @var Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication $previous */
@@ -10,13 +10,15 @@ return array(
         $secret = $staticSecret->generateSecret();
 
         $fakeCorrectAuthCode = \Piwik\Container\StaticContainer::get('test.vars.fakeCorrectAuthCode');
-        if (!empty($fakeCorrectAuthCode)) {
+        if (!empty($fakeCorrectAuthCode) && !\Piwik\Common::isPhpCliMode()) {
             require_once PIWIK_DOCUMENT_ROOT . '/libs/Authenticator/TwoFactorAuthenticator.php';
             $authenticator = new \TwoFactorAuthenticator();
-            foreach ([$_GET, $_POST, $_REQUEST] as $params) {
-                $params['authcode'] = $authenticator->getCode($secret);
-                $params['authCode'] = $params['authcode'];
-            }
+            $_GET['authcode'] = $authenticator->getCode($secret);
+            $_GET['authCode'] = $_GET['authcode'];
+            $_POST['authCode'] = $_GET['authcode'];
+            $_POST['authcode'] = $_GET['authcode'];
+            $_REQUEST['authcode'] = $_GET['authcode'];
+            $_REQUEST['authCode'] = $_GET['authcode'];
         }
 
         return $previous;
