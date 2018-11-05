@@ -6,7 +6,8 @@ return array(
     'Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication' => DI\decorate(function ($previous) {
         /** @var Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication $previous */
 
-        $secret = \Piwik\Plugins\TwoFactorAuth\tests\Fixtures\TwoFactorFixture::USER_2FA_SECRET;
+        $staticSecret = new \Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator();
+        $secret = $staticSecret->generateSecret();
 
         $fakeCorrectAuthCode = \Piwik\Container\StaticContainer::get('test.vars.fakeCorrectAuthCode');
         if (!empty($fakeCorrectAuthCode)) {
@@ -16,11 +17,6 @@ return array(
                 $params['authcode'] = $authenticator->getCode($secret);
                 $params['authCode'] = $params['authcode'];
             }
-
-            \Piwik\Session::start();
-
-            $session = new \Piwik\Session\SessionNamespace('TwoFactorAuthenticator');
-            $session->secret = $secret;
         }
 
         return $previous;

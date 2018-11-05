@@ -15,6 +15,7 @@ use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Session;
 use Piwik\Session\SessionFingerprint;
 use Exception;
 
@@ -147,11 +148,16 @@ class TwoFactorAuth extends \Piwik\Plugin
         if ($module === Piwik::getLoginPluginName() && $action === 'logout') {
             return;
         }
-
+        /*
+        $auth = StaticContainer::get('Piwik\Auth');
+        if ($auth && $auth->getTokenAuthSecret() && !$auth->getLogin()) {
+            return;
+        }
+*/
         $twoFa = $this->getTwoFa();
 
         $isUsing2FA = $twoFa->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());
-        if ($isUsing2FA && !Request::isRootRequestApiRequest()) {
+        if ($isUsing2FA && !Request::isRootRequestApiRequest() && Session::isStarted()) {
             $sessionFingerprint = new SessionFingerprint();
             if (!$sessionFingerprint->hasVerifiedTwoFactor()) {
                 $module = 'TwoFactorAuth';

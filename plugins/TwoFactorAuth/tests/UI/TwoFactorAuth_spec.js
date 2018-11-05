@@ -143,13 +143,13 @@ describe("TwoFactorAuth", function () {
         });
     });
 
-    it('should be possible to disable two factor confirmed', function (done) {
+    it('should be possible to disable two factor step 2 confirmed', function (done) {
         captureScreen(done, 'usersettings_twofa_disable_step2', function (page) {
             selectModalButton(page, 'Yes');
         });
     });
 
-    it('should be possible to disable two factor', function (done) {
+    it('should be possible to disable two factor step 3 verified', function (done) {
         captureUserSettings(done, 'usersettings_twofa_disable_step3', function (page) {
             confirmPassword(page);
         });
@@ -184,7 +184,9 @@ describe("TwoFactorAuth", function () {
             page.evaluate(function () {
                 $('.setupConfirmAuthCodeForm input[type=text]').change();
             });
-            page.click('.setupConfirmAuthCodeForm .confirmAuthCode');
+            page.evaluate(function () {
+                $('.setupConfirmAuthCodeForm .confirmAuthCode').click();
+            });
         });
     });
 
@@ -215,7 +217,9 @@ describe("TwoFactorAuth", function () {
             page.evaluate(function () {
                 $('.setupConfirmAuthCodeForm input[type=text]').change();
             });
-            page.click('.setupConfirmAuthCodeForm .confirmAuthCode');
+            page.evaluate(function () {
+                $('.setupConfirmAuthCodeForm .confirmAuthCode').click();
+            });
         });
     });
 

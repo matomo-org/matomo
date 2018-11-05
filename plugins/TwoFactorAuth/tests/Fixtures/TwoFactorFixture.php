@@ -26,7 +26,7 @@ class TwoFactorFixture extends Fixture
     private $userNo2Fa = 'no2FA';
     private $userPassword = '123abcDk3_l3';
 
-    const USER_2FA_SECRET = '123456';
+    const USER_2FA_SECRET = '1111111111111111';
 
 
     /**
