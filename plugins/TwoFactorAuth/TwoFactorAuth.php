@@ -211,7 +211,7 @@ class TwoFactorAuth extends \Piwik\Plugin
         // make sure to not leak the token... otherwise someone could log in using someone's credentials...
         // and then maybe in the auth screen look into the DOM to find the token... and then bypass the
         // auth code using API
-        return str_replace($token, md5(''), $output);
+        return str_replace($token, md5('') . '2fareplaced', $output);
     }
 
 }

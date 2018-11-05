@@ -6,6 +6,10 @@ return array(
     'Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication' => DI\decorate(function ($previous) {
         /** @var Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication $previous */
 
+        if (!\Piwik\SettingsPiwik::isPiwikInstalled()) {
+            return $previous;
+        }
+
         $staticSecret = new \Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator();
         $secret = $staticSecret->generateSecret();
 
@@ -26,6 +30,10 @@ return array(
     'Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao' => DI\decorate(function ($previous) {
         /** @var Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao $previous */
 
+        if (!\Piwik\SettingsPiwik::isPiwikInstalled()) {
+            return $previous;
+        }
+
         $restoreCodes = \Piwik\Container\StaticContainer::get('test.vars.restoreRecoveryCodes');
         if (!empty($restoreCodes)) {
             // we ensure this recovery code always works for those users
@@ -39,6 +47,9 @@ return array(
     }),
     'Piwik\Plugins\TwoFactorAuth\SystemSettings' => DI\decorate(function ($previous) {
         /** @var Piwik\Plugins\TwoFactorAuth\SystemSettings $previous */
+        if (!\Piwik\SettingsPiwik::isPiwikInstalled()) {
+            return $previous;
+        }
 
         Piwik\Access::doAsSuperUser(function () use ($previous) {
             $requireTwoFa = \Piwik\Container\StaticContainer::get('test.vars.requireTwoFa');

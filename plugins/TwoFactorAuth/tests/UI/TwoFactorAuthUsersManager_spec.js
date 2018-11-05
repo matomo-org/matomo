@@ -10,7 +10,7 @@
 describe("TwoFactorAuthUsersManager", function () {
     this.timeout(0);
 
-    this.fixture = "Piwik\\Plugins\\TwoFactorAuth\\tests\\Fixtures\\TwoFactorFixture";
+    this.fixture = "Piwik\\Plugins\\TwoFactorAuth\\tests\\Fixtures\\TwoFactorUsersManagerFixture";
 
     var generalParams = 'idSite=1&period=day&date=2010-01-03',
         usersManager = '?module=UsersManager&action=index&' + generalParams;
