@@ -89,7 +89,7 @@ class SessionAuthTest extends IntegrationTestCase
     private function initializeSession($userLogin)
     {
         $sessionFingerprint = new SessionFingerprint();
-        $sessionFingerprint->initialize($userLogin, $time = null);
+        $sessionFingerprint->initialize($userLogin);
     }
 
     protected static function configureFixture($fixture)

@@ -640,9 +640,10 @@ enable_geolocation_admin = 1
 enable_delete_old_data_settings_admin = 1
 
 ; By setting this option to 0, the following settings will be hidden and disabled from being set in the UI:
-; - "Archiving Settings"
-; - "Update settings"
-; - "Email server settings"
+; - Archiving settings
+; - Update settings
+; - Email server settings
+; - Trusted Matomo Hostname
 enable_general_settings_admin = 1
 
 ; Disabling this will disable features like automatic updates for Matomo,
