@@ -11,6 +11,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
+use Piwik\Plugins\UsersManager\Model;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Plugins\UsersManager\API as UsersAPI;
 
@@ -71,6 +72,11 @@ class TwoFactorFixture extends Fixture
             \Piwik\Plugins\UsersManager\API::getInstance()->addUser($user, $this->userPassword, $user . '@matomo.org');
             // we cannot set superuser as logme won't work for super user
             UsersAPI::getInstance()->setUserAccess($user, 'admin', [$this->idSite, $this->idSite2]);
+
+            if ($this->userWith2Fa === $user) {
+                $userModel = new Model();
+                $userModel->updateUserTokenAuth($user, 'c4ca4238a0b923820dcc509a6f75849b');
+            }
         }
 
         foreach ([$this->userWith2Fa, $this->userWith2FaDisable] as $user) {

@@ -90,6 +90,12 @@ describe("TwoFactorAuth", function () {
         captureScreen(done, screenshotName, test, '.modal.open');
     }
 
+    it('a user with 2fa can open the widgetized view by token without needing to verify', function (done) {
+        captureScreen(done, 'widgetized_no_verify', function (page) {
+            page.load('?module=Widgetize&action=iframe&moduleToWidgetize=Actions&actionToWidgetize=getPageUrls&token_auth=c4ca4238a0b923820dcc509a6f75849b&' + generalParams);
+        });
+    });
+
     it('when logging in through logme and not providing auth code it should show auth code screen', function (done) {
         captureScreen(done, 'logme_not_verified', function (page) {
             loginUser(page, 'with2FA', false);

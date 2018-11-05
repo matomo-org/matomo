@@ -11,6 +11,7 @@ namespace Piwik\Plugins\TwoFactorAuth;
 use Piwik\Piwik;
 use Piwik\Session\SessionFingerprint;
 use Exception;
+use Piwik\SettingsPiwik;
 
 class Validator
 {
@@ -26,6 +27,10 @@ class Validator
 
     public function canUseTwoFa()
     {
+        if (!SettingsPiwik::isPiwikInstalled()) {
+            return false;
+        }
+
         return !Piwik::isUserIsAnonymous();
     }
 

@@ -18,6 +18,7 @@ use Piwik\Plugins\UsersManager\Model;
 use Piwik\Session;
 use Piwik\Session\SessionFingerprint;
 use Exception;
+use Piwik\SettingsPiwik;
 
 class TwoFactorAuth extends \Piwik\Plugin
 {
@@ -32,8 +33,7 @@ class TwoFactorAuth extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'API.UsersManager.deleteUser.end' => 'deleteRecoveryCodes',
             'API.UsersManager.getTokenAuth.end' => 'onApiGetTokenAuth',
-            'Request.dispatch.end' => 'onRequestDispatchEnd',
-            // 'UsersManager.API.verifyGetTokenAuthIdentity' => 'onApiGetTokenAuth',
+            'Request.dispatch.end' => array('function' => 'onRequestDispatchEnd', 'after' => true),
             'Template.userSettings.afterTokenAuth' => 'render2FaUserSettings',
             'Login.authenticate.processSuccessfulSession.end' => 'onSuccessfulSession'
         );
@@ -107,6 +107,10 @@ class TwoFactorAuth extends \Piwik\Plugin
 
     public function onApiGetTokenAuth($returnedValue, $params)
     {
+        if (!SettingsPiwik::isPiwikInstalled()) {
+            return;
+        }
+
         if (!empty($returnedValue) && !empty($params['parameters']['userLogin'])) {
             $login = $params['parameters']['userLogin'];
             $twoFa = $this->getTwoFa();
@@ -148,12 +152,24 @@ class TwoFactorAuth extends \Piwik\Plugin
         if ($module === Piwik::getLoginPluginName() && $action === 'logout') {
             return;
         }
-        /*
-        $auth = StaticContainer::get('Piwik\Auth');
-        if ($auth && $auth->getTokenAuthSecret() && !$auth->getLogin()) {
+
+        if (Piwik::getModule() === 'Widgetize') {
+            // we cannot use $module as it would be different when dispatching other requests within the widgetized request
+            $auth = StaticContainer::get('Piwik\Auth');
+            if ($auth && !$auth->getLogin() && method_exists($auth, 'getTokenAuth') && $auth->getTokenAuth()) {
+                // when authenticated by token only, we do not require 2fa
+                // needed eg for rendering exported widgets authenticated by token
+                return;
+            }
+        }
+
+        $requiresAuth = true;
+        Piwik::postEvent('TwoFactorAuth.requiresTwoFactorAuthentication', array(&$requiresAuth, $module, $action, $parameters));
+
+        if (!$requiresAuth) {
             return;
         }
-*/
+
         $twoFa = $this->getTwoFa();
 
         $isUsing2FA = $twoFa->isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin());

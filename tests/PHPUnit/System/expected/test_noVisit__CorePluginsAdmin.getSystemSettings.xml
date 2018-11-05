@@ -269,6 +269,44 @@
 		</settings>
 	</row>
 	<row>
+		<pluginName>TwoFactorAuth</pluginName>
+		<title>TwoFactorAuth</title>
+		<settings>
+			<row>
+				<name>twoFactorAuthRequired</name>
+				<title>Require two-factor authentication for everyone</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>When enabled, every user has to enable two factor authentication.</description>
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>twoFactorAuthName</name>
+				<title>Two-factor authentication title</title>
+				<value>Analytics - localhost</value>
+				<defaultValue>Analytics - localhost</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>The name of the title to display that will be displayed in the Authenticator app.</description>
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+		</settings>
+	</row>
+	<row>
 		<pluginName>CoreUpdater</pluginName>
 		<title>Update settings</title>
 		<settings>
