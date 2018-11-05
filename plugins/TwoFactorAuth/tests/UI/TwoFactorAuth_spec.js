@@ -179,8 +179,8 @@ describe("TwoFactorAuth", function () {
     it('should move to third step in setup - step 4 confirm', function (done) {
         captureScreen(done, 'twofa_setup_step4', function (page) {
             fakeCorrectAuthCode();
-            page.sendKeys('.setupConfirmAuthCodeForm input[type=text]', 'bereplaced');
-            page.click('.setupConfirmAuthCodeForm .btn');
+            page.sendKeys('.setupConfirmAuthCodeForm input[type=text]', '123456');
+            page.click('.setupConfirmAuthCodeForm .confirmAuthCode');
         });
     });
 
@@ -207,7 +207,7 @@ describe("TwoFactorAuth", function () {
         captureScreen(done, 'twofa_forced_step4', function (page) {
             requireTwoFa();
             fakeCorrectAuthCode();
-            page.sendKeys('.setupConfirmAuthCodeForm input[type=text]', 'bereplaced');
+            page.sendKeys('.setupConfirmAuthCodeForm input[type=text]', '123456');
             page.click('.setupConfirmAuthCodeForm .btn');
         });
     });

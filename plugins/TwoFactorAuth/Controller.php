@@ -14,13 +14,12 @@ use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\PasswordVerify;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
+use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Session\SessionNamespace;
 use Piwik\Url;
 use Piwik\View;
 use Exception;
-
-require_once PIWIK_DOCUMENT_ROOT . '/libs/Authenticator/TwoFactorAuthenticator.php';
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -55,13 +54,19 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $validator;
 
-    public function __construct(SystemSettings $systemSettings, RecoveryCodeDao $recoveryCodeDao, PasswordVerify $passwordVerify, TwoFactorAuthentication $twoFa, Validator $validator)
+    /**
+     * @var TwoFaSecretRandomGenerator
+     */
+    private $secretGenerator;
+
+    public function __construct(SystemSettings $systemSettings, RecoveryCodeDao $recoveryCodeDao, PasswordVerify $passwordVerify, TwoFactorAuthentication $twoFa, Validator $validator, TwoFaSecretRandomGenerator $secretGenerator)
     {
         $this->settings = $systemSettings;
         $this->recoveryCodeDao = $recoveryCodeDao;
         $this->passwordVerify = $passwordVerify;
         $this->twoFa = $twoFa;
         $this->validator = $validator;
+        $this->secretGenerator = $secretGenerator;
 
         parent::__construct();
     }
@@ -118,12 +123,6 @@ class Controller extends \Piwik\Plugin\Controller
             'isForced' => $this->twoFa->isUserRequiredToHaveTwoFactorEnabled(),
             'disableNonce' => Nonce::getNonce(self::DISABLE_2FA_NONCE)
         ));
-    }
-
-
-    private function makeAuthenticator()
-    {
-        return new \TwoFactorAuthenticator();
     }
 
     public function disableTwoFactorAuth()
@@ -192,11 +191,10 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
 
-        $authentiator = $this->makeAuthenticator();
         $session = $this->make2faSession();
 
         if (empty($session->secret)) {
-            $session->secret = $authentiator->createSecret(16);
+            $session->secret = $this->secretGenerator->generateSecret();
         }
 
         $secret = $session->secret;

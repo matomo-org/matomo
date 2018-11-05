@@ -53,7 +53,7 @@
 
             <input type="hidden" name="authCodeNonce" value="{{ authCodeNonce|e('html_attr') }}">
             <input type="submit" ng-disabled="setup2fa.authCode.length != 6"
-                   class="btn" value="{{ 'General_Confirm'|translate }}">
+                   class="btn confirmAuthCode" value="{{ 'General_Confirm'|translate }}">
         </form>
     </div>
 
