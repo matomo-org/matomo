@@ -9,7 +9,7 @@ namespace Piwik\Plugins\TwoFactorAuth\Dao;
 
 class RecoveryCodeStaticGenerator extends RecoveryCodeRandomGenerator
 {
-    private $index = 0;
+    private $index = 10;
 
     public function generateCode()
     {
