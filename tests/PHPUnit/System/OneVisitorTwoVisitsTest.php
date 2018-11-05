@@ -91,7 +91,8 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
                 'format' => 'original',
                 'otherRequestParameters' => array(
                     'serialize' => '1',
-                )
+                ),
+                'onlyCheckUnserialize' => true,
             )),
 
             // test API.get (for bug that incorrectly reorders columns of CSV output)
