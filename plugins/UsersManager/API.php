@@ -783,12 +783,20 @@ class API extends \Piwik\Plugin\API
         }
 
         $newUser = array('login' => $user['login'], 'alias' => $user['alias']);
+
+        if ($user['login'] === Piwik::getCurrentUserLogin()) {
+            $newUser['email'] = $user['email'];
+        }
+
         if (isset($user['role'])) {
             $newUser['role'] = $user['role'] == 'superuser' ? 'admin' : $user['role'];
         }
         if (isset($user['capabilities'])) {
             $newUser['capabilities'] = $user['capabilities'];
         }
+
+        $newUser['superuser_access'] = $user['superuser_access'];
+
         return $newUser;
     }
 
