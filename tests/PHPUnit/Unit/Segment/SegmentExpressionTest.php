@@ -86,6 +86,10 @@ class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
             array('A!@B%', array('where' => " ( A IS NULL OR A NOT LIKE ? ) ", 'bind' => array('%B\%%'))),
             array('A=$B%', array('where' => " A LIKE ? ", 'bind' => array('%B\%'))),
             array('A=^B%', array('where' => " A LIKE ? ", 'bind' => array('B\%%'))),
+
+            array('log_visit.A==3', ['where' => ' log_visit.A = ? ', 'bind' => ['3']], [], ['log_visit']),
+            array('log_visit.A==3;log_conversion.B>4', ['where' => ' log_visit.A = ? AND log_conversion.B > ? ', 'bind' => ['3', '4']], [], ['log_visit', 'log_conversion']),
+            array('(UNIX_TIMESTAMP(log_visit.A)-log_visit.B)==3', ['where' => ' (UNIX_TIMESTAMP(log_visit.A)-log_visit.B) = ? ', 'bind' => ['3']], ['log_conversion'], ['log_conversion', 'log_visit']),
         );
     }
 
@@ -93,14 +97,17 @@ class SegmentExpressionTest extends \PHPUnit_Framework_TestCase
      * @dataProvider getOperationSegmentExpressions
      * @group Core
      */
-    public function testSegmentSqlWithOperations($expression, $expectedSql)
+    public function testSegmentSqlWithOperations($expression, $expectedSql, $initialFrom = [], $expectedTables = [])
     {
         $segment = new SegmentExpression($expression);
         $segment->parseSubExpressions();
-        $segment->parseSubExpressionsIntoSqlExpressions();
+        $segment->parseSubExpressionsIntoSqlExpressions($initialFrom);
         $processed = $segment->getSql();
-        $expectedSql['join'] = '';
+        if (empty($expectedSql['join'])) {
+            $expectedSql['join'] = '';
+        }
         $this->assertEquals($expectedSql, $processed);
+        $this->assertEquals($expectedTables, $initialFrom);
     }
 
     /**

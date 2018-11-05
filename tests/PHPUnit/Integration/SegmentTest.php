@@ -294,6 +294,32 @@ class SegmentTest extends IntegrationTestCase
         $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
     }
 
+    public function test_getSelectQuery_whenSegmentHasComplexSqlExpression()
+    {
+        $select = '*';
+        $from = 'log_conversion';
+        $where = '';
+        $bind = [];
+
+        $segment = 'customSegment==2';
+        $segment = new Segment($segment, $idSites = []);
+
+        $query = $segment->getSelectQuery($select, $from, $where, $bind);
+        $this->assertQueryDoesNotFail($query);
+
+        $expected = [
+            'sql'=> '
+                SELECT
+                    *
+                FROM ' . Common::prefixTable('log_conversion') . ' AS log_conversion
+                    LEFT JOIN ' . Common::prefixTable('log_visit') . ' AS log_visit ON log_visit.idvisit = log_conversion.idvisit
+                WHERE (UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_days_since_first * 86400) = ? ',
+            'bind' => [2],
+        ];
+
+        $this->assertEquals($this->removeExtraWhiteSpaces($expected), $this->removeExtraWhiteSpaces($query));
+    }
+
     public function test_getSelectQuery_whenJoinConversionOnVisit()
     {
         $select = 'log_visit.*';
@@ -1800,5 +1826,21 @@ log_visit.visit_total_actions
         $general = $config->General;
         $general['browser_archiving_disabled_enforce'] = '1';
         $config->General = $general;
+    }
+
+    public static function provideContainerConfigBeforeClass()
+    {
+        return [
+            'observers.global' => [
+                ['Segment.addSegments', function (&$segments) {
+                    $segment = new \Piwik\Plugin\Segment();
+                    $segment->setSegment('customSegment');
+                    $segment->setType(\Piwik\Plugin\Segment::TYPE_DIMENSION);
+                    $segment->setName('Custom Segment');
+                    $segment->setSqlSegment('(UNIX_TIMESTAMP(log_visit.visit_first_action_time) - log_visit.visitor_days_since_first * 86400)');
+                    $segments[] = $segment;
+                }],
+            ],
+        ];
     }
 }
