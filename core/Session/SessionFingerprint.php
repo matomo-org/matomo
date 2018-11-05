@@ -71,12 +71,13 @@ class SessionFingerprint
         $_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED] = 1;
     }
 
-    public function initialize($userName, $time = null)
+    public function initialize($userName, $isRemembered = false, $time = null)
     {
         $_SESSION[self::USER_NAME_SESSION_VAR_NAME] = $userName;
         $_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED] = 0;
         $_SESSION[self::SESSION_INFO_SESSION_VAR_NAME] = [
             'ts' => $time ?: Date::now()->getTimestampUTC(),
+            'remembered' => $isRemembered,
         ];
     }
 
@@ -97,5 +98,11 @@ class SessionFingerprint
         }
 
         return $userInfo['ts'];
+    }
+
+    public function isRemembered()
+    {
+        $userInfo = $this->getUserInfo();
+        return !empty($userInfo['remembered']);
     }
 }

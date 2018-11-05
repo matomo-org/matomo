@@ -56,11 +56,11 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
 
     public function test_initialize_SetsSessionVarsToCurrentRequest()
     {
-        $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
+        $this->testInstance->initialize('testuser', true, self::TEST_TIME_VALUE);
 
         $this->assertEquals('testuser', $_SESSION[SessionFingerprint::USER_NAME_SESSION_VAR_NAME]);
         $this->assertEquals(
-            ['ts' => self::TEST_TIME_VALUE],
+            ['ts' => self::TEST_TIME_VALUE, 'remembered' => true],
             $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]
         );
     }

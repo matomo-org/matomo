@@ -72,7 +72,7 @@ class SessionInitializerTest extends \PHPUnit_Framework_TestCase
         $fingerprint = new SessionFingerprint();
         $this->assertEquals('testlogin', $fingerprint->getUser());
         $this->assertNotEmpty($fingerprint->getSessionStartTime());
-        $this->assertEquals(['ts'], array_keys($fingerprint->getUserInfo()));
+        $this->assertEquals(['ts', 'remembered'], array_keys($fingerprint->getUserInfo()));
     }
 }
 

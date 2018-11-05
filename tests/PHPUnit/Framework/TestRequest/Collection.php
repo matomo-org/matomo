@@ -48,6 +48,7 @@ class Collection
         'CustomAlerts',
         'Insights',
         'LogViewer',
+        'Referrers.getKeywordNotDefinedString',
     );
 
     /**
@@ -338,6 +339,7 @@ class Collection
                 $this->apiNotToCall = array(
                                             'API.getMatomoVersion',
                                             'API.getPiwikVersion',
+                                            'API.getPhpVersion',
                                             'UserCountry.getLocationFromIP',
                                             'UserCountry.getCountryCodeMapping');
             } else {
