@@ -104,6 +104,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user['email']            = $newEmail;
         $user['alias']            = $newAlias;
         $user['superuser_access'] = 0;
+        $user['twofactor_secret'] = '';
 
         unset($user['password']);
 
