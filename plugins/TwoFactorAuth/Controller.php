@@ -12,9 +12,8 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Nonce;
 use Piwik\Piwik;
-use Piwik\Plugins\Login\PasswordVerify;
+use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
-use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Session\SessionFingerprint;
 use Piwik\Session\SessionNamespace;
 use Piwik\Url;
@@ -40,7 +39,7 @@ class Controller extends \Piwik\Plugin\Controller
     private $recoveryCodeDao;
 
     /**
-     * @var PasswordVerify
+     * @var PasswordVerifier
      */
     private $passwordVerify;
 
@@ -54,19 +53,13 @@ class Controller extends \Piwik\Plugin\Controller
      */
     private $validator;
 
-    /**
-     * @var TwoFaSecretRandomGenerator
-     */
-    private $secretGenerator;
-
-    public function __construct(SystemSettings $systemSettings, RecoveryCodeDao $recoveryCodeDao, PasswordVerify $passwordVerify, TwoFactorAuthentication $twoFa, Validator $validator, TwoFaSecretRandomGenerator $secretGenerator)
+    public function __construct(SystemSettings $systemSettings, RecoveryCodeDao $recoveryCodeDao, PasswordVerifier $passwordVerify, TwoFactorAuthentication $twoFa, Validator $validator)
     {
         $this->settings = $systemSettings;
         $this->recoveryCodeDao = $recoveryCodeDao;
         $this->passwordVerify = $passwordVerify;
         $this->twoFa = $twoFa;
         $this->validator = $validator;
-        $this->secretGenerator = $secretGenerator;
 
         parent::__construct();
     }
@@ -136,8 +129,9 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $nonce = Common::getRequestVar('disableNonce', null, 'string');
+        $params = array('module' => 'TwoFactorAuth', 'action' => 'disableTwoFactorAuth', 'disableNonce' => $nonce);
 
-        if ($this->passwordVerify->requirePasswordVerifiedRecently(array('module' => 'TwoFactorAuth', 'action' => 'disableTwoFactorAuth', 'disableNonce' => $nonce))) {
+        if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
 
             Nonce::checkNonce(self::DISABLE_2FA_NONCE, $nonce);
 
@@ -166,11 +160,10 @@ class Controller extends \Piwik\Plugin\Controller
     }
 
     /**
-     * Action to generate a new Google Authenticator secret for the current user
+     * Action to setup two factor authentication
      *
      * @return string
      * @throws \Exception
-     * @throws \Piwik\NoAccessException
      */
     public function setupTwoFactorAuth($standalone = false)
     {
@@ -185,7 +178,8 @@ class Controller extends \Piwik\Plugin\Controller
             $this->setGeneralVariablesView($view);
             $view->submitAction = 'setupTwoFactorAuth';
 
-            if (!$this->passwordVerify->requirePasswordVerifiedRecently(array('module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth'))) {
+            $redirectParams = array('module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth');
+            if (!$this->passwordVerify->requirePasswordVerified($redirectParams)) {
                 // should usually not go in here but redirect instead
                 throw new Exception('You have to verify your password first.');
             }
@@ -194,13 +188,13 @@ class Controller extends \Piwik\Plugin\Controller
         $session = $this->make2faSession();
 
         if (empty($session->secret)) {
-            $session->secret = $this->secretGenerator->generateSecret();
+            $session->secret = $this->twoFa->generateSecret();
         }
 
         $secret = $session->secret;
         $session->setExpirationSeconds(60 * 15, 'secret');
 
-        $authCode = Common::getRequestVar('authcode', '', 'string');
+        $authCode = Common::getRequestVar('authCode', '', 'string');
         $authCodeNonce = Common::getRequestVar('authCodeNonce', '', 'string');
         $hasSubmittedForm = !empty($authCodeNonce) || !empty($authCode);
         $accessErrorString = '';
@@ -225,6 +219,15 @@ class Controller extends \Piwik\Plugin\Controller
                 return $view->render();
             } else {
                 $accessErrorString = Piwik::translate('TwoFactorAuth_WrongAuthCodeTryAgain');
+            }
+        } elseif (!$standalone) {
+            // the user has not posted the form... at least not with a valid nonce... we make sure the password verify
+            // is valid for at least another 15 minutes and if not, ask for another password confirmation to avoid
+            // the user may be posting a valid auth code after rendering this screen but the password verify is invalid
+            // by then.
+            $redirectParams = array('module' => 'TwoFactorAuth', 'action' => 'setupTwoFactorAuth');
+            if (!$this->passwordVerify->requirePasswordVerifiedRecently($redirectParams)) {
+                throw new Exception('You have to verify your password first.');
             }
         }
 
@@ -256,23 +259,26 @@ class Controller extends \Piwik\Plugin\Controller
         $this->validator->checkVerified2FA();
         $this->validator->check2FaEnabled();
 
-        if (!$this->passwordVerify->requirePasswordVerifiedRecently(array('module' => 'TwoFactorAuth', 'action' => 'showRecoveryCodes'))) {
+        $regenerateNonce = Common::getRequestVar('regenerateNonce', '', 'string', $_POST);
+        $postedValidNonce = !empty($regenerateNonce) && Nonce::verifyNonce(self::REGENERATE_CODES_2FA_NONCE, $regenerateNonce);
+
+        $regenerateSuccess = false;
+        $regenerateError = false;
+
+        if ($postedValidNonce && $this->passwordVerify->hasBeenVerified()) {
+            $this->passwordVerify->forgetVerifiedPassword();
+            $this->recoveryCodeDao->createRecoveryCodesForLogin(Piwik::getCurrentUserLogin());
+            $regenerateSuccess = true;
+            // no need to redirect as password was verified nonce
+            // if user has posted a valid nonce, we do not need to require password again as nonce must have been generated recent
+            // avoids use case where eg password verify is only valid for one more minute when opening the page but user regenerates 2min later
+        } elseif (!$this->passwordVerify->requirePasswordVerifiedRecently(array('module' => 'TwoFactorAuth', 'action' => 'showRecoveryCodes'))) {
             // should usually not go in here but redirect instead
             throw new Exception('You have to verify your password first.');
         }
 
-        $regenerateSuccess = false;
-        $regenerateError = false;
-        if (!empty($_POST['regenerateNonce'])) {
-            $nonce = Common::getRequestVar('regenerateNonce', '', 'string', $_POST);
-            if (Nonce::verifyNonce(self::REGENERATE_CODES_2FA_NONCE, $nonce)) {
-                $this->recoveryCodeDao->createRecoveryCodesForLogin(Piwik::getCurrentUserLogin());
-                $regenerateSuccess = true;
-                $this->passwordVerify->forgetVerifiedPassword();
-
-            } else {
-                $regenerateError = true;
-            }
+        if (!$postedValidNonce && !empty($regenerateNonce)) {
+            $regenerateError = true;
         }
 
         $recoveryCodes = $this->recoveryCodeDao->getAllRecoveryCodesForLogin(Piwik::getCurrentUserLogin());

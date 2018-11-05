@@ -11,7 +11,7 @@
 
     <p><button ng-click="setup2fa.nextStep()" ng-show="setup2fa.step == 1" ng-disabled="!setup2fa.hasDownloadedRecoveryCode" class="btn goToStep2">{{ 'General_Next'|translate }}</button></p>
 
-    <a name="twoFactorStep2" id="twoFactorStep2"/>
+    <a name="twoFactorStep2" id="twoFactorStep2" style="opacity: 0"></a>
     <div ng-show="setup2fa.step >= 2">
         <h2>
             {{ 'TwoFactorAuth_StepX'|translate(2) }} - {{ 'TwoFactorAuth_SetupAuthenticatorOnDevice'|translate }}
@@ -25,7 +25,7 @@
     </p>
     </div>
 
-    <a name="twoFactorStep3" id="twoFactorStep3"/>
+    <a name="twoFactorStep3" id="twoFactorStep3" style="opacity: 0"></a>
     <div ng-show="setup2fa.step >= 3">
         <h2>{{ 'TwoFactorAuth_StepX'|translate(3) }} - {{ 'TwoFactorAuth_ConfirmSetup'|translate }}</h2>
         <p>{{ 'TwoFactorAuth_VerifyAuthCodeIntro'|translate }}</p>
@@ -44,7 +44,7 @@
               action="{{ linkTo({'module': 'TwoFactorAuth', 'action': submitAction}) }}"
               class="setupConfirmAuthCodeForm"
               >
-            <div piwik-field uicontrol="text" name="authcode" maxlength="6"
+            <div piwik-field uicontrol="text" name="authCode" maxlength="6"
                  title="{{ 'TwoFactorAuth_AuthenticationCode'|translate|e('html_attr') }}"
                  ng-model="setup2fa.authCode"
                  inline-help="{{ 'TwoFactorAuth_VerifyAuthCodeHelp'|translate|e('html_attr') }}"

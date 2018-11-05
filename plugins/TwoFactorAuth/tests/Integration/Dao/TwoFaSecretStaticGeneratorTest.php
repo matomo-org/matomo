@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\TwoFactorAuth\tests\Integration\Dao;
 
-use Piwik\Common;
 use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 

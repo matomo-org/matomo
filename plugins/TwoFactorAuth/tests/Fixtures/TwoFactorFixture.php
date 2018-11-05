@@ -10,7 +10,6 @@ namespace Piwik\Plugins\TwoFactorAuth\tests\Fixtures;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
-use Piwik\Plugins\TwoFactorAuth\SystemSettings;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Plugins\UsersManager\API as UsersAPI;
@@ -42,9 +41,8 @@ class TwoFactorFixture extends Fixture
 
     public function setUp()
     {
-        $settings = new SystemSettings();
         $this->dao = StaticContainer::get(RecoveryCodeDao::class);
-        $this->twoFa = new TwoFactorAuthentication($settings, $this->dao);
+        $this->twoFa = StaticContainer::get(TwoFactorAuthentication::class);
 
         $this->setUpWebsite();
         $this->setUpUsers();

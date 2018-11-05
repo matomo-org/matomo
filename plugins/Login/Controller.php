@@ -44,7 +44,7 @@ class Controller extends \Piwik\Plugin\Controller
     protected $sessionInitializer;
 
     /**
-     * @var PasswordVerify
+     * @var PasswordVerifier
      */
     protected $passwordVerify;
 
@@ -54,7 +54,7 @@ class Controller extends \Piwik\Plugin\Controller
      * @param PasswordResetter $passwordResetter
      * @param AuthInterface $auth
      * @param SessionInitializer $authenticatedSessionFactory
-     * @param PasswordVerify $passwordVerify
+     * @param PasswordVerifier $passwordVerify
      */
     public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null, $passwordVerify = null)
     {
@@ -71,7 +71,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->auth = $auth;
 
         if (empty($passwordVerify)) {
-            $passwordVerify = StaticContainer::get('Piwik\Plugins\Login\PasswordVerify');
+            $passwordVerify = StaticContainer::get('Piwik\Plugins\Login\PasswordVerifier');
         }
         $this->passwordVerify = $passwordVerify;
 

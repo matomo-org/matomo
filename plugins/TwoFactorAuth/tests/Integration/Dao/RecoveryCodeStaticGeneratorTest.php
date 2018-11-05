@@ -43,7 +43,7 @@ class RecoveryCodeStaticGeneratorTest extends IntegrationTestCase
 
     public function test_generatorCode_increases()
     {
-        $this->assertSame('1000000000000000', $this->generator->generateCode());
         $this->assertSame('1100000000000000', $this->generator->generateCode());
+        $this->assertSame('1200000000000000', $this->generator->generateCode());
     }
 }

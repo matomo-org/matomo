@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\TwoFactorAuth;
 
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
+use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Plugins\UsersManager\Model;
 use Exception;
 
@@ -25,15 +26,26 @@ class TwoFactorAuthentication
      */
     private $recoveryCodeDao;
 
-    public function __construct(SystemSettings $systemSettings, RecoveryCodeDao $recoveryCodeDao)
+    /**
+     * @var TwoFaSecretRandomGenerator
+     */
+    private $secretGenerator;
+
+    public function __construct(SystemSettings $systemSettings, RecoveryCodeDao $recoveryCodeDao, TwoFaSecretRandomGenerator $twoFaSecretRandomGenerator)
     {
         $this->settings = $systemSettings;
         $this->recoveryCodeDao = $recoveryCodeDao;
+        $this->secretGenerator = $twoFaSecretRandomGenerator;
     }
 
     private function getUserModel()
     {
         return new Model();
+    }
+
+    public function generateSecret()
+    {
+        return $this->secretGenerator->generateSecret();
     }
 
     public function disable2FAforUser($login)

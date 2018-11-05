@@ -22,7 +22,7 @@
                     <a href="" ng-click="$ctrl.activeTab = 'superuser'">{{:: 'UsersManager_SuperUserAccess'|translate }}</a>
                 </li>
 
-                <li ng-class="{active: $ctrl.activeTab === '2fa'}" class="menuSuperuser" ng-if="$ctrl.currentUserRole == 'superuser' && $ctrl.user.uses_2fa && !$ctrl.isAdd">
+                <li ng-class="{active: $ctrl.activeTab === '2fa'}" class="menuUserTwoFa" ng-if="$ctrl.currentUserRole == 'superuser' && $ctrl.user.uses_2fa && !$ctrl.isAdd">
                     <a href="" ng-click="$ctrl.activeTab = '2fa'">{{:: 'UsersManager_TwoFactorAuthentication'|translate }}</a>
                 </li>
             </ul>
@@ -145,10 +145,11 @@
                 </div>
             </div>
 
-            <div ng-if="$ctrl.activeTab === '2fa' && $ctrl.currentUserRole == 'superuser' && !$ctrl.isAdd" class="superuser-access">
+            <div ng-if="$ctrl.activeTab === '2fa' && $ctrl.currentUserRole == 'superuser' && !$ctrl.isAdd" class="twofa-reset">
                 <p>{{:: 'UsersManager_ResetTwoFactorAuthenticationInfo'|translate }}</p>
 
                 <div piwik-save-button
+                     class="resetTwoFa"
                      saving="$ctrl.isResetting2FA"
                      onconfirm="$ctrl.confirmReset2FA()"
                      value="{{ 'UsersManager_ResetTwoFactorAuthentication'|translate }}"

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\TwoFactorAuth\tests\Integration;
 use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
+use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Plugins\TwoFactorAuth\SystemSettings;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
 use Piwik\Plugins\UsersManager\API;
@@ -53,7 +54,8 @@ class TwoFactorAuthTest extends IntegrationTestCase
 
         $this->dao = StaticContainer::get(RecoveryCodeDao::class);
         $this->settings = new SystemSettings();
-        $this->twoFa = new TwoFactorAuthentication($this->settings, $this->dao);
+        $secretGenerator = new TwoFaSecretRandomGenerator();
+        $this->twoFa = new TwoFactorAuthentication($this->settings, $this->dao, $secretGenerator);
 
         $this->dao->createRecoveryCodesForLogin($this->userWith2Fa);
         $this->twoFa->saveSecret($this->userWith2Fa, $this->user2faSecret);

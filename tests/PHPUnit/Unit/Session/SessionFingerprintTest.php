@@ -65,6 +65,18 @@ class SessionFingerprintTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function test_initialize_hasVerifiedTwoFactor()
+    {
+        $this->testInstance->initialize('testuser', self::TEST_TIME_VALUE);
+
+        // after logging in, the user has by default not verified two factor, important
+        $this->assertFalse($this->testInstance->hasVerifiedTwoFactor());
+
+        $this->testInstance->setTwoFactorAuthenticationVerified();
+
+        $this->assertTrue($this->testInstance->hasVerifiedTwoFactor());
+    }
+
     public function test_getSessionStartTime_()
     {
         $_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME] = [
