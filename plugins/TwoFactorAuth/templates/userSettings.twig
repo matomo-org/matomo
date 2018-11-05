@@ -12,13 +12,14 @@
         {% if isForced %}
             {{ 'TwoFactorAuth_TwoFactorAuthenticationRequired'|translate }}
             <br />
+            <br />
             <a class="btn btn-link enable2FaLink" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">{{ 'TwoFactorAuth_ConfigureDifferentDevice'|translate }}</a>
         {% else %}
             <a class="btn btn-link enable2FaLink" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'setupTwoFactorAuth'}) }}">{{ 'TwoFactorAuth_ConfigureDifferentDevice'|translate }}</a>
             <a href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'disableTwoFactorAuth', 'disableNonce': disableNonce}) }}" style="display:none;" id="disable2fa">disable2fa</a>
             <input type="button"
                    class="btn btn-link disable2FaLink"
-                   onclick="piwikHelper.modalConfirm('#confirmDisable2FA', {yes: function () { debugger;$('#disable2fa').click() }})"
+                   onclick="piwikHelper.modalConfirm('#confirmDisable2FA', {yes: function () { broadcast.propagateNewPage('module=TwoFactorAuth&action=disableTwoFactorAuth&disableNonce={{ disableNonce|e('url') }}'); }})"
                    value="{{ 'TwoFactorAuth_DisableTwoFA'|translate }}">
         {% endif %}
             <a class="btn btn-link showRecoveryCodesLink" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'showRecoveryCodes'}) }}">{{ 'TwoFactorAuth_ShowRecoveryCodes'|translate }}</a>

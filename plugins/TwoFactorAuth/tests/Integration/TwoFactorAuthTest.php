@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\TwoFactorAuth\tests\Integration;
 
 use Piwik\API\Request;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\SystemSettings;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
@@ -50,7 +51,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
             API::getInstance()->setSuperUserAccess($user, 1);
         }
 
-        $this->dao = new RecoveryCodeDao();
+        $this->dao = StaticContainer::get(RecoveryCodeDao::class);
         $this->settings = new SystemSettings();
         $this->twoFa = new TwoFactorAuthentication($this->settings, $this->dao);
 
@@ -96,7 +97,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage TwoFactorAuth_InvalidAuthCodeAPI
+     * @expectedExceptionMessage TwoFactorAuth_InvalidAuthCode
      */
     public function test_onApiGetTokenAuth_throwsErrorWhenInvalidTokenWhenUsing2FaAndAuthenticatedCorrectly()
     {

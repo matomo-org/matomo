@@ -18,7 +18,15 @@
 
         this.scrollToEnd = function () {
             $timeout(function () {
-                piwik.helper.lazyScrollTo('.setupTwoFactorAuthentication h2:visible:last', 50, true);
+                var id = '';
+                if (self.step === 2) {
+                    id = '#twoFactorStep2';
+                } else if (self.step === 3) {
+                    id = '#twoFactorStep3';
+                }
+                if (id) {
+                    piwik.helper.lazyScrollTo(id, 50, true);
+                }
             }, 50);
         }
 

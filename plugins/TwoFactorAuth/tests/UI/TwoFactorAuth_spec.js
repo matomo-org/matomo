@@ -13,10 +13,20 @@ describe("TwoFactorAuth", function () {
     this.fixture = "Piwik\\Plugins\\TwoFactorAuth\\tests\\Fixtures\\TwoFactorFixture";
 
     var generalParams = 'idSite=1&period=day&date=2010-01-03',
-        userSettings = '?module=UsersManager&action=userSettings&' + generalParams;
+        userSettings = '?module=UsersManager&action=userSettings&' + generalParams,
+        logoutUrl = '?module=Login&action=logout&period=day&date=yesterday';
+
+
+    function selectModalButton(page, button)
+    {
+        page.click('.modal.open .modal-footer a:contains('+button+')');
+    }
 
     function loginUser(page, username, doAuth)
     {
+        // make sure to log out previous session
+        page.load(logoutUrl);
+
         if (typeof doAuth === 'undefined') {
             doAuth = true;
         }
@@ -24,11 +34,17 @@ describe("TwoFactorAuth", function () {
         if (doAuth) {
             logMeUrl += '&authCode=123456'; // we make sure in test config this code always works
         }
+        page.wait(1000);
         page.load(logMeUrl);
     }
 
     function requireTwoFa() {
         testEnvironment.requireTwoFa = 1;
+        testEnvironment.save();
+    }
+
+    function fakeCorrectAuthCode() {
+        testEnvironment.fakeCorrectAuthCode = 1;
         testEnvironment.save();
     }
 
@@ -46,12 +62,20 @@ describe("TwoFactorAuth", function () {
     afterEach(function () {
         delete testEnvironment.requireTwoFa;
         delete testEnvironment.restoreRecoveryCodes;
+        delete testEnvironment.fakeCorrectAuthCode;
         testEnvironment.save();
     });
 
+    function confirmPassword(page)
+    {
+        page.wait(1000);
+        page.sendKeys('.confirmPasswordForm #login_form_password', '123abcDk3_l3');
+        page.click('.confirmPasswordForm #login_form_submit');
+    }
+
     function captureScreen(done, screenshotName, test, selector) {
         if (!selector) {
-            selector = '#content,#notificationContainer';
+            selector = '.loginSection,#content,#notificationContainer';
         }
 
         expect.screenshot(screenshotName).to.be.captureSelector(selector, test, done);
@@ -59,6 +83,10 @@ describe("TwoFactorAuth", function () {
 
     function captureUserSettings(done, screenshotName, test, selector) {
         captureScreen(done, screenshotName, test, '.userSettings2FA');
+    }
+
+    function captureModal(done, screenshotName, test, selector) {
+        captureScreen(done, screenshotName, test, '.modal.open');
     }
 
     it('when logging in through logme and not providing auth code it should show auth code screen', function (done) {
@@ -88,9 +116,14 @@ describe("TwoFactorAuth", function () {
         });
     });
 
-    it('should be possible to show recovery codes', function (done) {
-        captureScreen(done, 'show_recovery_codes', function (page) {
+    it('should be possible to show recovery codes step1 authentication', function (done) {
+        captureScreen(done, 'show_recovery_codes_step1', function (page) {
             page.click('.showRecoveryCodesLink');
+        });
+    });
+    it('should be possible to show recovery codes step2 done', function (done) {
+        captureScreen(done, 'show_recovery_codes_step2', function (page) {
+            confirmPassword(page);
         });
     });
 
@@ -102,31 +135,31 @@ describe("TwoFactorAuth", function () {
     });
 
     it('should be possible to disable two factor', function (done) {
-        captureScreen(done, 'usersettings_twofa_disable_step1', function (page) {
+        captureModal(done, 'usersettings_twofa_disable_step1', function (page) {
             loginUser(page, 'with2FADisable');
             page.load(userSettings);
             page.click('.disable2FaLink');
         });
     });
 
-    it('should be possible to disable two factor', function (done) {
-        captureScreen(done, 'usersettings_twofa_disable_step2_confirm_password', function (page) {
-            page.sendKeys('.confirmPasswordForm #login_form_password');
-            page.click('.confirmPasswordForm #login_form_submit');
+    it('should be possible to disable two factor confirmed', function (done) {
+        captureScreen(done, 'usersettings_twofa_disable_step2', function (page) {
+            selectModalButton(page, 'Yes');
         });
     });
 
-    it('should show user settings when two-fa enabled', function (done) {
-        captureScreen(done, 'usersettings_twofa_disabled', function (page) {
-            loginUser(page, 'without2FA');
-            page.load(userSettings);
+    it('should be possible to disable two factor', function (done) {
+        captureScreen(done, 'usersettings_twofa_disable_step3', function (page) {
+            confirmPassword(page);
         });
     });
 
     it('should show setup screen - step 1', function (done) {
         captureScreen(done, 'twofa_setup_step1', function (page) {
+            loginUser(page, 'without2FA');
             page.load(userSettings);
-            loginUser(page, '.enable2FaLink');
+            page.click('.enable2FaLink');
+            confirmPassword(page);
         });
     });
 
@@ -144,9 +177,10 @@ describe("TwoFactorAuth", function () {
     });
 
     it('should move to third step in setup - step 4 confirm', function (done) {
-        captureScreen(done, 'twofa_setup_step3', function (page) {
-            page.sendKeys('.setupConfirmAuthCodeForm input[type=text]');
-            page.sendKeys('.setupConfirmAuthCodeForm .btn');
+        captureScreen(done, 'twofa_setup_step4', function (page) {
+            fakeCorrectAuthCode();
+            page.sendKeys('.setupConfirmAuthCodeForm input[type=text]', 'bereplaced');
+            page.click('.setupConfirmAuthCodeForm .btn');
         });
     });
 
@@ -170,9 +204,11 @@ describe("TwoFactorAuth", function () {
         });
     });
     it('should force user to setup 2fa when not set up yet but enforced confirm code', function (done) {
-        captureScreen(done, 'twofa_forced_step3', function (page) {
-            page.sendKeys('.setupConfirmAuthCodeForm input[type=text]');
-            page.sendKeys('.setupConfirmAuthCodeForm .btn');
+        captureScreen(done, 'twofa_forced_step4', function (page) {
+            requireTwoFa();
+            fakeCorrectAuthCode();
+            page.sendKeys('.setupConfirmAuthCodeForm input[type=text]', 'bereplaced');
+            page.click('.setupConfirmAuthCodeForm .btn');
         });
     });
 

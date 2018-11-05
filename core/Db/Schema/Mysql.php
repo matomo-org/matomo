@@ -51,7 +51,7 @@ class Mysql implements SchemaInterface
             'twofactor_recovery_code'    => "CREATE TABLE {$prefixTables}twofactor_recovery_code (
                           idrecoverycode BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                           login VARCHAR(100) NOT NULL,
-                          recovery_code VARCHAR(20) NOT NULL,
+                          recovery_code VARCHAR(40) NOT NULL,
                             PRIMARY KEY(idrecoverycode)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",

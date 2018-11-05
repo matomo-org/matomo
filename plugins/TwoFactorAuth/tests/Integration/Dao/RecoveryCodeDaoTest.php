@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\TwoFactorAuth\tests\Integration\Dao;
 
+use Piwik\Container\StaticContainer;
 use Piwik\DbHelper;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -28,7 +29,7 @@ class RecoveryCodeDaoTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->dao = new RecoveryCodeDao();
+        $this->dao = StaticContainer::get(RecoveryCodeDao::class);
     }
 
     public function test_shouldInstallTable()

@@ -8,6 +8,7 @@
 namespace Piwik\Plugins\TwoFactorAuth;
 
 use Endroid\QrCode\QrCode;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Nonce;
 use Piwik\Piwik;
@@ -90,12 +91,16 @@ class Controller extends \Piwik\Plugin\Controller
                     $sessionFingerprint = new SessionFingerprint();
                     $sessionFingerprint->setTwoFactorAuthenticationVerified();
                     Url::redirectToUrl(Url::getCurrentUrl());
+                } else {
+                    $messageNoAccess = Piwik::translate('TwoFactorAuth_InvalidAuthCode');
                 }
             } else {
                 $messageNoAccess = Piwik::translate('Login_InvalidNonceOrHeadersOrReferrer', array('<a target="_blank" rel="noreferrer noopener" href="https://matomo.org/faq/how-to-install/#faq_98">', '</a>'));
-
             }
         }
+        $superUsers = Request::processRequest('UsersManager.getUsersHavingSuperUserAccess', [], []);
+        $view->superUserEmails = implode(',', array_column($superUsers, 'email'));
+        $view->loginModule = Piwik::getLoginPluginName();
         $view->AccessErrorString = $messageNoAccess;
         $view->addForm($form);
         $this->setBasicVariablesView($view);
@@ -214,10 +219,11 @@ class Controller extends \Piwik\Plugin\Controller
 
                 if ($standalone) {
                     $this->redirectToIndex('CoreHome', 'index');
-                } else {
-                    $view = new View('@TwoFactorAuth/setupFinished');
-                    $this->setGeneralVariablesView($view);
+                    return;
                 }
+
+                $view = new View('@TwoFactorAuth/setupFinished');
+                $this->setGeneralVariablesView($view);
                 return $view->render();
             } else {
                 $accessErrorString = Piwik::translate('TwoFactorAuth_WrongAuthCodeTryAgain');
@@ -264,6 +270,8 @@ class Controller extends \Piwik\Plugin\Controller
             if (Nonce::verifyNonce(self::REGENERATE_CODES_2FA_NONCE, $nonce)) {
                 $this->recoveryCodeDao->createRecoveryCodesForLogin(Piwik::getCurrentUserLogin());
                 $regenerateSuccess = true;
+                $this->passwordVerify->forgetVerifiedPassword();
+
             } else {
                 $regenerateError = true;
             }

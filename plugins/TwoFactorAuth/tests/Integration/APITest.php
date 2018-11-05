@@ -44,7 +44,7 @@ class APITest extends IntegrationTestCase
         parent::setUp();
 
         $this->api = API::getInstance();
-        $this->recoveryCodes = new RecoveryCodeDao();
+        $this->recoveryCodes = StaticContainer::get(RecoveryCodeDao::class);
 
         foreach ([1,2,3] as $idsite) {
             Fixture::createWebsite('2014-01-02 03:04:05');

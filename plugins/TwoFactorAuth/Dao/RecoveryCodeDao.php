@@ -15,9 +15,15 @@ class RecoveryCodeDao
     protected $table = 'twofactor_recovery_code';
     protected $tablePrefixed = '';
 
-    public function __construct()
+    /**
+     * @var RecoveryCodeRandomGenerator $generator
+     */
+    private $generator;
+
+    public function __construct(RecoveryCodeRandomGenerator $generator)
     {
         $this->tablePrefixed = Common::prefixTable($this->table);
+        $this->generator = $generator;
     }
 
     public function getPrefixedTableName()
@@ -31,7 +37,7 @@ class RecoveryCodeDao
         $this->deleteAllRecoveryCodesForLogin($login);
 
         for ($i = 0; $i < 10; $i++) {
-            $code = Common::getRandomString(16);
+            $code = $this->generator->generateCode();
             $code = Common::mb_strtoupper($code);
             $this->insertRecoveryCode($login, $code);
             $codes[] = $code;

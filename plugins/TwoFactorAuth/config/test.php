@@ -1,6 +1,7 @@
 <?php
 
 return array(
+    'Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeRandomGenerator' => DI\object('Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeStaticGenerator'),
     'Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication' => DI\decorate(function ($previous) {
         /** @var Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication $previous */
 
@@ -15,9 +16,7 @@ return array(
                 $params['authCode'] = $params['authcode'];
             }
 
-            if (!\Piwik\Session::isStarted()) {
-                \Piwik\Session::start();
-            }
+            \Piwik\Session::start();
 
             $session = new \Piwik\Session\SessionNamespace('TwoFactorAuthenticator');
             $session->secret = $secret;
@@ -31,8 +30,10 @@ return array(
         $restoreCodes = \Piwik\Container\StaticContainer::get('test.vars.restoreRecoveryCodes');
         if (!empty($restoreCodes)) {
             // we ensure this recovery code always works for those users
-            $previous->insertRecoveryCode('with2FA', '123456');
-            $previous->insertRecoveryCode('with2FADisable', '123456');
+            foreach (array('with2FA', 'with2FADisable') as $user) {
+                $previous->useRecoveryCode($user, '123456'); // we are using it first to make sure there is no duplicate
+                $previous->insertRecoveryCode($user, '123456');
+            }
         }
 
         return $previous;
