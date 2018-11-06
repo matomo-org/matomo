@@ -2,7 +2,7 @@
   "TwoFactorAuth": {
     "TwoFactorAuthentication": "Two-factor authentication",
     "TwoFAShort": "2FA",
-    "TwoFactorAuthenticationIntro": "Two-factor authentication increase your account security by adding an additional layer of verification when you log in. Each time you log in you will not only be asked to provide your login and password, but also an additional authentication token which changes periodically and is generated for example on your mobile device. This means that even when someone knows your username and password, they still won't be able to log in unless they have access to your mobile device for example.",
+    "TwoFactorAuthenticationIntro": "%1$sTwo-factor authentication%2$s increase your account security by adding an additional layer of verification when you log in. Each time you log in you will not only be asked to provide your login and password, but also an additional authentication token which changes periodically and is generated for example on your mobile device. This means that even when someone knows your username and password, they still won't be able to log in unless they have access to your mobile device for example.",
     "TwoFactorAuthenticationIsEnabled": "Two-factor authentication is currently enabled.",
     "TwoFactorAuthenticationIsDisabled": "Two-factor authentication is currently disabled.",
     "TwoFactorAuthenticationRequired": "Two-factor authentication is required to be enabled for everyone, you cannot disable it.",
