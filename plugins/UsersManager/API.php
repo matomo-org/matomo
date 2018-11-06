@@ -782,7 +782,10 @@ class API extends \Piwik\Plugin\API
             return $user;
         }
 
-        $newUser = array('login' => $user['login'], 'alias' => $user['alias']);
+        $newUser = array('login' => $user['login']);
+        if (isset($user['alias'])) {
+            $newUser['alias'] = $user['alias'];
+        }
 
         if ($user['login'] === Piwik::getCurrentUserLogin()) {
             $newUser['email'] = $user['email'];
@@ -795,7 +798,9 @@ class API extends \Piwik\Plugin\API
             $newUser['capabilities'] = $user['capabilities'];
         }
 
-        $newUser['superuser_access'] = $user['superuser_access'];
+        if (isset($user['superuser_access'])) {
+            $newUser['superuser_access'] = $user['superuser_access'];
+        }
 
         return $newUser;
     }

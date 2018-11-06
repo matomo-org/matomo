@@ -10,11 +10,11 @@ return array(
             return $previous;
         }
 
-        $staticSecret = new \Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator();
-        $secret = $staticSecret->generateSecret();
-
         $fakeCorrectAuthCode = \Piwik\Container\StaticContainer::get('test.vars.fakeCorrectAuthCode');
         if (!empty($fakeCorrectAuthCode) && !\Piwik\Common::isPhpCliMode()) {
+            $staticSecret = new \Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretStaticGenerator();
+            $secret = $staticSecret->generateSecret();
+
             require_once PIWIK_DOCUMENT_ROOT . '/libs/Authenticator/TwoFactorAuthenticator.php';
             $authenticator = new \TwoFactorAuthenticator();
             $_GET['authcode'] = $authenticator->getCode($secret);
@@ -56,7 +56,11 @@ return array(
             if (!empty($requireTwoFa)) {
                 $previous->twoFactorAuthRequired->setValue(1);
             } else {
-                $previous->twoFactorAuthRequired->setValue(0);
+                try {
+                    $previous->twoFactorAuthRequired->setValue(0);
+                } catch (Exception $e) {
+                    // may fail when matomo is trying to update or so
+                }
             }
         });
 
