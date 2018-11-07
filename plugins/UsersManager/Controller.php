@@ -430,7 +430,8 @@ class Controller extends ControllerAdmin
             'userLogin' => $userLogin,
             'password' => $newPassword,
             'email' => $email,
-            'currentPassword' => $passwordCurrent
+            'currentPassword' => $passwordCurrent,
+            'forcePasswordCheck' => true
         ], $default = []);
 
         if ($newPassword !== false) {

@@ -803,7 +803,7 @@ class API extends \Piwik\Plugin\API
      * @see addUser() for all the parameters
      */
     public function updateUser($userLogin, $password = false, $email = false, $alias = false,
-                               $_isPasswordHashed = false, $currentPassword = false)
+                               $_isPasswordHashed = false, $currentPassword = false, $forcePasswordCheck = false)
     {
         $requirePasswordConfirmation = self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION;
         self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
@@ -819,6 +819,10 @@ class API extends \Piwik\Plugin\API
         if (Piwik::hasUserSuperUserAccess()) {
             // a super user cannot know the password of another user but has to be able to change the user.
             $requirePasswordConfirmation = false;
+        }
+
+        if ($forcePasswordCheck) {
+            $requirePasswordConfirmation = true;
         }
 
         $userInfo   = $this->model->getUser($userLogin);
