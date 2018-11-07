@@ -414,25 +414,16 @@ class Controller extends ControllerAdmin
     private function processPasswordChange($userLogin)
     {
         $email = Common::getRequestVar('email');
-        $newPassword = false;
-
         $password = Common::getRequestvar('password', false);
         $passwordBis = Common::getRequestvar('passwordBis', false);
         $passwordCurrent = Common::getRequestvar('passwordCurrent', false);
-        if (!empty($password)
-            || !empty($passwordBis)
-        ) {
+
+        $newPassword = false;
+        if (!empty($password) || !empty($passwordBis)) {
             if ($password != $passwordBis) {
                 throw new Exception($this->translator->translate('Login_PasswordsDoNotMatch'));
             }
             $newPassword = $password;
-        }
-
-        // UI disables password change on invalid host, but check here anyway
-        if (!Url::isValidHost()
-            && $newPassword !== false
-        ) {
-            throw new Exception("Cannot change password with untrusted hostname!");
         }
 
         Request::processRequest('UsersManager.updateUser', [
@@ -443,13 +434,11 @@ class Controller extends ControllerAdmin
         ], $default = []);
 
         if ($newPassword !== false) {
+            // logs the user in with the new password
             $newPassword = Common::unsanitizeInputValue($newPassword);
-        }
-
-        // logs the user in with the new password
-        if ($newPassword !== false) {
             $sessionInitializer = new SessionInitializer();
             $auth = StaticContainer::get('Piwik\Auth');
+            $auth->setTokenAuth(null); // ensure authenticated through password
             $auth->setLogin($userLogin);
             $auth->setPassword($newPassword);
             $sessionInitializer->initSession($auth);

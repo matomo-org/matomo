@@ -65,7 +65,7 @@
         this.save = function () {
 
             if (this.doesRequirePasswordConfirmation && !this.passwordCurrent) {
-                angular.element('#confirmChangesWithPassword').openModal({ dismissible: false });
+                angular.element('#confirmChangesWithPassword').openModal();
                 return;
             }
 

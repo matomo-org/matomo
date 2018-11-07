@@ -24,6 +24,7 @@ use Piwik\Piwik;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
+use Piwik\Url;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -40,6 +41,8 @@ use Piwik\Tracker\Cache;
 class API extends \Piwik\Plugin\API
 {
     const OPTION_NAME_PREFERENCE_SEPARATOR = '_';
+
+    public static $UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
 
     /**
      * @var Model
@@ -802,20 +805,30 @@ class API extends \Piwik\Plugin\API
     public function updateUser($userLogin, $password = false, $email = false, $alias = false,
                                $_isPasswordHashed = false, $currentPassword = false)
     {
+        $requirePasswordConfirmation = self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION;
+        self::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = true;
+
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserExists($userLogin);
+
+        if (!Url::isValidHost()) {
+            throw new Exception("Cannot change password or email with untrusted hostname!");
+        }
+
+        if (Piwik::hasUserSuperUserAccess()) {
+            // a super user cannot know the password of another user but has to be able to change the user.
+            $requirePasswordConfirmation = false;
+        }
 
         $userInfo   = $this->model->getUser($userLogin);
         $token_auth = $userInfo['token_auth'];
 
         $passwordHasBeenUpdated = false;
-        $requirePasswordConfirmation = false;
 
         if (empty($password)) {
             $password = false;
         } else {
-            $requirePasswordConfirmation = true;
             $password = Common::unsanitizeInputValue($password);
 
             if (!$_isPasswordHashed) {
@@ -843,14 +856,13 @@ class API extends \Piwik\Plugin\API
 
         if ($email != $userInfo['email']) {
             $this->checkEmail($email);
-            $requirePasswordConfirmation = true;
         }
 
         if ($requirePasswordConfirmation) {
             if (empty($currentPassword)) {
                 throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
             }
-            if (!$this->verifyPasswordCorrect($currentPassword)) {
+            if (!$this->verifyPasswordCorrect($userLogin, $currentPassword)) {
                 throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
             }
         }
@@ -871,11 +883,11 @@ class API extends \Piwik\Plugin\API
         Piwik::postEvent('UsersManager.updateUser.end', array($userLogin, $passwordHasBeenUpdated, $email, $password, $alias));
     }
 
-    private function verifyPasswordCorrect($password)
+    private function verifyPasswordCorrect($userLogin, $password)
     {
         /** @var \Piwik\Auth $authAdapter */
         $authAdapter = StaticContainer::get('Piwik\Auth');
-        $authAdapter->setLogin(Piwik::getCurrentUserLogin());
+        $authAdapter->setLogin($userLogin);
         $authAdapter->setPasswordHash(null);// ensure authentication happens on password
         $authAdapter->setPassword($password);
         $authAdapter->setTokenAuth(null);// ensure authentication happens on password
@@ -1287,7 +1299,8 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($this->password->needsRehash($user['password'])) {
-            $this->updateUser($userLogin, $this->password->hash($md5Password));
+            $userUpdater = new UserUpdater();
+            $userUpdater->updateUserWithoutCurrentPassword($userLogin, $this->password->hash($md5Password));
         }
 
         return $user['token_auth'];

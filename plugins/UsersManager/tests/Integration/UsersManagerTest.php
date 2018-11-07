@@ -933,9 +933,41 @@ class UsersManagerTest extends IntegrationTestCase
                        'alias'    => "alias");
 
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-        $this->api->updateUser($login, "passowordOK");
+        $this->api->updateUser($login, "passowordOK", false, false, false, "geqgeagae");
 
         $this->_checkUserHasNotChanged($user, "passowordOK");
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ConfirmWithPassword
+     */
+    public function testUpdateUserFailsNoCurrentPassword()
+    {
+        $login = "login";
+        $user  = array('login'    => $login,
+                       'password' => "geqgeagae",
+                       'email'    => "test@test.com",
+                       'alias'    => "alias");
+
+        $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        $this->api->updateUser($login, "passowordOK", false, false, false, "");
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_CurrentPasswordNotCorrect
+     */
+    public function testUpdateUserFailsWrongCurrentPassword()
+    {
+        $login = "login";
+        $user  = array('login'    => $login,
+                       'password' => "geqgeagae",
+                       'email'    => "test@test.com",
+                       'alias'    => "alias");
+
+        $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        $this->api->updateUser($login, "passowordOK", false, false, false, "geqgeag");
     }
 
     /**
@@ -950,7 +982,7 @@ class UsersManagerTest extends IntegrationTestCase
                        'alias'    => "alias");
 
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-        $this->api->updateUser($login, "passowordOK", null, "newalias");
+        $this->api->updateUser($login, "passowordOK", null, "newalias", false, "geqgeagae");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", null, "newalias");
     }
@@ -967,7 +999,7 @@ class UsersManagerTest extends IntegrationTestCase
                        'alias'    => "alias");
 
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-        $this->api->updateUser($login, "passowordOK", "email@geaga.com");
+        $this->api->updateUser($login, "passowordOK", "email@geaga.com", false, false, "geqgeagae");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com");
     }
@@ -1007,7 +1039,7 @@ class UsersManagerTest extends IntegrationTestCase
                        'alias'    => "alias");
 
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-        $this->api->updateUser($login, "passowordOK", "email@geaga.com", "NEW ALIAS");
+        $this->api->updateUser($login, "passowordOK", "email@geaga.com", "NEW ALIAS", false, "geqgeagae");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com", "NEW ALIAS");
     }
