@@ -9,6 +9,7 @@
 namespace Piwik\Tests\Unit\Tracker;
 
 use Piwik\Cookie;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Network\IPUtils;
 use Piwik\Piwik;
 use Piwik\Plugins\CustomVariables\CustomVariables;
@@ -524,6 +525,10 @@ class RequestTest extends UnitTestCase
         $this->assertEquals($_SERVER['REMOTE_ADDR'], $this->request->getIpString());
     }
 
+    /**
+     * @expectedException \Piwik\Exception\InvalidRequestParameterException
+     * @expectedException requires valid token_auth
+     */
     public function test_getIpString_ShouldDefaultToServerAddress_IfCustomIpIsSetButNotAuthenticated()
     {
         $request = $this->buildRequest(array('cip' => '192.192.192.192'));
