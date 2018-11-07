@@ -168,6 +168,10 @@ class Controller extends \Piwik\Plugin\Controller
             throw new Exception('Not available');
         }
 
+        if (!Url::isValidHost()) {
+            throw new Exception("Cannot confirm password with untrusted hostname!");
+        }
+
         $nonceKey = 'confirmPassword';
         $messageNoAccess = '';
         if (!empty($_POST)) {
