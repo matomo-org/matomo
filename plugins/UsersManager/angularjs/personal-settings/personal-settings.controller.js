@@ -72,6 +72,10 @@
                 postParams.passwordBis = this.passwordBis;
             }
 
+            if (this.passwordCurrent) {
+                postParams.passwordCurrent = this.passwordCurrent;
+            }
+
             updateSettings(postParams);
         };
     }

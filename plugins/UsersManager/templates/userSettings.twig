@@ -85,6 +85,12 @@
                  title="{{ 'Login_NewPasswordRepeat'|translate|e('html_attr') }}"
                  value="" inline-help="{{ 'UsersManager_TypeYourPasswordAgain'|translate|e('html_attr') }}">
             </div>
+
+            <div piwik-field uicontrol="password" name="currentPassword" autocomplete="off"
+                 ng-model="personalSettings.passwordCurrent"
+                 title="{{ 'UsersManager_CurrentPassword'|translate|e('html_attr') }}"
+                 value="" inline-help="{{ 'UsersManager_ConfirmPassword'|translate|e('html_attr') }}">
+            </div>
         {% endif %}
 
         {% if isValidHost is not defined or not isValidHost %}
