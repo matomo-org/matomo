@@ -795,13 +795,12 @@ class API extends \Piwik\Plugin\API
      * Updates a user in the database.
      * Only login and password are required (case when we update the password).
      *
-     * If the password changes and the user has an old token_auth (legacy MD5 format) associated,
-     * the token will be regenerated. This could break a user's API calls.
+     * If password or email changes, it is required to also specify the current password to confirm this change.
      *
      * @see addUser() for all the parameters
      */
     public function updateUser($userLogin, $password = false, $email = false, $alias = false,
-                               $_isPasswordHashed = false)
+                               $_isPasswordHashed = false, $currentPassword = false)
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
         $this->checkUserIsNotAnonymous($userLogin);
@@ -811,10 +810,12 @@ class API extends \Piwik\Plugin\API
         $token_auth = $userInfo['token_auth'];
 
         $passwordHasBeenUpdated = false;
+        $requirePasswordConfirmation = false;
 
         if (empty($password)) {
             $password = false;
         } else {
+            $requirePasswordConfirmation = true;
             $password = Common::unsanitizeInputValue($password);
 
             if (!$_isPasswordHashed) {
@@ -842,6 +843,16 @@ class API extends \Piwik\Plugin\API
 
         if ($email != $userInfo['email']) {
             $this->checkEmail($email);
+            $requirePasswordConfirmation = true;
+        }
+
+        if ($requirePasswordConfirmation) {
+            if (empty($currentPassword)) {
+                throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
+            }
+            if (!$this->verifyPasswordCorrect($currentPassword)) {
+                throw new Exception(Piwik::translate('UsersManager_CurrentPasswordNotCorrect'));
+            }
         }
 
         $alias = $this->getCleanAlias($alias, $userLogin);
@@ -858,6 +869,18 @@ class API extends \Piwik\Plugin\API
          * @param boolean $passwordHasBeenUpdated Flag containing information about password change.
          */
         Piwik::postEvent('UsersManager.updateUser.end', array($userLogin, $passwordHasBeenUpdated, $email, $password, $alias));
+    }
+
+    private function verifyPasswordCorrect($password)
+    {
+        /** @var \Piwik\Auth $authAdapter */
+        $authAdapter = StaticContainer::get('Piwik\Auth');
+        $authAdapter->setLogin(Piwik::getCurrentUserLogin());
+        $authAdapter->setPasswordHash(null);// ensure authentication happens on password
+        $authAdapter->setPassword($password);
+        $authAdapter->setTokenAuth(null);// ensure authentication happens on password
+        $authResult = $authAdapter->authenticate();
+        return $authResult->wasAuthenticationSuccessful();
     }
 
     /**

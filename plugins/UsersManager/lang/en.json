@@ -54,7 +54,7 @@
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "If you would like to change the password type a new one. Otherwise leave this blank.",
         "CurrentPassword": "Current password",
         "CurrentPasswordNotCorrect": "The current password you entered is not correct.",
-        "ConfirmPassword": "Please enter your current password to confirm the password change.",
+        "ConfirmWithPassword": "Please enter your current password to confirm this change.",
         "InjectedHostCannotChangePwd": "You are currently visiting with an unknown host (%1$s). You cannot change your password until this problem is fixed.",
         "LastSeen": "Last seen",
         "MainDescription": "Decide which users have access to your websites. You can also give access to all the websites at once by choosing \"Apply to all websites\" in the website selector.",

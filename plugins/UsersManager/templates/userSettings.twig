@@ -22,6 +22,7 @@
 
         <div piwik-field uicontrol="text" name="email"
              ng-model="personalSettings.email"
+             ng-change="personalSettings.requirePasswordConfirmation()"
              maxlength="100"
              title="{{ 'UsersManager_Email'|translate|e('html_attr') }}"
              value="{{ userEmail }}">
@@ -75,6 +76,7 @@
 
             <div piwik-field uicontrol="password" name="password" autocomplete="off"
                  ng-model="personalSettings.password"
+                 ng-change="personalSettings.requirePasswordConfirmation()"
                  introduction="{{ 'General_ChangePassword'|translate|e('html_attr') }}"
                  title="{{ 'Login_NewPassword'|translate|e('html_attr') }}"
                  value="" inline-help="{{ 'UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne'|translate|e('html_attr') }}">
@@ -82,14 +84,9 @@
 
             <div piwik-field uicontrol="password" name="passwordBis" autocomplete="off"
                  ng-model="personalSettings.passwordBis"
+                 ng-change="personalSettings.requirePasswordConfirmation()"
                  title="{{ 'Login_NewPasswordRepeat'|translate|e('html_attr') }}"
                  value="" inline-help="{{ 'UsersManager_TypeYourPasswordAgain'|translate|e('html_attr') }}">
-            </div>
-
-            <div piwik-field uicontrol="password" name="currentPassword" autocomplete="off"
-                 ng-model="personalSettings.passwordCurrent"
-                 title="{{ 'UsersManager_CurrentPassword'|translate|e('html_attr') }}"
-                 value="" inline-help="{{ 'UsersManager_ConfirmPassword'|translate|e('html_attr') }}">
             </div>
         {% endif %}
 
@@ -102,6 +99,22 @@
 
         <div piwik-save-button onconfirm="personalSettings.save()"
              saving="personalSettings.loading"></div>
+
+        <div class="modal" id="confirmChangesWithPassword">
+            <div class="modal-content">
+                <h2>{{ 'UsersManager_ConfirmWithPassword'|translate }}</h2>
+
+                <div piwik-field uicontrol="password" name="currentPassword" autocomplete="off"
+                     ng-model="personalSettings.passwordCurrent"
+                     full-width="true"
+                     title="{{ 'UsersManager_CurrentPassword'|translate|e('html_attr') }}"
+                     value="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0)" class="modal-action modal-close btn" ng-click="personalSettings.save()">{{ 'General_Ok'|translate }}</a>
+            </div>
+        </div>
 
     </form>
 </div>

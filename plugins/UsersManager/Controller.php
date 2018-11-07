@@ -428,10 +428,6 @@ class Controller extends ControllerAdmin
             $newPassword = $password;
         }
 
-        if (empty($passwordCurrent)) {
-            throw new Exception($this->translator->translate('UsersManager_ConfirmPassword'));
-        }
-
         // UI disables password change on invalid host, but check here anyway
         if (!Url::isValidHost()
             && $newPassword !== false
@@ -439,14 +435,11 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change password with untrusted hostname!");
         }
 
-        if (!$this->verifyPasswordCorrect($passwordCurrent)) {
-            throw new Exception($this->translator->translate('UsersManager_CurrentPasswordNotCorrect'));
-        }
-
         Request::processRequest('UsersManager.updateUser', [
             'userLogin' => $userLogin,
             'password' => $newPassword,
             'email' => $email,
+            'currentPassword' => $passwordCurrent
         ], $default = []);
 
         if ($newPassword !== false) {
@@ -461,18 +454,6 @@ class Controller extends ControllerAdmin
             $auth->setPassword($newPassword);
             $sessionInitializer->initSession($auth);
         }
-    }
-
-    private function verifyPasswordCorrect($password)
-    {
-        /** @var \Piwik\Auth $authAdapter */
-        $authAdapter = StaticContainer::get('Piwik\Auth');
-        $authAdapter->setLogin(Piwik::getCurrentUserLogin());
-        $authAdapter->setPasswordHash(null);// ensure authentication happens on password
-        $authAdapter->setPassword($password);
-        $authAdapter->setTokenAuth(null);// ensure authentication happens on password
-        $authResult = $authAdapter->authenticate();
-        return $authResult->wasAuthenticationSuccessful();
     }
 
     /**
