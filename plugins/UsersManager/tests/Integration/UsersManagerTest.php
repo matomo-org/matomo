@@ -39,6 +39,8 @@ class UsersManagerTest extends IntegrationTestCase
      */
     private $model;
 
+    private $backupIdentity;
+
     public function setUp()
     {
         parent::setUp();
@@ -55,9 +57,16 @@ class UsersManagerTest extends IntegrationTestCase
         //finally we set the user as a Super User by default
         FakeAccess::$superUser = true;
         FakeAccess::$superUserLogin = 'superusertest';
+        $this->backupIdentity = FakeAccess::$identity;
 
         $this->api   = API::getInstance();
         $this->model = new Model();
+    }
+
+    public function tearDown()
+    {
+        FakeAccess::$identity = $this->backupIdentity;
+        parent::tearDown();
     }
 
     private function _flatten($sitesAccess)
@@ -932,7 +941,10 @@ class UsersManagerTest extends IntegrationTestCase
                        'email'    => "test@test.com",
                        'alias'    => "alias");
 
+
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+
+        FakeAccess::$identity = 'login';
         $this->api->updateUser($login, "passowordOK", false, false, false, "geqgeagae");
 
         $this->_checkUserHasNotChanged($user, "passowordOK");
@@ -951,6 +963,8 @@ class UsersManagerTest extends IntegrationTestCase
                        'alias'    => "alias");
 
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+
+        FakeAccess::$identity = 'login';
         $this->api->updateUser($login, "passowordOK", false, false, false, "");
     }
 
@@ -967,6 +981,25 @@ class UsersManagerTest extends IntegrationTestCase
                        'alias'    => "alias");
 
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+
+        FakeAccess::$identity = 'login';
+        $this->api->updateUser($login, "passowordOK", false, false, false, "geqgeag");
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_CurrentPasswordNotCorrect
+     */
+    public function testUpdateUserFailsWrongCurrentPassword_requiresThePasswordOfCurrentLoggedInUser()
+    {
+        $login = "login";
+        $user  = array('login'    => $login,
+                       'password' => "geqgeagae",
+                       'email'    => "test@test.com",
+                       'alias'    => "alias");
+
+        $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        // currently logged in is a super user and not "login". therefore the password of "login" won't work
         $this->api->updateUser($login, "passowordOK", false, false, false, "geqgeag");
     }
 
@@ -982,6 +1015,8 @@ class UsersManagerTest extends IntegrationTestCase
                        'alias'    => "alias");
 
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+
+        FakeAccess::$identity = 'login';
         $this->api->updateUser($login, "passowordOK", null, "newalias", false, "geqgeagae");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", null, "newalias");
@@ -999,6 +1034,8 @@ class UsersManagerTest extends IntegrationTestCase
                        'alias'    => "alias");
 
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+
+        FakeAccess::$identity = 'login';
         $this->api->updateUser($login, "passowordOK", "email@geaga.com", false, false, "geqgeagae");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com");
@@ -1039,6 +1076,8 @@ class UsersManagerTest extends IntegrationTestCase
                        'alias'    => "alias");
 
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+
+        FakeAccess::$identity = 'login';
         $this->api->updateUser($login, "passowordOK", "email@geaga.com", "NEW ALIAS", false, "geqgeagae");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com", "NEW ALIAS");

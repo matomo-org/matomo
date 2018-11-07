@@ -52,9 +52,9 @@
         "GiveViewAccessTitle": "Give an existing user access to view reports for %s",
         "GiveViewAccessInstructions": "To give an existing user view access for %s enter the username or email address of an existing user",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "If you would like to change the password type a new one. Otherwise leave this blank.",
-        "CurrentPassword": "Current password",
+        "YourCurrentPassword": "Your current password",
         "CurrentPasswordNotCorrect": "The current password you entered is not correct.",
-        "ConfirmWithPassword": "Please enter your current password to confirm this change.",
+        "ConfirmWithPassword": "Please enter your password to confirm this change.",
         "InjectedHostCannotChangePwd": "You are currently visiting with an unknown host (%1$s). You cannot change your password until this problem is fixed.",
         "LastSeen": "Last seen",
         "MainDescription": "Decide which users have access to your websites. You can also give access to all the websites at once by choosing \"Apply to all websites\" in the website selector.",
@@ -140,7 +140,7 @@
         "DeleteUserConfirmMultiple": "Are you sure you want to delete the %1$s selected users?",
         "DeleteUserPermConfirmSingle": "Are you sure you want to change %1$s's role to %2$s for %3$s?",
         "DeleteUserPermConfirmMultiple": "Are you sure you want to change the %1$s selected users' role to %2$s for %3$s?",
-        "AreYouSureChangePassword": "Are you sure you want to change the password for %s?",
+        "AreYouSureChangeDetails": "Are you sure you want to change the user information for %s?",
         "AnonymousUserRoleChangeWarning": "Giving the %1$s user the %2$s role will make this website's data public and available to everyone, even if they do not have a Matomo login."
     }
 }

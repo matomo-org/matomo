@@ -30,7 +30,7 @@
                     id: 'PersonalSettingsSuccess', context: 'success'});
                 notification.scrollToNotification();
 
-                self.doesRequirePasswordConfirmation = false;
+                self.doesRequirePasswordConfirmation = !!self.password;
                 self.passwordCurrent = '';
                 self.loading = false;
             }, function (errorMessage) {
@@ -62,12 +62,20 @@
             }});
         };
 
+        this.cancelSave = function () {
+            this.passwordCurrent = '';
+        };
+
         this.save = function () {
 
             if (this.doesRequirePasswordConfirmation && !this.passwordCurrent) {
-                angular.element('#confirmChangesWithPassword').openModal();
+                angular.element('#confirmChangesWithPassword').openModal({ dismissible: false, ready: function () {
+                    $('.modal.open #currentPassword').focus();
+                }});
                 return;
             }
+
+            angular.element('#confirmChangesWithPassword').closeModal();
 
             var postParams = {
                 email: this.email,
@@ -86,7 +94,7 @@
             }
 
             if (this.passwordCurrent) {
-                postParams.passwordCurrent = this.passwordCurrent;
+                postParams.passwordConfirmation = this.passwordCurrent;
             }
 
             updateSettings(postParams);

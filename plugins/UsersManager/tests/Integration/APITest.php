@@ -293,7 +293,10 @@ class APITest extends IntegrationTestCase
 
     public function test_updateUser()
     {
+        $identity = FakeAccess::$identity;
+        FakeAccess::$identity = $this->login; // ensure password will be checked against this user
         $this->api->updateUser($this->login, 'newPassword', 'email@example.com', 'newAlias', false, $this->password);
+        FakeAccess::$identity = $identity;
 
         $model = new Model();
         $user = $model->getUser($this->login);
@@ -311,7 +314,10 @@ class APITest extends IntegrationTestCase
         $model = new Model();
         $userBefore = $model->getUser($this->login);
 
+        $identity = FakeAccess::$identity;
+        FakeAccess::$identity = $this->login; // ensure password will be checked against this user
         $this->api->updateUser($this->login, false, 'email@example.com', 'newAlias', false, $this->password);
+        FakeAccess::$identity = $identity;
 
         $user = $model->getUser($this->login);
 

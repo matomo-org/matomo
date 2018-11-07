@@ -50,7 +50,6 @@
                         name="user_password"
                         ng-model="$ctrl.user.password"
                         title="Password"
-                        ng-change="$ctrl.isPasswordChanged = !! $ctrl.user.password;"
                         disabled="$ctrl.isSavingUserInfo || ($ctrl.currentUserRole != 'superuser' && !$ctrl.isAdd)"
                 >
                 </div>
@@ -145,10 +144,15 @@
 
     <div class="change-password-modal modal">
         <div class="modal-content">
-            <h2>{{:: 'UsersManager_AreYouSure'|translate }}</h2>
-            <p piwik-translate="UsersManager_AreYouSureChangePassword">
-                <strong>{{ $ctrl.user.login }}</strong>
-            </p>
+            <h2 piwik-translate="UsersManager_AreYouSureChangeDetails"><strong>{{ $ctrl.user.login }}</strong></h2>
+            <p>{{:: 'UsersManager_ConfirmWithPassword'|translate }}</p>
+
+            <div piwik-field uicontrol="password" name="currentUserPassword" autocomplete="off"
+                 ng-model="$ctrl.passwordConfirmation"
+                 full-width="true"
+                 title="{{ 'UsersManager_YourCurrentPassword'|translate }}"
+                 value="">
+            </div>
         </div>
         <div class="modal-footer">
             <a href="" class="modal-action modal-close btn" ng-click="$ctrl.updateUser()">{{:: 'General_Yes'|translate }}</a>

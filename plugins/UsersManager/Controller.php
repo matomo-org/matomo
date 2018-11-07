@@ -416,7 +416,7 @@ class Controller extends ControllerAdmin
         $email = Common::getRequestVar('email');
         $password = Common::getRequestvar('password', false);
         $passwordBis = Common::getRequestvar('passwordBis', false);
-        $passwordCurrent = Common::getRequestvar('passwordCurrent', false);
+        $passwordCurrent = Common::getRequestvar('passwordConfirmation', false);
 
         $newPassword = false;
         if (!empty($password) || !empty($passwordBis)) {
@@ -430,8 +430,7 @@ class Controller extends ControllerAdmin
             'userLogin' => $userLogin,
             'password' => $newPassword,
             'email' => $email,
-            'currentPassword' => $passwordCurrent,
-            'forcePasswordCheck' => true
+            'passwordConfirmation' => $passwordCurrent
         ], $default = []);
 
         if ($newPassword !== false) {
