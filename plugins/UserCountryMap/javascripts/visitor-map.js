@@ -609,6 +609,7 @@
                             } else {
                                 tgt = UserCountryMap.ISO3toCONT[data.iso];
                             }
+                            hasUserZoomed = true;
                             updateState(tgt);
                         }
                     });
@@ -1057,6 +1058,7 @@
                         },
                         click: function (path, p, evt) {   // add click events for surrounding countries
                             evt.stopPropagation();
+                            hasUserZoomed = true;
                             updateState(path.iso);
                         },
                         tooltips: function (data) {
