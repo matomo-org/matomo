@@ -480,6 +480,18 @@ class API extends \Piwik\Plugin\API
         $isEcommerceGoal = $idGoal === GoalManager::IDGOAL_ORDER || $idGoal === GoalManager::IDGOAL_CART;
 
         $allMetrics = Goals::getGoalColumns($idGoal);
+
+        if ($idGoal === false
+            && !Request::isRootRequestApiRequest()
+            && Piwik::getAction() === 'getEvolutionGraph') {
+            // we only allow those metrics for the overview evolution graph
+            foreach ($this->getGoals($idSite) as $aGoal) {
+                foreach (Goals::getGoalColumns($aGoal['idgoal']) as $goalColumn) {
+                    $allMetrics[] = (int) $aGoal['idgoal'] . '_' . $goalColumn;
+                }
+            }
+        }
+
         $columnsToShow = Piwik::getArrayFromApiParameter($columns);
         $requestedColumns = $columnsToShow;
 
