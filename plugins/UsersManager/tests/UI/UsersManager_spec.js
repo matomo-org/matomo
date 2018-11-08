@@ -367,7 +367,7 @@ describe("UsersManager", function () {
     });
 
     it('should ask for password confirmation when trying to change email', function (done) {
-        expect.screenshot("edit_user_basic_asks_confirmation").to.be.captureSelector('.admin#content', function (page) {
+        expect.screenshot("edit_user_basic_asks_confirmation").to.be.captureSelector('.modal.open', function (page) {
             page.setViewportSize(1250);
 
             page.evaluate(function () {
@@ -379,7 +379,7 @@ describe("UsersManager", function () {
     });
 
     it('should show error when wrong password entered', function (done) {
-        expect.screenshot("edit_user_basic_confirmed_wrong_password").to.be.captureSelector('.admin#content', function (page) {
+        expect.screenshot("edit_user_basic_confirmed_wrong_password").to.be.captureSelector('.admin#content,#notificationContainer', function (page) {
             page.setViewportSize(1250);
 
             page.sendKeys('.modal.open #currentUserPassword', 'test123456');
