@@ -73,11 +73,6 @@ class DoNotTrackHeaderChecker
         $request = new Request($_REQUEST);
         $userAgent = $request->getUserAgent();
 
-        if ($this->isUserAgentWithDoNotTrackAlwaysEnabled($userAgent)) {
-            Common::printDebug("INTERNET EXPLORER enable DoNotTrack by default; so Piwik ignores DNT IE browsers...");
-            return false;
-        }
-
         Common::printDebug("DoNotTrack header found!");
         return true;
     }
@@ -115,41 +110,5 @@ class DoNotTrackHeaderChecker
     {
         return (isset($_SERVER['HTTP_X_DO_NOT_TRACK']) && $_SERVER['HTTP_X_DO_NOT_TRACK'] === '1')
             || (isset($_SERVER['HTTP_DNT']) && substr($_SERVER['HTTP_DNT'], 0, 1) === '1');
-    }
-
-    /**
-     *
-     * @param $userAgent
-     * @return bool
-     */
-    protected function isUserAgentWithDoNotTrackAlwaysEnabled($userAgent)
-    {
-        $browsersWithDnt = $this->getBrowsersWithDNTAlwaysEnabled();
-        foreach($browsersWithDnt as $userAgentBrowserFragment) {
-            if (stripos($userAgent, $userAgentBrowserFragment) !== false) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Some browsers have DNT enabled by default. For those we will ignore DNT and always track those users.
-     *
-     * @return array
-     */
-    protected function getBrowsersWithDNTAlwaysEnabled()
-    {
-        return array(
-            // IE
-            'MSIE',
-            'Trident',
-
-            // Maxthon
-            'Maxthon',
-            
-            // Epiphany - https://github.com/piwik/piwik/issues/8682
-            'Epiphany',
-        );
     }
 }
