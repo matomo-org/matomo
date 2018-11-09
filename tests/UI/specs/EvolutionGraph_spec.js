@@ -172,7 +172,7 @@ describe("EvolutionGraph", function () {
         }, done);
     });
     it("should be possible to change period", function (done) {
-        expect.screenshot('periods_list').to.be.capture(function (page) {
+        expect.screenshot('periods_selected').to.be.capture(function (page) {
             page.click('.dataTablePeriods [data-period=month]');
         }, done);
     });
