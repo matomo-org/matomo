@@ -633,17 +633,6 @@
 		
 		<actionDetails>
 			<row>
-				<type>goal</type>
-				<goalName>title match, triggered ONCE</goalName>
-				<goalId>1</goalId>
-				<revenue>10</revenue>
-				<goalPageId>1</goalPageId>
-				
-				<url>http://example.org/index.htm</url>
-				<icon>plugins/Morpheus/images/goal.png</icon>
-				
-			</row>
-			<row>
 				<type>action</type>
 				<url>http://example.org/index.htm</url>
 				<pageTitle>incredible title!</pageTitle>
@@ -676,6 +665,17 @@
 					</row>
 				</customVariables>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+			<row>
+				<type>goal</type>
+				<goalName>title match, triggered ONCE</goalName>
+				<goalId>1</goalId>
+				<revenue>10</revenue>
+				<goalPageId>1</goalPageId>
+				
+				<url>http://example.org/index.htm</url>
+				<icon>plugins/Morpheus/images/goal.png</icon>
+				
 			</row>
 			<row>
 				<type>action</type>

@@ -35,6 +35,7 @@
         "ExceptionInvalidEmail": "The email doesn't have a valid format.",
         "ExceptionInvalidLoginFormat": "The username must be between %1$s and %2$s characters long and contain only letters, numbers, or the characters '_' or '-' or '.' or '@' or '+'",
         "ExceptionInvalidPassword": "The password length must be greater than %1$s characters.",
+        "ExceptionInvalidPasswordTooLong": "The password length must be less than %1$s characters.",
         "ExceptionLoginExists": "Username '%s' already exists.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth is expecting a MD5-hashed password (32 chars long string). Please call the md5() function on the password before calling this method.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Removing the Super User access from user '%s' is not possible.",
@@ -136,6 +137,7 @@
         "DeleteUserConfirmMultiple": "Are you sure you want to delete the %1$s selected users?",
         "DeleteUserPermConfirmSingle": "Are you sure you want to change %1$s's role to %2$s for %3$s?",
         "DeleteUserPermConfirmMultiple": "Are you sure you want to change the %1$s selected users' role to %2$s for %3$s?",
-        "AreYouSureChangePassword": "Are you sure you want to change the password for %s?"
+        "AreYouSureChangePassword": "Are you sure you want to change the password for %s?",
+        "AnonymousUserRoleChangeWarning": "Giving the %1$s user the %2$s role will make this website's data public and available to everyone, even if they do not have a Matomo login."
     }
 }

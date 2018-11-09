@@ -46,6 +46,8 @@ class UsersManagerTest extends IntegrationTestCase
         \Piwik\Plugin\Manager::getInstance()->loadPlugin('UsersManager');
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
+        $this->addSites(4);
+
         // setup the access layer
         FakeAccess::setIdSitesView(array(1, 2));
         FakeAccess::setIdSitesAdmin(array(3, 4));
@@ -631,7 +633,8 @@ class UsersManagerTest extends IntegrationTestCase
     {
         FakeAccess::$superUser = true;
 
-        $idSites = $this->addSites(5);
+        $this->addSites(1);
+        $idSites = [1, 2, 3, 4, 5];
 
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
         $this->api->setUserAccess("gegg4564eqgeqag", "view", "all");
@@ -687,13 +690,12 @@ class UsersManagerTest extends IntegrationTestCase
     public function testSetUserAccessWithIdSitesIsStringCommaSeparated()
     {
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        list($id1, $id2, $id3) = $this->addSites(3);
 
         $this->api->setUserAccess("gegg4564eqgeqag", "view", "1,3");
 
         $access = $this->api->getSitesAccessFromUser("gegg4564eqgeqag");
         $access = $this->_flatten($access);
-        $this->assertEquals(array($id1, $id3), array_keys($access));
+        $this->assertEquals(array(1, 3), array_keys($access));
     }
 
     /**

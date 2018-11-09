@@ -148,9 +148,16 @@ class Model
      */
     public function getSitesAccessFromUser($userLogin)
     {
+        $accessTable = Common::prefixTable('access');
+        $siteTable = Common::prefixTable('site');
+
+        $sql = sprintf("SELECT access.idsite, access.access 
+    FROM %s access 
+    LEFT JOIN %s site 
+    ON access.idsite=site.idsite
+     WHERE access.login = ? and site.idsite is not null", $accessTable, $siteTable);
         $db = $this->getDb();
-        $users = $db->fetchAll("SELECT idsite,access FROM " . Common::prefixTable("access")
-            . " WHERE login = ?", $userLogin);
+        $users = $db->fetchAll($sql, $userLogin);
         $return = array();
         foreach ($users as $user) {
             $return[] = array(

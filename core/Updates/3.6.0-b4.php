@@ -10,6 +10,7 @@
 namespace Piwik\Updates;
 
 use Piwik\Common;
+use Piwik\Db;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Updates;
 use Piwik\Updater;
@@ -40,5 +41,12 @@ class Updates_3_6_0_b4 extends Updates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+
+        // the MySQL client experiences an odd race condition with this update. after running the migration script, when
+        // UsersManager\Model::getUser is called, the fetch segfaults and simply exits. resetting the DB connection
+        // after the update appears to circumvent this issue.
+        Db::get()->closeConnection();
+        Db::setDatabaseObject(null);
+        Db::get();
     }
 }

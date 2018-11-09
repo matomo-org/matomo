@@ -32,10 +32,8 @@ return array(
             }
 
             $controllerActionblacklist = StaticContainer::get('tests.ui.url_normalizer_blacklist.controller');
-            if (!empty($request['module'])
-                && !empty($request['action'])
-            ) {
-                $controllerAction = $request['module'] . '.' . $request['action'];
+            if (!empty($request['module'])) {
+                $controllerAction = $request['module'] . '.' . (isset($request['action']) ? $request['action'] : 'index');
                 if (in_array($controllerAction, $controllerActionblacklist)) {
                     return;
                 }

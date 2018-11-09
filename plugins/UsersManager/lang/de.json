@@ -135,6 +135,7 @@
         "DeleteUserConfirmSingle": "Sind Sie sicher, dass Sie %1$s löschen wollen?",
         "DeleteUserConfirmMultiple": "Sind Sie sicher, dass Sie die %1$s gewählten Benutzer löschen wollen?",
         "DeleteUserPermConfirmSingle": "Sind Sie sicher, dass Sie %1$s's Rolle nach %2$s für %3$s ändern wollen?",
-        "DeleteUserPermConfirmMultiple": "Sind Sie sicher, dass Sie die Berechtigung der %1$s gewählten Benutzer für %3$s auf %2$s ändern möchten?"
+        "DeleteUserPermConfirmMultiple": "Sind Sie sicher, dass Sie die Berechtigung der %1$s gewählten Benutzer für %3$s auf %2$s ändern möchten?",
+        "AreYouSureChangePassword": "Sind Sie sicher dass Sie das Passwort für %s ändern möchten?"
     }
 }

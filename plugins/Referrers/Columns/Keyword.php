@@ -33,11 +33,6 @@ class Keyword extends Base
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $information = $this->getReferrerInformationFromRequest($request, $visitor);
-
-        if (!empty($information['referer_keyword'])) {
-            return Common::mb_substr($information['referer_keyword'], 0, 255);
-        }
-
         return $information['referer_keyword'];
     }
 

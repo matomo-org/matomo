@@ -11,6 +11,7 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Common;
+use Piwik\Context;
 use Piwik\Piwik;
 use Piwik\Singleton;
 use ReflectionClass;
@@ -137,16 +138,10 @@ class Proxy extends Singleton
      */
     public function call($className, $methodName, $parametersRequest)
     {
-        $returnedValue = null;
-
         // Temporarily sets the Request array to this API call context
-        $saveGET = $_GET;
-        $saveQUERY_STRING = @$_SERVER['QUERY_STRING'];
-        foreach ($parametersRequest as $param => $value) {
-            $_GET[$param] = $value;
-        }
+        return Context::executeWithQueryParameters($parametersRequest, function () use ($className, $methodName, $parametersRequest) {
+            $returnedValue = null;
 
-        try {
             $this->registerClass($className);
 
             // instanciate the object
@@ -239,9 +234,9 @@ class Proxy extends Singleton
             $endHookParams = array(
                 &$returnedValue,
                 array('className'  => $className,
-                      'module'     => $pluginName,
-                      'action'     => $methodName,
-                      'parameters' => $finalParameters)
+                    'module'     => $pluginName,
+                    'action'     => $methodName,
+                    'parameters' => $finalParameters)
             );
 
             /**
@@ -323,15 +318,8 @@ class Proxy extends Singleton
              */
             Piwik::postEvent('API.Request.dispatch.end', $endHookParams);
 
-            // Restore the request
-            $_GET = $saveGET;
-            $_SERVER['QUERY_STRING'] = $saveQUERY_STRING;
-        } catch (Exception $e) {
-            $_GET = $saveGET;
-            throw $e;
-        }
-
-        return $returnedValue;
+            return $returnedValue;
+        });
     }
 
     /**

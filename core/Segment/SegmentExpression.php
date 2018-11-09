@@ -263,12 +263,12 @@ class SegmentExpression
                 break;
 
             case self::MATCH_IS_NOT_NULL_NOR_EMPTY:
-                $sqlMatch = '%s IS NOT NULL AND (%s <> \'\' OR %s = 0)';
+                $sqlMatch = '%s IS NOT NULL AND %s <> \'\' AND %s <> \'0\'';
                 $value    = null;
                 break;
 
             case self::MATCH_IS_NULL_OR_EMPTY:
-                $sqlMatch = '%s IS NULL OR %s = \'\' ';
+                $sqlMatch = '%s IS NULL OR %s = \'\' OR %s = \'0\'';
                 $value    = null;
                 break;
 

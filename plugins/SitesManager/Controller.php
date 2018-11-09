@@ -106,14 +106,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     function displayJavascriptCode()
     {
-        $idSite = Common::getRequestVar('idSite');
-        Piwik::checkUserHasViewAccess($idSite);
+        $this->checkSitePermission();
+        Piwik::checkUserHasViewAccess($this->idSite);
         $javascriptGenerator = new TrackerCodeGenerator();
-        $jsTag = $javascriptGenerator->generate($idSite, SettingsPiwik::getPiwikUrl());
-        $site  = new Site($idSite);
+        $jsTag = $javascriptGenerator->generate($this->idSite, SettingsPiwik::getPiwikUrl());
+        $site  = new Site($this->idSite);
 
         return $this->renderTemplate('displayJavascriptCode', array(
-            'idSite' => $idSite,
+            'idSite' => $this->idSite,
             'displaySiteName' => $site->getName(),
             'jsTag' => $jsTag
         ));
@@ -157,7 +157,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $this->renderTemplate('siteWithoutData', array(
             'siteName'     => $this->site->getName(),
-            'idSite' => $this->site->getId(),
+            'idSite' => $this->idSite,
             'trackingHelp' => $this->renderTemplate('_displayJavascriptCode', array(
                 'displaySiteName' => Common::unsanitizeInputValue($this->site->getName()),
                 'jsTag'           => $javascriptGenerator->generate($this->idSite, $piwikUrl),

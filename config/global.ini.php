@@ -640,9 +640,10 @@ enable_geolocation_admin = 1
 enable_delete_old_data_settings_admin = 1
 
 ; By setting this option to 0, the following settings will be hidden and disabled from being set in the UI:
-; - "Archiving Settings"
-; - "Update settings"
-; - "Email server settings"
+; - Archiving settings
+; - Update settings
+; - Email server settings
+; - Trusted Matomo Hostname
 enable_general_settings_admin = 1
 
 ; Disabling this will disable features like automatic updates for Matomo,
@@ -655,8 +656,6 @@ enable_auto_update = 1
 ; By setting this option to 0, no emails will be sent in case of an available core.
 ; If set to 0 it also disables the "sent plugin update emails" feature in general and the related setting in the UI.
 enable_update_communication = 1
-
-
 
 ; Comma separated list of plugin names for which console commands should be loaded (applies when Matomo is not installed yet)
 always_load_commands_from_plugin=
@@ -674,6 +673,9 @@ pivot_by_filter_default_column_limit = 10
 
 ; If set to 0 it will disable advertisements for providers of Professional Support for Matomo.
 piwik_professional_support_ads_enabled = 1
+
+; The number of days to wait before sending the JavaScript tracking code email reminder.
+num_days_before_tracking_code_reminder = 5
 
 [Tracker]
 
@@ -868,6 +870,7 @@ Plugins[] = CorePluginsAdmin
 Plugins[] = CoreAdminHome
 Plugins[] = CoreHome
 Plugins[] = WebsiteMeasurable
+Plugins[] = IntranetMeasurable
 Plugins[] = Diagnostics
 Plugins[] = CoreVisualizations
 Plugins[] = Proxy

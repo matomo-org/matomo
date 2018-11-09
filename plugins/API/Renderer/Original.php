@@ -10,6 +10,8 @@ namespace Piwik\Plugins\API\Renderer;
 
 use Piwik\API\ApiRenderer;
 use Piwik\Common;
+use Piwik\DataTable;
+use Piwik\DataTable\DataTableInterface;
 
 class Original extends ApiRenderer
 {
@@ -83,6 +85,15 @@ class Original extends ApiRenderer
     private function serializeIfNeeded($response)
     {
         if ($this->shouldSerialize()) {
+            if ($response instanceof DataTableInterface) {
+                // remove COLUMN_AGGREGATION_OPS_METADATA_NAME metadata since it can have closures
+                $response->filter(function (DataTable $table) {
+                    $allMetadata = $table->getAllTableMetadata();
+                    unset($allMetadata[DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME]);
+                    $table->setAllTableMetadata($allMetadata);
+                });
+            }
+
             return serialize($response);
         }
         return $response;

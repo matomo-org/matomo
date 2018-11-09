@@ -362,7 +362,9 @@ class Controller extends Plugin\ControllerAdmin
 
             $errorMessage = $lastError['message'];
 
-            if (!empty($lastError['backtrace'])) {
+            if (!empty($lastError['backtrace'])
+                && \Piwik_ShouldPrintBackTraceWithMessage()
+            ) {
                 $errorMessage .= $lastError['backtrace'];
             }
 
@@ -379,6 +381,11 @@ class Controller extends Plugin\ControllerAdmin
         if (Common::isPhpCliMode()) {
             throw new Exception("Error: " . var_export($lastError, true));
         }
+
+        if (!\Piwik_ShouldPrintBackTraceWithMessage()) {
+            unset($lastError['backtrace']);
+        }
+
         $view = new View('@CorePluginsAdmin/safemode');
         $view->lastError   = $lastError;
         $view->isAllowedToTroubleshootAsSuperUser = $this->isAllowedToTroubleshootAsSuperUser();
@@ -490,7 +497,13 @@ class Controller extends Plugin\ControllerAdmin
 
     public function showLicense()
     {
+        Piwik::checkUserHasSomeViewAccess();
+        
         $pluginName = Common::getRequestVar('pluginName', null, 'string');
+
+        if (!Plugin\Manager::getInstance()->isPluginInFilesystem($pluginName)) {
+            throw new Exception('Invalid plugin');
+        }
 
         $metadata = new Plugin\MetadataLoader($pluginName);
         $license_file = $metadata->getPathToLicenseFile();

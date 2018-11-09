@@ -63,7 +63,7 @@ class Controller extends ControllerAdmin
 
         if (count($IdSitesAdmin) > 0) {
             $defaultWebsiteId = $IdSitesAdmin[0];
-            $idSiteSelected = Common::getRequestVar('idSite', $defaultWebsiteId);
+            $idSiteSelected = $this->idSite ?: $defaultWebsiteId;
         }
 
         if (!Piwik::isUserHasAdminAccess($idSiteSelected) && count($IdSitesAdmin) > 0) {
@@ -172,7 +172,6 @@ class Controller extends ControllerAdmin
 
         $userLogin = Piwik::getCurrentUserLogin();
         $user = Request::processRequest('UsersManager.getUser', array('userLogin' => $userLogin));
-        $view->userAlias = $user['alias'];
         $view->userEmail = $user['email'];
         $view->userTokenAuth = Piwik::getCurrentUserTokenAuth();
 
@@ -376,8 +375,15 @@ class Controller extends ControllerAdmin
             $this->processPasswordChange($userLogin);
 
             LanguagesManager::setLanguageForSession($language);
-            APILanguagesManager::getInstance()->setLanguageForUser($userLogin, $language);
-            APILanguagesManager::getInstance()->set12HourClockForUser($userLogin, $timeFormat);
+
+            Request::processRequest('LanguagesManager.setLanguageForUser', [
+                'login' => $userLogin,
+                'languageCode' => $language,
+            ]);
+            Request::processRequest('LanguagesManager.set12HourClockForUser', [
+                'login' => $userLogin,
+                'use12HourClock' => $timeFormat,
+            ]);
 
             APIUsersManager::getInstance()->setUserPreference($userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,
@@ -407,7 +413,6 @@ class Controller extends ControllerAdmin
 
     private function processPasswordChange($userLogin)
     {
-        $alias = Common::getRequestVar('alias');
         $email = Common::getRequestVar('email');
         $newPassword = false;
 
@@ -429,7 +434,12 @@ class Controller extends ControllerAdmin
             throw new Exception("Cannot change password with untrusted hostname!");
         }
 
-        APIUsersManager::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);
+        Request::processRequest('UsersManager.updateUser', [
+            'userLogin' => $userLogin,
+            'password' => $newPassword,
+            'email' => $email,
+        ], $default = []);
+
         if ($newPassword !== false) {
             $newPassword = Common::unsanitizeInputValue($newPassword);
         }

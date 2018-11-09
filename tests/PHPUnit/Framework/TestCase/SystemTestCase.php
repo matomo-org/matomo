@@ -13,11 +13,16 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable;
 use Piwik\DataTable\Manager;
+use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Http;
+use Piwik\Period;
+use Piwik\Plugin\ProcessedMetric;
 use Piwik\ReportRenderer;
+use Piwik\Site;
 use Piwik\Tests\Framework\Constraint\ResponseCode;
 use Piwik\Tests\Framework\Constraint\HttpResponseText;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
@@ -386,7 +391,9 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $_GET = $requestUrl;
         unset($_GET['serialize']);
 
-        $processedResponse = Response::loadFromApi($params, $requestUrl);
+        $onlyCheckUnserialize = !empty($params['onlyCheckUnserialize']);
+
+        $processedResponse = Response::loadFromApi($params, $requestUrl, $normailze = !$onlyCheckUnserialize);
         if (empty($compareAgainst)) {
             $processedResponse->save($processedFilePath);
         }
@@ -394,6 +401,38 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
         $response = $processedResponse->getResponseText();
         if (strpos($response, '<?xml') === 0) {
             $this->assertValidXML($response);
+        }
+
+        if ($onlyCheckUnserialize) {
+            if (empty($response) || is_numeric($response)) {
+                return; // pass
+            }
+
+            // check the data can be successfully unserialized, nothing else
+            try {
+                $unserialized = Common::safe_unserialize($response, [
+                    DataTable::class,
+                    DataTable\Simple::class,
+                    DataTable\Row::class,
+                    DataTable\Map::class,
+                    Site::class,
+                    Date::class,
+                    Period::class,
+                    Period\Day::class,
+                    Period\Week::class,
+                    Period\Month::class,
+                    Period\Year::class,
+                    Period\Range::class,
+                    ProcessedMetric::class,
+                ], true);
+
+                if ($unserialized === false) {
+                    throw new \Exception("Unknown serialization error.");
+                }
+            } catch (\Exception $ex) {
+                $this->comparisonFailures[] = new \Exception("Processed response in '$processedFilePath' could not be unserialized: " . $ex->getMessage());
+            }
+            return;
         }
 
         $_GET = $originalGET;
