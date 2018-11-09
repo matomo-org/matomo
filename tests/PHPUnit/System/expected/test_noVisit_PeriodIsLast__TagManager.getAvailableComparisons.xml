@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<id>equals</id>
+		<name>equals</name>
+	</row>
+	<row>
+		<id>not_equals</id>
+		<name>not equals</name>
+	</row>
+	<row>
+		<id>equals_exactly</id>
+		<name>equals exactly</name>
+	</row>
+	<row>
+		<id>not_equals_exactly</id>
+		<name>not equals exactly</name>
+	</row>
+	<row>
+		<id>contains</id>
+		<name>contains</name>
+	</row>
+	<row>
+		<id>not_contains</id>
+		<name>not contains</name>
+	</row>
+	<row>
+		<id>starts_with</id>
+		<name>starts with</name>
+	</row>
+	<row>
+		<id>not_starts_with</id>
+		<name>not starts with</name>
+	</row>
+	<row>
+		<id>ends_with</id>
+		<name>ends with</name>
+	</row>
+	<row>
+		<id>not_ends_with</id>
+		<name>not ends with</name>
+	</row>
+	<row>
+		<id>lower_than</id>
+		<name>is lower than</name>
+	</row>
+	<row>
+		<id>not_lower_than</id>
+		<name>not is lower than</name>
+	</row>
+	<row>
+		<id>lower_than_or_equals</id>
+		<name>is lower than or equals</name>
+	</row>
+	<row>
+		<id>not_lower_than_or_equals</id>
+		<name>not is lower than or equals</name>
+	</row>
+	<row>
+		<id>greater_than</id>
+		<name>is greater than</name>
+	</row>
+	<row>
+		<id>not_greater_than</id>
+		<name>not is greater than</name>
+	</row>
+	<row>
+		<id>greater_than_or_equals</id>
+		<name>is greater than or equals</name>
+	</row>
+	<row>
+		<id>not_greater_than_or_equals</id>
+		<name>not is greater than or equals</name>
+	</row>
+	<row>
+		<id>regexp</id>
+		<name>matches the regular expression</name>
+	</row>
+	<row>
+		<id>not_regexp</id>
+		<name>not matches the regular expression</name>
+	</row>
+	<row>
+		<id>regexp_ignore_case</id>
+		<name>matches the regular expression (ignore case)</name>
+	</row>
+	<row>
+		<id>not_regexp_ignore_case</id>
+		<name>not matches the regular expression (ignore case)</name>
+	</row>
+</result>

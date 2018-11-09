@@ -769,4 +769,67 @@ Another line</defaultValue>
 			</row>
 		</settings>
 	</row>
+	<row>
+		<pluginName>TagManager</pluginName>
+		<title>TagManager</title>
+		<settings>
+			<row>
+				<name>restrictCustomTemplates</name>
+				<title>Restrict usage of custom templates</title>
+				<value>admin</value>
+				<defaultValue>admin</defaultValue>
+				<type>string</type>
+				<uiControl>select</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<disabled>Disabled, nobody can use them</disabled>
+					<admin>Users with at last admin permission can use them</admin>
+					<superuser>Only Super Users can use them</superuser>
+				</availableValues>
+				<description>This setting defines who can use custom templates or whether they should be completely disabled. Changing this setting can improve the security on your website. When you configure a trigger, tag, or a variable, some of them may allow a Matomo user to enter HTML or JavaScript which will be executed on your website. Entering custom code cannot only break the container in case there is an error, but also allows them to execute any JavaScript code on your website. This can be misused to steal for example sensitive information on your website. If you do not want to allow your team members to enter any JavaScript code, you may want to disable this setting.</description>
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+			<row>
+				<name>environments</name>
+				<title>Environments</title>
+				<value>
+					<row>
+						<environment>dev</environment>
+					</row>
+					<row>
+						<environment>staging</environment>
+					</row>
+				</value>
+				<defaultValue>
+					<row>
+						<environment>dev</environment>
+					</row>
+					<row>
+						<environment>staging</environment>
+					</row>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>multituple</uiControl>
+				<uiControlAttributes>
+					<field1>
+						<key>environment</key>
+						<title>Environment</title>
+						<uiControl>text</uiControl>
+						<templateFile />
+						<availableValues />
+					</field1>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Define one or multiple additional environments. Please note that if you remove any environment, generated container files that exist for a specific environment will be removed and will be no longer available.</description>
+				<inlineHelp />
+				<templateFile />
+				<introduction />
+				<condition />
+			</row>
+		</settings>
+	</row>
 </result>

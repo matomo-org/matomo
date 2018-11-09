@@ -29,6 +29,7 @@ class Collection
         'Dashboard',
         'UsersManager',
         'SitesManager',
+        'TagManager',
         'ExampleUI',
         'Overlay',
         'Live',
