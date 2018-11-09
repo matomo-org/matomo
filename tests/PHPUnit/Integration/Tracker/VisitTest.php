@@ -38,6 +38,8 @@ class VisitTest extends IntegrationTestCase
         $pluginNames = array_keys(Manager::getInstance()->getLoadedPlugins());
         $pluginNames[] = 'SitesManager';
         $pluginNames[] = 'WebsiteMeasurable';
+        $pluginNames[] = 'TagManager';// needed because we create a site in Tracker mode...
+        $pluginNames[] = 'API'; // needed because we create a site in Tracker mode...
         Manager::getInstance()->loadPlugins($pluginNames);
         Visit::$dimensions = null;
     }
