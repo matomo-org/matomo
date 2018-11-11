@@ -346,8 +346,8 @@ class API extends \Piwik\Plugin\API
         $originalShowEvolutionWithinSelectedPeriod = Config::getInstance()->General['graphs_show_evolution_within_selected_period'];
         $originalDefaultEvolutionGraphLastPeriodsAmount = Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'];
         try {
-            Config::getInstance()->General['graphs_show_evolution_within_selected_period'] = (bool)$report['evolution_graph_within_period'];
-            Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'] = $report['evolution_graph_period_n'];
+            Config::setSetting('General', 'graphs_show_evolution_within_selected_period', (bool)$report['evolution_graph_within_period']);
+            Config::setSetting('General', 'graphs_default_evolution_graph_last_days_amount', $report['evolution_graph_period_n']);
 
             // available reports
             $availableReportMetadata = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
@@ -444,8 +444,8 @@ class API extends \Piwik\Plugin\API
                 $processedReports[] = $processedReport;
             }
         } finally {
-            Config::getInstance()->General['graphs_show_evolution_within_selected_period'] = $originalShowEvolutionWithinSelectedPeriod;
-            Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'] = $originalDefaultEvolutionGraphLastPeriodsAmount;
+            Config::setSetting('General', 'graphs_show_evolution_within_selected_period', $originalShowEvolutionWithinSelectedPeriod);
+            Config::setSetting('General', 'graphs_default_evolution_graph_last_days_amount', $originalDefaultEvolutionGraphLastPeriodsAmount);
 
             // restore filter truncate parameter value
             if ($initialFilterTruncate !== false) {
