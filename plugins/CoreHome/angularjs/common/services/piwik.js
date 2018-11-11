@@ -68,10 +68,10 @@
 
             // Cache server-rendered page title
             originalTitle = originalTitle || document.title;
-            var titleParts = originalTitle.split('-');
-            var dateString = ' ' + piwikPeriods.parse(period, date).getPrettyString() + ' ';
+            var titleParts = originalTitle.split('- ');
+            var dateString = piwikPeriods.parse(period, date).getPrettyString() + ' ';
             titleParts.splice(1, 0, dateString);
-            document.title = titleParts.join('-');
+            document.title = titleParts.join('- ');
         }
     }
 
