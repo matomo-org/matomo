@@ -177,7 +177,10 @@ class ImageGraph extends \Piwik\Plugin
 
     public static function getDefaultGraphEvolutionLastPeriods()
     {
-        $lastPeriods = Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'];
-        return $lastPeriods > 0 ? $lastPeriods : self::GRAPH_EVOLUTION_LAST_PERIODS;
+        $lastPeriods = (int) Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'];
+        if ($lastPeriods <= 0) {
+            throw new \Exception("Invalid value '$lastPeriods' supplied for [General] graphs_default_evolution_graph_last_days_amount config.");
+        }
+        return $lastPeriods;
     }
 }

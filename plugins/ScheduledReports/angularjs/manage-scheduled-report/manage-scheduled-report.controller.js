@@ -138,7 +138,9 @@
             apiParameters.reportType = this.report.type;
             apiParameters.reportFormat = this.report['format' + this.report.type];
             apiParameters.evolutionPeriodFor = this.report.evolutionPeriodFor;
-            apiParameters.evolutionPeriodN = this.report.evolutionPeriodN;
+            if (apiParameters.evolutionPeriodFor !== 'each') {
+                apiParameters.evolutionPeriodN = this.report.evolutionPeriodN;
+            }
 
             var period = self.report.period;
             var hour = adjustHourToTimezone(this.report.hour, -getTimeZoneDifferenceInHours());

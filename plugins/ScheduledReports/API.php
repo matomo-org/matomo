@@ -87,9 +87,9 @@ class API extends \Piwik\Plugin\API
      * @param array $reports array of reports
      * @param array $parameters array of parameters
      * @param bool|int $idSegment Segment Identifier
-     * @param bool $evolutionPeriodFor If true, evolution graphs cover each day within the period. If false, evolution graphs
-     *                                 cover the previous N periods.
-     * @param int|null $evolutionPeriodN The previous N periods to query in evolution graphs if $isEvolutionGraphEachDay is true.
+     * @param string $evolutionPeriodFor If set to 'each', the evolution graphs cover each day within the period. If set to 'prev',
+     *                                   evolution graphs cover the previous N periods.
+     * @param int|null $evolutionPeriodN The previous N periods to query in evolution graphs if $evolutionPeriodFor is 'each'.
      *
      * @return int idReport generated
      */
@@ -343,27 +343,27 @@ class API extends \Piwik\Plugin\API
             true
         );
 
-        // available reports
-        $availableReportMetadata = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
-
-        // we need to lookup which reports metadata are registered in this report
-        $reportMetadata = array();
-        foreach ($availableReportMetadata as $metadata) {
-            if (in_array($metadata['uniqueId'], $report['reports'])) {
-                $reportMetadata[] = $metadata;
-            }
-        }
-
-        // the report will be rendered with the first 23 rows and will aggregate other rows in a summary row
-        // 23 rows table fits in one portrait page
-        $initialFilterTruncate = Common::getRequestVar('filter_truncate', false);
-        $_GET['filter_truncate'] = Config::getInstance()->General['scheduled_reports_truncate'];
-
         $originalShowEvolutionWithinSelectedPeriod = Config::getInstance()->General['graphs_show_evolution_within_selected_period'];
         $originalDefaultEvolutionGraphLastPeriodsAmount = Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'];
         try {
             Config::getInstance()->General['graphs_show_evolution_within_selected_period'] = (bool)$report['evolution_graph_within_period'];
             Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'] = $report['evolution_graph_period_n'];
+
+            // available reports
+            $availableReportMetadata = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
+
+            // we need to lookup which reports metadata are registered in this report
+            $reportMetadata = array();
+            foreach ($availableReportMetadata as $metadata) {
+                if (in_array($metadata['uniqueId'], $report['reports'])) {
+                    $reportMetadata[] = $metadata;
+                }
+            }
+
+            // the report will be rendered with the first 23 rows and will aggregate other rows in a summary row
+            // 23 rows table fits in one portrait page
+            $initialFilterTruncate = Common::getRequestVar('filter_truncate', false);
+            $_GET['filter_truncate'] = Config::getInstance()->General['scheduled_reports_truncate'];
 
             $prettyDate = null;
             $processedReports = array();
