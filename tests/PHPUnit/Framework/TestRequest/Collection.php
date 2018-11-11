@@ -50,6 +50,7 @@ class Collection
         'Insights',
         'LogViewer',
         'Referrers.getKeywordNotDefinedString',
+        'CorePluginsAdmin.getSystemSettings',
     );
 
     /**
