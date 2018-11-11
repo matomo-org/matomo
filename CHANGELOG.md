@@ -9,6 +9,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 
 * Added new event `Access.modifyUserAccess` which lets plugins modify current user's access levels/permissions.
+* Added new event `CustomMatomoJs.manipulateJsTracker` which lets plugins modify the JavaScript tracker.
 
 ### New Developer Features
 

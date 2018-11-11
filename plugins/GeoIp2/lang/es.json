@@ -1,0 +1,6 @@
+{
+    "GeoIp2": {
+        "GeoIPVariablesConfigurationHere": "Puede configurar las variables de servidor usadas %1$saquí%2$s",
+        "ServerVariableFor": "Variable del servidor para %s"
+    }
+}

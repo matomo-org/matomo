@@ -32,9 +32,9 @@
         "ColumnRevenueDocumentation": "%s によって得られた総収益。",
         "ColumnRevenuePerVisitDocumentation": "総収益は、 %s をビジット数で割ったものです。",
         "ColumnVisits": "目標達成の元となったかどうかに関わらないビジットの総数",
-        "ColumnVisitsProductDocumentation": "製品\/カテゴリーページビジット数。これは、%s のコンバージョン率を処理するためにも使われています。 e コマースビュートラッキングを、製品\/カテゴリーページに設定した場合に、このメトリックがリポートに表示されます。",
+        "ColumnVisitsProductDocumentation": "製品 \/ カテゴリーページビジット数。これは、%s のコンバージョン率を処理するためにも使われています。 e コマースビュートラッキングを、製品\/カテゴリーページに設定した場合に、このメトリックがリポートに表示されます。",
         "Contains": "%s を含む",
-        "ConversionByTypeReportDocumentation": "このレポートでは、左側のパネルで使用可能なカテゴリごとの目標のパフォーマンス（コンバージョン、コンバージョン率、ビジットあたりの収益）に関する詳細な情報を提供します。 %1$s レポートを表示するには、カテゴリのいずれかをクリックしてください。%2$s 詳細については、%3$s piwik.orgのトラッキングゴール(目標)のドキュメント %4$s を参照してください。",
+        "ConversionByTypeReportDocumentation": "このレポートでは、左側のパネルで使用可能なカテゴリごとの目標のパフォーマンス（コンバージョン、コンバージョン率、ビジットあたりの収益）に関する詳細な情報を提供します。 %1$s レポートを表示するには、カテゴリのいずれかをクリックしてください。%2$s 詳細については、%3$s piwik.org のトラッキングゴール(目標)のドキュメント %4$s を参照してください。",
         "ConversionRate": "%s コンバージョン率",
         "Conversions": "%s コンバージョン",
         "ConversionsDescription": "コンバージョン",
@@ -43,6 +43,7 @@
         "DaysToConv": "日数別のコンバージョン",
         "Details": "目標の詳細",
         "DefaultGoalConvertedOncePerVisit": "( デフォルト ) 目標達成はビジット毎 1 回だけカウント",
+        "DefaultRevenueLabel": "目標のデフォルト収益",
         "DefaultRevenueHelp": "例えば、ビジターによって送信されたコンタクトフォームが、平均して $10 の価値を持つかもしれません。 Matomo は、ビジターセグメントがどれくらいうまく実行しているかを理解するのを助けます。",
         "DeleteGoalConfirm": "本当に目標 %s を削除しますか？",
         "DocumentationRevenueGeneratedByProductSales": "製品の売上。税、送料、割引を除く。",
@@ -109,6 +110,10 @@
         "WhenVisitors": "ビジター",
         "WhereThe": "対象：",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "訪問したページに JavaScript の 'trackGoal' メソッドを呼び出す必要があります( %1$s詳細はこちら%2$s )",
-        "YouCanEnableEcommerceReports": "%1$s ページでこのウェブサイトに%2$s を有効にできます。"
+        "YouCanEnableEcommerceReports": "%1$s ページでこのウェブサイトに%2$s を有効にできます。",
+        "UseEventValueAsRevenue": "目標値（存在する場合）を目標コンバージョン収益として使用します。",
+        "GoalRevenue": "目標収益",
+        "EventValueAsRevenueHelp": "一致するイベントに収益があり、その収益がイベント値としてトラッキングされている場合は、このオプションを有効にすると、イベントの値を目標コンバージョンの収益として記録できます。 コンバージョンごとに目標収入が変化しない場合は、このオプションを無視して上のデフォルト収益額を設定することができます。",
+        "EventValueAsRevenueHelp2": "注：デフォルトの目標収入とイベント値の両方が定義されている場合は、イベント値が使用されます。 このオプションを有効にして、要求でイベント値が送信されない場合は、デフォルト収益が使用されます（定義されている場合）。"
     }
 }

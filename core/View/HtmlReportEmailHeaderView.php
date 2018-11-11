@@ -24,6 +24,7 @@ class HtmlReportEmailHeaderView extends View
     const TEMPLATE_FILE = '@CoreHome/ReportRenderer/_htmlReportHeader';
 
     private static $reportFrequencyTranslationByPeriod = [
+        Schedule::PERIOD_NEVER => '',
         Schedule::PERIOD_DAY   => 'General_DailyReport',
         Schedule::PERIOD_WEEK  => 'General_WeeklyReport',
         Schedule::PERIOD_MONTH => 'General_MonthlyReport',

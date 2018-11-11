@@ -41,6 +41,7 @@
         "OriginThirdParty": "De terceros",
         "PluginHomepage": "Página de internet del complemento",
         "PluginNotCompatibleWith": "%1$s complemento no es compatible con %2$s.",
+        "PluginNotFound": "Complemento %1$sno se encuentra en archivos de sistema.",
         "PluginNotWorkingAlternative": "Si ha estado utilizando este complemento podrá encontrar una versión más reciente en el Mercado. Si no, quizá desee desinstalarlo.",
         "PluginRequirement": "%1$s requiere %2$s.",
         "PluginsManagement": "Administración de complementos",

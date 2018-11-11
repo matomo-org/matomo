@@ -78,11 +78,12 @@ class Controller extends \Piwik\Plugins\Goals\Controller
         $idGoal = Common::getRequestVar('idGoal', null, 'string');
         $period = Common::getRequestVar('period', null, 'string');
         $segment = Common::getRequestVar('segment', '', 'string');
+        $date = Common::getRequestVar('date', '', 'string');
 
         $goalMetrics = Request::processRequest('Goals.get', [
             'idGoal'       => $idGoal,
             'idSite'       => $this->idSite,
-            'date'         => $this->strDate,
+            'date'         => $date,
             'period'       => $period,
             'segment'      => $segment,
             'filter_limit' => '-1'

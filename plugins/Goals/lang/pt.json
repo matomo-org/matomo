@@ -43,6 +43,7 @@
         "DaysToConv": "Dias para a conversão",
         "Details": "Detalhes do objetivo",
         "DefaultGoalConvertedOncePerVisit": "(predefinido) Um objetivo só pode ser convertido uma vez por visita",
+        "DefaultRevenueLabel": "Rendimento predefinido do objetivo",
         "DefaultRevenueHelp": "Por exemplo, um formulário de contacto submetido por um visitante pode valer em média $10. O Matomo ajuda-o a perceber como os seus segmentos de visitantes se estão a comportar.",
         "DeleteGoalConfirm": "Tem a certeza que deseja eliminar o objetivo %s?",
         "DocumentationRevenueGeneratedByProductSales": "Vendas de produtos. Excluindo taxas, transporte e descontos.",
@@ -109,6 +110,10 @@
         "WhenVisitors": "quando os visitantes",
         "WhereThe": "onde o",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "As páginas visitadas necessitam de conter uma invocação ao método JavaScript 'trackGoal' (%1$ssaber mais%2$s)",
-        "YouCanEnableEcommerceReports": "Pode ativar %1$s para este site na página %2$s."
+        "YouCanEnableEcommerceReports": "Pode ativar %1$s para este site na página %2$s.",
+        "UseEventValueAsRevenue": "Utilizar o valor do evento (se este existir) como o rendimento da conversão do objetivo.",
+        "GoalRevenue": "Rendimento do objetivo",
+        "EventValueAsRevenueHelp": "Se o evento que está a corresponder tem um rendimento e, se esse rendimento é acompanhado como o valor do evento, pode ativar esta opção para registar o valor do evento como rendimento da conversão do objetivo. Se o rendimento do objetivo não vai variar por conversão, pode ignorar esta opção e definir apenas um valor predefinido de rendimento acima.",
+        "EventValueAsRevenueHelp2": "Nota: Se estiverem definidos o rendimento predefinido do objetivo e o valor do evento, será utilizado o valor do evento. Se esta opção estiver ativa e se nenhum valor de evento for enviado num pedido, será utilizador o valor predefinido de rendimento (se definido)."
     }
 }

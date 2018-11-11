@@ -45,7 +45,7 @@
         "PluginNotFoundAlternative": "Se hai utilizzato questo plugin, prova a caricarlo o a installarlo di nuovo dal marketplace. Se no, clicca su disinstalla per eliminarlo dall'elenco.",
         "PluginNotWorkingAlternative": "Se hai utilizzato questo plugin puoi trovare una versione più recente nel Marketplace. Se no, puoi volere disinstallarlo.",
         "PluginRequirement": "%1$s richiede %2$s.",
-        "PluginsManagement": "Amministra Plugin",
+        "PluginsManagement": "Amministra Plugins",
         "NotDownloadable": "Non scaricabile",
         "PluginNotDownloadable": "Questo plugin non è scaricabile.",
         "PluginNotDownloadablePaidReason": "Le possibili ragioni sono una licenza scaduta o superata.",

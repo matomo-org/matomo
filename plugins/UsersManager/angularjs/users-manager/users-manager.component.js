@@ -203,7 +203,8 @@
                 });
             }).then(function (login) {
                 return piwikApi.post({
-                    method: 'UsersManager.setUserAccess',
+                    method: 'UsersManager.setUserAccess'
+                }, {
                     userLogin: login,
                     access: 'view',
                     idSites: vm.searchParams.idSite

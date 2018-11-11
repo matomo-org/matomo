@@ -73,6 +73,8 @@
         "UpgradePiwik": "Actualizar Matomo",
         "ConsoleStartingDbUpgrade": "Iniciando ahora el proceso de actualización de la base de datos. Esta acción puede tomar un tiempo, por favor sea paciente",
         "DbUpgradeNotExecuted": "Actualización de base de datos no ejecutada.",
+        "ConsoleUpdateFailure": "Matomo no pudo ser actualizado! Ver más arriba para más información.",
+        "ConsoleUpdateNoSqlQueries": "Nota: No hay consultas SQL para ejecutar.",
         "AlreadyUpToDate": "Todo ya está actualizado.",
         "ExecuteDbUpgrade": "Una actualización de la base de datos es necesaria. Ejecutar actualización?",
         "ConsoleParameterDescription": "Ejecute directamente la actualización sin solicitar confirmación",
@@ -80,6 +82,7 @@
         "WarningMessages": "Mensajes de advertencia:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Desactivaremos automáticamente los siguientes complementos: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Puede actualizar automáticamente a la versión %s o descargar el paquete e instalarlo manualmente:",
+        "YouMustDownloadPackageOrFixPermissions": "Matomo no puede sobrescribir su actual instalación. Puede arreglar los permisos sea de los directorios\\\/archivos, o descargar el paquete e instalar la versión %s manualmente:",
         "YourDatabaseIsOutOfDate": "Su base de datos de Matomo está obsoleta, y debe ser actualizada antes de poder continuar.",
         "ViewVersionChangelog": "Ver la lista de cambios para esta versión:",
         "ReceiveEmailBecauseIsSuperUser": "Recibes este email poruqe eres un Super Usuario del sistema que está en: %s"
