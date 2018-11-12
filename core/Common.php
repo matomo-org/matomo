@@ -261,15 +261,19 @@ class Common
      *
      * @param string $string String to unserialize
      * @param array $allowedClasses Class names that should be allowed to unserialize
-     *
+     * @param bool $rethrow Whether to rethrow exceptions or not.
      * @return mixed
      */
-    public static function safe_unserialize($string, $allowedClasses = [])
+    public static function safe_unserialize($string, $allowedClasses = [], $rethrow = false)
     {
         if (PHP_MAJOR_VERSION >= 7) {
             try {
                 return unserialize($string, ['allowed_classes' => empty($allowedClasses) ? false : $allowedClasses]);
             } catch (\Throwable $e) {
+                if ($rethrow) {
+                    throw $e;
+                }
+
                 $logger = StaticContainer::get('Psr\Log\LoggerInterface');
                 $logger->debug('Unable to unserialize a string: {message} (string = {string})', [
                     'message' => $e->getMessage(),

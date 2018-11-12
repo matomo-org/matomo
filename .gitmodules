@@ -54,6 +54,10 @@
 	path = plugins/MarketingCampaignsReporting
 	url = https://github.com/matomo-org/plugin-MarketingCampaignsReporting.git
     branch = master
+[submodule "plugins/TagManager"]
+	path = plugins/TagManager
+	url = https://github.com/matomo-org/tag-manager.git
+	branch = master
 
 # Add new Plugin submodule above this line ^^
 # 

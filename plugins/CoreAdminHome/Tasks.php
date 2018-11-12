@@ -25,7 +25,7 @@ use Piwik\Scheduler\Schedule\Daily;
 use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\SpecificTime;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
-use Piwik\Tests\Framework\Mock\Site;
+use Piwik\Site;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
 use Psr\Log\LoggerInterface;
 use Piwik\SettingsPiwik;
