@@ -764,7 +764,7 @@ class API extends \Piwik\Plugin\API
     {
         $availablePeriods = array('day', 'week', 'month', 'never');
         if (!in_array($period, $availablePeriods)) {
-            throw new Exception('Period schedule must be one of the following: ' . implode(', ', $availablePeriods));
+            throw new Exception('Period schedule must be one of the following: ' . implode(', ', $availablePeriods) . ' (got ' . $period . ')');
         }
     }
 

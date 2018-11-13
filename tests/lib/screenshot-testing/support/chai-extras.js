@@ -201,7 +201,7 @@ function capture(screenName, compareAgainst, selector, pageSetupFn, comparisonTh
                 }
                 app.diffViewerGenerator.failures = failures;
 
-                done();
+                performAutomaticPageChecks(done);
             };
 
             if (!testInfo.processed) {
@@ -323,7 +323,7 @@ function compareContents(compareAgainst, pageSetupFn, done) {
                     console.log(getPageLogsString(pageRenderer.pageLogs, "     "));
                 }
 
-                done();
+                performAutomaticPageChecks(done);
             };
 
             var processed = pageRenderer.getPageContents();
@@ -487,3 +487,28 @@ chai.Assertion.addChainableMethod('pageContents', function (pageSetupFn, done) {
 
     compareContents(compareAgainst, pageSetupFn, done);
 });
+
+// other automatically run assertions
+function performAutomaticPageChecks(done) {
+    try {
+        checkForDangerousLinks();
+
+        done();
+    } catch (e) {
+        done(e);
+    }
+}
+
+function checkForDangerousLinks() {
+    var links = pageRenderer.webpage.evaluate(function () {
+        var result = [];
+        $('a').each(function () {
+            var href = $(this).attr('href');
+            if (/^(javascript|vbscript|data):;*[^;]+/.test(href)) {
+                result.push($(this).text() + ' - [href = ' + href + ']');
+            }
+        });
+        return JSON.stringify(result);
+    });
+    expect(links, "found dangerous links").to.equal("[]");
+}
