@@ -26,6 +26,7 @@
         "ExcludedIps": "IPs excluidas",
         "ExcludedParameters": "Parámetros excluídos",
         "ExcludedUserAgents": "Agentes de usuario excluídos",
+        "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Ingrese la lista de agentes de usuario excluídos de ser rastreados por Matomo.",
         "GlobalExcludedUserAgentHelp2": "Puede utilizar esto para excluir algunos bots de ser rastreados.",
         "GlobalListExcludedIps": "Lista global de IPs excluidas.",

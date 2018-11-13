@@ -1,5 +1,6 @@
 {
     "PrivacyManager": {
+        "AnonymizeData": "Anonimizar datos",
         "AnonymizeIpDescription": "Seleccione \"Si\" si desea que Matomo no registre direcciones IP completas.",
         "AnonymizeIpInlineHelp": "Ocultar los últimos bit(s) de la dirección IP del visitante para cumplir con las leyes\/directrices de privacidad de su jurisdicción.",
         "AnonymizeIpExtendedHelp": "Cuando los usuarios visiten su sitio web, Matomo no usará la dirección IP completa (como en %1$s) sino que Matomo la mantendrá anónima (como en %2$s). El anonimato de una dirección IP es uno de los requisitos dispuestos por leyes de privacidad en algunos países como Alemania.",
@@ -37,6 +38,7 @@
         "EstimatedSpaceSaved": "Espacio estimado guardado",
         "GeolocationAnonymizeIpNote": "Nota: Geolocalización tendrá aproximadamente los mismos resultados con 1 byte anónimo. Con 2 bytes o más, la Geolocalización será imprecisa.",
         "GDPR": "GDPR",
+        "GdprManager": "Administrador GDPR",
         "GdprTools": "Herramientas GDPR",
         "GetPurgeEstimate": "Obtener estimación de purga",
         "KeepBasicMetrics": "Mantener métricas básicas (visitantes, vistas de páginas, tasa de rebote, conversiones de meta, conversiones de comercio electrónico, etc.)",
@@ -58,8 +60,14 @@
         "UseAnonymizedIpForVisitEnrichment": "Usa también direcciones IP anónimas para enriquecer las visitas.",
         "UseAnonymizedIpForVisitEnrichmentNote": "Los complementos Geo Location a través de IP y Provider mejoran los metadatos de los visitantes. Por defecto estos complementos utilizan las direcciones IP anónimas. Si elige 'No' será utilizada una dirección completa de forma no anónima lo que resulta en una menor privacidad pero una mayor precisión de datos.",
         "UseAnonymizeIp": "Hacer anónimas las direcciones IP de los visitantes",
+        "UseAnonymizeTrackingData": "Anonimizar datos de seguimiento de datos",
         "PseudonymizeUserId": "Reemplazar ID de usuario con un seudónimo",
+        "UseAnonymizeOrderId": "Anonimizar ID pedido",
         "UseDeleteLog": "Eliminar regularmente registros antiguos de la base de datos",
-        "UseDeleteReports": "Regularmente borrar los antiguos informes de la base de datos"
+        "UseDeleteReports": "Regularmente borrar los antiguos informes de la base de datos",
+        "PrivacyPolicyUrl": "URL de Política de privacidad",
+        "TermsAndConditionUrl": "URL de Términos & Condiciones",
+        "PrivacyPolicy": "Política de privacidad",
+        "TermsAndConditions": "Términos & Condiciones"
     }
 }
