@@ -9,14 +9,12 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Plugins\ScheduledReports\Model;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 
-/**
- * Update for version 3.6.1-b3.
- */
-class Updates_3_6_1_b3 extends PiwikUpdates
+class Updates_3_7_0_b1 extends PiwikUpdates
 {
     /**
      * @var MigrationFactory
@@ -31,7 +29,8 @@ class Updates_3_6_1_b3 extends PiwikUpdates
     public function getMigrations(Updater $updater)
     {
         return [
-            $this->migration->db->addColumn('goal', 'event_value_as_revenue', "tinyint(4) NOT NULL default '0'"),
+            $this->migration->db->addColumn(Model::$rawPrefix, 'evolution_graph_within_period', 'TINYINT(4) NOT NULL DEFAULT 0'),
+            $this->migration->db->addColumn(Model::$rawPrefix, 'evolution_graph_period_n', 'INT(11) NULL'),
         ];
     }
 

@@ -782,7 +782,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             // set-up mail report with one row evolution based png graph
             APIScheduledReports::getInstance()->addReport(
                 $idSite,
-                'Mail Test report',
+                'Mail Test report (previous default)',
                 'day',
                 0,
                 ScheduledReports::EMAIL_TYPE,
@@ -791,7 +791,39 @@ class Fixture extends \PHPUnit_Framework_Assert
                 array(
                      ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
                      ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
-                )
+                ),
+                false
+            );
+            APIScheduledReports::getInstance()->addReport(
+                $idSite,
+                'Mail Test report (previous10)',
+                'day',
+                0,
+                ScheduledReports::EMAIL_TYPE,
+                ReportRenderer::HTML_FORMAT,
+                array('Actions_getPageTitles'),
+                array(
+                    ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
+                    ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
+                ),
+                false,
+                'prev',
+                10
+            );
+            APIScheduledReports::getInstance()->addReport(
+                $idSite,
+                'Mail Test report (each in period)',
+                'week',
+                0,
+                ScheduledReports::EMAIL_TYPE,
+                ReportRenderer::HTML_FORMAT,
+                array('Actions_getPageTitles'),
+                array(
+                    ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY,
+                    ScheduledReports::EVOLUTION_GRAPH_PARAMETER => 'true',
+                ),
+                false,
+                'each'
             );
         }
     }
