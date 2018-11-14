@@ -141,7 +141,7 @@
                         </div>
                         <div class="plugin-desc-text">
 
-                            {{ plugin.info.description|raw|nl2br }}
+                            <div ng-bind-html="{{ plugin.info.description|raw|nl2br|json_encode|e('html_attr') }}"></div>
 
                             {% if plugin.info.homepage|default is not empty and plugin.info.homepage not in [
                             'http://piwik.org', 'http://www.piwik.org', 'http://piwik.org/', 'http://www.piwik.org/',
@@ -150,7 +150,7 @@
                                 'https://matomo.org', 'https://www.matomo.org', 'https://matomo.org/', 'https://www.matomo.org/'
                             ] %}
                                 <span class="plugin-homepage">
-                            <a target="_blank" rel="noreferrer noopener" href="{{ plugin.info.homepage }}">({{ 'CorePluginsAdmin_PluginHomepage'|translate|replace({' ': '&nbsp;'})|raw }})</a>
+                            <a target="_blank" rel="noreferrer noopener" href="{{ plugin.info.homepage|e('url') }}">({{ 'CorePluginsAdmin_PluginHomepage'|translate|replace({' ': '&nbsp;'})|raw }})</a>
                         </span>
                             {% endif %}
 
