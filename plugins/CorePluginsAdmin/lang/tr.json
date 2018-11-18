@@ -63,6 +63,7 @@
         "TagManagerEmailSuperUserToActivate": "Süper Kullanıcılara bu yeni özelliği etkinleştirmeleri için bildirim gönder",
         "TagManagerTeaserHideSuperUser": "Bu sayfa herhangi bir kullanıcıya görüntülenmesin",
         "TagManagerTeaserHideNonSuperUser": "İlgilenmiyorum, bu sayfa yeniden görüntülenmesin",
+        "TagManagerTeaserEmailSuperUserBody": "Merhaba,%1$sYeni eklenen Matomo Etiket Yönetimi özelliğini sevdim. Bir Süper Kullanıcı olarak bu özelliği üst menüdeki Etiket Yönetimi bölümünden etkinleştirebilir misin?%2$s Matomo adresi %3$s.%4$sTeşekkürler",
         "Theme": "Tema",
         "Themes": "Temalar",
         "ThemesDescription": "Temalar Matomo kullanıcı arayüzünün görünümü değiştirerek yeni bir görsel deneyimle istatistiklerinizin tadını çıkarmanızı sağlar.",
