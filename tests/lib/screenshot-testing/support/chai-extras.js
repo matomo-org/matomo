@@ -501,14 +501,37 @@ function performAutomaticPageChecks(done) {
 
 function checkForDangerousLinks() {
     var links = pageRenderer.webpage.evaluate(function () {
-        var result = [];
-        $('a').each(function () {
-            var href = $(this).attr('href');
-            if (/^(javascript|vbscript|data):;*[^;]+/.test(href) && !(/^javascript:void\(0\);?$/.test(href))) {
-                result.push($(this).text() + ' - [href = ' + href + ']');
+        try {
+            var result = [];
+
+            var safeJsLinks = [
+                /^javascript:void\(0\);?$/,
+                /^javascript:window\.history\.back\(\);?$/,
+                /^javascript:window\.location\.reload\(\);?$/
+            ];
+
+            var linkElements = document.getElementsByTagName('a');
+
+            elements:
+            for (var i = 0; i !== linkElements.length; ++i) {
+                var element = linkElements.item(i);
+
+                var href = element.getAttribute('href');
+                if (/^(javascript|vbscript|data):;*[^;]+/.test(href)) {
+                    for (var index in safeJsLinks) {
+                        if (safeJsLinks[index].test(href)) {
+                            continue elements;
+                        }
+                    }
+
+                    result.push(element.innerText + ' - [href = ' + href + ']');
+                }
             }
-        });
-        return JSON.stringify(result);
+
+            return JSON.stringify(result);
+        } catch (e) {
+            return e.message || e;
+        }
     });
     expect(links, "found dangerous links").to.equal("[]");
 }
