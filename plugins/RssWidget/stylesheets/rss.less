@@ -33,7 +33,8 @@
 }
 
 /* hide changing blog post title and date in UI test */
-.uiTest .rss-title, .uiTest .rss-date {
-    visibility:hidden;
-
+.uiTest {
+    .rss-title, .rss-date, .rss-description a:first-child {
+        visibility:hidden;
+    }
 }
