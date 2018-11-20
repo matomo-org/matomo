@@ -501,14 +501,23 @@ function performAutomaticPageChecks(done) {
 
 function checkForDangerousLinks() {
     var links = pageRenderer.webpage.evaluate(function () {
-        var result = [];
-        $('a').each(function () {
-            var href = $(this).attr('href');
-            if (/^(javascript|vbscript|data):;*[^;]+/.test(href) && !(/^javascript:void\(0\);?$/.test(href))) {
-                result.push($(this).text() + ' - [href = ' + href + ']');
+        try {
+            var result = [];
+
+            var linkElements = document.getElementsByTagName('a');
+            for (var i = 0; i !== linkElements.length; ++i) {
+                var element = linkElements.item(i);
+
+                var href = element.getAttribute('href');
+                if (/^(javascript|vbscript|data):;*[^;]+/.test(href) && !(/^javascript:void\(0\);?$/.test(href))) {
+                    result.push(element.innerText + ' - [href = ' + href + ']');
+                }
             }
-        });
-        return JSON.stringify(result);
+
+            return JSON.stringify(result);
+        } catch (e) {
+            return e.message || e;
+        }
     });
     expect(links, "found dangerous links").to.equal("[]");
 }
