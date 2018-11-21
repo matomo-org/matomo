@@ -259,6 +259,7 @@ label,entry_nb_visits,entry_bounce_count,bounce_rate,avg_time_generation
 Entry page titles
 label,entry_nb_visits,entry_bounce_count,bounce_rate,avg_time_generation
 second visitor/two days later/a new visit,8,0,0%,0.32s
+second visitor/two days later/second page view,0,0,0%,0.17s
 first page view,2,2,100%,0.14s
 
 Exit pages

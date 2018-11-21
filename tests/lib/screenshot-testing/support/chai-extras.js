@@ -501,14 +501,40 @@ function performAutomaticPageChecks(done) {
 
 function checkForDangerousLinks() {
     var links = pageRenderer.webpage.evaluate(function () {
-        var result = [];
-        $('a').each(function () {
-            var href = $(this).attr('href');
-            if (/^(javascript|vbscript|data):;*[^;]+/.test(href) && !(/^javascript:void\(0\);?$/.test(href))) {
-                result.push($(this).text() + ' - [href = ' + href + ']');
+        try {
+            var result = [];
+
+            var linkElements = document.getElementsByTagName('a');
+            for (var i = 0; i !== linkElements.length; ++i) {
+                var element = linkElements.item(i);
+
+                var href = element.getAttribute('href');
+                if (/^(javascript|vbscript|data):/.test(href) && !isWhitelistedJavaScript(href)) {
+                    result.push(element.innerText + ' - [href = ' + href + ']');
+                }
             }
-        });
-        return JSON.stringify(result);
+
+            return JSON.stringify(result);
+        } catch (e) {
+            return e.message || e;
+        }
+
+        function isWhitelistedJavaScript(href) {
+            var whitelistedCode = [
+                '',
+                'void(0)',
+                'window.history.back()',
+                'window.location.reload()',
+            ];
+
+            var m = /^javascript:(.*?);*$/.exec(href);
+            if (!m) {
+                return false;
+            }
+
+            var code = m[1] || '';
+            return whitelistedCode.indexOf(code) !== -1;
+        }
     });
     expect(links, "found dangerous links").to.equal("[]");
 }
