@@ -509,7 +509,7 @@ function checkForDangerousLinks() {
                 var element = linkElements.item(i);
 
                 var href = element.getAttribute('href');
-                if (/^(javascript|vbscript|data):;*[^;]+/.test(href) && !(/^javascript:void\(0\);?$/.test(href))) {
+                if (/^(javascript|vbscript|data):/.test(href) && !isWhitelistedJavaScript(href)) {
                     result.push(element.innerText + ' - [href = ' + href + ']');
                 }
             }
@@ -517,6 +517,23 @@ function checkForDangerousLinks() {
             return JSON.stringify(result);
         } catch (e) {
             return e.message || e;
+        }
+
+        function isWhitelistedJavaScript(href) {
+            var whitelistedCode = [
+                '',
+                'void(0)',
+                'window.history.back()',
+                'window.location.reload()',
+            ];
+
+            var m = /^javascript:(.*?);*$/.exec(href);
+            if (!m) {
+                return false;
+            }
+
+            var code = m[1] || '';
+            return whitelistedCode.indexOf(code) !== -1;
         }
     });
     expect(links, "found dangerous links").to.equal("[]");
