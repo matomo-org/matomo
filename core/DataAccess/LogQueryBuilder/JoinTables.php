@@ -134,6 +134,26 @@ class JoinTables extends \ArrayObject
 
     private function parseDependencies(array $tables)
     {
+        $dependencies = [];
+        foreach ($tables as $key => &$fromInfo) {
+            if (is_string($fromInfo)) {
+                $dependencies[$key] = $this->assumeImplicitJoinDependencies($tables, $fromInfo);
+                continue;
+            }
+
+            if (empty($fromInfo['joinOn'])) {
+                continue;
+            }
+
+            $table = isset($fromInfo['tableAlias']) ? $fromInfo['tableAlias'] : $fromInfo['table'];
+            $tablesInExpr = $this->parseSqlTables($fromInfo['joinOn'], $table);
+            $dependencies[$key] = $tablesInExpr;
+        }
+        return $dependencies;
+    }
+
+    private function assumeImplicitJoinDependencies($allTablesToQuery, $table)
+    {
         // NOTE: joins can be specified explicitly as arrays w/ 'joinOn' keys or implicitly as table names. when
         // table names are used, the joins dependencies are assumed based on how we want to order those joins.
         // the below table list the possible dependencies of each table, and is specifically designed to enforce
@@ -141,7 +161,7 @@ class JoinTables extends \ArrayObject
         // log_link_visit_action, log_action, log_visit, log_conversion, log_conversion_item
         // which means if an array is supplied where log_visit comes before log_link_visitAction, it will
         // be moved to after it.
-        static $implicitTableDependencies = [
+        $implicitTableDependencies = [
             'log_link_visit_action' => [
                 // empty
             ],
@@ -168,27 +188,18 @@ class JoinTables extends \ArrayObject
             ],
         ];
 
-        $dependencies = [];
-        foreach ($tables as $key => &$fromInfo) {
-            if (is_string($fromInfo)) {
-                if (isset($implicitTableDependencies[$fromInfo])) {
-                    $dependencies[$key] = array_filter($implicitTableDependencies[$fromInfo], function ($table) use ($tables) {
-                        return $this->isInTableArray($tables, $table);
-                    });
-                }
+        $result = [];
+        if (isset($implicitTableDependencies[$table])) {
+            $result = $implicitTableDependencies[$table];
 
-                continue;
-            }
-
-            $table = isset($fromInfo['tableAlias']) ? $fromInfo['tableAlias'] : $fromInfo['table'];
-            if (empty($fromInfo['joinOn'])) {
-                continue;
-            }
-
-            $tablesInExpr = $this->parseSqlTables($fromInfo['joinOn'], $table);
-            $dependencies[$key] = $tablesInExpr;
+            // only include dependencies that are in the list of requested tables (ie, if we want to
+            // query from log_conversion joining on log_link_visit_action, we don't want to add log_visit
+            // to the sql statement)
+            $result = array_filter($result, function ($table) use ($allTablesToQuery) {
+                return $this->isInTableArray($allTablesToQuery, $table);
+            });
         }
-        return $dependencies;
+        return $result;
     }
 
     private function isInTableArray($tables, $table)
@@ -236,30 +247,30 @@ class JoinTables extends \ArrayObject
 
     private function visitTableListDfsSingle($tables, $dependencies, $visitor, $tableToVisitIndex, &$visited)
     {
-        if ($tableToVisitIndex === null) {
-            $tableToVisitIndex = 0;
-        }
-
         $visited[$tableToVisitIndex] = true;
         $tableToVisit = $tables[$tableToVisitIndex];
 
         if (!empty($dependencies[$tableToVisitIndex])) {
             foreach ($dependencies[$tableToVisitIndex] as $dependencyTableName) {
-                $dependentTableToVisit = $this->findTableInfo($tables, $dependencyTableName);
-                if ($dependentTableToVisit === null) {
+                $dependentTableToVisit = $this->findTableIndex($tables, $dependencyTableName);
+                if ($dependentTableToVisit === null) { // sanity check, in case the dependent table is not in the list of tables to query
                     continue;
                 }
 
-                if (empty($visited[$dependentTableToVisit])) {
-                    $this->visitTableListDfsSingle($tables, $dependencies, $visitor, $dependentTableToVisit, $visited);
+                if (!empty($visited[$dependentTableToVisit])) { // skip if already visited
+                    continue;
                 }
+
+                // visit dependent table...
+                $this->visitTableListDfsSingle($tables, $dependencies, $visitor, $dependentTableToVisit, $visited);
             }
         }
 
+        // ...then visit current table
         $visitor($tableToVisit);
     }
 
-    private function findTableInfo($tables, $dependencyTableName)
+    private function findTableIndex($tables, $tableToSearchFor)
     {
         foreach ($tables as $key => $info) {
             $tableName = null;
@@ -269,7 +280,7 @@ class JoinTables extends \ArrayObject
                 $tableName = isset($info['tableAlias']) ? $info['tableAlias'] : $info['table'];
             }
 
-            if ($tableName == $dependencyTableName) {
+            if ($tableName == $tableToSearchFor) {
                 return $key;
             }
         }
