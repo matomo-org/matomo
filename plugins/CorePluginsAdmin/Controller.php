@@ -186,7 +186,8 @@ class Controller extends Plugin\ControllerAdmin
             $tagManagerTeaser->disableForUser();
         }
 
-        $this->redirectToIndex('CoreHome', 'index');
+        $date = Common::getRequestVar('date', false);
+        $this->redirectToIndex('CoreHome', 'index', $websiteId = null, $defaultPeriod = null, $date);
     }
 
     private function dieIfPluginsAdminIsDisabled()
