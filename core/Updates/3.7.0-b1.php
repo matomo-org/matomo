@@ -9,7 +9,6 @@
 
 namespace Piwik\Updates;
 
-use Piwik\Plugins\ScheduledReports\Model;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -29,8 +28,8 @@ class Updates_3_7_0_b1 extends PiwikUpdates
     public function getMigrations(Updater $updater)
     {
         return [
-            $this->migration->db->addColumn(Model::$rawPrefix, 'evolution_graph_within_period', 'TINYINT(4) NOT NULL DEFAULT 0'),
-            $this->migration->db->addColumn(Model::$rawPrefix, 'evolution_graph_period_n', 'INT(11) NULL'),
+            $this->migration->db->addColumn('report', 'evolution_graph_within_period', 'TINYINT(4) NOT NULL DEFAULT 0'),
+            $this->migration->db->addColumn('report', 'evolution_graph_period_n', 'INT(11) NULL'),
         ];
     }
 
