@@ -13,7 +13,6 @@
         "LoginPasswordNotCorrect": "Användarnamn & Lösenord är inte korrekta",
         "LostYourPassword": "Glömt ditt lösenord?",
         "ChangeYourPassword": "Ändra ditt lösenord",
-        "MailPasswordChangeBody": "Hej %1$s,\n\nEn begäran om återställning av ditt lösenord togs emot från %2$s. För att bekräfta ändringen av lösenordet, vänligen gå till följande länk:\n\n%3$s\n\nNotering: Genom att ändra ditt lösenord så ändras även token_auth. Du kan ta reda på ditt nya token_auth på sidan för inställningar.\n\nOm du använder din API token_auth i några externa applikationer eller för arkivering kontrollera så att du har uppdaterat din token_auth annars är risken att anrop till API't misslyckas.\n\nNotering: denna länk kommer att sluta fungera efter 24 timmar.\n\nTack för att du använder dig av Matomo!",
         "MailTopicPasswordChange": "Bekräfta byte av lösenord",
         "NewPassword": "Nytt lösenord",
         "NewPasswordRepeat": "Nytt lösenord (upprepa)",

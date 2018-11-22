@@ -60,7 +60,6 @@
         "UpdateSettings": "업데이트 설정",
         "UseCustomLogo": "로고 변경하기",
         "ValidPiwikHostname": "유효한 Matomo 호스트네임",
-        "YouAreOptedIn": "허용된 상태입니다.",
         "YouAreOptedOut": "차단된 상태입니다.",
         "YouMayOptOut": "이 웹사이트에 모은 데이터 수집 및 분석을 피하기 위해, 당신의 컴퓨터에 웹 분석 Cookie 식별 번호를 할당하지 않을 수 있습니다.",
         "YouMayOptOutBis": "차단 Cookie를 활성하려면 다음의 확인란에 체크하세요."

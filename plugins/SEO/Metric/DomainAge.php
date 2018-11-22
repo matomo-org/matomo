@@ -74,16 +74,12 @@ class DomainAge implements MetricsProvider
      */
     private function getAgeArchiveOrg($domain)
     {
-        $data = $this->getUrl('https://wayback.archive.org/web/*/' . urlencode($domain));
-        preg_match('#<a href=\"([^>]*)' . preg_quote($domain) . '/\">([^<]*)<\/a>#', $data, $p);
-        if (!empty($p[2])) {
-            $value = strtotime($p[2]);
-            if ($value === false) {
-                return 0;
-            }
-            return $value;
+        $response = $this->getUrl('https://archive.org/wayback/available?timestamp=19900101&url=' . urlencode($domain));
+        $data = json_decode($response, true);
+        if (empty($data["archived_snapshots"]["closest"]["timestamp"])) {
+            return 0;
         }
-        return 0;
+        return strtotime($data["archived_snapshots"]["closest"]["timestamp"]);
     }
 
     /**

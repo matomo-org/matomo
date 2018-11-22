@@ -764,6 +764,7 @@
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/event.png</icon>
 				
+				<eventValue>0</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>

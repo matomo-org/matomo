@@ -85,6 +85,10 @@ class TwoVisitsWithContents extends Fixture
 
         $this->moveTimeForward($vis, 4.5);
         self::checkResponse($vis->doTrackContentImpression('Video Ad', 'movie.mov'));
+
+        $vis->setUrl('http://www.example.com/de/suche?q=foo');
+        $this->moveTimeForward($vis, 4.5);
+        self::checkResponse($vis->doTrackContentImpression('Video Ad', 'movie.mov'));
     }
 
     public function tearDown()

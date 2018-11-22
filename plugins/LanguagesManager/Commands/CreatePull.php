@@ -214,7 +214,7 @@ class CreatePull extends TranslationBase
             switch ($returnCode) {
                 case 401:
                     $output->writeln("Pull request failed. Bad credentials... Please try again");
-                    continue;
+                    continue 2;
 
                 case 422:
                     $output->writeln("Pull request failed. Unprocessable Entity. Maybe a pull request was already created before.");

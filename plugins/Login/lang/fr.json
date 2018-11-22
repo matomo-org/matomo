@@ -13,7 +13,6 @@
         "LoginPasswordNotCorrect": "Mot de passe et nom d'utilisateur incorrects.",
         "LostYourPassword": "Mot de passe perdu ?",
         "ChangeYourPassword": "Changer de mot de passe",
-        "MailPasswordChangeBody": "Bonjour %1$s,\n\nUne demande de réinitialisation de mot de passe a été reçue depuis %2$s. Pour confirmer le changement de mot de passe afin de pouvoir vous authentifier avec vos nouveaux identifiants, cliquez sur le lien suivant :\n\n%3$s\n\nAttention: modifier le mot de passe va aussi changer votre token_auth. vous pourrez obtenir votre nouveau token_auth sur votre page de paramètres.\n\nSi vous utilisez votre token_auth d'API avec n'importe quelle application externe ou pour de l'archivage, assurez-vous de mettre à jour le token_auth ou bien les requêtes vers l'API vont échouer.\n\nNote : ce jeton expirera dans 24 heures.\n\nMerci d'utiliser Matomo !",
         "MailTopicPasswordChange": "Confirmer le changement de mot de passe",
         "NewPassword": "Nouveau mot de passe",
         "NewPasswordRepeat": "Nouveau mot de passe (à nouveau)",

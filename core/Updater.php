@@ -15,6 +15,7 @@ use Piwik\Updater\Migration\Db\Sql;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Updater\UpdateObserver;
 use Zend_Db_Exception;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 
 /**
  * Load and execute all relevant, incremental update scripts for Piwik core and plugins, and bump the component version numbers for completed updates.
@@ -482,6 +483,7 @@ class Updater
         }
 
         Filesystem::deleteAllCacheOnUpdate();
+        ServerFilesGenerator::createHtAccessFiles();
 
         $result = array(
             'warnings'  => $warnings,

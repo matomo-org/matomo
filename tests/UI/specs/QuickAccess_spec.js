@@ -38,7 +38,7 @@ describe("QuickAccess", function () {
 
     it("should search for something and update view", function (done) {
         capture('search_1', done, function (page) {
-            enterSearchTerm(page, 'b');
+            enterSearchTerm(page, 's');
         });
     });
 
@@ -50,7 +50,7 @@ describe("QuickAccess", function () {
 
     it("should show message if no results", function (done) {
         capture('search_no_result', done, function (page) {
-            enterSearchTerm(page, 'x');
+            enterSearchTerm(page, 'alaskdjfs');
         });
     });
 

@@ -317,6 +317,15 @@ class APITest extends IntegrationTestCase
         $this->assertSame($userBefore['ts_password_modified'], $user['ts_password_modified']);
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ExceptionInvalidPasswordTooLong
+     */
+    public function test_updateUser_failsIfPasswordTooLong()
+    {
+        $this->api->updateUser($this->login, str_pad('foo', UsersManager::PASSWORD_MAX_LENGTH + 1), 'email@example.com', 'newAlias');
+    }
+
     public function test_getSitesAccessFromUser_forSuperUser()
     {
         $user2 = 'userLogin2';

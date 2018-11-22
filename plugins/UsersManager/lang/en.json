@@ -35,6 +35,7 @@
         "ExceptionInvalidEmail": "The email doesn't have a valid format.",
         "ExceptionInvalidLoginFormat": "The username must be between %1$s and %2$s characters long and contain only letters, numbers, or the characters '_' or '-' or '.' or '@' or '+'",
         "ExceptionInvalidPassword": "The password length must be greater than %1$s characters.",
+        "ExceptionInvalidPasswordTooLong": "The password length must be less than %1$s characters.",
         "ExceptionLoginExists": "Username '%s' already exists.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth is expecting a MD5-hashed password (32 chars long string). Please call the md5() function on the password before calling this method.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Removing the Super User access from user '%s' is not possible.",
