@@ -177,7 +177,7 @@ class PluginsArchiver
                         $this->params->getSegment() ? sprintf("(for segment = '%s')", $this->params->getSegment()->getString()) : ''
                     );
                 } catch (Exception $e) {
-                    throw new PluginsArchiverException($e->getMessage() . " - caused by plugin $pluginName", $e->getCode(), $e);
+                    throw new PluginsArchiverException($e->getMessage() . " - in plugin $pluginName", $e->getCode(), $e);
                 }
             } else {
                 Log::debug("PluginsArchiver::%s: Not archiving reports for plugin '%s'.", __FUNCTION__, $pluginName);
