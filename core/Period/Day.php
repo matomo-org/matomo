@@ -84,7 +84,7 @@ class Day extends Period
      * Returns the day of the period in the given format
      *
      * @param string $format
-     * @return array|string
+     * @return string
      */
     public function toString($format = "Y-m-d")
     {
