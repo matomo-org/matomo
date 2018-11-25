@@ -264,7 +264,7 @@ abstract class Period
      * Returns a list of strings representing the current period.
      *
      * @param string $format The format of each individual day.
-     * @return array An array of string dates that this period consists of.
+     * @return array|string An array of string dates that this period consists of.
      */
     public function toString($format = "Y-m-d")
     {
@@ -273,7 +273,9 @@ abstract class Period
         $dateString = array();
         foreach ($this->subperiods as $period) {
             $childPeriodStr = $period->toString($format);
-            $childPeriodStr = implode(",", $childPeriodStr);
+            if (is_array($childPeriodStr)) {
+                $childPeriodStr = implode(",", $childPeriodStr);
+            }
 
             $dateString[] = $childPeriodStr;
         }

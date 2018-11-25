@@ -102,8 +102,8 @@ class PeriodTest extends \PHPUnit_Framework_TestCase
     public function getTestDataForToString()
     {
         return [
-            ['day', '2012-02-03', 'Y-m-d', ['2012-02-03']],
-            ['day', '2012-02-03', 'Y_m', ['2012_02']],
+            ['day', '2012-02-03', 'Y-m-d', '2012-02-03'],
+            ['day', '2012-02-03', 'Y_m', '2012_02'],
 
             ['week', '2012-02-04', 'Y-m-d', [
                 '2012-01-30',
