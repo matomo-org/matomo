@@ -48,7 +48,7 @@
         vm.userToChange = null;
         vm.roleToChangeTo = null;
         vm.previousRole = null;
-        vm.accessLevelFilter = '';
+        vm.accessLevelFilter = null;
 
         // other state
         vm.isRoleHelpToggled = false;

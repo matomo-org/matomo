@@ -287,5 +287,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_AreYouSureChangePassword';
         $translationKeys[] = 'General_Note';
         $translationKeys[] = 'UsersManager_AnonymousUserRoleChangeWarning';
+        $translationKeys[] = 'UsersManager_FilterByWebsite';
     }
 }

@@ -34,7 +34,13 @@
             </div>
 
             <div class="input-field site-filter">
-                <input type="text" placeholder="Filter by website" ng-model="$ctrl.siteNameFilter" ng-model-options="{debounce: 300}" ng-change="$ctrl.offset = 0; $ctrl.fetchAccess()" />
+                <input
+                    type="text"
+                    placeholder="{{:: 'UsersManager_FilterByWebsite'|translate }}"
+                    ng-model="$ctrl.siteNameFilter"
+                    ng-model-options="{debounce: 300}"
+                    ng-change="$ctrl.offset = 0; $ctrl.fetchAccess()"
+                />
             </div>
 
             <div class="input-field access-filter">

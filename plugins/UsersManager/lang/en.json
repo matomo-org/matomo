@@ -125,6 +125,8 @@
         "DeleteUsers": "Delete Users",
         "UserSearch": "User search",
         "FilterByAccess": "Filter by access",
+        "FilterByWebsite": "Filter by website",
+        "ShowAll": "Show all",
         "Username": "Username",
         "RoleFor": "Role for",
         "TheDisplayedUsersAreSelected": "The %1$s displayed users are selected.",
