@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<name>Real Time Visitor Count</name>
+		<category>
+			<id>General_Visitors</id>
+			<name>Visitors</name>
+			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
+		</category>
+		<subcategory />
+		<module>Live</module>
+		<action>getSimpleLastVisitCount</action>
+		<order>15</order>
+		<parameters>
+			<module>Live</module>
+			<action>getSimpleLastVisitCount</action>
+		</parameters>
+		<uniqueId>widgetLivegetSimpleLastVisitCount</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>table</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
 		<name>Visitor profile</name>
 		<category>
 			<id>General_Visitors</id>
@@ -3346,27 +3367,6 @@
 		</parameters>
 		<uniqueId>widgetInstallationgetSystemCheck</uniqueId>
 		<isWide>0</isWide>
-	</row>
-	<row>
-		<name>Real Time Visitor Count</name>
-		<category>
-			<id>General_Profiles</id>
-			<name>Profiles</name>
-			<order>99</order>
-			<icon />
-		</category>
-		<subcategory />
-		<module>Live</module>
-		<action>getSimpleLastVisitCount</action>
-		<order>15</order>
-		<parameters>
-			<module>Live</module>
-			<action>getSimpleLastVisitCount</action>
-		</parameters>
-		<uniqueId>widgetLivegetSimpleLastVisitCount</uniqueId>
-		<isWide>0</isWide>
-		<viewDataTable>table</viewDataTable>
-		<isReport>1</isReport>
 	</row>
 	<row>
 		<name>Latest Marketplace Updates</name>
