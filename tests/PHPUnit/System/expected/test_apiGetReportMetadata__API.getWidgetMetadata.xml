@@ -1560,7 +1560,7 @@
 		</category>
 		<subcategory>
 			<id>Referrers_WidgetGetAll</id>
-			<name>All Referrers</name>
+			<name>All Channels</name>
 			<order>5</order>
 		</subcategory>
 		<module>Referrers</module>
@@ -1576,7 +1576,7 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
-		<name>Referrer Types</name>
+		<name>Channel Types</name>
 		<category>
 			<id>Referrers_Referrers</id>
 			<name>Acquisition</name>
@@ -1585,7 +1585,7 @@
 		</category>
 		<subcategory>
 			<id>Referrers_WidgetGetAll</id>
-			<name>All Referrers</name>
+			<name>All Channels</name>
 			<order>5</order>
 		</subcategory>
 		<module>Referrers</module>
@@ -2246,7 +2246,7 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
-		<name>Sales by Referrers: Referrer Type</name>
+		<name>Sales by Referrers: Channel Type</name>
 		<category>
 			<id>Goals_Ecommerce</id>
 			<name>Ecommerce</name>
