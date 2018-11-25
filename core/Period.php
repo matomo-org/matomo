@@ -272,7 +272,10 @@ abstract class Period
 
         $dateString = array();
         foreach ($this->subperiods as $period) {
-            $dateString[] = $period->toString($format);
+            $childPeriodStr = $period->toString($format);
+            $childPeriodStr = implode(",", $childPeriodStr);
+
+            $dateString[] = $childPeriodStr;
         }
 
         return $dateString;

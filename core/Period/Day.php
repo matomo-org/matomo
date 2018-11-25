@@ -84,21 +84,11 @@ class Day extends Period
      * Returns the day of the period in the given format
      *
      * @param string $format
-     * @return string
+     * @return array
      */
     public function toString($format = "Y-m-d")
     {
-        return $this->date->toString($format);
-    }
-
-    /**
-     * Returns the current period as a string
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->toString();
+        return [$this->date->toString($format)];
     }
 
     public function getImmediateChildPeriodLabel()
