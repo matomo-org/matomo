@@ -91,6 +91,7 @@
         "XManagement": "Διαχείριση του %s",
         "ChooseMeasurableTypeHeadline": "Τι θέλετε να μετρήσετε;",
         "YouCurrentlyHaveAccessToNWebsites": "Έχετε πρόσβαση σε %s ιστοσελίδες.",
-        "YourCurrentIpAddressIs": "Η τρέχουσα διεύθυνση IP είναι %s"
+        "YourCurrentIpAddressIs": "Η τρέχουσα διεύθυνση IP είναι %s",
+        "DeleteSiteExplanation": "Η διαγραφή ενός ιστοτόπου θα διαγράψει όλα τα δεδομένα που έχουν συλλεχθεί για αυτόν. Η ενέργεια είναι μόνιμη και δεν είναι αναστρέψιμη."
     }
 }

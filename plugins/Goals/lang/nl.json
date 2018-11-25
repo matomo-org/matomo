@@ -43,7 +43,6 @@
         "DaysToConv": "Dagen tot conversie",
         "Details": "Details doelstelling",
         "DefaultGoalConvertedOncePerVisit": "(standaard) De conversie van een doel is slechts éénmaal per bezoek mogelijk",
-        "DefaultRevenue": "Doelstelling standaard omzet is",
         "DefaultRevenueHelp": "Bijvoorbeeld, een contactformulier dat is verzonden door een bezoeker kan gemiddeld €10,- waard zijn. Met de doelconversies zal Matomo u helpen begrijpen hoe goed de onderdelen van uw website presteren.",
         "DeleteGoalConfirm": "Weet u zeker dat u de doelstelling %s wilt verwijderen?",
         "DocumentationRevenueGeneratedByProductSales": "Verkoop van producten. Exclusief belasting, verzendkosten en korting",

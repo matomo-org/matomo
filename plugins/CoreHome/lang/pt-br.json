@@ -25,6 +25,9 @@
         "ExcludeRowsWithLowPopulation": "Todas as linhas são mostradas %s Excluir população de baixa.",
         "ExternalHelp": "Ajuda (abre em uma nova aba)",
         "FlattenDataTable": "O relatório é hierárquico %s Tornar plano",
+        "FormatMetrics": "Métricas de formato",
+        "ShowExportUrl": "Mostrar a URL de exportação",
+        "HideExportUrl": "Esconder a URL de exportação",
         "HomeShortcut": "Início",
         "HowMuchIsPiwikWorth": "Quanto é que o Matomo vale para você?",
         "IncludeRowsWithLowPopulation": "Linhas com poucos dados estão ocultas %s Mostrar todas as linhas",
@@ -98,6 +101,7 @@
         "ExpandSubtables": "Expandir sub tabelas",
         "StandardReport": "Relatório padrão",
         "FlattenReport": "Achatar relatório",
-        "ReportWithMetadata": "Relatório com metadados"
+        "ReportWithMetadata": "Relatório com metadados",
+        "SeeAvailableVersions": "Veja Versões Disponíveis"
     }
 }

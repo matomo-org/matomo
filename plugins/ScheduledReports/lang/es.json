@@ -46,6 +46,15 @@
         "TopLinkTooltip": "Cree informes por medio del correo electrónico para obtener las estadísticas de Matomo enviadas a su correo electrónico o las de sus clientes automáticamente!",
         "TopOfReport": "Volver arriba",
         "UpdateReport": "Actualizar Informe",
-        "WeeklyScheduleHelp": "Envío semanal: los informes serán enviados el primer lunes de cada semana."
+        "WeeklyScheduleHelp": "Envío semanal: los informes serán enviados el primer lunes de cada semana.",
+        "Unsubscribe": "Desuscribirse",
+        "ReportUnsubscribe": "Desuscribirse del informe",
+        "UnsubscribeReportConfirmation": "¿Está seguro que le gustaría desuscribirse de este informe %1$s?",
+        "SuccessfullyUnsubscribed": "Se ha desuscripto exitosamente de este informe %1$s.",
+        "UnsubscribeFooter": "Para desuscribirse de este informe por favor siga este enlace: %1$s",
+        "NoTokenProvided": "No se proporcionó ningún token en la URL",
+        "NoSubscriptionFound": "No se ha encontrado ninguna suscripción. Tal vez el informe ya estaba cancelado o eliminado.",
+        "EvolutionGraphsShowForEachInPeriod": "Gráficos de evolución muestran la evolución de %1$scada día%2$s en el último %3$s",
+        "EvolutionGraphsShowForPreviousN": "Los gráficos de evolución muestra la evolución sobre los anteriores N %s"
     }
 }

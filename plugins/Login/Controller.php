@@ -165,8 +165,8 @@ class Controller extends \Piwik\Plugin\Controller
 
         $currentUrl = 'index.php';
 
-        if (($idSite = Common::getRequestVar('idSite', false, 'int')) !== false) {
-            $currentUrl .= '?idSite=' . $idSite;
+        if ($this->idSite) {
+            $currentUrl .= '?idSite=' . $this->idSite;
         }
 
         $urlToRedirect = Common::getRequestVar('url', $currentUrl, 'string');

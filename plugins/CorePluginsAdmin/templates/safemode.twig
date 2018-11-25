@@ -34,9 +34,9 @@
             <p>
                 The following error just broke Matomo{% if showVersion %} (v{{ piwikVersion }}){% endif %}:
             </p>
-            <pre>{{ lastError.message }}</pre>
-            <p>in</p>
-            <pre>{{ lastError.file }} line {{ lastError.line }}</pre>
+            <pre>{{ lastError.message }}
+{% if lastError.backtrace is defined %}{{ lastError.backtrace }}{% else %}in {{ lastError.file }} line {{ lastError.line }}{% endif %}
+            </pre>
 
             <hr>
             <h3>Troubleshooting</h3>

@@ -43,7 +43,6 @@
         "DaysToConv": "Dagar till omvandling",
         "Details": "Måldetaljer",
         "DefaultGoalConvertedOncePerVisit": "(standard) Mål kan endast omvandlas en gång per besök",
-        "DefaultRevenue": "Standardintäkt för mål",
         "DefaultRevenueHelp": "Ett fullständigt ifyllt kontaktformulär av en besökare kan t.ex. vara värt 100kr i genomsnitt. Matomo hjälper dig att förstå hur dina besökarsegment lever upp till dina mål.",
         "DeleteGoalConfirm": "Är du säker på att du vill ta bort Målet %s?",
         "DocumentationRevenueGeneratedByProductSales": "Produktförsäljning. Exklusive moms, frakt och rabatter.",

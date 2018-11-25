@@ -35,6 +35,7 @@
         "ExceptionInvalidEmail": "O e-mail não tem um formato válido.",
         "ExceptionInvalidLoginFormat": "O utilizador deve ter entre %1$s e %2$s carateres e conter apenas letras, números ou os carateres '_' ou '-' ou '.' ou '@' ou '+'",
         "ExceptionInvalidPassword": "O tamanho da palavra-passe tem de ser maior do que %1$s carateres.",
+        "ExceptionInvalidPasswordTooLong": "A palavra-passe não deve ultrapassar os %1$s caracteres.",
         "ExceptionLoginExists": "O nome de utilizador '%s' já existe.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth espera uma palavra-passe codificada em MD5 (cadeia de 32 carateres). Por favor invoque a função md5() sob a palavra-passe antes de invocar este método.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "A remoção do acesso de super-utilizador do utilizador '%s' não é possível.",
@@ -136,6 +137,7 @@
         "DeleteUserConfirmMultiple": "Tem a certeza que deseja eliminar os %1$s utilizadores selecionados?",
         "DeleteUserPermConfirmSingle": "Tem a certeza que pretende alterar o papel de %1$s para %2$s para %3$s?",
         "DeleteUserPermConfirmMultiple": "Tem a certeza que pretende alterar o papel dos %1$s utilizadores selecionados para %2$s para %3$s?",
-        "AreYouSureChangePassword": "Tem a certeza que deseja alterar a palavra-passe para %s?"
+        "AreYouSureChangePassword": "Tem a certeza que deseja alterar a palavra-passe para %s?",
+        "AnonymousUserRoleChangeWarning": "Atribuir ao utilizador %1$s o papel de %2$s irá tornar público e disponibilizar para todos os dados deste site, mesmo que não tenham uma conta no Matomo."
     }
 }

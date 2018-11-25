@@ -35,6 +35,7 @@
         "ExceptionInvalidEmail": "Die E-Mail-Adresse hat ein ungültiges Format.",
         "ExceptionInvalidLoginFormat": "Der Benutzername muss zwischen %1$s und %2$s Zeichen lang sein und darf nur Buchstaben, Zahlen oder die Zeichen '_', '-', '.', '@' oder '+' enthalten.",
         "ExceptionInvalidPassword": "Das Passwort muss mindestens %1$s Zeichen lang sein.",
+        "ExceptionInvalidPasswordTooLong": "Die Passwortlänge muss aus weniger als %1$s Zeichen bestehen.",
         "ExceptionLoginExists": "Der Benutzername '%s' existiert bereits.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth erwartet ein MD5-verschlüsseltes Passwort (32 Zeichen). Bitte wenden Sie die md5()-Funktion auf das Passwort an, bevor Sie diese Methode aufrufen.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Es ist nicht möglich die Hauptadministrator-Berechtigung von Benutzer '%s' zu entfernen.",
@@ -135,6 +136,8 @@
         "DeleteUserConfirmSingle": "Sind Sie sicher, dass Sie %1$s löschen wollen?",
         "DeleteUserConfirmMultiple": "Sind Sie sicher, dass Sie die %1$s gewählten Benutzer löschen wollen?",
         "DeleteUserPermConfirmSingle": "Sind Sie sicher, dass Sie %1$s's Rolle nach %2$s für %3$s ändern wollen?",
-        "DeleteUserPermConfirmMultiple": "Sind Sie sicher, dass Sie die Berechtigung der %1$s gewählten Benutzer für %3$s auf %2$s ändern möchten?"
+        "DeleteUserPermConfirmMultiple": "Sind Sie sicher, dass Sie die Berechtigung der %1$s gewählten Benutzer für %3$s auf %2$s ändern möchten?",
+        "AreYouSureChangePassword": "Sind Sie sicher dass Sie das Passwort für %s ändern möchten?",
+        "AnonymousUserRoleChangeWarning": "Dem Benutzer %1$s die Rolle %2$s zu geben wird die Daten dieser Website für alle öffentlich sichtbar machen, auch wenn diese kein Matomo Login haben."
     }
 }

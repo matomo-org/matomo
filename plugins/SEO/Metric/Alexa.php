@@ -17,8 +17,8 @@ use Psr\Log\LoggerInterface;
  */
 class Alexa implements MetricsProvider
 {
-    const URL = 'http://data.alexa.com/data?cli=10&url=';
-    const LINK = 'http://www.alexa.com/siteinfo/';
+    const URL = 'https://data.alexa.com/data?cli=10&url=';
+    const LINK = 'https://www.alexa.com/siteinfo/';
 
     /**
      * @var LoggerInterface
