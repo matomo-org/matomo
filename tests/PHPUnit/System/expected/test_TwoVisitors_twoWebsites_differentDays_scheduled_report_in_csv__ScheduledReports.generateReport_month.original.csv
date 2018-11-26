@@ -317,13 +317,13 @@ No data available
 Content Piece
 No data available
 
-Referrer Type
+Channel Type
 label,nb_visits,nb_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate,revenue
 Websites,6,22,3.7,00:10:01,33%,$ 0
 Campaigns,4,20,5,00:15:01,0%,$ 0
 Direct Entry,1,1,1,00:00:00,100%,$ 0
 
-All Referrers
+All Channels
 label,nb_visits,nb_actions,conversion_rate,nb_actions_per_visit,avg_time_on_site,bounce_rate
 referrer.com,6,22,0%,3.7,00:10:01,33%
 goal-matching-url-parameter,4,20,0%,5,00:15:01,0%
