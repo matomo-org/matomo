@@ -18,7 +18,7 @@ class DbMaxPacket implements Diagnostic
      */
     private $translator;
 
-    const MIN_VALUE_MAX_PACKET_MB = 32;
+    const MIN_VALUE_MAX_PACKET_MB = 64;
 
     public function __construct(Translator $translator)
     {
@@ -42,7 +42,7 @@ class DbMaxPacket implements Diagnostic
             $status = DiagnosticResult::STATUS_WARNING;
             $pretty = MetricsFormatter::getPrettySizeFromBytes($maxPacketBytes['Value'], 'M');
             $configured = str_replace(array(' M', '&nbsp;M'), 'MB', $pretty);
-            $comment = Piwik::translate('Diagnostics_MysqlMaxPacketSizeWarning', array('32MB', $configured));
+            $comment = Piwik::translate('Diagnostics_MysqlMaxPacketSizeWarning', array('64MB', $configured));
         }
 
         return array(DiagnosticResult::singleResult($label, $status, $comment));
