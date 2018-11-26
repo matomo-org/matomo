@@ -111,7 +111,7 @@
 
         name: actionName,
 
-        dataTableIcon: 'icon-visitor-profile',
+        dataTableIcon: 'icon-segmented-visits-log',
 
         order: 30,
 

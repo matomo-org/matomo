@@ -35,6 +35,7 @@
         "ExceptionInvalidEmail": "E-posta biçimi geçersiz.",
         "ExceptionInvalidLoginFormat": "Kullanıcı adı %1$s ile %2$s karakter arasında olmalı ve yalnız harf, rakam ve '_ - . @ +' karakterlerini içermelidir.",
         "ExceptionInvalidPassword": "Parola %1$s karakterden uzun olmalıdır.",
+        "ExceptionInvalidPasswordTooLong": "Parola %1$s karakterden kısa olmalıdır.",
         "ExceptionLoginExists": "%s",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth işlevi MD5 karmalı bir parola bekliyor (32 karakter uzunluğunda bir dizge). Bu işlevi çağırmadan önce parola üzerinde md5() işlevini çağırın.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "'%s' kullanıcısından Süper Kullanıcı izinleri kaldırılamaz.",

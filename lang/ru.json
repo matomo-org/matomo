@@ -477,6 +477,7 @@
         "LoginCredentials": "Полномочия",
         "LoginToPiwikToChangeSettings": "Войдите на сервер Matomo для создания и изменения веб-сайтов, пользователей или изменения общих параметров, таких как \"Отчёт по умолчанию\".",
         "LoginUseHttps": "Использовать https",
+        "MatomoMobile": "Мобильное приложение Matomo",
         "MultiChartLabel": "Отображать тонкие графики (нити)",
         "NavigationBack": "Назад",
         "NetworkError": "Ошибка сети",
