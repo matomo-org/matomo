@@ -95,7 +95,7 @@
 				<avg_time_generation>0.173</avg_time_generation>
 			</row>
 			<row>
-				<label />
+				<label>Page Name not defined</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>1</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
@@ -189,7 +189,7 @@
 		<result date="2009-12-28,2010-01-03" />
 		<result date="2010-01-04,2010-01-10">
 			<row>
-				<label />
+				<label>Page Name not defined</label>
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
