@@ -1244,6 +1244,34 @@
 		</widgets>
 	</row>
 	<row>
+		<uniqueId>Referrers_Referrers.Referrers_URLCampaignBuilder</uniqueId>
+		<category>
+			<id>Referrers_Referrers</id>
+			<name>Acquisition</name>
+			<order>15</order>
+			<icon>icon-reporting-referer</icon>
+		</category>
+		<subcategory>
+			<id>Referrers_URLCampaignBuilder</id>
+			<name>Campaign URL Builder</name>
+			<order>21</order>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>Campaign URL Builder</name>
+				<module>Referrers</module>
+				<action>getCampaignUrlBuilder</action>
+				<order>99</order>
+				<parameters>
+					<module>Referrers</module>
+					<action>getCampaignUrlBuilder</action>
+				</parameters>
+				<uniqueId>widgetReferrersgetCampaignUrlBuilder</uniqueId>
+				<isWide>0</isWide>
+			</row>
+		</widgets>
+	</row>
+	<row>
 		<uniqueId>Referrers_Referrers.Referrers_Campaigns</uniqueId>
 		<category>
 			<id>Referrers_Referrers</id>
