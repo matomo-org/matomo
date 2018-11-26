@@ -22,6 +22,7 @@ use Piwik\Http;
 use Piwik\Log;
 use Piwik\NoAccessException;
 use Piwik\Piwik;
+use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
@@ -86,10 +87,14 @@ class API extends \Piwik\Plugin\API
      * @param array $reports array of reports
      * @param array $parameters array of parameters
      * @param bool|int $idSegment Segment Identifier
+     * @param string $evolutionPeriodFor If set to 'each', the evolution graphs cover each day within the period. If set to 'prev',
+     *                                   evolution graphs cover the previous N periods.
+     * @param int|null $evolutionPeriodN The previous N periods to query in evolution graphs if $evolutionPeriodFor is 'each'.
      *
      * @return int idReport generated
      */
-    public function addReport($idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters, $idSegment = false)
+    public function addReport($idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters, $idSegment = false, $evolutionPeriodFor = 'prev',
+                              $evolutionPeriodN = null)
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
@@ -97,7 +102,7 @@ class API extends \Piwik\Plugin\API
         $currentUser = Piwik::getCurrentUserLogin();
         self::ensureLanguageSetForUser($currentUser);
 
-        self::validateCommonReportAttributes($period, $hour, $description, $idSegment, $reportType, $reportFormat);
+        self::validateCommonReportAttributes($period, $hour, $description, $idSegment, $reportType, $reportFormat, $evolutionPeriodFor, $evolutionPeriodN);
 
         // report parameters validations
         $parameters = self::validateReportParameters($reportType, $parameters);
@@ -118,6 +123,8 @@ class API extends \Piwik\Plugin\API
              'reports'     => $reports,
              'ts_created'  => Date::now()->getDatetime(),
              'deleted'     => 0,
+             'evolution_graph_within_period' => $evolutionPeriodFor == 'each',
+             'evolution_graph_period_n' => $evolutionPeriodN ?: ImageGraph::getDefaultGraphEvolutionLastPeriods(),
         ));
 
         return $idReport;
@@ -142,7 +149,8 @@ class API extends \Piwik\Plugin\API
      *
      * @see addReport()
      */
-    public function updateReport($idReport, $idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters, $idSegment = false)
+    public function updateReport($idReport, $idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters, $idSegment = false, $evolutionPeriodFor = 'prev',
+                                 $evolutionPeriodN = null)
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
@@ -154,7 +162,7 @@ class API extends \Piwik\Plugin\API
         $currentUser = Piwik::getCurrentUserLogin();
         self::ensureLanguageSetForUser($currentUser);
 
-        self::validateCommonReportAttributes($period, $hour, $description, $idSegment, $reportType, $reportFormat);
+        self::validateCommonReportAttributes($period, $hour, $description, $idSegment, $reportType, $reportFormat, $evolutionPeriodFor, $evolutionPeriodN);
 
         // report parameters validations
         $parameters = self::validateReportParameters($reportType, $parameters);
@@ -171,6 +179,8 @@ class API extends \Piwik\Plugin\API
             'format'      => $reportFormat,
             'parameters'  => $parameters,
             'reports'     => $reports,
+            'evolution_graph_within_period' => $evolutionPeriodFor == 'each',
+            'evolution_graph_period_n' => $evolutionPeriodN ?: ImageGraph::getDefaultGraphEvolutionLastPeriods(),
         ));
 
         self::$cache = array();
@@ -268,6 +278,10 @@ class API extends \Piwik\Plugin\API
             if (!empty($report['parameters']['additionalEmails']) && is_array($report['parameters']['additionalEmails'])) {
                 $report['parameters']['additionalEmails'] = array_values($report['parameters']['additionalEmails']);
             }
+
+            if (empty($report['evolution_graph_period_n'])) {
+                $report['evolution_graph_period_n'] = ImageGraph::getDefaultGraphEvolutionLastPeriods();
+            }
         }
 
         // static cache
@@ -329,104 +343,114 @@ class API extends \Piwik\Plugin\API
             true
         );
 
-        // available reports
-        $availableReportMetadata = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
+        $originalShowEvolutionWithinSelectedPeriod = Config::getInstance()->General['graphs_show_evolution_within_selected_period'];
+        $originalDefaultEvolutionGraphLastPeriodsAmount = Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'];
+        try {
+            Config::setSetting('General', 'graphs_show_evolution_within_selected_period', (bool)$report['evolution_graph_within_period']);
+            Config::setSetting('General', 'graphs_default_evolution_graph_last_days_amount', $report['evolution_graph_period_n']);
 
-        // we need to lookup which reports metadata are registered in this report
-        $reportMetadata = array();
-        foreach ($availableReportMetadata as $metadata) {
-            if (in_array($metadata['uniqueId'], $report['reports'])) {
-                $reportMetadata[] = $metadata;
-            }
-        }
+            // available reports
+            $availableReportMetadata = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
 
-        // the report will be rendered with the first 23 rows and will aggregate other rows in a summary row
-        // 23 rows table fits in one portrait page
-        $initialFilterTruncate = Common::getRequestVar('filter_truncate', false);
-        $_GET['filter_truncate'] = Config::getInstance()->General['scheduled_reports_truncate'];
-
-        $prettyDate = null;
-        $processedReports = array();
-        $segment = self::getSegment($report['idsegment']);
-        foreach ($reportMetadata as $action) {
-            $apiModule = $action['module'];
-            $apiAction = $action['action'];
-            $apiParameters = array();
-            if (isset($action['parameters'])) {
-                $apiParameters = $action['parameters'];
-            }
-
-            $mustRestoreGET = false;
-
-            // all Websites dashboard should not be truncated in the report
-            if ($apiModule == 'MultiSites') {
-                $mustRestoreGET = $_GET;
-                $_GET['enhanced'] = true;
-
-                if ($apiAction == 'getAll') {
-                    $_GET['filter_truncate'] = false;
-                    $_GET['filter_limit'] = -1; // show all websites in all websites report
-
-                    // when a view/admin user created a report, workaround the fact that "Super User"
-                    // is enforced in Scheduled tasks, and ensure Multisites.getAll only return the websites that this user can access
-                    $userLogin = $report['login'];
-                    if (!empty($userLogin)
-                        && !Piwik::hasTheUserSuperUserAccess($userLogin)
-                    ) {
-                        $_GET['_restrictSitesToLogin'] = $userLogin;
-                    }
+            // we need to lookup which reports metadata are registered in this report
+            $reportMetadata = array();
+            foreach ($availableReportMetadata as $metadata) {
+                if (in_array($metadata['uniqueId'], $report['reports'])) {
+                    $reportMetadata[] = $metadata;
                 }
             }
 
-            $params = array(
-                'idSite' => $idSite,
-                'period' => $period,
-                'date'   => $date,
-                'apiModule' => $apiModule,
-                'apiAction' => $apiAction,
-                'apiParameters' => $apiParameters,
-                'flat'   => 1,
-                'idGoal' => false,
-                'language' => $language,
-                'serialize' => 0,
-                'format' => 'original'
-            );
+            // the report will be rendered with the first 23 rows and will aggregate other rows in a summary row
+            // 23 rows table fits in one portrait page
+            $initialFilterTruncate = Common::getRequestVar('filter_truncate', false);
+            $_GET['filter_truncate'] = Config::getInstance()->General['scheduled_reports_truncate'];
 
-            if ($segment != null) {
-                $params['segment'] = urlencode($segment['definition']);
-            } else {
-                $params['segment'] = false;
+            $prettyDate = null;
+            $processedReports = array();
+            $segment = self::getSegment($report['idsegment']);
+            foreach ($reportMetadata as $action) {
+                $apiModule = $action['module'];
+                $apiAction = $action['action'];
+                $apiParameters = array();
+                if (isset($action['parameters'])) {
+                    $apiParameters = $action['parameters'];
+                }
+
+                $mustRestoreGET = false;
+
+                // all Websites dashboard should not be truncated in the report
+                if ($apiModule == 'MultiSites') {
+                    $mustRestoreGET = $_GET;
+                    $_GET['enhanced'] = true;
+
+                    if ($apiAction == 'getAll') {
+                        $_GET['filter_truncate'] = false;
+                        $_GET['filter_limit'] = -1; // show all websites in all websites report
+
+                        // when a view/admin user created a report, workaround the fact that "Super User"
+                        // is enforced in Scheduled tasks, and ensure Multisites.getAll only return the websites that this user can access
+                        $userLogin = $report['login'];
+                        if (!empty($userLogin)
+                            && !Piwik::hasTheUserSuperUserAccess($userLogin)
+                        ) {
+                            $_GET['_restrictSitesToLogin'] = $userLogin;
+                        }
+                    }
+                }
+
+                $params = array(
+                    'idSite' => $idSite,
+                    'period' => $period,
+                    'date' => $date,
+                    'apiModule' => $apiModule,
+                    'apiAction' => $apiAction,
+                    'apiParameters' => $apiParameters,
+                    'flat' => 1,
+                    'idGoal' => false,
+                    'language' => $language,
+                    'serialize' => 0,
+                    'format' => 'original'
+                );
+
+                if ($segment != null) {
+                    $params['segment'] = urlencode($segment['definition']);
+                } else {
+                    $params['segment'] = false;
+                }
+
+                try {
+                    $processedReport = Request::processRequest('API.getProcessedReport', $params);
+                } catch (\Exception $ex) {
+                    // NOTE: can't use warning or error because the log message will appear in the UI as a notification
+                    $this->logger->info("Error getting '?{report}' when generating scheduled report: {exception}", array(
+                        'report' => Http::buildQuery($params),
+                        'exception' => $ex->getMessage(),
+                    ));
+
+                    $this->logger->debug($ex);
+
+                    continue;
+                }
+
+                $processedReport['segment'] = $segment;
+
+                // TODO add static method getPrettyDate($period, $date) in Period
+                $prettyDate = $processedReport['prettyDate'];
+
+                if ($mustRestoreGET) {
+                    $_GET = $mustRestoreGET;
+                }
+
+                $processedReports[] = $processedReport;
             }
+        } finally {
+            Config::setSetting('General', 'graphs_show_evolution_within_selected_period', $originalShowEvolutionWithinSelectedPeriod);
+            Config::setSetting('General', 'graphs_default_evolution_graph_last_days_amount', $originalDefaultEvolutionGraphLastPeriodsAmount);
 
-            try {
-                $processedReport = Request::processRequest('API.getProcessedReport', $params);
-            } catch (\Exception $ex) {
-                // NOTE: can't use warning or error because the log message will appear in the UI as a notification
-                $this->logger->info("Error getting '?{report}' when generating scheduled report: {exception}", array(
-                    'report' => Http::buildQuery($params),
-                    'exception' => $ex->getMessage(),
-                ));
-
-                $this->logger->debug($ex);
-
-                continue;
+            // restore filter truncate parameter value
+            if ($initialFilterTruncate !== false) {
+                $_GET['filter_truncate'] = $initialFilterTruncate;
             }
-
-            $processedReport['segment'] = $segment;
-
-            // TODO add static method getPrettyDate($period, $date) in Period
-            $prettyDate = $processedReport['prettyDate'];
-
-            if ($mustRestoreGET) {
-                $_GET = $mustRestoreGET;
-            }
-
-            $processedReports[] = $processedReport;
-        }
-
-        // restore filter truncate parameter value
-        if ($initialFilterTruncate !== false) {
-            $_GET['filter_truncate'] = $initialFilterTruncate;
         }
 
         /**
@@ -725,7 +749,7 @@ class API extends \Piwik\Plugin\API
         return json_encode($requestedReports);
     }
 
-    private static function validateCommonReportAttributes($period, $hour, &$description, &$idSegment, $reportType, $reportFormat)
+    private static function validateCommonReportAttributes($period, $hour, &$description, &$idSegment, $reportType, $reportFormat, $evolutionPeriodFor, $evolutionPeriodN)
     {
         self::validateReportPeriod($period);
         self::validateReportHour($hour);
@@ -733,13 +757,14 @@ class API extends \Piwik\Plugin\API
         self::validateIdSegment($idSegment);
         self::validateReportType($reportType);
         self::validateReportFormat($reportType, $reportFormat);
+        self::validateEvolutionPeriod($evolutionPeriodFor, $evolutionPeriodN);
     }
 
     private static function validateReportPeriod($period)
     {
         $availablePeriods = array('day', 'week', 'month', 'never');
         if (!in_array($period, $availablePeriods)) {
-            throw new Exception('Period schedule must be one of the following: ' . implode(', ', $availablePeriods));
+            throw new Exception('Period schedule must be one of the following: ' . implode(', ', $availablePeriods) . ' (got ' . $period . ')');
         }
     }
 
@@ -786,6 +811,23 @@ class API extends \Piwik\Plugin\API
                     array($reportFormat, implode(', ', $reportFormats))
                 )
             );
+        }
+    }
+
+    private static function validateEvolutionPeriod($evolutionPeriodFor, $evolutionPeriodN)
+    {
+        if ($evolutionPeriodFor !== 'prev' && $evolutionPeriodFor !== 'each') {
+            throw new \Exception('Invalid evolutionPeriodFor value, can only be "prev" or "each" (got ' . $evolutionPeriodFor . ').');
+        }
+
+        if ($evolutionPeriodFor === 'each' && !empty($evolutionPeriodN)) {
+            throw new \Exception('The evolutionPeriodN param has no effect when evolutionPeriodFor is "each".');
+        }
+
+        if (!empty($evolutionPeriodN)
+            && (!is_numeric($evolutionPeriodN) || (int)$evolutionPeriodN < 0)
+        ) {
+            throw new \Exception('Evolution period amount must be a positive number (got ' . $evolutionPeriodN . ').');
         }
     }
 

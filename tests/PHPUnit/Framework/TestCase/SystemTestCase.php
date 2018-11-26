@@ -289,6 +289,44 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                      )
                 )
             );
+
+            // row evolution w/ custom previousN
+            array_push(
+                $apiCalls,
+                array(
+                    'ScheduledReports.generateReport',
+                    array(
+                        'testSuffix'             => '_scheduled_report_in_html_row_evolution_prevCustomN',
+                        'date'                   => $dateTime,
+                        'periods'                => array($period),
+                        'format'                 => 'original',
+                        'fileExtension'          => 'html',
+                        'otherRequestParameters' => array(
+                            'idReport'     => 6,
+                            'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                        )
+                    )
+                )
+            );
+
+            // row evolution w/ each in period
+            array_push(
+                $apiCalls,
+                array(
+                    'ScheduledReports.generateReport',
+                    array(
+                        'testSuffix'             => '_scheduled_report_in_html_row_evolution_overEachInPeriod',
+                        'date'                   => $dateTime,
+                        'periods'                => array($period),
+                        'format'                 => 'original',
+                        'fileExtension'          => 'html',
+                        'otherRequestParameters' => array(
+                            'idReport'     => 7,
+                            'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN
+                        )
+                    )
+                )
+            );
         }
 
         return $apiCalls;

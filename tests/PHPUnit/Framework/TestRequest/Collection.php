@@ -29,6 +29,7 @@ class Collection
         'Dashboard',
         'UsersManager',
         'SitesManager',
+        'TagManager',
         'ExampleUI',
         'Overlay',
         'Live',
@@ -49,6 +50,7 @@ class Collection
         'Insights',
         'LogViewer',
         'Referrers.getKeywordNotDefinedString',
+        'CorePluginsAdmin.getSystemSettings',
     );
 
     /**
