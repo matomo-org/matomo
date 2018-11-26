@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Widgetize\tests\Integration;
+namespace Piwik\Plugins\Widgetize\tests\System;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Http\ControllerResolver;
@@ -157,11 +157,11 @@ class WidgetTest extends SystemTestCase
                     ),
             ),array (
                 'name' => 'Campaign URL Builder',
-                'uniqueId' => 'widgetReferrersGetCampaignUrlBuilder',
+                'uniqueId' => 'widgetReferrersgetCampaignUrlBuilder',
                 'parameters' =>
                     array (
                         'module' => 'Referrers',
-                        'action' => 'GetCampaignUrlBuilder',
+                        'action' => 'getCampaignUrlBuilder',
                     ),
             ),array (
                 'name' => 'Ecommerce Log',
