@@ -56,6 +56,7 @@
         "JSTrackingIntro3b": "Bei den meisten Webseiten, Blogs und CMS, etc. können Sie ein existierendes Plugin benutzen, das Ihnen die technische Arbeit abnimmt. (Schauen Sie hierzu in die %1$sListe der Plugins um Matomo zu integrieren%2$s.) Falls kein passendes Plugin besteht können Sie die Templates Ihrer Webseite bearbeiten und diesen Quellcode in den &lt;\/head&gt;-Tag einfügen. Dieser ist häufig in einer 'header.php' oder header.tpl' oder ähnlich benannten Template-Datei definiert.",
         "JSTrackingIntro4": "Falls Sie kein JavaScript nutzen möchten um Ihre Besucher zu tracken, %1$sgenerieren Sie einen Link zum Tracking mit Hilfe eines Bildes unterhalb.%2$s",
         "JSTrackingIntro5": "Sollte Sie mehr als nur Seitenaufrufe aufzeichnen wollen, werfen Sie einen Blick in die %1$sMatomo Javascript Tracking Dokumentation%2$s für eine Liste an verfügbaren Funktionen. Mit der Verwendung dieser Funktionen können Sie Ziele, benutzerdefinierte Variablen, Ecommerce Bestellungen, verlassene Warenkörbe und mehr aufzeichnen.",
+        "LogoNotWriteableInstruction": "Um Ihr eigenes Logo anstelle des Matomo Logos verwenden zu können werden Schreibrechte auf diesen Ordner benötigt: %1$s Matomo benötigt Schreibzugriff auf Ihre Logos die gespeichert sind in %2$s.",
         "FileUploadDisabled": "Das Hochladen von Dateien ist in Ihrer PHP-Konfiguration nicht aktiviert. Um Ihr eigenes Logo hochladen zu können setzen Sie bitte %s in Ihrer php.ini und starten Sie den Webserver neu.",
         "LogoUploadFailed": "Die hochgeladene Datei konnte nicht verarbeitet werden. Bitte überprüfen Sie ob die Datei ein gültiges Format hat.",
         "LogoUpload": "Wählen Sie ein Logo für den Upload",
@@ -98,10 +99,15 @@
         "ValidPiwikHostname": "Gültiger Matomo Hostname",
         "WithOptionalRevenue": "mit optionalen Einnahmen",
         "YouAreOptedOut": "Ihr Besuch dieser Website wird aktuell von der Matomo Webanalyse nicht erfasst.",
+        "YouAreNotOptedOut": "Ihr Besuch dieser Website wird aktuell von der Matomo Webanalyse erfasst.",
         "YouMayOptOut": "Sie können sich hier entscheiden, ob in Ihrem Browser ein eindeutiger Webanalyse-Cookie abgelegt werden darf, um dem Betreiber der Website die Erfassung und Analyse verschiedener statistischer Daten zu ermöglichen.",
         "YouMayOptOutBis": "Wenn Sie sich dagegen entscheiden möchten, entfernen Sie den folgenden Haken, um den Matomo-Deaktivierungs-Cookie in Ihrem Browser abzulegen.",
         "OptingYouOut": "Deaktivierung wird durchgeführt, bitte warten...",
         "ProtocolNotDetectedCorrectly": "Sie betrachten Matomo konnte auf dem Server nur eine nicht sichere Verbindung feststellen.",
-        "ProtocolNotDetectedCorrectlySolution": "Um sicherzustellen, dass Matomo jegliche Anfragen und Inhalte via HTTPS ausliefert, ist es zwingend notwendig, die %1$s-Datei zu bearbeiten, die Proxy-Einstellungen zu überprüfen oder die Zeile %2$s unter dem Abschnitt %3$s hinzuzufügen. %4$sMehr erfahren%5$s"
+        "ProtocolNotDetectedCorrectlySolution": "Um sicherzustellen, dass Matomo jegliche Anfragen und Inhalte via HTTPS ausliefert, ist es zwingend notwendig, die %1$s-Datei zu bearbeiten, die Proxy-Einstellungen zu überprüfen oder die Zeile %2$s unter dem Abschnitt %3$s hinzuzufügen. %4$sMehr erfahren%5$s",
+        "MissingTrackingCodeEmailSubject": "Kein Traffic für %s in Matomo Analytics aufgezeichnet, jetzt starten",
+        "JsTrackingCodeMissingEmail1": "Sie haben vor ein paar Tagen die Webseite '%s' zu Ihrer Matomo Analytics Installation hinzugefügt. Wir haben soeben nachgeschaut und Ihr Matomo scheint keinen Traffic für diese Webseite aufgezeichnet zu haben.",
+        "JsTrackingCodeMissingEmail2": "Um damit zu beginnen, Daten aufzuzeichnen und Einblicke in das Benutzerverhalten zu bekommen, müssen Sie das Tracking in Ihrer Webseite oder mobilen App installieren. Für Webseiten betten Sie direkt vor dem %s Tag den Tracking Code ein.",
+        "JsTrackingCodeMissingEmail3": "Um Ihren Tracking Code zu finden und zu personalisieren, %1$shier klicken%2$s (oder schauen Sie sich die %3$sJavaScript Tracking Client Anleitung%4$s an)."
     }
 }

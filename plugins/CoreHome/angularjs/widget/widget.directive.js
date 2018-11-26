@@ -100,10 +100,16 @@
                     $(element).tooltip({
                         track: true,
                         content: function() {
+                            var $this = $(this);
+                            if ($this.attr('piwik-field') === '') {
+                                // do not show it for form fields
+                                return '';
+                            }
+
                             var title = $(this).attr('title');
                             return piwikHelper.escape(title.replace(/\n/g, '<br />'));
                         },
-                        show: false,
+                        show: {delay: 700, duration: 200},
                         hide: false
                     });
 

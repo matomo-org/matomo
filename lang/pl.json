@@ -465,6 +465,7 @@
         "WarningFileIntegrityNoManifestDeployingFromGit": "W przypadku wdrażania Matomo z Git, komunikat ten jest prawidłowy.",
         "WarningFileIntegrityNoMd5file": "Weryfikacja integralności plików nie mogła zostać zakończona z powodu braku funkcji md5_file().",
         "WarningPasswordStored": "%1$sOstrzeżenie:%2$s To hasło zostanie zapisane w pliku konfiguracyjnym widocznym dla każdego, kto może mieć do niego dostęp.",
+        "WarningDebugOnDemandEnabled": "Tryb śledzenia %1$s jest aktywny. Że względów bezpieczeństwa, aktywacja powinna być krótkookresowa. Aby wyłączyć ustaw %2$s na %3$s w %4$s",
         "Website": "Strona WWW",
         "Weekly": "Tygodniowo",
         "WeeklyReport": "tygodniowo",

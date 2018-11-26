@@ -77,12 +77,12 @@ class JsTrackingCodeMissingEmail extends Mail
         $this->setWrappedHtmlBody($this->getDefaultBodyView());
     }
 
-    private function getDefaultSubject()
+    protected function getDefaultSubject()
     {
         return Piwik::translate('CoreAdminHome_MissingTrackingCodeEmailSubject', ["'" . Site::getNameFor($this->idSite) . "'"]);
     }
 
-    private function getDefaultBodyView()
+    protected function getDefaultBodyView()
     {
         $view = new View('@CoreAdminHome/_jsTrackingCodeMissingEmail.twig');
         $view->login = $this->login;
