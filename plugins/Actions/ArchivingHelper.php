@@ -443,12 +443,17 @@ class ArchivingHelper
 
         $name = str_replace("\n", "", $name);
 
+        if ($type == Action::TYPE_PAGE_TITLE && self::$actionTitleCategoryDelimiter === '') {
+            return array(trim($name));
+        }
+
         $name = self::parseNameFromPageUrl($name, $type, $urlPrefix);
 
         // outlinks and downloads
-        if(is_array($name)) {
+        if (is_array($name)) {
             return $name;
         }
+
         $split = self::splitNameByDelimiter($name, $type);
 
         if (empty($split)) {
