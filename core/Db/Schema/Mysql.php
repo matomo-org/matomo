@@ -396,7 +396,9 @@ class Mysql implements SchemaInterface
             $dbName = $this->getDbName();
         }
 
-        Db::exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
+        $dbName = str_replace('`', '', $dbName);
+
+        Db::exec("CREATE DATABASE IF NOT EXISTS `" . $dbName . "` DEFAULT CHARACTER SET utf8");
     }
 
     /**
@@ -431,7 +433,8 @@ class Mysql implements SchemaInterface
     public function dropDatabase($dbName = null)
     {
         $dbName = $dbName ?: $this->getDbName();
-        Db::exec("DROP DATABASE IF EXISTS " . $dbName);
+        $dbName = str_replace('`', '', $dbName);
+        Db::exec("DROP DATABASE IF EXISTS `" . $dbName . "`");
     }
 
     /**

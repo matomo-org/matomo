@@ -13,7 +13,7 @@
         "LoginPasswordNotCorrect": "Kullanıcı adı ile parola uyuşmuyor.",
         "LostYourPassword": "Parolamı unuttum",
         "ChangeYourPassword": "Parolanızı değiştirin",
-        "MailPasswordChangeBody": "Merhaba %1$s,\n\n%2$s tarafından bir parola sıfırlama isteği gönderildi. Parola değişikliğini onaylayarak yeniden oturum açmak için şu bağlantıya tıklayın:\n\n%3$s\n\nDikkat: Parolanızı değiştirmek kimlik doğrulama kodunun da (token_auth) değiştirilmesine yol açar. Yeni kimlik doğrulama kodunuzu ayarlarınız bölümünde bulabilirsiniz.\n\nAPI token_auth kodunuzu bir dış uygulamada ya da arşivleme için kullanıyorsanız, API işlemlerinin yapılabilmesi için token_auth kodunu uygun şekilde güncelleyin.\n\nNot: Bu bağlantı 24 saat sonra geçerliliğini yitirir.\n\nMatomo uygulamasını kullandığınız için teşekkürler.",
+        "MailPasswordChangeBody2": "Merhaba %1$s,\n\n%2$s tarafından bir parola sıfırlama isteği gönderildi. Parola değişikliğini onaylayarak yeniden oturum açmak için aşağıdaki bağlantıyı kopyalayıp web tarayıcınıza yapıştırın:\n\n%3$s\n\nNot: Bu bağlantı 24 saat sonra geçerliliğini yitirir.\n\nMatomo uygulamasını kullandığınız için teşekkürler.",
         "MailTopicPasswordChange": "Parola Değişikliğini Onayla",
         "NewPassword": "Yeni parola",
         "NewPasswordRepeat": "Yeni parola (yeniden)",

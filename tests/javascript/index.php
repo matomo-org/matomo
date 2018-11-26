@@ -2132,12 +2132,13 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(102);
+        expect(103);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
         equal( typeof Piwik.getTracker, 'function', 'getTracker' );
         equal( typeof Piwik.getAsyncTracker, 'function', 'getAsyncTracker' );
+        strictEqual( Piwik, Matomo, 'Piwik === Matomo' );
 
         var tracker;
 

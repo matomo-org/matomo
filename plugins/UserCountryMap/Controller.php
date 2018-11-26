@@ -75,7 +75,7 @@ class Controller extends \Piwik\Plugin\Controller
             . '&filter_limit=-1'
         );
         $config = array();
-        $config['visitsSummary'] = unserialize($request->process());
+        $config['visitsSummary'] = Common::safe_unserialize($request->process());
         $config['countryDataUrl'] = $this->_report('UserCountry', 'getCountry',
             $this->idSite, $period, $date, $token_auth, false, $segment);
         $config['regionDataUrl'] = $this->_report('UserCountry', 'getRegion',
@@ -86,17 +86,15 @@ class Controller extends \Piwik\Plugin\Controller
             $this->idSite, $period, $date, $token_auth, true, $segment);
         $view->defaultMetric = 'nb_visits';
 
-        // some translations
+        // some translations containing metric number
         $translations = array(
              'nb_visits'            => $this->translator->translate('General_NVisits'),
-             'one_visit'            => $this->translator->translate('General_OneVisit'),
              'no_visit'             => $this->translator->translate('UserCountryMap_NoVisit'),
              'nb_actions'           => $this->translator->translate('VisitsSummary_NbActionsDescription'),
              'nb_actions_per_visit' => $this->translator->translate('VisitsSummary_NbActionsPerVisit'),
              'bounce_rate'          => $this->translator->translate('VisitsSummary_NbVisitsBounced'),
              'avg_time_on_site'     => $this->translator->translate('VisitsSummary_AverageVisitDuration'),
              'and_n_others'         => $this->translator->translate('UserCountryMap_AndNOthers'),
-             'no_data'              => $this->translator->translate('CoreHome_ThereIsNoDataForThisReport'),
              'nb_uniq_visitors'     => $this->translator->translate('General_NUniqueVisitors'),
              'nb_users'             => $this->translator->translate('VisitsSummary_NbUsers'),
         );
@@ -106,6 +104,9 @@ class Controller extends \Piwik\Plugin\Controller
                 $translation = '%s ' . $translation;
             }
         }
+
+        $translations['one_visit'] = $this->translator->translate('General_OneVisit');
+        $translations['no_data'] = $this->translator->translate('CoreHome_ThereIsNoDataForThisReport');
 
         $view->localeJSON = json_encode($translations);
 
@@ -277,7 +278,7 @@ class Controller extends \Piwik\Plugin\Controller
             . '&token_auth=' . $token_auth
             . '&filter_limit=-1'
         );
-        $metaData = unserialize($request->process());
+        $metaData = Common::safe_unserialize($request->process());
 
         $metrics = array();
         if (!empty($metaData[0]['metrics']) && is_array($metaData[0]['metrics'])) {

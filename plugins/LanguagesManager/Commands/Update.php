@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\LanguagesManager\Commands;
 
+use Piwik\Plugin\Manager;
 use Piwik\Plugins\LanguagesManager\API;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -30,6 +31,7 @@ class Update extends TranslationBase
             ->addOption('username', 'u', InputOption::VALUE_OPTIONAL, 'Transifex username')
             ->addOption('password', 'p', InputOption::VALUE_OPTIONAL, 'Transifex password')
             ->addOption('slug', 's', InputOption::VALUE_OPTIONAL, 'Transifex project slug')
+            ->addOption('all', 'a', InputOption::VALUE_NONE, 'Force to update all plugins (even non core). Can not be used with plugin option')
             ->addOption('plugin', 'P', InputOption::VALUE_OPTIONAL, 'optional name of plugin to update translations for');
     }
 
@@ -50,6 +52,7 @@ class Update extends TranslationBase
         }
 
         $plugin = $input->getOption('plugin');
+        $forceAllPlugins = $input->getOption('all');
 
         if (!$input->isInteractive()) {
             $output->writeln("(!) Non interactive mode: New languages will be skipped");
@@ -57,7 +60,7 @@ class Update extends TranslationBase
 
         $pluginList = array($plugin);
         if (empty($plugin)) {
-            $pluginList = self::getPluginsInCore();
+            $pluginList = $forceAllPlugins ? self::getAllPlugins() : self::getPluginsInCore();
             array_unshift($pluginList, '');
         } else {
             $input->setOption('force', true); // force plugin only updates
@@ -126,6 +129,26 @@ class Update extends TranslationBase
         }
 
         $output->writeln("Finished in " . round(microtime(true)-$start, 3) . "s");
+    }
+
+    /**
+     * Returns all plugins having their own translations that are bundled in core
+     * @return array
+     */
+    public static function getAllPlugins()
+    {
+        static $pluginsWithTranslations;
+
+        if (!empty($pluginsWithTranslations)) {
+            return $pluginsWithTranslations;
+        }
+
+        $pluginsWithTranslations = glob(sprintf('%s/plugins/*/lang/en.json', PIWIK_INCLUDE_PATH));
+        $pluginsWithTranslations = array_map(function ($elem) {
+            return str_replace(array(sprintf('%s/plugins/', PIWIK_INCLUDE_PATH), '/lang/en.json'), '', $elem);
+        }, $pluginsWithTranslations);
+
+        return $pluginsWithTranslations;
     }
 
     /**

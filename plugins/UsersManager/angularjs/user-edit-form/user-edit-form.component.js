@@ -84,7 +84,8 @@
         function toggleSuperuserAccess() {
             vm.isSavingUserInfo = true;
             piwikApi.post({
-                method: 'UsersManager.setSuperUserAccess',
+                method: 'UsersManager.setSuperUserAccess'
+            }, {
                 userLogin: vm.user.login,
                 hasSuperUserAccess: vm.user.superuser_access ? '1' : '0'
             }).catch(function () {
@@ -114,7 +115,8 @@
         function createUser() {
             vm.isSavingUserInfo = true;
             return piwikApi.post({
-                method: 'UsersManager.addUser',
+                method: 'UsersManager.addUser'
+            }, {
                 userLogin: vm.user.login,
                 password: vm.user.password,
                 email: vm.user.email,
@@ -137,7 +139,8 @@
         function updateUser() {
             vm.isSavingUserInfo = true;
             return piwikApi.post({
-                method: 'UsersManager.updateUser',
+                method: 'UsersManager.updateUser'
+            }, {
                 userLogin: vm.user.login,
                 password: vm.isPasswordChanged ? vm.user.password : undefined,
                 email: vm.user.email,

@@ -110,7 +110,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function onEnvironmentBootstrapped()
     {
-        if (empty($_GET['ignoreClearAllViewDataTableParameters'])) { // TODO: should use testingEnvironment variable, not query param
+        if (empty($_GET['ignoreClearAllViewDataTableParameters'])
+            && !SettingsServer::isTrackerApiRequest()
+        ) { // TODO: should use testingEnvironment variable, not query param
             try {
                 \Piwik\ViewDataTable\Manager::clearAllViewDataTableParameters();
             } catch (\Exception $ex) {
@@ -141,7 +143,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
 
     public function getExtraDefinitions()
     {
-        $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource($this->vars);
+        $testVarDefinitionSource = new TestingEnvironmentVariablesDefinitionSource();
 
         $fixturePluginsToLoad = [];
 

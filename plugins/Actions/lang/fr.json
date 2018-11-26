@@ -23,7 +23,7 @@
         "ColumnSearches": "Recherches",
         "ColumnSearchesDocumentation": "Le nombre de visites pour lesquelles une recherche pour ce mot-clé a été effectuée avec le moteur de recherche de votre site web",
         "ColumnSearchExits": "%% sorties de recherche",
-        "ColumnSearchExitsDocumentation": "Le pourcentage de visites où les utilisateurs on quitté le site après avoir effectué une recherche pour ce mot-clé avec le moteur de recherche de votre site.",
+        "ColumnSearchExitsDocumentation": "Le pourcentage de visites où les utilisateurs ont quitté le site après avoir effectué une recherche pour ce mot-clé avec le moteur de recherche de votre site.",
         "ColumnSearchResultsCount": "Nombre de résultats de la recherche",
         "ColumnSiteSearchKeywords": "Mot-clés uniques",
         "ColumnUniqueClicks": "Clics uniques",

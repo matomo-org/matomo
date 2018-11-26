@@ -13,7 +13,6 @@
         "LoginPasswordNotCorrect": "Nazwa użytkownika i hasło nie są poprawne.",
         "LostYourPassword": "Nie pamiętasz hasła?",
         "ChangeYourPassword": "Zmień swoje hasło",
-        "MailPasswordChangeBody": "Cześć %1$s,\n\nOdebraliśmy żądanie zmiany hasła dla konta %2$s. Aby potwierdzić zmianę hasła, co umożliwi zalogowanie z nowymi danymi, przejdź do poniższej strony:\n\n%3$s\n\nUWAGA: Zmiana hasła spowoduje również zmianę Twojego tokenu autoryzacyjnego. Swój zaktualizowany token znajdziesz na swojej stronie ustawień.\n\nJeśli korzystasz z tokenu w zewnętrznej aplikacji lub do archiwizacji, upewnij się, że zostanie on zaktualizowany. Brak aktualizacji spowoduje brak możliwości połączenia z API.\n\nNOTKA: ważność tego linku to 24 godziny.\n\nDzięki, że korzystasz z Matomo!",
         "MailTopicPasswordChange": "Zatwierdź zmianę hasła",
         "NewPassword": "Nowe hasło",
         "NewPasswordRepeat": "Nowe hasło (powtórz)",
