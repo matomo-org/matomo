@@ -37,12 +37,12 @@
 	<reportData>
 		<result prettyDate="Sunday, January 3, 2010">
 			<row>
-				<label> Im just a page</label>
+				<label>Im just a page</label>
 				<nb_hits>1</nb_hits>
 				<nb_hits_following_search>1</nb_hits_following_search>
 			</row>
 			<row>
-				<label> This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE</label>
+				<label>This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE</label>
 				<nb_hits>2</nb_hits>
 				<nb_hits_following_search>1</nb_hits_following_search>
 			</row>
