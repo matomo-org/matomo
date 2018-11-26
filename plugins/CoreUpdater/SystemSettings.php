@@ -83,14 +83,12 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                 };
             };
 
-            $field->inlineHelp = Piwik::translate('CoreAdminHome_DevelopmentProcess',
-                                                  array("<a target='_blank' rel='noreferrer noopener' href='https://matomo.org/participate/development-process/'>",
-                                                        "</a>"))
-                            . Piwik::translate('<br/>')
+            $field->inlineHelp = Piwik::translate('CoreAdminHome_DevelopmentProcess')
+                            . '<br/>'
                             . Piwik::translate('CoreAdminHome_StableReleases',
                                                array("<a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development'>",
                                                      "</a>"))
-                            . Piwik::translate('<br />')
+                            . '<br/>'
                             . Piwik::translate('CoreAdminHome_LtsReleases');
         });
     }
