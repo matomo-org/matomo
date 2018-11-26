@@ -691,14 +691,9 @@ class GoalManager
     
     private function makeRandomMySqlUnsignedInt($length)
     {
-        // mysql int unsgined max value is 4294967295 so we cannot start with a 5 or higher
-        $randomInt = Common::getRandomString(1, '1234');
-        if ($length >= 2) {
-            $randomInt .= Common::getRandomString(1, '012');
-        }
-        if ($length > 2) {
-            $randomInt .= Common::getRandomString($length - 2, '0123456789');
-        }
+        // mysql int unsgined max value is 4294967295 so we want to allow max 39999...
+        $randomInt = Common::getRandomString(1, '123');
+        $randomInt .= Common::getRandomString($length - 1, '0123456789');
         return $randomInt;
     }
 
