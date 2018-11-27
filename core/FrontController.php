@@ -110,7 +110,7 @@ class FrontController extends Singleton
             'line' => $e->getLine(),
         );
 
-        $error['backtrace'] = 'on ' . $error['file'] . '(' . $error['line'] . ")\n";
+        $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n";
         $error['backtrace'] .= $e->getTraceAsString();
 
         $exception = $e;
@@ -241,7 +241,7 @@ class FrontController extends Singleton
     {
         $lastError = error_get_last();
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
-            $lastError['backtrace'] = 'on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
+            $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
                 . ErrorHandler::getFatalErrorPartialBacktrace();
 
             $message = self::generateSafeModeOutputFromError($lastError);
