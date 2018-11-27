@@ -6,6 +6,26 @@
             {{:: 'UsersManager_NoAccessWarning'|translate }}
         </div>
     </div>
+    <div class="row">
+        <div class="col s12">
+            <div>
+                <span>Give this user access to All Websites:</span>
+
+                <div
+                    piwik-field
+                    uicontrol="select"
+                    ng-model="$ctrl.allWebsitesAccssLevelSet"
+                    options="$ctrl.accessLevels"
+                    ng-change=""
+                    full-width="true"
+                ></div>
+
+                <a href="" class="btn" ng-click="">{{:: 'General_Apply'|translate }}</a>
+            </div>
+            <p>&nbsp;</p>
+            <p>Or manage this user's access to each website individually:</p>
+        </div>
+    </div>
     <div class="filters row">
         <div class="col s12 m12 l8">
             <div class="input-field bulk-actions">
