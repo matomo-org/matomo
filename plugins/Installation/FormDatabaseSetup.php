@@ -80,12 +80,26 @@ class FormDatabaseSetup extends QuickForm2
         $defaultDatabaseType = Config::getInstance()->database['type'];
         $this->addElement( 'hidden', 'type')->setLabel('Database engine');
 
+
+        $defaults = array(
+            'host'          => '127.0.0.1',
+            'type'          => $defaultDatabaseType,
+            'tables_prefix' => 'matomo_',
+        );
+
+        $defaultsEnvironment = array('host', 'adapter', 'tables_prefix', 'username', 'password', 'dbname');
+        foreach ($defaultsEnvironment as $name) {
+            $envName = 'DATABASE_' . strtoupper($name); // fyi getenv is case insensitive
+            $envNameMatomo = 'MATOMO_' . $envName;
+            if (getenv($envNameMatomo)) {
+                $defaults[$name] = getenv($envNameMatomo);
+            } elseif (getenv($envName)) {
+                $defaults[$name] = getenv($envName);
+            }
+        }
+
         // default values
-        $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
-                                                                       'host'          => '127.0.0.1',
-                                                                       'type'          => $defaultDatabaseType,
-                                                                       'tables_prefix' => 'matomo_',
-                                                                  )));
+        $this->addDataSource(new HTML_QuickForm2_DataSource_Array($defaults));
     }
 
     /**
