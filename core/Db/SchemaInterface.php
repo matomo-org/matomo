@@ -60,6 +60,16 @@ interface SchemaInterface
     public function createAnonymousUser();
 
     /**
+     * Records the Matomo version a user used when installing this Matomo for the first time
+     */
+    public function recordInstallVersion();
+
+    /**
+     * Returns which Matomo version was used to install this Matomo for the first time.
+     */
+    public function getInstallVersion();
+
+    /**
      * Truncate all tables
      */
     public function truncateAllTables();

@@ -247,6 +247,7 @@ class Fixture extends \PHPUnit_Framework_Assert
             Db::get()->query("SET wait_timeout=28800;");
 
             DbHelper::createTables();
+            DbHelper::recordInstallVersion();
 
             self::getPluginManager()->unloadPlugins();
 
@@ -410,6 +411,7 @@ class Fixture extends \PHPUnit_Framework_Assert
     public static function loadAllPlugins(TestingEnvironmentVariables $testEnvironment = null, $testCaseClass = false, $extraPluginsToLoad = array())
     {
         DbHelper::createTables();
+        DbHelper::recordInstallVersion();
         self::getPluginManager()->loadActivatedPlugins();
     }
 
@@ -575,7 +577,7 @@ class Fixture extends \PHPUnit_Framework_Assert
      */
     public static function getTrackerUrl()
     {
-        return self::getTestRootUrl() . 'piwik.php';
+        return self::getTestRootUrl() . 'matomo.php';
     }
 
     /**

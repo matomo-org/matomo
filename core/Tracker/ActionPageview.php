@@ -66,6 +66,10 @@ class ActionPageview extends Action
         // get the delimiter, by default '/'; BC, we read the old action_category_delimiter first (see #1067)
         $actionCategoryDelimiter = $this->getActionCategoryDelimiter();
 
+        if ($actionCategoryDelimiter === '') {
+            return $actionName;
+        }
+
         // create an array of the categories delimited by the delimiter
         $split = explode($actionCategoryDelimiter, $actionName);
         $split = $this->trimEveryCategory($split);
@@ -95,6 +99,6 @@ class ActionPageview extends Action
             return Config::getInstance()->General['action_category_delimiter'];
         }
 
-        return Config::getInstance()->General['action_url_category_delimiter'];
+        return Config::getInstance()->General['action_title_category_delimiter'];
     }
 }
