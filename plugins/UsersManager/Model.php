@@ -307,7 +307,7 @@ class Model
     public function getUsersHavingSuperUserAccess()
     {
         $db = $this->getDb();
-        $users = $db->fetchAll("SELECT login, email, token_auth
+        $users = $db->fetchAll("SELECT login, email, token_auth, superuser_access
                                 FROM " . Common::prefixTable("user") . "
                                 WHERE superuser_access = 1
                                 ORDER BY date_registered ASC");

@@ -790,7 +790,7 @@ class API extends \Piwik\Plugin\API
             $newUser['alias'] = $user['alias'];
         }
 
-        if ($user['login'] === Piwik::getCurrentUserLogin()) {
+        if ($user['login'] === Piwik::getCurrentUserLogin() || !empty($user['superuser_access'])) {
             $newUser['email'] = $user['email'];
         }
 
