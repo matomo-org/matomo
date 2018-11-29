@@ -46,6 +46,7 @@ class TwoFactorAuth extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
+        $jsFiles[] = "plugins/TwoFactorAuth/javascripts/twofactorauth.js";
         $jsFiles[] = "plugins/TwoFactorAuth/angularjs/setuptwofactor/setuptwofactor.controller.js";
     }
 

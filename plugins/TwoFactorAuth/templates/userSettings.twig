@@ -19,7 +19,7 @@
             <a href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'disableTwoFactorAuth', 'disableNonce': disableNonce}) }}" style="display:none;" id="disable2fa">disable2fa</a>
             <input type="button"
                    class="btn btn-link disable2FaLink"
-                   onclick="piwikHelper.modalConfirm('#confirmDisable2FA', {yes: function () { broadcast.propagateNewPage('module=TwoFactorAuth&action=disableTwoFactorAuth&disableNonce={{ disableNonce|e('url') }}'); }})"
+                   onclick="twoFactorAuth.confirmDisable2FA('{{ disableNonce|e('url') }}');"
                    value="{{ 'TwoFactorAuth_DisableTwoFA'|translate }}">
         {% endif %}
             <a class="btn btn-link showRecoveryCodesLink" href="{{ linkTo({'module': 'TwoFactorAuth', 'action': 'showRecoveryCodes'}) }}">{{ 'TwoFactorAuth_ShowRecoveryCodes'|translate }}</a>

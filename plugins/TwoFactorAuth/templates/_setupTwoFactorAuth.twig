@@ -43,6 +43,8 @@
         <form method="post"
               action="{{ linkTo({'module': 'TwoFactorAuth', 'action': submitAction}) }}"
               class="setupConfirmAuthCodeForm"
+              autocorrect="off" autocapitalize="none"
+              autocomplete="off"
               >
             <div piwik-field uicontrol="text" name="authCode" maxlength="6"
                  title="{{ 'TwoFactorAuth_AuthenticationCode'|translate|e('html_attr') }}"

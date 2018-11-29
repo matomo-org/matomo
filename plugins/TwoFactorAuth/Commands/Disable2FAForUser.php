@@ -8,9 +8,8 @@
 
 namespace Piwik\Plugins\TwoFactorAuth\Commands;
 
-use Piwik\Container\StaticContainer;
+use Piwik\API\Request;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,7 +28,9 @@ class Disable2FAForUser extends ConsoleCommand
         $this->checkAllRequiredOptionsAreNotEmpty($input);
         $login = $input->getOption('login');
 
-        StaticContainer::get(TwoFactorAuthentication::class)->disable2FAforUser($login);
+        Request::processRequest('TwoFactorAuth.resetTwoFactorAuth', array(
+            'userLogin' => $login
+        ));
         $message = sprintf('<info>Disabled two-factor authentication for user: %s</info>', $login);
         $output->writeln($message);
     }

@@ -37,6 +37,10 @@ class Validator
     public function checkCanUseTwoFa()
     {
         Piwik::checkUserIsNotAnonymous();
+
+        if (!SettingsPiwik::isPiwikInstalled()) {
+            throw new \Exception('Matomo is not set up yet');
+        }
     }
 
     public function check2FaIsRequired()
