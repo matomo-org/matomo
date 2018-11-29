@@ -79,8 +79,17 @@
 
         function confirmUserChange() {
             vm.passwordConfirmation = '';
+            function onEnter(event){
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13'){
+                    $element.find('.change-password-modal').closeModal();
+                    vm.updateUser();
+                }
+            }
+
             $element.find('.change-password-modal').openModal({ dismissible: false, ready: function () {
                 $('.modal.open #currentUserPassword').focus();
+                $('.modal.open #currentUserPassword').off('keypress').keypress(onEnter);
             }});
         }
 
