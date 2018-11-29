@@ -110,7 +110,15 @@ class FrontController extends Singleton
             'line' => $e->getLine(),
         );
 
-        $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n" . $e->getTraceAsString();
+        $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n";
+        $error['backtrace'] .= $e->getTraceAsString();
+
+        $exception = $e;
+        while ($exception = $exception->getPrevious()) {
+            $error['backtrace'] .= "\ncaused by: " . $exception->getMessage();
+            $error['backtrace'] .= ' on ' . $exception->getFile() . '(' . $exception->getLine() . ")\n";
+            $error['backtrace'] .= $exception->getTraceAsString();
+        }
 
         return self::generateSafeModeOutputFromError($error);
     }

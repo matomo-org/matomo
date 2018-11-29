@@ -1726,6 +1726,29 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
+		<name>Campaign URL Builder</name>
+		<category>
+			<id>Referrers_Referrers</id>
+			<name>Acquisition</name>
+			<order>15</order>
+			<icon>icon-reporting-referer</icon>
+		</category>
+		<subcategory>
+			<id>Referrers_URLCampaignBuilder</id>
+			<name>Campaign URL Builder</name>
+			<order>21</order>
+		</subcategory>
+		<module>Referrers</module>
+		<action>getCampaignUrlBuilder</action>
+		<order>99</order>
+		<parameters>
+			<module>Referrers</module>
+			<action>getCampaignUrlBuilder</action>
+		</parameters>
+		<uniqueId>widgetReferrersgetCampaignUrlBuilder</uniqueId>
+		<isWide>0</isWide>
+	</row>
+	<row>
 		<name>Overview</name>
 		<category>
 			<id>Goals_Ecommerce</id>

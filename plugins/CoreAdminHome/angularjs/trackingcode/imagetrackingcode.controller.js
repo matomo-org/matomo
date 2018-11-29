@@ -61,7 +61,8 @@
             // get data used to generate the link
             var postParams = {
                 piwikUrl: piwikHost + piwikPath,
-                actionName: self.pageName
+                actionName: self.pageName,
+                forceMatomoEndpoint: 1
             };
 
             if (self.trackGoal && self.trackIdGoal) {
