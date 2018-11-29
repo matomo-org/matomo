@@ -107,6 +107,9 @@ abstract class IntegrationTestCase extends SystemTestCase
         parent::tearDown();
     }
 
+    /**
+     * @param Fixture $fixture
+     */
     protected static function configureFixture($fixture)
     {
         $fixture->createSuperUser     = false;

@@ -99,7 +99,7 @@ install:
 
 
 before_script:
-  - if [[ "$TRAVIS_PHP_VERSION" != 7* ]]; then phpenv config-rm xdebug.ini; fi
+  - phpenv config-rm xdebug.ini
 
   # add always_populate_raw_post_data=-1 to php.ini
   - echo "always_populate_raw_post_data=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -137,24 +137,3 @@ cache:
   directories:
     - "travis_phantomjs"
     - $HOME/.composer/cache
-
-
-
-
-
-notifications:
-  slack:
-    rooms:
-      - piwik:3HWhNh21qPfDACQXTrJOb0mW
-    on_success: :change
-    on_failure: :change
-
-  irc:
-    skip_join: true
-    on_success: change
-    on_failure: change
-    channels:
-      - "irc.freenode.org#piwik-dev"
-    template:
-      - "%{repository} (%{commit}) : %{message} %{foo} "
-      - "Build details: %{build_url}"

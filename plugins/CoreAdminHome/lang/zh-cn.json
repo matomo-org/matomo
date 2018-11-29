@@ -91,7 +91,6 @@
         "UseCustomLogo": "使用自定义图标",
         "ValidPiwikHostname": "有效的 Matomo 域名",
         "WithOptionalRevenue": "选填的收入",
-        "YouAreOptedIn": "您目前选择接受追踪。",
         "YouAreOptedOut": "您目前选择退出追踪。",
         "YouMayOptOut": "您可以选择不让您的电脑分配唯一的网站分析 Cookie 标识编码，以避免被此网站搜集和分析访问数据。",
         "YouMayOptOutBis": "想要如此的话，请点击下方以设置一个选择退出追踪的 Cookie 记录。",

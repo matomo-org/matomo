@@ -39,7 +39,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   _paq.push([\"setCookieDomain\", \"*.localhost\"]);
@@ -78,7 +78,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
@@ -116,7 +116,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   // you can set up to 5 custom variables for each visitor
@@ -163,7 +163,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   // you can set up to 5 custom variables for each visitor
@@ -207,7 +207,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = "&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\"setDocumentTitle\", document.domain + \"/\" + document.title]);
   _paq.push(['trackPageView']);
@@ -244,7 +244,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = '&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
   // you can set up to 5 custom variables for each visitor
@@ -278,7 +278,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
 
         $expected = '&lt;!-- Matomo --&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
-  var _paq = _paq || [];
+  var _paq = window._paq || [];
   /* tracker methods like &quot;setCustomDimension&quot; should be called before &quot;trackPageView&quot; */
   _paq.push([\'trackPageView\']);
   _paq.push([\'enableLinkTracking\']);

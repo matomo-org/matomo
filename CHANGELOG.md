@@ -4,7 +4,12 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
-## Matomo 3.7.0
+## Matomo 3.8.0
+
+### New APIs
+
+* It is now possible to queue a request on the JavaScript tracker using the method `queueRequest(requestUrl)`. This can be useful to group multiple tracking requests into one bulk request to reduce the number of tracking requests that are sent to your server making the tracking more efficient.
+* The output type "save on disk" in the API method `ScheduledReport.generateReport` has been replaced by the download output type.
 
 ### Internal change
 * New Matomo installation will now use by default "matomo.js" and "matomo.php" as tracking endpoints. From Matomo 4.0 all installations will use "matomo.js" and "matomo.php" by default. We recommend you ensure those files can be accessed through the web and are not blocked.
@@ -14,6 +19,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New APIs
 
 * Added new event `Access.modifyUserAccess` which lets plugins modify current user's access levels/permissions.
+* Added new event `CustomMatomoJs.manipulateJsTracker` which lets plugins modify the JavaScript tracker.
 
 ### New Developer Features
 

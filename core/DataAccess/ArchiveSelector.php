@@ -161,7 +161,7 @@ class ArchiveSelector
                               WHERE idsite IN (" . implode(',', $siteIds) . ")
                                 AND " . self::getNameCondition($plugins, $segment) . "
                                 AND %s
-                           GROUP BY idsite, date1, date2";
+                           GROUP BY idsite, date1, date2, name";
 
         $monthToPeriods = array();
         foreach ($periods as $period) {

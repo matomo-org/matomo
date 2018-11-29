@@ -67,12 +67,12 @@ class FileIntegrity
 
             $messageDirectoriesToDelete = '';
             foreach ($directoriesFoundButNotExpected as $directoryFoundNotExpected) {
-                $messageDirectoriesToDelete .= Piwik::translate('General_ExceptionDirectoryToDelete', $directoryFoundNotExpected) . '<br/>';
+                $messageDirectoriesToDelete .= Piwik::translate('General_ExceptionDirectoryToDelete', htmlspecialchars($directoryFoundNotExpected)) . '<br/>';
             }
 
             $directories = array();
             foreach ($directoriesFoundButNotExpected as $directoryFoundNotExpected) {
-                $directories[] = realpath($directoryFoundNotExpected);
+                $directories[] = htmlspecialchars(realpath($directoryFoundNotExpected));
             }
 
             $deleteAllAtOnce = array();
@@ -115,12 +115,12 @@ class FileIntegrity
 
             $messageFilesToDelete = '';
             foreach ($filesFoundButNotExpected as $fileFoundNotExpected) {
-                $messageFilesToDelete .= Piwik::translate('General_ExceptionFileToDelete', $fileFoundNotExpected) . '<br/>';
+                $messageFilesToDelete .= Piwik::translate('General_ExceptionFileToDelete', htmlspecialchars($fileFoundNotExpected)) . '<br/>';
             }
 
             $files = array();
             foreach ($filesFoundButNotExpected as $fileFoundNotExpected) {
-                $files[] = '"' . realpath($fileFoundNotExpected) . '"';
+                $files[] = '"' . htmlspecialchars(realpath($fileFoundNotExpected)) . '"';
             }
 
             $deleteAllAtOnce = array();

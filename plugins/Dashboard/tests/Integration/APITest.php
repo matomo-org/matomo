@@ -10,6 +10,7 @@ namespace Piwik\Plugins\Dashboard\tests\Integration;
 
 use Piwik\Plugins\Dashboard\API;
 use Piwik\Plugins\Dashboard\Model;
+use Piwik\Plugins\UsersManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -37,6 +38,7 @@ class APITest extends IntegrationTestCase
         parent::setUp();
 
         Fixture::createSuperUser();
+        UsersManager\API::getInstance()->addUser('eva', '12345.3m2', 'eva@example.com');
 
         $this->model = new Model();
         $this->api = API::getInstance();

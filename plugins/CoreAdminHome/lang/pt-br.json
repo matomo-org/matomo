@@ -97,12 +97,13 @@
         "UseCustomLogo": "Usar logomarca personalizada",
         "ValidPiwikHostname": "Hostname Matomo válido",
         "WithOptionalRevenue": "com rendimento opcional",
-        "YouAreOptedIn": "Você está atualmente dentro do opted",
         "YouAreOptedOut": "Você optou por sair.",
         "YouMayOptOut": "Você pode optar por não ter um único número de identificação web analytics de cookie atribuído ao seu computador para evitar a agregação e análise dos dados coletados neste site.",
         "YouMayOptOutBis": "Para fazer essa escolha, clique abaixo para receber um cookie de opt-out.",
         "OptingYouOut": "Optando por sair, por favor aguarde ...",
         "ProtocolNotDetectedCorrectly": "Você está visualizando o Matomo só pode detectar uma conexão não segura no servidor.",
-        "ProtocolNotDetectedCorrectlySolution": "Para certificar-se que o Matomo solicita e serve o seu conteúdo de forma segura através de HTTPS, você pode editar o seu %1$s arquivo, assim como configurar o proxy, ou você pode adicionar a linha %2$s abaixo da %3$s seção. %4$sSaiba mais%5$s"
+        "ProtocolNotDetectedCorrectlySolution": "Para certificar-se que o Matomo solicita e serve o seu conteúdo de forma segura através de HTTPS, você pode editar o seu %1$s arquivo, assim como configurar o proxy, ou você pode adicionar a linha %2$s abaixo da %3$s seção. %4$sSaiba mais%5$s",
+        "MissingTrackingCodeEmailSubject": "Sem tráfego para %s gravado no Matomo Analytics, comece agora",
+        "JsTrackingCodeMissingEmail1": "Alguns dias atrás você adicionou o website '%s' no seu Matomo Analytics. Nós acabamos de verificar e seu Matomo parece não possuir qualquer tráfego registrado para esse website."
     }
 }

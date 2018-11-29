@@ -2132,7 +2132,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(103);
+        expect(104);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2220,6 +2220,7 @@ function PiwikTest() {
         equal( typeof tracker.getNumTrackedPageViews, 'function', 'getNumTrackedPageViews' );
         equal( typeof tracker.trackPageView, 'function', 'trackPageView' );
         equal( typeof tracker.trackRequest, 'function', 'trackRequest' );
+        equal( typeof tracker.queueRequest, 'function', 'queueRequest' );
         equal( typeof tracker.disableCookies, 'function', 'disableCookies' );
         equal( typeof tracker.deleteCookies, 'function', 'deleteCookies' );
         // content
@@ -3572,7 +3573,7 @@ if ($mysql) {
     });
 
     test("tracking", function() {
-        expect(152);
+        expect(155);
 
         // Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
         var stopEvent = function (evt) {
@@ -3824,6 +3825,9 @@ if ($mysql) {
 
         // Tracker custom request
         tracker.trackRequest('myFoo=bar&baz=1');
+        tracker.queueRequest('myQueue=bar&queue=1');
+        tracker.queueRequest('myQueue=bar&queue=2');
+        tracker.queueRequest('myQueue=bar&queue=3');
 
         // Custom variables
         tracker.storeCustomVariablesInCookie();
@@ -3976,7 +3980,7 @@ if ($mysql) {
             xhr.open("GET", "matomo.php?requests=" + getToken(), false);
             xhr.send(null);
             results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "37", "count tracking events" );
+            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "40", "count tracking events" );
 
             // firing callback
             ok( trackLinkCallbackFired, "trackLink() callback fired" );
@@ -4014,6 +4018,9 @@ if ($mysql) {
 
             // custom tracking request
             ok( /myFoo=bar&baz=1&idsite=1/.test( results ), "trackRequest sends custom parameters");
+            ok( /myQueue=bar&queue=1/.test( results ), "queueRequest sends queued requests");
+            ok( /myQueue=bar&queue=2/.test( results ), "queueRequest sends queued requests");
+            ok( /myQueue=bar&queue=3/.test( results ), "queueRequest sends queued requests");
 
             // Test Custom variables
             ok( /SaveCustomVariableCookie.*&cvar=%7B%222%22%3A%5B%22cookiename2PAGE%22%2C%22cookievalue2PAGE%22%5D%7D.*&_cvar=%7B%221%22%3A%5B%22cookiename%22%2C%22cookievalue%22%5D%2C%222%22%3A%5B%22cookiename2%22%2C%22cookievalue2%22%5D%7D/.test(results), "test custom vars are set");
