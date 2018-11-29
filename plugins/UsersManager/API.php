@@ -813,10 +813,6 @@ class API extends \Piwik\Plugin\API
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserExists($userLogin);
 
-        if (!Url::isValidHost()) {
-            throw new Exception("Cannot change password or email with untrusted hostname!");
-        }
-
         $userInfo   = $this->model->getUser($userLogin);
         $token_auth = $userInfo['token_auth'];
         $changeShouldRequirePasswordConfirmation = false;
