@@ -444,7 +444,7 @@ class ArchivingHelper
         $name = str_replace("\n", "", $name);
 
         if ($type == Action::TYPE_PAGE_TITLE && self::$actionTitleCategoryDelimiter === '') {
-            if (empty($name)) {
+            if ($name === '' || $name === false || $name === null || trim($name) === '') {
                 $name = self::getUnknownActionName($type);
             }
             return array(trim($name));
