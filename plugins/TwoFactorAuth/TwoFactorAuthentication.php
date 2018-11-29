@@ -7,6 +7,7 @@
  */
 namespace Piwik\Plugins\TwoFactorAuth;
 
+use Piwik\Piwik;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Plugins\UsersManager\Model;
@@ -52,6 +53,8 @@ class TwoFactorAuthentication
     {
         $this->saveSecret($login, '');
         $this->recoveryCodeDao->deleteAllRecoveryCodesForLogin($login);
+
+        Piwik::postEvent('TwoFactorAuth.disabled', array($login));
     }
 
     private function isAnonymous($login)

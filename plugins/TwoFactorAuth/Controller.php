@@ -209,6 +209,8 @@ class Controller extends \Piwik\Plugin\Controller
                 unset($session->secret);
                 $this->passwordVerify->forgetVerifiedPassword();
 
+                Piwik::postEvent('TwoFactorAuth.enabled', array($login));
+
                 if ($standalone) {
                     $this->redirectToIndex('CoreHome', 'index');
                     return;
