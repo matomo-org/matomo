@@ -64,6 +64,7 @@ php_errors.log
 /tests/PHPUnit/proxy/matomo.js
 /tests/PHPUnit/proxy/plugins
 /tests/PHPUnit/proxy/tests
+/tests/PHPUnit/proxy/misc
 /tests/resources/piwik.test.js
 /tests/resources/matomo.test.js
 /config/*.config.ini.php

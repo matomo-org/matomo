@@ -478,7 +478,7 @@ class Mysql implements SchemaInterface
     }
 
     /**
-     * Creates an entry in the User table for the "anonymous" user.
+     * Records the Matomo version a user used when installing this Matomo for the first time
      */
     public function recordInstallVersion()
     {
@@ -488,7 +488,7 @@ class Mysql implements SchemaInterface
     }
 
     /**
-     * Creates an entry in the User table for the "anonymous" user.
+     * Returns which Matomo version was used to install this Matomo for the first time.
      */
     public function getInstallVersion()
     {
