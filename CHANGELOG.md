@@ -4,6 +4,22 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 3.8.0
+
+### Breaking Changes
+* When changing the email address or the password through the `UsersManager.updateUser` API, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
+* The output type "save on disk" in the API method `ScheduledReport.generateReport` has been replaced by the download output type.
+
+### New APIs
+
+* It is now possible to queue a request on the JavaScript tracker using the method `queueRequest(requestUrl)`. This can be useful to group multiple tracking requests into one bulk request to reduce the number of tracking requests that are sent to your server making the tracking more efficient.
+
+### Internal change
+* New Matomo installation will now use by default "matomo.js" and "matomo.php" as tracking endpoints. From Matomo 4.0 all installations will use "matomo.js" and "matomo.php" by default. We recommend you ensure those files can be accessed through the web and are not blocked.
+
+### Deprecations
+* The method `Piwik\SettingsPiwik::isPiwikInstalled()` has been deprecated and renamed to `isMatomoInstalled()`. It is still supported to use the method, but the method will be removed in Piwik 4.0.0
+
 ## Matomo 3.6.1
 
 ### New APIs

@@ -62,7 +62,9 @@
                 'description': '',
                 'period': ReportPlugin.defaultPeriod,
                 'hour': ReportPlugin.defaultHour,
-                'reports': []
+                'reports': [],
+                'evolutionPeriodFor': 'prev',
+                'evolutionPeriodN': ReportPlugin.defaultEvolutionPeriodN,
             };
 
             if (idReport > 0) {
@@ -135,6 +137,10 @@
             apiParameters.idSegment = this.report.idsegment;
             apiParameters.reportType = this.report.type;
             apiParameters.reportFormat = this.report['format' + this.report.type];
+            apiParameters.evolutionPeriodFor = this.report.evolutionPeriodFor;
+            if (apiParameters.evolutionPeriodFor !== 'each') {
+                apiParameters.evolutionPeriodN = this.report.evolutionPeriodN;
+            }
 
             var period = self.report.period;
             var hour = adjustHourToTimezone(this.report.hour, -getTimeZoneDifferenceInHours());
@@ -216,6 +222,21 @@
         this.editReport = function (reportId) {
             this.showAddEditForm();
             formSetEditReport(reportId);
+        };
+
+        this.getFrequencyPeriodSingle = function () {
+            var translation = ReportPlugin.periodTranslations[this.report.period];
+            if (!translation) {
+                translation = ReportPlugin.periodTranslations.day;
+            }
+            return translation.single;
+        };
+        this.getFrequencyPeriodPlural = function () {
+            var translation = ReportPlugin.periodTranslations[this.report.period];
+            if (!translation) {
+                translation = ReportPlugin.periodTranslations.day;
+            }
+            return translation.plural;
         };
 
         this.showListOfReports(false);

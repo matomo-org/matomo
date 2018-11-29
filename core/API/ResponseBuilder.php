@@ -165,10 +165,19 @@ class ResponseBuilder
      */
     private function formatExceptionMessage($exception)
     {
-        $message = $exception->getMessage();
-        if ($this->shouldPrintBacktrace) {
-            $message .= "\n" . $exception->getTraceAsString();
-        }
+        $message = "";
+
+        $e = $exception;
+        do {
+            if ($e !== $exception) {
+                $message .= ",\ncaused by: ";
+            }
+
+            $message .= $e->getMessage();
+            if ($this->shouldPrintBacktrace) {
+                $message .= "\n" . $e->getTraceAsString();
+            }
+        } while ($e = $e->getPrevious());
 
         return Renderer::formatValueXml($message);
     }

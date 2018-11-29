@@ -8,10 +8,10 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Plugins\Annotations\API as APIAnnotations;
 use Piwik\Plugins\Goals\API as APIGoals;
-use Piwik\Tests\Framework\Fixture;
+use Piwik\Tests\Framework\XssTesting;
+use Piwik\Plugins\CustomDimensions\API as CustomDimensionsAPI;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs.php';
 
@@ -32,6 +32,7 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
     {
         parent::setUp();
 
+        $this->addCustomDimensions();
         $this->trackVisitWithActionsXss();
 
         $this->trackVisitsForRealtimeMap(Date::factory('2012-08-11 11:22:33'), $createSeperateVisitors = false);
@@ -40,22 +41,47 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
         $this->trackVisitsForRealtimeMap($this->now);
     }
 
+    public function addCustomDimensions()
+    {
+        if (!self::customDimensionExists($idSite = 1, $idCustomDimension = 1)) {
+            CustomDimensionsAPI::getInstance()->configureNewCustomDimension($idSite = 1, 'test dim', 'visit', true);
+        }
+    }
+
+    private function customDimensionExists($idSite, $idCustomDimension)
+    {
+        $configured = CustomDimensionsAPI::getInstance()->getConfiguredCustomDimensions($idSite);
+        foreach ($configured as $dimension) {
+            if ($idCustomDimension == $dimension['idcustomdimension']) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function setUpWebsitesAndGoals()
     {
+        $xssTesting = new XssTesting();
+
         // for conversion testing
         if (!self::siteCreated($idSite = 1)) {
-            $siteName = self::makeXssContent("site name", $sanitize = true);
+            $siteName = $xssTesting->forTwig("site name", $sanitize = true);
             self::createWebsite($this->dateTime, $ecommerce = 1, $siteName);
         }
 
         if (!self::goalExists($idSite = 1, $idGoal = 1)) {
             APIGoals::getInstance()->addGoal(
-                $this->idSite, self::makeXssContent("goal name"), 'url', 'http', 'contains', false, 5, false, self::makeXssContent("goal description"));
+                $this->idSite, $xssTesting->forTwig("goal name"), 'url', 'http', 'contains', false, 5, false, $xssTesting->forTwig("goal description"));
         }
 
         if (!self::siteCreated($idSite = 2)) {
-            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
+            self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = $xssTesting->forAngular('Piwik test two'),
                 $siteUrl = 'http://example-site-two.com');
+        }
+
+        if (!self::goalExists($idSite = 2, $idGoal = 2)) {
+            APIGoals::getInstance()->addGoal(
+                $this->idSite, $xssTesting->forAngular("second goal"), 'url', 'http', 'contains', false, 5, false, $xssTesting->forAngular("goal description"));
         }
 
         if (!self::siteCreated($idSite = 3)) {
@@ -66,10 +92,11 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
 
     public function addAnnotations()
     {
+        $xssTesting = new XssTesting();
         APIAnnotations::getInstance()->add($this->idSite, '2012-08-09', "Note 1", $starred = 1);
         APIAnnotations::getInstance()->add(
-            $this->idSite, '2012-08-08', self::makeXssContent("annotation"), $starred = 0);
-        APIAnnotations::getInstance()->add($this->idSite, '2012-08-10', "Note 3", $starred = 1);
+            $this->idSite, '2012-08-08', $xssTesting->forTwig("annotation"), $starred = 0);
+        APIAnnotations::getInstance()->add($this->idSite, '2012-08-10', $xssTesting->forAngular("Annotation note 3"), $starred = 1);
     }
 
     public function trackVisitsForRealtimeMap($date, $createSeperateVisitors = true)
@@ -130,15 +157,36 @@ class ManySitesImportedLogsWithXssAttempts extends ManySitesImportedLogs
 
     private function trackVisitWithActionsXss()
     {
-        $urlXss = self::makeXssContent('page url');
-        $titleXss = self::makeXssContent('page title');
+        $xssTesting = new XssTesting();
 
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit= true);
-        $t->setUrl('http://example.org/' . urlencode($urlXss));
-        self::checkResponse($t->doTrackPageView(urlencode($titleXss)));
+        $baseDay = Date::factory($this->dateTime)->addDay(10);
 
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(1)->getDateTime());
-        $t->setUrl('http://example.org/' . $urlXss);
-        self::checkResponse($t->doTrackPageView($titleXss));
+        $xssTypes = ['forTwig', 'forAngular'];
+        foreach ($xssTypes as $index => $type) {
+            $urlXss = $xssTesting->$type('pageurl');
+            $titleXss = $xssTesting->$type('page title');
+            $referrerUrlXss = 'http://referrer.com/' . $xssTesting->$type('referrerUrl');
+            $referrerUrlSearchEngineXss = 'http://google.com/search?q=' . urlencode($xssTesting->$type('keyword'));
+
+            $dateTime = $baseDay->addDay($index);
+
+            $t = self::getTracker($this->idSite, $dateTime, $defaultInit= true);
+            $t->setUrl('http://example.org/' . urlencode($urlXss));
+            $t->setUrlReferrer($referrerUrlXss);
+            $t->setCustomTrackingParameter('dimension1', $xssTesting->$type('customdimension'));
+            $t->setCustomVariable(1, $xssTesting->$type('customvarname'), $xssTesting->$type('customvarval'));
+            $t->setUserId($xssTesting->$type('userid'));
+            $t->setBrowserLanguage($xssTesting->$type('lang'));
+            $t->setCity($xssTesting->$type('city'));
+            $t->setRegion($xssTesting->$type('region'));
+            $t->setCountry($xssTesting->$type('country'));
+            $t->setUserAgent($xssTesting->$type('useragent'));
+            self::checkResponse($t->doTrackPageView(urlencode($titleXss)));
+
+            $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDateTime());
+            $t->setUrlReferrer($referrerUrlSearchEngineXss);
+            $t->setUrl('http://example.org/' . $urlXss);
+            self::checkResponse($t->doTrackPageView($titleXss));
+        }
     }
 }

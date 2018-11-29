@@ -39,6 +39,8 @@ class UsersManagerTest extends IntegrationTestCase
      */
     private $model;
 
+    private $backupIdentity;
+
     public function setUp()
     {
         parent::setUp();
@@ -55,9 +57,16 @@ class UsersManagerTest extends IntegrationTestCase
         //finally we set the user as a Super User by default
         FakeAccess::$superUser = true;
         FakeAccess::$superUserLogin = 'superusertest';
+        $this->backupIdentity = FakeAccess::$identity;
 
         $this->api   = API::getInstance();
         $this->model = new Model();
+    }
+
+    public function tearDown()
+    {
+        FakeAccess::$identity = $this->backupIdentity;
+        parent::tearDown();
     }
 
     private function _flatten($sitesAccess)
@@ -933,10 +942,66 @@ class UsersManagerTest extends IntegrationTestCase
                        'email'    => "test@test.com",
                        'alias'    => "alias");
 
+
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-        $this->api->updateUser($login, "passowordOK");
+
+        FakeAccess::$identity = 'login';
+        $this->api->updateUser($login, "passowordOK", false, false, false, "geqgeagae");
 
         $this->_checkUserHasNotChanged($user, "passowordOK");
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_ConfirmWithPassword
+     */
+    public function testUpdateUserFailsNoCurrentPassword()
+    {
+        $login = "login";
+        $user  = array('login'    => $login,
+                       'password' => "geqgeagae",
+                       'email'    => "test@test.com",
+                       'alias'    => "alias");
+
+        $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+
+        FakeAccess::$identity = 'login';
+        $this->api->updateUser($login, "passowordOK", false, false, false, "");
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_CurrentPasswordNotCorrect
+     */
+    public function testUpdateUserFailsWrongCurrentPassword()
+    {
+        $login = "login";
+        $user  = array('login'    => $login,
+                       'password' => "geqgeagae",
+                       'email'    => "test@test.com",
+                       'alias'    => "alias");
+
+        $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+
+        FakeAccess::$identity = 'login';
+        $this->api->updateUser($login, "passowordOK", false, false, false, "geqgeag");
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage UsersManager_CurrentPasswordNotCorrect
+     */
+    public function testUpdateUserFailsWrongCurrentPassword_requiresThePasswordOfCurrentLoggedInUser()
+    {
+        $login = "login";
+        $user  = array('login'    => $login,
+                       'password' => "geqgeagae",
+                       'email'    => "test@test.com",
+                       'alias'    => "alias");
+
+        $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
+        // currently logged in is a super user and not "login". therefore the password of "login" won't work
+        $this->api->updateUser($login, "passowordOK", false, false, false, "geqgeag");
     }
 
     /**
@@ -951,7 +1016,9 @@ class UsersManagerTest extends IntegrationTestCase
                        'alias'    => "alias");
 
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-        $this->api->updateUser($login, "passowordOK", null, "newalias");
+
+        FakeAccess::$identity = 'login';
+        $this->api->updateUser($login, "passowordOK", null, "newalias", false, "geqgeagae");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", null, "newalias");
     }
@@ -968,7 +1035,9 @@ class UsersManagerTest extends IntegrationTestCase
                        'alias'    => "alias");
 
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-        $this->api->updateUser($login, "passowordOK", "email@geaga.com");
+
+        FakeAccess::$identity = 'login';
+        $this->api->updateUser($login, "passowordOK", "email@geaga.com", false, false, "geqgeagae");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com");
     }
@@ -1008,7 +1077,9 @@ class UsersManagerTest extends IntegrationTestCase
                        'alias'    => "alias");
 
         $this->api->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
-        $this->api->updateUser($login, "passowordOK", "email@geaga.com", "NEW ALIAS");
+
+        FakeAccess::$identity = 'login';
+        $this->api->updateUser($login, "passowordOK", "email@geaga.com", "NEW ALIAS", false, "geqgeagae");
 
         $this->_checkUserHasNotChanged($user, "passowordOK", "email@geaga.com", "NEW ALIAS");
     }
@@ -1076,7 +1147,29 @@ class UsersManagerTest extends IntegrationTestCase
     public function testGetAvailableCapabilities()
     {
         $this->addSites(1);
-        $this->assertSame(array(), $this->api->getAvailableCapabilities());
+        $this->assertSame(array(
+            0 => array(
+                'id' => 'tagmanager_write',
+                'name' => 'UsersManager_PrivWrite',
+                'description' => 'TagManager_CapabilityWriteDescription',
+                'helpUrl' => '',
+                'includedInRoles' => array ('write', 'admin')
+            ),
+            1 => array (
+                'id' => 'tagmanager_publish_live_container',
+                 'name' => 'TagManager_CapabilityPublishLiveContainer',
+                'description' => 'TagManager_CapabilityPublishLiveContainerDescription',
+                'helpUrl' => '',
+                'includedInRoles' => array ('admin')
+            ),
+            2 => array (
+                'id' => 'tagmanager_use_custom_templates',
+                'name' => 'TagManager_CapabilityUseCustomTemplates',
+                'description' => 'TagManager_CapabilityUseCustomTemplateDescription',
+                'helpUrl' => '',
+                'includedInRoles' => array ('admin')
+            )
+        ), $this->api->getAvailableCapabilities());
     }
 
     private function addSites($numberOfSites)

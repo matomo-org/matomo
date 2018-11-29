@@ -370,6 +370,7 @@
         "ReportsWillBeProcessedAtMostEveryHour": "Reports will therefore be processed at most every hour.",
         "RequestTimedOut": "A data request to %s timed out. Please try again.",
         "Required": "%s required",
+        "Required2": "Required",
         "ReturningVisitor": "Returning Visitor",
         "ReturningVisitorAllVisits": "View all visits",
         "RowEvolutionRowActionTooltip": "See how the metrics for this row changed over time",

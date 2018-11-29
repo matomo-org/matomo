@@ -68,10 +68,11 @@
 
             // Cache server-rendered page title
             originalTitle = originalTitle || document.title;
-            var titleParts = originalTitle.split('-');
-            var dateString = ' ' + piwikPeriods.parse(period, date).getPrettyString() + ' ';
-            titleParts.splice(1, 0, dateString);
-            document.title = titleParts.join('-');
+
+            if (0 === originalTitle.indexOf(piwik.siteName)) {
+                var dateString = ' - ' + piwikPeriods.parse(period, date).getPrettyString() + ' ';
+                document.title = piwik.siteName + dateString + originalTitle.substr(piwik.siteName.length);
+            }
         }
     }
 

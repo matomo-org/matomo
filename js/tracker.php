@@ -37,7 +37,7 @@ if (is_dir(PIWIK_INCLUDE_PATH . '/vendor')) {
 // Composer autoloader
 require PIWIK_VENDOR_PATH . '/autoload.php';
 
-$file = '../piwik.js';
+$file = '../matomo.js';
 
 $daysExpireFarFuture = 10;
 
@@ -45,7 +45,7 @@ $byteStart = $byteEnd = false;
 if (!defined("PIWIK_KEEP_JS_TRACKER_COMMENT")
     || !PIWIK_KEEP_JS_TRACKER_COMMENT
 ) {
-    $byteStart = 371; // length of comment header in bytes
+    $byteStart = 378; // length of comment header in bytes
 }
 
 class Validator {

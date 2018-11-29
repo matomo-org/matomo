@@ -99,7 +99,7 @@ var piwikHelper = {
         if (!value) {
             return value;
         }
-        var findReplace = [[/&/g, "&amp;"], [/</g, "&lt;"], [/>/g, "&gt;"], [/"/g, "&quot;"]];
+        var findReplace = [[/&/g, "&amp;"], [/</g, "&lt;"], [/>/g, "&gt;"], [/"/g, "&quot;"], [/{{/g, '{&#8291;{']];
         for(var item in findReplace) {
             value = value.replace(findReplace[item][0], findReplace[item][1]);
         }

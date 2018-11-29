@@ -228,6 +228,8 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = "UsersManager_PrivAdmin";
         $translationKeys[] = "UsersManager_PrivView";
         $translationKeys[] = "UsersManager_RemoveUserAccess";
+        $translationKeys[] = "UsersManager_ConfirmWithPassword";
+        $translationKeys[] = "UsersManager_YourCurrentPassword";
         $translationKeys[] = "UsersManager_UserHasPermission";
         $translationKeys[] = "UsersManager_UserHasNoPermission";
         $translationKeys[] = "UsersManager_PrivNone";
@@ -287,10 +289,10 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_Email';
         $translationKeys[] = 'UsersManager_LastSeen';
         $translationKeys[] = 'UsersManager_SuperUserAccess';
+        $translationKeys[] = 'UsersManager_AreYouSureChangeDetails';
+        $translationKeys[] = 'UsersManager_AnonymousUserRoleChangeWarning';
         $translationKeys[] = 'General_Warning';
         $translationKeys[] = 'General_Add';
-        $translationKeys[] = 'UsersManager_AreYouSureChangePassword';
         $translationKeys[] = 'General_Note';
-        $translationKeys[] = 'UsersManager_AnonymousUserRoleChangeWarning';
     }
 }

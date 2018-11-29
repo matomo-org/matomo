@@ -108,12 +108,28 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         };
         $screenshots = array_map($cleanPath, $screenshots);
 
-        $storedLfsFiles = explode("\n", `git lfs ls-files`);
+        $lfsFiles = `git lfs ls-files`;
+        $submodules = `git submodule | awk '{ print $2 }'`;
+        $submodules = explode("\n", $submodules);
+        $storedLfsFiles = explode("\n", $lfsFiles);
         $cleanRevision  = function ($value) {
             $parts = explode(' ', $value);
             return array_pop($parts);
         };
         $storedLfsFiles = array_map($cleanRevision, $storedLfsFiles);
+
+        foreach ($submodules as $submodule) {
+            $submodule = trim(trim($submodule), './');
+            $pluginLfsFiles = shell_exec('cd ' . PIWIK_DOCUMENT_ROOT.'/'.$submodule . ' && git lfs ls-files');
+            if (!empty($pluginLfsFiles)) {
+                $pluginLfsFiles = explode("\n", $pluginLfsFiles);
+                $pluginLfsFiles = array_map($cleanRevision, $pluginLfsFiles);
+                $pluginLfsFiles = array_map(function ($val) use ($submodule) {
+                    return $submodule . '/' . $val;
+                }, $pluginLfsFiles);
+                $storedLfsFiles = array_merge($storedLfsFiles, $pluginLfsFiles);
+            }
+        }
 
         $diff = array_diff($screenshots, $storedLfsFiles);
         $this->assertEmpty($diff, 'Some Screenshots are not stored in LFS: ' . implode("\n", $diff));
@@ -473,6 +489,15 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         $this->assertFileEquals(PIWIK_DOCUMENT_ROOT . '/piwik-minified.js',
             PIWIK_DOCUMENT_ROOT . '/js/piwik.min.js',
             'minified /js/piwik.min.js is out of date, please re-generate the minified files using instructions in /js/README'
+        );
+    }
+
+    public function test_piwikJs_SameAsMatomoJs()
+    {
+        $this->assertFileEquals(
+            PIWIK_DOCUMENT_ROOT . '/matomo.js',
+            PIWIK_DOCUMENT_ROOT . '/piwik.js',
+            '/piwik.js does not match /matomo.js, please re-generate the minified files using instructions in /js/README'
         );
     }
 

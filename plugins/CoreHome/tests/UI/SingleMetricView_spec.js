@@ -38,7 +38,7 @@ describe('SingleMetricView', function () {
     it('should handle individual goal metrics properly', function (done) {
         expect.screenshot("goal_metric").to.be.captureSelector('#widgetCoreVisualizationssingleMetricViewcolumn', function (page) {
             page.mouseMove('#widgetCoreVisualizationssingleMetricViewcolumn .single-metric-view-picker');
-            page.click('.jqplot-seriespicker-popover label:contains(two - Conversions)');
+            page.click('.jqplot-seriespicker-popover label:contains(_x)');
         }, done);
     });
 
