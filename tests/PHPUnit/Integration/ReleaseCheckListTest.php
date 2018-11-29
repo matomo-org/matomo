@@ -492,6 +492,15 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function test_piwikJs_SameAsMatomoJs()
+    {
+        $this->assertFileEquals(
+            PIWIK_DOCUMENT_ROOT . '/matomo.js',
+            PIWIK_DOCUMENT_ROOT . '/piwik.js',
+            '/piwik.js does not match /matomo.js, please re-generate the minified files using instructions in /js/README'
+        );
+    }
+
     public function testTmpDirectoryContainsGitKeep()
     {
         $this->assertFileExists(PIWIK_DOCUMENT_ROOT . '/tmp/.gitkeep');

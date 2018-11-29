@@ -228,6 +228,7 @@ class Updater
             '/index.php',
             '/core/Piwik.php',
             '/piwik.php',
+            '/matomo.php',
             '/plugins/API/API.php'
         );
         foreach ($someExpectedFiles as $file) {
