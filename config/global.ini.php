@@ -212,7 +212,7 @@ release_channel = "latest_stable"
 action_url_category_delimiter = /
 
 ; similar to above, but this delimiter is only used for page titles in the Actions > Page titles report
-action_title_category_delimiter = /
+action_title_category_delimiter = ""
 
 ; the maximum url category depth to track. if this is set to 2, then a url such as
 ; "example.com/blog/development/first-post" would be treated as "example.com/blog/development".
