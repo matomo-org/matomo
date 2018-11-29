@@ -1209,12 +1209,12 @@
 		</category>
 		<subcategory>
 			<id>Referrers_WidgetGetAll</id>
-			<name>All Referrers</name>
+			<name>All Channels</name>
 			<order>5</order>
 		</subcategory>
 		<widgets>
 			<row>
-				<name>Referrer Types</name>
+				<name>Channel Types</name>
 				<module>Referrers</module>
 				<action>getReferrerType</action>
 				<order>101</order>
@@ -1240,6 +1240,34 @@
 				<isWide>0</isWide>
 				<viewDataTable>tableAllColumns</viewDataTable>
 				<isReport>1</isReport>
+			</row>
+		</widgets>
+	</row>
+	<row>
+		<uniqueId>Referrers_Referrers.Referrers_URLCampaignBuilder</uniqueId>
+		<category>
+			<id>Referrers_Referrers</id>
+			<name>Acquisition</name>
+			<order>15</order>
+			<icon>icon-reporting-referer</icon>
+		</category>
+		<subcategory>
+			<id>Referrers_URLCampaignBuilder</id>
+			<name>Campaign URL Builder</name>
+			<order>21</order>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>Campaign URL Builder</name>
+				<module>Referrers</module>
+				<action>getCampaignUrlBuilder</action>
+				<order>99</order>
+				<parameters>
+					<module>Referrers</module>
+					<action>getCampaignUrlBuilder</action>
+				</parameters>
+				<uniqueId>widgetReferrersgetCampaignUrlBuilder</uniqueId>
+				<isWide>0</isWide>
 			</row>
 		</widgets>
 	</row>
@@ -1307,7 +1335,7 @@
 				<isReport>1</isReport>
 			</row>
 			<row>
-				<name>Referrer Type</name>
+				<name>Channel Type</name>
 				<module>Referrers</module>
 				<action>getSparklines</action>
 				<order>10</order>
@@ -1829,7 +1857,7 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name>Referrer Type</name>
+						<name>Channel Type</name>
 						<category>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
@@ -2436,7 +2464,7 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name>Referrer Type</name>
+						<name>Channel Type</name>
 						<category>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
@@ -3043,7 +3071,7 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name>Referrer Type</name>
+						<name>Channel Type</name>
 						<category>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
@@ -3705,7 +3733,7 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name>Referrer Type</name>
+						<name>Channel Type</name>
 						<category>
 							<id>Goals by Referrers</id>
 							<name>Goals by Referrers</name>
@@ -4487,7 +4515,7 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
-						<name>Referrer Type</name>
+						<name>Channel Type</name>
 						<category>
 							<id>Sales by Referrers</id>
 							<name>Sales by Referrers</name>

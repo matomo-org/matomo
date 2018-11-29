@@ -96,6 +96,7 @@
                 colorMode = 'default',
                 currentMap = 'world',
                 yesterday = false,
+                userHasZoomed = false,
                 colorManager = piwik.ColorManager,
                 colors = colorManager.getColors('realtime-map', ['white-bg', 'white-fill', 'black-bg', 'black-fill', 'visit-stroke',
                                                                  'website-referrer-color', 'direct-referrer-color', 'search-referrer-color',
@@ -139,7 +140,7 @@
                     method: 'Live.getLastVisitsDetails',
                     filter_limit: maxVisits,
                     showColumns: ['latitude', 'longitude', 'actions', 'lastActionTimestamp',
-                        'visitLocalTime', 'city', 'country', 'referrerType', 'referrerName',
+                        'visitLocalTime', 'city', 'country', 'countryCode', 'referrerType', 'referrerName',
                         'referrerTypeName', 'browserIcon', 'operatingSystemIcon',
                         'countryFlag', 'idVisit', 'actionDetails', 'continentCode',
                         'actions', 'searches', 'goalConversions', 'visitorId', 'userId'].join(','),
@@ -474,6 +475,29 @@
                         else d = Math.ceil(dur / 3600) + ' ' + _.hours;
                         $('.realTimeMap_timeSpan').html(d);
 
+                        if (!userHasZoomed) {
+                            // we only apply auto zoom when user has not zoomed manually
+                            var usedContinents = [];
+                            var usedCountries = [];
+                            var aSymbol;
+                            for (var z = 0; z < visitSymbols.symbols.length; z++) {
+                                aSymbol = visitSymbols.symbols[z];
+                                if (aSymbol && aSymbol.data) {
+                                    if (aSymbol.data.continentCode && -1 === usedContinents.indexOf(aSymbol.data.continentCode)) {
+                                        usedContinents.push(aSymbol.data.continentCode);
+                                    }
+                                    if (aSymbol.data.countryCode && -1 === usedCountries.indexOf(aSymbol.data.countryCode)) {
+                                        usedCountries.push(aSymbol.data.countryCode);
+                                    }
+                                }
+                            }
+
+                            if (usedCountries.length === 1 && usedCountries[0] && usedCountries[0] !== 'unk') {
+                                updateMap(UserCountryMap.ISO2toISO3[usedCountries[0].toUpperCase()], false);
+                            } else if (usedContinents.length === 1 && usedContinents[0] && usedContinents[0] !== 'unk') {
+                                updateMap(UserCountryMap.cont2cont[usedContinents[0]], false);
+                            }
+                        }
                     }
                     firstRun = false;
                 }
@@ -505,6 +529,7 @@
                     },
                     click: function (d, p, evt) {
                         evt.stopPropagation();
+                        userHasZoomed = true;
                         if (currentMap.length == 2){   // zoom to country
                             updateMap(d.iso);
                         } else if (currentMap != 'world') {  // zoom out if zoomed in
@@ -538,7 +563,14 @@
              * updates the map view (after changing the zoom)
              * clears all existing timeouts
              */
-            function updateMap(_map) {
+            function updateMap(_map, _storeSettings) {
+                if ('undefined' === typeof _storeSettings) {
+                    _storeSettings = true;
+                }
+                if (_map && currentMap === _map && _map !== 'world') {
+                    return;
+                }
+
                 clearTimeout(nextReqTimer);
                 $.each(symbolFadeInTimer, function (i, t) {
                     clearTimeout(t);
@@ -549,14 +581,20 @@
                 } catch (e) {}
                 currentMap = _map;
                 _updateMap(currentMap + '.svg', initMap);
-                storeSettings();
+
+                if (_storeSettings) {
+                    storeSettings();
+                }
             }
 
             updateMap(location.hash && (location.hash == '#world' || location.hash.match(/^#[A-Z]{2,3}$/)) ? location.hash.substr(1) : 'world'); // TODO: restore last state
 
             // clicking on map background zooms out
             $('.RealTimeMap_map', this.$element).off('click').click(function () {
-                if (currentMap != 'world') updateMap('world');
+                if (currentMap != 'world') {
+                    userHasZoomed = true;
+                    updateMap('world');
+                }
             });
 
             // secret gimmick shortcuts

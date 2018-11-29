@@ -177,7 +177,8 @@
                 return getSelectedSites();
             }).then(function (idSites) {
                 return piwikApi.post({
-                    method: 'UsersManager.setUserAccess',
+                    method: 'UsersManager.setUserAccess'
+                }, {
                     userLogin: vm.userLogin,
                     access: vm.roleToChangeTo,
                     'idSites[]': idSites

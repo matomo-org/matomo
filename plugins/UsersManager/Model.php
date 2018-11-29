@@ -178,13 +178,13 @@ class Model
         $bind = array_merge($bind, $whereBind);
 
         $limitSql = '';
+        $offsetSql = '';
         if ($limit) {
             $limitSql = "LIMIT " . (int)$limit;
-        }
 
-        $offsetSql = '';
-        if ($offset) {
-            $offsetSql = "OFFSET " . (int)$offset;
+            if ($offset) {
+                $offsetSql = "OFFSET " . (int)$offset;
+            }
         }
 
         $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, GROUP_CONCAT(a.access SEPARATOR "|") as access
@@ -452,13 +452,13 @@ class Model
         $bind = array_merge($bind, $whereBind);
 
         $limitSql = '';
+        $offsetSql = '';
         if ($limit) {
             $limitSql = "LIMIT " . (int)$limit;
-        }
 
-        $offsetSql = '';
-        if ($offset) {
-            $offsetSql = "OFFSET " . (int)$offset;
+            if ($offset) {
+                $offsetSql = "OFFSET " . (int)$offset;
+            }
         }
 
         $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, GROUP_CONCAT(a.access SEPARATOR "|") as access
