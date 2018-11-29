@@ -260,7 +260,8 @@ class ManySitesImportedLogs extends Fixture
                       '--enable-http-errors'        => false,
                       '--enable-http-redirects'     => false,
                       '--enable-reverse-dns'        => false,
-                      '--force-lowercase-path'      => false);
+                      '--force-lowercase-path'      => false,
+                      '--tracker-endpoint-path'     => '/matomo.php');
 
         self::executeLogImporter($logFile, $opts);
     }
