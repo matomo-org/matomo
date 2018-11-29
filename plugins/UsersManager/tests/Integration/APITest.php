@@ -138,6 +138,8 @@ class APITest extends IntegrationTestCase
     
     private $login = 'userLogin';
 
+    private $password = 'password';
+
     public function setUp()
     {
         parent::setUp();
@@ -151,7 +153,7 @@ class APITest extends IntegrationTestCase
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
         Fixture::createWebsite('2014-01-01 00:00:00');
-        $this->api->addUser($this->login, 'password', 'userlogin@password.de');
+        $this->api->addUser($this->login, $this->password, 'userlogin@password.de');
     }
 
     public function test_setUserAccess_ShouldTriggerRemoveSiteAccessEvent_IfAccessToAWebsiteIsRemoved()
@@ -291,7 +293,10 @@ class APITest extends IntegrationTestCase
 
     public function test_updateUser()
     {
-        $this->api->updateUser($this->login, 'newPassword', 'email@example.com', 'newAlias', false);
+        $identity = FakeAccess::$identity;
+        FakeAccess::$identity = $this->login; // ensure password will be checked against this user
+        $this->api->updateUser($this->login, 'newPassword', 'email@example.com', 'newAlias', false, $this->password);
+        FakeAccess::$identity = $identity;
 
         $model = new Model();
         $user = $model->getUser($this->login);
@@ -309,7 +314,10 @@ class APITest extends IntegrationTestCase
         $model = new Model();
         $userBefore = $model->getUser($this->login);
 
-        $this->api->updateUser($this->login, false, 'email@example.com', 'newAlias', false);
+        $identity = FakeAccess::$identity;
+        FakeAccess::$identity = $this->login; // ensure password will be checked against this user
+        $this->api->updateUser($this->login, false, 'email@example.com', 'newAlias', false, $this->password);
+        FakeAccess::$identity = $identity;
 
         $user = $model->getUser($this->login);
 
@@ -323,7 +331,7 @@ class APITest extends IntegrationTestCase
      */
     public function test_updateUser_failsIfPasswordTooLong()
     {
-        $this->api->updateUser($this->login, str_pad('foo', UsersManager::PASSWORD_MAX_LENGTH + 1), 'email@example.com', 'newAlias');
+        $this->api->updateUser($this->login, str_pad('foo', UsersManager::PASSWORD_MAX_LENGTH + 1), 'email@example.com', 'newAlias', false, $this->password);
     }
 
     public function test_getSitesAccessFromUser_forSuperUser()
