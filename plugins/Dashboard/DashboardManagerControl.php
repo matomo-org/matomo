@@ -7,6 +7,8 @@
  */
 namespace Piwik\Plugins\Dashboard;
 
+use Piwik\Piwik;
+
 /**
  * Generates the HTML for the dashboard manager control.
  */
@@ -37,6 +39,8 @@ class DashboardManagerControl extends DashboardSettingsControlBase
 
             if ($this->isSuperUser) {
                 $this->dashboardActions['setAsDefaultWidgets'] = 'Dashboard_SetAsDefaultWidgets';
+            }
+            if (Piwik::isUserHasSomeAdminAccess()) {
                 $this->dashboardActions['copyDashboardToUser'] = 'Dashboard_CopyDashboardToUser';
             }
         }

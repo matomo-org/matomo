@@ -377,6 +377,19 @@ class APITest extends IntegrationTestCase
         $this->assertEquals($expected, $users);
     }
 
+    public function test_getUsersPlusRole_shouldIgnoreOffsetIfLimitIsNotSupplied()
+    {
+        $this->addUserWithAccess('userLogin2', 'view', 1);
+        $this->setCurrentUser('userLogin2', 'view', 1);
+
+        $users = $this->api->getUsersPlusRole(1, $limit = null, $offset = 1);
+        $this->cleanUsers($users);
+        $expected = [
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => []],
+        ];
+        $this->assertEquals($expected, $users);
+    }
+
     public function test_getUsersPlusRole_shouldNotAllowSuperuserFilter_ifUserIsNotSuperUser()
     {
         $this->addUserWithAccess('userLogin2', 'view', 1);
@@ -553,6 +566,20 @@ class APITest extends IntegrationTestCase
         $access = $this->api->getSitesAccessForUser('userLogin');
         $expected = [
             ['idsite' => '1', 'site_name' => 'Piwik test', 'role' => 'admin', 'capabilities' => []],
+            ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+            ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
+        ];
+        $this->assertEquals($expected, $access);
+    }
+
+    public function getSitesAccessForUser_shouldIgnoreOffsetIfLimitNotSupplied()
+    {
+        $this->api->setUserAccess('userLogin', 'admin', [1]);
+        $this->api->setUserAccess('userLogin', 'view', [2]);
+        $this->api->setUserAccess('userLogin', 'view', [3]);
+
+        $access = $this->api->getSitesAccessForUser('userLogin', $limit = null, $offset = 1);
+        $expected = [
             ['idsite' => '2', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
             ['idsite' => '3', 'site_name' => 'Piwik test', 'role' => 'view', 'capabilities' => []],
         ];

@@ -997,7 +997,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
-    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, trackSiteSearch, trackEvent,
+    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, queueRequest, trackSiteSearch, trackEvent,
+    requests, timeout, sendRequests, queueRequest,
     setEcommerceView, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -1097,6 +1098,8 @@ if (typeof window.Piwik !== 'object') {
             missedPluginTrackerCalls = [],
 
             coreConsentCounter = 0,
+
+            trackerIdCounter = 0,
 
             isPageUnloading = false;
 
@@ -3229,7 +3232,10 @@ if (typeof window.Piwik !== 'object') {
                 configHasConsent = null, // initialized below
 
                 // holds all pending tracking requests that have not been tracked because we need consent
-                consentRequestsQueue = [];
+                consentRequestsQueue = [],
+
+                // a unique ID for this tracker during this request
+                uniqueTrackerId = trackerIdCounter++;
 
             // Document title
             try {
@@ -5088,10 +5094,10 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Log the goal with the server
              */
-            function logGoal(idGoal, customRevenue, customData) {
+            function logGoal(idGoal, customRevenue, customData, callback) {
                 var request = getRequest('idgoal=' + idGoal + (customRevenue ? '&revenue=' + customRevenue : ''), customData, 'goal');
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*
@@ -5584,6 +5590,58 @@ if (typeof window.Piwik !== 'object') {
 
                 return hookObj;
             }
+
+            var requestQueue = {
+                requests: [],
+                timeout: null,
+                sendRequests: function () {
+                    var requestsToTrack = this.requests;
+                    this.requests = [];
+                    if (requestsToTrack.length === 1) {
+                        sendRequest(requestsToTrack[0]);
+                    } else {
+                        sendBulkRequest(requestsToTrack);
+                    }
+                },
+                push: function (requestUrl) {
+                    if (!requestUrl) {
+                        return;
+                    }
+                    if (isPageUnloading) {
+                        // we don't queue as we need to ensure the request will be sent when the page is unloading...
+                        trackerInstance.trackRequest(requestUrl);
+                        return;
+                    }
+
+                    this.requests.push(requestUrl);
+
+                    if (this.timeout) {
+                        clearTimeout(this.timeout);
+                        this.timeout = null;
+                    }
+                    // we always extend by another 1.75 seconds after receiving a tracking request
+                    this.timeout = setTimeout(function () {
+                        requestQueue.timeout = null;
+                        requestQueue.sendRequests();
+                    }, 1750);
+
+                    var trackerQueueId = 'RequestQueue' + uniqueTrackerId;
+                    if (!Object.prototype.hasOwnProperty.call(plugins, trackerQueueId)) {
+                        // we setup one unload handler per tracker...
+                        // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make
+                        // JSLint happy.
+                        plugins[trackerQueueId] = {
+                            unload: function () {
+                                if (requestQueue.timeout) {
+                                    clearTimeout(requestQueue.timeout);
+                                }
+                                requestQueue.sendRequests();
+                            }
+                        };
+                    }
+                }
+            };
+
             /*</DEBUG>*/
 
             /************************************************************
@@ -6759,10 +6817,11 @@ if (typeof window.Piwik !== 'object') {
              * @param int|string idGoal
              * @param int|float customRevenue
              * @param mixed customData
+             * @param function callback
              */
-            this.trackGoal = function (idGoal, customRevenue, customData) {
+            this.trackGoal = function (idGoal, customRevenue, customData, callback) {
                 trackCallback(function () {
-                    logGoal(idGoal, customRevenue, customData);
+                    logGoal(idGoal, customRevenue, customData, callback);
                 });
             };
 
@@ -7192,6 +7251,23 @@ if (typeof window.Piwik !== 'object') {
                 trackCallback(function () {
                     var fullRequest = getRequest(request, customData, pluginMethod);
                     sendRequest(fullRequest, configTrackerPause, callback);
+                });
+            };
+
+            /**
+             * Won't send the tracking request directly but wait for a short time to possibly send this tracking request
+             * along with other tracking requests in one go. This can reduce the number of requests send to your server.
+             * If the page unloads (user navigates to another page or closes the browser), then all remaining queued
+             * requests will be sent immediately so that no tracking request gets lost.
+             * Note: Any queued request may not be possible to be replayed in case a POST request is sent. Only queue
+             * requests that don't have to be replayed.
+             *
+             * @param request eg. "param=value&param2=value2"
+             */
+            this.queueRequest = function (request) {
+                trackCallback(function () {
+                    var fullRequest = getRequest(request);
+                    requestQueue.push(fullRequest);
                 });
             };
 

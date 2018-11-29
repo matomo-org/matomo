@@ -8,6 +8,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking Changes
 * When changing the email address or the password through the `UsersManager.updateUser` API, a new parameter `passwordConfirmation` needs to be sent along with the request containing the current password of the user issuing the API request.
+* The output type "save on disk" in the API method `ScheduledReport.generateReport` has been replaced by the download output type.
+
+### New APIs
+
+* It is now possible to queue a request on the JavaScript tracker using the method `queueRequest(requestUrl)`. This can be useful to group multiple tracking requests into one bulk request to reduce the number of tracking requests that are sent to your server making the tracking more efficient.
 
 ## Matomo 3.6.1
 

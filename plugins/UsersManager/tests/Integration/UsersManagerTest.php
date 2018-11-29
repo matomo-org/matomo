@@ -1146,7 +1146,29 @@ class UsersManagerTest extends IntegrationTestCase
     public function testGetAvailableCapabilities()
     {
         $this->addSites(1);
-        $this->assertSame(array(), $this->api->getAvailableCapabilities());
+        $this->assertSame(array(
+            0 => array(
+                'id' => 'tagmanager_write',
+                'name' => 'UsersManager_PrivWrite',
+                'description' => 'TagManager_CapabilityWriteDescription',
+                'helpUrl' => '',
+                'includedInRoles' => array ('write', 'admin')
+            ),
+            1 => array (
+                'id' => 'tagmanager_publish_live_container',
+                 'name' => 'TagManager_CapabilityPublishLiveContainer',
+                'description' => 'TagManager_CapabilityPublishLiveContainerDescription',
+                'helpUrl' => '',
+                'includedInRoles' => array ('admin')
+            ),
+            2 => array (
+                'id' => 'tagmanager_use_custom_templates',
+                'name' => 'TagManager_CapabilityUseCustomTemplates',
+                'description' => 'TagManager_CapabilityUseCustomTemplateDescription',
+                'helpUrl' => '',
+                'includedInRoles' => array ('admin')
+            )
+        ), $this->api->getAvailableCapabilities());
     }
 
     private function addSites($numberOfSites)
