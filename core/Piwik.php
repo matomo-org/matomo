@@ -321,7 +321,7 @@ class Piwik
     {
         $currentUserLogin = Piwik::getCurrentUserLogin();
         $isSuperUser = self::hasUserSuperUserAccess();
-        return !$isSuperUser && $currentUserLogin == 'anonymous';
+        return !$isSuperUser && $currentUserLogin && strtolower($currentUserLogin) == 'anonymous';
     }
 
     /**

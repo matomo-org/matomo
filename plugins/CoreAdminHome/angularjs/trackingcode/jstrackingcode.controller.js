@@ -88,7 +88,8 @@
                 doNotTrack: self.doNotTrack ? 1 : 0,
                 disableCookies: self.disableCookies ? 1 : 0,
                 crossDomain: self.crossDomain ? 1 : 0,
-                trackNoScript: self.trackNoScript ? 1: 0
+                trackNoScript: self.trackNoScript ? 1: 0,
+                forceMatomoEndpoint: 1
             };
 
             if (self.useCustomCampaignParams) {

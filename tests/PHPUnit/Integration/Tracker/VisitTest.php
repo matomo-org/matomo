@@ -34,6 +34,7 @@ class VisitTest extends IntegrationTestCase
         // setup the access layer
         FakeAccess::$superUser = true;
 
+        Fixture::createSuperUser(true);
         Manager::getInstance()->loadTrackerPlugins();
         $pluginNames = array_keys(Manager::getInstance()->getLoadedPlugins());
         $pluginNames[] = 'SitesManager';

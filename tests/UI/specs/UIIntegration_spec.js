@@ -488,6 +488,22 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         }, done);
     });
 
+    it('should ask for password confirmation when changing email', function (done) {
+        expect.screenshot('admin_user_settings_asks_confirmation').to.be.captureSelector('.modal.open', function (page) {
+            page.evaluate(function () {
+                $('#userSettingsTable input#email').val('testlogin123@example.com').change();
+            });
+            page.click('#userSettingsTable [piwik-save-button] .btn');
+        }, done);
+    });
+
+    it('should load error when wrong password specified', function (done) {
+        expect.screenshot('admin_user_settings_wrong_password_confirmed').to.be.captureSelector('#notificationContainer', function (page) {
+            page.sendKeys('.modal.open #currentPassword', 'foobartest123');
+            page.click('.modal.open .modal-action:not(.modal-no)');
+        }, done);
+    });
+
     it('should load the Manage > Tracking Code admin page correctly', function (done) {
         expect.screenshot('admin_manage_tracking_code').to.be.captureSelector('.pageWrap', function (page) {
             page.load("?" + generalParams + "&module=CoreAdminHome&action=trackingCodeGenerator");
