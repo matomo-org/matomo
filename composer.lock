@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "53d9ab304551df4691f2057dc8b12c99",
+    "content-hash": "58af620cb0a5851205adfedd960f5c59",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -427,16 +427,16 @@
         },
         {
             "name": "maxmind-db/reader",
-            "version": "v1.3.0",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maxmind/MaxMind-DB-Reader-php.git",
-                "reference": "e042b4f8a2dff41e19019faf16427178b07fbd58"
+                "reference": "2f1086e38939e808cc23b17daa469da094af9125"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maxmind/MaxMind-DB-Reader-php/zipball/e042b4f8a2dff41e19019faf16427178b07fbd58",
-                "reference": "e042b4f8a2dff41e19019faf16427178b07fbd58",
+                "url": "https://api.github.com/repos/maxmind/MaxMind-DB-Reader-php/zipball/2f1086e38939e808cc23b17daa469da094af9125",
+                "reference": "2f1086e38939e808cc23b17daa469da094af9125",
                 "shasum": ""
             },
             "require": {
@@ -479,7 +479,7 @@
                 "geolocation",
                 "maxmind"
             ],
-            "time": "2018-02-21T21:23:33+00:00"
+            "time": "2018-11-20T16:04:10+00:00"
         },
         {
             "name": "maxmind/web-service-common",
@@ -1303,16 +1303,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
                 "shasum": ""
             },
             "require": {
@@ -1346,7 +1346,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2018-11-20T15:27:04+00:00"
         },
         {
             "name": "symfony/console",

@@ -1606,12 +1606,12 @@
 	</row>
 	<row>
 		<category>Referrers</category>
-		<subcategory>All Referrers</subcategory>
-		<name>Referrer Type</name>
+		<subcategory>All Channels</subcategory>
+		<name>Channel Type</name>
 		<module>Referrers</module>
 		<action>getReferrerType</action>
-		<dimension>Referrer Type</dimension>
-		<documentation>This table contains information about the distribution of the referrer types.&lt;br /&gt;&lt;b&gt;Direct Entry:&lt;/b&gt; A visitor has entered the URL in their browser and started browsing on your website - they entered the website directly.&lt;br /&gt;&lt;b&gt;Search Engines:&lt;/b&gt; A visitor was referred to your website by a search engine. &lt;br /&gt; See the &quot;Search Engines &amp; Keywords&quot; report for more details.&lt;br /&gt;&lt;b&gt;Websites:&lt;/b&gt; The visitor followed a link on another website that led to your site. &lt;br /&gt; See the &quot;Websites&quot; report for more details.&lt;br /&gt;&lt;b&gt;Campaigns:&lt;/b&gt; Visitors that came to your website as the result of a campaign. &lt;br /&gt; See the &quot;Campaigns&quot; report for more details.</documentation>
+		<dimension>Channel Type</dimension>
+		<documentation>This table contains information about the distribution of the channel types.&lt;br /&gt;&lt;b&gt;Direct Entry:&lt;/b&gt; A visitor has entered the URL in their browser and started browsing on your website - they entered the website directly.&lt;br /&gt;&lt;b&gt;Search Engines:&lt;/b&gt; A visitor was referred to your website by a search engine. &lt;br /&gt; See the &quot;Search Engines &amp; Keywords&quot; report for more details.&lt;br /&gt;&lt;b&gt;Websites:&lt;/b&gt; The visitor followed a link on another website that led to your site. &lt;br /&gt; See the &quot;Websites&quot; report for more details.&lt;br /&gt;&lt;b&gt;Campaigns:&lt;/b&gt; Visitors that came to your website as the result of a campaign. &lt;br /&gt; See the &quot;Campaigns&quot; report for more details.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1647,8 +1647,8 @@
 	</row>
 	<row>
 		<category>Referrers</category>
-		<subcategory>All Referrers</subcategory>
-		<name>All Referrers</name>
+		<subcategory>All Channels</subcategory>
+		<name>All Channels</name>
 		<module>Referrers</module>
 		<action>getAll</action>
 		<dimension>Referrer</dimension>

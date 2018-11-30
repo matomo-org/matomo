@@ -663,6 +663,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Referrers</category>
+		<name>Channel Type</name>
+		<segment>referrerType</segment>
+		<acceptedValues>direct, search, website, campaign</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Referrers</category>
 		<name>Keyword</name>
 		<segment>referrerKeyword</segment>
 		<acceptedValues>Encoded%20Keyword, keyword</acceptedValues>
@@ -673,13 +680,6 @@
 		<name>Referrer Name</name>
 		<segment>referrerName</segment>
 		<acceptedValues>twitter.com, www.facebook.com, Bing, Google, Yahoo, CampaignName</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Referrers</category>
-		<name>Referrer Type</name>
-		<segment>referrerType</segment>
-		<acceptedValues>direct, search, website, campaign</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

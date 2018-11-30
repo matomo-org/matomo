@@ -31,7 +31,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  * views, time spent, etc.
  *
  * Whether a visit is NEW or KNOWN we also save the action in the DB.
- * One request to the piwik.php script is associated to one action.
+ * One request to the matomo.php script is associated to one action.
  *
  */
 class Visit implements VisitInterface

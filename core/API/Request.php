@@ -321,6 +321,16 @@ class Request
     }
 
     /**
+     * @ignore
+     * @internal
+     * @return string current Api Method if it is an api request
+     */
+    public static function getRootApiRequestMethod()
+    {
+        return Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
+    }
+
+    /**
      * Detect if the root request (the actual request) is an API request or not. To detect whether an API is currently
      * request within any request, have a look at {@link isApiRequest()}.
      *
