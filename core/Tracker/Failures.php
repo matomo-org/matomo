@@ -46,8 +46,14 @@ class Failures
 
     public function logFailure($idFailure, Request $request)
     {
-        $visitExcluded = new VisitExcluded($request);
-        if ($visitExcluded->isExcluded()) {
+        $isVisitExcluded = $request->getMetadata('CoreHome', 'isVisitExcluded');
+
+        if ($isVisitExcluded === null) {
+            $visitExcluded = new VisitExcluded($request);
+            $isVisitExcluded = $visitExcluded->isExcluded();
+        }
+
+        if ($isVisitExcluded) {
             return;
         }
 
@@ -81,14 +87,16 @@ class Failures
         $params = $request->getRawParams();
         foreach (array('token_auth', 'token', 'tokenauth', 'token__auth') as $key) {
             if (isset($params[$key])) {
-                $params[$key] = '__ANONYMIZED__';
+                $params[$key] = '__TOKEN_AUTH__';
             }
         }
         foreach ($params as $key => $value) {
             if (!empty($token) && $value === $token) {
-                $params[$key] = '__ANONYMIZED__'; // user accidentally posted the token in a wrong field
-            } elseif (!empty($value) && is_string($value) && Common::mb_strlen($value) >= 29 && Common::mb_strlen($value) <= 36 && ctype_xdigit($value)) {
-                $params[$key] = '__ANONYMIZED__'; // user maybe posted a token in a different field... it looks like it might be a token
+                $params[$key] = '__TOKEN_AUTH__'; // user accidentally posted the token in a wrong field
+            } elseif (!empty($value) && is_string($value)
+                && Common::mb_strlen($value) >= 29 && Common::mb_strlen($value) <= 36
+                && ctype_xdigit($value)) {
+                $params[$key] = '__TOKEN_AUTH__'; // user maybe posted a token in a different field... it looks like it might be a token
             }
         }
 
@@ -161,16 +169,20 @@ class Failures
                 case self::FAILURE_ID_INVALID_SITE:
                     $failure['problem'] = Piwik::translate('CoreAdminHome_TrackingFailureInvalidSiteProblem');
                     $failure['solution'] = Piwik::translate('CoreAdminHome_TrackingFailureInvalidSiteSolution');
-                    $failure['solution_url'] = 'https://matomo.org/faq/todo...';
+                    $failure['solution_url'] = 'https://matomo.org/faq/how-to/faq_30838/';
                     break;
                 case self::FAILURE_ID_NOT_AUTHENTICATED:
                     $failure['problem'] = Piwik::translate('CoreAdminHome_TrackingFailureAuthenticationProblem');
                     $failure['solution'] = Piwik::translate('CoreAdminHome_TrackingFailureAuthenticationSolution');
-                    $failure['solution_url'] = 'https://matomo.org/faq/todo...';
+                    $failure['solution_url'] = 'https://matomo.org/faq/how-to/faq_30835/';
                     break;
             }
         }
 
+        /**
+         * @ignore
+         * internal use only
+         */
         Piwik::postEvent('Tracking.makeFailuresHumanReadable', array(&$failures));
 
         return $failures;

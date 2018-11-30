@@ -57,7 +57,7 @@ class FailuresTest extends IntegrationTestCase
                     'site_name' => 'Piwik test',
                     'pretty_date_first_occurred' => 'Intl_1or02Intl_Time_AMt_250Intl_Time_AMtTi02_S1ort',
                     'url' => '',
-                    'solution_url' => 'https://matomo.org/faq/todo...',
+                    'solution_url' => 'https://matomo.org/faq/how-to/faq_30838/',
                     'problem' => 'CoreAdminHome_TrackingFailureInvalidSiteProblem',
                     'solution' => 'CoreAdminHome_TrackingFailureInvalidSiteSolution',
                 ),
@@ -69,7 +69,7 @@ class FailuresTest extends IntegrationTestCase
                     'site_name' => 'Piwik test',
                     'pretty_date_first_occurred' => 'Intl_1or02Intl_Time_AMt_250Intl_Time_AMtTi02_S1ort',
                     'url' => '',
-                    'solution_url' => 'https://matomo.org/faq/todo...',
+                    'solution_url' => 'https://matomo.org/faq/how-to/faq_308385/',
                     'problem' => 'CoreAdminHome_TrackingFailureAuthenticationProblem',
                     'solution' => 'CoreAdminHome_TrackingFailureAuthenticationSolution',
                 ),
@@ -93,7 +93,7 @@ class FailuresTest extends IntegrationTestCase
                     'site_name' => 'General_Unknown',
                     'pretty_date_first_occurred' => 'Intl_1or02Intl_Time_AMt_250Intl_Time_AMtTi02_S1ort',
                     'url' => '',
-                    'solution_url' => 'https://matomo.org/faq/todo...',
+                    'solution_url' => 'https://matomo.org/faq/how-to/faq_30838/',
                     'problem' => 'CoreAdminHome_TrackingFailureInvalidSiteProblem',
                     'solution' => 'CoreAdminHome_TrackingFailureInvalidSiteSolution',
                 ),
@@ -111,7 +111,7 @@ class FailuresTest extends IntegrationTestCase
                 'site_name' => 'Piwik test',
                 'pretty_date_first_occurred' => 'Intl_1or02Intl_Time_AMt_250Intl_Time_AMtTi02_S1ort',
                 'url' => '',
-                'solution_url' => 'https://matomo.org/faq/todo...',
+                'solution_url' => 'https://matomo.org/faq/how-to/faq_30838/',
                 'problem' => 'CoreAdminHome_TrackingFailureInvalidSiteProblem',
                 'solution' => 'CoreAdminHome_TrackingFailureInvalidSiteSolution',
             )
@@ -140,21 +140,21 @@ class FailuresTest extends IntegrationTestCase
     {
         $this->logFailure(1, array('token_auth' => 'foobar', 'token' => 'bar', 'tokenauth' => 'baz'));
         $failures = $this->failures->getAllFailures();
-        $this->assertEquals('token_auth=__ANONYMIZED__&token=__ANONYMIZED__&tokenauth=__ANONYMIZED__&rec=1&idsite=1', $failures[0]['request_url']);
+        $this->assertEquals('token_auth=__TOKEN_AUTH__&token=__TOKEN_AUTH__&tokenauth=__TOKEN_AUTH__&rec=1&idsite=1', $failures[0]['request_url']);
     }
 
     public function test_logFailure_anonymizesTokenWhenMd5ValueUsed()
     {
         $this->logFailure(1, array('foo' => md5('foo')));
         $failures = $this->failures->getAllFailures();
-        $this->assertEquals('foo=__ANONYMIZED__&rec=1&idsite=1', $failures[0]['request_url']);
+        $this->assertEquals('foo=__TOKEN_AUTH__&rec=1&idsite=1', $failures[0]['request_url']);
     }
 
     public function test_logFailure_anonymizesTokenWhenMd5SimilarValueUsed()
     {
         $this->logFailure(1, array('foo' => md5('foo') .'ff'));
         $failures = $this->failures->getAllFailures();
-        $this->assertEquals('foo=__ANONYMIZED__&rec=1&idsite=1', $failures[0]['request_url']);
+        $this->assertEquals('foo=__TOKEN_AUTH__&rec=1&idsite=1', $failures[0]['request_url']);
     }
 
     public function test_logFailure_doesNotLogExcludedRequest()
@@ -272,7 +272,7 @@ class FailuresTest extends IntegrationTestCase
         $this->logFailure(1, array('idsite' => 3));
         $this->logFailure(2, array('idsite' => 3));
         $this->logFailure(3, array('idsite' => 3));
-        $this->assertCount(5, $this->failures->getAllFailures());
+        $this->assertCount(6, $this->failures->getAllFailures());
 
         $this->failures->deleteTrackingFailures(array(1,3));
         $this->assertEquals([array(2,1), array(2,2)], $this->getFailureSummary());

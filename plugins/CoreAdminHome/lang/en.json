@@ -121,12 +121,12 @@
         "ViewAllTrackingFailures": "View all tracking failures",
         "TrackingFailureInvalidSiteProblem": "The site does not exist.",
         "TrackingFailureInvalidSiteSolution": "Update the configured idSite in the tracker.",
-        "TrackingFailureAuthenticationProblem": "Request was not authenticated but should have.",
-        "TrackingFailureAuthenticationSolution": "Set or correct a \"auth_token\" in your tracking request.",
+        "TrackingFailureAuthenticationProblem": "Request was not authenticated but authentication was required.",
+        "TrackingFailureAuthenticationSolution": "Set or correct a \"token_auth\" in your tracking request.",
         "ConfirmDeleteAllTrackingFailures": "Are you sure you want to delete all tracking failures?",
         "ConfirmDeleteThisTrackingFailure": "Are you sure you want to delete this tracking failure?",
         "TrackingFailuresEmailSubject": "Tracking failures in your Matomo Analytics",
-        "TrackingFailuresEmail1": "This is just to let you know that %s different kind of tracking failures have occurred in the last days.",
+        "TrackingFailuresEmail1": "This is just to let you know that %s different kinds of tracking failures have occurred in the last days.",
         "TrackingFailuresEmail2": "To view all the failed tracking requests %1$sclick here%2$s."
     }
 }
