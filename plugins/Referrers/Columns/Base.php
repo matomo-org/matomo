@@ -124,6 +124,14 @@ abstract class Base extends VisitDimension
             'referer_url'     => $this->referrerUrl,
         );
 
+        if (!empty($referrerInformation['referer_name'])) {
+            $referrerInformation['referer_name'] = $this->truncateReferrerName($referrerInformation['referer_name']);
+        }
+
+        if (!empty($referrerInformation['referer_keyword'])) {
+            $referrerInformation['referer_keyword'] = $this->truncateReferrerKeyword($referrerInformation['referer_keyword']);
+        }
+
         return $referrerInformation;
     }
 
@@ -425,7 +433,10 @@ abstract class Base extends VisitDimension
 
         $this->detectCampaignKeywordFromReferrerUrl();
 
-        $isCurrentVisitACampaignWithSameName = Common::mb_strtolower($visitor->getVisitorColumn('referer_name')) == Common::mb_strtolower($this->nameReferrerAnalyzed);
+        $referrerNameAnalayzed = Common::mb_strtolower($this->nameReferrerAnalyzed);
+        $referrerNameAnalayzed = $this->truncateReferrerName($referrerNameAnalayzed);
+
+        $isCurrentVisitACampaignWithSameName = Common::mb_strtolower($visitor->getVisitorColumn('referer_name')) == $referrerNameAnalayzed;
         $isCurrentVisitACampaignWithSameName = $isCurrentVisitACampaignWithSameName && $visitor->getVisitorColumn('referer_type') == Common::REFERRER_TYPE_CAMPAIGN;
 
         // if we detected a campaign but there is still no keyword set, we set the keyword to the Referrer host
@@ -553,7 +564,6 @@ abstract class Base extends VisitDimension
     {
         foreach (array('referer_keyword', 'referer_name', 'referer_type') as $infoName) {
             if ($this->hasReferrerColumnChanged($visitor, $information, $infoName)) {
-                Common::printDebug("Referrers\Base::isReferrerInformationNew: detected change in $infoName.");
                 return true;
             }
         }
@@ -562,7 +572,15 @@ abstract class Base extends VisitDimension
 
     protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
     {
-        return Common::mb_strtolower($visitor->getVisitorColumn($infoName)) != Common::mb_strtolower($information[$infoName]);
+        $existing = Common::mb_strtolower($visitor->getVisitorColumn($infoName));
+        $new = Common::mb_strtolower($information[$infoName]);
+
+        $result = $existing != $new;
+        if ($result) {
+            Common::printDebug("Referrers\Base::isReferrerInformationNew: detected change in $infoName ('$existing' != '$new').");
+        }
+
+        return $result;
     }
 
     protected function doesLastActionHaveSameReferrer(Visitor $visitor, $referrerType)
@@ -573,5 +591,15 @@ abstract class Base extends VisitDimension
     protected function getReferrerCampaignQueryParam(Request $request, $paramName)
     {
         return trim(urldecode($request->getParam($paramName)));
+    }
+
+    private function truncateReferrerName($name)
+    {
+        return Common::mb_substr($name, 0, 70);
+    }
+
+    private function truncateReferrerKeyword($refererKeyword)
+    {
+        return Common::mb_substr($refererKeyword, 0, 255);
     }
 }

@@ -164,6 +164,7 @@ class SitesManager extends \Piwik\Plugin
         $array['sitesearch_category_parameters'] = $this->getTrackerSearchCategoryParameters($website);
         $array['timezone'] = $this->getTimezoneFromWebsite($website);
         $array['ts_created'] = $website['ts_created'];
+        $array['type'] = $website['type'];
     }
 
     public function setTrackerCacheGeneral(&$cache)

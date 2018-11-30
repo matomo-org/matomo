@@ -232,11 +232,11 @@ class TasksTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            'observers.global' => [
+            'observers.global' => \DI\add([
                 ['Mail.send', function (Mail $mail) {
                     $this->mail = $mail;
                 }],
-            ],
+            ]),
         ];
     }
 

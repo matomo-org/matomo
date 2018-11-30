@@ -465,7 +465,12 @@ class PivotByDimension extends BaseFilter
     private function getPivotTableDefaultRowFromColumnSummary($columnSet, $othersRowLabel)
     {
         // sort columns by sum (to ensure deterministic ordering)
-        arsort($columnSet);
+        uksort($columnSet, function ($key1, $key2) use ($columnSet) {
+            if ($columnSet[$key1] == $columnSet[$key2]) {
+                return strcmp($key1, $key2);
+            }
+            return $columnSet[$key2] > $columnSet[$key1] ? 1 : -1;
+        });
 
         // limit columns if necessary (adding aggregate Others column at end)
         if ($this->pivotByColumnLimit > 0

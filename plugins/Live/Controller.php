@@ -152,6 +152,7 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getVisitList()
     {
+        $this->checkSitePermission();
         Piwik::checkUserHasViewAccess($this->idSite);
         
         $filterLimit = Common::getRequestVar('filter_offset', 0, 'int');
@@ -170,14 +171,12 @@ class Controller extends \Piwik\Plugin\Controller
                                                                                 'date'                    => false
                                                                            ));
 
-        $idSite = Common::getRequestVar('idSite', null, 'int');
-
         if (empty($nextVisits)) {
             return '';
         }
 
         $view = new View('@Live/getVisitList.twig');
-        $view->idSite = $idSite;
+        $view->idSite = $this->idSite;
         $view->startCounter = $startCounter < count($nextVisits) ? count($nextVisits) : $startCounter;
         $view->visits = $nextVisits;
         return $view->render();

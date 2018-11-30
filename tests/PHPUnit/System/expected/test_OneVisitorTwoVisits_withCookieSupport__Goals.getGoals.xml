@@ -9,6 +9,7 @@
 		<allow_multiple>0</allow_multiple>
 		<revenue>0</revenue>
 		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
 	</row>
 	<row key="2">
 		<idsite>1</idsite>
@@ -22,5 +23,6 @@
 		<allow_multiple>0</allow_multiple>
 		<revenue>1</revenue>
 		<deleted>0</deleted>
+		<event_value_as_revenue>0</event_value_as_revenue>
 	</row>
 </result>

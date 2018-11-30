@@ -16,10 +16,12 @@ class HtmlEmailFooterView extends View
 {
     const TEMPLATE_FILE = '@CoreHome/ReportRenderer/_htmlReportFooter';
 
-    public function __construct()
+    public function __construct($unsubscribeLink = null)
     {
         parent::__construct(self::TEMPLATE_FILE);
 
         HtmlReportEmailHeaderView::assignCommonParameters($this);
+
+        $this->unsubscribeLink = $unsubscribeLink;
     }
 }

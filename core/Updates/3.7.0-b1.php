@@ -1,8 +1,8 @@
 <?php
 /**
- * Matomo - free/libre analytics platform
+ * Piwik - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -15,6 +15,9 @@ use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 class Updates_3_7_0_b1 extends PiwikUpdates
 {
+    /**
+     * @var MigrationFactory
+     */
     private $migration;
 
     public function __construct(MigrationFactory $factory)
@@ -24,16 +27,10 @@ class Updates_3_7_0_b1 extends PiwikUpdates
 
     public function getMigrations(Updater $updater)
     {
-        $trackingFailureTable = $this->migration->db->createTable('tracking_failure',
-            array('idsite' => 'BIGINT(20) UNSIGNED NOT NULL',
-                  'idfailure' => 'SMALLINT UNSIGNED NOT NULL',
-                  'date_first_occurred' => 'DATETIME NOT NULL',
-                  'request_url' => 'MEDIUMTEXT NOT NULL'),
-            array('idsite', 'idfailure'));
-
-        return array(
-            $trackingFailureTable
-        );
+        return [
+            $this->migration->db->addColumn('report', 'evolution_graph_within_period', 'TINYINT(4) NOT NULL DEFAULT 0'),
+            $this->migration->db->addColumn('report', 'evolution_graph_period_n', 'INT(11) NULL'),
+        ];
     }
 
     public function doUpdate(Updater $updater)

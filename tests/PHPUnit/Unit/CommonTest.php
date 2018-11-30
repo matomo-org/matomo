@@ -10,10 +10,13 @@ namespace Piwik\Tests\Unit;
 
 use Exception;
 use PHPUnit_Framework_TestCase;
+use Piwik\Application\Environment;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
+use Piwik\Log;
+use Piwik\Tests\Framework\Mock\FakeLogger;
 
 /**
  * @backupGlobals enabled
@@ -277,6 +280,42 @@ class CommonTest extends PHPUnit_Framework_TestCase
         foreach ($notvalid as $toTest) {
             $this->assertFalse(Filesystem::isValidFilename($toTest), $toTest . " valid but shouldn't!");
         }
+    }
+
+    public function testSafeUnserialize()
+    {
+        if (PHP_MAJOR_VERSION < 7) {
+            $this->markTestSkipped('secure unserialize tests are for PHP7 only');
+            return;
+        }
+
+        // should unserialize an allowed class
+        $this->assertTrue(Common::safe_unserialize('O:12:"Piwik\Common":0:{}', ['Piwik\Common']) instanceof Common);
+
+        // not allowed classed should result in an incomplete class
+        $this->assertTrue(Common::safe_unserialize('O:12:"Piwik\Common":0:{}') instanceof \__PHP_Incomplete_Class);
+
+        // strings not unserializable should return false and trigger a debug log
+        $logger = $this->createFakeLogger();
+        $this->assertFalse(Common::safe_unserialize('{1:somebroken}'));
+        $this->assertContains('Unable to unserialize a string: unserialize(): Error at offset 0 of 14 bytes', $logger->output);
+    }
+
+    private function createFakeLogger()
+    {
+        $logger = new FakeLogger();
+
+        $newEnv = new Environment('test', array(
+            'Psr\Log\LoggerInterface' => $logger,
+            'Tests.log.allowAllHandlers' => true,
+        ));
+        $newEnv->init();
+
+        $newMonologLogger = $newEnv->getContainer()->make('Psr\Log\LoggerInterface');
+        $oldLogger = new Log($newMonologLogger);
+        Log::setSingletonInstance($oldLogger);
+
+        return $logger;
     }
 
     /**

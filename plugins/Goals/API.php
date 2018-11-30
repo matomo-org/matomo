@@ -136,7 +136,8 @@ class API extends \Piwik\Plugin\API
      * @param string $description
      * @return int ID of the new goal
      */
-    public function addGoal($idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '')
+    public function addGoal($idSite, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '',
+                            $useEventValueAsRevenue = false)
     {
         Piwik::checkUserHasWriteAccess($idSite);
 
@@ -158,6 +159,7 @@ class API extends \Piwik\Plugin\API
             'allow_multiple'  => (int)$allowMultipleConversionsPerVisit,
             'revenue'         => $revenue,
             'deleted'         => 0,
+            'event_value_as_revenue' => (int) $useEventValueAsRevenue,
         );
 
         $idGoal = $this->getModel()->createGoalForSite($idSite, $goal);
@@ -190,7 +192,8 @@ class API extends \Piwik\Plugin\API
      * @param string $description
      * @return void
      */
-    public function updateGoal($idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '')
+    public function updateGoal($idSite, $idGoal, $name, $matchAttribute, $pattern, $patternType, $caseSensitive = false, $revenue = false, $allowMultipleConversionsPerVisit = false, $description = '',
+                               $useEventValueAsRevenue = false)
     {
         Piwik::checkUserHasWriteAccess($idSite);
 
@@ -202,7 +205,7 @@ class API extends \Piwik\Plugin\API
 
         $revenue = Common::forceDotAsSeparatorForDecimalPoint((float)$revenue);
 
-        $this->getModel()->updateGoal($idSite, $idGoal, array(
+        $goal = array(
             'name'            => $name,
             'description'     => $description,
             'match_attribute' => $matchAttribute,
@@ -211,11 +214,23 @@ class API extends \Piwik\Plugin\API
             'case_sensitive'  => (int) $caseSensitive,
             'allow_multiple'  => (int) $allowMultipleConversionsPerVisit,
             'revenue'         => $revenue,
-        ));
+            'event_value_as_revenue' => (int) $useEventValueAsRevenue,
+        );
+
+        $this->checkEventValueAsRevenue($goal);
+
+        $this->getModel()->updateGoal($idSite, $idGoal, $goal);
 
         $this->getGoalsInfoStaticCache()->delete(self::getCacheId($idSite));
 
         Cache::regenerateCacheWebsiteAttributes($idSite);
+    }
+
+    private function checkEventValueAsRevenue($goal)
+    {
+        if ($goal['event_value_as_revenue'] && !GoalManager::isEventMatchingGoal($goal)) {
+            throw new \Exception("'useEventValueAsRevenue' can only be 1 if the goal matches an event attribute.");
+        }
     }
 
     private function checkPatternIsValid($patternType, $pattern, $matchAttribute)

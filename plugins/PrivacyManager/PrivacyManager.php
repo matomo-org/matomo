@@ -628,7 +628,7 @@ class PrivacyManager extends Plugin
 
     private function shouldRenderFooterLinks(SystemSettings $settings)
     {
-        if (Piwik::getCurrentUserLogin() == 'anonymous') {
+        if (Piwik::isUserIsAnonymous()) {
             return true;
         }
 

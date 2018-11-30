@@ -53,7 +53,7 @@
         <input role="cancel" type="button" value="{{ 'General_Cancel'|translate }}"/>
     </div>
 
-    {% if isSuperUser %}
+    {% if hasSomeAdminAccess %}
         <div class="ui-confirm" id="copyDashboardToUserConfirm">
             <h2>{{ 'Dashboard_CopyDashboardToUser'|translate }}</h2>
 

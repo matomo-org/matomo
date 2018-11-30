@@ -50,7 +50,7 @@
         "CustomUnprocessedSegmentApiError3": "(In alternativa, puoi creare un nuovo segmento a livello di codice utilizzando il metodo API SegmentEditor.add).",
         "CustomUnprocessedSegmentApiError4": "Una volta creato il segmento nell'editor (o tramite API), questo messaggio di errore scompare e in poche ore verranno visualizzati i dati del report segmentato, dopo che i dati del segmento saranno stati pre-elaborati. (In caso contrario, potrebbe esserci un problema.)",
         "CustomUnprocessedSegmentApiError5": "Tieni presente che puoi verificare se il tuo segmento funzionerà, senza dover attendere che venga elaborato, utilizzando l'API Live.getLastVisitsDetails.",
-        "CustomUnprocessedSegmentApiError6": "Quando utilizzi questo metodo API, vedrai quali utenti e azioni sono stati abbinati al tuo &segment = parameter.",
+        "CustomUnprocessedSegmentApiError6": "Quando utilizzi questo metodo API, vedrai quali utenti e azioni hanno avuto corrispondenza dal tuo parametro &segment.",
         "CustomUnprocessedSegmentNoData": "Per visualizzare i dati di questo segmento, è necessario creare manualmente questo segmento nell'Editor dei Segmenti, quindi attendere un paio d'ore per il completamento della pre-elaborazione."
     }
 }

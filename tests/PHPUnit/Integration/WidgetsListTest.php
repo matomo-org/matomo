@@ -1,8 +1,8 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -10,8 +10,8 @@ namespace Piwik\Tests\Integration;
 
 use Piwik\Widget\WidgetConfig;
 use Piwik\Plugins\Goals\API;
-use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Translate;
+use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Widget\WidgetsList;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -49,7 +49,7 @@ class WidgetsListTest extends IntegrationTestCase
             'Live!' => 2,
             'Insights_WidgetCategory' => 2,
             'ExampleUI_UiFramework' => 8,
-            'Referrers_Referrers' => 9,
+            'Referrers_Referrers' => 10,
             'About Matomo' => 11,
         );
         // number of main categories

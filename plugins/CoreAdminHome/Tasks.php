@@ -12,6 +12,7 @@ use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Archive\ArchivePurger;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
@@ -24,8 +25,8 @@ use Piwik\Plugins\CoreAdminHome\Tasks\ArchivesToPurgeDistributedList;
 use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Scheduler\Schedule\SpecificTime;
 use Piwik\Settings\Storage\Backend\MeasurableSettingsTable;
-use Piwik\Tests\Framework\Mock\Site;
 use Piwik\Tracker\Failures;
+use Piwik\Site;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
 use Psr\Log\LoggerInterface;
 use Piwik\SettingsPiwik;
@@ -124,7 +125,12 @@ class Tasks extends \Piwik\Plugin\Tasks
             return;
         }
 
-        $email = new JsTrackingCodeMissingEmail($user['login'], $user['email'], $idSite);
+        $container = StaticContainer::getContainer();
+        $email = $container->make(JsTrackingCodeMissingEmail::class, array(
+            'login' => $user['login'],
+            'emailAddress' => $user['email'],
+            'idSite' => $idSite
+        ));
         $email->send();
     }
 

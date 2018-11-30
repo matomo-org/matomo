@@ -72,6 +72,7 @@
             self.handleColumnHighlighting(domElem);
             self.handleRowActions(domElem, rows);
             self.handleLimit(domElem);
+            self.handlePeriod(domElem);
             self.handleAnnotationsButton(domElem);
             self.handleExportBox(domElem);
             self.handleSort(domElem);

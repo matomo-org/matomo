@@ -214,7 +214,17 @@ class SettingsPiwik
     }
 
     /**
+     * @see SettingsPiwik::isPiwikInstalled
+     * @return bool
+     */
+    public static function isMatomoInstalled()
+    {
+        return self::isPiwikInstalled();
+    }
+
+    /**
      * Return true if Piwik is installed (installation is done).
+     * @deprecated since Matomo 3.8.0, please use {@link isMatomoInstalled()} instead.
      * @return bool
      */
     public static function isPiwikInstalled()

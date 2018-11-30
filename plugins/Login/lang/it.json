@@ -13,7 +13,7 @@
         "LoginPasswordNotCorrect": "Combinazione Nome utente e Password non corretta",
         "LostYourPassword": "Hai perso la password?",
         "ChangeYourPassword": "Cambia password",
-        "MailPasswordChangeBody": "Salve, %1$s,\n\nÈ stata ricevuta da %2$s una richiesta di reset della password. Per confermare questo cambio di password, in modo da poter accedere con le nuove credenziali, visita il seguente link:\n\n%3$s\n\nAttenzione: Cambiando la password cambierà anche il tuo token_auth. Puoi vedere il tuo nuovo token_auth nella pagina delle impostazioni.\n\nSe stai utilizzando il tuo token_auth API in applicazioni esterne o per archiviazione, assicurati di aggiornare il token_auth, altrimenti le richieste alla API falliranno.\n\nNota: questo link scadrà tra 24 ore.\n\nE grazie per l'utilizzo di Matomo!",
+        "MailPasswordChangeBody2": "Salve %1$s,\n\nÈ stata ricevuta una richiesta di reimpostazione della password da parte di %2$s. Per confermare questo cambio password in modo da poter accedere con le nuove credenziali, si prega di copiare e incollare il link seguente nel browser:\n\n%3$s\n\nNota: questo link scadrà entro 24 ore.\n\nE grazie per l'utilizzo di Matomo!",
         "MailTopicPasswordChange": "Conferma Cambio Password",
         "NewPassword": "Nuova password",
         "NewPasswordRepeat": "Nuova password (ripeti)",

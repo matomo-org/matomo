@@ -17,6 +17,8 @@ use Piwik\Plugins\Goals\API as APIGoals;
 use Piwik\Site;
 use Piwik\View;
 
+require_once PIWIK_INCLUDE_PATH . '/core/Twig.php';
+
 /**
  * DataTable Visualization that derives from HtmlTable and sets show_goals_columns to true.
  */

@@ -14,12 +14,17 @@ use Piwik\Date;
 use Piwik\Db\SchemaInterface;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Option;
+use Piwik\Plugins\Installation\Installation;
+use Piwik\Version;
 
 /**
  * MySQL schema
  */
 class Mysql implements SchemaInterface
 {
+    const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
+
     private $tablesInstalled = null;
 
     /**
@@ -123,6 +128,7 @@ class Mysql implements SchemaInterface
                               `allow_multiple` tinyint(4) NOT NULL,
                               `revenue` float NOT NULL,
                               `deleted` tinyint(4) NOT NULL default '0',
+                              `event_value_as_revenue` tinyint(4) NOT NULL default '0',
                                 PRIMARY KEY  (`idsite`,`idgoal`)
                               ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
@@ -403,7 +409,9 @@ class Mysql implements SchemaInterface
             $dbName = $this->getDbName();
         }
 
-        Db::exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
+        $dbName = str_replace('`', '', $dbName);
+
+        Db::exec("CREATE DATABASE IF NOT EXISTS `" . $dbName . "` DEFAULT CHARACTER SET utf8");
     }
 
     /**
@@ -438,7 +446,8 @@ class Mysql implements SchemaInterface
     public function dropDatabase($dbName = null)
     {
         $dbName = $dbName ?: $this->getDbName();
-        Db::exec("DROP DATABASE IF EXISTS " . $dbName);
+        $dbName = str_replace('`', '', $dbName);
+        Db::exec("DROP DATABASE IF EXISTS `" . $dbName . "`");
     }
 
     /**
@@ -474,6 +483,28 @@ class Mysql implements SchemaInterface
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
                     VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', 0, '$now', '$now' );");
+    }
+
+    /**
+     * Records the Matomo version a user used when installing this Matomo for the first time
+     */
+    public function recordInstallVersion()
+    {
+        if (!self::getInstallVersion()) {
+            Option::set(self::OPTION_NAME_MATOMO_INSTALL_VERSION, Version::VERSION);
+        }
+    }
+
+    /**
+     * Returns which Matomo version was used to install this Matomo for the first time.
+     */
+    public function getInstallVersion()
+    {
+        Option::clearCachedOption(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
+        $version = Option::get(self::OPTION_NAME_MATOMO_INSTALL_VERSION);
+        if (!empty($version)) {
+            return $version;
+        }
     }
 
     /**

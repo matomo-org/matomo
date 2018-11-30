@@ -31,10 +31,10 @@
         vm.activeTab = 'basic';
         vm.permissionsForIdSite = 1;
         vm.isSavingUserInfo = false;
-        vm.isPasswordChanged = false;
         vm.userHasAccess = true;
         vm.firstSiteAccess = null;
         vm.isUserModified = false;
+        vm.passwordConfirmation = '';
 
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
@@ -77,14 +77,27 @@
             $element.find('.superuser-confirm-modal').openModal({ dismissible: false });
         }
 
-        function confirmPasswordChange() {
-            $element.find('.change-password-modal').openModal({ dismissible: false });
+        function confirmUserChange() {
+            vm.passwordConfirmation = '';
+            function onEnter(event){
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13'){
+                    $element.find('.change-password-modal').closeModal();
+                    vm.updateUser();
+                }
+            }
+
+            $element.find('.change-password-modal').openModal({ dismissible: false, ready: function () {
+                $('.modal.open #currentUserPassword').focus();
+                $('.modal.open #currentUserPassword').off('keypress').keypress(onEnter);
+            }});
         }
 
         function toggleSuperuserAccess() {
             vm.isSavingUserInfo = true;
             piwikApi.post({
-                method: 'UsersManager.setSuperUserAccess',
+                method: 'UsersManager.setSuperUserAccess'
+            }, {
                 userLogin: vm.user.login,
                 hasSuperUserAccess: vm.user.superuser_access ? '1' : '0'
             }).catch(function () {
@@ -98,10 +111,8 @@
         function saveUserInfo() {
             if (vm.isAdd) {
                 createUser();
-            } else if (vm.isPasswordChanged) {
-                confirmPasswordChange();
             } else {
-                updateUser();
+                confirmUserChange();
             }
         }
 
@@ -114,7 +125,8 @@
         function createUser() {
             vm.isSavingUserInfo = true;
             return piwikApi.post({
-                method: 'UsersManager.addUser',
+                method: 'UsersManager.addUser'
+            }, {
                 userLogin: vm.user.login,
                 password: vm.user.password,
                 email: vm.user.email,
@@ -127,7 +139,7 @@
                 vm.firstSiteAccess = null;
                 vm.isSavingUserInfo = false;
                 vm.isAdd = false;
-                vm.isPasswordChanged = false;
+                vm.isEmailChanged = false;
                 vm.isUserModified = true;
 
                 showUserSavedNotification();
@@ -137,17 +149,20 @@
         function updateUser() {
             vm.isSavingUserInfo = true;
             return piwikApi.post({
-                method: 'UsersManager.updateUser',
+                method: 'UsersManager.updateUser'
+            }, {
                 userLogin: vm.user.login,
-                password: vm.isPasswordChanged ? vm.user.password : undefined,
+                password: vm.user.password ? vm.user.password : undefined,
+                passwordConfirmation: vm.passwordConfirmation ? vm.passwordConfirmation : undefined,
                 email: vm.user.email,
                 alias: vm.user.alias
             }).catch(function (e) {
                 vm.isSavingUserInfo = false;
+                vm.passwordConfirmation = false;
                 throw e;
             }).then(function () {
                 vm.isSavingUserInfo = false;
-                vm.isPasswordChanged = false;
+                vm.passwordConfirmation = false;
                 vm.isUserModified = true;
 
                 showUserSavedNotification();
