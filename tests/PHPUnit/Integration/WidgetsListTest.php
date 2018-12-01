@@ -49,7 +49,7 @@ class WidgetsListTest extends IntegrationTestCase
             'Live!' => 2,
             'Insights_WidgetCategory' => 2,
             'ExampleUI_UiFramework' => 8,
-            'Referrers_Referrers' => 9,
+            'Referrers_Referrers' => 10,
             'About Matomo' => 10,
         );
         // number of main categories

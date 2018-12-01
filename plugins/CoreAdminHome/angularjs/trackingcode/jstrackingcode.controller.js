@@ -88,7 +88,8 @@
                 doNotTrack: self.doNotTrack ? 1 : 0,
                 disableCookies: self.disableCookies ? 1 : 0,
                 crossDomain: self.crossDomain ? 1 : 0,
-                trackNoScript: self.trackNoScript ? 1: 0
+                trackNoScript: self.trackNoScript ? 1: 0,
+                forceMatomoEndpoint: 1
             };
 
             if (self.useCustomCampaignParams) {
@@ -141,7 +142,7 @@
 
         this.changeSite = function (trackingCodeChangedManually) {
 
-            $('.current-site-name').html(self.site.name);
+            $('.current-site-name').text(self.site.name);
 
             getSiteData(this.site.id, '#js-code-options', function () {
 

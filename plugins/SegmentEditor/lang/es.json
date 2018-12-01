@@ -35,6 +35,7 @@
         "SegmentXIsAUnionOf": "%s es una unión de estos segmentos:",
         "CustomSegment": "Segmento personalizado",
         "SegmentOperatorIsNullOrEmpty": "es nulo o vacío",
-        "SegmentOperatorIsNotNullNorEmpty": "no es nulo ni vacío"
+        "SegmentOperatorIsNotNullNorEmpty": "no es nulo ni vacío",
+        "CustomUnprocessedSegmentApiError2": "Para ver datos de este segmento, debe dirigirse a Matomo y crear este segmento manualmente dentro del Editor de Segmentos"
     }
 }

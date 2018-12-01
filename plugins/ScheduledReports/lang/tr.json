@@ -53,6 +53,8 @@
         "SuccessfullyUnsubscribed": "%1$s raporunun aboneliğinden ayrıldınız.",
         "UnsubscribeFooter": "Bu raporun aboneliğinden ayrılmak için şu bağlantıyı kullanın: %1$s",
         "NoTokenProvided": "Adreste bir kod belirtilmemiş",
-        "NoSubscriptionFound": "Herhangi bir abonelik bulunamadı. Rapor aboneliğinden daha önce ayrılmış olabilirsiniz ya da rapor silinmiş olabilir."
+        "NoSubscriptionFound": "Herhangi bir abonelik bulunamadı. Rapor aboneliğinden daha önce ayrılmış olabilirsiniz ya da rapor silinmiş olabilir.",
+        "EvolutionGraphsShowForEachInPeriod": "Gelişim çizelgesi son %3$s gündeki gelişimi %1$sgünlük%2$s olarak görüntüler",
+        "EvolutionGraphsShowForPreviousN": "Gelişme çizelgeleri önceki N %s içindeki gelişmeyi görüntüler"
     }
 }

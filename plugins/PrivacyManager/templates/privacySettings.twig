@@ -238,7 +238,7 @@
                         <br/>
                     {% endif %}
                     <strong>{{ 'PrivacyManager_NextDelete'|translate }}:</strong>
-                    {{ deleteData.nextRunPretty|raw }}
+                    {{ deleteData.nextRunPretty|rawSafeDecoded }}
                     <br/>
                     <br/>
                     <a id="purgeDataNowLink" href="#"

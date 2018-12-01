@@ -9,20 +9,32 @@ namespace Piwik\Tests\Fixtures;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Columns\Dimension;
 use Piwik\Common;
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\FrontController;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugin\ProcessedMetric;
+use Piwik\Plugin\Report;
+use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
+use Piwik\Plugins\PrivacyManager\SystemSettings;
+use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
+use Piwik\ReportRenderer;
+use Piwik\Tests\Framework\XssTesting;
+use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 
 /**
  * Fixture for UI tests.
@@ -31,10 +43,16 @@ class UITestFixture extends SqlDump
 {
     const FIXTURE_LOCATION = '/tests/resources/OmniFixture-dump.sql';
 
+    /**
+     * @var XssTesting
+     */
+    private $xssTesting;
+
     public function __construct()
     {
         $this->dumpUrl = PIWIK_INCLUDE_PATH . self::FIXTURE_LOCATION;
         $this->tablesPrefix = '';
+        $this->xssTesting = new XssTesting();
     }
 
     public function setUp()
@@ -64,8 +82,36 @@ class UITestFixture extends SqlDump
         SitesManagerAPI::getInstance()->updateSite(1, null, null, true);
 
         // create non super user
-        UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com');
+        UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com', $this->xssTesting->forTwig('useralias'));
         UsersManagerAPI::getInstance()->setUserAccess('oliverqueen', 'view', array(1));
+
+        // another non super user
+        UsersManagerAPI::getInstance()->addUser('anotheruser', 'anotheruser', 'someemail@email.com', $this->xssTesting->forAngular('useralias'));
+        UsersManagerAPI::getInstance()->setUserAccess('anotheruser', 'view', array(1));
+
+        // add xss scheduled report
+        APIScheduledReports::getInstance()->addReport(
+            $idSite = 1,
+            $this->xssTesting->forTwig('scheduledreport'),
+            'month',
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            ['ExampleAPI_xssReportforTwig', 'ExampleAPI_xssReportforAngular'],
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        );
+        APIScheduledReports::getInstance()->addReport(
+            $idSite = 1,
+            $this->xssTesting->forAngular('scheduledreport'),
+            'month',
+            0,
+            ScheduledReports::EMAIL_TYPE,
+            ReportRenderer::HTML_FORMAT,
+            ['ExampleAPI_xssReportforTwig', 'ExampleAPI_xssReportforAngular'],
+            array(ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY)
+        );
+
+        $this->addDangerousLinks();
     }
 
     public function performSetUp($setupEnvironmentOnly = false)
@@ -94,6 +140,8 @@ class UITestFixture extends SqlDump
 
         $this->testEnvironment->forcedNowTimestamp = $forcedNowTimestamp;
         $this->testEnvironment->save();
+
+        $this->xssTesting->sanityCheck();
 
         // launch archiving so tests don't run out of time
         print("Archiving in fixture set up...");
@@ -296,7 +344,9 @@ class UITestFixture extends SqlDump
 
         foreach ($dashboards as $id => $layout) {
             if ($id == 0) {
-                $_GET['name'] = self::makeXssContent('dashboard name' . $id);
+                $_GET['name'] = $this->xssTesting->forTwig('dashboard name' . $id);
+            } else if ($id == 1) {
+                $_GET['name'] = $this->xssTesting->forAngular('dashboard name' . $id);
             } else {
                 $_GET['name'] = 'dashboard name' . $id;
             }
@@ -335,15 +385,182 @@ class UITestFixture extends SqlDump
     {
         Db::exec("TRUNCATE TABLE " . Common::prefixTable('segment'));
 
-        $segmentName = self::makeXssContent('segment');
+        $segmentName = $this->xssTesting->forTwig('segment');
         $segmentDefinition = "browserCode==FF";
         APISegmentEditor::getInstance()->add(
             $segmentName, $segmentDefinition, $idSite = 1, $autoArchive = true, $enabledAllUsers = true);
 
         // create two more segments
+        $segmentName = $this->xssTesting->forAngular("From Europe segment");
         APISegmentEditor::getInstance()->add(
-            "From Europe", "continentCode==eur", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
+            'From Europe ' . $segmentName, "continentCode==eur", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
         APISegmentEditor::getInstance()->add(
             "Multiple actions", "actions>=2", $idSite = 1, $autoArchive = false, $enabledAllUsers = true);
+    }
+
+    public function provideContainerConfig()
+    {
+        return [
+            'observers.global' => \DI\add([
+                ['Report.addReports', function (&$reports) {
+                    $report = new XssReport();
+                    $report->initForXss('forTwig');
+                    $reports[] = $report;
+
+                    $report = new XssReport();
+                    $report->initForXss('forAngular');
+                    $reports[] = $report;
+                }],
+                ['Dimension.addDimensions', function (&$instances) {
+                    $instances[] = new XssDimension();
+                }],
+                ['API.Request.intercept', function (&$result, $finalParameters, $pluginName, $methodName) {
+                    if ($pluginName != 'ExampleAPI' && $methodName != 'xssReportforTwig' && $methodName != 'xssReportforAngular') {
+                        return;
+                    }
+
+                    $dataTable = new DataTable();
+                    $dataTable->addRowFromSimpleArray([
+                        'label' => $this->xssTesting->forAngular('datatablerow'),
+                        'nb_visits' => 10,
+                    ]);
+                    $dataTable->addRowFromSimpleArray([
+                        'label' => $this->xssTesting->forTwig('datatablerow'),
+                        'nb_visits' => 15,
+                    ]);
+                    $result = $dataTable;
+                }],
+            ]),
+        ];
+    }
+
+    public function addDangerousLinks()
+    {
+        $privacyManagerSettings = new SystemSettings();
+        $privacyManagerSettings->termsAndConditionUrl->setValue($this->xssTesting->dangerousLink("termsandconditions"));
+        $privacyManagerSettings->termsAndConditionUrl->save();
+        $privacyManagerSettings->privacyPolicyUrl->setValue($this->xssTesting->dangerousLink("privacypolicyurl"));
+        $privacyManagerSettings->privacyPolicyUrl->save();
+    }
+}
+
+class XssReport extends Report
+{
+    private $xssType;
+
+    protected function init()
+    {
+        parent::init();
+
+        $this->metrics        = array('nb_visits');
+        $this->order = 10;
+
+        $action = Common::getRequestVar('actionToWidgetize', false) ?: Common::getRequestVar('action', false);
+        if ($action == 'xssReportforTwig') {
+            $this->initForXss('forTwig');
+        } else if ($action == 'xssReportforAngular') {
+            $this->initForXss('forAngular');
+        }
+    }
+
+    public function initForXss($type)
+    {
+        $this->xssType = $type;
+
+        $xssTesting = new XssTesting();
+        $this->dimension      = new XssDimension();
+        $this->dimension->initForXss($type);
+        $this->name           = $xssTesting->$type('reportname');
+        $this->documentation  = $xssTesting->$type('reportdoc');
+        $this->categoryId = $xssTesting->$type('category');
+        $this->subcategoryId = $xssTesting->$type('subcategory');
+        $this->processedMetrics = [new XssProcessedMetric($type)];
+        $this->module = 'ExampleAPI';
+        $this->action = 'xssReport' . $type;
+        $this->id = 'ExampleAPI.xssReport' . $type;
+    }
+
+    public function configureView(ViewDataTable $view)
+    {
+        parent::configureView($view);
+
+        $type = $this->xssType;
+
+        $xssTesting = new XssTesting();
+        $view->config->show_footer_message = $xssTesting->$type('footermessage');
+    }
+}
+
+class XssDimension extends VisitDimension
+{
+    public $type = Dimension::TYPE_NUMBER;
+
+    private $xssType;
+
+    public function initForXss($type)
+    {
+        $xssTesting = new XssTesting();
+
+        $this->xssType = $type;
+        $this->nameSingular = $xssTesting->$type('dimensionname');
+        $this->columnName = 'xsstestdim';
+        $this->category = $xssTesting->$type('category');
+    }
+
+    public function getId()
+    {
+        return 'XssTest.XssDimension.' . $this->xssType;
+    }
+}
+
+class XssProcessedMetric extends ProcessedMetric
+{
+    /**
+     * @var string
+     */
+    private $xssType;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $docs;
+
+    public function __construct($type)
+    {
+        $xssTesting = new XssTesting();
+
+        $this->xssType = $type;
+        $this->name = $xssTesting->$type('processedmetricname');
+        $this->docs = $xssTesting->$type('processedmetricdocs');
+    }
+
+    public function getName()
+    {
+        return 'xssmetric';
+    }
+
+    public function getTranslatedName()
+    {
+        return $this->name;
+    }
+
+    public function getDocumentation()
+    {
+        return $this->docs;
+    }
+
+    public function compute(Row $row)
+    {
+        return 5;
+    }
+
+    public function getDependentMetrics()
+    {
+        return [];
     }
 }

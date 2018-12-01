@@ -17,12 +17,8 @@ class Controller extends \Piwik\Plugin\Controller
 {
     public function manage()
     {
-        $idSite = Common::getRequestVar('idSite', null, 'int');
-
-        // check the site exists
-        $site = new Site($idSite);
-
-        Piwik::checkUserHasAdminAccess($idSite);
+        $this->checkSitePermission();
+        Piwik::checkUserHasAdminAccess($this->idSite);
 
         return $this->renderTemplate('manage', array());
     }

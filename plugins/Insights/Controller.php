@@ -22,9 +22,10 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function __construct()
     {
-        $idSite = Common::getRequestVar('idSite', null, 'int');
+        parent::__construct();
 
-        Piwik::checkUserHasViewAccess($idSite);
+        $this->checkSitePermission();
+        Piwik::checkUserHasViewAccess($this->idSite);
     }
 
     public function getInsightsOverview()
@@ -68,12 +69,11 @@ class Controller extends \Piwik\Plugin\Controller
             return;
         }
 
-        $idSite  = Common::getRequestVar('idSite', null, 'int');
         $period  = Common::getRequestVar('period', null, 'string');
         $date    = Common::getRequestVar('date', null, 'string');
         $segment = Request::getRawSegmentFromRequest();
 
-        return API::getInstance()->$apiReport($idSite, $period, $date, $segment);
+        return API::getInstance()->$apiReport($this->idSite, $period, $date, $segment);
     }
 
     private function canGenerateInsights()

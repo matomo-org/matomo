@@ -67,7 +67,8 @@
                 cityHighlightLabelColor = colors['city-highlight-label-color'],
                 citySelectedColor = colors['city-selected-color'],
                 citySelectedLabelColor = colors['city-selected-label-color'],
-                regionLayerStrokeColor = colors['region-layer-stroke-color']
+                regionLayerStrokeColor = colors['region-layer-stroke-color'],
+                hasUserZoomed = false;
                 ;
 
             /*
@@ -314,10 +315,12 @@
             function initUserInterface() {
                 // react to changes of country select
                 $$('.userCountryMapSelectCountry').off('change').change(function () {
+                    hasUserZoomed = true;
                     updateState($$('.userCountryMapSelectCountry').val());
                 });
 
                 function zoomOut() {
+                    hasUserZoomed = true;
                     var t = self.lastSelected,
                         tgt = 'world';  // zoom out to world per default..
                     if (t.length == 3 && UserCountryMap.ISO3toCONT[t] !== undefined) {
@@ -344,6 +347,7 @@
                         if (self.lastSelected.length == 3) {
                             if (self.mode != "city") {
                                 self.mode = "city";
+                                hasUserZoomed = true;
                                 updateState(self.lastSelected);
                             }
                         }
@@ -356,6 +360,7 @@
                         if (self.mode != "region") {
                             $$('.UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
                             self.mode = "region";
+                            hasUserZoomed = true;
                             updateState(self.lastSelected);
                         }
                     });
@@ -387,7 +392,6 @@
                 }
 
                 var metric = $$('.userCountryMapSelectMetrics').val();
-
                 // store current map state
                 self.widget.dashboardWidget('setParameters', {
                     lastMap: id, viewMode: self.mode, lastMetric: metric
@@ -607,6 +611,7 @@
                             } else {
                                 tgt = UserCountryMap.ISO3toCONT[data.iso];
                             }
+                            hasUserZoomed = true;
                             updateState(tgt);
                         }
                     });
@@ -1055,6 +1060,7 @@
                         },
                         click: function (path, p, evt) {   // add click events for surrounding countries
                             evt.stopPropagation();
+                            hasUserZoomed = true;
                             updateState(path.iso);
                         },
                         tooltips: function (data) {
@@ -1240,15 +1246,22 @@
                         var params = self.widget.dashboardWidget('getWidgetObject').parameters;
                         self.mode = params && params.viewMode ? params.viewMode : 'region';
                         if (params && params.lastMetric) $$('.userCountryMapSelectMetrics').val(params.lastMetric);
-                        //alert('updateState: '+params && params.lastMap ? params.lastMap : 'world');
-                        updateState(params && params.lastMap ? params.lastMap : 'world');
+                        // alert('updateState: '+params && params.lastMap ? params.lastMap : 'world');
 
                         // populate country select
+                        var isoCodes = [];
                         $.each(countryData, function (i, country) {
                             if (!!country.iso) {
+                                isoCodes.push(country.iso);
                                 countrySelect.append('<option value="' + country.iso + '">' + country.name + '</option>');
                             }
                         });
+
+                        if (!hasUserZoomed && isoCodes.length === 1 && isoCodes[0] && isoCodes[0] !== 'UNK') {
+                            updateState(isoCodes[0]);
+                        } else {
+                            updateState(params && params.lastMap ? params.lastMap : 'world');
+                        }
 
                         initUserInterface();
 

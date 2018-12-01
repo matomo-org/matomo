@@ -13,7 +13,7 @@
         "LoginPasswordNotCorrect": "Ndërthurje e gabuar Emri përdoruesi dhe fjalëkalimi.",
         "LostYourPassword": "Humbët fjalëkalimin tuaj?",
         "ChangeYourPassword": "Ndryshoni fjalëkalimin tuaj",
-        "MailPasswordChangeBody": "Njatjeta %1$s,\n\nPrej %2$ska ardhur një kërkesë për ricaktim fjalëkalimi. Për ripohim të këtij ndryshimi fjalëkalimi, që të mund hyni me kredenciale të reja, vizitoni lidhjen vijuese:\n\n%3$s\n\nKujdes: Ndryshimi i fjalëkalimit do të sjellë edhe ndryshimin e token_auth tuaj. token_auth tuaj të ri mund ta shihni te faqja e rregullimeve tuaja.\n\nNëse token_auth tuaj për API e përdorni në ndonjë aplikacion të jashtëm ose për arkivim, sigurohuni që ta përditësoni token_auth atje, përndryshe kërkesat te API do të dështojnë\n\nShënim: kjo lidhje do të skadojë pas 24 orësh.\n\nDhe faleminderit që përdorni Matomo-n!",
+        "MailPasswordChangeBody2": "Njatjeta %1$s,\n\nPrej %2$s u mor një kërkesë për ricaktim fjalëkalimi. Për ripohim të këtij ndryshimi fjalëkalimi, që të mund hyni me kredenciale të reja, ju lutemi, kopjoni dhe hidheni te shfletuesi juaj lidhjen vijuese:\n\n%3$s\n\nShënim: kjo lidhje do të skadojë pas 24 orësh.\n\nDhe faleminderit që përdorni Matomo-n!",
         "MailTopicPasswordChange": "Ripohoni Ndryshimin e Fjalëkalimit",
         "NewPassword": "Fjalëkalim i ri",
         "NewPasswordRepeat": "Fjalëkalim i ri (përsëriteni)",

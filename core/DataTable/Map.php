@@ -158,6 +158,15 @@ class Map implements DataTableInterface
     }
 
     /**
+     * @param string $label
+     * @return bool
+     */
+    public function hasTable($label)
+    {
+        return isset($this->array[$label]);
+    }
+
+    /**
      * Returns the first element in the Map's array.
      *
      * @return DataTable|Map|false
