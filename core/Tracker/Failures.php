@@ -54,13 +54,9 @@ class Failures
                 $visitExcluded = new VisitExcluded($request);
                 $isVisitExcluded = $visitExcluded->isExcluded();
             } catch (InvalidRequestParameterException $e) {
-                if ($idFailure === self::FAILURE_ID_NOT_AUTHENTICATED) {
-                    // we ignore this error and assume visit is not excluded... happens eg when using `cip` and request was
-                    // not authenticated...
-                    $isVisitExcluded = false;
-                } else {
-                    throw $e;
-                }
+                // we ignore this error and assume visit is not excluded... happens eg when using `cip` and request was
+                // not authenticated...
+                $isVisitExcluded = false;
             }
         }
 

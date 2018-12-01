@@ -500,14 +500,11 @@ class RequestTest extends UnitTestCase
         $this->assertSame(14, $request->getIdSite());
     }
 
-    /**
-     * @expectedException \Piwik\Exception\UnexpectedWebsiteFoundException
-     * @expectedExceptionMessage Invalid idSite: '0'
-     */
-    public function test_getIdSite_shouldThrowException_IfValueIsZero()
+    public function test_getIdSite_shouldNotThrowException_IfValueIsZero()
     {
         $request = $this->buildRequest(array('idsite' => '0'));
         $request->getIdSite();
+        $this->assertTrue(true);
     }
 
     /**
@@ -523,16 +520,6 @@ class RequestTest extends UnitTestCase
     public function test_getIpString_ShouldDefaultToServerAddress()
     {
         $this->assertEquals($_SERVER['REMOTE_ADDR'], $this->request->getIpString());
-    }
-
-    /**
-     * @expectedException \Piwik\Exception\InvalidRequestParameterException
-     * @expectedException requires valid token_auth
-     */
-    public function test_getIpString_ShouldDefaultToServerAddress_IfCustomIpIsSetButNotAuthenticated()
-    {
-        $request = $this->buildRequest(array('cip' => '192.192.192.192'));
-        $this->assertEquals($_SERVER['REMOTE_ADDR'], $request->getIpString());
     }
 
     public function test_getIpString_ShouldReturnCustomIp_IfAuthenticated()

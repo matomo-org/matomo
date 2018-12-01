@@ -87,15 +87,7 @@ class Visit implements VisitInterface
 
     private function checkSiteExists()
     {
-        $idSite = $this->request->getIdSite();
-
-        try {
-            Cache::getCacheWebsiteAttributes($idSite);
-        } catch (UnexpectedWebsiteFoundException $e) {
-            StaticContainer::get(Failures::class)->logFailure(Failures::FAILURE_ID_INVALID_SITE, $this->request);
-
-            throw $e;
-        }
+        $this->request->getIdSite();
     }
 
     /**
