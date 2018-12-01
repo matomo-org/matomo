@@ -16,7 +16,6 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Db;
-use Piwik\Db\Adapter;
 use Piwik\DbHelper;
 use Piwik\Filesystem;
 use Piwik\Http;
@@ -26,11 +25,9 @@ use Piwik\Plugin\Manager;
 use Piwik\Plugins\Diagnostics\DiagnosticService;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\ProxyHeaders;
 use Piwik\SettingsPiwik;
-use Piwik\Theme;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Translation\Translator;
 use Piwik\Updater;
@@ -207,6 +204,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             DbHelper::createTables();
             DbHelper::createAnonymousUser();
+            DbHelper::recordInstallVersion();
 
             $this->updateComponents();
 

@@ -19,6 +19,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
+use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\SettingsPiwik;
 use Piwik\Url;
 
@@ -228,8 +229,8 @@ class PasswordResetter
         // reset password of user
         $usersManager = $this->usersManagerApi;
         Access::doAsSuperUser(function () use ($usersManager, $user, $resetPassword) {
-            $usersManager->updateUser(
-                $user['login'], $resetPassword, $email = false, $alias = false, $isPasswordHashed = true);
+            $userUpdater = new UserUpdater();
+            $userUpdater->updateUserWithoutCurrentPassword($user['login'], $resetPassword, $email = false, $alias = false, $isPasswordHashed = true);
         });
     }
 

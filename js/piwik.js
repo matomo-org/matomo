@@ -4,7 +4,7 @@
  * JavaScript tracking client
  *
  * @link https://piwik.org
- * @source https://github.com/piwik/piwik/blob/master/js/piwik.js
+ * @source https://github.com/matomo-org/matomo/blob/master/js/piwik.js
  * @license https://piwik.org/free-software/bsd/ BSD-3 Clause (also in js/LICENSE.txt)
  * @license magnet:?xt=urn:btih:c80d50af7d3db9be66a4d0a86db0286e4fd33292&dn=bsd-3-clause.txt BSD-3-Clause
  */
@@ -2880,7 +2880,10 @@ if (typeof window.Piwik !== 'object') {
                 trackerUrl   = trackerUrl.slice(0, posQuery);
             }
 
-            if (stringEndsWith(trackerUrl, 'piwik.php')) {
+            if (stringEndsWith(trackerUrl, 'matomo.php')) {
+                // if eg without domain or path "matomo.php" => ''
+                trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'matomo.php'.length);
+            } else if (stringEndsWith(trackerUrl, 'piwik.php')) {
                 // if eg without domain or path "piwik.php" => ''
                 trackerUrl = removeCharactersFromEndOfString(trackerUrl, 'piwik.php'.length);
             } else if (stringEndsWith(trackerUrl, '.php')) {
@@ -7724,7 +7727,7 @@ if (typeof window.Piwik !== 'object') {
 
             /**
              * When calling plugin methods via "_paq.push(['...'])" and the plugin is loaded separately because
-             * piwik.js is not writable then there is a chance that first piwik.js is loaded and later the plugin.
+             * matomo.js is not writable then there is a chance that first matomo.js is loaded and later the plugin.
              * In this case we would have already executed all "_paq.push" methods and they would not have succeeded
              * because the plugin will be loaded only later. In this case, once a plugin is loaded, it should call
              * "Piwik.retryMissedPluginCalls()" so they will be executed after all.
@@ -7798,7 +7801,7 @@ if (typeof window.Piwik !== 'object') {
                     // needed to write it this way for jslint
                     var consoleType = typeof console;
                     if (consoleType !== 'undefined' && console && console.error) {
-                        console.error('_paq.push() was used but Piwik tracker was not initialized before the piwik.js file was loaded. Make sure to configure the tracker via _paq.push before loading piwik.js. Alternatively, you can create a tracker via Piwik.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
+                        console.error('_paq.push() was used but Matomo tracker was not initialized before the matomo.js file was loaded. Make sure to configure the tracker via _paq.push before loading matomo.js. Alternatively, you can create a tracker via Matomo.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.', args);
                     }
                 }};
         }

@@ -10,12 +10,12 @@ namespace Piwik;
 
 use Piwik\Columns\Updater as ColumnUpdater;
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\Installation\ServerFilesGenerator;
 use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Db\Sql;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Updater\UpdateObserver;
 use Zend_Db_Exception;
-use Piwik\Plugins\Installation\ServerFilesGenerator;
 
 /**
  * Load and execute all relevant, incremental update scripts for Piwik core and plugins, and bump the component version numbers for completed updates.
@@ -325,7 +325,7 @@ class Updater
         $this->markComponentSuccessfullyUpdated($componentName, $updatedVersion);
 
         $this->executeListenerHook('onComponentUpdateFinished', array($componentName, $updatedVersion, $warningMessages));
-
+        ServerFilesGenerator::createHtAccessFiles();
         return $warningMessages;
     }
 

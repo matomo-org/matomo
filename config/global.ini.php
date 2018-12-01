@@ -138,7 +138,7 @@ always_archive_data_range = 0;
 ; NOTE: you must also set [log] log_writers[] = "screen" to enable the profiler to print on screen
 enable_sql_profiler = 0
 
-; If set to 1, all requests to piwik.php will be forced to be 'new visitors'
+; If set to 1, all requests to matomo.php will be forced to be 'new visitors'
 tracker_always_new_visitor = 0
 
 ; if set to 1, all SQL queries will be logged using the DEBUG log level
@@ -212,7 +212,7 @@ release_channel = "latest_stable"
 action_url_category_delimiter = /
 
 ; similar to above, but this delimiter is only used for page titles in the Actions > Page titles report
-action_title_category_delimiter = /
+action_title_category_delimiter = ""
 
 ; the maximum url category depth to track. if this is set to 2, then a url such as
 ; "example.com/blog/development/first-post" would be treated as "example.com/blog/development".
