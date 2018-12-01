@@ -3,7 +3,7 @@
 	<website>Site 1</website>
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
-		<category>Visitors</category>
+		<category>Actions</category>
 		<subcategory>Engagement</subcategory>
 		<name>Returning Visits</name>
 		<module>VisitFrequency</module>

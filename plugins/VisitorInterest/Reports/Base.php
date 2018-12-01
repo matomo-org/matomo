@@ -12,7 +12,7 @@ abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
-        $this->categoryId = 'General_Visitors';
+        $this->categoryId = 'General_Actions';
         $this->subcategoryId = 'VisitorInterest_Engagement';
     }
 
