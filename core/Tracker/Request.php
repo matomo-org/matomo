@@ -515,12 +515,12 @@ class Request
             && $time > $now - 10 * 365 * 86400;
     }
 
-    public function getIdSite()
+    /**
+     * @internal
+     * @ignore
+     */
+    public function getIdSiteUnverified()
     {
-        if (isset($this->idSiteCache)) {
-            return $this->idSiteCache;
-        }
-
         $idSite = Common::getRequestVar('idsite', 0, 'int', $this->params);
 
         /**
@@ -536,26 +536,30 @@ class Request
          *                      request.
          */
         Piwik::postEvent('Tracker.Request.getIdSite', array(&$idSite, $this->params));
+        return $idSite;
+    }
 
-        $this->idSiteCache = $idSite;
+    public function getIdSite()
+    {
+        if (isset($this->idSiteCache)) {
+            return $this->idSiteCache;
+        }
+
+        $idSite = $this->getIdSiteUnverified();
 
         if ($idSite <= 0) {
-            // we allow 0... the request will fail anyway as the site won't exist... allowing 0 will help us
-            // reporting this tracking problem as it is a common issue. Otherwise we would not be able to report
-            // this problem in tracking failures
-            StaticContainer::get(Failures::class)->logFailure(Failures::FAILURE_ID_INVALID_SITE, $this);
-
             throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSite . '\'');
         }
 
-        try {
-            // check site exists
-            Cache::getCacheWebsiteAttributes($idSite);
-        } catch (UnexpectedWebsiteFoundException $e) {
-            StaticContainer::get(Failures::class)->logFailure(Failures::FAILURE_ID_INVALID_SITE, $this);
+        // check site actually exists, should throw UnexpectedWebsiteFoundException directly
+        $site = Cache::getCacheWebsiteAttributes($idSite);
 
-            throw $e;
+        if (empty($site)) {
+            // fallback just in case exception wasn't thrown...
+            throw new UnexpectedWebsiteFoundException('Invalid idSite: \'' . $idSite . '\'');
         }
+
+        $this->idSiteCache = $idSite;
 
         return $idSite;
     }

@@ -12,6 +12,7 @@ use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
@@ -37,7 +38,7 @@ class SitesManager extends \Piwik\Plugin
         return array(
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'Tracker.Cache.getSiteAttributes'        => 'recordWebsiteDataInCache',
+            'Tracker.Cache.getSiteAttributes'        => array('function' => 'recordWebsiteDataInCache', 'before' => true),
             'Tracker.setTrackerCacheGeneral'         => 'setTrackerCacheGeneral',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'SitesManager.deleteSite.end'            => 'onSiteDeleted',
@@ -147,13 +148,13 @@ class SitesManager extends \Piwik\Plugin
     {
         $idSite = (int) $idSite;
 
+        $website = API::getInstance()->getSiteFromId($idSite);
         $urls = API::getInstance()->getSiteUrlsFromId($idSite);
 
         // add the 'hosts' entry in the website array
         $array['urls']  = $urls;
         $array['hosts'] = $this->getTrackerHosts($urls);
 
-        $website = API::getInstance()->getSiteFromId($idSite);
         $array['exclude_unknown_urls'] = $website['exclude_unknown_urls'];
         $array['excluded_ips'] = $this->getTrackerExcludedIps($website);
         $array['excluded_parameters'] = self::getTrackerExcludedQueryParameters($website);

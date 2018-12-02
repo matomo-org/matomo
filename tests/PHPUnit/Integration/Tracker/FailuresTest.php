@@ -35,6 +35,7 @@ class FailuresTest extends IntegrationTestCase
         parent::setUp();
 
         $this->idSite = Fixture::createWebsite('2018-01-02 03:04:05');
+        Fixture::createWebsite('2018-01-02 03:04:05');
         $this->now = Date::factory('2018-09-07 01:02:03');
         $this->failures = new Failures();
         $this->failures->setNow($this->now);
@@ -69,7 +70,7 @@ class FailuresTest extends IntegrationTestCase
                     'site_name' => 'Piwik test',
                     'pretty_date_first_occurred' => 'Intl_1or02Intl_Time_AMt_250Intl_Time_AMtTi02_S1ort',
                     'url' => '',
-                    'solution_url' => 'https://matomo.org/faq/how-to/faq_308385/',
+                    'solution_url' => 'https://matomo.org/faq/how-to/faq_30835/',
                     'problem' => 'CoreAdminHome_TrackingFailureAuthenticationProblem',
                     'solution' => 'CoreAdminHome_TrackingFailureAuthenticationSolution',
                 ),

@@ -85,9 +85,17 @@ class Visit implements VisitInterface
         $this->request = $request;
     }
 
-    private function checkSiteExists()
+    private function checkSiteExists(Request $request)
     {
-        $this->request->getIdSite();
+        try {
+            $this->request->getIdSite();
+        } catch (UnexpectedWebsiteFoundException $e) {
+            // we allow 0... the request will fail anyway as the site won't exist... allowing 0 will help us
+            // reporting this tracking problem as it is a common issue. Otherwise we would not be able to report
+            // this problem in tracking failures
+            StaticContainer::get(Failures::class)->logFailure(Failures::FAILURE_ID_INVALID_SITE, $request);
+            throw $e;
+        }
     }
 
     /**
@@ -112,7 +120,7 @@ class Visit implements VisitInterface
      */
     public function handle()
     {
-        $this->checkSiteExists();
+        $this->checkSiteExists($this->request);
 
         foreach ($this->requestProcessors as $processor) {
             Common::printDebug("Executing " . get_class($processor) . "::manipulateRequest()...");

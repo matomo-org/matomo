@@ -64,7 +64,7 @@ class Failures
             return;
         }
 
-        $idSite = (int) $request->getIdSite();
+        $idSite = (int) $request->getIdSiteUnverified();
         $idFailure = (int) $idFailure;
 
         if ($idSite > 9999999 || $idSite < 0 || $this->hasLoggedFailure($idSite, $idFailure)) {

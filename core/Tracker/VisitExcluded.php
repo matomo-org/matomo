@@ -27,15 +27,23 @@ class VisitExcluded
      */
     private $spamFilter;
 
+    private $siteCache = array();
+
     /**
      * @param Request $request
      */
     public function __construct(Request $request)
     {
         $this->spamFilter = new ReferrerSpamFilter();
-
         $this->request   = $request;
-        $this->idSite    = $request->getIdSite();
+
+        try {
+            $this->idSite = $request->getIdSite();
+        } catch (UnexpectedWebsiteFoundException $e){
+            // most checks will still work on a global scope and we still want to be able to test if this is a valid
+            // visit or not
+            $this->idSite = 0;
+        }
         $userAgent       = $request->getUserAgent();
         $this->userAgent = Common::unsanitizeInputValue($userAgent);
         $this->ip        = $request->getIp();
@@ -279,10 +287,15 @@ class VisitExcluded
 
     private function getAttributes($siteAttribute, $globalAttribute)
     {
+        if (!isset($this->siteCache[$this->idSite])) {
+            $this->siteCache[$this->idSite] = array();
+        }
         try {
-            $site = Cache::getCacheWebsiteAttributes($this->idSite);
-            if (isset($site[$siteAttribute])) {
-                return $site[$siteAttribute];
+            if (empty($this->siteCache[$this->idSite])) {
+                $this->siteCache[$this->idSite] = Cache::getCacheWebsiteAttributes($this->idSite);
+            }
+            if (isset($this->siteCache[$this->idSite][$siteAttribute])) {
+                return $this->siteCache[$this->idSite][$siteAttribute];
             }
         } catch (UnexpectedWebsiteFoundException $e) {
             $cached = Cache::getCacheGeneral();
@@ -299,13 +312,14 @@ class VisitExcluded
     protected function isUrlExcluded()
     {
         $excludedUrls = $this->getAttributes('exclude_unknown_urls', null);
+        $siteUrls = $this->getAttributes('urls', null);
 
-        if (!empty($excludedUrls) && !empty($site['urls'])) {
+        if (!empty($excludedUrls) && !empty($siteUrls)) {
             $url = $this->request->getParam('url');
             $parsedUrl = parse_url($url);
 
             $trackingUrl = new SiteUrls();
-            $urls = $trackingUrl->groupUrlsByHost(array($this->idSite => $site['urls']));
+            $urls = $trackingUrl->groupUrlsByHost(array($this->idSite => $siteUrls));
 
             $idSites = $trackingUrl->getIdSitesMatchingUrl($parsedUrl, $urls);
             $isUrlExcluded = !isset($idSites) || !in_array($this->idSite, $idSites);
