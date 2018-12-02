@@ -15,6 +15,8 @@
 				
 				<url>http://localhost</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>triggered js</subtitle>
 				
 			</row>
 			<row>
@@ -27,6 +29,8 @@
 				<pageId>1</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>Profile page</title>
+				<subtitle>http://localhost</subtitle>
 				<icon />
 				
 				<customVariables>
