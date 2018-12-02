@@ -185,6 +185,7 @@ Piwik_Transitions.prototype.reset = function (actionType, actionName, segment) {
 /** Open the popover */
 Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
     var self = this;
+    this.showEmbeddedInReport = showEmbeddedInReport;
 
     $('#transitions_report .popoverContainer').hide();
 
@@ -579,11 +580,26 @@ Piwik_Transitions.prototype.renderOpenGroup = function (groupName, side, onlyBg)
         var isOthers = (label == 'Others');
         var onClick = false;
         if (!isOthers && (groupName == 'previousPages' || groupName == 'followingPages')) {
-            onClick = (function (url) {
-                return function () {
-                    self.reloadPopover(url.replace(/^(?!http)/, 'http://'));
-                };
-            })(label);
+
+            if (this.showEmbeddedInReport) {
+                onClick = (function (url) {
+                    return function () {
+                        var $rootScope = piwikHelper.getAngularDependency('$rootScope');
+                        if ($rootScope) {
+                            $rootScope.$emit('Transitions.switchTransitionsUrl', {
+                                url:url
+                            });
+                        }
+                    };
+                })(label);
+            } else {
+                onClick = (function (url) {
+                    return function () {
+                        self.reloadPopover(url.replace(/^(?!http)/, 'http://'));
+                    };
+                })(label);
+            }
+
         } else if (!isOthers && (groupName == 'outlinks' || groupName == 'websites' || groupName == 'downloads')) {
             onClick = label
         }

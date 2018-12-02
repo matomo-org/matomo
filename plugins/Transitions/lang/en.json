@@ -10,6 +10,7 @@
         "NumOutlinks": "%s outlinks",
         "TopX": "Top %s labels",
         "AvailableInOtherReports": "Did you know? Transitions are also available as a row action in the following reports:",
+        "AvailableInOtherReports2": "Simply hover a row in any of these reports and click on the transition icon to launch it.",
         "FromCampaigns": "From Campaigns",
         "FromPreviousPages": "From Internal Pages",
         "FromPreviousPagesInline": "%s from internal pages",

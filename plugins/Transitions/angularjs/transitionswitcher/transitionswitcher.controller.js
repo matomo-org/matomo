@@ -8,9 +8,9 @@
 (function () {
     angular.module('piwikApp').controller('TransitionSwitcherController', TransitionSwitcherController);
 
-    TransitionSwitcherController.$inject = ['piwikApi', '$filter'];
+    TransitionSwitcherController.$inject = ['piwikApi', '$filter', '$rootScope'];
 
-    function TransitionSwitcherController(piwikApi, $filter) {
+    function TransitionSwitcherController(piwikApi, $filter, $rootScope) {
         var translate = $filter('translate');
 
         var self = this;
@@ -24,6 +24,32 @@
         this.transitions = null;
         this.actionName = '';
         this.isEnabled = true;
+
+        this.detectActionName = function (report)
+        {
+            var othersLabel = translate('General_Others');
+
+            var label;
+            for (var i = 0; i < 100; i++) {
+
+                if (report[i].label === othersLabel) {
+                    continue;
+                }
+
+                var key = report[i].url;
+                if (!self.isUrlReport()) {
+                    key = report[i].label;
+                }
+
+                if (key) {
+                    label = report[i].label + ' (' + translate('Transitions_NumPageviews', report[i].nb_hits) + ')';
+                    self.actionNameOptions.push({key: key, value: label, url: report[i].url});
+                    if (!self.actionName) {
+                        self.actionName = key
+                    }
+                }
+            }
+        }
 
         this.isUrlReport = function()
         {
@@ -44,30 +70,10 @@
                 self.isLoading = false;
                 self.actionNameOptions = [];
                 self.actionName = '';
+
                 if (report && report.length) {
                     self.isEnabled = true;
-                    var othersLabel = translate('General_Others');
-
-                    var label;
-                    for (var i = 0; i < report.length; i++) {
-
-                        if (report[i].label === othersLabel) {
-                            continue;
-                        }
-
-                        var key = report[i].url;
-                        if (!self.isUrlReport()) {
-                            key = report[i].label;
-                        }
-
-                        if (key) {
-                            label = report[i].label + ' (' + translate('Transitions_NumPageviews', report[i].nb_hits) + ')';
-                            self.actionNameOptions.push({key: key, value: label});
-                            if (!self.actionName) {
-                                self.actionName = key
-                            }
-                        }
-                    }
+                    self.detectActionName(report);
                     self.onActionNameChange(self.actionName);
                 }
 
@@ -98,6 +104,38 @@
             }
             this.transitions.showPopover(true);
         };
+
+        $rootScope.$on('Transitions.switchTransitionsUrl', function (event, params) {
+            if (params && params.url) {
+                if (self.isUrlReport()) {
+                    params.url = params.url.replace('https://', '').replace('http://', '');
+                }
+
+                var found = false, option, optionUrl;
+                for (var i = 0; i < self.actionNameOptions.length; i++) {
+                    option = self.actionNameOptions[i];
+                    optionUrl = option.url;
+                    if (optionUrl && self.isUrlReport()) {
+                        optionUrl = String(optionUrl).replace('https://', '').replace('http://', '');
+                    } else {
+                        optionUrl = null;
+                    }
+
+                    if (!found && (option.key === params.url || (params.url === optionUrl && optionUrl))) {
+                        found = true;
+                        self.actionName = option.key;
+                    }
+                }
+                if (!found) {
+                    // we only fetch top 100 in the report... so the entry the user clicked on, might not be in the top 100
+                    var options = angular.copy(self.actionNameOptions); // somehow needed to force angular to render it
+                    options.push({key: params.url, value: params.url});
+                    self.actionNameOptions = options;
+                    self.actionName = params.url;
+                }
+                self.onActionNameChange(self.actionName);
+            }
+        });
 
         this.fetch(this.actionType);
     }
