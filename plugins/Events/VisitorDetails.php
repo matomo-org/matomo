@@ -33,24 +33,23 @@ class VisitorDetails extends VisitorDetailsAbstract
             }
             if (!empty($action['eventValue'])) {
                 $action['subtitle'] .= ', ' . Piwik::translate('General_Value') . ': "' . $action['eventValue'] . '"';
-
-
-                if (strlen($action['pageTitle']) > 0) {
-                    $action['eventName'] = $action['pageTitle'];
-                }
-
-                if (isset($action['custom_float']) && strlen($action['custom_float']) > 0) {
-                    $action['eventValue'] = round($action['custom_float'], self::EVENT_VALUE_PRECISION);
-                }
-
-                unset($action['pageTitle']);
-                unset($action['custom_float']);
-            } else {
-                unset($action['eventCategory']);
-                unset($action['eventAction']);
             }
-            unset($action['eventType']);
+
+            if (strlen($action['pageTitle']) > 0) {
+                $action['eventName'] = $action['pageTitle'];
+            }
+
+            if (isset($action['custom_float']) && strlen($action['custom_float']) > 0) {
+                $action['eventValue'] = round($action['custom_float'], self::EVENT_VALUE_PRECISION);
+            }
+
+            unset($action['pageTitle']);
+            unset($action['custom_float']);
+        } else {
+            unset($action['eventCategory']);
+            unset($action['eventAction']);
         }
+        unset($action['eventType']);
     }
 
     public function extendVisitorDetails(&$visitor)
