@@ -120,7 +120,7 @@ class ThemeStyles
     /**
      * @var string
      */
-    public $colorMenuContrastTextActive;
+    public $colorMenuContrastTextActive = '#3450A3';
 
     /**
      * @var string
@@ -196,7 +196,6 @@ class ThemeStyles
     {
         $this->colorMenuContrastText = $this->colorText;
         $this->colorMenuContrastTextSelected = $this->colorMenuContrastText;
-        $this->colorMenuContrastTextActive = $this->colorMenuContrastText;
         $this->colorMenuContrastBackground = $this->colorBackgroundContrast;
         $this->colorWidgetExportedBackgroundBase = $this->colorBackgroundContrast;
         $this->colorWidgetTitleText = $this->colorText;
