@@ -26,7 +26,7 @@ class Get extends \Piwik\Plugin\Report
     protected function init()
     {
         parent::init();
-        $this->categoryId      = 'General_Visitors';
+        $this->categoryId      = 'General_Actions';
         $this->name          = Piwik::translate('VisitFrequency_ColumnReturningVisits');
         $this->documentation = ''; // TODO
         $this->processedMetrics = array(
