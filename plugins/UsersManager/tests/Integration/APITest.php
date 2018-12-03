@@ -372,7 +372,7 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1);
         $this->cleanUsers($users);
         $expected = [
-            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => []],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => [], 'email' => 'userLogin2@password.de', 'superuser_access' => '0'],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -385,7 +385,7 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1, $limit = null, $offset = 1);
         $this->cleanUsers($users);
         $expected = [
-            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => []],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => [], 'email' => 'userLogin2@password.de', 'superuser_access' => '0'],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -399,7 +399,7 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1, null, null, null, 'superuser');
         $this->cleanUsers($users);
         $expected = [
-            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => []],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'view', 'capabilities' => [], 'email' => 'userLogin2@password.de', 'superuser_access' => '0'],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -415,9 +415,9 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1);
         $this->cleanUsers($users);
         $expected = [
-            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => []],
-            ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view', 'capabilities' => []],
-            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin', 'capabilities' => []],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => [], 'email' => 'userLogin2@password.de', 'superuser_access' => false],
+            ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view', 'capabilities' => [], 'superuser_access' => false],
+            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin', 'capabilities' => [], 'superuser_access' => false],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -434,10 +434,10 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1);
         $this->cleanUsers($users);
         $expected = [
-            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => []],
-            ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view', 'capabilities' => []],
-            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin', 'capabilities' => []],
-            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'capabilities' => []],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => [], 'email' => 'userLogin2@password.de', 'superuser_access' => false],
+            ['login' => 'userLogin3', 'alias' => 'userLogin3', 'role' => 'view', 'capabilities' => [], 'superuser_access' => false],
+            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'role' => 'admin', 'capabilities' => [], 'superuser_access' => false],
+            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'capabilities' => [], 'superuser_access' => false],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -474,8 +474,8 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1, null, null, null, 'admin');
         $this->cleanUsers($users);
         $expected = [
-            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => []],
-            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'admin', 'capabilities' => []],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'admin', 'capabilities' => [], 'email' => 'userLogin2@password.de', 'superuser_access' => false],
+            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'admin', 'capabilities' => [], 'superuser_access' => false],
         ];
         $this->assertEquals($expected, $users);
 
@@ -483,7 +483,7 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1, null, null, null, 'write');
         $this->cleanUsers($users);
         $expected = [
-            ['login' => 'userLogin6', 'alias' => 'userLogin6', 'role' => 'write', 'capabilities' => []],
+            ['login' => 'userLogin6', 'alias' => 'userLogin6', 'role' => 'write', 'capabilities' => [], 'superuser_access' => false],
         ];
         $this->assertEquals($expected, $users);
     }
