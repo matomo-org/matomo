@@ -453,11 +453,11 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1);
         $this->cleanUsers($users);
         $expected = [
-            ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => []],
-            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
-            ['login' => 'userLogin3', 'alias' => 'userLogin3', 'email' => 'userLogin3@password.de', 'superuser_access' => false, 'role' => 'view', 'capabilities' => []],
-            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
-            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'email' => 'userLogin5@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => []],
+            ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin3', 'alias' => 'userLogin3', 'email' => 'userLogin3@password.de', 'superuser_access' => false, 'role' => 'view', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'email' => 'userLogin5@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => [], 'uses_2fa' => false],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -498,9 +498,9 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1, null, null, null, 'noaccess');
         $this->cleanUsers($users);
         $expected = [
-            ['login' => 'userLogin', 'alias' => 'userLogin', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userlogin@password.de', 'capabilities' => []],
-            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin2@password.de', 'capabilities' => []],
-            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin5@password.de', 'capabilities' => []],
+            ['login' => 'userLogin', 'alias' => 'userLogin', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userlogin@password.de', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin2@password.de', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin5', 'alias' => 'userLogin5', 'role' => 'noaccess', 'superuser_access' => false, 'email' => 'userLogin5@password.de', 'capabilities' => [], 'uses_2fa' => false],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -517,8 +517,8 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1, null, null, null, 'superuser');
         $this->cleanUsers($users);
         $expected = [
-            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
-            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'userLogin2@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin4', 'alias' => 'userLogin4', 'email' => 'userLogin4@password.de', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => [], 'uses_2fa' => false],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -534,8 +534,8 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1, null, null, 'searchText');
         $this->cleanUsers($users);
         $expected = [
-            ['login' => 'searchTextLogin', 'alias' => 'alias', 'email' => 'someemail@email.com', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => []],
-            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view', 'capabilities' => []],
+            ['login' => 'searchTextLogin', 'alias' => 'alias', 'email' => 'someemail@email.com', 'superuser_access' => true, 'role' => 'superuser', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view', 'capabilities' => [], 'uses_2fa' => false],
         ];
         $this->assertEquals($expected, $users);
     }
@@ -551,8 +551,8 @@ class APITest extends IntegrationTestCase
         $users = $this->api->getUsersPlusRole(1, $limit = 2, $offset = 1);
         $this->cleanUsers($users);
         $expected = [
-            ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => []],
-            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view', 'capabilities' => []],
+            ['login' => 'userLogin', 'alias' => 'userLogin', 'email' => 'userlogin@password.de', 'superuser_access' => false, 'role' => 'noaccess', 'capabilities' => [], 'uses_2fa' => false],
+            ['login' => 'userLogin2', 'alias' => 'userLogin2', 'email' => 'searchTextdef@email.com', 'superuser_access' => false, 'role' => 'view', 'capabilities' => [], 'uses_2fa' => false],
         ];
         $this->assertEquals($expected, $users);
     }

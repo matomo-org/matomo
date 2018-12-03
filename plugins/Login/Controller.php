@@ -12,7 +12,7 @@ use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
-use Piwik\Cookie;
+use Piwik\Date;
 use Piwik\Log;
 use Piwik\Nonce;
 use Piwik\Piwik;
@@ -44,13 +44,19 @@ class Controller extends \Piwik\Plugin\Controller
     protected $sessionInitializer;
 
     /**
+     * @var PasswordVerifier
+     */
+    protected $passwordVerify;
+
+    /**
      * Constructor.
      *
      * @param PasswordResetter $passwordResetter
      * @param AuthInterface $auth
      * @param SessionInitializer $authenticatedSessionFactory
+     * @param PasswordVerifier $passwordVerify
      */
-    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null)
+    public function __construct($passwordResetter = null, $auth = null, $sessionInitializer = null, $passwordVerify = null)
     {
         parent::__construct();
 
@@ -63,6 +69,11 @@ class Controller extends \Piwik\Plugin\Controller
             $auth = StaticContainer::get('Piwik\Auth');
         }
         $this->auth = $auth;
+
+        if (empty($passwordVerify)) {
+            $passwordVerify = StaticContainer::get('Piwik\Plugins\Login\PasswordVerifier');
+        }
+        $this->passwordVerify = $passwordVerify;
 
         if (empty($sessionInitializer)) {
             $sessionInitializer = new \Piwik\Session\SessionInitializer();
@@ -146,6 +157,51 @@ class Controller extends \Piwik\Plugin\Controller
 
         // crsf token: don't trust the submitted value; generate/fetch it from session data
         $view->nonce = Nonce::getNonce('Login.login');
+    }
+
+    public function confirmPassword()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
+
+        if (!$this->passwordVerify->hasPasswordVerifyBeenRequested()) {
+            throw new Exception('Not available');
+        }
+
+        if (!Url::isValidHost()) {
+            throw new Exception("Cannot confirm password with untrusted hostname!");
+        }
+
+        $nonceKey = 'confirmPassword';
+        $messageNoAccess = '';
+        if (!empty($_POST)) {
+            $nonce = Common::getRequestVar('nonce', null, 'string', $_POST);
+            if (!Nonce::verifyNonce($nonceKey, $nonce)) {
+                $messageNoAccess = $this->getMessageExceptionNoAccess();
+            } elseif ($this->verifyPasswordCorrect()) {
+                $this->passwordVerify->setPasswordVerifiedCorrectly();
+                return;
+            } else {
+                $messageNoAccess = Piwik::translate('Login_WrongPasswordEntered');
+            }
+        }
+
+        return $this->renderTemplate('confirmPassword', array(
+            'nonce' => Nonce::getNonce($nonceKey),
+            'AccessErrorString' => $messageNoAccess
+        ));
+    }
+
+    private function verifyPasswordCorrect()
+    {
+        /** @var \Piwik\Auth $authAdapter */
+        $authAdapter = StaticContainer::get('Piwik\Auth');
+        $authAdapter->setLogin(Piwik::getCurrentUserLogin());
+        $authAdapter->setPasswordHash(null);// ensure authentication happens on password
+        $authAdapter->setPassword(Common::getRequestVar('password', null, 'string', $_POST));
+        $authAdapter->setTokenAuth(null);// ensure authentication happens on password
+        $authResult = $authAdapter->authenticate();
+        return $authResult->wasAuthenticationSuccessful();
     }
 
     /**

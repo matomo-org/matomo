@@ -9,13 +9,10 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Exception;
-use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Metrics\Formatter;
-use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugin\ControllerAdmin;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
@@ -174,7 +171,6 @@ class Controller extends ControllerAdmin
         $user = Request::processRequest('UsersManager.getUser', array('userLogin' => $userLogin));
         $view->userEmail = $user['email'];
         $view->userTokenAuth = Piwik::getCurrentUserTokenAuth();
-
         $view->ignoreSalt = $this->getIgnoreCookieSalt();
 
         $userPreferences = new UserPreferences();

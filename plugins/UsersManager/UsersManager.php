@@ -244,6 +244,8 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_SetPermission';
         $translationKeys[] = 'UsersManager_RolesHelp';
         $translationKeys[] = 'UsersManager_Role';
+        $translationKeys[] = 'UsersManager_2FA';
+        $translationKeys[] = 'UsersManager_UsesTwoFactorAuthentication';
         $translationKeys[] = 'General_Actions';
         $translationKeys[] = 'UsersManager_TheDisplayedWebsitesAreSelected';
         $translationKeys[] = 'UsersManager_ClickToSelectAll';
@@ -277,6 +279,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_DeleteUserConfirmMultiple';
         $translationKeys[] = 'UsersManager_DeleteUserPermConfirmSingle';
         $translationKeys[] = 'UsersManager_DeleteUserPermConfirmMultiple';
+        $translationKeys[] = 'UsersManager_ResetTwoFactorAuthentication';
+        $translationKeys[] = 'UsersManager_ResetTwoFactorAuthenticationInfo';
+        $translationKeys[] = 'UsersManager_TwoFactorAuthentication';
         $translationKeys[] = 'UsersManager_AddNewUser';
         $translationKeys[] = 'UsersManager_EditUser';
         $translationKeys[] = 'UsersManager_CreateUser';

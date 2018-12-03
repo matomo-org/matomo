@@ -21,6 +21,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -73,6 +74,8 @@ class API extends \Piwik\Plugin\API
      * @var Access\CapabilitiesProvider
      */
     private $capabilityProvider;
+
+    private $twoFaPluginActivated;
 
     const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
@@ -326,7 +329,6 @@ class API extends \Piwik\Plugin\API
 
         $users = $this->enrichUsers($users);
         $users = $this->enrichUsersWithLastSeen($users);
-        $users = $this->removeUserInfoForNonSuperUsers($users);
 
         foreach ($users as &$user) {
             unset($user['password']);
@@ -359,9 +361,6 @@ class API extends \Piwik\Plugin\API
         $users = $this->model->getUsers($logins);
         $users = $this->userFilter->filterUsers($users);
         $users = $this->enrichUsers($users);
-
-        // Non Super user can only access login & alias
-        $users = $this->removeUserInfoForNonSuperUsers($users);
 
         return $users;
     }
@@ -762,15 +761,51 @@ class API extends \Piwik\Plugin\API
         return $users;
     }
 
+    private function isTwoFactorAuthPluginEnabled()
+    {
+        if (!isset($this->twoFaPluginActivated)) {
+            $this->twoFaPluginActivated = Plugin\Manager::getInstance()->isPluginActivated('TwoFactorAuth');
+        }
+        return $this->twoFaPluginActivated;
+    }
+
     private function enrichUser($user)
     {
-        if (!empty($user)) {
-            unset($user['token_auth']);
-            unset($user['password']);
-            unset($user['ts_password_modified']);
+        if (empty($user)) {
+            return $user;
         }
 
-        return $user;
+        unset($user['token_auth']);
+        unset($user['password']);
+        unset($user['ts_password_modified']);
+
+        if (Piwik::hasUserSuperUserAccess()) {
+            $user['uses_2fa'] = !empty($user['twofactor_secret']) && $this->isTwoFactorAuthPluginEnabled();
+            unset($user['twofactor_secret']);
+            return $user;
+        }
+
+        $newUser = array('login' => $user['login']);
+        if (isset($user['alias'])) {
+            $newUser['alias'] = $user['alias'];
+        }
+
+        if ($user['login'] === Piwik::getCurrentUserLogin() || !empty($user['superuser_access'])) {
+            $newUser['email'] = $user['email'];
+        }
+
+        if (isset($user['role'])) {
+            $newUser['role'] = $user['role'] == 'superuser' ? 'admin' : $user['role'];
+        }
+        if (isset($user['capabilities'])) {
+            $newUser['capabilities'] = $user['capabilities'];
+        }
+
+        if (isset($user['superuser_access'])) {
+            $newUser['superuser_access'] = $user['superuser_access'];
+        }
+
+        return $newUser;
     }
 
     /**
@@ -1301,23 +1336,6 @@ class API extends \Piwik\Plugin\API
         }
 
         return $user['token_auth'];
-    }
-
-    private function removeUserInfoForNonSuperUsers($users)
-    {
-        if (!Piwik::hasUserSuperUserAccess()) {
-            foreach ($users as $key => $user) {
-                $newUser = array('login' => $user['login'], 'alias' => $user['alias']);
-                if (isset($user['role'])) {
-                    $newUser['role'] = $user['role'] == 'superuser' ? 'admin' : $user['role'];
-                }
-                if (isset($user['capabilities'])) {
-                    $newUser['capabilities'] = $user['capabilities'];
-                }
-                $users[$key] = $newUser;
-            }
-        }
-        return $users;
     }
 
     private function isUserHasAdminAccessTo($idSite)

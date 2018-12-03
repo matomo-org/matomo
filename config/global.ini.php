@@ -904,6 +904,7 @@ Plugins[] = Feedback
 Plugins[] = Monolog
 
 Plugins[] = Login
+Plugins[] = TwoFactorAuth
 Plugins[] = UsersManager
 Plugins[] = SitesManager
 Plugins[] = Installation

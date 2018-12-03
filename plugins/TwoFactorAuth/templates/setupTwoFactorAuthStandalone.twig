@@ -1,0 +1,9 @@
+{% extends '@Login/loginLayout.twig' %}
+
+{% block loginContent %}
+<div piwik-content-block
+     content-title="{{ 'TwoFactorAuth_RequiredToSetUpTwoFactorAuthentication'|translate }}">
+   {% include '@TwoFactorAuth/_setupTwoFactorAuth.twig' %}
+</div>
+
+{% endblock %}
