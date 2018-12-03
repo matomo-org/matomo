@@ -43,12 +43,21 @@ class Mysql implements SchemaInterface
                           password VARCHAR(255) NOT NULL,
                           alias VARCHAR(45) NOT NULL,
                           email VARCHAR(100) NOT NULL,
+                          twofactor_secret VARCHAR(40) NOT NULL DEFAULT '',
                           token_auth CHAR(32) NOT NULL,
                           superuser_access TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           date_registered TIMESTAMP NULL,
                           ts_password_modified TIMESTAMP NULL,
                             PRIMARY KEY(login),
                             UNIQUE KEY uniq_keytoken(token_auth)
+                          ) ENGINE=$engine DEFAULT CHARSET=utf8
+            ",
+
+            'twofactor_recovery_code'    => "CREATE TABLE {$prefixTables}twofactor_recovery_code (
+                          idrecoverycode BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                          login VARCHAR(100) NOT NULL,
+                          recovery_code VARCHAR(40) NOT NULL,
+                            PRIMARY KEY(idrecoverycode)
                           ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
 
@@ -474,7 +483,7 @@ class Mysql implements SchemaInterface
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = $this->getDb();
         $db->query("INSERT IGNORE INTO " . Common::prefixTable("user") . "
-                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', 0, '$now', '$now' );");
+                    VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', '', 'anonymous', 0, '$now', '$now' );");
     }
 
     /**

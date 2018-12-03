@@ -278,7 +278,7 @@ class Model
         ));
     }
 
-    private function updateUserFields($userLogin, $fields)
+    public function updateUserFields($userLogin, $fields)
     {
         $set  = array();
         $bind = array();
@@ -307,7 +307,7 @@ class Model
     public function getUsersHavingSuperUserAccess()
     {
         $db = $this->getDb();
-        $users = $db->fetchAll("SELECT login, email, token_auth
+        $users = $db->fetchAll("SELECT login, email, token_auth, superuser_access
                                 FROM " . Common::prefixTable("user") . "
                                 WHERE superuser_access = 1
                                 ORDER BY date_registered ASC");

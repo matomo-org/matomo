@@ -39,10 +39,12 @@
         vm.$onInit = $onInit;
         vm.$onChanges = $onChanges;
         vm.confirmSuperUserChange = confirmSuperUserChange;
+        vm.confirmReset2FA = confirmReset2FA;
         vm.getFormTitle = getFormTitle;
         vm.getSaveButtonLabel = getSaveButtonLabel;
         vm.toggleSuperuserAccess = toggleSuperuserAccess;
         vm.saveUserInfo = saveUserInfo;
+        vm.reset2FA = reset2FA;
         vm.updateUser = updateUser;
 
         function $onInit() {
@@ -75,6 +77,10 @@
 
         function confirmSuperUserChange() {
             $element.find('.superuser-confirm-modal').openModal({ dismissible: false });
+        }
+
+        function confirmReset2FA() {
+            $element.find('.twofa-confirm-modal').openModal({ dismissible: false });
         }
 
         function confirmUserChange() {
@@ -114,6 +120,23 @@
             } else {
                 confirmUserChange();
             }
+        }
+
+        function reset2FA() {
+            vm.isResetting2FA = true;
+            return piwikApi.post({
+                method: 'TwoFactorAuth.resetTwoFactorAuth',
+                userLogin: vm.user.login
+            }).catch(function (e) {
+                vm.isResetting2FA = false;
+                throw e;
+            }).then(function () {
+                vm.isResetting2FA = false;
+                vm.user.uses_2fa = false;
+                vm.activeTab = 'basic';
+
+                showUserSavedNotification();
+            });
         }
 
         function showUserSavedNotification() {
