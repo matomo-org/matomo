@@ -224,15 +224,9 @@ class View implements ViewInterface
         unset($this->templateVars[$name]);
     }
 
-    /** @var Twig */
-    static $twigCached = null;
-
     private function initializeTwig()
     {
-        if (empty(static::$twigCached)) {
-            static::$twigCached = new Twig();
-        }
-        $this->twig = static::$twigCached->getTwigEnvironment();
+        $this->twig = StaticContainer::get(Twig::class)->getTwigEnvironment();
     }
 
     /**
@@ -429,7 +423,7 @@ class View implements ViewInterface
      */
     public static function clearCompiledTemplates()
     {
-        $twig = new Twig();
+        $twig = StaticContainer::get(Twig::class);
         $environment = $twig->getTwigEnvironment();
         $environment->clearTemplateCache();
 
