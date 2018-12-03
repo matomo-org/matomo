@@ -45,6 +45,14 @@ class Site
 {
     const DEFAULT_SITE_TYPE = "website";
 
+    private static $intProperties = [
+        'idsite',
+        'ecommerce',
+        'sitesearch',
+        'exclude_unknown_urls',
+        'keep_url_fragment',
+    ];
+
     /**
      * @var int|null
      */
@@ -84,10 +92,8 @@ class Site
         $this->site = $site;
 
         // for serialized format to be predictable across php/mysql/pdo/mysqli versions, make sure the int props stay ints
-        foreach ($this->site as $key => $value) {
-            if (is_numeric($value)) {
-                $this->site[$key] = (int)$value;
-            }
+        foreach (self::$intProperties as $propertyName) {
+            $this->site[$propertyName] = (int)$this->site[$propertyName];
         }
     }
 
