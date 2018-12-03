@@ -147,7 +147,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
     it('should load the visitors > engagement page correctly', function (done) {
         expect.screenshot("visitors_engagement").to.be.captureSelector('.pageWrap', function (page) {
-            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitorInterest_Engagement");
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=VisitorInterest_Engagement");
         }, done);
     });
 
@@ -166,6 +166,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             page.evaluate(function(){
                 $('.ui-tooltip:visible .rel-time').data('actiontime', Math.floor(new Date((new Date()).getTime()-(4*3600*24000))/1000));
             }, 100);
+        }, done);
+    });
+
+    it('should load the visitors > real-time visits page correctly', function (done) {
+        expect.screenshot('visitors_realtime_visits').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + urlBase + "#?" + idSite2Params + "&category=General_Visitors&subcategory=General_RealTime");
         }, done);
     });
 
