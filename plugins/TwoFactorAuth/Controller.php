@@ -244,9 +244,10 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $view->title = $this->settings->twoFactorAuthTitle->getValue();
-        $view->description = Piwik::getCurrentUserLogin();
+        $view->description = $login;
         $view->authCodeNonce = Nonce::getNonce(self::AUTH_CODE_NONCE);
         $view->AccessErrorString = $accessErrorString;
+        $view->isAlreadyUsing2fa = $this->twoFa->isUserUsingTwoFactorAuthentication($login);
         $view->newSecret = $secret;
         $view->authImage = $this->getQRUrl($view->description, $view->gatitle);
         $view->codes = $this->recoveryCodeDao->getAllRecoveryCodesForLogin($login);

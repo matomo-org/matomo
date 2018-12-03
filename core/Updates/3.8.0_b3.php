@@ -35,7 +35,7 @@ class Updates_3_8_0_b3 extends PiwikUpdates
         $backupCode = $this->migration->db->createTable('twofactor_recovery_code', array(
             'idrecoverycode' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
             'login' => 'VARCHAR(100) NOT NULL',
-            'recovery_code' => 'VARCHAR(20) NOT NULL',
+            'recovery_code' => 'VARCHAR(40) NOT NULL',
         ), array('idrecoverycode'));
         $twoFactorAuth = $this->migration->plugin->activate('TwoFactorAuth');
         $googleAuth = $this->migration->plugin->deactivate('GoogleAuthenticator');

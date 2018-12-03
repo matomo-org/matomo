@@ -1,7 +1,12 @@
 <div ng-controller="SetupTwoFactorAuthController as setup2fa" class="setupTwoFactorAuthentication">
+    {% if isAlreadyUsing2fa %}
+        <div class="alert alert-warning">{{ 'TwoFactorAuth_WarningChangingConfiguredDevice'|translate }}</div>
+    {% endif %}
+
     <p>
         {{ 'TwoFactorAuth_SetupIntroFollowSteps'|translate }}
     </p>
+
     <h2>
         {{ 'TwoFactorAuth_StepX'|translate(1) }} - {{ 'TwoFactorAuth_RecoveryCodes'|translate }}
     </h2>

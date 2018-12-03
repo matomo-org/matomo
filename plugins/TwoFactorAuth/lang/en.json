@@ -25,6 +25,7 @@
     "SetupIntroFollowSteps": "Please follow these steps to set up two-factor authentication:",
     "SetupFinishedTitle": "Congratulations! Your account is now more secure.",
     "SetupFinishedSubtitle": "You have successfully set up two-factor authentication. Next time you log in, you will need to also enter the authentication code. Make sure you have your mobile device or your backup codes with you.",
+    "WarningChangingConfiguredDevice": "You are about to change the configured two-factor authentication device. This will invalidate any previously configured device.",
     "ShowRecoveryCodes": "Show recovery codes",
     "ConfirmSetup": "Confirm setup",
     "NotPossibleToLogIn": "Cannot log in to Matomo Analytics",
