@@ -754,7 +754,8 @@ abstract class SystemTestCase extends PHPUnit_Framework_TestCase
                     if (is_null($value)) {
                         $values[] = 'NULL';
                     } else {
-                        $isNumeric = preg_match('/^[1-9][0-9]*$/', $value);
+                        // is_numeric cannot be used here since some strings will look like floating point numbers (eg 3e456)
+                        $isNumeric = preg_match('/^\d+(\.\d+)?$/', $value);
                         if ($isNumeric) {
                             $values[] = $value;
                         } else if (!ctype_print($value)) {
