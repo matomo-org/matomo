@@ -150,6 +150,10 @@ class TwoFactorAuth extends \Piwik\Plugin
             return;
         }
 
+        if ($module === 'CoreUpdater') {
+            return;
+        }
+
         if ($module === Piwik::getLoginPluginName() && $action === 'logout') {
             return;
         }
