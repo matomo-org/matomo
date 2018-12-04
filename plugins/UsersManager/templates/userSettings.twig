@@ -129,6 +129,8 @@
             ng-click="personalSettings.regenerateTokenAuth()">{{ 'UsersManager_TokenRegenerateTitle'|translate }}</button>
 </div>
 
+{{ postEvent('Template.userSettings.afterTokenAuth') }}
+
 <div piwik-plugin-settings mode="user"></div>
 
 <div piwik-content-block

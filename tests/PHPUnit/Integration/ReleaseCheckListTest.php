@@ -207,7 +207,7 @@ class ReleaseCheckListTest extends \PHPUnit_Framework_TestCase
             PIWIK_INCLUDE_PATH . '/plugins/TestRunner/templates/travis.yml.twig',
             PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/templates/layout.twig',
             PIWIK_INCLUDE_PATH . '/plugins/Installation/templates/layout.twig',
-            PIWIK_INCLUDE_PATH . '/plugins/Login/templates/login.twig',
+            PIWIK_INCLUDE_PATH . '/plugins/Login/templates/loginLayout.twig',
             PIWIK_INCLUDE_PATH . '/tests/UI/screenshot-diffs/singlediff.html',
 
             // Note: entries below are paths and any file within these paths will be automatically whitelisted

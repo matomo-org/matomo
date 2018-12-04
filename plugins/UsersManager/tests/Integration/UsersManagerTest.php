@@ -113,6 +113,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user['email']            = $newEmail;
         $user['alias']            = $newAlias;
         $user['superuser_access'] = 0;
+        $user['twofactor_secret'] = '';
 
         unset($user['password']);
 
@@ -474,9 +475,9 @@ class UsersManagerTest extends IntegrationTestCase
 
         $users = $this->api->getUsers();
         $users = $this->_removeNonTestableFieldsFromUsers($users);
-        $user1 = array('login' => "gegg4564eqgeqag", 'alias' => "alias", 'email' => "tegst@tesgt.com", 'superuser_access' => 0);
-        $user2 = array('login' => "geggeqge632ge56a4qag", 'alias' => "alias", 'email' => "tesggt@tesgt.com", 'superuser_access' => 0);
-        $user3 = array('login' => "geggeqgeqagqegg", 'alias' => 'geggeqgeqagqegg', 'email' => "tesgggt@tesgt.com", 'superuser_access' => 0);
+        $user1 = array('login' => "gegg4564eqgeqag", 'alias' => "alias", 'email' => "tegst@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false);
+        $user2 = array('login' => "geggeqge632ge56a4qag", 'alias' => "alias", 'email' => "tesggt@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false);
+        $user3 = array('login' => "geggeqgeqagqegg", 'alias' => 'geggeqgeqagqegg', 'email' => "tesgggt@tesgt.com", 'superuser_access' => 0, 'uses_2fa' => false);
         $expectedUsers = array($user1, $user2, $user3);
         $this->assertEquals($expectedUsers, $users);
         $this->assertEquals(array($user1), $this->_removeNonTestableFieldsFromUsers($this->api->getUsers('gegg4564eqgeqag')));

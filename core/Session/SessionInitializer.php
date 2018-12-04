@@ -84,6 +84,11 @@ class SessionInitializer
     {
         $sessionIdentifier = new SessionFingerprint();
         $sessionIdentifier->initialize($authResult->getIdentity(), $this->isRemembered());
+
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('Login.authenticate.processSuccessfulSession.end', array($authResult->getIdentity()));
     }
 
     protected function regenerateSessionId()
