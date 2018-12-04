@@ -552,9 +552,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $config = Config::getInstance();
 
         // make sure DB sessions are used if the filesystem is NFS
-        if (Filesystem::checkIfFileSystemIsNFS()) {
-            $config->General['session_save_handler'] = 'dbtable';
-        }
         if (count($headers = ProxyHeaders::getProxyClientHeaders()) > 0) {
             $config->General['proxy_client_headers'] = $headers;
         }
