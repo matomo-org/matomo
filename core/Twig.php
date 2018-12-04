@@ -72,6 +72,10 @@ function piwik_escape_filter(Twig_Environment $env, $string, $strategy = 'html',
         case 'html_attr':
             return piwik_fix_lbrace($string);
         case 'url':
+            if (!UrlHelper::isLookLikeSafeUrl($string)) { // if this could be a dangerous link, replace it w/ an empty url
+                return 'javascript:;';
+            }
+
             $encoded = rawurlencode('{');
             return str_replace('{{', $encoded . $encoded, $string);
         case 'css':
