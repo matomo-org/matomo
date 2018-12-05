@@ -171,7 +171,7 @@ class Controller extends ControllerAdmin
         $viewableIdSites = APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess();
 
         $defaultIdSite = reset($viewableIdSites);
-        $view->idSite = Common::getRequestVar('idSite', $defaultIdSite, 'int');
+        $view->idSite = $this->idSite ?: $defaultIdSite;
 
         if ($view->idSite) {
             try {

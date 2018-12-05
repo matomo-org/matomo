@@ -36,6 +36,8 @@
 					<pageId>32</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 0</title>
+					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -154,6 +156,8 @@
 					<pageId>31</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 2</title>
+					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -272,6 +276,8 @@
 					<pageId>30</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 1</title>
+					<subtitle>http://example.org/my/dir/page0</subtitle>
 					<icon />
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -390,6 +396,8 @@
 					<pageId>29</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 0</title>
+					<subtitle>http://example.org/my/dir/page3</subtitle>
 					<icon />
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -508,6 +516,8 @@
 					<pageId>28</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 2</title>
+					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -626,6 +636,8 @@
 					<pageId>27</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 1</title>
+					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -744,6 +756,8 @@
 					<pageId>26</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 0</title>
+					<subtitle>http://example.org/my/dir/page0</subtitle>
 					<icon />
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -862,6 +876,8 @@
 					<pageId>25</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 2</title>
+					<subtitle>http://example.org/my/dir/page3</subtitle>
 					<icon />
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -980,6 +996,8 @@
 					<pageId>24</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 1</title>
+					<subtitle>http://example.org/my/dir/page2</subtitle>
 					<icon />
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1098,6 +1116,8 @@
 					<pageId>23</pageId>
 					<bandwidth />
 					<interactionPosition>1</interactionPosition>
+					<title>incredible title 0</title>
+					<subtitle>http://example.org/my/dir/page1</subtitle>
 					<icon />
 					
 					<bandwidth_pretty>0 M</bandwidth_pretty>

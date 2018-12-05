@@ -107,11 +107,17 @@ class FrontController extends Singleton
         $error = array(
             'message' => $e->getMessage(),
             'file' => $e->getFile(),
-            'line' => $e->getLine()
+            'line' => $e->getLine(),
         );
 
-        if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-            $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n" . $e->getTraceAsString();
+        $error['backtrace'] = ' on ' . $error['file'] . '(' . $error['line'] . ")\n";
+        $error['backtrace'] .= $e->getTraceAsString();
+
+        $exception = $e;
+        while ($exception = $exception->getPrevious()) {
+            $error['backtrace'] .= "\ncaused by: " . $exception->getMessage();
+            $error['backtrace'] .= ' on ' . $exception->getFile() . '(' . $exception->getLine() . ")\n";
+            $error['backtrace'] .= $exception->getTraceAsString();
         }
 
         return self::generateSafeModeOutputFromError($error);
@@ -235,10 +241,8 @@ class FrontController extends Singleton
     {
         $lastError = error_get_last();
         if (!empty($lastError) && $lastError['type'] == E_ERROR) {
-            if (\Piwik_ShouldPrintBackTraceWithMessage()) {
-                $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
-                    . ErrorHandler::getFatalErrorPartialBacktrace();
-            }
+            $lastError['backtrace'] = ' on ' . $lastError['file'] . '(' . $lastError['line'] . ")\n"
+                . ErrorHandler::getFatalErrorPartialBacktrace();
 
             $message = self::generateSafeModeOutputFromError($lastError);
             echo $message;

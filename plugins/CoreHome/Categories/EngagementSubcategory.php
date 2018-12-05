@@ -12,8 +12,8 @@ use Piwik\Category\Subcategory;
 
 class EngagementSubcategory extends Subcategory
 {
-    protected $categoryId = 'General_Visitors';
+    protected $categoryId = 'General_Actions';
     protected $id = 'VisitorInterest_Engagement';
-    protected $order = 30;
+    protected $order = 46;
 
 }

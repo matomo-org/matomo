@@ -15,7 +15,7 @@ use Piwik\ReportRenderer;
 
 class Model
 {
-    private static $rawPrefix = 'report';
+    public static $rawPrefix = 'report';
     private $table;
 
     public function __construct()
@@ -85,6 +85,8 @@ class Model
 					    `ts_created` TIMESTAMP NULL,
 					    `ts_last_sent` TIMESTAMP NULL,
 					    `deleted` tinyint(4) NOT NULL default 0,
+					    `evolution_graph_within_period` TINYINT(4) NOT NULL DEFAULT 0,
+					    `evolution_graph_period_n` INT(11) NOT NULL,
 					    PRIMARY KEY (`idreport`)";
 
         DbHelper::createTable(self::$rawPrefix, $reportTable);

@@ -16,7 +16,7 @@
 
         var model = {
             getSearchParam: getSearchParam
-        }
+        };
 
         return model;
 

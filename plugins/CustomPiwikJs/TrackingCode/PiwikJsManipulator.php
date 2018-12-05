@@ -8,6 +8,8 @@
 
 namespace Piwik\Plugins\CustomPiwikJs\TrackingCode;
 
+use Piwik\Piwik;
+
 class PiwikJsManipulator
 {
     const HOOK = '/*!!! pluginTrackerHook */';
@@ -35,6 +37,24 @@ class PiwikJsManipulator
             // for some reasons it is /*!!! in piwik.js minified and /*!! in js/piwik.js unminified
             $this->content = str_replace(array(self::HOOK, '/*!! pluginTrackerHook */'), self::HOOK . $trackerExtension, $this->content);
         }
+
+        $content = $this->content;
+
+        /**
+         * Triggered after the Matomo JavaScript tracker has been generated and shortly before the tracker file
+         * is written to disk. You can listen to this event to for example automatically append some code to the JS
+         * tracker file.
+         *
+         * **Example**
+         *
+         *     function onManipulateJsTracker (&$content) {
+         *         $content .= "\nPiwik.DOM.onLoad(function () { console.log('loaded'); });";
+         *     }
+         *
+         * @param string $content the generated JavaScript tracker code
+         */
+        Piwik::postEvent('CustomMatomoJs.manipulateJsTracker', array(&$content));
+        $this->content = $content;
 
         return $this->content;
     }

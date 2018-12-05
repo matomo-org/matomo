@@ -1,5 +1,5 @@
 <?php
-// piwik.php test harness
+// matomo.php test harness
 
 if (!defined('PIWIK_DOCUMENT_ROOT')) {
 	define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) . '/../..');

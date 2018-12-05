@@ -148,9 +148,16 @@ class Model
      */
     public function getSitesAccessFromUser($userLogin)
     {
+        $accessTable = Common::prefixTable('access');
+        $siteTable = Common::prefixTable('site');
+
+        $sql = sprintf("SELECT access.idsite, access.access 
+    FROM %s access 
+    LEFT JOIN %s site 
+    ON access.idsite=site.idsite
+     WHERE access.login = ? and site.idsite is not null", $accessTable, $siteTable);
         $db = $this->getDb();
-        $users = $db->fetchAll("SELECT idsite,access FROM " . Common::prefixTable("access")
-            . " WHERE login = ?", $userLogin);
+        $users = $db->fetchAll($sql, $userLogin);
         $return = array();
         foreach ($users as $user) {
             $return[] = array(
@@ -171,13 +178,13 @@ class Model
         $bind = array_merge($bind, $whereBind);
 
         $limitSql = '';
+        $offsetSql = '';
         if ($limit) {
             $limitSql = "LIMIT " . (int)$limit;
-        }
 
-        $offsetSql = '';
-        if ($offset) {
-            $offsetSql = "OFFSET " . (int)$offset;
+            if ($offset) {
+                $offsetSql = "OFFSET " . (int)$offset;
+            }
         }
 
         $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, GROUP_CONCAT(a.access SEPARATOR "|") as access
@@ -271,7 +278,7 @@ class Model
         ));
     }
 
-    private function updateUserFields($userLogin, $fields)
+    public function updateUserFields($userLogin, $fields)
     {
         $set  = array();
         $bind = array();
@@ -300,7 +307,7 @@ class Model
     public function getUsersHavingSuperUserAccess()
     {
         $db = $this->getDb();
-        $users = $db->fetchAll("SELECT login, email, token_auth
+        $users = $db->fetchAll("SELECT login, email, token_auth, superuser_access
                                 FROM " . Common::prefixTable("user") . "
                                 WHERE superuser_access = 1
                                 ORDER BY date_registered ASC");
@@ -445,13 +452,13 @@ class Model
         $bind = array_merge($bind, $whereBind);
 
         $limitSql = '';
+        $offsetSql = '';
         if ($limit) {
             $limitSql = "LIMIT " . (int)$limit;
-        }
 
-        $offsetSql = '';
-        if ($offset) {
-            $offsetSql = "OFFSET " . (int)$offset;
+            if ($offset) {
+                $offsetSql = "OFFSET " . (int)$offset;
+            }
         }
 
         $sql = 'SELECT SQL_CALC_FOUND_ROWS u.*, GROUP_CONCAT(a.access SEPARATOR "|") as access

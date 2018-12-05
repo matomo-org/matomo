@@ -224,15 +224,9 @@ class View implements ViewInterface
         unset($this->templateVars[$name]);
     }
 
-    /** @var Twig */
-    static $twigCached = null;
-
     private function initializeTwig()
     {
-        if (empty(static::$twigCached)) {
-            static::$twigCached = new Twig();
-        }
-        $this->twig = static::$twigCached->getTwigEnvironment();
+        $this->twig = StaticContainer::get(Twig::class)->getTwigEnvironment();
     }
 
     /**
@@ -324,18 +318,24 @@ class View implements ViewInterface
 
     protected function applyFilter_cacheBuster($output)
     {
-        $assetManager = AssetManager::getInstance();
+        $cacheBuster = UIAssetCacheBuster::getInstance();
+        $cache = Cache::getTransientCache();
 
-        $stylesheet = $assetManager->getMergedStylesheetAsset();
-        if ($stylesheet->exists()) {
-            $content = $stylesheet->getContent();
-        } else {
-            $content = $assetManager->getMergedStylesheet()->getContent();
+        $cssCacheBusterId = $cache->fetch('cssCacheBusterId');
+        if (empty($cssCacheBusterId)) {
+            $assetManager = AssetManager::getInstance();
+            $stylesheet = $assetManager->getMergedStylesheetAsset();
+            if ($stylesheet->exists()) {
+                $content = $stylesheet->getContent();
+            } else {
+                $content = $assetManager->getMergedStylesheet()->getContent();
+            }
+            $cssCacheBusterId = $cacheBuster->md5BasedCacheBuster($content);
+            $cache->save('cssCacheBusterId', $cssCacheBusterId);
         }
 
-        $cacheBuster = UIAssetCacheBuster::getInstance();
-        $tagJs       = 'cb=' . $cacheBuster->piwikVersionBasedCacheBuster();
-        $tagCss      = 'cb=' . $cacheBuster->md5BasedCacheBuster($content);
+        $tagJs  = 'cb=' . $cacheBuster->piwikVersionBasedCacheBuster();
+        $tagCss = 'cb=' . $cssCacheBusterId;
 
         $pattern = array(
             '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
@@ -423,7 +423,7 @@ class View implements ViewInterface
      */
     public static function clearCompiledTemplates()
     {
-        $twig = new Twig();
+        $twig = StaticContainer::get(Twig::class);
         $environment = $twig->getTwigEnvironment();
         $environment->clearTemplateCache();
 
