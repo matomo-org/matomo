@@ -9,9 +9,13 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
+use Piwik\Db;
+use Piwik\Option;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
+use Piwik\Plugins\UsersManager\Model;
 
 class Updates_3_8_0_b3 extends PiwikUpdates
 {
@@ -27,20 +31,30 @@ class Updates_3_8_0_b3 extends PiwikUpdates
 
     public function getMigrations(Updater $updater)
     {
-        $trackingFailureTable = $this->migration->db->createTable('tracking_failure',
-            array('idsite' => 'BIGINT(20) UNSIGNED NOT NULL',
-                  'idfailure' => 'SMALLINT UNSIGNED NOT NULL',
-                  'date_first_occurred' => 'DATETIME NOT NULL',
-                  'request_url' => 'MEDIUMTEXT NOT NULL'),
-            array('idsite', 'idfailure'));
+        $userColumn = $this->migration->db->addColumn('user', 'twofactor_secret', "VARCHAR(40) NOT NULL DEFAULT ''");
+        $backupCode = $this->migration->db->createTable('twofactor_recovery_code', array(
+            'idrecoverycode' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
+            'login' => 'VARCHAR(100) NOT NULL',
+            'recovery_code' => 'VARCHAR(40) NOT NULL',
+        ), array('idrecoverycode'));
+        $twoFactorAuth = $this->migration->plugin->activate('TwoFactorAuth');
+        $googleAuth = $this->migration->plugin->deactivate('GoogleAuthenticator');
 
-        return array(
-            $trackingFailureTable
-        );
+        return array($userColumn, $backupCode, $twoFactorAuth, $googleAuth);
     }
 
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+
+        foreach (Option::getLike('GoogleAuthentication.%') as $name => $value) {
+            $value = @unserialize($value);
+            if (!empty($value['isActive']) && !empty($value['secret'])) {
+                $login = str_replace('GoogleAuthentication.', '', $name);
+
+                $table = Common::prefixTable('user');
+                Db::query("UPDATE $table SET twofactor_secret = ? where login = ?", array($value['secret'], $login));
+            }
+        }
     }
 }
