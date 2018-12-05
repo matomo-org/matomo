@@ -20,7 +20,7 @@ describe('SingleMetricView', function () {
             page.load(url, 5000);
             page.click('.dashboard-manager a.title');
 
-            page.mouseMove('.widgetpreview-categorylist>li:contains(Live!)'); // have to mouse move twice... otherwise Live! will just be highlighted
+            page.mouseMove('.widgetpreview-categorylist>li:contains(Generic)'); // have to mouse move twice... otherwise Live! will just be highlighted
             page.mouseMove('.widgetpreview-categorylist > li:contains(Generic)');
 
             page.mouseMove('.widgetpreview-widgetlist li:contains(Metric)');
