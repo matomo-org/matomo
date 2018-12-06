@@ -67,25 +67,25 @@
 		</row>
 		<row>
 			<label>01</label>
-			<nb_uniq_visitors>0</nb_uniq_visitors>
-			<nb_visits>0</nb_visits>
-			<nb_actions>0</nb_actions>
+			<nb_uniq_visitors>1</nb_uniq_visitors>
+			<nb_visits>1</nb_visits>
+			<nb_actions>6</nb_actions>
 			<nb_users>0</nb_users>
-			<nb_actions_per_visit>0</nb_actions_per_visit>
-			<avg_time_on_site>00:00:00</avg_time_on_site>
+			<nb_actions_per_visit>6</nb_actions_per_visit>
+			<avg_time_on_site>01:06:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
 			<revenue>$ 0</revenue>
 		</row>
 		<row>
 			<label>02</label>
-			<nb_uniq_visitors>1</nb_uniq_visitors>
-			<nb_visits>1</nb_visits>
-			<nb_actions>6</nb_actions>
-			<nb_users>0</nb_users>
 			<revenue>$ 3111.11</revenue>
-			<nb_actions_per_visit>6</nb_actions_per_visit>
-			<avg_time_on_site>01:06:01</avg_time_on_site>
+			<nb_visits>0</nb_visits>
+			<nb_actions_per_visit>0</nb_actions_per_visit>
+			<avg_time_on_site>00:00:00</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_uniq_visitors>0</nb_uniq_visitors>
+			<nb_actions>0</nb_actions>
+			<nb_users>0</nb_users>
 		</row>
 		<row>
 			<label>03</label>
@@ -400,6 +400,6 @@
 		<nb_conversions>3</nb_conversions>
 		<bounce_count>0</bounce_count>
 		<revenue>3121.11</revenue>
-		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_converted>1</nb_visits_converted>
 	</reportTotal>
 </result>

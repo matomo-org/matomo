@@ -22,18 +22,6 @@
 	</row>
 	<row>
 		<label>01</label>
-		<nb_uniq_visitors>0</nb_uniq_visitors>
-		<nb_visits>0</nb_visits>
-		<nb_actions>0</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>0</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>0</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
-		<segment>visitServerHour==1</segment>
-	</row>
-	<row>
-		<label>02</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
 		<nb_actions>6</nb_actions>
@@ -41,6 +29,11 @@
 		<max_actions>6</max_actions>
 		<sum_visit_length>3961</sum_visit_length>
 		<bounce_count>0</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<segment>visitServerHour==1</segment>
+	</row>
+	<row>
+		<label>02</label>
 		<goals>
 			<row idgoal='ecommerceAbandonedCart'>
 				<nb_conversions>1</nb_conversions>
@@ -61,6 +54,7 @@
 		</goals>
 		<nb_conversions>2</nb_conversions>
 		<revenue>3111.11</revenue>
+		<nb_visits>0</nb_visits>
 		<segment>visitServerHour==2</segment>
 	</row>
 	<row>
