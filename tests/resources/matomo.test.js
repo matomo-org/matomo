@@ -988,7 +988,7 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     setCampaignNameKey, setCampaignKeywordKey,
     getConsentRequestsQueue, requireConsent, getRememberedConsent, hasRememberedConsent, setConsentGiven,
     rememberConsentGiven, forgetConsentGiven, unload, hasConsent,
-    discardHashTag,
+    discardHashTag, alwaysUseSendBeacon,
     setCookieNamePrefix, setCookieDomain, setCookiePath, setSecureCookie, setVisitorIdCookie, getCookieDomain, hasCookies, setSessionCookie,
     setVisitorCookieTimeout, setSessionCookieTimeout, setReferralCookieTimeout, getCookie, getCookiePath, getSessionCookieTimeout,
     setConversionAttributionFirstReferrer, tracker, request,
@@ -997,7 +997,8 @@ if (typeof JSON_PIWIK !== 'object' && typeof window.JSON === 'object' && window.
     enableCrossDomainLinking, disableCrossDomainLinking, isCrossDomainLinkingEnabled, setCrossDomainLinkingTimeout, getCrossDomainLinkingUrlParameter,
     addListener, enableLinkTracking, enableJSErrorTracking, setLinkTrackingTimer, getLinkTrackingTimer,
     enableHeartBeatTimer, disableHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
-    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, trackSiteSearch, trackEvent,
+    trackGoal, trackLink, trackPageView, getNumTrackedPageViews, trackRequest, queueRequest, trackSiteSearch, trackEvent,
+    requests, timeout, sendRequests, queueRequest,
     setEcommerceView, addEcommerceItem, removeEcommerceItem, clearEcommerceCart, trackEcommerceOrder, trackEcommerceCartUpdate,
     deleteCookie, deleteCookies, offsetTop, offsetLeft, offsetHeight, offsetWidth, nodeType, defaultView,
     innerHTML, scrollLeft, scrollTop, currentStyle, getComputedStyle, querySelectorAll, splice,
@@ -1097,6 +1098,8 @@ if (typeof window.Piwik !== 'object') {
             missedPluginTrackerCalls = [],
 
             coreConsentCounter = 0,
+
+            trackerIdCounter = 0,
 
             isPageUnloading = false;
 
@@ -3076,6 +3079,9 @@ if (typeof window.Piwik !== 'object') {
                 // Maximum delay to wait for web bug image to be fetched (in milliseconds)
                 configTrackerPause = 500,
 
+                // If enabled, always use sendBeacon if the browser supports it
+                configAlwaysUseSendBeacon = false,
+
                 // Minimum visit time after initial page view (in milliseconds)
                 configMinimumVisitTime,
 
@@ -3232,7 +3238,10 @@ if (typeof window.Piwik !== 'object') {
                 configHasConsent = null, // initialized below
 
                 // holds all pending tracking requests that have not been tracked because we need consent
-                consentRequestsQueue = [];
+                consentRequestsQueue = [],
+
+                // a unique ID for this tracker during this request
+                uniqueTrackerId = trackerIdCounter++;
 
             // Document title
             try {
@@ -3516,22 +3525,35 @@ if (typeof window.Piwik !== 'object') {
                 image.src = configTrackerUrl + (configTrackerUrl.indexOf('?') < 0 ? '?' : '&') + request;
             }
 
-            function sendPostRequestViaSendBeacon(request)
+            function supportsSendBeacon()
             {
-                var supportsSendBeacon = 'object' === typeof navigatorAlias
+                return 'object' === typeof navigatorAlias
                     && 'function' === typeof navigatorAlias.sendBeacon
                     && 'function' === typeof Blob;
+            }
 
-                if (!supportsSendBeacon) {
+            function sendPostRequestViaSendBeacon(request)
+            {
+                var isSupported = supportsSendBeacon();
+
+                if (!isSupported) {
                     return false;
                 }
 
                 var headers = {type: 'application/x-www-form-urlencoded; charset=UTF-8'};
                 var success = false;
 
+                var url = configTrackerUrl;
+
                 try {
                     var blob = new Blob([request], headers);
-                    success = navigatorAlias.sendBeacon(configTrackerUrl, blob);
+
+                    if (request.length <= 2000) {
+                        blob = new Blob([], headers);
+                        url = url + (url.indexOf('?') < 0 ? '?' : '&') + request;
+                    }
+
+                    success = navigatorAlias.sendBeacon(url, blob);
                     // returns true if the user agent is able to successfully queue the data for transfer,
                     // Otherwise it returns false and we need to try the regular way
 
@@ -3746,6 +3768,15 @@ if (typeof window.Piwik !== 'object') {
                     }
 
                     makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
+
+                        if (configAlwaysUseSendBeacon && sendPostRequestViaSendBeacon(request)) {
+                            setExpireDateTime(100);
+                            if (typeof callback === 'function') {
+                                callback();
+                            }
+                            return;
+                        }
+
                         if (configRequestMethod === 'POST' || String(request).length > 2000) {
                             sendXmlHttpRequest(request, callback);
                         } else {
@@ -3771,6 +3802,23 @@ if (typeof window.Piwik !== 'object') {
                 return (requests && requests.length);
             }
 
+            function arrayChunk(theArray, chunkSize)
+            {
+                if (!chunkSize || chunkSize >= theArray.length) {
+                    return [theArray];
+                }
+
+                var index = 0;
+                var arrLength = theArray.length;
+                var chunks = [];
+
+                for (index; index < arrLength; index += chunkSize) {
+                    chunks.push(theArray.slice(index, index + chunkSize));
+                }
+
+                return chunks;
+            }
+
             /*
              * Send requests using bulk
              */
@@ -3785,10 +3833,15 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
-                var bulk = '{"requests":["?' + requests.join('","?') + '"]}';
-
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                    sendXmlHttpRequest(bulk, null, false);
+                    var chunks = arrayChunk(requests, 50);
+
+                    var i = 0, bulk;
+                    for (i; i < chunks.length; i++) {
+                        bulk = '{"requests":["?' + chunks[i].join('","?') + '"]}';
+                        sendXmlHttpRequest(bulk, null, false);
+                    }
+
                     setExpireDateTime(delay);
                 });
             }
@@ -5091,10 +5144,10 @@ if (typeof window.Piwik !== 'object') {
             /*
              * Log the goal with the server
              */
-            function logGoal(idGoal, customRevenue, customData) {
+            function logGoal(idGoal, customRevenue, customData, callback) {
                 var request = getRequest('idgoal=' + idGoal + (customRevenue ? '&revenue=' + customRevenue : ''), customData, 'goal');
 
-                sendRequest(request, configTrackerPause);
+                sendRequest(request, configTrackerPause, callback);
             }
 
             /*
@@ -5587,6 +5640,58 @@ if (typeof window.Piwik !== 'object') {
 
                 return hookObj;
             }
+
+            var requestQueue = {
+                requests: [],
+                timeout: null,
+                sendRequests: function () {
+                    var requestsToTrack = this.requests;
+                    this.requests = [];
+                    if (requestsToTrack.length === 1) {
+                        sendRequest(requestsToTrack[0]);
+                    } else {
+                        sendBulkRequest(requestsToTrack);
+                    }
+                },
+                push: function (requestUrl) {
+                    if (!requestUrl) {
+                        return;
+                    }
+                    if (isPageUnloading) {
+                        // we don't queue as we need to ensure the request will be sent when the page is unloading...
+                        trackerInstance.trackRequest(requestUrl);
+                        return;
+                    }
+
+                    this.requests.push(requestUrl);
+
+                    if (this.timeout) {
+                        clearTimeout(this.timeout);
+                        this.timeout = null;
+                    }
+                    // we always extend by another 1.75 seconds after receiving a tracking request
+                    this.timeout = setTimeout(function () {
+                        requestQueue.timeout = null;
+                        requestQueue.sendRequests();
+                    }, 1750);
+
+                    var trackerQueueId = 'RequestQueue' + uniqueTrackerId;
+                    if (!Object.prototype.hasOwnProperty.call(plugins, trackerQueueId)) {
+                        // we setup one unload handler per tracker...
+                        // Piwik.addPlugin might not be defined at this point, we add the plugin directly also to make
+                        // JSLint happy.
+                        plugins[trackerQueueId] = {
+                            unload: function () {
+                                if (requestQueue.timeout) {
+                                    clearTimeout(requestQueue.timeout);
+                                }
+                                requestQueue.sendRequests();
+                            }
+                        };
+                    }
+                }
+            };
+
             /*</DEBUG>*/
 
             /************************************************************
@@ -6582,6 +6687,19 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Enables send beacon usage instead of regular XHR which reduces the link tracking time to a minimum
+             * of 100ms instead of 500ms (default). This means when a user clicks for example on an outlink, the
+             * navigation to this page will happen 400ms faster.
+             * In case you are setting a callback method when issuing a tracking request, the callback method will
+             *  be executed as soon as the tracking request was sent through "sendBeacon" and not after the tracking
+             *  request finished as it is not possible to find out when the request finished.
+             * Send beacon will only be used if the browser actually supports it.
+             */
+            this.alwaysUseSendBeacon = function () {
+                configAlwaysUseSendBeacon = true;
+            };
+
+            /**
              * Add click listener to a specific link element.
              * When clicked, Piwik will log the click automatically.
              *
@@ -6762,10 +6880,11 @@ if (typeof window.Piwik !== 'object') {
              * @param int|string idGoal
              * @param int|float customRevenue
              * @param mixed customData
+             * @param function callback
              */
-            this.trackGoal = function (idGoal, customRevenue, customData) {
+            this.trackGoal = function (idGoal, customRevenue, customData, callback) {
                 trackCallback(function () {
-                    logGoal(idGoal, customRevenue, customData);
+                    logGoal(idGoal, customRevenue, customData, callback);
                 });
             };
 
@@ -7199,6 +7318,23 @@ if (typeof window.Piwik !== 'object') {
             };
 
             /**
+             * Won't send the tracking request directly but wait for a short time to possibly send this tracking request
+             * along with other tracking requests in one go. This can reduce the number of requests send to your server.
+             * If the page unloads (user navigates to another page or closes the browser), then all remaining queued
+             * requests will be sent immediately so that no tracking request gets lost.
+             * Note: Any queued request may not be possible to be replayed in case a POST request is sent. Only queue
+             * requests that don't have to be replayed.
+             *
+             * @param request eg. "param=value&param2=value2"
+             */
+            this.queueRequest = function (request) {
+                trackCallback(function () {
+                    var fullRequest = getRequest(request);
+                    requestQueue.push(fullRequest);
+                });
+            };
+
+            /**
              * If the user has given consent previously and this consent was remembered, it will return the number
              * in milliseconds since 1970/01/01 which is the date when the user has given consent. Please note that
              * the returned time depends on the users local time which may not always be correct.
@@ -7408,7 +7544,7 @@ if (typeof window.Piwik !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
+        var applyFirst = ['addTracker', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setSiteId', 'alwaysUseSendBeacon', 'enableLinkTracking', 'requireConsent', 'setConsentGiven'];
 
         function createFirstTracker(piwikUrl, siteId)
         {
@@ -8803,10 +8939,8 @@ if (typeof window.Piwik !== 'object') {
         var is_open_cast = isOpenCast();
 
         var html5VideoPlayers = theDocumentOrNode.getElementsByTagName('video');
-        var elementId;
         for (var i = 0; i < html5VideoPlayers.length; i++) {
             if (!element.isMediaIgnored(html5VideoPlayers[i])) {
-                elementId = element.getAttribute(html5VideoPlayers[i], 'id');
                 if (is_open_cast) {
                     var wrapper1 = theDocumentOrNode.getElementById('videoDisplay1_wrapper');
                     if (wrapper1 && ('function' === typeof wrapper1.contains) && !wrapper1.contains(html5VideoPlayers[i])) {
@@ -8815,13 +8949,10 @@ if (typeof window.Piwik !== 'object') {
                         continue;
                     }
                 }
-
-                if (elementId !== 'video_0'
-                    && theDocumentOrNode.getElementById('videoPlayerWrapper_0')
-                    && theDocumentOrNode.getElementById('video_0')) {
-                    // for opencast with paella player 6.X, we only track the first video.
-                    // It can eg show a presenter and the presentation plus many other videos.
-                    // in this case we only track the presenter / main video.
+                if (element.getAttribute(html5VideoPlayers[i], 'id') === 'playerContainer_videoContainer_slave_1'
+                    && theDocumentOrNode.getElementById('playerContainer_videoContainer_master')) {
+                    // for opencast with paella player, we only track the first video.
+                    // It can eg show a presenter and the presentation in this case we only track the presenter / main video.
                     continue;
                 }
 
