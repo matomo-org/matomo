@@ -1,22 +1,19 @@
 <?php
 /**
- * Piwik - free/libre analytics platform
+ * Matomo - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
 
 namespace Piwik\Updates;
 
-use Piwik\Updater\Migration\Factory as MigrationFactory;
-use Piwik\Updates;
 use Piwik\Updater;
+use Piwik\Updates as PiwikUpdates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
-/**
- * Update for version 3.7.0-b1.
- */
-class Updates_3_7_0_b1 extends Updates
+class Updates_3_7_0_b1 extends PiwikUpdates
 {
     /**
      * @var MigrationFactory
@@ -30,15 +27,10 @@ class Updates_3_7_0_b1 extends Updates
 
     public function getMigrations(Updater $updater)
     {
-        $columns = array(
-            'id_brute_force_log' => 'bigint(11) NOT NULL AUTO_INCREMENT',
-            'ip_address' => 'VARCHAR(60) DEFAULT NULL', 
-            'attempted_at' => 'datetime NOT NULL',
-        );
-        return array(
-            $this->migration->db->createTable('brute_force_log', $columns, 'id_brute_force_log'),
-            $this->migration->db->addIndex('brute_force_log', 'ip_address', 'index_ip_address'),
-        );
+        return [
+            $this->migration->db->addColumn('report', 'evolution_graph_within_period', 'TINYINT(4) NOT NULL DEFAULT 0'),
+            $this->migration->db->addColumn('report', 'evolution_graph_period_n', 'INT(11) NULL'),
+        ];
     }
 
     public function doUpdate(Updater $updater)

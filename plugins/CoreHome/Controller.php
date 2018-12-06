@@ -131,8 +131,7 @@ class Controller extends \Piwik\Plugin\Controller
             $module = Piwik::getLoginPluginName();
         }
 
-        $idSite = Common::getRequestVar('idSite', false, 'int');
-        parent::redirectToIndex($module, $action, $idSite);
+        parent::redirectToIndex($module, $action, $this->idSite);
     }
 
     public function showInContext()
@@ -177,19 +176,15 @@ class Controller extends \Piwik\Plugin\Controller
             return;
         }
 
-        $websiteId = Common::getRequestVar('idSite', false, 'int');
-
-        if ($websiteId) {
-
-            $website = new Site($websiteId);
-            $datetimeCreationDate      = $website->getCreationDate()->getDatetime();
-            $creationDateLocalTimezone = Date::factory($datetimeCreationDate, $website->getTimezone())->toString('Y-m-d');
-            $todayLocalTimezone        = Date::factory('now', $website->getTimezone())->toString('Y-m-d');
+        if ($this->site) {
+            $datetimeCreationDate      = $this->site->getCreationDate()->getDatetime();
+            $creationDateLocalTimezone = Date::factory($datetimeCreationDate, $this->site->getTimezone())->toString('Y-m-d');
+            $todayLocalTimezone        = Date::factory('now', $this->site->getTimezone())->toString('Y-m-d');
 
             if ($creationDateLocalTimezone == $todayLocalTimezone) {
                 Piwik::redirectToModule('CoreHome', 'index',
                     array('date'   => 'today',
-                          'idSite' => $websiteId,
+                          'idSite' => $this->idSite,
                           'period' => Common::getRequestVar('period'))
                 );
             }

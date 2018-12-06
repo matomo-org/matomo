@@ -387,7 +387,7 @@ class Config
                 // simulate whether it would be successful
                 $success = is_writable($localPath);
             } else {
-                $success = @file_put_contents($localPath, $output);
+                $success = @file_put_contents($localPath, $output, LOCK_EX);
             }
 
             if ($success === false) {
@@ -425,5 +425,20 @@ class Config
     {
         $path = "config/" . basename($this->getLocalPath());
         return new MissingFilePermissionException(Piwik::translate('General_ConfigFileIsNotWritable', array("(" . $path . ")", "")));
+    }
+
+    /**
+     * Convenience method for setting settings in a single section. Will set them in a new array first
+     * to be compatible with certain PHP versions.
+     *
+     * @param string $sectionName Section name.
+     * @param string $name The setting name.
+     * @param mixed $value The setting value to set.
+     */
+    public static function setSetting($sectionName, $name, $value)
+    {
+        $section = self::getInstance()->$sectionName;
+        $section[$name] = $value;
+        self::getInstance()->$sectionName = $section;
     }
 }

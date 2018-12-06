@@ -1,5 +1,10 @@
 {
     "UsersManager": {
+        "2FA": "2FA",
+        "UsesTwoFactorAuthentication": "Uses two-factor authentication",
+        "TwoFactorAuthentication": "Two-factor authentication",
+        "ResetTwoFactorAuthentication": "Reset two-factor authentication",
+        "ResetTwoFactorAuthenticationInfo": "If the user can no longer log in due to lost recovery codes or a lost authentication device, you can reset two-factor authentication for the user so they can log in again.",
         "AddUser": "Add a new user",
         "AddExistingUser": "Add an existing user",
         "AddNewUser": "Add new user",
@@ -35,6 +40,7 @@
         "ExceptionInvalidEmail": "The email doesn't have a valid format.",
         "ExceptionInvalidLoginFormat": "The username must be between %1$s and %2$s characters long and contain only letters, numbers, or the characters '_' or '-' or '.' or '@' or '+'",
         "ExceptionInvalidPassword": "The password length must be greater than %1$s characters.",
+        "ExceptionInvalidPasswordTooLong": "The password length must be less than %1$s characters.",
         "ExceptionLoginExists": "Username '%s' already exists.",
         "ExceptionPasswordMD5HashExpected": "UsersManager.getTokenAuth is expecting a MD5-hashed password (32 chars long string). Please call the md5() function on the password before calling this method.",
         "ExceptionRemoveSuperUserAccessOnlySuperUser": "Removing the Super User access from user '%s' is not possible.",
@@ -51,6 +57,9 @@
         "GiveViewAccessTitle": "Give an existing user access to view reports for %s",
         "GiveViewAccessInstructions": "To give an existing user view access for %s enter the username or email address of an existing user",
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "If you would like to change the password type a new one. Otherwise leave this blank.",
+        "YourCurrentPassword": "Your current password",
+        "CurrentPasswordNotCorrect": "The current password you entered is not correct.",
+        "ConfirmWithPassword": "Please enter your password to confirm this change.",
         "InjectedHostCannotChangePwd": "You are currently visiting with an unknown host (%1$s). You cannot change your password until this problem is fixed.",
         "LastSeen": "Last seen",
         "MainDescription": "Decide which users have access to your websites. You can also give access to all the websites at once by choosing \"Apply to all websites\" in the website selector.",
@@ -79,9 +88,7 @@
         "TheLoginScreen": "The login screen",
         "ThereAreCurrentlyNRegisteredUsers": "There are currently %s registered users.",
         "TokenAuth": "API Authentication Token",
-        "TokenRegenerateConfirm": "Changing the API authentication token will invalidate the user's current token. If the user is currently logged in, they may be required to log in again. Do you really want to continue?",
-        "TokenRegenerateConfirmSelf": "Changing the API authentication token will invalidate your own token. You may be required to log in again if you proceed. Do you really want to change your authentication token?",
-        "TokenRegenerateLogoutWarning": "When you re-generate your token you will be logged out and need to log in again.",
+        "TokenRegenerateConfirmSelf": "Changing the API authentication token will invalidate your own token. If the current token is in use, you need to update all API clients with the newly generated token. Do you really want to change your authentication token?",
         "TokenRegenerateTitle": "Regenerate",
         "TypeYourPasswordAgain": "Type your new password again.",
         "User": "User",
@@ -136,7 +143,7 @@
         "DeleteUserConfirmMultiple": "Are you sure you want to delete the %1$s selected users?",
         "DeleteUserPermConfirmSingle": "Are you sure you want to change %1$s's role to %2$s for %3$s?",
         "DeleteUserPermConfirmMultiple": "Are you sure you want to change the %1$s selected users' role to %2$s for %3$s?",
-        "AreYouSureChangePassword": "Are you sure you want to change the password for %s?",
+        "AreYouSureChangeDetails": "Are you sure you want to change the user information for %s?",
         "AnonymousUserRoleChangeWarning": "Giving the %1$s user the %2$s role will make this website's data public and available to everyone, even if they do not have a Matomo login."
     }
 }

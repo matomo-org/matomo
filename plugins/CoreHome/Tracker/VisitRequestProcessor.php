@@ -88,7 +88,10 @@ class VisitRequestProcessor extends RequestProcessor
         $visitProperties->setProperty('location_ip', $request->getIp());
 
         $excluded = new VisitExcluded($request);
-        if ($excluded->isExcluded()) {
+        $isExcluded = $excluded->isExcluded();
+        $request->setMetadata('CoreHome', 'isVisitExcluded', $isExcluded);
+
+        if ($isExcluded) {
             return true;
         }
 

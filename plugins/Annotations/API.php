@@ -41,9 +41,9 @@ class API extends \Piwik\Plugin\API
      */
     public function add($idSite, $date, $note, $starred = 0)
     {
+        $this->checkUserCanAddNotesFor($idSite);
         $this->checkSingleIdSite($idSite, $extraMessage = "Note: Cannot add one note to multiple sites.");
         $this->checkDateIsValid($date);
-        $this->checkUserCanAddNotesFor($idSite);
 
         // add, save & return a new annotation
         $annotations = new AnnotationList($idSite);
@@ -127,8 +127,9 @@ class API extends \Piwik\Plugin\API
      */
     public function deleteAll($idSite)
     {
-        $this->checkSingleIdSite($idSite, $extraMessage = "Note: Cannot delete annotations from multiple sites.");
         Piwik::checkUserHasSuperUserAccess();
+
+        $this->checkSingleIdSite($idSite, $extraMessage = "Note: Cannot delete annotations from multiple sites.");
 
         $annotations = new AnnotationList($idSite);
 
@@ -152,8 +153,9 @@ class API extends \Piwik\Plugin\API
      */
     public function get($idSite, $idNote)
     {
-        $this->checkSingleIdSite($idSite, $extraMessage = "Note: Specify only one site ID when getting ONE note.");
         Piwik::checkUserHasViewAccess($idSite);
+
+        $this->checkSingleIdSite($idSite, $extraMessage = "Note: Specify only one site ID when getting ONE note.");
 
         // get single annotation
         $annotations = new AnnotationList($idSite);

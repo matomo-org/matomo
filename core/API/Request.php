@@ -12,6 +12,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\Cache;
 use Piwik\Common;
+use Piwik\Context;
 use Piwik\DataTable;
 use Piwik\Exception\PluginDeactivatedException;
 use Piwik\IP;
@@ -261,7 +262,12 @@ class Request
             // call the method
             $returnedValue = Proxy::getInstance()->call($apiClassName, $method, $this->request);
 
-            $toReturn = $response->getResponse($returnedValue, $module, $method);
+            // get the response with the request query parameters loaded, since DataTablePost processor will use the Report
+            // class instance, which may inspect the query parameters. (eg, it may look for the idCustomReport parameters
+            // which may only exist in $this->request, if the request was called programatically)
+            $toReturn = Context::executeWithQueryParameters($this->request, function () use ($response, $returnedValue, $module, $method) {
+                return $response->getResponse($returnedValue, $module, $method);
+            });
         } catch (Exception $e) {
             Log::debug($e);
 
@@ -312,6 +318,16 @@ class Request
     public static function setIsRootRequestApiRequest($currentApiMethod)
     {
         Cache::getTransientCache()->save('API.setIsRootRequestApiRequest', $currentApiMethod);
+    }
+
+    /**
+     * @ignore
+     * @internal
+     * @return string current Api Method if it is an api request
+     */
+    public static function getRootApiRequestMethod()
+    {
+        return Cache::getTransientCache()->fetch('API.setIsRootRequestApiRequest');
     }
 
     /**

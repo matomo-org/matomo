@@ -167,6 +167,18 @@ class LabelFilterTest extends SystemTestCase
     {
         return 'LabelFilter';
     }
+
+    public function provideContainerConfig()
+    {
+        return array(
+            'Piwik\Config' => \DI\decorate(function ($previous) {
+                $general = $previous->General;
+                $general['action_title_category_delimiter'] = "/";
+                $previous->General = $general;
+                return $previous;
+            }),
+        );
+    }
 }
 
 LabelFilterTest::$fixture = new OneVisitSeveralPageViews();

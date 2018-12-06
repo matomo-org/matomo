@@ -71,6 +71,9 @@ class CliMultiTest extends SystemTestCase
      */
     public function test_request_shouldFail_IfUrlsIsNotAnArray()
     {
+        if (PHP_MAJOR_VERSION >= 7) {
+            $this->setExpectedException('TypeError');
+        }
         $this->cliMulti->request('');
     }
 

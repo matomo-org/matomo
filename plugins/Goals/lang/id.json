@@ -39,7 +39,6 @@
         "DaysToConv": "Hari ke Konversi",
         "Details": "Detail tujuan",
         "DefaultGoalConvertedOncePerVisit": "(asali) Tujuan hanya dapat dikonversi sekali tiap kunjungan",
-        "DefaultRevenue": "Tujuan pendapatan asali",
         "DefaultRevenueHelp": "Sebagai contoh, Borang Kontak yang dikirim oleh pengunjung mungkin benilai rerata $10. Matomo akan membantu Anda mengerti bagaimana seberapa baik ruas pengunjung Anda berkinerja.",
         "DeleteGoalConfirm": "Apakah Anda yakin menghapus Tujuan %s?",
         "DocumentationRevenueGeneratedByProductSales": "Penjulan produk. Tak termasuk pajak, pengiriman, dan potongan harga",

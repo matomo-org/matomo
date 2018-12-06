@@ -28,7 +28,8 @@ class CacheTest extends IntegrationTestCase
         $backend = StaticContainer::get('Piwik\Cache\Backend');
         $this->assertFalse($backend->doContains($storageId));
 
-        Piwik::postEvent('Request.dispatch.end'); // should trigger save
+        $result = ''; $module = 'CoreHome'; $action = 'index'; $params = array();
+        Piwik::postEvent('Request.dispatch.end', array(&$result, $module, $action, $params)); // should trigger save
 
         $this->assertTrue($backend->doContains($storageId));
     }

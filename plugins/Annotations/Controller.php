@@ -43,7 +43,7 @@ class Controller extends \Piwik\Plugin\Controller
      */
     public function getAnnotationManager($fetch = false, $date = false, $period = false, $lastN = false)
     {
-        $idSite = Common::getRequestVar('idSite');
+        $this->checkSitePermission();
 
         if ($date === false) {
             $date = Common::getRequestVar('date', false);
@@ -62,7 +62,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $allAnnotations = Request::processRequest(
             'Annotations.getAll', array('date' => $date, 'period' => $period, 'lastN' => $lastN));
-        $view->annotations = empty($allAnnotations[$idSite]) ? array() : $allAnnotations[$idSite];
+        $view->annotations = empty($allAnnotations[$this->idSite]) ? array() : $allAnnotations[$this->idSite];
 
         $view->period = $period;
         $view->lastN = $lastN;
@@ -81,7 +81,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->startDatePretty = $startDate->getLocalized($dateFormat);
         $view->endDatePretty = $endDate->getLocalized($dateFormat);
 
-        $view->canUserAddNotes = AnnotationList::canUserAddNotesFor($idSite);
+        $view->canUserAddNotes = AnnotationList::canUserAddNotesFor($this->idSite);
 
         return $view->render();
     }

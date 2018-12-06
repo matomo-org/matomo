@@ -77,6 +77,11 @@ class VisitorRecognizer
         $this->eventDispatcher = $eventDispatcher;
     }
 
+    public function setTrustCookiesOnly($trustCookiesOnly)
+    {
+        $this->trustCookiesOnly = $trustCookiesOnly;
+    }
+
     public function findKnownVisitor($configId, VisitProperties $visitProperties, Request $request)
     {
         $idSite    = $request->getIdSite();
