@@ -14,6 +14,22 @@ describe("Transitions", function () {
         urlBase = 'module=CoreHome&action=index&' + generalParams
         ;
 
+
+    function selectValue(page, field, title)
+    {
+        page.execCallback(function () {
+            page.webpage.evaluate(function(field) {
+                $(field + ' input.select-dropdown').click()
+            }, field);
+        });
+        page.wait(800);
+        page.execCallback(function () {
+            page.webpage.evaluate(function(field, title) {
+                $(field + ' .dropdown-content.active li:contains("' + title + '"):first').click()
+            }, field, title);
+        });
+    };
+
     it('should load the transitions popup correctly for the page titles report', function (done) {
         expect.screenshot('transitions_popup_titles').to.be.captureSelector('.ui-dialog', function (page) {
             page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Actions_SubmenuPageTitles");
@@ -31,4 +47,35 @@ describe("Transitions", function () {
             page.mouseMove('.Transitions_CurveTextRight');
         }, done);
     });
+
+    it('should show no data message in selector', function (done) {
+        expect.screenshot('transitions_report_no_data_widget').to.be.captureSelector('body', function (page) {
+            page.load("?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=Transitions&actionToWidgetize=getTransitions&idSite=1&period=day&date=today&disableLink=1&widget=1");
+        }, done);
+    });
+
+    it('should show report in reporting ui with data', function (done) {
+        expect.screenshot('transitions_report_with_data_report').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Transitions_Transitions");
+        }, done);
+    });
+
+    it('should show report in widget ui in selector', function (done) {
+        expect.screenshot('transitions_report_with_data_widget').to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?module=Widgetize&action=iframe&widget=1&moduleToWidgetize=Transitions&actionToWidgetize=getTransitions&"+generalParams+"&disableLink=1&widget=1");
+        }, done);
+    });
+
+    it('should be possible to switch report', function (done) {
+        expect.screenshot('transitions_report_switch_url').to.be.captureSelector('.pageWrap', function (page) {
+            selectValue(page, '[name="actionName"]', 'category/meta');
+        }, done);
+    });
+
+    it('should be possible to show page titles', function (done) {
+        expect.screenshot('transitions_report_switch_type_title').to.be.captureSelector('.pageWrap', function (page) {
+            selectValue(page, '[name="actionType"]', 'Title');
+        }, done);
+    });
+
 });
