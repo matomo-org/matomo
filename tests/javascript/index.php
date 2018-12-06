@@ -3595,7 +3595,7 @@ if ($mysql) {
         expect(6);
 
         var tracker = Piwik.getTracker();
-        tracker.setTrackerUrl("piwik.php");
+        tracker.setTrackerUrl("matomo.php");
         tracker.setSiteId(1);
         tracker.setCustomData({ "token" : getAlwaysUseSendBeaconToken() });
         tracker.alwaysUseSendBeacon();
@@ -3608,13 +3608,14 @@ if ($mysql) {
         stop();
         setTimeout(function() {
             var xhr = makeXhr();
-            xhr.open("GET", "piwik.php?requests=" + getAlwaysUseSendBeaconToken(), false);
+            xhr.open("GET", "matomo.php?requests=" + getAlwaysUseSendBeaconToken(), false);
             xhr.send(null);
             var results = xhr.responseText;
-            equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "2", "count tracking events" );
+            var m = /<span\>([0-9]+)\<\/span\>/.exec(results);
+            equal( m ? m[1] : 0, "2", "count tracking events" );
 
-            ok(results.indexOf('piwik.php?action_name=' + shortTitle + '&') >= 0, "trackPageView() sends small request");
-            ok(results.indexOf('piwik.php?action_name=' + longTitle + '&') >= 0, "trackPageView() sends long request");
+            ok(results.indexOf('matomo.php?action_name=' + shortTitle + '&') >= 0, "trackPageView() sends small request");
+            ok(results.indexOf('matomo.php?action_name=' + longTitle + '&') >= 0, "trackPageView() sends long request");
 
             start();
         }, 2000);

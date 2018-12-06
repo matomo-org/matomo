@@ -3802,6 +3802,23 @@ if (typeof window.Piwik !== 'object') {
                 return (requests && requests.length);
             }
 
+            function arrayChunk(theArray, chunkSize)
+            {
+                if (!chunkSize || chunkSize >= theArray.length) {
+                    return [theArray];
+                }
+
+                var index = 0;
+                var arrLength = theArray.length;
+                var chunks = [];
+
+                for (index; index < arrLength; index += chunkSize) {
+                    chunks.push(theArray.slice(index, index + chunkSize));
+                }
+
+                return chunks;
+            }
+
             /*
              * Send requests using bulk
              */
@@ -3816,10 +3833,15 @@ if (typeof window.Piwik !== 'object') {
                     return;
                 }
 
-                var bulk = '{"requests":["?' + requests.join('","?') + '"]}';
-
                 makeSureThereIsAGapAfterFirstTrackingRequestToPreventMultipleVisitorCreation(function () {
-                    sendXmlHttpRequest(bulk, null, false);
+                    var chunks = arrayChunk(requests, 50);
+
+                    var i = 0, bulk;
+                    for (i; i < chunks.length; i++) {
+                        bulk = '{"requests":["?' + chunks[i].join('","?') + '"]}';
+                        sendXmlHttpRequest(bulk, null, false);
+                    }
+
                     setExpireDateTime(delay);
                 });
             }
