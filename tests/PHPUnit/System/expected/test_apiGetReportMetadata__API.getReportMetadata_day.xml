@@ -904,6 +904,10 @@
 		<action>getCustomVariables</action>
 		<dimension>Custom Variable name</dimension>
 		<documentation>This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. &lt;br /&gt; For more information about Custom Variables in general, read the &lt;a href=&quot;https://matomo.org/docs/custom-variables/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Custom Variables documentation on piwik.org&lt;/a&gt;</documentation>
+		<dimensions>
+			<CustomVariables_CustomVariableName>Custom Variable name</CustomVariables_CustomVariableName>
+			<CustomVariables_CustomVariableValue>Custom Variable value</CustomVariables_CustomVariableValue>
+		</dimensions>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1376,6 +1380,10 @@
 		<module>Events</module>
 		<action>getCategory</action>
 		<dimension>Event Category</dimension>
+		<dimensions>
+			<Events_EventCategory>Event Category</Events_EventCategory>
+			<Events_EventAction>Event Action</Events_EventAction>
+		</dimensions>
 		<metrics>
 			<nb_events>Events</nb_events>
 			<sum_event_value>Event value</sum_event_value>
@@ -1406,6 +1414,10 @@
 		<module>Events</module>
 		<action>getAction</action>
 		<dimension>Event Action</dimension>
+		<dimensions>
+			<Events_EventAction>Event Action</Events_EventAction>
+			<Events_EventName>Event Name</Events_EventName>
+		</dimensions>
 		<metrics>
 			<nb_events>Events</nb_events>
 			<sum_event_value>Event value</sum_event_value>
@@ -1436,6 +1448,10 @@
 		<module>Events</module>
 		<action>getName</action>
 		<dimension>Event Name</dimension>
+		<dimensions>
+			<Events_EventName>Event Name</Events_EventName>
+			<Events_EventAction>Event Action</Events_EventAction>
+		</dimensions>
 		<metrics>
 			<nb_events>Events</nb_events>
 			<sum_event_value>Event value</sum_event_value>
@@ -1686,6 +1702,10 @@
 		<action>getKeywords</action>
 		<dimension>Keyword</dimension>
 		<documentation>This report shows which keywords users were searching for before they were referred to your website. &lt;br /&gt;&lt;br /&gt; By clicking on a row in the table, you can see the distribution of search engines that were queried for the keyword.&lt;br /&gt;&lt;br /&gt;Note: This report lists most keywords as not defined, because most search engines do not send the exact keyword used on the search engine.</documentation>
+		<dimensions>
+			<Referrers_Keyword>Keyword</Referrers_Keyword>
+			<Referrers_SearchEngine>Search Engine</Referrers_SearchEngine>
+		</dimensions>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1727,6 +1747,10 @@
 		<action>getSearchEngines</action>
 		<dimension>Search Engine</dimension>
 		<documentation>This report shows which search engines referred users to your website. &lt;br /&gt; By clicking on a row in the table, you can see what users were searching for using a specific search engine.</documentation>
+		<dimensions>
+			<Referrers_SearchEngine>Search Engine</Referrers_SearchEngine>
+			<Referrers_Keyword>Keyword</Referrers_Keyword>
+		</dimensions>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1768,6 +1792,10 @@
 		<action>getWebsites</action>
 		<dimension>Website</dimension>
 		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
+		<dimensions>
+			<Referrers_Website>Website</Referrers_Website>
+			<Referrers_WebsitePage>Website Page</Referrers_WebsitePage>
+		</dimensions>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1809,6 +1837,10 @@
 		<action>getSocials</action>
 		<dimension>Social network</dimension>
 		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
+		<dimensions>
+			<Referrers_SocialNetwork>Social network</Referrers_SocialNetwork>
+			<Referrers_WebsitePage>Website Page</Referrers_WebsitePage>
+		</dimensions>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
@@ -1844,6 +1876,10 @@
 		<action>getCampaigns</action>
 		<dimension>Campaign</dimension>
 		<documentation>This report shows which campaigns led visitors to your website. &lt;br /&gt; For more information about tracking campaigns, read the &lt;a href=&quot;https://matomo.org/docs/tracking-campaigns/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;campaigns documentation on piwik.org&lt;/a&gt;</documentation>
+		<dimensions>
+			<Referrers_Campaign>Campaign</Referrers_Campaign>
+			<Referrers_Keyword>Keyword</Referrers_Keyword>
+		</dimensions>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
