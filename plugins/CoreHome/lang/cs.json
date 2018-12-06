@@ -76,6 +76,8 @@
         "OneClickUpdateNotPossibleAsMultiServerEnvironment": "Aktualizace na jedno kliknutí není dostupná při nasazení Matomou na několika serverech naráz. Stáhněte prosím nejnovější verzi z %1$s a pokračujte.",
         "AdblockIsMaybeUsed": "Pokud používáte blokovač reklam, zakažte ho pro tyto stránky, aby Matomo správně fungoval.",
         "ChangeCurrentWebsite": "Vyberte web, aktuálně vybraný web: %s",
-        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Nejrozšířenější otevřená aplatforma pro analýzu, která respektuje vaše soukromí."
+        "LeadingAnalyticsPlatformRespectsYourPrivacy": "Nejrozšířenější otevřená aplatforma pro analýzu, která respektuje vaše soukromí.",
+        "MacPageUp": "Fn + levá šipka",
+        "MacPageDown": "Fn + pravá šipka"
     }
 }

@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Referrers\tests\System;
 
 use Piwik\API\Request;
+use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\Tests\Fixtures\TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers;
 use Piwik\Tests\Framework\Fixture;
@@ -131,7 +132,7 @@ class ApiTest extends SystemTestCase
 
     public function test_forceNewVisit_shouldNotForceANewVisitWhenNoKeywordIsSetAndCampaignNameIsUpperCase()
     {
-        $dateTime = '2015-01-03';
+        $dateTime = '2015-01-04';
         $idSite = self::$fixture->idSite;
 
         $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
@@ -154,6 +155,60 @@ class ApiTest extends SystemTestCase
         $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
     }
 
+    public function test_forceNewVisit_shouldNotForceANewVisitWhenKeywordIsLongerThanDbColumnLength()
+    {
+        $dateTime = '2015-01-05';
+        $idSite = self::$fixture->idSite;
+        $longReferrer = 'thisisaverylongreferrerkeywordhereitisdefinitelylongerthanseventycharacterswhyitisevenlongerthantwohundredfiftyfivecharacters'
+            . 'butboyisithardtocomeupwiththingstosayhereimeantheresonlysomuchapersoncanthinkitsnotlikeimplatoimmoreofacamusbutithinkicangettotheendof'
+            . 'thiscrazylongstringohijustdid';
+
+        $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
+        // track a campaign that was opened directly (w/ saved referrer cookie info)
+        $t->setUrlReferrer('http://www.google.com');
+        $t->setUrl('http://piwik.net/?pk_campaign=' . $longReferrer);
+        $t->doTrackPageView('My Title');
+
+        // navigate to same page but from different URL w/ same campaign
+        $t->setUrlReferrer('http://links.piwik.net/?pk_campaign=' . $longReferrer);
+        $t->setCustomTrackingParameter('_rcn', $longReferrer); // this parameter would be set by piwik.js from cookie / attributionInfo
+        $t->setCustomTrackingParameter('_rck', ''); // no keyword was used in previous tracking request
+        $t->setUrl('http://piwik.net/page1');
+        $t->doTrackPageView('Page 1');
+
+        /** @var DataTable $visits */
+        $visits = Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+
+        $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
+        $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
+    }
+
+    public function test_forceNewVisit_shouldNotForceNewVisitWhenReferrerNameIsLongerThanDbColumnLength()
+    {
+        $dateTime = '2015-01-06';
+        $idSite = self::$fixture->idSite;
+        $longReferrer = 'http://www.thisisaverylongreferrerkeywordhereitisdefinitelylongerthanseventycharacters.com';
+
+        $t = Fixture::getTracker($idSite, $dateTime . ' 00:01:02', $defaultInit = true);
+        // track a campaign that was opened directly
+        $t->setUrlReferrer($longReferrer);
+        $t->setUrl('http://piwik.net/');
+        $t->doTrackPageView('My Title');
+
+        // navigate to same page but from different URL w/ same campaign
+        $t->setUrlReferrer($longReferrer);
+        $t->setCustomTrackingParameter('_rcn', ''); // this parameter would be set by piwik.js from cookie / attributionInfo
+        $t->setCustomTrackingParameter('_rck', ''); // no keyword was used in previous tracking request
+        $t->setUrl('http://piwik.net/page1');
+        $t->doTrackPageView('Page 1');
+
+        /** @var DataTable $visits */
+        $visits = Request::processRequest('VisitsSummary.get', array('idSite' => 1, 'period' => 'day', 'date' => $dateTime));
+
+        $this->assertEquals(1, $visits->getFirstRow()->getColumn('nb_visits'));
+        $this->assertEquals(2, $visits->getFirstRow()->getColumn('nb_actions'));
+    }
+
     public static function getOutputPrefix()
     {
         return '';
@@ -164,6 +219,15 @@ class ApiTest extends SystemTestCase
         return dirname(__FILE__);
     }
 
+    public static function provideContainerConfigBeforeClass()
+    {
+        return [
+            Config::class => \DI\decorate(function (Config $config) {
+                $config->Tracker['create_new_visit_when_website_referrer_changes'] = 1;
+                return $config;
+            }),
+        ];
+    }
 }
 
 ApiTest::$fixture = new TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers();

@@ -14,6 +14,6 @@ class CustomVariablesSubcategory extends Subcategory
 {
     protected $categoryId = 'General_Visitors';
     protected $id = 'CustomVariables_CustomVariables';
-    protected $order = 10;
+    protected $order = 45;
 
 }

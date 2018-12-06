@@ -51,6 +51,11 @@ class UrlHelperTest extends \PHPUnit_Framework_TestCase
             array('http://', false),
             array(' http://', false),
             array('2fer://', false),
+            array('javascript://test.com/test', false),
+            array('javascript://alert', false),
+            array('vbscript://alert', false),
+            array('vbscript://alert', false),
+            array('data://example.com/test', false),
         );
     }
 

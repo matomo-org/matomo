@@ -80,7 +80,7 @@
         "ExecuteDbUpgrade": "A database upgrade is required. Execute update?",
         "DryRun": "Note: this is a Dry Run",
         "DryRunEnd": "End of Dry Run",
-        "ConsoleCommandDescription": "Triggers upgrades. Use it after Matomo core or any plugin files have been updated.",
+        "ConsoleCommandDescription": "Triggers upgrades. Use it after Matomo core or any plugin files have been updated. Append --yes to upgrade without confirmation.",
         "ConsoleParameterDescription": "Directly execute the update without asking for confirmation",
         "VerifyingUnpackedFiles": "Verifying the unpacked files",
         "WarningMessages": "Warning messages:",

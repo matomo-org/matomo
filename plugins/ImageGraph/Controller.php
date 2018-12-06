@@ -23,7 +23,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        $idSite = Common::getRequestVar('idSite', 1, 'int');
+        $idSite = $this->idSite ?: 1;
         $period = Common::getRequestVar('period', 'day', 'string');
         $date = Common::getRequestVar('date', 'today', 'string');
         $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();

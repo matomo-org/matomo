@@ -85,10 +85,19 @@ class Console extends Application
             $this->addCommandIfExists($command);
         }
 
-        $self = $this;
-        $exitCode = Access::doAsSuperUser(function () use ($input, $output, $self) {
-            return call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
-        });
+        $exitCode = null;
+
+        /**
+         * @ignore
+         */
+        Piwik::postEvent('Console.doRun', [&$exitCode, $input, $output]);
+
+        if ($exitCode === null) {
+            $self = $this;
+            $exitCode = Access::doAsSuperUser(function () use ($input, $output, $self) {
+                return call_user_func(array($self, 'Symfony\Component\Console\Application::doRun'), $input, $output);
+            });
+        }
 
         $importantLogDetector = StaticContainer::get(FailureLogMessageDetector::class);
         if ($exitCode === 0 && $importantLogDetector->hasEncounteredImportantLog()) {

@@ -11,6 +11,7 @@ namespace Piwik\Session;
 
 use Piwik\Auth;
 use Piwik\AuthResult;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Session;
@@ -37,7 +38,7 @@ class SessionAuth implements Auth
     /**
      * Set internally so it can be queried in FrontController.
      *
-     * @var string
+     * @var array
      */
     private $user;
 
@@ -103,6 +104,10 @@ class SessionAuth implements Auth
         if ($this->isSessionStartedBeforePasswordChange($sessionFingerprint, $tsPasswordModified)) {
             $this->destroyCurrentSession($sessionFingerprint);
             return $this->makeAuthFailure();
+        }
+
+        if ($sessionFingerprint->isRemembered()) {
+            $this->updateSessionExpireTime();
         }
 
         return $this->makeAuthSuccess($user);
@@ -171,5 +176,11 @@ class SessionAuth implements Auth
     public function getTokenAuth()
     {
         return $this->user['token_auth'];
+    }
+
+    private function updateSessionExpireTime()
+    {
+        $sessionCookieLifetime = Config::getInstance()->General['login_cookie_expire'];
+        setcookie(session_name(), session_id(), time() + $sessionCookieLifetime);
     }
 }

@@ -17,7 +17,7 @@
             {% for tableRow in dataTable.getRows %}
             <tr>
                 {% for column in properties.columns_to_display %}
-                    <td>{{ tableRow.getColumn(column)|default('-')|truncate(50)|raw }}</td>
+                    <td>{{ tableRow.getColumn(column)|default('-')|truncate(50)|rawSafeDecoded }}</td>
                 {% endfor %}
             </tr>
             {% endfor %}

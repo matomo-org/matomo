@@ -43,7 +43,6 @@
         "DaysToConv": "Dni do konwersji",
         "Details": "Szczegóły celu",
         "DefaultGoalConvertedOncePerVisit": "(domyślnie) Konwersja celu może nastąpić tylko raz w ciągu wizyty",
-        "DefaultRevenue": "Domyślny dochód z osiągnięcia celu to",
         "DefaultRevenueHelp": "Na przykład, wysłanie formularza kontaktowego przez odwiedzającego może średnio być warte nawet $10. Matomo pomaga więc zrozumieć zaangażowanie grup Twoich odwiedzających.",
         "DeleteGoalConfirm": "Czy na pewno chcesz skasować cel %s?",
         "DocumentationRevenueGeneratedByProductSales": "Sprzedaż produktu. Nie zawiera podatku, kosztów dostawy i zniżek",

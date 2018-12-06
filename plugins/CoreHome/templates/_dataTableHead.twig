@@ -8,7 +8,7 @@
                            <span class="icon-help"></span>
                            {{ properties.translations[column]|default(column)|rawSafeDecoded }}
                        </div>
-                       {{ properties.metrics_documentation[column]|raw }}
+                       {{ properties.metrics_documentation[column]|rawSafeDecoded|raw }}
                    </div>
                {% endif %}
                <div id="thDIV" class="thDIV">{{ properties.translations[column]|default(column)|rawSafeDecoded }}</div>
