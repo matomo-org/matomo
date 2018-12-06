@@ -1982,6 +1982,7 @@ DataTable.registerFooterIconHandler('ecommerceAbandonedCart', switchToEcommerceV
 DataTable.switchToGraph = function (dataTable, viewDataTable) {
     var filters = dataTable.resetAllFilters();
     dataTable.param.flat = filters.flat;
+    dataTable.param.keep_totals_row = filters.keep_totals_row;
     dataTable.param.columns = filters.columns;
 
     dataTable.param.viewDataTable = viewDataTable;
