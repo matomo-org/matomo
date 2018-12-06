@@ -217,6 +217,10 @@ abstract class ControllerAdmin extends Controller
 
     public static function notifyPiwik2EndOfLife()
     {
+        if (Piwik::isUserIsAnonymous()) {
+            return;
+        }
+
         if (!Piwik::isUserHasSomeViewAccess()) {
             return;
         }
