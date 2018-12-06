@@ -16,6 +16,8 @@
 				<pageId>95</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -29,6 +31,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -147,6 +151,8 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -160,6 +166,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -175,6 +183,8 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<title>Site Search</title>
+				<subtitle>Bring on the party</subtitle>
 				
 				<customVariables>
 					<row>
@@ -193,6 +203,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -208,6 +220,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file8.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -224,6 +238,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/8.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -240,6 +256,8 @@
 				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat8', Action: &quot;Action8&quot;</subtitle>
 				<eventName>Name8</eventName>
 				<eventValue>353.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -366,6 +384,8 @@
 				<pageId>45</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -389,6 +409,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -515,6 +537,8 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -528,6 +552,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -539,6 +565,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -554,6 +582,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file7.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -570,6 +600,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/7.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -586,6 +618,8 @@
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat7', Action: &quot;Action7&quot;</subtitle>
 				<eventName>Name7</eventName>
 				<eventValue>352.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -712,6 +746,8 @@
 				<pageId>40</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -735,6 +771,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -861,6 +899,8 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -874,6 +914,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -889,6 +931,8 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<title>Site Search</title>
+				<subtitle>Bring on the party</subtitle>
 				
 				<customVariables>
 					<row>
@@ -907,6 +951,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -922,6 +968,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file6.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -938,6 +986,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/6.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -954,6 +1004,8 @@
 				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat6', Action: &quot;Action6&quot;</subtitle>
 				<eventName>Name6</eventName>
 				<eventValue>351.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1080,6 +1132,8 @@
 				<pageId>34</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1103,6 +1157,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -1229,6 +1285,8 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1242,6 +1300,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -1253,6 +1313,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -1268,6 +1330,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file5.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -1284,6 +1348,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/5.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -1300,6 +1366,8 @@
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat5', Action: &quot;Action5&quot;</subtitle>
 				<eventName>Name5</eventName>
 				<eventValue>350.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1426,6 +1494,8 @@
 				<pageId>29</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1449,6 +1519,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -1575,6 +1647,8 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1588,6 +1662,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -1603,6 +1679,8 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<title>Site Search</title>
+				<subtitle>Bring on the party</subtitle>
 				
 				<customVariables>
 					<row>
@@ -1621,6 +1699,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -1636,6 +1716,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file4.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -1652,6 +1734,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/4.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -1668,6 +1752,8 @@
 				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat4', Action: &quot;Action4&quot;</subtitle>
 				<eventName>Name4</eventName>
 				<eventValue>349.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1794,6 +1880,8 @@
 				<pageId>23</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -1817,6 +1905,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -1943,6 +2033,8 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -1956,6 +2048,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -1967,6 +2061,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -1982,6 +2078,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file3.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -1998,6 +2096,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/3.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -2014,6 +2114,8 @@
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat3', Action: &quot;Action3&quot;</subtitle>
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -2142,6 +2244,8 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -2155,6 +2259,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -2166,6 +2272,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -2181,6 +2289,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file3.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -2197,6 +2307,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/3.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -2213,6 +2325,8 @@
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat3', Action: &quot;Action3&quot;</subtitle>
 				<eventName>Name3</eventName>
 				<eventValue>348.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -2331,6 +2445,8 @@
 				<pageId>18</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -2354,6 +2470,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -2478,6 +2596,8 @@
 				<pageId>79</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -2501,6 +2621,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -2627,6 +2749,8 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -2640,6 +2764,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -2655,6 +2781,8 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<title>Site Search</title>
+				<subtitle>Bring on the party</subtitle>
 				
 				<customVariables>
 					<row>
@@ -2673,6 +2801,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -2688,6 +2818,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file2.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -2704,6 +2836,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/2.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -2720,6 +2854,8 @@
 				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat2', Action: &quot;Action2&quot;</subtitle>
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -2848,6 +2984,8 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -2861,6 +2999,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -2876,6 +3016,8 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<title>Site Search</title>
+				<subtitle>Bring on the party</subtitle>
 				
 				<customVariables>
 					<row>
@@ -2894,6 +3036,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -2909,6 +3053,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file2.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -2925,6 +3071,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/2.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -2941,6 +3089,8 @@
 				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat2', Action: &quot;Action2&quot;</subtitle>
 				<eventName>Name2</eventName>
 				<eventValue>347.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3059,6 +3209,8 @@
 				<pageId>12</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -3082,6 +3234,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -3206,6 +3360,8 @@
 				<pageId>73</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -3229,6 +3385,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -3355,6 +3513,8 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3368,6 +3528,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -3379,6 +3541,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -3394,6 +3558,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file1.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -3410,6 +3576,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/1.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -3426,6 +3594,8 @@
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3554,6 +3724,8 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3567,6 +3739,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -3578,6 +3752,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -3593,6 +3769,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file1.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -3609,6 +3787,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/1.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -3625,6 +3805,8 @@
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3753,6 +3935,8 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3766,6 +3950,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -3777,6 +3963,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -3792,6 +3980,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file1.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -3808,6 +3998,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/1.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -3824,6 +4016,8 @@
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3944,6 +4138,8 @@
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -3957,6 +4153,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -3968,6 +4166,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -3983,6 +4183,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file1.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -3999,6 +4201,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/1.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -4015,6 +4219,8 @@
 				<interactionPosition>1</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat1', Action: &quot;Action1&quot;</subtitle>
 				<eventName>Name1</eventName>
 				<eventValue>346.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -4141,6 +4347,8 @@
 				<pageId>7</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -4164,6 +4372,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -4288,6 +4498,8 @@
 				<pageId>57</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -4311,6 +4523,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -4435,6 +4649,8 @@
 				<pageId>68</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -4458,6 +4674,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -4582,6 +4800,8 @@
 				<pageId>90</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -4605,6 +4825,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -4731,6 +4953,8 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -4744,6 +4968,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -4759,6 +4985,8 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<title>Site Search</title>
+				<subtitle>Bring on the party</subtitle>
 				
 				<customVariables>
 					<row>
@@ -4777,6 +5005,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -4792,6 +5022,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file0.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -4808,6 +5040,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/0.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -4824,6 +5058,8 @@
 				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -4952,6 +5188,8 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -4965,6 +5203,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -4980,6 +5220,8 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<title>Site Search</title>
+				<subtitle>Bring on the party</subtitle>
 				
 				<customVariables>
 					<row>
@@ -4998,6 +5240,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -5013,6 +5257,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file0.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -5029,6 +5275,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/0.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -5045,6 +5293,8 @@
 				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5173,6 +5423,8 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5186,6 +5438,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -5201,6 +5455,8 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<title>Site Search</title>
+				<subtitle>Bring on the party</subtitle>
 				
 				<customVariables>
 					<row>
@@ -5219,6 +5475,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -5234,6 +5492,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file0.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -5250,6 +5510,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/0.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -5266,6 +5528,8 @@
 				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5386,6 +5650,8 @@
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<interactionPosition>1</interactionPosition>
+				<title>Space Quest XII</title>
+				<subtitle>http://piwik.net/space/quest/iv</subtitle>
 				<icon />
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5399,6 +5665,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -5414,6 +5682,8 @@
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/search_ico.png</icon>
+				<title>Site Search</title>
+				<subtitle>Bring on the party</subtitle>
 				
 				<customVariables>
 					<row>
@@ -5432,6 +5702,8 @@
 				
 				<url>http://piwik.net/space/quest/iv</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>two ($ 5 revenue)</subtitle>
 				
 			</row>
 			<row>
@@ -5447,6 +5719,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/download.png</icon>
+				<title>Download</title>
+				<subtitle>http://example.org/path/file0.zip</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -5463,6 +5737,8 @@
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
 				<interactionPosition>2</interactionPosition>
 				<icon>plugins/Morpheus/images/link.png</icon>
+				<title>Outlink</title>
+				<subtitle>http://example-outlink.org/0.html</subtitle>
 				
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
@@ -5479,6 +5755,8 @@
 				<interactionPosition>2</interactionPosition>
 				
 				<icon>plugins/Morpheus/images/event.png</icon>
+				<title>Event</title>
+				<subtitle>Event_Category: &quot;Cat0', Action: &quot;Action0&quot;</subtitle>
 				<eventName>Name0</eventName>
 				<eventValue>345.678</eventValue>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
@@ -5605,6 +5883,8 @@
 				<pageId>1</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -5628,6 +5908,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -5752,6 +6034,8 @@
 				<pageId>51</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -5775,6 +6059,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -5899,6 +6185,8 @@
 				<pageId>62</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -5922,6 +6210,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>
@@ -6046,6 +6336,8 @@
 				<pageId>84</pageId>
 				<bandwidth />
 				<interactionPosition>1</interactionPosition>
+				<title>It's &lt;script&gt; pitch black...</title>
+				<subtitle>http://piwik.net/grue/lair</subtitle>
 				<icon />
 				
 				<customVariables>
@@ -6069,6 +6361,8 @@
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>plugins/Morpheus/images/goal.png</icon>
+				<title>Goal conversion</title>
+				<subtitle>all ($ 5 revenue)</subtitle>
 				
 			</row>
 		</actionDetails>

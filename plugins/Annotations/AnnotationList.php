@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\Annotations;
 
 use Exception;
+use Piwik\Common;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
@@ -330,7 +331,7 @@ class AnnotationList
             $serialized = Option::get($optionName);
 
             if ($serialized !== false) {
-                $result[$id] = @unserialize($serialized);
+                $result[$id] = Common::safe_unserialize($serialized);
                 if (empty($result[$id])) {
                     // in case unserialize failed
                     $result[$id] = array();

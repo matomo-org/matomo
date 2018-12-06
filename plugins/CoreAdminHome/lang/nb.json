@@ -84,7 +84,6 @@
         "UseCustomLogo": "Bruk din egen logo",
         "ValidPiwikHostname": "Gyldig Matomo-vertsnavn",
         "WithOptionalRevenue": "med valgfri inntjening",
-        "YouAreOptedIn": "Du deltar i analysegrunnlaget.",
         "YouAreOptedOut": "Du deltar ikke i analysegrunnlaget.",
         "YouMayOptOut": "Du kan velge å ikke få tildelt en unik ID for nettanalyse på din datamaskin, slik at din aktivitet ikke spores på dette nettstedet.",
         "YouMayOptOutBis": "Hvis du ønsker at din aktivitet ikke lagres, klikk under for å motta en blank informasjonskapsel, så vil du unngå å bli registrert.",

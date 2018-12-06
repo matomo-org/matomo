@@ -336,6 +336,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         self.preBindEventsAndApplyStyleHook(domElem);
         self.handleSort(domElem);
         self.handleLimit(domElem);
+        self.handlePeriod(domElem);
         self.handleOffsetInformation(domElem);
         self.handleAnnotationsButton(domElem);
         self.handleEvolutionAnnotations(domElem);
@@ -725,6 +726,20 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         else {
             $('.limitSelection', domElem).hide();
         }
+    },
+    handlePeriod: function (domElem) {
+        var $periodSelect = $('.dataTablePeriods .tableIcon', domElem);
+
+        var self = this;
+        $periodSelect.click(function () {
+            var period = $(this).attr('data-period');
+            if (!period || period == self.param['period']) {
+                return;
+            }
+
+            self.param['period'] = period;
+            self.reloadAjaxDataTable();
+        });
     },
 
     // if sorting the columns is enabled, when clicking on a column,

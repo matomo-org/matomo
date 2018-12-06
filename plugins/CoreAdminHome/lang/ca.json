@@ -27,7 +27,6 @@
         "TrustedHostSettings": "Nom del host de Matomo de confiança",
         "UseCustomLogo": "Utilitza un logo personalitzat",
         "ValidPiwikHostname": "Nom del host de Matomo vàlid",
-        "YouAreOptedIn": "Actualment esteu subscrit.",
         "YouAreOptedOut": "Actualment esteu donat de baixa.",
         "YouMayOptOut": "Podeu escollir no tenir un únic nombre d'identificació assignat al vostre ordinador per evitar l'agregació i l'anàlisi de la informació recollida en aquest lloc web.",
         "YouMayOptOutBis": "Per prendre aquesta decisió, feu click a continuació per rebre una cookie de baixa."

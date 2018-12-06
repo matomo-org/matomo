@@ -26,9 +26,9 @@ if(typeof(piwik_translations) == 'undefined') { var piwik_translations = new Obj
 
 var piwikUsageTracking = {
     targets: [
-        {url: 'http://localhost/piwik.php', idSite: 1, cookieDomain: ''},
-        {url: 'http://127.0.0.1/piwik.php', idSite: 20, cookieDomain: ''},
-        {url: 'http://localhost/piwik.php', idSite: 33, cookieDomain: ''},
+        {url: 'http://localhost/matomo.php', idSite: 1, cookieDomain: ''},
+        {url: 'http://127.0.0.1/matomo.php', idSite: 20, cookieDomain: ''},
+        {url: 'http://localhost/matomo.php', idSite: 33, cookieDomain: ''},
     ],
     visitorCustomVariables: [
         {id: 1, name: 'Access', value: 'user'}

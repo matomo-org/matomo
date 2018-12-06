@@ -424,5 +424,8 @@ class Archiver extends \Piwik\Plugin\Archiver
                 $columnsAggregationOperation,
                 $columnsToRenameAfterAggregation = null,
                 $countRowsRecursive = array());
+
+        $this->getProcessor()->processDependentArchive('Goals', API::NEW_VISIT_SEGMENT);
+        $this->getProcessor()->processDependentArchive('Goals', VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT);
     }
 }

@@ -40,7 +40,7 @@
     {% for report in reports %}
         <tr>
             <td class="first">
-                {{ report.description | raw }}
+                {{ report.description|rawSafeDecoded }}
                 {% if segmentEditorActivated and report.idsegment %}
                     <div class="entityInlineHelp" style="font-size: 9pt;">
                         {{ savedSegmentsById[report.idsegment] }}

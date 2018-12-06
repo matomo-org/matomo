@@ -46,8 +46,8 @@ abstract class Action
 
     private static $factoryPriority = array(
         self::TYPE_PAGE_URL,
-        self::TYPE_CONTENT,
         self::TYPE_SITE_SEARCH,
+        self::TYPE_CONTENT,
         self::TYPE_EVENT,
         self::TYPE_OUTLINK,
         self::TYPE_DOWNLOAD
@@ -393,7 +393,7 @@ abstract class Action
         }
 
         $customValue = $this->getCustomFloatValue();
-        if (!empty($customValue)) {
+        if ($customValue !== false && $customValue !== null && $customValue !== '') {
             $visitAction[self::DB_COLUMN_CUSTOM_FLOAT] = Common::forceDotAsSeparatorForDecimalPoint($customValue);
         }
 

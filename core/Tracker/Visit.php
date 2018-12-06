@@ -31,7 +31,7 @@ use Piwik\Tracker\Visit\VisitProperties;
  * views, time spent, etc.
  *
  * Whether a visit is NEW or KNOWN we also save the action in the DB.
- * One request to the piwik.php script is associated to one action.
+ * One request to the matomo.php script is associated to one action.
  *
  */
 class Visit implements VisitInterface
@@ -66,11 +66,6 @@ class Visit implements VisitInterface
     protected $visitProperties;
 
     /**
-     * @var VisitorRecognizer
-     */
-    private $visitorRecognizer;
-
-    /**
      * @var ArchiveInvalidator
      */
     private $invalidator;
@@ -79,7 +74,6 @@ class Visit implements VisitInterface
     {
         $requestProcessors = StaticContainer::get('Piwik\Plugin\RequestProcessors');
         $this->requestProcessors = $requestProcessors->getRequestProcessors();
-        $this->visitorRecognizer = StaticContainer::get('Piwik\Tracker\VisitorRecognizer');
         $this->visitProperties = null;
         $this->userSettings = StaticContainer::get('Piwik\Tracker\Settings');
         $this->invalidator = StaticContainer::get('Piwik\Archive\ArchiveInvalidator');
