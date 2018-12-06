@@ -301,7 +301,7 @@ class Mysql implements SchemaInterface
                                       PRIMARY KEY(`id_brute_force_log`)
                                       ) ENGINE=$engine DEFAULT CHARSET=utf8
             ",
-            
+
             'tracking_failure'        => "CREATE TABLE {$prefixTables}tracking_failure (
                                       `idsite` BIGINT(20) UNSIGNED NOT NULL ,
                                       `idfailure` SMALLINT UNSIGNED NOT NULL ,

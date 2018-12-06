@@ -43,10 +43,10 @@ class BruteForceDetection {
     {
         $now = $this->getNow()->getDatetime();
         $db = Db::get();
-        $db->query('INSERT INTO '.$this->tablePrefixed.' SET ip_address = ?, attempted_at = ?', array($ipAddress, $now));
+        $db->query('INSERT INTO '.$this->tablePrefixed.' (ip_address, attempted_at) VALUES(?,?)', array($ipAddress, $now));
     }
 
-    public function canLogin($ipAddress)
+    public function isAllowedToLogin($ipAddress)
     {
         if ($this->settings->isBlacklistedIp($ipAddress)) {
             return false;

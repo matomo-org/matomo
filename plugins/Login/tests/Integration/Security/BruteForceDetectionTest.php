@@ -201,7 +201,7 @@ class BruteForceDetectionTest extends IntegrationTestCase
         $this->assertEquals(array(), $this->detection->getCurrentlyBlockedIps());
     }
 
-    public function test_getCurrentlyBlockedIps_canLogin_onlyBlockedWhenMaxAttemptsReached()
+    public function test_getCurrentlyBlockedIps_isAllowedToLogin_onlyBlockedWhenMaxAttemptsReached()
     {
         $this->addFailedLoginInPast('127.0.0.1', 1);
         $this->addFailedLoginInPast('2001:0db8:85a3:0000:0000:8a2e:0370:7334', 2);
@@ -219,18 +219,18 @@ class BruteForceDetectionTest extends IntegrationTestCase
         }
 
         $this->assertEquals(array(), $this->detection->getCurrentlyBlockedIps());
-        $this->assertTrue($this->detection->canLogin('10.1.2.3'));
-        $this->assertTrue($this->detection->canLogin('127.0.0.1'));
+        $this->assertTrue($this->detection->isAllowedToLogin('10.1.2.3'));
+        $this->assertTrue($this->detection->isAllowedToLogin('127.0.0.1'));
 
         $this->detection->setNow($this->detection->getNow()->subPeriod(10, 'minute'));
 
         // now we go 10 min back and the user will be blocked
         $this->assertEquals(array('10.1.2.3'), $this->detection->getCurrentlyBlockedIps());
-        $this->assertFalse($this->detection->canLogin('10.1.2.3'));
-        $this->assertTrue($this->detection->canLogin('127.0.0.1'));
+        $this->assertFalse($this->detection->isAllowedToLogin('10.1.2.3'));
+        $this->assertTrue($this->detection->isAllowedToLogin('127.0.0.1'));
     }
 
-    public function test_getCurrentlyBlockedIps_canLogin_whitelistedIpCanAlwaysLoginAndIsNeverBlocked()
+    public function test_getCurrentlyBlockedIps_isAllowedToLogin_whitelistedIpCanAlwaysLoginAndIsNeverBlocked()
     {
         for ($i = 0; $i < 20; $i++) {
             $this->addFailedLoginInPast('10.99.99.99', 1);
@@ -238,15 +238,15 @@ class BruteForceDetectionTest extends IntegrationTestCase
         }
 
         $this->assertEquals(array('127.0.0.1'), $this->detection->getCurrentlyBlockedIps());
-        $this->assertTrue($this->detection->canLogin('10.99.99.99'));
-        $this->assertFalse($this->detection->canLogin('127.0.0.1'));
+        $this->assertTrue($this->detection->isAllowedToLogin('10.99.99.99'));
+        $this->assertFalse($this->detection->isAllowedToLogin('127.0.0.1'));
     }
 
-    public function test_getCurrentlyBlockedIps_canLogin_blacklistedIpCanNeverLogIn_EvenWhenNoFailedAttempts()
+    public function test_getCurrentlyBlockedIps_isAllowedToLogin_blacklistedIpCanNeverLogIn_EvenWhenNoFailedAttempts()
     {
         $this->assertEquals(array(), $this->detection->getCurrentlyBlockedIps());
         $this->assertEquals(array(), $this->detection->getAll());
-        $this->assertFalse($this->detection->canLogin('10.55.55.55'));
+        $this->assertFalse($this->detection->isAllowedToLogin('10.55.55.55'));
     }
 
     private function addFailedLoginInPast($ipAddress, $minutes)

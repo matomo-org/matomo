@@ -86,20 +86,18 @@ class Login extends \Piwik\Plugin
         // attempts into the log and only allow login attempts again after the user had no login attempts for the configured
         // time frame
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
-        if ($bruteForce->isEnabled()) {
-            if (!$this->hasAddedFailedAttempt) {
-                $bruteForce->addFailedLoginAttempt(IP::getIpFromHeader());
-                // we make sure to log max one failed login attempt per request... otherwise we might log 3 or many more
-                // if eg API is called etc.
-                $this->hasAddedFailedAttempt = true;
-            }
+        if ($bruteForce->isEnabled() && !$this->hasAddedFailedAttempt) {
+            $bruteForce->addFailedLoginAttempt(IP::getIpFromHeader());
+            // we make sure to log max one failed login attempt per request... otherwise we might log 3 or many more
+            // if eg API is called etc.
+            $this->hasAddedFailedAttempt = true;
         }
     }
 
     public function beforeLoginCheckBruteForce()
     {
         $bruteForce = StaticContainer::get('Piwik\Plugins\Login\Security\BruteForceDetection');
-        if (!$this->hasPerformedBruteForceCheck && $bruteForce->isEnabled() && !$bruteForce->canLogin(IP::getIpFromHeader())) {
+        if (!$this->hasPerformedBruteForceCheck && $bruteForce->isEnabled() && !$bruteForce->isAllowedToLogin(IP::getIpFromHeader())) {
             throw new Exception(Piwik::translate('Login_LoginNotAllowedBecauseBlocked'));
         }
         // for performance reasons we make sure to execute it only once per request
