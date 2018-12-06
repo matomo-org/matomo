@@ -43,6 +43,12 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         testEnvironment.save();
     });
 
+    it("should show a notification piwik is oudated", function (done) {
+        expect.screenshot("piwikisoutdated").to.be.captureSelector('.pageWrap', function (page) {
+            page.load("?module=CoreHome&action=piwikIsOutdated&idSite=1&period=day&date=today");
+        }, done);
+    });
+
     // dashboard tests
     it("should load dashboard1 correctly", function (done) {
         expect.screenshot("dashboard1").to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {

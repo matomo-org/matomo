@@ -49,6 +49,14 @@ class Controller extends \Piwik\Plugin\Controller
         return 'redirectToCoreHomeIndex';
     }
 
+    public function piwikIsOutdated()
+    {
+        Piwik::checkUserIsNotAnonymous();
+        Piwik::checkUserHasSomeViewAccess();
+
+        return $this->renderTemplate('piwikIsOutdated');
+    }
+
     public function renderReportMenu(Report $report)
     {
         Piwik::checkUserHasSomeViewAccess();
