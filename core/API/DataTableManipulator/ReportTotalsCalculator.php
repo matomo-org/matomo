@@ -80,6 +80,10 @@ class ReportTotalsCalculator extends DataTableManipulator
             return $dataTable;
         }
 
+        if (!empty($this->report) && !$this->report->supportsTotalRow()) {
+            return $dataTable;
+        }
+
         if (1 != Common::getRequestVar('totals', 1, 'integer', $this->request)) {
             return $dataTable;
         }

@@ -511,6 +511,15 @@ class Report
     }
 
     /**
+     * Overwrite this method if the report does not support the totals row
+     * @return bool
+     */
+    public function supportsTotalRow()
+    {
+        return true;
+    }
+
+    /**
      * @return bool
      * @ignore
      */
